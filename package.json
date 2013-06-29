@@ -1,0 +1,26 @@
+{
+  "name": "jscheck",
+  "version": "0.0.1",
+  "description": "An AST-based pattern checker for JavaScript.",
+  "main": "./lib/jscheck.js",
+  "bin": {
+      "jscheck": "./bin/jscheck.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": "",
+  "dependencies": {
+      "optimist":"*",
+      "astw": "*",
+      "esprima": "*"
+  },
+  "keywords": [
+    "ast",
+    "lint",
+    "javascript",
+    "ecmascript"
+  ],
+  "author": "Nicholas C. Zakas <nicholas+npm@nczconsulting.com>",
+  "license": "BSD"
+}
