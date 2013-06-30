@@ -117,7 +117,59 @@ vows.describe(RULE_ID).addBatch({
 
             assert.equal(messages.length, 0);
         }
+    },
+
+    "when evaluating 'try {} catch (ex) {}'": {
+
+        topic: "try {} catch (ex) {}",
+
+        "should report a violation": function(topic) {
+            var config = { rules: {} };
+            config.rules[RULE_ID] = 1;
+
+            var messages = jscheck.verify(topic, config);
+
+            assert.equal(messages.length, 2);
+            assert.equal(messages[0].ruleId, RULE_ID);
+            assert.equal(messages[0].message, "Empty block statement.");
+            assert.include(messages[0].node.type, "BlockStatement");
+            assert.equal(messages[1].ruleId, RULE_ID);
+            assert.equal(messages[1].message, "Empty block statement.");
+            assert.include(messages[1].node.type, "BlockStatement");
+        }
+    },
+
+    "when evaluating 'try { foo() } catch (ex) {}'": {
+
+        topic: "try { foo() } catch (ex) {}",
+
+        "should report a violation": function(topic) {
+            var config = { rules: {} };
+            config.rules[RULE_ID] = 1;
+
+            var messages = jscheck.verify(topic, config);
+
+            assert.equal(messages.length, 1);
+            assert.equal(messages[0].ruleId, RULE_ID);
+            assert.equal(messages[0].message, "Empty block statement.");
+            assert.include(messages[0].node.type, "BlockStatement");
+        }
+    },
+
+    "when evaluating 'try { foo() } catch (ex) { foo() }'": {
+
+        topic: "try { foo() } catch (ex) { foo() }",
+
+        "should not report a violation": function(topic) {
+            var config = { rules: {} };
+            config.rules[RULE_ID] = 1;
+
+            var messages = jscheck.verify(topic, config);
+
+            assert.equal(messages.length, 0);
+        }
     }
+
 
 
 
