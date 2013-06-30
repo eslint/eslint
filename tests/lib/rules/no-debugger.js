@@ -1,32 +1,45 @@
+/**
+ * @fileoverview Tests for no-debugger rule.
+ * @author Nicholas C. Zakas
+ */
 
 /*jshint node:true*/
+
+//------------------------------------------------------------------------------
+// Requirements
+//------------------------------------------------------------------------------
 
 var vows = require("vows"),
     assert = require("assert"),
     sinon = require("sinon"),
-    ruleCreator = require("../../../lib/rules/no-debugger");
+    jscheck = require("../../../lib/jscheck");
 
-vows.describe("no-debugger").addBatch({
+//------------------------------------------------------------------------------
+// Constants
+//------------------------------------------------------------------------------
 
-    "when evaluating 'debugger": {
+var RULE_ID = "no-debugger";
 
-        topic: function() {
-            return {
-                type: "DebuggerStatement"
-            };
-        },
+//------------------------------------------------------------------------------
+// Tests
+//------------------------------------------------------------------------------
+
+vows.describe(RULE_ID).addBatch({
+
+    "when evaluating 'debugger;'": {
+
+        topic: "debugger;",
 
         "should report a violation": function(topic) {
-            var context = {
-                    report: function(){}
-                },
-                rule;
+            var config = { rules: {} };
+            config.rules[RULE_ID] = 1;
 
-            sinon.mock(context).expects("report").withArgs(topic,
-                        "Unexpected 'debugger' statement.");
+            var messages = jscheck.verify(topic, config);
 
-            rule  = ruleCreator(context);
-            rule[topic.type](topic);
+            assert.equal(messages.length, 1);
+            assert.equal(messages[0].ruleId, RULE_ID);
+            assert.equal(messages[0].message, "Unexpected 'debugger' statement.");
+            assert.include(messages[0].node.type, "DebuggerStatement");
         }
     }
 

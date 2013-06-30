@@ -1,35 +1,46 @@
+/**
+ * @fileoverview Tests for no-eval rule.
+ * @author Nicholas C. Zakas
+ */
 
 /*jshint node:true*/
+
+//------------------------------------------------------------------------------
+// Requirements
+//------------------------------------------------------------------------------
 
 var vows = require("vows"),
     assert = require("assert"),
     sinon = require("sinon"),
-    ruleCreator = require("../../../lib/rules/no-eval");
+    jscheck = require("../../../lib/jscheck");
 
-vows.describe("no-eval").addBatch({
+//------------------------------------------------------------------------------
+// Constants
+//------------------------------------------------------------------------------
 
-    "when evaluating 'eval(foo)'": {
+var RULE_ID = "no-eval";
 
-        topic: function() {
-            return {
-                type: "CallExpression",
-                callee: {
-                    name: "eval"
-                }
-            };
-        },
+//------------------------------------------------------------------------------
+// Tests
+//------------------------------------------------------------------------------
+
+vows.describe(RULE_ID).addBatch({
+
+    "when evaluating 'eval(foo)": {
+
+        topic: "eval(foo)",
 
         "should report a violation": function(topic) {
-            var context = {
-                    report: function(){}
-                },
-                rule;
+            var config = { rules: {} };
+            config.rules[RULE_ID] = 1;
 
-            sinon.mock(context).expects("report").withArgs(topic,
-                        "Unexpected use of 'eval()'.");
+            var messages = jscheck.verify(topic, config);
 
-            rule  = ruleCreator(context);
-            rule[topic.type](topic);
+            assert.equal(messages.length, 1);
+            assert.equal(messages[0].ruleId, RULE_ID);
+            assert.equal(messages[0].message, "Unexpected use of 'eval()'.");
+            assert.include(messages[0].node.type, "CallExpression");
+            assert.include(messages[0].node.callee.name, "eval");
         }
     }
 

@@ -1,84 +1,83 @@
+/**
+ * @fileoverview Tests for no-bitwise rule.
+ * @author Nicholas C. Zakas
+ */
 
 /*jshint node:true*/
+
+//------------------------------------------------------------------------------
+// Requirements
+//------------------------------------------------------------------------------
 
 var vows = require("vows"),
     assert = require("assert"),
     sinon = require("sinon"),
-    ruleCreator = require("../../../lib/rules/no-bitwise");
+    jscheck = require("../../../lib/jscheck");
 
-vows.describe("no-bitwise").addBatch({
+//------------------------------------------------------------------------------
+// Constants
+//------------------------------------------------------------------------------
 
-    "when evaluating '^": {
+var RULE_ID = "no-bitwise";
 
-        topic: function() {
-            return {
-                type: "BinaryExpression",
-                operator: "^"
-            };
-        },
+//------------------------------------------------------------------------------
+// Tests
+//------------------------------------------------------------------------------
+
+vows.describe(RULE_ID).addBatch({
+
+    "when evaluating 'a ^ b'": {
+
+        topic: "a ^ b",
 
         "should report a violation": function(topic) {
-            var context = {
-                    report: function(){}
-                },
-                rule;
+            var config = { rules: {} };
+            config.rules[RULE_ID] = 1;
 
-            sinon.mock(context).expects("report").withArgs(topic,
-                        "Unexpected use of ^ found.");
+            var messages = jscheck.verify(topic, config);
 
-            rule  = ruleCreator(context);
-            rule[topic.type](topic);
+            assert.equal(messages.length, 1);
+            assert.equal(messages[0].ruleId, RULE_ID);
+            assert.equal(messages[0].message, "Unexpected use of ^ found.");
+            assert.include(messages[0].node.type, "BinaryExpression");
+            assert.include(messages[0].node.operator, "^");
         }
     },
 
-    "when evaluating '|": {
+    "when evaluating 'a | b": {
 
-        topic: function() {
-            return {
-                type: "BinaryExpression",
-                operator: "|"
-            };
-        },
+        topic: "a | b",
 
         "should report a violation": function(topic) {
-            var context = {
-                    report: function(){}
-                },
-                rule;
+            var config = { rules: {} };
+            config.rules[RULE_ID] = 1;
 
-            sinon.mock(context).expects("report").withArgs(topic,
-                        "Unexpected use of | found.");
+            var messages = jscheck.verify(topic, config);
 
-            rule  = ruleCreator(context);
-            rule[topic.type](topic);
+            assert.equal(messages.length, 1);
+            assert.equal(messages[0].ruleId, RULE_ID);
+            assert.equal(messages[0].message, "Unexpected use of | found.");
+            assert.include(messages[0].node.type, "BinaryExpression");
+            assert.include(messages[0].node.operator, "|");
         }
     },
 
     "when evaluating '&": {
 
-        topic: function() {
-            return {
-                type: "BinaryExpression",
-                operator: "&"
-            };
-        },
+        topic: "a & b",
 
         "should report a violation": function(topic) {
-            var context = {
-                    report: function(){}
-                },
-                rule;
+            var config = { rules: {} };
+            config.rules[RULE_ID] = 1;
 
-            sinon.mock(context).expects("report").withArgs(topic,
-                        "Unexpected use of & found.");
+            var messages = jscheck.verify(topic, config);
 
-            rule  = ruleCreator(context);
-            rule[topic.type](topic);
+            assert.equal(messages.length, 1);
+            assert.equal(messages[0].ruleId, RULE_ID);
+            assert.equal(messages[0].message, "Unexpected use of & found.");
+            assert.include(messages[0].node.type, "BinaryExpression");
+            assert.include(messages[0].node.operator, "&");
         }
     }
-
-
-
-
 
 }).export(module);
