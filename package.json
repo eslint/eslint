@@ -1,11 +1,11 @@
 {
   "name": "jscheck",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "author": "Nicholas C. Zakas <nicholas+npm@nczconsulting.com>",
   "description": "An AST-based pattern checker for JavaScript.",
   "main": "./lib/jscheck.js",
   "bin": {
-      "jscheck": "./bin/jscheck.js"
+    "jscheck": "./bin/jscheck.js"
   },
   "scripts": {
     "ctest": "istanbul cover --print both vows -- --spec ./tests/*/*/*.js",
@@ -13,14 +13,14 @@
   },
   "repository": "",
   "dependencies": {
-      "optimist":"*",
-      "astw": "*",
-      "esprima": "*"
+    "optimist": "*",
+    "astw": "*",
+    "esprima": "*"
   },
   "devDependencies": {
-      "vows": "~0.7.0",
-      "istanbul": "~0.1.10",
-      "sinon": "*"
+    "vows": "~0.7.0",
+    "istanbul": "~0.1.10",
+    "sinon": "*"
   },
   "keywords": [
     "ast",
