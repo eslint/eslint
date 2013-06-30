@@ -1,3 +1,5 @@
+[![Build Status](https://secure.travis-ci.org/nzakas/jscheck.png?branch=master)](http://travis-ci.org/nzakas/jscheck)
+
 # JSCheck
 
 JSCheck is a tool for identifying and reporting on patterns found in JavaScript code. In many ways, it is similar to JSLint and JSHint with a few exceptions:
