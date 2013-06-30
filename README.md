@@ -12,6 +12,9 @@ You can install JSCheck using npm:
 
     npm i -g jscheck
 
+## Usage
+
+    jscheck test.js test2.js
 
 ## Frequently Asked Questions
 ### Why don't you like JSHint???
