@@ -1,13 +1,15 @@
 {
   "name": "jscheck",
   "version": "0.0.1",
+  "author": "Nicholas C. Zakas <nicholas+npm@nczconsulting.com>",
   "description": "An AST-based pattern checker for JavaScript.",
   "main": "./lib/jscheck.js",
   "bin": {
       "jscheck": "./bin/jscheck.js"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "ctest": "istanbul cover --print both vows -- --spec ./tests/*/*/*.js",
+    "test": "vows -- --spec ./tests/*/*/*.js"
   },
   "repository": "",
   "dependencies": {
@@ -15,12 +17,17 @@
       "astw": "*",
       "esprima": "*"
   },
+  "devDependencies": {
+      "vows": "~0.7.0",
+      "istanbul": "~0.1.10",
+      "sinon": "*"
+  },
   "keywords": [
     "ast",
     "lint",
     "javascript",
     "ecmascript"
   ],
-  "author": "Nicholas C. Zakas <nicholas+npm@nczconsulting.com>",
+  "preferGlobal": true,
   "license": "BSD"
 }
