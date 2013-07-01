@@ -1,38 +1,38 @@
 {
-    "name": "jscheck",
-    "version": "0.0.2-4",
-    "author": "Nicholas C. Zakas <nicholas+npm@nczconsulting.com>",
-    "description": "An Esprima-based pattern checker for JavaScript.",
-    "bin": {
-        "jscheck": "./bin/jscheck.js"
-    },
-    "scripts": {
-        "ctest": "istanbul cover --print both vows -- --spec ./tests/*/*/*.js",
-        "test": "npm run-script lint && vows -- --spec ./tests/*/*/*.js",
-        "lint": "node node_modules/jshint/bin/jshint ./config/jscheck.json ./lib"
-    },
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/nzakas/check"
-    },
-    "dependencies": {
-        "optimist": "*",
-        "astw": "*",
-        "esprima": "*",
-        "jshint": "*"
-    },
-    "devDependencies": {
-        "vows": "~0.7.0",
-        "istanbul": "~0.1.10",
-        "sinon": "*",
-        "jshint": "~2.1.4"
-    },
-    "keywords": [
-        "ast",
-        "lint",
-        "javascript",
-        "ecmascript"
-    ],
-    "preferGlobal": true,
-    "license": "MIT"
+  "name": "jscheck",
+  "version": "0.0.3",
+  "author": "Nicholas C. Zakas <nicholas+npm@nczconsulting.com>",
+  "description": "An Esprima-based pattern checker for JavaScript.",
+  "bin": {
+    "jscheck": "./bin/jscheck.js"
+  },
+  "scripts": {
+    "ctest": "istanbul cover --print both vows -- --spec ./tests/*/*/*.js",
+    "test": "npm run-script lint && vows -- --spec ./tests/*/*/*.js",
+    "lint": "node node_modules/jshint/bin/jshint ./config/jscheck.json ./lib"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nzakas/check"
+  },
+  "dependencies": {
+    "optimist": "*",
+    "astw": "*",
+    "esprima": "*",
+    "jshint": "*"
+  },
+  "devDependencies": {
+    "vows": "~0.7.0",
+    "istanbul": "~0.1.10",
+    "sinon": "*",
+    "jshint": "~2.1.4"
+  },
+  "keywords": [
+    "ast",
+    "lint",
+    "javascript",
+    "ecmascript"
+  ],
+  "preferGlobal": true,
+  "license": "MIT"
 }
