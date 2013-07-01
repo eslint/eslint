@@ -8,12 +8,12 @@
   },
   "scripts": {
     "ctest": "istanbul cover --print both vows -- --spec ./tests/*/*/*.js",
-    "test": "npm run-script lint && vows -- --spec ./tests/*/*/*.js",
+    "test": "npm run-script lint && vows -- --spec ./tests/*/*.js ./tests/*/*/*.js",
     "lint": "node node_modules/jshint/bin/jshint ./config/jscheck.json ./lib"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/nzakas/check"
+    "url": "https://github.com/nzakas/jscheck"
   },
   "dependencies": {
     "optimist": "*",
