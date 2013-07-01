@@ -1,16 +1,17 @@
 {
     "rules": {
 
-        "no-bitwise": 1,
+        "no-arg": 1,
+        "no-console": 1,
+        "no-debugger": 1,
+        "no-empty": 1,
         "no-eval": 1,
         "no-with": 1,
-        "no-empty": 1,
-        "no-debugger": 1,
-        "no-console": 1,
 
         "camelcase": 1,
+        "curly": 1,
         "eqeqeq": 1,
-        "curly": 1
+        "new-cap": 1
 
     }
 }
