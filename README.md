@@ -1,22 +1,22 @@
-[![Build Status](https://secure.travis-ci.org/nzakas/jscheck.png?branch=master)](http://travis-ci.org/nzakas/jscheck)
+[![Build Status](https://secure.travis-ci.org/nzakas/eslint.png?branch=master)](http://travis-ci.org/nzakas/eslint)
 
-# JSCheck
+# ESLint
 
-JSCheck is a tool for identifying and reporting on patterns found in JavaScript code. In many ways, it is similar to JSLint and JSHint with a few exceptions:
+ESLint is a tool for identifying and reporting on patterns found in ECMAScript/JavaScript code. In many ways, it is similar to JSLint and JSHint with a few exceptions:
 
-* JSCheck uses Esprima for JavaScript parsing.
-* JSCheck uses an AST to evaluate patterns in code.
-* JSCheck is completely pluggable, every single rule is a plugin and you can add more at runtime.
+* ESLint uses Esprima for JavaScript parsing.
+* ESLint uses an AST to evaluate patterns in code.
+* ESLint is completely pluggable, every single rule is a plugin and you can add more at runtime.
 
 ## Installation
 
-You can install JSCheck using npm:
+You can install ESLint using npm:
 
-    npm i -g jscheck
+    npm i -g eslint
 
 ## Usage
 
-    jscheck test.js test2.js
+    eslint test.js test2.js
 
 ## Frequently Asked Questions
 ### Why don't you like JSHint???
@@ -25,4 +25,4 @@ I do like JSHint. And I like Anton. Neither of those were deciding factors in cr
 
 ### I'm not giving up JSHint for this!
 
-That's not really a question, but I got it. I'm not trying to convince you that JSCheck is better than JSHint. The only thing I know is that JSCheck is better than JSHint for what I'm doing. In the off chance you're doing something similar, it might be better for you. Otherwise, keep using JSHint, I'm certainly not going to tell you to stop using it.
+That's not really a question, but I got it. I'm not trying to convince you that ESLint is better than JSHint. The only thing I know is that ESLint is better than JSHint for what I'm doing. In the off chance you're doing something similar, it might be better for you. Otherwise, keep using JSHint, I'm certainly not going to tell you to stop using it.

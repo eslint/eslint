@@ -1,19 +1,19 @@
 {
-  "name": "jscheck",
+  "name": "eslint",
   "version": "0.0.3",
   "author": "Nicholas C. Zakas <nicholas+npm@nczconsulting.com>",
   "description": "An Esprima-based pattern checker for JavaScript.",
   "bin": {
-    "jscheck": "./bin/jscheck.js"
+    "eslint": "./bin/eslint.js"
   },
   "scripts": {
     "ctest": "istanbul cover --print both vows -- --spec ./tests/*/*/*.js",
     "test": "npm run-script lint && vows -- --spec ./tests/*/*.js ./tests/*/*/*.js",
-    "lint": "node node_modules/jshint/bin/jshint ./config/jscheck.json ./lib"
+    "lint": "node node_modules/jshint/bin/jshint ./config/eslint.json ./lib"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/nzakas/jscheck"
+    "url": "https://github.com/nzakas/eslint"
   },
   "dependencies": {
     "optimist": "*",

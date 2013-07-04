@@ -1,5 +1,5 @@
 /**
- * @fileoverview Tests for jscheck object.
+ * @fileoverview Tests for eslint object.
  * @author Nicholas C. Zakas
  */
 
@@ -12,7 +12,7 @@
 var vows = require("vows"),
     assert = require("assert"),
     sinon = require("sinon"),
-    jscheck = require("../../lib/jscheck");
+    eslint = require("../../lib/eslint");
 
 //------------------------------------------------------------------------------
 // Constants
@@ -24,7 +24,7 @@ var TEST_CODE = "var answer = 6 * 7;";
 // Tests
 //------------------------------------------------------------------------------
 
-vows.describe("jscheck").addBatch({
+vows.describe("eslint").addBatch({
 
     "when evaluating code": {
 
@@ -41,14 +41,14 @@ vows.describe("jscheck").addBatch({
                 spyIdentifier = sinon.spy(),
                 spyBinaryExpression = sinon.spy();
 
-            jscheck.reset();
-            jscheck.on("Literal", spyLiteral);
-            jscheck.on("VariableDeclarator", spyVariableDeclarator);
-            jscheck.on("VariableDeclaration", spyVariableDeclaration);
-            jscheck.on("Identifier", spyIdentifier);
-            jscheck.on("BinaryExpression", spyBinaryExpression);
+            eslint.reset();
+            eslint.on("Literal", spyLiteral);
+            eslint.on("VariableDeclarator", spyVariableDeclarator);
+            eslint.on("VariableDeclaration", spyVariableDeclaration);
+            eslint.on("Identifier", spyIdentifier);
+            eslint.on("BinaryExpression", spyBinaryExpression);
 
-            var messages = jscheck.verify(topic, config, true);
+            var messages = eslint.verify(topic, config, true);
 
             assert.equal(messages.length, 0);
             sinon.assert.calledOnce(spyVariableDeclaration);
@@ -74,15 +74,15 @@ vows.describe("jscheck").addBatch({
                 spyIdentifier = sinon.spy(),
                 spyBinaryExpression = sinon.spy();
 
-            jscheck.reset();
-            jscheck.on("Literal", spyLiteral);
-            jscheck.on("VariableDeclarator", spyVariableDeclarator);
-            jscheck.on("VariableDeclaration", spyVariableDeclaration);
-            jscheck.on("Identifier", spyIdentifier);
-            jscheck.on("BinaryExpression", spyBinaryExpression);
-            jscheck.reset();
+            eslint.reset();
+            eslint.on("Literal", spyLiteral);
+            eslint.on("VariableDeclarator", spyVariableDeclarator);
+            eslint.on("VariableDeclaration", spyVariableDeclaration);
+            eslint.on("Identifier", spyIdentifier);
+            eslint.on("BinaryExpression", spyBinaryExpression);
+            eslint.reset();
 
-            var messages = jscheck.verify(topic, config, true);
+            var messages = eslint.verify(topic, config, true);
 
             assert.equal(messages.length, 0);
             sinon.assert.notCalled(spyVariableDeclaration);
@@ -96,24 +96,24 @@ vows.describe("jscheck").addBatch({
 
             var config = { rules: {} };
 
-            jscheck.reset();
-            var messages = jscheck.verify(topic, config, true);
-            jscheck.reset();
+            eslint.reset();
+            var messages = eslint.verify(topic, config, true);
+            eslint.reset();
 
             assert.equal(messages.length, 0);
-            assert.isNull(jscheck.getCurrentText());
+            assert.isNull(eslint.getCurrentText());
         },
 
         "source for nodes should not be available": function(topic) {
 
             var config = { rules: {} };
 
-            jscheck.reset();
-            var messages = jscheck.verify(topic, config, true);
-            jscheck.reset();
+            eslint.reset();
+            var messages = eslint.verify(topic, config, true);
+            eslint.reset();
 
             assert.equal(messages.length, 0);
-            assert.isNull(jscheck.getSource({}));
+            assert.isNull(eslint.getSource({}));
         }
 
 

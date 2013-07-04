@@ -12,7 +12,7 @@
 var vows = require("vows"),
     assert = require("assert"),
     sinon = require("sinon"),
-    jscheck = require("../../../lib/jscheck");
+    eslint = require("../../../lib/eslint");
 
 //------------------------------------------------------------------------------
 // Constants
@@ -34,7 +34,7 @@ vows.describe(RULE_ID).addBatch({
             var config = { rules: {} };
             config.rules[RULE_ID] = 1;
 
-            var messages = jscheck.verify(topic, config);
+            var messages = eslint.verify(topic, config);
 
             assert.equal(messages.length, 1);
             assert.equal(messages[0].ruleId, RULE_ID);
@@ -51,7 +51,7 @@ vows.describe(RULE_ID).addBatch({
             var config = { rules: {} };
             config.rules[RULE_ID] = 1;
 
-            var messages = jscheck.verify(topic, config);
+            var messages = eslint.verify(topic, config);
 
             assert.equal(messages.length, 0);
         }
@@ -65,7 +65,7 @@ vows.describe(RULE_ID).addBatch({
             var config = { rules: {} };
             config.rules[RULE_ID] = 1;
 
-            var messages = jscheck.verify(topic, config);
+            var messages = eslint.verify(topic, config);
 
             assert.equal(messages.length, 1);
             assert.equal(messages[0].ruleId, RULE_ID);
@@ -82,7 +82,7 @@ vows.describe(RULE_ID).addBatch({
             var config = { rules: {} };
             config.rules[RULE_ID] = 1;
 
-            var messages = jscheck.verify(topic, config);
+            var messages = eslint.verify(topic, config);
 
             assert.equal(messages.length, 0);
         }
@@ -96,7 +96,7 @@ vows.describe(RULE_ID).addBatch({
             var config = { rules: {} };
             config.rules[RULE_ID] = 1;
 
-            var messages = jscheck.verify(topic, config);
+            var messages = eslint.verify(topic, config);
 
             assert.equal(messages.length, 1);
             assert.equal(messages[0].ruleId, RULE_ID);
@@ -113,7 +113,7 @@ vows.describe(RULE_ID).addBatch({
             var config = { rules: {} };
             config.rules[RULE_ID] = 1;
 
-            var messages = jscheck.verify(topic, config);
+            var messages = eslint.verify(topic, config);
 
             assert.equal(messages.length, 0);
         }
@@ -127,7 +127,7 @@ vows.describe(RULE_ID).addBatch({
             var config = { rules: {} };
             config.rules[RULE_ID] = 1;
 
-            var messages = jscheck.verify(topic, config);
+            var messages = eslint.verify(topic, config);
 
             assert.equal(messages.length, 2);
             assert.equal(messages[0].ruleId, RULE_ID);
@@ -147,7 +147,7 @@ vows.describe(RULE_ID).addBatch({
             var config = { rules: {} };
             config.rules[RULE_ID] = 1;
 
-            var messages = jscheck.verify(topic, config);
+            var messages = eslint.verify(topic, config);
 
             assert.equal(messages.length, 1);
             assert.equal(messages[0].ruleId, RULE_ID);
@@ -164,7 +164,7 @@ vows.describe(RULE_ID).addBatch({
             var config = { rules: {} };
             config.rules[RULE_ID] = 1;
 
-            var messages = jscheck.verify(topic, config);
+            var messages = eslint.verify(topic, config);
 
             assert.equal(messages.length, 0);
         }
