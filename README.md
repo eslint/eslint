@@ -8,6 +8,12 @@ ESLint is a tool for identifying and reporting on patterns found in ECMAScript/J
 * ESLint uses an AST to evaluate patterns in code.
 * ESLint is completely pluggable, every single rule is a plugin and you can add more at runtime.
 
+## WARNING: Pre-alpha
+
+Right now, ESLint is in early development and should not be relied upon. There are no guarantees that anything is working at any particular point in time. Installing directly from GitHub increases the likelihood that something will explode, so if you'd like to try it out, please install the official release from npm.
+
+Prior to version 0.1.0, this utility should be considered completely unstable.
+
 ## Installation
 
 You can install ESLint using npm:
