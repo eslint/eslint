@@ -35,7 +35,7 @@ vows.describe("formatter:compact").addBatch({
             };
 
             var result = formatter(topic, "foo.js", config);
-            assert.equal("foo.js: line 5, col 10, Error - Unexpected foo.\n", result);
+            assert.equal("foo.js: line 5, col 10, Error - Unexpected foo.\n\n1 problems", result);
         },
 
         "should return a string in the format filename: line x, col y, Warning - z for warnings": function(topic) {
@@ -44,7 +44,7 @@ vows.describe("formatter:compact").addBatch({
             };
 
             var result = formatter(topic, "foo.js", config);
-            assert.equal("foo.js: line 5, col 10, Warning - Unexpected foo.\n", result);
+            assert.equal("foo.js: line 5, col 10, Warning - Unexpected foo.\n\n1 problems", result);
         }
 
     },
@@ -63,7 +63,7 @@ vows.describe("formatter:compact").addBatch({
             var config = {};    // doesn't matter what's in the config for this test
 
             var result = formatter(topic, "foo.js", config);
-            assert.equal("foo.js: line 5, col 10, Error - Unexpected foo.\n", result);
+            assert.equal("foo.js: line 5, col 10, Error - Unexpected foo.\n\n1 problems", result);
         }
     },
 
@@ -87,7 +87,7 @@ vows.describe("formatter:compact").addBatch({
             };
 
             var result = formatter(topic, "foo.js", config);
-            assert.equal("foo.js: line 5, col 10, Error - Unexpected foo.\nfoo.js: line 6, col 11, Warning - Unexpected bar.\n", result);
+            assert.equal("foo.js: line 5, col 10, Error - Unexpected foo.\nfoo.js: line 6, col 11, Warning - Unexpected bar.\n\n2 problems", result);
         }
 
     }
