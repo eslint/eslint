@@ -18,6 +18,13 @@ var vows = require("vows"),
 // Tests
 //------------------------------------------------------------------------------
 
+/*
+ * This may look like it's simply testing optimist under the covers, but really
+ * it's testing the interface of the options object. I want to make sure the
+ * interface is solid and tested because I'm not sure I want to use optimist
+ * long-term.
+ */
+
 vows.describe("options").addBatch({
 
     "when passed --help": {
@@ -69,12 +76,34 @@ vows.describe("options").addBatch({
 
         topic: [ "--rulesdir", "/morerules" ],
 
-        "should return string for .rulesdir": function(topic) {
+        "should return a string for .rulesdir": function(topic) {
             var currentOptions = options.parse(topic);
-            assert.iString(currentOptions.rulesdir);
+            assert.isString(currentOptions.rulesdir);
             assert.equal(currentOptions.rulesdir, "/morerules");
+        }
+
+    },
+
+    "when passed --format": {
+
+        topic: [ "--format", "compact" ],
+
+        "should return a string for .f": function(topic) {
+            var currentOptions = options.parse(topic);
+            assert.equal(currentOptions.f, "compact");
+        }
+
+    },
+
+    "when passed -f": {
+
+        topic: [ "-f", "compact" ],
+
+        "should return a string for .h": function(topic) {
+            var currentOptions = options.parse(topic);
+            assert.equal(currentOptions.f, "compact");
         }
 
     }
 
-});
+}).export(module);

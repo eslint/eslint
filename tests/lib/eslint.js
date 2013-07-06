@@ -56,7 +56,7 @@ vows.describe("eslint").addBatch({
             sinon.assert.calledOnce(spyIdentifier);
             sinon.assert.calledTwice(spyLiteral);
             sinon.assert.calledOnce(spyBinaryExpression);
-        },
+        }
     },
 
     "after calling reset()": {
