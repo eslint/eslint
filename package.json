@@ -10,7 +10,7 @@
     "changelog": "bash ./scripts/changelog-update.sh",
     "ctest": "istanbul cover --print both vows -- --spec ./tests/*/*/*.js",
     "test": "npm run-script lint && vows -- --spec ./tests/*/*.js ./tests/*/*/*.js",
-    "lint": "node node_modules/jshint/bin/jshint ./config/eslint.json ./lib"
+    "lint": "node node_modules/jshint/bin/jshint ./conf/eslint.json ./lib"
   },
   "repository": {
     "type": "git",
