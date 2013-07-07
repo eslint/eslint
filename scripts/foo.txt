@@ -1,0 +1,12 @@
+v0.0.5 - July 07, 2013
+
+* 0.0.5 (Nicholas C. Zakas)
+* Ensure non-zero exit code when rules are found with errors (Nicholas C. Zakas)
+* Fix fatal error handling to work more like regular error handling (Nicholas C. Zakas)
+* Change from astw to estraverse (Nicholas C. Zakas)
+* Catch fatal parsing errors (Nicholas C. Zakas)
+* Disable rules by setting them to 0 in eslint.json (Nicholas C. Zakas)
+* Abstracted out CLI options (Nicholas C. Zakas)
+* Implement rule to flag use of alert (fixes #10) (Nicholas C. Zakas)
+* Updated readme (Nicholas C. Zakas)
+
