@@ -13,7 +13,8 @@
         "camelcase": 1,
         "curly": 1,
         "eqeqeq": 1,
-        "new-cap": 1
+        "new-cap": 1,
+        "quote-props": 0
 
     }
 }
