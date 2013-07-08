@@ -42,6 +42,21 @@ vows.describe(RULE_ID).addBatch({
             assert.include(messages[0].node.type, "CallExpression");
             assert.include(messages[0].node.callee.name, "eval");
         }
+    },
+
+    "when evaluating 'Eval(foo)": {
+
+        topic: "Eval(foo)",
+
+        "should not report a violation": function(topic) {
+            var config = { rules: {} };
+            config.rules[RULE_ID] = 1;
+
+            var messages = eslint.verify(topic, config);
+
+            assert.equal(messages.length, 0);
+        }
     }
+
 
 }).export(module);
