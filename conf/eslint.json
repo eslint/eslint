@@ -2,7 +2,7 @@
     "rules": {
 
         "no-alert": 1,
-        "no-arg": 1,
+        "no-caller": 1,
         "no-bitwise": 0,
         "no-console": 1,
         "no-debugger": 1,
