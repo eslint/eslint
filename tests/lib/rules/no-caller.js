@@ -1,5 +1,5 @@
 /**
- * @fileoverview Tests for no-arg rule.
+ * @fileoverview Tests for no-caller rule.
  * @author Nicholas C. Zakas
  */
 
@@ -17,7 +17,7 @@ var vows = require("vows"),
 // Constants
 //------------------------------------------------------------------------------
 
-var RULE_ID = "no-arg";
+var RULE_ID = "no-caller";
 
 //------------------------------------------------------------------------------
 // Tests
@@ -58,6 +58,21 @@ vows.describe(RULE_ID).addBatch({
             assert.equal(messages[0].ruleId, RULE_ID);
             assert.equal(messages[0].message, "Avoid arguments.caller.");
             assert.include(messages[0].node.type, "MemberExpression");
+        }
+    },
+
+    "when evaluating 'var x = arguments.length'": {
+
+        topic: "var x = arguments.length",
+
+        "should not report a violation": function(topic) {
+
+            var config = { rules: {} };
+            config.rules[RULE_ID] = 1;
+
+            var messages = eslint.verify(topic, config);
+
+            assert.equal(messages.length, 0);
         }
     },
 
