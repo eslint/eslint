@@ -8,7 +8,7 @@
   },
   "scripts": {
     "changelog": "bash ./scripts/changelog-update.sh",
-    "test": "node ./node_modules/istanbul/lib/cli.js cover --print both ./node_modules/vows/bin/vows -- --spec ./tests/*/*.js ./tests/*/*/*.js",
+    "test": "npm run-script lint && node ./node_modules/istanbul/lib/cli.js cover --print both ./node_modules/vows/bin/vows -- --spec ./tests/*/*.js ./tests/*/*/*.js",
     "lint": "node node_modules/jshint/bin/jshint ./conf/eslint.json ./lib"
   },
   "repository": {
