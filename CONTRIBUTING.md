@@ -10,4 +10,4 @@ If you're going to work on a bug, please add a comment to that bug saying so and
 
 For contribution guidelines, please see:
 
-https://github.com/nzakas/eslint/wiki/Developer-Guide
+https://github.com/nzakas/eslint/wiki/Contributing
