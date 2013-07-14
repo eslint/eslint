@@ -1,6 +1,6 @@
 /**
  * @fileoverview Tests for no-octal rule.
- * @author Nicholas C. Zakas
+ * @author Ilya Volodin
  */
 
 /*jshint node:true*/
@@ -39,7 +39,7 @@ vows.describe(RULE_ID).addBatch({
 
             assert.equal(messages.length, 1);
             assert.equal(messages[0].ruleId, RULE_ID);
-            assert.equal(messages[0].message, "Veriable 'a' initialized to octal literal.");
+            assert.equal(messages[0].message, "Variable 'a' initialized to octal literal.");
             assert.include(messages[0].node.type, "VariableDeclarator");
         }
     },
