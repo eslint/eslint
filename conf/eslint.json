@@ -15,7 +15,8 @@
         "eqeqeq": 1,
         "guard-for-in": 0,
         "new-cap": 1,
-        "quote-props": 0
+        "quote-props": 0,
+        "semi": 1
 
     }
 }
