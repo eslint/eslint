@@ -99,11 +99,36 @@ vows.describe("options").addBatch({
 
         topic: [ "-f", "compact" ],
 
-        "should return a string for .h": function(topic) {
+        "should return a string for .f": function(topic) {
             var currentOptions = options.parse(topic);
             assert.equal(currentOptions.f, "compact");
         }
 
+    },
+
+    "when passed -v": {
+
+        topic: [ "-v" ],
+
+        "should return true for .v": function(topic) {
+            var currentOptions = options.parse(topic);
+            assert.isTrue(currentOptions.v);
+        }
+
+    },
+
+    "when passed --version": {
+
+        topic: [ "--version" ],
+
+        "should return true for .v": function(topic) {
+            var currentOptions = options.parse(topic);
+            assert.isTrue(currentOptions.v);
+        }
+
     }
+
+
+
 
 }).export(module);

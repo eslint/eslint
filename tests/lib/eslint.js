@@ -3,8 +3,6 @@
  * @author Nicholas C. Zakas
  */
 
-/*jshint node:true*/
-
 //------------------------------------------------------------------------------
 // Requirements
 //------------------------------------------------------------------------------
@@ -25,6 +23,91 @@ var TEST_CODE = "var answer = 6 * 7;";
 //------------------------------------------------------------------------------
 
 vows.describe("eslint").addBatch({
+
+    "when calling toSource()": {
+
+        topic: TEST_CODE,
+
+        "should retrieve all text when used without parameters": function(topic) {
+
+            var config = { rules: {} };
+
+            eslint.reset();
+            eslint.on("Program", function(node) {
+                var source = eslint.getSource();
+                assert.equal(source, TEST_CODE);
+            });
+
+            eslint.verify(topic, config, true);
+        },
+
+        "should retrieve all text for root node": function(topic) {
+
+            var config = { rules: {} };
+
+            eslint.reset();
+            eslint.on("Program", function(node) {
+                var source = eslint.getSource(node);
+                assert.equal(source, TEST_CODE);
+            });
+
+            eslint.verify(topic, config, true);
+        },
+
+        "should retrieve all text for binary expression": function(topic) {
+
+            var config = { rules: {} };
+
+            eslint.reset();
+            eslint.on("BinaryExpression", function(node) {
+                var source = eslint.getSource(node);
+                assert.equal(source, "6 * 7");
+            });
+
+            eslint.verify(topic, config, true);
+        },
+
+        "should retrieve all text plus two characters before for binary expression": function(topic) {
+
+            var config = { rules: {} };
+
+            eslint.reset();
+            eslint.on("BinaryExpression", function(node) {
+                var source = eslint.getSource(node, 2);
+                assert.equal(source, "= 6 * 7");
+            });
+
+            eslint.verify(topic, config, true);
+        },
+
+        "should retrieve all text plus one character after for binary expression": function(topic) {
+
+            var config = { rules: {} };
+
+            eslint.reset();
+            eslint.on("BinaryExpression", function(node) {
+                var source = eslint.getSource(node, 0, 1);
+                assert.equal(source, "6 * 7;");
+            });
+
+            eslint.verify(topic, config, true);
+        },
+
+        "should retrieve all text plus two characters before and one character after for binary expression": function(topic) {
+
+            var config = { rules: {} };
+
+            eslint.reset();
+            eslint.on("BinaryExpression", function(node) {
+                var source = eslint.getSource(node, 2, 1);
+                assert.equal(source, "= 6 * 7;");
+            });
+
+            eslint.verify(topic, config, true);
+        }
+
+
+    },
 
     "when evaluating code": {
 
@@ -101,7 +184,7 @@ vows.describe("eslint").addBatch({
             eslint.reset();
 
             assert.equal(messages.length, 0);
-            assert.isNull(eslint.getCurrentText());
+            assert.isNull(eslint.getSource());
         },
 
         "source for nodes should not be available": function(topic) {

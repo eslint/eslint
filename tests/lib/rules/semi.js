@@ -1,5 +1,5 @@
 /**
- * @fileoverview Tests for curly rule.
+ * @fileoverview Tests for semi rule.
  * @author Nicholas C. Zakas
  */
 
@@ -18,7 +18,7 @@ var vows = require("vows"),
 // Constants
 //------------------------------------------------------------------------------
 
-var RULE_ID = "curly";
+var RULE_ID = "semi";
 
 //------------------------------------------------------------------------------
 // Tests
@@ -26,11 +26,12 @@ var RULE_ID = "curly";
 
 vows.describe(RULE_ID).addBatch({
 
-    "when evaluating 'if (foo) bar()'": {
+    "when evaluating 'var x = 5'": {
 
-        topic: "if (foo) bar()",
+        topic: "var x = 5",
 
         "should report a violation": function(topic) {
+
             var config = { rules: {} };
             config.rules[RULE_ID] = 1;
 
@@ -38,16 +39,71 @@ vows.describe(RULE_ID).addBatch({
 
             assert.equal(messages.length, 1);
             assert.equal(messages[0].ruleId, RULE_ID);
-            assert.equal(messages[0].message, "Expected { after 'if' condition.");
-            assert.include(messages[0].node.type, "IfStatement");
+            assert.equal(messages[0].message, "Missing semicolon.");
+            assert.include(messages[0].node.type, "VariableDeclaration");
         }
     },
 
-    "when evaluating 'if (foo) { bar() }'": {
+    "when evaluating 'var x = 5, y'": {
 
-        topic: "if (foo) { bar() }",
+        topic: "var x = 5, y",
+
+        "should report a violation": function(topic) {
+
+            var config = { rules: {} };
+            config.rules[RULE_ID] = 1;
+
+            var messages = eslint.verify(topic, config);
+
+            assert.equal(messages.length, 1);
+            assert.equal(messages[0].ruleId, RULE_ID);
+            assert.equal(messages[0].message, "Missing semicolon.");
+            assert.include(messages[0].node.type, "VariableDeclaration");
+        }
+    },
+
+    "when evaluating 'foo()'": {
+
+        topic: "foo()",
+
+        "should report a violation": function(topic) {
+
+            var config = { rules: {} };
+            config.rules[RULE_ID] = 1;
+
+            var messages = eslint.verify(topic, config);
+
+            assert.equal(messages.length, 1);
+            assert.equal(messages[0].ruleId, RULE_ID);
+            assert.equal(messages[0].message, "Missing semicolon.");
+            assert.include(messages[0].node.type, "ExpressionStatement");
+        }
+    },
+
+    "when evaluating 'x = foo()'": {
+
+        topic: "x = foo()",
+
+        "should report a violation": function(topic) {
+
+            var config = { rules: {} };
+            config.rules[RULE_ID] = 1;
+
+            var messages = eslint.verify(topic, config);
+
+            assert.equal(messages.length, 1);
+            assert.equal(messages[0].ruleId, RULE_ID);
+            assert.equal(messages[0].message, "Missing semicolon.");
+            assert.include(messages[0].node.type, "ExpressionStatement");
+        }
+    },
+
+    "when evaluating 'var x = 5;'": {
+
+        topic: "var x = 5;",
 
         "should not report a violation": function(topic) {
+
             var config = { rules: {} };
             config.rules[RULE_ID] = 1;
 
@@ -57,28 +113,12 @@ vows.describe(RULE_ID).addBatch({
         }
     },
 
-    "when evaluating 'if (foo) { bar() } else baz()'": {
+    "when evaluating 'var x = 5, y;'": {
 
-        topic: "if (foo) { bar() } else baz()",
-
-        "should report a violation": function(topic) {
-            var config = { rules: {} };
-            config.rules[RULE_ID] = 1;
-
-            var messages = eslint.verify(topic, config);
-
-            assert.equal(messages.length, 1);
-            assert.equal(messages[0].ruleId, RULE_ID);
-            assert.equal(messages[0].message, "Expected { after 'else'.");
-            assert.include(messages[0].node.type, "IfStatement");
-        }
-    },
-
-    "when evaluating 'if (foo) { bar() } else if (foo2) { baz() }'": {
-
-        topic: "if (foo) { bar() } else if (foo2) { baz() }",
+        topic: "var x = 5, y;",
 
         "should not report a violation": function(topic) {
+
             var config = { rules: {} };
             config.rules[RULE_ID] = 1;
 
@@ -88,29 +128,12 @@ vows.describe(RULE_ID).addBatch({
         }
     },
 
+    "when evaluating 'foo();'": {
 
-    "when evaluating 'while (foo) bar()'": {
-
-        topic: "while (foo) bar()",
-
-        "should report a violation": function(topic) {
-            var config = { rules: {} };
-            config.rules[RULE_ID] = 1;
-
-            var messages = eslint.verify(topic, config);
-
-            assert.equal(messages.length, 1);
-            assert.equal(messages[0].ruleId, RULE_ID);
-            assert.equal(messages[0].message, "Expected { after 'while' condition.");
-            assert.include(messages[0].node.type, "WhileStatement");
-        }
-    },
-
-    "when evaluating 'while (foo) { bar() }'": {
-
-        topic: "while (foo) { bar() }",
+        topic: "foo();",
 
         "should not report a violation": function(topic) {
+
             var config = { rules: {} };
             config.rules[RULE_ID] = 1;
 
@@ -120,28 +143,12 @@ vows.describe(RULE_ID).addBatch({
         }
     },
 
-    "when evaluating 'for (;foo;) bar()'": {
+    "when evaluating 'x = foo();'": {
 
-        topic: "for (;foo;) bar()",
-
-        "should report a violation": function(topic) {
-            var config = { rules: {} };
-            config.rules[RULE_ID] = 1;
-
-            var messages = eslint.verify(topic, config);
-
-            assert.equal(messages.length, 1);
-            assert.equal(messages[0].ruleId, RULE_ID);
-            assert.equal(messages[0].message, "Expected { after 'for' condition.");
-            assert.include(messages[0].node.type, "ForStatement");
-        }
-    },
-
-    "when evaluating 'for (;foo;) { bar() }'": {
-
-        topic: "for (;foo;) { bar() }",
+        topic: "x = foo();",
 
         "should not report a violation": function(topic) {
+
             var config = { rules: {} };
             config.rules[RULE_ID] = 1;
 
@@ -150,5 +157,6 @@ vows.describe(RULE_ID).addBatch({
             assert.equal(messages.length, 0);
         }
     }
+
 
 }).export(module);
