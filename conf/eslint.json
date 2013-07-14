@@ -9,6 +9,7 @@
         "no-empty": 1,
         "no-eval": 1,
         "no-with": 1,
+        "no-fallthrough": 1,
 
         "camelcase": 1,
         "curly": 1,
