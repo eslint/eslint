@@ -10,6 +10,8 @@
         "no-eval": 1,
         "no-with": 1,
         "no-unreachable": 1,
+        "no-octal": 1,
+        "no-undefined": 1,
 
         "camelcase": 1,
         "curly": 1,
