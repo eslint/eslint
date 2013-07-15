@@ -12,6 +12,7 @@
         "no-with": 1,
         "no-unreachable": 1,
         "no-undef-init": 1,
+        "no-octal": 1,
 
         "camelcase": 1,
         "curly": 1,
