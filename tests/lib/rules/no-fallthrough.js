@@ -1,5 +1,5 @@
 /**
- * @fileoverview Tests for quote-props rule.
+ * @fileoverview Tests for no-fallthrough rule.
  * @author Matt DuVall<http://mattduvall.com/>
  */
 
@@ -40,6 +40,51 @@ vows.describe(RULE_ID).addBatch({
             assert.equal(messages.length, 1);
             assert.equal(messages[0].ruleId, RULE_ID);
             assert.equal(messages[0].message, "No fall-through without explicit comment.");
+        }
+    },
+
+    "when evaluating `switch(foo) { case 'foo': foo.bar(); /* falls through */}`": {
+
+        topic: "switch(foo) { case 'foo': foo.bar(); /* falls through */}",
+
+        "should not report a violation": function(topic) {
+
+            var config = { rules: {} };
+            config.rules[RULE_ID] = 1;
+
+            var messages = eslint.verify(topic, config);
+
+            assert.equal(messages.length, 0);
+        }
+    },
+
+    "when evaluating `switch(foo) { case 'foo': foo.bar(); return; }`": {
+
+        topic: "function foo() { switch(foo) { case 'foo': foo.bar(); return; }; }",
+
+        "should not report a violation": function(topic) {
+
+            var config = { rules: {} };
+            config.rules[RULE_ID] = 1;
+
+            var messages = eslint.verify(topic, config);
+
+            assert.equal(messages.length, 0);
+        }
+    },
+
+    "when evaluating `switch(foo) { case 'foo': foo.bar(); throw 'bar'; }`": {
+
+        topic: "switch(foo) { case 'foo': foo.bar(); throw 'bar'; }",
+
+        "should not report a violation": function(topic) {
+
+            var config = { rules: {} };
+            config.rules[RULE_ID] = 1;
+
+            var messages = eslint.verify(topic, config);
+
+            assert.equal(messages.length, 0);
         }
     },
 
