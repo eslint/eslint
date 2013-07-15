@@ -8,6 +8,7 @@
         "no-debugger": 1,
         "no-empty": 1,
         "no-eval": 1,
+        "no-floating-decimal": 0,
         "no-with": 1,
         "no-unreachable": 1,
         "no-undef-init": 1,
