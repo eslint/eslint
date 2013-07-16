@@ -105,8 +105,89 @@ vows.describe("eslint").addBatch({
 
             eslint.verify(topic, config, true);
         }
+    },
 
+    "when calling getTokens": {
 
+        topic: TEST_CODE,
+
+        "should retrieve all tokens when used without parameters": function(topic) {
+
+            var config = { rules: {} };
+
+            eslint.reset();
+            eslint.on("Program", function(node) {
+                var tokens = eslint.getTokens();
+                assert.equal(tokens.length, 7);
+            });
+
+            eslint.verify(topic, config, true);
+        },
+
+        "should retrieve all tokens for root node": function(topic) {
+
+            var config = { rules: {} };
+
+            eslint.reset();
+            eslint.on("Program", function(node) {
+                var tokens = eslint.getTokens(node);
+                assert.equal(tokens.length, 7);
+            });
+
+            eslint.verify(topic, config, true);
+        },
+
+        "should retrieve all tokens for binary expression": function(topic) {
+
+            var config = { rules: {} };
+
+            eslint.reset();
+            eslint.on("BinaryExpression", function(node) {
+                var tokens = eslint.getTokens(node);
+                assert.equal(tokens.length, 3);
+            });
+
+            eslint.verify(topic, config, true);
+        },
+
+        "should retrieve all tokens plus equals sign for binary expression": function(topic) {
+
+            var config = { rules: {} };
+
+            eslint.reset();
+            eslint.on("BinaryExpression", function(node) {
+                var tokens = eslint.getTokens(node, 2);
+                assert.equal(tokens.length, 4);
+            });
+
+            eslint.verify(topic, config, true);
+        },
+
+        "should retrieve all tokens plus one character after for binary expression": function(topic) {
+
+            var config = { rules: {} };
+
+            eslint.reset();
+            eslint.on("BinaryExpression", function(node) {
+                var tokens = eslint.getTokens(node, 0, 1);
+                assert.equal(tokens.length, 4);
+            });
+
+            eslint.verify(topic, config, true);
+        },
+
+        "should retrieve all tokens plus two characters before and one character after for binary expression": function(topic) {
+
+            var config = { rules: {} };
+
+            eslint.reset();
+            eslint.on("BinaryExpression", function(node) {
+                var tokens = eslint.getTokens(node, 2, 1);
+                assert.equal(tokens.length, 5);
+            });
+
+            eslint.verify(topic, config, true);
+        }
     },
 
     "when evaluating code": {
