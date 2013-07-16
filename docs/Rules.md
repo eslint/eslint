@@ -38,5 +38,5 @@ These rules are purely matters of style and are quite subjective.
 
 The following rules are included for compatibility with [JSHint](http://jshint.com) and [JSLint](http://jslint.com). While the names of the rules may not match up with the JSHint/JSLint counterpart, the functionality is the same.
 
-* [no-bitwise] (off by default) - disallow use of bitwise operators
-* [guard-for-in] (off by default) - make sure `for-in` loops have an `if` statement
+* [no-bitwise] - disallow use of bitwise operators (off by default)
+* [guard-for-in] - make sure `for-in` loops have an `if` statement (off by default)
