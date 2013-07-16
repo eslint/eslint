@@ -1,3 +1,5 @@
+# Architecture
+
 At a high level, there are a few key parts to ESLint:
 
 * `bin/eslint.js` - this is the file that actually gets executed with the command line utility. It's a dumb wrapper that does nothing more than bootstrap ESLint, passing the command line arguments to `cli`. This is intentionally small so as not to require heavy testing.

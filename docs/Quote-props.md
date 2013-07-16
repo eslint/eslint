@@ -1,3 +1,5 @@
+# Quote props
+
 Similar to how quoting attribute values in HTML is a good idea, quoting property names in JavaScript is good practice.
 
 Ensuring property names in object literals are always wrapped in quotes is generally a good idea, since [depending on the property name you may need to quote them anyway](http://mathiasbynens.be/notes/javascript-properties). Consider this example:

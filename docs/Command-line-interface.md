@@ -1,3 +1,5 @@
+# Command line Interface
+
 To run ESLint on Node.js, you must have npm installed. If npm is not installed, follow the instructions here: http://npmjs.org/
 
 Once npm is installed, run the following

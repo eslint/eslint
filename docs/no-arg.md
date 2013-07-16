@@ -1,3 +1,5 @@
+# no arg
+
 Both `arguments.caller` and `arguments.callee` have fallen out of favor due to their negative performance and security implications. Both are forbidden from use in ECMAScript 5 strict mode and are likely to be deprecated in future versions of ECMAScript. In order to ensure future compatibility, it's recommended to avoid using both `arguments.caller` and `arguments.callee`.
 
 ## Rule Details

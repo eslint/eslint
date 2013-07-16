@@ -1,3 +1,5 @@
+# Source Code
+
 ESLint is hosted at [GitHub](http://www.github.com) and uses [Git](http://git-scm.com/) for source control. In order to obtain the source code, you must first install Git on your system. Instructions for installing and setting up Git can be found at http://help.github.com/set-up-git-redirect.
 
 If you simply want to create a local copy of the source to play with, you can clone the main repository using this command:

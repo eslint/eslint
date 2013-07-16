@@ -1,3 +1,5 @@
+# Contributing
+
 One of the great things about open source projects is that anyone can contribute code. To help you in that process, there are several things that you should keep in mind.
 
 ## Use Pull Requests
@@ -19,7 +21,7 @@ We want to accept your contribution. Following these guidelines helps to create 
   * 0.6.x
   * 0.8.x
   * 0.10.x
-* Follow the [[Code Conventions]].
+* Follow the [Code Conventions](Code-Conventions.md).
 
 ## New Rules 
 
@@ -30,7 +32,7 @@ Once you've written a rule, you can decide whether the rule is generic enough to
   1. The use case for the rule - what is it trying to prevent or flag?
   1. Why you believe this rule is generic enough to be included in the main distribution
   1. Whether the rule should be on or off by default.
-  1. Documentation for the rule (see [[no-console]] as an example). Put this documentation directly into the pull request.
+  1. Documentation for the rule (see [no-console](no-console.md) as an example). Put this documentation directly into the pull request.
   
 Keep in mind that not all rules will be accepted for the main distribution. You may also request that your rule by on by default but we may accept it as off by default. 
 
