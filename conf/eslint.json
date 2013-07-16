@@ -6,6 +6,7 @@
         "no-bitwise": 0,
         "no-console": 1,
         "no-debugger": 1,
+        "no-dupe-keys": 1,
         "no-empty": 1,
         "no-eval": 1,
         "no-floating-decimal": 0,
