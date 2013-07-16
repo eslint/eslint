@@ -16,6 +16,7 @@
 
         "camelcase": 1,
         "curly": 1,
+        "ctor-prentices": 1,
         "eqeqeq": 1,
         "guard-for-in": 0,
         "new-cap": 1,

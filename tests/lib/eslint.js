@@ -123,6 +123,8 @@ vows.describe("eslint").addBatch({
                 spyVariableDeclaration = sinon.spy(),
                 spyIdentifier = sinon.spy(),
                 spyBinaryExpression = sinon.spy();
+            // spy for getMatchingTokens function
+            sinon.spy(eslint, "getMatchingTokens");
 
             eslint.reset();
             eslint.on("Literal", spyLiteral);
@@ -139,6 +141,8 @@ vows.describe("eslint").addBatch({
             sinon.assert.calledOnce(spyIdentifier);
             sinon.assert.calledTwice(spyLiteral);
             sinon.assert.calledOnce(spyBinaryExpression);
+            assert(eslint.getMatchingTokens.called);
+            eslint.getMatchingTokens.restore();
         }
     },
 
