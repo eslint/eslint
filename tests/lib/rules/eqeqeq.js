@@ -22,6 +22,29 @@ var RULE_ID = "eqeqeq";
 //------------------------------------------------------------------------------
 
 vows.describe(RULE_ID).addBatch({
+    "when evaluating typeof": {
+        topic: "typeof a == 'number'",
+
+        "should not report a violation": function(topic) {
+            var config = { rules: {} };
+            config.rules[RULE_ID] = 1;
+
+            var messages = eslint.verify(topic, config);
+            assert.equal(messages.length, 0);
+        }
+    },
+
+    "when evaluating yoda comparison typeof": {
+        topic: "'string' != typeof a",
+
+        "should not report a violation": function(topic) {
+            var config = { rules: {} };
+            config.rules[RULE_ID] = 1;
+
+            var messages = eslint.verify(topic, config);
+            assert.equal(messages.length, 0);
+        }
+    },
 
     "when evaluating 'a == b'": {
 
