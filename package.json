@@ -34,5 +34,8 @@
     "ecmascript"
   ],
   "preferGlobal": true,
-  "license": "MIT"
+  "license": {
+    "type": "MIT",
+    "url": "https://github.com/nzakas/eslint/blob/master/LICENSE"
+  }
 }
