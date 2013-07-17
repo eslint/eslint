@@ -9,7 +9,6 @@
 
 var vows = require("vows"),
     assert = require("assert"),
-    sinon = require("sinon"),
     formatter = require("../../../lib/formatters/compact");
 
 //------------------------------------------------------------------------------
