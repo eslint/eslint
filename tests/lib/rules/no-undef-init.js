@@ -23,6 +23,18 @@ var RULE_ID = "no-undef-init";
 
 vows.describe(RULE_ID).addBatch({
 
+    "when evaluating an empty var": {
+        topic: "var a;",
+
+        "should not die": function(topic) {
+            var config = { rules: {} };
+            config.rules[RULE_ID] = 1;
+
+            var messages = eslint.verify(topic, config);
+            assert.equal(messages.length, 0);
+        }
+    },
+
     "when evaluating 'var a = undefined'": {
 
         topic: "var a = undefined;",
