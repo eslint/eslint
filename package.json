@@ -1,41 +1,41 @@
 {
-  "name": "eslint",
-  "version": "0.0.7-dev",
-  "author": "Nicholas C. Zakas <nicholas+npm@nczconsulting.com>",
-  "description": "An Esprima-based pattern checker for JavaScript.",
-  "bin": {
-    "eslint": "./bin/eslint.js"
-  },
-  "scripts": {
-    "changelog": "bash ./scripts/changelog-update.sh",
-    "test": "npm run-script lint && node ./node_modules/istanbul/lib/cli.js cover --print both ./node_modules/vows/bin/vows -- --spec ./tests/*/*.js ./tests/*/*/*.js",
-    "lint": "node node_modules/jshint/bin/jshint ./conf/eslint.json ./lib"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/nzakas/eslint"
-  },
-  "dependencies": {
-    "optimist": "*",
-    "estraverse": "*",
-    "esprima": "*",
-    "jshint": "*"
-  },
-  "devDependencies": {
-    "vows": "~0.7.0",
-    "istanbul": "~0.1.10",
-    "sinon": "*",
-    "jshint": "~2.1.4"
-  },
-  "keywords": [
-    "ast",
-    "lint",
-    "javascript",
-    "ecmascript"
-  ],
-  "preferGlobal": true,
-  "license": {
-    "type": "MIT",
-    "url": "https://github.com/nzakas/eslint/blob/master/LICENSE"
-  }
+    "name": "eslint",
+    "version": "0.0.7-dev",
+    "author": "Nicholas C. Zakas <nicholas+npm@nczconsulting.com>",
+    "description": "An Esprima-based pattern checker for JavaScript.",
+    "bin": {
+        "eslint": "./bin/eslint.js"
+    },
+    "scripts": {
+        "changelog": "bash ./scripts/changelog-update.sh",
+        "test": "npm run-script lint && node ./node_modules/istanbul/lib/cli.js cover --print both ./node_modules/vows/bin/vows -- --spec ./tests/*/*.js ./tests/*/*/*.js",
+        "lint": "node node_modules/jshint/bin/jshint ./conf/eslint.json ./lib"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/nzakas/eslint"
+    },
+    "dependencies": {
+        "optimist": "*",
+        "estraverse": "*",
+        "esprima": "*",
+        "jshint": "*"
+    },
+    "devDependencies": {
+        "vows": "~0.7.0",
+        "istanbul": "~0.1.10",
+        "sinon": "*",
+        "jshint": "~2.1.4"
+    },
+    "keywords": [
+        "ast",
+        "lint",
+        "javascript",
+        "ecmascript"
+    ],
+    "preferGlobal": true,
+    "license": {
+        "type": "MIT",
+        "url": "https://github.com/nzakas/eslint/blob/master/LICENSE"
+    }
 }
