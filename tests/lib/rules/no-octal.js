@@ -22,6 +22,16 @@ var RULE_ID = "no-octal";
 //------------------------------------------------------------------------------
 
 vows.describe(RULE_ID).addBatch({
+    "when evaluating a string": {
+        topic: "var a = 'hello world';",
+
+        "should not report a violation": function(topic) {
+            var config = { rules: {} };
+            config.rules[RULE_ID] = 1;
+            var messages = eslint.verify(topic, config);
+            assert.equal(messages.length, 0);
+        }
+    },
 
     "when evaluating 'var a = 01234'": {
 
