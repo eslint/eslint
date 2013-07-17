@@ -1,9 +1,7 @@
 /**
- * @fileoverview Tests for no-ctor rule.
+ * @fileoverview Tests for no-new-wrappers rule.
  * @author Ilya Volodin
  */
-
-/*jshint node:true*/
 
 //------------------------------------------------------------------------------
 // Requirements
@@ -18,7 +16,7 @@ var vows = require("vows"),
 // Constants
 //------------------------------------------------------------------------------
 
-var RULE_ID = "no-ctor";
+var RULE_ID = "no-new-wrappers";
 
 //------------------------------------------------------------------------------
 // Tests
@@ -130,4 +128,19 @@ vows.describe(RULE_ID).addBatch({
             assert.equal(messages.length, 0);
         }
     },
+
+    "when evaluating 'var a = String(\"test\"), b = String.fromCharCode(32);": {
+        
+        topic: "var a = String('test'), b = String.fromCharCode(32);",
+
+        "should not report a violation": function(topic) {
+
+            var config = { rules: {} };
+            config.rules[RULE_ID] = 1;
+
+            var messages = eslint.verify(topic, config);
+
+            assert.equal(messages.length, 0);
+        }
+    }
 }).export(module);
