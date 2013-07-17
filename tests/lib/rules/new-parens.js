@@ -1,9 +1,7 @@
 /**
- * @fileoverview Tests for ctor-parentheses rule.
+ * @fileoverview Tests for new-parens rule.
  * @author Ilya Volodin
  */
-
-/*jshint node:true*/
 
 //------------------------------------------------------------------------------
 // Requirements
@@ -18,7 +16,7 @@ var vows = require("vows"),
 // Constants
 //------------------------------------------------------------------------------
 
-var RULE_ID = "ctor-parentheses";
+var RULE_ID = "new-parens";
 
 //------------------------------------------------------------------------------
 // Tests
