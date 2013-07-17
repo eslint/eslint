@@ -23,6 +23,18 @@ var RULE_ID = "no-alert";
 
 vows.describe(RULE_ID).addBatch({
 
+    "when attempting to lint a bracket notation MemberExpression": {
+        topic: "a[o.k](1)",
+
+        "should not report violation or crash": function(topic) {
+            var config = { rules: {} };
+            config.rules[RULE_ID] = 1;
+
+            var messages = eslint.verify(topic, config);
+            assert.equal(messages.length, 0);
+        }
+    },
+
     "when evaluating 'alert(foo)'": {
 
         topic: "alert(foo)",
