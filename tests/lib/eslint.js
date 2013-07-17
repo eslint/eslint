@@ -33,7 +33,7 @@ vows.describe("eslint").addBatch({
             var config = { rules: {} };
 
             eslint.reset();
-            eslint.on("Program", function(node) {
+            eslint.on("Program", function() {
                 var source = eslint.getSource();
                 assert.equal(source, TEST_CODE);
             });

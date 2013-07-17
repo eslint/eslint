@@ -9,7 +9,6 @@
 
 var vows = require("vows"),
     assert = require("assert"),
-    sinon = require("sinon"),
     eslint = require("../../../lib/eslint");
 
 //------------------------------------------------------------------------------
