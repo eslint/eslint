@@ -17,7 +17,7 @@
     },
     "dependencies": {
         "optimist": "*",
-        "estraverse": "*",
+        "estraverse": "~1.2.0",
         "esprima": "*",
         "jshint": "*"
     },

@@ -190,6 +190,39 @@ vows.describe("eslint").addBatch({
         }
     },
 
+    "when calling getAncestors": {
+
+        topic: TEST_CODE,
+
+        "should retrieve all ancestors when used": function(topic) {
+
+            var config = { rules: {} };
+
+            eslint.reset();
+            eslint.on("BinaryExpression", function(node) {
+                var ancestors = eslint.getAncestors();
+                assert.equal(ancestors.length, 3);
+            });
+
+            eslint.verify(topic, config, true);
+        },
+
+        "should retrieve empty ancestors for root node": function(topic) {
+
+            var config = { rules: {} };
+
+            eslint.reset();
+            eslint.on("Program", function(node) {
+                var ancestors = eslint.getAncestors();
+                assert.equal(ancestors.length, 0);
+            });
+
+            eslint.verify(topic, config, true);
+        }
+
+    },
+
+
     "when evaluating code": {
 
         topic: TEST_CODE,
