@@ -130,7 +130,7 @@ vows.describe(RULE_ID).addBatch({
     },
 
     "when evaluating 'var a = String(\"test\"), b = String.fromCharCode(32);": {
-        
+
         topic: "var a = String('test'), b = String.fromCharCode(32);",
 
         "should not report a violation": function(topic) {

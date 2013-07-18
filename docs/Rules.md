@@ -27,7 +27,7 @@ These are rules designed to prevent you from making mistakes. They either prescr
 
 ## Stylistic Issues
 
-These rules are purely matters of style and are quite subjective. 
+These rules are purely matters of style and are quite subjective.
 
 * [camelcase] - require camel case names
 * [new-cap](new-cap.md) - require a capital letter for constructors

@@ -29,7 +29,7 @@ Each rule is represented by a single object with several properties. The propert
 module.exports = function(context) {
 
     return {
-        
+
         "Identifier": function(node) {
             // do something with node
         }
@@ -38,12 +38,12 @@ module.exports = function(context) {
 };
 ```
 
-Each method that matches a node in the AST will be passed the corresponding node. You can then evaluate the node and it's surrounding tree to determine whether or not an issue needs reporting. 
+Each method that matches a node in the AST will be passed the corresponding node. You can then evaluate the node and it's surrounding tree to determine whether or not an issue needs reporting.
 
 The main method you'll use is `context.report()`, which publishes a warning or error (depending on the configuration being used). This method accepts two arguments: the AST node that caused the report and a message to display. For example:
 
     context.report(node, "This is unexpected!");
-    
+
 The node contains all of the information necessary to figure out the line and column number of the offending text as well the source text representing the node.
 
 ### Getting the Source
@@ -69,7 +69,7 @@ In this way, you can look for patterns in the JavaScript text itself when the AS
 
 ## Rule Unit Tests
 
-Each rule must have a set of unit tests submitted with it to be accepted. The test file is named the same as the source file but lives in `tests/lib/`. For example, if your rule source file is `lib/rules/foo.js` then your test file should be `tests/lib/rules/foo.js`. 
+Each rule must have a set of unit tests submitted with it to be accepted. The test file is named the same as the source file but lives in `tests/lib/`. For example, if your rule source file is `lib/rules/foo.js` then your test file should be `tests/lib/rules/foo.js`.
 
 For your rule, be sure to test:
 
