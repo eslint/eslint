@@ -24,6 +24,7 @@ These are rules designed to prevent you from making mistakes. They either prescr
 * [no-undef-init] - disallow use of undefined when initializing variables
 * [no-floating-decimal] - disallow the use of leading or trailing decimal points in numeric literals
 * [no-octal] - disallow use of octal literals
+* [no-new] - disallow use of new operator when not part of the assignment or comparison
 
 ## Stylistic Issues
 
