@@ -17,6 +17,7 @@
         "no-new": 1,
 
         "smarter-eqeqeq": 0,
+        "brace-style": 0,
         "camelcase": 1,
         "curly": 1,
         "eqeqeq": 1,
