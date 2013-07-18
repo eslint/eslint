@@ -1,32 +1,35 @@
-# no function constructor
+# no console
 
-This error is raised to highlight the use of a bad practice. By passing a string to the Function constructor, you are requiring the engine to parse that string much in the way it has to when you call the eval function.
+In JavaScript that is designed to be executed in the browser, it's considered a best practice to avoid using methods on `console`. Such messages are considered to be for debugging purposes and therefore not suitable to ship to the client. In general, calls using `console` should be stripped before being pushed to production.
 
 ```js
-var x = new Function("a", "b", "return a + b");
+console.log("Made it here.");
+console.error("That shouldn't have happened.");
 ```
 
 
 ## Rule Details
 
-This error is raised to highlight the use of a bad practice. By passing a string to the Function constructor, you are requiring the engine to parse that string much in the way it has to when you call the eval function.
+This rule is aimed at eliminating unwanted `console` references from your JavaScript. As such, it warns whenever it sees `console` used as an identifier in code.
+
+The following patterns are considered warnings:
 
 ```js
-var x = new Function("a", "b", "return a + b");
+console.log("Hello world!");
+console.error("Something bad happened.");
 ```
 
 The following patterns are considered okay and do not cause warnings:
 
 ```js
-var x = function (a, b) {
-    return a + b;
-};
+// custom console
+Console.log("Hello world!");
 ```
 
 ## When Not To Use It
 
-In more advanced cases where you really need to use the Function constructor
+If you're using Node.js, however, `console` is used to output information to the user and so is not strictly used for debugging purposes. If you are developing for Node.js then you most likely do not want this rule enabled.
 
 ## Further Reading
 
-* [The Function constructor is eval](http://jslinterrors.com/the-function-constructor-is-eval/)
+* [Use Uglify to automatically strip debug messages from your JavaScript](http://jstarrdewar.com/blog/2013/02/28/use-uglify-to-automatically-strip-debug-messages-from-your-javascript)
