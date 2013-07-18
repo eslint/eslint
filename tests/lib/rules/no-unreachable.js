@@ -23,6 +23,45 @@ var RULE_ID = "no-unreachable";
 
 vows.describe(RULE_ID).addBatch({
 
+    "when evaluating a function which contains a function": {
+        topic: "function foo() { function bar() { return 1; } return bar(); }",
+
+        "should not return a violation": function(topic) {
+            var config = { rules: {} };
+            config.rules[RULE_ID] = 1;
+
+            var messages = eslint.verify(topic, config);
+
+            assert.equal(messages.length, 0);
+        }
+    },
+
+    "when evaluating a function with no return": {
+        topic: "function foo() { var x = 1; var y = 2; }",
+
+        "should not return a violation": function(topic) {
+            var config = { rules: {} };
+            config.rules[RULE_ID] = 1;
+
+            var messages = eslint.verify(topic, config);
+
+            assert.equal(messages.length, 0);
+        }
+    },
+
+    "when evaluating a function with return at end": {
+        topic: "function foo() { var x = 1; var y = 2; return; }",
+
+        "should not return a violation": function(topic) {
+            var config = { rules: {} };
+            config.rules[RULE_ID] = 1;
+
+            var messages = eslint.verify(topic, config);
+
+            assert.equal(messages.length, 0);
+        }
+    },
+
     "when evaluation 'function foo() { return; x = 1; }'": {
         topic: "function foo() { return; x = 1; }",
 
