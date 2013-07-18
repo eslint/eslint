@@ -24,6 +24,8 @@ These are rules designed to prevent you from making mistakes. They either prescr
 * [no-undef-init] - disallow use of undefined when initializing variables
 * [no-floating-decimal] - disallow the use of leading or trailing decimal points in numeric literals
 * [no-octal] - disallow use of octal literals
+* [no-function-ctor] - disallow use of Function constructor
+* [no-new-wrappers] - disallow using constructors for wrapper objects (`String`, `Number`, `JSON`, `Boolean`, `Math`)
 
 ## Stylistic Issues
 
@@ -33,6 +35,7 @@ These rules are purely matters of style and are quite subjective.
 * [new-cap](new-cap.md) - require a capital letter for constructors
 * [quote-props](Quote-props.md) - require quotes around object literal property names
 * [semi] - require use of semicolons instead of relying on ASI
+* [new-parens] - require use of parentheses when invoking a constructor
 
 ## Legacy
 
