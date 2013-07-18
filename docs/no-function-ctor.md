@@ -1,12 +1,5 @@
 # no function constructor
 
-This error is raised to highlight the use of a bad practice. By passing a string to the Function constructor, you are requiring the engine to parse that string much in the way it has to when you call the eval function.
-
-```js
-var x = new Function("a", "b", "return a + b");
-```
-
-
 ## Rule Details
 
 This error is raised to highlight the use of a bad practice. By passing a string to the Function constructor, you are requiring the engine to parse that string much in the way it has to when you call the eval function.
