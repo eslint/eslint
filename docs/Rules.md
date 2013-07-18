@@ -27,12 +27,16 @@ These are rules designed to prevent you from making mistakes. They either prescr
 
 ## Stylistic Issues
 
-These rules are purely matters of style and are quite subjective. 
+These rules are purely matters of style and are quite subjective.
 
 * [camelcase] - require camel case names
 * [new-cap](new-cap.md) - require a capital letter for constructors
 * [quote-props](Quote-props.md) - require quotes around object literal property names
 * [semi] - require use of semicolons instead of relying on ASI
+
+## Alternate Rules
+
+* [smarter-eqeqeq](smarter-eqeqeq.md) - require the use of `===` and `!==` when it makes sense to use them
 
 ## Legacy
 
