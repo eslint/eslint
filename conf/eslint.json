@@ -14,7 +14,9 @@
         "no-undef-init": 1,
         "no-octal": 1,
         "no-new-wrappers": 1,
+        "no-new": 1,
 
+        "smarter-eqeqeq": 0,
         "camelcase": 1,
         "curly": 1,
         "eqeqeq": 1,

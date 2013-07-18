@@ -18,11 +18,11 @@ Each line should be no longer than 80 characters. If a line goes longer than 80 
     // Good
     doSomething(argument1, argument2, argument3, argument4,
             argument5);
-    
+
     // Bad: Following line only indented four spaces
     doSomething(argument1, argument2, argument3, argument4,
         argument5);
-    
+
     // Bad: Breaking before operator
     doSomething(argument1, argument2, argument3, argument4
             , argument5);
@@ -36,7 +36,7 @@ Strings should always use double quotes (never single quotes) and should always 
 
     // Bad: Single quotes
     var name = 'Nicholas';
-    
+
     // Bad: Wrapping to second line
     var longString = "Here's the story, of a man \
     named Brady.";
@@ -111,7 +111,7 @@ Never use the special value `undefined`. To see if a variable has been defined, 
     if (typeof variable == "undefined") {
         // do something
     }
-    
+
     // Bad: Using undefined literal
     if (variable == undefined) {
         // do something
@@ -123,58 +123,58 @@ Operators with two operands must be preceded and followed by a single space to m
 
     // Good
     var found = (values[i] === item);
-    
+
     // Good
     if (found && (count > 10)) {
         doSomething();
     }
-    
+
     // Good
     for (i = 0; i < count; i++) {
-    	process(i);
+        process(i);
     }
-    
+
     // Bad: Missing spaces
     var found = (values[i]===item);
-    
+
     // Bad: Missing spaces
     if (found&&(count>10)) {
-    	doSomething();
+        doSomething();
     }
-    
+
     // Bad: Missing spaces
     for (i=0; i<count; i++) {
-    	process(i);
+        process(i);
     }
 
 ## Parentheses Spacing
 
-When parentheses are used, there should be no white space immediately after the opening paren or immediately before the closing paren. 
+When parentheses are used, there should be no white space immediately after the opening paren or immediately before the closing paren.
 
     // Good
     var found = (values[i] === item);
-    
+
     // Good
     if (found && (count > 10)) {
-    	doSomething();
+        doSomething();
     }
-    
+
     // Good
     for (i = 0; i < count; i++) {
-    	process(i);
+        process(i);
     }
-    
+
     // Bad: Extra space after opening paren
     var found = ( values[i] === item);
-    
+
     // Bad: Extra space before closing paren
     if (found && (count > 10) ) {
-    	doSomething();
+        doSomething();
     }
-    
+
     // Bad: Extra space around argument
     for (i = 0; i < count; i++) {
-    	process( i );
+        process( i );
     }
 
 ## Object Literals
@@ -192,42 +192,42 @@ Examples:
 
     // Good
     var object = {
-    
+
         key1: value1,
         key2: value2,
-        
+
         func: function() {
             // do something
         },
-        
+
         key3: value3
     };
-    
+
     // Bad: Improper indentation
     var object = {
                     key1: value1,
                     key2: value2
                 };
-                
+
     // Bad: Missing blank lines around function
     var object = {
-    
+
         key1: value1,
-        key2: value2,        
+        key2: value2,
         func: function() {
             // do something
-        },        
+        },
         key3: value3
     };
 
 When an object literal is passed to a function, the opening brace should be on the same line as if the value is a variable. All other formatting rules from above still apply.
-                
+
     // Good
     doSomething({
         key1: value1,
         key2: value2
     });
-    
+
     // Bad: All on one line
     doSomething({ key1: value1, key2: value2 });
 
@@ -239,7 +239,7 @@ Make frequent use of comments to aid others in understanding your code. Use comm
 * The code might be mistaken for an error.
 * Browser-specific code is necessary but not obvious.
 * Documentation generation is necessary for an object, method, or property (use appropriate documentation comments).
-    
+
 ### Single-Line Comments
 
 Single-line comments should be used to documentation one line of code or a group of related lines of code. A single-line comment may be used in three ways:
@@ -269,7 +269,7 @@ When on a separate line, a single-line comment should be at the same indentation
     // if you made it here, then all security checks passed
         allowed();
     }
-    
+
     // Bad: This should be a multi-line comment
     // This next piece of code is quite difficult, so let me explain.
     // What you want to do is determine if the condition is true
@@ -295,7 +295,7 @@ The only acceptable time to have multiple single-line comments on successive lin
     // if (condition){
     //    doSomething();
     //    thenDoSomethingElse();
-    // }    
+    // }
 
 ### Multi-Line Comments
 
@@ -311,7 +311,7 @@ The first line of multi-comments should be indented to the same level as the cod
     if (condition){
 
         /*
-         * if you made it here, 
+         * if you made it here,
          * then all security checks passed
          */
         allowed();
@@ -320,7 +320,7 @@ The first line of multi-comments should be indented to the same level as the cod
     // Bad: No empty line preceding comment
     if (condition){
         /*
-         * if you made it here, 
+         * if you made it here,
          * then all security checks passed
          */
         allowed();
@@ -330,7 +330,7 @@ The first line of multi-comments should be indented to the same level as the cod
     if (condition){
 
         /*
-         *if you made it here, 
+         *if you made it here,
          *then all security checks passed
          */
         allowed();
@@ -340,7 +340,7 @@ The first line of multi-comments should be indented to the same level as the cod
     if (condition){
 
     /*
-     * if you made it here, 
+     * if you made it here,
      * then all security checks passed
      */
         allowed();
@@ -364,7 +364,7 @@ These annotations may be used with either single-line or multi-line comments and
     // Good
     // TODO: I'd like to find a way to make this faster
     doSomething();
-    
+
     // Good
     /*
      * HACK: Have to do this for IE. I plan on revisiting in
@@ -374,23 +374,23 @@ These annotations may be used with either single-line or multi-line comments and
     if (document.all) {
         doSomething();
     }
-    
+
     // Good
     // REVIEW: Is there a better way to do this?
     if (document.all) {
         doSomething();
     }
-    
+
     // Bad: Annotation spacing is incorrect
     // TODO : I'd like to find a way to make this faster
     doSomething();
-    
+
     // Bad: Comment should be at the same indentation as code
         // REVIEW: Is there a better way to do this?
     if (document.all) {
         doSomething();
-    }    
-    
+    }
+
 
 ## Variable Declarations
 
@@ -401,19 +401,19 @@ All variables should be declared before they are used. Variable declarations sho
         name    = "Nicholas",
         found   = false,
         empty;
-        
+
     // Bad: Improper initialization alignment
     var count = 10,
         name = "Nicholas",
         found= false,
         empty;
-        
+
     // Bad: Incorrect indentation
     var count   = 10,
     name    = "Nicholas",
     found   = false,
     empty;
-    
+
     // Bad: Multiple declarations on one line
     var count   = 10, name = "Nicholas",
         found   = false, empty;
@@ -423,14 +423,14 @@ All variables should be declared before they are used. Variable declarations sho
         count   = 10,
         name    = "Nicholas",
         found   = false;
-        
+
     // Bad: Multiple var statements
     var count   = 10,
         name    = "Nicholas";
-    
+
     var found   = false,
         empty;
-    
+
 Always declare variables. Implied globals should not be used.
 
 ## Function Declarations
@@ -446,50 +446,50 @@ Functions should be declared before they are used. When a function is not a meth
     function doSomething (arg1, arg2){
         return arg1 + arg2;
     }
-    
+
     // Bad: Function expression
     var doSomething = function(arg1, arg2) {
         return arg1 + arg2;
     };
-    
+
     // Bad: Left brace on wrong line
     function doSomething(arg1, arg2)
     {
         return arg1 + arg2;
     }
-    
+
     // Bad: Using Function constructor
     var doSomething = new Function("arg1", "arg2", "return arg1 + arg2");
 
-Functions declared inside of other functions should be declared immediately after the `var` statement. 
+Functions declared inside of other functions should be declared immediately after the `var` statement.
 
     // Good
     function outer() {
-        
+
         var count   = 10,
             name    = "Nicholas",
             found   = false,
             empty;
-            
+
         function inner() {
             // code
         }
-    
+
         // code that uses inner()
     }
-    
+
     // Bad: Inner function declared before variables
     function outer() {
-                    
+
         function inner() {
             // code
-        }        
-        
+        }
+
         var count   = 10,
             name    = "Nicholas",
             found   = false,
             empty;
-    
+
         // code that uses inner()
     }
 
@@ -509,29 +509,29 @@ Immediately-invoked functions should surround the entire function call with pare
 
     // Good
     var value = (function() {
-        
+
         // function body
-        
+
         return {
             message: "Hi"
         }
     }());
-    
+
     // Bad: No parentheses around function call
     var value = function() {
-        
+
         // function body
-        
+
         return {
             message: "Hi"
         }
     }();
-    
+
     // Bad: Improper parentheses placement
     var value = (function() {
-        
+
         // function body
-        
+
         return {
             message: "Hi"
         }
@@ -545,13 +545,13 @@ Variable names should be formatted in camel case with the first letter being low
 
     // Good
     var accountNumber = "8401-1";
-    
+
     // Bad: Begins with uppercase letter
     var AccountNumber = "8401-1";
-    
+
     // Bad: Begins with verb
     var getAccountNumber = "8401-1";
-    
+
     // Bad: Uses underscore
     var account_number = "8401-1";
 
@@ -559,19 +559,19 @@ Function names should also be formatted using camel case. The first word of a fu
 
     // Good
     function doSomething() {
-        // code        
+        // code
     }
-    
+
     // Bad: Begins with uppercase letter
     function DoSomething() {
         // code
     }
-    
+
     // Bad: Begins with noun
     function car() {
         // code
     }
-    
+
     // Bad: Uses underscores
     function do_something() {
         // code
@@ -583,17 +583,17 @@ Constructor functions, those functions used with the `new` operator to create ne
     function MyObject() {
         // code
     }
-    
+
     // Bad: Begins with lowercase letter
     function myObject() {
         // code
     }
-    
+
     // Bad: Uses underscores
     function My_Object() {
         // code
     }
-    
+
     // Bad: Begins with verb
     function getMyObject() {
         // code
@@ -603,19 +603,19 @@ Variables that act as constants (values that won't be changed) should be formatt
 
     // Good
     var TOTAL_COUNT = 10;
-    
+
     // Bad: Camel case
     var totalCount = 10;
-    
+
     // Bad: Mixed case
     var total_COUNT = 10;
 
 Object properties follow the same naming conventions as variables. Object methods follow the same naming conventions as functions. If a property or method is meant to be private, then it should be prefixed with an underscore character.
 
     // Good
-    var object = {    
+    var object = {
         _count: 10,
-        
+
         _getCount: function () {
             return this._count;
         }
@@ -623,36 +623,36 @@ Object properties follow the same naming conventions as variables. Object method
 
 ## Strict Mode
 
-Strict mode should be used only inside of functions and never globally. 
+Strict mode should be used only inside of functions and never globally.
 
     // Bad: Global strict mode
     "use strict";
-    
+
     function doSomething() {
         // code
     }
-    
+
     // Good
     function doSomething() {
         "use strict";
-        
+
         // code
     }
- 
+
 If you want strict mode to apply to multiple functions without needing to write `"use strict"` multiple times, use immediate function invocation:
-   
+
     // Good
     (function() {
         "use strict";
-        
+
         function doSomething() {
             // code
         }
-        
+
         function doSomethingElse() {
             // code
-        }    
-    
+        }
+
     }());
 
 ## Assignments
@@ -661,7 +661,7 @@ When assigning a value to a variable, use parentheses around a right-side expres
 
     // Good
     var flag = (i < count);
-    
+
     // Bad: Missing parentheses
     var flag = i < count;
 
@@ -671,7 +671,7 @@ Use `===` and `!==` instead of `==` and `!=`. This avoids type coercion errors.
 
     // Good
     var same = (a === b);
-    
+
     // Bad: Using ==
     var same = (a == b);
 
@@ -681,7 +681,7 @@ The ternary operator should be used only for assigning values conditionally and 
 
     // Good
     var value = condition ? value1 : value2;
-    
+
     // Bad: no assignment, should be an if statement
     condition ? doSomething() : doSomethingElse();
 
@@ -689,15 +689,15 @@ The ternary operator should be used only for assigning values conditionally and 
 
 ### Simple Statements
 
-Each line should contain at most one statement. All simple statements should end with a semicolon (`;`). 
+Each line should contain at most one statement. All simple statements should end with a semicolon (`;`).
 
     // Good
     count++;
     a = b;
-    
+
     // Bad: Multiple statements on one line
-    count++; a = b;    
-    
+    count++; a = b;
+
 ### return Statement
 
 A return statement with a value should not use parentheses unless they make the return value more obvious in some way. Example:
@@ -707,10 +707,10 @@ A return statement with a value should not use parentheses unless they make the 
     return collection.size();
 
     return (size > 0 ? size : defaultSize);
-    
+
 ### Compound Statements
 
-Compound statements are lists of statements enclosed inside of braces. 
+Compound statements are lists of statements enclosed inside of braces.
 
 * The enclosed statements should be indented one more level than the compound statement.
 * The opening brace should be at the end of the line that begins the compound statement; the closing brace should begin a line and be indented to the beginning of the compound statement.
@@ -724,13 +724,13 @@ The `if` class of statements should have the following form:
     if (condition) {
         statements
     }
-    
+
     if (condition) {
         statements
     } else {
         statements
     }
-    
+
     if (condition) {
         statements
     } else if (condition) {
@@ -745,19 +745,19 @@ It is never permissible to omit the braces in any part of an `if` statement.
     if (condition) {
         doSomething();
     }
-    
+
     // Bad: Improper spacing
     if(condition){
         doSomething();
     }
-    
+
     // Bad: Missing braces
     if (condition)
         doSomething();
-    
+
     // Bad: All on one line
     if (condition) { doSomething(); }
-    
+
     // Bad: All on one line without braces
     if (condition) doSomething();
 
@@ -778,16 +778,16 @@ Variables should not be declared in the initialization section of a `for` statem
     // Good
     var i,
         len;
-        
+
     for (i=0, len=10; i < len; i++) {
         // code
     }
-    
+
     // Bad: Variables declared during initialization
     for (var i=0, len=10; i < len; i++) {
         // code
     }
-    
+
     // Bad: Variables declared during initialization
     for (var prop in object) {
         // code
@@ -820,29 +820,29 @@ The `switch` class of statements should have the following form:
     switch (expression) {
         case expression:
             statements
-            
+
         default:
             statements
     }
 
 Each `case` is indented one level under the `switch`. Each `case` after the first, including `default`, should be preceded by a single empty line.
 
-Each group of statements (except the default) should end with `break`, `return`, `throw`, or a comment indicating fall through. 
+Each group of statements (except the default) should end with `break`, `return`, `throw`, or a comment indicating fall through.
 
     // Good
     switch (value) {
         case 1:
             /* falls through */
-            
+
         case 2:
             doSomething();
             break;
-            
+
         case 3:
             return true;
-            
+
         default:
-            throw new Error("This shouldn't happen.);            
+            throw new Error("This shouldn't happen.);
     }
 
 If a `switch` doesn't have a `default` case, then it should be indicated with a comment.
@@ -851,15 +851,15 @@ If a `switch` doesn't have a `default` case, then it should be indicated with a 
     switch (value) {
         case 1:
             /*falls through*/
-            
+
         case 2:
             doSomething();
             break;
-            
+
         case 3:
             return true;
-            
-        // no default           
+
+        // no default
     }
 
 ### try Statement
@@ -900,8 +900,8 @@ Blank spaces should be used in the following circumstances:
 
 * A keyword followed by a parenthesis should be separated by a space.
 * A blank space should appear after commas in argument lists.
-* All binary operators except dot (`.`) should be separated from their operands by spaces. Blank spaces should never separate unary operators such as unary minus, increment (`++`), and decrement (`--`) from their operands. 
-* The expressions in a `for` statement should be separated by blank spaces. 
+* All binary operators except dot (`.`) should be separated from their operands by spaces. Blank spaces should never separate unary operators such as unary minus, increment (`++`), and decrement (`--`) from their operands.
+* The expressions in a `for` statement should be separated by blank spaces.
 
 ## Things to Avoid
 

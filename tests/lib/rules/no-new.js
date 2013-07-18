@@ -1,5 +1,5 @@
 /**
- * @fileoverview Tests for no-octal rule.
+ * @fileoverview Tests for no-new rule.
  * @author Ilya Volodin
  */
 
@@ -15,30 +15,19 @@ var vows = require("vows"),
 // Constants
 //------------------------------------------------------------------------------
 
-var RULE_ID = "no-octal";
+var RULE_ID = "no-new";
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
 vows.describe(RULE_ID).addBatch({
-    "when evaluating a string": {
-        topic: "var a = 'hello world';",
 
-        "should not report a violation": function(topic) {
-            var config = { rules: {} };
-            config.rules[RULE_ID] = 1;
-            var messages = eslint.verify(topic, config);
-            assert.equal(messages.length, 0);
-        }
-    },
+    "when evaluating 'new Date()": {
 
-    "when evaluating 'var a = 01234'": {
-
-        topic: "var a = 01234;",
+        topic: "new Date()",
 
         "should report a violation": function(topic) {
-
             var config = { rules: {} };
             config.rules[RULE_ID] = 1;
 
@@ -46,17 +35,16 @@ vows.describe(RULE_ID).addBatch({
 
             assert.equal(messages.length, 1);
             assert.equal(messages[0].ruleId, RULE_ID);
-            assert.equal(messages[0].message, "Octal literals should not be used.");
-            assert.include(messages[0].node.type, "Literal");
+            assert.equal(messages[0].message, "Do not use 'new' for side effects");
+            assert.include(messages[0].node.type, "ExpressionStatement");
         }
     },
 
-    "when evaluating 'var a = 0x1234'": {
+    "when evaluating 'var a = new Date()": {
 
-        topic: "var a = 0x1234;",
+        topic: "var a = new Date()",
 
         "should not report a violation": function(topic) {
-
             var config = { rules: {} };
             config.rules[RULE_ID] = 1;
 
@@ -66,30 +54,11 @@ vows.describe(RULE_ID).addBatch({
         }
     },
 
-    "when evaluating 'a = 1 + 01234'": {
+    "when evaluating 'var a; if (a === new Date()) { a=false; }": {
 
-        topic: "a = 1 + 01234;",
-
-        "should report a violation": function(topic) {
-
-            var config = { rules: {} };
-            config.rules[RULE_ID] = 1;
-
-            var messages = eslint.verify(topic, config);
-
-            assert.equal(messages.length, 1);
-            assert.equal(messages[0].ruleId, RULE_ID);
-            assert.equal(messages[0].message, "Octal literals should not be used.");
-            assert.include(messages[0].node.type, "Literal");
-        }
-    },
-
-    "when evaluating the literal 0": {
-
-        topic: "a = 0;",
+        topic: "var a; if (a === new Date()) { a = false; }",
 
         "should not report a violation": function(topic) {
-
             var config = { rules: {} };
             config.rules[RULE_ID] = 1;
 
@@ -97,5 +66,7 @@ vows.describe(RULE_ID).addBatch({
 
             assert.equal(messages.length, 0);
         }
-    },
+    }
+
+
 }).export(module);
