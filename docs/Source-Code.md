@@ -5,7 +5,7 @@ ESLint is hosted at [GitHub](http://www.github.com) and uses [Git](http://git-sc
 If you simply want to create a local copy of the source to play with, you can clone the main repository using this command:
 
     git clone git://github.com/nzakas/eslint.git
-    
+
 If you're planning on contributing to ESLint, then it's a good idea to fork the repository. You can find instructions for forking a repository at http://help.github.com/fork-a-repo/. After forking the ESLintrepository, you'll want to create a local copy of your fork.
 
 ## Start Developing
@@ -31,9 +31,9 @@ The ESLint directory and file structure is as follows:
 * `bin` - executable files that are available when ESLint is installed
 * `config` - default configuration information
 * `lib` - contains the source code
-  * `formatters` - all source files defining formatters
-  * `rules` - all source files defining rules
+    * `formatters` - all source files defining formatters
+    * `rules` - all source files defining rules
 * `tests` - the main unit test folder
-  * `lib` - tests for the source code
-    * `reporters` - tests for the reporters
-    * `rules` - tests for the rules
+    * `lib` - tests for the source code
+        * `reporters` - tests for the reporters
+        * `rules` - tests for the rules

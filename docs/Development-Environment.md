@@ -4,7 +4,7 @@ ESLint has a very lightweight development environment that makes updating code f
 
 ## Install Node.js
 
-Go to http://nodejs.org to download and install the latest stable version for your operating system. 
+Go to http://nodejs.org to download and install the latest stable version for your operating system.
 
 Most of the installers come with [npm](http://npmjs.org) already installed, but if for some reason it doesn't work on your system, you can install it manually using the instructions on the website.
 
