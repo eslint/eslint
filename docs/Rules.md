@@ -34,6 +34,10 @@ These rules are purely matters of style and are quite subjective.
 * [quote-props](Quote-props.md) - require quotes around object literal property names
 * [semi] - require use of semicolons instead of relying on ASI
 
+## Alternate Rules
+
+* [smarter-eqeqeq](smarter-eqeqeq.md) - require the use of `===` and `!==` when it makes sense to use them
+
 ## Legacy
 
 The following rules are included for compatibility with [JSHint](http://jshint.com) and [JSLint](http://jslint.com). While the names of the rules may not match up with the JSHint/JSLint counterpart, the functionality is the same.
