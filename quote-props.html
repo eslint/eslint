@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>ESLint</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A tool for identifying and reporting on patterns in JavaScript.">
+
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <style>
+      body {
+        padding-top: 60px;
+      }
+    </style>
+    <link href="css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></sc\
+ript>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".na\
+v-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="index.html">ESLint</a>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              <li class="active"><a href="index.html">Home</a></li>
+              <li class="active"><a href="About.html">About</a></li>
+              <li class="active"><a href="Architecture.html">Architecture</a></li>
+              <li class="active"><a href="Rules.html">Rules</a></li>
+              <li class="active"><a href="Command-line-interface.html">Command line interface</a></li>
+              <li class="active"><a href="Developer-Guide.html">Developer-Guide</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+<div class="row-fluid">
+  <div class="span9">
+    <h1>Quote props</h1>
+
+<p>Similar to how quoting attribute values in HTML is a good idea, quoting property names in JavaScript is good practice.</p>
+
+<p>Ensuring property names in object literals are always wrapped in quotes is generally a good idea, since <a href="http://mathiasbynens.be/notes/javascript-properties">depending on the property name you may need to quote them anyway</a>. Consider this example:</p>
+
+<pre><code>
+```js
+var object = {
+foo: "bar",
+baz: 42,
+"qux-lorem": true
+};
+```
+</code></pre>
+
+<p>Here, the properties <code>foo</code> and <code>baz</code> are not wrapped in quotes, but <code>qux-lorem</code> is, because it doesn’t work without the quotes. This is rather inconsistent. Instead, you may prefer to quote property names consistently:</p>
+
+<pre><code>
+```js
+var object = {
+"foo": "bar",
+"baz": 42,
+"qux-lorem": true
+};
+```
+</code></pre>
+
+<p>…or, if you prefer single quotes:</p>
+
+<pre><code>
+```js
+var object = {
+'foo': 'bar',
+'baz': 42,
+'qux-lorem': true
+};
+```
+</code></pre>
+
+<p>Much better, no? If that didn’t convince you, here’s another example:</p>
+
+<pre><code>
+```js
+var object = {
+1e2: 1,
+100: 2
+};
+```
+</code></pre>
+
+<p>This may look alright on first sight, but this code in fact throws a syntax error in strict mode. This happens because <code>1e2</code> and <code>100</code> are coerced into strings before getting used as the property name. Both <code>String(1e2)</code> and <code>String(100)</code> happen to be equal to <code>"100"</code>, which causes the “Duplicate data property in object literal not allowed in strict mode” error. Issues like that can be tricky to debug. Yet, they can easily be avoided, by simply always quoting property names in object literals.</p>
+
+<h2>Rule Details</h2>
+
+<p>This rule helps you enforce consistent quoting of property names.</p>
+
+<p>The following patterns are considered warnings:</p>
+
+<pre><code>
+```js
+var object = {
+foo: "bar",
+baz: 42,
+"qux-lorem": true
+};
+```
+</code></pre>
+
+<p>The following patterns are considered okay and do not cause warnings:</p>
+
+<pre><code>
+```js
+var object = {
+"foo": "bar",
+"baz": 42,
+"qux-lorem": true
+};
+```
+</code></pre>
+
+<pre><code>
+```js
+var object = {
+'foo': 'bar',
+'baz': 42,
+'qux-lorem': true
+};
+```
+</code></pre>
+
+<h2>When Not To Use It</h2>
+
+<p>If you don’t care if property names are consistently wrapped in quotes or not, turn this rule off.</p>
+
+  </div>
+  <div class="span3 sidebar">
+    <a href="https://github.com/nzakas/eslint" class="button github"><small>View project on</small>GitHub</a>
+<a href="https://github.com/nzakas/eslint/zipball/master" class="button download"><small>Download</small> .zip file</a>
+<a href="https://github.com/nzakas/eslint/tarball/master" class="button download"><small>Download</small> .tar.gz file</a>
+  </div>
+</div>
+
+
+    </div>
+
+  </body>
+</html>

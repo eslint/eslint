@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>ESLint</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A tool for identifying and reporting on patterns in JavaScript.">
+
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <style>
+      body {
+        padding-top: 60px;
+      }
+    </style>
+    <link href="css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></sc\
+ript>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".na\
+v-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="index.html">ESLint</a>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              <li class="active"><a href="index.html">Home</a></li>
+              <li class="active"><a href="About.html">About</a></li>
+              <li class="active"><a href="Architecture.html">Architecture</a></li>
+              <li class="active"><a href="Rules.html">Rules</a></li>
+              <li class="active"><a href="Command-line-interface.html">Command line interface</a></li>
+              <li class="active"><a href="Developer-Guide.html">Developer-Guide</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+<div class="row-fluid">
+  <div class="span9">
+    <h1>Command line Interface</h1>
+
+<p>To run ESLint on Node.js, you must have npm installed. If npm is not installed, follow the instructions here: http://npmjs.org/</p>
+
+<p>Once npm is installed, run the following</p>
+
+<pre><code>npm install -g eslint
+</code></pre>
+
+<p>This installs the ESLint CLI from the npm repository. To run ESLint, use the following format:</p>
+
+<pre><code>eslint [options] [file|dir]*
+</code></pre>
+
+<p>Such as:</p>
+
+<pre><code>eslint file1.js file2.js
+</code></pre>
+
+<h2>Options</h2>
+
+<p>The command line utility has several options. You can view the options by running <code>eslint -h</code>.</p>
+
+<p>```
+eslint [options] file.js [file.js] [dir]</p>
+
+<p>Options:
+  -h, --help    Show help.
+  -c, --config  Load configuration data from this file.
+  --rulesdir    Load additional rules from this directory.
+  -f, --format  Use a specific output format.               [default: "compact"]
+```</p>
+
+<h3>-h, --help</h3>
+
+<p>This option outputs the help menu, displaying all of the available options. All other flags are ignored when this is present.</p>
+
+<h3>-c, --config</h3>
+
+<p>This option allows you to specify an alternate configuration file for ESLint (see below for more on configuration files). By default, it uses <code>conf/eslint.json</code>.</p>
+
+<p>Example:</p>
+
+<pre><code>eslint -c ~/my-eslint.json file.js
+</code></pre>
+
+<p>This example uses the configuration file at <code>~/my-eslint.json</code> instead of the default.</p>
+
+<h3>-f, --format</h3>
+
+<p>This options specifies the output format for the console. At the moment, there is only <code>compact</code>, but more will be added soon.</p>
+
+<p>Example:</p>
+
+<pre><code>eslint -f compact file.js
+</code></pre>
+
+<p>When specified, the given format is output to the console. If you'd like to save that output into a file, you can do so on the command line like so:</p>
+
+<pre><code>eslint -f compact file.js &gt; results.txt
+</code></pre>
+
+<p>This saves the output into the <code>results.txt</code> file.</p>
+
+<h3>--rulesdir</h3>
+
+<p>This option allows you to specify a second directory from which to load rules files. This allows you to dynamically loading new rules at run time. This is useful when you have custom rules that aren't suitable for being bundled with ESLint.</p>
+
+<p>Example:</p>
+
+<pre><code>eslint --rulesdir my-rules/ file.js
+</code></pre>
+
+<p>The rules in your custom rules directory must following the same format as bundled rules to work properly.</p>
+
+<h2>Configuration Files</h2>
+
+<p>You can turn specific rules on or off by creating your own configuration file. The configuration file is written in JSON and has a few top-level properties:</p>
+
+<ul>
+<li><code>rules</code> - this is an object where the keys are the rule IDs and the values are:
+
+<ul>
+<li>0 - turn the rule off</li>
+<li>1 - turn the rule on as a warning (doesn't affect exit code)</li>
+<li>2 - turn the rule on as a warning (exit code is 1)</li>
+</ul>
+</li>
+<li><code>env</code> - specify environmental information, such as:
+
+<ul>
+<li><code>nodejs</code> - set to true to indicate that the code being inspected is intended for use with NodeJS. ESLint will automatically add the appropriate references.</li>
+</ul>
+</li>
+</ul>
+
+
+<p>(More options to be added soon.)</p>
+
+  </div>
+  <div class="span3 sidebar">
+    <a href="https://github.com/nzakas/eslint" class="button github"><small>View project on</small>GitHub</a>
+<a href="https://github.com/nzakas/eslint/zipball/master" class="button download"><small>Download</small> .zip file</a>
+<a href="https://github.com/nzakas/eslint/tarball/master" class="button download"><small>Download</small> .tar.gz file</a>
+  </div>
+</div>
+
+
+    </div>
+
+  </body>
+</html>

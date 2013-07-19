@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>ESLint</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A tool for identifying and reporting on patterns in JavaScript.">
+
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <style>
+      body {
+        padding-top: 60px;
+      }
+    </style>
+    <link href="css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></sc\
+ript>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".na\
+v-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="index.html">ESLint</a>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              <li class="active"><a href="index.html">Home</a></li>
+              <li class="active"><a href="About.html">About</a></li>
+              <li class="active"><a href="Architecture.html">Architecture</a></li>
+              <li class="active"><a href="Rules.html">Rules</a></li>
+              <li class="active"><a href="Command-line-interface.html">Command line interface</a></li>
+              <li class="active"><a href="Developer-Guide.html">Developer-Guide</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+<div class="row-fluid">
+  <div class="span9">
+    <h1>Contributing</h1>
+
+<p>One of the great things about open source projects is that anyone can contribute code. To help you in that process, there are several things that you should keep in mind.</p>
+
+<h2>Use Pull Requests</h2>
+
+<p>If you want to submit code, please use a GitHub pull request. This is the fastest way for us to evaluate your code and to merge it into the code base. Please don't file an issue with snippets of code. Doing so means that we need to manually merge the changes in and update any appropriate tests. That decreases the likelihood that your code is going to get included in a timely manner. Please use pull requests.</p>
+
+<h2>Checklist</h2>
+
+<p>We want to accept your contribution. Following these guidelines helps to create a patch that we want to accept:</p>
+
+<ul>
+<li>Make sure there is an issue for any pull request you send.
+
+<ul>
+<li>If an issue doesn't exist, create one <em>before</em> you submit the pull request.</li>
+<li>Issues should have full descriptions explaining the bug, enhancement, or request.</li>
+</ul>
+</li>
+<li>The commit message should say "(fixes #1234)" at the of the description if it closes out an existing issue (replace 1234 with the issue number).</li>
+<li>The change should introduce no functional regression. Be sure to run <code>npm test</code> to verify your changes before submitting a pull request.</li>
+<li>Make separate pull requests for unrelated changes. Large pull requests with multiple unrelated changes may be closed without merging.</li>
+<li>A new feature must be accompanied by tests, this includes rules.</li>
+<li>All changes must work on the following Node.JS versions:
+
+<ul>
+<li>0.6.x</li>
+<li>0.8.x</li>
+<li>0.10.x</li>
+</ul>
+</li>
+<li>Follow the <a href="Code-Conventions.html">Code Conventions</a>.</li>
+</ul>
+
+
+<h2>New Rules</h2>
+
+<p>Once you've written a rule, you can decide whether the rule is generic enough to be included in ESLint or if it's specific to your own use case. If you decide to submit your rule via a pull request, there are some things to keep in mind:</p>
+
+<ol>
+<li>Rules must be accompanied by unit tests.</li>
+<li>In your pull request include:
+
+<ol>
+<li>The use case for the rule - what is it trying to prevent or flag?</li>
+<li>Why you believe this rule is generic enough to be included in the main distribution</li>
+<li>Whether the rule should be on or off by default.</li>
+<li>Documentation for the rule (see <a href="no-console.html">no-console</a> as an example). Put this documentation directly into the pull request.</li>
+</ol>
+</li>
+</ol>
+
+
+<p>Keep in mind that not all rules will be accepted for the main distribution. You may also request that your rule by on by default but we may accept it as off by default.</p>
+
+<h2>Following Up</h2>
+
+<p>All pull requests are sent through Travis CI to verify that no tests are broken. If the Travis build fails, it will show up on the pull request. We cannot accept any code that fails in Travis, so if this happens, make fixes and update the pull request to trigger another build.</p>
+
+  </div>
+  <div class="span3 sidebar">
+    <a href="https://github.com/nzakas/eslint" class="button github"><small>View project on</small>GitHub</a>
+<a href="https://github.com/nzakas/eslint/zipball/master" class="button download"><small>Download</small> .zip file</a>
+<a href="https://github.com/nzakas/eslint/tarball/master" class="button download"><small>Download</small> .tar.gz file</a>
+  </div>
+</div>
+
+
+    </div>
+
+  </body>
+</html>

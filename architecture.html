@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>ESLint</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A tool for identifying and reporting on patterns in JavaScript.">
+
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <style>
+      body {
+        padding-top: 60px;
+      }
+    </style>
+    <link href="css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></sc\
+ript>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".na\
+v-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="index.html">ESLint</a>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              <li class="active"><a href="index.html">Home</a></li>
+              <li class="active"><a href="About.html">About</a></li>
+              <li class="active"><a href="Architecture.html">Architecture</a></li>
+              <li class="active"><a href="Rules.html">Rules</a></li>
+              <li class="active"><a href="Command-line-interface.html">Command line interface</a></li>
+              <li class="active"><a href="Developer-Guide.html">Developer-Guide</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+<div class="row-fluid">
+  <div class="span9">
+    <h1>Architecture</h1>
+
+<p>At a high level, there are a few key parts to ESLint:</p>
+
+<ul>
+<li><code>bin/eslint.js</code> - this is the file that actually gets executed with the command line utility. It's a dumb wrapper that does nothing more than bootstrap ESLint, passing the command line arguments to <code>cli</code>. This is intentionally small so as not to require heavy testing.</li>
+<li><code>lib/cli.js</code> - this is the heart of the ESLint CLI. It takes an array of arguments and then uses <code>eslint</code> to execute the commands. By keeping this as a separate utility, it allows others to effectively call ESLint from within another Node.js program as if it were done on the command line. The main call is <code>cli.execute()</code>. This is also the part that does all the file reading, directory traversing, input, and output.</li>
+<li><code>lib/eslint.js</code> - this is the core <code>eslint</code> object that does code verifying based on configuration options. This file does not file I/O and does not interact with the <code>console</code> at all. For other Node.js programs that have JavaScript text to verify, they would be able to use this interface directly.</li>
+</ul>
+
+
+<h2>The cli Object</h2>
+
+<p>TODO</p>
+
+<h2>The eslint Object</h2>
+
+<p>The main method of the <code>eslint</code> object is <code>verify()</code> and accepts two arguments: the source text to verify and a configuration object (the baked configuration of the given configuration file plus command line options). The method first parses the given text with Esprima and retrieves the AST. The AST is produced with both line/column and range locations which are useful for reporting location of issues and retrieving the source text related to an AST node, respectively.</p>
+
+<p>Once the AST is available, <code>estraverse</code> is used to traverse the AST from top to bottom. At each node, the <code>eslint</code> object emits an event that has the same name as the node type (i.e., "Identifier", "WithStatement", etc.). On the way back up the subtree, an event is emitted with the AST type name and suffixed with ":after", such as "Identifier:after" - this allows rules to take action both on the way down and on the way up in the traversal. Each event is emitted with the appropriate AST node available.</p>
+
+  </div>
+  <div class="span3 sidebar">
+    <a href="https://github.com/nzakas/eslint" class="button github"><small>View project on</small>GitHub</a>
+<a href="https://github.com/nzakas/eslint/zipball/master" class="button download"><small>Download</small> .zip file</a>
+<a href="https://github.com/nzakas/eslint/tarball/master" class="button download"><small>Download</small> .tar.gz file</a>
+  </div>
+</div>
+
+
+    </div>
+
+  </body>
+</html>

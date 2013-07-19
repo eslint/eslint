@@ -1,0 +1,29 @@
+a.button {
+display: block;
+line-height: 1.2;
+margin-bottom: 20px;
+font-family: 'Helvetica Neue', Helvetica, Arial, serif;
+}
+
+.sidebar a.button.download {
+  width: 138px;
+  height: 58px;
+  color: #fff;
+  font-size: 18px;
+  padding-left: 64px;
+  padding-top: 22px;
+  background: transparent url(../img/download-button.png) 0 0 no-repeat;
+}
+
+.sidebar  a.button.github {
+  width: 202px;
+  height:80px;
+  color: #2a72c9;
+  font-size: 23px;
+  padding-left: 64px;
+  padding-top: 16px;
+  background: transparent url(../img/github-button-blue.png) 0 0 no-repeat;
+}
+.sidebar a:hover {
+	text-decoration: none;
+}
