@@ -256,6 +256,37 @@ vows.describe("eslint").addBatch({
         }
     },
 
+    "when passing in configuration values for rules": {
+
+        topic: "var answer = 6 * 7",
+
+        "should be configurable by only setting the boolean value": function(topic) {
+            var rule = "semi",
+                config = { rules: {} };
+
+            config.rules[rule] = 1;
+            eslint.reset();
+
+            var messages = eslint.verify(topic, config, true);
+
+            assert.equal(messages.length, 1);
+            assert.equal(messages[0].ruleId, rule);
+        },
+
+        "should be configurable by passing in values as an array": function(topic) {
+            var rule = "semi",
+                config = { rules: {} };
+
+            config.rules[rule] = [1];
+            eslint.reset();
+
+            var messages = eslint.verify(topic, config, true);
+
+            assert.equal(messages.length, 1);
+            assert.equal(messages[0].ruleId, rule);
+        }
+    },
+
     "after calling reset()": {
 
         topic: TEST_CODE,
