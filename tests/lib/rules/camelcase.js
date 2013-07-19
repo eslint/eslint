@@ -72,28 +72,14 @@ vows.describe(RULE_ID).addBatch({
         }
     },
 
+    "when evaluating '__myPrivateVariable = \"Patrick\"'": {
 
-    "when evaluating 'dir = __dirname'": {
+        topic: "__myPrivateVariable = \"Patrick\"",
 
-        topic: "dir = __dirname",
+        "should not report a violation": function(topic) {
 
-        "should report a violation when not in Node.JS mode": function(topic) {
             var config = { rules: {} };
             config.rules[RULE_ID] = 1;
-
-            var messages = eslint.verify(topic, config);
-
-            assert.equal(messages.length, 1);
-            assert.equal(messages[0].ruleId, RULE_ID);
-            assert.equal(messages[0].message, "Non-camelcased identifier '__dirname' found.");
-            assert.include(messages[0].node.type, "Identifier");
-            assert.include(messages[0].node.name, "__dirname");
-        },
-
-        "should not report a violation when in Node.JS mode": function(topic) {
-            var config = { rules: {}, env: {} };
-            config.rules[RULE_ID] = 1;
-            config.env.nodejs = true;
 
             var messages = eslint.verify(topic, config);
 
@@ -101,11 +87,12 @@ vows.describe(RULE_ID).addBatch({
         }
     },
 
-    "when evaluating 'dir = __filename'": {
+    "when evaluating '__private_first_name = \"Patrick\"'": {
 
-        topic: "dir = __filename",
+        topic: "__private_first_name = \"Patrick\"",
 
-        "should report a violation when not in Node.JS mode": function(topic) {
+        "should report a violation": function(topic) {
+
             var config = { rules: {} };
             config.rules[RULE_ID] = 1;
 
@@ -113,19 +100,9 @@ vows.describe(RULE_ID).addBatch({
 
             assert.equal(messages.length, 1);
             assert.equal(messages[0].ruleId, RULE_ID);
-            assert.equal(messages[0].message, "Non-camelcased identifier '__filename' found.");
+            assert.equal(messages[0].message, "Non-camelcased identifier '__private_first_name' found.");
             assert.include(messages[0].node.type, "Identifier");
-            assert.include(messages[0].node.name, "__filename");
-        },
-
-        "should not report a violation when in Node.JS mode": function(topic) {
-            var config = { rules: {}, env: {} };
-            config.rules[RULE_ID] = 1;
-            config.env.nodejs = true;
-
-            var messages = eslint.verify(topic, config);
-
-            assert.equal(messages.length, 0);
+            assert.include(messages[0].node.name, "__private_first_name");
         }
     }
 
