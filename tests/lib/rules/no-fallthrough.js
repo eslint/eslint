@@ -103,6 +103,20 @@ vows.describe(RULE_ID).addBatch({
         }
     },
 
+    "when evaluating `switch(foo) { case 'bar': case 'foo': break; }`": {
+
+        topic: "switch(foo) { case 'bar': case 'foo': break; }",
+
+        "should not report a violation": function(topic) {
+
+            var config = { rules: {} };
+            config.rules[RULE_ID] = 1;
+
+            var messages = eslint.verify(topic, config);
+
+            assert.equal(messages.length, 0);
+        }
+    },
     "when evaluating `switch(foo) { }`": {
 
         topic: "switch(foo) { }",
