@@ -1,5 +1,5 @@
 /**
- * @fileoverview Tests for no-floating-decimal rule.
+ * @fileoverview Tests for no-implied-eval rule.
  * @author James Allardice
  */
 
