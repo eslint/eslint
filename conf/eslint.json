@@ -17,6 +17,7 @@
         "no-octal": 1,
         "no-new-wrappers": 1,
         "no-new": 1,
+        "no-new-func": 1,
 
         "smarter-eqeqeq": 0,
         "brace-style": 0,
