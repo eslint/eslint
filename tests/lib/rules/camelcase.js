@@ -87,6 +87,21 @@ vows.describe(RULE_ID).addBatch({
         }
     },
 
+    "when evaluating 'myPrivateVariable_ = \"Patrick\"'": {
+
+        topic: "myPrivateVariable_ = \"Patrick\"",
+
+        "should not report a violation": function(topic) {
+
+            var config = { rules: {} };
+            config.rules[RULE_ID] = 1;
+
+            var messages = eslint.verify(topic, config);
+
+            assert.equal(messages.length, 0);
+        }
+    },
+
     "when evaluating '__private_first_name = \"Patrick\"'": {
 
         topic: "__private_first_name = \"Patrick\"",
