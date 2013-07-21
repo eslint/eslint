@@ -45,12 +45,12 @@ function violation(message) {
 vows.describe(RULE_ID).addBatch({
     "when evaluating a computed MemberExpression": {
         topic: "a['b'];",
-        "should report a violation": violation('b')
+        "should report a violation": violation("b")
     },
 
     "when evaluating a chained computed and uncomputed MemberExpression": {
         topic: "a.b['c'];",
-        "should report a violation": violation('c')
+        "should report a violation": violation("c")
     },
 
     "when evaluating an uncomputed MemberExpression": {
