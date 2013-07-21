@@ -24,6 +24,7 @@
         "brace-style": 0,
         "camelcase": 1,
         "curly": 1,
+        "dot-notation": 1,
         "eqeqeq": 1,
         "new-parens": 1,
         "guard-for-in": 0,
