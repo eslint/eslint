@@ -9,7 +9,7 @@
     "main": "./lib/api.js",
     "scripts": {
         "changelog": "bash ./scripts/changelog-update.sh",
-        "test": "npm run-script lint && node ./node_modules/istanbul/lib/cli.js cover --print both ./node_modules/vows/bin/vows -- --spec ./tests/*/*.js ./tests/*/*/*.js",
+        "test": "npm run-script lint && node ./node_modules/istanbul/lib/cli.js cover --print both ./node_modules/vows/bin/vows -- --spec ./tests/*/*.js ./tests/lib/*/*.js",
         "lint": "node node_modules/jshint/bin/jshint ./conf/eslint.json ./lib"
     },
     "repository": {
@@ -26,7 +26,8 @@
         "vows": "~0.7.0",
         "istanbul": "~0.1.10",
         "sinon": "*",
-        "jshint": "~2.1.4"
+        "jshint": "~2.1.4",
+        "source-map": "~0.1.26"
     },
     "keywords": [
         "ast",

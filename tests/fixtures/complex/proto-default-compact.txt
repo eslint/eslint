@@ -1,0 +1,4 @@
+tests/fixtures/complex/proto.js: line 7, col 8, Warning - Unexpected console statement.
+tests/fixtures/complex/proto.js: line 13, col 4, Warning - Unexpected use of ==, use === instead.
+
+2 problems
