@@ -39,6 +39,8 @@ var captureLog = function() {
     return getLog;
 };
 
+var pathSeperator = path.sep ? path.sep : (process.platform == 'win32' ? '\\' : '/');
+
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
@@ -142,7 +144,7 @@ vows.describe("cli").addBatch({
             var buffer = getLog();
 
             var expected = fs.readFileSync(fixtures + "/complex/proto-default-path.txt", "utf8");
-            expected = expected.replace(/\$_PATH_\$/g, path.resolve('./tests/fixtures/complex') + path.sep);
+            expected = expected.replace(/\$_PATH_\$/g, path.resolve('./tests/fixtures/complex') + pathSeperator);
             assert.strictEqual(exitCode, 0);
             assert.strictEqual(buffer, expected);
         }
@@ -159,7 +161,7 @@ vows.describe("cli").addBatch({
             var buffer = getLog();
 
             var expected = fs.readFileSync(fixtures + "/source-map-simple/main-path.txt", "utf8");
-            expected = expected.replace(/\$_PATH_\$/g, path.resolve('./tests/fixtures/source-map-simple') + path.sep);
+            expected = expected.replace(/\$_PATH_\$/g, path.resolve('./tests/fixtures/source-map-simple') + pathSeperator);
             assert.strictEqual(exitCode, 0);
             assert.strictEqual(buffer, expected);
         }
