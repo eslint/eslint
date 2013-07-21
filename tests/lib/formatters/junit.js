@@ -133,4 +133,61 @@ vows.describe("formatter:junit").addBatch({
 
         }
     },
+
+    "when passed multiple files with 1 message each": {
+        topic: [{
+            filePath: "foo.js",
+            messages: [{
+                message: "Unexpected foo.",
+                line: 5,
+                column: 10,
+                ruleId: "foo"
+            }]
+        }, {
+            filePath: "bar.js",
+            messages: [{
+                message: "Unexpected bar.",
+                line: 6,
+                column: 11,
+                ruleId: "bar"
+            }]
+        }],
+
+        "should return 2 <testsuite>'s": function(topic) {
+            var config = {
+                rules: { foo: 1, bar: 2 }
+            };
+
+            var result = formatter(topic, config);
+            assert.equal('<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite package="org.eslint" time="0" tests="1" errors="1" name="foo.js"><testcase time="0" name="org.eslint.foo"><failure message="Unexpected foo."><![CDATA[line 5, col 10, Warning - Unexpected foo.]]></failure></testcase></testsuite><testsuite package="org.eslint" time="0" tests="1" errors="1" name="bar.js"><testcase time="0" name="org.eslint.bar"><failure message="Unexpected bar."><![CDATA[line 6, col 11, Error - Unexpected bar.]]></failure></testcase></testsuite></testsuites>', result.replace(/\n/g, ""));
+
+        }
+    },
+
+    "when passed multiple files with total 1 failure": {
+        topic: [{
+            filePath: "foo.js",
+            messages: [{
+                message: "Unexpected foo.",
+                line: 5,
+                column: 10,
+                ruleId: "foo"
+            }]
+        }, {
+            filePath: "bar.js",
+            messages: []
+        }],
+
+        "should return 1 <testsuite>'": function(topic) {
+            var config = {
+                rules: { foo: 1, bar: 2 }
+            };
+
+            var result = formatter(topic, config);
+            assert.equal('<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite package="org.eslint" time="0" tests="1" errors="1" name="foo.js"><testcase time="0" name="org.eslint.foo"><failure message="Unexpected foo."><![CDATA[line 5, col 10, Warning - Unexpected foo.]]></failure></testcase></testsuite></testsuites>', result.replace(/\n/g, ""));
+
+        }
+    }
+
+
 }).export(module);
