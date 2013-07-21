@@ -40,9 +40,13 @@ module.exports = function(context) {
 
 Each method that matches a node in the AST will be passed the corresponding node. You can then evaluate the node and it's surrounding tree to determine whether or not an issue needs reporting.
 
-The main method you'll use is `context.report()`, which publishes a warning or error (depending on the configuration being used). This method accepts two arguments: the AST node that caused the report and a message to display. For example:
+The main method you'll use is `context.report()`, which publishes a warning or error (depending on the configuration being used). This method accepts three arguments: the AST node that caused the report, a message to display, and an optional object literal which is used to interpolate. For example:
 
     context.report(node, "This is unexpected!");
+
+or
+
+    context.report(node, "`{{identifier}}` is unexpected!", { identifier: node.name });
 
 The node contains all of the information necessary to figure out the line and column number of the offending text as well the source text representing the node.
 
