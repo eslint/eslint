@@ -61,9 +61,8 @@ vows.describe(RULE_ID).addBatch({
     },
 
     /*
-     * JSHint does not issue any warnings for this. JSLint issues 2 warnings.
-     * If you wrap the entire expression in parens, JSHint still issues no
-     * warnings, and JSLint issues 1.
+     * JSHint and JSLint both issue 2 warnings. If you wrap the entire
+     * expression in parens, both issue 1 warning.
      *
      * ESLint issues 2 warnings (one for each IIFE) regardless of the wrapping
      * of the whole expression in parens.
