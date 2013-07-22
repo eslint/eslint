@@ -34,6 +34,33 @@ vows.describe("cli").addBatch({
             console.log = _log;
         }
 
+    },
+
+    "when calling execute more than once": {
+
+        topic: ["tests/fixtures/missing-semicolon.js", "tests/fixtures/passing.js"],
+
+        "should not print the results from previous execution": function(topic) {
+            var results = '',
+                _log = console.log;
+
+            // Collect the CLI output.
+            console.log = function(msg) {
+                results += msg;
+            };
+
+            cli.execute([topic[0]]);
+            assert.notEqual(results, "\n0 problems");
+
+            // Reset results collected between executions.
+            results = '';
+
+            cli.execute([topic[1]]);
+            assert.equal(results, "\n0 problems");
+
+            console.log = _log;
+        }
+
     }
 
 }).export(module);
