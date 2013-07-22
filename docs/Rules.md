@@ -28,6 +28,7 @@ These are rules designed to prevent you from making mistakes. They either prescr
 * [no-octal] - disallow use of octal literals
 * [no-new] - disallow use of new operator when not part of the assignment or comparison
 * [no-new-func] - disallow use of new operator for `Function` object
+* [no-redefine] - disallow redefining native objects
 
 ## Stylistic Issues
 
