@@ -22,7 +22,7 @@ var RULE_ID = "no-new-func";
 //------------------------------------------------------------------------------
 
 vows.describe(RULE_ID).addBatch({
-    "when evaluating a string": {
+    "when evaluating new Function": {
         topic: "var a = new Function(\"b\", \"c\", \"return b+c\");",
 
         "should report a violation": function(topic) {
@@ -37,5 +37,21 @@ vows.describe(RULE_ID).addBatch({
             assert.equal(messages[0].message, "The Function constructor is eval");
             assert.include(messages[0].node.type, "NewExpression");
         }
+    },
+
+    "when evaluating new _function": {
+
+        topic: "var a = new _function(\"b\", \"c\", \"return b+c\");",
+
+        "should not report a violation": function(topic) {
+
+            var config = { rules: {} };
+            config.rules[RULE_ID] = 1;
+
+            var messages = eslint.verify(topic, config);
+
+            assert.equal(messages.length, 0);
+        }
     }
+
 }).export(module);
