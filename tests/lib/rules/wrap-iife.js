@@ -1,5 +1,5 @@
 /**
- * @fileoverview Tests for no-floating-decimal rule.
+ * @fileoverview Tests for wrap-iife rule.
  * @author James Allardice
  */
 
