@@ -28,6 +28,7 @@
         "eqeqeq": 1,
         "new-parens": 1,
         "guard-for-in": 0,
+        "radix": 0,
         "new-cap": 1,
         "quote-props": 0,
         "semi": 1,
