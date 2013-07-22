@@ -11,22 +11,6 @@ Each indentation level is made up of four spaces. Do not use tabs.
         doSomething();
     }
 
-## Line Length
-
-Each line should be no longer than 80 characters. If a line goes longer than 80 characters, it should be wrapped after an operator (comma, plus, etc.). The following line should be indented two levels (eight characters).
-
-    // Good
-    doSomething(argument1, argument2, argument3, argument4,
-            argument5);
-
-    // Bad: Following line only indented four spaces
-    doSomething(argument1, argument2, argument3, argument4,
-        argument5);
-
-    // Bad: Breaking before operator
-    doSomething(argument1, argument2, argument3, argument4
-            , argument5);
-
 ## Primitive Literals
 
 Strings should always use double quotes (never single quotes) and should always appear on a single line. Never use a slash to create a new line in a string.
