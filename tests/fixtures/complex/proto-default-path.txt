@@ -1,7 +1,0 @@
->> tests/fixtures/complex/proto.js
-WARNING at $_PATH_$proto.js[7,8]
-[no-console] Unexpected console statement.
-WARNING at $_PATH_$proto.js[13,4]
-[eqeqeq] Unexpected use of ==, use === instead.
-
-2 problems

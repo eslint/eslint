@@ -1,7 +1,0 @@
-{
-    "rules": {
-        "no-console": 1,
-        "no-eval": 1,
-        "eqeqeq": 1
-    }
-}

@@ -1,4 +1,4 @@
->> tests/fixtures/source-map-simple/main.js
+>> tests/fixtures/source-map-typescript/main.js
 WARNING at $_PATH_$App.ts[7,8]
 [no-console] Unexpected console statement.
 WARNING at $_PATH_$main.ts[5,4]

@@ -15,10 +15,6 @@ var vows = require("vows"),
     path = require("path"),
     formatter = require("../../../lib/formatters/path");
 
-var debugWhiteSpace = function(str) {
-    return str.replace(/\r/g, "\\r").replace(/\n/g, "\\n").replace(/\t/g, "\\t").replace(/ /g, "\\s");
-};
-
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
@@ -113,7 +109,7 @@ vows.describe("formatter:path").addBatch({
             var expected = ">> " + foo + "\nERROR at " + path.resolve(foo) + "[5,10]\n[foo] Unexpected foo."
             expected += "\n\n>> " + bar + "\nWARNING at " + path.resolve(bar) + "[6,11]\n[bar] Unexpected bar.\n\n2 problems"
 
-            assert.equal(debugWhiteSpace(expected), debugWhiteSpace(result));
+            assert.equal(expected, result);
             assert.equal(expected.length, result.length);
         }
 

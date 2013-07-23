@@ -1,0 +1,3 @@
+$_PATH_$main.coffee: line 1, col 7, Warning - Unexpected console statement.
+
+1 problem

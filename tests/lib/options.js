@@ -145,6 +145,28 @@ vows.describe("options").addBatch({
             assert.isTrue(currentOptions.v);
         }
 
+    },
+
+    "when passed -m": {
+
+        topic: [ "-m" ],
+
+        "should return true for .m": function(topic) {
+            var currentOptions = options.parse(topic);
+            assert.isTrue(currentOptions.m);
+        }
+
+    },
+
+    "when passed --map": {
+
+        topic: [ "--map" ],
+
+        "should return true for .v": function(topic) {
+            var currentOptions = options.parse(topic);
+            assert.isTrue(currentOptions.map);
+        }
+
     }
 
 

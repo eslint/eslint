@@ -1,0 +1,5 @@
+>> tests/fixtures/source-map-coffee/main-fileurl.js
+WARNING at $_PATH_$main.coffee[1,7]
+[no-console] Unexpected console statement.
+
+1 problem
