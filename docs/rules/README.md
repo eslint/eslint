@@ -32,6 +32,7 @@ These are rules designed to prevent you from making mistakes. They either prescr
 * [no-native-reassign] - disallow reassignments of native objects
 * [no-delete-var](no-delete-var.md) - disallow deletion of variables
 * [no-return-assign] - disallow use of assignment in return statement
+* [no-label-var](no-label-var.md) - disallow labels that share a name with a variable
 
 ## Stylistic Issues
 
