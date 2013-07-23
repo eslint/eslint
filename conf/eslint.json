@@ -36,7 +36,8 @@
         "quote-props": 0,
         "semi": 1,
         "use-isnan": 1,
-        "quotes": [1, "double"]
+        "quotes": [1, "double"],
+        "too-many-params": [1, 3]
 
     }
 }
