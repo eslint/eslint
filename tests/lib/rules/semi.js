@@ -153,7 +153,36 @@ vows.describe(RULE_ID).addBatch({
 
             assert.equal(messages.length, 0);
         }
-    }
+    },
 
+    "when evaluation 'setTimeout(function() {foo = \"bar\"; });'": {
+
+        topic: "setTimeout(function() {foo = \"bar\"; });",
+
+        "should not report and violation": function(topic) {
+            var config = { rules: {} };
+            config.rules[RULE_ID] = 1;
+
+            var messages = eslint.verify(topic, config);
+
+            assert.equal(messages.length, 0);
+        }
+
+    },
+
+    "when evaluation 'setTimeout(function() {foo = \"bar\";});'": {
+
+        topic: "setTimeout(function() {foo = \"bar\";});",
+
+        "should not report and violation": function(topic) {
+            var config = { rules: {} };
+            config.rules[RULE_ID] = 1;
+
+            var messages = eslint.verify(topic, config);
+
+            assert.equal(messages.length, 0);
+        }
+
+    }
 
 }).export(module);
