@@ -4,6 +4,7 @@ Reports an error when they encounter an attempt to assign a value to built-in na
 
 ```js
 String = "hello world";
+var String;
 ```
 
 ## Rule Details
@@ -36,16 +37,20 @@ The following objects are considered a native objects:
 * `SyntaxError`
 * `TypeError`
 * `URIError`
-* `hasOwnProperty`
 * `Map`
 * `NaN`
 * `Set`
 * `WeakMap`
+* `Infinity`
+* `undefined`
 
 The following patterns are considered warnings:
 
 ```js
 String = new Object();
+```
+```js
+var String;
 ```
 
 ## When Not To Use It
