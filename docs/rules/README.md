@@ -10,6 +10,7 @@ The following rules point out areas where you might have made mistakes.
 * [no-dangle](no-dangle.md) - disallow trailing commas in object literals
 * [no-debugger](no-debugger.md) - disallow use of `debugger`
 * [no-empty](no-empty.md) - disallow empty statements
+* [no-obj-calls](no-obj-calls.md) - disallow the use of object properties of the global object (`Math` and `JSON`) as functions
 * [no-unreachable](no-unreachable.md) - disallow unreachable statements after a return, throw, continue, or break statement
 * [use-isnan](use-isnan.md) - disallow comparisons with the value `NaN`
 
@@ -28,6 +29,7 @@ These are rules designed to prevent you from making mistakes. They either prescr
 * [no-octal] - disallow use of octal literals
 * [no-new] - disallow use of new operator when not part of the assignment or comparison
 * [no-new-func] - disallow use of new operator for `Function` object
+* [no-native-reassign] - disallow reassignments of native objects
 
 ## Stylistic Issues
 
