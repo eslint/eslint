@@ -27,7 +27,7 @@ var log = console.log;
 var captureLog = function() {
     var buffer = [];
     console.log = function(text) {
-        buffer.push(text.replace("\r", "") + "\n");
+        buffer.push(text.replace("\r\n", "") + "\n");
     };
     var getLog = function (){
         console.log = log;
@@ -40,6 +40,16 @@ var captureLog = function() {
 };
 
 var pathSeperator = path.sep ? path.sep : (process.platform === "win32" ? "\\" : "/");
+
+var runCliTest = function(commandString, expectedExitCode, expectedOutput){
+
+    var getLog = captureLog();
+    var exitCode = cli.execute(commandString);
+    var buffer = getLog();
+
+    assert.strictEqual(buffer, expectedOutput);
+    assert.strictEqual(exitCode, expectedExitCode);
+}
 
 //------------------------------------------------------------------------------
 // Tests
@@ -73,17 +83,12 @@ vows.describe("cli").addBatch({
         topic: [fixtures + "/missing-semicolon.js", fixtures + "/passing.js"],
 
         "should not print the results from previous execution": function(topic) {
-            var getLog = captureLog();
-            var exitCode = cli.execute([topic[0]]);
-            var buffer = getLog();
 
-            assert.notEqual(buffer, "\n0 problems\n");
+            var expected = "tests/fixtures/missing-semicolon.js: line 1, col 0, Warning - Missing semicolon.\n\n1 problem\n";
+            runCliTest([topic[0]], 0, expected);
 
-            getLog = captureLog();
-            exitCode = cli.execute([topic[1]]);
-            buffer = getLog();
-            assert.strictEqual(exitCode, 0);
-            assert.equal(buffer, "\n0 problems\n");
+            expected = "\n0 problems\n";
+            runCliTest([topic[1]], 0, expected);
         }
     },
     "when used with default settings on single valid file": {
@@ -91,13 +96,8 @@ vows.describe("cli").addBatch({
         topic: [ fixtures + "/basic/valid-a.js" ],
 
         "should return exitCode 0 and 0 problems": function(topic) {
-            var getLog = captureLog();
-            var exitCode = cli.execute(topic);
-            var buffer = getLog();
 
-            var expected = "\n0 problems\n";
-            assert.strictEqual(exitCode, 0);
-            assert.strictEqual(buffer, expected);
+            runCliTest(topic, 0, "\n0 problems\n");
         }
     },
 
@@ -106,13 +106,9 @@ vows.describe("cli").addBatch({
         topic: [ fixtures + "/basic/invalid-a.js" ],
 
         "should return exitCode 0 and some problems": function(topic) {
-            var getLog = captureLog();
-            var exitCode = cli.execute(topic);
-            var buffer = getLog();
 
             var expected = fs.readFileSync(fixtures + "/basic/invalid-a-compact.txt", "utf8");
-            assert.strictEqual(exitCode, 0);
-            assert.strictEqual(buffer, expected);
+            runCliTest(topic, 0, expected);
         }
     },
     "when used with default settings on mixed files": {
@@ -120,13 +116,9 @@ vows.describe("cli").addBatch({
         topic: [ fixtures + "/basic/valid-a.js", fixtures + "/basic/invalid-a.js", fixtures + "/basic/valid-b.js", fixtures + "/basic/invalid-b.js" ],
 
         "should return exitCode 0 with some problems": function(topic) {
-            var getLog = captureLog();
-            var exitCode = cli.execute(topic);
-            var buffer = getLog();
 
             var expected = fs.readFileSync(fixtures + "/basic/mixed-compact.txt", "utf8");
-            assert.strictEqual(exitCode, 0);
-            assert.strictEqual(buffer, expected);
+            runCliTest(topic, 0, expected);
         }
     },
 
@@ -137,14 +129,12 @@ vows.describe("cli").addBatch({
             topic: [ "-m", "-f", "path", "-c", fixtures + "/source-map-coffee/config.json", fixtures + "/source-map-coffee/main-fileurl.js" ],
 
             "should return exitCode 0, with some problems and report positions in source files": function(topic) {
-                var getLog = captureLog();
-                var exitCode = cli.execute(topic);
-                var buffer = getLog();
 
                 var expected = fs.readFileSync(fixtures + "/source-map-coffee/enabled-path-fileurl.txt", "utf8");
+                // apply local absolute path
                 expected = expected.replace(/\$_PATH_\$/g, path.resolve('./tests/fixtures/source-map-coffee') + pathSeperator);
-                assert.strictEqual(exitCode, 0);
-                assert.strictEqual(buffer, expected);
+
+                runCliTest(topic, 0, expected);
             }
         },
 
@@ -153,14 +143,12 @@ vows.describe("cli").addBatch({
             topic: [ "-m", "-f", "path", "-c", fixtures + "/source-map-coffee/config.json", fixtures + "/source-map-coffee/main-dataurl.js" ],
 
             "should return exitCode 0, with some problems and report positions in source files": function(topic) {
-                var getLog = captureLog();
-                var exitCode = cli.execute(topic);
-                var buffer = getLog();
 
                 var expected = fs.readFileSync(fixtures + "/source-map-coffee/enabled-path-dataurl.txt", "utf8");
-                expected = expected.replace(/\$_PATH_\$/g, path.resolve('./tests/fixtures/source-map-coffee') + pathSeperator);
-                assert.strictEqual(exitCode, 0);
-                assert.strictEqual(buffer, expected);
+                // apply local absolute path
+                expected = expected.replace(/\$_PATH_\$/g, "data:application/json;base64,");
+
+                runCliTest(topic, 0, expected);
             }
         },
 
@@ -169,16 +157,12 @@ vows.describe("cli").addBatch({
             topic: [ "-m", "-f", "compact", "-c", fixtures + "/source-map-relative/config.json", fixtures + "/source-map-relative/main.js" ],
 
             "should return exitCode 0, with some problems and report positions in source files": function(topic) {
-                var getLog = captureLog();
-                var exitCode = cli.execute(topic);
-                var buffer = getLog();
 
-                //sibling directory
                 var expected = fs.readFileSync(fixtures + "/source-map-relative/compact.txt", "utf8");
-                //expected = expected.replace(/\$_PATH_\$/g, path.join('test', 'fixtures', 'source-map-coffee') + pathSeperator);
+                // apply local absolute path to sibling directory
                 expected = expected.replace(/\$_PATH_\$/g, path.resolve('./tests/fixtures/source-map-coffee') + pathSeperator);
-                assert.strictEqual(exitCode, 0);
-                assert.strictEqual(buffer, expected);
+
+                runCliTest(topic, 0, expected);
             }
         },
 
@@ -187,15 +171,12 @@ vows.describe("cli").addBatch({
             topic: [ "-m", "-f", "path", "-c", fixtures + "/source-map-relative/config.json", fixtures + "/source-map-relative/main.js" ],
 
             "should return exitCode 0, with some problems and report positions in source files": function(topic) {
-                var getLog = captureLog();
-                var exitCode = cli.execute(topic);
-                var buffer = getLog();
 
-                //sibling directory
                 var expected = fs.readFileSync(fixtures + "/source-map-relative/path.txt", "utf8");
+                // apply local absolute path to sibling directory
                 expected = expected.replace(/\$_PATH_\$/g, path.resolve('./tests/fixtures/source-map-coffee') + pathSeperator);
-                assert.strictEqual(exitCode, 0);
-                assert.strictEqual(buffer, expected);
+
+                runCliTest(topic, 0, expected);
             }
         },
 
@@ -204,14 +185,12 @@ vows.describe("cli").addBatch({
             topic: [ "-m", "-f", "path", "-c", fixtures + "/source-map-typescript/config.json", fixtures + "/source-map-typescript/main.js" ],
 
             "should return exitCode 0, with some problems and report positions in source files": function(topic) {
-                var getLog = captureLog();
-                var exitCode = cli.execute(topic);
-                var buffer = getLog();
 
                 var expected = fs.readFileSync(fixtures + "/source-map-typescript/enabled-path.txt", "utf8");
+                // apply local absolute path
                 expected = expected.replace(/\$_PATH_\$/g, path.resolve('./tests/fixtures/source-map-typescript') + pathSeperator);
-                assert.strictEqual(exitCode, 0);
-                assert.strictEqual(buffer, expected);
+
+                runCliTest(topic, 0, expected);
             }
         }
     },
@@ -223,14 +202,12 @@ vows.describe("cli").addBatch({
             topic: [ "-f", "path", "-c", fixtures + "/source-map-coffee/config.json", fixtures + "/source-map-coffee/main-fileurl.js" ],
 
             "should return exitCode 0, with some problems and report positions in linted files": function(topic) {
-                var getLog = captureLog();
-                var exitCode = cli.execute(topic);
-                var buffer = getLog();
 
                 var expected = fs.readFileSync(fixtures + "/source-map-coffee/disabled-path-fileurl.txt", "utf8");
+                // apply local absolute path
                 expected = expected.replace(/\$_PATH_\$/g, path.resolve('./tests/fixtures/source-map-coffee') + pathSeperator);
-                assert.strictEqual(exitCode, 0);
-                assert.strictEqual(buffer, expected);
+
+                runCliTest(topic, 0, expected);
             }
         },
 
@@ -239,14 +216,11 @@ vows.describe("cli").addBatch({
             topic: [ "-f", "path", "-c", fixtures + "/source-map-typescript/config.json", fixtures + "/source-map-typescript/main.js" ],
 
             "should return exitCode 0, with some problems and report positions in linted files": function(topic) {
-                var getLog = captureLog();
-                var exitCode = cli.execute(topic);
-                var buffer = getLog();
 
                 var expected = fs.readFileSync(fixtures + "/source-map-typescript/disabled-path.txt", "utf8");
                 expected = expected.replace(/\$_PATH_\$/g, path.resolve('./tests/fixtures/source-map-typescript') + pathSeperator);
-                assert.strictEqual(exitCode, 0);
-                assert.strictEqual(buffer, expected);
+
+                runCliTest(topic, 0, expected);
             }
         }
     }

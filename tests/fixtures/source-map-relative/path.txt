@@ -1,5 +1,7 @@
 >> tests/fixtures/source-map-relative/main.js
-WARNING at $_PATH_$main.coffee[1,7]
+WARNING at $_PATH_$main.coffee[1,9]
+[eqeqeq] Unexpected use of ==, use === instead.
+WARNING at $_PATH_$main.coffee[2,2]
 [no-console] Unexpected console statement.
 
-1 problem
+2 problems

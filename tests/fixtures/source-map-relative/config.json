@@ -1,5 +1,6 @@
 {
     "rules": {
+        "eqeqeq": 1,
         "no-console": 1
     }
 }

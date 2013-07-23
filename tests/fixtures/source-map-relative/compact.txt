@@ -1,3 +1,4 @@
-$_PATH_$main.coffee: line 1, col 7, Warning - Unexpected console statement.
+$_PATH_$main.coffee: line 1, col 9, Warning - Unexpected use of ==, use === instead.
+$_PATH_$main.coffee: line 2, col 2, Warning - Unexpected console statement.
 
-1 problem
+2 problems
