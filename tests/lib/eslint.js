@@ -222,6 +222,36 @@ vows.describe("eslint").addBatch({
 
     },
 
+    "when calling getScope": {
+
+	topic: "function foo() { q: for(;;) { break q; } } function bar () { var q = t; }",
+
+	"should retrieve the global scope correctly": function(topic) {
+	    var config = { rules: {} };
+
+	    eslint.reset();
+	    eslint.on("FunctionDeclaration", function(node) {
+		var scope = eslint.getScope();
+		assert.equal(scope.type, "global");
+	    });
+
+	    eslint.verify(topic, config, true);
+	},
+
+	"should retrieve the function scope correctly": function(topic) {
+	    var config = { rules: {} };
+
+	    eslint.reset();
+	    eslint.on("LabeledStatement", function(node) {
+		var scope = eslint.getScope();
+		assert.equal(scope.type, "function");
+		assert.equal(scope.block.id.name, "foo");
+	    });
+
+	    eslint.verify(topic, config, true);
+	}
+
+    },
 
     "when evaluating code": {
 
