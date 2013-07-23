@@ -1,0 +1,3 @@
+tests/fixtures/basic/invalid-a.js: line 1, col 0, Warning - Unexpected use of 'eval()'.
+
+1 problem

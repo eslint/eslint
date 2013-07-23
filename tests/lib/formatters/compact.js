@@ -22,6 +22,7 @@ vows.describe("formatter:compact").addBatch({
         topic: [{
             filePath: "foo.js",
             messages: [{
+                filePath: "foo.js",
                 message: "Unexpected foo.",
                 line: 5,
                 column: 10,
@@ -35,7 +36,7 @@ vows.describe("formatter:compact").addBatch({
             };
 
             var result = formatter(topic, config);
-            assert.equal("foo.js: line 5, col 10, Error - Unexpected foo.\n\n1 problems", result);
+            assert.equal("foo.js: line 5, col 10, Error - Unexpected foo.\n\n1 problem", result);
         },
 
         "should return a string in the format filename: line x, col y, Warning - z for warnings": function(topic) {
@@ -44,7 +45,7 @@ vows.describe("formatter:compact").addBatch({
             };
 
             var result = formatter(topic, config);
-            assert.equal("foo.js: line 5, col 10, Warning - Unexpected foo.\n\n1 problems", result);
+            assert.equal("foo.js: line 5, col 10, Warning - Unexpected foo.\n\n1 problem", result);
         }
 
     },
@@ -54,6 +55,7 @@ vows.describe("formatter:compact").addBatch({
         topic: [{
             filePath: "foo.js",
             messages: [{
+                filePath: "foo.js",
                 fatal: true,
                 message: "Unexpected foo.",
                 line: 5,
@@ -66,7 +68,7 @@ vows.describe("formatter:compact").addBatch({
             var config = {};    // doesn't matter what's in the config for this test
 
             var result = formatter(topic, config);
-            assert.equal("foo.js: line 5, col 10, Error - Unexpected foo.\n\n1 problems", result);
+            assert.equal("foo.js: line 5, col 10, Error - Unexpected foo.\n\n1 problem", result);
         }
     },
 
@@ -74,12 +76,14 @@ vows.describe("formatter:compact").addBatch({
         topic: [{
             filePath: "foo.js",
             messages: [{
+                filePath: "foo.js",
                 message: "Unexpected foo.",
                 line: 5,
                 column: 10,
                 ruleId: "foo"
             }, {
                 message: "Unexpected bar.",
+                filePath: "foo.js",
                 line: 6,
                 column: 11,
                 ruleId: "bar"
@@ -101,6 +105,7 @@ vows.describe("formatter:compact").addBatch({
         topic: [{
             filePath: "foo.js",
             messages: [{
+                filePath: "foo.js",
                 message: "Unexpected foo.",
                 line: 5,
                 column: 10,
@@ -109,6 +114,7 @@ vows.describe("formatter:compact").addBatch({
         }, {
             filePath: "bar.js",
             messages: [{
+                filePath: "bar.js",
                 message: "Unexpected bar.",
                 line: 6,
                 column: 11,
