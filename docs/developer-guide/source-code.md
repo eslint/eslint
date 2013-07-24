@@ -6,7 +6,7 @@ If you simply want to create a local copy of the source to play with, you can cl
 
     git clone git://github.com/nzakas/eslint.git
 
-If you're planning on contributing to ESLint, then it's a good idea to fork the repository. You can find instructions for forking a repository at http://help.github.com/fork-a-repo/. After forking the ESLintrepository, you'll want to create a local copy of your fork.
+If you're planning on contributing to ESLint, then it's a good idea to fork the repository. You can find instructions for forking a repository at http://help.github.com/fork-a-repo/. After forking the ESLint repository, you'll want to create a local copy of your fork.
 
 ## Start Developing
 

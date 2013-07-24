@@ -4,9 +4,9 @@ ESLint has a very lightweight development environment that makes updating code f
 
 ## Install Node.js
 
-Go to http://nodejs.org to download and install the latest stable version for your operating system.
+Go to http://nodejs.org/ to download and install the latest stable version for your operating system.
 
-Most of the installers come with [npm](http://npmjs.org) already installed, but if for some reason it doesn't work on your system, you can install it manually using the instructions on the website.
+Most of the installers come with [npm](http://npmjs.org/) already installed, but if for some reason it doesn't work on your system, you can install it manually using the instructions on the website.
 
 ## Development Mode
 
@@ -33,6 +33,6 @@ Be sure to run `npm test` whenever you make changes to ensure that you've not br
 Whenever you make changes to the ESLint source files, you'll need to run `npm test` to rerun the tests. The workflow is:
 
 1. Make changes
-1. Run `npm test` to run tests on the command line
+2. Run `npm test` to run tests on the command line
 
-You'll have to do this each time you make a change.  The tests are run automatically whenever a pull request is received, so make sure to verify your changes work before submitting them.
+You'll have to do this each time you make a change. The tests are run automatically whenever a pull request is received, so make sure to verify your changes work before submitting them.
