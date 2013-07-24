@@ -1,0 +1,45 @@
+{
+    "rules": {
+
+        "no-alert": 1,
+        "no-caller": 1,
+        "no-bitwise": 0,
+        "no-console": 1,
+        "no-dangle": 1,
+        "no-debugger": 1,
+        "no-empty": 1,
+        "no-eval": 1,
+        "no-floating-decimal": 0,
+        "no-implied-eval": 1,
+        "no-with": 1,
+        "no-fallthrough": 1,
+        "no-unreachable": 1,
+        "no-undef-init": 1,
+        "no-octal": 1,
+        "no-obj-calls": 1,
+        "no-new-wrappers": 1,
+        "no-new": 1,
+        "no-new-func": 1,
+<<<<<<< HEAD
+        "no-native-reassign": 1,
+=======
+        "no-delete-var": 1,
+>>>>>>> Rule: Variables should not be deleted
+
+        "smarter-eqeqeq": 0,
+        "brace-style": 0,
+        "camelcase": 1,
+        "curly": 1,
+        "dot-notation": 1,
+        "eqeqeq": 1,
+        "new-parens": 1,
+        "guard-for-in": 0,
+        "radix": 0,
+        "new-cap": 1,
+        "quote-props": 0,
+        "semi": 1,
+        "use-isnan": 1,
+        "quotes": [1, "double"]
+
+    }
+}
