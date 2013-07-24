@@ -54,3 +54,4 @@ The following rules are included for compatibility with [JSHint](http://jshint.c
 * [no-plusplus] - disallow use of unary operators, `++` and `--` (off by default)
 * [no-bitwise] - disallow use of bitwise operators (off by default)
 * [guard-for-in] - make sure `for-in` loops have an `if` statement (off by default)
+* [max-statements](max-statements.md) - specify the maximum number of statement allowed in a function (off by default)
