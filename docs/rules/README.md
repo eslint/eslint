@@ -8,10 +8,10 @@ The following rules point out areas where you might have made mistakes.
 
 * [no-console](no-console.md) - disallow use of `console`
 * [no-dangle](no-dangle.md) - disallow trailing commas in object literals
-* [no-debugger](No-debugger.md) - disallow use of `debugger`
-* [no-empty](No-empty.md) - disallow empty statements
+* [no-debugger](no-debugger.md) - disallow use of `debugger`
+* [no-empty](no-empty.md) - disallow empty statements
 * [no-obj-calls](no-obj-calls.md) - disallow the use of object properties of the global object (`Math` and `JSON`) as functions
-* [no-unreachable](No-unreachable.md) - disallow unreachable statements after a return, throw, continue, or break statement
+* [no-unreachable](no-unreachable.md) - disallow unreachable statements after a return, throw, continue, or break statement
 * [use-isnan](use-isnan.md) - disallow comparisons with the value `NaN`
 
 ## Best Practices
@@ -37,7 +37,7 @@ These rules are purely matters of style and are quite subjective.
 
 * [camelcase] - require camel case names
 * [new-cap](new-cap.md) - require a capital letter for constructors
-* [quote-props](Quote-props.md) - require quotes around object literal property names
+* [quote-props](quote-props.md) - require quotes around object literal property names
 * [semi] - require use of semicolons instead of relying on ASI
 
 ## Alternate Rules
@@ -46,7 +46,7 @@ These rules are purely matters of style and are quite subjective.
 
 ## Legacy
 
-The following rules are included for compatibility with [JSHint](http://jshint.com) and [JSLint](http://jslint.com). While the names of the rules may not match up with the JSHint/JSLint counterpart, the functionality is the same.
+The following rules are included for compatibility with [JSHint](http://jshint.com/) and [JSLint](http://jslint.com/). While the names of the rules may not match up with the JSHint/JSLint counterpart, the functionality is the same.
 
 * [no-bitwise] - disallow use of bitwise operators (off by default)
 * [guard-for-in] - make sure `for-in` loops have an `if` statement (off by default)

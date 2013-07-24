@@ -28,11 +28,11 @@ Options:
   -f, --format  Use a specific output format.               [default: "compact"]
 ```
 
-### -h, --help
+### `-h`, `--help`
 
 This option outputs the help menu, displaying all of the available options. All other flags are ignored when this is present.
 
-### -c, --config
+### `-c`, `--config`
 
 This option allows you to specify an alternate configuration file for ESLint (see below for more on configuration files). By default, it uses `conf/eslint.json`.
 
@@ -42,7 +42,7 @@ Example:
 
 This example uses the configuration file at `~/my-eslint.json` instead of the default.
 
-### -f, --format
+### `-f`, `--format`
 
 This options specifies the output format for the console. At the moment, there is only `compact`, but more will be added soon.
 
@@ -56,7 +56,7 @@ When specified, the given format is output to the console. If you'd like to save
 
 This saves the output into the `results.txt` file.
 
-### --rulesdir
+### `--rulesdir`
 
 This option allows you to specify a second directory from which to load rules files. This allows you to dynamically loading new rules at run time. This is useful when you have custom rules that aren't suitable for being bundled with ESLint.
 
@@ -78,4 +78,3 @@ You can turn specific rules on or off by creating your own configuration file. T
   * `nodejs` - set to true to indicate that the code being inspected is intended for use with NodeJS. ESLint will automatically add the appropriate references.
 
 (More options to be added soon.)
-
