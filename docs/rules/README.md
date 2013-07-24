@@ -40,6 +40,7 @@ These rules are purely matters of style and are quite subjective.
 * [new-cap](new-cap.md) - require a capital letter for constructors
 * [quote-props](quote-props.md) - require quotes around object literal property names
 * [semi] - require use of semicolons instead of relying on ASI
+* [max-params] - limits the number of parameters that can be used in the function declaration. Configurable. Default is 3.
 
 ## Alternate Rules
 
