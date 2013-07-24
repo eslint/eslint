@@ -31,6 +31,7 @@ These are rules designed to prevent you from making mistakes. They either prescr
 * [no-new-func] - disallow use of new operator for `Function` object
 * [no-native-reassign] - disallow reassignments of native objects
 * [no-delete-var] - disallow deletion of variables
+* [no-return-assign] - disallow use of assignment in return statement
 
 ## Stylistic Issues
 

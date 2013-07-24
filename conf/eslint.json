@@ -22,6 +22,7 @@
         "no-new-func": 1,
         "no-native-reassign": 1,
         "no-delete-var": 1,
+        "no-return-assign": 1,
 
         "smarter-eqeqeq": 0,
         "brace-style": 0,
