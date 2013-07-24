@@ -1,5 +1,5 @@
 /**
- * @fileoverview Tests for too-many-params rule.
+ * @fileoverview Tests for max-params rule.
  * @author Ilya Volodin
  */
 
@@ -15,7 +15,7 @@ var vows = require("vows"),
 // Constants
 //------------------------------------------------------------------------------
 
-var RULE_ID = "too-many-params";
+var RULE_ID = "max-params";
 
 //------------------------------------------------------------------------------
 // Tests

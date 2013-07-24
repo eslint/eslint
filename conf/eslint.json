@@ -37,7 +37,7 @@
         "semi": 1,
         "use-isnan": 1,
         "quotes": [1, "double"],
-        "too-many-params": [1, 3]
+        "max-params": [0, 3]
 
     }
 }
