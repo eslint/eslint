@@ -40,7 +40,8 @@
         "use-isnan": 1,
         "quotes": [1, "double"],
         "max-params": [0, 3],
-        "max-statements": [0, 10]
+        "max-statements": [0, 10],
+        "complexity": [1, 11]
 
     }
 }
