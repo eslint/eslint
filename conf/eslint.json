@@ -49,6 +49,7 @@
         "max-statements": [0, 10],
         "regex-spaces": 1,
         "complexity": [0, 11],
-        "wrap-iife": 0
+        "wrap-iife": 0,
+        "no-multi-str": 1
     }
 }
