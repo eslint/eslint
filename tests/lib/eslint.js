@@ -256,6 +256,18 @@ vows.describe("eslint").addBatch({
         }
     },
 
+    "when passing identifier": {
+        
+        topic: "$('div').parent();",
+
+        "should detect jQuery": function(topic) {
+            var config = { rules: {}, identifiers: {"jQuery" : 1}};
+
+            var messages = eslint.verify(topic, config, true);
+            assert.equal(true, true);
+        }
+    },
+
     "when passing in configuration values for rules": {
 
         topic: "var answer = 6 * 7",
