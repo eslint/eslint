@@ -24,6 +24,7 @@
         "no-plusplus": 0,
         "no-delete-var": 1,
         "no-return-assign": 1,
+        "no-todo": 0,
 
         "smarter-eqeqeq": 0,
         "brace-style": 0,
