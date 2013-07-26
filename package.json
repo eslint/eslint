@@ -20,7 +20,8 @@
     "optimist": "*",
     "estraverse": "~1.2.0",
     "esprima": "*",
-    "jshint": "*"
+    "jshint": "*",
+    "escope": "0.0.14"
   },
   "devDependencies": {
     "vows": "~0.7.0",
