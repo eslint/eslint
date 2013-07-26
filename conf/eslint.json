@@ -15,6 +15,7 @@
         "no-with": 1,
         "no-fallthrough": 1,
         "no-unreachable": 1,
+        "no-undef": 1,
         "no-undef-init": 1,
         "no-octal": 1,
         "no-obj-calls": 1,
