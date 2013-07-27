@@ -226,7 +226,19 @@ vows.describe("eslint").addBatch({
 
         topic: "function foo() { q: for(;;) { break q; } } function bar () { var q = t; }",
 
-        "should retrieve the global scope correctly": function(topic) {
+        "should retrieve the global scope correctly from a Program": function(topic) {
+            var config = { rules: {} };
+
+            eslint.reset();
+            eslint.on("Program", function(node) {
+                var scope = eslint.getScope();
+                assert.equal(scope.type, "global");
+            });
+
+            eslint.verify(topic, config, true);
+        },
+
+        "should retrieve the global scope correctly from a FunctionDeclaration": function(topic) {
             var config = { rules: {} };
 
             eslint.reset();
@@ -238,7 +250,7 @@ vows.describe("eslint").addBatch({
             eslint.verify(topic, config, true);
         },
 
-        "should retrieve the function scope correctly": function(topic) {
+        "should retrieve the function scope correctly from a LabeledStatement": function(topic) {
             var config = { rules: {} };
 
             eslint.reset();
