@@ -32,6 +32,7 @@ These are rules designed to prevent you from making mistakes. They either prescr
 * [no-native-reassign] - disallow reassignments of native objects
 * [no-delete-var](no-delete-var.md) - disallow deletion of variables
 * [no-return-assign] - disallow use of assignment in return statement
+* [no-label-var](no-label-var.md) - disallow labels that share a name with a variable
 
 ## Stylistic Issues
 
@@ -42,6 +43,7 @@ These rules are purely matters of style and are quite subjective.
 * [quote-props](quote-props.md) - require quotes around object literal property names
 * [semi] - require use of semicolons instead of relying on ASI
 * [max-params] - limits the number of parameters that can be used in the function declaration. Configurable. Default is 3.
+* [no-ternary](no-ternary.md) - disallow the use of ternary operators
 
 ## Alternate Rules
 
