@@ -27,7 +27,8 @@ We want to accept your contribution. Following these guidelines helps to create 
 
 Once you've written a rule, you can decide whether the rule is generic enough to be included in ESLint or if it's specific to your own use case. If you decide to submit your rule via a pull request, there are some things to keep in mind:
 
-1. Rules must be accompanied by unit tests.
+1. Rules must be accompanied by tests (in `/tests/lib/rules/`).
+1. Rules must be accompanied by documentation (in `/docs/rules/`).
 2. In your pull request include:
     1. The use case for the rule - what is it trying to prevent or flag?
     2. Why you believe this rule is generic enough to be included in the main distribution
