@@ -9,6 +9,7 @@
         "no-debugger": 1,
         "no-empty": 1,
         "no-eval": 1,
+        "no-ex-assign": 1,
         "no-floating-decimal": 0,
         "no-implied-eval": 1,
         "no-with": 1,

@@ -1,5 +1,5 @@
 /**
- * @fileoverview Tests for no-exc-assign rule.
+ * @fileoverview Tests for no-ex-assign rule.
  * @author Stephen Murray <spmurrayzzz>
  */
 
@@ -15,7 +15,7 @@ var vows = require("vows"),
 // Constants
 //------------------------------------------------------------------------------
 
-var RULE_ID = "no-exc-assign";
+var RULE_ID = "no-ex-assign";
 
 //------------------------------------------------------------------------------
 // Tests
