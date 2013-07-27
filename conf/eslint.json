@@ -26,6 +26,8 @@
         "no-return-assign": 1,
         "no-new-array": 1,
         "no-new-object": 1,
+        "no-label-var": 1,
+        "no-ternary": 0,
 
         "smarter-eqeqeq": 0,
         "brace-style": 0,
@@ -42,7 +44,8 @@
         "use-isnan": 1,
         "quotes": [1, "double"],
         "max-params": [0, 3],
-        "max-statements": [0, 10]
+        "max-statements": [0, 10],
+        "complexity": [0, 11]
 
     }
 }
