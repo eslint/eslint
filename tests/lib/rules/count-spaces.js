@@ -54,6 +54,21 @@ vows.describe(RULE_ID).addBatch({
 
             assert.equal(messages.length, 0);
         }
+    },
+
+    "when evaluating a regular expression with multiple non-space whitespace": {
+
+        topic: "var foo = /bar\t\t\tbaz/;",
+
+        "should not report a violation": function(topic) {
+
+            var config = { rules: {} };
+            config.rules[RULE_ID] = 1;
+
+            var messages = eslint.verify(topic, config);
+
+            assert.equal(messages.length, 0);
+        }
     }
 
 
