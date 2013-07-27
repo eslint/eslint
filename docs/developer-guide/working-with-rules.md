@@ -14,6 +14,8 @@ Each ESLint rule has two files: a source file in the `lib/rules` directory and a
 
 module.exports = function(context) {
 
+    "use strict";
+
     return {
         // properties go here
     };
@@ -27,6 +29,8 @@ Each rule is represented by a single object with several properties. The propert
 
 ```js
 module.exports = function(context) {
+
+    "use strict";
 
     return {
 

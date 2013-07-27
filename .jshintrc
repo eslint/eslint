@@ -11,6 +11,7 @@
     "nonew": true,
     "quotmark": "double",
     "unused": true,
+    "strict": false,
 
     "node": true
 }
