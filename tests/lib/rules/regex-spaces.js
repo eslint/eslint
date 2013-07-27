@@ -1,5 +1,5 @@
 /**
- * @fileoverview Tests for the count-spaces rule
+ * @fileoverview Tests for the regex-spaces rule
  * @author Matt DuVall <http://www.mattduvall.com/>
  */
 
@@ -15,7 +15,7 @@ var vows = require("vows"),
 // Constants
 //------------------------------------------------------------------------------
 
-var RULE_ID = "count-spaces";
+var RULE_ID = "regex-spaces";
 
 //------------------------------------------------------------------------------
 // Tests
