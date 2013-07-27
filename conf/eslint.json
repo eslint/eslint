@@ -46,7 +46,7 @@
         "max-params": [0, 3],
         "max-statements": [0, 10],
         "count-spaces": 1,
-        "complexity": [0, 11]
-
+        "complexity": [0, 11],
+        "wrap-iife": 0
     }
 }
