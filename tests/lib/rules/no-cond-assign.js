@@ -117,6 +117,20 @@ vows.describe(RULE_ID).addBatch({
 
             assert.equal(messages.length, 0);
         }
+    },
+
+    "when evaluating 'if ((someNode = someNode.parentNode) !== null) { }'": {
+
+        topic: "if ((someNode = someNode.parentNode) !== null) { }",
+
+        "should not report a violation": function(topic) {
+            var config = { rules: {} };
+            config.rules[RULE_ID] = 1;
+
+            var messages = eslint.verify(topic, config);
+            console.log(messages);
+            assert.equal(messages.length, 0);
+        }
     }
 
 }).export(module);
