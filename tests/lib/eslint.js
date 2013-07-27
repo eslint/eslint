@@ -24,6 +24,27 @@ var TEST_CODE = "var answer = 6 * 7;";
 
 vows.describe("eslint").addBatch({
 
+    "when using events": {
+
+        topic: TEST_CODE,
+
+        "an error should be thrown when an error occurs inside of an event handler": function(topic) {
+
+            var config = { rules: {} };
+
+            eslint.reset();
+            eslint.on("Program", function() {
+                throw new Error("Intentional error.");
+            });
+
+            assert.throws(function() {
+                eslint.verify(topic, config, true);
+            }, Error);
+
+        }
+
+    },
+
     "when calling toSource()": {
 
         topic: TEST_CODE,
