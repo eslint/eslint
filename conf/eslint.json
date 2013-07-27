@@ -25,6 +25,7 @@
         "no-delete-var": 1,
         "no-return-assign": 1,
         "no-label-var": 1,
+        "no-ternary": 0,
 
         "smarter-eqeqeq": 0,
         "brace-style": 0,

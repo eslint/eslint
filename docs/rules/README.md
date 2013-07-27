@@ -43,6 +43,7 @@ These rules are purely matters of style and are quite subjective.
 * [quote-props](quote-props.md) - require quotes around object literal property names
 * [semi] - require use of semicolons instead of relying on ASI
 * [max-params] - limits the number of parameters that can be used in the function declaration. Configurable. Default is 3.
+* [no-ternary](no-ternary.md) - disallow the use of ternary operators
 
 ## Alternate Rules
 
