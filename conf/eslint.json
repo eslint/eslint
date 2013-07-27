@@ -24,6 +24,8 @@
         "no-plusplus": 0,
         "no-delete-var": 1,
         "no-return-assign": 1,
+        "no-new-array": 1,
+        "no-new-object": 1,
         "no-label-var": 1,
         "no-ternary": 0,
 
