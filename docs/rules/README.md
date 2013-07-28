@@ -35,6 +35,7 @@ These are rules designed to prevent you from making mistakes. They either prescr
 * [no-label-var](no-label-var.md) - disallow labels that share a name with a variable
 * [wrap-iife](wrap-iife.md) - require immediate function invocation to be wrapped in parentheses
 * [no-self-compare] - disallow comparisons where both sides are exactly the same
+* [no-multi-str](no-multi-str.md) - disallow use of multiline strings
 
 ## Stylistic Issues
 
