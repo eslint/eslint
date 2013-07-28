@@ -13,4 +13,4 @@ vows=./node_modules/vows/bin/vows
 testfiles=`find tests/ -name '*.js'`
 thresholds='--statement 92 --branch 90 --function 92 --lines 92'
 
-npm run-script lint && node $istanbul cover --print both $vows -- --spec $testfiles && node $istanbul check-coverage $thresholds
+npm run-script lint && node $istanbul cover $vows -- --dot $testfiles && node $istanbul check-coverage $thresholds

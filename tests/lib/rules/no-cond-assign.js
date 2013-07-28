@@ -128,7 +128,6 @@ vows.describe(RULE_ID).addBatch({
             config.rules[RULE_ID] = 1;
 
             var messages = eslint.verify(topic, config);
-            console.log(messages);
             assert.equal(messages.length, 0);
         }
     }
