@@ -120,6 +120,48 @@ vows.describe(RULE_ID).addBatch({
 
             assert.equal(messages.length, 0);
         }
+    },
+
+    "when evaluating 'if (f() === f()) { }": {
+
+        topic: "if (f() === f()) { }",
+
+        "should not report a violation": function(topic) {
+            var config = { rules: {} };
+            config.rules[RULE_ID] = 1;
+
+            var messages = eslint.verify(topic, config);
+
+            assert.equal(messages.length, 0);
+        }
+    },
+
+    "when evaluating 'if (a[1] === a[1]) { }": {
+
+        topic: "if (a[1] === a[1]) { }",
+
+        "should not report a violation": function(topic) {
+            var config = { rules: {} };
+            config.rules[RULE_ID] = 1;
+
+            var messages = eslint.verify(topic, config);
+
+            assert.equal(messages.length, 0);
+        }
+    },
+
+    "when evaluating 'if (1 === 2) { }": {
+
+        topic: "if (1 === 2) { }",
+
+        "should not report a violation": function(topic) {
+            var config = { rules: {} };
+            config.rules[RULE_ID] = 1;
+
+            var messages = eslint.verify(topic, config);
+
+            assert.equal(messages.length, 0);
+        }
     }
 
 
