@@ -29,6 +29,7 @@
         "no-new-object": 1,
         "no-label-var": 1,
         "no-ternary": 0,
+        "no-self-compare": 0,
 
         "smarter-eqeqeq": 0,
         "brace-style": 0,
@@ -48,6 +49,7 @@
         "max-statements": [0, 10],
         "regex-spaces": 1,
         "complexity": [0, 11],
-        "wrap-iife": 0
+        "wrap-iife": 0,
+        "no-multi-str": 1
     }
 }
