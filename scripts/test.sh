@@ -11,6 +11,6 @@
 istanbul=./node_modules/istanbul/lib/cli.js
 vows=./node_modules/vows/bin/vows
 testfiles=`find tests/ -name '*.js'`
-thresholds='--statement 90 --branch 88 --function 90'
+thresholds='--statement 92 --branch 90 --function 92 --lines 92'
 
 npm run-script lint && node $istanbul cover --print both $vows -- --spec $testfiles && node $istanbul check-coverage $thresholds

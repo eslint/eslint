@@ -28,7 +28,7 @@ vows.describe("cli").addBatch({
             console.log = function() {};
 
             assert.doesNotThrow(function () {
-              cli.execute(["-c", topic, "lib/cli.js"]);
+                cli.execute(["-c", topic, "lib/cli.js"]);
             });
 
             console.log = _log;

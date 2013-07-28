@@ -36,7 +36,24 @@ vows.describe(RULE_ID).addBatch({
             assert.equal(messages.length, 1);
             assert.equal(messages[0].ruleId, RULE_ID);
             assert.equal(messages[0].message, "Unexpected assignment of exception parameter.");
-            assert.include(messages[0].node.type, "CatchClause");
+            assert.include(messages[0].node.type, "AssignmentExpression");
+        }
+    },
+
+    "when evaluating 'try { } catch (ex) { ex = 10; }'": {
+
+        topic: "try { } catch (ex) { ex = 10; }",
+
+        "should report a violation": function(topic) {
+            var config = { rules: {} };
+            config.rules[RULE_ID] = 1;
+
+            var messages = eslint.verify(topic, config);
+
+            assert.equal(messages.length, 1);
+            assert.equal(messages[0].ruleId, RULE_ID);
+            assert.equal(messages[0].message, "Unexpected assignment of exception parameter.");
+            assert.include(messages[0].node.type, "AssignmentExpression");
         }
     },
 
@@ -49,7 +66,19 @@ vows.describe(RULE_ID).addBatch({
             config.rules[RULE_ID] = 1;
 
             var messages = eslint.verify(topic, config);
-            console.log(messages);
+            assert.equal(messages.length, 0);
+        }
+    },
+
+    "when evaluating 'function foo() { try { } catch (e) { return false; } }'": {
+
+        topic: "function foo() { try { } catch (e) { return false; } }",
+
+        "should not report a violation": function(topic) {
+            var config = { rules: {} };
+            config.rules[RULE_ID] = 1;
+
+            var messages = eslint.verify(topic, config);
             assert.equal(messages.length, 0);
         }
     }
