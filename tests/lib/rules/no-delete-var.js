@@ -35,7 +35,7 @@ vows.describe(RULE_ID).addBatch({
 
             assert.equal(messages.length, 1);
             assert.equal(messages[0].ruleId, RULE_ID);
-            assert.equal(messages[0].message, "Variables should not be deleted​");
+            assert.equal(messages[0].message, "Variables should not be deleted​.");
             assert.include(messages[0].node.type, "UnaryExpression");
         }
     },

@@ -36,7 +36,7 @@ vows.describe(RULE_ID).addBatch({
 
             assert.equal(messages.length, 1);
             assert.equal(messages[0].ruleId, RULE_ID);
-            assert.equal(messages[0].message, "Function contains 3 statements, maximum allowed is 2.");
+            assert.equal(messages[0].message, "This function has too many statements (3). Maximum allowed is 2.");
         }
     },
 
@@ -53,7 +53,7 @@ vows.describe(RULE_ID).addBatch({
 
             assert.equal(messages.length, 1);
             assert.equal(messages[0].ruleId, RULE_ID);
-            assert.equal(messages[0].message, "Function contains 3 statements, maximum allowed is 2.");
+            assert.equal(messages[0].message, "This function has too many statements (3). Maximum allowed is 2.");
         }
     },
 
@@ -100,7 +100,7 @@ vows.describe(RULE_ID).addBatch({
 
             assert.equal(messages.length, 1);
             assert.equal(messages[0].ruleId, RULE_ID);
-            assert.equal(messages[0].message, "Function contains 5 statements, maximum allowed is 4.");
+            assert.equal(messages[0].message, "This function has too many statements (5). Maximum allowed is 4.");
         }
     },
 
@@ -117,7 +117,7 @@ vows.describe(RULE_ID).addBatch({
 
             assert.equal(messages.length, 1);
             assert.equal(messages[0].ruleId, RULE_ID);
-            assert.equal(messages[0].message, "Function contains 5 statements, maximum allowed is 4.");
+            assert.equal(messages[0].message, "This function has too many statements (5). Maximum allowed is 4.");
         }
     },
 
@@ -149,7 +149,7 @@ vows.describe(RULE_ID).addBatch({
 
             assert.equal(messages.length, 1);
             assert.equal(messages[0].ruleId, RULE_ID);
-            assert.equal(messages[0].message, "Function contains 6 statements, maximum allowed is 5.");
+            assert.equal(messages[0].message, "This function has too many statements (6). Maximum allowed is 5.");
         }
     },
 
@@ -165,7 +165,7 @@ vows.describe(RULE_ID).addBatch({
 
             assert.equal(messages.length, 1);
             assert.equal(messages[0].ruleId, RULE_ID);
-            assert.equal(messages[0].message, "Function contains 5 statements, maximum allowed is 3.");
+            assert.equal(messages[0].message, "This function has too many statements (5). Maximum allowed is 3.");
         }
     },
 
@@ -181,7 +181,7 @@ vows.describe(RULE_ID).addBatch({
 
             assert.equal(messages.length, 1);
             assert.equal(messages[0].ruleId, RULE_ID);
-            assert.equal(messages[0].message, "Function contains 5 statements, maximum allowed is 4.");
+            assert.equal(messages[0].message, "This function has too many statements (5). Maximum allowed is 4.");
         }
     },
 

@@ -35,7 +35,7 @@ vows.describe(RULE_ID).addBatch({
 
             assert.equal(messages.length, 1);
             assert.equal(messages[0].ruleId, RULE_ID);
-            assert.equal(messages[0].message, "Unexpected use of ^ found.");
+            assert.equal(messages[0].message, "Unexpected use of '^'.");
             assert.include(messages[0].node.type, "BinaryExpression");
             assert.include(messages[0].node.operator, "^");
         }
@@ -53,7 +53,7 @@ vows.describe(RULE_ID).addBatch({
 
             assert.equal(messages.length, 1);
             assert.equal(messages[0].ruleId, RULE_ID);
-            assert.equal(messages[0].message, "Unexpected use of | found.");
+            assert.equal(messages[0].message, "Unexpected use of '|'.");
             assert.include(messages[0].node.type, "BinaryExpression");
             assert.include(messages[0].node.operator, "|");
         }
@@ -71,7 +71,7 @@ vows.describe(RULE_ID).addBatch({
 
             assert.equal(messages.length, 1);
             assert.equal(messages[0].ruleId, RULE_ID);
-            assert.equal(messages[0].message, "Unexpected use of & found.");
+            assert.equal(messages[0].message, "Unexpected use of '&'.");
             assert.include(messages[0].node.type, "BinaryExpression");
             assert.include(messages[0].node.operator, "&");
         }

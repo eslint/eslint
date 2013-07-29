@@ -35,7 +35,7 @@ vows.describe(RULE_ID).addBatch({
 
             assert.equal(messages.length, 1);
             assert.equal(messages[0].ruleId, RULE_ID);
-            assert.equal(messages[0].message, "Found trailing comma in object literal.");
+            assert.equal(messages[0].message, "Trailing comma.");
             assert.include(messages[0].node.type, "ObjectExpression");
         }
     },
@@ -52,7 +52,7 @@ vows.describe(RULE_ID).addBatch({
 
             assert.equal(messages.length, 1);
             assert.equal(messages[0].ruleId, RULE_ID);
-            assert.equal(messages[0].message, "Found trailing comma in object literal.");
+            assert.equal(messages[0].message, "Trailing comma.");
             assert.include(messages[0].node.type, "ObjectExpression");
         }
     },
@@ -84,7 +84,7 @@ vows.describe(RULE_ID).addBatch({
 
             assert.equal(messages.length, 1);
             assert.equal(messages[0].ruleId, RULE_ID);
-            assert.equal(messages[0].message, "Found trailing comma in object literal.");
+            assert.equal(messages[0].message, "Trailing comma.");
             assert.include(messages[0].node.type, "ArrayExpression");
         }
     },

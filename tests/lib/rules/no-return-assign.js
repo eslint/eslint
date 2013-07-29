@@ -35,7 +35,7 @@ vows.describe(RULE_ID).addBatch({
 
             assert.equal(messages.length, 1);
             assert.equal(messages[0].ruleId, RULE_ID);
-            assert.equal(messages[0].message, "Return statement should not contain assigment");
+            assert.equal(messages[0].message, "Return statement should not contain assigment.");
             assert.include(messages[0].node.type, "ReturnStatement");
         }
     },

@@ -36,7 +36,7 @@ vows.describe(RULE_ID).addBatch({
 
             assert.equal(messages.length, 1);
             assert.equal(messages[0].ruleId, RULE_ID);
-            assert.equal(messages[0].message, "Non-camelcased identifier 'first_name' found.");
+            assert.equal(messages[0].message, "Identifier 'first_name' is not in camel case.");
             assert.include(messages[0].node.type, "Identifier");
             assert.include(messages[0].node.name, "first_name");
         }
@@ -115,7 +115,7 @@ vows.describe(RULE_ID).addBatch({
 
             assert.equal(messages.length, 1);
             assert.equal(messages[0].ruleId, RULE_ID);
-            assert.equal(messages[0].message, "Non-camelcased identifier '__private_first_name' found.");
+            assert.equal(messages[0].message, "Identifier '__private_first_name' is not in camel case.");
             assert.include(messages[0].node.type, "Identifier");
             assert.include(messages[0].node.name, "__private_first_name");
         }
