@@ -22,7 +22,7 @@ vows.describe("cli").addBatch({
         topic: "conf/eslint.json",
 
         "should load the specified config file": function(topic) {
-            var _log = console.log;
+            var log = console.log;
 
             // Assign console.log to noop to skip CLI output
             console.log = function() {};
@@ -31,7 +31,7 @@ vows.describe("cli").addBatch({
                 cli.execute(["-c", topic, "lib/cli.js"]);
             });
 
-            console.log = _log;
+            console.log = log;
         }
 
     },
@@ -42,7 +42,7 @@ vows.describe("cli").addBatch({
 
         "should not print the results from previous execution": function(topic) {
             var results = '',
-                _log = console.log;
+                log = console.log;
 
             // Collect the CLI output.
             console.log = function(msg) {
@@ -58,7 +58,7 @@ vows.describe("cli").addBatch({
             cli.execute([topic[1]]);
             assert.equal(results, "\n0 problems");
 
-            console.log = _log;
+            console.log = log;
         }
 
     }

@@ -130,7 +130,7 @@ vows.describe("options").addBatch({
         topic: "",
 
         "should log the help content to the console": function(topic) {
-            var _log = console.log;
+            var log = console.log;
 
             var loggedMessages = [];
             console.log = function(message) {
@@ -140,7 +140,7 @@ vows.describe("options").addBatch({
             options.help()
             assert.equal(loggedMessages.length, 1);
 
-            console.log = _log;
+            console.log = log;
         }
 
     }
