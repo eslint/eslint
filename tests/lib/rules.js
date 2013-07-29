@@ -22,8 +22,8 @@ vows.describe("rules").addBatch({
         topic: "invaliddir",
 
         "should log an error and exit": function(topic) {
-            var _error = console.error;
-            var _exit = process.exit;
+            var error = console.error;
+            var exit = process.exit;
 
             var errorsLogged = [];
             console.error = function(error) {
@@ -41,8 +41,8 @@ vows.describe("rules").addBatch({
             assert.notEqual(errorsLogged[0].indexOf("Couldn't load rules from " + topic), -1);
             assert.equal(processExitStatus, 1);
 
-            console.error = _error;
-            process.exit = _exit;
+            console.error = error;
+            process.exit = exit;
         }
 
     },
@@ -52,8 +52,8 @@ vows.describe("rules").addBatch({
         topic: "lib/rules",
 
         "should load rules and not log an error or exit": function(topic) {
-            var _error = console.error;
-            var _exit = process.exit;
+            var error = console.error;
+            var exit = process.exit;
 
             var errorsLogged = [];
             console.error = function(error) {
@@ -71,8 +71,8 @@ vows.describe("rules").addBatch({
             assert.equal(processExitStatus, null);
             assert.equal(typeof rules.get("new-cap"), "function");
 
-            console.error = _error;
-            process.exit = _exit;
+            console.error = error;
+            process.exit = exit;
         }
 
     }
