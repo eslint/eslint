@@ -123,9 +123,27 @@ vows.describe("options").addBatch({
             assert.isTrue(currentOptions.v);
         }
 
+    },
+
+    "when asking for help": {
+
+        topic: "",
+
+        "should log the help content to the console": function(topic) {
+            var log = console.log;
+
+            var loggedMessages = [];
+            console.log = function(message) {
+                loggedMessages.push(message);
+            };
+
+            options.help()
+            assert.equal(loggedMessages.length, 1);
+
+            console.log = log;
+        }
+
     }
-
-
 
 
 }).export(module);
