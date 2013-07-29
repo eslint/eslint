@@ -117,6 +117,37 @@ vows.describe(RULE_ID).addBatch({
         }
     },
 
+    "when evaluating 'do bar(); while (foo)'": {
+
+        topic: "do bar(); while (foo)",
+
+        "should report a violation": function(topic) {
+            var config = { rules: {} };
+            config.rules[RULE_ID] = 1;
+
+            var messages = eslint.verify(topic, config);
+
+            assert.equal(messages.length, 1);
+            assert.equal(messages[0].ruleId, RULE_ID);
+            assert.equal(messages[0].message, "Expected { after 'do'.");
+            assert.include(messages[0].node.type, "DoWhileStatement");
+        }
+    },
+
+    "when evaluating 'do { bar(); } while (foo)'": {
+
+        topic: "do { bar(); } while (foo)",
+
+        "should not report a violation": function(topic) {
+            var config = { rules: {} };
+            config.rules[RULE_ID] = 1;
+
+            var messages = eslint.verify(topic, config);
+
+            assert.equal(messages.length, 0);
+        }
+    },
+
     "when evaluating 'for (;foo;) bar()'": {
 
         topic: "for (;foo;) bar()",
