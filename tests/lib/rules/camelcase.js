@@ -33,4 +33,10 @@ new Test(RULE_ID)
         "myPrivateVariable_ = \"Patrick\"",
         "__private_first_name = \"Patrick\""
     ])
+    .addViolations("Non-camelcased identifier '__private_first_name' found.", {
+        "__private_first_name = \"Patrick\"": function(assert, messages) {
+            assert.include(messages[0].node.type, "Identifier");
+            assert.include(messages[0].node.name, "__private_first_name");
+        }
+    })
     .export(module);
