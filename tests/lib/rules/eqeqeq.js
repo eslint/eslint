@@ -7,9 +7,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var vows = require("vows"),
-    assert = require("assert"),
-    eslint = require("../../../lib/eslint");
+var Test = require("../../eslint-test");
 
 //------------------------------------------------------------------------------
 // Constants
@@ -21,71 +19,20 @@ var RULE_ID = "eqeqeq";
 // Tests
 //------------------------------------------------------------------------------
 
-vows.describe(RULE_ID).addBatch({
+new Test(RULE_ID)
+    .addViolations({
+        "a == b": {
+            message: "Unexpected use of ==, use === instead.",
+            nodeType: "BinaryExpression"
+        },
 
-    "when evaluating 'a == b'": {
-
-        topic: "a == b",
-
-        "should report a violation": function(topic) {
-            var config = { rules: {} };
-            config.rules[RULE_ID] = 1;
-
-            var messages = eslint.verify(topic, config);
-
-            assert.equal(messages.length, 1);
-            assert.equal(messages[0].ruleId, RULE_ID);
-            assert.equal(messages[0].message, "Unexpected use of ==, use === instead.");
-            assert.include(messages[0].node.type, "BinaryExpression");
+        "a != b": {
+            message: "Unexpected use of !=, use !== instead.",
+            nodeType: "BinaryExpression"
         }
-    },
-
-    "when evaluating 'a != b'": {
-
-        topic: "a != b",
-
-        "should report a violation": function(topic) {
-            var config = { rules: {} };
-            config.rules[RULE_ID] = 1;
-
-            var messages = eslint.verify(topic, config);
-
-            assert.equal(messages.length, 1);
-            assert.equal(messages[0].ruleId, RULE_ID);
-            assert.equal(messages[0].message, "Unexpected use of !=, use !== instead.");
-            assert.include(messages[0].node.type, "BinaryExpression");
-        }
-    },
-
-
-    "when evaluating 'a === b'": {
-
-        topic: "a === b",
-
-        "should report a violation": function(topic) {
-            var config = { rules: {} };
-            config.rules[RULE_ID] = 1;
-
-            var messages = eslint.verify(topic, config);
-
-            assert.equal(messages.length, 0);
-        }
-    },
-
-    "when evaluating 'a !== b'": {
-
-        topic: "a !== b",
-
-        "should report a violation": function(topic) {
-            var config = { rules: {} };
-            config.rules[RULE_ID] = 1;
-
-            var messages = eslint.verify(topic, config);
-
-            assert.equal(messages.length, 0);
-        }
-    }
-
-
-
-}).export(module);
+    })
+    .addNonViolations([
+        "a === b",
+        "a !== b",
+    ])
+    .export(module);
