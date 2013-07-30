@@ -19,6 +19,18 @@ Test.prototype.addViolationsWithMessage = function(message, tests) {
     return this;
 };
 
+Test.prototype.addViolationsWithMessageAndNodeType = function(message, nodeType, tests) {
+  var newTests = {};
+  tests.forEach(function(testName) {
+      newTests[testName] = {
+          message: message,
+          nodeType: nodeType
+      };
+  });
+  this.addViolations(newTests);
+  return this;
+};
+
 Test.prototype.addViolations = function(tests) {
     var rule_id = this.rule_id;
     Object.keys(tests).forEach(function(testName) {
