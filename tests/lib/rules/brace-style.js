@@ -42,4 +42,4 @@ new Test(RULE_ID)
         "do { \n bar();\n } while (true)",
         "for (foo in bar) { \n baz(); \n }"
     ])
-    .export(module)
+    .export(module);
