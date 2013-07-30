@@ -20,23 +20,27 @@ var RULE_ID = "camelcase";
 //------------------------------------------------------------------------------
 
 new Test(RULE_ID)
-    .addViolations("Non-camelcased identifier 'first_name' found.", {
-        "first_name = \"Nicholas\"": function(assert, messages) {
-            assert.include(messages[0].node.type, "Identifier");
-            assert.include(messages[0].node.name, "first_name");
+    .addViolations({
+        "first_name = \"Nicholas\"": {
+            message: "Non-camelcased identifier 'first_name' found.",
+            nodeType: "Identifier",
+            callback: function(assert, messages) {
+                assert.include(messages[0].node.name, "first_name");
+            }
+        },
+        "__private_first_name = \"Patrick\"": {
+          message: "Non-camelcased identifier '__private_first_name' found.",
+          nodeType: "Identifier",
+            callback: function(assert, messages) {
+                assert.include(messages[0].node.type, "Identifier");
+                assert.include(messages[0].node.name, "__private_first_name");
+            }
         }
     })
     .addNonViolations([
         "firstName = \"Nicholas\"",
         "FIRST_NAME = \"Nicholas\"",
         "__myPrivateVariable = \"Patrick\"",
-        "myPrivateVariable_ = \"Patrick\"",
-        "__private_first_name = \"Patrick\""
+        "myPrivateVariable_ = \"Patrick\""
     ])
-    .addViolations("Non-camelcased identifier '__private_first_name' found.", {
-        "__private_first_name = \"Patrick\"": function(assert, messages) {
-            assert.include(messages[0].node.type, "Identifier");
-            assert.include(messages[0].node.name, "__private_first_name");
-        }
-    })
     .export(module);

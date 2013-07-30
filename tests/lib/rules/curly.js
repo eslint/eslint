@@ -20,20 +20,27 @@ var RULE_ID = "curly";
 //------------------------------------------------------------------------------
 
 new Test(RULE_ID)
-    .addViolations("Expected { after 'if' condition.", {
-        "if (foo) bar()": "IfStatement"
-    })
-    .addViolations("Expected { after 'else' condition.", {
-        "if (foo) { bar() } else baz()": "IfStatement"
-    })
-    .addViolations("Expected { after 'while' statement.", {
-        "while (foo) bar()": "WhileStatement"
-    })
-    .addViolations("Expected { after 'do'.", {
-        "do bar(); while (foo)": "DoWhileStatement"
-    })
-    .addViolations("Expected { after 'for' statement.", {
-        "for (;foo;) bar()": "ForStatement"
+    .addViolations({
+        "if (foo) bar()": {
+            message: "Expected { after 'if' condition.",
+            nodeType: "IfStatement"
+        },
+        "if (foo) { bar() } else baz()": {
+            message: "Expected { after 'else' condition.",
+            nodeType: "IfStatement"
+        },
+        "while (foo) bar()": {
+            message: "Expected { after 'while' statement.",
+            nodeType: "WhileStatement"
+        },
+        "do bar(); while (foo)": {
+            message: "Expected { after 'do'.",
+            nodeType: "DoWhileStatement"
+        },
+        "for (;foo;) bar()": {
+            message: "Expected { after 'for' statement.",
+            nodeType: "ForStatement"
+        }
     })
     .addNonViolations([
         "if (foo) { bar() }",

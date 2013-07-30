@@ -20,7 +20,7 @@ var RULE_ID = "brace-style";
 //------------------------------------------------------------------------------
 
 new Test(RULE_ID)
-    .addViolations("Opening curly brace does not appear on the same line as the block identifier.", {
+    .addViolationsWithMessage("Opening curly brace does not appear on the same line as the block identifier.", {
         "function foo() \n { \n return; }": "FunctionDeclaration",
         "if (foo) \n { \n bar(); }": "IfStatement",
         "while (foo) \n { \n bar(); }": "WhileStatement",

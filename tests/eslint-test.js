@@ -7,10 +7,22 @@ function Test(name) {
     this.tests = {}
 }
 
-Test.prototype.addViolations = function(message, tests) {
+Test.prototype.addViolationsWithMessage = function(message, tests) {
+    var newTests = {};
+    Object.keys(tests).forEach(function(testName) {
+        newTests[testName] = {
+            message: message,
+            nodeType: tests[testName]
+        };
+    });
+    this.addViolations(newTests);
+    return this;
+};
+
+Test.prototype.addViolations = function(tests) {
     var rule_id = this.rule_id;
     Object.keys(tests).forEach(function(testName) {
-        var nodeType = tests[testName];
+        var o = tests[testName];
         this.tests[testName] = {
             topic: function() { return testName; },
             "should report a violation": function(topic) {
@@ -21,15 +33,11 @@ Test.prototype.addViolations = function(message, tests) {
                 assert.equal(messages.length, 1);
                 assert.equal(messages[0].ruleId, rule_id);
 
-                if (typeof message === 'function') {
-                    message(assert, messages);
-                } else {
-                    assert.equal(messages[0].message, message);
-                }
-                if (typeof nodeType === 'function') {
-                    nodeType(assert, messages);
-                } else {
-                    assert.include(messages[0].node.type, nodeType);
+                assert.equal(messages[0].message, o.message);
+                assert.equal(messages[0].node.type, o.nodeType);
+
+                if (typeof o.callback === "function") {
+                    o.callback(assert, messages);
                 }
             }
         };
