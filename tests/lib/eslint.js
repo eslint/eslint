@@ -409,6 +409,131 @@ vows.describe("eslint").addBatch({
 
 
 
-    }
+    },
+
+    "when evaluating code containing /*global */ and /*globals */ blocks": {
+
+        topic: "/*global a b:true c:false*/ function foo() {} /*globals d:true*/",
+
+        "global options should be available": function(topic) {
+
+            var config = { rules: {} };
+
+            eslint.reset();
+            eslint.on("FunctionExpression", function(node) {
+                var global = eslint.getBlockOptions().global;
+                assert.equal(global.a, false);
+                assert.equal(global.b, true);
+                assert.equal(global.c, false);
+                assert.equal(global.d, true);
+            });
+
+            eslint.verify(topic, config, true);
+        }
+
+    },
+
+    "when evaluating code containing a /*global */ block with sloppy whitespace": {
+
+        topic: "/* global  a b  : true   c:  false*/",
+
+        "global options should be available": function(topic) {
+            var config = { rules: {} };
+
+            eslint.reset();
+            eslint.on("Program", function(node) {
+                var global = eslint.getBlockOptions().global;
+                assert.equal(global.a, false);
+                assert.equal(global.b, true);
+                assert.equal(global.c, false);
+            });
+
+            eslint.verify(topic, config, true);
+        }
+    },
+
+    "when evaluating code containing /*jslint */ and /*jshint */ blocks": {
+
+        topic: "/*jslint a:foo b:1 */ function f() {} /*jshint c:true d:3*/",
+
+        "lint options should be available": function(topic) {
+
+            var config = { rules: {} };
+
+            eslint.reset();
+            eslint.on("Program", function(node) {
+                var lint = eslint.getBlockOptions().lint;
+                assert.equal(lint.a, "foo");
+                assert.equal(lint.b, "1");
+                assert.equal(lint.c, "true");
+                assert.equal(lint.d, "3");
+            });
+            eslint.verify(topic, config, true);
+        }
+    },
+
+    "when evaluating code containing a /*jshint */ block with sloppy whitespace": {
+
+        topic: "/* jshint node  : true browser     : false*/",
+
+        "lint options should be available": function(topic) {
+
+            var config = { rules: {} };
+
+            eslint.reset();
+            eslint.on("Program", function(node) {
+                var lint = eslint.getBlockOptions().lint;
+                assert.equal(lint.node, "true");
+                assert.equal(lint.browser, "false");
+            });
+            eslint.verify(topic, config, true);
+        }
+    },
+
+    "when evaluating code containing a line comment": {
+
+        topic: "//global a \n function f() {}",
+
+        "no global options should be found in the comment": function(topic) {
+
+            var config = { rules: {} };
+
+            eslint.reset();
+            eslint.on("Program", function(node) {
+                var global = eslint.getBlockOptions().global;
+                assert.equal(Object.keys(global).length, 0);
+            });
+            eslint.verify(topic, config, true);
+        }
+    },
+
+    "when evaluating code containing normal block comments": {
+
+        topic: "/**/  /*a*/  /*b:true*/  /*foo c:false*/",
+
+        "no global options should be found in the comments": function(topic) {
+
+            var config = { rules: {} };
+
+            eslint.reset();
+            eslint.on("Program", function(node) {
+                var global = eslint.getBlockOptions().global;
+                assert.equal(Object.keys(global).length, 0);
+            });
+            eslint.verify(topic, config, true);
+        },
+
+        "no lint options should be found in the comments": function(topic) {
+
+            var config = { rules: {} };
+
+            eslint.reset();
+            eslint.on("Program", function(node) {
+                var lint = eslint.getBlockOptions().lint;
+                assert.equal(Object.keys(lint).length, 0);
+            });
+            eslint.verify(topic, config, true);
+        }
+    },
 
 }).export(module);

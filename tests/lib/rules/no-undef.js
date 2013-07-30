@@ -299,68 +299,6 @@ vows.describe(RULE_ID).addBatch({
             assert.equal(messages[0].message, "'require' is not defined.");
             assert.include(messages[0].node.type, "Identifier");
         }
-    },
-
-    //------------------------------------------------------------------------------
-    // Test options parsing edge cases
-    //------------------------------------------------------------------------------
-
-    "when evaluating jslint options with sloppy whitespace": {
-        topic: "/* jslint node  : true */ require(\"a\");",
-
-        "should not report a violation": function(topic) {
-
-            var config = { rules: {} };
-            config.rules[RULE_ID] = 1;
-
-            var messages = eslint.verify(topic, config);
-            assert.equal(messages.length, 0);
-        }
-    },
-
-    "when evaluating global options with sloppy whitespace": {
-        topic: "/* global   b  : true */ b=1;",
-
-        "should not report a violation": function(topic) {
-
-            var config = { rules: {} };
-            config.rules[RULE_ID] = 1;
-
-            var messages = eslint.verify(topic, config);
-            assert.equal(messages.length, 0);
-        }
-    },
-
-    "when evaluating options inside a line comment": {
-       topic: "//global a \n a;",
-
-        "should report a violation": function(topic) {
-
-            var config = { rules: {} };
-            config.rules[RULE_ID] = 1;
-
-            var messages = eslint.verify(topic, config);
-            assert.equal(messages.length, 1);
-            assert.equal(messages[0].ruleId, RULE_ID);
-            assert.equal(messages[0].message, "'a' is not defined.");
-            assert.include(messages[0].node.type, "Identifier");
-        }
-    },
-
-    "when evaluating normal block comments": {
-       topic: "/*b:true*/ b=1; /**/",
-
-        "should report a violation": function(topic) {
-
-            var config = { rules: {} };
-            config.rules[RULE_ID] = 1;
-
-            var messages = eslint.verify(topic, config);
-            assert.equal(messages.length, 1);
-            assert.equal(messages[0].ruleId, RULE_ID);
-            assert.equal(messages[0].message, "'b' is not defined.");
-            assert.include(messages[0].node.type, "Identifier");
-        }
-    },
+    }
 
 }).export(module);
