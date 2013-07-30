@@ -253,7 +253,9 @@ vows.describe(RULE_ID).addBatch({
         }
     },
 
+    //------------------------------------------------------------------------------
     // Test node:true flags
+    //------------------------------------------------------------------------------
     "when evaluating reference to a node global": {
         topic: "require(\"a\");",
 
