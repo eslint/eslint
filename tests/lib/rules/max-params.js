@@ -131,7 +131,7 @@ vows.describe(RULE_ID).addBatch({
 
             assert.equal(messages.length, 1);
             assert.equal(messages[0].ruleId, RULE_ID);
-            assert.equal(messages[0].message, "test function has too many parameters");
+            assert.equal(messages[0].message, "This function has too many parameters (3). Maximum allowed is 1.");
             assert.include(messages[0].node.type, "FunctionExpression");
         }
     }
