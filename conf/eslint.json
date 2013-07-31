@@ -5,7 +5,7 @@
         "no-caller": 1,
         "no-bitwise": 0,
         "no-console": 1,
-        "no-dangle": 1,
+        "no-comma-dangle": 1,
         "no-debugger": 1,
         "no-empty": 1,
         "no-eval": 1,

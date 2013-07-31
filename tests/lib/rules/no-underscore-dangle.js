@@ -1,6 +1,6 @@
 /**
- * @fileoverview Tests for no-dangle rule.
- * @author Ian Christian Myers
+ * @fileoverview Test for no-underscore-dangle rule
+ * @author Matt DuVall <http://www.mattduvall.com>
  */
 
 //------------------------------------------------------------------------------
@@ -15,7 +15,7 @@ var vows = require("vows"),
 // Constants
 //------------------------------------------------------------------------------
 
-var RULE_ID = "no-dangle";
+var RULE_ID = "no-underscore-dangle";
 
 //------------------------------------------------------------------------------
 // Tests
@@ -23,26 +23,9 @@ var RULE_ID = "no-dangle";
 
 vows.describe(RULE_ID).addBatch({
 
-    "when evaluating object literal with a dangling comma": {
+    "when evaluating a variable declaration with a beginning dangling underscore": {
 
-        topic: "var foo = { bar: \"baz\", }",
-
-        "should report a violation": function(topic) {
-            var config = { rules: {} };
-            config.rules[RULE_ID] = 1;
-
-            var messages = eslint.verify(topic, config);
-
-            assert.equal(messages.length, 1);
-            assert.equal(messages[0].ruleId, RULE_ID);
-            assert.equal(messages[0].message, "Found trailing comma in object literal.");
-            assert.include(messages[0].node.type, "ObjectExpression");
-        }
-    },
-
-    "when evaluating object literal passed to a function with a dangling comma": {
-
-        topic: "foo({ bar: \"baz\", qux: \"quux\", });",
+        topic: "var _foo = 1",
 
         "should report a violation": function(topic) {
             var config = { rules: {} };
@@ -52,15 +35,65 @@ vows.describe(RULE_ID).addBatch({
 
             assert.equal(messages.length, 1);
             assert.equal(messages[0].ruleId, RULE_ID);
-            assert.equal(messages[0].message, "Found trailing comma in object literal.");
-            assert.include(messages[0].node.type, "ObjectExpression");
+            assert.equal(messages[0].message, "Unexpected dangling '_' in '_foo'.");
+            assert.include(messages[0].node.type, "Identifier");
         }
     },
 
+    "when evaluating a variable declaration with an ending dangling underscore": {
 
-    "when evaluating object literal without a dangling comma": {
+        topic: "var foo_ = 1",
 
-        topic: "var foo = { bar: \"baz\" }",
+        "should report a violation": function(topic) {
+            var config = { rules: {} };
+            config.rules[RULE_ID] = 1;
+
+            var messages = eslint.verify(topic, config);
+
+            assert.equal(messages.length, 1);
+            assert.equal(messages[0].ruleId, RULE_ID);
+            assert.equal(messages[0].message, "Unexpected dangling '_' in 'foo_'.");
+            assert.include(messages[0].node.type, "Identifier");
+        }
+    },
+
+    "when evaluating a function declaration with a beginning dangling underscore": {
+
+        topic: "function _foo() {}",
+
+        "should report a violation": function(topic) {
+            var config = { rules: {} };
+            config.rules[RULE_ID] = 1;
+
+            var messages = eslint.verify(topic, config);
+
+            assert.equal(messages.length, 1);
+            assert.equal(messages[0].ruleId, RULE_ID);
+            assert.equal(messages[0].message, "Unexpected dangling '_' in '_foo'.");
+            assert.include(messages[0].node.type, "Identifier");
+        }
+    },
+
+    "when evaluating a function declaration with an ending dangling underscore": {
+
+        topic: "function foo_() {}",
+
+        "should report a violation": function(topic) {
+            var config = { rules: {} };
+            config.rules[RULE_ID] = 1;
+
+            var messages = eslint.verify(topic, config);
+
+            assert.equal(messages.length, 1);
+            assert.equal(messages[0].ruleId, RULE_ID);
+            assert.equal(messages[0].message, "Unexpected dangling '_' in 'foo_'.");
+            assert.include(messages[0].node.type, "Identifier");
+        }
+    },
+
+    "when evaluating a variable declaration with no dangling underscore": {
+
+        topic: "var foo_bar = 1;",
 
         "should not report a violation": function(topic) {
             var config = { rules: {} };
@@ -72,26 +105,9 @@ vows.describe(RULE_ID).addBatch({
         }
     },
 
-    "when evaluating array literal with a dangling comma": {
+    "when evaluating a function declaration with no dangling underscore": {
 
-        topic: "var foo = [ \"baz\", ]",
-
-        "should report a violation": function(topic) {
-            var config = { rules: {} };
-            config.rules[RULE_ID] = 1;
-
-            var messages = eslint.verify(topic, config);
-
-            assert.equal(messages.length, 1);
-            assert.equal(messages[0].ruleId, RULE_ID);
-            assert.equal(messages[0].message, "Found trailing comma in object literal.");
-            assert.include(messages[0].node.type, "ArrayExpression");
-        }
-    },
-
-    "when evaluating array literal without a dangling comma": {
-
-        topic: "var foo = [ \"baz\" ]",
+        topic: "function foo_bar() {}",
 
         "should not report a violation": function(topic) {
             var config = { rules: {} };
