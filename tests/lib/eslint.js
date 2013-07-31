@@ -19,6 +19,22 @@ var vows = require("vows"),
 var TEST_CODE = "var answer = 6 * 7;";
 
 //------------------------------------------------------------------------------
+// Helpers
+//------------------------------------------------------------------------------
+
+function getVariable(scope, name) {
+    var variable = null;
+    scope.variables.some(function(v) {
+        if (v.name === name) {
+            variable = v;
+            return true;
+        }
+        return false;
+    });
+    return variable;
+}
+
+//------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
@@ -415,17 +431,26 @@ vows.describe("eslint").addBatch({
 
         topic: "/*global a b:true c:false*/ function foo() {} /*globals d:true*/",
 
-        "global options should be available": function(topic) {
+        "variables should be available in global scope": function(topic) {
 
             var config = { rules: {} };
 
             eslint.reset();
-            eslint.on("FunctionExpression", function(node) {
-                var global = eslint.getBlockOptions().global;
-                assert.equal(global.a, false);
-                assert.equal(global.b, true);
-                assert.equal(global.c, false);
-                assert.equal(global.d, true);
+            eslint.on("Program", function(node) {
+                var scope = eslint.getScope();
+                var a = getVariable(scope, "a"),
+                    b = getVariable(scope, "b"),
+                    c = getVariable(scope, "c"),
+                    d = getVariable(scope, "d");
+
+                assert.equal(a.name, "a");
+                assert.equal(a.writeable, false);
+                assert.equal(b.name, "b");
+                assert.equal(b.writeable, true);
+                assert.equal(c.name, "c");
+                assert.equal(c.writeable, false);
+                assert.equal(d.name, "d");
+                assert.equal(d.writeable, true);
             });
 
             eslint.verify(topic, config, true);
@@ -437,36 +462,44 @@ vows.describe("eslint").addBatch({
 
         topic: "/* global  a b  : true   c:  false*/",
 
-        "global options should be available": function(topic) {
+        "variables should be available in global scope": function(topic) {
             var config = { rules: {} };
 
             eslint.reset();
             eslint.on("Program", function(node) {
-                var global = eslint.getBlockOptions().global;
-                assert.equal(global.a, false);
-                assert.equal(global.b, true);
-                assert.equal(global.c, false);
+                var scope = eslint.getScope(),
+                    a = getVariable(scope, "a"),
+                    b = getVariable(scope, "b"),
+                    c = getVariable(scope, "c");
+
+                assert.equal(a.name, "a");
+                assert.equal(a.writeable, false);
+                assert.equal(b.name, "b");
+                assert.equal(b.writeable, true);
+                assert.equal(c.name, "c");
+                assert.equal(c.writeable, false);
             });
 
             eslint.verify(topic, config, true);
         }
     },
 
-    "when evaluating code containing /*jslint */ and /*jshint */ blocks": {
+    "when evaluating code containing /*jshint */ block": {
 
-        topic: "/*jslint a:foo b:1 */ function f() {} /*jshint c:true d:3*/",
+        topic: "/*jslint node:true*/ function f() {} /*jshint browser:true foo:bar*/",
 
-        "lint options should be available": function(topic) {
+        "variables should be available in global scope": function(topic) {
 
             var config = { rules: {} };
 
             eslint.reset();
             eslint.on("Program", function(node) {
-                var lint = eslint.getBlockOptions().lint;
-                assert.equal(lint.a, "foo");
-                assert.equal(lint.b, "1");
-                assert.equal(lint.c, "true");
-                assert.equal(lint.d, "3");
+                var scope = eslint.getScope(),
+                    exports = getVariable(scope, "exports"),
+                    window = getVariable(scope, "window");
+
+                assert.equal(exports.writeable, true);
+                assert.equal(window.writeable, false);
             });
             eslint.verify(topic, config, true);
         }
@@ -476,15 +509,18 @@ vows.describe("eslint").addBatch({
 
         topic: "/* jshint node  : true browser     : false*/",
 
-        "lint options should be available": function(topic) {
+        "variables should be available in global scope": function(topic) {
 
             var config = { rules: {} };
 
             eslint.reset();
             eslint.on("Program", function(node) {
-                var lint = eslint.getBlockOptions().lint;
-                assert.equal(lint.node, "true");
-                assert.equal(lint.browser, "false");
+                var scope = eslint.getScope(),
+                    exports = getVariable(scope, "exports"),
+                    window = getVariable(scope, "window");
+
+                assert.equal(exports.writeable, true);
+                assert.equal(window, null);
             });
             eslint.verify(topic, config, true);
         }
@@ -494,14 +530,16 @@ vows.describe("eslint").addBatch({
 
         topic: "//global a \n function f() {}",
 
-        "no global options should be found in the comment": function(topic) {
+        "should not introduce a global variable": function(topic) {
 
             var config = { rules: {} };
 
             eslint.reset();
             eslint.on("Program", function(node) {
-                var global = eslint.getBlockOptions().global;
-                assert.equal(Object.keys(global).length, 0);
+                var scope = eslint.getScope();
+
+                assert.equal(scope.variables.length, 1);
+                assert.equal(getVariable(scope, "a"), null);
             });
             eslint.verify(topic, config, true);
         }
@@ -511,26 +549,15 @@ vows.describe("eslint").addBatch({
 
         topic: "/**/  /*a*/  /*b:true*/  /*foo c:false*/",
 
-        "no global options should be found in the comments": function(topic) {
+        "should not introduce a global variable": function(topic) {
 
             var config = { rules: {} };
 
             eslint.reset();
             eslint.on("Program", function(node) {
-                var global = eslint.getBlockOptions().global;
-                assert.equal(Object.keys(global).length, 0);
-            });
-            eslint.verify(topic, config, true);
-        },
+                var scope = eslint.getScope();
 
-        "no lint options should be found in the comments": function(topic) {
-
-            var config = { rules: {} };
-
-            eslint.reset();
-            eslint.on("Program", function(node) {
-                var lint = eslint.getBlockOptions().lint;
-                assert.equal(Object.keys(lint).length, 0);
+                assert.equal(scope.variables.length, 0);
             });
             eslint.verify(topic, config, true);
         }

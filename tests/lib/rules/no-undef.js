@@ -146,6 +146,19 @@ vows.describe(RULE_ID).addBatch({
     // Test readonly
     //------------------------------------------------------------------------------
 
+    "when evaluating write to an explicitly declared variable in global scope": {
+        topic: "var a; a = 1; a++;",
+
+        "should not report a violation": function(topic) {
+
+            var config = { rules: {} };
+            config.rules[RULE_ID] = 1;
+
+            var messages = eslint.verify(topic, config);
+            assert.equal(messages.length, 0);
+        }
+    },
+
     "when evaluating write to a declared writeable global": {
         topic: "/*global b:true*/ b++;",
 
@@ -175,8 +188,40 @@ vows.describe(RULE_ID).addBatch({
         }
     },
 
+    "when evaluating read+write to a declared readonly global": {
+        topic: "/*global b:false*/ function f() { b++; }",
+
+        "should report a violation (readonly)": function(topic) {
+
+            var config = { rules: {} };
+            config.rules[RULE_ID] = 1;
+
+            var messages = eslint.verify(topic, config);
+            assert.equal(messages.length, 1);
+            assert.equal(messages[0].ruleId, RULE_ID);
+            assert.equal(messages[0].message, "'b' is read only.");
+            assert.include(messages[0].node.type, "Identifier");
+        }
+    },
+
     "when evaluating write to a declared global that is readonly by default": {
         topic: "/*global b*/ b = 1;",
+
+        "should report a violation (readonly)": function(topic) {
+
+            var config = { rules: {} };
+            config.rules[RULE_ID] = 1;
+
+            var messages = eslint.verify(topic, config);
+            assert.equal(messages.length, 1);
+            assert.equal(messages[0].ruleId, RULE_ID);
+            assert.equal(messages[0].message, "'b' is read only.");
+            assert.include(messages[0].node.type, "Identifier");
+        }
+    },
+
+    "when evaluating write to a redefined global that is readonly": {
+        topic: "/*global b:false*/ var b = 1;",
 
         "should report a violation (readonly)": function(topic) {
 
