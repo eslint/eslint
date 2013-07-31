@@ -9,6 +9,7 @@
         "no-debugger": 1,
         "no-empty": 1,
         "no-eval": 1,
+        "no-ex-assign": 1,
         "no-floating-decimal": 0,
         "no-implied-eval": 1,
         "no-with": 1,
@@ -24,6 +25,11 @@
         "no-plusplus": 0,
         "no-delete-var": 1,
         "no-return-assign": 1,
+        "no-new-array": 1,
+        "no-new-object": 1,
+        "no-label-var": 1,
+        "no-ternary": 0,
+        "no-self-compare": 0,
 
         "smarter-eqeqeq": 0,
         "brace-style": 0,
@@ -46,6 +52,5 @@
         "wrap-iife": 0,
         "no-multi-str": 1,
         "consistent-this": [0, "that"]
-
     }
 }
