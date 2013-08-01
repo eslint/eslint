@@ -19,6 +19,22 @@ var vows = require("vows"),
 var TEST_CODE = "var answer = 6 * 7;";
 
 //------------------------------------------------------------------------------
+// Helpers
+//------------------------------------------------------------------------------
+
+function getVariable(scope, name) {
+    var variable = null;
+    scope.variables.some(function(v) {
+        if (v.name === name) {
+            variable = v;
+            return true;
+        }
+        return false;
+    });
+    return variable;
+}
+
+//------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
@@ -409,6 +425,142 @@ vows.describe("eslint").addBatch({
 
 
 
-    }
+    },
+
+    "when evaluating code containing /*global */ and /*globals */ blocks": {
+
+        topic: "/*global a b:true c:false*/ function foo() {} /*globals d:true*/",
+
+        "variables should be available in global scope": function(topic) {
+
+            var config = { rules: {} };
+
+            eslint.reset();
+            eslint.on("Program", function(node) {
+                var scope = eslint.getScope();
+                var a = getVariable(scope, "a"),
+                    b = getVariable(scope, "b"),
+                    c = getVariable(scope, "c"),
+                    d = getVariable(scope, "d");
+
+                assert.equal(a.name, "a");
+                assert.equal(a.writeable, false);
+                assert.equal(b.name, "b");
+                assert.equal(b.writeable, true);
+                assert.equal(c.name, "c");
+                assert.equal(c.writeable, false);
+                assert.equal(d.name, "d");
+                assert.equal(d.writeable, true);
+            });
+
+            eslint.verify(topic, config, true);
+        }
+
+    },
+
+    "when evaluating code containing a /*global */ block with sloppy whitespace": {
+
+        topic: "/* global  a b  : true   c:  false*/",
+
+        "variables should be available in global scope": function(topic) {
+            var config = { rules: {} };
+
+            eslint.reset();
+            eslint.on("Program", function(node) {
+                var scope = eslint.getScope(),
+                    a = getVariable(scope, "a"),
+                    b = getVariable(scope, "b"),
+                    c = getVariable(scope, "c");
+
+                assert.equal(a.name, "a");
+                assert.equal(a.writeable, false);
+                assert.equal(b.name, "b");
+                assert.equal(b.writeable, true);
+                assert.equal(c.name, "c");
+                assert.equal(c.writeable, false);
+            });
+
+            eslint.verify(topic, config, true);
+        }
+    },
+
+    "when evaluating code containing /*jshint */ block": {
+
+        topic: "/*jslint node:true*/ function f() {} /*jshint browser:true foo:bar*/",
+
+        "variables should be available in global scope": function(topic) {
+
+            var config = { rules: {} };
+
+            eslint.reset();
+            eslint.on("Program", function(node) {
+                var scope = eslint.getScope(),
+                    exports = getVariable(scope, "exports"),
+                    window = getVariable(scope, "window");
+
+                assert.equal(exports.writeable, true);
+                assert.equal(window.writeable, false);
+            });
+            eslint.verify(topic, config, true);
+        }
+    },
+
+    "when evaluating code containing a /*jshint */ block with sloppy whitespace": {
+
+        topic: "/* jshint node  : true browser     : false*/",
+
+        "variables should be available in global scope": function(topic) {
+
+            var config = { rules: {} };
+
+            eslint.reset();
+            eslint.on("Program", function(node) {
+                var scope = eslint.getScope(),
+                    exports = getVariable(scope, "exports"),
+                    window = getVariable(scope, "window");
+
+                assert.equal(exports.writeable, true);
+                assert.equal(window, null);
+            });
+            eslint.verify(topic, config, true);
+        }
+    },
+
+    "when evaluating code containing a line comment": {
+
+        topic: "//global a \n function f() {}",
+
+        "should not introduce a global variable": function(topic) {
+
+            var config = { rules: {} };
+
+            eslint.reset();
+            eslint.on("Program", function(node) {
+                var scope = eslint.getScope();
+
+                assert.equal(scope.variables.length, 1);
+                assert.equal(getVariable(scope, "a"), null);
+            });
+            eslint.verify(topic, config, true);
+        }
+    },
+
+    "when evaluating code containing normal block comments": {
+
+        topic: "/**/  /*a*/  /*b:true*/  /*foo c:false*/",
+
+        "should not introduce a global variable": function(topic) {
+
+            var config = { rules: {} };
+
+            eslint.reset();
+            eslint.on("Program", function(node) {
+                var scope = eslint.getScope();
+
+                assert.equal(scope.variables.length, 0);
+            });
+            eslint.verify(topic, config, true);
+        }
+    },
 
 }).export(module);
