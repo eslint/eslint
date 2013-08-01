@@ -24,6 +24,7 @@ These are rules designed to prevent you from making mistakes. They either prescr
 * [dot-notation] - encourages use of dot notation whenever possible
 * [no-eval] - disallow use of `eval()`
 * [no-with] - disallow use of the `with` statement
+* [no-undef](no-undef.md) - disallow use of undeclared variables unless mentioned in a `/*global */` block
 * [no-undef-init] - disallow use of undefined when initializing variables
 * [no-floating-decimal] - disallow the use of leading or trailing decimal points in numeric literals
 * [no-octal] - disallow use of octal literals
