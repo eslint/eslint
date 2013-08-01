@@ -36,7 +36,7 @@ vows.describe(RULE_ID).addBatch({
             assert.equal(messages.length, 1);
             assert.equal(messages[0].ruleId, RULE_ID);
             assert.equal(messages[0].message, "Unexpected dangling '_' in '_foo'.");
-            assert.include(messages[0].node.type, "Identifier");
+            assert.include(messages[0].node.type, "VariableDeclarator");
         }
     },
 
@@ -53,7 +53,7 @@ vows.describe(RULE_ID).addBatch({
             assert.equal(messages.length, 1);
             assert.equal(messages[0].ruleId, RULE_ID);
             assert.equal(messages[0].message, "Unexpected dangling '_' in 'foo_'.");
-            assert.include(messages[0].node.type, "Identifier");
+            assert.include(messages[0].node.type, "VariableDeclarator");
         }
     },
 
@@ -70,7 +70,7 @@ vows.describe(RULE_ID).addBatch({
             assert.equal(messages.length, 1);
             assert.equal(messages[0].ruleId, RULE_ID);
             assert.equal(messages[0].message, "Unexpected dangling '_' in '_foo'.");
-            assert.include(messages[0].node.type, "Identifier");
+            assert.include(messages[0].node.type, "FunctionDeclaration");
         }
     },
 
@@ -87,7 +87,7 @@ vows.describe(RULE_ID).addBatch({
             assert.equal(messages.length, 1);
             assert.equal(messages[0].ruleId, RULE_ID);
             assert.equal(messages[0].message, "Unexpected dangling '_' in 'foo_'.");
-            assert.include(messages[0].node.type, "Identifier");
+            assert.include(messages[0].node.type, "FunctionDeclaration");
         }
     },
 
@@ -108,6 +108,51 @@ vows.describe(RULE_ID).addBatch({
     "when evaluating a function declaration with no dangling underscore": {
 
         topic: "function foo_bar() {}",
+
+        "should not report a violation": function(topic) {
+            var config = { rules: {} };
+            config.rules[RULE_ID] = 1;
+
+            var messages = eslint.verify(topic, config);
+
+            assert.equal(messages.length, 0);
+        }
+    },
+
+    "when evaluating a variable declaration with property __proto__": {
+
+        topic: "foo.bar.__proto__;",
+
+        "should not report a violation": function(topic) {
+            var config = { rules: {} };
+            config.rules[RULE_ID] = 1;
+
+            var messages = eslint.verify(topic, config);
+
+            assert.equal(messages.length, 0);
+        }
+    },
+
+    "when evaluating a variable declaration with identifier as __proto__": {
+
+        topic: "var __proto__ = 1;",
+
+        "should report a violation": function(topic) {
+            var config = { rules: {} };
+            config.rules[RULE_ID] = 1;
+
+            var messages = eslint.verify(topic, config);
+
+            assert.equal(messages.length, 1);
+            assert.equal(messages[0].ruleId, RULE_ID);
+            assert.equal(messages[0].message, "Unexpected dangling '_' in '__proto__'.");
+            assert.include(messages[0].node.type, "VariableDeclarator");
+        }
+    },
+
+    "when evaluating usage of __filename and __dirname": {
+
+        topic: "console.log(__filename); console.log(__dirname);",
 
         "should not report a violation": function(topic) {
             var config = { rules: {} };
