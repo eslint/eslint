@@ -5,7 +5,7 @@
         "no-caller": 1,
         "no-bitwise": 0,
         "no-console": 1,
-        "no-dangle": 1,
+        "no-comma-dangle": 1,
         "no-debugger": 1,
         "no-empty": 1,
         "no-eq-null": 0,
@@ -33,6 +33,7 @@
         "no-ternary": 0,
         "no-self-compare": 0,
         "no-sync": 0,
+        "no-underscore-dangle": 1,
         "no-loop-func": 1,
         "no-empty-label": 1,
 
