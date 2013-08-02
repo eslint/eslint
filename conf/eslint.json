@@ -34,6 +34,7 @@
         "no-self-compare": 0,
         "no-sync": 0,
         "no-loop-func": 1,
+        "no-empty-label": 1,
 
         "smarter-eqeqeq": 0,
         "brace-style": 0,
