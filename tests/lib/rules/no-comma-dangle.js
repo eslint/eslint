@@ -1,5 +1,5 @@
 /**
- * @fileoverview Tests for no-dangle rule.
+ * @fileoverview Tests for no-comma-dangle rule.
  * @author Ian Christian Myers
  */
 
@@ -15,7 +15,7 @@ var vows = require("vows"),
 // Constants
 //------------------------------------------------------------------------------
 
-var RULE_ID = "no-dangle";
+var RULE_ID = "no-comma-dangle";
 
 //------------------------------------------------------------------------------
 // Tests
