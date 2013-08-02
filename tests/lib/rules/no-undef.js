@@ -344,6 +344,38 @@ vows.describe(RULE_ID).addBatch({
             assert.equal(messages[0].message, "'require' is not defined.");
             assert.include(messages[0].node.type, "Identifier");
         }
+    },
+
+    //------------------------------------------------------------------------------
+    // Test references to builtins
+    //------------------------------------------------------------------------------
+    "when evaluating reference to a builtin": {
+        topic: "Object; isNaN();",
+
+        "should not report a violation": function(topic) {
+
+            var config = { rules: {} };
+            config.rules[RULE_ID] = 1;
+
+            var messages = eslint.verify(topic, config);
+            assert.equal(messages.length, 0);
+        }
+    },
+
+    "when evaluating write to a builtin": {
+        topic: "Array = 1;",
+
+        "should report a violation (readonly)": function(topic) {
+
+            var config = { rules: {} };
+            config.rules[RULE_ID] = 1;
+
+            var messages = eslint.verify(topic, config);
+            assert.equal(messages.length, 1);
+            assert.equal(messages[0].ruleId, RULE_ID);
+            assert.equal(messages[0].message, "'Array' is read only.");
+            assert.include(messages[0].node.type, "Identifier");
+        }
     }
 
 }).export(module);
