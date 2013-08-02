@@ -1,4 +1,40 @@
 {
+    "builtin": {
+        "NaN"                : false,
+        "Infinity"           : false,
+        "undefined"          : false,
+        "eval"               : false,
+
+        "parseFloat"         : false,
+        "parseInt"           : false,
+        "isNaN"              : false,
+        "isFinite"           : false,
+
+        "decodeURI"          : false,
+        "decodeURIComponent" : false,
+        "encodeURI"          : false,
+        "encodeURIComponent" : false,
+
+        "Object"             : false,
+        "Function"           : false,
+        "Array"              : false,
+        "String"             : false,
+        "Boolean"            : false,
+        "Number"             : false,
+        "Date"               : false,
+        "RegExp"             : false,
+        "Error"              : false,
+        "EvalError"          : false,
+        "RangeError"         : false,
+        "ReferenceError"     : false,
+        "SyntaxError"        : false,
+        "TypeError"          : false,
+        "URIError"           : false,
+
+        "Math"               : false,
+        "JSON"               : false
+    },
+
     "browser": {
         "addEventListener"     : false,
         "applicationCache"     : false,
