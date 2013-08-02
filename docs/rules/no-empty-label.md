@@ -1,6 +1,6 @@
 # No empty labels
 
-Labelled statements are only used in conjunction with labelled break and continue statements. ECMAScript has no goto statement.
+Labeled statements are only used in conjunction with labeled break and continue statements. ECMAScript has no goto statement.
 
 
 ## Rule Details
@@ -10,7 +10,7 @@ This error occurs when a label is used to mark a statement that is not an iterat
 The following patterns are considered warnings:
 
 ```js
-labelled: //Label for the following var statement
+labeled: //Label for the following var statement
     var x = 10;
 };
 
@@ -19,7 +19,7 @@ labelled: //Label for the following var statement
 The following patterns are not considered warnings:
 
 ```js
-labelled:
+labeled:
     for (var i=10; i; i--) {
         ...
     }
