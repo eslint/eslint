@@ -538,7 +538,6 @@ vows.describe("eslint").addBatch({
             eslint.on("Program", function(node) {
                 var scope = eslint.getScope();
 
-                assert.equal(scope.variables.length, 1);
                 assert.equal(getVariable(scope, "a"), null);
             });
             eslint.verify(topic, config, true);
@@ -557,7 +556,30 @@ vows.describe("eslint").addBatch({
             eslint.on("Program", function(node) {
                 var scope = eslint.getScope();
 
-                assert.equal(scope.variables.length, 0);
+                assert.equal(getVariable(scope, "a"), null);
+                assert.equal(getVariable(scope, "b"), null);
+                assert.equal(getVariable(scope, "foo"), null);
+                assert.equal(getVariable(scope, "c"), null);
+            });
+            eslint.verify(topic, config, true);
+        }
+    },
+
+    "when evaluating any code": {
+
+        topic: "",
+
+        "builtin global variables should be available in the global scope": function(topic) {
+
+            var config = { rules: {} };
+
+            eslint.reset();
+            eslint.on("Program", function(node) {
+                var scope = eslint.getScope();
+
+                assert.notEqual(getVariable(scope, "Object"), null);
+                assert.notEqual(getVariable(scope, "Array"), null);
+                assert.notEqual(getVariable(scope, "undefined"), null);
             });
             eslint.verify(topic, config, true);
         }
