@@ -38,6 +38,7 @@ These are rules designed to prevent you from making mistakes. They either prescr
 * [no-self-compare] - disallow comparisons where both sides are exactly the same
 * [no-eq-null](no-eq-null.md) - disallow comparisons to null without a type-checking operator
 * [no-multi-str](no-multi-str.md) - disallow use of multiline strings
+* [no-loop-func](no-loop-func.md) - disallow creation of functions within loops
 
 ## Stylistic Issues
 
