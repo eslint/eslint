@@ -13,6 +13,7 @@ The following rules point out areas where you might have made mistakes.
 * [no-obj-calls](no-obj-calls.md) - disallow the use of object properties of the global object (`Math` and `JSON`) as functions
 * [no-unreachable](no-unreachable.md) - disallow unreachable statements after a return, throw, continue, or break statement
 * [use-isnan](use-isnan.md) - disallow comparisons with the value `NaN`
+* [no-dupe-keys](no-dupe-keys.md) - disallow duplicate keys when creating object literals
 
 ## Best Practices
 
