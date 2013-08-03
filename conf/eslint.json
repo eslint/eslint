@@ -7,6 +7,7 @@
         "no-console": 1,
         "no-comma-dangle": 1,
         "no-debugger": 1,
+        "no-dupe-keys": 1,
         "no-empty": 1,
         "no-eq-null": 0,
         "no-eval": 1,
