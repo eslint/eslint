@@ -8,10 +8,10 @@
     },
     "main": "./lib/api.js",
     "scripts": {
-        "changelog": "bash ./scripts/changelog-update.sh",
-        "test": "bash ./scripts/test.sh",
+        "changelog": "bash scripts/changelog-update.sh",
+        "test": "bash scripts/test.sh",
         "lint": "node node_modules/.bin/jshint ./conf/eslint.json ./lib",
-        "bundle": "node_modules/.bin/cjsify -x eslint -m lib/eslint.js -o eslint-min.js"
+        "bundle": "bash scripts/bundle.sh"
     },
     "repository": {
         "type": "git",

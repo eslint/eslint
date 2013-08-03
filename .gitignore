@@ -1,6 +1,7 @@
 node_modules/
 test.js
 coverage/
+lib/rules/index.js
 eslint-min.js
 npm-debug.log
 .DS_Store
