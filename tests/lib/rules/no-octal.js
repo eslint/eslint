@@ -114,6 +114,24 @@ vows.describe(RULE_ID).addBatch({
         }
     },
 
+    "when evaluating the literal 00": {
+
+        topic: "00",
+
+        "should report a violation": function(topic) {
+
+            var config = { rules: {} };
+            config.rules[RULE_ID] = 1;
+
+            var messages = eslint.verify(topic, config);
+
+            assert.equal(messages.length, 1);
+            assert.equal(messages[0].ruleId, RULE_ID);
+            assert.equal(messages[0].message, "Octal literals should not be used.");
+            assert.include(messages[0].node.type, "Literal");
+        }
+    },
+
     "when evaluating numbers between 0 and 1": {
 
         topic: "0.1",
