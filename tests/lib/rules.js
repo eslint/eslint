@@ -75,5 +75,35 @@ vows.describe("rules").addBatch({
             process.exit = exit;
         }
 
+    },
+
+    "when given a valid rules directory containing non-JS files": {
+
+        topic: "tests/fixtures/rules",
+
+        "should load rules and not log an error or exit": function(topic) {
+            var error = console.error;
+            var exit = process.exit;
+
+            var errorsLogged = [];
+            console.error = function(error) {
+                errorsLogged.push(error);
+            };
+
+            var processExitStatus = null;
+            process.exit = function(status) {
+                processExitStatus = status;
+            };
+
+            rules.load(topic);
+
+            assert.equal(errorsLogged.length, 0);
+            assert.equal(processExitStatus, null);
+            assert.equal(typeof rules.get("new-cap"), "function");
+
+            console.error = error;
+            process.exit = exit;
+        }
+
     }
 }).export(module);
