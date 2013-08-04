@@ -51,9 +51,24 @@ vows.describe(RULE_ID).addBatch({
         }
     },
 
-    "when evaluating 'var a = 0x1234'": {
+    "when evaluating '0x1234'": {
 
-        topic: "var a = 0x1234;",
+        topic: "0x1234",
+
+        "should not report a violation": function(topic) {
+
+            var config = { rules: {} };
+            config.rules[RULE_ID] = 1;
+
+            var messages = eslint.verify(topic, config);
+
+            assert.equal(messages.length, 0);
+        }
+    },
+
+    "when evaluating '0X5'": {
+
+        topic: "0X5;",
 
         "should not report a violation": function(topic) {
 
