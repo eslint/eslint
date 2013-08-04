@@ -98,4 +98,34 @@ vows.describe(RULE_ID).addBatch({
             assert.equal(messages.length, 0);
         }
     },
+
+    "when evaluating numbers between 0 and 1": {
+
+        topic: "0.1",
+
+        "should not report a violation": function(topic) {
+
+            var config = { rules: {} };
+            config.rules[RULE_ID] = 1;
+
+            var messages = eslint.verify(topic, config);
+
+            assert.equal(messages.length, 0);
+        }
+    },
+
+    "when evaluating 0-prefixed numbers in scientific notation": {
+
+        topic: "0.5e1",
+
+        "should not report a violation": function(topic) {
+
+            var config = { rules: {} };
+            config.rules[RULE_ID] = 1;
+
+            var messages = eslint.verify(topic, config);
+
+            assert.equal(messages.length, 0);
+        }
+    }
 }).export(module);
