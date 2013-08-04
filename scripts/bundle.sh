@@ -11,11 +11,12 @@ for ruleFile in $rules; do
     fi
 done
 
-# bundle
+# bundle, using our generated rule module instead of dynamic loader in /lib/load-rules.js
 node_modules/.bin/cjsify \
     --minify \
     --export eslint \
-    -a /lib/load-rules.js:/lib/rules/index.js \
+    --inline-sources --source-map $bundleFile.map \
+    --alias /lib/load-rules.js:/lib/rules/index.js \
     lib/eslint.js > $bundleFile
 
 # clean up
