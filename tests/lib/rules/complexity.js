@@ -129,6 +129,17 @@ vows.describe(RULE_ID).addBatch({
         "should report a complexity of 2": getComplexityAssertion(2)
     },
 
+    "When evaluating an if statement": {
+        topic: "if (foo) { bar(); }",
+        "should not report a violation": function (topic) {
+            var config = { rules: {} };
+            config.rules[RULE_ID] = [1, 3];
+
+            var messages = eslint.verify(topic, config);
+            assert.equal(messages.length, 0);
+        }
+    },
+
     "When evaluating a simple function with 2 complex inner functions": {
         topic: "function a(x) {(function() {while(true){'foo';}})(); (function() {while(true){'bar';}})();}",
         "should report 2 violations for the inner functions": function(topic) {
