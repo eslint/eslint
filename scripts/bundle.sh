@@ -1,4 +1,5 @@
-bundleFile=eslint-min.js
+outputDir=build
+bundleFile=$outputDir/eslint-min.js
 
 # generate a module that lists all rules in the rules directory
 rulesFile=lib/rules/index.js
@@ -13,6 +14,10 @@ for ruleFile in lib/rules/*.js; do
 done
 echo '  return rules;' >> $rulesFile
 echo '};' >> $rulesFile
+
+if [ ! -d $outputDir ]; then
+    mkdir $outputDir
+fi
 
 # bundle, using our generated rule module instead of dynamic loader in /lib/load-rules.js
 node_modules/.bin/cjsify \
