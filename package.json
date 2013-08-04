@@ -8,9 +8,10 @@
     },
     "main": "./lib/api.js",
     "scripts": {
-        "changelog": "bash ./scripts/changelog-update.sh",
-        "test": "bash ./scripts/test.sh",
-        "lint": "node node_modules/jshint/bin/jshint ./conf/eslint.json ./lib"
+        "changelog": "bash scripts/changelog-update.sh",
+        "test": "bash scripts/test.sh",
+        "lint": "node node_modules/.bin/jshint ./conf/eslint.json ./lib",
+        "bundle": "bash scripts/bundle.sh"
     },
     "repository": {
         "type": "git",
@@ -27,7 +28,8 @@
         "vows": "~0.7.0",
         "istanbul": "~0.1.10",
         "sinon": "*",
-        "jshint": "~2.1.4"
+        "jshint": "~2.1.4",
+        "commonjs-everywhere": "~0.9.0"
     },
     "keywords": [
         "ast",
