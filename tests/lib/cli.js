@@ -36,6 +36,28 @@ vows.describe("cli").addBatch({
 
     },
 
+
+    "when given a config file and a directory of files": {
+
+        topic: ["--config","tests/fixtures/configurations/semi-error.json", "tests/fixtures/formatters"],
+
+        "should load and execute without error": function(topic) {
+            var log = console.log,
+                exitStatus;
+
+            // Assign console.log to noop to skip CLI output
+            console.log = function() {};
+
+            assert.doesNotThrow(function () {
+                exitStatus = cli.execute(topic);
+            });
+            console.log = log;
+
+            assert.equal(exitStatus, 0);
+        }
+
+    },
+
     "when given a valid built-in formatter name": {
 
         topic: "checkstyle",
