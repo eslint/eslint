@@ -37,7 +37,7 @@ vows.describe(RULE_ID).addBatch({
 
             assert.equal(messages.length, 1);
             assert.equal(messages[0].ruleId, RULE_ID);
-            assert.equal(messages[0].message, "Do not use String as a constructor");
+            assert.equal(messages[0].message, "Do not use String as a constructor.");
             assert.include(messages[0].node.type, "NewExpression");
         }
     },
@@ -55,7 +55,7 @@ vows.describe(RULE_ID).addBatch({
 
             assert.equal(messages.length, 1);
             assert.equal(messages[0].ruleId, RULE_ID);
-            assert.equal(messages[0].message, "Do not use Number as a constructor");
+            assert.equal(messages[0].message, "Do not use Number as a constructor.");
             assert.include(messages[0].node.type, "NewExpression");
         }
     },
@@ -73,7 +73,7 @@ vows.describe(RULE_ID).addBatch({
 
             assert.equal(messages.length, 1);
             assert.equal(messages[0].ruleId, RULE_ID);
-            assert.equal(messages[0].message, "Do not use Boolean as a constructor");
+            assert.equal(messages[0].message, "Do not use Boolean as a constructor.");
             assert.include(messages[0].node.type, "NewExpression");
         }
     },
@@ -91,7 +91,7 @@ vows.describe(RULE_ID).addBatch({
 
             assert.equal(messages.length, 1);
             assert.equal(messages[0].ruleId, RULE_ID);
-            assert.equal(messages[0].message, "Do not use Math as a constructor");
+            assert.equal(messages[0].message, "Do not use Math as a constructor.");
             assert.include(messages[0].node.type, "NewExpression");
         }
     },
@@ -109,7 +109,7 @@ vows.describe(RULE_ID).addBatch({
 
             assert.equal(messages.length, 1);
             assert.equal(messages[0].ruleId, RULE_ID);
-            assert.equal(messages[0].message, "Do not use JSON as a constructor");
+            assert.equal(messages[0].message, "Do not use JSON as a constructor.");
             assert.include(messages[0].node.type, "NewExpression");
         }
     },

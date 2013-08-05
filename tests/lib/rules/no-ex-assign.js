@@ -35,7 +35,7 @@ vows.describe(RULE_ID).addBatch({
 
             assert.equal(messages.length, 1);
             assert.equal(messages[0].ruleId, RULE_ID);
-            assert.equal(messages[0].message, "Unexpected assignment of exception parameter.");
+            assert.equal(messages[0].message, "Do not assign to the exception parameter.");
             assert.include(messages[0].node.type, "AssignmentExpression");
         }
     },
@@ -52,7 +52,7 @@ vows.describe(RULE_ID).addBatch({
 
             assert.equal(messages.length, 1);
             assert.equal(messages[0].ruleId, RULE_ID);
-            assert.equal(messages[0].message, "Unexpected assignment of exception parameter.");
+            assert.equal(messages[0].message, "Do not assign to the exception parameter.");
             assert.include(messages[0].node.type, "AssignmentExpression");
         }
     },

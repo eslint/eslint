@@ -42,8 +42,8 @@ function violation(message, nodeType) {
     }
 }
 
-var eqViolation = violation("Unexpected use of ==, use === instead.", "BinaryExpression");
-var neqViolation = violation("Unexpected use of !=, use !== instead.", "BinaryExpression");
+var eqViolation = violation("Expected '===' and instead saw '=='.", "BinaryExpression");
+var neqViolation = violation("Expected '!==' and instead saw '!='.", "BinaryExpression");
 
 vows.describe(RULE_ID).addBatch({
     "when evaluating typeof": {
