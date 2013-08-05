@@ -589,7 +589,7 @@ vows.describe("eslint").addBatch({
         topic: "new-rule",
         "can add a rule dynamically": function(topic) {
             eslint.reset();
-            eslint.define(topic, function(context) {
+            eslint.defineRule(topic, function(context) {
                 return {"Literal": function(node) { context.report(node, "message"); }};
             });
 
@@ -616,7 +616,7 @@ vows.describe("eslint").addBatch({
                     return {"Literal": function(node) { context.report(node, "message"); }};
                 };
             });
-            eslint.define(newRules);
+            eslint.defineRules(newRules);
 
             var messages = eslint.verify("0", config);
 
