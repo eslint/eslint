@@ -1,5 +1,5 @@
 /**
- * @fileoverview Tests for no-dangle rule.
+ * @fileoverview Tests for unnecessary-strict.
  * @author Ian Christian Myers
  */
 
@@ -15,7 +15,7 @@ var vows = require("vows"),
 // Constants
 //------------------------------------------------------------------------------
 
-var RULE_ID = "no-dangle";
+var RULE_ID = "unnecessary-strict";
 
 //------------------------------------------------------------------------------
 // Tests
@@ -23,84 +23,67 @@ var RULE_ID = "no-dangle";
 
 vows.describe(RULE_ID).addBatch({
 
-    "when evaluating object literal with a dangling comma": {
+    "when evaluating strict in global and function scope": {
 
-        topic: "var foo = { bar: \"baz\", }",
+        topic: "\"use strict\"; function foo() { \"use strict\"; var bar = true; }",
 
         "should report a violation": function(topic) {
+
             var config = { rules: {} };
             config.rules[RULE_ID] = 1;
 
             var messages = eslint.verify(topic, config);
-
             assert.equal(messages.length, 1);
             assert.equal(messages[0].ruleId, RULE_ID);
-            assert.equal(messages[0].message, "Trailing comma.");
-            assert.include(messages[0].node.type, "ObjectExpression");
+            assert.equal(messages[0].message, "Unnecessary 'use strict'.");
+            assert.include(messages[0].node.type, "Literal");
         }
     },
 
-    "when evaluating object literal passed to a function with a dangling comma": {
+    "when evaluating strict in global scope": {
 
-        topic: "foo({ bar: \"baz\", qux: \"quux\", });",
-
-        "should report a violation": function(topic) {
-            var config = { rules: {} };
-            config.rules[RULE_ID] = 1;
-
-            var messages = eslint.verify(topic, config);
-
-            assert.equal(messages.length, 1);
-            assert.equal(messages[0].ruleId, RULE_ID);
-            assert.equal(messages[0].message, "Trailing comma.");
-            assert.include(messages[0].node.type, "ObjectExpression");
-        }
-    },
-
-
-    "when evaluating object literal without a dangling comma": {
-
-        topic: "var foo = { bar: \"baz\" }",
+        topic: "\"use strict\"; function foo() { var bar = true; }",
 
         "should not report a violation": function(topic) {
+
             var config = { rules: {} };
             config.rules[RULE_ID] = 1;
 
             var messages = eslint.verify(topic, config);
-
             assert.equal(messages.length, 0);
         }
     },
 
-    "when evaluating array literal with a dangling comma": {
+    "when evaluating strict in function scope": {
 
-        topic: "var foo = [ \"baz\", ]",
+        topic: "function foo() { \"use strict\"; var bar = true; }",
 
-        "should report a violation": function(topic) {
+        "should not report a violation": function(topic) {
+
             var config = { rules: {} };
             config.rules[RULE_ID] = 1;
 
             var messages = eslint.verify(topic, config);
-
-            assert.equal(messages.length, 1);
-            assert.equal(messages[0].ruleId, RULE_ID);
-            assert.equal(messages[0].message, "Trailing comma.");
-            assert.include(messages[0].node.type, "ArrayExpression");
+            assert.equal(messages.length, 0);
         }
     },
 
-    "when evaluating array literal without a dangling comma": {
+    "when evaluating strict in global and nested function scope": {
 
-        topic: "var foo = [ \"baz\" ]",
+        topic: "\"use strict\"; (function foo() { function bar () { \"use strict\"; } }());",
 
-        "should not report a violation": function(topic) {
+        "should report a violation": function(topic) {
+
             var config = { rules: {} };
             config.rules[RULE_ID] = 1;
 
             var messages = eslint.verify(topic, config);
-
-            assert.equal(messages.length, 0);
+            assert.equal(messages.length, 1);
+            assert.equal(messages[0].ruleId, RULE_ID);
+            assert.equal(messages[0].message, "Unnecessary 'use strict'.");
+            assert.include(messages[0].node.type, "Literal");
         }
     }
+
 
 }).export(module);

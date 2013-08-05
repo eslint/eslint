@@ -1,6 +1,6 @@
 /**
- * @fileoverview Tests for no-caller rule.
- * @author Nicholas C. Zakas
+ * @fileoverview Tests for no-comma-dangle rule.
+ * @author Ian Christian Myers
  */
 
 //------------------------------------------------------------------------------
@@ -15,7 +15,7 @@ var vows = require("vows"),
 // Constants
 //------------------------------------------------------------------------------
 
-var RULE_ID = "no-caller";
+var RULE_ID = "no-comma-dangle";
 
 //------------------------------------------------------------------------------
 // Tests
@@ -23,12 +23,11 @@ var RULE_ID = "no-caller";
 
 vows.describe(RULE_ID).addBatch({
 
-    "when evaluating 'var x = arguments.callee'": {
+    "when evaluating object literal with a dangling comma": {
 
-        topic: "var x = arguments.callee",
+        topic: "var foo = { bar: \"baz\", }",
 
         "should report a violation": function(topic) {
-
             var config = { rules: {} };
             config.rules[RULE_ID] = 1;
 
@@ -36,17 +35,16 @@ vows.describe(RULE_ID).addBatch({
 
             assert.equal(messages.length, 1);
             assert.equal(messages[0].ruleId, RULE_ID);
-            assert.equal(messages[0].message, "Avoid arguments.callee.");
-            assert.include(messages[0].node.type, "MemberExpression");
+            assert.equal(messages[0].message, "Trailing comma.");
+            assert.include(messages[0].node.type, "ObjectExpression");
         }
     },
 
-    "when evaluating 'var x = arguments.caller'": {
+    "when evaluating object literal passed to a function with a dangling comma": {
 
-        topic: "var x = arguments.caller",
+        topic: "foo({ bar: \"baz\", qux: \"quux\", });",
 
         "should report a violation": function(topic) {
-
             var config = { rules: {} };
             config.rules[RULE_ID] = 1;
 
@@ -54,17 +52,17 @@ vows.describe(RULE_ID).addBatch({
 
             assert.equal(messages.length, 1);
             assert.equal(messages[0].ruleId, RULE_ID);
-            assert.equal(messages[0].message, "Avoid arguments.caller.");
-            assert.include(messages[0].node.type, "MemberExpression");
+            assert.equal(messages[0].message, "Trailing comma.");
+            assert.include(messages[0].node.type, "ObjectExpression");
         }
     },
 
-    "when evaluating 'var x = arguments.length'": {
 
-        topic: "var x = arguments.length",
+    "when evaluating object literal without a dangling comma": {
+
+        topic: "var foo = { bar: \"baz\" }",
 
         "should not report a violation": function(topic) {
-
             var config = { rules: {} };
             config.rules[RULE_ID] = 1;
 
@@ -74,42 +72,28 @@ vows.describe(RULE_ID).addBatch({
         }
     },
 
-    "when evaluating 'var x = arguments'": {
+    "when evaluating array literal with a dangling comma": {
 
-        topic: "var x = arguments",
+        topic: "var foo = [ \"baz\", ]",
 
-        "should not report a violation": function(topic) {
-
+        "should report a violation": function(topic) {
             var config = { rules: {} };
             config.rules[RULE_ID] = 1;
 
             var messages = eslint.verify(topic, config);
 
-            assert.equal(messages.length, 0);
+            assert.equal(messages.length, 1);
+            assert.equal(messages[0].ruleId, RULE_ID);
+            assert.equal(messages[0].message, "Trailing comma.");
+            assert.include(messages[0].node.type, "ArrayExpression");
         }
     },
 
-    "when evaluating 'var x = arguments[0]'": {
+    "when evaluating array literal without a dangling comma": {
 
-        topic: "var x = arguments[0]",
-
-        "should not report a violation": function(topic) {
-
-            var config = { rules: {} };
-            config.rules[RULE_ID] = 1;
-
-            var messages = eslint.verify(topic, config);
-
-            assert.equal(messages.length, 0);
-        }
-    },
-
-    "when evaluating 'var x = arguments[caller]'": {
-
-        topic: "var x = arguments[caller]",
+        topic: "var foo = [ \"baz\" ]",
 
         "should not report a violation": function(topic) {
-
             var config = { rules: {} };
             config.rules[RULE_ID] = 1;
 

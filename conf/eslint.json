@@ -5,9 +5,11 @@
         "no-caller": 1,
         "no-bitwise": 0,
         "no-console": 1,
-        "no-dangle": 1,
+        "no-comma-dangle": 1,
         "no-debugger": 1,
+        "no-dupe-keys": 1,
         "no-empty": 1,
+        "no-eq-null": 0,
         "no-eval": 1,
         "no-ex-assign": 1,
         "no-floating-decimal": 0,
@@ -15,6 +17,7 @@
         "no-with": 1,
         "no-fallthrough": 1,
         "no-unreachable": 1,
+        "no-undef": 1,
         "no-undef-init": 1,
         "no-octal": 1,
         "no-obj-calls": 1,
@@ -30,6 +33,11 @@
         "no-label-var": 1,
         "no-ternary": 0,
         "no-self-compare": 0,
+        "no-sync": 0,
+        "no-underscore-dangle": 1,
+        "no-loop-func": 1,
+        "no-empty-label": 1,
+        "no-unused-vars": 1,
 
         "smarter-eqeqeq": 0,
         "brace-style": 0,
@@ -50,6 +58,8 @@
         "regex-spaces": 1,
         "complexity": [0, 11],
         "wrap-iife": 0,
-        "no-multi-str": 1
+        "no-multi-str": 1,
+        "consistent-this": [0, "that"],
+        "unnecessary-strict": 1
     }
 }

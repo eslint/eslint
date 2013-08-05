@@ -13,6 +13,7 @@ The following rules point out areas where you might have made mistakes.
 * [no-obj-calls](no-obj-calls.md) - disallow the use of object properties of the global object (`Math` and `JSON`) as functions
 * [no-unreachable](no-unreachable.md) - disallow unreachable statements after a return, throw, continue, or break statement
 * [use-isnan](use-isnan.md) - disallow comparisons with the value `NaN`
+* [no-dupe-keys](no-dupe-keys.md) - disallow duplicate keys when creating object literals
 
 ## Best Practices
 
@@ -24,6 +25,7 @@ These are rules designed to prevent you from making mistakes. They either prescr
 * [dot-notation] - encourages use of dot notation whenever possible
 * [no-eval] - disallow use of `eval()`
 * [no-with] - disallow use of the `with` statement
+* [no-undef](no-undef.md) - disallow use of undeclared variables unless mentioned in a `/*global */` block
 * [no-undef-init] - disallow use of undefined when initializing variables
 * [no-floating-decimal] - disallow the use of leading or trailing decimal points in numeric literals
 * [no-octal] - disallow use of octal literals
@@ -35,7 +37,12 @@ These are rules designed to prevent you from making mistakes. They either prescr
 * [no-label-var](no-label-var.md) - disallow labels that share a name with a variable
 * [wrap-iife](wrap-iife.md) - require immediate function invocation to be wrapped in parentheses
 * [no-self-compare] - disallow comparisons where both sides are exactly the same
+* [no-eq-null](no-eq-null.md) - disallow comparisons to null without a type-checking operator
 * [no-multi-str](no-multi-str.md) - disallow use of multiline strings
+* [no-loop-func](no-loop-func.md) - disallow creation of functions within loops
+* [no-empty-label](no-empty-label.md) - disallow use of labels for anything other then loops and switches
+* [unnecessary-strict](unnecessary-strict.md) - disallow unnecessary use of `"use strict";` when already in strict mode
+* [no-unused-vars](no-unused-vars.md) - disallow declaration of variables that are not used in the code
 
 ## Stylistic Issues
 
@@ -47,6 +54,7 @@ These rules are purely matters of style and are quite subjective.
 * [semi] - require use of semicolons instead of relying on ASI
 * [max-params] - limits the number of parameters that can be used in the function declaration. Configurable. Default is 3.
 * [no-ternary](no-ternary.md) - disallow the use of ternary operators
+* [consistent-this](consistent-this.md) - enforces consistent naming when capturing the current execution context (off by default).
 
 ## Alternate Rules
 

@@ -1,6 +1,6 @@
 /**
- * @fileoverview Tests for no-caller rule.
- * @author Nicholas C. Zakas
+ * @fileoverview Tests for no-empty-label rule.
+ * @author Ilya Volodin
  */
 
 //------------------------------------------------------------------------------
@@ -15,35 +15,16 @@ var vows = require("vows"),
 // Constants
 //------------------------------------------------------------------------------
 
-var RULE_ID = "no-caller";
+var RULE_ID = "no-empty-label";
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
 vows.describe(RULE_ID).addBatch({
+    "when evaluating 'labeled: var a = 10;'": {
 
-    "when evaluating 'var x = arguments.callee'": {
-
-        topic: "var x = arguments.callee",
-
-        "should report a violation": function(topic) {
-
-            var config = { rules: {} };
-            config.rules[RULE_ID] = 1;
-
-            var messages = eslint.verify(topic, config);
-
-            assert.equal(messages.length, 1);
-            assert.equal(messages[0].ruleId, RULE_ID);
-            assert.equal(messages[0].message, "Avoid arguments.callee.");
-            assert.include(messages[0].node.type, "MemberExpression");
-        }
-    },
-
-    "when evaluating 'var x = arguments.caller'": {
-
-        topic: "var x = arguments.caller",
+        topic: "labeled: var a = 10;",
 
         "should report a violation": function(topic) {
 
@@ -54,69 +35,56 @@ vows.describe(RULE_ID).addBatch({
 
             assert.equal(messages.length, 1);
             assert.equal(messages[0].ruleId, RULE_ID);
-            assert.equal(messages[0].message, "Avoid arguments.caller.");
-            assert.include(messages[0].node.type, "MemberExpression");
+            assert.equal(messages[0].message, "Unexpected label labeled");
+            assert.include(messages[0].node.type, "LabeledStatement");
         }
     },
 
-    "when evaluating 'var x = arguments.length'": {
+    "when evaluating a string 'labeled: for (var i=10; i; i--) { }'": {
 
-        topic: "var x = arguments.length",
+        topic: "labeled: for (var i=10; i; i--) { }",
 
         "should not report a violation": function(topic) {
-
             var config = { rules: {} };
             config.rules[RULE_ID] = 1;
-
             var messages = eslint.verify(topic, config);
-
             assert.equal(messages.length, 0);
         }
     },
 
-    "when evaluating 'var x = arguments'": {
+    "when evaluating a string 'labeled: while(i) {}'": {
 
-        topic: "var x = arguments",
+        topic: "labeled: while(i) {}",
 
         "should not report a violation": function(topic) {
-
             var config = { rules: {} };
             config.rules[RULE_ID] = 1;
-
             var messages = eslint.verify(topic, config);
-
             assert.equal(messages.length, 0);
         }
     },
 
-    "when evaluating 'var x = arguments[0]'": {
+    "when evaluating a string 'labeled: do {} while (i)'": {
 
-        topic: "var x = arguments[0]",
+        topic: "labeled: do {} while (i)",
 
         "should not report a violation": function(topic) {
-
             var config = { rules: {} };
             config.rules[RULE_ID] = 1;
-
             var messages = eslint.verify(topic, config);
-
             assert.equal(messages.length, 0);
         }
     },
 
-    "when evaluating 'var x = arguments[caller]'": {
+    "when evaluating a string 'labeled: switch(i) { case 1: break; default: break; }'": {
 
-        topic: "var x = arguments[caller]",
+        topic: "labeled: switch(i) { case 1: break; default: break; }",
 
         "should not report a violation": function(topic) {
-
             var config = { rules: {} };
             config.rules[RULE_ID] = 1;
-
             var messages = eslint.verify(topic, config);
-
             assert.equal(messages.length, 0);
         }
-    }
-
+    },    
 }).export(module);

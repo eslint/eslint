@@ -57,6 +57,20 @@ vows.describe(RULE_ID).addBatch({
         }
     },
 
+    "when evaluating 'function test(d, e, f) {}'": {
+
+        topic: "function test(d, e, f) {}",
+
+        "should not report a violation": function(topic) {
+            var config = { rules: {} };
+            config.rules[RULE_ID] = 1;
+
+            var messages = eslint.verify(topic, config);
+
+            assert.equal(messages.length, 0);
+        }
+    },
+
     "when evaluating 'var test = function(a, b, c, d) {}'": {
 
         topic: "var test = function(a, b, c, d) {};",

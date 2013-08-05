@@ -1,6 +1,6 @@
 /**
- * @fileoverview Tests for no-caller rule.
- * @author Nicholas C. Zakas
+ * @fileoverview Tests for no-dupe-keys rule.
+ * @author Ian Christian Myers
  */
 
 //------------------------------------------------------------------------------
@@ -15,7 +15,7 @@ var vows = require("vows"),
 // Constants
 //------------------------------------------------------------------------------
 
-var RULE_ID = "no-caller";
+var RULE_ID = "no-dupe-keys";
 
 //------------------------------------------------------------------------------
 // Tests
@@ -23,12 +23,11 @@ var RULE_ID = "no-caller";
 
 vows.describe(RULE_ID).addBatch({
 
-    "when evaluating 'var x = arguments.callee'": {
+    "when evaluating 'var x = { y: 1, y: 2 };'": {
 
-        topic: "var x = arguments.callee",
+        topic: "var x = { y: 1, y: 2 };",
 
         "should report a violation": function(topic) {
-
             var config = { rules: {} };
             config.rules[RULE_ID] = 1;
 
@@ -36,17 +35,16 @@ vows.describe(RULE_ID).addBatch({
 
             assert.equal(messages.length, 1);
             assert.equal(messages[0].ruleId, RULE_ID);
-            assert.equal(messages[0].message, "Avoid arguments.callee.");
-            assert.include(messages[0].node.type, "MemberExpression");
+            assert.equal(messages[0].message, "Duplicate key 'y'.");
+            assert.include(messages[0].node.type, "ObjectExpression");
         }
     },
 
-    "when evaluating 'var x = arguments.caller'": {
+    "when evaluating 'var foo = { 0x1: 1, 1: 2};'": {
 
-        topic: "var x = arguments.caller",
+        topic: "var foo = { 0x1: 1, 1: 2};",
 
         "should report a violation": function(topic) {
-
             var config = { rules: {} };
             config.rules[RULE_ID] = 1;
 
@@ -54,17 +52,16 @@ vows.describe(RULE_ID).addBatch({
 
             assert.equal(messages.length, 1);
             assert.equal(messages[0].ruleId, RULE_ID);
-            assert.equal(messages[0].message, "Avoid arguments.caller.");
-            assert.include(messages[0].node.type, "MemberExpression");
+            assert.equal(messages[0].message, "Duplicate key '1'.");
+            assert.include(messages[0].node.type, "ObjectExpression");
         }
     },
 
-    "when evaluating 'var x = arguments.length'": {
+    "when evaluating 'var foo = { __proto__: 1, two: 2};'": {
 
-        topic: "var x = arguments.length",
+        topic: "var foo = { __proto__: 1, two: 2};",
 
-        "should not report a violation": function(topic) {
-
+        "should report a violation": function(topic) {
             var config = { rules: {} };
             config.rules[RULE_ID] = 1;
 
@@ -74,42 +71,28 @@ vows.describe(RULE_ID).addBatch({
         }
     },
 
-    "when evaluating 'var x = arguments'": {
+    "when evaluating 'var x = { \"z\": 1, z: 2 };'": {
 
-        topic: "var x = arguments",
+        topic: "var x = { \"z\": 1, z: 2 };",
 
-        "should not report a violation": function(topic) {
-
+        "should report a violation": function(topic) {
             var config = { rules: {} };
             config.rules[RULE_ID] = 1;
 
             var messages = eslint.verify(topic, config);
 
-            assert.equal(messages.length, 0);
+            assert.equal(messages.length, 1);
+            assert.equal(messages[0].ruleId, RULE_ID);
+            assert.equal(messages[0].message, "Duplicate key 'z'.");
+            assert.include(messages[0].node.type, "ObjectExpression");
         }
     },
 
-    "when evaluating 'var x = arguments[0]'": {
+    "when evaluating 'var x = { foo: 1, bar: 2 };'": {
 
-        topic: "var x = arguments[0]",
-
-        "should not report a violation": function(topic) {
-
-            var config = { rules: {} };
-            config.rules[RULE_ID] = 1;
-
-            var messages = eslint.verify(topic, config);
-
-            assert.equal(messages.length, 0);
-        }
-    },
-
-    "when evaluating 'var x = arguments[caller]'": {
-
-        topic: "var x = arguments[caller]",
+        topic: "var x = { foo: 1, bar: 2 };",
 
         "should not report a violation": function(topic) {
-
             var config = { rules: {} };
             config.rules[RULE_ID] = 1;
 
@@ -118,5 +101,7 @@ vows.describe(RULE_ID).addBatch({
             assert.equal(messages.length, 0);
         }
     }
+
+
 
 }).export(module);

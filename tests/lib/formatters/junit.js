@@ -100,6 +100,22 @@ vows.describe("formatter:junit").addBatch({
         }
     },
 
+    "when passed a fatal error message with no line, column, or message text": {
+
+        topic: [{
+            filePath: "foo.js",
+            messages: [{
+                fatal: true
+            }]
+        }],
+
+        "should return a single <testcase> and an <error>": function(topic) {
+            var config = {};
+            var result = formatter(topic, config);
+            assert.equal('<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite package="org.eslint" time="0" tests="1" errors="1" name="foo.js"><testcase time="0" name="org.eslint.unknown"><error message=""><![CDATA[line 0, col 0, Error - ]]></error></testcase></testsuite></testsuites>', result.replace(/\n/g, ""));
+        }
+    },
+
     "when passed multiple messages": {
 
         topic: [{

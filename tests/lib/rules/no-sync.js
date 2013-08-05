@@ -1,6 +1,6 @@
 /**
- * @fileoverview Tests for no-caller rule.
- * @author Nicholas C. Zakas
+ * @fileoverview Tests for no-sync.
+ * @author Matt DuVall <http://www.mattduvall.com>
  */
 
 //------------------------------------------------------------------------------
@@ -15,7 +15,7 @@ var vows = require("vows"),
 // Constants
 //------------------------------------------------------------------------------
 
-var RULE_ID = "no-caller";
+var RULE_ID = "no-sync";
 
 //------------------------------------------------------------------------------
 // Tests
@@ -23,27 +23,9 @@ var RULE_ID = "no-caller";
 
 vows.describe(RULE_ID).addBatch({
 
-    "when evaluating 'var x = arguments.callee'": {
+    "when evaluating code that uses a *Sync method": {
 
-        topic: "var x = arguments.callee",
-
-        "should report a violation": function(topic) {
-
-            var config = { rules: {} };
-            config.rules[RULE_ID] = 1;
-
-            var messages = eslint.verify(topic, config);
-
-            assert.equal(messages.length, 1);
-            assert.equal(messages[0].ruleId, RULE_ID);
-            assert.equal(messages[0].message, "Avoid arguments.callee.");
-            assert.include(messages[0].node.type, "MemberExpression");
-        }
-    },
-
-    "when evaluating 'var x = arguments.caller'": {
-
-        topic: "var x = arguments.caller",
+        topic: "var foo = fs.fooSync();",
 
         "should report a violation": function(topic) {
 
@@ -51,47 +33,33 @@ vows.describe(RULE_ID).addBatch({
             config.rules[RULE_ID] = 1;
 
             var messages = eslint.verify(topic, config);
-
             assert.equal(messages.length, 1);
             assert.equal(messages[0].ruleId, RULE_ID);
-            assert.equal(messages[0].message, "Avoid arguments.caller.");
+            assert.equal(messages[0].message, "Unexpected sync method: 'fooSync'.");
             assert.include(messages[0].node.type, "MemberExpression");
         }
     },
 
-    "when evaluating 'var x = arguments.length'": {
+    "when evaluating code that uses a *Sync property": {
 
-        topic: "var x = arguments.length",
+        topic: "var foo = fs.fooSync;",
 
-        "should not report a violation": function(topic) {
+        "should report a violation": function(topic) {
 
             var config = { rules: {} };
             config.rules[RULE_ID] = 1;
 
             var messages = eslint.verify(topic, config);
-
-            assert.equal(messages.length, 0);
+            assert.equal(messages.length, 1);
+            assert.equal(messages[0].ruleId, RULE_ID);
+            assert.equal(messages[0].message, "Unexpected sync method: 'fooSync'.");
+            assert.include(messages[0].node.type, "MemberExpression");
         }
     },
 
-    "when evaluating 'var x = arguments'": {
+    "when evaluating code that uses a non *Sync method": {
 
-        topic: "var x = arguments",
-
-        "should not report a violation": function(topic) {
-
-            var config = { rules: {} };
-            config.rules[RULE_ID] = 1;
-
-            var messages = eslint.verify(topic, config);
-
-            assert.equal(messages.length, 0);
-        }
-    },
-
-    "when evaluating 'var x = arguments[0]'": {
-
-        topic: "var x = arguments[0]",
+        topic: "var foo = fs.foo.foo();",
 
         "should not report a violation": function(topic) {
 
@@ -99,22 +67,6 @@ vows.describe(RULE_ID).addBatch({
             config.rules[RULE_ID] = 1;
 
             var messages = eslint.verify(topic, config);
-
-            assert.equal(messages.length, 0);
-        }
-    },
-
-    "when evaluating 'var x = arguments[caller]'": {
-
-        topic: "var x = arguments[caller]",
-
-        "should not report a violation": function(topic) {
-
-            var config = { rules: {} };
-            config.rules[RULE_ID] = 1;
-
-            var messages = eslint.verify(topic, config);
-
             assert.equal(messages.length, 0);
         }
     }

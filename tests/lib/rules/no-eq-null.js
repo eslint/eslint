@@ -1,6 +1,6 @@
 /**
- * @fileoverview Tests for no-caller rule.
- * @author Nicholas C. Zakas
+ * @fileoverview Tests for no-eq-null rule.
+ * @author Ian Christian Myers
  */
 
 //------------------------------------------------------------------------------
@@ -15,7 +15,7 @@ var vows = require("vows"),
 // Constants
 //------------------------------------------------------------------------------
 
-var RULE_ID = "no-caller";
+var RULE_ID = "no-eq-null";
 
 //------------------------------------------------------------------------------
 // Tests
@@ -23,12 +23,11 @@ var RULE_ID = "no-caller";
 
 vows.describe(RULE_ID).addBatch({
 
-    "when evaluating 'var x = arguments.callee'": {
+    "when evaluating 'if (x==null) { }": {
 
-        topic: "var x = arguments.callee",
+        topic: "if (x == null) { }",
 
         "should report a violation": function(topic) {
-
             var config = { rules: {} };
             config.rules[RULE_ID] = 1;
 
@@ -36,17 +35,16 @@ vows.describe(RULE_ID).addBatch({
 
             assert.equal(messages.length, 1);
             assert.equal(messages[0].ruleId, RULE_ID);
-            assert.equal(messages[0].message, "Avoid arguments.callee.");
-            assert.include(messages[0].node.type, "MemberExpression");
+            assert.equal(messages[0].message, "Use ‘===’ to compare with ‘null’.");
+            assert.include(messages[0].node.type, "BinaryExpression");
         }
     },
 
-    "when evaluating 'var x = arguments.caller'": {
+    "when evaluating 'if (x!=null) { }": {
 
-        topic: "var x = arguments.caller",
+        topic: "if (x != null) { }",
 
         "should report a violation": function(topic) {
-
             var config = { rules: {} };
             config.rules[RULE_ID] = 1;
 
@@ -54,17 +52,33 @@ vows.describe(RULE_ID).addBatch({
 
             assert.equal(messages.length, 1);
             assert.equal(messages[0].ruleId, RULE_ID);
-            assert.equal(messages[0].message, "Avoid arguments.caller.");
-            assert.include(messages[0].node.type, "MemberExpression");
+            assert.equal(messages[0].message, "Use ‘===’ to compare with ‘null’.");
+            assert.include(messages[0].node.type, "BinaryExpression");
         }
     },
 
-    "when evaluating 'var x = arguments.length'": {
+    "when evaluating 'do {} while (null == x)": {
 
-        topic: "var x = arguments.length",
+        topic: "do {} while (null == x)",
+
+        "should report a violation": function(topic) {
+            var config = { rules: {} };
+            config.rules[RULE_ID] = 1;
+
+            var messages = eslint.verify(topic, config);
+
+            assert.equal(messages.length, 1);
+            assert.equal(messages[0].ruleId, RULE_ID);
+            assert.equal(messages[0].message, "Use ‘===’ to compare with ‘null’.");
+            assert.include(messages[0].node.type, "BinaryExpression");
+        }
+    },
+
+    "when evaluating 'if (x === null) { }": {
+
+        topic: "if (x === null) { }",
 
         "should not report a violation": function(topic) {
-
             var config = { rules: {} };
             config.rules[RULE_ID] = 1;
 
@@ -74,42 +88,11 @@ vows.describe(RULE_ID).addBatch({
         }
     },
 
-    "when evaluating 'var x = arguments'": {
+    "when evaluating 'if (null === f()) { }": {
 
-        topic: "var x = arguments",
-
-        "should not report a violation": function(topic) {
-
-            var config = { rules: {} };
-            config.rules[RULE_ID] = 1;
-
-            var messages = eslint.verify(topic, config);
-
-            assert.equal(messages.length, 0);
-        }
-    },
-
-    "when evaluating 'var x = arguments[0]'": {
-
-        topic: "var x = arguments[0]",
+        topic: "if (null === f()) { }",
 
         "should not report a violation": function(topic) {
-
-            var config = { rules: {} };
-            config.rules[RULE_ID] = 1;
-
-            var messages = eslint.verify(topic, config);
-
-            assert.equal(messages.length, 0);
-        }
-    },
-
-    "when evaluating 'var x = arguments[caller]'": {
-
-        topic: "var x = arguments[caller]",
-
-        "should not report a violation": function(topic) {
-
             var config = { rules: {} };
             config.rules[RULE_ID] = 1;
 
@@ -118,5 +101,6 @@ vows.describe(RULE_ID).addBatch({
             assert.equal(messages.length, 0);
         }
     }
+
 
 }).export(module);
