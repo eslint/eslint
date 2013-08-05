@@ -35,7 +35,7 @@ vows.describe(RULE_ID).addBatch({
 
             assert.equal(messages.length, 1);
             assert.equal(messages[0].ruleId, RULE_ID);
-            assert.equal(messages[0].message, "Unexpected use of ==, use === instead.");
+            assert.equal(messages[0].message, "Expected '===' and instead saw '=='.");
             assert.include(messages[0].node.type, "BinaryExpression");
         }
     },
@@ -52,7 +52,7 @@ vows.describe(RULE_ID).addBatch({
 
             assert.equal(messages.length, 1);
             assert.equal(messages[0].ruleId, RULE_ID);
-            assert.equal(messages[0].message, "Unexpected use of !=, use !== instead.");
+            assert.equal(messages[0].message, "Expected '!==' and instead saw '!='.");
             assert.include(messages[0].node.type, "BinaryExpression");
         }
     },

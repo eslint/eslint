@@ -36,7 +36,7 @@ vows.describe(RULE_ID).addBatch({
             assert.equal(messages.length, 1);
             assert.equal(messages[0].ruleId, RULE_ID);
             assert.equal(messages[0].message,
-                    "Unexpected assignment in conditional expression.");
+                    "Expected a conditional expression and instead saw an assignment.");
             assert.include(messages[0].node.type, "IfStatement");
         }
     },
@@ -54,7 +54,7 @@ vows.describe(RULE_ID).addBatch({
             assert.equal(messages.length, 1);
             assert.equal(messages[0].ruleId, RULE_ID);
             assert.equal(messages[0].message,
-                    "Unexpected assignment in conditional expression.");
+                    "Expected a conditional expression and instead saw an assignment.");
             assert.include(messages[0].node.type, "WhileStatement");
         }
     },
@@ -72,7 +72,7 @@ vows.describe(RULE_ID).addBatch({
             assert.equal(messages.length, 1);
             assert.equal(messages[0].ruleId, RULE_ID);
             assert.equal(messages[0].message,
-                    "Unexpected assignment in conditional expression.");
+                    "Expected a conditional expression and instead saw an assignment.");
             assert.include(messages[0].node.type, "DoWhileStatement");
         }
     },

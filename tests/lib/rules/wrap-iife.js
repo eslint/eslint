@@ -35,7 +35,7 @@ vows.describe(RULE_ID).addBatch({
 
             assert.equal(messages.length, 1);
             assert.equal(messages[0].ruleId, RULE_ID);
-            assert.equal(messages[0].message, "Wrap an immediate function invocation in parentheses");
+            assert.equal(messages[0].message, "Wrap an immediate function invocation in parentheses.");
             assert.include(messages[0].node.type, "CallExpression");
         }
     },
@@ -52,7 +52,7 @@ vows.describe(RULE_ID).addBatch({
 
             assert.equal(messages.length, 1);
             assert.equal(messages[0].ruleId, RULE_ID);
-            assert.equal(messages[0].message, "Wrap an immediate function invocation in parentheses");
+            assert.equal(messages[0].message, "Wrap an immediate function invocation in parentheses.");
             assert.include(messages[0].node.type, "CallExpression");
         }
     },
