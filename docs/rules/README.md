@@ -54,6 +54,7 @@ These rules are purely matters of style and are quite subjective.
 * [max-params] - limits the number of parameters that can be used in the function declaration. Configurable. Default is 3.
 * [no-ternary](no-ternary.md) - disallow the use of ternary operators
 * [consistent-this](consistent-this.md) - enforces consistent naming when capturing the current execution context (off by default).
+* [one-var](one-var.md) - disallow multiple variable declaration statements in a function scope
 
 ## Alternate Rules
 

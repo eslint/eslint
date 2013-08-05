@@ -48,6 +48,7 @@
         "guard-for-in": 0,
         "radix": 0,
         "new-cap": 1,
+        "one-var": 0,
         "quote-props": 0,
         "semi": 1,
         "use-isnan": 1,
