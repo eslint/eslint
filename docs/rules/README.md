@@ -42,6 +42,7 @@ These are rules designed to prevent you from making mistakes. They either prescr
 * [no-loop-func](no-loop-func.md) - disallow creation of functions within loops
 * [no-empty-label](no-empty-label.md) - disallow use of labels for anything other then loops and switches
 * [unnecessary-strict](unnecessary-strict.md) - disallow unnecessary use of `"use strict";` when already in strict mode
+* [no-unused-vars](no-unused-vars.md) - disallow declaration of variables that are not used in the code
 
 ## Stylistic Issues
 
