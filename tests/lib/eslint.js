@@ -585,4 +585,47 @@ vows.describe("eslint").addBatch({
         }
     },
 
+    "at any time": {
+        topic: "new-rule",
+        "can add a rule dynamically": function(topic) {
+            eslint.reset();
+            eslint.defineRule(topic, function(context) {
+                return {"Literal": function(node) { context.report(node, "message"); }};
+            });
+
+            var config = { rules: {} };
+            config.rules[topic] = 1;
+
+            var messages = eslint.verify("0", config);
+
+            assert.equal(messages.length, 1);
+            assert.equal(messages[0].ruleId, topic);
+            assert.equal(messages[0].node.type, "Literal");
+        }
+    },
+
+    "at any time": {
+        topic: ["new-rule-0", "new-rule-1"],
+        "can add multiple rules dynamically": function(topics) {
+            eslint.reset();
+            var config = { rules: {} };
+            var newRules = {};
+            topics.forEach(function(topic){
+                config.rules[topic] = 1;
+                newRules[topic] = function(context) {
+                    return {"Literal": function(node) { context.report(node, "message"); }};
+                };
+            });
+            eslint.defineRules(newRules);
+
+            var messages = eslint.verify("0", config);
+
+            assert.equal(messages.length, topics.length);
+            topics.forEach(function(topic){
+                assert.ok(messages.some(function(message){ return message.ruleId === topic; }));
+            });
+            messages.forEach(function(message){ assert.equal(message.node.type, "Literal"); });
+        }
+    }
+
 }).export(module);
