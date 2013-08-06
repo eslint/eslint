@@ -125,7 +125,7 @@ vows.describe(RULE_ID).addBatch({
 
         topic: "function foo() { var bar = 1; if (true) { for (;;) { var qux = null; } } else { quxx(); } return 3; }",
 
-        "should report a violation": function(topic) {
+        "should not report a violation": function(topic) {
 
             var config = { rules: {} };
             config.rules[RULE_ID] = [1, 6];
@@ -154,7 +154,7 @@ vows.describe(RULE_ID).addBatch({
     },
 
     "when evaluating with function calls and nested function and max-statements set to 3": {
-        
+
         topic: "function foo() { var x = 5; function bar() { var y = 6; } bar(); z = 10; baz(); }",
 
         "should report a violation": function(topic) {
@@ -170,7 +170,7 @@ vows.describe(RULE_ID).addBatch({
     },
 
     "when evaluating with function calls and nested function and max-statements set to 4": {
-        
+
         topic: "function foo() { var x = 5; function bar() { var y = 6; } bar(); z = 10; baz(); }",
 
         "should report a violation": function(topic) {
@@ -186,10 +186,10 @@ vows.describe(RULE_ID).addBatch({
     },
 
     "when evaluating with function calls and nested function and max-statements set to 5": {
-        
+
         topic: "function foo() { var x = 5; function bar() { var y = 6; } bar(); z = 10; baz(); }",
 
-        "should report a violation": function(topic) {
+        "should not report a violation": function(topic) {
             var config = { rules: {} };
             config.rules[RULE_ID] = [1, 5];
 
@@ -197,8 +197,21 @@ vows.describe(RULE_ID).addBatch({
 
             assert.equal(messages.length, 0);
         }
-    }
+    },
 
+    "when evaluating a function with max-statements on, but no max option passed": {
+
+        topic: "function foo() { var a; var b; var c; var x; var y; var z; bar(); baz(); qux(); quxx(); }",
+
+        "should not report a violation": function(topic) {
+            var config = { rules: {} };
+            config.rules[RULE_ID] = 1;
+
+            var messages = eslint.verify(topic, config);
+
+            assert.equal(messages.length, 0);
+        }
+    }
 
 }).export(module);
 
