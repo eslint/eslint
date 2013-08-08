@@ -28,8 +28,8 @@ When this rule is enabled, all top-level `var` statements must satisfy the follo
 
  - either none or all variable declarations must be require declarations
  - all require declarations must be of the same type
- - the parameter for the call to `require` must be a simple string literal (see [allowUnknown](grouped-requires#allowunknown-default-false))
- - the module imports must be sorted alphabetically (see [enforceSorted](grouped-requires#enforcesorted-default-false))
+ - the parameter for the call to `require` must be a simple string literal (see [allowUnknown](grouped-requires.md#allowunknown-default-false))
+ - the module imports must be sorted alphabetically (see [enforceSorted](grouped-requires.md#enforcesorted-default-false))
 
 The following patterns are considered okay and do not cause warnings:
 
