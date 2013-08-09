@@ -9,7 +9,12 @@
 
 var vows = require("vows"),
     assert = require("assert"),
-    eslint = require("../../../lib/eslint");
+    eslint = require("../../../lib/eslint"),
+    nativeObjects = require("../../../conf/native-objects.js").nativeObjects,
+    i = 0,
+    nativeObjectsLength = nativeObjects.length,
+    batch = {},
+    suite;
 
 //------------------------------------------------------------------------------
 // Constants
@@ -21,11 +26,14 @@ var RULE_ID = "no-extend-native";
 // Tests
 //------------------------------------------------------------------------------
 
-vows.describe(RULE_ID).addBatch({
+suite = vows.describe(RULE_ID);
 
-    "when evaluating 'Object.prototype.something = \'warn\';'": {
+for(i; i < nativeObjectsLength; i++) {
+    batch = {};
 
-        topic: "Object.prototype.something = 'warn';",
+    batch["when evaluating '" + nativeObjects[i] + ".prototype.something = \'warn\';'"] = {
+
+        topic: nativeObjects[i] + ".prototype.something = 'warn';",
 
         "should report a violation": function(topic) {
             var config = { rules: {} };
@@ -35,12 +43,16 @@ vows.describe(RULE_ID).addBatch({
 
             assert.equal(messages.length, 1);
             assert.equal(messages[0].ruleId, RULE_ID);
-            assert.equal(messages[0].message, "Object prototype is read only, properties should not be added.");
+            assert.equal(messages[0].message, nativeObjects[i] + " prototype is read only, properties should not be added.");
             assert.include(messages[0].node.type, "AssignmentExpression");
         }
-    },
+    };
 
-    "when evaluating 'object.prototype.something = \'allow\';'": {
+    suite.addBatch(batch);
+}
+
+suite.addBatch({
+    "when evaluating 'notNative.prototype.something = \'allow\';'": {
 
         topic: "notNative.prototype.something = 'allow';",
 
@@ -54,9 +66,10 @@ vows.describe(RULE_ID).addBatch({
         }
     }
 
-    // TODO: add all native objects.  model after no-extend-native's approach, works well.
     // TODO: check for reassignment of prototype as well
     // TODO: check for Object.create
     // TODO: check for Object.create polyfill
 
-}).export(module);
+});
+
+suite.export(module);
