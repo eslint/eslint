@@ -61,6 +61,7 @@
         "wrap-iife": 0,
         "no-multi-str": 1,
         "consistent-this": [0, "that"],
-        "unnecessary-strict": 1
+        "unnecessary-strict": 1,
+        "no-extend-native": 1
     }
 }
