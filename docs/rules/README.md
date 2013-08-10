@@ -56,6 +56,7 @@ These rules are purely matters of style and are quite subjective.
 * [no-ternary](no-ternary.md) - disallow the use of ternary operators
 * [consistent-this](consistent-this.md) - enforces consistent naming when capturing the current execution context (off by default).
 * [one-var](one-var.md) - disallow multiple variable declaration statements in a function scope
+* [no-mixed-requires](no-mixed-requires.md) - disallow mixing regular variable and require declarations
 
 ## Alternate Rules
 
