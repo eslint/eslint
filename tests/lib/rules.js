@@ -30,7 +30,7 @@ vows.describe("rules").addBatch({
 
     "when given a valid rules directory": {
 
-        topic: path.join(process.cwd(), "tests/fixtures/rules"),
+        topic: "tests/fixtures/rules",
 
         "should load rules and not log an error or exit": function(topic) {
             assert.equal(typeof rules.get("fixture-rule"), "undefined");
