@@ -45,8 +45,16 @@ vows.describe("formatter:checkstyle").addBatch({
 
             var result = formatter(topic, config);
             assert.equal("<?xml version=\"1.0\" encoding=\"utf-8\"?><checkstyle version=\"4.3\"><file name=\"foo.js\"><error line=\"5\" column=\"10\" severity=\"warning\" message=\"Unexpected foo.\" /></file></checkstyle>", result);
-        }
+        },
 
+        "should return a string in the format filename: line x, col y, Error - z for errors with options config": function(topic) {
+            var config = {
+                rules: { foo: [2, "option"] }
+            };
+
+            var result = formatter(topic, config);
+            assert.equal("<?xml version=\"1.0\" encoding=\"utf-8\"?><checkstyle version=\"4.3\"><file name=\"foo.js\"><error line=\"5\" column=\"10\" severity=\"error\" message=\"Unexpected foo.\" /></file></checkstyle>", result);
+        }
     },
 
     "when passed a fatal error message": {

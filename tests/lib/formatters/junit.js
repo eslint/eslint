@@ -59,7 +59,16 @@ vows.describe("formatter:junit").addBatch({
 
             var result = formatter(topic, config);
             assert.equal('<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite package="org.eslint" time="0" tests="1" errors="1" name="foo.js"><testcase time="0" name="org.eslint.foo"><failure message="Unexpected foo."><![CDATA[line 5, col 10, Warning - Unexpected foo.]]></failure></testcase></testsuite></testsuites>', result.replace(/\n/g, ""));
-        }
+        },
+
+        "should return a single <testcase> with a message and the line and col number in the body (error) with options config": function(topic) {
+            var config = {
+                rules: { foo: [2, "option"] }
+            };
+
+            var result = formatter(topic, config);
+            assert.equal('<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite package="org.eslint" time="0" tests="1" errors="1" name="foo.js"><testcase time="0" name="org.eslint.foo"><failure message="Unexpected foo."><![CDATA[line 5, col 10, Error - Unexpected foo.]]></failure></testcase></testsuite></testsuites>', result.replace(/\n/g, ""));
+        },
 
     },
 
