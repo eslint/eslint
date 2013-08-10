@@ -9,6 +9,11 @@
 //------------------------------------------------------------------------------
 
 var jake   = require("jake");
+var config = require("./conf/eslint.json");
+var eslint = require("./lib/eslint"),
+    fs = require("fs"),
+    path = require("path"),
+    existsSync = fs.existsSync || path.existsSync;
 
 //------------------------------------------------------------------------------
 // Constants
@@ -103,6 +108,48 @@ task("check-performance", [ ], function() {
         var runTime = endTime - startTime;
         console.log("Linting jshint took " + runTime + "ms");
     });
+});
+
+desc("Check performance of each eslint rule separatly.");
+task("get-perf-table", [ ], function() {
+    var startTime, endTime, results = [];
+    
+    var testRun = function(text, rules, name) {
+        var resultTime = 0;
+        for (var i = 2; i; i--) {
+            startTime = new Date().getTime();
+            eslint.verify(text, { rules: rules });
+            endTime = new Date().getTime();
+            resultTime = (resultTime + (endTime - startTime)) / 2;
+        }
+        results.push({ name: name, time: resultTime});
+        console.log("|" + name.toString() + "|" + resultTime + "|");
+    };
+
+    var filePath = "tests/performance/jshint.js";
+    var text;
+    if (existsSync(filePath)) {
+        text = fs.readFileSync(path.resolve(filePath), "utf8");
+    }
+    if (text) {
+        testRun(text, {}, "none");
+        Object.keys(config.rules).forEach(function(key) {
+            rules = {};
+            if (typeof config.rules[key] === "number") {
+                rules[key] = config.rules[key] || 1;
+            } else {
+                var configValue = config.rules[key];
+                configValue[0] = 1;
+                rules[key] = configValue;
+            }
+            testRun(text, rules, key);
+        });
+        console.log(JSON.stringify(results));
+    } else {
+        console.log("Failed to load " + path.resolve(filePath) + " file");
+    }
+
+    jake.exec("echo perf tests complete", { printStdout: true, printStderr: true}, complete);
 });
 
 desc("Run single test.");
