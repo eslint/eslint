@@ -62,6 +62,7 @@
         "no-multi-str": 1,
         "consistent-this": [0, "that"],
         "unnecessary-strict": 1,
-        "no-mixed-requires": [0, false]
+        "no-mixed-requires": [0, false],
+        "no-wrap-func": 1
     }
 }
