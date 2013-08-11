@@ -46,6 +46,7 @@ These are rules designed to prevent you from making mistakes. They either prescr
 * [no-script-url](no-script-url.md) - disallow use of javascript: urls.
 * [no-proto](no-proto.md) - disallow usage of `__proto__` property
 * [no-else-return](no-else-return.md) - disallow `else` after a `return` in an `if`.
+* [no-shadow](no-shadow.md) - disallow declaration of variables already declared in the outer scope
 
 ## Stylistic Issues
 
