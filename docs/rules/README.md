@@ -44,6 +44,7 @@ These are rules designed to prevent you from making mistakes. They either prescr
 * [unnecessary-strict](unnecessary-strict.md) - disallow unnecessary use of `"use strict";` when already in strict mode
 * [no-unused-vars](no-unused-vars.md) - disallow declaration of variables that are not used in the code
 * [no-script-url](no-script-url.md) - disallow use of javascript: urls.
+* [no-proto](no-proto.md) - disallow usage of `__proto__` property
 
 ## Stylistic Issues
 
