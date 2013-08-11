@@ -76,6 +76,36 @@ vows.describe("cli").addBatch({
 
     },
 
+    "when given a config with environment set to browser": {
+        topic: ["--config", "tests/fixtures/configurations/env-browser.json", "tests/fixtures/globals-browser.js"],
+
+        "should execute without any errors": function(topic) {
+            var log = console.log;
+
+            // Assign console.log to noop to skip CLI output
+            console.log = function() {};
+            var exit = cli.execute(topic);
+            assert.equal(exit, 0);
+
+            console.log = log;
+        }
+    },
+
+    "when given a config with environment set to browser": {
+        topic: ["--config", "tests/fixtures/configurations/env-node.json", "tests/fixtures/globals-node.js"],
+
+        "should execute without any errors": function(topic) {
+            var log = console.log;
+
+            // Assign console.log to noop to skip CLI output
+            console.log = function() {};
+            var exit = cli.execute(topic);
+            assert.equal(exit, 0);
+
+            console.log = log;
+        }
+    },
+
     "when given a valid built-in formatter name": {
 
         topic: "checkstyle",
