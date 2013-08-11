@@ -1,4 +1,10 @@
 {
+    "env": {
+        "browser": false,
+        "node": false,
+        "amd": false
+    },
+
     "rules": {
 
         "no-alert": 1,
