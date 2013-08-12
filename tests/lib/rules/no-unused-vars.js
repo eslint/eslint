@@ -36,7 +36,7 @@ vows.describe(RULE_ID).addBatch({
             assert.equal(messages.length, 1);
             assert.equal(messages[0].ruleId, RULE_ID);
             assert.equal(messages[0].message, "a is defined but never used");
-            assert.include(messages[0].node.type, "Program");
+            assert.include(messages[0].node.type, "Identifier");
         }
     },
 
@@ -52,7 +52,7 @@ vows.describe(RULE_ID).addBatch({
             assert.equal(messages.length, 1);
             assert.equal(messages[0].ruleId, RULE_ID);
             assert.equal(messages[0].message, "a is defined but never used");
-            assert.include(messages[0].node.type, "Program");
+            assert.include(messages[0].node.type, "Identifier");
         }
     },
 
@@ -104,7 +104,7 @@ vows.describe(RULE_ID).addBatch({
             assert.equal(messages.length, 1);
             assert.equal(messages[0].ruleId, RULE_ID);
             assert.equal(messages[0].message, "a is defined but never used");
-            assert.include(messages[0].node.type, "Program");
+            assert.include(messages[0].node.type, "Identifier");
         }
     },
 
@@ -120,7 +120,7 @@ vows.describe(RULE_ID).addBatch({
             assert.equal(messages.length, 1);
             assert.equal(messages[0].ruleId, RULE_ID);
             assert.equal(messages[0].message, "c is defined but never used");
-            assert.include(messages[0].node.type, "Program");
+            assert.include(messages[0].node.type, "Identifier");
         }
     },
 
@@ -136,7 +136,7 @@ vows.describe(RULE_ID).addBatch({
             assert.equal(messages.length, 1);
             assert.equal(messages[0].ruleId, RULE_ID);
             assert.equal(messages[0].message, "b is defined but never used");
-            assert.include(messages[0].node.type, "Program");
+            assert.include(messages[0].node.type, "Identifier");
         }
     },
 
@@ -152,7 +152,7 @@ vows.describe(RULE_ID).addBatch({
             assert.equal(messages.length, 2);
             assert.equal(messages[0].ruleId, RULE_ID);
             assert.equal(messages[0].message, "b is defined but never used");
-            assert.include(messages[0].node.type, "Program");
+            assert.include(messages[0].node.type, "Identifier");
         }
     },
 
