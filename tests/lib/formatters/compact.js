@@ -45,7 +45,16 @@ vows.describe("formatter:compact").addBatch({
 
             var result = formatter(topic, config);
             assert.equal("foo.js: line 5, col 10, Warning - Unexpected foo.\n\n1 problem", result);
-        }
+        },
+
+        "should return a string in the format filename: line x, col y, Error - z for errors with options config": function(topic) {
+            var config = {
+                rules: { foo: [2, "option"] }
+            };
+
+            var result = formatter(topic, config);
+            assert.equal("foo.js: line 5, col 10, Error - Unexpected foo.\n\n1 problem", result);
+        },
 
     },
 

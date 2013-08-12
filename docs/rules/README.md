@@ -43,6 +43,8 @@ These are rules designed to prevent you from making mistakes. They either prescr
 * [no-empty-label](no-empty-label.md) - disallow use of labels for anything other then loops and switches
 * [unnecessary-strict](unnecessary-strict.md) - disallow unnecessary use of `"use strict";` when already in strict mode
 * [no-unused-vars](no-unused-vars.md) - disallow declaration of variables that are not used in the code
+* [no-script-url](no-script-url.md) - disallow use of javascript: urls.
+* [no-proto](no-proto.md) - disallow usage of `__proto__` property
 
 ## Stylistic Issues
 
@@ -57,6 +59,7 @@ These rules are purely matters of style and are quite subjective.
 * [consistent-this](consistent-this.md) - enforces consistent naming when capturing the current execution context (off by default).
 * [one-var](one-var.md) - disallow multiple variable declaration statements in a function scope
 * [no-mixed-requires](no-mixed-requires.md) - disallow mixing regular variable and require declarations
+* [no-wrap-func](no-wrap-func.md) - disallow wrapping of none IIFE statements in parents
 
 ## Alternate Rules
 
@@ -70,3 +73,4 @@ The following rules are included for compatibility with [JSHint](http://jshint.c
 * [no-bitwise] - disallow use of bitwise operators (off by default)
 * [guard-for-in] - make sure `for-in` loops have an `if` statement (off by default)
 * [max-statements](max-statements.md) - specify the maximum number of statement allowed in a function (off by default)
+* [max-depth](max-depth.md) - specify the maximum depth that blocks can be nested (off by default)

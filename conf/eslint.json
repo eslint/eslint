@@ -38,6 +38,8 @@
         "no-loop-func": 1,
         "no-empty-label": 1,
         "no-unused-vars": 1,
+        "no-script-url": 1,
+        "no-proto": 1,
 
         "smarter-eqeqeq": 0,
         "brace-style": 0,
@@ -54,6 +56,7 @@
         "semi": 1,
         "use-isnan": 1,
         "quotes": [1, "double"],
+        "max-depth": [0, 4],
         "max-params": [0, 3],
         "max-statements": [0, 10],
         "regex-spaces": 1,
@@ -62,6 +65,7 @@
         "no-multi-str": 1,
         "consistent-this": [0, "that"],
         "unnecessary-strict": 1,
-        "no-mixed-requires": [0, false]
+        "no-mixed-requires": [0, false],
+        "no-wrap-func": 1
     }
 }
