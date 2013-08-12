@@ -227,6 +227,65 @@ vows.describe("eslint").addBatch({
         }
     },
 
+
+    "when retrieving comments": {
+
+        topic: [
+            "// my line comment",
+            "var a = 42;",
+            "/* my block comment */"
+        ].join("\n"),
+
+        "should retrieve all comments": function(topic) {
+
+            var config = { rules: {} };
+
+            eslint.reset();
+            eslint.on("Program", function(/*node*/) {
+                var comments = eslint.getAllComments();
+                assert.equal(comments.length, 2);
+            });
+
+            eslint.verify(topic, config, true);
+        },
+
+        "should attach them to all nodes": function(topic) {
+            function assertCommentCount(leading, trailing) {
+                return function (node) {
+                    var comments = eslint.getComments(node);
+                    assert.equal(comments.leading.length, leading);
+                    assert.equal(comments.trailing.length, trailing);
+                };
+            }
+
+            var config = { rules: {} };
+
+            eslint.reset();
+            eslint.on("Program", assertCommentCount(1, 0));
+            eslint.on("VariableDeclaration", assertCommentCount(0, 1));
+            eslint.on("VariableDeclarator", assertCommentCount(0, 0));
+            eslint.on("Identifier", assertCommentCount(0, 0));
+            eslint.on("Literal", assertCommentCount(0, 0));
+
+            eslint.verify(topic, config, true);
+        },
+
+        "should attach them lazily": function(topic) {
+            var config = { rules: {} };
+
+            eslint.reset();
+            eslint.on("VariableDeclaration", function (node) {
+                assert.equal(node.hasOwnProperty("leadingComments"), false);
+                assert.equal(node.hasOwnProperty("trailingComments"), false);
+                eslint.getComments(node);
+                assert.equal(node.hasOwnProperty("leadingComments"), false);
+                assert.equal(node.hasOwnProperty("trailingComments"), true);
+            });
+
+            eslint.verify(topic, config, true);
+        }
+    },
+
     "when calling getAncestors": {
 
         topic: TEST_CODE,
