@@ -1,4 +1,10 @@
 {
+    "env": {
+        "browser": false,
+        "node": false,
+        "amd": false
+    },
+
     "rules": {
 
         "no-alert": 1,
@@ -39,8 +45,6 @@
         "no-loop-func": 1,
         "no-empty-label": 1,
         "no-unused-vars": 1,
-        "no-script-url": 1,
-        "no-proto": 1,
 
         "smarter-eqeqeq": 0,
         "brace-style": 0,
