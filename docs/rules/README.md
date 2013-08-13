@@ -45,6 +45,7 @@ These are rules designed to prevent you from making mistakes. They either prescr
 * [no-unused-vars](no-unused-vars.md) - disallow declaration of variables that are not used in the code
 * [no-script-url](no-script-url.md) - disallow use of javascript: urls.
 * [no-proto](no-proto.md) - disallow usage of `__proto__` property
+* [no-else-return](no-else-return.md) - disallow `else` after a `return` in an `if`.
 
 ## Stylistic Issues
 
