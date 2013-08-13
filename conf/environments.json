@@ -351,5 +351,10 @@
         "clearInterval" : false,
         "setImmediate"  : false,
         "clearImmediate": false
+    },
+
+    "amd": {
+        "require"       : false,
+        "define"        : false
     }
 }
