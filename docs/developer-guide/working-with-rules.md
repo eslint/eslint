@@ -75,6 +75,26 @@ var nodeSourceWithFollowing = context.getSource(node, 0, 2);
 
 In this way, you can look for patterns in the JavaScript text itself when the AST isn't providing the appropriate data (such as location of commas, semicolons, parentheses, etc.).
 
+### Accessing comments
+
+To get a list of all comments simply call `context.getAllComments()`:
+```js
+// get all comments for the program
+var allComments = context.getAllComments();
+```
+
+If you need to access comments for a specific node you can use `context.getComments(node)`:
+```js
+// the "comments" variable has a "leading" and "trailing" property containing
+// its leading and trailing comments, respectively
+var comments = context.getComments(node);
+```
+
+Keep in mind that comments are technically not a part of the AST and are only attached to it on demand, i.e. when you call `getComments()`.
+Note that this is a potentially costly operation since it requires two full tree traversals (it only has to be done once, though).
+
+You may notice that nodes have a `leadingComments` and `trailingComments` property. Consider this an implementation detail and don't rely on them. Instead, always use the above accessor method.
+
 ## Rule Unit Tests
 
 Each rule must have a set of unit tests submitted with it to be accepted. The test file is named the same as the source file but lives in `tests/lib/`. For example, if your rule source file is `lib/rules/foo.js` then your test file should be `tests/lib/rules/foo.js`.
