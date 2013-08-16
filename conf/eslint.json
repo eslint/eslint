@@ -47,6 +47,8 @@
         "no-unused-vars": 1,
         "no-script-url": 1,
         "no-proto": 1,
+        "no-mixed-requires": [0, false],
+        "no-wrap-func": 1,
 
         "smarter-eqeqeq": 0,
         "brace-style": 0,
@@ -72,7 +74,6 @@
         "no-multi-str": 1,
         "consistent-this": [0, "that"],
         "unnecessary-strict": 1,
-        "no-mixed-requires": [0, false],
-        "no-wrap-func": 1
+        "max-len": [0, 80, 4]
     }
 }
