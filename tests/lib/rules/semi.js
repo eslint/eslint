@@ -185,6 +185,35 @@ vows.describe(RULE_ID).addBatch({
 
     },
 
+    "when evaluating 'for (var a in b){}": {
+        topic: "for (var a in b){}",
+
+        "should not report a violation": function(topic) {
+            var config = { rules: {} };
+            config.rules[RULE_ID] = 1;
+
+            var messages = eslint.verify(topic, config);
+
+            assert.equal(messages.length, 0);
+        }
+    },
+
+    "when evaluating 'for (var a in b) var i": {
+        topic: "for (var a in b) var i ",
+
+        "should report a violation": function(topic) {
+            var config = { rules: {} };
+            config.rules[RULE_ID] = 1;
+
+            var messages = eslint.verify(topic, config);
+
+            assert.equal(messages.length, 1);
+            assert.equal(messages[0].ruleId, RULE_ID);
+            assert.equal(messages[0].message, "Missing semicolon.");
+            assert.include(messages[0].node.type, "VariableDeclaration");
+        }
+    },
+
     "when evaluating 'for (var i;;){}": {
         topic: "for (var i;;){}",
 
