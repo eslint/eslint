@@ -334,13 +334,13 @@ vows.describe("eslint").addBatch({
             eslint.verify(topic, config, true);
         },
 
-        "should retrieve the global scope correctly from a FunctionDeclaration": function(topic) {
+        "should retrieve the function scope correctly from a FunctionDeclaration": function(topic) {
             var config = { rules: {} };
 
             eslint.reset();
             eslint.on("FunctionDeclaration", function(node) {
                 var scope = eslint.getScope();
-                assert.equal(scope.type, "global");
+                assert.equal(scope.type, "function");
             });
 
             eslint.verify(topic, config, true);
