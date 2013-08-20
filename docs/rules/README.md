@@ -14,6 +14,7 @@ The following rules point out areas where you might have made mistakes.
 * [no-unreachable](no-unreachable.md) - disallow unreachable statements after a return, throw, continue, or break statement
 * [use-isnan](use-isnan.md) - disallow comparisons with the value `NaN`
 * [no-dupe-keys](no-dupe-keys.md) - disallow duplicate keys when creating object literals
+* [break-case](break-case) - require use of `break` keyword inside case statements
 
 ## Best Practices
 
