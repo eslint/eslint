@@ -160,7 +160,7 @@ vows.describe(RULE_ID).addBatch({
 
         topic: "var a=10; d[a] = 0;",
 
-        "should note report a violation": function(topic) {
+        "should not report a violation": function(topic) {
             var config = { rules: {} };
             config.rules[RULE_ID] = 1;
             var messages = eslint.verify(topic, config);
@@ -172,7 +172,67 @@ vows.describe(RULE_ID).addBatch({
 
         topic: "(function() { var a=10; return a; })();",
 
-        "should note report a violation": function(topic) {
+        "should not report a violation": function(topic) {
+            var config = { rules: {} };
+            config.rules[RULE_ID] = 1;
+            var messages = eslint.verify(topic, config);
+            assert.equal(messages.length, 0);
+        }
+    },
+
+    "when evaluating a string 'function f(){var a=[];return a.map(function(){});}'": {
+        topic: [
+            "function f() {",
+            "    var a = [];",
+            "    return a.map(function() {});",
+            "}"
+        ].join("\n"),
+
+        "should not report a violation": function(topic) {
+            var config = { rules: {} };
+            config.rules[RULE_ID] = 1;
+            var messages = eslint.verify(topic, config);
+            assert.equal(messages.length, 0);
+        }
+    },
+
+    "when evaluating a string 'function f(){var a=[];return a.map(function g(){});}'": {
+        topic: [
+            "function f() {",
+            "    var a = [];",
+            "    return a.map(function g() {});",
+            "}"
+        ].join("\n"),
+
+        "should not report a violation": function(topic) {
+            var config = { rules: {} };
+            config.rules[RULE_ID] = 1;
+            var messages = eslint.verify(topic, config);
+            assert.equal(messages.length, 0);
+        }
+    },
+
+    "when evaluating a string '(function g() {})()'": {
+        topic: "(function g() {})()",
+
+        "should not report a violation": function(topic) {
+            var config = { rules: {} };
+            config.rules[RULE_ID] = 1;
+            var messages = eslint.verify(topic, config);
+            assert.equal(messages.length, 0);
+        }
+    },
+
+    "when evaluating a string 'function f(){var x;function a(){x=42;}function b(){alert(x);}}'": {
+        topic: [
+            "function f() {",
+            "	var x;",
+            "	function a() { x = 42; }",
+            "	function b() { alert(x); }",
+            "}"
+        ].join("\n"),
+
+        "should not report a violation": function(topic) {
             var config = { rules: {} };
             config.rules[RULE_ID] = 1;
             var messages = eslint.verify(topic, config);
