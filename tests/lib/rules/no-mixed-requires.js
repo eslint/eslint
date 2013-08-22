@@ -83,12 +83,48 @@ vows.describe(RULE_ID).addBatch({
 
             var messages = eslint.verify(topic, config);
             assert.equal(messages.length, 0);
+        },
+
+        "should not report a violation": function(topic) {
+            var config = { rules: {} };
+            config.rules[RULE_ID] = [1, true];
+
+            var messages = eslint.verify(topic, config);
+            assert.equal(messages.length, 1);
+            assert.equal(messages[0].ruleId, RULE_ID);
+            assert.equal(messages[0].message, ERR_MIXED_REQ);
+            assert.include(messages[0].node.type, "VariableDeclaration");
         }
     },
 
     "when evaluating 'var fs = require('fs'), foo = require('foo')'": {
 
         topic: "var fs = require('fs'), foo = require('foo')",
+
+        "should report a violation": function(topic) {
+            var config = { rules: {} };
+            config.rules[RULE_ID] = [1, true];
+
+            var messages = eslint.verify(topic, config);
+
+            assert.equal(messages.length, 1);
+            assert.equal(messages[0].ruleId, RULE_ID);
+            assert.equal(messages[0].message, ERR_MIXED_REQ);
+            assert.include(messages[0].node.type, "VariableDeclaration");
+        },
+
+        "should not report a violation": function(topic) {
+            var config = { rules: {} };
+            config.rules[RULE_ID] = [1, false];
+
+            var messages = eslint.verify(topic, config);
+            assert.equal(messages.length, 0);
+        }
+    },
+
+    "when evaluating 'var exec = require('child_process').exec, foo = require('foo')'": {
+
+        topic: "var exec = require('child_process').exec, foo = require('foo')",
 
         "should report a violation": function(topic) {
             var config = { rules: {} };

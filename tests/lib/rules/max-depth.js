@@ -54,6 +54,20 @@ vows.describe(RULE_ID).addBatch({
         }
     },
 
+    "when evaluating a function with blocks 3 deep and a default threshold (4)": {
+
+        topic: "function foo() { if (true) { if (false) { if (true) { } } } }",
+
+        "should not report a violation": function(topic) {
+
+            var config = { rules: {} };
+            config.rules[RULE_ID] = 1;
+
+            var messages = eslint.verify(topic, config);
+            assert.equal(messages.length, 0);
+        }
+    },
+
     "when evaluating a function with blocks 2 deep and a threshold of 1": {
 
         topic: "function foo() { if (true) {} else { for(;;) {} } }",
