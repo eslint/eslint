@@ -23,7 +23,7 @@ These are rules designed to prevent you from making mistakes. They either prescr
 * [no-caller] - disallow use of `arguments.caller` or `arguments.callee` are used
 * [curly](curly.md) - require curly brace for all control statements
 * [eqeqeq](eqeqeq.md) - require the use of `===` and `!==`
-* [dot-notation] - encourages use of dot notation whenever possible
+* [dot-notation](dot-notation.md) - encourages use of dot notation whenever possible
 * [no-eval] - disallow use of `eval()`
 * [no-with](no-with.md) - disallow use of the `with` statement
 * [no-undef](no-undef.md) - disallow use of undeclared variables unless mentioned in a `/*global */` block
