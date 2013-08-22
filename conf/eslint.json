@@ -16,6 +16,7 @@
         "no-dupe-keys": 1,
         "no-else-return": 0,
         "no-empty": 1,
+        "no-empty-class": 1,
         "no-eq-null": 0,
         "no-eval": 1,
         "no-ex-assign": 1,
