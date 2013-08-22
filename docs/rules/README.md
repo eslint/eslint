@@ -78,3 +78,4 @@ The following rules are included for compatibility with [JSHint](http://jshint.c
 * [guard-for-in](guard-for-in.md) - make sure `for-in` loops have an `if` statement (off by default)
 * [max-statements](max-statements.md) - specify the maximum number of statement allowed in a function (off by default)
 * [max-depth](max-depth.md) - specify the maximum depth that blocks can be nested (off by default)
+* [max-len](max-len.md) - specify the maximum length of a line in your program (off by default)
