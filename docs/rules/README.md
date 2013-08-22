@@ -63,6 +63,7 @@ These rules are purely matters of style and are quite subjective.
 * [one-var](one-var.md) - disallow multiple variable declaration statements in a function scope
 * [no-mixed-requires](no-mixed-requires.md) - disallow mixing regular variable and require declarations
 * [no-wrap-func](no-wrap-func.md) - disallow wrapping of none IIFE statements in parents
+* [complexity](complexity.md) - specify the maximum cyclomatic complexity allowed in a program
 
 ## Alternate Rules
 
