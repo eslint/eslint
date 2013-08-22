@@ -53,7 +53,7 @@ These are rules designed to prevent you from making mistakes. They either prescr
 
 These rules are purely matters of style and are quite subjective.
 
-* [camelcase] - require camel case names
+* [camelcase](camelcase.md) - require camel case names
 * [new-cap](new-cap.md) - require a capital letter for constructors
 * [quote-props](quote-props.md) - require quotes around object literal property names
 * [semi] - require use of semicolons instead of relying on ASI
