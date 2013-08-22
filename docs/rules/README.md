@@ -63,6 +63,7 @@ These rules are purely matters of style and are quite subjective.
 * [no-mixed-requires](no-mixed-requires.md) - disallow mixing regular variable and require declarations
 * [no-wrap-func](no-wrap-func.md) - disallow wrapping of none IIFE statements in parents
 * [complexity](complexity.md) - specify the maximum cyclomatic complexity allowed in a program
+* [new-parens](new-parens.md) - disallow the omission of parentheses when invoking a contructor with no arguments
 
 ## Alternate Rules
 
