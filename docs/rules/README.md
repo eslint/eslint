@@ -57,7 +57,6 @@ These rules are purely matters of style and are quite subjective.
 * [new-cap](new-cap.md) - require a capital letter for constructors
 * [quote-props](quote-props.md) - require quotes around object literal property names
 * [semi] - require use of semicolons instead of relying on ASI
-* [max-params] - limits the number of parameters that can be used in the function declaration. Configurable. Default is 3.
 * [no-ternary](no-ternary.md) - disallow the use of ternary operators
 * [consistent-this](consistent-this.md) - enforces consistent naming when capturing the current execution context (off by default).
 * [one-var](one-var.md) - disallow multiple variable declaration statements in a function scope
@@ -77,5 +76,6 @@ The following rules are included for compatibility with [JSHint](http://jshint.c
 * [no-bitwise] - disallow use of bitwise operators (off by default)
 * [guard-for-in](guard-for-in.md) - make sure `for-in` loops have an `if` statement (off by default)
 * [max-statements](max-statements.md) - specify the maximum number of statement allowed in a function (off by default)
+* [max-params](max-params.md) - limits the number of parameters that can be used in the function declaration. (off by default)
 * [max-depth](max-depth.md) - specify the maximum depth that blocks can be nested (off by default)
 * [max-len](max-len.md) - specify the maximum length of a line in your program (off by default)
