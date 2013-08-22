@@ -21,7 +21,7 @@ The following rules point out areas where you might have made mistakes.
 These are rules designed to prevent you from making mistakes. They either prescribe a better way of doing something or help you avoid footguns.
 
 * [no-caller] - disallow use of `arguments.caller` or `arguments.callee` are used
-* [curly] - require curly brace for all control statements
+* [curly](curly.md) - require curly brace for all control statements
 * [eqeqeq](eqeqeq.md) - require the use of `===` and `!==`
 * [dot-notation] - encourages use of dot notation whenever possible
 * [no-eval] - disallow use of `eval()`
