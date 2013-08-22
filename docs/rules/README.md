@@ -7,7 +7,7 @@ Rules in ESLint are divided into several categories to help you better understan
 The following rules point out areas where you might have made mistakes.
 
 * [no-console](no-console.md) - disallow use of `console`
-* [no-dangle](no-dangle.md) - disallow trailing commas in object literals
+* [no-comma-dangle](no-comma-dangle.md) - disallow trailing commas in object literals
 * [no-debugger](no-debugger.md) - disallow use of `debugger`
 * [no-empty](no-empty.md) - disallow empty statements
 * [no-obj-calls](no-obj-calls.md) - disallow the use of object properties of the global object (`Math` and `JSON`) as functions
