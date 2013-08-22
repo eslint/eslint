@@ -48,6 +48,7 @@ These are rules designed to prevent you from making mistakes. They either prescr
 * [no-proto](no-proto.md) - disallow usage of `__proto__` property
 * [no-else-return](no-else-return.md) - disallow `else` after a `return` in an `if`.
 * [no-shadow](no-shadow.md) - disallow declaration of variables already declared in the outer scope
+* [no-alert](no-alert.md) - disallow the use of `alert`, `confirm`, and `prompt`
 
 ## Stylistic Issues
 
