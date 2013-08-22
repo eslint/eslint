@@ -73,7 +73,7 @@ These rules are purely matters of style and are quite subjective.
 
 The following rules are included for compatibility with [JSHint](http://jshint.com/) and [JSLint](http://jslint.com/). While the names of the rules may not match up with the JSHint/JSLint counterpart, the functionality is the same.
 
-* [no-plusplus] - disallow use of unary operators, `++` and `--` (off by default)
+* [no-plusplus](no-plusplus.md) - disallow use of unary operators, `++` and `--` (off by default)
 * [no-bitwise] - disallow use of bitwise operators (off by default)
 * [guard-for-in](guard-for-in.md) - make sure `for-in` loops have an `if` statement (off by default)
 * [max-statements](max-statements.md) - specify the maximum number of statement allowed in a function (off by default)
