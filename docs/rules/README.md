@@ -7,7 +7,7 @@ Rules in ESLint are divided into several categories to help you better understan
 The following rules point out areas where you might have made mistakes.
 
 * [no-console](no-console.md) - disallow use of `console`
-* [no-dangle](no-dangle.md) - disallow trailing commas in object literals
+* [no-comma-dangle](no-comma-dangle.md) - disallow trailing commas in object literals
 * [no-debugger](no-debugger.md) - disallow use of `debugger`
 * [no-empty](no-empty.md) - disallow empty statements
 * [no-obj-calls](no-obj-calls.md) - disallow the use of object properties of the global object (`Math` and `JSON`) as functions
@@ -21,9 +21,9 @@ The following rules point out areas where you might have made mistakes.
 These are rules designed to prevent you from making mistakes. They either prescribe a better way of doing something or help you avoid footguns.
 
 * [no-caller] - disallow use of `arguments.caller` or `arguments.callee` are used
-* [curly] - require curly brace for all control statements
+* [curly](curly.md) - require curly brace for all control statements
 * [eqeqeq](eqeqeq.md) - require the use of `===` and `!==`
-* [dot-notation] - encourages use of dot notation whenever possible
+* [dot-notation](dot-notation.md) - encourages use of dot notation whenever possible
 * [no-eval] - disallow use of `eval()`
 * [no-with](no-with.md) - disallow use of the `with` statement
 * [no-undef](no-undef.md) - disallow use of undeclared variables unless mentioned in a `/*global */` block
@@ -48,21 +48,23 @@ These are rules designed to prevent you from making mistakes. They either prescr
 * [no-proto](no-proto.md) - disallow usage of `__proto__` property
 * [no-else-return](no-else-return.md) - disallow `else` after a `return` in an `if`.
 * [no-shadow](no-shadow.md) - disallow declaration of variables already declared in the outer scope
+* [no-alert](no-alert.md) - disallow the use of `alert`, `confirm`, and `prompt`
 
 ## Stylistic Issues
 
 These rules are purely matters of style and are quite subjective.
 
-* [camelcase] - require camel case names
+* [camelcase](camelcase.md) - require camel case names
 * [new-cap](new-cap.md) - require a capital letter for constructors
 * [quote-props](quote-props.md) - require quotes around object literal property names
 * [semi] - require use of semicolons instead of relying on ASI
-* [max-params] - limits the number of parameters that can be used in the function declaration. Configurable. Default is 3.
 * [no-ternary](no-ternary.md) - disallow the use of ternary operators
 * [consistent-this](consistent-this.md) - enforces consistent naming when capturing the current execution context (off by default).
 * [one-var](one-var.md) - disallow multiple variable declaration statements in a function scope
 * [no-mixed-requires](no-mixed-requires.md) - disallow mixing regular variable and require declarations
 * [no-wrap-func](no-wrap-func.md) - disallow wrapping of none IIFE statements in parents
+* [complexity](complexity.md) - specify the maximum cyclomatic complexity allowed in a program
+* [new-parens](new-parens.md) - disallow the omission of parentheses when invoking a contructor with no arguments
 
 ## Alternate Rules
 
@@ -72,8 +74,10 @@ These rules are purely matters of style and are quite subjective.
 
 The following rules are included for compatibility with [JSHint](http://jshint.com/) and [JSLint](http://jslint.com/). While the names of the rules may not match up with the JSHint/JSLint counterpart, the functionality is the same.
 
-* [no-plusplus] - disallow use of unary operators, `++` and `--` (off by default)
+* [no-plusplus](no-plusplus.md) - disallow use of unary operators, `++` and `--` (off by default)
 * [no-bitwise] - disallow use of bitwise operators (off by default)
-* [guard-for-in] - make sure `for-in` loops have an `if` statement (off by default)
+* [guard-for-in](guard-for-in.md) - make sure `for-in` loops have an `if` statement (off by default)
 * [max-statements](max-statements.md) - specify the maximum number of statement allowed in a function (off by default)
+* [max-params](max-params.md) - limits the number of parameters that can be used in the function declaration. (off by default)
 * [max-depth](max-depth.md) - specify the maximum depth that blocks can be nested (off by default)
+* [max-len](max-len.md) - specify the maximum length of a line in your program (off by default)
