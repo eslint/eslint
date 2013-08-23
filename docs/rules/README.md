@@ -30,7 +30,7 @@ These are rules designed to prevent you from making mistakes. They either prescr
 * [no-undef-init] - disallow use of undefined when initializing variables
 * [no-floating-decimal] - disallow the use of leading or trailing decimal points in numeric literals
 * [no-octal] - disallow use of octal literals
-* [no-new] - disallow use of new operator when not part of the assignment or comparison
+* [no-new](no-new.md) - disallow use of new operator when not part of the assignment or comparison
 * [no-new-func] - disallow use of new operator for `Function` object
 * [no-native-reassign] - disallow reassignments of native objects
 * [no-delete-var](no-delete-var.md) - disallow deletion of variables
