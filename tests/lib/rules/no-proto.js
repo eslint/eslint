@@ -58,6 +58,22 @@ vows.describe(RULE_ID).addBatch({
         }
     },
 
+    "when evaluating 'var a = test[__proto__];": {
+
+        topic: "var a = test[__proto__];",
+
+        "should not report a violation": function(topic) {
+
+            var config = { rules: {} };
+            config.rules[RULE_ID] = 1;
+
+            var messages = eslint.verify(topic, config);
+
+            assert.equal(messages.length, 0);
+        }
+    },
+
+
     "when evaluating a string 'var __proto__ = null;": {
 
         topic: "var __proto__ = null;",

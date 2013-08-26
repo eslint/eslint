@@ -40,6 +40,21 @@ vows.describe(RULE_ID).addBatch({
         }
     },
 
+    "when evaluating 'var a = test[__iterator__];": {
+
+        topic: "var a = test[__iterator__];",
+
+        "should not report a violation": function(topic) {
+
+            var config = { rules: {} };
+            config.rules[RULE_ID] = 1;
+
+            var messages = eslint.verify(topic, config);
+
+            assert.equal(messages.length, 0);
+        }
+    },
+
     "when evaluating 'Foo.prototype.__iterator__ = function () {};": {
 
         topic: "Foo.prototype.__iterator__ = function () {};",
