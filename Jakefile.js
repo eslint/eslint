@@ -22,8 +22,11 @@ var eslint = require("./lib/eslint"),
 var ISTANBUL_CLI    = "./node_modules/istanbul/lib/cli.js",
     VOWS_CLI        = "./node_modules/vows/bin/vows",
     JSHINT_CLI      = "node_modules/jshint/bin/jshint",
+    ESLINT_CLI      = "./bin/eslint",
+    ESLINT_CONFIG   = "./tests/eslint.json",
     COVERAGE_THRESHOLDS = "--statement 90 --branch 90 --function 90",
     LINTABLE_FILES  = (new jake.FileList().include("package.json").include("./conf/*.json").include("lib")).toArray().join(" ").replace(/\\/g, "/"),
+    ESLINT_LINTABLE_FILES  = (new jake.FileList().include("lib")).toArray().join(" ").replace(/\\/g, "/"),
     TEST_FILES      = (new jake.FileList().include("tests/*.js").exclude("tests/fixtures/*.js").exclude("tests/performance/*.js").include("tests/*/*.js").include("tests/*/*/*.js")).toArray().join(" ").replace(/\\/g, "/");
 
 //npm run-script lint && node $istanbul cover --print both $vows -- --spec $testfiles && node $istanbul check-coverage $thresholds
@@ -55,6 +58,14 @@ function jshint(files, callback) {
 task("default", [ "test" ], function() {
 });
 
+desc("Lints all JavaScript files with eslint.");
+task("eslint", [], function() {
+    var command = [ "node", ESLINT_CLI, "-c", ESLINT_CONFIG, ESLINT_LINTABLE_FILES].join(" ");
+
+    jake.exec(command, { printStdout: true, printStderr: true }, function() {
+        complete();
+    });
+});
 
 desc("Lints all JSON and JavaScript files.");
 task("lint", [], function() {
