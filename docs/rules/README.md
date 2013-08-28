@@ -51,6 +51,7 @@ These are rules designed to prevent you from making mistakes. They either prescr
 * [no-shadow](no-shadow.md) - disallow declaration of variables already declared in the outer scope
 * [no-alert](no-alert.md) - disallow the use of `alert`, `confirm`, and `prompt`
 * [no-use-before-define](no-use-before-define.md) - disallow use of variables before they are defined
+* [no-redeclare](no-redeclare.md) - disallow declaring the same variable more then once
 
 ## Stylistic Issues
 
