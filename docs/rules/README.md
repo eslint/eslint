@@ -30,6 +30,7 @@ These are rules designed to prevent you from making mistakes. They either prescr
 * [no-undef-init] - disallow use of undefined when initializing variables
 * [no-floating-decimal] - disallow the use of leading or trailing decimal points in numeric literals
 * [no-octal] - disallow use of octal literals
+* [no-octal-escape] - disallow use of octal escape sequences in string literals, such as `var foo = "Copyright \251";`
 * [no-new](no-new.md) - disallow use of new operator when not part of the assignment or comparison
 * [no-new-func] - disallow use of new operator for `Function` object
 * [no-native-reassign] - disallow reassignments of native objects
