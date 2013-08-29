@@ -159,6 +159,19 @@ vows.describe(RULE_ID).addBatch({
         }
     },
 
+    "when evaluating write to to an explicitly declared variable in global scope from function scope": {
+        topic: "var a; function f() { a = 1; }",
+
+        "should not report a violation": function(topic) {
+
+            var config = { rules: {} };
+            config.rules[RULE_ID] = 1;
+
+            var messages = eslint.verify(topic, config);
+            assert.equal(messages.length, 0);
+        }
+    },
+
     "when evaluating write to a declared writeable global": {
         topic: "/*global b:true*/ b++;",
 
