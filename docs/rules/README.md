@@ -15,6 +15,7 @@ The following rules point out areas where you might have made mistakes.
 * [use-isnan](use-isnan.md) - disallow comparisons with the value `NaN`
 * [no-dupe-keys](no-dupe-keys.md) - disallow duplicate keys when creating object literals
 * [no-empty-class](no-empty-class.md) - disallow the use of empty character classes in regular expressions
+* [no-func-assign](no-func-assign.md) - disallow overwriting functions written as FunctionDeclarations
 
 ## Best Practices
 
