@@ -25,6 +25,7 @@ These are rules designed to prevent you from making mistakes. They either prescr
 * [curly](curly.md) - require curly brace for all control statements
 * [eqeqeq](eqeqeq.md) - require the use of `===` and `!==`
 * [dot-notation](dot-notation.md) - encourages use of dot notation whenever possible
+* [no-catch-shadow](no-catch-shadow.md) - disallow the catch clause parameter name being the same as a variable in the outer scope
 * [no-eval](no-eval.md) - disallow use of `eval()`
 * [no-with](no-with.md) - disallow use of the `with` statement
 * [no-undef](no-undef.md) - disallow use of undeclared variables unless mentioned in a `/*global */` block

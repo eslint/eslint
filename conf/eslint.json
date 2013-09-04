@@ -10,6 +10,7 @@
         "no-alert": 1,
         "no-caller": 1,
         "no-bitwise": 0,
+        "no-catch-shadow": 1,
         "no-console": 1,
         "no-comma-dangle": 1,
         "no-debugger": 1,
