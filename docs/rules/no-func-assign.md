@@ -22,6 +22,13 @@ function foo {
 }
 ```
 
+Unlike the same rule in JSHint, the following pattern is also considered a warning:
+```js
+foo = bar;
+function foo() {}
+```
+
+
 The following patterns are not considered warnings:
 
 ```js

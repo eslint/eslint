@@ -245,7 +245,7 @@ vows.describe(RULE_ID).addBatch({
             config.rules[RULE_ID] = 1;
             var messages = eslint.verify(topic, config);
 
-            assert.equal(messages.length, 4);
+            assert.equal(messages.length, 3); //f, a, b are unused
             assert.equal(messages[0].ruleId, RULE_ID);
             assert.equal(messages[0].message, "f is defined but never used");
             assert.include(messages[0].node.type, "Identifier");
