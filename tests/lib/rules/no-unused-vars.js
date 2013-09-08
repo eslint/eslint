@@ -276,5 +276,16 @@ vows.describe(RULE_ID).addBatch({
             var messages = eslint.verify(topic, config);
             assert.equal(messages.length, 0);
         }
-    }
+    },
+
+    "when evaluating a string 'var c = 0; function f(a){ var b = a; return b; }; f(c);": {
+        topic:  "var c = 0; function f(a){ var b = a; return b; }; f(c);",
+
+        "should not report a violation": function(topic) {
+            var config = { rules: {} };
+            config.rules[RULE_ID] = 1;
+            var messages = eslint.verify(topic, config);
+            assert.equal(messages.length, 0);
+        }
+    },
 }).export(module);
