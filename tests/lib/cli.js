@@ -9,7 +9,8 @@
 
 var vows = require("vows"),
     assert = require("assert"),
-    cli = require("../../lib/cli");
+    cli = require("../../lib/cli"),
+    path = require("path");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -30,6 +31,27 @@ vows.describe("cli").addBatch({
             assert.doesNotThrow(function () {
                 cli.execute(["-c", topic, "lib/cli.js"]);
             });
+
+            console.log = log;
+        }
+
+    },
+
+    "when there is a local config file": {
+
+        topic: ["lib/cli.js"],
+
+        "should load the local config file": function(topic) {
+            var log = console.log;
+
+            cli.setCwd(path.resolve(__dirname, "..", "fixtures", "configurations", "single-quotes"));
+
+            // Assign console.log to noop to skip CLI output
+            console.log = function() {};
+
+            cli.execute(topic);
+            assert.equal(cli.configPath, path.resolve(__dirname, "..", "fixtures", "configurations", "single-quotes", "eslint.json"));
+            cli.setCwd(undefined);
 
             console.log = log;
         }
