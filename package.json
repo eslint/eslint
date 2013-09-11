@@ -22,7 +22,7 @@
         "estraverse": "~1.3.0",
         "esprima": "*",
         "jshint": "*",
-        "escope": "0.0.14"
+        "escope": "1.0.0"
     },
     "devDependencies": {
         "vows": "~0.7.0",
