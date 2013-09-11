@@ -23,9 +23,9 @@ var RULE_ID = "no-func-assign";
 
 vows.describe(RULE_ID).addBatch({
 
-    "when evaluating 'function foo() {} foo = bar;'": {
+    "when evaluating 'function foo() {}; foo = bar;'": {
 
-        topic: "function foo() {} foo = bar;",
+        topic: "function foo() {}; foo = bar;",
 
         "should report a violation": function(topic) {
 
@@ -131,13 +131,16 @@ vows.describe(RULE_ID).addBatch({
 
         topic: "foo = bar; function foo() { };",
 
-        "should not report a violation": function(topic) {
+        "should report a violation": function(topic) {
 
             var config = { rules: {} };
             config.rules[RULE_ID] = 1;
 
             var messages = eslint.verify(topic, config);
-            assert.equal(messages.length, 0);
+            assert.equal(messages.length, 1);
+            assert.equal(messages[0].ruleId, RULE_ID);
+            assert.equal(messages[0].message, "'foo' is a function.");
+            assert.include(messages[0].node.type, "AssignmentExpression");
         }
     },
 
