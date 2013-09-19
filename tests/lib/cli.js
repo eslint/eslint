@@ -44,15 +44,19 @@ vows.describe("cli").addBatch({
         "should load the local config file": function(topic) {
             var log = console.log;
 
-            cli.setCwd(path.resolve(__dirname, "..", "fixtures", "configurations", "single-quotes"));
-
             // Assign console.log to noop to skip CLI output
             console.log = function() {};
 
-            cli.execute(topic);
-            assert.equal(cli.configPath, path.resolve(__dirname, "..", "fixtures", "configurations", "single-quotes", "eslint.json"));
-            cli.setCwd(undefined);
+            // Mock CWD
+            process.eslintCwd = path.resolve(__dirname, "..", "fixtures", "configurations", "single-quotes");
 
+            assert.doesNotThrow(function () {
+                exitStatus = cli.execute(topic);
+            });
+
+            cli.execute(topic);
+
+            process.eslintCwd = null;
             console.log = log;
         }
 
