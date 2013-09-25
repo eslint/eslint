@@ -72,7 +72,7 @@ vows.describe(RULE_ID).addBatch({
             assert.equal(messages[0].message, "a was used before it was defined");
             assert.include(messages[0].node.type, "Identifier");
         }
-    },    
+    },
 
     "when evaluating 'a(); function a() { alert(b); var b=10; a(); }'": {
 
@@ -84,9 +84,9 @@ vows.describe(RULE_ID).addBatch({
 
             var messages = eslint.verify(topic, config);
 
-            assert.equal(messages.length, 2);
+            assert.equal(messages.length, 1);
             assert.equal(messages[0].ruleId, RULE_ID);
-            assert.equal(messages[0].message, "a was used before it was defined");
+            assert.equal(messages[0].message, "b was used before it was defined");
             assert.include(messages[0].node.type, "Identifier");
         }
     },
@@ -141,5 +141,19 @@ vows.describe(RULE_ID).addBatch({
             var messages = eslint.verify(topic, config);
             assert.equal(messages.length, 0);
         }
+    },
+
+    "when evaluating 'namedFunctionDeclaration(); function namedFunctionDeclaration() {};'": {
+
+        topic: "myFunctionDeclaration(); function myFunctionDeclaration() {};",
+
+        "should not report a violation": function(topic) {
+            var config = { rules: {} };
+            config.rules[RULE_ID] = 1;
+
+            var messages = eslint.verify(topic, config);
+            assert.equal(messages.length, 0);
+        }
     }
+
 }).export(module);
