@@ -33,3 +33,7 @@ You're finally ready to start working with rules. You may want to fix an existin
 ## Section 5: [Contributing](contributing.md)
 
 Once you've made changes that you want to share with the community, the next step is to submit those changes back via a pull request.
+
+## Section 6: [Roadmap](https://github.com/nzakas/eslint/wiki/Release-goals)
+
+ESLint is still in its infancy. Please take a look at our roadmap and release goals and consider submitting pull requests that help us hit the milestones for each release described there. The roadmap is organized so that we get a solid foundation in place.
