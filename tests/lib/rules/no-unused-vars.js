@@ -293,7 +293,6 @@ vows.describe(RULE_ID).addBatch({
         topic:  "function a(x, y){ return y; }; a();",
 
         "should not report a violation": function(topic) {
-            console.log("\n==========================================================\n");
             var config = { rules: {} };
             config.rules[RULE_ID] = 1;
             var messages = eslint.verify(topic, config);
@@ -305,7 +304,6 @@ vows.describe(RULE_ID).addBatch({
         topic:  "function a(x, y, z){ return y; }; a();",
 
         "should report a violation": function(topic) {
-            console.log("\n==========================================================");
             var config = { rules: {} };
             config.rules[RULE_ID] = 1;
             var messages = eslint.verify(topic, config);
