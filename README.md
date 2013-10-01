@@ -33,6 +33,10 @@ I do like JSHint. And I like Anton. Neither of those were deciding factors in cr
 
 That's not really a question, but I got it. I'm not trying to convince you that ESLint is better than JSHint. The only thing I know is that ESLint is better than JSHint for what I'm doing. In the off chance you're doing something similar, it might be better for you. Otherwise, keep using JSHint, I'm certainly not going to tell you to stop using it.
 
+### What are the plans for ESLint?
+
+Our first goal for ESLint is to hit feature/rule and stability parity with JSHint so that developers can start using ESLint as part of their production toolchain. The master list of JSHint features to be implemented is maintained in this [Google Docs spreadsheet](https://docs.google.com/spreadsheet/lv?key=0Ap5QGaRT4AJ_dGV6VXBlMEw3NHhVRl9vQ0lIX2FnVlE&usp=sharing). To read about plans beyond parity with JSHint, check out the [ESLint Roadmap](https://github.com/nzakas/eslint/wiki/Release-goals). 
+
 ### Where to ask for help?
 
 Join our [Mailing List](https://groups.google.com/group/eslint)
