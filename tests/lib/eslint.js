@@ -685,6 +685,31 @@ vows.describe("eslint").addBatch({
             });
             messages.forEach(function(message){ assert.equal(message.node.type, "Literal"); });
         }
+    },
+
+    "when evaluating code with comments to enable rules": {
+        topic: "/*eslint no-alert:1*/ alert('test');",
+        "should report a violation": function(topic) {
+
+            var config = { rules: {} };
+
+            var messages = eslint.verify(topic, config);
+            assert.equal(messages.length, 1);
+            assert.equal(messages[0].ruleId, "no-alert");
+            assert.equal(messages[0].message, "Unexpected alert.");
+            assert.include(messages[0].node.type, "CallExpression");
+        }
+    },
+
+    "when evaluating code with comments to disable rules": {
+        topic: "/*eslint no-alert:0*/ alert('test');",
+        "should not report a violation": function(topic) {
+
+            var config = { rules: { "no-alert" : 1 } };
+
+            var messages = eslint.verify(topic, config);
+            assert.equal(messages.length, 0);
+        }
     }
 
 }).export(module);
