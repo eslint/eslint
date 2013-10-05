@@ -1,6 +1,6 @@
 {
   "name": "eslint",
-  "version": "0.0.9",
+  "version": "0.1.0-dev",
   "author": "Nicholas C. Zakas <nicholas+npm@nczconsulting.com>",
   "description": "An Esprima-based pattern checker for JavaScript.",
   "bin": {
