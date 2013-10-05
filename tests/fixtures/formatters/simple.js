@@ -1,4 +1,5 @@
-module.exports = function(results, config) {
+/*global module*/
+module.exports = function(results) {
 
     var output = "";
 

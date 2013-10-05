@@ -124,7 +124,7 @@ task("check-performance", [ ], function() {
 desc("Check performance of each eslint rule separatly.");
 task("get-perf-table", [ ], function() {
     var startTime, endTime, results = [];
-    
+
     var testRun = function(text, rules, name) {
         var resultTime = 0;
         for (var i = 2; i; i--) {
@@ -166,7 +166,7 @@ task("get-perf-table", [ ], function() {
 desc("Run single test.");
 task("test-one", function(file) {
     if (file) {
-        var command = "node tests/lib/rules/" + file
+        var command = "node tests/lib/rules/" + file;
 
         jake.exec(command, { printStdout: true, printStderr: true}, complete);
     }

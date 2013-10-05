@@ -21,7 +21,7 @@ now=`date +"%B %d, %Y"`
 echo -e "${tags[1]} - ${now}\n" > /tmp/out
 
 # Output changes between last two tags
-git log --pretty=format:'* %s (%an)' $range >> /tmp/out
+git log --pretty=format:'* %s (%an)' $range | grep -v "Merge pull request" | grep -v "Merge branch" >> /tmp/out
 
 # Extra line of separation
 echo -e "\n" >> /tmp/out

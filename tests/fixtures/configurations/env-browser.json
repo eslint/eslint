@@ -4,6 +4,7 @@
   },
 
   "rules": {
+    "no-alert": 0,
     "no-undef": 2
   }
 }

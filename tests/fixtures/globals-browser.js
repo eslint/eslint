@@ -1,1 +1,1 @@
-window.alert('foo');
+window.alert("foo");
