@@ -117,7 +117,7 @@ vows.describe("cli").addBatch({
         }
     },
 
-    "when given a config with environment set to browser": {
+    "when given a config with environment set to Node.js": {
         topic: ["--config", "tests/fixtures/configurations/env-node.json", "tests/fixtures/globals-node.js"],
 
         "should execute without any errors": function(topic) {
