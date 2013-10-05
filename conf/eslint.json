@@ -57,6 +57,7 @@
         "no-shadow": 1,
         "no-use-before-define": 1,
         "no-redeclare": 1,
+        "no-logic-outside-tests": 1,
 
         "smarter-eqeqeq": 0,
         "brace-style": 0,

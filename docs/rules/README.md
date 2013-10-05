@@ -55,6 +55,7 @@ These are rules designed to prevent you from making mistakes. They either prescr
 * [no-alert](no-alert.md) - disallow the use of `alert`, `confirm`, and `prompt`
 * [no-use-before-define](no-use-before-define.md) - disallow use of variables before they are defined
 * [no-redeclare](no-redeclare.md) - disallow declaring the same variable more then once
+* [no-logic-outside-tests](no-logic-outside-tests.md) - disallow use of conditional expressions outside of `if`, `for`, `while` and `do`
 
 ## Stylistic Issues
 
