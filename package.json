@@ -10,7 +10,7 @@
     "scripts": {
         "changelog": "bash scripts/changelog-update.sh",
         "test": "bash scripts/test.sh",
-        "lint": "node node_modules/.bin/jshint ./conf/eslint.json ./lib",
+        "lint": "node node_modules/jshint/bin/jshint ./conf/eslint.json ./lib",
         "bundle": "bash scripts/bundle.sh"
     },
     "repository": {
