@@ -22,6 +22,10 @@ if(0) 0
 f(0), {}
 ```
 
+```js
+a && b()
+```
+
 The following patterns are not considered warnings:
 
 ```js
