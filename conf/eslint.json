@@ -6,7 +6,6 @@
     },
 
     "rules": {
-
         "no-alert": 2,
         "no-caller": 2,
         "no-bitwise": 0,
@@ -30,6 +29,7 @@
         "no-unreachable": 2,
         "no-undef": 2,
         "no-undef-init": 2,
+        "no-unused-expressions": 2,
         "no-octal": 2,
         "no-octal-escape": 2,
         "no-obj-calls": 2,
