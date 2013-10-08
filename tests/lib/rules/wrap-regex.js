@@ -61,7 +61,7 @@ vows.describe(RULE_ID).addBatch({
 
         topic: "var f = function() { return (/foo/).test(bar); };",
 
-        "should report a violation": function(topic) {
+        "should not report a violation": function(topic) {
             var config = { rules: {} };
             config.rules[RULE_ID] = 1;
 
@@ -76,7 +76,21 @@ vows.describe(RULE_ID).addBatch({
 
         topic: "var f = function() { return (/foo/ig).test(bar); };",
 
-        "should report a violation": function(topic) {
+        "should not report a violation": function(topic) {
+            var config = { rules: {} };
+            config.rules[RULE_ID] = 1;
+
+            var messages = eslint.verify(topic, config);
+
+            assert.equal(messages.length, 0);
+        }
+    },
+
+    "when evaluating 'var f = function() { return /foo/; };'": {
+
+        topic: "var f = function() { return /foo/; };",
+
+        "should not report a violation": function(topic) {
             var config = { rules: {} };
             config.rules[RULE_ID] = 1;
 
