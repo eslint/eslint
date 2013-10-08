@@ -58,7 +58,7 @@ vows.describe(RULE_ID).addBatch({
 
         topic: "var build; function doSomething() { var f = build; }",
 
-        "should report a violation": function(topic) {
+        "should not report a violation": function(topic) {
             var config = { rules: {} };
             config.rules[RULE_ID] = 1;
 
@@ -72,7 +72,7 @@ vows.describe(RULE_ID).addBatch({
 
         topic: "function doSomething(e) { }",
 
-        "should report a violation": function(topic) {
+        "should not report a violation": function(topic) {
             var config = { rules: {} };
             config.rules[RULE_ID] = 1;
 
@@ -86,6 +86,34 @@ vows.describe(RULE_ID).addBatch({
     "when evaluating 'function doSomething() { try { var build = 1; } catch (e) { var f = build; } }'": {
 
         topic: "function doSomething() { try { var build = 1; } catch (e) { var f = build; } }",
+
+        "should not report a violation": function(topic) {
+            var config = { rules: {} };
+            config.rules[RULE_ID] = 1;
+
+            var messages = eslint.verify(topic, config);
+
+            assert.equal(messages.length, 0);
+        }
+    },
+
+    "when evaluating 'function doSomething() { var f = doSomething; }'": {
+
+        topic: "function doSomething() { var f = doSomething; }",
+
+        "should not report a violation": function(topic) {
+            var config = { rules: {} };
+            config.rules[RULE_ID] = 1;
+
+            var messages = eslint.verify(topic, config);
+
+            assert.equal(messages.length, 0);
+        }
+    },
+
+    "when evaluating 'function foo() { } function doSomething() { var f = foo; }'": {
+
+        topic: "function foo() { } function doSomething() { var f = foo; }",
 
         "should not report a violation": function(topic) {
             var config = { rules: {} };
