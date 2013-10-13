@@ -35,7 +35,7 @@ vows.describe(RULE_ID).addBatch({
 
             assert.equal(messages.length, 1);
             assert.equal(messages[0].ruleId, RULE_ID);
-            assert.equal(messages[0].message, "build used out of scope.");
+            assert.equal(messages[0].message, "build used outside of binding context.");
             assert.include(messages[0].node.type, "Identifier");
         }
     },
@@ -82,10 +82,26 @@ vows.describe(RULE_ID).addBatch({
         }
     },
 
-
     "when evaluating 'function doSomething() { try { var build = 1; } catch (e) { var f = build; } }'": {
 
         topic: "function doSomething() { try { var build = 1; } catch (e) { var f = build; } }",
+
+        "should report a violation": function(topic) {
+            var config = { rules: {} };
+            config.rules[RULE_ID] = 1;
+
+            var messages = eslint.verify(topic, config);
+
+            assert.equal(messages.length, 1);
+            assert.equal(messages[0].ruleId, RULE_ID);
+            assert.equal(messages[0].message, "build used outside of binding context.");
+            assert.include(messages[0].node.type, "Identifier");
+        }
+    },
+
+    "when evaluating 'function doSomething(e) { var f = e; }'": {
+
+        topic: "function doSomething(e) { var f = e; }",
 
         "should not report a violation": function(topic) {
             var config = { rules: {} };
