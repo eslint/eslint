@@ -61,7 +61,7 @@
 
         "smarter-eqeqeq": 0,
         "brace-style": 0,
-        "block-scope-var": 0,
+        "context-var": 0,
         "camelcase": 2,
         "curly": 2,
         "dot-notation": 2,
