@@ -739,6 +739,20 @@ vows.describe("eslint").addBatch({
             assert.equal(messages[0].message, "Unexpected alert.");
             assert.include(messages[0].node.type, "CallExpression");
         }
+    },
+
+    "when evaluating code with comments to enable and disable multiple comma separated rules": {
+        topic: "/*eslint no-alert:1, no-console:0*/ alert('test'); console.log('test');",
+        "should report a violation": function(topic) {
+
+            var config = { rules: { "no-console" : 1, "no-alert" : 0 } };
+
+            var messages = eslint.verify(topic, config);
+            assert.equal(messages.length, 1);
+            assert.equal(messages[0].ruleId, "no-alert");
+            assert.equal(messages[0].message, "Unexpected alert.");
+            assert.include(messages[0].node.type, "CallExpression");
+        }
     }
 
 }).export(module);
