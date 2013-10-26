@@ -57,6 +57,7 @@ These are rules designed to prevent you from making mistakes. They either prescr
 * [no-use-before-define](no-use-before-define.md) - disallow use of variables before they are defined
 * [no-redeclare](no-redeclare.md) - disallow declaring the same variable more then once
 * [no-global-strict](no-global-strict.md) - disallow the `"use strict"` pragma in the global scope
+* [strict](strict.md) - require that all functions are run in strict mode
 
 ## Stylistic Issues
 
