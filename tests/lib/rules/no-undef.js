@@ -102,6 +102,28 @@ vows.describe(RULE_ID).addBatch({
         }
     },
 
+    "when evaluating reference to config-declared global from function scope": {
+        topic: "function f() { b; }",
+
+        "should not report a violation (globals)": function(topic) {
+
+            var config = { rules: {}, globals: { b: false } };
+            config.rules[RULE_ID] = 1;
+
+            var messages = eslint.verify(topic, config);
+            assert.equal(messages.length, 0);
+        },
+
+        "should not report a violation (global)": function(topic) {
+
+            var config = { rules: {}, global: { b: false } };
+            config.rules[RULE_ID] = 1;
+
+            var messages = eslint.verify(topic, config);
+            assert.equal(messages.length, 0);
+        }
+    },
+
     "when evaluating references to several declared globals": {
         topic: "/*global b a:false*/  a;  function f() { b; a; }",
 
@@ -199,6 +221,21 @@ vows.describe(RULE_ID).addBatch({
             assert.equal(messages[0].message, "'b' is read only.");
             assert.include(messages[0].node.type, "Identifier");
         }
+    },
+
+    "when evaluating write to a declared readonly global": {
+        topic: "function f() { b = 1; }",
+
+        "should report a violation (readonly)": function(topic) {
+            var config = { rules: {}, global: { b: false } };
+            config.rules[RULE_ID] = 1;
+
+            var messages = eslint.verify(topic, config);
+            assert.equal(messages.length, 1);
+            assert.equal(messages[0].ruleId, RULE_ID);
+            assert.equal(messages[0].message, "'b' is read only.");
+            assert.include(messages[0].node.type, "Identifier");
+        },
     },
 
     "when evaluating read+write to a declared readonly global": {
