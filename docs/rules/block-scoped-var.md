@@ -1,6 +1,6 @@
-# context var
+# block scoped var
 
-The `context-var` rule allows you to throw warnings when variables are used outside of their context binding. This emulates C-style block scope.
+The `block-scoped-var` rule allows you to throw warnings when variables are used outside of their context binding. This emulates C-style block scope.
 
 ```js
 function doSomething() {

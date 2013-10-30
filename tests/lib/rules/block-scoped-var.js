@@ -1,5 +1,5 @@
 /**
- * @fileoverview Tests for context-var rule
+ * @fileoverview Tests for block-scoped-var rule
  * @author Matt DuVall <http://www.mattduvall.com>
  */
 
@@ -15,7 +15,7 @@ var vows = require("vows"),
 // Constants
 //------------------------------------------------------------------------------
 
-var RULE_ID = "context-var";
+var RULE_ID = "block-scoped-var";
 
 //------------------------------------------------------------------------------
 // Tests
