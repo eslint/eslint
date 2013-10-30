@@ -61,7 +61,7 @@
         "no-redeclare": 2,
 
         "brace-style": 0,
-        "context-var": 0,
+        "block-scoped-var": 0,
         "camelcase": 2,
         "complexity": [0, 11],
         "consistent-this": [0, "that"],
