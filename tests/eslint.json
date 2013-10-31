@@ -6,13 +6,13 @@
     },
 
     "rules": {
-
         "no-alert": 1,
         "no-caller": 1,
         "no-bitwise": 0,
         "no-console": 0,
         "no-comma-dangle": 1,
         "no-debugger": 1,
+        "no-div-regex": 0,
         "no-dupe-keys": 1,
         "no-else-return": 0,
         "no-empty": 1,

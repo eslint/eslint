@@ -13,6 +13,7 @@
         "no-console": 2,
         "no-comma-dangle": 2,
         "no-debugger": 2,
+        "no-div-regex": 0,
         "no-dupe-keys": 2,
         "no-else-return": 0,
         "no-empty": 2,
