@@ -58,6 +58,7 @@ These are rules designed to prevent you from making mistakes. They either prescr
 * [no-redeclare](no-redeclare.md) - disallow declaring the same variable more then once
 * [no-global-strict](no-global-strict.md) - disallow the `"use strict"` pragma in the global scope
 * [strict](strict.md) - require that all functions are run in strict mode
+* [no-div-regex](no-div-regex.md) - disallow division operators explicitly at beginning of regular expression
 
 ## Stylistic Issues
 
