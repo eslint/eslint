@@ -76,6 +76,7 @@
         "regex-spaces": 1,
         "complexity": [0, 11],
         "wrap-iife": 0,
+        "wrap-regex": 0,
         "no-multi-str": 1,
         "consistent-this": [0, "that"],
         "unnecessary-strict": 1,

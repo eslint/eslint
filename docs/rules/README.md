@@ -74,6 +74,7 @@ These rules are purely matters of style and are quite subjective.
 * [no-wrap-func](no-wrap-func.md) - disallow wrapping of none IIFE statements in parents
 * [complexity](complexity.md) - specify the maximum cyclomatic complexity allowed in a program
 * [new-parens](new-parens.md) - disallow the omission of parentheses when invoking a contructor with no arguments
+* [wrap-regex](wrap-regex.md) - require regex literals to be wrapped in parentheses
 
 ## Alternate Rules
 
