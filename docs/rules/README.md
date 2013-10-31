@@ -46,6 +46,7 @@ These are rules designed to prevent you from making mistakes. They either prescr
 * [no-loop-func](no-loop-func.md) - disallow creation of functions within loops
 * [no-empty-label](no-empty-label.md) - disallow use of labels for anything other then loops and switches
 * [unnecessary-strict](unnecessary-strict.md) - disallow unnecessary use of `"use strict";` when already in strict mode
+* [no-unused-expressions](no-unused-expressions.md) - disallow usage of expressions in statement position
 * [no-unused-vars](no-unused-vars.md) - disallow declaration of variables that are not used in the code
 * [no-script-url](no-script-url.md) - disallow use of javascript: urls.
 * [no-proto](no-proto.md) - disallow usage of `__proto__` property
@@ -55,6 +56,8 @@ These are rules designed to prevent you from making mistakes. They either prescr
 * [no-alert](no-alert.md) - disallow the use of `alert`, `confirm`, and `prompt`
 * [no-use-before-define](no-use-before-define.md) - disallow use of variables before they are defined
 * [no-redeclare](no-redeclare.md) - disallow declaring the same variable more then once
+* [no-global-strict](no-global-strict.md) - disallow the `"use strict"` pragma in the global scope
+* [strict](strict.md) - require that all functions are run in strict mode
 
 ## Stylistic Issues
 
