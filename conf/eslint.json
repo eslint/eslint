@@ -12,6 +12,7 @@
         "no-catch-shadow": 2,
         "no-console": 2,
         "no-comma-dangle": 2,
+        "no-control-regex": 2,
         "no-debugger": 2,
         "no-div-regex": 0,
         "no-dupe-keys": 2,
