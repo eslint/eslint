@@ -26,6 +26,7 @@ Options:
   -c, --config  Load configuration data from this file.
   --rulesdir    Load additional rules from this directory.
   -f, --format  Use a specific output format.               [default: "compact"]
+  -v, --version  Outputs the version number.
 ```
 
 ### `-h`, `--help`
@@ -65,6 +66,14 @@ Example:
     eslint --rulesdir my-rules/ file.js
 
 The rules in your custom rules directory must following the same format as bundled rules to work properly.
+
+### `-v`, `--version`
+
+This option outputs the current ESLint version onto the console. All other options are ignored when present.
+
+Example:
+
+    eslint -v
 
 ## Configuration Files
 
