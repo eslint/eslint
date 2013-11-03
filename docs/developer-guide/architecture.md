@@ -8,10 +8,40 @@ At a high level, there are a few key parts to ESLint:
 
 ## The `cli` object
 
-TODO
+The `cli` object is the API for the command line interface. Literally, the `bin/eslint.js` file simply passes arguments to the `cli` object and then calls `process.exit()` with the returned exit code.
+
+The main method is `cli.execute()`, which accepts an array of strings that represent the command line options (as if `process.argv` were passed without the first two arguments). If you want to run ESLint from inside of another program and have it act like the CLI, then `cli` is the object to use.
+
+This object's responsibilities include:
+
+* Interpreting command line arguments
+* Reading from the file system
+* Loading rule definitions
+* Outputting to the console
+* Reading configuration information from config files (including `.eslintrc`)
+* Returning the correct exit code
+
+This object may not:
+
+* Call `process.exit()` directly
+* Perform any asynchronous operations
 
 ## The `eslint` object
 
 The main method of the `eslint` object is `verify()` and accepts two arguments: the source text to verify and a configuration object (the baked configuration of the given configuration file plus command line options). The method first parses the given text with Esprima and retrieves the AST. The AST is produced with both line/column and range locations which are useful for reporting location of issues and retrieving the source text related to an AST node, respectively.
 
 Once the AST is available, `estraverse` is used to traverse the AST from top to bottom. At each node, the `eslint` object emits an event that has the same name as the node type (i.e., "Identifier", "WithStatement", etc.). On the way back up the subtree, an event is emitted with the AST type name and suffixed with ":after", such as "Identifier:after" - this allows rules to take action both on the way down and on the way up in the traversal. Each event is emitted with the appropriate AST node available.
+
+This object's responsibilities include:
+
+* Inspecting JavaScript code strings
+* Creating an AST for the code
+* Executing rules on the AST
+* Reporting back the results of the execution
+
+This object may not:
+
+* Call `process.exit()` directly
+* Perform any asynchronous operations
+* Use Node.js-specific features
+* Access the file system
