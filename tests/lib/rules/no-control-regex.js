@@ -83,6 +83,34 @@ vows.describe(RULE_ID).addBatch({
             var messages = eslint.verify(topic, config);
             assert.equal(messages.length, 0);
         }
+    },
+
+    "when evaluating a regular expression object with invalid pattern": {
+
+        topic: "new RegExp('[')",
+
+        "should not report a violation": function(topic) {
+
+            var config = { rules: {} };
+            config.rules[RULE_ID] = 1;
+
+            var messages = eslint.verify(topic, config);
+            assert.equal(messages.length, 0);
+        }
+    },
+
+    "when evaluating an unexpected pattern that looks like a regular expression": {
+
+        topic: "new (function foo(){})('\\x1f')",
+
+        "should not report a violation": function(topic) {
+
+            var config = { rules: {} };
+            config.rules[RULE_ID] = 1;
+
+            var messages = eslint.verify(topic, config);
+            assert.equal(messages.length, 0);
+        }
     }
 
 }).export(module);
