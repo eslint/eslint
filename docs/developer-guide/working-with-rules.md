@@ -91,9 +91,8 @@ var comments = context.getComments(node);
 ```
 
 Keep in mind that comments are technically not a part of the AST and are only attached to it on demand, i.e. when you call `getComments()`.
-Note that this is a potentially costly operation since it requires two full tree traversals (it only has to be done once, though).
 
-You may notice that nodes have a `leadingComments` and `trailingComments` property. Consider this an implementation detail and don't rely on them. Instead, always use the above accessor method.
+**Note:** One of the libraries adds AST node properties for comments - do not use these properties. Always use `context.getComments()` as this is the only guaranteed API for accessing comments (we will likely change how comments are handled later).
 
 ## Rule Unit Tests
 
@@ -190,3 +189,15 @@ Because rules are highly personal (and therefore very contentious), the followin
 * If the rule doesn't exist in JSHint or JSLint, then it must:
   * Not be library-specific.
   * Demonstrate a possible issue that can be resolved by rewriting the code.
+
+## Runtime Rules
+
+The thing that makes ESLint different from other linters is the ability to define custom rules at runtime. This is perfect for rules that are specific to your project or company and wouldn't make sense for ESLint to ship with. With runtime rules, you don't have to wait for the next version of ESLint or be disappointed that your rule isn't general enough to apply to the larger JavaScript community, just write your rules and include them at runtime.
+
+Runtime rules are written in the same format as all other rules. Create your rule as you would any other and then follow these steps:
+
+1. Place all of your runtime rules in the same directory (i.e., `eslint_rules`).
+2. Create a [configuration file](command-line-interface/config-files.md) and specify your rule ID warning level under the `rules` key. Your rule will not run unless it has a value of `1` or `2` in the configuration file.
+3. Run the [command line interface](command-line-interface) using the `--rulesdir` option to specify the location of your runtime rules.
+
+**Note:** It is likely that we will standardize the runtime rules directory name as `eslint_rules` in later versions.
