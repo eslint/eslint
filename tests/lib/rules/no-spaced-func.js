@@ -77,7 +77,7 @@ vows.describe(RULE_ID).addBatch({
 
         topic: "f();",
 
-        "should report a violation": function(topic) {
+        "should not report a violation": function(topic) {
             var config = { rules: {} };
             config.rules[RULE_ID] = 1;
 
@@ -91,7 +91,162 @@ vows.describe(RULE_ID).addBatch({
 
         topic: "f(a, b);",
 
+        "should not report a violation": function(topic) {
+            var config = { rules: {} };
+            config.rules[RULE_ID] = 1;
+
+            var messages = eslint.verify(topic, config);
+
+            assert.equal(messages.length, 0);
+        }
+    },
+
+    "when evaluating 'f.b()'": {
+
+        topic: "f.b();",
+
+        "should not report a violation": function(topic) {
+            var config = { rules: {} };
+            config.rules[RULE_ID] = 1;
+
+            var messages = eslint.verify(topic, config);
+
+            assert.equal(messages.length, 0);
+        }
+    },
+
+    "when evaluating 'f.b ()'": {
+
+        topic: "f.b ();",
+
         "should report a violation": function(topic) {
+            var config = { rules: {} };
+            config.rules[RULE_ID] = 1;
+
+            var messages = eslint.verify(topic, config);
+
+            assert.equal(messages.length, 1);
+            assert.equal(messages[0].ruleId, RULE_ID);
+            assert.equal(messages[0].message, "Spaced function application is not allowed.");
+            assert.include(messages[0].node.type, "CallExpression");
+        }
+    },
+
+    "when evaluating 'f.b().c ()'": {
+
+        topic: "f.b().c ();",
+
+        "should report a violation": function(topic) {
+            var config = { rules: {} };
+            config.rules[RULE_ID] = 1;
+
+            var messages = eslint.verify(topic, config);
+
+            assert.equal(messages.length, 1);
+            assert.equal(messages[0].ruleId, RULE_ID);
+            assert.equal(messages[0].message, "Spaced function application is not allowed.");
+            assert.include(messages[0].node.type, "CallExpression");
+        }
+    },
+
+    "when evaluating 'f.b().c()'": {
+
+        topic: "f.b().c();",
+
+        "should not report a violation": function(topic) {
+            var config = { rules: {} };
+            config.rules[RULE_ID] = 1;
+
+            var messages = eslint.verify(topic, config);
+
+            assert.equal(messages.length, 0);
+        }
+    },
+
+    "when evaluating 'f() ()'": {
+
+        topic: "f() ()",
+
+        "should report a violation": function(topic) {
+            var config = { rules: {} };
+            config.rules[RULE_ID] = 1;
+
+            var messages = eslint.verify(topic, config);
+
+            assert.equal(messages.length, 1);
+            assert.equal(messages[0].ruleId, RULE_ID);
+            assert.equal(messages[0].message, "Spaced function application is not allowed.");
+            assert.include(messages[0].node.type, "CallExpression");
+        }
+    },
+
+    "when evaluating 'f()()'": {
+
+        topic: "f()()",
+
+        "should not report a violation": function(topic) {
+            var config = { rules: {} };
+            config.rules[RULE_ID] = 1;
+
+            var messages = eslint.verify(topic, config);
+
+            assert.equal(messages.length, 0);
+        }
+    },
+
+    "when evaluating '(function() {} ())'": {
+
+        topic: "(function() {} ())",
+
+        "should report a violation": function(topic) {
+            var config = { rules: {} };
+            config.rules[RULE_ID] = 1;
+
+            var messages = eslint.verify(topic, config);
+
+            assert.equal(messages.length, 1);
+            assert.equal(messages[0].ruleId, RULE_ID);
+            assert.equal(messages[0].message, "Spaced function application is not allowed.");
+            assert.include(messages[0].node.type, "CallExpression");
+        }
+    },
+
+    "when evaluating '(function() {}())'": {
+
+        topic: "(function() {}())",
+
+        "should not report a violation": function(topic) {
+            var config = { rules: {} };
+            config.rules[RULE_ID] = 1;
+
+            var messages = eslint.verify(topic, config);
+
+            assert.equal(messages.length, 0);
+        }
+    },
+
+    "when evaluating 'var f = new Foo ()'": {
+
+        topic: "var f = new Foo ()",
+
+        "should report a violation": function(topic) {
+            var config = { rules: {} };
+            config.rules[RULE_ID] = 1;
+
+            var messages = eslint.verify(topic, config);
+
+            assert.equal(messages.length, 1);
+            assert.equal(messages[0].ruleId, RULE_ID);
+            assert.equal(messages[0].message, "Spaced function application is not allowed.");
+            assert.include(messages[0].node.type, "NewExpression");
+        }
+    },
+
+    "when evaluating 'var f = new Foo()'": {
+
+        topic: "var f = new Foo()",
+
+        "should not report a violation": function(topic) {
             var config = { rules: {} };
             config.rules[RULE_ID] = 1;
 
