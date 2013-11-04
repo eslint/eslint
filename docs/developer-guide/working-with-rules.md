@@ -197,7 +197,7 @@ The thing that makes ESLint different from other linters is the ability to defin
 Runtime rules are written in the same format as all other rules. Create your rule as you would any other and then follow these steps:
 
 1. Place all of your runtime rules in the same directory (i.e., `eslint_rules`).
-2. Create a [configuration file](command-line-interface/config-files.md) and specify your rule ID warning level under the `rules` key. Your rule will not run unless it has a value of `1` or `2` in the configuration file.
-3. Run the [command line interface](command-line-interface) using the `--rulesdir` option to specify the location of your runtime rules.
+2. Create a [configuration file](../command-line-interface/config-files.md) and specify your rule ID warning level under the `rules` key. Your rule will not run unless it has a value of `1` or `2` in the configuration file.
+3. Run the [command line interface](../command-line-interface) using the `--rulesdir` option to specify the location of your runtime rules.
 
 **Note:** It is likely that we will standardize the runtime rules directory name as `eslint_rules` in later versions.
