@@ -8,11 +8,11 @@ ESLint is a tool for identifying and reporting on patterns found in ECMAScript/J
 * ESLint uses an AST to evaluate patterns in code.
 * ESLint is completely pluggable, every single rule is a plugin and you can add more at runtime.
 
-## WARNING: Pre-alpha
+## Alpha Version
 
-Right now, ESLint is in early development and should not be relied upon. There are no guarantees that anything is working at any particular point in time. Installing directly from GitHub increases the likelihood that something will explode, so if you'd like to try it out, please install the official release from npm.
+ESLint, as of v0.1.0, is in alpha, meaning that there is some stability but you shouldn't be depending on it as your only means of code verification at this time. The alpha version is intended to gather feedback from the community, catch bugs, and determine general direction for the project.
 
-Prior to version 0.1.0, this utility should be considered completely unstable.
+When ESLint v0.5.0 is released, it will be in beta and will have more stability in terms of interface and API.
 
 ## Installation
 
@@ -35,7 +35,7 @@ That's not really a question, but I got it. I'm not trying to convince you that 
 
 ### What are the plans for ESLint?
 
-Our first goal for ESLint is to hit feature/rule and stability parity with JSHint so that developers can start using ESLint as part of their production toolchain. The master list of JSHint features to be implemented is maintained in this [Google Docs spreadsheet](https://docs.google.com/spreadsheet/lv?key=0Ap5QGaRT4AJ_dGV6VXBlMEw3NHhVRl9vQ0lIX2FnVlE&usp=sharing). To read about plans beyond parity with JSHint, check out the [ESLint Roadmap](https://github.com/nzakas/eslint/wiki/Release-goals). 
+Our first goal for ESLint is to hit feature/rule and stability parity with JSHint so that developers can start using ESLint as part of their production toolchain. The master list of JSHint features to be implemented is maintained in this [Google Docs spreadsheet](https://docs.google.com/spreadsheet/lv?key=0Ap5QGaRT4AJ_dGV6VXBlMEw3NHhVRl9vQ0lIX2FnVlE&usp=sharing). To read about plans beyond parity with JSHint, check out the [ESLint Roadmap](https://github.com/nzakas/eslint/wiki/Release-goals).
 
 ### Where to ask for help?
 
