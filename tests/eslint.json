@@ -6,13 +6,13 @@
     },
 
     "rules": {
-
         "no-alert": 1,
         "no-caller": 1,
         "no-bitwise": 0,
         "no-console": 0,
         "no-comma-dangle": 1,
         "no-debugger": 1,
+        "no-div-regex": 0,
         "no-dupe-keys": 1,
         "no-else-return": 0,
         "no-empty": 1,
@@ -77,6 +77,7 @@
         "regex-spaces": 1,
         "complexity": [0, 11],
         "wrap-iife": 0,
+        "wrap-regex": 0,
         "no-multi-str": 1,
         "consistent-this": [0, "that"],
         "unnecessary-strict": 1,

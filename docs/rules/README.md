@@ -16,6 +16,7 @@ The following rules point out areas where you might have made mistakes.
 * [no-dupe-keys](no-dupe-keys.md) - disallow duplicate keys when creating object literals
 * [no-empty-class](no-empty-class.md) - disallow the use of empty character classes in regular expressions
 * [no-func-assign](no-func-assign.md) - disallow overwriting functions written as FunctionDeclarations
+* [no-control-regex](no-control-regex) - disallow control characters in regular expressions
 
 ## Best Practices
 
@@ -58,6 +59,7 @@ These are rules designed to prevent you from making mistakes. They either prescr
 * [no-redeclare](no-redeclare.md) - disallow declaring the same variable more then once
 * [no-global-strict](no-global-strict.md) - disallow the `"use strict"` pragma in the global scope
 * [strict](strict.md) - require that all functions are run in strict mode
+* [no-div-regex](no-div-regex.md) - disallow division operators explicitly at beginning of regular expression
 
 ## Stylistic Issues
 
@@ -75,6 +77,7 @@ These rules are purely matters of style and are quite subjective.
 * [complexity](complexity.md) - specify the maximum cyclomatic complexity allowed in a program
 * [new-parens](new-parens.md) - disallow the omission of parentheses when invoking a contructor with no arguments
 * [no-spaced-func](no-spaced-func.md) - disallow space between function identifier and application
+* [wrap-regex](wrap-regex.md) - require regex literals to be wrapped in parentheses
 
 ## Alternate Rules
 

@@ -4,7 +4,7 @@ To run ESLint on Node.js, you must have npm installed. If npm is not installed, 
 
 Once npm is installed, run the following
 
-    npm install -g eslint
+    npm i -g eslint
 
 This installs the ESLint CLI from the npm repository. To run ESLint, use the following format:
 
@@ -26,6 +26,7 @@ Options:
   -c, --config  Load configuration data from this file.
   --rulesdir    Load additional rules from this directory.
   -f, --format  Use a specific output format.               [default: "compact"]
+  -v, --version  Outputs the version number.
 ```
 
 ### `-h`, `--help`
@@ -34,7 +35,7 @@ This option outputs the help menu, displaying all of the available options. All 
 
 ### `-c`, `--config`
 
-This option allows you to specify an alternate configuration file for ESLint (see below for more on configuration files). By default, it uses `conf/eslint.json`.
+This option allows you to specify an alternate [configuration file](config-files.md) for ESLint. By default, it uses `conf/eslint.json`.
 
 Example:
 
@@ -66,15 +67,10 @@ Example:
 
 The rules in your custom rules directory must following the same format as bundled rules to work properly.
 
-## Configuration Files
+### `-v`, `--version`
 
-You can turn specific rules on or off by creating your own configuration file. The configuration file is written in JSON and has a few top-level properties:
+This option outputs the current ESLint version onto the console. All other options are ignored when present.
 
-* `rules` - this is an object where the keys are the rule IDs and the values are:
-  * 0 - turn the rule off
-  * 1 - turn the rule on as a warning (doesn't affect exit code)
-  * 2 - turn the rule on as a warning (exit code is 1)
-* `env` - specify environmental information, such as:
-  * `nodejs` - set to true to indicate that the code being inspected is intended for use with NodeJS. ESLint will automatically add the appropriate references.
+Example:
 
-(More options to be added soon.)
+    eslint -v

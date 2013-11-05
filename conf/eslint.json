@@ -12,7 +12,9 @@
         "no-catch-shadow": 2,
         "no-console": 2,
         "no-comma-dangle": 2,
+        "no-control-regex": 2,
         "no-debugger": 2,
+        "no-div-regex": 0,
         "no-dupe-keys": 2,
         "no-else-return": 0,
         "no-empty": 2,
@@ -86,6 +88,7 @@
         "strict": 2,
         "unnecessary-strict": 2,
         "use-isnan": 2,
-        "wrap-iife": 0
+        "wrap-iife": 0,
+        "wrap-regex": 0
     }
 }

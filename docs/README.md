@@ -4,7 +4,7 @@
 
 Learn more about ESLint and why it came about and the general philosophy behind it.
 
-## [Architecture](architecture/README.md)
+## [Architecture](developer-guide/architecture.md)
 
 Explains how the code is organized and why it is organized in that way.
 
