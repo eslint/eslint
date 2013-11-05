@@ -78,10 +78,6 @@ These rules are purely matters of style and are quite subjective.
 * [new-parens](new-parens.md) - disallow the omission of parentheses when invoking a contructor with no arguments
 * [wrap-regex](wrap-regex.md) - require regex literals to be wrapped in parentheses
 
-## Alternate Rules
-
-* [smarter-eqeqeq](smarter-eqeqeq.md) - require the use of `===` and `!==` when it makes sense to use them
-
 ## Legacy
 
 The following rules are included for compatibility with [JSHint](http://jshint.com/) and [JSLint](http://jslint.com/). While the names of the rules may not match up with the JSHint/JSLint counterpart, the functionality is the same.
