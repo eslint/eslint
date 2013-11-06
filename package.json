@@ -21,7 +21,6 @@
     "optimist": "*",
     "estraverse": "~1.3.0",
     "esprima": "*",
-    "jshint": "*",
     "escope": "1.0.0"
   },
   "devDependencies": {
