@@ -254,6 +254,20 @@ vows.describe(RULE_ID).addBatch({
 
             assert.equal(messages.length, 0);
         }
+    },
+
+    "when evaluating 'var f = new Foo'": {
+
+        topic: "var f = new Foo",
+
+        "should not report a violation": function(topic) {
+            var config = { rules: {} };
+            config.rules[RULE_ID] = 1;
+
+            var messages = eslint.verify(topic, config);
+
+            assert.equal(messages.length, 0);
+        }
     }
 
 }).export(module);
