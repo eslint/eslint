@@ -24,6 +24,31 @@ if ("" == text) { ... }
 if (obj.getStuff() != undefined) { ... }
 ```
 
+## options
+
+- `"smart"`
+
+This option will enforce `===` and `!==` in your code unless you're comparing between literals
+or you're doing a `typeof` comparison. For those types of comparisons using strict equality is unnecessary.
+
+The following patterns are considered okay and do not cause warnings:
+
+```js
+typeof foo == 'undefined'
+'hello' != 'world'
+0 == 0
+true == true
+```
+
+The following patterns are considered warnings with "smart:
+
+```js
+a == b
+foo == true
+bananas != 1
+```
+
 ## When Not To Use It
 
 There really is no good reason to disable this rule.
+

@@ -84,7 +84,6 @@
         "radix": 0,
         "regex-spaces": 2,
         "semi": 2,
-        "smarter-eqeqeq": 0,
         "strict": 2,
         "unnecessary-strict": 2,
         "use-isnan": 2,
