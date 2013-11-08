@@ -41,6 +41,7 @@
         "no-label-var": 1,
         "no-ternary": 0,
         "no-self-compare": 0,
+        "no-spaced-func": 1,
         "no-sync": 0,
         "no-underscore-dangle": 1,
         "no-loop-func": 1,
@@ -54,7 +55,6 @@
         "no-shadow": 1,
         "no-use-before-define": 1,
 
-        "smarter-eqeqeq": 0,
         "brace-style": 0,
         "block-scoped-var": 0,
         "camelcase": 1,
