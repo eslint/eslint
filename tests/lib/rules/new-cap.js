@@ -54,9 +54,9 @@ vows.describe(RULE_ID).addBatch({
         }
     },
 
-    "when evaluating 'var x = new foo.C();'": {
+    "when evaluating 'var x = new [];'": {
 
-        topic: "var x = new foo.C();",
+        topic: "var x = new [];",
 
         "should not report a violation": function(topic) {
             var config = { rules: {} };
@@ -66,8 +66,7 @@ vows.describe(RULE_ID).addBatch({
 
             assert.equal(messages.length, 0);
         }
-    }
-
+    },
 
 
 }).export(module);
