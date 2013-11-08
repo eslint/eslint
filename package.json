@@ -35,7 +35,9 @@
     "istanbul": "~0.1.10",
     "sinon": "*",
     "jshint": "~2.1.4",
-    "commonjs-everywhere": "~0.9.0"
+    "commonjs-everywhere": "~0.9.0",
+    "mocha": "~1.13.0",
+    "chai": "~1.8.1"
   },
   "keywords": [
     "ast",

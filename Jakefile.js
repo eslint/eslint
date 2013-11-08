@@ -21,13 +21,15 @@ var eslint = require("./lib/eslint"),
 
 var ISTANBUL_CLI    = "./node_modules/istanbul/lib/cli.js",
     VOWS_CLI        = "./node_modules/vows/bin/vows",
+    MOCHA_CLI       = "./node_modules/mocha/bin/mocha",
     JSHINT_CLI      = "node_modules/jshint/bin/jshint",
     ESLINT_CLI      = "./bin/eslint",
     ESLINT_CONFIG   = "./tests/eslint.json",
     COVERAGE_THRESHOLDS = "--statement 90 --branch 90 --function 90",
     LINTABLE_FILES  = (new jake.FileList().include("package.json").include("./conf/*.json").include("lib")).toArray().join(" ").replace(/\\/g, "/"),
     ESLINT_LINTABLE_FILES  = (new jake.FileList().include("lib")).toArray().join(" ").replace(/\\/g, "/"),
-    TEST_FILES      = (new jake.FileList().include("tests/*.js").exclude("tests/fixtures/*.js").exclude("tests/performance/*.js").include("tests/*/*.js").include("tests/*/*/*.js")).toArray().join(" ").replace(/\\/g, "/");
+    TEST_FILES      = (new jake.FileList().include("tests/*.js").exclude("tests/fixtures/*.js").exclude("tests/mocha/**/*.js").exclude("tests/performance/*.js").include("tests/*/*.js").include("tests/*/*/*.js")).toArray().join(" ").replace(/\\/g, "/");
+    MOCHA_TEST_FILES= (new jake.FileList().include("tests/mocha/*/*/*.js")).toArray().join(" ").replace(/\\/g, "/");
 
 //npm run-script lint && node $istanbul cover --print both $vows -- --spec $testfiles && node $istanbul check-coverage $thresholds
 
@@ -72,6 +74,21 @@ task("lint", [], function() {
     jshint(LINTABLE_FILES, complete);
 });
 
+desc("Runs all mocha tests");
+task("mocha", function() {
+
+    var command = [
+        "node",
+        MOCHA_CLI,
+        "-R dot",
+        MOCHA_TEST_FILES
+    ].join(" ");
+
+    jake.exec(command, { printStdout: true, printStderr: true }, function() {
+        jake.Task["check-coverage"].invoke();
+        complete();
+    });
+});
 
 desc("Runs all of the tests.");
 task("test", [ "lint" ], function() {
