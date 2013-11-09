@@ -16,7 +16,8 @@ var vows = require("vows"),
 // Constants
 //------------------------------------------------------------------------------
 
-var TEST_CODE = "var answer = 6 * 7;";
+var TEST_CODE = "var answer = 6 * 7;",
+    BROKEN_TEST_CODE = "var;";
 
 //------------------------------------------------------------------------------
 // Helpers
@@ -752,6 +753,27 @@ vows.describe("eslint").addBatch({
             assert.equal(messages[0].ruleId, "no-alert");
             assert.equal(messages[0].message, "Unexpected alert.");
             assert.include(messages[0].node.type, "CallExpression");
+        }
+    },
+
+    "when evaluating broken code": {
+        topic: BROKEN_TEST_CODE,
+        "should report a violation": function(topic) {
+
+            var messages = eslint.verify(topic);
+            assert.equal(messages.length, 1);
+            assert.isTrue(messages[0].fatal);
+        }
+    },
+
+    "when using an invalid rule": {
+        topic: TEST_CODE,
+        "should throw an error": function(topic) {
+
+            assert.throws(function() {
+                eslint.verify(topic, { foobar: 2 });
+
+            }, "Definition for rule 'foobar' was not found.");
         }
     }
 
