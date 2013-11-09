@@ -1,4 +1,6 @@
 {
+    "globals": {},
+
     "env": {
         "browser": false,
         "node": false,
