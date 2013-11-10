@@ -54,6 +54,20 @@ vows.describe(RULE_ID).addBatch({
         }
     },
 
+    "when evaluating global-level strict mode with single quotes": {
+
+        topic: "'use strict'; function foo () {  return; }",
+
+        "should not report a violation": function(topic) {
+
+            var config = { rules: {} };
+            config.rules[RULE_ID] = 1;
+
+            var messages = eslint.verify(topic, config);
+            assert.equal(messages.length, 0);
+        }
+    },
+
     "when evaluating function-level strict mode": {
 
         topic: "function foo () { \"use strict\"; return; }",
@@ -64,9 +78,24 @@ vows.describe(RULE_ID).addBatch({
             config.rules[RULE_ID] = 1;
 
             var messages = eslint.verify(topic, config);
-            console.dir(messages);
+            assert.equal(messages.length, 0);
+        }
+    },
+
+    "when evaluating function-level strict mode with single quotes": {
+
+        topic: "function foo () { 'use strict'; return; }",
+
+        "should not report a violation": function(topic) {
+
+            var config = { rules: {} };
+            config.rules[RULE_ID] = 1;
+
+            var messages = eslint.verify(topic, config);
             assert.equal(messages.length, 0);
         }
     }
+
+
 
 }).export(module);
