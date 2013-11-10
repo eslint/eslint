@@ -27,7 +27,7 @@ vows.describe(RULE_ID).addBatch({
 
         topic: 'var x = 5;\nvar x = 2;',
 
-        "should report a violation": function(topic) {
+        "should not report a violation": function(topic) {
 
             var config = { rules: {} };
             config.rules[RULE_ID] = [1, 80, 4];
@@ -74,7 +74,7 @@ vows.describe(RULE_ID).addBatch({
         }
     },
 
-    "when evaluating '\t\t\tvar i = 1;\n\t\t\tvar j = 1;'": {
+    "when evaluating '\t\t\tvar i = 1;\n\t\t\tvar j = 1;' with long tab": {
 
         topic: '\t\t\tvar i = 1;\n\t\t\tvar j = 1;',
 
@@ -96,7 +96,7 @@ vows.describe(RULE_ID).addBatch({
 
         topic: '\t\t\tvar i = 1;\n\t\t\tvar j = 1;',
 
-        "should report a violation": function(topic) {
+        "should not report a violation": function(topic) {
 
             var config = { rules: {} };
             config.rules[RULE_ID] = [1, 15, 1];
