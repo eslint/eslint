@@ -57,23 +57,6 @@ vows.describe(RULE_ID).addBatch({
         }
     },
 
-    "when evaluating '{}'": {
-
-        topic: "f(), 0",
-
-        "should report a violation": function(topic) {
-            var config = { rules: {} };
-            config.rules[RULE_ID] = 1;
-
-            var messages = eslint.verify(topic, config);
-
-            assert.equal(messages.length, 1);
-            assert.equal(messages[0].ruleId, RULE_ID);
-            assert.equal(messages[0].message, "Expected an assignment or function call and instead saw an expression.");
-            assert.include(messages[0].node.type, "ExpressionStatement");
-        }
-    },
-
     "when evaluating 'f(), 0'": {
 
         topic: "f(), 0",
@@ -209,6 +192,65 @@ vows.describe(RULE_ID).addBatch({
             var messages = eslint.verify(topic, config);
 
             assert.equal(messages.length, 0);
+        }
+    },
+
+    "when evaluating '\"use strict\";'": {
+
+        topic: "\"use strict\";",
+
+        "should not report a violation": function(topic) {
+            var config = { rules: {} };
+            config.rules[RULE_ID] = 1;
+
+            var messages = eslint.verify(topic, config);
+
+            assert.equal(messages.length, 0);
+        }
+    },
+
+    "when evaluating 'function foo() {\"use strict\"; return true; }'": {
+
+        topic: "function foo() {\"use strict\"; return true; }",
+
+        "should not report a violation": function(topic) {
+            var config = { rules: {} };
+            config.rules[RULE_ID] = 1;
+
+            var messages = eslint.verify(topic, config);
+
+            assert.equal(messages.length, 0);
+        }
+    },
+
+    "when evaluating 'function foo() { var foo = \"use strict\"; return true; }'": {
+
+        topic: "function foo() { var foo = \"use strict\"; return true; }",
+
+        "should not report a violation": function(topic) {
+            var config = { rules: {} };
+            config.rules[RULE_ID] = 1;
+
+            var messages = eslint.verify(topic, config);
+
+            assert.equal(messages.length, 0);
+        }
+    },
+
+    "when evaluating 'function foo() { var foo = true; \"use strict\"; }'": {
+
+        topic: "function foo() { var foo = true; \"use strict\"; }",
+
+        "should report a violation": function(topic) {
+            var config = { rules: {} };
+            config.rules[RULE_ID] = 1;
+
+            var messages = eslint.verify(topic, config);
+
+            assert.equal(messages.length, 1);
+            assert.equal(messages[0].ruleId, RULE_ID);
+            assert.equal(messages[0].message, "Expected an assignment or function call and instead saw an expression.");
+            assert.include(messages[0].node.type, "ExpressionStatement");
         }
     }
 
