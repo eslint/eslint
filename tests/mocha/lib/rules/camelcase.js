@@ -21,7 +21,7 @@ eslintTester.add("camelcase", {
         "myPrivateVariable_ = \"Patrick\""
     ],
     invalid: [
-        { topic: "first_name = \"Nicholas\"", errors: [{ message: "Identifier 'first_name' is not in camel case.", type: "Identifier"}] },
-        { topic: "__private_first_name = \"Patrick\"", errors: [{ message: "Identifier '__private_first_name' is not in camel case.", type: "Identifier"}] }
+        { code: "first_name = \"Nicholas\"", errors: [{ message: "Identifier 'first_name' is not in camel case.", type: "Identifier"}] },
+        { code: "__private_first_name = \"Patrick\"", errors: [{ message: "Identifier '__private_first_name' is not in camel case.", type: "Identifier"}] }
     ]
 });

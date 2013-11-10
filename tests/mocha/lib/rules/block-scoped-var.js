@@ -23,7 +23,7 @@ eslintTester.add("block-scoped-var", {
         "function foo() { } function doSomething() { var f = foo; }"
     ],
     invalid: [
-        { topic: "function doSomething() { var f; if (true) { var build = true; } f = build; }", errors: [{ message: "build used outside of binding context.", type: "Identifier" }] },
-        { topic: "function doSomething() { try { var build = 1; } catch (e) { var f = build; } }", errors: [{ message: "build used outside of binding context.", type: "Identifier" }] }
+        { code: "function doSomething() { var f; if (true) { var build = true; } f = build; }", errors: [{ message: "build used outside of binding context.", type: "Identifier" }] },
+        { code: "function doSomething() { try { var build = 1; } catch (e) { var f = build; } }", errors: [{ message: "build used outside of binding context.", type: "Identifier" }] }
     ]
 });
