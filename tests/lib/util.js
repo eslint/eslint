@@ -37,6 +37,21 @@ vows.describe("util").addBatch({
             assert.equal(b.bar, 1);
         }
 
+    },
+
+    "when calling mergeConfigs()": {
+        topic: [
+            { env: { browser: true } },
+            { globals: { foo: "bar"} }
+        ],
+
+        "should combine the two objects": function(topic) {
+            var result = util.mergeConfigs(topic[0], topic[1]);
+
+            assert.equal(result.globals.foo, "bar");
+            assert.isTrue(result.env.browser);
+        }
+
     }
 
 }).export(module);
