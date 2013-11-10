@@ -125,6 +125,23 @@ vows.describe(RULE_ID).addBatch({
         }
     },
 
+    "when evaluating 'foo.bar'": {
+
+        topic: "foo.bar;",
+
+        "should report a violation": function(topic) {
+            var config = { rules: {} };
+            config.rules[RULE_ID] = 1;
+
+            var messages = eslint.verify(topic, config);
+
+            assert.equal(messages.length, 1);
+            assert.equal(messages[0].ruleId, RULE_ID);
+            assert.equal(messages[0].message, "Expected an assignment or function call and instead saw an expression.");
+            assert.include(messages[0].node.type, "ExpressionStatement");
+        }
+    },
+
     "when evaluating 'function f(){}'": {
 
         topic: "function f(){}",
@@ -198,6 +215,20 @@ vows.describe(RULE_ID).addBatch({
     "when evaluating 'i++'": {
 
         topic: "i++",
+
+        "should not report a violation": function(topic) {
+            var config = { rules: {} };
+            config.rules[RULE_ID] = 1;
+
+            var messages = eslint.verify(topic, config);
+
+            assert.equal(messages.length, 0);
+        }
+    },
+
+    "when evaluating 'delete foo.bar'": {
+
+        topic: "delete foo.bar",
 
         "should not report a violation": function(topic) {
             var config = { rules: {} };
