@@ -62,6 +62,7 @@
         "no-shadow": 2,
         "no-use-before-define": 2,
         "no-redeclare": 2,
+        "no-negated-in-lhs": 2,
 
         "brace-style": 0,
         "block-scoped-var": 0,
