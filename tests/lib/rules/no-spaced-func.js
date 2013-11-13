@@ -268,6 +268,37 @@ vows.describe(RULE_ID).addBatch({
 
             assert.equal(messages.length, 0);
         }
+    },
+
+    "when evaluating 'f( (0) )'": {
+
+        topic: "f( (0) )",
+
+        "should not report a violation": function(topic) {
+            var config = { rules: {} };
+            config.rules[RULE_ID] = 1;
+
+            var messages = eslint.verify(topic, config);
+
+            assert.equal(messages.length, 0);
+        }
+    },
+
+    "when evaluating 'f ( (0) )'": {
+
+        topic: "f ( (0) )",
+
+        "should report a violation": function(topic) {
+            var config = { rules: {} };
+            config.rules[RULE_ID] = 1;
+
+            var messages = eslint.verify(topic, config);
+
+            assert.equal(messages.length, 1);
+            assert.equal(messages[0].ruleId, RULE_ID);
+            assert.equal(messages[0].message, "Spaced function application is not allowed.");
+            assert.include(messages[0].node.type, "CallExpression");
+        }
     }
 
 }).export(module);
