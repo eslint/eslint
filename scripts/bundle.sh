@@ -1,3 +1,5 @@
+#!/bin/sh
+
 outputDir=build
 bundleFile=$outputDir/eslint-min.js
 excludes=(
