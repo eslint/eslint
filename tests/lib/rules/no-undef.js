@@ -426,6 +426,22 @@ vows.describe(RULE_ID).addBatch({
             assert.equal(messages[0].message, "'Array' is read only.");
             assert.include(messages[0].node.type, "Identifier");
         }
-    }
+    },
 
+    //------------------------------------------------------------------------------
+    // Test eval and with
+    //------------------------------------------------------------------------------
+
+    "when evaluating function with eval": {
+        topic: "function evilEval(stuffToEval) { var ultimateAnswer; ultimateAnswer = 42; eval(stuffToEval); }",
+
+        "should not report a violation": function(topic) {
+
+            var config = { rules: {} };
+            config.rules[RULE_ID] = 1;
+
+            var messages = eslint.verify(topic, config);
+            assert.equal(messages.length, 0);
+        }
+    }
 }).export(module);
