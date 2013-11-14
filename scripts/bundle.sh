@@ -1,12 +1,17 @@
+#!/bin/sh
+
 outputDir=build
 bundleFile=$outputDir/eslint-min.js
+excludes=(
+    lib/rules/no-mixed-requires.js
+)
 
 # generate a module that lists all rules in the rules directory
 rulesFile=lib/rules/index.js
 echo 'module.exports = function() {' > $rulesFile
 echo '  var rules = Object.create(null);' >> $rulesFile
 for ruleFile in lib/rules/*.js; do
-    if [ $ruleFile '!=' $rulesFile ]; then
+    if [ $ruleFile '!=' $rulesFile ] && [[ " ${excludes[*]} " != *" $ruleFile "* ]]; then
         ruleFile=${ruleFile#lib/rules/}
         ruleName=${ruleFile%.js}
         echo "  rules[\"$ruleName\"] = require(\"./$ruleFile\");" >> $rulesFile
