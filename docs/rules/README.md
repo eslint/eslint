@@ -16,7 +16,7 @@ The following rules point out areas where you might have made mistakes.
 * [no-dupe-keys](no-dupe-keys.md) - disallow duplicate keys when creating object literals
 * [no-empty-class](no-empty-class.md) - disallow the use of empty character classes in regular expressions
 * [no-func-assign](no-func-assign.md) - disallow overwriting functions written as FunctionDeclarations
-* [no-control-regex](no-control-regex) - disallow control characters in regular expressions
+* [no-control-regex](no-control-regex.md) - disallow control characters in regular expressions
 
 ## Best Practices
 
