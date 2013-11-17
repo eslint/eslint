@@ -85,7 +85,7 @@ vows.describe(RULE_ID).addBatch({
         }
     },
 
-    "when evaluating a function with blocks 2 deep and a threshold of 1": {
+    "when evaluating a function with while blocks 2 deep and a threshold of 1": {
 
         topic: "function foo() { while (true) { if (true) {} } }",
 

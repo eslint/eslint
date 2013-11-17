@@ -133,7 +133,7 @@ vows.describe(RULE_ID).addBatch({
         }
     },
 
-    "when evaluating 'var test = function test(a, b, c) {}'": {
+    "when evaluating 'var test = function test(a, b, c) {}' with low param count": {
 
         topic: "var test = function test(a, b, c) {};",
 
