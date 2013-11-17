@@ -47,4 +47,36 @@ vows.describe("config").addBatch({
         }
     },
 
+    "getConfig with env rules": {
+
+        topic: path.resolve(__dirname, "..", "fixtures", "configurations",
+                "env-node.json"),
+
+        "should be no-global-strict off for node env": function(topic) {
+
+            var configHelper = new Config({config: topic}),
+                config = configHelper.getConfig(),
+                expected = 0,
+                actual = config.rules["no-global-strict"];
+
+            assert.equal(expected, actual);
+        }
+    },
+
+    "getConfig with env and user rules": {
+
+        topic: path.resolve(__dirname, "..", "fixtures", "configurations",
+                "env-node-override.json"),
+
+        "should be no-global-strict a warning": function(topic) {
+
+            var configHelper = new Config({config: topic}),
+                config = configHelper.getConfig(),
+                expected = 1,
+                actual = config.rules["no-global-strict"];
+
+            assert.equal(expected, actual);
+        }
+    }
+
 }).export(module);

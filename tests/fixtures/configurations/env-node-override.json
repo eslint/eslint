@@ -1,0 +1,9 @@
+{
+    "env": {
+        "node": true
+    },
+
+    "rules": {
+        "no-global-strict": 1
+    }
+}
