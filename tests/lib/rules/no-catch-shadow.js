@@ -95,7 +95,7 @@ vows.describe(RULE_ID).addBatch({
 
         topic: "var foo = 1; try { bar(); } catch(baz) { }",
 
-        "should report a violation": function(topic) {
+        "should not report a violation": function(topic) {
             var config = { rules: {} };
             config.rules[RULE_ID] = [1, 2];
 

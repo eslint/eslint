@@ -74,12 +74,12 @@ vows.describe(RULE_ID).addBatch({
 
     "when evaluating 'a === b'": {
         topic: "a === b",
-        "should report a violation": noViolation
+        "should not report a violation": noViolation
     },
 
     "when evaluating 'a !== b'": {
         topic: "a !== b",
-        "should report a violation": noViolation
+        "should not report a violation": noViolation
     },
 
     "when evaluating typeof": {
