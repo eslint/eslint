@@ -8,6 +8,9 @@ If you're going to work on a bug, please add a comment to that bug saying so and
 
 # Working with Code
 
-For contribution guidelines, please see:
+When you submit code to the ESLint project, you agree:
 
-https://github.com/nzakas/eslint/wiki/Contributing
+1. To allow the ESLint project to use your submitted code in any way.
+2. The code you wrote is your original work.
+3. You are capable of granting rights for the submitted code.
+
