@@ -61,7 +61,7 @@ vows.describe(RULE_ID).addBatch({
 
         topic: "var foo = { __proto__: 1, two: 2};",
 
-        "should report a violation": function(topic) {
+        "should not report a violation": function(topic) {
             var config = { rules: {} };
             config.rules[RULE_ID] = 1;
 
