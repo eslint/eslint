@@ -29,7 +29,7 @@ vows.describe(RULE_ID).addBatch({
 
         topic: "var a, b = 42, c = doStuff()",
 
-        "should report a violation": function(topic) {
+        "should not report a violation": function(topic) {
             var config = { rules: {} };
             config.rules[RULE_ID] = [1, false];
 
@@ -85,7 +85,7 @@ vows.describe(RULE_ID).addBatch({
             assert.equal(messages.length, 0);
         },
 
-        "should not report a violation": function(topic) {
+        "should report a violation": function(topic) {
             var config = { rules: {} };
             config.rules[RULE_ID] = [1, true];
 
