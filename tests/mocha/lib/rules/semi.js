@@ -1,5 +1,5 @@
 /**
- * @fileoverview Tests for no-console rule.
+ * @fileoverview Tests for semi rule.
  * @author Nicholas C. Zakas
  */
 
