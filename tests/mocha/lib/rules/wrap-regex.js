@@ -1,5 +1,5 @@
 /**
- * @fileoverview Tests for no-console rule.
+ * @fileoverview Tests for wrap-regex rule.
  * @author Nicholas C. Zakas
  */
 
