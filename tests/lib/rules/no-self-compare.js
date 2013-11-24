@@ -248,7 +248,7 @@ vows.describe(RULE_ID).addBatch({
 
     "when evaluating 'x > x": {
 
-        topic: "x === x",
+        topic: "x > x",
 
         "should report a violation": function(topic) {
             var config = { rules: {} };
@@ -265,7 +265,7 @@ vows.describe(RULE_ID).addBatch({
 
     "when evaluating 'x < x": {
 
-        topic: "x !== x",
+        topic: "x < x",
 
         "should report a violation": function(topic) {
             var config = { rules: {} };
@@ -282,7 +282,7 @@ vows.describe(RULE_ID).addBatch({
 
     "when evaluating 'x >= x": {
 
-        topic: "x == x",
+        topic: "x >= x",
 
         "should report a violation": function(topic) {
             var config = { rules: {} };
@@ -299,7 +299,7 @@ vows.describe(RULE_ID).addBatch({
 
     "when evaluating 'x <= x": {
 
-        topic: "x != x",
+        topic: "x <= x",
 
         "should report a violation": function(topic) {
             var config = { rules: {} };

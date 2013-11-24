@@ -339,7 +339,7 @@ vows.describe(RULE_ID).addBatch({
 
         topic: "( f )( 0 )",
 
-        "should report a violation": function(topic) {
+        "should not report a violation": function(topic) {
             var config = { rules: {} };
             config.rules[RULE_ID] = 1;
 
@@ -353,7 +353,7 @@ vows.describe(RULE_ID).addBatch({
 
         topic: "( (f) )( (0) )",
 
-        "should report a violation": function(topic) {
+        "should not report a violation": function(topic) {
             var config = { rules: {} };
             config.rules[RULE_ID] = 1;
 
