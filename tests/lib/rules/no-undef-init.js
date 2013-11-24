@@ -26,7 +26,7 @@ vows.describe(RULE_ID).addBatch({
     "when evaluating an empty var": {
         topic: "var a;",
 
-        "should not die": function(topic) {
+        "should not report a violation": function(topic) {
             var config = { rules: {} };
             config.rules[RULE_ID] = 1;
 
