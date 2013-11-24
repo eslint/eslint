@@ -22,6 +22,7 @@
         "no-eq-null": 0,
         "no-eval": 2,
         "no-ex-assign": 2,
+        "no-extra-semi": 2,
         "no-func-assign": 2,
         "no-floating-decimal": 0,
         "no-implied-eval": 2,
