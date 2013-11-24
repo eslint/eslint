@@ -227,7 +227,7 @@ vows.describe("cli").addBatch({
         topic: ["tests/fixtures/missing-semicolon.js", "tests/fixtures/passing.js"],
 
         "should not print the results from previous execution": function(topic) {
-            var results = '',
+            var results = "",
                 log = console.log;
 
             // Collect the CLI output.
@@ -236,13 +236,13 @@ vows.describe("cli").addBatch({
             };
 
             cli.execute([topic[0]]);
-            assert.notEqual(results, "\n0 problems");
+            assert.notEqual(results, "");
 
             // Reset results collected between executions.
-            results = '';
+            results = "";
 
             cli.execute([topic[1]]);
-            assert.equal(results, "\n0 problems");
+            assert.equal(results, "");
 
             console.log = log;
         }

@@ -17,6 +17,23 @@ var vows = require("vows"),
 
 vows.describe("formatter:compact").addBatch({
 
+    "when passed no messages": {
+
+        topic: [{
+            filePath: "foo.js",
+            messages: []
+        }],
+
+        "should return nothing": function(topic) {
+            var config = {
+                rules: { foo: 2 }
+            };
+
+            var result = formatter(topic, config);
+            assert.equal("", result);
+        },
+    },
+
     "when passed a single message": {
 
         topic: [{
