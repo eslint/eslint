@@ -25,7 +25,8 @@ eslintTester.add("no-spaced-func", {
         "var f = new Foo",
         "f( (0) )",
         "( f )( 0 )",
-        "( (f) )( (0) )"
+        "( (f) )( (0) )",
+        "(function(){ if (foo) { bar(); } }());"
     ],
     invalid: [
         { code: "f ();", errors: [{ message: "Spaced function application is not allowed.", type: "CallExpression"}] },
