@@ -7,8 +7,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var vows = require("vows"),
-    assert = require("assert"),
+var assert = require("chai").assert,
     options = require("../../lib/options");
 
 //------------------------------------------------------------------------------
@@ -22,114 +21,91 @@ var vows = require("vows"),
  * long-term.
  */
 
-vows.describe("options").addBatch({
+describe("options", function() {
+    describe("when passed --help", function() {
+        var code = [ "--help" ];
 
-    "when passed --help": {
-
-        topic: [ "--help" ],
-
-        "should return true for .h": function(topic) {
-            var currentOptions = options.parse(topic);
+        it("should return true for .h", function() {
+            var currentOptions = options.parse(code);
             assert.isTrue(currentOptions.h);
-        }
+        });
+    });
 
-    },
+    describe("when passed -h", function() {
+        var code = [ "-h" ];
 
-    "when passed -h": {
-
-        topic: [ "-h" ],
-
-        "should return true for .h": function(topic) {
-            var currentOptions = options.parse(topic);
+        it("should return true for .h", function() {
+            var currentOptions = options.parse(code);
             assert.isTrue(currentOptions.h);
-        }
+        });
+    });
 
-    },
+    describe("when passed --config", function() {
+        var code = [ "--config" ];
 
-
-    "when passed --config": {
-
-        topic: [ "--config" ],
-
-        "should return true for .c": function(topic) {
-            var currentOptions = options.parse(topic);
+        it("should return true for .c", function() {
+            var currentOptions = options.parse(code);
             assert.isTrue(currentOptions.c);
-        }
+        });
+    });
 
-    },
+    describe("when passed -c", function() {
+        var code = [ "-c" ];
 
-    "when passed -c": {
-
-        topic: [ "-c" ],
-
-        "should return true for .c": function(topic) {
-            var currentOptions = options.parse(topic);
+        it("should return true for .c", function() {
+            var currentOptions = options.parse(code);
             assert.isTrue(currentOptions.c);
-        }
+        });
+    });
 
-    },
+    describe("when passed --rulesdir", function() {
+        var code = [ "--rulesdir", "/morerules" ];
 
-    "when passed --rulesdir": {
-
-        topic: [ "--rulesdir", "/morerules" ],
-
-        "should return a string for .rulesdir": function(topic) {
-            var currentOptions = options.parse(topic);
+        it("should return a string for .rulesdir", function() {
+            var currentOptions = options.parse(code);
             assert.isString(currentOptions.rulesdir);
             assert.equal(currentOptions.rulesdir, "/morerules");
-        }
+        });
+    });
 
-    },
+    describe("when passed --format", function() {
+        var code = [ "--format", "compact" ];
 
-    "when passed --format": {
-
-        topic: [ "--format", "compact" ],
-
-        "should return a string for .f": function(topic) {
-            var currentOptions = options.parse(topic);
+        it("should return a string for .f", function() {
+            var currentOptions = options.parse(code);
             assert.equal(currentOptions.f, "compact");
-        }
+        });
+    });
 
-    },
+    describe("when passed -f", function() {
+        var code = [ "-f", "compact" ];
 
-    "when passed -f": {
-
-        topic: [ "-f", "compact" ],
-
-        "should return a string for .f": function(topic) {
-            var currentOptions = options.parse(topic);
+        it("should return a string for .f", function() {
+            var currentOptions = options.parse(code);
             assert.equal(currentOptions.f, "compact");
-        }
+        });
+    });
 
-    },
+    describe("when passed -v", function() {
+        var code = [ "-v" ];
 
-    "when passed -v": {
-
-        topic: [ "-v" ],
-
-        "should return true for .v": function(topic) {
-            var currentOptions = options.parse(topic);
+        it("should return true for .v", function() {
+            var currentOptions = options.parse(code);
             assert.isTrue(currentOptions.v);
-        }
+        });
+    });
 
-    },
+    describe("when passed --version", function() {
+        var code = [ "--version" ];
 
-    "when passed --version": {
-
-        topic: [ "--version" ],
-
-        "should return true for .v": function(topic) {
-            var currentOptions = options.parse(topic);
+        it("should return true for .v", function() {
+            var currentOptions = options.parse(code);
             assert.isTrue(currentOptions.v);
-        }
+        });
+    });
 
-    },
-
-    "when asking for help": {
-
-        topic: "",
-
-        "should log the help content to the console": function(topic) {
+    describe("when asking for help", function() {
+        it("should log the help content to the console", function() {
             var log = console.log;
 
             var loggedMessages = [];
@@ -137,13 +113,10 @@ vows.describe("options").addBatch({
                 loggedMessages.push(message);
             };
 
-            options.help()
+            options.help();
             assert.equal(loggedMessages.length, 1);
 
             console.log = log;
-        }
-
-    }
-
-
-}).export(module);
+        });
+    });
+});

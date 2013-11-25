@@ -7,312 +7,35 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var vows = require("vows"),
-    assert = require("assert"),
-    eslint = require("../../../lib/eslint");
-
-//------------------------------------------------------------------------------
-// Constants
-//------------------------------------------------------------------------------
-
-var RULE_ID = "no-unused-vars";
+var eslintTester = require("../../../lib/tests/eslintTester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-vows.describe(RULE_ID).addBatch({
-    "when evaluating 'var a=10;'": {
-
-        topic: "var a=10;",
-
-        "should report a violation": function(topic) {
-
-            var config = { rules: {} };
-            config.rules[RULE_ID] = 1;
-
-            var messages = eslint.verify(topic, config);
-
-            assert.equal(messages.length, 1);
-            assert.equal(messages[0].ruleId, RULE_ID);
-            assert.equal(messages[0].message, "a is defined but never used");
-            assert.include(messages[0].node.type, "Identifier");
-        }
-    },
-
-    "when evaluating a string 'var a=10; a=20;'": {
-
-        topic: "var a=10; a=20;",
-
-        "should report a violation": function(topic) {
-            var config = { rules: {} };
-            config.rules[RULE_ID] = 1;
-            var messages = eslint.verify(topic, config);
-
-            assert.equal(messages.length, 1);
-            assert.equal(messages[0].ruleId, RULE_ID);
-            assert.equal(messages[0].message, "a is defined but never used");
-            assert.include(messages[0].node.type, "Identifier");
-        }
-    },
-
-    "when evaluating a string 'var a=10; alert(a);'": {
-
-        topic: "var a=10; alert(a);",
-
-        "should not report a violation": function(topic) {
-            var config = { rules: {} };
-            config.rules[RULE_ID] = 1;
-            var messages = eslint.verify(topic, config);
-            assert.equal(messages.length, 0);
-        }
-    },
-
-    "when evaluating a string 'var a=10; (function() { alert(a); })()'": {
-
-        topic: "var a=10; (function() { alert(a); })();",
-
-        "should not report a violation": function(topic) {
-            var config = { rules: {} };
-            config.rules[RULE_ID] = 1;
-            var messages = eslint.verify(topic, config);
-            assert.equal(messages.length, 0);
-        }
-    },
-
-    "when evaluating a string 'var a=10; (function() { setTimeout(function() { alert(a); }, 0); })()'": {
-
-        topic: "var a=10; (function() { setTimeout(function() { alert(a); }, 0); })();",
-
-        "should not report a violation": function(topic) {
-            var config = { rules: {} };
-            config.rules[RULE_ID] = 1;
-            var messages = eslint.verify(topic, config);
-            assert.equal(messages.length, 0);
-        }
-    },
-
-    "when evaluating a string 'var a=10; (function() { var a = 1; alert(a); })()'": {
-
-        topic: "var a=10; (function() { var a = 1; alert(a); })();",
-
-        "should report a violation": function(topic) {
-            var config = { rules: {} };
-            config.rules[RULE_ID] = 1;
-            var messages = eslint.verify(topic, config);
-
-            assert.equal(messages.length, 1);
-            assert.equal(messages[0].ruleId, RULE_ID);
-            assert.equal(messages[0].message, "a is defined but never used");
-            assert.include(messages[0].node.type, "Identifier");
-        }
-    },
-
-    "when evaluating a string 'var a=10, b=0, c=null; alert(a+b)": {
-
-        topic: "var a=10, b=0, c=null; alert(a+b)",
-
-        "should report a violation": function(topic) {
-            var config = { rules: {} };
-            config.rules[RULE_ID] = 1;
-            var messages = eslint.verify(topic, config);
-
-            assert.equal(messages.length, 1);
-            assert.equal(messages[0].ruleId, RULE_ID);
-            assert.equal(messages[0].message, "c is defined but never used");
-            assert.include(messages[0].node.type, "Identifier");
-        }
-    },
-
-    "when evaluating a string 'var a=10, b=0, c=null; setTimeout(function() { var b=2; alert(a+b+c); }, 0);": {
-
-        topic: "var a=10, b=0, c=null; setTimeout(function() { var b=2; alert(a+b+c); }, 0);",
-
-        "should report a violation": function(topic) {
-            var config = { rules: {} };
-            config.rules[RULE_ID] = 1;
-            var messages = eslint.verify(topic, config);
-
-            assert.equal(messages.length, 1);
-            assert.equal(messages[0].ruleId, RULE_ID);
-            assert.equal(messages[0].message, "b is defined but never used");
-            assert.include(messages[0].node.type, "Identifier");
-        }
-    },
-
-    "when evaluating a string 'var a=10, b=0, c=null; setTimeout(function() { var b=2; var c=2; alert(a+b+c); }, 0);": {
-
-        topic: "var a=10, b=0, c=null; setTimeout(function() { var b=2; var c=2; alert(a+b+c); }, 0);",
-
-        "should report a violation": function(topic) {
-            var config = { rules: {} };
-            config.rules[RULE_ID] = 1;
-            var messages = eslint.verify(topic, config);
-
-            assert.equal(messages.length, 2);
-            assert.equal(messages[0].ruleId, RULE_ID);
-            assert.equal(messages[0].message, "b is defined but never used");
-            assert.include(messages[0].node.type, "Identifier");
-        }
-    },
-
-    "when evaluating a string 'var a=10; d[a] = 0;": {
-
-        topic: "var a=10; d[a] = 0;",
-
-        "should not report a violation": function(topic) {
-            var config = { rules: {} };
-            config.rules[RULE_ID] = 1;
-            var messages = eslint.verify(topic, config);
-            assert.equal(messages.length, 0);
-        }
-    },
-
-    "when evaluating a string '(function() { var a=10; return a; })();": {
-
-        topic: "(function() { var a=10; return a; })();",
-
-        "should not report a violation": function(topic) {
-            var config = { rules: {} };
-            config.rules[RULE_ID] = 1;
-            var messages = eslint.verify(topic, config);
-            assert.equal(messages.length, 0);
-        }
-    },
-
-    "when evaluating a string 'function f(){var a=[];return a.map(function(){});}'": {
-        topic: [
-            "function f() {",
-            "    var a = [];",
-            "    return a.map(function() {});",
-            "}"
-        ].join("\n"),
-
-        "should report a violation": function(topic) {
-            var config = { rules: {} };
-            config.rules[RULE_ID] = 1;
-            var messages = eslint.verify(topic, config);
-
-            assert.equal(messages.length, 1);
-            assert.equal(messages[0].ruleId, RULE_ID);
-            assert.equal(messages[0].message, "f is defined but never used");
-            assert.include(messages[0].node.type, "Identifier");
-        }
-    },
-
-    "when evaluating a string 'function f(){var a=[];return a.map(function g(){});}'": {
-        topic: [
-            "function f() {",
-            "    var a = [];",
-            "    return a.map(function g() {});",
-            "}"
-        ].join("\n"),
-
-        "should report a violation": function(topic) {
-            var config = { rules: {} };
-            config.rules[RULE_ID] = 1;
-            var messages = eslint.verify(topic, config);
-
-            assert.equal(messages.length, 1);
-            assert.equal(messages[0].ruleId, RULE_ID);
-            assert.equal(messages[0].message, "f is defined but never used");
-            assert.include(messages[0].node.type, "Identifier");
-        }
-    },
-
-    "when evaluating a string '(function g() {})()'": {
-        topic: "(function g() {})()",
-
-        "should not report a violation": function(topic) {
-            var config = { rules: {} };
-            config.rules[RULE_ID] = 1;
-            var messages = eslint.verify(topic, config);
-            assert.equal(messages.length, 0);
-        }
-    },
-
-    "when evaluating a string 'function f(){var x;function a(){x=42;}function b(){alert(x);}}'": {
-        topic: [
-            "function f() {",
-            "   var x;",
-            "   function a() { x = 42; }",
-            "   function b() { alert(x); }",
-            "}"
-        ].join("\n"),
-
-        "should report a violation": function(topic) {
-            var config = { rules: {} };
-            config.rules[RULE_ID] = 1;
-            var messages = eslint.verify(topic, config);
-
-            assert.equal(messages.length, 3); //f, a, b are unused
-            assert.equal(messages[0].ruleId, RULE_ID);
-            assert.equal(messages[0].message, "f is defined but never used");
-            assert.include(messages[0].node.type, "Identifier");
-        }
-    },
-
-    "when evaluating a string 'function f(a){}; f();'": {
-        topic:  "function f(a) {}; f();",
-
-        "should report a violation": function(topic) {
-            var config = { rules: {} };
-            config.rules[RULE_ID] = 1;
-            var messages = eslint.verify(topic, config);
-
-            assert.equal(messages.length, 1);
-            assert.equal(messages[0].ruleId, RULE_ID);
-            assert.equal(messages[0].message, "a is defined but never used");
-            assert.include(messages[0].node.type, "Identifier");
-        }
-    },
-
-    "when evaluating a string 'function f(a){alert(a);}; f();'": {
-        topic:  "function f(a) {alert(a);}; f();",
-
-        "should not report a violation": function(topic) {
-            var config = { rules: {} };
-            config.rules[RULE_ID] = 1;
-            var messages = eslint.verify(topic, config);
-            assert.equal(messages.length, 0);
-        }
-    },
-
-    "when evaluating a string 'var c = 0; function f(a){ var b = a; return b; }; f(c);": {
-        topic:  "var c = 0; function f(a){ var b = a; return b; }; f(c);",
-
-        "should not report a violation": function(topic) {
-            var config = { rules: {} };
-            config.rules[RULE_ID] = 1;
-            var messages = eslint.verify(topic, config);
-            assert.equal(messages.length, 0);
-        }
-    },
-
-    "when evaluating a string 'function a(x, y){ return y; }; a();": {
-        topic:  "function a(x, y){ return y; }; a();",
-
-        "should not report a violation": function(topic) {
-            var config = { rules: {} };
-            config.rules[RULE_ID] = 1;
-            var messages = eslint.verify(topic, config);
-            assert.equal(messages.length, 0);
-        }
-    },
-
-    "when evaluating a string 'function a(x, y, z){ return y; }; a();": {
-        topic:  "function a(x, y, z){ return y; }; a();",
-
-        "should report a violation": function(topic) {
-            var config = { rules: {} };
-            config.rules[RULE_ID] = 1;
-            var messages = eslint.verify(topic, config);
-
-            assert.equal(messages.length, 1);
-            assert.equal(messages[0].ruleId, RULE_ID);
-            assert.equal(messages[0].message, "z is defined but never used");
-            assert.include(messages[0].node.type, "Identifier");
-        }
-    }
-
-}).export(module);
+eslintTester.add("no-unused-vars", {
+    valid: [
+        "var a=10; alert(a);",
+        "var a=10; (function() { alert(a); })();",
+        "var a=10; (function() { setTimeout(function() { alert(a); }, 0); })();",
+        "var a=10; d[a] = 0;",
+        "(function() { var a=10; return a; })();",
+        "(function g() {})()",
+        "function f(a) {alert(a);}; f();",
+        "var c = 0; function f(a){ var b = a; return b; }; f(c);",
+        "function a(x, y){ return y; }; a();"
+    ],
+    invalid: [
+        { code: "var a=10;", errors: [{ message: "a is defined but never used", type: "Identifier"}] },
+        { code: "var a=10; a=20;", errors: [{ message: "a is defined but never used", type: "Identifier"}] },
+        { code: "var a=10; (function() { var a = 1; alert(a); })();", errors: [{ message: "a is defined but never used", type: "Identifier"}] },
+        { code: "var a=10, b=0, c=null; alert(a+b)", errors: [{ message: "c is defined but never used", type: "Identifier"}] },
+        { code: "var a=10, b=0, c=null; setTimeout(function() { var b=2; alert(a+b+c); }, 0);", errors: [{ message: "b is defined but never used", type: "Identifier"}] },
+        { code: "var a=10, b=0, c=null; setTimeout(function() { var b=2; var c=2; alert(a+b+c); }, 0);", errors: [{ message: "b is defined but never used", type: "Identifier"}, { message: "c is defined but never used", type: "Identifier"}] },
+        { code: "function f(){var a=[];return a.map(function(){});}", errors: [{ message: "f is defined but never used", type: "Identifier"}] },
+        { code: "function f(){var a=[];return a.map(function g(){});}", errors: [{ message: "f is defined but never used", type: "Identifier"}] },
+        { code: "function f(){var x;function a(){x=42;}function b(){alert(x);}}", errors: 3 },
+        { code: "function f(a) {}; f();", errors: [{ message: "a is defined but never used", type: "Identifier"}] },
+        { code: "function a(x, y, z){ return y; }; a();", errors: [{ message: "z is defined but never used", type: "Identifier"}] },
+    ]
+});

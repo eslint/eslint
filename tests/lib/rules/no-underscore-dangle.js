@@ -7,190 +7,26 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var vows = require("vows"),
-    assert = require("assert"),
-    eslint = require("../../../lib/eslint");
-
-//------------------------------------------------------------------------------
-// Constants
-//------------------------------------------------------------------------------
-
-var RULE_ID = "no-underscore-dangle";
+var eslintTester = require("../../../lib/tests/eslintTester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-vows.describe(RULE_ID).addBatch({
-
-    "when evaluating a variable declaration with a beginning dangling underscore": {
-
-        topic: "var _foo = 1",
-
-        "should report a violation": function(topic) {
-            var config = { rules: {} };
-            config.rules[RULE_ID] = 1;
-
-            var messages = eslint.verify(topic, config);
-
-            assert.equal(messages.length, 1);
-            assert.equal(messages[0].ruleId, RULE_ID);
-            assert.equal(messages[0].message, "Unexpected dangling '_' in '_foo'.");
-            assert.include(messages[0].node.type, "VariableDeclarator");
-        }
-    },
-
-    "when evaluating a variable declaration with an ending dangling underscore": {
-
-        topic: "var foo_ = 1",
-
-        "should report a violation": function(topic) {
-            var config = { rules: {} };
-            config.rules[RULE_ID] = 1;
-
-            var messages = eslint.verify(topic, config);
-
-            assert.equal(messages.length, 1);
-            assert.equal(messages[0].ruleId, RULE_ID);
-            assert.equal(messages[0].message, "Unexpected dangling '_' in 'foo_'.");
-            assert.include(messages[0].node.type, "VariableDeclarator");
-        }
-    },
-
-    "when evaluating a function declaration with a beginning dangling underscore": {
-
-        topic: "function _foo() {}",
-
-        "should report a violation": function(topic) {
-            var config = { rules: {} };
-            config.rules[RULE_ID] = 1;
-
-            var messages = eslint.verify(topic, config);
-
-            assert.equal(messages.length, 1);
-            assert.equal(messages[0].ruleId, RULE_ID);
-            assert.equal(messages[0].message, "Unexpected dangling '_' in '_foo'.");
-            assert.include(messages[0].node.type, "FunctionDeclaration");
-        }
-    },
-
-    "when evaluating a function declaration with an ending dangling underscore": {
-
-        topic: "function foo_() {}",
-
-        "should report a violation": function(topic) {
-            var config = { rules: {} };
-            config.rules[RULE_ID] = 1;
-
-            var messages = eslint.verify(topic, config);
-
-            assert.equal(messages.length, 1);
-            assert.equal(messages[0].ruleId, RULE_ID);
-            assert.equal(messages[0].message, "Unexpected dangling '_' in 'foo_'.");
-            assert.include(messages[0].node.type, "FunctionDeclaration");
-        }
-    },
-
-    "when evaluating a variable declaration with no dangling underscore": {
-
-        topic: "var foo_bar = 1;",
-
-        "should not report a violation": function(topic) {
-            var config = { rules: {} };
-            config.rules[RULE_ID] = 1;
-
-            var messages = eslint.verify(topic, config);
-
-            assert.equal(messages.length, 0);
-        }
-    },
-
-    "when evaluating a function declaration with no dangling underscore": {
-
-        topic: "function foo_bar() {}",
-
-        "should not report a violation": function(topic) {
-            var config = { rules: {} };
-            config.rules[RULE_ID] = 1;
-
-            var messages = eslint.verify(topic, config);
-
-            assert.equal(messages.length, 0);
-        }
-    },
-
-    "when evaluating a variable declaration with property __proto__": {
-
-        topic: "foo.bar.__proto__;",
-
-        "should not report a violation": function(topic) {
-            var config = { rules: {} };
-            config.rules[RULE_ID] = 1;
-
-            var messages = eslint.verify(topic, config);
-
-            assert.equal(messages.length, 0);
-        }
-    },
-
-    "when evaluating a variable declaration with identifier as __proto__": {
-
-        topic: "var __proto__ = 1;",
-
-        "should report a violation": function(topic) {
-            var config = { rules: {} };
-            config.rules[RULE_ID] = 1;
-
-            var messages = eslint.verify(topic, config);
-
-            assert.equal(messages.length, 1);
-            assert.equal(messages[0].ruleId, RULE_ID);
-            assert.equal(messages[0].message, "Unexpected dangling '_' in '__proto__'.");
-            assert.include(messages[0].node.type, "VariableDeclarator");
-        }
-    },
-
-    "when evaluating usage of __filename and __dirname": {
-
-        topic: "console.log(__filename); console.log(__dirname);",
-
-        "should not report a violation": function(topic) {
-            var config = { rules: {} };
-            config.rules[RULE_ID] = 1;
-
-            var messages = eslint.verify(topic, config);
-
-            assert.equal(messages.length, 0);
-        }
-    },
-
-    "when evaluating usage of _ library": {
-
-        topic: "var _ = require('underscore');",
-
-        "should not report a violation": function(topic) {
-            var config = { rules: {} };
-            config.rules[RULE_ID] = 1;
-
-            var messages = eslint.verify(topic, config);
-
-            assert.equal(messages.length, 0);
-        }
-    },
-
-    "when evaluating property _": {
-
-        topic: "var a = b._;",
-
-        "should not report a violation": function(topic) {
-            var config = { rules: {} };
-            config.rules[RULE_ID] = 1;
-
-            var messages = eslint.verify(topic, config);
-
-            assert.equal(messages.length, 0);
-        }
-    }
-
-
-}).export(module);
+eslintTester.add("no-underscore-dangle", {
+    valid: [
+        "var foo_bar = 1;",
+        "function foo_bar() {}",
+        "foo.bar.__proto__;",
+        "console.log(__filename); console.log(__dirname);",
+        "var _ = require('underscore');",
+        "var a = b._;"
+    ],
+    invalid: [
+        { code: "var _foo = 1", errors: [{ message: "Unexpected dangling '_' in '_foo'.", type: "VariableDeclarator"}] },
+        { code: "var foo_ = 1", errors: [{ message: "Unexpected dangling '_' in 'foo_'.", type: "VariableDeclarator"}] },
+        { code: "function _foo() {}", errors: [{ message: "Unexpected dangling '_' in '_foo'.", type: "FunctionDeclaration"}] },
+        { code: "function foo_() {}", errors: [{ message: "Unexpected dangling '_' in 'foo_'.", type: "FunctionDeclaration"}] },
+        { code: "var __proto__ = 1;", errors: [{ message: "Unexpected dangling '_' in '__proto__'.", type: "VariableDeclarator"}] }
+    ]
+});

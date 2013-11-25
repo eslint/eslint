@@ -1,103 +1,30 @@
 /**
  * @fileoverview Tests for wrap-regex rule.
- * @author Matt DuVall <http://www.mattduvall.com>
+ * @author Nicholas C. Zakas
  */
 
 //------------------------------------------------------------------------------
 // Requirements
 //------------------------------------------------------------------------------
 
-var vows = require("vows"),
-    assert = require("assert"),
-    eslint = require("../../../lib/eslint");
-
-//------------------------------------------------------------------------------
-// Constants
-//------------------------------------------------------------------------------
-
-var RULE_ID = "wrap-regex";
+var eslintTester = require("../../../lib/tests/eslintTester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-vows.describe(RULE_ID).addBatch({
 
-    "when evaluating 'var f = function() { return /foo/.test(bar); };'": {
+eslintTester.add("wrap-regex", {
+    valid: [
+        "var f = function() { return (/foo/).test(bar); };",
+        "var f = function() { return (/foo/ig).test(bar); };",
+        "var f = function() { return /foo/; };"
+    ],
+    invalid: [
+        { code: "var f = function() { return /foo/.test(bar); };",
+          errors: [{ message: "Wrap the /regexp/ literal in parens to disambiguate the slash operator.", type: "Literal"}] },
+        { code: "var f = function() { return /foo/ig.test(bar); };",
+          errors: [{ message: "Wrap the /regexp/ literal in parens to disambiguate the slash operator.", type: "Literal"}] }
 
-        topic: "var f = function() { return /foo/.test(bar); };",
-
-        "should report a violation": function(topic) {
-            var config = { rules: {} };
-            config.rules[RULE_ID] = 1;
-
-            var messages = eslint.verify(topic, config);
-
-            assert.equal(messages.length, 1);
-            assert.equal(messages[0].ruleId, RULE_ID);
-            assert.equal(messages[0].message, "Wrap the /regexp/ literal in parens to disambiguate the slash operator.");
-            assert.include(messages[0].node.type, "Literal");
-        }
-    },
-
-    "when evaluating 'var f = function() { return /foo/ig.test(bar); };'": {
-
-        topic: "var f = function() { return /foo/ig.test(bar); };",
-
-        "should report a violation": function(topic) {
-            var config = { rules: {} };
-            config.rules[RULE_ID] = 1;
-
-            var messages = eslint.verify(topic, config);
-
-            assert.equal(messages.length, 1);
-            assert.equal(messages[0].ruleId, RULE_ID);
-            assert.equal(messages[0].message, "Wrap the /regexp/ literal in parens to disambiguate the slash operator.");
-            assert.include(messages[0].node.type, "Literal");
-        }
-    },
-
-    "when evaluating 'var f = function() { return (/foo/).test(bar); };'": {
-
-        topic: "var f = function() { return (/foo/).test(bar); };",
-
-        "should not report a violation": function(topic) {
-            var config = { rules: {} };
-            config.rules[RULE_ID] = 1;
-
-            var messages = eslint.verify(topic, config);
-
-            assert.equal(messages.length, 0);
-        }
-    },
-
-
-    "when evaluating 'var f = function() { return (/foo/ig).test(bar); };'": {
-
-        topic: "var f = function() { return (/foo/ig).test(bar); };",
-
-        "should not report a violation": function(topic) {
-            var config = { rules: {} };
-            config.rules[RULE_ID] = 1;
-
-            var messages = eslint.verify(topic, config);
-
-            assert.equal(messages.length, 0);
-        }
-    },
-
-    "when evaluating 'var f = function() { return /foo/; };'": {
-
-        topic: "var f = function() { return /foo/; };",
-
-        "should not report a violation": function(topic) {
-            var config = { rules: {} };
-            config.rules[RULE_ID] = 1;
-
-            var messages = eslint.verify(topic, config);
-
-            assert.equal(messages.length, 0);
-        }
-    }
-}).export(module);
-
+    ]
+});

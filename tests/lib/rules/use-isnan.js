@@ -1,60 +1,34 @@
 /**
  * @fileoverview Tests for use-isnan rule.
- * @author James Allardice
+ * @author James Allardice, Michael Paulukonis
  */
 
 //------------------------------------------------------------------------------
 // Requirements
 //------------------------------------------------------------------------------
 
-var vows = require("vows"),
-    assert = require("assert"),
-    eslint = require("../../../lib/eslint");
-
-//------------------------------------------------------------------------------
-// Constants
-//------------------------------------------------------------------------------
-
-var RULE_ID = "use-isnan";
+var eslintTester = require("../../../lib/tests/eslintTester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-vows.describe(RULE_ID).addBatch({
 
-    "when evaluating '123 === NaN;'": {
+eslintTester.add("use-isnan", {
+    valid: [
+        "var x = NaN;",
+        "isNaN(NaN) === true;",
+        "isNaN(123) !== true;",
+        "Number.isNaN(NaN) === true;",
+        "Number.isNaN(123) !== true;"
+    ],
+    invalid: [
 
-        topic: "123 === NaN;",
+        { code: "123 === NaN;",
+          errors: [{ message: "Use the isNaN function to compare with NaN.", type: "BinaryExpression"}] },
+        { code: "NaN === \"abc\";",
+          errors: [{ message: "Use the isNaN function to compare with NaN.", type: "BinaryExpression"}] }
 
-        "should report a violation": function(topic) {
-            var config = { rules: {} };
-            config.rules[RULE_ID] = 1;
 
-            var messages = eslint.verify(topic, config);
-
-            assert.equal(messages.length, 1);
-            assert.equal(messages[0].ruleId, RULE_ID);
-            assert.equal(messages[0].message, "Use the isNaN function to compare with NaN.");
-            assert.include(messages[0].node.type, "BinaryExpression");
-        }
-    },
-
-    "when evaluating 'NaN == \"abc\";'": {
-
-        topic: "NaN == \"abc\";",
-
-        "should report a violation": function(topic) {
-            var config = { rules: {} };
-            config.rules[RULE_ID] = 1;
-
-            var messages = eslint.verify(topic, config);
-
-            assert.equal(messages.length, 1);
-            assert.equal(messages[0].ruleId, RULE_ID);
-            assert.equal(messages[0].message, "Use the isNaN function to compare with NaN.");
-            assert.include(messages[0].node.type, "BinaryExpression");
-        }
-    }
-
-}).export(module);
+    ]
+});

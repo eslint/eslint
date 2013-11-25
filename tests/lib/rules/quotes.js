@@ -1,106 +1,27 @@
 /**
  * @fileoverview Tests for quotes rule.
- * @author Matt DuVall <http://www.mattduvall.com/>
+ * @author Matt DuVall <http://www.mattduvall.com/>, Michael Paulukonis
  */
 
 //------------------------------------------------------------------------------
 // Requirements
 //------------------------------------------------------------------------------
 
-var vows = require("vows"),
-    assert = require("assert"),
-    eslint = require("../../../lib/eslint");
+var eslintTester = require("../../../lib/tests/eslintTester");
 
-//------------------------------------------------------------------------------
-// Constants
-//------------------------------------------------------------------------------
-
-var RULE_ID = "quotes";
-
-//------------------------------------------------------------------------------
-// Tests
-//------------------------------------------------------------------------------
-
-vows.describe(RULE_ID).addBatch({
-
-    "when evaluating `var foo = 'bar';` with single-quotes on": {
-
-        topic: "var foo = 'bar';",
-
-        "should not report a violation": function(topic) {
-
-            var config = { rules: {} };
-            config.rules[RULE_ID] = [1, "single"];
-
-            var messages = eslint.verify(topic, config);
-
-            assert.equal(messages.length, 0);
-        }
-    },
-
-    "when evaluating `var foo = \"bar\";` with single-quotes on": {
-
-        topic: "var foo = \"bar\";",
-
-        "should report a violation": function(topic) {
-
-            var config = { rules: {} };
-            config.rules[RULE_ID] = [1, "single"];
-
-            var messages = eslint.verify(topic, config);
-
-            assert.equal(messages.length, 1);
-            assert.equal(messages[0].ruleId, RULE_ID);
-            assert.equal(messages[0].message, "Strings must use singlequote.");
-        }
-    },
-
-    "when evaluating `var foo = 'bar';` with double-quotes on": {
-
-        topic: "var foo = 'bar';",
-
-        "should not report a violation": function(topic) {
-
-            var config = { rules: {} };
-            config.rules[RULE_ID] = [1, "double"];
-
-            var messages = eslint.verify(topic, config);
-
-            assert.equal(messages.length, 1);
-            assert.equal(messages[0].ruleId, RULE_ID);
-            assert.equal(messages[0].message, "Strings must use doublequote.");
-        }
-    },
-
-    "when evaluating `var foo = \"bar\";` with double-quotes on": {
-
-        topic: "var foo = \"bar\";",
-
-        "should report a violation": function(topic) {
-
-            var config = { rules: {} };
-            config.rules[RULE_ID] = [1, "double"];
-
-            var messages = eslint.verify(topic, config);
-
-            assert.equal(messages.length, 0);
-        }
-    },
-
-    "when evaluating `var foo = 1;` with a non-string literal": {
-
-        topic: "var foo = 1;",
-
-        "should not report a violation": function(topic) {
-
-            var config = { rules: {} };
-            config.rules[RULE_ID] = [1, "single"];
-
-            var messages = eslint.verify(topic, config);
-
-            assert.equal(messages.length, 0);
-        }
-    }
-
-
-}).export(module);
+eslintTester.add("quotes", {
+    valid: [
+        {code: "var foo = 'bar';", args: [1, "single"] },
+        {code: "var foo = \"bar\";", args: [1, "double"] },
+        { code: "var foo = 1;", args: [1, "single"] },
+        { code: "var foo = 1;", args: [1, "double"] }
+           ],
+    invalid: [
+        { code: "var foo = \"bar\";",
+          args: [1, "single"],
+          errors: [{ message: "Strings must use singlequote.", type: "Literal"}] },
+        { code: "var foo = 'bar';",
+          args: [1, "double"],
+          errors: [{ message: "Strings must use doublequote.", type: "Literal"}] }
+    ]
+});

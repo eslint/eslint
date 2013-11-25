@@ -7,36 +7,32 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var vows = require("vows"),
-    assert = require("assert"),
+var assert = require("chai").assert,
     formatter = require("../../../lib/formatters/compact");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-vows.describe("formatter:compact").addBatch({
-
-    "when passed no messages": {
-
-        topic: [{
+describe("formatter:compact", function() {
+    describe("when passed no messages", function() {
+        var code = [{
             filePath: "foo.js",
             messages: []
-        }],
+        }];
 
-        "should return nothing": function(topic) {
+        it("should return nothing", function() {
             var config = {
                 rules: { foo: 2 }
             };
 
-            var result = formatter(topic, config);
+            var result = formatter(code, config);
             assert.equal("", result);
-        },
-    },
+        });
+    });
 
-    "when passed a single message": {
-
-        topic: [{
+    describe("when passed a single message", function() {
+        var code = [{
             filePath: "foo.js",
             messages: [{
                 message: "Unexpected foo.",
@@ -44,40 +40,38 @@ vows.describe("formatter:compact").addBatch({
                 column: 10,
                 ruleId: "foo"
             }]
-        }],
+        }];
 
-        "should return a string in the format filename: line x, col y, Error - z for errors": function(topic) {
+        it("should return a string in the format filename: line x, col y, Error - z for errors", function() {
             var config = {
                 rules: { foo: 2 }
             };
 
-            var result = formatter(topic, config);
+            var result = formatter(code, config);
             assert.equal("foo.js: line 5, col 10, Error - Unexpected foo.\n\n1 problem", result);
-        },
+        });
 
-        "should return a string in the format filename: line x, col y, Warning - z for warnings": function(topic) {
+        it("should return a string in the format filename: line x, col y, Warning - z for warnings", function() {
             var config = {
                 rules: { foo: 1 }
             };
 
-            var result = formatter(topic, config);
+            var result = formatter(code, config);
             assert.equal("foo.js: line 5, col 10, Warning - Unexpected foo.\n\n1 problem", result);
-        },
+        });
 
-        "should return a string in the format filename: line x, col y, Error - z for errors with options config": function(topic) {
+        it("should return a string in the format filename: line x, col y, Error - z for errors with options config", function() {
             var config = {
                 rules: { foo: [2, "option"] }
             };
 
-            var result = formatter(topic, config);
+            var result = formatter(code, config);
             assert.equal("foo.js: line 5, col 10, Error - Unexpected foo.\n\n1 problem", result);
-        },
+        });
+    });
 
-    },
-
-    "when passed a fatal error message": {
-
-        topic: [{
+    describe("when passed a fatal error message", function() {
+        var code = [{
             filePath: "foo.js",
             messages: [{
                 fatal: true,
@@ -86,18 +80,18 @@ vows.describe("formatter:compact").addBatch({
                 column: 10,
                 ruleId: "foo"
             }]
-        }],
+        }];
 
-        "should return a string in the format filename: line x, col y, Error - z": function(topic) {
+        it("should return a string in the format filename: line x, col y, Error - z", function() {
             var config = {};    // doesn't matter what's in the config for this test
 
-            var result = formatter(topic, config);
+            var result = formatter(code, config);
             assert.equal("foo.js: line 5, col 10, Error - Unexpected foo.\n\n1 problem", result);
-        }
-    },
+        });
+    });
 
-    "when passed multiple messages": {
-        topic: [{
+    describe("when passed multiple messages", function() {
+        var code = [{
             filePath: "foo.js",
             messages: [{
                 message: "Unexpected foo.",
@@ -110,21 +104,20 @@ vows.describe("formatter:compact").addBatch({
                 column: 11,
                 ruleId: "bar"
             }]
-        }],
+        }];
 
-        "should return a string with multiple entries": function(topic) {
+        it("should return a string with multiple entries", function() {
             var config = {
                 rules: { foo: 2, bar: 1 }
             };
 
-            var result = formatter(topic, config);
+            var result = formatter(code, config);
             assert.equal("foo.js: line 5, col 10, Error - Unexpected foo.\nfoo.js: line 6, col 11, Warning - Unexpected bar.\n\n2 problems", result);
-        }
+        });
+    });
 
-    },
-
-    "when passed multiple files with 1 message each": {
-        topic: [{
+    describe("when passed multiple files with 1 message each", function() {
+        var code = [{
             filePath: "foo.js",
             messages: [{
                 message: "Unexpected foo.",
@@ -140,37 +133,34 @@ vows.describe("formatter:compact").addBatch({
                 column: 11,
                 ruleId: "bar"
             }]
-        }],
+        }];
 
-        "should return a string with multiple entries": function(topic) {
+        it("should return a string with multiple entries", function() {
             var config = {
                 rules: { foo: 2, bar: 1 }
             };
 
-            var result = formatter(topic, config);
+            var result = formatter(code, config);
             assert.equal("foo.js: line 5, col 10, Error - Unexpected foo.\nbar.js: line 6, col 11, Warning - Unexpected bar.\n\n2 problems", result);
-        }
-    },
+        });
+    });
 
-    "when passed one file not found message": {
-        topic: [{
+    describe("when passed one file not found message", function() {
+        var code = [{
             filePath: "foo.js",
             messages: [{
                 fatal: true,
                 message: "Couldn't find foo.js."
             }]
-        }],
+        }];
 
-        "should return a string without line and column": function(topic) {
+        it("should return a string without line and column", function() {
             var config = {
                 rules: { foo: 2, bar: 1 }
             };
 
-            var result = formatter(topic, config);
+            var result = formatter(code, config);
             assert.equal("foo.js: line 0, col 0, Error - Couldn't find foo.js.\n\n1 problem", result);
-        }
-    }
-
-
-
-}).export(module);
+        });
+    });
+});

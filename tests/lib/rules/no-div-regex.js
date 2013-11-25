@@ -7,63 +7,18 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var vows = require("vows"),
-    assert = require("assert"),
-    eslint = require("../../../lib/eslint");
-
-//------------------------------------------------------------------------------
-// Constants
-//------------------------------------------------------------------------------
-
-var RULE_ID = "no-div-regex";
+var eslintTester = require("../../../lib/tests/eslintTester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-vows.describe(RULE_ID).addBatch({
-    "when evaluating 'var f = function() { return /=foo/; };'": {
-
-        topic: "var f = function() { return /=foo/; };",
-
-        "should report a violation": function(topic) {
-            var config = { rules: {} };
-            config.rules[RULE_ID] = 1;
-
-            var messages = eslint.verify(topic, config);
-
-            assert.equal(messages.length, 1);
-            assert.equal(messages[0].ruleId, RULE_ID);
-            assert.equal(messages[0].message, "A regular expression literal can be confused with '/='.");
-            assert.include(messages[0].node.type, "Literal");
-        }
-    },
-
-    "when evaluating 'var f = function() { return /foo/ig.test('bar'); };'": {
-
-        topic: "var f = function() { return /foo/ig.test('bar'); };",
-
-        "should not report a violation": function(topic) {
-            var config = { rules: {} };
-            config.rules[RULE_ID] = 1;
-
-            var messages = eslint.verify(topic, config);
-
-            assert.equal(messages.length, 0);
-        }
-    },
-
-    "when evaluating 'var f = function() { return /\\=foo/; };": {
-
-        topic: "var f = function() { return /\\=foo/; };",
-
-        "should not report a violation": function(topic) {
-            var config = { rules: {} };
-            config.rules[RULE_ID] = 1;
-
-            var messages = eslint.verify(topic, config);
-
-            assert.equal(messages.length, 0);
-        }
-    }
-}).export(module);
+eslintTester.add("no-div-regex", {
+    valid: [
+        "var f = function() { return /foo/ig.test('bar'); };",
+        "var f = function() { return /\\=foo/; };"
+    ],
+    invalid: [
+        { code: "var f = function() { return /=foo/; };", errors: [{ message: "A regular expression literal can be confused with '/='.", type: "Literal"}] }
+    ]
+});
