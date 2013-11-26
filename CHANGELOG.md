@@ -1,3 +1,18 @@
+v0.1.3 - November 25, 2013
+
+* 0.1.3 (Nicholas C. Zakas)
+* Updated changelog (Nicholas C. Zakas)
+* Vows is gone. Mocha is now default (Ilya Volodin)
+* fixes #412: remove last remaining false positives in no-spaced-func (Michael Ficarra)
+* fixes #407: no-spaced-func rule flagging non-argument-list spaced parens (Michael Ficarra)
+* Add no-extra-semi to configuration (fixes #386) (Nicholas C. Zakas)
+* Converting formatter tests and core (Ilya Volodin)
+* Don't output anything when there are no errors in compact formatter (fixes #408) (Nicholas C. Zakas)
+* Removing Node 0.11 test - it fails all the time (Nicholas C. Zakas)
+* Completing conversion of rule's tests to mocha (Ilya Volodin)
+* added mocha conversion tests for strict, quote-props and one-var; enhanced one of the invalid one-var tests that was expecting two messages (Michael Paulukonis)
+
+
 v0.1.2 - November 23, 2013
 
 * 0.1.2 (Nicholas C. Zakas)
