@@ -7,8 +7,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var vows = require("vows"),
-    assert = require("assert"),
+var assert = require("chai").assert,
     sinon = require("sinon"),
     eslint = require("../../lib/eslint");
 
@@ -39,14 +38,11 @@ function getVariable(scope, name) {
 // Tests
 //------------------------------------------------------------------------------
 
-vows.describe("eslint").addBatch({
+describe("eslint", function() {
+    describe("when using events", function() {
+        var code = TEST_CODE;
 
-    "when using events": {
-
-        topic: TEST_CODE,
-
-        "an error should be thrown when an error occurs inside of an event handler": function(topic) {
-
+        it("an error should be thrown when an error occurs inside of an event handler", function() {
             var config = { rules: {} };
 
             eslint.reset();
@@ -55,19 +51,15 @@ vows.describe("eslint").addBatch({
             });
 
             assert.throws(function() {
-                eslint.verify(topic, config, true);
+                eslint.verify(code, config, true);
             }, Error);
+        });
+    });
 
-        }
+    describe("when calling toSource()", function() {
+        var code = TEST_CODE;
 
-    },
-
-    "when calling toSource()": {
-
-        topic: TEST_CODE,
-
-        "should retrieve all text when used without parameters": function(topic) {
-
+        it("should retrieve all text when used without parameters", function() {
             var config = { rules: {} };
 
             eslint.reset();
@@ -76,11 +68,10 @@ vows.describe("eslint").addBatch({
                 assert.equal(source, TEST_CODE);
             });
 
-            eslint.verify(topic, config, true);
-        },
+            eslint.verify(code, config, true);
+        });
 
-        "should retrieve all text for root node": function(topic) {
-
+        it("should retrieve all text for root node", function() {
             var config = { rules: {} };
 
             eslint.reset();
@@ -89,11 +80,10 @@ vows.describe("eslint").addBatch({
                 assert.equal(source, TEST_CODE);
             });
 
-            eslint.verify(topic, config, true);
-        },
+            eslint.verify(code, config, true);
+        });
 
-        "should retrieve all text for binary expression": function(topic) {
-
+        it("should retrieve all text for binary expression", function() {
             var config = { rules: {} };
 
             eslint.reset();
@@ -102,11 +92,10 @@ vows.describe("eslint").addBatch({
                 assert.equal(source, "6 * 7");
             });
 
-            eslint.verify(topic, config, true);
-        },
+            eslint.verify(code, config, true);
+        });
 
-        "should retrieve all text plus two characters before for binary expression": function(topic) {
-
+        it("should retrieve all text plus two characters before for binary expression", function() {
             var config = { rules: {} };
 
             eslint.reset();
@@ -115,11 +104,10 @@ vows.describe("eslint").addBatch({
                 assert.equal(source, "= 6 * 7");
             });
 
-            eslint.verify(topic, config, true);
-        },
+            eslint.verify(code, config, true);
+        });
 
-        "should retrieve all text plus one character after for binary expression": function(topic) {
-
+        it("should retrieve all text plus one character after for binary expression", function() {
             var config = { rules: {} };
 
             eslint.reset();
@@ -128,11 +116,10 @@ vows.describe("eslint").addBatch({
                 assert.equal(source, "6 * 7;");
             });
 
-            eslint.verify(topic, config, true);
-        },
+            eslint.verify(code, config, true);
+        });
 
-        "should retrieve all text plus two characters before and one character after for binary expression": function(topic) {
-
+        it("should retrieve all text plus two characters before and one character after for binary expression", function() {
             var config = { rules: {} };
 
             eslint.reset();
@@ -141,29 +128,26 @@ vows.describe("eslint").addBatch({
                 assert.equal(source, "= 6 * 7;");
             });
 
-            eslint.verify(topic, config, true);
-        }
-    },
+            eslint.verify(code, config, true);
+        });
+    });
 
-    "when calling getTokens": {
+    describe("when calling getTokens", function() {
+        var code = TEST_CODE;
 
-        topic: TEST_CODE,
-
-        "should retrieve all tokens when used without parameters": function(topic) {
-
+        it("should retrieve all tokens when used without parameters", function() {
             var config = { rules: {} };
 
             eslint.reset();
-            eslint.on("Program", function(node) {
+            eslint.on("Program", function() {
                 var tokens = eslint.getTokens();
                 assert.equal(tokens.length, 7);
             });
 
-            eslint.verify(topic, config, true);
-        },
+            eslint.verify(code, config, true);
+        });
 
-        "should retrieve all tokens for root node": function(topic) {
-
+        it("should retrieve all tokens for root node", function() {
             var config = { rules: {} };
 
             eslint.reset();
@@ -172,11 +156,10 @@ vows.describe("eslint").addBatch({
                 assert.equal(tokens.length, 7);
             });
 
-            eslint.verify(topic, config, true);
-        },
+            eslint.verify(code, config, true);
+        });
 
-        "should retrieve all tokens for binary expression": function(topic) {
-
+        it("should retrieve all tokens for binary expression", function() {
             var config = { rules: {} };
 
             eslint.reset();
@@ -185,11 +168,10 @@ vows.describe("eslint").addBatch({
                 assert.equal(tokens.length, 3);
             });
 
-            eslint.verify(topic, config, true);
-        },
+            eslint.verify(code, config, true);
+        });
 
-        "should retrieve all tokens plus equals sign for binary expression": function(topic) {
-
+        it("should retrieve all tokens plus equals sign for binary expression", function() {
             var config = { rules: {} };
 
             eslint.reset();
@@ -198,11 +180,10 @@ vows.describe("eslint").addBatch({
                 assert.equal(tokens.length, 4);
             });
 
-            eslint.verify(topic, config, true);
-        },
+            eslint.verify(code, config, true);
+        });
 
-        "should retrieve all tokens plus one character after for binary expression": function(topic) {
-
+        it("should retrieve all tokens plus one character after for binary expression", function() {
             var config = { rules: {} };
 
             eslint.reset();
@@ -211,11 +192,10 @@ vows.describe("eslint").addBatch({
                 assert.equal(tokens.length, 4);
             });
 
-            eslint.verify(topic, config, true);
-        },
+            eslint.verify(code, config, true);
+        });
 
-        "should retrieve all tokens plus two characters before and one character after for binary expression": function(topic) {
-
+        it("should retrieve all tokens plus two characters before and one character after for binary expression", function() {
             var config = { rules: {} };
 
             eslint.reset();
@@ -224,21 +204,18 @@ vows.describe("eslint").addBatch({
                 assert.equal(tokens.length, 5);
             });
 
-            eslint.verify(topic, config, true);
-        }
-    },
+            eslint.verify(code, config, true);
+        });
+    });
 
-
-    "when retrieving comments": {
-
-        topic: [
+    describe("when retrieving comments", function() {
+        var code = [
             "// my line comment",
             "var a = 42;",
             "/* my block comment */"
-        ].join("\n"),
+        ].join("\n");
 
-        "should retrieve all comments": function(topic) {
-
+        it("should retrieve all comments", function() {
             var config = { rules: {} };
 
             eslint.reset();
@@ -247,10 +224,10 @@ vows.describe("eslint").addBatch({
                 assert.equal(comments.length, 2);
             });
 
-            eslint.verify(topic, config, true);
-        },
+            eslint.verify(code, config, true);
+        });
 
-        "should attach them to all nodes": function(topic) {
+        it("should attach them to all nodes", function() {
             function assertCommentCount(leading, trailing) {
                 return function (node) {
                     var comments = eslint.getComments(node);
@@ -268,10 +245,10 @@ vows.describe("eslint").addBatch({
             eslint.on("Identifier", assertCommentCount(0, 0));
             eslint.on("Literal", assertCommentCount(0, 0));
 
-            eslint.verify(topic, config, true);
-        },
+            eslint.verify(code, config, true);
+        });
 
-        "should attach them lazily": function(topic) {
+        it("should attach them lazily", function() {
             var config = { rules: {} };
 
             eslint.reset();
@@ -283,91 +260,84 @@ vows.describe("eslint").addBatch({
                 assert.equal(node.hasOwnProperty("trailingComments"), true);
             });
 
-            eslint.verify(topic, config, true);
-        }
-    },
+            eslint.verify(code, config, true);
+        });
+    });
 
-    "when calling getAncestors": {
+    describe("when calling getAncestors", function() {
+        var code = TEST_CODE;
 
-        topic: TEST_CODE,
-
-        "should retrieve all ancestors when used": function(topic) {
+        it("should retrieve all ancestors when used", function() {
 
             var config = { rules: {} };
 
             eslint.reset();
-            eslint.on("BinaryExpression", function(node) {
+            eslint.on("BinaryExpression", function() {
                 var ancestors = eslint.getAncestors();
                 assert.equal(ancestors.length, 3);
             });
 
-            eslint.verify(topic, config, true);
-        },
+            eslint.verify(code, config, true);
+        });
 
-        "should retrieve empty ancestors for root node": function(topic) {
-
+        it("should retrieve empty ancestors for root node", function() {
             var config = { rules: {} };
 
             eslint.reset();
-            eslint.on("Program", function(node) {
+            eslint.on("Program", function() {
                 var ancestors = eslint.getAncestors();
                 assert.equal(ancestors.length, 0);
             });
 
-            eslint.verify(topic, config, true);
-        }
+            eslint.verify(code, config, true);
+        });
+    });
 
-    },
+    describe("when calling getScope", function() {
+        var code = "function foo() { q: for(;;) { break q; } } function bar () { var q = t; }";
 
-    "when calling getScope": {
-
-        topic: "function foo() { q: for(;;) { break q; } } function bar () { var q = t; }",
-
-        "should retrieve the global scope correctly from a Program": function(topic) {
+        it("should retrieve the global scope correctly from a Program", function() {
             var config = { rules: {} };
 
             eslint.reset();
-            eslint.on("Program", function(node) {
+            eslint.on("Program", function() {
                 var scope = eslint.getScope();
                 assert.equal(scope.type, "global");
             });
 
-            eslint.verify(topic, config, true);
-        },
+            eslint.verify(code, config, true);
+        });
 
-        "should retrieve the function scope correctly from a FunctionDeclaration": function(topic) {
+        it("should retrieve the function scope correctly from a FunctionDeclaration", function() {
             var config = { rules: {} };
 
             eslint.reset();
-            eslint.on("FunctionDeclaration", function(node) {
+            eslint.on("FunctionDeclaration", function() {
                 var scope = eslint.getScope();
                 assert.equal(scope.type, "function");
             });
 
-            eslint.verify(topic, config, true);
-        },
+            eslint.verify(code, config, true);
+        });
 
-        "should retrieve the function scope correctly from a LabeledStatement": function(topic) {
+        it("should retrieve the function scope correctly from a LabeledStatement", function() {
             var config = { rules: {} };
 
             eslint.reset();
-            eslint.on("LabeledStatement", function(node) {
+            eslint.on("LabeledStatement", function() {
                 var scope = eslint.getScope();
                 assert.equal(scope.type, "function");
                 assert.equal(scope.block.id.name, "foo");
             });
 
-            eslint.verify(topic, config, true);
-        }
+            eslint.verify(code, config, true);
+        });
+    });
 
-    },
+    describe("when evaluating code", function() {
+        var code = TEST_CODE;
 
-    "when evaluating code": {
-
-        topic: TEST_CODE,
-
-        "events for each node type should fire": function(topic) {
-
+        it("events for each node type should fire", function() {
             var config = { rules: {} };
 
             // spies for various AST node types
@@ -384,7 +354,7 @@ vows.describe("eslint").addBatch({
             eslint.on("Identifier", spyIdentifier);
             eslint.on("BinaryExpression", spyBinaryExpression);
 
-            var messages = eslint.verify(topic, config, true);
+            var messages = eslint.verify(code, config, true);
 
             assert.equal(messages.length, 0);
             sinon.assert.calledOnce(spyVariableDeclaration);
@@ -392,45 +362,43 @@ vows.describe("eslint").addBatch({
             sinon.assert.calledOnce(spyIdentifier);
             sinon.assert.calledTwice(spyLiteral);
             sinon.assert.calledOnce(spyBinaryExpression);
-        }
-    },
+        });
+    });
 
-    "when passing in configuration values for rules": {
+    describe("when passing in configuration values for rules", function() {
+        var code = "var answer = 6 * 7";
 
-        topic: "var answer = 6 * 7",
-
-        "should be configurable by only setting the boolean value": function(topic) {
+        it("should be configurable by only setting the boolean value", function() {
             var rule = "semi",
                 config = { rules: {} };
 
             config.rules[rule] = 1;
             eslint.reset();
 
-            var messages = eslint.verify(topic, config, true);
+            var messages = eslint.verify(code, config, true);
 
             assert.equal(messages.length, 1);
             assert.equal(messages[0].ruleId, rule);
-        },
+        });
 
-        "should be configurable by passing in values as an array": function(topic) {
+        it("should be configurable by passing in values as an array", function() {
             var rule = "semi",
                 config = { rules: {} };
 
             config.rules[rule] = [1];
             eslint.reset();
 
-            var messages = eslint.verify(topic, config, true);
+            var messages = eslint.verify(code, config, true);
 
             assert.equal(messages.length, 1);
             assert.equal(messages[0].ruleId, rule);
-        }
-    },
+        });
+    });
 
-    "after calling reset()": {
+    describe("after calling reset()", function() {
+        var code = TEST_CODE;
 
-        topic: TEST_CODE,
-
-        "previously registered event handlers should not be called": function(topic) {
+        it("previously registered event handlers should not be called", function() {
 
             var config = { rules: {} };
 
@@ -449,7 +417,7 @@ vows.describe("eslint").addBatch({
             eslint.on("BinaryExpression", spyBinaryExpression);
             eslint.reset();
 
-            var messages = eslint.verify(topic, config, true);
+            var messages = eslint.verify(code, config, true);
 
             assert.equal(messages.length, 0);
             sinon.assert.notCalled(spyVariableDeclaration);
@@ -457,46 +425,39 @@ vows.describe("eslint").addBatch({
             sinon.assert.notCalled(spyIdentifier);
             sinon.assert.notCalled(spyLiteral);
             sinon.assert.notCalled(spyBinaryExpression);
-        },
+        });
 
-        "text should not be available": function(topic) {
-
+        it("text should not be available", function() {
             var config = { rules: {} };
 
             eslint.reset();
-            var messages = eslint.verify(topic, config, true);
+            var messages = eslint.verify(code, config, true);
             eslint.reset();
 
             assert.equal(messages.length, 0);
             assert.isNull(eslint.getSource());
-        },
+        });
 
-        "source for nodes should not be available": function(topic) {
-
+        it("source for nodes should not be available", function() {
             var config = { rules: {} };
 
             eslint.reset();
-            var messages = eslint.verify(topic, config, true);
+            var messages = eslint.verify(code, config, true);
             eslint.reset();
 
             assert.equal(messages.length, 0);
             assert.isNull(eslint.getSource({}));
-        }
+        });
+    });
 
+    describe("when evaluating code containing /*global */ and /*globals */ blocks", function() {
+        var code = "/*global a b:true c:false*/ function foo() {} /*globals d:true*/";
 
-
-    },
-
-    "when evaluating code containing /*global */ and /*globals */ blocks": {
-
-        topic: "/*global a b:true c:false*/ function foo() {} /*globals d:true*/",
-
-        "variables should be available in global scope": function(topic) {
-
+        it("variables should be available in global scope", function() {
             var config = { rules: {} };
 
             eslint.reset();
-            eslint.on("Program", function(node) {
+            eslint.on("Program", function() {
                 var scope = eslint.getScope();
                 var a = getVariable(scope, "a"),
                     b = getVariable(scope, "b"),
@@ -513,20 +474,18 @@ vows.describe("eslint").addBatch({
                 assert.equal(d.writeable, true);
             });
 
-            eslint.verify(topic, config, true);
-        }
+            eslint.verify(code, config, true);
+        });
+    });
 
-    },
+    describe("when evaluating code containing a /*global */ block with sloppy whitespace", function() {
+        var code = "/* global  a b  : true   c:  false*/";
 
-    "when evaluating code containing a /*global */ block with sloppy whitespace": {
-
-        topic: "/* global  a b  : true   c:  false*/",
-
-        "variables should be available in global scope": function(topic) {
+        it("variables should be available in global scope", function() {
             var config = { rules: {} };
 
             eslint.reset();
-            eslint.on("Program", function(node) {
+            eslint.on("Program", function() {
                 var scope = eslint.getScope(),
                     a = getVariable(scope, "a"),
                     b = getVariable(scope, "b"),
@@ -540,20 +499,18 @@ vows.describe("eslint").addBatch({
                 assert.equal(c.writeable, false);
             });
 
-            eslint.verify(topic, config, true);
-        }
-    },
+            eslint.verify(code, config, true);
+        });
+    });
 
-    "when evaluating code containing /*jshint */ block": {
+    describe("when evaluating code containing /*jshint */ block", function() {
+        var code = "/*jslint node:true*/ function f() {} /*jshint browser:true foo:bar*/";
 
-        topic: "/*jslint node:true*/ function f() {} /*jshint browser:true foo:bar*/",
-
-        "variables should be available in global scope": function(topic) {
-
+        it("variables should be available in global scope", function() {
             var config = { rules: {} };
 
             eslint.reset();
-            eslint.on("Program", function(node) {
+            eslint.on("Program", function() {
                 var scope = eslint.getScope(),
                     exports = getVariable(scope, "exports"),
                     window = getVariable(scope, "window");
@@ -561,20 +518,18 @@ vows.describe("eslint").addBatch({
                 assert.equal(exports.writeable, true);
                 assert.equal(window.writeable, false);
             });
-            eslint.verify(topic, config, true);
-        }
-    },
+            eslint.verify(code, config, true);
+        });
+    });
 
-    "when evaluating code containing a /*jshint */ block with sloppy whitespace": {
+    describe("when evaluating code containing a /*jshint */ block with sloppy whitespace", function() {
+        var code = "/* jshint node  : true browser     : false*/";
 
-        topic: "/* jshint node  : true browser     : false*/",
-
-        "variables should be available in global scope": function(topic) {
-
+        it("variables should be available in global scope", function() {
             var config = { rules: {} };
 
             eslint.reset();
-            eslint.on("Program", function(node) {
+            eslint.on("Program", function() {
                 var scope = eslint.getScope(),
                     exports = getVariable(scope, "exports"),
                     window = getVariable(scope, "window");
@@ -582,38 +537,35 @@ vows.describe("eslint").addBatch({
                 assert.equal(exports.writeable, true);
                 assert.equal(window, null);
             });
-            eslint.verify(topic, config, true);
-        }
-    },
+            eslint.verify(code, config, true);
+        });
+    });
 
-    "when evaluating code containing a line comment": {
+    describe("when evaluating code containing a line comment", function() {
+        var code = "//global a \n function f() {}";
 
-        topic: "//global a \n function f() {}",
-
-        "should not introduce a global variable": function(topic) {
+        it("should not introduce a global variable", function() {
 
             var config = { rules: {} };
 
             eslint.reset();
-            eslint.on("Program", function(node) {
+            eslint.on("Program", function() {
                 var scope = eslint.getScope();
 
                 assert.equal(getVariable(scope, "a"), null);
             });
-            eslint.verify(topic, config, true);
-        }
-    },
+            eslint.verify(code, config, true);
+        });
+    });
 
-    "when evaluating code containing normal block comments": {
+    describe("when evaluating code containing normal block comments", function() {
+        var code = "/**/  /*a*/  /*b:true*/  /*foo c:false*/";
 
-        topic: "/**/  /*a*/  /*b:true*/  /*foo c:false*/",
-
-        "should not introduce a global variable": function(topic) {
-
+        it("should not introduce a global variable", function() {
             var config = { rules: {} };
 
             eslint.reset();
-            eslint.on("Program", function(node) {
+            eslint.on("Program", function() {
                 var scope = eslint.getScope();
 
                 assert.equal(getVariable(scope, "a"), null);
@@ -621,58 +573,58 @@ vows.describe("eslint").addBatch({
                 assert.equal(getVariable(scope, "foo"), null);
                 assert.equal(getVariable(scope, "c"), null);
             });
-            eslint.verify(topic, config, true);
-        }
-    },
+            eslint.verify(code, config, true);
+        });
+    });
 
-    "when evaluating any code": {
+    describe("when evaluating any code", function() {
+        var code = "";
 
-        topic: "",
-
-        "builtin global variables should be available in the global scope": function(topic) {
-
+        it("builtin global variables should be available in the global scope", function() {
             var config = { rules: {} };
 
             eslint.reset();
-            eslint.on("Program", function(node) {
+            eslint.on("Program", function() {
                 var scope = eslint.getScope();
 
                 assert.notEqual(getVariable(scope, "Object"), null);
                 assert.notEqual(getVariable(scope, "Array"), null);
                 assert.notEqual(getVariable(scope, "undefined"), null);
             });
-            eslint.verify(topic, config, true);
-        }
-    },
+            eslint.verify(code, config, true);
+        });
+    });
 
-    "at any time": {
-        topic: "new-rule",
-        "can add a rule dynamically": function(topic) {
+    describe("at any time", function() {
+        var code = "new-rule";
+
+        it("can add a rule dynamically", function() {
             eslint.reset();
-            eslint.defineRule(topic, function(context) {
+            eslint.defineRule(code, function(context) {
                 return {"Literal": function(node) { context.report(node, "message"); }};
             });
 
             var config = { rules: {} };
-            config.rules[topic] = 1;
+            config.rules[code] = 1;
 
             var messages = eslint.verify("0", config);
 
             assert.equal(messages.length, 1);
-            assert.equal(messages[0].ruleId, topic);
+            assert.equal(messages[0].ruleId, code);
             assert.equal(messages[0].node.type, "Literal");
-        }
-    },
+        });
+    });
 
-    "at any time": {
-        topic: ["new-rule-0", "new-rule-1"],
-        "can add multiple rules dynamically": function(topics) {
+    describe("at any time", function() {
+        var code = ["new-rule-0", "new-rule-1"];
+
+        it("can add multiple rules dynamically", function() {
             eslint.reset();
             var config = { rules: {} };
             var newRules = {};
-            topics.forEach(function(topic){
-                config.rules[topic] = 1;
-                newRules[topic] = function(context) {
+            code.forEach(function(item){
+                config.rules[item] = 1;
+                newRules[item] = function(context) {
                     return {"Literal": function(node) { context.report(node, "message"); }};
                 };
             });
@@ -680,101 +632,99 @@ vows.describe("eslint").addBatch({
 
             var messages = eslint.verify("0", config);
 
-            assert.equal(messages.length, topics.length);
-            topics.forEach(function(topic){
-                assert.ok(messages.some(function(message){ return message.ruleId === topic; }));
+            assert.equal(messages.length, code.length);
+            code.forEach(function(item){
+                assert.ok(messages.some(function(message){ return message.ruleId === item; }));
             });
             messages.forEach(function(message){ assert.equal(message.node.type, "Literal"); });
-        }
-    },
+        });
+    });
 
-    "when evaluating code with comments to enable rules": {
-        topic: "/*eslint no-alert:1*/ alert('test');",
-        "should report a violation": function(topic) {
+    describe("when evaluating code with comments to enable rules", function() {
+        var code = "/*eslint no-alert:1*/ alert('test');";
 
+        it("should report a violation", function() {
             var config = { rules: {} };
 
-            var messages = eslint.verify(topic, config);
+            var messages = eslint.verify(code, config);
             assert.equal(messages.length, 1);
             assert.equal(messages[0].ruleId, "no-alert");
             assert.equal(messages[0].message, "Unexpected alert.");
             assert.include(messages[0].node.type, "CallExpression");
-        }
-    },
+        });
+    });
 
-    "when evaluating code with comments to disable rules": {
-        topic: "/*eslint no-alert:0*/ alert('test');",
-        "should not report a violation": function(topic) {
+    describe("when evaluating code with comments to disable rules", function() {
+        var code = "/*eslint no-alert:0*/ alert('test');";
 
+        it("should not report a violation", function() {
             var config = { rules: { "no-alert" : 1 } };
 
-            var messages = eslint.verify(topic, config);
+            var messages = eslint.verify(code, config);
             assert.equal(messages.length, 0);
-        }
-    },
+        });
+    });
 
-    "when evaluating code with comments to enable multiple rules": {
-        topic: "/*eslint no-alert:1 no-console:1*/ alert('test'); console.log('test');",
-        "should report a violation": function(topic) {
+    describe("when evaluating code with comments to enable multiple rules", function() {
+        var code = "/*eslint no-alert:1 no-console:1*/ alert('test'); console.log('test');";
 
+        it("should report a violation", function() {
             var config = { rules: {} };
 
-            var messages = eslint.verify(topic, config);
+            var messages = eslint.verify(code, config);
             assert.equal(messages.length, 2);
             assert.equal(messages[0].ruleId, "no-alert");
             assert.equal(messages[0].message, "Unexpected alert.");
             assert.include(messages[0].node.type, "CallExpression");
             assert.equal(messages[1].ruleId, "no-console");
-        }
-    },
+        });
+    });
 
-    "when evaluating code with comments to enable and disable multiple rules": {
-        topic: "/*eslint no-alert:1 no-console:0*/ alert('test'); console.log('test');",
-        "should report a violation": function(topic) {
-
+    describe("when evaluating code with comments to enable and disable multiple rules", function() {
+        var code = "/*eslint no-alert:1 no-console:0*/ alert('test'); console.log('test');";
+        it("should report a violation", function() {
             var config = { rules: { "no-console" : 1, "no-alert" : 0 } };
 
-            var messages = eslint.verify(topic, config);
+            var messages = eslint.verify(code, config);
             assert.equal(messages.length, 1);
             assert.equal(messages[0].ruleId, "no-alert");
             assert.equal(messages[0].message, "Unexpected alert.");
             assert.include(messages[0].node.type, "CallExpression");
-        }
-    },
+        });
+    });
 
-    "when evaluating code with comments to enable and disable multiple comma separated rules": {
-        topic: "/*eslint no-alert:1, no-console:0*/ alert('test'); console.log('test');",
-        "should report a violation": function(topic) {
+    describe("when evaluating code with comments to enable and disable multiple comma separated rules", function() {
+        var code = "/*eslint no-alert:1, no-console:0*/ alert('test'); console.log('test');";
 
+        it("should report a violation", function() {
             var config = { rules: { "no-console" : 1, "no-alert" : 0 } };
 
-            var messages = eslint.verify(topic, config);
+            var messages = eslint.verify(code, config);
             assert.equal(messages.length, 1);
             assert.equal(messages[0].ruleId, "no-alert");
             assert.equal(messages[0].message, "Unexpected alert.");
             assert.include(messages[0].node.type, "CallExpression");
-        }
-    },
+        });
+    });
 
-    "when evaluating broken code": {
-        topic: BROKEN_TEST_CODE,
-        "should report a violation": function(topic) {
+    describe("when evaluating broken code", function() {
+        var code = BROKEN_TEST_CODE;
 
-            var messages = eslint.verify(topic);
+        it("should report a violation", function() {
+            var messages = eslint.verify(code);
             assert.equal(messages.length, 1);
             assert.isTrue(messages[0].fatal);
-        }
-    },
+        });
+    });
 
-    "when using an invalid rule": {
-        topic: TEST_CODE,
-        "should throw an error": function(topic) {
+    describe("when using an invalid rule", function() {
+        var code = TEST_CODE;
 
+        it("should throw an error", function() {
             assert.throws(function() {
-                eslint.verify(topic, { foobar: 2 });
-
-            }, "Definition for rule 'foobar' was not found.");
-        }
-    }
-
-}).export(module);
+                eslint.verify(code, { foobar: 2 });
+            }, "Object.keys called on non-object",
+            "Definition for rule 'foobar' was not found.");
+        });
+    });
+});

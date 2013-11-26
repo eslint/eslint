@@ -7,8 +7,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var vows = require("vows"),
-    assert = require("assert"),
+var assert = require("chai").assert,
     cli = require("../../lib/cli"),
     path = require("path");
 
@@ -16,32 +15,28 @@ var vows = require("vows"),
 // Tests
 //------------------------------------------------------------------------------
 
-vows.describe("cli").addBatch({
+describe("cli", function() {
+    describe("when given a config file", function() {
+        var code = "conf/eslint.json";
 
-    "when given a config file": {
-
-        topic: "conf/eslint.json",
-
-        "should load the specified config file": function(topic) {
+        it("should load the specified config file", function() {
             var log = console.log;
 
             // Assign console.log to noop to skip CLI output
             console.log = function() {};
 
             assert.doesNotThrow(function () {
-                cli.execute(["-c", topic, "lib/cli.js"]);
+                cli.execute(["-c", code, "lib/cli.js"]);
             });
 
             console.log = log;
-        }
+        });
+    });
 
-    },
+    describe("when there is a local config file", function() {
+        var code = ["lib/cli.js"];
 
-    "when there is a local config file": {
-
-        topic: ["lib/cli.js"],
-
-        "should load the local config file": function(topic) {
+        it("should load the local config file", function() {
             var log = console.log;
 
             // Assign console.log to noop to skip CLI output
@@ -51,21 +46,20 @@ vows.describe("cli").addBatch({
             process.eslintCwd = path.resolve(__dirname, "..", "fixtures", "configurations", "single-quotes");
 
             assert.doesNotThrow(function () {
-                exitStatus = cli.execute(topic);
+                exitStatus = cli.execute(code);
             });
 
-            cli.execute(topic);
+            cli.execute(code);
 
             process.eslintCwd = null;
             console.log = log;
-        }
+        });
+    });
 
-    },
+    describe("when given a config with rules with options and severity level set to error", function() {
+        var code = ["--config", "tests/fixtures/configurations/quotes-error.json", "single-quoted.js"];
 
-    "when given a config with rules with options and severity level set to error": {
-        topic: ["--config", "tests/fixtures/configurations/quotes-error.json", "single-quoted.js"],
-
-        "should exit with an error status (1)": function(topic) {
+        it("should exit with an error status (1)", function() {
             var log = console.log,
                 exitStatus;
 
@@ -73,19 +67,18 @@ vows.describe("cli").addBatch({
             console.log = function() {};
 
             assert.doesNotThrow(function () {
-                exitStatus = cli.execute(topic);
+                exitStatus = cli.execute(code);
             });
             console.log = log;
 
             assert.equal(exitStatus, 1);
-        },
-    },
+        });
+    });
 
-    "when given a config file and a directory of files": {
+    describe("when given a config file and a directory of files", function() {
+        var code = ["--config","tests/fixtures/configurations/semi-error.json", "tests/fixtures/formatters"];
 
-        topic: ["--config","tests/fixtures/configurations/semi-error.json", "tests/fixtures/formatters"],
-
-        "should load and execute without error": function(topic) {
+        it("should load and execute without error", function() {
             var log = console.log,
                 exitStatus;
 
@@ -93,140 +86,128 @@ vows.describe("cli").addBatch({
             console.log = function() {};
 
             assert.doesNotThrow(function () {
-                exitStatus = cli.execute(topic);
+                exitStatus = cli.execute(code);
             });
             console.log = log;
 
             assert.equal(exitStatus, 0);
-        }
+        });
+    });
 
-    },
+    describe("when given a config with environment set to browser", function() {
+        var code = ["--config", "tests/fixtures/configurations/env-browser.json", "tests/fixtures/globals-browser.js"];
 
-    "when given a config with environment set to browser": {
-        topic: ["--config", "tests/fixtures/configurations/env-browser.json", "tests/fixtures/globals-browser.js"],
-
-        "should execute without any errors": function(topic) {
+        it("should execute without any errors", function() {
             var log = console.log;
 
             // Assign console.log to noop to skip CLI output
             console.log = function() {};
-            var exit = cli.execute(topic);
+            var exit = cli.execute(code);
             assert.equal(exit, 0);
 
             console.log = log;
-        }
-    },
+        });
+    });
 
-    "when given a config with environment set to Node.js": {
-        topic: ["--config", "tests/fixtures/configurations/env-node.json", "tests/fixtures/globals-node.js"],
+    describe("when given a config with environment set to Node.js", function() {
+        var code = ["--config", "tests/fixtures/configurations/env-node.json", "tests/fixtures/globals-node.js"];
 
-        "should execute without any errors": function(topic) {
+        it("should execute without any errors", function() {
             var log = console.log;
 
             // Assign console.log to noop to skip CLI output
             console.log = function() {};
-            var exit = cli.execute(topic);
+            var exit = cli.execute(code);
             assert.equal(exit, 0);
 
             console.log = log;
-        }
-    },
+        });
+    });
 
-    "when given a valid built-in formatter name": {
+    describe("when given a valid built-in formatter name", function() {
+        var code = "checkstyle";
 
-        topic: "checkstyle",
-
-        "should execute without any errors": function(topic) {
+        it("should execute without any errors", function() {
             var log = console.log;
 
             // Assign console.log to noop to skip CLI output
             console.log = function() {};
 
-            var exit = cli.execute(["-f", topic, "tests/fixtures/passing.js"]);
+            var exit = cli.execute(["-f", code, "tests/fixtures/passing.js"]);
             assert.equal(exit, 0);
 
             console.log = log;
-        }
+        });
+    });
 
-    },
+    describe("when given an invalid built-in formatter name", function() {
+        var code = "fakeformatter";
 
-    "when given an invalid built-in formatter name": {
-
-        topic: "fakeformatter",
-
-        "should execute with error": function(topic) {
+        it("should execute with error", function() {
             var log = console.log;
 
             // Assign console.log to noop to skip CLI output
             console.log = function() {};
 
-            var exit = cli.execute(["-f", topic, "tests/fixtures/passing.js"]);
+            var exit = cli.execute(["-f", code, "tests/fixtures/passing.js"]);
             assert.equal(exit, 1);
 
             console.log = log;
-        }
+        });
+    });
 
-    },
+    describe("when given a valid formatter path", function() {
+        var code = "tests/fixtures/formatters/simple.js";
 
-    "when given a valid formatter path": {
-
-        topic: "tests/fixtures/formatters/simple.js",
-
-        "should execute without any errors": function(topic) {
+        it("should execute without any errors", function() {
             var log = console.log;
 
             // Assign console.log to noop to skip CLI output
             console.log = function() {};
 
-            var exit = cli.execute(["-f", topic, "tests/fixtures/passing.js"]);
+            var exit = cli.execute(["-f", code, "tests/fixtures/passing.js"]);
             assert.equal(exit, 0);
 
             console.log = log;
-        }
+        });
+    });
 
-    },
+    describe("when given an invalid formatter path", function() {
+        var code = "tests/fixtures/formatters/file-does-not-exist.js";
 
-    "when given an invalid formatter path": {
-
-        topic: "tests/fixtures/formatters/file-does-not-exist.js",
-
-        "should execute with error": function(topic) {
+        it("should execute with error", function() {
             var log = console.log;
 
             // Assign console.log to noop to skip CLI output
             console.log = function() {};
 
-            var exit = cli.execute(["-f", topic, "tests/fixtures/passing.js"]);
+            var exit = cli.execute(["-f", code, "tests/fixtures/passing.js"]);
             assert.equal(exit, 1);
 
             console.log = log;
-        }
+        });
+    });
 
-    },
+    describe("when executing a file with an error", function() {
+        var code = "tests/fixtures/configurations/semi-error.js";
 
-    "when executing a file with an error": {
-
-        topic: "tests/fixtures/configurations/semi-error.js",
-
-        "should execute with error": function(topic) {
+        it("should execute with error", function() {
             var log = console.log;
 
             // Assign console.log to noop to skip CLI output
             console.log = function() {};
 
-            var exit = cli.execute([topic]);
+            var exit = cli.execute([code]);
             assert.equal(exit, 1);
 
             console.log = log;
-        }
+        });
+    });
 
-    },
+    describe("when calling execute more than once", function() {
+        var code = ["tests/fixtures/missing-semicolon.js", "tests/fixtures/passing.js"];
 
-    "when calling execute more than once": {
-
-        topic: ["tests/fixtures/missing-semicolon.js", "tests/fixtures/passing.js"],
-
-        "should not print the results from previous execution": function(topic) {
+        it("should not print the results from previous execution", function() {
             var results = "",
                 log = console.log;
 
@@ -235,18 +216,16 @@ vows.describe("cli").addBatch({
                 results += msg;
             };
 
-            cli.execute([topic[0]]);
+            cli.execute([code[0]]);
             assert.notEqual(results, "");
 
             // Reset results collected between executions.
             results = "";
 
-            cli.execute([topic[1]]);
+            cli.execute([code[1]]);
             assert.equal(results, "");
 
             console.log = log;
-        }
-
-    }
-
-}).export(module);
+        });
+    });
+});

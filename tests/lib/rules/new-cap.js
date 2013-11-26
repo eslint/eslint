@@ -7,66 +7,18 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var vows = require("vows"),
-    assert = require("assert"),
-    eslint = require("../../../lib/eslint");
-
-//------------------------------------------------------------------------------
-// Constants
-//------------------------------------------------------------------------------
-
-var RULE_ID = "new-cap";
+var eslintTester = require("../../../lib/tests/eslintTester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-vows.describe(RULE_ID).addBatch({
-
-    "when evaluating 'var x = new c();'": {
-
-        topic: "var x = new c();",
-
-        "should report a violation": function(topic) {
-            var config = { rules: {} };
-            config.rules[RULE_ID] = 1;
-
-            var messages = eslint.verify(topic, config);
-
-            assert.equal(messages.length, 1);
-            assert.equal(messages[0].ruleId, RULE_ID);
-            assert.equal(messages[0].message, "A constructor name should start with an uppercase letter.");
-            assert.include(messages[0].node.type, "NewExpression");
-        }
-    },
-
-    "when evaluating 'var x = new C();'": {
-
-        topic: "var x = new C();",
-
-        "should not report a violation": function(topic) {
-            var config = { rules: {} };
-            config.rules[RULE_ID] = 1;
-
-            var messages = eslint.verify(topic, config);
-
-            assert.equal(messages.length, 0);
-        }
-    },
-
-    "when evaluating 'var x = new [];'": {
-
-        topic: "var x = new [];",
-
-        "should not report a violation": function(topic) {
-            var config = { rules: {} };
-            config.rules[RULE_ID] = 1;
-
-            var messages = eslint.verify(topic, config);
-
-            assert.equal(messages.length, 0);
-        }
-    },
-
-
-}).export(module);
+eslintTester.add("new-cap", {
+    valid: [
+       	"var x = new C();",
+        "var x = new [];"
+    ],
+    invalid: [
+        { code: "var x = new c();", errors: [{ message: "A constructor name should start with an uppercase letter.", type: "NewExpression"}] }
+    ]
+});

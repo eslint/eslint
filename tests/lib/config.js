@@ -7,8 +7,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var vows = require("vows"),
-    assert = require("assert"),
+var assert = require("chai").assert,
     path = require("path"),
     Config = require("../../lib/config");
 
@@ -17,66 +16,57 @@ var vows = require("vows"),
 // Tests
 //------------------------------------------------------------------------------
 
-vows.describe("config").addBatch({
+describe("config", function() {
+    describe("findLocalConfigFile", function() {
+        var code = path.resolve(__dirname, "..", "fixtures", "configurations", "single-quotes");
 
-    "findLocalConfigFile": {
-
-        topic: path.resolve(__dirname, "..", "fixtures", "configurations", "single-quotes"),
-
-        "should find local config file": function(topic) {
-
+        it("should find local config file", function() {
             var configHelper = new Config(),
-                expected = path.resolve(topic, ".eslintrc"),
-                actual = configHelper.findLocalConfigFile(topic);
+                expected = path.resolve(code, ".eslintrc"),
+                actual = configHelper.findLocalConfigFile(code);
 
             assert.equal(expected, actual);
-        }
-    },
+        });
+    });
 
-    "mergeConfigs": {
+    describe("mergeConfigs", function() {
+        var code = { person: { name: "Seth", car: "prius" }, town: "MV" };
 
-        topic: { person: { name: "Seth", car: "prius" }, town: "MV" },
-
-        "should merge configs": function(topic) {
-
+        it("should merge configs", function() {
             var configHelper = new Config(),
                 expected = { person: { name: "Bob", car: "prius" }, town: "PA" },
-                actual = configHelper.mergeConfigs(topic, { person: { name: "Bob" }, town: "PA" });
+                actual = configHelper.mergeConfigs(code, { person: { name: "Bob" }, town: "PA" });
 
             assert.deepEqual(expected, actual);
-        }
-    },
+        });
+    });
 
-    "getConfig with env rules": {
+    describe("getConfig with env rules", function() {
+        var code = path.resolve(__dirname, "..", "fixtures", "configurations",
+                "env-node.json");
 
-        topic: path.resolve(__dirname, "..", "fixtures", "configurations",
-                "env-node.json"),
+        it("should be no-global-strict off for node env", function() {
 
-        "should be no-global-strict off for node env": function(topic) {
-
-            var configHelper = new Config({config: topic}),
+            var configHelper = new Config({config: code}),
                 config = configHelper.getConfig(),
                 expected = 0,
                 actual = config.rules["no-global-strict"];
 
             assert.equal(expected, actual);
-        }
-    },
+        });
+    });
 
-    "getConfig with env and user rules": {
+    describe("getConfig with env and user rules", function() {
+        var code = path.resolve(__dirname, "..", "fixtures", "configurations",
+                "env-node-override.json");
 
-        topic: path.resolve(__dirname, "..", "fixtures", "configurations",
-                "env-node-override.json"),
-
-        "should be no-global-strict a warning": function(topic) {
-
-            var configHelper = new Config({config: topic}),
+        it("should be no-global-strict a warning", function() {
+            var configHelper = new Config({config: code}),
                 config = configHelper.getConfig(),
                 expected = 1,
                 actual = config.rules["no-global-strict"];
 
             assert.equal(expected, actual);
-        }
-    }
-
-}).export(module);
+        });
+    });
+});

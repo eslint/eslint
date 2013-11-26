@@ -10,14 +10,6 @@ module.exports = function(grunt) {
                 src: ["lib/**/*.js", "bin/*.js"]
             }
         },
-        vows: {
-            all : {
-                src : "build/instrument/tests/lib/**/*.js",
-                options : {
-                    reporter : "spec"
-                }
-            }
-        },
         coverage: {
             options: {
                 thresholds: {
@@ -62,7 +54,7 @@ module.exports = function(grunt) {
                 options: {
                     reporter: "spec"
                 },
-                src: "build/instrument/tests/mocha/lib/**/*.js"
+                src: "build/instrument/tests/lib/**/*.js"
             }
         }
     });
@@ -71,12 +63,10 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks("grunt-contrib-clean");
     grunt.loadNpmTasks("grunt-istanbul");
     grunt.loadNpmTasks("grunt-istanbul-coverage");
-    grunt.loadNpmTasks("grunt-vows-runner");
     grunt.loadNpmTasks("grunt-contrib-jshint");
     grunt.loadNpmTasks("grunt-mocha-test");
 
     // Default task.
     grunt.registerTask("default", ["jshint"]);
-    grunt.registerTask("test", ["jshint", "instrument", "copy", "vows", "storeCoverage", "makeReport", "coverage", "clean"]);
-    grunt.registerTask("mocha", ["jshint", "instrument", "copy", "mochaTest", "storeCoverage", "makeReport", "clean"]);
+    grunt.registerTask("test", ["jshint", "instrument", "copy", "mochaTest", "storeCoverage", "makeReport", "coverage", "clean"]);
 };

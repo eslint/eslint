@@ -7,295 +7,32 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var vows = require("vows"),
-    assert = require("assert"),
-    eslint = require("../../../lib/eslint");
-
-//------------------------------------------------------------------------------
-// Constants
-//------------------------------------------------------------------------------
-
-var RULE_ID = "no-empty-class";
+var eslintTester = require("../../../lib/tests/eslintTester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-vows.describe(RULE_ID).addBatch({
-    "when evaluating 'var foo = /^abc[]/;'": {
-
-        topic: "var foo = /^abc[]/;",
-
-        "should report a violation": function(topic) {
-
-            var config = { rules: {} };
-            config.rules[RULE_ID] = 1;
-
-            var messages = eslint.verify(topic, config);
-
-            assert.equal(messages.length, 1);
-            assert.equal(messages[0].ruleId, RULE_ID);
-            assert.equal(messages[0].message, "Empty class.");
-            assert.include(messages[0].node.type, "Literal");
-        }
-    },
-
-    "when evaluating 'var foo = /foo[]bar/;'": {
-
-        topic: "var foo = /foo[]bar/;",
-
-        "should report a violation": function(topic) {
-
-            var config = { rules: {} };
-            config.rules[RULE_ID] = 1;
-
-            var messages = eslint.verify(topic, config);
-
-            assert.equal(messages.length, 1);
-            assert.equal(messages[0].ruleId, RULE_ID);
-            assert.equal(messages[0].message, "Empty class.");
-            assert.include(messages[0].node.type, "Literal");
-        }
-    },
-
-    "when evaluating 'if (foo.match(/^abc[]/)) {}'": {
-
-        topic: "if (foo.match(/^abc[]/)) {}",
-
-        "should report a violation": function(topic) {
-
-            var config = { rules: {} };
-            config.rules[RULE_ID] = 1;
-
-            var messages = eslint.verify(topic, config);
-
-            assert.equal(messages.length, 1);
-            assert.equal(messages[0].ruleId, RULE_ID);
-            assert.equal(messages[0].message, "Empty class.");
-            assert.include(messages[0].node.type, "Literal");
-        }
-    },
-
-    "when evaluating 'if (/^abc[]/.test(foo)) {}'": {
-
-        topic: "if (/^abc[]/.test(foo)) {}",
-
-        "should report a violation": function(topic) {
-
-            var config = { rules: {} };
-            config.rules[RULE_ID] = 1;
-
-            var messages = eslint.verify(topic, config);
-
-            assert.equal(messages.length, 1);
-            assert.equal(messages[0].ruleId, RULE_ID);
-            assert.equal(messages[0].message, "Empty class.");
-            assert.include(messages[0].node.type, "Literal");
-        }
-    },
-
-    "when evaluating 'var foo = /^abc[a-zA-Z]/;'": {
-
-        topic: "var foo = /^abc[a-zA-Z]/;",
-
-        "should not report a violation": function(topic) {
-
-            var config = { rules: {} };
-            config.rules[RULE_ID] = 1;
-
-            var messages = eslint.verify(topic, config);
-
-            assert.equal(messages.length, 0);
-        }
-    },
-
-    "when evaluating 'var regExp = new RegExp(\"^abc[]\");'": {
-
-        topic: "var regExp = new RegExp(\"^abc[]\");",
-
-        "should not report a violation": function(topic) {
-
-            var config = { rules: {} };
-            config.rules[RULE_ID] = 1;
-
-            var messages = eslint.verify(topic, config);
-
-            assert.equal(messages.length, 0);
-        }
-    },
-
-    "when evaluating 'var foo = /^abc/;'": {
-
-        topic: "var foo = /^abc/;",
-
-        "should not report a violation": function(topic) {
-
-            var config = { rules: {} };
-            config.rules[RULE_ID] = 1;
-
-            var messages = eslint.verify(topic, config);
-
-            assert.equal(messages.length, 0);
-        }
-    },
-
-    "when evaluating 'var foo = /[\\[]/;'": {
-
-        topic: "var foo = /[\\[]/;",
-
-        "should not report a violation": function(topic) {
-
-            var config = { rules: {} };
-            config.rules[RULE_ID] = 1;
-
-            var messages = eslint.verify(topic, config);
-
-            assert.equal(messages.length, 0);
-        }
-    },
-
-    "when evaluating 'var foo = /[\\]]/;'": {
-
-        topic: "var foo = /[\\]]/;",
-
-        "should not report a violation": function(topic) {
-
-            var config = { rules: {} };
-            config.rules[RULE_ID] = 1;
-
-            var messages = eslint.verify(topic, config);
-
-            assert.equal(messages.length, 0);
-        }
-    },
-
-    "when evaluating 'var foo = /[a-zA-Z\\[]/;'": {
-
-        topic: "var foo = /[a-zA-Z\\[]/;",
-
-        "should not report a violation": function(topic) {
-
-            var config = { rules: {} };
-            config.rules[RULE_ID] = 1;
-
-            var messages = eslint.verify(topic, config);
-
-            assert.equal(messages.length, 0);
-        }
-    },
-
-    "when evaluating 'var foo = /[[]/;'": {
-
-        topic: "var foo = /[[]/;",
-
-        "should not report a violation": function(topic) {
-
-            var config = { rules: {} };
-            config.rules[RULE_ID] = 1;
-
-            var messages = eslint.verify(topic, config);
-
-            assert.equal(messages.length, 0);
-        }
-    },
-
-    "when evaluating 'var foo = /[]]/;'": {
-
-        topic: "var foo = /[]]/;",
-
-        "should report a violation": function(topic) {
-
-            var config = { rules: {} };
-            config.rules[RULE_ID] = 1;
-
-            var messages = eslint.verify(topic, config);
-
-            assert.equal(messages.length, 1);
-            assert.equal(messages[0].ruleId, RULE_ID);
-            assert.equal(messages[0].message, "Empty class.");
-            assert.include(messages[0].node.type, "Literal");
-        }
-    },
-
-    "when evaluating 'var foo = /\\[[]/;'": {
-
-        topic: "var foo = /\\[[]/;",
-
-        "should report a violation": function(topic) {
-
-            var config = { rules: {} };
-            config.rules[RULE_ID] = 1;
-
-            var messages = eslint.verify(topic, config);
-
-            assert.equal(messages.length, 1);
-            assert.equal(messages[0].ruleId, RULE_ID);
-            assert.equal(messages[0].message, "Empty class.");
-            assert.include(messages[0].node.type, "Literal");
-        }
-    },
-
-    "when evaluating 'var foo = /[\\[a-z[]]/;'": {
-
-        topic: "var foo = /[\\[a-z[]]/;",
-
-        "should not report a violation": function(topic) {
-
-            var config = { rules: {} };
-            config.rules[RULE_ID] = 1;
-
-            var messages = eslint.verify(topic, config);
-
-            assert.equal(messages.length, 0);
-        }
-    },
-
-    "when evaluating 'var foo = /\\[\\[\\]a-z[]/;'": {
-
-        topic: "var foo = /\\[\\[\\]a-z[]/;",
-
-        "should report a violation": function(topic) {
-
-            var config = { rules: {} };
-            config.rules[RULE_ID] = 1;
-
-            var messages = eslint.verify(topic, config);
-
-            assert.equal(messages.length, 1);
-            assert.equal(messages[0].ruleId, RULE_ID);
-            assert.equal(messages[0].message, "Empty class.");
-            assert.include(messages[0].node.type, "Literal");
-        }
-    },
-
-    "when evaluating 'var foo = /[\\-\\[\\]\\/\\{\\}\\(\\)\\*\\+\\?\\.\\\\^\\$\\|]/g;'": {
-
-        topic: "var foo = /[\\-\\[\\]\\/\\{\\}\\(\\)\\*\\+\\?\\.\\\\^\\$\\|]/g;",
-
-        "should not report a violation": function(topic) {
-
-            var config = { rules: {} };
-            config.rules[RULE_ID] = 1;
-
-            var messages = eslint.verify(topic, config);
-
-            assert.equal(messages.length, 0);
-        }
-    },
-
-    "when evaluating 'var foo = /\\s*:\\s*/gim;'": {
-
-        topic: "var foo = /\\s*:\\s*/gim;",
-
-        "should not report a violation": function(topic) {
-
-            var config = { rules: {} };
-            config.rules[RULE_ID] = 1;
-
-            var messages = eslint.verify(topic, config);
-
-            assert.equal(messages.length, 0);
-        }
-    }
-
-}).export(module);
+eslintTester.add("no-empty-class", {
+    valid: [
+        "var foo = /^abc[a-zA-Z]/;",
+        "var regExp = new RegExp(\"^abc[]\");",
+        "var foo = /^abc/;",
+        "var foo = /[\\[]/;",
+        "var foo = /[\\]]/;",
+        "var foo = /[a-zA-Z\\[]/;",
+        "var foo = /[[]/;",
+        "var foo = /[\\[a-z[]]/;",
+        "var foo = /[\\-\\[\\]\\/\\{\\}\\(\\)\\*\\+\\?\\.\\\\^\\$\\|]/g;",
+        "var foo = /\\s*:\\s*/gim;"
+    ],
+    invalid: [
+        { code: "var foo = /^abc[]/;", errors: [{ message: "Empty class.", type: "Literal"}] },
+        { code: "var foo = /foo[]bar/;", errors: [{ message: "Empty class.", type: "Literal"}] },
+        { code: "if (foo.match(/^abc[]/)) {}", errors: [{ message: "Empty class.", type: "Literal"}] },
+        { code: "if (/^abc[]/.test(foo)) {}", errors: [{ message: "Empty class.", type: "Literal"}] },
+        { code: "var foo = /[]]/;", errors: [{ message: "Empty class.", type: "Literal"}] },
+        { code: "var foo = /\\[[]/;", errors: [{ message: "Empty class.", type: "Literal"}] },
+        { code: "var foo = /\\[\\[\\]a-z[]/;", errors: [{ message: "Empty class.", type: "Literal"}] }
+    ]
+});

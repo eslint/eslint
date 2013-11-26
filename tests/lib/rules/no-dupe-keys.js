@@ -7,101 +7,20 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var vows = require("vows"),
-    assert = require("assert"),
-    eslint = require("../../../lib/eslint");
-
-//------------------------------------------------------------------------------
-// Constants
-//------------------------------------------------------------------------------
-
-var RULE_ID = "no-dupe-keys";
+var eslintTester = require("../../../lib/tests/eslintTester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-vows.describe(RULE_ID).addBatch({
-
-    "when evaluating 'var x = { y: 1, y: 2 };'": {
-
-        topic: "var x = { y: 1, y: 2 };",
-
-        "should report a violation": function(topic) {
-            var config = { rules: {} };
-            config.rules[RULE_ID] = 1;
-
-            var messages = eslint.verify(topic, config);
-
-            assert.equal(messages.length, 1);
-            assert.equal(messages[0].ruleId, RULE_ID);
-            assert.equal(messages[0].message, "Duplicate key 'y'.");
-            assert.include(messages[0].node.type, "ObjectExpression");
-        }
-    },
-
-    "when evaluating 'var foo = { 0x1: 1, 1: 2};'": {
-
-        topic: "var foo = { 0x1: 1, 1: 2};",
-
-        "should report a violation": function(topic) {
-            var config = { rules: {} };
-            config.rules[RULE_ID] = 1;
-
-            var messages = eslint.verify(topic, config);
-
-            assert.equal(messages.length, 1);
-            assert.equal(messages[0].ruleId, RULE_ID);
-            assert.equal(messages[0].message, "Duplicate key '1'.");
-            assert.include(messages[0].node.type, "ObjectExpression");
-        }
-    },
-
-    "when evaluating 'var foo = { __proto__: 1, two: 2};'": {
-
-        topic: "var foo = { __proto__: 1, two: 2};",
-
-        "should not report a violation": function(topic) {
-            var config = { rules: {} };
-            config.rules[RULE_ID] = 1;
-
-            var messages = eslint.verify(topic, config);
-
-            assert.equal(messages.length, 0);
-        }
-    },
-
-    "when evaluating 'var x = { \"z\": 1, z: 2 };'": {
-
-        topic: "var x = { \"z\": 1, z: 2 };",
-
-        "should report a violation": function(topic) {
-            var config = { rules: {} };
-            config.rules[RULE_ID] = 1;
-
-            var messages = eslint.verify(topic, config);
-
-            assert.equal(messages.length, 1);
-            assert.equal(messages[0].ruleId, RULE_ID);
-            assert.equal(messages[0].message, "Duplicate key 'z'.");
-            assert.include(messages[0].node.type, "ObjectExpression");
-        }
-    },
-
-    "when evaluating 'var x = { foo: 1, bar: 2 };'": {
-
-        topic: "var x = { foo: 1, bar: 2 };",
-
-        "should not report a violation": function(topic) {
-            var config = { rules: {} };
-            config.rules[RULE_ID] = 1;
-
-            var messages = eslint.verify(topic, config);
-
-            assert.equal(messages.length, 0);
-        }
-    }
-
-
-
-}).export(module);
+eslintTester.add("no-dupe-keys", {
+    valid: [
+        "var foo = { __proto__: 1, two: 2};",
+        "var x = { foo: 1, bar: 2 };"
+    ],
+    invalid: [
+        { code: "var x = { y: 1, y: 2 };", errors: [{ message: "Duplicate key 'y'.", type: "ObjectExpression"}] },
+        { code: "var foo = { 0x1: 1, 1: 2};", errors: [{ message: "Duplicate key '1'.", type: "ObjectExpression"}] },
+        { code: "var x = { \"z\": 1, z: 2 };", errors: [{ message: "Duplicate key 'z'.", type: "ObjectExpression"}] }
+    ]
+});
