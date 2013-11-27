@@ -358,7 +358,8 @@
 
         "rules": {
             "no-global-strict": 0,
-            "no-mixed-requires": 2
+            "no-mixed-requires": 2,
+            "no-console": 0
         }
     },
 
@@ -366,6 +367,17 @@
         "globals": {
             "require"       : false,
             "define"        : false
+        }
+    },
+
+    "mocha": {
+        "globals": {
+            "describe"      : false,
+            "it"            : false,
+            "before"        : false,
+            "after"         : false,
+            "beforeEach"    : false,
+            "afterEach"     : false
         }
     }
 }

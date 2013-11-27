@@ -7,14 +7,13 @@ Each ESLint rule has two files: a source file in the `lib/rules` directory and a
  * @fileoverview Rule to flag use of an empty block statement
  * @author Nicholas C. Zakas
  */
+"use strict";
 
 //------------------------------------------------------------------------------
 // Rule Definition
 //------------------------------------------------------------------------------
 
 module.exports = function(context) {
-
-    "use strict";
 
     return {
         // properties go here
@@ -29,8 +28,6 @@ Each rule is represented by a single object with several properties. The propert
 
 ```js
 module.exports = function(context) {
-
-    "use strict";
 
     return {
 
