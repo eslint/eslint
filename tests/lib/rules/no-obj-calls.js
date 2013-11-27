@@ -13,7 +13,7 @@ var eslintTester = require("../../../lib/tests/eslintTester");
 // Tests
 //------------------------------------------------------------------------------
 
-eslintTester.add("no-obj-calls", {
+eslintTester.addRuleTest("no-obj-calls", {
     valid: [
         "var x = Math.random();"
     ],

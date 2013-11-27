@@ -13,7 +13,7 @@ var eslintTester = require("../../../lib/tests/eslintTester");
 // Tests
 //------------------------------------------------------------------------------
 
-eslintTester.add("no-bitwise", {
+eslintTester.addRuleTest("no-bitwise", {
     valid: [
         "a + b",
     	"!a"

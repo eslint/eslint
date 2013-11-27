@@ -9,7 +9,7 @@
 
 var eslintTester = require("../../../lib/tests/eslintTester");
 
-eslintTester.add("strict", {
+eslintTester.addRuleTest("strict", {
     valid: [
         "\"use strict\"; function foo () {  return; }",
         "'use strict'; function foo () {  return; }",

@@ -13,7 +13,7 @@ var eslintTester = require("../../../lib/tests/eslintTester");
 // Tests
 //------------------------------------------------------------------------------
 
-eslintTester.add("no-octal", {
+eslintTester.addRuleTest("no-octal", {
     valid: [
         "var a = 'hello world';",
         "0x1234",

@@ -13,7 +13,7 @@ var eslintTester = require("../../../lib/tests/eslintTester");
 // Tests
 //------------------------------------------------------------------------------
 
-eslintTester.add("no-func-assign", {
+eslintTester.addRuleTest("no-func-assign", {
     valid: [
         "function foo() { var foo = bar; }",
         "function foo(foo) { foo = bar; }",

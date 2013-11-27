@@ -13,7 +13,7 @@ var eslintTester = require("../../../lib/tests/eslintTester");
 // Tests
 //------------------------------------------------------------------------------
 
-eslintTester.add("new-cap", {
+eslintTester.addRuleTest("new-cap", {
     valid: [
        	"var x = new C();",
         "var x = new [];"

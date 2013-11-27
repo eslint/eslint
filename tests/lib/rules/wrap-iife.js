@@ -14,7 +14,7 @@ var eslintTester = require("../../../lib/tests/eslintTester");
 //------------------------------------------------------------------------------
 
 
-eslintTester.add("wrap-iife", {
+eslintTester.addRuleTest("wrap-iife", {
     valid: [
         "var x = (function () { return { y: 1 };})();",
         "var x = test(function () { return { y: 1 };})();"

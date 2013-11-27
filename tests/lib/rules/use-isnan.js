@@ -14,7 +14,7 @@ var eslintTester = require("../../../lib/tests/eslintTester");
 //------------------------------------------------------------------------------
 
 
-eslintTester.add("use-isnan", {
+eslintTester.addRuleTest("use-isnan", {
     valid: [
         "var x = NaN;",
         "isNaN(NaN) === true;",

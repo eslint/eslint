@@ -9,7 +9,7 @@
 
 var eslintTester = require("../../../lib/tests/eslintTester");
 
-eslintTester.add("one-var", {
+eslintTester.addRuleTest("one-var", {
     valid: [
         "function foo() { var bar = true; }",
         "function foo() { var bar = true, baz = 1; if (qux) { bar = false; } }",

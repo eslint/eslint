@@ -13,7 +13,7 @@ var eslintTester = require("../../../lib/tests/eslintTester");
 // Tests
 //------------------------------------------------------------------------------
 
-eslintTester.add("no-label-var", {
+eslintTester.addRuleTest("no-label-var", {
     valid: [
         "function bar() { q: for(;;) { break q; } } function foo () { var q = t; }",
         "function bar() { var x = foo; q: for(;;) { break q; } }"

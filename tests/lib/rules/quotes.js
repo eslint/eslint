@@ -9,7 +9,7 @@
 
 var eslintTester = require("../../../lib/tests/eslintTester");
 
-eslintTester.add("quotes", {
+eslintTester.addRuleTest("quotes", {
     valid: [
         {code: "var foo = 'bar';", args: [1, "single"] },
         {code: "var foo = \"bar\";", args: [1, "double"] },

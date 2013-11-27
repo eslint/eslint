@@ -13,7 +13,7 @@ var eslintTester = require("../../../lib/tests/eslintTester");
 // Tests
 //------------------------------------------------------------------------------
 
-eslintTester.add("no-console", {
+eslintTester.addRuleTest("no-console", {
     valid: [
         "Console.info(foo)"
     ],

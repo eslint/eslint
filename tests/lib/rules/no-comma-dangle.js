@@ -13,7 +13,7 @@ var eslintTester = require("../../../lib/tests/eslintTester");
 // Tests
 //------------------------------------------------------------------------------
 
-eslintTester.add("no-comma-dangle", {
+eslintTester.addRuleTest("no-comma-dangle", {
     valid: [
         "var foo = { bar: \"baz\" }",
         "var foo = [ \"baz\" ]"

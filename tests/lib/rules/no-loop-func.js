@@ -13,7 +13,7 @@ var eslintTester = require("../../../lib/tests/eslintTester");
 // Tests
 //------------------------------------------------------------------------------
 
-eslintTester.add("no-loop-func", {
+eslintTester.addRuleTest("no-loop-func", {
     valid: [
         "string = 'function a() {}';",
         "for (var i=0; i<l; i++) { } var a = function() { };"

@@ -15,7 +15,7 @@ var eslintTester = require("../../../lib/tests/eslintTester");
 // Tests
 //------------------------------------------------------------------------------
 
-eslintTester.add("no-fallthrough", {
+eslintTester.addRuleTest("no-fallthrough", {
     valid: [
         "switch(foo) { case 'foo': foo.bar(); /* falls through */}",
         "function foo() { switch(foo) { case 'foo': foo.bar(); return; }; }",

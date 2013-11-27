@@ -13,7 +13,7 @@ var eslintTester = require("../../../lib/tests/eslintTester");
 // Tests
 //------------------------------------------------------------------------------
 
-eslintTester.add("no-self-compare", {
+eslintTester.addRuleTest("no-self-compare", {
     valid: [
         "if (x === y) { }",
         "if (f() === f()) { }",

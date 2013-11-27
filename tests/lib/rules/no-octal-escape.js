@@ -13,7 +13,7 @@ var eslintTester = require("../../../lib/tests/eslintTester");
 // Tests
 //------------------------------------------------------------------------------
 
-eslintTester.add("no-octal-escape", {
+eslintTester.addRuleTest("no-octal-escape", {
     valid: [
         "var foo = \"\\851\";",
         "var foo = \"foo \\\\251 bar\";"

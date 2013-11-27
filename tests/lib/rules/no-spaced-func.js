@@ -13,7 +13,7 @@ var eslintTester = require("../../../lib/tests/eslintTester");
 // Tests
 //------------------------------------------------------------------------------
 
-eslintTester.add("no-spaced-func", {
+eslintTester.addRuleTest("no-spaced-func", {
     valid: [
         "f();",
         "f(a, b);",

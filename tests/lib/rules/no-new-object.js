@@ -13,7 +13,7 @@ var eslintTester = require("../../../lib/tests/eslintTester");
 // Tests
 //------------------------------------------------------------------------------
 
-eslintTester.add("no-new-object", {
+eslintTester.addRuleTest("no-new-object", {
     valid: [
         "var foo = new foo.Object()"
     ],

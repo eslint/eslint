@@ -13,7 +13,7 @@ var eslintTester = require("../../../lib/tests/eslintTester");
 // Tests
 //------------------------------------------------------------------------------
 
-eslintTester.add("max-len", {
+eslintTester.addRuleTest("max-len", {
     valid: [
         { code: "var x = 5;\nvar x = 2;", args: [1, 80, 4] },
         { code: "\t\t\tvar i = 1;\n\t\t\tvar j = 1;", args: [1, 15, 1] }

@@ -9,7 +9,7 @@
 
 var eslintTester = require("../../../lib/tests/eslintTester");
 
-eslintTester.add("unnecessary-strict", {
+eslintTester.addRuleTest("unnecessary-strict", {
     valid: [
         "\"use strict\"; function foo() { var bar = true; }",
         "'use strict'; function foo() { var bar = true; }",

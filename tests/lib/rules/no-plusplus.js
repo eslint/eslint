@@ -13,7 +13,7 @@ var eslintTester = require("../../../lib/tests/eslintTester");
 // Tests
 //------------------------------------------------------------------------------
 
-eslintTester.add("no-plusplus", {
+eslintTester.addRuleTest("no-plusplus", {
     valid: [
         "var foo = 0; foo=+1;"
     ],

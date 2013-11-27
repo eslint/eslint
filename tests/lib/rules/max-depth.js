@@ -13,7 +13,7 @@ var eslintTester = require("../../../lib/tests/eslintTester");
 // Tests
 //------------------------------------------------------------------------------
 
-eslintTester.add("max-depth", {
+eslintTester.addRuleTest("max-depth", {
     valid: [
         { code: "function foo() { if (true) { if (false) { if (true) { } } } }", args: [1, 3] },
         "function foo() { if (true) { if (false) { if (true) { } } } }"

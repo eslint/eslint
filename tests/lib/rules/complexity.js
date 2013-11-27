@@ -14,7 +14,7 @@ var eslintTester = require("../../../lib/tests/eslintTester");
 //------------------------------------------------------------------------------
 
 
-eslintTester.add("complexity", {
+eslintTester.addRuleTest("complexity", {
     valid: [
         { code: "function a(x) {}", args: [1,1] },
         { code: "function a(x) {if (true) {return x;}}", args: [1,2] },

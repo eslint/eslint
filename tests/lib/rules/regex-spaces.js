@@ -9,7 +9,7 @@
 
 var eslintTester = require("../../../lib/tests/eslintTester");
 
-eslintTester.add("regex-spaces", {
+eslintTester.addRuleTest("regex-spaces", {
     valid: [
         "var foo = /bar {3}baz/;",
         "var foo = /bar\t\t\tbaz/;"

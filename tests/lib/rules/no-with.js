@@ -13,7 +13,7 @@ var eslintTester = require("../../../lib/tests/eslintTester");
 // Tests
 //------------------------------------------------------------------------------
 
-eslintTester.add("no-with", {
+eslintTester.addRuleTest("no-with", {
     valid: [
         "foo.bar()"
     ],

@@ -13,7 +13,7 @@ var eslintTester = require("../../../lib/tests/eslintTester");
 // Tests
 //------------------------------------------------------------------------------
 
-eslintTester.add("no-iterator", {
+eslintTester.addRuleTest("no-iterator", {
     valid: [
         "var a = test[__iterator__];",
         "var __iterator__ = null;"

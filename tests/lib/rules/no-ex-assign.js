@@ -13,7 +13,7 @@ var eslintTester = require("../../../lib/tests/eslintTester");
 // Tests
 //------------------------------------------------------------------------------
 
-eslintTester.add("no-ex-assign", {
+eslintTester.addRuleTest("no-ex-assign", {
     valid: [
         "try { } catch (e) { three = 2 + 1; }",
         "function foo() { try { } catch (e) { return false; } }"

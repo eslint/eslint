@@ -13,7 +13,7 @@ var eslintTester = require("../../../lib/tests/eslintTester");
 // Tests
 //------------------------------------------------------------------------------
 
-eslintTester.add("no-sync", {
+eslintTester.addRuleTest("no-sync", {
     valid: [
         "var foo = fs.foo.foo();"
     ],

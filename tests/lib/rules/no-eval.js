@@ -13,7 +13,7 @@ var eslintTester = require("../../../lib/tests/eslintTester");
 // Tests
 //------------------------------------------------------------------------------
 
-eslintTester.add("no-eval", {
+eslintTester.addRuleTest("no-eval", {
     valid: [
         "Eval(foo)"
     ],

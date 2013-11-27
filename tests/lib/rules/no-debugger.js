@@ -13,7 +13,7 @@ var eslintTester = require("../../../lib/tests/eslintTester");
 // Tests
 //------------------------------------------------------------------------------
 
-eslintTester.add("no-debugger", {
+eslintTester.addRuleTest("no-debugger", {
     valid: [
         "var test = { debugger: 1 }; test.debugger;"
     ],

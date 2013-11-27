@@ -12,7 +12,7 @@ var eslintTester = require("../../../lib/tests/eslintTester");
 // Tests
 //------------------------------------------------------------------------------
 
-eslintTester.add("consistent-this", {
+eslintTester.addRuleTest("consistent-this", {
     valid: [
         { code: "var foo = 42, self = this", args: [1, "self"] },
         { code: "var self = 42", args: [1, "that"] },

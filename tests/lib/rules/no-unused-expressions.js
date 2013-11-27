@@ -13,7 +13,7 @@ var eslintTester = require("../../../lib/tests/eslintTester");
 // Tests
 //------------------------------------------------------------------------------
 
-eslintTester.add("no-unused-expressions", {
+eslintTester.addRuleTest("no-unused-expressions", {
     valid: [
         "function f(){}",
         "a = b",

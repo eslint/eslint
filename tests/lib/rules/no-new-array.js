@@ -13,7 +13,7 @@ var eslintTester = require("../../../lib/tests/eslintTester");
 // Tests
 //------------------------------------------------------------------------------
 
-eslintTester.add("no-new-array", {
+eslintTester.addRuleTest("no-new-array", {
     valid: [
         "var foo = new foo.Array()"
     ],

@@ -13,7 +13,7 @@ var eslintTester = require("../../../lib/tests/eslintTester");
 // Tests
 //------------------------------------------------------------------------------
 
-eslintTester.add("no-new-func", {
+eslintTester.addRuleTest("no-new-func", {
     valid: [
         "var a = new _function(\"b\", \"c\", \"return b+c\");"
     ],

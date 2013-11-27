@@ -13,7 +13,7 @@ var eslintTester = require("../../../lib/tests/eslintTester");
 // Tests
 //------------------------------------------------------------------------------
 
-eslintTester.add("brace-style", {
+eslintTester.addRuleTest("brace-style", {
     valid: [
         "function foo () { return; }",
         "if (foo) { \n bar(); }",

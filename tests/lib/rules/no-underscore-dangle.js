@@ -13,7 +13,7 @@ var eslintTester = require("../../../lib/tests/eslintTester");
 // Tests
 //------------------------------------------------------------------------------
 
-eslintTester.add("no-underscore-dangle", {
+eslintTester.addRuleTest("no-underscore-dangle", {
     valid: [
         "var foo_bar = 1;",
         "function foo_bar() {}",

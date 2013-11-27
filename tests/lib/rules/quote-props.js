@@ -9,7 +9,7 @@
 
 var eslintTester = require("../../../lib/tests/eslintTester");
 
-eslintTester.add("quote-props", {
+eslintTester.addRuleTest("quote-props", {
     valid: [
         "var x = { 'foo': 42 }",
         "var x = { \"foo\": 42 }"

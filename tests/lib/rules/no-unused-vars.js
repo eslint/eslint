@@ -13,7 +13,7 @@ var eslintTester = require("../../../lib/tests/eslintTester");
 // Tests
 //------------------------------------------------------------------------------
 
-eslintTester.add("no-unused-vars", {
+eslintTester.addRuleTest("no-unused-vars", {
     valid: [
         "var a=10; alert(a);",
         "var a=10; (function() { alert(a); })();",

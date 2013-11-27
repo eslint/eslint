@@ -13,7 +13,7 @@ var eslintTester = require("../../../lib/tests/eslintTester");
 // Tests
 //------------------------------------------------------------------------------
 
-eslintTester.add("eqeqeq", {
+eslintTester.addRuleTest("eqeqeq", {
     valid: [
         "a === b",
         "a !== b",

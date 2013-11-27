@@ -13,7 +13,7 @@ var eslintTester = require("../../../lib/tests/eslintTester");
 // Tests
 //------------------------------------------------------------------------------
 
-eslintTester.add("no-shadow", {
+eslintTester.addRuleTest("no-shadow", {
     valid: [
         "var a=3; function b(a) { a++; return a; }; setTimeout(function() { b(a); }, 0);"
     ],

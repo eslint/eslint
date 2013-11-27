@@ -13,7 +13,7 @@ var eslintTester = require("../../../lib/tests/eslintTester");
 // Helpers
 //------------------------------------------------------------------------------
 
-eslintTester.add("dot-notation", {
+eslintTester.addRuleTest("dot-notation", {
     valid: [
         "a.b;",
         "a.b.c;",

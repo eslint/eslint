@@ -13,7 +13,7 @@ var eslintTester = require("../../../lib/tests/eslintTester");
 // Tests
 //------------------------------------------------------------------------------
 
-eslintTester.add("no-eq-null", {
+eslintTester.addRuleTest("no-eq-null", {
     valid: [
         "if (x === null) { }",
         "if (null === f()) { }"

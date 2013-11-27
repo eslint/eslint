@@ -13,7 +13,7 @@ var eslintTester = require("../../../lib/tests/eslintTester");
 // Tests
 //------------------------------------------------------------------------------
 
-eslintTester.add("no-return-assign", {
+eslintTester.addRuleTest("no-return-assign", {
     valid: [
         "function x() { var result = a * b; return result; };"
     ],

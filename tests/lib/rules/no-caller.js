@@ -13,7 +13,7 @@ var eslintTester = require("../../../lib/tests/eslintTester");
 // Tests
 //------------------------------------------------------------------------------
 
-eslintTester.add("no-caller", {
+eslintTester.addRuleTest("no-caller", {
     valid: [
         "var x = arguments.length",
     	"var x = arguments",

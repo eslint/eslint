@@ -13,7 +13,7 @@ var eslintTester = require("../../../lib/tests/eslintTester");
 // Tests
 //------------------------------------------------------------------------------
 
-eslintTester.add("no-div-regex", {
+eslintTester.addRuleTest("no-div-regex", {
     valid: [
         "var f = function() { return /foo/ig.test('bar'); };",
         "var f = function() { return /\\=foo/; };"

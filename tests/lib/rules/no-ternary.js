@@ -13,7 +13,7 @@ var eslintTester = require("../../../lib/tests/eslintTester");
 // Tests
 //------------------------------------------------------------------------------
 
-eslintTester.add("no-ternary", {
+eslintTester.addRuleTest("no-ternary", {
     valid: [
         "\"x ? y\";"
     ],

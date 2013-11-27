@@ -13,7 +13,7 @@ var eslintTester = require("../../../lib/tests/eslintTester");
 // Tests
 //------------------------------------------------------------------------------
 
-eslintTester.add("no-wrap-func", {
+eslintTester.addRuleTest("no-wrap-func", {
     valid: [
         "(function() {})()",
         "var a = function() {}",

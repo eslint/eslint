@@ -13,7 +13,7 @@ var eslintTester = require("../../../lib/tests/eslintTester");
 // Tests
 //------------------------------------------------------------------------------
 
-eslintTester.add("no-alert", {
+eslintTester.addRuleTest("no-alert", {
     valid: [
         "a[o.k](1)",
     	"foo.alert(foo)",

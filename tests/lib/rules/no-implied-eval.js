@@ -13,7 +13,7 @@ var eslintTester = require("../../../lib/tests/eslintTester");
 // Tests
 //------------------------------------------------------------------------------
 
-eslintTester.add("no-implied-eval", {
+eslintTester.addRuleTest("no-implied-eval", {
     valid: [
         "setInterval(function () { x = 1; }, 100);"
     ],

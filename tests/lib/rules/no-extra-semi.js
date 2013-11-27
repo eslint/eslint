@@ -13,7 +13,7 @@ var eslintTester = require("../../../lib/tests/eslintTester");
 // Tests
 //------------------------------------------------------------------------------
 
-eslintTester.add("no-extra-semi", {
+eslintTester.addRuleTest("no-extra-semi", {
     valid: [
         "var x = 5;",
         "function foo(){}"

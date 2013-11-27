@@ -13,7 +13,7 @@ var eslintTester = require("../../../lib/tests/eslintTester");
 // Tests
 //------------------------------------------------------------------------------
 
-eslintTester.add("no-new-wrappers", {
+eslintTester.addRuleTest("no-new-wrappers", {
     valid: [
         "var a = new Object();",
         "var a = String('test'), b = String.fromCharCode(32);"

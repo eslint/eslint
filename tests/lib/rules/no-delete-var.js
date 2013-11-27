@@ -13,7 +13,7 @@ var eslintTester = require("../../../lib/tests/eslintTester");
 // Tests
 //------------------------------------------------------------------------------
 
-eslintTester.add("no-delete-var", {
+eslintTester.addRuleTest("no-delete-var", {
     valid: [
         "delete x.prop;"
     ],

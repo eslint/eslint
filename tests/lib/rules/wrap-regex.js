@@ -14,7 +14,7 @@ var eslintTester = require("../../../lib/tests/eslintTester");
 //------------------------------------------------------------------------------
 
 
-eslintTester.add("wrap-regex", {
+eslintTester.addRuleTest("wrap-regex", {
     valid: [
         "var f = function() { return (/foo/).test(bar); };",
         "var f = function() { return (/foo/ig).test(bar); };",

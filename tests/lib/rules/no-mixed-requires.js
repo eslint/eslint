@@ -13,7 +13,7 @@ var eslintTester = require("../../../lib/tests/eslintTester");
 // Tests
 //------------------------------------------------------------------------------
 
-eslintTester.add("no-mixed-requires", {
+eslintTester.addRuleTest("no-mixed-requires", {
     valid: [
         { code: "var a, b = 42, c = doStuff()", args: [1, false] },
         { code: "var a = require(42), b = require(), c = require('y'), d = require(doStuff())", args: [1, false] },

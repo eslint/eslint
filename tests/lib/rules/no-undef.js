@@ -13,7 +13,7 @@ var eslintTester = require("../../../lib/tests/eslintTester");
 // Tests
 //------------------------------------------------------------------------------
 
-eslintTester.add("no-undef", {
+eslintTester.addRuleTest("no-undef", {
     valid: [
         "var a = 1, b = 2; a;",
         "/*global b*/ function f() { b; }",

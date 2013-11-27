@@ -13,7 +13,7 @@ var eslintTester = require("../../../lib/tests/eslintTester");
 // Tests
 //------------------------------------------------------------------------------
 
-eslintTester.add("no-else-return", {
+eslintTester.addRuleTest("no-else-return", {
     valid: [
         "function foo() { if (true) { if (false) { return x; } } else { return y; } }",
         "function foo() { if (true) { return x; } return y; }",

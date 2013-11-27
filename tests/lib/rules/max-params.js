@@ -13,7 +13,7 @@ var eslintTester = require("../../../lib/tests/eslintTester");
 // Tests
 //------------------------------------------------------------------------------
 
-eslintTester.add("max-params", {
+eslintTester.addRuleTest("max-params", {
     valid: [
         "function test(d, e, f) {}",
         { code: "var test = function(a, b, c) {};", args: [1, 3] },
