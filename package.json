@@ -36,7 +36,8 @@
         "chai": "~1.8.1",
         "shelljs": "~0.2",
         "jsonlint": "~1.6.0",
-        "jshint": "~2.3"
+        "jshint": "~2.3",
+        "istanbul": "~0.1"
 
     },
     "keywords": [
