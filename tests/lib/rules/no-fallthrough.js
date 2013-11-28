@@ -17,14 +17,18 @@ var eslintTester = require("../../../lib/tests/eslintTester");
 
 eslintTester.addRuleTest("no-fallthrough", {
     valid: [
-        "switch(foo) { case 'foo': foo.bar(); /* falls through */}",
-        "function foo() { switch(foo) { case 'foo': foo.bar(); return; }; }",
-        "switch(foo) { case 'foo': foo.bar(); throw 'bar'; }",
-        "switch(foo) { case 'bar': case 'foo': foo.bar(); break; }",
-        "switch(foo) { case 'bar': case 'foo': break; }",
+        "switch(foo) { case 0: a(); /* falls through */ case 1: b(); }",
+        "function foo() { switch(foo) { case 0: a(); return; case 1: b(); }; }",
+        "switch(foo) { case 0: a(); throw 'foo'; case 1: b(); }",
+        "switch(foo) { case 0: a(); break; case 1: b(); }",
+        "switch(foo) { case 0: case 1: a(); break; case 2: b(); }",
+        "switch(foo) { case 0: case 1: break; case 2: b(); }",
+        "switch(foo) { case 0: case 1: a(); }",
+        "switch(foo) { case 0: case 1: a(); break; }",
+        "switch(foo) { case 0: case 1: break; }",
         "switch(foo) { }"
     ],
     invalid: [
-        { code: "switch(foo) { case 'foo': foo.bar(); }", errors: [{ message: "No fall-through without explicit comment."}] }
+        { code: "switch(foo) { case 0: a(); case 1: b() }", errors: [{ message: "No fall-through without explicit comment.", type: "SwitchCase"}] }
     ]
 });
