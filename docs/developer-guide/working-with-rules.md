@@ -107,66 +107,110 @@ The basic pattern for a rule unit test file is:
  * @fileoverview Tests for no-with rule.
  * @author Nicholas C. Zakas
  */
+"use strict";
 
 //------------------------------------------------------------------------------
 // Requirements
 //------------------------------------------------------------------------------
 
-var vows = require("vows"),
-    assert = require("assert"),
-    eslint = require("../../../lib/eslint");
-
-//------------------------------------------------------------------------------
-// Constants
-//------------------------------------------------------------------------------
-
-var RULE_ID = "no-with";
+var eslintTester = require("../../../lib/tests/eslintTester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-vows.describe(RULE_ID).addBatch({
+eslintTester.addRuleTest("block-scoped-var", {
 
-    "when evaluating '<some code>'": {
+    // Examples of code that should not trigger the rule
+    valid: [
+        "function doSomething() { var build, f; if (true) { build = true; } f = build; }",
+        "var build; function doSomething() { var f = build; }",
+        "function doSomething(e) { }",
+        "function doSomething(e) { var f = e; }",
+        "function doSomething() { var f = doSomething; }",
+        "function foo() { } function doSomething() { var f = foo; }"
+    ],
 
-        topic: "<some code>",
-
-        "should report a violation": function(topic) {
-            var config = { rules: {} };
-            config.rules[RULE_ID] = 1;
-
-            var messages = eslint.verify(topic, config);
-
-            assert.equal(messages.length, 1);
-            assert.equal(messages[0].ruleId, RULE_ID);
-            assert.equal(messages[0].message, "<rule message>");
-            assert.include(messages[0].node.type, "<expected node type>");
+    // Examples of code that should trigger the rule
+    invalid: [
+        {
+            code: "function doSomething() { var f; if (true) { var build = true; } f = build; }",
+            errors: [
+                { message: "build used outside of binding context.", type: "Identifier" }
+            ]
+        },
+        {
+            code: "function doSomething() { try { var build = 1; } catch (e) { var f = build; } }",
+            errors: [
+                { message: "build used outside of binding context.", type: "Identifier" }
+            ]
         }
-    },
-
-    "when evaluating '<some other code>'": {
-
-        topic: "<some other code>",
-
-        "should not report a violation": function(topic) {
-            var config = { rules: {} };
-            config.rules[RULE_ID] = 1;
-
-            var messages = eslint.verify(topic, config);
-
-            assert.equal(messages.length, 0);
-        }
-    }
-
-}).export(module);
+    ]
+});
 ```
 
-Be sure to replace the value of `RULE_ID` with your rule's ID. Also, replace `<some code>` and `<some other code>` with some appropriate code strings to test. There are plenty of examples in the `tests/lib/rules/` directory.
+Be sure to replace the value of `"block-scoped-var"` with your rule's ID. There are plenty of examples in the `tests/lib/rules/` directory.
 
-You should always check the number of messages as your first assert. This ensures that there aren't any more or less messages than you're expecting. Assuming there are no syntax errors, only your rule will produce messages. The second step is to ensure the type of message is correct. All rules output warnings, so check that this true for each message. Lastly, test the actual message text to ensure it's delivering the correct message to the user. You may also want to test if the returned AST node is the correct one.
+### Valid Code
 
-Provide as many unit tests as possible. Your pull request will never be turned down for having too many tests submitted with it!
+Each valid case can be either a string or an object. The object form is used when you need to specify additional global variables or arguments for the rule. For example, the following defines `window` as a global variable for code that should not trigger the rule being tested:
+
+```js
+valid: [
+    {
+        code: "window.alert()",
+        globals: [ "window" ]
+    }
+]
+```
+
+You can also pass arguments to the rule (if it accepts them). These arguments are equivalent to how people can configure rules in their `.eslintrc` file. For example:
+
+```js
+valid: [
+    {
+        code: "var msg = 'Hello';",
+        args: [1, "single" ]
+    }
+]
+```
+
+Your rule will then be passed the arguments just as if it can from a configuration file.
+
+### Invalid Code
+
+Each invalid case must be an object containing the code to test and at least the message that is produced by the rule. The `errors` key specifies an array of objects, each containing a message (your rule may trigger multiple messages for the same code). You should also specify the type of AST node you expect to receive back using the `type` key. The AST node should represent the actual spot in the code where there is a problem. For example:
+
+```js
+invalid: [
+    {
+        code: "function doSomething() { var f; if (true) { var build = true; } f = build; }",
+        errors: [
+            { message: "build used outside of binding context.", type: "Identifier" }
+        ]
+    }
+]
+```
+
+In this case, the message is specific to the variable being used and the AST node type is `Identifier`.
+
+Similar to the valid cases, you can also specify `args` to be passed to the rule:
+
+```js
+invalid: [
+    {
+        code: "function doSomething() { var f; if (true) { var build = true; } f = build; }",
+        args: [ 1, "double" ],
+        errors: [
+            { message: "build used outside of binding context.", type: "Identifier" }
+        ]
+    }
+]
+```
+
+### Write Many Tests
+
+You must have at least one valid and one invalid case for the rule tests to pass.Provide as many unit tests as possible. Your pull request will never be turned down for having too many tests submitted with it!
 
 ## Rule Naming Conventions
 
@@ -196,5 +240,3 @@ Runtime rules are written in the same format as all other rules. Create your rul
 1. Place all of your runtime rules in the same directory (i.e., `eslint_rules`).
 2. Create a [configuration file](../command-line-interface/config-files.md) and specify your rule ID warning level under the `rules` key. Your rule will not run unless it has a value of `1` or `2` in the configuration file.
 3. Run the [command line interface](../command-line-interface) using the `--rulesdir` option to specify the location of your runtime rules.
-
-**Note:** It is likely that we will standardize the runtime rules directory name as `eslint_rules` in later versions.
