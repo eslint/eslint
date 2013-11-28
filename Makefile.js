@@ -2,7 +2,7 @@
  * @fileoverview Build file
  * @author nzakas
  */
-/*global target, exec, echo, find*/
+/*global target, exec, echo, find, cat, rm, mv*/
 
 "use strict";
 
@@ -36,6 +36,7 @@ function fileType(extension) {
 function release(type) {
     exec("npm version " + type);
     exec("git push origin master --tags");
+    target.changelog();
 }
 
 //------------------------------------------------------------------------------
@@ -56,7 +57,22 @@ var NODE = "node ", // intentional extra space
     // Files
     JS_FILES = find("lib/").filter(fileType("js")).join(" "),
     JSON_FILES = find("conf/").filter(fileType("json")).join(" ") + " .eslintrc .jshintrc",
-    TEST_FILES = find("tests/lib/").filter(fileType("js")).join(" ");
+    TEST_FILES = find("tests/lib/").filter(fileType("js")).join(" "),
+
+    MONTHS = [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December"
+    ];
 
 //------------------------------------------------------------------------------
 // Tasks
@@ -71,19 +87,53 @@ target.lint = function() {
     exec(JSON_LINT + "-q -c " + JSON_FILES);
 
     echo("Validating JavaScript files");
-    exec(ESLINT + " " + JS_FILES);
+    exec(JSHINT + " " + JS_FILES);
 };
 
 target.test = function() {
-//    target.lint();
+    target.lint();
     exec(ISTANBUL + " cover " + MOCHA + TEST_FILES);
     exec(ISTANBUL + "check-coverage --statement 95 --branch 95 --function 95 --lines 95");
 };
 
 target.docs = function() {
     echo("Generating documentation");
-    exec(JSDOC + "-d jsdoc " + JS_DIRS.join(" "));
+    exec(JSDOC + "-d jsdoc lib");
     echo("Documentation has been output to /jsdoc");
+};
+
+target.changelog = function() {
+
+    // get most recent two tags
+    var tags = exec("git tag", { silent: true }).output.trim().split(/\s/g),
+        rangeTags = tags.slice(tags.length - 2),
+        now = new Date(),
+        timestamp = MONTHS[now.getMonth()] + " " + now.getDate() + ", " + now.getFullYear();
+
+    // output header
+    (rangeTags[1] + " - " + timestamp + "\n").to("CHANGELOG.tmp");
+
+    // get log statements
+    var logs = exec("git log --pretty=format:\"* %s (%an)\" " + rangeTags.join(".."), {silent:true}).output.split(/\n/g);
+    logs = logs.filter(function(line) {
+        return line.indexOf("Merge pull request") === -1 && line.indexOf("Merge branch") === -1;
+    });
+    logs.push(""); // to create empty lines
+    logs.unshift("");
+
+    // output log statements
+    logs.join("\n").toEnd("CHANGELOG.tmp");
+
+    // switch-o change-o
+    cat("CHANGELOG.tmp", "CHANGELOG.md").to("CHANGELOG.md.tmp");
+    rm("CHANGELOG.tmp");
+    rm("CHANGELOG.md");
+    mv("CHANGELOG.md.tmp", "CHANGELOG.md");
+
+    // add into commit
+    exec("git add CHANGELOG.md");
+    exec("git commit --amend --no-edit");
+
 };
 
 target.patch = function() {

@@ -8,9 +8,8 @@
     },
     "main": "./lib/api.js",
     "scripts": {
-        "changelog": "bash scripts/changelog-update.sh",
-        "test": "node ./node_modules/grunt-cli/bin/grunt test",
-        "lint": "node ./node_modules/grunt-cli/bin/grunt jshint",
+        "test": "node Makefile.js test",
+        "lint": "node Makefile.js lint",
         "bundle": "bash scripts/bundle.sh"
     },
     "files": [
@@ -35,14 +34,6 @@
         "commonjs-everywhere": "~0.9.0",
         "mocha": "~1.13.0",
         "chai": "~1.8.1",
-        "grunt": "~0.4.1",
-        "grunt-contrib-jshint": "~0.6.4",
-        "grunt-istanbul-coverage": "0.0.2",
-        "grunt-istanbul": "~0.2.3",
-        "grunt-contrib-clean": "~0.5.0",
-        "grunt-contrib-copy": "~0.4.1",
-        "grunt-cli": "~0.1.11",
-        "grunt-mocha-test": "~0.7.0",
         "shelljs": "~0.2",
         "jsonlint": "~1.6.0"
 
