@@ -61,6 +61,7 @@
         "no-mixed-requires": [0, false],
         "no-wrap-func": 2,
         "no-shadow": 2,
+        "no-shadow-restricted-names": 2,
         "no-use-before-define": 2,
         "no-redeclare": 2,
         "no-negated-in-lhs": 2,
