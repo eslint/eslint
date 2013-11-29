@@ -30,7 +30,6 @@ eslintTester.addRuleTest("no-undef", {
         "/*jshint node:true*/ require(\"a\");",
         "Object; isNaN();",
         "function evilEval(stuffToEval) { var ultimateAnswer; ultimateAnswer = 42; eval(stuffToEval); }"
-
     ],
     invalid: [
         { code: "a = 1;", errors: [{ message: "'a' is not defined.", type: "Identifier"}] },

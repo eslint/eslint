@@ -18,7 +18,8 @@ eslintTester.addRuleTest("wrap-regex", {
     valid: [
         "var f = function() { return (/foo/).test(bar); };",
         "var f = function() { return (/foo/ig).test(bar); };",
-        "var f = function() { return /foo/; };"
+        "var f = function() { return /foo/; };",
+        "var f = 0;"
     ],
     invalid: [
         { code: "var f = function() { return /foo/.test(bar); };",
