@@ -176,14 +176,14 @@ describe("eslint", function() {
 
             eslint.reset();
             eslint.on("BinaryExpression", function(node) {
-                var tokens = eslint.getTokens(node, 2);
+                var tokens = eslint.getTokens(node, 1);
                 assert.equal(tokens.length, 4);
             });
 
             eslint.verify(code, config, true);
         });
 
-        it("should retrieve all tokens plus one character after for binary expression", function() {
+        it("should retrieve all tokens plus one after for binary expression", function() {
             var config = { rules: {} };
 
             eslint.reset();
@@ -195,13 +195,13 @@ describe("eslint", function() {
             eslint.verify(code, config, true);
         });
 
-        it("should retrieve all tokens plus two characters before and one character after for binary expression", function() {
+        it("should retrieve all tokens plus two before and one after for binary expression", function() {
             var config = { rules: {} };
 
             eslint.reset();
             eslint.on("BinaryExpression", function(node) {
                 var tokens = eslint.getTokens(node, 2, 1);
-                assert.equal(tokens.length, 5);
+                assert.equal(tokens.length, 6);
             });
 
             eslint.verify(code, config, true);
