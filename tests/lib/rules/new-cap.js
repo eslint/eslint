@@ -15,8 +15,9 @@ var eslintTester = require("../../../lib/tests/eslintTester");
 
 eslintTester.addRuleTest("new-cap", {
     valid: [
-       	"var x = new C();",
-        "var x = new [];"
+        "var x = new Constructor();",
+        "var x = new a.b.Constructor();",
+        "var x = new function(){};"
     ],
     invalid: [
         { code: "var x = new c();", errors: [{ message: "A constructor name should start with an uppercase letter.", type: "NewExpression"}] }
