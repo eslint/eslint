@@ -9,27 +9,30 @@
 
 var assert = require("chai").assert,
     cli = require("../../lib/cli"),
-    path = require("path");
+    path = require("path"),
+    sinon = require("sinon");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
 describe("cli", function() {
+
+    beforeEach(function() {
+        sinon.stub(console, "log").returns({});
+    });
+
+    afterEach(function() {
+        console.log.restore();
+    });
+
     describe("when given a config file", function() {
         var code = "conf/eslint.json";
 
         it("should load the specified config file", function() {
-            var log = console.log;
-
-            // Assign console.log to noop to skip CLI output
-            console.log = function() {};
-
             assert.doesNotThrow(function () {
                 cli.execute(["-c", code, "lib/cli.js"]);
             });
-
-            console.log = log;
         });
     });
 
@@ -37,11 +40,6 @@ describe("cli", function() {
         var code = ["lib/cli.js"];
 
         it("should load the local config file", function() {
-            var log = console.log;
-
-            // Assign console.log to noop to skip CLI output
-            console.log = function() {};
-
             // Mock CWD
             process.eslintCwd = path.resolve(__dirname, "..", "fixtures", "configurations", "single-quotes");
 
@@ -52,7 +50,6 @@ describe("cli", function() {
             cli.execute(code);
 
             process.eslintCwd = null;
-            console.log = log;
         });
     });
 
@@ -60,16 +57,11 @@ describe("cli", function() {
         var code = ["--config", "tests/fixtures/configurations/quotes-error.json", "single-quoted.js"];
 
         it("should exit with an error status (1)", function() {
-            var log = console.log,
-                exitStatus;
-
-            // Assign console.log to noop to skip CLI output
-            console.log = function() {};
+            var exitStatus;
 
             assert.doesNotThrow(function () {
                 exitStatus = cli.execute(code);
             });
-            console.log = log;
 
             assert.equal(exitStatus, 1);
         });
@@ -79,16 +71,11 @@ describe("cli", function() {
         var code = ["--config","tests/fixtures/configurations/semi-error.json", "tests/fixtures/formatters"];
 
         it("should load and execute without error", function() {
-            var log = console.log,
-                exitStatus;
-
-            // Assign console.log to noop to skip CLI output
-            console.log = function() {};
+            var exitStatus;
 
             assert.doesNotThrow(function () {
                 exitStatus = cli.execute(code);
             });
-            console.log = log;
 
             assert.equal(exitStatus, 0);
         });
@@ -98,14 +85,9 @@ describe("cli", function() {
         var code = ["--config", "tests/fixtures/configurations/env-browser.json", "tests/fixtures/globals-browser.js"];
 
         it("should execute without any errors", function() {
-            var log = console.log;
-
-            // Assign console.log to noop to skip CLI output
-            console.log = function() {};
             var exit = cli.execute(code);
-            assert.equal(exit, 0);
 
-            console.log = log;
+            assert.equal(exit, 0);
         });
     });
 
@@ -113,14 +95,9 @@ describe("cli", function() {
         var code = ["--config", "tests/fixtures/configurations/env-node.json", "tests/fixtures/globals-node.js"];
 
         it("should execute without any errors", function() {
-            var log = console.log;
-
-            // Assign console.log to noop to skip CLI output
-            console.log = function() {};
             var exit = cli.execute(code);
-            assert.equal(exit, 0);
 
-            console.log = log;
+            assert.equal(exit, 0);
         });
     });
 
@@ -128,15 +105,9 @@ describe("cli", function() {
         var code = "checkstyle";
 
         it("should execute without any errors", function() {
-            var log = console.log;
-
-            // Assign console.log to noop to skip CLI output
-            console.log = function() {};
-
             var exit = cli.execute(["-f", code, "tests/fixtures/passing.js"]);
-            assert.equal(exit, 0);
 
-            console.log = log;
+            assert.equal(exit, 0);
         });
     });
 
@@ -144,15 +115,9 @@ describe("cli", function() {
         var code = "fakeformatter";
 
         it("should execute with error", function() {
-            var log = console.log;
-
-            // Assign console.log to noop to skip CLI output
-            console.log = function() {};
-
             var exit = cli.execute(["-f", code, "tests/fixtures/passing.js"]);
-            assert.equal(exit, 1);
 
-            console.log = log;
+            assert.equal(exit, 1);
         });
     });
 
@@ -160,15 +125,9 @@ describe("cli", function() {
         var code = "tests/fixtures/formatters/simple.js";
 
         it("should execute without any errors", function() {
-            var log = console.log;
-
-            // Assign console.log to noop to skip CLI output
-            console.log = function() {};
-
             var exit = cli.execute(["-f", code, "tests/fixtures/passing.js"]);
-            assert.equal(exit, 0);
 
-            console.log = log;
+            assert.equal(exit, 0);
         });
     });
 
@@ -176,15 +135,9 @@ describe("cli", function() {
         var code = "tests/fixtures/formatters/file-does-not-exist.js";
 
         it("should execute with error", function() {
-            var log = console.log;
-
-            // Assign console.log to noop to skip CLI output
-            console.log = function() {};
-
             var exit = cli.execute(["-f", code, "tests/fixtures/passing.js"]);
-            assert.equal(exit, 1);
 
-            console.log = log;
+            assert.equal(exit, 1);
         });
     });
 
@@ -192,15 +145,9 @@ describe("cli", function() {
         var code = "tests/fixtures/configurations/semi-error.js";
 
         it("should execute with error", function() {
-            var log = console.log;
-
-            // Assign console.log to noop to skip CLI output
-            console.log = function() {};
-
             var exit = cli.execute([code]);
-            assert.equal(exit, 1);
 
-            console.log = log;
+            assert.equal(exit, 1);
         });
     });
 
@@ -208,24 +155,34 @@ describe("cli", function() {
         var code = ["tests/fixtures/missing-semicolon.js", "tests/fixtures/passing.js"];
 
         it("should not print the results from previous execution", function() {
-            var results = "",
-                log = console.log;
-
-            // Collect the CLI output.
-            console.log = function(msg) {
-                results += msg;
-            };
-
             cli.execute([code[0]]);
-            assert.notEqual(results, "");
+            assert.isTrue(console.log.called);
 
-            // Reset results collected between executions.
-            results = "";
+            console.log.reset();
 
             cli.execute([code[1]]);
-            assert.equal(results, "");
+            assert.isTrue(console.log.alwaysCalledWith(""));
 
-            console.log = log;
+        });
+    });
+
+    describe("when executing with version flag", function() {
+        var code = "-v";
+
+        it ("should print out current version", function() {
+            cli.execute([code]);
+
+            assert.equal(console.log.callCount, 1);
+        });
+    });
+
+    describe("when executing with help flag", function() {
+        var code = "-h";
+
+        it("should print out help", function() {
+            cli.execute([code]);
+
+            assert.equal(console.log.callCount, 1);
         });
     });
 });
