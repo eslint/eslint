@@ -135,18 +135,6 @@ describe("eslint", function() {
     describe("when calling getTokens", function() {
         var code = TEST_CODE;
 
-        it("should retrieve all tokens when used without parameters", function() {
-            var config = { rules: {} };
-
-            eslint.reset();
-            eslint.on("Program", function() {
-                var tokens = eslint.getTokens();
-                assert.equal(tokens.length, 7);
-            });
-
-            eslint.verify(code, config, true);
-        });
-
         it("should retrieve all tokens for root node", function() {
             var config = { rules: {} };
 
