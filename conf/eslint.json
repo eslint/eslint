@@ -27,6 +27,7 @@
         "no-func-assign": 2,
         "no-floating-decimal": 0,
         "no-implied-eval": 2,
+        "no-invalid-regexp": 2,
         "no-with": 2,
         "no-fallthrough": 2,
         "no-global-strict": 2,
