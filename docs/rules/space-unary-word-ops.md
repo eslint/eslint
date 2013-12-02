@@ -1,6 +1,6 @@
-# GH-332
+# space unary word operators
 
-Require spaces following unary word operators and keywords that precede expressions
+Require spaces following unary word operators.
 
 ## Rule Details
 
@@ -11,11 +11,15 @@ typeof!a
 ```
 
 ```js
-void[a]
+void{a:0}
 ```
 
 ```js
-throw{a:0}
+new[a][0]
+```
+
+```js
+delete(a.b)
 ```
 
 The following patterns are not considered warnings:
@@ -26,4 +30,8 @@ delete a.b
 
 ```js
 new C
+```
+
+```js
+void 0
 ```
