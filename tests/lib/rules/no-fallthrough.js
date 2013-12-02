@@ -26,7 +26,8 @@ eslintTester.addRuleTest("no-fallthrough", {
         "switch(foo) { case 0: case 1: a(); }",
         "switch(foo) { case 0: case 1: a(); break; }",
         "switch(foo) { case 0: case 1: break; }",
-        "switch(foo) { }"
+        "switch(foo) { }",
+        "function foo() { switch(foo) { case 0: switch(bar) { case 1: break; case 2: break; } /* falls through */ case 3: return; } }"
     ],
     invalid: [
         { code: "switch(foo) { case 0: a(); case 1: b() }", errors: [{ message: "No fall-through without explicit comment.", type: "SwitchCase"}] }
