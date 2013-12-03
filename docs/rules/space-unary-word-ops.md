@@ -1,4 +1,4 @@
-# space unary word operators
+# Require spaces following unary word operators
 
 Require spaces following unary word operators.
 
