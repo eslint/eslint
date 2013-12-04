@@ -22,6 +22,7 @@ eslintTester.addRuleTest("no-unused-expressions", {
         "f(); g()",
         "i++",
         "delete foo.bar",
+        "void new C",
         "\"use strict\";",
         "function foo() {\"use strict\"; return true; }",
         "function foo() { var foo = \"use strict\"; return true; }"
@@ -36,7 +37,6 @@ eslintTester.addRuleTest("no-unused-expressions", {
         { code: "foo.bar;", errors: [{ message: "Expected an assignment or function call and instead saw an expression.", type: "ExpressionStatement"}] },
         { code: "!a", errors: [{ message: "Expected an assignment or function call and instead saw an expression.", type: "ExpressionStatement"}] },
         { code: "+a", errors: [{ message: "Expected an assignment or function call and instead saw an expression.", type: "ExpressionStatement"}] },
-        { code: "void a", errors: [{ message: "Expected an assignment or function call and instead saw an expression.", type: "ExpressionStatement"}] },
         { code: "function foo() { var foo = true; \"use strict\"; }", errors: [{ message: "Expected an assignment or function call and instead saw an expression.", type: "ExpressionStatement"}] }
     ]
 });
