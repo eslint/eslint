@@ -43,3 +43,11 @@ a = 0
 ```js
 new C
 ```
+
+```js
+delete a.b
+```
+
+```js
+void a
+```
