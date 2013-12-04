@@ -49,4 +49,33 @@ describe("util", function() {
             assert.isTrue(result.env.browser);
         });
     });
+    describe("when merging two configs with arrays", function() {
+        var code = [
+            { rules: { "no-mixed-requires": [0, false] } },
+            { rules: { "no-mixed-requires": [1, true] } }
+        ];
+
+        it("should combine configs and override rules", function() {
+            var result = util.mergeConfigs(code[0], code[1]);
+
+            assert.isArray(result.rules["no-mixed-requires"]);
+            assert.equal(result.rules["no-mixed-requires"][0], 1);
+            assert.equal(result.rules["no-mixed-requires"][1], true);
+        });
+    });
+
+    describe("when merging two configs with arrays and int", function() {
+        var code = [
+            { rules: { "no-mixed-requires": [0, false] } },
+            { rules: { "no-mixed-requires": 1 } }
+        ];
+
+        it("should combine configs and override rules", function() {
+            var result = util.mergeConfigs(code[0], code[1]);
+
+            assert.isArray(result.rules["no-mixed-requires"]);
+            assert.equal(result.rules["no-mixed-requires"][0], 1);
+            assert.equal(result.rules["no-mixed-requires"][1], false);
+        });
+    });
 });
