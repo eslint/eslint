@@ -73,12 +73,12 @@ In either case, the settings in the configuration file override default settings
 
 You can use comments to configure rules per file. Any rule that can be configured through the configuration file can also be configured through comments for a given script file. Comments need to be in the following format:
 
-    /* eslint no-alert: 0 */
+    /*eslint no-alert: 0 */
 
 You can also configure rules that accept parameters:
 
-    /* no-mixed-requires: [1, false] */
+    /*eslint no-mixed-requires: [1, false] */
 
 Or if you just want to turn off the rule that accepts parameters:
 
-    /* no-mixed-requires: 0 */
+    /*eslint no-mixed-requires: 0 */
