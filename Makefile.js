@@ -87,7 +87,7 @@ target.lint = function() {
     exec(JSON_LINT + "-q -c " + JSON_FILES);
 
     echo("Validating JavaScript files");
-    exec(ESLINT + JS_FILES);
+    exec(JSHINT + JS_FILES);
 };
 
 target.test = function() {
