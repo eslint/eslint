@@ -695,6 +695,58 @@ describe("eslint", function() {
         });
     });
 
+    describe("when evaluating code with comments to enable configurable rule", function() {
+        var code = "/*eslint quotes:[2, \"double\"]*/ alert('test');";
+
+        it("should report a violation", function() {
+            var config = { rules: { "quotes" : [2, "single"] } };
+
+            var messages = eslint.verify(code, config);
+            assert.equal(messages.length, 1);
+            assert.equal(messages[0].ruleId, "quotes");
+            assert.equal(messages[0].message, "Strings must use doublequote.");
+            assert.include(messages[0].node.type, "Literal");
+        });
+    });
+
+    describe("when evaluating code with incorrectly formatted comments to disable rule", function() {
+        it("should report a violation", function() {
+            var code = "/*eslint no-alert:'1'*/ alert('test');";
+
+            var config = { rules: { "no-alert" : 1} };
+
+            var messages = eslint.verify(code, config);
+            assert.equal(messages.length, 1);
+            assert.equal(messages[0].ruleId, "no-alert");
+            assert.equal(messages[0].message, "Unexpected alert.");
+            assert.include(messages[0].node.type, "CallExpression");
+        });
+
+        it("should report a violation", function() {
+            var code = "/*eslint no-alert:abc*/ alert('test');";
+
+            var config = { rules: { "no-alert" : 1} };
+
+            var messages = eslint.verify(code, config);
+            assert.equal(messages.length, 1);
+            assert.equal(messages[0].ruleId, "no-alert");
+            assert.equal(messages[0].message, "Unexpected alert.");
+            assert.include(messages[0].node.type, "CallExpression");
+        });
+
+        it("should report a violation", function() {
+            var code = "/*eslint no-alert:0 2*/ alert('test');";
+
+            var config = { rules: { "no-alert" : 1} };
+
+            var messages = eslint.verify(code, config);
+            assert.equal(messages.length, 1);
+            assert.equal(messages[0].ruleId, "no-alert");
+            assert.equal(messages[0].message, "Unexpected alert.");
+            assert.include(messages[0].node.type, "CallExpression");
+        });
+    });
+
     describe("when evaluating broken code", function() {
         var code = BROKEN_TEST_CODE;
 

@@ -68,3 +68,17 @@ Passing in the configuration file in this manner will override any default setti
 The second way to use configuration files is via `.eslintrc` files. These files you place directly into your project directory and ESLint will automatically find them and read configuration information from them. This option is useful when you want different configurations for different parts of a project or when you want others to be able to use ESLint directly without needing to remember to pass in the configuration file.
 
 In either case, the settings in the configuration file override default settings.
+
+## Using Comments To Configure Rules
+
+You can use comments to configure rules per file. Any rule that can be configured through the configuration file can also be configured through comments for a given script file. Comments need to be in the following format:
+
+    /*eslint no-alert: 0 */
+
+You can also configure rules that accept parameters:
+
+    /*eslint no-mixed-requires: [1, false] */
+
+Or if you just want to turn off the rule that accepts parameters:
+
+    /*eslint no-mixed-requires: 0 */
