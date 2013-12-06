@@ -9,15 +9,12 @@
 
 var eslintTester = require("../../../lib/tests/eslintTester");
 
-function invalid(code, type) {
-    return D
-}
-
 eslintTester.addRuleTest("space-return-throw-case", {
     valid: [
         "function f(){ return; }",
         "function f(){ return f; }",
         "switch(a){ case 0: break; }",
+        "switch(a){ default: break; }",
         "throw a"
     ],
     invalid: [
