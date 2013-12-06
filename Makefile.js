@@ -35,8 +35,8 @@ function fileType(extension) {
  */
 function release(type) {
     exec("npm version " + type);
-    exec("git push origin master --tags");
     target.changelog();
+    exec("git push origin master --tags");
 }
 
 //------------------------------------------------------------------------------
