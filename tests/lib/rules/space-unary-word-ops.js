@@ -9,10 +9,6 @@
 
 var eslintTester = require("../../../lib/tests/eslintTester");
 
-function invalid(code, type) {
-    return D
-}
-
 eslintTester.addRuleTest("space-unary-word-ops", {
     valid: [
         "delete a.b",

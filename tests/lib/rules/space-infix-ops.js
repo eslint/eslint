@@ -9,10 +9,6 @@
 
 var eslintTester = require("../../../lib/tests/eslintTester");
 
-function invalid(code, type) {
-    return D
-}
-
 eslintTester.addRuleTest("space-infix-ops", {
     valid: [
         "a + b",
