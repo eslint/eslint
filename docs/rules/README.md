@@ -77,6 +77,7 @@ These rules are purely matters of style and are quite subjective.
 * [complexity](complexity.md) - specify the maximum cyclomatic complexity allowed in a program
 * [new-parens](new-parens.md) - disallow the omission of parentheses when invoking a contructor with no arguments
 * [no-spaced-func](no-spaced-func.md) - disallow space between function identifier and application
+* [quotes](quotes.md) - specify whether double or single quotes should be used
 * [wrap-regex](wrap-regex.md) - require regex literals to be wrapped in parentheses
 
 ## Legacy
