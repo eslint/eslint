@@ -1,0 +1,47 @@
+/**
+ * @fileoverview Require spaces around infix operators
+ * @author Michael Ficarra
+ */
+
+//------------------------------------------------------------------------------
+// Requirements
+//------------------------------------------------------------------------------
+
+var eslintTester = require("../../../lib/tests/eslintTester");
+
+eslintTester.addRuleTest("space-infix-ops", {
+    valid: [
+        "a + b",
+        "a     + b",
+        "(a) + (b)",
+        "a + (b)",
+        "a + +(b)",
+        "a + (+(b))",
+        "(a + b) + (c + d)",
+        "a = b",
+        "a ? b : c",
+        "a, b" // sequences need only be spaced on the right
+    ],
+    invalid: [
+        { code: "a+b", errors: [{ message: "Infix operators must be spaced.", type: "BinaryExpression" }] },
+        { code: "a +b", errors: [{ message: "Infix operators must be spaced.", type: "BinaryExpression" }] },
+        { code: "a+ b", errors: [{ message: "Infix operators must be spaced.", type: "BinaryExpression" }] },
+        { code: "a||b", errors: [{ message: "Infix operators must be spaced.", type: "LogicalExpression" }] },
+        { code: "a ||b", errors: [{ message: "Infix operators must be spaced.", type: "LogicalExpression" }] },
+        { code: "a|| b", errors: [{ message: "Infix operators must be spaced.", type: "LogicalExpression" }] },
+        { code: "a=b", errors: [{ message: "Infix operators must be spaced.", type: "AssignmentExpression" }] },
+        { code: "a= b", errors: [{ message: "Infix operators must be spaced.", type: "AssignmentExpression" }] },
+        { code: "a =b", errors: [{ message: "Infix operators must be spaced.", type: "AssignmentExpression" }] },
+        { code: "a,b", errors: [{ message: "Infix operators must be spaced.", type: "SequenceExpression" }] },
+        { code: "a,b,c", errors: [{ message: "Infix operators must be spaced.", type: "SequenceExpression" }] },
+        { code: "a ,b", errors: [{ message: "Infix operators must be spaced.", type: "SequenceExpression" }] },
+        { code: "a, b,c", errors: [{ message: "Infix operators must be spaced.", type: "SequenceExpression" }] },
+        { code: "a?b:c", errors: [{ message: "Infix operators must be spaced.", type: "ConditionalExpression" }] },
+        { code: "a?b : c", errors: [{ message: "Infix operators must be spaced.", type: "ConditionalExpression" }] },
+        { code: "a ? b:c", errors: [{ message: "Infix operators must be spaced.", type: "ConditionalExpression" }] },
+        { code: "a? b : c", errors: [{ message: "Infix operators must be spaced.", type: "ConditionalExpression" }] },
+        { code: "a ?b : c", errors: [{ message: "Infix operators must be spaced.", type: "ConditionalExpression" }] },
+        { code: "a ? b: c", errors: [{ message: "Infix operators must be spaced.", type: "ConditionalExpression" }] },
+        { code: "a ? b :c", errors: [{ message: "Infix operators must be spaced.", type: "ConditionalExpression" }] }
+    ]
+});
