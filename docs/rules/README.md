@@ -70,6 +70,7 @@ These rules are purely matters of style and are quite subjective.
 * [quote-props](quote-props.md) - require quotes around object literal property names
 * [semi] - require use of semicolons instead of relying on ASI
 * [no-ternary](no-ternary.md) - disallow the use of ternary operators
+* [no-nested-ternary](no-nested-ternary.md) - disallow nested ternary expressions
 * [consistent-this](consistent-this.md) - enforces consistent naming when capturing the current execution context (off by default).
 * [one-var](one-var.md) - disallow multiple variable declaration statements in a function scope
 * [no-mixed-requires](no-mixed-requires.md) - disallow mixing regular variable and require declarations
