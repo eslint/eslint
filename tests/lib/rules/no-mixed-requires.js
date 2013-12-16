@@ -24,8 +24,8 @@ eslintTester.addRuleTest("no-mixed-requires", {
         { code: "var emitter = require('events').EventEmitter, fs = require('fs')", args: [1, false] },
         { code: "var foo = require(42), bar = require(getName())", args: [1, false] },
         { code: "var foo = require(42), bar = require(getName())", args: [1, true] },
-        { code: "var foo = require('foo'), bar = require(getName())", args: [1, false] }
-
+        { code: "var foo = require('foo'), bar = require(getName())", args: [1, false] },
+        { code: "var a;", args: [1, true] }
     ],
     invalid: [
         { code: "var fs = require('fs'), foo = 42", args: [1, false], errors: [{ message: "Do not mix 'require' and other declarations.", type: "VariableDeclaration"}] },
