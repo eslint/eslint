@@ -49,6 +49,26 @@ describe("formatter:checkstyle", function() {
         });
     });
 
+    describe("when passed a message with XML control characters", function() {
+        var code = [{
+            filePath: "<>&\"'.js",
+            messages: [{
+                fatal: true,
+                message: "Unexpected <>&\"'.",
+                line: '<',
+                column: '>',
+                ruleId: "rule-<>&\"'"
+            }]
+        }];
+
+        it("should return a string in the format filename: line x, col y, Error - z", function() {
+            var config = {};    // doesn't matter what's in the config for this test
+
+            var result = formatter(code, config);
+            assert.equal("<?xml version=\"1.0\" encoding=\"utf-8\"?><checkstyle version=\"4.3\"><file name=\"&lt;&gt;&amp;&quot;&apos;.js\"><error line=\"&lt;\" column=\"&gt;\" severity=\"error\" message=\"Unexpected &lt;&gt;&amp;&quot;&apos;.\" /></file></checkstyle>", result);
+        });
+    });
+
     describe("when passed a fatal error message", function() {
         var code = [{
             filePath: "foo.js",
