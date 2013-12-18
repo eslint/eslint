@@ -7,6 +7,26 @@ Variables that are only declared and not used anywhere in the code are unnecessa
 
 This error occurs when a variable is declared but never used
 
+### Options
+
+By default this rule is enabled with "local" option.
+```
+{
+    "rules": {
+        "no-unused-vars": [2, "local"]
+    }
+}
+```
+ This will check that all local variables are used, but it will allow global variables to be unused.
+"All" option will disable this behavior and will not allow any variables to be unused.
+```
+{
+    "rules": {
+        "no-unused-vars": [2, "all"],
+    }
+}
+```
+
 The following patterns are considered warnings:
 
 ```js

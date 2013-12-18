@@ -57,7 +57,7 @@
         "no-underscore-dangle": 2,
         "no-loop-func": 2,
         "no-empty-label": 2,
-        "no-unused-vars": 2,
+        "no-unused-vars": [2, "local"],
         "no-script-url": 2,
         "no-proto": 2,
         "no-iterator": 2,
