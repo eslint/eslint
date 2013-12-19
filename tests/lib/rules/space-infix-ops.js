@@ -20,7 +20,8 @@ eslintTester.addRuleTest("space-infix-ops", {
         "(a + b) + (c + d)",
         "a = b",
         "a ? b : c",
-        "a, b" // sequences need only be spaced on the right
+        "a, b", // sequences need only be spaced on the right
+        "var a = b"
     ],
     invalid: [
         { code: "a+b", errors: [{ message: "Infix operators must be spaced.", type: "BinaryExpression" }] },
@@ -42,6 +43,10 @@ eslintTester.addRuleTest("space-infix-ops", {
         { code: "a? b : c", errors: [{ message: "Infix operators must be spaced.", type: "ConditionalExpression" }] },
         { code: "a ?b : c", errors: [{ message: "Infix operators must be spaced.", type: "ConditionalExpression" }] },
         { code: "a ? b: c", errors: [{ message: "Infix operators must be spaced.", type: "ConditionalExpression" }] },
-        { code: "a ? b :c", errors: [{ message: "Infix operators must be spaced.", type: "ConditionalExpression" }] }
+        { code: "a ? b :c", errors: [{ message: "Infix operators must be spaced.", type: "ConditionalExpression" }] },
+        { code: "var a=b;", errors: [{ message: "Infix operators must be spaced.", type: "VariableDeclarator" }] },
+        { code: "var a= b;", errors: [{ message: "Infix operators must be spaced.", type: "VariableDeclarator" }] },
+        { code: "var a =b;", errors: [{ message: "Infix operators must be spaced.", type: "VariableDeclarator" }] },
+        { code: "var a = b, c=d;", errors: [{ message: "Infix operators must be spaced.", type: "VariableDeclarator" }] }
     ]
 });
