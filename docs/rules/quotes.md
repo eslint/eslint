@@ -9,9 +9,11 @@ var double = "double";
 var single = 'single';
 ```
 
+The third parameter enables an exception to the rule to avoid escaping quotes. For example, when `"single"` is the standard, this option allows the use of double quotes to avoid escaping single quotes. This option can have the value `"allow-avoiding-escaped-quotes"` and is off by default.
+
 ## Rule Details
 
-This rule will throw warnings when the wrong type of quote is used
+This rule will throw warnings when the wrong type of quote is used.
 
 The following patterns are considered warnings:
 
@@ -20,6 +22,12 @@ The following patterns are considered warnings:
 var single = 'single';
 
 // When [1, "single"]
+var double = "double";
+
+// When [1, "double", "allow-avoiding-escaped-quotes"]
+var single = 'single';
+
+// When [1, "single", "allow-avoiding-escaped-quotes"]
 var double = "double";
 ```
 
@@ -31,4 +39,11 @@ var double = "double";
 
 // When [1, "single"]
 var single = 'single';
+
+// When [1, "double", "allow-avoiding-escaped-quotes"]
+var single = 'a string containing "double" quotes';
+
+// When [1, "single", "allow-avoiding-escaped-quotes"]
+var double = "a string containing 'single' quotes";
 ```
+

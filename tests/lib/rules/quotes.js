@@ -14,14 +14,22 @@ eslintTester.addRuleTest("quotes", {
         {code: "var foo = 'bar';", args: [1, "single"] },
         {code: "var foo = \"bar\";", args: [1, "double"] },
         { code: "var foo = 1;", args: [1, "single"] },
-        { code: "var foo = 1;", args: [1, "double"] }
-           ],
+        { code: "var foo = 1;", args: [1, "double"] },
+        { code: "var foo = \"'\";", args: [1, "single", "allow-avoiding-escaped-quotes"] },
+        { code: "var foo = '\"';", args: [1, "double", "allow-avoiding-escaped-quotes"] }
+    ],
     invalid: [
         { code: "var foo = \"bar\";",
           args: [1, "single"],
           errors: [{ message: "Strings must use singlequote.", type: "Literal"}] },
         { code: "var foo = 'bar';",
           args: [1, "double"],
-          errors: [{ message: "Strings must use doublequote.", type: "Literal"}] }
+          errors: [{ message: "Strings must use doublequote.", type: "Literal"}] },
+        { code: "var foo = \"bar\";",
+          args: [1, "single", "allow-avoiding-escaped-quotes"],
+          errors: [{ message: "Strings must use singlequote.", type: "Literal" }]},
+        { code: "var foo = 'bar';",
+          args: [1, "double", "allow-avoiding-escaped-quotes"],
+          errors: [{ message: "Strings must use doublequote.", type: "Literal" }]}
     ]
 });
