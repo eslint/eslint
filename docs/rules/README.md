@@ -30,18 +30,18 @@ These are rules designed to prevent you from making mistakes. They either prescr
 * [no-eval](no-eval.md) - disallow use of `eval()`
 * [no-with](no-with.md) - disallow use of the `with` statement
 * [no-undef](no-undef.md) - disallow use of undeclared variables unless mentioned in a `/*global */` block
-* [no-undef-init] - disallow use of undefined when initializing variables
-* [no-floating-decimal] - disallow the use of leading or trailing decimal points in numeric literals
-* [no-octal] - disallow use of octal literals
-* [no-octal-escape] - disallow use of octal escape sequences in string literals, such as `var foo = "Copyright \251";`
+* [no-undef-init](no-undef-init.md) - disallow use of undefined when initializing variables
+* [no-floating-decimal](no-floating-decimal) - disallow the use of leading or trailing decimal points in numeric literals
+* [no-octal](no-octal.md) - disallow use of octal literals
+* [no-octal-escape](no-octal-escape) - disallow use of octal escape sequences in string literals, such as `var foo = "Copyright \251";`
 * [no-new](no-new.md) - disallow use of new operator when not part of the assignment or comparison
-* [no-new-func] - disallow use of new operator for `Function` object
-* [no-native-reassign] - disallow reassignments of native objects
+* [no-new-func](no-new-func.md) - disallow use of new operator for `Function` object
+* [no-native-reassign](no-native-reassign.md) - disallow reassignments of native objects
 * [no-delete-var](no-delete-var.md) - disallow deletion of variables
-* [no-return-assign] - disallow use of assignment in return statement
+* [no-return-assign](no-return-assign.md) - disallow use of assignment in return statement
 * [no-label-var](no-label-var.md) - disallow labels that share a name with a variable
 * [wrap-iife](wrap-iife.md) - require immediate function invocation to be wrapped in parentheses
-* [no-self-compare] - disallow comparisons where both sides are exactly the same
+* [no-self-compare](no-self-compare.md) - disallow comparisons where both sides are exactly the same
 * [no-eq-null](no-eq-null.md) - disallow comparisons to null without a type-checking operator
 * [no-multi-str](no-multi-str.md) - disallow use of multiline strings
 * [no-loop-func](no-loop-func.md) - disallow creation of functions within loops
@@ -68,7 +68,7 @@ These rules are purely matters of style and are quite subjective.
 * [camelcase](camelcase.md) - require camel case names
 * [new-cap](new-cap.md) - require a capital letter for constructors
 * [quote-props](quote-props.md) - require quotes around object literal property names
-* [semi] - require use of semicolons instead of relying on ASI
+* [semi](semi.md) - require use of semicolons instead of relying on ASI
 * [no-ternary](no-ternary.md) - disallow the use of ternary operators
 * [no-nested-ternary](no-nested-ternary.md) - disallow nested ternary expressions
 * [consistent-this](consistent-this.md) - enforces consistent naming when capturing the current execution context (off by default).

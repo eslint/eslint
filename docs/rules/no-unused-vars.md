@@ -1,31 +1,11 @@
-# No unused variables
+# Disallow Unused Variables
 
-Variables that are only declared and not used anywhere in the code are unnecessary complicating code base.
-
+Variables that are declared and not used anywhere in the code are most likely an error due to incomplete refactoring. Such variables take up space in the code and can lead to confusion by readers.
 
 ## Rule Details
 
-This error occurs when a variable is declared but never used
+This error occurs when a variable is declared but never used.
 
-### Options
-
-By default this rule is enabled with "local" option.
-```
-{
-    "rules": {
-        "no-unused-vars": [2, "local"]
-    }
-}
-```
- This will check that all local variables are used, but it will allow global variables to be unused.
-"All" option will disable this behavior and will not allow any variables to be unused.
-```
-{
-    "rules": {
-        "no-unused-vars": [2, "all"],
-    }
-}
-```
 
 The following patterns are considered warnings:
 
@@ -66,4 +46,24 @@ function B(x, y) {
 var b = new B(1, 2);
 
 b.getY();
+```
+
+### Options
+
+By default this rule is enabled with "local" option.
+```
+{
+    "rules": {
+        "no-unused-vars": [2, "local"]
+    }
+}
+```
+ This will check that all local variables are used, but it will allow global variables to be unused.
+"All" option will disable this behavior and will not allow any variables to be unused.
+```
+{
+    "rules": {
+        "no-unused-vars": [2, "all"],
+    }
+}
 ```

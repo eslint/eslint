@@ -1,4 +1,4 @@
-# max statements
+# Limit Maximum Number of Statements
 
 The `max-statements` rule allows you to specify the maximum number statements allow in a function.
 

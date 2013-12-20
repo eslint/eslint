@@ -1,6 +1,6 @@
-# no ternary
+# Disallow Ternary Operators
 
-Some people believe that the use of ternary operators leads to unclear code. The `no-ternary` rule disallows the use of ternary operators.
+The ternary operator is used to conditionally assign a value to a variable. Some believe that the use of ternary operators leads to unclear code. 
 
 ```js
 var foo = isBar ? baz : qux;
@@ -8,7 +8,7 @@ var foo = isBar ? baz : qux;
 
 ## Rule Details
 
-The `no-ternary` rule aims to increase the clarity and readability of code by disallowing the use of ternary operators.
+The `no-ternary` rule aims to disallow the use of ternary operators.
 
 The following patterns are considered warnings:
 
@@ -28,22 +28,22 @@ The following patterns are considered okay and could be used alternatively:
 var foo;
 
 if (isBar) {
-  foo = baz;
+    foo = baz;
 } else {
-  foo = qux;
+    foo = qux;
 }
 
 if (foo) {
-  bar();
+    bar();
 } else {
-  baz();
+    baz();
 }
 
 function quux() {
-  if (foo) {
-    return bar;
-  } else {
-    return baz;
-  }
+    if (foo) {
+        return bar;
+    } else {
+        return baz;
+    }
 }
 ```

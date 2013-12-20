@@ -1,4 +1,4 @@
-# No Empty Block Statements
+# Disallow Empty Block Statements
 
 Empty statements usually occur due to refactoring that wasn't completed. You may end up with empty statements inside of blocks or `switch`, or by having too many semicolons in a row.
 

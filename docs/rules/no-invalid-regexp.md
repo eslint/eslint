@@ -1,4 +1,4 @@
-# no invalid regexp
+# Disallow Invalid Regular Expressions
 
 This rule validates string arguments passed to the `RegExp` constructor.
 

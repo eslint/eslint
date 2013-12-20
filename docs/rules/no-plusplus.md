@@ -1,4 +1,4 @@
-# no plusplus
+# Disallow ++ and --
 
 The `no-plusplus` rule flags the use of unary operators, `++` and `--`.
 

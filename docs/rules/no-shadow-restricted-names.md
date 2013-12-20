@@ -1,8 +1,12 @@
-# no shadow restricted names
+# Disallow Shadowing of Restricted Names
 
-Disallow shadowing of ES5 §15.1.1 Value Properties of the Global Object (`NaN`,
-`Infinity`, `undefined`) as well as strict mode restricted identifiers `eval`
-and `arguments`.
+ES5 §15.1.1 Value Properties of the Global Object (`NaN`, `Infinity`, `undefined`) as well as strict mode restricted identifiers `eval` and `arguments` are considered to be restricted names in JavaScript. Defining them to mean something else can have unintended consequences and confuse others reading the code. For example, there's nothing prevent you from writing:
+
+```js
+var undefined = "foo";
+```
+
+Then any code used within the same scope would not get the global `undefined`, but rather the local version with a very different meaning.
 
 ## Rule Details
 

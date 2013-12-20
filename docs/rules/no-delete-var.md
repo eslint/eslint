@@ -1,4 +1,4 @@
-# Variables should not be deleted
+# Disallow Variables Deletion
 
 This rule prevents the use of `delete` operator on variables:
 

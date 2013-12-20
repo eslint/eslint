@@ -1,4 +1,4 @@
-# No global object function calls
+# Disallow Global Object Function Calls
 
 This rule prevents the use of object properties of the global object (`Math` and `JSON`) as functions:
 
@@ -9,7 +9,7 @@ var y = JSON();
 
 The [ES5 spec](http://es5.github.io/#x15.8) makes it clear that both `Math` and `JSON` cannot be invoked:
 
-> The Math object does not have a [[Call]] internal property; it is not possible to invoke the Math object as a function.
+> The Math object does not have a `[[Call]]` internal property; it is not possible to invoke the Math object as a function.
 
 ## Further Reading
 

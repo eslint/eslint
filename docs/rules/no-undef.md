@@ -1,45 +1,48 @@
-# no-undef
+# Disallow Undeclared Variables
 
-Any reference to an undeclared variable causes a warning, unless the variable is explicitly mentioned in a
-```/*global ...*/``` comment. This rule provides compatibility with [JSHint](http://www.jshint.com)'s and 
-[JSLint](http://www.jslint.com)'s treatment of global variables.
+Any reference to an undeclared variable causes a warning, unless the variable is explicitly mentioned in a `/*global ...*/` comment. This rule provides compatibility with [JSHint](http://www.jshint.com)'s and [JSLint](http://www.jslint.com)'s treatment of global variables.
 
-This rule can help you locate potential ReferenceErrors resulting from mispellings of variable and parameter names,
-or accidental implicit globals (for example, from forgetting the ```var``` keyword in a ```for``` loop initializer).
+This rule can help you locate potential ReferenceErrors resulting from mispellings of variable and parameter names, or accidental implicit globals (for example, from forgetting the `var` keyword in a `for` loop initializer).
 
 ## Rule Details
-The following code causes 2 warnings, as the globals ```someFunction``` and ```b``` have not been declared.
+
+The following code causes 2 warnings, as the globals `someFunction` and `b` have not been declared.
+
 ```js
 var a = someFunction();  // 'someFunction' is not defined.
 b = 10;                  // 'b' is not defined.
 ```
 
-In this code, no warnings are generated, since the global variables have been properly declared in a ```/*global */``` block.
+In this code, no warnings are generated, since the global variables have been properly declared in a `/*global */` block.
+
 ```js
 /*global someFunction b:true*/
 var a = someFunction();
 b = 10;
 ```
 
-By default, variables declared in ```/*global */``` are considered read-only. Assignment to a read-only global
-causes a warning:
+By default, variables declared in `/*global */` are considered read-only. Assignment to a read-only global causes a warning:
+
 ```js
 /*global b*/
 b = 10;                  // 'b' is read only.
 ```
 
-Use the ```variable:true``` syntax to indicate that a variable can be assigned to.
+Use the `variable:true` syntax to indicate that a variable can be assigned to.
+
 ```js
 /*global b:true*/
 b = 10;
 ```
 
 ## Environments
-For convenience, JSHint and JSLint provide shortcuts that pre-define global variables exposed by popular libraries
-and runtime environments. This rule supports some of these environments, as listed below.
+
+For convenience, JSHint and JSLint provide shortcuts that pre-define global variables exposed by popular libraries and runtime environments. This rule supports some of these environments, as listed below.
 
 ### browser
-Defines common browser globals. Globals that should not be used in production (such as ```alert```, ```console```, etc) are not included.
+
+Defines common browser globals. Globals that should not be used in production (such as `alert`, `console`, etc) are not included.
+
 ```js
 /*jslint browser:true*/
 setTimeout(function() {
@@ -58,7 +61,9 @@ module.exports = function() {
 ```
 
 ## When Not To Use It
+
 If explicit declaration of global variables is not to your taste.
 
 ## Further Reading
+
 * ['{a}' is not defined](http://jslinterrors.com/a-is-not-defined/)

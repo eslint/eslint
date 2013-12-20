@@ -1,4 +1,4 @@
-# no label var
+# Disallow Labels That Are Variables Names
 
 ## Rule Details
 

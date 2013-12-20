@@ -1,4 +1,12 @@
-# no function constructor
+# Disallow Function Constructor
+
+It's possible to create functions in JavaScript using the `Function` constructor, such as:
+
+```js
+var x = new Function("a", "b", "return a + b");
+```
+
+This is considered by many to be a bad practice due to the difficult in debugging and reading these types of functions.
 
 ## Rule Details
 
@@ -18,7 +26,7 @@ var x = function (a, b) {
 
 ## When Not To Use It
 
-In more advanced cases where you really need to use the Function constructor
+In more advanced cases where you really need to use the `Function` constructor.
 
 ## Further Reading
 

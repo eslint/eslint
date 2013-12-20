@@ -1,6 +1,6 @@
-# wrap iife
+# Require IFFEs to be Wrapped
 
-Require immediate function invocation to be wrapped in parentheses
+Require immediate function invocation to be wrapped in parentheses.
 
 ```js
 var x = function () { return { y: 1 };}();

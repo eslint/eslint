@@ -1,6 +1,6 @@
-# block scoped var
+# Treat var as Block Scoped
 
-The `block-scoped-var` rule allows you to throw warnings when variables are used outside of their context binding. This emulates C-style block scope.
+The `block-scoped-var` rule generates warnings when variables are used outside of the block in which they were defined. This emulates C-style block scope.
 
 ```js
 function doSomething() {
@@ -52,3 +52,7 @@ function doSomething() {
 }
 ```
 
+## Further Reading
+
+* [JavaScript Scoping and Hoisting](http://www.adequatelygood.com/JavaScript-Scoping-and-Hoisting.html)
+* [var Hoisting](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/var#var_hoisting)

@@ -1,16 +1,10 @@
-# brace style
+# Require One True Brace Style
 
 One true brace style is a common coding style in JavaScript, in which the opening curly brace of a block is placed on the same line as its corresponding statement or declaration.
 
 ```js
-function foo()
-{
+function foo() {
   return true;
-}
-
-if (foo)
-{
-  bar();
 }
 ```
 

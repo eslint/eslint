@@ -1,13 +1,33 @@
-# No multiline strings
+# Disallow Multiline Strings
 
-This rule prevents the use of ES5 only feature that allows usage of multiline strings:
+It's possible to create multiline strings in JavaScript by using a slash before a newline, such as:
 
-```javascript
+```js
 var x = "Line 1 \
          Line 2";
 ```
 
-This feature is only supported in the browsers that can parse and process ES5. Older browsers will likely throw an exception when they try to parse this code.
+Some consider this to be a bad practice as it was an undocumented feature of JavaScript that was only formalized later.
+
+## Rule Details
+
+This rule is aimed at preventing the use of multiline strings. 
+
+The following generates a warning:
+
+```js
+var x = "Line 1 \
+         Line 2";
+```
+
+The following does not generate a warning:
+
+```javascript
+var x = "Line 1\n" +
+        "Line 2";
+```
+
+
 
 ## Further Reading
 

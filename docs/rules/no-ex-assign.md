@@ -1,4 +1,16 @@
-# no assignment of the exception parameter
+# Disallow Assignment of the Exception Parameter
+
+When an error is thrown an caught using a `catch` block, it's possible to accidentally (or purposely) overwrite the reference to the error. Such as:
+
+```js
+try {
+    // code
+} catch (e) { 
+    e = 10;
+}
+```
+
+This makes it impossible to track the error from that point on.
 
 
 ## Rule Details

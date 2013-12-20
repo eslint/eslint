@@ -1,4 +1,4 @@
-# eqeqeq
+# Require === and !==
 
 It is considered good practice to use the type-safe equality operators `===` and `!==` instead of their regular counterparts `==` and `!=`.
 

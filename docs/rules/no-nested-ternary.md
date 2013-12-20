@@ -1,4 +1,4 @@
-# no nested ternary
+# Disallow Nested Ternaries
 
 Nesting ternary expressions makes code unclear. The `no-nested-ternary` rule disallows the use of nested ternary expressions.
 

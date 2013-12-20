@@ -1,9 +1,18 @@
-# no assignment in conditional expressions
+# Disallow Assignment in Conditional Expressions
+
+It is uncommon to use an assignment operator inside of a conditional statement, such as:
+
+```js
+if (c = "f") {
+    // ...
+}
+```
+
+As such, assignment operators used in this context are frequently errors, where the developer meant to use a comparison operator instead.
 
 ## Rule Details
 
-This rule is aimed at eliminating ambiguous assignment operators found in 
-`if, while, and dowhile` conditional expressions.
+This rule is aimed at eliminating ambiguous assignment operators found in `if, while, and dowhile` conditional expressions.
 
 The following patterns are considered warnings:
 
@@ -53,10 +62,9 @@ for (i < 10; i += 1) {
 // line 2, col 20, Error - Unexpected token )
 ```
 
-So even though there is assignment ambiguity in the conditional expression,
-the parse error prevents the scenario from occuring.
+So even though there is assignment ambiguity in the conditional expression, the parse error prevents the scenario from occuring.
 
 ## Further Reading
 
 * [JSLint -- Expected a conditional expression and instead saw an assignment.](http://jslinterrors.com/expected-a-conditional-expression-and-saw-an-assignment/)
-* [JSLine -- Unexpected assignment expression](http://jslinterrors.com/unexpected-assignment-expression/)
+* [JSLint -- Unexpected assignment expression](http://jslinterrors.com/unexpected-assignment-expression/)

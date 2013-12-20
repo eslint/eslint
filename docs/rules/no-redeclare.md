@@ -1,6 +1,6 @@
-# no redeclare
+# Disallow Redeclaring Variables
 
-Re-declaring variables can lead to confusion and decrease readability of your code. 
+In JavaScript, it's possible to redeclare the same variable name using `var`. This can lead to confusion as to where the variable is actually declared and initialized.
 
 ## Rule Details
 
@@ -10,7 +10,6 @@ The following patterns are considered warnings:
 
 ```js
 var a = 3;
-...
 var a = 10;
 ```
 

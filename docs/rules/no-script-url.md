@@ -1,6 +1,6 @@
-# No script url
+# Disallow Script URLs
 
-Using javascript: urls is considered by some as a form of eval. Script passed after javascript: has to be parsed and evaluated by the browser the same way that it does eval. This rule corresponds to `scripturl` rule of JSHint.
+Using `javascript:` urls is considered by some as a form of eval. Script passed after javascript: has to be parsed and evaluated by the browser the same way that it does eval. 
 
 ## Rule Details
 
@@ -9,6 +9,10 @@ The following patterns are considered warnings:
 ```js
 location.href = "javascript:void(0)";
 ```
+
+## Compatibility
+
+* **JSHint**: This rule corresponds to `scripturl` rule of JSHint.
 
 ## Further Reading
 

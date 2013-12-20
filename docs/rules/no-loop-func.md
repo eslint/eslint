@@ -1,4 +1,16 @@
-# no loop functions
+# Disallow Functions in Loops
+
+Writing functions within loops tends to result in errors due to the way the function creates a closure around the loop. For example:
+
+```js
+for (var i = 0; i < 10; i++) {
+	funcs[i] = function() {
+		return i;
+	};
+}
+```
+
+In this case, you would expect each function created within the loop to return a different number. In reality, each function returns 10, because that was the last value of `i` in the scope.
 
 ## Rule Details
 
@@ -7,14 +19,15 @@ This error is raised to highlight a piece of code that may not work as you expec
 The following patterns are considered warnings:
 
 ```js
-
 for (var i=10; i; i--) {
     (function() { ... })();
 }
+
 while(i) {
     var a = function() {};
     a();
 }
+
 do {
     function a() {};
     a();

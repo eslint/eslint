@@ -1,9 +1,19 @@
-# none IIFE wrapping
+# Disallow Parens Around Functions
 
+Although it's possible to wrap functions in parentheses, this can be confusing when the code also contains immediately-invoked function expressions (IIFEs) since parentheses are often used to make this distinction. For example:
+
+```js
+var foo = (function() {
+	// IIFE
+}());
+
+var bar = (function() {
+	// not an IIFE
+});
 
 ## Rule Details
 
-This error is raised to highlight a potentially confusing piece of code. This rule will raise a warning when it encounters a function expression wrapped in parentheses with no following invoking parentheses.
+This rule will raise a warning when it encounters a function expression wrapped in parentheses with no following invoking parentheses.
 
 The following patterns are considered warnings:
 

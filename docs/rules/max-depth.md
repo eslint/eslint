@@ -1,4 +1,4 @@
-# max depth
+# Limit Maximum Depth
 
 The `max-depth` rule allows you to specify the maximum depth blocks can be nested.
 
@@ -45,4 +45,12 @@ function foo() {
     }
   }
 }
+```
+
+### Options
+
+You can configure the depth as an option by using the second argument in your configuration. For example, this sets the rule as an error (code is 2) with a maximum depth of 10:
+
+```json
+"max-depth": [2, 10]
 ```
