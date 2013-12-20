@@ -80,6 +80,7 @@ These rules are purely matters of style and are quite subjective.
 * [no-spaced-func](no-spaced-func.md) - disallow space between function identifier and application
 * [quotes](quotes.md) - specify whether double or single quotes should be used
 * [wrap-regex](wrap-regex.md) - require regex literals to be wrapped in parentheses
+* [sort-vars](sort-vars.md) - sort variables within the same declaration block
 
 ## Legacy
 
