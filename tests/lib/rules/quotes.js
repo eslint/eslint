@@ -15,8 +15,8 @@ eslintTester.addRuleTest("quotes", {
         {code: "var foo = \"bar\";", args: [1, "double"] },
         { code: "var foo = 1;", args: [1, "single"] },
         { code: "var foo = 1;", args: [1, "double"] },
-        { code: "var foo = \"'\";", args: [1, "single", "allow-avoiding-escaped-quotes"] },
-        { code: "var foo = '\"';", args: [1, "double", "allow-avoiding-escaped-quotes"] }
+        { code: "var foo = \"'\";", args: [1, "single", "avoid-escape"] },
+        { code: "var foo = '\"';", args: [1, "double", "avoid-escape"] }
     ],
     invalid: [
         { code: "var foo = \"bar\";",
@@ -26,10 +26,10 @@ eslintTester.addRuleTest("quotes", {
           args: [1, "double"],
           errors: [{ message: "Strings must use doublequote.", type: "Literal"}] },
         { code: "var foo = \"bar\";",
-          args: [1, "single", "allow-avoiding-escaped-quotes"],
+          args: [1, "single", "avoid-escape"],
           errors: [{ message: "Strings must use singlequote.", type: "Literal" }]},
         { code: "var foo = 'bar';",
-          args: [1, "double", "allow-avoiding-escaped-quotes"],
+          args: [1, "double", "avoid-escape"],
           errors: [{ message: "Strings must use doublequote.", type: "Literal" }]}
     ]
 });
