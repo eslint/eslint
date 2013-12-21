@@ -45,3 +45,21 @@ This object may not:
 * Perform any asynchronous operations
 * Use Node.js-specific features
 * Access the file system
+* Call `console.log()` or any other similar method
+
+## Rules
+
+Individual rules are the most specialized part of the ESLint architecture. Rules can do very little, they are simply a set of instructions executed against an AST that is provided. They do get some context information passed in, but the primary responsibility of a rule is to inspect the AST and report warnings. 
+
+These objects' responsibilities are:
+
+* Inspect the AST for specific patterns
+* Reporting warnings when certain patterns are found
+
+These objects may not:
+
+* Call `process.exit()` directly
+* Perform any asynchronous operations
+* Use Node.js-specific features
+* Access the file system
+* Call `console.log()` or any other similar method
