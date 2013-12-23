@@ -187,10 +187,10 @@ describe("cli", function() {
     });
 
     describe("when given a cli script with shebang", function() {
-        var code = "tests/fixtures/formatters/shebang.js";
+        var code = "tests/fixtures/shebang.js";
 
         it("should execute without any errors", function() {
-            var exit = cli.execute(["-f", code, "tests/fixtures/passing.js"]);
+            var exit = cli.execute([code]);
 
             assert.equal(exit, 0);
         });
