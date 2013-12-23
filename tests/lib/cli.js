@@ -185,4 +185,14 @@ describe("cli", function() {
             assert.equal(console.log.callCount, 1);
         });
     });
+
+    describe("when given a cli script with shebang", function() {
+        var code = "tests/fixtures/formatters/shebang.js";
+
+        it("should execute without any errors", function() {
+            var exit = cli.execute(["-f", code, "tests/fixtures/passing.js"]);
+
+            assert.equal(exit, 0);
+        });
+    });
 });
