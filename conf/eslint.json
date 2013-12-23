@@ -91,6 +91,7 @@
         "radix": 0,
         "regex-spaces": 2,
         "semi": 2,
+        "sort-vars": 0,
         "space-return-throw-case": 2,
         "space-infix-ops": 2,
         "space-unary-word-ops": 0,
