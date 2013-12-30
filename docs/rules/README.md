@@ -66,21 +66,21 @@ These are rules designed to prevent you from making mistakes. They either prescr
 These rules are purely matters of style and are quite subjective.
 
 * [camelcase](camelcase.md) - require camel case names
+* [complexity](complexity.md) - specify the maximum cyclomatic complexity allowed in a program
+* [consistent-this](consistent-this.md) - enforces consistent naming when capturing the current execution context (off by default).
+* [func-style](func-style.md) - enforces use of function declarations or expressions
 * [new-cap](new-cap.md) - require a capital letter for constructors
+* [new-parens](new-parens.md) - disallow the omission of parentheses when invoking a contructor with no arguments
+* [no-mixed-requires](no-mixed-requires.md) - disallow mixing regular variable and require declarations
+* [no-nested-ternary](no-nested-ternary.md) - disallow nested ternary expressions
+* [no-spaced-func](no-spaced-func.md) - disallow space between function identifier and application
+* [no-ternary](no-ternary.md) - disallow the use of ternary operators
+* [no-wrap-func](no-wrap-func.md) - disallow wrapping of none IIFE statements in parents
+* [quotes](quotes.md) - specify whether double or single quotes should be used
 * [quote-props](quote-props.md) - require quotes around object literal property names
 * [semi](semi.md) - require use of semicolons instead of relying on ASI
-* [no-ternary](no-ternary.md) - disallow the use of ternary operators
-* [no-nested-ternary](no-nested-ternary.md) - disallow nested ternary expressions
-* [consistent-this](consistent-this.md) - enforces consistent naming when capturing the current execution context (off by default).
-* [one-var](one-var.md) - disallow multiple variable declaration statements in a function scope
-* [no-mixed-requires](no-mixed-requires.md) - disallow mixing regular variable and require declarations
-* [no-wrap-func](no-wrap-func.md) - disallow wrapping of none IIFE statements in parents
-* [complexity](complexity.md) - specify the maximum cyclomatic complexity allowed in a program
-* [new-parens](new-parens.md) - disallow the omission of parentheses when invoking a contructor with no arguments
-* [no-spaced-func](no-spaced-func.md) - disallow space between function identifier and application
-* [quotes](quotes.md) - specify whether double or single quotes should be used
-* [wrap-regex](wrap-regex.md) - require regex literals to be wrapped in parentheses
 * [sort-vars](sort-vars.md) - sort variables within the same declaration block
+* [wrap-regex](wrap-regex.md) - require regex literals to be wrapped in parentheses
 
 ## Legacy
 

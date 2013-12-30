@@ -1,5 +1,9 @@
 {
     "env": {
         "node": true
+    },
+
+    "rules": {
+        "func-style": [2, "declaration"]
     }
 }
