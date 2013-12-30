@@ -24,6 +24,22 @@ eslintTester.addRuleTest("func-style", {
             args: [1, "declaration"]
         },
         {
+            code: "(function() { /* code */ }());",
+            args: [1, "declaration"]
+        },
+        {
+            code: "var module = (function() { return {}; }());",
+            args: [1, "declaration"]
+        },
+        {
+            code: "var object = { foo: function(){} };",
+            args: [1, "declaration"]
+        },
+        {
+            code: "Array.prototype.foo = function(){};",
+            args: [1, "declaration"]
+        },
+        {
             code: "foo.bar = function(){};",
             args: [1, "expression"]
         },
