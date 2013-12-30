@@ -1,6 +1,6 @@
 # Enforce Function Style
 
-There are two ways of defining functions in JavaScript: function declarations and function expressions. Expressions have the `function` keyword first, followed by a name, followed by its arguments and the function body, such as:
+There are two ways of defining functions in JavaScript: function declarations and function expressions. Declarations have the `function` keyword first, followed by a name, followed by its arguments and the function body, such as:
 
 ```js
 function doSomething() {
@@ -8,7 +8,7 @@ function doSomething() {
 }
 ```
 
-Function delcarations begin with the `var` keyword, followed by a name, and then the function itself, such as:
+Equivalent function expressions begin with the `var` keyword, followed by a name, and then the function itself, such as:
 
 ```js
 var doSomething = function() {
