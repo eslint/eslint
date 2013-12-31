@@ -46,7 +46,7 @@ eslintTester.addRuleTest("func-style", {
 		{
     		code: "var foo = function(){};\n var bar = function(){};",
     		args: [1, "expression"]
-    	},                
+    	}
     ],
 
     invalid: [
