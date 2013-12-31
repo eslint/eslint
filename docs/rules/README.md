@@ -80,6 +80,7 @@ These rules are purely matters of style and are quite subjective.
 * [quote-props](quote-props.md) - require quotes around object literal property names
 * [semi](semi.md) - require use of semicolons instead of relying on ASI
 * [sort-vars](sort-vars.md) - sort variables within the same declaration block
+* [max-nested-callbacks](max-nested-callbacks.md) - specify the maximum depth callbacks can be nested
 * [wrap-regex](wrap-regex.md) - require regex literals to be wrapped in parentheses
 
 ## Legacy
