@@ -23,6 +23,7 @@ eslintTester.addRuleTest("no-fallthrough", {
         "switch(foo) { case 0: a(); break; case 1: b(); }",
         "switch(foo) { case 0: case 1: a(); break; case 2: b(); }",
         "switch(foo) { case 0: case 1: break; case 2: b(); }",
+        "switch(foo) { case 0: case 1: break; default: b(); }",
         "switch(foo) { case 0: case 1: a(); }",
         "switch(foo) { case 0: case 1: a(); break; }",
         "switch(foo) { case 0: case 1: break; }",
@@ -30,6 +31,24 @@ eslintTester.addRuleTest("no-fallthrough", {
         "switch(foo) { case 0: switch(bar) { case 2: break; } /* falls through */ case 1: break; }"
     ],
     invalid: [
-        { code: "switch(foo) { case 0: a(); case 1: b() }", errors: [{ message: "No fall-through without explicit comment.", type: "SwitchCase"}] }
+        {
+            code: "switch(foo) { case 0: a(); case 1: b() }",
+            errors: [
+                {
+                    message: "Expected a \"break\" statement before \"case\".",
+                    type: "SwitchCase"
+                }
+            ]
+        },
+        {
+            code: "switch(foo) { case 0: a(); default: b() }",
+            errors: [
+                {
+                    message: "Expected a \"break\" statement before \"default\".",
+                    type: "SwitchCase"
+                }
+            ]
+        }
+
     ]
 });
