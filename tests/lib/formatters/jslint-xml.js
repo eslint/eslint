@@ -118,4 +118,49 @@ describe("formatter:jslint-xml", function() {
             assert.equal("<?xml version=\"1.0\" encoding=\"utf-8\"?><jslint><file name=\"foo.js\"><issue line=\"5\" char=\"10\" evidence=\"foo\" reason=\"Unexpected foo.\" /></file><file name=\"bar.js\"><issue line=\"6\" char=\"11\" evidence=\"bar\" reason=\"Unexpected bar.\" /></file></jslint>", result);
         });
     });
+
+    describe("when passing a single message with illegal characters", function() {
+
+        var code = [{
+            filePath: "foo.js",
+            messages: [{
+                message: "Unexpected > foo.",
+                line: 5,
+                column: 10,
+                ruleId: "foo",
+                source: "foo"
+            }]
+        }];
+
+        it("should return a string in JSLint XML format with 1 issue in 1 file", function() {
+            var config = {
+                rules: { foo: 2 }
+            };
+
+            var result = formatter(code, config);
+            assert.equal("<?xml version=\"1.0\" encoding=\"utf-8\"?><jslint><file name=\"foo.js\"><issue line=\"5\" char=\"10\" evidence=\"foo\" reason=\"Unexpected &gt; foo.\" /></file></jslint>", result);
+        });
+    });
+
+    describe("when passing a single message with no source", function() {
+
+        var code = [{
+            filePath: "foo.js",
+            messages: [{
+                message: "Unexpected foo.",
+                line: 5,
+                column: 10,
+                ruleId: "foo"
+            }]
+        }];
+
+        it("should return a string in JSLint XML format with 1 issue in 1 file", function() {
+            var config = {
+                rules: { foo: 2 }
+            };
+
+            var result = formatter(code, config);
+            assert.equal("<?xml version=\"1.0\" encoding=\"utf-8\"?><jslint><file name=\"foo.js\"><issue line=\"5\" char=\"10\" evidence=\"\" reason=\"Unexpected foo.\" /></file></jslint>", result);
+        });
+    });
 });
