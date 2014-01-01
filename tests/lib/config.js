@@ -9,7 +9,8 @@
 
 var assert = require("chai").assert,
     path = require("path"),
-    Config = require("../../lib/config");
+    Config = require("../../lib/config"),
+    sinon = require("sinon");
 
 
 //------------------------------------------------------------------------------
@@ -67,6 +68,35 @@ describe("config", function() {
                 actual = config.rules["no-global-strict"];
 
             assert.equal(expected, actual);
+        });
+    });
+
+    describe("getLocalConfig with directory", function() {
+        var code = path.resolve(__dirname, "..", "fixtures", "configurations", "single-quotes", ".eslintrc");
+
+        it("should be single quotes config", function() {
+            var configHelper = new Config(),
+                config = configHelper.getConfig(code),
+                expected = [1, "single"],
+                actual = config.rules.quotes;
+
+            assert.deepEqual(expected, actual);
+        });
+    });
+
+    describe("getLocalConfig with invalid directory", function() {
+        var code = path.resolve(__dirname, "..", "fixtures", "configurations", "single-quotes");
+
+        it("should be default config", function() {
+            var configHelper = new Config();
+            sinon.stub(configHelper, "findLocalConfigFile", function(directory) { return path.resolve(directory, ".eslintrc"); });
+            sinon.stub(console, "error").returns({});
+
+            var config = configHelper.getConfig(code);
+
+            assert.isTrue(console.error.calledTwice);
+            configHelper.findLocalConfigFile.restore();
+            console.error.restore();
         });
     });
 });
