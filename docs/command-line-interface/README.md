@@ -50,7 +50,7 @@ This example uses the configuration file at `~/my-eslint.json` instead of the de
 
 ### `-f`, `--format`
 
-This options specifies the output format for the console. At the moment, there is only `compact`, but more will be added soon.
+This options specifies the output format for the console. Possible formats are "compact" (the default), "checkstyle", "jslint-xml", and "junit".
 
 Example:
 
