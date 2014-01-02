@@ -52,12 +52,11 @@ var NODE = "node ", // intentional extra space
     ISTANBUL = NODE + NODE_MODULES + "istanbul/lib/cli.js ",
     MOCHA = NODE_MODULES + "mocha/bin/_mocha ",
     JSDOC = NODE + NODE_MODULES + "jsdoc/jsdoc.js ",
-    JSHINT = NODE + NODE_MODULES + "jshint/bin/jshint ",
     ESLINT = NODE + " bin/eslint.js ",
 
     // Files
     JS_FILES = find("lib/").filter(fileType("js")).join(" "),
-    JSON_FILES = find("conf/").filter(fileType("json")).join(" ") + " .eslintrc .jshintrc",
+    JSON_FILES = find("conf/").filter(fileType("json")).join(" ") + " .eslintrc",
     TEST_FILES = find("tests/lib/").filter(fileType("js")).join(" "),
 
     MONTHS = [
@@ -88,7 +87,7 @@ target.lint = function() {
     exec(JSON_LINT + "-q -c " + JSON_FILES);
 
     echo("Validating JavaScript files");
-    exec(JSHINT + JS_FILES);
+    exec(ESLINT + JS_FILES);
 };
 
 target.test = function() {
