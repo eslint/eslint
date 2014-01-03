@@ -42,6 +42,21 @@ describe("config", function() {
         });
     });
 
+    describe("getConfig of json file without extension", function() {
+        var code = path.resolve(__dirname, "..", "fixtures", "configurations",
+                "eslintrc");
+
+        it("should be no-global-strict off for node env", function() {
+
+            var configHelper = new Config({config: code}),
+                config = configHelper.getConfig(),
+                expected = 1,
+                actual = config.rules["no-global-strict"];
+
+            assert.equal(expected, actual);
+        });
+    });
+
     describe("getConfig with env rules", function() {
         var code = path.resolve(__dirname, "..", "fixtures", "configurations",
                 "env-node.json");
@@ -92,9 +107,9 @@ describe("config", function() {
             sinon.stub(configHelper, "findLocalConfigFile", function(directory) { return path.resolve(directory, ".eslintrc"); });
             sinon.stub(console, "error").returns({});
 
-            var config = configHelper.getConfig(code);
+            configHelper.getConfig(code);
 
-            assert.isTrue(console.error.calledTwice);
+            assert.isTrue(console.error.calledOnce);
             configHelper.findLocalConfigFile.restore();
             console.error.restore();
         });
