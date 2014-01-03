@@ -105,6 +105,21 @@ target.docs = function() {
     echo("Documentation has been output to /jsdoc");
 };
 
+target.gensite = function() {
+
+    cp("-rf", "docs/*", "../eslint.github.io/docs");
+
+    find("../eslint.github.io/docs").forEach(function(filename) {
+        if (test("-f", filename)) {
+            var text = cat(filename);
+            text = "---\ntitle: ESLint\nlayout: doc\n---\n" + text;
+            text.replace(/.md\)/g, ".html)").replace("README.html", "index.html").to(filename.replace("README.md", "index.md"));
+        }
+    });
+
+
+};
+
 target.changelog = function() {
 
     // get most recent two tags

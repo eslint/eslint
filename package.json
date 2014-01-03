@@ -13,6 +13,7 @@
     "patch": "node Makefile.js patch",
     "minor": "node Makefile.js minor",
     "major": "node Makefile.js major",
+    "gensite": "node Makefile.js gensite",
     "bundle": "bash scripts/bundle.sh"
   },
   "files": [

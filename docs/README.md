@@ -1,5 +1,3 @@
-# Home
-
 ## [About](about/)
 
 Learn more about ESLint and why it came about and the general philosophy behind it.
