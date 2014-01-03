@@ -20,10 +20,12 @@ describe("cli", function() {
 
     beforeEach(function() {
         sinon.stub(console, "log").returns({});
+        sinon.stub(console, "error").returns({});
     });
 
     afterEach(function() {
         console.log.restore();
+        console.error.restore();
     });
 
     describe("when given a config file", function() {
