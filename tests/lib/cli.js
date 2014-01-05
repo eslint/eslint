@@ -185,4 +185,49 @@ describe("cli", function() {
             assert.equal(console.log.callCount, 1);
         });
     });
+
+    describe("when given a directory with eslint excluded files", function() {
+        var code = "tests/fixtures";
+
+        it("should not process any files", function() {
+            cli.execute([code]);
+
+            assert.isTrue(console.log.calledOnce);
+            assert.isTrue(console.log.calledWithExactly(""));
+        });
+    });
+
+    describe("when given a directory with jshint excluded files", function() {
+        var code = "tests/fixtures/rules";
+
+        it("should not process any files", function() {
+            cli.execute([code]);
+
+            assert.isTrue(console.log.calledOnce);
+            assert.isTrue(console.log.calledWithExactly(""));
+        });
+    });
+
+    describe("when given a file with eslint excluded files in the same directory", function() {
+        var code = "tests/fixtures/missing-semicolon.js";
+
+        it("should process file and display a warning", function() {
+            var exit = cli.execute([code]);
+
+            assert.isTrue(console.log.calledOnce);
+            //semi rule is set to 1, not 2
+            assert.equal(exit, 0);
+        });
+    });
+
+    describe("when given two files in the same dir with exclusions", function() {
+        var code = ["tests/fixtures/missing-semicolon.js", "tests/fixtures/single-quoted.js"];
+
+        it("should process all files", function() {
+            var exit = cli.execute(code);
+
+            assert.isTrue(console.log.calledOnce);
+            assert.equal(exit, 1);
+        });
+    });
 });
