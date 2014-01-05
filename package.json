@@ -30,7 +30,8 @@
     "optimist": "*",
     "estraverse": "~1.3.0",
     "esprima": "*",
-    "escope": "1.0.0"
+    "escope": "1.0.0",
+    "glob": "~3.2.7"
   },
   "devDependencies": {
     "sinon": "*",
