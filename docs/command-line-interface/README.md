@@ -74,3 +74,14 @@ This option outputs the current ESLint version onto the console. All other optio
 Example:
 
     eslint -v
+
+## Ignoring files from linting
+
+ESLing support .eslintignore files to reject files from linting process. .eslintignore file is a JSON file that accepts and array of globs. .eslintignore file can be located anywhere, and will affect files in it's own directory as well as all sub-directories. Here's a simple example of .eslintignore file:
+
+```json
+[
+  "node-modules/*",
+  "**/vendor/*.js"
+]
+```

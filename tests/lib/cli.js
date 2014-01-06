@@ -211,11 +211,11 @@ describe("cli", function() {
     describe("when given a file with eslint excluded files in the same directory", function() {
         var code = "tests/fixtures/missing-semicolon.js";
 
-        it("should process file and display a warning", function() {
+        it("should not process file", function() {
             var exit = cli.execute([code]);
 
             assert.isTrue(console.log.calledOnce);
-            //semi rule is set to 1, not 2
+            assert.isTrue(console.log.calledWithExactly(""));
             assert.equal(exit, 0);
         });
     });
@@ -223,11 +223,12 @@ describe("cli", function() {
     describe("when given two files in the same dir with exclusions", function() {
         var code = ["tests/fixtures/missing-semicolon.js", "tests/fixtures/single-quoted.js"];
 
-        it("should process all files", function() {
+        it("should not process any files", function() {
             var exit = cli.execute(code);
 
             assert.isTrue(console.log.calledOnce);
-            assert.equal(exit, 1);
+            assert.isTrue(console.log.calledWithExactly(""));
+            assert.equal(exit, 0);
         });
     });
 });
