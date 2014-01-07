@@ -84,6 +84,18 @@ describe("config", function() {
         });
     });
 
+    describe("getConfig with exclude", function() {
+        var code = path.resolve(__dirname, "..", "fixtures", ".eslintrc");
+
+        it("should exclude passing.js", function() {
+            var configHelper = new Config(),
+            config = configHelper.getConfig(code);
+            configHelper.cacheExclusions(path.resolve(__dirname, "..", "fixtures"), true);
+
+            assert.isTrue(configHelper.checkForExclusion(path.resolve(__dirname, "..", "fixtures", "passing.js")));
+        });
+    });
+
     describe("getLocalConfig with invalid directory", function() {
         var code = path.resolve(__dirname, "..", "fixtures", "configurations", "single-quotes");
 
