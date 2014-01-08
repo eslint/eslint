@@ -208,10 +208,10 @@ describe("cli", function() {
         });
     });
 
-    describe("when given a file with eslint excluded files in the same directory", function() {
-        var code = "tests/fixtures/missing-semicolon.js";
+    describe("when given a directory with eslint excluded files in the directory", function() {
+        var code = "tests/fixtures";
 
-        it("should not process file", function() {
+        it("should not process any files", function() {
             var exit = cli.execute([code]);
 
             assert.isTrue(console.log.calledOnce);
@@ -220,14 +220,15 @@ describe("cli", function() {
         });
     });
 
-    describe("when given two files in the same dir with exclusions", function() {
-        var code = ["tests/fixtures/missing-semicolon.js", "tests/fixtures/single-quoted.js"];
+    describe("when given a file in excluded files list", function() {
+        var code = "tests/fixtures/missing-semicolon.js";
 
-        it("should not process any files", function() {
-            var exit = cli.execute(code);
+        it("should process the file anyway", function() {
+            var exit = cli.execute([code]);
 
-            assert.isTrue(console.log.calledOnce);
-            assert.isTrue(console.log.calledWithExactly(""));
+            assert.isTrue(console.log.called);
+            assert.isFalse(console.log.alwaysCalledWith(""));
+
             assert.equal(exit, 0);
         });
     });
