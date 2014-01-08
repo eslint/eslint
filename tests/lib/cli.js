@@ -228,6 +228,15 @@ describe("cli", function() {
 
             assert.isTrue(console.log.called);
             assert.isFalse(console.log.alwaysCalledWith(""));
+            assert.equal(exit, 0);
+        });
+    });
+
+    describe("when executing a file with a shebang", function() {
+        var code = "tests/fixtures/shebang.js";
+
+        it("should execute without error", function() {
+            var exit = cli.execute([code]);
 
             assert.equal(exit, 0);
         });
