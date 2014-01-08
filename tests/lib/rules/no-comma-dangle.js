@@ -16,7 +16,10 @@ var eslintTester = require("../../../lib/tests/eslintTester");
 eslintTester.addRuleTest("no-comma-dangle", {
     valid: [
         "var foo = { bar: \"baz\" }",
-        "var foo = [ \"baz\" ]"
+        "var foo = [ \"baz\" ]",
+        "[,,]",
+        "[,]",
+        "[]"
     ],
     invalid: [
         { code: "var foo = { bar: \"baz\", }", errors: [{ message: "Trailing comma.", type: "Property"}] },
