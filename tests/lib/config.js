@@ -89,7 +89,8 @@ describe("config", function() {
 
         it("should exclude passing.js", function() {
             var configHelper = new Config(),
-            config = configHelper.getConfig(code);
+                config = configHelper.getConfig(code);
+
             configHelper.cacheExclusions(path.resolve(__dirname, "..", "fixtures"), true);
 
             assert.isTrue(configHelper.checkForExclusion(path.resolve(__dirname, "..", "fixtures", "passing.js")));
@@ -109,6 +110,21 @@ describe("config", function() {
             assert.isTrue(console.error.calledTwice);
             configHelper.findLocalConfigFile.restore();
             console.error.restore();
+        });
+    });
+
+    describe("should cache config", function() {
+        var code = path.resolve(__dirname, "..", "fixtures", "configurations", "single-quotes", ".eslintrc");
+
+        it("should resolve config only once", function() {
+            var configHelper = new Config();
+
+            sinon.spy(configHelper, "findLocalConfigFile");
+            configHelper.getConfig(code);
+            configHelper.getConfig(code);
+
+            assert.isTrue(configHelper.findLocalConfigFile.calledOnce);
+            configHelper.findLocalConfigFile.restore();
         });
     });
 });

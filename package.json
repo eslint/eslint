@@ -40,7 +40,7 @@
     "chai": "~1.8.1",
     "shelljs": "~0.2",
     "jsonlint": "~1.6.0",
-    "istanbul": "~0.1"
+    "istanbul": "~0.2.3"
   },
   "keywords": [
     "ast",
