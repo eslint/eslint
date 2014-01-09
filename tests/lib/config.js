@@ -127,4 +127,32 @@ describe("config", function() {
             configHelper.findLocalConfigFile.restore();
         });
     });
+
+    describe("when searching for exclusions in directory without .eslintignore", function() {
+        it("should not have any exclusions", function() {
+            var configHelper = new Config();
+
+            configHelper.cacheExclusions(path.resolve("./"));
+
+            assert.isUndefined(configHelper.exclusionsCache[path.resolve("./")]);
+        });
+    });
+
+    describe("getLocalConfig with current directory", function() {
+        it ("should return false", function() {
+            var configHelper = new Config();
+
+            output = configHelper.findLocalConfigFile("/");
+            assert.isFalse(output);
+        });
+    });
+
+    describe("getLocalConfig with no directory", function() {
+        it ("should return global config", function() {
+            var configHelper = new Config();
+
+            output = configHelper.findLocalConfigFile();
+            assert.include(output, ".eslintrc");
+        });
+    });
 });
