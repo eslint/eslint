@@ -198,7 +198,7 @@ describe("cli", function() {
     });
 
     describe("when given a directory with jshint excluded files", function() {
-        var code = "tests/fixtures/rules";
+        var code = "tests/fixtures";
 
         it("should not process any files", function() {
             cli.execute([code]);
@@ -229,6 +229,18 @@ describe("cli", function() {
             assert.isTrue(console.log.calledOnce);
             assert.isTrue(console.log.calledWithExactly(""));
             assert.equal(exit, 0);
+        });
+    });
+
+    describe("when given a custom rule, verify that it's loaded", function() {
+        var code = ["--rulesdir", "./tests/fixtures/rules", "--config", "./tests/fixtures/rules/eslint.json", "tests/fixtures/rules/test/test-custom-rule.js"];
+
+        it("should return a warning", function() {
+            var exit = cli.execute(code);
+
+            assert.isTrue(console.log.calledOnce);
+            assert.isTrue(console.log.neverCalledWith(""));
+            assert.equal(exit, 1);
         });
     });
 });
