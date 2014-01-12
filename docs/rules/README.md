@@ -29,8 +29,6 @@ These are rules designed to prevent you from making mistakes. They either prescr
 * [guard-for-in](guard-for-in.md) - make sure `for-in` loops have an `if` statement (off by default)
 * [no-alert](no-alert.md) - disallow the use of `alert`, `confirm`, and `prompt`
 * [no-caller](no-caller.md) - disallow use of `arguments.caller` or `arguments.callee`
-* [no-catch-shadow](no-catch-shadow.md) - disallow the catch clause parameter name being the same as a variable in the outer scope
-* [no-delete-var](no-delete-var.md) - disallow deletion of variables
 * [no-eval](no-eval.md) - disallow use of `eval()`
 * [no-floating-decimal](no-floating-decimal) - disallow the use of leading or trailing decimal points in numeric literals
 * [no-native-reassign](no-native-reassign.md) - disallow reassignments of native objects
@@ -39,29 +37,41 @@ These are rules designed to prevent you from making mistakes. They either prescr
 * [no-octal](no-octal.md) - disallow use of octal literals
 * [no-octal-escape](no-octal-escape) - disallow use of octal escape sequences in string literals, such as `var foo = "Copyright \251";`
 * [no-with](no-with.md) - disallow use of the `with` statement
-* [no-undef](no-undef.md) - disallow use of undeclared variables unless mentioned in a `/*global */` block
-* [no-undef-init](no-undef-init.md) - disallow use of undefined when initializing variables
 * [no-return-assign](no-return-assign.md) - disallow use of assignment in return statement
-* [no-label-var](no-label-var.md) - disallow labels that share a name with a variable
 * [no-self-compare](no-self-compare.md) - disallow comparisons where both sides are exactly the same
 * [no-eq-null](no-eq-null.md) - disallow comparisons to null without a type-checking operator
 * [no-multi-str](no-multi-str.md) - disallow use of multiline strings
 * [no-loop-func](no-loop-func.md) - disallow creation of functions within loops
 * [no-empty-label](no-empty-label.md) - disallow use of labels for anything other then loops and switches
 * [no-unused-expressions](no-unused-expressions.md) - disallow usage of expressions in statement position
-* [no-unused-vars](no-unused-vars.md) - disallow declaration of variables that are not used in the code
 * [no-script-url](no-script-url.md) - disallow use of javascript: urls.
 * [no-proto](no-proto.md) - disallow usage of `__proto__` property
 * [no-iterator](no-iterator.md) - disallow usage of `__iterator__` property
 * [no-else-return](no-else-return.md) - disallow `else` after a `return` in an `if`.
-* [no-shadow](no-shadow.md) - disallow declaration of variables already declared in the outer scope
-* [no-use-before-define](no-use-before-define.md) - disallow use of variables before they are defined
 * [no-redeclare](no-redeclare.md) - disallow declaring the same variable more then once
-* [no-global-strict](no-global-strict.md) - disallow the `"use strict"` pragma in the global scope
 * [no-div-regex](no-div-regex.md) - disallow division operators explicitly at beginning of regular expression
+* [wrap-iife](wrap-iife.md) - require immediate function invocation to be wrapped in parentheses
+
+## Strict Mode
+
+These rules relate to using strict mode.
+
+* [no-global-strict](no-global-strict.md) - disallow the `"use strict"` pragma in the global scope
 * [strict](strict.md) - require that all functions are run in strict mode
 * [unnecessary-strict](unnecessary-strict.md) - disallow unnecessary use of `"use strict";` when already in strict mode
-* [wrap-iife](wrap-iife.md) - require immediate function invocation to be wrapped in parentheses
+
+## Variables
+
+These rules have to do with variable declarations.
+
+* [no-catch-shadow](no-catch-shadow.md) - disallow the catch clause parameter name being the same as a variable in the outer scope
+* [no-delete-var](no-delete-var.md) - disallow deletion of variables
+* [no-label-var](no-label-var.md) - disallow labels that share a name with a variable
+* [no-shadow](no-shadow.md) - disallow declaration of variables already declared in the outer scope
+* [no-undef](no-undef.md) - disallow use of undeclared variables unless mentioned in a `/*global */` block
+* [no-undef-init](no-undef-init.md) - disallow use of undefined when initializing variables
+* [no-unused-vars](no-unused-vars.md) - disallow declaration of variables that are not used in the code
+* [no-use-before-define](no-use-before-define.md) - disallow use of variables before they are defined
 
 ## Stylistic Issues
 
