@@ -15,6 +15,10 @@ var eslintTester = require("../../../lib/tests/eslintTester");
 
 eslintTester.addRuleTest("no-array-constructor", {
     valid: [
+        "new Array(x)",
+        "Array(x)",
+        "new Array(9)",
+        "Array(9)",
         "new foo.Array()",
         "foo.Array()",
         "new Array.foo",
