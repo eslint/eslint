@@ -6,22 +6,29 @@ Rules in ESLint are divided into several categories to help you better understan
 
 The following rules point out areas where you might have made mistakes.
 
+* [no-cond-assign](no-cond-assign.md) - disallow assignment in conditional expressions
 * [no-console](no-console.md) - disallow use of `console`
 * [no-comma-dangle](no-comma-dangle.md) - disallow trailing commas in object literals
+* [no-control-regex](no-control-regex.md) - disallow control characters in regular expressions
 * [no-debugger](no-debugger.md) - disallow use of `debugger`
+* [no-dupe-keys](no-dupe-keys.md) - disallow duplicate keys when creating object literals
 * [no-empty](no-empty.md) - disallow empty statements
+* [no-empty-class](no-empty-class.md) - disallow the use of empty character classes in regular expressions
+* [no-ex-assign](no-ex-assign.md) - disallow assigning to the exception in a `catch` block
+* [no-extra-parens](no-extra-parens.md) - disallow unnecessary parentheses
+* [no-extra-semi](no-extra-semi.md) - disallow unnecessary semicolons
+* [no-func-assign](no-func-assign.md) - disallow overwriting functions written as function declarations
+* [no-invalid-regexp](no-invalid-regexp.md) - disallow invalid regular expression strings in the `RegExp` constructor
+* [no-negated-in-lhs](no-negated-in-lhs.md) - disallow negation in the lefthand side of a comparison
 * [no-obj-calls](no-obj-calls.md) - disallow the use of object properties of the global object (`Math` and `JSON`) as functions
 * [no-unreachable](no-unreachable.md) - disallow unreachable statements after a return, throw, continue, or break statement
 * [use-isnan](use-isnan.md) - disallow comparisons with the value `NaN`
-* [no-dupe-keys](no-dupe-keys.md) - disallow duplicate keys when creating object literals
-* [no-empty-class](no-empty-class.md) - disallow the use of empty character classes in regular expressions
-* [no-func-assign](no-func-assign.md) - disallow overwriting functions written as FunctionDeclarations
-* [no-control-regex](no-control-regex.md) - disallow control characters in regular expressions
 
 ## Best Practices
 
 These are rules designed to prevent you from making mistakes. They either prescribe a better way of doing something or help you avoid footguns.
 
+* [block-scoped-var](block-scope-var.md) - treat `var` statements as if they were block scoped
 * [complexity](complexity.md) - specify the maximum cyclomatic complexity allowed in a program
 * [curly](curly.md) - require curly brace for all control statements
 * [dot-notation](dot-notation.md) - encourages use of dot notation whenever possible
@@ -30,6 +37,7 @@ These are rules designed to prevent you from making mistakes. They either prescr
 * [no-alert](no-alert.md) - disallow the use of `alert`, `confirm`, and `prompt`
 * [no-caller](no-caller.md) - disallow use of `arguments.caller` or `arguments.callee`
 * [no-eval](no-eval.md) - disallow use of `eval()`
+* [no-extend-native](no-extend-native.md) - disallow adding to native types
 * [no-floating-decimal](no-floating-decimal) - disallow the use of leading or trailing decimal points in numeric literals
 * [no-native-reassign](no-native-reassign.md) - disallow reassignments of native objects
 * [no-new](no-new.md) - disallow use of new operator when not part of the assignment or comparison
@@ -68,6 +76,7 @@ These rules have to do with variable declarations.
 * [no-delete-var](no-delete-var.md) - disallow deletion of variables
 * [no-label-var](no-label-var.md) - disallow labels that share a name with a variable
 * [no-shadow](no-shadow.md) - disallow declaration of variables already declared in the outer scope
+* [no-shadow-restricted-names](no-shadow-restricted-names.md) - disallow shadowing of names such as `arguments`
 * [no-undef](no-undef.md) - disallow use of undeclared variables unless mentioned in a `/*global */` block
 * [no-undef-init](no-undef-init.md) - disallow use of undefined when initializing variables
 * [no-unused-vars](no-unused-vars.md) - disallow declaration of variables that are not used in the code
@@ -77,6 +86,7 @@ These rules have to do with variable declarations.
 
 These rules are purely matters of style and are quite subjective.
 
+* [brace-style](brace-style.md) - enforce one true brace style
 * [camelcase](camelcase.md) - require camel case names
 * [consistent-this](consistent-this.md) - enforces consistent naming when capturing the current execution context (off by default).
 * [func-style](func-style.md) - enforces use of function declarations or expressions
@@ -91,6 +101,9 @@ These rules are purely matters of style and are quite subjective.
 * [quote-props](quote-props.md) - require quotes around object literal property names
 * [semi](semi.md) - require use of semicolons instead of relying on ASI
 * [sort-vars](sort-vars.md) - sort variables within the same declaration block
+* [space-infix-ops](space-infix-ops.md) - require spaces around operators
+* [space-return-throw-case](space-return-throw-case.md) - require a space after `return`, `throw`, and `case`
+* [space-unary-word-ops](space-unary-word.ops) - require a space around word operators such as `typeof`
 * [max-nested-callbacks](max-nested-callbacks.md) - specify the maximum depth callbacks can be nested
 * [one-var](one-var.md) - allow just one var statement per function
 * [wrap-regex](wrap-regex.md) - require regex literals to be wrapped in parentheses
