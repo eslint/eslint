@@ -185,4 +185,72 @@ describe("cli", function() {
             assert.equal(console.log.callCount, 1);
         });
     });
+
+    describe("when given a directory with eslint excluded files", function() {
+        var code = "tests/fixtures";
+
+        it("should not process any files", function() {
+            cli.execute([code]);
+
+            assert.isTrue(console.log.calledOnce);
+            assert.isTrue(console.log.calledWithExactly(""));
+        });
+    });
+
+    describe("when given a directory with jshint excluded files", function() {
+        var code = "tests/fixtures";
+
+        it("should not process any files", function() {
+            cli.execute([code]);
+
+            assert.isTrue(console.log.calledOnce);
+            assert.isTrue(console.log.calledWithExactly(""));
+        });
+    });
+
+    describe("when given a directory with eslint excluded files in the directory", function() {
+        var code = "tests/fixtures";
+
+        it("should not process any files", function() {
+            var exit = cli.execute([code]);
+
+            assert.isTrue(console.log.calledOnce);
+            assert.isTrue(console.log.calledWithExactly(""));
+            assert.equal(exit, 0);
+        });
+    });
+
+    describe("when given a file in excluded files list", function() {
+        var code = "tests/fixtures/missing-semicolon.js";
+
+        it("should process the file anyway", function() {
+            var exit = cli.execute([code]);
+
+            assert.isTrue(console.log.called);
+            assert.isFalse(console.log.alwaysCalledWith(""));
+            assert.equal(exit, 0);
+        });
+    });
+
+    describe("when executing a file with a shebang", function() {
+        var code = "tests/fixtures/shebang.js";
+
+        it("should execute without error", function() {
+            var exit = cli.execute([code]);
+
+            assert.equal(exit, 0);
+        });
+    });
+
+    describe("when given a custom rule, verify that it's loaded", function() {
+        var code = ["--rulesdir", "./tests/fixtures/rules", "--config", "./tests/fixtures/rules/eslint.json", "tests/fixtures/rules/test/test-custom-rule.js"];
+
+        it("should return a warning", function() {
+            var exit = cli.execute(code);
+
+            assert.isTrue(console.log.calledOnce);
+            assert.isTrue(console.log.neverCalledWith(""));
+            assert.equal(exit, 1);
+        });
+    });
 });

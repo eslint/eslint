@@ -642,6 +642,17 @@ describe("eslint", function() {
         });
     });
 
+    describe("when evaluating code with invalid comments to enable rules", function() {
+        var code = "/*eslint no-alert:true*/ alert('test');";
+
+        it("should not report a violation", function() {
+            var config = { rules: {} };
+
+            var messages = eslint.verify(code, config);
+            assert.equal(messages.length, 0);
+        });
+    });
+
     describe("when evaluating code with comments to disable rules", function() {
         var code = "/*eslint no-alert:0*/ alert('test');";
 
@@ -765,6 +776,14 @@ describe("eslint", function() {
                 eslint.verify(code, { foobar: 2 });
             }, "Object.keys called on non-object",
             "Definition for rule 'foobar' was not found.");
+        });
+    });
+
+    describe("when calling defaults", function() {
+        it("should return back config object", function() {
+            var config = eslint.defaults();
+
+            assert.isNotNull(config.rules);
         });
     });
 });

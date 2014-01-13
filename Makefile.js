@@ -146,14 +146,15 @@ target.checkRuleFiles = function() {
     ruleFiles.forEach(function(filename) {
         var basename = path.basename(filename, ".js");
 
-        // check for entry in docs index
-        if (rulesIndexText.indexOf(basename) === -1) {
-            console.error("Missing link to documentation for rule %s in index", basename);
-        }
-
         // check for docs
         if (!test("-f", "docs/rules/" + basename + ".md")) {
             console.error("Missing documentation for rule %s", basename);
+        } else {
+
+            // check for entry in docs index
+            if (rulesIndexText.indexOf(basename) === -1) {
+                console.error("Missing link to documentation for rule %s in index", basename);
+            }
         }
 
         // check for tests

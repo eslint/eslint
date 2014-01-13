@@ -15,6 +15,15 @@ var assert = require("chai").assert,
 //------------------------------------------------------------------------------
 
 describe("rules", function() {
+
+    beforeEach(function() {
+        rules.testClear();
+    });
+
+    afterEach(function() {
+        rules.load();
+    });
+
     describe("when given an invalid rules directory", function() {
         var code = "invaliddir";
 

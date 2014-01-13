@@ -84,6 +84,19 @@ describe("config", function() {
         });
     });
 
+    describe("getConfig with exclude", function() {
+        var code = path.resolve(__dirname, "..", "fixtures", ".eslintrc");
+
+        it("should exclude passing.js", function() {
+            var configHelper = new Config(),
+                config = configHelper.getConfig(code);
+
+            configHelper.cacheExclusions(path.resolve(__dirname, "..", "fixtures"), true);
+
+            assert.isTrue(configHelper.checkForExclusion(path.resolve(__dirname, "..", "fixtures", "passing.js")));
+        });
+    });
+
     describe("getLocalConfig with invalid directory", function() {
         var code = path.resolve(__dirname, "..", "fixtures", "configurations", "single-quotes");
 
@@ -97,6 +110,49 @@ describe("config", function() {
             assert.isTrue(console.error.calledTwice);
             configHelper.findLocalConfigFile.restore();
             console.error.restore();
+        });
+    });
+
+    describe("should cache config", function() {
+        var code = path.resolve(__dirname, "..", "fixtures", "configurations", "single-quotes", ".eslintrc");
+
+        it("should resolve config only once", function() {
+            var configHelper = new Config();
+
+            sinon.spy(configHelper, "findLocalConfigFile");
+            configHelper.getConfig(code);
+            configHelper.getConfig(code);
+
+            assert.isTrue(configHelper.findLocalConfigFile.calledOnce);
+            configHelper.findLocalConfigFile.restore();
+        });
+    });
+
+    describe("when searching for exclusions in directory without .eslintignore", function() {
+        it("should not have any exclusions", function() {
+            var configHelper = new Config();
+
+            configHelper.cacheExclusions(path.resolve("./"));
+
+            assert.isUndefined(configHelper.exclusionsCache[path.resolve("./")]);
+        });
+    });
+
+    describe("getLocalConfig with current directory", function() {
+        it ("should return false", function() {
+            var configHelper = new Config();
+
+            output = configHelper.findLocalConfigFile("/");
+            assert.isFalse(output);
+        });
+    });
+
+    describe("getLocalConfig with no directory", function() {
+        it ("should return global config", function() {
+            var configHelper = new Config();
+
+            output = configHelper.findLocalConfigFile();
+            assert.include(output, ".eslintrc");
         });
     });
 });
