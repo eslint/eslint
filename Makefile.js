@@ -12,6 +12,8 @@
 
 require("shelljs/make");
 
+var path = require("path");
+
 //------------------------------------------------------------------------------
 // Helpers
 //------------------------------------------------------------------------------
@@ -133,6 +135,33 @@ target.changelog = function() {
     // add into commit
     exec("git add CHANGELOG.md");
     exec("git commit --amend --no-edit");
+
+};
+
+target.checkRuleFiles = function() {
+
+    var ruleFiles = find("lib/rules/").filter(fileType("js")),
+        rulesIndexText = cat("docs/rules/README.md");
+
+    ruleFiles.forEach(function(filename) {
+        var basename = path.basename(filename, ".js");
+
+        // check for entry in docs index
+        if (rulesIndexText.indexOf(basename) === -1) {
+            console.error("Missing link to documentation for rule %s in index", basename);
+        }
+
+        // check for docs
+        if (!test("-f", "docs/rules/" + basename + ".md")) {
+            console.error("Missing documentation for rule %s", basename);
+        }
+
+        // check for tests
+        if (!test("-f", "tests/lib/rules/" + basename + ".js")) {
+            console.error("Missing tests for rule %s", basename);
+        }
+
+    });
 
 };
 
