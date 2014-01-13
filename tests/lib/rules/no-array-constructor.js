@@ -1,5 +1,5 @@
 /**
- * @fileoverview Tests for the no-new-array rule
+ * @fileoverview Tests for the no-array-constructor rule
  * @author Matt DuVall <http://www.mattduvall.com/>
  */
 
@@ -13,7 +13,7 @@ var eslintTester = require("../../../lib/tests/eslintTester");
 // Tests
 //------------------------------------------------------------------------------
 
-eslintTester.addRuleTest("no-new-array", {
+eslintTester.addRuleTest("no-array-constructor", {
     valid: [
         "var foo = new foo.Array()"
     ],
