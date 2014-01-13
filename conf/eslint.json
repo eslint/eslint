@@ -49,7 +49,7 @@
         "no-delete-var": 2,
         "no-return-assign": 2,
         "no-nested-ternary": 0,
-        "no-new-array": 2,
+        "no-array-constructor": 2,
         "no-new-object": 2,
         "no-label-var": 2,
         "no-ternary": 0,
