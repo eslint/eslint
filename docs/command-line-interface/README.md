@@ -77,7 +77,7 @@ Example:
 
 ## Ignoring files from linting
 
-ESLing support .eslintignore files to reject files from linting process. .eslintignore file is a JSON file that accepts and array of globs. .eslintignore file can be located anywhere, and will affect files in it's own directory as well as all sub-directories. Here's a simple example of .eslintignore file:
+ESLint supports `.eslintignore` files to exclude files from the linting process when eslint operates on a directory. Files given as individual CLI arguments will be exempt from exclusion. The `.eslintignore` file is a JSON file that contains an array of globs. It can be located in any of the target directory's ancestors; it will affect files in its containing directory as well as all sub-directories. Here's a simple example of a `.eslintignore` file:
 
 ```json
 [
