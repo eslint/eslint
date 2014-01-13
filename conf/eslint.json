@@ -24,6 +24,7 @@
         "no-ex-assign": 2,
         "no-extra-parens": 0,
         "no-extra-semi": 2,
+        "no-extra-strict": 2,
         "no-func-assign": 2,
         "no-floating-decimal": 0,
         "no-implied-eval": 2,
@@ -98,7 +99,6 @@
         "space-infix-ops": 2,
         "space-unary-word-ops": 0,
         "strict": 2,
-        "unnecessary-strict": 2,
         "use-isnan": 2,
         "wrap-iife": 0,
         "wrap-regex": 0

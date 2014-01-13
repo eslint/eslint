@@ -65,8 +65,8 @@ These are rules designed to prevent you from making mistakes. They either prescr
 These rules relate to using strict mode.
 
 * [no-global-strict](no-global-strict.md) - disallow the `"use strict"` pragma in the global scope
+* [no-extract-strict](no-extra-strict.md) - disallow unnecessary use of `"use strict";` when already in strict mode
 * [strict](strict.md) - require that all functions are run in strict mode
-* [unnecessary-strict](unnecessary-strict.md) - disallow unnecessary use of `"use strict";` when already in strict mode
 
 ## Variables
 

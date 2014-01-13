@@ -1,5 +1,5 @@
 /**
- * @fileoverview Tests unnecessary-strict.
+ * @fileoverview Tests no-extra-strict.
  * @author Ian Christian Myers
  */
 
@@ -9,7 +9,7 @@
 
 var eslintTester = require("../../../lib/tests/eslintTester");
 
-eslintTester.addRuleTest("unnecessary-strict", {
+eslintTester.addRuleTest("no-extra-strict", {
     valid: [
         "\"use strict\"; function foo() { var bar = true; }",
         "'use strict'; function foo() { var bar = true; }",
