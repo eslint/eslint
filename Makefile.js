@@ -94,7 +94,7 @@ target.lint = function() {
 
 target.test = function() {
     target.lint();
-    target.checkRulesFiles();
+    target.checkRuleFiles();
     exec(ISTANBUL + " cover " + MOCHA + "-- -c " + TEST_FILES);
     exec(ISTANBUL + "check-coverage --statement 99 --branch 98 --function 99 --lines 99");
 };
