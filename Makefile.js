@@ -94,6 +94,7 @@ target.lint = function() {
 
 target.test = function() {
     target.lint();
+    target.checkRulesFiles();
     exec(ISTANBUL + " cover " + MOCHA + "-- -c " + TEST_FILES);
     exec(ISTANBUL + "check-coverage --statement 99 --branch 98 --function 99 --lines 99");
 };
@@ -140,8 +141,12 @@ target.changelog = function() {
 
 target.checkRuleFiles = function() {
 
+    echo("Validating rules");
+
     var ruleFiles = find("lib/rules/").filter(fileType("js")),
-        rulesIndexText = cat("docs/rules/README.md");
+        rulesIndexText = cat("docs/rules/README.md"),
+        confRules = require("./conf/eslint.json").rules,
+        errors = 0;
 
     ruleFiles.forEach(function(filename) {
         var basename = path.basename(filename, ".js");
@@ -149,20 +154,35 @@ target.checkRuleFiles = function() {
         // check for docs
         if (!test("-f", "docs/rules/" + basename + ".md")) {
             console.error("Missing documentation for rule %s", basename);
+
+            // TODO
+            // errors++;
         } else {
 
             // check for entry in docs index
             if (rulesIndexText.indexOf(basename) === -1) {
                 console.error("Missing link to documentation for rule %s in index", basename);
+                errors++;
             }
+        }
+
+        // check for default configuration
+        if (!confRules.hasOwnProperty(basename)) {
+            console.error("Missing default setting for %s in eslint.json", basename);
+            errors++;
         }
 
         // check for tests
         if (!test("-f", "tests/lib/rules/" + basename + ".js")) {
             console.error("Missing tests for rule %s", basename);
+            errors++;
         }
 
     });
+
+    if (errors) {
+        exit(1);
+    }
 
 };
 
