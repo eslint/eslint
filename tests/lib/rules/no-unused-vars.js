@@ -26,7 +26,8 @@ eslintTester.addRuleTest("no-unused-vars", {
         { code: "function a(x, y){ return y; }; a();", args: [1, "all"] },
         { code: "var arr1 = [1, 2]; var arr2 = [3, 4]; for (var i in arr1) { arr1[i] = 5; } for (var i in arr2) { arr2[i] = 10; }", args: [1, "all"] },
         { code: "var a=10;", args: [1, "local"] },
-        "var a=10"
+        "var a=10",
+        "myFunc(function foo() {}.bind(this))"
     ],
     invalid: [
         { code: "var a=10;", args: [1, "all"], errors: [{ message: "a is defined but never used", type: "Identifier"}] },
