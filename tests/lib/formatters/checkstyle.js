@@ -29,7 +29,7 @@ describe("formatter:checkstyle", function() {
             var config = { rules: { foo: 2 } };
             var result = formatter(code, config);
 
-            assert.equal("<?xml version=\"1.0\" encoding=\"utf-8\"?><checkstyle version=\"4.3\"><file name=\"foo.js\"><error line=\"5\" column=\"10\" severity=\"error\" message=\"Unexpected foo.\" /></file></checkstyle>", result);
+            assert.equal("<?xml version=\"1.0\" encoding=\"utf-8\"?><checkstyle version=\"4.3\"><file name=\"foo.js\"><error line=\"5\" column=\"10\" severity=\"error\" message=\"Unexpected foo. (foo)\" /></file></checkstyle>", result);
         });
         it("should return a string in the format filename: line x, col y, Warning - z for warnings", function() {
             var config = {
@@ -37,7 +37,7 @@ describe("formatter:checkstyle", function() {
             };
 
             var result = formatter(code, config);
-            assert.equal("<?xml version=\"1.0\" encoding=\"utf-8\"?><checkstyle version=\"4.3\"><file name=\"foo.js\"><error line=\"5\" column=\"10\" severity=\"warning\" message=\"Unexpected foo.\" /></file></checkstyle>", result);
+            assert.equal("<?xml version=\"1.0\" encoding=\"utf-8\"?><checkstyle version=\"4.3\"><file name=\"foo.js\"><error line=\"5\" column=\"10\" severity=\"warning\" message=\"Unexpected foo. (foo)\" /></file></checkstyle>", result);
         });
         it("should return a string in the format filename: line x, col y, Error - z for errors with options config", function() {
             var config = {
@@ -45,7 +45,7 @@ describe("formatter:checkstyle", function() {
             };
 
             var result = formatter(code, config);
-            assert.equal("<?xml version=\"1.0\" encoding=\"utf-8\"?><checkstyle version=\"4.3\"><file name=\"foo.js\"><error line=\"5\" column=\"10\" severity=\"error\" message=\"Unexpected foo.\" /></file></checkstyle>", result);
+            assert.equal("<?xml version=\"1.0\" encoding=\"utf-8\"?><checkstyle version=\"4.3\"><file name=\"foo.js\"><error line=\"5\" column=\"10\" severity=\"error\" message=\"Unexpected foo. (foo)\" /></file></checkstyle>", result);
         });
     });
 
@@ -55,9 +55,9 @@ describe("formatter:checkstyle", function() {
             messages: [{
                 fatal: true,
                 message: "Unexpected <>&\"'.",
-                line: '<',
-                column: '>',
-                ruleId: "rule-<>&\"'"
+                line: "<",
+                column: ">",
+                ruleId: "foo"
             }]
         }];
 
@@ -65,7 +65,7 @@ describe("formatter:checkstyle", function() {
             var config = {};    // doesn't matter what's in the config for this test
 
             var result = formatter(code, config);
-            assert.equal("<?xml version=\"1.0\" encoding=\"utf-8\"?><checkstyle version=\"4.3\"><file name=\"&lt;&gt;&amp;&quot;&apos;.js\"><error line=\"&lt;\" column=\"&gt;\" severity=\"error\" message=\"Unexpected &lt;&gt;&amp;&quot;&apos;.\" /></file></checkstyle>", result);
+            assert.equal("<?xml version=\"1.0\" encoding=\"utf-8\"?><checkstyle version=\"4.3\"><file name=\"&lt;&gt;&amp;&quot;&apos;.js\"><error line=\"&lt;\" column=\"&gt;\" severity=\"error\" message=\"Unexpected &lt;&gt;&amp;&quot;&apos;. (foo)\" /></file></checkstyle>", result);
         });
     });
 
@@ -85,7 +85,7 @@ describe("formatter:checkstyle", function() {
             var config = {};    // doesn't matter what's in the config for this test
 
             var result = formatter(code, config);
-            assert.equal("<?xml version=\"1.0\" encoding=\"utf-8\"?><checkstyle version=\"4.3\"><file name=\"foo.js\"><error line=\"5\" column=\"10\" severity=\"error\" message=\"Unexpected foo.\" /></file></checkstyle>", result);
+            assert.equal("<?xml version=\"1.0\" encoding=\"utf-8\"?><checkstyle version=\"4.3\"><file name=\"foo.js\"><error line=\"5\" column=\"10\" severity=\"error\" message=\"Unexpected foo. (foo)\" /></file></checkstyle>", result);
         });
     });
 
@@ -111,7 +111,7 @@ describe("formatter:checkstyle", function() {
             };
 
             var result = formatter(code, config);
-            assert.equal("<?xml version=\"1.0\" encoding=\"utf-8\"?><checkstyle version=\"4.3\"><file name=\"foo.js\"><error line=\"5\" column=\"10\" severity=\"error\" message=\"Unexpected foo.\" /><error line=\"6\" column=\"11\" severity=\"warning\" message=\"Unexpected bar.\" /></file></checkstyle>", result);
+            assert.equal("<?xml version=\"1.0\" encoding=\"utf-8\"?><checkstyle version=\"4.3\"><file name=\"foo.js\"><error line=\"5\" column=\"10\" severity=\"error\" message=\"Unexpected foo. (foo)\" /><error line=\"6\" column=\"11\" severity=\"warning\" message=\"Unexpected bar. (bar)\" /></file></checkstyle>", result);
         });
     });
 
@@ -140,7 +140,7 @@ describe("formatter:checkstyle", function() {
             };
 
             var result = formatter(code, config);
-            assert.equal("<?xml version=\"1.0\" encoding=\"utf-8\"?><checkstyle version=\"4.3\"><file name=\"foo.js\"><error line=\"5\" column=\"10\" severity=\"error\" message=\"Unexpected foo.\" /></file><file name=\"bar.js\"><error line=\"6\" column=\"11\" severity=\"warning\" message=\"Unexpected bar.\" /></file></checkstyle>", result);
+            assert.equal("<?xml version=\"1.0\" encoding=\"utf-8\"?><checkstyle version=\"4.3\"><file name=\"foo.js\"><error line=\"5\" column=\"10\" severity=\"error\" message=\"Unexpected foo. (foo)\" /></file><file name=\"bar.js\"><error line=\"6\" column=\"11\" severity=\"warning\" message=\"Unexpected bar. (bar)\" /></file></checkstyle>", result);
         });
     });
 });

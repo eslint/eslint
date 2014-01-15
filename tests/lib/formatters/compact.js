@@ -48,7 +48,7 @@ describe("formatter:compact", function() {
             };
 
             var result = formatter(code, config);
-            assert.equal("foo.js: line 5, col 10, Error - Unexpected foo.\n\n1 problem", result);
+            assert.equal("foo.js: line 5, col 10, Error - Unexpected foo. (foo)\n\n1 problem", result);
         });
 
         it("should return a string in the format filename: line x, col y, Warning - z for warnings", function() {
@@ -57,7 +57,7 @@ describe("formatter:compact", function() {
             };
 
             var result = formatter(code, config);
-            assert.equal("foo.js: line 5, col 10, Warning - Unexpected foo.\n\n1 problem", result);
+            assert.equal("foo.js: line 5, col 10, Warning - Unexpected foo. (foo)\n\n1 problem", result);
         });
 
         it("should return a string in the format filename: line x, col y, Error - z for errors with options config", function() {
@@ -66,7 +66,7 @@ describe("formatter:compact", function() {
             };
 
             var result = formatter(code, config);
-            assert.equal("foo.js: line 5, col 10, Error - Unexpected foo.\n\n1 problem", result);
+            assert.equal("foo.js: line 5, col 10, Error - Unexpected foo. (foo)\n\n1 problem", result);
         });
     });
 
@@ -86,7 +86,7 @@ describe("formatter:compact", function() {
             var config = {};    // doesn't matter what's in the config for this test
 
             var result = formatter(code, config);
-            assert.equal("foo.js: line 5, col 10, Error - Unexpected foo.\n\n1 problem", result);
+            assert.equal("foo.js: line 5, col 10, Error - Unexpected foo. (foo)\n\n1 problem", result);
         });
     });
 
@@ -112,7 +112,7 @@ describe("formatter:compact", function() {
             };
 
             var result = formatter(code, config);
-            assert.equal("foo.js: line 5, col 10, Error - Unexpected foo.\nfoo.js: line 6, col 11, Warning - Unexpected bar.\n\n2 problems", result);
+            assert.equal("foo.js: line 5, col 10, Error - Unexpected foo. (foo)\nfoo.js: line 6, col 11, Warning - Unexpected bar. (bar)\n\n2 problems", result);
         });
     });
 
@@ -141,7 +141,7 @@ describe("formatter:compact", function() {
             };
 
             var result = formatter(code, config);
-            assert.equal("foo.js: line 5, col 10, Error - Unexpected foo.\nbar.js: line 6, col 11, Warning - Unexpected bar.\n\n2 problems", result);
+            assert.equal("foo.js: line 5, col 10, Error - Unexpected foo. (foo)\nbar.js: line 6, col 11, Warning - Unexpected bar. (bar)\n\n2 problems", result);
         });
     });
 
