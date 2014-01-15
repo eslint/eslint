@@ -26,6 +26,7 @@ eslintTester.addRuleTest("no-empty", {
         "try { foo() } finally {}"
     ],
     invalid: [
+        { code: "try { foo() } catch (ex) {} finally {}", errors: [{ message: "Empty block statement.", type: "BlockStatement"}] },
         { code: "if (foo) {}", errors: [{ message: "Empty block statement.", type: "BlockStatement"}] },
         { code: "while (foo) {}", errors: [{ message: "Empty block statement.", type: "BlockStatement"}] },
         { code: "for (;foo;) {}", errors: [{ message: "Empty block statement.", type: "BlockStatement"}] },

@@ -24,6 +24,14 @@ while (foo) {
 
 switch(foo) {
 }
+
+try {
+    doSomething();
+} catch(ex) {
+
+} finally {
+    // this is flagged
+}
 ```
 
 The following patterns are not considered warnings:
