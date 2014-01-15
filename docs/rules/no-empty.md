@@ -1,10 +1,17 @@
 # Disallow Empty Block Statements
 
-Empty statements usually occur due to refactoring that wasn't completed. You may end up with empty statements inside of blocks or `switch`, or by having too many semicolons in a row.
+Empty statements usually occur due to refactoring that wasn't completed, such as:
+
+```js
+if (foo) {
+}
+```
+
+Empty block statements such as this are usually an indicator of an error, or at the very least, an indicator that some refactoring is likely needed.
 
 ## Rule Details
 
-This rule is aimed at eliminating empty statements. While not technically an error, empty statements can be a source of confusion when reading code.
+This rule is aimed at eliminating empty block statements. While not technically an error, empty block statements can be a source of confusion when reading code.
 
 The following patterns are considered warnings:
 
@@ -18,6 +25,24 @@ while (foo) {
 switch(foo) {
 }
 ```
+
+The following patterns are not considered warnings:
+
+```js
+try {
+    doSomething();
+} catch (ex) {
+
+}
+
+try {
+    doSomething();
+} finally {
+
+}
+```
+
+Since you must always have at least a `catch` or a `finally` block for any `try`, it is common to have empty statements when execution should continue regardless of error.
 
 ## When Not To Use It
 
