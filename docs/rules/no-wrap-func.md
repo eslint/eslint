@@ -10,6 +10,7 @@ var foo = (function() {
 var bar = (function() {
 	// not an IIFE
 });
+```
 
 ## Rule Details
 
