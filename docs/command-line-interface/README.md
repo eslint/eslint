@@ -25,7 +25,7 @@ Options:
   -h, --help    Show help.
   -c, --config  Load configuration data from this file.
   --rulesdir    Load additional rules from this directory.
-  -f, --format  Use a specific output format.               [default: "compact"]
+  -f, --format  Use a specific output format.               [default: "stylish"]
   -v, --version  Outputs the version number.
 ```
 
