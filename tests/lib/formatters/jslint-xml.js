@@ -34,7 +34,7 @@ describe("formatter:jslint-xml", function() {
             };
 
             var result = formatter(code, config);
-            assert.equal("<?xml version=\"1.0\" encoding=\"utf-8\"?><jslint><file name=\"foo.js\"><issue line=\"5\" char=\"10\" evidence=\"foo\" reason=\"Unexpected foo.\" /></file></jslint>", result);
+            assert.equal("<?xml version=\"1.0\" encoding=\"utf-8\"?><jslint><file name=\"foo.js\"><issue line=\"5\" char=\"10\" evidence=\"foo\" reason=\"Unexpected foo. (foo)\" /></file></jslint>", result);
         });
     });
 
@@ -56,7 +56,7 @@ describe("formatter:jslint-xml", function() {
             var config = {};    // doesn't matter what's in the config for this test
 
             var result = formatter(code, config);
-            assert.equal("<?xml version=\"1.0\" encoding=\"utf-8\"?><jslint><file name=\"foo.js\"><issue line=\"5\" char=\"10\" evidence=\"foo\" reason=\"Unexpected foo.\" /></file></jslint>", result);
+            assert.equal("<?xml version=\"1.0\" encoding=\"utf-8\"?><jslint><file name=\"foo.js\"><issue line=\"5\" char=\"10\" evidence=\"foo\" reason=\"Unexpected foo. (foo)\" /></file></jslint>", result);
         });
     });
 
@@ -84,7 +84,7 @@ describe("formatter:jslint-xml", function() {
             };
 
             var result = formatter(code, config);
-            assert.equal("<?xml version=\"1.0\" encoding=\"utf-8\"?><jslint><file name=\"foo.js\"><issue line=\"5\" char=\"10\" evidence=\"foo\" reason=\"Unexpected foo.\" /><issue line=\"6\" char=\"11\" evidence=\"bar\" reason=\"Unexpected bar.\" /></file></jslint>", result);
+            assert.equal("<?xml version=\"1.0\" encoding=\"utf-8\"?><jslint><file name=\"foo.js\"><issue line=\"5\" char=\"10\" evidence=\"foo\" reason=\"Unexpected foo. (foo)\" /><issue line=\"6\" char=\"11\" evidence=\"bar\" reason=\"Unexpected bar. (bar)\" /></file></jslint>", result);
         });
     });
 
@@ -115,7 +115,7 @@ describe("formatter:jslint-xml", function() {
             };
 
             var result = formatter(code, config);
-            assert.equal("<?xml version=\"1.0\" encoding=\"utf-8\"?><jslint><file name=\"foo.js\"><issue line=\"5\" char=\"10\" evidence=\"foo\" reason=\"Unexpected foo.\" /></file><file name=\"bar.js\"><issue line=\"6\" char=\"11\" evidence=\"bar\" reason=\"Unexpected bar.\" /></file></jslint>", result);
+            assert.equal("<?xml version=\"1.0\" encoding=\"utf-8\"?><jslint><file name=\"foo.js\"><issue line=\"5\" char=\"10\" evidence=\"foo\" reason=\"Unexpected foo. (foo)\" /></file><file name=\"bar.js\"><issue line=\"6\" char=\"11\" evidence=\"bar\" reason=\"Unexpected bar. (bar)\" /></file></jslint>", result);
         });
     });
 
@@ -138,7 +138,7 @@ describe("formatter:jslint-xml", function() {
             };
 
             var result = formatter(code, config);
-            assert.equal("<?xml version=\"1.0\" encoding=\"utf-8\"?><jslint><file name=\"foo.js\"><issue line=\"5\" char=\"10\" evidence=\"foo\" reason=\"Unexpected &gt; foo.\" /></file></jslint>", result);
+            assert.equal("<?xml version=\"1.0\" encoding=\"utf-8\"?><jslint><file name=\"foo.js\"><issue line=\"5\" char=\"10\" evidence=\"foo\" reason=\"Unexpected &gt; foo. (foo)\" /></file></jslint>", result);
         });
     });
 
@@ -160,7 +160,7 @@ describe("formatter:jslint-xml", function() {
             };
 
             var result = formatter(code, config);
-            assert.equal("<?xml version=\"1.0\" encoding=\"utf-8\"?><jslint><file name=\"foo.js\"><issue line=\"5\" char=\"10\" evidence=\"\" reason=\"Unexpected foo.\" /></file></jslint>", result);
+            assert.equal("<?xml version=\"1.0\" encoding=\"utf-8\"?><jslint><file name=\"foo.js\"><issue line=\"5\" char=\"10\" evidence=\"\" reason=\"Unexpected foo. (foo)\" /></file></jslint>", result);
         });
     });
 });
