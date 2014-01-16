@@ -4,7 +4,7 @@ Variables that are declared and not used anywhere in the code are most likely an
 
 ## Rule Details
 
-This rule is aimed at eliminating unused variables and functions, as as such, warns when one is found.
+This rule is aimed at eliminating unused variables and functions, as such, warns when one is found.
 
 The following patterns are considered warnings:
 
