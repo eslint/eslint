@@ -1,6 +1,6 @@
-# Limit Cycolmatic Complexity
+# Limit Cyclomatic Complexity
 
-Cyclomatic complexity measures the number of linearly independent paths through a programs source code. This rule allows setting a cyclomatic complexity threshold.
+Cyclomatic complexity measures the number of linearly independent paths through a program's source code. This rule allows setting a cyclomatic complexity threshold.
 
 ```js
 // complexity: [1, 2]
