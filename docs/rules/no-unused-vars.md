@@ -4,8 +4,7 @@ Variables that are declared and not used anywhere in the code are most likely an
 
 ## Rule Details
 
-This error occurs when a variable is declared but never used.
-
+This rule is aimed at eliminating unused variables and functions, as such, warns when one is found.
 
 The following patterns are considered warnings:
 
@@ -21,10 +20,14 @@ The following patterns are not considered warnings:
 ```js
 var x = 10;
 alert(x);
-};
+
+// foo is considered used here
+myFunc(function foo() {
+    // ...
+}.bind(this));
 ```
 
-No warning will be thrown for unused variables in the parameters of Function Declarations or Function Expressions if any of the variables following the unused variable are used in that function's scope. This allows you to have unused variables in a function but still use that variable via super().
+No warning will be thrown for unused variables in the parameters of function declarations or function expressions if any of the variables following the unused variable are used in that function's scope. This allows you to have unused variables in a function.
 
 ```js
 "use strict";
