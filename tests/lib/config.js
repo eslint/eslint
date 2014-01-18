@@ -176,4 +176,14 @@ describe("config", function() {
             }
         });
     });
+
+    describe("Config with abitrarily named config file", function() {
+        it ("should load the config file", function() {
+            var configPath = path.resolve(__dirname, "..", "fixtures", "configurations", "my-awesome-config"),
+                configHelper = new Config({config: configPath}),
+                quotes = configHelper.useSpecificConfig.rules.quotes[0];
+
+            assert.equal(quotes, 3);
+        });
+    });
 });
