@@ -37,6 +37,10 @@ That's not really a question, but I got it. I'm not trying to convince you that 
 
 Our first goal for ESLint is to hit rule and stability parity with JSHint so that developers can start using ESLint as part of their production toolchain. The master list of JSHint features to be implemented is maintained in this [Google Docs spreadsheet](https://docs.google.com/spreadsheet/lv?key=0Ap5QGaRT4AJ_dGV6VXBlMEw3NHhVRl9vQ0lIX2FnVlE&usp=sharing). To read about plans beyond parity with JSHint, check out the [ESLint Roadmap](https://github.com/nzakas/eslint/wiki/Release-goals).
 
+### What about ECMAScript 6 support?
+
+At the moment, ES6 support is turned off due to the experimental nature of the support in Esprima. There is basic support for `let` and `const`, but aside from that, the rest of the features are unsupported. We will re-evaluate ES6 support after v0.5.0.
+
 ### Where to ask for help?
 
 Join our [Mailing List](https://groups.google.com/group/eslint)
