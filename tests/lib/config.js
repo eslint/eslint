@@ -155,4 +155,25 @@ describe("config", function() {
             assert.include(output, ".eslintrc");
         });
     });
+
+    describe("getConfig with no directory", function() {
+        it ("should return cwd config", function() {
+            var cwd = process.cwd();;
+            process.chdir(path.resolve(__dirname, "..", "fixtures", "configurations", "cwd"));
+
+            try {
+                var configHelper = new Config(),
+                    code = path.resolve(__dirname, "..", "fixtures", "configurations", "single-quotes", ".eslintrc"),
+                    expected = configHelper.getConfig(code),
+                    expectedQuotes = expected.rules.quotes[0],
+                    actual = configHelper.getConfig(),
+                    actualQuotes = actual.rules.quotes[0];
+
+                assert.notEqual(expectedQuotes, actualQuotes);
+            }
+            finally {
+                process.chdir(cwd);
+            }
+        });
+    });
 });
