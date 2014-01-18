@@ -8,6 +8,13 @@ ESLint is written using Node.js to provide a fast runtime environment and easy i
 
 ## Philosophy
 
+Everything is pluggable:
+
+* Rule API is used both by bundled and custom rules
+* Formatter API is used both by bundled and custom formatters
+* Additional rules and formatters can be specified at runtime
+* Rules and formatters don't have to be bundled to be used
+
 Every rule:
 
 * Is standalone
@@ -17,6 +24,11 @@ Every rule:
 
 Additionally:
 
-* The only "error" that ships with ESLint is a parser error
-* Not all rules bundled with ESLint are enabled by default
-* Bundled rules that are enabled are set as warnings (not errors)
+* Rules are "agenda free" - ESLint does not promote any particular coding style
+* Any bundled rules are generalizable
+
+The project:
+
+* Values documentation and clear communication
+* Is as transparent as possible
+* Believes in the importance of testing
