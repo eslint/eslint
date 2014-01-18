@@ -283,6 +283,25 @@ describe("eslint", function() {
             assert(spy.calledOnce, "Handler should be called.");
         });
 
+        it("should fire LineComment and LineComment:after events", function() {
+
+            function handler(node) {
+                var code = eslint.getSource(node);
+                assert.equal(node.value, " my line comment");
+                assert.equal(code, "// my line comment");
+            }
+
+            var config = { rules: {} },
+                spy = sandbox.spy(handler);
+
+            eslint.reset();
+            eslint.on("LineComment", spy);
+            eslint.on("LineComment:after", spy);
+
+            eslint.verify(code, config, true);
+            assert(spy.calledTwice, "Handler should be called.");
+        });
+
         it("should fire BlockComment event", function() {
 
             function handler(node) {
@@ -299,6 +318,25 @@ describe("eslint", function() {
 
             eslint.verify(code, config, true);
             assert(spy.calledOnce, "Handler should be called.");
+        });
+
+        it("should fire BlockComment:after event", function() {
+
+            function handler(node) {
+                var code = eslint.getSource(node);
+                assert.equal(node.value, " my block comment ");
+                assert.equal(code, "/* my block comment */");
+            }
+
+            var config = { rules: {} },
+                spy = sandbox.spy(handler);
+
+            eslint.reset();
+            eslint.on("BlockComment", spy);
+            eslint.on("BlockComment:after", spy);
+
+            eslint.verify(code, config, true);
+            assert(spy.calledTwice, "Handler should be called.");
         });
 
     });
