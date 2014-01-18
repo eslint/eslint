@@ -40,7 +40,8 @@ function getVariable(scope, name) {
 
 describe("eslint", function() {
     describe("when using events", function() {
-        var code = TEST_CODE;
+        var code = TEST_CODE,
+            sandbox;
 
         it("an error should be thrown when an error occurs inside of an event handler", function() {
             var config = { rules: {} };
@@ -59,28 +60,44 @@ describe("eslint", function() {
     describe("when calling toSource()", function() {
         var code = TEST_CODE;
 
-        it("should retrieve all text when used without parameters", function() {
-            var config = { rules: {} };
+        beforeEach(function() {
+            sandbox = sinon.sandbox.create();
+        });
 
-            eslint.reset();
-            eslint.on("Program", function() {
+        afterEach(function() {
+            sandbox.verifyAndRestore();
+        });
+
+        it("should retrieve all text when used without parameters", function() {
+            function handler() {
                 var source = eslint.getSource();
                 assert.equal(source, TEST_CODE);
-            });
+            }
+
+            var config = { rules: {} },
+                spy = sandbox.spy(handler);
+
+            eslint.reset();
+            eslint.on("Program", spy);
 
             eslint.verify(code, config, true);
+            assert(spy.calledOnce);
         });
 
         it("should retrieve all text for root node", function() {
-            var config = { rules: {} };
-
-            eslint.reset();
-            eslint.on("Program", function(node) {
+            function handler(node) {
                 var source = eslint.getSource(node);
                 assert.equal(source, TEST_CODE);
-            });
+            }
+
+            var config = { rules: {} },
+                spy = sandbox.spy(handler);
+
+            eslint.reset();
+            eslint.on("Program", spy);
 
             eslint.verify(code, config, true);
+            assert(spy.calledOnce);
         });
 
         it("should retrieve all text for binary expression", function() {
@@ -197,22 +214,34 @@ describe("eslint", function() {
     });
 
     describe("when retrieving comments", function() {
-        var code = [
-            "// my line comment",
-            "var a = 42;",
-            "/* my block comment */"
-        ].join("\n");
+        var sandbox,
+            code = [
+                "// my line comment",
+                "var a = 42;",
+                "/* my block comment */"
+            ].join("\n");
+
+        beforeEach(function() {
+            sandbox = sinon.sandbox.create();
+        });
+
+        afterEach(function() {
+            sandbox.verifyAndRestore();
+        });
 
         it("should retrieve all comments", function() {
-            var config = { rules: {} };
-
-            eslint.reset();
-            eslint.on("Program", function(/*node*/) {
+            function handler() {
                 var comments = eslint.getAllComments();
                 assert.equal(comments.length, 2);
-            });
+            }
+            var config = { rules: {} },
+                spy = sandbox.spy(handler);
+
+            eslint.reset();
+            eslint.on("Program", spy);
 
             eslint.verify(code, config, true);
+            assert(spy.calledOnce, "Handler should be called.");
         });
 
         it("should attach them to all nodes", function() {
@@ -236,20 +265,80 @@ describe("eslint", function() {
             eslint.verify(code, config, true);
         });
 
-        it("should attach them lazily", function() {
-            var config = { rules: {} };
+        it("should fire LineComment event", function() {
+
+            function handler(node) {
+                var code = eslint.getSource(node);
+                assert.equal(node.value, " my line comment");
+                assert.equal(code, "// my line comment");
+            }
+
+            var config = { rules: {} },
+                spy = sandbox.spy(handler);
 
             eslint.reset();
-            eslint.on("VariableDeclaration", function (node) {
-                assert.equal(node.hasOwnProperty("leadingComments"), false);
-                assert.equal(node.hasOwnProperty("trailingComments"), false);
-                eslint.getComments(node);
-                assert.equal(node.hasOwnProperty("leadingComments"), false);
-                assert.equal(node.hasOwnProperty("trailingComments"), true);
-            });
+            eslint.on("LineComment", spy);
 
             eslint.verify(code, config, true);
+            assert(spy.calledOnce, "Handler should be called.");
         });
+
+        it("should fire LineComment and LineComment:after events", function() {
+
+            function handler(node) {
+                var code = eslint.getSource(node);
+                assert.equal(node.value, " my line comment");
+                assert.equal(code, "// my line comment");
+            }
+
+            var config = { rules: {} },
+                spy = sandbox.spy(handler);
+
+            eslint.reset();
+            eslint.on("LineComment", spy);
+            eslint.on("LineComment:after", spy);
+
+            eslint.verify(code, config, true);
+            assert(spy.calledTwice, "Handler should be called.");
+        });
+
+        it("should fire BlockComment event", function() {
+
+            function handler(node) {
+                var code = eslint.getSource(node);
+                assert.equal(node.value, " my block comment ");
+                assert.equal(code, "/* my block comment */");
+            }
+
+            var config = { rules: {} },
+                spy = sandbox.spy(handler);
+
+            eslint.reset();
+            eslint.on("BlockComment", spy);
+
+            eslint.verify(code, config, true);
+            assert(spy.calledOnce, "Handler should be called.");
+        });
+
+        it("should fire BlockComment:after event", function() {
+
+            function handler(node) {
+                var code = eslint.getSource(node);
+                assert.equal(node.value, " my block comment ");
+                assert.equal(code, "/* my block comment */");
+            }
+
+            var config = { rules: {} },
+                spy = sandbox.spy(handler);
+
+            eslint.reset();
+            eslint.on("BlockComment", spy);
+            eslint.on("BlockComment:after", spy);
+
+            eslint.verify(code, config, true);
+            assert(spy.calledTwice, "Handler should be called.");
+        });
+
     });
 
     describe("when calling getAncestors", function() {
