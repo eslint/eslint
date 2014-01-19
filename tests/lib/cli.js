@@ -27,7 +27,7 @@ describe("cli", function() {
     });
 
     describe("when given a config file", function() {
-        var code = "conf/eslint.json";
+        var code = path.join(__dirname, "..", ".eslintrc");
 
         it("should load the specified config file", function() {
             assert.doesNotThrow(function () {
