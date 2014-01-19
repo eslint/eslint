@@ -19,7 +19,7 @@ The following rules point out areas where you might have made mistakes.
 * [no-extra-semi](no-extra-semi.md) - disallow unnecessary semicolons
 * [no-func-assign](no-func-assign.md) - disallow overwriting functions written as function declarations
 * [no-invalid-regexp](no-invalid-regexp.md) - disallow invalid regular expression strings in the `RegExp` constructor
-* [no-negated-in-lhs](no-negated-in-lhs.md) - disallow negation in the lefthand side of a comparison
+* [no-negated-in-lhs](no-negated-in-lhs.md) - disallow negation in the lefthand side of an expression using `in`
 * [no-obj-calls](no-obj-calls.md) - disallow the use of object properties of the global object (`Math` and `JSON`) as functions
 * [no-unreachable](no-unreachable.md) - disallow unreachable statements after a return, throw, continue, or break statement
 * [use-isnan](use-isnan.md) - disallow comparisons with the value `NaN`
