@@ -36,29 +36,33 @@ These are rules designed to prevent you from making mistakes. They either prescr
 * [guard-for-in](guard-for-in.md) - make sure `for-in` loops have an `if` statement (off by default)
 * [no-alert](no-alert.md) - disallow the use of `alert`, `confirm`, and `prompt`
 * [no-caller](no-caller.md) - disallow use of `arguments.caller` or `arguments.callee`
+* [no-div-regex](no-div-regex.md) - disallow division operators explicitly at beginning of regular expression
+* [no-else-return](no-else-return.md) - disallow `else` after a `return` in an `if`.
+* [no-empty-label](no-empty-label.md) - disallow use of labels for anything other then loops and switches
+* [no-eq-null](no-eq-null.md) - disallow comparisons to null without a type-checking operator
 * [no-eval](no-eval.md) - disallow use of `eval()`
 * [no-extend-native](no-extend-native.md) - disallow adding to native types
 * [no-fallthrough](no-fallthrough.md) - disallow fallthrough of `case` statements
 * [no-floating-decimal] - disallow the use of leading or trailing decimal points in numeric literals
+* [no-implied-eval] - disallow use of `eval()`-like methods
+* [no-iterator](no-iterator.md) - disallow usage of `__iterator__` property
+* [no-loop-func](no-loop-func.md) - disallow creation of functions within loops
+* [no-multi-str](no-multi-str.md) - disallow use of multiline strings
 * [no-native-reassign](no-native-reassign.md) - disallow reassignments of native objects
 * [no-new](no-new.md) - disallow use of new operator when not part of the assignment or comparison
 * [no-new-func](no-new-func.md) - disallow use of new operator for `Function` object
+* [no-new-wrappers] - disallows creating new instances of `String`,`Number`, and `Boolean`
 * [no-octal] - disallow use of octal literals
 * [no-octal-escape](no-octal-escape) - disallow use of octal escape sequences in string literals, such as `var foo = "Copyright \251";`
-* [no-with](no-with.md) - disallow use of the `with` statement
-* [no-return-assign] - disallow use of assignment in return statement
-* [no-self-compare](no-self-compare.md) - disallow comparisons where both sides are exactly the same
-* [no-eq-null](no-eq-null.md) - disallow comparisons to null without a type-checking operator
-* [no-multi-str](no-multi-str.md) - disallow use of multiline strings
-* [no-loop-func](no-loop-func.md) - disallow creation of functions within loops
-* [no-empty-label](no-empty-label.md) - disallow use of labels for anything other then loops and switches
-* [no-unused-expressions](no-unused-expressions.md) - disallow usage of expressions in statement position
-* [no-script-url](no-script-url.md) - disallow use of javascript: urls.
 * [no-proto](no-proto.md) - disallow usage of `__proto__` property
-* [no-iterator](no-iterator.md) - disallow usage of `__iterator__` property
-* [no-else-return](no-else-return.md) - disallow `else` after a `return` in an `if`.
 * [no-redeclare](no-redeclare.md) - disallow declaring the same variable more then once
-* [no-div-regex](no-div-regex.md) - disallow division operators explicitly at beginning of regular expression
+* [no-return-assign] - disallow use of assignment in `return` statement
+* [no-script-url](no-script-url.md) - disallow use of javascript: urls.
+* [no-self-compare](no-self-compare.md) - disallow comparisons where both sides are exactly the same
+* [no-unused-expressions](no-unused-expressions.md) - disallow usage of expressions in statement position
+* [no-with](no-with.md) - disallow use of the `with` statement
+* [radix] - require use of the second argument for `parseInt()`
+* [regex-spaces] - disallow multiple spaces in a regular expression
 * [wrap-iife](wrap-iife.md) - require immediate function invocation to be wrapped in parentheses
 
 ## Strict Mode
@@ -83,6 +87,12 @@ These rules have to do with variable declarations.
 * [no-unused-vars](no-unused-vars.md) - disallow declaration of variables that are not used in the code
 * [no-use-before-define](no-use-before-define.md) - disallow use of variables before they are defined
 
+## Node.js
+
+These rules are specific to JavaScript running on Node.js.
+
+* [no-sync] - disallow use of synchronous methods
+
 ## Stylistic Issues
 
 These rules are purely matters of style and are quite subjective.
@@ -95,8 +105,11 @@ These rules are purely matters of style and are quite subjective.
 * [new-parens](new-parens.md) - disallow the omission of parentheses when invoking a contructor with no arguments
 * [no-mixed-requires](no-mixed-requires.md) - disallow mixing regular variable and require declarations
 * [no-nested-ternary](no-nested-ternary.md) - disallow nested ternary expressions
+* [no-new-array] - disallow use of the `Array` constructor
+* [no-new-object] - disallow use of the `Object` constructor
 * [no-spaced-func](no-spaced-func.md) - disallow space between function identifier and application
 * [no-ternary](no-ternary.md) - disallow the use of ternary operators
+* [no-underscore-dangle] - disallow dangling underscores in identifiers
 * [no-wrap-func](no-wrap-func.md) - disallow wrapping of none IIFE statements in parents
 * [quotes](quotes.md) - specify whether double or single quotes should be used
 * [quote-props](quote-props.md) - require quotes around object literal property names
