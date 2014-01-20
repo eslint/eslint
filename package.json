@@ -14,7 +14,7 @@
     "minor": "node Makefile.js minor",
     "major": "node Makefile.js major",
     "gensite": "node Makefile.js gensite",
-    "bundle": "bash scripts/bundle.sh"
+    "browserify": "node Makefile.js browserify"
   },
   "files": [
     "LICENSE",
@@ -38,14 +38,16 @@
     "doctrine": "~0.2.0"
   },
   "devDependencies": {
-    "sinon": "*",
-    "commonjs-everywhere": "~0.9.0",
+    "sinon": "1.7.3",
     "mocha": "~1.13.0",
     "chai": "~1.8.1",
     "shelljs": "~0.2",
     "jsonlint": "~1.6.0",
     "istanbul": "~0.2.3",
-    "dateformat": "~1.0.7-1.2.3"
+    "dateformat": "~1.0.7-1.2.3",
+    "browserify": "~3.20.0",
+    "mocha-phantomjs": "~3.3.1",
+    "phantomjs": "~1.9.2-6"
   },
   "keywords": [
     "ast",

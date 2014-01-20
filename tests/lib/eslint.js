@@ -4,12 +4,27 @@
  */
 
 //------------------------------------------------------------------------------
+// Helper
+//------------------------------------------------------------------------------
+
+/**
+ * To make sure this works in both browsers and Node.js
+ */
+function compatRequire(name, windowName) {
+    if (typeof require === "function") {
+        return require(name);
+    } else {
+        return window[windowName || name];
+    }
+}
+
+//------------------------------------------------------------------------------
 // Requirements
 //------------------------------------------------------------------------------
 
-var assert = require("chai").assert,
-    sinon = require("sinon"),
-    eslint = require("../../lib/eslint");
+var assert = compatRequire("chai").assert,
+    sinon = compatRequire("sinon"),
+    eslint = compatRequire("../../lib/eslint", "eslint");
 
 //------------------------------------------------------------------------------
 // Constants
@@ -862,9 +877,8 @@ describe("eslint", function() {
 
         it("should throw an error", function() {
             assert.throws(function() {
-                eslint.verify(code, { foobar: 2 });
-            }, "Object.keys called on non-object",
-            "Definition for rule 'foobar' was not found.");
+                eslint.verify(code, { rules: {foobar: 2 } });
+            }, /Definition for rule 'foobar' was not found\./);
         });
     });
 

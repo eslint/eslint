@@ -16,6 +16,29 @@ var path = require("path"),
     dateformat = require("dateformat");
 
 //------------------------------------------------------------------------------
+// Data
+//------------------------------------------------------------------------------
+
+var NODE = "node ", // intentional extra space
+    NODE_MODULES = "./node_modules/",
+    TEMP_DIR = "./tmp/",
+    BUILD_DIR = "./build/",
+
+    // Utilities - intentional extra space at the end of each string
+    JSON_LINT = NODE + NODE_MODULES + "jsonlint/lib/cli.js ",
+    ISTANBUL = NODE + NODE_MODULES + "istanbul/lib/cli.js ",
+    MOCHA = NODE_MODULES + "mocha/bin/_mocha ",
+    MOCHA_PHANTOM = NODE + NODE_MODULES + "mocha-phantomjs/bin/mocha-phantomjs ",
+    JSDOC = NODE + NODE_MODULES + "jsdoc/jsdoc.js ",
+    ESLINT = NODE + " bin/eslint.js ",
+    BROWSERIFY = NODE + NODE_MODULES + "browserify/bin/cmd.js ",
+
+    // Files
+    JS_FILES = find("lib/").filter(fileType("js")).join(" "),
+    JSON_FILES = find("conf/").filter(fileType("json")).join(" ") + " .eslintrc",
+    TEST_FILES = find("tests/lib/").filter(fileType("js")).join(" ");
+
+//------------------------------------------------------------------------------
 // Helpers
 //------------------------------------------------------------------------------
 
@@ -32,6 +55,25 @@ function fileType(extension) {
 }
 
 /**
+ * Generates a static file that includes each rule by name rather than dynamically
+ * looking up based on directory. This is used for the browser version of ESLint.
+ * @param {string} basedir The directory in which to look for code.
+ * @returns {void}
+ */
+function generateRulesIndex(basedir) {
+    var output = "module.exports = function() {\n";
+    output += "    var rules = Object.create(null);\n";
+
+    find(basedir + "rules/").filter(fileType("js")).forEach(function(filename) {
+        var basename = path.basename(filename, ".js");
+        output += "    rules[\"" + basename + "\"] = require(\"./rules/" + basename + "\");\n";
+    });
+
+    output += "\n    return rules;\n};";
+    output.to(basedir + "load-rules.js");
+}
+
+/**
  * Creates a release version tag and pushes to origin.
  * @param {string} type The type of release to do (patch, minor, major)
  * @returns {void}
@@ -44,25 +86,6 @@ function release(type) {
     exec("npm publish");
     target.gensite();
 }
-
-//------------------------------------------------------------------------------
-// Data
-//------------------------------------------------------------------------------
-
-var NODE = "node ", // intentional extra space
-    NODE_MODULES = "./node_modules/",
-
-    // Utilities - intentional extra space at the end of each string
-    JSON_LINT = NODE + NODE_MODULES + "jsonlint/lib/cli.js ",
-    ISTANBUL = NODE + NODE_MODULES + "istanbul/lib/cli.js ",
-    MOCHA = NODE_MODULES + "mocha/bin/_mocha ",
-    JSDOC = NODE + NODE_MODULES + "jsdoc/jsdoc.js ",
-    ESLINT = NODE + " bin/eslint.js ",
-
-    // Files
-    JS_FILES = find("lib/").filter(fileType("js")).join(" "),
-    JSON_FILES = find("conf/").filter(fileType("json")).join(" ") + " .eslintrc",
-    TEST_FILES = find("tests/lib/").filter(fileType("js")).join(" ");
 
 //------------------------------------------------------------------------------
 // Tasks
@@ -83,8 +106,12 @@ target.lint = function() {
 target.test = function() {
     target.lint();
     target.checkRuleFiles();
+
     exec(ISTANBUL + " cover " + MOCHA + "-- -c " + TEST_FILES);
     exec(ISTANBUL + "check-coverage --statement 99 --branch 98 --function 99 --lines 99");
+
+    target.browserify();
+    exec(MOCHA_PHANTOM + " -R dot tests/tests.htm");
 };
 
 target.docs = function() {
@@ -117,6 +144,33 @@ target.gensite = function() {
     exec("git push origin master");
     cd(currentDir);
 
+};
+
+target.browserify = function() {
+
+    // 1. create temp and build directory
+    if (!test("-d", TEMP_DIR)) {
+        mkdir(TEMP_DIR);
+    }
+
+    if (!test("-d", BUILD_DIR)) {
+        mkdir(BUILD_DIR);
+    }
+
+    // 2. copy files into temp directory
+    cp("-r", "lib/*", TEMP_DIR);
+
+    // 3. delete the load-rules.js file
+    rm(TEMP_DIR + "load-rules.js");
+
+    // 4. create new load-rule.js with hardcoded requires
+    generateRulesIndex(TEMP_DIR);
+
+    // 5. browserify the temp directory
+    exec(BROWSERIFY + TEMP_DIR + "eslint.js -o " + BUILD_DIR + "eslint.js -s eslint");
+
+    // 6. remove temp directory
+    rm("-r", TEMP_DIR);
 };
 
 target.changelog = function() {
