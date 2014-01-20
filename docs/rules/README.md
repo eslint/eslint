@@ -38,6 +38,7 @@ These are rules designed to prevent you from making mistakes. They either prescr
 * [no-caller](no-caller.md) - disallow use of `arguments.caller` or `arguments.callee`
 * [no-eval](no-eval.md) - disallow use of `eval()`
 * [no-extend-native](no-extend-native.md) - disallow adding to native types
+* [no-fallthrough](no-fallthrough.md) - disallow fallthrough of `case` statements
 * [no-floating-decimal] - disallow the use of leading or trailing decimal points in numeric literals
 * [no-native-reassign](no-native-reassign.md) - disallow reassignments of native objects
 * [no-new](no-new.md) - disallow use of new operator when not part of the assignment or comparison
