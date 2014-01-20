@@ -19,7 +19,7 @@ The following rules point out areas where you might have made mistakes.
 * [no-extra-semi](no-extra-semi.md) - disallow unnecessary semicolons
 * [no-func-assign](no-func-assign.md) - disallow overwriting functions written as function declarations
 * [no-invalid-regexp](no-invalid-regexp.md) - disallow invalid regular expression strings in the `RegExp` constructor
-* [no-negated-in-lhs](no-negated-in-lhs.md) - disallow negation in the lefthand side of a comparison
+* [no-negated-in-lhs](no-negated-in-lhs.md) - disallow negation of the left operand of an `in` expression
 * [no-obj-calls](no-obj-calls.md) - disallow the use of object properties of the global object (`Math` and `JSON`) as functions
 * [no-unreachable](no-unreachable.md) - disallow unreachable statements after a return, throw, continue, or break statement
 * [use-isnan](use-isnan.md) - disallow comparisons with the value `NaN`
@@ -28,7 +28,7 @@ The following rules point out areas where you might have made mistakes.
 
 These are rules designed to prevent you from making mistakes. They either prescribe a better way of doing something or help you avoid footguns.
 
-* [block-scoped-var](block-scope-var.md) - treat `var` statements as if they were block scoped
+* [block-scoped-var](block-scoped-var.md) - treat `var` statements as if they were block scoped
 * [complexity](complexity.md) - specify the maximum cyclomatic complexity allowed in a program
 * [curly](curly.md) - require curly brace for all control statements
 * [dot-notation](dot-notation.md) - encourages use of dot notation whenever possible
@@ -38,14 +38,14 @@ These are rules designed to prevent you from making mistakes. They either prescr
 * [no-caller](no-caller.md) - disallow use of `arguments.caller` or `arguments.callee`
 * [no-eval](no-eval.md) - disallow use of `eval()`
 * [no-extend-native](no-extend-native.md) - disallow adding to native types
-* [no-floating-decimal](no-floating-decimal) - disallow the use of leading or trailing decimal points in numeric literals
+* [no-floating-decimal] - disallow the use of leading or trailing decimal points in numeric literals
 * [no-native-reassign](no-native-reassign.md) - disallow reassignments of native objects
 * [no-new](no-new.md) - disallow use of new operator when not part of the assignment or comparison
 * [no-new-func](no-new-func.md) - disallow use of new operator for `Function` object
-* [no-octal](no-octal.md) - disallow use of octal literals
+* [no-octal] - disallow use of octal literals
 * [no-octal-escape](no-octal-escape) - disallow use of octal escape sequences in string literals, such as `var foo = "Copyright \251";`
 * [no-with](no-with.md) - disallow use of the `with` statement
-* [no-return-assign](no-return-assign.md) - disallow use of assignment in return statement
+* [no-return-assign] - disallow use of assignment in return statement
 * [no-self-compare](no-self-compare.md) - disallow comparisons where both sides are exactly the same
 * [no-eq-null](no-eq-null.md) - disallow comparisons to null without a type-checking operator
 * [no-multi-str](no-multi-str.md) - disallow use of multiline strings
@@ -78,7 +78,7 @@ These rules have to do with variable declarations.
 * [no-shadow](no-shadow.md) - disallow declaration of variables already declared in the outer scope
 * [no-shadow-restricted-names](no-shadow-restricted-names.md) - disallow shadowing of names such as `arguments`
 * [no-undef](no-undef.md) - disallow use of undeclared variables unless mentioned in a `/*global */` block
-* [no-undef-init](no-undef-init.md) - disallow use of undefined when initializing variables
+* [no-undef-init] - disallow use of undefined when initializing variables
 * [no-unused-vars](no-unused-vars.md) - disallow declaration of variables that are not used in the code
 * [no-use-before-define](no-use-before-define.md) - disallow use of variables before they are defined
 
@@ -99,7 +99,7 @@ These rules are purely matters of style and are quite subjective.
 * [no-wrap-func](no-wrap-func.md) - disallow wrapping of none IIFE statements in parents
 * [quotes](quotes.md) - specify whether double or single quotes should be used
 * [quote-props](quote-props.md) - require quotes around object literal property names
-* [semi](semi.md) - require use of semicolons instead of relying on ASI
+* [semi] - require use of semicolons instead of relying on ASI
 * [sort-vars](sort-vars.md) - sort variables within the same declaration block
 * [space-infix-ops](space-infix-ops.md) - require spaces around operators
 * [space-return-throw-case](space-return-throw-case.md) - require a space after `return`, `throw`, and `case`
