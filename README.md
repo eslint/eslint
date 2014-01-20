@@ -1,4 +1,4 @@
-[![Build Status](https://secure.travis-ci.org/eslint/eslint.png?branch=master)](http://travis-ci.org/nzakas/eslint)
+[![Build Status](https://secure.travis-ci.org/eslint/eslint.png?branch=master)](http://travis-ci.org/eslint/eslint)
 
 # ESLint
 
@@ -35,7 +35,7 @@ That's not really a question, but I got it. I'm not trying to convince you that 
 
 ### What are the plans for ESLint?
 
-Our first goal for ESLint is to hit rule and stability parity with JSHint so that developers can start using ESLint as part of their production toolchain. The master list of JSHint features to be implemented is maintained in this [Google Docs spreadsheet](https://docs.google.com/spreadsheet/lv?key=0Ap5QGaRT4AJ_dGV6VXBlMEw3NHhVRl9vQ0lIX2FnVlE&usp=sharing). To read about plans beyond parity with JSHint, check out the [ESLint Roadmap](https://github.com/nzakas/eslint/wiki/Release-goals).
+Our first goal for ESLint is to hit rule and stability parity with JSHint so that developers can start using ESLint as part of their production toolchain. The master list of JSHint features to be implemented is maintained in this [Google Docs spreadsheet](https://docs.google.com/spreadsheet/lv?key=0Ap5QGaRT4AJ_dGV6VXBlMEw3NHhVRl9vQ0lIX2FnVlE&usp=sharing). To read about plans beyond parity with JSHint, check out the [ESLint Roadmap](https://github.com/eslint/eslint/wiki/Release-goals).
 
 ### What about ECMAScript 6 support?
 

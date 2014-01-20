@@ -25,7 +25,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/nzakas/eslint"
+    "url": "https://github.com/eslint/eslint"
   },
   "dependencies": {
     "optimist": "*",
@@ -56,6 +56,6 @@
   "preferGlobal": true,
   "license": {
     "type": "MIT",
-    "url": "https://github.com/nzakas/eslint/blob/master/LICENSE"
+    "url": "https://github.com/eslint/eslint/blob/master/LICENSE"
   }
 }
