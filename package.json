@@ -34,7 +34,8 @@
     "escope": "1.0.0",
     "glob": "~3.2.7",
     "text-table": "~0.2.0",
-    "chalk": "~0.4.0"
+    "chalk": "~0.4.0",
+    "doctrine": "~0.2.0"
   },
   "devDependencies": {
     "sinon": "*",
@@ -43,7 +44,8 @@
     "chai": "~1.8.1",
     "shelljs": "~0.2",
     "jsonlint": "~1.6.0",
-    "istanbul": "~0.2.3"
+    "istanbul": "~0.2.3",
+    "dateformat": "~1.0.7-1.2.3"
   },
   "keywords": [
     "ast",
