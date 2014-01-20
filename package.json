@@ -35,7 +35,7 @@
     "glob": "~3.2.7",
     "text-table": "~0.2.0",
     "chalk": "~0.4.0",
-    "doctrine": "~0.2.0"
+    "strip-json-comments": "~0.1.1"
   },
   "devDependencies": {
     "sinon": "1.7.3",

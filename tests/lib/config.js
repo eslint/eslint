@@ -186,4 +186,17 @@ describe("config", function() {
             assert.equal(quotes, 3);
         });
     });
+
+    describe("Config with comments", function() {
+        it ("should load the config file", function() {
+            var configPath = path.resolve(__dirname, "..", "fixtures", "configurations", "comments.json"),
+                configHelper = new Config({config: configPath}),
+                semi = configHelper.useSpecificConfig.rules.semi,
+                strict = configHelper.useSpecificConfig.rules.strict;
+
+            assert.equal(semi, 1);
+            assert.equal(strict, 0);
+        });
+    });
+
 });

@@ -1,0 +1,10 @@
+{
+
+    /* This is a comment */
+    "rules": {
+        "semi": 1,
+
+        // so is this
+        "strict": 0
+    }
+}
