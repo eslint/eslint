@@ -4,12 +4,12 @@ ESLint is fully configurable using configuration files. The configuration files 
 
 ## Format
 
-ESLint configuration files are simply JSON files that follow a particular format. These are the top-level properties of a configuration file:
+ESLint configuration files are simply JSON or YAML files that follow a particular format. These are the top-level properties of a configuration file:
 
 * `env` - specifies environment information
 * `rules` - specifies which rules are enabled
 
-Here's a simple example:
+Here's a simple JSON example:
 
 ```json
 {
@@ -21,6 +21,18 @@ Here's a simple example:
         "strict": 0
     }
 }
+```
+
+Here's a simple YAML example:
+
+```yaml
+---
+  env:
+    browser: true
+
+  rules:
+    eqeqeq: 1
+    strict: 0
 ```
 
 ### Environment
@@ -68,6 +80,23 @@ Passing in the configuration file in this manner will override any default setti
 The second way to use configuration files is via `.eslintrc` files. These files you place directly into your project directory and ESLint will automatically find them and read configuration information from them. This option is useful when you want different configurations for different parts of a project or when you want others to be able to use ESLint directly without needing to remember to pass in the configuration file.
 
 In either case, the settings in the configuration file override default settings.
+
+## Comments in Configuration Files
+
+Both the JSON and YAML configuration file formats support comments. You can use JavaScript-style comments or YAML-style comments in either type of file and ESLint will safely ignore them. This allows your configuration files to be more human-friendly. For example:
+
+```json
+    "env": {
+        "browser": true
+    },
+    "rules": {
+
+        // Override our default settings just for this directory
+        "eqeqeq": 1,
+        "strict": 0
+    }
+}
+```
 
 ## Using Comments To Configure Rules
 
