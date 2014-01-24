@@ -199,4 +199,16 @@ describe("config", function() {
         });
     });
 
+    describe("YAML config", function() {
+        it ("should load the config file", function() {
+            var configPath = path.resolve(__dirname, "..", "fixtures", "configurations", "env-browser.yaml"),
+                configHelper = new Config({config: configPath}),
+                noAlert = configHelper.useSpecificConfig.rules["no-alert"],
+                noUndef = configHelper.useSpecificConfig.rules["no-undef"];
+
+            assert.equal(noAlert, 0);
+            assert.equal(noUndef, 2);
+        });
+    });
+
 });
