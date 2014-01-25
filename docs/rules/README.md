@@ -61,6 +61,7 @@ These are rules designed to prevent you from making mistakes. They either prescr
 * [no-self-compare](no-self-compare.md) - disallow comparisons where both sides are exactly the same
 * [no-unused-expressions](no-unused-expressions.md) - disallow usage of expressions in statement position
 * [no-with](no-with.md) - disallow use of the `with` statement
+* [no-yoda](no-yoda.md) - disallow Yoda conditions
 * [radix] - require use of the second argument for `parseInt()`
 * [regex-spaces] - disallow multiple spaces in a regular expression
 * [wrap-iife](wrap-iife.md) - require immediate function invocation to be wrapped in parentheses
