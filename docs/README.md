@@ -10,6 +10,10 @@ Explains how the code is organized and why it is organized in that way.
 
 ESLint comes with some default rules to get you started. This is the complete list.
 
+## [Configuring ESLint](configuring/)
+
+You can turn on or off any rule you like, as well as specifying additional information about your project.
+
 ## [Command Line Interface](command-line-interface/)
 
 ESLint is written to be used primarily for the command line. Learn about its usage here.

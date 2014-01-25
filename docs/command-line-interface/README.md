@@ -35,7 +35,7 @@ This option outputs the help menu, displaying all of the available options. All 
 
 ### `-c`, `--config`
 
-This option allows you to specify an alternate [configuration file](config-files.md) for ESLint. By default, it uses `conf/eslint.json`.
+This option allows you to specify an alternate configuration file for ESLint (see [Configuring ESLint](../configuring) for more). By default, ESLint uses its own configuration file located at `conf/eslint.json`.
 
 Example:
 
