@@ -19,11 +19,13 @@ var assert = require("chai").assert,
 describe("cli", function() {
 
     beforeEach(function() {
-        sinon.stub(console, "log").returns({});
+        sinon.stub(console, "log").returns(undefined);
+        sinon.stub(console, "error").returns(undefined);
     });
 
     afterEach(function() {
         console.log.restore();
+        console.error.restore();
     });
 
     describe("when given a config file", function() {
@@ -161,7 +163,7 @@ describe("cli", function() {
             console.log.reset();
 
             cli.execute([code[1]]);
-            assert.isTrue(console.log.alwaysCalledWith(""));
+            assert.isTrue(console.log.notCalled);
 
         });
     });
@@ -192,8 +194,7 @@ describe("cli", function() {
         it("should not process any files", function() {
             cli.execute([code]);
 
-            assert.isTrue(console.log.calledOnce);
-            assert.isTrue(console.log.calledWithExactly(""));
+            assert.isTrue(console.log.notCalled);
         });
     });
 
@@ -203,8 +204,7 @@ describe("cli", function() {
         it("should not process any files", function() {
             cli.execute([code]);
 
-            assert.isTrue(console.log.calledOnce);
-            assert.isTrue(console.log.calledWithExactly(""));
+            assert.isTrue(console.log.notCalled);
         });
     });
 
@@ -214,8 +214,7 @@ describe("cli", function() {
         it("should not process any files", function() {
             var exit = cli.execute([code]);
 
-            assert.isTrue(console.log.calledOnce);
-            assert.isTrue(console.log.calledWithExactly(""));
+            assert.isTrue(console.log.notCalled);
             assert.equal(exit, 0);
         });
     });
