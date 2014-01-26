@@ -70,7 +70,7 @@ describe("cli", function() {
     });
 
     describe("when given a config file and a directory of files", function() {
-        var code = ["--config","tests/fixtures/configurations/semi-error.json", "tests/fixtures/formatters"];
+        var code = ["--config", "tests/fixtures/configurations/semi-error.json", "tests/fixtures/formatters"];
 
         it("should load and execute without error", function() {
             var exitStatus;
@@ -148,6 +148,16 @@ describe("cli", function() {
 
         it("should execute with error", function() {
             var exit = cli.execute([code]);
+
+            assert.equal(exit, 1);
+        });
+    });
+
+    describe("when linting code with an error", function() {
+        var code = "if (true) {}";
+
+        it("should execute with error", function() {
+            var exit = cli.execute(["<stdin>"], code);
 
             assert.equal(exit, 1);
         });
