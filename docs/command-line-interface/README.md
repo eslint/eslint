@@ -14,6 +14,11 @@ Such as:
 
     eslint file1.js file2.js
 
+ESLint can also accept input via stdin by passing `-` as the last argument:
+
+    eslint - < file.js
+    cat file.js | eslint -
+
 ## Options
 
 The command line utility has several options. You can view the options by running `eslint -h`.

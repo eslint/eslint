@@ -36,7 +36,8 @@
     "text-table": "~0.2.0",
     "chalk": "~0.4.0",
     "strip-json-comments": "~0.1.1",
-    "js-yaml": "~3.0.1"
+    "js-yaml": "~3.0.1",
+    "concat-stream": "~1.4.1"
   },
   "devDependencies": {
     "sinon": "1.7.3",
