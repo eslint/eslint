@@ -43,7 +43,7 @@ These are rules designed to prevent you from making mistakes. They either prescr
 * [no-eval](no-eval.md) - disallow use of `eval()`
 * [no-extend-native](no-extend-native.md) - disallow adding to native types
 * [no-fallthrough](no-fallthrough.md) - disallow fallthrough of `case` statements
-* [no-floating-decimal] - disallow the use of leading or trailing decimal points in numeric literals
+* [no-floating-decimal](no-floating-decimal.md) - disallow the use of leading or trailing decimal points in numeric literals
 * [no-implied-eval] - disallow use of `eval()`-like methods
 * [no-iterator](no-iterator.md) - disallow usage of `__iterator__` property
 * [no-loop-func](no-loop-func.md) - disallow creation of functions within loops
