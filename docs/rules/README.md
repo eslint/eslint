@@ -52,8 +52,8 @@ These are rules designed to prevent you from making mistakes. They either prescr
 * [no-new](no-new.md) - disallow use of new operator when not part of the assignment or comparison
 * [no-new-func](no-new-func.md) - disallow use of new operator for `Function` object
 * [no-new-wrappers] - disallows creating new instances of `String`,`Number`, and `Boolean`
-* [no-octal] - disallow use of octal literals
-* [no-octal-escape](no-octal-escape) - disallow use of octal escape sequences in string literals, such as `var foo = "Copyright \251";`
+* [no-octal](no-octal.md) - disallow use of octal literals
+* [no-octal-escape](no-octal-escape.md) - disallow use of octal escape sequences in string literals, such as `var foo = "Copyright \251";`
 * [no-proto](no-proto.md) - disallow usage of `__proto__` property
 * [no-redeclare](no-redeclare.md) - disallow declaring the same variable more then once
 * [no-return-assign] - disallow use of assignment in `return` statement
@@ -62,7 +62,7 @@ These are rules designed to prevent you from making mistakes. They either prescr
 * [no-unused-expressions](no-unused-expressions.md) - disallow usage of expressions in statement position
 * [no-with](no-with.md) - disallow use of the `with` statement
 * [no-yoda](no-yoda.md) - disallow Yoda conditions
-* [radix] - require use of the second argument for `parseInt()`
+* [radix](radix.md) - require use of the second argument for `parseInt()`
 * [regex-spaces] - disallow multiple spaces in a regular expression
 * [wrap-iife](wrap-iife.md) - require immediate function invocation to be wrapped in parentheses
 
@@ -92,7 +92,7 @@ These rules have to do with variable declarations.
 
 These rules are specific to JavaScript running on Node.js.
 
-* [no-sync] - disallow use of synchronous methods
+* [no-sync](no-sync.md) - disallow use of synchronous methods (off by default)
 
 ## Stylistic Issues
 

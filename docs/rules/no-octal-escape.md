@@ -1,6 +1,6 @@
 # Disallow Octal Escapes
 
-As of version 5 of the ECMAScript specification, octal escape sequences are a deprecated feature and should not be used. It is recommended that unicode escapes be used instead.
+As of version 5 of the ECMAScript specification, octal escape sequences are a deprecated feature and should not be used. It is recommended that Unicode escapes be used instead.
 
 ```js
 var foo = "Copyright \251";

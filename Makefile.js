@@ -228,7 +228,7 @@ target.checkRuleFiles = function() {
         } else {
 
             // check for entry in docs index
-            if (rulesIndexText.indexOf(basename) === -1) {
+            if (rulesIndexText.indexOf("(" + basename + ".md)") === -1) {
                 console.error("Missing link to documentation for rule %s in index", basename);
                 errors++;
             }
