@@ -92,6 +92,8 @@ These rules have to do with variable declarations.
 
 These rules are specific to JavaScript running on Node.js.
 
+* [no-mixed-requires](no-mixed-requires.md) - disallow mixing regular variable and require declarations
+* [no-path-concat](no-path-concat.md) - disallow string concatenation with `__dirname` and `__filename`
 * [no-sync](no-sync.md) - disallow use of synchronous methods (off by default)
 
 ## Stylistic Issues
@@ -104,7 +106,6 @@ These rules are purely matters of style and are quite subjective.
 * [func-style](func-style.md) - enforces use of function declarations or expressions
 * [new-cap](new-cap.md) - require a capital letter for constructors
 * [new-parens](new-parens.md) - disallow the omission of parentheses when invoking a contructor with no arguments
-* [no-mixed-requires](no-mixed-requires.md) - disallow mixing regular variable and require declarations
 * [no-nested-ternary](no-nested-ternary.md) - disallow nested ternary expressions
 * [no-new-array] - disallow use of the `Array` constructor
 * [no-new-object] - disallow use of the `Object` constructor
