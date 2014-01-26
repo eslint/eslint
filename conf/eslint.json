@@ -79,6 +79,7 @@
         "camelcase": 2,
         "complexity": [0, 11],
         "consistent-this": [0, "that"],
+        "consistent-return": 2,
         "curly": 2,
         "dot-notation": 2,
         "eqeqeq": 2,
