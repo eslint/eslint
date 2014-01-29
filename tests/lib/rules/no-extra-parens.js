@@ -7,13 +7,13 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslintTester = require("../../../lib/tests/eslintTester");
+var eslintTester = require("eslint-tester");
 
 function invalid(code, type) {
     return { code: code, errors: [{ message: "Gratuitous parentheses around expression.", type: type }] };
 }
 
-eslintTester.addRuleTest("no-extra-parens", {
+eslintTester.addRuleTest("lib/rules/no-extra-parens", {
     valid: [
         // all precedence boundaries
         "a = b, c = d",

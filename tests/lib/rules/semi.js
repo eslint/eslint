@@ -7,9 +7,9 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslintTester = require("../../../lib/tests/eslintTester");
+var eslintTester = require("eslint-tester");
 
-eslintTester.addRuleTest("semi", {
+eslintTester.addRuleTest("lib/rules/semi", {
     valid: [ "var x = 5;",
              "var x =5, y;",
              "foo();",

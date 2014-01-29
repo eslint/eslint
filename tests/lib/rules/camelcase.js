@@ -7,13 +7,13 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslintTester = require("../../../lib/tests/eslintTester");
+var eslintTester = require("eslint-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-eslintTester.addRuleTest("camelcase", {
+eslintTester.addRuleTest("lib/rules/camelcase", {
     valid: [
         "firstName = \"Nicholas\"",
         "FIRST_NAME = \"Nicholas\"",

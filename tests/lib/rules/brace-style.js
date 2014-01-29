@@ -7,14 +7,14 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslintTester = require("../../../lib/tests/eslintTester"),
+var eslintTester = require("eslint-tester"),
     MESSAGE = "Opening curly brace does not appear on the same line as controlling statement.";
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-eslintTester.addRuleTest("brace-style", {
+eslintTester.addRuleTest("lib/rules/brace-style", {
     valid: [
         "function foo () { return; }",
         "function a(b,\nc,\nd) { }",

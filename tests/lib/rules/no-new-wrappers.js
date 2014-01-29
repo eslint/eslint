@@ -7,13 +7,13 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslintTester = require("../../../lib/tests/eslintTester");
+var eslintTester = require("eslint-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-eslintTester.addRuleTest("no-new-wrappers", {
+eslintTester.addRuleTest("lib/rules/no-new-wrappers", {
     valid: [
         "var a = new Object();",
         "var a = String('test'), b = String.fromCharCode(32);"

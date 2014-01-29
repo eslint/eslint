@@ -7,13 +7,13 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslintTester = require("../../../lib/tests/eslintTester");
+var eslintTester = require("eslint-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-eslintTester.addRuleTest("no-script-url", {
+eslintTester.addRuleTest("lib/rules/no-script-url", {
     valid: [
         "var a = 'Hello World!';",
         "var a = 10;",

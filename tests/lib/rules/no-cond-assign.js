@@ -7,13 +7,13 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslintTester = require("../../../lib/tests/eslintTester");
+var eslintTester = require("eslint-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-eslintTester.addRuleTest("no-cond-assign", {
+eslintTester.addRuleTest("lib/rules/no-cond-assign", {
     valid: [
         "var x = 0; if (x == 0) { var b = 1; }",
         "var x = 5; while (x < 5) { x = x + 1; }",

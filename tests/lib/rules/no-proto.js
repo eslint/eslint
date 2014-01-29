@@ -7,13 +7,13 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslintTester = require("../../../lib/tests/eslintTester");
+var eslintTester = require("eslint-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-eslintTester.addRuleTest("no-proto", {
+eslintTester.addRuleTest("lib/rules/no-proto", {
     valid: [
         "var a = test[__proto__];",
         "var __proto__ = null;"

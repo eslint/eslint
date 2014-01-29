@@ -7,13 +7,13 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslintTester = require("../../../lib/tests/eslintTester");
+var eslintTester = require("eslint-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-eslintTester.addRuleTest("no-floating-decimal", {
+eslintTester.addRuleTest("lib/rules/no-floating-decimal", {
     valid: [
         "var x = 2.5;",
         "var x = \"2.5\";"

@@ -7,13 +7,13 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslintTester = require("../../../lib/tests/eslintTester");
+var eslintTester = require("eslint-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-eslintTester.addRuleTest("no-dupe-keys", {
+eslintTester.addRuleTest("lib/rules/no-dupe-keys", {
     valid: [
         "var foo = { __proto__: 1, two: 2};",
         "var x = { foo: 1, bar: 2 };"

@@ -7,13 +7,13 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslintTester = require("../../../lib/tests/eslintTester");
+var eslintTester = require("eslint-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-eslintTester.addRuleTest("no-redeclare", {
+eslintTester.addRuleTest("lib/rules/no-redeclare", {
     valid: [
         "var a = 3; var b = function() { var a = 10; };",
         "var a = 3; a = 10;"

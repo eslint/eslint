@@ -7,13 +7,13 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslintTester = require("../../../lib/tests/eslintTester");
+var eslintTester = require("eslint-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-eslintTester.addRuleTest("max-statements", {
+eslintTester.addRuleTest("lib/rules/max-statements", {
     valid: [
         { code: "var foo = { thing: function() { var bar = 1; var baz = 2; } }", args: [1, 2] },
         { code: "function foo() { var bar = 1; function qux () { var noCount = 2; } return 3; }", args: [1, 3] },

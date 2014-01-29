@@ -7,13 +7,13 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslintTester = require("../../../lib/tests/eslintTester");
+var eslintTester = require("eslint-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-eslintTester.addRuleTest("no-unused-expressions", {
+eslintTester.addRuleTest("lib/rules/no-unused-expressions", {
     valid: [
         "function f(){}",
         "a = b",

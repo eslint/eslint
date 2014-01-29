@@ -7,13 +7,13 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslintTester = require("../../../lib/tests/eslintTester");
+var eslintTester = require("eslint-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-eslintTester.addRuleTest("no-negated-in-lhs", {
+eslintTester.addRuleTest("lib/rules/no-negated-in-lhs", {
     valid: [
         "a in b",
         "!(a in b)"

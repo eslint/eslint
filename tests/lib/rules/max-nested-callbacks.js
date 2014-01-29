@@ -7,13 +7,13 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslintTester = require("../../../lib/tests/eslintTester");
+var eslintTester = require("eslint-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-eslintTester.addRuleTest("max-nested-callbacks", {
+eslintTester.addRuleTest("lib/rules/max-nested-callbacks", {
     valid: [
         { code: "foo(function () { bar(thing, function (data) {}); });", args: [1, 3] },
         { code: "var foo = function () {}; bar(function(){ baz(function() { qux(foo); }) });", args: [1, 2] },

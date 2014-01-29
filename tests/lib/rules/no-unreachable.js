@@ -7,13 +7,13 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslintTester = require("../../../lib/tests/eslintTester");
+var eslintTester = require("eslint-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-eslintTester.addRuleTest("no-unreachable", {
+eslintTester.addRuleTest("lib/rules/no-unreachable", {
     valid: [
         "function foo() { function bar() { return 1; } return bar(); }",
         "function foo() { var x = 1; var y = 2; }",

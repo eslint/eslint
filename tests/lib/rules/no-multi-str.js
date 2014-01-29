@@ -7,13 +7,13 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslintTester = require("../../../lib/tests/eslintTester");
+var eslintTester = require("eslint-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-eslintTester.addRuleTest("no-multi-str", {
+eslintTester.addRuleTest("lib/rules/no-multi-str", {
     valid: [
         "var a = 'Line 1 Line 2';"
     ],

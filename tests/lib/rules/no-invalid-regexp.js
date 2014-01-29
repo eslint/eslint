@@ -7,9 +7,9 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslintTester = require("../../../lib/tests/eslintTester");
+var eslintTester = require("eslint-tester");
 
-eslintTester.addRuleTest("no-invalid-regexp", {
+eslintTester.addRuleTest("lib/rules/no-invalid-regexp", {
     valid: [
         "RegExp('')",
         "RegExp()",

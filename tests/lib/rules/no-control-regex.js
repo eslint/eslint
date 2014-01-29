@@ -7,13 +7,13 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslintTester = require("../../../lib/tests/eslintTester");
+var eslintTester = require("eslint-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-eslintTester.addRuleTest("no-control-regex", {
+eslintTester.addRuleTest("lib/rules/no-control-regex", {
     valid: [
         "var regex = /x1f/",
         "var regex = new RegExp('x1f')",

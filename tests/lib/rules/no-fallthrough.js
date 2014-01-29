@@ -9,13 +9,13 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslintTester = require("../../../lib/tests/eslintTester");
+var eslintTester = require("eslint-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-eslintTester.addRuleTest("no-fallthrough", {
+eslintTester.addRuleTest("lib/rules/no-fallthrough", {
     valid: [
         "switch(foo) { case 0: a(); /* falls through */ case 1: b(); }",
         "function foo() { switch(foo) { case 0: a(); return; case 1: b(); }; }",

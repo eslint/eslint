@@ -7,13 +7,13 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslintTester = require("../../../lib/tests/eslintTester");
+var eslintTester = require("eslint-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-eslintTester.addRuleTest("no-empty-label", {
+eslintTester.addRuleTest("lib/rules/no-empty-label", {
     valid: [
         "labeled: for (var i=10; i; i--) { }",
         "labeled: while(i) {}",

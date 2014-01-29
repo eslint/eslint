@@ -7,13 +7,13 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslintTester = require("../../../lib/tests/eslintTester");
+var eslintTester = require("eslint-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-eslintTester.addRuleTest("guard-for-in", {
+eslintTester.addRuleTest("lib/rules/guard-for-in", {
     valid: [
         "for (var x in o) {}",
         "for (var x in o) { if (x) {}}"

@@ -7,13 +7,13 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslintTester = require("../../../lib/tests/eslintTester");
+var eslintTester = require("eslint-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-eslintTester.addRuleTest("sort-vars", {
+eslintTester.addRuleTest("lib/rules/sort-vars", {
     valid: [
         "var a=10, b=4, c='abc'",
         "var a, b, c, d",

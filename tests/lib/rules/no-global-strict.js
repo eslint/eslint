@@ -7,13 +7,13 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslintTester = require("../../../lib/tests/eslintTester");
+var eslintTester = require("eslint-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-eslintTester.addRuleTest("no-global-strict", {
+eslintTester.addRuleTest("lib/rules/no-global-strict", {
     valid: [
         "function foo () { \"use strict\"; return; }"
     ],

@@ -7,9 +7,9 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslintTester = require("../../../lib/tests/eslintTester");
+var eslintTester = require("eslint-tester");
 
-eslintTester.addRuleTest("space-infix-ops", {
+eslintTester.addRuleTest("lib/rules/space-infix-ops", {
     valid: [
         "a + b",
         "a     + b",

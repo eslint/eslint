@@ -7,13 +7,13 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslintTester = require("../../../lib/tests/eslintTester");
+var eslintTester = require("eslint-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-eslintTester.addRuleTest("no-self-compare", {
+eslintTester.addRuleTest("lib/rules/no-self-compare", {
     valid: [
         "if (x === y) { }",
         "if (f() === f()) { }",

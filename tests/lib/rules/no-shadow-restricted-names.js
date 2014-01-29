@@ -7,9 +7,9 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslintTester = require("../../../lib/tests/eslintTester");
+var eslintTester = require("eslint-tester");
 
-eslintTester.addRuleTest("no-shadow-restricted-names", {
+eslintTester.addRuleTest("lib/rules/no-shadow-restricted-names", {
     valid: [
         "function foo(bar){ var baz; }",
         "!function foo(bar){ var baz; }",

@@ -7,13 +7,13 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslintTester = require("../../../lib/tests/eslintTester");
+var eslintTester = require("eslint-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-eslintTester.addRuleTest("no-return-assign", {
+eslintTester.addRuleTest("lib/rules/no-return-assign", {
     valid: [
         "function x() { var result = a * b; return result; };"
     ],

@@ -7,9 +7,9 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslintTester = require("../../../lib/tests/eslintTester");
+var eslintTester = require("eslint-tester");
 
-eslintTester.addRuleTest("space-return-throw-case", {
+eslintTester.addRuleTest("lib/rules/space-return-throw-case", {
     valid: [
         "function f(){ return; }",
         "function f(){ return f; }",

@@ -7,13 +7,13 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslintTester = require("../../../lib/tests/eslintTester");
+var eslintTester = require("eslint-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-eslintTester.addRuleTest("no-label-var", {
+eslintTester.addRuleTest("lib/rules/no-label-var", {
     valid: [
         "function bar() { q: for(;;) { break q; } } function foo () { var q = t; }",
         "function bar() { var x = foo; q: for(;;) { break q; } }"
