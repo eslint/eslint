@@ -687,6 +687,16 @@ describe("eslint", function() {
         });
     });
 
+    describe("when evaluating empty code", function() {
+        var code = "", config = { rules: {} };
+
+        it("getSource() should return an empty string", function() {
+            eslint.reset();
+            eslint.verify(code, config, true);
+            assert.equal(eslint.getSource(), "");
+        });
+    });
+
     describe("at any time", function() {
         var code = "new-rule";
 
