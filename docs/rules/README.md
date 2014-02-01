@@ -52,7 +52,7 @@ These are rules designed to prevent you from making mistakes. They either prescr
 * [no-native-reassign](no-native-reassign.md) - disallow reassignments of native objects
 * [no-new](no-new.md) - disallow use of new operator when not part of the assignment or comparison
 * [no-new-func](no-new-func.md) - disallow use of new operator for `Function` object
-* [no-new-wrappers] - disallows creating new instances of `String`,`Number`, and `Boolean`
+* [no-new-wrappers](no-new-wrappers.md) - disallows creating new instances of `String`,`Number`, and `Boolean`
 * [no-octal](no-octal.md) - disallow use of octal literals
 * [no-octal-escape](no-octal-escape.md) - disallow use of octal escape sequences in string literals, such as `var foo = "Copyright \251";`
 * [no-proto](no-proto.md) - disallow usage of `__proto__` property
