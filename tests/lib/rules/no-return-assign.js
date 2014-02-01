@@ -18,6 +18,6 @@ eslintTester.addRuleTest("lib/rules/no-return-assign", {
         "function x() { var result = a * b; return result; };"
     ],
     invalid: [
-        { code: "function x() { return result = a * b; };", errors: [{ message: "Return statement should not contain assigment.", type: "ReturnStatement"}] }
+        { code: "function x() { return result = a * b; };", errors: [{ message: "Return statement should not contain assignment.", type: "ReturnStatement"}] }
     ]
 });
