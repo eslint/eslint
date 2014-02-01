@@ -252,6 +252,20 @@ target.checkRuleFiles = function() {
 
 };
 
+target.perf = function() {
+    var start = process.hrtime(),
+        diff;
+
+    exec(ESLINT + "./tests/performance/jshint.js", { silent: true }, function() {
+        diff = process.hrtime(start);
+
+        echo("Took %dms", (diff[0] * 1e9 + diff[1]) / 1000);
+    });
+
+
+
+};
+
 target.patch = function() {
     release("patch");
 };
