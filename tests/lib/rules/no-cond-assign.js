@@ -19,7 +19,8 @@ eslintTester.addRuleTest("lib/rules/no-cond-assign", {
         "var x = 5; while (x < 5) { x = x + 1; }",
         "var x = 0; if (x == 0) { var b = 1; }",
         "if ((someNode = someNode.parentNode) !== null) { }",
-        "if ((a = b));"
+        "if ((a = b));",
+        "for (;;) {}"
     ],
     invalid: [
         { code: "var x; if (x = 0) { var b = 1; }", errors: [{ message: "Expected a conditional expression and instead saw an assignment.", type: "IfStatement"}] },
