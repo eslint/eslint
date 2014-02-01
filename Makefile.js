@@ -222,9 +222,7 @@ target.checkRuleFiles = function() {
         // check for docs
         if (!test("-f", "docs/rules/" + basename + ".md")) {
             console.error("Missing documentation for rule %s", basename);
-
-            // TODO
-            // errors++;
+            errors++;
         } else {
 
             // check for entry in docs index
