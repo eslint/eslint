@@ -109,7 +109,7 @@ These rules are purely matters of style and are quite subjective.
 * [new-parens](new-parens.md) - disallow the omission of parentheses when invoking a contructor with no arguments
 * [no-nested-ternary](no-nested-ternary.md) - disallow nested ternary expressions
 * [no-array-constructor](no-array-constructor.md) - disallow use of the `Array` constructor
-* [no-new-object] - disallow use of the `Object` constructor
+* [no-new-object](no-new-object.md) - disallow use of the `Object` constructor
 * [no-spaced-func](no-spaced-func.md) - disallow space between function identifier and application
 * [no-ternary](no-ternary.md) - disallow the use of ternary operators
 * [no-underscore-dangle] - disallow dangling underscores in identifiers

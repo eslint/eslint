@@ -43,6 +43,10 @@ setInterval(function() {
 }, 100);
 ```
 
+## When Not To Use It
+
+If you want to allow `setTimeout()` and `setInterval()` with string arguments, then you can safely disable this rule.
+
 ## Further Reading
 
 * [Implied eval is evil. Pass a function instead of a string.](http://jslinterrors.com/implied-eval-is-evil-pass-a-function-instead-of-a-string/)
