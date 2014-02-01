@@ -57,7 +57,7 @@ These are rules designed to prevent you from making mistakes. They either prescr
 * [no-octal-escape](no-octal-escape.md) - disallow use of octal escape sequences in string literals, such as `var foo = "Copyright \251";`
 * [no-proto](no-proto.md) - disallow usage of `__proto__` property
 * [no-redeclare](no-redeclare.md) - disallow declaring the same variable more then once
-* [no-return-assign] - disallow use of assignment in `return` statement
+* [no-return-assign](no-return-assign.md) - disallow use of assignment in `return` statement
 * [no-script-url](no-script-url.md) - disallow use of javascript: urls.
 * [no-self-compare](no-self-compare.md) - disallow comparisons where both sides are exactly the same
 * [no-unused-expressions](no-unused-expressions.md) - disallow usage of expressions in statement position
