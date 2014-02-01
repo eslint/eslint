@@ -115,13 +115,13 @@ The basic pattern for a rule unit test file is:
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslintTester = require("../../../lib/tests/eslintTester");
+var eslintTester = require("eslint-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-eslintTester.addRuleTest("block-scoped-var", {
+eslintTester.addRuleTest("lib/rules/block-scoped-var", {
 
     // Examples of code that should not trigger the rule
     valid: [
