@@ -112,7 +112,7 @@ These rules are purely matters of style and are quite subjective.
 * [no-new-object](no-new-object.md) - disallow use of the `Object` constructor
 * [no-spaced-func](no-spaced-func.md) - disallow space between function identifier and application
 * [no-ternary](no-ternary.md) - disallow the use of ternary operators
-* [no-underscore-dangle] - disallow dangling underscores in identifiers
+* [no-underscore-dangle](no-underscore-dangle.md) - disallow dangling underscores in identifiers
 * [no-wrap-func](no-wrap-func.md) - disallow wrapping of none IIFE statements in parents
 * [quotes](quotes.md) - specify whether double or single quotes should be used
 * [quote-props](quote-props.md) - require quotes around object literal property names
