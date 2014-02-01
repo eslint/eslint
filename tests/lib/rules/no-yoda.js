@@ -6,13 +6,13 @@
 //------------------------------------------------------------------------------
 // Requirements
 //------------------------------------------------------------------------------
-var eslintTester = require("../../../lib/tests/eslintTester");
+var eslintTester = require("eslint-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-eslintTester.addRuleTest("no-yoda", {
+eslintTester.addRuleTest("lib/rules/no-yoda", {
     valid: [
         "if (value === \"red\") {}",
         "if (value === value) {}",

@@ -7,13 +7,13 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslintTester = require("../../../lib/tests/eslintTester");
+var eslintTester = require("eslint-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-eslintTester.addRuleTest("no-catch-shadow", {
+eslintTester.addRuleTest("lib/rules/no-catch-shadow", {
     valid: [
         "var foo = 1; try { bar(); } catch(baz) { }"
     ],

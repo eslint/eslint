@@ -7,13 +7,13 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslintTester = require("../../../lib/tests/eslintTester");
+var eslintTester = require("eslint-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-eslintTester.addRuleTest("no-octal", {
+eslintTester.addRuleTest("lib/rules/no-octal", {
     valid: [
         "var a = 'hello world';",
         "0x1234",

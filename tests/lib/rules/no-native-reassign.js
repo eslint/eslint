@@ -7,13 +7,13 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslintTester = require("../../../lib/tests/eslintTester");
+var eslintTester = require("eslint-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-eslintTester.addRuleTest("no-native-reassign", {
+eslintTester.addRuleTest("lib/rules/no-native-reassign", {
     valid: [
         "string = 'hello world';",
         "var string;"

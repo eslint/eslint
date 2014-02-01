@@ -7,13 +7,13 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslintTester = require("../../../lib/tests/eslintTester");
+var eslintTester = require("eslint-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-eslintTester.addRuleTest("no-nested-ternary", {
+eslintTester.addRuleTest("lib/rules/no-nested-ternary", {
     valid: [
         "foo ? doBar() : doBaz();",
         "var foo = bar === baz ? qux : quxx;"

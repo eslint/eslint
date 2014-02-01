@@ -7,18 +7,18 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslintTester = require("../../../lib/tests/eslintTester");
+var eslintTester = require("eslint-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-eslintTester.addRuleTest("no-alert", {
+eslintTester.addRuleTest("lib/rules/no-alert", {
     valid: [
         "a[o.k](1)",
-    	"foo.alert(foo)",
-    	"foo.confirm(foo)",
-    	"foo.prompt(foo)"
+        "foo.alert(foo)",
+        "foo.confirm(foo)",
+        "foo.prompt(foo)"
     ],
     invalid: [
         { code: "alert(foo)", errors: [{ message: "Unexpected alert.", type: "CallExpression"}] },

@@ -7,9 +7,9 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslintTester = require("../../../lib/tests/eslintTester");
+var eslintTester = require("eslint-tester");
 
-eslintTester.addRuleTest("radix", {
+eslintTester.addRuleTest("lib/rules/radix", {
 
     valid: [
         "parseInt(\"10\", 10);",

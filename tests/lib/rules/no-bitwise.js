@@ -7,16 +7,16 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslintTester = require("../../../lib/tests/eslintTester");
+var eslintTester = require("eslint-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-eslintTester.addRuleTest("no-bitwise", {
+eslintTester.addRuleTest("lib/rules/no-bitwise", {
     valid: [
         "a + b",
-    	"!a"
+        "!a"
     ],
     invalid: [
         { code: "a ^ b", errors: [{ message: "Unexpected use of '^'.", type: "BinaryExpression"}] },

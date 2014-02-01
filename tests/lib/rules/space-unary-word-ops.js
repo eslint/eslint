@@ -7,9 +7,9 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslintTester = require("../../../lib/tests/eslintTester");
+var eslintTester = require("eslint-tester");
 
-eslintTester.addRuleTest("space-unary-word-ops", {
+eslintTester.addRuleTest("lib/rules/space-unary-word-ops", {
     valid: [
         "delete a.b",
         "new C",

@@ -7,14 +7,14 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslintTester = require("../../../lib/tests/eslintTester");
+var eslintTester = require("eslint-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
 
-eslintTester.addRuleTest("use-isnan", {
+eslintTester.addRuleTest("lib/rules/use-isnan", {
     valid: [
         "var x = NaN;",
         "isNaN(NaN) === true;",

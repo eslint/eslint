@@ -7,13 +7,13 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslintTester = require("../../../lib/tests/eslintTester");
+var eslintTester = require("eslint-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-eslintTester.addRuleTest("no-empty-class", {
+eslintTester.addRuleTest("lib/rules/no-empty-class", {
     valid: [
         "var foo = /^abc[a-zA-Z]/;",
         "var regExp = new RegExp(\"^abc[]\");",

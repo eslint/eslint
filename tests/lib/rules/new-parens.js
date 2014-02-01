@@ -7,13 +7,13 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslintTester = require("../../../lib/tests/eslintTester");
+var eslintTester = require("eslint-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-eslintTester.addRuleTest("new-parens", {
+eslintTester.addRuleTest("lib/rules/new-parens", {
     valid: [
         "var a = new Date();",
         "var a = new Date(function() {});"

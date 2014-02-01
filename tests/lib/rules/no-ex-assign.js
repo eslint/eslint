@@ -7,13 +7,13 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslintTester = require("../../../lib/tests/eslintTester");
+var eslintTester = require("eslint-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-eslintTester.addRuleTest("no-ex-assign", {
+eslintTester.addRuleTest("lib/rules/no-ex-assign", {
     valid: [
         "try { } catch (e) { three = 2 + 1; }",
         "function foo() { try { } catch (e) { return false; } }"

@@ -7,9 +7,9 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslintTester = require("../../../lib/tests/eslintTester");
+var eslintTester = require("eslint-tester");
 
-eslintTester.addRuleTest("strict", {
+eslintTester.addRuleTest("lib/rules/strict", {
     valid: [
         "\"use strict\"; function foo () {  return; }",
         "'use strict'; function foo () {  return; }",

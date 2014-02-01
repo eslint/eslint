@@ -7,13 +7,13 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslintTester = require("../../../lib/tests/eslintTester");
+var eslintTester = require("eslint-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-eslintTester.addRuleTest("no-undef", {
+eslintTester.addRuleTest("lib/rules/no-undef", {
     valid: [
         "var a = 1, b = 2; a;",
         "/*global b*/ function f() { b; }",

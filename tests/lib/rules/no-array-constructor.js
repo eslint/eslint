@@ -7,13 +7,13 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslintTester = require("../../../lib/tests/eslintTester");
+var eslintTester = require("eslint-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-eslintTester.addRuleTest("no-array-constructor", {
+eslintTester.addRuleTest("lib/rules/no-array-constructor", {
     valid: [
         "new Array(x)",
         "Array(x)",

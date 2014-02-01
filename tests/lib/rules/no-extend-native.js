@@ -7,13 +7,13 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslintTester = require("../../../lib/tests/eslintTester");
+var eslintTester = require("eslint-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-eslintTester.addRuleTest("no-extend-native", {
+eslintTester.addRuleTest("lib/rules/no-extend-native", {
     valid: [
         "x.prototype.p = 0",
         "x.prototype['p'] = 0",

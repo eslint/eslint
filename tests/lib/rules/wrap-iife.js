@@ -7,14 +7,14 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslintTester = require("../../../lib/tests/eslintTester");
+var eslintTester = require("eslint-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
 
-eslintTester.addRuleTest("wrap-iife", {
+eslintTester.addRuleTest("lib/rules/wrap-iife", {
     valid: [
         "var x = (function () { return { y: 1 };})();",
         "var x = test(function () { return { y: 1 };})();"

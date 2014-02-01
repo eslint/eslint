@@ -7,13 +7,13 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslintTester = require("../../../lib/tests/eslintTester");
+var eslintTester = require("eslint-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-eslintTester.addRuleTest("no-octal-escape", {
+eslintTester.addRuleTest("lib/rules/no-octal-escape", {
     valid: [
         "var foo = \"\\851\";",
         "var foo = \"foo \\\\251 bar\";"

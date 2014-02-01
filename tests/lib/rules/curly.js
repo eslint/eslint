@@ -7,13 +7,13 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslintTester = require("../../../lib/tests/eslintTester");
+var eslintTester = require("eslint-tester");
 
 //------------------------------------------------------------------------------
 // Helpers
 //------------------------------------------------------------------------------
 
-eslintTester.addRuleTest("curly", {
+eslintTester.addRuleTest("lib/rules/curly", {
     valid: [
         "if (foo) { bar() }",
         "if (foo) { bar() } else if (foo2) { baz() }",

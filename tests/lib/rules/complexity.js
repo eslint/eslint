@@ -7,14 +7,14 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslintTester = require("../../../lib/tests/eslintTester");
+var eslintTester = require("eslint-tester");
 
 //------------------------------------------------------------------------------
 // Helpers
 //------------------------------------------------------------------------------
 
 
-eslintTester.addRuleTest("complexity", {
+eslintTester.addRuleTest("lib/rules/complexity", {
     valid: [
         { code: "function a(x) {}", args: [1,1] },
         { code: "function a(x) {if (true) {return x;}}", args: [1,2] },

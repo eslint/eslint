@@ -7,14 +7,14 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslintTester = require("../../../lib/tests/eslintTester");
+var eslintTester = require("eslint-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
 
-eslintTester.addRuleTest("wrap-regex", {
+eslintTester.addRuleTest("lib/rules/wrap-regex", {
     valid: [
         "var f = function() { return (/foo/).test(bar); };",
         "var f = function() { return (/foo/ig).test(bar); };",

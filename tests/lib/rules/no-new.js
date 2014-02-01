@@ -7,13 +7,13 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslintTester = require("../../../lib/tests/eslintTester");
+var eslintTester = require("eslint-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-eslintTester.addRuleTest("no-new", {
+eslintTester.addRuleTest("lib/rules/no-new", {
     valid: [
         "var a = new Date()",
         "var a; if (a === new Date()) { a = false; }"

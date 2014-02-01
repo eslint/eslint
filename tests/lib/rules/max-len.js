@@ -6,13 +6,13 @@
 //------------------------------------------------------------------------------
 // Requirements
 //------------------------------------------------------------------------------
-var eslintTester = require("../../../lib/tests/eslintTester");
+var eslintTester = require("eslint-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-eslintTester.addRuleTest("max-len", {
+eslintTester.addRuleTest("lib/rules/max-len", {
     valid: [
         {
             code: "var x = 5;\nvar x = 2;",

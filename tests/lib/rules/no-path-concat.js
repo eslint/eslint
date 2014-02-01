@@ -8,13 +8,13 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslintTester = require("../../../lib/tests/eslintTester");
+var eslintTester = require("eslint-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-eslintTester.addRuleTest("no-path-concat", {
+eslintTester.addRuleTest("lib/rules/no-path-concat", {
 
     valid: [
         "var fullPath = dirname + \"foo.js\";",

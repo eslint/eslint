@@ -7,13 +7,13 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslintTester = require("../../../lib/tests/eslintTester");
+var eslintTester = require("eslint-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-eslintTester.addRuleTest("no-eq-null", {
+eslintTester.addRuleTest("lib/rules/no-eq-null", {
     valid: [
         "if (x === null) { }",
         "if (null === f()) { }"

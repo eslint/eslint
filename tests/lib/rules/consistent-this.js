@@ -6,13 +6,13 @@
 //------------------------------------------------------------------------------
 // Requirements
 //------------------------------------------------------------------------------
-var eslintTester = require("../../../lib/tests/eslintTester");
+var eslintTester = require("eslint-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-eslintTester.addRuleTest("consistent-this", {
+eslintTester.addRuleTest("lib/rules/consistent-this", {
     valid: [
         { code: "var foo = 42, self = this", args: [1, "self"] },
         { code: "var self = 42", args: [1, "that"] },

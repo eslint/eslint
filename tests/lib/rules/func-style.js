@@ -7,13 +7,13 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslintTester = require("../../../lib/tests/eslintTester");
+var eslintTester = require("eslint-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-eslintTester.addRuleTest("func-style", {
+eslintTester.addRuleTest("lib/rules/func-style", {
     valid: [
     	{
     		code: "function foo(){}\n function bar(){}",

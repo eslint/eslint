@@ -7,13 +7,13 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslintTester = require("../../../lib/tests/eslintTester");
+var eslintTester = require("eslint-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-eslintTester.addRuleTest("no-comma-dangle", {
+eslintTester.addRuleTest("lib/rules/no-comma-dangle", {
     valid: [
         "var foo = { bar: \"baz\" }",
         "var foo = [ \"baz\" ]",

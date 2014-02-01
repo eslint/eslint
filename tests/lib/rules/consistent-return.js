@@ -6,13 +6,13 @@
 //------------------------------------------------------------------------------
 // Requirements
 //------------------------------------------------------------------------------
-var eslintTester = require("../../../lib/tests/eslintTester");
+var eslintTester = require("eslint-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-eslintTester.addRuleTest("consistent-return", {
+eslintTester.addRuleTest("lib/rules/consistent-return", {
 
     valid: [
         "function foo() { return; }",

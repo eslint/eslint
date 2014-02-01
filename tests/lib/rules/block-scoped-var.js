@@ -7,13 +7,13 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslintTester = require("../../../lib/tests/eslintTester");
+var eslintTester = require("eslint-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-eslintTester.addRuleTest("block-scoped-var", {
+eslintTester.addRuleTest("lib/rules/block-scoped-var", {
     valid: [
         "function doSomething() { var build, f; if (true) { build = true; } f = build; }",
         "var build; function doSomething() { var f = build; }",
