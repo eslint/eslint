@@ -48,6 +48,7 @@ These are rules designed to prevent you from making mistakes. They either prescr
 * [no-floating-decimal](no-floating-decimal.md) - disallow the use of leading or trailing decimal points in numeric literals
 * [no-implied-eval](no-implied-eval.md) - disallow use of `eval()`-like methods
 * [no-iterator](no-iterator.md) - disallow usage of `__iterator__` property
+* [no-lone-blocks](no-lone-blocks.md) - disallow unnecessary nested blocks
 * [no-loop-func](no-loop-func.md) - disallow creation of functions within loops
 * [no-multi-str](no-multi-str.md) - disallow use of multiline strings
 * [no-native-reassign](no-native-reassign.md) - disallow reassignments of native objects

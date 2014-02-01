@@ -74,6 +74,7 @@
         "no-extend-native": 2,
         "no-yoda": 2,
         "no-path-concat": 0,
+        "no-lone-blocks": 2,
 
         "brace-style": 0,
         "block-scoped-var": 0,
