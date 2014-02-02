@@ -34,7 +34,7 @@ These are rules designed to prevent you from making mistakes. They either prescr
 * [block-scoped-var](block-scoped-var.md) - treat `var` statements as if they were block scoped
 * [complexity](complexity.md) - specify the maximum cyclomatic complexity allowed in a program
 * [consistent-return](consistent-return.md) - require `return` statements to either always or never specify values
-* [curly](curly.md) - require curly brace for all control statements
+* [curly](curly.md) - specify curly brace conventions for all control statements
 * [dot-notation](dot-notation.md) - encourages use of dot notation whenever possible
 * [eqeqeq](eqeqeq.md) - require the use of `===` and `!==`
 * [guard-for-in](guard-for-in.md) - make sure `for-in` loops have an `if` statement (off by default)

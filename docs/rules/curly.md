@@ -1,10 +1,20 @@
-# Require Braces for Block Statements
+# Require Following Curly Brace Conventions
 
-JavaScript allows the omition of curly braces when a block contains only one statement. However, it is considered by many to be best practice to _never_ omit curly braces around blocks, even when they optional, because it can lead to bugs and reduces code clarity.
+JavaScript allows the omition of curly braces when a block contains only one statement. However, it is considered by many to be best practice to _never_ omit curly braces around blocks, even when they optional, because it can lead to bugs and reduces code clarity. So the following:
 
 ```js
 if (foo) return;
 ```
+
+Can be rewritten as:
+
+```js
+if (foo) {
+    return;
+}
+```
+
+There are, however, some who prefer to only use braces when there is more than one statement to be executed.
 
 ## Rule Details
 
@@ -40,3 +50,54 @@ if (foo) {
     qux();
 }
 ```
+
+### Options
+
+By default, this rule warns whenever `if`, `else`, `for`, `while`, or `do` are used without block statements as their body. However, you can specify that block statements should be used only when there are multiple statements in the block and warn when there is only one statement in the block. To do so, configure the rule as:
+
+```
+curly: [2, "multi"]
+```
+
+With this configuration, the rule will warn for these patterns:
+
+```js
+if (foo) {
+    return;
+}
+
+if (foo) bar();
+else {
+    return;
+}
+
+while (true) {
+    doSomething();
+}
+
+for (var i=0; i < items.length; i++) {
+    doSomething();
+}
+```
+
+It will not warn for these patterns:
+
+```js
+if (foo) return;
+else foo();
+
+while (true) {
+    doSomething();
+    doSomethingElse();
+}
+```
+
+The default configuration is:
+
+```
+curly: [2, "all"]
+```
+
+## When Not To Use It
+
+If you have no strict conventions about when to use block statements and when not to, you can safely disable this rule.
