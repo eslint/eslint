@@ -15,6 +15,7 @@ The following rules point out areas where you might have made mistakes.
 * [no-empty](no-empty.md) - disallow empty statements
 * [no-empty-class](no-empty-class.md) - disallow the use of empty character classes in regular expressions
 * [no-ex-assign](no-ex-assign.md) - disallow assigning to the exception in a `catch` block
+* [no-extra-boolean-cast](no-extra-boolean-cast.md) - disallow double-negation boolean casts in a boolean context
 * [no-extra-parens](no-extra-parens.md) - disallow unnecessary parentheses
 * [no-extra-semi](no-extra-semi.md) - disallow unnecessary semicolons
 * [no-func-assign](no-func-assign.md) - disallow overwriting functions written as function declarations
