@@ -47,6 +47,7 @@ These are rules designed to prevent you from making mistakes. They either prescr
 * [no-fallthrough](no-fallthrough.md) - disallow fallthrough of `case` statements
 * [no-floating-decimal](no-floating-decimal.md) - disallow the use of leading or trailing decimal points in numeric literals
 * [no-implied-eval](no-implied-eval.md) - disallow use of `eval()`-like methods
+* [no-labels](no-labels.md) - disallow use of labeled statements
 * [no-iterator](no-iterator.md) - disallow usage of `__iterator__` property
 * [no-lone-blocks](no-lone-blocks.md) - disallow unnecessary nested blocks
 * [no-loop-func](no-loop-func.md) - disallow creation of functions within loops
@@ -66,7 +67,6 @@ These are rules designed to prevent you from making mistakes. They either prescr
 * [no-with](no-with.md) - disallow use of the `with` statement
 * [no-yoda](no-yoda.md) - disallow Yoda conditions
 * [radix](radix.md) - require use of the second argument for `parseInt()`
-* [regex-spaces] - disallow multiple spaces in a regular expression
 * [wrap-iife](wrap-iife.md) - require immediate function invocation to be wrapped in parentheses
 
 ## Strict Mode
