@@ -357,10 +357,11 @@
         },
 
         "rules": {
+            "no-console": 0,
             "no-global-strict": 0,
             "no-mixed-requires": 2,
-            "no-console": 0,
-            "no-path-concat": 2
+            "no-path-concat": 2,
+            "no-process-exit": 2
         }
     },
 
