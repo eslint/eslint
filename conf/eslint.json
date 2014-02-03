@@ -86,7 +86,7 @@
         "complexity": [0, 11],
         "consistent-return": 2,
         "consistent-this": [0, "that"],
-        "curly": 2,
+        "curly": [2, "all"],
         "dot-notation": 2,
         "eqeqeq": 2,
         "func-style": [0, "declaration"],
