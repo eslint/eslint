@@ -244,21 +244,6 @@ describe("eslint", function() {
             sandbox.verifyAndRestore();
         });
 
-        it("should retrieve all comments", function() {
-            function handler() {
-                var comments = eslint.getAllComments();
-                assert.equal(comments.length, 2);
-            }
-            var config = { rules: {} },
-                spy = sandbox.spy(handler);
-
-            eslint.reset();
-            eslint.on("Program", spy);
-
-            eslint.verify(code, config, true);
-            assert(spy.calledOnce, "Handler should be called.");
-        });
-
         it("should attach them to all nodes", function() {
             function assertCommentCount(leading, trailing) {
                 return function (node) {

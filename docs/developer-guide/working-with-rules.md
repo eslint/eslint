@@ -74,13 +74,6 @@ In this way, you can look for patterns in the JavaScript text itself when the AS
 
 ### Accessing comments
 
-To get a list of all comments simply call `context.getAllComments()`:
-
-```js
-// get all comments for the program
-var allComments = context.getAllComments();
-```
-
 If you need to access comments for a specific node you can use `context.getComments(node)`:
 
 ```js
