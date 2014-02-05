@@ -32,3 +32,25 @@ while(value) {
 	console.log("done");
 }
 ```
+
+The following patterns are not considered warnings (due to JavaScript function and variable hoisting):
+
+```js
+function foo() {
+	return bar();
+	function bar() {
+	    return 1;
+	}
+}
+
+function bar() {
+	return x;
+	var x;
+}
+
+switch (foo) {
+    case 1:
+        break;
+        var x;
+}
+```
