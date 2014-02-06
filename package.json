@@ -14,7 +14,8 @@
     "minor": "node Makefile.js minor",
     "major": "node Makefile.js major",
     "gensite": "node Makefile.js gensite",
-    "browserify": "node Makefile.js browserify"
+    "browserify": "node Makefile.js browserify",
+    "profile": "beefy tests/bench/bench.js --open -- -t brfs -t ./tests/bench/xform-rules.js"
   },
   "files": [
     "LICENSE",
@@ -49,7 +50,10 @@
     "browserify": "~3.20.0",
     "mocha-phantomjs": "~3.3.1",
     "phantomjs": "~1.9.2-6",
-    "eslint-tester": "latest"
+    "eslint-tester": "latest",
+    "brfs": "0.0.9",
+    "through": "~2.3.4",
+    "beefy": "~1.0.0"
   },
   "keywords": [
     "ast",
