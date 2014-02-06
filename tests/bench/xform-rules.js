@@ -4,7 +4,7 @@ var fs = require("fs"),
     path = require("path"),
     through = require("through");
     
-var target = path.resolve(__dirname, "..", "lib", "load-rules.js");
+var target = path.resolve(__dirname, "..", "..", "lib", "load-rules.js");
 
 
 function transform(filename) {
@@ -23,7 +23,7 @@ function inject() {
     var output = "module.exports = function() {\n";
     output += "    var rules = Object.create(null);\n";
 
-    fs.readdirSync(path.resolve(__dirname, "..", "lib", "rules")).forEach(function(filename) {
+    fs.readdirSync(path.resolve(__dirname, "..", "..", "lib", "rules")).forEach(function(filename) {
         var basename = path.basename(filename, ".js");
         output += "    rules[\"" + basename + "\"] = require(\"./rules/" + basename + "\");\n";
     });

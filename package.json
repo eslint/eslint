@@ -15,7 +15,7 @@
     "major": "node Makefile.js major",
     "gensite": "node Makefile.js gensite",
     "browserify": "node Makefile.js browserify",
-    "profile": "beefy bench/bench.js --open -- -t brfs -t bench/xform-rules.js"
+    "profile": "beefy tests/bench/bench.js --open -- -t brfs -t ./tests/bench/xform-rules.js"
   },
   "files": [
     "LICENSE",
