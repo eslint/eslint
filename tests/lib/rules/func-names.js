@@ -15,9 +15,9 @@ var eslintTester = require("eslint-tester");
 
 eslintTester.addRuleTest("lib/rules/func-names", {
     valid: [
-        "function Foo() {}; Foo.prototype.bar = function bar(){};"
+        "Foo.prototype.bar = function bar(){};"
     ],
     invalid: [
-        { code: "function Foo() {}; Foo.prototype.bar = function (){};", errors: [{ message: "The function expression does not have a name. Named function expressions aid in debugging.", type: "FunctionExpression"}] }
+        { code: "Foo.prototype.bar = function (){};", errors: [{ message: "The function expression does not have a name. Named function expressions aid in debugging.", type: "FunctionExpression"}] }
     ]
 });
