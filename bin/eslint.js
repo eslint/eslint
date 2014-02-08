@@ -1,5 +1,5 @@
 #!/usr/bin/env node
 
 var cli = require("../lib/cli");
-var exitCode = cli.execute(Array.prototype.slice.call(process.argv, 2));
+var exitCode = cli.execute(process.argv);
 process.exit(exitCode);

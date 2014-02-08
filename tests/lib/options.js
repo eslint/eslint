@@ -1,6 +1,6 @@
 /**
  * @fileoverview Tests for options.
- * @author Nicholas C. Zakas
+ * @author George Zahariev
  */
 
 //------------------------------------------------------------------------------
@@ -15,108 +15,82 @@ var assert = require("chai").assert,
 //------------------------------------------------------------------------------
 
 /*
- * This may look like it's simply testing optimist under the covers, but really
- * it's testing the interface of the options object. I want to make sure the
- * interface is solid and tested because I'm not sure I want to use optimist
- * long-term.
+ * This is testing the interface of the options object.
  */
 
 describe("options", function() {
     describe("when passed --help", function() {
-        var code = [ "--help" ];
-
-        it("should return true for .h", function() {
-            var currentOptions = options.parse(code);
-            assert.isTrue(currentOptions.h);
+        it("should return true for .help", function() {
+            var currentOptions = options.parse("--help");
+            assert.isTrue(currentOptions.help);
         });
     });
 
     describe("when passed -h", function() {
-        var code = [ "-h" ];
-
-        it("should return true for .h", function() {
-            var currentOptions = options.parse(code);
-            assert.isTrue(currentOptions.h);
+        it("should return true for .help", function() {
+            var currentOptions = options.parse("-h");
+            assert.isTrue(currentOptions.help);
         });
     });
 
     describe("when passed --config", function() {
-        var code = [ "--config" ];
-
-        it("should return true for .c", function() {
-            var currentOptions = options.parse(code);
-            assert.isTrue(currentOptions.c);
+        it("should return a string for .config", function() {
+            var currentOptions = options.parse("--config file");
+            assert.isString(currentOptions.config);
+            assert.equal(currentOptions.config, "file");
         });
     });
 
     describe("when passed -c", function() {
-        var code = [ "-c" ];
-
-        it("should return true for .c", function() {
-            var currentOptions = options.parse(code);
-            assert.isTrue(currentOptions.c);
+        it("should return a string for .config", function() {
+            var currentOptions = options.parse("-c file");
+            assert.isString(currentOptions.config);
+            assert.equal(currentOptions.config, "file");
         });
     });
 
     describe("when passed --rulesdir", function() {
-        var code = [ "--rulesdir", "/morerules" ];
-
         it("should return a string for .rulesdir", function() {
-            var currentOptions = options.parse(code);
+            var currentOptions = options.parse("--rulesdir /morerules");
             assert.isString(currentOptions.rulesdir);
             assert.equal(currentOptions.rulesdir, "/morerules");
         });
     });
 
     describe("when passed --format", function() {
-        var code = [ "--format", "compact" ];
-
-        it("should return a string for .f", function() {
-            var currentOptions = options.parse(code);
-            assert.equal(currentOptions.f, "compact");
+        it("should return a string for .format", function() {
+            var currentOptions = options.parse("--format compact");
+            assert.isString(currentOptions.format);
+            assert.equal(currentOptions.format, "compact");
         });
     });
 
     describe("when passed -f", function() {
-        var code = [ "-f", "compact" ];
-
-        it("should return a string for .f", function() {
-            var currentOptions = options.parse(code);
-            assert.equal(currentOptions.f, "compact");
-        });
-    });
-
-    describe("when passed -v", function() {
-        var code = [ "-v" ];
-
-        it("should return true for .v", function() {
-            var currentOptions = options.parse(code);
-            assert.isTrue(currentOptions.v);
+        it("should return a string for .format", function() {
+            var currentOptions = options.parse("-f compact");
+            assert.isString(currentOptions.format);
+            assert.equal(currentOptions.format, "compact");
         });
     });
 
     describe("when passed --version", function() {
-        var code = [ "--version" ];
+        it("should return true for .version", function() {
+            var currentOptions = options.parse("--version");
+            assert.isTrue(currentOptions.version);
+        });
+    });
 
-        it("should return true for .v", function() {
-            var currentOptions = options.parse(code);
-            assert.isTrue(currentOptions.v);
+    describe("when passed -v", function() {
+        it("should return true for .version", function() {
+            var currentOptions = options.parse("-v");
+            assert.isTrue(currentOptions.version);
         });
     });
 
     describe("when asking for help", function() {
-        it("should log the help content to the console", function() {
-            var log = console.log;
-
-            var loggedMessages = [];
-            console.log = function(message) {
-                loggedMessages.push(message);
-            };
-
-            options.help();
-            assert.equal(loggedMessages.length, 1);
-
-            console.log = log;
+        it("should return string of help text", function() {
+            var helpText = options.generateHelp();
+            assert.isString(helpText);
         });
     });
 });
