@@ -22,11 +22,11 @@ The command line utility has several options. You can view the options by runnin
 eslint [options] file.js [file.js] [dir]
 
 Options:
-  -h, --help    Show help.
-  -c, --config  Load configuration data from this file.
-  --rulesdir    Load additional rules from this directory.
-  -f, --format  Use a specific output format.               [default: "stylish"]
-  -v, --version  Outputs the version number.
+  -h, --help                 show help
+  -c, --config path::String  load configuration data from this file
+  --rulesdir path::String    load additional rules from this directory
+  -f, --format String        use a specific output format - default: stylish
+  -v, --version              outputs the version number
 ```
 
 ### `-h`, `--help`
