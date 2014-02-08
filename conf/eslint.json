@@ -110,6 +110,7 @@
         "space-unary-word-ops": 0,
         "strict": 2,
         "use-isnan": 2,
+        "valid-jsdoc": 0,
         "wrap-iife": 0,
         "wrap-regex": 0
     }

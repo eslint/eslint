@@ -228,6 +228,252 @@ describe("eslint", function() {
         });
     });
 
+    describe("getJSDocComment()", function() {
+
+        beforeEach(function() {
+            eslint.reset();
+            sandbox = sinon.sandbox.create();
+        });
+
+        afterEach(function() {
+            sandbox.verifyAndRestore();
+        });
+
+        it("should get JSDoc comment for node when the node is a FunctionDeclaration", function() {
+
+            var code = [
+                "/** Desc*/",
+                "function Foo(){}"
+            ].join("\n");
+
+            function assertJSDoc(node) {
+                var jsdoc = eslint.getJSDocComment(node);
+                assert.equal(jsdoc.type, "Block");
+                assert.equal(jsdoc.value, "* Desc");
+            }
+
+            var spy = sandbox.spy(assertJSDoc);
+
+            eslint.on("FunctionDeclaration", spy);
+            eslint.verify(code, { rules: {}}, true);
+            assert.isTrue(spy.calledOnce, "Event handler should be called.");
+
+        });
+
+        it("should not get JSDoc comment for node when the node is a FunctionDeclaration inside of an IIFE without a JSDoc comment", function() {
+
+            var code = [
+                "/** Desc*/",
+                "(function(){",
+                "function Foo(){}",
+                "}())"
+            ].join("\n");
+
+            function assertJSDoc(node) {
+                var jsdoc = eslint.getJSDocComment(node);
+                assert.isNull(jsdoc);
+            }
+
+            var spy = sandbox.spy(assertJSDoc);
+
+            eslint.on("FunctionDeclaration", spy);
+            eslint.verify(code, { rules: {}}, true);
+            assert.isTrue(spy.calledOnce, "Event handler should be called.");
+
+        });
+
+        it("should get JSDoc comment for node when the node is a FunctionDeclaration and there are multiple comments", function() {
+
+            var code = [
+                "/* Code is good */",
+                "/** Desc*/",
+                "function Foo(){}"
+            ].join("\n");
+
+            function assertJSDoc(node) {
+                var jsdoc = eslint.getJSDocComment(node);
+                assert.equal(jsdoc.type, "Block");
+                assert.equal(jsdoc.value, "* Desc");
+            }
+
+            var spy = sandbox.spy(assertJSDoc);
+
+            eslint.on("FunctionDeclaration", spy);
+            eslint.verify(code, { rules: {}}, true);
+            assert.isTrue(spy.calledOnce, "Event handler should be called.");
+
+        });
+
+        it("should get JSDoc comment for node when the node is a FunctionDeclaration inside of an IIFE", function() {
+
+            var code = [
+                "/** Code is good */",
+                "(function() {",
+                "/** Desc*/",
+                "function Foo(){}",
+                "}())"
+            ].join("\n");
+
+            function assertJSDoc(node) {
+                var jsdoc = eslint.getJSDocComment(node);
+                assert.equal(jsdoc.type, "Block");
+                assert.equal(jsdoc.value, "* Desc");
+            }
+
+            var spy = sandbox.spy(assertJSDoc);
+
+            eslint.on("FunctionDeclaration", spy);
+            eslint.verify(code, { rules: {}}, true);
+            assert.isTrue(spy.calledOnce, "Event handler should be called.");
+        });
+
+        it("should get JSDoc comment for node when the node is a FunctionExpression inside of an object literal", function() {
+
+            var code = [
+                "/** Code is good */",
+                "var o = {",
+                "/** Desc*/",
+                "foo: function (){}",
+                "};"
+            ].join("\n");
+
+            function assertJSDoc(node) {
+                var jsdoc = eslint.getJSDocComment(node);
+                assert.equal(jsdoc.type, "Block");
+                assert.equal(jsdoc.value, "* Desc");
+            }
+
+            var spy = sandbox.spy(assertJSDoc);
+
+            eslint.on("FunctionExpression", spy);
+            eslint.verify(code, { rules: {}}, true);
+            assert.isTrue(spy.calledOnce, "Event handler should be called.");
+        });
+
+        it("should get JSDoc comment for node when the node is a FunctionExpression in an assignment", function() {
+
+            var code = [
+                "/** Code is good */",
+                "/** Desc*/",
+                "Foo.bar = function (){}",
+            ].join("\n");
+
+            function assertJSDoc(node) {
+                var jsdoc = eslint.getJSDocComment(node);
+                assert.equal(jsdoc.type, "Block");
+                assert.equal(jsdoc.value, "* Desc");
+            }
+
+            var spy = sandbox.spy(assertJSDoc);
+
+            eslint.on("FunctionExpression", spy);
+            eslint.verify(code, { rules: {}}, true);
+            assert.isTrue(spy.calledOnce, "Event handler should be called.");
+        });
+
+        it("should get JSDoc comment for node when the node is a FunctionExpression in an assignment inside an IIFE", function() {
+
+            var code = [
+                "/** Code is good */",
+                "(function iife() {",
+                "/** Desc*/",
+                "Foo.bar = function (){}",
+                "}());"
+            ].join("\n");
+
+            function assertJSDoc(node) {
+                if (!node.id) {
+                    var jsdoc = eslint.getJSDocComment(node);
+                    assert.equal(jsdoc.type, "Block");
+                    assert.equal(jsdoc.value, "* Desc");
+                }
+            }
+
+            var spy = sandbox.spy(assertJSDoc);
+
+            eslint.on("FunctionExpression", spy);
+            eslint.verify(code, { rules: {}}, true);
+            assert.isTrue(spy.calledTwice, "Event handler should be called.");
+        });
+
+        it("should not get JSDoc comment for node when the node is a FunctionExpression in an assignment inside an IIFE without a JSDoc comment", function() {
+
+            var code = [
+                "/** Code is good */",
+                "(function iife() {",
+                "//* whatever",
+                "Foo.bar = function (){}",
+                "}());"
+            ].join("\n");
+
+            function assertJSDoc(node) {
+                if (!node.id) {
+                    var jsdoc = eslint.getJSDocComment(node);
+                    assert.isNull(jsdoc);
+                }
+            }
+
+            var spy = sandbox.spy(assertJSDoc);
+
+            eslint.on("FunctionExpression", spy);
+            eslint.verify(code, { rules: {}}, true);
+            assert.isTrue(spy.calledTwice, "Event handler should be called.");
+        });
+
+        it("should not get JSDoc comment for node when the node is a FunctionExpression inside of a CallExpression", function() {
+
+            var code = [
+                "/** Code is good */",
+                "module.exports = (function() {",
+                "}());"
+            ].join("\n");
+
+            function assertJSDoc(node) {
+                if (!node.id) {
+                    var jsdoc = eslint.getJSDocComment(node);
+                    assert.isNull(jsdoc);
+                }
+            }
+
+            var spy = sandbox.spy(assertJSDoc);
+
+            eslint.on("FunctionExpression", spy);
+            eslint.verify(code, { rules: {}}, true);
+            assert.isTrue(spy.calledOnce, "Event handler should be called.");
+        });
+
+        it("should not get JSDoc comment for node when the node is a FunctionExpression in an assignment inside an IIFE without a JSDoc comment", function() {
+
+            var code = [
+                "/**",
+                " * Merges two objects together.",
+                " * @param {Object} target of the cloning operation",
+                " * @param {Object} [source] object",
+                " * @returns {void}",
+                " */",
+                "exports.mixin = function(target, source) {",
+                "    Object.keys(source).forEach(function forEach(key) {",
+                "        target[key] = source[key];",
+                "    });",
+                "};"
+            ].join("\n");
+
+            function assertJSDoc(node) {
+                if (node.id) {
+                    var jsdoc = eslint.getJSDocComment(node);
+                    assert.isNull(jsdoc);
+                }
+            }
+
+            var spy = sandbox.spy(assertJSDoc);
+
+            eslint.on("FunctionExpression", spy);
+            eslint.verify(code, { rules: {}}, true);
+            assert.isTrue(spy.calledTwice, "Event handler should be called.");
+        });
+
+    });
+
     describe("when retrieving comments", function() {
         var sandbox,
             code = [
