@@ -25,6 +25,8 @@ We want to accept your contribution. Following these guidelines helps to create 
 
 ## New Rules
 
+To simplify creation of new rule, use [ESLint Yeoman generator](https://github.com/eslint/generator-eslint). It will automatically generate rule, documentation and test files to get you started faster.
+
 Once you've written a rule, you can decide whether the rule is generic enough to be included in ESLint or if it's specific to your own use case. If you decide to submit your rule via a pull request, there are some things to keep in mind:
 
 1. Rules must be accompanied by tests (in `/tests/lib/rules/`).
