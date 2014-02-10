@@ -24,10 +24,29 @@ If you ever update from the central repository and there are errors, it might be
 
 ### Working with ESLintTester
 
-[ESLintTester](https://github.com/eslint/eslint-tester) is an integration testing tool for ESLint. If you want to work on both ESLint and ESLintTester, then you'll need to clone ESLintTester, `npm link` it, and then run this in your ESLint directory:
+[ESLintTester](https://github.com/eslint/eslint-tester) is an integration testing tool for ESLint. If you want to work on both ESLint and ESLintTester locally, then you'll need to clone ESLintTester along with ESLint and do some magic linking. Here are the commands:
 
+    # Check out ESLint
+    git clone git://github.com/eslint/eslint.git
+
+    # Check out ESLintTester
+    git clone git://github.com/eslint/eslint-tester.git
+
+    # Link ESLint
+    cd eslint
+    npm link
+
+    # Link ESLintTester
+    cd ../eslint-tester
+    npm link
+
+    # Link ESLint into ESLintTester
+    npm link eslint
+
+    # Link ESLintTester into ESLint
+    cd ../eslint
     npm link eslint-tester
-    
+
 That ensures ESLint is using your locally installed ESLintTester instead of the one from the public npm registry.
 
 You'll end up needing to do this if you are making changes to ESLint core together with a rule that is using those changes.
