@@ -2,3 +2,13 @@ language: node_js
 node_js:
     - "0.8"
     - "0.10"
+
+before_install:
+    - npm link
+    - cd ..
+    - git clone git://github.com/eslint/eslint-tester.git
+    - cd eslint-tester
+    - npm link
+    - npm link eslint
+    - cd ../eslint
+    - npm link eslint-tester

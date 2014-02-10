@@ -4,6 +4,7 @@
     },
 
     "rules": {
-        "func-style": [2, "declaration"]
+        "func-style": [2, "declaration"],
+        "valid-jsdoc": 2
     }
 }
