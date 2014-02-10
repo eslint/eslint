@@ -89,6 +89,7 @@
         "curly": [2, "all"],
         "dot-notation": 2,
         "eqeqeq": 2,
+        "func-names": 0,
         "func-style": [0, "declaration"],
         "guard-for-in": 0,
         "max-depth": [0, 4],

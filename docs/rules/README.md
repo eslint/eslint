@@ -108,7 +108,8 @@ These rules are purely matters of style and are quite subjective.
 
 * [brace-style](brace-style.md) - enforce one true brace style
 * [camelcase](camelcase.md) - require camel case names
-* [consistent-this](consistent-this.md) - enforces consistent naming when capturing the current execution context (off by default).
+* [consistent-this](consistent-this.md) - enforces consistent naming when capturing the current execution context (off by default)
+* [func-names](func-names.md) - require function expressions to have a name
 * [func-style](func-style.md) - enforces use of function declarations or expressions
 * [new-cap](new-cap.md) - require a capital letter for constructors
 * [new-parens](new-parens.md) - disallow the omission of parentheses when invoking a contructor with no arguments
