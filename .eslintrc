@@ -4,7 +4,13 @@
     },
 
     "rules": {
+        "brace-style": 2,
         "func-style": [2, "declaration"],
-        "valid-jsdoc": 2
+        "guard-for-in": 2,
+        "no-floating-decimal": 2,
+        "no-nested-ternary": 2,
+        "radix": 2,
+        "valid-jsdoc": 2,
+        "wrap-iife": 2
     }
 }
