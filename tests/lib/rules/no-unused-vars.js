@@ -28,7 +28,8 @@ eslintTester.addRuleTest("lib/rules/no-unused-vars", {
         { code: "var a=10;", args: [1, "local"] },
         "var a=10",
         "myFunc(function foo() {}.bind(this))",
-        "myFunc(function foo(){}.toString())"
+        "myFunc(function foo(){}.toString())",
+        "function foo(first, second) {\ndoStuff(function() {\nconsole.log(second);});};"
     ],
     invalid: [
         { code: "var a=10;", args: [1, "all"], errors: [{ message: "a is defined but never used", type: "Identifier"}] },
