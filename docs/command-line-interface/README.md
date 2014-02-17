@@ -45,7 +45,7 @@ This example uses the configuration file at `~/my-eslint.json` instead of the de
 
 ### `-f`, `--format`
 
-This options specifies the output format for the console. Possible formats are "stylish" (the default), "compact", "checkstyle", "jslint-xml", and "junit".
+This options specifies the output format for the console. Possible formats are "stylish" (the default), "compact", "checkstyle", "jslint-xml", "junit" and "tap".
 
 Example:
 
