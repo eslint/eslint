@@ -18,6 +18,13 @@ eslintTester.addRuleTest("lib/rules/radix", {
 
     invalid: [
         {
+            code: "parseInt();",
+            errors: [{
+                message: "Missing radix parameter.",
+                type: "CallExpression"
+            }]
+        },
+        {
             code: "parseInt(\"10\");",
             errors: [{
                 message: "Missing radix parameter.",
