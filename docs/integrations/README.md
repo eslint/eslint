@@ -15,6 +15,8 @@
     * [grunt-eslint](https://npmjs.org/package/grunt-eslint)
 * **Gulp:**
     * [gulp-eslint](https://npmjs.org/package/gulp-eslint)
+* **Mimosa:**
+    * [mimosa-eslint](https://npmjs.org/package/mimosa-eslint)
 
 ## Source Control
 
