@@ -28,34 +28,33 @@ var result = 0 ? a : b;
 ```
 
 ```js
-while (x = 0) {
+while (-2) {
     doSomething();
 }
 ```
 
 ```js
-while (+2) {
+for (;true;) {
     doSomething();
 }
 ```
 
 ```js
-switch (42) {
-    case 42:
-        doSomething();
-}
+do{
+    something();
+} while (x = -1)
 ```
 
 The following patterns are not warnings:
 
 ```js
-if (x == 0) {
+if (x === 0) {
     doSomething();
 }
 ```
 
 ```js
-while (isTrue()) {
-    doSomething();
-}
+do {
+    something();
+} while (x)
 ```
