@@ -474,6 +474,136 @@ describe("eslint", function() {
 
     });
 
+    describe("getLine()", function() {
+
+        beforeEach(function() {
+            eslint.reset();
+            sandbox = sinon.sandbox.create();
+        });
+
+        afterEach(function() {
+            sandbox.verifyAndRestore();
+        });
+
+        it("should get a line of text when called on \\n separated lines", function() {
+
+            var lines = [
+                    "/** Desc*/",
+                    "function Foo(){}"
+                ],
+                code = lines.join("\n");
+
+            eslint.verify(code, { rules: {}}, true);
+
+            var line1 = eslint.getLine(1),
+                line2 = eslint.getLine(2),
+                line3 = eslint.getLine(3);
+
+            assert.equal(line1, lines[0]);
+            assert.equal(line2, lines[1]);
+            assert.isNull(line3);
+        });
+
+        it("should get a line of text when called on \\r\\n separated lines", function() {
+
+            var lines = [
+                    "/** Desc*/",
+                    "function Foo(){}"
+                ],
+                code = lines.join("\r\n");
+
+            eslint.verify(code, { rules: {}}, true);
+
+            var line1 = eslint.getLine(1),
+                line2 = eslint.getLine(2),
+                line3 = eslint.getLine(3);
+
+            assert.equal(line1, lines[0]);
+            assert.equal(line2, lines[1]);
+            assert.isNull(line3);
+        });
+
+    });
+
+    describe("getIndent()", function() {
+
+        beforeEach(function() {
+            eslint.reset();
+            sandbox = sinon.sandbox.create();
+        });
+
+        afterEach(function() {
+            sandbox.verifyAndRestore();
+        });
+
+        it("should retrieve the indent when called on a node with an indent", function() {
+
+            var lines = [
+                    "if (foo) {",
+                    "    doSomething()",
+                    "}"
+                ],
+                code = lines.join("\n");
+
+            function assertIndent(node) {
+                var indent = eslint.getIndent(node);
+                assert.equal(indent, "    ");
+            }
+
+            var spy = sandbox.spy(assertIndent);
+
+            eslint.on("CallExpression", spy);
+            eslint.verify(code, { rules: {}}, true);
+
+            assert.isTrue(spy.calledOnce, "Event handler should be called.");
+        });
+
+        it("should return null when called on a node without an indent", function() {
+
+            var lines = [
+                    "if (foo) {",
+                    "doSomething()",
+                    "}"
+                ],
+                code = lines.join("\n");
+
+            function assertIndent(node) {
+                var indent = eslint.getIndent(node);
+                assert.isNull(indent);
+            }
+
+            var spy = sandbox.spy(assertIndent);
+
+            eslint.on("CallExpression", spy);
+            eslint.verify(code, { rules: {}}, true);
+
+            assert.isTrue(spy.calledOnce, "Event handler should be called.");
+        });
+
+        it("should return null when called on a node that isn't the outermost on an indented line", function() {
+
+            var lines = [
+                    "if (foo) {",
+                    "   doSomething(5)",
+                    "}"
+                ],
+                code = lines.join("\n");
+
+            function assertIndent(node) {
+                var indent = eslint.getIndent(node);
+                assert.isNull(indent);
+            }
+
+            var spy = sandbox.spy(assertIndent);
+
+            eslint.on("Literal", spy);
+            eslint.verify(code, { rules: {}}, true);
+
+            assert.isTrue(spy.calledOnce, "Event handler should be called.");
+        });
+
+    });
+
     describe("when retrieving comments", function() {
         var sandbox,
             code = [
