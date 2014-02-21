@@ -123,7 +123,7 @@ These rules are purely matters of style and are quite subjective.
 * [no-wrap-func](no-wrap-func.md) - disallow wrapping of none IIFE statements in parents
 * [quotes](quotes.md) - specify whether double or single quotes should be used
 * [quote-props](quote-props.md) - require quotes around object literal property names
-* [semi](semi.md)- require use of semicolons instead of relying on ASI
+* [semi](semi.md)- require or disallow use of semicolons instead of ASI
 * [sort-vars](sort-vars.md) - sort variables within the same declaration block
 * [space-infix-ops](space-infix-ops.md) - require spaces around operators
 * [space-return-throw-case](space-return-throw-case.md) - require a space after `return`, `throw`, and `case`

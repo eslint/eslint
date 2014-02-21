@@ -1,4 +1,4 @@
-# Require Semicolons
+# Enforce Semicolons (semi)
 
 JavaScript is unique amongst the C-like languages in that it doesn't require semicolons at the end of each statement. In many cases, the JavaScript engine can determine that a semicolon should be in a certain spot and will automatically add it. This feature is known as **automatic semicolon insertion (ASI)** and is considered one of the more controversial features of JavaScript. For example, the following lines are both valid:
 
@@ -38,7 +38,15 @@ On the other side of the argument are those who say ASI isn't magic, it follows 
 
 ## Rule Details
 
-This rule is aimed at ensuring that semicolons are used in all spots where semicolons can end a statement.
+This rule is aimed at ensuring consistent use of semicolons. You can decide whether or not to require semicolons at the end of statements.
+
+### Options
+
+By using the default option, semicolons must be used any place where they are valid.
+
+```
+semi: [2, "always"]
+```
 
 The following patterns are considered warnings:
 
@@ -60,9 +68,37 @@ object.method = function() {
 };
 ```
 
+If you want to enforce that semicolons are never used, switch the configuration to:
+
+```
+semi: [2, "never"]
+```
+
+Then, the following patterns are considered warnings:
+
+```js
+var name = "ESLint";
+
+object.method = function() {
+    // ...
+};
+```
+
+And the following patterns are not considered warnings:
+
+```js
+var name = "ESLint"
+
+object.method = function() {
+    // ...
+}
+```
+
+
+
 ## When Not To Use It
 
-If you prefer a style without using semicolons than you can safely turn this rule off.
+If you do want to enforce semicolon usage (or omission) in any particular way, then you can turn this rule off.
 
 ## Further Reading
 
