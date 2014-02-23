@@ -17,6 +17,8 @@
     * [gulp-eslint](https://npmjs.org/package/gulp-eslint)
 * **Mimosa:**
     * [mimosa-eslint](https://npmjs.org/package/mimosa-eslint)
+* **Broccoli:**
+    * [broccoli-eslint](https://www.npmjs.org/package/broccoli-eslint)
 
 ## Source Control
 
