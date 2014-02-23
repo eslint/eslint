@@ -8,6 +8,7 @@ The following rules point out areas where you might have made mistakes.
 
 * [no-cond-assign](no-cond-assign.md) - disallow assignment in conditional expressions
 * [no-console](no-console.md) - disallow use of `console`
+* [no-constant-condition](no-constant-condition.md) - disallow use of constant expressions in conditions
 * [no-comma-dangle](no-comma-dangle.md) - disallow trailing commas in object literals
 * [no-control-regex](no-control-regex.md) - disallow control characters in regular expressions
 * [no-debugger](no-debugger.md) - disallow use of `debugger`
