@@ -260,6 +260,30 @@ describe("eslint", function() {
 
         });
 
+
+        it("should get JSDoc comment for node when the node is a FunctionDeclaration but not the first statement", function() {
+
+            var code = [
+                "'use strict';",
+                "/** Desc*/",
+                "function Foo(){}"
+            ].join("\n");
+
+            function assertJSDoc(node) {
+                var jsdoc = eslint.getJSDocComment(node);
+                assert.equal(jsdoc.type, "Block");
+                assert.equal(jsdoc.value, "* Desc");
+            }
+
+            var spy = sandbox.spy(assertJSDoc);
+
+            eslint.on("FunctionDeclaration", spy);
+            eslint.verify(code, { rules: {}}, true);
+            assert.isTrue(spy.calledOnce, "Event handler should be called.");
+
+        });
+
+
         it("should not get JSDoc comment for node when the node is a FunctionDeclaration inside of an IIFE without a JSDoc comment", function() {
 
             var code = [
