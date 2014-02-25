@@ -25,7 +25,11 @@ eslintTester.addRuleTest("lib/rules/valid-jsdoc", {
         "/**\n* Description\n* @param {string} [p] bar\n* @returns {string} desc */\nfunction foo(p){}",
         "/**\n* Description\n* @param {string} p bar\n* @returns {string} desc */\nFoo.bar = function(p){};",
         "(function(){\n/**\n* Description\n* @param {string} p bar\n* @returns {string} desc */\nfunction foo(p){}\n}())",
-        "var o = {\n/**\n* Description\n* @param {string} p bar\n* @returns {string} desc */\nfoo: function(p){}\n};"
+        "var o = {\n/**\n* Description\n* @param {string} p bar\n* @returns {string} desc */\nfoo: function(p){}\n};",
+        {
+            code: "/**\n* Description\n* @return {void} */\nfunction foo(){}",
+            args: [1, {}]
+        }
     ],
 
     invalid: [
@@ -52,6 +56,7 @@ eslintTester.addRuleTest("lib/rules/valid-jsdoc", {
         },
         {
             code: "/** Foo \n@return {void} Foo\n */\nfunction foo(){}",
+            args: [1, { prefer: { "return": "returns" }}],
             errors: [{
                 message: "Use @returns instead.",
                 type: "Block"
