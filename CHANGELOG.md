@@ -1,3 +1,26 @@
+v0.4.1 - February 27, 2014
+
+* 0.4.1 (Nicholas C. Zakas)
+* Created space-in-brackets rule (Ian Christian Myers)
+* Update: Allow valid-jsdoc to specify replacement tags (fixes #637) (Nicholas C. Zakas)
+* Fix: Ensure getJSDocComment() works for all function declarations (fixes #638) (Nicholas C. Zakas)
+* Added broccoli-eslint to integration docs (Christian)
+* fixes #634: getters/setters shouldn't trigger no-dupe-keys (Michael Ficarra)
+* Update: semi to also enforce not using semicolons (fixes #618) (Nicholas C. Zakas)
+* New Rule: no-constant-condition  - removed SwitchStatement discriminant check  - removed AssignmentExpression with right Identifier  - fixed copy paste error  - added DoWhileStatement, ForStatement based on discussion: https://github.com/eslint/eslint/pull/624 (fixes #621) (Christian)
+* New Rule: no-constant-condition (fixes #621) (Christian)
+* Adding mimosa-eslint to Build System list (dbashford)
+* Fix: Make sure semi flags return statements without a semicolon (fixes #616) (Nicholas C. Zakas)
+* Fix: stylish formatter blue text -> white text (fixes #607) (Nicholas C. Zakas)
+* Fix: radix rule should warn (not throw error) when parseInt() is called without arguments (fixes #611) (Nicholas C. Zakas)
+* Update README.md (Dmitry)
+* Adding JSDoc comments for TAP format helper functions (Jonathan Kingston)
+* Updating documentation to include TAP format option (Jonathan Kingston)
+* Fixing validation issues to TAP formatter (Jonathan Kingston)
+* Adding TAP formatter and basic tests (Jonathan Kingston)
+* Docs: Updated integrations page (Nicholas C. Zakas)
+* 0.4.0 (Nicholas C. Zakas)
+
 v0.4.0 - February 12, 2014
 
 * 0.4.0 (Nicholas C. Zakas)
