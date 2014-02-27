@@ -10,7 +10,11 @@
         "no-floating-decimal": 2,
         "no-nested-ternary": 2,
         "radix": 2,
-        "valid-jsdoc": 2,
+        "valid-jsdoc": [2, {
+            "prefer": {
+                "return": "returns"
+             }
+        }],
         "wrap-iife": 2
     }
 }

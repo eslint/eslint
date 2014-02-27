@@ -23,7 +23,6 @@ This rule aims to prevent invalid and incomplete JSDoc comments. In doing so, it
 1. There is a JSDoc syntax error
 1. A `@param` or `@returns` is used without a type specified
 1. A `@param` or `@returns` is used without a description
-1. `@return` is used instead of `@returns`
 1. A comment for a function is missing `@returns`
 1. A parameter has no associated `@param` in the JSDoc comment
 1. `@param`s are out of order with named arguments
@@ -41,12 +40,6 @@ The following patterns are considered warnings:
 /**
  * A description
  * @param {int} num1
- */
-
-// using @return instead of @returns
-/**
- * A description
- * @return {void}
  */
 
 // no description for @returns
@@ -98,6 +91,20 @@ The following patterns are not warnings:
  * @constructor
  */
 ```
+
+### Options
+
+JSDoc offers a lot of tags with overlapping meaning. For example, both `@return` and `@returns` are acceptable for specifying the return value of a function. However, you may want to enforce a certain tag be used instead of others. You can specify your preferences regarding tag substitution by providing a mapping called `prefer` in the rule configuration. For example, to specify that `@returns` should be used instead of `@return`, you can use the following configuration:
+
+```
+"valid-jsdoc": [2, {
+    "prefer": {
+        "return": "returns"
+    }
+}]
+```
+
+With this configuration, ESLint will warn when it finds `@return` and recommend to replace it with `@returns`.
 
 ## When Not To Use It
 
