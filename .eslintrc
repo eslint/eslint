@@ -4,7 +4,7 @@
     },
 
     "rules": {
-        "brace-style": 2,
+        "brace-style": [2, "1tbs"],
         "func-style": [2, "declaration"],
         "guard-for-in": 2,
         "no-floating-decimal": 2,

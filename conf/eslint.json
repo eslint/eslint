@@ -82,7 +82,7 @@
         "no-yoda": 2,
 
         "block-scoped-var": 0,
-        "brace-style": 0,
+        "brace-style": [0, "1tbs"],
         "camelcase": 2,
         "complexity": [0, 11],
         "consistent-return": 2,
