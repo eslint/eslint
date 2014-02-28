@@ -16,14 +16,19 @@ var eslintTester = require("eslint-tester");
 
 eslintTester.addRuleTest("lib/rules/wrap-iife", {
     valid: [
-        "var x = (function () { return { y: 1 };})();",
-        "var x = test(function () { return { y: 1 };})();"
+        "(function(){ }());",
+        "(function(){ })();",
+        "(function a(){ }());",
+        "(function a(){ })();"
     ],
     invalid: [
-
-        { code: "var x = function () { return { y: 1 };}();",
+        { code: "0, function(){ }();",
           errors: [{ message: "Wrap an immediate function invocation in parentheses.", type: "CallExpression"}] },
-        { code: "var x = [function () { return { y: 1 };}()];",
+        { code: "[function(){ }()];",
+          errors: [{ message: "Wrap an immediate function invocation in parentheses.", type: "CallExpression"}] },
+        { code: "var a = function(){ }();",
+          errors: [{ message: "Wrap an immediate function invocation in parentheses.", type: "CallExpression"}] },
+        { code: "(function(){ }(), 0);",
           errors: [{ message: "Wrap an immediate function invocation in parentheses.", type: "CallExpression"}] }
     ]
 });
