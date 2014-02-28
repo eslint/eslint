@@ -681,6 +681,44 @@ describe("eslint", function() {
         });
     });
 
+    describe("when calling report", function() {
+        it("should correctly parse a message when being passed all options", function() {
+            eslint.reset();
+            eslint.defineRule("test-rule", function(context) {
+                return {
+                    "Literal": function(node) { 
+                        context.report(node, node.loc.end, "hello {{dynamic}}", {dynamic: node.type}); 
+                    }
+                };
+            });
+
+            var config = { rules: {} };
+            config.rules["test-rule"] = 1;
+
+            var messages = eslint.verify("0", config);
+            assert.equal(messages[0].message, "hello Literal");
+        });
+
+        it("should use the report the provided location when given", function() {
+            eslint.reset();
+            eslint.defineRule("test-rule", function(context) {
+                return {
+                    "Literal": function(node) { 
+                        context.report(node, {line: 42, column: 13}, "hello world"); 
+                    }
+                };
+            });
+
+            var config = { rules: {} };
+            config.rules["test-rule"] = 1;
+
+            var messages = eslint.verify("0", config);
+            assert.equal(messages[0].message, "hello world");
+            assert.equal(messages[0].line, 42);
+            assert.equal(messages[0].column, 13);
+        });
+    });
+
     describe("when evaluating code", function() {
         var code = TEST_CODE;
 
