@@ -8,7 +8,8 @@
 //------------------------------------------------------------------------------
 
 var eslintTester = require("eslint-tester"),
-    MESSAGE = "Opening curly brace does not appear on the same line as controlling statement.";
+    OPEN_MESSAGE = "Opening curly brace does not appear on the same line as controlling statement.",
+    CLOSE_MESSAGE = "Closing curly brace does not appear on the same line as the subsequent block.";
 
 //------------------------------------------------------------------------------
 // Tests
@@ -20,7 +21,6 @@ eslintTester.addRuleTest("lib/rules/brace-style", {
         "function a(b,\nc,\nd) { }",
         "if (foo) { \n bar(); }",
         "if (a) { b(); } else { c(); }",
-        "if (a) { b(); } \n else { c(); }",
         "while (foo) { \n bar(); }",
         "for (;;) { \n bar(); }",
         "with (foo) { \n bar(); }",
@@ -29,20 +29,28 @@ eslintTester.addRuleTest("lib/rules/brace-style", {
         "do { \n bar();\n } while (true)",
         "for (foo in bar) { \n baz(); \n }",
         "if (a &&\n b &&\n c) { \n }",
-        "switch(0) {}"
+        "switch(0) {}",
+        { code: "if (foo) {\n}\nelse {\n}", args: ["2", "stroustrup"] },
+        { code: "try { \n bar();\n }\ncatch (e) {\n baz(); \n }", args: ["2", "stroustrup"] }
     ],
     invalid: [
-        { code: "function foo() \n { \n return; }", errors: [{ message: MESSAGE, type: "FunctionDeclaration"}] },
-        { code: "if (foo) \n { \n bar(); }", errors: [{ message: MESSAGE, type: "IfStatement"}] },
-        { code: "if (a) { b(); } else \n { c(); }", errors: [{ message: MESSAGE, type: "IfStatement"}] },
-        { code: "while (foo) \n { \n bar(); }", errors: [{ message: MESSAGE, type: "WhileStatement"}] },
-        { code: "for (;;) \n { \n bar(); }", errors: [{ message: MESSAGE, type: "ForStatement"}] },
-        { code: "with (foo) \n { \n bar(); }", errors: [{ message: MESSAGE, type: "WithStatement"}] },
-        { code: "switch (foo) \n { \n case \"bar\": break; }", errors: [{ message: MESSAGE, type: "SwitchStatement"}] },
-        { code: "switch (foo) \n { }", errors: [{ message: MESSAGE, type: "SwitchStatement"}] },
-        { code: "try \n { \n bar(); \n } catch (e) {}", errors: [{ message: MESSAGE, type: "TryStatement"}] },
-        { code: "try { \n bar(); \n } catch (e) \n {}", errors: [{ message: MESSAGE, type: "CatchClause"}] },
-        { code: "do \n { \n bar(); \n} while (true)", errors: [{ message: MESSAGE, type: "DoWhileStatement"}] },
-        { code: "for (foo in bar) \n { \n baz(); \n }", errors: [{ message: MESSAGE, type: "ForInStatement"}] }
+        { code: "function foo() \n { \n return; }", errors: [{ message: OPEN_MESSAGE, type: "FunctionDeclaration"}] },
+        { code: "if (foo) \n { \n bar(); }", errors: [{ message: OPEN_MESSAGE, type: "IfStatement"}] },
+        { code: "if (a) { b(); } else \n { c(); }", errors: [{ message: OPEN_MESSAGE, type: "IfStatement"}] },
+        { code: "while (foo) \n { \n bar(); }", errors: [{ message: OPEN_MESSAGE, type: "WhileStatement"}] },
+        { code: "for (;;) \n { \n bar(); }", errors: [{ message: OPEN_MESSAGE, type: "ForStatement"}] },
+        { code: "with (foo) \n { \n bar(); }", errors: [{ message: OPEN_MESSAGE, type: "WithStatement"}] },
+        { code: "switch (foo) \n { \n case \"bar\": break; }", errors: [{ message: OPEN_MESSAGE, type: "SwitchStatement"}] },
+        { code: "switch (foo) \n { }", errors: [{ message: OPEN_MESSAGE, type: "SwitchStatement"}] },
+        { code: "try \n { \n bar(); \n } catch (e) {}", errors: [{ message: OPEN_MESSAGE, type: "TryStatement"}] },
+        { code: "try { \n bar(); \n } catch (e) \n {}", errors: [{ message: OPEN_MESSAGE, type: "CatchClause"}] },
+        { code: "do \n { \n bar(); \n} while (true)", errors: [{ message: OPEN_MESSAGE, type: "DoWhileStatement"}] },
+        { code: "for (foo in bar) \n { \n baz(); \n }", errors: [{ message: OPEN_MESSAGE, type: "ForInStatement"}] },
+        { code: "try { \n bar(); \n }\ncatch (e) {\n}", errors: [{ message: CLOSE_MESSAGE, type: "CatchClause"}] },
+        { code: "try { \n bar(); \n } catch (e) {\n}\n finally {\n}", errors: [{ message: CLOSE_MESSAGE, type: "BlockStatement"}] },
+        { code: "if (a) { b(); } \n else { c(); }", errors: [{ message: CLOSE_MESSAGE, type: "BlockStatement" }]},
+        { code: "try { \n bar(); \n }\ncatch (e) {\n} finally {\n}", args: ["2", "stroustrup"], errors: [{ message: CLOSE_MESSAGE, type: "BlockStatement"}] },
+        { code: "try { \n bar(); \n } catch (e) {\n}\n finally {\n}", args: ["2", "stroustrup"], errors: [{ message: CLOSE_MESSAGE, type: "CatchClause"}] },
+        { code: "if (a) { b(); } else { c(); }", args: ["2", "stroustrup"], errors: [{ message: CLOSE_MESSAGE, type: "BlockStatement" }]}
     ]
 });
