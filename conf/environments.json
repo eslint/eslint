@@ -357,6 +357,7 @@
         },
 
         "rules": {
+            "no-catch-shadow": 0,
             "no-console": 0,
             "no-global-strict": 0,
             "no-mixed-requires": 2,
