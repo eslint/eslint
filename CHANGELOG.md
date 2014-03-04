@@ -1,3 +1,12 @@
+v0.4.2 - March 3, 2014
+
+* 0.4.2 (Nicholas C. Zakas)
+* fixes #651: disable no-catch-shadow rule in node environment (Michael Ficarra)
+* Fixed context.report message parsing (Ian Christian Myers)
+* fixe #648: wrap-iife rule should actually check that IIFEs are wrapped (Michael Ficarra)
+* Added "stroustrup" option for brace-style (Ian Christian Myers)
+* 0.4.1 (Nicholas C. Zakas)
+
 v0.4.1 - February 27, 2014
 
 * 0.4.1 (Nicholas C. Zakas)
