@@ -22,13 +22,21 @@ eslintTester.addRuleTest("lib/rules/wrap-iife", {
         "(function a(){ })();"
     ],
     invalid: [
-        { code: "0, function(){ }();",
-          errors: [{ message: "Wrap an immediate function invocation in parentheses.", type: "CallExpression"}] },
-        { code: "[function(){ }()];",
-          errors: [{ message: "Wrap an immediate function invocation in parentheses.", type: "CallExpression"}] },
-        { code: "var a = function(){ }();",
-          errors: [{ message: "Wrap an immediate function invocation in parentheses.", type: "CallExpression"}] },
-        { code: "(function(){ }(), 0);",
-          errors: [{ message: "Wrap an immediate function invocation in parentheses.", type: "CallExpression"}] }
+        {
+            code: "0, function(){ }();",
+            errors: [{ message: "Wrap an immediate function invocation in parentheses.", type: "CallExpression"}]
+        },
+        {
+            code: "[function(){ }()];",
+            errors: [{ message: "Wrap an immediate function invocation in parentheses.", type: "CallExpression"}]
+        },
+        {
+            code: "var a = function(){ }();",
+            errors: [{ message: "Wrap an immediate function invocation in parentheses.", type: "CallExpression"}]
+        },
+        {
+            code: "(function(){ }(), 0);",
+            errors: [{ message: "Wrap an immediate function invocation in parentheses.", type: "CallExpression"}]
+        }
     ]
 });
