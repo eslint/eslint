@@ -19,5 +19,30 @@ var x = function () { return { y: 1 };}();
 The following patterns adhere to this rule:
 
 ```js
+// wrapping the function expression (inside)
 var x = (function () { return { y: 1 };})();
+
+// wrapping the call expression (outside)
+var x = (function () { return { y: 1 };}());
 ```
+
+### Options
+The rule takes one option which can enforce a consistent wrapping style. The default is `outside`.
+
+```json
+"wrap-iife": [2, "outside"]
+```
+
+This configures the rule to enforce wrapping always the call expression.
+
+```json
+"wrap-iife": [2, "inside"]
+```
+
+This configures the rule to enforce wrapping always the function expression.
+
+```json
+"wrap-iife": [2, "any"]
+```
+
+This allows any wrapping style.
