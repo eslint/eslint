@@ -1,8 +1,18 @@
 # Disallow Spaces Before Semicolon
 
-A common coding mistake, is placing unnecessary spaces before semicolons in expressions. This rule prevents the use of spaces before a semicolon in expressions.
+JavaScript allows for placing unnecessary spaces between an expression and the closing semicolon.
+
+Space issues can also cause code to look inconsistent and harder to read.
+
+```js
+var thing = function {
+  var test = 12 ;
+}  ;
+```
 
 ## Rule Details
+
+This rule prevents the use of spaces before a semicolon in expressions.
 
 The following patterns are considered warnings:
 

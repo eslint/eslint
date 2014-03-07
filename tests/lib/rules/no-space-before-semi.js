@@ -16,7 +16,10 @@ var eslintTester = require("eslint-tester");
 eslintTester.addRuleTest("lib/rules/no-space-before-semi", {
     valid: [
         "var thing = 'test';",
+        "var thing = 'test ; thing';",
+        "var thing = \"test ; thing\";",
         "var thing = function () {};",
+        "var thing = function () {\n var thing = 'test ; '; };",
         ";(function(){}());"
     ],
     invalid: [
