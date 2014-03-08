@@ -15,7 +15,8 @@ var eslintTester = require("eslint-tester");
 
 eslintTester.addRuleTest("lib/rules/no-shadow", {
     valid: [
-        "var a=3; function b(a) { a++; return a; }; setTimeout(function() { b(a); }, 0);"
+        "var a=3; function b(a) { a++; return a; }; setTimeout(function() { b(a); }, 0);",
+        "(function() { var doSomething = function doSomething() {}; doSomething() }())"
     ],
     invalid: [
         { code: "var a=3; function b() { var a=10; }", errors: [{ message: "a is already declared in the upper scope.", type: "Identifier"}] },
