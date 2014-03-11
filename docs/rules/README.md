@@ -68,6 +68,7 @@ These are rules designed to prevent you from making mistakes. They either prescr
 * [no-script-url](no-script-url.md) - disallow use of javascript: urls.
 * [no-self-compare](no-self-compare.md) - disallow comparisons where both sides are exactly the same
 * [no-unused-expressions](no-unused-expressions.md) - disallow usage of expressions in statement position
+* [no-warning-comments](no-warning-comments.md) - disallow usage of configurable warning terms in comments - e.g. `TODO` or `FIXME`
 * [no-with](no-with.md) - disallow use of the `with` statement
 * [no-yoda](no-yoda.md) - disallow Yoda conditions
 * [radix](radix.md) - require use of the second argument for `parseInt()`
