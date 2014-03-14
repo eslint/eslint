@@ -27,6 +27,8 @@ var myFavoriteColor   = "#112C85";
 var _myFavoriteColor  = "#112C85";
 var myFavoriteColor_  = "#112C85";
 var MY_FAVORITE_COLOR = "#112C85";
+var foo = bar.baz_boom;
+var foo = { qux: bar.baz_boom };
 
 obj.do_something();
 ```
