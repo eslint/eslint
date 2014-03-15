@@ -239,6 +239,48 @@ describe("eslint", function() {
             sandbox.verifyAndRestore();
         });
 
+        it("should not take a JSDoc comment from a FunctionDeclaration parent node when the node is a FunctionExpression", function() {
+
+            var code = [
+                "/** Desc*/",
+                "function Foo(){var t = function(){}}"
+            ].join("\n");
+
+            function assertJSDoc(node) {
+                var jsdoc = eslint.getJSDocComment(node);
+                assert.equal(null, jsdoc);
+            }
+
+            var spy = sandbox.spy(assertJSDoc);
+
+            eslint.on("FunctionExpression", spy);
+            eslint.verify(code, { rules: {}}, true);
+            assert.isTrue(spy.calledOnce, "Event handler should be called.");
+
+        });
+
+        it("should not take a JSDoc comment from a FunctionExpression parent node when the node is a FunctionExpression", function() {
+
+            var code = [
+                "/** Desc*/",
+                "var f = function(){var t = function(arg){}}"
+            ].join("\n");
+
+            function assertJSDoc(node) {
+                if(node.params.length === 1) {
+                    var jsdoc = eslint.getJSDocComment(node);
+                    assert.equal(null, jsdoc);
+                }
+            }
+
+            var spy = sandbox.spy(assertJSDoc);
+
+            eslint.on("FunctionExpression", spy);
+            eslint.verify(code, { rules: {}}, true);
+            assert.isTrue(spy.calledTwice, "Event handler should be called twice.");
+
+        });
+
         it("should get JSDoc comment for node when the node is a FunctionDeclaration", function() {
 
             var code = [
