@@ -177,7 +177,7 @@ eslintTester.addRuleTest("lib/rules/valid-jsdoc", {
             code: "/**\n* Foo\n* @param {string} a desc\n@returns {MyClass}*/\nfunction foo(a){var t = false; if(t) {process(t);}}",
             args: [1, {requireReturn: false}],
             errors: [{
-                message: "Wrong JSDoc tag, return, added to documentation. No returns found in function.",
+                message: "Unexpected @returns tag; function has no return statement.",
                 type: "Block"
             }]
         }
