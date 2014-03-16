@@ -106,6 +106,14 @@ JSDoc offers a lot of tags with overlapping meaning. For example, both `@return`
 
 With this configuration, ESLint will warn when it finds `@return` and recommend to replace it with `@returns`.
 
+By default ESLint requires you to specify `@return` for every documented function regardless of whether there is anything returned by the function. While using `@return {void}` stops it from asking for a description of the return value using the `requireReturnIfReturnUndefined` option and setting it to false prevents an error from being logged unless there is a return in the function. Note that with this option set to `false` if there is a return in the function and error will still be logged and if there is a `@return` specified and there are no `return` statements in the function an error will also be logged. This option is purely to prevent the forced addition of `@return {void}` to an entire codebase not to turn off JSDoc return checking.
+
+```
+"valid-jsdoc": [2, {
+    "requireReturnIfReturnUndefined": false
+}]
+```
+
 ## When Not To Use It
 
 If you aren't using JSDoc, then you can safely turn this rule off.
