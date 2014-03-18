@@ -12,7 +12,7 @@ As such, assignment operators used in this context are frequently errors, where 
 
 ## Rule Details
 
-This rule is aimed at eliminating ambiguous assignment operators found in `if, while, and dowhile` conditional expressions.
+This rule is aimed at eliminating ambiguous assignment operators found in `if`, `while`, and `do...while` conditional expressions.
 
 The following patterns are considered warnings:
 
