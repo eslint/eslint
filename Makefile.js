@@ -13,7 +13,8 @@
 require("shelljs/make");
 
 var path = require("path"),
-    dateformat = require("dateformat");
+    dateformat = require("dateformat"),
+    nodeCLI = require("shelljs-nodecli");
 
 //------------------------------------------------------------------------------
 // Data
@@ -25,13 +26,8 @@ var NODE = "node ", // intentional extra space
     BUILD_DIR = "./build/",
 
     // Utilities - intentional extra space at the end of each string
-    JSON_LINT = NODE + NODE_MODULES + "jsonlint/lib/cli.js ",
-    ISTANBUL = NODE + NODE_MODULES + "istanbul/lib/cli.js ",
     MOCHA = NODE_MODULES + "mocha/bin/_mocha ",
-    MOCHA_PHANTOM = NODE + NODE_MODULES + "mocha-phantomjs/bin/mocha-phantomjs ",
-    JSDOC = NODE + NODE_MODULES + "jsdoc/jsdoc.js ",
     ESLINT = NODE + " bin/eslint.js ",
-    BROWSERIFY = NODE + NODE_MODULES + "browserify/bin/cmd.js ",
 
     // Files
     JS_FILES = find("lib/").filter(fileType("js")).join(" "),
@@ -97,7 +93,7 @@ target.all = function() {
 
 target.lint = function() {
     echo("Validating JSON Files");
-    exec(JSON_LINT + "-q -c " + JSON_FILES);
+    nodeCLI.exec("jsonlint", "-q -c", JSON_FILES);
 
     echo("Validating JavaScript files");
     exec(ESLINT + JS_FILES);
@@ -107,16 +103,18 @@ target.test = function() {
     target.lint();
     target.checkRuleFiles();
 
-    exec(ISTANBUL + " cover " + MOCHA + "-- -c " + TEST_FILES);
-    exec(ISTANBUL + "check-coverage --statement 99 --branch 98 --function 99 --lines 99");
+    nodeCLI.exec("istanbul", "cover", MOCHA, "-- -c", TEST_FILES);
+    // exec(ISTANBUL + " cover " + MOCHA + "-- -c " + TEST_FILES);
+    nodeCLI.exec("istanbul", "check-coverage", "--statement 99 --branch 98 --function 99 --lines 99");
+    // exec(ISTANBUL + "check-coverage --statement 99 --branch 98 --function 99 --lines 99");
 
     target.browserify();
-    exec(MOCHA_PHANTOM + " -R dot tests/tests.htm");
+    nodeCLI.exec("mocha-phantomjs", "-R dot", "tests/tests.htm");
 };
 
 target.docs = function() {
     echo("Generating documentation");
-    exec(JSDOC + "-d jsdoc lib");
+    nodeCLI.exec("jsdoc", "-d jsdoc lib");
     echo("Documentation has been output to /jsdoc");
 };
 
@@ -167,7 +165,8 @@ target.browserify = function() {
     generateRulesIndex(TEMP_DIR);
 
     // 5. browserify the temp directory
-    exec(BROWSERIFY + TEMP_DIR + "eslint.js -o " + BUILD_DIR + "eslint.js -s eslint");
+    nodeCLI.exec("browserify", TEMP_DIR + "eslint.js", "-o", BUILD_DIR + "eslint.js", "-s eslint")
+    // exec(BROWSERIFY + TEMP_DIR + "eslint.js -o " + BUILD_DIR + "eslint.js -s eslint");
 
     // 6. remove temp directory
     rm("-r", TEMP_DIR);
@@ -261,8 +260,6 @@ target.perf = function() {
 
         echo("Took %dms", (diff[0] * 1e9 + diff[1]) / 1000);
     });
-
-
 
 };
 

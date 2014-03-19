@@ -54,7 +54,8 @@
     "eslint-tester": "latest",
     "brfs": "0.0.9",
     "through": "~2.3.4",
-    "beefy": "~1.0.0"
+    "beefy": "~1.0.0",
+    "shelljs-nodecli": "^0.1.0"
   },
   "keywords": [
     "ast",
