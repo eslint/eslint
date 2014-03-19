@@ -1,3 +1,22 @@
+v0.4.3 - March 18, 2014
+
+* 0.4.3 (Nicholas C. Zakas)
+* fixes #682: rewrite no-constant-condition rule (Michael Ficarra)
+* Fixes #673 allow configuration of @return errors via requireReturn - (fixes #673) (Brian Di Palma)
+* Tweaking inline code formatting for "if, while, dowhile" (Peter deHaan)
+* Fixes #677 getJSDocComment() should not search beyond FunctionExpression or FunctionDeclaration parent nodes. (Brian Di Palma)
+* Relaxed enforcement of camelcase rule (Ian Christian Myers)
+* Fixing issue #675. Incorrect triggering of no-else-return rule. (Brian Di Palma)
+* Added style option for wrap-iife (Mathias Schreck)
+* Fix: Issues with named function expressions in no-unused-vars and no-shadow (fixes #662) (Nicholas C. Zakas)
+* Update: camelcase rule now doesn't flag function calls (fixes #656) (Nicholas C. Zakas)
+* Updating documentation description for: no-space-before-semi rule, changing rules to exempt strings with semicolons and test for that condition. Fixes #629. (Jonathan Kingston)
+* Adding in rule no-space-before-semi to prevent spaces before semicolons. fixes #629 (Jonathan Kingston)
+* show NPM version (Paul Verest)
+* adapt code formatting (Mathias Schreck)
+* Added a TextMate 2 integration to the docs (Nate Silva)
+* 0.4.2 (Nicholas C. Zakas)
+
 v0.4.2 - March 3, 2014
 
 * 0.4.2 (Nicholas C. Zakas)
