@@ -138,6 +138,16 @@ describe("config", function() {
         });
     });
 
+    describe("when searching for exclusions in directory with .eslintignore", function() {
+        it("should have correct exclusions", function() {
+            var configHelper = new Config();
+            configHelper.cacheExclusions(path.resolve(__dirname, "..", "fixtures"));
+
+            assert.isTrue(configHelper.checkForExclusion(path.resolve(__dirname, "..", "fixtures", "rules", "eslint.json")));
+            assert.isTrue(configHelper.checkForExclusion(path.resolve(__dirname, "..", "fixtures", "passing.js")));
+        });
+    });
+
     describe("getLocalConfig with current directory", function() {
         it ("should return false", function() {
             var configHelper = new Config();
