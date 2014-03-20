@@ -1095,6 +1095,20 @@ describe("eslint", function() {
 
             assert.equal(messages[0].message, filename);
         });
+
+        it("defaults filename to '<input>'", function() {
+            eslint.reset();
+            eslint.defineRule(code, function(context) {
+                return {"Literal": function(node) { context.report(node, context.filename); }};
+            });
+
+            var config = { rules: {} };
+            config.rules[code] = 1;
+
+            var messages = eslint.verify("0", config);
+
+            assert.equal(messages[0].message, '<input>');
+        });
     });
 
     describe("when evaluating code with comments to enable rules", function() {
