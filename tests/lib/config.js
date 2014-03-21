@@ -128,13 +128,13 @@ describe("config", function() {
         });
     });
 
-    describe("when searching for exclusions in directory without .eslintignore", function() {
+    describe("when searching for exclusions in directory without .eslintignore and empty parent .eslintignore", function() {
         it("should not have any exclusions", function() {
             var configHelper = new Config();
 
-            configHelper.cacheExclusions(path.resolve("./"));
+            configHelper.cacheExclusions(path.resolve(__dirname, "..", "fixtures", "rules", "test"));
 
-            assert.isUndefined(configHelper.exclusionsCache[path.resolve("./")]);
+            assert.isUndefined(configHelper.exclusionsCache[path.resolve(__dirname, "..", "fixtures", "rules", "test")]);
         });
     });
 
@@ -148,27 +148,37 @@ describe("config", function() {
         });
     });
 
+    describe("when searching for exclusions in directory with .eslintignore in parents", function() {
+        it("should have correct exclusions", function() {
+            var configHelper = new Config();
+            configHelper.cacheExclusions(path.resolve(__dirname, "..", "fixtures", "formatters"));
+
+            assert.isTrue(configHelper.checkForExclusion(path.resolve(__dirname, "..", "fixtures", "formatters", "simple.js")));
+            assert.isFalse(configHelper.checkForExclusion(path.resolve(__dirname, "..", "fixtures", "passing.js")));
+        });
+    });
+
     describe("getLocalConfig with current directory", function() {
-        it ("should return false", function() {
+        it("should return false", function() {
             var configHelper = new Config();
 
-            output = configHelper.findLocalConfigFile("/");
+            var output = configHelper.findLocalConfigFile("/");
             assert.isFalse(output);
         });
     });
 
     describe("getLocalConfig with no directory", function() {
-        it ("should return global config", function() {
+        it("should return global config", function() {
             var configHelper = new Config();
 
-            output = configHelper.findLocalConfigFile();
+            var output = configHelper.findLocalConfigFile();
             assert.include(output, ".eslintrc");
         });
     });
 
     describe("getConfig with no directory", function() {
-        it ("should return cwd config", function() {
-            var cwd = process.cwd();;
+        it("should return cwd config", function() {
+            var cwd = process.cwd();
             process.chdir(path.resolve(__dirname, "..", "fixtures", "configurations", "cwd"));
 
             try {
@@ -188,7 +198,7 @@ describe("config", function() {
     });
 
     describe("Config with abitrarily named config file", function() {
-        it ("should load the config file", function() {
+        it("should load the config file", function() {
             var configPath = path.resolve(__dirname, "..", "fixtures", "configurations", "my-awesome-config"),
                 configHelper = new Config({config: configPath}),
                 quotes = configHelper.useSpecificConfig.rules.quotes[0];
@@ -198,7 +208,7 @@ describe("config", function() {
     });
 
     describe("Config with comments", function() {
-        it ("should load the config file", function() {
+        it("should load the config file", function() {
             var configPath = path.resolve(__dirname, "..", "fixtures", "configurations", "comments.json"),
                 configHelper = new Config({config: configPath}),
                 semi = configHelper.useSpecificConfig.rules.semi,
@@ -210,7 +220,7 @@ describe("config", function() {
     });
 
     describe("YAML config", function() {
-        it ("should load the config file", function() {
+        it("should load the config file", function() {
             var configPath = path.resolve(__dirname, "..", "fixtures", "configurations", "env-browser.yaml"),
                 configHelper = new Config({config: configPath}),
                 noAlert = configHelper.useSpecificConfig.rules["no-alert"],
