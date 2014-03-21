@@ -19,11 +19,11 @@ eslintTester.addRuleTest("lib/rules/valid-jsdoc", {
     valid: [
 
         "/**\n* Description\n* @returns {void} */\nfunction foo(){}",
-        "/**\n* Description\n* @returns {Function} foo */\nfunction foo(){}",
+        "/**\n* Description\n*@extends MyClass\n* @returns {void} */\nfunction foo(){}",
         "/**\n* Description\n* @constructor */\nfunction Foo(){}",
         "/**\n* Description\n* @param {string} p bar\n* @returns {string} desc */\nfunction foo(p){}",
         "/**\n* Description\n* @param {string} [p] bar\n* @returns {string} desc */\nfunction foo(p){}",
-        "/**\n* Description\n* @param {string} p bar\n* @returns {string} desc */\nFoo.bar = function(p){};",
+        "/**\n* Description\n* @param {Object} p bar\n* @param {string} p.name bar\n* @returns {string} desc */\nFoo.bar = function(p){};",
         "(function(){\n/**\n* Description\n* @param {string} p bar\n* @returns {string} desc */\nfunction foo(p){}\n}())",
         "var o = {\n/**\n* Description\n* @param {string} p bar\n* @returns {string} desc */\nfoo: function(p){}\n};",
         {
