@@ -1085,7 +1085,7 @@ describe("eslint", function() {
         it("has access to the filename", function() {
             eslint.reset();
             eslint.defineRule(code, function(context) {
-                return {"Literal": function(node) { context.report(node, context.filename); }};
+                return {"Literal": function(node) { context.report(node, context.getFilename()); }};
             });
 
             var config = { rules: {} };
@@ -1099,7 +1099,7 @@ describe("eslint", function() {
         it("defaults filename to '<input>'", function() {
             eslint.reset();
             eslint.defineRule(code, function(context) {
-                return {"Literal": function(node) { context.report(node, context.filename); }};
+                return {"Literal": function(node) { context.report(node, context.getFilename()); }};
             });
 
             var config = { rules: {} };
