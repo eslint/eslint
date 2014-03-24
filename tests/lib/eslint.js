@@ -54,6 +54,8 @@ function getVariable(scope, name) {
 //------------------------------------------------------------------------------
 
 describe("eslint", function() {
+    var filename = 'filename.js';
+
     describe("when using events", function() {
         var code = TEST_CODE,
             sandbox;
@@ -67,7 +69,7 @@ describe("eslint", function() {
             });
 
             assert.throws(function() {
-                eslint.verify(code, config, true);
+                eslint.verify(code, config, filename, true);
             }, Error);
         });
     });
@@ -95,7 +97,7 @@ describe("eslint", function() {
             eslint.reset();
             eslint.on("Program", spy);
 
-            eslint.verify(code, config, true);
+            eslint.verify(code, config, filename, true);
             assert(spy.calledOnce);
         });
 
@@ -111,7 +113,7 @@ describe("eslint", function() {
             eslint.reset();
             eslint.on("Program", spy);
 
-            eslint.verify(code, config, true);
+            eslint.verify(code, config, filename, true);
             assert(spy.calledOnce);
         });
 
@@ -124,7 +126,7 @@ describe("eslint", function() {
                 assert.equal(source, "6 * 7");
             });
 
-            eslint.verify(code, config, true);
+            eslint.verify(code, config, filename, true);
         });
 
         it("should retrieve all text plus two characters before for binary expression", function() {
@@ -136,7 +138,7 @@ describe("eslint", function() {
                 assert.equal(source, "= 6 * 7");
             });
 
-            eslint.verify(code, config, true);
+            eslint.verify(code, config, filename, true);
         });
 
         it("should retrieve all text plus one character after for binary expression", function() {
@@ -148,7 +150,7 @@ describe("eslint", function() {
                 assert.equal(source, "6 * 7;");
             });
 
-            eslint.verify(code, config, true);
+            eslint.verify(code, config, filename, true);
         });
 
         it("should retrieve all text plus two characters before and one character after for binary expression", function() {
@@ -160,7 +162,7 @@ describe("eslint", function() {
                 assert.equal(source, "= 6 * 7;");
             });
 
-            eslint.verify(code, config, true);
+            eslint.verify(code, config, filename, true);
         });
     });
 
@@ -176,7 +178,7 @@ describe("eslint", function() {
                 assert.equal(tokens.length, 7);
             });
 
-            eslint.verify(code, config, true);
+            eslint.verify(code, config, filename, true);
         });
 
         it("should retrieve all tokens for binary expression", function() {
@@ -188,7 +190,7 @@ describe("eslint", function() {
                 assert.equal(tokens.length, 3);
             });
 
-            eslint.verify(code, config, true);
+            eslint.verify(code, config, filename, true);
         });
 
         it("should retrieve all tokens plus equals sign for binary expression", function() {
@@ -200,7 +202,7 @@ describe("eslint", function() {
                 assert.equal(tokens.length, 4);
             });
 
-            eslint.verify(code, config, true);
+            eslint.verify(code, config, filename, true);
         });
 
         it("should retrieve all tokens plus one after for binary expression", function() {
@@ -212,7 +214,7 @@ describe("eslint", function() {
                 assert.equal(tokens.length, 4);
             });
 
-            eslint.verify(code, config, true);
+            eslint.verify(code, config, filename, true);
         });
 
         it("should retrieve all tokens plus two before and one after for binary expression", function() {
@@ -224,7 +226,7 @@ describe("eslint", function() {
                 assert.equal(tokens.length, 6);
             });
 
-            eslint.verify(code, config, true);
+            eslint.verify(code, config, filename, true);
         });
     });
 
@@ -254,7 +256,7 @@ describe("eslint", function() {
             var spy = sandbox.spy(assertJSDoc);
 
             eslint.on("FunctionExpression", spy);
-            eslint.verify(code, { rules: {}}, true);
+            eslint.verify(code, { rules: {}}, filename, true);
             assert.isTrue(spy.calledOnce, "Event handler should be called.");
 
         });
@@ -276,7 +278,7 @@ describe("eslint", function() {
             var spy = sandbox.spy(assertJSDoc);
 
             eslint.on("FunctionExpression", spy);
-            eslint.verify(code, { rules: {}}, true);
+            eslint.verify(code, { rules: {}}, filename, true);
             assert.isTrue(spy.calledTwice, "Event handler should be called twice.");
 
         });
@@ -297,7 +299,7 @@ describe("eslint", function() {
             var spy = sandbox.spy(assertJSDoc);
 
             eslint.on("FunctionDeclaration", spy);
-            eslint.verify(code, { rules: {}}, true);
+            eslint.verify(code, { rules: {}}, filename, true);
             assert.isTrue(spy.calledOnce, "Event handler should be called.");
 
         });
@@ -320,7 +322,7 @@ describe("eslint", function() {
             var spy = sandbox.spy(assertJSDoc);
 
             eslint.on("FunctionDeclaration", spy);
-            eslint.verify(code, { rules: {}}, true);
+            eslint.verify(code, { rules: {}}, filename, true);
             assert.isTrue(spy.calledOnce, "Event handler should be called.");
 
         });
@@ -343,7 +345,7 @@ describe("eslint", function() {
             var spy = sandbox.spy(assertJSDoc);
 
             eslint.on("FunctionDeclaration", spy);
-            eslint.verify(code, { rules: {}}, true);
+            eslint.verify(code, { rules: {}}, filename, true);
             assert.isTrue(spy.calledOnce, "Event handler should be called.");
 
         });
@@ -365,7 +367,7 @@ describe("eslint", function() {
             var spy = sandbox.spy(assertJSDoc);
 
             eslint.on("FunctionDeclaration", spy);
-            eslint.verify(code, { rules: {}}, true);
+            eslint.verify(code, { rules: {}}, filename, true);
             assert.isTrue(spy.calledOnce, "Event handler should be called.");
 
         });
@@ -389,7 +391,7 @@ describe("eslint", function() {
             var spy = sandbox.spy(assertJSDoc);
 
             eslint.on("FunctionDeclaration", spy);
-            eslint.verify(code, { rules: {}}, true);
+            eslint.verify(code, { rules: {}}, filename, true);
             assert.isTrue(spy.calledOnce, "Event handler should be called.");
         });
 
@@ -412,7 +414,7 @@ describe("eslint", function() {
             var spy = sandbox.spy(assertJSDoc);
 
             eslint.on("FunctionExpression", spy);
-            eslint.verify(code, { rules: {}}, true);
+            eslint.verify(code, { rules: {}}, filename, true);
             assert.isTrue(spy.calledOnce, "Event handler should be called.");
         });
 
@@ -433,7 +435,7 @@ describe("eslint", function() {
             var spy = sandbox.spy(assertJSDoc);
 
             eslint.on("FunctionExpression", spy);
-            eslint.verify(code, { rules: {}}, true);
+            eslint.verify(code, { rules: {}}, filename, true);
             assert.isTrue(spy.calledOnce, "Event handler should be called.");
         });
 
@@ -458,7 +460,7 @@ describe("eslint", function() {
             var spy = sandbox.spy(assertJSDoc);
 
             eslint.on("FunctionExpression", spy);
-            eslint.verify(code, { rules: {}}, true);
+            eslint.verify(code, { rules: {}}, filename, true);
             assert.isTrue(spy.calledTwice, "Event handler should be called.");
         });
 
@@ -482,7 +484,7 @@ describe("eslint", function() {
             var spy = sandbox.spy(assertJSDoc);
 
             eslint.on("FunctionExpression", spy);
-            eslint.verify(code, { rules: {}}, true);
+            eslint.verify(code, { rules: {}}, filename, true);
             assert.isTrue(spy.calledTwice, "Event handler should be called.");
         });
 
@@ -504,7 +506,7 @@ describe("eslint", function() {
             var spy = sandbox.spy(assertJSDoc);
 
             eslint.on("FunctionExpression", spy);
-            eslint.verify(code, { rules: {}}, true);
+            eslint.verify(code, { rules: {}}, filename, true);
             assert.isTrue(spy.calledOnce, "Event handler should be called.");
         });
 
@@ -534,7 +536,7 @@ describe("eslint", function() {
             var spy = sandbox.spy(assertJSDoc);
 
             eslint.on("FunctionExpression", spy);
-            eslint.verify(code, { rules: {}}, true);
+            eslint.verify(code, { rules: {}}, filename, true);
             assert.isTrue(spy.calledTwice, "Event handler should be called.");
         });
 
@@ -574,7 +576,7 @@ describe("eslint", function() {
             eslint.on("Identifier", assertCommentCount(0, 0));
             eslint.on("Literal", assertCommentCount(0, 0));
 
-            eslint.verify(code, config, true);
+            eslint.verify(code, config, filename, true);
         });
 
         it("should fire LineComment event", function() {
@@ -591,7 +593,7 @@ describe("eslint", function() {
             eslint.reset();
             eslint.on("LineComment", spy);
 
-            eslint.verify(code, config, true);
+            eslint.verify(code, config, filename, true);
             assert(spy.calledOnce, "Handler should be called.");
         });
 
@@ -610,7 +612,7 @@ describe("eslint", function() {
             eslint.on("LineComment", spy);
             eslint.on("LineComment:exit", spy);
 
-            eslint.verify(code, config, true);
+            eslint.verify(code, config, filename, true);
             assert(spy.calledTwice, "Handler should be called.");
         });
 
@@ -628,7 +630,7 @@ describe("eslint", function() {
             eslint.reset();
             eslint.on("BlockComment", spy);
 
-            eslint.verify(code, config, true);
+            eslint.verify(code, config, filename, true);
             assert(spy.calledOnce, "Handler should be called.");
         });
 
@@ -647,7 +649,7 @@ describe("eslint", function() {
             eslint.on("BlockComment", spy);
             eslint.on("BlockComment:exit", spy);
 
-            eslint.verify(code, config, true);
+            eslint.verify(code, config, filename, true);
             assert(spy.calledTwice, "Handler should be called.");
         });
 
@@ -666,7 +668,7 @@ describe("eslint", function() {
                 assert.equal(ancestors.length, 3);
             });
 
-            eslint.verify(code, config, true);
+            eslint.verify(code, config, filename, true);
         });
 
         it("should retrieve empty ancestors for root node", function() {
@@ -678,7 +680,7 @@ describe("eslint", function() {
                 assert.equal(ancestors.length, 0);
             });
 
-            eslint.verify(code, config, true);
+            eslint.verify(code, config, filename, true);
         });
     });
 
@@ -694,7 +696,7 @@ describe("eslint", function() {
                 assert.equal(scope.type, "global");
             });
 
-            eslint.verify(code, config, true);
+            eslint.verify(code, config, filename, true);
         });
 
         it("should retrieve the function scope correctly from a FunctionDeclaration", function() {
@@ -706,7 +708,7 @@ describe("eslint", function() {
                 assert.equal(scope.type, "function");
             });
 
-            eslint.verify(code, config, true);
+            eslint.verify(code, config, filename, true);
         });
 
         it("should retrieve the function scope correctly from a LabeledStatement", function() {
@@ -719,7 +721,7 @@ describe("eslint", function() {
                 assert.equal(scope.block.id.name, "foo");
             });
 
-            eslint.verify(code, config, true);
+            eslint.verify(code, config, filename, true);
         });
     });
 
@@ -781,7 +783,7 @@ describe("eslint", function() {
             eslint.on("Identifier", spyIdentifier);
             eslint.on("BinaryExpression", spyBinaryExpression);
 
-            var messages = eslint.verify(code, config, true);
+            var messages = eslint.verify(code, config, filename, true);
 
             assert.equal(messages.length, 0);
             sinon.assert.calledOnce(spyVariableDeclaration);
@@ -802,7 +804,7 @@ describe("eslint", function() {
             config.rules[rule] = 1;
             eslint.reset();
 
-            var messages = eslint.verify(code, config, true);
+            var messages = eslint.verify(code, config, filename, true);
 
             assert.equal(messages.length, 1);
             assert.equal(messages[0].ruleId, rule);
@@ -815,7 +817,7 @@ describe("eslint", function() {
             config.rules[rule] = [1];
             eslint.reset();
 
-            var messages = eslint.verify(code, config, true);
+            var messages = eslint.verify(code, config, filename, true);
 
             assert.equal(messages.length, 1);
             assert.equal(messages[0].ruleId, rule);
@@ -844,7 +846,7 @@ describe("eslint", function() {
             eslint.on("BinaryExpression", spyBinaryExpression);
             eslint.reset();
 
-            var messages = eslint.verify(code, config, true);
+            var messages = eslint.verify(code, config, filename, true);
 
             assert.equal(messages.length, 0);
             sinon.assert.notCalled(spyVariableDeclaration);
@@ -858,7 +860,7 @@ describe("eslint", function() {
             var config = { rules: {} };
 
             eslint.reset();
-            var messages = eslint.verify(code, config, true);
+            var messages = eslint.verify(code, config, filename, true);
             eslint.reset();
 
             assert.equal(messages.length, 0);
@@ -869,7 +871,7 @@ describe("eslint", function() {
             var config = { rules: {} };
 
             eslint.reset();
-            var messages = eslint.verify(code, config, true);
+            var messages = eslint.verify(code, config, filename, true);
             eslint.reset();
 
             assert.equal(messages.length, 0);
@@ -901,7 +903,7 @@ describe("eslint", function() {
                 assert.equal(d.writeable, true);
             });
 
-            eslint.verify(code, config, true);
+            eslint.verify(code, config, filename, true);
         });
     });
 
@@ -926,7 +928,7 @@ describe("eslint", function() {
                 assert.equal(c.writeable, false);
             });
 
-            eslint.verify(code, config, true);
+            eslint.verify(code, config, filename, true);
         });
     });
 
@@ -945,7 +947,7 @@ describe("eslint", function() {
                 assert.equal(exports.writeable, true);
                 assert.equal(window.writeable, false);
             });
-            eslint.verify(code, config, true);
+            eslint.verify(code, config, filename, true);
         });
     });
 
@@ -964,7 +966,7 @@ describe("eslint", function() {
                 assert.equal(exports.writeable, true);
                 assert.equal(window, null);
             });
-            eslint.verify(code, config, true);
+            eslint.verify(code, config, filename, true);
         });
     });
 
@@ -981,7 +983,7 @@ describe("eslint", function() {
 
                 assert.equal(getVariable(scope, "a"), null);
             });
-            eslint.verify(code, config, true);
+            eslint.verify(code, config, filename, true);
         });
     });
 
@@ -1000,7 +1002,7 @@ describe("eslint", function() {
                 assert.equal(getVariable(scope, "foo"), null);
                 assert.equal(getVariable(scope, "c"), null);
             });
-            eslint.verify(code, config, true);
+            eslint.verify(code, config, filename, true);
         });
     });
 
@@ -1018,7 +1020,7 @@ describe("eslint", function() {
                 assert.notEqual(getVariable(scope, "Array"), null);
                 assert.notEqual(getVariable(scope, "undefined"), null);
             });
-            eslint.verify(code, config, true);
+            eslint.verify(code, config, filename, true);
         });
     });
 
@@ -1027,7 +1029,7 @@ describe("eslint", function() {
 
         it("getSource() should return an empty string", function() {
             eslint.reset();
-            eslint.verify(code, config, true);
+            eslint.verify(code, config, filename, true);
             assert.equal(eslint.getSource(), "");
         });
     });
@@ -1044,7 +1046,7 @@ describe("eslint", function() {
             var config = { rules: {} };
             config.rules[code] = 1;
 
-            var messages = eslint.verify("0", config);
+            var messages = eslint.verify("0", config, filename);
 
             assert.equal(messages.length, 1);
             assert.equal(messages[0].ruleId, code);
@@ -1067,7 +1069,7 @@ describe("eslint", function() {
             });
             eslint.defineRules(newRules);
 
-            var messages = eslint.verify("0", config);
+            var messages = eslint.verify("0", config, filename);
 
             assert.equal(messages.length, code.length);
             code.forEach(function(item){
@@ -1077,13 +1079,45 @@ describe("eslint", function() {
         });
     });
 
+    describe("at any time", function() {
+        var code = "filename-rule";
+
+        it("has access to the filename", function() {
+            eslint.reset();
+            eslint.defineRule(code, function(context) {
+                return {"Literal": function(node) { context.report(node, context.getFilename()); }};
+            });
+
+            var config = { rules: {} };
+            config.rules[code] = 1;
+
+            var messages = eslint.verify("0", config, filename);
+
+            assert.equal(messages[0].message, filename);
+        });
+
+        it("defaults filename to '<input>'", function() {
+            eslint.reset();
+            eslint.defineRule(code, function(context) {
+                return {"Literal": function(node) { context.report(node, context.getFilename()); }};
+            });
+
+            var config = { rules: {} };
+            config.rules[code] = 1;
+
+            var messages = eslint.verify("0", config);
+
+            assert.equal(messages[0].message, '<input>');
+        });
+    });
+
     describe("when evaluating code with comments to enable rules", function() {
         var code = "/*eslint no-alert:1*/ alert('test');";
 
         it("should report a violation", function() {
             var config = { rules: {} };
 
-            var messages = eslint.verify(code, config);
+            var messages = eslint.verify(code, config, filename);
             assert.equal(messages.length, 1);
             assert.equal(messages[0].ruleId, "no-alert");
             assert.equal(messages[0].message, "Unexpected alert.");
@@ -1097,7 +1131,7 @@ describe("eslint", function() {
         it("should not report a violation", function() {
             var config = { rules: {} };
 
-            var messages = eslint.verify(code, config);
+            var messages = eslint.verify(code, config, filename);
             assert.equal(messages.length, 0);
         });
     });
@@ -1108,7 +1142,7 @@ describe("eslint", function() {
         it("should not report a violation", function() {
             var config = { rules: { "no-alert" : 1 } };
 
-            var messages = eslint.verify(code, config);
+            var messages = eslint.verify(code, config, filename);
             assert.equal(messages.length, 0);
         });
     });
@@ -1119,7 +1153,7 @@ describe("eslint", function() {
         it("should report a violation", function() {
             var config = { rules: {} };
 
-            var messages = eslint.verify(code, config);
+            var messages = eslint.verify(code, config, filename);
             assert.equal(messages.length, 2);
             assert.equal(messages[0].ruleId, "no-alert");
             assert.equal(messages[0].message, "Unexpected alert.");
@@ -1133,7 +1167,7 @@ describe("eslint", function() {
         it("should report a violation", function() {
             var config = { rules: { "no-console" : 1, "no-alert" : 0 } };
 
-            var messages = eslint.verify(code, config);
+            var messages = eslint.verify(code, config, filename);
             assert.equal(messages.length, 1);
             assert.equal(messages[0].ruleId, "no-alert");
             assert.equal(messages[0].message, "Unexpected alert.");
@@ -1147,7 +1181,7 @@ describe("eslint", function() {
         it("should report a violation", function() {
             var config = { rules: { "no-console" : 1, "no-alert" : 0 } };
 
-            var messages = eslint.verify(code, config);
+            var messages = eslint.verify(code, config, filename);
             assert.equal(messages.length, 1);
             assert.equal(messages[0].ruleId, "no-alert");
             assert.equal(messages[0].message, "Unexpected alert.");
@@ -1161,7 +1195,7 @@ describe("eslint", function() {
         it("should report a violation", function() {
             var config = { rules: { "quotes" : [2, "single"] } };
 
-            var messages = eslint.verify(code, config);
+            var messages = eslint.verify(code, config, filename);
             assert.equal(messages.length, 1);
             assert.equal(messages[0].ruleId, "quotes");
             assert.equal(messages[0].message, "Strings must use doublequote.");
@@ -1175,7 +1209,7 @@ describe("eslint", function() {
 
             var config = { rules: { "no-alert" : 1} };
 
-            var messages = eslint.verify(code, config);
+            var messages = eslint.verify(code, config, filename);
             assert.equal(messages.length, 1);
             assert.equal(messages[0].ruleId, "no-alert");
             assert.equal(messages[0].message, "Unexpected alert.");
@@ -1187,7 +1221,7 @@ describe("eslint", function() {
 
             var config = { rules: { "no-alert" : 1} };
 
-            var messages = eslint.verify(code, config);
+            var messages = eslint.verify(code, config, filename);
             assert.equal(messages.length, 1);
             assert.equal(messages[0].ruleId, "no-alert");
             assert.equal(messages[0].message, "Unexpected alert.");
@@ -1199,7 +1233,7 @@ describe("eslint", function() {
 
             var config = { rules: { "no-alert" : 1} };
 
-            var messages = eslint.verify(code, config);
+            var messages = eslint.verify(code, config, filename);
             assert.equal(messages.length, 1);
             assert.equal(messages[0].ruleId, "no-alert");
             assert.equal(messages[0].message, "Unexpected alert.");
