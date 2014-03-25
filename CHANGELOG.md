@@ -1,3 +1,29 @@
+v0.4.4 - March 25, 2014
+
+* 0.4.4 (Nicholas C. Zakas)
+* Fix no-used-vars to report FunctionExpression params (fixes #697). (Andrey Popp)
+* fixes #711: eslint reports wrong line number for files with shebang (Michael Ficarra)
+* Fix for no-unused-vars and MemberExpression (Andrey Popp)
+* added no-warning-comments rule (Alexander Schmidt)
+* fixes #699: brace-style does not check function expressions (Michael Ficarra)
+* rewrite block-scoped-var (Michael Ficarra)
+* recommend using hasOwnProperty from Object.prototype in guard-for-in docs (Michael Ficarra)
+* change conf/environments.json spacing to be simpler and more consistent (Michael Ficarra)
+* Update API to use context.getFilename() instead of .filename. (Loren Segal)
+* Small changes, JSDoc is clarified (Aliaksei Shytkin)
+* Move FileFinder to separate file (Aliaksei Shytkin)
+* Cache if file is not found (Aliaksei Shytkin)
+* Use cache on config files seach (Aliaksei Shytkin)
+* Added .eslintignore to load from parents folders (fixes #681) (Aliaksei Shytkin)
+* fix 'node-modules' typo in docs (Fred K. Schott)
+* Upgrade to the latest version of doctrine. (Brian Di Palma)
+* Document optional filename and default it to '<input>'. (Loren Segal)
+* Fix: Compatibility for Node 0.8 (Nicholas C. Zakas)
+* Update: Makefile.js now uses shelljs-nodecli (Nicholas C. Zakas)
+* #681 apply all .eslintignore exclusions (Aliaksei Shytkin)
+* Add RuleContext.filename property (for eslint/eslint#468). (Loren Segal)
+* 0.4.3 (Nicholas C. Zakas)
+
 v0.4.3 - March 18, 2014
 
 * 0.4.3 (Nicholas C. Zakas)
