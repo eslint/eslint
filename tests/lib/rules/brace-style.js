@@ -19,6 +19,8 @@ eslintTester.addRuleTest("lib/rules/brace-style", {
     valid: [
         "function foo () { return; }",
         "function a(b,\nc,\nd) { }",
+        "!function foo () { return; }",
+        "!function a(b,\nc,\nd) { }",
         "if (foo) { \n bar(); }",
         "if (a) { b(); } else { c(); }",
         "while (foo) { \n bar(); }",
@@ -35,6 +37,7 @@ eslintTester.addRuleTest("lib/rules/brace-style", {
     ],
     invalid: [
         { code: "function foo() \n { \n return; }", errors: [{ message: OPEN_MESSAGE, type: "FunctionDeclaration"}] },
+        { code: "!function foo() \n { \n return; }", errors: [{ message: OPEN_MESSAGE, type: "FunctionExpression"}] },
         { code: "if (foo) \n { \n bar(); }", errors: [{ message: OPEN_MESSAGE, type: "IfStatement"}] },
         { code: "if (a) { b(); } else \n { c(); }", errors: [{ message: OPEN_MESSAGE, type: "IfStatement"}] },
         { code: "while (foo) \n { \n bar(); }", errors: [{ message: OPEN_MESSAGE, type: "WhileStatement"}] },
