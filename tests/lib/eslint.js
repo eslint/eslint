@@ -730,8 +730,8 @@ describe("eslint", function() {
             eslint.reset();
             eslint.defineRule("test-rule", function(context) {
                 return {
-                    "Literal": function(node) { 
-                        context.report(node, node.loc.end, "hello {{dynamic}}", {dynamic: node.type}); 
+                    "Literal": function(node) {
+                        context.report(node, node.loc.end, "hello {{dynamic}}", {dynamic: node.type});
                     }
                 };
             });
@@ -747,8 +747,8 @@ describe("eslint", function() {
             eslint.reset();
             eslint.defineRule("test-rule", function(context) {
                 return {
-                    "Literal": function(node) { 
-                        context.report(node, {line: 42, column: 13}, "hello world"); 
+                    "Literal": function(node) {
+                        context.report(node, {line: 42, column: 13}, "hello world");
                     }
                 };
             });
@@ -1238,6 +1238,21 @@ describe("eslint", function() {
             assert.equal(messages[0].ruleId, "no-alert");
             assert.equal(messages[0].message, "Unexpected alert.");
             assert.include(messages[0].node.type, "CallExpression");
+        });
+    });
+
+    describe("when evaluating a file with a shebang", function() {
+        var code = "#!bin/program\n\n;";
+
+        it("should preserve line numbers", function() {
+            var config = { rules: { "no-extra-semi": 1 } };
+            var messages = eslint.verify(code, config);
+
+            assert.equal(messages.length, 1);
+            assert.equal(messages[0].ruleId, "no-extra-semi");
+            assert.equal(messages[0].node.type, "EmptyStatement");
+            assert.equal(messages[0].line, 3);
+            assert.equal(messages[0].line, messages[0].node.loc.start.line);
         });
     });
 
