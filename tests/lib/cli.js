@@ -226,4 +226,13 @@ describe("cli", function() {
             assert.equal(exit, 1);
         });
     });
+
+    describe("when executing with reset flag", function() {
+        it("should execute without any errors", function () {
+            var exit = cli.execute("--reset tests/fixtures/missing-semicolon.js");
+
+            assert.isTrue(console.log.notCalled);
+            assert.equal(exit, 0);
+        });
+    });
 });
