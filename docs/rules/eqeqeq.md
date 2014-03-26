@@ -28,8 +28,7 @@ if (obj.getStuff() != undefined) { ... }
 
 - `"smart"`
 
-This option will enforce `===` and `!==` in your code unless you're comparing between literals
-or you're doing a `typeof` comparison. For those types of comparisons using strict equality is unnecessary.
+This option will enforce `===` and `!==` in your code unless you're comparing between literals or you're doing a `typeof` comparison. For those types of comparisons using strict equality is unnecessary. It also permits comparing to `null` to check for `null` or `undefined` in a single expression.
 
 The following patterns are considered okay and do not cause warnings:
 
@@ -38,6 +37,7 @@ typeof foo == 'undefined'
 'hello' != 'world'
 0 == 0
 true == true
+foo == null
 ```
 
 The following patterns are considered warnings with "smart:
