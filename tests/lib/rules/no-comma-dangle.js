@@ -24,6 +24,7 @@ eslintTester.addRuleTest("lib/rules/no-comma-dangle", {
     invalid: [
         { code: "var foo = { bar: \"baz\", }", errors: [{ message: "Trailing comma.", type: "Property"}] },
         { code: "foo({ bar: \"baz\", qux: \"quux\", });", errors: [{ message: "Trailing comma.", type: "Property"}] },
-        { code: "var foo = [ \"baz\", ]", errors: [{ message: "Trailing comma.", type: "Literal"}] }
+        { code: "var foo = [ \"baz\", ]", errors: [{ message: "Trailing comma.", type: "Literal"}] },
+        { code: "var foo = { bar: \"bar\"\n\n, }", errors: [{ message: "Trailing comma.", line: 3}] }
     ]
 });
