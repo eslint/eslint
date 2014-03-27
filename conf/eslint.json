@@ -100,6 +100,7 @@
         "max-nested-callbacks": [0, 2],
         "max-params": [0, 3],
         "max-statements": [0, 10],
+        "handle-callback-err": 0,
         "new-cap": 2,
         "new-parens": 2,
         "one-var": 0,
