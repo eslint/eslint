@@ -9,7 +9,8 @@
 
 var eslintTester = require("eslint-tester"),
     OPEN_MESSAGE = "Opening curly brace does not appear on the same line as controlling statement.",
-    CLOSE_MESSAGE = "Closing curly brace does not appear on the same line as the subsequent block.";
+    CLOSE_MESSAGE = "Closing curly brace does not appear on the same line as the subsequent block.",
+    CLOSE_MESSAGE_STROUSTRUP = "Closing curly brace appears on the same line as the subsequent block.";
 
 //------------------------------------------------------------------------------
 // Tests
@@ -52,8 +53,8 @@ eslintTester.addRuleTest("lib/rules/brace-style", {
         { code: "try { \n bar(); \n }\ncatch (e) {\n}", errors: [{ message: CLOSE_MESSAGE, type: "CatchClause"}] },
         { code: "try { \n bar(); \n } catch (e) {\n}\n finally {\n}", errors: [{ message: CLOSE_MESSAGE, type: "BlockStatement"}] },
         { code: "if (a) { b(); } \n else { c(); }", errors: [{ message: CLOSE_MESSAGE, type: "BlockStatement" }]},
-        { code: "try { \n bar(); \n }\ncatch (e) {\n} finally {\n}", args: ["2", "stroustrup"], errors: [{ message: CLOSE_MESSAGE, type: "BlockStatement"}] },
-        { code: "try { \n bar(); \n } catch (e) {\n}\n finally {\n}", args: ["2", "stroustrup"], errors: [{ message: CLOSE_MESSAGE, type: "CatchClause"}] },
-        { code: "if (a) { b(); } else { c(); }", args: ["2", "stroustrup"], errors: [{ message: CLOSE_MESSAGE, type: "BlockStatement" }]}
+        { code: "try { \n bar(); \n }\ncatch (e) {\n} finally {\n}", args: ["2", "stroustrup"], errors: [{ message: CLOSE_MESSAGE_STROUSTRUP, type: "BlockStatement"}] },
+        { code: "try { \n bar(); \n } catch (e) {\n}\n finally {\n}", args: ["2", "stroustrup"], errors: [{ message: CLOSE_MESSAGE_STROUSTRUP, type: "CatchClause"}] },
+        { code: "if (a) { b(); } else { c(); }", args: ["2", "stroustrup"], errors: [{ message: CLOSE_MESSAGE_STROUSTRUP, type: "BlockStatement" }]}
     ]
 });
