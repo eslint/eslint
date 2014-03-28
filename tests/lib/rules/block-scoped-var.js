@@ -18,6 +18,7 @@ eslintTester.addRuleTest("lib/rules/block-scoped-var", {
         "function f() { var a, b; { a = true; } b = a; }",
         "var a; function f() { var b = a; }",
         "function f(a) { }",
+        "!function(a) { };",
         "!function f(a) { };",
         "function f(a) { var b = a; }",
         "!function f(a) { var b = a; };",
