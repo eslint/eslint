@@ -27,6 +27,7 @@ Options:
   --rulesdir path::String    load additional rules from this directory
   -f, --format String        use a specific output format - default: stylish
   --reset                    set all default rules to off
+  --eslintrc                 enable loading .eslintrc configuration. - default: true
   -v, --version              outputs the version number
 ```
 
@@ -75,6 +76,14 @@ This option turns off all rules enabled in ESLint's default configuration file l
 Example:
 
     eslint --reset file.js
+
+### `--eslintrc`
+
+This option, on by default, enables automatically loading `.eslintrc` configuration files. Use as `--no-eslintrc` to disable.
+
+Example
+
+    eslint --no-eslintrc file.js
 
 ### `-v`, `--version`
 
