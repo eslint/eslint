@@ -229,10 +229,28 @@ describe("cli", function() {
 
     describe("when executing with reset flag", function() {
         it("should execute without any errors", function () {
-            var exit = cli.execute("--reset tests/fixtures/missing-semicolon.js");
+            var exit = cli.execute("--reset --no-eslintrc ./tests/fixtures/missing-semicolon.js");
 
             assert.isTrue(console.log.notCalled);
             assert.equal(exit, 0);
+        });
+    });
+
+    describe("when executing with no-eslintrc flag", function () {
+        it("should ignore a local config file", function () {
+            var exit = cli.execute("--no-eslintrc ./tests/fixtures/eslintrc/quotes.js");
+
+            assert.isTrue(console.log.notCalled);
+            assert.equal(exit, 0);
+        });
+    });
+
+    describe("when executing without no-eslintrc flag", function () {
+        it("should load a local config file", function () {
+            var exit = cli.execute("./tests/fixtures/eslintrc/quotes.js");
+
+            assert.isTrue(console.log.calledOnce);
+            assert.equal(exit, 1);
         });
     });
 });
