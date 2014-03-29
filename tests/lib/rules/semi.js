@@ -48,6 +48,7 @@ eslintTester.addRuleTest("lib/rules/semi", {
         { code: "for (;;) var i ", errors: [{ message: "Missing semicolon.", type: "VariableDeclaration"}] },
         { code: "for (var j;;) {var i}", errors: [{ message: "Missing semicolon.", type: "VariableDeclaration"}] },
         { code: "var foo = {\n bar: baz\n}", errors: [{ message: "Missing semicolon.", type: "VariableDeclaration", line: 3}] },
+        { code: "var foo\nvar bar;", errors: [{ message: "Missing semicolon.", type: "VariableDeclaration", line: 1}] },
 
         { code: "function foo() { return []; }", args: [1, "never"], errors: [{ message: "Extra semicolon.", type: "ReturnStatement"}] },
         { code: "while(true) { break; }", args: [1, "never"], errors: [{ message: "Extra semicolon.", type: "BreakStatement"}] },
