@@ -2,6 +2,14 @@ language: node_js
 node_js:
     - "0.8"
     - "0.10"
+    - "0.11"
+
+matrix:
+    allowed_failures:
+        node: "0.8"
+        node: "0.11"
+
+script: "npm test && npm run perf"
 
 before_install:
     - npm link

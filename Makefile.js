@@ -14,7 +14,20 @@ require("shelljs/make");
 
 var path = require("path"),
     dateformat = require("dateformat"),
-    nodeCLI = require("shelljs-nodecli");
+    nodeCLI = require("shelljs-nodecli"),
+    os = require("os");
+
+//------------------------------------------------------------------------------
+// Settings
+//------------------------------------------------------------------------------
+
+/*
+ * A little bit fuzzy. My computer has a first OS speed of 3093 and the perf test
+ * always completes in < 2000ms. However, Travis is less predictable due to
+ * multiple different VM types. So I'm fudging this for now in the hopes that it
+ * at least provides some sort of useful signal.
+ */
+var PERF_MULTIPLIER = 1.5;
 
 //------------------------------------------------------------------------------
 // Data
@@ -252,15 +265,23 @@ target.checkRuleFiles = function() {
 };
 
 target.perf = function() {
-    var start = process.hrtime(),
-        diff;
+    var start = process.hrtime();
 
     exec(ESLINT + "./tests/performance/jshint.js", { silent: true }, function() {
-        diff = process.hrtime(start);
+        var diff = process.hrtime(start),
+            actual = (diff[0] * 1e9 + diff[1]) / 1000000,
+            cpuSpeed = os.cpus()[0].speed,
+            max = cpuSpeed * PERF_MULTIPLIER;
 
-        echo("Took %dms", (diff[0] * 1e9 + diff[1]) / 1000);
+        echo("CPU Speed is %d with multiplier %d", cpuSpeed, PERF_MULTIPLIER);
+
+        if (actual > max) {
+            echo("Performance budget exceeded: %dms (limit: %dms)", actual, max);
+            exit(1);
+        } else {
+            echo("Performance budget ok:  %dms (limit: %dms)", actual, max);
+        }
     });
-
 };
 
 target.patch = function() {
