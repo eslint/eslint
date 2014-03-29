@@ -1,3 +1,20 @@
+v0.4.5 - March 29, 2014
+
+* 0.4.5 (Nicholas C. Zakas)
+* Build: Add perf check into Travis build to better monitor performance regressions (fixes #732) (Nicholas C. Zakas)
+* Fix: Make sure semi reports correct location of missing semicolon (fixes #726) (Nicholas C. Zakas)
+* Add --no-eslintrc cli flag (ref #717) (Brandon Mills)
+* Fix #716 crash with reset flag (Brandon Mills)
+* Fixed JSON formatting and highlighting (Anton Rudeshko (Tesla))
+* fixes #723: block-scoped-var throws on unnamed function expression (Michael Ficarra)
+* Fix: Make stroustrup brace-style closing message make sense (fixes #719) (Nicholas C. Zakas)
+* no-comma-dangle reports correct line number (Andrey Popp)
+* Upgrade: Esprima to 1.1.1 and EScope to 1.0.1 (fixes #718) (Nicholas C. Zakas)
+* Add reset cli flag (refs #692) (Brandon Mills)
+* Relax eqeqeq null check (fixes #669) (Brandon Mills)
+* 0.4.4 (Nicholas C. Zakas)
+* New Rule: handle-callback-err (fixes #567) (Jamund Ferguson)
+
 v0.4.4 - March 25, 2014
 
 * 0.4.4 (Nicholas C. Zakas)
