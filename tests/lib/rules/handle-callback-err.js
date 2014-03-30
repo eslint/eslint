@@ -30,6 +30,7 @@ eslintTester.addRuleTest("lib/rules/handle-callback-err", {
 		"function handler(err) {logThisAction(function(err) {if (err) {}}); console.log(err);}",
 		"function userHandler(err) {process.nextTick(function() {if (err) {}})}",
 		"function help() { function userHandler(err) {function tester() { err; process.nextTick(function() { err; }); } } }",
+		"function help(done) { var err = new Error('error'); done(); }",
 		{ code: "var test = function(error) {if(error){/* do nothing */}};", args: [2, "error"] },
 		{ code: "var test = function(error) {if(! error){doSomethingHere();}};", args: [2, "error"] }
 	],
