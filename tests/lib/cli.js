@@ -253,4 +253,28 @@ describe("cli", function() {
             assert.equal(exit, 1);
         });
     });
+
+    describe("when executing with env flag", function () {
+        var files = [
+            "./tests/fixtures/globals-browser.js",
+            "./tests/fixtures/globals-node.js"
+        ];
+
+        it("should allow environment-specific globals", function () {
+            cli.execute("--no-eslintrc --config ./conf/eslint.json --env browser,node " + files.join(" "));
+            assert.equal(console.log.args[0][0].split("\n").length, 11);
+        });
+    });
+
+    describe("when executing without env flag", function () {
+        var files = [
+            "./tests/fixtures/globals-browser.js",
+            "./tests/fixtures/globals-node.js"
+        ];
+
+        it("should not define environment-specific globals", function () {
+            cli.execute("--no-eslintrc --config ./conf/eslint.json " + files.join(" "));
+            assert.equal(console.log.args[0][0].split("\n").length, 14);
+        });
+    });
 });
