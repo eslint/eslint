@@ -47,7 +47,7 @@ This example uses the configuration file at `~/my-eslint.json` instead of the de
 
 ### `-f`, `--format`
 
-This options specifies the output format for the console. Possible formats are "stylish" (the default), "compact", "checkstyle", "jslint-xml", "junit" and "tap".
+This option specifies the output format for the console. Possible formats are "stylish" (the default), "compact", "checkstyle", "jslint-xml", "junit" and "tap".
 
 Example:
 
@@ -84,6 +84,14 @@ This option, on by default, enables automatically loading `.eslintrc` configurat
 Example
 
     eslint --no-eslintrc file.js
+
+### `--env`
+
+This option enables specific environments. Details about the global variables defined by each environment are available on the [configuration](../configuring) documentation. This flag only enables environments; it does not disable environments set in other configuration files. To specify multiple environments, separate them using commas.
+
+Example
+
+    eslint --env browser,node file.js
 
 ### `-v`, `--version`
 
