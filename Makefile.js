@@ -27,7 +27,7 @@ var path = require("path"),
  * multiple different VM types. So I'm fudging this for now in the hopes that it
  * at least provides some sort of useful signal.
  */
-var PERF_MULTIPLIER = 1.5;
+var PERF_MULTIPLIER = 7e6;
 
 //------------------------------------------------------------------------------
 // Data
@@ -271,7 +271,7 @@ target.perf = function() {
         var diff = process.hrtime(start),
             actual = (diff[0] * 1e9 + diff[1]) / 1000000,
             cpuSpeed = os.cpus()[0].speed,
-            max = cpuSpeed * PERF_MULTIPLIER;
+            max = PERF_MULTIPLIER / cpuSpeed;
 
         echo("CPU Speed is %d with multiplier %d", cpuSpeed, PERF_MULTIPLIER);
 
