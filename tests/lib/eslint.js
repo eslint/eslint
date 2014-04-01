@@ -193,7 +193,7 @@ describe("eslint", function() {
             eslint.verify(code, config, filename, true);
         });
 
-        it("should retrieve all tokens plus equals sign for binary expression", function() {
+        it("should retrieve all tokens plus one before for binary expression", function() {
             var config = { rules: {} };
 
             eslint.reset();
@@ -224,6 +224,368 @@ describe("eslint", function() {
             eslint.on("BinaryExpression", function(node) {
                 var tokens = eslint.getTokens(node, 2, 1);
                 assert.equal(tokens.length, 6);
+            });
+
+            eslint.verify(code, config, filename, true);
+        });
+    });
+
+    describe("when calling getTokensBefore", function() {
+        var code = TEST_CODE;
+
+        it("should retrieve zero tokens before a node", function() {
+            var config = { rules: {} };
+
+            eslint.reset();
+            eslint.on("BinaryExpression", function(node) {
+                var tokens = eslint.getTokensBefore(node, 0);
+                assert.equal(tokens.length, 0);
+            });
+
+            eslint.verify(code, config, filename, true);
+        });
+
+        it("should retrieve one token before a node", function() {
+            var config = { rules: {} };
+
+            eslint.reset();
+            eslint.on("BinaryExpression", function(node) {
+                var tokens = eslint.getTokensBefore(node, 1);
+                assert.equal(tokens.length, 1);
+				assert.equal(tokens[0].value, "=");
+            });
+
+            eslint.verify(code, config, filename, true);
+        });
+
+        it("should retrieve more than one token before a node", function() {
+            var config = { rules: {} };
+
+            eslint.reset();
+            eslint.on("BinaryExpression", function(node) {
+                var tokens = eslint.getTokensBefore(node, 2);
+                assert.equal(tokens.length, 2);
+				assert.equal(tokens[0].value, "answer");
+				assert.equal(tokens[1].value, "=");
+            });
+
+            eslint.verify(code, config, filename, true);
+        });
+
+        it("should retrieve all tokens before a node", function() {
+            var config = { rules: {} };
+
+            eslint.reset();
+            eslint.on("BinaryExpression", function(node) {
+                var tokens = eslint.getTokensBefore(node, 9e9);
+                assert.equal(tokens.length, 3);
+				assert.equal(tokens[0].value, "var");
+				assert.equal(tokens[1].value, "answer");
+				assert.equal(tokens[2].value, "=");
+            });
+
+            eslint.verify(code, config, filename, true);
+        });
+    });
+
+    describe("when calling getTokenBefore", function() {
+        var code = TEST_CODE;
+
+        it("should retrieve one token before a node", function() {
+            var config = { rules: {} };
+
+            eslint.reset();
+            eslint.on("BinaryExpression", function(node) {
+                var token = eslint.getTokenBefore(node);
+				assert.equal(token.value, "=");
+            });
+
+            eslint.verify(code, config, filename, true);
+        });
+
+        it("should skip a given number of tokens", function() {
+            var config = { rules: {} };
+
+            eslint.reset();
+            eslint.on("BinaryExpression", function(node) {
+                var token = eslint.getTokenBefore(node, 1);
+				assert.equal(token.value, "answer");
+            });
+            eslint.on("BinaryExpression", function(node) {
+                var token = eslint.getTokenBefore(node, 2);
+				assert.equal(token.value, "var");
+            });
+
+            eslint.verify(code, config, filename, true);
+        });
+    });
+
+    describe("when calling getTokensAfter", function() {
+        var code = TEST_CODE;
+
+        it("should retrieve zero tokens after a node", function() {
+            var config = { rules: {} };
+
+            eslint.reset();
+            eslint.on("Identifier", function(node) {
+                var tokens = eslint.getTokensAfter(node, 0);
+                assert.equal(tokens.length, 0);
+            });
+
+            eslint.verify(code, config, filename, true);
+        });
+
+        it("should retrieve one token after a node", function() {
+            var config = { rules: {} };
+
+            eslint.reset();
+            eslint.on("Identifier", function(node) {
+                var tokens = eslint.getTokensAfter(node, 1);
+                assert.equal(tokens.length, 1);
+				assert.equal(tokens[0].value, "=");
+            });
+
+            eslint.verify(code, config, filename, true);
+        });
+
+        it("should retrieve more than one token after a node", function() {
+            var config = { rules: {} };
+
+            eslint.reset();
+            eslint.on("Identifier", function(node) {
+                var tokens = eslint.getTokensAfter(node, 2);
+                assert.equal(tokens.length, 2);
+				assert.equal(tokens[0].value, "=");
+				assert.equal(tokens[1].value, "6");
+            });
+
+            eslint.verify(code, config, filename, true);
+        });
+
+        it("should retrieve all tokens after a node", function() {
+            var config = { rules: {} };
+
+            eslint.reset();
+            eslint.on("Identifier", function(node) {
+                var tokens = eslint.getTokensAfter(node, 9e9);
+                assert.equal(tokens.length, 5);
+				assert.equal(tokens[0].value, "=");
+				assert.equal(tokens[1].value, "6");
+				assert.equal(tokens[2].value, "*");
+				assert.equal(tokens[3].value, "7");
+				assert.equal(tokens[4].value, ";");
+            });
+
+            eslint.verify(code, config, filename, true);
+        });
+    });
+
+    describe("when calling getTokenAfter", function() {
+        var code = TEST_CODE;
+
+        it("should retrieve one token after a node", function() {
+            var config = { rules: {} };
+
+            eslint.reset();
+            eslint.on("Identifier", function(node) {
+                var token = eslint.getTokenAfter(node);
+				assert.equal(token.value, "=");
+            });
+
+            eslint.verify(code, config, filename, true);
+        });
+
+        it("should skip a given number of tokens", function() {
+            var config = { rules: {} };
+
+            eslint.reset();
+            eslint.on("Identifier", function(node) {
+                var token = eslint.getTokenAfter(node, 1);
+				assert.equal(token.value, "6");
+            });
+            eslint.on("Identifier", function(node) {
+                var token = eslint.getTokenAfter(node, 2);
+				assert.equal(token.value, "*");
+            });
+
+            eslint.verify(code, config, filename, true);
+        });
+    });
+
+    describe("when calling getFirstTokens", function() {
+        var code = TEST_CODE;
+
+        it("should retrieve zero tokens from a node's token stream", function() {
+            var config = { rules: {} };
+
+            eslint.reset();
+            eslint.on("BinaryExpression", function(node) {
+                var tokens = eslint.getFirstTokens(node, 0);
+                assert.equal(tokens.length, 0);
+            });
+
+            eslint.verify(code, config, filename, true);
+        });
+
+        it("should retrieve one token from a node's token stream", function() {
+            var config = { rules: {} };
+
+            eslint.reset();
+            eslint.on("BinaryExpression", function(node) {
+                var tokens = eslint.getFirstTokens(node, 1);
+                assert.equal(tokens.length, 1);
+				assert.equal(tokens[0].value, "6");
+            });
+
+            eslint.verify(code, config, filename, true);
+        });
+
+        it("should retrieve more than one token from a node's token stream", function() {
+            var config = { rules: {} };
+
+            eslint.reset();
+            eslint.on("BinaryExpression", function(node) {
+                var tokens = eslint.getFirstTokens(node, 2);
+                assert.equal(tokens.length, 2);
+				assert.equal(tokens[0].value, "6");
+				assert.equal(tokens[1].value, "*");
+            });
+
+            eslint.verify(code, config, filename, true);
+        });
+
+        it("should retrieve all tokens from a node's token stream", function() {
+            var config = { rules: {} };
+
+            eslint.reset();
+            eslint.on("BinaryExpression", function(node) {
+                var tokens = eslint.getFirstTokens(node, 9e9);
+                assert.equal(tokens.length, 3);
+				assert.equal(tokens[0].value, "6");
+				assert.equal(tokens[1].value, "*");
+				assert.equal(tokens[2].value, "7");
+            });
+
+            eslint.verify(code, config, filename, true);
+        });
+    });
+
+    describe("when calling getFirstToken", function() {
+        var code = TEST_CODE;
+
+        it("should retrieve the first token of a node's token stream", function() {
+            var config = { rules: {} };
+
+            eslint.reset();
+            eslint.on("BinaryExpression", function(node) {
+                var token = eslint.getFirstToken(node);
+				assert.equal(token.value, "6");
+            });
+
+            eslint.verify(code, config, filename, true);
+        });
+
+        it("should skip a given number of tokens", function() {
+            var config = { rules: {} };
+
+            eslint.reset();
+            eslint.on("BinaryExpression", function(node) {
+                var token = eslint.getFirstToken(node, 1);
+				assert.equal(token.value, "*");
+            });
+            eslint.on("BinaryExpression", function(node) {
+                var token = eslint.getFirstToken(node, 2);
+				assert.equal(token.value, "7");
+            });
+
+            eslint.verify(code, config, filename, true);
+        });
+    });
+
+    describe("when calling getLastTokens", function() {
+        var code = TEST_CODE;
+
+        it("should retrieve zero tokens from the end of a node's token stream", function() {
+            var config = { rules: {} };
+
+            eslint.reset();
+            eslint.on("BinaryExpression", function(node) {
+                var tokens = eslint.getLastTokens(node, 0);
+                assert.equal(tokens.length, 0);
+            });
+
+            eslint.verify(code, config, filename, true);
+        });
+
+        it("should retrieve one token from the end of a node's token stream", function() {
+            var config = { rules: {} };
+
+            eslint.reset();
+            eslint.on("BinaryExpression", function(node) {
+                var tokens = eslint.getLastTokens(node, 1);
+                assert.equal(tokens.length, 1);
+				assert.equal(tokens[0].value, "7");
+            });
+
+            eslint.verify(code, config, filename, true);
+        });
+
+        it("should retrieve more than one token from the end of a node's token stream", function() {
+            var config = { rules: {} };
+
+            eslint.reset();
+            eslint.on("BinaryExpression", function(node) {
+                var tokens = eslint.getLastTokens(node, 2);
+                assert.equal(tokens.length, 2);
+				assert.equal(tokens[0].value, "*");
+				assert.equal(tokens[1].value, "7");
+            });
+
+            eslint.verify(code, config, filename, true);
+        });
+
+        it("should retrieve all tokens from the end of a node's token stream", function() {
+            var config = { rules: {} };
+
+            eslint.reset();
+            eslint.on("BinaryExpression", function(node) {
+                var tokens = eslint.getLastTokens(node, 9e9);
+                assert.equal(tokens.length, 3);
+				assert.equal(tokens[0].value, "6");
+				assert.equal(tokens[1].value, "*");
+				assert.equal(tokens[2].value, "7");
+            });
+
+            eslint.verify(code, config, filename, true);
+        });
+    });
+
+    describe("when calling getLastToken", function() {
+        var code = TEST_CODE;
+
+        it("should retrieve the last token of a node's token stream", function() {
+            var config = { rules: {} };
+
+            eslint.reset();
+            eslint.on("BinaryExpression", function(node) {
+                var token = eslint.getLastToken(node);
+				assert.equal(token.value, "7");
+            });
+
+            eslint.verify(code, config, filename, true);
+        });
+
+        it("should skip a given number of tokens", function() {
+            var config = { rules: {} };
+
+            eslint.reset();
+            eslint.on("BinaryExpression", function(node) {
+                var token = eslint.getLastToken(node, 1);
+				assert.equal(token.value, "*");
+            });
+            eslint.on("BinaryExpression", function(node) {
+                var token = eslint.getLastToken(node, 2);
+				assert.equal(token.value, "6");
             });
 
             eslint.verify(code, config, filename, true);
