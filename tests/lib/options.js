@@ -93,4 +93,37 @@ describe("options", function() {
             assert.isString(helpText);
         });
     });
+
+    describe("when passed --global", function() {
+        it("should return an array for a single occurrence", function () {
+            var currentOptions = options.parse("--global foo");
+            assert.isArray(currentOptions.global);
+            assert.equal(currentOptions.global.length, 1);
+            assert.equal(currentOptions.global[0], "foo");
+        });
+
+        it("should split variable names using commas", function() {
+            var currentOptions = options.parse("--global foo,bar");
+            assert.isArray(currentOptions.global);
+            assert.equal(currentOptions.global.length, 2);
+            assert.equal(currentOptions.global[0], "foo");
+            assert.equal(currentOptions.global[1], "bar");
+        });
+
+        it("should not split on colons", function() {
+            var currentOptions = options.parse("--global foo:false,bar:true");
+            assert.isArray(currentOptions.global);
+            assert.equal(currentOptions.global.length, 2);
+            assert.equal(currentOptions.global[0], "foo:false");
+            assert.equal(currentOptions.global[1], "bar:true");
+        });
+
+        it("should concatenate successive occurrences", function() {
+            var currentOptions = options.parse("--global foo:true --global bar:false");
+            assert.isArray(currentOptions.global);
+            assert.equal(currentOptions.global.length, 2);
+            assert.equal(currentOptions.global[0], "foo:true");
+            assert.equal(currentOptions.global[1], "bar:false");
+        });
+    });
 });

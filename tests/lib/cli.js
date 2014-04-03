@@ -282,4 +282,27 @@ describe("cli", function() {
             assert.equal(console.log.args[0][0].split("\n").length, 14);
         });
     });
+
+    describe("when executing with global flag", function () {
+        it("should default defined variables to read-only", function () {
+            var exit = cli.execute("--global baz,bat ./tests/fixtures/undef.js");
+
+            assert.isTrue(console.log.calledOnce);
+            assert.equal(exit, 1);
+        });
+
+        it("should allow defining writable global variables", function () {
+            var exit = cli.execute("--global baz:false,bat:true ./tests/fixtures/undef.js");
+
+            assert.isTrue(console.log.notCalled);
+            assert.equal(exit, 0);
+        });
+
+        it("should allow defining variables with multiple flags", function () {
+            var exit = cli.execute("--global baz --global bat:true ./tests/fixtures/undef.js");
+
+            assert.isTrue(console.log.notCalled);
+            assert.equal(exit, 0);
+        });
+    });
 });

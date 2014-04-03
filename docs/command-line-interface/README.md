@@ -30,6 +30,7 @@ Options:
   --reset                    Set all default rules to off.
   --eslintrc                 Enable loading .eslintrc configuration. - default: true
   --env [String]             Specify environments.
+  --global [String]          Define global variables.
 ```
 
 ### `-h`, `--help`
@@ -94,6 +95,15 @@ Example
 
     eslint --env browser,node file.js
     eslint --env browser --env node file.js
+
+### `--global`
+
+This option defines global variables so that they will not be flagged as undefined by the `no-undef` rule. Global variables are read-only by default, but appending `:true` to a variable's name makes it writable. To define multiple variables, separate them using commas, or use the flag multiple times.
+
+Example:
+
+    eslint --global require,exports:true file.js
+    eslint --global require --global exports:true
 
 ### `-v`, `--version`
 
