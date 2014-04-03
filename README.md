@@ -19,7 +19,7 @@ When ESLint v0.5.0 is released, it will be in beta and will have more stability 
 
 You can install ESLint using npm:
 
-    npm i -g eslint
+    npm install -g eslint
 
 ## Usage
 
