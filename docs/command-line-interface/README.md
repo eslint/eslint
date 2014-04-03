@@ -27,7 +27,8 @@ Options:
   --rulesdir path::String    load additional rules from this directory
   -f, --format String        use a specific output format - default: stylish
   --reset                    set all default rules to off
-  --eslintrc                 enable loading .eslintrc configuration. - default: true
+  --eslintrc                 enable loading .eslintrc configuration - default: true
+  --env                      specify one or more comma-separated environments
   -v, --version              outputs the version number
 ```
 
