@@ -88,8 +88,8 @@ describe("config", function() {
         var code = path.resolve(__dirname, "..", "fixtures", ".eslintrc");
 
         it("should exclude passing.js", function() {
-            var configHelper = new Config(),
-                config = configHelper.getConfig(code);
+            var configHelper = new Config();
+            configHelper.getConfig(code);
 
             configHelper.cacheExclusions(path.resolve(__dirname, "..", "fixtures"), true);
 
@@ -105,7 +105,7 @@ describe("config", function() {
             sinon.stub(configHelper, "findLocalConfigFile", function(directory) { return path.resolve(directory, ".eslintrc"); });
             sinon.stub(console, "error").returns({});
 
-            var config = configHelper.getConfig(code);
+            configHelper.getConfig(code);
 
             assert.isTrue(console.error.calledTwice);
             configHelper.findLocalConfigFile.restore();

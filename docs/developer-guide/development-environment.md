@@ -59,7 +59,7 @@ ESLint has several build scripts that help with various parts of development.
 
 The primary script to use is `npm test`, which does several things:
 
-1. Lints all JavaScript and JSON
+1. Lints all JavaScript (including tests) and JSON
 1. Runs all tests on Node.js
 1. Checks code coverage targets
 1. Generates `build/eslint.js` for use in a browser

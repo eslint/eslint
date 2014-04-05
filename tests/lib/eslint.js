@@ -1,3 +1,4 @@
+/*globals window */
 /**
  * @fileoverview Tests for eslint object.
  * @author Nicholas C. Zakas
@@ -593,7 +594,6 @@ describe("eslint", function() {
     });
 
     describe("getJSDocComment()", function() {
-
         var sandbox;
 
         beforeEach(function() {
@@ -946,9 +946,9 @@ describe("eslint", function() {
         it("should fire LineComment event", function() {
 
             function handler(node) {
-                var code = eslint.getSource(node);
+                var sourceCode = eslint.getSource(node);
                 assert.equal(node.value, " my line comment");
-                assert.equal(code, "// my line comment");
+                assert.equal(sourceCode, "// my line comment");
             }
 
             var config = { rules: {} },
@@ -964,9 +964,9 @@ describe("eslint", function() {
         it("should fire LineComment and LineComment:exit events", function() {
 
             function handler(node) {
-                var code = eslint.getSource(node);
+                var sourceCode = eslint.getSource(node);
                 assert.equal(node.value, " my line comment");
-                assert.equal(code, "// my line comment");
+                assert.equal(sourceCode, "// my line comment");
             }
 
             var config = { rules: {} },
@@ -983,9 +983,9 @@ describe("eslint", function() {
         it("should fire BlockComment event", function() {
 
             function handler(node) {
-                var code = eslint.getSource(node);
+                var sourceCode = eslint.getSource(node);
                 assert.equal(node.value, " my block comment ");
-                assert.equal(code, "/* my block comment */");
+                assert.equal(sourceCode, "/* my block comment */");
             }
 
             var config = { rules: {} },
@@ -1001,9 +1001,9 @@ describe("eslint", function() {
         it("should fire BlockComment:exit event", function() {
 
             function handler(node) {
-                var code = eslint.getSource(node);
+                var sourceCode = eslint.getSource(node);
                 assert.equal(node.value, " my block comment ");
-                assert.equal(code, "/* my block comment */");
+                assert.equal(sourceCode, "/* my block comment */");
             }
 
             var config = { rules: {} },

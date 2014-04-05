@@ -17,7 +17,7 @@ eslintTester.addRuleTest("lib/rules/no-script-url", {
     valid: [
         "var a = 'Hello World!';",
         "var a = 10;",
-        "var url = 'xjavascript:'",
+        "var url = 'xjavascript:'"
     ],
     invalid: [
         {
