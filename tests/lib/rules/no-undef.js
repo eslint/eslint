@@ -25,9 +25,9 @@ eslintTester.addRuleTest("lib/rules/no-undef", {
         "var a; a = 1; a++;",
         "var a; function f() { a = 1; }",
         "/*global b:true*/ b++;",
-        "/*jslint browser:true*/ window;",
-        "/*jshint browser:true*/ window;",
-        "/*jshint node:true*/ require(\"a\");",
+        "/*eslint-env browser*/ window;",
+        "/*eslint-env browser*/ window;",
+        "/*eslint-env node*/ require(\"a\");",
         "Object; isNaN();",
         "function evilEval(stuffToEval) { var ultimateAnswer; ultimateAnswer = 42; eval(stuffToEval); }"
     ],
@@ -41,9 +41,7 @@ eslintTester.addRuleTest("lib/rules/no-undef", {
         { code: "/*global b*/ b = 1;", errors: [{ message: "'b' is read only.", type: "Identifier"}] },
         { code: "/*global b:false*/ var b = 1;", errors: [{ message: "'b' is read only.", type: "Identifier"}] },
         { code: "window;", errors: [{ message: "'window' is not defined.", type: "Identifier"}] },
-        { code: "/*jshint browser:false*/ window;", errors: [{ message: "'window' is not defined.", type: "Identifier"}] },
         { code: "require(\"a\");", errors: [{ message: "'require' is not defined.", type: "Identifier"}] },
-        { code: "/*jshint node:false*/ require(\"a\");", errors: [{ message: "'require' is not defined.", type: "Identifier"}] },
         { code: "Array = 1;", errors: [{ message: "'Array' is read only.", type: "Identifier"}] }
     ]
 });
