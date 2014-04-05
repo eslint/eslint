@@ -110,6 +110,9 @@ target.lint = function() {
 
     echo("Validating JavaScript files");
     exec(ESLINT + JS_FILES);
+
+    echo("Validating JavaScript test files");
+    exec(ESLINT + TEST_FILES);
 };
 
 target.test = function() {

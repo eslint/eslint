@@ -7,8 +7,8 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslintTester = require("eslint-tester"),
-    OPEN_MESSAGE = "Opening curly brace does not appear on the same line as controlling statement.",
+var eslintTester = require("eslint-tester");
+var OPEN_MESSAGE = "Opening curly brace does not appear on the same line as controlling statement.",
     CLOSE_MESSAGE = "Closing curly brace does not appear on the same line as the subsequent block.",
     CLOSE_MESSAGE_STROUSTRUP = "Closing curly brace appears on the same line as the subsequent block.";
 

@@ -44,7 +44,7 @@ describe("cli", function() {
             process.eslintCwd = path.resolve(__dirname, "..", "fixtures", "configurations", "single-quotes");
 
             assert.doesNotThrow(function () {
-                exitStatus = cli.execute(code);
+                cli.execute(code);
             });
 
             cli.execute(code);
@@ -155,7 +155,7 @@ describe("cli", function() {
     });
 
     describe("when executing with version flag", function() {
-        it ("should print out current version", function() {
+        it("should print out current version", function() {
             cli.execute("-v");
 
             assert.equal(console.log.callCount, 1);
