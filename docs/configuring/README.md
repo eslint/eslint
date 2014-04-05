@@ -24,7 +24,17 @@ An environment defines both global variables that are predefined as well as whic
 
 These environments are not mutually exclusive, so you can define more than one at a time.
 
-Environments can be specified in configuration files or using the `--env` [command line](../command-line-interface) flag. To specify environments in a configuration file, use the `env` key and specify which environments you want to enable by setting each to `true`. For example, the following JSON enables the browser and Node.js environments:
+Environments can be specified inside of a file, in configuration files or using the `--env` [command line](../command-line-interface) flag.
+
+To specify environments using a comment inside of your JavaScript file, use the following format:
+
+```js
+/*eslint-env node, mocha */
+```
+
+This enables Node.js and Mocha environments.
+
+To specify environments in a configuration file, use the `env` key and specify which environments you want to enable by setting each to `true`. For example, the following JSON enables the browser and Node.js environments:
 
 ```json
 {

@@ -54,11 +54,10 @@ function getVariable(scope, name) {
 //------------------------------------------------------------------------------
 
 describe("eslint", function() {
-    var filename = 'filename.js';
+    var filename = "filename.js";
 
     describe("when using events", function() {
-        var code = TEST_CODE,
-            sandbox;
+        var code = TEST_CODE;
 
         it("an error should be thrown when an error occurs inside of an event handler", function() {
             var config = { rules: {} };
@@ -75,7 +74,8 @@ describe("eslint", function() {
     });
 
     describe("when calling toSource()", function() {
-        var code = TEST_CODE;
+        var code = TEST_CODE,
+            sandbox;
 
         beforeEach(function() {
             sandbox = sinon.sandbox.create();
@@ -569,7 +569,7 @@ describe("eslint", function() {
             eslint.reset();
             eslint.on("BinaryExpression", function(node) {
                 var token = eslint.getLastToken(node);
-				assert.equal(token.value, "7");
+                assert.equal(token.value, "7");
             });
 
             eslint.verify(code, config, filename, true);
@@ -581,11 +581,11 @@ describe("eslint", function() {
             eslint.reset();
             eslint.on("BinaryExpression", function(node) {
                 var token = eslint.getLastToken(node, 1);
-				assert.equal(token.value, "*");
+                assert.equal(token.value, "*");
             });
             eslint.on("BinaryExpression", function(node) {
                 var token = eslint.getLastToken(node, 2);
-				assert.equal(token.value, "6");
+                assert.equal(token.value, "6");
             });
 
             eslint.verify(code, config, filename, true);
@@ -593,6 +593,8 @@ describe("eslint", function() {
     });
 
     describe("getJSDocComment()", function() {
+
+        var sandbox;
 
         beforeEach(function() {
             eslint.reset();
@@ -785,7 +787,7 @@ describe("eslint", function() {
             var code = [
                 "/** Code is good */",
                 "/** Desc*/",
-                "Foo.bar = function (){}",
+                "Foo.bar = function (){}"
             ].join("\n");
 
             function assertJSDoc(node) {
@@ -1294,8 +1296,8 @@ describe("eslint", function() {
         });
     });
 
-    describe("when evaluating code containing /*jshint */ block", function() {
-        var code = "/*jslint node:true*/ function f() {} /*jshint browser:true foo:bar*/";
+    describe("when evaluating code containing /*eslint-env */ block", function() {
+        var code = "/*eslint-env node*/ function f() {} /*eslint-env browser, foo*/";
 
         it("variables should be available in global scope", function() {
             var config = { rules: {} };
@@ -1313,8 +1315,8 @@ describe("eslint", function() {
         });
     });
 
-    describe("when evaluating code containing a /*jshint */ block with sloppy whitespace", function() {
-        var code = "/* jshint node  : true browser     : false*/";
+    describe("when evaluating code containing /*eslint-env */ block with sloppy whitespace", function() {
+        var code = "/* eslint-env ,, node  , no-browser ,,  */";
 
         it("variables should be available in global scope", function() {
             var config = { rules: {} };
@@ -1469,7 +1471,7 @@ describe("eslint", function() {
 
             var messages = eslint.verify("0", config);
 
-            assert.equal(messages[0].message, '<input>');
+            assert.equal(messages[0].message, "<input>");
         });
     });
 
@@ -1643,6 +1645,61 @@ describe("eslint", function() {
             var config = eslint.defaults();
 
             assert.isNotNull(config.rules);
+        });
+    });
+
+    describe("when evaluating code with comments to environment", function() {
+        it("should not support legacy config", function() {
+            var code = "/*jshint mocha:true */ describe();";
+
+            var config = { rules: { "no-undef" : 1} };
+
+            var messages = eslint.verify(code, config, filename);
+            assert.equal(messages.length, 1);
+            assert.equal(messages[0].ruleId, "no-undef");
+            assert.equal(messages[0].node.type, "Identifier");
+            assert.equal(messages[0].line, 1);
+            assert.equal(messages[0].line, messages[0].node.loc.start.line);
+        });
+
+        it("should not report a violation", function() {
+            var code = "/*eslint-env mocha,node */ require();describe();";
+
+            var config = { rules: { "no-undef" : 1} };
+
+            var messages = eslint.verify(code, config, filename);
+            assert.equal(messages.length, 0);
+        });
+
+        it("should not report a violation", function() {
+            var code = "/*globals require: true */ /*eslint-env node */ require = 1;";
+
+            var config = { rules: {"no-undef": 1} };
+
+            var messages = eslint.verify(code, config, filename);
+            assert.equal(messages.length, 0);
+        });
+
+        it("should report a violation", function() {
+            var code = "/*eslint-env node */ process.exit();";
+
+            var config = { rules: {} };
+
+            var messages = eslint.verify(code, config, filename);
+            assert.equal(messages.length, 1);
+            assert.equal(messages[0].ruleId, "no-process-exit");
+            assert.equal(messages[0].node.type, "CallExpression");
+            assert.equal(messages[0].line, 1);
+            assert.equal(messages[0].line, messages[0].node.loc.start.line);
+        });
+
+        it("should not report a violation", function() {
+            var code = "/*eslint no-process-exit: 0 */ /*eslint-env node */ process.exit();";
+
+            var config = { rules: {"no-undef": 1} };
+
+            var messages = eslint.verify(code, config, filename);
+            assert.equal(messages.length, 0);
         });
     });
 });
