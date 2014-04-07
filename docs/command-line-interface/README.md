@@ -22,14 +22,14 @@ The command line utility has several options. You can view the options by runnin
 eslint [options] file.js [file.js] [dir]
 
 Options:
-  -h, --help                 show help
-  -c, --config path::String  load configuration data from this file
-  --rulesdir path::String    load additional rules from this directory
-  -f, --format String        use a specific output format - default: stylish
-  --reset                    set all default rules to off
-  --eslintrc                 enable loading .eslintrc configuration - default: true
-  --env                      specify one or more comma-separated environments
-  -v, --version              outputs the version number
+  --help, -h    Show help.
+  --config, -c  Load configuration data from this file.
+  --rulesdir    Load additional rules from this directory.
+  --format, -f  Use a specific output format. - default: stylish
+  --reset       Set all default rules to off.
+  --eslintrc    Enable loading .eslintrc configuration. - default: true
+  --env         Specify environments.
+  --version, -v Outputs the version number.
 ```
 
 ### `-h`, `--help`
@@ -88,11 +88,11 @@ Example
 
 ### `--env`
 
-This option enables specific environments. Details about the global variables defined by each environment are available on the [configuration](../configuring) documentation. This flag only enables environments; it does not disable environments set in other configuration files. To specify multiple environments, separate them using commas.
+This option enables specific environments. Details about the global variables defined by each environment are available on the [configuration](../configuring) documentation. This flag only enables environments; it does not disable environments set in other configuration files.
 
 Example
 
-    eslint --env browser,node file.js
+    eslint --env browser --env node file.js
 
 ### `-v`, `--version`
 
