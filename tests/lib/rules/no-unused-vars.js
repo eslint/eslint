@@ -32,7 +32,13 @@ eslintTester.addRuleTest("lib/rules/no-unused-vars", {
         "myFunc(function foo() {}.bind(this))",
         "myFunc(function foo(){}.toString())",
         "function foo(first, second) {\ndoStuff(function() {\nconsole.log(second);});};",
-        "(function() { var doSomething = function doSomething() {}; doSomething() }())"
+        "(function() { var doSomething = function doSomething() {}; doSomething() }())",
+        { code: "var a=10; (function() { alert(a); })();", args: [1, {vars: "all"}] },
+        { code: "function g(bar, baz) { return baz; }; g();", args: [1, {"vars": "all"}] },
+        { code: "function g(bar, baz) { return baz; }; g();", args: [1, {"vars": "all", "args": "after-used"}] },
+        { code: "function g(bar, baz) { return bar; }; g();", args: [1, {"vars": "all", "args": "none"}] },
+        { code: "function g(bar, baz) { return 2; }; g();", args: [1, {"vars": "all", "args": "none"}] },
+        { code: "function g(bar, baz) { return bar + baz; }; g();", args: [1, {"vars": "locals", "args": "all"}] }
     ],
     invalid: [
         { code: "var a=10;", args: [1, "all"], errors: [{ message: "a is defined but never used", type: "Identifier"}] },
@@ -48,6 +54,10 @@ eslintTester.addRuleTest("lib/rules/no-unused-vars", {
         { code: "function a(x, y, z){ return y; }; a();", args: [1, "all"], errors: [{ message: "z is defined but never used", type: "Identifier"}] },
         { code: "var min = Math.min", args: [1, "all"], errors: [{ message: "min is defined but never used" }] },
         { code: "var min = {min: 1}", args: [1, "all"], errors: [{ message: "min is defined but never used" }] },
-        { code: "Foo.bar = function(baz) { return 1; };", args: [1, "all"], errors: [{ message: "baz is defined but never used" }] }
+        { code: "Foo.bar = function(baz) { return 1; };", args: [1, "all"], errors: [{ message: "baz is defined but never used" }] },
+        { code: "var min = {min: 1}", args: [1, {"vars": "all"}], errors: [{ message: "min is defined but never used" }] },
+        { code: "function gg(baz, bar) { return baz; }; gg();", args: [1, {"vars": "all"}], errors: [{ message: "bar is defined but never used" }] },
+        { code: "(function(foo, baz, bar) { return baz; })();", args: [1, {"vars": "all", "args": "after-used"}], errors: [{ message: "bar is defined but never used" }]},
+        { code: "(function(foo, baz, bar) { return baz; })();", args: [1, {"vars": "all", "args": "all"}], errors: [{ message: "foo is defined but never used" }, { message: "bar is defined but never used" }]}
     ]
 });
