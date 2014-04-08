@@ -264,6 +264,11 @@ describe("cli", function() {
             cli.execute("--no-eslintrc --config ./conf/eslint.json --env browser,node " + files.join(" "));
             assert.equal(console.log.args[0][0].split("\n").length, 11);
         });
+
+        it("should allow environment-specific globals, with multiple flags", function () {
+            cli.execute("--no-eslintrc --config ./conf/eslint.json --env browser --env node " + files.join(" "));
+            assert.equal(console.log.args[0][0].split("\n").length, 11);
+        });
     });
 
     describe("when executing without env flag", function () {
