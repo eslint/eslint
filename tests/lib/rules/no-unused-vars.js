@@ -38,7 +38,8 @@ eslintTester.addRuleTest("lib/rules/no-unused-vars", {
         { code: "function g(bar, baz) { return baz; }; g();", args: [1, {"vars": "all", "args": "after-used"}] },
         { code: "function g(bar, baz) { return bar; }; g();", args: [1, {"vars": "all", "args": "none"}] },
         { code: "function g(bar, baz) { return 2; }; g();", args: [1, {"vars": "all", "args": "none"}] },
-        { code: "function g(bar, baz) { return bar + baz; }; g();", args: [1, {"vars": "locals", "args": "all"}] }
+        { code: "function g(bar, baz) { return bar + baz; }; g();", args: [1, {"vars": "locals", "args": "all"}] },
+        "(function z() { z(); })();"
     ],
     invalid: [
         { code: "var a=10;", args: [1, "all"], errors: [{ message: "a is defined but never used", type: "Identifier"}] },
@@ -58,6 +59,8 @@ eslintTester.addRuleTest("lib/rules/no-unused-vars", {
         { code: "var min = {min: 1}", args: [1, {"vars": "all"}], errors: [{ message: "min is defined but never used" }] },
         { code: "function gg(baz, bar) { return baz; }; gg();", args: [1, {"vars": "all"}], errors: [{ message: "bar is defined but never used" }] },
         { code: "(function(foo, baz, bar) { return baz; })();", args: [1, {"vars": "all", "args": "after-used"}], errors: [{ message: "bar is defined but never used" }]},
-        { code: "(function(foo, baz, bar) { return baz; })();", args: [1, {"vars": "all", "args": "all"}], errors: [{ message: "foo is defined but never used" }, { message: "bar is defined but never used" }]}
+        { code: "(function(foo, baz, bar) { return baz; })();", args: [1, {"vars": "all", "args": "all"}], errors: [{ message: "foo is defined but never used" }, { message: "bar is defined but never used" }]},
+        { code: "(function z(foo) { var bar = 33; })();", args: [1, {"vars": "all", "args": "all"}], errors: [{ message: "foo is defined but never used" }, { message: "bar is defined but never used" }]},
+        { code: "(function z(foo) { z(); })();", args: [1, {}], errors: [{ message: "foo is defined but never used" }]}
     ]
 });
