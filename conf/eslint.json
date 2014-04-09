@@ -116,6 +116,7 @@
         "strict": 2,
         "use-isnan": 2,
         "valid-jsdoc": 0,
+        "valid-typeof": 2,
         "wrap-iife": 0,
         "wrap-regex": 0
     }
