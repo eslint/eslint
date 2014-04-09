@@ -18,7 +18,9 @@ eslintTester.addRuleTest("lib/rules/no-path-concat", {
 
     valid: [
         "var fullPath = dirname + \"foo.js\";",
-        "var fullPath = __dirname == \"foo.js\";"
+        "var fullPath = __dirname == \"foo.js\";",
+        "if (fullPath === __dirname) {}",
+        "if (__dirname === fullPath) {}"
     ],
 
     invalid: [
