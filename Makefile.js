@@ -27,7 +27,7 @@ var path = require("path"),
  * multiple different VM types. So I'm fudging this for now in the hopes that it
  * at least provides some sort of useful signal.
  */
-var PERF_MULTIPLIER = 7e6;
+var PERF_MULTIPLIER = 7.5e6;
 
 //------------------------------------------------------------------------------
 // Data
