@@ -1,3 +1,32 @@
+v0.5.0 - April 10, 2014
+
+* 0.5.0 (Nicholas C. Zakas)
+* Build: Bump perf limit so Travis won't fail every time (fixes #780) (Nicholas C. Zakas)
+* Add tests to cover 100% of eslint.js (Aliaksei Shytkin)
+* Fix: Make sure no-path-concat doesn't flag non-concat operations (fixes #776) (Nicholas C. Zakas)
+* Rule 'no-unused-var' in functional expression with identifier (fixes #775) (Aliaksei Shytkin)
+* Rule: valid-typeof (Ian Christian Myers)
+* Add global cli flag (ref #692) (Brandon Mills)
+* update to latest Optionator (George Zahariev)
+* Add options for rule 'no-unused-vars' to check all arguments in functions (fixes #728) (Aliaksei Shytkin)
+* Fix: Cleanup package.json (Nicholas C. Zakas)
+* New: Experimental support for CSS Auron (fixes #765) (Nicholas C. Zakas)
+* Lint tests on build (fixes #764) (Aliaksei Shytkin)
+* Rule block-scoped-var works correct with object properties (fixes #755) (Aliaksei Shytkin)
+* Breaking: implement eslint-env and remove jshint/jslint environment comment support (fixes #759) (Aliaksei Shytkin)
+* readme: npm i -> npm install (Linus Unnebäck)
+* Add env flag to cli options summary (fixes #752) (Brandon Mills)
+* Fix: Give the perf test a better calculated budget (fixes #749) (Nicholas C. Zakas)
+* give the `env` flag type `[String]`, improve code (fixes #748) (George Zahariev)
+* fixes #735: add new, more efficient getTokens interfaces (Michael Ficarra)
+* Add --env cli flag (ref #692) (Brandon Mills)
+* Fixes #740 - Make sure callbacks exist before marking them as 'handled'. (mstuart)
+* fixes #743: wrap-regex rule warns on regex used in dynamic member access (Michael Ficarra)
+* replace tab indents with 4 spaces in lib/rules/handle-callback-err.js (Michael Ficarra)
+* Adding homepage and bugs links to package.json (Peter deHaan)
+* JSDoc for rules (Anton Rudeshko)
+* 0.4.5 (Nicholas C. Zakas)
+
 v0.4.5 - March 29, 2014
 
 * 0.4.5 (Nicholas C. Zakas)
