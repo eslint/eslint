@@ -1161,7 +1161,7 @@ describe("eslint", function() {
     describe("when passing in configuration values for rules", function() {
         var code = "var answer = 6 * 7";
 
-        it("should be configurable by only setting the boolean value", function() {
+        it("should be configurable by only setting the integer value", function() {
             var rule = "semi",
                 config = { rules: {} };
 
@@ -1185,6 +1185,18 @@ describe("eslint", function() {
 
             assert.equal(messages.length, 1);
             assert.equal(messages[0].ruleId, rule);
+        });
+
+        it("should not be configurable by setting other value", function() {
+            var rule = "semi",
+                config = { rules: {} };
+
+            config.rules[rule] = "1";
+            eslint.reset();
+
+            var messages = eslint.verify(code, config, filename, true);
+
+            assert.equal(messages.length, 0);
         });
     });
 

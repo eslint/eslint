@@ -216,9 +216,18 @@ describe("cli", function() {
     });
 
     describe("when given a custom rule, verify that it's loaded", function() {
-        var code = "--rulesdir ./tests/fixtures/rules --config ./tests/fixtures/rules/eslint.json tests/fixtures/rules/test/test-custom-rule.js";
 
         it("should return a warning", function() {
+            var code = "--rulesdir ./tests/fixtures/rules/wrong --config ./tests/fixtures/rules/eslint.json tests/fixtures/rules/test/test-custom-rule.js";
+
+            assert.throws(function() {
+                var exit = cli.execute(code);
+                assert.equal(exit, 1);
+            }, /Error while loading rule 'custom-rule': Cannot read property/);
+        });
+
+        it("should return a warning", function() {
+            var code = "--rulesdir ./tests/fixtures/rules --config ./tests/fixtures/rules/eslint.json tests/fixtures/rules/test/test-custom-rule.js";
             var exit = cli.execute(code);
 
             assert.isTrue(console.log.calledOnce);
