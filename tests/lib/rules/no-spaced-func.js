@@ -30,16 +30,16 @@ eslintTester.addRuleTest("lib/rules/no-spaced-func", {
         "f(0, (1))"
     ],
     invalid: [
-        { code: "f ();", errors: [{ message: "Spaced function application is not allowed.", type: "CallExpression"}] },
-        { code: "f (a, b);", errors: [{ message: "Spaced function application is not allowed.", type: "CallExpression"}] },
-        { code: "f\n();", errors: [{ message: "Spaced function application is not allowed.", type: "CallExpression"}] },
-        { code: "f.b ();", errors: [{ message: "Spaced function application is not allowed.", type: "CallExpression"}] },
-        { code: "f.b().c ();", errors: [{ message: "Spaced function application is not allowed.", type: "CallExpression"}] },
-        { code: "f() ()", errors: [{ message: "Spaced function application is not allowed.", type: "CallExpression"}] },
-        { code: "(function() {} ())", errors: [{ message: "Spaced function application is not allowed.", type: "CallExpression"}] },
-        { code: "var f = new Foo ()", errors: [{ message: "Spaced function application is not allowed.", type: "NewExpression"}] },
-        { code: "f ( (0) )", errors: [{ message: "Spaced function application is not allowed.", type: "CallExpression"}] },
-        { code: "f(0) (1)", errors: [{ message: "Spaced function application is not allowed.", type: "CallExpression"}] },
-        { code: "(f) (0)", errors: [{ message: "Spaced function application is not allowed.", type: "CallExpression"}] }
+        { code: "f ();", errors: [{ message: "Unexpected space between function name and paren.", type: "CallExpression"}] },
+        { code: "f (a, b);", errors: [{ message: "Unexpected space between function name and paren.", type: "CallExpression"}] },
+        { code: "f\n();", errors: [{ message: "Unexpected space between function name and paren.", type: "CallExpression"}] },
+        { code: "f.b ();", errors: [{ message: "Unexpected space between function name and paren.", type: "CallExpression"}] },
+        { code: "f.b().c ();", errors: [{ message: "Unexpected space between function name and paren.", type: "CallExpression"}] },
+        { code: "f() ()", errors: [{ message: "Unexpected space between function name and paren.", type: "CallExpression"}] },
+        { code: "(function() {} ())", errors: [{ message: "Unexpected space between function name and paren.", type: "CallExpression"}] },
+        { code: "var f = new Foo ()", errors: [{ message: "Unexpected space between function name and paren.", type: "NewExpression"}] },
+        { code: "f ( (0) )", errors: [{ message: "Unexpected space between function name and paren.", type: "CallExpression"}] },
+        { code: "f(0) (1)", errors: [{ message: "Unexpected space between function name and paren.", type: "CallExpression"}] },
+        { code: "(f) (0)", errors: [{ message: "Unexpected space between function name and paren.", type: "CallExpression"}] }
     ]
 });
