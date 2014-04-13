@@ -158,6 +158,16 @@ describe("config", function() {
         });
     });
 
+    describe("when searching for exclusions in directory with plain text .eslintignore", function() {
+        it("should have correct exclusions", function() {
+            var configHelper = new Config();
+            configHelper.cacheExclusions(path.resolve(__dirname, "..", "fixtures", "eslintrc"));
+
+            assert.isFalse(configHelper.checkForExclusion(path.resolve(__dirname, "..", "fixtures", "eslintrc", "quotes.js")));
+            assert.isTrue(configHelper.checkForExclusion(path.resolve(__dirname, "..", "fixtures", "eslintrc", "ignored.json")));
+        });
+    });
+
     describe("getLocalConfig with current directory", function() {
         it("should return false", function() {
             var configHelper = new Config();

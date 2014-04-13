@@ -115,11 +115,11 @@ Example:
 
 ## Ignoring files from linting
 
-ESLint supports `.eslintignore` files to exclude files from the linting process when eslint operates on a directory. Files given as individual CLI arguments will be exempt from exclusion. The `.eslintignore` file is a JSON file that contains an array of globs. It can be located in any of the target directory's ancestors; it will affect files in its containing directory as well as all sub-directories. Here's a simple example of a `.eslintignore` file:
+ESLint supports `.eslintignore` files to exclude files from the linting process when eslint operates on a directory. Files given as individual CLI arguments will be exempt from exclusion. The `.eslintignore` file is a plain text file containing one pattern per line. It can be located in any of the target directory's ancestors; it will affect files in its containing directory as well as all sub-directories. Here's a simple example of a `.eslintignore` file:
 
-```json
-[
-  "node_modules/*",
-  "**/vendor/*.js"
-]
+```text
+node_modules/*
+**/vendor/*.js
 ```
+
+**Deprecation notice**: The `.eslintignore` file can also be a JSON file that contains an array of globs. This works identically to the plain text version, but the JSON format is deprecated and will be removed in a future release.
