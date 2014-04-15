@@ -1606,6 +1606,244 @@ describe("eslint", function() {
         });
     });
 
+    describe("when evaluating code with comments to enable and disable all reporting", function() {
+
+        it("should report a violation", function() {
+
+            var code = [
+                "/*eslint-disable */",
+                "alert('test');",
+                "/*eslint-enable */",
+                "alert('test');"
+            ].join("\n");
+            var config = { rules: { "no-alert" : 1 } };
+
+            var messages = eslint.verify(code, config, filename);
+
+            assert.equal(messages.length, 1);
+            assert.equal(messages[0].ruleId, "no-alert");
+            assert.equal(messages[0].message, "Unexpected alert.");
+            assert.include(messages[0].node.type, "CallExpression");
+            assert.equal(messages[0].line, 4);
+        });
+
+        it("should not report a violation", function() {
+            var code = [
+                "/*eslint-disable */",
+                "alert('test');",
+                "alert('test');"
+            ].join("\n");
+            var config = { rules: { "no-alert" : 1 } };
+
+            var messages = eslint.verify(code, config, filename);
+
+            assert.equal(messages.length, 0);
+        });
+
+        it("should not report a violation", function() {
+            var code = [
+                "                    alert('test1');/*eslint-disable */\n",
+                "alert('test');",
+                "                                         alert('test');\n",
+                "/*eslint-enable */alert('test2');"
+            ].join("");
+            var config = { rules: { "no-alert" : 1 } };
+
+            var messages = eslint.verify(code, config, filename);
+            assert.equal(messages.length, 2);
+            assert.equal(messages[0].column, 20);
+            assert.equal(messages[1].column, 18);
+        });
+
+        it("should not report a violation", function() {
+
+            var code = [
+                "/*eslint-disable */",
+                "alert('test');",
+                "/*eslint-disable */",
+                "alert('test');",
+                "/*eslint-enable*/",
+                "alert('test');",
+                "/*eslint-enable*/"
+            ].join("\n");
+
+            var config = { rules: { "no-alert" : 1 } };
+
+            var messages = eslint.verify(code, config, filename);
+            assert.equal(messages.length, 0);
+        });
+
+
+        it("should not report a violation", function() {
+            var code = [
+                "/*eslint-disable */",
+                "(function (){ var b = 44;})()",
+                "/*eslint-enable */;any();"
+            ].join("\n");
+
+            var config = { rules: { "no-unused-vars" : 1 } };
+
+            var messages = eslint.verify(code, config, filename);
+            assert.equal(messages.length, 0);
+        });
+
+        it("should not report a violation", function() {
+            var code = [
+                "(function (){ /*eslint-disable */ var b = 44;})()",
+                "/*eslint-enable */;any();"
+            ].join("\n");
+
+            var config = { rules: { "no-unused-vars" : 1 } };
+
+            var messages = eslint.verify(code, config, filename);
+            assert.equal(messages.length, 0);
+        });
+    });
+
+    describe("when evaluating code with comments to enable and disable reporting of specific rules", function() {
+
+        it("should report a violation", function() {
+            var code = [
+                "/*eslint-disable no-alert */",
+                    "alert('test');",
+                    "console.log('test');" // here
+            ].join("\n");
+            var config = { rules: { "no-alert" : 1, "no-console": 1 } };
+
+            var messages = eslint.verify(code, config, filename);
+            assert.equal(messages.length, 1);
+
+            assert.equal(messages[0].ruleId, "no-console");
+        });
+
+        it("should report a violation", function() {
+            var code = [
+                "/*eslint-disable no-alert, no-console */",
+                    "alert('test');",
+                    "console.log('test');",
+                "/*eslint-enable*/",
+
+                "alert('test');", // here
+                "console.log('test');" // here
+            ].join("\n");
+            var config = { rules: { "no-alert" : 1, "no-console": 1 } };
+
+            var messages = eslint.verify(code, config, filename);
+            assert.equal(messages.length, 2);
+
+            assert.equal(messages[0].ruleId, "no-alert");
+            assert.equal(messages[0].line, 5);
+            assert.equal(messages[1].ruleId, "no-console");
+            assert.equal(messages[1].line, 6);
+        });
+
+        it("should report a violation", function() {
+            var code = [
+                "/*eslint-disable no-alert */",
+                    "alert('test');",
+                    "console.log('test');",
+                "/*eslint-enable no-console */",
+
+                "alert('test');" // here
+            ].join("\n");
+            var config = { rules: { "no-alert" : 1, "no-console": 1 } };
+
+            var messages = eslint.verify(code, config, filename);
+            assert.equal(messages.length, 1);
+
+            assert.equal(messages[0].ruleId, "no-console");
+        });
+
+
+        it("should report a violation", function() {
+            var code = [
+                "/*eslint-disable no-alert, no-console */",
+                    "alert('test');",
+                    "console.log('test');",
+                "/*eslint-enable no-alert*/",
+
+                "alert('test');", // here
+                "console.log('test');"
+            ].join("\n");
+            var config = { rules: { "no-alert" : 1, "no-console": 1 } };
+
+            var messages = eslint.verify(code, config, filename);
+            assert.equal(messages.length, 1);
+
+            assert.equal(messages[0].ruleId, "no-alert");
+            assert.equal(messages[0].line, 5);
+        });
+
+
+        it("should report a violation", function() {
+            var code = [
+                "/*eslint-disable no-alert */",
+
+                    "/*eslint-disable no-console */",
+                        "alert('test');",
+                        "console.log('test');",
+                    "/*eslint-enable */",
+
+                    "alert('test');",
+                    "console.log('test');", // here
+
+                "/*eslint-enable */",
+
+                "alert('test');", // here
+                "console.log('test');", // here
+
+                "/*eslint-enable*/"
+            ].join("\n");
+            var config = { rules: { "no-alert" : 1, "no-console": 1 } };
+
+            var messages = eslint.verify(code, config, filename);
+            assert.equal(messages.length, 3);
+
+            assert.equal(messages[0].ruleId, "no-console");
+            assert.equal(messages[0].line, 7);
+
+            assert.equal(messages[1].ruleId, "no-alert");
+            assert.equal(messages[1].line, 9);
+
+            assert.equal(messages[2].ruleId, "no-console");
+            assert.equal(messages[2].line, 10);
+
+        });
+
+        it("should report a violation", function() {
+            var code = [
+                "/*eslint-disable no-alert, no-console */",
+                    "alert('test');",
+                    "console.log('test');",
+
+                    "/*eslint-enable no-alert */",
+
+                    "alert('test');", // here
+                    "console.log('test');",
+
+                    "/*eslint-enable no-console */",
+
+                    "alert('test');", // here
+                    "console.log('test');", // here
+                "/*eslint-enable no-console */"
+            ].join("\n");
+            var config = { rules: { "no-alert" : 1, "no-console": 1 } };
+
+            var messages = eslint.verify(code, config, filename);
+            assert.equal(messages.length, 3);
+
+            assert.equal(messages[0].ruleId, "no-alert");
+            assert.equal(messages[0].line, 5);
+
+            assert.equal(messages[1].ruleId, "no-alert");
+            assert.equal(messages[1].line, 8);
+
+            assert.equal(messages[2].ruleId, "no-console");
+            assert.equal(messages[2].line, 9);
+
+        });
+    });
+
     describe("when evaluating code with comments to enable and disable multiple comma separated rules", function() {
         var code = "/*eslint no-alert:1, no-console:0*/ alert('test'); console.log('test');";
 
