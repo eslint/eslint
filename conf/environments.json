@@ -381,7 +381,14 @@
             "before": false,
             "after": false,
             "beforeEach": false,
-            "afterEach": false
+            "afterEach": false,
+
+            "suite": false,
+            "test": false,
+            "setup": false,
+            "teardown": false,
+            "suiteSetup": false,
+            "suiteTeardown": false
         }
     }
 }
