@@ -2,6 +2,16 @@
 
 One of the great things about open source projects is that anyone can contribute code. To help you in that process, there are several things that you should keep in mind.
 
+## Working on Issues
+
+If you're going to work on an issue, please add a comment to that issue saying so and indicating when you think you will complete it. It will help us to avoid duplication of effort. Some examples of good comments are:
+
+* "I'll take a look at this over the weekend."
+* "I'm going to do this, give me two weeks."
+* "Working on this" (as in, I'm working on it right now)
+
+If an issue has already been claimed by someone, please do not work on it unless the issue has been reset to not having an owner.
+
 ## Use Pull Requests
 
 If you want to submit code, please use a GitHub pull request. This is the fastest way for us to evaluate your code and to merge it into the code base. Please don't file an issue with snippets of code. Doing so means that we need to manually merge the changes in and update any appropriate tests. That decreases the likelihood that your code is going to get included in a timely manner. Please use pull requests.
@@ -16,11 +26,11 @@ We want to accept your contribution. Following these guidelines helps to create 
 * The commit message should say "(fixes #1234)" at the of the description if it closes out an existing issue (replace 1234 with the issue number).
 * The change should introduce no functional regression. Be sure to run `npm test` to verify your changes before submitting a pull request.
 * Make separate pull requests for unrelated changes. Large pull requests with multiple unrelated changes may be closed without merging.
-* A new feature must be accompanied by tests, this includes rules.
-* All changes must work on the following Node.JS versions:
-    * 0.6.x
+* All changes must be accompanied by tests, even if the feature you're working on previously had no tests.
+* All changes must work on the following Node.js versions:
     * 0.8.x
     * 0.10.x
+* Only one commit is allowed per pull request. If you have multiple commits, you'll be asked to squash them.
 * Follow the [Code Conventions](code-conventions.md).
 
 ## New Rules
