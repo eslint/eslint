@@ -1,5 +1,5 @@
-[![Build Status](https://secure.travis-ci.org/eslint/eslint.png?branch=master)](http://travis-ci.org/eslint/eslint)
-[![NPM version](https://badge.fury.io/js/eslint.png)](http://badge.fury.io/js/eslint)
+[![Build Status](https://travis-ci.org/eslint/eslint.svg?branch=master)](http://travis-ci.org/eslint/eslint)
+[![NPM version](https://badge.fury.io/js/eslint.svg)](http://badge.fury.io/js/eslint)
 
 # ESLint
 
