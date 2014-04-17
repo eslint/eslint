@@ -269,23 +269,65 @@ target.checkRuleFiles = function() {
 };
 
 target.perf = function() {
-    var start = process.hrtime();
+    var start = process.hrtime(),
+        results = [],
+        cpuSpeed = os.cpus()[0].speed,
+        max = PERF_MULTIPLIER / cpuSpeed,
+        cmd = ESLINT + "./tests/performance/jshint.js";
 
-    exec(ESLINT + "./tests/performance/jshint.js", { silent: true }, function() {
+    echo("CPU Speed is %d with multiplier %d", cpuSpeed, PERF_MULTIPLIER);
+
+    exec(cmd, { silent: true }, function() {
         var diff = process.hrtime(start),
             actual = (diff[0] * 1e9 + diff[1]) / 1000000,
-            cpuSpeed = os.cpus()[0].speed,
-            max = PERF_MULTIPLIER / cpuSpeed;
+            start2;
 
-        echo("CPU Speed is %d with multiplier %d", cpuSpeed, PERF_MULTIPLIER);
+        results.push(actual);
+        echo("Performance Run #1:  %dms (limit: %dms)", actual, max);
+        start2 = process.hrtime();
 
-        if (actual > max) {
-            echo("Performance budget exceeded: %dms (limit: %dms)", actual, max);
-            exit(1);
-        } else {
-            echo("Performance budget ok:  %dms (limit: %dms)", actual, max);
-        }
+        // Run 2
+
+        exec(cmd, {silent: true}, function() {
+
+            var diff = process.hrtime(start2),
+                actual = (diff[0] * 1e9 + diff[1]) / 1000000,
+                start3;
+
+            results.push(actual);
+            echo("Performance Run #2:  %dms (limit: %dms)", actual, max);
+            start3 = process.hrtime();
+
+            // Run 3
+
+            exec(cmd, {silent: true}, function() {
+
+                var diff = process.hrtime(start3),
+                    actual = (diff[0] * 1e9 + diff[1]) / 1000000;
+
+                results.push(actual);
+                echo("Performance Run #3:  %dms (limit: %dms)", actual, max);
+
+                results.sort(function(a, b) {
+                    return a - b;
+                });
+
+                if (results[1] > max) {
+                    echo("Performance budget exceeded: %dms (limit: %dms)", actual, max);
+                    exit(1);
+                } else {
+                    echo("Performance budget ok:  %dms (limit: %dms)", actual, max);
+                }
+
+            });
+
+        });
+
+
+
+
     });
+
 };
 
 target.patch = function() {
