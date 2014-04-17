@@ -1,3 +1,20 @@
+v0.5.1 - April 17, 2014
+
+* 0.5.1 (Nicholas C. Zakas)
+* Fix general config not to be modified by comment config in files (fixes #806) (Aliaksei Shytkin)
+* SVG badges (Ryuichi Okumura)
+* fixes #804: clean up implementation of #803 (which fixed #781) (Michael Ficarra)
+* Build: Fix perf test to take median of three runs (fixes #781) (Nicholas C. Zakas)
+* Fix: --reset will now properly ignore default rules in environments.json (fixes #800) (Nicholas C. Zakas)
+* Docs: Updated contributor guidelines (Nicholas C. Zakas)
+* Added Mocha global variables for TDD style. Fixes #793. (Golo Roden)
+* Rule: no-sequences (fixes #561) (Brandon Mills)
+* Change .eslintingore to plain text (fixes #761) (Brandon Mills)
+* Change 'no-spaced-func' message (fixes #762) (Aliaksei Shytkin)
+* Rule 'block-scoped-var' works correct when object inits (fixes #783) (Aliaksei Shytkin)
+* Build: Always build docs site on top of origin/master (Nicholas C. Zakas)
+* 0.5.0 (Nicholas C. Zakas)
+
 v0.5.0 - April 10, 2014
 
 * 0.5.0 (Nicholas C. Zakas)
