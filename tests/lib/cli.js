@@ -243,6 +243,14 @@ describe("cli", function() {
             assert.isTrue(console.log.notCalled);
             assert.equal(exit, 0);
         });
+
+        it("should execute without any errors in Node.js environment", function () {
+            var exit = cli.execute("--reset --no-eslintrc --env node ./tests/fixtures/process-exit.js");
+
+            assert.isTrue(console.log.notCalled);
+            assert.equal(exit, 0);
+        });
+
     });
 
     describe("when executing with no-eslintrc flag", function () {
