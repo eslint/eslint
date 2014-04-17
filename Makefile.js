@@ -22,7 +22,7 @@ var path = require("path"),
 //------------------------------------------------------------------------------
 
 /*
- * A little bit fuzzy. My computer has a first OS speed of 3093 and the perf test
+ * A little bit fuzzy. My computer has a first CPU speed of 3093 and the perf test
  * always completes in < 2000ms. However, Travis is less predictable due to
  * multiple different VM types. So I'm fudging this for now in the hopes that it
  * at least provides some sort of useful signal.
@@ -268,64 +268,43 @@ target.checkRuleFiles = function() {
 
 };
 
+function time(cmd, runs, runNumber, results, cb) {
+    var start = process.hrtime();
+    exec(cmd, { silent: true }, function() {
+        var diff = process.hrtime(start),
+            actual = (diff[0] * 1e3 + diff[1] / 1e6); // ms
+
+        results.push(actual);
+        echo("Performance Run #" + runNumber + ":  %dms", actual);
+        if(runs > 1) {
+            time(cmd, runs - 1, runNumber + 1, results, cb);
+        } else {
+            cb(results)
+        }
+    });
+
+}
+
 target.perf = function() {
-    var start = process.hrtime(),
-        results = [],
-        cpuSpeed = os.cpus()[0].speed,
+    var cpuSpeed = os.cpus()[0].speed,
         max = PERF_MULTIPLIER / cpuSpeed,
         cmd = ESLINT + "./tests/performance/jshint.js";
 
     echo("CPU Speed is %d with multiplier %d", cpuSpeed, PERF_MULTIPLIER);
 
-    exec(cmd, { silent: true }, function() {
-        var diff = process.hrtime(start),
-            actual = (diff[0] * 1e9 + diff[1]) / 1000000,
-            start2;
-
-        results.push(actual);
-        echo("Performance Run #1:  %dms (limit: %dms)", actual, max);
-        start2 = process.hrtime();
-
-        // Run 2
-
-        exec(cmd, {silent: true}, function() {
-
-            var diff = process.hrtime(start2),
-                actual = (diff[0] * 1e9 + diff[1]) / 1000000,
-                start3;
-
-            results.push(actual);
-            echo("Performance Run #2:  %dms (limit: %dms)", actual, max);
-            start3 = process.hrtime();
-
-            // Run 3
-
-            exec(cmd, {silent: true}, function() {
-
-                var diff = process.hrtime(start3),
-                    actual = (diff[0] * 1e9 + diff[1]) / 1000000;
-
-                results.push(actual);
-                echo("Performance Run #3:  %dms (limit: %dms)", actual, max);
-
-                results.sort(function(a, b) {
-                    return a - b;
-                });
-
-                if (results[1] > max) {
-                    echo("Performance budget exceeded: %dms (limit: %dms)", actual, max);
-                    exit(1);
-                } else {
-                    echo("Performance budget ok:  %dms (limit: %dms)", actual, max);
-                }
-
-            });
-
+    time(cmd, 5, 1, [], function(results) {
+        results.sort(function(a, b) {
+            return a - b;
         });
 
+        var median = results[~~(results.length / 2)];
 
-
-
+        if (median > max) {
+            echo("Performance budget exceeded: %dms (limit: %dms)", median, max);
+            exit(1);
+        } else {
+            echo("Performance budget ok:  %dms (limit: %dms)", median, max);
+        }
     });
 
 };
