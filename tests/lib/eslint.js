@@ -1253,6 +1253,14 @@ describe("eslint", function() {
 
             assert.equal(messages.length, 0);
         });
+
+        it("should process empty config", function() {
+            var config = {};
+
+            eslint.reset();
+            var messages = eslint.verify(code, config, filename, true);
+            assert.equal(messages.length, 0);
+        });
     });
 
     describe("after calling reset()", function() {
@@ -1543,9 +1551,9 @@ describe("eslint", function() {
     });
 
     describe("when evaluating code with comments to enable rules", function() {
-        var code = "/*eslint no-alert:1*/ alert('test');";
 
         it("should report a violation", function() {
+            var code = "/*eslint no-alert:1*/ alert('test');";
             var config = { rules: {} };
 
             var messages = eslint.verify(code, config, filename);
@@ -1553,6 +1561,19 @@ describe("eslint", function() {
             assert.equal(messages[0].ruleId, "no-alert");
             assert.equal(messages[0].message, "Unexpected alert.");
             assert.include(messages[0].node.type, "CallExpression");
+        });
+
+        it("rules should not change inital config", function() {
+            var config = { rules: {"strict": 2} };
+            var codeA = "/*eslint strict: 0*/ function bar() { return 2; }";
+            var codeB = "function foo() { return 1; }";
+
+            eslint.reset();
+            var messages = eslint.verify(codeA, config, filename, false);
+            assert.equal(messages.length, 0);
+
+            messages = eslint.verify(codeB, config, filename, false);
+            assert.equal(messages.length, 1);
         });
     });
 
