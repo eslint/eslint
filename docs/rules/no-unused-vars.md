@@ -41,30 +41,30 @@ myFunc(function foo() {
 
 ### Options
 
-By default this rule is enabled with `local` option for variables and `after-used` for arguments.
+By default this rule is enabled with `all` option for variables and `after-used` for arguments.
 
 ```json
 {
     "rules": {
-        "no-unused-vars": [2, {"vars": "local", "args": "after-used"}]
+        "no-unused-vars": [2, {"vars": "all", "args": "after-used"}]
     }
 }
 ```
 
-
 #### vars
 
-When sets to `local` will check that all local variables are used, but it will allow global variables to be unused.
+This option has two settings:
 
-`all` option will disable this behavior and will not allow any variables to be unused.
+* `all` checks all variables for usage, including those in the global scope. This is the default setting.
+* `local` checks only that locally-declared variables are used but will allow global variables to be unused.
 
 #### args
 
-Sets to `after-used` will skip some unused arguments. No warning will be thrown for unused variables in the parameters of function declarations or function expressions if any of the variables following the unused variable are used in that function's scope. This allows you to have unused variables in a function.
+This option has three settings:
 
-`all` checks that all arguments to be used.
-
-`none` skips all arguments to check.
+* `all` - all named arguments must be used.
+* `after-used` - only arguments after the first used argument must be used. This allows you, for instance, to have two named parameters to a function and as long as you use the second argument, ESLint will not warn you about the first. This is the default setting.
+* `none` - do not check arguments.
 
 The following code:
 
@@ -78,3 +78,6 @@ The following code:
 })();
 ```
 
+## When Not to Use It
+
+If you don't want to be notified about unused variables or function arguments, you can safely turn this rule off.
