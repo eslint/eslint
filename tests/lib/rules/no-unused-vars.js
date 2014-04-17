@@ -28,10 +28,9 @@ eslintTester.addRuleTest("lib/rules/no-unused-vars", {
         { code: "var a=10;", args: [1, "local"] },
         { code: "var min = \"min\"; Math[min];", args: [1, "all"] },
         { code: "Foo.bar = function(baz) { return baz; };", args: [1, "all"] },
-        "var a=10",
         "myFunc(function foo() {}.bind(this))",
         "myFunc(function foo(){}.toString())",
-        "function foo(first, second) {\ndoStuff(function() {\nconsole.log(second);});};",
+        "function foo(first, second) {\ndoStuff(function() {\nconsole.log(second);});}; foo()",
         "(function() { var doSomething = function doSomething() {}; doSomething() }())",
         { code: "var a=10; (function() { alert(a); })();", args: [1, {vars: "all"}] },
         { code: "function g(bar, baz) { return baz; }; g();", args: [1, {"vars": "all"}] },
@@ -42,6 +41,8 @@ eslintTester.addRuleTest("lib/rules/no-unused-vars", {
         "(function z() { z(); })();"
     ],
     invalid: [
+        { code: "var a=10", errors: [{ message: "a is defined but never used", type: "Identifier"}] },
+        { code: "function foo(first, second) {\ndoStuff(function() {\nconsole.log(second);});};", errors: [{ message: "foo is defined but never used", type: "Identifier"}] },
         { code: "var a=10;", args: [1, "all"], errors: [{ message: "a is defined but never used", type: "Identifier"}] },
         { code: "var a=10; a=20;", args: [1, "all"], errors: [{ message: "a is defined but never used", type: "Identifier"}] },
         { code: "var a=10; (function() { var a = 1; alert(a); })();", args: [1, "all"], errors: [{ message: "a is defined but never used", type: "Identifier"}] },
