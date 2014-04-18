@@ -121,6 +121,7 @@ These rules are purely matters of style and are quite subjective.
 * [new-parens](new-parens.md) - disallow the omission of parentheses when invoking a contructor with no arguments
 * [no-nested-ternary](no-nested-ternary.md) - disallow nested ternary expressions
 * [no-array-constructor](no-array-constructor.md) - disallow use of the `Array` constructor
+* [no-lonely-if](no-lonely-if.md) - disallow if as the only statement in an else block
 * [no-new-object](no-new-object.md) - disallow use of the `Object` constructor
 * [no-spaced-func](no-spaced-func.md) - disallow space between function identifier and application
 * [no-space-before-semi](no-space-before-semi.md) - disallow space before semicolon
