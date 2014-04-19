@@ -110,6 +110,7 @@
         "radix": 0,
         "semi": 2,
         "sort-vars": 0,
+        "space-after-keywords": [0, "always"],
         "space-in-brackets": [0, "never"],
         "space-infix-ops": 2,
         "space-return-throw-case": 2,

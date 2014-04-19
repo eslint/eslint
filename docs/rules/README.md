@@ -131,6 +131,7 @@ These rules are purely matters of style and are quite subjective.
 * [quote-props](quote-props.md) - require quotes around object literal property names
 * [semi](semi.md)- require or disallow use of semicolons instead of ASI
 * [sort-vars](sort-vars.md) - sort variables within the same declaration block
+* [space-after-keywords](space-after-keywords.md) - require a space after certain keywords
 * [space-in-brackets](space-in-brackets.md) - require or disallow spaces between brackets
 * [space-infix-ops](space-infix-ops.md) - require spaces around operators
 * [space-return-throw-case](space-return-throw-case.md) - require a space after `return`, `throw`, and `case`
