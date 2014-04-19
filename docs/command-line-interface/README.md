@@ -30,6 +30,7 @@ Options:
   --reset                    Set all default rules to off.
   --eslintrc                 Enable loading .eslintrc configuration. - default: true
   --env [String]             Specify environments.
+  --force                    Allow linting of otherwise ignored files.
   --global [String]          Define global variables.
 ```
 
@@ -95,6 +96,14 @@ Example
 
     eslint --env browser,node file.js
     eslint --env browser --env node file.js
+
+### `--force`
+
+This option allows you to override the ignore rules defined in `.eslintignore` files and always lint each file passed to eslint. Without this option enabled, ignored files will not be linted even if specifically listed in the list of files.
+
+Example
+
+    eslint --force an-ignored-file.js
 
 ### `--global`
 

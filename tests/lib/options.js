@@ -94,6 +94,13 @@ describe("options", function() {
         });
     });
 
+    describe("when passed --force", function() {
+        it("should return true for .force", function() {
+            var currentOptions = options.parse("--force");
+            assert.isTrue(currentOptions.force);
+        });
+    });
+
     describe("when passed --global", function() {
         it("should return an array for a single occurrence", function () {
             var currentOptions = options.parse("--global foo");
