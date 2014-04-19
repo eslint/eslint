@@ -1563,10 +1563,49 @@ describe("eslint", function() {
             assert.include(messages[0].node.type, "CallExpression");
         });
 
-        it("rules should not change inital config", function() {
+        it("rules should not change initial config", function() {
             var config = { rules: {"strict": 2} };
             var codeA = "/*eslint strict: 0*/ function bar() { return 2; }";
             var codeB = "function foo() { return 1; }";
+
+            eslint.reset();
+            var messages = eslint.verify(codeA, config, filename, false);
+            assert.equal(messages.length, 0);
+
+            messages = eslint.verify(codeB, config, filename, false);
+            assert.equal(messages.length, 1);
+        });
+
+        it("rules should not change initial config", function() {
+            var config = { rules: {"quotes": [2, "double"]} };
+            var codeA = "/*eslint quotes: 0*/ function bar() { return '2'; }";
+            var codeB = "function foo() { return '1'; }";
+
+            eslint.reset();
+            var messages = eslint.verify(codeA, config, filename, false);
+            assert.equal(messages.length, 0);
+
+            messages = eslint.verify(codeB, config, filename, false);
+            assert.equal(messages.length, 1);
+        });
+
+        it("rules should not change initial config", function() {
+            var config = { rules: {"quotes": [2, "double"]} };
+            var codeA = "/*eslint quotes: [0, \"single\"]*/ function bar() { return '2'; }";
+            var codeB = "function foo() { return '1'; }";
+
+            eslint.reset();
+            var messages = eslint.verify(codeA, config, filename, false);
+            assert.equal(messages.length, 0);
+
+            messages = eslint.verify(codeB, config, filename, false);
+            assert.equal(messages.length, 1);
+        });
+
+        it("rules should not change initial config", function() {
+            var config = { rules: {"no-unused-vars": [2, {"vars": "all"}]} };
+            var codeA = "/*eslint no-unused-vars: [0, {\"vars\": \"local\"}]*/ var a = 44;";
+            var codeB = "var b = 55;";
 
             eslint.reset();
             var messages = eslint.verify(codeA, config, filename, false);
