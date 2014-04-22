@@ -106,13 +106,13 @@ To configure rules inside of a file using configuration comments, use a comment 
 /*eslint eqeqeq:0, curly: 2*/
 ```
 
-In this example, `eqeqeq` is turned off and `curly` is turned on as an error. If a rule has additional options, you can specify them using array literal syntax, such as:
+In this example, [`eqeqeq`](../rules/eqeqeq.md) is turned off and [`curly`](../rules/curly.md) is turned on as an error. If a rule has additional options, you can specify them using array literal syntax, such as:
 
 ```js
 /*eslint quotes: [2, "double"], curly: 2*/
 ```
 
-This comment specifies the "double" option for the `[quotes](../rules/quotes.md)` rule.
+This comment specifies the "double" option for the [`quotes`](../rules/quotes.md) rule.
 
 To configure rules inside of a configuration file, use the `rules` key along with an error level and any options you want to use. For example:
 
