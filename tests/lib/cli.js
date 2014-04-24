@@ -134,8 +134,8 @@ describe("cli", function() {
     });
 
     describe("when executing a file with an error", function() {
-        it("should execute with error", function() {
-            var exit = cli.execute("tests/fixtures/configurations/semi-error.js");
+        it("should exit with error", function() {
+            var exit = cli.execute("--force tests/fixtures/undef.js");
 
             assert.equal(exit, 1);
         });
@@ -143,12 +143,12 @@ describe("cli", function() {
 
     describe("when calling execute more than once", function() {
         it("should not print the results from previous execution", function() {
-            cli.execute("tests/fixtures/missing-semicolon.js");
+            cli.execute("--force tests/fixtures/missing-semicolon.js");
             assert.isTrue(console.log.called);
 
             console.log.reset();
 
-            cli.execute("tests/fixtures/passing.js");
+            cli.execute("--force tests/fixtures/passing.js");
             assert.isTrue(console.log.notCalled);
 
         });
@@ -197,11 +197,19 @@ describe("cli", function() {
 
     describe("when given a file in excluded files list", function() {
 
-        it("should process the file anyway", function() {
-            var exit = cli.execute("tests/fixtures/missing-semicolon.js");
+        it("should not process the file", function () {
+            var exit = cli.execute("tests/fixtures/passing.js");
 
+            // a warning about the ignored file
             assert.isTrue(console.log.called);
-            assert.isFalse(console.log.alwaysCalledWith(""));
+            assert.equal(exit, 0);
+        });
+
+        it("should process the file when forced", function() {
+            var exit = cli.execute("--force tests/fixtures/passing.js");
+
+            // no warnings
+            assert.isFalse(console.log.called);
             assert.equal(exit, 0);
         });
     });
@@ -209,7 +217,7 @@ describe("cli", function() {
     describe("when executing a file with a shebang", function() {
 
         it("should execute without error", function() {
-            var exit = cli.execute("tests/fixtures/shebang.js");
+            var exit = cli.execute("--force tests/fixtures/shebang.js");
 
             assert.equal(exit, 0);
         });
@@ -218,7 +226,7 @@ describe("cli", function() {
     describe("when given a custom rule, verify that it's loaded", function() {
 
         it("should return a warning", function() {
-            var code = "--rulesdir ./tests/fixtures/rules/wrong --config ./tests/fixtures/rules/eslint.json tests/fixtures/rules/test/test-custom-rule.js";
+            var code = "--rulesdir ./tests/fixtures/rules/wrong --config ./tests/fixtures/rules/eslint.json --force tests/fixtures/rules/test/test-custom-rule.js";
 
             assert.throws(function() {
                 var exit = cli.execute(code);
@@ -227,7 +235,7 @@ describe("cli", function() {
         });
 
         it("should return a warning", function() {
-            var code = "--rulesdir ./tests/fixtures/rules --config ./tests/fixtures/rules/eslint.json tests/fixtures/rules/test/test-custom-rule.js";
+            var code = "--rulesdir ./tests/fixtures/rules --config ./tests/fixtures/rules/eslint.json --force tests/fixtures/rules/test/test-custom-rule.js";
             var exit = cli.execute(code);
 
             assert.isTrue(console.log.calledOnce);
@@ -238,14 +246,14 @@ describe("cli", function() {
 
     describe("when executing with reset flag", function() {
         it("should execute without any errors", function () {
-            var exit = cli.execute("--reset --no-eslintrc ./tests/fixtures/missing-semicolon.js");
+            var exit = cli.execute("--reset --no-eslintrc --force ./tests/fixtures/missing-semicolon.js");
 
             assert.isTrue(console.log.notCalled);
             assert.equal(exit, 0);
         });
 
         it("should execute without any errors in Node.js environment", function () {
-            var exit = cli.execute("--reset --no-eslintrc --env node ./tests/fixtures/process-exit.js");
+            var exit = cli.execute("--reset --no-eslintrc --env node --force ./tests/fixtures/process-exit.js");
 
             assert.isTrue(console.log.notCalled);
             assert.equal(exit, 0);
@@ -255,7 +263,7 @@ describe("cli", function() {
 
     describe("when executing with no-eslintrc flag", function () {
         it("should ignore a local config file", function () {
-            var exit = cli.execute("--no-eslintrc ./tests/fixtures/eslintrc/quotes.js");
+            var exit = cli.execute("--no-eslintrc --force ./tests/fixtures/eslintrc/quotes.js");
 
             assert.isTrue(console.log.notCalled);
             assert.equal(exit, 0);
@@ -264,7 +272,7 @@ describe("cli", function() {
 
     describe("when executing without no-eslintrc flag", function () {
         it("should load a local config file", function () {
-            var exit = cli.execute("./tests/fixtures/eslintrc/quotes.js");
+            var exit = cli.execute("--force ./tests/fixtures/eslintrc/quotes.js");
 
             assert.isTrue(console.log.calledOnce);
             assert.equal(exit, 1);
@@ -278,12 +286,12 @@ describe("cli", function() {
         ];
 
         it("should allow environment-specific globals", function () {
-            cli.execute("--no-eslintrc --config ./conf/eslint.json --env browser,node " + files.join(" "));
+            cli.execute("--no-eslintrc --config ./conf/eslint.json --env browser,node --force " + files.join(" "));
             assert.equal(console.log.args[0][0].split("\n").length, 11);
         });
 
         it("should allow environment-specific globals, with multiple flags", function () {
-            cli.execute("--no-eslintrc --config ./conf/eslint.json --env browser --env node " + files.join(" "));
+            cli.execute("--no-eslintrc --config ./conf/eslint.json --env browser --env node --force " + files.join(" "));
             assert.equal(console.log.args[0][0].split("\n").length, 11);
         });
     });
@@ -295,28 +303,28 @@ describe("cli", function() {
         ];
 
         it("should not define environment-specific globals", function () {
-            cli.execute("--no-eslintrc --config ./conf/eslint.json " + files.join(" "));
+            cli.execute("--no-eslintrc --config ./conf/eslint.json --force " + files.join(" "));
             assert.equal(console.log.args[0][0].split("\n").length, 14);
         });
     });
 
     describe("when executing with global flag", function () {
         it("should default defined variables to read-only", function () {
-            var exit = cli.execute("--global baz,bat ./tests/fixtures/undef.js");
+            var exit = cli.execute("--global baz,bat --force ./tests/fixtures/undef.js");
 
             assert.isTrue(console.log.calledOnce);
             assert.equal(exit, 1);
         });
 
         it("should allow defining writable global variables", function () {
-            var exit = cli.execute("--global baz:false,bat:true ./tests/fixtures/undef.js");
+            var exit = cli.execute("--global baz:false,bat:true --force ./tests/fixtures/undef.js");
 
             assert.isTrue(console.log.notCalled);
             assert.equal(exit, 0);
         });
 
         it("should allow defining variables with multiple flags", function () {
-            var exit = cli.execute("--global baz --global bat:true ./tests/fixtures/undef.js");
+            var exit = cli.execute("--global baz --global bat:true --force ./tests/fixtures/undef.js");
 
             assert.isTrue(console.log.notCalled);
             assert.equal(exit, 0);
