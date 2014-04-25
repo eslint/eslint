@@ -49,4 +49,3 @@ var single = 'a string containing "double" quotes';
 // When [1, "single", "avoid-escape"]
 var double = "a string containing 'single' quotes";
 ```
-
