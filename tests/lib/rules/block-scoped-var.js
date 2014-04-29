@@ -34,7 +34,10 @@ eslintTester.addRuleTest("lib/rules/block-scoped-var", {
         "var a = { \"foo\": 3 };",
         "var a = { foo: 3 };",
         "var a = { foo: 3, bar: 5 };",
-        "var a = { set foo(a){}, get bar(){} };"
+        "var a = { set foo(a){}, get bar(){} };",
+        "function f(a) { return arguments[0]; }",
+        "function f() { }; var a = f;",
+        "var a = f; function f() { };"
     ],
     invalid: [
         { code: "function f(){ x; }", errors: [{ message: "\"x\" used outside of binding context.", type: "Identifier" }] },
@@ -47,6 +50,10 @@ eslintTester.addRuleTest("lib/rules/block-scoped-var", {
         { code: "function f() { return b.a; }", errors: [{ message: "\"b\" used outside of binding context.", type: "Identifier" }] },
         { code: "var a = { foo: bar };", errors: [{ message: "\"bar\" used outside of binding context.", type: "Identifier" }] },
         { code: "var a = { foo: foo };", errors: [{ message: "\"foo\" used outside of binding context.", type: "Identifier" }] },
-        { code: "var a = { bar: 7, foo: bar };", errors: [{ message: "\"bar\" used outside of binding context.", type: "Identifier" }] }
+        { code: "var a = { bar: 7, foo: bar };", errors: [{ message: "\"bar\" used outside of binding context.", type: "Identifier" }] },
+        { code: "var a = arguments;", errors: [{ message: "\"arguments\" used outside of binding context.", type: "Identifier" }] },
+        { code: "function x(){}; var a = arguments;", errors: [{ message: "\"arguments\" used outside of binding context.", type: "Identifier" }] },
+        { code: "function z(b){}; var a = b;", errors: [{ message: "\"b\" used outside of binding context.", type: "Identifier" }] },
+        { code: "function z(){var b;}; var a = b;", errors: [{ message: "\"b\" used outside of binding context.", type: "Identifier" }] }
     ]
 });
