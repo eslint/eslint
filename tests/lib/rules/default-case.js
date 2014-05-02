@@ -33,21 +33,21 @@ eslintTester.addRuleTest("lib/rules/default-case", {
         {
             code: "switch (a) { case 1: break; }",
             errors: [{
-                message: "No default case.",
+                message: "Expected a default case.",
                 type: "SwitchStatement"
             }]
         },
         {
             code: "switch (a) { \n // no default \n case 1: break;  }",
             errors: [{
-                message: "No default case.",
+                message: "Expected a default case.",
                 type: "SwitchStatement"
             }]
         },
         {
             code: "switch (a) { case 1: break; \n // no default \n // nope \n  }",
             errors: [{
-                message: "No default case.",
+                message: "Expected a default case.",
                 type: "SwitchStatement"
             }]
         }
