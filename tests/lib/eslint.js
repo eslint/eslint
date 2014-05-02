@@ -669,7 +669,7 @@ describe("eslint", function() {
 
             function assertJSDoc(node) {
                 var jsdoc = eslint.getJSDocComment(node);
-                assert.equal(null, jsdoc);
+                assert.equal(jsdoc, null);
             }
 
             var spy = sandbox.spy(assertJSDoc);
@@ -690,7 +690,7 @@ describe("eslint", function() {
             function assertJSDoc(node) {
                 if(node.params.length === 1) {
                     var jsdoc = eslint.getJSDocComment(node);
-                    assert.equal(null, jsdoc);
+                    assert.equal(jsdoc, null);
                 }
             }
 
@@ -989,8 +989,8 @@ describe("eslint", function() {
             var config = { rules: {} };
 
             eslint.reset();
-            eslint.on("Program", assertCommentCount(1, 0));
-            eslint.on("VariableDeclaration", assertCommentCount(0, 1));
+            eslint.on("Program", assertCommentCount(0, 0));
+            eslint.on("VariableDeclaration", assertCommentCount(1, 1));
             eslint.on("VariableDeclarator", assertCommentCount(0, 0));
             eslint.on("Identifier", assertCommentCount(0, 0));
             eslint.on("Literal", assertCommentCount(0, 0));
@@ -1050,6 +1050,24 @@ describe("eslint", function() {
             eslint.on("BlockComment", spy);
 
             eslint.verify(code, config, filename, true);
+            assert(spy.calledOnce, "Handler should be called.");
+        });
+
+        it("should fire LineComment event for top-level comment", function() {
+
+            function handler(node) {
+                var sourceCode = eslint.getSource(node);
+                assert.equal(node.value, " fixme");
+                assert.equal(sourceCode, "// fixme");
+            }
+
+            var config = { rules: {} },
+                spy = sandbox.spy(handler);
+
+            eslint.reset();
+            eslint.on("LineComment", spy);
+
+            eslint.verify("// fixme", config, filename, true);
             assert(spy.calledOnce, "Handler should be called.");
         });
 
