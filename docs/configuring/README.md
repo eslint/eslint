@@ -98,7 +98,7 @@ ESLint comes with a large number of rules, some of which are on by default and s
 
 * 0 - turn the rule off
 * 1 - turn the rule on as a warning (doesn't affect exit code)
-* 2 - turn the rule on as a warning (exit code is 1 when triggered)
+* 2 - turn the rule on as an error (exit code is 1 when triggered)
 
 To configure rules inside of a file using configuration comments, use a comment in the following format:
 
