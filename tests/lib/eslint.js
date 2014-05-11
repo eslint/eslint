@@ -2045,6 +2045,15 @@ describe("eslint", function() {
             assert.equal(messages[0].line, messages[0].node.loc.start.line);
         });
 
+        it("should not report a violation when using typed array", function() {
+            var code = "var array = new Uint8Array();";
+
+            var config = { rules: { "no-undef" : 1} };
+
+            var messages = eslint.verify(code, config, filename);
+            assert.equal(messages.length, 0);
+        });
+
         it("should not report a violation", function() {
             var code = "/*eslint-env mocha,node */ require();describe();";
 
