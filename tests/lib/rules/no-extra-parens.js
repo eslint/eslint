@@ -10,7 +10,7 @@
 var eslintTester = require("eslint-tester");
 
 function invalid(code, type) {
-    return { code: code, errors: [{ message: "Gratuitous parentheses around expression.", type: type }] };
+    return { code: code, errors: [{ message: "Extra parentheses around expression.", type: type }] };
 }
 
 eslintTester.addRuleTest("lib/rules/no-extra-parens", {
@@ -99,7 +99,12 @@ eslintTester.addRuleTest("lib/rules/no-extra-parens", {
         "(0).a",
         "(function(){ }())",
         "({a: function(){}}.a());",
-        "({a:0}.a ? b : c)"
+        "({a:0}.a ? b : c)",
+
+        "var foo = (function() { return bar(); }())",
+        "(function() { foo(); }())",
+        "var o = { foo: (function() { return bar(); }()) };",
+        "o.foo = (function(){ return bar(); }());"
     ],
     invalid: [
         invalid("(0)", "Literal"),
