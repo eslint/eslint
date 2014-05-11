@@ -28,14 +28,13 @@ We want to accept your contribution. Following these guidelines helps to create 
 * Make separate pull requests for unrelated changes. Large pull requests with multiple unrelated changes may be closed without merging.
 * All changes must be accompanied by tests, even if the feature you're working on previously had no tests.
 * All changes must work on the following Node.js versions:
-    * 0.8.x
     * 0.10.x
 * Only one commit is allowed per pull request. If you have multiple commits, you'll be asked to squash them.
 * Follow the [Code Conventions](code-conventions.md).
 
 ## New Rules
 
-To simplify creation of new rule, use [ESLint Yeoman generator](https://github.com/eslint/generator-eslint). It will automatically generate rule, documentation and test files to get you started faster.
+To simplify creation of new rules, use [ESLint Yeoman generator](https://github.com/eslint/generator-eslint). It will automatically generate rule, documentation and test files to get you started faster.
 
 Once you've written a rule, you can decide whether the rule is generic enough to be included in ESLint or if it's specific to your own use case. If you decide to submit your rule via a pull request, there are some things to keep in mind:
 

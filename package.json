@@ -68,5 +68,8 @@
     "ecmascript"
   ],
   "preferGlobal": true,
-  "license": "MIT"
+  "license": "MIT",
+  "engines": {
+    "node": ">=0.10"
+  }
 }
