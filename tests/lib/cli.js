@@ -242,6 +242,21 @@ describe("cli", function() {
             assert.isTrue(console.log.neverCalledWith(""));
             assert.equal(exit, 1);
         });
+
+        it("should return warnings from multiple rules in different directories", function() {
+            var code = "--rulesdir ./tests/fixtures/rules/dir1 --rulesdir ./tests/fixtures/rules/dir2 --reset --config ./tests/fixtures/rules/multi-rulesdirs.json --force tests/fixtures/rules/test-multi-rulesdirs.js";
+            var exit = cli.execute(code);
+
+            var call = console.log.getCall(0);
+            assert.isTrue(console.log.calledOnce);
+            assert.isTrue(call.args[0].indexOf("String!") > -1);
+            assert.isTrue(call.args[0].indexOf("Literal!") > -1);
+            assert.isTrue(call.args[0].indexOf("2 problems") > -1);
+            assert.isTrue(console.log.neverCalledWith(""));
+            assert.equal(exit, 1);
+        });
+
+
     });
 
     describe("when executing with reset flag", function() {

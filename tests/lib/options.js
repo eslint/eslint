@@ -52,7 +52,7 @@ describe("options", function() {
     describe("when passed --rulesdir", function() {
         it("should return a string for .rulesdir", function() {
             var currentOptions = options.parse("--rulesdir /morerules");
-            assert.isString(currentOptions.rulesdir);
+            assert.isArray(currentOptions.rulesdir);
             assert.equal(currentOptions.rulesdir, "/morerules");
         });
     });

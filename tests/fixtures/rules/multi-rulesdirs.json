@@ -1,0 +1,9 @@
+{
+    "globals" : {
+        "test": true
+    },
+    "rules": {
+        "no-literals": 2,
+        "no-strings": 2
+    }
+}
