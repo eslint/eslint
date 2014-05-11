@@ -29,6 +29,8 @@ eslintTester.addRuleTest("lib/rules/no-undef", {
         "/*eslint-env browser*/ window;",
         "/*eslint-env node*/ require(\"a\");",
         "Object; isNaN();",
+        "toString()",
+        "hasOwnProperty()",
         "function evilEval(stuffToEval) { var ultimateAnswer; ultimateAnswer = 42; eval(stuffToEval); }"
     ],
     invalid: [

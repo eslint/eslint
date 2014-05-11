@@ -43,7 +43,15 @@
         "Uint8ClampedArray": false,
 
         "Math": false,
-        "JSON": false
+        "JSON": false,
+
+        "toString": false,
+        "hasOwnProperty": false,
+        "valueOf": false,
+        "propertyIsEnumerable": false,
+        "constructor": false,
+        "isPrototypeOf": false,
+        "toLocaleString": false
     },
 
     "browser": {
