@@ -118,14 +118,31 @@ target.lint = function() {
 target.test = function() {
     target.lint();
     target.checkRuleFiles();
+    var errors = 0,
+        lastReturn;
 
-    nodeCLI.exec("istanbul", "cover", MOCHA, "-- -c", TEST_FILES);
     // exec(ISTANBUL + " cover " + MOCHA + "-- -c " + TEST_FILES);
-    nodeCLI.exec("istanbul", "check-coverage", "--statement 99 --branch 98 --function 99 --lines 99");
+    lastReturn = nodeCLI.exec("istanbul", "cover", MOCHA, "-- -c", TEST_FILES);
+    if (lastReturn.code !== 0) {
+      errors++;
+    }
+
     // exec(ISTANBUL + "check-coverage --statement 99 --branch 98 --function 99 --lines 99");
+    lastReturn = nodeCLI.exec("istanbul", "check-coverage", "--statement 99 --branch 98 --function 99 --lines 99");
+    if (lastReturn.code !== 0) {
+      errors++;
+    }
 
     target.browserify();
-    nodeCLI.exec("mocha-phantomjs", "-R dot", "tests/tests.htm");
+
+    lastReturn = nodeCLI.exec("mocha-phantomjs", "-R dot", "tests/tests.htm");
+    if (lastReturn.code !== 0) {
+      errors++;
+    }
+
+    if (errors) {
+        exit(1);
+    }
 };
 
 target.docs = function() {
