@@ -108,6 +108,7 @@ These rules are specific to JavaScript running on Node.js.
 * [no-mixed-requires](no-mixed-requires.md) - disallow mixing regular variable and require declarations
 * [no-path-concat](no-path-concat.md) - disallow string concatenation with `__dirname` and `__filename`
 * [no-process-exit](no-process-exit.md) - disallow `process.exit()`
+* [no-restricted-modules](no-restricted-modules.md) - restrict usage of specified node modules
 * [no-sync](no-sync.md) - disallow use of synchronous methods (off by default)
 
 ## Stylistic Issues
