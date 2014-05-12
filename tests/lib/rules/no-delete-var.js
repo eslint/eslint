@@ -18,6 +18,6 @@ eslintTester.addRuleTest("lib/rules/no-delete-var", {
         "delete x.prop;"
     ],
     invalid: [
-        { code: "delete x", errors: [{ message: "Variables should not be deleted​.", type: "UnaryExpression"}] }
+        { code: "delete x", errors: [{ message: "Variables should not be deleted.", type: "UnaryExpression"}] }
     ]
 });
