@@ -53,6 +53,7 @@
         "no-new": 2,
         "no-new-func": 2,
         "no-new-object": 2,
+        "no-new-require": 0,
         "no-new-wrappers": 2,
         "no-obj-calls": 2,
         "no-octal": 2,
