@@ -106,6 +106,7 @@ These rules are specific to JavaScript running on Node.js.
 
 * [handle-callback-err](handle-callback-err.md) - enforces error handling in callbacks
 * [no-mixed-requires](no-mixed-requires.md) - disallow mixing regular variable and require declarations
+* [no-new-require](no-new-require.md) - disallow use of new operator with the `require` function
 * [no-path-concat](no-path-concat.md) - disallow string concatenation with `__dirname` and `__filename`
 * [no-process-exit](no-process-exit.md) - disallow `process.exit()`
 * [no-restricted-modules](no-restricted-modules.md) - restrict usage of specified node modules
@@ -154,3 +155,4 @@ The following rules are included for compatibility with [JSHint](http://jshint.c
 * [max-statements](max-statements.md) - specify the maximum number of statement allowed in a function (off by default)
 * [no-bitwise](no-bitwise.md) - disallow use of bitwise operators (off by default)
 * [no-plusplus](no-plusplus.md) - disallow use of unary operators, `++` and `--` (off by default)
+
