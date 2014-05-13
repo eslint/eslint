@@ -99,7 +99,13 @@ eslintTester.addRuleTest("lib/rules/no-extra-parens", {
         "(0).a",
         "(function(){ }())",
         "({a: function(){}}.a());",
-        "({a:0}.a ? b : c)"
+        "({a:0}.a ? b : c)",
+
+        // IIFE is allowed to have parens in any position (#655)
+        "var foo = (function() { return bar(); }())",
+        "var o = { foo: (function() { return bar(); }()) };",
+        "o.foo = (function(){ return bar(); }());",
+        "(function(){ return bar(); }()), (function(){ return bar(); }())"
     ],
     invalid: [
         invalid("(0)", "Literal"),
