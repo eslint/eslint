@@ -1,4 +1,4 @@
-# Validates JSDoc comments are syntactically correct
+# Validates JSDoc comments are syntactically correct (valid-jsdoc)
 
 [JSDoc](http://usejsdoc.org) is a JavaScript API documentation generator. It uses specially-formatted comments inside of code to generate API documentation automatically. For example, this is what a JSDoc comment looks like for a function:
 

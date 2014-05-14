@@ -1,4 +1,4 @@
-# Disallow Duplicate Keys
+# Disallow Duplicate Keys (no-dupe-keys)
 
 Creating objects with duplicate keys in objects can cause unexpected behavior in your application. The `no-dupe-keys` rule flags the use of duplicate keys in object literals.
 

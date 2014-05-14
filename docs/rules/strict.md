@@ -1,4 +1,4 @@
-# Require Function Strict Mode
+# Require Function Strict Mode (strict)
 
 Strict mode is enabled by using the following pragma in your code:
 

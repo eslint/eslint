@@ -1,4 +1,4 @@
-# Disallow Empty Block Statements
+# Disallow Empty Block Statements (no-empty)
 
 Empty statements usually occur due to refactoring that wasn't completed, such as:
 

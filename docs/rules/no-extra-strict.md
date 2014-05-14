@@ -1,4 +1,4 @@
-# Disallow Unnecessary Strict Pragma
+# Disallow Unnecessary Strict Pragma (no-extra-strict)
 
 The `"use strict";` directive applies to the scope in which it appears and all inner scopes contained within that scope. Therefore, using the `"use strict";` directive in one of these inner scopes is unnecessary.
 

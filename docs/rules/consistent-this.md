@@ -1,4 +1,4 @@
-# Require Consistent This
+# Require Consistent This (consistent-this)
 
 It is often necessary to capture the current execution context in order to make it available subsequently. A prominent example of this are jQuery callbacks:
 

@@ -1,4 +1,4 @@
-# Disallow Reassignment of Native Objects
+# Disallow Reassignment of Native Objects (no-native-reassign)
 
 Reports an error when they encounter an attempt to assign a value to built-in native object.
 

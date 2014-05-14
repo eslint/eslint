@@ -1,4 +1,4 @@
-# Disallow Spaces Before Semicolon
+# Disallow Spaces Before Semicolon (no-space-before-semi)
 
 JavaScript allows for placing unnecessary spaces between an expression and the closing semicolon.
 

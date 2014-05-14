@@ -1,4 +1,4 @@
-# Disallow Labeled Statements
+# Disallow Labeled Statements (no-labels)
 
 Labeled statements in JavaScript are used in conjunction with `break` and `continue` to control flow around multiple loops. For example:
 

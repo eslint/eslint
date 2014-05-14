@@ -1,4 +1,4 @@
-# Ensures Callback Error Handling
+# Ensures Callback Error Handling (handle-callback-err)
 
 In node, a common pattern for dealing with asynchronous behavior is called the callback pattern.
 This pattern expects as the first argument of the callback an `Error` object, which may be `null`.

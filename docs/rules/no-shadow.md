@@ -1,4 +1,4 @@
-# Disallow Shadowing
+# Disallow Shadowing (no-shadow)
 
 Shadowing is the process by which a local variable shares the same name as a variable in its containing scope. For example:
 

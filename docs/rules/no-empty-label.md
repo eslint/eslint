@@ -1,4 +1,4 @@
-# No empty labels
+# No empty labels (no-empty-label)
 
 Labeled statements are only used in conjunction with labeled break and continue statements. ECMAScript has no goto statement.
 

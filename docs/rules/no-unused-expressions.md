@@ -1,4 +1,4 @@
-# Disallow Unused Expressions
+# Disallow Unused Expressions (no-unused-expressions)
 
 Unused expressions are those expressions that evaluate to a value but are never used. For example:
 

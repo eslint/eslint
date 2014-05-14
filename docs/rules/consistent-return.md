@@ -1,4 +1,4 @@
-# Require Consistent Returns
+# Require Consistent Returns (consistent-return)
 
 One of the confusing aspects of JavaScript is that any function may or may not return a value at any point in time. When a function exits without any `return` statement executing, the function returns `undefined`. Similarly, calling `return` without specifying any value will cause the function to return `undefined`. Only when `return` is called with a value is there a change in the function's return value.
 

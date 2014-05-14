@@ -1,4 +1,4 @@
-# Disallow Global Object Function Calls
+# Disallow Global Object Function Calls (no-obj-calls)
 
 This rule prevents the use of object properties of the global object (`Math` and `JSON`) as functions:
 

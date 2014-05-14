@@ -1,4 +1,4 @@
-# Disallow Assignment in Conditional Expressions
+# Disallow Assignment in Conditional Expressions (no-cond-assign)
 
 It is uncommon to use an assignment operator inside of a conditional statement, such as:
 

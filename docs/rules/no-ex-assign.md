@@ -1,11 +1,11 @@
-# Disallow Assignment of the Exception Parameter
+# Disallow Assignment of the Exception Parameter (no-ex-assign)
 
 When an error is thrown an caught using a `catch` block, it's possible to accidentally (or purposely) overwrite the reference to the error. Such as:
 
 ```js
 try {
     // code
-} catch (e) { 
+} catch (e) {
     e = 10;
 }
 ```
@@ -22,7 +22,7 @@ The following patterns are considered warnings:
 ```js
 try {
     // code
-} catch (e) { 
+} catch (e) {
     e = 10;
 }
 ```
@@ -32,7 +32,7 @@ The following patterns are considered okay and do not cause warnings:
 ```js
 try {
     // code
-} catch (e) { 
+} catch (e) {
     var foo = 'bar';
 }
 ```

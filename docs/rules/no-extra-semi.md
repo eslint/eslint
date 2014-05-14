@@ -1,4 +1,4 @@
-# Disallow Extra Semicolons
+# Disallow Extra Semicolons (no-extra-semi)
 
 JavaScript will more or less let you put semicolons after any statement without complaining. Typos and misunderstandings about where semicolons are required can lead to extra semicolons that are unnecessary.
 

@@ -1,4 +1,4 @@
-# Require Just One var Statement Per Scope
+# Require Just One var Statement Per Scope (one-var)
 
 JavaScript has function scope, not block scope and all variable declarations are hoisted to the top of the function. Therefore, some people believe that all variables in a function scope should be declared in a single variable declaration at the top of the function and not in multiple declarations throughout the function.
 

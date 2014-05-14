@@ -1,4 +1,4 @@
-# Disallow Empty Character Classes
+# Disallow Empty Character Classes (no-empty-class)
 
 Empty character classes in regular expressions do not match anything and can result in code that may not work as intended.
 

@@ -1,4 +1,4 @@
-# Disallow Global Strict Mode
+# Disallow Global Strict Mode (no-global-strict)
 
 Strict mode is enabled by using the following pragma in your code:
 
