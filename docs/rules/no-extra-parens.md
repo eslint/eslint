@@ -25,8 +25,15 @@ The following patterns are not considered warnings:
 ```
 
 ```js
-(function(){}())
+({}.toString.call())
 ```
+
+```js
+(function(){} ? a() : b())
+```
+
+IIFEs are excluded from this requirement, so the `(function(){}())` pattern is allowed in any position.
+
 
 ## Further Reading
 
