@@ -1,4 +1,4 @@
-# Disallow new Object
+# Disallow new Object (no-new-object)
 
 The `Object` constructor is used to create new generic objects in JavaScript, such as:
 

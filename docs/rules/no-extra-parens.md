@@ -1,4 +1,4 @@
-# Disallow Extra Parens
+# Disallow Extra Parens (no-extra-parens)
 
 This rule restricts the use of parentheses to only where they are necessary.
 

@@ -1,4 +1,4 @@
-# Require or disallow spaces following keywords (space-after-keyword)
+# Require or disallow spaces following keywords (space-after-keywords)
 
 Some style guides will require or disallow spaces following the certain keywords.
 

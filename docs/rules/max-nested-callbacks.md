@@ -1,4 +1,4 @@
-# Set Maximum Depth of Nested Callbacks
+# Set Maximum Depth of Nested Callbacks (max-nested-callbacks)
 
 Many JavaScript libraries use the callback pattern to manage asynchronous operations. A program of any complexity will most likely need to manage several asynchronous operations at various levels of concurrency. A common pitfall that is easy to fall into is nesting callbacks, which makes code more difficult to read the deeper the callbacks are nested.
 

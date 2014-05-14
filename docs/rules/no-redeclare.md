@@ -1,4 +1,4 @@
-# Disallow Redeclaring Variables
+# Disallow Redeclaring Variables (no-redeclare)
 
 In JavaScript, it's possible to redeclare the same variable name using `var`. This can lead to confusion as to where the variable is actually declared and initialized.
 

@@ -1,4 +1,4 @@
-# Disallow Self Compare
+# Disallow Self Compare (no-self-compare)
 
 Comparing a variable against itself is usually an error, either an typo or refactoring error. It is confusing to the reader and may potentially introduce a runtime error.
 

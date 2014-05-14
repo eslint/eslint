@@ -1,4 +1,4 @@
-# Disallow Mixed Requires
+# Disallow Mixed Requires (no-mixed-requires)
 
 In the Node.JS community it is often customary to separate the `require`d modules from other variable declarations, sometimes also grouping them by their type. This rule helps you enforce this convention.
 

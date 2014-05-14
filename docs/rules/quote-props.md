@@ -1,4 +1,4 @@
-# Require Quotes for Property Names
+# Require Quotes for Property Names (quote-props)
 
 Some believe that ensuring property names in object literals are always wrapped in quotes is generally a good idea, since [depending on the property name you may need to quote them anyway](http://mathiasbynens.be/notes/javascript-properties). Consider this example:
 

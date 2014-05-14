@@ -1,4 +1,4 @@
-# Disallow Octal Literals
+# Disallow Octal Literals (no-octal)
 
 Octal literals are numerals that begin with a leading zero, such as:
 

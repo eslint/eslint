@@ -1,4 +1,4 @@
-# Disallow Unreachable Code
+# Disallow Unreachable Code (no-unreachable)
 
 A number of statements unconditionally exit a block of code. Any statements after that will not be executed and may be an error. The presence of unreachable code is usually a sign of a coding error.
 

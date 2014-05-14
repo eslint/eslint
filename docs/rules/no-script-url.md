@@ -1,6 +1,6 @@
-# Disallow Script URLs
+# Disallow Script URLs (no-script-url)
 
-Using `javascript:` urls is considered by some as a form of eval. Script passed after javascript: has to be parsed and evaluated by the browser the same way that it does eval. 
+Using `javascript:` urls is considered by some as a form of eval. Script passed after javascript: has to be parsed and evaluated by the browser the same way that it does eval.
 
 ## Rule Details
 

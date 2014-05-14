@@ -1,4 +1,4 @@
-# Enforce Quote Style
+# Enforce Quote Style (quotes)
 
 Enforces coding style that string literals are delimited with single or double quotes.
 

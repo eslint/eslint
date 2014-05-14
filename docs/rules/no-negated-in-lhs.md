@@ -1,4 +1,4 @@
-# no negated left operand of `in` operator
+# Disallow negated left operand of `in` operator (no-negated-in-lhs)
 
 ## Rule Details
 

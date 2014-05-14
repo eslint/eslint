@@ -1,4 +1,4 @@
-# Require Spaces Around Infix Operators
+# Require Spaces Around Infix Operators (space-infix-ops)
 
 While formatting preferences are very personal, a number of style guides require spaces around operators, such as:
 

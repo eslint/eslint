@@ -1,4 +1,4 @@
-# Require spaces following `return`, `throw`, and `case`
+# Require spaces following `return`, `throw`, and `case` (space-return-throw-case)
 
 Require spaces following `return`, `throw`, and `case`.
 

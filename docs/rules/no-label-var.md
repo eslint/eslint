@@ -1,4 +1,4 @@
-# Disallow Labels That Are Variables Names
+# Disallow Labels That Are Variables Names (no-label-var)
 
 ## Rule Details
 

@@ -1,4 +1,4 @@
-# Disallow creation of dense arrays using the `Array` constructor
+# Disallow creation of dense arrays using the `Array` constructor (no-array-constructor)
 
 Use of the `Array` constructor to construct a new array is generally
 discouraged in favour of array literal notation because of the single-argument

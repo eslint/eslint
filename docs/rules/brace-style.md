@@ -1,4 +1,4 @@
-# Require One True Brace Style
+# Require One True Brace Style (brace-style)
 
 One true brace style is a common coding style in JavaScript, in which the opening curly brace of a block is placed on the same line as its corresponding statement or declaration.
 

@@ -1,4 +1,4 @@
-# Enforce Function Style
+# Enforce Function Style (func-style)
 
 There are two ways of defining functions in JavaScript: function declarations and function expressions. Declarations have the `function` keyword first, followed by a name, followed by its arguments and the function body, such as:
 

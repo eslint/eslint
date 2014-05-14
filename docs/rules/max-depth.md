@@ -1,4 +1,4 @@
-# Limit Maximum Depth
+# Limit Maximum Depth (max-depth)
 
 The `max-depth` rule allows you to specify the maximum depth blocks can be nested.
 

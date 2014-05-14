@@ -1,4 +1,4 @@
-# Disallow Yoda Conditions
+# Disallow Yoda Conditions (no-yoda)
 
 Yoda conditions are so named because the literal value of the condition comes first while the variable comes second. For example, the following is a Yoda condition:
 

@@ -1,4 +1,4 @@
-# Require Dot Notation
+# Require Dot Notation (dot-notation)
 
 In JavaScript, one can access properties using the dot notation (`foo.bar`) or square-bracket notation (`foo["bar"]`). However, the dot notation is often preferred because it is easier to read, less verbose, and works better with aggressive JavaScript minimizers.
 

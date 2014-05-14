@@ -1,4 +1,4 @@
-# Disallow Warning Comments
+# Disallow Warning Comments (no-warning-comments)
 
 Often code is marked during development process for later work on it or with additional thoughts. Examples are typically `// TODO: do something` or `// FIXME: this is not a good idea`. These comments are a warning signal, that there is something not production ready in your code. Most likely you want to fix it or remove the comments before you roll out your code with a good feeling.
 

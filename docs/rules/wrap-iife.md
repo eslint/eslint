@@ -1,4 +1,4 @@
-# Require IFFEs to be Wrapped
+# Require IFFEs to be Wrapped (wrap-iife)
 
 Require immediate function invocation to be wrapped in parentheses.
 
