@@ -250,7 +250,9 @@ target.checkRuleFiles = function() {
         errors = 0;
 
     ruleFiles.forEach(function(filename) {
-        var basename = path.basename(filename, ".js");
+        var basename = path.basename(filename, ".js"),
+            isOffInIndex = rulesIndexText.search("(\\[" + basename + "\\])(\.)+\(off by default\)") !== -1,
+            isOffInConfig = confRules[basename] === 0 || (confRules[basename] && confRules[basename][0] === 0);
 
         // check for docs
         if (!test("-f", "docs/rules/" + basename + ".md")) {
@@ -268,6 +270,18 @@ target.checkRuleFiles = function() {
         // check for default configuration
         if (!confRules.hasOwnProperty(basename)) {
             console.error("Missing default setting for %s in eslint.json", basename);
+            errors++;
+        }
+
+        // 'off by default' is not in index and the rule is disabled in config
+        if (!isOffInIndex && isOffInConfig) {
+            console.error("Missing '(off by default)' for rule %s in index", basename);
+            errors++;
+        }
+
+        // 'off by default' is in index and the rule is enabled in config
+        if (isOffInIndex && !isOffInConfig) {
+            console.error("Rule documentation says that %s is off by default but it is enabled in eslint.json.", basename);
             errors++;
         }
 
