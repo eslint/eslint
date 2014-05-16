@@ -2,7 +2,7 @@
  * @fileoverview Build file
  * @author nzakas
  */
-/*global target, exec, echo, find, cat, rm, mv*/
+/*global cat, cd, cp, echo, exec, exit, find, mkdir, mv, pwd, rm, target, test*/
 
 "use strict";
 
@@ -43,9 +43,12 @@ var NODE = "node ", // intentional extra space
     ESLINT = NODE + " bin/eslint.js ",
 
     // Files
+    MAKEFILE = "./Makefile.js",
+    /*eslint-disable no-use-before-define */
     JS_FILES = find("lib/").filter(fileType("js")).join(" "),
     JSON_FILES = find("conf/").filter(fileType("json")).join(" ") + " .eslintrc",
     TEST_FILES = find("tests/lib/").filter(fileType("js")).join(" ");
+    /*eslint-enable no-use-before-define */
 
 //------------------------------------------------------------------------------
 // Helpers
@@ -105,6 +108,9 @@ target.all = function() {
 };
 
 target.lint = function() {
+    echo("Validating Makefile.js");
+    exec(ESLINT + MAKEFILE);
+
     echo("Validating JSON Files");
     nodeCLI.exec("jsonlint", "-q -c", JSON_FILES);
 
@@ -199,7 +205,7 @@ target.browserify = function() {
     generateRulesIndex(TEMP_DIR);
 
     // 5. browserify the temp directory
-    nodeCLI.exec("browserify", TEMP_DIR + "eslint.js", "-o", BUILD_DIR + "eslint.js", "-s eslint")
+    nodeCLI.exec("browserify", TEMP_DIR + "eslint.js", "-o", BUILD_DIR + "eslint.js", "-s eslint");
     // exec(BROWSERIFY + TEMP_DIR + "eslint.js -o " + BUILD_DIR + "eslint.js -s eslint");
 
     // 6. remove temp directory
@@ -244,14 +250,15 @@ target.checkRuleFiles = function() {
 
     echo("Validating rules");
 
+    var confRules = require("./conf/eslint.json").rules;
+
     var ruleFiles = find("lib/rules/").filter(fileType("js")),
         rulesIndexText = cat("docs/rules/README.md"),
-        confRules = require("./conf/eslint.json").rules,
         errors = 0;
 
     ruleFiles.forEach(function(filename) {
         var basename = path.basename(filename, ".js"),
-            isOffInIndex = rulesIndexText.search("(\\[" + basename + "\\])(\.)+\(off by default\)") !== -1,
+            isOffInIndex = rulesIndexText.search("(\\[" + basename + "\\])(.)+(off by default)") !== -1,
             isOffInConfig = confRules[basename] === 0 || (confRules[basename] && confRules[basename][0] === 0);
 
         // check for docs
@@ -310,7 +317,7 @@ function time(cmd, runs, runNumber, results, cb) {
         if(runs > 1) {
             time(cmd, runs - 1, runNumber + 1, results, cb);
         } else {
-            cb(results)
+            cb(results);
         }
     });
 
