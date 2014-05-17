@@ -22,9 +22,9 @@ The global `eslint` will now point to the files in your development repository i
 
 If you ever update from the central repository and there are errors, it might be because you are missing some dependencies. If that happens, just run `npm link` again to get the latest dependencies.
 
-### Working with ESLintTester
+### Installing ESLintTester
 
-[ESLintTester](https://github.com/eslint/eslint-tester) is an integration testing tool for ESLint. If you want to work on both ESLint and ESLintTester locally, then you'll need to clone ESLintTester along with ESLint and do some magic linking. Here are the commands:
+[ESLintTester](https://github.com/eslint/eslint-tester) is an integration testing tool for ESLint. It is required for local development of ESLint, so you'll need to clone ESLintTester along with ESLint and do some magic linking. Here are the commands:
 
     # Check out ESLint
     git clone git://github.com/eslint/eslint.git
@@ -50,6 +50,8 @@ If you ever update from the central repository and there are errors, it might be
 That ensures ESLint is using your locally installed ESLintTester instead of the one from the public npm registry.
 
 You'll end up needing to do this if you are making changes to ESLint core together with a rule that is using those changes.
+
+**Note:** We recognize that this is a bit messy and problematic, and we are looking at improving this setup in the future.
 
 ## Build Scripts
 
