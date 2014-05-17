@@ -43,6 +43,8 @@ eslintTester.addRuleTest("lib/rules/no-warning-comments", {
         { code: "/* any fixme or todo */", args: [1, { "terms": ["fixme", "todo"], "location": "anywhere" } ], errors: [ { message: "Unexpected fixme comment." }, { message: "Unexpected todo comment." } ] },
         { code: "/* any fixme or todo */", args: [1, { "location": "anywhere" } ], errors: [ { message: "Unexpected todo comment." }, { message: "Unexpected fixme comment." } ] },
         { code: "/* fixme and todo */", args: [1], errors: [ { message: "Unexpected fixme comment." } ] },
-        { code: "/* any fixme */", args: [1, { "location": "anywhere" } ], errors: [ { message: "Unexpected fixme comment." } ] }
+        { code: "/* any fixme */", args: [1, { "location": "anywhere" } ], errors: [ { message: "Unexpected fixme comment." } ] },
+        { code: "a;\n/* TODO */\nb;", args: [1], errors: [ { message: "Unexpected todo comment." } ] },
+        { code: "a;\n/* TODO */\nb; // FIXME ", args: [1], errors: [ { message: "Unexpected todo comment." },  { message: "Unexpected fixme comment." } ] }
     ]
 });
