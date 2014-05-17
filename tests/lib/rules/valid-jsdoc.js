@@ -57,6 +57,10 @@ eslintTester.addRuleTest("lib/rules/valid-jsdoc", {
         {
             code: "/**\n* Description\n* @param {string} p mytest\n*/\nFoo.bar = function(p){var t = function(){function name(){}; return name;}};",
             args: [1, {requireReturn: false}]
+        },
+        {
+            code: "/**\n* Description\n* @param {string} p\n* @returns {void}*/\nFoo.bar = function(p){var t = function(){function name(){}; return name;}};",
+            args: [1, {requireParamDescription: false}]
         }
     ],
 
