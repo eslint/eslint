@@ -1,3 +1,9 @@
+v0.6.1 - May 17, 2014
+
+* 0.6.1 (Nicholas C. Zakas)
+* Upgrade: Optionator to 0.4.0 (fixes #885) (Nicholas C. Zakas)
+* 0.6.0 (Nicholas C. Zakas)
+
 v0.6.0 - May 17, 2014
 
 * 0.6.0 (Nicholas C. Zakas)
