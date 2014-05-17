@@ -32,7 +32,7 @@ Options:
   --env [String]             Specify environments.
   --force                    Allow linting of otherwise ignored files.
   --global [String]          Define global variables.
-  -r, --rule Object          Specify rules.
+  --rule Object              Specify rules.
 ```
 
 ### `-h`, `--help`
@@ -71,7 +71,9 @@ Example:
 
     eslint --rulesdir my-rules/ file.js
 
-The rules in your custom rules directory must follow the same format as bundled rules to work properly.
+The rules in your custom rules directory must follow the same format as bundled rules to work properly. You can also specify multiple locations for custom rules by including multiple `--rulesdir` flags:
+
+    eslint --rulesdir my-rules/ --rulesdir my-other-rules/ file.js
 
 ### `--reset`
 
@@ -115,7 +117,7 @@ Example:
     eslint --global require,exports:true file.js
     eslint --global require --global exports:true
 
-### `-r, --rule`
+### `--rule`
 
 This option specifies rules to be used. They will be merged into any previously defined rules. To start fresh, simply combine with the `--reset` flag. To define multiple rules, separate them using commas, or use the flag multiple times. The [levn](https://github.com/gkz/levn#levn--) format is used for specifying the rules.
 
