@@ -345,4 +345,18 @@ describe("cli", function() {
             assert.equal(exit, 0);
         });
     });
+
+    describe("when supplied with rule flag and severity level set to error", function() {
+        var code = "--rule 'quotes: [2, double]' single-quoted.js";
+
+        it("should exit with an error status (1)", function() {
+            var exitStatus;
+
+            assert.doesNotThrow(function () {
+                exitStatus = cli.execute(code);
+            });
+
+            assert.equal(exitStatus, 1);
+        });
+    });
 });
