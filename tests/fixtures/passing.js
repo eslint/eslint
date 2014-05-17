@@ -1,1 +1,4 @@
-var foo = "bar"; if (foo) { foo = "bar2"; }
+var foo = "bar";
+if (foo) {
+    foo = "bar2";
+}

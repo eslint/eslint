@@ -144,7 +144,7 @@ describe("cli", function() {
     describe("when calling execute more than once", function() {
         it("should not print the results from previous execution", function() {
             cli.execute("--force tests/fixtures/missing-semicolon.js");
-            assert.isTrue(console.log.called);
+            assert.isTrue(console.log.called, "Log should have been called.");
 
             console.log.reset();
 
