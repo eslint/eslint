@@ -2103,4 +2103,45 @@ describe("eslint", function() {
             assert.equal(messages.length, 0);
         });
     });
+
+    describe("when evaluating code with code comments", function() {
+        var sandbox;
+
+        beforeEach(function() {
+            sandbox = sinon.sandbox.create();
+        });
+
+        afterEach(function() {
+            sandbox.verifyAndRestore();
+        });
+
+        it("should emit enter only once for each comment", function() {
+
+            var code = "a; /*zz*/ b;";
+
+            var config = { rules: {} },
+                spy = sandbox.spy();
+
+            eslint.reset();
+            eslint.on("BlockComment", spy);
+
+            eslint.verify(code, config, filename, true);
+            assert.equal(spy.calledOnce, true);
+        });
+
+        it("should emit exit only once for each comment", function() {
+
+            var code = "a; //zz\n b;";
+
+            var config = { rules: {} },
+                spy = sandbox.spy();
+
+            eslint.reset();
+            eslint.on("LineComment:exit", spy);
+
+            eslint.verify(code, config, filename, true);
+            assert.equal(spy.calledOnce, true);
+        });
+
+    });
 });
