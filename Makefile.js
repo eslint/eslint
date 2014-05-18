@@ -314,7 +314,7 @@ function time(cmd, runs, runNumber, results, cb) {
 
         results.push(actual);
         echo("Performance Run #" + runNumber + ":  %dms", actual);
-        if(runs > 1) {
+        if (runs > 1) {
             time(cmd, runs - 1, runNumber + 1, results, cb);
         } else {
             cb(results);

@@ -10,6 +10,7 @@
         "no-floating-decimal": 2,
         "no-nested-ternary": 2,
         "radix": 2,
+        "space-after-keywords": [2, "always"],
         "valid-jsdoc": [2, {
             "prefer": {
                 "return": "returns"
