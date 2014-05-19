@@ -5,6 +5,7 @@
 
     "rules": {
         "brace-style": [2, "1tbs"],
+        "default-case": 2,
         "func-style": [2, "declaration"],
         "guard-for-in": 2,
         "no-floating-decimal": 2,
