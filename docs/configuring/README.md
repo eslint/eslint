@@ -144,6 +144,7 @@ There's no need to specify every single rule - you will automatically get the de
 **Note:** All rules that are enabled by default are set to 2, so they will cause a non-zero exit code when encountered. You can lower these rule to a warning by setting them to 1, which has the effect of outputting the message onto the console but doesn't affect the exit code.
 
 To temporary disable warnings in your file use the following format
+
 ```js
 /*eslint-disable */
 
@@ -154,6 +155,7 @@ alert('foo');
 ```
 
 You can also disable and enable back warnings of specific rules
+
 ```js
 /*eslint-disable no-alert, no-console */
 
