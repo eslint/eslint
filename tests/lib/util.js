@@ -15,11 +15,11 @@ var assert = require("chai").assert,
 
 describe("util", function() {
     describe("when calling mixin()", function() {
-        var code = function() {
+        function code() {
             var a = {}, b = { foo: "f", bar: 1 };
             util.mixin(a, b);
             return [a, b];
-        };
+        }
 
         it("should add properties to target object", function() {
             var a = code()[0];
