@@ -142,5 +142,3 @@ ESLint supports `.eslintignore` files to exclude files from the linting process 
 node_modules/*
 **/vendor/*.js
 ```
-
-**Deprecation notice**: The `.eslintignore` file can also be a JSON file that contains an array of globs. This works identically to the plain text version, but the JSON format is deprecated and will be removed in a future release.
