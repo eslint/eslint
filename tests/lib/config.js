@@ -84,6 +84,19 @@ describe("config", function() {
         });
     });
 
+    describe("getLocalConfig with nested directories", function() {
+        var code = path.resolve(__dirname, "..", "fixtures", "configurations", "single-quotes", "subdir", ".eslintrc");
+
+        it("should be merged config", function() {
+            var configHelper = new Config(),
+                config = configHelper.getConfig(code),
+                expected = [0, 2],
+                actual = [config.rules["dot-notation"], config.rules["no-new"]];
+
+            assert.deepEqual(expected, actual);
+        });
+    });
+
     describe("getConfig with exclude", function() {
         var code = path.resolve(__dirname, "..", "fixtures", ".eslintrc");
 
