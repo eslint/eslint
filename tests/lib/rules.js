@@ -28,7 +28,9 @@ describe("rules", function() {
         var code = "invaliddir";
 
         it("should log an error and exit", function() {
-            assert.throws(function() { rules.load(code); });
+            assert.throws(function() {
+                rules.load(code);
+            });
         });
     });
 

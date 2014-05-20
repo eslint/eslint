@@ -115,7 +115,9 @@ describe("config", function() {
 
         it("should be default config", function() {
             var configHelper = new Config();
-            sinon.stub(configHelper, "findLocalConfigFile", function(directory) { return path.resolve(directory, ".eslintrc"); });
+            sinon.stub(configHelper, "findLocalConfigFile", function(directory) {
+                return path.resolve(directory, ".eslintrc");
+            });
             sinon.stub(console, "error").returns({});
 
             configHelper.getConfig(code);
@@ -213,8 +215,7 @@ describe("config", function() {
                     actualQuotes = actual.rules.quotes[0];
 
                 assert.notEqual(expectedQuotes, actualQuotes);
-            }
-            finally {
+            } finally {
                 process.chdir(cwd);
             }
         });
