@@ -125,6 +125,8 @@
         "valid-jsdoc": 0,
         "valid-typeof": 2,
         "wrap-iife": 0,
-        "wrap-regex": 0
+        "wrap-regex": 0,
+
+        "always-return": 0
     }
 }

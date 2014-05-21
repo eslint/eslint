@@ -144,6 +144,7 @@ These rules are purely matters of style and are quite subjective.
 * [max-nested-callbacks](max-nested-callbacks.md) - specify the maximum depth callbacks can be nested (off by default)
 * [one-var](one-var.md) - allow just one var statement per function (off by default)
 * [wrap-regex](wrap-regex.md) - require regex literals to be wrapped in parentheses (off by default)
+* [always-return](always-return.md) - require functions to have a return statement (off by default)
 
 ## Legacy
 
