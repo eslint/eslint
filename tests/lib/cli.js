@@ -223,9 +223,9 @@ describe("cli", function() {
         });
     });
 
-    describe("when given a custom rule, verify that it's loaded", function() {
+    describe("when loading a custom rule", function() {
 
-        it("should return a warning", function() {
+        it("should return an error when rule isn't found", function() {
             var code = "--rulesdir ./tests/fixtures/rules/wrong --config ./tests/fixtures/rules/eslint.json --force tests/fixtures/rules/test/test-custom-rule.js";
 
             assert.throws(function() {
@@ -234,13 +234,13 @@ describe("cli", function() {
             }, /Error while loading rule 'custom-rule': Cannot read property/);
         });
 
-        it("should return a warning", function() {
+        it("should return a warning when rule is matched", function() {
             var code = "--rulesdir ./tests/fixtures/rules --config ./tests/fixtures/rules/eslint.json --force tests/fixtures/rules/test/test-custom-rule.js";
-            var exit = cli.execute(code);
+
+            cli.execute(code);
 
             assert.isTrue(console.log.calledOnce);
             assert.isTrue(console.log.neverCalledWith(""));
-            assert.equal(exit, 1);
         });
 
         it("should return warnings from multiple rules in different directories", function() {

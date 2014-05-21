@@ -84,6 +84,18 @@ describe("config", function() {
         });
     });
 
+    describe("getLocalConfig with nested directories", function() {
+        var code = path.resolve(__dirname, "..", "fixtures", "configurations", "single-quotes", "subdir", ".eslintrc");
+
+        it("should be merged config", function() {
+            var configHelper = new Config(),
+                config = configHelper.getConfig(code);
+
+            assert.equal(config.rules["dot-notation"], 0);
+            assert.equal(config.rules["no-new"], 1);
+        });
+    });
+
     describe("getConfig with exclude", function() {
         var code = path.resolve(__dirname, "..", "fixtures", ".eslintrc");
 
@@ -102,12 +114,14 @@ describe("config", function() {
 
         it("should be default config", function() {
             var configHelper = new Config();
-            sinon.stub(configHelper, "findLocalConfigFile", function(directory) { return path.resolve(directory, ".eslintrc"); });
+            sinon.stub(configHelper, "findLocalConfigFile", function(directory) {
+                return path.resolve(directory, ".eslintrc");
+            });
             sinon.stub(console, "error").returns({});
 
             configHelper.getConfig(code);
 
-            assert.isTrue(console.error.calledTwice);
+            assert.isTrue(console.error.called);
             configHelper.findLocalConfigFile.restore();
             console.error.restore();
         });
@@ -120,10 +134,13 @@ describe("config", function() {
             var configHelper = new Config();
 
             sinon.spy(configHelper, "findLocalConfigFile");
+
             configHelper.getConfig(code);
+            var callcount = configHelper.findLocalConfigFile.callcount;
             configHelper.getConfig(code);
 
-            assert.isTrue(configHelper.findLocalConfigFile.calledOnce);
+            assert.equal(callcount, configHelper.findLocalConfigFile.callcount);
+
             configHelper.findLocalConfigFile.restore();
         });
     });
@@ -200,8 +217,7 @@ describe("config", function() {
                     actualQuotes = actual.rules.quotes[0];
 
                 assert.notEqual(expectedQuotes, actualQuotes);
-            }
-            finally {
+            } finally {
                 process.chdir(cwd);
             }
         });
