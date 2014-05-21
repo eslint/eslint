@@ -8,9 +8,7 @@
 // Helper
 //------------------------------------------------------------------------------
 
-/**
- * To make sure this works in both browsers and Node.js
- */
+// To make sure this works in both browsers and Node.js
 function compatRequire(name, windowName) {
     if (typeof require === "function") {
         return require(name);
@@ -688,7 +686,7 @@ describe("eslint", function() {
             ].join("\n");
 
             function assertJSDoc(node) {
-                if(node.params.length === 1) {
+                if (node.params.length === 1) {
                     var jsdoc = eslint.getJSDocComment(node);
                     assert.equal(jsdoc, null);
                 }
@@ -1497,7 +1495,11 @@ describe("eslint", function() {
         it("can add a rule dynamically", function() {
             eslint.reset();
             eslint.defineRule(code, function(context) {
-                return {"Literal": function(node) { context.report(node, "message"); }};
+                return {
+                    "Literal": function(node) {
+                        context.report(node, "message");
+                    }
+                };
             });
 
             var config = { rules: {} };
@@ -1518,10 +1520,14 @@ describe("eslint", function() {
             eslint.reset();
             var config = { rules: {} };
             var newRules = {};
-            code.forEach(function(item){
+            code.forEach(function(item) {
                 config.rules[item] = 1;
                 newRules[item] = function(context) {
-                    return {"Literal": function(node) { context.report(node, "message"); }};
+                    return {
+                        "Literal": function(node) {
+                            context.report(node, "message");
+                        }
+                    };
                 };
             });
             eslint.defineRules(newRules);
@@ -1529,10 +1535,14 @@ describe("eslint", function() {
             var messages = eslint.verify("0", config, filename);
 
             assert.equal(messages.length, code.length);
-            code.forEach(function(item){
-                assert.ok(messages.some(function(message){ return message.ruleId === item; }));
+            code.forEach(function(item) {
+                assert.ok(messages.some(function(message) {
+                    return message.ruleId === item;
+                }));
             });
-            messages.forEach(function(message){ assert.equal(message.node.type, "Literal"); });
+            messages.forEach(function(message) {
+                assert.equal(message.node.type, "Literal");
+            });
         });
     });
 
@@ -1542,7 +1552,11 @@ describe("eslint", function() {
         it("has access to the filename", function() {
             eslint.reset();
             eslint.defineRule(code, function(context) {
-                return {"Literal": function(node) { context.report(node, context.getFilename()); }};
+                return {
+                    "Literal": function(node) {
+                        context.report(node, context.getFilename());
+                    }
+                };
             });
 
             var config = { rules: {} };
@@ -1556,7 +1570,11 @@ describe("eslint", function() {
         it("defaults filename to '<input>'", function() {
             eslint.reset();
             eslint.defineRule(code, function(context) {
-                return {"Literal": function(node) { context.report(node, context.getFilename()); }};
+                return {
+                    "Literal": function(node) {
+                        context.report(node, context.getFilename());
+                    }
+                };
             });
 
             var config = { rules: {} };
