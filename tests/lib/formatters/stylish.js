@@ -8,13 +8,48 @@
 //------------------------------------------------------------------------------
 
 var assert = require("chai").assert,
-    formatter = require("../../../lib/formatters/stylish");
+    chalk = require("chalk"),
+    proxyquire = require("proxyquire"),
+    sinon = require("sinon");
+
+// Chalk protects its methods so we need to inherit from it
+// for Sinon to work.
+var chalkStub = Object.create(chalk, {
+    yellow: {
+        value: function (str) {
+            return chalk.yellow(str);
+        },
+        writable: true
+    },
+    red: {
+        value: function (str) {
+            return chalk.red(str);
+        },
+        writable: true
+    }
+});
+chalkStub.yellow.bold = chalk.yellow.bold;
+chalkStub.red.bold = chalk.red.bold;
+
+var formatter = proxyquire("../../../lib/formatters/stylish", { chalk: chalkStub });
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
 describe("formatter:stylish", function() {
+    var sandbox;
+
+    beforeEach(function() {
+        sandbox = sinon.sandbox.create();
+        sandbox.spy(chalkStub.yellow, "bold");
+        sandbox.spy(chalkStub.red, "bold");
+    });
+
+    afterEach(function() {
+        sandbox.verifyAndRestore();
+    });
+
     describe("when passed no messages", function() {
         var code = [{
             filePath: "foo.js",
@@ -28,6 +63,8 @@ describe("formatter:stylish", function() {
 
             var result = formatter(code, config);
             assert.equal("", result);
+            assert.equal(chalkStub.yellow.bold.callCount, 0);
+            assert.equal(chalkStub.red.bold.callCount, 0);
         });
     });
 
@@ -49,6 +86,8 @@ describe("formatter:stylish", function() {
 
             var result = formatter(code, config);
             assert.equal("\nfoo.js\n  5:10  error  Unexpected foo  foo\n\n\u2716 1 problem\n", result);
+            assert.equal(chalkStub.yellow.bold.callCount, 0);
+            assert.equal(chalkStub.red.bold.callCount, 1);
         });
 
         it("should return a string in the correct format for warnings", function() {
@@ -58,6 +97,8 @@ describe("formatter:stylish", function() {
 
             var result = formatter(code, config);
             assert.equal("\nfoo.js\n  5:10  warning  Unexpected foo  foo\n\n\u2716 1 problem\n", result);
+            assert.equal(chalkStub.yellow.bold.callCount, 1);
+            assert.equal(chalkStub.red.bold.callCount, 0);
         });
 
         it("should return a string in the correct format for errors with options config", function() {
@@ -67,6 +108,8 @@ describe("formatter:stylish", function() {
 
             var result = formatter(code, config);
             assert.equal("\nfoo.js\n  5:10  error  Unexpected foo  foo\n\n\u2716 1 problem\n", result);
+            assert.equal(chalkStub.yellow.bold.callCount, 0);
+            assert.equal(chalkStub.red.bold.callCount, 1);
         });
     });
 
@@ -87,6 +130,8 @@ describe("formatter:stylish", function() {
 
             var result = formatter(code, config);
             assert.equal("\nfoo.js\n  5:10  error  Unexpected foo  foo\n\n\u2716 1 problem\n", result);
+            assert.equal(chalkStub.yellow.bold.callCount, 0);
+            assert.equal(chalkStub.red.bold.callCount, 1);
         });
     });
 
@@ -113,6 +158,8 @@ describe("formatter:stylish", function() {
 
             var result = formatter(code, config);
             assert.equal("\nfoo.js\n  5:10  error    Unexpected foo  foo\n  6:11  warning  Unexpected bar  bar\n\n\u2716 2 problems\n", result);
+            assert.equal(chalkStub.yellow.bold.callCount, 0);
+            assert.equal(chalkStub.red.bold.callCount, 1);
         });
     });
 
@@ -142,6 +189,8 @@ describe("formatter:stylish", function() {
 
             var result = formatter(code, config);
             assert.equal("\nfoo.js\n  5:10  error  Unexpected foo  foo\n\nbar.js\n  6:11  warning  Unexpected bar  bar\n\n\u2716 2 problems\n", result);
+            assert.equal(chalkStub.yellow.bold.callCount, 0);
+            assert.equal(chalkStub.red.bold.callCount, 1);
         });
     });
 
@@ -161,6 +210,8 @@ describe("formatter:stylish", function() {
 
             var result = formatter(code, config);
             assert.equal("\nfoo.js\n  0:0  error  Couldn't find foo.js\n\n\u2716 1 problem\n", result);
+            assert.equal(chalkStub.yellow.bold.callCount, 0);
+            assert.equal(chalkStub.red.bold.callCount, 1);
         });
     });
 });
