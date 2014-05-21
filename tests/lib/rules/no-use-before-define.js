@@ -7,12 +7,14 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslintTester = require("eslint-tester");
+var eslint = require("../../../lib/eslint"),
+    ESLintTester = require("eslint-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
+var eslintTester = new ESLintTester(eslint);
 eslintTester.addRuleTest("lib/rules/no-use-before-define", {
     valid: [
         "var a=10; alert(a);",

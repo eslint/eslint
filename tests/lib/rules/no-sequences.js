@@ -8,7 +8,8 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslintTester = require("eslint-tester");
+var eslint = require("../../../lib/eslint"),
+    ESLintTester = require("eslint-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -19,6 +20,7 @@ var errors = [{
     type: "SequenceExpression"
 }];
 
+var eslintTester = new ESLintTester(eslint);
 eslintTester.addRuleTest("lib/rules/no-sequences", {
 
     // Examples of code that should not trigger the rule
