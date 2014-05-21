@@ -12,7 +12,7 @@ This was intended to return x + 1, but instead returns undefined.
 
 ## Rule Details
 
-This rule is aimed at ensuring all normal functions have at least one `return` or `throw` statement. Constructors do not need a return value.
+This rule is aimed at ensuring all normal functions have at least one `return` or `throw` statement. Constructors and IIFEs do not need a return value.
 
 The following patterns are considered warnings:
 
@@ -47,4 +47,10 @@ function g(){
 function Ctr(x){
 	this.value = x;
 }
+
+(function (x){
+    sideEffect(x);
+    anotherSideEffect(x);
+}(value));
+
 ```

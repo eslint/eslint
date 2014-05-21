@@ -18,7 +18,8 @@ eslintTester.addRuleTest("lib/rules/always-return", {
         "function f(){ return; }",
         "var x = function (y){ return y + 1;}",
         "function g(){ throw new Error(); }",
-        "function Ctr(x){ this.value = x; }"
+        "function Ctr(x){ this.value = x; }",
+        "(function (){ }())"
     ],
     invalid: [
         {
@@ -30,6 +31,13 @@ eslintTester.addRuleTest("lib/rules/always-return", {
         }, {
             code: "var x = function (y){ y + 1 }",
             errors: [{
+                message: "Function must have return statement.",
+                type: "FunctionExpression"
+            }]
+        }, {
+            code: "var x = function (y){ return y(); }; " +
+                "x(function (){ });",
+            errors : [{
                 message: "Function must have return statement.",
                 type: "FunctionExpression"
             }]
