@@ -7,8 +7,10 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslintTester = require("eslint-tester");
+var eslint = require("../../../lib/eslint"),
+    ESLintTester = require("eslint-tester");
 
+var eslintTester = new ESLintTester(eslint);
 eslintTester.addRuleTest("lib/rules/quotes", {
     valid: [
         {code: "var foo = 'bar';", args: [1, "single"] },

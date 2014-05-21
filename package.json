@@ -55,7 +55,7 @@
     "browserify": "~3.20.0",
     "mocha-phantomjs": "~3.3.1",
     "phantomjs": "~1.9.2-6",
-    "eslint-tester": "latest",
+    "eslint-tester": "^0.1.0",
     "brfs": "0.0.9",
     "through": "~2.3.4",
     "beefy": "~1.0.0",
