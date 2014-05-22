@@ -92,6 +92,16 @@ Part of what makes ESLint useful is the way it integrates into other systems. We
 
 Additionally, we are always looking for official integrations to host under the ESLint organization on GitHub. Official integrations are tools that have a high-level quality and are managed by responsible maintainers who are committed to keeping the tool up-to-date and bettering the tool for the good of the ESLint community. If you think your integration qualifies, please contact the [mailing list](https://groups.google.com/group/eslint) with your information.
 
+## Licensing
+
+When you submit code to the ESLint project, you agree:
+
+1. To allow the ESLint project to use your submitted code in any way.
+2. The code you wrote is your original work.
+3. You are capable of granting rights for the submitted code.
+
+It is very important that you understand the implications of these conditions, as it gives ESLint the right to accept your contribution.
+
 ## Using Pull Requests
 
 If you want to contribute to an ESLint repo, please use a GitHub pull request. This is the fastest way for us to evaluate your code and to merge it into the code base. Please don't file an issue with snippets of code. Doing so means that we need to manually merge the changes in and update any appropriate tests. That decreases the likelihood that your code is going to get included in a timely manner. Please use pull requests.
