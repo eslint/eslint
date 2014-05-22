@@ -7,7 +7,7 @@ Rules in ESLint are divided into several categories to help you better understan
 The following rules point out areas where you might have made mistakes.
 
 * [no-cond-assign](no-cond-assign.md) - disallow assignment in conditional expressions
-* [no-console](no-console.md) - disallow use of `console`
+* [no-console](no-console.md) - disallow use of `console` (off by default in the node environment)
 * [no-constant-condition](no-constant-condition.md) - disallow use of constant expressions in conditions
 * [no-comma-dangle](no-comma-dangle.md) - disallow trailing commas in object literals
 * [no-control-regex](no-control-regex.md) - disallow control characters in regular expressions
@@ -82,7 +82,7 @@ These are rules designed to prevent you from making mistakes. They either prescr
 
 These rules relate to using strict mode.
 
-* [no-global-strict](no-global-strict.md) - disallow the `"use strict"` pragma in the global scope
+* [no-global-strict](no-global-strict.md) - disallow the `"use strict"` pragma in the global scope (off by default in the node environment)
 * [no-extra-strict](no-extra-strict.md) - disallow unnecessary use of `"use strict";` when already in strict mode
 * [strict](strict.md) - require that all functions are run in strict mode
 
@@ -90,7 +90,7 @@ These rules relate to using strict mode.
 
 These rules have to do with variable declarations.
 
-* [no-catch-shadow](no-catch-shadow.md) - disallow the catch clause parameter name being the same as a variable in the outer scope
+* [no-catch-shadow](no-catch-shadow.md) - disallow the catch clause parameter name being the same as a variable in the outer scope (off by default in the node environment)
 * [no-delete-var](no-delete-var.md) - disallow deletion of variables
 * [no-label-var](no-label-var.md) - disallow labels that share a name with a variable
 * [no-shadow](no-shadow.md) - disallow declaration of variables already declared in the outer scope
@@ -104,11 +104,11 @@ These rules have to do with variable declarations.
 
 These rules are specific to JavaScript running on Node.js.
 
-* [handle-callback-err](handle-callback-err.md) - enforces error handling in callbacks (off by default)
-* [no-mixed-requires](no-mixed-requires.md) - disallow mixing regular variable and require declarations (off by default)
-* [no-new-require](no-new-require.md) - disallow use of new operator with the `require` function (off by default)
-* [no-path-concat](no-path-concat.md) - disallow string concatenation with `__dirname` and `__filename` (off by default)
-* [no-process-exit](no-process-exit.md) - disallow `process.exit()`
+* [handle-callback-err](handle-callback-err.md) - enforces error handling in callbacks (off by default) (on by default in the node environment)
+* [no-mixed-requires](no-mixed-requires.md) - disallow mixing regular variable and require declarations (off by default) (on by default in the node environment)
+* [no-new-require](no-new-require.md) - disallow use of new operator with the `require` function (off by default) (on by default in the node environment)
+* [no-path-concat](no-path-concat.md) - disallow string concatenation with `__dirname` and `__filename` (off by default) (on by default in the node environment)
+* [no-process-exit](no-process-exit.md) - disallow `process.exit()` (on by default in the node environment)
 * [no-restricted-modules](no-restricted-modules.md) - restrict usage of specified node modules (off by default)
 * [no-sync](no-sync.md) - disallow use of synchronous methods (off by default)
 
