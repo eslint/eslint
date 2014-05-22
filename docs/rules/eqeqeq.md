@@ -40,12 +40,32 @@ true == true
 foo == null
 ```
 
-The following patterns are considered warnings with "smart:
+The following patterns are considered warnings with "smart":
 
 ```js
 a == b
 foo == true
 bananas != 1
+```
+
+- `"allow-null"`
+
+This option will enforce `===` and `!==` in your code with one exception - it permits comparing to `null` to check for `null` or `undefined` in a single expression.
+
+The following pattern is considered okay and do not cause warnings:
+
+```js
+foo == null
+```
+
+The following patterns are considered warnings with "allow-null":
+
+```js
+bananas != 1
+typeof foo == 'undefined'
+'hello' != 'world'
+0 == 0
+foo == undefined
 ```
 
 ## When Not To Use It
