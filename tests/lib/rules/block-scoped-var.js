@@ -39,7 +39,10 @@ eslintTester.addRuleTest("lib/rules/block-scoped-var", {
         "var a = { set foo(a){}, get bar(){} };",
         "function f(a) { return arguments[0]; }",
         "function f() { }; var a = f;",
-        "var a = f; function f() { };"
+        "var a = f; function f() { };",
+        "function f(){ for(var i; i; i) i; }",
+        "function f(){ for(var a=0, b=1; a; b) a, b; }",
+        "function f(){ for(var a in {}) a; }"
     ],
     invalid: [
         { code: "function f(){ x; }", errors: [{ message: "\"x\" used outside of binding context.", type: "Identifier" }] },
