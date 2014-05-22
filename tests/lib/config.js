@@ -96,19 +96,6 @@ describe("config", function() {
         });
     });
 
-    describe("getConfig with exclude", function() {
-        var code = path.resolve(__dirname, "..", "fixtures", ".eslintrc");
-
-        it("should exclude passing.js", function() {
-            var configHelper = new Config();
-            configHelper.getConfig(code);
-
-            configHelper.cacheExclusions(path.resolve(__dirname, "..", "fixtures"), true);
-
-            assert.isTrue(configHelper.checkForExclusion(path.resolve(__dirname, "..", "fixtures", "passing.js")));
-        });
-    });
-
     describe("getLocalConfig with invalid directory", function() {
         var code = path.resolve(__dirname, "..", "fixtures", "configurations", "single-quotes");
 
@@ -142,46 +129,6 @@ describe("config", function() {
             assert.equal(callcount, configHelper.findLocalConfigFile.callcount);
 
             configHelper.findLocalConfigFile.restore();
-        });
-    });
-
-    describe("when searching for exclusions in directory without .eslintignore and empty parent .eslintignore", function() {
-        it("should not have any exclusions", function() {
-            var configHelper = new Config();
-
-            configHelper.cacheExclusions(path.resolve(__dirname, "..", "fixtures", "rules", "test"));
-
-            assert.isUndefined(configHelper.exclusionsCache[path.resolve(__dirname, "..", "fixtures", "rules", "test")]);
-        });
-    });
-
-    describe("when searching for exclusions in directory with .eslintignore", function() {
-        it("should have correct exclusions", function() {
-            var configHelper = new Config();
-            configHelper.cacheExclusions(path.resolve(__dirname, "..", "fixtures"));
-
-            assert.isTrue(configHelper.checkForExclusion(path.resolve(__dirname, "..", "fixtures", "rules", "eslint.json")));
-            assert.isTrue(configHelper.checkForExclusion(path.resolve(__dirname, "..", "fixtures", "passing.js")));
-        });
-    });
-
-    describe("when searching for exclusions in directory with .eslintignore in parents", function() {
-        it("should have correct exclusions", function() {
-            var configHelper = new Config();
-            configHelper.cacheExclusions(path.resolve(__dirname, "..", "fixtures", "formatters"));
-
-            assert.isTrue(configHelper.checkForExclusion(path.resolve(__dirname, "..", "fixtures", "formatters", "simple.js")));
-            assert.isFalse(configHelper.checkForExclusion(path.resolve(__dirname, "..", "fixtures", "passing.js")));
-        });
-    });
-
-    describe("when searching for exclusions in directory with plain text .eslintignore", function() {
-        it("should have correct exclusions", function() {
-            var configHelper = new Config();
-            configHelper.cacheExclusions(path.resolve(__dirname, "..", "fixtures", "eslintrc"));
-
-            assert.isFalse(configHelper.checkForExclusion(path.resolve(__dirname, "..", "fixtures", "eslintrc", "quotes.js")));
-            assert.isTrue(configHelper.checkForExclusion(path.resolve(__dirname, "..", "fixtures", "eslintrc", "ignored.json")));
         });
     });
 
