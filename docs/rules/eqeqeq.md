@@ -24,11 +24,21 @@ if ("" == text) { ... }
 if (obj.getStuff() != undefined) { ... }
 ```
 
-## options
+### Options
 
 - `"smart"`
 
-This option will enforce `===` and `!==` in your code unless you're comparing between literals or you're doing a `typeof` comparison. For those types of comparisons using strict equality is unnecessary. It also permits comparing to `null` to check for `null` or `undefined` in a single expression.
+This option enforces the use of `===` and `!==` except for these cases:
+
+* Comparing two literal values
+* Evaluating the value of `typeof`
+* Comparing against `null`
+
+You can specify this option using the following configuration:
+
+```json
+"eqeqeq": [2, "smart"]
+```
 
 The following patterns are considered okay and do not cause warnings:
 
@@ -43,14 +53,27 @@ foo == null
 The following patterns are considered warnings with "smart":
 
 ```js
+
+// comparing two variables requires ===
 a == b
+
+// only one side is a literal
 foo == true
 bananas != 1
+
+// comparing to undefined requires ===
+value == undefined
 ```
 
 - `"allow-null"`
 
 This option will enforce `===` and `!==` in your code with one exception - it permits comparing to `null` to check for `null` or `undefined` in a single expression.
+
+You can specify this option using the following configuration:
+
+```json
+"eqeqeq": [2, "allow-null"]
+```
 
 The following pattern is considered okay and do not cause warnings:
 
@@ -70,5 +93,4 @@ foo == undefined
 
 ## When Not To Use It
 
-There really is no good reason to disable this rule.
-
+If you don't want to enforce a style for using equality operators, then it's safe to disable this rule.
