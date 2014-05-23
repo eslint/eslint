@@ -1,3 +1,22 @@
+v0.6.2 - May 23, 2014
+
+* 0.6.2 (Nicholas C. Zakas)
+* Fix: Adding per-environment rule configs to docs and doc validation (Fixes #918) (jrajav)
+* Docs: Updated contribution guidelines (Nicholas C. Zakas)
+* Docs: Update description of eqeqeq to mention special cases (fixes #924) (Nicholas C. Zakas)
+* Fix: block-scoped-var CatchClause handling (fixes #922) (Michael Ficarra)
+* Fix: block-scoped-var respects decls in for and for-in (fixes #919) (Michael Ficarra)
+* Update: Implement eqeqeq option "allow-null" (fixes #910) (Michał Gołębiowski)
+* Fix: new-cap should allow non-alpha characters (fixes #897) (Michael Ficarra)
+* Update: Refactor ESLintTester to fix dependency hell (fixes #602) (Nicholas C. Zakas)
+* Fix: Merge configs with ancestors (Fixes #820) (jrajav)
+* Fix: no-fallthrough should respect block statements in case statements (fixes #893) (Nicholas C. Zakas)
+* Docs: Fix layout issue in configuration docs (fixes #889) (Nicholas C. Zakas)
+* Build: Enable default-case rule (fixes #881) (icebox)
+* Build: Enable space-after-keywords (fixes #884) (icebox)
+* Fix api double emit on comment nodes (fixes #876) (Aliaksei Shytkin)
+* 0.6.1 (Nicholas C. Zakas)
+
 v0.6.1 - May 17, 2014
 
 * 0.6.1 (Nicholas C. Zakas)
