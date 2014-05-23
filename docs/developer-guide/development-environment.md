@@ -22,6 +22,18 @@ The global `eslint` will now point to the files in your development repository i
 
 If you ever update from the central repository and there are errors, it might be because you are missing some dependencies. If that happens, just run `npm link` again to get the latest dependencies.
 
+## Install the Yeoman Generator
+
+[Yeoman](http://yeoman.io) is a scaffold generator that ESLint uses to help streamline development of new rules. If you don't already have Yeoman installed, you can install it via npm:
+
+    npm install -g yo
+
+Then, you can install the ESLint Yeoman generator:
+
+    npm install -g generator-eslint
+
+Please see the [generator documentation](https://github.com/eslint/generator-eslint) for instructions on how to use it.
+
 ## Build Scripts
 
 ESLint has several build scripts that help with various parts of development.
