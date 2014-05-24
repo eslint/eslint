@@ -214,6 +214,25 @@ describe("cli", function() {
         });
     });
 
+    describe("when given a directory in excluded files list", function() {
+
+        it("should not process the directory", function () {
+            var exit = cli.execute("tests/fixtures");
+
+            // no warnings
+            assert.isFalse(console.log.called);
+            assert.equal(exit, 0);
+        });
+
+        it("should process the directory when forced", function() {
+            var exit = cli.execute("--force tests/fixtures");
+
+            // some of the files have errors which should be picked up
+            assert.isTrue(console.log.called);
+            assert.equal(exit, 1);
+        });
+    });
+
     describe("when executing a file with a shebang", function() {
 
         it("should execute without error", function() {
