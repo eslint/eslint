@@ -94,10 +94,17 @@ describe("options", function() {
         });
     });
 
-    describe("when passed --force", function() {
-        it("should return true for .force", function() {
-            var currentOptions = options.parse("--force");
-            assert.isTrue(currentOptions.force);
+    describe("when passed --no-ignore", function() {
+        it("should return false for .ignore", function() {
+            var currentOptions = options.parse("--no-ignore");
+            assert.isFalse(currentOptions.ignore);
+        });
+    });
+
+    describe("when passed --ignore-path", function() {
+        it("should return a string for .ignorePath", function() {
+            var currentOptions = options.parse("--ignore-path .gitignore");
+            assert.equal(currentOptions.ignorePath, ".gitignore");
         });
     });
 
