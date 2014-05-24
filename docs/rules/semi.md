@@ -94,6 +94,16 @@ object.method = function() {
 }
 ```
 
+Even in "never" mode, semicolons are still allowed to disambiguate statements beginning with `[`, `(`, `+`, or `-`:
+
+```js
+var name = "ESLint"
+
+;(function() {
+    // ...
+})()
+```
+
 
 
 ## When Not To Use It
