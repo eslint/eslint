@@ -36,6 +36,8 @@ eslintTester.addRuleTest("lib/rules/new-cap", {
         "var x = Array(42)",
         "var x = String(42)",
         "var x = RegExp(42)",
+        "var x = $(42)",
+        "var x = Σ;",
         {code: "var x = Foo(42)", args: [1, {"capIsNew": false}]},
         {code: "var x = bar.Foo(42)", args: [1, {"capIsNew": false}]},
         "var x = bar[Foo](42)",
