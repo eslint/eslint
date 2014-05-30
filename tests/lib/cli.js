@@ -285,13 +285,14 @@ describe("cli", function() {
         ];
 
         it("should allow environment-specific globals", function () {
-            cli.execute("--no-eslintrc --config ./conf/eslint.json --env browser,node --no-ignore " + files.join(" "));
-            assert.equal(console.log.args[0][0].split("\n").length, 11);
+            cli.execute("--reset --no-eslintrc --config ./conf/eslint.json --env browser,node --no-ignore " + files.join(" "));
+
+            assert.equal(console.log.args[0][0].split("\n").length, 9);
         });
 
         it("should allow environment-specific globals, with multiple flags", function () {
-            cli.execute("--no-eslintrc --config ./conf/eslint.json --env browser --env node --no-ignore " + files.join(" "));
-            assert.equal(console.log.args[0][0].split("\n").length, 11);
+            cli.execute("--reset --no-eslintrc --config ./conf/eslint.json --env browser --env node --no-ignore " + files.join(" "));
+            assert.equal(console.log.args[0][0].split("\n").length, 9);
         });
     });
 
@@ -302,8 +303,8 @@ describe("cli", function() {
         ];
 
         it("should not define environment-specific globals", function () {
-            cli.execute("--no-eslintrc --config ./conf/eslint.json --no-ignore " + files.join(" "));
-            assert.equal(console.log.args[0][0].split("\n").length, 14);
+            cli.execute("--reset --no-eslintrc --config ./conf/eslint.json --no-ignore " + files.join(" "));
+            assert.equal(console.log.args[0][0].split("\n").length, 12);
         });
     });
 
