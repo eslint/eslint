@@ -71,6 +71,22 @@ describe("config", function() {
         });
     });
 
+    describe("getConfig", function() {
+        var firstpath = path.resolve(__dirname, "..", "fixtures", "configurations", "single-quotes", "subdir", ".eslintrc");
+        var secondpath = path.resolve(__dirname, "..", "fixtures", "configurations", "single-quotes", ".eslintrc");
+
+        it("should not retain configs from previous directories", function() {
+            var configHelper = new Config(),
+                config;
+
+            config = configHelper.getConfig(firstpath);
+            assert.equal(0, config.rules["dot-notation"]);
+
+            config = configHelper.getConfig(secondpath);
+            assert.equal(2, config.rules["dot-notation"]);
+        });
+    });
+
     describe("getLocalConfig with directory", function() {
         var code = path.resolve(__dirname, "..", "fixtures", "configurations", "single-quotes", ".eslintrc");
 
@@ -114,14 +130,15 @@ describe("config", function() {
         });
     });
 
-    describe("should cache config", function() {
+    describe("getConfig", function() {
         var code = path.resolve(__dirname, "..", "fixtures", "configurations", "single-quotes", ".eslintrc");
 
-        it("should resolve config only once", function() {
+        it("should cache config", function() {
             var configHelper = new Config();
 
             sinon.spy(configHelper, "findLocalConfigFile");
 
+            // If cached this should be called only once
             configHelper.getConfig(code);
             var callcount = configHelper.findLocalConfigFile.callcount;
             configHelper.getConfig(code);
