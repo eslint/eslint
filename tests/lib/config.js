@@ -26,7 +26,7 @@ describe("config", function() {
                 expected = path.resolve(code, ".eslintrc"),
                 actual = configHelper.findLocalConfigFile(code);
 
-            assert.equal(expected, actual);
+            assert.equal(actual, expected);
         });
     });
 
@@ -53,7 +53,7 @@ describe("config", function() {
                 expected = 0,
                 actual = config.rules["no-global-strict"];
 
-            assert.equal(expected, actual);
+            assert.equal(actual, expected);
         });
     });
 
@@ -67,7 +67,7 @@ describe("config", function() {
                 expected = 1,
                 actual = config.rules["no-global-strict"];
 
-            assert.equal(expected, actual);
+            assert.equal(actual, expected);
         });
     });
 
@@ -80,10 +80,10 @@ describe("config", function() {
                 config;
 
             config = configHelper.getConfig(firstpath);
-            assert.equal(0, config.rules["dot-notation"]);
+            assert.equal(config.rules["dot-notation"], 0);
 
             config = configHelper.getConfig(secondpath);
-            assert.equal(2, config.rules["dot-notation"]);
+            assert.equal(config.rules["dot-notation"], 2);
         });
     });
 
@@ -143,7 +143,7 @@ describe("config", function() {
             var callcount = configHelper.findLocalConfigFile.callcount;
             configHelper.getConfig(code);
 
-            assert.equal(callcount, configHelper.findLocalConfigFile.callcount);
+            assert.equal(configHelper.findLocalConfigFile.callcount, callcount);
 
             configHelper.findLocalConfigFile.restore();
         });
