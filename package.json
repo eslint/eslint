@@ -61,7 +61,8 @@
     "through": "~2.3.4",
     "beefy": "~1.0.0",
     "shelljs-nodecli": "~0.1.0",
-    "glob": "^4.0.0"
+    "glob": "^4.0.0",
+    "proxyquire": "^1.0.0"
   },
   "keywords": [
     "ast",
