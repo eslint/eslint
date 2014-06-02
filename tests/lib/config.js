@@ -221,4 +221,21 @@ describe("config", function() {
         });
     });
 
+    describe("getExclusions", function() {
+        it("should travel to parent directories to find .eslintignore", function() {
+            var configHelper = new Config({ignore: true}),
+                cwd = process.cwd(),
+                exclusions;
+
+            process.chdir(path.resolve(__dirname, "..", "fixtures", "configurations"));
+
+            try {
+                exclusions = configHelper.getExclusions();
+                assert.notEqual(exclusions.length, 0);
+            } finally {
+                process.chdir(cwd);
+            }
+        });
+    });
+
 });
