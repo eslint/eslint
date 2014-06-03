@@ -9,6 +9,7 @@
 
 var assert = require("chai").assert,
     path = require("path"),
+    fs = require("fs"),
     Config = require("../../lib/config"),
     sinon = require("sinon");
 
@@ -113,20 +114,42 @@ describe("config", function() {
     });
 
     describe("getLocalConfig with invalid directory", function() {
-        var code = path.resolve(__dirname, "..", "fixtures", "configurations", "single-quotes");
+        var code = path.resolve(__dirname, "..", "fixtures", "configurations", "foobaz", ".eslintrc");
 
-        it("should be default config", function() {
-            var configHelper = new Config();
-            sinon.stub(configHelper, "findLocalConfigFile", function(directory) {
-                return path.resolve(directory, ".eslintrc");
+        it("should throw error", function() {
+            var configHelper = new Config(),
+                errorThrown = false;
+
+            try {
+                configHelper.getConfig(code);
+            } catch (e) {
+                errorThrown = true;
+            }
+
+            assert.isTrue(errorThrown);
+        });
+    });
+
+    describe("getLocalConfig with invalid file", function() {
+        var code = path.resolve(__dirname, "..", "fixtures", "configurations", ".eslintrc");
+
+        it("should throw error", function() {
+            var configHelper = new Config(),
+                errorThrown = false;
+
+            sinon.stub(fs, "readFileSync", function() {
+                throw new Error();
             });
-            sinon.stub(console, "error").returns({});
 
-            configHelper.getConfig(code);
+            try {
+                configHelper.getConfig(code);
+            } catch (e) {
+                errorThrown = true;
+                assert.include(e.message, "Cannot read config file");
+            }
 
-            assert.isTrue(console.error.called);
-            configHelper.findLocalConfigFile.restore();
-            console.error.restore();
+            assert.isTrue(errorThrown);
+            fs.readFileSync.restore();
         });
     });
 
@@ -218,6 +241,41 @@ describe("config", function() {
 
             assert.equal(noAlert, 0);
             assert.equal(noUndef, 2);
+        });
+    });
+
+    describe("getExclusions", function() {
+        it("should travel to parent directories to find .eslintignore", function() {
+            var configHelper = new Config({ignore: true}),
+                cwd = process.cwd(),
+                exclusions;
+
+            process.chdir(path.resolve(__dirname, "..", "fixtures", "configurations"));
+
+            try {
+                exclusions = configHelper.getExclusions();
+                assert.notEqual(exclusions.length, 0);
+            } finally {
+                process.chdir(cwd);
+            }
+        });
+    });
+
+    describe("getExclusions with invalid file", function() {
+        var code = path.resolve(__dirname, "..", "fixtures", "configurations", ".foobaz");
+
+        it("should throw error", function() {
+            var configHelper = new Config({ignore: true, ignorePath: code}),
+                errorThrown = false;
+
+            try {
+                configHelper.getExclusions();
+            } catch (e) {
+                errorThrown = true;
+                assert.include(e.message, "Cannot read ignore file");
+            }
+
+            assert.isTrue(errorThrown);
         });
     });
 
