@@ -189,6 +189,14 @@ describe("cli", function() {
             assert.equal(exit, 0);
         });
 
+        it("should not output a warning when silenced", function () {
+            var exit = cli.execute("--silent --ignore-path tests/fixtures/.eslintignore tests/fixtures/passing.js");
+
+            // no warnings
+            assert.isFalse(console.log.called);
+            assert.equal(exit, 0);
+        });
+
         it("should process the file when forced", function() {
             var exit = cli.execute("--ignore-path tests/fixtures/.eslintignore --no-ignore tests/fixtures/passing.js");
 

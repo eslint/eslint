@@ -108,6 +108,13 @@ describe("options", function() {
         });
     });
 
+    describe("when passed --silent", function() {
+        it("should return true for .silent", function() {
+            var currentOptions = options.parse("--silent");
+            assert.isTrue(currentOptions.silent);
+        });
+    });
+
     describe("when passed --global", function() {
         it("should return an array for a single occurrence", function () {
             var currentOptions = options.parse("--global foo");
