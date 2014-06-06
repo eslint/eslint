@@ -108,6 +108,13 @@ describe("options", function() {
         });
     });
 
+    describe("when passed --color", function() {
+        it("should return true for .color", function() {
+            var currentOptions = options.parse("--color");
+            assert.isTrue(currentOptions.color);
+        });
+    });
+
     describe("when passed --global", function() {
         it("should return an array for a single occurrence", function () {
             var currentOptions = options.parse("--global foo");
