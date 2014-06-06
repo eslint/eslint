@@ -591,61 +591,6 @@ describe("eslint", function() {
         });
     });
 
-    describe("matches()", function() {
-
-        var sandbox;
-
-        beforeEach(function() {
-            eslint.reset();
-            sandbox = sinon.sandbox.create();
-        });
-
-        afterEach(function() {
-            sandbox.verifyAndRestore();
-        });
-
-        it("should return true when a node matches a selector", function() {
-
-            var code = [
-                "/** Desc*/",
-                "function Foo(){var t = function(){}}"
-            ].join("\n");
-
-            function assertJSDoc(node) {
-                var result = eslint.matches(node, "VariableDeclarator > FunctionExpression");
-                assert.equal(result, true);
-            }
-
-            var spy = sandbox.spy(assertJSDoc);
-
-            eslint.on("FunctionExpression", spy);
-            eslint.verify(code, { rules: {}}, filename, true);
-            assert.isTrue(spy.calledOnce, "Event handler should be called.");
-        });
-
-
-        it("should return false when a node doesn't match a selector", function() {
-
-            var code = [
-                "/** Desc*/",
-                "function Foo(){var t = function(){}}"
-            ].join("\n");
-
-            function assertJSDoc(node) {
-                var result = eslint.matches(node, "FunctionDeclaration > FunctionExpression");
-                assert.equal(result, false);
-            }
-
-            var spy = sandbox.spy(assertJSDoc);
-
-            eslint.on("FunctionExpression", spy);
-            eslint.verify(code, { rules: {}}, filename, true);
-            assert.isTrue(spy.calledOnce, "Event handler should be called.");
-        });
-
-
-    });
-
     describe("getJSDocComment()", function() {
         var sandbox;
 
