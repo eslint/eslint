@@ -52,7 +52,11 @@ eslintTester.addRuleTest("lib/rules/space-in-brackets", {
 
         { code: "var obj = {foo: bar, baz: qux};", args: ["2", "never"] },
         { code: "var obj = {foo: {bar: quxx}, baz: qux};", args: ["2", "never"] },
-        { code: "var obj = {\nfoo: bar,\nbaz: qux\n};", args: ["2", "never"] }
+        { code: "var obj = {\nfoo: bar,\nbaz: qux\n};", args: ["2", "never"] },
+        { code: "var foo = {};", args: [2, "always"] },
+        { code: "var foo = {};", args: [2, "never"] },
+        { code: "var foo = [];", args: [2, "always"] },
+        { code: "var foo = [];", args: [2, "never"] }
     ],
 
     invalid: [
