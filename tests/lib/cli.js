@@ -262,7 +262,7 @@ describe("cli", function() {
 
     describe("when executing with no-eslintrc flag", function () {
         it("should ignore a local config file", function () {
-            var exit = cli.execute("--no-eslintrc --no-ignore ./tests/fixtures/eslintrc/quotes.js");
+            var exit = cli.execute("--reset --no-eslintrc --no-ignore ./tests/fixtures/eslintrc/quotes.js");
 
             assert.isTrue(console.log.notCalled);
             assert.equal(exit, 0);
@@ -317,14 +317,14 @@ describe("cli", function() {
         });
 
         it("should allow defining writable global variables", function () {
-            var exit = cli.execute("--global baz:false,bat:true --no-ignore ./tests/fixtures/undef.js");
+            var exit = cli.execute("--reset --global baz:false,bat:true --no-ignore ./tests/fixtures/undef.js");
 
             assert.isTrue(console.log.notCalled);
             assert.equal(exit, 0);
         });
 
         it("should allow defining variables with multiple flags", function () {
-            var exit = cli.execute("--global baz --global bat:true --no-ignore ./tests/fixtures/undef.js");
+            var exit = cli.execute("--reset --global baz --global bat:true --no-ignore ./tests/fixtures/undef.js");
 
             assert.isTrue(console.log.notCalled);
             assert.equal(exit, 0);
