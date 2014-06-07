@@ -86,7 +86,6 @@
         "no-warning-comments": [0, { "terms": ["todo", "fixme", "xxx"], "location": "start" }],
         "no-with": 2,
         "no-wrap-func": 2,
-        "no-yoda": 2,
 
         "block-scoped-var": 0,
         "brace-style": [0, "1tbs"],
@@ -125,6 +124,7 @@
         "valid-jsdoc": 0,
         "valid-typeof": 2,
         "wrap-iife": 0,
-        "wrap-regex": 0
+        "wrap-regex": 0,
+        "yoda": [2, "never"]
     }
 }

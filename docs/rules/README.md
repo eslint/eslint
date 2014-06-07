@@ -74,9 +74,9 @@ These are rules designed to prevent you from making mistakes. They either prescr
 * [no-unused-expressions](no-unused-expressions.md) - disallow usage of expressions in statement position
 * [no-warning-comments](no-warning-comments.md) - disallow usage of configurable warning terms in comments - e.g. `TODO` or `FIXME` (off by default)
 * [no-with](no-with.md) - disallow use of the `with` statement
-* [no-yoda](no-yoda.md) - disallow Yoda conditions
 * [radix](radix.md) - require use of the second argument for `parseInt()` (off by default)
 * [wrap-iife](wrap-iife.md) - require immediate function invocation to be wrapped in parentheses (off by default)
+* [yoda](yoda.md) - require or disallow Yoda conditions
 
 ## Strict Mode
 
