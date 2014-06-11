@@ -1,4 +1,4 @@
-# Require Guarding for-in
+# Require Guarding for-in (guard-for-in)
 
 Looping over objects with a `for in` loop will include properties that are inherited through the prototype chain. This behavior can lead to unexpected items in your for loop.
 
