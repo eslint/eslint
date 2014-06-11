@@ -265,6 +265,7 @@ target.checkRuleFiles = function() {
 
     ruleFiles.forEach(function(filename) {
         var basename = path.basename(filename, ".js");
+        var docFilename = "docs/rules/" + basename + ".md";
 
         var indexLine = new RegExp("\\* \\[" + basename + "\\].*").exec(rulesIndexText);
         indexLine = indexLine ? indexLine[0] : "";
@@ -299,9 +300,14 @@ target.checkRuleFiles = function() {
             }
         }
 
+        function hasIdInTitle(basename) {
+            var docText = cat(docFilename);
+            var idInTitleRegExp = new RegExp("^# (.*?) \\(" + basename + "\\)");
+            return idInTitleRegExp.test(docText);
+        }
 
         // check for docs
-        if (!test("-f", "docs/rules/" + basename + ".md")) {
+        if (!test("-f", docFilename)) {
             console.error("Missing documentation for rule %s", basename);
             errors++;
         } else {
@@ -309,6 +315,12 @@ target.checkRuleFiles = function() {
             // check for entry in docs index
             if (rulesIndexText.indexOf("(" + basename + ".md)") === -1) {
                 console.error("Missing link to documentation for rule %s in index", basename);
+                errors++;
+            }
+
+            // check for proper doc format
+            if (!hasIdInTitle(basename)) {
+                console.error("Missing id in the doc page's title of rule %s", basename);
                 errors++;
             }
         }
@@ -354,7 +366,7 @@ target.checkRuleFiles = function() {
                         errors++;
                     }
 
-                // rule has been overridden in environment but is not in docs    
+                // rule has been overridden in environment but is not in docs
                 } else {
                     console.error("Missing '(%s by default in the %s environment)' for rule %s in index", isOnInConfig(env) ? "on" : "off", env, basename);
                     errors++;
