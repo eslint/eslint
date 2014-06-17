@@ -234,33 +234,4 @@ describe("config", function() {
         });
     });
 
-    describe("getExclusions", function() {
-        it("should travel to parent directories to find .eslintignore", function() {
-            var configHelper = new Config({ignore: true}),
-                cwd = process.cwd(),
-                exclusions;
-
-            process.chdir(path.resolve(__dirname, "..", "fixtures", "configurations"));
-
-            try {
-                exclusions = configHelper.getExclusions();
-                assert.notEqual(exclusions.length, 0);
-            } finally {
-                process.chdir(cwd);
-            }
-        });
-    });
-
-    describe("getExclusions with invalid file", function() {
-        var code = path.resolve(__dirname, "..", "fixtures", "configurations", ".foobaz");
-
-        it("should throw error", function() {
-            var configHelper = new Config({ignore: true, ignorePath: code});
-
-            assert.throws(function () {
-                configHelper.getExclusions();
-            }, "Cannot read ignore file");
-        });
-    });
-
 });
