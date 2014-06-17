@@ -21,6 +21,7 @@ describe("formatter:jslint-xml", function() {
             filePath: "foo.js",
             messages: [{
                 message: "Unexpected foo.",
+                severity: 2,
                 line: 5,
                 column: 10,
                 ruleId: "foo",
@@ -29,11 +30,7 @@ describe("formatter:jslint-xml", function() {
         }];
 
         it("should return a string in JSLint XML format with 1 issue in 1 file", function() {
-            var config = {
-                rules: { foo: 2 }
-            };
-
-            var result = formatter(code, config);
+            var result = formatter(code);
             assert.equal(result, "<?xml version=\"1.0\" encoding=\"utf-8\"?><jslint><file name=\"foo.js\"><issue line=\"5\" char=\"10\" evidence=\"foo\" reason=\"Unexpected foo. (foo)\" /></file></jslint>");
         });
     });
@@ -53,9 +50,7 @@ describe("formatter:jslint-xml", function() {
         }];
 
         it("should return a string in JSLint XML format with 1 issue in 1 file", function() {
-            var config = {};    // doesn't matter what's in the config for this test
-
-            var result = formatter(code, config);
+            var result = formatter(code);
             assert.equal(result, "<?xml version=\"1.0\" encoding=\"utf-8\"?><jslint><file name=\"foo.js\"><issue line=\"5\" char=\"10\" evidence=\"foo\" reason=\"Unexpected foo. (foo)\" /></file></jslint>");
         });
     });
@@ -65,12 +60,14 @@ describe("formatter:jslint-xml", function() {
             filePath: "foo.js",
             messages: [{
                 message: "Unexpected foo.",
+                severity: 2,
                 line: 5,
                 column: 10,
                 ruleId: "foo",
                 source: "foo"
             }, {
                 message: "Unexpected bar.",
+                severity: 1,
                 line: 6,
                 column: 11,
                 ruleId: "bar",
@@ -79,11 +76,7 @@ describe("formatter:jslint-xml", function() {
         }];
 
         it("should return a string in JSLint XML format with 2 issues in 1 file", function() {
-            var config = {
-                rules: { foo: 2, bar: 1 }
-            };
-
-            var result = formatter(code, config);
+            var result = formatter(code);
             assert.equal(result, "<?xml version=\"1.0\" encoding=\"utf-8\"?><jslint><file name=\"foo.js\"><issue line=\"5\" char=\"10\" evidence=\"foo\" reason=\"Unexpected foo. (foo)\" /><issue line=\"6\" char=\"11\" evidence=\"bar\" reason=\"Unexpected bar. (bar)\" /></file></jslint>");
         });
     });
@@ -93,6 +86,7 @@ describe("formatter:jslint-xml", function() {
             filePath: "foo.js",
             messages: [{
                 message: "Unexpected foo.",
+                severity: 2,
                 line: 5,
                 column: 10,
                 ruleId: "foo",
@@ -102,6 +96,7 @@ describe("formatter:jslint-xml", function() {
             filePath: "bar.js",
             messages: [{
                 message: "Unexpected bar.",
+                severity: 1,
                 line: 6,
                 column: 11,
                 ruleId: "bar",
@@ -110,11 +105,7 @@ describe("formatter:jslint-xml", function() {
         }];
 
         it("should return a string in JSLint XML format with 2 issues in 2 files", function() {
-            var config = {
-                rules: { foo: 2, bar: 1 }
-            };
-
-            var result = formatter(code, config);
+            var result = formatter(code);
             assert.equal(result, "<?xml version=\"1.0\" encoding=\"utf-8\"?><jslint><file name=\"foo.js\"><issue line=\"5\" char=\"10\" evidence=\"foo\" reason=\"Unexpected foo. (foo)\" /></file><file name=\"bar.js\"><issue line=\"6\" char=\"11\" evidence=\"bar\" reason=\"Unexpected bar. (bar)\" /></file></jslint>");
         });
     });
@@ -125,6 +116,7 @@ describe("formatter:jslint-xml", function() {
             filePath: "foo.js",
             messages: [{
                 message: "Unexpected > foo.",
+                severity: 2,
                 line: 5,
                 column: 10,
                 ruleId: "foo",
@@ -133,11 +125,7 @@ describe("formatter:jslint-xml", function() {
         }];
 
         it("should return a string in JSLint XML format with 1 issue in 1 file", function() {
-            var config = {
-                rules: { foo: 2 }
-            };
-
-            var result = formatter(code, config);
+            var result = formatter(code);
             assert.equal(result, "<?xml version=\"1.0\" encoding=\"utf-8\"?><jslint><file name=\"foo.js\"><issue line=\"5\" char=\"10\" evidence=\"foo\" reason=\"Unexpected &gt; foo. (foo)\" /></file></jslint>");
         });
     });
@@ -148,6 +136,7 @@ describe("formatter:jslint-xml", function() {
             filePath: "foo.js",
             messages: [{
                 message: "Unexpected foo.",
+                severity: 2,
                 line: 5,
                 column: 10,
                 ruleId: "foo"
@@ -155,11 +144,7 @@ describe("formatter:jslint-xml", function() {
         }];
 
         it("should return a string in JSLint XML format with 1 issue in 1 file", function() {
-            var config = {
-                rules: { foo: 2 }
-            };
-
-            var result = formatter(code, config);
+            var result = formatter(code);
             assert.equal(result, "<?xml version=\"1.0\" encoding=\"utf-8\"?><jslint><file name=\"foo.js\"><issue line=\"5\" char=\"10\" evidence=\"\" reason=\"Unexpected foo. (foo)\" /></file></jslint>");
         });
     });
