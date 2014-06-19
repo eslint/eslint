@@ -22,11 +22,7 @@ describe("formatter:compact", function() {
         }];
 
         it("should return nothing", function() {
-            var config = {
-                rules: { foo: 2 }
-            };
-
-            var result = formatter(code, config);
+            var result = formatter(code);
             assert.equal(result, "");
         });
     });
@@ -36,6 +32,7 @@ describe("formatter:compact", function() {
             filePath: "foo.js",
             messages: [{
                 message: "Unexpected foo.",
+                severity: 2,
                 line: 5,
                 column: 10,
                 ruleId: "foo"
@@ -43,30 +40,14 @@ describe("formatter:compact", function() {
         }];
 
         it("should return a string in the format filename: line x, col y, Error - z for errors", function() {
-            var config = {
-                rules: { foo: 2 }
-            };
-
-            var result = formatter(code, config);
+            var result = formatter(code);
             assert.equal(result, "foo.js: line 5, col 10, Error - Unexpected foo. (foo)\n\n1 problem");
         });
 
         it("should return a string in the format filename: line x, col y, Warning - z for warnings", function() {
-            var config = {
-                rules: { foo: 1 }
-            };
-
-            var result = formatter(code, config);
+            code[0].messages[0].severity = 1;
+            var result = formatter(code);
             assert.equal(result, "foo.js: line 5, col 10, Warning - Unexpected foo. (foo)\n\n1 problem");
-        });
-
-        it("should return a string in the format filename: line x, col y, Error - z for errors with options config", function() {
-            var config = {
-                rules: { foo: [2, "option"] }
-            };
-
-            var result = formatter(code, config);
-            assert.equal(result, "foo.js: line 5, col 10, Error - Unexpected foo. (foo)\n\n1 problem");
         });
     });
 
@@ -83,9 +64,7 @@ describe("formatter:compact", function() {
         }];
 
         it("should return a string in the format filename: line x, col y, Error - z", function() {
-            var config = {};    // doesn't matter what's in the config for this test
-
-            var result = formatter(code, config);
+            var result = formatter(code);
             assert.equal(result, "foo.js: line 5, col 10, Error - Unexpected foo. (foo)\n\n1 problem");
         });
     });
@@ -95,11 +74,13 @@ describe("formatter:compact", function() {
             filePath: "foo.js",
             messages: [{
                 message: "Unexpected foo.",
+                severity: 2,
                 line: 5,
                 column: 10,
                 ruleId: "foo"
             }, {
                 message: "Unexpected bar.",
+                severity: 1,
                 line: 6,
                 column: 11,
                 ruleId: "bar"
@@ -107,11 +88,7 @@ describe("formatter:compact", function() {
         }];
 
         it("should return a string with multiple entries", function() {
-            var config = {
-                rules: { foo: 2, bar: 1 }
-            };
-
-            var result = formatter(code, config);
+            var result = formatter(code);
             assert.equal(result, "foo.js: line 5, col 10, Error - Unexpected foo. (foo)\nfoo.js: line 6, col 11, Warning - Unexpected bar. (bar)\n\n2 problems");
         });
     });
@@ -121,6 +98,7 @@ describe("formatter:compact", function() {
             filePath: "foo.js",
             messages: [{
                 message: "Unexpected foo.",
+                severity: 2,
                 line: 5,
                 column: 10,
                 ruleId: "foo"
@@ -129,6 +107,7 @@ describe("formatter:compact", function() {
             filePath: "bar.js",
             messages: [{
                 message: "Unexpected bar.",
+                severity: 1,
                 line: 6,
                 column: 11,
                 ruleId: "bar"
@@ -136,11 +115,7 @@ describe("formatter:compact", function() {
         }];
 
         it("should return a string with multiple entries", function() {
-            var config = {
-                rules: { foo: 2, bar: 1 }
-            };
-
-            var result = formatter(code, config);
+            var result = formatter(code);
             assert.equal(result, "foo.js: line 5, col 10, Error - Unexpected foo. (foo)\nbar.js: line 6, col 11, Warning - Unexpected bar. (bar)\n\n2 problems");
         });
     });
@@ -155,11 +130,7 @@ describe("formatter:compact", function() {
         }];
 
         it("should return a string without line and column", function() {
-            var config = {
-                rules: { foo: 2, bar: 1 }
-            };
-
-            var result = formatter(code, config);
+            var result = formatter(code);
             assert.equal(result, "foo.js: line 0, col 0, Error - Couldn't find foo.js.\n\n1 problem");
         });
     });
