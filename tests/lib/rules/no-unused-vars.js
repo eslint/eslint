@@ -41,7 +41,8 @@ eslintTester.addRuleTest("lib/rules/no-unused-vars", {
         { code: "function g(bar, baz) { return bar; }; g();", args: [1, {"vars": "all", "args": "none"}] },
         { code: "function g(bar, baz) { return 2; }; g();", args: [1, {"vars": "all", "args": "none"}] },
         { code: "function g(bar, baz) { return bar + baz; }; g();", args: [1, {"vars": "locals", "args": "all"}] },
-        "(function z() { z(); })();"
+        "(function z() { z(); })();",
+        { code: " ", globals: {a: true} }
     ],
     invalid: [
         { code: "var a=10", errors: [{ message: "a is defined but never used", type: "Identifier"}] },
