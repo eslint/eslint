@@ -21,11 +21,20 @@ var assert = require("chai").assert,
 describe("config", function() {
     describe("findLocalConfigFile", function() {
         var code = path.resolve(__dirname, "..", "fixtures", "configurations", "single-quotes");
+        var codeYaml = path.resolve(__dirname, "..", "fixtures", "configurations", "yml-extension");
 
-        it("should find local config file", function() {
+        it("should find local '.eslintrc' config file", function() {
             var configHelper = new Config(),
                 expected = path.resolve(code, ".eslintrc"),
                 actual = configHelper.findLocalConfigFile(code);
+
+            assert.equal(actual, expected);
+        });
+
+        it("should find local '.eslintrc.yml' config file", function() {
+            var configHelper = new Config(),
+                expected = path.resolve(codeYaml, ".eslintrc.yml"),
+                actual = configHelper.findLocalConfigFile(codeYaml);
 
             assert.equal(actual, expected);
         });
