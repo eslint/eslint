@@ -95,7 +95,7 @@ try {
 #### "stroustrup"
 
 
-This is the default setting for this rule and enforces Stroustrup style. While using this setting, the following patterns are considered warnings:
+This enforces Stroustrup style. While using this setting, the following patterns are considered warnings:
 
 ```js
 function foo()
