@@ -107,7 +107,13 @@ eslintTester.addRuleTest("lib/rules/no-extra-parens", {
         "var foo = (function() { return bar(); }())",
         "var o = { foo: (function() { return bar(); }()) };",
         "o.foo = (function(){ return bar(); }());",
-        "(function(){ return bar(); }()), (function(){ return bar(); }())"
+        "(function(){ return bar(); }()), (function(){ return bar(); }())",
+
+        // IIFE is allowed to have outer parens (#1004)
+        "var foo = (function() { return bar(); })()",
+        "var o = { foo: (function() { return bar(); })() };",
+        "o.foo = (function(){ return bar(); })();",
+        "(function(){ return bar(); })(), (function(){ return bar(); })()"
     ],
     invalid: [
         invalid("(0)", "Literal"),
@@ -148,6 +154,7 @@ eslintTester.addRuleTest("lib/rules/no-extra-parens", {
         invalid("(0)[a]", "Literal"),
         invalid("(0.0).a", "Literal"),
         invalid("(0xBEEF).a", "Literal"),
-        invalid("(1e6).a", "Literal")
+        invalid("(1e6).a", "Literal"),
+        invalid("new (function(){})", "FunctionExpression")
     ]
 });
