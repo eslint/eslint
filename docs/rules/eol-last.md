@@ -1,11 +1,10 @@
 # Require file to end with single newline (eol-last)
 
-Having newline at the end of file is not mandatory requirement, like in other
-languages, but still a good practice. It protects you from side effects if
-you ever decide to concatenate files in post-processors. Another practical
-reason is removing red markers, when you look diffs at github.
-
-Also, this rule checks, that there a no tail of multiple empty lines at the end.
+Trailing newlines in non-empty files are a common UNIX idiom. Benefits of
+trailing newlines include the ability to concatenate or append to files as well
+as output files to the terminal without interfering with shell prompts. This
+rule enforces newlines for all non-empty programs and disallows trailing
+empty or whitespace-only lines.
 
 ## Rule Details
 
