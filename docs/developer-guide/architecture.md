@@ -16,15 +16,35 @@ This object's responsibilities include:
 
 * Interpreting command line arguments
 * Reading from the file system
-* Loading rule definitions
 * Outputting to the console
-* Reading configuration information from config files (including `.eslintrc`)
+* Outputting to the filesystem
+* Use a formatter
 * Returning the correct exit code
 
 This object may not:
 
 * Call `process.exit()` directly
 * Perform any asynchronous operations
+
+## The `CLIEngine` object
+
+The `CLIEngine` type represents the core functionality of the CLI except that it reads nothing from the command line and doesn't output anything by default. Instead, it accepts many (but not all) of the arguments that are passed into the CLI. It reads both configuration and source files as well as managing the environment that is passed into the `eslint` object.
+
+The main method of the `CLIEngine` is `executeOnFiles()`, which accepts an array of file and directory names to run the linter on.
+
+This object's responsibilities include:
+
+* Managing the execution environment for `eslint`
+* Reading from the file system
+* Loading rule definitions
+* Reading configuration information from config files (including `.eslintrc`)
+
+This object may not:
+
+* Call `process.exit()` directly
+* Perform any asynchronous operations
+* Output to the console
+* Use formatters
 
 ## The `eslint` object
 
@@ -49,7 +69,7 @@ This object may not:
 
 ## Rules
 
-Individual rules are the most specialized part of the ESLint architecture. Rules can do very little, they are simply a set of instructions executed against an AST that is provided. They do get some context information passed in, but the primary responsibility of a rule is to inspect the AST and report warnings. 
+Individual rules are the most specialized part of the ESLint architecture. Rules can do very little, they are simply a set of instructions executed against an AST that is provided. They do get some context information passed in, but the primary responsibility of a rule is to inspect the AST and report warnings.
 
 These objects' responsibilities are:
 

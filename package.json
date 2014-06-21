@@ -42,7 +42,8 @@
     "js-yaml": "~3.0.1",
     "doctrine": "~0.5.0",
     "minimatch": "^0.3.0",
-    "debug": "^0.8.1"
+    "debug": "^0.8.1",
+    "object-assign": "^0.3.1"
   },
   "devDependencies": {
     "sinon": "1.7.3",
