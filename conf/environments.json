@@ -400,5 +400,25 @@
             "suiteSetup": false,
             "suiteTeardown": false
         }
+    },
+
+    "couchdb": {
+        "globals": {
+            "emit": false,
+            "getRow": false,
+            "isArray": false,
+            "log": false,
+            "provides": false,
+            "registerType": false,
+            "require": false,
+            "send": false,
+            "start": false,
+            "sum": false,
+            "toJSON": false
+        },
+
+        "rules": {
+          "no-underscore-dangle": 0
+        }
     }
 }
