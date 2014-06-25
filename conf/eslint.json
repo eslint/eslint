@@ -83,6 +83,7 @@
         "no-unused-expressions": 2,
         "no-unused-vars": [2, {"vars": "all", "args": "after-used"}],
         "no-use-before-define": 2,
+        "no-void": 0,
         "no-warning-comments": [0, { "terms": ["todo", "fixme", "xxx"], "location": "start" }],
         "no-with": 2,
         "no-wrap-func": 2,
