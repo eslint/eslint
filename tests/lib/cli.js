@@ -19,8 +19,8 @@ var assert = require("chai").assert,
 describe("cli", function() {
 
     beforeEach(function() {
-        sinon.stub(console, "log").returns(undefined);
-        sinon.stub(console, "error").returns(undefined);
+        sinon.stub(console, "log").returns(void 0);
+        sinon.stub(console, "error").returns(void 0);
     });
 
     afterEach(function() {

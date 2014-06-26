@@ -78,6 +78,7 @@
         "no-ternary": 0,
         "no-trailing-spaces": 0,
         "no-undef": 2,
+        "no-undefined": 0,
         "no-undef-init": 2,
         "no-underscore-dangle": 2,
         "no-unreachable": 2,

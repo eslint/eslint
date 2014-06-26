@@ -96,6 +96,7 @@ These rules have to do with variable declarations.
 * [no-shadow](no-shadow.md) - disallow declaration of variables already declared in the outer scope
 * [no-shadow-restricted-names](no-shadow-restricted-names.md) - disallow shadowing of names such as `arguments`
 * [no-undef](no-undef.md) - disallow use of undeclared variables unless mentioned in a `/*global */` block
+* [no-undefined](no-undefined.md) - disallow use of `undefined` variable (off by default)
 * [no-undef-init](no-undef-init.md) - disallow use of undefined when initializing variables
 * [no-unused-vars](no-unused-vars.md) - disallow declaration of variables that are not used in the code
 * [no-use-before-define](no-use-before-define.md) - disallow use of variables before they are defined
