@@ -17,10 +17,10 @@ var eslint = require("../../../lib/eslint"),
 var eslintTester = new ESLintTester(eslint);
 eslintTester.addRuleTest("lib/rules/func-style", {
     valid: [
-    	{
-    		code: "function foo(){}\n function bar(){}",
-    		args: [1, "declaration"]
-    	},
+        {
+            code: "function foo(){}\n function bar(){}",
+            args: [1, "declaration"]
+        },
         {
             code: "foo.bar = function(){};",
             args: [1, "declaration"]
@@ -45,10 +45,10 @@ eslintTester.addRuleTest("lib/rules/func-style", {
             code: "foo.bar = function(){};",
             args: [1, "expression"]
         },
-		{
-    		code: "var foo = function(){};\n var bar = function(){};",
-    		args: [1, "expression"]
-    	}
+        {
+            code: "var foo = function(){};\n var bar = function(){};",
+            args: [1, "expression"]
+        }
     ],
 
     invalid: [
