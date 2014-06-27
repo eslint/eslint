@@ -10,6 +10,7 @@
         "guard-for-in": 2,
         "no-floating-decimal": 2,
         "no-nested-ternary": 2,
+        "no-undefined": 2,
         "radix": 2,
         "space-after-keywords": [2, "always"],
         "valid-jsdoc": [2, {
