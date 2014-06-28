@@ -10,7 +10,8 @@
 var assert = require("chai").assert,
     cli = require("../../lib/cli"),
     path = require("path"),
-    sinon = require("sinon");
+    sinon = require("sinon"),
+    fs = require("fs");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -337,6 +338,24 @@ describe("cli", function() {
             exitStatus = cli.execute(code);
 
             assert.equal(exitStatus, 1);
+        });
+    });
+
+    describe("when supplied with report output file path", function() {
+        it("should exit with an status (1) and file not exists", function() {
+            var code = "--o . tests/fixtures/single-quoted.js";
+            var exitStatus;
+            exitStatus = cli.execute(code);
+            assert.equal(exitStatus, 1);
+            assert.equal(fs.existsSync(path.resolve(process.cwd(),"./gstest/test/test.txt")), false);
+        });
+
+        it("should exit with an status (1) and file exits", function() {
+            var code = "--o ./gstest/test/test.txt tests/fixtures/single-quoted.js";
+            var exitStatus;
+            exitStatus = cli.execute(code);
+            assert.equal(exitStatus, 1);
+            assert.equal(fs.existsSync(path.resolve(process.cwd(),"./gstest/test/test.txt")), true);
         });
     });
 });
