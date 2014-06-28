@@ -49,7 +49,7 @@ describe("config", function() {
 
         it("should be no-global-strict off for node env", function() {
 
-            var configHelper = new Config({config: code}),
+            var configHelper = new Config({configFile: code}),
                 config = configHelper.getConfig(),
                 expected = 0,
                 actual = config.rules["no-global-strict"];
@@ -63,7 +63,7 @@ describe("config", function() {
                 "env-node-override.json");
 
         it("should be no-global-strict a warning", function() {
-            var configHelper = new Config({config: code}),
+            var configHelper = new Config({configFile: code}),
                 config = configHelper.getConfig(),
                 expected = 1,
                 actual = config.rules["no-global-strict"];
@@ -203,7 +203,7 @@ describe("config", function() {
     describe("Config with abitrarily named config file", function() {
         it("should load the config file", function() {
             var configPath = path.resolve(__dirname, "..", "fixtures", "configurations", "my-awesome-config"),
-                configHelper = new Config({config: configPath}),
+                configHelper = new Config({configFile: configPath}),
                 quotes = configHelper.useSpecificConfig.rules.quotes[0];
 
             assert.equal(quotes, 3);
@@ -213,7 +213,7 @@ describe("config", function() {
     describe("Config with comments", function() {
         it("should load the config file", function() {
             var configPath = path.resolve(__dirname, "..", "fixtures", "configurations", "comments.json"),
-                configHelper = new Config({config: configPath}),
+                configHelper = new Config({configFile: configPath}),
                 semi = configHelper.useSpecificConfig.rules.semi,
                 strict = configHelper.useSpecificConfig.rules.strict;
 
@@ -225,7 +225,7 @@ describe("config", function() {
     describe("YAML config", function() {
         it("should load the config file", function() {
             var configPath = path.resolve(__dirname, "..", "fixtures", "configurations", "env-browser.yaml"),
-                configHelper = new Config({config: configPath}),
+                configHelper = new Config({configFile: configPath}),
                 noAlert = configHelper.useSpecificConfig.rules["no-alert"],
                 noUndef = configHelper.useSpecificConfig.rules["no-undef"];
 

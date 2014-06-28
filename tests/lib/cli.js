@@ -59,9 +59,7 @@ describe("cli", function() {
         it("should exit with an error status (1)", function() {
             var exitStatus;
 
-            assert.doesNotThrow(function () {
-                exitStatus = cli.execute(code);
-            });
+            exitStatus = cli.execute(code);
 
             assert.equal(exitStatus, 1);
         });
@@ -173,7 +171,6 @@ describe("cli", function() {
     describe("when given a directory with eslint excluded files in the directory", function() {
         it("should not process any files", function() {
             var exit = cli.execute("--ignore-path tests/fixtures/.eslintignore tests/fixtures");
-
             assert.isTrue(console.log.notCalled);
             assert.equal(exit, 0);
         });
@@ -337,9 +334,7 @@ describe("cli", function() {
         it("should exit with an error status (1)", function() {
             var exitStatus;
 
-            assert.doesNotThrow(function () {
-                exitStatus = cli.execute(code);
-            });
+            exitStatus = cli.execute(code);
 
             assert.equal(exitStatus, 1);
         });
