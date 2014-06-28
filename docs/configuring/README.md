@@ -240,3 +240,40 @@ foo.js
 ```
 
 This message occurs because ESLint is unsure if you wanted to actually lint the file or not. As the message indicates, you can use `--no-eslintignore` to omit using the ignore rules.
+
+## Configuration Cascading and Hierarchy
+
+When you use `.eslintrc` files for configuration, you can take advantage of configuration cascading. For instance, suppose you have the following structure:
+
+```
+your-project
+├── .eslintrc
+├── lib
+│ └── source.js
+└─┬ tests
+  └─┬ .eslintrc
+    └── test.js
+```
+
+The configuration cascade works by using the closest `.eslintrc` file to the file being linted as the highest priority, then any configuration files in the parent directory, and so on. When you run ESLint on this project, all files in `lib/` will use the `.eslintrc` file at the root of the project as their configuration, so `your-project/lib/source.js` is only affected by `your-project/.eslintrc`. When ESLint traverses into the `tests/` directory, it will then use `your-project/tests/.eslintrc` in addition to `your-project/.eslintrc`. So `your-project/tests/test.js` is linted based on the combination of the two `.eslintrc` files in its directory hierarchy, with the closest one taking priority. In this way, you can have project-level ESLint settings and also have directory-specific overrides.
+
+The complete configuration hierarchy, from highest priority to lowest priority, is as follows:
+
+1. Inline configuration
+    a. `/*eslint-disable*/`
+    b. `/*global*/`
+    c. `/*eslint*/`
+    b. `/*eslint-env*/`
+2. Command line options:
+    -. `--global`
+    a. `--rule`
+    b. `--env`
+    c. `-c`, `--config`
+3. Project-level configuration:
+    a. `.eslintrc` file in same directory as linted file
+    b. Continue searching for `.eslintrc` in ancestor directories (parent has highest priority, then grandparent, etc.), up to and including the root directory.
+    c. XOR, in the absence of any defined `.eslintrc` rules in (a) and (b), fall back to `~/.eslintrc` - personal default configuration
+4. ESLint default configuration:
+    a. `environments.json`
+    b. `eslint.json`
+    c. Blank (no config)
