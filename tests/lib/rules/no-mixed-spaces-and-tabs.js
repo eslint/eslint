@@ -36,7 +36,7 @@ eslintTester.addRuleTest("lib/rules/no-mixed-spaces-and-tabs", {
             code: "function add(x, y) {\n\t return x + y;\n}",
             errors: [
                 {
-                    message: "Line 2 has mixed spaces and tabs.",
+                    message: "Mixed spaces and tabs.",
                     type: "Program",
                     line: 2
                 }
@@ -46,12 +46,12 @@ eslintTester.addRuleTest("lib/rules/no-mixed-spaces-and-tabs", {
             code: "\t var x = 5, y = 2, z = 5;\n\n\t \tvar j =\t x + y;\nz *= j;",
             errors: [
                 {
-                    message: "Line 1 has mixed spaces and tabs.",
+                    message: "Mixed spaces and tabs.",
                     type: "Program",
                     line: 1
                 }, 
                 {
-                    message: "Line 3 has mixed spaces and tabs.",
+                    message: "Mixed spaces and tabs.",
                     type: "Program",
                     line: 3
                 }
@@ -62,7 +62,7 @@ eslintTester.addRuleTest("lib/rules/no-mixed-spaces-and-tabs", {
             args: [2, true],
             errors: [
                 {
-                    message: "Line 2 has mixed spaces and tabs.",
+                    message: "Mixed spaces and tabs.",
                     type: "Program",
                     line: 2
                 }
