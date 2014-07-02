@@ -26,6 +26,7 @@ Options:
   -c, --config path::String   Load configuration data from this file.
   --rulesdir [path::String]   Load additional rules from this directory.
   -f, --format String         Use a specific output format. - default: stylish
+  -o, --output-file           Outputs the output into a file.
   -v, --version               Outputs the version number.
   --reset                     Set all default rules to off.
   --eslintrc                  Enable loading .eslintrc configuration. -
@@ -65,6 +66,16 @@ When specified, the given format is output to the console. If you'd like to save
     eslint -f compact file.js > results.txt
 
 This saves the output into the `results.txt` file.
+
+### `-o`
+
+This option specifies the output file name which can be passes for the output of the task to be put into
+
+Example:
+
+    eslint -o ./test/test.html
+
+When specified, the given format is output into the provided file name.
 
 ### `--rulesdir`
 
