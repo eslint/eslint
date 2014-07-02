@@ -19,7 +19,9 @@ var eslintTester = new ESLintTester(eslint);
 eslintTester.addRuleTest("lib/rules/no-void", {
 
     valid: [
-        "var foo = bar();"
+        "var foo = bar()",
+        "foo.void()",
+        "foo.void = bar"
     ],
 
     invalid: [
