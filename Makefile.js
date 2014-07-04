@@ -169,9 +169,22 @@ target.gensite = function() {
 
     find(docsDir).forEach(function(filename) {
         if (test("-f", filename)) {
+            var rulesUrl = "https://github.com/eslint/eslint/tree/master/lib/rules/";
+            var docsUrl = "https://github.com/eslint/eslint/tree/master/docs/rules/";
+
             var text = cat(filename);
+
             text = "---\ntitle: ESLint\nlayout: doc\n---\n<!-- Note: No pull requests accepted for this file. See README.md in the root directory for details. -->\n" + text;
-            text.replace(/.md\)/g, ".html)").replace("README.html", "index.html").to(filename.replace("README.md", "index.md"));
+
+            text = text.replace(/.md\)/g, ".html)").replace("README.html", "index.html");
+
+            if (filename.indexOf("rules/") !== -1) {
+                text += "\n## Resources\n\n";
+                text += "* [Rule source](" + rulesUrl + path.basename(filename, ".md") + ".js)\n";
+                text += "* [Documentation source](" + docsUrl + path.basename(filename) + ")\n";
+            }
+
+            text.to(filename.replace("README.md", "index.md"));
         }
     });
 
