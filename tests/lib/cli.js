@@ -11,7 +11,8 @@ var assert = require("chai").assert,
     cli = require("../../lib/cli"),
     path = require("path"),
     sinon = require("sinon"),
-    fs = require("fs");
+    fs = require("fs"),
+    sh = require("shelljs");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -342,20 +343,44 @@ describe("cli", function() {
     });
 
     describe("when supplied with report output file path", function() {
-        it("should exit with an status (1) and file not exists", function() {
-            var code = "--o . tests/fixtures/single-quoted.js";
-            var exitStatus;
-            exitStatus = cli.execute(code);
-            assert.equal(exitStatus, 1);
-            assert.equal(fs.existsSync(path.resolve(process.cwd(),"./gstest/test/test.txt")), false);
+
+        afterEach(function () {
+            sh.rm("-rf", "tests/output");
         });
 
-        it("should exit with an status (1) and file exits", function() {
-            var code = "--o ./gstest/test/test.txt tests/fixtures/single-quoted.js";
-            var exitStatus;
-            exitStatus = cli.execute(code);
-            assert.equal(exitStatus, 1);
-            assert.equal(fs.existsSync(path.resolve(process.cwd(),"./gstest/test/test.txt")), true);
+        it("should write the file and create dirs if they don't exist", function () {
+            var code = "--o tests/output/eslint-output.txt tests/fixtures/single-quoted.js";
+
+            cli.execute(code);
+
+            assert.include(fs.readFileSync("tests/output/eslint-output.txt", "utf8"), "tests/fixtures/single-quoted.js");
+            assert.isTrue(console.log.notCalled);
+        });
+
+        it("should return an error if the path is a directory", function () {
+            var code = "--o tests/output tests/fixtures/single-quoted.js";
+            var exit;
+
+            fs.mkdirSync("tests/output");
+
+            exit = cli.execute(code);
+
+            assert.equal(exit, 1);
+            assert.isTrue(console.log.notCalled);
+            assert.isTrue(console.error.calledOnce);
+        });
+
+        it("should return an error if the path could not be written to", function () {
+            var code = "--o tests/output/eslint-output.txt tests/fixtures/single-quoted.js";
+            var exit;
+
+            fs.writeFileSync("tests/output", "foo");
+
+            exit = cli.execute(code);
+
+            assert.equal(exit, 1);
+            assert.isTrue(console.log.notCalled);
+            assert.isTrue(console.error.calledOnce);
         });
     });
 });
