@@ -1,6 +1,10 @@
 # Disallow mixed spaces and tabs for indentation (no-mixed-spaces-and-tabs)
 
-To ensure code is displayed correctly regardless of the viewer's tab size, this rule enforces only tabs or only spaces may be used for indenting code blocks.
+Most code conventions require either tabs or spaces be used for indentation. As such, it's usually an error if a single line of code is indented with both tabs and spaces.
+
+## Rule Details
+
+The `no-mixed-spaces-and-tabs` rule is aimed at flagging any lines of code that are indented with a mixture of tabs and spaces.
 
 The following patterns are considered warnings:
 
@@ -22,8 +26,8 @@ function add(x, y) {
 --->return x + y;
 }
 
-/* 
- * When the SmartTabs option is enabled the following 
+/*
+ * When the SmartTabs option is enabled the following
  * does not produce a warning.
  */
 function main() {
@@ -34,16 +38,16 @@ function main() {
 
 ### Options
 
-- SmartTabs
+- Smart Tabs
 
-This option suppresses warnings about mixed tabs and spaces when the latter are
-used for alignment only. This technique is called [SmartTabs](http://www.emacswiki.org/emacs/SmartTabs). The option is turned off by default.
+This option suppresses warnings about mixed tabs and spaces when the latter are used for alignment only. This technique is called [SmartTabs](http://www.emacswiki.org/emacs/SmartTabs). The option is turned off by default.
 
 You can enable this option by using the following configuration:
+
 ```json
 "no-mixed-spaces-and-tabs": [2, true]
 ```
 
 ## Further Reading
 
-[Click here](http://www.emacswiki.org/emacs/SmartTabs) to learn more about SmartTabs. 
+* [Smart Tabs](http://www.emacswiki.org/emacs/SmartTabs)

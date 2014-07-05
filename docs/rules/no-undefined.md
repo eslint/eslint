@@ -1,52 +1,74 @@
 # Disallow Use of `undefined` Variable (no-undefined)
 
-This rule disallows use of the global variable `undefined` and disallows
-shadowing of `undefined`. This is considered a good practice for a number of
-reasons.
+The `undefined` variable is unique in JavaScript because it is actually a property of the global object. As such, in ECMAScript 3 it was possible to overwrite the value of `undefined`. While ECMAScript 5 disallows overwriting `undefined`, it's still possible to shadow `undefined`, such as:
 
-* In an ES3 environment, `undefined` may have been modified
-* In an ES5+ environment, `undefined` may be shadowed
-* Generating an undefined value avoids walking the scope chain to find the
-  value of `undefined`.
-* `X === undefined` comparisons are sometimes erroneously used in place of
-  `typeof x === "undefined"` comparisons when `X` may not have been declared.
+```js
+function doSomething(data) {
+    var undefined = "hi";
 
-As an alternative to `undefined`, use the `void` operator on a simple
-expression such as `void 0` to generate an undefined value. Remember that
-variables are initialised to the undefined value.
+    // doesn't do what you think it does
+    if (data === undefined) {
+        // ...
+    }
+
+}
+```
+
+This represents a problem for `undefined` that doesn't exist for `null`, which is a keyword and primitive value that can neither be overwritten nor shadowed.
+
+All uninitialized variables automatically get the value of `undefined`:
+
+```js
+var foo;
+
+console.log(foo === undefined);     // true (assuming no shadowing)
+```
+
+For this reason, it's not necessary to explicitly initialize a variable to `undefined`.
+
+Taking all of this into account, some style guides forbid the use of `undefined`, recommending instead:
+
+* Variables that should be `undefined` are simply left uninitialized.
+* Checking if a value is `undefined` should be done with `typeof`.
+* Using the `void` operator to generate the value of `undefined` if necessary.
 
 ## Examples
 
-The following programs violate this rule.
+This rule aims to eliminate the use of `undefined`, and as such, generates a warning whenever it is used.
+
+The following patterns are considered warnings:
 
 ```js
-undefined;
+var foo = undefined;
+
+var undefined = "foo";
+
+if (foo === undefined) {
+    // ...
+}
+
+function foo(undefined) {
+    // ...
+}
 ```
 
-```js
-var undefined;
-```
+The following patterns are not warnings:
 
 ```js
-function f(undefined) {}
-```
+var foo = void 0;
 
-The following programs do not violate this rule.
+var Undefined = "foo";
 
-```js
-void 0;
-```
+if (typeof foo === "undefined") {
+    // ...
+}
 
-```js
-global.undefined;
+global.undefined = "foo";
 ```
 
 ## When Not To Use It
 
-There is no downside to choosing to use `void 0` instead of `undefined`, while
-there are numerous downsides to using `undefined` instead of `void 0`. If it is
-feared that some contributors may be confused or scared when they encounter
-`void 0`, `undefined` may be prefered.
+If you want to allow the use of `undefined` in your code, then you can safely turn this rule off.
 
 ## Further Reading
 

@@ -44,4 +44,3 @@ If you want to use sparse arrays, then it is safe to disable this rule.
 ## Further Reading
 
 * [Inconsistent array literals](http://www.nczonline.net/blog/2007/09/09/inconsistent-array-literals/)
-*
