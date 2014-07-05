@@ -1,28 +1,39 @@
 # Development Environment
 
-ESLint has a very lightweight development environment that makes updating code fast and easy. If you've checked out the code already, then the next step is to make sure you have all of the required utilities. Node.js and npm are the two things you'll need.
+ESLint has a very lightweight development environment that makes updating code fast and easy. This is a step-by-step guide to setting up a local development environment that will let you contribute back to the project.
 
-## Install Node.js
+## Step 1: Install Node.js
 
-Go to http://nodejs.org/ to download and install the latest stable version for your operating system.
+Go to [http://nodejs.org/] to download and install the latest stable version for your operating system.
 
 Most of the installers come with [npm](http://npmjs.org/) already installed, but if for some reason it doesn't work on your system, you can install it manually using the instructions on the website.
 
-## Development Mode
+## Step 2: Fork and checkout your own ESLint repository
 
-To run ESLint is dev mode you will need to first uninstall the real ESLint utility (if you had previously installed it from npm):
+Go to [https://github.com/eslint/eslint] and click the "Fork" button. Follow the [GitHub documentation](https://help.github.com/articles/fork-a-repo) for forking and cloning.
 
-    npm remove -g eslint
+Once you've cloned the repository, run `npm install` to get all the necessary dependencies:
 
-Next, go to the directory in which you've checked out the ESLint source code and run:
+```
+$ cd eslint
+$ npm install
+```
 
-    npm link
+You must be connected to the Internet for this step to work. You'll see a lot of utilities being downloaded.
 
-The global `eslint` will now point to the files in your development repository instead of a globally-installed version from npm. You can now use `eslint` directly to test your changes.
+## Step 3: Add the upstream source
 
-If you ever update from the central repository and there are errors, it might be because you are missing some dependencies. If that happens, just run `npm link` again to get the latest dependencies.
+The *upstream source* is the main ESLint repository that active development happens on. While you won't have push access to upstream, you will have pull access, allowing you to pull in the latest code whenever you want.
 
-## Install the Yeoman Generator
+To add the upstream source for ESLint, run the following in your repository:
+
+```
+git remote add upstream git@github.com:eslint/eslint.git
+```
+
+Now, the remote `upstream` points to the upstream source.
+
+## Step 4: Install the Yeoman Generator
 
 [Yeoman](http://yeoman.io) is a scaffold generator that ESLint uses to help streamline development of new rules. If you don't already have Yeoman installed, you can install it via npm:
 
@@ -33,6 +44,18 @@ Then, you can install the ESLint Yeoman generator:
     npm install -g generator-eslint
 
 Please see the [generator documentation](https://github.com/eslint/generator-eslint) for instructions on how to use it.
+
+## Step 5: Run the tests
+
+Running the tests is the best way to ensure you have correctly setup your development environment. Make sure you're in the the `eslint` directory and run:
+
+```
+npm test
+```
+
+The testing takes a few seconds to complete. If any tests fail, that likely means one or more parts of the environment setup didn't complete correctly. The upstream tests always pass.
+
+
 
 ## Build Scripts
 

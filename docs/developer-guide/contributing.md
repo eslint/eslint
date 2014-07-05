@@ -102,7 +102,7 @@ When you submit code to the ESLint project, you agree:
 
 It is very important that you understand the implications of these conditions, as it gives ESLint the right to accept your contribution.
 
-## Using Pull Requests
+## Pull Requests
 
 If you want to contribute to an ESLint repo, please use a GitHub pull request. This is the fastest way for us to evaluate your code and to merge it into the code base. Please don't file an issue with snippets of code. Doing so means that we need to manually merge the changes in and update any appropriate tests. That decreases the likelihood that your code is going to get included in a timely manner. Please use pull requests.
 
@@ -120,7 +120,17 @@ We want to accept your contribution. Following these guidelines helps to create 
 * Only *one commit* is allowed per pull request. If you have multiple commits, you'll be asked to squash them.
 * Follow the [Code Conventions](code-conventions.md).
 
-### Commit Messages
+### Step 1: Create a new branch
+
+The first step to sending a pull request is to create a new branch in your ESLint fork. Give the branch a descriptive name that describes what it is you're fixing, such as:
+
+```
+git checkout -b fix-broken-config
+```
+
+#### Step 2: Make your changes
+
+Make the changes to the code and tests and then commit to your branch. Be sure to follow the commit message conventions.
 
 Commit messages must follow this basic format:
 
@@ -150,6 +160,35 @@ Upgrade: Esprima to 1.2, switch to using Esprima comment attachment (fixes #730)
 
 The commit message format is important because these messages are used to create a changelog for each release. The tag and issue number help to create more consistent and useful changelogs.
 
+### Step 3: Rebase onto upstream
+
+Before you send the pull request, be sure to rebase onto the upstream source. This ensures your code is running on the latest available code.
+
+```
+git fetch upstream
+git rebase upstream/master
+```
+
+### Step 4: Run the tests
+
+After rebasing, be sure to run all of the tests once again to make sure nothing broke:
+
+```
+npm test
+```
+
+### Step 5: Squash your commits
+
+As mentioned previously, ESLint requires just one commit per pull request. If you have used multiple commits, be sure to [squash](http://gitready.com/advanced/2009/02/10/squashing-commits-with-rebase.html) your commits.
+
+### Step 6: Send the pull request
+
+Now you're ready to send the pull request. Go to your ESLint fork and then follow the [GitHub documentation](https://help.github.com/articles/creating-a-pull-request) on how to send a pull request.
+
+### Following Up
+
+All pull requests are sent through Travis CI to verify that no tests are broken. If the Travis build fails, it will show up on the pull request. We cannot accept any code that fails in Travis, so if this happens, make fixes and update the pull request to trigger another build.
+
 ## New Rules
 
 If you want to create a new rule, the first step is to file an issue. Make sure the issue includes the following information:
@@ -163,6 +202,3 @@ To simplify creation of new rules, use [ESLint Yeoman generator](https://github.
 
 Keep in mind that not all rules will be accepted for the main distribution. You may also request that your rule by on by default but we may accept it as off by default.
 
-## Following Up
-
-All pull requests are sent through Travis CI to verify that no tests are broken. If the Travis build fails, it will show up on the pull request. We cannot accept any code that fails in Travis, so if this happens, make fixes and update the pull request to trigger another build.
