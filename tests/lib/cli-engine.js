@@ -8,8 +8,11 @@
 //------------------------------------------------------------------------------
 
 var assert = require("chai").assert,
-    CLIEngine = require("../../lib/cli-engine"),
-    path = require("path");
+    CLIEngine = require("../../lib/cli-engine");
+
+require("shelljs/global");
+
+/*global tempdir, mkdir, rm, cp*/
 
 //------------------------------------------------------------------------------
 // Tests
@@ -17,22 +20,18 @@ var assert = require("chai").assert,
 
 describe("CLIEngine", function() {
 
-    describe("executeOnFiles", function() {
+    describe("executeOnFiles()", function() {
 
         var engine;
-
-        afterEach(function() {
-            process.eslintCwd = null;
-        });
 
         it("should report zero messages when given a config file and a valid file", function() {
 
             engine = new CLIEngine({
-                configFile: path.join(__dirname, "..", ".eslintrc")
+                // configFile: path.join(__dirname, "..", "..", ".eslintrc")
             });
 
             var report = engine.executeOnFiles(["lib/cli.js"]);
-
+            // console.dir(report.results[0].messages);
             assert.equal(report.results.length, 1);
             assert.equal(report.results[0].messages.length, 0);
         });
@@ -203,6 +202,7 @@ describe("CLIEngine", function() {
             engine = new CLIEngine({
                 ignore: false,
                 reset: true,
+                useEslintrc: false,
                 rulePaths: ["./tests/fixtures/rules/"],
                 configFile: "./tests/fixtures/rules/eslint.json"
             });
@@ -296,6 +296,248 @@ describe("CLIEngine", function() {
         });
 
         // These tests have to do with https://github.com/eslint/eslint/issues/963
+
+        describe("configuration hierarchy", function() {
+
+            var fixtureDir;
+
+            // copy into clean area so as not to get "infected" by this project's .eslintrc files
+            before(function() {
+                fixtureDir = tempdir() + "/eslint/fixtures";
+                mkdir("-p", fixtureDir);
+                cp("-r", "./tests/fixtures/config-hierarchy", fixtureDir);
+            });
+
+            after(function() {
+                rm("-r", fixtureDir);
+            });
+
+            // Default configuration - blank
+            it("should return zero messages when executing with reset and no .eslintrc", function () {
+
+                engine = new CLIEngine({
+                    reset: true,
+                    useEslintrc: false
+                });
+
+                var report = engine.executeOnFiles([fixtureDir + "/config-hierarchy/broken/console-wrong-quotes.js"]);
+                assert.equal(report.results.length, 1);
+                assert.equal(report.results[0].messages.length, 0);
+            });
+
+            // Default configuration - conf/eslint.json
+            it("should return one message when executing with no .eslintrc", function () {
+
+                engine = new CLIEngine({
+                    useEslintrc: false
+                });
+
+                var report = engine.executeOnFiles([fixtureDir + "/config-hierarchy/broken/console-wrong-quotes.js"]);
+                assert.equal(report.results.length, 1);
+                assert.equal(report.results[0].messages.length, 3);
+                assert.equal(report.results[0].messages[0].ruleId, "no-undef");
+                assert.equal(report.results[0].messages[0].severity, 2);
+                assert.equal(report.results[0].messages[1].ruleId, "no-console");
+                assert.equal(report.results[0].messages[1].severity, 2);
+                assert.equal(report.results[0].messages[2].ruleId, "quotes");
+                assert.equal(report.results[0].messages[2].severity, 2);
+            });
+
+            // Default configuration - conf/environments.json (/*eslint-env node*/)
+            it("should return one message when executing with no .eslintrc in the Node.js environment", function () {
+
+                engine = new CLIEngine({
+                    useEslintrc: false
+                });
+
+                var report = engine.executeOnFiles([fixtureDir + "/config-hierarchy/broken/console-wrong-quotes-node.js"]);
+                assert.equal(report.results.length, 1);
+                assert.equal(report.results[0].messages.length, 1);
+                assert.equal(report.results[0].messages[0].ruleId, "quotes");
+                assert.equal(report.results[0].messages[0].severity, 2);
+            });
+
+            // Project configuration - first level .eslintrc
+            it("should return one message when executing with .eslintrc in the Node.js environment", function () {
+
+                engine = new CLIEngine();
+
+                var report = engine.executeOnFiles([fixtureDir + "/config-hierarchy/broken/process-exit.js"]);
+                assert.equal(report.results.length, 1);
+                assert.equal(report.results[0].messages.length, 1);
+                assert.equal(report.results[0].messages[0].ruleId, "no-process-exit");
+                assert.equal(report.results[0].messages[0].severity, 2);
+            });
+
+            // Project configuration - first level .eslintrc
+            it("should return zero messages when executing with .eslintrc in the Node.js environment and reset", function () {
+
+                engine = new CLIEngine({
+                    reset: true
+                });
+
+                var report = engine.executeOnFiles([fixtureDir + "/config-hierarchy/broken/process-exit.js"]);
+                assert.equal(report.results.length, 1);
+                assert.equal(report.results[0].messages.length, 0);
+            });
+
+            // Project configuration - first level .eslintrc
+            it("should return one message when executing with .eslintrc", function () {
+
+                engine = new CLIEngine({
+                    reset: true
+                });
+
+                var report = engine.executeOnFiles([fixtureDir + "/config-hierarchy/broken/console-wrong-quotes.js"]);
+                assert.equal(report.results.length, 1);
+                assert.equal(report.results[0].messages.length, 1);
+                assert.equal(report.results[0].messages[0].ruleId, "quotes");
+                assert.equal(report.results[0].messages[0].severity, 2);
+            });
+
+            // Project configuration - first level package.json
+            it("should return one message when executing with package.json");
+
+            // Project configuration - second level .eslintrc
+            it("should return one message when executing with local .eslintrc that overrides parent .eslintrc", function () {
+
+                engine = new CLIEngine({
+                    reset: true
+                });
+
+                var report = engine.executeOnFiles([fixtureDir + "/config-hierarchy/broken/subbroken/console-wrong-quotes.js"]);
+                assert.equal(report.results.length, 1);
+                assert.equal(report.results[0].messages.length, 1);
+                assert.equal(report.results[0].messages[0].ruleId, "no-console");
+                assert.equal(report.results[0].messages[0].severity, 1);
+            });
+
+            // Project configuration - third level .eslintrc
+            it("should return one message when executing with local .eslintrc that overrides parent and grandparent .eslintrc", function () {
+
+                engine = new CLIEngine({
+                    reset: true
+                });
+
+                var report = engine.executeOnFiles([fixtureDir + "/config-hierarchy/broken/subbroken/subsubbroken/console-wrong-quotes.js"]);
+                assert.equal(report.results.length, 1);
+                assert.equal(report.results[0].messages.length, 1);
+                assert.equal(report.results[0].messages[0].ruleId, "quotes");
+                assert.equal(report.results[0].messages[0].severity, 1);
+            });
+
+            // Command line configuration - --config with first level .eslintrc
+            it("should return two messages when executing with config file that adds to local .eslintrc", function () {
+
+                engine = new CLIEngine({
+                    reset: true,
+                    configFile: fixtureDir + "/config-hierarchy/broken/add-conf.yaml"
+                });
+
+                var report = engine.executeOnFiles([fixtureDir + "/config-hierarchy/broken/console-wrong-quotes.js"]);
+                assert.equal(report.results.length, 1);
+                assert.equal(report.results[0].messages.length, 2);
+                assert.equal(report.results[0].messages[0].ruleId, "semi");
+                assert.equal(report.results[0].messages[0].severity, 1);
+                assert.equal(report.results[0].messages[1].ruleId, "quotes");
+                assert.equal(report.results[0].messages[1].severity, 2);
+            });
+
+            // Command line configuration - --config with first level .eslintrc
+            it("should return no messages when executing with config file that overrides local .eslintrc", function () {
+
+                engine = new CLIEngine({
+                    reset: true,
+                    configFile: fixtureDir + "/config-hierarchy/broken/override-conf.yaml"
+                });
+
+                var report = engine.executeOnFiles([fixtureDir + "/config-hierarchy/broken/console-wrong-quotes.js"]);
+                assert.equal(report.results.length, 1);
+                assert.equal(report.results[0].messages.length, 0);
+            });
+
+            // Command line configuration - --config with second level .eslintrc
+            it("should return two messages when executing with config file that adds to local and parent .eslintrc", function () {
+
+                engine = new CLIEngine({
+                    reset: true,
+                    configFile: fixtureDir + "/config-hierarchy/broken/add-conf.yaml"
+                });
+
+                var report = engine.executeOnFiles([fixtureDir + "/config-hierarchy/broken/subbroken/console-wrong-quotes.js"]);
+                assert.equal(report.results.length, 1);
+                assert.equal(report.results[0].messages.length, 2);
+                assert.equal(report.results[0].messages[0].ruleId, "semi");
+                assert.equal(report.results[0].messages[0].severity, 1);
+                assert.equal(report.results[0].messages[1].ruleId, "no-console");
+                assert.equal(report.results[0].messages[1].severity, 1);
+            });
+
+            // Command line configuration - --config with second level .eslintrc
+            it("should return one message when executing with config file that overrides local and parent .eslintrc", function () {
+
+                engine = new CLIEngine({
+                    reset: true,
+                    configFile: fixtureDir + "/config-hierarchy/broken/override-conf.yaml"
+                });
+
+                var report = engine.executeOnFiles([fixtureDir + "/config-hierarchy/broken/subbroken/console-wrong-quotes.js"]);
+                assert.equal(report.results.length, 1);
+                assert.equal(report.results[0].messages.length, 1);
+                assert.equal(report.results[0].messages[0].ruleId, "no-console");
+                assert.equal(report.results[0].messages[0].severity, 1);
+            });
+
+            // Command line configuration - --config with first level .eslintrc
+            it("should return no messages when executing with config file that overrides local .eslintrc", function () {
+
+                engine = new CLIEngine({
+                    reset: true,
+                    configFile: fixtureDir + "/config-hierarchy/broken/override-conf.yaml"
+                });
+
+                var report = engine.executeOnFiles([fixtureDir + "/config-hierarchy/broken/console-wrong-quotes.js"]);
+                assert.equal(report.results.length, 1);
+                assert.equal(report.results[0].messages.length, 0);
+            });
+
+            // Command line configuration - --rule with --config and first level .eslintrc
+            it("should return one message when executing with command line rule and config file that overrides local .eslintrc", function () {
+
+                engine = new CLIEngine({
+                    reset: true,
+                    configFile: fixtureDir + "/config-hierarchy/broken/override-conf.yaml",
+                    rules: {
+                        quotes: [1, "double"]
+                    }
+                });
+
+                var report = engine.executeOnFiles([fixtureDir + "/config-hierarchy/broken/console-wrong-quotes.js"]);
+                assert.equal(report.results.length, 1);
+                assert.equal(report.results[0].messages.length, 1);
+                assert.equal(report.results[0].messages[0].ruleId, "quotes");
+                assert.equal(report.results[0].messages[0].severity, 1);
+            });
+
+            // Command line configuration - --rule with --config and first level .eslintrc
+            it("should return one message when executing with command line rule and config file that overrides local .eslintrc", function () {
+
+                engine = new CLIEngine({
+                    reset: true,
+                    configFile: fixtureDir + "/config-hierarchy/broken/override-conf.yaml",
+                    rules: {
+                        quotes: [1, "double"]
+                    }
+                });
+
+                var report = engine.executeOnFiles([fixtureDir + "/config-hierarchy/broken/console-wrong-quotes.js"]);
+                assert.equal(report.results.length, 1);
+                assert.equal(report.results[0].messages.length, 1);
+                assert.equal(report.results[0].messages[0].ruleId, "quotes");
+                assert.equal(report.results[0].messages[0].severity, 1);
+            });
+
+        });
 
         // it("should return zero messages when executing with global node flag", function () {
 
@@ -395,27 +637,6 @@ describe("CLIEngine", function() {
         //         assert.equal(exit, 0);
         //     });
         // });
-
-        it("should return zero messages when supplied with rule flag and severity level set to error", function() {
-
-            engine = new CLIEngine({
-                configFile: "tests/fixtures/configurations/env-browser.json",
-                reset: true,
-                rules: {
-                    quotes: [2, "double"]
-                }
-            });
-
-            var report = engine.executeOnFiles(["tests/fixtures/single-quoted.js"]);
-            assert.equal(report.results.length, 1);
-            assert.equal(report.results[0].messages.length, 1);
-            assert.equal(report.results[0].messages[0].ruleId, "quotes");
-            assert.equal(report.results[0].messages[0].severity, 2);
-        });
-
-
-
-
 
     });
 

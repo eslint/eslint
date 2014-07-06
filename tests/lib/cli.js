@@ -277,24 +277,6 @@ describe("cli", function() {
         });
     });
 
-    describe("when executing with env flag", function () {
-        var files = [
-            "./tests/fixtures/globals-browser.js",
-            "./tests/fixtures/globals-node.js"
-        ];
-
-        it("should allow environment-specific globals", function () {
-            cli.execute("--reset --no-eslintrc --config ./conf/eslint.json --env browser,node --no-ignore " + files.join(" "));
-
-            assert.equal(console.log.args[0][0].split("\n").length, 9);
-        });
-
-        it("should allow environment-specific globals, with multiple flags", function () {
-            cli.execute("--reset --no-eslintrc --config ./conf/eslint.json --env browser --env node --no-ignore " + files.join(" "));
-            assert.equal(console.log.args[0][0].split("\n").length, 9);
-        });
-    });
-
     describe("when executing without env flag", function () {
         var files = [
             "./tests/fixtures/globals-browser.js",
