@@ -55,3 +55,7 @@ setInterval(function() {
 
 * [Eval is Evil, Part One](http://blogs.msdn.com/b/ericlippert/archive/2003/11/01/53329.aspx)
 * [How evil is eval](http://javascriptweblog.wordpress.com/2010/04/19/how-evil-is-eval/)
+
+## Related Rules
+
+* [no-implied-eval](no-implied-eval.md)

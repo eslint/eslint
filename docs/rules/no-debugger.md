@@ -17,3 +17,8 @@ If your code is still very much in development and don't want to worry about str
 ## Further Reading
 
 * [Debugger](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/debugger)
+
+## Related Rules
+
+* [no-alert](no-alert.md)
+* [no-console](no-console.md)

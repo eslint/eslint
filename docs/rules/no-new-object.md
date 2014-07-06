@@ -40,3 +40,7 @@ var myObject = {};
 
 If you wish to allow the use of the `Object` constructor, you can safely turn this rule off.
 
+## Related Rules
+
+* [no-array-constructor](no-array-constructor.md)
+* [no-new-wrappers](no-new-wrappers.md)

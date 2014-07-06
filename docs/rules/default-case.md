@@ -86,3 +86,6 @@ switch (a) {
 
 If you don't want to enforce a `default` case for `switch` statements, you can safely disable this rule.
 
+## Related Rules
+
+* [no-fallthrough](no-fallthrough.md)

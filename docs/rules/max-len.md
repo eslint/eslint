@@ -30,3 +30,11 @@ var foo = {
     "difficult": "to read"
 };
 ```
+
+## Related Rules
+
+* [complexity](complexity.md)
+* [max-depth](max-depth.md)
+* [max-nested-callbacks](max-nested-callbacks.md)
+* [max-params](max-params.md)
+* [max-statements](max-statements.md)

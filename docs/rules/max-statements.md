@@ -45,3 +45,11 @@ function foo() {
 
 }
 ```
+
+## Related Rules
+
+* [complexity](complexity.md)
+* [max-depth](max-depth.md)
+* [max-len](max-len.md)
+* [max-nested-callbacks](max-nested-callbacks.md)
+* [max-params](max-params.md)
