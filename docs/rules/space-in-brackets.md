@@ -154,3 +154,7 @@ Note that `"always"` has a special case where `{}` and `[]` are not considered w
 ## When Not To Use It
 
 You can turn this rule off if you are not concerned with the consistency of spacing between brackets.
+
+## Related Rules
+
+* [space-in-parens](space-in-parens.md)
