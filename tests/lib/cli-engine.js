@@ -396,7 +396,7 @@ describe("CLIEngine", function() {
             });
 
             // Project configuration - first level package.json
-            it("should return one message when executing with package.json");
+            //it("should return one message when executing with package.json");
 
             // Project configuration - second level .eslintrc
             it("should return one message when executing with local .eslintrc that overrides parent .eslintrc", function () {
