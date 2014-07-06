@@ -24,3 +24,9 @@ var pattern2 = new RegExp("\x20");
 ## When Not To Use It
 
 If you need to use control character pattern matching, then you should turn this rule off.
+
+## Related Rules
+
+* [no-div-regex](no-div-regex.md)
+* [no-regex-spaces](no-regex-spaces.md)
+

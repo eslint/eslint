@@ -29,3 +29,8 @@ customConfirm("Are you sure?");
 
 customPrompt("Who are you?");
 ```
+
+## Related Rules
+
+* [no-console](no-console.md)
+* [no-debugger](no-debugger.md)

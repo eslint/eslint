@@ -54,3 +54,11 @@ You can configure the depth as an option by using the second argument in your co
 ```json
 "max-depth": [2, 10]
 ```
+
+## Related Rules
+
+* [complexity](complexity.md)
+* [max-len](max-len.md)
+* [max-nested-callbacks](max-nested-callbacks.md)
+* [max-params](max-params.md)
+* [max-statements](max-statements.md)

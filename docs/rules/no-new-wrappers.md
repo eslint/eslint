@@ -67,3 +67,8 @@ If you want to allow the use of primitive wrapper objects, then you can safely d
 ## Further Reading
 
 * [Wrapper objects](https://www.inkling.com/read/javascript-definitive-guide-david-flanagan-6th/chapter-3/wrapper-objects)
+
+## Related Rules
+
+* [no-array-constructor](no-array-constructor.md)
+* [no-new-object](no-new-object.md)

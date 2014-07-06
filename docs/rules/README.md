@@ -134,11 +134,11 @@ These rules are purely matters of style and are quite subjective.
 * [no-ternary](no-ternary.md) - disallow the use of ternary operators (off by default)
 * [no-trailing-spaces](no-trailing-spaces.md) - disallow trailing whitespace at the end of lines (off by default)
 * [no-underscore-dangle](no-underscore-dangle.md) - disallow dangling underscores in identifiers
-* [no-wrap-func](no-wrap-func.md) - disallow wrapping of none IIFE statements in parents
+* [no-wrap-func](no-wrap-func.md) - disallow wrapping of non-IIFE statements in parens
 * [no-mixed-spaces-and-tabs](no-mixed-spaces-and-tabs.md) - disallow mixed spaces and tabs for indentation
 * [quotes](quotes.md) - specify whether double or single quotes should be used
 * [quote-props](quote-props.md) - require quotes around object literal property names (off by default)
-* [semi](semi.md)- require or disallow use of semicolons instead of ASI
+* [semi](semi.md) - require or disallow use of semicolons instead of ASI
 * [sort-vars](sort-vars.md) - sort variables within the same declaration block (off by default)
 * [space-after-keywords](space-after-keywords.md) - require a space after certain keywords (off by default)
 * [space-in-brackets](space-in-brackets.md) - require or disallow spaces between brackets (off by default)

@@ -56,3 +56,7 @@ var String;
 ## When Not To Use It
 
 If you are trying to override one of the native objects.
+
+## Related Rules
+
+* [no-extend-native](no-extend-native.md)
