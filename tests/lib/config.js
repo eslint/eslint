@@ -198,7 +198,7 @@ describe("Config", function() {
                 file = getFixturePath("broken", "console-wrong-quotes.js"),
                 expected = {
                     rules: {},
-                    globals: [],
+                    globals: {},
                     env: {}
                 },
                 actual = configHelper.getConfig(file);
@@ -414,6 +414,24 @@ describe("Config", function() {
             expected.env.node = true;
 
             assertConfigsEqual(expected, actual);
+        });
+
+
+        it("should load user config globals", function() {
+            var expected,
+                actual,
+                configPath = path.resolve(__dirname, "..", "fixtures", "globals", "conf.yaml"),
+                configHelper = new Config({ reset: true, configFile: configPath, useEslintrc: false });
+
+            expected = {
+                globals: {
+                    foo: true
+                }
+            };
+
+            actual = configHelper.getConfig(configPath);
+
+            assertConfigsEqual(actual, expected);
         });
 
 
