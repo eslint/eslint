@@ -416,7 +416,6 @@ describe("Config", function() {
             assertConfigsEqual(expected, actual);
         });
 
-
         it("should load user config globals", function() {
             var expected,
                 actual,
@@ -434,6 +433,17 @@ describe("Config", function() {
             assertConfigsEqual(actual, expected);
         });
 
+        it("should not load disabled environments", function() {
+            var config, configPath, configHelper;
+
+            configPath = path.resolve(__dirname, "..", "fixtures", "environments", "disable.yaml");
+
+            configHelper = new Config({ reset: true, configFile: configPath, useEslintrc: false });
+
+            config = configHelper.getConfig(configPath);
+
+            assert.isUndefined(config.globals.window);
+        });
 
     });
 
