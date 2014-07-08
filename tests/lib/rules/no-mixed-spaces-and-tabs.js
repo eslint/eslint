@@ -26,6 +26,9 @@ eslintTester.addRuleTest("lib/rules/no-mixed-spaces-and-tabs", {
             code: "    var x = 5;"
         },
         {
+            code: "\t/*\n\t * Hello\n\t */"
+        },
+        {
             code: "\tvar x = 5,\n\t    y = 2;",
             args: [2, true]
         }
@@ -49,7 +52,7 @@ eslintTester.addRuleTest("lib/rules/no-mixed-spaces-and-tabs", {
                     message: "Mixed spaces and tabs.",
                     type: "Program",
                     line: 1
-                }, 
+                },
                 {
                     message: "Mixed spaces and tabs.",
                     type: "Program",
