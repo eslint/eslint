@@ -43,7 +43,9 @@ eslintTester.addRuleTest("lib/rules/new-cap", {
         "var x = bar[Foo](42)",
         {code: "var x = bar['Foo'](42)", args: [1, {"capIsNew": false}]},
         "var x = Foo.bar(42)",
-        {code: "var x = new foo(42)", args: [1, {"newIsCap": false}]}
+        {code: "var x = new foo(42)", args: [1, {"newIsCap": false}]},
+        "var o = { 1: function () {} }; o[1]();",
+        "var o = { 1: function () {} }; new o[1]();"
     ],
     invalid: [
         { code: "var x = new c();", errors: [{ message: "A constructor name should not start with a lowercase letter.", type: "NewExpression"}] },
