@@ -285,7 +285,7 @@ describe("cli", function() {
 
         it("should not define environment-specific globals", function () {
             cli.execute("--reset --no-eslintrc --config ./conf/eslint.json --no-ignore " + files.join(" "));
-            assert.equal(console.log.args[0][0].split("\n").length, 9);
+            assert.equal(console.log.args[0][0].split("\n").length, 12);
         });
     });
 
