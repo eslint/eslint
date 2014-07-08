@@ -1,3 +1,11 @@
+v0.7.2 - July 8, 2014
+
+* 0.7.2 (Nicholas C. Zakas)
+* Fix: no-mixed-spaces-and-tabs incorrectly flagging multiline comments (fixes #1055) (Nicholas C. Zakas)
+* Fix: new-cap error that throws on non-string member (fixes #1056) (Nicholas C. Zakas)
+* Fix: Always make globals an object (Fixes #1049) (jrajav)
+* 0.7.1 (Nicholas C. Zakas)
+
 v0.7.1 - July 7, 2014
 
 * 0.7.1 (Nicholas C. Zakas)
