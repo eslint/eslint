@@ -1,3 +1,13 @@
+v0.7.3 - July 9, 2014
+
+* 0.7.3 (Nicholas C. Zakas)
+* Update: Address code review comment for strict rule (refs #1011) (Nicholas C. Zakas)
+* Docs: Update copyright policy (Nicholas C. Zakas)
+* Docs: Update documentation for max-len to include description of second option (fixes #1006) (Nicholas C. Zakas)
+* Fix: Avoid double warnings for strict rule (fixes #1011) (Nicholas C. Zakas)
+* Fix: Check envs for true/false (Fixes #1059) (jrajav)
+* 0.7.2 (Nicholas C. Zakas)
+
 v0.7.2 - July 8, 2014
 
 * 0.7.2 (Nicholas C. Zakas)
