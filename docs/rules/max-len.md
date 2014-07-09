@@ -31,6 +31,20 @@ var foo = {
 };
 ```
 
+### Options
+
+The `max-len` rule has two required options:
+
+* The total number of characters allowed on each line of code. This character count includes indentation.
+* The character count to use whenever a tab character is encountered.
+
+For example, to specify a maximum line length of 80 characters with each tab counting as 4 characters, use the following configuration:
+
+```
+"max-len": [2, 80, 4]
+```
+
+
 ## Related Rules
 
 * [complexity](complexity.md)
