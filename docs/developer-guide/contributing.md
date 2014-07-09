@@ -92,15 +92,38 @@ Part of what makes ESLint useful is the way it integrates into other systems. We
 
 Additionally, we are always looking for official integrations to host under the ESLint organization on GitHub. Official integrations are tools that have a high-level quality and are managed by responsible maintainers who are committed to keeping the tool up-to-date and bettering the tool for the good of the ESLint community. If you think your integration qualifies, please contact the [mailing list](https://groups.google.com/group/eslint) with your information.
 
-## Licensing
+## Copyright and Licensing
 
 When you submit code to the ESLint project, you agree:
 
+1. The code you wrote is your original work (you own the copyright).
 1. To allow the ESLint project to use your submitted code in any way.
-2. The code you wrote is your original work.
-3. You are capable of granting rights for the submitted code.
+1. You are capable of granting rights for the submitted code.
 
 It is very important that you understand the implications of these conditions, as it gives ESLint the right to accept your contribution.
+
+Since the code you wrote is your original work, you keep the copyright for it. This is why we ask you to include a copyright in the comments at the beginning of any file you submit, such as:
+
+```js
+/**
+ * @fileoverview Description of the file
+ * @author Your Name
+ * @copyright 2014 Your Name. All rights reserved.
+ */
+```
+
+The `@author` field gives you credit for having created the file. The `@copyright` field indicates that you are the copyright holder for the file.
+
+Your submission may touch other parts of the ESLint code that you did not write. In that case, you are welcome to add a copyright notice to the top of the file if you have done any amount of significant work on the file (we leave it up to you to decide what "significant" means - if you aren't sure, just ask). You should never change the `@author` field, but you can add another `@copyright` field on top of the existing ones, such as:
+
+```js
+/**
+ * @fileoverview Description of the file
+ * @author Author's Name
+ * @copyright 2015 Your Name. All rights reserved.
+ * @copyright 2014 Author's Name. All rights reserved.
+ */
+```
 
 ## Pull Requests
 
