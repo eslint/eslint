@@ -75,6 +75,21 @@ describe("CLIEngine", function() {
             assert.equal(report.results[0].messages.length, 0);
         });
 
+        it("should return zero messages when given an option to set environment to browser", function() {
+
+            engine = new CLIEngine({
+                envs: ["browser"],
+                rules: {
+                    "no-undef": 2
+                },
+                reset: true
+            });
+
+            var report = engine.executeOnFiles(["tests/fixtures/globals-browser.js"]);
+            assert.equal(report.results.length, 1);
+            assert.equal(report.results[0].messages.length, 0);
+        });
+
         it("should return zero messages when given a config with environment set to Node.js", function() {
 
             engine = new CLIEngine({
