@@ -1,3 +1,10 @@
+v0.7.4 - July 10, 2014
+
+* 0.7.4 (Nicholas C. Zakas)
+* Docs: Fix 'lintinging' typo and ref links (Tom Vincent)
+* Fix: Transform envs option to object in Config (Fixes #1064) (jrajav)
+* 0.7.3 (Nicholas C. Zakas)
+
 v0.7.3 - July 9, 2014
 
 * 0.7.3 (Nicholas C. Zakas)
