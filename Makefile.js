@@ -178,7 +178,7 @@ target.gensite = function() {
 
             text = text.replace(/.md\)/g, ".html)").replace("README.html", "index.html");
 
-            if (filename.indexOf("rules/") !== -1) {
+            if (filename.indexOf("rules/") !== -1 && path.basename(filename) !== "README.md") {
                 text += "\n## Resources\n\n";
                 text += "* [Rule source](" + rulesUrl + path.basename(filename, ".md") + ".js)\n";
                 text += "* [Documentation source](" + docsUrl + path.basename(filename) + ")\n";
