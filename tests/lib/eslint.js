@@ -2107,4 +2107,21 @@ describe("eslint", function() {
         });
 
     });
+
+    describe("when evaluating code with hashbang", function() {
+        it("should comment hashbang without breaking offset", function() {
+
+            var code = "#!/usr/bin/env node\n'123';";
+
+            var config = { rules: {} };
+
+            eslint.reset();
+            eslint.on("ExpressionStatement", function(node) {
+                assert.equal(eslint.getSource(node), "'123';");
+            });
+
+            eslint.verify(code, config, filename, true);
+        });
+
+    });
 });
