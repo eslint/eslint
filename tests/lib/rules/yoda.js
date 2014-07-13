@@ -127,6 +127,6 @@ eslintTester.addRuleTest("lib/rules/yoda", {
                 }
             ]
         }
-        
+
     ]
 });

@@ -19,7 +19,7 @@ var assert = require("chai").assert,
 describe("IgnoredPaths", function() {
 
     describe("initialization", function() {
-        
+
         it("should travel to parent directories to find .eslintignore", function() {
             var cwd, ignoredPaths;
 
