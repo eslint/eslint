@@ -51,6 +51,12 @@ describe("IgnoredPaths", function() {
             assert.notEqual(ignoredPaths.patterns.length, 0);
         });
 
+        it("should add a second children pattern", function() {
+            var ignoredPaths = IgnoredPaths.load({ ignore: true, ignorePath: filepath });
+            assert.ok(ignoredPaths.patterns[1]);
+            assert.equal(ignoredPaths.patterns[1], ignoredPaths.patterns[0] + "/**");
+        });
+
     });
 
     describe("initialization with invalid file", function() {
@@ -73,6 +79,11 @@ describe("IgnoredPaths", function() {
         it("should return true for file matching an ignore pattern", function() {
             var ignoredPaths = IgnoredPaths.load({ ignore: true, ignorePath: filepath });
             assert.ok(ignoredPaths.contains("undef.js"));
+        });
+
+        it("should return true for file matching a child of an ignore pattern", function() {
+            var ignoredPaths = IgnoredPaths.load({ ignore: true, ignorePath: filepath });
+            assert.ok(ignoredPaths.contains("undef.js/subdir/grandsubdir"));
         });
 
         it("should return false for file not matching any ignore pattern", function() {
