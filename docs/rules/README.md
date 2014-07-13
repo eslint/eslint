@@ -132,7 +132,7 @@ These rules are purely matters of style and are quite subjective.
 * [no-spaced-func](no-spaced-func.md) - disallow space between function identifier and application
 * [no-space-before-semi](no-space-before-semi.md) - disallow space before semicolon
 * [no-ternary](no-ternary.md) - disallow the use of ternary operators (off by default)
-* [no-trailing-spaces](no-trailing-spaces.md) - disallow trailing whitespace at the end of lines (off by default)
+* [no-trailing-spaces](no-trailing-spaces.md) - disallow trailing whitespace at the end of lines
 * [no-underscore-dangle](no-underscore-dangle.md) - disallow dangling underscores in identifiers
 * [no-wrap-func](no-wrap-func.md) - disallow wrapping of non-IIFE statements in parens
 * [no-mixed-spaces-and-tabs](no-mixed-spaces-and-tabs.md) - disallow mixed spaces and tabs for indentation

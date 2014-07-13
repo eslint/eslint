@@ -76,7 +76,7 @@
         "no-sparse-arrays": 2,
         "no-sync": 0,
         "no-ternary": 0,
-        "no-trailing-spaces": 0,
+        "no-trailing-spaces": 2,
         "no-undef": 2,
         "no-undefined": 0,
         "no-undef-init": 2,
