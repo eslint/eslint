@@ -93,4 +93,17 @@ describe("IgnoredPaths", function() {
 
     });
 
+    describe("initialization with commented lines", function() {
+
+        var filepath = path.resolve(__dirname, "..", "fixtures", ".eslintignore3");
+
+        it("should ignore comments", function() {
+            var ignoredPaths = IgnoredPaths.load({ ignore: true, ignorePath: filepath });
+            // get 2 lines, because loader autoadd '/**' rule to each
+            // change to 1 if loader updated
+            assert.equal(ignoredPaths.patterns.length, 2);
+        });
+
+    });
+
 });
