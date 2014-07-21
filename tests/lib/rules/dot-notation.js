@@ -20,7 +20,17 @@ eslintTester.addRuleTest("lib/rules/dot-notation", {
         "a.b;",
         "a.b.c;",
         "a['12'];",
+        "a[b];",
+        "a[0];",
         "a['while'];",
+        "a['true'];",
+        "a['false'];",
+        "a['null'];",
+        "a[true];",
+        "a[false];",
+        "a[null];",
+        "a[undefined];",
+        "a[void 0];",
         "a[b()];"
     ],
     invalid: [
