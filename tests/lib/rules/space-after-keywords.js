@@ -18,7 +18,9 @@ eslintTester.addRuleTest("lib/rules/space-after-keywords", {
         { code: "if (a) {} else {}", args: [1] },
         { code: "for (;;){}", args: [1] },
         { code: "while (true) {}", args: [1]},
-        { code: "do {} while (true);", args: [1]},
+        { code: "do {} while (0)", args: [1]},
+        { code: "do ;while (0)", args: [1]},
+        { code: "do; while(0)", args: [1, "never"]},
         { code: "try {} catch (e) {}", args: [1]},
         { code: "with (a) {}", args: [1]},
         { code: "if(a) {}", args: [1, "never"]},
@@ -29,7 +31,9 @@ eslintTester.addRuleTest("lib/rules/space-after-keywords", {
         { code: "if (a) {} else{}", args: [1], errors: [{ message: "Keyword \"else\" must be followed by whitespace." }] },
         { code: "switch(a){ default: break; }", errors: [{ message: "Keyword \"switch\" must be followed by whitespace.", type: "SwitchStatement" }] },
         { code: "if(a){}", errors: [{ message: "Keyword \"if\" must be followed by whitespace.", type: "IfStatement" }] },
-        { code: "do{} while (true);", args: [1], errors: [{ message: "Keyword \"do\" must be followed by whitespace.", type: "DoWhileStatement" }]},
+        { code: "do{} while (0)", args: [1], errors: [{ message: "Keyword \"do\" must be followed by whitespace.", type: "DoWhileStatement" }]},
+        { code: "do ;while(0)", args: [1], errors: [{ message: "Keyword \"while\" must be followed by whitespace.", type: "DoWhileStatement" }]},
+        { code: "do;while (0)", args: [1, "never"], errors: [{ message: "Keyword \"while\" must not be followed by whitespace.", type: "DoWhileStatement" }]},
         { code: "if (a) {}", args: [1, "never"], errors: [{ message: "Keyword \"if\" must not be followed by whitespace.", type: "IfStatement" }]},
         { code: "if(a){}else {}", args: [1, "never"], errors: [{ message: "Keyword \"else\" must not be followed by whitespace." }]}
     ]
