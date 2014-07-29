@@ -1,0 +1,8 @@
+{
+    generic: true,
+    fileSpecificConfigs: {
+        "*.test.js": {
+            "specific": true
+        }
+    }
+}

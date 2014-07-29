@@ -445,6 +445,26 @@ describe("Config", function() {
             assert.isUndefined(config.globals.window);
         });
 
+        it("should overide options if a matching fileSpecificConfigs is provided", function() {
+            var config, configPath, configHelper;
+            configPath = path.resolve(__dirname, "..", "fixtures", "fileSpecificConfigs", "file.test.js");
+            configHelper = new Config({ reset: true, configFile: configPath });
+            config = configHelper.getConfig(configPath);
+
+            assert.equal(config.generic, true);
+            assert.equal(config.specific, true);
+        });
+
+        it("should not override options if a non-matching fileSpecificConfigs is provided", function() {
+            var config, configPath, configHelper;
+            configPath = path.resolve(__dirname, "..", "fixtures", "fileSpecificConfigs", "file.js");
+            configHelper = new Config({ reset: true, configFile: configPath });
+            config = configHelper.getConfig(configPath);
+
+            assert.equal(config.generic, true);
+            assert.isUndefined(config.specific);
+        });
+
     });
 
 });
