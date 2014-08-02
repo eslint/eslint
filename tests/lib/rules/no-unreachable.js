@@ -26,7 +26,11 @@ eslintTester.addRuleTest("lib/rules/no-unreachable", {
         "while (true) { break; var x; }",
         "while (true) { continue; var x, y; }",
         "while (true) { throw 'message'; var x; }",
-        "switch (foo) { case 1: break; var x; }"
+        "while (true) { if (true) break; var x = 1; }",
+        "while (true) continue;",
+        "switch (foo) { case 1: break; var x; }",
+        "var x = 1; y = 2; throw 'uh oh'; var y;",
+        "var x = 1; throw 'uh oh'; var y = 2;"
     ],
     invalid: [
         { code: "function foo() { return x; var x = 1; }", errors: [{ message: "Found unexpected statement after a return.", type: "VariableDeclaration"}] },
