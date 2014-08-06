@@ -12,7 +12,7 @@ function fn() {
 
 ## Rule Details
 
-This rule is aimed at detecting unreachable code. It produces an error when a statements in a block exist after a `return`, `throw`, `break`, or `continue` statement. The rule checks inside block statements and switch cases.
+This rule is aimed at detecting unreachable code. It produces an error when a statements in a block exist after a `return`, `throw`, `break`, or `continue` statement. The rule checks inside the program root, block statements, and switch cases.
 
 The following are considered warnings:
 
@@ -31,6 +31,9 @@ while(value) {
 	break;
 	console.log("done");
 }
+
+throw new Error("Oops!");
+console.log("done");
 ```
 
 The following patterns are not considered warnings (due to JavaScript function and variable hoisting):
