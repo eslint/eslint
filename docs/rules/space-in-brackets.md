@@ -14,7 +14,7 @@ foo['bar'];
 
 ## Rule Details
 
-This rule aims to maintain consistency around the spacing inside of square brackets, either by disallowing spaces inside of brackets between the brackets and other tokens or enforcing spaces. Multi-line array and object literals with no values on the same line as the brackets are excepted from this rule as this is a common pattern.
+This rule aims to maintain consistency around the spacing inside of square brackets, either by disallowing spaces inside of brackets between the brackets and other tokens or enforcing spaces. Multi-line array and object literals with no values on the same line as the brackets are excepted from this rule as this is a common pattern.  Object literals that are used as the first or last element in an array are also ignored.
 
 ### Options
 
@@ -60,8 +60,7 @@ var obj = {'foo': 'bar'
 };
 
 var obj = {
-  'foo':bar'};
-
+  'foo':'bar'};
 ```
 
 The following patterns are not warnings:
@@ -119,8 +118,7 @@ var obj = {'foo': 'bar'
 };
 
 var obj = {
-  'foo':bar'};
-
+  'foo':'bar'};
 ```
 
 The following patterns are not warnings:
@@ -150,6 +148,81 @@ var obj = {
 ```
 
 Note that `"always"` has a special case where `{}` and `[]` are not considered warnings.
+
+#### Exceptions
+
+When using `"always"`, an object literal may be used as a third array item to specify spacing exceptions.  You can add exceptions like so:
+
+```json
+"space-in-brackets": [2, "always", {
+  "singleValue": true,
+  "objectsInArrays": true,
+  "arraysInArrays": true
+}]
+```
+
+The following exceptions are available:
+
+* `"singleValue"` requires a single value inside of square brackets to not have spacing
+* `"objectsInArrays"` requires object literals that are the first or last element in an array to not have spacing between the curly braces and the square brackets
+* `"arraysInArrays"` requires array literals that are the first or last element in an array to not have spacing between the square brackets
+
+When `"singleValue"` is set to `true`, the following patterns are considered warnings:
+
+```js
+var foo = [ 'foo' ];
+var foo = [ 'foo'];
+var foo = ['foo' ];
+var foo = [ 1 ];
+var foo = [ 1];
+var foo = [1 ];
+var foo = [ [ 1, 2 ] ];
+var foo = [ { 'foo': 'bar' } ];
+var foo = obj[ 1 ];
+var foo = obj[ bar ];
+```
+
+The following patterns are not warnings:
+
+```js
+var foo = ['foo'];
+var foo = [1];
+var foo = [[ 1, 1 ]];
+var foo = [{ 'foo': 'bar' }];
+var foo = obj[bar];
+```
+
+When `"objectsInArrays"` is set to `true`, the following patterns are considered warnings:
+
+```js
+var arr = [ { 'foo': 'bar' } ];
+var arr = [ {
+  'foo': 'bar'
+} ]
+```
+
+The following patterns are not warnings:
+
+```js
+var arr = [{ 'foo': 'bar' }];
+var arr = [{
+  'foo': 'bar'
+}];
+```
+
+When `"arraysInArrays"` is set to `true`, the following patterns are considered warnings:
+
+```js
+var arr = [ [ 1, 2 ], 2, 3, 4 ];
+var arr = [ [ 1, 2 ], 2, [ 3, 4 ] ];
+```
+
+The following patterns are not warnings:
+
+```js
+var arr = [[ 1, 2 ], 2, 3, 4 ];
+var arr = [[ 1, 2 ], 2, [ 3, 4 ]];
+```
 
 ## When Not To Use It
 
