@@ -89,6 +89,7 @@
         "no-with": 2,
         "no-wrap-func": 2,
         "no-mixed-spaces-and-tabs": [2, false],
+        "no-resv-key": 0,
 
         "block-scoped-var": 0,
         "brace-style": [0, "1tbs"],
