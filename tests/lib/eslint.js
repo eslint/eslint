@@ -1647,8 +1647,49 @@ describe("eslint", function() {
         });
     });
 
-    describe("when evaluating code with comments to enable and disable all reporting", function() {
+    describe("when evaluating code with comments to disable and enable configurable rule as part of plugin", function() {
+        eslint.defineRule("test-plugin/test-rule", function(context) {
+            return {
+                "Literal": function(node) {
+                    if (node.value === "trigger violation") {
+                        context.report(node, "Reporting violation.");
+                    }
+                }
+            };
+        });
 
+        it("should not report a violation", function() {
+            var config = { rules: {} };
+            var code = "/*eslint test-plugin/test-rule: 2*/ var a = \"no violation\";";
+
+            eslint.reset();
+            var messages = eslint.verify(code, config, filename);
+            assert.equal(messages.length, 0);
+        });
+
+        it("should not report a violation", function() {
+            var code = "/*eslint test-plugin/test-rule:0*/ var a = \"trigger violation\"";
+            var config = { rules: { "test-plugin/test-rule" : 1 } };
+
+            var messages = eslint.verify(code, config, filename);
+            assert.equal(messages.length, 0);
+        });
+
+        it("rules should not change initial config", function() {
+            var config = { rules: {"test-plugin/test-rule": 2} };
+            var codeA = "/*eslint test-plugin/test-rule: 0*/ var a = \"trigger violation\";";
+            var codeB = "var a = \"trigger violation\";";
+
+            eslint.reset();
+            var messages = eslint.verify(codeA, config, filename, false);
+            assert.equal(messages.length, 0);
+
+            messages = eslint.verify(codeB, config, filename, false);
+            assert.equal(messages.length, 1);
+        });
+    });
+
+    describe("when evaluating code with comments to enable and disable all reporting", function() {
         it("should report a violation", function() {
 
             var code = [
