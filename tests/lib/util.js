@@ -78,4 +78,32 @@ describe("util", function() {
             assert.equal(result.rules["no-mixed-requires"][1], false);
         });
     });
+
+    describe("when merging two configs with plugin entries", function () {
+        var baseConfig;
+
+        beforeEach(function () {
+            baseConfig = { plugins: ["foo", "bar"] };
+        });
+
+        it("should combine the plugin entries", function () {
+            var customConfig = { plugins: ["baz"] },
+                expectedResult = { plugins: ["foo", "bar", "baz"] },
+                result;
+
+            result = util.mergeConfigs(baseConfig, customConfig);
+
+            assert.deepEqual(result, expectedResult);
+        });
+
+        it("should avoid duplicate plugin entries", function () {
+            var customConfig = { plugins: ["bar"] },
+                expectedResult = { plugins: ["foo", "bar"] },
+                result;
+
+            result = util.mergeConfigs(baseConfig, customConfig);
+
+            assert.deepEqual(result, expectedResult);
+        });
+    });
 });
