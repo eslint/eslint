@@ -13,7 +13,6 @@ The following patterns are considered warnings:
 labeled: //Label for the following var statement
     var x = 10;
 };
-
 ```
 
 The following patterns are not considered warnings:
@@ -24,3 +23,4 @@ labeled:
         ...
     }
 };
+```

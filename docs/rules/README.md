@@ -125,7 +125,7 @@ These rules are purely matters of style and are quite subjective.
 * [func-names](func-names.md) - require function expressions to have a name (off by default)
 * [func-style](func-style.md) - enforces use of function declarations or expressions (off by default)
 * [new-cap](new-cap.md) - require a capital letter for constructors
-* [new-parens](new-parens.md) - disallow the omission of parentheses when invoking a contructor with no arguments
+* [new-parens](new-parens.md) - disallow the omission of parentheses when invoking a constructor with no arguments
 * [no-nested-ternary](no-nested-ternary.md) - disallow nested ternary expressions (off by default)
 * [no-array-constructor](no-array-constructor.md) - disallow use of the `Array` constructor
 * [no-lonely-if](no-lonely-if.md) - disallow if as the only statement in an else block (off by default)
