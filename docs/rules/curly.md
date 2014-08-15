@@ -18,7 +18,7 @@ There are, however, some who prefer to only use braces when there is more than o
 
 ## Rule Details
 
-This rule is aimed at preventing bugs and increasing code clarity by ensuring that block statments are wrapped in curly braces. It will warn when it encounters blocks that omit curly braces.
+This rule is aimed at preventing bugs and increasing code clarity by ensuring that block statements are wrapped in curly braces. It will warn when it encounters blocks that omit curly braces.
 
 The following patterns are considered warnings:
 

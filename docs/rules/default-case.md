@@ -39,7 +39,7 @@ Once again, the intent here is to show that the developer intended for there to 
 
 ## Rule Details
 
-This rule aims to require `defaut` case in `switch` statements. You may optionally include a `// no default` after the last `case` if there is no `default` case.
+This rule aims to require `default` case in `switch` statements. You may optionally include a `// no default` after the last `case` if there is no `default` case.
 
 The following pattern is considered a warning:
 

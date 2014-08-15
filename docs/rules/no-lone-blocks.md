@@ -44,7 +44,7 @@ if (foo) {
     }
 }
 
-functin bar() {
+function bar() {
     baz();
 }
 ```
