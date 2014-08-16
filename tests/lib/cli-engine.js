@@ -310,6 +310,39 @@ describe("CLIEngine", function() {
             assert.equal(report.results[0].messages.length, 1);
         });
 
+        it("should find .js files in given directories and any file given explicitly", function () {
+
+            engine = new CLIEngine({
+                ignore: false,
+                reset: true,
+                useEslintrc: false
+            });
+
+            var report;
+
+            report = engine.executeOnFiles(["./tests/fixtures/rules/dir1", "./tests/fixtures/rules/dir2"]);
+            assert.equal(report.results.length, 2);
+            assert.equal(report.results[0].filePath, "tests/fixtures/rules/dir1/no-strings.js");
+            assert.equal(report.results[1].filePath, "tests/fixtures/rules/dir2/no-literals.js");
+            assert.equal(report.results[0].messages.length, 0);
+            assert.equal(report.results[1].messages.length, 0);
+
+            report = engine.executeOnFiles(["./tests/fixtures/rules/dir2", "./tests/fixtures/rules/dir2/no-strings"]);
+            assert.equal(report.results.length, 2);
+            assert.equal(report.results[0].filePath, "tests/fixtures/rules/dir2/no-literals.js");
+            assert.equal(report.results[1].filePath, "./tests/fixtures/rules/dir2/no-strings");
+            assert.equal(report.results[0].messages.length, 0);
+            assert.equal(report.results[1].messages.length, 0);
+
+            report = engine.executeOnFiles(["./tests/fixtures/rules/dir2", "./tests/fixtures/rules/dir1/not-js"]);
+            assert.equal(report.results.length, 2);
+            assert.equal(report.results[0].filePath, "tests/fixtures/rules/dir2/no-literals.js");
+            assert.equal(report.results[1].filePath, "./tests/fixtures/rules/dir1/not-js");
+            assert.equal(report.results[0].messages.length, 0);
+            assert.equal(report.results[1].messages.length, 1);
+
+        });
+
         // These tests have to do with https://github.com/eslint/eslint/issues/963
 
         describe("configuration hierarchy", function() {

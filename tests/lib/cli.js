@@ -180,16 +180,8 @@ describe("cli", function() {
 
     describe("when given a file in excluded files list", function() {
 
-        it("should not process the file", function () {
+        it("should process the file", function () {
             var exit = cli.execute("--ignore-path tests/fixtures/.eslintignore tests/fixtures/passing.js");
-
-            // a warning about the ignored file
-            assert.isTrue(console.log.called);
-            assert.equal(exit, 0);
-        });
-
-        it("should process the file when forced", function() {
-            var exit = cli.execute("--ignore-path tests/fixtures/.eslintignore --no-ignore tests/fixtures/passing.js");
 
             // no warnings
             assert.isFalse(console.log.called);
