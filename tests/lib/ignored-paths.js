@@ -86,6 +86,11 @@ describe("IgnoredPaths", function() {
             assert.ok(ignoredPaths.contains("undef.js/subdir/grandsubdir"));
         });
 
+        it("should return true for file matching a child of an ignore pattern if that directory starts with a '.'", function() {
+            var ignoredPaths = IgnoredPaths.load({ ignore: true, ignorePath: filepath });
+            assert.ok(ignoredPaths.contains("undef.js/.subdir/grandsubdir"));
+        });
+
         it("should return false for file not matching any ignore pattern", function() {
             var ignoredPaths = IgnoredPaths.load({ ignore: true, ignorePath: filepath });
             assert.notOk(ignoredPaths.contains("./passing.js"));
