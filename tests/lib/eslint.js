@@ -2077,6 +2077,24 @@ describe("eslint", function() {
         });
 
         it("should not report a violation", function() {
+            var code = "/*eslint-env amd */ define();require();";
+
+            var config = { rules: { "no-undef" : 1} };
+
+            var messages = eslint.verify(code, config, filename);
+            assert.equal(messages.length, 0);
+        });
+
+        it("should not report a violation", function() {
+            var code = "/*eslint-env jasmine */ expect();spyOn();";
+
+            var config = { rules: { "no-undef" : 1} };
+
+            var messages = eslint.verify(code, config, filename);
+            assert.equal(messages.length, 0);
+        });
+
+        it("should not report a violation", function() {
             var code = "/*globals require: true */ /*eslint-env node */ require = 1;";
 
             var config = { rules: {"no-undef": 1} };
