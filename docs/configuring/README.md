@@ -21,6 +21,7 @@ An environment defines both global variables that are predefined as well as whic
 * `node` - Node.js global variables and Node.js-specific rules.
 * `amd` - defines `require()` and `define()` as global variables.
 * `mocha` - adds all of the Mocha testing global variables.
+* `jasmine` - adds all of the Jasmine testing global variables for version 1.3 and 2.0.
 
 These environments are not mutually exclusive, so you can define more than one at a time.
 
