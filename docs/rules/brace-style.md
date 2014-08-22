@@ -31,10 +31,15 @@ This rule is aimed at enforcing a particular brace style in JavaScript. As such,
 
 ### Options
 
-The rule takes one option, a string which must be either "1tbs" or "stroustrup". The default is "1tbs". You can set the style in configuration like this:
+The rule takes two options:
+
+1. A string which must be either "1tbs" or "stroustrup". The default is "1tbs".
+2. An object that further controls the behaviour of this rule. Currently, the only available parameter is `allowSingleLine`, which indicates whether start and end braces may be on the same line.
+
+You can set the style in configuration like this:
 
 ```json
-"brace-style": [2, "stroustrup"]
+"brace-style": [2, "stroustrup", { allowSingleLine: true }]
 ```
 
 #### "1tbs"
@@ -92,6 +97,18 @@ try {
 }
 ```
 
+With one-line form enabled, the following is also valid:
+
+```js
+function nop() { return; }
+
+if (foo) { bar(); }
+
+if (foo) { bar(); } else { baz(); }
+
+try { somethingRisky(); } catch(e) { handleError(); }
+```
+
 #### "stroustrup"
 
 
@@ -147,6 +164,20 @@ try {
 catch(e) {
   handleError();
 }
+```
+
+With one-line form enabled, the following is also valid:
+
+```js
+function nop() { return; }
+
+if (foo) { bar(); }
+
+if (foo) { bar(); }
+else { baz(); }
+
+try { somethingRisky(); }
+catch(e) { handleError(); }
 ```
 
 ## When Not To Use It
