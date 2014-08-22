@@ -445,6 +445,12 @@ describe("Config", function() {
             assert.isUndefined(config.globals.window);
         });
 
+        it("should gracefully handle empty files", function() {
+            var configPath = path.resolve(__dirname, "..", "fixtures", "configurations", "env-node.json"),
+                configHelper = new Config({configFile: configPath});
+            configHelper.getConfig(path.resolve(__dirname, "..", "fixtures", "configurations", "empty", "empty.json"));
+        });
+
     });
 
 });

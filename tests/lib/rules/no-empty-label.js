@@ -17,6 +17,7 @@ var eslint = require("../../../lib/eslint"),
 var eslintTester = new ESLintTester(eslint);
 eslintTester.addRuleTest("lib/rules/no-empty-label", {
     valid: [
+        "labeled: for (var i in {}) { }",
         "labeled: for (var i=10; i; i--) { }",
         "labeled: while(i) {}",
         "labeled: do {} while (i)",
