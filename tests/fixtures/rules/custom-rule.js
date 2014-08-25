@@ -5,7 +5,7 @@ module.exports = function(context) {
     return {
         "Identifier": function(node) {
             if (node.name === "foo") {
-                context.report(node, "Identifier cannot be names 'foo'.");
+                context.report(node, "Identifier cannot be named 'foo'.");
             }
         }
     };
