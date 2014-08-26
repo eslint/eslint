@@ -1,0 +1,10 @@
+{
+    "plugins": [
+        "example"
+    ],
+
+    "rules": {
+        "example/example-rule": 1
+    }
+
+}
