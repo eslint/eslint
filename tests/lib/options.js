@@ -147,4 +147,29 @@ describe("options", function() {
             assert.equal(currentOptions.global[1], "bar:false");
         });
     });
+
+    describe("when passed --plugin", function() {
+        it("should return an array for a single occurrence", function () {
+            var currentOptions = options.parse("--plugin single");
+            assert.isArray(currentOptions.plugin);
+            assert.equal(currentOptions.plugin.length, 1);
+            assert.equal(currentOptions.plugin[0], "single");
+        });
+
+        it("should split variable names using commas", function() {
+            var currentOptions = options.parse("--plugin foo,bar");
+            assert.isArray(currentOptions.plugin);
+            assert.equal(currentOptions.plugin.length, 2);
+            assert.equal(currentOptions.plugin[0], "foo");
+            assert.equal(currentOptions.plugin[1], "bar");
+        });
+
+        it("should concatenate successive occurrences", function() {
+            var currentOptions = options.parse("--plugin foo --plugin bar");
+            assert.isArray(currentOptions.plugin);
+            assert.equal(currentOptions.plugin.length, 2);
+            assert.equal(currentOptions.plugin[0], "foo");
+            assert.equal(currentOptions.plugin[1], "bar");
+        });
+    });
 });
