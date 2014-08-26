@@ -8,9 +8,12 @@
 //------------------------------------------------------------------------------
 
 var assert = require("chai").assert,
-    CLIEngine = require("../../lib/cli-engine");
+    proxyquire = require("proxyquire"),
+    sinon = require("sinon"),
+    rules = require("../../lib/rules");
 
 require("shelljs/global");
+proxyquire = proxyquire.noCallThru().noPreserveCache();
 
 /*global tempdir, mkdir, rm, cp*/
 
@@ -19,6 +22,16 @@ require("shelljs/global");
 //------------------------------------------------------------------------------
 
 describe("CLIEngine", function() {
+    var examplePluginName = "eslint-plugin-example",
+        requireStubs = {},
+        examplePlugin = { rules: { "example-rule": require("../fixtures/rules/custom-rule") } },
+        CLIEngine;
+
+    requireStubs[examplePluginName] = examplePlugin;
+
+    beforeEach(function () {
+        CLIEngine = proxyquire("../../lib/cli-engine", requireStubs);
+    });
 
     describe("executeOnFiles()", function() {
 
@@ -552,6 +565,52 @@ describe("CLIEngine", function() {
                 assert.equal(report.results[0].messages[0].severity, 1);
             });
 
+        });
+
+        describe("plugins", function () {
+            it("should return two messages when executing with config file that specifies a plugin", function () {
+                engine = new CLIEngine({
+                    configFile: "./tests/fixtures/configurations/plugins-with-prefix.json",
+                    reset: true,
+                    useEslintrc: false
+                });
+
+                var report = engine.executeOnFiles(["tests/fixtures/rules/test/test-custom-rule.js"]);
+
+                assert.equal(report.results.length, 1);
+                assert.equal(report.results[0].messages.length, 2);
+                assert.equal(report.results[0].messages[0].ruleId, "example/example-rule");
+            });
+
+            it("should return two messages when executing with config file that specifies a plugin without prefix", function () {
+                engine = new CLIEngine({
+                    configFile: "./tests/fixtures/configurations/plugins-without-prefix.json",
+                    reset: true,
+                    useEslintrc: false
+                });
+
+                var report = engine.executeOnFiles(["tests/fixtures/rules/test/test-custom-rule.js"]);
+
+                assert.equal(report.results.length, 1);
+                assert.equal(report.results[0].messages.length, 2);
+                assert.equal(report.results[0].messages[0].ruleId, "example/example-rule");
+            });
+
+            it("should import the same plugin only once if it is configured multiple times", sinon.test(function () {
+                var importPlugin = this.spy(rules, "import");
+
+                engine = new CLIEngine({
+                    configFile: "./tests/fixtures/configurations/plugins-with-prefix.json",
+                    reset: true,
+                    useEslintrc: false
+                });
+
+                engine.executeOnFiles(["tests/fixtures/rules/test/test-custom-rule.js"]);
+                engine.executeOnFiles(["tests/fixtures/rules/test/test-custom-rule.js"]);
+
+                assert.equal(importPlugin.calledOnce, true, "same plugin was imported more than once");
+                assert.equal(importPlugin.calledWithExactly(examplePlugin.rules, "example"), true);
+            }));
         });
 
         // it("should return zero messages when executing with global node flag", function () {
