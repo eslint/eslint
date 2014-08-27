@@ -62,7 +62,7 @@ for (i < 10; i += 1) {
 // line 2, col 20, Error - Unexpected token )
 ```
 
-So even though there is assignment ambiguity in the conditional expression, the parse error prevents the scenario from occuring.
+So even though there is assignment ambiguity in the conditional expression, the parse error prevents the scenario from occurring.
 
 ## Further Reading
 

@@ -8,7 +8,7 @@ alert("here!");
 
 ## Rule Details
 
-This rule is aimed at catching debugging code that should be removed and popup UI elements that should be replaced with less obtrustive, custom UIs. As such, it will warn when it encounters `alert`, `prompt`, and `confirm` function calls.
+This rule is aimed at catching debugging code that should be removed and popup UI elements that should be replaced with less obtrusive, custom UIs. As such, it will warn when it encounters `alert`, `prompt`, and `confirm` function calls.
 
 The following patterns are considered warnings:
 
