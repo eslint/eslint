@@ -52,7 +52,7 @@ These patterns would not be considered warnings with the same example configurat
 ...
 ```
 
-As mentationed above, patterns are matched when they match exactly to one of the terms specified (ignoring the case).
+As mentioned above, patterns are matched when they match exactly to one of the terms specified (ignoring the case).
 
 ## Rule Options
 ```js

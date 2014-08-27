@@ -9,7 +9,7 @@ var foo = { "bar": "This is a bar.", "baz": { "qux": "This is a qux" }, "difficu
 
 ## Rule Details
 
-This rule is aimed at increading code readability and maintainability by enforcing a line length convention. As such it will warn on lines that exceed the configured maximum.
+This rule is aimed at increasing code readability and maintainability by enforcing a line length convention. As such it will warn on lines that exceed the configured maximum.
 
 The following patterns are considered warnings:
 
