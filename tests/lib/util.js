@@ -105,5 +105,15 @@ describe("util", function() {
 
             assert.deepEqual(result, expectedResult);
         });
+
+        it("should be able to copy a customConfig with plugin entries", function () {
+            var customConfig = { plugins: ["foo"] },
+                result;
+
+            result = util.mergeConfigs({}, customConfig);
+
+            assert.deepEqual(result, customConfig);
+            assert.notEqual(result, customConfig);
+        });
     });
 });
