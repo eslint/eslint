@@ -25,7 +25,7 @@ function anotherThing() {
 }
 ```
 
-A variable declaration is permitted anwhere a statement can go, even nested deeply inside other blocks. This is often undesirable due to variable hoisting, and moving declarations to the root of the program or function body can increase clarity.
+A variable declaration is permitted anywhere a statement can go, even nested deeply inside other blocks. This is often undesirable due to variable hoisting, and moving declarations to the root of the program or function body can increase clarity.
 
 ```js
 // Good
