@@ -12,6 +12,7 @@ var eslint = require("../../../lib/eslint"),
 var OPEN_MESSAGE = "Opening curly brace does not appear on the same line as controlling statement.",
     BODY_MESSAGE = "Statement inside of curly braces should be on next line.",
     CLOSE_MESSAGE = "Closing curly brace does not appear on the same line as the subsequent block.",
+    CLOSE_MESSAGE_SINGLE = "Closing curly brace should be on the same line as opening curly brace or on the line after the previous block.",
     CLOSE_MESSAGE_STROUSTRUP = "Closing curly brace appears on the same line as the subsequent block.";
 
 //------------------------------------------------------------------------------
@@ -37,7 +38,26 @@ eslintTester.addRuleTest("lib/rules/brace-style", {
         "if (a &&\n b &&\n c) { \n }",
         "switch(0) {\n}",
         { code: "if (foo) {\n}\nelse {\n}", args: ["2", "stroustrup"] },
-        { code: "try { \n bar();\n }\ncatch (e) {\n baz(); \n }", args: ["2", "stroustrup"] }
+        { code: "try { \n bar();\n }\ncatch (e) {\n baz(); \n }", args: ["2", "stroustrup"] },
+        // allowSingleLine: true
+        { code: "function foo () { return; }", args: ["2", "1tbs", { allowSingleLine: true }] },
+        { code: "function foo () { a(); b(); return; }", args: ["2", "1tbs", { allowSingleLine: true }] },
+        { code: "function a(b,c,d) { }", args: ["2", "1tbs", { allowSingleLine: true }] },
+        { code: "!function foo () { return; }", args: ["2", "1tbs", { allowSingleLine: true }] },
+        { code: "!function a(b,c,d) { }", args: ["2", "1tbs", { allowSingleLine: true }] },
+        { code: "if (foo) {  bar(); }", args: ["2", "1tbs", { allowSingleLine: true }] },
+        { code: "if (a) { b(); } else { c(); }", args: ["2", "1tbs", { allowSingleLine: true }] },
+        { code: "while (foo) {  bar(); }", args: ["2", "1tbs", { allowSingleLine: true }] },
+        { code: "for (;;) {  bar(); }", args: ["2", "1tbs", { allowSingleLine: true }] },
+        { code: "with (foo) {  bar(); }", args: ["2", "1tbs", { allowSingleLine: true }] },
+        { code: "switch (foo) {  case \"bar\": break; }", args: ["2", "1tbs", { allowSingleLine: true }] },
+        { code: "try {  bar(); } catch (e) { baz();  }", args: ["2", "1tbs", { allowSingleLine: true }] },
+        { code: "do {  bar(); } while (true)", args: ["2", "1tbs", { allowSingleLine: true }] },
+        { code: "for (foo in bar) {  baz();  }", args: ["2", "1tbs", { allowSingleLine: true }] },
+        { code: "if (a && b && c) {  }", args: ["2", "1tbs", { allowSingleLine: true }] },
+        { code: "switch(0) {}", args: ["2", "1tbs", { allowSingleLine: true }] },
+        { code: "if (foo) {}\nelse {}", args: ["2", "stroustrup", { allowSingleLine: true }] },
+        { code: "try {  bar(); }\ncatch (e) { baz();  }", args: ["2", "stroustrup", { allowSingleLine: true }] }
     ],
     invalid: [
         { code: "function foo() { return; }", errors: [{ message: BODY_MESSAGE, type: "ReturnStatement"}] },
@@ -59,6 +79,31 @@ eslintTester.addRuleTest("lib/rules/brace-style", {
         { code: "if (a) { \nb();\n } \n else { \nc();\n }", errors: [{ message: CLOSE_MESSAGE, type: "BlockStatement" }]},
         { code: "try { \n bar(); \n }\ncatch (e) {\n} finally {\n}", args: ["2", "stroustrup"], errors: [{ message: CLOSE_MESSAGE_STROUSTRUP, type: "BlockStatement"}] },
         { code: "try { \n bar(); \n } catch (e) {\n}\n finally {\n}", args: ["2", "stroustrup"], errors: [{ message: CLOSE_MESSAGE_STROUSTRUP, type: "CatchClause"}] },
-        { code: "if (a) { \nb();\n } else { \nc();\n }", args: ["2", "stroustrup"], errors: [{ message: CLOSE_MESSAGE_STROUSTRUP, type: "BlockStatement" }]}
+        { code: "if (a) { \nb();\n } else { \nc();\n }", args: ["2", "stroustrup"], errors: [{ message: CLOSE_MESSAGE_STROUSTRUP, type: "BlockStatement" }]},
+        // allowSingleLine: true
+        { code: "function foo() { return; \n}", args: ["2", "1tbs", { allowSingleLine: true }], errors: [{ message: BODY_MESSAGE, type: "ReturnStatement"}] },
+        { code: "function foo() { a(); b(); return; \n}", args: ["2", "1tbs", { allowSingleLine: true }], errors: [{ message: BODY_MESSAGE, type: "ExpressionStatement"}] },
+        { code: "function foo() { \n return; }", args: ["2", "1tbs", { allowSingleLine: true }], errors: [{ message: CLOSE_MESSAGE_SINGLE, type: "ReturnStatement"}] },
+        { code: "function foo() {\na();\nb();\nreturn; }", args: ["2", "1tbs", { allowSingleLine: true }], errors: [{ message: CLOSE_MESSAGE_SINGLE, type: "ReturnStatement"}] },
+        { code: "!function foo() { \n return; }", args: ["2", "1tbs", { allowSingleLine: true }], errors: [{ message: CLOSE_MESSAGE_SINGLE, type: "ReturnStatement"}] },
+        { code: "if (foo) \n { bar(); }", args: ["2", "1tbs", { allowSingleLine: true }], errors: [{ message: OPEN_MESSAGE, type: "IfStatement"}] },
+        { code: "if (a) { b();\n } else { c(); }", args: ["2", "1tbs", { allowSingleLine: true }], errors: [{ message: BODY_MESSAGE, type: "ExpressionStatement"}] },
+        { code: "if (a) { b(); }\nelse { c(); }", args: ["2", "1tbs", { allowSingleLine: true }], errors: [{ message: CLOSE_MESSAGE, type: "BlockStatement" }] },
+        { code: "while (foo) { \n bar(); }", args: ["2", "1tbs", { allowSingleLine: true }], errors: [{ message: CLOSE_MESSAGE_SINGLE, type: "ExpressionStatement"}] },
+        { code: "for (;;) { bar(); \n }", args: ["2", "1tbs", { allowSingleLine: true }], errors: [{ message: BODY_MESSAGE, type: "ExpressionStatement"}] },
+        { code: "with (foo) { bar(); \n }", args: ["2", "1tbs", { allowSingleLine: true }], errors: [{ message: BODY_MESSAGE, type: "ExpressionStatement"}] },
+        { code: "switch (foo) \n { \n case \"bar\": break; }", args: ["2", "1tbs", { allowSingleLine: true }], errors: [{ message: OPEN_MESSAGE, type: "SwitchStatement"}] },
+        { code: "switch (foo) \n { }", args: ["2", "1tbs", { allowSingleLine: true }], errors: [{ message: OPEN_MESSAGE, type: "SwitchStatement"}] },
+        { code: "try {  bar(); }\ncatch (e) { baz();  }", args: ["2", "1tbs", { allowSingleLine: true }], errors: [{ message: CLOSE_MESSAGE, type: "CatchClause" }] },
+        { code: "try \n { \n bar(); \n } catch (e) {}", args: ["2", "1tbs", { allowSingleLine: true }], errors: [{ message: OPEN_MESSAGE, type: "TryStatement"}] },
+        { code: "try { \n bar(); \n } catch (e) \n {}", args: ["2", "1tbs", { allowSingleLine: true }], errors: [{ message: OPEN_MESSAGE, type: "CatchClause"}] },
+        { code: "do \n { \n bar(); \n} while (true)", args: ["2", "1tbs", { allowSingleLine: true }], errors: [{ message: OPEN_MESSAGE, type: "DoWhileStatement"}] },
+        { code: "for (foo in bar) \n { \n baz(); \n }", args: ["2", "1tbs", { allowSingleLine: true }], errors: [{ message: OPEN_MESSAGE, type: "ForInStatement"}] },
+        { code: "try { \n bar(); \n }\ncatch (e) {\n}", args: ["2", "1tbs", { allowSingleLine: true }], errors: [{ message: CLOSE_MESSAGE, type: "CatchClause"}] },
+        { code: "try { \n bar(); \n } catch (e) {\n}\n finally {\n}", args: ["2", "1tbs", { allowSingleLine: true }], errors: [{ message: CLOSE_MESSAGE, type: "BlockStatement"}] },
+        { code: "if (a) { \nb();\n } \n else { \nc();\n }", args: ["2", "1tbs", { allowSingleLine: true }], errors: [{ message: CLOSE_MESSAGE, type: "BlockStatement" }]},
+        { code: "try { \n bar(); \n }\ncatch (e) {\n} finally {\n}", args: ["2", "stroustrup", { allowSingleLine: true }], errors: [{ message: CLOSE_MESSAGE_STROUSTRUP, type: "BlockStatement"}] },
+        { code: "try { \n bar(); \n } catch (e) {\n}\n finally {\n}", args: ["2", "stroustrup", { allowSingleLine: true }], errors: [{ message: CLOSE_MESSAGE_STROUSTRUP, type: "CatchClause"}] },
+        { code: "if (a) { \nb();\n } else { \nc();\n }", args: ["2", "stroustrup", { allowSingleLine: true }], errors: [{ message: CLOSE_MESSAGE_STROUSTRUP, type: "BlockStatement" }]}
     ]
 });
