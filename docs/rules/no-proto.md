@@ -4,7 +4,7 @@
 
 ## Rule Details
 
-When object is created `__proto__` is set to the original prototype property of the object’s constructor function. `getPrototypeOf` is the preferred method of getting "the prototype".
+When an object is created `__proto__` is set to the original prototype property of the object’s constructor function. `getPrototypeOf` is the preferred method of getting "the prototype".
 
 The following patterns are considered warnings:
 
@@ -21,7 +21,7 @@ var a = Object.getPrototypeOf(obj);
 ```
 ## When not to use
 
-If you need to support legacy browsers, you might want to turn this rule of, since support for `getPrototypeOf` is not yet universal
+If you need to support legacy browsers, you might want to turn this rule off, since support for `getPrototypeOf` is not yet universal.
 
 ## Further Reading
 
