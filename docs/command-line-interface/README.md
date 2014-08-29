@@ -32,6 +32,7 @@ Options:
   --eslintrc                  Enable loading .eslintrc configuration. -
                               default: true
   --env [String]              Specify environments.
+  --plugin [String]           Specify plugins.
   --global [String]           Define global variables.
   --rule Object               Specify rules.
   --ignore-path path::String  Specify the file that contains patterns of files
@@ -113,6 +114,16 @@ Example
 
     eslint --env browser,node file.js
     eslint --env browser --env node file.js
+    
+### `--plugin`
+
+This option specifies a plugin to load. You can omit the prefix `eslint-plugin-` from the plugin name.
+Before using the plugin you have to install it using npm.
+
+Example
+
+    eslint --plugin jquery file.js
+    eslint --plugin eslint-plugin-mocha file.js
 
 ### `--global`
 
@@ -126,11 +137,13 @@ Example:
 ### `--rule`
 
 This option specifies rules to be used. They will be merged into any previously defined rules. To start fresh, simply combine with the `--reset` flag. To define multiple rules, separate them using commas, or use the flag multiple times. The [levn](https://github.com/gkz/levn#levn--) format is used for specifying the rules.
+If the rule is defined within a plugin you have to prefix the rule ID with the plugin name and a `/`.
 
 Example:
 
     eslint --rule 'quotes: [2, double]'
     eslint --rule 'guard-for-in: 2' --rule 'brace-style: [2, 1tbs]'
+    eslint --rule 'jquery/dollar-sign: 2'
 
 ### `--ignore-path`
 
