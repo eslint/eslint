@@ -18,7 +18,7 @@ var booleanObject = new Boolean(false);
 
 Although possible, there aren't any good reasons to use these primitive wrappers as constructors. They tend to confuse other developers more than anything else because they seem like they should act as primitives, but they do not. For example:
 
-```
+```js
 var stringObject = new String("Hello world");
 console.log(typeof stringObject);       // "object"
 
