@@ -611,6 +611,21 @@ describe("CLIEngine", function() {
                 assert.equal(importPlugin.calledOnce, true, "same plugin was imported more than once");
                 assert.equal(importPlugin.calledWithExactly(examplePlugin.rules, "example"), true);
             }));
+
+            it("should return two messages when executing with cli option that specifies a plugin", function () {
+                engine = new CLIEngine({
+                    reset: true,
+                    useEslintrc: false,
+                    plugins: ["example"],
+                    rules: { "example/example-rule": 1 }
+                });
+
+                var report = engine.executeOnFiles(["tests/fixtures/rules/test/test-custom-rule.js"]);
+
+                assert.equal(report.results.length, 1);
+                assert.equal(report.results[0].messages.length, 2);
+                assert.equal(report.results[0].messages[0].ruleId, "example/example-rule");
+            });
         });
 
         // it("should return zero messages when executing with global node flag", function () {
