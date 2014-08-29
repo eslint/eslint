@@ -30,6 +30,10 @@ There are a lot of unit tests included with ESLint to make sure that we're keepi
 
 You're finally ready to start working with rules. You may want to fix an existing rule or create a new one. This section explains how to do all of that.
 
-## Section 5: [Contributing](contributing.md)
+## Section 5: [Working with Plugins](working-with-plugins.md)
+
+You've developed library-specific rules for eslint and you want to share it with the community. You can publish an eslint plugin on npm.
+
+## Section 6: [Contributing](contributing.md)
 
 Once you've made changes that you want to share with the community, the next step is to submit those changes back via a pull request.
