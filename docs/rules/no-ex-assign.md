@@ -1,6 +1,6 @@
 # Disallow Assignment of the Exception Parameter (no-ex-assign)
 
-When an error is thrown an caught using a `catch` block, it's possible to accidentally (or purposely) overwrite the reference to the error. Such as:
+When an error is thrown and caught using a `catch` block, it's possible to accidentally (or purposely) overwrite the reference to the error. Such as:
 
 ```js
 try {
