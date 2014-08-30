@@ -64,6 +64,7 @@
         "no-proto": 2,
         "no-redeclare": 2,
         "no-regex-spaces": 2,
+        "no-reserved-keys": 0,
         "no-restricted-modules": 0,
         "no-return-assign": 2,
         "no-script-url": 2,
@@ -90,7 +91,7 @@
         "no-with": 2,
         "no-wrap-func": 2,
         "no-mixed-spaces-and-tabs": [2, false],
-        "no-resv-key": 0,
+        "no-reserved-prop": 0,
 
         "block-scoped-var": 0,
         "brace-style": [0, "1tbs"],
@@ -131,6 +132,7 @@
         "use-isnan": 2,
         "valid-jsdoc": 0,
         "valid-typeof": 2,
+        "vars-on-top": 0,
         "wrap-iife": 0,
         "wrap-regex": 0,
         "yoda": [2, "never"]

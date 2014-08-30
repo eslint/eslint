@@ -25,9 +25,10 @@ The following rules point out areas where you might have made mistakes.
 * [no-negated-in-lhs](no-negated-in-lhs.md) - disallow negation of the left operand of an `in` expression
 * [no-obj-calls](no-obj-calls.md) - disallow the use of object properties of the global object (`Math` and `JSON`) as functions
 * [no-regex-spaces](no-regex-spaces.md) - disallow multiple spaces in a regular expression literal
-* [no-resv-key](no-resv-key.md) - disallow reserved words being used as keys (off by default)
+* [no-reserved-prop](no-reserved-prop.md) - disallow reserved words being used as property names (off by default)
 * [no-sparse-arrays](no-sparse-arrays.md) - disallow sparse arrays
 * [no-unreachable](no-unreachable.md) - disallow unreachable statements after a return, throw, continue, or break statement
+* [no-reserved-keys](no-reserved-keys.md) - disallow use of reserved words as object keys (off by default)
 * [use-isnan](use-isnan.md) - disallow comparisons with the value `NaN`
 * [valid-jsdoc](valid-jsdoc.md) - Ensure JSDoc comments are valid (off by default)
 * [valid-typeof](valid-typeof.md) - Ensure that the results of typeof are compared against a valid string
@@ -78,6 +79,7 @@ These are rules designed to prevent you from making mistakes. They either prescr
 * [no-warning-comments](no-warning-comments.md) - disallow usage of configurable warning terms in comments - e.g. `TODO` or `FIXME` (off by default)
 * [no-with](no-with.md) - disallow use of the `with` statement
 * [radix](radix.md) - require use of the second argument for `parseInt()` (off by default)
+* [vars-on-top](vars-on-top.md) - requires to declare all the vars on top of function scope (off by default)
 * [wrap-iife](wrap-iife.md) - require immediate function invocation to be wrapped in parentheses (off by default)
 * [yoda](yoda.md) - require or disallow Yoda conditions
 
