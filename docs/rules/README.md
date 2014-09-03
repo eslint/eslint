@@ -51,6 +51,7 @@ These are rules designed to prevent you from making mistakes. They either prescr
 * [no-eq-null](no-eq-null.md) - disallow comparisons to null without a type-checking operator (off by default)
 * [no-eval](no-eval.md) - disallow use of `eval()`
 * [no-extend-native](no-extend-native.md) - disallow adding to native types
+* [no-extra-bind](no-extra-bind.md) - disallow unnecessary function binding
 * [no-fallthrough](no-fallthrough.md) - disallow fallthrough of `case` statements
 * [no-floating-decimal](no-floating-decimal.md) - disallow the use of leading or trailing decimal points in numeric literals (off by default)
 * [no-implied-eval](no-implied-eval.md) - disallow use of `eval()`-like methods

@@ -1,0 +1,10 @@
+{
+    "plugins": [
+        "eslint-plugin-example"
+    ],
+
+    "rules": {
+        "example/example-rule": 1
+    }
+
+}

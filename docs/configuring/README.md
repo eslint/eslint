@@ -19,7 +19,7 @@ An environment defines both global variables that are predefined as well as whic
 
 * `browser` - browser global variables.
 * `node` - Node.js global variables and Node.js-specific rules.
-* `amd` - defines `require()` and `define()` as global variables.
+* `amd` - defines `require()` and `define()` as global variables as per the [amd](https://github.com/amdjs/amdjs-api/wiki/AMD) spec.
 * `mocha` - adds all of the Mocha testing global variables.
 * `jasmine` - adds all of the Jasmine testing global variables for version 1.3 and 2.0.
 
@@ -93,6 +93,31 @@ And in YAML:
 
 These examples allow `var1` to be overwritten in your code, but disallow it for `var2`.
 
+## Configuring Plugins
+
+ESLint supports the use of third-party plugins. Before using the plugin you have to install it using npm.
+
+To configure plugins inside of a configuration file, use the `plugins` key, which contains a list of plugin names.
+The `eslint-plugin-` prefix can be omitted from the plugin name.
+
+```json
+{
+    "plugins": [
+        "plugin1",
+        "eslint-plugin-plugin2"
+    ]
+}
+```
+
+And in YAML:
+
+```yaml
+---
+  plugins: 
+    - plugin1
+    - eslint-plugin-plugin2
+```
+
 ## Configuring Rules
 
 ESLint comes with a large number of rules, some of which are on by default and some of which are off by default. You can modify which rules your project uses either using configuration comments or configuration files. To change a rule setting, you must set the rule ID equal to one of these values:
@@ -138,6 +163,13 @@ And in YAML:
     quotes:
       - 2
       - "double"
+```
+
+To configure a rule which is defined within a plugin you have to prefix the rule ID with the plugin name and a `/`.
+Example
+
+```js
+/*eslint jquery/dollar-sign: 2*/
 ```
 
 There's no need to specify every single rule - you will automatically get the default setting for every rule. You only need to override the rules that you want to change.
