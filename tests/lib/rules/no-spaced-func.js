@@ -28,6 +28,7 @@ eslintTester.addRuleTest("lib/rules/no-spaced-func", {
         "f( (0) )",
         "( f )( 0 )",
         "( (f) )( (0) )",
+        "( f()() )(0)",
         "(function(){ if (foo) { bar(); } }());",
         "f(0, (1))"
     ],
