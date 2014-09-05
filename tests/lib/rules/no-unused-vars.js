@@ -17,6 +17,7 @@ var eslint = require("../../../lib/eslint"),
 var eslintTester = new ESLintTester(eslint);
 eslintTester.addRuleTest("lib/rules/no-unused-vars", {
     valid: [
+        { code: "a; var a;", args: [1, "all"] },
         { code: "var a=10; alert(a);", args: [1, "all"] },
         { code: "var a=10; (function() { alert(a); })();", args: [1, "all"] },
         { code: "var a=10; (function() { setTimeout(function() { alert(a); }, 0); })();", args: [1, "all"] },
@@ -35,6 +36,8 @@ eslintTester.addRuleTest("lib/rules/no-unused-vars", {
         "function foo(first, second) {\ndoStuff(function() {\nconsole.log(second);});}; foo()",
         "(function() { var doSomething = function doSomething() {}; doSomething() }())",
         "function f() { var a = 1; return function(){ f(a *= 2); }; }",
+        "function f() { var a = 1; return function(){ f(++a); }; }",
+        "try {} catch(e) {}",
         "/*global a */ a;",
         { code: "var a=10; (function() { alert(a); })();", args: [1, {vars: "all"}] },
         { code: "function g(bar, baz) { return baz; }; g();", args: [1, {"vars": "all"}] },
