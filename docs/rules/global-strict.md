@@ -43,7 +43,7 @@ function foo() {
 ### Options
 
 ```json
-"global-strict": [2, "always]
+"global-strict": [2, "always"]
 ```
 
 Requires that every file have a top-level `"use strict"` statement.
