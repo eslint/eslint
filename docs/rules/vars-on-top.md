@@ -1,18 +1,15 @@
 # Require var Statements to be at the Top of Functions (vars-on-top)
 
-The `vars-on-top` rule generates warnings when variable declarations are not used serially at the top of a function scope.
+The `vars-on-top` rule generates warnings when variable declarations are not used serially at the top of a function scope or the top of a program.
 By default variable declarations are always moved (“hoisted”) invisibly to the top of their containing scope by the JavaScript interpreter.
-Even declaring variables inside various blocks (for, if-else, while, etc) would always get moved to the top.
-
-Declaring variable inside blocks and then using them outside that block (as they are variable there too because of hoisting),
-sometimes leads to errors by misuse of variable by different parts of the code.
+This rule forces the programmer to represent that behaviour by manually moving the variable declaration to the top of its containing scope.
 
 ## Rule Details
 
-This rule aims to keep all variable declarations to the top of functions.
+This rule aims to keep all variable declarations in the leading series of statements.
 Allowing multiple helps promote maintainability and reduces syntax.
 
-No variable declarations in if
+No variable declarations in a block.
 
 ```js
 // BAD
@@ -34,7 +31,7 @@ function doSomething() {
 }
 ```
 
-No variable declarations in for
+No variable declarations in for initialiser.
 
 ```js
 // BAD
@@ -49,47 +46,28 @@ function doSomething() {
 }
 ```
 
-No variable declarations in for in
+No variables after other statements.
 
 ```js
 // BAD
-function doSomething() {
-    var list = [1,2,3];
-    for (var num in list) {}
-}
+f();
+var a;
 
 // GOOD
-function doSomething() {
-    var list = [1,2,3];
-    var num;
-    for (num in list) {}
-}
+var a;
+f();
 ```
 
-No variable declarations in try/catch
+Directives may precede variable declarations.
 
 ```js
-// BAD
-function doAnother() {
-    try {
-        var build = 1;
-    } catch (e) {
-        var f = build;
-    }
-}
-
 // GOOD
-function doAnother() {
-    var build, f;
-    try {
-        build = 1;
-    } catch (e) {
-        f = build;
-    }
-}
+"use strict";
+var a;
+f();
 ```
 
-Comments can naturally describe variables.
+Comments can describe variables.
 
 ```js
 // GOOD
@@ -98,7 +76,7 @@ function doSomething() {
     var second
 }
 
-//ALSO GOOD
+// ALSO GOOD
 function doSomething() {
     // this is the first var.
     var first;
