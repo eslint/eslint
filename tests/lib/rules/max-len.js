@@ -26,6 +26,10 @@ eslintTester.addRuleTest("lib/rules/max-len", {
             code: "var i = 1;\r\nvar i = 1;\n",
             args: [1, 10, 4]
         },
+        {
+            code: "\n// Blank line on top\nvar foo = module.exports = {};\n",
+            args: [1, 80, 4]
+        },
         ""
     ],
 
