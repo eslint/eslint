@@ -142,7 +142,11 @@ eslintTester.addRuleTest("lib/rules/vars-on-top", {
                 "   }",
                 "   i = i + 1;",
                 "}"
-            ].join("\n")
+            ].join("\n"),
+            "'use strict'; var x; f();",
+            "'use strict'; 'directive'; var x; var y; f();",
+            "function f() { 'use strict'; var x; f(); }",
+            "function f() { 'use strict'; 'directive'; var x; var y; f(); }"
         ],
 
     invalid:
@@ -365,6 +369,22 @@ eslintTester.addRuleTest("lib/rules/vars-on-top", {
                         type: "VariableDeclaration"
                     }
                 ]
+            },
+            {
+                code: "'use strict'; 0; var x; f();",
+                errors: [{message: "All \"var\" declarations must be at the top of the function scope.", type: "VariableDeclaration"}]
+            },
+            {
+                code: "'use strict'; var x; 'directive'; var y; f();",
+                errors: [{message: "All \"var\" declarations must be at the top of the function scope.", type: "VariableDeclaration"}]
+            },
+            {
+                code: "function f() { 'use strict'; 0; var x; f(); }",
+                errors: [{message: "All \"var\" declarations must be at the top of the function scope.", type: "VariableDeclaration"}]
+            },
+            {
+                code: "function f() { 'use strict'; var x; 'directive';  var y; f(); }",
+                errors: [{message: "All \"var\" declarations must be at the top of the function scope.", type: "VariableDeclaration"}]
             }
         ]
 });
