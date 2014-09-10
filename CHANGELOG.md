@@ -1,3 +1,14 @@
+v0.8.1 - September 9, 2014
+
+* 0.8.1 (Nicholas C. Zakas)
+* Fix: Ensure exit code is 1 when there's a syntax error (fixes #1239) (Nicholas C. Zakas)
+* Docs: fix up vars-on-top documentation (fixes #1234) (Michael Ficarra)
+* Fix: vars-on-top directive support (fixes #1235) (Michael Ficarra)
+* Fix: Avoid mutating node.range in max-len (fixes #1224) (Brandon Mills)
+* Docs: Typo, add missing quotation mark (Ádám Lippai)
+* Update: space-in-brackets to allow exceptions (fixes #1142) (Brandyn Bennett)
+* 0.8.0 (Nicholas C. Zakas)
+
 v0.8.0 - September 5, 2014
 
 * 0.8.0 (Nicholas C. Zakas)
