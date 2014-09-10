@@ -18,7 +18,9 @@ eslintTester.addRuleTest("lib/rules/strict", {
         "'use strict'; function foo () {  return; }",
         "function foo () { \"use strict\"; return; }",
         "function foo () { \"use strict\"; function bar() {}; }",
-        "function foo () { 'use strict'; return; }"
+        "function foo () { 'use strict'; return; }",
+        "'use strict'; var foo = function () { bar(); };",
+        "var foo = function () { 'use strict'; bar(); return; };"
     ],
     invalid: [
         {
@@ -32,6 +34,10 @@ eslintTester.addRuleTest("lib/rules/strict", {
         {
             code: "function foo() { function bar() {} }",
             errors: [{ message: "Missing \"use strict\" statement.", type: "FunctionDeclaration"}]
+        },
+        {
+            code: "var foo = function () { return; };",
+            errors: [{ message: "Missing \"use strict\" statement.", type: "FunctionExpression"}]
         }
     ]
 });
