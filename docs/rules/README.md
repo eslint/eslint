@@ -78,7 +78,7 @@ These are rules designed to prevent you from making mistakes. They either prescr
 * [no-warning-comments](no-warning-comments.md) - disallow usage of configurable warning terms in comments - e.g. `TODO` or `FIXME` (off by default)
 * [no-with](no-with.md) - disallow use of the `with` statement
 * [radix](radix.md) - require use of the second argument for `parseInt()` (off by default)
-* [vars-on-top](vars-on-top.md) - requires to declare all the vars on top of function scope (off by default)
+* [vars-on-top](vars-on-top.md) - requires to declare all vars on top of their containing scope (off by default)
 * [wrap-iife](wrap-iife.md) - require immediate function invocation to be wrapped in parentheses (off by default)
 * [yoda](yoda.md) - require or disallow Yoda conditions
 
