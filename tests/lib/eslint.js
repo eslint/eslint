@@ -2013,7 +2013,9 @@ describe("eslint", function() {
         it("should report a violation", function() {
             var messages = eslint.verify(code);
             assert.equal(messages.length, 1);
+            assert.equal(messages[0].severity, 2);
             assert.isTrue(messages[0].fatal);
+
         });
     });
 
