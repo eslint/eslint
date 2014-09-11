@@ -39,7 +39,7 @@ The rule takes two options:
 You can set the style in configuration like this:
 
 ```json
-"brace-style": [2, "stroustrup", { allowSingleLine: true }]
+"brace-style": [2, "stroustrup", { "allowSingleLine": true }]
 ```
 
 #### "1tbs"
