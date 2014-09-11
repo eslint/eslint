@@ -64,4 +64,4 @@ In order to make your plugin available to the community you have to publish it o
 
 ## Further Reading
 
-* [NPM Developer Guide](https://www.npmjs.org/doc/misc/npm-developers.html)
+* [npm Developer Guide](https://www.npmjs.org/doc/misc/npm-developers.html)
