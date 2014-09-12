@@ -133,9 +133,17 @@ describe("cli", function() {
         });
     });
 
-    describe("when executing a file with an error", function() {
+    describe("when executing a file with a lint error", function() {
         it("should exit with error", function() {
             var exit = cli.execute("--no-ignore tests/fixtures/undef.js");
+
+            assert.equal(exit, 1);
+        });
+    });
+
+    describe("when executing a file with a syntax error", function() {
+        it("should exit with error", function() {
+            var exit = cli.execute("--no-ignore tests/fixtures/syntax-error.js");
 
             assert.equal(exit, 1);
         });

@@ -9,7 +9,9 @@
 
 var assert = require("chai").assert,
     path = require("path"),
-    IgnoredPaths = require("../../lib/ignored-paths.js");
+    IgnoredPaths = require("../../lib/ignored-paths.js"),
+    sinon = require("sinon"),
+    fs = require("fs");
 
 
 //------------------------------------------------------------------------------
@@ -84,6 +86,15 @@ describe("IgnoredPaths", function() {
         it("should return true for file matching a child of an ignore pattern", function() {
             var ignoredPaths = IgnoredPaths.load({ ignore: true, ignorePath: filepath });
             assert.ok(ignoredPaths.contains("undef.js/subdir/grandsubdir"));
+        });
+
+        it("should return true for file matching a child of an ignore pattern with windows line termination", function() {
+            var stub = sinon.stub(fs, "readFileSync");
+            stub.withArgs("test", "utf8").returns("undef.js\r\n");
+
+            var ignoredPaths = IgnoredPaths.load({ ignore: true, ignorePath: "test" });
+            assert.ok(ignoredPaths.contains("undef.js/subdir/grandsubdir"));
+            stub.restore();
         });
 
         it("should return false for file not matching any ignore pattern", function() {
