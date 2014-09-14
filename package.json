@@ -45,7 +45,8 @@
     "debug": "^2.0.0",
     "object-assign": "^1.0.0",
     "mkdirp": "^0.5.0",
-    "xml-escape": "~1.0.0"
+    "xml-escape": "~1.0.0",
+    "user-home": "^1.0.0"
   },
   "devDependencies": {
     "sinon": "1.7.3",
