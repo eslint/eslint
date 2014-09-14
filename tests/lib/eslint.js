@@ -1174,6 +1174,49 @@ describe("eslint", function() {
         });
     });
 
+    describe("when config has shared settings for rules", function() {
+        var code = "test-rule";
+
+        it("should pass settings to all rules", function() {
+            eslint.reset();
+            eslint.defineRule(code, function(context) {
+                return {
+                    "Literal": function(node) {
+                        context.report(node, context.settings.info);
+                    }
+                };
+            });
+
+            var config = { rules: {}, settings: { info: "Hello" } };
+            config.rules[code] = 1;
+
+            var messages = eslint.verify("0", config, filename);
+
+            assert.equal(messages.length, 1);
+            assert.equal(messages[0].message, "Hello");
+        });
+
+        it("should not have any settings if they were not passed in", function() {
+            eslint.reset();
+            eslint.defineRule(code, function(context) {
+                return {
+                    "Literal": function(node) {
+                        if (Object.getOwnPropertyNames(context.settings).length !== 0) {
+                            context.report(node, "Settings should be empty");
+                        }
+                    }
+                };
+            });
+
+            var config = { rules: {} };
+            config.rules[code] = 1;
+
+            var messages = eslint.verify("0", config, filename);
+
+            assert.equal(messages.length, 0);
+        });
+    });
+
     describe("when passing in configuration values for rules", function() {
         var code = "var answer = 6 * 7";
 
