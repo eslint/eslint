@@ -198,6 +198,26 @@ console.log('bar');
 /*eslint-enable no-alert */
 ```
 
+## Adding Shared Settings
+
+ESLint supports adding shared settings into configuration file. You can add `settings` object to ESLint configuration file and it will be supplied to every rule that will be executed. This may be useful if you are adding custom rules and want them to have access to the same information and be easily configurable.
+
+In JSON:
+```json
+{
+    "settings": {
+        "sharedData": "Hello"
+    }
+}
+```
+
+And in YAML:
+```yaml
+---
+  settings:
+    sharedData: "Hello"
+```
+
 ## Using Configuration Files
 
 There are two ways to use configuration files. The first is to save the file wherever you would like an pass its location to the CLI using the `-c` option, such as:
