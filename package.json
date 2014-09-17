@@ -34,7 +34,7 @@
   "dependencies": {
     "chalk": "~0.5.1",
     "debug": "^2.0.0",
-    "doctrine": "~0.5.0",
+    "doctrine": "^0.5.2",
     "escope": "~1.0.0",
     "esprima": "^1.2.2",
     "estraverse": "~1.5.1",
