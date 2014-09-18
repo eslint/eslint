@@ -220,7 +220,7 @@ And in YAML:
 
 ## Using Configuration Files
 
-There are two ways to use configuration files. The first is to save the file wherever you would like an pass its location to the CLI using the `-c` option, such as:
+There are two ways to use configuration files. The first is to save the file wherever you would like and pass its location to the CLI using the `-c` option, such as:
 
     eslint -c myconfig.json myfiletotest.js
 
