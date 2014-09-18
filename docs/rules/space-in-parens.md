@@ -24,7 +24,7 @@ There are two options for this rule:
 Depending on your coding conventions, you can choose either option by specifying it in your configuration:
 
 ```json
-"space-in-brackets": [2, "always"]
+"space-in-parens": [2, "always"]
 ```
 
 #### always
