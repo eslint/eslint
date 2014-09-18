@@ -313,20 +313,20 @@ The configuration cascade works by using the closest `.eslintrc` file to the fil
 The complete configuration hierarchy, from highest priority to lowest priority, is as follows:
 
 1. Inline configuration
-    a. `/*eslint-disable*/`
-    b. `/*global*/`
-    c. `/*eslint*/`
-    b. `/*eslint-env*/`
+    1. `/*eslint-disable*/`
+    1. `/*global*/`
+    1. `/*eslint*/`
+    1. `/*eslint-env*/`
 2. Command line options:
-    -. `--global`
-    a. `--rule`
-    b. `--env`
-    c. `-c`, `--config`
+    1. `--global`
+    1. `--rule`
+    1. `--env`
+    1. `-c`, `--config`
 3. Project-level configuration:
-    a. `.eslintrc` file in same directory as linted file
-    b. Continue searching for `.eslintrc` in ancestor directories (parent has highest priority, then grandparent, etc.), up to and including the root directory.
-    c. XOR, in the absence of any defined `.eslintrc` rules in (a) and (b), fall back to `~/.eslintrc` - personal default configuration
+    1. `.eslintrc` file in same directory as linted file
+    1. Continue searching for `.eslintrc` in ancestor directories (parent has highest priority, then grandparent, etc.), up to and including the root directory.
+    1. XOR, in the absence of any defined `.eslintrc` rules in (i) and (ii), fall back to `~/.eslintrc` - personal default configuration
 4. ESLint default configuration:
-    a. `environments.json`
-    b. `eslint.json`
-    c. Blank (no config)
+    1. `environments.json`
+    1. `eslint.json`
+    1. Blank (no config)
