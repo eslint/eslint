@@ -18,7 +18,7 @@ if(condition) {
 
 ## Rule Details
 
-This rule will enforce consistency of spacing after the keywords `if`, `else`, `for`, `while`, `do`, `switch`, `try`, `catch`, and `with`.
+This rule will enforce consistency of spacing after the keywords `if`, `else`, `for`, `while`, `do`, `switch`, `try`, `catch`, `finally`, and `with`.
 
 This rule takes one argument. If it is `"always"` then the keywords must be followed by at least one space. If `"never"`
 then there should be no spaces following. The default is `"always"`.
