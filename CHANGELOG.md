@@ -1,3 +1,30 @@
+v0.8.2 - September 20, 2014
+
+* 0.8.2 (Nicholas C. Zakas)
+* Docs: Updated contribution guidelines to add accepted/bounty issues descriptions (Nicholas C. Zakas)
+* Docs: Update README with links and FAQs (Nicholas C. Zakas)
+* Docs: add finally to space-after-keywords documentation (Mathias Schreck)
+* New: add ignoreCase option to sort-vars (fixes #1272) (Mathias Schreck)
+* Docs: fix typo (Barry Handelman)
+* Docs: Fix broken Markdown on configuration page (Nicholas C. Zakas)
+* Docs: Fix reference to wrong rule name (Harry Wolff)
+* Upgrade: Most dev dependencies (Nicholas C. Zakas)
+* Upgrade: shelljs to 0.3.0 (Nicholas C. Zakas)
+* Upgrade: doctrine to 0.5.2 (Nicholas C. Zakas)
+* Upgrade: esprima to 1.2.2 (Nicholas C. Zakas)
+* Upgrade: eslint-tester to latest (Nicholas C. Zakas)
+* Fix: Load .eslintrc in directory with $HOME as an ancestor (fixes #1266) (Beau Gunderson)
+* Fix: load .eslintrc from HOME (fixes #1262) (Beau Gunderson)
+* New: Add sharable rule settings (fixes #1233) (Ilya Volodin)
+* Upgrade: upgrade outdated dependencies (fixes #1251) (Mathias Schreck)
+* Docs: fix typo in no-ex-assign documentation (Michael Ficarra)
+* Docs: add intellij plugin to integrations (ido)
+* Docs: Changing NPM to npm (Peter deHaan)
+* Fix: strict should check function expressions (fixes #1244) (Brandon Mills)
+* Docs: fix vars-on-top documentation (fixes #1234) (Mathias Schreck)
+* 0.8.1 (Nicholas C. Zakas)
+* Docs: Fixed a typo in brace-style.md (Anton Antonov)
+
 v0.8.1 - September 9, 2014
 
 * 0.8.1 (Nicholas C. Zakas)
