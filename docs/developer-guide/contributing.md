@@ -46,9 +46,11 @@ Please include as much detail as possible to help us properly address your issue
 
 ### Working on Issues
 
-You are welcome to work on any open issue in the [issues list](https://github.com/eslint/eslint/issues). If it's open, that means we are planning on doing it in the future, and your help is appreciated. Some thing to keep in mind:
+You are welcome to work on any open issue in the [issues list](https://github.com/eslint/eslint/issues). If it's open, that means we are planning on doing it in the future, and your help is appreciated. Some things to keep in mind:
 
-* **Beginner issues** - if you've never contributed to ESLint before, you make want to try on of our [beginniner issues](https://github.com/eslint/eslint/issues?labels=beginner&milestone=&page=1&state=open). These are issues that tagged for beginners because they are small and self-contained.
+* **Beginner issues** - if you've never contributed to ESLint before, you make want to try on of our [beginner issues](https://github.com/eslint/eslint/issues?labels=beginner&milestone=&page=1&state=open). These are issues that tagged for beginners because they are small and self-contained.
+* **Accepted issues** - issues tagged with `accepted` are the ones that are scheduled to be completed. Please only submit pull requests for [accepted issues](https://github.com/eslint/eslint/issues?labels=accepted&milestone=&page=1&state=open).
+* **Bounty issues** - issues tagged with `bounty` mean that you can earn money for completing the issue. The [bounty issues](https://github.com/eslint/eslint/issues?labels=bounty&milestone=&page=1&state=open) specify the amount of money to be paid when the issue is completed. Note that bounty issues must be approved in order for payment to occur.
 * **Upcoming milestone issues** - if you're not sure what are the highest priority issues, then take a look at the issues assigned to the [next milestone](https://github.com/eslint/eslint/issues/milestones). The top milestone in the list is the one we're working towards, and these issues have highest priority.
 
 If you're going to work on an issue, please add a comment to that issue saying so and indicating when you think you will complete it. It will help us to avoid duplication of effort. Some examples of good comments are:
@@ -155,7 +157,7 @@ git checkout -b fix-broken-config
 
 Make the changes to the code and tests and then commit to your branch. Be sure to follow the commit message conventions.
 
-Commit messages must follow this basic format:
+Commit message summaries must follow this basic format:
 
 ```
 Tag: Message (fixes #1234)
@@ -171,9 +173,9 @@ The `Tag` is one of the following:
 * `New` - implemented a new feature.
 * `Upgrade` - for a dependency upgrade.
 
-The message should a one-sentence description of the change. The issue number should be mentioned at the end. If the commit doesn't completely fix the issue, then use `(refs #1234)` instead of `(fixes #1234)`.
+The message summary should a one-sentence description of the change. The issue number should be mentioned at the end. If the commit doesn't completely fix the issue, then use `(refs #1234)` instead of `(fixes #1234)`.
 
-Here are some good commit message examples:
+Here are some good commit message summary examples:
 
 ```
 Build: Update Travis to only test Node 0.10 (refs #734)
