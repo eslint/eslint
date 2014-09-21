@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @fileoverview Tests for sort-vars rule.
  * @author Ilya Volodin
  */
