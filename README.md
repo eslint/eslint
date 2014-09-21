@@ -49,6 +49,7 @@ The following projects are using ESLint to validate their JavaScript:
 In addition, the following companies are using ESLint internally to validate their JavaScript:
 
 * [Box](https://box.com)
+* [the native web](http://www.thenativeweb.io)
 
 ### What are the plans for ESLint?
 
