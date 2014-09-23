@@ -81,6 +81,7 @@ These are rules designed to prevent you from making mistakes. They either prescr
 * [vars-on-top](vars-on-top.md) - requires to declare all vars on top of their containing scope (off by default)
 * [wrap-iife](wrap-iife.md) - require immediate function invocation to be wrapped in parentheses (off by default)
 * [yoda](yoda.md) - require or disallow Yoda conditions
+* [no-process-env](no-process-env.md) - disallow use of `process.env` (off by default)
 
 ## Strict Mode
 
