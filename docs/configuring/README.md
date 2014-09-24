@@ -181,7 +181,7 @@ To temporary disable warnings in your file use the following format
 ```js
 /*eslint-disable */
 
-//supress all warnings between comments
+//suppress all warnings between comments
 alert('foo');
 
 /*eslint-enable */
