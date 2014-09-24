@@ -659,7 +659,7 @@ Use `===` and `!==` instead of `==` and `!=`. This avoids type coercion errors.
     // Bad: Using ==
     var same = (a == b);
 
-## Tenary Operator
+## Ternary Operator
 
 The ternary operator should be used only for assigning values conditionally and never as a shortcut for an `if` statement.
 
