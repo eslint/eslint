@@ -134,6 +134,7 @@
         "vars-on-top": 0,
         "wrap-iife": 0,
         "wrap-regex": 0,
-        "yoda": [2, "never"]
+        "yoda": [2, "never"],
+        "no-process-env": 0
     }
 }

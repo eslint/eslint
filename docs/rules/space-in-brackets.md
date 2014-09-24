@@ -151,21 +151,25 @@ Note that `"always"` has a special case where `{}` and `[]` are not considered w
 
 #### Exceptions
 
-When using `"always"`, an object literal may be used as a third array item to specify spacing exceptions.  You can add exceptions like so:
+An object literal may be used as a third array item to specify spacing exceptions.  You can add exceptions like so:
 
 ```json
 "space-in-brackets": [2, "always", {
   "singleValue": true,
   "objectsInArrays": true,
-  "arraysInArrays": true
+  "arraysInArrays": true,
+  "propertyName": false
 }]
 ```
 
 The following exceptions are available:
 
-* `"singleValue"` requires a single value inside of square brackets to not have spacing
-* `"objectsInArrays"` requires object literals that are the first or last element in an array to not have spacing between the curly braces and the square brackets
-* `"arraysInArrays"` requires array literals that are the first or last element in an array to not have spacing between the square brackets
+* `singleValue` requires a single value inside of square brackets to not have spacing
+* `objectsInArrays` requires object literals that are the first or last element in an array to not have spacing between the curly braces and the square brackets
+* `arraysInArrays` requires array literals that are the first or last element in an array to not have spacing between the square brackets
+* `propertyName` (defaults to `true`) enables application of this rule to the square brackets of computed member expressions
+
+In each of the following examples, the `"always"` option is assumed.
 
 When `"singleValue"` is set to `true`, the following patterns are considered warnings:
 
@@ -178,8 +182,6 @@ var foo = [ 1];
 var foo = [1 ];
 var foo = [ [ 1, 2 ] ];
 var foo = [ { 'foo': 'bar' } ];
-var foo = obj[ 1 ];
-var foo = obj[ bar ];
 ```
 
 The following patterns are not warnings:
@@ -189,7 +191,6 @@ var foo = ['foo'];
 var foo = [1];
 var foo = [[ 1, 1 ]];
 var foo = [{ 'foo': 'bar' }];
-var foo = obj[bar];
 ```
 
 When `"objectsInArrays"` is set to `true`, the following patterns are considered warnings:
@@ -222,6 +223,20 @@ The following patterns are not warnings:
 ```js
 var arr = [[ 1, 2 ], 2, 3, 4 ];
 var arr = [[ 1, 2 ], 2, [ 3, 4 ]];
+```
+
+When `"propertyName"` is set to `true`, the following patterns are considered warnings:
+
+```js
+var foo = obj[bar];
+var foo = obj[0, 1];
+```
+
+The following patterns are not warnings:
+
+```js
+var foo = obj[ 1 ];
+var foo = obj[ bar ];
 ```
 
 ## When Not To Use It
