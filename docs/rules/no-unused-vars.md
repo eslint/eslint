@@ -11,6 +11,7 @@ The following patterns are considered warnings:
 ```js
 var x = 10;
 ```
+
 ```js
 var x = 10; x = 5;
 ```

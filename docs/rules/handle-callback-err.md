@@ -60,6 +60,7 @@ If the configured name of the error variable begins with a `^` it is considered 
 **Examples for valid configurations:**
 
 1. Rule configured to warn if an unhandled error is detected where the name of the error variable can be `err`, `error` or `anySpecificError`.
+
     ```js
     // ...
     "handle-callback-err": [2, "^(err|error|anySpecificError)$" ]
@@ -67,6 +68,7 @@ If the configured name of the error variable begins with a `^` it is considered 
     ```
 
 2. Rule configured to warn if an unhandled error is detected where the name of the error variable ends with `Error` (e. g. `connectionError` or `validationError` will match).
+
     ```js
     // ...
     "handle-callback-err": [2, "^.+Error$" ]
@@ -74,6 +76,7 @@ If the configured name of the error variable begins with a `^` it is considered 
     ```
 
 3. Rule configured to warn if an unhandled error is detected where the name of the error variable matches any string that contains `err` or `Err` (e. g. `err`, `error`, `anyError`, `some_err` will match).
+
     ```js
     // ...
     "handle-callback-err": [2, "^.*(e|E)rr" ]

@@ -11,6 +11,7 @@ function foo() {
     }
 }
 ```
+
 ## Rule Details
 
 This rule is aimed at highlighting an unnecessary block of code following an `if` containing a return statement. As such, it will warn when it encounters an `else` following an `if` containing a `return`.
