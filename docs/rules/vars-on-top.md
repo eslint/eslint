@@ -31,7 +31,7 @@ function doSomething() {
 }
 ```
 
-No variable declarations in for initialiser.
+No variable declarations in for initializer.
 
 ```js
 // BAD

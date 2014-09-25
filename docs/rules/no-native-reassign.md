@@ -49,6 +49,7 @@ The following patterns are considered warnings:
 ```js
 String = new Object();
 ```
+
 ```js
 var String;
 ```
