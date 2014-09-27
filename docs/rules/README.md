@@ -154,6 +154,7 @@ These rules are purely matters of style and are quite subjective.
 * [space-return-throw-case](space-return-throw-case.md) - require a space after `return`, `throw`, and `case`
 * [space-unary-word-ops](space-unary-word-ops.md) - require a space around word operators such as `typeof` (off by default)
 * [wrap-regex](wrap-regex.md) - require regex literals to be wrapped in parentheses (off by default)
+* [key-spacing](key-spacing.md) - require or disallow space padding in key-value pairs (off by default)
 
 ## Legacy
 
@@ -165,4 +166,6 @@ The following rules are included for compatibility with [JSHint](http://jshint.c
 * [max-statements](max-statements.md) - specify the maximum number of statement allowed in a function (off by default)
 * [no-bitwise](no-bitwise.md) - disallow use of bitwise operators (off by default)
 * [no-plusplus](no-plusplus.md) - disallow use of unary operators, `++` and `--` (off by default)
+
+
 
