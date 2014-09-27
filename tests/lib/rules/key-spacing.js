@@ -19,8 +19,8 @@ var eslintTester = new ESLintTester(eslint);
 eslintTester.addRuleTest("lib/rules/key-spacing", {
 
     valid: [
-        {code: "{foo:bar}", args:[1,'never']},
-        {code: "{foo :'bar'}", args:[1,'always']}
+        {code: "{foo:bar}", args:[1,"never"]},
+        {code: "{foo :'bar'}", args:[1,"always"]}
     ],
 
     invalid: [{
