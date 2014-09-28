@@ -1,4 +1,4 @@
-#  a rule that enforces or disallows spaces after property names (and before property values) inside of objects. (key-spacing)
+#  a rule that enforces or disallows spaces after property names (and before property values) inside of objects. (key-spacing) (off by default)
 
 
 
