@@ -60,15 +60,18 @@ eslintTester.addRuleTest("lib/rules/key-spacing", {
     }, {
         code: "var x={'foo26': 'bar'};",
         args: [2, "sometimes"]
-    }/*, {
-        code: "var x={foo27 :'bar'};",
-        arg
-  [2, "sometimes"] s:  }*/, {
+    }, {
         code: "var x={foo27 :'bar'};",
         args: [2, "sometimes"]
     }, {
         code: "var x={'foo28' :'bar'};",
         args: [2, "sometimes"]
+    }, {
+        code: "var x={foo29 : 'bar', foo30 : 'bar'};",
+        args: [2, "always"]
+    }, {
+        code: "var x={foo31:'bar', foo32:'bar'};",
+        args: [2, "never"]
     }],
 
     invalid: [{
@@ -165,6 +168,62 @@ eslintTester.addRuleTest("lib/rules/key-spacing", {
         args: [1, "never"],
         errors: [{
             message: "There must not be any spaces after \":\" in the foo16 property.",
+            type: "Property"
+        }]
+    }, {
+        code: "var x={foo33 : 'bar', foo34 :'bar'};",
+        args: [1, "always"],
+        errors: [{
+            message: "A single space is required after \":\" in the foo34 property.",
+            type: "Property"
+        }]
+    }, {
+        code: "var x={foo35 : 'bar', foo36: 'bar'};",
+        args: [1, "always"],
+        errors: [{
+            message: "A single space is required before \":\" in the foo36 property.",
+            type: "Property"
+        }]
+    }, {
+        code: "var x={foo37 :'bar', foo38 : 'bar'};",
+        args: [1, "always"],
+        errors: [{
+            message: "A single space is required after \":\" in the foo37 property.",
+            type: "Property"
+        }]
+    }, {
+        code: "var x={foo39: 'bar', foo40 : 'bar'};",
+        args: [1, "always"],
+        errors: [{
+            message: "A single space is required before \":\" in the foo39 property.",
+            type: "Property"
+        }]
+    }, {
+        code: "var x={foo40:'bar', foo41: 'bar'};",
+        args: [1, "never"],
+        errors: [{
+            message: "There must not be any spaces after \":\" in the foo41 property.",
+            type: "Property"
+        }]
+    }, {
+        code: "var x={foo42:'bar', foo43 :'bar'};",
+        args: [1, "never"],
+        errors: [{
+            message: "There must not be any spaces before \":\" in the foo43 property.",
+            type: "Property"
+        }]
+    }, {
+        code: "var x={foo44: 'bar', foo45:'bar'};",
+        args: [1, "never"],
+        errors: [{
+            message: "There must not be any spaces after \":\" in the foo44 property.",
+            type: "Property"
+        }]
+    }, {
+        code: "var x={foo46 :'bar', foo47:'bar'};",
+        args: [1, "never"],
+        errors: [{
+            message: "There must not be any spaces before \":\" in the foo46 property.",
             type: "Property"
         }]
     }]
