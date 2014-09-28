@@ -108,17 +108,36 @@ target.all = function() {
 };
 
 target.lint = function() {
+    var errors = 0,
+        lastReturn;
+
     echo("Validating Makefile.js");
-    exec(ESLINT + MAKEFILE);
+    lastReturn = exec(ESLINT + MAKEFILE);
+    if (lastReturn.code !== 0) {
+      errors++;
+    }
 
     echo("Validating JSON Files");
-    nodeCLI.exec("jsonlint", "-q -c", JSON_FILES);
+    lastReturn = nodeCLI.exec("jsonlint", "-q -c", JSON_FILES);
+    if (lastReturn.code !== 0) {
+      errors++;
+    }
 
     echo("Validating JavaScript files");
-    exec(ESLINT + JS_FILES);
+    lastReturn = exec(ESLINT + JS_FILES);
+    if (lastReturn.code !== 0) {
+      errors++;
+    }
 
     echo("Validating JavaScript test files");
-    exec(ESLINT + TEST_FILES);
+    lastReturn = exec(ESLINT + TEST_FILES);
+    if (lastReturn.code !== 0) {
+      errors++;
+    }
+
+    if (errors) {
+        exit(1);
+    }
 };
 
 target.test = function() {
