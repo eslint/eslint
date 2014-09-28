@@ -176,5 +176,53 @@ eslintTester.addRuleTest("lib/rules/key-spacing", {
             message: "A single space is required after ':' in the foo22 property.",
             type: "Property"
         }]
+    },{
+        code: "var x={foo23:'bar'};",
+        args: [1,"sometimes"],
+        errors: [{
+            message: "A single space is required before ':' in the foo23 property.",
+            type: "Property"
+        }, {
+            message: "A single space is required after ':' in the foo23 property.",
+            type: "Property"
+        }]
+    }, {
+        code: "var x={'foo24':'bar'};",
+        args: [2,"sometimes"],
+        errors: [{
+            message: "A single space is required before ':' in the foo24 property.",
+            type: "Property"
+        }, {
+            message: "A single space is required after ':' in the foo24 property.",
+            type: "Property"
+        }]
+    }, {
+        code: "var x={foo25: 'bar'};",
+        args: [2,"sometimes"],
+        errors: [{
+            message: "A single space is required before ':' in the foo19 property.",
+            type: "Property"
+        }]
+    }, {
+        code: "var x={'foo26': 'bar'};",
+        args: [2,"sometimes"],
+        errors: [{
+            message: "A single space is required before ':' in the foo26 property.",
+            type: "Property"
+        }]
+    }, {
+        code: "var x={foo27 :'bar'};",
+        args: [2,"sometimes"],
+        errors: [{
+            message: "A single space is required after ':' in the foo27 property.",
+            type: "Property"
+        }]
+    }, {
+        code: "var x={'foo28' :'bar'};",
+        args: [2,"sometimes"],
+        errors: [{
+            message: "A single space is required after ':' in the foo28 property.",
+            type: "Property"
+        }]
     }]
 });
