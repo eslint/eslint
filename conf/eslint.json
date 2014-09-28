@@ -61,6 +61,7 @@
         "no-octal-escape": 2,
         "no-path-concat": 0,
         "no-plusplus": 0,
+        "no-process-env": 0,
         "no-process-exit": 2,
         "no-proto": 2,
         "no-redeclare": 2,
@@ -95,6 +96,7 @@
         "block-scoped-var": 0,
         "brace-style": [0, "1tbs"],
         "camelcase": 2,
+        "comma-style": 0,
         "complexity": [0, 11],
         "consistent-return": 2,
         "consistent-this": [0, "that"],
@@ -134,7 +136,6 @@
         "vars-on-top": 0,
         "wrap-iife": 0,
         "wrap-regex": 0,
-        "yoda": [2, "never"],
-        "no-process-env": 0
+        "yoda": [2, "never"]
     }
 }

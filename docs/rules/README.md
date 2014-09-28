@@ -124,6 +124,7 @@ These rules are purely matters of style and are quite subjective.
 
 * [brace-style](brace-style.md) - enforce one true brace style (off by default)
 * [camelcase](camelcase.md) - require camel case names
+* [comma-style](comma-style.md) - enforce one true comma style (off by default)
 * [consistent-this](consistent-this.md) - enforces consistent naming when capturing the current execution context (off by default)
 * [eol-last](eol-last.md) - enforce newline at the end of file, with no multiple empty lines
 * [func-names](func-names.md) - require function expressions to have a name (off by default)
