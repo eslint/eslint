@@ -6,7 +6,7 @@
 
 This rule aims to enforce consistency about spaces inside of objects.
 
-It takes an option as a second parameter which can be `"always"` or `"never"` for always having a space or never having any spaces respectively.  There is no default.
+It takes an option as a second parameter which can be `"always"` or `"never"` for always having a space or never having any spaces respectively.  The default= `"always"`.
 
 The following patterns are considered warnings:
 
