@@ -124,6 +124,7 @@ These rules are purely matters of style and are quite subjective.
 
 * [brace-style](brace-style.md) - enforce one true brace style (off by default)
 * [camelcase](camelcase.md) - require camel case names
+* [comma-spacing](comma-spacing.md) - enforce spacing before and after comma
 * [comma-style](comma-style.md) - enforce one true comma style (off by default)
 * [consistent-this](consistent-this.md) - enforces consistent naming when capturing the current execution context (off by default)
 * [eol-last](eol-last.md) - enforce newline at the end of file, with no multiple empty lines
