@@ -29,7 +29,7 @@ eslintTester.addRuleTest("lib/rules/quote-props", {
         { code: "({ a: 0, 'if': 0 })", args: [2, "as-needed"] },
         { code: "({ a: 0, '@': 0 })", args: [2, "as-needed"] },
         { code: "({ a: 0, 0: 0 })", args: [2, "as-needed"] },
-        { code: "({ a: 0, '0x0': 0 })", args: [2, "as-needed"] },
+        { code: "({ a: 0, '0x0': 0 })", args: [2, "as-needed"] }
     ],
     invalid: [
         {
