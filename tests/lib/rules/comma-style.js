@@ -29,6 +29,8 @@ eslintTester.addRuleTest("lib/rules/comma-style", {
         "var foo = [1, 2];",
         "var foo = ['apples', \n 'oranges'];",
         "var foo = {'a': 1, \n 'b': 2, \n'c': 3};",
+        "var foo = {'a': 1, \n 'b': 2, 'c':\n 3};",
+        "var foo = {'a': 1, \n 'b': 2, 'c': [{'d': 1}, \n {'e': 2}, \n {'f': 3}]};",
         {code: "var foo = [1, \n2, \n3];"},
         {code: "function foo(){var a=[1,\n 2]}"},
         {code: "function foo(){return {'a': 1,\n'b': 2}}"},
