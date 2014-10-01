@@ -60,7 +60,7 @@ eslintTester.addRuleTest("lib/rules/handle-callback-err", {
         { code: "getData(function(err, data) {getMoreDataWith(data, function(err, moreData) {if (err) {}getEvenMoreDataWith(moreData, function(err, allOfTheThings) {if (err) {}});}); });", errors: [expectedFunctionExpressionError]},
         { code: "getData(function(err, data) {getMoreDataWith(data, function(err, moreData) {getEvenMoreDataWith(moreData, function(err, allOfTheThings) {if (err) {}});}); });", errors: [expectedFunctionExpressionError, expectedFunctionExpressionError]},
         { code: "function userHandler(err) {logThisAction(function(err) {if (err) { console.log(err); } })}", errors: [expectedFunctionDeclarationError]},
-        { code: "function help() { function userHandler(err) {function tester(err) { err; process.nextTick(function() { err; }); } } }",  errors: [expectedFunctionDeclarationError]},
+        { code: "function help() { function userHandler(err) {function tester(err) { err; process.nextTick(function() { err; }); } } }", errors: [expectedFunctionDeclarationError]},
         { code: "var test = function(anyError) { console.log(otherError); };", args: [2, "^.+Error$"], errors: [expectedFunctionExpressionError]},
         { code: "var test = function(anyError) { };", args: [2, "^.+Error$"], errors: [expectedFunctionExpressionError]},
         { code: "var test = function(err) { console.log(error); };", args: [2, "^(err|error)$"], errors: [expectedFunctionExpressionError]}

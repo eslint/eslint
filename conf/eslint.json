@@ -49,6 +49,7 @@
         "no-loop-func": 2,
         "no-mixed-requires": [0, false],
         "no-mixed-spaces-and-tabs": [2, false],
+        "no-multi-spaces": 2,
         "no-multi-str": 2,
         "no-native-reassign": 2,
         "no-negated-in-lhs": 2,
