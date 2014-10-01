@@ -419,11 +419,7 @@
             "waits": false,
             "waitsFor": false,
             "xdescribe": false,
-            "xit": false,
-
-            "beforeAll": false,
-            "afterAll": false,
-            "runs": false
+            "xit": false
         }
     }
 }
