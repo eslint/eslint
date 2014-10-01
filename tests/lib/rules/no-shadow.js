@@ -21,8 +21,35 @@ eslintTester.addRuleTest("lib/rules/no-shadow", {
         "(function() { var doSomething = function doSomething() {}; doSomething() }())"
     ],
     invalid: [
-        { code: "var a=3; function b() { var a=10; }", errors: [{ message: "a is already declared in the upper scope.", type: "Identifier"}] },
-        { code: "var a=3; function b() { var a=10; }; setTimeout(function() { b(); }, 0);", errors: [{ message: "a is already declared in the upper scope.", type: "Identifier"}] },
-        { code: "var a=3; function b() { var a=10; var b=0; }; setTimeout(function() { b(); }, 0);", errors: [{ message: "a is already declared in the upper scope.", type: "Identifier"}, { message: "b is already declared in the upper scope.", type: "Identifier"}] }
+        {
+            code: "function a(x) { var b = function c() { var x = 'foo'; }; }",
+            errors: [{
+                message: "x is already declared in the upper scope.",
+                type: "Identifier",
+                line: 1,
+                column: 43
+            }]
+        },
+        {
+            code: "function a(x) { var b = function () { var x = 'foo'; }; }",
+            errors: [{
+                message: "x is already declared in the upper scope.",
+                type: "Identifier",
+                line: 1,
+                column: 42
+            }]
+        },
+        {
+            code: "var a=3; function b() { var a=10; }",
+            errors: [{ message: "a is already declared in the upper scope.", type: "Identifier" }]
+        },
+        {
+            code: "var a=3; function b() { var a=10; }; setTimeout(function() { b(); }, 0);",
+            errors: [{ message: "a is already declared in the upper scope.", type: "Identifier" }]
+        },
+        {
+            code: "var a=3; function b() { var a=10; var b=0; }; setTimeout(function() { b(); }, 0);",
+            errors: [{ message: "a is already declared in the upper scope.", type: "Identifier" }, { message: "b is already declared in the upper scope.", type: "Identifier" }]
+        }
     ]
 });
