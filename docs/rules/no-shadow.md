@@ -24,6 +24,13 @@ function b() {
 }
 ```
 
+```js
+var a = 3;
+var b = function () {
+    var a = 10;
+}
+```
+
 The following patterns are considered okay and do not cause warnings:
 
 ```js
