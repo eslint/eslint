@@ -27,7 +27,7 @@ eslintTester.addRuleTest("lib/rules/no-restricted-modules", {
     invalid: [{
         code: "require(\"fs\")", args: [2, "fs"],
         errors: [{ message: "'fs' module is restricted from being used.", type: "CallExpression"}]
-    },{
+    }, {
         code: "require(\"os \")", args: [2, "fs", "crypto ", "stream", "os"],
         errors: [{ message: "'os' module is restricted from being used.", type: "CallExpression"}]
     }]
