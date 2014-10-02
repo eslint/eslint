@@ -256,7 +256,7 @@ target.changelog = function() {
     (rangeTags[1] + " - " + timestamp + "\n").to("CHANGELOG.tmp");
 
     // get log statements
-    var logs = exec("git log --pretty=format:\"* %s (%an)\" " + rangeTags.join(".."), {silent:true}).output.split(/\n/g);
+    var logs = exec("git log --pretty=format:\"* %s (%an)\" " + rangeTags.join(".."), {silent: true}).output.split(/\n/g);
     logs = logs.filter(function(line) {
         return line.indexOf("Merge pull request") === -1 && line.indexOf("Merge branch") === -1;
     });
