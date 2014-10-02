@@ -16,9 +16,7 @@
 ## Build Systems
 
 * **Grunt:**
-    * [eslint-grunt](https://npmjs.org/package/eslint-grunt)
     * [grunt-eslint](https://npmjs.org/package/grunt-eslint)
-    * [grunt-contrib-eslint](https://www.npmjs.org/package/grunt-contrib-eslint)
 * **Gulp:**
     * [gulp-eslint](https://npmjs.org/package/gulp-eslint)
 * **Mimosa:**
