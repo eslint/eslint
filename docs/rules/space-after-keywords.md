@@ -56,3 +56,26 @@ if (a) {} else {}
 // When ["never"]
 if(a) {}
 ```
+
+### Advanced configuration
+
+The `function` keyword is not checked by the default configuration of this rule. If you want to enforce strict spacing
+after the `function` keyword you can enable the `checkFunctionKeyword` configuration flag.
+
+**Examples for valid configurations:**
+
+1. Rule configured to enforce a whitespace after all `function` keyword occurrences.
+
+    ```js
+    // ...
+    "space-after-keyword": [1, "always", { "checkFunctionKeyword": true } ]
+    // ...
+    ```
+
+2. Rule configured to forbid whitespaces after a `function` keyword in anonymous function expressions.
+
+    ```js
+    // ...
+    "space-after-keyword": [1, "never", { "checkFunctionKeyword": true } ]
+    // ...
+    ```
