@@ -13,6 +13,7 @@
         "no-undefined": 2,
         "radix": 2,
         "space-after-keywords": [2, "always"],
+        "space-before-blocks": 2,
         "valid-jsdoc": [2, {
             "prefer": {
                 "return": "returns"

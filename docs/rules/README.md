@@ -152,6 +152,7 @@ These rules are purely matters of style and are quite subjective.
 * [semi](semi.md) - require or disallow use of semicolons instead of ASI
 * [sort-vars](sort-vars.md) - sort variables within the same declaration block (off by default)
 * [space-after-keywords](space-after-keywords.md) - require a space after certain keywords (off by default)
+* [space-before-blocks](space-before-blocks.md) - require or disallow space before blocks (off by default)
 * [space-in-brackets](space-in-brackets.md) - require or disallow spaces inside brackets (off by default)
 * [space-in-parens](space-in-parens.md) - require or disallow spaces inside parentheses (off by default)
 * [space-infix-ops](space-infix-ops.md) - require spaces around operators
