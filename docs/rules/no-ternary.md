@@ -47,3 +47,7 @@ function quux() {
     }
 }
 ```
+
+## Related Rules
+
+* [no-nested-ternary](no-nested-ternary.md)

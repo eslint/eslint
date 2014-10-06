@@ -33,3 +33,7 @@ var foo = function() {
 
 If you intentionally use extra semicolons then you can disable this rule.
 
+## Related Rules
+
+* [semi](semi.md)
+* [no-space-before-semi](no-space-before-semi.md)
