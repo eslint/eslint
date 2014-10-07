@@ -38,3 +38,7 @@ let bar;
 
 If you want to allow initialization of variables with `undefined`, then you can safely turn this rule off.
 
+## Related Rules
+
+* [no-undefined](no-undefined.md)
+* [no-void](no-void.md)

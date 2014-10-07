@@ -31,3 +31,7 @@ if (foo) {
   thing = foobar;
 }
 ```
+
+## Related Rules
+
+* [no-ternary](no-ternary.md)
