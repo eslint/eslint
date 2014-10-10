@@ -101,6 +101,58 @@ function release(type) {
     target.publishsite();
 }
 
+/**
+ * Executes a command and returns the output instead of printing it to stdout.
+ * @param {string} cmd The command string to execute.
+ * @returns {string} The result of the executed command.
+ */
+function execSilent(cmd) {
+    return exec(cmd, { silent: true }).output;
+}
+
+/**
+ * Splits a command result to separate lines.
+ * @param {string} result The command result string.
+ * @returns {array} The separated lines.
+ */
+function splitCommandResultToLines(result) {
+    return result.trim().split("\n");
+}
+
+/**
+ * Gets the first commit sha of the given file.
+ * @param {string} filePath The file path which should be checked.
+ * @returns {string} The commit sha.
+ */
+function getFirstCommitOfFile(filePath) {
+    var commits = execSilent("git rev-list HEAD -- " + filePath);
+
+    commits = splitCommandResultToLines(commits);
+    return commits[commits.length - 1].trim();
+}
+
+/**
+ * Gets the tag name where a given file was introduced first.
+ * @param {string} filePath The file path to check.
+ * @returns {string} The tag name.
+ */
+function getTagOfFirstOccurrence(filePath) {
+    var firstCommit = getFirstCommitOfFile(filePath),
+        tags = execSilent("git tag --contains " + firstCommit);
+
+    tags = splitCommandResultToLines(tags);
+    return tags[0].trim();
+}
+
+/**
+ * Gets the version number where a given file was introduced first.
+ * @param {string} filePath The file path to check.
+ * @returns {string} The version number.
+ */
+function getFirstVersionOfFile(filePath) {
+    return getTagOfFirstOccurrence(filePath).substr(1);
+}
+
 //------------------------------------------------------------------------------
 // Tasks
 //------------------------------------------------------------------------------
@@ -193,14 +245,24 @@ target.gensite = function() {
 
             var text = cat(filename);
 
+            var baseName = path.basename(filename);
+            var sourceBaseName = path.basename(filename, ".md") + ".js";
+
             text = "---\ntitle: ESLint\nlayout: doc\n---\n<!-- Note: No pull requests accepted for this file. See README.md in the root directory for details. -->\n" + text;
 
             text = text.replace(/.md\)/g, ".html)").replace("README.html", "index.html");
 
-            if (filename.indexOf("rules/") !== -1 && path.basename(filename) !== "README.md") {
+            if (filename.indexOf("rules/") !== -1 && baseName !== "README.md") {
+                var version = getFirstVersionOfFile(path.join("lib/rules", sourceBaseName));
+
+                if (version) {
+                    text += "\n## Version\n\n";
+                    text += "This rule was introduced in ESLint " + version + ".\n";
+                }
+
                 text += "\n## Resources\n\n";
-                text += "* [Rule source](" + rulesUrl + path.basename(filename, ".md") + ".js)\n";
-                text += "* [Documentation source](" + docsUrl + path.basename(filename) + ")\n";
+                text += "* [Rule source](" + rulesUrl + sourceBaseName + ")\n";
+                text += "* [Documentation source](" + docsUrl + baseName + ")\n";
             }
 
             text.to(filename.replace("README.md", "index.md"));
