@@ -96,13 +96,9 @@ Additionally, we are always looking for official integrations to host under the 
 
 ## Copyright and Licensing
 
-When you submit code to the ESLint project, you agree:
+In order to submit code or documentation to ESLint, please electronically sign the [Contributor License Agreement](http://eslint.org/cla).
 
-1. The code you wrote is your original work (you own the copyright).
-1. To allow the ESLint project to use your submitted code in any way.
-1. You are capable of granting rights for the submitted code.
-
-It is very important that you understand the implications of these conditions, as it gives ESLint the right to accept your contribution.
+It is very important that you read and understand the CLA, as it gives ESLint the right to accept your contribution.
 
 Since the code you wrote is your original work, you keep the copyright for it. This is why we ask you to include a copyright in the comments at the beginning of any file you submit, such as:
 
