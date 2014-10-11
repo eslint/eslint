@@ -159,6 +159,7 @@ These rules are purely matters of style and are quite subjective.
 * [space-infix-ops](space-infix-ops.md) - require spaces around operators
 * [space-return-throw-case](space-return-throw-case.md) - require a space after `return`, `throw`, and `case`
 * [space-unary-word-ops](space-unary-word-ops.md) - require a space around word operators such as `typeof` (off by default)
+* [spaced-line-comment](spaced-line-comment.md) - require or disallow a space immediately following the `//` in a line comment (off by default)
 * [wrap-regex](wrap-regex.md) - require regex literals to be wrapped in parentheses (off by default)
 
 ## Legacy
