@@ -69,7 +69,7 @@ eslintTester.addRuleTest("lib/rules/space-in-brackets", {
         { code: "var foo = {};", args: [2, "always"] },
         { code: "var foo = [];", args: [2, "always"] },
 
-        { code: "this.db.mappings.insert([\n { alias: 'a', url: 'http://www.amazon.de' },\n { alias: 'g', url: 'http://www.google.de' }\n], function () {});", args: [2, "always" , {singleValue: false, objectsInArrays: true, arraysInArrays: true}] },
+        { code: "this.db.mappings.insert([\n { alias: 'a', url: 'http://www.amazon.de' },\n { alias: 'g', url: 'http://www.google.de' }\n], function () {});", args: [2, "always", {singleValue: false, objectsInArrays: true, arraysInArrays: true}] },
 
         // never
         { code: "obj[foo]", args: [2, "never"] },
