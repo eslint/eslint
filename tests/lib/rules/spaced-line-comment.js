@@ -28,7 +28,7 @@ var eslintTester = new ESLintTester(eslint),
     alwaysExceptionArgs = [
         2,
         "always",
-        {exceptions: ["-", "=", "*", "#","!@#"] }
+        {exceptions: ["-", "=", "*", "#", "!@#"] }
     ],
     alwaysExceptionError = {
         message: "Expected exception block or space after // in comment.",
