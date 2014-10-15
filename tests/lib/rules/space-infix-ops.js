@@ -22,7 +22,6 @@ eslintTester.addRuleTest("lib/rules/space-infix-ops", {
         "(a + b) + (c + d)",
         "a = b",
         "a ? b : c",
-        "a, b", // sequences need only be spaced on the right
         "var a = b"
     ],
     invalid: [
@@ -35,10 +34,6 @@ eslintTester.addRuleTest("lib/rules/space-infix-ops", {
         { code: "a=b", errors: [{ message: "Infix operators must be spaced.", type: "AssignmentExpression" }] },
         { code: "a= b", errors: [{ message: "Infix operators must be spaced.", type: "AssignmentExpression" }] },
         { code: "a =b", errors: [{ message: "Infix operators must be spaced.", type: "AssignmentExpression" }] },
-        { code: "a,b", errors: [{ message: "Infix operators must be spaced.", type: "SequenceExpression" }] },
-        { code: "a,b,c", errors: [{ message: "Infix operators must be spaced.", type: "SequenceExpression" }] },
-        { code: "a ,b", errors: [{ message: "Infix operators must be spaced.", type: "SequenceExpression" }] },
-        { code: "a, b,c", errors: [{ message: "Infix operators must be spaced.", type: "SequenceExpression" }] },
         { code: "a?b:c", errors: [{ message: "Infix operators must be spaced.", type: "ConditionalExpression" }] },
         { code: "a?b : c", errors: [{ message: "Infix operators must be spaced.", type: "ConditionalExpression" }] },
         { code: "a ? b:c", errors: [{ message: "Infix operators must be spaced.", type: "ConditionalExpression" }] },
