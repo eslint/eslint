@@ -21,12 +21,20 @@ eslintTester.addRuleTest("lib/rules/space-in-parens", {
     valid: [
         { code: "foo()", args: ["2", "always"] },
         { code: "foo( bar )", args: ["2", "always"] },
+        { code: "foo\n(\nbar\n)\n", args: ["2", "always"] },
+        { code: "foo\n(  \nbar\n )\n", args: ["2", "always"] },
+        { code: "foo\n(\n bar  \n)\n", args: ["2", "always"] },
+        { code: "foo\n( \n  bar \n  )\n", args: ["2", "always"] },
         { code: "var x = ( 1 + 2 ) * 3", args: ["2", "always"] },
         { code: "var x = 'foo(bar)'", args: ["2", "always"] },
 
         { code: "bar()", args: ["2", "never"] },
         { code: "bar(baz)", args: ["2", "never"] },
         { code: "var x = (4 + 5) * 6", args: ["2", "never"] },
+        { code: "foo\n(\nbar\n)\n", args: ["2", "never"] },
+        { code: "foo\n(  \nbar\n )\n", args: ["2", "never"] },
+        { code: "foo\n(\n bar  \n)\n", args: ["2", "never"] },
+        { code: "foo\n( \n  bar \n  )\n", args: ["2", "never"] },
         { code: "var x = 'bar( baz )'", args: ["2", "always"] }
     ],
 
@@ -75,7 +83,16 @@ eslintTester.addRuleTest("lib/rules/space-in-parens", {
                 }
             ]
         },
-
+        {
+            code: "foo\n(bar\n)\n",
+            args: ["2", "always"],
+            errors: [
+                {
+                    message: "There must be a space inside this paren.",
+                    type: "Program"
+                }
+            ]
+        },
         {
             code: "bar(baz )",
             args: ["2", "never"],
@@ -112,6 +129,16 @@ eslintTester.addRuleTest("lib/rules/space-in-parens", {
         },
         {
             code: "var x = (4 + 5 ) * 6",
+            args: ["2", "never"],
+            errors: [
+                {
+                    message: "There should be no spaces inside this paren.",
+                    type: "Program"
+                }
+            ]
+        },
+        {
+            code: "foo\n(\nbar )\n",
             args: ["2", "never"],
             errors: [
                 {
