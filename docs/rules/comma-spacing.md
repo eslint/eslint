@@ -92,5 +92,5 @@ If your project will not be following a consistent comma-spacing pattern, turn t
 * [space-in-parens](space-in-parens.md)
 * [space-infix-ops](space-infix-ops.md)
 * [space-after-keywords](space-after-keywords)
-* [space-unary-word-ops](space-unary-word-ops)
+* [space-unary-ops](space-unary-ops)
 * [space-return-throw-case](space-return-throw-case)
