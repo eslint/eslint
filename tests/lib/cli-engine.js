@@ -22,6 +22,7 @@ proxyquire = proxyquire.noCallThru().noPreserveCache();
 //------------------------------------------------------------------------------
 
 describe("CLIEngine", function() {
+
     var examplePluginName = "eslint-plugin-example",
         requireStubs = {},
         examplePlugin = { rules: { "example-rule": require("../fixtures/rules/custom-rule") } },
@@ -465,10 +466,10 @@ describe("CLIEngine", function() {
                 var report = engine.executeOnFiles([fixtureDir + "/config-hierarchy/broken/console-wrong-quotes.js"]);
                 assert.equal(report.results.length, 1);
                 assert.equal(report.results[0].messages.length, 2);
-                assert.equal(report.results[0].messages[0].ruleId, "semi");
-                assert.equal(report.results[0].messages[0].severity, 1);
-                assert.equal(report.results[0].messages[1].ruleId, "quotes");
-                assert.equal(report.results[0].messages[1].severity, 2);
+                assert.equal(report.results[0].messages[0].ruleId, "quotes");
+                assert.equal(report.results[0].messages[0].severity, 2);
+                assert.equal(report.results[0].messages[1].ruleId, "semi");
+                assert.equal(report.results[0].messages[1].severity, 1);
             });
 
             // Command line configuration - --config with first level .eslintrc
@@ -495,9 +496,9 @@ describe("CLIEngine", function() {
                 var report = engine.executeOnFiles([fixtureDir + "/config-hierarchy/broken/subbroken/console-wrong-quotes.js"]);
                 assert.equal(report.results.length, 1);
                 assert.equal(report.results[0].messages.length, 2);
-                assert.equal(report.results[0].messages[0].ruleId, "semi");
+                assert.equal(report.results[0].messages[0].ruleId, "no-console");
                 assert.equal(report.results[0].messages[0].severity, 1);
-                assert.equal(report.results[0].messages[1].ruleId, "no-console");
+                assert.equal(report.results[0].messages[1].ruleId, "semi");
                 assert.equal(report.results[0].messages[1].severity, 1);
             });
 

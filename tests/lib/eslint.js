@@ -2228,4 +2228,23 @@ describe("eslint", function() {
         });
 
     });
+
+    describe("verify()", function() {
+        var code = "foo()\n    alert('test')";
+
+        it("should report warnings in order by line and column when called", function() {
+            var config = { rules: { "no-mixed-spaces-and-tabs": 1, "eol-last": 1, "semi": [1, "always"] } };
+
+            var messages = eslint.verify(code, config, filename);
+            assert.equal(messages.length, 3);
+            assert.equal(messages[0].line, 1);
+            assert.equal(messages[0].column, 5);
+            assert.equal(messages[1].line, 2);
+            assert.equal(messages[1].column, 1);
+            assert.equal(messages[2].line, 2);
+            assert.equal(messages[2].column, 17);
+
+
+        });
+    });
 });
