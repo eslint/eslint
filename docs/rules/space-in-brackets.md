@@ -151,27 +151,47 @@ Note that `"always"` has a special case where `{}` and `[]` are not considered w
 
 #### Exceptions
 
-An object literal may be used as a third array item to specify spacing exceptions.  You can add exceptions like so:
+An object literal may be used as a third array item to specify spacing exceptions. These exceptions work in the context of the first option. That is, if `"always"` is set to enforce spacing and an exception is set to `false`, it will disallow spacing for cases matching the exception. Likewise, if `"never"` is set to disallow spacing and an exception is set to `true`, it will enforce spacing for cases matching the exception.
+
+You can add exceptions like so:
+
+In case of `"always"` option, set an exception to `false` to enable it:
 
 ```json
 "space-in-brackets": [2, "always", {
-  "singleValue": true,
-  "objectsInArrays": true,
-  "arraysInArrays": true,
+  "singleValue": false,
+  "objectsInArrays": false,
+  "arraysInArrays": false,
+  "arraysInObjects": false,
+  "objectsInObjects": false,
   "propertyName": false
 }]
 ```
 
-The following exceptions are available:
+In case of `"never"` option, set an exception to `true` to enable it:
 
-* `singleValue` requires a single value inside of square brackets to not have spacing
-* `objectsInArrays` requires object literals that are the first or last element in an array to not have spacing between the curly braces and the square brackets
-* `arraysInArrays` requires array literals that are the first or last element in an array to not have spacing between the square brackets
-* `propertyName` (defaults to `true`) enables application of this rule to the square brackets of computed member expressions
+```json
+"space-in-brackets": [2, "never", {
+  "singleValue": true,
+  "objectsInArrays": true,
+  "arraysInArrays": true,
+  "arraysInObjects": true,
+  "objectsInObjects": true,
+  "propertyName": true
+}]
+```
+
+The following exceptions are available:
+* `singleValue` sets the spacing of a single value inside of square brackets of an array.
+* `objectsInArrays` sets the spacings between the curly braces and square brackets of object literals that are the first or last element in an array.
+* `arraysInArrays` sets the spacing between the square brackets of array literals that are the first or last element in an array.
+* `arraysInObjects` sets the spacing between the square bracket and the curly brace of an array literal that is the last element in an object.
+* `objectsInObjects` sets the spacing between the curly brace of an object literal that is the last element in an object and the curly brace of the containing object.
+* `propertyName` sets the spacing in square brackets of computed member expressions.
 
 In each of the following examples, the `"always"` option is assumed.
 
-When `"singleValue"` is set to `true`, the following patterns are considered warnings:
+When `"singleValue"` is set to `false`, the following patterns are considered warnings:
 
 ```js
 var foo = [ 'foo' ];
@@ -193,7 +213,7 @@ var foo = [[ 1, 1 ]];
 var foo = [{ 'foo': 'bar' }];
 ```
 
-When `"objectsInArrays"` is set to `true`, the following patterns are considered warnings:
+When `"objectsInArrays"` is set to `false`, the following patterns are considered warnings:
 
 ```js
 var arr = [ { 'foo': 'bar' } ];
@@ -211,7 +231,7 @@ var arr = [{
 }];
 ```
 
-When `"arraysInArrays"` is set to `true`, the following patterns are considered warnings:
+When `"arraysInArrays"` is set to `false`, the following patterns are considered warnings:
 
 ```js
 var arr = [ [ 1, 2 ], 2, 3, 4 ];
@@ -225,18 +245,46 @@ var arr = [[ 1, 2 ], 2, 3, 4 ];
 var arr = [[ 1, 2 ], 2, [ 3, 4 ]];
 ```
 
-When `"propertyName"` is set to `true`, the following patterns are considered warnings:
+When `"arraysInObjects"` is set to `false`, the following patterns are considered warnings:
 
 ```js
-var foo = obj[bar];
-var foo = obj[0, 1];
+var obj = { "foo": [ 1, 2 ] };
+var obj = { "foo": [ "baz", "bar" ] };
 ```
 
 The following patterns are not warnings:
 
 ```js
+var obj = { "foo": [ 1, 2 ]};
+var obj = { "foo": [ "baz", "bar" ]};
+```
+
+When `"objectsInObjects"` is set to `false`, the following patterns are considered warnings:
+
+```js
+var obj = { "foo": { "baz": 1, "bar": 2 } };
+var obj = { "foo": [ "baz", "bar" ], "qux": { "baz": 1, "bar": 2 } };
+```
+
+The following patterns are not warnings:
+
+```js
+var obj = { "foo": { "baz": 1, "bar": 2 }};
+var obj = { "foo": [ "baz", "bar" ], "qux": { "baz": 1, "bar": 2 }};
+```
+
+When `"propertyName"` is set to `false`, the following patterns are considered warnings:
+
+```js
 var foo = obj[ 1 ];
 var foo = obj[ bar ];
+```
+
+The following patterns are not warnings:
+
+```js
+var foo = obj[bar];
+var foo = obj[0, 1];
 ```
 
 ## When Not To Use It
