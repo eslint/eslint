@@ -1655,7 +1655,7 @@ describe("eslint", function() {
         var code = "/*eslint no-alert:0*/ alert('test');";
 
         it("should not report a violation", function() {
-            var config = { rules: { "no-alert" : 1 } };
+            var config = { rules: { "no-alert": 1 } };
 
             var messages = eslint.verify(code, config, filename);
             assert.equal(messages.length, 0);
@@ -1680,7 +1680,7 @@ describe("eslint", function() {
     describe("when evaluating code with comments to enable and disable multiple rules", function() {
         var code = "/*eslint no-alert:1 no-console:0*/ alert('test'); console.log('test');";
         it("should report a violation", function() {
-            var config = { rules: { "no-console" : 1, "no-alert" : 0 } };
+            var config = { rules: { "no-console": 1, "no-alert": 0 } };
 
             var messages = eslint.verify(code, config, filename);
             assert.equal(messages.length, 1);
@@ -1712,7 +1712,7 @@ describe("eslint", function() {
 
         it("should not report a violation", function() {
             var code = "/*eslint test-plugin/test-rule:0*/ var a = \"trigger violation\"";
-            var config = { rules: { "test-plugin/test-rule" : 1 } };
+            var config = { rules: { "test-plugin/test-rule": 1 } };
 
             var messages = eslint.verify(code, config, filename);
             assert.equal(messages.length, 0);
@@ -1741,7 +1741,7 @@ describe("eslint", function() {
                 "/*eslint-enable */",
                 "alert('test');"
             ].join("\n");
-            var config = { rules: { "no-alert" : 1 } };
+            var config = { rules: { "no-alert": 1 } };
 
             var messages = eslint.verify(code, config, filename);
 
@@ -1758,7 +1758,7 @@ describe("eslint", function() {
                 "alert('test');",
                 "alert('test');"
             ].join("\n");
-            var config = { rules: { "no-alert" : 1 } };
+            var config = { rules: { "no-alert": 1 } };
 
             var messages = eslint.verify(code, config, filename);
 
@@ -1772,7 +1772,7 @@ describe("eslint", function() {
                 "                                         alert('test');\n",
                 "/*eslint-enable */alert('test2');"
             ].join("");
-            var config = { rules: { "no-alert" : 1 } };
+            var config = { rules: { "no-alert": 1 } };
 
             var messages = eslint.verify(code, config, filename);
             assert.equal(messages.length, 2);
@@ -1792,7 +1792,7 @@ describe("eslint", function() {
                 "/*eslint-enable*/"
             ].join("\n");
 
-            var config = { rules: { "no-alert" : 1 } };
+            var config = { rules: { "no-alert": 1 } };
 
             var messages = eslint.verify(code, config, filename);
             assert.equal(messages.length, 0);
@@ -1806,7 +1806,7 @@ describe("eslint", function() {
                 "/*eslint-enable */;any();"
             ].join("\n");
 
-            var config = { rules: { "no-unused-vars" : 1 } };
+            var config = { rules: { "no-unused-vars": 1 } };
 
             var messages = eslint.verify(code, config, filename);
             assert.equal(messages.length, 0);
@@ -1818,7 +1818,7 @@ describe("eslint", function() {
                 "/*eslint-enable */;any();"
             ].join("\n");
 
-            var config = { rules: { "no-unused-vars" : 1 } };
+            var config = { rules: { "no-unused-vars": 1 } };
 
             var messages = eslint.verify(code, config, filename);
             assert.equal(messages.length, 0);
@@ -1833,7 +1833,7 @@ describe("eslint", function() {
                     "alert('test');",
                     "console.log('test');" // here
             ].join("\n");
-            var config = { rules: { "no-alert" : 1, "no-console": 1 } };
+            var config = { rules: { "no-alert": 1, "no-console": 1 } };
 
             var messages = eslint.verify(code, config, filename);
             assert.equal(messages.length, 1);
@@ -1851,7 +1851,7 @@ describe("eslint", function() {
                 "alert('test');", // here
                 "console.log('test');" // here
             ].join("\n");
-            var config = { rules: { "no-alert" : 1, "no-console": 1 } };
+            var config = { rules: { "no-alert": 1, "no-console": 1 } };
 
             var messages = eslint.verify(code, config, filename);
             assert.equal(messages.length, 2);
@@ -1871,7 +1871,7 @@ describe("eslint", function() {
 
                 "alert('test');" // here
             ].join("\n");
-            var config = { rules: { "no-alert" : 1, "no-console": 1 } };
+            var config = { rules: { "no-alert": 1, "no-console": 1 } };
 
             var messages = eslint.verify(code, config, filename);
             assert.equal(messages.length, 1);
@@ -1890,7 +1890,7 @@ describe("eslint", function() {
                 "alert('test');", // here
                 "console.log('test');"
             ].join("\n");
-            var config = { rules: { "no-alert" : 1, "no-console": 1 } };
+            var config = { rules: { "no-alert": 1, "no-console": 1 } };
 
             var messages = eslint.verify(code, config, filename);
             assert.equal(messages.length, 1);
@@ -1919,7 +1919,7 @@ describe("eslint", function() {
 
                 "/*eslint-enable*/"
             ].join("\n");
-            var config = { rules: { "no-alert" : 1, "no-console": 1 } };
+            var config = { rules: { "no-alert": 1, "no-console": 1 } };
 
             var messages = eslint.verify(code, config, filename);
             assert.equal(messages.length, 3);
@@ -1952,7 +1952,7 @@ describe("eslint", function() {
                     "console.log('test');", // here
                 "/*eslint-enable no-console */"
             ].join("\n");
-            var config = { rules: { "no-alert" : 1, "no-console": 1 } };
+            var config = { rules: { "no-alert": 1, "no-console": 1 } };
 
             var messages = eslint.verify(code, config, filename);
             assert.equal(messages.length, 3);
@@ -1973,7 +1973,7 @@ describe("eslint", function() {
         var code = "/*eslint no-alert:1, no-console:0*/ alert('test'); console.log('test');";
 
         it("should report a violation", function() {
-            var config = { rules: { "no-console" : 1, "no-alert" : 0 } };
+            var config = { rules: { "no-console": 1, "no-alert": 0 } };
 
             var messages = eslint.verify(code, config, filename);
             assert.equal(messages.length, 1);
@@ -1987,7 +1987,7 @@ describe("eslint", function() {
         var code = "/*eslint quotes:[2, \"double\"]*/ alert('test');";
 
         it("should report a violation", function() {
-            var config = { rules: { "quotes" : [2, "single"] } };
+            var config = { rules: { "quotes": [2, "single"] } };
 
             var messages = eslint.verify(code, config, filename);
             assert.equal(messages.length, 1);
@@ -2001,7 +2001,7 @@ describe("eslint", function() {
         it("should report a violation", function() {
             var code = "/*eslint no-alert:'1'*/ alert('test');";
 
-            var config = { rules: { "no-alert" : 1} };
+            var config = { rules: { "no-alert": 1} };
 
             var messages = eslint.verify(code, config, filename);
             assert.equal(messages.length, 1);
@@ -2013,7 +2013,7 @@ describe("eslint", function() {
         it("should report a violation", function() {
             var code = "/*eslint no-alert:abc*/ alert('test');";
 
-            var config = { rules: { "no-alert" : 1} };
+            var config = { rules: { "no-alert": 1} };
 
             var messages = eslint.verify(code, config, filename);
             assert.equal(messages.length, 1);
@@ -2025,7 +2025,7 @@ describe("eslint", function() {
         it("should report a violation", function() {
             var code = "/*eslint no-alert:0 2*/ alert('test');";
 
-            var config = { rules: { "no-alert" : 1} };
+            var config = { rules: { "no-alert": 1} };
 
             var messages = eslint.verify(code, config, filename);
             assert.equal(messages.length, 1);
@@ -2084,7 +2084,7 @@ describe("eslint", function() {
         it("should not support legacy config", function() {
             var code = "/*jshint mocha:true */ describe();";
 
-            var config = { rules: { "no-undef" : 1} };
+            var config = { rules: { "no-undef": 1} };
 
             var messages = eslint.verify(code, config, filename);
             assert.equal(messages.length, 1);
@@ -2097,7 +2097,7 @@ describe("eslint", function() {
         it("should not report a violation when using typed array", function() {
             var code = "var array = new Uint8Array();";
 
-            var config = { rules: { "no-undef" : 1} };
+            var config = { rules: { "no-undef": 1} };
 
             var messages = eslint.verify(code, config, filename);
             assert.equal(messages.length, 0);
@@ -2106,7 +2106,7 @@ describe("eslint", function() {
         it("should not report a violation", function() {
             var code = "/*eslint-env mocha,node */ require();describe();";
 
-            var config = { rules: { "no-undef" : 1} };
+            var config = { rules: { "no-undef": 1} };
 
             var messages = eslint.verify(code, config, filename);
             assert.equal(messages.length, 0);
@@ -2115,7 +2115,7 @@ describe("eslint", function() {
         it("should not report a violation", function() {
             var code = "/*eslint-env mocha */ suite();test();";
 
-            var config = { rules: { "no-undef" : 1} };
+            var config = { rules: { "no-undef": 1} };
 
             var messages = eslint.verify(code, config, filename);
             assert.equal(messages.length, 0);
@@ -2124,7 +2124,7 @@ describe("eslint", function() {
         it("should not report a violation", function() {
             var code = "/*eslint-env amd */ define();require();";
 
-            var config = { rules: { "no-undef" : 1} };
+            var config = { rules: { "no-undef": 1} };
 
             var messages = eslint.verify(code, config, filename);
             assert.equal(messages.length, 0);
@@ -2133,7 +2133,7 @@ describe("eslint", function() {
         it("should not report a violation", function() {
             var code = "/*eslint-env jasmine */ expect();spyOn();";
 
-            var config = { rules: { "no-undef" : 1} };
+            var config = { rules: { "no-undef": 1} };
 
             var messages = eslint.verify(code, config, filename);
             assert.equal(messages.length, 0);
@@ -2227,5 +2227,24 @@ describe("eslint", function() {
             eslint.verify(code, config, filename, true);
         });
 
+    });
+
+    describe("verify()", function() {
+        var code = "foo()\n    alert('test')";
+
+        it("should report warnings in order by line and column when called", function() {
+            var config = { rules: { "no-mixed-spaces-and-tabs": 1, "eol-last": 1, "semi": [1, "always"] } };
+
+            var messages = eslint.verify(code, config, filename);
+            assert.equal(messages.length, 3);
+            assert.equal(messages[0].line, 1);
+            assert.equal(messages[0].column, 5);
+            assert.equal(messages[1].line, 2);
+            assert.equal(messages[1].column, 1);
+            assert.equal(messages[2].line, 2);
+            assert.equal(messages[2].column, 17);
+
+
+        });
     });
 });

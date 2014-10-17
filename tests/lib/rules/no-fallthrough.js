@@ -35,7 +35,9 @@ eslintTester.addRuleTest("lib/rules/no-fallthrough", {
         "switch(foo) { case 0: case 1: {break;} }",
         "switch(foo) { }",
         "switch(foo) { case 0: switch(bar) { case 2: break; } /* falls through */ case 1: break; }",
-        "function foo() { switch(foo) { case 1: return a; a++; }}"
+        "function foo() { switch(foo) { case 1: return a; a++; }}",
+        "switch (foo) { case 0: a(); /* falls through */ default:  b(); /* comment */ }",
+        "switch (foo) { case 0: a(); /* falls through */ default: /* comment */ b(); }"
     ],
     invalid: [
         {
