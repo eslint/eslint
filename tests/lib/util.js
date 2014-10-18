@@ -36,6 +36,18 @@ describe("util", function() {
         });
     });
 
+    describe("when calling removePluginPrefix", function() {
+        it("should remove common prefix", function() {
+            var pluginName = util.removePluginPrefix("eslint-plugin-test");
+            assert.equal(pluginName, "test");
+        });
+
+        it("should not modify plugin name", function() {
+            var pluginName = util.removePluginPrefix("test");
+            assert.equal(pluginName, "test");
+        });
+    });
+
     describe("when calling mergeConfigs()", function() {
         var code = [
             { env: { browser: true } },
