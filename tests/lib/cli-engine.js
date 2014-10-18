@@ -10,7 +10,8 @@
 var assert = require("chai").assert,
     proxyquire = require("proxyquire"),
     sinon = require("sinon"),
-    rules = require("../../lib/rules");
+    rules = require("../../lib/rules"),
+    Config = require("../../lib/config");
 
 require("shelljs/global");
 proxyquire = proxyquire.noCallThru().noPreserveCache();
@@ -629,107 +630,26 @@ describe("CLIEngine", function() {
             });
         });
 
-        // it("should return zero messages when executing with global node flag", function () {
-
-        //     engine = new CLIEngine({
-        //         ignore: false,
-        //         reset: true,
-        //         useEslintrc: false,
-        //         configFile: "./conf/eslint.json",
-        //         envs: ["node"]
-        //     });
-
-        //     var files = [
-        //         "./tests/fixtures/globals-node.js"
-        //     ];
-
-        //     var report = engine.executeOnFiles(files);
-        //     console.dir(report.results[0].messages);
-        //     assert.equal(report.results.length, 1);
-        //     assert.equal(report.results[0].filePath, files[0]);
-        //     assert.equal(report.results[0].messages.length, 1);
-        // });
-
-        // it("should return zero messages when executing with global env flag", function () {
-
-        //     engine = new CLIEngine({
-        //         ignore: false,
-        //         reset: true,
-        //         useEslintrc: false,
-        //         configFile: "./conf/eslint.json",
-        //         envs: ["browser", "node"]
-        //     });
-
-        //     var files = [
-        //         "./tests/fixtures/globals-browser.js",
-        //         "./tests/fixtures/globals-node.js"
-        //     ];
-
-        //     var report = engine.executeOnFiles(files);
-        //     console.dir(report.results[1].messages);
-        //     assert.equal(report.results.length, 2);
-        //     assert.equal(report.results[0].filePath, files[0]);
-        //     assert.equal(report.results[0].messages.length, 1);
-        //     assert.equal(report.results[1].filePath, files[1]);
-        //     assert.equal(report.results[1].messages.length, 1);
-
-        // });
-
-        // it("should return zero messages when executing with env flag", function () {
-        //     var files = [
-        //         "./tests/fixtures/globals-browser.js",
-        //         "./tests/fixtures/globals-node.js"
-        //     ];
-
-        //     it("should allow environment-specific globals", function () {
-        //         cli.execute("--reset --no-eslintrc --config ./conf/eslint.json --env browser,node --no-ignore " + files.join(" "));
-
-        //         assert.equal(console.log.args[0][0].split("\n").length, 9);
-        //     });
-
-        //     it("should allow environment-specific globals, with multiple flags", function () {
-        //         cli.execute("--reset --no-eslintrc --config ./conf/eslint.json --env browser --env node --no-ignore " + files.join(" "));
-        //         assert.equal(console.log.args[0][0].split("\n").length, 9);
-        //     });
-        // });
-
-        // it("should return zero messages when executing without env flag", function () {
-        //     var files = [
-        //         "./tests/fixtures/globals-browser.js",
-        //         "./tests/fixtures/globals-node.js"
-        //     ];
-
-        //     it("should not define environment-specific globals", function () {
-        //         cli.execute("--reset --no-eslintrc --config ./conf/eslint.json --no-ignore " + files.join(" "));
-        //         assert.equal(console.log.args[0][0].split("\n").length, 12);
-        //     });
-        // });
-
-        // it("should return zero messages when executing with global flag", function () {
-        //     it("should default defined variables to read-only", function () {
-        //         var exit = cli.execute("--global baz,bat --no-ignore ./tests/fixtures/undef.js");
-
-        //         assert.isTrue(console.log.calledOnce);
-        //         assert.equal(exit, 1);
-        //     });
-
-        //     it("should allow defining writable global variables", function () {
-        //         var exit = cli.execute("--reset --global baz:false,bat:true --no-ignore ./tests/fixtures/undef.js");
-
-        //         assert.isTrue(console.log.notCalled);
-        //         assert.equal(exit, 0);
-        //     });
-
-        //     it("should allow defining variables with multiple flags", function () {
-        //         var exit = cli.execute("--reset --global baz --global bat:true --no-ignore ./tests/fixtures/undef.js");
-
-        //         assert.isTrue(console.log.notCalled);
-        //         assert.equal(exit, 0);
-        //     });
-        // });
-
     });
 
+    describe("getConfigForFile", function() {
 
+        it("should return the info from Config#getConfig when called", function() {
+
+            var engine = new CLIEngine({
+                configFile: "tests/fixtures/configurations/quotes-error.json",
+                reset: true
+            });
+
+            var configHelper = new Config(engine.options);
+
+            assert.deepEqual(
+                engine.getConfigForFile("tests/fixtures/single-quoted.js"),
+                configHelper.getConfig("tests/fixtures/single-quoted.js")
+            );
+
+        });
+
+    });
 
 });
