@@ -115,6 +115,13 @@ describe("options", function() {
         });
     });
 
+    describe("when passed --stdin", function() {
+        it("should return true for .stdin", function() {
+            var currentOptions = options.parse("--stdin");
+            assert.isTrue(currentOptions.stdin);
+        });
+    });
+
     describe("when passed --global", function() {
         it("should return an array for a single occurrence", function () {
             var currentOptions = options.parse("--global foo");

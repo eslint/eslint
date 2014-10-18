@@ -33,6 +33,7 @@
   "bugs": "https://github.com/eslint/eslint/issues/",
   "dependencies": {
     "chalk": "~0.5.1",
+    "concat-stream": "^1.4.6",
     "debug": "^2.0.0",
     "doctrine": "^0.5.2",
     "escope": "~1.0.0",

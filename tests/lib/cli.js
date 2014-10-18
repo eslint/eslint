@@ -30,6 +30,13 @@ describe("cli", function() {
         console.error.restore();
     });
 
+    describe("execute()", function() {
+        it("should lint text when passed as argument", function() {
+            var result = cli.execute("-c " + path.join(__dirname, "..", "..", ".eslintrc"), "var foo = 'bar';");
+            assert.equal(result, 1);
+        });
+    });
+
     describe("when given a config file", function() {
         it("should load the specified config file", function() {
             assert.doesNotThrow(function () {
