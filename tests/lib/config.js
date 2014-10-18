@@ -16,9 +16,11 @@ var assert = require("chai").assert,
 
     fs = require("fs"),
     Config = require("../../lib/config"),
-    sinon = require("sinon");
+    sinon = require("sinon"),
+    proxyquire = require("proxyquire");
 
 require("shelljs/global");
+proxyquire = proxyquire.noCallThru().noPreserveCache();
 
 /*global tempdir, mkdir, rm, cp*/
 
@@ -452,6 +454,89 @@ describe("Config", function() {
             configHelper.getConfig(path.resolve(__dirname, "..", "fixtures", "configurations", "empty", "empty.json"));
         });
 
-    });
+        describe("with plugin configuration", function() {
+            var examplePluginName = "eslint-plugin-example",
+                testPluginName = "eslint-plugin-test",
+                requireStubs = {},
+                examplePlugin = { rules: { "example-rule": require("../fixtures/rules/custom-rule") }, rulesConfig: { "example-rule": 1 } },
+                testPlugin = { rules: {"test-rule": require("../fixtures/rules/custom-rule") }, rulesConfig: { "test-rule": 1, "quotes": 0} },
+                StubbedConfig;
 
+            it("should return config with plugin config", function() {
+                requireStubs[examplePluginName] = examplePlugin;
+
+                StubbedConfig = proxyquire("../../lib/config", requireStubs);
+
+                var configHelper = new StubbedConfig({
+                    reset: true
+                }),
+                file = getFixturePath("broken", "plugins", "console-wrong-quotes.js"),
+                expected = {
+                    env: {
+                        node: true
+                    },
+                    rules: {
+                        quotes: [2, "double"],
+                        "example/example-rule": 1
+                    },
+                    plugins: ["example"]
+                },
+                actual = configHelper.getConfig(file);
+                assertConfigsEqual(actual, expected);
+            });
+
+            it("should only return plugin config for rules with correct prefix", function() {
+                examplePlugin = { rules: { "example-rule": require("../fixtures/rules/custom-rule") }, rulesConfig: { "example-rule": 1, "quotes": 2 } };
+
+                requireStubs[examplePluginName] = examplePlugin;
+
+                StubbedConfig = proxyquire("../../lib/config", requireStubs);
+
+                var configHelper = new StubbedConfig({
+                    reset: true
+                }),
+                file = getFixturePath("broken", "plugins", "console-wrong-quotes.js"),
+                expected = {
+                    env: {
+                        node: true
+                    },
+                    rules: {
+                        quotes: [2, "double"],
+                        "example/example-rule": 1,
+                        "example/quotes": 2
+                    },
+                    plugins: ["example"]
+                },
+                actual = configHelper.getConfig(file);
+                assertConfigsEqual(actual, expected);
+            });
+
+            it("should return merged configs for both plugins", function() {
+                requireStubs[examplePluginName] = examplePlugin;
+                requireStubs[testPluginName] = testPlugin;
+
+                StubbedConfig = proxyquire("../../lib/config", requireStubs);
+
+                var configHelper = new StubbedConfig({
+                    reset: true
+                }),
+                file = getFixturePath("broken", "plugins2", "console-wrong-quotes.js"),
+                expected = {
+                    env: {
+                        node: true
+                    },
+                    rules: {
+                        quotes: [2, "double"],
+                        "example/example-rule": 1,
+                        "example/quotes": 2,
+                        "test/test-rule": 1,
+                        "test/quotes": 0
+                    },
+                    plugins: ["example", "eslint-plugin-test"]
+                },
+                actual = configHelper.getConfig(file);
+                assertConfigsEqual(actual, expected);
+            });
+        });
+    });
 });
