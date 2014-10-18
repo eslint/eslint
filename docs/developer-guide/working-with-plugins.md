@@ -62,6 +62,13 @@ eslintTester.addRuleTest("lib/rules/custom-plugin-rule", {
 
 In order to make your plugin available to the community you have to publish it on npm.
 
+Recommended keywords:
+
+* `eslint`
+* `eslintplugin`
+
+Add these keywords into your `package.json` file to make it easy for others to find.
+
 ## Further Reading
 
 * [npm Developer Guide](https://www.npmjs.org/doc/misc/npm-developers.html)
