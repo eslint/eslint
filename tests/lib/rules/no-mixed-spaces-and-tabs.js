@@ -31,6 +31,10 @@ eslintTester.addRuleTest("lib/rules/no-mixed-spaces-and-tabs", {
         {
             code: "\tvar x = 5,\n\t    y = 2;",
             args: [2, true]
+        },
+        {
+            code: "\tvar x = 5,\n\t    y = 2;",
+            args: [2, "smart-tabs"]
         }
     ],
 
@@ -63,6 +67,17 @@ eslintTester.addRuleTest("lib/rules/no-mixed-spaces-and-tabs", {
         {
             code: "\tvar x = 5,\n  \t  y = 2;",
             args: [2, true],
+            errors: [
+                {
+                    message: "Mixed spaces and tabs.",
+                    type: "Program",
+                    line: 2
+                }
+            ]
+        },
+        {
+            code: "\tvar x = 5,\n  \t  y = 2;",
+            args: [2, "smart-tabs"],
             errors: [
                 {
                     message: "Mixed spaces and tabs.",
