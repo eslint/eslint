@@ -37,3 +37,7 @@ You've developed library-specific rules for eslint and you want to share it with
 ## Section 6: [Contributing](contributing.md)
 
 Once you've made changes that you want to share with the community, the next step is to submit those changes back via a pull request.
+
+## Section 7: [Governance](governance.md)
+
+After you've made several contributions, you might be eligible to be a Committer or Reviewer. Learn what that means for you and your involvement in the project.
