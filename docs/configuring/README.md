@@ -97,8 +97,7 @@ These examples allow `var1` to be overwritten in your code, but disallow it for 
 
 ESLint supports the use of third-party plugins. Before using the plugin you have to install it using npm.
 
-To configure plugins inside of a configuration file, use the `plugins` key, which contains a list of plugin names.
-The `eslint-plugin-` prefix can be omitted from the plugin name.
+To configure plugins inside of a configuration file, use the `plugins` key, which contains a list of plugin names. The `eslint-plugin-` prefix can be omitted from the plugin name.
 
 ```json
 {
@@ -113,10 +112,12 @@ And in YAML:
 
 ```yaml
 ---
-  plugins: 
+  plugins:
     - plugin1
     - eslint-plugin-plugin2
 ```
+
+**Note:** A globally-installed instance of ESLint can only use globally-installed ESLint plugins. A locally-installed ESLint can make sure of both locally- and globally- installed ESLint plugins.
 
 ## Configuring Rules
 
