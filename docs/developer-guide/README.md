@@ -32,8 +32,16 @@ You're finally ready to start working with rules. You may want to fix an existin
 
 ## Section 5: [Working with Plugins](working-with-plugins.md)
 
-You've developed library-specific rules for eslint and you want to share it with the community. You can publish an eslint plugin on npm.
+You've developed library-specific rules for ESLint and you want to share it with the community. You can publish an ESLint plugin on npm.
+
+## Section 6: [Node.js API](nodejs-api.md)
+
+If you're interested in writing a tool that uses ESLint, then you can use the Node.js API to get programmatic access to functionality.
 
 ## Section 6: [Contributing](contributing.md)
 
 Once you've made changes that you want to share with the community, the next step is to submit those changes back via a pull request.
+
+## Section 7: [Governance](governance.md)
+
+After you've made several contributions, you might be eligible to be a Committer or Reviewer. Learn what that means for you and your involvement in the project.

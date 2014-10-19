@@ -12,6 +12,7 @@ var assert = require("chai").assert,
     path = require("path"),
     baseConfig = require("../../conf/eslint.json"),
     environments = require("../../conf/environments.json"),
+    yaml = require("js-yaml"),
 
     fs = require("fs"),
     Config = require("../../lib/config"),
@@ -108,7 +109,7 @@ describe("Config", function() {
 
         it("should return the project config when called in current working directory", function() {
             var configHelper = new Config({ reset: true }),
-                expected = JSON.parse(fs.readFileSync("./.eslintrc", "utf8")),
+                expected = yaml.safeLoad(fs.readFileSync("./.eslintrc", "utf8")),
                 actual = configHelper.getConfig();
 
             assertConfigsEqual(expected, actual);
