@@ -137,6 +137,7 @@ These rules are purely matters of style and are quite subjective.
 * [new-cap](new-cap.md) - require a capital letter for constructors
 * [new-parens](new-parens.md) - disallow the omission of parentheses when invoking a constructor with no arguments
 * [no-array-constructor](no-array-constructor.md) - disallow use of the `Array` constructor
+* [no-inline-comments](no-inline-comments.md) - disallow comments inline after code (off by default)
 * [no-lonely-if](no-lonely-if.md) - disallow if as the only statement in an else block (off by default)
 * [no-mixed-spaces-and-tabs](no-mixed-spaces-and-tabs.md) - disallow mixed spaces and tabs for indentation
 * [no-nested-ternary](no-nested-ternary.md) - disallow nested ternary expressions (off by default)
