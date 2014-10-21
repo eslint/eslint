@@ -36,6 +36,19 @@ function foo() {
 
     return t;
 }
+
+// Two warnings for nested occurrences
+function foo() {
+    if (x) {
+        if (y) {
+            return y;
+        } else {
+            return x;
+        }
+    } else {
+        return z;
+    }
+}
 ```
 
 The follow patterns are not considered warnings:
