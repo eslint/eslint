@@ -332,6 +332,31 @@ describe("cli", function() {
         });
     });
 
+    describe("when the quiet option is enabled", function () {
+        var fileToLint = "tests/fixtures/single-quoted.js";
+
+        it("should only print error", function () {
+            var cliArgs = "--quiet  -f compact --rule 'quotes: [2, double]' --rule 'no-unused-vars: 1' " + fileToLint,
+                formattedOutput;
+
+            cli.execute(cliArgs);
+
+            sinon.assert.calledOnce(console.log);
+
+            formattedOutput = console.log.firstCall.args[0];
+            assert.include(formattedOutput, "Error");
+            assert.notInclude(formattedOutput, "Warning");
+        });
+
+        it("should print nothing if there are no errors", function () {
+            var cliArgs = "--quiet  -f compact --rule 'quotes: [1, double]' --rule 'no-unused-vars: 1' " + fileToLint;
+
+            cli.execute(cliArgs);
+
+            sinon.assert.notCalled(console.log);
+        });
+    });
+
     describe("when supplied with report output file path", function() {
 
         afterEach(function () {
