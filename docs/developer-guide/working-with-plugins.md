@@ -18,6 +18,25 @@ module.exports = {
 };
 ```
 
+### Default Configuration for Plugins
+
+You can provide default configuration for the rules included in your plugin by modifying
+exported object to include `rulesConfig` property. `rulesConfig` follows the same pattern as
+you would use in your .eslintrc config `rules` property, but without plugin name as a prefix.
+
+```js
+module.exports = {
+    rules: {
+        "myFirstRule": require("./lib/rules/my-first-rule"),
+        "mySecondRule": require("./lib/rules/my-second-rule")
+    },
+    rulesConfig: {
+        "myFirstRule": 1,
+        "mySecondRule": [2, "on"]
+    }
+};
+```
+
 ### Peer Dependency
 
 To make clear that the plugin requires eslint to work correctly you have to declare eslint as a `peerDependency` in your `package.json`.
