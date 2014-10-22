@@ -172,4 +172,11 @@ describe("options", function() {
             assert.equal(currentOptions.plugin[1], "bar");
         });
     });
+
+    describe("when passed --quiet", function () {
+        it("should return true for .quiet", function() {
+            var currentOptions = options.parse("--quiet");
+            assert.isTrue(currentOptions.quiet);
+        });
+    });
 });
