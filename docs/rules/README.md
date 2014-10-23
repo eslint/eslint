@@ -20,6 +20,7 @@ The following rules point out areas where you might have made mistakes.
 * [no-extra-parens](no-extra-parens.md) - disallow unnecessary parentheses (off by default)
 * [no-extra-semi](no-extra-semi.md) - disallow unnecessary semicolons
 * [no-func-assign](no-func-assign.md) - disallow overwriting functions written as function declarations
+* [no-func-var](no-func-var.md) - disallow functions that share a name with a variable (off by default)
 * [no-inner-declarations](no-inner-declarations.md) - disallow function or variable declarations in nested blocks
 * [no-invalid-regexp](no-invalid-regexp.md) - disallow invalid regular expression strings in the `RegExp` constructor
 * [no-negated-in-lhs](no-negated-in-lhs.md) - disallow negation of the left operand of an `in` expression
