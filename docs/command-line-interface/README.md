@@ -38,6 +38,7 @@ Options:
   --ignore-path path::String  Specify the file that contains patterns of files
                               to ignore.
   --ignore                    Enable loading of .eslintignore. - default: true
+  --quiet                     Report errors only. - default false
 ```
 
 ### `-h`, `--help`
@@ -114,7 +115,7 @@ Example
 
     eslint --env browser,node file.js
     eslint --env browser --env node file.js
-    
+
 ### `--plugin`
 
 This option specifies a plugin to load. You can omit the prefix `eslint-plugin-` from the plugin name.
@@ -169,6 +170,15 @@ This option outputs the current ESLint version onto the console. All other optio
 Example:
 
     eslint -v
+
+### `--quiet`
+
+This option allows you to disable reporting on warnings. If you enable this option only errors are reported by ESLint.
+
+Example:
+
+    eslint --quiet file.js
+
 
 ## Ignoring files from linting
 
