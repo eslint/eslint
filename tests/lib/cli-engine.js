@@ -1,6 +1,7 @@
 /**
- * @fileoverview Tests for cli.
- * @author Ian Christian Myers
+ * @fileoverview Tests for CLIEngine.
+ * @author Nicholas C. Zakas
+ * @copyright 2014 Nicholas C. Zakas. All rights reserved.
  */
 
 //------------------------------------------------------------------------------
@@ -35,6 +36,37 @@ describe("CLIEngine", function() {
         CLIEngine = proxyquire("../../lib/cli-engine", requireStubs);
     });
 
+    describe("executeOnText()", function() {
+
+        var engine;
+
+        it("should report three messages when using local cwd .eslintrc", function() {
+
+            engine = new CLIEngine();
+
+            var report = engine.executeOnText("var foo = 'bar';");
+            assert.equal(report.results.length, 1);
+            assert.equal(report.results[0].messages.length, 3);
+            assert.equal(report.results[0].messages[0].ruleId, "eol-last");
+            assert.equal(report.results[0].messages[1].ruleId, "no-unused-vars");
+            assert.equal(report.results[0].messages[2].ruleId, "quotes");
+        });
+
+        it("should report one message when using specific config file", function() {
+
+            engine = new CLIEngine({
+                configFile: "tests/fixtures/configurations/quotes-error.json",
+                reset: true
+            });
+
+            var report = engine.executeOnText("var foo = 'bar';");
+            assert.equal(report.results.length, 1);
+            assert.equal(report.results[0].messages.length, 1);
+            assert.equal(report.results[0].messages[0].ruleId, "quotes");
+        });
+
+    });
+
     describe("executeOnFiles()", function() {
 
         var engine;
@@ -46,7 +78,6 @@ describe("CLIEngine", function() {
             });
 
             var report = engine.executeOnFiles(["lib/cli.js"]);
-            // console.dir(report.results[0].messages);
             assert.equal(report.results.length, 1);
             assert.equal(report.results[0].messages.length, 0);
         });
@@ -425,8 +456,7 @@ describe("CLIEngine", function() {
                 assert.equal(report.results[0].messages[0].severity, 2);
             });
 
-            // Project configuration - first level package.json
-            it("should return one message when executing with package.json");
+            // Project configuration - package.json (TODO)
 
             // Project configuration - second level .eslintrc
             it("should return one message when executing with local .eslintrc that overrides parent .eslintrc", function () {
