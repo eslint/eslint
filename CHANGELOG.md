@@ -1,3 +1,10 @@
+v0.9.1 - October 25, 2014
+
+* 0.9.1 (Nicholas C. Zakas)
+* Docs: fix link on governance model (azu)
+* Fix: plugins without rulesConfig causes crash (fixes #1388) (Mathias Schreck)
+* 0.9.0 (Nicholas C. Zakas)
+
 v0.9.0 - October 24, 2014
 
 * 0.9.0 (Nicholas C. Zakas)
