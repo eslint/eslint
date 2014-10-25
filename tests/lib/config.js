@@ -455,11 +455,15 @@ describe("Config", function() {
         });
 
         describe("with plugin configuration", function() {
+            var customRule = require("../fixtures/rules/custom-rule");
+
             var examplePluginName = "eslint-plugin-example",
                 testPluginName = "eslint-plugin-test",
                 requireStubs = {},
-                examplePlugin = { rules: { "example-rule": require("../fixtures/rules/custom-rule") }, rulesConfig: { "example-rule": 1 } },
-                testPlugin = { rules: {"test-rule": require("../fixtures/rules/custom-rule") }, rulesConfig: { "test-rule": 1, "quotes": 0} },
+                examplePluginRules = { "example-rule": customRule },
+                testPluginRules = { "test-rule": customRule },
+                examplePlugin = { rules: examplePluginRules, rulesConfig: { "example-rule": 1 } },
+                testPlugin = { rules: testPluginRules, rulesConfig: { "test-rule": 1, "quotes": 0} },
                 StubbedConfig;
 
             it("should return config with plugin config", function() {
@@ -486,7 +490,7 @@ describe("Config", function() {
             });
 
             it("should only return plugin config for rules with correct prefix", function() {
-                examplePlugin = { rules: { "example-rule": require("../fixtures/rules/custom-rule") }, rulesConfig: { "example-rule": 1, "quotes": 2 } };
+                examplePlugin = { rules: examplePluginRules, rulesConfig: { "example-rule": 1, "quotes": 2 } };
 
                 requireStubs[examplePluginName] = examplePlugin;
 
@@ -535,6 +539,29 @@ describe("Config", function() {
                     plugins: ["example", "eslint-plugin-test"]
                 },
                 actual = configHelper.getConfig(file);
+                assertConfigsEqual(actual, expected);
+            });
+
+            it("should still work if the plugin does not provide a default configuration", function () {
+                requireStubs[examplePluginName] = { rules: examplePluginRules };
+
+                StubbedConfig = proxyquire("../../lib/config", requireStubs);
+
+                var configHelper = new StubbedConfig({
+                        reset: true
+                    }),
+                    file = getFixturePath("broken", "plugins", "console-wrong-quotes.js"),
+                    expected = {
+                        env: {
+                            node: true
+                        },
+                        rules: {
+                            quotes: [2, "double"]
+                        },
+                        plugins: ["example"]
+                    },
+                    actual = configHelper.getConfig(file);
+
                 assertConfigsEqual(actual, expected);
             });
         });
