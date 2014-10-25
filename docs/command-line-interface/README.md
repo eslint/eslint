@@ -65,6 +65,12 @@ Example:
 
     eslint -f compact file.js
 
+You can also use a custom formatter from the command line by specifying a path to the custom formatter file.
+
+Example:
+
+    eslint -f customformat.js file.js
+
 When specified, the given format is output to the console. If you'd like to save that output into a file, you can do so on the command line like so:
 
     eslint -f compact file.js > results.txt
