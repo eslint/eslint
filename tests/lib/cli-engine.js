@@ -183,15 +183,25 @@ describe("CLIEngine", function() {
             assert.equal(report.results.length, 0);
         });
 
-        it("should return zero messages when given a file in excluded files list", function() {
-
+        it("should return zero messages when all given files are ignored", function () {
             engine = new CLIEngine({
                 ignorePath: "tests/fixtures/.eslintignore"
             });
 
-            var report = engine.executeOnFiles(["tests/fixtures/passing"]);
+            var report = engine.executeOnFiles(["tests/fixtures/"]);
             assert.equal(report.results.length, 0);
+        });
 
+        it("should return a warning when an explicitly given file is ignored", function () {
+            engine = new CLIEngine({
+                ignorePath: "tests/fixtures/.eslintignore"
+            });
+
+            var report = engine.executeOnFiles(["tests/fixtures/passing.js"]);
+
+            assert.equal(report.results.length, 1);
+            assert.equal(report.results[0].filePath, "tests/fixtures/passing.js");
+            assert.equal(report.results[0].messages[0].message, "File ignored because of your .eslintignore file. Use --no-ignore to override.");
         });
 
         it("should return two messages when given a file in excluded files list while ignore is off", function() {
