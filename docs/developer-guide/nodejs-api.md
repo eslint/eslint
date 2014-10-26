@@ -197,6 +197,21 @@ var report = cli.executeOnText("var foo = 'bar';");
 
 The `report` returned from `executeOnText()` is in the same format as from `executeOnFiles()`, but there is only ever one result in `report.results`.
 
+### isPathIgnored()
+
+Checks if a given path is ignored by ESLint.
+
+```js
+var CLIEngine = require("eslint").CLIEngine;
+
+var cli = new CLIEngine({
+    ignore: true,
+    ignorePath: ".customIgnoreFile"
+});
+
+var isIgnored = cli.isPathIgnored("foo/bar.js");
+```
+
 ## Deprecated APIs
 
 * `cli` - the `cli` object has been deprecated in favor of `CLIEngine`. It will be removed at some point in the future.

@@ -682,4 +682,27 @@ describe("CLIEngine", function() {
 
     });
 
+    describe("isPathIgnored", function () {
+
+        it("should check if the given path is ignored", function () {
+            var engine = new CLIEngine({
+                ignorePath: "tests/fixtures/.eslintignore2"
+            });
+
+            assert.isTrue(engine.isPathIgnored("undef.js"));
+            assert.isFalse(engine.isPathIgnored("passing.js"));
+        });
+
+        it("should always return false if ignoring is disabled", function () {
+            var engine = new CLIEngine({
+                ignorePath: "tests/fixtures/.eslintignore2",
+                ignore: false
+            });
+
+            assert.isFalse(engine.isPathIgnored("undef.js"));
+            assert.isFalse(engine.isPathIgnored("passing.js"));
+        });
+
+    });
+
 });
