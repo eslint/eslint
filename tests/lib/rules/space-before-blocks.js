@@ -34,6 +34,11 @@ eslintTester.addRuleTest("lib/rules/space-before-blocks", {
         { code: "if(a){}else{}", args: neverArgs },
         { code: "function a() {}" },
         { code: "function a(){}", args: neverArgs },
+        { code: "switch(a.b(c < d)) { case 'foo': foo(); break; default: if (a) { bar(); } }" },
+        { code: "switch(a) { }" },
+        { code: "switch(a)  {}" },
+        { code: "switch(a.b(c < d)){ case 'foo': foo(); break; default: if (a){ bar(); } }", args: neverArgs },
+        { code: "switch(a){}", args: neverArgs },
         { code: "try {}catch(a) {}" },
         { code: "try{}catch(a){}", args: neverArgs },
         { code: "for(;;) {}" },
@@ -66,6 +71,24 @@ eslintTester.addRuleTest("lib/rules/space-before-blocks", {
         },
         {
             code: "function a() {}",
+            args: neverArgs,
+            errors: [ expectedNoSpacingError ]
+        },
+        {
+            code: "switch(a){}",
+            errors: [ expectedSpacingError ]
+        },
+        {
+            code: "switch(a) {}",
+            args: neverArgs,
+            errors: [ expectedNoSpacingError ]
+        },
+        {
+            code: "switch(a.b()){ case 'foo': foo(); break; default: if (a) { bar(); } }",
+            errors: [ expectedSpacingError ]
+        },
+        {
+            code: "switch(a.b()) { case 'foo': foo(); break; default: if (a){ bar(); } }",
             args: neverArgs,
             errors: [ expectedNoSpacingError ]
         },
