@@ -6,7 +6,7 @@ Each plugin is a npm module with a name in the format of `eslint-plugin-<plugin-
 
 The module must export an object with a `rules` property.
 This `rules` property should be an object containing a key-value mapping of rule ID to rule.
-The rule ID does not have to follow any naming convention (so it can just be `dollar-sign, for instance).
+The rule ID does not have to follow any naming convention (so it can just be `dollar-sign`, for instance).
 
 ```js
 module.exports = {
@@ -39,8 +39,8 @@ module.exports = {
 
 ### Peer Dependency
 
-To make clear that the plugin requires eslint to work correctly you have to declare eslint as a `peerDependency` in your `package.json`.
-The plugin support was introduced in eslint version `0.8.0`. Ensure the `peerDependency` points to eslint `0.8.0` or later.
+To make clear that the plugin requires ESLint to work correctly you have to declare ESLint as a `peerDependency` in your `package.json`.
+The plugin support was introduced in ESLint version `0.8.0`. Ensure the `peerDependency` points to ESLint `0.8.0` or later.
 
 ```json
 {
@@ -52,7 +52,7 @@ The plugin support was introduced in eslint version `0.8.0`. Ensure the `peerDep
 
 ### Testing
 
-You can test the rules of your plugin [the same way as bundled eslint rules](working-with-rules.md#rule-unit-tests) using [`ESLintTester`](https://github.com/eslint/eslint-tester).
+You can test the rules of your plugin [the same way as bundled ESLint rules](working-with-rules.md#rule-unit-tests) using [`ESLintTester`](https://github.com/eslint/eslint-tester).
 
 Example:
 
