@@ -38,9 +38,11 @@ var formatter = proxyquire("../../../lib/formatters/stylish", { chalk: chalkStub
 //------------------------------------------------------------------------------
 
 describe("formatter:stylish", function() {
-    var sandbox;
+    var sandbox,
+        colorsEnabled = chalk.enabled;
 
     beforeEach(function() {
+        chalk.enabled = false;
         sandbox = sinon.sandbox.create();
         sandbox.spy(chalkStub.yellow, "bold");
         sandbox.spy(chalkStub.red, "bold");
@@ -48,6 +50,7 @@ describe("formatter:stylish", function() {
 
     afterEach(function() {
         sandbox.verifyAndRestore();
+        chalk.enabled = colorsEnabled;
     });
 
     describe("when passed no messages", function() {
