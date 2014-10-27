@@ -45,7 +45,7 @@ This option suppresses warnings about mixed tabs and spaces when the latter are 
 You can enable this option by using the following configuration:
 
 ```json
-"no-mixed-spaces-and-tabs": [2, true]
+"no-mixed-spaces-and-tabs": [2, "smart-tabs"]
 ```
 
 ## Further Reading
