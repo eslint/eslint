@@ -53,12 +53,6 @@ describe("IgnoredPaths", function() {
             assert.notEqual(ignoredPaths.patterns.length, 0);
         });
 
-        it("should add a second children pattern", function() {
-            var ignoredPaths = IgnoredPaths.load({ ignore: true, ignorePath: filepath });
-            assert.ok(ignoredPaths.patterns[1]);
-            assert.equal(ignoredPaths.patterns[1], ignoredPaths.patterns[0] + "/**");
-        });
-
     });
 
     describe("initialization with invalid file", function() {
@@ -110,9 +104,23 @@ describe("IgnoredPaths", function() {
 
         it("should ignore comments", function() {
             var ignoredPaths = IgnoredPaths.load({ ignore: true, ignorePath: filepath });
-            // get 2 lines, because loader autoadd '/**' rule to each
-            // change to 1 if loader updated
-            assert.equal(ignoredPaths.patterns.length, 2);
+            assert.equal(ignoredPaths.patterns.length, 1);
+        });
+
+    });
+
+    describe("initialization with negations", function() {
+
+        var filepath = path.resolve(__dirname, "..", "fixtures", ".eslintignore4");
+
+        it("should ignore a normal pattern", function() {
+            var ignoredPaths = IgnoredPaths.load({ ignore: true, ignorePath: filepath });
+            assert.ok(ignoredPaths.contains("/dir/bar.js"));
+        });
+
+        it("should not ignore a negated pattern", function() {
+            var ignoredPaths = IgnoredPaths.load({ ignore: true, ignorePath: filepath });
+            assert.notOk(ignoredPaths.contains("/dir/foo.js"));
         });
 
     });
