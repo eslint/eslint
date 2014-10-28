@@ -201,6 +201,7 @@ describe("CLIEngine", function() {
 
             assert.equal(report.results.length, 1);
             assert.equal(report.results[0].filePath, "tests/fixtures/passing.js");
+            assert.equal(report.results[0].messages[0].severity, 1);
             assert.equal(report.results[0].messages[0].message, "File ignored because of your .eslintignore file. Use --no-ignore to override.");
         });
 
