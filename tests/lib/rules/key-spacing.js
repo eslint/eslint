@@ -100,6 +100,16 @@ eslintTester.addRuleTest("lib/rules/key-spacing", {
             afterColon: false
         }]
     }, {
+        code: [
+            "obj = { key ",
+            " : ",
+            " longName };"
+        ].join("\n"),
+        args: [2, {
+            beforeColon: true,
+            afterColon: true
+        }]
+    }, {
         code: "var obj = { get fn() { return 42; } };",
         args: [2, {}]
     }],
@@ -220,6 +230,23 @@ eslintTester.addRuleTest("lib/rules/key-spacing", {
         errors: [
             { message: "Missing space after key \"a\".", type: "Identifier" },
             { message: "Extra space before value for key \"bar\".", type: "CallExpression" }
+        ]
+    }, {
+        code: [
+            "foo = {",
+            "    key:",
+            "        longValueName,",
+            "    key2",
+            "        :anotherLongValue",
+            "};"
+        ].join("\n"),
+        args: [2, {
+            beforeColon: false,
+            afterColon: false
+        }],
+        errors: [
+            { message: "Extra space before value for key \"key\".", type: "Identifier" },
+            { message: "Extra space after key \"key2\".", type: "Identifier" }
         ]
     }]
 
