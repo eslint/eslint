@@ -4,7 +4,7 @@ Enforces spacing around the colon in object literal properties. It can verify ea
 
 ## Rule Details
 
-This rule will warn when spacing in properties does not match the specified options. There are three modes:
+This rule will warn when spacing in properties does not match the specified options. In the case of long lines, it is acceptable to add a new line wherever whitespace is allowed. There are three modes:
 
 ### 1. Individual
 
@@ -30,6 +30,14 @@ call({
 };
 ```
 
+// "key-spacing": [2, {
+//     "beforeColon": false,
+//     "afterColon": true
+// }]
+foo = { thisLineWouldBeTooLong:
+    soUseAnotherLine };
+```
+
 The follow patterns are considered warnings:
 
 ```js
@@ -49,6 +57,13 @@ function foo() {
         bat :"value" // Missing space after colon
     };
 }
+
+// "key-spacing": [2, {
+//     "beforeColon": false,
+//     "afterColon": false
+// }]
+foo = { thisLineWouldBeTooLong:
+    soUseAnotherLine };
 ```
 
 ### 2. Vertically align values `"align": "value"`
