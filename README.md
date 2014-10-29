@@ -1,5 +1,6 @@
 [![Build Status](https://travis-ci.org/eslint/eslint.svg?branch=master)](http://travis-ci.org/eslint/eslint)
 [![NPM version](https://badge.fury.io/js/eslint.svg)](http://badge.fury.io/js/eslint)
+[![Coverage Status](https://img.shields.io/coveralls/eslint/eslint.svg)](https://coveralls.io/r/eslint/eslint)
 [![Bountysource](https://www.bountysource.com/badge/tracker?tracker_id=282608)](https://www.bountysource.com/trackers/282608-eslint?utm_source=282608&utm_medium=shield&utm_campaign=TRACKER_BADGE)
 
 # ESLint
