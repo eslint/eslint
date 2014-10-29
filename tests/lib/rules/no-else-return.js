@@ -26,6 +26,17 @@ eslintTester.addRuleTest("lib/rules/no-else-return", {
     invalid: [
         { code: "function foo() { if (true) { return x; } else { return y; } }", errors: [{ message: "Unexpected 'else' after 'return'.", type: "BlockStatement"}] },
         { code: "function foo() { if (true) { var x = bar; return x; } else { var y = baz; return y; } }", errors: [{ message: "Unexpected 'else' after 'return'.", type: "BlockStatement"}] },
-        { code: "function foo() { if (true) return x; else return y; }", errors: [{ message: "Unexpected 'else' after 'return'.", type: "ReturnStatement"}] }
+        { code: "function foo() { if (true) return x; else return y; }", errors: [{ message: "Unexpected 'else' after 'return'.", type: "ReturnStatement"}] },
+        { code: "function foo() { if (true) { if (false) return x; else return y; } else { return z; } }", errors: [{ message: "Unexpected 'else' after 'return'.", type: "ReturnStatement"}, { message: "Unexpected 'else' after 'return'.", type: "BlockStatement"}] },
+        { code: "function foo() { if (true) { if (false) { if (true) return x; else w = y; } else { w = x; } } else { return z; } }", errors: [{ message: "Unexpected 'else' after 'return'.", type: "ExpressionStatement"}] },
+        { code: "function foo() { if (true) { if (false) { if (true) return x; else return y; } } else { return z; } }", errors: [{ message: "Unexpected 'else' after 'return'.", type: "ReturnStatement"}] },
+        { code: "function foo() { if (true) { if (false) { if (true) return x; else return y; } return w; } else { return z; } }", errors: [
+            { message: "Unexpected 'else' after 'return'.", type: "ReturnStatement"},
+            { message: "Unexpected 'else' after 'return'.", type: "BlockStatement"}
+        ] },
+        { code: "function foo() { if (true) { if (false) { if (true) return x; else return y; } else { w = x; } } else { return z; } }", errors: [
+            { message: "Unexpected 'else' after 'return'.", type: "ReturnStatement"},
+            { message: "Unexpected 'else' after 'return'.", type: "BlockStatement"}
+        ] }
     ]
 });
