@@ -16,7 +16,8 @@
     "gensite": "node Makefile.js gensite",
     "browserify": "node Makefile.js browserify",
     "perf": "node Makefile.js perf",
-    "profile": "beefy tests/bench/bench.js --open -- -t brfs -t ./tests/bench/xform-rules.js"
+    "profile": "beefy tests/bench/bench.js --open -- -t brfs -t ./tests/bench/xform-rules.js",
+    "coveralls": "cat ./coverage/lcov.info | coveralls"
   },
   "files": [
     "LICENSE",
@@ -54,6 +55,7 @@
     "brfs": "0.0.9",
     "browserify": "^5.11.2",
     "chai": "^1.9.1",
+    "coveralls": "2.11.2",
     "dateformat": "^1.0.8",
     "eslint-tester": "^0.2.1",
     "istanbul": "^0.3.2",
