@@ -260,6 +260,8 @@ You can tell ESLint to ignore specific files and directories by creating an `.es
 
 When ESLint is run, it looks in the current working directory to find an `.eslintignore` file before determining which files to lint. If this file is found, then those preferences are applied when traversing directories.
 
+In addition to any patterns in a `.eslintignore` file, ESLint always ignores files in `node_modules/**`.
+
 **Note:** You can only use one `.eslintignore` file at a time.
 
 ### Using an Alternate File
