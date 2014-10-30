@@ -30,7 +30,8 @@ describe("IgnoredPaths", function() {
 
             try {
                 ignoredPaths = IgnoredPaths.load({ ignore: true });
-                assert.notEqual(ignoredPaths.patterns.length, 0);
+                assert.ok(ignoredPaths.patterns.length > 1);
+                assert.equal(ignoredPaths.patterns[0], "node_modules/**");
             } finally {
                 process.chdir(cwd);
             }
@@ -50,7 +51,7 @@ describe("IgnoredPaths", function() {
 
         it("should work", function() {
             var ignoredPaths = IgnoredPaths.load({ ignore: true, ignorePath: filepath });
-            assert.notEqual(ignoredPaths.patterns.length, 0);
+            assert.notEqual(ignoredPaths.patterns.length, 1);
         });
 
     });
@@ -91,6 +92,16 @@ describe("IgnoredPaths", function() {
             stub.restore();
         });
 
+        it("should always ignore files in node_modules", function() {
+            var ignoredPaths = IgnoredPaths.load({ ignore: true, ignorePath: filepath });
+            assert.ok(ignoredPaths.contains("node_modules/mocha/bin/mocha"));
+        });
+
+        it("should not ignore files in node_modules in a subdirectory", function() {
+            var ignoredPaths = IgnoredPaths.load({ ignore: true, ignorePath: filepath });
+            assert.notOk(ignoredPaths.contains("subdir/node_modules/test.js"));
+        });
+
         it("should return false for file not matching any ignore pattern", function() {
             var ignoredPaths = IgnoredPaths.load({ ignore: true, ignorePath: filepath });
             assert.notOk(ignoredPaths.contains("./passing.js"));
@@ -104,7 +115,7 @@ describe("IgnoredPaths", function() {
 
         it("should ignore comments", function() {
             var ignoredPaths = IgnoredPaths.load({ ignore: true, ignorePath: filepath });
-            assert.equal(ignoredPaths.patterns.length, 1);
+            assert.equal(ignoredPaths.patterns.length, 2);
         });
 
     });
