@@ -6,7 +6,7 @@ Rules in ESLint are divided into several categories to help you better understan
 
 The following rules point out areas where you might have made mistakes.
 
-* [no-comma-dangle](no-comma-dangle.md) - disallow trailing commas in object literals
+* [comma-dangle](comma-dangle.md) - require or disallow trailing commas in arrays and object literals (disallow by default)
 * [no-cond-assign](no-cond-assign.md) - disallow assignment in conditional expressions
 * [no-console](no-console.md) - disallow use of `console` (off by default in the node environment)
 * [no-constant-condition](no-constant-condition.md) - disallow use of constant expressions in conditions
