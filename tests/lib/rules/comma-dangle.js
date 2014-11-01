@@ -1,6 +1,7 @@
 /**
  * @fileoverview Tests for comma-dangle rule.
- * @author Ian Christian Myers
+ * @author Ian Christian Myers, Mike Sidorov
+ * @copyright 2013 Ian Christian Myers. All rights reserved.
  */
 
 //------------------------------------------------------------------------------
@@ -31,14 +32,14 @@ eslintTester.addRuleTest("lib/rules/comma-dangle", {
         { code: "foo[ bar, baz ]", args: ["2", "always"] }
     ],
     invalid: [
-        { code: "var foo = { bar: \"baz\", }", args: ["2", "never"], errors: [{message: "Trailing comma.", type: "Property"}] },
-        { code: "foo({ bar: \"baz\", qux: \"quux\", });", args: ["2", "never"], errors: [{ message: "Trailing comma.", type: "Property"}] },
-        { code: "var foo = [ \"baz\", ]", args: ["2", "never"], errors: [{message: "Trailing comma.", type: "Literal"}]},
-        { code: "var foo = { bar: \"bar\"\n\n, }", args: ["2", "never"], errors: [{message: "Trailing comma.", line: 3}]},
+        { code: "var foo = { bar: \"baz\", }", args: ["2", "never"], errors: [{message: "Unexpected trailing comma.", type: "Property"}] },
+        { code: "foo({ bar: \"baz\", qux: \"quux\", });", args: ["2", "never"], errors: [{ message: "Unexpected trailing comma.", type: "Property"}] },
+        { code: "var foo = [ \"baz\", ]", args: ["2", "never"], errors: [{message: "Unexpected trailing comma.", type: "Literal"}]},
+        { code: "var foo = { bar: \"bar\"\n\n, }", args: ["2", "never"], errors: [{message: "Unexpected trailing comma.", line: 3}]},
 
-        { code: "var foo = { bar: \"baz\" }", args: ["2", "always"], errors: [{message: "No trailing comma.", type: "Property"}]},
-        { code: "foo({ bar: \"baz\", qux: \"quux\" });", args: ["2", "always"], errors: [{message: "No trailing comma.", type: "Property"}]},
-        { code: "var foo = [ \"baz\" ]", args: ["2", "always"], errors: [{message: "No trailing comma.", type: "Literal"}]},
-        { code: "var foo = { bar: \"bar\"\n\n }", args: ["2", "always"], errors: [{message: "No trailing comma.", type: "Property"}]}
+        { code: "var foo = { bar: \"baz\" }", args: ["2", "always"], errors: [{message: "Trailing comma is required.", type: "Property"}]},
+        { code: "foo({ bar: \"baz\", qux: \"quux\" });", args: ["2", "always"], errors: [{message: "Trailing comma is required.", type: "Property"}]},
+        { code: "var foo = [ \"baz\" ]", args: ["2", "always"], errors: [{message: "Trailing comma is required.", type: "Literal"}]},
+        { code: "var foo = { bar: \"bar\"\n\n }", args: ["2", "always"], errors: [{message: "Trailing comma is required.", type: "Property"}]}
     ]
 });
