@@ -1,3 +1,23 @@
+v0.9.2 - November 1, 2014
+
+* 0.9.2 (Nicholas C. Zakas)
+* Fix: '.md' to '.html' with anchors (fixes #1415) (Nate-Wilkins)
+* Fix: Allow line breaks in key-spacing rule (fixes #1407) (Brandon Mills)
+* Build: add coveralls integration (fixes #1411) (Mathias Schreck)
+* Fix: add severity flag for ignored file warning (fixes #1401) (Mathias Schreck)
+* Fix: Keep sinon at ~1.10.3 (fixes #1406) (Brandon Mills)
+* Fix: ! negates .eslintignore patterns (fixes #1093) (Brandon Mills)
+* Fix: let fs.stat throw if a file does not exist (fixes #1296) (Mathias Schreck)
+* Fix: check switch statements in space-before-blocks (fixes #1397) (Mathias Schreck)
+* Docs: fix rule name in example configuration (Mathias Schreck)
+* Fix: disable colors during test run (fixes #1395) (Mathias Schreck)
+* New: add isPathIgnored method to CLIEngine (fixes #1392) (Mathias Schreck)
+* Docs: changing eslint to ESLint and add missing backtick (Mathias Schreck)
+* Docs: Documents the functionality to load a custom formatter from a file (Adam Baldwin)
+* 0.9.1 (Nicholas C. Zakas)
+* Update: Option type for mixed tabs and spaces (fixes #1374) (Max Nordlund)
+* Fix: Nested occurrences of no-else-return now show multiple reports (fixes #1369) (Jordan Hawker)
+
 v0.9.1 - October 25, 2014
 
 * 0.9.1 (Nicholas C. Zakas)
