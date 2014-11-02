@@ -149,6 +149,7 @@ These rules are purely matters of style and are quite subjective.
 * [no-underscore-dangle](no-underscore-dangle.md) - disallow dangling underscores in identifiers
 * [no-wrap-func](no-wrap-func.md) - disallow wrapping of non-IIFE statements in parens
 * [one-var](one-var.md) - allow just one var statement per function (off by default)
+* [operator-assignment](operator-assignment.md) - require assignment operator shorthand where possible or prohibit it entirely (off by default)
 * [padded-blocks](padded-blocks.md) - enforce padding within blocks (off by default)
 * [quotes](quotes.md) - specify whether double or single quotes should be used
 * [quote-props](quote-props.md) - require quotes around object literal property names (off by default)
