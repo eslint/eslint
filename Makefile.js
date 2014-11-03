@@ -15,7 +15,8 @@ require("shelljs/make");
 var path = require("path"),
     dateformat = require("dateformat"),
     nodeCLI = require("shelljs-nodecli"),
-    os = require("os");
+    os = require("os"),
+    semver = require("semver");
 
 //------------------------------------------------------------------------------
 // Settings
@@ -141,7 +142,13 @@ function getTagOfFirstOccurrence(filePath) {
         tags = execSilent("git tag --contains " + firstCommit);
 
     tags = splitCommandResultToLines(tags);
-    return tags[0].trim();
+    return tags.reduce(function(list, version) {
+        version = semver.valid(version.trim());
+        if (version) {
+            list.push(version);
+        }
+        return list;
+    }, []).sort(semver.compare)[0];
 }
 
 /**
@@ -150,7 +157,7 @@ function getTagOfFirstOccurrence(filePath) {
  * @returns {string} The version number.
  */
 function getFirstVersionOfFile(filePath) {
-    return getTagOfFirstOccurrence(filePath).substr(1);
+    return getTagOfFirstOccurrence(filePath);
 }
 
 //------------------------------------------------------------------------------
