@@ -116,6 +116,22 @@ describe("eslint", function() {
             assert(spy.calledOnce);
         });
 
+        it("should clamp to valid range when retrieving characters before start of source", function() {
+            function handler(node) {
+                var source = eslint.getSource(node, 2, 0);
+                assert.equal(source, TEST_CODE);
+            }
+
+            var config = { rules: {} },
+                spy = sandbox.spy(handler);
+
+            eslint.reset();
+            eslint.on("Program", spy);
+
+            eslint.verify(code, config, filename, true);
+            assert(spy.calledOnce);
+        });
+
         it("should retrieve all text for binary expression", function() {
             var config = { rules: {} };
 
@@ -163,6 +179,7 @@ describe("eslint", function() {
 
             eslint.verify(code, config, filename, true);
         });
+
     });
 
     describe("when calling getTokens", function() {
