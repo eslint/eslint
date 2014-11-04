@@ -263,7 +263,6 @@ target.gensite = function() {
             var sourceBaseName = path.basename(filename, ".md") + ".js";
 
             text = "---\ntitle: ESLint\nlayout: doc\n---\n<!-- Note: No pull requests accepted for this file. See README.md in the root directory for details. -->\n" + text;
-
             text = text.replace(/\.md(.*)\)/g, ".html$1").replace("README.html", "index.html");
 
             if (filename.indexOf("rules/") !== -1 && baseName !== "README.md") {
