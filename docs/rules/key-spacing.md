@@ -28,7 +28,6 @@ call({
     foobar :42,
     bat :(2 * 2)
 };
-```
 
 // "key-spacing": [2, {
 //     "beforeColon": false,
@@ -38,7 +37,7 @@ foo = { thisLineWouldBeTooLong:
     soUseAnotherLine };
 ```
 
-The follow patterns are considered warnings:
+The following patterns are considered warnings:
 
 ```js
 // "key-spacing": [2, {
@@ -109,6 +108,7 @@ var obj = {
 The `align` option can also vertically align colons and values together. Whereas with `"value"` alignment, padding belongs right of the colon, with `"colon"` alignment, padding goes to the left of the colon. Except in the case of padding, it still respects `beforeColon` and `afterColon`.
 
 The following patterns are considered valid:
+
 ```js
 // "key-spacing": [2, { "align": "colon" }]
 // beforeColon and afterColon default to false and true, respectively
