@@ -258,13 +258,32 @@ You can tell ESLint to ignore specific files and directories by creating an `.es
 **/*.js
 ```
 
-When ESLint is run, it looks in the current working directory to find an `.eslintignore` file before determining which files to lint. If this file is found, then those preferences are applied when traversing directories.
+When ESLint is run, it looks in the current working directory to find an `.eslintignore` file before determining which files to lint. If this file is found, then those preferences are applied when traversing directories. Only one `.eslintignore` file can be used at a time, so `.eslintignore` files other than the one in the current working directory will not be used.
 
-**Note:** You can only use one `.eslintignore` file at a time.
+Globs are matched using [minimatch](https://github.com/isaacs/minimatch), so a number of features are available:
+
+- Lines beginning with `#` are treated as comments and do not affect ignore patterns.
+- Lines preceded by `!` are negated patterns that re-include a pattern that was ignored by an earlier pattern.
+- Brace expansion can refer to multiple files in a pattern. For example, `file.{js,ts,coffee}` will ignore `file.js`, `file.ts`, and `file.coffee`.
+
+In addition to any patterns in a `.eslintignore` file, ESLint always ignores files in `node_modules/**`.
+
+For example, placing the following `.eslintignore` file in the current working directory will ignore all of `node_modules`, any files with the extensions `.ts.js` or `.coffee.js` extension that might have been transpiled, and anything in the `build/` directory except `build/index.js`:
+
+```
+# node_modules ignored by default
+
+# Ignore files compiled form TypeScript and CoffeeScript
+**/*.{ts,coffee}.js
+
+# Ignore built files except build/index.js
+build/
+!build/index.js
+```
 
 ### Using an Alternate File
 
-If you'd prefer to use a different file than `.eslintignore`, you can specify it on the command line using the `--ignore-path` option. For example, you can use `.jshintignore` file because it has the same format:
+If you'd prefer to use a different file than the `.eslintignore` in the current working directory, you can specify it on the command line using the `--ignore-path` option. For example, you can use `.jshintignore` file because it has the same format:
 
     eslint --ignore-path .jshintignore file.js
 
