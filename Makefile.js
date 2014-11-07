@@ -257,7 +257,7 @@ target.gensite = function() {
 
             text = "---\ntitle: ESLint\nlayout: doc\n---\n<!-- Note: No pull requests accepted for this file. See README.md in the root directory for details. -->\n" + text;
 
-            text = text.replace(/(\(.+)(\.md)(.*\))/g, '$1.html$3').replace("README.html", "index.html");
+            text = text.replace(/(\(.+)(\.md)(.*\))/g, "$1.html$3").replace("README.html", "index.html");
 
             if (filename.indexOf("rules/") !== -1 && baseName !== "README.md") {
                 var version = getFirstVersionOfFile(path.join("lib/rules", sourceBaseName));
