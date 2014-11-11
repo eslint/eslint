@@ -39,6 +39,7 @@
         "no-floating-decimal": 0,
         "no-func-assign": 2,
         "no-implied-eval": 2,
+        "no-inline-comments": 0,
         "no-inner-declarations": [2, "functions"],
         "no-invalid-regexp": 2,
         "no-irregular-whitespace": 2,
