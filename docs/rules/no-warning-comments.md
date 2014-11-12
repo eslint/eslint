@@ -19,8 +19,7 @@ This preconfigures
 * the `terms` array is set to `todo`, `fixme` and `xxx` as `warning-comments`. `terms` has to be an array. It can hold any terms you might want to warn about in your comments - they do not have to be single words. E.g. `really bad idea` is as valid as `attention`.
 * the `location`-option set to `start` configures the rule to check only the start of comments. E.g. `// TODO` would be matched, `// This is a TODO` not. You can change this to `anywhere` to check your complete comments.
 
-As already seen above, the configuration in the `eslint.json` file is quite simple. Example that enables the rule and
-configures it to check the complete comment, not only the start:
+As already seen above, the configuration is quite simple. Example that enables the rule and configures it to check the complete comment, not only the start:
 
 ```js
 ...
