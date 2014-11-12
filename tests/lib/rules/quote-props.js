@@ -31,12 +31,39 @@ eslintTester.addRuleTest("lib/rules/quote-props", {
         { code: "({ a: 0, 0: 0 })", args: [2, "as-needed"] },
         { code: "({ a: 0, '0x0': 0 })", args: [2, "as-needed"] }
     ],
-    invalid: [
-        {
-            code: "({ a: 0 })",
-            errors: [
-                { message: "Unquoted property `a` found.", type: "Property"}
-            ]
-        }
-    ]
+    invalid: [{
+        code: "({ a: 0 })",
+        errors: [{
+            message: "Unquoted property `a` found.", type: "Property"
+        }]
+    }, {
+        code: "({ 0: '0' })",
+        errors: [{
+            message: "Unquoted property `0` found.", type: "Property"
+        }]
+    }, {
+        code: "({ 'a': 0 })",
+        args: [2, "as-needed"],
+        errors: [{
+            message: "Unnecessarily quoted property `a` found.", type: "Property"
+        }]
+    }, {
+        code: "({ 'null': 0 })",
+        args: [2, "as-needed"],
+        errors: [{
+            message: "Unnecessarily quoted property `null` found.", type: "Property"
+        }]
+    }, {
+        code: "({ 'true': 0 })",
+        args: [2, "as-needed"],
+        errors: [{
+            message: "Unnecessarily quoted property `true` found.", type: "Property"
+        }]
+    }, {
+        code: "({ '0': 0 })",
+        args: [2, "as-needed"],
+        errors: [{
+            message: "Unnecessarily quoted property `0` found.", type: "Property"
+        }]
+    }]
 });
