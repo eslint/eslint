@@ -42,7 +42,8 @@ eslintTester.addRuleTest("lib/rules/block-scoped-var", {
         "var a = f; function f() { };",
         "function f(){ for(var i; i; i) i; }",
         "function f(){ for(var a=0, b=1; a; b) a, b; }",
-        "function f(){ for(var a in {}) a; }"
+        "function f(){ for(var a in {}) a; }",
+        "function f(){ switch(2) { case 1: var b = 2; b; break; default: b; break;} b; }"
     ],
     invalid: [
         { code: "function f(){ x; }", errors: [{ message: "\"x\" used outside of binding context.", type: "Identifier" }] },
