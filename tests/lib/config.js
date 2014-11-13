@@ -296,7 +296,6 @@ describe("Config", function() {
 
             assertConfigsEqual(expected, actual);
         });
-
         // Command line configuration - --config with first level .eslintrc
         it("should merge command line config when config file adds to local .eslintrc", function () {
 
@@ -389,6 +388,22 @@ describe("Config", function() {
             actual = configHelper.getConfig(file);
 
             expected.env.node = true;
+
+            assertConfigsEqual(expected, actual);
+        });
+
+        // Command line configuration - --config with first level .eslintrc
+        it("should merge command line config when config file adds environment to local .eslintrc", function () {
+
+            var configHelper = new Config({
+                    configFile: getFixturePath("broken", "override-env-conf.yaml")
+                }),
+                file = getFixturePath("broken", "console-wrong-quotes.js"),
+                expected = util.mergeConfigs(baseConfig, environments.node),
+                actual = configHelper.getConfig(file);
+
+            expected.env.node = true;
+            expected.rules["no-mixed-requires"] = [0, false];
 
             assertConfigsEqual(expected, actual);
         });

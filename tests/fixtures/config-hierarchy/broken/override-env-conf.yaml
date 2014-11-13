@@ -1,4 +1,4 @@
 env:
     node: true
 rules:
-    quotes: 0
+    no-mixed-requires: 0
