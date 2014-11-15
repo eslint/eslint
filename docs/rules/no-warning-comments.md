@@ -15,6 +15,7 @@ The default configuration has this rule disabled and looks like this:
 ```
 
 This preconfigures
+
 * the rule is disabled because it is set to `0`. Changing this to `1` for warn or `2` for error mode activates it (this works exactly the same as everywhere else in `ESLint`).
 * the `terms` array is set to `todo`, `fixme` and `xxx` as `warning-comments`. `terms` has to be an array. It can hold any terms you might want to warn about in your comments - they do not have to be single words. E.g. `really bad idea` is as valid as `attention`.
 * the `location`-option set to `start` configures the rule to check only the start of comments. E.g. `// TODO` would be matched, `// This is a TODO` not. You can change this to `anywhere` to check your complete comments.
