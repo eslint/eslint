@@ -63,6 +63,7 @@ You can configure the depth as an option by using the second argument in your co
 ```
 
 ## Further Reading
+
 * [Control flow in Node.js](http://book.mixu.net/node/ch7.html)
 * [Control Flow in Node](http://howtonode.org/control-flow)
 * [Control Flow in Node Part II](http://howtonode.org/control-flow-part-ii)
