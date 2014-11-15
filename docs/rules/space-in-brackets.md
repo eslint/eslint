@@ -182,6 +182,7 @@ In case of `"never"` option, set an exception to `true` to enable it:
 ```
 
 The following exceptions are available:
+
 * `singleValue` sets the spacing of a single value inside of square brackets of an array.
 * `objectsInArrays` sets the spacings between the curly braces and square brackets of object literals that are the first or last element in an array.
 * `arraysInArrays` sets the spacing between the square brackets of array literals that are the first or last element in an array.
