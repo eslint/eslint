@@ -13,6 +13,28 @@ There are several pieces of information that can be configured:
 
 All of these options give you fine-grained control over how ESLint treats your code.
 
+## Specifying Language Options
+
+ESLint allows you to specify the JavaScript language options you want to support. By default, ESLint supports only ECMAScript 5 syntax. You can override that setting to enable support for ECMAScript 6 as well as [JSX](http://facebook.github.io/jsx/) by using configuration settings.
+
+Configuration settings are set in your `.eslintrc` file, and there are two language-specific options:
+
+1. `ecmascript` - the ECMAScript version you want to enable. The default is `5` and support goes up to `6`.
+1. `jsx` - set to true in order to enable JSX parsing. Default is `false`.
+
+Here's an example `.eslintrc` file:
+
+```json
+{
+    "settings": {
+        "ecmascript": 6,
+        "jsx": true
+    }
+}
+```
+
+Setting language options helps ESLint determine what is a parsing error.
+
 ## Specifying Environments
 
 An environment defines both global variables that are predefined as well as which rules should be on or off by default. The available environments are:

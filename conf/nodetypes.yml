@@ -1,0 +1,182 @@
+ArrayExpression:
+  version: 5
+ArrayPattern:
+  version: 6
+  message: Unexpected node.
+ArrowFunctionExpression:
+  version: 6
+  message: Unexpected token "=".
+AssignmentExpression:
+  version: 5
+BinaryExpression:
+  version: 5
+BlockStatement:
+  version: 5
+BreakStatement:
+  version: 5
+CallExpression:
+  version: 5
+CatchClause:
+  version: 5
+ClassBody:
+  version: 6
+  message: Unexpected reserved word "class".
+ClassDeclaration:
+  version: 6
+  message: Unexpected reserved word "class".
+ClassExpression:
+  version: 6
+  message: Unexpected reserved word "class".
+ComprehensionBlock:
+  version: 7
+  message: Unexpected node.
+ComprehensionExpression:
+  version: 7
+  message: Unexpected node.
+ConditionalExpression:
+  version: 5
+ContinueStatement:
+  version: 5
+DebuggerStatement:
+  version: 5
+DoWhileStatement:
+  version: 5
+EmptyStatement:
+  version: 5
+ExportBatchSpecifier:
+  version: 6
+  message: Unexpected reserved word "export".
+ExportDeclaration:
+  version: 6
+  message: Unexpected reserved word "export".
+ExportSpecifier:
+  version: 6
+  message: Unexpected reserved word "export".
+ExpressionStatement:
+  version: 5
+ForInStatement:
+  version: 5
+ForOfStatement:
+  version: 6
+  message: Unexpected identifier.
+ForStatement:
+  version: 5
+FunctionDeclaration:
+  version: 5
+FunctionExpression:
+  version: 5
+Identifier:
+  version: 5
+IfStatement:
+  version: 5
+ImportDeclaration:
+  version: 6
+  message: Unexpected reserved word.
+ImportDefaultSpecifier:
+  version: 6
+  message: Unexpected reserved word.
+ImportNamespaceSpecifier:
+  version: 6
+  message: Unexpected reserved word.
+ImportSpecifier:
+  version: 6
+  message: Unexpected reserved word.
+LabeledStatement:
+  version: 5
+Literal:
+  version: 5
+LogicalExpression:
+  version: 5
+MemberExpression:
+  version: 5
+MethodDefinition:
+  version: 6
+  message: Unexpected token.
+ModuleSpecifier:
+  version: 6
+  message: Unexpected reserved word.
+NewExpression:
+  version: 5
+ObjectExpression:
+  version: 5
+ObjectPattern:
+  version: 6
+  message: Unexpected node.
+Program:
+  version: 5
+Property:
+  version: 5
+ReturnStatement:
+  version: 5
+SequenceExpression:
+  version: 5
+SpreadElement:
+  version: 6
+  message: Unexpected token.
+SwitchCase:
+  version: 5
+SwitchStatement:
+  version: 5
+TaggedTemplateExpression:
+  version: 6
+  message: Unexpected token.
+TemplateElement:
+  version: 6
+  message: Unexpected token.
+TemplateLiteral:
+  version: 6
+  message: Unexpected token.
+ThisExpression:
+  version: 5
+ThrowStatement:
+  version: 5
+TryStatement:
+  version: 5
+UnaryExpression:
+  version: 5
+UpdateExpression:
+  version: 5
+VariableDeclaration:
+  version: 5
+VariableDeclarator:
+  version: 5
+WhileStatement:
+  version: 5
+WithStatement:
+  version: 5
+YieldExpression:
+  version: 6
+  message: Unexpected token "yield".
+XJSIdentifier:
+  version: jsx
+  message: Unexpected token "<".
+XJSNamespacedName:
+  version: jsx
+  message: Unexpected token "<".
+XJSMemberExpression:
+  version: jsx
+  message: Unexpected token "<".
+XJSEmptyExpression:
+  version: jsx
+  message: Unexpected token "<".
+XJSExpressionContainer:
+  version: jsx
+  message: Unexpected token "<".
+XJSElement:
+  version: jsx
+  message: Unexpected token "<".
+XJSClosingElement:
+  version: jsx
+  message: Unexpected token "<".
+XJSOpeningElement:
+  version: jsx
+  message: Unexpected token "<".
+XJSAttribute:
+  version: jsx
+  message: Unexpected token "<".
+XJSSpreadAttribute:
+  version: jsx
+  message: Unexpected token "<".
+XJSText:
+  version: jsx
+  message: Unexpected token "<".
