@@ -2278,9 +2278,9 @@ describe("eslint", function() {
     });
 
     describe("verify()", function() {
-        var code = "foo()\n    alert('test')";
 
         it("should report warnings in order by line and column when called", function() {
+            var code = "foo()\n    alert('test')";
             var config = { rules: { "no-mixed-spaces-and-tabs": 1, "eol-last": 1, "semi": [1, "always"] } };
 
             var messages = eslint.verify(code, config, filename);
@@ -2291,8 +2291,53 @@ describe("eslint", function() {
             assert.equal(messages[1].column, 1);
             assert.equal(messages[2].line, 2);
             assert.equal(messages[2].column, 17);
-
-
         });
+
+        it("should report an error when JSX code is encountered and JSX is not enabled", function() {
+            var code = "var myDivElement = <div className=\"foo\" />;";
+            var messages = eslint.verify(code, {}, "filename");
+
+            assert.equal(messages.length, 1);
+            assert.equal(messages[0].line, 1);
+            assert.equal(messages[0].column, 19);
+            assert.equal(messages[0].message, "Unexpected token \"<\".");
+        });
+
+        it("should not report an error when JSX code is encountered and JSX is enabled", function() {
+            var code = "var myDivElement = <div className=\"foo\" />;";
+            var messages = eslint.verify(code, { settings: { jsx: true }}, "filename");
+
+            assert.equal(messages.length, 0);
+        });
+
+        it("should report an error when ES6 generator code is encountered and ES6 is not enabled", function() {
+            var code = "function *foo() {}";
+            var messages = eslint.verify(code, {}, "filename", true);
+
+            assert.equal(messages.length, 1);
+            assert.equal(messages[0].line, 1);
+            assert.equal(messages[0].column, 8);
+            assert.equal(messages[0].message, "Unexpected token \"*\".");
+        });
+
+        it("should report an error when ES6 class code is encountered and ES6 is not enabled", function() {
+            var code = "class Foo {}";
+            var messages = eslint.verify(code, {}, "filename");
+
+            assert.equal(messages.length, 1);
+            assert.equal(messages[0].line, 1);
+            assert.equal(messages[0].column, 0);
+            assert.equal(messages[0].message, "Unexpected reserved word \"class\".");
+        });
+
+        it("should not report an error when ES6 class code is encountered and ES6 is enabled", function() {
+            var code = "class Foo {}";
+            var messages = eslint.verify(code, { settings: { ecmascript: 6 }}, "filename");
+
+            assert.equal(messages.length, 0);
+        });
+
+        // More ES6/JSX parsing tests go here
+
     });
 });
