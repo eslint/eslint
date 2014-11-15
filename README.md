@@ -1,6 +1,7 @@
-[![Build Status](https://travis-ci.org/eslint/eslint.svg?branch=master)](http://travis-ci.org/eslint/eslint)
-[![NPM version](https://badge.fury.io/js/eslint.svg)](http://badge.fury.io/js/eslint)
-[![Coverage Status](https://img.shields.io/coveralls/eslint/eslint.svg)](https://coveralls.io/r/eslint/eslint)
+[![NPM version][npm-image]][npm-url]
+[![build status][travis-image]][travis-url]
+[![Test coverage][coveralls-image]][coveralls-url]
+[![Downloads][downloads-image]][downloads-url]
 [![Bountysource](https://www.bountysource.com/badge/tracker?tracker_id=282608)](https://www.bountysource.com/trackers/282608-eslint?utm_source=282608&utm_medium=shield&utm_campaign=TRACKER_BADGE)
 
 # ESLint
@@ -63,3 +64,13 @@ At the moment, ES6 support is turned off due to the experimental nature of the s
 ### Where to ask for help?
 
 Join our [Mailing List](https://groups.google.com/group/eslint)
+
+
+[npm-image]: https://img.shields.io/npm/v/eslint.svg?style=flat-square
+[npm-url]: https://npmjs.org/package/eslint
+[travis-image]: https://img.shields.io/travis/eslint/eslint.svg?style=flat-square
+[travis-url]: https://travis-ci.org/eslint/eslint
+[coveralls-image]: https://img.shields.io/coveralls/eslint/eslint.svg?style=flat-square
+[coveralls-url]: https://coveralls.io/r/eslint/eslint?branch=master
+[downloads-image]: http://img.shields.io/npm/dm/eslint.svg?style=flat-square
+[downloads-url]: https://npmjs.org/package/eslint
