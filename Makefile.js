@@ -13,6 +13,7 @@
 require("shelljs/make");
 
 var path = require("path"),
+    checker = require("npm-license"),
     dateformat = require("dateformat"),
     nodeCLI = require("shelljs-nodecli"),
     os = require("os"),
@@ -29,6 +30,10 @@ var path = require("path"),
  * at least provides some sort of useful signal.
  */
 var PERF_MULTIPLIER = 7.5e6;
+
+var OPEN_SOURCE_LICENSES = [
+    /MIT/, /BSD/, /Apache/, /ISC/, /WTF/, /Public Domain/
+];
 
 //------------------------------------------------------------------------------
 // Data
@@ -229,6 +234,8 @@ target.test = function() {
     if (errors) {
         exit(1);
     }
+
+    target.checkLicenses();
 };
 
 target.docs = function() {
@@ -491,6 +498,51 @@ target.checkRuleFiles = function() {
         exit(1);
     }
 
+};
+
+target.checkLicenses = function() {
+
+    function isPermissible(dependency) {
+        var licenses = dependency.licenses;
+
+        if (Array.isArray(licenses)) {
+            return licenses.some(function(license) {
+                return isPermissible({
+                    name: dependency.name,
+                    licenses: license
+                });
+            });
+        }
+
+        return OPEN_SOURCE_LICENSES.some(function(license) {
+            return license.test(licenses);
+        });
+    }
+
+    echo("Validating licenses");
+
+    checker.init({
+        start: __dirname
+    }, function(deps) {
+        var impermissible = Object.keys(deps).map(function(dependency) {
+            return {
+                name: dependency,
+                licenses: deps[dependency].licenses
+            };
+        }).filter(function(dependency) {
+            return !isPermissible(dependency);
+        });
+
+        if (impermissible.length) {
+            impermissible.forEach(function (dependency) {
+                console.error("%s license for %s is impermissible.",
+                    dependency.licenses,
+                    dependency.name
+                );
+            });
+            exit(1);
+        }
+    });
 };
 
 function time(cmd, runs, runNumber, results, cb) {
