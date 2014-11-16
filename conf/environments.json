@@ -408,7 +408,9 @@
 
     "jasmine": {
         "globals": {
+            "afterAll": false,
             "afterEach": false,
+            "beforeAll": false,
             "beforeEach": false,
             "describe": false,
             "expect": false,
