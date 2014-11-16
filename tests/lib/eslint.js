@@ -2337,6 +2337,13 @@ describe("eslint", function() {
             assert.equal(messages.length, 0);
         });
 
+        it("should not report an error when JSX code with text is encountered and single quotes is enabled", function() {
+            var code = "<div>Foo</div>";
+            var messages = eslint.verify(code, { settings: { jsx: true }, rules: { quotes: [1, "single"]}}, "filename");
+
+            assert.equal(messages.length, 0);
+        });
+        
         // More ES6/JSX parsing tests go here
 
     });
