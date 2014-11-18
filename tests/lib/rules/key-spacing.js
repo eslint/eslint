@@ -101,6 +101,19 @@ eslintTester.addRuleTest("lib/rules/key-spacing", {
         }]
     }, {
         code: [
+            "({",
+            "    a  : 0,",
+            "    bcd: 0,",
+            "",
+            "    e: 0,",
+            "    f: 0",
+            "})"
+        ].join("\n"),
+        args: [2, {
+            align: "colon"
+        }]
+    }, {
+        code: [
             "obj = { key ",
             " : ",
             " longName };"
@@ -112,6 +125,9 @@ eslintTester.addRuleTest("lib/rules/key-spacing", {
     }, {
         code: "var obj = { get fn() { return 42; } };",
         args: [2, {}]
+    }, {
+        code: "({ get fn() {} })",
+        args: [2, { align: "colon" }]
     }],
 
     invalid: [{
@@ -230,6 +246,24 @@ eslintTester.addRuleTest("lib/rules/key-spacing", {
         errors: [
             { message: "Missing space after key \"a\".", type: "Identifier" },
             { message: "Extra space before value for key \"bar\".", type: "CallExpression" }
+        ]
+    }, {
+        code: [
+            "({",
+            "    a : 0,",
+            "    bcd: 0,",
+            "",
+            "    e: 0,",
+            "    fg:0",
+            "})"
+        ].join("\n"),
+        args: [2, {
+            align: "colon"
+        }],
+        errors: [
+            { message: "Missing space after key \"a\".", type: "Identifier" },
+            { message: "Missing space after key \"e\".", type: "Identifier" },
+            { message: "Missing space before value for key \"fg\".", type: "Literal" }
         ]
     }, {
         code: [
