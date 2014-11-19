@@ -110,7 +110,7 @@ With this configuration, ESLint will warn when it finds `@return` and recommend 
 
 #### requireReturn
 
-By default ESLint requires you to specify `@return` for every documented function regardless of whether there is anything returned by the function. While using `@return {void}` stops it from asking for a description of the return value using the `requireReturn` option and setting it to false prevents an error from being logged unless there is a return in the function. Note that with this option set to `false` if there is a return in the function and error will still be logged and if there is a `@return` specified and there are no `return` statements in the function an error will also be logged. This option is purely to prevent the forced addition of `@return {void}` to an entire codebase not to turn off JSDoc return checking.
+By default ESLint requires you to specify `@return` for every documented function regardless of whether there is anything returned by the function. While using `@return {void}` stops it from asking for a description of the return value using the `requireReturn` option and setting it to false prevents an error from being logged unless there is a return in the function. Note that with this option set to `false`, if there is a return in the function, an error will still be logged and if there is a `@return` specified and there are no `return` statements in the function an error will also be logged. This option is purely to prevent the forced addition of `@return {void}` to an entire codebase not to turn off JSDoc return checking.
 
 ```
 "valid-jsdoc": [2, {
