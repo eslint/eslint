@@ -162,7 +162,7 @@ These rules are purely matters of style and are quite subjective.
 * [space-in-parens](space-in-parens.md) - require or disallow spaces inside parentheses (off by default)
 * [space-infix-ops](space-infix-ops.md) - require spaces around operators
 * [space-return-throw-case](space-return-throw-case.md) - require a space after `return`, `throw`, and `case`
-* [space-unary-word-ops](space-unary-word-ops.md) - require a space around word operators such as `typeof` (off by default)
+* [space-unary-ops](space-unary-ops.md) - Require or disallow spaces before/after unary operators (words on by default, nonwords off by default)
 * [spaced-line-comment](spaced-line-comment.md) - require or disallow a space immediately following the `//` in a line comment (off by default)
 * [wrap-regex](wrap-regex.md) - require regex literals to be wrapped in parentheses (off by default)
 
@@ -176,4 +176,3 @@ The following rules are included for compatibility with [JSHint](http://jshint.c
 * [max-statements](max-statements.md) - specify the maximum number of statement allowed in a function (off by default)
 * [no-bitwise](no-bitwise.md) - disallow use of bitwise operators (off by default)
 * [no-plusplus](no-plusplus.md) - disallow use of unary operators, `++` and `--` (off by default)
-
