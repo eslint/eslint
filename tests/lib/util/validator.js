@@ -63,6 +63,11 @@ describe("Validator", function() {
                 });
             });
 
+            it("should return false when an unknown node type is passed", function() {
+                var result = validator.isValid({ type: "foo" });
+                assert.isFalse(result);
+            });
+
         });
 
     });
