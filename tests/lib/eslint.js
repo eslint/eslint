@@ -941,8 +941,8 @@ describe("eslint", function() {
             function assertCommentCount(leading, trailing) {
                 return function (node) {
                     var comments = eslint.getComments(node);
-                    assert.equal(comments.leading.length, leading);
-                    assert.equal(comments.trailing.length, trailing);
+                    assert.equal(comments.leading.length, leading, node.type + " should have " + leading + " leading comments");
+                    assert.equal(comments.trailing.length, trailing, node.type + " should have " + trailing + " trailing comments");
                 };
             }
 
@@ -1026,7 +1026,6 @@ describe("eslint", function() {
 
             eslint.reset();
             eslint.on("LineComment", spy);
-
             eslint.verify("// fixme", config, filename, true);
             assert(spy.calledOnce, "Handler should be called.");
         });
