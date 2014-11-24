@@ -24,103 +24,151 @@ eslintTester.addRuleTest("lib/rules/no-multi-spaces", {
         "var a=1;",
         "var a = 1, b = 2;",
         "var arr = [1, 2];",
-        "var arr = {'a': 1, 'b': 2};",
+        "var arr = [ (1), (2) ];",
+        "var obj = {'a': 1, 'b': (2)};",
         "a, b",
         "a >>> b",
         "a ^ b",
-        "a | b",
+        "(a) | (b)",
         "a & b",
         "a << b",
-        "a >> b",
-        "a |= b",
-        "a &= b",
+        "a !== b",
+        "a >>>= b",
         "if (a & b) { }",
         "function foo(a,b) {}",
         "function foo(a, b) {}",
         "if ( a === 3 && b === 4) {}",
-        "if ( a === 3||b === 4) {}",
+        "if ( a === 3||b === 4 ) {}",
         "if ( a <= 4) {}",
-        "var foo = bar === 1 ? 2: 3"
+        "var foo = bar === 1 ? 2: 3",
+        "[1, , 3]",
+        "[1, ]",
+        "[ (  1  ) , (  2  ) ]",
+        "a = 1, b = 2;",
+        "(function(a, b){})"
     ],
 
     invalid: [
         {
             code: "var a =  1",
             errors: [{
-                message: "Multiple spaces found around '='.",
-                type: "VariableDeclarator"
+                message: "Multiple spaces found after '='.",
+                type: "Punctuator"
             }]
         },
         {
             code: "var a = 1,  b = 2;",
             errors: [{
-                message: "Multiple spaces found around ','.",
-                type: "VariableDeclarator"
+                message: "Multiple spaces found after ','.",
+                type: "Punctuator"
             }]
         },
         {
             code: "a <<  b",
             errors: [{
-                message: "Multiple spaces found around '<<'.",
-                type: "BinaryExpression"
+                message: "Multiple spaces found after '<<'.",
+                type: "Punctuator"
             }]
         },
         {
             code: "var arr = {'a': 1,  'b': 2};",
             errors: [{
-                message: "Multiple spaces found around ','.",
-                type: "Property"
+                message: "Multiple spaces found after ','.",
+                type: "Punctuator"
             }]
         },
         {
             code: "if (a &  b) { }",
             errors: [{
-                message: "Multiple spaces found around '&'.",
-                type: "BinaryExpression"
+                message: "Multiple spaces found after '&'.",
+                type: "Punctuator"
             }]
         },
         {
             code: "if ( a === 3  &&  b === 4) {}",
             errors: [{
-                message: "Multiple spaces found around '&&'.",
-                type: "LogicalExpression"
+                message: "Multiple spaces found before '&&'.",
+                type: "Punctuator"
+            }, {
+                message: "Multiple spaces found after '&&'.",
+                type: "Punctuator"
             }]
         },
         {
             code: "var foo = bar === 1 ?  2:  3",
             errors: [{
-                message: "Multiple spaces found around '?'.",
-                type: "ConditionalExpression"
+                message: "Multiple spaces found after '?'.",
+                type: "Punctuator"
             }, {
-                message: "Multiple spaces found around ':'.",
-                type: "ConditionalExpression"
+                message: "Multiple spaces found after ':'.",
+                type: "Punctuator"
             }]
         },
         {
             code: "var a = [1,  2,  3,  4]",
             errors: [{
-                message: "Multiple spaces found around ','.",
-                type: "Literal"
+                message: "Multiple spaces found after ','.",
+                type: "Punctuator"
             }, {
-                message: "Multiple spaces found around ','.",
-                type: "Literal"
+                message: "Multiple spaces found after ','.",
+                type: "Punctuator"
             }, {
-                message: "Multiple spaces found around ','.",
-                type: "Literal"
+                message: "Multiple spaces found after ','.",
+                type: "Punctuator"
             }]
         },
         {
             code: "var arr = [1,  2];",
             errors: [{
-                message: "Multiple spaces found around ','.",
-                type: "Literal"
+                message: "Multiple spaces found after ','.",
+                type: "Punctuator"
+            }]
+        },
+        {
+            code: "[  , 1,  , 3,  ,  ]",
+            errors: [{
+                message: "Multiple spaces found before ','.",
+                type: "Punctuator"
+            }, {
+                message: "Multiple spaces found after ','.",
+                type: "Punctuator"
+            }, {
+                message: "Multiple spaces found after ','.",
+                type: "Punctuator"
+            }, {
+                message: "Multiple spaces found after ','.",
+                type: "Punctuator"
             }]
         },
         {
             code: "a >>>  b",
             errors: [{
-                message: "Multiple spaces found around '>>>'.",
-                type: "BinaryExpression"
+                message: "Multiple spaces found after '>>>'.",
+                type: "Punctuator"
+            }]
+        },
+        {
+            code: "a = 1,  b =  2;",
+            errors: [{
+                message: "Multiple spaces found after ','.",
+                type: "Punctuator"
+            }, {
+                message: "Multiple spaces found after '='.",
+                type: "Punctuator"
+            }]
+        },
+        {
+            code: "(function(a,  b){})",
+            errors: [{
+                message: "Multiple spaces found after ','.",
+                type: "Punctuator"
+            }]
+        },
+        {
+            code: "function foo(a,  b){}",
+            errors: [{
+                message: "Multiple spaces found after ','.",
+                type: "Punctuator"
             }]
         }
     ]

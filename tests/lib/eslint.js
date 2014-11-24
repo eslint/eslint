@@ -608,6 +608,69 @@ describe("eslint", function() {
         });
     });
 
+    describe("when calling getTokensBetween", function() {
+        var code = "typeof foo;";
+
+        it("should retrieve zero tokens between adjacent nodes", function() {
+            var config = { rules: {} };
+
+            eslint.reset();
+            eslint.on("UnaryExpression", function(node) {
+                var tokens = eslint.getTokensBetween(node.operator, node.argument);
+                assert.equal(tokens.length, 0);
+            });
+
+            eslint.verify(code, config, filename, true);
+        });
+
+        code = TEST_CODE;
+
+        it("should retrieve one token between nodes", function() {
+            var config = { rules: {} };
+
+            eslint.reset();
+            eslint.on("BinaryExpression", function(node) {
+                var tokens = eslint.getTokensBetween(node.left, node.right);
+                assert.equal(tokens.length, 1);
+                assert.equal(tokens[0].value, "*");
+            });
+
+            eslint.verify(code, config, filename, true);
+        });
+
+        it("should retrieve multiple tokens between non-adjacent nodes", function() {
+            var config = { rules: {} };
+
+            eslint.reset();
+            eslint.on("VariableDeclarator", function(node) {
+                var tokens = eslint.getTokensBetween(node.id, node.init.right);
+                assert.equal(tokens.length, 3);
+                assert.equal(tokens[0].value, "=");
+                assert.equal(tokens[1].value, "6");
+                assert.equal(tokens[2].value, "*");
+            });
+
+            eslint.verify(code, config, filename, true);
+        });
+
+        it("should retrieve surrounding tokens when asked for padding", function() {
+            var config = { rules: {} };
+
+            eslint.reset();
+            eslint.on("VariableDeclarator", function(node) {
+                var tokens = eslint.getTokensBetween(node.id, node.init.left, 2);
+                assert.equal(tokens.length, 5);
+                assert.equal(tokens[0].value, "var");
+                assert.equal(tokens[1].value, "answer");
+                assert.equal(tokens[2].value, "=");
+                assert.equal(tokens[3].value, "6");
+                assert.equal(tokens[4].value, "*");
+            });
+
+            eslint.verify(code, config, filename, true);
+        });
+    });
+
     describe("getJSDocComment()", function() {
         var sandbox;
 
