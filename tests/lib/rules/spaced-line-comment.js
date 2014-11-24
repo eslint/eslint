@@ -79,6 +79,10 @@ eslintTester.addRuleTest("lib/rules/spaced-line-comment", {
         {
             code: validShebangProgram,
             args: neverArgs
+        },
+        {
+            code: "//",
+            args: alwaysArgs
         }
     ],
 
