@@ -398,7 +398,7 @@ describe("CLIEngine", function() {
             });
 
             // Default configuration - conf/eslint.json
-            it("should return one message when executing with no .eslintrc", function () {
+            it("should return three messages when executing with no .eslintrc", function () {
 
                 engine = new CLIEngine({
                     useEslintrc: false
@@ -407,9 +407,9 @@ describe("CLIEngine", function() {
                 var report = engine.executeOnFiles([fixtureDir + "/config-hierarchy/broken/console-wrong-quotes.js"]);
                 assert.equal(report.results.length, 1);
                 assert.equal(report.results[0].messages.length, 3);
-                assert.equal(report.results[0].messages[0].ruleId, "no-undef");
+                assert.equal(report.results[0].messages[0].ruleId, "no-console");
                 assert.equal(report.results[0].messages[0].severity, 2);
-                assert.equal(report.results[0].messages[1].ruleId, "no-console");
+                assert.equal(report.results[0].messages[1].ruleId, "no-undef");
                 assert.equal(report.results[0].messages[1].severity, 2);
                 assert.equal(report.results[0].messages[2].ruleId, "quotes");
                 assert.equal(report.results[0].messages[2].severity, 2);
