@@ -38,9 +38,11 @@ eslintTester.addRuleTest("lib/rules/no-multi-spaces", {
         "function foo(a,b) {}",
         "function foo(a, b) {}",
         "if ( a === 3 && b === 4) {}",
-        "if ( a === 3||b === 4) {}",
+        "if ( a === 3||b === 4 ) {}",
         "if ( a <= 4) {}",
-        "var foo = bar === 1 ? 2: 3"
+        "var foo = bar === 1 ? 2: 3",
+        "[1, , 3]",
+        "[1, ]"
     ],
 
     invalid: [
@@ -100,20 +102,33 @@ eslintTester.addRuleTest("lib/rules/no-multi-spaces", {
             code: "var a = [1,  2,  3,  4]",
             errors: [{
                 message: "Multiple spaces found around ','.",
-                type: "Literal"
+                type: "Punctuator"
             }, {
                 message: "Multiple spaces found around ','.",
-                type: "Literal"
+                type: "Punctuator"
             }, {
                 message: "Multiple spaces found around ','.",
-                type: "Literal"
+                type: "Punctuator"
             }]
         },
         {
             code: "var arr = [1,  2];",
             errors: [{
                 message: "Multiple spaces found around ','.",
-                type: "Literal"
+                type: "Punctuator"
+            }]
+        },
+        {
+            code: "[  , 1,  , 3,  ]",
+            errors: [{
+                message: "Multiple spaces found around ','.",
+                type: "Punctuator"
+            }, {
+                message: "Multiple spaces found around ','.",
+                type: "Punctuator"
+            }, {
+                message: "Multiple spaces found around ','.",
+                type: "Punctuator"
             }]
         },
         {
