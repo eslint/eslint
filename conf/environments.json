@@ -417,6 +417,7 @@
             "it": false,
             "jasmine": false,
             "pending": false,
+            "runs": false,
             "spyOn": false,
             "waits": false,
             "waitsFor": false,
