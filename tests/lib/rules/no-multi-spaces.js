@@ -24,6 +24,8 @@ eslintTester.addRuleTest("lib/rules/no-multi-spaces", {
         "var a=1;",
         "var a = 1, b = 2;",
         "var arr = [1, 2];",
+        "var arr = [,];",
+        "var arr = [ , ];",
         "var arr = {'a': 1, 'b': 2};",
         "a, b",
         "a >>> b",
@@ -111,6 +113,20 @@ eslintTester.addRuleTest("lib/rules/no-multi-spaces", {
         },
         {
             code: "var arr = [1,  2];",
+            errors: [{
+                message: "Multiple spaces found around ','.",
+                type: "Literal"
+            }]
+        },
+        {
+            code: "var arr = [,  2];",
+            errors: [{
+                message: "Multiple spaces found around ','.",
+                type: "Literal"
+            }]
+        },
+        {
+            code: "var arr = [1, ,  2];",
             errors: [{
                 message: "Multiple spaces found around ','.",
                 type: "Literal"
