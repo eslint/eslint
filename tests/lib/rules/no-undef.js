@@ -33,7 +33,12 @@ eslintTester.addRuleTest("lib/rules/no-undef", {
         "Object; isNaN();",
         "toString()",
         "hasOwnProperty()",
-        "function evilEval(stuffToEval) { var ultimateAnswer; ultimateAnswer = 42; eval(stuffToEval); }"
+        "function evilEval(stuffToEval) { var ultimateAnswer; ultimateAnswer = 42; eval(stuffToEval); }",
+        "typeof a",
+        "typeof (a)",
+        "var b = typeof a",
+        "typeof a === 'undefined'",
+        "if (typeof a === 'undefined') {}"
     ],
     invalid: [
         { code: "a = 1;", errors: [{ message: "'a' is not defined.", type: "Identifier"}] },
