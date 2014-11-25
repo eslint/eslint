@@ -24,6 +24,9 @@ eslintTester.addRuleTest("lib/rules/no-multi-spaces", {
         "var a=1;",
         "var a = 1, b = 2;",
         "var arr = [1, 2];",
+        "var arr = [,];",
+        "var arr = [ , ];",
+        "var arr = [ , , ];",
         "var arr = {'a': 1, 'b': 2};",
         "a, b",
         "a >>> b",
@@ -99,22 +102,49 @@ eslintTester.addRuleTest("lib/rules/no-multi-spaces", {
         {
             code: "var a = [1,  2,  3,  4]",
             errors: [{
-                message: "Multiple spaces found around ','.",
+                message: "Multiple spaces found around '2'.",
                 type: "Literal"
             }, {
-                message: "Multiple spaces found around ','.",
+                message: "Multiple spaces found around '3'.",
                 type: "Literal"
             }, {
-                message: "Multiple spaces found around ','.",
+                message: "Multiple spaces found around '4'.",
                 type: "Literal"
             }]
         },
         {
             code: "var arr = [1,  2];",
             errors: [{
-                message: "Multiple spaces found around ','.",
+                message: "Multiple spaces found around '2'.",
                 type: "Literal"
             }]
+        },
+        {
+            code: "var arr = [,  2];",
+            errors: [{
+                message: "Multiple spaces found around '2'.",
+                type: "Literal"
+            }]
+        },
+        {
+            code: "var arr = [1, ,  2];",
+            errors: [{
+                message: "Multiple spaces found around '2'.",
+                type: "Literal"
+            }]
+        },
+        {
+            code: "var arr = [  1,   ];",
+            errors: [
+                {
+                    message: "Multiple spaces found around '1'.",
+                    type: "Literal"
+                },
+                {
+                    message: "Multiple spaces found around ','.",
+                    type: "Punctuator"
+                }
+            ]
         },
         {
             code: "a >>>  b",
