@@ -133,22 +133,20 @@ describe("Config", function() {
             assert.equal(config.rules["dot-notation"], 2);
         });
 
-        it("should throw error when an invalid path is given", function() {
+        it("should return a default config when an invalid path is given", function() {
             var configPath = path.resolve(__dirname, "..", "fixtures", "configurations", "foobaz", ".eslintrc");
             var configHelper = new Config();
 
-            assert.throws(function () {
-                configHelper.getConfig(configPath);
-            });
+            sandbox.stub(fs, "readdirSync").throws(new Error());
+
+            assert.isObject(configHelper.getConfig(configPath));
         });
 
         it("should throw error when an invalid configuration file is read", function() {
             var configPath = path.resolve(__dirname, "..", "fixtures", "configurations", ".eslintrc");
             var configHelper = new Config();
 
-            sandbox.stub(fs, "readFileSync", function() {
-                throw new Error();
-            });
+            sandbox.stub(fs, "readFileSync").throws(new Error());
 
             assert.throws(function () {
                 configHelper.getConfig(configPath);
