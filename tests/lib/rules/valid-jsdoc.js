@@ -21,6 +21,7 @@ eslintTester.addRuleTest("lib/rules/valid-jsdoc", {
     valid: [
 
         "/**\n* Description\n* @returns {void} */\nfunction foo(){}",
+        "/**\n* Description\n* @alias Test#test\n* @returns {void} */\nfunction foo(){}",
         "/**\n* Description\n*@extends MyClass\n* @returns {void} */\nfunction foo(){}",
         "/**\n* Description\n* @constructor */\nfunction Foo(){}",
         "/**\n* Description\n* @param {string} p bar\n* @returns {string} desc */\nfunction foo(p){}",
@@ -107,10 +108,7 @@ eslintTester.addRuleTest("lib/rules/valid-jsdoc", {
         {
             code: "/** Foo \n@param {} p Bar\n */\nfunction foo(){}",
             errors: [{
-                message: "Missing JSDoc parameter type for 'p'.",
-                type: "Block"
-            }, {
-                message: "Missing JSDoc @returns for function.",
+                message: "JSDoc syntax error.",
                 type: "Block"
             }]
         },
