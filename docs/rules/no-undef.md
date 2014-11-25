@@ -35,6 +35,14 @@ Use the `variable:true` syntax to indicate that a variable can be assigned to.
 b = 10;
 ```
 
+Explicitly checking an undefined identifier with `typeof` causes no warning.
+
+```js
+if (typeof UndefinedIdentifier === "undefined") {
+    // do something ...
+}
+```
+
 ## Environments
 
 For convenience, JSHint and JSLint provide shortcuts that pre-define global variables exposed by popular libraries and runtime environments. This rule supports some of these environments, as listed below.
