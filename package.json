@@ -36,7 +36,7 @@
     "chalk": "~0.5.1",
     "concat-stream": "^1.4.6",
     "debug": "^2.0.0",
-    "doctrine": "^0.5.2",
+    "doctrine": "^0.6.2",
     "escope": "~1.0.0",
     "esprima": "^1.2.2",
     "estraverse": "~1.5.1",
