@@ -21,12 +21,26 @@ eslintTester.addRuleTest("lib/rules/lines-around-comment", {
 
     // Examples of code that should not trigger the rule
     valid: [
+
         // Default: everything goes
         "// line comment\n\ndefaultConfig();",
         "// line comment\ndefaultConfig();",
+        "defaultConfig();\n\n// line comment",
+        "defaultConfig();\n// line comment",
         "/* block\n * comment\n */\n\ndefaultConfig();",
         "/* block\n * comment\n */\ndefaultConfig();",
+        "defaultConfig();\n\n/* block\n * comment\n */",
+        "defaultConfig();\n/* block\n * comment\n */",
+
         // Line comment styles that conform to the rules
+        {
+            code: "beforeLineComment: true\n\n// single line comment",
+            args: [1, {beforeLineComment: true}]
+        },
+        {
+            code: "beforeLineComment: false\n// single line comment",
+            args: [1, {beforeLineComment: false}]
+        },
         {
             code: "// single line comment\n\nafterLineComment: true",
             args: [1, {afterLineComment: true}]
@@ -47,7 +61,16 @@ eslintTester.addRuleTest("lib/rules/lines-around-comment", {
             code: "var x = 5; // end of line comment\nafterLineComment: true",
             args: [1, {afterLineComment: true}]
         },
+
         // Block comment styles that conform to the rules
+        {
+            code: "beforeBlockComment: true;\n\n/* single line block comment */",
+            args: [1, {beforeBlockComment: true}]
+        },
+        {
+            code: "beforeBlockComment: false;\n/* single line block comment */",
+            args: [1, {beforeBlockComment: false}]
+        },
         {
             code: "/* single line block comment */\n\nafterBlockComment: true",
             args: [1, {afterBlockComment: true}]
@@ -55,6 +78,10 @@ eslintTester.addRuleTest("lib/rules/lines-around-comment", {
         {
             code: "/* single line block comment */\nafterBlockComment: false",
             args: [1, {afterBlockComment: false}]
+        },
+        {
+            code: "beforeBlockComment: false;\n/* multi line\n * block comment */",
+            args: [1, {beforeBlockComment: false}]
         },
         {
             code: "/* multi line\n * block comment */\n\nafterBlockComment: true",
@@ -105,6 +132,20 @@ eslintTester.addRuleTest("lib/rules/lines-around-comment", {
     // Examples of code that should trigger the rule
     invalid: [
         {
+            code: "beforeLineComment: false;\n\n// line comment",
+            args: [1, {beforeLineComment: false}],
+            errors: [
+                { message: "Line comment cannot be preceded by empty line (line 2)" }
+            ]
+        },
+        {
+            code: "beforeLineComment: true;\n// line comment",
+            args: [1, {beforeLineComment: true}],
+            errors: [
+                { message: "Line comment must be preceded by empty line (line 1)" }
+            ]
+        },
+        {
             code: "// line comment\n\nafterLineComment: false",
             args: [1, {afterLineComment: false}],
             errors: [
@@ -116,6 +157,27 @@ eslintTester.addRuleTest("lib/rules/lines-around-comment", {
             args: [1, {afterLineComment: true}],
             errors: [
                 { message: "Line comment must be followed by empty line (line 2)" }
+            ]
+        },
+        {
+            code: "// line comment\nafterLineComment: true",
+            args: [1, {afterLineComment: true}],
+            errors: [
+                { message: "Line comment must be followed by empty line (line 2)" }
+            ]
+        },
+        {
+            code: "beforeBlockComment: false;\n\n/* single-line block comment */",
+            args: [1, {beforeBlockComment: false}],
+            errors: [
+                { message: "Block comment cannot be preceded by empty line (line 2)" }
+            ]
+        },
+        {
+            code: "beforeBlockComment: true;\n/* single-line block comment */",
+            args: [1, {beforeBlockComment: true}],
+            errors: [
+                { message: "Block comment must be preceded by empty line (line 1)" }
             ]
         },
         {
@@ -137,6 +199,14 @@ eslintTester.addRuleTest("lib/rules/lines-around-comment", {
             args: [1, {afterBlockComment: true}],
             errors: [
                 { message: "Block comment must be followed by empty line (line 4)" }
+            ]
+        },
+        {
+            code: "beforeBlockComment: true\n/* block comment */\nafterBlockComment: true",
+            args: [1, {beforeBlockComment: true, afterBlockComment: true}],
+            errors: [
+                { message: "Block comment must be preceded by empty line (line 1)" },
+                { message: "Block comment must be followed by empty line (line 3)" }
             ]
         },
         {

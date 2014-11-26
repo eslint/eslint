@@ -22,8 +22,9 @@ generates a warning with `{afterLineComment: true}`, but none on `false`.
 Block comments are completely separate from single-line rules, and are affected by the `afterBlockComment` configuration:
 
 ```js
-// multi-line block
-// comment
+/*
+ * multi-line block comment
+ */
 
 doSomething();
 ```
@@ -31,9 +32,17 @@ doSomething();
 generates a warning under `{afterBlockComment: false}`, and:
 
 ```js
-// multi-line block
-// comment
+/* block comments can also be single line */
 doSomething();
 ```
 
 generates a warning under `{afterBlockComment: true}`.
+
+Each `after...` option has an analogous `before...` option. For example:
+
+```js
+doSomething();
+// Line comment here
+```
+
+generates a warning under `{beforeLineComment: true}`.
