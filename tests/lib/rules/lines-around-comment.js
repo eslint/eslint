@@ -24,53 +24,80 @@ eslintTester.addRuleTest("lib/rules/lines-around-comment", {
         // Default: everything goes
         "// line comment\n\ndefaultConfig();",
         "// line comment\ndefaultConfig();",
-        "// block\n// comment\n\ndefaultConfig();",
-        "// block\n// comment\ndefaultConfig();",
+        "/* block\n * comment\n */\n\ndefaultConfig();",
+        "/* block\n * comment\n */\ndefaultConfig();",
         // Line comment styles that conform to the rules
         {
-            code: "// single line comment\n\nafterSingleLineComment: true",
+            code: "// single line comment\n\nafterLineComment: true",
             args: [1, {afterLineComment: true}]
         },
         {
-            code: "// single line comment\nafterSingleLineComment: false",
+            code: "// single line comment\nafterLineComment: false",
             args: [1, {afterLineComment: false}]
         },
         {
-            code: "// multi line\n// comment\n\nafterMultiLineComment: true",
+            code: "// multi line\n// comment\n\nafterLineComment: true",
             args: [1, {afterLineComment: true}]
         },
         {
-            code: "// multi line\n// comment\nafterMultiComment: false",
+            code: "// multi line\n// comment\nafterLineComment: false",
             args: [1, {afterLineComment: false}]
+        },
+        {
+            code: "var x = 5; // end of line comment\nafterLineComment: true",
+            args: [1, {afterLineComment: true}]
         },
         // Block comment styles that conform to the rules
         {
-            code: "/* single line block comment */\n\nafterSingleBlockComment: true",
+            code: "/* single line block comment */\n\nafterBlockComment: true",
             args: [1, {afterBlockComment: true}]
         },
         {
-            code: "/* single line block comment */\nafterSingleBlockComment: false",
+            code: "/* single line block comment */\nafterBlockComment: false",
             args: [1, {afterBlockComment: false}]
         },
         {
-            code: "/* multi line\n * block comment */\n\nafterMultiBlockComment: true",
+            code: "/* multi line\n * block comment */\n\nafterBlockComment: true",
             args: [1, {afterBlockComment: true}]
         },
         {
-            code: "/* multi line\n * block comment */\nafterMultiBlockComment: false",
+            code: "/* multi line\n * block comment */\nafterBlockComment: false",
             args: [1, {afterBlockComment: false}]
         },
+        {
+            code: "var x = /* inline comment */ 5;\nafterBlockComment: true",
+            args: [1, {afterBlockComment: true}]
+        },
+
+        // These are considered in-line comments, and thus completely ignored
+        {
+            code: "/* two block comments */ /* on one line */\nafterBlockComment: true",
+            args: [1, {afterBlockComment: true}]
+        },
+        {
+            code: "/* two block comments */ /* on one line */\nafterBlockComment: false",
+            args: [1, {afterBlockComment: false}]
+        },
+        {
+            code: "/* block comment */ // and line comment\nafterBlockComment: true",
+            args: [1, {afterBlockComment: true}]
+        },
+        {
+            code: "/* block comment */ // and line comment\nafterBlockComment: false",
+            args: [1, {afterBlockComment: false}]
+        },
+
         // String literals should be ignored
         {
-            code: "'\\\n// string, not a comment\\\n'",
+            code: "'\\\n// string, not a comment\\\nafterLineComment: true'",
             args: [1, {afterLineComment: true}]
         },
         {
-            code: "\"\\\n// string, not a comment\\\n\"",
+            code: "\"\\\n// string, not a comment\\\nafterLineComment: true\"",
             args: [1, {afterLineComment: true}]
         },
         {
-            code: "/regexp literal looks like block comment.*/\n;",
+            code: "/regexp literal looks like block comment.*/\nafterBlockComment: true",
             args: [1, {afterBlockComment: true}]
         }
     ],
@@ -92,7 +119,14 @@ eslintTester.addRuleTest("lib/rules/lines-around-comment", {
             ]
         },
         {
-            code: "/* block\n * comment\n */\n\nafterBlockComment: false",
+            code: "/* single-line block comment */\n\nafterBlockComment: false",
+            args: [1, {afterBlockComment: false}],
+            errors: [
+                { message: "Block comment cannot be followed by empty line (line 2)" }
+            ]
+        },
+        {
+            code: "/* multi-line\n * block comment\n */\n\nafterBlockComment: false",
             args: [1, {afterBlockComment: false}],
             errors: [
                 { message: "Block comment cannot be followed by empty line (line 4)" }
