@@ -1910,6 +1910,25 @@ describe("eslint", function() {
             assert.equal(messages.length, 0);
         });
 
+        it("should not report an error when a template string is encountered and ES6 is enabled", function() {
+            var code = "var example = `I am a template string!`;";
+            var messages = eslint.verify(code, { settings: { ecmascript: 6 }}, "filename");
+
+            assert.equal(messages.length, 0);
+        });
+
+        it("should report an error when a template string is encountered and ES6 is disabled", function() {
+            var code = "var example = `I am a template string!`;";
+            var messages = eslint.verify(code, {}, "filename");
+
+            assert.equal(messages.length, 1);
+            assert.equal(messages[0].line, 1);
+            assert.equal(messages[0].column, 14);
+            assert.equal(messages[0].message, "Unexpected token.");
+        });
+
+
+
         // More ES6/JSX parsing tests go here
 
     });
