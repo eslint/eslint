@@ -60,7 +60,7 @@
     "chai": "^1.9.1",
     "coveralls": "2.11.2",
     "dateformat": "^1.0.8",
-    "eslint-tester": "^0.2.1",
+    "eslint-tester": "^0.3.0",
     "istanbul": "^0.3.2",
     "jsonlint": "^1.6.2",
     "leche": "^1.0.1",
