@@ -9,17 +9,15 @@
 //------------------------------------------------------------------------------
 
 var assert = require("chai").assert,
-    fs = require("fs"),
     leche = require("leche"),
-    yaml = require("js-yaml"),
+    nodeTypes = require("../../../conf/nodetypes.json"),
     Validator = require("../../../lib/util/validator");
 
 //------------------------------------------------------------------------------
 // Helpers
 //------------------------------------------------------------------------------
 
-var nodeTypes = yaml.safeLoad(fs.readFileSync("./conf/nodetypes.yml", "utf8")),
-    es5Types = Object.keys(nodeTypes).filter(function(nodeType) {
+var es5Types = Object.keys(nodeTypes).filter(function(nodeType) {
         return nodeTypes[nodeType].version === 5;
     }),
     es6Types = Object.keys(nodeTypes).filter(function(nodeType) {
@@ -28,6 +26,55 @@ var nodeTypes = yaml.safeLoad(fs.readFileSync("./conf/nodetypes.yml", "utf8")),
     jsxTypes = Object.keys(nodeTypes).filter(function(nodeType) {
         return nodeTypes[nodeType].version === "jsx";
     });
+
+var variableDeclaration = {
+    "type": "VariableDeclaration",
+    "declarations": [
+        {
+            "loc": {
+                "start": {
+                    "line": 1,
+                    "column": 6
+                },
+                "end": {
+                    "line": 1,
+                    "column": 13
+                }
+            },
+            "type": "VariableDeclarator",
+            "id": {
+                "loc": {
+                    "start": {
+                        "line": 1,
+                        "column": 6
+                    },
+                    "end": {
+                        "line": 1,
+                        "column": 9
+                    }
+                },
+                "type": "Identifier",
+                "name": "foo"
+            },
+            "init": {
+                "loc": {
+                    "start": {
+                        "line": 1,
+                        "column": 12
+                    },
+                    "end": {
+                        "line": 1,
+                        "column": 13
+                    }
+                },
+                "type": "Literal",
+                "value": 0,
+                "raw": "0"
+            }
+        }
+    ],
+    "kind": "const"
+};
 
 //------------------------------------------------------------------------------
 // Tests
@@ -45,27 +92,41 @@ describe("Validator", function() {
             });
         });
 
-        describe("isValid", function() {
+        describe("validate()", function() {
 
             var dataset = es6Types.concat(jsxTypes);
 
             leche.withData(dataset, function(type) {
                 it("should return false when passed an invalid type", function() {
-                    var result = validator.isValid({ type: type });
-                    assert.isFalse(result);
-                });
-            });
-
-            leche.withData(es5Types, function(type) {
-                it("should return true when passed a valid type", function() {
-                    var result = validator.isValid({ type: type });
-                    assert.isTrue(result);
+                    var result = validator.validate({ type: type });
+                    assert.isFalse(result.valid);
                 });
             });
 
             it("should return false when an unknown node type is passed", function() {
-                var result = validator.isValid({ type: "foo" });
-                assert.isFalse(result);
+                var result = validator.validate({ type: "foo" });
+                assert.isFalse(result.valid);
+            });
+
+            it("should return true when using var", function() {
+                var node = Object.create(variableDeclaration);
+                node.kind = "var";
+
+                var result = validator.validate(node);
+                assert.isTrue(result.valid);
+            });
+
+            leche.withData([
+                "let",
+                "const"
+            ], function(kind) {
+                it("should return false when using " + kind, function() {
+                    var node = Object.create(variableDeclaration);
+                    node.kind = kind;
+
+                    var result = validator.validate(node);
+                    assert.isFalse(result.valid);
+                });
             });
 
         });
@@ -82,21 +143,35 @@ describe("Validator", function() {
             });
         });
 
-        describe("isValid", function() {
+        describe("validate", function() {
 
             var dataset = es5Types.concat(es6Types);
 
             leche.withData(jsxTypes, function(type) {
                 it("should return false when passed an invalid type", function() {
-                    var result = validator.isValid({ type: type });
-                    assert.isFalse(result);
+                    var result = validator.validate({ type: type });
+                    assert.isFalse(result.valid);
                 });
             });
 
             leche.withData(dataset, function(type) {
                 it("should return true when passed a valid type", function() {
-                    var result = validator.isValid({ type: type });
-                    assert.isTrue(result);
+                    var result = validator.validate({ type: type });
+                    assert.isTrue(result.valid);
+                });
+            });
+
+            leche.withData([
+                "var",
+                "let",
+                "const"
+            ], function(kind) {
+                it("should return false when using " + kind, function() {
+                    var node = Object.create(variableDeclaration);
+                    node.kind = kind;
+
+                    var result = validator.validate(node);
+                    assert.isTrue(result.valid);
                 });
             });
 
@@ -115,14 +190,14 @@ describe("Validator", function() {
             });
         });
 
-        describe("isValid", function() {
+        describe("validate", function() {
 
             var dataset = es5Types.concat(es6Types).concat(jsxTypes);
 
             leche.withData(dataset, function(type) {
                 it("should return true when passed a valid type", function() {
-                    var result = validator.isValid({ type: type });
-                    assert.isTrue(result);
+                    var result = validator.validate({ type: type });
+                    assert.isTrue(result.valid);
                 });
             });
 
