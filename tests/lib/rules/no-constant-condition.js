@@ -1,6 +1,7 @@
 /**
  * @fileoverview Tests for no-constant-condition rule.
  * @author Christian Schulz <http://rndm.de>
+ * @copyright 2014 Christian Schulz. All rights reserved.
  */
 
 "use strict";
@@ -46,6 +47,7 @@ eslintTester.addRuleTest("lib/rules/no-constant-condition", {
         { code: "while([]);", errors: [{ message: "Unexpected constant condition.", type: "WhileStatement"}] },
         { code: "while(~!0);", errors: [{ message: "Unexpected constant condition.", type: "WhileStatement"}] },
         { code: "while(x = 1);", errors: [{ message: "Unexpected constant condition.", type: "WhileStatement"}] },
-        { code: "while(function(){});", errors: [{ message: "Unexpected constant condition.", type: "WhileStatement"}] }
+        { code: "while(function(){});", errors: [{ message: "Unexpected constant condition.", type: "WhileStatement"}] },
+        { code: "while(() => {});", ecmaFeatures: { arrowFunctions: true }, errors: [{ message: "Unexpected constant condition.", type: "WhileStatement"}] }
     ]
 });

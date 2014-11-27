@@ -1,6 +1,7 @@
 /**
  * @fileoverview Tests for no-wrap-func rule.
  * @author Ilya Volodin
+ * @copyright 2013 Ilya Volodin. All rights reserved.
  */
 
 "use strict";
@@ -24,6 +25,7 @@ eslintTester.addRuleTest("lib/rules/no-wrap-func", {
         "new Object(function() {})"
     ],
     invalid: [
+        { code: "(() => {});", ecmaFeatures: { arrowFunctions: true }, errors: [{ message: "Wrapping non-IIFE function literals in parens is unnecessary.", type: "ArrowFunctionExpression"}] },
         { code: "(function() {});", errors: [{ message: "Wrapping non-IIFE function literals in parens is unnecessary.", type: "FunctionExpression"}] },
         { code: "var a = (function() {});", errors: [{ message: "Wrapping non-IIFE function literals in parens is unnecessary.", type: "FunctionExpression"}] }
     ]
