@@ -16,17 +16,19 @@ There are many commonly used aliases for `this` such as `self`, `that` or `me`. 
 
 This rule designates a variable as the chosen alias for "this". It then enforces two things:
 
- - if a variable with the designated name is declared, it *must* explicitly be assigned the current execution context, i.e. `this`
+ - if a variable with the designated name is declared or assigned to, it *must* explicitly be assigned the current execution context, i.e. `this`
  - if `this` is explicitly assigned to a variable, the name of that variable must be the designated one
 
 Assuming that alias is `self`, the following patterns are considered warnings:
 
 ```js
-var self;
-
 var self = 42;
 
 var that = this;
+
+self = 42;
+
+that = this;
 ```
 
 The following patterns are considered okay and do not cause warnings:
@@ -37,6 +39,30 @@ var self = this;
 var that = 42;
 
 var that;
+
+self = this;
+
+foo.bar = this;
+```
+
+A declaration of an alias does not need to assign `this` in the declaration, but it must perform an appropriate assignment in the same scope as the declaration. The following patterns are also considered okay:
+
+```js
+var self;
+self = this;
+
+var foo, self;
+foo = 42;
+self = this;
+```
+
+But the following pattern is considered a warning:
+
+```js
+var self;
+function f() {
+    self = this;
+}
 ```
 
 ### Options
