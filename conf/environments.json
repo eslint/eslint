@@ -80,6 +80,7 @@
             "document": false,
             "DOMParser": false,
             "Element": false,
+            "Event": false,
             "FileReader": false,
             "find": false,
             "focus": false,
