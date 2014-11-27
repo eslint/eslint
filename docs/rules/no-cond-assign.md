@@ -1,70 +1,123 @@
-# Disallow Assignment in Conditional Expressions (no-cond-assign)
+# Disallow Assignment in Conditional Statements (no-cond-assign)
 
-It is uncommon to use an assignment operator inside of a conditional statement, such as:
+In conditional statements, it is very easy to mistype a comparison operator (such as `==`) as an assignment operator (such as `=`). For example:
 
 ```js
-if (c = "f") {
-    // ...
+// Check the user's job title
+if (user.jobTitle = "manager") {
+    // user.jobTitle is now incorrect
 }
 ```
 
-As such, assignment operators used in this context are frequently errors, where the developer meant to use a comparison operator instead.
+There are valid reasons to use assignment operators in conditional statements. However, it can be difficult to tell whether a specific assignment was intentional.
 
 ## Rule Details
 
-This rule is aimed at eliminating ambiguous assignment operators found in `if`, `while`, and `do...while` conditional expressions.
+This rule is aimed at eliminating ambiguous assignments in `for`, `if`, `while`, and `do...while` conditional statements.
+
+### Options
+
+The rule takes one option, a string, which must contain one of the following values:
+
++ `except-parens` (default): Disallow assignments unless they are enclosed in parentheses.
++ `always`: Disallow all assignments.
+
+#### "except-parens"
+
+This is the default option. It disallows assignments unless they are enclosed in parentheses. This option makes it possible to use common patterns, such as reassigning a value in the condition of a `while` or `do...while` loop, without causing a warning.
 
 The following patterns are considered warnings:
 
 ```js
+// Unintentional assignment
 var x;
 if (x = 0) {
     var b = 1;
 }
 
-// Practical example
+// Practical example that is similar to an error
 function setHeight(someNode) {
     "use strict";
     do {
-        someNode.height = '100px';
+        someNode.height = "100px";
     } while (someNode = someNode.parentNode);
 }
-
 ```
 
 The following patterns are considered okay and do not cause warnings:
 
 ```js
+// Assignment replaced by comparison
 var x;
 if (x === 0) {
     var b = 1;
 }
 
-// Practical example
+// Practical example that wraps the assignment in parentheses
 function setHeight(someNode) {
     "use strict";
     do {
-        someNode.height = '100px';
+        someNode.height = "100px";
+    } while ((someNode = someNode.parentNode));
+}
+
+// Practical example that wraps the assignment and tests for 'null'
+function setHeight(someNode) {
+    "use strict";
+    do {
+        someNode.height = "100px";
     } while ((someNode = someNode.parentNode) !== null);
-} 
+}
 ```
 
-## Notes
+#### "always"
 
-The evaluation of `for` statements was excluded in this rule. Presently,
-`esprima` will fire an error when parsing the following code:
+This option disallows all assignments in conditional statement tests. All assignments are treated as warnings.
+
+The following patterns are considered warnings:
 
 ```js
-var i = 0, foo;
-for (i < 10; i += 1) {
-    foo += i;
+// Unintentional assignment
+var x;
+if (x = 0) {
+    var b = 1;
 }
-// line 2, col 20, Error - Unexpected token )
+
+// Practical example that is similar to an error
+function setHeight(someNode) {
+    "use strict";
+    do {
+        someNode.height = "100px";
+    } while (someNode = someNode.parentNode);
+}
+
+// Practical example that wraps the assignment in parentheses
+function setHeight(someNode) {
+    "use strict";
+    do {
+        someNode.height = "100px";
+    } while ((someNode = someNode.parentNode));
+}
+
+// Practical example that wraps the assignment and tests for 'null'
+function setHeight(someNode) {
+    "use strict";
+    do {
+        someNode.height = "100px";
+    } while ((someNode = someNode.parentNode) !== null);
+}
 ```
 
-So even though there is assignment ambiguity in the conditional expression, the parse error prevents the scenario from occurring.
+The following pattern does not cause warnings:
+
+```js
+// Assignment replaced by comparison
+var x;
+if (x === 0) {
+    var b = 1;
+}
+```
 
 ## Further Reading
 
-* [JSLint -- Expected a conditional expression and instead saw an assignment.](http://jslinterrors.com/expected-a-conditional-expression-and-saw-an-assignment/)
 * [JSLint -- Unexpected assignment expression](http://jslinterrors.com/unexpected-assignment-expression/)
