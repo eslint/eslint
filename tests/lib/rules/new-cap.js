@@ -37,6 +37,8 @@ eslintTester.addRuleTest("lib/rules/new-cap", {
         "var x = String(42)",
         "var x = RegExp(42)",
         "var x = Date.UTC(2000, 0)",
+        "var x = Object(null)",
+        "var x = Function('return 0')",
         "var x = _();",
         "var x = $();",
         {code: "var x = Foo(42)", args: [1, {"capIsNew": false}]},
