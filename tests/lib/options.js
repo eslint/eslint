@@ -19,110 +19,144 @@ var assert = require("chai").assert,
  */
 
 describe("options", function() {
-    describe("when passed --help", function() {
-        it("should return true for .help", function() {
+    describe("--help", function() {
+        it("should return true for .help when passed", function() {
             var currentOptions = options.parse("--help");
             assert.isTrue(currentOptions.help);
         });
     });
 
-    describe("when passed -h", function() {
-        it("should return true for .help", function() {
+    describe("-h", function() {
+        it("should return true for .help when passed", function() {
             var currentOptions = options.parse("-h");
             assert.isTrue(currentOptions.help);
         });
     });
 
-    describe("when passed --config", function() {
-        it("should return a string for .config", function() {
+    describe("--config", function() {
+        it("should return a string for .config when passed a string", function() {
             var currentOptions = options.parse("--config file");
             assert.isString(currentOptions.config);
             assert.equal(currentOptions.config, "file");
         });
     });
 
-    describe("when passed -c", function() {
-        it("should return a string for .config", function() {
+    describe("-c", function() {
+        it("should return a string for .config when passed a string", function() {
             var currentOptions = options.parse("-c file");
             assert.isString(currentOptions.config);
             assert.equal(currentOptions.config, "file");
         });
     });
 
-    describe("when passed --rulesdir", function() {
-        it("should return a string for .rulesdir", function() {
+    describe("--ext", function() {
+        it("should return an array with one item when passed .jsx", function() {
+            var currentOptions = options.parse("--ext .jsx");
+            assert.isArray(currentOptions.ext);
+            assert.equal(currentOptions.ext[0], ".jsx");
+        });
+
+        it("should return an array with two items when passed .js and .jsx", function() {
+            var currentOptions = options.parse("--ext .jsx --ext .js");
+            assert.isArray(currentOptions.ext);
+            assert.equal(currentOptions.ext[0], ".jsx");
+            assert.equal(currentOptions.ext[1], ".js");
+        });
+
+        it("should return an array with two items when passed .jsx,.js", function() {
+            var currentOptions = options.parse("--ext .jsx,.js");
+            assert.isArray(currentOptions.ext);
+            assert.equal(currentOptions.ext[0], ".jsx");
+            assert.equal(currentOptions.ext[1], ".js");
+        });
+
+        it("should return an array one item when not passed", function() {
+            var currentOptions = options.parse("");
+            assert.isArray(currentOptions.ext);
+            assert.equal(currentOptions.ext[0], ".js");
+        });
+    });
+
+    describe("--rulesdir", function() {
+        it("should return a string for .rulesdir when passed a string", function() {
             var currentOptions = options.parse("--rulesdir /morerules");
             assert.isArray(currentOptions.rulesdir);
             assert.equal(currentOptions.rulesdir, "/morerules");
         });
     });
 
-    describe("when passed --format", function() {
-        it("should return a string for .format", function() {
+    describe("--format", function() {
+        it("should return a string for .format when passed a string", function() {
             var currentOptions = options.parse("--format compact");
             assert.isString(currentOptions.format);
             assert.equal(currentOptions.format, "compact");
         });
+
+        it("should return stylish for .format when not passed", function() {
+            var currentOptions = options.parse("");
+            assert.isString(currentOptions.format);
+            assert.equal(currentOptions.format, "stylish");
+        });
     });
 
-    describe("when passed -f", function() {
-        it("should return a string for .format", function() {
+    describe("-f", function() {
+        it("should return a string for .format when passed a string", function() {
             var currentOptions = options.parse("-f compact");
             assert.isString(currentOptions.format);
             assert.equal(currentOptions.format, "compact");
         });
     });
 
-    describe("when passed --version", function() {
-        it("should return true for .version", function() {
+    describe("--version", function() {
+        it("should return true for .version when passed", function() {
             var currentOptions = options.parse("--version");
             assert.isTrue(currentOptions.version);
         });
     });
 
-    describe("when passed -v", function() {
-        it("should return true for .version", function() {
+    describe("-v", function() {
+        it("should return true for .version when passed", function() {
             var currentOptions = options.parse("-v");
             assert.isTrue(currentOptions.version);
         });
     });
 
     describe("when asking for help", function() {
-        it("should return string of help text", function() {
+        it("should return string of help text when called", function() {
             var helpText = options.generateHelp();
             assert.isString(helpText);
         });
     });
 
-    describe("when passed --no-ignore", function() {
-        it("should return false for .ignore", function() {
+    describe("--no-ignore", function() {
+        it("should return false for .ignore when passed", function() {
             var currentOptions = options.parse("--no-ignore");
             assert.isFalse(currentOptions.ignore);
         });
     });
 
-    describe("when passed --ignore-path", function() {
-        it("should return a string for .ignorePath", function() {
+    describe("--ignore-path", function() {
+        it("should return a string for .ignorePath when passed", function() {
             var currentOptions = options.parse("--ignore-path .gitignore");
             assert.equal(currentOptions.ignorePath, ".gitignore");
         });
     });
 
-    describe("when passed --color", function() {
-        it("should return true for .color", function() {
+    describe("--color", function() {
+        it("should return true for .color when passed", function() {
             var currentOptions = options.parse("--color");
             assert.isTrue(currentOptions.color);
         });
     });
 
-    describe("when passed --stdin", function() {
-        it("should return true for .stdin", function() {
+    describe("--stdin", function() {
+        it("should return true for .stdin when passed", function() {
             var currentOptions = options.parse("--stdin");
             assert.isTrue(currentOptions.stdin);
         });
     });
 
-    describe("when passed --global", function() {
+    describe("--global", function() {
         it("should return an array for a single occurrence", function () {
             var currentOptions = options.parse("--global foo");
             assert.isArray(currentOptions.global);
@@ -155,15 +189,15 @@ describe("options", function() {
         });
     });
 
-    describe("when passed --plugin", function() {
-        it("should return an array for a single occurrence", function () {
+    describe("--plugin", function() {
+        it("should return an array when passed a single occurrence", function () {
             var currentOptions = options.parse("--plugin single");
             assert.isArray(currentOptions.plugin);
             assert.equal(currentOptions.plugin.length, 1);
             assert.equal(currentOptions.plugin[0], "single");
         });
 
-        it("should split variable names using commas", function() {
+        it("should return an array when passed a comma-delimiated string", function() {
             var currentOptions = options.parse("--plugin foo,bar");
             assert.isArray(currentOptions.plugin);
             assert.equal(currentOptions.plugin.length, 2);
@@ -171,7 +205,7 @@ describe("options", function() {
             assert.equal(currentOptions.plugin[1], "bar");
         });
 
-        it("should concatenate successive occurrences", function() {
+        it("should return an array when passed multiple times", function() {
             var currentOptions = options.parse("--plugin foo --plugin bar");
             assert.isArray(currentOptions.plugin);
             assert.equal(currentOptions.plugin.length, 2);
@@ -180,8 +214,8 @@ describe("options", function() {
         });
     });
 
-    describe("when passed --quiet", function () {
-        it("should return true for .quiet", function() {
+    describe("--quiet", function () {
+        it("should return true for .quiet when passed", function() {
             var currentOptions = options.parse("--quiet");
             assert.isTrue(currentOptions.quiet);
         });
