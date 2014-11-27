@@ -69,6 +69,7 @@ The `CLIEngine` is a constructor, and you can create a new instance by passing i
 
 * `configFile` - The configuration file to use (default: null). Corresponds to `-c`.
 * `envs` - An array of environments to load (default: empty array). Corresponds to `--env`.
+* `extensions` - An array of filename extensions that should be checked for code. The default is an array containing just `".js"`. Corresponds to `--ext`.
 * `globals` - An array of global variables to declare (default: empty array). Corresponds to `--global`.
 * `ignore` - False disables use of `.eslintignore` (default: true). Corresponds to `--no-ignore`.
 * `ignorePath` - The ignore file to use instead of `.eslintignore` (default: null). Corresponds to `--ignore-path`.

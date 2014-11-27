@@ -31,10 +31,16 @@ describe("cli", function() {
     });
 
     describe("execute()", function() {
-        it("should lint text when passed as argument", function() {
+        it("should return error when text with incorrect quotes is passed as argument", function() {
             var result = cli.execute("-c " + path.join(__dirname, "..", "..", ".eslintrc"), "var foo = 'bar';");
             assert.equal(result, 1);
         });
+
+        it("should return no error when --ext .js2 is specified", function() {
+            var result = cli.execute("--ext .js2 --reset ./tests/fixtures/files/");
+            assert.equal(result, 0);
+        });
+
     });
 
     describe("when given a config file", function() {

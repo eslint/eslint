@@ -22,25 +22,26 @@ The command line utility has several options. You can view the options by runnin
 eslint [options] file.js [file.js] [dir]
 
 Options:
-  -h, --help                  Show help.
-  -c, --config path::String   Load configuration data from this file.
-  --rulesdir [path::String]   Load additional rules from this directory.
-  -f, --format String         Use a specific output format. - default: stylish
-  -v, --version               Outputs the version number.
-  --reset                     Set all default rules to off.
-  --eslintrc                  Enable loading .eslintrc configuration. -
-                              default: true
-  --env [String]              Specify environments.
-  --plugin [String]           Specify plugins.
-  --global [String]           Define global variables.
-  --rule Object               Specify rules.
+  -h, --help                 Show help.
+  -c, --config path::String  Load configuration data from this file.
+  --rulesdir [path::String]  Load additional rules from this directory.
+  -f, --format String        Use a specific output format. - default: stylish
+  -v, --version              Outputs the version number.
+  --reset                    Set all default rules to off.
+  --eslintrc                 Enable loading .eslintrc configuration. -
+                             default: true
+  --env [String]             Specify environments.
+  --ext [String]             Specify JavaScript file extensions. - default: .js
+  --plugin [String]          Specify plugins.
+  --global [String]          Define global variables.
+  --rule Object              Specify rules.
   --ignore-path path::String  Specify the file that contains patterns of files
                               to ignore.
-  --ignore                    Enable loading of .eslintignore. - default: true
-  --quiet                     Report errors only. - default false
-  --color                     Enable color in piped output. - default: true
+  --ignore                   Enable loading of .eslintignore. - default: true
+  --color                    Enable color in piped output. - default: true
   -o, --output-file path::String  Enable report to be written to a file.
-  --stdin                     Lint code provided on <STDIN>. - default: false
+  --quiet                    Report errors only. - default: false
+  --stdin                    Lint code provided on <STDIN>. - default: false
 ```
 
 ### `-h`, `--help`
@@ -56,6 +57,21 @@ Example:
     eslint -c ~/my-eslint.json file.js
 
 This example uses the configuration file at `~/my-eslint.json` instead of the default.
+
+### `--ext`
+
+This option allows you to specify which file extensions ESLint will use when searching for JavaScript files. By default, it uses `.js` as the only file extension.
+
+Examples:
+
+  # Use only .js2 extension
+  eslint --ext .js2
+
+  # Use both .js and .js2
+  eslint --ext .js --ext .js2
+
+  # Also use both .js and .js2
+  eslint --ext .js,.js2
 
 ### `-f`, `--format`
 
