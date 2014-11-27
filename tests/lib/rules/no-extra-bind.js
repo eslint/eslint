@@ -23,10 +23,12 @@ eslintTester.addRuleTest("lib/rules/no-extra-bind", {
         "var a = function() { this.b }()",
         "var a = function() { this.b }.foo()",
         "var a = f.bind(a)",
-        "var a = function() { return this.b }.bind(c)"
+        "var a = function() { return this.b }.bind(c)",
+        { code: "var a = (() => { return b }).bind(c, d)", ecmaFeatures: { arrowFunctions: true } }
     ],
     invalid: [
         { code: "var a = function() { return 1; }.bind(b)", errors: [{ message: "The function binding is unnecessary.", type: "CallExpression"}] },
+        { code: "var a = (() => { return 1; }).bind(b)", ecmaFeatures: { arrowFunctions: true }, errors: [{ message: "The function binding is unnecessary.", type: "CallExpression"}] },
         { code: "var a = function() { (function(){ this.c }) }.bind(b)", errors: [{ message: "The function binding is unnecessary.", type: "CallExpression"}] },
         { code: "var a = function() { function c(){ this.d } }.bind(b)", errors: [{ message: "The function binding is unnecessary.", type: "CallExpression"}] }
     ]
