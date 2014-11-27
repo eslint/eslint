@@ -18,6 +18,7 @@ var eslintTester = new ESLintTester(eslint);
 eslintTester.addRuleTest("lib/rules/func-names", {
     valid: [
         "Foo.prototype.bar = function bar(){};",
+        { code: "Foo.prototype.bar = () => {}", settings: { ecmascript: 6 }},
         "function foo(){}",
         "function test(d, e, f) {}",
         "new function bar(){}"

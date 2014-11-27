@@ -1,6 +1,7 @@
 /**
  * @fileoverview Tests for func-style rule.
  * @author Nicholas C. Zakas
+ * @copyright 2013 Nicholas C. Zakas. All rights reserved.
  */
 
 //------------------------------------------------------------------------------
@@ -48,6 +49,11 @@ eslintTester.addRuleTest("lib/rules/func-style", {
         {
             code: "var foo = function(){};\n var bar = function(){};",
             args: [1, "expression"]
+        },
+        {
+            code: "var foo = () => {};\n var bar = () => {}",
+            args: [1, "expression"],
+            settings: { ecmascript: 6 }
         }
     ],
 
@@ -55,6 +61,17 @@ eslintTester.addRuleTest("lib/rules/func-style", {
         {
             code: "var foo = function(){};",
             args: [1, "declaration"],
+            errors: [
+                {
+                    message: "Expected a function declaration.",
+                    type: "VariableDeclarator"
+                }
+            ]
+        },
+        {
+            code: "var foo = () => {};",
+            args: [1, "declaration"],
+            settings: { ecmascript: 6 },
             errors: [
                 {
                     message: "Expected a function declaration.",

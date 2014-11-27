@@ -38,6 +38,11 @@ eslintTester.addRuleTest("lib/rules/strict", {
         {
             code: "var foo = function () { return; };",
             errors: [{ message: "Missing \"use strict\" statement.", type: "FunctionExpression"}]
+        },
+        {
+            code: "var foo = () => { return; };",
+            settings: { ecmascript: 6 },
+            errors: [{ message: "Missing \"use strict\" statement.", type: "ArrowFunctionExpression"}]
         }
     ]
 });
