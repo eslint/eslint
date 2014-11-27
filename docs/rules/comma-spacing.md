@@ -33,6 +33,8 @@ The following patterns are considered warnings:
     var foo = 1 ,bar = 2;
     var arr = [1 , 2];
     var obj = {"foo": "bar" ,"baz": "qur"};
+    foo(a ,b);
+    new Foo(a ,b);
     function foo(a ,b){}
     a ,b
 ```
@@ -44,6 +46,8 @@ The following patterns are not warnings:
     var foo = 1, bar = 2;
     var arr = [1, 2];
     var obj = {"foo": "bar", "baz": "qur"};
+    foo(a, b);
+    new Foo(a, b);
     function foo(a, b){}
     a, b
 ```
@@ -59,6 +63,7 @@ The following patterns are considered warnings:
     var foo = 1, bar = 2;
     var arr = [1 , 2];
     var obj = {"foo": "bar", "baz": "qur"};
+    new Foo(a,b);
     function foo(a,b){}
     a, b
 ```
@@ -70,6 +75,8 @@ The following patterns are not warnings:
     var foo = 1 ,bar = 2;
     var arr = [1 ,2];
     var obj = {"foo": "bar" ,"baz": "qur"};
+    foo(a ,b);
+    new Foo(a ,b);
     function foo(a ,b){}
     a ,b
 ```
