@@ -1,6 +1,7 @@
 /**
  * @fileoverview Tests for no-empty rule.
  * @author Nicholas C. Zakas
+ * @copyright Nicholas C. Zakas. All rights reserved.
  */
 
 //------------------------------------------------------------------------------
@@ -23,6 +24,7 @@ eslintTester.addRuleTest("lib/rules/no-empty", {
         "try { foo() } catch (ex) { foo() }",
         "switch(foo) {case 'foo': break;}",
         "(function() { }())",
+        { code: "var foo = () => {};", settings: { ecmascript: 6 } },
         "function foo() { }",
         "try { foo() } catch (ex) {}",
         "try { foo() } finally {}"

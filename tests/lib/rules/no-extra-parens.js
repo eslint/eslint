@@ -1,6 +1,7 @@
 /**
  * @fileoverview Disallow parenthesesisng higher precedence subexpressions.
  * @author Michael Ficarra
+ * @copyright 2014 Michael Ficarra. All rights reserved.
  */
 
 //------------------------------------------------------------------------------
@@ -86,6 +87,7 @@ eslintTester.addRuleTest("lib/rules/no-extra-parens", {
         "with(a){}",
         "switch(a){ case 0: break; }",
         "function a(){ return b; }",
+        { code: "var a =  () => { return b; }", settings: { ecmascript: 6 } },
         "throw a;",
         "while(a);",
         "do; while(a);",
@@ -104,6 +106,7 @@ eslintTester.addRuleTest("lib/rules/no-extra-parens", {
         "({a:0}.a ? b : c)",
 
         // IIFE is allowed to have parens in any position (#655)
+        { code: "var foo = (function() { return bar(); }())", settings: { ecmascript: 6 } },
         "var foo = (function() { return bar(); }())",
         "var o = { foo: (function() { return bar(); }()) };",
         "o.foo = (function(){ return bar(); }());",
