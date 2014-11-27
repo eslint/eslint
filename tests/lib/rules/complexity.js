@@ -37,11 +37,13 @@ eslintTester.addRuleTest("lib/rules/complexity", {
         { code: "function a(x) {switch(x){case 1: 1; break; case 2: 2; break; default: if(x == 'foo') {5;};}}", args: [1, 4] },
         { code: "function a(x) {while(true) {'foo';}}", args: [1, 2] },
         { code: "function a(x) {do {'foo';} while (true)}", args: [1, 2] },
-        { code: "if (foo) { bar(); }", args: [1, 3] }
+        { code: "if (foo) { bar(); }", args: [1, 3] },
+        { code: "var a = (x) => {do {'foo';} while (true)}", args: [1, 2], ecmaFeatures: { arrowFunctions: true } }
 
     ],
     invalid: [
         { code: "function a(x) {}", args: [1, 0], errors: 1 },
+        { code: "var a = (x) => {if (true) {return x;}}", args: [1, 1], settings: {ecmascript: 6 }, errors: 1 },
         { code: "function a(x) {if (true) {return x;}}", args: [1, 1], errors: 1 },
         { code: "function a(x) {if (true) {return x;} else {return x+1;}}", args: [1, 1], errors: 1 },
         { code: "function a(x) {if (true) {return x;} else if (false) {return x+1;} else {return 4;}}", args: [1, 2], errors: 1 },

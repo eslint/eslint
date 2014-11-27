@@ -1,6 +1,7 @@
 /**
  * @fileoverview Tests for no-unused-expressions rule.
- * @author Nicholas C. Zakas
+ * @author Michael Ficarra
+ * @copyright 2013 Michael Ficarra. All rights reserved.
  */
 
 "use strict";
@@ -30,6 +31,7 @@ eslintTester.addRuleTest("lib/rules/no-unused-expressions", {
         "\"use strict\";",
         "\"directive one\"; \"directive two\"; f();",
         "function foo() {\"use strict\"; return true; }",
+        { code: "var foo = () => {\"use strict\"; return true; }", ecmaFeatures: { arrowFunctions: true } },
         "function foo() {\"directive one\"; \"directive two\"; f(); }",
         "function foo() { var foo = \"use strict\"; return true; }",
         {
@@ -50,6 +52,7 @@ eslintTester.addRuleTest("lib/rules/no-unused-expressions", {
         { code: "\"directive one\"; f(); \"directive two\";", errors: [{ message: "Expected an assignment or function call and instead saw an expression.", type: "ExpressionStatement"}] },
         { code: "function foo() {\"directive one\"; f(); \"directive two\"; }", errors: [{ message: "Expected an assignment or function call and instead saw an expression.", type: "ExpressionStatement"}] },
         { code: "if (0) { \"not a directive\"; f(); }", errors: [{ message: "Expected an assignment or function call and instead saw an expression.", type: "ExpressionStatement"}] },
-        { code: "function foo() { var foo = true; \"use strict\"; }", errors: [{ message: "Expected an assignment or function call and instead saw an expression.", type: "ExpressionStatement"}] }
+        { code: "function foo() { var foo = true; \"use strict\"; }", errors: [{ message: "Expected an assignment or function call and instead saw an expression.", type: "ExpressionStatement"}] },
+        { code: "var foo = () => { var foo = true; \"use strict\"; }", ecmaFeatures: { arrowFunctions: true }, errors: [{ message: "Expected an assignment or function call and instead saw an expression.", type: "ExpressionStatement"}] }
     ]
 });

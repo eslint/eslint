@@ -26,12 +26,23 @@ eslintTester.addRuleTest("lib/rules/consistent-return", {
         "f(function() { if (true) return; else return; })",
         "f(function() { if (true) return true; else return false; })",
         "function foo() { function bar() { return true; } return; }",
-        "function foo() { function bar() { return; } return false; }"
+        "function foo() { function bar() { return; } return false; }",
+        { code: "var x = () => {  return {}; };", ecmaFeatures: { arrowFunctions: true } }
     ],
 
     invalid: [
         {
             code: "function foo() { if (true) return true; else return; }",
+            errors: [
+                {
+                    message: "Expected a return value.",
+                    type: "ReturnStatement"
+                }
+            ]
+        },
+        {
+            code: "var foo = () => { if (true) return true; else return; }",
+            ecmaFeatures: { arrowFunctions: true },
             errors: [
                 {
                     message: "Expected a return value.",
@@ -59,6 +70,16 @@ eslintTester.addRuleTest("lib/rules/consistent-return", {
         },
         {
             code: "f(function () { if (true) return; else return false; })",
+            errors: [
+                {
+                    message: "Expected no return value.",
+                    type: "ReturnStatement"
+                }
+            ]
+        },
+        {
+            code: "f(a => { if (true) return; else return false; })",
+            ecmaFeatures: { arrowFunctions: true },
             errors: [
                 {
                     message: "Expected no return value.",
