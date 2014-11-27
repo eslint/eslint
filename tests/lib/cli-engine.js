@@ -82,6 +82,31 @@ describe("CLIEngine", function() {
             assert.equal(report.results[0].messages.length, 0);
         });
 
+        it("should report zero messages when given a directory with a .js2 file", function() {
+
+            engine = new CLIEngine({
+                extensions: [".js2"],
+                reset: true
+            });
+
+            var report = engine.executeOnFiles(["tests/fixtures/files/"]);
+            assert.equal(report.results.length, 1);
+            assert.equal(report.results[0].messages.length, 0);
+        });
+
+        it("should report zero messages when given a directory with a .js and a .js2 file", function() {
+
+            engine = new CLIEngine({
+                extensions: [".js", ".js2"],
+                reset: true
+            });
+
+            var report = engine.executeOnFiles(["tests/fixtures/files/"]);
+            assert.equal(report.results.length, 2);
+            assert.equal(report.results[0].messages.length, 0);
+            assert.equal(report.results[1].messages.length, 0);
+        });
+
         it("should return one error message when given a config with rules with options and severity level set to error", function() {
 
             engine = new CLIEngine({
