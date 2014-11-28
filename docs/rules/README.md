@@ -140,20 +140,20 @@ These rules are purely matters of style and are quite subjective.
 * [no-inline-comments](no-inline-comments.md) - disallow comments inline after code (off by default)
 * [no-lonely-if](no-lonely-if.md) - disallow if as the only statement in an else block (off by default)
 * [no-mixed-spaces-and-tabs](no-mixed-spaces-and-tabs.md) - disallow mixed spaces and tabs for indentation
+* [no-multiple-empty-lines](no-multiple-empty-lines.md) - disallow multiple empty lines (off by default)
 * [no-nested-ternary](no-nested-ternary.md) - disallow nested ternary expressions (off by default)
 * [no-new-object](no-new-object.md) - disallow use of the `Object` constructor
 * [no-space-before-semi](no-space-before-semi.md) - disallow space before semicolon
 * [no-spaced-func](no-spaced-func.md) - disallow space between function identifier and application
 * [no-ternary](no-ternary.md) - disallow the use of ternary operators (off by default)
 * [no-trailing-spaces](no-trailing-spaces.md) - disallow trailing whitespace at the end of lines
-* [no-multiple-empty-lines](no-multiple-empty-lines.md) - disallow multiple empty lines (off by default)
 * [no-underscore-dangle](no-underscore-dangle.md) - disallow dangling underscores in identifiers
 * [no-wrap-func](no-wrap-func.md) - disallow wrapping of non-IIFE statements in parens
 * [one-var](one-var.md) - allow just one var statement per function (off by default)
 * [operator-assignment](operator-assignment.md) - require assignment operator shorthand where possible or prohibit it entirely (off by default)
 * [padded-blocks](padded-blocks.md) - enforce padding within blocks (off by default)
-* [quotes](quotes.md) - specify whether double or single quotes should be used
 * [quote-props](quote-props.md) - require quotes around object literal property names (off by default)
+* [quotes](quotes.md) - specify whether double or single quotes should be used
 * [semi](semi.md) - require or disallow use of semicolons instead of ASI
 * [sort-vars](sort-vars.md) - sort variables within the same declaration block (off by default)
 * [space-after-keywords](space-after-keywords.md) - require a space after certain keywords (off by default)
