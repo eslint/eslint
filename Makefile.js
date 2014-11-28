@@ -248,8 +248,10 @@ target.gensite = function() {
 
     echo("Generating eslint.org");
 
-    rm("-r", DOCS_DIR);
-    mkdir(DOCS_DIR);
+    if (test("-d", DOCS_DIR)) {
+        rm("-r", DOCS_DIR);
+    }
+    mkdir("-p", DOCS_DIR);
     cp("-rf", "docs/*", DOCS_DIR);
 
     find(DOCS_DIR).forEach(function(filename) {
