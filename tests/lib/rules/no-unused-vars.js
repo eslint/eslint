@@ -39,6 +39,7 @@ eslintTester.addRuleTest("lib/rules/no-unused-vars", {
         "function f() { var a = 1; return function(){ f(++a); }; }",
         "try {} catch(e) {}",
         "/*global a */ a;",
+        { code: "function foo() { var App; var bar = React.render(<App/>); return bar; }; foo()", args: [1, {vars: "all"}], ecmaFeatures: { jsx: true } },
         { code: "var a=10; (function() { alert(a); })();", args: [1, {vars: "all"}] },
         { code: "function g(bar, baz) { return baz; }; g();", args: [1, {"vars": "all"}] },
         { code: "function g(bar, baz) { return baz; }; g();", args: [1, {"vars": "all", "args": "after-used"}] },
