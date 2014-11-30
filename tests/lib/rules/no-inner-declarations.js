@@ -1,6 +1,7 @@
 /**
- * @fileoverview Tests for declaration-position rule.
+ * @fileoverview Tests for no-inner-declarations rule.
  * @author Brandon Mills
+ * @copyright 2014 Brandon Mills. All rights reserved.
  */
 "use strict";
 
@@ -27,6 +28,7 @@ eslintTester.addRuleTest("lib/rules/no-inner-declarations", {
         "if (test) { var fn = function expr() { }; }",
         "function decl() { var fn = function expr() { }; }",
         "function decl(arg) { var fn; if (arg) { fn = function() { }; } }",
+        { code: "function decl(arg) { var fn; if (arg) { fn = function expr() { }; } }", settings: { ecmascript: 6 } },
         "function decl(arg) { var fn; if (arg) { fn = function expr() { }; } }",
         "if (test) { var foo; }",
         "function doSomething() { while (test) { var foo; } }",

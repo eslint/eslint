@@ -1,6 +1,7 @@
 /**
  * @fileoverview Tests for missing-err rule.
  * @author Jamund Ferguson
+ * @copyright 2014 Jamund Ferguson. All rights reserved.
  */
 
 //------------------------------------------------------------------------------
@@ -39,6 +40,7 @@ eslintTester.addRuleTest("lib/rules/handle-callback-err", {
         "function help() { function userHandler(err) {function tester() { err; process.nextTick(function() { err; }); } } }",
         "function help(done) { var err = new Error('error'); done(); }",
         { code: "var test = function(error) {if(error){/* do nothing */}};", args: [2, "error"] },
+        { code: "var test = (error) => {if(error){/* do nothing */}};", args: [2, "error"], settings: { ecmascript: 6 } },
         { code: "var test = function(error) {if(! error){doSomethingHere();}};", args: [2, "error"] },
         { code: "var test = function(err) { console.log(err); };", args: [2, "^(err|error)$"] },
         { code: "var test = function(error) { console.log(error); };", args: [2, "^(err|error)$"] },
@@ -52,6 +54,7 @@ eslintTester.addRuleTest("lib/rules/handle-callback-err", {
         { code: "function test(err) {errorLookingWord();}", errors: [expectedFunctionDeclarationError] },
         { code: "function test(err) {try{} catch(err) {}}", errors: [expectedFunctionDeclarationError] },
         { code: "function test(err, callback) { foo(function(err, callback) {}); }", errors: [expectedFunctionDeclarationError, expectedFunctionExpressionError]},
+        { code: "var test = (err) => {};", settings: { ecmascript: 6 }, errors: [{ message: expectedErrorMessage, type: "ArrowFunctionExpression" }] },
         { code: "var test = function(err) {};", errors: [expectedFunctionExpressionError] },
         { code: "var test = function test(err, data) {};", errors: [expectedFunctionExpressionError] },
         { code: "var test = function test(err) {/* if(err){} */};", errors: [expectedFunctionExpressionError] },

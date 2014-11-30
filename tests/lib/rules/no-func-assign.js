@@ -1,6 +1,7 @@
 /**
  * @fileoverview Tests for no-func-assign.
  * @author Ian Christian Myers
+ * @copyright 2013 Ian Christian Myers. All rights reserved.
  */
 
 //------------------------------------------------------------------------------
@@ -20,6 +21,7 @@ eslintTester.addRuleTest("lib/rules/no-func-assign", {
         "function foo() { var foo = bar; }",
         "function foo(foo) { foo = bar; }",
         "function foo() { var foo; foo = bar; }",
+        { code: "var foo = () => {}; foo = bar;", settings: { ecmascript: 6 } },
         "var foo = function() {}; foo = bar;",
         "var foo = function() { foo = bar; };"
     ],

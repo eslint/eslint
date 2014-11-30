@@ -50,6 +50,21 @@ eslintTester.addRuleTest("lib/rules/no-multi-spaces", {
 
     invalid: [
         {
+            code: "function foo(a,  b) {}",
+            errors: [{
+                message: "Multiple spaces found around ','.",
+                type: "Identifier"
+            }]
+        },
+        {
+            code: "var foo = (a,  b) => {}",
+            settings: { ecmascript: 6 },
+            errors: [{
+                message: "Multiple spaces found around ','.",
+                type: "Identifier"
+            }]
+        },
+        {
             code: "var a =  1",
             errors: [{
                 message: "Multiple spaces found after '='.",

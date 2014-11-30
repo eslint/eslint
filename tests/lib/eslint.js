@@ -371,6 +371,29 @@ describe("eslint", function() {
             assert.isTrue(spy.calledOnce, "Event handler should be called.");
         });
 
+        it("should get JSDoc comment for node when the node is a ArrowFunctionExpression inside of an object literal", function() {
+
+            var code = [
+                "/** Code is good */",
+                "var o = {",
+                "/** Desc*/",
+                "foo: () => {}",
+                "};"
+            ].join("\n");
+
+            function assertJSDoc(node) {
+                var jsdoc = eslint.getJSDocComment(node);
+                assert.equal(jsdoc.type, "Block");
+                assert.equal(jsdoc.value, "* Desc");
+            }
+
+            var spy = sandbox.spy(assertJSDoc);
+
+            eslint.on("ArrowFunctionExpression", spy);
+            eslint.verify(code, { settings: { ecmascript: 6 }, rules: {}}, filename, true);
+            assert.isTrue(spy.calledOnce, "Event handler should be called.");
+        });
+
         it("should get JSDoc comment for node when the node is a FunctionExpression in an assignment", function() {
 
             var code = [
@@ -1926,8 +1949,6 @@ describe("eslint", function() {
             assert.equal(messages[0].column, 14);
             assert.equal(messages[0].message, "Unexpected token.");
         });
-
-
 
         // More ES6/JSX parsing tests go here
 
