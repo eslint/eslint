@@ -67,6 +67,13 @@ describe("attachComments()", function() {
         assert.equal(ast.body[0].cases[0].trailingComments[0].value, "no default ");
     });
 
+    it("should attach no default comment to last SwitchCase trailingComments when present with if statement", function() {
+
+        var ast = parse("switch (a) { case 1: break; case 2: \nif (foo) {} \n //no default \n }");
+        assert.equal(ast.body[0].cases[1].trailingComments.length, 1);
+        assert.equal(ast.body[0].cases[1].trailingComments[0].value, "no default ");
+    });
+
     it("should attach no default comment to last SwitchCase trailingComments inside a function when present", function() {
 
         var ast = parse("function bar(a) { \nswitch (a) { case 2: break; \ncase 1: break; \n //no default \n }\n}");

@@ -1365,7 +1365,7 @@ describe("eslint", function() {
             assert.equal(messages[0].line, 4);
         });
 
-        it("should not report a violation", function() {
+        it("should not report a violation 1", function() {
             var code = [
                 "/*eslint-disable */",
                 "alert('test');",
@@ -1378,7 +1378,7 @@ describe("eslint", function() {
             assert.equal(messages.length, 0);
         });
 
-        it("should not report a violation", function() {
+        it("should not report a violation 2", function() {
             var code = [
                 "                    alert('test1');/*eslint-disable */\n",
                 "alert('test');",
@@ -1393,7 +1393,7 @@ describe("eslint", function() {
             assert.equal(messages[1].column, 18);
         });
 
-        it("should not report a violation", function() {
+        it("should not report a violation 3", function() {
 
             var code = [
                 "/*eslint-disable */",
@@ -1412,7 +1412,7 @@ describe("eslint", function() {
         });
 
 
-        it("should not report a violation", function() {
+        it("should not report a violation 4", function() {
             var code = [
                 "/*eslint-disable */",
                 "(function (){ var b = 44;})()",
@@ -1425,7 +1425,7 @@ describe("eslint", function() {
             assert.equal(messages.length, 0);
         });
 
-        it("should not report a violation", function() {
+        it("should not report a violation 5", function() {
             var code = [
                 "(function (){ /*eslint-disable */ var b = 44;})()",
                 "/*eslint-enable */;any();"
@@ -1440,7 +1440,7 @@ describe("eslint", function() {
 
     describe("when evaluating code with comments to enable and disable reporting of specific rules", function() {
 
-        it("should report a violation", function() {
+        it("should report a violation 1", function() {
             var code = [
                 "/*eslint-disable no-alert */",
                     "alert('test');",
@@ -1454,7 +1454,7 @@ describe("eslint", function() {
             assert.equal(messages[0].ruleId, "no-console");
         });
 
-        it("should report a violation", function() {
+        it("should report a violation 2", function() {
             var code = [
                 "/*eslint-disable no-alert, no-console */",
                     "alert('test');",
@@ -1475,7 +1475,7 @@ describe("eslint", function() {
             assert.equal(messages[1].line, 6);
         });
 
-        it("should report a violation", function() {
+        it("should report a violation 3", function() {
             var code = [
                 "/*eslint-disable no-alert */",
                     "alert('test');",
@@ -1493,7 +1493,7 @@ describe("eslint", function() {
         });
 
 
-        it("should report a violation", function() {
+        it("should report a violation 4", function() {
             var code = [
                 "/*eslint-disable no-alert, no-console */",
                     "alert('test');",
@@ -1513,22 +1513,22 @@ describe("eslint", function() {
         });
 
 
-        it("should report a violation", function() {
+        it("should report a violation 5", function() {
             var code = [
                 "/*eslint-disable no-alert */",
 
                     "/*eslint-disable no-console */",
-                        "alert('test');",
-                        "console.log('test');",
+                        "alert('test1');",
+                        "console.log('test1');",
                     "/*eslint-enable */",
 
-                    "alert('test');",
-                    "console.log('test');", // here
+                    "alert('test2');",
+                    "console.log('test2');", // here
 
                 "/*eslint-enable */",
 
-                "alert('test');", // here
-                "console.log('test');", // here
+                "alert('test3');", // here
+                "console.log('test3');", // here
 
                 "/*eslint-enable*/"
             ].join("\n");
@@ -1548,7 +1548,7 @@ describe("eslint", function() {
 
         });
 
-        it("should report a violation", function() {
+        it("should report a violation 6", function() {
             var code = [
                 "/*eslint-disable no-alert, no-console */",
                     "alert('test');",

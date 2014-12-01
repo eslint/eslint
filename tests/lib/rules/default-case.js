@@ -28,6 +28,7 @@ eslintTester.addRuleTest("lib/rules/default-case", {
         "switch (a) { \n    case 1: a = 4; \n\n/* no default */\n }",
         "switch (a) { \n    case 1: a = 4; break; break; \n\n// no default\n }",
         "switch (a) { // no default\n }",
+        "switch (a) { case 0: break; \ncase 1:\ncase 2:\ncase 3:\nif (foo) {}\n// no default\n }",
         "switch (a) { }"
     ],
 
