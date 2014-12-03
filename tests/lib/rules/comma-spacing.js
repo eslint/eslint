@@ -30,6 +30,18 @@ eslintTester.addRuleTest("lib/rules/comma-spacing", {
         "var a = (1 + 2, 2);",
         "a(b, c)",
         "new A(b, c)",
+        "foo((a), b)",
+        "var b = ((1 + 2), 2);",
+        "parseInt((a + b), 10)",
+        "go.boom((a + b), 10)",
+        "go.boom((a + b), 10, (4))",
+        "var x = [ (a + c), (b + b) ]",
+        "['  ,  ']",
+        "foo(/,/, 'a')",
+        "var x = ',,,,,';",
+        "var code = 'var foo = 1, bar = 3;',",
+        "['apples', \n 'oranges'];",
+        "{x: 'var x,y,z'}",
         {code: "var obj = {'foo':\n'bar' ,'baz':\n'qur'};", args: [2, {before: true, after: false}]},
         {code: "var a = 1 ,b = 2;", args: [2, {before: true, after: false}]},
         {code: "var arr = [1 ,2];", args: [2, {before: true, after: false}]},
@@ -100,6 +112,15 @@ eslintTester.addRuleTest("lib/rules/comma-spacing", {
                     message: "A space is required after ','.",
                     type: "Literal"
                 },
+                {
+                    message: "There should be no space before ','.",
+                    type: "Literal"
+                }
+            ]
+        },
+        {
+            code: "var arr = [(1) , 2];",
+            errors: [
                 {
                     message: "There should be no space before ','.",
                     type: "Literal"
