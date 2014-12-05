@@ -45,7 +45,8 @@ eslintTester.addRuleTest("lib/rules/no-multi-spaces", {
         "[1, ]",
         "[ (  1  ) , (  2  ) ]",
         "a = 1, b = 2;",
-        "(function(a, b){})"
+        "(function(a, b){})",
+        "x.in = 0;"
     ],
 
     invalid: [
