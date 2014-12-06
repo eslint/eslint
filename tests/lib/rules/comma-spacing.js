@@ -22,6 +22,8 @@ eslintTester.addRuleTest("lib/rules/comma-spacing", {
     valid: [
         "var a = 1, b = 2;",
         "var arr = [1, 2];",
+        "var arr = [, 2];",
+        "var arr = [1, ];",
         "var obj = {'foo':'bar', 'baz':'qur'};",
         "var obj = {'foo':'bar', 'baz':\n'qur'};",
         "var obj = {'foo':\n'bar', 'baz':\n'qur'};",
@@ -102,6 +104,34 @@ eslintTester.addRuleTest("lib/rules/comma-spacing", {
                 {
                     message: "There should be no space before ','.",
                     type: "Literal"
+                }
+            ]
+        },
+        {
+            code: "var arr = [ , 2];",
+            errors: [
+                {
+                    message: "There should be no space before ','.",
+                    type: "Literal"
+                }
+            ]
+        },
+        {
+            code: "var arr = [1 , ];",
+            errors: [
+                {
+                    message: "There should be no space before ','.",
+                    type: "Punctuator"
+                }
+            ]
+        },
+        {
+            code: "var arr = [1 , ];",
+            args: [2, { before: true, after: false }],
+            errors: [
+                {
+                    message: "There should be no space after ','.",
+                    type: "Punctuator"
                 }
             ]
         },
