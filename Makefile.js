@@ -101,6 +101,12 @@ function release(type) {
     target.test();
     exec("npm version " + type);
     target.changelog();
+
+    // add changelog to commit
+    exec("git add CHANGELOG.md");
+    exec("git commit --amend --no-edit");
+
+    // push all the things
     exec("git push origin master --tags");
     exec("npm publish");
     target.gensite();
@@ -165,6 +171,17 @@ function getFirstVersionOfFile(filePath) {
     return getTagOfFirstOccurrence(filePath);
 }
 
+function getVersionTags() {
+    var tags = splitCommandResultToLines(exec("git tag", { silent: true }).output);
+
+    return tags.reduce(function(list, tag) {
+        if (semver.valid(tag)) {
+            list.push(tag);
+        }
+        return list;
+    }, []).sort(semver.compare);
+}
+
 //------------------------------------------------------------------------------
 // Tasks
 //------------------------------------------------------------------------------
@@ -215,20 +232,20 @@ target.test = function() {
     // exec(ISTANBUL + " cover " + MOCHA + "-- -c " + TEST_FILES);
     lastReturn = nodeCLI.exec("istanbul", "cover", MOCHA, "-- -c", TEST_FILES);
     if (lastReturn.code !== 0) {
-      errors++;
+        errors++;
     }
 
     // exec(ISTANBUL + "check-coverage --statement 99 --branch 98 --function 99 --lines 99");
     lastReturn = nodeCLI.exec("istanbul", "check-coverage", "--statement 99 --branch 98 --function 99 --lines 99");
     if (lastReturn.code !== 0) {
-      errors++;
+        errors++;
     }
 
     target.browserify();
 
     lastReturn = nodeCLI.exec("mocha-phantomjs", "-R dot", "tests/tests.htm");
     if (lastReturn.code !== 0) {
-      errors++;
+        errors++;
     }
 
     if (errors) {
@@ -328,7 +345,7 @@ target.browserify = function() {
 target.changelog = function() {
 
     // get most recent two tags
-    var tags = exec("git tag", { silent: true }).output.trim().split(/\s/g),
+    var tags = getVersionTags(),
         rangeTags = tags.slice(tags.length - 2),
         now = new Date(),
         timestamp = dateformat(now, "mmmm d, yyyy");
@@ -352,11 +369,6 @@ target.changelog = function() {
     rm("CHANGELOG.tmp");
     rm("CHANGELOG.md");
     mv("CHANGELOG.md.tmp", "CHANGELOG.md");
-
-    // add into commit
-    exec("git add CHANGELOG.md");
-    exec("git commit --amend --no-edit");
-
 };
 
 target.checkRuleFiles = function() {
