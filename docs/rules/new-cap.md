@@ -26,7 +26,7 @@ var colleague = person();
 
 ## Options
 
-By default all options are set to `true`.
+By default both `newIsCap` and `capIsNew` options are set to `true`.
 
 ### newIsCap
 
@@ -36,6 +36,26 @@ When `true`, rule checks if all `new` operators are called only with uppercase-s
 
 When `true`, rule checks if all uppercase-started functions are called only with `new` operator.
 
+### newIsCapExceptions
+
+Array of lowercase function names that are permitted to be used with the `new` operator.
+If provided, it must be an `Array`.
+
+### capIsNewExceptions
+
+Array of uppercase-starting function names that are permitted to be used without the `new` operator.
+If provided, it must be an `Array`.
+If not provided, `capIsNewExceptions` defaults to the following:
+ - `Object`
+ - `Function`
+ - `Number`
+ - `String`
+ - `Boolean`
+ - `Date`
+ - `Array`
+ - `Symbol`
+ - `RegExp`
+
 ## When Not To Use It
 
-If you have conventions that don't require an uppercase letter for constructors, turn this rule off.
+If you have conventions that don't require an uppercase letter for constructors, or don't require capitalized functions be only used as constructors, turn this rule off.
