@@ -1,3 +1,20 @@
+v0.10.1 - December 6, 2014
+
+* 0.10.1 (Nicholas C. Zakas)
+* Docs: Fix v0.10.0 changelog (Nicholas C. Zakas)
+* Build: Ensure changelog works with large semver versions (Nicholas C. Zakas)
+* Fix: comma-spacing and comma-style to work with array literals (fixes #1492) (Nicholas C. Zakas)
+* Update: better operator regex in use-isnan rule (fixes #1551) (Michael Ficarra)
+* Fix: wrong op index in no-multi-spaces (fixes #1547) (Brandon Mills)
+* Fix: Restrict use-isnan violations to comparison operators. (Fixes #1535) (Jordan Harband)
+* Fix: comma-spacing has false positives when parenthesis are used (fixes #1457) (Jamund Ferguson)
+* Docs: alphabetize the "Stylistic Issues" section (Jeff Williams)
+* Build: make the "gensite" target work when DOCS_DIR does not exist (fixes #1530) (Jeff Williams)
+* Docs: badges should only refer to master branch (Mathias Schreck)
+* Fix: prevent crash on empty blocks in no-else-return (fixes #1527) (Mathias Schreck)
+* Build: Fix md to html conversion regex (fixes #1525) (Brandon Mills)
+* 0.10.0 (Nicholas C. Zakas)
+
 v0.10.0 - November 27, 2014
 
 * 0.10.0 (Nicholas C. Zakas)
