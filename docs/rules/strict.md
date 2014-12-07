@@ -31,18 +31,18 @@ The following patterns do not cause a warning:
 function foo() {
 	return true;
 }
+```
 
-// ----------------
-
+```js
 function foo() {
 
     "use strict";
 
     return true;
 }
+```
 
-// ----------------
-
+```js
 (function() {
     "use strict";
 
