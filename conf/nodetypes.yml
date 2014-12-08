@@ -8,6 +8,9 @@ ArrowFunctionExpression:
   message: Unexpected token "=".
 AssignmentExpression:
   version: 5
+AwaitExpression:
+  version: 7
+  message: Unexpected node.
 BinaryExpression:
   version: 5
 BlockStatement:
