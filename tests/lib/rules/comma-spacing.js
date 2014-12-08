@@ -89,11 +89,11 @@ eslintTester.addRuleTest("lib/rules/comma-spacing", {
             code: "var a = 1 ,b = 2;",
             errors: [
                 {
-                    message: "A space is required after ','.",
+                    message: "There should be no space before ','.",
                     type: "VariableDeclarator"
                 },
                 {
-                    message: "There should be no space before ','.",
+                    message: "A space is required after ','.",
                     type: "VariableDeclarator"
                 }
             ]
@@ -139,11 +139,11 @@ eslintTester.addRuleTest("lib/rules/comma-spacing", {
             code: "var arr = [1 ,2];",
             errors: [
                 {
-                    message: "A space is required after ','.",
+                    message: "There should be no space before ','.",
                     type: "Literal"
                 },
                 {
-                    message: "There should be no space before ','.",
+                    message: "A space is required after ','.",
                     type: "Literal"
                 }
             ]
@@ -242,11 +242,11 @@ eslintTester.addRuleTest("lib/rules/comma-spacing", {
             args: [2, {before: false, after: true}],
             errors: [
                 {
-                    message: "A space is required after ','.",
+                    message: "There should be no space before ','.",
                     type: "Identifier"
                 },
                 {
-                    message: "There should be no space before ','.",
+                    message: "A space is required after ','.",
                     type: "Identifier"
                 }
             ]
