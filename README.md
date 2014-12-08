@@ -45,7 +45,7 @@ Despite being slower, we believe that ESLint is fast enough to replace JSHint wi
 The following projects are using ESLint to validate their JavaScript:
 
 * [WebKit](https://bugs.webkit.org/show_bug.cgi?id=125048)
-* [Drupal](https://www.drupal.org/node/2264205)
+* [Drupal](https://www.drupal.org/node/2274223)
 * [Esprima](https://github.com/ariya/esprima)
 
 In addition, the following companies are using ESLint internally to validate their JavaScript:
