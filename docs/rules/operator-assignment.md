@@ -2,19 +2,21 @@
 
 JavaScript provides shorthand operators that combine variable assignment and some simple mathematical operations. For example, `x = x + 4` can be shortened to `x += 4`. The supported shorthand forms are as follows:
 
-Shorthand|Separate
----------|--------
-`x += y`|`x = x + y`
-`x -= y`|`x = x - y`
-`x *= y`|`x = x * y`
-`x /= y`|`x = x / y`
-`x %= y`|`x = x % y`
-`x <<= y`|`x = x << y`
-`x >>= y`|`x = x >> y`
-`x >>>= y`|`x = x >>> y`
-`x &= y`|`x = x & y`
-`x ^= y`|`x = x ^ y`
-`x |= y`|`x = x | y`
+```plain
+ Shorthand | Separate
+-----------|------------
+ x += y    | x = x + y
+ x -= y    | x = x - y
+ x *= y    | x = x * y
+ x /= y    | x = x / y
+ x %= y    | x = x % y
+ x <<= y   | x = x << y
+ x >>= y   | x = x >> y
+ x >>>= y  | x = x >>> y
+ x &= y    | x = x & y
+ x ^= y    | x = x ^ y
+ x |= y    | x = x | y
+```
 
 ## Rule Details
 
@@ -35,6 +37,7 @@ x = y * z;
 x = (x * y) * z;
 x[0] /= y;
 x[foo()] = x[foo()] % 2;
+x = y + x; // `+` is not always commutative (e.g. x = "abc")
 ```
 
 The following patterns are considered warnings and should be replaced by their shorthand equivalents:
