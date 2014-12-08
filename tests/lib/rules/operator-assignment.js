@@ -11,11 +11,16 @@
 var eslint = require("../../../lib/eslint"),
     ESLintTester = require("eslint-tester");
 
+//------------------------------------------------------------------------------
+// Tests
+//------------------------------------------------------------------------------
+
 var eslintTester = new ESLintTester(eslint);
 eslintTester.addRuleTest("lib/rules/operator-assignment", {
 
     valid: [
         "x = y",
+        "x = y + x",
         "x += x + y",
         "x = (x + y) - z",
         "x -= y",
@@ -46,6 +51,7 @@ eslintTester.addRuleTest("lib/rules/operator-assignment", {
         "x = x !== y",
         "x[y] = x['y'] + z",
         "x.y = x['y'] / z",
+        "x.y = z + x.y",
         "x[fn()] = x[fn()] + y",
         {
             code: "x += x + y",
@@ -74,12 +80,6 @@ eslintTester.addRuleTest("lib/rules/operator-assignment", {
             type: "AssignmentExpression"
         }]
     }, {
-        code: "x = y + x",
-        errors: [{
-            message: "Assignment can be replaced with operator assignment.",
-            type: "AssignmentExpression"
-        }]
-    }, {
         code: "x = x - y",
         errors: [{
             message: "Assignment can be replaced with operator assignment.",
@@ -87,6 +87,12 @@ eslintTester.addRuleTest("lib/rules/operator-assignment", {
         }]
     }, {
         code: "x = x * y",
+        errors: [{
+            message: "Assignment can be replaced with operator assignment.",
+            type: "AssignmentExpression"
+        }]
+    }, {
+        code: "x = y * x",
         errors: [{
             message: "Assignment can be replaced with operator assignment.",
             type: "AssignmentExpression"
@@ -141,12 +147,6 @@ eslintTester.addRuleTest("lib/rules/operator-assignment", {
         }]
     }, {
         code: "x = x | y",
-        errors: [{
-            message: "Assignment can be replaced with operator assignment.",
-            type: "AssignmentExpression"
-        }]
-    }, {
-        code: "x.y = z + x.y",
         errors: [{
             message: "Assignment can be replaced with operator assignment.",
             type: "AssignmentExpression"
