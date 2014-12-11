@@ -53,6 +53,12 @@ if (color == "blue") {
 }
 ```
 
+```js
+if (0 <= x && x < 1) {
+    // ...
+}
+```
+
 The following patterns are not considered warnings:
 
 ```js
@@ -74,6 +80,33 @@ if ("blue" == value) {
 }
 ```
 
+### Range Tests
+
+"Range" comparisons test whether a variable is inside or outside the range between two literals. When configured with the `exceptRange` option, range tests are allowed when the comparison itself is wrapped directly in parentheses, such as those of an `if` or `while` condition.
+
+```json
+"yoda": [2, "never", { "exceptRange": true }]
+```
+
+With the `exceptRange` option enabled, the following patterns become valid:
+
+```js
+function isRedish(color) {
+    return (color.hue < 60 || 300 < color.hue);
+}
+```
+
+```js
+if (count < 10 && (0 <= rand && rand < 1)) {
+    // ...
+}
+```
+
+```js
+function howLong(arr) {
+    return (0 <= arr.length && arr.length < 10) ? "short" : "long";
+}
+```
 
 ## Further Reading
 
