@@ -22,6 +22,7 @@ eslintTester.addRuleTest("lib/rules/no-loop-func", {
     ],
     invalid: [
         { code: "for (var i=0; i<l; i++) { (function() {}) }", errors: [{ message: "Don't make functions within a loop", type: "FunctionExpression"}] },
+        { code: "for (var i in {}) { (function() {}) }", errors: [{ message: "Don't make functions within a loop", type: "FunctionExpression"}] },
         { code: "for (var i=0; i<l; i++) { var a = function() {} }", errors: [{ message: "Don't make functions within a loop", type: "FunctionExpression"}] },
         { code: "for (var i=0; i<l; i++) { function a() {}; a(); }", errors: [{ message: "Don't make functions within a loop", type: "FunctionDeclaration"}] },
         { code: "while(i) { (function() {}) }", errors: [{ message: "Don't make functions within a loop", type: "FunctionExpression"}] },
