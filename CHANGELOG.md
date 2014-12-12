@@ -1,3 +1,12 @@
+v0.10.2 - December 12, 2014
+
+* 0.10.2 (Nicholas C. Zakas)
+* Fix: detect for...in in no-loop-func (fixes #1573) (Greg Cochard)
+* Update: simplify comma-spacing logic (fixes #1562) (Brandon Mills)
+* Fix: operator-assignment addition is non-commutative (fixes#1556) (Brandon Mills)
+* 0.10.1 (Nicholas C. Zakas)
+* Update: Add new-cap exception configurations. (Fixes #1487)  - `newCapsAllowed`  - `nonNewCapsAllowed` (Jordan Harband)
+
 v0.10.1 - December 6, 2014
 
 * 0.10.1 (Nicholas C. Zakas)
