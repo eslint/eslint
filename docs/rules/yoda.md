@@ -47,6 +47,12 @@ if (5 > count) {
 ```
 
 ```js
+if (-1 < str.indexOf(substr)) {
+    // ...
+}
+```
+
+```js
 // When ["always"]
 if (color == "blue") {
 	// ...
@@ -80,6 +86,13 @@ if ("blue" == value) {
 }
 ```
 
+```js
+// When ["always"]
+if (-1 < str.indexOf(substr)) {
+    // ...
+}
+```
+
 ### Range Tests
 
 "Range" comparisons test whether a variable is inside or outside the range between two literals. When configured with the `exceptRange` option, range tests are allowed when the comparison itself is wrapped directly in parentheses, such as those of an `if` or `while` condition.
@@ -91,8 +104,14 @@ if ("blue" == value) {
 With the `exceptRange` option enabled, the following patterns become valid:
 
 ```js
-function isRedish(color) {
+function isReddish(color) {
     return (color.hue < 60 || 300 < color.hue);
+}
+```
+
+```js
+if (x < -1 || 1 < x) {
+    // ...
 }
 ```
 
