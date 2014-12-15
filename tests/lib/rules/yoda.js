@@ -56,6 +56,9 @@ eslintTester.addRuleTest("lib/rules/yoda", {
         }, {
             code: "if (a < 4 || (b[c[0]].d['e'] < 0 || 1 <= b[c[0]].d['e'])) {}",
             args: [2, "never", { exceptRange: true }]
+        }, {
+            code: "if (-1 < x && x < 0) {}",
+            args: [2, "never", { exceptRange: true }]
         }
     ],
     invalid: [
@@ -141,6 +144,16 @@ eslintTester.addRuleTest("lib/rules/yoda", {
             ]
         },
         {
+            code: "if (-1 < str.indexOf(substr)) {}",
+            args: [2, "never"],
+            errors: [
+                {
+                    message: "Expected literal to be on the right side of <.",
+                    type: "BinaryExpression"
+                }
+            ]
+        },
+        {
             code: "if (value == \"red\") {}",
             args: [2, "always"],
             errors: [
@@ -211,11 +224,41 @@ eslintTester.addRuleTest("lib/rules/yoda", {
             ]
         },
         {
+            code: "if (0 <= x && x < -1) {}",
+            args: [2, "never", { exceptRange: true }],
+            errors: [
+                {
+                    message: "Expected literal to be on the right side of <=.",
+                    type: "BinaryExpression"
+                }
+            ]
+        },
+        {
             code: "var a = (b < 0 && 0 <= b);",
             args: [2, "always", { exceptRange: true }],
             errors: [
                 {
                     message: "Expected literal to be on the left side of <.",
+                    type: "BinaryExpression"
+                }
+            ]
+        },
+        {
+            code: "if (0 <= a[b] && a['b'] < 1) {}",
+            args: [2, "never", { exceptRange: true }],
+            errors: [
+                {
+                    message: "Expected literal to be on the right side of <=.",
+                    type: "BinaryExpression"
+                }
+            ]
+        },
+        {
+            code: "if (0 <= a[b()] && a[b()] < 1) {}",
+            args: [2, "never", { exceptRange: true }],
+            errors: [
+                {
+                    message: "Expected literal to be on the right side of <=.",
                     type: "BinaryExpression"
                 }
             ]
