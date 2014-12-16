@@ -33,7 +33,9 @@ eslintTester.addRuleTest("lib/rules/semi", {
         { code: "(function bar() {})\n;(function foo(){})", args: [1, "never"] },
         { code: ";/foo/.test('bar')", args: [1, "never"] },
         { code: ";+5", args: [1, "never"] },
-        { code: ";-foo()", args: [1, "never"] }
+        { code: ";-foo()", args: [1, "never"] },
+        { code: "a++\nb++", args: [1, "never"] },
+        { code: "a++; b++", args: [1, "never"] }
     ],
     invalid: [
         { code: "function foo() { return [] }", errors: [{ message: "Missing semicolon.", type: "ReturnStatement"}] },
