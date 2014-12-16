@@ -440,7 +440,7 @@ describe("CLIEngine", function() {
                 assert.equal(report.results[0].messages[2].severity, 2);
             });
 
-            // Default configuration - conf/environments.json (/*eslint-env node*/)
+            // Default configuration - conf/environments.js (/*eslint-env node*/)
             it("should return one message when executing with no .eslintrc in the Node.js environment", function () {
 
                 engine = new CLIEngine({

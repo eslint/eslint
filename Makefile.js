@@ -376,7 +376,7 @@ target.checkRuleFiles = function() {
     echo("Validating rules");
 
     var eslintConf = require("./conf/eslint.json");
-    var environmentsConf = require("./conf/environments.json");
+    var environmentsConf = require("./conf/environments");
 
     var confRules = {};
     confRules["default"] = eslintConf.rules;
