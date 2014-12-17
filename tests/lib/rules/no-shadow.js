@@ -17,7 +17,7 @@ var eslint = require("../../../lib/eslint"),
 var eslintTester = new ESLintTester(eslint);
 eslintTester.addRuleTest("lib/rules/no-shadow", {
     valid: [
-        "var a=3; function b(a) { a++; return a; }; setTimeout(function() { b(a); }, 0);",
+        "var a=3; function b(x) { a++; return x + a; }; setTimeout(function() { b(a); }, 0);",
         "(function() { var doSomething = function doSomething() {}; doSomething() }())"
     ],
     invalid: [
@@ -37,6 +37,15 @@ eslintTester.addRuleTest("lib/rules/no-shadow", {
                 type: "Identifier",
                 line: 1,
                 column: 42
+            }]
+        },
+        {
+            code: "var x = 1; function a(x) { return ++x; }",
+            errors: [{
+                message: "x is already declared in the upper scope.",
+                type: "Identifier",
+                line: 1,
+                column: 22
             }]
         },
         {

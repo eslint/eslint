@@ -425,9 +425,9 @@ target.checkRuleFiles = function() {
             }
         }
 
-        function hasIdInTitle(basename) {
+        function hasIdInTitle(id) {
             var docText = cat(docFilename);
-            var idInTitleRegExp = new RegExp("^# (.*?) \\(" + basename + "\\)");
+            var idInTitleRegExp = new RegExp("^# (.*?) \\(" + id + "\\)");
             return idInTitleRegExp.test(docText);
         }
 
