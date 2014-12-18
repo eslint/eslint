@@ -3,7 +3,7 @@
 ESLint is designed to be completely configurable, meaning you can turn off every rule and run only with basic syntax validation, or mix and match the bundled rules and your custom rules to make ESLint perfect for your project. There are two primary ways to configure ESLint:
 
 1. **Configuration Comments** - use JavaScript comments to embed configuration information directly into a file.
-1. **Configuration Files** - use a JSON or YAML file to specify configuration information for an entire directory and all of its subdirectories. This can be in the form of `.eslintrc` file, which ESLint will look for and read automatically, or you can specify a configuration file on the [command line](../command-line-interface).
+1. **Configuration Files** - use a JSON or YAML file to specify configuration information for an entire directory and all of its subdirectories. This can be in the form of an `.eslintrc` file or an `eslintConfig` field in a `package.json` file, both of which ESLint will look for and read automatically, or you can specify a configuration file on the [command line](../command-line-interface).
 
 There are several pieces of information that can be configured:
 
@@ -35,13 +35,28 @@ To specify environments using a comment inside of your JavaScript file, use the 
 
 This enables Node.js and Mocha environments.
 
-To specify environments in a configuration file, use the `env` key and specify which environments you want to enable by setting each to `true`. For example, the following JSON enables the browser and Node.js environments:
+To specify environments in a configuration file, use the `env` key and specify which environments you want to enable by setting each to `true`. For example, the following enables the browser and Node.js environments:
 
 ```json
 {
     "env": {
         "browser": true,
         "node": true
+    }
+}
+```
+
+Or in a `package.json` file
+
+```json
+{
+    "name": "mypackage",
+    "version": "0.0.1",
+    "eslintConfig": {
+        "env": {
+            "browser": true,
+            "node": true
+        }
     }
 }
 ```
@@ -227,15 +242,65 @@ There are two ways to use configuration files. The first is to save the file whe
 
     eslint -c myconfig.json myfiletotest.js
 
-Passing in the configuration file in this manner will override any default settings.
+The second way to use configuration files is via `.eslintrc` and `package.json` files. ESLint will automatically look for them in the directory of the file to be linted, and in successive parent directories all the way up to the root directory of the filesystem. This option is useful when you want different configurations for different parts of a project or when you want others to be able to use ESLint directly without needing to remember to pass in the configuration file.
 
-The second way to use configuration files is via `.eslintrc` files. Place these files in any directory and ESLint will automatically find them when invoked there or in any subdirectories. This option is useful when you want different configurations for different parts of a project or when you want others to be able to use ESLint directly without needing to remember to pass in the configuration file.
+In each case, the settings in the configuration file override default settings.
 
-In either case, the settings in the configuration file override default settings.
+## Configuration Cascading and Hierarchy
+
+When using `.eslintrc` and `package.json` files for configuration, you can take advantage of configuration cascading. For instance, suppose you have the following structure:
+
+```
+your-project
+├── .eslintrc
+├── lib
+│ └── source.js
+└─┬ tests
+  └─┬ .eslintrc
+    └── test.js
+```
+
+The configuration cascade works by using the closest `.eslintrc` file to the file being linted as the highest priority, then any configuration files in the parent directory, and so on. When you run ESLint on this project, all files in `lib/` will use the `.eslintrc` file at the root of the project as their configuration. When ESLint traverses into the `tests/` directory, it will then use `your-project/tests/.eslintrc` in addition to `your-project/.eslintrc`. So `your-project/tests/test.js` is linted based on the combination of the two `.eslintrc` files in its directory hierarchy, with the closest one taking priority. In this way, you can have project-level ESLint settings and also have directory-specific overrides.
+
+In the same way, if there is a `package.json` file in the root directory with an `eslintConfig` field, the configuration it describes will apply to all subdirectories beneath it, but the configuration described by the `.eslintrc` file in the tests directory will override it where there are conflicting specifications.
+
+```
+your-project
+├── package.json
+├── lib
+│ └── source.js
+└─┬ tests
+  └─┬ .eslintrc
+    └── test.js
+```
+
+If there is an `.eslintrc` and a `package.json` file found in the same directory, both will be used, with the `.eslintrc` having the higher precendence.
+
+The complete configuration hierarchy, from highest precedence to lowest precedence, is as follows:
+
+1. Inline configuration
+    1. `/*eslint-disable*/`
+    1. `/*global*/`
+    1. `/*eslint*/`
+    1. `/*eslint-env*/`
+2. Command line options:
+    1. `--global`
+    1. `--rule`
+    1. `--env`
+    1. `-c`, `--config`
+3. Project-level configuration:
+    1. `.eslintrc` file in same directory as linted file
+    1. `package.json` file in same directory as linted file
+    1. Continue searching for `.eslintrc` and `package.json` files in ancestor directories (parent has highest precedence, then grandparent, etc.), up to and including the root directory.
+    1. In the absence of any configuration from (i) and (ii), fall back to `~/.eslintrc` - personal default configuration
+4. ESLint default configuration:
+    1. `environments.json`
+    1. `eslint.json`
+    1. Blank (no config)
 
 ## Comments in Configuration Files
 
-Both the JSON and YAML configuration file formats support comments. You can use JavaScript-style comments or YAML-style comments in either type of file and ESLint will safely ignore them. This allows your configuration files to be more human-friendly. For example:
+Both the JSON and YAML configuration file formats support comments (`package.json` files should not include them). You can use JavaScript-style comments or YAML-style comments in either type of file and ESLint will safely ignore them. This allows your configuration files to be more human-friendly. For example:
 
 ```js
 {
@@ -316,39 +381,3 @@ foo.js
 
 This message occurs because ESLint is unsure if you wanted to actually lint the file or not. As the message indicates, you can use `--no-eslintignore` to omit using the ignore rules.
 
-## Configuration Cascading and Hierarchy
-
-When you use `.eslintrc` files for configuration, you can take advantage of configuration cascading. For instance, suppose you have the following structure:
-
-```
-your-project
-├── .eslintrc
-├── lib
-│ └── source.js
-└─┬ tests
-  └─┬ .eslintrc
-    └── test.js
-```
-
-The configuration cascade works by using the closest `.eslintrc` file to the file being linted as the highest priority, then any configuration files in the parent directory, and so on. When you run ESLint on this project, all files in `lib/` will use the `.eslintrc` file at the root of the project as their configuration, so `your-project/lib/source.js` is only affected by `your-project/.eslintrc`. When ESLint traverses into the `tests/` directory, it will then use `your-project/tests/.eslintrc` in addition to `your-project/.eslintrc`. So `your-project/tests/test.js` is linted based on the combination of the two `.eslintrc` files in its directory hierarchy, with the closest one taking priority. In this way, you can have project-level ESLint settings and also have directory-specific overrides.
-
-The complete configuration hierarchy, from highest priority to lowest priority, is as follows:
-
-1. Inline configuration
-    1. `/*eslint-disable*/`
-    1. `/*global*/`
-    1. `/*eslint*/`
-    1. `/*eslint-env*/`
-2. Command line options:
-    1. `--global`
-    1. `--rule`
-    1. `--env`
-    1. `-c`, `--config`
-3. Project-level configuration:
-    1. `.eslintrc` file in same directory as linted file
-    1. Continue searching for `.eslintrc` in ancestor directories (parent has highest priority, then grandparent, etc.), up to and including the root directory.
-    1. XOR, in the absence of any defined `.eslintrc` rules in (i) and (ii), fall back to `~/.eslintrc` - personal default configuration
-4. ESLint default configuration:
-    1. `environments.json`
-    1. `eslint.json`
-    1. Blank (no config)

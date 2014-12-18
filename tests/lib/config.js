@@ -87,24 +87,40 @@ describe("Config", function() {
         rm("-r", fixtureDir);
     });
 
-    describe("findLocalConfigFile()", function() {
+    describe("findLocalConfigFiles()", function() {
 
         it("should return the path when an .eslintrc file is found", function() {
             var configHelper = new Config(),
                 expected = getFixturePath("broken", ".eslintrc"),
-                actual = configHelper.findLocalConfigFile(getFixturePath("broken"));
+                actual = configHelper.findLocalConfigFiles(getFixturePath("broken"))[0];
 
             assert.equal(actual, expected);
         });
 
-        it("should return an empty string when an .eslintrc file is not found", function() {
+        it("should return an empty array when an .eslintrc file is not found", function() {
             var configHelper = new Config(),
-                expected = "",
-                actual = configHelper.findLocalConfigFile(getFixturePath());
+                actual = configHelper.findLocalConfigFiles(getFixturePath());
+
+            assert.isArray(actual);
+            assert.lengthOf(actual, 0);
+        });
+
+         it("should return the path when a package.json file is found", function() {
+            var configHelper = new Config(),
+                expected = getFixturePath("broken", "package.json"),
+                // The first element of the array is the .eslintrc in the same directory.
+                actual = configHelper.findLocalConfigFiles(getFixturePath("broken"))[1];
 
             assert.equal(actual, expected);
         });
 
+        it("should return an empty array when a package.json file is not found", function() {
+            var configHelper = new Config(),
+                actual = configHelper.findLocalConfigFiles(getFixturePath());
+
+            assert.isArray(actual);
+            assert.lengthOf(actual, 0);
+        });
     });
 
     describe("getConfig()", function() {
@@ -158,14 +174,14 @@ describe("Config", function() {
             var configPath = path.resolve(__dirname, "..", "fixtures", "configurations", "single-quotes", ".eslintrc");
             var configHelper = new Config();
 
-            sandbox.spy(configHelper, "findLocalConfigFile");
+            sandbox.spy(configHelper, "findLocalConfigFiles");
 
             // If cached this should be called only once
             configHelper.getConfig(configPath);
-            var callcount = configHelper.findLocalConfigFile.callcount;
+            var callcount = configHelper.findLocalConfigFiles.callcount;
             configHelper.getConfig(configPath);
 
-            assert.equal(configHelper.findLocalConfigFile.callcount, callcount);
+            assert.equal(configHelper.findLocalConfigFiles.callcount, callcount);
         });
 
         // make sure JS-style comments don't throw an error
