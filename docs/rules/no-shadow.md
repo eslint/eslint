@@ -31,8 +31,6 @@ var b = function () {
 }
 ```
 
-The following patterns are considered okay and do not cause warnings:
-
 ```js
 var a = 3;
 function b(a) {
