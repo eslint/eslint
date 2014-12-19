@@ -11,7 +11,7 @@ var assert = require("chai").assert,
     util = require("../../lib/util"),
     path = require("path"),
     baseConfig = require("../../conf/eslint.json"),
-    environments = require("../../conf/environments.json"),
+    environments = require("../../conf/environments"),
     yaml = require("js-yaml"),
 
     fs = require("fs"),
