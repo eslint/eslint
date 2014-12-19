@@ -22,26 +22,24 @@ The command line utility has several options. You can view the options by runnin
 eslint [options] file.js [file.js] [dir]
 
 Options:
-  -h, --help                 Show help.
-  -c, --config path::String  Load configuration data from this file.
-  --rulesdir [path::String]  Load additional rules from this directory.
-  -f, --format String        Use a specific output format. - default: stylish
-  -v, --version              Outputs the version number.
-  --reset                    Set all default rules to off.
-  --eslintrc                 Enable loading .eslintrc configuration. -
-                             default: true
-  --env [String]             Specify environments.
-  --ext [String]             Specify JavaScript file extensions. - default: .js
-  --plugin [String]          Specify plugins.
-  --global [String]          Define global variables.
-  --rule Object              Specify rules.
-  --ignore-path path::String  Specify the file that contains patterns of files
-                              to ignore.
-  --ignore                   Enable loading of .eslintignore. - default: true
-  --color                    Enable color in piped output. - default: true
-  -o, --output-file path::String  Enable report to be written to a file.
-  --quiet                    Report errors only. - default: false
-  --stdin                    Lint code provided on <STDIN>. - default: false
+  -h, --help                 Show help
+  -c, --config path::String  Use configuration from this file
+  --rulesdir [path::String]  Use additional rules from this directory
+  -f, --format String        Use a specific output format - default: stylish
+  -v, --version              Outputs the version number
+  --reset                    Set all default rules to off
+  --eslintrc                 Use configuration from .eslintrc - default: true
+  --env [String]             Specify environments
+  --ext [String]             Specify JavaScript file extensions - default: .js
+  --plugin [String]          Specify plugins
+  --global [String]          Define global variables
+  --rule Object              Specify rules
+  --ignore-path path::String  Specify path of ignore file
+  --ignore                   Use .eslintignore - default: true
+  --color                    Use color in piped output - default: true
+  -o, --output-file path::String  Specify file to write report to
+  --quiet                    Report errors only - default: false
+  --stdin                    Lint code provided on <STDIN> - default: false
 ```
 
 ### `-h`, `--help`
@@ -125,7 +123,7 @@ Example:
 
 ### `--eslintrc`
 
-This option, on by default, enables automatically loading `.eslintrc` configuration files. Use as `--no-eslintrc` to disable.
+This option, on by default, specifies whether to use configuration from `.eslintrc` and `package.json` files. Use as `--no-eslintrc` to disable.
 
 Example
 
