@@ -364,7 +364,7 @@ describe("CLIEngine", function() {
         });
 
 
-        it("should return zero messages and ignore local config file when executing with no-eslintrc flag", function () {
+        it("should return zero messages and ignore .eslintrc files when executing with no-eslintrc flag", function () {
 
             engine = new CLIEngine({
                 ignore: false,
@@ -379,17 +379,19 @@ describe("CLIEngine", function() {
             assert.equal(report.results[0].messages.length, 0);
         });
 
-        it("should return zero messages when executing with local config file", function () {
+        it("should return zero messages and ignore package.json files when executing with no-eslintrc flag", function () {
 
             engine = new CLIEngine({
                 ignore: false,
-                reset: true
+                reset: true,
+                useEslintrc: false,
+                envs: ["node"]
             });
 
-            var report = engine.executeOnFiles(["./tests/fixtures/eslintrc/quotes.js"]);
+            var report = engine.executeOnFiles(["./tests/fixtures/packagejson/quotes.js"]);
             assert.equal(report.results.length, 1);
-            assert.equal(report.results[0].filePath, "./tests/fixtures/eslintrc/quotes.js");
-            assert.equal(report.results[0].messages.length, 1);
+            assert.equal(report.results[0].filePath, "./tests/fixtures/packagejson/quotes.js");
+            assert.equal(report.results[0].messages.length, 0);
         });
 
         // These tests have to do with https://github.com/eslint/eslint/issues/963
@@ -492,8 +494,6 @@ describe("CLIEngine", function() {
                 assert.equal(report.results[0].messages[0].severity, 2);
             });
 
-            // Project configuration - package.json (TODO)
-
             // Project configuration - second level .eslintrc
             it("should return one message when executing with local .eslintrc that overrides parent .eslintrc", function () {
 
@@ -520,6 +520,60 @@ describe("CLIEngine", function() {
                 assert.equal(report.results[0].messages.length, 1);
                 assert.equal(report.results[0].messages[0].ruleId, "quotes");
                 assert.equal(report.results[0].messages[0].severity, 1);
+            });
+
+            // Project configuration - first level package.json
+            it("should return one message when executing with package.json", function () {
+
+                engine = new CLIEngine({
+                    reset: true
+                });
+
+                var report = engine.executeOnFiles([fixtureDir + "/config-hierarchy/packagejson/subdir/wrong-quotes.js"]);
+                assert.equal(report.results.length, 1);
+                assert.equal(report.results[0].messages.length, 1);
+                assert.equal(report.results[0].messages[0].ruleId, "quotes");
+                assert.equal(report.results[0].messages[0].severity, 1);
+            });
+
+             // Project configuration - second level package.json
+            it("should return zero messages when executing with local package.json that overrides parent package.json", function () {
+
+                engine = new CLIEngine({
+                    reset: true
+                });
+
+                var report = engine.executeOnFiles([fixtureDir + "/config-hierarchy/packagejson/subdir/subsubdir/wrong-quotes.js"]);
+                assert.equal(report.results.length, 1);
+                assert.equal(report.results[0].messages.length, 0);
+            });
+
+            // Project configuration - third level package.json
+            it("should return one message when executing with local package.json that overrides parent and grandparent package.json", function () {
+
+                engine = new CLIEngine({
+                    reset: true
+                });
+
+                var report = engine.executeOnFiles([fixtureDir + "/config-hierarchy/packagejson/subdir/subsubdir/subsubsubdir/wrong-quotes.js"]);
+                assert.equal(report.results.length, 1);
+                assert.equal(report.results[0].messages.length, 1);
+                assert.equal(report.results[0].messages[0].ruleId, "quotes");
+                assert.equal(report.results[0].messages[0].severity, 2);
+            });
+
+            // Project configuration - .eslintrc overrides package.json in same directory
+            it("should return one message when executing with .eslintrc that overrides a package.json in the same directory", function () {
+
+                engine = new CLIEngine({
+                    reset: true
+                });
+
+                var report = engine.executeOnFiles([fixtureDir + "/config-hierarchy/packagejson/wrong-quotes.js"]);
+                assert.equal(report.results.length, 1);
+                assert.equal(report.results[0].messages.length, 1);
+                assert.equal(report.results[0].messages[0].ruleId, "quotes");
+                assert.equal(report.results[0].messages[0].severity, 2);
             });
 
             // Command line configuration - --config with first level .eslintrc
