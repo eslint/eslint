@@ -37,7 +37,7 @@ This object's responsibilities include:
 * Managing the execution environment for `eslint`
 * Reading from the file system
 * Loading rule definitions
-* Reading configuration information from config files (including `.eslintrc`)
+* Reading configuration information from config files (including `.eslintrc` and `package.json`)
 
 This object may not:
 
