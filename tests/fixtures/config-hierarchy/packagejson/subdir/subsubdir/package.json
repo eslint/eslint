@@ -1,0 +1,9 @@
+{
+  "name": "",
+  "version": "",
+  "eslintConfig": {
+    "rules": {
+      "quotes": [2, "single"]
+    }
+  }
+}

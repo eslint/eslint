@@ -92,7 +92,7 @@ var cli = new CLIEngine({
 });
 ```
 
-In this code, a new `CLIEngine` instance is created that sets two environments, `"browser"` and `"mocha"`, disables loading of `.eslintrc` files, and enables the `semi` rule as an error. You can then call methods on `cli` and these options will be used to perform the correct action.
+In this code, a new `CLIEngine` instance is created that sets two environments, `"browser"` and `"mocha"`, disables loading of `.eslintrc` and `package.json` files, and enables the `semi` rule as an error. You can then call methods on `cli` and these options will be used to perform the correct action.
 
 ### executeOnFiles()
 
