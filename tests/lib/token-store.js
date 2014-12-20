@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 var assert = require("chai").assert,
-    esprima = require("esprima"),
+    espree = require("espree"),
     TokenStore = require("../../lib/token-store");
 
 //------------------------------------------------------------------------------
@@ -18,7 +18,7 @@ var assert = require("chai").assert,
 //------------------------------------------------------------------------------
 
 var SOURCE_CODE = "var answer = a * b\n    call();\n",
-    AST = esprima.parse(SOURCE_CODE, { loc: true, range: true, tokens: true }),
+    AST = espree.parse(SOURCE_CODE, { loc: true, range: true, tokens: true }),
     TOKENS = AST.tokens,
     Program = AST,
     VariableDeclaration = Program.body[0],
