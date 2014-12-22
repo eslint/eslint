@@ -143,10 +143,10 @@ describe("Config", function() {
                 config;
 
             config = configHelper.getConfig(firstpath);
-            assert.equal(config.rules["dot-notation"], 0);
+            assert.equal(config.rules["no-new"], 0);
 
             config = configHelper.getConfig(secondpath);
-            assert.equal(config.rules["dot-notation"], 2);
+            assert.equal(config.rules["no-new"], 1);
         });
 
         it("should return a default config when an invalid path is given", function() {
