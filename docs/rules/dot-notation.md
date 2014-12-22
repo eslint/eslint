@@ -22,7 +22,15 @@ The following patterns are not considered warnings:
 var x = foo.bar;
 
 var x = foo[bar];    // Property name is a variable, square-bracket notation required
+```
 
+Set the `allowKeywords` option to `false` (default is `true`) to follow ECMAScript version 3 compatible style, avoiding dot notation for reserved word properties.
+
+```
+  "dot-notation": [2, {"allowKeywords": false}],
+```
+
+```js
 var foo = { "class": "CS 101" }
 var x = foo["class"]; // Property name is a reserved word, square-bracket notation required
 ```
