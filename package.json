@@ -38,7 +38,7 @@
     "debug": "^2.0.0",
     "doctrine": "^0.6.2",
     "escope": "~1.0.0",
-    "espree": "^1.2.2",
+    "espree": "^1.3.1",
     "estraverse": "~1.5.1",
     "globals": "^4.0.0",
     "js-yaml": "~3.2.2",
