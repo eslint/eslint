@@ -22,19 +22,26 @@ eslintTester.addRuleTest("lib/rules/dot-notation", {
         "a['12'];",
         "a[b];",
         "a[0];",
-        "a['while'];",
-        "a['true'];",
-        "a['false'];",
-        "a['null'];",
-        "a[true];",
-        "a[false];",
-        "a[null];",
+        { code: "a.b.c;", args: [2, {allowKeywords: false}] },
+        { code: "a[0];", args: [2, {allowKeywords: false}] },
+        { code: "a['while'];", args: [2, {allowKeywords: false}] },
+        { code: "a['true'];", args: [2, {allowKeywords: false}] },
+        { code: "a['null'];", args: [2, {allowKeywords: false}] },
+        { code: "a[true];", args: [2, {allowKeywords: false}] },
+        { code: "a[null];", args: [2, {allowKeywords: false}] },
+        { code: "a.true;", args: [2, {allowKeywords: true}] },
+        { code: "a.null;", args: [2, {allowKeywords: true}] },
+        "a.true;",
+        "a.null;",
         "a[undefined];",
         "a[void 0];",
         "a[b()];"
     ],
     invalid: [
-        { code: "a['b'];", errors: [{ message: "['b'] is better written in dot notation." }] },
-        { code: "a.b['c'];", errors: [{ message: "['c'] is better written in dot notation." }] }
+        { code: "a.true;", args: [2, {allowKeywords: false}], errors: [{ message: ".true is a syntax error." }] },
+        { code: "a['true'];", errors: [{ message: "[\"true\"] is better written in dot notation." }] },
+        { code: "a[null];", errors: [{ message: "[null] is better written in dot notation." }] },
+        { code: "a['b'];", errors: [{ message: "[\"b\"] is better written in dot notation." }] },
+        { code: "a.b['c'];", errors: [{ message: "[\"c\"] is better written in dot notation." }] }
     ]
 });
