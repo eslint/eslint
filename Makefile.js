@@ -379,7 +379,7 @@ target.checkRuleFiles = function() {
     var environmentsConf = require("./conf/environments");
 
     var confRules = {};
-    confRules["default"] = eslintConf.rules;
+    confRules.default = eslintConf.rules;
     Object.keys(environmentsConf).forEach(function (env) {
         confRules[env] = environmentsConf[env].rules;
     });
