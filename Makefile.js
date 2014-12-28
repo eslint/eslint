@@ -93,33 +93,38 @@ function generateRulesIndex(basedir) {
 }
 
 /**
- * Creates a release version tag and pushes to origin.
- * @param {string} type The type of release to do (patch, minor, major)
- * @returns {void}
- */
-function release(type) {
-    target.test();
-    exec("npm version " + type);
-    target.changelog();
-
-    // add changelog to commit
-    exec("git add CHANGELOG.md");
-    exec("git commit --amend --no-edit");
-
-    // push all the things
-    exec("git push origin master --tags");
-    exec("npm publish");
-    target.gensite();
-    target.publishsite();
-}
-
-/**
  * Executes a command and returns the output instead of printing it to stdout.
  * @param {string} cmd The command string to execute.
  * @returns {string} The result of the executed command.
  */
 function execSilent(cmd) {
     return exec(cmd, { silent: true }).output;
+}
+
+/**
+ * Creates a release version tag and pushes to origin.
+ * @param {string} type The type of release to do (patch, minor, major)
+ * @returns {void}
+ */
+function release(type) {
+    var newVersion;
+
+    target.test();
+    newVersion = execSilent("npm version " + type).trim();
+    target.changelog();
+
+    // add changelog to commit
+    exec("git add CHANGELOG.md");
+    exec("git commit --amend --no-edit");
+
+    // replace existing tag
+    exec("git tag -f " + newVersion);
+
+    // push all the things
+    exec("git push origin master --tags");
+    exec("npm publish");
+    target.gensite();
+    target.publishsite();
 }
 
 /**
