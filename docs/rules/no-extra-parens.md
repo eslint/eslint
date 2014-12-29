@@ -32,7 +32,12 @@ The following patterns are not considered warnings:
 (function(){} ? a() : b())
 ```
 
+```js
+(/^a$/).test(var)
+```
+
 IIFEs are excluded from this requirement, so the `(function(){}())` pattern is allowed in any position.
+RegExp literals are also excluded from this requirement, so the `(/abc/).test(var)` pattern is allowed in any position as well.
 
 
 ## Further Reading
