@@ -103,6 +103,12 @@ eslintTester.addRuleTest("lib/rules/no-extra-parens", {
         "({a: function(){}}.a());",
         "({a:0}.a ? b : c)",
 
+        // RegExp literal is allowed to have parens (#1589)
+        "var isA = (/^a$/).test('a');",
+        "var regex = (/^a$/);",
+        "function a(){ return (/^a$/); }",
+        "function a(){ return (/^a$/).test('a'); }",
+
         // IIFE is allowed to have parens in any position (#655)
         "var foo = (function() { return bar(); }())",
         "var o = { foo: (function() { return bar(); }()) };",
