@@ -33,7 +33,9 @@ eslintTester.addRuleTest("lib/rules/padded-blocks", {
         { code: "{a();\n}", args: [1, "never"]},
         { code: "{a();}", args: [1, "never"]},
         { code: "{//comment\na();}", args: [1, "never"]},
-        { code: "{a();//comment\n}", args: [1, "never"]}
+        { code: "{a();//comment\n}", args: [1, "never"]},
+        { code: "function a() {\n/* comment */\nreturn;\n/* comment*/\n}", args: [1, "never"] },
+        { code: "{\n// comment\ndebugger;\n// comment\n}", args: [1, "never"] }
     ],
     invalid: [
         { code: "{\n//comment\na();\n\n}", errors: [expectedPaddingError] },
