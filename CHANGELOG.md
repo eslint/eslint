@@ -1,3 +1,23 @@
+v0.11.0 - December 30, 2014
+
+* 0.11.0 (Nicholas C. Zakas)
+* Fix: Adding regexp literal exception (fixes #1589) (Greg Cochard)
+* Fix: padded-blocks incorrectly complained on comments (fixes #1416) (Mathias Schreck)
+* Fix: column location of key-spacing with additional tokens (fixes #1458) (Mathias Schreck)
+* Build: tag correct commit (refs #1606) (Mathias Schreck)
+* Upgrade: Updat Espree to 1.3.1 (Nicholas C. Zakas)
+* Fix: add es3 config option to dot-notation rule (fixes #1484) (Michael Ficarra)
+* Fix: valid-jsdoc should recognize @class (fixes #1585) (Nicholas C. Zakas)
+* Update: Switch to use Espree (fixes #1595) (Nicholas C. Zakas)
+* Fix: brace-style stroustrup should report on cuddled elseif (fixes #1583) (Ian Christian Myers)
+* New: Configuration via package.json (fixes #698) (Michael Mclaughlin)
+* Update: Set environments w/ globals (fixes #1577) (Elan Shanker)
+* Fix: yoda treats negative numbers as literals (fixes #1571) (Brandon Mills)
+* Fix: function arguments now count towards no-shadow check (fixes #1584) (Glen Mailer)
+* Fix: check if next statement is on newline when warning against extra semicolons. (fixes #1580) (Evan You)
+* Update: add yoda exception for range tests (fixes #1561) (Brandon Mills)
+* New: space-after-function-name (fixes #1340) (Roberto Vidal)
+
 v0.10.2 - December 12, 2014
 
 * 0.10.2 (Nicholas C. Zakas)
