@@ -10,7 +10,7 @@
 
 ESLint is a tool for identifying and reporting on patterns found in ECMAScript/JavaScript code. In many ways, it is similar to JSLint and JSHint with a few exceptions:
 
-* ESLint uses Esprima for JavaScript parsing.
+* ESLint uses [Espree](https://github.com/eslint/espree) for JavaScript parsing.
 * ESLint uses an AST to evaluate patterns in code.
 * ESLint is completely pluggable, every single rule is a plugin and you can add more at runtime.
 
@@ -36,7 +36,7 @@ That's not really a question, but I got it. I'm not trying to convince you that 
 
 ### How does ESLint performance compare to JSHint?
 
-ESLint is slower than JSHint, usually 2-3x slower on a single file. This is because ESLint uses Esprima to construct an AST before it can evaluate your code whereas JSHint evaluates your code as it's being parsed. The speed is also based on the number of rules you enable; the more rules you enable, the slower the process. 
+ESLint is slower than JSHint, usually 2-3x slower on a single file. This is because ESLint uses Espree to construct an AST before it can evaluate your code whereas JSHint evaluates your code as it's being parsed. The speed is also based on the number of rules you enable; the more rules you enable, the slower the process.
 
 Despite being slower, we believe that ESLint is fast enough to replace JSHint without causing significant pain.
 
@@ -45,7 +45,7 @@ Despite being slower, we believe that ESLint is fast enough to replace JSHint wi
 The following projects are using ESLint to validate their JavaScript:
 
 * [WebKit](https://bugs.webkit.org/show_bug.cgi?id=125048)
-* [Drupal](https://www.drupal.org/node/2264205)
+* [Drupal](https://www.drupal.org/node/2274223)
 * [Esprima](https://github.com/ariya/esprima)
 
 In addition, the following companies are using ESLint internally to validate their JavaScript:
@@ -59,7 +59,7 @@ Check out the [ESLint Roadmap](https://github.com/eslint/eslint/wiki/Release-goa
 
 ### What about ECMAScript 6 support?
 
-At the moment, ES6 support is turned off due to the experimental nature of the support in Esprima. There is basic support for `let` and `const`, but aside from that, the rest of the features are unsupported. We will re-evaluate ES6 support for v0.9.0.
+We are implementing ECMAScript 6 support piece-by-piece starting with version 0.12.0. You'll be able to opt-in to any ECMAScript 6 feature you want to use.
 
 ### Where to ask for help?
 
