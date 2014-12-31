@@ -256,8 +256,8 @@ your-project
 ├── lib
 │ └── source.js
 └─┬ tests
-  └─┬ .eslintrc
-    └── test.js
+  ├── .eslintrc
+  └── test.js
 ```
 
 The configuration cascade works by using the closest `.eslintrc` file to the file being linted as the highest priority, then any configuration files in the parent directory, and so on. When you run ESLint on this project, all files in `lib/` will use the `.eslintrc` file at the root of the project as their configuration. When ESLint traverses into the `tests/` directory, it will then use `your-project/tests/.eslintrc` in addition to `your-project/.eslintrc`. So `your-project/tests/test.js` is linted based on the combination of the two `.eslintrc` files in its directory hierarchy, with the closest one taking priority. In this way, you can have project-level ESLint settings and also have directory-specific overrides.
@@ -270,8 +270,8 @@ your-project
 ├── lib
 │ └── source.js
 └─┬ tests
-  └─┬ .eslintrc
-    └── test.js
+  ├── .eslintrc
+  └── test.js
 ```
 
 If there is an `.eslintrc` and a `package.json` file found in the same directory, both will be used, with the `.eslintrc` having the higher precendence.
