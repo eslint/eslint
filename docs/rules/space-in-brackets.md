@@ -14,7 +14,7 @@ foo['bar'];
 
 ## Rule Details
 
-This rule aims to maintain consistency around the spacing inside of square brackets, either by disallowing spaces inside of brackets between the brackets and other tokens or enforcing spaces. Multi-line array and object literals with no values on the same line as the brackets are excepted from this rule as this is a common pattern.  Object literals that are used as the first or last element in an array are also ignored.
+This rule aims to maintain consistency around the spacing inside of square brackets, either by disallowing spaces inside of brackets between the brackets and other tokens or enforcing spaces. Brackets that are separated from the adjacent value by a new line are excepted from this rule, as this is a common pattern.  Object literals that are used as the first or last element in an array are also ignored.
 
 ### Options
 
@@ -36,9 +36,6 @@ When `"never"` is set, the following patterns are considered warnings:
 ```js
 foo[ 'bar' ];
 foo['bar' ];
-foo[
-    'bar'
-];
 
 var arr = [ 'foo', 'bar' ];
 var arr = ['foo', 'bar' ];
@@ -48,19 +45,10 @@ var arr = ['foo',
   'bar'
 ];
 
-var arr = [
-  'foo',
-  'bar'];
-
 var obj = { 'foo': 'bar' };
 var obj = {'foo': 'bar' };
 var obj = { baz: {'foo': 'qux'}, 'bar'};
 var obj = {baz: { 'foo': 'qux' }, 'bar'};
-var obj = {'foo': 'bar'
-};
-
-var obj = {
-  'foo':'bar'};
 ```
 
 The following patterns are not warnings:
@@ -69,6 +57,11 @@ The following patterns are not warnings:
 // When options are [2, "never"]
 
 foo['bar'];
+foo[
+  'bar'
+];
+foo[
+  'bar'];
 
 var arr = [];
 var arr = ['foo', 'bar', 'baz'];
@@ -79,6 +72,10 @@ var arr = [
   'baz'
 ];
 
+var arr = [
+  'foo',
+  'bar'];
+
 var obj = {'foo': 'bar'};
 
 var obj = {'foo': {'bar': 'baz'}, 'qux': 'quxx'};
@@ -86,6 +83,10 @@ var obj = {'foo': {'bar': 'baz'}, 'qux': 'quxx'};
 var obj = {
   'foo': 'bar'
 };
+var obj = {'foo': 'bar'
+};
+var obj = {
+  'foo':'bar'};
 
 var obj = {};
 ```

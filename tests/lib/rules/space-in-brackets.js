@@ -97,6 +97,14 @@ eslintTester.addRuleTest("lib/rules/space-in-brackets", {
         { code: "obj[ obj2[ foo ] ]", args: [2, "never", {"propertyName": true}] },
         { code: "obj['for' + 'Each'](function (item) { return [\n1,\n2,\n3,\n4\n]; })", args: [2, "never"] },
 
+
+        { code: "obj[\nfoo]", args: [2, "never"] },
+        { code: "obj[foo\n]", args: [2, "never"] },
+        { code: "var obj = {foo: bar,\nbaz: qux\n};", args: [2, "never"] },
+        { code: "var obj = {\nfoo: bar,\nbaz: qux};", args: [2, "never"] },
+        { code: "var arr = [1,\n2,\n3,\n4\n];", args: [2, "never"] },
+        { code: "var arr = [\n1,\n2,\n3,\n4];", args: [2, "never"] },
+
         // never - singleValue
         { code: "var foo = [ 'foo' ]", args: [2, "never", {singleValue: true}] },
         { code: "var foo = [ 2 ]", args: [2, "never", {singleValue: true}] },
@@ -556,26 +564,6 @@ eslintTester.addRuleTest("lib/rules/space-in-brackets", {
             ]
         },
         {
-            code: "var obj = {foo: bar,\nbaz: qux\n};",
-            args: [2, "never"],
-            errors: [
-                {
-                    message: "There should be no space before '}'",
-                    type: "ObjectExpression"
-                }
-            ]
-        },
-        {
-            code: "var obj = {\nfoo: bar,\nbaz: qux};",
-            args: [2, "never"],
-            errors: [
-                {
-                    message: "There should be no space after '{'",
-                    type: "ObjectExpression"
-                }
-            ]
-        },
-        {
             code: "var arr = [1, 2, 3, 4];",
             args: [2, "always"],
             errors: [
@@ -667,26 +655,6 @@ eslintTester.addRuleTest("lib/rules/space-in-brackets", {
                 },
                 {
                     message: "There should be no space before ']'",
-                    type: "ArrayExpression"
-                }
-            ]
-        },
-        {
-            code: "var arr = [1,\n2,\n3,\n4\n];",
-            args: [2, "never"],
-            errors: [
-                {
-                    message: "There should be no space before ']'",
-                    type: "ArrayExpression"
-                }
-            ]
-        },
-        {
-            code: "var arr = [\n1,\n2,\n3,\n4];",
-            args: [2, "never"],
-            errors: [
-                {
-                    message: "There should be no space after '['",
                     type: "ArrayExpression"
                 }
             ]
