@@ -19,15 +19,15 @@ The following patterns are considered okay and do not cause warnings:
 
 ```js
 var config = require("./config");
-  
-if(config.env === "development") {    
+
+if(config.env === "development") {
     //...
 }
 ```
 
 ## When Not To Use It
 
-It should be not used in your configuration/settings file where `process.env` is used to assign values to parameters to be accessed throughout the project. 
+It should be not used in your configuration/settings file where `process.env` is used to assign values to parameters to be accessed throughout the project.
 
 
 ## Further Reading
