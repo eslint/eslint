@@ -14,7 +14,8 @@ var assert = require("chai").assert,
 //------------------------------------------------------------------------------
 
 describe("util", function() {
-    describe("when calling mixin()", function() {
+
+    describe("mixin()", function() {
         function code() {
             var a = {}, b = { foo: "f", bar: 1 };
             util.mixin(a, b);
@@ -36,96 +37,129 @@ describe("util", function() {
         });
     });
 
-    describe("when calling removePluginPrefix", function() {
-        it("should remove common prefix", function() {
+    describe("removePluginPrefix()", function() {
+        it("should remove common prefix when passed a plugin name  with a prefix", function() {
             var pluginName = util.removePluginPrefix("eslint-plugin-test");
             assert.equal(pluginName, "test");
         });
 
-        it("should not modify plugin name", function() {
+        it("should not modify plugin name when passed a plugin name without a prefix", function() {
             var pluginName = util.removePluginPrefix("test");
             assert.equal(pluginName, "test");
         });
     });
 
-    describe("when calling mergeConfigs()", function() {
-        var code = [
-            { env: { browser: true } },
-            { globals: { foo: "bar"} }
-        ];
+    describe("mergeConfigs()", function() {
 
-        it("should combine the two objects", function() {
+        it("should combine two objects when passed two objects with different top-level properties", function() {
+            var code = [
+                        { env: { browser: true } },
+                        { globals: { foo: "bar"} }
+                    ];
+
             var result = util.mergeConfigs(code[0], code[1]);
 
             assert.equal(result.globals.foo, "bar");
             assert.isTrue(result.env.browser);
         });
-    });
-    describe("when merging two configs with arrays", function() {
-        var code = [
-            { rules: { "no-mixed-requires": [0, false] } },
-            { rules: { "no-mixed-requires": [1, true] } }
-        ];
 
-        it("should combine configs and override rules", function() {
+        it("should combine configs and override rules when passed configs with the same rules", function() {
+            var code = [
+                { rules: { "no-mixed-requires": [0, false] } },
+                { rules: { "no-mixed-requires": [1, true] } }
+            ];
+
             var result = util.mergeConfigs(code[0], code[1]);
 
             assert.isArray(result.rules["no-mixed-requires"]);
             assert.equal(result.rules["no-mixed-requires"][0], 1);
             assert.equal(result.rules["no-mixed-requires"][1], true);
         });
-    });
 
-    describe("when merging two configs with arrays and int", function() {
-        var code = [
-            { rules: { "no-mixed-requires": [0, false] } },
-            { rules: { "no-mixed-requires": 1 } }
-        ];
+        it("should combine configs when passed configs with ecmaFeatures", function() {
+            var code = [
+                { ecmaFeatures: { blockBindings: true } },
+                { ecmaFeatures: { forOf: true } }
+            ];
 
-        it("should combine configs and override rules", function() {
+            var result = util.mergeConfigs(code[0], code[1]);
+
+            assert.deepEqual(result, {
+                ecmaFeatures: {
+                    blockBindings: true,
+                    forOf: true
+                }
+            });
+        });
+
+        it("should override configs when passed configs with the same ecmaFeatures", function() {
+            var code = [
+                { ecmaFeatures: { forOf: false } },
+                { ecmaFeatures: { forOf: true } }
+            ];
+
+            var result = util.mergeConfigs(code[0], code[1]);
+
+            assert.deepEqual(result, {
+                ecmaFeatures: {
+                    forOf: true
+                }
+            });
+        });
+
+        it("should combine configs and override rules when merging two configs with arrays and int", function() {
+
+            var code = [
+                { rules: { "no-mixed-requires": [0, false] } },
+                { rules: { "no-mixed-requires": 1 } }
+            ];
+
             var result = util.mergeConfigs(code[0], code[1]);
 
             assert.isArray(result.rules["no-mixed-requires"]);
             assert.equal(result.rules["no-mixed-requires"][0], 1);
             assert.equal(result.rules["no-mixed-requires"][1], false);
         });
+
+        describe("plugins", function () {
+            var baseConfig;
+
+            beforeEach(function () {
+                baseConfig = { plugins: ["foo", "bar"] };
+            });
+
+            it("should combine the plugin entries when each config has different plugins", function () {
+                var customConfig = { plugins: ["baz"] },
+                    expectedResult = { plugins: ["foo", "bar", "baz"] },
+                    result;
+
+                result = util.mergeConfigs(baseConfig, customConfig);
+
+                assert.deepEqual(result, expectedResult);
+            });
+
+            it("should avoid duplicate plugin entries when each config has the same plugin", function () {
+                var customConfig = { plugins: ["bar"] },
+                    expectedResult = { plugins: ["foo", "bar"] },
+                    result;
+
+                result = util.mergeConfigs(baseConfig, customConfig);
+
+                assert.deepEqual(result, expectedResult);
+            });
+
+            it("should create a valid config when one argument is an empty object", function () {
+                var customConfig = { plugins: ["foo"] },
+                    result;
+
+                result = util.mergeConfigs({}, customConfig);
+
+                assert.deepEqual(result, customConfig);
+                assert.notEqual(result, customConfig);
+            });
+        });
+
+
     });
 
-    describe("when merging two configs with plugin entries", function () {
-        var baseConfig;
-
-        beforeEach(function () {
-            baseConfig = { plugins: ["foo", "bar"] };
-        });
-
-        it("should combine the plugin entries", function () {
-            var customConfig = { plugins: ["baz"] },
-                expectedResult = { plugins: ["foo", "bar", "baz"] },
-                result;
-
-            result = util.mergeConfigs(baseConfig, customConfig);
-
-            assert.deepEqual(result, expectedResult);
-        });
-
-        it("should avoid duplicate plugin entries", function () {
-            var customConfig = { plugins: ["bar"] },
-                expectedResult = { plugins: ["foo", "bar"] },
-                result;
-
-            result = util.mergeConfigs(baseConfig, customConfig);
-
-            assert.deepEqual(result, expectedResult);
-        });
-
-        it("should be able to copy a customConfig with plugin entries", function () {
-            var customConfig = { plugins: ["foo"] },
-                result;
-
-            result = util.mergeConfigs({}, customConfig);
-
-            assert.deepEqual(result, customConfig);
-            assert.notEqual(result, customConfig);
-        });
-    });
 });
