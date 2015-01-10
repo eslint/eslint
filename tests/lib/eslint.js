@@ -1889,6 +1889,24 @@ describe("eslint", function() {
 
             assert.equal(messages.length, 0);
         });
+
+        it("should report an error when JSX code is encountered and JSX is not enabled", function() {
+            var code = "var myDivElement = <div className=\"foo\" />;";
+            var messages = eslint.verify(code, {}, "filename");
+
+            assert.equal(messages.length, 1);
+            assert.equal(messages[0].line, 1);
+            assert.equal(messages[0].column, 20);
+            assert.equal(messages[0].message, "Unexpected token \"<\".");
+        });
+
+        it("should not report an error when JSX code is encountered and JSX is enabled", function() {
+            var code = "var myDivElement = <div className=\"foo\" />;";
+            var messages = eslint.verify(code, { ecmaFeatures: { jsx: true }}, "filename");
+
+            assert.equal(messages.length, 0);
+        });
+
     });
 
 });
