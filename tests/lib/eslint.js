@@ -1878,6 +1878,17 @@ describe("eslint", function() {
 
             assert.equal(messages.length, 0);
         });
+
+        it("should properly parse JSX when passed ecmaFeatures", function() {
+
+            var messages = eslint.verify("var x = <div/>;", {
+                ecmaFeatures: {
+                    jsx: true
+                }
+            }, filename);
+
+            assert.equal(messages.length, 0);
+        });
     });
 
 });

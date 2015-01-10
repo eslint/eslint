@@ -40,7 +40,7 @@
     "escape-string-regexp": "^1.0.2",
     "escope": "~1.0.0",
     "espree": "^1.5.0",
-    "estraverse": "~1.5.1",
+    "estraverse": "^1.9.1",
     "globals": "^4.0.0",
     "js-yaml": "~3.2.2",
     "minimatch": "^1.0.0",
