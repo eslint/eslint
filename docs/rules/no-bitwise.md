@@ -26,6 +26,18 @@ var x = y << z;
 var x = y >> z;
 
 var x = y >>> z;
+
+var x |= y;
+
+var x &= y;
+
+var x ^= y;
+
+var x <<= y;
+
+var x >>= y;
+
+var x >>>= y;
 ```
 
 The following patterns are not considered warnings:
@@ -38,4 +50,6 @@ var x = y && z;
 var x = y > z;
 
 var x = y < z;
+
+var x += y;
 ```
