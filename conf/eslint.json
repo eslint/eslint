@@ -1,4 +1,5 @@
 {
+    "ecmaFeatures": {},
     "env": {
         "browser": false,
         "node": false,
