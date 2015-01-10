@@ -103,9 +103,13 @@ eslintTester.addRuleTest("lib/rules/key-spacing", {
         code: [
             "({",
             "    a  : 0,",
-            "    bcd: 0,",
+            "    // same group",
+            "    bcd: 0, /*",
+            "    end of group */",
             "",
+            "    // different group",
             "    e: 0,",
+            "    /* group b */",
             "    f: 0",
             "})"
         ].join("\n"),
@@ -281,6 +285,24 @@ eslintTester.addRuleTest("lib/rules/key-spacing", {
         errors: [
             { message: "Extra space before value for key \"key\".", type: "Identifier", line: 3, column: 8 },
             { message: "Extra space after key \"key2\".", type: "Identifier", line: 4, column: 4 }
+        ]
+    }, {
+        code: [
+            "foo = {",
+            "    key1: 42,",
+            "    // still the same group",
+            "    key12: '42', /*",
+            "",
+            "    */",
+            "    key123: 'forty two'",
+            "};"
+        ].join("\n"),
+        args: [2, {
+            align: "value"
+        }],
+        errors: [
+            { message: "Missing space before value for key \"key1\".", type: "Literal" },
+            { message: "Missing space before value for key \"key12\".", type: "Literal" }
         ]
     }, {
         code: "foo = { key:(1+2) };",
