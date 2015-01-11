@@ -173,6 +173,7 @@ These rules are purely matters of style and are quite subjective.
 These rules are only relevant to ES6 environments and are off by default.
 
 * [no-var](no-var.md) - require `let` or `const` instead of `var` (off by default)
+* [generator-star](generator-star.md) - enforce the position of the `*` in generator functions (off by default)
 
 ## Legacy
 
