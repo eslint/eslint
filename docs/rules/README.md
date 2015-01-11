@@ -167,6 +167,12 @@ These rules are purely matters of style and are quite subjective.
 * [spaced-line-comment](spaced-line-comment.md) - require or disallow a space immediately following the `//` in a line comment (off by default)
 * [wrap-regex](wrap-regex.md) - require regex literals to be wrapped in parentheses (off by default)
 
+## ECMAScript 6
+
+These rules are only relevant to ES6 environments and are off by default.
+
+* [no-var](no-var.md) - require `let` or `const` instead of `var` (off by default)
+
 ## Legacy
 
 The following rules are included for compatibility with [JSHint](http://jshint.com/) and [JSLint](http://jslint.com/). While the names of the rules may not match up with the JSHint/JSLint counterpart, the functionality is the same.
