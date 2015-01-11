@@ -1907,6 +1907,13 @@ describe("eslint", function() {
             assert.equal(messages.length, 0);
         });
 
+        it("should not report an error when JSX code contains a spread operator and JSX is enabled", function() {
+            var code = "var myDivElement = <div {...this.props} />;";
+            var messages = eslint.verify(code, { ecmaFeatures: { jsx: true }}, "filename");
+
+            assert.equal(messages.length, 0);
+        });
+
     });
 
 });
