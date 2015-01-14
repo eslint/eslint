@@ -52,6 +52,7 @@ In addition, the following companies are using ESLint internally to validate the
 
 * [Box](https://box.com)
 * [the native web](http://www.thenativeweb.io)
+* [Fitbit](http://www.fitbit.com)
 
 ### What are the plans for ESLint?
 
