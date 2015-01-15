@@ -53,7 +53,17 @@ function getVariable(scope, name) {
 //------------------------------------------------------------------------------
 
 describe("eslint", function() {
-    var filename = "filename.js";
+    var filename = "filename.js",
+        sandbox;
+
+    beforeEach(function() {
+        sandbox = sinon.sandbox.create();
+    });
+
+    afterEach(function() {
+        sandbox.verifyAndRestore();
+    });
+
 
     describe("when using events", function() {
         var code = TEST_CODE;
@@ -73,16 +83,7 @@ describe("eslint", function() {
     });
 
     describe("when calling toSource()", function() {
-        var code = TEST_CODE,
-            sandbox;
-
-        beforeEach(function() {
-            sandbox = sinon.sandbox.create();
-        });
-
-        afterEach(function() {
-            sandbox.verifyAndRestore();
-        });
+        var code = TEST_CODE;
 
         it("should retrieve all text when used without parameters", function() {
             function handler() {
@@ -183,15 +184,9 @@ describe("eslint", function() {
     });
 
     describe("getJSDocComment()", function() {
-        var sandbox;
 
         beforeEach(function() {
             eslint.reset();
-            sandbox = sinon.sandbox.create();
-        });
-
-        afterEach(function() {
-            sandbox.verifyAndRestore();
         });
 
         it("should not take a JSDoc comment from a FunctionDeclaration parent node when the node is a FunctionExpression", function() {
@@ -496,20 +491,11 @@ describe("eslint", function() {
     });
 
     describe("when retrieving comments", function() {
-        var sandbox,
-            code = [
+        var code = [
                 "// my line comment",
                 "var a = 42;",
                 "/* my block comment */"
             ].join("\n");
-
-        beforeEach(function() {
-            sandbox = sinon.sandbox.create();
-        });
-
-        afterEach(function() {
-            sandbox.verifyAndRestore();
-        });
 
         it("should attach them to all nodes", function() {
             function assertCommentCount(leading, trailing) {
@@ -807,6 +793,42 @@ describe("eslint", function() {
             assert.equal(messages.length, 0);
         });
     });
+
+    describe("when config has ecmaFeatures", function() {
+
+        it("should pass ecmaFeatures to all rules when provided on config", function() {
+
+            var ecmaFeatures = {
+                regexYFlag: true,
+                regexUFlag: true
+            };
+
+            eslint.reset();
+            eslint.defineRule("test-rule", sandbox.mock().withArgs(
+                sinon.match({ecmaFeatures: ecmaFeatures})
+            ).returns({}));
+
+            var config = { rules: { "test-rule": 2 }, ecmaFeatures: ecmaFeatures };
+
+            eslint.verify("0", config, filename);
+        });
+
+        it("should pass ecmaFeatures to all rules when default ecmaFeatures is used", function() {
+
+            var ecmaFeatures = {};
+
+            eslint.reset();
+            eslint.defineRule("test-rule", sandbox.mock().withArgs(
+                sinon.match({ecmaFeatures: ecmaFeatures})
+            ).returns({}));
+
+            var config = { rules: { "test-rule": 2 } };
+
+            eslint.verify("0", config, filename);
+        });
+
+    });
+
 
     describe("when passing in configuration values for rules", function() {
         var code = "var answer = 6 * 7";
@@ -1627,12 +1649,7 @@ describe("eslint", function() {
     });
 
     describe("when evaluating a file with a shebang", function() {
-        var code = "#!bin/program\n\nvar foo;;",
-            sandbox = sinon.sandbox.create();
-
-        afterEach(function() {
-            sandbox.verifyAndRestore();
-        });
+        var code = "#!bin/program\n\nvar foo;;";
 
         it("should preserve line numbers", function() {
             var config = { rules: { "no-extra-semi": 1 } };
@@ -1794,15 +1811,6 @@ describe("eslint", function() {
     });
 
     describe("when evaluating code with code comments", function() {
-        var sandbox;
-
-        beforeEach(function() {
-            sandbox = sinon.sandbox.create();
-        });
-
-        afterEach(function() {
-            sandbox.verifyAndRestore();
-        });
 
         it("should emit enter only once for each comment", function() {
 
