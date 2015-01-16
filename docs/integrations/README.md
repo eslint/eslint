@@ -27,3 +27,7 @@
 ## Source Control
 
 * [Git Precommit Hook](https://coderwall.com/p/zq8jlq)
+
+## External ESLint rules
+
+* [ESLint rules for AngularJS](https://github.com/Gillespie59/angularjs-eslint)
