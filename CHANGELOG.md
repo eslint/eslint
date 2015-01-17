@@ -1,3 +1,33 @@
+v0.12.0 - January 17, 2015
+
+* 0.12.0 (Nicholas C. Zakas)
+* Fix: Track JSX global variable correctly (fixes #1534) (Nicholas C. Zakas)
+* Fix: Property regex flag checking (fixes #1537) (Nicholas C. Zakas)
+* Docs: Add angularjs-eslint link into the integration doc (Emmanuel DEMEY)
+* Update: Expose ecmaFeatures on context (fixes #1648) (Nicholas C. Zakas)
+* Docs: Added Fitbit to the list of companies (Igor Zalutsky)
+* New: gen-star rule (refs #1617) (Jamund Ferguson)
+* New: no-var rule (refs #1617) (Jamund Ferguson)
+* Fix: Support JSX spread operator (fixes #1634) (Nicholas C. Zakas)
+* Docs: Document ecmaFeatures (Nicholas C. Zakas)
+* Upgrade: several dependencies (fixes #1377) (Nicholas C. Zakas)
+* Fix: Broken JSX test (Nicholas C. Zakas)
+* Fix: no-bitwise reports on bitwise assignment expressions (fixes #1643) (Mathias Schreck)
+* Fix: Find JSXIdentifier refs in no-unused-vars (fixes #1534) (Nicholas C. Zakas)
+* Update: Add a couple JSX tests (Nicholas C. Zakas)
+* Fix: quotes rule ignores JSX literals (fixes #1477) (Nicholas C. Zakas)
+* Fix: Don't warn on JSX literals with newlines (fixes #1533) (Nicholas C. Zakas)
+* Update: Fully enable JSX support (fixes #1640) (Nicholas C. Zakas)
+* Breaking: Allow parser feature flips (fixes #1602) (Nicholas C. Zakas)
+* Fix: Allow comments in key-spacing groups (fixes #1632) (Brandon Mills)
+* Fix: block-scoped-var reports labels (fixes #1630) (Michael Ficarra)
+* Docs: add newline to no-process-env (fixes #1627) (Tom Vincent)
+* Fix: Update optionator, --no in help (fixes #1134) (George Zahariev)
+* Fix: Allow individual newlines in space-in-brackets (fixes #1614) (Brandon Mills)
+* Docs: Correct alignment in example project tree (Tim Schaub)
+* Docs: Remove references to Esprima (Nicholas C. Zakas)
+* Docs: Remove illegal code fence (Nicholas C. Zakas)
+
 v0.11.0 - December 30, 2014
 
 * 0.11.0 (Nicholas C. Zakas)
