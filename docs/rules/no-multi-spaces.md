@@ -42,6 +42,10 @@ var arr = [1,  2];
 a ?  b: c
 ```
 
+```js
+function(a,  /*b, */ c){ }
+```
+
 The following patterns are not warnings:
 
 ```js
@@ -62,6 +66,10 @@ var arr = [1, 2];
 
 ```js
 a ? b: c
+```
+
+```js
+function(a, /*b, */ c){ }
 ```
 
 ## When Not To Use It
