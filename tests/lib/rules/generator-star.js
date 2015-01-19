@@ -73,12 +73,27 @@ eslintTester.addRuleTest("lib/rules/generator-star", {
             ecmaFeatures: { "generators": true, "objectLiteralShorthandMethods": true }
         },
         {
+            code: "var x = {\n    *foo(){} }",
+            args: [1, "start"],
+            ecmaFeatures: { "generators": true, "objectLiteralShorthandMethods": true }
+        },
+        {
             code: "var foo = function*(){}",
             args: [1, "start"],
             ecmaFeatures: { "generators": true }
         },
         {
             code: "var foo = function*(){}",
+            args: [1, "end"],
+            ecmaFeatures: { "generators": true }
+        },
+        {
+            code: "var foo = function* ( arg1 ){};",
+            args: [1, "start"],
+            ecmaFeatures: { "generators": true }
+        },
+        {
+            code: "var foo = function *( arg1 ){};",
             args: [1, "end"],
             ecmaFeatures: { "generators": true }
         }
