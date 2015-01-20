@@ -33,5 +33,54 @@ module.exports = {
     },
     jasmine: {
         globals: globals.jasmine
+    },
+    phantom: {
+        globals: globals.phantom
+    },
+    mootools: {
+        globals: globals.mootools
+    },
+    couch: {
+        globals: globals.couch
+    },
+    jquery: {
+        globals: globals.jquery
+    },
+    qunit: {
+        globals: globals.qunit
+    },
+    rhino: {
+        globals: globals.rhino
+    },
+    shelljs: {
+        globals: globals.shelljs
+    },
+    prototypejs: {
+        globals: globals.prototypejs
+    },
+    yui: {
+        globals: globals.yui
+    },
+    wsh: {
+        globals: globals.wsh
+    },
+    worker: {
+        globals: globals.worker
+    },
+    nonstandard: {
+        globals: globals.nonstandard
+    },
+    browserify: {
+        globals: globals.browserify
+    },
+    devel: {
+        globals: globals.devel
+    },
+    dojo: {
+        globals: globals.devel
+    },
+    typed: {
+        globals: globals.devel
     }
+
 };
