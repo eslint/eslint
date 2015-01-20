@@ -78,6 +78,16 @@ describe("IgnoredPaths", function() {
             assert.ok(ignoredPaths.contains("undef.js"));
         });
 
+        it("should return true for file matching an ignore pattern with leading './'", function() {
+            var ignoredPaths = IgnoredPaths.load({ ignore: true, ignorePath: filepath });
+            assert.ok(ignoredPaths.contains("undef2.js"));
+        });
+
+        it("should return true for file with leading './' matching an ignore pattern without leading './'", function() {
+            var ignoredPaths = IgnoredPaths.load({ ignore: true, ignorePath: filepath });
+            assert.ok(ignoredPaths.contains("./undef3.js"));
+        });
+
         it("should return true for file matching a child of an ignore pattern", function() {
             var ignoredPaths = IgnoredPaths.load({ ignore: true, ignorePath: filepath });
             assert.ok(ignoredPaths.contains("undef.js/subdir/grandsubdir"));
