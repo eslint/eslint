@@ -29,7 +29,11 @@ eslintTester.addRuleTest("lib/rules/no-unused-expressions", {
         "\"directive one\"; \"directive two\"; f();",
         "function foo() {\"use strict\"; return true; }",
         "function foo() {\"directive one\"; \"directive two\"; f(); }",
-        "function foo() { var foo = \"use strict\"; return true; }"
+        "function foo() { var foo = \"use strict\"; return true; }",
+        {
+            code: "function* foo(){ yield 0; }",
+            ecmaFeatures: { "generators": true }
+        }
     ],
     invalid: [
         { code: "0", errors: [{ message: "Expected an assignment or function call and instead saw an expression.", type: "ExpressionStatement"}] },
