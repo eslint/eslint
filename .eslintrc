@@ -15,5 +15,6 @@ rules:
     space-after-keywords: [2, "always"]
     space-before-blocks: 2
     spaced-line-comment: [2, "always", { exceptions: ["-"]}]
+    strict: [2, "global"]
     valid-jsdoc: [2, { prefer: { "return": "returns"}}]
     wrap-iife: 2

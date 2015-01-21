@@ -3,6 +3,8 @@
  * @author Matt DuVall<http://mattduvall.com/>
  */
 
+"use strict";
+
 /*jshint node:true*/
 
 //------------------------------------------------------------------------------
