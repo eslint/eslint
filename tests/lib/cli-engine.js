@@ -4,6 +4,8 @@
  * @copyright 2014 Nicholas C. Zakas. All rights reserved.
  */
 
+"use strict";
+
 //------------------------------------------------------------------------------
 // Requirements
 //------------------------------------------------------------------------------
@@ -46,17 +48,19 @@ describe("CLIEngine", function() {
 
             var report = engine.executeOnText("var foo = 'bar';");
             assert.equal(report.results.length, 1);
-            assert.equal(report.results[0].messages.length, 3);
-            assert.equal(report.results[0].messages[0].ruleId, "eol-last");
-            assert.equal(report.results[0].messages[1].ruleId, "no-unused-vars");
-            assert.equal(report.results[0].messages[2].ruleId, "quotes");
+            assert.equal(report.results[0].messages.length, 4);
+            assert.equal(report.results[0].messages[0].ruleId, "strict");
+            assert.equal(report.results[0].messages[1].ruleId, "eol-last");
+            assert.equal(report.results[0].messages[2].ruleId, "no-unused-vars");
+            assert.equal(report.results[0].messages[3].ruleId, "quotes");
         });
 
         it("should report one message when using specific config file", function() {
 
             engine = new CLIEngine({
                 configFile: "tests/fixtures/configurations/quotes-error.json",
-                reset: true
+                reset: true,
+                useEslintrc: false
             });
 
             var report = engine.executeOnText("var foo = 'bar';");
