@@ -4,6 +4,8 @@
  * @author Ian Christian Myers
  */
 
+"use strict";
+
 //------------------------------------------------------------------------------
 // Requirements
 //------------------------------------------------------------------------------
@@ -20,7 +22,7 @@ eslintTester.addRuleTest("lib/rules/no-octal-escape", {
     valid: [
         "var foo = \"\\851\";",
         "var foo = \"foo \\\\251 bar\";",
-        "var foo = /([abc]) \1/g;"
+        "var foo = /([abc]) \\1/g;"
     ],
     invalid: [
         { code: "var foo = \"foo \\251 bar\";", errors: [{ message: "Don't use octal: '\\2'. Use '\\u....' instead.", type: "Literal"}] },
