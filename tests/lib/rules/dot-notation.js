@@ -31,6 +31,8 @@ eslintTester.addRuleTest("lib/rules/dot-notation", {
         { code: "a[null];", args: [2, {allowKeywords: false}] },
         { code: "a.true;", args: [2, {allowKeywords: true}] },
         { code: "a.null;", args: [2, {allowKeywords: true}] },
+        { code: "a['snake_case'];", args: [2, {allowPattern: "^[a-z]+(_[a-z]+)+$"}] },
+        { code: "a['lots_of_snake_case'];", args: [2, {allowPattern: "^[a-z]+(_[a-z]+)+$"}] },
         "a.true;",
         "a.null;",
         "a[undefined];",
@@ -42,6 +44,8 @@ eslintTester.addRuleTest("lib/rules/dot-notation", {
         { code: "a['true'];", errors: [{ message: "[\"true\"] is better written in dot notation." }] },
         { code: "a[null];", errors: [{ message: "[null] is better written in dot notation." }] },
         { code: "a['b'];", errors: [{ message: "[\"b\"] is better written in dot notation." }] },
-        { code: "a.b['c'];", errors: [{ message: "[\"c\"] is better written in dot notation." }] }
+        { code: "a.b['c'];", errors: [{ message: "[\"c\"] is better written in dot notation." }] },
+        { code: "a['_dangle'];", args: [2, {allowPattern: "^[a-z]+(_[a-z]+)+$"}], errors: [{ message: "[\"_dangle\"] is better written in dot notation." }] },
+        { code: "a['SHOUT_CASE'];", args: [2, {allowPattern: "^[a-z]+(_[a-z]+)+$"}], errors: [{ message: "[\"SHOUT_CASE\"] is better written in dot notation." }] }
     ]
 });
