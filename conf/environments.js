@@ -33,5 +33,17 @@ module.exports = {
     },
     jasmine: {
         globals: globals.jasmine
+    },
+    phantomjs: {
+        globals: globals.phantom
+    },
+    jquery: {
+        globals: globals.jquery
+    },
+    prototypejs: {
+        globals: globals.prototypejs
+    },
+    shelljs: {
+        globals: globals.shelljs
     }
 };
