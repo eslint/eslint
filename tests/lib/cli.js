@@ -3,6 +3,8 @@
  * @author Ian Christian Myers
  */
 
+"use strict";
+
 //------------------------------------------------------------------------------
 // Requirements
 //------------------------------------------------------------------------------
@@ -46,7 +48,7 @@ describe("cli", function() {
     describe("when given a config file", function() {
         it("should load the specified config file", function() {
             assert.doesNotThrow(function () {
-                cli.execute("-c " + path.join(__dirname, "..", ".eslintrc") + " lib/cli.js");
+                cli.execute("-c " + path.join(__dirname, "../..", ".eslintrc") + " lib/cli.js");
             });
         });
     });
