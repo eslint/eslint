@@ -1,6 +1,8 @@
 /**
  * @fileoverview Tests for func-names rule.
  * @author Kyle T. Nunery
+ * @copyright 2015 Brandon Mills. All rights reserved.
+ * @copyright 2014 Kyle T. Nunery. All rights reserved.
  */
 
 "use strict";
@@ -22,7 +24,12 @@ eslintTester.addRuleTest("lib/rules/func-names", {
         "Foo.prototype.bar = function bar(){};",
         "function foo(){}",
         "function test(d, e, f) {}",
-        "new function bar(){}"
+        "new function bar(){}",
+        "exports = { get foo() { return 1; }, set bar(val) { return val; } };",
+        {
+            code: "({ foo() { return 1; } });",
+            ecmaFeatures: { objectLiteralShorthandMethods: true }
+        }
     ],
     invalid: [
         { code: "Foo.prototype.bar = function() {};", errors: [{ message: "Missing function expression name.", type: "FunctionExpression"}] },
