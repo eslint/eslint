@@ -46,6 +46,18 @@ eslintTester.addRuleTest("lib/rules/no-multi-spaces", {
         "[ (  1  ) , (  2  ) ]",
         "a = 1, b = 2;",
         "(function(a, b){})",
+        "(function(/*a, b, */c){})",
+        "(function(/*a, */b, c){})",
+        "(function(a,/* b, */c){})",
+        "(function(a,/*b,*/c){})",
+        "(function(a, /*b,*/c){})",
+        "(function(a,/*b,*/ c){})",
+        "(function(a, /*b,*/ c){})",
+        "(function(a, b/*, c*/){})",
+        "(function(a, b/*,c*/){})",
+        "(function(a, b /*,c*/){})",
+        "(function(a/*, b ,c*/){})",
+        "(function(a /*, b ,c*/){})",
         "x.in = 0;"
     ],
 
@@ -167,6 +179,20 @@ eslintTester.addRuleTest("lib/rules/no-multi-spaces", {
         },
         {
             code: "function foo(a,  b){}",
+            errors: [{
+                message: "Multiple spaces found after ','.",
+                type: "Punctuator"
+            }]
+        },
+        {
+            code: "(function(a,  /*b,*/ c){})",
+            errors: [{
+                message: "Multiple spaces found after ','.",
+                type: "Punctuator"
+            }]
+        },
+        {
+            code: "(function(a,  /*b,*/  c){})",
             errors: [{
                 message: "Multiple spaces found after ','.",
                 type: "Punctuator"
