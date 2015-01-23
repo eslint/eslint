@@ -45,8 +45,8 @@ var double = "double";
 var single = 'single';
 
 // When [1, "double", "avoid-escape"]
-var single = "a string containing 'double' quotes";
+var double = "a string containing 'double' quotes";
 
 // When [1, "single", "avoid-escape"]
-var double = 'a string containing "single" quotes';
+var single = 'a string containing "single" quotes';
 ```
