@@ -18,6 +18,7 @@ This preconfigures
 
 * the rule is disabled because it is set to `0`. Changing this to `1` for warn or `2` for error mode activates it (this works exactly the same as everywhere else in `ESLint`).
 * the `terms` array is set to `todo`, `fixme` and `xxx` as `warning-comments`. `terms` has to be an array. It can hold any terms you might want to warn about in your comments - they do not have to be single words. E.g. `really bad idea` is as valid as `attention`.
+* the `terms` are case-insensitive and are matched as whole words. E.g. `fix` would not match `fixing`.
 * the `location`-option set to `start` configures the rule to check only the start of comments. E.g. `// TODO` would be matched, `// This is a TODO` not. You can change this to `anywhere` to check your complete comments.
 
 As already seen above, the configuration is quite simple. Example that enables the rule and configures it to check the complete comment, not only the start:
@@ -47,6 +48,7 @@ These patterns would not be considered warnings with the same example configurat
 ```js
 // This is to do
 // even not any other    term
+// any other terminal
 /*
  * The same goes for block comments
  * with any other interesting term
@@ -54,8 +56,6 @@ These patterns would not be considered warnings with the same example configurat
  */
 ...
 ```
-
-As mentioned above, patterns are matched when they match exactly to one of the terms specified (ignoring the case).
 
 ## Rule Options
 
@@ -109,10 +109,10 @@ As mentioned above, patterns are matched when they match exactly to one of the t
    ...
    ```
 
-5. Rule configured to warn on matches of the specified terms at the start of comments. Note that you can use as many terms as you want.
+5. Rule configured to warn on matches of the specified terms at any location in the comments. Note that you can use as many terms as you want.
 
    ```js
    ...
-   "no-warning-comments": [1, { "terms": ["any really", "interesting", "or even not", "term", "can be matched"] }]
+   "no-warning-comments": [1, { "terms": ["really any", "term", "can be matched"], "location": "anywhere" }]
    ...
    ```
