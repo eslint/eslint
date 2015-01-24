@@ -20,7 +20,13 @@ var eslintTester = new ESLintTester(eslint);
 eslintTester.addRuleTest("lib/rules/no-redeclare", {
     valid: [
         "var a = 3; var b = function() { var a = 10; };",
-        "var a = 3; a = 10;"
+        "var a = 3; a = 10;",
+        {
+            code: "if (true) {\n    let b = 2;\n} else {    \nlet b = 3;\n}",
+            ecmaFeatures: {
+                blockBindings: true
+            }
+        }
     ],
     invalid: [
         { code: "var a = 3; var a = 10;", errors: [{ message: "a is already defined", type: "Identifier"}] },
