@@ -18,7 +18,7 @@ var eslint = require("../../../lib/eslint"),
 
 var eslintTester = new ESLintTester(eslint),
     alwaysError = {
-        messsage: "Expected space after // in comment.",
+        messsage: "Expected space or tab after // in comment.",
         type: "Line"
     },
     alwaysArgs = [
@@ -31,11 +31,11 @@ var eslintTester = new ESLintTester(eslint),
         {exceptions: ["-", "=", "*", "#", "!@#"] }
     ],
     alwaysExceptionError = {
-        message: "Expected exception block or space after // in comment.",
+        message: "Expected exception block, space or tab after // in comment.",
         type: "Line"
     },
     neverError = {
-        message: "Unexpected space after // in comment.",
+        message: "Unexpected space or tab after // in comment.",
         type: "Line"
     },
     neverArgs = [
@@ -50,6 +50,10 @@ eslintTester.addRuleTest("lib/rules/spaced-line-comment", {
     valid: [
         {
             code: "// A valid comment starting with space\nvar a = 1;",
+            args: alwaysArgs
+        },
+        {
+            code: "//   A valid comment starting with tab\nvar a = 1;",
             args: alwaysArgs
         },
         {
@@ -94,6 +98,11 @@ eslintTester.addRuleTest("lib/rules/spaced-line-comment", {
         },
         {
             code: "// An invalid comment starting with space\nvar a = 2;",
+            errors: [ neverError ],
+            args: neverArgs
+        },
+        {
+            code: "//   An invalid comment starting with tab\nvar a = 2;",
             errors: [ neverError ],
             args: neverArgs
         },
