@@ -30,4 +30,7 @@
 
 ## External ESLint rules
 
-* [AngularJS Rules](https://github.com/Gillespie59/angularjs-eslint)
+* [AngularJS](https://github.com/Gillespie59/angularjs-eslint)
+* [Jasmine](https://github.com/tlvince/eslint-plugin-jasmine)
+
+… and many more published on npm with the [eslintplugin](https://www.npmjs.com/search?q=eslintplugin) tag.
