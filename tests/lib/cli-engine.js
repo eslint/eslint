@@ -799,4 +799,23 @@ describe("CLIEngine", function() {
 
     });
 
+    describe("getFormatter()", function () {
+
+        it("should return a function when a bundled formatter is requested", function () {
+            var engine = new CLIEngine(),
+                formatter = engine.getFormatter("compact");
+
+            assert.isFunction(formatter);
+        });
+
+        it("should return a function when a custom formatter is requested", function () {
+            var engine = new CLIEngine(),
+                formatter = engine.getFormatter("./tests/fixtures/formatters/simple.js");
+
+            assert.isFunction(formatter);
+        });
+
+
+    });
+
 });
