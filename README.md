@@ -40,6 +40,10 @@ ESLint is slower than JSHint, usually 2-3x slower on a single file. This is beca
 
 Despite being slower, we believe that ESLint is fast enough to replace JSHint without causing significant pain.
 
+### Is ESLint just linting or does it also check style?
+
+ESLint does both traditional linting (looking for problematic patterns) and style checking (enforcement of conventions). You can use it for both.
+
 ### Who is using ESLint?
 
 The following projects are using ESLint to validate their JavaScript:
@@ -53,10 +57,6 @@ In addition, the following companies are using ESLint internally to validate the
 * [Box](https://box.com)
 * [the native web](http://www.thenativeweb.io)
 * [Fitbit](http://www.fitbit.com)
-
-### What are the plans for ESLint?
-
-Check out the [ESLint Roadmap](https://github.com/eslint/eslint/wiki/Release-goals).
 
 ### What about ECMAScript 6 support?
 
