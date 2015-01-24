@@ -1,3 +1,32 @@
+v0.13.0 - January 24, 2015
+
+* 0.13.0 (Nicholas C. Zakas)
+* Update: The rule spaced-line-comment now also allows tabs and not only spaces as whitespace. (fixes #1713) (Dieter Oberkofler)
+* Docs: add Jasmine rules and eslintplugin npm links (Tom Vincent)
+* Fix: Make no-redeclare work with let (fixes #917) (Nicholas C. Zakas)
+* Update: Add CLIEngine.getFormatter() (fixes #1653) (Nicholas C. Zakas)
+* Breaking: Update escope (fixes #1642) (Nicholas C. Zakas)
+* Update: Switch to using estraverse-fb (fixes #1712) (Nicholas C. Zakas)
+* Docs: Update README FAQ (Nicholas C. Zakas)
+* Update: no-warning-comments matches on whole word only (fixes #1709) (Nick Fisher)
+* Build: Add JSDoc generation (fixes #1363) (Nicholas C. Zakas)
+* Docs: Add more info about context (fixes #1330) (Nicholas C. Zakas)
+* Upgrade: Espree to 1.7.1 (fixes #1706) (Nicholas C. Zakas)
+* Docs: Make CLA notice more prominent (Nicholas C. Zakas)
+* Update: Added globals for: phantom,jquery, prototypejs, shelljs (fixes #1704) (Dmitriy Shekhovtsov)
+* Docs: Fixed example for the space-return-throw-case rule (mpal9000)
+* Fix: Except object literal methods from func-names (fixes #1699) (Brandon Mills)
+* Update: use global strict mode everywhere (fixes #1691) (Brandon Mills)
+* Update: Add allowPattern option for dot-notation rule (fixes #1679) (Tim Schaub)
+* Fix: Missing undeclared variables in JSX (fixes #1676) (Yannick Croissant)
+* Fix: no-unused-expressions rule incorrectly flagging  yield (fixes #1672) (Rémi Gérard-Marchant)
+* Update: Combine strict mode rules (fixes #1246) (Brandon Mills)
+* Fix: disregards leading './' in ignore pattern or file name (fixes #1685) (Chris Montrois)
+* Upgrade: globals module to latest (fixes #1670) (Nicholas C. Zakas)
+* Fix: generator-star should allow params (fixes #1677) (Brandon Mills)
+* Fix: no-unused-vars for JSX (fixes #1673 and fixes #1534) (Yannick Croissant)
+* Docs: Add angularjs-eslint link into the integration doc (Emmanuel DEMEY)
+
 v0.12.0 - January 17, 2015
 
 * 0.12.0 (Nicholas C. Zakas)
