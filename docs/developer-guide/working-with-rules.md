@@ -25,6 +25,8 @@ module.exports = function(context) {
 
 **Important:** Rule submissions will not be accepted unless they are in this format.
 
+## Rule Basics
+
 Each rule is represented by a single object with several properties. The properties are equivalent to AST node types from [SpiderMonkey](https://developer.mozilla.org/en-US/docs/SpiderMonkey/Parser_API). For example, if your rule wants to know when an identifier is found in the AST, then add a method called "Identifier", such as:
 
 ```js
@@ -59,6 +61,38 @@ module.exports = function(context) {
 
 In this code, `"Identifier:exit"` is called on the way up the AST. This capability allows you to keep track as the traversal enters and exits specific parts of the AST.
 
+## The Context Object
+
+The `context` object contains additional functionality that is helpful for rules to do their jobs. As the name implies, the `context` object contains information that is relevant to the context of the rule. The `context` object has the following properties:
+
+* `ecmaFeatures` - the language feature flags.
+* `id` - the rule ID.
+* `options` - an array of rule options.
+* `settings` - the `settings` from configuration.
+
+Additionally, the `context` object has the following methods:
+
+* `getAncestors()` - returns an array of ancestor nodes based on the current traversal.
+* `getComments()` - returns an array of all comments in the source.
+* `getFilename()` - returns the filename associated with the source.
+* `getFirstToken(node)` - returns the first token representing the given node.
+* `getFirstTokens(node, count)` - returns the first `count` tokens representing the given node.
+* `getJSDocComment(node)` - returns the JSDoc comment for a given node or `null` if there is none.
+* `getLastToken(node)` - returns the last token representing the given node.
+* `getLastTokens(node, count)` - returns the last `count` tokens representing the given node.
+* `getScope()` - returns the current scope.
+* `getSource(node)` - returns the source code for the given node. Omit `node` to get the whole source.
+* `getSourceLines()` - returns the entire source code split into an array of string lines.
+* `getTokenAfter(node)` - returns the first token after the given node.
+* `getTokenBefore(node)` - returns the first token before the given node.
+* `getTokens(node)` - returns all tokens for the given node.
+* `getTokensAfter(node, count)` - returns `count` tokens after the given node.
+* `getTokensBefore(node, count)` - returns `count` tokens before the given node.
+* `getTokensBetween(node1, node2)` - returns the tokens between two nodes.
+* `report(node, message)` - reports an error in the code.
+
+### context.report()
+
 The main method you'll use is `context.report()`, which publishes a warning or error (depending on the configuration being used). This method accepts three arguments: the AST node that caused the report, a message to display, and an optional object literal which is used to interpolate. For example:
 
     context.report(node, "This is unexpected!");
@@ -68,6 +102,31 @@ or
     context.report(node, "`{{identifier}}` is unexpected!", { identifier: node.name });
 
 The node contains all of the information necessary to figure out the line and column number of the offending text as well the source text representing the node.
+
+### context.options
+
+Some rules require options in order to function correctly. These options appear in configuration (`.eslintrc`, command line, or in comments). For example:
+
+```json
+{
+    "quotes": [2, "double"]
+}
+```
+
+The `quotes` rule in this example has one option, `"double"` (the `2` is the error level). You can retrieve the options for a rule by using `context.options`, which is an array containing every configured option for the rule. In this case, `context.options[0]` would contain `"double"`:
+
+```js
+module.exports = function(context) {
+
+    var isDouble = (context.options[0] === "double");
+
+    // ...
+}
+```
+
+Since `context.options` is just an array, you can use it to determine how many options have been passed as well as retrieving the actual options themselves. Keep in mind that the error level is not part of `context.options`, as the error level cannot be known or modified from inside a rule.
+
+When using options, make sure that your rule has some logic defaults in case the options are not provided.
 
 ### Getting the Source
 
@@ -309,6 +368,7 @@ Because rules are highly personal (and therefore very contentious), the followin
 * If the rule doesn't exist in JSHint or JSLint, then it must:
   * Not be library-specific.
   * Demonstrate a possible issue that can be resolved by rewriting the code.
+  * Be general enough so as to apply for a large number of developers.
 
 ## Runtime Rules
 
