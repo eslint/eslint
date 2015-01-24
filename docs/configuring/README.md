@@ -58,6 +58,11 @@ An environment defines both global variables that are predefined as well as whic
 * `amd` - defines `require()` and `define()` as global variables as per the [amd](https://github.com/amdjs/amdjs-api/wiki/AMD) spec.
 * `mocha` - adds all of the Mocha testing global variables.
 * `jasmine` - adds all of the Jasmine testing global variables for version 1.3 and 2.0.
+* `phantomjs` - phantomjs global variables.
+* `jquery` - jquery global variables.
+* `prototypejs` - prototypejs global variables.
+* `shelljs` - shelljs global variables.
+
 
 These environments are not mutually exclusive, so you can define more than one at a time.
 
