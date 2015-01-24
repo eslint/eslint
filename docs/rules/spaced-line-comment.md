@@ -1,16 +1,16 @@
-# Requires or disallows a space beginning a single-line comment (spaced-line-comment)
+# Requires or disallows a whitespace (space or tab) beginning a single-line comment (spaced-line-comment)
 
-Some style guides require or disallow a space immediately after the initial `//` of a line comment.
+Some style guides require or disallow a whitespace immediately after the initial `//` of a line comment.
 Whitespace after the `//` makes it easier to read text in comments.
-On the other hand, commenting out code is easier without having to put a space right after the `//`.
+On the other hand, commenting out code is easier without having to put a whitespace right after the `//`.
 
 
 ## Rule Details
 
 This rule will enforce consistency of spacing after the start of a line comment `//`.
 
-This rule takes two arguments. If the first is `"always"` then the `//` must be followed by at least once space. 
-If `"never"` then there should be no space following.
+This rule takes two arguments. If the first is `"always"` then the `//` must be followed by at least once whitespace. 
+If `"never"` then there should be no whitespace following.
 The default is `"always"`.
 
 The second argument is an object with one key, `"exceptions"`. 
@@ -22,12 +22,12 @@ The following patterns are considered warnings:
 
 ```js
 // When ["never"]
-// This is a comment with a space at the beginning
+// This is a comment with a whitespace at the beginning
 ```
 
 ```js
 //When ["always"]
-//This is a comment with no space at the beginning
+//This is a comment with no whitespace at the beginning
 var foo = 5;  
 ```
 
@@ -42,13 +42,13 @@ The following patterns are not warnings:
 
 ```js
 // When ["always"]
-// This is a comment with a space at the beginning
+// This is a comment with a whitespace at the beginning
 var foo = 5;  
 ```
 
 ```js
 //When ["never"]
-//This is a comment with no space at the beginning
+//This is a comment with no whitespace at the beginning
 var foo = 5;  
 ```
 
