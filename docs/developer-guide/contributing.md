@@ -2,11 +2,13 @@
 
 One of the great things about open source projects is that anyone can contribute in any number of meaningful ways. ESLint couldn't exist without the help of the many contributors its had since the project began, and we want you to feel like you can contribute and make a difference as well.
 
-This guide is intended for anyone who wants to contribute to ESLint. Please read it carefully as it answers a lot of the questions many newcomers have when first working with ESLint.
+This guide is intended for anyone who wants to contribute to an ESLint project. Please read it carefully as it answers a lot of the questions many newcomers have when first working with our projects.
+
+In order to submit code or documentation to an ESLint project, please electronically sign the [Contributor License Agreement](http://eslint.org/cla). It is very important that you read and understand the CLA, as it gives us the right to use your contribution.
 
 ## Ways to Contribute
 
-There are many different ways you can contribute to ESLint:
+There are many different ways you can contribute:
 
 * **Filing issues** - if you find a bug or want to request an enhancement, [file an issue](https://github.com/eslint/eslint/issues/new).
 * **Working on issues** - if you have coding skills and want to contribute, you're welcome to pick up [any open issue](https://github.com/eslint/eslint/issues/).
@@ -95,10 +97,6 @@ Part of what makes ESLint useful is the way it integrates into other systems. We
 Additionally, we are always looking for official integrations to host under the ESLint organization on GitHub. Official integrations are tools that have a high-level quality and are managed by responsible maintainers who are committed to keeping the tool up-to-date and bettering the tool for the good of the ESLint community. If you think your integration qualifies, please contact the [mailing list](https://groups.google.com/group/eslint) with your information.
 
 ## Copyright and Licensing
-
-In order to submit code or documentation to ESLint, please electronically sign the [Contributor License Agreement](http://eslint.org/cla).
-
-It is very important that you read and understand the CLA, as it gives ESLint the right to accept your contribution.
 
 Since the code you wrote is your original work, you keep the copyright for it. This is why we ask you to include a copyright in the comments at the beginning of any file you submit, such as:
 
