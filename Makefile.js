@@ -44,6 +44,7 @@ var NODE = "node ", // intentional extra space
     TEMP_DIR = "./tmp/",
     BUILD_DIR = "./build/",
     DOCS_DIR = "../eslint.github.io/docs",
+    SITE_DIR = "../eslint.github.io/",
 
     // Utilities - intentional extra space at the end of each string
     MOCHA = NODE_MODULES + "mocha/bin/_mocha ",
@@ -275,6 +276,10 @@ target.gensite = function() {
     }
     mkdir("-p", DOCS_DIR);
     cp("-rf", "docs/*", DOCS_DIR);
+
+    target.browserify();
+    cp("-f", "build/eslint.js", SITE_DIR + "js/app/eslint.js");
+    cp("-f", "conf/eslint.json", SITE_DIR + "js/app/eslint.json");
 
     find(DOCS_DIR).forEach(function(filename) {
         if (test("-f", filename)) {
