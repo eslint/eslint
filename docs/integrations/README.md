@@ -31,6 +31,7 @@
 ## External ESLint rules
 
 * [AngularJS](https://github.com/Gillespie59/angularjs-eslint)
+* [BackboneJS](https://github.com/ilyavolodin/eslint-plugin-backbone)
 * [Jasmine](https://github.com/tlvince/eslint-plugin-jasmine)
 
 … and many more published on npm with the [eslintplugin](https://www.npmjs.com/search?q=eslintplugin) tag.
