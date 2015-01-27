@@ -34,7 +34,7 @@ describe("CLIEngine", function() {
 
     requireStubs[examplePluginName] = examplePlugin;
 
-    beforeEach(function () {
+    beforeEach(function() {
         CLIEngine = proxyquire("../../lib/cli-engine", requireStubs);
     });
 
@@ -212,7 +212,7 @@ describe("CLIEngine", function() {
             assert.equal(report.results.length, 0);
         });
 
-        it("should return zero messages when all given files are ignored", function () {
+        it("should return zero messages when all given files are ignored", function() {
             engine = new CLIEngine({
                 ignorePath: "tests/fixtures/.eslintignore"
             });
@@ -221,7 +221,7 @@ describe("CLIEngine", function() {
             assert.equal(report.results.length, 0);
         });
 
-        it("should return a warning when an explicitly given file is ignored", function () {
+        it("should return a warning when an explicitly given file is ignored", function() {
             engine = new CLIEngine({
                 ignorePath: "tests/fixtures/.eslintignore"
             });
@@ -368,7 +368,7 @@ describe("CLIEngine", function() {
         });
 
 
-        it("should return zero messages and ignore .eslintrc files when executing with no-eslintrc flag", function () {
+        it("should return zero messages and ignore .eslintrc files when executing with no-eslintrc flag", function() {
 
             engine = new CLIEngine({
                 ignore: false,
@@ -383,7 +383,7 @@ describe("CLIEngine", function() {
             assert.equal(report.results[0].messages.length, 0);
         });
 
-        it("should return zero messages and ignore package.json files when executing with no-eslintrc flag", function () {
+        it("should return zero messages and ignore package.json files when executing with no-eslintrc flag", function() {
 
             engine = new CLIEngine({
                 ignore: false,
@@ -416,7 +416,7 @@ describe("CLIEngine", function() {
             });
 
             // Default configuration - blank
-            it("should return zero messages when executing with reset and no .eslintrc", function () {
+            it("should return zero messages when executing with reset and no .eslintrc", function() {
 
                 engine = new CLIEngine({
                     reset: true,
@@ -429,7 +429,7 @@ describe("CLIEngine", function() {
             });
 
             // Default configuration - conf/eslint.json
-            it("should return three messages when executing with no .eslintrc", function () {
+            it("should return three messages when executing with no .eslintrc", function() {
 
                 engine = new CLIEngine({
                     useEslintrc: false
@@ -447,7 +447,7 @@ describe("CLIEngine", function() {
             });
 
             // Default configuration - conf/environments.js (/*eslint-env node*/)
-            it("should return one message when executing with no .eslintrc in the Node.js environment", function () {
+            it("should return one message when executing with no .eslintrc in the Node.js environment", function() {
 
                 engine = new CLIEngine({
                     useEslintrc: false
@@ -461,7 +461,7 @@ describe("CLIEngine", function() {
             });
 
             // Project configuration - first level .eslintrc
-            it("should return one message when executing with .eslintrc in the Node.js environment", function () {
+            it("should return one message when executing with .eslintrc in the Node.js environment", function() {
 
                 engine = new CLIEngine();
 
@@ -473,7 +473,7 @@ describe("CLIEngine", function() {
             });
 
             // Project configuration - first level .eslintrc
-            it("should return zero messages when executing with .eslintrc in the Node.js environment and reset", function () {
+            it("should return zero messages when executing with .eslintrc in the Node.js environment and reset", function() {
 
                 engine = new CLIEngine({
                     reset: true
@@ -485,7 +485,7 @@ describe("CLIEngine", function() {
             });
 
             // Project configuration - first level .eslintrc
-            it("should return one message when executing with .eslintrc", function () {
+            it("should return one message when executing with .eslintrc", function() {
 
                 engine = new CLIEngine({
                     reset: true
@@ -499,7 +499,7 @@ describe("CLIEngine", function() {
             });
 
             // Project configuration - second level .eslintrc
-            it("should return one message when executing with local .eslintrc that overrides parent .eslintrc", function () {
+            it("should return one message when executing with local .eslintrc that overrides parent .eslintrc", function() {
 
                 engine = new CLIEngine({
                     reset: true
@@ -513,7 +513,7 @@ describe("CLIEngine", function() {
             });
 
             // Project configuration - third level .eslintrc
-            it("should return one message when executing with local .eslintrc that overrides parent and grandparent .eslintrc", function () {
+            it("should return one message when executing with local .eslintrc that overrides parent and grandparent .eslintrc", function() {
 
                 engine = new CLIEngine({
                     reset: true
@@ -527,7 +527,7 @@ describe("CLIEngine", function() {
             });
 
             // Project configuration - first level package.json
-            it("should return one message when executing with package.json", function () {
+            it("should return one message when executing with package.json", function() {
 
                 engine = new CLIEngine({
                     reset: true
@@ -541,7 +541,7 @@ describe("CLIEngine", function() {
             });
 
              // Project configuration - second level package.json
-            it("should return zero messages when executing with local package.json that overrides parent package.json", function () {
+            it("should return zero messages when executing with local package.json that overrides parent package.json", function() {
 
                 engine = new CLIEngine({
                     reset: true
@@ -553,7 +553,7 @@ describe("CLIEngine", function() {
             });
 
             // Project configuration - third level package.json
-            it("should return one message when executing with local package.json that overrides parent and grandparent package.json", function () {
+            it("should return one message when executing with local package.json that overrides parent and grandparent package.json", function() {
 
                 engine = new CLIEngine({
                     reset: true
@@ -567,7 +567,7 @@ describe("CLIEngine", function() {
             });
 
             // Project configuration - .eslintrc overrides package.json in same directory
-            it("should return one message when executing with .eslintrc that overrides a package.json in the same directory", function () {
+            it("should return one message when executing with .eslintrc that overrides a package.json in the same directory", function() {
 
                 engine = new CLIEngine({
                     reset: true
@@ -581,7 +581,7 @@ describe("CLIEngine", function() {
             });
 
             // Command line configuration - --config with first level .eslintrc
-            it("should return two messages when executing with config file that adds to local .eslintrc", function () {
+            it("should return two messages when executing with config file that adds to local .eslintrc", function() {
 
                 engine = new CLIEngine({
                     reset: true,
@@ -598,7 +598,7 @@ describe("CLIEngine", function() {
             });
 
             // Command line configuration - --config with first level .eslintrc
-            it("should return no messages when executing with config file that overrides local .eslintrc", function () {
+            it("should return no messages when executing with config file that overrides local .eslintrc", function() {
 
                 engine = new CLIEngine({
                     reset: true,
@@ -611,7 +611,7 @@ describe("CLIEngine", function() {
             });
 
             // Command line configuration - --config with second level .eslintrc
-            it("should return two messages when executing with config file that adds to local and parent .eslintrc", function () {
+            it("should return two messages when executing with config file that adds to local and parent .eslintrc", function() {
 
                 engine = new CLIEngine({
                     reset: true,
@@ -628,7 +628,7 @@ describe("CLIEngine", function() {
             });
 
             // Command line configuration - --config with second level .eslintrc
-            it("should return one message when executing with config file that overrides local and parent .eslintrc", function () {
+            it("should return one message when executing with config file that overrides local and parent .eslintrc", function() {
 
                 engine = new CLIEngine({
                     reset: true,
@@ -643,7 +643,7 @@ describe("CLIEngine", function() {
             });
 
             // Command line configuration - --config with first level .eslintrc
-            it("should return no messages when executing with config file that overrides local .eslintrc", function () {
+            it("should return no messages when executing with config file that overrides local .eslintrc", function() {
 
                 engine = new CLIEngine({
                     reset: true,
@@ -656,7 +656,7 @@ describe("CLIEngine", function() {
             });
 
             // Command line configuration - --rule with --config and first level .eslintrc
-            it("should return one message when executing with command line rule and config file that overrides local .eslintrc", function () {
+            it("should return one message when executing with command line rule and config file that overrides local .eslintrc", function() {
 
                 engine = new CLIEngine({
                     reset: true,
@@ -674,7 +674,7 @@ describe("CLIEngine", function() {
             });
 
             // Command line configuration - --rule with --config and first level .eslintrc
-            it("should return one message when executing with command line rule and config file that overrides local .eslintrc", function () {
+            it("should return one message when executing with command line rule and config file that overrides local .eslintrc", function() {
 
                 engine = new CLIEngine({
                     reset: true,
@@ -693,8 +693,8 @@ describe("CLIEngine", function() {
 
         });
 
-        describe("plugins", function () {
-            it("should return two messages when executing with config file that specifies a plugin", function () {
+        describe("plugins", function() {
+            it("should return two messages when executing with config file that specifies a plugin", function() {
                 engine = new CLIEngine({
                     configFile: "./tests/fixtures/configurations/plugins-with-prefix.json",
                     reset: true,
@@ -708,7 +708,7 @@ describe("CLIEngine", function() {
                 assert.equal(report.results[0].messages[0].ruleId, "example/example-rule");
             });
 
-            it("should return two messages when executing with config file that specifies a plugin without prefix", function () {
+            it("should return two messages when executing with config file that specifies a plugin without prefix", function() {
                 engine = new CLIEngine({
                     configFile: "./tests/fixtures/configurations/plugins-without-prefix.json",
                     reset: true,
@@ -722,7 +722,7 @@ describe("CLIEngine", function() {
                 assert.equal(report.results[0].messages[0].ruleId, "example/example-rule");
             });
 
-            it("should import the same plugin only once if it is configured multiple times", sinon.test(function () {
+            it("should import the same plugin only once if it is configured multiple times", sinon.test(function() {
                 var importPlugin = this.spy(rules, "import");
 
                 engine = new CLIEngine({
@@ -738,7 +738,7 @@ describe("CLIEngine", function() {
                 assert.equal(importPlugin.calledWithExactly(examplePlugin.rules, "example"), true);
             }));
 
-            it("should return two messages when executing with cli option that specifies a plugin", function () {
+            it("should return two messages when executing with cli option that specifies a plugin", function() {
                 engine = new CLIEngine({
                     reset: true,
                     useEslintrc: false,
@@ -776,9 +776,9 @@ describe("CLIEngine", function() {
 
     });
 
-    describe("isPathIgnored", function () {
+    describe("isPathIgnored", function() {
 
-        it("should check if the given path is ignored", function () {
+        it("should check if the given path is ignored", function() {
             var engine = new CLIEngine({
                 ignorePath: "tests/fixtures/.eslintignore2"
             });
@@ -787,7 +787,7 @@ describe("CLIEngine", function() {
             assert.isFalse(engine.isPathIgnored("passing.js"));
         });
 
-        it("should always return false if ignoring is disabled", function () {
+        it("should always return false if ignoring is disabled", function() {
             var engine = new CLIEngine({
                 ignorePath: "tests/fixtures/.eslintignore2",
                 ignore: false
@@ -799,22 +799,49 @@ describe("CLIEngine", function() {
 
     });
 
-    describe("getFormatter()", function () {
+    describe("getFormatter()", function() {
 
-        it("should return a function when a bundled formatter is requested", function () {
+        it("should return a function when a bundled formatter is requested", function() {
             var engine = new CLIEngine(),
                 formatter = engine.getFormatter("compact");
 
             assert.isFunction(formatter);
         });
 
-        it("should return a function when a custom formatter is requested", function () {
+        it("should return a function when no argument is passed", function() {
+            var engine = new CLIEngine(),
+                formatter = engine.getFormatter();
+
+            assert.isFunction(formatter);
+        });
+
+        it("should return a function when a custom formatter is requested", function() {
             var engine = new CLIEngine(),
                 formatter = engine.getFormatter("./tests/fixtures/formatters/simple.js");
 
             assert.isFunction(formatter);
         });
 
+        it("should return null when a customer formatter doesn't exist", function() {
+            var engine = new CLIEngine(),
+                formatter = engine.getFormatter("./tests/fixtures/formatters/doesntexist.js");
+
+            assert.isNull(formatter);
+        });
+
+        it("should return null when a built-in formatter doesn't exist", function() {
+            var engine = new CLIEngine(),
+                formatter = engine.getFormatter("special");
+
+            assert.isNull(formatter);
+        });
+
+        it("should return null when a non-string formatter name is passed", function() {
+            var engine = new CLIEngine(),
+                formatter = engine.getFormatter(5);
+
+            assert.isNull(formatter);
+        });
 
     });
 
