@@ -29,6 +29,10 @@ The following patterns are considered warnings:
 setTimeout("alert('Hi!');", 100);
 
 setInterval("alert('Hi!');", 100);
+
+window.setTimeout("count = 5", 10);
+
+window.setInterval("foo = bar", 10);
 ```
 
 The following patterns are not warnings:
