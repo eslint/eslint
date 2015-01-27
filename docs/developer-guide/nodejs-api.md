@@ -213,6 +213,35 @@ var cli = new CLIEngine({
 var isIgnored = cli.isPathIgnored("foo/bar.js");
 ```
 
+### getFormatter()
+
+Retrieves a formatter, which you can then use to format a report object. The argument is either the name of a built-in formatter ("stylish" (the default), "compact", "checkstyle", "jslint-xml", "junit" and "tap") or the full path to a JavaScript file containing a custom formatter. You can also omit the argument to retrieve the default formatter.
+
+```js
+var CLIEngine = require("eslint").CLIEngine;
+
+var cli = new CLIEngine({
+    envs: ["browser", "mocha"],
+    useEslintrc: false,
+    rules: {
+        semi: 2
+    }
+});
+
+// lint myfile.js and all files in lib/
+var report = cli.executeOnFiles(["myfile.js", "lib/"]);
+
+// get the default formatter
+var formatter = cli.getFormatter();
+
+// Also could do...
+// var formatter = cli.getFormatter("compact");
+// var formatter = cli.getFormatter("./my/formatter.js");
+
+// output to console
+console.log(formatter(report));
+```
+
 ## Deprecated APIs
 
 * `cli` - the `cli` object has been deprecated in favor of `CLIEngine`. It will be removed at some point in the future.
