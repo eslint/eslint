@@ -8,18 +8,9 @@ var obj = { x: "foo" },
     value = eval("obj." + key);
 ```
 
-Additionally, there are some other methods that act similar to `eval()`. Both `setTimeout()` and `setInterval()` allow the first argument to be a string, which evaluates the string in the global scope, such as:
-
-```js
-setTimeout("count = 5", 10);
-setInterval("foo = bar", 10);
-```
-
-These are considered implied `eval()` and it's typically recommended to use functions for the first argument instead of a string.
-
 ## Rule Details
 
-This rule is aimed at preventing potentially dangerous, unnecessary, and slow code by disallowing the use of the `eval()` function. As such, it will warn whenever the `eval()` function is used or when either `setTimeout()` or `setInterval()` are used with a string argument.
+This rule is aimed at preventing potentially dangerous, unnecessary, and slow code by disallowing the use of the `eval()` function. As such, it will warn whenever the `eval()` function is used.
 
 The following patterns are considered warnings:
 
@@ -27,11 +18,6 @@ The following patterns are considered warnings:
 var obj = { x: "foo" },
     key = "x",
     value = eval("obj." + key);
-
-setTimeout("count = 5", 10);
-setInterval("foo = bar", 10);
-window.setTimeout("count = 5", 10);
-window.setInterval("foo = bar", 10);
 ```
 
 The following patterns are not considered warnings:
@@ -40,15 +26,6 @@ The following patterns are not considered warnings:
 var obj = { x: "foo" },
     key = "x",
     value = obj[key];
-
-setTimeout(function() {
-    count = 5;
-}, 10);
-
-setInterval(function() {
-    foo = bar;
-}, 10);
-
 ```
 
 ## Further Reading
