@@ -1,6 +1,6 @@
 # Disallow Unnecessary Nested Blocks (no-lone-blocks)
 
-In JavaScript, standalone code blocks delimited by curly braces do not create a new scope and have have no use. For example, these curly braces do nothing to `foo`:
+In JavaScript, standalone code blocks delimited by curly braces do not create a new scope and have no use. For example, these curly braces do nothing to `foo`:
 
 ```js
 {
