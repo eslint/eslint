@@ -48,6 +48,8 @@ describe("CLIEngine", function() {
 
             var report = engine.executeOnText("var foo = 'bar';");
             assert.equal(report.results.length, 1);
+            assert.equal(report.errorCount, 4);
+            assert.equal(report.warningCount, 0);
             assert.equal(report.results[0].messages.length, 4);
             assert.equal(report.results[0].messages[0].ruleId, "strict");
             assert.equal(report.results[0].messages[1].ruleId, "eol-last");
@@ -65,8 +67,12 @@ describe("CLIEngine", function() {
 
             var report = engine.executeOnText("var foo = 'bar';");
             assert.equal(report.results.length, 1);
+            assert.equal(report.errorCount, 1);
+            assert.equal(report.warningCount, 0);
             assert.equal(report.results[0].messages.length, 1);
             assert.equal(report.results[0].messages[0].ruleId, "quotes");
+            assert.equal(report.results[0].errorCount, 1);
+            assert.equal(report.results[0].warningCount, 0);
         });
 
     });
@@ -121,8 +127,12 @@ describe("CLIEngine", function() {
             var report = engine.executeOnFiles(["tests/fixtures/single-quoted.js"]);
             assert.equal(report.results.length, 1);
             assert.equal(report.results[0].messages.length, 1);
+            assert.equal(report.errorCount, 1);
+            assert.equal(report.warningCount, 0);
             assert.equal(report.results[0].messages[0].ruleId, "quotes");
             assert.equal(report.results[0].messages[0].severity, 2);
+            assert.equal(report.results[0].errorCount, 1);
+            assert.equal(report.results[0].warningCount, 0);
         });
 
         it("should return two messages when given a config file and a directory of files", function() {
@@ -134,8 +144,14 @@ describe("CLIEngine", function() {
 
             var report = engine.executeOnFiles(["tests/fixtures/formatters"]);
             assert.equal(report.results.length, 2);
+            assert.equal(report.errorCount, 0);
+            assert.equal(report.warningCount, 0);
             assert.equal(report.results[0].messages.length, 0);
             assert.equal(report.results[1].messages.length, 0);
+            assert.equal(report.results[0].errorCount, 0);
+            assert.equal(report.results[0].warningCount, 0);
+            assert.equal(report.results[1].errorCount, 0);
+            assert.equal(report.results[1].warningCount, 0);
         });
 
         it("should return zero messages when given a config with environment set to browser", function() {
@@ -229,9 +245,13 @@ describe("CLIEngine", function() {
             var report = engine.executeOnFiles(["tests/fixtures/passing.js"]);
 
             assert.equal(report.results.length, 1);
+            assert.equal(report.errorCount, 0);
+            assert.equal(report.warningCount, 1);
             assert.equal(report.results[0].filePath, "tests/fixtures/passing.js");
             assert.equal(report.results[0].messages[0].severity, 1);
             assert.equal(report.results[0].messages[0].message, "File ignored because of your .eslintignore file. Use --no-ignore to override.");
+            assert.equal(report.results[0].errorCount, 0);
+            assert.equal(report.results[0].warningCount, 1);
         });
 
         it("should return two messages when given a file in excluded files list while ignore is off", function() {
