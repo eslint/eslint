@@ -1221,7 +1221,7 @@ describe("eslint", function() {
 
             assert.equal(messages.length, 1);
             assert.equal(messages[0].ruleId, code);
-            assert.equal(messages[0].node.type, "Literal");
+            assert.equal(messages[0].nodeType, "Literal");
         });
     });
 
@@ -1253,7 +1253,7 @@ describe("eslint", function() {
                 }));
             });
             messages.forEach(function(message) {
-                assert.equal(message.node.type, "Literal");
+                assert.equal(message.nodeType, "Literal");
             });
         });
     });
@@ -1308,7 +1308,7 @@ describe("eslint", function() {
             assert.equal(messages.length, 1);
             assert.equal(messages[0].ruleId, "no-alert");
             assert.equal(messages[0].message, "Unexpected alert.");
-            assert.include(messages[0].node.type, "CallExpression");
+            assert.include(messages[0].nodeType, "CallExpression");
         });
 
         it("rules should not change initial config", function() {
@@ -1396,7 +1396,7 @@ describe("eslint", function() {
             assert.equal(messages.length, 2);
             assert.equal(messages[0].ruleId, "no-alert");
             assert.equal(messages[0].message, "Unexpected alert.");
-            assert.include(messages[0].node.type, "CallExpression");
+            assert.include(messages[0].nodeType, "CallExpression");
             assert.equal(messages[1].ruleId, "no-console");
         });
     });
@@ -1410,7 +1410,7 @@ describe("eslint", function() {
             assert.equal(messages.length, 1);
             assert.equal(messages[0].ruleId, "no-alert");
             assert.equal(messages[0].message, "Unexpected alert.");
-            assert.include(messages[0].node.type, "CallExpression");
+            assert.include(messages[0].nodeType, "CallExpression");
         });
     });
 
@@ -1472,7 +1472,7 @@ describe("eslint", function() {
             assert.equal(messages.length, 1);
             assert.equal(messages[0].ruleId, "no-alert");
             assert.equal(messages[0].message, "Unexpected alert.");
-            assert.include(messages[0].node.type, "CallExpression");
+            assert.include(messages[0].nodeType, "CallExpression");
             assert.equal(messages[0].line, 4);
         });
 
@@ -1703,7 +1703,7 @@ describe("eslint", function() {
             assert.equal(messages.length, 1);
             assert.equal(messages[0].ruleId, "no-alert");
             assert.equal(messages[0].message, "Unexpected alert.");
-            assert.include(messages[0].node.type, "CallExpression");
+            assert.include(messages[0].nodeType, "CallExpression");
         });
     });
 
@@ -1717,7 +1717,7 @@ describe("eslint", function() {
             assert.equal(messages.length, 1);
             assert.equal(messages[0].ruleId, "quotes");
             assert.equal(messages[0].message, "Strings must use doublequote.");
-            assert.include(messages[0].node.type, "Literal");
+            assert.include(messages[0].nodeType, "Literal");
         });
     });
 
@@ -1731,7 +1731,7 @@ describe("eslint", function() {
             assert.equal(messages.length, 1);
             assert.equal(messages[0].ruleId, "no-alert");
             assert.equal(messages[0].message, "Unexpected alert.");
-            assert.include(messages[0].node.type, "CallExpression");
+            assert.include(messages[0].nodeType, "CallExpression");
         });
 
         it("should report a violation", function() {
@@ -1743,7 +1743,7 @@ describe("eslint", function() {
             assert.equal(messages.length, 1);
             assert.equal(messages[0].ruleId, "no-alert");
             assert.equal(messages[0].message, "Unexpected alert.");
-            assert.include(messages[0].node.type, "CallExpression");
+            assert.include(messages[0].nodeType, "CallExpression");
         });
 
         it("should report a violation", function() {
@@ -1755,7 +1755,7 @@ describe("eslint", function() {
             assert.equal(messages.length, 1);
             assert.equal(messages[0].ruleId, "no-alert");
             assert.equal(messages[0].message, "Unexpected alert.");
-            assert.include(messages[0].node.type, "CallExpression");
+            assert.include(messages[0].nodeType, "CallExpression");
         });
     });
 
@@ -1768,9 +1768,8 @@ describe("eslint", function() {
 
             assert.equal(messages.length, 1);
             assert.equal(messages[0].ruleId, "no-extra-semi");
-            assert.equal(messages[0].node.type, "EmptyStatement");
+            assert.equal(messages[0].nodeType, "EmptyStatement");
             assert.equal(messages[0].line, 3);
-            assert.equal(messages[0].line, messages[0].node.loc.start.line);
         });
 
         it("should not have a comment with the shebang in it", function() {
@@ -1839,9 +1838,8 @@ describe("eslint", function() {
             var messages = eslint.verify(code, config, filename);
             assert.equal(messages.length, 1);
             assert.equal(messages[0].ruleId, "no-undef");
-            assert.equal(messages[0].node.type, "Identifier");
+            assert.equal(messages[0].nodeType, "Identifier");
             assert.equal(messages[0].line, 1);
-            assert.equal(messages[0].line, messages[0].node.loc.start.line);
         });
 
         it("should not report a violation when using typed array", function() {
@@ -1906,9 +1904,8 @@ describe("eslint", function() {
             var messages = eslint.verify(code, config, filename);
             assert.equal(messages.length, 1);
             assert.equal(messages[0].ruleId, "no-process-exit");
-            assert.equal(messages[0].node.type, "CallExpression");
+            assert.equal(messages[0].nodeType, "CallExpression");
             assert.equal(messages[0].line, 1);
-            assert.equal(messages[0].line, messages[0].node.loc.start.line);
         });
 
         it("should not report a violation", function() {
