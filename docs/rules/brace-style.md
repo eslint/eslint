@@ -95,6 +95,10 @@ try {
 } catch(e) {
   handleError();
 }
+
+// when there are no braces, there are no warnings
+if (foo) bar();
+else if (baz) boom();
 ```
 
 With one-line form enabled, the following is also valid:
@@ -164,6 +168,10 @@ try {
 catch(e) {
   handleError();
 }
+
+// when there are no braces, there are no warnings
+if (foo) bar();
+else if (baz) boom();
 ```
 
 With one-line form enabled, the following is also valid:
