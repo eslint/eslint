@@ -24,6 +24,7 @@ var OPEN_MESSAGE = "Opening curly brace does not appear on the same line as cont
 var eslintTester = new ESLintTester(eslint);
 eslintTester.addRuleTest("lib/rules/brace-style", {
     valid: [
+        "if (tag === 1) glyph.id = pbf.readVarint();\nelse if (tag === 2) glyph.bitmap = pbf.readBytes();",
         "function foo () { \nreturn; \n}",
         "function a(b,\nc,\nd) { }",
         "!function foo () { \nreturn;\n }",
