@@ -346,24 +346,17 @@ describe("TokenStore", function() {
 
     });
 
-    describe("when calling getTokenByRangeIndex", function() {
+    describe("when calling getTokenByRangeStart", function() {
 
         it("should return identifier token", function() {
-            var result = store.getTokenByRangeIndex(4);
-
-            assert.equal(result.type, "Identifier");
-            assert.equal(result.value, "answer");
-        });
-
-        it("should return identifier token", function() {
-            var result = store.getTokenByRangeIndex(5);
+            var result = store.getTokenByRangeStart(4);
 
             assert.equal(result.type, "Identifier");
             assert.equal(result.value, "answer");
         });
 
         it("should return null when token doesn't exist", function() {
-            var result = store.getTokenByRangeIndex(3);
+            var result = store.getTokenByRangeStart(5);
             assert.isNull(result);
         });
 
