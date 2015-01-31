@@ -19,6 +19,8 @@ var eslint = require("../../../lib/eslint"),
 var eslintTester = new ESLintTester(eslint);
 eslintTester.addRuleTest("lib/rules/no-unused-vars", {
     valid: [
+        "var foo = 5;\n\nlabel: while (true) {\n  console.log(foo);\n  break label;\n}",
+        "var foo = 5;\n\nwhile (true) {\n  console.log(foo);\n  break;\n}",
         { code: "for (let prop in box) {\n        box[prop] = parseInt(box[prop]);\n}", ecmaFeatures: { blockBindings: true }},
         "var box = {a: 2};\n    for (var prop in box) {\n        box[prop] = parseInt(box[prop]);\n}",
         { code: "a; var a;", args: [1, "all"] },
