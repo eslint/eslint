@@ -68,7 +68,12 @@ eslintTester.addRuleTest("lib/rules/no-multi-spaces", {
         "var foo = \"hello     world\";",
         "function foo() {\n    return;\n}",
         "function foo() {\n    if (foo) {\n        return;\n    }\n}",
-        { code: "var foo = `hello     world`;", ecmaFeatures: { templateStrings: true }}
+        { code: "var foo = `hello     world`;", ecmaFeatures: { templateStrings: true }},
+        "({ a:  b })",
+        {
+            code: "var  answer = 6 *  7;",
+            args: [2, { exceptions: { "VariableDeclaration": true, "BinaryExpression": true } }]
+        }
     ],
 
     invalid: [
@@ -277,7 +282,39 @@ eslintTester.addRuleTest("lib/rules/no-multi-spaces", {
                 message: "Multiple spaces found before '('.",
                 type: "Punctuator"
             }]
+        },
+        {
+            code: "var  answer = 6 *  7;",
+            errors: [{
+                message: "Multiple spaces found before 'answer'.",
+                type: "Identifier"
+            }, {
+                message: "Multiple spaces found before '7'.",
+                type: "Numeric"
+            }]
+        },
+        {
+            code: "({ a:  6  * 7 })",
+            args: 2,
+            errors: [{
+                message: "Multiple spaces found before '*'.",
+                type: "Punctuator"
+            }]
+        },
+        {
+            code: "({ a:   b })",
+            args: [2, { exceptions: { "Property": false } }],
+            errors: [{
+                message: "Multiple spaces found before 'b'.",
+                type: "Identifier"
+            }]
+        },
+        {
+            code: "var foo = { bar: function() { return 1    + 2; } };",
+            errors: [{
+                message: "Multiple spaces found before '+'.",
+                type: "Punctuator"
+            }]
         }
-
     ]
 });

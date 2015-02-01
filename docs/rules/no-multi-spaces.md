@@ -64,12 +64,44 @@ var arr = [1, 2];
 a ? b: c
 ```
 
+### Exceptions
+
+Some rules, like key-spacing in one of its alignment modes, might require multiple spaces in some instances. To support this case, this rule accepts an options object with a property named `exceptions`. Excepted node types can be added as properties on the `exceptions` object with their value set to `true`. `Property` nodes are excepted by default.
+
+With this option, the following patterns are not warnings:
+
+```js
+/* eslint no-multi-spaces: 2 */
+/* eslint key-spacing: [2, { align: "value" }] */
+var obj = {
+    first:  "first",
+    second: "second"
+};
+```
+
+```js
+/* eslint no-multi-spaces: [2, { exceptions: { "BinaryExpression": true } }] */
+var a = 1  *  2;
+```
+
+The default `Property` exception can be disabled by setting it to `false`, so the following pattern is considered a warning:
+
+```js
+/* eslint no-multi-spaces: [2, { exceptions: { "Property": false } }] */
+/* eslint key-spacing: [2, { align: "value" }] */
+var obj = {
+    first:  "first",
+    second: "second"
+};
+```
+
 ## When Not To Use It
 
 If you don't want to check and disallow multiple spaces, then you should turn this rule off.
 
 ## Related Rules
 
+* [key-spacing](key-spacing.md)
 * [space-infix-ops](space-infix-ops.md)
 * [space-in-brackets](space-in-brackets.md)
 * [space-in-parens](space-in-parens.md)
