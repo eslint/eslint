@@ -130,13 +130,17 @@ The return value is an object containing the results of the linting operation. H
                     column: 23,
                     message: "Expected a semicolon."
                 }
-            ]
+            ],
+            errorCount: 1,
+            warningCount: 0
         }
-    ]
+    ],
+    errorCount: 1,
+    warningCount: 0
 }
 ```
 
-The top-level report object has a `results` array containing all linting results for files that had warnings or errors (any files that did not product a warning or error are omitted). Each file result includes the `filePath` and a `messages` array. The `messages` array contains the result of calling `linter.verify()` on the given file.
+The top-level report object has a `results` array containing all linting results for files that had warnings or errors (any files that did not produce a warning or error are omitted). Each file result includes the `filePath`, a `messages` array, `errorCount` and `warningCount`. The `messages` array contains the result of calling `linter.verify()` on the given file. The `errorCount` and `warningCount` give the exact number of errors and warnings respectively on the given file. The top-level report object also has `errorCount` and `warningCount` which give the exact number of errors and warnings respectively on all the files.
 
 Once you get a report object, it's up to you to determine how to output the results.
 
