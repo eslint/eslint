@@ -81,6 +81,7 @@ Additionally, the `context` object has the following methods:
 * `getJSDocComment(node)` - returns the JSDoc comment for a given node or `null` if there is none.
 * `getLastToken(node)` - returns the last token representing the given node.
 * `getLastTokens(node, count)` - returns the last `count` tokens representing the given node.
+* `getNodeByRangeIndex(index)` - returns the deepest node in the AST containing the given source index.
 * `getScope()` - returns the current scope.
 * `getSource(node)` - returns the source code for the given node. Omit `node` to get the whole source.
 * `getSourceLines()` - returns the entire source code split into an array of string lines.

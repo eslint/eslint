@@ -643,6 +643,90 @@ describe("eslint", function() {
         });
     });
 
+    describe("when calling getNodeByRangeIndex", function() {
+        var code = TEST_CODE;
+
+        it("should retrieve a node starting at the given index", function() {
+            var config = { rules: {} };
+
+            eslint.reset();
+            eslint.on("Program", function() {
+                var node = eslint.getNodeByRangeIndex(4);
+                assert.equal(node.type, "Identifier");
+            });
+
+            eslint.verify(code, config, filename, true);
+        });
+
+        it("should retrieve a node containing the given index", function() {
+            var config = { rules: {} };
+
+            eslint.reset();
+            eslint.on("Program", function() {
+                var node = eslint.getNodeByRangeIndex(6);
+                assert.equal(node.type, "Identifier");
+            });
+
+            eslint.verify(code, config, filename, true);
+        });
+
+        it("should retrieve a node that is exactly the given index", function() {
+            var config = { rules: {} };
+
+            eslint.reset();
+            eslint.on("Program", function() {
+                var node = eslint.getNodeByRangeIndex(13);
+                assert.equal(node.type, "Literal");
+                assert.equal(node.value, 6);
+            });
+
+            eslint.verify(code, config, filename, true);
+        });
+
+        it("should retrieve a node ending with the given index", function() {
+            var config = { rules: {} };
+
+            eslint.reset();
+            eslint.on("Program", function() {
+                var node = eslint.getNodeByRangeIndex(9);
+                assert.equal(node.type, "Identifier");
+            });
+
+            eslint.verify(code, config, filename, true);
+        });
+
+        it("should retrieve the deepest node containing the given index", function() {
+            var config = { rules: {} };
+
+            eslint.reset();
+            eslint.on("Program", function() {
+                var node = eslint.getNodeByRangeIndex(14);
+                assert.equal(node.type, "BinaryExpression");
+                node = eslint.getNodeByRangeIndex(3);
+                assert.equal(node.type, "VariableDeclaration");
+            });
+
+            eslint.verify(code, config, filename, true);
+        });
+
+        it("should return null if the index is outside the range of any node", function() {
+            var config = { rules: {} };
+
+            eslint.reset();
+            eslint.on("Program", function() {
+                var node = eslint.getNodeByRangeIndex(-1);
+                assert.isNull(node);
+                node = eslint.getNodeByRangeIndex(-99);
+                assert.isNull(node);
+            });
+
+            eslint.verify(code, config, filename, true);
+        });
+
+    });
+
+
+
     describe("when calling getScope", function() {
         var code = "function foo() { q: for(;;) { break q; } } function bar () { var q = t; }";
 
