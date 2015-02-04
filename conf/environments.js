@@ -45,5 +45,8 @@ module.exports = {
     },
     shelljs: {
         globals: globals.shelljs
+    },
+    meteor: {
+        globals: globals.meteor
     }
 };
