@@ -323,7 +323,7 @@ If there is an `.eslintrc` and a `package.json` file found in the same directory
 The complete configuration hierarchy, from highest precedence to lowest precedence, is as follows:
 
 1. Inline configuration
-    1. `/*eslint-disable*/`
+    1. `/*eslint-disable*/` and `/*eslint-enable*/`
     1. `/*global*/`
     1. `/*eslint*/`
     1. `/*eslint-env*/`
