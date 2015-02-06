@@ -120,6 +120,7 @@
         "global-strict": [2, "never"],
         "guard-for-in": 0,
         "handle-callback-err": 0,
+        "indent": 0,
         "key-spacing": [2, { "beforeColon": false, "afterColon": true }],
         "max-depth": [0, 4],
         "max-len": [0, 80, 4],
