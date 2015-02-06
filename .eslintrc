@@ -2,6 +2,7 @@ env:
     node: true
 
 rules:
+    indent: 2
     brace-style: [2, "1tbs"]
     comma-style: [2, "last"]
     default-case: 2

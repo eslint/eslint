@@ -203,25 +203,25 @@ target.lint = function() {
     echo("Validating Makefile.js");
     lastReturn = exec(ESLINT + MAKEFILE);
     if (lastReturn.code !== 0) {
-      errors++;
+        errors++;
     }
 
     echo("Validating JSON Files");
     lastReturn = nodeCLI.exec("jsonlint", "-q -c", JSON_FILES);
     if (lastReturn.code !== 0) {
-      errors++;
+        errors++;
     }
 
     echo("Validating JavaScript files");
     lastReturn = exec(ESLINT + JS_FILES);
     if (lastReturn.code !== 0) {
-      errors++;
+        errors++;
     }
 
     echo("Validating JavaScript test files");
     lastReturn = exec(ESLINT + TEST_FILES);
     if (lastReturn.code !== 0) {
-      errors++;
+        errors++;
     }
 
     if (errors) {
