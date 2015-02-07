@@ -20,7 +20,8 @@ var eslintTester = new ESLintTester(eslint);
 eslintTester.addRuleTest("lib/rules/no-shadow", {
     valid: [
         "var a=3; function b(x) { a++; return x + a; }; setTimeout(function() { b(a); }, 0);",
-        "(function() { var doSomething = function doSomething() {}; doSomething() }())"
+        "(function() { var doSomething = function doSomething() {}; doSomething() }())",
+        "var arguments;\nfunction bar() { }"
     ],
     invalid: [
         {
