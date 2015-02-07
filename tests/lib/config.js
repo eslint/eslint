@@ -107,10 +107,10 @@ describe("Config", function() {
             assert.lengthOf(actual, 0);
         });
 
-         it("should return the path when a package.json file is found", function() {
+        it("should return the path when a package.json file is found", function () {
             var configHelper = new Config(),
                 expected = getFixturePath("broken", "package.json"),
-                // The first element of the array is the .eslintrc in the same directory.
+            // The first element of the array is the .eslintrc in the same directory.
                 actual = configHelper.findLocalConfigFiles(getFixturePath("broken"))[1];
 
             assert.equal(actual, expected);
