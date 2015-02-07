@@ -243,8 +243,10 @@ var formatter = cli.getFormatter();
 // var formatter = cli.getFormatter("./my/formatter.js");
 
 // output to console
-console.log(formatter(report));
+console.log(formatter(report.results));
 ```
+
+**Important:** You must pass in the `results` property of the report. Passing in `report` directly will result in an error.
 
 ## Deprecated APIs
 
