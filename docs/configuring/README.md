@@ -19,6 +19,7 @@ ESLint allows you to specify the JavaScript language options you want to support
 
 Configuration settings are set in your `.eslintrc` file by using the `ecmaFeatures` property. The available options are:
 
+* `arrowFunctions` - enable [arrow functions](https://leanpub.com/understandinges6/read#leanpub-auto-arrow-functions)
 * `binaryLiterals` - enable [binary literals](https://leanpub.com/understandinges6/read#leanpub-auto-octal-and-binary-literals)
 * `blockBindings` - enable `let` and `const` (aka [block bindings](https://leanpub.com/understandinges6/read#leanpub-auto-block-bindings))
 * `defaultParams` - enable [default function parameters](https://leanpub.com/understandinges6/read/#leanpub-auto-default-parameters)
@@ -31,8 +32,10 @@ Configuration settings are set in your `.eslintrc` file by using the `ecmaFeatur
 * `octalLiterals` - enable [octal literals](https://leanpub.com/understandinges6/read#leanpub-auto-octal-and-binary-literals)
 * `regexUFlag` - enable the [regular expression `u` flag](https://leanpub.com/understandinges6/read#leanpub-auto-the-regular-expression-u-flag)
 * `regexYFlag` - enable the [regular expression `y` flag](https://leanpub.com/understandinges6/read#leanpub-auto-the-regular-expression-y-flag)
+* `superInFunctions` - enable `super` references inside of functions
 * `templateStrings` - enable [template strings](https://leanpub.com/understandinges6/read/#leanpub-auto-template-strings)
 * `unicodeCodePointEscapes` - enable [code point escapes](https://leanpub.com/understandinges6/read/#leanpub-auto-escaping-non-bmp-characters)
+* `globalReturn` - allow `return` statements in the global scope
 * `jsx` - enable [JSX](http://facebook.github.io/jsx/)
 
 Here's an example `.eslintrc` file:
