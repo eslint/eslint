@@ -78,6 +78,21 @@ eslintTester.addRuleTest("lib/rules/no-multi-spaces", {
 
     invalid: [
         {
+            code: "function foo(a,  b) {}",
+            errors: [{
+                message: "Multiple spaces found before 'b'.",
+                type: "Identifier"
+            }]
+        },
+        {
+            code: "var foo = (a,  b) => {}",
+            ecmaFeatures: { arrowFunctions: true },
+            errors: [{
+                message: "Multiple spaces found before 'b'.",
+                type: "Identifier"
+            }]
+        },
+        {
             code: "var a =  1",
             errors: [{
                 message: "Multiple spaces found before '1'.",

@@ -1,6 +1,7 @@
 /**
  * @fileoverview Disallow shadowing of NaN, undefined, and Infinity (ES5 section 15.1.1)
  * @author Michael Ficarra
+ * @copyright 2013 Michael Ficarra. All rights reserved.
  */
 
 "use strict";
@@ -62,6 +63,17 @@ eslintTester.addRuleTest("lib/rules/no-shadow-restricted-names", {
           ]
         },
         { code: "function eval(eval) { var eval; !function eval(eval) { try {} catch(eval) {} }; }",
+          errors: [
+            { message: "Shadowing of global property \"eval\".", type: "Identifier"},
+            { message: "Shadowing of global property \"eval\".", type: "Identifier"},
+            { message: "Shadowing of global property \"eval\".", type: "Identifier"},
+            { message: "Shadowing of global property \"eval\".", type: "Identifier"},
+            { message: "Shadowing of global property \"eval\".", type: "Identifier"},
+            { message: "Shadowing of global property \"eval\".", type: "Identifier"}
+          ]
+        },
+        { code: "var eval = (eval) => { var eval; !function eval(eval) { try {} catch(eval) {} }; }",
+          ecmaFeatures: { arrowFunctions: true },
           errors: [
             { message: "Shadowing of global property \"eval\".", type: "Identifier"},
             { message: "Shadowing of global property \"eval\".", type: "Identifier"},

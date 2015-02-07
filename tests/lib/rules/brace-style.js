@@ -60,9 +60,11 @@ eslintTester.addRuleTest("lib/rules/brace-style", {
         { code: "if (a && b && c) {  }", args: ["2", "1tbs", { allowSingleLine: true }] },
         { code: "switch(0) {}", args: ["2", "1tbs", { allowSingleLine: true }] },
         { code: "if (foo) {}\nelse {}", args: ["2", "stroustrup", { allowSingleLine: true }] },
-        { code: "try {  bar(); }\ncatch (e) { baz();  }", args: ["2", "stroustrup", { allowSingleLine: true }] }
+        { code: "try {  bar(); }\ncatch (e) { baz();  }", args: ["2", "stroustrup", { allowSingleLine: true }] },
+        { code: "var foo = () => { return; }", ecmaFeatures: { arrowFunctions: true }, args: ["2", "stroustrup", { allowSingleLine: true }] }
     ],
     invalid: [
+        { code: "var foo = () => { return; }", ecmaFeatures: { arrowFunctions: true }, errors: [{ message: BODY_MESSAGE, type: "ReturnStatement"}] },
         { code: "function foo() { return; }", errors: [{ message: BODY_MESSAGE, type: "ReturnStatement"}] },
         { code: "function foo() \n { \n return; }", errors: [{ message: OPEN_MESSAGE, type: "FunctionDeclaration"}] },
         { code: "!function foo() \n { \n return; }", errors: [{ message: OPEN_MESSAGE, type: "FunctionExpression"}] },

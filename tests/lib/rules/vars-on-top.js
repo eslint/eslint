@@ -362,6 +362,24 @@ eslintTester.addRuleTest("lib/rules/vars-on-top", {
             ]
         },
         {
+            code: [
+                "var foo = () => {",
+                "   var first = [1,2,3];",
+                "   var item;",
+                "   for (item in first) {",
+                "       var hello = item;",
+                "   }",
+                "}"
+            ].join("\n"),
+            ecmaFeatures: { arrowFunctions: true },
+            errors: [
+                {
+                    message: "All \"var\" declarations must be at the top of the function scope.",
+                    type: "VariableDeclaration"
+                }
+            ]
+        },
+        {
             code: "'use strict'; 0; var x; f();",
             errors: [{message: "All \"var\" declarations must be at the top of the function scope.", type: "VariableDeclaration"}]
         },

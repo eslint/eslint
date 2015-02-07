@@ -28,6 +28,8 @@ eslintTester.addRuleTest("lib/rules/comma-spacing", {
         "var obj = {'foo':'bar', 'baz':\n'qur'};",
         "var obj = {'foo':\n'bar', 'baz':\n'qur'};",
         "function foo(a, b){}",
+        { code: "var foo = (a, b) => {}", ecmaFeatures: { arrowFunctions: true } },
+        { code: "var foo = a => a + 2", ecmaFeatures: { arrowFunctions: true } },
         "a, b",
         "var a = (1 + 2, 2);",
         "a(b, c)",
@@ -253,6 +255,21 @@ eslintTester.addRuleTest("lib/rules/comma-spacing", {
         },
         {
             code: "function foo(a,b){}",
+            args: [2, {before: true, after: true}],
+            errors: [
+                {
+                    message: "A space is required before ','.",
+                    type: "Identifier"
+                },
+                {
+                    message: "A space is required after ','.",
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "var foo = (a,b) => {}",
+            ecmaFeatures: { arrowFunctions: true },
             args: [2, {before: true, after: true}],
             errors: [
                 {
