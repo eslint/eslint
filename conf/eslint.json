@@ -1,5 +1,6 @@
 {
     "ecmaFeatures": {},
+    "parser": "espree",
     "env": {
         "browser": false,
         "node": false,

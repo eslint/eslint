@@ -12,10 +12,12 @@
 
 // To make sure this works in both browsers and Node.js
 function compatRequire(name, windowName) {
-    if (typeof require === "function") {
+    if (typeof window === "object") {
+        return window[windowName || name];
+    } else if (typeof require === "function") {
         return require(name);
     } else {
-        return window[windowName || name];
+        throw new Error("Cannot find object '" + name + "'.");
     }
 }
 
@@ -2009,5 +2011,28 @@ describe("eslint", function() {
         });
 
     });
+
+    // only test in Node.js, not browser
+    if (typeof window === "undefined") {
+
+        describe("Custom parser", function() {
+
+            it("should not report an error when JSX code contains a spread operator and JSX is enabled", function() {
+                var code = "var myDivElement = <div {...this.props} />;";
+                var messages = eslint.verify(code, { parser: "esprima-fb" }, "filename");
+                assert.equal(messages.length, 0);
+            });
+
+            it("should return an error when the custom parser can't be found", function() {
+                var code = "var myDivElement = <div {...this.props} />;";
+                var messages = eslint.verify(code, { parser: "esprima-fbxyz" }, "filename");
+                assert.equal(messages.length, 1);
+                assert.equal(messages[0].severity, 2);
+                assert.equal(messages[0].message, "Cannot find module 'esprima-fbxyz'");
+            });
+
+        });
+    }
+
 
 });
