@@ -40,7 +40,7 @@ describe("traverse", function() {
             files: [ fixturesDir ],
             extensions: [".js"]
         }, function(file) {
-                assert.notEqual(file.indexOf("."), -1);
+            assert.notEqual(file.indexOf("."), -1);
         });
     });
 
@@ -54,7 +54,7 @@ describe("traverse", function() {
                 return true;
             }
         }, function(file) {
-                files.push(file);
+            files.push(file);
         });
 
         assert.equal(files.length, 0);
@@ -117,7 +117,7 @@ describe("traverse", function() {
             files: [ fixturesDir ],
             extensions: [".js"]
         }, function(file) {
-                files.push(file);
+            files.push(file);
         });
 
         assert.notEqual(files.length, 0);
