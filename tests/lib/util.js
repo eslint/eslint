@@ -65,6 +65,17 @@ describe("util", function() {
             assert.isTrue(result.env.browser);
         });
 
+        it("should combine two objects with parser when passed two objects with different top-level properties", function() {
+            var code = [
+                        { env: { browser: true }, parser: "espree" },
+                        { globals: { foo: "bar"} }
+                    ];
+
+            var result = util.mergeConfigs(code[0], code[1]);
+
+            assert.equal(result.parser, "espree");
+        });
+
         it("should combine configs and override rules when passed configs with the same rules", function() {
             var code = [
                 { rules: { "no-mixed-requires": [0, false] } },
