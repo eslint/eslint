@@ -55,6 +55,27 @@ Here's an example `.eslintrc` file:
 
 Setting language options helps ESLint determine what is a parsing error. All language options are `false` by default.
 
+## Specifying Parser
+
+By default, ESLint uses [Espree](https://github.com/eslint/espree) as its parser. You can optionally specify that a different parser should be used in your configuration file so long as the parser meets the following requirements:
+
+1. It must be an npm module installed locally.
+1. It must have an Esprima-compatible interface (it must exports a `parse()` method).
+1. It must produce Esprima-compatible AST and token objects.
+
+Note that even with these compatibilities, there are no guarantees that an external parser will work correctly with ESLint and ESLint will not fix bugs related to incompatibilities with other parsers.
+
+To indicate the npm module to use as your parser, specify it using the `parser` option in your `.eslintrc` file. For example, the following specifies to use Esprima instead of Espree:
+
+```json
+{
+    "parser": "esprima",
+    "rules": {
+        "semi": 2
+    }
+}
+```
+
 ## Specifying Environments
 
 An environment defines both global variables that are predefined as well as which rules should be on or off by default. The available environments are:
