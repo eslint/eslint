@@ -345,10 +345,15 @@ target.browserify = function() {
     generateRulesIndex(TEMP_DIR);
 
     // 5. browserify the temp directory
-    nodeCLI.exec("browserify", TEMP_DIR + "eslint.js", "-o", BUILD_DIR + "eslint.js", "-s eslint");
-    // exec(BROWSERIFY + TEMP_DIR + "eslint.js -o " + BUILD_DIR + "eslint.js -s eslint");
+    nodeCLI.exec("browserify", "-x espree", TEMP_DIR + "eslint.js", "-o", BUILD_DIR + "eslint.js", "-s eslint");
 
-    // 6. remove temp directory
+    // 6. Browserify espree
+    nodeCLI.exec("browserify", "-r espree", "-o", TEMP_DIR + "espree.js");
+
+    // 7. Concatenate the two files together
+    cat(TEMP_DIR + "espree.js", BUILD_DIR + "eslint.js").to(BUILD_DIR + "eslint.js");
+
+    // 8. remove temp directory
     rm("-r", TEMP_DIR);
 };
 

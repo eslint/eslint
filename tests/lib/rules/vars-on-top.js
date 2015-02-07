@@ -133,15 +133,20 @@ eslintTester.addRuleTest("lib/rules/vars-on-top", {
             "   first = 5;",
             "}"
         ].join("\n"),
-        [
-            "function foo() {",
-            "   var i = 0;",
-            "   for (let j = 0; j < 10; j++) {",
-            "       alert(j);",
-            "   }",
-            "   i = i + 1;",
-            "}"
-        ].join("\n"),
+        {
+            code: [
+                "function foo() {",
+                "   var i = 0;",
+                "   for (let j = 0; j < 10; j++) {",
+                "       alert(j);",
+                "   }",
+                "   i = i + 1;",
+                "}"
+            ].join("\n"),
+            ecmaFeatures: {
+                blockBindings: true
+            }
+        },
         "'use strict'; var x; f();",
         "'use strict'; 'directive'; var x; var y; f();",
         "function f() { 'use strict'; var x; f(); }",
