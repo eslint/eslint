@@ -1,6 +1,7 @@
 /**
  * @fileoverview Validates JSDoc comments are syntactically correct
  * @author Nicholas C. Zakas
+ * @copyright 2014 Nicholas C. Zakas. All rights reserved.
  */
 "use strict";
 
@@ -34,6 +35,11 @@ eslintTester.addRuleTest("lib/rules/valid-jsdoc", {
         {
             code: "/**\n* Description\n* @return {void} */\nfunction foo(){}",
             args: [1, {}]
+        },
+        {
+            code: "/**\n* Description\n* @param {string} p bar\n*/\nFoo.bar = (p) => {};",
+            args: [1, {requireReturn: false}],
+            ecmaFeatures: { arrowFunctions: true }
         },
         {
             code: "/**\n* Description\n* @param {string} p bar\n*/\nFoo.bar = function(p){};",
@@ -94,6 +100,15 @@ eslintTester.addRuleTest("lib/rules/valid-jsdoc", {
         {
             code: "/** Foo \n@return {void} Foo\n */\nfunction foo(){}",
             args: [1, { prefer: { "return": "returns" }}],
+            errors: [{
+                message: "Use @returns instead.",
+                type: "Block"
+            }]
+        },
+        {
+            code: "/** Foo \n@return {void} Foo\n */\nfoo.bar = () => {}",
+            args: [1, { prefer: { "return": "returns" }}],
+            ecmaFeatures: { arrowFunctions: true },
             errors: [{
                 message: "Use @returns instead.",
                 type: "Block"

@@ -31,6 +31,7 @@ eslintTester.addRuleTest("lib/rules/block-scoped-var", {
         "function f() { var hasOwnProperty; { hasOwnProperty; } }",
         "function f(){ a; b; var a, b; }",
         "function f(){ g(); function g(){} }",
+        { code: "var f = () => { var g = f; }", ecmaFeatures: { arrowFunctions: true } },
         { code: "new Date", globals: {Date: false} },
         { code: "new Date", globals: {} },
         { code: "var eslint = require('eslint');", globals: {require: false} },
@@ -49,6 +50,7 @@ eslintTester.addRuleTest("lib/rules/block-scoped-var", {
         "a:;"
     ],
     invalid: [
+        { code: "var f = () => { x; }", ecmaFeatures: { arrowFunctions: true }, errors: [{ message: "\"x\" used outside of binding context.", type: "Identifier" }] },
         { code: "function f(){ x; }", errors: [{ message: "\"x\" used outside of binding context.", type: "Identifier" }] },
         { code: "function f(){ x; { var x; } }", errors: [{ message: "\"x\" used outside of binding context.", type: "Identifier" }] },
         { code: "function f(){ { var x; } x; }", errors: [{ message: "\"x\" used outside of binding context.", type: "Identifier" }] },

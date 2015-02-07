@@ -221,6 +221,11 @@ eslintTester.addRuleTest("lib/rules/strict", {
                 { message: "Unnecessary \"use strict\" directive.", type: "ExpressionStatement" },
                 { message: "Multiple \"use strict\" directives.", type: "ExpressionStatement" }
             ]
+        },
+        {
+            code: "var foo = () => { return; };",
+            ecmaFeatures: { arrowFunctions: true },
+            errors: [{ message: "Missing \"use strict\" statement.", type: "ArrowFunctionExpression"}]
         }
 
     ]
