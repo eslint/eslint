@@ -55,7 +55,8 @@ eslintTester.addRuleTest("lib/rules/comma-spacing", {
         {code: "var arr = [1 , 2];", args: [2, {before: true, after: true}]},
         {code: "a , b", args: [2, {before: true, after: true}]},
         {code: "var arr = [1,2];", args: [2, {before: false, after: false}]},
-        {code: "var a = (1 + 2,2)", args: [2, {before: false, after: false}]}
+        {code: "var a = (1 + 2,2)", args: [2, {before: false, after: false}]},
+        { code: "var a; console.log(`${a}`, \"a\");", ecmaFeatures: { templateStrings: true } }
     ],
 
     invalid: [
