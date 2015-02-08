@@ -25,30 +25,32 @@ eslintTester.addRuleTest("lib/rules/strict", {
         "function foo () { 'use strict'; return; }",
         "'use strict'; var foo = function () { bar(); };",
         "var foo = function () { 'use strict'; bar(); return; };",
+        { code: "a = () => { 'use strict'; return true; }", ecmaFeatures: { arrowFunctions: true } },
 
         // "never" mode
-        { code: "foo();", args: [2, "never"] },
-        { code: "function foo() { return; }", args: [2, "never"] },
-        { code: "var foo = function() { return; };", args: [2, "never"] },
-        { code: "foo(); 'use strict';", args: [2, "never"] },
-        { code: "function foo() { bar(); 'use strict'; return; }", args: [2, "never"] },
-        { code: "var foo = function() { { 'use strict'; } return; };", args: [2, "never"] },
-        { code: "(function() { bar('use strict'); return; }());", args: [2, "never"] },
+        { code: "foo();", options: ["never"] },
+        { code: "function foo() { return; }", options: ["never"] },
+        { code: "var foo = function() { return; };", options: ["never"] },
+        { code: "foo(); 'use strict';", options: ["never"] },
+        { code: "function foo() { bar(); 'use strict'; return; }", options: ["never"] },
+        { code: "var foo = function() { { 'use strict'; } return; };", options: ["never"] },
+        { code: "(function() { bar('use strict'); return; }());", options: ["never"] },
+        { code: "var fn = x => 1;", ecmaFeatures: { arrowFunctions: true }, options: ["never"] },
 
         // "global" mode
-        { code: "// Intentionally empty", args: [2, "global"] },
-        { code: "\"use strict\"; foo();", args: [2, "global"] },
-        { code: "'use strict'; function foo() { return; }", args: [2, "global"] },
-        { code: "'use strict'; var foo = function() { return; };", args: [2, "global"] },
-        { code: "'use strict'; function foo() { bar(); 'use strict'; return; }", args: [2, "global"] },
-        { code: "'use strict'; var foo = function() { bar(); 'use strict'; return; };", args: [2, "global"] },
-        { code: "'use strict'; function foo() { return function() { bar(); 'use strict'; return; }; }", args: [2, "global"] },
+        { code: "// Intentionally empty", options: ["global"] },
+        { code: "\"use strict\"; foo();", options: ["global"] },
+        { code: "'use strict'; function foo() { return; }", options: ["global"] },
+        { code: "'use strict'; var foo = function() { return; };", options: ["global"] },
+        { code: "'use strict'; function foo() { bar(); 'use strict'; return; }", options: ["global"] },
+        { code: "'use strict'; var foo = function() { bar(); 'use strict'; return; };", options: ["global"] },
+        { code: "'use strict'; function foo() { return function() { bar(); 'use strict'; return; }; }", options: ["global"] },
 
         // "function" mode
-        { code: "function foo() { 'use strict'; return; }", args: [2, "function"] },
-        { code: "var foo = function() { 'use strict'; return; }", args: [2, "function"] },
-        { code: "function foo() { 'use strict'; return; } var bar = function() { 'use strict'; bar(); };", args: [2, "function"] },
-        { code: "var foo = function() { 'use strict'; function bar() { return; } bar(); };", args: [2, "function"] }
+        { code: "function foo() { 'use strict'; return; }", options: ["function"] },
+        { code: "var foo = function() { 'use strict'; return; }", options: ["function"] },
+        { code: "function foo() { 'use strict'; return; } var bar = function() { 'use strict'; bar(); };", options: ["function"] },
+        { code: "var foo = function() { 'use strict'; function bar() { return; } bar(); };", options: ["function"] }
 
     ],
     invalid: [
@@ -79,31 +81,31 @@ eslintTester.addRuleTest("lib/rules/strict", {
         // "never" mode
         {
             code: "\"use strict\"; foo();",
-            args: [2, "never"],
+            options: ["never"],
             errors: [
                 { message: "Strict mode is not permitted.", type: "ExpressionStatement" }
             ]
         }, {
             code: "function foo() { 'use strict'; return; }",
-            args: [2, "never"],
+            options: ["never"],
             errors: [
                 { message: "Strict mode is not permitted.", type: "ExpressionStatement" }
             ]
         }, {
             code: "var foo = function() { 'use strict'; return; };",
-            args: [2, "never"],
+            options: ["never"],
             errors: [
                 { message: "Strict mode is not permitted.", type: "ExpressionStatement" }
             ]
         }, {
             code: "function foo() { return function() { 'use strict'; return; }; }",
-            args: [2, "never"],
+            options: ["never"],
             errors: [
                 { message: "Strict mode is not permitted.", type: "ExpressionStatement" }
             ]
         }, {
             code: "'use strict'; function foo() { \"use strict\"; return; }",
-            args: [2, "never"],
+            options: ["never"],
             errors: [
                 { message: "Strict mode is not permitted.", type: "ExpressionStatement" },
                 { message: "Strict mode is not permitted.", type: "ExpressionStatement" }
@@ -113,39 +115,39 @@ eslintTester.addRuleTest("lib/rules/strict", {
         // "global" mode
         {
             code: "foo();",
-            args: [2, "global"],
+            options: ["global"],
             errors: [
                 { message: "Use the global form of \"use strict\".", type: "Program" }
             ]
         }, {
             code: "function foo() { 'use strict'; return; }",
-            args: [2, "global"],
+            options: ["global"],
             errors: [
                 { message: "Use the global form of \"use strict\".", type: "Program" },
                 { message: "Use the global form of \"use strict\".", type: "ExpressionStatement" }
             ]
         }, {
             code: "var foo = function() { 'use strict'; return; }",
-            args: [2, "global"],
+            options: ["global"],
             errors: [
                 { message: "Use the global form of \"use strict\".", type: "Program" },
                 { message: "Use the global form of \"use strict\".", type: "ExpressionStatement" }
             ]
         }, {
             code: "'use strict'; function foo() { 'use strict'; return; }",
-            args: [2, "global"],
+            options: ["global"],
             errors: [
                 { message: "Use the global form of \"use strict\".", type: "ExpressionStatement" }
             ]
         }, {
             code: "'use strict'; var foo = function() { 'use strict'; return; };",
-            args: [2, "global"],
+            options: ["global"],
             errors: [
                 { message: "Use the global form of \"use strict\".", type: "ExpressionStatement" }
             ]
         }, {
             code: "'use strict'; 'use strict'; foo();",
-            args: [2, "global"],
+            options: ["global"],
             errors: [
                 { message: "Multiple \"use strict\" directives.", type: "ExpressionStatement" }
             ]
@@ -154,69 +156,69 @@ eslintTester.addRuleTest("lib/rules/strict", {
         // "function" mode
         {
             code: "'use strict'; foo();",
-            args: [2, "function"],
+            options: ["function"],
             errors: [
                 { message: "Use the function form of \"use strict\".", type: "ExpressionStatement" }
             ]
         }, {
             code: "(function() { return true; }());",
-            args: [2, "function"],
+            options: ["function"],
             errors: [
                 { message: "Use the function form of \"use strict\".", type: "FunctionExpression" }
             ]
         }, {
             code: "var foo = function() { foo(); 'use strict'; return; }; function bar() { foo(); 'use strict'; }",
-            args: [2, "function"],
+            options: ["function"],
             errors: [
                 { message: "Use the function form of \"use strict\".", type: "FunctionExpression" },
                 { message: "Use the function form of \"use strict\".", type: "FunctionDeclaration" }
             ]
         }, {
             code: "function foo() { 'use strict'; 'use strict'; return; }",
-            args: [2, "function"],
+            options: ["function"],
             errors: [
                 { message: "Multiple \"use strict\" directives.", type: "ExpressionStatement" }
             ]
         }, {
             code: "var foo = function() { 'use strict'; 'use strict'; return; }",
-            args: [2, "function"],
+            options: ["function"],
             errors: [
                 { message: "Multiple \"use strict\" directives.", type: "ExpressionStatement" }
             ]
         }, {
             code: "function foo() { return function() { 'use strict'; return; }; }",
-            args: [2, "function"],
+            options: ["function"],
             errors: [
                 { message: "Use the function form of \"use strict\".", type: "FunctionDeclaration" }
             ]
         }, {
             code: "var foo = function() { function bar() { 'use strict'; return; } return; }",
-            args: [2, "function"],
+            options: ["function"],
             errors: [
                 { message: "Use the function form of \"use strict\".", type: "FunctionExpression" }
             ]
         }, {
             code: "function foo() { 'use strict'; return; } var bar = function() { return; };",
-            args: [2, "function"],
+            options: ["function"],
             errors: [
                 { message: "Use the function form of \"use strict\".", type: "FunctionExpression" }
             ]
         }, {
             code: "var foo = function() { 'use strict'; return; }; function bar() { return; };",
-            args: [2, "function"],
+            options: ["function"],
             errors: [
                 { message: "Use the function form of \"use strict\".", type: "FunctionDeclaration" }
             ]
         }, {
             code: "function foo() { 'use strict'; return function() { 'use strict'; 'use strict'; return; }; }",
-            args: [2, "function"],
+            options: ["function"],
             errors: [
                 { message: "Unnecessary \"use strict\" directive.", type: "ExpressionStatement" },
                 { message: "Multiple \"use strict\" directives.", type: "ExpressionStatement" }
             ]
         }, {
             code: "var foo = function() { 'use strict'; function bar() { 'use strict'; 'use strict'; return; } }",
-            args: [2, "function"],
+            options: ["function"],
             errors: [
                 { message: "Unnecessary \"use strict\" directive.", type: "ExpressionStatement" },
                 { message: "Multiple \"use strict\" directives.", type: "ExpressionStatement" }
