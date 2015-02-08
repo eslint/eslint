@@ -112,6 +112,15 @@ eslintTester.addRuleTest("lib/rules/indent", {
     invalid: [
         {
              code:
+                 "  var a = b;\n" +
+                 "if (a) {\n" +
+                 "  b();\n" +
+                 "}\n",
+             args: [2, 2],
+             errors: expectedErrors([[1, 0]])
+        },
+        {
+             code:
                  "if (array.some(function(){\n" +
                  "  return true;\n" +
                  "})) {\n" +
@@ -121,8 +130,7 @@ eslintTester.addRuleTest("lib/rules/indent", {
                  "}\n",
              args: [2, 2],
              errors: expectedErrors([[4, 2], [6, 2]])
-         },
-
+        },
         {
             code: "if (a){\n\tb=c;\n\t\tc=d;\ne=f;\n}",
             args: [2, "tab"],
