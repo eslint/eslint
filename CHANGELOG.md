@@ -1,3 +1,10 @@
+v0.14.1 - February 8, 2015
+
+* 0.14.1 (Nicholas C. Zakas)
+* Fix: Exit code should be 1 for any number of errors (fixes #1795) (Nicholas C. Zakas)
+* Fix: Check indentation of first line (fixes #1796) (Nicholas C. Zakas)
+* Fix: strict rules shouldn't throw on arrow functions (fixes #1789) (Nicholas C. Zakas)
+
 v0.14.0 - February 7, 2015
 
 * 0.14.0 (Nicholas C. Zakas)
