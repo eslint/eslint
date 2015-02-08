@@ -35,7 +35,7 @@ describe("cli", function() {
     describe("execute()", function() {
         it("should return error when text with incorrect quotes is passed as argument", function() {
             var result = cli.execute("-c " + path.join(__dirname, "..", "..", ".eslintrc"), "var foo = 'bar';");
-            assert.equal(result, 4);
+            assert.equal(result, 1);
         });
 
         it("should return no error when --ext .js2 is specified", function() {
@@ -78,7 +78,7 @@ describe("cli", function() {
 
             exitStatus = cli.execute(code);
 
-            assert.equal(exitStatus, 2);
+            assert.equal(exitStatus, 1);
         });
     });
 
@@ -152,7 +152,7 @@ describe("cli", function() {
         it("should exit with error", function() {
             var exit = cli.execute("--no-ignore tests/fixtures/undef.js");
 
-            assert.equal(exit, 3);
+            assert.equal(exit, 1);
         });
     });
 
@@ -236,7 +236,7 @@ describe("cli", function() {
 
             assert.throws(function() {
                 var exit = cli.execute(code);
-                assert.equal(exit, 2);
+                assert.equal(exit, 1);
             }, /Error while loading rule 'custom-rule': Cannot read property/);
         });
 
@@ -259,7 +259,7 @@ describe("cli", function() {
             assert.isTrue(call.args[0].indexOf("Literal!") > -1);
             assert.isTrue(call.args[0].indexOf("2 problems") > -1);
             assert.isTrue(console.log.neverCalledWith(""));
-            assert.equal(exit, 2);
+            assert.equal(exit, 1);
         });
 
 
@@ -296,7 +296,7 @@ describe("cli", function() {
             var exit = cli.execute("--no-ignore ./tests/fixtures/eslintrc/quotes.js");
 
             assert.isTrue(console.log.calledOnce);
-            assert.equal(exit, 2);
+            assert.equal(exit, 1);
         });
     });
 
@@ -317,7 +317,7 @@ describe("cli", function() {
             var exit = cli.execute("--global baz,bat --no-ignore ./tests/fixtures/undef.js");
 
             assert.isTrue(console.log.calledOnce);
-            assert.equal(exit, 2);
+            assert.equal(exit, 1);
         });
 
         it("should allow defining writable global variables", function () {
@@ -343,7 +343,7 @@ describe("cli", function() {
 
             exitStatus = cli.execute(code);
 
-            assert.equal(exitStatus, 2);
+            assert.equal(exitStatus, 1);
         });
     });
 
