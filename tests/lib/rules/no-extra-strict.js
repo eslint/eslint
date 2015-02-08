@@ -24,6 +24,7 @@ eslintTester.addRuleTest("lib/rules/no-extra-strict", {
         "function foo() { 'use strict'; { 'use strict'; } }",
         "a = function () { 'use strict'; return true; }",
         { code: "a = () => { 'use strict'; return true; }", ecmaFeatures: { arrowFunctions: true } },
+        { code: "var fn = x => 1;", ecmaFeatures: { arrowFunctions: true } },
         "a = function foo() { 'use strict'; return true; }",
         "this.a = function b() { 'use strict'; return 1; };"
     ],
