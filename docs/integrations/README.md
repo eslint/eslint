@@ -23,6 +23,8 @@
     * [mimosa-eslint](https://npmjs.org/package/mimosa-eslint)
 * **Broccoli:**
     * [broccoli-eslint](https://www.npmjs.org/package/broccoli-eslint)
+* **Webpack:**
+    * [eslint-loader](https://www.npmjs.org/package/eslint-loader) 
 
 ## Source Control
 
