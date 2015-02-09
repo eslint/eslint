@@ -799,7 +799,10 @@ describe("eslint", function() {
             eslint.defineRule("test-rule", function(context) {
                 return {
                     "Literal": function(node) {
-                        context.report(node, node.loc.end, "hello {{dynamic}}", {dynamic: node.type});
+                        context.report(node, "hello {{dynamic}}", {
+                            substitutions: {dynamic: node.type},
+                            location: node.loc.end
+                        });
                     }
                 };
             });
@@ -816,7 +819,7 @@ describe("eslint", function() {
             eslint.defineRule("test-rule", function(context) {
                 return {
                     "Literal": function(node) {
-                        context.report(node, {line: 42, column: 13}, "hello world");
+                        context.report(node, "hello world", {location: {line: 42, column: 13}});
                     }
                 };
             });
