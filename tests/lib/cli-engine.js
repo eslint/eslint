@@ -842,6 +842,13 @@ describe("CLIEngine", function() {
             assert.isFunction(formatter);
         });
 
+        it("should return a function when a custom formatter is requested, also if the path has backslashes", function() {
+            var engine = new CLIEngine(),
+                formatter = engine.getFormatter(".\\tests\\fixtures\\formatters\\simple.js");
+
+            assert.isFunction(formatter);
+        });
+
         it("should return null when a customer formatter doesn't exist", function() {
             var engine = new CLIEngine(),
                 formatter = engine.getFormatter("./tests/fixtures/formatters/doesntexist.js");
