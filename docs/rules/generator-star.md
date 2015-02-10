@@ -71,6 +71,7 @@ When using the expression syntax `"end"` will be enforced here:
 var generator = function *() {
 }
 ```
+
 When using the expression syntax this is valid for both `"start"` and `"end"`:
 
 ```js
