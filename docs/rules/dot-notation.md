@@ -27,6 +27,7 @@ var x = foo[bar];    // Property name is a variable, square-bracket notation req
 ### Options
 
 This rule accepts a single options argument with the following defaults:
+
 ```js
 {
     "rules": {
