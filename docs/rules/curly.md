@@ -92,6 +92,52 @@ while (true) {
 }
 ```
 
+Alternatively, you can relax the rule to allow brace-less single-line `if`, `else if`, `else`, `for`, `while`, or `do`, while still enforcing the use of curly braces for other instances. To do so, configure the rule as:
+
+```
+curly: [2, "multi-line"]
+```
+
+With this configuration, the rule will warn for these patterns:
+
+```js
+if (foo)
+  doSomething();
+else
+  doSomethingElse();
+
+while (foo
+  && bar) baz();
+
+if (foo) foo(
+  bar,
+  baz);
+```
+
+It will not warn for these patterns:
+
+```js
+if (foo) return; else doSomething();
+
+if (foo) return;
+else if (bar) baz()
+else doSomething();
+
+do something();
+while (foo);
+
+if (foo) {
+    return;
+}
+
+if (foo) { return; }
+
+while (true) {
+    doSomething();
+    doSomethingElse();
+}
+```
+
 The default configuration is:
 
 ```
