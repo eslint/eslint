@@ -40,6 +40,7 @@
         "no-fallthrough": 2,
         "no-floating-decimal": 0,
         "no-func-assign": 2,
+        "no-func-var": 0,
         "no-implied-eval": 2,
         "no-inline-comments": 0,
         "no-inner-declarations": [2, "functions"],
