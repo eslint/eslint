@@ -32,11 +32,7 @@ eslintTester.addRuleTest("lib/rules/space-after-keywords", {
         { code: "try {}finally {}", args: [1]},
         { code: "try{} finally{}", args: [1, "never"]},
         { code: "(function (){})", args: [1] },
-        { code: "(function(){})", args: [1] },
-        { code: "(function (){})", args: [1, "always", { checkFunctionKeyword: true }] },
-        { code: "var foo = function (){}", args: [1, "always", { checkFunctionKeyword: true }] },
-        { code: "(function(){})", args: [1, "never", { checkFunctionKeyword: true }] },
-        { code: "var foo = function(){}", args: [1, "never", { checkFunctionKeyword: true }] }
+        { code: "(function(){})", args: [1] }
     ],
     invalid: [
         { code: "if (a) {} else if(b){}", args: [1], errors: [{ message: "Keyword \"if\" must be followed by whitespace.", type: "IfStatement" }] },
@@ -52,10 +48,6 @@ eslintTester.addRuleTest("lib/rules/space-after-keywords", {
         { code: "try{}finally {}", args: [1], errors: [{ message: "Keyword \"try\" must be followed by whitespace." }]},
         { code: "try {}finally{}", args: [1], errors: [{ message: "Keyword \"finally\" must be followed by whitespace." }]},
         { code: "try{}finally {}", args: [1, "never"], errors: [{ message: "Keyword \"finally\" must not be followed by whitespace." }]},
-        { code: "try {}finally{}", args: [1, "never"], errors: [{ message: "Keyword \"try\" must not be followed by whitespace." }]},
-        { code: "(function(){})", args: [1, "always", { checkFunctionKeyword: true }], errors: [{ message: "Keyword \"function\" must be followed by whitespace."}] },
-        { code: "var foo = function(){};", args: [1, "always", { checkFunctionKeyword: true }], errors: [{ message: "Keyword \"function\" must be followed by whitespace."}] },
-        { code: "(function (){})", args: [1, "never", { checkFunctionKeyword: true }], errors: [{ message: "Keyword \"function\" must not be followed by whitespace."}] },
-        { code: "var foo = function (){};", args: [1, "never", { checkFunctionKeyword: true }], errors: [{ message: "Keyword \"function\" must not be followed by whitespace."}] }
+        { code: "try {}finally{}", args: [1, "never"], errors: [{ message: "Keyword \"try\" must not be followed by whitespace." }]}
     ]
 });
