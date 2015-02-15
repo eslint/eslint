@@ -76,6 +76,7 @@ These are rules designed to prevent you from making mistakes. They either prescr
 * [no-script-url](no-script-url.md) - disallow use of javascript: urls.
 * [no-self-compare](no-self-compare.md) - disallow comparisons where both sides are exactly the same (off by default)
 * [no-sequences](no-sequences.md) - disallow use of comma operator
+* [no-throw-literal](no-throw-literal.md) - restrict what can be thrown as an exception (off by default)
 * [no-unused-expressions](no-unused-expressions.md) - disallow usage of expressions in statement position
 * [no-void](no-void.md) - disallow use of `void` operator (off by default)
 * [no-warning-comments](no-warning-comments.md) - disallow usage of configurable warning terms in comments - e.g. `TODO` or `FIXME` (off by default)
