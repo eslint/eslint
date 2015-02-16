@@ -31,6 +31,42 @@ eslintTester.addRuleTest("lib/rules/curly", {
         {
             code: "if (foo) bar()",
             args: [1, "multi"]
+        },
+        {
+            code: "if (foo) bar()",
+            args: [1, "multi-line"]
+        },
+        {
+            code: "if (foo) bar() \n",
+            args: [1, "multi-line"]
+        },
+        {
+            code: "if (foo) bar(); else baz()",
+            args: [1, "multi-line"]
+        },
+        {
+            code: "if (foo) bar(); \n else baz()",
+            args: [1, "multi-line"]
+        },
+        {
+            code: "if (foo) bar() \n else if (foo) bar() \n else baz()",
+            args: [1, "multi-line"]
+        },
+        {
+            code: "do baz(); while (foo)",
+            args: [1, "multi-line"]
+        },
+        {
+            code: "if (foo) { bar() }",
+            args: [1, "multi-line"]
+        },
+        {
+            code: "if (foo) { \n bar(); \n baz(); \n }",
+            args: [1, "multi-line"]
+        },
+        {
+            code: "do bar() \n while (foo)",
+            args: [1, "multi-line"]
         }
     ],
     invalid: [
@@ -116,6 +152,66 @@ eslintTester.addRuleTest("lib/rules/curly", {
                 {
                     message: "Unnecessary { after 'else'.",
                     type: "IfStatement"
+                }
+            ]
+        },
+        {
+            code: "if (foo) \n baz()",
+            args: [1, "multi-line"],
+            errors: [
+                {
+                    message: "Expected { after 'if' condition.",
+                    type: "IfStatement"
+                }
+            ]
+        },
+        {
+            code: "while (foo) \n baz()",
+            args: [1, "multi-line"],
+            errors: [
+                {
+                    message: "Expected { after 'while' condition.",
+                    type: "WhileStatement"
+                }
+            ]
+        },
+        {
+            code: "for (;foo;) \n bar()",
+            args: [1, "multi-line"],
+            errors: [
+                {
+                    message: "Expected { after 'for' condition.",
+                    type: "ForStatement"
+                }
+            ]
+        },
+        {
+            code: "while (bar && \n baz) \n foo()",
+            args: [1, "multi-line"],
+            errors: [
+                {
+                    message: "Expected { after 'while' condition.",
+                    type: "WhileStatement"
+                }
+            ]
+        },
+        {
+            code: "if (foo) bar(baz, \n baz)",
+            args: [1, "multi-line"],
+            errors: [
+                {
+                    message: "Expected { after 'if' condition.",
+                    type: "IfStatement"
+                }
+            ]
+        },
+        {
+            code: "do \n foo(); \n while (bar)",
+            args: [1, "multi-line"],
+            errors: [
+                {
+                    message: "Expected { after 'do'.",
+                    type: "DoWhileStatement"
                 }
             ]
         }
