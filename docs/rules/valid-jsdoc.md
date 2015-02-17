@@ -128,6 +128,16 @@ By default ESLint requires you to specify a description for each `@param`. You c
 }]
 ```
 
+#### requireReturnDescription
+
+By default ESLint requires you to specify a description for each `@return`. You can choose not to require descriptions for `@return` by setting `requireReturnDescription` to `false`.
+
+```
+"valid-jsdoc": [2, {
+    "requireReturnDescription": false
+}]
+```
+
 ## When Not To Use It
 
 If you aren't using JSDoc, then you can safely turn this rule off.
