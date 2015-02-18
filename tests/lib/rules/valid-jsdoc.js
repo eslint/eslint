@@ -213,6 +213,14 @@ eslintTester.addRuleTest("lib/rules/valid-jsdoc", {
                 message: "Unexpected @returns tag; function has no return statement.",
                 type: "Block"
             }]
+        },
+        {
+            code: "function foo(){}",
+            args: [1, {requireJsDoc: true}],
+            errors: [{
+                message: "Missing JSDoc.",
+                type: "FunctionDeclaration"
+            }]
         }
     ]
 });
