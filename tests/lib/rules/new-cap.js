@@ -52,7 +52,8 @@ eslintTester.addRuleTest("lib/rules/new-cap", {
         "var o = { 1: function () {} }; o[1]();",
         "var o = { 1: function () {} }; new o[1]();",
         { code: "var x = Foo(42);", args: [1, { capIsNew: true, capIsNewExceptions: ["Foo"] }] },
-        { code: "var x = new foo(42);", args: [1, { newIsCap: true, newIsCapExceptions: ["foo"] }] }
+        { code: "var x = new foo(42);", args: [1, { newIsCap: true, newIsCapExceptions: ["foo"] }] },
+        { code: "var x = Object(42);", args: [1, { capIsNewExceptions: ["Foo"] }] }
     ],
     invalid: [
         { code: "var x = new c();", errors: [{ message: "A constructor name should not start with a lowercase letter.", type: "NewExpression"}] },
@@ -63,7 +64,6 @@ eslintTester.addRuleTest("lib/rules/new-cap", {
         { code: "var b = a.Foo();", errors: [{ message: "A function with a name starting with an uppercase letter should only be used as a constructor.", type: "CallExpression"}] },
         { code: "var b = a['Foo']();", errors: [{ message: "A function with a name starting with an uppercase letter should only be used as a constructor.", type: "CallExpression"}] },
         { code: "var b = a.Date.UTC();", errors: [{ message: "A function with a name starting with an uppercase letter should only be used as a constructor.", type: "CallExpression"}] },
-        { code: "var b = UTC();", errors: [{ message: "A function with a name starting with an uppercase letter should only be used as a constructor.", type: "CallExpression"}] },
-        { code: "var x = Object(42);", args: [1, { capIsNew: true, capIsNewExceptions: [] }], errors: [{ message: "A function with a name starting with an uppercase letter should only be used as a constructor.", type: "CallExpression" }] }
+        { code: "var b = UTC();", errors: [{ message: "A function with a name starting with an uppercase letter should only be used as a constructor.", type: "CallExpression"}] }
     ]
 });
