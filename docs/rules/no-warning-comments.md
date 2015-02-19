@@ -77,6 +77,7 @@ These patterns would not be considered warnings with the same example configurat
 ## Further reading
 
 ### More examples of valid configurations
+
 1. Rule configured to warn on matches and search the complete comment, not only the start of it. Note that the `term` configuration is omitted to use the defaults terms.
 
    ```js

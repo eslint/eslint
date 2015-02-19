@@ -45,6 +45,7 @@ If provided, it must be an `Array`.
 
 Array of uppercase-starting function names that are permitted to be used without the `new` operator.
 If not provided, `capIsNewExceptions` defaults to the following:
+
  - `Object`
  - `Function`
  - `Number`
