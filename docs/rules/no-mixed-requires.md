@@ -23,6 +23,7 @@ If enabled, violations will be reported whenever a single `var` statement contai
 
 #### Nomenclature
 This rule distinguishes between six kinds of variable declaration types:
+
  - `core`: declaration of a required [core module][1]
  - `file`: declaration of a required [file module][2]
  - `module`: declaration of a required module from the [node_modules folder][3]
