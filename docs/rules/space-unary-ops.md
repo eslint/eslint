@@ -93,6 +93,7 @@ Unary operator "-" is not followed by whitespace.
 ### Options
 
 This rule have two options: `words` and `nonwords`:
+
 - `words` - applies to unary word operators such as: `new`, `delete`, `typeof`, `void`
 - `nonwords` - applies to unary operators such as: `-`, `+`, `--`, `++`, `!`, `!!`
 
