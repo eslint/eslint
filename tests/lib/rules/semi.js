@@ -37,7 +37,8 @@ eslintTester.addRuleTest("lib/rules/semi", {
         { code: ";+5", args: [1, "never"] },
         { code: ";-foo()", args: [1, "never"] },
         { code: "a++\nb++", args: [1, "never"] },
-        { code: "a++; b++", args: [1, "never"] }
+        { code: "a++; b++", args: [1, "never"] },
+        { code: "for (let thing of {}) {\n  console.log(thing);\n}", ecmaFeatures: { forOf: true, blockBindings: true }}
     ],
     invalid: [
         { code: "function foo() { return [] }", errors: [{ message: "Missing semicolon.", type: "ReturnStatement"}] },
