@@ -21,6 +21,7 @@ var eslintTester = new ESLintTester(eslint);
 eslintTester.addRuleTest("lib/rules/max-depth", {
     valid: [
         { code: "function foo() { if (true) { if (false) { if (true) { } } } }", args: [1, 3] },
+        { code: "function foo() { if (true) { } else if (false) { } else if (true) { } else if (false) {} }", args: [1, 3] },
         { code: "var foo = () => { if (true) { if (false) { if (true) { } } } }", args: [1, 3], ecmaFeatures: { arrowFunctions: true } },
         "function foo() { if (true) { if (false) { if (true) { } } } }"
     ],
