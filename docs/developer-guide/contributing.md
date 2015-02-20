@@ -167,7 +167,7 @@ The `Tag` is one of the following:
 * `New` - implemented a new feature.
 * `Upgrade` - for a dependency upgrade.
 
-The message summary should a one-sentence description of the change. The issue number should be mentioned at the end. If the commit doesn't completely fix the issue, then use `(refs #1234)` instead of `(fixes #1234)`.
+The message summary should be a one-sentence description of the change. The issue number should be mentioned at the end. If the commit doesn't completely fix the issue, then use `(refs #1234)` instead of `(fixes #1234)`.
 
 Here are some good commit message summary examples:
 
