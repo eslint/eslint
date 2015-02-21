@@ -2069,6 +2069,18 @@ describe("eslint", function() {
 
     });
 
+    describe("Edge cases", function() {
+
+        it("should not crash when invalid parentheses syntax is encountered", function() {
+            eslint.verify("left = (aSize.width/2) - ()");
+        });
+
+        it("should not crash when let is used inside of switch case", function() {
+            eslint.verify("switch(foo) { case 1: let bar=2; }", { ecmaFeatures: { blockBindings: true }});
+        });
+
+    });
+
     // only test in Node.js, not browser
     if (typeof window === "undefined") {
 
