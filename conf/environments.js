@@ -14,6 +14,9 @@ module.exports = {
     },
     node: {
         globals: globals.node,
+        ecmaFeatures: {
+            globalReturn: true
+        },
         rules: {
             "no-catch-shadow": 0,
             "no-console": 0,
