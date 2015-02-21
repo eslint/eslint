@@ -13,8 +13,22 @@
 var eslint = require("../../../lib/eslint"),
     ESLintTester = require("eslint-tester");
 
-function invalid(code, type) {
-    return { code: code, errors: [{ message: "Gratuitous parentheses around expression.", type: type }] };
+function invalid(code, type, line) {
+    var result = {
+            code: code,
+            errors: [
+                {
+                    message: "Gratuitous parentheses around expression.",
+                    type: type
+                }
+            ]
+        };
+
+    if (line) {
+        result.errors[0].line = line;
+    }
+
+    return result;
 }
 
 var eslintTester = new ESLintTester(eslint);
@@ -166,6 +180,7 @@ eslintTester.addRuleTest("lib/rules/no-extra-parens", {
         invalid("(0.0).a", "Literal"),
         invalid("(0xBEEF).a", "Literal"),
         invalid("(1e6).a", "Literal"),
-        invalid("new (function(){})", "FunctionExpression")
+        invalid("new (function(){})", "FunctionExpression"),
+        invalid("new (\nfunction(){}\n)", "FunctionExpression", 1)
     ]
 });
