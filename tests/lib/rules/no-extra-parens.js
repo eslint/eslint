@@ -13,9 +13,10 @@
 var eslint = require("../../../lib/eslint"),
     ESLintTester = require("eslint-tester");
 
-function invalid(code, type, line) {
+function invalid(code, type, line, ecmaFeatures) {
     var result = {
             code: code,
+            ecmaFeatures: ecmaFeatures,
             errors: [
                 {
                     message: "Gratuitous parentheses around expression.",
@@ -155,6 +156,7 @@ eslintTester.addRuleTest("lib/rules/no-extra-parens", {
         invalid("while((0));", "Literal"),
         invalid("do; while((0))", "Literal"),
         invalid("for(a in (0));", "Literal"),
+        invalid("for(a of (0));", "Literal", 1, { forOf: true }),
         invalid("f((0))", "Literal"),
         invalid("f(0, (1))", "Literal"),
         invalid("!(0)", "Literal"),

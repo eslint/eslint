@@ -67,6 +67,15 @@ eslintTester.addRuleTest("lib/rules/block-scoped-var", {
         { code: "function z(b){}; var a = b;", errors: [{ message: "\"b\" used outside of binding context.", type: "Identifier" }] },
         { code: "function z(){var b;}; var a = b;", errors: [{ message: "\"b\" used outside of binding context.", type: "Identifier" }] },
         { code: "function f(){ try{}catch(e){} e }", errors: [{ message: "\"e\" used outside of binding context.", type: "Identifier" }] },
-        { code: "a:b;", errors: [{ message: "\"b\" used outside of binding context.", type: "Identifier" }] }
+        { code: "a:b;", errors: [{ message: "\"b\" used outside of binding context.", type: "Identifier" }] },
+        {
+            code: "function a() { for(var b in {}) { var c = b; } c; }",
+            errors: [{ message: "\"c\" used outside of binding context.", type: "Identifier" }]
+        },
+        {
+            code: "function a() { for(var b of {}) { var c = b;} c; }",
+            ecmaFeatures: { forOf: true },
+            errors: [{ message: "\"c\" used outside of binding context.", type: "Identifier" }]
+        }
     ]
 });

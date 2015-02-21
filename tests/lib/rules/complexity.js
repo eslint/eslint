@@ -49,6 +49,7 @@ eslintTester.addRuleTest("lib/rules/complexity", {
         { code: "function a(x) {if (true) {return x;} else if (false) {return x+1;} else {return 4;}}", args: [1, 2], errors: 1 },
         { code: "function a(x) {for(var i = 0; i < 5; i ++) {x ++;} return x;}", args: [1, 1], errors: 1 },
         { code: "function a(obj) {for(var i in obj) {obj[i] = 3;}}", args: [1, 1], errors: 1 },
+        { code: "function a(obj) {for(var i of obj) {obj[i] = 3;}}", ecmaFeatures: { forOf: true }, args: [1, 1], errors: 1 },
         { code: "function a(x) {for(var i = 0; i < 5; i ++) {if(i % 2 === 0) {x ++;}} return x;}", args: [1, 2], errors: 1 },
         { code: "function a(obj) {if(obj){ for(var x in obj) {try {x.getThis();} catch (e) {x.getThat();}}} else {return false;}}", args: [1, 3], errors: 1 },
         { code: "function a(x) {try {x.getThis();} catch (e) {x.getThat();}}", args: [1, 1], errors: 1 },
