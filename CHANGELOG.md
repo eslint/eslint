@@ -1,3 +1,28 @@
+v0.15.0 - February 21, 2015
+
+* 0.15.0 (Nicholas C. Zakas)
+* Upgrade: Espree to 1.9.1 (fixes #1816, fixes #1805) (Nicholas C. Zakas)
+* Fix: make rules work with for-of statements (fixes #1859) (Mathias Schreck)
+* Fix: Enable globalReturn for Node.js environment (fixes #1158) (Nicholas C. Zakas)
+* Fix: Location of extra paren message (fixes #1814) (Nicholas C. Zakas)
+* Fix: Remove unnecessary file exists check (fixes #1831) (Nicholas C. Zakas)
+* Fix: Don't count else-if in max-depth (fixes #1835) (Nicholas C. Zakas)
+* Fix: Don't flag for-of statement (fixes #1852) (Nicholas C. Zakas)
+* Build: Test using io.js as well (Nicholas C. Zakas)
+* Change customformat value to path (suisho)
+* Docs: Add a missing word in the Contributing doc (Ben Linskey)
+* Docs: Fix typo in wrap-iife rule doc title (Ben Linskey)
+* Docs: Update pages to fix rendering of lists (David Anson)
+* Fix: new-cap should allow defining exceptions (fixes #1424) (Brian Di Palma)
+* Update: Add requireReturnDescription for valid-jsdoc (fixes #1833) (Brian Di Palma)
+* New: rule no-throw-literal added (fixes #1791) (Dieter Oberkofler)
+* New: multi-line option for the curly rule (fixes #1812) (Hugo Wood)
+* Docs: fix typo in configuring docs (mendenhallmagic)
+* Update: Backslashes in path (fixes #1818) (Jan Schär)
+* Docs: Update pages to fix rendering of lists and fenced code blocks (David Anson)
+* Docs: add webpack loader to the docs/integrations page (Maxime Thirouin)
+* Breaking: space-before-function-parentheses replaces space-after-function-name and checkFunctionKeyword (fixes #1618) (Mathias Schreck)
+
 v0.14.1 - February 8, 2015
 
 * 0.14.1 (Nicholas C. Zakas)
