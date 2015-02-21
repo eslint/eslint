@@ -1995,6 +1995,43 @@ describe("eslint", function() {
             assert.equal(messages.length, 0);
         });
 
+        it("should properly parse global return when passed ecmaFeatures", function() {
+
+            var messages = eslint.verify("return;", {
+                ecmaFeatures: {
+                    globalReturn: true
+                }
+            }, filename);
+
+            assert.equal(messages.length, 0);
+        });
+
+        it("should properly parse global return when in Node.js environment", function() {
+
+            var messages = eslint.verify("return;", {
+                env: {
+                    node: true
+                }
+            }, filename);
+
+            assert.equal(messages.length, 0);
+        });
+
+        it("should not parse global return when in Node.js environment with globalReturn explicitly off", function() {
+
+            var messages = eslint.verify("return;", {
+                env: {
+                    node: true
+                },
+                ecmaFeatures: {
+                    globalReturn: false
+                }
+            }, filename);
+
+            assert.equal(messages.length, 1);
+            assert.equal(messages[0].message, "Illegal return statement");
+        });
+
         it("should properly parse JSX when passed ecmaFeatures", function() {
 
             var messages = eslint.verify("var x = <div/>;", {
