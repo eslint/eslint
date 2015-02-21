@@ -239,14 +239,14 @@ describe("Config", function() {
         });
 
         // Project configuration - conf/eslint.json + first level .eslintrc
-        it("should merge environment rules into config when using .eslintrc and the built-in defaults", function () {
+        it("should merge environment rules and ecmaFeatures into config when using .eslintrc and the built-in defaults", function () {
 
             var configHelper = new Config(),
                 file = getFixturePath("broken", "console-wrong-quotes.js"),
                 expected = baseConfig,
                 actual = configHelper.getConfig(file);
 
-            expected = util.mergeConfigs(expected, { rules: environments.node.rules });
+            expected = util.mergeConfigs(expected, { rules: environments.node.rules, ecmaFeatures: environments.node.ecmaFeatures });
             expected.env.node = true;
 
             assertConfigsEqual(expected, actual);
