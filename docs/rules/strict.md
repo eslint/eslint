@@ -68,7 +68,7 @@ bar();
 
 ### "global" mode
 
-This mode ensures that all code is in strict mode and that there are no extraneous Use Srict Directives at the top level or in nested functions, which are themselves already strict by virtue of being contained in strict global code. It requires that global code contains exactly one Use Strict Directive. Use Strict Directives inside functions are considered unnecessary. Multiple Use Strict Directives at any level also trigger warnings.
+This mode ensures that all code is in strict mode and that there are no extraneous Use Strict Directives at the top level or in nested functions, which are themselves already strict by virtue of being contained in strict global code. It requires that global code contains exactly one Use Strict Directive. Use Strict Directives inside functions are considered unnecessary. Multiple Use Strict Directives at any level also trigger warnings.
 
 The following patterns are considered warnings:
 
