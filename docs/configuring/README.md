@@ -406,7 +406,7 @@ For example, placing the following `.eslintignore` file in the current working d
 ```
 # node_modules ignored by default
 
-# Ignore files compiled form TypeScript and CoffeeScript
+# Ignore files compiled from TypeScript and CoffeeScript
 **/*.{ts,coffee}.js
 
 # Ignore built files except build/index.js
