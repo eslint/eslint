@@ -317,7 +317,7 @@ describe("Config", function() {
         it("should merge command line config when config file adds to local .eslintrc", function () {
 
             var configHelper = new Config({
-                    reset: true ,
+                    reset: true,
                     configFile: getFixturePath("broken", "add-conf.yaml")
                 }),
                 file = getFixturePath("broken", "console-wrong-quotes.js"),
@@ -341,7 +341,7 @@ describe("Config", function() {
         it("should merge command line config when config file overrides local .eslintrc", function () {
 
             var configHelper = new Config({
-                    reset: true ,
+                    reset: true,
                     configFile: getFixturePath("broken", "override-conf.yaml")
                 }),
                 file = getFixturePath("broken", "console-wrong-quotes.js"),
@@ -364,7 +364,7 @@ describe("Config", function() {
         it("should merge command line config when config file adds to local and parent .eslintrc", function () {
 
             var configHelper = new Config({
-                reset: true ,
+                reset: true,
                 configFile: getFixturePath("broken", "add-conf.yaml")
             }),
             file = getFixturePath("broken", "subbroken", "console-wrong-quotes.js"),
@@ -389,7 +389,7 @@ describe("Config", function() {
         it("should merge command line config when config file overrides local and parent .eslintrc", function () {
 
             var configHelper = new Config({
-                reset: true ,
+                reset: true,
                 configFile: getFixturePath("broken", "override-conf.yaml")
             }),
             file = getFixturePath("broken", "subbroken", "console-wrong-quotes.js"),
@@ -429,7 +429,7 @@ describe("Config", function() {
         it("should merge command line config and rule when rule and config file overrides local .eslintrc", function () {
 
             var configHelper = new Config({
-                reset: true ,
+                reset: true,
                 configFile: getFixturePath("broken", "override-conf.yaml"),
                 rules: {
                     quotes: [1, "double"]
