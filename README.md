@@ -57,6 +57,7 @@ In addition, the following companies are using ESLint internally to validate the
 * [Box](https://box.com)
 * [CustomInk](https://customink.com)
 * [Fitbit](http://www.fitbit.com)
+* [HolidayCheck](http://holidaycheck.de)
 * [the native web](http://www.thenativeweb.io)
 
 ### What about ECMAScript 6 support?
