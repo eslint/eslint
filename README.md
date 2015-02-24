@@ -48,15 +48,15 @@ ESLint does both traditional linting (looking for problematic patterns) and styl
 
 The following projects are using ESLint to validate their JavaScript:
 
-* [WebKit](https://bugs.webkit.org/show_bug.cgi?id=125048)
 * [Drupal](https://www.drupal.org/node/2274223)
 * [Esprima](https://github.com/ariya/esprima)
+* [WebKit](https://bugs.webkit.org/show_bug.cgi?id=125048)
 
 In addition, the following companies are using ESLint internally to validate their JavaScript:
 
 * [Box](https://box.com)
-* [the native web](http://www.thenativeweb.io)
 * [Fitbit](http://www.fitbit.com)
+* [the native web](http://www.thenativeweb.io)
 
 ### What about ECMAScript 6 support?
 
