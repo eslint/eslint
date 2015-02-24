@@ -43,7 +43,8 @@ The following patterns are not warnings:
 
 ```js
 
-    var foo = 1, bar = 2;
+    var foo = 1, bar = 2
+        , baz = 3;
     var arr = [1, 2];
     var obj = {"foo": "bar", "baz": "qur"};
     foo(a, b);
@@ -72,7 +73,8 @@ The following patterns are not warnings:
 
 ```js
 
-    var foo = 1 ,bar = 2;
+    var foo = 1 ,bar = 2 ,
+        baz = true;
     var arr = [1 ,2];
     var obj = {"foo": "bar" ,"baz": "qur"};
     foo(a ,b);
