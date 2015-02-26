@@ -1,3 +1,18 @@
+v0.15.1 - February 26, 2015
+
+* 0.15.1 (Nicholas C. Zakas)
+* Build: Fix release task (Nicholas C. Zakas)
+* Fix: check all semicolons in no-space-before-semi (fixes #1885) (Mathias Schreck)
+* Fix: Refactor comma-spacing (fixes #1587, fixes #1845) (Roberto Vidal)
+* Fix: Allow globalReturn in consistent-return (fixes #1868) (Brandon Mills)
+* Fix: semi rule should check throw statements (fixes #1873) (Mathias Schreck)
+* Docs: Added HolidayCheck AG as user (0xPIT)
+* Upgrade: `chalk` to 1.0.0 (Sindre Sorhus)
+* Docs: Add CustomInk to the list of companies (Derek Lindahl)
+* Docs: Alphabetize project & company usage list (Derek Lindahl)
+* Docs: fix typo (Henry Zhu)
+* Docs: Fix typo (Brenard Cubacub)
+
 v0.15.0 - February 21, 2015
 
 * 0.15.0 (Nicholas C. Zakas)
