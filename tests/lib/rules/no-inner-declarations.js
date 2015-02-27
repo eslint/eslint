@@ -35,7 +35,8 @@ eslintTester.addRuleTest("lib/rules/no-inner-declarations", {
         { code: "var foo;", args: [2, "both"] },
         { code: "var foo = 42;", args: [2, "both"] },
         { code: "function doSomething() { var foo; }", args: [2, "both"] },
-        { code: "(function() { var foo; }());", args: [2, "both"] }
+        { code: "(function() { var foo; }());", args: [2, "both"] },
+        { code: "foo(() => { function bar() { } });", ecmaFeatures: { arrowFunctions: true } }
     ],
 
     // Examples of code that should trigger the rule
