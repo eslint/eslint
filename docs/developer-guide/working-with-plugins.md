@@ -18,6 +18,35 @@ module.exports = {
 };
 ```
 
+### Processors in Plugins
+
+You can also create plugins that would tell ESLint how to process files other then JavaScript. In order to create a
+processor, object that is exported from your module has to conform to the following interface:
+
+```js
+processors: {
+    file_extension_with_dot: {
+        preprocess: function(string, string) { return [string] } //Takes text of the file and returns array of texts to
+                                                                 //be processed
+        postprocess: function([[Message]], string) { return [Message] //Takes array of array of error messages, one for
+                                                                      //each text block and filename and returns single
+                                                                      //array of processed messages
+    }
+}
+```
+
+`preprocess` function takes content of the file and filename and returns back an array of javascript parts of the file.
+It's up to the plugin to decide if it needs to return just one part, or multiple pieces. For example in the case of
+processing .html files you might want to return just one item in the array by combining all scripts, but for .md file
+where each javascript block might be independent, you can return multiple items.
+
+`postprocess` function will take an array of arrays of errors returned by eslint and filename. Each item in the input
+array is going to correspond to the part that was returned from `preprocess` function. It's the function of `postprocess`
+to adjust location of all errors and aggregate them into a single flat array and return it.
+
+You can have both rules and processor in a single plugin, you can also add multiple preprocessors in a the same plugin.
+To support multiple extensions add each one to `preprocessors` element and point them to the same object.
+
 ### Default Configuration for Plugins
 
 You can provide default configuration for the rules included in your plugin by modifying
