@@ -65,6 +65,26 @@ eslintTester.addRuleTest("lib/rules/generator-star", {
             ecmaFeatures: { "generators": true }
         },
         {
+            code: "var foo = function * foo(){}",
+            args: [1, "middle"],
+            ecmaFeatures: { "generators": true }
+        },
+        {
+            code: "var foo = function * (){}",
+            args: [1, "middle"],
+            ecmaFeatures: { "generators": true }
+        },
+        {
+            code: "function * foo(){}",
+            args: [1, "middle"],
+            ecmaFeatures: { "generators": true }
+        },
+        {
+            code: "function       * foo(){}",
+            args: [1, "middle"],
+            ecmaFeatures: { "generators": true }
+        },
+        {
             code: "var x = { *foo(){} }",
             args: [1, "start"],
             ecmaFeatures: { "generators": true, "objectLiteralShorthandMethods": true }
@@ -208,6 +228,94 @@ eslintTester.addRuleTest("lib/rules/generator-star", {
             errors: [
                 {
                     message: "Expected no space before *.",
+                    type: "FunctionExpression"
+                }
+            ]
+        },
+        {
+            code: "function *foo(){}",
+            args: [1, "middle"],
+            ecmaFeatures: { "generators": true },
+            errors: [
+                {
+                    message: "Expected spaces around *.",
+                    type: "FunctionDeclaration"
+                }
+            ]
+        },
+        {
+            code: "function* foo(){}",
+            args: [1, "middle"],
+            ecmaFeatures: { "generators": true },
+            errors: [
+                {
+                    message: "Expected spaces around *.",
+                    type: "FunctionDeclaration"
+                }
+            ]
+        },
+        {
+            code: "function*foo(){}",
+            args: [1, "middle"],
+            ecmaFeatures: { "generators": true },
+            errors: [
+                {
+                    message: "Expected spaces around *.",
+                    type: "FunctionDeclaration"
+                }
+            ]
+        },
+        {
+            code: "var foo = function *(){}",
+            args: [1, "middle"],
+            ecmaFeatures: { "generators": true },
+            errors: [
+                {
+                    message: "Expected spaces around *.",
+                    type: "FunctionExpression"
+                }
+            ]
+        },
+        {
+            code: "var foo = function* (){}",
+            args: [1, "middle"],
+            ecmaFeatures: { "generators": true },
+            errors: [
+                {
+                    message: "Expected spaces around *.",
+                    type: "FunctionExpression"
+                }
+            ]
+        },
+        {
+            code: "var foo = function *foo(){}",
+            args: [1, "middle"],
+            ecmaFeatures: { "generators": true },
+            errors: [
+                {
+                    message: "Expected spaces around *.",
+                    type: "FunctionExpression"
+                }
+            ]
+        },
+        {
+            code: "var foo = function* foo(){}",
+            args: [1, "middle"],
+            ecmaFeatures: { "generators": true },
+            errors: [
+                {
+                    message: "Expected spaces around *.",
+                    type: "FunctionExpression"
+                }
+            ]
+        },
+        {
+            code: "var foo = function*(){}",
+            args: [1, "middle"],
+            ecmaFeatures: { "generators": true },
+            errors: [
+                {
+                    message: "Expected spaces around *.",
                     type: "FunctionExpression"
                 }
             ]

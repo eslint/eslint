@@ -35,8 +35,8 @@ To keep a sense of consistency when using generators this rule enforces a single
 ## Rule Details
 
 This rule enforces that the `*` is either placed next to the `function` keyword or the name of the function. The single
-option for this rule is a string specifying the placement of the asterick. For this option you may pass either
-`"start"` or `"end"`. The default is `"end"`.
+option for this rule is a string specifying the placement of the asterick. For this option you may pass
+`"start"`, `"middle"` or `"end"`. The default is `"end"`.
 
 You can set the style in configuration like this:
 
@@ -51,6 +51,13 @@ function* generator() {
 }
 ```
 
+When using `"middle"` this placement will be enforced:
+
+```js
+function * generator() {
+}
+```
+
 When using `"end"` this placement will be enforced:
 
 ```js
@@ -62,6 +69,13 @@ When using the expression syntax `"start"` will be enforced here:
 
 ```js
 var generator = function* () {
+}
+```
+
+When using the expression syntax `"middle"` will be enforced here:
+
+```js
+var generator = function * () {
 }
 ```
 
