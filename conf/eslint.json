@@ -24,6 +24,7 @@
         "no-delete-var": 2,
         "no-div-regex": 0,
         "no-dupe-keys": 2,
+        "no-dupe-args": 2,
         "no-else-return": 0,
         "no-empty": 2,
         "no-empty-class": 2,
