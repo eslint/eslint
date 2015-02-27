@@ -30,9 +30,11 @@ describe("CLIEngine", function() {
     var examplePluginName = "eslint-plugin-example",
         requireStubs = {},
         examplePlugin = { rules: { "example-rule": require("../fixtures/rules/custom-rule") } },
-        CLIEngine;
+        CLIEngine,
+        examplePreprocessorName = "eslint-plugin-processor";
 
     requireStubs[examplePluginName] = examplePlugin;
+    requireStubs[examplePreprocessorName] = require("../fixtures/processors/custom-processor");
 
     beforeEach(function() {
         CLIEngine = proxyquire("../../lib/cli-engine", requireStubs);
@@ -771,6 +773,22 @@ describe("CLIEngine", function() {
                 assert.equal(report.results.length, 1);
                 assert.equal(report.results[0].messages.length, 2);
                 assert.equal(report.results[0].messages[0].ruleId, "example/example-rule");
+            });
+        });
+
+        describe("processors", function() {
+            it("should return two messages when executing with config file that specifies a processor", function() {
+                engine = new CLIEngine({
+                    configFile: "./tests/fixtures/configurations/processors.json",
+                    reset: true,
+                    useEslintrc: false,
+                    extensions: ["js", "txt"]
+                });
+
+                var report = engine.executeOnFiles(["tests/fixtures/processors/test/test-processor.txt"]);
+
+                assert.equal(report.results.length, 1);
+                assert.equal(report.results[0].messages.length, 2);
             });
         });
 
