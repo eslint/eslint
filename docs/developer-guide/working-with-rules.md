@@ -85,12 +85,12 @@ Additionally, the `context` object has the following methods:
 * `getScope()` - returns the current scope.
 * `getSource(node)` - returns the source code for the given node. Omit `node` to get the whole source.
 * `getSourceLines()` - returns the entire source code split into an array of string lines.
-* `getTokenAfter(node)` - returns the first token after the given node.
-* `getTokenBefore(node)` - returns the first token before the given node.
+* `getTokenAfter(nodeOrToken)` - returns the first token after the given node or token.
+* `getTokenBefore(nodeOrToken)` - returns the first token before the given node or token.
 * `getTokenByRangeStart(index)` - returns the token whose range starts at the given index in the source.
 * `getTokens(node)` - returns all tokens for the given node.
-* `getTokensAfter(node, count)` - returns `count` tokens after the given node.
-* `getTokensBefore(node, count)` - returns `count` tokens before the given node.
+* `getTokensAfter(nodeOrToken, count)` - returns `count` tokens after the given node or token.
+* `getTokensBefore(nodeOrToken, count)` - returns `count` tokens before the given node or token.
 * `getTokensBetween(node1, node2)` - returns the tokens between two nodes.
 * `report(node, message)` - reports an error in the code.
 
