@@ -31,6 +31,8 @@ eslintTester.addRuleTest("lib/rules/block-scoped-var", {
         "function f() { var hasOwnProperty; { hasOwnProperty; } }",
         "function f(){ a; b; var a, b; }",
         "function f(){ g(); function g(){} }",
+        { code: "function myFunc(foo) {  \"use strict\";  var { bar } = foo;  bar.hello();}", ecmaFeatures: { destructuring: true } },
+        { code: "function myFunc(foo) {  \"use strict\";  var [ bar ]  = foo;  bar.hello();}", ecmaFeatures: { destructuring: true } },
         { code: "var f = () => { var g = f; }", ecmaFeatures: { arrowFunctions: true } },
         { code: "new Date", globals: {Date: false} },
         { code: "new Date", globals: {} },
