@@ -1,6 +1,6 @@
 # Declarations in Program or Function Body (no-inner-declarations)
 
-In JavaScript, a function declaration is only allowed in the first level of a program or the body of another function, though parsers sometimes [erroneously accept them elsewhere](https://code.google.com/p/esprima/issues/detail?id=422). This only applies to function declarations; named or anonymous function expressions can occur anywhere an expression is permitted.
+In JavaScript, prior to ES6, a function declaration is only allowed in the first level of a program or the body of another function, though parsers sometimes [erroneously accept them elsewhere](https://code.google.com/p/esprima/issues/detail?id=422). This only applies to function declarations; named or anonymous function expressions can occur anywhere an expression is permitted.
 
 ```js
 // Good
@@ -25,15 +25,20 @@ function anotherThing() {
 }
 ```
 
-A variable declaration is permitted anywhere a statement can go, even nested deeply inside other blocks. This is often undesirable due to variable hoisting, and moving declarations to the root of the program or function body can increase clarity.
+A variable declaration is permitted anywhere a statement can go, even nested deeply inside other blocks. This is often undesirable due to variable hoisting, and moving declarations to the root of the program or function body can increase clarity. Note that [block bindings](https://leanpub.com/understandinges6/read#leanpub-auto-block-bindings) (`let`, `const`) are not hoisted and therefore they are not affected by this rule.
 
 ```js
 // Good
 var foo = 42;
 
+// Good
+if (foo) {
+    let bar1;
+}
+
 // Bad
 while (test) {
-    var bar;
+    var bar2;
 }
 
 function doSomething() {
@@ -95,10 +100,14 @@ if (test) {
     fn = function fnExpression() { };
 }
 
-var foo = 42;
+var bar = 42;
+
+if (test) {
+    let baz = 43;
+}
 
 function doAnotherThing() {
-    var bar = 81;
+    var baz = 81;
 }
 ```
 
