@@ -7,8 +7,6 @@ var foo = 0;
 foo++;
 ```
 
-## Automatic Semicolon Insertion
-
 The `++` and `--` operators are subject to automatic semicolon insertion. When their use is allowed, introducing whitespace may change semantics of source code. Enabling the rule may prevent this kind of errors.
 
 ```js
