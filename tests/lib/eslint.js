@@ -753,7 +753,7 @@ describe("eslint", function() {
 
 
     describe("when calling getScope", function() {
-        var code = "function foo() { q: for(;;) { break q; } } function bar () { var q = t; }";
+        var code = "function foo() { q: for(;;) { break q; } } function bar () { var q = t; } var baz = (() => { return 1; });";
 
         it("should retrieve the global scope correctly from a Program", function() {
             var config = { rules: {} };
@@ -787,6 +787,19 @@ describe("eslint", function() {
                 var scope = eslint.getScope();
                 assert.equal(scope.type, "function");
                 assert.equal(scope.block.id.name, "foo");
+            });
+
+            eslint.verify(code, config, filename, true);
+        });
+
+        it("should retrieve the function scope correctly from within an ArrowFunctionExpression", function() {
+            var config = { rules: {}, ecmaFeatures: { arrowFunctions: true } };
+
+            eslint.reset();
+            eslint.on("ReturnStatement", function() {
+                var scope = eslint.getScope();
+                assert.equal(scope.type, "function");
+                assert.equal(scope.block.type, "ArrowFunctionExpression");
             });
 
             eslint.verify(code, config, filename, true);
