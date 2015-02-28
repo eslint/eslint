@@ -84,7 +84,6 @@
     "ecmascript",
     "espree"
   ],
-  "preferGlobal": true,
   "license": "MIT",
   "engines": {
     "node": ">=0.10"
