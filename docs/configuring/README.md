@@ -22,6 +22,7 @@ Configuration settings are set in your `.eslintrc` file by using the `ecmaFeatur
 * `arrowFunctions` - enable [arrow functions](https://leanpub.com/understandinges6/read#leanpub-auto-arrow-functions)
 * `binaryLiterals` - enable [binary literals](https://leanpub.com/understandinges6/read#leanpub-auto-octal-and-binary-literals)
 * `blockBindings` - enable `let` and `const` (aka [block bindings](https://leanpub.com/understandinges6/read#leanpub-auto-block-bindings))
+* `classes` - enable classes
 * `defaultParams` - enable [default function parameters](https://leanpub.com/understandinges6/read/#leanpub-auto-default-parameters)
 * `forOf` - enable [`for-of` loops](https://leanpub.com/understandinges6/read#leanpub-auto-for-of)
 * `generators` - enable [generators](https://leanpub.com/understandinges6/read#leanpub-auto-generators)
