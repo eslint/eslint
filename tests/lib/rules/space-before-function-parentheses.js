@@ -23,24 +23,39 @@ eslintTester.addRuleTest("lib/rules/space-before-function-parentheses", {
         { code: "function foo () {}" },
         { code: "var foo = function () {}" },
         { code: "var bar = function foo () {}" },
+        { code: "var obj = { get foo () {}, set foo (val) {} };" },
+        {
+            code: "var obj = { foo () {} };",
+            ecmaFeatures: { objectLiteralShorthandMethods: true }
+        },
 
         { code: "function foo() {}", options: ["never"] },
         { code: "var foo = function() {}", options: ["never"] },
         { code: "var bar = function foo() {}", options: ["never"] },
+        { code: "var obj = { get foo() {}, set foo(val) {} };", options: ["never"] },
+        {
+            code: "var obj = { foo() {} };",
+            options: ["never"],
+            ecmaFeatures: { objectLiteralShorthandMethods: true }
+        },
 
         {
             code: [
                 "function foo() {}",
-                "var bar = function () {}"
+                "var bar = function () {}",
+                "var obj = { get foo() {}, set foo(val) {}, bar() {} };"
             ].join("\n"),
-            options: [ { named: "never", anonymous: "always" } ]
+            options: [ { named: "never", anonymous: "always" } ],
+            ecmaFeatures: { objectLiteralShorthandMethods: true }
         },
         {
             code: [
                 "function foo () {}",
-                "var bar = function() {}"
+                "var bar = function() {}",
+                "var obj = { get foo () {}, set foo (val) {}, bar () {} };"
             ].join("\n"),
-            options: [ { named: "always", anonymous: "never" } ]
+            options: [ { named: "always", anonymous: "never" } ],
+            ecmaFeatures: { objectLiteralShorthandMethods: true }
         }
     ],
 
@@ -75,6 +90,35 @@ eslintTester.addRuleTest("lib/rules/space-before-function-parentheses", {
                     message: "Missing space before function parentheses.",
                     line: 1,
                     column: 22
+                }
+            ]
+        },
+        {
+            code: "var obj = { get foo() {}, set foo(val) {} };",
+            errors: [
+                {
+                    type: "FunctionExpression",
+                    message: "Missing space before function parentheses.",
+                    line: 1,
+                    column: 19
+                },
+                {
+                    type: "FunctionExpression",
+                    message: "Missing space before function parentheses.",
+                    line: 1,
+                    column: 33
+                }
+            ]
+        },
+        {
+            code: "var obj = { foo() {} };",
+            ecmaFeatures: { objectLiteralShorthandMethods: true },
+            errors: [
+                {
+                    type: "FunctionExpression",
+                    message: "Missing space before function parentheses.",
+                    line: 1,
+                    column: 15
                 }
             ]
         },
@@ -115,13 +159,46 @@ eslintTester.addRuleTest("lib/rules/space-before-function-parentheses", {
                 }
             ]
         },
+        {
+            code: "var obj = { get foo () {}, set foo (val) {} };",
+            options: ["never"],
+            errors: [
+                {
+                    type: "FunctionExpression",
+                    message: "Unexpected space before function parentheses.",
+                    line: 1,
+                    column: 19
+                },
+                {
+                    type: "FunctionExpression",
+                    message: "Unexpected space before function parentheses.",
+                    line: 1,
+                    column: 34
+                }
+            ]
+        },
+        {
+            code: "var obj = { foo () {} };",
+            options: ["never"],
+            ecmaFeatures: { objectLiteralShorthandMethods: true },
+            errors: [
+                {
+                    type: "FunctionExpression",
+                    message: "Unexpected space before function parentheses.",
+                    line: 1,
+                    column: 15
+                }
+            ]
+        },
 
         {
             code: [
                 "function foo () {}",
-                "var bar = function() {}"
+                "var bar = function() {}",
+                "var obj = { get foo () {}, set foo (val) {}, bar () {} };"
             ].join("\n"),
             options: [ { named: "never", anonymous: "always" } ],
+            ecmaFeatures: { objectLiteralShorthandMethods: true },
             errors: [
                 {
                     type: "FunctionDeclaration",
@@ -134,15 +211,35 @@ eslintTester.addRuleTest("lib/rules/space-before-function-parentheses", {
                     message: "Missing space before function parentheses.",
                     line: 2,
                     column: 18
+                },
+                {
+                    type: "FunctionExpression",
+                    message: "Unexpected space before function parentheses.",
+                    line: 3,
+                    column: 19
+                },
+                {
+                    type: "FunctionExpression",
+                    message: "Unexpected space before function parentheses.",
+                    line: 3,
+                    column: 34
+                },
+                {
+                    type: "FunctionExpression",
+                    message: "Unexpected space before function parentheses.",
+                    line: 3,
+                    column: 48
                 }
             ]
         },
         {
             code: [
                 "function foo() {}",
-                "var bar = function () {}"
+                "var bar = function () {}",
+                "var obj = { get foo() {}, set foo(val) {}, bar() {} };"
             ].join("\n"),
             options: [ { named: "always", anonymous: "never" } ],
+            ecmaFeatures: { objectLiteralShorthandMethods: true },
             errors: [
                 {
                     type: "FunctionDeclaration",
@@ -155,6 +252,24 @@ eslintTester.addRuleTest("lib/rules/space-before-function-parentheses", {
                     message: "Unexpected space before function parentheses.",
                     line: 2,
                     column: 18
+                },
+                {
+                    type: "FunctionExpression",
+                    message: "Missing space before function parentheses.",
+                    line: 3,
+                    column: 19
+                },
+                {
+                    type: "FunctionExpression",
+                    message: "Missing space before function parentheses.",
+                    line: 3,
+                    column: 33
+                },
+                {
+                    type: "FunctionExpression",
+                    message: "Missing space before function parentheses.",
+                    line: 3,
+                    column: 46
                 }
             ]
         }
