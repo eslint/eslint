@@ -12,6 +12,7 @@ The following rules point out areas where you might have made mistakes.
 * [no-constant-condition](no-constant-condition.md) - disallow use of constant expressions in conditions
 * [no-control-regex](no-control-regex.md) - disallow control characters in regular expressions
 * [no-debugger](no-debugger.md) - disallow use of `debugger`
+* [no-dupe-args](no-dupe-args.md) - disallow duplicate arguments in functions
 * [no-dupe-keys](no-dupe-keys.md) - disallow duplicate keys when creating object literals
 * [no-empty](no-empty.md) - disallow empty statements
 * [no-empty-class](no-empty-class.md) - disallow the use of empty character classes in regular expressions
