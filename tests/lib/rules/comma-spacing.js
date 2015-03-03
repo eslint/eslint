@@ -108,7 +108,10 @@ eslintTester.addRuleTest("lib/rules/comma-spacing", {
         { code: "var a; console.log(`${a}`, \"a\");", ecmaFeatures: { templateStrings: true } },
         { code: "var [a, b] = [1, 2];", ecmaFeatures: { destructuring: true } },
         { code: "var [a, b, ] = [1, 2];", ecmaFeatures: { destructuring: true } },
-        { code: "var [a, , b] = [1, 2, 3];", ecmaFeatures: { destructuring: true } }
+        { code: "var [a, , b] = [1, 2, 3];", ecmaFeatures: { destructuring: true } },
+        { code: "<a>,</a>", ecmaFeatures: { jsx: true } },
+        { code: "<a>  ,  </a>", ecmaFeatures: { jsx: true } },
+        { code: "<a>Hello, world</a>", args: [2, { before: true, after: false }], ecmaFeatures: { jsx: true } }
     ],
 
     invalid: [
@@ -394,6 +397,20 @@ eslintTester.addRuleTest("lib/rules/comma-spacing", {
             code: "function foo(a = 1 ,b = 2) {}",
             ecmaFeatures: { defaultParams: true },
             args: [2, {before: false, after: true}],
+            errors: [
+                {
+                    message: "There should be no space before ','.",
+                    type: "Punctuator"
+                },
+                {
+                    message: "A space is required after ','.",
+                    type: "Punctuator"
+                }
+            ]
+        },
+        {
+            code: "<a>{foo(1 ,2)}</a>",
+            ecmaFeatures: { jsx: true },
             errors: [
                 {
                     message: "There should be no space before ','.",
