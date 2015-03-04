@@ -1834,6 +1834,16 @@ describe("eslint", function() {
         });
     });
 
+    describe("when using invalid rule config", function() {
+        var code = TEST_CODE;
+
+        it("should throw an error", function() {
+            assert.throws(function() {
+                eslint.verify(code, { rules: {foobar: null } });
+            }, /Invalid config for rule 'foobar'\./);
+        });
+    });
+
     describe("when calling defaults", function() {
         it("should return back config object", function() {
             var config = eslint.defaults();

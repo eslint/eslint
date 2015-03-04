@@ -65,6 +65,18 @@ describe("util", function() {
             assert.isTrue(result.env.browser);
         });
 
+        it("should combine without blowing up on null values", function() {
+            var code = [
+                        { env: { browser: true } },
+                        { env: { node: null } }
+                    ];
+
+            var result = util.mergeConfigs(code[0], code[1]);
+
+            assert.equal(result.env.node, null);
+            assert.isTrue(result.env.browser);
+        });
+
         it("should combine two objects with parser when passed two objects with different top-level properties", function() {
             var code = [
                         { env: { browser: true }, parser: "espree" },
