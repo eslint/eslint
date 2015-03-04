@@ -77,6 +77,14 @@ To indicate the npm module to use as your parser, specify it using the `parser` 
 }
 ```
 
+The following parsers are compatible with ESLint:
+
+* [Esprima](https://npmjs.com/package/esprima)
+* [Esprima-FB](https://npmjs.com/package/esprima-fb) - Facebook's fork of Esprima that includes their proprietary syntax additions.
+* [Babel-ESLint](https://npmjs.com/package/babel-eslint) - A wrapper around the [Babel](http://babeljs.io) parser that makes it compatible with ESLint.
+
+Note when using a custom parser, the `ecmaFeatures` configuration property is ignored unless otherwise specified by the parser.
+
 ## Specifying Environments
 
 An environment defines both global variables that are predefined as well as which rules should be on or off by default. The available environments are:
