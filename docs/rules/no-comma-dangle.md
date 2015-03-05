@@ -1,5 +1,7 @@
 # Disallow Dangling Commas (no-comma-dangle)
 
+**Deprecation notice**: This rule is deprecated and has been superseded by the [comma-dangle](comma-dangle.md) rule. It will be removed in ESLint v1.0.
+
 Trailing commas in object literals are valid according to the ECMAScript 5 (and ECMAScript 3!) spec, however IE8 (when not in IE8 document mode) and below will throw an error when it encounters trailing commas in JavaScript.
 
 ```js
