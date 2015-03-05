@@ -1814,10 +1814,20 @@ describe("eslint", function() {
             var config = { rules: { "no-alert": 1} };
 
             var messages = eslint.verify(code, config, filename);
-            assert.equal(messages.length, 1);
-            assert.equal(messages[0].ruleId, "no-alert");
-            assert.equal(messages[0].message, "Unexpected alert.");
-            assert.include(messages[0].nodeType, "CallExpression");
+            assert.equal(messages.length, 2);
+
+            // Incorrectly formatted comment threw error;
+            // message from caught exception
+            // may differ amongst UAs, so verifying
+            // first part only as defined in the
+            // parseJsonConfig function in lib/eslint.js
+            assert.match(messages[0].message, /^Failed to parse JSON from ' "no-alert":'1'':/);
+            assert.equal(messages[0].line, 1);
+            assert.equal(messages[0].column, 0);
+
+            assert.equal(messages[1].ruleId, "no-alert");
+            assert.equal(messages[1].message, "Unexpected alert.");
+            assert.include(messages[1].nodeType, "CallExpression");
         });
 
         it("should report a violation", function() {
@@ -1826,10 +1836,20 @@ describe("eslint", function() {
             var config = { rules: { "no-alert": 1} };
 
             var messages = eslint.verify(code, config, filename);
-            assert.equal(messages.length, 1);
-            assert.equal(messages[0].ruleId, "no-alert");
-            assert.equal(messages[0].message, "Unexpected alert.");
-            assert.include(messages[0].nodeType, "CallExpression");
+            assert.equal(messages.length, 2);
+
+            // Incorrectly formatted comment threw error;
+            // message from caught exception
+            // may differ amongst UAs, so verifying
+            // first part only as defined in the
+            // parseJsonConfig function in lib/eslint.js
+            assert.match(messages[0].message, /^Failed to parse JSON from ' "no-alert":abc':/);
+            assert.equal(messages[0].line, 1);
+            assert.equal(messages[0].column, 0);
+
+            assert.equal(messages[1].ruleId, "no-alert");
+            assert.equal(messages[1].message, "Unexpected alert.");
+            assert.include(messages[1].nodeType, "CallExpression");
         });
 
         it("should report a violation", function() {
@@ -1838,10 +1858,20 @@ describe("eslint", function() {
             var config = { rules: { "no-alert": 1} };
 
             var messages = eslint.verify(code, config, filename);
-            assert.equal(messages.length, 1);
-            assert.equal(messages[0].ruleId, "no-alert");
-            assert.equal(messages[0].message, "Unexpected alert.");
-            assert.include(messages[0].nodeType, "CallExpression");
+            assert.equal(messages.length, 2);
+
+            // Incorrectly formatted comment threw error;
+            // message from caught exception
+            // may differ amongst UAs, so verifying
+            // first part only as defined in the
+            // parseJsonConfig function in lib/eslint.js
+            assert.match(messages[0].message, /^Failed to parse JSON from ' "no-alert":0 2':/);
+            assert.equal(messages[0].line, 1);
+            assert.equal(messages[0].column, 0);
+
+            assert.equal(messages[1].ruleId, "no-alert");
+            assert.equal(messages[1].message, "Unexpected alert.");
+            assert.include(messages[1].nodeType, "CallExpression");
         });
     });
 
