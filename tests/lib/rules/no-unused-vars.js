@@ -17,6 +17,15 @@ var eslint = require("../../../lib/eslint"),
 //------------------------------------------------------------------------------
 
 var eslintTester = new ESLintTester(eslint);
+eslint.defineRule("use-every-a", function(context) {
+    function useA() {
+        context.markVariableAsUsed("a");
+    }
+    return {
+        "VariableDeclaration": useA,
+        "ReturnStatement": useA
+    };
+});
 eslintTester.addRuleTest("lib/rules/no-unused-vars", {
     valid: [
         "var foo = 5;\n\nlabel: while (true) {\n  console.log(foo);\n  break label;\n}",
@@ -45,10 +54,6 @@ eslintTester.addRuleTest("lib/rules/no-unused-vars", {
         "function f() { var a = 1; return function(){ f(++a); }; }",
         "try {} catch(e) {}",
         "/*global a */ a;",
-        { code: "function foo() { var App; var bar = React.render(<App/>); return bar; }; foo()", args: [1, {vars: "all"}], ecmaFeatures: { jsx: true } },
-        { code: "var App; React.render(<App/>);", args: [1, {vars: "all"}], ecmaFeatures: { jsx: true } },
-        { code: "var a=1; React.render(<img src={a} />);", args: [1, {vars: "all"}], ecmaFeatures: { jsx: true } },
-        { code: "var App; function f() { return <App />; } f();", args: [1, {vars: "all"}], ecmaFeatures: { jsx: true } },
         { code: "var a=10; (function() { alert(a); })();", args: [1, {vars: "all"}] },
         { code: "function g(bar, baz) { return baz; }; g();", args: [1, {"vars": "all"}] },
         { code: "function g(bar, baz) { return baz; }; g();", args: [1, {"vars": "all", "args": "after-used"}] },
@@ -63,7 +68,12 @@ eslintTester.addRuleTest("lib/rules/no-unused-vars", {
         { code: "export function foo () {}", ecmaFeatures: { modules: true }},
         { code: "export class foo {}", ecmaFeatures: { modules: true, classes: true }},
         { code: "class Foo{}; var x = new Foo(); x.foo()", ecmaFeatures: { classes: true }},
-        "function Foo(){}; var x = new Foo(); x.foo()"
+        "function Foo(){}; var x = new Foo(); x.foo()",
+
+        // Can mark variables as used via context.markVariableAsUsed()
+        { code: "/*eslint use-every-a:1*/ var a;"},
+        { code: "/*eslint use-every-a:1*/ !function(a) { return 1; }"},
+        { code: "/*eslint use-every-a:1*/ !function() { var a; return 1 }"}
     ],
     invalid: [
         { code: "var a=10", errors: [{ message: "a is defined but never used", type: "Identifier"}] },
