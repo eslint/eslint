@@ -28,6 +28,8 @@ eslintTester.addRuleTest("lib/rules/space-before-function-parentheses", {
             code: "var obj = { foo () {} };",
             ecmaFeatures: { objectLiteralShorthandMethods: true }
         },
+        { code: "function* foo () {}", ecmaFeatures: { generators: true } },
+        { code: "var foo = function *() {};", ecmaFeatures: { generators: true } },
 
         { code: "function foo() {}", options: ["never"] },
         { code: "var foo = function() {}", options: ["never"] },
@@ -38,24 +40,44 @@ eslintTester.addRuleTest("lib/rules/space-before-function-parentheses", {
             options: ["never"],
             ecmaFeatures: { objectLiteralShorthandMethods: true }
         },
+        {
+            code: "function* foo() {}",
+            options: ["never"],
+            ecmaFeatures: { generators: true }
+        },
+        {
+            code: "var foo = function*() {};",
+            options: ["never"],
+            ecmaFeatures: { generators: true }
+        },
 
         {
             code: [
                 "function foo() {}",
                 "var bar = function () {}",
+                "function* baz() {}",
+                "var bat = function*() {};",
                 "var obj = { get foo() {}, set foo(val) {}, bar() {} };"
             ].join("\n"),
             options: [ { named: "never", anonymous: "always" } ],
-            ecmaFeatures: { objectLiteralShorthandMethods: true }
+            ecmaFeatures: {
+                generators: true,
+                objectLiteralShorthandMethods: true
+            }
         },
         {
             code: [
                 "function foo () {}",
                 "var bar = function() {}",
+                "function* baz () {}",
+                "var bat = function* () {};",
                 "var obj = { get foo () {}, set foo (val) {}, bar () {} };"
             ].join("\n"),
             options: [ { named: "always", anonymous: "never" } ],
-            ecmaFeatures: { objectLiteralShorthandMethods: true }
+            ecmaFeatures: {
+                generators: true,
+                objectLiteralShorthandMethods: true
+            }
         }
     ],
 
@@ -119,6 +141,18 @@ eslintTester.addRuleTest("lib/rules/space-before-function-parentheses", {
                     message: "Missing space before function parentheses.",
                     line: 1,
                     column: 15
+                }
+            ]
+        },
+        {
+            code: "function* foo() {}",
+            ecmaFeatures: { generators: true },
+            errors: [
+                {
+                    type: "FunctionDeclaration",
+                    message: "Missing space before function parentheses.",
+                    line: 1,
+                    column: 13
                 }
             ]
         },
@@ -187,6 +221,19 @@ eslintTester.addRuleTest("lib/rules/space-before-function-parentheses", {
                     message: "Unexpected space before function parentheses.",
                     line: 1,
                     column: 15
+                }
+            ]
+        },
+        {
+            code: "function* foo () {}",
+            options: ["never"],
+            ecmaFeatures: { generators: true },
+            errors: [
+                {
+                    type: "FunctionDeclaration",
+                    message: "Unexpected space before function parentheses.",
+                    line: 1,
+                    column: 13
                 }
             ]
         },
