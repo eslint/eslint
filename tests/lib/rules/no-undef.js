@@ -41,6 +41,7 @@ eslintTester.addRuleTest("lib/rules/no-undef", {
         "var b = typeof a",
         "typeof a === 'undefined'",
         "if (typeof a === 'undefined') {}",
+        { code: "function myFunc(...foo) {  return foo;}", ecmaFeatures: { restParams: true } },
         { code: "var React, App; React.render(<App />);", args: [1, {vars: "all"}], ecmaFeatures: { jsx: true } },
         { code: "var React; React.render(<img />);", args: [1, {vars: "all"}], ecmaFeatures: { jsx: true } },
         { code: "var React; React.render(<x-gif />);", args: [1, {vars: "all"}], ecmaFeatures: { jsx: true } },
