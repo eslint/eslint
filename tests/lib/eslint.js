@@ -1562,6 +1562,79 @@ describe("eslint", function() {
         });
     });
 
+    describe("when evaluating code with comments to ignore reporting on of specific rules on a specific line", function() {
+
+        it("should report a violation", function() {
+            var code = [
+                "alert('test'); // eslint-disable-line no-alert",
+                "console.log('test');" // here
+            ].join("\n");
+            var config = {
+                rules: {
+                    "no-alert": 1,
+                    "no-console": 1
+                }
+            };
+
+            var messages = eslint.verify(code, config, filename);
+            assert.equal(messages.length, 1);
+
+            assert.equal(messages[0].ruleId, "no-console");
+        });
+
+        it("should report a violation", function() {
+            var code = [
+                "alert('test'); // eslint-disable-line no-alert",
+                "console.log('test'); // eslint-disable-line no-console",
+                "alert('test');" // here
+            ].join("\n");
+            var config = {
+                rules: {
+                    "no-alert": 1,
+                    "no-console": 1
+                }
+            };
+
+            var messages = eslint.verify(code, config, filename);
+            assert.equal(messages.length, 1);
+
+            assert.equal(messages[0].ruleId, "no-alert");
+        });
+
+        it("should report a violation", function() {
+            var code = [
+                "alert('test'); // eslint-disable-line no-alert",
+                "alert('test'); /*eslint-disable-line no-alert*/" // here
+            ].join("\n");
+            var config = {
+                rules: {
+                    "no-alert": 1
+                }
+            };
+
+            var messages = eslint.verify(code, config, filename);
+            assert.equal(messages.length, 1);
+
+            assert.equal(messages[0].ruleId, "no-alert");
+        });
+
+        it("should not report a violation", function() {
+            var code = [
+                "alert('test'); // eslint-disable-line no-alert",
+                "console('test'); // eslint-disable-line no-console"
+            ].join("\n");
+            var config = {
+                rules: {
+                    "no-alert": 1,
+                    "no-console": 1
+                }
+            };
+
+            var messages = eslint.verify(code, config, filename);
+            assert.equal(messages.length, 0);
+        });
+    });
+
     describe("when evaluating code with comments to enable and disable reporting of specific rules", function() {
 
         it("should report a violation", function() {
