@@ -21,7 +21,9 @@ eslintTester.addRuleTest("lib/rules/eol-last", {
     valid: [
         "",
         "\n",
-        "var a = 123;\n"
+        "var a = 123;\n",
+        "var a = 123;\n\n",
+        "var a = 123;\n   \n"
     ],
 
     invalid: [
@@ -30,12 +32,8 @@ eslintTester.addRuleTest("lib/rules/eol-last", {
             errors: [{ message: "Newline required at end of file but not found.", type: "Program" }]
         },
         {
-            code: "var a = 123;\n\n",
-            errors: [{ message: "Unexpected blank line at end of file.", type: "Program" }]
-        },
-        {
-            code: "var a = 123;\n   \n",
-            errors: [{ message: "Unexpected blank line at end of file.", type: "Program" }]
+            code: "var a = 123;\n   ",
+            errors: [{ message: "Newline required at end of file but not found.", type: "Program" }]
         }
     ]
 });
