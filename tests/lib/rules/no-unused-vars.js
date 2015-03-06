@@ -84,6 +84,8 @@ eslintTester.addRuleTest("lib/rules/no-unused-vars", {
         { code: "(function(foo, baz, bar) { return baz; })();", args: [1, {"vars": "all", "args": "all"}], errors: [{ message: "foo is defined but never used" }, { message: "bar is defined but never used" }]},
         { code: "(function z(foo) { var bar = 33; })();", args: [1, {"vars": "all", "args": "all"}], errors: [{ message: "foo is defined but never used" }, { message: "bar is defined but never used" }]},
         { code: "(function z(foo) { z(); })();", args: [1, {}], errors: [{ message: "foo is defined but never used" }]},
-        { code: "function f() { var a = 1; return function(){ f(a = 2); }; }", args: [1, {}], errors: [{ message: "a is defined but never used" }]}
+        { code: "function f() { var a = 1; return function(){ f(a = 2); }; }", args: [1, {}], errors: [{ message: "a is defined but never used" }]},
+        { code: "var div = 1; React.render(<div />);", args: [1, {vars: "all"}], errors: [{ message: "div is defined but never used" }], ecmaFeatures: { jsx: true } },
+        { code: "var y = 1; React.render(<y />);", args: [1, {vars: "all"}], errors: [{ message: "y is defined but never used" }], ecmaFeatures: { jsx: true } }
     ]
 });
