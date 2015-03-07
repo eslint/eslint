@@ -36,10 +36,12 @@ eslintTester.addRuleTest("lib/rules/strict", {
         { code: "var foo = function() { { 'use strict'; } return; };", options: ["never"] },
         { code: "(function() { bar('use strict'); return; }());", options: ["never"] },
         { code: "var fn = x => 1;", ecmaFeatures: { arrowFunctions: true }, options: ["never"] },
+        { code: "foo();", ecmaFeatures: { modules: true }, options: ["never"] },
 
         // "global" mode
         { code: "// Intentionally empty", options: ["global"] },
         { code: "\"use strict\"; foo();", options: ["global"] },
+        { code: "foo();", ecmaFeatures: { modules: true }, options: ["global"] },
         { code: "'use strict'; function foo() { return; }", options: ["global"] },
         { code: "'use strict'; var foo = function() { return; };", options: ["global"] },
         { code: "'use strict'; function foo() { bar(); 'use strict'; return; }", options: ["global"] },
@@ -48,6 +50,7 @@ eslintTester.addRuleTest("lib/rules/strict", {
 
         // "function" mode
         { code: "function foo() { 'use strict'; return; }", options: ["function"] },
+        { code: "function foo() { return; }", ecmaFeatures: { modules: true }, options: ["function"] },
         { code: "var foo = function() { 'use strict'; return; }", options: ["function"] },
         { code: "function foo() { 'use strict'; return; } var bar = function() { 'use strict'; bar(); };", options: ["function"] },
         { code: "var foo = function() { 'use strict'; function bar() { return; } bar(); };", options: ["function"] }
@@ -151,6 +154,13 @@ eslintTester.addRuleTest("lib/rules/strict", {
             errors: [
                 { message: "Multiple \"use strict\" directives.", type: "ExpressionStatement" }
             ]
+        }, {
+            code: "'use strict'; foo();",
+            options: ["global"],
+            ecmaFeatures: { modules: true },
+            errors: [
+                { message: "Unnecessary \"use strict\" directive.", type: "ExpressionStatement" }
+            ]
         },
 
         // "function" mode
@@ -159,6 +169,18 @@ eslintTester.addRuleTest("lib/rules/strict", {
             options: ["function"],
             errors: [
                 { message: "Use the function form of \"use strict\".", type: "ExpressionStatement" }
+            ]
+        }, {
+            code: "'use strict'; (function() { 'use strict'; return true; }());",
+            options: ["function"],
+            errors: [
+                { message: "Use the function form of \"use strict\".", type: "ExpressionStatement" }
+            ]
+        }, {
+            code: "(function() { 'use strict'; function f() { 'use strict'; return } return true; }());",
+            options: ["function"],
+            errors: [
+                { message: "Unnecessary \"use strict\" directive.", type: "ExpressionStatement" }
             ]
         }, {
             code: "(function() { return true; }());",
@@ -184,6 +206,13 @@ eslintTester.addRuleTest("lib/rules/strict", {
             options: ["function"],
             errors: [
                 { message: "Multiple \"use strict\" directives.", type: "ExpressionStatement" }
+            ]
+        }, {
+            code: "var foo = function() {  'use strict'; return; }",
+            options: ["function"],
+            ecmaFeatures: { modules: true },
+            errors: [
+                { message: "Unnecessary \"use strict\" directive.", type: "ExpressionStatement" }
             ]
         }, {
             code: "function foo() { return function() { 'use strict'; return; }; }",
