@@ -58,7 +58,10 @@ eslintTester.addRuleTest("lib/rules/no-unused-vars", {
         { code: "var g = function (bar, baz) { return 2; }; g();", args: [1, {"vars": "all", "args": "none"}] },
         "(function z() { z(); })();",
         { code: " ", globals: {a: true} },
-        { code: "var who = \"Paul\";\nmodule.exports = `Hello ${who}!`;", ecmaFeatures: { templateStrings: true }}
+        { code: "var who = \"Paul\";\nmodule.exports = `Hello ${who}!`;", ecmaFeatures: { templateStrings: true }},
+        { code: "export var foo = 123;", ecmaFeatures: { modules: true }},
+        { code: "export function foo () {}", ecmaFeatures: { modules: true }},
+        { code: "export class foo {}", ecmaFeatures: { modules: true, classes: true }}
     ],
     invalid: [
         { code: "var a=10", errors: [{ message: "a is defined but never used", type: "Identifier"}] },
