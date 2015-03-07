@@ -2192,10 +2192,15 @@ describe("eslint", function() {
 
             assert.equal(messages.length, 0);
         });
-
     });
 
     describe("Edge cases", function() {
+
+        it("should properly parse import statements when ecmaFeatures.modules is true", function() {
+            var code = "import foo from 'foo';";
+            var messages = eslint.verify(code, { ecmaFeatures: { modules: true }});
+            assert.equal(messages.length, 0);
+        });
 
         it("should not crash when invalid parentheses syntax is encountered", function() {
             eslint.verify("left = (aSize.width/2) - ()");
