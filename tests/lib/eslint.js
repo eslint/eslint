@@ -806,6 +806,59 @@ describe("eslint", function() {
         });
     });
 
+    describe("marking variables as used", function() {
+        it("should mark variables in current scope as used", function() {
+            var code = "var a = 1, b = 2;";
+
+            eslint.reset();
+            eslint.on("Program:exit", function() {
+                var scope;
+
+                eslint.markVariableAsUsed("a");
+
+                scope = eslint.getScope();
+
+                assert.ok(getVariable(scope, "a").eslintNodeHasBeenUsed);
+                assert.notOk(getVariable(scope, "b").eslintNodeHasBeenUsed);
+            });
+
+            eslint.verify(code, {}, filename, true);
+        });
+        it("should mark variables in function args as used", function() {
+            var code = "function abc(a, b) { return 1; }";
+
+            eslint.reset();
+            eslint.on("ReturnStatement", function() {
+                var scope;
+
+                eslint.markVariableAsUsed("a");
+
+                scope = eslint.getScope();
+
+                assert.ok(getVariable(scope, "a").eslintNodeHasBeenUsed);
+                assert.notOk(getVariable(scope, "b").eslintNodeHasBeenUsed);
+            });
+
+            eslint.verify(code, {}, filename, true);
+        });
+        it("should mark variables in higher scopes as used", function() {
+            var code = "var a, b; function abc() { return 1; }";
+
+            eslint.reset();
+            eslint.on("ReturnStatement", function() {
+                eslint.markVariableAsUsed("a");
+            });
+            eslint.on("Program:exit", function() {
+                var scope = eslint.getScope();
+
+                assert.ok(getVariable(scope, "a").eslintNodeHasBeenUsed);
+                assert.notOk(getVariable(scope, "b").eslintNodeHasBeenUsed);
+            });
+
+            eslint.verify(code, {}, filename, true);
+        });
+    });
+
     describe("when calling report", function() {
         it("should correctly parse a message when being passed all options", function() {
             eslint.reset();
