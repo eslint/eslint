@@ -51,5 +51,28 @@ module.exports = {
     },
     meteor: {
         globals: globals.meteor
+    },
+    es6: {
+        ecmaFeatures: {
+            arrowFunctions: true,
+            blockBindings: true,
+            regexUFlag: true,
+            regexYFlag: true,
+            templateStrings: true,
+            binaryLiterals: true,
+            octalLiterals: true,
+            unicodeCodePointEscapes: true,
+            superInFunctions: true,
+            defaultParams: true,
+            restParams: true,
+            forOf: true,
+            objectLiteralComputedProperties: true,
+            objectLiteralShorthandMethods: true,
+            objectLiteralShorthandProperties: true,
+            objectLiteralDuplicateProperties: true,
+            generators: true,
+            destructuring: true,
+            classes: true
+        }
     }
 };
