@@ -1,3 +1,13 @@
+v0.16.1 - March 8, 2015
+
+* 0.16.1 (Nicholas C. Zakas)
+* Fix: Node.js scoping in block-scoped-var (fixes #1969) (Nicholas C. Zakas)
+* Update: Enable ES6 scoping for more options (Nicholas C. Zakas)
+* Fix: Ensure all export nodes are traversable (fixes #1965) (Nicholas C. Zakas)
+* Fix: Ensure class names are marked as used (fixes #1967) (Nicholas C. Zakas)
+* Fix: remove typo that caused a crash (fixes #1963) (Fabricio C Zuardi)
+* Docs: Added missing "are" (Sean Wilkinson)
+
 v0.16.0 - March 7, 2015
 
 * 0.16.0 (Nicholas C. Zakas)
