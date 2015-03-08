@@ -50,7 +50,8 @@ eslintTester.addRuleTest("lib/rules/block-scoped-var", {
         "function f(){ for(var a=0, b=1; a; b) a, b; }",
         "function f(){ for(var a in {}) a; }",
         "function f(){ switch(2) { case 1: var b = 2; b; break; default: b; break;} b; }",
-        "a:;"
+        "a:;",
+        { code: "var v = 1;  function x() { return v; };", ecmaFeatures: { globalReturn: true }}
     ],
     invalid: [
         { code: "var f = () => { x; }", ecmaFeatures: { arrowFunctions: true }, errors: [{ message: "\"x\" used outside of binding context.", type: "Identifier" }] },
