@@ -2202,6 +2202,18 @@ describe("eslint", function() {
             assert.equal(messages.length, 0);
         });
 
+        it("should properly parse import all statements when ecmaFeatures.modules is true", function() {
+            var code = "import * as foo from 'foo';";
+            var messages = eslint.verify(code, { ecmaFeatures: { modules: true }});
+            assert.equal(messages.length, 0);
+        });
+
+        it("should properly parse default export statements when ecmaFeatures.modules is true", function() {
+            var code = "export default function initialize() {}";
+            var messages = eslint.verify(code, { ecmaFeatures: { modules: true }});
+            assert.equal(messages.length, 0);
+        });
+
         it("should not crash when invalid parentheses syntax is encountered", function() {
             eslint.verify("left = (aSize.width/2) - ()");
         });
