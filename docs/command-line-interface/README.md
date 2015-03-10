@@ -135,7 +135,7 @@ Example:
 
 ### `--no-ignore`
 
-Disable use of configuration from `.eslintrc` and `package.json` files.
+Disables excluding of files from `.eslintignore` and `--ignore-path` files.
 
 Example:
 
