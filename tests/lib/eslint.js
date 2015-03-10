@@ -2222,6 +2222,10 @@ describe("eslint", function() {
             eslint.verify("switch(foo) { case 1: let bar=2; }", { ecmaFeatures: { blockBindings: true }});
         });
 
+        it("should not crash when parsing destructured assignment", function() {
+            eslint.verify("var { a='a' } = {};", { ecmaFeatures: { destructuring: true }});
+        });
+
     });
 
     // only test in Node.js, not browser
