@@ -139,7 +139,10 @@ eslintTester.addRuleTest("lib/rules/no-extra-parens", {
         "var foo = (function() { return bar(); })()",
         "var o = { foo: (function() { return bar(); })() };",
         "o.foo = (function(){ return bar(); })();",
-        "(function(){ return bar(); })(), (function(){ return bar(); })()"
+        "(function(){ return bar(); })(), (function(){ return bar(); })()",
+
+        // parens are required around yield
+        { code: "var foo = (function*() { if ((yield foo()) + 1) { return; } }())", ecmaFeatures: { generators: true } }
     ],
     invalid: [
         invalid("(0)", "Literal"),
@@ -157,6 +160,7 @@ eslintTester.addRuleTest("lib/rules/no-extra-parens", {
         invalid("do; while((0))", "Literal"),
         invalid("for(a in (0));", "Literal"),
         invalid("for(a of (0));", "Literal", 1, { forOf: true }),
+        invalid("var foo = (function*() { if ((yield foo())) { return; } }())", "YieldExpression", 1, { generators: true }),
         invalid("f((0))", "Literal"),
         invalid("f(0, (1))", "Literal"),
         invalid("!(0)", "Literal"),
