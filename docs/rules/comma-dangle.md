@@ -16,6 +16,8 @@ On the other hand, trailing commas can be useful because if you add or remove it
 This rule is aimed to forbid or enforce trailing commas in object literals and array literals.
 
 This rule takes one argument. If it is `"always"` then it warns whenever a missing comma is detected.
+If `"always-multiline"` then it warns if there is a missing trailing comma on arrays or objects that
+span multiple lines, and warns if there is a trailing comma present on single line arrays or objects.
 If `"never"` then it warns whenever an trailing comma is detected.
 The default value of this option is `"never"`.
 
@@ -76,6 +78,51 @@ var foo = {
 };
 
 var arr = [1,2,];
+
+foo({
+  bar: "baz",
+  qux: "quux",
+});
+```
+
+The following patterns are considered warnings when configured `"always-multiline"`:
+
+```js
+var foo = {
+    bar: "baz",
+    qux: "quux"
+};
+
+var foo = { bar: "baz", qux: "quux", };
+
+var arr = [1,2,];
+
+var arr = [
+    1,
+    2
+];
+
+foo({
+  bar: "baz",
+  qux: "quux"
+});
+```
+
+The following patterns are not considered warnings when configured `"always-multiline"`:
+
+```js
+var foo = {
+    bar: "baz",
+    qux: "quux",
+};
+
+var foo = {bar: "baz", qux: "quux"};
+var arr = [1,2];
+
+var arr = [
+    1,
+    2,
+];
 
 foo({
   bar: "baz",
