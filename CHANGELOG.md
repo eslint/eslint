@@ -1,3 +1,14 @@
+v0.16.2 - March 10, 2015
+
+* 0.16.2 (Nicholas C. Zakas)
+* Fix: Ensure globalReturn isn't on when node:false (fixes #1995) (Nicholas C. Zakas)
+* Downgrade: escope pegged to 2.0.6 (refs #2001) (Nicholas C. Zakas)
+* Upgrade: escope to 2.0.7 (fixes #1978) (Nicholas C. Zakas)
+* Docs: Update descriptive text for --no-ignore option. (David Anson)
+* Upgrade: estraverse to latest for ESTree support (fixes #1986) (Nicholas C. Zakas)
+* Fix: Global block-scope-var check should work (fixes #1980) (Nicholas C. Zakas)
+* Fix: Don't warn about parens around yield (fixes #1981) (Nicholas C. Zakas)
+
 v0.16.1 - March 8, 2015
 
 * 0.16.1 (Nicholas C. Zakas)
