@@ -2158,6 +2158,18 @@ describe("eslint", function() {
             assert.equal(messages[0].message, "Illegal return statement");
         });
 
+        it("should not parse global return when Node.js environment is false", function() {
+
+            var messages = eslint.verify("return;", {
+                env: {
+                    node: false
+                }
+            }, filename);
+
+            assert.equal(messages.length, 1);
+            assert.equal(messages[0].message, "Illegal return statement");
+        });
+
         it("should properly parse JSX when passed ecmaFeatures", function() {
 
             var messages = eslint.verify("var x = <div/>;", {
