@@ -51,6 +51,7 @@ These are rules designed to prevent you from making mistakes. They either prescr
 * [no-caller](no-caller.md) - disallow use of `arguments.caller` or `arguments.callee`
 * [no-div-regex](no-div-regex.md) - disallow division operators explicitly at beginning of regular expression (off by default)
 * [no-else-return](no-else-return.md) - disallow `else` after a `return` in an `if` (off by default)
+* [no-empty-catch](no-empty-catch.md) - restrict if the catch and finally handler in a try statement can be left empty (off by default)
 * [no-empty-label](no-empty-label.md) - disallow use of labels for anything other then loops and switches
 * [no-eq-null](no-eq-null.md) - disallow comparisons to null without a type-checking operator (off by default)
 * [no-eval](no-eval.md) - disallow use of `eval()`

@@ -27,6 +27,7 @@
         "no-dupe-args": 2,
         "no-else-return": 0,
         "no-empty": 2,
+        "no-empty-catch": [0, true],
         "no-empty-class": 2,
         "no-empty-label": 2,
         "no-eq-null": 0,
