@@ -24,7 +24,8 @@ eslintTester.addRuleTest("lib/rules/no-underscore-dangle", {
         "foo.bar.__proto__;",
         "console.log(__filename); console.log(__dirname);",
         "var _ = require('underscore');",
-        "var a = b._;"
+        "var a = b._;",
+        { code: "export default function () {}", ecmaFeatures: { modules: true }}
     ],
     invalid: [
         { code: "var _foo = 1", errors: [{ message: "Unexpected dangling '_' in '_foo'.", type: "VariableDeclarator"}] },
