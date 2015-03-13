@@ -128,7 +128,7 @@ If you want to contribute to an ESLint repo, please use a GitHub pull request. T
 We want to accept your contribution. Following these guidelines helps to create a patch that we want to accept:
 
 * Make sure there is an issue for any pull request you send.
-    * The only exception is for documentation changes. These don't require a pull request if they don't relate to an already-existing functionality issue.
+    * The only exception is for documentation changes. These don't require a new issue if they don't relate to an already-existing functionality issue.
 * The pull request must have a description. The description should explain what you did and how its effects can be seen.
 * The commit message should say "(fixes #1234)" at the end of the description if it closes out an existing issue (replace 1234 with the issue number).
 * The change should introduce no functional regression. Be sure to run `npm test` to verify your changes before submitting a pull request.
