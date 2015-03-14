@@ -66,6 +66,28 @@ module.exports = {
 };
 ```
 
+### Custom Environments in Plugins
+
+Plugins can also provide custom environments. Custom environments can declare `globals`, turn `ecmaFeatures` on and off,
+and configure both core rules as well as rules included in the plugin. To provide custom environment, include `environment`
+property in your exported object.
+
+```js
+module.exports = {
+    environments: {
+        "my-custom-environment": {
+            globals: {
+                "global-variable": true
+            },
+            rules: {
+                "no-alert": 0, //turn off no-alert rule
+                "my-plugin/my-rule": 1 //turn on custom rule from this plugin (given that plugin's name is "my-plugin")
+            }
+        }
+    }
+}
+```
+
 ### Peer Dependency
 
 To make clear that the plugin requires ESLint to work correctly you have to declare ESLint as a `peerDependency` in your `package.json`.
