@@ -64,6 +64,61 @@ eslintTester.addRuleTest("lib/rules/new-cap", {
         { code: "var b = a.Foo();", errors: [{ message: "A function with a name starting with an uppercase letter should only be used as a constructor.", type: "CallExpression"}] },
         { code: "var b = a['Foo']();", errors: [{ message: "A function with a name starting with an uppercase letter should only be used as a constructor.", type: "CallExpression"}] },
         { code: "var b = a.Date.UTC();", errors: [{ message: "A function with a name starting with an uppercase letter should only be used as a constructor.", type: "CallExpression"}] },
-        { code: "var b = UTC();", errors: [{ message: "A function with a name starting with an uppercase letter should only be used as a constructor.", type: "CallExpression"}] }
+        { code: "var b = UTC();", errors: [{ message: "A function with a name starting with an uppercase letter should only be used as a constructor.", type: "CallExpression"}] },
+        {
+            code: "var a = B.C();",
+            errors: [
+                {
+                    message: "A function with a name starting with an uppercase letter should only be used as a constructor.",
+                    type: "CallExpression",
+                    line: 1,
+                    column: 10
+                }
+            ]
+        },
+        {
+            code: "var a = B\n.C();",
+            errors: [
+                {
+                    message: "A function with a name starting with an uppercase letter should only be used as a constructor.",
+                    type: "CallExpression",
+                    line: 2,
+                    column: 1
+                }
+            ]
+        },
+        {
+            code: "var a = new B.c();",
+            errors: [
+                {
+                    message: "A constructor name should not start with a lowercase letter.",
+                    type: "NewExpression",
+                    line: 1,
+                    column: 14
+                }
+            ]
+        },
+        {
+            code: "var a = new B.\nc();",
+            errors: [
+                {
+                    message: "A constructor name should not start with a lowercase letter.",
+                    type: "NewExpression",
+                    line: 2,
+                    column: 0
+                }
+            ]
+        },
+        {
+            code: "var a = new c();",
+            errors: [
+                {
+                    message: "A constructor name should not start with a lowercase letter.",
+                    type: "NewExpression",
+                    line: 1,
+                    column: 12
+                }
+            ]
+        }
     ]
 });
