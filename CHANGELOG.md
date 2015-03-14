@@ -1,3 +1,23 @@
+v0.17.0 - March 14, 2015
+
+* 0.17.0 (Nicholas C. Zakas)
+* Fix: module import specifiers should be defined (refs #1978) (Nicholas C. Zakas)
+* Fix: Ignore super in no-undef (refs #1968) (Nicholas C. Zakas)
+* Upgrade: Espree to v0.12.0 (refs #1968) (Nicholas C. Zakas)
+* Fix: destructured arguments should work in block-scoped-var (fixes #1996) (Nicholas C. Zakas)
+* Fix: Line breaking with just carriage return (fixes #2005) (Nicholas C. Zakas)
+* Fix: location of new-cap error messages (fixes #2025) (Mathias Schreck)
+* Breaking: Stop checking JSX variable use, expose API instead (fixes #1911) (Glen Mailer)
+* Fix: Check spacing of class methods (fixes #1989) (Nicholas C. Zakas)
+* New: no-duplicate-case rule to disallow a duplicate case label (fixes #2015) (Dieter Oberkofler)
+* Clarify issue requirement for doc pull requests (Ian)
+* Add quotes around object key (Ian)
+* Fix: Add comma-dangle allow-multiline (fixes #1984) (Keith Cirkel)
+* Fix: Don't explode on default export function (fixes #1985) (Nicholas C. Zakas)
+* Update: Add AST node exceptions to comma-style. (fixes #1932) (Evan Simmons)
+* Docs: Add spread operator to available language options (Nicholas C. Zakas)
+* New: generator-star-spacing rule (fixes #1680, fixes #1949) (Brandon Mills)
+
 v0.16.2 - March 10, 2015
 
 * 0.16.2 (Nicholas C. Zakas)
