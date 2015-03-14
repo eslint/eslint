@@ -150,6 +150,26 @@ And in YAML:
     node: true
 ```
 
+Plugins also can sometimes supply custom environments. In order to enable environment that was included with a plugin, you have to register given plugin in the configuration file (see Configuring Plugins section) and then specify environment that you would like to use:
+
+````json
+{
+    "env": {
+        "plugin-name/plugin-env": true
+    }
+}
+```
+
+And in YAML:
+
+```yaml
+---
+  env:
+    plugin-name/plugin-env: true
+```
+
+**Note:** Plugin name should not include "eslint-plugin-" prefix, when specifying environments.
+
 ## Specifying Globals
 
 By default, ESLint will warn on variables that are accessed but not defined within the same file. If you are using global variables inside of a file then it's worthwhile to define those globals so that ESLint will not warn about their usage. You can define global variables either using comments inside of a file or in the configuration file.

@@ -493,6 +493,7 @@ describe("Config", function() {
                 testPluginName = "eslint-plugin-test",
                 requireStubs = {},
                 examplePluginRules = { "example-rule": customRule },
+                examplePluginEnvs = { "example": { globals: { test: false } } },
                 testPluginRules = { "test-rule": customRule },
                 examplePlugin = { rules: examplePluginRules, rulesConfig: { "example-rule": 1 } },
                 testPlugin = { rules: testPluginRules, rulesConfig: { "test-rule": 1, "quotes": 0} },
@@ -593,6 +594,26 @@ describe("Config", function() {
                         plugins: ["example"]
                     },
                     actual = configHelper.getConfig(file);
+
+                assertConfigsEqual(actual, expected);
+            });
+
+            it("should load environments from plugin", function () {
+                requireStubs[examplePluginName] = { environments: examplePluginEnvs };
+
+                StubbedConfig = proxyquire("../../lib/config", requireStubs);
+
+                var configPath = path.resolve(__dirname, "..", "fixtures", "environments", "plugin.yaml"),
+                    configHelper = new StubbedConfig({
+                        reset: true, configFile: configPath, useEslintrc: false
+                    }),
+                    expected = {
+                        env: {
+                            "example/example": true
+                        },
+                        plugins: ["example"]
+                    },
+                    actual = configHelper.getConfig(configPath);
 
                 assertConfigsEqual(actual, expected);
             });
