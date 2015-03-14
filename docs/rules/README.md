@@ -15,6 +15,7 @@ The following rules point out areas where you might have made mistakes.
 * [no-debugger](no-debugger.md) - disallow use of `debugger`
 * [no-dupe-args](no-dupe-args.md) - disallow duplicate arguments in functions
 * [no-dupe-keys](no-dupe-keys.md) - disallow duplicate keys when creating object literals
+* [no-duplicate-case](no-duplicate-case.md) - disallow a duplicate case label.
 * [no-empty](no-empty.md) - disallow empty statements
 * [no-empty-class](no-empty-class.md) - disallow the use of empty character classes in regular expressions
 * [no-ex-assign](no-ex-assign.md) - disallow assigning to the exception in a `catch` block
