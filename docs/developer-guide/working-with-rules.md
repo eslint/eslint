@@ -92,6 +92,7 @@ Additionally, the `context` object has the following methods:
 * `getTokensAfter(nodeOrToken, count)` - returns `count` tokens after the given node or token.
 * `getTokensBefore(nodeOrToken, count)` - returns `count` tokens before the given node or token.
 * `getTokensBetween(node1, node2)` - returns the tokens between two nodes.
+* `markVariableAsUsed(name)` - marks the named variable in scope as used. This affects the [no-unused-vars](../rules/no-unused-vars.md) rule.
 * `report(node, message)` - reports an error in the code.
 
 ### context.report()
