@@ -48,7 +48,9 @@ eslintTester.addRuleTest("lib/rules/no-undef", {
         { code: "var React; React.render(<x-gif />);", args: [1, {vars: "all"}], ecmaFeatures: { jsx: true } },
         { code: "var React, App, a=1; React.render(<App attr={a} />);", args: [1, {vars: "all"}], ecmaFeatures: { jsx: true } },
         { code: "var console; [1,2,3].forEach(obj => {\n  console.log(obj);\n});", ecmaFeatures: { arrowFunctions: true } },
-        { code: "var Foo; class Bar extends Foo { constructor() { super();  }}", ecmaFeatures: { classes: true } }
+        { code: "var Foo; class Bar extends Foo { constructor() { super();  }}", ecmaFeatures: { classes: true } },
+        { code: "import Warning from '../lib/warning'; var warn = new Warning('text');", ecmaFeatures: { modules: true } },
+        { code: "import * as Warning from '../lib/warning'; var warn = new Warning('text');", ecmaFeatures: { modules: true } }
     ],
     invalid: [
         { code: "a = 1;", errors: [{ message: "'a' is not defined.", type: "Identifier"}] },
