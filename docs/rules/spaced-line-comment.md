@@ -32,7 +32,7 @@ var foo = 5;
 ```
 
 ```js
-// When ["always",{exceptions:["-","+"]}]
+// When ["always",{"exceptions":["-","+"]}]
 //------++++++++
 // Comment block
 //------++++++++
@@ -53,14 +53,14 @@ var foo = 5;
 ```
 
 ```js
-// When ["always",{exceptions:["-"]}]
+// When ["always",{"exceptions":["-"]}]
 //--------------
 // Comment block
 //--------------
 ```
 
 ```js
-// When ["always",{exceptions:["-+"]}]
+// When ["always",{"exceptions":["-+"]}]
 //-+-+-+-+-+-+-+
 // Comment block
 //-+-+-+-+-+-+-+
