@@ -65,6 +65,7 @@ describe("eslint", function() {
     });
 
     afterEach(function() {
+        eslint.reset();
         sandbox.verifyAndRestore();
     });
 
@@ -86,7 +87,57 @@ describe("eslint", function() {
         });
     });
 
-    describe("when calling toSource()", function() {
+    describe("getSourceLines()", function() {
+
+        it("should get proper lines when using \\n as a line break", function() {
+            var code = "a;\nb;";
+            eslint.verify(code, {}, filename, true);
+
+            var lines = eslint.getSourceLines();
+            assert.equal(lines[0], "a;");
+            assert.equal(lines[1], "b;");
+        });
+
+        it("should get proper lines when using \\r\\n as a line break", function() {
+            var code = "a;\r\nb;";
+            eslint.verify(code, {}, filename, true);
+
+            var lines = eslint.getSourceLines();
+            assert.equal(lines[0], "a;");
+            assert.equal(lines[1], "b;");
+        });
+
+        it("should get proper lines when using \\r as a line break", function() {
+            var code = "a;\rb;";
+            eslint.verify(code, {}, filename, true);
+
+            var lines = eslint.getSourceLines();
+            assert.equal(lines[0], "a;");
+            assert.equal(lines[1], "b;");
+        });
+
+        it("should get proper lines when using \\u2028 as a line break", function() {
+            var code = "a;\u2028b;";
+            eslint.verify(code, {}, filename, true);
+
+            var lines = eslint.getSourceLines();
+            assert.equal(lines[0], "a;");
+            assert.equal(lines[1], "b;");
+        });
+
+        it("should get proper lines when using \\u2029 as a line break", function() {
+            var code = "a;\u2029b;";
+            eslint.verify(code, {}, filename, true);
+
+            var lines = eslint.getSourceLines();
+            assert.equal(lines[0], "a;");
+            assert.equal(lines[1], "b;");
+        });
+
+
+    });
+
+    describe("toSource()", function() {
         var code = TEST_CODE;
 
         it("should retrieve all text when used without parameters", function() {
