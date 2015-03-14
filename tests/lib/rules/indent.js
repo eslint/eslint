@@ -46,8 +46,7 @@ eslintTester.addRuleTest("lib/rules/indent", {
             "    a(); break;\n" +
             "    case \"baz\":\n" +
             "        a(); break;\n" +
-            "}",
-            args: 2
+            "}"
         },
         {
             code:
@@ -64,7 +63,7 @@ eslintTester.addRuleTest("lib/rules/indent", {
         },
         {
             code: "if (a){}",
-            args: [2, "incorrect values for configuration will be ignored"]
+            options: ["incorrect values for configuration will be ignored"]
         },
         {
             code:
@@ -86,27 +85,31 @@ eslintTester.addRuleTest("lib/rules/indent", {
             "    default:\n" +
             "        break;\n" +
             "}",
-            args: [2, 4]
+            options: [4]
         },
         {
             code:
                 "var obj = {foo: 1, bar: 2};\n" +
                 "with (obj) {\n" +
                 "    console.log(foo + bar);\n" +
-                "}\n",
-            args: [2]
+                "}\n"
         },
         {
             code:
                 "if (a) {\n" +
                 "    (1 + 2 + 3);\n" + // no error on this line
-                "}",
-            args: 2
+                "}"
         },
         {
             code:
-                "switch(value){ default: a(); break; }\n",
-            args: 2
+                "switch(value){ default: a(); break; }\n"
+        },
+        {
+            code: "import {addons} from 'react/addons'\rimport React from 'react'",
+            options: [2],
+            ecmaFeatures: {
+                modules: true
+            }
         }
     ],
     invalid: [
@@ -116,7 +119,7 @@ eslintTester.addRuleTest("lib/rules/indent", {
                  "if (a) {\n" +
                  "  b();\n" +
                  "}\n",
-             args: [2, 2],
+             options: [2],
              errors: expectedErrors([[1, 0]])
         },
         {
@@ -128,22 +131,22 @@ eslintTester.addRuleTest("lib/rules/indent", {
                  "  b++;\n" +
                  "    c++; // <-\n" +
                  "}\n",
-             args: [2, 2],
+             options: [2],
              errors: expectedErrors([[4, 2], [6, 2]])
         },
         {
             code: "if (a){\n\tb=c;\n\t\tc=d;\ne=f;\n}",
-            args: [2, "tab"],
+            options: ["tab"],
             errors: expectedErrors([[3, 1], [4, 1]])
         },
         {
             code: "if (a){\n    b=c;\n      c=d;\n e=f;\n}",
-            args: [2, 4],
+            options: [4],
             errors: expectedErrors([[3, 4], [4, 4]])
         },
         {
             code: fixture,
-            args: [2, 2, {indentSwitchCase: true}],
+            options: [2, {indentSwitchCase: true}],
             errors: expectedErrors([
                 [5, 2],
                 [10, 4],
@@ -225,7 +228,7 @@ eslintTester.addRuleTest("lib/rules/indent", {
                 "        a();\n" +
                 "        break;\n" +
                 "}",
-            args: [2, 4, {indentSwitchCase: true}],
+            options: [4, {indentSwitchCase: true}],
             errors: expectedErrors([10, 4])
         },
         {
@@ -240,7 +243,7 @@ eslintTester.addRuleTest("lib/rules/indent", {
                 "    default:\n" +
                 "    break;\n" +
                 "}",
-            args: [2, 4, {indentSwitchCase: true}],
+            options: [4, {indentSwitchCase: true}],
             errors: expectedErrors([9, 8])
         },
         {
@@ -263,7 +266,7 @@ eslintTester.addRuleTest("lib/rules/indent", {
                 "        a();\n" +
                 "    break;\n" +
                 "}",
-            args: [2, 4, {indentSwitchCase: true}],
+            options: [4, {indentSwitchCase: true}],
             errors: expectedErrors([[11, 8], [14, 8], [17, 8]])
         },
         {
@@ -286,7 +289,7 @@ eslintTester.addRuleTest("lib/rules/indent", {
                 "    default:\n" +
                 "        break;\n" +
                 "}",
-            args: [2, 4, {indentSwitchCase: true}],
+            options: [4, {indentSwitchCase: true}],
             errors: expectedErrors([[13, 4], [15, 4], [17, 4]])
         },
         {
