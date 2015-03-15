@@ -1,6 +1,7 @@
 /**
  * @fileoverview Tests for camelcase rule.
  * @author Nicholas C. Zakas
+ * @copyright 2015 Dieter Oberkofler. All rights reserved.
  */
 
 "use strict";
@@ -35,7 +36,15 @@ eslintTester.addRuleTest("lib/rules/camelcase", {
         "[foo.bar_baz]",
         "var arr = [foo.bar_baz.qux];",
         "[foo.bar_baz.nesting]",
-        "if (foo.bar_baz === boom.bam_pow) { [foo.baz_boom] }"
+        "if (foo.bar_baz === boom.bam_pow) { [foo.baz_boom] }",
+        {
+            code: "var o = {key: 1}",
+            args: [2, {properties: "always"}]
+        },
+        {
+            code: "var o = {bar_baz: 1}",
+            args: [2, {properties: "never"}]
+        }
     ],
     invalid: [
         {
@@ -124,6 +133,16 @@ eslintTester.addRuleTest("lib/rules/camelcase", {
             errors: [
                 {
                     message: "Identifier 'boom_pow' is not in camel case.",
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "var o = {bar_baz: 1}",
+            args: [2, {properties: "always"}],
+            errors: [
+                {
+                    message: "Identifier 'bar_baz' is not in camel case.",
                     type: "Identifier"
                 }
             ]
