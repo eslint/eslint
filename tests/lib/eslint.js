@@ -908,6 +908,23 @@ describe("eslint", function() {
 
             eslint.verify(code, {}, filename, true);
         });
+        it("should mark variables in module scope as used", function() {
+            var code = "var a = 1, b = 2;";
+
+            eslint.reset();
+            eslint.on("Program:exit", function() {
+                var scope;
+
+                eslint.markVariableAsUsed("a");
+
+                scope = eslint.getScope();
+
+                assert.isTrue(getVariable(scope, "a").eslintUsed);
+                assert.notOk(getVariable(scope, "b").eslintUsed);
+            });
+
+            eslint.verify(code, { ecmaFeatures: { globalReturn: true }}, filename, true);
+        });
     });
 
     describe("when calling report", function() {
