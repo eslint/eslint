@@ -35,6 +35,10 @@ eslintTester.addRuleTest("lib/rules/no-duplicate-case", {
         {
             code: "var a = 1; switch (a) {default: break;}",
             args: 2
+        },
+        {
+            code: "var a = 1, p = {p: {p1: 1, p2: 1}}; switch (a) {case p.p.p1: break; case p.p.p2: break; default: break;}",
+            args: 2
         }
     ],
     invalid: [
@@ -56,6 +60,14 @@ eslintTester.addRuleTest("lib/rules/no-duplicate-case", {
         },
         {
             code: "var a = 1, one = 1; switch (a) {case one: break; case one: break; case 2: break; default: break;}",
+            args: 2,
+            errors: [{
+                message: "Duplicate case label.",
+                type: "SwitchCase"
+            }]
+        },
+        {
+            code: "var a = 1, p = {p: {p1: 1, p2: 1}}; switch (a) {case p.p.p1: break; case p.p.p1: break; default: break;}",
             args: 2,
             errors: [{
                 message: "Duplicate case label.",
