@@ -1,10 +1,18 @@
 # Disallow new For Side Effects (no-new)
 
-Calling constructors with the `new` keyword, without assigning the resulting object to a variable does is equivalent to simply calling the constructor without the `new` keyword. Thus, the constructor can be avoided and the function can be called directly.
+The goal of using `new` with a constructor is typically to create an object of a particular type and store that object in a variable, such as:
+
+```js
+var person = new Person();
+```
+
+It's less common to use `new` and not store the result, such as:
 
 ```js
 new Person();
 ```
+
+In this case, the created object is thrown away because its reference isn't stored anywhere, and in many cases, this means that the constructor should be replaced with a function that doesn't require `new` to be used. 
 
 ## Rule Details
 
