@@ -29,6 +29,7 @@ eslintTester.addRuleTest("lib/rules/no-redeclare", {
         }
     ],
     invalid: [
+        { code: "var a = 3; var a = 10;", ecmaFeatures: { globalReturn: true }, errors: [{ message: "a is already defined", type: "Identifier"}] },
         { code: "var a = 3; var a = 10;", errors: [{ message: "a is already defined", type: "Identifier"}] },
         { code: "var a = {}; var a = [];", errors: [{ message: "a is already defined", type: "Identifier"}] },
         { code: "var a = function() { }; var a = function() { }", errors: [{ message: "a is already defined", type: "Identifier"}] },
