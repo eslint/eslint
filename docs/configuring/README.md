@@ -265,7 +265,7 @@ To configure a rule which is defined within a plugin you have to prefix the rule
 Example
 
 ```js
-/*eslint jquery/dollar-sign: 2*/
+/*eslint "jquery/dollar-sign": 2*/
 ```
 
 There's no need to specify every single rule - you will automatically get the default setting for every rule. You only need to override the rules that you want to change.
