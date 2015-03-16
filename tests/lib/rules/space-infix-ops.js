@@ -24,7 +24,9 @@ eslintTester.addRuleTest("lib/rules/space-infix-ops", {
         "(a + b) + (c + d)",
         "a = b",
         "a ? b : c",
-        "var a = b"
+        "var a = b",
+        { code: "a|0", args: [2, { int32Hint: true }] },
+        { code: "a |0", args: [2, { int32Hint: true }] }
     ],
     invalid: [
         { code: "a+b", errors: [{ message: "Infix operators must be spaced.", type: "BinaryExpression" }] },
@@ -46,6 +48,7 @@ eslintTester.addRuleTest("lib/rules/space-infix-ops", {
         { code: "var a=b;", errors: [{ message: "Infix operators must be spaced.", type: "VariableDeclarator" }] },
         { code: "var a= b;", errors: [{ message: "Infix operators must be spaced.", type: "VariableDeclarator" }] },
         { code: "var a =b;", errors: [{ message: "Infix operators must be spaced.", type: "VariableDeclarator" }] },
-        { code: "var a = b, c=d;", errors: [{ message: "Infix operators must be spaced.", type: "VariableDeclarator" }] }
+        { code: "var a = b, c=d;", errors: [{ message: "Infix operators must be spaced.", type: "VariableDeclarator" }] },
+        { code: "a| 0", args: [2, { int32Hint: true }], errors: [{ message: "Infix operators must be spaced.", type: "BinaryExpression" }] }
     ]
 });
