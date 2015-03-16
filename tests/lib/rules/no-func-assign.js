@@ -25,7 +25,8 @@ eslintTester.addRuleTest("lib/rules/no-func-assign", {
         "function foo() { var foo; foo = bar; }",
         { code: "var foo = () => {}; foo = bar;", ecmaFeatures: { arrowFunctions: true } },
         "var foo = function() {}; foo = bar;",
-        "var foo = function() { foo = bar; };"
+        "var foo = function() { foo = bar; };",
+        { code: "import bar from 'bar'; function foo() { var foo = bar; }", ecmaFeatures: { modules: true } }
     ],
     invalid: [
         { code: "function foo() {}; foo = bar;", errors: [{ message: "'foo' is a function.", type: "AssignmentExpression"}] },
