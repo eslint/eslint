@@ -61,6 +61,9 @@ eslintTester.addRuleTest("lib/rules/yoda", {
         }, {
             code: "if (-1 < x && x < 0) {}",
             args: [2, "never", { exceptRange: true }]
+        }, {
+            code: "if (0 <= this.prop && this.prop <= 1) {}",
+            args: [2, "never", { exceptRange: true }]
         }
     ],
     invalid: [
