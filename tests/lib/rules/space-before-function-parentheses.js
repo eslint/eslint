@@ -80,10 +80,19 @@ eslintTester.addRuleTest("lib/rules/space-before-function-parentheses", {
             }
         },
         {
-            code: "class Foo { constructor() {} }",
+            code: "class Foo { constructor() {} *method() {} }",
             options: [ { named: "never", anonymous: "always" } ],
             ecmaFeatures: {
-                classes: true
+                classes: true,
+                generators: true
+            }
+        },
+        {
+            code: "class Foo { constructor () {} *method () {} }",
+            options: [ { named: "always", anonymous: "never" } ],
+            ecmaFeatures: {
+                classes: true,
+                generators: true
             }
         }
     ],
@@ -287,15 +296,21 @@ eslintTester.addRuleTest("lib/rules/space-before-function-parentheses", {
             ]
         },
         {
-            code: "class Foo { constructor () {} }",
+            code: "class Foo { constructor () {} *method () {} }",
             options: [ { named: "never", anonymous: "always" } ],
-            ecmaFeatures: { classes: true },
+            ecmaFeatures: { classes: true, generators: true },
             errors: [
                 {
                     type: "FunctionExpression",
                     message: "Unexpected space before function parentheses.",
                     line: 1,
                     column: 23
+                },
+                {
+                    type: "FunctionExpression",
+                    message: "Unexpected space before function parentheses.",
+                    line: 1,
+                    column: 37
                 }
             ]
         },
