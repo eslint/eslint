@@ -42,6 +42,7 @@ var TEST_CODE = "var answer = 6 * 7;",
 
 function getVariable(scope, name) {
     var variable = null;
+
     scope.variables.some(function(v) {
         if (v.name === name) {
             variable = v;
@@ -49,6 +50,11 @@ function getVariable(scope, name) {
         }
         return false;
     });
+
+    if (!variable && scope.type === "global" && scope.childScopes.length) {
+        variable = getVariable(scope.childScopes[0], name);
+    }
+
     return variable;
 }
 
@@ -907,6 +913,23 @@ describe("eslint", function() {
             });
 
             eslint.verify(code, {}, filename, true);
+        });
+        it("should mark variables in Node.js environment as used", function() {
+            var code = "var a = 1, b = 2;";
+
+            eslint.reset();
+            eslint.on("Program:exit", function() {
+                var scope;
+
+                eslint.markVariableAsUsed("a");
+
+                scope = eslint.getScope();
+
+                assert.isTrue(getVariable(scope, "a").eslintUsed);
+                assert.notOk(getVariable(scope, "b").eslintUsed);
+            });
+
+            eslint.verify(code, { env: { node: true }}, filename, true);
         });
     });
 
