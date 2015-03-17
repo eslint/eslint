@@ -56,7 +56,9 @@ eslintTester.addRuleTest("lib/rules/block-scoped-var", {
         { code: "var v = 1;  function x() { return v; };", ecmaFeatures: { globalReturn: true }},
         { code: "class Test { myFunction() { return true; }}", ecmaFeatures: { classes: true }},
         { code: "class Test { get flag() { return true; }}", ecmaFeatures: { classes: true }},
-        { code: "var Test = class { myFunction() { return true; }}", ecmaFeatures: { classes: true }}
+        { code: "var Test = class { myFunction() { return true; }}", ecmaFeatures: { classes: true }},
+        { code: "var doStuff; let {x: y} = {x: 1}; doStuff(y);", ecmaFeatures: { blockBindings: true, destructuring: true }},
+        { code: "function foo({x: y}) { return y; }", ecmaFeatures: { blockBindings: true, destructuring: true }}
     ],
     invalid: [
         { code: "var f = () => { x; }", ecmaFeatures: { arrowFunctions: true }, errors: [{ message: "\"x\" used outside of binding context.", type: "Identifier" }] },
