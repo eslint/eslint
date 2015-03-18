@@ -43,7 +43,7 @@ You can set the style in configuration like this:
 "generator-star-spacing": [2, "after"]
 ```
 
-In anonymous function expressions, spacing between the asterisk and the opening parenthesis is not checked. This is checked by the [space-before-function-parentheses](space-before-function-parentheses.md) rule.
+In anonymous function expressions, spacing between the asterisk and the opening parenthesis is not checked. This is checked by the [space-before-function-paren](space-before-function-paren.md) rule.
 
 In object literal shorthand methods, spacing before the asterisk is not checked, as they lack a `function` keyword.
 
