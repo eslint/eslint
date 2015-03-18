@@ -150,7 +150,15 @@ eslintTester.addRuleTest("lib/rules/vars-on-top", {
         "'use strict'; var x; f();",
         "'use strict'; 'directive'; var x; var y; f();",
         "function f() { 'use strict'; var x; f(); }",
-        "function f() { 'use strict'; 'directive'; var x; var y; f(); }"
+        "function f() { 'use strict'; 'directive'; var x; var y; f(); }",
+        {code: "import React from 'react'; var y; function f() { 'use strict'; var x; var y; f(); }", ecmaFeatures: { modules: true }},
+        {code: "'use strict'; import React from 'react'; var y; function f() { 'use strict'; var x; var y; f(); }", ecmaFeatures: { modules: true }},
+        {code: "import React from 'react'; 'use strict'; var y; function f() { 'use strict'; var x; var y; f(); }", ecmaFeatures: { modules: true }},
+        {code: "import * as foo from 'mod.js'; 'use strict'; var y; function f() { 'use strict'; var x; var y; f(); }", ecmaFeatures: { modules: true }},
+        {code: "import { square, diag } from 'lib'; 'use strict'; var y; function f() { 'use strict'; var x; var y; f(); }", ecmaFeatures: { modules: true }},
+        {code: "import { default as foo } from 'lib'; 'use strict'; var y; function f() { 'use strict'; var x; var y; f(); }", ecmaFeatures: { modules: true }},
+        {code: "import 'src/mylib'; 'use strict'; var y; function f() { 'use strict'; var x; var y; f(); }", ecmaFeatures: { modules: true }},
+        {code: "import theDefault, { named1, named2 } from 'src/mylib'; 'use strict'; var y; function f() { 'use strict'; var x; var y; f(); }", ecmaFeatures: { modules: true }}
     ],
 
     invalid: [
