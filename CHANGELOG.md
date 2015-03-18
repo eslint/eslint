@@ -1,3 +1,20 @@
+v0.17.1 - March 17, 2015
+
+* 0.17.1 (Nicholas C. Zakas)
+* Fix: no-func-assign should not fail on import declarations (fixes #2060) (Igor Zalutsky)
+* Fix: block-scoped-var to work with destructuring (fixes #2059) (Nicholas C. Zakas)
+* Fix: no-redeclare should check Node.js scope (fixes #2064) (Nicholas C. Zakas)
+* Fix: space-before-function-parentheses generator methods (fixes #2082) (Brandon Mills)
+* Fix: Method name resolution in complexity rule (fixes #2049) (Nicholas C. Zakas)
+* Fix: no-unused-vars crash from escope workaround (fixes #2042) (Brandon Mills)
+* Fix: restrict dot-notation keywords to actual ES3 keywords (fixes #2075) (Michael Ficarra)
+* Fix: block-scoped-var to work with classes (fixes #2048) (Nicholas C. Zakas)
+* Docs: Update no-new documentation (fixes #2044) (Nicholas C. Zakas)
+* Fix: yoda range exceptions with this (fixes #2063) (Brandon Mills)
+* Docs: Fix documentation on configuring eslint with comments (Miguel Ping)
+* Fix: rule no-duplicate-case problem with MemberExpressions. (fixes #2038) (Dieter Oberkofler)
+* Fix: Exempt \0 from no-octal-escape (fixes #1923) (Michael Ficarra)
+
 v0.17.0 - March 14, 2015
 
 * 0.17.0 (Nicholas C. Zakas)
