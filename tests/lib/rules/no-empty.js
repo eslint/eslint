@@ -2,6 +2,7 @@
  * @fileoverview Tests for no-empty rule.
  * @author Nicholas C. Zakas
  * @copyright Nicholas C. Zakas. All rights reserved.
+ * @copyright 2015 Dieter Oberkofler. All rights reserved.
  */
 
 "use strict";
@@ -28,12 +29,17 @@ eslintTester.addRuleTest("lib/rules/no-empty", {
         "(function() { }())",
         { code: "var foo = () => {};", ecmaFeatures: { arrowFunctions: true } },
         "function foo() { }",
-        "try { foo() } catch (ex) {}",
-        "try { foo() } finally {}"
+        "if (foo) {/* empty */}",
+        "while (foo) {/* empty */}",
+        "for (;foo;) {/* empty */}",
+        "try { foo() } catch (ex) {/* empty */}",
+        "try { foo() } catch (ex) {// empty\n}",
+        "try { foo() } finally {// empty\n}"
     ],
     invalid: [
-        { code: "try {} catch (ex) {}", errors: [{ message: "Empty block statement.", type: "BlockStatement"}] },
-        { code: "try { foo() } catch (ex) {} finally {}", errors: [{ message: "Empty block statement.", type: "BlockStatement"}] },
+        { code: "try {} catch (ex) {throw ex}", errors: [{ message: "Empty block statement.", type: "BlockStatement"}] },
+        { code: "try { foo() } catch (ex) {}", errors: [{ message: "Empty block statement.", type: "BlockStatement"}] },
+        { code: "try { foo() } catch (ex) {throw ex} finally {}", errors: [{ message: "Empty block statement.", type: "BlockStatement"}] },
         { code: "if (foo) {}", errors: [{ message: "Empty block statement.", type: "BlockStatement"}] },
         { code: "while (foo) {}", errors: [{ message: "Empty block statement.", type: "BlockStatement"}] },
         { code: "for (;foo;) {}", errors: [{ message: "Empty block statement.", type: "BlockStatement"}] },
