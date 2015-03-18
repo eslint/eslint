@@ -35,7 +35,7 @@ It takes an option as the second parameter which can be `"tab"` for tabs indenta
 "indent": [2, "tab"]
 
 // 4 spaces indentation with enabled switch cases validation
- "indent": [2, 4, {indentSwitchCase: true}]
+ "indent": [2, 4, {"indentSwitchCase": true}]
 ```
 
 The following patterns are considered warnings:
@@ -89,7 +89,7 @@ The `indent` rule has two options:
 
 ```js
 // 2 spaces indentation with enabled switch cases validation
- "indent": [2, 2, {indentSwitchCase: true}]
+ "indent": [2, 2, {"indentSwitchCase": true}]
 ```
 
 ## Compatibility
