@@ -30,6 +30,10 @@ eslintTester.addRuleTest("lib/rules/func-names", {
         {
             code: "({ foo() { return 1; } });",
             ecmaFeatures: { objectLiteralShorthandMethods: true }
+        },
+        {
+            code: "class A { constructor(){} foo(){} get bar(){} set baz(value){} static qux(){}}",
+            ecmaFeatures: { classes: true }
         }
     ],
     invalid: [
