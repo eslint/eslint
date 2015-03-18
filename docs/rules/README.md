@@ -72,6 +72,7 @@ These are rules designed to prevent you from making mistakes. They either prescr
 * [no-new-wrappers](no-new-wrappers.md) - disallows creating new instances of `String`,`Number`, and `Boolean`
 * [no-octal](no-octal.md) - disallow use of octal literals
 * [no-octal-escape](no-octal-escape.md) - disallow use of octal escape sequences in string literals, such as `var foo = "Copyright \251";`
+* [no-param-reassign](no-param-reassign.md) - disallow reassignment of function parameters (off by default)
 * [no-process-env](no-process-env.md) - disallow use of `process.env` (off by default)
 * [no-proto](no-proto.md) - disallow usage of `__proto__` property
 * [no-redeclare](no-redeclare.md) - disallow declaring the same variable more then once
