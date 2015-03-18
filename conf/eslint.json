@@ -147,6 +147,7 @@
         "space-after-function-name": [0, "never"],
         "space-after-keywords": [0, "always"],
         "space-before-blocks": [0, "always"],
+        "space-before-function-paren": [0, "always"],
         "space-before-function-parentheses": [0, "always"],
         "space-in-brackets": [0, "never"],
         "space-in-parens": [0, "never"],

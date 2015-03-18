@@ -165,7 +165,8 @@ These rules are purely matters of style and are quite subjective.
 * [space-after-function-name](space-after-function-name.md) - **(deprecated)** require a space after function names (off by default)
 * [space-after-keywords](space-after-keywords.md) - require a space after certain keywords (off by default)
 * [space-before-blocks](space-before-blocks.md) - require or disallow space before blocks (off by default)
-* [space-before-function-parentheses](space-before-function-parentheses.md) - require or disallow space before function parentheses (off by default)
+* [space-before-function-paren](space-before-function-paren.md) - require or disallow space before function opening parenthesis (off by default)
+* [space-before-function-parentheses](space-before-function-parentheses.md) - **(deprecated)** require or disallow space before function parentheses (off by default)
 * [space-in-brackets](space-in-brackets.md) - require or disallow spaces inside brackets (off by default)
 * [space-in-parens](space-in-parens.md) - require or disallow spaces inside parentheses (off by default)
 * [space-infix-ops](space-infix-ops.md) - require spaces around operators
