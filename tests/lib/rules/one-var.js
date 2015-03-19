@@ -29,7 +29,18 @@ eslintTester.addRuleTest("lib/rules/one-var", {
             args: [2, "never"]
         },
         {
-            code: "function foo() { var a, b, c; var bar = true; var baz = false; }",
+            code: "function foo() { var bar = true; var baz = false; }",
+            args: [2, "never"]
+        },
+        {
+            code: "function foo() { var a = [1, 2, 3]; var [b, c, d] = a; }",
+            ecmaFeatures: {
+                destructuring: true
+            },
+            args: [2, "never"]
+        },
+        {
+            code: "function foo() { var a, b, c; var d = 2;}",
             args: [2, "only-undefined"]
         }
     ],
@@ -114,6 +125,17 @@ eslintTester.addRuleTest("lib/rules/one-var", {
             args: [2, "only-undefined"],
             errors: [{
                 message: "Only undefined declarations allowed on a single 'var'.",
+                type: "VariableDeclaration"
+            }]
+        },
+        {
+            code: "function foo() { var a = [1, 2, 3]; var [b, c, d] = a; }",
+            ecmaFeatures: {
+                destructuring: true
+            },
+            args: [2, "always"],
+            errors: [{
+                message: "Combine this with the previous 'var' statement.",
                 type: "VariableDeclaration"
             }]
         }
