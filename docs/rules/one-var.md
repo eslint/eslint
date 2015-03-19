@@ -85,6 +85,28 @@ function foo() {
 }
 ```
 
+When configured with `"only-undefined"` as the first option, the following patterns are considered warnings:
+
+```js
+function foo() {
+    var bar,
+        baz = true;
+}
+
+```
+
+The following patterns are not considered warnings:
+
+```js
+function foo() {
+    var bar, baz;
+    var foo = 1;
+    var bing;
+}
+
+```
+
+
 ## Compatibility
 
 * **JSHint** - This rule maps to the `onevar` JSHint rule.
