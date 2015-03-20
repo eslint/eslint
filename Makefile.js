@@ -279,17 +279,34 @@ target.gensite = function() {
 
     echo("Generating eslint.org");
 
-    if (test("-d", DOCS_DIR)) {
-        rm("-r", DOCS_DIR);
+    var docFiles = [
+        "/rules/",
+        "/user-guide/command-line-interface.md",
+        "/user-guide/configuring.md",
+        "/developer-guide/nodejs-api.md",
+        "/developer-guide/working-with-plugins.md",
+        "/developer-guide/working-with-rules.md"
+    ];
+
+    // 1. create temp and build directory
+    if (!test("-d", TEMP_DIR)) {
+        mkdir(TEMP_DIR);
     }
-    mkdir("-p", DOCS_DIR);
-    cp("-rf", "docs/*", DOCS_DIR);
 
-    target.browserify();
-    cp("-f", "build/eslint.js", SITE_DIR + "js/app/eslint.js");
-    cp("-f", "conf/eslint.json", SITE_DIR + "js/app/eslint.json");
+    // 2. remove old files from the site
+    docFiles.forEach(function(filePath) {
+        var fullPath = path.join(DOCS_DIR, filePath);
+        rm("-r", fullPath);
+        if (filePath.indexOf(".md") >= 0) {
+            rm("-r", fullPath.replace(".md", ".html"));
+        }
+    });
 
-    find(DOCS_DIR).forEach(function(filename) {
+    // 3. Copy docs folder to a temporary directory
+    cp("-rf", "docs/*", TEMP_DIR);
+
+    // 4. Loop through all files in temporary directory
+    find(TEMP_DIR).forEach(function(filename) {
         if (test("-f", filename)) {
             var rulesUrl = "https://github.com/eslint/eslint/tree/master/lib/rules/";
             var docsUrl = "https://github.com/eslint/eslint/tree/master/docs/rules/";
@@ -298,11 +315,19 @@ target.gensite = function() {
 
             var baseName = path.basename(filename);
             var sourceBaseName = path.basename(filename, ".md") + ".js";
+            var ruleName = path.basename(filename, ".md");
 
-            text = "---\ntitle: ESLint\nlayout: doc\n---\n<!-- Note: No pull requests accepted for this file. See README.md in the root directory for details. -->\n" + text;
+            // 5. Prepend page title and layout variables at the top of rules
+            if (path.dirname(filename).indexOf("rules") >= 0) {
+                text = "---\ntitle: " + (ruleName === "README" ? "List of available rules" : "Rule " + ruleName) + "\nlayout: doc\n---\n<!-- Note: No pull requests accepted for this file. See README.md in the root directory for details. -->\n" + text;
+            } else {
+                text = "---\ntitle: Documentation\nlayout: doc\n---\n<!-- Note: No pull requests accepted for this file. See README.md in the root directory for details. -->\n" + text;
+            }
 
-            text = text.replace(/\.md(.*\))/g, ".html$1").replace("README.html", "index.html");
+            // 6. Remove .md extension for links and change README to empty string
+            text = text.replace(/\.md(.*\))/g, "").replace("README.html", "");
 
+            // 7. Append first version of ESLint rule was added at.
             if (filename.indexOf("rules/") !== -1 && baseName !== "README.md") {
                 var version = getFirstVersionOfFile(path.join("lib/rules", sourceBaseName));
 
@@ -316,9 +341,22 @@ target.gensite = function() {
                 text += "* [Documentation source](" + docsUrl + baseName + ")\n";
             }
 
+            // 8. Update content of the file with changes
             text.to(filename.replace("README.md", "index.md"));
         }
     });
+
+    // 9. Copy temorary directory to site's docs folder
+    cp("-rf", TEMP_DIR + "*", DOCS_DIR);
+
+    // 10. Delete temporary directory
+    rm("-r", TEMP_DIR);
+
+    // 11. Browserify ESLint
+    target.browserify();
+    cp("-f", "build/eslint.js", SITE_DIR + "js/app/eslint.js");
+    cp("-f", "conf/eslint.json", SITE_DIR + "js/app/eslint.json");
+
 };
 
 target.publishsite = function() {
