@@ -43,6 +43,7 @@ eslintTester.addRuleTest("lib/rules/no-undef", {
         "if (typeof a === 'undefined') {}",
         { code: "var toString = 1;", ecmaFeatures: { globalReturn: true }},
         { code: "function myFunc(...foo) {  return foo;}", ecmaFeatures: { restParams: true } },
+        { code: "var App; <App />;", args: [1, {vars: "all"}], ecmaFeatures: { globalReturn: true, jsx: true } },
         { code: "var React, App; React.render(<App />);", args: [1, {vars: "all"}], ecmaFeatures: { jsx: true } },
         { code: "var React; React.render(<img />);", args: [1, {vars: "all"}], ecmaFeatures: { jsx: true } },
         { code: "var React; React.render(<x-gif />);", args: [1, {vars: "all"}], ecmaFeatures: { jsx: true } },
