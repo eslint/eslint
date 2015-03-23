@@ -76,6 +76,8 @@ eslintTester.addRuleTest("lib/rules/no-unused-vars", {
         { code: "/*eslint use-every-a:1*/ !function() { var a; return 1 }"}
     ],
     invalid: [
+        { code: "function foox() { return foox(); }", errors: [{ message: "foox is defined but never used", type: "Identifier"}] },
+        { code: "(function() { function foox() { if (true) { return foox(); } } }())", errors: [{ message: "foox is defined but never used", type: "Identifier"}] },
         { code: "var a=10", errors: [{ message: "a is defined but never used", type: "Identifier"}] },
         { code: "/*global a */", errors: [{ message: "a is defined but never used", type: "Program"}] },
         { code: "function foo(first, second) {\ndoStuff(function() {\nconsole.log(second);});};", errors: [{ message: "foo is defined but never used", type: "Identifier"}] },
