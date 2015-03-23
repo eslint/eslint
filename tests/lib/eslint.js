@@ -908,6 +908,23 @@ describe("eslint", function() {
 
             eslint.verify(code, {}, filename, true);
         });
+
+        it("should mark variables in Node.js environment as used", function() {
+            var code = "var a = 1, b = 2;";
+
+            eslint.reset();
+            eslint.on("Program:exit", function() {
+                var globalScope = eslint.getScope(),
+                    childScope = globalScope.childScopes[0];
+
+                eslint.markVariableAsUsed("a");
+
+                assert.isTrue(getVariable(childScope, "a").eslintUsed);
+                assert.isUndefined(getVariable(childScope, "b").eslintUsed);
+            });
+
+            eslint.verify(code, { env: { node: true }}, filename, true);
+        });
     });
 
     describe("when calling report", function() {
