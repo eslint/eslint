@@ -43,9 +43,6 @@ eslintTester.addRuleTest("lib/rules/no-undef", {
         "if (typeof a === 'undefined') {}",
         { code: "var toString = 1;", ecmaFeatures: { globalReturn: true }},
         { code: "function myFunc(...foo) {  return foo;}", ecmaFeatures: { restParams: true } },
-        { code: "var React, App; React.render(<App />);", args: [1, {vars: "all"}], ecmaFeatures: { jsx: true } },
-        { code: "var React; React.render(<img />);", args: [1, {vars: "all"}], ecmaFeatures: { jsx: true } },
-        { code: "var React; React.render(<x-gif />);", args: [1, {vars: "all"}], ecmaFeatures: { jsx: true } },
         { code: "var React, App, a=1; React.render(<App attr={a} />);", args: [1, {vars: "all"}], ecmaFeatures: { jsx: true } },
         { code: "var console; [1,2,3].forEach(obj => {\n  console.log(obj);\n});", ecmaFeatures: { arrowFunctions: true } },
         { code: "var Foo; class Bar extends Foo { constructor() { super();  }}", ecmaFeatures: { classes: true } },
@@ -64,7 +61,6 @@ eslintTester.addRuleTest("lib/rules/no-undef", {
         { code: "window;", errors: [{ message: "'window' is not defined.", type: "Identifier"}] },
         { code: "require(\"a\");", errors: [{ message: "'require' is not defined.", type: "Identifier"}] },
         { code: "Array = 1;", errors: [{ message: "'Array' is read only.", type: "Identifier"}] },
-        { code: "var React; React.render(<App />);", args: [1, {vars: "all"}], errors: [{ message: "'App' is not defined." }], ecmaFeatures: { jsx: true } },
         { code: "var React; React.render(<img attr={a} />);", args: [1, {vars: "all"}], errors: [{ message: "'a' is not defined." }], ecmaFeatures: { jsx: true } },
         { code: "var React, App; React.render(<App attr={a} />);", args: [1, {vars: "all"}], errors: [{ message: "'a' is not defined." }], ecmaFeatures: { jsx: true } }
     ]
