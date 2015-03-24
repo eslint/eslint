@@ -30,10 +30,6 @@ Console.log("Hello world!");
 
 If you're using Node.js, however, `console` is used to output information to the user and so is not strictly used for debugging purposes. If you are developing for Node.js then you most likely do not want this rule enabled.
 
-## Further Reading
-
-* [Use Uglify to automatically strip debug messages from your JavaScript](http://jstarrdewar.com/blog/2013/02/28/use-uglify-to-automatically-strip-debug-messages-from-your-javascript)
-
 ## Related Rules
 
 * [no-alert](no-alert.md)

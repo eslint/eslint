@@ -75,4 +75,4 @@ If explicit declaration of global variables is not to your taste.
 
 ## Further Reading
 
-* ['{a}' is not defined](http://jslinterrors.com/a-is-not-defined/)
+* ['{a}' is not defined](http://jslinterrors.com/a-is-not-defined)
