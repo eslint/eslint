@@ -20,6 +20,7 @@ var eslintTester = new ESLintTester(eslint);
 eslintTester.addRuleTest("lib/rules/no-ex-assign", {
     valid: [
         "try { } catch (e) { three = 2 + 1; }",
+        { code: "try { } catch ({e}) { this.something = 2; }", ecmaFeatures: { destructuring: true } },
         "function foo() { try { } catch (e) { return false; } }"
     ],
     invalid: [
