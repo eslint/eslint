@@ -89,6 +89,31 @@ describe("Config", function() {
         rm("-r", fixtureDir);
     });
 
+    describe("when given modified base configuration", function() {
+
+        it("should merge to original one", function() {
+            var configHelper = new Config({
+                    baseConfig: {
+                        parser: "babel-eslint",
+                        env: {
+                            node: true
+                        },
+                        rules: {
+                            strict: [2, "global"]
+                        }
+                    }
+                }),
+                expected = util.mergeConfigs({}, baseConfig),
+                actual = configHelper.baseConfig;
+
+            expected.parser = "babel-eslint";
+            expected.env.node = true;
+            expected.rules.strict = [2, "global"];
+
+            assertConfigsEqual(expected, actual);
+        });
+    });
+
     describe("findLocalConfigFiles()", function() {
 
         it("should return the path when an .eslintrc file is found", function() {
