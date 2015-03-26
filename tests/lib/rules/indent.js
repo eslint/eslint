@@ -49,6 +49,9 @@ eslintTester.addRuleTest("lib/rules/indent", {
             "}"
         },
         {
+            code: "switch (0) {\n}"
+        },
+        {
             code:
             "function foo() {\n" +
             "    var a = \"a\";\n" +
