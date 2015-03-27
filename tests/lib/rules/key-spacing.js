@@ -18,65 +18,73 @@ eslintTester.addRuleTest("lib/rules/key-spacing", {
 
     valid: [{
         code: "var obj = { key: value };",
-        args: {}
+        options: [{}]
+    }, {
+        code: "var obj = { [(a + b)]: value };",
+        options: [{}],
+        ecmaFeatures: { objectLiteralComputedProperties: true }
     }, {
         code: "var foo = { a:bar };",
-        args: [2, {
+        options: [{
             beforeColon: false,
             afterColon: false
         }]
     }, {
         code: "var foo = { a: bar };",
-        args: [2, {
+        options: [{
             beforeColon: false,
             afterColon: true
         }]
     }, {
         code: "foo({ 'default': function(){}});",
-        args: [2, {
+        options: [{
             beforeColon: false,
             afterColon: true
         }]
     }, {
         code: "function foo() { return {\n    key: (foo === 4)\n}; }",
-        args: [2, {
+        options: [{
             beforeColon: false,
             afterColon: true
         }]
     }, {
         code: "var obj = {'key' :42 };",
-        args: [2, {
+        options: [{
             beforeColon: true,
             afterColon: false
         }]
     }, {
         code: "({a : foo, b : bar})['a'];",
-        args: [2, {
+        options: [{
             beforeColon: true,
             afterColon: true
         }]
     }, {
         code: [
             "var obj = {",
-            "    'a'   : (42 - 12),",
-            "    foobar: 'value'",
+            "    'a'     : (42 - 12),",
+            "    foobar  : 'value',",
+            "    [(expr)]: val",
             "};"
         ].join("\n"),
-        args: [2, {
+        options: [{
             align: "colon"
-        }]
+        }],
+        ecmaFeatures: { objectLiteralComputedProperties: true }
     }, {
         code: [
             "callExpr(arg, {",
             "    key       :val,",
             "    'another' :false,",
+            "    [compute] :'value'",
             "});"
         ].join("\n"),
-        args: [2, {
+        options: [{
             align: "colon",
             beforeColon: true,
             afterColon: false
-        }]
+        }],
+        ecmaFeatures: { objectLiteralComputedProperties: true }
     }, {
         code: [
             "var obj = {",
@@ -85,7 +93,7 @@ eslintTester.addRuleTest("lib/rules/key-spacing", {
             "    bat:      []",
             "};"
         ].join("\n"),
-        args: [2, {
+        options: [{
             align: "value"
         }]
     }, {
@@ -96,7 +104,7 @@ eslintTester.addRuleTest("lib/rules/key-spacing", {
             "    key :   value",
             "});"
         ].join("\n"),
-        args: [2, {
+        options: [{
             align: "value",
             beforeColon: true,
             afterColon: false
@@ -115,7 +123,7 @@ eslintTester.addRuleTest("lib/rules/key-spacing", {
             "    f: 0",
             "})"
         ].join("\n"),
-        args: [2, {
+        options: [{
             align: "colon"
         }]
     }, {
@@ -124,49 +132,54 @@ eslintTester.addRuleTest("lib/rules/key-spacing", {
             " : ",
             " longName };"
         ].join("\n"),
-        args: [2, {
+        options: [{
             beforeColon: true,
             afterColon: true
         }]
     }, {
         code: "var obj = { get fn() { return 42; } };",
-        args: [2, {}]
+        options: [{}]
     }, {
         code: "({ get fn() {} })",
-        args: [2, { align: "colon" }]
+        options: [{ align: "colon" }]
     }],
 
     invalid: [{
         code: "var bat = function() { return { foo:bar, 'key': value }; };",
-        args: [2, {
+        options: [{
             beforeColon: false,
             afterColon: false
         }],
         errors: [{ message: "Extra space before value for key \"key\".", type: "Identifier", line: 1, column: 48 }]
     }, {
+        code: "var obj = { [ (a + b) ]:value };",
+        options: [{}],
+        ecmaFeatures: { objectLiteralComputedProperties: true },
+        errors: [{ message: "Missing space before value for computed key \"(a + b)\".", type: "Identifier", line: 1, column: 23 }]
+    }, {
         code: "fn({ foo:bar, 'key' :value });",
-        args: [2, {
+        options: [{
             beforeColon: false,
             afterColon: false
         }],
         errors: [{ message: "Extra space after key \"key\".", type: "Literal", line: 1, column: 14 }]
     }, {
         code: "var obj = {prop :(42)};",
-        args: [2, {
+        options: [{
             beforeColon: true,
             afterColon: true
         }],
         errors: [{ message: "Missing space before value for key \"prop\".", type: "Literal", line: 1, column: 17 }]
     }, {
         code: "({'a' : foo, b: bar() }).b();",
-        args: [2, {
+        options: [{
             beforeColon: true,
             afterColon: true
         }],
         errors: [{ message: "Missing space after key \"b\".", type: "Identifier", line: 1, column: 13 }]
     }, {
         code: "({'a'  :foo(), b:  bar() }).b();",
-        args: [2, {
+        options: [{
             beforeColon: true,
             afterColon: true
         }],
@@ -178,7 +191,7 @@ eslintTester.addRuleTest("lib/rules/key-spacing", {
         ]
     }, {
         code: "bar = { key:value };",
-        args: [2, {
+        options: [{
             beforeColon: false,
             afterColon: true
         }],
@@ -191,7 +204,7 @@ eslintTester.addRuleTest("lib/rules/key-spacing", {
             "    'a'   : (2 * 2)",
             "};"
         ].join("\n"),
-        args: [2, {
+        options: [{
             align: "colon"
         }],
         errors: [
@@ -208,7 +221,7 @@ eslintTester.addRuleTest("lib/rules/key-spacing", {
             "    c   :call()",
             "}).a();"
         ].join("\n"),
-        args: [2, {
+        options: [{
             align: "colon",
             beforeColon: true,
             afterColon: false
@@ -224,16 +237,19 @@ eslintTester.addRuleTest("lib/rules/key-spacing", {
             "    a:    fn(),",
             "    'b' : 42,",
             "    foo:(bar),",
-            "    bat: 'valid'",
+            "    bat: 'valid',",
+            "    [a] : value",
             "};"
         ].join("\n"),
-        args: [2, {
+        options: [{
             align: "value"
         }],
+        ecmaFeatures: { objectLiteralComputedProperties: true },
         errors: [
             { message: "Extra space before value for key \"a\".", type: "CallExpression", line: 2, column: 10 },
             { message: "Extra space after key \"b\".", type: "Literal", line: 3, column: 4 },
-            { message: "Missing space before value for key \"foo\".", type: "Identifier", line: 4, column: 8 }
+            { message: "Missing space before value for key \"foo\".", type: "Identifier", line: 4, column: 8 },
+            { message: "Extra space after computed key \"a\".", type: "Identifier", line: 6, column: 5 }
         ]
     }, {
         code: [
@@ -244,7 +260,7 @@ eslintTester.addRuleTest("lib/rules/key-spacing", {
             "    bar : call()",
             "};"
         ].join("\n"),
-        args: [2, {
+        options: [{
             align: "value",
             beforeColon: true,
             afterColon: false
@@ -263,7 +279,7 @@ eslintTester.addRuleTest("lib/rules/key-spacing", {
             "    fg:0",
             "})"
         ].join("\n"),
-        args: [2, {
+        options: [{
             align: "colon"
         }],
         errors: [
@@ -280,7 +296,7 @@ eslintTester.addRuleTest("lib/rules/key-spacing", {
             "        :anotherLongValue",
             "};"
         ].join("\n"),
-        args: [2, {
+        options: [{
             beforeColon: false,
             afterColon: false
         }],
@@ -299,7 +315,7 @@ eslintTester.addRuleTest("lib/rules/key-spacing", {
             "    key123: 'forty two'",
             "};"
         ].join("\n"),
-        args: [2, {
+        options: [{
             align: "value"
         }],
         errors: [
