@@ -32,6 +32,7 @@ eslintTester.addRuleTest("lib/rules/no-unused-vars", {
         "var foo = 5;\n\nwhile (true) {\n  console.log(foo);\n  break;\n}",
         { code: "for (let prop in box) {\n        box[prop] = parseInt(box[prop]);\n}", ecmaFeatures: { blockBindings: true }},
         "var box = {a: 2};\n    for (var prop in box) {\n        box[prop] = parseInt(box[prop]);\n}",
+        "f({ set foo(a) { return; } });",
         { code: "a; var a;", args: [1, "all"] },
         { code: "var a=10; alert(a);", args: [1, "all"] },
         { code: "var a=10; (function() { alert(a); })();", args: [1, "all"] },
