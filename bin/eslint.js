@@ -7,7 +7,13 @@ var exitCode = 0,
 
 if (useStdIn) {
     process.stdin.pipe(concat({ encoding: "string" }, function(text) {
-        exitCode = cli.execute(process.argv, text);
+        try {
+            exitCode = cli.execute(process.argv, text);
+        } catch (ex) {
+            console.error(ex.message);
+            console.error(ex.stack);
+            exitCode = 1;
+        }
     }));
 } else {
     exitCode = cli.execute(process.argv);
