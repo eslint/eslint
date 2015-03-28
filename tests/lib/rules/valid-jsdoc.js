@@ -42,6 +42,11 @@ eslintTester.addRuleTest("lib/rules/valid-jsdoc", {
             ecmaFeatures: { arrowFunctions: true }
         },
         {
+            code: "/**\n* Description\n* @param {string} p bar\n*/\nFoo.bar = function({p}){};",
+            args: [1, {requireReturn: false}],
+            ecmaFeatures: { destructuring: true }
+        },
+        {
             code: "/**\n* Description\n* @param {string} p bar\n*/\nFoo.bar = function(p){};",
             args: [1, {requireReturn: false}]
         },
