@@ -39,6 +39,7 @@ eslintTester.addRuleTest("lib/rules/block-scoped-var", {
         { code: "new Date", globals: {} },
         { code: "var eslint = require('eslint');", globals: {require: false} },
         { code: "var fun = function({x}) {return x;};", ecmaFeatures: { destructuring: true } },
+        { code: "var fun = function([,x]) {return x;};", ecmaFeatures: { destructuring: true } },
         "function f(a) { return a.b; }",
         "var a = { \"foo\": 3 };",
         "var a = { foo: 3 };",
