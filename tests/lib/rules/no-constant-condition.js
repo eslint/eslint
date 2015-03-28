@@ -29,7 +29,8 @@ eslintTester.addRuleTest("lib/rules/no-constant-condition", {
         "for(;x < 10;);",
         "for(;;);",
         "do{ }while(x)",
-        "q > 0 ? 1 : 2;"
+        "q > 0 ? 1 : 2;",
+        "while(x += 3) {}"
     ],
     invalid: [
         { code: "for(;true;);", errors: [{ message: "Unexpected constant condition.", type: "ForStatement"}] },
