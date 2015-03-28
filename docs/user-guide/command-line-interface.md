@@ -44,7 +44,7 @@ Options:
 
 ### `-c`, `--config`
 
-This option allows you to specify an alternate configuration file for ESLint (see [Configuring ESLint](../configuring) for more). By default, ESLint uses its own configuration file located at `conf/eslint.json`.
+This option allows you to specify an alternate configuration file for ESLint (see [Configuring ESLint](configuring) for more). By default, ESLint uses its own configuration file located at `conf/eslint.json`.
 
 Example:
 
@@ -54,7 +54,7 @@ This example uses the configuration file at `~/my-eslint.json` instead of the de
 
 ### `--env`
 
-This option enables specific environments. Details about the global variables defined by each environment are available on the [configuration](../configuring) documentation. This flag only enables environments; it does not disable environments set in other configuration files. To specify multiple environments, separate them using commas, or use the flag multiple times.
+This option enables specific environments. Details about the global variables defined by each environment are available on the [configuration](configuring) documentation. This flag only enables environments; it does not disable environments set in other configuration files. To specify multiple environments, separate them using commas, or use the flag multiple times.
 
 Examples:
 
