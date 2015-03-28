@@ -331,7 +331,7 @@ target.gensite = function() {
             }
 
             // 6. Remove .md extension for links and change README to empty string
-            text = text.replace(/\.md(.*\))/g, "").replace("README.html", "");
+            text = text.replace(/\.md(.*?\))/g, ")").replace("README.html", "");
 
             // 7. Append first version of ESLint rule was added at.
             if (filename.indexOf("rules/") !== -1 && baseName !== "README.md") {
