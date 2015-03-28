@@ -295,10 +295,16 @@ target.gensite = function() {
 
     // 2. remove old files from the site
     docFiles.forEach(function(filePath) {
-        var fullPath = path.join(DOCS_DIR, filePath);
-        rm("-r", fullPath);
-        if (filePath.indexOf(".md") >= 0) {
-            rm("-r", fullPath.replace(".md", ".html"));
+        var fullPath = path.join(DOCS_DIR, filePath),
+            htmlFullPath = fullPath.replace(".md", ".html");
+
+        if (test("-f", fullPath)) {
+
+            rm("-r", fullPath);
+
+            if (filePath.indexOf(".md") >= 0 && test("-f", htmlFullPath)) {
+                rm("-r", htmlFullPath);
+            }
         }
     });
 
