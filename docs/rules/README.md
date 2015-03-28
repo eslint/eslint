@@ -144,6 +144,7 @@ These rules are purely matters of style and are quite subjective.
 * [new-parens](new-parens.md) - disallow the omission of parentheses when invoking a constructor with no arguments
 * [newline-after-var](newline-after-var.md) - allow/disallow an empty newline after `var` statement (off by default)
 * [no-array-constructor](no-array-constructor.md) - disallow use of the `Array` constructor
+* [no-continue](no-continue.md) - disallow use of the `continue` statement (off by default)
 * [no-inline-comments](no-inline-comments.md) - disallow comments inline after code (off by default)
 * [no-lonely-if](no-lonely-if.md) - disallow if as the only statement in an else block (off by default)
 * [no-mixed-spaces-and-tabs](no-mixed-spaces-and-tabs.md) - disallow mixed spaces and tabs for indentation
