@@ -389,6 +389,19 @@ describe("CLIEngine", function() {
             assert.equal(report.results[0].messages.length, 0);
         });
 
+        it("should return zero messages when executing with base-config flag set to false", function() {
+
+            engine = new CLIEngine({
+                ignore: false,
+                baseConfig: false,
+                useEslintrc: false
+            });
+
+            var report = engine.executeOnFiles(["./tests/fixtures/missing-semicolon.js"]);
+            assert.equal(report.results.length, 1);
+            assert.equal(report.results[0].filePath, "./tests/fixtures/missing-semicolon.js");
+            assert.equal(report.results[0].messages.length, 0);
+        });
 
         it("should return zero messages and ignore .eslintrc files when executing with no-eslintrc flag", function() {
 

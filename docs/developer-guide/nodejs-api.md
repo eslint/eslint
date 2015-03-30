@@ -75,6 +75,7 @@ The `CLIEngine` is a constructor, and you can create a new instance by passing i
 * `ignore` - False disables use of `.eslintignore` (default: true). Corresponds to `--no-ignore`.
 * `ignorePath` - The ignore file to use instead of `.eslintignore` (default: null). Corresponds to `--ignore-path`.
 * `reset` - True disables all default rules and environments (default: false). Corresponds to `--reset`.
+* `baseConfig` - Set to false to disable base config file (default: `true`). Could be set to alternative file path or an object as well, corresponds to `--base-config`.
 * `rulePaths` - An array of directories to load custom rules from (default: empty array). Corresponds to `--rulesdir`.
 * `rules` - An object of rules to use (default: null). Corresponds to `--rule`.
 * `useEslintrc` - Set to false to disable use of `.eslintrc` files (default: true). Corresponds to `--no-eslintrc`.

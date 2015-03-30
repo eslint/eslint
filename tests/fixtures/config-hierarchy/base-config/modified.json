@@ -1,0 +1,10 @@
+{
+    "env": {
+        "node": true,
+        "mocha": true
+    },
+
+    "rules": {
+        "strict": [2, "global"]
+    }
+}

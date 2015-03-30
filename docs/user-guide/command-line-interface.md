@@ -28,6 +28,7 @@ Options:
   -f, --format String         Use a specific output format - default: stylish
   -v, --version               Outputs the version number
   --reset                     Set all default rules to off - default: false
+  --base-config Boolean | path::String  Enable/disable base config, could be passed a file path - default: true
   --no-eslintrc               Disable use of configuration from .eslintrc
   --env [String]              Specify environments
   --ext [String]              Specify JavaScript file extensions - default: .js
@@ -176,6 +177,16 @@ This option turns off all rules enabled in ESLint's default configuration file l
 Example:
 
     eslint --reset file.js
+
+### `--base-config`
+
+This option allows you to specify an alternate default configuration file instead of `conf/eslint.json`. If not specified, `conf/eslint.json` will still be used.
+This option can turns off default configuration if being set to `false`.
+
+Examples:
+
+    eslint --base-config custom-eslint-conf.json
+    eslint --base-config false
 
 ### `--rule`
 

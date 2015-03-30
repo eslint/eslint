@@ -387,7 +387,7 @@ The complete configuration hierarchy, from highest precedence to lowest preceden
     1. In the absence of any configuration from (i) and (ii), fall back to `~/.eslintrc` - personal default configuration
 4. ESLint default configuration:
     1. `environments.json`
-    1. `eslint.json`
+    1. `--base-config`, defaults to `true` which means default config in `conf/eslint.json`, could be disabled using value `false` or could be set to an alternative file path.
     1. Blank (no config)
 
 ## Comments in Configuration Files
