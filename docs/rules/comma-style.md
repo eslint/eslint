@@ -1,6 +1,6 @@
 # Comma style (comma-style)
 
-Comma Style rule enforces comma styles for a list of things separated by commas. There are two comma styles primarily in javascript. The standard one in which commas are placed at the end of the line. And Comma-First, in which, commas are placed at the start of the next line after the list item.
+Comma Style rule enforces comma styles for a list of things separated by commas. There are two comma styles primarily in JavaScript. The standard one in which commas are placed at the end of the line. And Comma-First, in which, commas are placed at the start of the next line after the list item.
 
 One of the justifications for using Comma-First is that it helps tracking missing and trailing commas.
 In case linting is turned off, missing commas in variable declarations lead to leakage of global variables and trailing commas lead to errors in older versions of IE.
@@ -122,7 +122,8 @@ function bar() {
 
 #### Exceptions
 
-Exceptions of the following nodes may be passed in order to tell eslint to ignore nodes of certain types.
+Exceptions of the following nodes may be passed in order to tell ESLint to ignore nodes of certain types.
+
 ```
 ArrayExpression,
 ObjectExpression,
@@ -141,6 +142,7 @@ var o = {fst:1,
 ```
 
 Whereas the following would not.
+
 ```
 /* eslint comma-style: [2, "first", {exceptions: {ArrayExpression: true, ObjectExpression: true} }] */
 var o = {},

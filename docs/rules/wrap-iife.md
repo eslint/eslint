@@ -27,6 +27,7 @@ var x = (function () { return { y: 1 };}());
 ```
 
 ### Options
+
 The rule takes one option which can enforce a consistent wrapping style. The default is `outside`.
 
 ```json

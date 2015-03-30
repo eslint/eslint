@@ -2,7 +2,7 @@
  * @fileoverview Build file
  * @author nzakas
  */
-/*global cat, cd, cp, echo, exec, exit, find, mkdir, mv, pwd, rm, target, test*/
+/*global cat, cd, cp, echo, exec, exit, find, ls, mkdir, mv, pwd, rm, target, test*/
 
 "use strict";
 
@@ -15,6 +15,7 @@ require("shelljs/make");
 var path = require("path"),
     checker = require("npm-license"),
     dateformat = require("dateformat"),
+    markdownlint = require("markdownlint"),
     nodeCLI = require("shelljs-nodecli"),
     os = require("os"),
     semver = require("semver");
@@ -55,6 +56,7 @@ var NODE = "node ", // intentional extra space
     /*eslint-disable no-use-before-define */
     JS_FILES = find("lib/").filter(fileType("js")).join(" "),
     JSON_FILES = find("conf/").filter(fileType("json")).join(" ") + " .eslintrc",
+    MARKDOWN_FILES_ARRAY = find("docs/").concat(ls(".")).filter(fileType("md")),
     TEST_FILES = find("tests/lib/").filter(fileType("js")).join(" ");
     /*eslint-enable no-use-before-define */
 
@@ -196,6 +198,40 @@ function getVersionTags() {
     }, []).sort(semver.compare);
 }
 
+/**
+ * Lints Markdown files.
+ * @param {array} files Array of file names to lint.
+ * @returns {object} exec-style exit code object.
+ * @private
+ */
+function lintMarkdown(files) {
+    var config = {
+            default: true,
+            // Exclusions for deliberate/widespread violations
+            MD002: false, // First header should be a h1 header
+            MD004: false, // Unordered list style
+            MD007: {      // Unordered list indentation
+                indent: 4
+            },
+            MD009: false, // Trailing spaces
+            MD010: false, // Hard tabs
+            MD012: false, // Multiple consecutive blank lines
+            MD013: false, // Line length
+            MD026: false, // Trailing punctuation in header
+            MD029: false  // Ordered list item prefix
+        },
+        result = markdownlint.sync({
+            files: files,
+            config: config
+        }),
+        resultString = result.toString(),
+        returnCode = resultString ? 1 : 0;
+    if (resultString) {
+        console.error(resultString);
+    }
+    return { code: returnCode };
+}
+
 //------------------------------------------------------------------------------
 // Tasks
 //------------------------------------------------------------------------------
@@ -216,6 +252,12 @@ target.lint = function() {
 
     echo("Validating JSON Files");
     lastReturn = nodeCLI.exec("jsonlint", "-q -c", JSON_FILES);
+    if (lastReturn.code !== 0) {
+        errors++;
+    }
+
+    echo("Validating Markdown Files");
+    lastReturn = lintMarkdown(MARKDOWN_FILES_ARRAY);
     if (lastReturn.code !== 0) {
         errors++;
     }
