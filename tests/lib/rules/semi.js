@@ -40,9 +40,23 @@ eslintTester.addRuleTest("lib/rules/semi", {
         { code: ";-foo()", options: ["never"] },
         { code: "a++\nb++", options: ["never"] },
         { code: "a++; b++", options: ["never"] },
-        { code: "for (let thing of {}) {\n  console.log(thing);\n}", ecmaFeatures: { forOf: true, blockBindings: true }}
+        { code: "for (let thing of {}) {\n  console.log(thing);\n}", ecmaFeatures: { forOf: true, blockBindings: true }},
+        { code: "import theDefault, { named1, named2 } from 'src/mylib'", options: ["never"], ecmaFeatures: { modules: true }},
+        { code: "export {foo, bar}", options: ["never"], ecmaFeatures: { modules: true }},
+        { code: "import theDefault, { named1, named2 } from 'src/mylib';", ecmaFeatures: { modules: true }},
+        { code: "export {foo, bar};", ecmaFeatures: { modules: true }}
     ],
     invalid: [
+        { code: "import * as utils from './utils'", ecmaFeatures: { modules: true }, errors: [{ message: "Missing semicolon.", type: "ImportDeclaration"}] },
+        { code: "import { square, diag } from 'lib'", ecmaFeatures: { modules: true }, errors: [{ message: "Missing semicolon.", type: "ImportDeclaration"}] },
+        { code: "import { default as foo } from 'lib'", ecmaFeatures: { modules: true }, errors: [{ message: "Missing semicolon.", type: "ImportDeclaration"}] },
+        { code: "import 'src/mylib'", ecmaFeatures: { modules: true }, errors: [{ message: "Missing semicolon.", type: "ImportDeclaration"}] },
+        { code: "import theDefault, { named1, named2 } from 'src/mylib'", ecmaFeatures: { modules: true }, errors: [{ message: "Missing semicolon.", type: "ImportDeclaration"}] },
+        { code: "export {foo, bar}", ecmaFeatures: { modules: true }, errors: [{ message: "Missing semicolon.", type: "ExportNamedDeclaration"}] },
+        { code: "export {foo} from 'mod'", ecmaFeatures: { modules: true }, errors: [{ message: "Missing semicolon.", type: "ExportNamedDeclaration"}] },
+        { code: "export default function () {}", ecmaFeatures: { modules: true }, errors: [{ message: "Missing semicolon.", type: "ExportDefaultDeclaration"}] },
+        { code: "export default 1", ecmaFeatures: { modules: true }, errors: [{ message: "Missing semicolon.", type: "ExportDefaultDeclaration"}] },
+        { code: "export * from 'mod'", ecmaFeatures: { modules: true }, errors: [{ message: "Missing semicolon.", type: "ExportAllDeclaration"}] },
         { code: "function foo() { return [] }", errors: [{ message: "Missing semicolon.", type: "ReturnStatement"}] },
         { code: "while(true) { break }", errors: [{ message: "Missing semicolon.", type: "BreakStatement"}] },
         { code: "while(true) { continue }", errors: [{ message: "Missing semicolon.", type: "ContinueStatement"}] },
@@ -76,7 +90,8 @@ eslintTester.addRuleTest("lib/rules/semi", {
         { code: "for (var j;;) {var i;}", options: ["never"], errors: [{ message: "Extra semicolon.", type: "VariableDeclaration"}] },
         { code: "var foo = {\n bar: baz\n};", options: ["never"], errors: [{ message: "Extra semicolon.", type: "VariableDeclaration", line: 3}] },
         { code: ";", options: ["never"], errors: [{ message: "Extra semicolon.", type: "EmptyStatement"}] },
-        { code: ";;", options: ["never"], errors: [{ message: "Extra semicolon.", type: "EmptyStatement"}, { message: "Extra semicolon.", type: "EmptyStatement"}] }
-
+        { code: ";;", options: ["never"], errors: [{ message: "Extra semicolon.", type: "EmptyStatement"}, { message: "Extra semicolon.", type: "EmptyStatement"}] },
+        { code: "import theDefault, { named1, named2 } from 'src/mylib';", options: ["never"], ecmaFeatures: { modules: true }, errors: [{ message: "Extra semicolon.", type: "ImportDeclaration"}] },
+        { code: "export {foo, bar};", options: ["never"], ecmaFeatures: { modules: true }, errors: [{ message: "Extra semicolon.", type: "ExportNamedDeclaration"}] }
     ]
 });
