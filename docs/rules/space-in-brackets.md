@@ -160,6 +160,8 @@ In case of `"always"` option, set an exception to `false` to enable it:
 
 ```json
 "space-in-brackets": [2, "always", {
+  "arrays": false,
+  "objects": false,
   "singleValue": false,
   "objectsInArrays": false,
   "arraysInArrays": false,
@@ -173,6 +175,8 @@ In case of `"never"` option, set an exception to `true` to enable it:
 
 ```json
 "space-in-brackets": [2, "never", {
+  "arrays": true,
+  "objects": true,
   "singleValue": true,
   "objectsInArrays": true,
   "arraysInArrays": true,
@@ -184,6 +188,9 @@ In case of `"never"` option, set an exception to `true` to enable it:
 
 The following exceptions are available:
 
+* `arrays` sets the spacing of values inside arrays.
+* `objects` sets the spacing of values inside objects.
+* `singleValue` sets the spacing of a single value inside of square brackets of an array.
 * `singleValue` sets the spacing of a single value inside of square brackets of an array.
 * `objectsInArrays` sets the spacings between the curly braces and square brackets of object literals that are the first or last element in an array.
 * `arraysInArrays` sets the spacing between the square brackets of array literals that are the first or last element in an array.
@@ -192,6 +199,34 @@ The following exceptions are available:
 * `propertyName` sets the spacing in square brackets of computed member expressions.
 
 In each of the following examples, the `"always"` option is assumed.
+
+When `"arrays"` is set to `false`, the following patterns are considered warnings:
+
+```js
+var foo = [ 'foo', 'bar' ];
+var foo = [ 'foo': { 'bar': 1 } ];
+```
+
+The following patterns are not warnings:
+
+```js
+var foo = ['foo', 'bar'];
+var foo = ['foo': { 'bar': 1 }];
+```
+
+When `"objects"` is set to `false`, the following patterns are considered warnings:
+
+```js
+var foo = { foo: [ 1, 2, 3 ] };
+var foo = [ 'foo': { 'bar': 1 } ];
+```
+
+The following patterns are not warnings:
+
+```js
+var foo = {foo: [ 1, 2, 3 ]};
+var foo = [ 'foo': {'bar': 1} ];
+```
 
 When `"singleValue"` is set to `false`, the following patterns are considered warnings:
 

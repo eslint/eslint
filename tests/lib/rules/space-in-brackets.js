@@ -62,6 +62,12 @@ eslintTester.addRuleTest("lib/rules/space-in-brackets", {
         // always - arraysInObjects, objectsInObjects (reverse)
         { code: "var obj = { 'foo': { 'bar': 1, 'baz': 2 }, 'qux': [ 1, 2 ]};", args: [2, "always", {"arraysInObjects": false, "objectsInObjects": false}] },
 
+        // always - objects
+        { code: "var obj = {'foo': [ 1, 2 ]};", args: [2, "always", {"objects": false}] },
+
+        // always - arrays
+        { code: "var obj = { 'foo': [1, 2] };", args: [2, "always", {"arrays": false}] },
+
         // always
         { code: "obj[ foo ]", args: [2, "always"] },
         { code: "obj[\nfoo\n]", args: [2, "always"] },
@@ -105,6 +111,25 @@ eslintTester.addRuleTest("lib/rules/space-in-brackets", {
         { code: "var arr = [1,\n2,\n3,\n4\n];", args: [2, "never"] },
         { code: "var arr = [\n1,\n2,\n3,\n4];", args: [2, "never"] },
 
+        { code: "var arr = [1, 2, 3, 4];", args: [2, "never"] },
+        { code: "var arr = [[1, 2], 2, 3, 4];", args: [2, "never"] },
+        { code: "var arr = [\n1, 2, 3, 4\n];", args: [2, "never"] },
+
+        { code: "var obj = {foo: bar, baz: qux};", args: [2, "never"] },
+        { code: "var obj = {foo: {bar: quxx}, baz: qux};", args: [2, "never"] },
+        { code: "var obj = {\nfoo: bar,\nbaz: qux\n};", args: [2, "never"] },
+
+        { code: "var foo = {};", args: [2, "never"] },
+        { code: "var foo = [];", args: [2, "never"] },
+
+        { code: "var foo = [{'bar':'baz'}, 1, {'bar': 'baz'}];", args: [2, "never"] },
+        { code: "var foo = [{'bar': 'baz'}];", args: [2, "never"] },
+        { code: "var foo = [{\n'bar': 'baz', \n'qux': [{'bar': 'baz'}], \n'quxx': 1 \n}]", args: [2, "never"] },
+        { code: "var foo = [1, {'bar': 'baz'}, 5];", args: [2, "never"] },
+        { code: "var foo = [{'bar': 'baz'}, 1,  5];", args: [2, "never"] },
+        { code: "var foo = [1, 5, {'bar': 'baz'}];", args: [2, "never"] },
+        { code: "var obj = {'foo': [1, 2]}", args: [2, "never"] },
+
         // never - singleValue
         { code: "var foo = [ 'foo' ]", args: [2, "never", {singleValue: true}] },
         { code: "var foo = [ 2 ]", args: [2, "never", {singleValue: true}] },
@@ -130,24 +155,11 @@ eslintTester.addRuleTest("lib/rules/space-in-brackets", {
         // never - arraysInArrays, objectsInArrays
         { code: "var arr = [ [1, 2], 2, 3, {'foo': 'bar'} ];", args: [2, "never", {"arraysInArrays": true, objectsInArrays: true}] },
 
-        { code: "var arr = [1, 2, 3, 4];", args: [2, "never"] },
-        { code: "var arr = [[1, 2], 2, 3, 4];", args: [2, "never"] },
-        { code: "var arr = [\n1, 2, 3, 4\n];", args: [2, "never"] },
+        // never - objects
+        { code: "var obj = { 'foo': [1, 2] };", args: [2, "never", {"objects": true}] },
 
-        { code: "var obj = {foo: bar, baz: qux};", args: [2, "never"] },
-        { code: "var obj = {foo: {bar: quxx}, baz: qux};", args: [2, "never"] },
-        { code: "var obj = {\nfoo: bar,\nbaz: qux\n};", args: [2, "never"] },
-
-        { code: "var foo = {};", args: [2, "never"] },
-        { code: "var foo = [];", args: [2, "never"] },
-
-        { code: "var foo = [{'bar':'baz'}, 1, {'bar': 'baz'}];", args: [2, "never"] },
-        { code: "var foo = [{'bar': 'baz'}];", args: [2, "never"] },
-        { code: "var foo = [{\n'bar': 'baz', \n'qux': [{'bar': 'baz'}], \n'quxx': 1 \n}]", args: [2, "never"] },
-        { code: "var foo = [1, {'bar': 'baz'}, 5];", args: [2, "never"] },
-        { code: "var foo = [{'bar': 'baz'}, 1,  5];", args: [2, "never"] },
-        { code: "var foo = [1, 5, {'bar': 'baz'}];", args: [2, "never"] },
-        { code: "var obj = {'foo': [1, 2]}", args: [2, "never"] },
+        // never - arrays
+        { code: "var obj = {'foo': [ 1, 2 ]};", args: [2, "never", {"arrays": true}] },
 
         // propertyName: false
         { code: "var foo = obj[1]", args: [2, "always", {propertyName: false}] },
@@ -378,6 +390,38 @@ eslintTester.addRuleTest("lib/rules/space-in-brackets", {
             ]
         },
 
+        // always-objects
+        {
+            code: "var obj = { 'foo': [ 1, 2 ] };",
+            args: [2, "always", {"arrays": false}],
+            errors: [
+                {
+                    message: "There should be no space after '['",
+                    type: "ArrayExpression"
+                },
+                {
+                    message: "There should be no space before ']'",
+                    type: "ArrayExpression"
+                }
+            ]
+        },
+
+        // never-objects
+        {
+            code: "var obj = {'foo': [1, 2]};",
+            args: [2, "never", {"arrays": true}],
+            errors: [
+                {
+                    message: "A space is required after '['",
+                    type: "ArrayExpression"
+                },
+                {
+                    message: "A space is required before ']'",
+                    type: "ArrayExpression"
+                }
+            ]
+        },
+
         // always - arraysInObjects
         {
             code: "var obj = { 'foo': [ 1, 2 ] };",
@@ -459,6 +503,38 @@ eslintTester.addRuleTest("lib/rules/space-in-brackets", {
             code: "var obj = {'foo': [1, 2] , 'bar': {'baz': 1, 'qux': 2}};",
             args: [2, "never", {"objectsInObjects": true}],
             errors: [
+                {
+                    message: "A space is required before '}'",
+                    type: "ObjectExpression"
+                }
+            ]
+        },
+
+        // always-objects
+        {
+            code: "var obj = { 'foo': [ 1, 2 ] };",
+            args: [2, "always", {"objects": false}],
+            errors: [
+                {
+                    message: "There should be no space after '{'",
+                    type: "ObjectExpression"
+                },
+                {
+                    message: "There should be no space before '}'",
+                    type: "ObjectExpression"
+                }
+            ]
+        },
+
+        // never-objects
+        {
+            code: "var obj = {'foo': [1, 2]};",
+            args: [2, "never", {"objects": true}],
+            errors: [
+                {
+                    message: "A space is required after '{'",
+                    type: "ObjectExpression"
+                },
                 {
                     message: "A space is required before '}'",
                     type: "ObjectExpression"
