@@ -34,7 +34,13 @@ eslintTester.addRuleTest("lib/rules/no-empty", {
         "for (;foo;) {/* empty */}",
         "try { foo() } catch (ex) {/* empty */}",
         "try { foo() } catch (ex) {// empty\n}",
-        "try { foo() } finally {// empty\n}"
+        "try { foo() } finally {// empty\n}",
+        "try { foo() } finally {// test\n}",
+        "try { foo() } finally {\n \n // hi i am off no use\n}",
+        "try { foo() } catch (ex) {/* test111 */}",
+        "if (foo) { bar() } else { // nothing in me \n}",
+        "if (foo) { bar() } else { /**/ \n}",
+        "if (foo) { bar() } else { // \n}"
     ],
     invalid: [
         { code: "try {} catch (ex) {throw ex}", errors: [{ message: "Empty block statement.", type: "BlockStatement"}] },
