@@ -6,10 +6,10 @@ In the Node.JS community it is often customary to separate the `require`d module
 
 When this rule is enabled, all `var` statements must satisfy the following conditions:
 
- - either none or all variable declarations must be require declarations
- - all require declarations must be of the same type (optional)
+- either none or all variable declarations must be require declarations
+- all require declarations must be of the same type (optional)
 
-#### Options
+### Options
 
 This rule comes with one boolean option called `grouping` which is turned off by default. You can set it in your `eslint.json`:
 
@@ -21,19 +21,20 @@ This rule comes with one boolean option called `grouping` which is turned off by
 
 If enabled, violations will be reported whenever a single `var` statement contains require declarations of mixed types (see the examples below).
 
-#### Nomenclature
+### Nomenclature
+
 This rule distinguishes between six kinds of variable declaration types:
 
- - `core`: declaration of a required [core module][1]
- - `file`: declaration of a required [file module][2]
- - `module`: declaration of a required module from the [node_modules folder][3]
- - `computed`: declaration of a required module whose type could not be determined (either because it is computed or because require was called without an argument)
- - `uninitialized`: a declaration that is not initialized
- - `other`: any other kind of declaration
+- `core`: declaration of a required [core module][1]
+- `file`: declaration of a required [file module][2]
+- `module`: declaration of a required module from the [node_modules folder][3]
+- `computed`: declaration of a required module whose type could not be determined (either because it is computed or because require was called without an argument)
+- `uninitialized`: a declaration that is not initialized
+- `other`: any other kind of declaration
 
 In this document, the first four types are summed up under the term *require declaration*.
 
-###### Example
+#### Example
 
 ```javascript
 var fs = require('fs'),        // "core"     \
@@ -83,6 +84,7 @@ var foo = require('foo'),
 
 
 ## When Not To Use It
+
 Internally, the list of core modules is retrieved via `require("repl")._builtinLibs`. If you use different versions of Node.JS for ESLint and your application, the list of core modules for each version may be different.
 The above mentioned `_builtinLibs` property became available in 0.8, for earlier versions a hardcoded list of module names is used as a fallback. If your version of Node is older than 0.6 that list may be inaccurate.
 

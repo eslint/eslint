@@ -370,9 +370,9 @@ Because rules are highly personal (and therefore very contentious), the followin
 * If the same rule exists in JSHint and is turned on by default, it must have the same message and be enabled by default.
 * If the same rule exists in JSLint but not in JSHint, it must have the same message and be disabled by default.
 * If the rule doesn't exist in JSHint or JSLint, then it must:
-  * Not be library-specific.
-  * Demonstrate a possible issue that can be resolved by rewriting the code.
-  * Be general enough so as to apply for a large number of developers.
+    * Not be library-specific.
+    * Demonstrate a possible issue that can be resolved by rewriting the code.
+    * Be general enough so as to apply for a large number of developers.
 
 ## Runtime Rules
 
