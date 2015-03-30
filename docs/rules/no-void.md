@@ -21,7 +21,7 @@ The common case of using `void` operator is to get "pure" `undefined` value as p
     'use strict';
     undefined = 1;
 })();
- ```
+```
 
 Another common case is to minify code as `void 0` is shorter than `undefined`:
 
