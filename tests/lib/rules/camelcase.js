@@ -44,6 +44,18 @@ eslintTester.addRuleTest("lib/rules/camelcase", {
         {
             code: "var o = {bar_baz: 1}",
             args: [2, {properties: "never"}]
+        },
+        {
+            code: "obj.a_b = 2;",
+            args: [2, {properties: "never"}]
+        },
+        {
+            code: "var obj = {\n a_a: 1 \n};\n obj.a_b = 2;",
+            args: [2, {properties: "never"}]
+        },
+        {
+            code: "obj.foo_bar = function(){};",
+            args: [2, {properties: "never"}]
         }
     ],
     invalid: [
@@ -143,6 +155,26 @@ eslintTester.addRuleTest("lib/rules/camelcase", {
             errors: [
                 {
                     message: "Identifier 'bar_baz' is not in camel case.",
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "obj.a_b = 2;",
+            args: [2, {properties: "always"}],
+            errors: [
+                {
+                    message: "Identifier 'a_b' is not in camel case.",
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "obj.a_b = 2;",
+            args: [2, {properties: "always"}],
+            errors: [
+                {
+                    message: "Identifier 'a_b' is not in camel case.",
                     type: "Identifier"
                 }
             ]
