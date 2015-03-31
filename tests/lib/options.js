@@ -222,4 +222,17 @@ describe("options", function() {
             assert.isTrue(currentOptions.quiet);
         });
     });
+
+    describe("--base-config", function () {
+        it("should return true for .baseConfig when not passed", function() {
+            var currentOptions = options.parse("");
+            assert.isTrue(currentOptions.baseConfig);
+        });
+
+        it("should return a string for .baseConfig when passed", function() {
+            var currentOptions = options.parse("--base-config file");
+            assert.isString(currentOptions.baseConfig);
+            assert.equal(currentOptions.baseConfig, "file");
+        });
+    });
 });

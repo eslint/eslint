@@ -282,6 +282,36 @@ describe("cli", function() {
 
     });
 
+    describe("when executing with base-config flag", function () {
+        it("should execute without any errors if base-config set to false", function () {
+            var exit = cli.execute("--base-config false --no-eslintrc --no-ignore ./tests/fixtures/missing-semicolon.js");
+
+            assert.isTrue(console.log.notCalled);
+            assert.equal(exit, 0);
+        });
+
+        it("should load default base config if base-config is not set", function () {
+            var exit = cli.execute("--no-eslintrc --no-ignore ./tests/fixtures/missing-semicolon.js");
+
+            assert.isTrue(console.log.calledOnce);
+            assert.equal(exit, 1);
+        });
+
+        it("should load default base config if base-config is set to true", function () {
+            var exit = cli.execute("--base-config true --no-eslintrc --no-ignore ./tests/fixtures/missing-semicolon.js");
+
+            assert.isTrue(console.log.calledOnce);
+            assert.equal(exit, 1);
+        });
+
+        it("should load modified base config if base-config is set to a file path", function () {
+            var exit = cli.execute("--base-config ./tests/fixtures/optional-semicolons.json --no-eslintrc --no-ignore ./tests/fixtures/missing-semicolon.js");
+
+            assert.isTrue(console.log.notCalled);
+            assert.equal(exit, 0);
+        });
+    });
+
     describe("when executing with no-eslintrc flag", function () {
         it("should ignore a local config file", function () {
             var exit = cli.execute("--reset --no-eslintrc --no-ignore ./tests/fixtures/eslintrc/quotes.js");
