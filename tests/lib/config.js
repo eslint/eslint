@@ -226,6 +226,19 @@ describe("Config", function() {
             assertConfigsEqual(expected, actual);
         });
 
+        it("should return a blank config when baseConfig is set to false and no .eslintrc", function() {
+            var configHelper = new Config({ baseConfig: false, useEslintrc: false }),
+                file = getFixturePath("broken", "console-wrong-quotes.js"),
+                expected = {
+                    rules: {},
+                    globals: {},
+                    env: {}
+                },
+                actual = configHelper.getConfig(file);
+
+            assertConfigsEqual(expected, actual);
+        });
+
         // Default configuration - conf/eslint.json
         it("should return the default config when not using .eslintrc", function () {
 
@@ -235,7 +248,32 @@ describe("Config", function() {
                 actual = configHelper.getConfig(file);
 
             assertConfigsEqual(expected, actual);
+        });
 
+        it("should return a modified config when baseConfig is set to an object and no .eslintrc", function() {
+            var configHelper = new Config({
+                    baseConfig: {
+                        env: {
+                            node: true
+                        },
+                        rules: {
+                            quotes: [2, "single"]
+                        }
+                    },
+                    useEslintrc: false
+                }),
+                file = getFixturePath("broken", "console-wrong-quotes.js"),
+                expected = {
+                    env: {
+                        node: true
+                    },
+                    rules: {
+                        quotes: [2, "single"]
+                    }
+                },
+                actual = configHelper.getConfig(file);
+
+            assertConfigsEqual(expected, actual);
         });
 
         // Project configuration - conf/eslint.json + first level .eslintrc
