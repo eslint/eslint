@@ -120,8 +120,6 @@ eslintTester.addRuleTest("lib/rules/semi", {
         { code: "for (;;) var i; ", options: ["never"], errors: [{ message: "Extra semicolon.", type: "VariableDeclaration"}] },
         { code: "for (var j;;) {var i;}", options: ["never"], errors: [{ message: "Extra semicolon.", type: "VariableDeclaration"}] },
         { code: "var foo = {\n bar: baz\n};", options: ["never"], errors: [{ message: "Extra semicolon.", type: "VariableDeclaration", line: 3}] },
-        { code: ";", options: ["never"], errors: [{ message: "Extra semicolon.", type: "EmptyStatement"}] },
-        { code: ";;", options: ["never"], errors: [{ message: "Extra semicolon.", type: "EmptyStatement"}, { message: "Extra semicolon.", type: "EmptyStatement"}] },
         { code: "import theDefault, { named1, named2 } from 'src/mylib';", options: ["never"], ecmaFeatures: { modules: true }, errors: [{ message: "Extra semicolon.", type: "ImportDeclaration"}] },
 
         // exports, "always"
