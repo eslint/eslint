@@ -41,10 +41,46 @@ eslintTester.addRuleTest("lib/rules/semi", {
         { code: "a++\nb++", options: ["never"] },
         { code: "a++; b++", options: ["never"] },
         { code: "for (let thing of {}) {\n  console.log(thing);\n}", ecmaFeatures: { forOf: true, blockBindings: true }},
-        { code: "import theDefault, { named1, named2 } from 'src/mylib'", options: ["never"], ecmaFeatures: { modules: true }},
-        { code: "export {foo, bar}", options: ["never"], ecmaFeatures: { modules: true }},
+
         { code: "import theDefault, { named1, named2 } from 'src/mylib';", ecmaFeatures: { modules: true }},
-        { code: "export {foo, bar};", ecmaFeatures: { modules: true }}
+        { code: "import theDefault, { named1, named2 } from 'src/mylib'", options: ["never"], ecmaFeatures: { modules: true }},
+
+        // exports, "always"
+        { code: "export * from 'foo';", ecmaFeatures: { modules: true } },
+        { code: "export { foo } from 'foo';", ecmaFeatures: { modules: true } },
+        { code: "export { foo };", ecmaFeatures: { modules: true } },
+        { code: "export var foo;", ecmaFeatures: { modules: true } },
+        { code: "export function foo () { }", ecmaFeatures: { modules: true } },
+        { code: "export function* foo () { }", ecmaFeatures: { generators: true, modules: true } },
+        { code: "export class Foo { }", ecmaFeatures: { classes: true, modules: true } },
+        { code: "export let foo;", ecmaFeatures: { blockBindings: true, modules: true } },
+        { code: "export const FOO = 42;", ecmaFeatures: { blockBindings: true, modules: true } },
+        { code: "export default function () { }", ecmaFeatures: { modules: true } },
+        { code: "export default function* () { }", ecmaFeatures: { generators: true, modules: true } },
+        { code: "export default class { }", ecmaFeatures: { classes: true, modules: true } },
+        { code: "export default foo || bar;", ecmaFeatures: { modules: true } },
+        { code: "export default (foo) => foo.bar();", ecmaFeatures: { arrowFunctions: true, modules: true } },
+        { code: "export default foo = 42;", ecmaFeatures: { modules: true } },
+        { code: "export default foo += 42;", ecmaFeatures: { modules: true } },
+
+        // exports, "never"
+        { code: "export * from 'foo'", options: ["never"], ecmaFeatures: { modules: true } },
+        { code: "export { foo } from 'foo'", options: ["never"], ecmaFeatures: { modules: true } },
+        { code: "export { foo }", options: ["never"], ecmaFeatures: { modules: true } },
+        { code: "export var foo", options: ["never"], ecmaFeatures: { modules: true } },
+        { code: "export function foo () { }", options: ["never"], ecmaFeatures: { modules: true } },
+        { code: "export function* foo () { }", options: ["never"], ecmaFeatures: { generators: true, modules: true } },
+        { code: "export class Foo { }", options: ["never"], ecmaFeatures: { classes: true, modules: true } },
+        { code: "export let foo", options: ["never"], ecmaFeatures: { blockBindings: true, modules: true } },
+        { code: "export const FOO = 42", options: ["never"], ecmaFeatures: { blockBindings: true, modules: true } },
+        { code: "export default function () { }", options: ["never"], ecmaFeatures: { modules: true } },
+        { code: "export default function* () { }", options: ["never"], ecmaFeatures: { generators: true, modules: true } },
+        { code: "export default class { }", options: ["never"], ecmaFeatures: { classes: true, modules: true } },
+        { code: "export default foo || bar", options: ["never"], ecmaFeatures: { modules: true } },
+        { code: "export default (foo) => foo.bar()", options: ["never"], ecmaFeatures: { arrowFunctions: true, modules: true } },
+        { code: "export default foo = 42", options: ["never"], ecmaFeatures: { modules: true } },
+        { code: "export default foo += 42", options: ["never"], ecmaFeatures: { modules: true } }
+
     ],
     invalid: [
         { code: "import * as utils from './utils'", ecmaFeatures: { modules: true }, errors: [{ message: "Missing semicolon.", type: "ImportDeclaration"}] },
@@ -52,11 +88,6 @@ eslintTester.addRuleTest("lib/rules/semi", {
         { code: "import { default as foo } from 'lib'", ecmaFeatures: { modules: true }, errors: [{ message: "Missing semicolon.", type: "ImportDeclaration"}] },
         { code: "import 'src/mylib'", ecmaFeatures: { modules: true }, errors: [{ message: "Missing semicolon.", type: "ImportDeclaration"}] },
         { code: "import theDefault, { named1, named2 } from 'src/mylib'", ecmaFeatures: { modules: true }, errors: [{ message: "Missing semicolon.", type: "ImportDeclaration"}] },
-        { code: "export {foo, bar}", ecmaFeatures: { modules: true }, errors: [{ message: "Missing semicolon.", type: "ExportNamedDeclaration"}] },
-        { code: "export {foo} from 'mod'", ecmaFeatures: { modules: true }, errors: [{ message: "Missing semicolon.", type: "ExportNamedDeclaration"}] },
-        { code: "export default function () {}", ecmaFeatures: { modules: true }, errors: [{ message: "Missing semicolon.", type: "ExportDefaultDeclaration"}] },
-        { code: "export default 1", ecmaFeatures: { modules: true }, errors: [{ message: "Missing semicolon.", type: "ExportDefaultDeclaration"}] },
-        { code: "export * from 'mod'", ecmaFeatures: { modules: true }, errors: [{ message: "Missing semicolon.", type: "ExportAllDeclaration"}] },
         { code: "function foo() { return [] }", errors: [{ message: "Missing semicolon.", type: "ReturnStatement"}] },
         { code: "while(true) { break }", errors: [{ message: "Missing semicolon.", type: "BreakStatement"}] },
         { code: "while(true) { continue }", errors: [{ message: "Missing semicolon.", type: "ContinueStatement"}] },
@@ -92,6 +123,29 @@ eslintTester.addRuleTest("lib/rules/semi", {
         { code: ";", options: ["never"], errors: [{ message: "Extra semicolon.", type: "EmptyStatement"}] },
         { code: ";;", options: ["never"], errors: [{ message: "Extra semicolon.", type: "EmptyStatement"}, { message: "Extra semicolon.", type: "EmptyStatement"}] },
         { code: "import theDefault, { named1, named2 } from 'src/mylib';", options: ["never"], ecmaFeatures: { modules: true }, errors: [{ message: "Extra semicolon.", type: "ImportDeclaration"}] },
-        { code: "export {foo, bar};", options: ["never"], ecmaFeatures: { modules: true }, errors: [{ message: "Extra semicolon.", type: "ExportNamedDeclaration"}] }
+
+        // exports, "always"
+        { code: "export * from 'foo'", ecmaFeatures: { modules: true }, errors: [{ message: "Missing semicolon.", type: "ExportAllDeclaration" }] },
+        { code: "export { foo } from 'foo'", ecmaFeatures: { modules: true }, errors: [{ message: "Missing semicolon.", type: "ExportNamedDeclaration" }] },
+        { code: "export { foo }", ecmaFeatures: { modules: true }, errors: [{ message: "Missing semicolon.", type: "ExportNamedDeclaration" }] },
+        { code: "export var foo", ecmaFeatures: { modules: true }, errors: [{ message: "Missing semicolon.", type: "VariableDeclaration" }] },
+        { code: "export let foo", ecmaFeatures: { blockBindings: true, modules: true }, errors: [{ message: "Missing semicolon.", type: "VariableDeclaration" }] },
+        { code: "export const FOO = 42", ecmaFeatures: { blockBindings: true, modules: true }, errors: [{ message: "Missing semicolon.", type: "VariableDeclaration" }] },
+        { code: "export default foo || bar", ecmaFeatures: { modules: true }, errors: [{ message: "Missing semicolon.", type: "ExportDefaultDeclaration" }] },
+        { code: "export default (foo) => foo.bar()", ecmaFeatures: { arrowFunctions: true, modules: true }, errors: [{ message: "Missing semicolon.", type: "ExportDefaultDeclaration" }] },
+        { code: "export default foo = 42", ecmaFeatures: { modules: true }, errors: [{ message: "Missing semicolon.", type: "ExportDefaultDeclaration" }] },
+        { code: "export default foo += 42", ecmaFeatures: { modules: true }, errors: [{ message: "Missing semicolon.", type: "ExportDefaultDeclaration" }] },
+
+        // exports, "never"
+        { code: "export * from 'foo';", options: ["never"], ecmaFeatures: { modules: true }, errors: [{ message: "Extra semicolon.", type: "ExportAllDeclaration" }] },
+        { code: "export { foo } from 'foo';", options: ["never"], ecmaFeatures: { modules: true }, errors: [{ message: "Extra semicolon.", type: "ExportNamedDeclaration" }] },
+        { code: "export { foo };", options: ["never"], ecmaFeatures: { modules: true }, errors: [{ message: "Extra semicolon.", type: "ExportNamedDeclaration" }] },
+        { code: "export var foo;", options: ["never"], ecmaFeatures: { modules: true }, errors: [{ message: "Extra semicolon.", type: "VariableDeclaration" }] },
+        { code: "export let foo;", options: ["never"], ecmaFeatures: { blockBindings: true, modules: true }, errors: [{ message: "Extra semicolon.", type: "VariableDeclaration" }] },
+        { code: "export const FOO = 42;", options: ["never"], ecmaFeatures: { blockBindings: true, modules: true }, errors: [{ message: "Extra semicolon.", type: "VariableDeclaration" }] },
+        { code: "export default foo || bar;", options: ["never"], ecmaFeatures: { modules: true }, errors: [{ message: "Extra semicolon.", type: "ExportDefaultDeclaration" }] },
+        { code: "export default (foo) => foo.bar();", options: ["never"], ecmaFeatures: { arrowFunctions: true, modules: true }, errors: [{ message: "Extra semicolon.", type: "ExportDefaultDeclaration" }] },
+        { code: "export default foo = 42;", options: ["never"], ecmaFeatures: { modules: true }, errors: [{ message: "Extra semicolon.", type: "ExportDefaultDeclaration" }] },
+        { code: "export default foo += 42;", options: ["never"], ecmaFeatures: { modules: true }, errors: [{ message: "Extra semicolon.", type: "ExportDefaultDeclaration" }] }
     ]
 });
