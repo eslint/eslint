@@ -140,6 +140,7 @@
 	"newline-after-var": 0,
         "one-var": 0,
         "operator-assignment": [0, "always"],
+        "operator-linebreak": 0,
         "padded-blocks": 0,
         "quote-props": 0,
         "quotes": [2, "double"],

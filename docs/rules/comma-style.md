@@ -161,3 +161,7 @@ For the first option in comma-style rule:
 * [A better coding convention for lists and object literals in JavaScript by isaacs](https://gist.github.com/isaacs/357981)
 * [npm coding style guideline](https://www.npmjs.org/doc/misc/npm-coding-style.html)
 
+
+## Related Rules
+
+* [operator-linebreak](operator-linebreak.md)
