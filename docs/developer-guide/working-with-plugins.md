@@ -25,24 +25,34 @@ processor, object that is exported from your module has to conform to the follow
 
 ```js
 processors: {
-    file_extension_with_dot: {
-        preprocess: function(string, string) { return [string] } //Takes text of the file and returns array of texts to
-                                                                 //be processed
-        postprocess: function([[Message]], string) { return [Message] //Takes array of array of error messages, one for
-                                                                      //each text block and filename and returns single
-                                                                      //array of processed messages
+
+    // assign to the file extension you want (.js, .jsx, .html, etc.)
+    ".ext": {
+        // takes text of the file and filename
+        preprocess: function(text, filename) { 
+            // here, you can strip out any non-JS content
+            // and split into multiple strings to lint
+        
+            return [string];  // return an array of strings to lint
+        }, 
+        
+        // takes an Message[][] and filename
+        postprocess: function(messages, filename) {
+            // messages is two-dimensional array of Message objects
+            // where each array top-level are item are the lint messages related
+            // to the text that was returned in an array in preprocess()
+            
+            // you need to return a one-dimensional array of the messages you want to keep
+            return [Message];
+        }
     }
 }
 ```
 
-`preprocess` function takes content of the file and filename and returns back an array of javascript parts of the file.
-It's up to the plugin to decide if it needs to return just one part, or multiple pieces. For example in the case of
-processing .html files you might want to return just one item in the array by combining all scripts, but for .md file
-where each javascript block might be independent, you can return multiple items.
+The `preprocess` method takes the file contents and filename as arguments, and returns an array of strings to lint. The strings will be linted separately but still be registered to the filename. It's up to the plugin to decide if it needs to return just one part, or multiple pieces. For example in the case of processing `.html` files, you might want to return just one item in the array by combining all scripts, but for `.md` file where each JavaScript block might be independent, you can return multiple items.
 
-`postprocess` function will take an array of arrays of errors returned by eslint and filename. Each item in the input
-array is going to correspond to the part that was returned from `preprocess` function. It's the function of `postprocess`
-to adjust location of all errors and aggregate them into a single flat array and return it.
+The `postprocess` method takes a two-dimensional array of arrays of lint messages and the filename. Each item in the input
+array corresponds to the part that was returned from the `preprocess` method. The `postprocess` method must adjust the location of all errors and aggregate them into a single flat array and return it.
 
 You can have both rules and processor in a single plugin, you can also add multiple preprocessors in a the same plugin.
 To support multiple extensions add each one to `preprocessors` element and point them to the same object.
