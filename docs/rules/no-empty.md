@@ -12,7 +12,7 @@ Empty block statements such as this are usually an indicator of an error, or at 
 ## Rule Details
 
 This rule is aimed at eliminating empty block statements. While not technically an error, empty block statements can be a source of confusion when reading code.
-A block will not be considered a warning if it contains a comment line with only the word `empty`.
+A block will not be considered a warning if it contains a comment line.
 
 The following patterns are considered warnings:
 
@@ -29,9 +29,9 @@ switch(foo) {
 try {
     doSomething();
 } catch(ex) {
-    // this is flagged
+
 } finally {
-    // this is flagged
+
 }
 ```
 
@@ -43,19 +43,19 @@ if (foo) {
 }
 
 while (foo) {
-    // empty
+    // test
 }
 
 try {
     doSomething();
 } catch (ex) {
-    // empty
+    // Do nothing
 }
 
 try {
     doSomething();
 } finally {
-    // empty
+    // Do nothing
 }
 ```
 
