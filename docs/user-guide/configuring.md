@@ -466,9 +466,9 @@ You'll see this warning:
 
 ```
 foo.js
-  0:0  warning  File ignored because of your .eslintignore file. Use --no-eslintignore to override.
+  0:0  warning  File ignored because of your .eslintignore file. Use --no-ignore to override.
 
-✖ 1 problem
+✖ 1 problem (0 errors, 1 warning)
 ```
 
-This message occurs because ESLint is unsure if you wanted to actually lint the file or not. As the message indicates, you can use `--no-eslintignore` to omit using the ignore rules.
+This message occurs because ESLint is unsure if you wanted to actually lint the file or not. As the message indicates, you can use `--no-ignore` to omit using the ignore rules.
