@@ -65,7 +65,7 @@ These are rules designed to prevent you from making mistakes. They either prescr
 * [no-lone-blocks](no-lone-blocks.md) - disallow unnecessary nested blocks
 * [no-loop-func](no-loop-func.md) - disallow creation of functions within loops
 * [no-multi-spaces](no-multi-spaces.md) - disallow use of multiple spaces
-* [no-multi-str](no-multi-str.md) - disallow use of multiline strings
+* [no-multi-str](no-multi-str.md) - disallow use of multiline strings (off by default in the node environment) (off by default in the es6 environment)
 * [no-native-reassign](no-native-reassign.md) - disallow reassignments of native objects
 * [no-new](no-new.md) - disallow use of new operator when not part of the assignment or comparison
 * [no-new-func](no-new-func.md) - disallow use of new operator for `Function` object

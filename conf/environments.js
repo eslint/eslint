@@ -21,6 +21,7 @@ module.exports = {
             "no-catch-shadow": 0,
             "no-console": 0,
             "no-mixed-requires": 2,
+            "no-multi-str": 0,
             "no-new-require": 2,
             "no-path-concat": 2,
             "no-process-exit": 2,
@@ -73,6 +74,9 @@ module.exports = {
             generators: true,
             destructuring: true,
             classes: true
+        },
+        rules: {
+          "no-multi-str": 0
         }
     }
 };
