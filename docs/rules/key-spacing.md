@@ -67,7 +67,7 @@ foo = { thisLineWouldBeTooLong:
 
 ### 2. Vertically align values `"align": "value"`
 
-Use the `align` option to enforce vertical alignment of values in an object literal. This mode still respects `beforeColon` and `afterColon` where possible, but it will pad with spaces after the colon where necessary. Groups of properties separated by blank lines are considered distinct and can have different alignment than other groups.
+Use the `align` option to enforce vertical alignment of values in an object literal. This mode still respects `beforeColon` and `afterColon` where possible, but it will pad with spaces after the colon where necessary. Groups of properties separated by blank lines are considered distinct and can have different alignment than other groups. Single line object literals will not be checked for vertical alignment, but each property will still be checked for `beforeColon` and `afterColon`.
 
 The following patterns are considered valid:
 
@@ -91,6 +91,10 @@ call({
     'a' :[],
     b :  []
 });
+
+// "key-spacing": [2, { "align": "colon" }]
+// beforeColon and afterColon default to false and true, respectively
+var obj = { a: "foo", longPropertyName: "bar" };
 ```
 
 The following patterns are considered warnings:

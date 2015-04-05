@@ -142,6 +142,12 @@ eslintTester.addRuleTest("lib/rules/key-spacing", {
     }, {
         code: "({ get fn() {} })",
         options: [{ align: "colon" }]
+    }, {
+        code: "var obj = {foo: 'fee', bar: 'bam'};",
+        options: [{ align: "colon" }]
+    }, {
+        code: "var obj = {a: 'foo', bar: 'bam'};",
+        options: [{ align: "colon" }]
     }],
 
     invalid: [{
@@ -331,6 +337,12 @@ eslintTester.addRuleTest("lib/rules/key-spacing", {
         code: "foo = { key:( ( (1+2) ) ) };",
         errors: [
             { message: "Missing space before value for key \"key\".", line: 1, column: 12, type: "BinaryExpression" }
+        ]
+    }, {
+        code: "var obj = {a  : 'foo', bar: 'bam'};",
+        options: [{ align: "colon" }],
+        errors: [
+            { message: "Extra space after key \"a\".", line: 1, column: 11, type: "Identifier" }
         ]
     }]
 
