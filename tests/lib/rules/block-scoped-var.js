@@ -19,6 +19,11 @@ var eslint = require("../../../lib/eslint"),
 var eslintTester = new ESLintTester(eslint);
 eslintTester.addRuleTest("lib/rules/block-scoped-var", {
     valid: [
+        // See issue https://github.com/eslint/eslint/issues/2242
+        { code: "function f() { } f(); var exports = { f: f };", ecmaFeatures: {modules: true} },
+        { code: "var f = () => {}; f(); var exports = { f: f };", ecmaFeatures: {arrowFunctions: true, modules: true} },
+        "!function f(){ f; }",
+        "function f() { } f(); var exports = { f: f };",
         "function f() { var a, b; { a = true; } b = a; }",
         "var a; function f() { var b = a; }",
         "function f(a) { }",
@@ -65,6 +70,8 @@ eslintTester.addRuleTest("lib/rules/block-scoped-var", {
         { code: "function foo({x: y}) { return y; }", ecmaFeatures: { blockBindings: true, destructuring: true }}
     ],
     invalid: [
+        { code: "!function f(){}; f", errors: [{ message: "\"f\" used outside of binding context." }] },
+        { code: "var f = function foo() { }; foo(); var exports = { f: foo };", errors: [{ message: "\"foo\" used outside of binding context." }, { message: "\"foo\" used outside of binding context."}] },
         { code: "var f = () => { x; }", ecmaFeatures: { arrowFunctions: true }, errors: [{ message: "\"x\" used outside of binding context.", type: "Identifier" }] },
         { code: "function f(){ x; }", errors: [{ message: "\"x\" used outside of binding context.", type: "Identifier" }] },
         { code: "function f(){ x; { var x; } }", errors: [{ message: "\"x\" used outside of binding context.", type: "Identifier" }] },
