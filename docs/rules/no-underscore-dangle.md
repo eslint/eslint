@@ -34,4 +34,3 @@ var file = __filename;
 ## When Not To Use It
 
 If you want to allow dangling underscores in identifiers, then you can safely turn this rule off.
-
