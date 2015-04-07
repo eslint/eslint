@@ -26,4 +26,3 @@ The following patterns are not warnings:
 ```js
 fn()
 ```
-

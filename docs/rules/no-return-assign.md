@@ -43,4 +43,3 @@ function doSomething() {
 ## When Not To Use It
 
 If you want to allow the use of assignment operators in a `return` statement, then you can safely disable this rule.
-

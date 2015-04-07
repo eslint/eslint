@@ -29,4 +29,3 @@ If you need to use control character pattern matching, then you should turn this
 
 * [no-div-regex](no-div-regex.md)
 * [no-regex-spaces](no-regex-spaces.md)
-

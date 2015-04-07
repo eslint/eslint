@@ -23,7 +23,3 @@ if(('' + !a) in b) // do something
 ## When Not To Use It
 
 Never.
-
-## Further Reading
-
-None.

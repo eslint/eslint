@@ -39,4 +39,3 @@ var AppHeader = require('app-header');
 ## When Not To Use It
 
 If you are using a custom implementation of `require` and your code will never be used in projects where a standard `require` (CommonJS, Node.js, AMD) is expected, you can safely turn this rule off.
-
