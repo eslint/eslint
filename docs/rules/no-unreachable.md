@@ -18,18 +18,18 @@ The following are considered warnings:
 
 ```js
 function foo() {
-	return true;
-	console.log("done");
+    return true;
+    console.log("done");
 }
 
 function bar() {
-	throws new Error("Oops!");
-	console.log("done");
+    throws new Error("Oops!");
+    console.log("done");
 }
 
 while(value) {
-	break;
-	console.log("done");
+    break;
+    console.log("done");
 }
 
 throw new Error("Oops!");
@@ -40,15 +40,15 @@ The following patterns are not considered warnings (due to JavaScript function a
 
 ```js
 function foo() {
-	return bar();
-	function bar() {
-	    return 1;
-	}
+    return bar();
+    function bar() {
+        return 1;
+    }
 }
 
 function bar() {
-	return x;
-	var x;
+    return x;
+    var x;
 }
 
 switch (foo) {

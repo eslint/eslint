@@ -10,11 +10,11 @@ The following patterns are considered warnings:
 
 ```js
 if (foo == NaN) {
-	// ...
+    // ...
 }
 
 if (foo != NaN) {
-	// ...
+    // ...
 }
 ```
 
@@ -22,11 +22,11 @@ The following patterns are not warnings:
 
 ```js
 if (isNaN(foo)) {
-	// ...
+    // ...
 }
 
 if (isNaN(NaN)) {
-	// ...
+    // ...
 }
 ```
 
