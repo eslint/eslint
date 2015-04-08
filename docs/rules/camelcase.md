@@ -37,7 +37,7 @@ obj.do_something = function() {
 };
 
 var obj = {
-	my_pref: 1
+    my_pref: 1
 };
 ```
 
@@ -55,7 +55,7 @@ obj.do_something();
 
 /*eslint camelcase: [2, {properties: "never"}]*/
 var obj = {
-	my_pref: 1
+    my_pref: 1
 };
 ```
 

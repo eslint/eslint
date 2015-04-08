@@ -5,8 +5,8 @@ It is often necessary to capture the current execution context in order to make 
 ```js
 var self = this;
 jQuery('li').click(function (event) {
-	// here, "this" is the HTMLElement where the click event occurred
-	self.setFoo(42);
+    // here, "this" is the HTMLElement where the click event occurred
+    self.setFoo(42);
 });
 ```
 
