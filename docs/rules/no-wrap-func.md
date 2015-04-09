@@ -4,11 +4,11 @@ Although it's possible to wrap functions in parentheses, this can be confusing w
 
 ```js
 var foo = (function() {
-	// IIFE
+    // IIFE
 }());
 
 var bar = (function() {
-	// not an IIFE
+    // not an IIFE
 });
 ```
 

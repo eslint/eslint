@@ -31,8 +31,8 @@ var e = new Error("error");
 throw e;
 
 try {
-	throw new Error("error");
+    throw new Error("error");
 } catch (e) {
-	throw e;
+    throw e;
 }
 ```

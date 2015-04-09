@@ -4,9 +4,9 @@ Writing functions within loops tends to result in errors due to the way the func
 
 ```js
 for (var i = 0; i < 10; i++) {
-	funcs[i] = function() {
-		return i;
-	};
+    funcs[i] = function() {
+        return i;
+    };
 }
 ```
 
