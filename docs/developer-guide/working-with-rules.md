@@ -254,7 +254,7 @@ valid: [
 ]
 ```
 
-Your rule will then be passed the arguments just as if it can from a configuration file.
+Your rule will then be passed the arguments as if they came from a configuration file.
 
 ### Invalid Code
 
