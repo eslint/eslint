@@ -214,7 +214,6 @@ function lintMarkdown(files) {
                 indent: 4
             },
             MD009: false, // Trailing spaces
-            MD010: false, // Hard tabs
             MD012: false, // Multiple consecutive blank lines
             MD013: false, // Line length
             MD026: false, // Trailing punctuation in header
