@@ -1,6 +1,6 @@
 # Disallow or Enforce Dangling Commas (comma-dangle)
 
-Trailing commas in object literals are valid according to the ECMAScript 5 (and ECMAScript 3!) spec, however IE8 (when not in IE8 document mode) and below will throw an error when it encounters trailing commas in JavaScript.
+Trailing commas in object literals are valid according to the ECMAScript 5 (and ECMAScript 3!) spec. However, IE8 (when not in IE8 document mode) and below will throw an error when it encounters trailing commas in JavaScript.
 
 ```js
 var foo = {
@@ -9,11 +9,11 @@ var foo = {
 };
 ```
 
-On the other hand, trailing commas can be useful because if you add or remove items to an object or array you only have the touch one line to make the change.
+On the other hand, trailing commas simplify adding and removing items to objects and arrays, since only the lines you are modifying must be touched.
 
 ## Rule Details
 
-This rule is aimed to forbid or enforce trailing commas in object literals and array literals.
+This rule enforces consistent use of trailing commas in object and array literals.
 
 This rule takes one argument. If it is `"always"` then it warns whenever a missing comma is detected.
 If `"always-multiline"` then it warns if there is a missing trailing comma on arrays or objects that
