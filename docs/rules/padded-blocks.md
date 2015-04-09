@@ -1,7 +1,7 @@
 # Enforce padding within blocks (padded-blocks)
 
-Some style guides require block statements to start and end with blank lines. The intention of this is,
-to improve the readability by a visual separation of the block content and the surrounding code.
+Some style guides require block statements to start and end with blank lines. The goal is
+to improve readability by visually separating the block content and the surrounding code.
 
 ```js
 if (a) {
@@ -11,17 +11,17 @@ if (a) {
 }
 ```
 
-Besides that, it is always a good idea to have a consistent code style,
-so you should either always write padded blocks or never.
+Since it's good to have a consistent code style, you should either always write
+padded blocks or never do it.
 
 ## Rule Details
 
-This rule will enforce a consistent padding within blocks.
+This rule enforces consistent padding within blocks.
 
 This rule takes one argument. If it is `"always"` then blocks must start **and** end with a blank line. If `"never"`
 then all blocks should never start **or** end with a blank line. The default is `"always"`.
 
-The following patterns are considered warnings when configured `"always"`:
+The following patterns are considered warnings when set to `"always"`:
 
 ```js
 if (a) {
@@ -52,7 +52,7 @@ if (a) {
 }
 ```
 
-The following patterns are not considered warnings when configured `"always"`:
+The following patterns are not considered warnings when set to `"always"`:
 
 ```js
 if (a) {
@@ -76,7 +76,7 @@ if (a) {
 }
 ```
 
-The following patterns are considered warnings when configured `"never"`:
+The following patterns are considered warnings when set to `"never"`:
 
 ```js
 if (a) {
@@ -103,7 +103,7 @@ if (a) {
 }
 ```
 
-The following patterns are not considered warnings when configured `"never"`:
+The following patterns are not considered warnings when set to `"never"`:
 
 ```js
 if (a) {
