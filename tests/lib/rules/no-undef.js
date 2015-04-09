@@ -50,18 +50,18 @@ eslintTester.addRuleTest("lib/rules/no-undef", {
         { code: "import * as Warning from '../lib/warning'; var warn = new Warning('text');", ecmaFeatures: { modules: true } }
     ],
     invalid: [
-        { code: "a = 1;", errors: [{ message: "'a' is not defined.", type: "Identifier"}] },
-        { code: "var a = b;", errors: [{ message: "'b' is not defined.", type: "Identifier"}] },
-        { code: "function f() { b; }", errors: [{ message: "'b' is not defined.", type: "Identifier"}] },
-        { code: "/*global b:false*/ function f() { b = 1; }", errors: [{ message: "'b' is read only.", type: "Identifier"}] },
-        { code: "function f() { b = 1; }", global: { b: false }, errors: [{ message: "'b' is read only.", type: "Identifier"}] },
-        { code: "/*global b:false*/ function f() { b++; }", errors: [{ message: "'b' is read only.", type: "Identifier"}] },
-        { code: "/*global b*/ b = 1;", errors: [{ message: "'b' is read only.", type: "Identifier"}] },
-        { code: "/*global b:false*/ var b = 1;", errors: [{ message: "'b' is read only.", type: "Identifier"}] },
-        { code: "window;", errors: [{ message: "'window' is not defined.", type: "Identifier"}] },
-        { code: "require(\"a\");", errors: [{ message: "'require' is not defined.", type: "Identifier"}] },
-        { code: "Array = 1;", errors: [{ message: "'Array' is read only.", type: "Identifier"}] },
-        { code: "var React; React.render(<img attr={a} />);", args: [1, {vars: "all"}], errors: [{ message: "'a' is not defined." }], ecmaFeatures: { jsx: true } },
-        { code: "var React, App; React.render(<App attr={a} />);", args: [1, {vars: "all"}], errors: [{ message: "'a' is not defined." }], ecmaFeatures: { jsx: true } }
+        { code: "a = 1;", errors: [{ message: "\"a\" is not defined.", type: "Identifier"}] },
+        { code: "var a = b;", errors: [{ message: "\"b\" is not defined.", type: "Identifier"}] },
+        { code: "function f() { b; }", errors: [{ message: "\"b\" is not defined.", type: "Identifier"}] },
+        { code: "/*global b:false*/ function f() { b = 1; }", errors: [{ message: "\"b\" is read only.", type: "Identifier"}] },
+        { code: "function f() { b = 1; }", global: { b: false }, errors: [{ message: "\"b\" is read only.", type: "Identifier"}] },
+        { code: "/*global b:false*/ function f() { b++; }", errors: [{ message: "\"b\" is read only.", type: "Identifier"}] },
+        { code: "/*global b*/ b = 1;", errors: [{ message: "\"b\" is read only.", type: "Identifier"}] },
+        { code: "/*global b:false*/ var b = 1;", errors: [{ message: "\"b\" is read only.", type: "Identifier"}] },
+        { code: "window;", errors: [{ message: "\"window\" is not defined.", type: "Identifier"}] },
+        { code: "require(\"a\");", errors: [{ message: "\"require\" is not defined.", type: "Identifier"}] },
+        { code: "Array = 1;", errors: [{ message: "\"Array\" is read only.", type: "Identifier"}] },
+        { code: "var React; React.render(<img attr={a} />);", args: [1, {vars: "all"}], errors: [{ message: "\"a\" is not defined." }], ecmaFeatures: { jsx: true } },
+        { code: "var React, App; React.render(<App attr={a} />);", args: [1, {vars: "all"}], errors: [{ message: "\"a\" is not defined." }], ecmaFeatures: { jsx: true } }
     ]
 });
