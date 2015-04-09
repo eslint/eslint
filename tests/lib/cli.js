@@ -413,4 +413,33 @@ describe("cli", function() {
             assert.isTrue(console.error.calledOnce);
         });
     });
+
+    describe("when not using --one-based-index", function() {
+
+        it("should print zero-based indexes", function() {
+            var exit;
+
+            exit = cli.execute("tests/fixtures/single-quoted.js");
+
+            assert.equal(exit, 1);
+            assert.include(console.log.lastCall.args[0], "1:4");
+            assert.include(console.log.lastCall.args[0], "1:10");
+        });
+
+    });
+
+    describe("when using --one-based-index", function() {
+
+        it("should print one-based indexes", function() {
+            var exit;
+
+            exit = cli.execute("-i tests/fixtures/single-quoted.js");
+
+            assert.equal(exit, 1);
+            assert.include(console.log.lastCall.args[0], "1:5");
+            assert.include(console.log.lastCall.args[0], "1:11");
+        });
+
+    });
+
 });
