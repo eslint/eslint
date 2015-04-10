@@ -6,11 +6,11 @@ Various whitespace characters can be inputted by programmers by mistake for exam
 
 Known issues these spaces cause:
 
-- Zero Width Space
-    - Is NOT considered a separator for tokens and is often parsed as an `Unexpected token ILLEGAL`
-    - Is NOT shown in modern browsers making code repository software expected to resolve the visualisation
-- Line Separator
-    - Is NOT a valid character within JSON which would cause parse errors
+* Zero Width Space
+    * Is NOT considered a separator for tokens and is often parsed as an `Unexpected token ILLEGAL`
+    * Is NOT shown in modern browsers making code repository software expected to resolve the visualisation
+* Line Separator
+    * Is NOT a valid character within JSON which would cause parse errors
 
 ## Rule Details
 

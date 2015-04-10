@@ -38,7 +38,7 @@ function main() {
 
 ### Options
 
-- Smart Tabs
+* Smart Tabs
 
 This option suppresses warnings about mixed tabs and spaces when the latter are used for alignment only. This technique is called [SmartTabs](http://www.emacswiki.org/emacs/SmartTabs). The option is turned off by default.
 

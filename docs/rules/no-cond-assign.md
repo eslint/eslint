@@ -19,8 +19,8 @@ This rule is aimed at eliminating ambiguous assignments in `for`, `if`, `while`,
 
 The rule takes one option, a string, which must contain one of the following values:
 
-+ `except-parens` (default): Disallow assignments unless they are enclosed in parentheses.
-+ `always`: Disallow all assignments.
+* `except-parens` (default): Disallow assignments unless they are enclosed in parentheses.
+* `always`: Disallow all assignments.
 
 #### "except-parens"
 
