@@ -15,244 +15,164 @@ var eslint = require("../../../lib/eslint"),
     ESLintTester = require("eslint-tester");
 
 //------------------------------------------------------------------------------
-// Tests
+// Fixtures
 //------------------------------------------------------------------------------
 
-var ALWAYS_MESSAGE = "Expected blank line after variable declarations.",
-    NEVER_MESSAGE = "Unexpected blank line after variable declarations.";
+var NO_VAR = "console.log(greet);",
+    ONLY_VAR = "var greet = 'hello';",
+    NO_BREAK = "var greet = 'hello'; console.log(greet);",
+    NO_BLANK = "var greet = 'hello';\nconsole.log(greet);",
+    ONE_BLANK = "var greet = 'hello';\n\nconsole.log(greet);",
+    TWO_BLANKS = "var greet = 'hello';\n\n\nconsole.log(greet);",
+    THREE_BLANKS = "var greet = 'hello';\n\n\n\nconsole.log(greet);",
+    NO_BLANK_WITH_TRAILING_WS = "var greet = 'hello';    \nconsole.log(greet);",
+    ONE_BLANK_WITH_TRAILING_WS = "var greet = 'hello';    \n\nconsole.log(greet);",
+    NO_BLANK_WITH_INLINE_COMMENT = "var greet = 'hello'; // inline comment\nconsole.log(greet);",
+    ONE_BLANK_WITH_INLINE_COMMENT = "var greet = 'hello'; // inline comment\n\nconsole.log(greet);",
+    NEXT_LINE_COMMENT = "var greet = 'hello';\n// next-line comment\nconsole.log(greet);",
+    NEXT_LINE_BLOCK_COMMENT = "var greet = 'hello';\n/* block comment\nblock comment */\nconsole.log(greet);",
+    MULTI_VAR_NO_BREAK = "var greet = 'hello'; var name = 'world'; console.log(greet, name);",
+    MULTI_VAR_NO_BLANK = "var greet = 'hello';\nvar name = 'world';\nconsole.log(greet, name);",
+    MULTI_VAR_ONE_BLANK = "var greet = 'hello';\nvar name = 'world';\n\nconsole.log(greet, name);",
+    MULTI_DEC_NO_BREAK = "var greet = 'hello', name = 'world'; console.log(greet, name);",
+    MULTI_DEC_NO_BLANK = "var greet = 'hello', name = 'world';\nconsole.log(greet, name);",
+    MULTI_DEC_ONE_BLANK = "var greet = 'hello', name = 'world';\n\nconsole.log(greet, name);",
+    MULTI_LINE_NO_BLANK = "var greet = 'hello',\nname = 'world';\nconsole.log(greet, name);",
+    MULTI_LINE_ONE_BLANK = "var greet = 'hello',\nname = 'world';\n\nconsole.log(greet, name);",
+    MULTI_LINE_NO_BLANK_WITH_COMMENTS = "var greet = 'hello', // inline comment\nname = 'world'; // inline comment\nconsole.log(greet, name);",
+    MULTI_LINE_ONE_BLANK_WITH_COMMENTS = "var greet = 'hello', // inline comment\nname = 'world'; // inline comment\n\nconsole.log(greet, name);",
+    MULTI_LINE_NEXT_LINE_COMMENT = "var greet = 'hello',\nname = 'world';\n// next-line comment\nconsole.log(greet);",
+    MULTI_LINE_NEXT_LINE_BLOCK_COMMENT = "var greet = 'hello',\nname = 'world';\n/* block comment\nblock comment */\nconsole.log(greet);",
+    LET_NO_BLANK = "let greet = 'hello';\nconsole.log(greet);",
+    LET_ONE_BLANK = "let greet = 'hello';\n\nconsole.log(greet);",
+    CONST_NO_BLANK = "const greet = 'hello';\nconsole.log(greet);",
+    CONST_ONE_BLANK = "const greet = 'hello';\n\nconsole.log(greet);",
+    MIXED_LET_VAR = "let greet = 'hello';\nvar name = 'world';\n\nconsole.log(greet, name);",
+    MIXED_CONST_VAR = "const greet = 'hello';\nvar name = 'world';\n\nconsole.log(greet, name);",
+    MIXED_LET_CONST = "let greet = 'hello';\nconst name = 'world';\n\nconsole.log(greet, name);";
+
+var ALWAYS_ERROR = {
+    message: "Expected blank line after variable declarations.",
+    type: "VariableDeclaration"
+};
+
+var NEVER_ERROR = {
+    message: "Unexpected blank line after variable declarations.",
+    type: "VariableDeclaration"
+};
+
+var BLOCK_BINDINGS = { blockBindings: true };
+
+//------------------------------------------------------------------------------
+// Tests
+//------------------------------------------------------------------------------
 
 var eslintTester = new ESLintTester(eslint);
 
 eslintTester.addRuleTest("lib/rules/newline-after-var", {
     valid: [
-        {
-            // ignore `var` with no following token
-            code: "var greet = 'hello';",
-            options: ["always"]
-        },
-        {
-            // ignore `var` with no following token
-            code: "var greet = 'hello';",
-            options: ["never"]
-        },
-        {
-            code: "var greet = 'hello'; console.log(greet);",
-            options: ["never"]
-        },
-        {
-            code: "var greet = 'hello';\n\nconsole.log(greet);",
-            options: ["always"]
-        },
-        {
-            code: "var greet = 'hello';\n\n\nconsole.log(greet);",
-            options: ["always"]
-        },
-        {
-            // single-line `var` with inline comment
-            code: "var greet = 'hello'; // inline comment\n\nconsole.log(greet);",
-            options: ["always"]
-        },
-        {
-            // multi-line `var`
-            code: "var greet = 'hello',\nname = 'world';\n\nconsole.log(greet, name);",
-            options: ["always"]
-        },
-        {
-            // multi-line `var` with inline comments
-            code: "var greet = 'hello', // inline comment\nname = 'world'; // inline comment\n\nconsole.log(greet, name);",
-            options: ["always"]
-        },
-        {
-            code: "var greet = 'hello'; var name = 'world';\n\n\nconsole.log(greet, name);",
-            options: ["always"]
-        },
-        {
-            code: "var greet = 'hello';\nvar name = 'world';\n\n\nconsole.log(greet, name);",
-            options: ["always"]
-        },
-        {
-            // invalid configuration option
-            code: "var greet = 'hello';\nvar name = 'world';\n\nconsole.log(greet, name);",
-            options: ["foobar"]
-        },
+        // should skip rule entirely
+        { code: NO_VAR, options: ["always"] },
+        { code: NO_VAR, options: ["never"] },
 
-        // ES6 block bindings
+        // should ignore a `var` with no following token
+        { code: ONLY_VAR, options: ["always"] },
+        { code: ONLY_VAR, options: ["never"] },
 
-        {
-            // ignore `let` with no following token
-            code: "let greet = 'hello';",
-            options: ["always"],
-            ecmaFeatures: {
-                blockBindings: true
-            }
-        },
-        {
-            // ignore `let` with no following token
-            code: "let greet = 'hello';",
-            options: ["never"],
-            ecmaFeatures: {
-                blockBindings: true
-            }
-        },
-        {
-            code: "let greet = 'hello';\n\nconsole.log(greet);",
-            options: ["always"],
-            ecmaFeatures: {
-                blockBindings: true
-            }
-        },
-        {
-            code: "let greet = 'hello';\nvar name = 'world';\n\nconsole.log(greet, name);",
-            options: ["always"],
-            ecmaFeatures: {
-                blockBindings: true
-            }
-        },
-        {
-            code: "let greet = 'hello';\nconst name = 'world';\n\nconsole.log(greet, name);",
-            options: ["always"],
-            ecmaFeatures: {
-                blockBindings: true
-            }
-        },
-        {
-            // single-line `let` with inline comment
-            code: "let greet = 'hello'; // inline comment\n\nconsole.log(greet);",
-            options: ["always"],
-            ecmaFeatures: {
-                blockBindings: true
-            }
-        },
-        {
-            // multi-line `let`
-            code: "let greet = 'hello',\nname = 'world';\n\nconsole.log(greet, name);",
-            options: ["always"],
-            ecmaFeatures: {
-                blockBindings: true
-            }
-        },
-        {
-            // multi-line `let` with inline comments
-            code: "let greet = 'hello', // inline comment\nname = 'world'; // inline comment\n\nconsole.log(greet, name);",
-            options: ["always"],
-            ecmaFeatures: {
-                blockBindings: true
-            }
-        },
-        {
-            // ignore `const` with no following token
-            code: "const greet = 'hello';",
-            options: ["always"],
-            ecmaFeatures: {
-                blockBindings: true
-            }
-        },
-        {
-            // ignore `const` with no following token
-            code: "const greet = 'hello';",
-            options: ["never"],
-            ecmaFeatures: {
-                blockBindings: true
-            }
-        },
-        {
-            code: "const greet = 'hello';\nvar name = 'world';\n\nconsole.log(greet, name);",
-            options: ["always"],
-            ecmaFeatures: {
-                blockBindings: true
-            }
-        },
-        {
-            code: "const greet = 'hello';\nlet name = 'world';\n\nconsole.log(greet, name);",
-            options: ["always"],
-            ecmaFeatures: {
-                blockBindings: true
-            }
-        },
-        {
-            // single-line `const` with inline comment
-            code: "const greet = 'hello'; // inline comment\n\nconsole.log(greet);",
-            options: ["always"],
-            ecmaFeatures: {
-                blockBindings: true
-            }
-        },
-        {
-            // multi-line `const`
-            code: "const greet = 'hello',\nname = 'world';\n\nconsole.log(greet, name);",
-            options: ["always"],
-            ecmaFeatures: {
-                blockBindings: true
-            }
-        },
-        {
-            // multi-line `const` with inline comments
-            code: "const greet = 'hello', // inline comment\nname = 'world'; // inline comment\n\nconsole.log(greet, name);",
-            options: ["always"],
-            ecmaFeatures: {
-                blockBindings: true
-            }
-        }
+        // should allow no line break in "never" mode
+        { code: NO_BREAK, options: ["never"] },
+
+        // should allow no blank line in "never" mode
+        { code: NO_BLANK, options: ["never"] },
+
+        // should allow one blank line in "always" mode
+        { code: ONE_BLANK, options: ["always"] },
+
+        // should allow two or more blank lines in "always" mode
+        { code: TWO_BLANKS, options: ["always"] },
+        { code: THREE_BLANKS, options: ["always"] },
+
+        // should allow trailing whitespace after the `var`
+        { code: ONE_BLANK_WITH_TRAILING_WS, options: ["always"] },
+        { code: NO_BLANK_WITH_TRAILING_WS, options: ["never"] },
+
+        // should allow inline comments after the `var`
+        { code: ONE_BLANK_WITH_INLINE_COMMENT, options: ["always"] },
+        { code: NO_BLANK_WITH_INLINE_COMMENT, options: ["never"] },
+
+        // should allow a comment on the next line in "never" mode
+        { code: NEXT_LINE_COMMENT, options: ["never"] },
+        { code: NEXT_LINE_BLOCK_COMMENT, options: ["never"] },
+
+        // should allow another `var` statement to follow without blank line
+        { code: MULTI_VAR_NO_BREAK, options: ["never"] },
+        { code: MULTI_VAR_NO_BLANK, options: ["never"] },
+        { code: MULTI_VAR_ONE_BLANK, options: ["always"] },
+
+        // should handle single `var` statement with multiple declarations
+        { code: MULTI_DEC_NO_BREAK, options: ["never"] },
+        { code: MULTI_DEC_NO_BLANK, options: ["never"] },
+        { code: MULTI_DEC_ONE_BLANK, options: ["always"] },
+
+        // should handle single `var` statement with multi-line declaration
+        { code: MULTI_LINE_ONE_BLANK, options: ["always"] },
+        { code: MULTI_LINE_NO_BLANK, options: ["never"] },
+        { code: MULTI_LINE_ONE_BLANK_WITH_COMMENTS, options: ["always"] },
+        { code: MULTI_LINE_NO_BLANK_WITH_COMMENTS, options: ["never"] },
+        { code: MULTI_LINE_NEXT_LINE_COMMENT, options: ["never"] },
+        { code: MULTI_LINE_NEXT_LINE_BLOCK_COMMENT, options: ["never"] },
+
+        // should treat an invalid mode as "always"
+        { code: ONE_BLANK, options: ["foobar"] },
+
+        // should handle ES6 `let` block binding
+        { code: LET_ONE_BLANK, options: ["always"], ecmaFeatures: BLOCK_BINDINGS },
+        { code: LET_NO_BLANK, options: ["never"], ecmaFeatures: BLOCK_BINDINGS },
+
+        // should handle ES6 `const` block binding
+        { code: CONST_ONE_BLANK, options: ["always"], ecmaFeatures: BLOCK_BINDINGS },
+        { code: CONST_NO_BLANK, options: ["never"], ecmaFeatures: BLOCK_BINDINGS },
+
+        // should handle a mix of `var`, `let`, or `const`
+        { code: MIXED_LET_VAR, options: ["always"], ecmaFeatures: BLOCK_BINDINGS },
+        { code: MIXED_CONST_VAR, options: ["always"], ecmaFeatures: BLOCK_BINDINGS },
+        { code: MIXED_LET_CONST, options: ["always"], ecmaFeatures: BLOCK_BINDINGS }
     ],
 
     invalid: [
-        {
-            code: "var greet = 'hello';\n\nconsole.log(greet);",
-            options: ["never"],
-            errors: [{
-                message: NEVER_MESSAGE,
-                type: "VariableDeclaration"
-            }]
-        },
-        {
-            code: "var greet = 'hello'; console.log(greet);",
-            options: ["always"],
-            errors: [{
-                message: ALWAYS_MESSAGE,
-                type: "VariableDeclaration"
-            }]
-        },
-        {
-            code: "var greet = 'hello'; var name = 'world'; console.log(greet);",
-            options: ["always"],
-            errors: [{
-                message: ALWAYS_MESSAGE,
-                type: "VariableDeclaration"
-            }]
-        },
+        // should disallow no line break in "always" mode
+        { code: NO_BREAK, options: ["always"], errors: [ALWAYS_ERROR] },
+        { code: MULTI_VAR_NO_BREAK, options: ["always"], errors: [ALWAYS_ERROR] },
+        { code: MULTI_DEC_NO_BREAK, options: ["always"], errors: [ALWAYS_ERROR] },
 
-        // ES6 block bindings
+        // should disallow no blank line in "always" mode
+        { code: NO_BLANK, options: ["always"], errors: [ALWAYS_ERROR] },
+        { code: NO_BLANK_WITH_TRAILING_WS, options: ["always"], errors: [ALWAYS_ERROR] },
+        { code: NO_BLANK_WITH_INLINE_COMMENT, options: ["always"], errors: [ALWAYS_ERROR] },
+        { code: MULTI_VAR_NO_BLANK, options: ["always"], errors: [ALWAYS_ERROR] },
+        { code: MULTI_DEC_NO_BLANK, options: ["always"], errors: [ALWAYS_ERROR] },
+        { code: MULTI_LINE_NO_BLANK, options: ["always"], errors: [ALWAYS_ERROR] },
+        { code: LET_NO_BLANK, options: ["always"], ecmaFeatures: BLOCK_BINDINGS, errors: [ALWAYS_ERROR] },
+        { code: CONST_NO_BLANK, options: ["always"], ecmaFeatures: BLOCK_BINDINGS, errors: [ALWAYS_ERROR] },
 
-        {
-            code: "let greet = 'hello'; const name = 'world';\n\nconsole.log(greet);",
-            options: ["never"],
-            ecmaFeatures: {
-                blockBindings: true
-            },
-            errors: [{
-                message: NEVER_MESSAGE,
-                type: "VariableDeclaration"
-            }]
-        },
-        {
-            code: "const greet = 'hello';\nlet name = 'world';\n\nconsole.log(greet, name);",
-            options: ["never"],
-            ecmaFeatures: {
-                blockBindings: true
-            },
-            errors: [{
-                message: NEVER_MESSAGE,
-                type: "VariableDeclaration"
-            }]
-        },
-        {
-            // invalid configuration option
-            code: "var greet = 'hello';\nvar name = 'world';\nconsole.log(greet, name);",
-            options: ["foobar"],
-            errors: [{
-                message: ALWAYS_MESSAGE,
-                type: "VariableDeclaration"
-            }]
-        }
+        // should disallow blank lines in "never" mode
+        { code: ONE_BLANK, options: ["never"], errors: [NEVER_ERROR] },
+        { code: TWO_BLANKS, options: ["never"], errors: [NEVER_ERROR] },
+        { code: THREE_BLANKS, options: ["never"], errors: [NEVER_ERROR] },
+        { code: ONE_BLANK_WITH_TRAILING_WS, options: ["never"], errors: [NEVER_ERROR] },
+        { code: ONE_BLANK_WITH_INLINE_COMMENT, options: ["never"], errors: [NEVER_ERROR] },
+        { code: MULTI_VAR_ONE_BLANK, options: ["never"], errors: [NEVER_ERROR] },
+        { code: MULTI_DEC_ONE_BLANK, options: ["never"], errors: [NEVER_ERROR] },
+        { code: MULTI_LINE_ONE_BLANK, options: ["never"], errors: [NEVER_ERROR] },
+        { code: MULTI_LINE_ONE_BLANK_WITH_COMMENTS, options: ["never"], errors: [NEVER_ERROR] },
+        { code: LET_ONE_BLANK, options: ["never"], ecmaFeatures: BLOCK_BINDINGS, errors: [NEVER_ERROR] },
+        { code: CONST_ONE_BLANK, options: ["never"], ecmaFeatures: BLOCK_BINDINGS, errors: [NEVER_ERROR] },
+
+        // should disallow a comment on the next line in "always" mode
+        { code: NEXT_LINE_COMMENT, options: ["always"], errors: [ALWAYS_ERROR] },
+        { code: NEXT_LINE_BLOCK_COMMENT, options: ["always"], errors: [ALWAYS_ERROR] },
+        { code: MULTI_LINE_NEXT_LINE_COMMENT, options: ["always"], errors: [ALWAYS_ERROR] },
+        { code: MULTI_LINE_NEXT_LINE_BLOCK_COMMENT, options: ["always"], errors: [ALWAYS_ERROR] }
+
     ]
 });
