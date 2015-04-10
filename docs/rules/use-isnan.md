@@ -32,4 +32,4 @@ if (isNaN(NaN)) {
 
 ## Further reading
 
-- [Use the isNaN function to compare with NaN](http://jslinterrors.com/use-the-isnan-function-to-compare-with-nan/)
+* [Use the isNaN function to compare with NaN](http://jslinterrors.com/use-the-isnan-function-to-compare-with-nan/)

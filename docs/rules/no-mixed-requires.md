@@ -6,8 +6,8 @@ In the Node.JS community it is often customary to separate the `require`d module
 
 When this rule is enabled, all `var` statements must satisfy the following conditions:
 
-- either none or all variable declarations must be require declarations
-- all require declarations must be of the same type (optional)
+* either none or all variable declarations must be require declarations
+* all require declarations must be of the same type (optional)
 
 ### Options
 
@@ -25,12 +25,12 @@ If enabled, violations will be reported whenever a single `var` statement contai
 
 This rule distinguishes between six kinds of variable declaration types:
 
-- `core`: declaration of a required [core module][1]
-- `file`: declaration of a required [file module][2]
-- `module`: declaration of a required module from the [node_modules folder][3]
-- `computed`: declaration of a required module whose type could not be determined (either because it is computed or because require was called without an argument)
-- `uninitialized`: a declaration that is not initialized
-- `other`: any other kind of declaration
+* `core`: declaration of a required [core module][1]
+* `file`: declaration of a required [file module][2]
+* `module`: declaration of a required module from the [node_modules folder][3]
+* `computed`: declaration of a required module whose type could not be determined (either because it is computed or because require was called without an argument)
+* `uninitialized`: a declaration that is not initialized
+* `other`: any other kind of declaration
 
 In this document, the first four types are summed up under the term *require declaration*.
 

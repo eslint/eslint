@@ -209,7 +209,9 @@ function lintMarkdown(files) {
             default: true,
             // Exclusions for deliberate/widespread violations
             MD002: false, // First header should be a h1 header
-            MD004: false, // Unordered list style
+            MD004: {      // Unordered list style
+                style: "asterisk"
+            },
             MD007: {      // Unordered list indentation
                 indent: 4
             },

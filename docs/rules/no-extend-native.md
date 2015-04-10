@@ -26,15 +26,15 @@ A common suggestion to avoid this problem would be to wrap the inside of the `fo
 
 Disallows directly modifying the prototype of builtin objects by looking for the following styles:
 
-- `Object.prototype.a = "a";`
-- `Object.defineProperty(Array.prototype, "times", {value: 999});`
+* `Object.prototype.a = "a";`
+* `Object.defineProperty(Array.prototype, "times", {value: 999});`
 
 It *does not* check for any of the following less obvious approaches:
 
-- `var x = Object; x.prototype.thing = a;`
-- `eval("Array.prototype.forEach = 'muhahaha'");`
-- `with(Array) { prototype.thing = 'thing'; };`
-- `window.Function.prototype.bind = 'tight';`
+* `var x = Object; x.prototype.thing = a;`
+* `eval("Array.prototype.forEach = 'muhahaha'");`
+* `with(Array) { prototype.thing = 'thing'; };`
+* `window.Function.prototype.bind = 'tight';`
 
 ## When Not To Use It
 
