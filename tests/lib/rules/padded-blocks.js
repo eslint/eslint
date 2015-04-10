@@ -28,6 +28,7 @@ eslintTester.addRuleTest("lib/rules/padded-blocks", {
         { code: "{\n\n\na();\n\n\n}" },
         { code: "{\n\n//comment\na();\n\n}" },
         { code: "{\n\na();\n//comment\n\n}" },
+        { code: "{\n\na = 1\n\n}" },
         { code: "{\na();\n}", args: [1, "never"]},
         { code: "{\na();}", args: [1, "never"]},
         { code: "{a();\n}", args: [1, "never"]},
