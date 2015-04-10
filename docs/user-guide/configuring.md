@@ -419,9 +419,9 @@ When ESLint is run, it looks in the current working directory to find an `.eslin
 
 Globs are matched using [minimatch](https://github.com/isaacs/minimatch), so a number of features are available:
 
-- Lines beginning with `#` are treated as comments and do not affect ignore patterns.
-- Lines preceded by `!` are negated patterns that re-include a pattern that was ignored by an earlier pattern.
-- Brace expansion can refer to multiple files in a pattern. For example, `file.{js,ts,coffee}` will ignore `file.js`, `file.ts`, and `file.coffee`.
+* Lines beginning with `#` are treated as comments and do not affect ignore patterns.
+* Lines preceded by `!` are negated patterns that re-include a pattern that was ignored by an earlier pattern.
+* Brace expansion can refer to multiple files in a pattern. For example, `file.{js,ts,coffee}` will ignore `file.js`, `file.ts`, and `file.coffee`.
 
 In addition to any patterns in a `.eslintignore` file, ESLint always ignores files in `node_modules/**`.
 
