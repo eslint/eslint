@@ -16,8 +16,8 @@ while (a = next(), a && a.length);
 
 This rule forbids the use of the comma operator, with the following exceptions:
 
-- In the initialization or update portions of a `for` statement.
-- If the expression sequence is explicitly wrapped in parentheses.
+* In the initialization or update portions of a `for` statement.
+* If the expression sequence is explicitly wrapped in parentheses.
 
 The following patterns are considered warnings:
 

@@ -69,9 +69,9 @@ This option has three settings:
 
 The following code:
 
-- will throw `baz is defined but never used` when `args`: `after-used`
-- will throw `foo is defined but never used` and `baz is defined but never used` when `args`: `all`
-- will throw nothing when `args`: `none`
+* will throw `baz is defined but never used` when `args`: `after-used`
+* will throw `foo is defined but never used` and `baz is defined but never used` when `args`: `all`
+* will throw nothing when `args`: `none`
 
 ```js
 (function(foo, bar, baz) {
