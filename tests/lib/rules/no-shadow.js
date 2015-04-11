@@ -22,7 +22,8 @@ eslintTester.addRuleTest("lib/rules/no-shadow", {
     valid: [
         "var a=3; function b(x) { a++; return x + a; }; setTimeout(function() { b(a); }, 0);",
         "(function() { var doSomething = function doSomething() {}; doSomething() }())",
-        "var arguments;\nfunction bar() { }"
+        "var arguments;\nfunction bar() { }",
+        { code: "var a=3; var b = (x) => { a++; return x + a; }; setTimeout(() => { b(a); }, 0);", ecmaFeatures: { arrowFunctions: true } }
     ],
     invalid: [
         {
@@ -32,6 +33,18 @@ eslintTester.addRuleTest("lib/rules/no-shadow", {
                 type: "Identifier",
                 line: 1,
                 column: 43
+            }]
+        },
+        {
+            code: "var a = (x) => { var b = () => { var x = 'foo'; }; }",
+            ecmaFeatures: {
+                arrowFunctions: true
+            },
+            errors: [{
+                message: "x is already declared in the upper scope.",
+                type: "Identifier",
+                line: 1,
+                column: 37
             }]
         },
         {
