@@ -287,7 +287,7 @@ target.test = function() {
         lastReturn;
 
     // exec(ISTANBUL + " cover " + MOCHA + "-- -c " + TEST_FILES);
-    lastReturn = nodeCLI.exec("istanbul", "cover", MOCHA, "-- -R dot -c", TEST_FILES);
+    lastReturn = nodeCLI.exec("istanbul", "cover", MOCHA, "-- -R progress -c", TEST_FILES);
     if (lastReturn.code !== 0) {
         errors++;
     }
