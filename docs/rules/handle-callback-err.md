@@ -35,7 +35,7 @@ function loadData (err, data) {
 }
 
 function generateError (err) {
-    if (err) {} 
+    if (err) {}
 }
 ```
 
