@@ -29,19 +29,19 @@ processors: {
     // assign to the file extension you want (.js, .jsx, .html, etc.)
     ".ext": {
         // takes text of the file and filename
-        preprocess: function(text, filename) { 
+        preprocess: function(text, filename) {
             // here, you can strip out any non-JS content
             // and split into multiple strings to lint
-        
+
             return [string];  // return an array of strings to lint
-        }, 
-        
+        },
+
         // takes an Message[][] and filename
         postprocess: function(messages, filename) {
             // messages is two-dimensional array of Message objects
             // where each array top-level are item are the lint messages related
             // to the text that was returned in an array in preprocess()
-            
+
             // you need to return a one-dimensional array of the messages you want to keep
             return [Message];
         }

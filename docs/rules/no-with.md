@@ -4,7 +4,7 @@ The `with` statement is potentially problematic because it adds members of an ob
 
 ## Rule Details
 
-This rule is aimed at eliminating `with` statements. 
+This rule is aimed at eliminating `with` statements.
 
 The following patterns are considered warnings:
 
