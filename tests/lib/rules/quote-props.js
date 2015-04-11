@@ -23,15 +23,18 @@ eslintTester.addRuleTest("lib/rules/quote-props", {
         "({ 'a-b': 0 })",
         "({ 'if': 0 })",
         "({ '@': 0 })",
-        { code: "({ a: 0, b: 0 })", args: [2, "as-needed"] },
-        { code: "({ a: 0, 0: 0 })", args: [2, "as-needed"] },
-        { code: "({ a: 0, true: 0 })", args: [2, "as-needed"] },
-        { code: "({ a: 0, null: 0 })", args: [2, "as-needed"] },
-        { code: "({ a: 0, '-b': 0 })", args: [2, "as-needed"] },
-        { code: "({ a: 0, 'if': 0 })", args: [2, "as-needed"] },
-        { code: "({ a: 0, '@': 0 })", args: [2, "as-needed"] },
-        { code: "({ a: 0, 0: 0 })", args: [2, "as-needed"] },
-        { code: "({ a: 0, '0x0': 0 })", args: [2, "as-needed"] }
+
+        { code: "({ 'a': 0, b(){} })", ecmaFeatures: { objectLiteralShorthandMethods: true }},
+        { code: "({ a: 0, b(){} })", options: ["as-needed"], ecmaFeatures: { objectLiteralShorthandMethods: true } },
+        { code: "({ a: 0, b: 0 })", options: ["as-needed"] },
+        { code: "({ a: 0, 0: 0 })", options: ["as-needed"] },
+        { code: "({ a: 0, true: 0 })", options: ["as-needed"] },
+        { code: "({ a: 0, null: 0 })", options: ["as-needed"] },
+        { code: "({ a: 0, '-b': 0 })", options: ["as-needed"] },
+        { code: "({ a: 0, 'if': 0 })", options: ["as-needed"] },
+        { code: "({ a: 0, '@': 0 })", options: ["as-needed"] },
+        { code: "({ a: 0, 0: 0 })", options: ["as-needed"] },
+        { code: "({ a: 0, '0x0': 0 })", options: ["as-needed"] }
     ],
     invalid: [{
         code: "({ a: 0 })",
@@ -45,25 +48,25 @@ eslintTester.addRuleTest("lib/rules/quote-props", {
         }]
     }, {
         code: "({ 'a': 0 })",
-        args: [2, "as-needed"],
+        options: ["as-needed"],
         errors: [{
             message: "Unnecessarily quoted property `a` found.", type: "Property"
         }]
     }, {
         code: "({ 'null': 0 })",
-        args: [2, "as-needed"],
+        options: ["as-needed"],
         errors: [{
             message: "Unnecessarily quoted property `null` found.", type: "Property"
         }]
     }, {
         code: "({ 'true': 0 })",
-        args: [2, "as-needed"],
+        options: ["as-needed"],
         errors: [{
             message: "Unnecessarily quoted property `true` found.", type: "Property"
         }]
     }, {
         code: "({ '0': 0 })",
-        args: [2, "as-needed"],
+        options: ["as-needed"],
         errors: [{
             message: "Unnecessarily quoted property `0` found.", type: "Property"
         }]
