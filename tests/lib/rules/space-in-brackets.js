@@ -20,150 +20,150 @@ var eslintTester = new ESLintTester(eslint);
 eslintTester.addRuleTest("lib/rules/space-in-brackets", {
 
     valid: [
-        { code: "var foo = obj[ 1 ]", args: [2, "always"] },
-        { code: "var foo = obj[ 'foo' ];", args: [2, "always"] },
-        { code: "var foo = obj[ [ 1, 1 ] ];", args: [2, "always"] },
+        { code: "var foo = obj[ 1 ]", options: ["always"] },
+        { code: "var foo = obj[ 'foo' ];", options: ["always"] },
+        { code: "var foo = obj[ [ 1, 1 ] ];", options: ["always"] },
 
         // always - singleValue
-        { code: "var foo = ['foo']", args: [2, "always", {singleValue: false}] },
-        { code: "var foo = [2]", args: [2, "always", {singleValue: false}] },
-        { code: "var foo = [[ 1, 1 ]]", args: [2, "always", {singleValue: false}] },
-        { code: "var foo = [{ 'foo': 'bar' }]", args: [2, "always", {singleValue: false}] },
-        { code: "var foo = [bar]", args: [2, "always", {singleValue: false}] },
+        { code: "var foo = ['foo']", options: ["always", {singleValue: false}] },
+        { code: "var foo = [2]", options: ["always", {singleValue: false}] },
+        { code: "var foo = [[ 1, 1 ]]", options: ["always", {singleValue: false}] },
+        { code: "var foo = [{ 'foo': 'bar' }]", options: ["always", {singleValue: false}] },
+        { code: "var foo = [bar]", options: ["always", {singleValue: false}] },
 
         // always - objectsInArrays
-        { code: "var foo = [{ 'bar': 'baz' }, 1,  5 ];", args: [2, "always", {objectsInArrays: false}] },
-        { code: "var foo = [ 1, 5, { 'bar': 'baz' }];", args: [2, "always", {objectsInArrays: false}] },
-        { code: "var foo = [{\n'bar': 'baz', \n'qux': [{ 'bar': 'baz' }], \n'quxx': 1 \n}]", args: [2, "always", {objectsInArrays: false}] },
-        { code: "var foo = [{ 'bar': 'baz' }]", args: [2, "always", {objectsInArrays: false}] },
-        { code: "var foo = [{ 'bar': 'baz' }, 1, { 'bar': 'baz' }];", args: [2, "always", {objectsInArrays: false}] },
-        { code: "var foo = [ 1, { 'bar': 'baz' }, 5 ];", args: [2, "always", {objectsInArrays: false}] },
-        { code: "var foo = [ 1, { 'bar': 'baz' }, [{ 'bar': 'baz' }] ];", args: [2, "always", {objectsInArrays: false}] },
+        { code: "var foo = [{ 'bar': 'baz' }, 1,  5 ];", options: ["always", {objectsInArrays: false}] },
+        { code: "var foo = [ 1, 5, { 'bar': 'baz' }];", options: ["always", {objectsInArrays: false}] },
+        { code: "var foo = [{\n'bar': 'baz', \n'qux': [{ 'bar': 'baz' }], \n'quxx': 1 \n}]", options: ["always", {objectsInArrays: false}] },
+        { code: "var foo = [{ 'bar': 'baz' }]", options: ["always", {objectsInArrays: false}] },
+        { code: "var foo = [{ 'bar': 'baz' }, 1, { 'bar': 'baz' }];", options: ["always", {objectsInArrays: false}] },
+        { code: "var foo = [ 1, { 'bar': 'baz' }, 5 ];", options: ["always", {objectsInArrays: false}] },
+        { code: "var foo = [ 1, { 'bar': 'baz' }, [{ 'bar': 'baz' }] ];", options: ["always", {objectsInArrays: false}] },
 
         // always - arraysInArrays
-        { code: "var arr = [[ 1, 2 ], 2, 3, 4 ];", args: [2, "always", {"arraysInArrays": false}] },
-        { code: "var arr = [[ 1, 2 ], [[[ 1 ]]], 3, 4 ];", args: [2, "always", {"arraysInArrays": false}] },
+        { code: "var arr = [[ 1, 2 ], 2, 3, 4 ];", options: ["always", {"arraysInArrays": false}] },
+        { code: "var arr = [[ 1, 2 ], [[[ 1 ]]], 3, 4 ];", options: ["always", {"arraysInArrays": false}] },
 
         // always - arraysInArrays, objectsInArrays
-        { code: "var arr = [[ 1, 2 ], 2, 3, { 'foo': 'bar' }];", args: [2, "always", {"arraysInArrays": false, objectsInArrays: false}] },
+        { code: "var arr = [[ 1, 2 ], 2, 3, { 'foo': 'bar' }];", options: ["always", {"arraysInArrays": false, objectsInArrays: false}] },
 
         // always - arraysInArrays, objectsInArrays, singleValue
-        { code: "var arr = [[ 1, 2 ], [2], 3, { 'foo': 'bar' }];", args: [2, "always", {"arraysInArrays": false, objectsInArrays: false, singleValue: false}] },
+        { code: "var arr = [[ 1, 2 ], [2], 3, { 'foo': 'bar' }];", options: ["always", {"arraysInArrays": false, objectsInArrays: false, singleValue: false}] },
 
         // always - arraysInObjects
-        { code: "var obj = { 'foo': [ 1, 2 ]};", args: [2, "always", {"arraysInObjects": false}] },
+        { code: "var obj = { 'foo': [ 1, 2 ]};", options: ["always", {"arraysInObjects": false}] },
 
         // always - objectsInObjects
-        { code: "var obj = { 'foo': { 'bar': 1, 'baz': 2 }};", args: [2, "always", {"objectsInObjects": false}] },
+        { code: "var obj = { 'foo': { 'bar': 1, 'baz': 2 }};", options: ["always", {"objectsInObjects": false}] },
 
         // always - arraysInObjects, objectsInObjects
-        { code: "var obj = { 'qux': [ 1, 2 ], 'foo': { 'bar': 1, 'baz': 2 }};", args: [2, "always", {"arraysInObjects": false, "objectsInObjects": false}] },
+        { code: "var obj = { 'qux': [ 1, 2 ], 'foo': { 'bar': 1, 'baz': 2 }};", options: ["always", {"arraysInObjects": false, "objectsInObjects": false}] },
 
         // always - arraysInObjects, objectsInObjects (reverse)
-        { code: "var obj = { 'foo': { 'bar': 1, 'baz': 2 }, 'qux': [ 1, 2 ]};", args: [2, "always", {"arraysInObjects": false, "objectsInObjects": false}] },
+        { code: "var obj = { 'foo': { 'bar': 1, 'baz': 2 }, 'qux': [ 1, 2 ]};", options: ["always", {"arraysInObjects": false, "objectsInObjects": false}] },
 
         // always
-        { code: "obj[ foo ]", args: [2, "always"] },
-        { code: "obj[\nfoo\n]", args: [2, "always"] },
-        { code: "obj[ 'foo' ]", args: [2, "always"] },
-        { code: "obj[ 'foo' + 'bar' ]", args: [2, "always"] },
-        { code: "obj[ obj2[ foo ] ]", args: [2, "always"] },
-        { code: "obj.map(function (item) { return [\n1,\n2,\n3,\n4\n]; })", args: [2, "always"] },
-        { code: "obj[ 'map' ](function (item) { return [\n1,\n2,\n3,\n4\n]; })", args: [2, "always"] },
-        { code: "obj[ 'for' + 'Each' ](function (item) { return [\n1,\n2,\n3,\n4\n]; })", args: [2, "always"] },
+        { code: "obj[ foo ]", options: ["always"] },
+        { code: "obj[\nfoo\n]", options: ["always"] },
+        { code: "obj[ 'foo' ]", options: ["always"] },
+        { code: "obj[ 'foo' + 'bar' ]", options: ["always"] },
+        { code: "obj[ obj2[ foo ] ]", options: ["always"] },
+        { code: "obj.map(function (item) { return [\n1,\n2,\n3,\n4\n]; })", options: ["always"] },
+        { code: "obj[ 'map' ](function (item) { return [\n1,\n2,\n3,\n4\n]; })", options: ["always"] },
+        { code: "obj[ 'for' + 'Each' ](function (item) { return [\n1,\n2,\n3,\n4\n]; })", options: ["always"] },
 
-        { code: "var arr = [ 1, 2, 3, 4 ];", args: [2, "always"] },
-        { code: "var arr = [ [ 1, 2 ], 2, 3, 4 ];", args: [2, "always"] },
-        { code: "var arr = [\n1, 2, 3, 4\n];", args: [2, "always"] },
+        { code: "var arr = [ 1, 2, 3, 4 ];", options: ["always"] },
+        { code: "var arr = [ [ 1, 2 ], 2, 3, 4 ];", options: ["always"] },
+        { code: "var arr = [\n1, 2, 3, 4\n];", options: ["always"] },
 
-        { code: "var obj = { foo: bar, baz: qux };", args: [2, "always"] },
-        { code: "var obj = { foo: { bar: quxx }, baz: qux };", args: [2, "always"] },
-        { code: "var obj = {\nfoo: bar,\nbaz: qux\n};", args: [2, "always"] },
+        { code: "var obj = { foo: bar, baz: qux };", options: ["always"] },
+        { code: "var obj = { foo: { bar: quxx }, baz: qux };", options: ["always"] },
+        { code: "var obj = {\nfoo: bar,\nbaz: qux\n};", options: ["always"] },
 
-        { code: "var foo = {};", args: [2, "always"] },
-        { code: "var foo = [];", args: [2, "always"] },
+        { code: "var foo = {};", options: ["always"] },
+        { code: "var foo = [];", options: ["always"] },
 
-        { code: "this.db.mappings.insert([\n { alias: 'a', url: 'http://www.amazon.de' },\n { alias: 'g', url: 'http://www.google.de' }\n], function () {});", args: [2, "always", {singleValue: false, objectsInArrays: true, arraysInArrays: true}] },
+        { code: "this.db.mappings.insert([\n { alias: 'a', url: 'http://www.amazon.de' },\n { alias: 'g', url: 'http://www.google.de' }\n], function () {});", options: ["always", {singleValue: false, objectsInArrays: true, arraysInArrays: true}] },
 
         // never
-        { code: "obj[foo]", args: [2, "never"] },
-        { code: "obj['foo']", args: [2, "never"] },
-        { code: "obj['foo' + 'bar']", args: [2, "never"] },
-        { code: "obj['foo'+'bar']", args: [2, "never"] },
-        { code: "obj[obj2[foo]]", args: [2, "never"] },
-        { code: "obj.map(function (item) { return [\n1,\n2,\n3,\n4\n]; })", args: [2, "never"] },
-        { code: "obj['map'](function (item) { return [\n1,\n2,\n3,\n4\n]; })", args: [2, "never"] },
-        { code: "obj['for' + 'Each'](function (item) { return [\n1,\n2,\n3,\n4\n]; })", args: [2, "never"] },
-        { code: "obj[ obj2[ foo ] ]", args: [2, "never", {"propertyName": true}] },
-        { code: "obj['for' + 'Each'](function (item) { return [\n1,\n2,\n3,\n4\n]; })", args: [2, "never"] },
+        { code: "obj[foo]", options: ["never"] },
+        { code: "obj['foo']", options: ["never"] },
+        { code: "obj['foo' + 'bar']", options: ["never"] },
+        { code: "obj['foo'+'bar']", options: ["never"] },
+        { code: "obj[obj2[foo]]", options: ["never"] },
+        { code: "obj.map(function (item) { return [\n1,\n2,\n3,\n4\n]; })", options: ["never"] },
+        { code: "obj['map'](function (item) { return [\n1,\n2,\n3,\n4\n]; })", options: ["never"] },
+        { code: "obj['for' + 'Each'](function (item) { return [\n1,\n2,\n3,\n4\n]; })", options: ["never"] },
+        { code: "obj[ obj2[ foo ] ]", options: ["never", {"propertyName": true}] },
+        { code: "obj['for' + 'Each'](function (item) { return [\n1,\n2,\n3,\n4\n]; })", options: ["never"] },
 
 
-        { code: "obj[\nfoo]", args: [2, "never"] },
-        { code: "obj[foo\n]", args: [2, "never"] },
-        { code: "var obj = {foo: bar,\nbaz: qux\n};", args: [2, "never"] },
-        { code: "var obj = {\nfoo: bar,\nbaz: qux};", args: [2, "never"] },
-        { code: "var arr = [1,\n2,\n3,\n4\n];", args: [2, "never"] },
-        { code: "var arr = [\n1,\n2,\n3,\n4];", args: [2, "never"] },
+        { code: "obj[\nfoo]", options: ["never"] },
+        { code: "obj[foo\n]", options: ["never"] },
+        { code: "var obj = {foo: bar,\nbaz: qux\n};", options: ["never"] },
+        { code: "var obj = {\nfoo: bar,\nbaz: qux};", options: ["never"] },
+        { code: "var arr = [1,\n2,\n3,\n4\n];", options: ["never"] },
+        { code: "var arr = [\n1,\n2,\n3,\n4];", options: ["never"] },
 
         // never - singleValue
-        { code: "var foo = [ 'foo' ]", args: [2, "never", {singleValue: true}] },
-        { code: "var foo = [ 2 ]", args: [2, "never", {singleValue: true}] },
-        { code: "var foo = [ [1, 1] ]", args: [2, "never", {singleValue: true}] },
-        { code: "var foo = [ {'foo': 'bar'} ]", args: [2, "never", {singleValue: true}] },
-        { code: "var foo = [ bar ]", args: [2, "never", {singleValue: true}] },
+        { code: "var foo = [ 'foo' ]", options: ["never", {singleValue: true}] },
+        { code: "var foo = [ 2 ]", options: ["never", {singleValue: true}] },
+        { code: "var foo = [ [1, 1] ]", options: ["never", {singleValue: true}] },
+        { code: "var foo = [ {'foo': 'bar'} ]", options: ["never", {singleValue: true}] },
+        { code: "var foo = [ bar ]", options: ["never", {singleValue: true}] },
 
         // never - objectsInArrays
-        { code: "var foo = [ {'bar': 'baz'}, 1, 5];", args: [2, "never", {objectsInArrays: true}] },
-        { code: "var foo = [1, 5, {'bar': 'baz'} ];", args: [2, "never", {objectsInArrays: true}] },
-        { code: "var foo = [ {\n'bar': 'baz', \n'qux': [ {'bar': 'baz'} ], \n'quxx': 1 \n} ]", args: [2, "never", {objectsInArrays: true}] },
-        { code: "var foo = [ {'bar': 'baz'} ]", args: [2, "never", {objectsInArrays: true}] },
-        { code: "var foo = [ {'bar': 'baz'}, 1, {'bar': 'baz'} ];", args: [2, "never", {objectsInArrays: true}] },
-        { code: "var foo = [1, {'bar': 'baz'} , 5];", args: [2, "never", {objectsInArrays: true}] },
-        { code: "var foo = [1, {'bar': 'baz'}, [ {'bar': 'baz'} ]];", args: [2, "never", {objectsInArrays: true}] },
+        { code: "var foo = [ {'bar': 'baz'}, 1, 5];", options: ["never", {objectsInArrays: true}] },
+        { code: "var foo = [1, 5, {'bar': 'baz'} ];", options: ["never", {objectsInArrays: true}] },
+        { code: "var foo = [ {\n'bar': 'baz', \n'qux': [ {'bar': 'baz'} ], \n'quxx': 1 \n} ]", options: ["never", {objectsInArrays: true}] },
+        { code: "var foo = [ {'bar': 'baz'} ]", options: ["never", {objectsInArrays: true}] },
+        { code: "var foo = [ {'bar': 'baz'}, 1, {'bar': 'baz'} ];", options: ["never", {objectsInArrays: true}] },
+        { code: "var foo = [1, {'bar': 'baz'} , 5];", options: ["never", {objectsInArrays: true}] },
+        { code: "var foo = [1, {'bar': 'baz'}, [ {'bar': 'baz'} ]];", options: ["never", {objectsInArrays: true}] },
 
         // never - arraysInArrays
-        { code: "var arr = [ [1, 2], 2, 3, 4];", args: [2, "never", {"arraysInArrays": true}] },
+        { code: "var arr = [ [1, 2], 2, 3, 4];", options: ["never", {"arraysInArrays": true}] },
 
         // never - arraysInArrays, singleValue
-        { code: "var arr = [ [1, 2], [ [ [ 1 ] ] ], 3, 4];", args: [2, "never", {"arraysInArrays": true, singleValue: true}] },
+        { code: "var arr = [ [1, 2], [ [ [ 1 ] ] ], 3, 4];", options: ["never", {"arraysInArrays": true, singleValue: true}] },
 
         // never - arraysInArrays, objectsInArrays
-        { code: "var arr = [ [1, 2], 2, 3, {'foo': 'bar'} ];", args: [2, "never", {"arraysInArrays": true, objectsInArrays: true}] },
+        { code: "var arr = [ [1, 2], 2, 3, {'foo': 'bar'} ];", options: ["never", {"arraysInArrays": true, objectsInArrays: true}] },
 
-        { code: "var arr = [1, 2, 3, 4];", args: [2, "never"] },
-        { code: "var arr = [[1, 2], 2, 3, 4];", args: [2, "never"] },
-        { code: "var arr = [\n1, 2, 3, 4\n];", args: [2, "never"] },
+        { code: "var arr = [1, 2, 3, 4];", options: ["never"] },
+        { code: "var arr = [[1, 2], 2, 3, 4];", options: ["never"] },
+        { code: "var arr = [\n1, 2, 3, 4\n];", options: ["never"] },
 
-        { code: "var obj = {foo: bar, baz: qux};", args: [2, "never"] },
-        { code: "var obj = {foo: {bar: quxx}, baz: qux};", args: [2, "never"] },
-        { code: "var obj = {\nfoo: bar,\nbaz: qux\n};", args: [2, "never"] },
+        { code: "var obj = {foo: bar, baz: qux};", options: ["never"] },
+        { code: "var obj = {foo: {bar: quxx}, baz: qux};", options: ["never"] },
+        { code: "var obj = {\nfoo: bar,\nbaz: qux\n};", options: ["never"] },
 
-        { code: "var foo = {};", args: [2, "never"] },
-        { code: "var foo = [];", args: [2, "never"] },
+        { code: "var foo = {};", options: ["never"] },
+        { code: "var foo = [];", options: ["never"] },
 
-        { code: "var foo = [{'bar':'baz'}, 1, {'bar': 'baz'}];", args: [2, "never"] },
-        { code: "var foo = [{'bar': 'baz'}];", args: [2, "never"] },
-        { code: "var foo = [{\n'bar': 'baz', \n'qux': [{'bar': 'baz'}], \n'quxx': 1 \n}]", args: [2, "never"] },
-        { code: "var foo = [1, {'bar': 'baz'}, 5];", args: [2, "never"] },
-        { code: "var foo = [{'bar': 'baz'}, 1,  5];", args: [2, "never"] },
-        { code: "var foo = [1, 5, {'bar': 'baz'}];", args: [2, "never"] },
-        { code: "var obj = {'foo': [1, 2]}", args: [2, "never"] },
+        { code: "var foo = [{'bar':'baz'}, 1, {'bar': 'baz'}];", options: ["never"] },
+        { code: "var foo = [{'bar': 'baz'}];", options: ["never"] },
+        { code: "var foo = [{\n'bar': 'baz', \n'qux': [{'bar': 'baz'}], \n'quxx': 1 \n}]", options: ["never"] },
+        { code: "var foo = [1, {'bar': 'baz'}, 5];", options: ["never"] },
+        { code: "var foo = [{'bar': 'baz'}, 1,  5];", options: ["never"] },
+        { code: "var foo = [1, 5, {'bar': 'baz'}];", options: ["never"] },
+        { code: "var obj = {'foo': [1, 2]}", options: ["never"] },
 
         // propertyName: false
-        { code: "var foo = obj[1]", args: [2, "always", {propertyName: false}] },
-        { code: "var foo = obj['foo'];", args: [2, "always", {propertyName: false}] },
-        { code: "var foo = obj[[ 1, 1 ]];", args: [2, "always", {propertyName: false}] },
+        { code: "var foo = obj[1]", options: ["always", {propertyName: false}] },
+        { code: "var foo = obj['foo'];", options: ["always", {propertyName: false}] },
+        { code: "var foo = obj[[ 1, 1 ]];", options: ["always", {propertyName: false}] },
 
-        { code: "var foo = obj[ 1 ]", args: [2, "never", {propertyName: true}] },
-        { code: "var foo = obj[ 'foo' ];", args: [2, "never", {propertyName: true}] },
-        { code: "var foo = obj[ [1, 1] ];", args: [2, "never", {propertyName: true}] }
+        { code: "var foo = obj[ 1 ]", options: ["never", {propertyName: true}] },
+        { code: "var foo = obj[ 'foo' ];", options: ["never", {propertyName: true}] },
+        { code: "var foo = obj[ [1, 1] ];", options: ["never", {propertyName: true}] }
     ],
 
     invalid: [
         // objectsInArrays
         {
             code: "var foo = [ { 'bar': 'baz' }, 1,  5];",
-            args: [2, "always", {objectsInArrays: false}],
+            options: ["always", {objectsInArrays: false}],
             errors: [
                 {
                     message: "There should be no space after '['",
@@ -176,8 +176,42 @@ eslintTester.addRuleTest("lib/rules/space-in-brackets", {
             ]
         },
         {
+            code: "import {bar} from 'foo.js';",
+            options: ["always"],
+            ecmaFeatures: {
+                modules: true
+            },
+            errors: [
+                {
+                    message: "A space is required after '{'",
+                    type: "ImportDeclaration"
+                },
+                {
+                    message: "A space is required before '}'",
+                    type: "ImportDeclaration"
+                }
+            ]
+        },
+        {
+            code: "export {bar};",
+            options: ["always"],
+            ecmaFeatures: {
+                modules: true
+            },
+            errors: [
+                {
+                    message: "A space is required after '{'",
+                    type: "ExportNamedDeclaration"
+                },
+                {
+                    message: "A space is required before '}'",
+                    type: "ExportNamedDeclaration"
+                }
+            ]
+        },
+        {
             code: "var foo = [1, 5, { 'bar': 'baz' } ];",
-            args: [2, "always", {objectsInArrays: false}],
+            options: ["always", {objectsInArrays: false}],
             errors: [
                 {
                     message: "A space is required after '['",
@@ -191,7 +225,7 @@ eslintTester.addRuleTest("lib/rules/space-in-brackets", {
         },
         {
             code: "var foo = [ { 'bar':'baz' }, 1, { 'bar': 'baz' } ];",
-            args: [2, "always", {objectsInArrays: false}],
+            options: ["always", {objectsInArrays: false}],
             errors: [
                 {
                     message: "There should be no space after '['",
@@ -207,7 +241,7 @@ eslintTester.addRuleTest("lib/rules/space-in-brackets", {
         // singleValue
         {
             code: "var obj = [ 'foo' ];",
-            args: [2, "always", {singleValue: false}],
+            options: ["always", {singleValue: false}],
             errors: [
                 {
                     message: "There should be no space after '['",
@@ -221,7 +255,7 @@ eslintTester.addRuleTest("lib/rules/space-in-brackets", {
         },
         {
             code: "var obj = ['foo' ];",
-            args: [2, "always", {singleValue: false}],
+            options: ["always", {singleValue: false}],
             errors: [
                 {
                     message: "There should be no space before ']'",
@@ -232,7 +266,7 @@ eslintTester.addRuleTest("lib/rules/space-in-brackets", {
         // singleValue
         {
             code: "var obj = ['foo'];",
-            args: [2, "never", {singleValue: true}],
+            options: ["never", {singleValue: true}],
             errors: [
                 {
                     message: "A space is required after '['",
@@ -246,7 +280,7 @@ eslintTester.addRuleTest("lib/rules/space-in-brackets", {
         },
         {
             code: "var foo = obj[ 1];",
-            args: [2, "always"],
+            options: ["always"],
             errors: [
                 {
                     message: "A space is required before ']'",
@@ -256,7 +290,7 @@ eslintTester.addRuleTest("lib/rules/space-in-brackets", {
         },
         {
             code: "var foo = obj[1 ];",
-            args: [2, "always"],
+            options: ["always"],
             errors: [
                 {
                     message: "A space is required after '['",
@@ -267,7 +301,7 @@ eslintTester.addRuleTest("lib/rules/space-in-brackets", {
         // propertyName
         {
             code: "var foo = obj[ 1];",
-            args: [2, "always", {propertyName: false}],
+            options: ["always", {propertyName: false}],
             errors: [
                 {
                     message: "There should be no space after '['",
@@ -277,7 +311,7 @@ eslintTester.addRuleTest("lib/rules/space-in-brackets", {
         },
         {
             code: "var foo = obj[1 ];",
-            args: [2, "always", {propertyName: false}],
+            options: ["always", {propertyName: false}],
             errors: [
                 {
                     message: "There should be no space before ']'",
@@ -287,7 +321,7 @@ eslintTester.addRuleTest("lib/rules/space-in-brackets", {
         },
         {
             code: "var foo = obj[ 1];",
-            args: [2, "never", {propertyName: true}],
+            options: ["never", {propertyName: true}],
             errors: [
                 {
                     message: "A space is required before ']'",
@@ -297,7 +331,7 @@ eslintTester.addRuleTest("lib/rules/space-in-brackets", {
         },
         {
             code: "var foo = obj[1 ];",
-            args: [2, "never", {propertyName: true}],
+            options: ["never", {propertyName: true}],
             errors: [
                 {
                     message: "A space is required after '['",
@@ -309,7 +343,7 @@ eslintTester.addRuleTest("lib/rules/space-in-brackets", {
         // always - arraysInArrays
         {
             code: "var arr = [ [ 1, 2 ], 2, 3, 4 ];",
-            args: [2, "always", {"arraysInArrays": false}],
+            options: ["always", {"arraysInArrays": false}],
             errors: [
                 {
                     message: "There should be no space after '['",
@@ -319,7 +353,7 @@ eslintTester.addRuleTest("lib/rules/space-in-brackets", {
         },
         {
             code: "var arr = [ 1, 2, 2, [ 3, 4 ] ];",
-            args: [2, "always", {"arraysInArrays": false}],
+            options: ["always", {"arraysInArrays": false}],
             errors: [
                 {
                     message: "There should be no space before ']'",
@@ -329,7 +363,7 @@ eslintTester.addRuleTest("lib/rules/space-in-brackets", {
         },
         {
             code: "var arr = [[ 1, 2 ], 2, [ 3, 4 ] ];",
-            args: [2, "always", {"arraysInArrays": false}],
+            options: ["always", {"arraysInArrays": false}],
             errors: [
                 {
                     message: "There should be no space before ']'",
@@ -339,7 +373,7 @@ eslintTester.addRuleTest("lib/rules/space-in-brackets", {
         },
         {
             code: "var arr = [ [ 1, 2 ], 2, [ 3, 4 ]];",
-            args: [2, "always", {"arraysInArrays": false}],
+            options: ["always", {"arraysInArrays": false}],
             errors: [
                 {
                     message: "There should be no space after '['",
@@ -349,7 +383,7 @@ eslintTester.addRuleTest("lib/rules/space-in-brackets", {
         },
         {
             code: "var arr = [ [ 1, 2 ], 2, [ 3, 4 ] ];",
-            args: [2, "always", {"arraysInArrays": false}],
+            options: ["always", {"arraysInArrays": false}],
             errors: [
                 {
                     message: "There should be no space after '['",
@@ -365,7 +399,7 @@ eslintTester.addRuleTest("lib/rules/space-in-brackets", {
         // never -  arraysInArrays
         {
             code: "var arr = [[1, 2], 2, [3, 4]];",
-            args: [2, "never", {"arraysInArrays": true}],
+            options: ["never", {"arraysInArrays": true}],
             errors: [
                 {
                     message: "A space is required after '['",
@@ -381,7 +415,7 @@ eslintTester.addRuleTest("lib/rules/space-in-brackets", {
         // always - arraysInObjects
         {
             code: "var obj = { 'foo': [ 1, 2 ] };",
-            args: [2, "always", {"arraysInObjects": false}],
+            options: ["always", {"arraysInObjects": false}],
             errors: [
                 {
                     message: "There should be no space before '}'",
@@ -391,7 +425,7 @@ eslintTester.addRuleTest("lib/rules/space-in-brackets", {
         },
         {
             code: "var obj = { 'foo': [ 1, 2 ] , 'bar': [ 'baz', 'qux' ] };",
-            args: [2, "always", {"arraysInObjects": false}],
+            options: ["always", {"arraysInObjects": false}],
             errors: [
                 {
                     message: "There should be no space before '}'",
@@ -403,7 +437,7 @@ eslintTester.addRuleTest("lib/rules/space-in-brackets", {
         // never - arraysInObjects
         {
             code: "var obj = {'foo': [1, 2]};",
-            args: [2, "never", {"arraysInObjects": true}],
+            options: ["never", {"arraysInObjects": true}],
             errors: [
                 {
                     message: "A space is required before '}'",
@@ -413,7 +447,7 @@ eslintTester.addRuleTest("lib/rules/space-in-brackets", {
         },
         {
             code: "var obj = {'foo': [1, 2] , 'bar': ['baz', 'qux']};",
-            args: [2, "never", {"arraysInObjects": true}],
+            options: ["never", {"arraysInObjects": true}],
             errors: [
                 {
                     message: "A space is required before '}'",
@@ -425,7 +459,7 @@ eslintTester.addRuleTest("lib/rules/space-in-brackets", {
          // always-objectsInObjects
         {
             code: "var obj = { 'foo': { 'bar': 1, 'baz': 2 } };",
-            args: [2, "always", {"objectsInObjects": false}],
+            options: ["always", {"objectsInObjects": false}],
             errors: [
                 {
                     message: "There should be no space before '}'",
@@ -435,7 +469,7 @@ eslintTester.addRuleTest("lib/rules/space-in-brackets", {
         },
         {
             code: "var obj = { 'foo': [ 1, 2 ] , 'bar': { 'baz': 1, 'qux': 2 } };",
-            args: [2, "always", {"objectsInObjects": false}],
+            options: ["always", {"objectsInObjects": false}],
             errors: [
                 {
                     message: "There should be no space before '}'",
@@ -447,7 +481,7 @@ eslintTester.addRuleTest("lib/rules/space-in-brackets", {
         // never-objectsInObjects
         {
             code: "var obj = {'foo': {'bar': 1, 'baz': 2}};",
-            args: [2, "never", {"objectsInObjects": true}],
+            options: ["never", {"objectsInObjects": true}],
             errors: [
                 {
                     message: "A space is required before '}'",
@@ -457,7 +491,7 @@ eslintTester.addRuleTest("lib/rules/space-in-brackets", {
         },
         {
             code: "var obj = {'foo': [1, 2] , 'bar': {'baz': 1, 'qux': 2}};",
-            args: [2, "never", {"objectsInObjects": true}],
+            options: ["never", {"objectsInObjects": true}],
             errors: [
                 {
                     message: "A space is required before '}'",
@@ -469,7 +503,7 @@ eslintTester.addRuleTest("lib/rules/space-in-brackets", {
         // always & never
         {
             code: "var obj = {foo: bar, baz: qux};",
-            args: [2, "always"],
+            options: ["always"],
             errors: [
                 {
                     message: "A space is required after '{'",
@@ -483,7 +517,7 @@ eslintTester.addRuleTest("lib/rules/space-in-brackets", {
         },
         {
             code: "var obj = {foo: bar, baz: qux };",
-            args: [2, "always"],
+            options: ["always"],
             errors: [
                 {
                     message: "A space is required after '{'",
@@ -493,7 +527,7 @@ eslintTester.addRuleTest("lib/rules/space-in-brackets", {
         },
         {
             code: "var obj = { foo: bar, baz: qux};",
-            args: [2, "always"],
+            options: ["always"],
             errors: [
                 {
                     message: "A space is required before '}'",
@@ -503,7 +537,7 @@ eslintTester.addRuleTest("lib/rules/space-in-brackets", {
         },
         {
             code: "var obj = { foo: bar, baz: qux };",
-            args: [2, "never"],
+            options: ["never"],
             errors: [
                 {
                     message: "There should be no space after '{'",
@@ -517,7 +551,7 @@ eslintTester.addRuleTest("lib/rules/space-in-brackets", {
         },
         {
             code: "var obj = {foo: bar, baz: qux };",
-            args: [2, "never"],
+            options: ["never"],
             errors: [
                 {
                     message: "There should be no space before '}'",
@@ -527,7 +561,7 @@ eslintTester.addRuleTest("lib/rules/space-in-brackets", {
         },
         {
             code: "var obj = { foo: bar, baz: qux};",
-            args: [2, "never"],
+            options: ["never"],
             errors: [
                 {
                     message: "There should be no space after '{'",
@@ -537,7 +571,7 @@ eslintTester.addRuleTest("lib/rules/space-in-brackets", {
         },
         {
             code: "var obj = { foo: { bar: quxx}, baz: qux};",
-            args: [2, "never"],
+            options: ["never"],
             errors: [
                 {
                     message: "There should be no space after '{'",
@@ -551,7 +585,7 @@ eslintTester.addRuleTest("lib/rules/space-in-brackets", {
         },
         {
             code: "var obj = {foo: {bar: quxx }, baz: qux };",
-            args: [2, "never"],
+            options: ["never"],
             errors: [
                 {
                     message: "There should be no space before '}'",
@@ -565,7 +599,7 @@ eslintTester.addRuleTest("lib/rules/space-in-brackets", {
         },
         {
             code: "var arr = [1, 2, 3, 4];",
-            args: [2, "always"],
+            options: ["always"],
             errors: [
                 {
                     message: "A space is required after '['",
@@ -579,7 +613,7 @@ eslintTester.addRuleTest("lib/rules/space-in-brackets", {
         },
         {
             code: "var arr = [1, 2, 3, 4 ];",
-            args: [2, "always"],
+            options: ["always"],
             errors: [
                 {
                     message: "A space is required after '['",
@@ -589,7 +623,7 @@ eslintTester.addRuleTest("lib/rules/space-in-brackets", {
         },
         {
             code: "var arr = [ 1, 2, 3, 4];",
-            args: [2, "always"],
+            options: ["always"],
             errors: [
                 {
                     message: "A space is required before ']'",
@@ -599,7 +633,7 @@ eslintTester.addRuleTest("lib/rules/space-in-brackets", {
         },
         {
             code: "var arr = [ 1, 2, 3, 4 ];",
-            args: [2, "never"],
+            options: ["never"],
             errors: [
                 {
                     message: "There should be no space after '['",
@@ -613,7 +647,7 @@ eslintTester.addRuleTest("lib/rules/space-in-brackets", {
         },
         {
             code: "var arr = [1, 2, 3, 4 ];",
-            args: [2, "never"],
+            options: ["never"],
             errors: [
                 {
                     message: "There should be no space before ']'",
@@ -623,7 +657,7 @@ eslintTester.addRuleTest("lib/rules/space-in-brackets", {
         },
         {
             code: "var arr = [ 1, 2, 3, 4];",
-            args: [2, "never"],
+            options: ["never"],
             errors: [
                 {
                     message: "There should be no space after '['",
@@ -633,7 +667,7 @@ eslintTester.addRuleTest("lib/rules/space-in-brackets", {
         },
         {
             code: "var arr = [ [ 1], 2, 3, 4];",
-            args: [2, "never"],
+            options: ["never"],
             errors: [
                 {
                     message: "There should be no space after '['",
@@ -647,7 +681,7 @@ eslintTester.addRuleTest("lib/rules/space-in-brackets", {
         },
         {
             code: "var arr = [[1 ], 2, 3, 4 ];",
-            args: [2, "never"],
+            options: ["never"],
             errors: [
                 {
                     message: "There should be no space before ']'",
@@ -661,7 +695,7 @@ eslintTester.addRuleTest("lib/rules/space-in-brackets", {
         },
         {
             code: "obj[ foo ]",
-            args: [2, "never"],
+            options: ["never"],
             errors: [
                 {
                     message: "There should be no space after '['",
@@ -675,7 +709,7 @@ eslintTester.addRuleTest("lib/rules/space-in-brackets", {
         },
         {
             code: "obj[foo ]",
-            args: [2, "never"],
+            options: ["never"],
             errors: [
                 {
                     message: "There should be no space before ']'",
@@ -685,7 +719,7 @@ eslintTester.addRuleTest("lib/rules/space-in-brackets", {
         },
         {
             code: "obj[ foo]",
-            args: [2, "never"],
+            options: ["never"],
             errors: [
                 {
                     message: "There should be no space after '['",
@@ -695,7 +729,7 @@ eslintTester.addRuleTest("lib/rules/space-in-brackets", {
         },
         {
             code: "var foo = obj[1]",
-            args: [2, "always"],
+            options: ["always"],
             errors: [
                 {
                     message: "A space is required after '['",
