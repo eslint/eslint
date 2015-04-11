@@ -40,6 +40,7 @@ eslintTester.addRuleTest("lib/rules/block-scoped-var", {
         { code: "function myFunc(foo) {  \"use strict\";  var [ bar ]  = foo;  bar.hello();}", ecmaFeatures: { destructuring: true } },
         { code: "function myFunc(...foo) {  return foo;}", ecmaFeatures: { restParams: true } },
         { code: "var f = () => { var g = f; }", ecmaFeatures: { arrowFunctions: true } },
+        { code: "class Foo {}\nexport default Foo;", ecmaFeatures: { modules: true, classes: true } },
         { code: "new Date", globals: {Date: false} },
         { code: "new Date", globals: {} },
         { code: "var eslint = require('eslint');", globals: {require: false} },
