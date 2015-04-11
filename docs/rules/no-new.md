@@ -12,7 +12,7 @@ It's less common to use `new` and not store the result, such as:
 new Person();
 ```
 
-In this case, the created object is thrown away because its reference isn't stored anywhere, and in many cases, this means that the constructor should be replaced with a function that doesn't require `new` to be used. 
+In this case, the created object is thrown away because its reference isn't stored anywhere, and in many cases, this means that the constructor should be replaced with a function that doesn't require `new` to be used.
 
 ## Rule Details
 

@@ -11,7 +11,7 @@ Some consider this to be a bad practice as it was an undocumented feature of Jav
 
 ## Rule Details
 
-This rule is aimed at preventing the use of multiline strings. 
+This rule is aimed at preventing the use of multiline strings.
 
 The following generates a warning:
 
