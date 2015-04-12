@@ -40,7 +40,7 @@ Configuration settings are set in your `.eslintrc` file by using the `ecmaFeatur
 * `templateStrings` - enable [template strings](https://leanpub.com/understandinges6/read/#leanpub-auto-template-strings)
 * `unicodeCodePointEscapes` - enable [code point escapes](https://leanpub.com/understandinges6/read/#leanpub-auto-escaping-non-bmp-characters)
 * `globalReturn` - allow `return` statements in the global scope
-* `jsx` - enable [JSX](http://facebook.github.io/jsx/)
+* `jsx` - enable [JSX](http://facebook.github.io/jsx/) (Include [eslint-plugin-react](https://www.npmjs.com/package/eslint-plugin-react) for additional functionality.)
 
 Here's an example `.eslintrc` file:
 
