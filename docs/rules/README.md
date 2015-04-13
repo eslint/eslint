@@ -162,7 +162,7 @@ These rules are purely matters of style and are quite subjective.
 * [operator-linebreak](operator-linebreak.md) - enforce operators to be placed before or after line breaks (off by default)
 * [padded-blocks](padded-blocks.md) - enforce padding within blocks (off by default)
 * [quote-props](quote-props.md) - require quotes around object literal property names (off by default)
-* [quotes](quotes.md) - specify whether double or single quotes should be used
+* [quotes](quotes.md) - specify whether backticks, double or single quotes should be used
 * [semi](semi.md) - require or disallow use of semicolons instead of ASI
 * [semi-spacing](semi-spacing.md) - enforce spacing before and after semicolons
 * [sort-vars](sort-vars.md) - sort variables within the same declaration block (off by default)
