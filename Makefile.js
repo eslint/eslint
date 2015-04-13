@@ -361,6 +361,9 @@ target.gensite = function() {
 
             var text = cat(filename);
 
+            // sanitize anything that could be confused with Jekyll variable interpolation
+            text = text.replace("{{", "&#x7B;&#x7B;");
+
             var baseName = path.basename(filename);
             var sourceBaseName = path.basename(filename, ".md") + ".js";
             var ruleName = path.basename(filename, ".md");
