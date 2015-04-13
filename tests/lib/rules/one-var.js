@@ -38,6 +38,69 @@ eslintTester.addRuleTest("lib/rules/one-var", {
                 destructuring: true
             },
             args: [2, "never"]
+        },
+        {
+            code: "function foo() { let a = 1; var c = true; if (a) {let c = true; } }",
+            ecmaFeatures: {
+                blockBindings: true
+            },
+            args: [2, "always"]
+        },
+        {
+            code: "function foo() { const a = 1; var c = true; if (a) {const c = true; } }",
+            ecmaFeatures: {
+                blockBindings: true
+            },
+            args: [2, "always"]
+        },
+        {
+            code: "function foo() { if (true) { const a = 1; }; if (true) {const a = true; } }",
+            ecmaFeatures: {
+                blockBindings: true
+            },
+            args: [2, "always"]
+        },
+        {
+            code: "function foo() { let a = 1; let b = true; }",
+            ecmaFeatures: {
+                blockBindings: true
+            },
+            args: [2, "never"]
+        },
+        {
+            code: "function foo() { const a = 1; const b = true; }",
+            ecmaFeatures: {
+                blockBindings: true
+            },
+            args: [2, "never"]
+        },
+        {
+            code: "function foo() { let a = 1; const b = false; var c = true; }",
+            ecmaFeatures: {
+                blockBindings: true
+            },
+            args: [2, "always"]
+        },
+        {
+            code: "function foo() { let a = 1, b = false; var c = true; }",
+            ecmaFeatures: {
+                blockBindings: true
+            },
+            args: [2, "always"]
+        },
+        {
+            code: "function foo() { let a = 1; let b = 2; const c = false; const d = true; var e = true, f = false; }",
+            ecmaFeatures: {
+                blockBindings: true
+            },
+            args: [2, {var: "always", let: "never", const: "never"}]
+        },
+        {
+            code: "let foo = true; for (let i = 0; i < 1; i++) { let foo = false; }",
+            ecmaFeatures: {
+                blockBindings: true
+            },
+            args: [2, {var: "always", let: "always", const: "never"}]
         }
     ],
     invalid: [
@@ -125,6 +188,85 @@ eslintTester.addRuleTest("lib/rules/one-var", {
             errors: [{
                 message: "Combine this with the previous 'var' statement.",
                 type: "VariableDeclaration"
+            }]
+        },
+        {
+            code: "function foo() { let a = 1; let b = 2; }",
+            ecmaFeatures: {
+                blockBindings: true
+            },
+            args: [2, "always"],
+            errors: [{
+                message: "Combine this with the previous 'let' statement.",
+                type: "VariableDeclaration"
+            }]
+        },
+        {
+            code: "function foo() { const a = 1; const b = 2; }",
+            ecmaFeatures: {
+                blockBindings: true
+            },
+            args: [2, "always"],
+            errors: [{
+                message: "Combine this with the previous 'const' statement.",
+                type: "VariableDeclaration"
+            }]
+        },
+        {
+            code: "function foo() { let a = 1; let b = 2; }",
+            ecmaFeatures: {
+                blockBindings: true
+            },
+            args: [2, {let: "always"}],
+            errors: [{
+                message: "Combine this with the previous 'let' statement.",
+                type: "VariableDeclaration"
+            }]
+        },
+        {
+            code: "function foo() { const a = 1; const b = 2; }",
+            ecmaFeatures: {
+                blockBindings: true
+            },
+            args: [2, {const: "always"}],
+            errors: [{
+                message: "Combine this with the previous 'const' statement.",
+                type: "VariableDeclaration"
+            }]
+        },
+        {
+            code: "function foo() { let a = 1, b = 2; }",
+            ecmaFeatures: {
+                blockBindings: true
+            },
+            args: [2, {let: "never"}],
+            errors: [{
+                message: "Split 'let' declaration into multiple statements.",
+                type: "VariableDeclaration"
+            }]
+        },
+        {
+            code: "function foo() { const a = 1, b = 2; }",
+            ecmaFeatures: {
+                blockBindings: true
+            },
+            args: [2, {const: "never"}],
+            errors: [{
+                message: "Split 'const' declaration into multiple statements.",
+                type: "VariableDeclaration"
+            }]
+        },
+        {
+            code: "let foo = true; switch(foo) { case true: let bar = 2; break; case false: let baz = 3; break; }",
+            ecmaFeatures: {
+                blockBindings: true
+            },
+            args: [2, {var: "always", let: "always", const: "never"}],
+            errors: [{
+                message: "Combine this with the previous 'let' statement.",
+                type: "VariableDeclaration",
+                line: 1,
+                column: 73
             }]
         }
     ]
