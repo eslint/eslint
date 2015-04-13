@@ -38,6 +38,13 @@ eslintTester.addRuleTest("lib/rules/one-var", {
                 destructuring: true
             },
             args: [2, "never"]
+        },
+        {
+            code: "function foo() { let a = 1; const b = false; }",
+            ecmaFeatures: {
+                blockBindings: true
+            },
+            args: [2, "var-only"]
         }
     ],
     invalid: [
@@ -120,6 +127,17 @@ eslintTester.addRuleTest("lib/rules/one-var", {
             code: "function foo() { var a = [1, 2, 3]; var [b, c, d] = a; }",
             ecmaFeatures: {
                 destructuring: true
+            },
+            args: [2, "always"],
+            errors: [{
+                message: "Combine this with the previous 'var' statement.",
+                type: "VariableDeclaration"
+            }]
+        },
+        {
+            code: "function foo() { let a = 1; const b = false; }",
+            ecmaFeatures: {
+                blockBindings: true
             },
             args: [2, "always"],
             errors: [{
