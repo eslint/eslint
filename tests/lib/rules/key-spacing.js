@@ -17,6 +17,16 @@ var eslintTester = new ESLintTester(eslint);
 eslintTester.addRuleTest("lib/rules/key-spacing", {
 
     valid: [{
+        code: "({\n})"
+    }, {
+        code: "({\na: b\n})"
+    }, {
+        code: "({\n})",
+        options: [{ align: "colon" }]
+    }, {
+        code: "({\na: b\n})",
+        options: [{ align: "value" }]
+    }, {
         code: "var obj = { key: value };",
         options: [{}]
     }, {
