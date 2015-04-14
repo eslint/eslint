@@ -19,8 +19,48 @@ var eslintTester = new ESLintTester(eslint);
 eslintTester.addRuleTest("lib/rules/no-trailing-spaces", {
 
     valid: [
-        "var a = 5;",
-        "var a = 5,\n    b = 3;"
+        {
+            code: "var a = 5;",
+            options: [{}]
+        },
+        {
+            code: "var a = 5,\n    b = 3;",
+            options: [{}]
+        },
+        {
+            code: "var a = 5;"
+        },
+        {
+            code: "var a = 5,\n    b = 3;"
+        },
+        {
+            code: "var a = 5,\n    b = 3;",
+            options: [{ skipBlankLines: true }]
+        },
+        {
+            code: "     ",
+            options: [{ skipBlankLines: true }]
+        },
+        {
+            code: "\t",
+            options: [{ skipBlankLines: true }]
+        },
+        {
+            code: "     \n    var c = 1;",
+            options: [{ skipBlankLines: true }]
+        },
+        {
+            code: "\t\n\tvar c = 2;",
+            options: [{ skipBlankLines: true }]
+        },
+        {
+            code: "\n   var c = 3;",
+            options: [{ skipBlankLines: true }]
+        },
+        {
+            code: "\n\tvar c = 4;",
+            options: [{ skipBlankLines: true }]
+        }
     ],
 
     invalid: [
@@ -47,6 +87,64 @@ eslintTester.addRuleTest("lib/rules/no-trailing-spaces", {
                 message: "Trailing spaces not allowed.",
                 type: "Program"
             }]
+        },
+        {
+            code: "     \n    var c = 1;",
+            errors: [{
+                message: "Trailing spaces not allowed.",
+                type: "Program"
+            }]
+        },
+        {
+            code: "\t\n\tvar c = 2;",
+            errors: [{
+                message: "Trailing spaces not allowed.",
+                type: "Program"
+            }]
+        },
+        {
+            code: "var a = 5;      \n",
+            errors: [{
+                message: "Trailing spaces not allowed.",
+                type: "Program"
+            }],
+            options: [{}]
+        },
+        {
+            code: "var a = 5; \n b = 3; ",
+            errors: [{
+                message: "Trailing spaces not allowed.",
+                type: "Program"
+            }, {
+                message: "Trailing spaces not allowed.",
+                type: "Program"
+            }],
+            options: [{}]
+        },
+        {
+            code: "var a = 5;\t\n  b = 3;",
+            errors: [{
+                message: "Trailing spaces not allowed.",
+                type: "Program"
+            }],
+            options: [{}]
+        },
+        {
+            code: "     \n    var c = 1;",
+            errors: [{
+                message: "Trailing spaces not allowed.",
+                type: "Program"
+            }],
+            options: [{}]
+        },
+        {
+            code: "\t\n\tvar c = 2;",
+            errors: [{
+                message: "Trailing spaces not allowed.",
+                type: "Program"
+            }],
+            options: [{}]
         }
     ]
+
 });
