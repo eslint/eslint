@@ -55,7 +55,7 @@
     "xml-escape": "~1.0.0"
   },
   "devDependencies": {
-    "beefy": "^1.0.0",
+    "beefy": "^2.0.0",
     "brfs": "0.0.9",
     "browserify": "^8.1.3",
     "chai": "^1.9.1",
