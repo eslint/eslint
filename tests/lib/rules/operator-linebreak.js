@@ -15,7 +15,8 @@ var eslint = require("../../../lib/eslint"),
 
 var BAD_LN_BRK_MSG = "Bad line breaking before and after '%s'.",
     BEFORE_MSG = "'%s' should be placed at the beginning of the line.",
-    AFTER_MSG = "'%s' should be placed at the end of the line.";
+    AFTER_MSG = "'%s' should be placed at the end of the line.",
+    NONE_MSG = "There should be no line break before or after '%s'";
 
 //------------------------------------------------------------------------------
 // Tests
@@ -44,7 +45,15 @@ eslintTester.addRuleTest("lib/rules/operator-linebreak", {
         {code: "1 + 1\n+ 1", options: ["before"]},
         {code: "f(1\n+ 1)", options: ["before"]},
         {code: "1 \n|| 1", options: ["before"]},
-        {code: "a += 1", options: ["before"]}
+        {code: "a += 1", options: ["before"]},
+
+        {code: "1 + 1", options: ["none"]},
+        {code: "1 + 1 + 1", options: ["none"]},
+        {code: "1 || 1", options: ["none"]},
+        {code: "a += 1", options: ["none"]},
+        {code: "var a;", options: ["none"]},
+        {code: "\n1 + 1", options: ["none"]},
+        {code: "1 + 1\n", options: ["none"]}
     ],
 
     invalid: [
@@ -178,6 +187,107 @@ eslintTester.addRuleTest("lib/rules/operator-linebreak", {
                 type: "VariableDeclarator",
                 line: 1,
                 column: 7
+            }]
+        },
+
+        {
+            code: "1 +\n1",
+            options: ["none"],
+            errors: [{
+                message: util.format(NONE_MSG, "+"),
+                type: "BinaryExpression",
+                line: 1,
+                column: 3
+            }]
+        },
+        {
+            code: "1\n+1",
+            options: ["none"],
+            errors: [{
+                message: util.format(NONE_MSG, "+"),
+                type: "BinaryExpression",
+                line: 2,
+                column: 1
+            }]
+        },
+        {
+            code: "f(1 +\n1);",
+            options: ["none"],
+            errors: [{
+                message: util.format(NONE_MSG, "+"),
+                type: "BinaryExpression",
+                line: 1,
+                column: 5
+            }]
+        },
+        {
+            code: "f(1\n+ 1);",
+            options: ["none"],
+            errors: [{
+                message: util.format(NONE_MSG, "+"),
+                type: "BinaryExpression",
+                line: 2,
+                column: 1
+            }]
+        },
+        {
+            code: "1 || \n 1",
+            options: ["none"],
+            errors: [{
+                message: util.format(NONE_MSG, "||"),
+                type: "LogicalExpression",
+                line: 1,
+                column: 4
+            }]
+        },
+        {
+            code: "1 \n || 1",
+            options: ["none"],
+            errors: [{
+                message: util.format(NONE_MSG, "||"),
+                type: "LogicalExpression",
+                line: 2,
+                column: 3
+            }]
+        },
+        {
+            code: "a += \n1",
+            options: ["none"],
+            errors: [{
+                message: util.format(NONE_MSG, "+="),
+                type: "AssignmentExpression",
+                line: 1,
+                column: 4
+            }]
+        },
+        {
+            code: "a \n+= 1",
+            options: ["none"],
+            errors: [{
+                message: util.format(NONE_MSG, "+="),
+                type: "AssignmentExpression",
+                line: 2,
+                column: 2
+            }]
+        },
+        {
+            code: "var a = \n1",
+            options: ["none"],
+            errors: [{
+                message: util.format(NONE_MSG, "="),
+                type: "VariableDeclarator",
+                line: 1,
+                column: 7
+            }]
+        },
+        {
+            code: "var a \n = 1",
+            options: ["none"],
+            errors: [{
+                message: util.format(NONE_MSG, "="),
+                type: "VariableDeclarator",
+                line: 2,
+                column: 2
             }]
         }
     ]

@@ -22,7 +22,7 @@ The `operator-linebreak` rule is aimed at enforcing a particular operator line b
 
 ### Options
 
-The rule takes an option, a string, which could be either "after" or "before". The default is "after".
+The rule takes an option, a string, which could be "after", "before" or "none". The default is "after".
 
 You can set the style in configuration like this:
 
@@ -108,6 +108,43 @@ foo
 
 if (someCondition
     || otherCondition) {
+}
+
+```
+
+#### "none"
+
+This option disallows line breaks on either side of the operator.
+
+While using this setting, the following patterns are considered warnings:
+
+```js
+
+foo = 1 +
+      2;
+
+foo = 1
+    + 2;
+
+if (someCondition ||
+    otherCondition) {
+}
+
+if (someCondition
+    || otherCondition) {
+}
+
+```
+
+The following patterns are not warnings:
+
+```js
+
+foo = 1 + 2;
+
+foo = 5;
+
+if (someCondition || otherCondition) {
 }
 
 ```
