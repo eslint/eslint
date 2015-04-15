@@ -30,7 +30,7 @@ This rule is aimed at enforcing the use of either one variable declaration or mu
 
 ### Options
 
-There is one option for this rule, and that is specified as `"always"` (the default) to enforce one variable declaration per function, or `"never"` to enforce multiple variable declarations per function. You can configure the rule as follows:
+There is one option for this rule, and that is specified as `"always"` (the default) to enforce one variable declaration per function, `"never"` to enforce multiple variable declarations per function, or `"var-only"` to not apply this rule to `let` and `const` declarations. You can configure the rule as follows:
 
 ```json
 {
@@ -110,9 +110,55 @@ function foo() {
 }
 ```
 
+When configured with `"var-only"` as the first option, the following patterns are considered warnings:
+
+The following patterns are considered warnings:
+
+```js
+function foo() {
+    var bar;
+    var baz;
+}
+
+function foo() {
+    var bar;
+
+    if (baz) {
+        var qux = true;
+    }
+}
+```
+
+The following patterns are not considered warnings:
+
+```js
+function foo() {
+    var bar,
+        baz;
+}
+
+function foo() {
+    var bar,
+        qux;
+
+    if (baz) {
+        qux = true;
+    }
+}
+
+function foo() {
+    const baz = true;
+    let bar;
+
+    if (baz) {
+        bar = true;
+    }
+}
+```
+
 ## Compatibility
 
-* **JSHint** - This rule maps to the `onevar` JSHint rule.
+* **JSHint** - This rule maps to the `onevar` JSHint rule, but adds support for `let` and `const` with the `var-only` option.
 
 ## Further Reading
 
