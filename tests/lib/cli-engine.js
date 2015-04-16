@@ -77,6 +77,14 @@ describe("CLIEngine", function() {
             assert.equal(report.results[0].warningCount, 0);
         });
 
+        it("should report the filename when passed in", function() {
+
+            engine = new CLIEngine();
+
+            var report = engine.executeOnText("var foo = 'bar';", "test.js");
+            assert.equal(report.results[0].filePath, "test.js");
+        });
+
     });
 
     describe("executeOnFiles()", function() {
