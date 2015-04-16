@@ -1,6 +1,6 @@
 # Working with Plugins
 
-Each plugin is a npm module with a name in the format of `eslint-plugin-<plugin-name>`, such as `eslint-plugin-jquery`.
+Each plugin is an npm module with a name in the format of `eslint-plugin-<plugin-name>`, such as `eslint-plugin-jquery`.
 
 ## Create a Plugin
 
@@ -20,7 +20,7 @@ module.exports = {
 
 ### Processors in Plugins
 
-You can also create plugins that would tell ESLint how to process files other then JavaScript. In order to create a
+You can also create plugins that would tell ESLint how to process files other than JavaScript. In order to create a
 processor, object that is exported from your module has to conform to the following interface:
 
 ```js
@@ -36,11 +36,11 @@ processors: {
             return [string];  // return an array of strings to lint
         },
 
-        // takes an Message[][] and filename
+        // takes a Message[][] and filename
         postprocess: function(messages, filename) {
-            // messages is two-dimensional array of Message objects
-            // where each array top-level are item are the lint messages related
-            // to the text that was returned in an array in preprocess()
+            // `messages` argument contains two-dimensional array of Message objects
+            // where each top-level array item contains array of lint messages related
+            // to the text that was returned in array from preprocess() method
 
             // you need to return a one-dimensional array of the messages you want to keep
             return [Message];
@@ -54,7 +54,7 @@ The `preprocess` method takes the file contents and filename as arguments, and r
 The `postprocess` method takes a two-dimensional array of arrays of lint messages and the filename. Each item in the input
 array corresponds to the part that was returned from the `preprocess` method. The `postprocess` method must adjust the location of all errors and aggregate them into a single flat array and return it.
 
-You can have both rules and processor in a single plugin, you can also add multiple preprocessors in a the same plugin.
+You can have both rules and processor in a single plugin. You can also have multiple preprocessors in one plugin.
 To support multiple extensions add each one to `preprocessors` element and point them to the same object.
 
 ### Default Configuration for Plugins
