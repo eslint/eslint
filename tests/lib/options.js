@@ -158,6 +158,13 @@ describe("options", function() {
         });
     });
 
+    describe("--stdin-filename", function() {
+        it("should return a string for .stdinFilename when passed", function() {
+            var currentOptions = options.parse("--stdin-filename test.js");
+            assert.equal(currentOptions.stdinFilename, "test.js");
+        });
+    });
+
     describe("--global", function() {
         it("should return an array for a single occurrence", function () {
             var currentOptions = options.parse("--global foo");
