@@ -40,6 +40,7 @@ Options:
   -o, --output-file path::String  Specify file to write report to
   --quiet                     Report errors only - default: false
   --stdin                     Lint code provided on <STDIN> - default: false
+  --stdin-filename            Specify filename to process STDIN as
 ```
 
 ### `-c`, `--config`
@@ -207,6 +208,14 @@ This option tells ESLint to read and lint source code from STDIN instead files. 
 Example
 
     cat myfile.js | eslint --stdin
+
+### `--stdin-filename`
+
+This option allows you to specify a filename to process STDIN as. This is useful when processing files from STDIN and you have rules which depend on the filename.
+
+Example
+
+    cat myfile.js | eslint --stdin --stdin-filename=myfile.js
 
 ### `-v`, `--version`
 
