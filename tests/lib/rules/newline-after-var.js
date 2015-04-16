@@ -49,7 +49,13 @@ var NO_VAR = "console.log(greet);",
     CONST_ONE_BLANK = "const greet = 'hello';\n\nconsole.log(greet);",
     MIXED_LET_VAR = "let greet = 'hello';\nvar name = 'world';\n\nconsole.log(greet, name);",
     MIXED_CONST_VAR = "const greet = 'hello';\nvar name = 'world';\n\nconsole.log(greet, name);",
-    MIXED_LET_CONST = "let greet = 'hello';\nconst name = 'world';\n\nconsole.log(greet, name);";
+    MIXED_LET_CONST = "let greet = 'hello';\nconst name = 'world';\n\nconsole.log(greet, name);",
+    FOR_LOOP_WITH_LET = "for(let a = 1; a < 1; a++){\n break;\n}",
+    FOR_LOOP_WITH_VAR = "for(var a = 1; a < 1; a++){\n break;\n}",
+    FOR_IN_LOOP_WITH_LET = "for(let a in obj){\n break;\n}",
+    FOR_IN_LOOP_WITH_VAR = "for(var a in obj){\n break;\n}",
+    FOR_OF_LOOP_WITH_LET = "for(let a in obj){\n break;\n}",
+    FOR_OF_LOOP_WITH_VAR = "for(var a in obj){\n break;\n}";
 
 var ALWAYS_ERROR = {
     message: "Expected blank line after variable declarations.",
@@ -136,7 +142,21 @@ eslintTester.addRuleTest("lib/rules/newline-after-var", {
         // should handle a mix of `var`, `let`, or `const`
         { code: MIXED_LET_VAR, options: ["always"], ecmaFeatures: BLOCK_BINDINGS },
         { code: MIXED_CONST_VAR, options: ["always"], ecmaFeatures: BLOCK_BINDINGS },
-        { code: MIXED_LET_CONST, options: ["always"], ecmaFeatures: BLOCK_BINDINGS }
+        { code: MIXED_LET_CONST, options: ["always"], ecmaFeatures: BLOCK_BINDINGS },
+
+        // should handle a mix of `var` or `let` inside for variations
+        { code: FOR_LOOP_WITH_LET, options: ["always"], ecmaFeatures: BLOCK_BINDINGS },
+        { code: FOR_LOOP_WITH_VAR, options: ["always"], ecmaFeatures: BLOCK_BINDINGS },
+        { code: FOR_LOOP_WITH_LET, options: ["never"], ecmaFeatures: BLOCK_BINDINGS },
+        { code: FOR_LOOP_WITH_VAR, options: ["never"], ecmaFeatures: BLOCK_BINDINGS },
+        { code: FOR_IN_LOOP_WITH_LET, options: ["always"], ecmaFeatures: BLOCK_BINDINGS },
+        { code: FOR_IN_LOOP_WITH_VAR, options: ["always"], ecmaFeatures: BLOCK_BINDINGS },
+        { code: FOR_IN_LOOP_WITH_LET, options: ["never"], ecmaFeatures: BLOCK_BINDINGS },
+        { code: FOR_IN_LOOP_WITH_VAR, options: ["never"], ecmaFeatures: BLOCK_BINDINGS },
+        { code: FOR_OF_LOOP_WITH_LET, options: ["always"], ecmaFeatures: { blockBindings: true, forOf: true } },
+        { code: FOR_OF_LOOP_WITH_VAR, options: ["always"], ecmaFeatures: { blockBindings: true, forOf: true } },
+        { code: FOR_OF_LOOP_WITH_LET, options: ["never"], ecmaFeatures: { blockBindings: true, forOf: true } },
+        { code: FOR_OF_LOOP_WITH_VAR, options: ["never"], ecmaFeatures: { blockBindings: true, forOf: true } }
     ],
 
     invalid: [
