@@ -218,7 +218,9 @@ function lintMarkdown(files) {
             MD012: false, // Multiple consecutive blank lines
             MD013: false, // Line length
             MD026: false, // Trailing punctuation in header
-            MD029: false  // Ordered list item prefix
+            MD029: false, // Ordered list item prefix
+            MD034: false, // Bare URL used
+            MD040: false  // Fenced code blocks should have a language specified
         },
         result = markdownlint.sync({
             files: files,
