@@ -55,7 +55,10 @@ var NO_VAR = "console.log(greet);",
     FOR_IN_LOOP_WITH_LET = "for(let a in obj){\n break;\n}",
     FOR_IN_LOOP_WITH_VAR = "for(var a in obj){\n break;\n}",
     FOR_OF_LOOP_WITH_LET = "for(let a in obj){\n break;\n}",
-    FOR_OF_LOOP_WITH_VAR = "for(var a in obj){\n break;\n}";
+    FOR_OF_LOOP_WITH_VAR = "for(var a in obj){\n break;\n}",
+    EXPORT_WITH_LET = "export let a = 1;\nexport let b = 2;",
+    EXPORT_WITH_VAR = "export var a = 1;\nexport var b = 2;",
+    EXPORT_WITH_CONST = "export const a = 1;\nexport const b = 2;";
 
 var ALWAYS_ERROR = {
     message: "Expected blank line after variable declarations.",
@@ -156,7 +159,15 @@ eslintTester.addRuleTest("lib/rules/newline-after-var", {
         { code: FOR_OF_LOOP_WITH_LET, options: ["always"], ecmaFeatures: { blockBindings: true, forOf: true } },
         { code: FOR_OF_LOOP_WITH_VAR, options: ["always"], ecmaFeatures: { blockBindings: true, forOf: true } },
         { code: FOR_OF_LOOP_WITH_LET, options: ["never"], ecmaFeatures: { blockBindings: true, forOf: true } },
-        { code: FOR_OF_LOOP_WITH_VAR, options: ["never"], ecmaFeatures: { blockBindings: true, forOf: true } }
+        { code: FOR_OF_LOOP_WITH_VAR, options: ["never"], ecmaFeatures: { blockBindings: true, forOf: true } },
+
+        // should handle export specifiers
+        { code: EXPORT_WITH_LET, options: ["never"], ecmaFeatures: { blockBindings: true, modules: true } },
+        { code: EXPORT_WITH_LET, options: ["always"], ecmaFeatures: { blockBindings: true, modules: true } },
+        { code: EXPORT_WITH_VAR, options: ["never"], ecmaFeatures: { blockBindings: true, modules: true } },
+        { code: EXPORT_WITH_VAR, options: ["always"], ecmaFeatures: { blockBindings: true, modules: true } },
+        { code: EXPORT_WITH_CONST, options: ["never"], ecmaFeatures: { blockBindings: true, modules: true } },
+        { code: EXPORT_WITH_CONST, options: ["always"], ecmaFeatures: { blockBindings: true, modules: true } }
     ],
 
     invalid: [
