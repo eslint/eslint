@@ -40,11 +40,9 @@ The syntax to specify restricted modules looks like this:
 "no-restricted-modules": [<enabled>, <...moduleNames>]
 ```
 
-## Further reading
+### Examples
 
-__Restrict usage of all Node.js core modules__
-
-<!-- via https://github.com/joyent/node/tree/master/lib -->
+To restrict the use of all Node.js core modules (via https://github.com/joyent/node/tree/master/lib):
 
 ```js
     "no-restricted-modules": [2,

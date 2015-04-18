@@ -14,33 +14,33 @@ the end of the file. If you still want this behaviour, consider enabling
 
 The following patterns are considered warnings:
 
-<pre>
+```js
 function doSmth() {
   ...
 }
-</pre>
+```
 
 The following patterns are not warnings:
 
-<pre>
+```js
 function doSmth() {
   ...
 }
 // spaces here
-</pre>
+```
 
-<pre>
+```js
 function doSmth() {
   ...
 }
 
-</pre>
+```
 
-<pre>
+```js
 function doSmth() {
   ...
 }
 
 
 
-</pre>
+```
