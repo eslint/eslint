@@ -76,6 +76,7 @@ These are rules designed to prevent you from making mistakes. They either prescr
 * [no-process-env](no-process-env.md) - disallow use of `process.env` (off by default)
 * [no-proto](no-proto.md) - disallow usage of `__proto__` property
 * [no-redeclare](no-redeclare.md) - disallow declaring the same variable more then once
+* [no-redeclare-func](no-redeclare-func.md) - disallow declaring the same function more than once (off by default)
 * [no-return-assign](no-return-assign.md) - disallow use of assignment in `return` statement
 * [no-script-url](no-script-url.md) - disallow use of javascript: urls.
 * [no-self-compare](no-self-compare.md) - disallow comparisons where both sides are exactly the same (off by default)
