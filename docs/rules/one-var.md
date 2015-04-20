@@ -5,7 +5,7 @@ Variables can be declared at any point in JavaScript code using `var`, `let`, or
 There are two schools of thought in this regard:
 
 1. There should be just one variable declaration for all variables in the function. That declaration typically appears at the top of the function.
-1. You should use one variable declaration for each variable you want to define.
+2. You should use one variable declaration for each variable you want to define.
 
 For instance:
 

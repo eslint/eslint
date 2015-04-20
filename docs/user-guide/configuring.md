@@ -3,7 +3,7 @@
 ESLint is designed to be completely configurable, meaning you can turn off every rule and run only with basic syntax validation, or mix and match the bundled rules and your custom rules to make ESLint perfect for your project. There are two primary ways to configure ESLint:
 
 1. **Configuration Comments** - use JavaScript comments to embed configuration information directly into a file.
-1. **Configuration Files** - use a JSON or YAML file to specify configuration information for an entire directory and all of its subdirectories. This can be in the form of an `.eslintrc` file or an `eslintConfig` field in a `package.json` file, both of which ESLint will look for and read automatically, or you can specify a configuration file on the [command line](command-line-interface).
+2. **Configuration Files** - use a JSON or YAML file to specify configuration information for an entire directory and all of its subdirectories. This can be in the form of an `.eslintrc` file or an `eslintConfig` field in a `package.json` file, both of which ESLint will look for and read automatically, or you can specify a configuration file on the [command line](command-line-interface).
 
 There are several pieces of information that can be configured:
 
@@ -64,8 +64,8 @@ Setting language options helps ESLint determine what is a parsing error. All lan
 By default, ESLint uses [Espree](https://github.com/eslint/espree) as its parser. You can optionally specify that a different parser should be used in your configuration file so long as the parser meets the following requirements:
 
 1. It must be an npm module installed locally.
-1. It must have an Esprima-compatible interface (it must export a `parse()` method).
-1. It must produce Esprima-compatible AST and token objects.
+2. It must have an Esprima-compatible interface (it must export a `parse()` method).
+3. It must produce Esprima-compatible AST and token objects.
 
 Note that even with these compatibilities, there are no guarantees that an external parser will work correctly with ESLint and ESLint will not fix bugs related to incompatibilities with other parsers.
 
@@ -372,23 +372,23 @@ The complete configuration hierarchy, from highest precedence to lowest preceden
 
 1. Inline configuration
     1. `/*eslint-disable*/` and `/*eslint-enable*/`
-    1. `/*global*/`
-    1. `/*eslint*/`
-    1. `/*eslint-env*/`
+    2. `/*global*/`
+    3. `/*eslint*/`
+    4. `/*eslint-env*/`
 2. Command line options:
     1. `--global`
-    1. `--rule`
-    1. `--env`
-    1. `-c`, `--config`
+    2. `--rule`
+    3. `--env`
+    4. `-c`, `--config`
 3. Project-level configuration:
     1. `.eslintrc` file in same directory as linted file
-    1. `package.json` file in same directory as linted file
-    1. Continue searching for `.eslintrc` and `package.json` files in ancestor directories (parent has highest precedence, then grandparent, etc.), up to and including the root directory.
-    1. In the absence of any configuration from (i) and (ii), fall back to `~/.eslintrc` - personal default configuration
+    2. `package.json` file in same directory as linted file
+    3. Continue searching for `.eslintrc` and `package.json` files in ancestor directories (parent has highest precedence, then grandparent, etc.), up to and including the root directory.
+    4. In the absence of any configuration from (i) and (ii), fall back to `~/.eslintrc` - personal default configuration
 4. ESLint default configuration:
     1. `environments.json`
-    1. `eslint.json`
-    1. Blank (no config)
+    2. `eslint.json`
+    3. Blank (no config)
 
 ## Comments in Configuration Files
 

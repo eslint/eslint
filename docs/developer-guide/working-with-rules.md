@@ -174,7 +174,7 @@ Each rule must have a set of unit tests submitted with it to be accepted. The te
 For your rule, be sure to test:
 
 1. All instances that should be flagged as warnings.
-1. At least one pattern that should **not** be flagged as a warning.
+2. At least one pattern that should **not** be flagged as a warning.
 
 The basic pattern for a rule unit test file is:
 
