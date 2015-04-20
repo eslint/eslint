@@ -32,9 +32,9 @@ Effectively, an object literal is created in an unreachable part of the code. Th
 On the other side of the argument are those who say ASI isn't magic, it follows a set of rules as to when semicolons are inserted and it's fairly easy to remember them. In short, as once described by Isaac Schlueter, a `\n` character always ends a statement (just like a semicolon) unless one of the following is true:
 
 1. The statement has an unclosed paren, array literal, or object literal or ends in some other way that is not a valid way to end a statement. (For instance, ending with `.` or `,`.)
-1. The line is `--` or `++` (in which case it will decrement/increment the next token.)
-1. It is a `for()`, `while()`, `do`, `if()`, or `else`, and there is no `{`
-1. The next line starts with `[`, `(`, `+`, `*`, `/`, `-`, `,`, `.`, or some other binary operator that can only be found between two tokens in a single expression.
+2. The line is `--` or `++` (in which case it will decrement/increment the next token.)
+3. It is a `for()`, `while()`, `do`, `if()`, or `else`, and there is no `{`
+4. The next line starts with `[`, `(`, `+`, `*`, `/`, `-`, `,`, `.`, or some other binary operator that can only be found between two tokens in a single expression.
 
 ## Rule Details
 
