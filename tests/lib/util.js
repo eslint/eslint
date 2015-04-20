@@ -17,28 +17,6 @@ var assert = require("chai").assert,
 
 describe("util", function() {
 
-    describe("mixin()", function() {
-        function code() {
-            var a = {}, b = { foo: "f", bar: 1 };
-            util.mixin(a, b);
-            return [a, b];
-        }
-
-        it("should add properties to target object", function() {
-            var a = code()[0];
-            assert.equal(Object.keys(a).length, 2);
-            assert.equal(a.foo, "f");
-            assert.equal(a.bar, 1);
-        });
-
-        it("should not change the source object", function() {
-            var b = code()[1];
-            assert.equal(Object.keys(b).length, 2);
-            assert.equal(b.foo, "f");
-            assert.equal(b.bar, 1);
-        });
-    });
-
     describe("removePluginPrefix()", function() {
         it("should remove common prefix when passed a plugin name  with a prefix", function() {
             var pluginName = util.removePluginPrefix("eslint-plugin-test");
