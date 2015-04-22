@@ -342,7 +342,7 @@ In each case, the settings in the configuration file override default settings.
 
 When using `.eslintrc` and `package.json` files for configuration, you can take advantage of configuration cascading. For instance, suppose you have the following structure:
 
-```
+```text
 your-project
 ├── .eslintrc
 ├── lib
@@ -356,7 +356,7 @@ The configuration cascade works by using the closest `.eslintrc` file to the fil
 
 In the same way, if there is a `package.json` file in the root directory with an `eslintConfig` field, the configuration it describes will apply to all subdirectories beneath it, but the configuration described by the `.eslintrc` file in the tests directory will override it where there are conflicting specifications.
 
-```
+```text
 your-project
 ├── package.json
 ├── lib
@@ -411,7 +411,7 @@ Both the JSON and YAML configuration file formats support comments (`package.jso
 
 You can tell ESLint to ignore specific files and directories by creating an `.eslintignore` file in your project's root directory. The `.eslintignore` file is a plain text file where each line is a glob pattern indicating which paths should be omitted from linting. For example, the following will omit all JavaScript files:
 
-```
+```text
 **/*.js
 ```
 
@@ -427,7 +427,7 @@ In addition to any patterns in a `.eslintignore` file, ESLint always ignores fil
 
 For example, placing the following `.eslintignore` file in the current working directory will ignore all of `node_modules`, any files with the extensions `.ts.js` or `.coffee.js` extension that might have been transpiled, and anything in the `build/` directory except `build/index.js`:
 
-```
+```text
 # node_modules ignored by default
 
 # Ignore files compiled from TypeScript and CoffeeScript
@@ -454,7 +454,7 @@ Any file that follows the standard ignore file format can be used. Keep in mind 
 
 When you pass directories to ESLint, files and directories are silently ignored. If you pass a specific file to ESLint, then you will see a warning indicating that the file was skipped. For example, suppose you have an `.eslintignore` file that looks like this:
 
-```
+```text
 foo.js
 ```
 
@@ -464,7 +464,7 @@ And then you run:
 
 You'll see this warning:
 
-```
+```text
 foo.js
   0:0  warning  File ignored because of your .eslintignore file. Use --no-ignore to override.
 
