@@ -101,6 +101,7 @@ An environment defines both global variables that are predefined as well as whic
 * `jquery` - jquery global variables.
 * `prototypejs` - prototypejs global variables.
 * `shelljs` - shelljs global variables.
+* `meteor` - meteor global variables.
 * `es6` - enable all ECMAScript 6 features except for modules.
 
 These environments are not mutually exclusive, so you can define more than one at a time.
