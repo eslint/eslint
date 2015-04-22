@@ -40,7 +40,7 @@ This rule accepts a single options argument with the following defaults:
 
 Set the `allowKeywords` option to `false` (default is `true`) to follow ECMAScript version 3 compatible style, avoiding dot notation for reserved word properties.
 
-```
+```json
   "dot-notation": [2, {"allowKeywords": false}],
 ```
 
