@@ -29,6 +29,20 @@ describe("util", function() {
         });
     });
 
+    describe("getNamespace()", function() {
+        it("should remove namepace when passed with namepace", function() {
+            var namespace = util.getNamespace("@namepace/eslint-plugin-test");
+            assert.equal(namespace, "@namepace/");
+        });
+    });
+
+    describe("removeNameSpace()", function() {
+        it("should remove namepace when passed with namepace", function() {
+            var namespace = util.removeNameSpace("@namepace/eslint-plugin-test");
+            assert.equal(namespace, "eslint-plugin-test");
+        });
+    });
+
     describe("mergeConfigs()", function() {
 
         it("should combine two objects when passed two objects with different top-level properties", function() {

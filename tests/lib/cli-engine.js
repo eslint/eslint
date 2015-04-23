@@ -28,12 +28,14 @@ proxyquire = proxyquire.noCallThru().noPreserveCache();
 describe("CLIEngine", function() {
 
     var examplePluginName = "eslint-plugin-example",
+        examplePluginNameWithNamespace = "@eslint/eslint-plugin-example",
         requireStubs = {},
         examplePlugin = { rules: { "example-rule": require("../fixtures/rules/custom-rule") } },
         CLIEngine,
         examplePreprocessorName = "eslint-plugin-processor";
 
     requireStubs[examplePluginName] = examplePlugin;
+    requireStubs[examplePluginNameWithNamespace] = examplePlugin;
     requireStubs[examplePreprocessorName] = require("../fixtures/processors/custom-processor");
 
     beforeEach(function() {
@@ -751,9 +753,37 @@ describe("CLIEngine", function() {
                 assert.equal(report.results[0].messages[0].ruleId, "example/example-rule");
             });
 
+            it("should return two messages when executing with config file that specifies a plugin with namespace", function() {
+                engine = new CLIEngine({
+                    configFile: "./tests/fixtures/configurations/plugins-with-prefix-and-namespace.json",
+                    reset: true,
+                    useEslintrc: false
+                });
+
+                var report = engine.executeOnFiles(["tests/fixtures/rules/test/test-custom-rule.js"]);
+
+                assert.equal(report.results.length, 1);
+                assert.equal(report.results[0].messages.length, 2);
+                assert.equal(report.results[0].messages[0].ruleId, "example/example-rule");
+            });
+
             it("should return two messages when executing with config file that specifies a plugin without prefix", function() {
                 engine = new CLIEngine({
                     configFile: "./tests/fixtures/configurations/plugins-without-prefix.json",
+                    reset: true,
+                    useEslintrc: false
+                });
+
+                var report = engine.executeOnFiles(["tests/fixtures/rules/test/test-custom-rule.js"]);
+
+                assert.equal(report.results.length, 1);
+                assert.equal(report.results[0].messages.length, 2);
+                assert.equal(report.results[0].messages[0].ruleId, "example/example-rule");
+            });
+
+            it("should return two messages when executing with config file that specifies a plugin without prefix and with namespace", function() {
+                engine = new CLIEngine({
+                    configFile: "./tests/fixtures/configurations/plugins-without-prefix-with-namespace.json",
                     reset: true,
                     useEslintrc: false
                 });
