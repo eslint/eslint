@@ -391,6 +391,25 @@ The complete configuration hierarchy, from highest precedence to lowest preceden
     1. `eslint.json`
     1. Blank (no config)
 
+## Extending Configuration Files
+
+If you want to extend a specific configuration file, you can use the `extends` property and specify the path to the file. The path can be either relative or absolute.
+
+The extended configuration provides base rules, which can be overriden by the configuration that references it. For example:
+
+```js
+{
+    "extends": "node_modules/coding-standard/.eslintrc",
+
+    "rules": {
+        // Override any settings from the "parent" configuration
+        "eqeqeq": 1
+    }
+}
+```
+
+The extended configurations can also contain their own `extends`, resulting in recursive merging of the referenced configurations.
+
 ## Comments in Configuration Files
 
 Both the JSON and YAML configuration file formats support comments (`package.json` files should not include them). You can use JavaScript-style comments or YAML-style comments in either type of file and ESLint will safely ignore them. This allows your configuration files to be more human-friendly. For example:
