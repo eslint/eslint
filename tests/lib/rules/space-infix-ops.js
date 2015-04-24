@@ -29,26 +29,224 @@ eslintTester.addRuleTest("lib/rules/space-infix-ops", {
         { code: "a |0", args: [2, { int32Hint: true }] }
     ],
     invalid: [
-        { code: "a+b", errors: [{ message: "Infix operators must be spaced.", type: "BinaryExpression" }] },
-        { code: "a +b", errors: [{ message: "Infix operators must be spaced.", type: "BinaryExpression" }] },
-        { code: "a+ b", errors: [{ message: "Infix operators must be spaced.", type: "BinaryExpression" }] },
-        { code: "a||b", errors: [{ message: "Infix operators must be spaced.", type: "LogicalExpression" }] },
-        { code: "a ||b", errors: [{ message: "Infix operators must be spaced.", type: "LogicalExpression" }] },
-        { code: "a|| b", errors: [{ message: "Infix operators must be spaced.", type: "LogicalExpression" }] },
-        { code: "a=b", errors: [{ message: "Infix operators must be spaced.", type: "AssignmentExpression" }] },
-        { code: "a= b", errors: [{ message: "Infix operators must be spaced.", type: "AssignmentExpression" }] },
-        { code: "a =b", errors: [{ message: "Infix operators must be spaced.", type: "AssignmentExpression" }] },
-        { code: "a?b:c", errors: [{ message: "Infix operators must be spaced.", type: "ConditionalExpression" }] },
-        { code: "a?b : c", errors: [{ message: "Infix operators must be spaced.", type: "ConditionalExpression" }] },
-        { code: "a ? b:c", errors: [{ message: "Infix operators must be spaced.", type: "ConditionalExpression" }] },
-        { code: "a? b : c", errors: [{ message: "Infix operators must be spaced.", type: "ConditionalExpression" }] },
-        { code: "a ?b : c", errors: [{ message: "Infix operators must be spaced.", type: "ConditionalExpression" }] },
-        { code: "a ? b: c", errors: [{ message: "Infix operators must be spaced.", type: "ConditionalExpression" }] },
-        { code: "a ? b :c", errors: [{ message: "Infix operators must be spaced.", type: "ConditionalExpression" }] },
-        { code: "var a=b;", errors: [{ message: "Infix operators must be spaced.", type: "VariableDeclarator" }] },
-        { code: "var a= b;", errors: [{ message: "Infix operators must be spaced.", type: "VariableDeclarator" }] },
-        { code: "var a =b;", errors: [{ message: "Infix operators must be spaced.", type: "VariableDeclarator" }] },
-        { code: "var a = b, c=d;", errors: [{ message: "Infix operators must be spaced.", type: "VariableDeclarator" }] },
-        { code: "a| 0", args: [2, { int32Hint: true }], errors: [{ message: "Infix operators must be spaced.", type: "BinaryExpression" }] }
+        {
+            code: "a+b",
+            errors: [{
+                message: "Infix operators must be spaced.",
+                type: "BinaryExpression",
+                line: 1,
+                column: 1
+            }]
+        },
+        {
+            code: "a +b",
+            errors: [{
+                message: "Infix operators must be spaced.",
+                type: "BinaryExpression",
+                line: 1,
+                column: 2
+            }]
+        },
+        {
+            code: "a+ b",
+            errors: [{
+                message: "Infix operators must be spaced.",
+                type: "BinaryExpression",
+                line: 1,
+                column: 1
+            }]
+        },
+        {
+            code: "a||b",
+            errors: [{
+                message: "Infix operators must be spaced.",
+                type: "LogicalExpression",
+                line: 1,
+                column: 1
+            }]
+        },
+        {
+            code: "a ||b",
+            errors: [{
+                message: "Infix operators must be spaced.",
+                type: "LogicalExpression",
+                line: 1,
+                column: 2
+            }]
+        },
+        {
+            code: "a|| b",
+            errors: [{
+                message: "Infix operators must be spaced.",
+                type: "LogicalExpression",
+                line: 1,
+                column: 1
+            }]
+        },
+        {
+            code: "a=b",
+            errors: [{
+                message: "Infix operators must be spaced.",
+                type: "AssignmentExpression",
+                line: 1,
+                column: 1
+            }]
+        },
+        {
+            code: "a= b",
+            errors: [{
+                message: "Infix operators must be spaced.",
+                type: "AssignmentExpression",
+                line: 1,
+                column: 1
+            }]
+        },
+        {
+            code: "a =b",
+            errors: [{
+                message: "Infix operators must be spaced.",
+                type: "AssignmentExpression",
+                line: 1,
+                column: 2
+            }]
+        },
+        {
+            code: "a?b:c",
+            errors: [{
+                message: "Infix operators must be spaced.",
+                type: "ConditionalExpression",
+                line: 1,
+                column: 1
+            }]
+        },
+        {
+            code: "a?b : c",
+            errors: [{
+                message: "Infix operators must be spaced.",
+                type: "ConditionalExpression",
+                line: 1,
+                column: 1
+            }]
+        },
+        {
+            code: "a ? b:c",
+            errors: [{
+                message: "Infix operators must be spaced.",
+                type: "ConditionalExpression",
+                line: 1,
+                column: 5
+            }]
+        },
+        {
+            code: "a? b : c",
+            errors: [{
+                message: "Infix operators must be spaced.",
+                type: "ConditionalExpression",
+                line: 1,
+                column: 1
+            }]
+        },
+        {
+            code: "a ?b : c",
+            errors: [{
+                message: "Infix operators must be spaced.",
+                type: "ConditionalExpression",
+                line: 1,
+                column: 2
+            }]
+        },
+        {
+            code: "a ? b: c",
+            errors: [{
+                message: "Infix operators must be spaced.",
+                type: "ConditionalExpression",
+                line: 1,
+                column: 5
+            }]
+        },
+        {
+            code: "a ? b :c",
+            errors: [{
+                message: "Infix operators must be spaced.",
+                type: "ConditionalExpression",
+                line: 1,
+                column: 6
+            }]
+        },
+        {
+            code: "var a=b;",
+            errors: [{
+                message: "Infix operators must be spaced.",
+                type: "VariableDeclarator",
+                line: 1,
+                column: 5
+            }]
+        },
+        {
+            code: "var a= b;",
+            errors: [{
+                message: "Infix operators must be spaced.",
+                type: "VariableDeclarator",
+                line: 1,
+                column: 5
+            }]
+        },
+        {
+            code: "var a =b;",
+            errors: [{
+                message: "Infix operators must be spaced.",
+                type: "VariableDeclarator",
+                line: 1,
+                column: 6
+            }]
+        },
+        {
+            code: "var a = b, c=d;",
+            errors: [{
+                message: "Infix operators must be spaced.",
+                type: "VariableDeclarator",
+                line: 1,
+                column: 12
+            }]
+        },
+        {
+            code: "a| 0",
+            args: [2, {
+                int32Hint: true
+            }],
+            errors: [{
+                message: "Infix operators must be spaced.",
+                type: "BinaryExpression",
+                line: 1,
+                column: 1
+            }]
+        },
+        {
+            code: "var output = test || (test && test.value) ||(test2 && test2.value);",
+            errors: [{
+                message: "Infix operators must be spaced.",
+                type: "LogicalExpression",
+                line: 1,
+                column: 42
+            }]
+        },
+        {
+            code: "var output = a ||(b && c.value) || (d && e.value);",
+            errors: [{
+                message: "Infix operators must be spaced.",
+                type: "LogicalExpression",
+                line: 1,
+                column: 15
+            }]
+        },
+        {
+            code: "var output = a|| (b && c.value) || (d && e.value);",
+            errors: [{
+                message: "Infix operators must be spaced.",
+                type: "LogicalExpression",
+                line: 1,
+                column: 14
+            }]
+        }
     ]
 });
