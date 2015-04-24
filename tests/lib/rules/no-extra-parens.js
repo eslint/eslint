@@ -104,7 +104,7 @@ eslintTester.addRuleTest("lib/rules/no-extra-parens", {
         "with(a){}",
         "switch(a){ case 0: break; }",
         "function a(){ return b; }",
-        { code: "var a =  () => { return b; }", ecmaFeatures: { arrowFunctions: true } },
+        { code: "var a = () => { return b; }", ecmaFeatures: { arrowFunctions: true } },
         "throw a;",
         "while(a);",
         "do; while(a);",
@@ -142,7 +142,15 @@ eslintTester.addRuleTest("lib/rules/no-extra-parens", {
         "(function(){ return bar(); })(), (function(){ return bar(); })()",
 
         // parens are required around yield
-        { code: "var foo = (function*() { if ((yield foo()) + 1) { return; } }())", ecmaFeatures: { generators: true } }
+        { code: "var foo = (function*() { if ((yield foo()) + 1) { return; } }())", ecmaFeatures: { generators: true } },
+
+        // arrow functions have the precedence of an assignment expression
+        { code: "(() => 0)()", ecmaFeatures: { arrowFunctions: true } },
+        { code: "(_ => 0)()", ecmaFeatures: { arrowFunctions: true } },
+        { code: "_ => 0, _ => 1", ecmaFeatures: { arrowFunctions: true } },
+        { code: "a = () => b = 0", ecmaFeatures: { arrowFunctions: true } },
+        { code: "0 ? _ => 0 : _ => 0", ecmaFeatures: { arrowFunctions: true } },
+        { code: "(_ => 0) || (_ => 0)", ecmaFeatures: { arrowFunctions: true } }
     ],
     invalid: [
         invalid("(0)", "Literal"),
@@ -187,6 +195,10 @@ eslintTester.addRuleTest("lib/rules/no-extra-parens", {
         invalid("(0xBEEF).a", "Literal"),
         invalid("(1e6).a", "Literal"),
         invalid("new (function(){})", "FunctionExpression"),
-        invalid("new (\nfunction(){}\n)", "FunctionExpression", 1)
+        invalid("new (\nfunction(){}\n)", "FunctionExpression", 1),
+        invalid("0, (_ => 0)", "ArrowFunctionExpression", 1, { arrowFunctions: true }),
+        invalid("(_ => 0), 0", "ArrowFunctionExpression", 1, { arrowFunctions: true }),
+        invalid("a = (_ => 0)", "ArrowFunctionExpression", 1, { arrowFunctions: true }),
+        invalid("_ => (a = 0)", "AssignmentExpression", 1, { arrowFunctions: true })
     ]
 });
