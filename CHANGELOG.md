@@ -1,3 +1,25 @@
+v0.20.0 - April 24, 2015
+
+* 0.20.0 (Nicholas C. Zakas)
+* Fix: support arrow functions in no-extra-parens (fixes #2367) (Michael Ficarra)
+* Fix: Column position in space-infix-ops rule (fixes #2354) (Gyandeep Singh)
+* Fix: allow plugins to be namespaced (fixes #2360) (Seth Pollack)
+* Update: one-var: enable let & const (fixes #2301) (Joey Baker)
+* Docs: Add meteor to avaiable environments list (bartmichu)
+* Update: Use `Object.assign()` polyfill for all object merging (fixes #2348) (Sindre Sorhus)
+* Docs: Update markdownlint dependency, resolve/suppress new issues. (David Anson)
+* Fix: newline-after-var declare and export (fixes #2325) (Gyandeep Singh)
+* Docs: Some typos and grammar. (AlexKVal)
+* Fix: newline-after-var to ignore declare in for specifiers (fixes #2317) (Gyandeep Singh)
+* New: add --stdin-filename option (fixes #1950) (Mordy Tikotzky)
+* Fix: Load .eslintrc in $HOME only if no other .eslintrc is found (fixes #2279) (Jasper Woudenberg)
+* Fix: Add `v8` module to no-mixed-requires rule (fixes #2320) (Gyandeep Singh)
+* Fix: key-spacing with single properties (fixes #2311) (Brandon Mills)
+* Docs: `no-invalid-regexp`: add `ecmaFeatures` flags for `u`/`y` (Jordan Harband)
+* New: object-shorthand rule (refs: #1617) (Jamund Ferguson)
+* Update: backticks support for quotes rule (fixes #2153) (borislavjivkov)
+* Fix: space-in-brackets to work with modules (fixes #2216) (Nicholas C. Zakas)
+
 v0.19.0 - April 11, 2015
 
 * 0.19.0 (Nicholas C. Zakas)
