@@ -44,7 +44,7 @@ This rule is aimed at ensuring consistent use of semicolons. You can decide whet
 
 By using the default option, semicolons must be used any place where they are valid.
 
-```
+```json
 semi: [2, "always"]
 ```
 
@@ -70,7 +70,7 @@ object.method = function() {
 
 If you want to enforce that semicolons are never used, switch the configuration to:
 
-```
+```json
 semi: [2, "never"]
 ```
 

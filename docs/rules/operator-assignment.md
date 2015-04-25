@@ -2,7 +2,7 @@
 
 JavaScript provides shorthand operators that combine variable assignment and some simple mathematical operations. For example, `x = x + 4` can be shortened to `x += 4`. The supported shorthand forms are as follows:
 
-```
+```text
  Shorthand | Separate
 -----------|------------
  x += y    | x = x + y
