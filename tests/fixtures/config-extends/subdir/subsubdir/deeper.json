@@ -1,0 +1,11 @@
+{
+    "rules": {
+        "semi": 2
+    },
+
+    "env": {
+        "browser": false
+    },
+
+    "extends": "subsubsubdir/deepest.json"
+}
