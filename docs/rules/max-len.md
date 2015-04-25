@@ -40,7 +40,7 @@ The `max-len` rule has two required options:
 
 For example, to specify a maximum line length of 80 characters with each tab counting as 4 characters, use the following configuration:
 
-```
+```json
 "max-len": [2, 80, 4]
 ```
 

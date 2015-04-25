@@ -347,7 +347,7 @@ semi                    |    19.359 |     2.3%
 
 To test one rule explicitly, combine the `--reset`, `--no-eslintrc`, and `--rule` options:
 
-```
+```bash
 $ TIMING=1 eslint --reset --no-eslintrc --rule "quotes: [2, 'double']" lib
 Rule   | Time (ms) | Relative
 :------|----------:|--------:

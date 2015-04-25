@@ -98,7 +98,7 @@ The following patterns are not warnings:
 
 JSDoc offers a lot of tags with overlapping meaning. For example, both `@return` and `@returns` are acceptable for specifying the return value of a function. However, you may want to enforce a certain tag be used instead of others. You can specify your preferences regarding tag substitution by providing a mapping called `prefer` in the rule configuration. For example, to specify that `@returns` should be used instead of `@return`, you can use the following configuration:
 
-```
+```json
 "valid-jsdoc": [2, {
     "prefer": {
         "return": "returns"
@@ -112,7 +112,7 @@ With this configuration, ESLint will warn when it finds `@return` and recommend 
 
 By default ESLint requires you to specify `@return` for every documented function regardless of whether there is anything returned by the function. While using `@return {void}` stops it from asking for a description of the return value using the `requireReturn` option and setting it to false prevents an error from being logged unless there is a return in the function. Note that with this option set to `false`, if there is a return in the function, an error will still be logged and if there is a `@return` specified and there are no `return` statements in the function an error will also be logged. This option is purely to prevent the forced addition of `@return {void}` to an entire codebase not to turn off JSDoc return checking.
 
-```
+```json
 "valid-jsdoc": [2, {
     "requireReturn": false
 }]
@@ -122,7 +122,7 @@ By default ESLint requires you to specify `@return` for every documented functio
 
 By default ESLint requires you to specify a description for each `@param`. You can choose not to require descriptions for parameters by setting `requireParamDescription` to `false`.
 
-```
+```json
 "valid-jsdoc": [2, {
     "requireParamDescription": false
 }]
@@ -132,7 +132,7 @@ By default ESLint requires you to specify a description for each `@param`. You c
 
 By default ESLint requires you to specify a description for each `@return`. You can choose not to require descriptions for `@return` by setting `requireReturnDescription` to `false`.
 
-```
+```json
 "valid-jsdoc": [2, {
     "requireReturnDescription": false
 }]

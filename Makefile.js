@@ -219,8 +219,7 @@ function lintMarkdown(files) {
             MD013: false, // Line length
             MD026: false, // Trailing punctuation in header
             MD029: false, // Ordered list item prefix
-            MD034: false, // Bare URL used
-            MD040: false  // Fenced code blocks should have a language specified
+            MD034: false  // Bare URL used
         },
         result = markdownlint.sync({
             files: files,

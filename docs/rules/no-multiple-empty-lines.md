@@ -43,7 +43,7 @@ var bar = 3;
 
 You can configure the depth as an option by using the second argument in your configuration. For example, this sets the rule as an error (code is 2) with a maximum tolerated blank lines of 2:
 
-```
+```json
 "no-multiple-empty-lines": [2, {"max": 2}]
 ```
 

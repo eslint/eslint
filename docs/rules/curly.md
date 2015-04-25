@@ -55,7 +55,7 @@ if (foo) {
 
 By default, this rule warns whenever `if`, `else`, `for`, `while`, or `do` are used without block statements as their body. However, you can specify that block statements should be used only when there are multiple statements in the block and warn when there is only one statement in the block. To do so, configure the rule as:
 
-```
+```json
 curly: [2, "multi"]
 ```
 
@@ -94,7 +94,7 @@ while (true) {
 
 Alternatively, you can relax the rule to allow brace-less single-line `if`, `else if`, `else`, `for`, `while`, or `do`, while still enforcing the use of curly braces for other instances. To do so, configure the rule as:
 
-```
+```json
 curly: [2, "multi-line"]
 ```
 
@@ -140,7 +140,7 @@ while (true) {
 
 The default configuration is:
 
-```
+```json
 curly: [2, "all"]
 ```
 
