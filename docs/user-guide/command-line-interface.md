@@ -41,6 +41,7 @@ Options:
   --quiet                     Report errors only - default: false
   --stdin                     Lint code provided on <STDIN> - default: false
   --stdin-filename            Specify filename to process STDIN as
+  --init                      Run config initialization wizard
 ```
 
 ### `-c`, `--config`
@@ -224,6 +225,10 @@ This option outputs the current ESLint version onto the console. All other optio
 Example:
 
     eslint -v
+
+### '--init'
+
+This option will start config initialization wizard. It's designed to help new users quickly create .eslintrc file by answering a few questions. File will be created in current directory.
 
 ## Ignoring files from linting
 
