@@ -148,6 +148,7 @@ These rules are purely matters of style and are quite subjective.
 * [no-inline-comments](no-inline-comments.md) - disallow comments inline after code (off by default)
 * [no-lonely-if](no-lonely-if.md) - disallow if as the only statement in an else block (off by default)
 * [no-mixed-spaces-and-tabs](no-mixed-spaces-and-tabs.md) - disallow mixed spaces and tabs for indentation
+* [linebreak-style](linebreak-style.md) - disallow mixed 'LF' and 'CRLF' as linebreaks (off by default)
 * [no-multiple-empty-lines](no-multiple-empty-lines.md) - disallow multiple empty lines (off by default)
 * [no-nested-ternary](no-nested-ternary.md) - disallow nested ternary expressions (off by default)
 * [no-new-object](no-new-object.md) - disallow use of the `Object` constructor
