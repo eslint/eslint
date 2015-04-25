@@ -524,6 +524,44 @@ describe("Config", function() {
             configHelper.getConfig(path.resolve(__dirname, "..", "fixtures", "configurations", "empty", "empty.json"));
         });
 
+        // Extending configurations --------------------------------------------
+
+        // Non-recursive extends
+        it("should extend defined configuration file", function() {
+            var configPath = path.resolve(__dirname, "..", "fixtures", "config-extends", ".eslintrc"),
+                configHelper = new Config({ reset: true, useEslintrc: false, configFile: configPath }),
+                expected = {
+                    rules: { "quotes": [2, "double"], "yoda": 2, "valid-jsdoc": 0 },
+                    env: { "browser": false }
+                },
+                actual = configHelper.getConfig(configPath);
+
+            assertConfigsEqual(expected, actual);
+        });
+
+        // Non-recursive extends
+        it("should extend recursively defined configuration files", function() {
+            var configPath = path.resolve(__dirname, "..", "fixtures", "config-extends", "deep.json"),
+                configHelper = new Config({ reset: true, useEslintrc: false, configFile: configPath }),
+                expected = {
+                    rules: { "semi": 2, "yoda": 2, "valid-jsdoc": 0 },
+                    env: { "browser": true }
+                },
+                actual = configHelper.getConfig(configPath);
+
+            assertConfigsEqual(expected, actual);
+        });
+
+        // Meaningful stack-traces
+        it("should include references to where an `extends` configuration was loaded from", function() {
+            var configPath = path.resolve(__dirname, "..", "fixtures", "config-extends", "error.json");
+
+            assert.throws(function () {
+                var configHelper = new Config({ useEslintrc: false, configFile: configPath });
+                configHelper.getConfig(configPath);
+            }, /Referenced from:.*?error\.json/);
+        });
+
         describe("with plugin configuration", function() {
             var customRule = require("../fixtures/rules/custom-rule");
 

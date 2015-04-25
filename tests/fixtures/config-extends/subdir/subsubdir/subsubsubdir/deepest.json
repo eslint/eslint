@@ -1,0 +1,10 @@
+{
+    "rules": {
+        "semi": 1,
+        "valid-jsdoc": 0
+    },
+
+    "env": {
+        "browser": true
+    }
+}
