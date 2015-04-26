@@ -54,6 +54,21 @@ String = new Object();
 var String;
 ```
 
+## Options
+
+### exceptions
+
+Array of native object names that are permitted to be reassigned.
+If provided, it must be an `Array`.
+
+```js
+{
+    "rules": {
+        "no-native-reassign": [2, {"exceptions": ["Object"]}]
+    }
+}
+```
+
 ## When Not To Use It
 
 If you are trying to override one of the native objects.
