@@ -61,7 +61,15 @@ eslintTester.addRuleTest("lib/rules/brace-style", {
         { code: "switch(0) {}", args: ["2", "1tbs", { allowSingleLine: true }] },
         { code: "if (foo) {}\nelse {}", args: ["2", "stroustrup", { allowSingleLine: true }] },
         { code: "try {  bar(); }\ncatch (e) { baz();  }", args: ["2", "stroustrup", { allowSingleLine: true }] },
-        { code: "var foo = () => { return; }", ecmaFeatures: { arrowFunctions: true }, args: ["2", "stroustrup", { allowSingleLine: true }] }
+        { code: "var foo = () => { return; }", ecmaFeatures: { arrowFunctions: true }, args: ["2", "stroustrup", { allowSingleLine: true }] },
+        {
+            code: "if (tag === 1) fontstack.name = pbf.readString(); \nelse if (tag === 2) fontstack.range = pbf.readString(); \nelse if (tag === 3) {\n var glyph = pbf.readMessage(readGlyph, {});\n fontstack.glyphs[glyph.id] = glyph; \n}",
+            args: ["2", "1tbs"]
+        },
+        {
+            code: "if (tag === 1) fontstack.name = pbf.readString(); \nelse if (tag === 2) fontstack.range = pbf.readString(); \nelse if (tag === 3) {\n var glyph = pbf.readMessage(readGlyph, {});\n fontstack.glyphs[glyph.id] = glyph; \n}",
+            args: ["2", "stroustrup"]
+        }
     ],
     invalid: [
         { code: "var foo = () => { return; }", ecmaFeatures: { arrowFunctions: true }, errors: [{ message: BODY_MESSAGE, type: "ReturnStatement"}] },
