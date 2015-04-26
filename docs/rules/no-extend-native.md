@@ -36,6 +36,21 @@ It *does not* check for any of the following less obvious approaches:
 * `with(Array) { prototype.thing = 'thing'; };`
 * `window.Function.prototype.bind = 'tight';`
 
+## Options
+
+### exceptions
+
+Array of native object names that are permitted to be extended.
+If provided, it must be an `Array`.
+
+```js
+{
+    "rules": {
+        "no-extend-native": [2, {"exceptions": ["Object"]}]
+    }
+}
+```
+
 ## When Not To Use It
 
 You may want to disable this rule when working with polyfills that try to patch older versions of JavaScript with the latest spec, such as those that might `Function.prototype.bind` or `Array.prototype.forEach` in a future-friendly way.
