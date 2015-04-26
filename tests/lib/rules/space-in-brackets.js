@@ -156,7 +156,8 @@ eslintTester.addRuleTest("lib/rules/space-in-brackets", {
 
         { code: "var foo = obj[ 1 ]", options: ["never", {propertyName: true}] },
         { code: "var foo = obj[ 'foo' ];", options: ["never", {propertyName: true}] },
-        { code: "var foo = obj[ [1, 1] ];", options: ["never", {propertyName: true}] }
+        { code: "var foo = obj[ [1, 1] ];", options: ["never", {propertyName: true}] },
+        { code: "import 'test.js';", ecmaFeatures: { modules: true } }
     ],
 
     invalid: [
