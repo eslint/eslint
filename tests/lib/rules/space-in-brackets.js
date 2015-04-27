@@ -157,7 +157,11 @@ eslintTester.addRuleTest("lib/rules/space-in-brackets", {
         { code: "var foo = obj[ 1 ]", options: ["never", {propertyName: true}] },
         { code: "var foo = obj[ 'foo' ];", options: ["never", {propertyName: true}] },
         { code: "var foo = obj[ [1, 1] ];", options: ["never", {propertyName: true}] },
-        { code: "import 'test.js';", ecmaFeatures: { modules: true } }
+        { code: "import 'test.js';", ecmaFeatures: { modules: true } },
+        { code: "export const thing = {\n value: 1 \n};", ecmaFeatures: { modules: true, blockBindings: true } },
+        { code: "export const thing = {};", ecmaFeatures: { modules: true, blockBindings: true } },
+        { code: "export let thing = {};", ecmaFeatures: { modules: true, blockBindings: true } },
+        { code: "export var thing = {};", ecmaFeatures: { modules: true } }
     ],
 
     invalid: [
@@ -739,6 +743,20 @@ eslintTester.addRuleTest("lib/rules/space-in-brackets", {
                 {
                     message: "A space is required before ']'",
                     type: "MemberExpression"
+                }
+            ]
+        },
+        {
+            code: "export const thing = {value: 1 };",
+            ecmaFeatures: {
+                modules: true,
+                blockBindings: true
+            },
+            options: ["always"],
+            errors: [
+                {
+                    message: "A space is required after '{'",
+                    type: "ObjectExpression"
                 }
             ]
         }
