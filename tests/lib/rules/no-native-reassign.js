@@ -20,10 +20,19 @@ var eslintTester = new ESLintTester(eslint);
 eslintTester.addRuleTest("lib/rules/no-native-reassign", {
     valid: [
         "string = 'hello world';",
-        "var string;"
+        "var string;",
+        {
+            code: "var Object = 0",
+            options: [{exceptions: ["Object"]}]
+        }
     ],
     invalid: [
         { code: "String = 'hello world';", errors: [{ message: "String is a read-only native object.", type: "AssignmentExpression"}] },
-        { code: "var String;", errors: [{ message: "Redefinition of 'String'.", type: "VariableDeclarator"}] }
+        { code: "var String;", errors: [{ message: "Redefinition of 'String'.", type: "VariableDeclarator"}] },
+        {
+            code: "var Object = 0",
+            options: [{exceptions: ["Number"]}],
+            errors: [{ message: "Redefinition of 'Object'.", type: "VariableDeclarator"}]
+        }
     ]
 });
