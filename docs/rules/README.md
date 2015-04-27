@@ -16,8 +16,8 @@ The following rules point out areas where you might have made mistakes.
 * [no-dupe-args](no-dupe-args.md) - disallow duplicate arguments in functions
 * [no-dupe-keys](no-dupe-keys.md) - disallow duplicate keys when creating object literals
 * [no-duplicate-case](no-duplicate-case.md) - disallow a duplicate case label.
-* [no-empty](no-empty.md) - disallow empty statements
 * [no-empty-class](no-empty-class.md) - disallow the use of empty character classes in regular expressions
+* [no-empty](no-empty.md) - disallow empty statements
 * [no-ex-assign](no-ex-assign.md) - disallow assigning to the exception in a `catch` block
 * [no-extra-boolean-cast](no-extra-boolean-cast.md) - disallow double-negation boolean casts in a boolean context
 * [no-extra-parens](no-extra-parens.md) - disallow unnecessary parentheses (off by default)
@@ -67,11 +67,11 @@ These are rules designed to prevent you from making mistakes. They either prescr
 * [no-multi-spaces](no-multi-spaces.md) - disallow use of multiple spaces
 * [no-multi-str](no-multi-str.md) - disallow use of multiline strings
 * [no-native-reassign](no-native-reassign.md) - disallow reassignments of native objects
-* [no-new](no-new.md) - disallow use of new operator when not part of the assignment or comparison
 * [no-new-func](no-new-func.md) - disallow use of new operator for `Function` object
 * [no-new-wrappers](no-new-wrappers.md) - disallows creating new instances of `String`,`Number`, and `Boolean`
-* [no-octal](no-octal.md) - disallow use of octal literals
+* [no-new](no-new.md) - disallow use of new operator when not part of the assignment or comparison
 * [no-octal-escape](no-octal-escape.md) - disallow use of octal escape sequences in string literals, such as `var foo = "Copyright \251";`
+* [no-octal](no-octal.md) - disallow use of octal literals
 * [no-param-reassign](no-param-reassign.md) - disallow reassignment of function parameters (off by default)
 * [no-process-env](no-process-env.md) - disallow use of `process.env` (off by default)
 * [no-proto](no-proto.md) - disallow usage of `__proto__` property
@@ -105,10 +105,10 @@ These rules have to do with variable declarations.
 * [no-catch-shadow](no-catch-shadow.md) - disallow the catch clause parameter name being the same as a variable in the outer scope (off by default in the node environment)
 * [no-delete-var](no-delete-var.md) - disallow deletion of variables
 * [no-label-var](no-label-var.md) - disallow labels that share a name with a variable
-* [no-shadow](no-shadow.md) - disallow declaration of variables already declared in the outer scope
 * [no-shadow-restricted-names](no-shadow-restricted-names.md) - disallow shadowing of names such as `arguments`
-* [no-undef](no-undef.md) - disallow use of undeclared variables unless mentioned in a `/*global */` block
+* [no-shadow](no-shadow.md) - disallow declaration of variables already declared in the outer scope
 * [no-undef-init](no-undef-init.md) - disallow use of undefined when initializing variables
+* [no-undef](no-undef.md) - disallow use of undeclared variables unless mentioned in a `/*global */` block
 * [no-undefined](no-undefined.md) - disallow use of `undefined` variable (off by default)
 * [no-unused-vars](no-unused-vars.md) - disallow declaration of variables that are not used in the code
 * [no-use-before-define](no-use-before-define.md) - disallow use of variables before they are defined
@@ -129,7 +129,6 @@ These rules are specific to JavaScript running on Node.js.
 
 These rules are purely matters of style and are quite subjective.
 
-* [indent](indent.md) - this option sets a specific tab width for your code (off by default)
 * [brace-style](brace-style.md) - enforce one true brace style (off by default)
 * [camelcase](camelcase.md) - require camel case names
 * [comma-spacing](comma-spacing.md) - enforce spacing before and after comma
@@ -138,7 +137,9 @@ These rules are purely matters of style and are quite subjective.
 * [eol-last](eol-last.md) - enforce newline at the end of file, with no multiple empty lines
 * [func-names](func-names.md) - require function expressions to have a name (off by default)
 * [func-style](func-style.md) - enforces use of function declarations or expressions (off by default)
+* [indent](indent.md) - this option sets a specific tab width for your code (off by default)
 * [key-spacing](key-spacing.md) - enforces spacing between keys and values in object literal properties
+* [linebreak-style](linebreak-style.md) - disallow mixed 'LF' and 'CRLF' as linebreaks (off by default)
 * [max-nested-callbacks](max-nested-callbacks.md) - specify the maximum depth callbacks can be nested (off by default)
 * [new-cap](new-cap.md) - require a capital letter for constructors
 * [new-parens](new-parens.md) - disallow the omission of parentheses when invoking a constructor with no arguments
@@ -148,7 +149,6 @@ These rules are purely matters of style and are quite subjective.
 * [no-inline-comments](no-inline-comments.md) - disallow comments inline after code (off by default)
 * [no-lonely-if](no-lonely-if.md) - disallow if as the only statement in an else block (off by default)
 * [no-mixed-spaces-and-tabs](no-mixed-spaces-and-tabs.md) - disallow mixed spaces and tabs for indentation
-* [linebreak-style](linebreak-style.md) - disallow mixed 'LF' and 'CRLF' as linebreaks (off by default)
 * [no-multiple-empty-lines](no-multiple-empty-lines.md) - disallow multiple empty lines (off by default)
 * [no-nested-ternary](no-nested-ternary.md) - disallow nested ternary expressions (off by default)
 * [no-new-object](no-new-object.md) - disallow use of the `Object` constructor
@@ -164,8 +164,8 @@ These rules are purely matters of style and are quite subjective.
 * [padded-blocks](padded-blocks.md) - enforce padding within blocks (off by default)
 * [quote-props](quote-props.md) - require quotes around object literal property names (off by default)
 * [quotes](quotes.md) - specify whether backticks, double or single quotes should be used
-* [semi](semi.md) - require or disallow use of semicolons instead of ASI
 * [semi-spacing](semi-spacing.md) - enforce spacing before and after semicolons
+* [semi](semi.md) - require or disallow use of semicolons instead of ASI
 * [sort-vars](sort-vars.md) - sort variables within the same declaration block (off by default)
 * [space-after-function-name](space-after-function-name.md) - **(deprecated)** require a space after function names (off by default)
 * [space-after-keywords](space-after-keywords.md) - require a space after certain keywords (off by default)
@@ -185,9 +185,9 @@ These rules are purely matters of style and are quite subjective.
 
 These rules are only relevant to ES6 environments and are off by default.
 
-* [no-var](no-var.md) - require `let` or `const` instead of `var` (off by default)
-* [generator-star](generator-star.md) - **(deprecated)** enforce the position of the `*` in generator functions (off by default)
 * [generator-star-spacing](generator-star-spacing.md) - enforce the spacing around the `*` in generator functions (off by default)
+* [generator-star](generator-star.md) - **(deprecated)** enforce the position of the `*` in generator functions (off by default)
+* [no-var](no-var.md) - require `let` or `const` instead of `var` (off by default)
 * [object-shorthand](object-shorthand.md) - require method and property shorthand syntax for object literals (off by default)
 
 ## Legacy
