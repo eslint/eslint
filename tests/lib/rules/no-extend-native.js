@@ -30,7 +30,11 @@ eslintTester.addRuleTest("lib/rules/no-extend-native", {
         "this.Object.prototype.toString = 0",
         "with(Object) { prototype.p = 0; }",
         "o = Object; o.prototype.toString = 0",
-        "eval('Object.prototype.toString = 0')"
+        "eval('Object.prototype.toString = 0')",
+        {
+            code: "Object.prototype.g = 0",
+            options: [{exceptions: ["Object"]}]
+        }
     ],
     invalid: [{
         code: "Object.prototype.p = 0",
@@ -62,5 +66,14 @@ eslintTester.addRuleTest("lib/rules/no-extend-native", {
             message: "Array prototype is read only, properties should not be added.",
             type: "CallExpression"
         }]
-    }]
+    },
+        {
+            code: "Number['prototype']['p'] = 0",
+            options: [{exceptions: ["Object"]}],
+            errors: [{
+                message: "Number prototype is read only, properties should not be added.",
+                type: "AssignmentExpression"
+            }]
+        }
+    ]
 });
