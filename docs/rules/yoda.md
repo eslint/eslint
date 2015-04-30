@@ -1,4 +1,5 @@
 # Require or disallow Yoda Conditions (yoda)
+![Alt text](http://s.likes-media.com/img/c8100e458a82161c6d18eacf49fbf8dd.600x.jpg)
 
 Yoda conditions are so named because the literal value of the condition comes first while the variable comes second. For example, the following is a Yoda condition:
 
