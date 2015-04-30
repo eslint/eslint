@@ -55,6 +55,18 @@ eslintTester.addRuleTest("lib/rules/generator-star-spacing", {
             code: "var foo = {*foo(){} };",
             ecmaFeatures: { generators: true, objectLiteralShorthandMethods: true }
         },
+        {
+            code: "class Foo { *foo(){} }",
+            ecmaFeatures: { classes: true, generators: true }
+        },
+        {
+            code: "class Foo {*foo(){} }",
+            ecmaFeatures: { classes: true, generators: true }
+        },
+        {
+            code: "class Foo { static *foo(){} }",
+            ecmaFeatures: { classes: true, generators: true }
+        },
 
         // "before"
         {
@@ -95,6 +107,21 @@ eslintTester.addRuleTest("lib/rules/generator-star-spacing", {
             code: "var foo = {*foo(){} };",
             args: [2, "before"],
             ecmaFeatures: { generators: true, objectLiteralShorthandMethods: true }
+        },
+        {
+            code: "class Foo { *foo(){} }",
+            args: [2, "before"],
+            ecmaFeatures: { classes: true, generators: true }
+        },
+        {
+            code: "class Foo {*foo(){} }",
+            args: [2, "before"],
+            ecmaFeatures: { classes: true, generators: true }
+        },
+        {
+            code: "class Foo { static *foo(){} }",
+            args: [2, "before"],
+            ecmaFeatures: { classes: true, generators: true }
         },
 
         // "after"
@@ -137,6 +164,21 @@ eslintTester.addRuleTest("lib/rules/generator-star-spacing", {
             args: [2, "after"],
             ecmaFeatures: { generators: true, objectLiteralShorthandMethods: true }
         },
+        {
+            code: "class Foo {* foo(){} }",
+            args: [2, "after"],
+            ecmaFeatures: { classes: true, generators: true }
+        },
+        {
+            code: "class Foo { * foo(){} }",
+            args: [2, "after"],
+            ecmaFeatures: { classes: true, generators: true }
+        },
+        {
+            code: "class Foo { static* foo(){} }",
+            args: [2, "after"],
+            ecmaFeatures: { classes: true, generators: true }
+        },
 
         // "both"
         {
@@ -178,6 +220,21 @@ eslintTester.addRuleTest("lib/rules/generator-star-spacing", {
             args: [2, "both"],
             ecmaFeatures: { generators: true, objectLiteralShorthandMethods: true }
         },
+        {
+            code: "class Foo { * foo(){} }",
+            args: [2, "both"],
+            ecmaFeatures: { classes: true, generators: true }
+        },
+        {
+            code: "class Foo {* foo(){} }",
+            args: [2, "both"],
+            ecmaFeatures: { classes: true, generators: true }
+        },
+        {
+            code: "class Foo { static * foo(){} }",
+            args: [2, "both"],
+            ecmaFeatures: { classes: true, generators: true }
+        },
 
         // "neither"
         {
@@ -218,6 +275,21 @@ eslintTester.addRuleTest("lib/rules/generator-star-spacing", {
             code: "var foo = { *foo(){} };",
             args: [2, "neither"],
             ecmaFeatures: { generators: true, objectLiteralShorthandMethods: true }
+        },
+        {
+            code: "class Foo {*foo(){} }",
+            args: [2, "neither"],
+            ecmaFeatures: { classes: true, generators: true }
+        },
+        {
+            code: "class Foo { *foo(){} }",
+            args: [2, "neither"],
+            ecmaFeatures: { classes: true, generators: true }
+        },
+        {
+            code: "class Foo { static*foo(){} }",
+            args: [2, "neither"],
+            ecmaFeatures: { classes: true, generators: true }
         }
 
     ],
@@ -268,6 +340,25 @@ eslintTester.addRuleTest("lib/rules/generator-star-spacing", {
                 type: "Punctuator"
             }]
         },
+        {
+            code: "class Foo {* foo(){} }",
+            ecmaFeatures: { classes: true, generators: true },
+            errors: [{
+                message: "Unexpected space after *.",
+                type: "Punctuator"
+            }]
+        },
+        {
+            code: "class Foo { static* foo(){} }",
+            ecmaFeatures: { classes: true, generators: true },
+            errors: [{
+                message: "Missing space before *.",
+                type: "Punctuator"
+            }, {
+                message: "Unexpected space after *.",
+                type: "Punctuator"
+            }]
+        },
 
         // "before"
         {
@@ -313,6 +404,15 @@ eslintTester.addRuleTest("lib/rules/generator-star-spacing", {
             code: "var foo = {* foo(){} };",
             args: [2, "before"],
             ecmaFeatures: { generators: true, objectLiteralShorthandMethods: true },
+            errors: [{
+                message: "Unexpected space after *.",
+                type: "Punctuator"
+            }]
+        },
+        {
+            code: "class Foo {* foo(){} }",
+            args: [2, "before"],
+            ecmaFeatures: { classes: true, generators: true },
             errors: [{
                 message: "Unexpected space after *.",
                 type: "Punctuator"
@@ -367,6 +467,27 @@ eslintTester.addRuleTest("lib/rules/generator-star-spacing", {
             args: [2, "after"],
             ecmaFeatures: { generators: true, objectLiteralShorthandMethods: true },
             errors: [{
+                message: "Missing space after *.",
+                type: "Punctuator"
+            }]
+        },
+        {
+            code: "class Foo { *foo(){} }",
+            args: [2, "after"],
+            ecmaFeatures: { classes: true, generators: true },
+            errors: [{
+                message: "Missing space after *.",
+                type: "Punctuator"
+            }]
+        },
+        {
+            code: "class Foo { static *foo(){} }",
+            args: [2, "after"],
+            ecmaFeatures: { classes: true, generators: true },
+            errors: [{
+                message: "Unexpected space before *.",
+                type: "Punctuator"
+            }, {
                 message: "Missing space after *.",
                 type: "Punctuator"
             }]
@@ -427,6 +548,27 @@ eslintTester.addRuleTest("lib/rules/generator-star-spacing", {
                 type: "Punctuator"
             }]
         },
+        {
+            code: "class Foo {*foo(){} }",
+            args: [2, "both"],
+            ecmaFeatures: { classes: true, generators: true },
+            errors: [{
+                message: "Missing space after *.",
+                type: "Punctuator"
+            }]
+        },
+        {
+            code: "class Foo { static*foo(){} }",
+            args: [2, "both"],
+            ecmaFeatures: { classes: true, generators: true },
+            errors: [{
+                message: "Missing space before *.",
+                type: "Punctuator"
+            }, {
+                message: "Missing space after *.",
+                type: "Punctuator"
+            }]
+        },
 
         // "neither"
         {
@@ -479,6 +621,27 @@ eslintTester.addRuleTest("lib/rules/generator-star-spacing", {
             args: [2, "neither"],
             ecmaFeatures: { generators: true, objectLiteralShorthandMethods: true },
             errors: [{
+                message: "Unexpected space after *.",
+                type: "Punctuator"
+            }]
+        },
+        {
+            code: "class Foo { * foo(){} }",
+            args: [2, "neither"],
+            ecmaFeatures: { classes: true, generators: true },
+            errors: [{
+                message: "Unexpected space after *.",
+                type: "Punctuator"
+            }]
+        },
+        {
+            code: "class Foo { static * foo(){} }",
+            args: [2, "neither"],
+            ecmaFeatures: { classes: true, generators: true },
+            errors: [{
+                message: "Unexpected space before *.",
+                type: "Punctuator"
+            }, {
                 message: "Unexpected space after *.",
                 type: "Punctuator"
             }]
