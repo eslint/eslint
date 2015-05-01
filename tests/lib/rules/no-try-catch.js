@@ -1,6 +1,6 @@
 /**
  * @fileoverview Tests for no-try-catch rule.
- * @author Nicholas C. Zakas
+ * @author Andrew de Andrade
  */
 
 "use strict";
@@ -30,18 +30,6 @@ eslintTester.addRuleTest("lib/rules/no-try-catch", {
                     type: "TryStatement",
                     line: 1,
                     column: 0
-                },
-                {
-                    message: "Unexpected use of 'catch' clause.",
-                    type: "TryStatement",
-                    line: 3,
-                    column: 2
-                },
-                {
-                    message: "Unexpected use of 'finally' clause.",
-                    type: "TryStatement",
-                    line: 5,
-                    column: 2
                 }
             ]
         }
