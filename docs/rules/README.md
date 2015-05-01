@@ -157,6 +157,7 @@ These rules are purely matters of style and are quite subjective.
 * [no-ternary](no-ternary.md) - disallow the use of ternary operators (off by default)
 * [no-trailing-spaces](no-trailing-spaces.md) - disallow trailing whitespace at the end of lines
 * [no-underscore-dangle](no-underscore-dangle.md) - disallow dangling underscores in identifiers
+* [no-unneeded-ternary](no-unneeded-ternary.md) - disallow the use of `Boolean` literals in conditional expressions (off by default)
 * [no-wrap-func](no-wrap-func.md) - disallow wrapping of non-IIFE statements in parens
 * [one-var](one-var.md) - allow or disallow one variable declaration per function (off by default)
 * [operator-assignment](operator-assignment.md) - require assignment operator shorthand where possible or prohibit it entirely (off by default)
