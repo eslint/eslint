@@ -35,6 +35,7 @@ eslintTester.addRuleTest("lib/rules/padded-blocks", {
         {code: "{a();}", options: ["never"]},
         {code: "{//comment\na();}", options: ["never"]},
         {code: "{a();//comment\n}", options: ["never"]},
+        {code: "{a()\n// comment\n}", options: ["never"]},
         {code: "function a() {\n/* comment */\nreturn;\n/* comment*/\n}", options: ["never"] },
         {code: "{\n// comment\ndebugger;\n// comment\n}", options: ["never"] }
     ],
