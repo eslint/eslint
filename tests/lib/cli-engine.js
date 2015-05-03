@@ -334,7 +334,7 @@ describe("CLIEngine", function() {
         });
 
 
-        it("should thrown an error when loading a custom rule that doesn't exist", function() {
+        it("should throw an error when loading a custom rule that doesn't exist", function() {
 
             engine = new CLIEngine({
                 ignore: false,
@@ -346,11 +346,11 @@ describe("CLIEngine", function() {
 
             assert.throws(function() {
                 engine.executeOnFiles(["tests/fixtures/rules/test/test-custom-rule.js"]);
-            }, /Definition for rule 'custom-rule' was not found/);
+            }, /Definition for rule "custom-rule" was not found/);
 
         });
 
-        it("should thrown an error when loading a custom rule that doesn't exist", function() {
+        it("should throw an error when loading a custom rule that doesn't exist", function() {
 
             engine = new CLIEngine({
                 ignore: false,
