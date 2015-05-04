@@ -23,7 +23,13 @@ var eslintTester = new ESLintTester(eslint),
 eslintTester.addRuleTest("lib/rules/no-loop-func", {
     valid: [
         "string = 'function a() {}';",
-        "for (var i=0; i<l; i++) { } var a = function() { };"
+        "for (var i=0; i<l; i++) { } var a = function() { };",
+        "for (var i=0, a=function() { }; i<l; i++) { }",
+        "for (var x in xs.filter(function(x) { return x != null; })) { }",
+        {
+            code: "for (var x of xs.filter(function(x) { return x != null; })) { }",
+            ecmaFeatures: { forOf: true }
+        }
     ],
     invalid: [
         {
@@ -51,6 +57,14 @@ eslintTester.addRuleTest("lib/rules/no-loop-func", {
         {
             code: "for (var i=0; i < l; i++) { function a() {}; a(); }",
             errors: [ { message: expectedErrorMessage, type: "FunctionDeclaration" } ]
+        },
+        {
+            code: "for (var i=0; (function() {})(), i<l; i++) { }",
+            errors: [ { message: expectedErrorMessage, type: "FunctionExpression" } ]
+        },
+        {
+            code: "for (var i=0; i<l; (function() {})(), i++) { }",
+            errors: [ { message: expectedErrorMessage, type: "FunctionExpression" } ]
         },
         {
             code: "while(i) { (function() {}) }",
