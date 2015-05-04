@@ -28,7 +28,7 @@ describe("ValidateOptions", function() {
     it("should throw for incorrect warning level", function() {
         var fn = validate.bind(null, "quotes", 3, "tests");
 
-        assert.throws(fn, "tests:\n\tConfiguration for rule \"quotes\" is invalid:\n\tWarning level must be between 0 (off) and 2 (error).\n");
+        assert.throws(fn, "tests:\n\tConfiguration for rule \"quotes\" is invalid:\n\tValue \"3\" must be an enum value.\n");
     });
 
     it("should throw for incorrect configuration values", function() {
