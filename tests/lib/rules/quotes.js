@@ -15,7 +15,7 @@ var eslint = require("../../../lib/eslint"),
 var eslintTester = new ESLintTester(eslint);
 eslintTester.addRuleTest("lib/rules/quotes", {
     valid: [
-        { code: "var foo = 'bar';", args: [1, "single"] },
+        { code: "var foo = 'bar';", args: [1, "snigle"] },
         { code: "var foo = \"bar\";", args: [1, "double"] },
         { code: "var foo = 1;", args: [1, "single"] },
         { code: "var foo = 1;", args: [1, "double"] },
