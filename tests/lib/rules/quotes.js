@@ -15,7 +15,8 @@ var eslint = require("../../../lib/eslint"),
 var eslintTester = new ESLintTester(eslint);
 eslintTester.addRuleTest("lib/rules/quotes", {
     valid: [
-        { code: "var foo = 'bar';", args: [1, "snigle"] },
+        "var foo = \"bar\";",
+        { code: "var foo = 'bar';", args: [1, "single"] },
         { code: "var foo = \"bar\";", args: [1, "double"] },
         { code: "var foo = 1;", args: [1, "single"] },
         { code: "var foo = 1;", args: [1, "double"] },
@@ -36,6 +37,8 @@ eslintTester.addRuleTest("lib/rules/quotes", {
         { code: "var foo = `backtick`;", args: [1, "double"], ecmaFeatures: { templateStrings: true }}
     ],
     invalid: [
+        { code: "var foo = 'bar';",
+          errors: [{ message: "Strings must use doublequote.", type: "Literal"}] },
         { code: "var foo = \"bar\";",
           args: [1, "single"],
           errors: [{ message: "Strings must use singlequote.", type: "Literal"}] },
