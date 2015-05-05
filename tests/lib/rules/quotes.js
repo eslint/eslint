@@ -25,7 +25,7 @@ eslintTester.addRuleTest("lib/rules/quotes", {
         { code: "var foo = <div>Hello world</div>;", args: [1, "single"], ecmaFeatures: { jsx: true } },
         { code: "var foo = <div id=\"foo\"></div>;", args: [1, "single"], ecmaFeatures: { jsx: true } },
         { code: "var foo = <div>Hello world</div>;", args: [1, "double"], ecmaFeatures: { jsx: true } },
-        { code: "var foo = <div>Hello world</div>;", args: [1, "avoid-escape"], ecmaFeatures: { jsx: true } },
+        { code: "var foo = <div>Hello world</div>;", args: [1, "double", "avoid-escape"], ecmaFeatures: { jsx: true } },
         { code: "var foo = `bar`;", args: [1, "backtick"], ecmaFeatures: { templateStrings: true }},
         { code: "var foo = `bar 'baz'`;", args: [1, "backtick"], ecmaFeatures: { templateStrings: true }},
         { code: "var foo = `bar \"baz\"`;", args: [1, "backtick"], ecmaFeatures: { templateStrings: true }},
