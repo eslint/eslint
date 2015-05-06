@@ -4,7 +4,7 @@ In Node.js, most I/O is done through asynchronous methods. However, there are of
 
 ## Rule Details
 
-This rule is aimed at prevent synchronous methods from being called in Node.js. It looks specifically for the method suffix "`Sync`" (as is the convention with Node.js operations).
+This rule is aimed at preventing synchronous methods from being called in Node.js. It looks specifically for the method suffix "`Sync`" (as is the convention with Node.js operations).
 
 The following patterns are considered warnings:
 
