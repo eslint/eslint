@@ -1,0 +1,10 @@
+{
+    "plugins": [
+        "example"
+    ],
+
+    "env": {
+        "example/strict": true
+    }
+
+}

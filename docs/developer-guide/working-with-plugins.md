@@ -76,6 +76,32 @@ module.exports = {
 };
 ```
 
+### Providing Environments with Plugins
+
+You can provide environments in your plugin by modifying the
+exported object to include an `environments` property. `environments` follows the same pattern as
+you see in the conf/environments.js file. Be sure to reference any plugin specific rules using the plugin name
+prefix as the environments can configure rules defined in the plugin or from other sources.
+
+```js
+module.exports = {
+    environments: {
+        strict: {
+            rules: {
+                "example/example-rule": 2, // must use the namespace prefix because we also want to
+                "strict": [2, "function"]  // be able to define a complete environment, not just for this plugin's rules
+            }
+        }
+    },
+    rules: {
+        "example-rule": require("./lib/rules/example-rule")
+    },
+    rulesConfig: {
+        "example-rule": 1
+    }
+};
+```
+
 ### Peer Dependency
 
 To make clear that the plugin requires ESLint to work correctly you have to declare ESLint as a `peerDependency` in your `package.json`.
