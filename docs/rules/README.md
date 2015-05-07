@@ -46,6 +46,7 @@ These are rules designed to prevent you from making mistakes. They either prescr
 * [curly](curly.md) - specify curly brace conventions for all control statements
 * [default-case](default-case.md) - require `default` case in `switch` statements (off by default)
 * [dot-notation](dot-notation.md) - encourages use of dot notation whenever possible
+* [dot-location](dot-location.md) - enforces consistent newlines before or after dots (off by default)
 * [eqeqeq](eqeqeq.md) - require the use of `===` and `!==`
 * [guard-for-in](guard-for-in.md) - make sure `for-in` loops have an `if` statement (off by default)
 * [no-alert](no-alert.md) - disallow the use of `alert`, `confirm`, and `prompt`
