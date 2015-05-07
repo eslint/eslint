@@ -77,9 +77,12 @@ The following patterns are considered valid:
 var obj = {
     a:    value,
     bcde: 42,
-    fg:   foo(),
 
-    h: 121
+    fg: foo(),
+    h:  function() {
+        return this.a;
+    },
+    ijkl: 'Non-consecutive lines form a new group'
 };
 
 // "key-spacing": [2, {
