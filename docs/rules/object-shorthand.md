@@ -60,6 +60,15 @@ var foo = {
 };
 ```
 
+This rule does not flag arrow functions inside of object literals.
+The following will *not* warn:
+
+```js
+var foo = {
+    x: (y) => y
+};
+```
+
 ### Options
 
 The rule takes an option which specifies when it should be applied. It can be set to
