@@ -1,5 +1,5 @@
 {
-    "extends": "./subdir/.eslintrc",
+    "extends": "foo",
 
     "rules": {
         "quotes": [2, "double"],
