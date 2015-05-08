@@ -109,6 +109,7 @@
         "no-with": 2,
         "no-wrap-func": 2,
 
+        "accessor-pairs": 0,
         "block-scoped-var": 0,
         "brace-style": [0, "1tbs"],
         "camelcase": 2,
