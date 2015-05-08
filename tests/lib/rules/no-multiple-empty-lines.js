@@ -41,12 +41,11 @@ eslintTester.addRuleTest("lib/rules/no-multiple-empty-lines", {
         },
         {
             code: "var a = 5;\n\n\n\n\nvar b = 3;",
-            args: [
-                2,
-                {
-                    max: 4
-                }
-            ]
+            args: [ 2, { max: 4 } ]
+        },
+        {
+            code: "var a = 5;\n/* comment */\nvar b = 5;",
+            args: [ 2, { max: 0 } ]
         }
     ],
 
@@ -80,6 +79,11 @@ eslintTester.addRuleTest("lib/rules/no-multiple-empty-lines", {
             code: "var a=5;\n\n\n\n\n",
             errors: [ expectedError ],
             args: ruleArgs
+        },
+        {
+            code: "var a = 5;\n\nvar b = 3;",
+            errors: [ expectedError ],
+            args: [ 2, { max: 0 } ]
         }
     ]
 });
