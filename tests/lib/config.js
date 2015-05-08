@@ -89,6 +89,19 @@ describe("Config", function() {
         rm("-r", fixtureDir);
     });
 
+    describe("new Config()", function() {
+
+        // https://github.com/eslint/eslint/issues/2380
+        it("should not modify baseConfig when format is specified", function() {
+            var customBaseConfig = { foo: "bar" },
+                configHelper = new Config({ baseConfig: customBaseConfig, format: "foo" });
+
+            // at one point, customBaseConfig.format would end up equal to "foo"...that's bad
+            assert.deepEqual(customBaseConfig, { foo: "bar" });
+            assert.equal(configHelper.options.format, "foo");
+        });
+    });
+
     describe("findLocalConfigFiles()", function() {
 
         it("should return the path when an .eslintrc file is found", function() {
