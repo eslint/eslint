@@ -23,6 +23,7 @@ eslintTester.addRuleTest("lib/rules/no-wrap-func", {
         "(function() {})()",
         "var a = function() {}",
         "new Object(function() {})",
+        "(function () {thing()}).bar()",
         {
             code: "opts.ease = opts.ease || (a => a * a * a)",
             ecmaFeatures: { arrowFunctions: true }
