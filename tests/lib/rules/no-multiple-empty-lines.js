@@ -32,56 +32,60 @@ eslintTester.addRuleTest("lib/rules/no-multiple-empty-lines", {
 
     valid: [
         {
-            code: "var a = 5;\n\nvar b = 3;",
+            code: "// valid 1\nvar a = 5;\n\nvar b = 3;",
             args: ruleArgs
         },
         {
-            code: "var a = 5,\n    b = 3;",
+            code: "// valid 2\nvar a = 5,\n    b = 3;",
             args: ruleArgs
         },
         {
-            code: "var a = 5;\n\n\n\n\nvar b = 3;",
+            code: "// valid 3\nvar a = 5;\n\n\n\n\nvar b = 3;",
             args: [ 2, { max: 4 } ]
         },
         {
-            code: "var a = 5;\n/* comment */\nvar b = 5;",
+            code: "// valid 4\nvar a = 5;\n/* comment */\nvar b = 5;",
             args: [ 2, { max: 0 } ]
+        },
+        {
+            code: "// valid 5\nvar a = 5;\n",
+            args: [2, { max: 0 } ]
         }
     ],
 
     invalid: [
         {
-            code: "\n\n\n\nvar a = 5;",
+            code: "// invalid 1\n\n\n\n\nvar a = 5;",
             errors: [ expectedError ],
             args: ruleArgs
         },
         {
-            code: "var a = 5;\n \n \n \n",
+            code: "// invalid 2\nvar a = 5;\n \n \n \n",
             errors: [ expectedError ],
             args: ruleArgs
         },
         {
-            code: "var a=5;\n\n\n\nvar b = 3;",
+            code: "// invalid 3\nvar a=5;\n\n\n\nvar b = 3;",
             errors: [ expectedError ],
             args: ruleArgs
         },
         {
-            code: "var a = 5;\n\n\n\nb = 3;\nvar c = 5;\n\n\n\nvar d = 3;",
+            code: "// invalid 4\nvar a = 5;\n\n\n\nb = 3;\nvar c = 5;\n\n\n\nvar d = 3;",
             errors: 2,
             args: ruleArgs
         },
         {
-            code: "var a = 5;\n\n\n\n\n\n\n\n\n\n\n\n\n\nb = 3;",
+            code: "// invalid 5\nvar a = 5;\n\n\n\n\n\n\n\n\n\n\n\n\n\nb = 3;",
             errors: [ expectedError ],
             args: ruleArgs
         },
         {
-            code: "var a=5;\n\n\n\n\n",
+            code: "// invalid 6\nvar a=5;\n\n\n\n\n",
             errors: [ expectedError ],
             args: ruleArgs
         },
         {
-            code: "var a = 5;\n\nvar b = 3;",
+            code: "// invalid 7\nvar a = 5;\n\nvar b = 3;",
             errors: [ expectedError ],
             args: [ 2, { max: 0 } ]
         }
