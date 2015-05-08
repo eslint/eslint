@@ -552,6 +552,49 @@ describe("Config", function() {
             assertConfigsEqual(expected, actual);
         });
 
+        // package extends
+        it("should extend package configuration", function() {
+
+            var StubbedConfig = proxyquire("../../lib/config", {
+                "eslint-config-foo": {
+                    rules: {
+                        foo: "bar"
+                    }
+                }
+            });
+
+            var configPath = path.resolve(__dirname, "../fixtures/config-extends/package/.eslintrc"),
+                configHelper = new StubbedConfig({ reset: true, useEslintrc: false, configFile: configPath }),
+                expected = {
+                    rules: { "quotes": [2, "double"], "foo": "bar", "valid-jsdoc": 0 },
+                    env: { "browser": false }
+                },
+                actual = configHelper.getConfig(configPath);
+
+            assertConfigsEqual(expected, actual);
+        });
+
+        it("should extend package configuration without prefix", function() {
+
+            var StubbedConfig = proxyquire("../../lib/config", {
+                "eslint-config-foo": {
+                    rules: {
+                        foo: "bar"
+                    }
+                }
+            });
+
+            var configPath = path.resolve(__dirname, "../fixtures/config-extends/package2/.eslintrc"),
+                configHelper = new StubbedConfig({ reset: true, useEslintrc: false, configFile: configPath }),
+                expected = {
+                    rules: { "quotes": [2, "double"], "foo": "bar", "valid-jsdoc": 0 },
+                    env: { "browser": false }
+                },
+                actual = configHelper.getConfig(configPath);
+
+            assertConfigsEqual(expected, actual);
+        });
+
         // Non-recursive extends
         it("should extend recursively defined configuration files", function() {
             var configPath = path.resolve(__dirname, "..", "fixtures", "config-extends", "deep.json"),
