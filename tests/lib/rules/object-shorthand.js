@@ -53,6 +53,12 @@ eslintTester.addRuleTest("lib/rules/object-shorthand", {
         { code: "doSomething({x: y, y() {}})", ecmaFeatures: features},
         { code: "doSomething({y() {}, z: a})", ecmaFeatures: features},
 
+        // arrows functions are still alright
+        { code: "var x = {y: (x)=>x}", ecmaFeatures: features },
+        { code: "doSomething({y: (x)=>x})", ecmaFeatures: features },
+        { code: "var x = {y: (x)=>x, y: a}", ecmaFeatures: features },
+        { code: "doSomething({x, y: (x)=>x})", ecmaFeatures: features },
+
         // options
         { code: "var x = {y() {}}", ecmaFeatures: features, args: [2, "methods"] },
         { code: "var x = {x, y() {}, a:b}", ecmaFeatures: features, args: [2, "methods"] },
@@ -68,7 +74,6 @@ eslintTester.addRuleTest("lib/rules/object-shorthand", {
         { code: "var x = {y: y, x: x}", ecmaFeatures: features, errors: [{ message: "Expected property shorthand.", type: "Property" }, { message: "Expected property shorthand.", type: "Property" }] },
         { code: "var x = {y: z, x: x, a: b}", ecmaFeatures: features, errors: [{ message: "Expected property shorthand.", type: "Property" }] },
         { code: "var x = {y: function() {}}", ecmaFeatures: features, errors: [{ message: "Expected method shorthand.", type: "Property" }] },
-        { code: "var x = {y: (x)=>x}", ecmaFeatures: features, errors: [{ message: "Expected method shorthand.", type: "Property" }] },
         { code: "var x = {y: function*() {}}", ecmaFeatures: features, errors: [{ message: "Expected method shorthand.", type: "Property" }] },
         { code: "var x = {x: y, y: z, a: a}", ecmaFeatures: features, errors: [{ message: "Expected property shorthand.", type: "Property" }] },
         { code: "var x = {x: y, y: z, a: function(){}, b() {}}", ecmaFeatures: features, errors: [{ message: "Expected method shorthand.", type: "Property" }] },
@@ -78,7 +83,6 @@ eslintTester.addRuleTest("lib/rules/object-shorthand", {
         { code: "doSomething({a: 'a', 'x': x})", ecmaFeatures: features, errors: [{ message: "Expected property shorthand.", type: "Property" }] },
         { code: "doSomething({y: function() {}})", ecmaFeatures: features, errors: [{ message: "Expected method shorthand.", type: "Property" }] },
         { code: "doSomething({y: function y() {}})", ecmaFeatures: features, errors: [{ message: "Expected method shorthand.", type: "Property" }] },
-        { code: "doSomething({y: (x)=>x})", ecmaFeatures: features, errors: [{ message: "Expected method shorthand.", type: "Property" }] },
 
         // options
         { code: "var x = {y: function() {}}", ecmaFeatures: features, errors: [{ message: "Expected method shorthand.", type: "Property" }], args: [2, "methods"] },
