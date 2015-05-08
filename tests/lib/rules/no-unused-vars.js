@@ -51,8 +51,6 @@ eslintTester.addRuleTest("lib/rules/no-unused-vars", {
         "myFunc(function foo(){}.toString())",
         "function foo(first, second) {\ndoStuff(function() {\nconsole.log(second);});}; foo()",
         "(function() { var doSomething = function doSomething() {}; doSomething() }())",
-        "function f() { var a = 1; return function(){ f(a *= 2); }; }",
-        "function f() { var a = 1; return function(){ f(++a); }; }",
         "try {} catch(e) {}",
         "/*global a */ a;",
         { code: "var a=10; (function() { alert(a); })();", options: [{vars: "all"}] },
@@ -72,6 +70,12 @@ eslintTester.addRuleTest("lib/rules/no-unused-vars", {
         { code: "class Foo{}; var x = new Foo(); x.foo()", ecmaFeatures: { classes: true }},
         { code: "const foo = \"hello!\";function bar(foobar = foo) {  foobar.replace(/!$/, \" world!\");}\nbar();", ecmaFeatures: { blockBindings: true, defaultParams: true }},
         "function Foo(){}; var x = new Foo(); x.foo()",
+        "function foo() {var foo = 1; return foo}; foo();",
+        "function foo(foo) {return foo}; foo(1);",
+        "function foo() {function foo() {return 1;}; return foo()}; foo();",
+        {code: "function foo() {var foo = 1; return foo}; foo();", ecmaFeatures: {globalReturn: true}},
+        {code: "function foo(foo) {return foo}; foo(1);", ecmaFeatures: {globalReturn: true}},
+        {code: "function foo() {function foo() {return 1;}; return foo()}; foo();", ecmaFeatures: {globalReturn: true}},
 
         // Can mark variables as used via context.markVariableAsUsed()
         { code: "/*eslint use-every-a:1*/ var a;"},
@@ -82,6 +86,8 @@ eslintTester.addRuleTest("lib/rules/no-unused-vars", {
         { code: "function foox() { return foox(); }", errors: [{ message: "foox is defined but never used", type: "Identifier"}] },
         { code: "(function() { function foox() { if (true) { return foox(); } } }())", errors: [{ message: "foox is defined but never used", type: "Identifier"}] },
         { code: "var a=10", errors: [{ message: "a is defined but never used", type: "Identifier"}] },
+        { code: "function f() { var a = 1; return function(){ f(a *= 2); }; }", errors: [{message: "f is defined but never used", type: "Identifier"}]},
+        { code: "function f() { var a = 1; return function(){ f(++a); }; }", errors: [{message: "f is defined but never used", type: "Identifier"}]},
         { code: "/*global a */", errors: [{ message: "a is defined but never used", type: "Program"}] },
         { code: "function foo(first, second) {\ndoStuff(function() {\nconsole.log(second);});};", errors: [{ message: "foo is defined but never used", type: "Identifier"}] },
         { code: "var a=10;", options: ["all"], errors: [{ message: "a is defined but never used", type: "Identifier"}] },
@@ -92,6 +98,7 @@ eslintTester.addRuleTest("lib/rules/no-unused-vars", {
         { code: "var a=10, b=0, c=null; setTimeout(function() { var b=2; var c=2; alert(a+b+c); }, 0);", options: ["all"], errors: [{ message: "b is defined but never used", type: "Identifier"}, { message: "c is defined but never used", type: "Identifier"}] },
         { code: "function f(){var a=[];return a.map(function(){});}", options: ["all"], errors: [{ message: "f is defined but never used", type: "Identifier"}] },
         { code: "function f(){var a=[];return a.map(function g(){});}", options: ["all"], errors: [{ message: "f is defined but never used", type: "Identifier"}] },
+        { code: "function foo() {function foo(x) {\nreturn x; }; return function () {return foo; }; }", errors: [{message: "foo is defined but never used", line: 1, type: "Identifier"}]},
         { code: "function f(){var x;function a(){x=42;}function b(){alert(x);}}", options: ["all"], errors: 3 },
         { code: "function f(a) {}; f();", options: ["all"], errors: [{ message: "a is defined but never used", type: "Identifier"}] },
         { code: "function a(x, y, z){ return y; }; a();", options: ["all"], errors: [{ message: "z is defined but never used", type: "Identifier"}] },
@@ -104,7 +111,7 @@ eslintTester.addRuleTest("lib/rules/no-unused-vars", {
         { code: "(function(foo, baz, bar) { return baz; })();", options: [{"vars": "all", "args": "all"}], errors: [{ message: "foo is defined but never used" }, { message: "bar is defined but never used" }]},
         { code: "(function z(foo) { var bar = 33; })();", options: [{"vars": "all", "args": "all"}], errors: [{ message: "foo is defined but never used" }, { message: "bar is defined but never used" }]},
         { code: "(function z(foo) { z(); })();", options: [{}], errors: [{ message: "foo is defined but never used" }]},
-        { code: "function f() { var a = 1; return function(){ f(a = 2); }; }", options: [{}], errors: [{ message: "a is defined but never used" }]},
+        { code: "function f() { var a = 1; return function(){ f(a = 2); }; }", options: [{}], errors: [{ message: "f is defined but never used" }, {message: "a is defined but never used"}]},
         { code: "import x from \"y\";", ecmaFeatures: { modules: true }, errors: [{ message: "x is defined but never used" }]}
     ]
 });
