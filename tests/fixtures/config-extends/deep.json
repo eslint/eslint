@@ -7,5 +7,5 @@
         "browser": true
     },
 
-    "extends": "subdir/subsubdir/deeper.json"
+    "extends": "./subdir/subsubdir/deeper.json"
 }

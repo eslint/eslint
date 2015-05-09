@@ -7,5 +7,5 @@
         "browser": false
     },
 
-    "extends": "subsubsubdir/deepest.json"
+    "extends": "./subsubsubdir/deepest.json"
 }
