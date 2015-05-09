@@ -77,7 +77,7 @@ ESLint has full support for ECMAScript 6. By default, this support is off. You c
 
 ### Does ESLint support JSX?
 
-Yes, ESLint natively supports parsing JSX syntax (this must be enabled in configuration). Please note that supporting JSX syntax *is not* the same as supporting React. React applies specific semantics to JSX syntax that ESLint doesn't recognize. We recommend using [eslint-plugin-react](https://www.npmjs.com/package/eslint-plugin-react) if you are using React and want React semantics. 
+Yes, ESLint natively supports parsing JSX syntax (this must be enabled in configuration). Please note that supporting JSX syntax *is not* the same as supporting React. React applies specific semantics to JSX syntax that ESLint doesn't recognize. We recommend using [eslint-plugin-react](https://www.npmjs.com/package/eslint-plugin-react) if you are using React and want React semantics.
 
 ### Where to ask for help?
 
