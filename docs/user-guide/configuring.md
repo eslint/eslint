@@ -87,7 +87,7 @@ The following parsers are compatible with ESLint:
 * [Esprima-FB](https://npmjs.com/package/esprima-fb) - Facebook's fork of Esprima that includes their proprietary syntax additions.
 * [Babel-ESLint](https://npmjs.com/package/babel-eslint) - A wrapper around the [Babel](http://babeljs.io) parser that makes it compatible with ESLint.
 
-Note when using a custom parser, the `ecmaFeatures` configuration property is ignored unless otherwise specified by the parser.
+Note when using a custom parser, the `ecmaFeatures` configuration property is still required for ESLint to work properly with features not in ECMAScript 5 by default. Parsers may or may not also use `ecmaFeatures` to determine which features to enable.
 
 ## Specifying Environments
 
