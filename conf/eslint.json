@@ -120,6 +120,7 @@
         "consistent-this": [0, "that"],
         "curly": [2, "all"],
         "default-case": 0,
+        "dot-location": 0,
         "dot-notation": [2, { "allowKeywords": true }],
         "eol-last": 2,
         "eqeqeq": 2,
