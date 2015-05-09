@@ -204,6 +204,29 @@ var report = cli.executeOnText("var foo = 'bar';");
 
 The `report` returned from `executeOnText()` is in the same format as from `executeOnFiles()`, but there is only ever one result in `report.results`.
 
+### addPlugin()
+
+Loads a plugin from configuration object with specified name. Name can include plugin prefix ("eslint-plugin-")
+
+```js
+var CLIEngine = require("eslint").CLIEngine;
+var cli = new CLIEngine({
+    ignore: true
+});
+cli.addPlugin("eslint-plugin-processor", {
+    processors: {
+        ".txt": {
+            preprocess: function(text) {
+                return [text];
+            },
+            postprocess: function(messages) {
+                return messages[0];
+            }
+        }
+    }
+});
+```
+
 ### isPathIgnored()
 
 Checks if a given path is ignored by ESLint.
