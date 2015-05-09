@@ -400,7 +400,7 @@ The extended configuration provides base rules, which can be overriden by the co
 
 ```js
 {
-    "extends": "node_modules/coding-standard/.eslintrc",
+    "extends": "./node_modules/coding-standard/.eslintrc",
 
     "rules": {
         // Override any settings from the "parent" configuration
@@ -410,6 +410,23 @@ The extended configuration provides base rules, which can be overriden by the co
 ```
 
 The extended configurations can also contain their own `extends`, resulting in recursive merging of the referenced configurations.
+
+You can also extend configurations using shareable configuration packages. To do so, be sure to install the configuration package you want from npm and then use the package name, such as:
+
+```js
+{
+    "extends": "eslint-config-myrules",
+
+    "rules": {
+        // Override any settings from the "parent" configuration
+        "eqeqeq": 1
+    }
+}
+```
+
+In this example, the `eslint-config-myrules` package will be loaded as an object and used as the parent of this configuration.
+
+**Note:** You can omit `eslint-config-` and ESLint will automatically insert it for you, similar to how plugins work. See [Shareable Configs](../developer-guide/shareable-configs) for more information.
 
 ## Comments in Configuration Files
 

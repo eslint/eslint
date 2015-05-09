@@ -1,5 +1,5 @@
 {
-    "extends": "./subdir/.eslintrc",
+    "extends": "eslint-config-foo",
 
     "rules": {
         "quotes": [2, "double"],
