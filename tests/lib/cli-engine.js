@@ -860,6 +860,23 @@ describe("CLIEngine", function() {
                 assert.equal(report.results[0].messages.length, 2);
                 assert.equal(report.results[0].messages[0].ruleId, "example/example-rule");
             });
+
+            it("should return two messages when executing with cli option that specifies preloaded plugin", function() {
+                engine = new CLIEngine({
+                    reset: true,
+                    useEslintrc: false,
+                    plugins: ["test"],
+                    rules: { "test/example-rule": 1 }
+                });
+
+                engine.addPlugin("eslint-plugin-test", { rules: { "example-rule": require("../fixtures/rules/custom-rule") } });
+
+                var report = engine.executeOnFiles(["tests/fixtures/rules/test/test-custom-rule.js"]);
+
+                assert.equal(report.results.length, 1);
+                assert.equal(report.results[0].messages.length, 2);
+                assert.equal(report.results[0].messages[0].ruleId, "test/example-rule");
+            });
         });
 
         describe("processors", function() {
@@ -869,6 +886,36 @@ describe("CLIEngine", function() {
                     reset: true,
                     useEslintrc: false,
                     extensions: ["js", "txt"]
+                });
+
+                var report = engine.executeOnFiles(["tests/fixtures/processors/test/test-processor.txt"]);
+
+                assert.equal(report.results.length, 1);
+                assert.equal(report.results[0].messages.length, 2);
+            });
+            it("should return two messages when executing with config file that specifies preloaded processor", function() {
+                engine = new CLIEngine({
+                    reset: true,
+                    useEslintrc: false,
+                    plugins: ["test-processor"],
+                    rules: {
+                        "no-console": 2,
+                        "no-unused-vars": 2
+                    },
+                    extensions: ["js", "txt"]
+                });
+
+                engine.addPlugin("test-processor", {
+                    processors: {
+                        ".txt": {
+                            preprocess: function(text) {
+                                return [text];
+                            },
+                            postprocess: function(messages) {
+                                return messages[0];
+                            }
+                        }
+                    }
                 });
 
                 var report = engine.executeOnFiles(["tests/fixtures/processors/test/test-processor.txt"]);
