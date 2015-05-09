@@ -21,6 +21,8 @@ var eslintTester = new ESLintTester(eslint);
 eslintTester.addRuleTest("lib/rules/comma-spacing", {
 
     valid: [
+        "myfunc(404, true/* bla bla bla */, 'hello');",
+        "myfunc(404, true/* bla bla bla *//* hi */, 'hello');",
         "var a = 1, b = 2;",
         "var arr = [, ];",
         "var arr = [1, ];",
@@ -419,6 +421,24 @@ eslintTester.addRuleTest("lib/rules/comma-spacing", {
                 },
                 {
                     message: "A space is required after ','.",
+                    type: "Punctuator"
+                }
+            ]
+        },
+        {
+            code: "myfunc(404, true/* bla bla bla */ , 'hello');",
+            errors: [
+                {
+                    message: "There should be no space before ','.",
+                    type: "Punctuator"
+                }
+            ]
+        },
+        {
+            code: "myfunc(404, true/* bla bla bla */ /* hi */, 'hello');",
+            errors: [
+                {
+                    message: "There should be no space before ','.",
                     type: "Punctuator"
                 }
             ]
