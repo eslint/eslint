@@ -21,6 +21,7 @@ var eslintTester = new ESLintTester(eslint);
 eslintTester.addRuleTest("lib/rules/no-wrap-func", {
     valid: [
         "(function() {})()",
+        "f(function() {}())",
         "var a = function() {}",
         "new Object(function() {})",
         "(function () {thing()}).bar()",
@@ -32,7 +33,10 @@ eslintTester.addRuleTest("lib/rules/no-wrap-func", {
     invalid: [
         { code: "(() => {});", ecmaFeatures: { arrowFunctions: true }, errors: [{ message: "Wrapping non-IIFE function literals in parens is unnecessary.", type: "ArrowFunctionExpression"}] },
         { code: "opts.ease = opts.ease || (function() {});", errors: [{ message: "Wrapping non-IIFE function literals in parens is unnecessary.", type: "FunctionExpression"}] },
+        { code: "a[(function(){})];", errors: [{ message: "Wrapping non-IIFE function literals in parens is unnecessary.", type: "FunctionExpression"}] },
+        { code: "f((function(){}));", errors: [{ message: "Wrapping non-IIFE function literals in parens is unnecessary.", type: "FunctionExpression"}] },
         { code: "(function() {});", errors: [{ message: "Wrapping non-IIFE function literals in parens is unnecessary.", type: "FunctionExpression"}] },
+        { code: "new f((function(){}));", errors: [{ message: "Wrapping non-IIFE function literals in parens is unnecessary.", type: "FunctionExpression"}] },
         { code: "var a = (function() {});", errors: [{ message: "Wrapping non-IIFE function literals in parens is unnecessary.", type: "FunctionExpression"}] }
     ]
 });
