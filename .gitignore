@@ -7,3 +7,4 @@ npm-debug.log
 tmp/
 .idea
 jsdoc/
+versions.json
