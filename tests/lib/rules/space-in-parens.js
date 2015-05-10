@@ -11,6 +11,7 @@
 //------------------------------------------------------------------------------
 
 var eslint = require("../../../lib/eslint"),
+    validate = require("../../../lib/validate-options"),
     ESLintTester = require("eslint-tester");
 
 var MISSING_SPACE_ERROR = {
@@ -26,7 +27,7 @@ var MISSING_SPACE_ERROR = {
 // Tests
 //------------------------------------------------------------------------------
 
-var eslintTester = new ESLintTester(eslint);
+var eslintTester = new ESLintTester(eslint, validate);
 eslintTester.addRuleTest("lib/rules/space-in-parens", {
 
     valid: [

@@ -12,13 +12,14 @@
 //------------------------------------------------------------------------------
 
 var eslint = require("../../../lib/eslint"),
+    validate = require("../../../lib/validate-options"),
     ESLintTester = require("eslint-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-var eslintTester = new ESLintTester(eslint),
+var eslintTester = new ESLintTester(eslint, validate),
     expectedErrorMessage = "Unexpected whitespace before semicolon.";
 
 eslintTester.addRuleTest("lib/rules/no-space-before-semi", {

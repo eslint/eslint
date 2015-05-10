@@ -10,13 +10,14 @@
 //------------------------------------------------------------------------------
 
 var eslint = require("../../../lib/eslint"),
+    validate = require("../../../lib/validate-options"),
     ESLintTester = require("eslint-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-var eslintTester = new ESLintTester(eslint);
+var eslintTester = new ESLintTester(eslint, validate);
 eslintTester.addRuleTest("lib/rules/no-redeclare", {
     valid: [
         "var a = 3; var b = function() { var a = 10; };",

@@ -12,13 +12,14 @@
 //------------------------------------------------------------------------------
 
 var eslint = require("../../../lib/eslint"),
+    validate = require("../../../lib/validate-options"),
     EslintTester = require("eslint-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-var eslintTester = new EslintTester(eslint);
+var eslintTester = new EslintTester(eslint, validate);
 eslintTester.addRuleTest("lib/rules/vars-on-top", {
 
     valid: [

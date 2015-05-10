@@ -10,6 +10,7 @@
 //------------------------------------------------------------------------------
 
 var eslint = require("../../../lib/eslint"),
+    validate = require("../../../lib/validate-options"),
     ESLintTester = require("eslint-tester");
 
 //------------------------------------------------------------------------------
@@ -17,7 +18,7 @@ var eslint = require("../../../lib/eslint"),
 //------------------------------------------------------------------------------
 
 
-var eslintTester = new ESLintTester(eslint);
+var eslintTester = new ESLintTester(eslint, validate);
 eslintTester.addRuleTest("lib/rules/complexity", {
     valid: [
         { code: "function a(x) {}", options: [1] },

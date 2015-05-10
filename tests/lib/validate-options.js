@@ -19,16 +19,16 @@ var assert = require("chai").assert,
 
 describe("ValidateOptions", function() {
 
-    it("should throw for nonexistent rules", function() {
-        var fn = validate.bind(null, "non-existent-rule", 2, "tests");
-
-        assert.throws(fn, "tests:\n\tDefinition for rule \"non-existent-rule\" was not found.\n");
-    });
-
     it("should throw for incorrect warning level", function() {
         var fn = validate.bind(null, "quotes", 3, "tests");
 
         assert.throws(fn, "tests:\n\tConfiguration for rule \"quotes\" is invalid:\n\tValue \"3\" must be an enum value.\n");
+    });
+
+    it("should only check warning level for nonexistent rules", function() {
+        var fn = validate.bind(null, "non-existent-rule", [3, "foobar"], "tests");
+
+        assert.throws(fn, "tests:\n\tConfiguration for rule \"non-existent-rule\" is invalid:\n\tValue \"3\" must be an enum value.\n");
     });
 
     it("should throw for incorrect configuration values", function() {

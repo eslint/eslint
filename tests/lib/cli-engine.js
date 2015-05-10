@@ -346,7 +346,7 @@ describe("CLIEngine", function() {
 
             assert.throws(function() {
                 engine.executeOnFiles(["tests/fixtures/rules/test/test-custom-rule.js"]);
-            }, /Definition for rule "custom-rule" was not found/);
+            }, /Definition for rule 'custom-rule' was not found/);
 
         });
 

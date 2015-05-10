@@ -11,13 +11,14 @@
 //------------------------------------------------------------------------------
 
 var eslint = require("../../../lib/eslint"),
+    validate = require("../../../lib/validate-options"),
 ESLintTester = require("eslint-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-var eslintTester = new ESLintTester(eslint),
+var eslintTester = new ESLintTester(eslint, validate),
     ALWAYS_MESSAGE = "Block must be padded by blank lines.",
     NEVER_MESSAGE = "Block must not be padded by blank lines.";
 

@@ -10,6 +10,7 @@
 //------------------------------------------------------------------------------
 
 var eslint = require("../../../lib/eslint"),
+    validate = require("../../../lib/validate-options"),
     ESLintTester = require("eslint-tester");
 var ERROR_MESSAGE = "Expected a conditional expression and instead saw an assignment.";
 
@@ -17,7 +18,7 @@ var ERROR_MESSAGE = "Expected a conditional expression and instead saw an assign
 // Tests
 //------------------------------------------------------------------------------
 
-var eslintTester = new ESLintTester(eslint);
+var eslintTester = new ESLintTester(eslint, validate);
 eslintTester.addRuleTest("lib/rules/no-cond-assign", {
     valid: [
         "var x = 0; if (x == 0) { var b = 1; }",
