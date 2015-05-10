@@ -319,7 +319,6 @@ target.docs = function() {
 };
 
 target.gensite = function() {
-
     echo("Generating eslint.org");
 
     var docFiles = [
@@ -354,6 +353,8 @@ target.gensite = function() {
     // 3. Copy docs folder to a temporary directory
     cp("-rf", "docs/*", TEMP_DIR);
 
+    var versions = test("-f", "./versions.json") ? JSON.parse(cat("./versions.json")) : {};
+
     // 4. Loop through all files in temporary directory
     find(TEMP_DIR).forEach(function(filename) {
         if (test("-f", filename)) {
@@ -381,7 +382,8 @@ target.gensite = function() {
 
             // 7. Append first version of ESLint rule was added at.
             if (filename.indexOf("rules/") !== -1 && baseName !== "README.md") {
-                var version = getFirstVersionOfFile(path.join("lib/rules", sourceBaseName));
+                var version = versions[baseName] ? versions[baseName] : getFirstVersionOfFile(path.join("lib/rules", sourceBaseName));
+                versions[baseName] = version;
 
                 if (version) {
                     text += "\n## Version\n\n";
@@ -397,6 +399,7 @@ target.gensite = function() {
             text.to(filename.replace("README.md", "index.md"));
         }
     });
+    JSON.stringify(versions).to("./versions.json");
 
     // 9. Copy temorary directory to site's docs folder
     cp("-rf", TEMP_DIR + "*", DOCS_DIR);
@@ -408,7 +411,6 @@ target.gensite = function() {
     target.browserify();
     cp("-f", "build/eslint.js", SITE_DIR + "js/app/eslint.js");
     cp("-f", "conf/eslint.json", SITE_DIR + "js/app/eslint.json");
-
 };
 
 target.publishsite = function() {
