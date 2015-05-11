@@ -81,7 +81,13 @@ eslintTester.addRuleTest("lib/rules/no-unsafe-innerhtml", {
         {
             code: "n.insertAdjacentHTML('afterend', Tagged.escapeHTML`${title}`);",
             ecmaFeatures: { templateStrings: true }
-       }],
+        },
+        // override for manual review and legacy code
+        {
+            code: "g.innerHTML = potentiallyUnsafe; // a=legacy, bug 1155131",
+            ecmaFeatures: { templateStrings: true }
+        }
+    ],
 
     // Examples of code that should trigger the rule
     invalid: [
