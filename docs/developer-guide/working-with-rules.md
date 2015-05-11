@@ -21,6 +21,10 @@ module.exports = function(context) {
     };
 
 };
+
+module.exports.schema = [
+    // JSON Schema for rule options goes here
+];
 ```
 
 **Important:** Rule submissions will not be accepted unless they are in this format.
@@ -131,6 +135,34 @@ module.exports = function(context) {
 Since `context.options` is just an array, you can use it to determine how many options have been passed as well as retrieving the actual options themselves. Keep in mind that the error level is not part of `context.options`, as the error level cannot be known or modified from inside a rule.
 
 When using options, make sure that your rule has some logic defaults in case the options are not provided.
+
+### Options Schemas
+
+Rules may export a `schema` property, which is a [JSON schema](http://json-schema.org/) format description of a rule's options which will be used by ESLint to validate configuration options and prevent invalid or unexpected inputs before they are passed to the rule in `context.options`.
+
+There are two formats for a rule's exported `schema`. The first is a full JSON Schema object describing all possible options the rule accepts, including the rule's error level as the first argument and any optional arguments thereafter.
+
+However, to simplify schema creation, rules may also export an array of schemas for each optional positional argument, and ESLint will automatically validate the required error level first. For example, the `yoda` rule accepts a primary mode argument, as well as an extra options object with named properties.
+
+```js
+// "yoda": [2, "never", { "exceptRange": true }]
+module.exports.schema = [
+    {
+        "enum": ["always", "never"]
+    },
+    {
+        "type": "object",
+        "properties": {
+            "exceptRange": {
+                "type": "boolean"
+            }
+        },
+        "additionalProperties": false
+    }
+];
+```
+
+In the preceding example, the error level is assumed to be the first argument. It is followed by the first optional argument, a string which may be either `"always"` or `"never"`. The final optional argument is an object, which may have a Boolean property named `exceptRange`.
 
 ### Getting the Source
 
