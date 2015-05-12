@@ -1,6 +1,4 @@
-# Disallow Empty Character Classes (no-empty-class)
-
-**Deprecation notice**: This rule is deprecated and has been superseded by the [no-empty-character-class](no-empty-character-class.md) rule. It will be removed in ESLint v1.0.
+# Disallow Empty Character Classes (no-empty-character-class)
 
 Empty character classes in regular expressions do not match anything and can result in code that may not work as intended.
 
@@ -31,3 +29,7 @@ var foo = /^abc[a-z]/;
 
 var bar = new RegExp("^abc[]");
 ```
+
+## Related Rules
+
+* [no-empty-class](no-empty-class.md) (deprecated)
