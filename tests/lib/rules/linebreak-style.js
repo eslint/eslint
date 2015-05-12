@@ -34,6 +34,14 @@ eslintTester.addRuleTest("lib/rules/linebreak-style", {
         {
             code: "var a = 'a',\r\n b = 'b';\r\n\r\n function foo(params) {\r\n /* do stuff */ \r\n }\r\n",
             args: [2, "windows"]
+        },
+        {
+            code: "var b = 'b';",
+            args: [2, "unix"]
+        },
+        {
+            code: "var b = 'b';",
+            args: [2, "windows"]
         }
     ],
 
