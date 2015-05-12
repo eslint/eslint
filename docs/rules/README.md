@@ -192,6 +192,12 @@ These rules are only relevant to ES6 environments and are off by default.
 * [no-var](no-var.md) - require `let` or `const` instead of `var` (off by default)
 * [object-shorthand](object-shorthand.md) - require method and property shorthand syntax for object literals (off by default)
 
+## Security
+
+These rules are only relevant for security checks are off by default.
+
+* [no-unsafe-innerhtml](no-unsafe-innerhtml.md) - require `escapeHTML` or similar escaping function for innerHTML and calls to insertAdjacentHTML (off by default)
+
 ## Legacy
 
 The following rules are included for compatibility with [JSHint](http://jshint.com/) and [JSLint](http://jslint.com/). While the names of the rules may not match up with the JSHint/JSLint counterpart, the functionality is the same.
