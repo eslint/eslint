@@ -105,6 +105,9 @@ An environment defines both global variables that are predefined as well as whic
 * `meteor` - meteor global variables.
 * `es6` - enable all ECMAScript 6 features except for modules.
 
+Plugins can also provide environments which are prefixed with the plugin name. So the plugin `example` could provide an environment
+called `strict` which would be referred to in your configuration with the environment named `example/strict`.
+
 These environments are not mutually exclusive, so you can define more than one at a time.
 
 Environments can be specified inside of a file, in configuration files or using the `--env` [command line](command-line-interface) flag.
