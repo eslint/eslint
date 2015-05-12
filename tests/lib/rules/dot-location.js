@@ -24,12 +24,19 @@ eslintTester.addRuleTest("lib/rules/dot-location", {
         "obj.\nprop",
         "obj. \nprop",
         "obj.\n prop",
+        "(obj).\nprop",
+        "obj\n['prop']",
+        "obj['prop']",
         {
             code: "obj.\nprop",
             options: [ "object" ]
         },
         {
             code: "obj\n.prop",
+            options: [ "property" ]
+        },
+        {
+            code: "(obj)\n.prop",
             options: [ "property" ]
         }
     ],
@@ -43,6 +50,11 @@ eslintTester.addRuleTest("lib/rules/dot-location", {
             code: "obj.\nproperty",
             options: [ "property" ],
             errors: [ { message: "Expected dot to be on same line as property.", type: "MemberExpression", line: 1, column: 3 } ]
+        },
+        {
+            code: "(obj).\nproperty",
+            options: [ "property" ],
+            errors: [ { message: "Expected dot to be on same line as property.", type: "MemberExpression", line: 1, column: 5 } ]
         }
     ]
 });
