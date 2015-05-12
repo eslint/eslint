@@ -33,6 +33,10 @@ eslintTester.addRuleTest("lib/rules/one-var", {
             args: [2, "never"]
         },
         {
+            code: "for (var i = 0, len = arr.length; i < len; i++) {}",
+            args: [2, "never"]
+        },
+        {
             code: "var bar = true; var baz = false;",
             args: [2, {initialized: "never"}]
         },
@@ -243,6 +247,14 @@ eslintTester.addRuleTest("lib/rules/one-var", {
         },
         {
             code: "function foo() { var bar = true; var baz = false; }",
+            args: [2, "always"],
+            errors: [{
+                message: "Combine this with the previous 'var' statement.",
+                type: "VariableDeclaration"
+            }]
+        },
+        {
+            code: "var a = 1; for (var b = 2;;) {}",
             args: [2, "always"],
             errors: [{
                 message: "Combine this with the previous 'var' statement.",
