@@ -10,18 +10,20 @@ The following patterns are considered warnings:
 
 ```js
 var x = 10;
-```
 
-```js
-var x = 10; x = 5;
-```
+var y = 10;
+y = 5;
 
-By default, unused arguments cause warnings:
-
-```js
+// By default, unused arguments cause warnings.
 (function(foo) {
     return 5;
 })();
+
+// Unused recursive functions also cause warnings.
+function fact(n) {
+    if (n < 2) return 1;
+    return n * fact(n - 1);
+}
 ```
 
 The following patterns are not considered warnings:
