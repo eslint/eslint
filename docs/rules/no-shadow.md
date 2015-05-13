@@ -39,6 +39,14 @@ function b(a) {
 b(a);
 ```
 
+```js
+var a = 3;
+
+if (true) {
+    let a = 5;
+}
+```
+
 ## Further Reading
 
 * [Variable Shadowing](http://en.wikipedia.org/wiki/Variable_shadowing)
