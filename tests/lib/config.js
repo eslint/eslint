@@ -595,6 +595,37 @@ describe("Config", function() {
             assertConfigsEqual(expected, actual);
         });
 
+        it("should extend package configuration with sub directories", function() {
+
+            var StubbedConfig = proxyquire("../../lib/config", {
+                "eslint-config-foo": {
+                    rules: {
+                        foo: "bar"
+                    }
+                }
+            });
+
+            var configPath = path.resolve(__dirname, "../fixtures/config-extends/package2/.eslintrc"),
+                configHelper = new StubbedConfig({ reset: true, useEslintrc: true, configFile: configPath }),
+                expected = {
+                    rules: { "quotes": [2, "double"], "foo": "bar", "valid-jsdoc": 0 },
+                    env: { "browser": false }
+                };
+
+            // Reason to override this function in this special case is that I dont want it to keep looking into the
+            // chain of parent directries for .eslintrc or package.json file for configs.
+            // If that is allowed then the expected outcome will change based on the machine you are running this test.
+            sinon.stub(configHelper, "findLocalConfigFiles").returns([
+                path.resolve(__dirname, "../fixtures/config-extends/package2/.eslintrc")
+            ]);
+
+            configHelper.getConfig(configPath);
+            // Now we are running the same command for a subdirectory using the same config object.
+            var actual = configHelper.getConfig(path.resolve(__dirname, "../fixtures/config-extends/package2/subdir/foo.js"));
+
+            assertConfigsEqual(expected, actual);
+        });
+
         // Non-recursive extends
         it("should extend recursively defined configuration files", function() {
             var configPath = path.resolve(__dirname, "..", "fixtures", "config-extends", "deep.json"),
