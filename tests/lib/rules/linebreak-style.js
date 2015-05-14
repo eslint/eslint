@@ -1,6 +1,8 @@
 /**
  * @fileoverview No mixed linebreaks
  * @author Erik Mueller
+ * @copyright 2015 Varun Verma. All rights reserverd.
+ * @copyright 2015 James Whitney. All rights reserved.
  * @copyright 2015 Erik Mueller. All rights reserved.
  */
 "use strict";
@@ -51,7 +53,7 @@ eslintTester.addRuleTest("lib/rules/linebreak-style", {
             args: [2],
             errors: [{
                 line: 1,
-                col: 12,
+                column: 12,
                 message: EXPECTED_LF_MSG
             }]
         },
@@ -60,7 +62,7 @@ eslintTester.addRuleTest("lib/rules/linebreak-style", {
             args: [2, "unix"],
             errors: [{
                 line: 1,
-                col: 12,
+                column: 12,
                 message: EXPECTED_LF_MSG
             }]
         },
@@ -69,7 +71,7 @@ eslintTester.addRuleTest("lib/rules/linebreak-style", {
             args: [2, "windows"],
             errors: [{
                 line: 1,
-                col: 12,
+                column: 12,
                 message: EXPECTED_CRLF_MSG
             }]
         },
@@ -78,7 +80,7 @@ eslintTester.addRuleTest("lib/rules/linebreak-style", {
             args: [2],
             errors: [{
                 line: 4,
-                col: 23,
+                column: 23,
                 message: EXPECTED_LF_MSG
             }]
         },
@@ -87,7 +89,7 @@ eslintTester.addRuleTest("lib/rules/linebreak-style", {
             args: [2, "windows"],
             errors: [{
                 line: 3,
-                col: 9,
+                column: 0,
                 message: EXPECTED_CRLF_MSG
             }]
         }
