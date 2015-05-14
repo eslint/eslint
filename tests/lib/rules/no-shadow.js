@@ -76,6 +76,16 @@ eslintTester.addRuleTest("lib/rules/no-shadow", {
         {
             code: "var a=3; function b() { var a=10; var b=0; }; setTimeout(function() { b(); }, 0);",
             errors: [{ message: "a is already declared in the upper scope.", type: "Identifier" }, { message: "b is already declared in the upper scope.", type: "Identifier" }]
+        },
+        {
+            code: "var x = 1; { let x = 2; }",
+            ecmaFeatures: {blockBindings: true},
+            errors: [{ message: "x is already declared in the upper scope.", type: "Identifier"}]
+        },
+        {
+            code: "let x = 1; { const x = 2; }",
+            ecmaFeatures: {blockBindings: true},
+            errors: [{ message: "x is already declared in the upper scope.", type: "Identifier"}]
         }
     ]
 });
