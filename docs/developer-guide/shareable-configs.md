@@ -60,6 +60,32 @@ You can also omit the `eslint-config-` and it will be automatically assumed by E
 
 You can override settings from the shareable config by adding them directly into your `.eslintrc` file.
 
+## Sharing Multiple Configs
+
+It's possible to share multiple configs in the same npm package. You can specify a default config for the package by following the directions in the first section. You can specify additional configs by simply adding a new file to your npm package and then referencing it from your ESLint config.
+
+As an example, you can create a file called `my-special-config.js` in the root of your npm package and export a config, such as:
+
+```js
+module.exports = {
+    rules: {
+        quotes: [2, "double"];
+    }
+};
+```
+
+Then, assuming you're using the package name `eslint-config-myconfig`, you can access the additional config via:
+
+```json
+{
+    "extends": "myconfig/my-special-config"
+}
+```
+
+Note that you can leave off the `.js` from the filename. In this way, you can add as many additional configs to your package as you'd like.
+
+**Important:** We strongly recommend always including a default config for your plugin to avoid errors.
+
 ## Further Reading
 
 * [npm Developer Guide](https://www.npmjs.org/doc/misc/npm-developers.html)
