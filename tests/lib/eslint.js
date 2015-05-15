@@ -1264,9 +1264,8 @@ describe("eslint", function() {
     });
 
     describe("when evaluating code containing /*eslint-env */ block", function() {
-        var code = "/*eslint-env node*/ function f() {} /*eslint-env browser, foo*/";
-
         it("variables should be available in global scope", function() {
+            var code = "/*eslint-env node*/ function f() {} /*eslint-env browser, foo*/";
             var config = { rules: {} };
 
             eslint.reset();
@@ -1279,6 +1278,15 @@ describe("eslint", function() {
                 assert.equal(window.writeable, false);
             });
             eslint.verify(code, config, filename, true);
+        });
+        it("should error on node specific rule", function() {
+            var code = "/*eslint-env node*/ var appHeader = new require('app-header');";
+            var config = { rules: {} };
+
+            eslint.reset();
+            var messages = eslint.verify(code, config, filename, true);
+            assert.equal(messages.length, 1);
+            assert.equal(messages[0].ruleId, "no-new-require");
         });
     });
 
