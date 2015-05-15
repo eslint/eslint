@@ -1,3 +1,26 @@
+v0.21.1 - May 15, 2015
+
+* 0.21.1 (Nicholas C. Zakas)
+* Fix: loc obj in report fn expects column (fixes #2481) (Varun Verma)
+* Build: Make sure that all md files end with empty line (fixes #2520) (Ilya Volodin)
+* Added Gitter badge (The Gitter Badger)
+* Fix: forced no-shadow to check all scopes (fixes #2294) (Jose Roberto Vidal)
+* Fix: --init indent setting (fixes #2493) (Nicholas C. Zakas)
+* Docs: Mention bundling multiple shareable configs (Nicholas C. Zakas)
+* Fix: Not to override the required extended config object directly (fixes #2487) (Gyandeep Singh)
+* Build: Update markdownlint dependency (David Anson)
+* Docs: added recursive function example to no-unused-vars (Jose Roberto Vidal)
+* Docs: Fix typo (then -> than) (Vladimir Agafonkin)
+* Revert "Fix: sanitise Jekyll interpolation during site generation (fixes #2297)" (Nicholas C. Zakas)
+* Fix: dot-location should use correct dot token (fixes #2504) (Mathias Schreck)
+* Fix: Stop linebreak-style from crashing (fixes #2490) (James Whitney)
+* Fix: rule no-duplicate-case problem with CallExpressions. (fixes #2499) (Matthias Osswald)
+* Fix: Enable full support for eslint-env comments (refs #2134) (Ilya Volodin)
+* Build: Speed up site generation (fixes #2475) (Ilya Volodin)
+* Docs: Fixing trailing spaces (Fixes #2478) (Ilya Volodin)
+* Docs: Update README FAQs (Nicholas C. Zakas)
+* Fix: Allow comment before comma for comma-spacing rule (fixes #2408) (Gyandeep Singh)
+
 v0.21.0 - May 9, 2015
 
 * 0.21.0 (Nicholas C. Zakas)
