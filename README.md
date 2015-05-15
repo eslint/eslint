@@ -82,7 +82,7 @@ Yes, ESLint natively supports parsing JSX syntax (this must be enabled in config
 
 ### Where to ask for help?
 
-Join our [Mailing List](https://groups.google.com/group/eslint)
+Join our [Mailing List](https://groups.google.com/group/eslint) or [Chatroom](https://gitter.im/eslint/eslint)
 
 
 [npm-image]: https://img.shields.io/npm/v/eslint.svg?style=flat-square
