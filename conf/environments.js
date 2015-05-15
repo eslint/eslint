@@ -28,6 +28,9 @@ module.exports = {
             "handle-callback-err": [2, "err"]
         }
     },
+    worker: {
+        globals: globals.worker
+    },
     amd: {
         globals: globals.amd
     },
