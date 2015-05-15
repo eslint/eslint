@@ -377,7 +377,12 @@ target.gensite = function() {
             // 6. Remove .md extension for links and change README to empty string
             text = text.replace(/\.md(.*?\))/g, ")").replace("README.html", "");
 
-            // 7. Append first version of ESLint rule was added at.
+            // 7. Check if there's a trailing white line at the end of the file, if there isn't one, add it
+            if (!/\n$/.test(text)) {
+                text = text + "\n";
+            }
+
+            // 8. Append first version of ESLint rule was added at.
             if (filename.indexOf("rules/") !== -1 && baseName !== "README.md") {
                 var version = versions[baseName] ? versions[baseName] : getFirstVersionOfFile(path.join("lib/rules", sourceBaseName));
                 versions[baseName] = version;
@@ -392,19 +397,19 @@ target.gensite = function() {
                 text += "* [Documentation source](" + docsUrl + baseName + ")\n";
             }
 
-            // 8. Update content of the file with changes
+            // 9. Update content of the file with changes
             text.to(filename.replace("README.md", "index.md"));
         }
     });
     JSON.stringify(versions).to("./versions.json");
 
-    // 9. Copy temorary directory to site's docs folder
+    // 10. Copy temorary directory to site's docs folder
     cp("-rf", TEMP_DIR + "*", DOCS_DIR);
 
-    // 10. Delete temporary directory
+    // 11. Delete temporary directory
     rm("-r", TEMP_DIR);
 
-    // 11. Browserify ESLint
+    // 12. Browserify ESLint
     target.browserify();
     cp("-f", "build/eslint.js", SITE_DIR + "js/app/eslint.js");
     cp("-f", "conf/eslint.json", SITE_DIR + "js/app/eslint.json");
