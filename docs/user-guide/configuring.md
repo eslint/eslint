@@ -95,6 +95,7 @@ An environment defines both global variables that are predefined as well as whic
 
 * `browser` - browser global variables.
 * `node` - Node.js global variables and Node.js-specific rules.
+* `worker` - web workers global variables.
 * `amd` - defines `require()` and `define()` as global variables as per the [amd](https://github.com/amdjs/amdjs-api/wiki/AMD) spec.
 * `mocha` - adds all of the Mocha testing global variables.
 * `jasmine` - adds all of the Jasmine testing global variables for version 1.3 and 2.0.
