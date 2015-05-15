@@ -23,7 +23,9 @@ eslintTester.addRuleTest("lib/rules/no-shadow", {
         "var a=3; function b(x) { a++; return x + a; }; setTimeout(function() { b(a); }, 0);",
         "(function() { var doSomething = function doSomething() {}; doSomething() }())",
         "var arguments;\nfunction bar() { }",
-        { code: "var a=3; var b = (x) => { a++; return x + a; }; setTimeout(() => { b(a); }, 0);", ecmaFeatures: { arrowFunctions: true } }
+        { code: "var a=3; var b = (x) => { a++; return x + a; }; setTimeout(() => { b(a); }, 0);", ecmaFeatures: { arrowFunctions: true } },
+        { code: "class A {}", ecmaFeatures: {classes: true} },
+        { code: "class A { constructor() { var a; } }", ecmaFeatures: {classes: true} }
     ],
     invalid: [
         {
