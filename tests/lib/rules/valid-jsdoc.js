@@ -218,6 +218,24 @@ eslintTester.addRuleTest("lib/rules/valid-jsdoc", {
                 message: "Unexpected @returns tag; function has no return statement.",
                 type: "Block"
             }]
+        },
+        {
+            code: "/**\n * Does something. \n* @param {string} a - this is a \n* @return {Array<number>} The result of doing it \n*/\n export function doSomething(a) { }",
+            args: [2, {"prefer": { "return": "returns" }}],
+            ecmaFeatures: { modules: true },
+            errors: [{
+                message: "Use @returns instead.",
+                type: "Block"
+            }]
+        },
+        {
+            code: "/**\n * Does something. \n* @param {string} a - this is a \n* @return {Array<number>} The result of doing it \n*/\n export default function doSomething(a) { }",
+            args: [2, {"prefer": { "return": "returns" }}],
+            ecmaFeatures: { modules: true },
+            errors: [{
+                message: "Use @returns instead.",
+                type: "Block"
+            }]
         }
     ]
 });
