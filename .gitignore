@@ -8,3 +8,4 @@ tmp/
 .idea
 jsdoc/
 versions.json
+*.iml
