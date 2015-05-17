@@ -307,6 +307,27 @@ describe("eslint", function() {
 
         });
 
+        it("should get JSDoc comment for node when the node is a FunctionDeclaration but its parent is an export", function() {
+
+            var code = [
+                "/** Desc*/",
+                "export function Foo(){}"
+            ].join("\n");
+
+            function assertJSDoc(node) {
+                var jsdoc = eslint.getJSDocComment(node);
+                assert.equal(jsdoc.type, "Block");
+                assert.equal(jsdoc.value, "* Desc");
+            }
+
+            var spy = sandbox.spy(assertJSDoc);
+
+            eslint.on("FunctionDeclaration", spy);
+            eslint.verify(code, { ecmaFeatures: { modules: true }, rules: {}}, filename, true);
+            assert.isTrue(spy.calledOnce, "Event handler should be called.");
+
+        });
+
 
         it("should get JSDoc comment for node when the node is a FunctionDeclaration but not the first statement", function() {
 
