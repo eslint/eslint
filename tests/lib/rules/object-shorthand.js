@@ -59,6 +59,14 @@ eslintTester.addRuleTest("lib/rules/object-shorthand", {
         { code: "var x = {y: (x)=>x, y: a}", ecmaFeatures: features },
         { code: "doSomething({x, y: (x)=>x})", ecmaFeatures: features },
 
+        // getters and setters are ok
+        { code: "var x = {get y() {}}", ecmaFeatures: features },
+        { code: "var x = {set y(z) {}}", ecmaFeatures: features },
+        { code: "var x = {get y() {}, set y(z) {}}", ecmaFeatures: features },
+        { code: "doSomething({get y() {}})", ecmaFeatures: features },
+        { code: "doSomething({set y(z) {}})", ecmaFeatures: features },
+        { code: "doSomething({get y() {}, set y(z) {}})", ecmaFeatures: features },
+
         // options
         { code: "var x = {y() {}}", ecmaFeatures: features, args: [2, "methods"] },
         { code: "var x = {x, y() {}, a:b}", ecmaFeatures: features, args: [2, "methods"] },
