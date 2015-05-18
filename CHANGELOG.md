@@ -1,3 +1,13 @@
+v0.21.2 - May 18, 2015
+
+* 0.21.2 (Nicholas C. Zakas)
+* Fix: one-var exception for ForStatement.init (fixes #2505) (Brandon Mills)
+* Fix: Don't throw spurious shadow errors for classes (fixes #2545) (Jimmy Jia)
+* Fix: valid-jsdoc rule to support exported functions (fixes #2522) (Gyandeep Singh)
+* Fix: Allow scoped packages in configuration extends (fixes #2544) (Eric Isakson)
+* Docs: Add chatroom to FAQ (Nicholas C. Zakas)
+* Docs: Move Gitter badge (Nicholas C. Zakas)
+
 v0.21.1 - May 15, 2015
 
 * 0.21.1 (Nicholas C. Zakas)
