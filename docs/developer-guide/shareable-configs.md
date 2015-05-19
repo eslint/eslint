@@ -14,7 +14,7 @@ module.exports = {
     },
 
     rules: {
-        semi: [2, "always}"]
+        semi: [2, "always"]
     }
 
 };
