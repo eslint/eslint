@@ -18,7 +18,8 @@ var path = require("path"),
     markdownlint = require("markdownlint"),
     nodeCLI = require("shelljs-nodecli"),
     os = require("os"),
-    semver = require("semver");
+    semver = require("semver"),
+    ghGot = require("gh-got");
 
 //------------------------------------------------------------------------------
 // Settings
@@ -110,14 +111,14 @@ function execSilent(cmd) {
  * @returns {void}
  */
 function release(type) {
-    var newVersion;
+    var newVersion, changes;
 
     target.test();
     echo("Generating new version");
     newVersion = execSilent("npm version " + type).trim();
 
     echo("Generating changelog");
-    target.changelog();
+    changes = target.changelog();
 
     // add changelog to commit
     exec("git add CHANGELOG.md");
@@ -130,12 +131,31 @@ function release(type) {
     echo("Publishing to git");
     exec("git push origin master --tags");
 
-    echo("Publishing to npm");
-    exec("npm publish");
+    // now push the changelog...changes to the tag
+    echo("Publishing changes to github release");
+    // this requires a github API token in process.env.ESLINT_GITHUB_TOKEN
+    // it will continue with an error message logged if not set
+    ghGot("repos/eslint/eslint/releases", {
+        body: {
+            "tag_name": newVersion,
+            name: newVersion,
+            "target_commitish": "master",
+            body: changes
+        },
+        method: "POST",
+        json: true,
+        token: process.env.ESLINT_GITHUB_TOKEN
+    }, function(pubErr) {
+        if (pubErr) {
+            echo("Warning: error when publishing changes to github release: " + pubErr.message);
+        }
+        echo("Publishing to npm");
+        exec("npm publish");
 
-    echo("Generating site");
-    target.gensite();
-    target.publishsite();
+        echo("Generating site");
+        target.gensite();
+        target.publishsite();
+    });
 }
 
 /**
@@ -479,6 +499,11 @@ target.changelog = function() {
     logs = logs.filter(function(line) {
         return line.indexOf("Merge pull request") === -1 && line.indexOf("Merge branch") === -1;
     });
+
+    var output = logs;
+    output.shift(); // get rid of tag name
+    output = output.join("\n"); // and join it into a string
+
     logs.push(""); // to create empty lines
     logs.unshift("");
 
@@ -490,6 +515,7 @@ target.changelog = function() {
     rm("CHANGELOG.tmp");
     rm("CHANGELOG.md");
     mv("CHANGELOG.md.tmp", "CHANGELOG.md");
+    return output;
 };
 
 target.checkRuleFiles = function() {
