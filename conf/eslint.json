@@ -133,6 +133,7 @@
         "handle-callback-err": 0,
         "indent": 0,
         "key-spacing": [2, { "beforeColon": false, "afterColon": true }],
+        "lines-around-comment": 0,
         "max-depth": [0, 4],
         "max-len": [0, 80, 4],
         "max-nested-callbacks": [0, 2],
