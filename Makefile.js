@@ -208,18 +208,22 @@ function lintMarkdown(files) {
     var config = {
             default: true,
             // Exclusions for deliberate/widespread violations
+            MD001: false, // Header levels should only increment by one level at a time
             MD002: false, // First header should be a h1 header
-            MD004: {      // Unordered list style
-                style: "asterisk"
-            },
             MD007: {      // Unordered list indentation
                 indent: 4
             },
             MD012: false, // Multiple consecutive blank lines
             MD013: false, // Line length
+            MD014: false, // Dollar signs used before commands without showing output
+            MD019: false, // Multiple spaces after hash on atx style header
+            MD021: false, // Multiple spaces inside hashes on closed atx style header
+            MD024: false, // Multiple headers with the same content
             MD026: false, // Trailing punctuation in header
             MD029: false, // Ordered list item prefix
-            MD034: false  // Bare URL used
+            MD030: false, // Spaces after list markers
+            MD034: false, // Bare URL used
+            MD040: false  // Fenced code blocks should have a language specified
         },
         result = markdownlint.sync({
             files: files,
