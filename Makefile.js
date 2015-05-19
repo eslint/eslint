@@ -18,7 +18,8 @@ var path = require("path"),
     markdownlint = require("markdownlint"),
     nodeCLI = require("shelljs-nodecli"),
     os = require("os"),
-    semver = require("semver");
+    semver = require("semver"),
+    ghGot = require("gh-got");
 
 //------------------------------------------------------------------------------
 // Settings
@@ -110,7 +111,7 @@ function execSilent(cmd) {
  * @returns {void}
  */
 function release(type) {
-    var newVersion;
+    var newVersion, changes;
 
     target.test();
     echo("Generating new version");
@@ -118,6 +119,13 @@ function release(type) {
 
     echo("Generating changelog");
     target.changelog();
+
+    // capture changelog
+    changes = execSilent("git diff -U0 CHANGELOG.md");
+
+    // fix changelog to remove diff output
+    changes = changes.split("\n");
+    changes = changes.slice(8, -1);
 
     // add changelog to commit
     exec("git add CHANGELOG.md");
@@ -130,12 +138,31 @@ function release(type) {
     echo("Publishing to git");
     exec("git push origin master --tags");
 
-    echo("Publishing to npm");
-    exec("npm publish");
+    // now push the changelog...changes to the tag
+    echo("Publishing changes to github release");
+    // this requires a github API token in process.env.ESLINT_GITHUB_TOKEN
+    // it will continue with an error message logged if not set
+    ghGot("repos/eslint/eslint/releases", {
+        body: {
+            "tag_name": newVersion,
+            name: newVersion,
+            "target_commitish": "master",
+            body: changes
+        },
+        method: "POST",
+        json: true,
+        token: process.env.ESLINT_GITHUB_TOKEN
+    }, function(pubErr) {
+        if (pubErr) {
+            echo("Warning: error when publishing changes to github release: " + pubErr.message);
+        }
+        echo("Publishing to npm");
+        exec("npm publish");
 
-    echo("Generating site");
-    target.gensite();
-    target.publishsite();
+        echo("Generating site");
+        target.gensite();
+        target.publishsite();
+    });
 }
 
 /**
