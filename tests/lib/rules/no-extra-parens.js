@@ -13,16 +13,19 @@
 var eslint = require("../../../lib/eslint"),
     ESLintTester = require("eslint-tester");
 
-function invalid(code, type, line, ecmaFeatures) {
+function invalid(code, type, line, config) {
+    config = config || {};
+
     var result = {
             code: code,
-            ecmaFeatures: ecmaFeatures,
+            ecmaFeatures: config.ecmaFeatures || {},
             errors: [
                 {
                     message: "Gratuitous parentheses around expression.",
                     type: type
                 }
-            ]
+            ],
+            options: config.options || []
         };
 
     if (line) {
@@ -140,6 +143,7 @@ eslintTester.addRuleTest("lib/rules/no-extra-parens", {
         "var o = { foo: (function() { return bar(); })() };",
         "o.foo = (function(){ return bar(); })();",
         "(function(){ return bar(); })(), (function(){ return bar(); })()",
+        "((function(){ return bar(); })())",
 
         // parens are required around yield
         { code: "var foo = (function*() { if ((yield foo()) + 1) { return; } }())", ecmaFeatures: { generators: true } },
@@ -150,7 +154,16 @@ eslintTester.addRuleTest("lib/rules/no-extra-parens", {
         { code: "_ => 0, _ => 1", ecmaFeatures: { arrowFunctions: true } },
         { code: "a = () => b = 0", ecmaFeatures: { arrowFunctions: true } },
         { code: "0 ? _ => 0 : _ => 0", ecmaFeatures: { arrowFunctions: true } },
-        { code: "(_ => 0) || (_ => 0)", ecmaFeatures: { arrowFunctions: true } }
+        { code: "(_ => 0) || (_ => 0)", ecmaFeatures: { arrowFunctions: true } },
+
+        // "function-only" disables reports for non-function nodes
+        {code: "(0)", options: ["functions"]},
+        {code: "a + (b * c)", options: ["functions"]},
+        {code: "(a)(b)", options: ["functions"]},
+        {code: "a, (b = c)", options: ["functions"]},
+        {code: "for(a in (0));", options: ["functions"]},
+        {code: "var a = (b = c)", options: ["functions"]},
+        {code: "_ => (a = 0)", options: ["functions"], ecmaFeatures: {arrowFunctions: true}}
     ],
     invalid: [
         invalid("(0)", "Literal"),
@@ -167,11 +180,12 @@ eslintTester.addRuleTest("lib/rules/no-extra-parens", {
         invalid("while((0));", "Literal"),
         invalid("do; while((0))", "Literal"),
         invalid("for(a in (0));", "Literal"),
-        invalid("for(a of (0));", "Literal", 1, { forOf: true }),
-        invalid("var foo = (function*() { if ((yield foo())) { return; } }())", "YieldExpression", 1, { generators: true }),
+        invalid("for(a of (0));", "Literal", 1, {ecmaFeatures: { forOf: true }}),
+        invalid("var foo = (function*() { if ((yield foo())) { return; } }())", "YieldExpression", 1, {ecmaFeatures: { generators: true }}),
         invalid("f((0))", "Literal"),
         invalid("f(0, (1))", "Literal"),
         invalid("!(0)", "Literal"),
+        invalid("a[(1)]", "Literal"),
         invalid("(a)(b)", "Identifier"),
         invalid("(a, b)", "SequenceExpression"),
         invalid("var a = (b = c);", "AssignmentExpression"),
@@ -194,11 +208,22 @@ eslintTester.addRuleTest("lib/rules/no-extra-parens", {
         invalid("(0.0).a", "Literal"),
         invalid("(0xBEEF).a", "Literal"),
         invalid("(1e6).a", "Literal"),
+        invalid("({})", "ObjectExpression"),
+        invalid("a[(function () {})]", "FunctionExpression"),
+        invalid("(function(){})", "FunctionExpression"),
         invalid("new (function(){})", "FunctionExpression"),
         invalid("new (\nfunction(){}\n)", "FunctionExpression", 1),
-        invalid("0, (_ => 0)", "ArrowFunctionExpression", 1, { arrowFunctions: true }),
-        invalid("(_ => 0), 0", "ArrowFunctionExpression", 1, { arrowFunctions: true }),
-        invalid("a = (_ => 0)", "ArrowFunctionExpression", 1, { arrowFunctions: true }),
-        invalid("_ => (a = 0)", "AssignmentExpression", 1, { arrowFunctions: true })
+        invalid("((function foo() {return 1;}))()", "FunctionExpression"),
+        invalid("0, (_ => 0)", "ArrowFunctionExpression", 1, {ecmaFeatures: { arrowFunctions: true }}),
+        invalid("(_ => 0), 0", "ArrowFunctionExpression", 1, {ecmaFeatures: { arrowFunctions: true }}),
+        invalid("a = (_ => 0)", "ArrowFunctionExpression", 1, {ecmaFeatures: { arrowFunctions: true }}),
+        invalid("_ => (a = 0)", "AssignmentExpression", 1, {ecmaFeatures: { arrowFunctions: true }}),
+        invalid("new (function(){})", "FunctionExpression", null, {options: ["functions"]}),
+        invalid("new (\nfunction(){}\n)", "FunctionExpression", 1, {options: ["functions"]}),
+        invalid("((function foo() {return 1;}))()", "FunctionExpression", null, {options: ["functions"]}),
+        invalid("a[(function () {})]", "FunctionExpression", null, {options: ["functions"]}),
+        invalid("0, (_ => 0)", "ArrowFunctionExpression", 1, {options: ["functions"], ecmaFeatures: { arrowFunctions: true }}),
+        invalid("(_ => 0), 0", "ArrowFunctionExpression", 1, {options: ["functions"], ecmaFeatures: { arrowFunctions: true }}),
+        invalid("a = (_ => 0)", "ArrowFunctionExpression", 1, {options: ["functions"], ecmaFeatures: { arrowFunctions: true }})
     ]
 });
