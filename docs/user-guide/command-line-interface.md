@@ -35,6 +35,7 @@ Options:
   --global [String]           Define global variables
   --rule Object               Specify rules
   --ignore-path path::String  Specify path of ignore file
+  --ignore-pattern String     Specify pattern of files to ignore (in addition to .eslintignore)
   --no-ignore                 Disable use of .eslintignore
   --no-color                  Disable color in piped output
   -o, --output-file path::String  Specify file to write report to

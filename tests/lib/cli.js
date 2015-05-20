@@ -220,6 +220,18 @@ describe("cli", function() {
         });
     });
 
+
+    describe("when given a pattern to ignore", function() {
+        it("should not process any files", function() {
+            var exit = cli.execute("--ignore-pattern tests/fixtures/syntax-error.js tests/fixtures/syntax-error.js tests/fixtures/passing.js");
+
+            // a warning about the ignored file
+            assert.isTrue(console.log.called);
+            assert.equal(exit, 0);
+        });
+    });
+
+
     describe("when executing a file with a shebang", function() {
 
         it("should execute without error", function() {
