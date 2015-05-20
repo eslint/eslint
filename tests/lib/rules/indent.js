@@ -65,10 +65,6 @@ eslintTester.addRuleTest("lib/rules/indent", {
             "foo();"
         },
         {
-            code: "if (a){}",
-            options: ["incorrect values for configuration will be ignored"]
-        },
-        {
             code:
             "switch(value){\n" +
             "    case \"1\":\n" +
