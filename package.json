@@ -51,6 +51,7 @@
     "object-assign": "^2.0.0",
     "optionator": "^0.5.0",
     "path-is-absolute": "^1.0.0",
+    "static-eval": "^0.2.4",
     "strip-json-comments": "~1.0.1",
     "text-table": "~0.2.0",
     "user-home": "^1.0.0",
