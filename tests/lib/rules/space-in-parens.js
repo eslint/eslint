@@ -30,287 +30,285 @@ var eslintTester = new ESLintTester(eslint);
 eslintTester.addRuleTest("lib/rules/space-in-parens", {
 
     valid: [
-        { code: "foo()", args: ["2", "always"] },
-        { code: "foo( bar )", args: ["2", "always"] },
-        { code: "foo\n(\nbar\n)\n", args: ["2", "always"] },
-        { code: "foo\n(  \nbar\n )\n", args: ["2", "always"] },
-        { code: "foo\n(\n bar  \n)\n", args: ["2", "always"] },
-        { code: "foo\n( \n  bar \n  )\n", args: ["2", "always"] },
-        { code: "foo\n(\t\nbar\n)", args: ["2", "always"] },
-        { code: "\tfoo(\n\t\tbar\n\t)", args: ["2", "always"] },
-        { code: "\tfoo\n(\t\n\t\tbar\t\n\t)", args: ["2", "always"] },
-        { code: "var x = ( 1 + 2 ) * 3", args: ["2", "always"] },
-        { code: "var x = 'foo(bar)'", args: ["2", "always"] },
-        { code: "var x = 'bar( baz )'", args: ["2", "always"] },
+        { code: "foo()", options: ["always"] },
+        { code: "foo( bar )", options: ["always"] },
+        { code: "foo\n(\nbar\n)\n", options: ["always"] },
+        { code: "foo\n(  \nbar\n )\n", options: ["always"] },
+        { code: "foo\n(\n bar  \n)\n", options: ["always"] },
+        { code: "foo\n( \n  bar \n  )\n", options: ["always"] },
+        { code: "foo\n(\t\nbar\n)", options: ["always"] },
+        { code: "\tfoo(\n\t\tbar\n\t)", options: ["always"] },
+        { code: "\tfoo\n(\t\n\t\tbar\t\n\t)", options: ["always"] },
+        { code: "var x = ( 1 + 2 ) * 3", options: ["always"] },
+        { code: "var x = 'foo(bar)'", options: ["always"] },
+        { code: "var x = 'bar( baz )'", options: ["always"] },
 
-        { code: "bar()", args: ["2", "never"] },
-        { code: "bar(baz)", args: ["2", "never"] },
-        { code: "var x = (4 + 5) * 6", args: ["2", "never"] },
-        { code: "foo\n(\nbar\n)\n", args: ["2", "never"] },
-        { code: "foo\n(  \nbar\n )\n", args: ["2", "never"] },
-        { code: "foo\n(\n bar  \n)\n", args: ["2", "never"] },
-        { code: "foo\n( \n  bar \n  )\n", args: ["2", "never"] },
+        { code: "bar()", options: ["never"] },
+        { code: "bar(baz)", options: ["never"] },
+        { code: "var x = (4 + 5) * 6", options: ["never"] },
+        { code: "foo\n(\nbar\n)\n", options: ["never"] },
+        { code: "foo\n(  \nbar\n )\n", options: ["never"] },
+        { code: "foo\n(\n bar  \n)\n", options: ["never"] },
+        { code: "foo\n( \n  bar \n  )\n", options: ["never"] },
 
         // exceptions
-        { code: "foo({ bar: 'baz' })", args: ["2", "always", { exceptions: ["{}"] }] },
-        { code: "foo( { bar: 'baz' } )", args: ["2", "always", { exceptions: ["[]", "()"] }] },
-        { code: "foo( 1, { bar: 'baz' })", args: ["2", "always", { exceptions: ["{}"] }] },
-        { code: "foo({ bar: 'baz' }, 1 )", args: ["2", "always", { exceptions: ["{}"] }] },
-        { code: "foo({\nbar: 'baz',\nbaz: 'bar'\n})", args: ["2", "always", { exceptions: ["{}"] }] },
-        { code: "foo({ bar: 'baz' })", args: ["2", "never", { exceptions: ["[]", "()"] }] },
-        { code: "foo( { bar: 'baz' } )", args: ["2", "never", { exceptions: ["{}"] }] },
-        { code: "foo(1, { bar: 'baz' } )", args: ["2", "never", { exceptions: ["{}"] }] },
-        { code: "foo( { bar: 'baz' }, 1)", args: ["2", "never", { exceptions: ["{}"] }] },
-        { code: "foo( {\nbar: 'baz',\nbaz: 'bar'\n} )", args: ["2", "never", { exceptions: ["{}"] }] },
+        { code: "foo({ bar: 'baz' })", options: ["always", { exceptions: ["{}"] }] },
+        { code: "foo( { bar: 'baz' } )", options: ["always", { exceptions: ["[]", "()"] }] },
+        { code: "foo( 1, { bar: 'baz' })", options: ["always", { exceptions: ["{}"] }] },
+        { code: "foo({ bar: 'baz' }, 1 )", options: ["always", { exceptions: ["{}"] }] },
+        { code: "foo({\nbar: 'baz',\nbaz: 'bar'\n})", options: ["always", { exceptions: ["{}"] }] },
+        { code: "foo({ bar: 'baz' })", options: ["never", { exceptions: ["[]", "()"] }] },
+        { code: "foo( { bar: 'baz' } )", options: ["never", { exceptions: ["{}"] }] },
+        { code: "foo(1, { bar: 'baz' } )", options: ["never", { exceptions: ["{}"] }] },
+        { code: "foo( { bar: 'baz' }, 1)", options: ["never", { exceptions: ["{}"] }] },
+        { code: "foo( {\nbar: 'baz',\nbaz: 'bar'\n} )", options: ["never", { exceptions: ["{}"] }] },
 
-        { code: "foo([ 1, 2 ])", args: ["2", "always", { exceptions: ["[]"] }] },
-        { code: "foo( [ 1, 2 ] )", args: ["2", "always", { exceptions: ["{}"] }] },
-        { code: "foo( 1, [ 1, 2 ])", args: ["2", "always", { exceptions: ["[]"] }] },
-        { code: "foo([ 1, 2 ], 1 )", args: ["2", "always", { exceptions: ["[]"] }] },
-        { code: "foo([\n1,\n2\n])", args: ["2", "always", { exceptions: ["[]"] }] },
-        { code: "foo([ 1, 2 ])", args: ["2", "never", { exceptions: ["{}"] }] },
-        { code: "foo( [ 1, 2 ] )", args: ["2", "never", { exceptions: ["[]"] }] },
-        { code: "foo(1, [ 1, 2 ] )", args: ["2", "never", { exceptions: ["[]"] }] },
-        { code: "foo( [ 1, 2 ], 1)", args: ["2", "never", { exceptions: ["[]"] }] },
-        { code: "foo( [\n1,\n2\n] )", args: ["2", "never", { exceptions: ["[]"] }] },
+        { code: "foo([ 1, 2 ])", options: ["always", { exceptions: ["[]"] }] },
+        { code: "foo( [ 1, 2 ] )", options: ["always", { exceptions: ["{}"] }] },
+        { code: "foo( 1, [ 1, 2 ])", options: ["always", { exceptions: ["[]"] }] },
+        { code: "foo([ 1, 2 ], 1 )", options: ["always", { exceptions: ["[]"] }] },
+        { code: "foo([\n1,\n2\n])", options: ["always", { exceptions: ["[]"] }] },
+        { code: "foo([ 1, 2 ])", options: ["never", { exceptions: ["{}"] }] },
+        { code: "foo( [ 1, 2 ] )", options: ["never", { exceptions: ["[]"] }] },
+        { code: "foo(1, [ 1, 2 ] )", options: ["never", { exceptions: ["[]"] }] },
+        { code: "foo( [ 1, 2 ], 1)", options: ["never", { exceptions: ["[]"] }] },
+        { code: "foo( [\n1,\n2\n] )", options: ["never", { exceptions: ["[]"] }] },
 
-        { code: "foo(( 1 + 2 ))", args: ["2", "always", { exceptions: ["()"] }] },
-        { code: "foo( ( 1 + 2 ) )", args: ["2", "always", { exceptions: ["{}"] }] },
-        { code: "foo( 1 / ( 1 + 2 ))", args: ["2", "always", { exceptions: ["()"] }] },
-        { code: "foo(( 1 + 2 ) / 1 )", args: ["2", "always", { exceptions: ["()"] }] },
-        { code: "foo((\n1 + 2\n))", args: ["2", "always", { exceptions: ["()"] }] },
-        { code: "foo((1 + 2))", args: ["2", "never", { exceptions: ["{}"] }] },
-        { code: "foo( (1 + 2) )", args: ["2", "never", { exceptions: ["()"] }] },
-        { code: "foo(1 / (1 + 2) )", args: ["2", "never", { exceptions: ["()"] }] },
-        { code: "foo( (1 + 2) / 1)", args: ["2", "never", { exceptions: ["()"] }] },
-        { code: "foo( (\n1 + 2\n) )", args: ["2", "never", { exceptions: ["()"] }] },
+        { code: "foo(( 1 + 2 ))", options: ["always", { exceptions: ["()"] }] },
+        { code: "foo( ( 1 + 2 ) )", options: ["always", { exceptions: ["{}"] }] },
+        { code: "foo( 1 / ( 1 + 2 ))", options: ["always", { exceptions: ["()"] }] },
+        { code: "foo(( 1 + 2 ) / 1 )", options: ["always", { exceptions: ["()"] }] },
+        { code: "foo((\n1 + 2\n))", options: ["always", { exceptions: ["()"] }] },
+        { code: "foo((1 + 2))", options: ["never", { exceptions: ["{}"] }] },
+        { code: "foo( (1 + 2) )", options: ["never", { exceptions: ["()"] }] },
+        { code: "foo(1 / (1 + 2) )", options: ["never", { exceptions: ["()"] }] },
+        { code: "foo( (1 + 2) / 1)", options: ["never", { exceptions: ["()"] }] },
+        { code: "foo( (\n1 + 2\n) )", options: ["never", { exceptions: ["()"] }] },
 
-        { code: "foo()", args: ["2", "always", { exceptions: ["empty"] }] },
-        { code: "foo( )", args: ["2", "always", { exceptions: ["{}"] }] },
-        { code: "foo(\n1 + 2\n)", args: ["2", "always", { exceptions: ["empty"] }] },
-        { code: "foo()", args: ["2", "never", { exceptions: ["{}"] }] },
-        { code: "foo( )", args: ["2", "never", { exceptions: ["empty"] }] },
-        { code: "foo( \n1 + 2\n )", args: ["2", "never", { exceptions: ["empty"] }] },
+        { code: "foo()", options: ["always", { exceptions: ["empty"] }] },
+        { code: "foo( )", options: ["always", { exceptions: ["{}"] }] },
+        { code: "foo(\n1 + 2\n)", options: ["always", { exceptions: ["empty"] }] },
+        { code: "foo()", options: ["never", { exceptions: ["{}"] }] },
+        { code: "foo( )", options: ["never", { exceptions: ["empty"] }] },
+        { code: "foo( \n1 + 2\n )", options: ["never", { exceptions: ["empty"] }] },
 
-        { code: "foo({ bar: 'baz' }, [ 1, 2 ])", args: ["2", "always", { exceptions: ["{}", "[]"] }] },
-        { code: "foo({\nbar: 'baz'\n}, [\n1,\n2\n])", args: ["2", "always", { exceptions: ["{}", "[]"] }] },
-        { code: "foo(); bar({bar:'baz'}); baz([1,2])", args: ["2", "always", { exceptions: ["{}", "[]", "()"] }] },
-        { code: "foo( { bar: 'baz' }, [ 1, 2 ] )", args: ["2", "never", { exceptions: ["{}", "[]"] }] },
-        { code: "foo( {\nbar: 'baz'\n}, [\n1,\n2\n] )", args: ["2", "never", { exceptions: ["{}", "[]"] }] },
-        { code: "foo( ); bar( {bar:'baz'} ); baz( [1,2] )", args: ["2", "never", { exceptions: ["{}", "[]", "empty"] }] },
+        { code: "foo({ bar: 'baz' }, [ 1, 2 ])", options: ["always", { exceptions: ["{}", "[]"] }] },
+        { code: "foo({\nbar: 'baz'\n}, [\n1,\n2\n])", options: ["always", { exceptions: ["{}", "[]"] }] },
+        { code: "foo(); bar({bar:'baz'}); baz([1,2])", options: ["always", { exceptions: ["{}", "[]", "()"] }] },
+        { code: "foo( { bar: 'baz' }, [ 1, 2 ] )", options: ["never", { exceptions: ["{}", "[]"] }] },
+        { code: "foo( {\nbar: 'baz'\n}, [\n1,\n2\n] )", options: ["never", { exceptions: ["{}", "[]"] }] },
+        { code: "foo( ); bar( {bar:'baz'} ); baz( [1,2] )", options: ["never", { exceptions: ["{}", "[]", "empty"] }] },
 
         // faulty exceptions option
-        { code: "foo( { bar: 'baz' } )", args: ["2", "always", { exceptions: [] }] },
-        { code: "foo( { bar: 'baz' } )", args: ["2", "always", { foo: [] }] },
-        { code: "foo( { bar: 'baz' } )", args: ["2", "always", "bar"] }
+        { code: "foo( { bar: 'baz' } )", options: ["always", { exceptions: [] }] }
     ],
 
     invalid: [
         {
             code: "foo( )",
-            args: ["2", "never"],
+            options: ["never"],
             errors: [REJECTED_SPACE_ERROR]
         },
         {
             code: "foo( bar)",
-            args: ["2", "always"],
+            options: ["always"],
             errors: [MISSING_SPACE_ERROR]
         },
         {
             code: "foo(bar)",
-            args: ["2", "always"],
+            options: ["always"],
             errors: [MISSING_SPACE_ERROR, MISSING_SPACE_ERROR]
         },
         {
             code: "var x = ( 1 + 2) * 3",
-            args: ["2", "always"],
+            options: ["always"],
             errors: [MISSING_SPACE_ERROR]
         },
         {
             code: "var x = (1 + 2 ) * 3",
-            args: ["2", "always"],
+            options: ["always"],
             errors: [MISSING_SPACE_ERROR]
         },
         {
             code: "foo\n(bar\n)\n",
-            args: ["2", "always"],
+            options: ["always"],
             errors: [MISSING_SPACE_ERROR]
         },
         {
             code: "bar(baz )",
-            args: ["2", "never"],
+            options: ["never"],
             errors: [REJECTED_SPACE_ERROR]
         },
         {
             code: "bar( baz )",
-            args: ["2", "never"],
+            options: ["never"],
             errors: [REJECTED_SPACE_ERROR, REJECTED_SPACE_ERROR]
         },
         {
             code: "var x = ( 4 + 5) * 6",
-            args: ["2", "never"],
+            options: ["never"],
             errors: [REJECTED_SPACE_ERROR]
         },
         {
             code: "var x = (4 + 5 ) * 6",
-            args: ["2", "never"],
+            options: ["never"],
             errors: [REJECTED_SPACE_ERROR]
         },
 
         // exceptions
         {
             code: "foo({ bar: 'baz' })",
-            args: ["2", "always", { exceptions: ["[]"] }],
+            options: ["always", { exceptions: ["[]"] }],
             errors: [MISSING_SPACE_ERROR, MISSING_SPACE_ERROR]
         },
         {
             code: "foo( { bar: 'baz' } )",
-            args: ["2", "always", { exceptions: ["{}"] }],
+            options: ["always", { exceptions: ["{}"] }],
             errors: [REJECTED_SPACE_ERROR, REJECTED_SPACE_ERROR]
         },
         {
             code: "foo({ bar: 'baz' })",
-            args: ["2", "never", { exceptions: ["{}"] }],
+            options: ["never", { exceptions: ["{}"] }],
             errors: [MISSING_SPACE_ERROR, MISSING_SPACE_ERROR]
         },
         {
             code: "foo( { bar: 'baz' } )",
-            args: ["2", "never", { exceptions: ["[]"] }],
+            options: ["never", { exceptions: ["[]"] }],
             errors: [REJECTED_SPACE_ERROR, REJECTED_SPACE_ERROR]
         },
         {
             code: "foo( { bar: 'baz' })",
-            args: ["2", "always", { exceptions: ["{}"] }],
+            options: ["always", { exceptions: ["{}"] }],
             errors: [REJECTED_SPACE_ERROR]
         },
         {
             code: "foo( { bar: 'baz' })",
-            args: ["2", "never", { exceptions: ["{}"] }],
+            options: ["never", { exceptions: ["{}"] }],
             errors: [MISSING_SPACE_ERROR]
         },
         {
             code: "foo({ bar: 'baz' } )",
-            args: ["2", "always", { exceptions: ["{}"] }],
+            options: ["always", { exceptions: ["{}"] }],
             errors: [REJECTED_SPACE_ERROR]
         },
         {
             code: "foo({ bar: 'baz' } )",
-            args: ["2", "never", { exceptions: ["{}"] }],
+            options: ["never", { exceptions: ["{}"] }],
             errors: [MISSING_SPACE_ERROR]
         },
         {
             code: "foo([ 1, 2 ])",
-            args: ["2", "always", { exceptions: ["empty"] }],
+            options: ["always", { exceptions: ["empty"] }],
             errors: [MISSING_SPACE_ERROR, MISSING_SPACE_ERROR]
         },
         {
             code: "foo( [ 1, 2 ] )",
-            args: ["2", "always", { exceptions: ["[]"] }],
+            options: ["always", { exceptions: ["[]"] }],
             errors: [REJECTED_SPACE_ERROR, REJECTED_SPACE_ERROR]
         },
         {
             code: "foo([ 1, 2 ])",
-            args: ["2", "never", { exceptions: ["[]"] }],
+            options: ["never", { exceptions: ["[]"] }],
             errors: [MISSING_SPACE_ERROR, MISSING_SPACE_ERROR]
         },
         {
             code: "foo( [ 1, 2 ] )",
-            args: ["2", "never", { exceptions: ["()"] }],
+            options: ["never", { exceptions: ["()"] }],
             errors: [REJECTED_SPACE_ERROR, REJECTED_SPACE_ERROR]
         },
         {
             code: "foo([ 1, 2 ] )",
-            args: ["2", "always", { exceptions: ["[]"] }],
+            options: ["always", { exceptions: ["[]"] }],
             errors: [REJECTED_SPACE_ERROR]
         },
         {
             code: "foo([ 1, 2 ] )",
-            args: ["2", "never", { exceptions: ["[]"] }],
+            options: ["never", { exceptions: ["[]"] }],
             errors: [MISSING_SPACE_ERROR]
         },
         {
             code: "foo( [ 1, 2 ])",
-            args: ["2", "always", { exceptions: ["[]"] }],
+            options: ["always", { exceptions: ["[]"] }],
             errors: [REJECTED_SPACE_ERROR]
         },
         {
             code: "foo( [ 1, 2 ])",
-            args: ["2", "never", { exceptions: ["[]"] }],
+            options: ["never", { exceptions: ["[]"] }],
             errors: [MISSING_SPACE_ERROR]
         },
         {
             code: "(( 1 + 2 ))",
-            args: ["2", "always", { exceptions: ["[]"] }],
+            options: ["always", { exceptions: ["[]"] }],
             errors: [MISSING_SPACE_ERROR, MISSING_SPACE_ERROR]
         },
         {
             code: "( ( 1 + 2 ) )",
-            args: ["2", "always", { exceptions: ["()"] }],
+            options: ["always", { exceptions: ["()"] }],
             errors: [REJECTED_SPACE_ERROR, REJECTED_SPACE_ERROR]
         },
         {
             code: "(( 1 + 2 ))",
-            args: ["2", "always", { exceptions: ["[]"] }],
+            options: ["always", { exceptions: ["[]"] }],
             errors: [MISSING_SPACE_ERROR, MISSING_SPACE_ERROR]
         },
         {
             code: "( ( 1 + 2 ) )",
-            args: ["2", "never", { exceptions: ["[]"] }],
+            options: ["never", { exceptions: ["[]"] }],
             errors: [REJECTED_SPACE_ERROR, REJECTED_SPACE_ERROR]
         },
         {
             code: "( ( 1 + 2 ))",
-            args: ["2", "always", { exceptions: ["()"] }],
+            options: ["always", { exceptions: ["()"] }],
             errors: [REJECTED_SPACE_ERROR]
         },
         {
             code: "( (1 + 2))",
-            args: ["2", "never", { exceptions: ["()"] }],
+            options: ["never", { exceptions: ["()"] }],
             errors: [MISSING_SPACE_ERROR]
         },
         {
             code: "(( 1 + 2 ) )",
-            args: ["2", "always", { exceptions: ["()"] }],
+            options: ["always", { exceptions: ["()"] }],
             errors: [REJECTED_SPACE_ERROR]
         },
         {
             code: "((1 + 2) )",
-            args: ["2", "never", { exceptions: ["()"] }],
+            options: ["never", { exceptions: ["()"] }],
             errors: [MISSING_SPACE_ERROR]
         },
         {
             code: "var result = ( 1 / ( 1 + 2 ) ) + 3",
-            args: ["2", "always", { exceptions: ["()"] }],
+            options: ["always", { exceptions: ["()"] }],
             errors: [REJECTED_SPACE_ERROR]
         },
         {
             code: "var result = (1 / (1 + 2)) + 3",
-            args: ["2", "never", { exceptions: ["()"] }],
+            options: ["never", { exceptions: ["()"] }],
             errors: [MISSING_SPACE_ERROR]
         },
         {
             code: "var result = ( 1 / ( 1 + 2)) + 3",
-            args: ["2", "always", { exceptions: ["()"] }],
+            options: ["always", { exceptions: ["()"] }],
             errors: [MISSING_SPACE_ERROR]
         },
         {
             code: "var result = (1 / (1 + 2)) + 3",
-            args: ["2", "never", { exceptions: ["()"] }],
+            options: ["never", { exceptions: ["()"] }],
             errors: [MISSING_SPACE_ERROR]
         },
         {
             code: "foo( )",
-            args: ["2", "always", { exceptions: ["empty"] }],
+            options: ["always", { exceptions: ["empty"] }],
             errors: [REJECTED_SPACE_ERROR]
         },
         {
             code: "foo()",
-            args: ["2", "never", { exceptions: ["empty"] }],
+            options: ["never", { exceptions: ["empty"] }],
             errors: [MISSING_SPACE_ERROR]
         },
         {
             code: "foo\n(\nbar )\n",
-            args: ["2", "never"],
+            options: ["never"],
             errors: [REJECTED_SPACE_ERROR]
         }
     ]
