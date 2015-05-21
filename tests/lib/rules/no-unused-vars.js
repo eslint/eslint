@@ -58,7 +58,7 @@ eslintTester.addRuleTest("lib/rules/no-unused-vars", {
         { code: "function g(bar, baz) { return baz; }; g();", options: [{"vars": "all", "args": "after-used"}] },
         { code: "function g(bar, baz) { return bar; }; g();", options: [{"vars": "all", "args": "none"}] },
         { code: "function g(bar, baz) { return 2; }; g();", options: [{"vars": "all", "args": "none"}] },
-        { code: "function g(bar, baz) { return bar + baz; }; g();", options: [{"vars": "locals", "args": "all"}] },
+        { code: "function g(bar, baz) { return bar + baz; }; g();", options: [{"vars": "local", "args": "all"}] },
         { code: "var g = function (bar, baz) { return 2; }; g();", options: [{"vars": "all", "args": "none"}] },
         "(function z() { z(); })();",
         { code: " ", globals: {a: true} },

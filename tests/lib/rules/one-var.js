@@ -219,21 +219,21 @@ eslintTester.addRuleTest("lib/rules/one-var", {
             ecmaFeatures: {
                 blockBindings: true
             },
-            args: [2, { var: true, let: true }]
+            args: [2, { var: "always", let: "always" }]
         },
         {
             code: "var foo; var bar; const a=1, b=2; let c; let d",
             ecmaFeatures: {
                 blockBindings: true
             },
-            args: [2, { const: true }]
+            args: [2, { const: "always" }]
         },
         {
             code: "var foo, bar; const a=1; const b=2; let c, d",
             ecmaFeatures: {
                 blockBindings: true
             },
-            args: [2, { var: true, let: true }]
+            args: [2, { var: "always", let: "always" }]
         }
     ],
     invalid: [
