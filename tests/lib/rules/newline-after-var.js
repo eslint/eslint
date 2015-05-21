@@ -131,9 +131,6 @@ eslintTester.addRuleTest("lib/rules/newline-after-var", {
         { code: MULTI_LINE_NEXT_LINE_COMMENT, options: ["never"] },
         { code: MULTI_LINE_NEXT_LINE_BLOCK_COMMENT, options: ["never"] },
 
-        // should treat an invalid mode as "always"
-        { code: ONE_BLANK, options: ["foobar"] },
-
         // should handle ES6 `let` block binding
         { code: LET_ONE_BLANK, options: ["always"], ecmaFeatures: BLOCK_BINDINGS },
         { code: LET_NO_BLANK, options: ["never"], ecmaFeatures: BLOCK_BINDINGS },

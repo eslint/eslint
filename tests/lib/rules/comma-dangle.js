@@ -33,9 +33,9 @@ eslintTester.addRuleTest("lib/rules/comma-dangle", {
         "[]",
         "[\n]",
 
-        { code: "var foo = { bar: 'baz' }", options: ["foo"] },
-        { code: "var foo = {\nbar: 'baz'\n}", options: ["bar"] },
-        { code: "var foo = [ 'baz' ]", options: ["baz"] },
+        { code: "var foo = { bar: 'baz' }", options: ["never"] },
+        { code: "var foo = {\nbar: 'baz'\n}", options: ["never"] },
+        { code: "var foo = [ 'baz' ]", options: ["never"] },
 
         { code: "var foo = { bar: 'baz', }", options: [ "always" ] },
         { code: "var foo = {\nbar: 'baz',\n}", options: [ "always" ] },
@@ -143,7 +143,7 @@ eslintTester.addRuleTest("lib/rules/comma-dangle", {
 
         {
             code: "var foo = { bar: 'baz', }",
-            options: [ "foo" ],
+            options: [ "never" ],
             errors: [
                 {
                     message: "Unexpected trailing comma.",
@@ -155,7 +155,7 @@ eslintTester.addRuleTest("lib/rules/comma-dangle", {
         },
         {
             code: "var foo = {\nbar: 'baz',\n}",
-            options: [ "bar" ],
+            options: [ "never" ],
             errors: [
                 {
                     message: "Unexpected trailing comma.",
@@ -167,7 +167,7 @@ eslintTester.addRuleTest("lib/rules/comma-dangle", {
         },
         {
             code: "foo({ bar: 'baz', qux: 'quux', });",
-            options: [ "baz" ],
+            options: [ "never" ],
             errors: [
                 {
                     message: "Unexpected trailing comma.",
