@@ -11,6 +11,7 @@
 //------------------------------------------------------------------------------
 
 var eslint = require("../../../lib/eslint"),
+    validate = require("../../../lib/validate-options"),
     ESLintTester = require("eslint-tester");
 
 function invalid(code, type, line, ecmaFeatures) {
@@ -32,7 +33,7 @@ function invalid(code, type, line, ecmaFeatures) {
     return result;
 }
 
-var eslintTester = new ESLintTester(eslint);
+var eslintTester = new ESLintTester(eslint, validate);
 eslintTester.addRuleTest("lib/rules/no-extra-parens", {
     valid: [
         // all precedence boundaries

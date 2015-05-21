@@ -10,13 +10,14 @@
 //------------------------------------------------------------------------------
 
 var eslint = require("../../../lib/eslint"),
+    validate = require("../../../lib/validate-options"),
     ESLintTester = require("eslint-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-var eslintTester = new ESLintTester(eslint);
+var eslintTester = new ESLintTester(eslint, validate);
 eslintTester.addRuleTest("lib/rules/no-undef", {
     valid: [
         "var a = 1, b = 2; a;",
@@ -44,7 +45,7 @@ eslintTester.addRuleTest("lib/rules/no-undef", {
         { code: "function foo() { var [a, b=4] = [1, 2]; return {a, b}; }", ecmaFeatures: { destructuring: true, objectLiteralShorthandProperties: true }},
         { code: "var toString = 1;", ecmaFeatures: { globalReturn: true }},
         { code: "function myFunc(...foo) {  return foo;}", ecmaFeatures: { restParams: true } },
-        { code: "var React, App, a=1; React.render(<App attr={a} />);", args: [1, {vars: "all"}], ecmaFeatures: { jsx: true } },
+        { code: "var React, App, a=1; React.render(<App attr={a} />);", ecmaFeatures: { jsx: true } },
         { code: "var console; [1,2,3].forEach(obj => {\n  console.log(obj);\n});", ecmaFeatures: { arrowFunctions: true } },
         { code: "var Foo; class Bar extends Foo { constructor() { super();  }}", ecmaFeatures: { classes: true } },
         { code: "import Warning from '../lib/warning'; var warn = new Warning('text');", ecmaFeatures: { modules: true } },
@@ -62,7 +63,7 @@ eslintTester.addRuleTest("lib/rules/no-undef", {
         { code: "window;", errors: [{ message: "\"window\" is not defined.", type: "Identifier"}] },
         { code: "require(\"a\");", errors: [{ message: "\"require\" is not defined.", type: "Identifier"}] },
         { code: "Array = 1;", errors: [{ message: "\"Array\" is read only.", type: "Identifier"}] },
-        { code: "var React; React.render(<img attr={a} />);", args: [1, {vars: "all"}], errors: [{ message: "\"a\" is not defined." }], ecmaFeatures: { jsx: true } },
-        { code: "var React, App; React.render(<App attr={a} />);", args: [1, {vars: "all"}], errors: [{ message: "\"a\" is not defined." }], ecmaFeatures: { jsx: true } }
+        { code: "var React; React.render(<img attr={a} />);", errors: [{ message: "\"a\" is not defined." }], ecmaFeatures: { jsx: true } },
+        { code: "var React, App; React.render(<App attr={a} />);", errors: [{ message: "\"a\" is not defined." }], ecmaFeatures: { jsx: true } }
     ]
 });

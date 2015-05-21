@@ -11,13 +11,14 @@
 //------------------------------------------------------------------------------
 
 var eslint = require("../../../lib/eslint"),
+    validate = require("../../../lib/validate-options"),
     ESLintTester = require("eslint-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-var eslintTester = new ESLintTester(eslint);
+var eslintTester = new ESLintTester(eslint, validate);
 
 var expectedErrorMessage = "Expected error to be handled.";
 var expectedFunctionDeclarationError = { message: expectedErrorMessage, type: "FunctionDeclaration" };

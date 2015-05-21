@@ -558,7 +558,7 @@ describe("Config", function() {
             var StubbedConfig = proxyquire("../../lib/config", {
                 "eslint-config-foo": {
                     rules: {
-                        foo: "bar"
+                        eqeqeq: [2, "smart"]
                     }
                 }
             });
@@ -566,7 +566,7 @@ describe("Config", function() {
             var configPath = path.resolve(__dirname, "../fixtures/config-extends/package/.eslintrc"),
                 configHelper = new StubbedConfig({ reset: true, useEslintrc: false, configFile: configPath }),
                 expected = {
-                    rules: { "quotes": [2, "double"], "foo": "bar", "valid-jsdoc": 0 },
+                    rules: { "quotes": [2, "double"], "eqeqeq": [2, "smart"], "valid-jsdoc": 0 },
                     env: { "browser": false }
                 },
                 actual = configHelper.getConfig(configPath);
@@ -579,7 +579,7 @@ describe("Config", function() {
             var StubbedConfig = proxyquire("../../lib/config", {
                 "eslint-config-foo": {
                     rules: {
-                        foo: "bar"
+                        eqeqeq: [2, "smart"]
                     }
                 }
             });
@@ -587,7 +587,7 @@ describe("Config", function() {
             var configPath = path.resolve(__dirname, "../fixtures/config-extends/package2/.eslintrc"),
                 configHelper = new StubbedConfig({ reset: true, useEslintrc: false, configFile: configPath }),
                 expected = {
-                    rules: { "quotes": [2, "double"], "foo": "bar", "valid-jsdoc": 0 },
+                    rules: { eqeqeq: [2, "smart"], "quotes": [2, "double"], "valid-jsdoc": 0 },
                     env: { "browser": false }
                 },
                 actual = configHelper.getConfig(configPath);

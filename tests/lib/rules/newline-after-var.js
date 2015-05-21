@@ -12,6 +12,7 @@
 //------------------------------------------------------------------------------
 
 var eslint = require("../../../lib/eslint"),
+    validate = require("../../../lib/validate-options"),
     ESLintTester = require("eslint-tester");
 
 //------------------------------------------------------------------------------
@@ -76,7 +77,7 @@ var BLOCK_BINDINGS = { blockBindings: true };
 // Tests
 //------------------------------------------------------------------------------
 
-var eslintTester = new ESLintTester(eslint);
+var eslintTester = new ESLintTester(eslint, validate);
 
 eslintTester.addRuleTest("lib/rules/newline-after-var", {
     valid: [
@@ -130,9 +131,6 @@ eslintTester.addRuleTest("lib/rules/newline-after-var", {
         { code: MULTI_LINE_NO_BLANK_WITH_COMMENTS, options: ["never"] },
         { code: MULTI_LINE_NEXT_LINE_COMMENT, options: ["never"] },
         { code: MULTI_LINE_NEXT_LINE_BLOCK_COMMENT, options: ["never"] },
-
-        // should treat an invalid mode as "always"
-        { code: ONE_BLANK, options: ["foobar"] },
 
         // should handle ES6 `let` block binding
         { code: LET_ONE_BLANK, options: ["always"], ecmaFeatures: BLOCK_BINDINGS },

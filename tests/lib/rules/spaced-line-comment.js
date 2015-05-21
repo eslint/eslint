@@ -10,13 +10,14 @@
 //------------------------------------------------------------------------------
 
 var eslint = require("../../../lib/eslint"),
+    validate = require("../../../lib/validate-options"),
     ESLintTester = require("eslint-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-var eslintTester = new ESLintTester(eslint),
+var eslintTester = new ESLintTester(eslint, validate),
     alwaysError = {
         messsage: "Expected space or tab after // in comment.",
         type: "Line"

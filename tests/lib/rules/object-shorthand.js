@@ -11,6 +11,7 @@
 //------------------------------------------------------------------------------
 
 var eslint = require("../../../lib/eslint"),
+    validate = require("../../../lib/validate-options"),
     ESLintTester = require("eslint-tester");
 
 //------------------------------------------------------------------------------
@@ -25,7 +26,7 @@ var features = {
     generators: true
 };
 
-var eslintTester = new ESLintTester(eslint);
+var eslintTester = new ESLintTester(eslint, validate);
 eslintTester.addRuleTest("lib/rules/object-shorthand", {
     valid: [
         { code: "var x = {y() {}}", ecmaFeatures: features },

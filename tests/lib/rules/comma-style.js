@@ -10,6 +10,7 @@
 //------------------------------------------------------------------------------
 
 var eslint = require("../../../lib/eslint"),
+    validate = require("../../../lib/validate-options"),
     ESLintTester = require("eslint-tester");
 
 var BAD_LN_BRK_MSG = "Bad line breaking before and after ','.",
@@ -20,7 +21,7 @@ var BAD_LN_BRK_MSG = "Bad line breaking before and after ','.",
 // Tests
 //------------------------------------------------------------------------------
 
-var eslintTester = new ESLintTester(eslint);
+var eslintTester = new ESLintTester(eslint, validate);
 eslintTester.addRuleTest("lib/rules/comma-style", {
 
     valid: [
@@ -38,13 +39,13 @@ eslintTester.addRuleTest("lib/rules/comma-style", {
         {code: "function foo(){return {'a': 1,\n'b': 2}}"},
         {code: "var foo = \n1, \nbar = \n2;"},
         {code: "var foo = \n1, \nbar = [1,\n2,\n3]"},
-        {code: "var foo = ['apples'\n,'oranges'];", args: ["2", "first"]},
-        {code: "var foo = 1, bar = 2;", args: ["2", "first"]},
-        {code: "var foo = 1 \n ,bar = 2;", args: ["2", "first"]},
-        {code: "var foo = {'a': 1 \n ,'b': 2 \n,'c': 3};", args: ["2", "first"]},
-        {code: "var foo = [1 \n ,2 \n, 3];", args: ["2", "first"]},
-        {code: "function foo(){return {'a': 1\n,'b': 2}}", args: ["2", "first"]},
-        {code: "function foo(){var a=[1\n, 2]}", args: ["2", "first"]},
+        {code: "var foo = ['apples'\n,'oranges'];", options: ["first"]},
+        {code: "var foo = 1, bar = 2;", options: ["first"]},
+        {code: "var foo = 1 \n ,bar = 2;", options: ["first"]},
+        {code: "var foo = {'a': 1 \n ,'b': 2 \n,'c': 3};", options: ["first"]},
+        {code: "var foo = [1 \n ,2 \n, 3];", options: ["first"]},
+        {code: "function foo(){return {'a': 1\n,'b': 2}}", options: ["first"]},
+        {code: "function foo(){var a=[1\n, 2]}", options: ["first"]},
         {
             code: "var a = 'a',\no = 'o';",
             args: [2, "first", {exceptions: {VariableDeclaration: true}}]

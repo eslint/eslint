@@ -9,15 +9,17 @@
 // Requirements
 //------------------------------------------------------------------------------
 var eslint = require("../../../lib/eslint"),
+    validate = require("../../../lib/validate-options"),
     ESLintTester = require("eslint-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-var eslintTester = new ESLintTester(eslint);
+var eslintTester = new ESLintTester(eslint, validate);
 eslintTester.addRuleTest("lib/rules/max-len", {
     valid: [
+        "var x = 5;\nvar x = 2;",
         {
             code: "var x = 5;\nvar x = 2;",
             args: [1, 80, 4]
@@ -32,10 +34,21 @@ eslintTester.addRuleTest("lib/rules/max-len", {
             code: "\n// Blank line on top\nvar foo = module.exports = {};\n",
             args: [1, 80, 4]
         },
+        "\n// Blank line on top\nvar foo = module.exports = {};\n",
         ""
     ],
 
     invalid: [
+        {
+            code: "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tvar i = 1;",
+            errors: [
+                {
+                    message: "Line 1 exceeds the maximum line length of 80.",
+                    type: "Program",
+                    line: 1
+                }
+            ]
+        },
         {
             code: "var x = 5, y = 2, z = 5;",
             args: [1, 10, 4],
