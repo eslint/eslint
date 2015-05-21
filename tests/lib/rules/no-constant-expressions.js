@@ -42,6 +42,7 @@ eslintTester.addRuleTest("lib/rules/no-constant-expressions", {
         { code: "5 === (a || true)", args: 1 },
         { code: "a === 'true'", args: 1 },
         { code: "'long string' + 'another string'", args: 1 },
+        { code: "\"long string\" + \"another string\" + \"another string\"", args: 1 },
         { code: "3 + (-a)", args: 1 }
     ],
     invalid: [
