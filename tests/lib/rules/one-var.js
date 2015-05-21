@@ -326,6 +326,10 @@ eslintTester.addRuleTest("lib/rules/one-var", {
                 {
                     message: "Combine this with the previous 'var' statement.",
                     type: "VariableDeclaration"
+                },
+                {
+                    message: "Combine this with the previous 'var' statement.",
+                    type: "VariableDeclaration"
                 }
             ]
         },
@@ -451,6 +455,16 @@ eslintTester.addRuleTest("lib/rules/one-var", {
                 line: 1,
                 column: 73
             }]
+        },
+        {
+            code: "var one = 1, two = 2;\nvar three;",
+            options: [ "always" ],
+            errors: [ {
+                message: "Combine this with the previous 'var' statement.",
+                type: "VariableDeclaration",
+                line: 2,
+                column: 0
+            } ]
         }
     ]
 });
