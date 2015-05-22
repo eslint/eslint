@@ -174,6 +174,20 @@ describe("Config", function() {
             assert.isObject(configHelper.getConfig(configPath));
         });
 
+        it("should follow symbolic links in config paths", function() {
+            var configPath = path.resolve(__dirname, "..", "fixtures", "configurations", "symlink", ".eslintrc");
+            var configHelper = new Config();
+
+            assert.isObject(configHelper.getConfig(configPath));
+        });
+
+        it("should follow chained symbolic links in config paths", function() {
+            var configPath = path.resolve(__dirname, "..", "fixtures", "configurations", "symlink", ".eslintrc2");
+            var configHelper = new Config();
+
+            assert.isObject(configHelper.getConfig(configPath));
+        });
+
         it("should throw error when an invalid configuration file is read", function() {
             var configPath = path.resolve(__dirname, "..", "fixtures", "configurations", ".eslintrc");
             var configHelper = new Config();
