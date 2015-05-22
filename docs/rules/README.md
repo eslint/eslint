@@ -41,6 +41,7 @@ The following rules point out areas where you might have made mistakes.
 
 These are rules designed to prevent you from making mistakes. They either prescribe a better way of doing something or help you avoid footguns.
 
+* [accessor-pairs](accessor-pairs.md) - Enforces getter/setter pairs in objects (off by default)
 * [block-scoped-var](block-scoped-var.md) - treat `var` statements as if they were block scoped (off by default)
 * [complexity](complexity.md) - specify the maximum cyclomatic complexity allowed in a program (off by default)
 * [consistent-return](consistent-return.md) - require `return` statements to either always or never specify values
