@@ -127,4 +127,21 @@ describe("formatter:checkstyle", function() {
             assert.equal(result, "<?xml version=\"1.0\" encoding=\"utf-8\"?><checkstyle version=\"4.3\"><file name=\"foo.js\"><error line=\"5\" column=\"10\" severity=\"error\" message=\"Unexpected foo. (foo)\" /></file><file name=\"bar.js\"><error line=\"6\" column=\"11\" severity=\"warning\" message=\"Unexpected bar. (bar)\" /></file></checkstyle>");
         });
     });
+
+    describe("when passing single message without rule id", function() {
+        var code = [{
+            filePath: "foo.js",
+            messages: [{
+                message: "Unexpected foo.",
+                severity: 2,
+                line: 5,
+                column: 10
+            }]
+        }];
+
+        it("should return a string in the format filename: line x, col y, Error - z for errors", function() {
+            var result = formatter(code);
+            assert.equal(result, "<?xml version=\"1.0\" encoding=\"utf-8\"?><checkstyle version=\"4.3\"><file name=\"foo.js\"><error line=\"5\" column=\"10\" severity=\"error\" message=\"Unexpected foo.\" /></file></checkstyle>");
+        });
+    });
 });

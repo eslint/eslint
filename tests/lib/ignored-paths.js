@@ -75,6 +75,11 @@ describe("IgnoredPaths", function() {
 
         var filepath = path.resolve(__dirname, "..", "fixtures", ".eslintignore2");
 
+        it("should throw if load wasn't called", function() {
+            var ignoredPaths = new IgnoredPaths(null);
+            assert.throw(ignoredPaths.contains, Error);
+        });
+
         it("should return true for file matching an ignore pattern", function() {
             var ignoredPaths = IgnoredPaths.load({ ignore: true, ignorePath: filepath });
             assert.ok(ignoredPaths.contains("undef.js"));

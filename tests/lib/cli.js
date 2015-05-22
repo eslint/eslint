@@ -43,6 +43,11 @@ describe("cli", function() {
             assert.equal(result, 0);
         });
 
+        it("should exit with console error when passed unsupported arguments", function() {
+            var result = cli.execute("--blah --another ./test/fixtures/files/");
+            assert.equal(result, 1);
+        });
+
     });
 
     describe("when given a config file", function() {
