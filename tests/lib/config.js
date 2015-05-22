@@ -531,6 +531,18 @@ describe("Config", function() {
             assert.isUndefined(config.globals.window);
         });
 
+        it("should not error on fake environments", function() {
+            var config, configPath, configHelper;
+
+            configPath = path.resolve(__dirname, "..", "fixtures", "environments", "fake.yaml");
+
+            configHelper = new Config({ reset: true, configFile: configPath, useEslintrc: false });
+
+            config = configHelper.getConfig(configPath);
+
+            assert.isDefined(config.env.es6);
+        });
+
         it("should gracefully handle empty files", function() {
             var configPath = path.resolve(__dirname, "..", "fixtures", "configurations", "env-node.json"),
                 configHelper = new Config({configFile: configPath});

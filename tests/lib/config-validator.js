@@ -32,6 +32,18 @@ mockRule.schema = [
     }
 ];
 
+function mockObjectRule(context) {
+    return {
+        "Program": function(node) {
+            context.report(node, "Expected a validation error.");
+        }
+    };
+}
+
+mockObjectRule.schema = {
+    "enum": ["first", "second"]
+};
+
 describe("Validator", function() {
 
     beforeEach(function() {
@@ -93,6 +105,13 @@ describe("Validator", function() {
                 ],
                 "minItems": 1,
                 "maxItems": 2
+            });
+        });
+
+        it("should not modify object schema", function() {
+            eslint.defineRule("mock-object-rule", mockObjectRule);
+            assert.deepEqual(validator.getRuleOptionsSchema("mock-object-rule"), {
+                "enum": ["first", "second"]
             });
         });
 
