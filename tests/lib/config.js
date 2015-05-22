@@ -695,6 +695,7 @@ describe("Config", function() {
             var customRule = require("../fixtures/rules/custom-rule");
 
             var examplePluginName = "eslint-plugin-example",
+                exampleConfigName = "eslint-config-example",
                 testPluginName = "eslint-plugin-test",
                 requireStubs = {},
                 examplePluginRules = { "example-rule": customRule },
@@ -800,6 +801,24 @@ describe("Config", function() {
                     actual = configHelper.getConfig(file);
 
                 assertConfigsEqual(actual, expected);
+            });
+
+            it("should not clobber config objects when loading shared configs", function () {
+                requireStubs[exampleConfigName] = { rules: examplePluginRules };
+
+                StubbedConfig = proxyquire("../../lib/config", requireStubs);
+
+                var configHelper = new StubbedConfig({ reset: true }),
+                    file1 = getFixturePath("shared", "a", "index.js"),
+                    file2 = getFixturePath("shared", "b", "index.js");
+
+                // first load creates object
+                configHelper.getConfig(file1);
+
+                // subsequent loads clobber #2592
+                var expected = configHelper.getConfig(file2);
+
+                assert(!("quotes" in expected.rules), "shared config should not be clobbered");
             });
         });
     });
