@@ -55,4 +55,9 @@ describe("configInitializer", function() {
         assert.equal(config.ecmaFeatures.jsx, true);
         assert.deepEqual(config.plugins, ["react"]);
     });
+    it("should not enable es6", function() {
+        answers.es6 = false;
+        var config = init.processAnswers(answers);
+        assert.isUndefined(config.env.es6);
+    });
 });

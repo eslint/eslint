@@ -21,7 +21,8 @@ eslintTester.addRuleTest("lib/rules/no-void", {
     valid: [
         "var foo = bar()",
         "foo.void()",
-        "foo.void = bar"
+        "foo.void = bar",
+        "delete foo;"
     ],
 
     invalid: [
