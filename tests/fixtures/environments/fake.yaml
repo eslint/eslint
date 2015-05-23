@@ -1,0 +1,6 @@
+{
+    "env": {
+        "blah": true,
+        "es6": true
+    }
+}
