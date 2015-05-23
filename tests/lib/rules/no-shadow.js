@@ -25,7 +25,8 @@ eslintTester.addRuleTest("lib/rules/no-shadow", {
         "var arguments;\nfunction bar() { }",
         { code: "var a=3; var b = (x) => { a++; return x + a; }; setTimeout(() => { b(a); }, 0);", ecmaFeatures: { arrowFunctions: true } },
         { code: "class A {}", ecmaFeatures: {classes: true} },
-        { code: "class A { constructor() { var a; } }", ecmaFeatures: {classes: true} }
+        { code: "class A { constructor() { var a; } }", ecmaFeatures: {classes: true} },
+        { code: "(function() { var A = class A {}; })()", ecmaFeatures: {classes: true} }
     ],
     invalid: [
         {
@@ -88,6 +89,56 @@ eslintTester.addRuleTest("lib/rules/no-shadow", {
             code: "let x = 1; { const x = 2; }",
             ecmaFeatures: {blockBindings: true},
             errors: [{ message: "x is already declared in the upper scope.", type: "Identifier"}]
+        },
+        {
+            code: "(function a() { function a(){} })()",
+            errors: [{ message: "a is already declared in the upper scope.", type: "Identifier"}]
+        },
+        {
+            code: "(function a() { class a{} })()",
+            ecmaFeatures: {classes: true},
+            errors: [{ message: "a is already declared in the upper scope.", type: "Identifier"}]
+        },
+        {
+            code: "(function a() { (function a(){}); })()",
+            errors: [{ message: "a is already declared in the upper scope.", type: "Identifier"}]
+        },
+        {
+            code: "(function a() { (class a{}); })()",
+            ecmaFeatures: {classes: true},
+            errors: [{ message: "a is already declared in the upper scope.", type: "Identifier"}]
+        },
+        {
+            code: "(function() { var a = function(a) {}; })()",
+            errors: [{ message: "a is already declared in the upper scope.", type: "Identifier"}]
+        },
+        {
+            code: "(function() { var a = function() { function a() {} }; })()",
+            errors: [{ message: "a is already declared in the upper scope.", type: "Identifier"}]
+        },
+        {
+            code: "(function() { var a = function() { class a{} }; })()",
+            ecmaFeatures: {classes: true},
+            errors: [{ message: "a is already declared in the upper scope.", type: "Identifier"}]
+        },
+        {
+            code: "(function() { var a = function() { (function a() {}); }; })()",
+            errors: [{ message: "a is already declared in the upper scope.", type: "Identifier"}]
+        },
+        {
+            code: "(function() { var a = function() { (class a{}); }; })()",
+            ecmaFeatures: {classes: true},
+            errors: [{ message: "a is already declared in the upper scope.", type: "Identifier"}]
+        },
+        {
+            code: "(function() { var a = class { constructor() { class a {} } }; })()",
+            ecmaFeatures: {classes: true},
+            errors: [{ message: "a is already declared in the upper scope.", type: "Identifier"}]
+        },
+        {
+            code: "class A { constructor() { var A; } }",
+            ecmaFeatures: {classes: true},
+            errors: [{ message: "A is already declared in the upper scope.", type: "Identifier"}]
         }
     ]
 });
