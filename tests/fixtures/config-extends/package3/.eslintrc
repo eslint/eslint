@@ -1,0 +1,12 @@
+{
+    "extends": "foo/bar",
+
+    "rules": {
+        "quotes": [2, "double"],
+        "valid-jsdoc": 0
+    },
+
+    "env": {
+        "browser": false
+    }
+}
