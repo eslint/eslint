@@ -45,7 +45,7 @@ Any combination of these rules may be applied at the same time.
 
 ```json
 {
-    "lines-around-comment": [2, { beforeBlockComment: true, beforeLineComment: true }]
+    "lines-around-comment": [2, { "beforeBlockComment": true, "beforeLineComment": true }]
 }
 ```
 
