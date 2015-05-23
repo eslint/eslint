@@ -142,6 +142,7 @@ These rules are purely matters of style and are quite subjective.
 * [func-style](func-style.md) - enforces use of function declarations or expressions (off by default)
 * [indent](indent.md) - this option sets a specific tab width for your code (off by default)
 * [key-spacing](key-spacing.md) - enforces spacing between keys and values in object literal properties
+* [lines-around-comment](lines-around-comment.md) - enforces empty lines around comments (off by default)
 * [linebreak-style](linebreak-style.md) - disallow mixed 'LF' and 'CRLF' as linebreaks (off by default)
 * [max-nested-callbacks](max-nested-callbacks.md) - specify the maximum depth callbacks can be nested (off by default)
 * [new-cap](new-cap.md) - require a capital letter for constructors
