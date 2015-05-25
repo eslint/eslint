@@ -163,6 +163,7 @@ These rules are purely matters of style and are quite subjective.
 * [no-underscore-dangle](no-underscore-dangle.md) - disallow dangling underscores in identifiers
 * [no-unneeded-ternary](no-unneeded-ternary.md) - disallow the use of `Boolean` literals in conditional expressions (off by default)
 * [no-wrap-func](no-wrap-func.md) - disallow wrapping of non-IIFE statements in parens
+* [object-curly-spacing](object-curly-spacing.md) - require or disallow padding inside curly braces (off by default)
 * [one-var](one-var.md) - allow or disallow one variable declaration per function (off by default)
 * [operator-assignment](operator-assignment.md) - require assignment operator shorthand where possible or prohibit it entirely (off by default)
 * [operator-linebreak](operator-linebreak.md) - enforce operators to be placed before or after line breaks (off by default)
