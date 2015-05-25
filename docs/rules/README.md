@@ -148,6 +148,7 @@ These rules are purely matters of style and are quite subjective.
 * [new-cap](new-cap.md) - require a capital letter for constructors
 * [new-parens](new-parens.md) - disallow the omission of parentheses when invoking a constructor with no arguments
 * [newline-after-var](newline-after-var.md) - allow/disallow an empty newline after `var` statement (off by default)
+* [newline-before-return](newline-before-return.md) - require newline before `return` statement (off by default)
 * [no-array-constructor](no-array-constructor.md) - disallow use of the `Array` constructor
 * [no-continue](no-continue.md) - disallow use of the `continue` statement (off by default)
 * [no-inline-comments](no-inline-comments.md) - disallow comments inline after code (off by default)
