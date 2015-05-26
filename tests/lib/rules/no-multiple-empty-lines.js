@@ -50,7 +50,20 @@ eslintTester.addRuleTest("lib/rules/no-multiple-empty-lines", {
         {
             code: "// valid 5\nvar a = 5;\n",
             args: [2, { max: 0 } ]
+        },
+
+        // template strings
+        {
+            code: "x = `\n\n\n\nhi\n\n\n\n`",
+            args: ruleArgs,
+            ecmaFeatures: { templateStrings: true }
+        },
+        {
+            code: "`\n\n`",
+            options: [{ max: 0 }],
+            ecmaFeatures: { templateStrings: true }
         }
+
     ],
 
     invalid: [
