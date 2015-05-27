@@ -8,7 +8,7 @@ alert("here!");
 
 ## Rule Details
 
-This rule is aimed at catching debugging code that should be removed and popup UI elements that should be replaced with less obtrusive, custom UIs. As such, it will warn when it encounters `alert`, `prompt`, and `confirm` function calls.
+This rule is aimed at catching debugging code that should be removed and popup UI elements that should be replaced with less obtrusive, custom UIs. As such, it will warn when it encounters `alert`, `prompt`, and `confirm` function calls which are not shadowed.
 
 The following patterns are considered warnings:
 
@@ -28,6 +28,11 @@ customAlert("Something happened!");
 customConfirm("Are you sure?");
 
 customPrompt("Who are you?");
+
+function foo() {
+    var alert = myCustomLib.customAlert;
+    alert();
+}
 ```
 
 ## Related Rules
