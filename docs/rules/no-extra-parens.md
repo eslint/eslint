@@ -1,20 +1,25 @@
 # Disallow Extra Parens (no-extra-parens)
 
-This rule restricts the use of parentheses to only where they are necessary.
+This rule restricts the use of parentheses to only where they are necessary. It may be restricted to report only function expressions.
 
 ## Rule Details
 
-The following patterns are considered warnings:
+### Exceptions
+
+A few cases of redundant parentheses are always allowed:
+
+* RegExp literals: `(/abc/).test(var)` is always valid.
+* IIFEs: `var x = (function () {})();`, `((function foo() {return 1;})())` are always valid.
+
+### Options
+
+The default behavior of the rule is specified by `"all"` and it will report unnecessary parentheses around any expression. The following patterns are considered warnings:
 
 ```js
 a = (b * c)
-```
 
-```js
 (a * b) + c
-```
 
-```js
 typeof (a)
 ```
 
@@ -22,22 +27,39 @@ The following patterns are not considered warnings:
 
 ```js
 (0).toString()
-```
 
-```js
 ({}.toString.call())
-```
 
-```js
 (function(){} ? a() : b())
-```
 
-```js
 (/^a$/).test(var)
 ```
 
-IIFEs are excluded from this requirement, so the `(function(){}())` pattern is allowed in any position.
-RegExp literals are also excluded from this requirement, so the `(/abc/).test(var)` pattern is allowed in any position as well.
+If the option is set to `"functions"`, only function expressions will be checked for unnecessary parentheses. The following patterns are considered warnings:
+
+```js
+((function foo() {}))();
+
+var y = (function () {return 1;});
+```
+
+The following patterns are not considered warnings:
+
+```js
+(0).toString()
+
+({}.toString.call())
+
+(function(){} ? a() : b())
+
+(/^a$/).test(var)
+
+a = (b * c)
+
+(a * b) + c
+
+typeof (a)
+```
 
 
 ## Further Reading
