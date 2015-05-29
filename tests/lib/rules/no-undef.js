@@ -48,7 +48,11 @@ eslintTester.addRuleTest("lib/rules/no-undef", {
         { code: "var console; [1,2,3].forEach(obj => {\n  console.log(obj);\n});", ecmaFeatures: { arrowFunctions: true } },
         { code: "var Foo; class Bar extends Foo { constructor() { super();  }}", ecmaFeatures: { classes: true } },
         { code: "import Warning from '../lib/warning'; var warn = new Warning('text');", ecmaFeatures: { modules: true } },
-        { code: "import * as Warning from '../lib/warning'; var warn = new Warning('text');", ecmaFeatures: { modules: true } }
+        { code: "import * as Warning from '../lib/warning'; var warn = new Warning('text');", ecmaFeatures: { modules: true } },
+        { code: "var a; [a] = [0];", ecmaFeatures: {destructuring: true} },
+        { code: "var a; ({a}) = {};", ecmaFeatures: {destructuring: true} },
+        { code: "var a; ({b: a}) = {};", ecmaFeatures: {destructuring: true} },
+        { code: "var obj; [obj.a, obj.b] = [0, 1];", ecmaFeatures: {destructuring: true} }
     ],
     invalid: [
         { code: "a = 1;", errors: [{ message: "\"a\" is not defined.", type: "Identifier"}] },
@@ -63,6 +67,10 @@ eslintTester.addRuleTest("lib/rules/no-undef", {
         { code: "require(\"a\");", errors: [{ message: "\"require\" is not defined.", type: "Identifier"}] },
         { code: "Array = 1;", errors: [{ message: "\"Array\" is read only.", type: "Identifier"}] },
         { code: "var React; React.render(<img attr={a} />);", errors: [{ message: "\"a\" is not defined." }], ecmaFeatures: { jsx: true } },
-        { code: "var React, App; React.render(<App attr={a} />);", errors: [{ message: "\"a\" is not defined." }], ecmaFeatures: { jsx: true } }
+        { code: "var React, App; React.render(<App attr={a} />);", errors: [{ message: "\"a\" is not defined." }], ecmaFeatures: { jsx: true } },
+        { code: "[a] = [0];", ecmaFeatures: {destructuring: true}, errors: [{ message: "\"a\" is not defined." }] },
+        { code: "({a}) = {};", ecmaFeatures: {destructuring: true}, errors: [{ message: "\"a\" is not defined." }] },
+        { code: "({b: a}) = {};", ecmaFeatures: {destructuring: true}, errors: [{ message: "\"a\" is not defined." }] },
+        { code: "[obj.a, obj.b] = [0, 1];", ecmaFeatures: {destructuring: true}, errors: [{ message: "\"obj\" is not defined." }, { message: "\"obj\" is not defined." }] }
     ]
 });
