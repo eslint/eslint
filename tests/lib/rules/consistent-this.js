@@ -2,6 +2,7 @@
  * @fileoverview Tests for consistent-this rule.
  * @author Raphael Pigulla
  * @copyright 2015 Timothy Jones. All rights reserved.
+ * @copyright 2015 David Aurelio. All rights reserved.
  */
 
 "use strict";
@@ -11,6 +12,18 @@
 //------------------------------------------------------------------------------
 var eslint = require("../../../lib/eslint"),
     ESLintTester = require("eslint-tester");
+
+//------------------------------------------------------------------------------
+// Helpers
+//------------------------------------------------------------------------------
+function destructuringTest(code) {
+    return {
+        code: code,
+        args: [1, "self"],
+        env: { es6: true },
+        ecmaFeatures: { destructuring: true }
+    };
+}
 
 //------------------------------------------------------------------------------
 // Tests
@@ -26,7 +39,11 @@ eslintTester.addRuleTest("lib/rules/consistent-this", {
         { code: "var foo, self; self = this", args: [1, "self"] },
         { code: "var foo, self; foo = 42; self = this", args: [1, "self"] },
         { code: "self = 42", args: [1, "that"] },
-        { code: "var foo = {}; foo.bar = this", args: [1, "self"] }
+        { code: "var foo = {}; foo.bar = this", args: [1, "self"] },
+        destructuringTest("var {foo, bar} = this"),
+        destructuringTest("({foo, bar} = this)"),
+        destructuringTest("var [foo, bar] = this"),
+        destructuringTest("[foo, bar] = this")
     ],
     invalid: [
         { code: "var context = this", args: [1, "that"], errors: [{ message: "Unexpected alias 'context' for 'this'.", type: "VariableDeclarator"}] },
