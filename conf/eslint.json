@@ -106,6 +106,7 @@
         "no-use-before-define": 2,
         "no-void": 0,
         "no-var": 0,
+        "prefer-const": 0,
         "no-warning-comments": [0, { "terms": ["todo", "fixme", "xxx"], "location": "start" }],
         "no-with": 2,
         "no-wrap-func": 2,
