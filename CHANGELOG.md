@@ -1,3 +1,33 @@
+v0.22.0 - May 30, 2015
+
+* Upgrade: escope 3.1.0 (fixes #2310, #2405) (Toru Nagashima)
+* Fix: “consistent-this” incorrectly flagging destructuring of `this` (fixes #2633) (David Aurelio)
+* Upgrade: eslint-tester to 0.7.0 (Ilya Volodin)
+* Update: allow shadowed references in no-alert (fixes #1105) (Mathias Schreck)
+* Fix: no-multiple-empty-lines and template strings (fixes #2605) (Jamund Ferguson)
+* New: object-curly-spacing (fixes #2225) (Jamund Ferguson)
+* Docs: minor fix for one-var rule (Jamund Ferguson)
+* Fix: Shared config being clobbered by other config (fixes #2592) (Dominic Barnes)
+* Update: adds "functions" option to no-extra-parens (fixes #2477) (Jose Roberto Vidal)
+* Docs: Fix json formatting for lines-around-comments rule (Gyandeep Singh)
+* Fix: Improve around function/class names of `no-shadow` (fixes #2556, #2552) (Toru Nagashima)
+* Fix: Improve code coverage (fixes #2590) (Ilya Volodin)
+* Fix: Allow scoped configs to have sub-configs (fixes #2594) (Greg Cochard)
+* Build: Add auto-update of release tag on github (fixes #2566) (Greg Cochard)
+* New: lines-around-comment (fixes #1344) (Jamund Ferguson)
+* Build: Unblock build by increasing code coverage (Ilya Volodin)
+* New: accessor-pairs rule to object initializations (fixes #1638) (Gyandeep Singh)
+* Fix: counting of variables statements in one-var (fixes #2570) (Mathias Schreck)
+* Build: Add sudo:false for Travis (fixes #2582) (Ilya Volodin)
+* New: Add rule schemas (refs #2179) (Brandon Mills)
+* Docs: Fix typo in shareable-configs example (fixes #2571) (Ted Piotrowski)
+* Build: Relax markdownlint rules by disabling style-only items (David Anson)
+* Fix: Object shorthand rule incorrectly flagging getters/setters (fixes #2563) (Brad Dougherty)
+* New: Add config validator (refs #2179) (Brandon Mills)
+* New: Add worker environment (fixes #2442) (Ilya Volodin)
+* New no-empty-character class (fixes #2508) (Jamund Ferguson)
+* New: Adds --ignore-pattern option. (fixes #1742) (Patrick McElhaney)
+
 v0.21.2 - May 18, 2015
 
 * 0.21.2 (Nicholas C. Zakas)
