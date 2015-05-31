@@ -118,8 +118,8 @@ describe("CLIEngine", function() {
             var report = engine.executeOnText("var bar = foo;", "tests/fixtures/passing.js");
             assert.equal(report.results.length, 1);
             assert.equal(report.results[0].filePath, "tests/fixtures/passing.js");
-            assert.equal(report.results[0].messages[1].ruleId, "no-undef");
-            assert.equal(report.results[0].messages[1].severity, 2);
+            assert.equal(report.results[0].messages[0].ruleId, "no-undef");
+            assert.equal(report.results[0].messages[0].severity, 2);
         });
 
     });
@@ -923,7 +923,7 @@ describe("CLIEngine", function() {
                 assert.equal(report.results.length, 1);
                 assert.equal(report.results[0].messages.length, 2);
             });
-            it("should run processors when executing with config file that specifies a processor", function() {
+            it("should run processors when calling executeOnFiles with config file that specifies a processor", function() {
                 engine = new CLIEngine({
                     configFile: "./tests/fixtures/configurations/processors.json",
                     reset: true,
@@ -936,7 +936,7 @@ describe("CLIEngine", function() {
                 assert.equal(report.results[0].messages[0].message, "b is defined but never used");
                 assert.equal(report.results[0].messages[0].ruleId, "post-processed");
             });
-            it("should run processors when executing with config file that specifies preloaded processor", function() {
+            it("should run processors when calling executeOnFiles with config file that specifies preloaded processor", function() {
                 engine = new CLIEngine({
                     reset: true,
                     useEslintrc: false,
@@ -963,6 +963,50 @@ describe("CLIEngine", function() {
                 });
 
                 var report = engine.executeOnFiles(["tests/fixtures/processors/test/test-processor.txt"]);
+
+                assert.equal(report.results[0].messages[0].message, "b is defined but never used");
+                assert.equal(report.results[0].messages[0].ruleId, "post-processed");
+            });
+            it("should run processors when calling executeOnText with config file that specifies a processor", function() {
+                engine = new CLIEngine({
+                    configFile: "./tests/fixtures/configurations/processors.json",
+                    reset: true,
+                    useEslintrc: false,
+                    extensions: ["js", "txt"]
+                });
+
+                var report = engine.executeOnText("function a() {console.log(\"Test\");}", "tests/fixtures/processors/test/test-processor.txt");
+
+                assert.equal(report.results[0].messages[0].message, "b is defined but never used");
+                assert.equal(report.results[0].messages[0].ruleId, "post-processed");
+            });
+            it("should run processors when calling executeOnText with config file that specifies preloaded processor", function() {
+                engine = new CLIEngine({
+                    reset: true,
+                    useEslintrc: false,
+                    plugins: ["test-processor"],
+                    rules: {
+                        "no-console": 2,
+                        "no-unused-vars": 2
+                    },
+                    extensions: ["js", "txt"]
+                });
+
+                engine.addPlugin("test-processor", {
+                    processors: {
+                        ".txt": {
+                            preprocess: function(text) {
+                                return [text.replace("a()", "b()")];
+                            },
+                            postprocess: function(messages) {
+                                messages[0][0].ruleId = "post-processed";
+                                return messages[0];
+                            }
+                        }
+                    }
+                });
+
+                var report = engine.executeOnText("function a() {console.log(\"Test\");}", "tests/fixtures/processors/test/test-processor.txt");
 
                 assert.equal(report.results[0].messages[0].message, "b is defined but never used");
                 assert.equal(report.results[0].messages[0].ruleId, "post-processed");
