@@ -87,6 +87,41 @@ describe("CLIEngine", function() {
             assert.equal(report.results[0].filePath, "test.js");
         });
 
+        it("should return a warning when given a filename by --stdin-filename in excluded files list", function() {
+            engine = new CLIEngine({
+                ignorePath: "tests/fixtures/.eslintignore"
+            });
+
+            var report = engine.executeOnText("var bar = foo;", "tests/fixtures/passing.js");
+
+            assert.equal(report.results.length, 1);
+            assert.equal(report.errorCount, 0);
+            assert.equal(report.warningCount, 1);
+            assert.equal(report.results[0].filePath, "tests/fixtures/passing.js");
+            assert.equal(report.results[0].messages[0].severity, 1);
+            assert.equal(report.results[0].messages[0].message, "File ignored because of your .eslintignore file. Use --no-ignore to override.");
+            assert.equal(report.results[0].errorCount, 0);
+            assert.equal(report.results[0].warningCount, 1);
+        });
+
+        it("should return a message when given a filename by --stdin-filename in excluded files list and ignore is off", function() {
+
+            engine = new CLIEngine({
+                ignorePath: "tests/fixtures/.eslintignore",
+                ignore: false,
+                reset: true,
+                rules: {
+                    "no-undef": 2
+                }
+            });
+
+            var report = engine.executeOnText("var bar = foo;", "tests/fixtures/passing.js");
+            assert.equal(report.results.length, 1);
+            assert.equal(report.results[0].filePath, "tests/fixtures/passing.js");
+            assert.equal(report.results[0].messages[1].ruleId, "no-undef");
+            assert.equal(report.results[0].messages[1].severity, 2);
+        });
+
     });
 
     describe("executeOnFiles()", function() {
@@ -282,41 +317,6 @@ describe("CLIEngine", function() {
             assert.equal(report.results[0].filePath, "tests/fixtures/undef.js");
             assert.equal(report.results[0].messages[0].ruleId, "no-undef");
             assert.equal(report.results[0].messages[0].severity, 2);
-            assert.equal(report.results[0].messages[1].ruleId, "no-undef");
-            assert.equal(report.results[0].messages[1].severity, 2);
-        });
-
-        it("should return a warning when given a filename by --stdin-filename in excluded files list", function() {
-            engine = new CLIEngine({
-                ignorePath: "tests/fixtures/.eslintignore"
-            });
-
-            var report = engine.executeOnText("var bar = foo;", "tests/fixtures/passing.js");
-
-            assert.equal(report.results.length, 1);
-            assert.equal(report.errorCount, 0);
-            assert.equal(report.warningCount, 1);
-            assert.equal(report.results[0].filePath, "tests/fixtures/passing.js");
-            assert.equal(report.results[0].messages[0].severity, 1);
-            assert.equal(report.results[0].messages[0].message, "File ignored because of your .eslintignore file. Use --no-ignore to override.");
-            assert.equal(report.results[0].errorCount, 0);
-            assert.equal(report.results[0].warningCount, 1);
-        });
-
-        it("should return a message when given a filename by --stdin-filename in excluded files list and ignore is off", function() {
-
-            engine = new CLIEngine({
-                ignorePath: "tests/fixtures/.eslintignore",
-                ignore: false,
-                reset: true,
-                rules: {
-                    "no-undef": 2
-                }
-            });
-
-            var report = engine.executeOnText("var bar = foo;", "tests/fixtures/passing.js");
-            assert.equal(report.results.length, 1);
-            assert.equal(report.results[0].filePath, "tests/fixtures/passing.js");
             assert.equal(report.results[0].messages[1].ruleId, "no-undef");
             assert.equal(report.results[0].messages[1].severity, 2);
         });
