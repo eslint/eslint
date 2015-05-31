@@ -1,3 +1,7 @@
+v0.22.1 - May 30, 2015
+
+* Build: Remove release notes auto-publish (refs #2640) (Ilya Volodin)
+
 v0.22.0 - May 30, 2015
 
 * Upgrade: escope 3.1.0 (fixes #2310, #2405) (Toru Nagashima)
