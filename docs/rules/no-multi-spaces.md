@@ -103,7 +103,7 @@ If you don't want to check and disallow multiple spaces, then you should turn th
 
 * [key-spacing](key-spacing.md)
 * [space-infix-ops](space-infix-ops.md)
-* [space-in-brackets](space-in-brackets.md)
+* [space-in-brackets](space-in-brackets.md) (deprecated)
 * [space-in-parens](space-in-parens.md)
 * [space-after-keywords](space-after-keywords)
 * [space-unary-ops](space-unary-ops)
