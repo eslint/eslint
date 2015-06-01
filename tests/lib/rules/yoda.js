@@ -64,7 +64,12 @@ eslintTester.addRuleTest("lib/rules/yoda", {
         }, {
             code: "if (0 <= this.prop && this.prop <= 1) {}",
             args: [2, "never", { exceptRange: true }]
-        }
+        },
+
+        // onlyEquality
+        { code: "if (0 < x && x <= 1) {}", args: [2, "never", { onlyEquality: true }]},
+        { code: "if (x !== 'foo' && 'foo' !== x) {}", args: [2, "never", { onlyEquality: true }]},
+        { code: "if (x < 2 && x !== -3) {}", args: [2, "always", { onlyEquality: true }]}
     ],
     invalid: [
 
@@ -264,6 +269,36 @@ eslintTester.addRuleTest("lib/rules/yoda", {
             errors: [
                 {
                     message: "Expected literal to be on the right side of <=.",
+                    type: "BinaryExpression"
+                }
+            ]
+        },
+        {
+            code: "if (3 == a) {}",
+            args: [2, "never", { onlyEquality: true }],
+            errors: [
+                {
+                    message: "Expected literal to be on the right side of ==.",
+                    type: "BinaryExpression"
+                }
+            ]
+        },
+        {
+            code: "foo(3 === a);",
+            args: [2, "never", { onlyEquality: true }],
+            errors: [
+                {
+                    message: "Expected literal to be on the right side of ===.",
+                    type: "BinaryExpression"
+                }
+            ]
+        },
+        {
+            code: "foo(a === 3);",
+            args: [2, "always", { onlyEquality: true }],
+            errors: [
+                {
+                    message: "Expected literal to be on the left side of ===.",
                     type: "BinaryExpression"
                 }
             ]
