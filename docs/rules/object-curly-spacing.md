@@ -36,7 +36,7 @@ There are two main options for the rule:
 Depending on your coding conventions, you can choose either option by specifying it in your configuration:
 
 ```json
-"curly-braces-spacing": [2, "always"]
+"object-curly-spacing": [2, "always"]
 ```
 
 #### never
@@ -117,7 +117,7 @@ it will enforce spacing for cases matching the exception.
 You can add exceptions like so:
 
 ```json
-"space-in-brackets": [2, "always", {
+"object-curly-spacing": [2, "always", {
   "objectsInObjects": false
 }]
 ```
