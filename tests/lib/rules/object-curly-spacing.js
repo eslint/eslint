@@ -35,6 +35,8 @@ eslintTester.addRuleTest("lib/rules/object-curly-spacing", {
         { code: "var {\nx,y\n} = z", options: ["always"], ecmaFeatures: { destructuring: true } },
         { code: "var { x = 10, y } = y", options: ["always"], ecmaFeatures: { destructuring: true } },
         { code: "var { x: { z }, y } = y", options: ["always"], ecmaFeatures: { destructuring: true } },
+        { code: "var {\ny,\n} = x", options: ["always"], ecmaFeatures: { destructuring: true } },
+        { code: "var { y, } = x", options: ["always"], ecmaFeatures: { destructuring: true } },
 
         // always - import / export
         { code: "import { door } from 'room'", options: ["always"], ecmaFeatures: { modules: true } },
@@ -70,6 +72,8 @@ eslintTester.addRuleTest("lib/rules/object-curly-spacing", {
         { code: "var {x = 10, y} = y", options: ["never"], ecmaFeatures: { destructuring: true } },
         { code: "var {x: {z}, y} = y", options: ["never"], ecmaFeatures: { destructuring: true } },
         { code: "var {\nx: {z\n}, y} = y", options: ["never"], ecmaFeatures: { destructuring: true } },
+        { code: "var {\ny,\n} = x", options: ["never"], ecmaFeatures: { destructuring: true } },
+        { code: "var {y,} = x", options: ["never"], ecmaFeatures: { destructuring: true } },
 
         // never - import / export
         { code: "import {door} from 'room'", options: ["never"], ecmaFeatures: { modules: true } },
@@ -154,6 +158,34 @@ eslintTester.addRuleTest("lib/rules/object-curly-spacing", {
                     type: "ObjectExpression",
                     line: 1,
                     column: 60
+                }
+            ]
+        },
+
+        // always-destructuring trailing comma
+        {
+            code: "var { a,} = x;",
+            options: ["always"],
+            ecmaFeatures: { destructuring: true },
+            errors: [
+                {
+                    message: "A space is required before '}'",
+                    type: "ObjectPattern",
+                    line: 1,
+                    column: 8
+                }
+            ]
+        },
+        {
+            code: "var {a, } = x;",
+            options: ["never"],
+            ecmaFeatures: { destructuring: true },
+            errors: [
+                {
+                    message: "There should be no space before '}'",
+                    type: "ObjectPattern",
+                    line: 1,
+                    column: 8
                 }
             ]
         },
