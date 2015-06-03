@@ -55,6 +55,12 @@ module.exports = {
     meteor: {
         globals: globals.meteor
     },
+    mongo: {
+        globals: globals.mongo
+    },
+    applescript: {
+        globals: globals.applescript
+    },
     es6: {
         ecmaFeatures: {
             arrowFunctions: true,
