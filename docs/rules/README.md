@@ -184,7 +184,8 @@ These rules are purely matters of style and are quite subjective.
 * [space-return-throw-case](space-return-throw-case.md) - require a space after `return`, `throw`, and `case`
 * [space-unary-ops](space-unary-ops.md) - Require or disallow spaces before/after unary operators (words on by default, nonwords off by default)
 * [space-unary-word-ops](space-unary-word-ops.md) - **(deprecated)** Require or disallow spaces before/after unary operators (words on by default, nonwords off by default)
-* [spaced-line-comment](spaced-line-comment.md) - require or disallow a space immediately following the `//` in a line comment (off by default)
+* [spaced-comment](spaced-comment.md) - require or disallow a space immediately following the `//` or `/*` in a comment (off by default)
+* [spaced-line-comment](spaced-line-comment.md) - **(deprecated)** require or disallow a space immediately following the `//` in a line comment (off by default)
 * [wrap-regex](wrap-regex.md) - require regex literals to be wrapped in parentheses (off by default)
 
 ## ECMAScript 6
