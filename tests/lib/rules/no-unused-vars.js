@@ -136,6 +136,8 @@ eslintTester.addRuleTest("lib/rules/no-unused-vars", {
         { code: "(function z(foo) { var bar = 33; })();", options: [{"vars": "all", "args": "all"}], errors: [{ message: "foo is defined but never used" }, { message: "bar is defined but never used" }]},
         { code: "(function z(foo) { z(); })();", options: [{}], errors: [{ message: "foo is defined but never used" }]},
         { code: "function f() { var a = 1; return function(){ f(a = 2); }; }", options: [{}], errors: [{ message: "f is defined but never used" }, {message: "a is defined but never used"}]},
-        { code: "import x from \"y\";", ecmaFeatures: { modules: true }, errors: [{ message: "x is defined but never used" }]}
+        { code: "import x from \"y\";", ecmaFeatures: { modules: true }, errors: [{ message: "x is defined but never used" }]},
+        { code: "export function fn2({ x, y }) {\n console.log(x); \n};", ecmaFeatures: { modules: true, destructuring: true }, errors: [{ message: "y is defined but never used" }]},
+        { code: "export function fn2( x, y ) {\n console.log(x); \n};", ecmaFeatures: { modules: true }, errors: [{ message: "y is defined but never used" }]}
     ]
 });
