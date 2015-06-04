@@ -28,7 +28,8 @@ eslintTester.addRuleTest("lib/rules/no-empty-character-class", {
         "var foo = /[[]/;",
         "var foo = /[\\[a-z[]]/;",
         "var foo = /[\\-\\[\\]\\/\\{\\}\\(\\)\\*\\+\\?\\.\\\\^\\$\\|]/g;",
-        "var foo = /\\s*:\\s*/gim;"
+        "var foo = /\\s*:\\s*/gim;",
+        { code: "var foo = /[\\]]/uy;", ecmaFeatures: { regexUFlag: true, regexYFlag: true } }
     ],
     invalid: [
         { code: "var foo = /^abc[]/;", errors: [{ message: "Empty class.", type: "Literal"}] },
