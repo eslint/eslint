@@ -93,7 +93,20 @@ if (-1 < str.indexOf(substr)) {
 }
 ```
 
-### Range Tests
+### Options
+
+There are a few options to the rule:
+
+```json
+"yoda": [2, "never", {
+    "exceptRange": false,
+    "onlyEquality": false
+}]
+```
+
+The `onlyEquality` option is a superset of `exceptRange`, thus both options are hardly useful together.
+
+#### Range Tests
 
 "Range" comparisons test whether a variable is inside or outside the range between two literals. When configured with the `exceptRange` option, range tests are allowed when the comparison itself is wrapped directly in parentheses, such as those of an `if` or `while` condition.
 
@@ -124,6 +137,20 @@ if (count < 10 && (0 <= rand && rand < 1)) {
 ```js
 function howLong(arr) {
     return (0 <= arr.length && arr.length < 10) ? "short" : "long";
+}
+```
+
+#### Apply only to equality, but not other operators
+
+Some developers might prefer to only enforce the rule for the equality operators `==` and `===`, and not showing any warnings for any code around other operators. With `onlyEquality` option, these patterns will not be considered warnings:
+
+```js
+if (x < -1 || 9 < x) {
+}
+```
+
+```js
+if (x !== 'foo' && 'bar' != x) {
 }
 ```
 
