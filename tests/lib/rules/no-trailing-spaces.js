@@ -144,6 +144,18 @@ eslintTester.addRuleTest("lib/rules/no-trailing-spaces", {
                 type: "Program"
             }],
             options: [{}]
+        },
+        {
+            code: "var a = 'bar';  \n \n\t\nvar b;",
+            errors: [{
+                message: "Trailing spaces not allowed.",
+                type: "Program",
+                line: 1,
+                column: 16 // there are invalid spaces in columns 15 and 16
+            }],
+            options: [{
+                skipBlankLines: true
+            }]
         }
     ]
 
