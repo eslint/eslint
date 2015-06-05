@@ -26,7 +26,33 @@ eslintTester.addRuleTest("lib/rules/no-shadow", {
         { code: "var a=3; var b = (x) => { a++; return x + a; }; setTimeout(() => { b(a); }, 0);", ecmaFeatures: { arrowFunctions: true } },
         { code: "class A {}", ecmaFeatures: {classes: true} },
         { code: "class A { constructor() { var a; } }", ecmaFeatures: {classes: true} },
-        { code: "(function() { var A = class A {}; })()", ecmaFeatures: {classes: true} }
+        { code: "(function() { var A = class A {}; })()", ecmaFeatures: {classes: true} },
+        { code: "{ var a; } let a;", ecmaFeatures: {blockBindings: true} }, // this case reports `no-redeclare`, not shadowing.
+        { code: "{ let a; } let a;", options: [{hoist: "never"}], ecmaFeatures: {blockBindings: true} },
+        { code: "{ let a; } var a;", options: [{hoist: "never"}], ecmaFeatures: {blockBindings: true} },
+        { code: "{ let a; } function a() {}", options: [{hoist: "never"}], ecmaFeatures: {blockBindings: true} },
+        { code: "{ const a = 0; } const a = 1;", options: [{hoist: "never"}], ecmaFeatures: {blockBindings: true} },
+        { code: "{ const a = 0; } var a;", options: [{hoist: "never"}], ecmaFeatures: {blockBindings: true} },
+        { code: "{ const a = 0; } function a() {}", options: [{hoist: "never"}], ecmaFeatures: {blockBindings: true} },
+        { code: "function foo() { let a; } let a;", options: [{hoist: "never"}], ecmaFeatures: {blockBindings: true} },
+        { code: "function foo() { let a; } var a;", options: [{hoist: "never"}], ecmaFeatures: {blockBindings: true} },
+        { code: "function foo() { let a; } function a() {}", options: [{hoist: "never"}], ecmaFeatures: {blockBindings: true} },
+        { code: "function foo() { var a; } let a;", options: [{hoist: "never"}], ecmaFeatures: {blockBindings: true} },
+        { code: "function foo() { var a; } var a;", options: [{hoist: "never"}], ecmaFeatures: {blockBindings: true} },
+        { code: "function foo() { var a; } function a() {}", options: [{hoist: "never"}], ecmaFeatures: {blockBindings: true} },
+        { code: "function foo(a) { } let a;", options: [{hoist: "never"}], ecmaFeatures: {blockBindings: true} },
+        { code: "function foo(a) { } var a;", options: [{hoist: "never"}], ecmaFeatures: {blockBindings: true} },
+        { code: "function foo(a) { } function a() {}", options: [{hoist: "never"}], ecmaFeatures: {blockBindings: true} },
+        { code: "{ let a; } let a;", ecmaFeatures: {blockBindings: true} },
+        { code: "{ let a; } var a;", ecmaFeatures: {blockBindings: true} },
+        { code: "{ const a = 0; } const a = 1;", ecmaFeatures: {blockBindings: true} },
+        { code: "{ const a = 0; } var a;", ecmaFeatures: {blockBindings: true} },
+        { code: "function foo() { let a; } let a;", ecmaFeatures: {blockBindings: true} },
+        { code: "function foo() { let a; } var a;", ecmaFeatures: {blockBindings: true} },
+        { code: "function foo() { var a; } let a;", ecmaFeatures: {blockBindings: true} },
+        { code: "function foo() { var a; } var a;", ecmaFeatures: {blockBindings: true} },
+        { code: "function foo(a) { } let a;", ecmaFeatures: {blockBindings: true} },
+        { code: "function foo(a) { } var a;", ecmaFeatures: {blockBindings: true} }
     ],
     invalid: [
         {
@@ -89,6 +115,121 @@ eslintTester.addRuleTest("lib/rules/no-shadow", {
             code: "let x = 1; { const x = 2; }",
             ecmaFeatures: {blockBindings: true},
             errors: [{ message: "x is already declared in the upper scope.", type: "Identifier"}]
+        },
+        {
+            code: "{ let a; } function a() {}",
+            ecmaFeatures: {blockBindings: true},
+            errors: [{ message: "a is already declared in the upper scope.", type: "Identifier"}]
+        },
+        {
+            code: "{ const a = 0; } function a() {}",
+            ecmaFeatures: {blockBindings: true},
+            errors: [{ message: "a is already declared in the upper scope.", type: "Identifier"}]
+        },
+        {
+            code: "function foo() { let a; } function a() {}",
+            ecmaFeatures: {blockBindings: true},
+            errors: [{ message: "a is already declared in the upper scope.", type: "Identifier"}]
+        },
+        {
+            code: "function foo() { var a; } function a() {}",
+            ecmaFeatures: {blockBindings: true},
+            errors: [{ message: "a is already declared in the upper scope.", type: "Identifier"}]
+        },
+        {
+            code: "function foo(a) { } function a() {}",
+            ecmaFeatures: {blockBindings: true},
+            errors: [{ message: "a is already declared in the upper scope.", type: "Identifier"}]
+        },
+        {
+            code: "{ let a; } let a;",
+            options: [{hoist: "all"}],
+            ecmaFeatures: {blockBindings: true},
+            errors: [{ message: "a is already declared in the upper scope.", type: "Identifier"}]
+        },
+        {
+            code: "{ let a; } var a;",
+            options: [{hoist: "all"}],
+            ecmaFeatures: {blockBindings: true},
+            errors: [{ message: "a is already declared in the upper scope.", type: "Identifier"}]
+        },
+        {
+            code: "{ let a; } function a() {}",
+            options: [{hoist: "all"}],
+            ecmaFeatures: {blockBindings: true},
+            errors: [{ message: "a is already declared in the upper scope.", type: "Identifier"}]
+        },
+        {
+            code: "{ const a = 0; } const a = 1;",
+            options: [{hoist: "all"}],
+            ecmaFeatures: {blockBindings: true},
+            errors: [{ message: "a is already declared in the upper scope.", type: "Identifier"}]
+        },
+        {
+            code: "{ const a = 0; } var a;",
+            options: [{hoist: "all"}],
+            ecmaFeatures: {blockBindings: true},
+            errors: [{ message: "a is already declared in the upper scope.", type: "Identifier"}]
+        },
+        {
+            code: "{ const a = 0; } function a() {}",
+            options: [{hoist: "all"}],
+            ecmaFeatures: {blockBindings: true},
+            errors: [{ message: "a is already declared in the upper scope.", type: "Identifier"}]
+        },
+        {
+            code: "function foo() { let a; } let a;",
+            options: [{hoist: "all"}],
+            ecmaFeatures: {blockBindings: true},
+            errors: [{ message: "a is already declared in the upper scope.", type: "Identifier"}]
+        },
+        {
+            code: "function foo() { let a; } var a;",
+            options: [{hoist: "all"}],
+            ecmaFeatures: {blockBindings: true},
+            errors: [{ message: "a is already declared in the upper scope.", type: "Identifier"}]
+        },
+        {
+            code: "function foo() { let a; } function a() {}",
+            options: [{hoist: "all"}],
+            ecmaFeatures: {blockBindings: true},
+            errors: [{ message: "a is already declared in the upper scope.", type: "Identifier"}]
+        },
+        {
+            code: "function foo() { var a; } let a;",
+            options: [{hoist: "all"}],
+            ecmaFeatures: {blockBindings: true},
+            errors: [{ message: "a is already declared in the upper scope.", type: "Identifier"}]
+        },
+        {
+            code: "function foo() { var a; } var a;",
+            options: [{hoist: "all"}],
+            ecmaFeatures: {blockBindings: true},
+            errors: [{ message: "a is already declared in the upper scope.", type: "Identifier"}]
+        },
+        {
+            code: "function foo() { var a; } function a() {}",
+            options: [{hoist: "all"}],
+            ecmaFeatures: {blockBindings: true},
+            errors: [{ message: "a is already declared in the upper scope.", type: "Identifier"}]
+        },
+        {
+            code: "function foo(a) { } let a;",
+            options: [{hoist: "all"}],
+            ecmaFeatures: {blockBindings: true},
+            errors: [{ message: "a is already declared in the upper scope.", type: "Identifier"}]
+        },
+        {
+            code: "function foo(a) { } var a;",
+            options: [{hoist: "all"}],
+            ecmaFeatures: {blockBindings: true},
+            errors: [{ message: "a is already declared in the upper scope.", type: "Identifier"}]
+        },
+        {
+            code: "function foo(a) { } function a() {}",
+            options: [{hoist: "all"}],
+            ecmaFeatures: {blockBindings: true},
+            errors: [{ message: "a is already declared in the upper scope.", type: "Identifier"}]
         },
         {
             code: "(function a() { function a(){} })()",

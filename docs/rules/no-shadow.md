@@ -47,6 +47,42 @@ if (true) {
 }
 ```
 
+## Options
+
+This rule has a option for the hoisting behavior.
+
+```json
+{
+    "rules": {
+        "no-shadow": [2, {"hoist": "functions"}]
+    }
+}
+```
+
+### hoist
+
+The option has three settings:
+
+* `all` - reports all shadowing before the outer variables/functions are defined.
+* `functions` (by default) - reports shadowing before the outer functions are defined.
+* `never` - never report shadowing before the outer variables/functions are defined.
+
+Thought with the following codes:
+
+```js
+if (true) {
+    let a = 3;
+    let b = 6;
+}
+
+let a = 5;
+function b() {}
+```
+
+* `all` - Both `let a` and `let b` in the `if` statement are considered warnings.
+* `functions` - `let b` is considered warnings. But `let a` in the `if` statement is not considered warnings. Because there is it before `let a` of the outer scope.
+* `never` - Both `let a` and `let b` in the `if` statement are not considered warnings. Because there are those before each declaration of the outer scope.
+
 ## Further Reading
 
 * [Variable Shadowing](http://en.wikipedia.org/wiki/Variable_shadowing)
