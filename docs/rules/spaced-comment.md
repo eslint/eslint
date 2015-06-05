@@ -13,11 +13,15 @@ This rule takes two arguments. If the first is `"always"` then the `//` or `/*` 
 If `"never"` then there should be no whitespace following.
 The default is `"always"`.
 
-The second argument is an object with one key, `"exceptions"`.
-The value is an array of string patterns which are considered exceptions to the rule.
+The second argument is an object with two keys, `"exceptions"` and `"markers"`.
+The `"exceptions"` value is an array of string patterns which are considered exceptions to the rule.
 It is important to note that the exceptions are ignored if the first argument is `"never"`.
 
 Exceptions cannot be mixed. From the collection of exceptions provided only one of them can be used inside the comment. Mixing of more than one is not valid.
+
+The `"markers"` value is an array of string patterns which are considered markers for docblock-style comments,
+such as an additional `/`, used to denote documentation read by doxygen, vsdoc, etc. which must have additional characters.
+The `"markers"` array will apply regardless of the value of the first argument, e.g. `"always"` or `"never"`.
 
 The following patterns are considered warnings:
 
@@ -53,6 +57,11 @@ var foo = 5;
 //------++++++++
 // Comment block
 //------++++++++
+```
+
+```js
+// When ["always",{"markers":["/"]}]
+///This is a comment with a marker but without whitespace
 ```
 
 ```js
@@ -108,4 +117,14 @@ var foo = 5;
 /*-+-+-+-+-+-+-+*/
 // Comment block
 /*-+-+-+-+-+-+-+*/
+```
+
+```js
+// When ["always",{"markers":["/"]}]
+/// This is a comment with a marker
+```
+
+```js
+// When ["never",{"markers":["!<"]}]
+//!<This is a comment with a marker
 ```
