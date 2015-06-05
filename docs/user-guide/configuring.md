@@ -410,6 +410,25 @@ The extended configuration provides base rules, which can be overriden by the co
 }
 ```
 
+Configurations may also be provided as an array, with additional files overriding any properties provided in the previous file. For example:
+
+```js
+{
+    "extends": [
+        "./node_modules/coding-standard/.eslintrc-defaults",
+        // Override .eslintrc-defaults
+        "./node_modules/coding-standard/.eslintrc-es6",
+        // Override .eslintrc-es6
+        "./node_modules/coding-standard/.eslintrc-jsx",
+    ],
+
+    "rules": {
+        // Override any settings from the "parent" configuration
+        "eqeqeq": 1
+    }
+}
+```
+
 The extended configurations can also contain their own `extends`, resulting in recursive merging of the referenced configurations.
 
 You can also extend configurations using shareable configuration packages. To do so, be sure to install the configuration package you want from npm and then use the package name, such as:

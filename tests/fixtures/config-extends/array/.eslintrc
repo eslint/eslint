@@ -1,0 +1,14 @@
+{
+    "extends": [
+        ".eslintrc1",
+        ".eslintrc2"
+    ],
+
+    "rules": {
+        "no-empty": 1
+    },
+
+    "env": {
+        "browser": false
+    }
+}
