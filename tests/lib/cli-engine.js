@@ -334,7 +334,7 @@ describe("CLIEngine", function() {
         });
 
 
-        it("should thrown an error when loading a custom rule that doesn't exist", function() {
+        it("should throw an error when loading a custom rule that doesn't exist", function() {
 
             engine = new CLIEngine({
                 ignore: false,
@@ -350,7 +350,7 @@ describe("CLIEngine", function() {
 
         });
 
-        it("should thrown an error when loading a custom rule that doesn't exist", function() {
+        it("should throw an error when loading a custom rule that doesn't exist", function() {
 
             engine = new CLIEngine({
                 ignore: false,
