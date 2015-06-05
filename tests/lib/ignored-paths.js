@@ -102,7 +102,7 @@ describe("IgnoredPaths", function() {
 
         it("should return true for file matching a child of an ignore pattern with windows line termination", function() {
             var stub = sinon.stub(fs, "readFileSync");
-            stub.withArgs("test", "utf8").returns("undef.js\r\n");
+            stub.withArgs(path.resolve(process.cwd(), "test"), "utf8").returns("undef.js\r\n");
 
             var ignoredPaths = IgnoredPaths.load({ ignore: true, ignorePath: "test" });
             assert.ok(ignoredPaths.contains("undef.js/subdir/grandsubdir"));
