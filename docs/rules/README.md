@@ -127,6 +127,7 @@ These rules are specific to JavaScript running on Node.js.
 * [no-process-exit](no-process-exit.md) - disallow `process.exit()` (on by default in the node environment)
 * [no-restricted-modules](no-restricted-modules.md) - restrict usage of specified node modules (off by default)
 * [no-sync](no-sync.md) - disallow use of synchronous methods (off by default)
+* [no-up-requires](no-up-requires.md) - disallow requires from parent directories (off by default)
 
 ## Stylistic Issues
 
