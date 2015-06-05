@@ -25,8 +25,8 @@ eslintTester.addRuleTest("lib/rules/lines-around-comment", {
     valid: [
 
         // default rules
-        { code: "bar()\n/** block block block\n * block \n */\n\nvar a = 1;" },
         { code: "bar()\n\n/** block block block\n * block \n */\n\nvar a = 1;" },
+        { code: "bar()\n\n/** block block block\n * block \n */\nvar a = 1;" },
         { code: "bar()\n// line line line \nvar a = 1;" },
         { code: "bar()\n\n// line line line\nvar a = 1;" },
         { code: "bar()\n// line line line\n\nvar a = 1;" },
@@ -59,7 +59,7 @@ eslintTester.addRuleTest("lib/rules/lines-around-comment", {
             options: [{ afterBlockComment: false, beforeBlockComment: true }]
         },
         {
-            code: "bar()\n/** block block block\n * block \n */\nvar a = 1;",
+            code: "bar()\n\n/** block block block\n * block \n */\nvar a = 1;",
             options: [{ afterBlockComment: false }]
         },
         {
@@ -83,11 +83,11 @@ eslintTester.addRuleTest("lib/rules/lines-around-comment", {
 
         // mixed comment (some block & some line)
         {
-            code: "bar()\n/** block block block\n * block \n */\n//line line line\nvar a = 1;",
+            code: "bar()\n\n/** block block block\n * block \n */\n//line line line\nvar a = 1;",
             options: [{ afterBlockComment: true }]
         },
         {
-            code: "bar()\n/** block block block\n * block \n */\n//line line line\nvar a = 1;",
+            code: "bar()\n\n/** block block block\n * block \n */\n//line line line\nvar a = 1;",
             options: [{ beforeLineComment: true }]
         }
 
@@ -98,7 +98,7 @@ eslintTester.addRuleTest("lib/rules/lines-around-comment", {
         // default rules
         {
             code: "bar()\n/** block block block\n * block \n */\nvar a = 1;",
-            errors: [{ message: afterMessage, type: "Block" }]
+            errors: [{ message: beforeMessage, type: "Block" }]
         },
 
         // line comments
