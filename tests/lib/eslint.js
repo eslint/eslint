@@ -2432,10 +2432,16 @@ describe("eslint", function() {
 
     });
 
-    // only test in Node.js, not browser
-    if (typeof window === "undefined") {
+    describe("Custom parser", function() {
 
-        describe("Custom parser", function() {
+        it("should accept a parser object", function() {
+            var parser = require("espree");
+            var messages = eslint.verify("", { parser: parser }, "filename");
+            assert.equal(messages.length, 0);
+        });
+
+        // only test in Node.js, not browser
+        if (typeof window === "undefined") {
 
             it("should not report an error when JSX code contains a spread operator and JSX is enabled", function() {
                 var code = "var myDivElement = <div {...this.props} />;";
@@ -2451,8 +2457,8 @@ describe("eslint", function() {
                 assert.equal(messages[0].message, "Cannot find module 'esprima-fbxyz'");
             });
 
-        });
-    }
+        }
 
+    });
 
 });
