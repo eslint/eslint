@@ -53,6 +53,25 @@ eslintTester.addRuleTest("lib/rules/spaced-comment", {
             }]
         },
         {
+            code: "//!< docblock style comment",
+            options: ["always", {
+                markers: ["/", "!<"]
+            }]
+        },
+        {
+            code: "//----\n// a comment\n//----\n/// xmldoc style comment\n//!< docblock style comment",
+            options: ["always", {
+                exceptions: ["-"],
+                markers: ["/", "!<"]
+            }]
+        },
+        {
+            code: "///xmldoc style comment",
+            options: ["never", {
+                markers: ["/", "!<"]
+            }]
+        },
+        {
             code: validShebangProgram,
             options: ["always"]
         },
@@ -157,6 +176,20 @@ eslintTester.addRuleTest("lib/rules/spaced-comment", {
             ],
             options: ["always", {
                 exceptions: ["-", "=", "*", "#", "!@#"]
+            }]
+        },
+        {
+            code: "//!<docblock style comment",
+            errors: 1,
+            options: ["always", {
+                markers: ["/", "!<"]
+            }]
+        },
+        {
+            code: "//!< docblock style comment",
+            errors: 1,
+            options: ["never", {
+                    markers: ["/", "!<"]
             }]
         },
         {
