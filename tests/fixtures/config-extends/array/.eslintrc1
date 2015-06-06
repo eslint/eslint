@@ -1,0 +1,12 @@
+{
+    "rules": {
+        "comma-dangle": 1,
+        "no-console": 2,
+        "no-empty": 2
+    },
+
+    "env": {
+        "browser": true,
+        "node": true
+    }
+}
