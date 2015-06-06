@@ -761,6 +761,19 @@ describe("Config", function() {
             }, /Referenced from:.*?error\.json/);
         });
 
+        // Keep order with the last array element taking highest precedence
+        it("should make the last element in an array take the highest precedence", function() {
+            var configPath = path.resolve(__dirname, "..", "fixtures", "config-extends", "array", ".eslintrc"),
+                configHelper = new Config({ reset: true, useEslintrc: false, configFile: configPath }),
+                expected = {
+                    rules: { "no-empty": 1, "comma-dangle": 2, "no-console": 2 },
+                    env: { "browser": false, "node": true, "es6": true }
+                },
+                actual = configHelper.getConfig(configPath);
+
+            assertConfigsEqual(expected, actual);
+        });
+
         describe("with plugin configuration", function() {
             var customRule = require("../fixtures/rules/custom-rule");
 
