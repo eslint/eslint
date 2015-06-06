@@ -17,6 +17,7 @@ var answers = {};
 describe("configInitializer", function() {
     beforeEach(function() {
         answers = {
+            extendDefault: true,
             indent: 2,
             quotes: "single",
             linebreak: "unix",
@@ -37,6 +38,7 @@ describe("configInitializer", function() {
         assert.deepEqual(config.rules.semi, [2, "always"]);
         assert.equal(config.env.es6, true);
         assert.equal(config.env.browser, true);
+        assert.equal(config.extends, "eslint:recommended");
     });
     it("should disable semi", function() {
         answers.semi = false;
@@ -59,5 +61,9 @@ describe("configInitializer", function() {
         answers.es6 = false;
         var config = init.processAnswers(answers);
         assert.isUndefined(config.env.es6);
+    });
+    it("should extend eslint:recommended", function() {
+        var config = init.processAnswers(answers);
+        assert.equal(config.extends, "eslint:recommended");
     });
 });

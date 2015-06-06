@@ -2512,11 +2512,7 @@ describe("eslint", function() {
 
         it("should not parse global return when Node.js environment is false", function() {
 
-            var messages = eslint.verify("return;", {
-                env: {
-                    node: false
-                }
-            }, filename);
+            var messages = eslint.verify("return;", {}, filename);
 
             assert.equal(messages.length, 1);
             assert.equal(messages[0].message, "Illegal return statement");

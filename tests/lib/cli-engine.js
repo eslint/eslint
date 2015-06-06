@@ -14,6 +14,7 @@ var assert = require("chai").assert,
     proxyquire = require("proxyquire"),
     sinon = require("sinon"),
     rules = require("../../lib/rules"),
+    path = require("path"),
     Config = require("../../lib/config");
 
 require("shelljs/global");
@@ -46,7 +47,7 @@ describe("CLIEngine", function() {
 
         var engine;
 
-        it("should report three messages when using local cwd .eslintrc", function() {
+        it("should report one message when using local cwd .eslintrc", function() {
 
             engine = new CLIEngine();
 
@@ -130,7 +131,7 @@ describe("CLIEngine", function() {
         it("should report zero messages when given a config file and a valid file", function() {
 
             engine = new CLIEngine({
-                // configFile: path.join(__dirname, "..", "..", ".eslintrc")
+                configFile: path.join(__dirname, "..", "..", ".eslintrc")
             });
 
             var report = engine.executeOnFiles(["lib/cli.js"]);
@@ -496,6 +497,7 @@ describe("CLIEngine", function() {
             it("should return zero messages when executing with no .eslintrc in the Node.js environment", function() {
 
                 engine = new CLIEngine({
+                    reset: true,
                     useEslintrc: false
                 });
 
