@@ -27,7 +27,7 @@ The following rules point out areas where you might have made mistakes.
 * [no-inner-declarations](no-inner-declarations.md) - disallow function or variable declarations in nested blocks
 * [no-invalid-regexp](no-invalid-regexp.md) - disallow invalid regular expression strings in the `RegExp` constructor
 * [no-irregular-whitespace](no-irregular-whitespace.md) - disallow irregular whitespace outside of strings and comments
-* [no-negated-in-lhs](no-negated-in-lhs.md) - disallow negation of the left operand of an `in` expression
+* [no-negated-in-lhs](no-negated-in-lhs.md) - disallow negation of the left operand of an `in` or `instanceof` expression
 * [no-obj-calls](no-obj-calls.md) - disallow the use of object properties of the global object (`Math` and `JSON`) as functions
 * [no-regex-spaces](no-regex-spaces.md) - disallow multiple spaces in a regular expression literal
 * [no-reserved-keys](no-reserved-keys.md) - disallow reserved words being used as object literal keys (off by default)

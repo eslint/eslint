@@ -1,4 +1,4 @@
-# Disallow negated left operand of `in` operator (no-negated-in-lhs)
+# Disallow negated left operand of `in` and `instanceof` operators (no-negated-in-lhs)
 
 ## Rule Details
 
@@ -6,12 +6,16 @@ This error is raised to highlight a potential error. Commonly, when a developer 
 
 ```js
 if(!(a in b)) // do something
+
+if(!(a instanceof b)) // do something
 ```
 
 they will instead write
 
 ```js
 if(!a in b) // do something
+
+if(!a instanceof b) // do something
 ```
 
 If one intended the original behaviour, the left operand should be explicitly coerced to a string like below.

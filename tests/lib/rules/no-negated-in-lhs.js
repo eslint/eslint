@@ -20,9 +20,12 @@ var eslintTester = new ESLintTester(eslint);
 eslintTester.addRuleTest("lib/rules/no-negated-in-lhs", {
     valid: [
         "a in b",
-        "!(a in b)"
+        "!(a in b)",
+        "a instanceof b",
+        "!(a instanceof b)"
     ],
     invalid: [
-        { code: "!a in b", errors: [{ message: "The `in` expression's left operand is negated", type: "BinaryExpression"}] }
+        { code: "!a in b", errors: [{ message: "The `in` expression's left operand is negated", type: "BinaryExpression"}] },
+        { code: "!a instanceof b", errors: [{ message: "The `instanceof` expression's left operand is negated", type: "BinaryExpression"}] }
     ]
 });
