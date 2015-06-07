@@ -280,6 +280,13 @@ eslintTester.addRuleTest("lib/rules/no-shadow", {
             code: "class A { constructor() { var A; } }",
             ecmaFeatures: {classes: true},
             errors: [{ message: "A is already declared in the upper scope.", type: "Identifier"}]
+        },
+        {
+            code: "(function a() { function a(){ function a(){} } })()",
+            errors: [
+                { message: "a is already declared in the upper scope.", type: "Identifier", line: 1, column: 25},
+                { message: "a is already declared in the upper scope.", type: "Identifier", line: 1, column: 39}
+            ]
         }
     ]
 });
