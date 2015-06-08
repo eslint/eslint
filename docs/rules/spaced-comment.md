@@ -127,4 +127,7 @@ var foo = 5;
 ```js
 // When ["never",{"markers":["!<"]}]
 //!<This is a comment with a marker
+/*!<this is a block comment with a marker
+subsequent lines are ignored
+*/
 ```
