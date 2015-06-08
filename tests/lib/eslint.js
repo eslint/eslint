@@ -1560,11 +1560,11 @@ describe("eslint", function() {
     describe("when evaluating code with invalid comments to enable rules", function() {
         var code = "/*eslint no-alert:true*/ alert('test');";
 
-        it("should not report a violation", function() {
+        it("should report a violation", function() {
             var config = { rules: {} };
 
-            var messages = eslint.verify(code, config, filename);
-            assert.equal(messages.length, 0);
+            var fn = eslint.verify.bind(eslint, code, config, filename);
+            assert.throws(fn, "filename.js line 1:\n\tConfiguration for rule \"no-alert\" is invalid:\n\tValue \"true\" is the wrong type.\n");
         });
     });
 
