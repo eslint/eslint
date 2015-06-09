@@ -6,6 +6,7 @@
         "no-bitwise": 0,
         "no-caller": 0,
         "no-catch-shadow": 0,
+        "no-class-assign": 0,
         "no-cond-assign": 2,
         "no-console": 2,
         "no-const-assign": 0,
