@@ -191,6 +191,7 @@ These rules are only relevant to ES6 environments.
 * [arrow-spacing](arrow-spacing.md) - Require space before/after arrow functions arrow
 * [constructor-super](constructor-super.md) - verify `super()` callings in constructors
 * [generator-star-spacing](generator-star-spacing.md) - enforce the spacing around the `*` in generator functions
+* [no-const-assign](no-const-assign.md) - disallow modifying variables that are declared using `const`
 * [no-this-before-super](no-this-before-super.md) - disallow to use `this`/`super` before `super()` calling in constructors.
 * [no-var](no-var.md) - require `let` or `const` instead of `var`
 * [object-shorthand](object-shorthand.md) - require method and property shorthand syntax for object literals
