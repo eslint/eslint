@@ -79,7 +79,7 @@
     "semver": "^4.1.0",
     "shelljs": "^0.3.0",
     "shelljs-nodecli": "~0.1.0",
-    "sinon": "^1.12.2",
+    "sinon": "1.14.1",
     "through": "^2.3.6"
   },
   "keywords": [
