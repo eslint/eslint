@@ -31,6 +31,18 @@ After that, you can run ESLint on any JavaScript file:
 
     eslint test.js test2.js
 
+## Team
+
+These folks keep the project moving and are resources for help:
+
+* Nicholas C. Zakas (@nzakas) - project lead
+* Ilya Volodin (@ilyavolodin) - reviewer
+* Brandon Mills (@btmills) - committer
+* Mathias Schreck (@lo1tuma) - committer
+* Gyandeep Singh (@gyandeeps) - committer
+* Jamund Ferguson (@xjamundx) - committer
+
+
 ## Frequently Asked Questions
 
 ### Why don't you like JSHint???
@@ -78,7 +90,11 @@ ESLint has full support for ECMAScript 6. By default, this support is off. You c
 
 ### Does ESLint support JSX?
 
-Yes, ESLint natively supports parsing JSX syntax (this must be enabled in configuration). Please note that supporting JSX syntax *is not* the same as supporting React. React applies specific semantics to JSX syntax that ESLint doesn't recognize. We recommend using [eslint-plugin-react](https://www.npmjs.com/package/eslint-plugin-react) if you are using React and want React semantics.
+Yes, ESLint natively supports parsing JSX syntax (this must be enabled in [configuration](http://eslint.org/docs/user-guide/configuring).). Please note that supporting JSX syntax *is not* the same as supporting React. React applies specific semantics to JSX syntax that ESLint doesn't recognize. We recommend using [eslint-plugin-react](https://www.npmjs.com/package/eslint-plugin-react) if you are using React and want React semantics.
+
+### What about ECMAScript 7/2016 and experimental features?
+
+ESLint doesn't natively support experimental ECMAScript language features. You can use [babel-eslint](https://github.com/babel/babel-eslint) to use any option available in Babel.
 
 ### Where to ask for help?
 
