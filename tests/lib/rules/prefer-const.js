@@ -26,7 +26,7 @@ eslintTester.addRuleTest("lib/rules/prefer-const", {
         { code: "let x = 0; x = 1;", ecmaFeatures: {blockBindings: true} },
         { code: "const x = 0;", ecmaFeatures: {blockBindings: true} },
         { code: "for (let i = 0, end = 10; i < end; ++i) {}", ecmaFeatures: {blockBindings: true} },
-        { code: "for (let i in [1,2,3]) {}", ecmaFeatures: {blockBindings: true} },
+        { code: "for (let i in [1,2,3]) { i = 0; }", ecmaFeatures: {blockBindings: true} },
         { code: "for (let x of [1,2,3]) { x = 0; }", ecmaFeatures: {blockBindings: true, forOf: true} },
         { code: "(function() { var x = 0; })();" },
         { code: "(function() { let x; })();", ecmaFeatures: {blockBindings: true} },
@@ -34,7 +34,7 @@ eslintTester.addRuleTest("lib/rules/prefer-const", {
         { code: "(function() { let x = 0; x = 1; })();", ecmaFeatures: {blockBindings: true} },
         { code: "(function() { const x = 0; })();", ecmaFeatures: {blockBindings: true} },
         { code: "(function() { for (let i = 0, end = 10; i < end; ++i) {} })();", ecmaFeatures: {blockBindings: true} },
-        { code: "(function() { for (let i in [1,2,3]) {} })();", ecmaFeatures: {blockBindings: true} },
+        { code: "(function() { for (let i in [1,2,3]) { i = 0; } })();", ecmaFeatures: {blockBindings: true} },
         { code: "(function() { for (let x of [1,2,3]) { x = 0; } })();", ecmaFeatures: {blockBindings: true, forOf: true} },
         { code: "(function(x = 0) { })();", ecmaFeatures: {defaultParams: true} }
     ],
@@ -43,6 +43,11 @@ eslintTester.addRuleTest("lib/rules/prefer-const", {
             code: "let x = 1; foo(x);",
             ecmaFeatures: {blockBindings: true},
             errors: [{ message: "`x` is never modified, use `const` instead.", type: "Identifier"}]
+        },
+        {
+            code: "for (let i in [1,2,3]) { foo(i); }",
+            ecmaFeatures: {blockBindings: true},
+            errors: [{ message: "`i` is never modified, use `const` instead.", type: "Identifier"}]
         },
         {
             code: "for (let x of [1,2,3]) { foo(x); }",
@@ -63,6 +68,11 @@ eslintTester.addRuleTest("lib/rules/prefer-const", {
             code: "(function() { let x = 1; foo(x); })();",
             ecmaFeatures: {blockBindings: true},
             errors: [{ message: "`x` is never modified, use `const` instead.", type: "Identifier"}]
+        },
+        {
+            code: "(function() { for (let i in [1,2,3]) { foo(i); } })();",
+            ecmaFeatures: {blockBindings: true},
+            errors: [{ message: "`i` is never modified, use `const` instead.", type: "Identifier"}]
         },
         {
             code: "(function() { for (let x of [1,2,3]) { foo(x); } })();",
@@ -92,7 +102,10 @@ eslintTester.addRuleTest("lib/rules/prefer-const", {
         {
             code: "for (let i in [1,2,3]) { let x = 1; foo(x); }",
             ecmaFeatures: {blockBindings: true},
-            errors: [{ message: "`x` is never modified, use `const` instead.", type: "Identifier"}]
+            errors: [
+                { message: "`i` is never modified, use `const` instead.", type: "Identifier"},
+                { message: "`x` is never modified, use `const` instead.", type: "Identifier"}
+            ]
         }
     ]
 });

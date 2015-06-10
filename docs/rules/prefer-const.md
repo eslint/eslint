@@ -17,6 +17,12 @@ console.log(a);
 ```
 
 ```js
+for (let i in [1,2,3]) { // `a` is re-defined (not modified) on each loop step.
+    console.log(i);
+}
+```
+
+```js
 for (let a of [1,2,3]) { // `a` is re-defined (not modified) on each loop step.
     console.log(a);
 }
@@ -31,12 +37,6 @@ console.log(a);
 
 ```js
 for (let i = 0, end = 10; i < end; ++i) { // `end` is never modified, but we cannot separate the declaration without changing the scope.
-    console.log(a);
-}
-```
-
-```js
-for (let a in [1,2,3]) { // `a` is modified on each loop step.
     console.log(a);
 }
 ```
