@@ -35,12 +35,12 @@ After that, you can run ESLint on any JavaScript file:
 
 These folks keep the project moving and are resources for help:
 
-* Nicholas C. Zakas (@nzakas) - project lead
-* Ilya Volodin (@ilyavolodin) - reviewer
-* Brandon Mills (@btmills) - committer
-* Mathias Schreck (@lo1tuma) - committer
-* Gyandeep Singh (@gyandeeps) - committer
-* Jamund Ferguson (@xjamundx) - committer
+* Nicholas C. Zakas ([@nzakas](https://github.com/nzakas)) - project lead
+* Ilya Volodin ([@ilyavolodin](https://github.com/ilyavolodin)) - reviewer
+* Brandon Mills ([@btmills](https://github.com/btmills)) - committer
+* Mathias Schreck ([@lo1tuma](https://github.com/lo1tuma)) - committer
+* Gyandeep Singh ([@gyandeeps](https://github.com/gyandeeps)) - committer
+* Jamund Ferguson ([@xjamundx](https://github.com/xjamundx)) - committer
 
 
 ## Frequently Asked Questions
