@@ -122,6 +122,7 @@
         "computed-property-spacing": [0, "never"],
         "consistent-return": 2,
         "consistent-this": [0, "that"],
+        "constructor-super": 0,
         "curly": [2, "all"],
         "default-case": 0,
         "dot-location": 0,
