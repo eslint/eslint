@@ -98,6 +98,12 @@ eslintTester.addRuleTest("lib/rules/spaced-comment", {
             }]
         },
         {
+            code: "var a = 1; /*# This is an example of a marker in a block comment\nsubsequent lines do not count*/",
+            options: ["always", {
+                markers: ["#"]
+            }]
+        },
+        {
             code: "var a = 1; /*A valid comment NOT starting with space */",
             options: ["never"]
         },
