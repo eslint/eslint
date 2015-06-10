@@ -27,6 +27,7 @@ function compatRequire(name, windowName) {
 
 var assert = compatRequire("chai").assert,
     sinon = compatRequire("sinon"),
+    path = compatRequire("path"),
     eslint = compatRequire("../../lib/eslint", "eslint");
 
 //------------------------------------------------------------------------------
@@ -2437,6 +2438,8 @@ describe("eslint", function() {
 
         describe("Custom parser", function() {
 
+            var parserFixtures = path.join(__dirname, "../fixtures/parsers");
+
             it("should not report an error when JSX code contains a spread operator and JSX is enabled", function() {
                 var code = "var myDivElement = <div {...this.props} />;";
                 var messages = eslint.verify(code, { parser: "esprima-fb" }, "filename");
@@ -2449,6 +2452,22 @@ describe("eslint", function() {
                 assert.equal(messages.length, 1);
                 assert.equal(messages[0].severity, 2);
                 assert.equal(messages[0].message, "Cannot find module 'esprima-fbxyz'");
+            });
+
+            it("should strip leading line: prefix from parser error", function() {
+                var parser = path.join(parserFixtures, "line-error.js");
+                var messages = eslint.verify(";", { parser: parser }, "filename");
+                assert.equal(messages.length, 1);
+                assert.equal(messages[0].severity, 2);
+                assert.equal(messages[0].message, require(parser).expectedError);
+            });
+
+            it("should not modify a parser error message without a leading line: prefix", function() {
+                var parser = path.join(parserFixtures, "no-line-error.js");
+                var messages = eslint.verify(";", { parser: parser }, "filename");
+                assert.equal(messages.length, 1);
+                assert.equal(messages[0].severity, 2);
+                assert.equal(messages[0].message, require(parser).expectedError);
             });
 
         });
