@@ -37,7 +37,7 @@ These folks keep the project moving and are resources for help:
 
 * Nicholas C. Zakas ([@nzakas](https://github.com/nzakas)) - project lead
 * Ilya Volodin ([@ilyavolodin](https://github.com/ilyavolodin)) - reviewer
-* Brandon Mills ([@btmills](https://github.com/btmills)) - committer
+* Brandon Mills ([@btmills](https://github.com/btmills)) - reviewer
 * Mathias Schreck ([@lo1tuma](https://github.com/lo1tuma)) - committer
 * Gyandeep Singh ([@gyandeeps](https://github.com/gyandeeps)) - committer
 * Jamund Ferguson ([@xjamundx](https://github.com/xjamundx)) - committer
