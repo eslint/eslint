@@ -136,6 +136,7 @@ These rules are purely matters of style and are quite subjective.
 * [camelcase](camelcase.md) - require camel case names
 * [comma-spacing](comma-spacing.md) - enforce spacing before and after comma
 * [comma-style](comma-style.md) - enforce one true comma style (off by default)
+* [computed-property-spacing](computed-property-spacing.md) - require or disallow padding inside computed properties (off by default)
 * [consistent-this](consistent-this.md) - enforces consistent naming when capturing the current execution context (off by default)
 * [eol-last](eol-last.md) - enforce newline at the end of file, with no multiple empty lines
 * [func-names](func-names.md) - require function expressions to have a name (off by default)
