@@ -28,19 +28,3 @@ function doSmth() {
 }
 // spaces here
 ```
-
-```js
-function doSmth() {
-  ...
-}
-
-```
-
-```js
-function doSmth() {
-  ...
-}
-
-
-
-```
