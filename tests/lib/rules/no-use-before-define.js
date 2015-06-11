@@ -25,7 +25,9 @@ eslintTester.addRuleTest("lib/rules/no-use-before-define", {
         "Object.hasOwnProperty.call(a);",
         "function a() { alert(arguments);}",
         { code: "a(); function a() { alert(arguments); }", options: [ "nofunc"] },
-        { code: "(() => { var a = 42; alert(a); })();", ecmaFeatures: { arrowFunctions: true } }
+        { code: "(() => { var a = 42; alert(a); })();", ecmaFeatures: { arrowFunctions: true } },
+        { code: "var a = new A(); class A{};", ecmaFeatures: {classes: true}, options: [ "nofunc-noclass"] },
+        { code: "a(); function a() { alert(arguments); }", options: [ "nofunc-noclass"] }
     ],
     invalid: [
         { code: "a++; var a=19;", ecmaFeatures: { modules: true }, errors: [{ message: "a was used before it was defined", type: "Identifier"}] },
@@ -36,6 +38,8 @@ eslintTester.addRuleTest("lib/rules/no-use-before-define", {
         { code: "a(); function a() { alert(b); var b=10; a(); }", errors: [{ message: "a was used before it was defined", type: "Identifier"}, { message: "b was used before it was defined", type: "Identifier"}] },
         { code: "a(); var a=function() {};", options: [ "nofunc"], errors: [{ message: "a was used before it was defined", type: "Identifier"}] },
         { code: "(() => { alert(a); var a = 42; })();", ecmaFeatures: { arrowFunctions: true }, errors: [{ message: "a was used before it was defined", type: "Identifier" }] },
-        { code: "(() => a())(); function a() { }", ecmaFeatures: { arrowFunctions: true }, errors: [{ message: "a was used before it was defined", type: "Identifier" }] }
+        { code: "(() => a())(); function a() { }", ecmaFeatures: { arrowFunctions: true }, errors: [{ message: "a was used before it was defined", type: "Identifier" }] },
+        { code: "var a = new A(); class A{};", ecmaFeatures: {classes: true}, options: [ "nofunc"], errors: [{ message: "A was used before it was defined", type: "Identifier"}] },
+        { code: "var a = new A(); var A = class{};", ecmaFeatures: {classes: true}, options: [ "nofunc-noclass"], errors: [{ message: "A was used before it was defined", type: "Identifier"}] }
     ]
 });
