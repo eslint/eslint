@@ -38,3 +38,12 @@ var a = 10; alert(a);
 
 function f() {} f();
 ```
+
+The `"nofunc-noclass"` option does for Classes the same that `"nofunc"` does for functions. Not only
+all of the patterns above are considered OK, but also the following pattern is not considered warning:
+
+```js
+var a = new A();
+
+class A{}
+```
