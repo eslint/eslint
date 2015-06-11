@@ -2,7 +2,7 @@ language: node_js
 node_js:
     - "0.10"
     - "0.12"
-    - "iojs-v2.1.0"
+    - iojs
 sudo: false
 script: "npm test && npm run docs"
 after_success:
