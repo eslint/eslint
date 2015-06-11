@@ -118,9 +118,12 @@ You can add exceptions like so:
 
 ```json
 "object-curly-spacing": [2, "always", {
-  "objectsInObjects": false
+  "objectsInObjects": false,
+  "arraysInObjects": false
 }]
 ```
+
+##### objectsInObjects
 
 In the case of the `"always"` option, set `objectsInObjects` exception to `false` to
 enforce the following syntax (notice the `}}` at the end):
@@ -137,9 +140,27 @@ the following style (with a space between the `}` at the end:
 var obj = {"foo": {"baz": 1, "bar": 2} };
 ```
 
+##### arraysInObjects
+
+In the case of the `"always"` option, set `arraysInObjects` exception to `false` to
+enforce the following syntax (notice the `]}` at the end):
+
+```js
+var obj = { "foo": [ 1, 2 ]};
+var obj = { "foo": [ "baz", "bar" ]};
+```
+
+In the case of the `"never"` option, set `arraysInObjects` exception to `true` to enforce
+the following style (with a space between the `]` and  `}` at the end:
+
+```js
+var obj = {"foo": [ 1, 2 ] };
+var obj = {"foo": [ "baz", "bar" ] };
+```
+
 ## When Not To Use It
 
-You can turn this rule off if you are not concerned with the consistency of spacing between brackets.
+You can turn this rule off if you are not concerned with the consistency of spacing between curly braces.
 
 ## Related Rules
 

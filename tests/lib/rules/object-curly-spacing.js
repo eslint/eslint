@@ -52,6 +52,15 @@ eslintTester.addRuleTest("lib/rules/object-curly-spacing", {
         // always - objectsInObjects
         { code: "var obj = { 'foo': { 'bar': 1, 'baz': 2 }};", options: ["always", {"objectsInObjects": false}] },
 
+        // always - arraysInObjects
+        { code: "var obj = { 'foo': [ 1, 2 ]};", options: ["always", {"arraysInObjects": false}] },
+
+        // always - arraysInObjects, objectsInObjects
+        { code: "var obj = { 'qux': [ 1, 2 ], 'foo': { 'bar': 1, 'baz': 2 }};", options: ["always", {"arraysInObjects": false, "objectsInObjects": false}] },
+
+        // always - arraysInObjects, objectsInObjects (reverse)
+        { code: "var obj = { 'foo': { 'bar': 1, 'baz': 2 }, 'qux': [ 1, 2 ]};", options: ["always", {"arraysInObjects": false, "objectsInObjects": false}] },
+
         // never
         { code: "var obj = {foo: bar,\nbaz: qux\n};", options: ["never"] },
         { code: "var obj = {\nfoo: bar,\nbaz: qux};", options: ["never"] },
@@ -89,7 +98,7 @@ eslintTester.addRuleTest("lib/rules/object-curly-spacing", {
         { code: "var foo = {};", options: ["never"] },
 
         // never - objectsInObjects
-        { code: "var obj = {'foo': {'bar': 1, 'baz': 2} };", options: ["never", {"objectsInObjects": true}] }
+        { code: "var obj = {'foo': {'bar': 1, 'baz': 2} };", options: ["never", {"objectsInObjects": true}]}
 
     ],
 
@@ -136,6 +145,29 @@ eslintTester.addRuleTest("lib/rules/object-curly-spacing", {
                 }
             ]
         },
+
+        // always - arraysInObjects
+        {
+            code: "var obj = { 'foo': [ 1, 2 ] };",
+            options: ["always", {"arraysInObjects": false}],
+            errors: [
+                {
+                    message: "There should be no space before '}'",
+                    type: "ObjectExpression"
+                }
+            ]
+        },
+        {
+            code: "var obj = { 'foo': [ 1, 2 ] , 'bar': [ 'baz', 'qux' ] };",
+            options: ["always", {"arraysInObjects": false}],
+            errors: [
+                {
+                    message: "There should be no space before '}'",
+                    type: "ObjectExpression"
+                }
+            ]
+        },
+
         // always-objectsInObjects
         {
             code: "var obj = { 'foo': { 'bar': 1, 'baz': 2 } };",
@@ -442,6 +474,28 @@ eslintTester.addRuleTest("lib/rules/object-curly-spacing", {
                     type: "ObjectPattern",
                     line: 1,
                     column: 4
+                }
+            ]
+        },
+
+        // never - arraysInObjects
+        {
+            code: "var obj = {'foo': [1, 2]};",
+            options: ["never", {"arraysInObjects": true}],
+            errors: [
+                {
+                    message: "A space is required before '}'",
+                    type: "ObjectExpression"
+                }
+            ]
+        },
+        {
+            code: "var obj = {'foo': [1, 2] , 'bar': ['baz', 'qux']};",
+            options: ["never", {"arraysInObjects": true}],
+            errors: [
+                {
+                    message: "A space is required before '}'",
+                    type: "ObjectExpression"
                 }
             ]
         }
