@@ -738,6 +738,23 @@ describe("Config", function() {
             assertConfigsEqual(expected, actual);
         });
 
+        it("should extend package configuration from package.json file", function() {
+            var configPath = path.resolve(__dirname, "../fixtures/config-extends/package.json"),
+                configHelper = new Config({ reset: true, useEslintrc: true }),
+                expected = {
+                    rules: { "quotes": [1, "single"], "yoda": 2 },
+                    env: { "browser": true }
+                };
+            // Reason to override this function is force the execution to go into getLocalConfig function and which handles package.json
+            sinon.stub(configHelper, "findLocalConfigFiles").returns([
+                path.resolve(__dirname, "../fixtures/config-extends/package.json")
+            ]);
+
+            var actual = configHelper.getConfig(configPath);
+
+            assertConfigsEqual(expected, actual);
+        });
+
         // Non-recursive extends
         it("should extend recursively defined configuration files", function() {
             var configPath = path.resolve(__dirname, "..", "fixtures", "config-extends", "deep.json"),
