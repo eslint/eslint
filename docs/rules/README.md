@@ -195,6 +195,7 @@ These rules are only relevant to ES6 environments and are off by default.
 
 * [generator-star-spacing](generator-star-spacing.md) - enforce the spacing around the `*` in generator functions (off by default)
 * [generator-star](generator-star.md) - **(deprecated)** enforce the position of the `*` in generator functions (off by default)
+* [no-this-before-super](no-this-before-super.md) - disallow to use `this`/`super` before `super()` calling in constructors. (off by default)
 * [no-var](no-var.md) - require `let` or `const` instead of `var` (off by default)
 * [object-shorthand](object-shorthand.md) - require method and property shorthand syntax for object literals (off by default)
 * [prefer-const](prefer-const.md) - suggest using of `const` declaration for variables that are never modified after declared (off by default)
