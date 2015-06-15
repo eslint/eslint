@@ -156,7 +156,10 @@ eslintTester.addRuleTest("lib/rules/no-extra-parens", {
         { code: "0 ? _ => 0 : _ => 0", ecmaFeatures: { arrowFunctions: true } },
         { code: "(_ => 0) || (_ => 0)", ecmaFeatures: { arrowFunctions: true } },
 
-        // "function-only" disables reports for non-function nodes
+        // Object literals as arrow function bodies need parentheses
+        { code: "x => ({foo: 1})", ecmaFeatures: { arrowFunctions: true } },
+
+        // "functions" enables reports for function nodes only
         {code: "(0)", options: ["functions"]},
         {code: "a + (b * c)", options: ["functions"]},
         {code: "(a)(b)", options: ["functions"]},
@@ -208,16 +211,19 @@ eslintTester.addRuleTest("lib/rules/no-extra-parens", {
         invalid("(0.0).a", "Literal"),
         invalid("(0xBEEF).a", "Literal"),
         invalid("(1e6).a", "Literal"),
-        invalid("({})", "ObjectExpression"),
+        invalid("({foo: 1})", "ObjectExpression"),
         invalid("a[(function () {})]", "FunctionExpression"),
         invalid("(function(){})", "FunctionExpression"),
         invalid("new (function(){})", "FunctionExpression"),
         invalid("new (\nfunction(){}\n)", "FunctionExpression", 1),
         invalid("((function foo() {return 1;}))()", "FunctionExpression"),
+
         invalid("0, (_ => 0)", "ArrowFunctionExpression", 1, {ecmaFeatures: { arrowFunctions: true }}),
         invalid("(_ => 0), 0", "ArrowFunctionExpression", 1, {ecmaFeatures: { arrowFunctions: true }}),
         invalid("a = (_ => 0)", "ArrowFunctionExpression", 1, {ecmaFeatures: { arrowFunctions: true }}),
         invalid("_ => (a = 0)", "AssignmentExpression", 1, {ecmaFeatures: { arrowFunctions: true }}),
+        invalid("x => (({}))", "ObjectExpression", 1, {ecmaFeatures: { arrowFunctions: true }}),
+
         invalid("new (function(){})", "FunctionExpression", null, {options: ["functions"]}),
         invalid("new (\nfunction(){}\n)", "FunctionExpression", 1, {options: ["functions"]}),
         invalid("((function foo() {return 1;}))()", "FunctionExpression", null, {options: ["functions"]}),
