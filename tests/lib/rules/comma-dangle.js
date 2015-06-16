@@ -54,6 +54,11 @@ eslintTester.addRuleTest("lib/rules/comma-dangle", {
         { code: "var foo = {\nbar: 'baz',\n}", options: [ "always-multiline" ] },
         { code: "var foo = [ 'baz' ]", options: [ "always-multiline" ] },
         { code: "var foo = [\n'baz',\n]", options: [ "always-multiline" ] },
+        { code: "var foo = { bar:\n\n'bar' }", options: [ "always-multiline" ] },
+        { code: "var foo = {a: 1, b: 2, c: 3, d: 4}", options: [ "always-multiline" ]},
+        { code: "var foo = {a: 1, b: 2,\n c: 3, d: 4}", options: [ "always-multiline" ]},
+        { code: "var foo = {x: {\nfoo: 'bar',\n}}", options: [ "always-multiline" ]},
+        { code: "var foo = new Map([\n[key, {\na: 1,\nb: 2,\nc: 3,\n}],\n])", options: [ "always-multiline" ]},
         { code: "[,,]", options: [ "always" ] },
         { code: "[\n,\n,\n]", options: [ "always" ] },
         { code: "[,]", options: [ "always" ] },
@@ -336,14 +341,38 @@ eslintTester.addRuleTest("lib/rules/comma-dangle", {
             ]
         },
         {
-            code: "var foo = { bar:\n\n'bar' }",
+            code: "var foo = {x: {\nfoo: 'bar',\n},}",
             options: [ "always-multiline" ],
             errors: [
                 {
-                    message: "Missing trailing comma.",
+                    message: "Unexpected trailing comma.",
                     type: "Property",
                     line: 3,
-                    column: 5
+                    column: 1
+                }
+            ]
+        },
+        {
+            code: "var foo = {a: 1, b: 2,\nc: 3, d: 4,}",
+            options: [ "always-multiline" ],
+            errors: [
+                {
+                    message: "Unexpected trailing comma.",
+                    type: "Property",
+                    line: 2,
+                    column: 10
+                }
+            ]
+        },
+        {
+            code: "var foo = [{\na: 1,\nb: 2,\nc: 3,\nd: 4,\n},]",
+            options: [ "always-multiline" ],
+            errors: [
+                {
+                    message: "Unexpected trailing comma.",
+                    type: "ObjectExpression",
+                    line: 6,
+                    column: 1
                 }
             ]
         }
