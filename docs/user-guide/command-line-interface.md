@@ -182,7 +182,8 @@ Example:
 
 ### `--rule`
 
-This option specifies rules to be used. They will be merged into any previously defined rules. To start fresh, simply combine with the `--reset` flag. To define multiple rules, separate them using commas, or use the flag multiple times. The [levn](https://github.com/gkz/levn#levn--) format is used for specifying the rules.
+This option specifies rules to be used. These rules will be merged with the default rules and any rules specified with configuration files. (You can use `--reset` and `--no-eslintrc`, respectfully, to change those behaviors.) To define multiple rules, separate them using commas, or use the flag multiple times. The [levn](https://github.com/gkz/levn#levn--) format is used for specifying the rules.
+
 If the rule is defined within a plugin you have to prefix the rule ID with the plugin name and a `/`.
 
 Examples:
