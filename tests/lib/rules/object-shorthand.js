@@ -52,6 +52,7 @@ eslintTester.addRuleTest("lib/rules/object-shorthand", {
         { code: "doSomething({y() {}})", ecmaFeatures: features},
         { code: "doSomething({x: y, y() {}})", ecmaFeatures: features},
         { code: "doSomething({y() {}, z: a})", ecmaFeatures: features},
+        { code: "!{ a: function a(){} };", ecmaFeatures: features },
 
         // arrows functions are still alright
         { code: "var x = {y: (x)=>x}", ecmaFeatures: features },
@@ -90,7 +91,6 @@ eslintTester.addRuleTest("lib/rules/object-shorthand", {
         { code: "doSomething({'x': x})", ecmaFeatures: features, errors: [{ message: "Expected property shorthand.", type: "Property" }] },
         { code: "doSomething({a: 'a', 'x': x})", ecmaFeatures: features, errors: [{ message: "Expected property shorthand.", type: "Property" }] },
         { code: "doSomething({y: function() {}})", ecmaFeatures: features, errors: [{ message: "Expected method shorthand.", type: "Property" }] },
-        { code: "doSomething({y: function y() {}})", ecmaFeatures: features, errors: [{ message: "Expected method shorthand.", type: "Property" }] },
 
         // options
         { code: "var x = {y: function() {}}", ecmaFeatures: features, errors: [{ message: "Expected method shorthand.", type: "Property" }], args: [2, "methods"] },
