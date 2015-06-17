@@ -33,12 +33,14 @@ var y = 10;
 
 ### Options
 
-This rule has 4 options:
+This rule has 6 options:
 
 1. `beforeBlockComment` (enabled by default)
 2. `afterBlockComment`
 3. `beforeLineComment`
 4. `afterLineComment`
+5. `allowBlockStart`
+6. `allowBlockEnd`
 
 Any combination of these rules may be applied at the same time.
 
@@ -119,6 +121,61 @@ var day = "great"
 ```
 
 ### Exceptions
+
+#### `allowBlockStart` option
+
+When this option is set to `true`, it allows the comment to be present at the start of any block statement without any space above it. This option can be useful when combined with options `beforeLineComment` and `beforeBlockComment` only.
+
+With both `beforeLineComment` and `allowBlockStart` set to `true` the following code
+would not warn:
+
+```js
+function foo(){
+    // what a great and wonderful day
+    var day = "great"
+    return day;
+}
+```
+
+With both `beforeBlockComment` and `allowBlockStart` set to `true` the following code
+would not warn:
+
+```js
+function foo(){
+    /* what a great and wonderful day */
+    var day = "great"
+    return day;
+}
+```
+
+#### `allowBlockEnd` option
+
+When this option is set to `true`, it allows the comment to be present at the end of any block statement without any space below it. This option can be useful when combined with options `afterLineComment` and `afterBlockComment` only.
+
+With both `afterLineComment` and `allowBlockEnd` set to `true` the following code
+would not warn:
+
+```js
+function foo(){
+    var day = "great"
+    return day;
+    // what a great and wonderful day
+}
+```
+
+With both `afterBlockComment` and `allowBlockEnd` set to `true` the following code
+would not warn:
+
+```js
+function foo(){
+    var day = "great"
+    return day;
+    /* what a great and wonderful day */
+}
+```
+
+
+#### Inline comments
 
 Inline comments are always excluded from the rule.
 
