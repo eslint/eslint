@@ -21,6 +21,22 @@ eslintTester.addRuleTest("lib/rules/space-unary-ops", {
 
     valid: [
         {
+            code: "++this.a",
+            args: [1, { "words": true }]
+        },
+        {
+            code: "--this.a",
+            args: [1, { "words": true }]
+        },
+        {
+            code: "this.a++",
+            args: [1, { "words": true }]
+        },
+        {
+            code: "this.a--",
+            args: [1, { "words": true }]
+        },
+        {
             code: "delete foo.bar",
             args: [1, { "words": true }]
         },
