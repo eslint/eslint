@@ -124,8 +124,8 @@ var object1 = {
 };
 
 var object2 = {
-    'foo': 'bar',
-    'baz': 42,
+    foo: 'bar',
+    baz: 42,
     'qux-lorem': true
 };
 
