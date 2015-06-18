@@ -17,7 +17,7 @@ console.log(a);
 ```
 
 ```js
-for (let i in [1,2,3]) { // `a` is re-defined (not modified) on each loop step.
+for (let i in [1,2,3]) { // `i` is re-defined (not modified) on each loop step.
     console.log(i);
 }
 ```
