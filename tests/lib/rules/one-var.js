@@ -465,6 +465,22 @@ eslintTester.addRuleTest("lib/rules/one-var", {
                 line: 2,
                 column: 0
             } ]
+        },
+        {
+            code: "var i = [0], j;",
+            options: [ { "initialized": "never" } ],
+            errors: [ {
+                message: "Split initialized 'var' declarations into multiple statements.",
+                type: "VariableDeclaration"
+            } ]
+        },
+        {
+            code: "var i = [0], j;",
+            options: [ { "uninitialized": "never" } ],
+            errors: [ {
+                message: "Split uninitialized 'var' declarations into multiple statements.",
+                type: "VariableDeclaration"
+            } ]
         }
     ]
 });
