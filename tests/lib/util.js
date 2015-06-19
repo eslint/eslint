@@ -30,16 +30,39 @@ describe("util", function() {
     });
 
     describe("getNamespace()", function() {
-        it("should remove namepace when passed with namepace", function() {
-            var namespace = util.getNamespace("@namepace/eslint-plugin-test");
-            assert.equal(namespace, "@namepace/");
+        it("should remove namespace when passed with namespace", function() {
+            var namespace = util.getNamespace("@namespace/eslint-plugin-test");
+            assert.equal(namespace, "@namespace/");
         });
     });
 
     describe("removeNameSpace()", function() {
-        it("should remove namepace when passed with namepace", function() {
-            var namespace = util.removeNameSpace("@namepace/eslint-plugin-test");
+        it("should remove namespace when passed with namespace", function() {
+            var namespace = util.removeNameSpace("@namespace/eslint-plugin-test");
             assert.equal(namespace, "eslint-plugin-test");
+        });
+    });
+
+    describe("parsePluginName()", function() {
+        it("should parse the plugin name with npm namespace", function() {
+            var parsed = util.parsePluginName("@namespace/eslint-plugin-test");
+
+            assert.equal(parsed.key, "test");
+            assert.equal(parsed.entry, "@namespace/eslint-plugin-test");
+        });
+
+        it("should parse the plugin name with explicit path", function() {
+            var parsed = util.parsePluginName("~module/path");
+
+            assert.equal(parsed.key, "module");
+            assert.equal(parsed.entry, "module/path");
+        });
+
+        it("should parse the short plugin name", function() {
+            var parsed = util.parsePluginName("test");
+
+            assert.equal(parsed.key, "test");
+            assert.equal(parsed.entry, "eslint-plugin-test");
         });
     });
 
