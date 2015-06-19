@@ -1015,6 +1015,40 @@ describe("eslint", function() {
             assert.equal(messages[0].line, 42);
             assert.equal(messages[0].column, 13);
         });
+
+        it("should correctly parse a message with object keys as numbers", function() {
+            eslint.reset();
+            eslint.defineRule("test-rule", function(context) {
+                return {
+                    "Literal": function(node) {
+                        context.report(node, "my message {{name}}{{0}}", {0: "!", name: "testing"});
+                    }
+                };
+            });
+
+            var config = { rules: {} };
+            config.rules["test-rule"] = 1;
+
+            var messages = eslint.verify("0", config);
+            assert.equal(messages[0].message, "my message testing!");
+        });
+
+        it("should correctly parse a message with array", function() {
+            eslint.reset();
+            eslint.defineRule("test-rule", function(context) {
+                return {
+                    "Literal": function(node) {
+                        context.report(node, "my message {{1}}{{0}}", ["!", "testing"]);
+                    }
+                };
+            });
+
+            var config = { rules: {} };
+            config.rules["test-rule"] = 1;
+
+            var messages = eslint.verify("0", config);
+            assert.equal(messages[0].message, "my message testing!");
+        });
     });
 
     describe("when evaluating code", function() {
