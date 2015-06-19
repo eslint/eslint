@@ -88,6 +88,16 @@ describe("FileFinder", function() {
                 assert.equal(actual, expected);
             });
         });
+
+        describe("Not consider directory with expected file names", function() {
+            it("should only find one package.json from the root", function() {
+                var expected = path.join(process.cwd(), "package.json");
+                var finder = new FileFinder("package.json");
+                var actual = finder.findInDirectoryOrParents(fileFinderDir);
+
+                assert.equal(actual, expected);
+            });
+        });
     });
 
     describe("findAllInDirectoryAndParents", function() {
@@ -156,6 +166,16 @@ describe("FileFinder", function() {
 
                 assert.isArray(actual);
                 assert.lengthOf(actual, 0);
+            });
+        });
+
+        describe("Not consider directory with expected file names", function() {
+            it("should only find one package.json from the root", function() {
+                expected = path.join(process.cwd(), "package.json");
+                finder = new FileFinder("package.json");
+                actual = finder.findAllInDirectoryAndParents(fileFinderDir);
+
+                assert.equal(actual, expected);
             });
         });
     });
