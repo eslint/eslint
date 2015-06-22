@@ -194,6 +194,7 @@ These rules are purely matters of style and are quite subjective.
 
 These rules are only relevant to ES6 environments and are off by default.
 
+* [constructor-super](constructor-super.md) - verify `super()` callings in constructors (off by default)
 * [generator-star-spacing](generator-star-spacing.md) - enforce the spacing around the `*` in generator functions (off by default)
 * [generator-star](generator-star.md) - **(deprecated)** enforce the position of the `*` in generator functions (off by default)
 * [no-this-before-super](no-this-before-super.md) - disallow to use `this`/`super` before `super()` calling in constructors. (off by default)
