@@ -34,20 +34,38 @@ To keep a sense of consistency when using generators this rule enforces a single
 
 ## Rule Details
 
-This rule enforces that the `*` is either placed next to the `function` keyword or the name of the function. The single
-option for this rule is a string specifying the placement of the asterisk. For this option you may pass `"before"`, `"after"`, `"both"`, or `"neither"`. The default is `"before"`.
+This rule aims to enforce spacing around `*` of the generator function.
 
-You can set the style in configuration like this:
+The rule takes one option, an object, which has two keys `before` and `after` having boolean values `true` or `false`.
+
+* `before` aims to spacing between the `*` and the `function` keyword.
+  If it's `true`, space is enforced, otherwise space is disallowed.
+
+  In object literal shorthand methods, spacing before the `*` is not checked, as they lack a `function` keyword.
+
+* `after` aims to spacing between the `*` and the function name.
+  If it's `true`, space is enforced, otherwise space is disallowed.
+
+  In anonymous function expressions, spacing between the `*` and the opening parenthesis is not checked. This is checked by the [space-before-function-paren](space-before-function-paren.md) rule.
+
+The default is `{"before": true, "after": false}`.
+
+```json
+"generator-star-spacing": [2, {"before": false, "after": true}]
+```
+
+And the option has shorthand as a string keyword:
+
+* `{"before": true, "after": false}` → `"before"`
+* `{"before": false, "after": true}` → `"after"`
+* `{"before": true, "after": true}` → `"both"`
+* `{"before": false, "after": false}` → `"neither"`
 
 ```json
 "generator-star-spacing": [2, "after"]
 ```
 
-In anonymous function expressions, spacing between the asterisk and the opening parenthesis is not checked. This is checked by the [space-before-function-paren](space-before-function-paren.md) rule.
-
-In object literal shorthand methods, spacing before the asterisk is not checked, as they lack a `function` keyword.
-
-When using `"before"` this placement will be enforced:
+When using `{"before": true, "after": false}` this placement will be enforced:
 
 ```js
 function *generator() {}
@@ -57,7 +75,7 @@ var anonymous = function *() {};
 var shorthand = { *generator() {} };
 ```
 
-When using `"after"` this placement will be enforced:
+When using `{"before": false, "after": true}` this placement will be enforced:
 
 ```js
 function* generator() {}
@@ -67,7 +85,7 @@ var anonymous = function*() {};
 var shorthand = { * generator() {} };
 ```
 
-When using `"both"` this placement will be enforced:
+When using `{"before": true, "after": true}` this placement will be enforced:
 
 ```js
 function * generator() {}
@@ -77,7 +95,7 @@ var anonymous = function *() {};
 var shorthand = { * generator() {} };
 ```
 
-When using `"neither"` this placement will be enforced:
+When using `{"before": false, "after": false}` this placement will be enforced:
 
 ```js
 function*generator() {}
