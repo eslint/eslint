@@ -718,7 +718,7 @@ function time(cmd, runs, runNumber, results, cb) {
         if (runs > 1) {
             time(cmd, runs - 1, runNumber + 1, results, cb);
         } else {
-            cb(results);
+            return cb(results);
         }
     });
 
