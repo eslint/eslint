@@ -81,7 +81,8 @@ eslintTester.addRuleTest("lib/rules/valid-jsdoc", {
         {
             code: "/**\n* Description\n* @param {string} p mytest\n* @returns {Object}*/\nFoo.bar = function(p){return name;};",
             args: [1, {requireReturnDescription: false}]
-        }
+        },
+        "var obj = {\n /**\n * Getter\n * @type {string}\n */\n get location() {\n return this._location;\n }\n }"
     ],
 
     invalid: [
