@@ -120,6 +120,7 @@ These rules have to do with variable declarations.
 
 These rules are specific to JavaScript running on Node.js.
 
+* [callback-return](callback-return.md) - enforce return after a callback (off by default) (off by default in the node environment)
 * [handle-callback-err](handle-callback-err.md) - enforces error handling in callbacks (off by default) (on by default in the node environment)
 * [no-mixed-requires](no-mixed-requires.md) - disallow mixing regular variable and require declarations (off by default) (on by default in the node environment)
 * [no-new-require](no-new-require.md) - disallow use of new operator with the `require` function (off by default) (on by default in the node environment)
