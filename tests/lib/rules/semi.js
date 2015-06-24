@@ -42,6 +42,10 @@ eslintTester.addRuleTest("lib/rules/semi", {
         { code: "a++; b++", options: ["never"] },
         { code: "for (let thing of {}) {\n  console.log(thing);\n}", ecmaFeatures: { forOf: true, blockBindings: true }},
 
+        // method definitions don't have a semicolon.
+        { code: "class A { a() {} b() {} }", ecmaFeatures: { classes: true }},
+        { code: "var A = class { a() {} b() {} };", ecmaFeatures: { classes: true }},
+
         { code: "import theDefault, { named1, named2 } from 'src/mylib';", ecmaFeatures: { modules: true }},
         { code: "import theDefault, { named1, named2 } from 'src/mylib'", options: ["never"], ecmaFeatures: { modules: true }},
 
