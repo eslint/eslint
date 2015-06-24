@@ -796,7 +796,7 @@ describe("CLIEngine", function() {
                 assert.equal(report.results[0].messages[0].ruleId, "example/example-rule");
             });
 
-            it("should import the same plugin only once if it is configured multiple times", sinon.test(function() {
+            it("should import the same plugin only once if it is configured multiple times", sinon.test(/* @this sinon.sandbox */function() {
                 var importPlugin = this.spy(rules, "import");
 
                 engine = new CLIEngine({

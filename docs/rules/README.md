@@ -62,6 +62,7 @@ These are rules designed to prevent you from making mistakes. They either prescr
 * [no-fallthrough](no-fallthrough.md) - disallow fallthrough of `case` statements (recommended)
 * [no-floating-decimal](no-floating-decimal.md) - disallow the use of leading or trailing decimal points in numeric literals
 * [no-implied-eval](no-implied-eval.md) - disallow use of `eval()`-like methods
+* [no-invalid-this](no-invalid-this.md) - disallow `this` keywords outside of classes or class-like objects
 * [no-iterator](no-iterator.md) - disallow usage of `__iterator__` property
 * [no-labels](no-labels.md) - disallow use of labeled statements
 * [no-lone-blocks](no-lone-blocks.md) - disallow unnecessary nested blocks
