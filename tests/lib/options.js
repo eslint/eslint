@@ -229,4 +229,11 @@ describe("options", function() {
             assert.isTrue(currentOptions.quiet);
         });
     });
+
+    describe("--init", function() {
+        it("should return true for --init when passed", function() {
+            var currentOptions = options.parse("--init");
+            assert.isTrue(currentOptions.init);
+        });
+    });
 });
