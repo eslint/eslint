@@ -16,6 +16,18 @@ Because of this ambiguity, it's considered a best practice to not use assignment
 
 This rule aims to eliminate assignments from `return` statements. As such, it will warn whenever an assignment is found as part of `return`.
 
+### Options
+
+The rule takes one option, a string, which must contain one of the following values:
+
+* `except-parens` (default): Disallow assignments unless they are enclosed in parentheses.
+* `always`: Disallow all assignments.
+
+#### "except-parens"
+
+This is the default option.
+It disallows assignments unless they are enclosed in parentheses.
+
 The following patterns are considered warnings:
 
 ```js
@@ -25,6 +37,43 @@ function doSomething() {
 
 function doSomething() {
     return foo += 2;
+}
+```
+
+The following patterns are not warnings:
+
+```js
+function doSomething() {
+    return foo == bar + 2;
+}
+
+function doSomething() {
+    return foo === bar + 2;
+}
+
+function doSomething() {
+    return (foo = bar + 2);
+}
+```
+
+#### "always"
+
+This option disallows all assignments in `return` statements.
+All assignments are treated as warnings.
+
+The following patterns are considered warnings:
+
+```js
+function doSomething() {
+    return foo = bar + 2;
+}
+
+function doSomething() {
+    return foo += 2;
+}
+
+function doSomething() {
+    return (foo = bar + 2);
 }
 ```
 
