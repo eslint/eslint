@@ -201,6 +201,7 @@ These rules are only relevant to ES6 environments and are off by default.
 * [no-var](no-var.md) - require `let` or `const` instead of `var` (off by default)
 * [object-shorthand](object-shorthand.md) - require method and property shorthand syntax for object literals (off by default)
 * [prefer-const](prefer-const.md) - suggest using of `const` declaration for variables that are never modified after declared (off by default)
+* [require-yield](require-yield.md) - disallow generator functions that does not have `yield` (off by default)
 
 ## Legacy
 
