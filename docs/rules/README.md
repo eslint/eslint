@@ -36,6 +36,7 @@ The following rules point out areas where you might have made mistakes.
 * [use-isnan](use-isnan.md) - disallow comparisons with the value `NaN`
 * [valid-jsdoc](valid-jsdoc.md) - Ensure JSDoc comments are valid (off by default)
 * [valid-typeof](valid-typeof.md) - Ensure that the results of typeof are compared against a valid string
+* [no-unexpected-multiline](no-unexpected-multiline.md) - Avoid code that looks like two expressions but is actually one (off by default)
 
 ## Best Practices
 
