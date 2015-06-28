@@ -23,6 +23,10 @@ eslintTester.addRuleTest("lib/rules/no-fallthrough", {
     valid: [
         "switch(foo) { case 0: a(); /* falls through */ case 1: b(); }",
         "switch(foo) { case 0: a()\n /* falls through */ case 1: b(); }",
+        "switch(foo) { case 0: a(); /* fall through */ case 1: b(); }",
+        "switch(foo) { case 0: a(); /* falls through */ case 1: b(); }",
+        "switch(foo) { case 0: a(); /* fallthrough */ case 1: b(); }",
+        "switch(foo) { case 0: a(); /* FALLS THROUGH */ case 1: b(); }",
         "function foo() { switch(foo) { case 0: a(); return; case 1: b(); }; }",
         "switch(foo) { case 0: a(); throw 'foo'; case 1: b(); }",
         "while (a) { switch(foo) { case 0: a(); continue; case 1: b(); } }",
