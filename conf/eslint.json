@@ -140,6 +140,7 @@
         "guard-for-in": 0,
         "handle-callback-err": 0,
         "indent": 0,
+        "init-declarations": 0,
         "key-spacing": [2, { "beforeColon": false, "afterColon": true }],
         "lines-around-comment": 0,
         "max-depth": [0, 4],
