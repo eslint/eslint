@@ -61,6 +61,9 @@ module.exports = {
     applescript: {
         globals: globals.applescript
     },
+    serviceworker: {
+        globals: globals.serviceworker
+    },
     es6: {
         ecmaFeatures: {
             arrowFunctions: true,
