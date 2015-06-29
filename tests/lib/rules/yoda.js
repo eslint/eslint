@@ -23,12 +23,14 @@ eslintTester.addRuleTest("lib/rules/yoda", {
         { code: "if (value === value) {}", args: [2, "never"] },
         { code: "if (value != 5) {}", args: [2, "never"] },
         { code: "if (5 & foo) {}", args: [2, "never"] },
+        { code: "if (5 === 4) {}", args: [2, "never"] },
 
         // "always" mode
         { code: "if (\"blue\" === value) {}", args: [2, "always"] },
         { code: "if (value === value) {}", args: [2, "always"] },
         { code: "if (4 != value) {}", args: [2, "always"] },
         { code: "if (foo & 4) {}", args: [2, "always"] },
+        { code: "if (5 === 4) {}", args: [2, "always"] },
 
         // Range exception
         {
