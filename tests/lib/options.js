@@ -236,4 +236,11 @@ describe("options", function() {
             assert.isTrue(currentOptions.init);
         });
     });
+
+    describe("--root", function() {
+        it("should return true for --root when passed", function() {
+            var currentOptions = options.parse("--root");
+            assert.isTrue(currentOptions.root);
+        });
+    });
 });

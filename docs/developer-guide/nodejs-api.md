@@ -79,6 +79,7 @@ The `CLIEngine` is a constructor, and you can create a new instance by passing i
 * `rulePaths` - An array of directories to load custom rules from (default: empty array). Corresponds to `--rulesdir`.
 * `rules` - An object of rules to use (default: null). Corresponds to `--rule`.
 * `useEslintrc` - Set to false to disable use of `.eslintrc` files (default: true). Corresponds to `--no-eslintrc`.
+* `root` - Set to true to enable file lookup to be within cwd (default: false). Corresponds to `--root`.
 
 For example:
 
