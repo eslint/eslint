@@ -1,6 +1,6 @@
 # Require spaces following unary word operators (space-unary-word-ops)
 
-**Deprecation notice**: This rule is deprecated and has been superseded by the [space-unary-ops](space-unary-ops.md) rule. It has be removed in ESLint v0.10.0.
+**Removal notice**: This rule was removed and has been superseded by the [space-unary-ops](space-unary-ops.md) rule.
 
 Require spaces following unary word operators.
 

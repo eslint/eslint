@@ -12,14 +12,14 @@
 
 require("shelljs/make");
 
-var path = require("path"),
-    checker = require("npm-license"),
+var checker = require("npm-license"),
     dateformat = require("dateformat"),
+    fs = require("fs"),
     markdownlint = require("markdownlint"),
     nodeCLI = require("shelljs-nodecli"),
     os = require("os"),
+    path = require("path"),
     semver = require("semver");
-    // ghGot = require("gh-got");
 
 //------------------------------------------------------------------------------
 // Settings
@@ -208,6 +208,36 @@ function getFirstVersionOfFile(filePath) {
     return getTagOfFirstOccurrence(filePath);
 }
 
+/**
+ * Gets the commit that deleted a file.
+ * @param {string} filePath The path to the deleted file.
+ * @returns {string} The commit sha.
+ */
+function getCommitDeletingFile(filePath) {
+    var commits = execSilent("git rev-list HEAD -- " + filePath);
+
+    return splitCommandResultToLines(commits)[0];
+}
+
+/**
+ * Gets the first version number where a given file is no longer present.
+ * @param {string} filePath The path to the deleted file.
+ * @returns {string} The version number.
+ */
+function getFirstVersionOfDeletion(filePath) {
+    var deletionCommit = getCommitDeletingFile(filePath),
+        tags = execSilent("git tag --contains " + deletionCommit);
+
+    return splitCommandResultToLines(tags)
+        .map(function(version) {
+            return semver.valid(version.trim());
+        })
+        .filter(function(version) {
+            return version;
+        })
+        .sort(semver.compare)[0];
+}
+
 function getVersionTags() {
     var tags = splitCommandResultToLines(exec("git tag", { silent: true }).output);
 
@@ -379,6 +409,12 @@ target.gensite = function() {
     cp("-rf", "docs/*", TEMP_DIR);
 
     var versions = test("-f", "./versions.json") ? JSON.parse(cat("./versions.json")) : {};
+    if (!versions.added) {
+        versions = {
+            added: versions,
+            removed: {}
+        };
+    }
 
     // 4. Loop through all files in temporary directory
     find(TEMP_DIR).forEach(function(filename) {
@@ -390,6 +426,7 @@ target.gensite = function() {
 
             var baseName = path.basename(filename);
             var sourceBaseName = path.basename(filename, ".md") + ".js";
+            var sourcePath = path.join("lib/rules", sourceBaseName);
             var ruleName = path.basename(filename, ".md");
 
             // 5. Prepend page title and layout variables at the top of rules
@@ -409,16 +446,27 @@ target.gensite = function() {
 
             // 8. Append first version of ESLint rule was added at.
             if (filename.indexOf("rules/") !== -1 && baseName !== "README.md") {
-                var version = versions[baseName] ? versions[baseName] : getFirstVersionOfFile(path.join("lib/rules", sourceBaseName));
-                versions[baseName] = version;
+                var added, removed;
 
-                if (version) {
-                    text += "\n## Version\n\n";
-                    text += "This rule was introduced in ESLint " + version + ".\n";
+                if (!versions.added[baseName]) {
+                    versions.added[baseName] = getFirstVersionOfFile(sourcePath);
                 }
+                added = versions.added[baseName];
+
+                if (!versions.removed[baseName] && !fs.existsSync(sourcePath)) {
+                    versions.removed[baseName] = getFirstVersionOfDeletion(sourcePath);
+                }
+                removed = versions.removed[baseName];
+
+                text += "\n## Version\n\n";
+                text += removed
+                    ? "This rule was introduced in ESLint " + added + " and removed in " + removed + ".\n"
+                    : "This rule was introduced in ESLint " + added + ".\n";
 
                 text += "\n## Resources\n\n";
-                text += "* [Rule source](" + rulesUrl + sourceBaseName + ")\n";
+                if (!removed) {
+                    text += "* [Rule source](" + rulesUrl + sourceBaseName + ")\n";
+                }
                 text += "* [Documentation source](" + docsUrl + baseName + ")\n";
             }
 
