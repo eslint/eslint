@@ -1,6 +1,7 @@
 /**
  * @fileoverview Tests for block-scoped-var rule
  * @author Matt DuVall <http://www.mattduvall.com>
+ * @copyright 2015 Mathieu M-Gosselin. All rights reserved.
  */
 
 "use strict";
@@ -64,6 +65,10 @@ eslintTester.addRuleTest("lib/rules/block-scoped-var", {
         { code: "import * as y from \"./other.js\"; y();", ecmaFeatures: { modules: true }},
         { code: "import y from \"./other.js\"; y();", ecmaFeatures: { modules: true }},
         { code: "import {x as y} from \"./other.js\"; y();", ecmaFeatures: { modules: true }},
+        { code: "var x; export {x};", ecmaFeatures: { modules: true }},
+        { code: "var x; export {x as v};", ecmaFeatures: { modules: true }},
+        { code: "export {x} from \"./other.js\";", ecmaFeatures: { modules: true }},
+        { code: "export {x as v} from \"./other.js\";", ecmaFeatures: { modules: true }},
         { code: "class Test { myFunction() { return true; }}", ecmaFeatures: { classes: true }},
         { code: "class Test { get flag() { return true; }}", ecmaFeatures: { classes: true }},
         { code: "var Test = class { myFunction() { return true; }}", ecmaFeatures: { classes: true }},
