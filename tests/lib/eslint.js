@@ -821,6 +821,36 @@ describe("eslint", function() {
             eslint.verify(code, config, filename, true);
         });
 
+        it("should attach the node's parent", function() {
+            var config = { rules: {} };
+
+            eslint.reset();
+            eslint.on("Program", function() {
+                var node = eslint.getNodeByRangeIndex(14);
+                assert.property(node, "parent");
+                assert.equal(node.parent.type, "VariableDeclarator");
+            });
+
+            eslint.verify(code, config, filename, true);
+        });
+
+        it("should not modify the node when attaching the parent", function() {
+            var config = { rules: {} };
+
+            eslint.reset();
+            eslint.on("Program", function() {
+                var node = eslint.getNodeByRangeIndex(10);
+                assert.equal(node.type, "VariableDeclarator");
+                node = eslint.getNodeByRangeIndex(4);
+                assert.equal(node.type, "Identifier");
+                assert.property(node, "parent");
+                assert.equal(node.parent.type, "VariableDeclarator");
+                assert.notProperty(node.parent, "parent");
+            });
+
+            eslint.verify(code, config, filename, true);
+        });
+
     });
 
 
