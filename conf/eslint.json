@@ -159,6 +159,7 @@
         "quote-props": 0,
         "quotes": [2, "double"],
         "radix": 0,
+        "require-yield": 0,
         "semi": 2,
         "semi-spacing": [2, {"before": false, "after": true}],
         "sort-vars": 0,
