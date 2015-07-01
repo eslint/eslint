@@ -1,6 +1,7 @@
 /**
  * @fileoverview Test enforcement of lines around comments.
  * @author Jamund Ferguson
+ * @copyright 2015 Mathieu M-Gosselin. All rights reserved.
  * @copyright 2015 Jamund Ferguson. All rights reserved.
  */
 "use strict";
@@ -93,6 +94,13 @@ eslintTester.addRuleTest("lib/rules/lines-around-comment", {
 
         // check for block start comments
         {
+            code: "var a,\n\n// line\nb;",
+            options: [{
+                beforeLineComment: true,
+                allowBlockStart: true
+            }]
+        },
+        {
             code: "function foo(){   \n// line at block start\nvar g = 1;\n}",
             options: [{
                 beforeLineComment: true,
@@ -165,6 +173,13 @@ eslintTester.addRuleTest("lib/rules/lines-around-comment", {
         },
 
         // check for block end comments
+        {
+            code: "var a,\n// line\n\nb;",
+            options: [{
+                afterLineComment: true,
+                allowBlockEnd: true
+            }]
+        },
         {
             code: "function foo(){\nvar g = 91;\n// line at block end\n}",
             options: [{
@@ -335,12 +350,28 @@ eslintTester.addRuleTest("lib/rules/lines-around-comment", {
             errors: [{ message: beforeMessage, type: "Block", line: 2 }]
         },
         {
+            code: "var a,\n// line\nb;",
+            options: [{
+                beforeLineComment: true,
+                allowBlockStart: true
+            }],
+            errors: [{ message: beforeMessage, type: "Line", line: 2 }]
+        },
+        {
             code: "function foo(){\nvar a = 1;\n// line at block start\nvar g = 1;\n}",
             options: [{
                 beforeLineComment: true,
                 allowBlockStart: true
             }],
             errors: [{ message: beforeMessage, type: "Line", line: 3 }]
+        },
+        {
+            code: "var a,\n// line\nb;",
+            options: [{
+                afterLineComment: true,
+                allowBlockEnd: true
+            }],
+            errors: [{ message: afterMessage, type: "Line", line: 2 }]
         },
         {
             code: "function foo(){\nvar a = 1;\n\n// line at block start\nvar g = 1;\n}",
