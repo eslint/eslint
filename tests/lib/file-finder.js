@@ -98,6 +98,17 @@ describe("FileFinder", function() {
                 assert.equal(actual, expected);
             });
         });
+
+        describe("Not consider files outside cwd with root option set", function() {
+            it("should not be found when in a parent directory of the cwd", function() {
+                var finder = new FileFinder(".eslintignore");
+                finder.cwd = subsubsubdir;
+                finder.setRoot(true);
+                var actual = finder.findInDirectoryOrParents();
+
+                assert.equal(actual, "");
+            });
+        });
     });
 
     describe("findAllInDirectoryAndParents", function() {
@@ -176,6 +187,17 @@ describe("FileFinder", function() {
                 actual = finder.findAllInDirectoryAndParents(fileFinderDir);
 
                 assert.equal(actual, expected);
+            });
+        });
+
+        describe("Not consider files outside cwd with root option set", function() {
+            it("should not be found when in a parent directory of the cwd", function() {
+                finder = new FileFinder(".eslintignore3");
+                finder.cwd = subsubsubdir;
+                finder.setRoot(true);
+                actual = finder.findAllInDirectoryAndParents(fileFinderDir);
+
+                assert.equal(actual.length, 0);
             });
         });
     });

@@ -43,6 +43,7 @@ Options:
   --stdin                     Lint code provided on <STDIN> - default: false
   --stdin-filename            Specify filename to process STDIN as
   --init                      Run config initialization wizard
+  --root                      Enable file lookup to be within cwd
 ```
 
 ### `-c`, `--config`
@@ -228,9 +229,13 @@ Example:
 
     eslint -v
 
-### '--init'
+### `--init`
 
 This option will start config initialization wizard. It's designed to help new users quickly create .eslintrc file by answering a few questions. File will be created in current directory.
+
+### `--root`
+
+This option will make the file lookup to be within current working directory (process.cwd()). Any file outside cwd will not be included.
 
 ## Ignoring files from linting
 
