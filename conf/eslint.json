@@ -117,6 +117,7 @@
         "accessor-pairs": 0,
         "block-scoped-var": 0,
         "brace-style": [0, "1tbs"],
+        "callback-return": 0,
         "camelcase": 2,
         "comma-dangle": [2, "never"],
         "comma-spacing": 2,
