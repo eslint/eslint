@@ -106,6 +106,7 @@ These rules relate to using strict mode.
 
 These rules have to do with variable declarations.
 
+* [init-declarations](init-declarations.md) - enforce or disallow variable initializations at definition (off by default)
 * [no-catch-shadow](no-catch-shadow.md) - disallow the catch clause parameter name being the same as a variable in the outer scope (off by default in the node environment)
 * [no-delete-var](no-delete-var.md) - disallow deletion of variables
 * [no-label-var](no-label-var.md) - disallow labels that share a name with a variable
