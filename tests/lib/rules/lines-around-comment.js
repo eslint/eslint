@@ -171,6 +171,16 @@ eslintTester.addRuleTest("lib/rules/lines-around-comment", {
                 allowBlockStart: true
             }]
         },
+        {
+            code: "class A {\n/**\n* hi\n */\nconstructor() {}\n}",
+            options: [{ allowBlockStart: true }],
+            ecmaFeatures: {classes: true}
+        },
+        {
+            code: "class A {\nconstructor() {\n/**\n* hi\n */\n}\n}",
+            options: [{ allowBlockStart: true }],
+            ecmaFeatures: {classes: true}
+        },
 
         // check for block end comments
         {
@@ -299,6 +309,14 @@ eslintTester.addRuleTest("lib/rules/lines-around-comment", {
                 afterBlockComment: true,
                 allowBlockEnd: true
             }]
+        },
+        {
+            code: "class B {\nconstructor() {}\n\n/**\n* hi\n */\n}",
+            options: [{
+                afterBlockComment: true,
+                allowBlockEnd: true
+            }],
+            ecmaFeatures: {classes: true}
         }
 
     ],
