@@ -35,6 +35,7 @@ eslintTester.addRuleTest("lib/rules/no-implied-eval", {
         { code: "setTimeout(\"x = 1;\");", errors: [expectedError] },
         { code: "setTimeout(\"x = 1;\", 100);", errors: [expectedError] },
         { code: "setInterval(\"x = 1;\");", errors: [expectedError] },
+        { code: "execScript(\"x = 1;\");", errors: [expectedError] },
         { code: "window.setTimeout('foo')", errors: [expectedError] },
         { code: "window.setInterval('foo')", errors: [expectedError] },
         { code: "window['setTimeout']('foo')", errors: [expectedError] },
