@@ -1043,7 +1043,7 @@ describe("eslint", function() {
             var messages = eslint.verify("0", config);
             assert.equal(messages[0].message, "hello world");
             assert.equal(messages[0].line, 42);
-            assert.equal(messages[0].column, 13);
+            assert.equal(messages[0].column, 14);
         });
 
         it("should correctly parse a message with object keys as numbers", function() {
@@ -1758,8 +1758,8 @@ describe("eslint", function() {
 
             var messages = eslint.verify(code, config, filename);
             assert.equal(messages.length, 2);
-            assert.equal(messages[0].column, 20);
-            assert.equal(messages[1].column, 18);
+            assert.equal(messages[0].column, 21);
+            assert.equal(messages[1].column, 19);
         });
 
         it("should not report a violation", function() {
@@ -2068,7 +2068,7 @@ describe("eslint", function() {
             // parseJsonConfig function in lib/eslint.js
             assert.match(messages[0].message, /^Failed to parse JSON from ' "no-alert":'1'':/);
             assert.equal(messages[0].line, 1);
-            assert.equal(messages[0].column, 0);
+            assert.equal(messages[0].column, 1);
 
             assert.equal(messages[1].ruleId, "no-alert");
             assert.equal(messages[1].message, "Unexpected alert.");
@@ -2090,7 +2090,7 @@ describe("eslint", function() {
             // parseJsonConfig function in lib/eslint.js
             assert.match(messages[0].message, /^Failed to parse JSON from ' "no-alert":abc':/);
             assert.equal(messages[0].line, 1);
-            assert.equal(messages[0].column, 0);
+            assert.equal(messages[0].column, 1);
 
             assert.equal(messages[1].ruleId, "no-alert");
             assert.equal(messages[1].message, "Unexpected alert.");
@@ -2112,7 +2112,7 @@ describe("eslint", function() {
             // parseJsonConfig function in lib/eslint.js
             assert.match(messages[0].message, /^Failed to parse JSON from ' "no-alert":0 2':/);
             assert.equal(messages[0].line, 1);
-            assert.equal(messages[0].column, 0);
+            assert.equal(messages[0].column, 1);
 
             assert.equal(messages[1].ruleId, "no-alert");
             assert.equal(messages[1].message, "Unexpected alert.");
@@ -2348,11 +2348,11 @@ describe("eslint", function() {
             var messages = eslint.verify(code, config, filename);
             assert.equal(messages.length, 3);
             assert.equal(messages[0].line, 1);
-            assert.equal(messages[0].column, 5);
+            assert.equal(messages[0].column, 6);
             assert.equal(messages[1].line, 2);
-            assert.equal(messages[1].column, 1);
+            assert.equal(messages[1].column, 2);
             assert.equal(messages[2].line, 2);
-            assert.equal(messages[2].column, 17);
+            assert.equal(messages[2].column, 18);
         });
 
         it("should properly parse let declaration when passed ecmaFeatures", function() {
@@ -2432,7 +2432,7 @@ describe("eslint", function() {
 
             assert.equal(messages.length, 1);
             assert.equal(messages[0].line, 1);
-            assert.equal(messages[0].column, 20);
+            assert.equal(messages[0].column, 21);
             assert.equal(messages[0].message, "Unexpected token <");
         });
 

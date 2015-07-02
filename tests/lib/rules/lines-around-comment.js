@@ -343,7 +343,7 @@ eslintTester.addRuleTest("lib/rules/lines-around-comment", {
         {
             code: "// A line comment with no empty line after\nvar a = 1;",
             options: [{ beforeLineComment: true, afterLineComment: true }],
-            errors: [{ message: afterMessage, type: "Line", line: 1, column: 0 }]
+            errors: [{ message: afterMessage, type: "Line", line: 1, column: 1 }]
         },
         {
             code: "baz()\n// A line comment with no empty line after\nvar a = 1;",

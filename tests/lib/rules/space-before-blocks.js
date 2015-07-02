@@ -49,7 +49,7 @@ eslintTester.addRuleTest("lib/rules/space-before-blocks", {
     invalid: [
         {
             code: "if(a){}",
-            errors: [ { message: expectedSpacingErrorMessage, line: 1, column: 5 } ]
+            errors: [ { message: expectedSpacingErrorMessage, line: 1, column: 6 } ]
         },
         {
             code: "if(a) {}",

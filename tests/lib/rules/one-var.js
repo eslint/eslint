@@ -453,7 +453,7 @@ eslintTester.addRuleTest("lib/rules/one-var", {
                 message: "Combine this with the previous 'let' statement.",
                 type: "VariableDeclaration",
                 line: 1,
-                column: 73
+                column: 74
             }]
         },
         {
@@ -463,7 +463,7 @@ eslintTester.addRuleTest("lib/rules/one-var", {
                 message: "Combine this with the previous 'var' statement.",
                 type: "VariableDeclaration",
                 line: 2,
-                column: 0
+                column: 1
             } ]
         },
         {

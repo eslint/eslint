@@ -86,7 +86,7 @@ eslintTester.addRuleTest("lib/rules/require-yield", {
             errors: [{
                 message: errorMessage,
                 type: "FunctionDeclaration",
-                column: 0
+                column: 1
             }]
         },
         {
@@ -95,7 +95,7 @@ eslintTester.addRuleTest("lib/rules/require-yield", {
             errors: [{
                 message: errorMessage,
                 type: "FunctionDeclaration",
-                column: 18
+                column: 19
             }]
         }
     ]

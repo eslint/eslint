@@ -37,41 +37,41 @@ eslintTester.addRuleTest("lib/rules/no-extra-semi", {
         {
             code: "class A { ; }",
             ecmaFeatures: {classes: true},
-            errors: [{message: "Unnecessary semicolon.", type: "Punctuator", column: 10}]
+            errors: [{message: "Unnecessary semicolon.", type: "Punctuator", column: 11}]
         },
         {
             code: "class A { /*a*/; }",
             ecmaFeatures: {classes: true},
-            errors: [{message: "Unnecessary semicolon.", type: "Punctuator", column: 15}]
+            errors: [{message: "Unnecessary semicolon.", type: "Punctuator", column: 16}]
         },
         {
             code: "class A { ; a() {} }",
             ecmaFeatures: {classes: true},
-            errors: [{message: "Unnecessary semicolon.", type: "Punctuator", column: 10}]
+            errors: [{message: "Unnecessary semicolon.", type: "Punctuator", column: 11}]
         },
         {
             code: "class A { a() {}; }",
             ecmaFeatures: {classes: true},
-            errors: [{message: "Unnecessary semicolon.", type: "Punctuator", column: 16}]
+            errors: [{message: "Unnecessary semicolon.", type: "Punctuator", column: 17}]
         },
         {
             code: "class A { a() {}; b() {} }",
             ecmaFeatures: {classes: true},
-            errors: [{message: "Unnecessary semicolon.", type: "Punctuator", column: 16}]
+            errors: [{message: "Unnecessary semicolon.", type: "Punctuator", column: 17}]
         },
         {
             code: "class A {; a() {}; b() {}; }",
             ecmaFeatures: {classes: true},
             errors: [
-                {message: "Unnecessary semicolon.", type: "Punctuator", column: 9},
-                {message: "Unnecessary semicolon.", type: "Punctuator", column: 17},
-                {message: "Unnecessary semicolon.", type: "Punctuator", column: 25}
+                {message: "Unnecessary semicolon.", type: "Punctuator", column: 10},
+                {message: "Unnecessary semicolon.", type: "Punctuator", column: 18},
+                {message: "Unnecessary semicolon.", type: "Punctuator", column: 26}
             ]
         },
         {
             code: "class A { a() {}; get b() {} }",
             ecmaFeatures: {classes: true},
-            errors: [{message: "Unnecessary semicolon.", type: "Punctuator", column: 16}]
+            errors: [{message: "Unnecessary semicolon.", type: "Punctuator", column: 17}]
         }
     ]
 });

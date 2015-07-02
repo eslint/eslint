@@ -40,71 +40,71 @@ eslintTester.addRuleTest("lib/rules/no-alert", {
     invalid: [
         {
             code: "alert(foo)",
-            errors: [{ message: "Unexpected alert.", type: "CallExpression", line: 1, column: 0 }]
+            errors: [{ message: "Unexpected alert.", type: "CallExpression", line: 1, column: 1 }]
         },
         {
             code: "window.alert(foo)",
-            errors: [{ message: "Unexpected alert.", type: "CallExpression", line: 1, column: 0 }]
+            errors: [{ message: "Unexpected alert.", type: "CallExpression", line: 1, column: 1 }]
         },
         {
             code: "window['alert'](foo)",
-            errors: [{ message: "Unexpected alert.", type: "CallExpression", line: 1, column: 0 }]
+            errors: [{ message: "Unexpected alert.", type: "CallExpression", line: 1, column: 1 }]
         },
         {
             code: "confirm(foo)",
-            errors: [{ message: "Unexpected confirm.", type: "CallExpression", line: 1, column: 0 }]
+            errors: [{ message: "Unexpected confirm.", type: "CallExpression", line: 1, column: 1 }]
         },
         {
             code: "window.confirm(foo)",
-            errors: [{ message: "Unexpected confirm.", type: "CallExpression", line: 1, column: 0 }]
+            errors: [{ message: "Unexpected confirm.", type: "CallExpression", line: 1, column: 1 }]
         },
         {
             code: "window['confirm'](foo)",
-            errors: [{ message: "Unexpected confirm.", type: "CallExpression", line: 1, column: 0 }]
+            errors: [{ message: "Unexpected confirm.", type: "CallExpression", line: 1, column: 1 }]
         },
         {
             code: "prompt(foo)",
-            errors: [{ message: "Unexpected prompt.", type: "CallExpression", line: 1, column: 0 }]
+            errors: [{ message: "Unexpected prompt.", type: "CallExpression", line: 1, column: 1 }]
         },
         {
             code: "window.prompt(foo)",
-            errors: [{ message: "Unexpected prompt.", type: "CallExpression", line: 1, column: 0 }]
+            errors: [{ message: "Unexpected prompt.", type: "CallExpression", line: 1, column: 1 }]
         },
         {
             code: "window['prompt'](foo)",
-            errors: [{ message: "Unexpected prompt.", type: "CallExpression", line: 1, column: 0 }]
+            errors: [{ message: "Unexpected prompt.", type: "CallExpression", line: 1, column: 1 }]
         },
         {
             code: "function alert() {} window.alert(foo)",
-            errors: [{ message: "Unexpected alert.", type: "CallExpression", line: 1, column: 0 }]
+            errors: [{ message: "Unexpected alert.", type: "CallExpression", line: 1, column: 21 }]
         },
         {
             code: "var alert = function () {};\nwindow.alert(foo)",
-            errors: [{ message: "Unexpected alert.", type: "CallExpression", line: 2, column: 0 }]
+            errors: [{ message: "Unexpected alert.", type: "CallExpression", line: 2, column: 1 }]
         },
         {
             code: "function foo(alert) { window.alert(); }",
-            errors: [{ message: "Unexpected alert.", type: "CallExpression", line: 1, column: 22 }]
+            errors: [{ message: "Unexpected alert.", type: "CallExpression", line: 1, column: 23 }]
         },
         {
             code: "function foo() { alert(); }",
-            errors: [{ message: "Unexpected alert.", type: "CallExpression", line: 1, column: 17 }]
+            errors: [{ message: "Unexpected alert.", type: "CallExpression", line: 1, column: 18 }]
         },
         {
             code: "function foo() { var alert = function() {}; }\nalert();",
-            errors: [{ message: "Unexpected alert.", type: "CallExpression", line: 2, column: 0 }]
+            errors: [{ message: "Unexpected alert.", type: "CallExpression", line: 2, column: 1 }]
         },
         {
             code: "this.alert(foo)",
-            errors: [{ message: "Unexpected alert.", type: "CallExpression", line: 1, column: 0 }]
+            errors: [{ message: "Unexpected alert.", type: "CallExpression", line: 1, column: 1 }]
         },
         {
             code: "this['alert'](foo)",
-            errors: [{ message: "Unexpected alert.", type: "CallExpression", line: 1, column: 0 }]
+            errors: [{ message: "Unexpected alert.", type: "CallExpression", line: 1, column: 1 }]
         },
         {
             code: "function foo() { var window = bar; window.alert(); }\nwindow.alert();",
-            errors: [{ message: "Unexpected alert.", type: "CallExpression", line: 2, column: 0 }]
+            errors: [{ message: "Unexpected alert.", type: "CallExpression", line: 2, column: 1 }]
         }
     ]
 });
