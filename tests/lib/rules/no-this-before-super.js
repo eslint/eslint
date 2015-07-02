@@ -105,12 +105,12 @@ eslintTester.addRuleTest("lib/rules/no-this-before-super", {
         {
             code: "class A extends B { constructor() { class C extends D { constructor() { super(); this.e(); } } this.f(); super(); } }",
             ecmaFeatures: {classes: true},
-            errors: [{ message: "\"this\" is not allowed before super()", type: "ThisExpression", column: 95}]
+            errors: [{ message: "\"this\" is not allowed before super()", type: "ThisExpression", column: 96}]
         },
         {
             code: "class A extends B { constructor() { class C extends D { constructor() { this.e(); super(); } } super(); this.f(); } }",
             ecmaFeatures: {classes: true},
-            errors: [{ message: "\"this\" is not allowed before super()", type: "ThisExpression", column: 72}]
+            errors: [{ message: "\"this\" is not allowed before super()", type: "ThisExpression", column: 73}]
         }
     ]
 });

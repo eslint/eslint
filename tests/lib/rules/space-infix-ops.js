@@ -35,7 +35,7 @@ eslintTester.addRuleTest("lib/rules/space-infix-ops", {
                 message: "Infix operators must be spaced.",
                 type: "BinaryExpression",
                 line: 1,
-                column: 1
+                column: 2
             }]
         },
         {
@@ -44,7 +44,7 @@ eslintTester.addRuleTest("lib/rules/space-infix-ops", {
                 message: "Infix operators must be spaced.",
                 type: "BinaryExpression",
                 line: 1,
-                column: 2
+                column: 3
             }]
         },
         {
@@ -53,7 +53,7 @@ eslintTester.addRuleTest("lib/rules/space-infix-ops", {
                 message: "Infix operators must be spaced.",
                 type: "BinaryExpression",
                 line: 1,
-                column: 1
+                column: 2
             }]
         },
         {
@@ -62,7 +62,7 @@ eslintTester.addRuleTest("lib/rules/space-infix-ops", {
                 message: "Infix operators must be spaced.",
                 type: "LogicalExpression",
                 line: 1,
-                column: 1
+                column: 2
             }]
         },
         {
@@ -71,7 +71,7 @@ eslintTester.addRuleTest("lib/rules/space-infix-ops", {
                 message: "Infix operators must be spaced.",
                 type: "LogicalExpression",
                 line: 1,
-                column: 2
+                column: 3
             }]
         },
         {
@@ -80,7 +80,7 @@ eslintTester.addRuleTest("lib/rules/space-infix-ops", {
                 message: "Infix operators must be spaced.",
                 type: "LogicalExpression",
                 line: 1,
-                column: 1
+                column: 2
             }]
         },
         {
@@ -89,7 +89,7 @@ eslintTester.addRuleTest("lib/rules/space-infix-ops", {
                 message: "Infix operators must be spaced.",
                 type: "AssignmentExpression",
                 line: 1,
-                column: 1
+                column: 2
             }]
         },
         {
@@ -98,7 +98,7 @@ eslintTester.addRuleTest("lib/rules/space-infix-ops", {
                 message: "Infix operators must be spaced.",
                 type: "AssignmentExpression",
                 line: 1,
-                column: 1
+                column: 2
             }]
         },
         {
@@ -107,7 +107,7 @@ eslintTester.addRuleTest("lib/rules/space-infix-ops", {
                 message: "Infix operators must be spaced.",
                 type: "AssignmentExpression",
                 line: 1,
-                column: 2
+                column: 3
             }]
         },
         {
@@ -116,7 +116,7 @@ eslintTester.addRuleTest("lib/rules/space-infix-ops", {
                 message: "Infix operators must be spaced.",
                 type: "ConditionalExpression",
                 line: 1,
-                column: 1
+                column: 2
             }]
         },
         {
@@ -125,7 +125,7 @@ eslintTester.addRuleTest("lib/rules/space-infix-ops", {
                 message: "Infix operators must be spaced.",
                 type: "ConditionalExpression",
                 line: 1,
-                column: 1
+                column: 2
             }]
         },
         {
@@ -134,7 +134,7 @@ eslintTester.addRuleTest("lib/rules/space-infix-ops", {
                 message: "Infix operators must be spaced.",
                 type: "ConditionalExpression",
                 line: 1,
-                column: 5
+                column: 6
             }]
         },
         {
@@ -143,7 +143,7 @@ eslintTester.addRuleTest("lib/rules/space-infix-ops", {
                 message: "Infix operators must be spaced.",
                 type: "ConditionalExpression",
                 line: 1,
-                column: 1
+                column: 2
             }]
         },
         {
@@ -152,7 +152,7 @@ eslintTester.addRuleTest("lib/rules/space-infix-ops", {
                 message: "Infix operators must be spaced.",
                 type: "ConditionalExpression",
                 line: 1,
-                column: 2
+                column: 3
             }]
         },
         {
@@ -161,7 +161,7 @@ eslintTester.addRuleTest("lib/rules/space-infix-ops", {
                 message: "Infix operators must be spaced.",
                 type: "ConditionalExpression",
                 line: 1,
-                column: 5
+                column: 6
             }]
         },
         {
@@ -170,7 +170,7 @@ eslintTester.addRuleTest("lib/rules/space-infix-ops", {
                 message: "Infix operators must be spaced.",
                 type: "ConditionalExpression",
                 line: 1,
-                column: 6
+                column: 7
             }]
         },
         {
@@ -179,7 +179,7 @@ eslintTester.addRuleTest("lib/rules/space-infix-ops", {
                 message: "Infix operators must be spaced.",
                 type: "VariableDeclarator",
                 line: 1,
-                column: 5
+                column: 6
             }]
         },
         {
@@ -188,7 +188,7 @@ eslintTester.addRuleTest("lib/rules/space-infix-ops", {
                 message: "Infix operators must be spaced.",
                 type: "VariableDeclarator",
                 line: 1,
-                column: 5
+                column: 6
             }]
         },
         {
@@ -197,7 +197,7 @@ eslintTester.addRuleTest("lib/rules/space-infix-ops", {
                 message: "Infix operators must be spaced.",
                 type: "VariableDeclarator",
                 line: 1,
-                column: 6
+                column: 7
             }]
         },
         {
@@ -206,7 +206,7 @@ eslintTester.addRuleTest("lib/rules/space-infix-ops", {
                 message: "Infix operators must be spaced.",
                 type: "VariableDeclarator",
                 line: 1,
-                column: 12
+                column: 13
             }]
         },
         {
@@ -218,7 +218,7 @@ eslintTester.addRuleTest("lib/rules/space-infix-ops", {
                 message: "Infix operators must be spaced.",
                 type: "BinaryExpression",
                 line: 1,
-                column: 1
+                column: 2
             }]
         },
         {
@@ -227,7 +227,7 @@ eslintTester.addRuleTest("lib/rules/space-infix-ops", {
                 message: "Infix operators must be spaced.",
                 type: "LogicalExpression",
                 line: 1,
-                column: 42
+                column: 43
             }]
         },
         {
@@ -236,7 +236,7 @@ eslintTester.addRuleTest("lib/rules/space-infix-ops", {
                 message: "Infix operators must be spaced.",
                 type: "LogicalExpression",
                 line: 1,
-                column: 15
+                column: 16
             }]
         },
         {
@@ -245,7 +245,7 @@ eslintTester.addRuleTest("lib/rules/space-infix-ops", {
                 message: "Infix operators must be spaced.",
                 type: "LogicalExpression",
                 line: 1,
-                column: 14
+                column: 15
             }]
         }
     ]

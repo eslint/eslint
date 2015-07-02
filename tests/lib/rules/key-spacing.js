@@ -169,33 +169,33 @@ eslintTester.addRuleTest("lib/rules/key-spacing", {
             beforeColon: false,
             afterColon: false
         }],
-        errors: [{ message: "Extra space before value for key \"key\".", type: "Identifier", line: 1, column: 48 }]
+        errors: [{ message: "Extra space before value for key \"key\".", type: "Identifier", line: 1, column: 49 }]
     }, {
         code: "var obj = { [ (a + b) ]:value };",
         options: [{}],
         ecmaFeatures: { objectLiteralComputedProperties: true },
-        errors: [{ message: "Missing space before value for computed key \"(a + b)\".", type: "Identifier", line: 1, column: 23 }]
+        errors: [{ message: "Missing space before value for computed key \"(a + b)\".", type: "Identifier", line: 1, column: 24 }]
     }, {
         code: "fn({ foo:bar, 'key' :value });",
         options: [{
             beforeColon: false,
             afterColon: false
         }],
-        errors: [{ message: "Extra space after key \"key\".", type: "Literal", line: 1, column: 14 }]
+        errors: [{ message: "Extra space after key \"key\".", type: "Literal", line: 1, column: 15 }]
     }, {
         code: "var obj = {prop :(42)};",
         options: [{
             beforeColon: true,
             afterColon: true
         }],
-        errors: [{ message: "Missing space before value for key \"prop\".", type: "Literal", line: 1, column: 17 }]
+        errors: [{ message: "Missing space before value for key \"prop\".", type: "Literal", line: 1, column: 18 }]
     }, {
         code: "({'a' : foo, b: bar() }).b();",
         options: [{
             beforeColon: true,
             afterColon: true
         }],
-        errors: [{ message: "Missing space after key \"b\".", type: "Identifier", line: 1, column: 13 }]
+        errors: [{ message: "Missing space after key \"b\".", type: "Identifier", line: 1, column: 14 }]
     }, {
         code: "({'a'  :foo(), b:  bar() }).b();",
         options: [{
@@ -203,10 +203,10 @@ eslintTester.addRuleTest("lib/rules/key-spacing", {
             afterColon: true
         }],
         errors: [
-            { message: "Extra space after key \"a\".", type: "Literal", line: 1, column: 2 },
-            { message: "Missing space before value for key \"a\".", type: "CallExpression", line: 1, column: 8 },
-            { message: "Missing space after key \"b\".", type: "Identifier", line: 1, column: 15 },
-            { message: "Extra space before value for key \"b\".", type: "CallExpression", line: 1, column: 19 }
+            { message: "Extra space after key \"a\".", type: "Literal", line: 1, column: 3 },
+            { message: "Missing space before value for key \"a\".", type: "CallExpression", line: 1, column: 9 },
+            { message: "Missing space after key \"b\".", type: "Identifier", line: 1, column: 16 },
+            { message: "Extra space before value for key \"b\".", type: "CallExpression", line: 1, column: 20 }
         ]
     }, {
         code: "bar = { key:value };",
@@ -214,7 +214,7 @@ eslintTester.addRuleTest("lib/rules/key-spacing", {
             beforeColon: false,
             afterColon: true
         }],
-        errors: [{ message: "Missing space before value for key \"key\".", type: "Identifier", line: 1, column: 12 }]
+        errors: [{ message: "Missing space before value for key \"key\".", type: "Identifier", line: 1, column: 13 }]
     }, {
         code: [
             "obj = {",
@@ -227,9 +227,9 @@ eslintTester.addRuleTest("lib/rules/key-spacing", {
             align: "colon"
         }],
         errors: [
-            { message: "Missing space after key \"key\".", type: "Identifier", line: 2, column: 4 },
-            { message: "Extra space before value for key \"key\".", type: "Identifier", line: 2, column: 11 },
-            { message: "Missing space before value for key \"foobar\".", type: "CallExpression", line: 3, column: 11}
+            { message: "Missing space after key \"key\".", type: "Identifier", line: 2, column: 5 },
+            { message: "Extra space before value for key \"key\".", type: "Identifier", line: 2, column: 12 },
+            { message: "Missing space before value for key \"foobar\".", type: "CallExpression", line: 3, column: 12}
         ]
     }, {
         code: [
@@ -246,9 +246,9 @@ eslintTester.addRuleTest("lib/rules/key-spacing", {
             afterColon: false
         }],
         errors: [
-            { message: "Extra space before value for key \"a\".", type: "Identifier", line: 2, column: 10 },
-            { message: "Missing space after key \"foo\".", type: "Identifier", line: 3, column: 4 },
-            { message: "Extra space after key \"b\".", type: "Identifier", line: 4, column: 4 }
+            { message: "Extra space before value for key \"a\".", type: "Identifier", line: 2, column: 11 },
+            { message: "Missing space after key \"foo\".", type: "Identifier", line: 3, column: 5 },
+            { message: "Extra space after key \"b\".", type: "Identifier", line: 4, column: 5 }
         ]
     }, {
         code: [
@@ -265,10 +265,10 @@ eslintTester.addRuleTest("lib/rules/key-spacing", {
         }],
         ecmaFeatures: { objectLiteralComputedProperties: true },
         errors: [
-            { message: "Extra space before value for key \"a\".", type: "CallExpression", line: 2, column: 10 },
-            { message: "Extra space after key \"b\".", type: "Literal", line: 3, column: 4 },
-            { message: "Missing space before value for key \"foo\".", type: "Identifier", line: 4, column: 8 },
-            { message: "Extra space after computed key \"a\".", type: "Identifier", line: 6, column: 5 }
+            { message: "Extra space before value for key \"a\".", type: "CallExpression", line: 2, column: 11 },
+            { message: "Extra space after key \"b\".", type: "Literal", line: 3, column: 5 },
+            { message: "Missing space before value for key \"foo\".", type: "Identifier", line: 4, column: 9 },
+            { message: "Extra space after computed key \"a\".", type: "Identifier", line: 6, column: 6 }
         ]
     }, {
         code: [
@@ -285,8 +285,8 @@ eslintTester.addRuleTest("lib/rules/key-spacing", {
             afterColon: false
         }],
         errors: [
-            { message: "Missing space after key \"a\".", type: "Identifier", line: 2, column: 4 },
-            { message: "Extra space before value for key \"bar\".", type: "CallExpression", line: 5, column: 10 }
+            { message: "Missing space after key \"a\".", type: "Identifier", line: 2, column: 5 },
+            { message: "Extra space before value for key \"bar\".", type: "CallExpression", line: 5, column: 11 }
         ]
     }, {
         code: [
@@ -302,9 +302,9 @@ eslintTester.addRuleTest("lib/rules/key-spacing", {
             align: "colon"
         }],
         errors: [
-            { message: "Missing space after key \"a\".", type: "Identifier", line: 2, column: 4 },
-            { message: "Missing space after key \"e\".", type: "Identifier", line: 5, column: 4 },
-            { message: "Missing space before value for key \"fg\".", type: "Literal", line: 6, column: 7 }
+            { message: "Missing space after key \"a\".", type: "Identifier", line: 2, column: 5 },
+            { message: "Missing space after key \"e\".", type: "Identifier", line: 5, column: 5 },
+            { message: "Missing space before value for key \"fg\".", type: "Literal", line: 6, column: 8 }
         ]
     }, {
         code: [
@@ -320,8 +320,8 @@ eslintTester.addRuleTest("lib/rules/key-spacing", {
             afterColon: false
         }],
         errors: [
-            { message: "Extra space before value for key \"key\".", type: "Identifier", line: 3, column: 8 },
-            { message: "Extra space after key \"key2\".", type: "Identifier", line: 4, column: 4 }
+            { message: "Extra space before value for key \"key\".", type: "Identifier", line: 3, column: 9 },
+            { message: "Extra space after key \"key2\".", type: "Identifier", line: 4, column: 5 }
         ]
     }, {
         code: [
@@ -344,18 +344,18 @@ eslintTester.addRuleTest("lib/rules/key-spacing", {
     }, {
         code: "foo = { key:(1+2) };",
         errors: [
-            { message: "Missing space before value for key \"key\".", line: 1, column: 12, type: "BinaryExpression" }
+            { message: "Missing space before value for key \"key\".", line: 1, column: 13, type: "BinaryExpression" }
         ]
     }, {
         code: "foo = { key:( ( (1+2) ) ) };",
         errors: [
-            { message: "Missing space before value for key \"key\".", line: 1, column: 12, type: "BinaryExpression" }
+            { message: "Missing space before value for key \"key\".", line: 1, column: 13, type: "BinaryExpression" }
         ]
     }, {
         code: "var obj = {a  : 'foo', bar: 'bam'};",
         options: [{ align: "colon" }],
         errors: [
-            { message: "Extra space after key \"a\".", line: 1, column: 11, type: "Identifier" }
+            { message: "Extra space after key \"a\".", line: 1, column: 12, type: "Identifier" }
         ]
     }]
 

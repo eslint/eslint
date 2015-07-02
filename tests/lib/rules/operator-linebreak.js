@@ -63,7 +63,7 @@ eslintTester.addRuleTest("lib/rules/operator-linebreak", {
                 message: util.format(AFTER_MSG, "+"),
                 type: "BinaryExpression",
                 line: 2,
-                column: 1
+                column: 2
             }]
         },
         {
@@ -72,7 +72,7 @@ eslintTester.addRuleTest("lib/rules/operator-linebreak", {
                 message: util.format(AFTER_MSG, "+"),
                 type: "BinaryExpression",
                 line: 2,
-                column: 2
+                column: 3
             }]
         },
         {
@@ -81,7 +81,7 @@ eslintTester.addRuleTest("lib/rules/operator-linebreak", {
                 message: util.format(BAD_LN_BRK_MSG, "+"),
                 type: "BinaryExpression",
                 line: 2,
-                column: 1
+                column: 2
             }]
         },
         {
@@ -90,7 +90,7 @@ eslintTester.addRuleTest("lib/rules/operator-linebreak", {
                 message: util.format(AFTER_MSG, "+"),
                 type: "BinaryExpression",
                 line: 2,
-                column: 1
+                column: 2
             }]
         },
         {
@@ -99,7 +99,7 @@ eslintTester.addRuleTest("lib/rules/operator-linebreak", {
                 message: util.format(AFTER_MSG, "+"),
                 type: "BinaryExpression",
                 line: 2,
-                column: 1
+                column: 2
             }]
         },
         {
@@ -108,7 +108,7 @@ eslintTester.addRuleTest("lib/rules/operator-linebreak", {
                 message: util.format(AFTER_MSG, "||"),
                 type: "LogicalExpression",
                 line: 2,
-                column: 3
+                column: 4
             }]
         },
         {
@@ -117,7 +117,7 @@ eslintTester.addRuleTest("lib/rules/operator-linebreak", {
                 message: util.format(AFTER_MSG, "+="),
                 type: "AssignmentExpression",
                 line: 2,
-                column: 3
+                column: 4
             }]
         },
         {
@@ -126,7 +126,7 @@ eslintTester.addRuleTest("lib/rules/operator-linebreak", {
                 message: util.format(AFTER_MSG, "="),
                 type: "VariableDeclarator",
                 line: 2,
-                column: 2
+                column: 3
             }]
         },
         {
@@ -135,7 +135,7 @@ eslintTester.addRuleTest("lib/rules/operator-linebreak", {
                 message: util.format(BAD_LN_BRK_MSG, "*"),
                 type: "BinaryExpression",
                 line: 2,
-                column: 1
+                column: 2
             }]
         },
 
@@ -146,7 +146,7 @@ eslintTester.addRuleTest("lib/rules/operator-linebreak", {
                 message: util.format(BEFORE_MSG, "+"),
                 type: "BinaryExpression",
                 line: 1,
-                column: 3
+                column: 4
             }]
         },
         {
@@ -156,7 +156,7 @@ eslintTester.addRuleTest("lib/rules/operator-linebreak", {
                 message: util.format(BEFORE_MSG, "+"),
                 type: "BinaryExpression",
                 line: 1,
-                column: 5
+                column: 6
             }]
         },
         {
@@ -166,7 +166,7 @@ eslintTester.addRuleTest("lib/rules/operator-linebreak", {
                 message: util.format(BEFORE_MSG, "||"),
                 type: "LogicalExpression",
                 line: 1,
-                column: 4
+                column: 5
             }]
         },
         {
@@ -176,7 +176,7 @@ eslintTester.addRuleTest("lib/rules/operator-linebreak", {
                 message: util.format(BEFORE_MSG, "+="),
                 type: "AssignmentExpression",
                 line: 1,
-                column: 4
+                column: 5
             }]
         },
         {
@@ -186,7 +186,7 @@ eslintTester.addRuleTest("lib/rules/operator-linebreak", {
                 message: util.format(BEFORE_MSG, "="),
                 type: "VariableDeclarator",
                 line: 1,
-                column: 7
+                column: 8
             }]
         },
 
@@ -197,7 +197,7 @@ eslintTester.addRuleTest("lib/rules/operator-linebreak", {
                 message: util.format(NONE_MSG, "+"),
                 type: "BinaryExpression",
                 line: 1,
-                column: 3
+                column: 4
             }]
         },
         {
@@ -207,7 +207,7 @@ eslintTester.addRuleTest("lib/rules/operator-linebreak", {
                 message: util.format(NONE_MSG, "+"),
                 type: "BinaryExpression",
                 line: 2,
-                column: 1
+                column: 2
             }]
         },
         {
@@ -217,7 +217,7 @@ eslintTester.addRuleTest("lib/rules/operator-linebreak", {
                 message: util.format(NONE_MSG, "+"),
                 type: "BinaryExpression",
                 line: 1,
-                column: 5
+                column: 6
             }]
         },
         {
@@ -227,7 +227,7 @@ eslintTester.addRuleTest("lib/rules/operator-linebreak", {
                 message: util.format(NONE_MSG, "+"),
                 type: "BinaryExpression",
                 line: 2,
-                column: 1
+                column: 2
             }]
         },
         {
@@ -237,7 +237,7 @@ eslintTester.addRuleTest("lib/rules/operator-linebreak", {
                 message: util.format(NONE_MSG, "||"),
                 type: "LogicalExpression",
                 line: 1,
-                column: 4
+                column: 5
             }]
         },
         {
@@ -247,7 +247,7 @@ eslintTester.addRuleTest("lib/rules/operator-linebreak", {
                 message: util.format(NONE_MSG, "||"),
                 type: "LogicalExpression",
                 line: 2,
-                column: 3
+                column: 4
             }]
         },
         {
@@ -257,7 +257,7 @@ eslintTester.addRuleTest("lib/rules/operator-linebreak", {
                 message: util.format(NONE_MSG, "+="),
                 type: "AssignmentExpression",
                 line: 1,
-                column: 4
+                column: 5
             }]
         },
         {
@@ -267,7 +267,7 @@ eslintTester.addRuleTest("lib/rules/operator-linebreak", {
                 message: util.format(NONE_MSG, "+="),
                 type: "AssignmentExpression",
                 line: 2,
-                column: 2
+                column: 3
             }]
         },
         {
@@ -277,7 +277,7 @@ eslintTester.addRuleTest("lib/rules/operator-linebreak", {
                 message: util.format(NONE_MSG, "="),
                 type: "VariableDeclarator",
                 line: 1,
-                column: 7
+                column: 8
             }]
         },
         {
@@ -287,7 +287,7 @@ eslintTester.addRuleTest("lib/rules/operator-linebreak", {
                 message: util.format(NONE_MSG, "="),
                 type: "VariableDeclarator",
                 line: 2,
-                column: 2
+                column: 3
             }]
         }
     ]

@@ -44,17 +44,17 @@ eslintTester.addRuleTest("lib/rules/dot-location", {
         {
             code: "obj\n.property",
             options: [ "object" ],
-            errors: [ { message: "Expected dot to be on same line as object.", type: "MemberExpression", line: 2, column: 0 } ]
+            errors: [ { message: "Expected dot to be on same line as object.", type: "MemberExpression", line: 2, column: 1 } ]
         },
         {
             code: "obj.\nproperty",
             options: [ "property" ],
-            errors: [ { message: "Expected dot to be on same line as property.", type: "MemberExpression", line: 1, column: 3 } ]
+            errors: [ { message: "Expected dot to be on same line as property.", type: "MemberExpression", line: 1, column: 4 } ]
         },
         {
             code: "(obj).\nproperty",
             options: [ "property" ],
-            errors: [ { message: "Expected dot to be on same line as property.", type: "MemberExpression", line: 1, column: 5 } ]
+            errors: [ { message: "Expected dot to be on same line as property.", type: "MemberExpression", line: 1, column: 6 } ]
         }
     ]
 });

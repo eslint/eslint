@@ -114,13 +114,13 @@ eslintTester.addRuleTest("lib/rules/object-curly-spacing", {
                     message: "A space is required after '{'",
                     type: "ImportDeclaration",
                     line: 1,
-                    column: 7
+                    column: 8
                 },
                 {
                     message: "A space is required before '}'",
                     type: "ImportDeclaration",
                     line: 1,
-                    column: 11
+                    column: 12
                 }
             ]
         },
@@ -135,13 +135,13 @@ eslintTester.addRuleTest("lib/rules/object-curly-spacing", {
                     message: "A space is required after '{'",
                     type: "ExportNamedDeclaration",
                     line: 1,
-                    column: 7
+                    column: 8
                 },
                 {
                     message: "A space is required before '}'",
                     type: "ExportNamedDeclaration",
                     line: 1,
-                    column: 11
+                    column: 12
                 }
             ]
         },
@@ -177,7 +177,7 @@ eslintTester.addRuleTest("lib/rules/object-curly-spacing", {
                     message: "There should be no space before '}'",
                     type: "ObjectExpression",
                     line: 1,
-                    column: 42
+                    column: 43
                 }
             ]
         },
@@ -189,7 +189,7 @@ eslintTester.addRuleTest("lib/rules/object-curly-spacing", {
                     message: "There should be no space before '}'",
                     type: "ObjectExpression",
                     line: 1,
-                    column: 60
+                    column: 61
                 }
             ]
         },
@@ -204,7 +204,7 @@ eslintTester.addRuleTest("lib/rules/object-curly-spacing", {
                     message: "A space is required before '}'",
                     type: "ObjectPattern",
                     line: 1,
-                    column: 8
+                    column: 9
                 }
             ]
         },
@@ -217,7 +217,7 @@ eslintTester.addRuleTest("lib/rules/object-curly-spacing", {
                     message: "There should be no space before '}'",
                     type: "ObjectPattern",
                     line: 1,
-                    column: 8
+                    column: 9
                 }
             ]
         },
@@ -231,7 +231,7 @@ eslintTester.addRuleTest("lib/rules/object-curly-spacing", {
                     message: "A space is required before '}'",
                     type: "ObjectExpression",
                     line: 1,
-                    column: 38
+                    column: 39
                 }
             ]
         },
@@ -243,7 +243,7 @@ eslintTester.addRuleTest("lib/rules/object-curly-spacing", {
                     message: "A space is required before '}'",
                     type: "ObjectExpression",
                     line: 1,
-                    column: 54
+                    column: 55
                 }
             ]
         },
@@ -257,13 +257,13 @@ eslintTester.addRuleTest("lib/rules/object-curly-spacing", {
                     message: "A space is required after '{'",
                     type: "ObjectExpression",
                     line: 1,
-                    column: 10
+                    column: 11
                 },
                 {
                     message: "A space is required before '}'",
                     type: "ObjectExpression",
                     line: 1,
-                    column: 29
+                    column: 30
                 }
             ]
         },
@@ -275,7 +275,7 @@ eslintTester.addRuleTest("lib/rules/object-curly-spacing", {
                     message: "A space is required after '{'",
                     type: "ObjectExpression",
                     line: 1,
-                    column: 10
+                    column: 11
                 }
             ]
         },
@@ -287,7 +287,7 @@ eslintTester.addRuleTest("lib/rules/object-curly-spacing", {
                     message: "A space is required before '}'",
                     type: "ObjectExpression",
                     line: 1,
-                    column: 30
+                    column: 31
                 }
             ]
         },
@@ -299,13 +299,13 @@ eslintTester.addRuleTest("lib/rules/object-curly-spacing", {
                     message: "There should be no space after '{'",
                     type: "ObjectExpression",
                     line: 1,
-                    column: 10
+                    column: 11
                 },
                 {
                     message: "There should be no space before '}'",
                     type: "ObjectExpression",
                     line: 1,
-                    column: 31
+                    column: 32
                 }
             ]
         },
@@ -317,7 +317,7 @@ eslintTester.addRuleTest("lib/rules/object-curly-spacing", {
                     message: "There should be no space before '}'",
                     type: "ObjectExpression",
                     line: 1,
-                    column: 30
+                    column: 31
                 }
             ]
         },
@@ -329,7 +329,7 @@ eslintTester.addRuleTest("lib/rules/object-curly-spacing", {
                     message: "There should be no space after '{'",
                     type: "ObjectExpression",
                     line: 1,
-                    column: 10
+                    column: 11
                 }
             ]
         },
@@ -341,13 +341,13 @@ eslintTester.addRuleTest("lib/rules/object-curly-spacing", {
                     message: "There should be no space after '{'",
                     type: "ObjectExpression",
                     line: 1,
-                    column: 10
+                    column: 11
                 },
                 {
                     message: "There should be no space after '{'",
                     type: "ObjectExpression",
                     line: 1,
-                    column: 17
+                    column: 18
                 }
             ]
         },
@@ -359,13 +359,13 @@ eslintTester.addRuleTest("lib/rules/object-curly-spacing", {
                     message: "There should be no space before '}'",
                     type: "ObjectExpression",
                     line: 1,
-                    column: 27
+                    column: 28
                 },
                 {
                     message: "There should be no space before '}'",
                     type: "ObjectExpression",
                     line: 1,
-                    column: 39
+                    column: 40
                 }
             ]
         },
@@ -381,7 +381,7 @@ eslintTester.addRuleTest("lib/rules/object-curly-spacing", {
                     message: "A space is required after '{'",
                     type: "ObjectExpression",
                     line: 1,
-                    column: 21
+                    column: 22
                 }
             ]
         },
@@ -396,13 +396,13 @@ eslintTester.addRuleTest("lib/rules/object-curly-spacing", {
                     message: "A space is required after '{'",
                     type: "ObjectPattern",
                     line: 1,
-                    column: 4
+                    column: 5
                 },
                 {
                     message: "A space is required before '}'",
                     type: "ObjectPattern",
                     line: 1,
-                    column: 9
+                    column: 10
                 }
             ]
         },
@@ -415,7 +415,7 @@ eslintTester.addRuleTest("lib/rules/object-curly-spacing", {
                     message: "A space is required before '}'",
                     type: "ObjectPattern",
                     line: 1,
-                    column: 10
+                    column: 11
                 }
             ]
         },
@@ -428,13 +428,13 @@ eslintTester.addRuleTest("lib/rules/object-curly-spacing", {
                     message: "There should be no space after '{'",
                     type: "ObjectPattern",
                     line: 1,
-                    column: 4
+                    column: 5
                 },
                 {
                     message: "There should be no space before '}'",
                     type: "ObjectPattern",
                     line: 1,
-                    column: 11
+                    column: 12
                 }
             ]
         },
@@ -447,7 +447,7 @@ eslintTester.addRuleTest("lib/rules/object-curly-spacing", {
                     message: "There should be no space before '}'",
                     type: "ObjectPattern",
                     line: 1,
-                    column: 10
+                    column: 11
                 }
             ]
         },
@@ -460,7 +460,7 @@ eslintTester.addRuleTest("lib/rules/object-curly-spacing", {
                     message: "A space is required before '}'",
                     type: "ObjectPattern",
                     line: 1,
-                    column: 10
+                    column: 11
                 }
             ]
         },
@@ -473,7 +473,7 @@ eslintTester.addRuleTest("lib/rules/object-curly-spacing", {
                     message: "A space is required after '{'",
                     type: "ObjectPattern",
                     line: 1,
-                    column: 4
+                    column: 5
                 }
             ]
         },
