@@ -2,13 +2,14 @@
 
 It's considered a good practice to avoid using `eval()` in JavaScript. There are security and performance implications involved with doing so, which is why many linters (including ESLint) disallow `eval()` by default. However, there are some other ways to pass a string and have it interpreted as JavaScript code that have similar concerns.
 
-The first is using `setTimeout()` or `setInterval()`, both of which can accept a string of JavaScript code as their first argument. For example:
+The first is using `setTimeout()`, `setInterval()` or `execScript()` (Internet Explorer only), both of which can accept a string of JavaScript code as their first argument. For example:
 
 ```js
 setTimeout("alert('Hi!');", 100);
 ```
 
-This is considered an implied `eval()` because a string of JavaScript code is passed in to be interpreted. The same can be done with `setInterval()`. Both interpret the JavaScript code in the global scope. For both `setTimeout()` and `setInterval()`, the first argument can also be a function, and that is considered safer and is more performant:
+This is considered an implied `eval()` because a string of JavaScript code is
+ passed in to be interpreted. The same can be done with `setInterval()` and `execScript()`. Both interpret the JavaScript code in  the global scope. For  both `setTimeout()` and `setInterval()`, the first argument can also be a function, and that is considered safer and is more performant:
 
 ```js
 setTimeout(function() {
@@ -16,12 +17,12 @@ setTimeout(function() {
 }, 100);
 ```
 
-The best practice is to always use a function for the first argument of `setTimeout()` and `setInterval()`.
+The best practice is to always use a function for the first argument of `setTimeout()` and `setInterval()` (and avoid `execScript()`).
 
 
 ## Rule Details
 
-This rule aims to eliminate implied `eval()` through the use of `setTimeout()` and `setInterval()`. As such, it will warn when either function is used with a string as the first argument.
+This rule aims to eliminate implied `eval()` through the use of `setTimeout()`, `setInterval()` or `execScript()`. As such, it will warn when either function is used with a string as the first argument.
 
 The following patterns are considered warnings:
 
@@ -29,6 +30,8 @@ The following patterns are considered warnings:
 setTimeout("alert('Hi!');", 100);
 
 setInterval("alert('Hi!');", 100);
+
+execScript("alert('Hi!')");
 
 window.setTimeout("count = 5", 10);
 
