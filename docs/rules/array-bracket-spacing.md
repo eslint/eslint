@@ -121,7 +121,7 @@ You can add exceptions like so:
 In case of `"always"` option, set an exception to `false` to enable it:
 
 ```json
-"space-in-brackets": [2, "always", {
+"array-bracket-spacing": [2, "always", {
   "singleValue": false,
   "objectsInArrays": false,
   "arraysInArrays": false
@@ -131,7 +131,7 @@ In case of `"always"` option, set an exception to `false` to enable it:
 In case of `"never"` option, set an exception to `true` to enable it:
 
 ```json
-"space-in-brackets": [2, "never", {
+"array-bracket-spacing": [2, "never", {
   "singleValue": true,
   "objectsInArrays": true,
   "arraysInArrays": true
