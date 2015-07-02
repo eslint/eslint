@@ -29,7 +29,7 @@ You can enable this option in your config like this:
 
 ```json
 {
-    "no-trailing-spaces": [2, { skipBlankLines: true }]
+    "no-trailing-spaces": [2, { "skipBlankLines": true }]
 }
 ```
 
