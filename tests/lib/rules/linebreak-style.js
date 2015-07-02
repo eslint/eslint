@@ -53,7 +53,7 @@ eslintTester.addRuleTest("lib/rules/linebreak-style", {
             args: [2],
             errors: [{
                 line: 1,
-                column: 12,
+                column: 13,
                 message: EXPECTED_LF_MSG
             }]
         },
@@ -62,7 +62,7 @@ eslintTester.addRuleTest("lib/rules/linebreak-style", {
             args: [2, "unix"],
             errors: [{
                 line: 1,
-                column: 12,
+                column: 13,
                 message: EXPECTED_LF_MSG
             }]
         },
@@ -71,7 +71,7 @@ eslintTester.addRuleTest("lib/rules/linebreak-style", {
             args: [2, "windows"],
             errors: [{
                 line: 1,
-                column: 12,
+                column: 13,
                 message: EXPECTED_CRLF_MSG
             }]
         },
@@ -80,7 +80,7 @@ eslintTester.addRuleTest("lib/rules/linebreak-style", {
             args: [2],
             errors: [{
                 line: 4,
-                column: 23,
+                column: 24,
                 message: EXPECTED_LF_MSG
             }]
         },
@@ -89,7 +89,7 @@ eslintTester.addRuleTest("lib/rules/linebreak-style", {
             args: [2, "windows"],
             errors: [{
                 line: 3,
-                column: 0,
+                column: 1,
                 message: EXPECTED_CRLF_MSG
             }]
         }

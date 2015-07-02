@@ -152,7 +152,7 @@ eslintTester.addRuleTest("lib/rules/no-trailing-spaces", {
                 message: "Trailing spaces not allowed.",
                 type: "Program",
                 line: 1,
-                column: 16 // there are invalid spaces in columns 15 and 16
+                column: 17 // there are invalid spaces in columns 15 and 16
             }],
             options: [{
                 skipBlankLines: true

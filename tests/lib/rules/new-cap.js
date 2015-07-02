@@ -73,7 +73,7 @@ eslintTester.addRuleTest("lib/rules/new-cap", {
                     message: "A function with a name starting with an uppercase letter should only be used as a constructor.",
                     type: "CallExpression",
                     line: 1,
-                    column: 10
+                    column: 11
                 }
             ]
         },
@@ -84,7 +84,7 @@ eslintTester.addRuleTest("lib/rules/new-cap", {
                     message: "A function with a name starting with an uppercase letter should only be used as a constructor.",
                     type: "CallExpression",
                     line: 2,
-                    column: 1
+                    column: 2
                 }
             ]
         },
@@ -95,7 +95,7 @@ eslintTester.addRuleTest("lib/rules/new-cap", {
                     message: "A constructor name should not start with a lowercase letter.",
                     type: "NewExpression",
                     line: 1,
-                    column: 14
+                    column: 15
                 }
             ]
         },
@@ -106,7 +106,7 @@ eslintTester.addRuleTest("lib/rules/new-cap", {
                     message: "A constructor name should not start with a lowercase letter.",
                     type: "NewExpression",
                     line: 2,
-                    column: 0
+                    column: 1
                 }
             ]
         },
@@ -117,7 +117,7 @@ eslintTester.addRuleTest("lib/rules/new-cap", {
                     message: "A constructor name should not start with a lowercase letter.",
                     type: "NewExpression",
                     line: 1,
-                    column: 12
+                    column: 13
                 }
             ]
         }

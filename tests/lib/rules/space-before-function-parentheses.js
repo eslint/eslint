@@ -105,7 +105,7 @@ eslintTester.addRuleTest("lib/rules/space-before-function-parentheses", {
                     type: "FunctionDeclaration",
                     message: "Missing space before function parentheses.",
                     line: 1,
-                    column: 12
+                    column: 13
                 }
             ]
         },
@@ -116,7 +116,7 @@ eslintTester.addRuleTest("lib/rules/space-before-function-parentheses", {
                     type: "FunctionExpression",
                     message: "Missing space before function parentheses.",
                     line: 1,
-                    column: 18
+                    column: 19
                 }
             ]
         },
@@ -127,7 +127,7 @@ eslintTester.addRuleTest("lib/rules/space-before-function-parentheses", {
                     type: "FunctionExpression",
                     message: "Missing space before function parentheses.",
                     line: 1,
-                    column: 22
+                    column: 23
                 }
             ]
         },
@@ -138,13 +138,13 @@ eslintTester.addRuleTest("lib/rules/space-before-function-parentheses", {
                     type: "FunctionExpression",
                     message: "Missing space before function parentheses.",
                     line: 1,
-                    column: 19
+                    column: 20
                 },
                 {
                     type: "FunctionExpression",
                     message: "Missing space before function parentheses.",
                     line: 1,
-                    column: 33
+                    column: 34
                 }
             ]
         },
@@ -156,7 +156,7 @@ eslintTester.addRuleTest("lib/rules/space-before-function-parentheses", {
                     type: "FunctionExpression",
                     message: "Missing space before function parentheses.",
                     line: 1,
-                    column: 15
+                    column: 16
                 }
             ]
         },
@@ -168,7 +168,7 @@ eslintTester.addRuleTest("lib/rules/space-before-function-parentheses", {
                     type: "FunctionDeclaration",
                     message: "Missing space before function parentheses.",
                     line: 1,
-                    column: 13
+                    column: 14
                 }
             ]
         },
@@ -181,7 +181,7 @@ eslintTester.addRuleTest("lib/rules/space-before-function-parentheses", {
                     type: "FunctionDeclaration",
                     message: "Unexpected space before function parentheses.",
                     line: 1,
-                    column: 12
+                    column: 13
                 }
             ]
         },
@@ -193,7 +193,7 @@ eslintTester.addRuleTest("lib/rules/space-before-function-parentheses", {
                     type: "FunctionExpression",
                     message: "Unexpected space before function parentheses.",
                     line: 1,
-                    column: 18
+                    column: 19
                 }
             ]
         },
@@ -205,7 +205,7 @@ eslintTester.addRuleTest("lib/rules/space-before-function-parentheses", {
                     type: "FunctionExpression",
                     message: "Unexpected space before function parentheses.",
                     line: 1,
-                    column: 22
+                    column: 23
                 }
             ]
         },
@@ -217,13 +217,13 @@ eslintTester.addRuleTest("lib/rules/space-before-function-parentheses", {
                     type: "FunctionExpression",
                     message: "Unexpected space before function parentheses.",
                     line: 1,
-                    column: 19
+                    column: 20
                 },
                 {
                     type: "FunctionExpression",
                     message: "Unexpected space before function parentheses.",
                     line: 1,
-                    column: 34
+                    column: 35
                 }
             ]
         },
@@ -236,7 +236,7 @@ eslintTester.addRuleTest("lib/rules/space-before-function-parentheses", {
                     type: "FunctionExpression",
                     message: "Unexpected space before function parentheses.",
                     line: 1,
-                    column: 15
+                    column: 16
                 }
             ]
         },
@@ -249,7 +249,7 @@ eslintTester.addRuleTest("lib/rules/space-before-function-parentheses", {
                     type: "FunctionDeclaration",
                     message: "Unexpected space before function parentheses.",
                     line: 1,
-                    column: 13
+                    column: 14
                 }
             ]
         },
@@ -267,31 +267,31 @@ eslintTester.addRuleTest("lib/rules/space-before-function-parentheses", {
                     type: "FunctionDeclaration",
                     message: "Unexpected space before function parentheses.",
                     line: 1,
-                    column: 12
+                    column: 13
                 },
                 {
                     type: "FunctionExpression",
                     message: "Missing space before function parentheses.",
                     line: 2,
-                    column: 18
-                },
-                {
-                    type: "FunctionExpression",
-                    message: "Unexpected space before function parentheses.",
-                    line: 3,
                     column: 19
                 },
                 {
                     type: "FunctionExpression",
                     message: "Unexpected space before function parentheses.",
                     line: 3,
-                    column: 34
+                    column: 20
                 },
                 {
                     type: "FunctionExpression",
                     message: "Unexpected space before function parentheses.",
                     line: 3,
-                    column: 48
+                    column: 35
+                },
+                {
+                    type: "FunctionExpression",
+                    message: "Unexpected space before function parentheses.",
+                    line: 3,
+                    column: 49
                 }
             ]
         },
@@ -304,13 +304,13 @@ eslintTester.addRuleTest("lib/rules/space-before-function-parentheses", {
                     type: "FunctionExpression",
                     message: "Unexpected space before function parentheses.",
                     line: 1,
-                    column: 23
+                    column: 24
                 },
                 {
                     type: "FunctionExpression",
                     message: "Unexpected space before function parentheses.",
                     line: 1,
-                    column: 37
+                    column: 38
                 }
             ]
         },
@@ -323,7 +323,7 @@ eslintTester.addRuleTest("lib/rules/space-before-function-parentheses", {
                     type: "FunctionExpression",
                     message: "Unexpected space before function parentheses.",
                     line: 1,
-                    column: 15
+                    column: 16
                 }
             ]
         },
@@ -340,31 +340,31 @@ eslintTester.addRuleTest("lib/rules/space-before-function-parentheses", {
                     type: "FunctionDeclaration",
                     message: "Missing space before function parentheses.",
                     line: 1,
-                    column: 12
+                    column: 13
                 },
                 {
                     type: "FunctionExpression",
                     message: "Unexpected space before function parentheses.",
                     line: 2,
-                    column: 18
-                },
-                {
-                    type: "FunctionExpression",
-                    message: "Missing space before function parentheses.",
-                    line: 3,
                     column: 19
                 },
                 {
                     type: "FunctionExpression",
                     message: "Missing space before function parentheses.",
                     line: 3,
-                    column: 33
+                    column: 20
                 },
                 {
                     type: "FunctionExpression",
                     message: "Missing space before function parentheses.",
                     line: 3,
-                    column: 46
+                    column: 34
+                },
+                {
+                    type: "FunctionExpression",
+                    message: "Missing space before function parentheses.",
+                    line: 3,
+                    column: 47
                 }
             ]
         }

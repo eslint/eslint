@@ -159,13 +159,13 @@ eslintTester.addRuleTest("lib/rules/array-bracket-spacing", {
                     message: "There should be no space after '['",
                     type: "ArrayExpression",
                     line: 1,
-                    column: 10
+                    column: 11
                 },
                 {
                     message: "A space is required before ']'",
                     type: "ArrayExpression",
                     line: 1,
-                    column: 35
+                    column: 36
                 }
             ]
         },
@@ -177,13 +177,13 @@ eslintTester.addRuleTest("lib/rules/array-bracket-spacing", {
                     message: "A space is required after '['",
                     type: "ArrayExpression",
                     line: 1,
-                    column: 10
+                    column: 11
                 },
                 {
                     message: "There should be no space before ']'",
                     type: "ArrayExpression",
                     line: 1,
-                    column: 34
+                    column: 35
                 }
             ]
         },
@@ -195,13 +195,13 @@ eslintTester.addRuleTest("lib/rules/array-bracket-spacing", {
                     message: "There should be no space after '['",
                     type: "ArrayExpression",
                     line: 1,
-                    column: 10
+                    column: 11
                 },
                 {
                     message: "There should be no space before ']'",
                     type: "ArrayExpression",
                     line: 1,
-                    column: 49
+                    column: 50
                 }
             ]
         },
@@ -215,13 +215,13 @@ eslintTester.addRuleTest("lib/rules/array-bracket-spacing", {
                     message: "There should be no space after '['",
                     type: "ArrayExpression",
                     line: 1,
-                    column: 10
+                    column: 11
                 },
                 {
                     message: "There should be no space before ']'",
                     type: "ArrayExpression",
                     line: 1,
-                    column: 18
+                    column: 19
                 }
             ]
         },
@@ -233,7 +233,7 @@ eslintTester.addRuleTest("lib/rules/array-bracket-spacing", {
                     message: "There should be no space before ']'",
                     type: "ArrayExpression",
                     line: 1,
-                    column: 17
+                    column: 18
                 }
             ]
         },
@@ -245,13 +245,13 @@ eslintTester.addRuleTest("lib/rules/array-bracket-spacing", {
                     message: "A space is required after '['",
                     type: "ArrayExpression",
                     line: 1,
-                    column: 10
+                    column: 11
                 },
                 {
                     message: "A space is required before ']'",
                     type: "ArrayExpression",
                     line: 1,
-                    column: 16
+                    column: 17
                 }
             ]
         },
@@ -265,7 +265,7 @@ eslintTester.addRuleTest("lib/rules/array-bracket-spacing", {
                     message: "There should be no space after '['",
                     type: "ArrayExpression",
                     line: 1,
-                    column: 10
+                    column: 11
                 }
             ]
         },
@@ -277,7 +277,7 @@ eslintTester.addRuleTest("lib/rules/array-bracket-spacing", {
                     message: "There should be no space before ']'",
                     type: "ArrayExpression",
                     line: 1,
-                    column: 30
+                    column: 31
                 }
             ]
         },
@@ -289,7 +289,7 @@ eslintTester.addRuleTest("lib/rules/array-bracket-spacing", {
                     message: "There should be no space before ']'",
                     type: "ArrayExpression",
                     line: 1,
-                    column: 33
+                    column: 34
                 }
             ]
         },
@@ -301,7 +301,7 @@ eslintTester.addRuleTest("lib/rules/array-bracket-spacing", {
                     message: "There should be no space after '['",
                     type: "ArrayExpression",
                     line: 1,
-                    column: 10
+                    column: 11
                 }
             ]
         },
@@ -313,13 +313,13 @@ eslintTester.addRuleTest("lib/rules/array-bracket-spacing", {
                     message: "There should be no space after '['",
                     type: "ArrayExpression",
                     line: 1,
-                    column: 10
+                    column: 11
                 },
                 {
                     message: "There should be no space before ']'",
                     type: "ArrayExpression",
                     line: 1,
-                    column: 34
+                    column: 35
                 }
             ]
         },
@@ -333,13 +333,13 @@ eslintTester.addRuleTest("lib/rules/array-bracket-spacing", {
                 message: "A space is required after '['",
                 type: "ArrayPattern",
                 line: 1,
-                column: 4
+                column: 5
             },
             {
                 message: "A space is required before ']'",
                 type: "ArrayPattern",
                 line: 1,
-                column: 8
+                column: 9
             }]
         },
         {
@@ -350,7 +350,7 @@ eslintTester.addRuleTest("lib/rules/array-bracket-spacing", {
                 message: "A space is required after '['",
                 type: "ArrayPattern",
                 line: 1,
-                column: 4
+                column: 5
             }]
         },
         {
@@ -361,13 +361,13 @@ eslintTester.addRuleTest("lib/rules/array-bracket-spacing", {
                 message: "A space is required after '['",
                 type: "ArrayPattern",
                 line: 1,
-                column: 4
+                column: 5
             },
             {
                 message: "A space is required before ']'",
                 type: "ArrayPattern",
                 line: 1,
-                column: 11
+                column: 12
             }]
         },
         {
@@ -378,7 +378,7 @@ eslintTester.addRuleTest("lib/rules/array-bracket-spacing", {
                 message: "A space is required before ']'",
                 type: "ArrayPattern",
                 line: 1,
-                column: 12
+                column: 13
             }]
         },
         {
@@ -389,13 +389,13 @@ eslintTester.addRuleTest("lib/rules/array-bracket-spacing", {
                 message: "A space is required after '['",
                 type: "ArrayPattern",
                 line: 1,
-                column: 4
+                column: 5
             },
             {
                 message: "A space is required before ']'",
                 type: "ArrayPattern",
                 line: 1,
-                column: 13
+                column: 14
             }]
         },
         {
@@ -406,7 +406,7 @@ eslintTester.addRuleTest("lib/rules/array-bracket-spacing", {
                 message: "A space is required after '['",
                 type: "ArrayPattern",
                 line: 1,
-                column: 4
+                column: 5
             }]
         },
 
@@ -419,13 +419,13 @@ eslintTester.addRuleTest("lib/rules/array-bracket-spacing", {
                     message: "A space is required after '['",
                     type: "ArrayExpression",
                     line: 1,
-                    column: 10
+                    column: 11
                 },
                 {
                     message: "A space is required before ']'",
                     type: "ArrayExpression",
                     line: 1,
-                    column: 28
+                    column: 29
                 }
             ]
         },
@@ -439,13 +439,13 @@ eslintTester.addRuleTest("lib/rules/array-bracket-spacing", {
                     message: "A space is required after '['",
                     type: "ArrayExpression",
                     line: 1,
-                    column: 10
+                    column: 11
                 },
                 {
                     message: "A space is required before ']'",
                     type: "ArrayExpression",
                     line: 1,
-                    column: 21
+                    column: 22
                 }
             ]
         },
@@ -457,7 +457,7 @@ eslintTester.addRuleTest("lib/rules/array-bracket-spacing", {
                     message: "A space is required after '['",
                     type: "ArrayExpression",
                     line: 1,
-                    column: 10
+                    column: 11
                 }
             ]
         },
@@ -469,7 +469,7 @@ eslintTester.addRuleTest("lib/rules/array-bracket-spacing", {
                     message: "A space is required before ']'",
                     type: "ArrayExpression",
                     line: 1,
-                    column: 22
+                    column: 23
                 }
             ]
         },
@@ -481,13 +481,13 @@ eslintTester.addRuleTest("lib/rules/array-bracket-spacing", {
                     message: "There should be no space after '['",
                     type: "ArrayExpression",
                     line: 1,
-                    column: 10
+                    column: 11
                 },
                 {
                     message: "There should be no space before ']'",
                     type: "ArrayExpression",
                     line: 1,
-                    column: 23
+                    column: 24
                 }
             ]
         },
@@ -499,7 +499,7 @@ eslintTester.addRuleTest("lib/rules/array-bracket-spacing", {
                     message: "There should be no space before ']'",
                     type: "ArrayExpression",
                     line: 1,
-                    column: 22
+                    column: 23
                 }
             ]
         },
@@ -511,7 +511,7 @@ eslintTester.addRuleTest("lib/rules/array-bracket-spacing", {
                     message: "There should be no space after '['",
                     type: "ArrayExpression",
                     line: 1,
-                    column: 10
+                    column: 11
                 }
             ]
         },
@@ -523,13 +523,13 @@ eslintTester.addRuleTest("lib/rules/array-bracket-spacing", {
                     message: "There should be no space after '['",
                     type: "ArrayExpression",
                     line: 1,
-                    column: 10
+                    column: 11
                 },
                 {
                     message: "There should be no space after '['",
                     type: "ArrayExpression",
                     line: 1,
-                    column: 12
+                    column: 13
                 }
             ]
         },
@@ -541,13 +541,13 @@ eslintTester.addRuleTest("lib/rules/array-bracket-spacing", {
                     message: "There should be no space before ']'",
                     type: "ArrayExpression",
                     line: 1,
-                    column: 14
+                    column: 15
                 },
                 {
                     message: "There should be no space before ']'",
                     type: "ArrayExpression",
                     line: 1,
-                    column: 25
+                    column: 26
                 }
             ]
         }
