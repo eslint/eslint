@@ -79,22 +79,22 @@ eslintTester.addRuleTest("lib/rules/constructor-super", {
         {
             code: "class A extends B { constructor() { class C extends D { constructor() { super(); } } } }",
             ecmaFeatures: {classes: true},
-            errors: [{ message: "this constructor requires `super()`.", type: "Identifier", column: 20}]
+            errors: [{ message: "this constructor requires `super()`.", type: "Identifier", column: 21}]
         },
         {
             code: "class A extends B { constructor() { var C = class extends D { constructor() { super(); } } } }",
             ecmaFeatures: {classes: true},
-            errors: [{ message: "this constructor requires `super()`.", type: "Identifier", column: 20}]
+            errors: [{ message: "this constructor requires `super()`.", type: "Identifier", column: 21}]
         },
         {
             code: "class A extends B { constructor() { super(); class C extends D { constructor() { } } } }",
             ecmaFeatures: {classes: true},
-            errors: [{ message: "this constructor requires `super()`.", type: "Identifier", column: 65}]
+            errors: [{ message: "this constructor requires `super()`.", type: "Identifier", column: 66}]
         },
         {
             code: "class A extends B { constructor() { super(); var C = class extends D { constructor() { } } } }",
             ecmaFeatures: {classes: true},
-            errors: [{ message: "this constructor requires `super()`.", type: "Identifier", column: 71}]
+            errors: [{ message: "this constructor requires `super()`.", type: "Identifier", column: 72}]
         }
     ]
 });

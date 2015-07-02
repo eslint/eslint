@@ -40,57 +40,57 @@ eslintTester.addRuleTest("lib/rules/no-space-before-semi", {
     invalid: [
         {
             code: "var foo = \"bar\" ;",
-            errors: [ { message: expectedErrorMessage, type: "VariableDeclaration", line: 1, column: 16 } ]
+            errors: [ { message: expectedErrorMessage, type: "VariableDeclaration", line: 1, column: 17 } ]
         },
         {
             code: "var foo = function() {} ;",
-            errors: [ { message: expectedErrorMessage, type: "VariableDeclaration", line: 1, column: 24 } ]
+            errors: [ { message: expectedErrorMessage, type: "VariableDeclaration", line: 1, column: 25 } ]
         },
         {
             code: "var foo = function() {\n} ;",
-            errors: [ { message: expectedErrorMessage, type: "VariableDeclaration", line: 2, column: 2 } ]
+            errors: [ { message: expectedErrorMessage, type: "VariableDeclaration", line: 2, column: 3 } ]
         },
         {
             code: "var thing = 'test' ;",
-            errors: [ { message: expectedErrorMessage, type: "VariableDeclaration", line: 1, column: 19 } ]
+            errors: [ { message: expectedErrorMessage, type: "VariableDeclaration", line: 1, column: 20 } ]
         },
         {
             code: "var foo = 1 + 2 ;",
-            errors: [ { message: expectedErrorMessage, type: "VariableDeclaration", line: 1, column: 16 } ]
+            errors: [ { message: expectedErrorMessage, type: "VariableDeclaration", line: 1, column: 17 } ]
         },
         {
             code: "/^thing$/.test('thing') ;",
-            errors: [{ message: expectedErrorMessage, type: "ExpressionStatement", line: 1, column: 24 } ]
+            errors: [{ message: expectedErrorMessage, type: "ExpressionStatement", line: 1, column: 25 } ]
         },
         {
             code: ";(function(){}()) ;",
-            errors: [ { message: expectedErrorMessage, type: "ExpressionStatement", line: 1, column: 18 } ]
+            errors: [ { message: expectedErrorMessage, type: "ExpressionStatement", line: 1, column: 19 } ]
         },
         {
             code: "while (true) { break ; }",
-            errors: [ { message: expectedErrorMessage, type: "BreakStatement", line: 1, column: 21 } ]
+            errors: [ { message: expectedErrorMessage, type: "BreakStatement", line: 1, column: 22 } ]
         },
         {
             code: "while (true) { continue ; }",
-            errors: [ { message: expectedErrorMessage, type: "ContinueStatement", line: 1, column: 24 } ]
+            errors: [ { message: expectedErrorMessage, type: "ContinueStatement", line: 1, column: 25 } ]
         },
         {
             code: "debugger ;",
-            errors: [ { message: expectedErrorMessage, type: "DebuggerStatement", line: 1, column: 9 } ]
+            errors: [ { message: expectedErrorMessage, type: "DebuggerStatement", line: 1, column: 10 } ]
         },
         {
             code: "function foo() { return ; }",
-            errors: [ { message: expectedErrorMessage, type: "ReturnStatement", line: 1, column: 24 } ]
+            errors: [ { message: expectedErrorMessage, type: "ReturnStatement", line: 1, column: 25 } ]
         },
         {
             code: "throw new Error('foo') ;",
-            errors: [ { message: expectedErrorMessage, type: "ThrowStatement", line: 1, column: 23 } ]
+            errors: [ { message: expectedErrorMessage, type: "ThrowStatement", line: 1, column: 24 } ]
         },
         {
             code: "for (var i = 0 ; i < 10 ; i++) {}",
             errors: [
-                { message: expectedErrorMessage, type: "ForStatement", line: 1, column: 15 },
-                { message: expectedErrorMessage, type: "ForStatement", line: 1, column: 24 }
+                { message: expectedErrorMessage, type: "ForStatement", line: 1, column: 16 },
+                { message: expectedErrorMessage, type: "ForStatement", line: 1, column: 25 }
             ]
         }
     ]

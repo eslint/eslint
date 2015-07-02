@@ -85,7 +85,7 @@ eslintTester.addRuleTest("lib/rules/computed-property-spacing", {
                 {
                     message: "A space is required before ']'",
                     type: "MemberExpression",
-                    column: 16,
+                    column: 17,
                     line: 1
                 }
             ]
@@ -97,7 +97,7 @@ eslintTester.addRuleTest("lib/rules/computed-property-spacing", {
                 {
                     message: "A space is required after '['",
                     type: "MemberExpression",
-                    column: 13,
+                    column: 14,
                     line: 1
                 }
             ]
@@ -109,7 +109,7 @@ eslintTester.addRuleTest("lib/rules/computed-property-spacing", {
                 {
                     message: "There should be no space after '['",
                     type: "MemberExpression",
-                    column: 13,
+                    column: 14,
                     line: 1
                 }
             ]
@@ -131,7 +131,7 @@ eslintTester.addRuleTest("lib/rules/computed-property-spacing", {
                 {
                     message: "A space is required before ']'",
                     type: "MemberExpression",
-                    column: 16,
+                    column: 17,
                     line: 1
                 }
             ]
@@ -143,7 +143,7 @@ eslintTester.addRuleTest("lib/rules/computed-property-spacing", {
                 {
                     message: "A space is required after '['",
                     type: "MemberExpression",
-                    column: 13,
+                    column: 14,
                     line: 1
                 }
             ]
@@ -155,13 +155,13 @@ eslintTester.addRuleTest("lib/rules/computed-property-spacing", {
                 {
                     message: "There should be no space after '['",
                     type: "MemberExpression",
-                    column: 3,
+                    column: 4,
                     line: 1
                 },
                 {
                     message: "There should be no space before ']'",
                     type: "MemberExpression",
-                    column: 9,
+                    column: 10,
                     line: 1
                 }
             ]
@@ -173,7 +173,7 @@ eslintTester.addRuleTest("lib/rules/computed-property-spacing", {
                 {
                     message: "There should be no space before ']'",
                     type: "MemberExpression",
-                    column: 8,
+                    column: 9,
                     line: 1
                 }
             ]
@@ -185,7 +185,7 @@ eslintTester.addRuleTest("lib/rules/computed-property-spacing", {
                 {
                     message: "There should be no space after '['",
                     type: "MemberExpression",
-                    column: 3,
+                    column: 4,
                     line: 1
                 }
             ]
@@ -197,13 +197,13 @@ eslintTester.addRuleTest("lib/rules/computed-property-spacing", {
                 {
                     message: "A space is required after '['",
                     type: "MemberExpression",
-                    column: 13,
+                    column: 14,
                     line: 1
                 },
                 {
                     message: "A space is required before ']'",
                     type: "MemberExpression",
-                    column: 15,
+                    column: 16,
                     line: 1
                 }
             ]
@@ -218,13 +218,13 @@ eslintTester.addRuleTest("lib/rules/computed-property-spacing", {
                 {
                     message: "A space is required after '['",
                     type: "Property",
-                    column: 9,
+                    column: 10,
                     line: 1
                 },
                 {
                     message: "A space is required before ']'",
                     type: "Property",
-                    column: 11,
+                    column: 12,
                     line: 1
                 }
             ]
@@ -237,7 +237,7 @@ eslintTester.addRuleTest("lib/rules/computed-property-spacing", {
                 {
                     message: "A space is required after '['",
                     type: "Property",
-                    column: 9,
+                    column: 10,
                     line: 1
                 }
             ]
@@ -250,7 +250,7 @@ eslintTester.addRuleTest("lib/rules/computed-property-spacing", {
                 {
                     message: "A space is required before ']'",
                     type: "Property",
-                    column: 12,
+                    column: 13,
                     line: 1
                 }
             ]
@@ -265,13 +265,13 @@ eslintTester.addRuleTest("lib/rules/computed-property-spacing", {
                 {
                     message: "There should be no space after '['",
                     type: "Property",
-                    column: 9,
+                    column: 10,
                     line: 1
                 },
                 {
                     message: "There should be no space before ']'",
                     type: "Property",
-                    column: 13,
+                    column: 14,
                     line: 1
                 }
             ]
@@ -284,7 +284,7 @@ eslintTester.addRuleTest("lib/rules/computed-property-spacing", {
                 {
                     message: "There should be no space before ']'",
                     type: "Property",
-                    column: 12,
+                    column: 13,
                     line: 1
                 }
             ]
@@ -297,7 +297,7 @@ eslintTester.addRuleTest("lib/rules/computed-property-spacing", {
                 {
                     message: "There should be no space after '['",
                     type: "Property",
-                    column: 9,
+                    column: 10,
                     line: 1
                 }
             ]
@@ -310,7 +310,7 @@ eslintTester.addRuleTest("lib/rules/computed-property-spacing", {
                 {
                     message: "There should be no space after '['",
                     type: "Property",
-                    column: 9,
+                    column: 10,
                     line: 1
                 }
             ]

@@ -74,7 +74,7 @@ eslintTester.addRuleTest("lib/rules/comma-dangle", {
                     message: "Unexpected trailing comma.",
                     type: "Property",
                     line: 1,
-                    column: 22
+                    column: 23
                 }
             ]
         },
@@ -85,7 +85,7 @@ eslintTester.addRuleTest("lib/rules/comma-dangle", {
                     message: "Unexpected trailing comma.",
                     type: "Property",
                     line: 2,
-                    column: 10
+                    column: 11
                 }
             ]
         },
@@ -96,7 +96,7 @@ eslintTester.addRuleTest("lib/rules/comma-dangle", {
                     message: "Unexpected trailing comma.",
                     type: "Property",
                     line: 1,
-                    column: 29
+                    column: 30
                 }
             ]
         },
@@ -107,7 +107,7 @@ eslintTester.addRuleTest("lib/rules/comma-dangle", {
                     message: "Unexpected trailing comma.",
                     type: "Property",
                     line: 3,
-                    column: 11
+                    column: 12
                 }
             ]
         },
@@ -118,7 +118,7 @@ eslintTester.addRuleTest("lib/rules/comma-dangle", {
                     message: "Unexpected trailing comma.",
                     type: "Literal",
                     line: 1,
-                    column: 17
+                    column: 18
                 }
             ]
         },
@@ -129,7 +129,7 @@ eslintTester.addRuleTest("lib/rules/comma-dangle", {
                     message: "Unexpected trailing comma.",
                     type: "Literal",
                     line: 1,
-                    column: 17
+                    column: 18
                 }
             ]
         },
@@ -140,7 +140,7 @@ eslintTester.addRuleTest("lib/rules/comma-dangle", {
                     message: "Unexpected trailing comma.",
                     type: "Property",
                     line: 3,
-                    column: 0
+                    column: 1
                 }
             ]
         },
@@ -154,7 +154,7 @@ eslintTester.addRuleTest("lib/rules/comma-dangle", {
                     message: "Unexpected trailing comma.",
                     type: "Property",
                     line: 1,
-                    column: 22
+                    column: 23
                 }
             ]
         },
@@ -166,7 +166,7 @@ eslintTester.addRuleTest("lib/rules/comma-dangle", {
                     message: "Unexpected trailing comma.",
                     type: "Property",
                     line: 2,
-                    column: 10
+                    column: 11
                 }
             ]
         },
@@ -178,7 +178,7 @@ eslintTester.addRuleTest("lib/rules/comma-dangle", {
                     message: "Unexpected trailing comma.",
                     type: "Property",
                     line: 1,
-                    column: 29
+                    column: 30
                 }
             ]
         },
@@ -191,7 +191,7 @@ eslintTester.addRuleTest("lib/rules/comma-dangle", {
                     message: "Missing trailing comma.",
                     type: "Property",
                     line: 1,
-                    column: 22
+                    column: 23
                 }
             ]
         },
@@ -203,7 +203,7 @@ eslintTester.addRuleTest("lib/rules/comma-dangle", {
                     message: "Missing trailing comma.",
                     type: "Property",
                     line: 2,
-                    column: 10
+                    column: 11
                 }
             ]
         },
@@ -215,7 +215,7 @@ eslintTester.addRuleTest("lib/rules/comma-dangle", {
                     message: "Missing trailing comma.",
                     type: "Property",
                     line: 1,
-                    column: 29
+                    column: 30
                 }
             ]
         },
@@ -227,7 +227,7 @@ eslintTester.addRuleTest("lib/rules/comma-dangle", {
                     message: "Missing trailing comma.",
                     type: "Property",
                     line: 3,
-                    column: 11
+                    column: 12
                 }
             ]
         },
@@ -239,7 +239,7 @@ eslintTester.addRuleTest("lib/rules/comma-dangle", {
                     message: "Missing trailing comma.",
                     type: "Literal",
                     line: 1,
-                    column: 17
+                    column: 18
                 }
             ]
         },
@@ -251,7 +251,7 @@ eslintTester.addRuleTest("lib/rules/comma-dangle", {
                     message: "Missing trailing comma.",
                     type: "Literal",
                     line: 1,
-                    column: 17
+                    column: 18
                 }
             ]
         },
@@ -263,7 +263,7 @@ eslintTester.addRuleTest("lib/rules/comma-dangle", {
                     message: "Missing trailing comma.",
                     type: "Property",
                     line: 3,
-                    column: 5
+                    column: 6
                 }
             ]
         },
@@ -276,7 +276,7 @@ eslintTester.addRuleTest("lib/rules/comma-dangle", {
                     message: "Missing trailing comma.",
                     type: "Property",
                     line: 2,
-                    column: 10
+                    column: 11
                 }
             ]
         },
@@ -288,7 +288,7 @@ eslintTester.addRuleTest("lib/rules/comma-dangle", {
                     message: "Unexpected trailing comma.",
                     type: "Property",
                     line: 1,
-                    column: 22
+                    column: 23
                 }
             ]
         },
@@ -300,7 +300,7 @@ eslintTester.addRuleTest("lib/rules/comma-dangle", {
                     message: "Missing trailing comma.",
                     type: "Property",
                     line: 3,
-                    column: 11
+                    column: 12
                 }
             ]
         },
@@ -312,7 +312,7 @@ eslintTester.addRuleTest("lib/rules/comma-dangle", {
                     message: "Unexpected trailing comma.",
                     type: "Property",
                     line: 1,
-                    column: 29
+                    column: 30
                 }
             ]
         },
@@ -324,7 +324,7 @@ eslintTester.addRuleTest("lib/rules/comma-dangle", {
                     message: "Missing trailing comma.",
                     type: "Literal",
                     line: 2,
-                    column: 5
+                    column: 6
                 }
             ]
         },
@@ -336,7 +336,7 @@ eslintTester.addRuleTest("lib/rules/comma-dangle", {
                     message: "Unexpected trailing comma.",
                     type: "Literal",
                     line: 1,
-                    column: 16
+                    column: 17
                 }
             ]
         },
@@ -348,7 +348,7 @@ eslintTester.addRuleTest("lib/rules/comma-dangle", {
                     message: "Unexpected trailing comma.",
                     type: "Property",
                     line: 3,
-                    column: 1
+                    column: 2
                 }
             ]
         },
@@ -360,7 +360,7 @@ eslintTester.addRuleTest("lib/rules/comma-dangle", {
                     message: "Unexpected trailing comma.",
                     type: "Property",
                     line: 2,
-                    column: 10
+                    column: 11
                 }
             ]
         },
@@ -372,7 +372,7 @@ eslintTester.addRuleTest("lib/rules/comma-dangle", {
                     message: "Unexpected trailing comma.",
                     type: "ObjectExpression",
                     line: 6,
-                    column: 1
+                    column: 2
                 }
             ]
         }

@@ -75,15 +75,15 @@ eslintTester.addRuleTest("lib/rules/callback-return", {
         // options (only warns with the correct callback name)
         {
             code: "if (err) { callback(err) }",
-            options: ["cb"]
+            options: [["cb"]]
         },
         {
             code: "function a(err) { if (err) { callback(err) } next(); }",
-            options: ["cb", "next"]
+            options: [["cb", "next"]]
         },
         {
             code: "function a(err) { if (err) { return next(err) } else { callback(); } }",
-            options: ["cb", "next"]
+            options: [["cb", "next"]]
         },
 
         //  known bad examples that we know we are ignoring
@@ -97,7 +97,7 @@ eslintTester.addRuleTest("lib/rules/callback-return", {
             errors: [{
                 message: "Expected return with your callback function.",
                 line: 1,
-                column: 29,
+                column: 30,
                 nodeType: "CallExpression"
             }]
         },
@@ -106,7 +106,7 @@ eslintTester.addRuleTest("lib/rules/callback-return", {
             errors: [{
                 message: "Expected return with your callback function.",
                 line: 1,
-                column: 62,
+                column: 63,
                 nodeType: "CallExpression"
             }]
         },
@@ -115,7 +115,7 @@ eslintTester.addRuleTest("lib/rules/callback-return", {
             errors: [{
                 message: "Expected return with your callback function.",
                 line: 1,
-                column: 60,
+                column: 61,
                 nodeType: "CallExpression"
             }]
         },
@@ -124,7 +124,7 @@ eslintTester.addRuleTest("lib/rules/callback-return", {
             errors: [{
                 message: "Expected return with your callback function.",
                 line: 1,
-                column: 34,
+                column: 35,
                 nodeType: "CallExpression"
             }]
         },
@@ -134,7 +134,7 @@ eslintTester.addRuleTest("lib/rules/callback-return", {
             errors: [{
                 message: "Expected return with your callback function.",
                 line: 1,
-                column: 30,
+                column: 31,
                 nodeType: "CallExpression"
             }]
         },
@@ -144,7 +144,7 @@ eslintTester.addRuleTest("lib/rules/callback-return", {
             errors: [{
                 message: "Expected return with your callback function.",
                 line: 1,
-                column: 30,
+                column: 31,
                 nodeType: "CallExpression"
             }]
         },
@@ -153,7 +153,7 @@ eslintTester.addRuleTest("lib/rules/callback-return", {
             errors: [{
                 message: "Expected return with your callback function.",
                 line: 3,
-                column: 1,
+                column: 2,
                 nodeType: "CallExpression"
             }]
         },
@@ -163,7 +163,7 @@ eslintTester.addRuleTest("lib/rules/callback-return", {
             errors: [{
                 message: "Expected return with your callback function.",
                 line: 1,
-                column: 42,
+                column: 43,
                 nodeType: "CallExpression"
             }]
         },
@@ -172,7 +172,7 @@ eslintTester.addRuleTest("lib/rules/callback-return", {
             errors: [{
                 message: "Expected return with your callback function.",
                 line: 1,
-                column: 18,
+                column: 19,
                 nodeType: "CallExpression"
             }]
         },
@@ -181,7 +181,7 @@ eslintTester.addRuleTest("lib/rules/callback-return", {
             errors: [{
                 message: "Expected return with your callback function.",
                 line: 1,
-                column: 18,
+                column: 19,
                 nodeType: "CallExpression"
             }]
         },
@@ -190,7 +190,7 @@ eslintTester.addRuleTest("lib/rules/callback-return", {
             errors: [{
                 message: "Expected return with your callback function.",
                 line: 1,
-                column: 29,
+                column: 30,
                 nodeType: "CallExpression"
             }]
         },
@@ -200,7 +200,7 @@ eslintTester.addRuleTest("lib/rules/callback-return", {
             errors: [{
                 message: "Expected return with your callback function.",
                 line: 1,
-                column: 19,
+                column: 20,
                 nodeType: "CallExpression"
             }]
         },
@@ -209,7 +209,7 @@ eslintTester.addRuleTest("lib/rules/callback-return", {
             errors: [{
                 message: "Expected return with your callback function.",
                 line: 1,
-                column: 29,
+                column: 30,
                 nodeType: "CallExpression"
             }]
         },
@@ -218,7 +218,7 @@ eslintTester.addRuleTest("lib/rules/callback-return", {
             errors: [{
                 message: "Expected return with your callback function.",
                 line: 3,
-                column: 0,
+                column: 1,
                 nodeType: "CallExpression"
 
             }]
@@ -229,7 +229,7 @@ eslintTester.addRuleTest("lib/rules/callback-return", {
             errors: [{
                 message: "Expected return with your callback function.",
                 line: 1,
-                column: 31,
+                column: 32,
                 nodeType: "CallExpression"
             }]
         },
@@ -241,12 +241,12 @@ eslintTester.addRuleTest("lib/rules/callback-return", {
             errors: [{
                 message: "Expected return with your callback function.",
                 line: 1,
-                column: 29,
+                column: 30,
                 nodeType: "CallExpression"
             }, {
                 message: "Expected return with your callback function.",
                 line: 1,
-                column: 49,
+                column: 50,
                 nodeType: "CallExpression"
             }]
         },
@@ -256,7 +256,7 @@ eslintTester.addRuleTest("lib/rules/callback-return", {
                 {
                     message: "Expected return with your callback function.",
                     line: 1,
-                    column: 51,
+                    column: 52,
                     nodeType: "CallExpression"
                 }
             ]
@@ -268,7 +268,7 @@ eslintTester.addRuleTest("lib/rules/callback-return", {
                 {
                     message: "Expected return with your callback function.",
                     line: 1,
-                    column: 17,
+                    column: 18,
                     nodeType: "CallExpression"
                 }
             ]
@@ -279,19 +279,19 @@ eslintTester.addRuleTest("lib/rules/callback-return", {
                 {
                     message: "Expected return with your callback function.",
                     line: 1,
-                    column: 41,
+                    column: 42,
                     nodeType: "CallExpression"
                 }
             ]
         },
         {
             code: "function a() { switch(x) { case 'horse': move(); } }",
-            options: ["move"],
+            options: [["move"]],
             errors: [
                 {
                     message: "Expected return with your callback function.",
                     line: 1,
-                    column: 41,
+                    column: 42,
                     nodeType: "CallExpression"
                 }
             ]
@@ -300,36 +300,36 @@ eslintTester.addRuleTest("lib/rules/callback-return", {
         // loops
         {
             code: "var x = function() { while(x) { move(); } }",
-            options: ["move"],
+            options: [["move"]],
             errors: [
                 {
                     message: "Expected return with your callback function.",
                     line: 1,
-                    column: 32,
+                    column: 33,
                     nodeType: "CallExpression"
                 }
             ]
         },
         {
             code: "function x() { for (var i = 0; i < 10; i++) { move(); } }",
-            options: ["move"],
+            options: [["move"]],
             errors: [
                 {
                     message: "Expected return with your callback function.",
                     line: 1,
-                    column: 46,
+                    column: 47,
                     nodeType: "CallExpression"
                 }
             ]
         },
         {
             code: "var x = function() { for (var i = 0; i < 10; i++) move(); }",
-            options: ["move"],
+            options: [["move"]],
             errors: [
                 {
                     message: "Expected return with your callback function.",
                     line: 1,
-                    column: 50,
+                    column: 51,
                     nodeType: "CallExpression"
                 }
             ]

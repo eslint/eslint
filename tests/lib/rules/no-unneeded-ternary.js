@@ -32,7 +32,7 @@ eslintTester.addRuleTest("lib/rules/no-unneeded-ternary", {
                 message: "Unnecessary use of boolean literals in conditional expression",
                 type: "ConditionalExpression",
                 line: 1,
-                column: 18
+                column: 19
             }]
         }
     ]

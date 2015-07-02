@@ -61,7 +61,7 @@ eslintTester.addRuleTest("lib/rules/no-shadow", {
                 message: "x is already declared in the upper scope.",
                 type: "Identifier",
                 line: 1,
-                column: 43
+                column: 44
             }]
         },
         {
@@ -73,7 +73,7 @@ eslintTester.addRuleTest("lib/rules/no-shadow", {
                 message: "x is already declared in the upper scope.",
                 type: "Identifier",
                 line: 1,
-                column: 37
+                column: 38
             }]
         },
         {
@@ -82,7 +82,7 @@ eslintTester.addRuleTest("lib/rules/no-shadow", {
                 message: "x is already declared in the upper scope.",
                 type: "Identifier",
                 line: 1,
-                column: 42
+                column: 43
             }]
         },
         {
@@ -91,7 +91,7 @@ eslintTester.addRuleTest("lib/rules/no-shadow", {
                 message: "x is already declared in the upper scope.",
                 type: "Identifier",
                 line: 1,
-                column: 22
+                column: 23
             }]
         },
         {
@@ -284,8 +284,8 @@ eslintTester.addRuleTest("lib/rules/no-shadow", {
         {
             code: "(function a() { function a(){ function a(){} } })()",
             errors: [
-                { message: "a is already declared in the upper scope.", type: "Identifier", line: 1, column: 25},
-                { message: "a is already declared in the upper scope.", type: "Identifier", line: 1, column: 39}
+                { message: "a is already declared in the upper scope.", type: "Identifier", line: 1, column: 26},
+                { message: "a is already declared in the upper scope.", type: "Identifier", line: 1, column: 40}
             ]
         }
     ]

@@ -166,13 +166,13 @@ eslintTester.addRuleTest("lib/rules/no-irregular-whitespace", {
                     message: "Irregular whitespace not allowed",
                     type: "Program",
                     line: 1,
-                    column: 12
+                    column: 13
                 },
                 {
                     message: "Irregular whitespace not allowed",
                     type: "Program",
                     line: 3,
-                    column: 7
+                    column: 8
                 }
             ]
         },
@@ -183,19 +183,19 @@ eslintTester.addRuleTest("lib/rules/no-irregular-whitespace", {
                     message: "Irregular whitespace not allowed",
                     type: "Program",
                     line: 1,
-                    column: 8
+                    column: 9
                 },
                 {
                     message: "Irregular whitespace not allowed",
                     type: "Program",
                     line: 1,
-                    column: 27
+                    column: 28
                 },
                 {
                     message: "Irregular whitespace not allowed",
                     type: "Program",
                     line: 2,
-                    column: 10
+                    column: 11
                 }
             ]
         }
