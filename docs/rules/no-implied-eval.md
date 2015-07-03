@@ -1,6 +1,6 @@
 # Disallow Implied eval() (no-implied-eval)
 
-It's considered a good practice to avoid using `eval()` in JavaScript. There are security and performance implications involved with doing so, which is why many linters (including ESLint) disallow `eval()` by default. However, there are some other ways to pass a string and have it interpreted as JavaScript code that have similar concerns.
+It's considered a good practice to avoid using `eval()` in JavaScript. There are security and performance implications involved with doing so, which is why many linters (including ESLint) recommend disallowing `eval()`. However, there are some other ways to pass a string and have it interpreted as JavaScript code that have similar concerns.
 
 The first is using `setTimeout()`, `setInterval()` or `execScript()` (Internet Explorer only), both of which can accept a string of JavaScript code as their first argument. For example:
 
