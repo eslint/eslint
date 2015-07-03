@@ -35,6 +35,10 @@ eslintTester.addRuleTest("lib/rules/no-redeclare", {
         { code: "var a = {}; var a = [];", errors: [{ message: "a is already defined", type: "Identifier"}] },
         { code: "var a = function() { }; var a = function() { }", errors: [{ message: "a is already defined", type: "Identifier"}] },
         { code: "var a = function() { }; var a = new Date();", errors: [{ message: "a is already defined", type: "Identifier"}] },
-        { code: "var a = 3; var a = 10; var a = 15;", errors: [{ message: "a is already defined", type: "Identifier"}, { message: "a is already defined", type: "Identifier"}] }
+        { code: "var a = 3; var a = 10; var a = 15;", errors: [{ message: "a is already defined", type: "Identifier"}, { message: "a is already defined", type: "Identifier"}] },
+        { code: "var a; var a;", ecmaFeatures: { modules: true }, errors: [{ message: "a is already defined", type: "Identifier"}] },
+        { code: "export var a; export var a;", ecmaFeatures: { modules: true }, errors: [{ message: "a is already defined", type: "Identifier"}] },
+        { code: "export class A {} export class A {}", ecmaFeatures: { classes: true, modules: true }, errors: [{ message: "A is already defined", type: "Identifier"}] },
+        { code: "export var a; var a;", ecmaFeatures: { modules: true, globalReturn: true }, errors: [{ message: "a is already defined", type: "Identifier"}] }
     ]
 });
