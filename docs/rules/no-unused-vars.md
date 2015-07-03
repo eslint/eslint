@@ -66,7 +66,7 @@ This option has two settings:
 This option has three settings:
 
 * `all` - all named arguments must be used.
-* `after-used` - only arguments after the first used argument must be used. This allows you, for instance, to have two named parameters to a function and as long as you use the second argument, ESLint will not warn you about the first. This is the default setting.
+* `after-used` - only the last argument must be used. This allows you, for instance, to have two named parameters to a function and as long as you use the second argument, ESLint will not warn you about the first. This is the default setting.
 * `none` - do not check arguments.
 
 The following code:
