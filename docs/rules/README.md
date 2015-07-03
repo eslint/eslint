@@ -7,7 +7,6 @@ Rules in ESLint are divided into several categories to help you better understan
 The following rules point out areas where you might have made mistakes.
 
 * [comma-dangle](comma-dangle.md) - disallow or enforce trailing commas
-* [no-comma-dangle](no-comma-dangle.md) - **(deprecated)** disallow trailing commas in object literals (off by default)
 * [no-cond-assign](no-cond-assign.md) - disallow assignment in conditional expressions
 * [no-console](no-console.md) - disallow use of `console` (off by default in the node environment)
 * [no-constant-condition](no-constant-condition.md) - disallow use of constant expressions in conditions
@@ -221,3 +220,5 @@ The following rules are included for compatibility with [JSHint](http://jshint.c
 These rules existed in a previous version of ESLint but have since been replaced by newer rules.
 
 * [space-unary-word-ops](space-unary-word-ops.md) - require or disallow spaces before/after unary operators (replaced by [space-unary-ops](space-unary-ops.md))
+* [no-comma-dangle](no-comma-dangle.md) - disallow trailing commas in object literals (replaced by [comma-dangle](comma-dangle.md))
+
