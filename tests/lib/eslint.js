@@ -1365,15 +1365,6 @@ describe("eslint", function() {
             });
             eslint.verify(code, config, filename, true);
         });
-        it("should error on node specific rule", function() {
-            var code = "/*eslint-env node*/ var appHeader = new require('app-header');";
-            var config = { rules: {} };
-
-            eslint.reset();
-            var messages = eslint.verify(code, config, filename, true);
-            assert.equal(messages.length, 1);
-            assert.equal(messages[0].ruleId, "no-new-require");
-        });
     });
 
     describe("when evaluating code containing /*eslint-env */ block with sloppy whitespace", function() {
@@ -2306,16 +2297,13 @@ describe("eslint", function() {
             assert.equal(messages.length, 0);
         });
 
-        it("should report a violation", function() {
+        it("should not report a violation", function() {
             var code = "/*eslint-env node */ process.exit();";
 
             var config = { rules: {} };
 
             var messages = eslint.verify(code, config, filename);
-            assert.equal(messages.length, 1);
-            assert.equal(messages[0].ruleId, "no-process-exit");
-            assert.equal(messages[0].nodeType, "CallExpression");
-            assert.equal(messages[0].line, 1);
+            assert.equal(messages.length, 0);
         });
 
         it("should not report a violation", function() {

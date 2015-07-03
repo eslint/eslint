@@ -67,7 +67,7 @@ function f() {
 
 ### Options
 
-This rule is disabled by default. You can configure the designated `this` variable:
+You can configure the designated `this` variable:
 
 ```js
 "consistent-this": [0, "self"]

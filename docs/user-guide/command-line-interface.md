@@ -27,7 +27,6 @@ Options:
   --rulesdir [path::String]   Use additional rules from this directory
   -f, --format String         Use a specific output format - default: stylish
   -v, --version               Outputs the version number
-  --reset                     Set all default rules to off - default: false
   --no-eslintrc               Disable use of configuration from .eslintrc
   --env [String]              Specify environments
   --ext [String]              Specify JavaScript file extensions - default: .js
@@ -47,13 +46,13 @@ Options:
 
 ### `-c`, `--config`
 
-This option allows you to specify an alternate configuration file for ESLint (see [Configuring ESLint](configuring) for more). By default, ESLint uses its own configuration file located at `conf/eslint.json`.
+This option allows you to specify an additional configuration file for ESLint (see [Configuring ESLint](configuring) for more).
 
 Example:
 
     eslint -c ~/my-eslint.json file.js
 
-This example uses the configuration file at `~/my-eslint.json` instead of the default.
+This example uses the configuration file at `~/my-eslint.json`.
 
 ### `--env`
 
@@ -172,17 +171,9 @@ Example:
 
     eslint --quiet file.js
 
-### `--reset`
-
-This option turns off all rules enabled in ESLint's default configuration file located at `conf/eslint.json`. ESLint will still report syntax errors.
-
-Example:
-
-    eslint --reset file.js
-
 ### `--rule`
 
-This option specifies rules to be used. These rules will be merged with the default rules and any rules specified with configuration files. (You can use `--reset` and `--no-eslintrc`, respectively, to change those behaviors.) To define multiple rules, separate them using commas, or use the flag multiple times. The [levn](https://github.com/gkz/levn#levn--) format is used for specifying the rules.
+This option specifies rules to be used. These rules will be merged with any rules specified with configuration files. (You can use `--no-eslintrc` to change that behavior.) To define multiple rules, separate them using commas, or use the flag multiple times. The [levn](https://github.com/gkz/levn#levn--) format is used for specifying the rules.
 
 If the rule is defined within a plugin you have to prefix the rule ID with the plugin name and a `/`.
 

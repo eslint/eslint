@@ -571,14 +571,7 @@ target.checkRuleFiles = function() {
 
     echo("Validating rules");
 
-    var eslintConf = require("./conf/eslint.json");
-    var environmentsConf = require("./conf/environments");
-
-    var confRules = {};
-    confRules.default = eslintConf.rules;
-    Object.keys(environmentsConf).forEach(function (env) {
-        confRules[env] = environmentsConf[env].rules;
-    });
+    var eslintConf = require("./conf/eslint.json").rules;
 
     var ruleFiles = find("lib/rules/").filter(fileType("js")),
         rulesIndexText = cat("docs/rules/README.md"),
@@ -592,33 +585,25 @@ target.checkRuleFiles = function() {
         indexLine = indexLine ? indexLine[0] : "";
 
 
-        function isInConfig(env) {
-            return confRules[env] && confRules[env].hasOwnProperty(basename);
+        function isInConfig() {
+            return eslintConf.hasOwnProperty(basename);
         }
 
-        function isOffInConfig(env) {
-            var envRule = confRules[env][basename];
-            return envRule === 0 || (envRule && envRule[0] === 0);
+        function isOffInConfig() {
+            var rule = eslintConf[basename];
+            return rule === 0 || (rule && rule[0] === 0);
         }
 
-        function isOnInConfig(env) {
-            return !isOffInConfig(env);
+        function isOnInConfig() {
+            return !isOffInConfig();
         }
 
-        function isOffInIndex(env) {
-            if (env === "default") {
-                return indexLine.indexOf("(off by default)") !== -1;
-            } else {
-                return indexLine.indexOf("(off by default in the " + env + " environment)") !== -1;
-            }
+        function isNotRecommended() {
+            return indexLine.indexOf("(recommended)") === -1;
         }
 
-        function isOnInIndex(env) {
-            if (env === "default") {
-                return indexLine.indexOf("(off by default)") === -1;
-            } else {
-                return indexLine.indexOf("(on by default in the " + env + " environment)") !== -1;
-            }
+        function isRecommended() {
+            return !isNotRecommended();
         }
 
         function hasIdInTitle(id) {
@@ -647,54 +632,22 @@ target.checkRuleFiles = function() {
         }
 
         // check for default configuration
-        if (!isInConfig("default")) {
+        if (!isInConfig()) {
             console.error("Missing default setting for %s in eslint.json", basename);
             errors++;
         }
 
-        // check that rule is not on in docs but off in default config
-        if (isOnInIndex("default") && isOffInConfig("default")) {
-            console.error("Missing '(off by default)' for rule %s in index", basename);
+        // check that rule is not recommended in docs but off in default config
+        if (isRecommended() && isOffInConfig()) {
+            console.error("Rule documentation says that %s is recommended, but it is disabled in eslint.json.", basename);
             errors++;
         }
 
-        // check that rule is not off in docs but on in default config
-        if (isOffInIndex("default") && isOnInConfig("default")) {
-            console.error("Rule documentation says that %s is off by default but it is enabled in eslint.json.", basename);
+        //  check that rule is not on in default config but not recommended
+        if (isOnInConfig("default") && isNotRecommended("default")) {
+            console.error("Missing '(recommended)' for rule %s in index", basename);
             errors++;
         }
-
-        // check rule config for each environment
-        Object.keys(confRules).forEach(function (env) {
-            if (env === "default") {
-                return;
-            }
-
-            // only check if rule has been explicitly set for environment
-            if (isInConfig(env)) {
-
-                // check that rule is not on in docs but off in environment config
-                if (isOnInIndex(env)) {
-                    if (isOffInConfig(env)) {
-                        console.error("Rule documentation says that %s is off in environment %s but it is enabled in eslint.json.", basename, env);
-                        errors++;
-                    }
-
-                // check that rule is not off in docs but on in default config
-                } else if (isOffInIndex(env)) {
-                    if (isOnInConfig(env)) {
-                        console.error("Rule documentation says that %s is on in environment %s but it is disabled in eslint.json.", basename, env);
-                        errors++;
-                    }
-
-                // rule has been overridden in environment but is not in docs
-                } else {
-                    console.error("Missing '(%s by default in the %s environment)' for rule %s in index", isOnInConfig(env) ? "on" : "off", env, basename);
-                    errors++;
-                }
-
-            }
-        });
 
         // check for tests
         if (!test("-f", "tests/lib/rules/" + basename + ".js")) {

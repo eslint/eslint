@@ -10,11 +10,7 @@
 //------------------------------------------------------------------------------
 
 var assert = require("chai").assert,
-    util = require("../../lib/util"),
     path = require("path"),
-    baseConfig = require("../../conf/eslint.json"),
-    environments = require("../../conf/environments"),
-    yaml = require("js-yaml"),
 
     fs = require("fs"),
     Config = require("../../lib/config"),
@@ -142,12 +138,10 @@ describe("Config", function() {
     describe("getConfig()", function() {
 
         it("should return the project config when called in current working directory", function() {
-            var configHelper = new Config({ reset: true }),
-                expected = yaml.safeLoad(fs.readFileSync("./.eslintrc", "utf8")),
+            var configHelper = new Config({}),
                 actual = configHelper.getConfig();
 
-            assertConfigsEqual(expected, actual);
-
+            assert.equal(actual.rules.strict[1], "global");
         });
 
         it("should not retain configs from previous directories when called multiple times", function() {
@@ -225,9 +219,9 @@ describe("Config", function() {
         // Configuration hierarchy ---------------------------------------------
 
         // Default configuration - blank
-        it("should return a blank config when using reset and no .eslintrc", function() {
+        it("should return a blank config when using no .eslintrc", function() {
 
-            var configHelper = new Config({ reset: true, useEslintrc: false }),
+            var configHelper = new Config({ useEslintrc: false }),
                 file = getFixturePath("broken", "console-wrong-quotes.js"),
                 expected = {
                     rules: {},
@@ -236,7 +230,7 @@ describe("Config", function() {
                 },
                 actual = configHelper.getConfig(file);
 
-            assertConfigsEqual(expected, actual);
+            assertConfigsEqual(actual, expected);
         });
 
         it("should return a blank config when baseConfig is set to false and no .eslintrc", function() {
@@ -249,18 +243,17 @@ describe("Config", function() {
                 },
                 actual = configHelper.getConfig(file);
 
-            assertConfigsEqual(expected, actual);
+            assertConfigsEqual(actual, expected);
         });
 
-        // Default configuration - conf/eslint.json
-        it("should return the default config when not using .eslintrc", function () {
+        // No default configuration
+        it("should return an empty config when not using .eslintrc", function () {
 
             var configHelper = new Config({ useEslintrc: false }),
                 file = getFixturePath("broken", "console-wrong-quotes.js"),
-                expected = baseConfig,
                 actual = configHelper.getConfig(file);
 
-            assertConfigsEqual(expected, actual);
+            assertConfigsEqual(actual, {});
         });
 
         it("should return a modified config when baseConfig is set to an object and no .eslintrc", function() {
@@ -286,47 +279,13 @@ describe("Config", function() {
                 },
                 actual = configHelper.getConfig(file);
 
-            assertConfigsEqual(expected, actual);
-        });
-
-        // Project configuration - conf/eslint.json + first level .eslintrc
-        it("should merge environment rules and ecmaFeatures into config when using .eslintrc and the built-in defaults", function () {
-
-            var configHelper = new Config(),
-                file = getFixturePath("broken", "console-wrong-quotes.js"),
-                expected = baseConfig,
-                actual = configHelper.getConfig(file);
-
-            expected = util.mergeConfigs(expected, { rules: environments.node.rules, ecmaFeatures: environments.node.ecmaFeatures });
-            expected.env.node = true;
-
-            assertConfigsEqual(expected, actual);
-        });
-
-        // Project configuration - first level .eslintrc
-        it("should not merge environment rules into config when using .eslintrc and reset", function () {
-
-            var configHelper = new Config({ reset: true }),
-                file = getFixturePath("broken", "console-wrong-quotes.js"),
-                expected = {
-                    env: {
-                        node: true
-                    },
-                    rules: {
-                        quotes: [2, "double"]
-                    }
-                },
-                actual = configHelper.getConfig(file);
-
-            expected.env.node = true;
-
-            assertConfigsEqual(expected, actual);
+            assertConfigsEqual(actual, expected);
         });
 
         // Project configuration - second level .eslintrc
         it("should merge configs when local .eslintrc overrides parent .eslintrc", function () {
 
-            var configHelper = new Config({ reset: true }),
+            var configHelper = new Config({}),
                 file = getFixturePath("broken", "subbroken", "console-wrong-quotes.js"),
                 expected = {
                     env: {
@@ -341,13 +300,13 @@ describe("Config", function() {
 
             expected.env.node = true;
 
-            assertConfigsEqual(expected, actual);
+            assertConfigsEqual(actual, expected);
         });
 
         // Project configuration - third level .eslintrc
         it("should merge configs when local .eslintrc overrides parent and grandparent .eslintrc", function () {
 
-            var configHelper = new Config({ reset: true }),
+            var configHelper = new Config({}),
                 file = getFixturePath("broken", "subbroken", "subsubbroken", "console-wrong-quotes.js"),
                 expected = {
                     env: {
@@ -362,12 +321,12 @@ describe("Config", function() {
 
             expected.env.node = true;
 
-            assertConfigsEqual(expected, actual);
+            assertConfigsEqual(actual, expected);
         });
 
         // Project configuration - root set in second level .eslintrc
         it("should not return configurations in parents of config with root:true", function() {
-            var configHelper = new Config({ reset: true }),
+            var configHelper = new Config({}),
                 file = getFixturePath("root-true", "parent", "root", "wrong-semi.js"),
                 expected = {
                     rules: {
@@ -376,14 +335,13 @@ describe("Config", function() {
                 },
                 actual = configHelper.getConfig(file);
 
-            assertConfigsEqual(expected, actual);
+            assertConfigsEqual(actual, expected);
         });
 
         // Command line configuration - --config with first level .eslintrc
         it("should merge command line config when config file adds to local .eslintrc", function () {
 
             var configHelper = new Config({
-                    reset: true,
                     configFile: getFixturePath("broken", "add-conf.yaml")
                 }),
                 file = getFixturePath("broken", "console-wrong-quotes.js"),
@@ -400,14 +358,13 @@ describe("Config", function() {
 
             expected.env.node = true;
 
-            assertConfigsEqual(expected, actual);
+            assertConfigsEqual(actual, expected);
         });
 
         // Command line configuration - --config with first level .eslintrc
         it("should merge command line config when config file overrides local .eslintrc", function () {
 
             var configHelper = new Config({
-                    reset: true,
                     configFile: getFixturePath("broken", "override-conf.yaml")
                 }),
                 file = getFixturePath("broken", "console-wrong-quotes.js"),
@@ -423,14 +380,13 @@ describe("Config", function() {
 
             expected.env.node = true;
 
-            assertConfigsEqual(expected, actual);
+            assertConfigsEqual(actual, expected);
         });
 
         // Command line configuration - --config with second level .eslintrc
         it("should merge command line config when config file adds to local and parent .eslintrc", function () {
 
             var configHelper = new Config({
-                reset: true,
                 configFile: getFixturePath("broken", "add-conf.yaml")
             }),
             file = getFixturePath("broken", "subbroken", "console-wrong-quotes.js"),
@@ -448,14 +404,13 @@ describe("Config", function() {
 
             expected.env.node = true;
 
-            assertConfigsEqual(expected, actual);
+            assertConfigsEqual(actual, expected);
         });
 
         // Command line configuration - --config with second level .eslintrc
         it("should merge command line config when config file overrides local and parent .eslintrc", function () {
 
             var configHelper = new Config({
-                reset: true,
                 configFile: getFixturePath("broken", "override-conf.yaml")
             }),
             file = getFixturePath("broken", "subbroken", "console-wrong-quotes.js"),
@@ -472,30 +427,13 @@ describe("Config", function() {
 
             expected.env.node = true;
 
-            assertConfigsEqual(expected, actual);
-        });
-
-        // Command line configuration - --config with first level .eslintrc
-        it("should merge command line config when config file adds environment to local .eslintrc", function () {
-
-            var configHelper = new Config({
-                    configFile: getFixturePath("broken", "override-env-conf.yaml")
-                }),
-                file = getFixturePath("broken", "console-wrong-quotes.js"),
-                expected = util.mergeConfigs(baseConfig, environments.node),
-                actual = configHelper.getConfig(file);
-
-            expected.env.node = true;
-            expected.rules["no-mixed-requires"] = [0, false];
-
-            assertConfigsEqual(expected, actual);
+            assertConfigsEqual(actual, expected);
         });
 
         // Command line configuration - --rule with --config and first level .eslintrc
         it("should merge command line config and rule when rule and config file overrides local .eslintrc", function () {
 
             var configHelper = new Config({
-                reset: true,
                 configFile: getFixturePath("broken", "override-conf.yaml"),
                 rules: {
                     quotes: [1, "double"]
@@ -514,14 +452,14 @@ describe("Config", function() {
 
             expected.env.node = true;
 
-            assertConfigsEqual(expected, actual);
+            assertConfigsEqual(actual, expected);
         });
 
         it("should load user config globals", function() {
             var expected,
                 actual,
                 configPath = path.resolve(__dirname, "..", "fixtures", "globals", "conf.yaml"),
-                configHelper = new Config({ reset: true, configFile: configPath, useEslintrc: false });
+                configHelper = new Config({ configFile: configPath, useEslintrc: false });
 
             expected = {
                 globals: {
@@ -539,7 +477,7 @@ describe("Config", function() {
 
             configPath = path.resolve(__dirname, "..", "fixtures", "environments", "disable.yaml");
 
-            configHelper = new Config({ reset: true, configFile: configPath, useEslintrc: false });
+            configHelper = new Config({ configFile: configPath, useEslintrc: false });
 
             config = configHelper.getConfig(configPath);
 
@@ -551,7 +489,7 @@ describe("Config", function() {
 
             configPath = path.resolve(__dirname, "..", "fixtures", "environments", "fake.yaml");
 
-            configHelper = new Config({ reset: true, configFile: configPath, useEslintrc: false });
+            configHelper = new Config({ configFile: configPath, useEslintrc: false });
 
             config = configHelper.getConfig(configPath);
 
@@ -569,14 +507,14 @@ describe("Config", function() {
         // Non-recursive extends
         it("should extend defined configuration file", function() {
             var configPath = path.resolve(__dirname, "..", "fixtures", "config-extends", ".eslintrc"),
-                configHelper = new Config({ reset: true, useEslintrc: false, configFile: configPath }),
+                configHelper = new Config({ useEslintrc: false, configFile: configPath }),
                 expected = {
                     rules: { "quotes": [2, "double"], "yoda": 2, "valid-jsdoc": 0 },
                     env: { "browser": false }
                 },
                 actual = configHelper.getConfig(configPath);
 
-            assertConfigsEqual(expected, actual);
+            assertConfigsEqual(actual, expected);
         });
 
         // package extends
@@ -591,14 +529,14 @@ describe("Config", function() {
             });
 
             var configPath = path.resolve(__dirname, "../fixtures/config-extends/package/.eslintrc"),
-                configHelper = new StubbedConfig({ reset: true, useEslintrc: false, configFile: configPath }),
+                configHelper = new StubbedConfig({ useEslintrc: false, configFile: configPath }),
                 expected = {
                     rules: { "quotes": [2, "double"], "eqeqeq": [2, "smart"], "valid-jsdoc": 0 },
                     env: { "browser": false }
                 },
                 actual = configHelper.getConfig(configPath);
 
-            assertConfigsEqual(expected, actual);
+            assertConfigsEqual(actual, expected);
         });
 
         it("should extend package configuration without prefix", function() {
@@ -612,14 +550,14 @@ describe("Config", function() {
             });
 
             var configPath = path.resolve(__dirname, "../fixtures/config-extends/package2/.eslintrc"),
-                configHelper = new StubbedConfig({ reset: true, useEslintrc: false, configFile: configPath }),
+                configHelper = new StubbedConfig({ useEslintrc: false, configFile: configPath }),
                 expected = {
                     rules: { eqeqeq: [2, "smart"], "quotes": [2, "double"], "valid-jsdoc": 0 },
                     env: { "browser": false }
                 },
                 actual = configHelper.getConfig(configPath);
 
-            assertConfigsEqual(expected, actual);
+            assertConfigsEqual(actual, expected);
         });
 
         it("should extend scoped package configuration", function() {
@@ -633,14 +571,14 @@ describe("Config", function() {
             });
 
             var configPath = path.resolve(__dirname, "../fixtures/config-extends/scoped-package/.eslintrc"),
-                configHelper = new StubbedConfig({ reset: true, useEslintrc: false, configFile: configPath }),
+                configHelper = new StubbedConfig({ useEslintrc: false, configFile: configPath }),
                 expected = {
                     rules: { "quotes": [2, "double"], "eqeqeq": 2, "valid-jsdoc": 0 },
                     env: { "browser": false }
                 },
                 actual = configHelper.getConfig(configPath);
 
-            assertConfigsEqual(expected, actual);
+            assertConfigsEqual(actual, expected);
         });
 
         it("should extend scoped package configuration without prefix", function() {
@@ -654,14 +592,14 @@ describe("Config", function() {
             });
 
             var configPath = path.resolve(__dirname, "../fixtures/config-extends/scoped-package2/.eslintrc"),
-                configHelper = new StubbedConfig({ reset: true, useEslintrc: false, configFile: configPath }),
+                configHelper = new StubbedConfig({ useEslintrc: false, configFile: configPath }),
                 expected = {
                     rules: { "quotes": [2, "double"], "eqeqeq": 2, "valid-jsdoc": 0 },
                     env: { "browser": false }
                 },
                 actual = configHelper.getConfig(configPath);
 
-            assertConfigsEqual(expected, actual);
+            assertConfigsEqual(actual, expected);
         });
 
         it("should extend package sub-configuration without prefix", function() {
@@ -675,7 +613,7 @@ describe("Config", function() {
             });
 
             var configPath = path.resolve(__dirname, "../fixtures/config-extends/package3/.eslintrc"),
-                configHelper = new StubbedConfig({ reset: true, useEslintrc: true, configFile: configPath }),
+                configHelper = new StubbedConfig({ useEslintrc: true, configFile: configPath }),
                 expected = {
                     rules: { "quotes": [2, "double"], "eqeqeq": 2, "valid-jsdoc": 0 },
                     env: { "browser": false }
@@ -690,7 +628,7 @@ describe("Config", function() {
 
             var actual = configHelper.getConfig(configPath);
 
-            assertConfigsEqual(expected, actual);
+            assertConfigsEqual(actual, expected);
         });
 
         it("should extend scoped package sub-configuration without prefix", function() {
@@ -704,7 +642,7 @@ describe("Config", function() {
             });
 
             var configPath = path.resolve(__dirname, "../fixtures/config-extends/scoped-package3/.eslintrc"),
-                configHelper = new StubbedConfig({ reset: true, useEslintrc: true, configFile: configPath }),
+                configHelper = new StubbedConfig({ useEslintrc: true, configFile: configPath }),
                 expected = {
                     rules: { "quotes": [2, "double"], "eqeqeq": 2, "valid-jsdoc": 0 },
                     env: { "browser": false }
@@ -719,7 +657,7 @@ describe("Config", function() {
 
             var actual = configHelper.getConfig(configPath);
 
-            assertConfigsEqual(expected, actual);
+            assertConfigsEqual(actual, expected);
         });
 
         it("should extend package configuration with sub directories", function() {
@@ -733,7 +671,7 @@ describe("Config", function() {
             });
 
             var configPath = path.resolve(__dirname, "../fixtures/config-extends/package2/.eslintrc"),
-                configHelper = new StubbedConfig({ reset: true, useEslintrc: true, configFile: configPath }),
+                configHelper = new StubbedConfig({ useEslintrc: true, configFile: configPath }),
                 expected = {
                     rules: { "quotes": [2, "double"], "eqeqeq": 2, "valid-jsdoc": 0 },
                     env: { "browser": false }
@@ -750,12 +688,12 @@ describe("Config", function() {
             // Now we are running the same command for a subdirectory using the same config object.
             var actual = configHelper.getConfig(path.resolve(__dirname, "../fixtures/config-extends/package2/subdir/foo.js"));
 
-            assertConfigsEqual(expected, actual);
+            assertConfigsEqual(actual, expected);
         });
 
         it("should extend package configuration from package.json file", function() {
             var configPath = path.resolve(__dirname, "../fixtures/config-extends/package.json"),
-                configHelper = new Config({ reset: true, useEslintrc: true }),
+                configHelper = new Config({ useEslintrc: true }),
                 expected = {
                     rules: { "quotes": [1, "single"], "yoda": 2 },
                     env: { "browser": true }
@@ -767,20 +705,20 @@ describe("Config", function() {
 
             var actual = configHelper.getConfig(configPath);
 
-            assertConfigsEqual(expected, actual);
+            assertConfigsEqual(actual, expected);
         });
 
         // Non-recursive extends
         it("should extend recursively defined configuration files", function() {
             var configPath = path.resolve(__dirname, "..", "fixtures", "config-extends", "deep.json"),
-                configHelper = new Config({ reset: true, useEslintrc: false, configFile: configPath }),
+                configHelper = new Config({ useEslintrc: false, configFile: configPath }),
                 expected = {
                     rules: { "semi": 2, "yoda": 2, "valid-jsdoc": 0 },
                     env: { "browser": true }
                 },
                 actual = configHelper.getConfig(configPath);
 
-            assertConfigsEqual(expected, actual);
+            assertConfigsEqual(actual, expected);
         });
 
         // Meaningful stack-traces
@@ -796,14 +734,14 @@ describe("Config", function() {
         // Keep order with the last array element taking highest precedence
         it("should make the last element in an array take the highest precedence", function() {
             var configPath = path.resolve(__dirname, "..", "fixtures", "config-extends", "array", ".eslintrc"),
-                configHelper = new Config({ reset: true, useEslintrc: false, configFile: configPath }),
+                configHelper = new Config({ useEslintrc: false, configFile: configPath }),
                 expected = {
                     rules: { "no-empty": 1, "comma-dangle": 2, "no-console": 2 },
                     env: { "browser": false, "node": true, "es6": true }
                 },
                 actual = configHelper.getConfig(configPath);
 
-            assertConfigsEqual(expected, actual);
+            assertConfigsEqual(actual, expected);
         });
 
         describe("with plugin configuration", function() {
@@ -824,9 +762,7 @@ describe("Config", function() {
 
                 StubbedConfig = proxyquire("../../lib/config", requireStubs);
 
-                var configHelper = new StubbedConfig({
-                    reset: true
-                }),
+                var configHelper = new StubbedConfig({}),
                 file = getFixturePath("broken", "plugins", "console-wrong-quotes.js"),
                 expected = {
                     env: {
@@ -849,9 +785,7 @@ describe("Config", function() {
 
                 StubbedConfig = proxyquire("../../lib/config", requireStubs);
 
-                var configHelper = new StubbedConfig({
-                    reset: true
-                }),
+                var configHelper = new StubbedConfig({}),
                 file = getFixturePath("broken", "plugins", "console-wrong-quotes.js"),
                 expected = {
                     env: {
@@ -874,9 +808,7 @@ describe("Config", function() {
 
                 StubbedConfig = proxyquire("../../lib/config", requireStubs);
 
-                var configHelper = new StubbedConfig({
-                    reset: true
-                }),
+                var configHelper = new StubbedConfig({}),
                 file = getFixturePath("broken", "plugins2", "console-wrong-quotes.js"),
                 expected = {
                     env: {
@@ -900,9 +832,7 @@ describe("Config", function() {
 
                 StubbedConfig = proxyquire("../../lib/config", requireStubs);
 
-                var configHelper = new StubbedConfig({
-                        reset: true
-                    }),
+                var configHelper = new StubbedConfig({}),
                     file = getFixturePath("broken", "plugins", "console-wrong-quotes.js"),
                     expected = {
                         env: {
@@ -923,7 +853,7 @@ describe("Config", function() {
 
                 StubbedConfig = proxyquire("../../lib/config", requireStubs);
 
-                var configHelper = new StubbedConfig({ reset: true }),
+                var configHelper = new StubbedConfig({}),
                     file1 = getFixturePath("shared", "a", "index.js"),
                     file2 = getFixturePath("shared", "b", "index.js");
 

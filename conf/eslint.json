@@ -1,14 +1,5 @@
 {
     "ecmaFeatures": {},
-    "parser": "espree",
-    "env": {
-        "browser": false,
-        "node": false,
-        "amd": false,
-        "mocha": false,
-        "jasmine": false
-    },
-
     "rules": {
         "no-alert": 2,
         "no-array-constructor": 2,
