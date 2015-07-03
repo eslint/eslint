@@ -196,4 +196,5 @@ fall into that category this rule is not for you.
 ## Related Rules
 
 * [space-before-blocks](space-before-blocks.md)
-* [spaced-line-comment](spaced-line-comment.md)
+* [spaced-comment](spaced-comment.md)
+* [spaced-line-comment](spaced-line-comment.md) (deprecated)
