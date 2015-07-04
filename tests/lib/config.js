@@ -364,6 +364,21 @@ describe("Config", function() {
 
             assertConfigsEqual(expected, actual);
         });
+
+        // Project configuration - root set in second level .eslintrc
+        it("should not return configurations in parents of config with root:true", function() {
+            var configHelper = new Config({ reset: true }),
+                file = getFixturePath("root-true", "parent", "root", "wrong-semi.js"),
+                expected = {
+                    rules: {
+                        semi: [2, "never"]
+                    }
+                },
+                actual = configHelper.getConfig(file);
+
+            assertConfigsEqual(expected, actual);
+        });
+
         // Command line configuration - --config with first level .eslintrc
         it("should merge command line config when config file adds to local .eslintrc", function () {
 
