@@ -36,6 +36,8 @@ eslintTester.addRuleTest("lib/rules/comma-dangle", {
         { code: "var foo = { bar: 'baz' }", options: ["never"] },
         { code: "var foo = {\nbar: 'baz'\n}", options: ["never"] },
         { code: "var foo = [ 'baz' ]", options: ["never"] },
+        { code: "var { a, b } = foo;", options: ["never"], ecmaFeatures: { destructuring: true } },
+        { code: "var [ a, b ] = foo;", options: ["never"], ecmaFeatures: { destructuring: true } },
 
         { code: "var foo = { bar: 'baz', }", options: [ "always" ] },
         { code: "var foo = {\nbar: 'baz',\n}", options: [ "always" ] },
@@ -373,6 +375,32 @@ eslintTester.addRuleTest("lib/rules/comma-dangle", {
                     type: "ObjectExpression",
                     line: 6,
                     column: 2
+                }
+            ]
+        },
+        {
+            code: "var { a, b, } = foo;",
+            options: [ "never" ],
+            ecmaFeatures: { destructuring: true },
+            errors: [
+                {
+                    message: "Unexpected trailing comma.",
+                    type: "Property",
+                    line: 1,
+                    column: 11
+                }
+            ]
+        },
+        {
+            code: "var [ a, b, ] = foo;",
+            options: [ "never" ],
+            ecmaFeatures: { destructuring: true },
+            errors: [
+                {
+                    message: "Unexpected trailing comma.",
+                    type: "Identifier",
+                    line: 1,
+                    column: 11
                 }
             ]
         }
