@@ -374,6 +374,34 @@ your-project
 
 If there is an `.eslintrc` and a `package.json` file found in the same directory, both will be used, with the `.eslintrc` having the higher precendence.
 
+By default, ESLint will look for configuration files in all parent folders up to the root directory. This can be useful if you want all of your projects to follow a certain convention, but can sometimes lead to unexpected results. To limit ESLint to a specific project, place `"root": true` inside the `eslintConfig` field of the `package.json` file or in the `.eslintrc` file at your project's root level.  ESLint will stop looking in parent folders once it finds a configuration with `"root": true`.
+
+```js
+{
+    "root": true
+}
+```
+
+And in YAML:
+
+```yaml
+---
+  root: true
+```
+
+For example, consider `projectA` which has `"root": true` set in the `.eslintrc` file in the main project directory.  In this case, while linting main.js, the configurations within `lib/` and `projectA` will be used, but the `.eslintrc` file in `user/` will not.
+
+```text
+home
+└── user
+    ├── .eslintrc
+    └── projectA
+        ├── .eslintrc <- { "root": true }
+        └── lib
+            ├── .eslintrc
+            └── main.js
+```
+
 The complete configuration hierarchy, from highest precedence to lowest precedence, is as follows:
 
 1. Inline configuration
