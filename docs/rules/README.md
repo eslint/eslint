@@ -187,7 +187,7 @@ These rules are purely matters of style and are quite subjective.
 * [space-in-parens](space-in-parens.md) - require or disallow spaces inside parentheses (off by default)
 * [space-infix-ops](space-infix-ops.md) - require spaces around operators
 * [space-return-throw-case](space-return-throw-case.md) - require a space after `return`, `throw`, and `case`
-* [space-unary-ops](space-unary-ops.md) - require or disallow spaces before/after unary operators (words on by default, nonwords off by default)
+* [space-unary-ops](space-unary-ops.md) - require or disallow spaces before/after unary operators
 * [spaced-comment](spaced-comment.md) - require or disallow a space immediately following the `//` or `/*` in a comment (off by default)
 * [spaced-line-comment](spaced-line-comment.md) - **(deprecated)** require or disallow a space immediately following the `//` in a line comment (off by default)
 * [wrap-regex](wrap-regex.md) - require regex literals to be wrapped in parentheses (off by default)
