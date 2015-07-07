@@ -19,6 +19,7 @@ var eslint = require("../../../lib/eslint"),
 
 var features = {
     objectLiteralShorthandMethods: true,
+    objectLiteralComputedProperties: true,
     objectLiteralShorthandProperties: true,
     arrowFunctions: true,
     destructuring: true,
@@ -67,6 +68,11 @@ eslintTester.addRuleTest("lib/rules/object-shorthand", {
         { code: "doSomething({get y() {}})", ecmaFeatures: features },
         { code: "doSomething({set y(z) {}})", ecmaFeatures: features },
         { code: "doSomething({get y() {}, set y(z) {}})", ecmaFeatures: features },
+
+        // object literal computed properties
+        { code: "var x = {[y]: y}", ecmaFeatures: features, args: [2, "properties"] },
+        { code: "var x = {['y']: 'y'}", ecmaFeatures: features, args: [2, "properties"] },
+        { code: "var x = {['y']: y}", ecmaFeatures: features, args: [2, "properties"] },
 
         // options
         { code: "var x = {y() {}}", ecmaFeatures: features, args: [2, "methods"] },
