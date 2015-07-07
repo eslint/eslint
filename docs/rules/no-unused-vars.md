@@ -42,6 +42,11 @@ myFunc(function foo() {
 })();
 ```
 
+### Exporting Variables
+
+In some environments you may use `var` to create a global variable that may be used by other scripts. You can
+ use the `/* exported variableName */` comment block to indicate that this variable may be used elsewhere.
+
 ### Options
 
 By default this rule is enabled with `all` option for variables and `after-used` for arguments.
