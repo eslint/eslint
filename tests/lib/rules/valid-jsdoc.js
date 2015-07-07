@@ -38,7 +38,7 @@ eslintTester.addRuleTest("lib/rules/valid-jsdoc", {
         },
         {
             code: "/**\n* Description\n* @param {string} p bar\n*/\nFoo.bar = (p) => {};",
-            args: [1, {requireReturn: false}],
+            args: [2, {requireReturn: false}],
             ecmaFeatures: { arrowFunctions: true }
         },
         {
@@ -82,7 +82,15 @@ eslintTester.addRuleTest("lib/rules/valid-jsdoc", {
             code: "/**\n* Description\n* @param {string} p mytest\n* @returns {Object}*/\nFoo.bar = function(p){return name;};",
             args: [1, {requireReturnDescription: false}]
         },
-        "var obj = {\n /**\n * Getter\n * @type {string}\n */\n get location() {\n return this._location;\n }\n }"
+        "var obj = {\n /**\n * Getter\n * @type {string}\n */\n get location() {\n return this._location;\n }\n }",
+        {
+            code: "/**\n * Description for A.\n */\n class A {\n /**\n * Description for constructor.\n * @param {object[]} xs - xs\n */\n constructor(xs) {\n /**\n * Description for this.xs;\n * @type {object[]}\n */\n this.xs = xs.filter(x => x != null);\n }\n}",
+            options: [{requireReturn: false}],
+            ecmaFeatures: {
+                arrowFunctions: true,
+                classes: true
+            }
+        }
     ],
 
     invalid: [
