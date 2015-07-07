@@ -101,6 +101,12 @@ eslintTester.addRuleTest("lib/rules/no-unused-vars", {
         {code: "var x = 1; function foo(y = function(z = x) { bar(z); }) { y(); } foo();", ecmaFeatures: {defaultParams: true}},
         {code: "var x = 1; function foo(y = function() { bar(x); }) { y(); } foo();", ecmaFeatures: {defaultParams: true}},
 
+        // exported variables should work
+        { code: "/*exported toaster*/ var toaster = 'great'" },
+        { code: "/*exported toaster, poster*/ var toaster = 1; poster = 0;" },
+        { code: "/*exported x*/ var { x } = y", ecmaFeatures: {destructuring: true} },
+        { code: "/*exported x, y*/  var { x, y } = z", ecmaFeatures: {destructuring: true} },
+
         // Can mark variables as used via context.markVariableAsUsed()
         { code: "/*eslint use-every-a:1*/ var a;"},
         { code: "/*eslint use-every-a:1*/ !function(a) { return 1; }"},
@@ -138,6 +144,10 @@ eslintTester.addRuleTest("lib/rules/no-unused-vars", {
         { code: "function f() { var a = 1; return function(){ f(a = 2); }; }", options: [{}], errors: [{ message: "f is defined but never used" }, {message: "a is defined but never used"}]},
         { code: "import x from \"y\";", ecmaFeatures: { modules: true }, errors: [{ message: "x is defined but never used" }]},
         { code: "export function fn2({ x, y }) {\n console.log(x); \n};", ecmaFeatures: { modules: true, destructuring: true }, errors: [{ message: "y is defined but never used" }]},
-        { code: "export function fn2( x, y ) {\n console.log(x); \n};", ecmaFeatures: { modules: true }, errors: [{ message: "y is defined but never used" }]}
+        { code: "export function fn2( x, y ) {\n console.log(x); \n};", ecmaFeatures: { modules: true }, errors: [{ message: "y is defined but never used" }]},
+
+        // exported
+        { code: "/*exported max*/ var max = 1, min = {min: 1}", errors: [{ message: "min is defined but never used" }] },
+        { code: "/*exported x*/ var { x, y } = z", ecmaFeatures: { destructuring: true }, errors: [{ message: "y is defined but never used" }] }
     ]
 });

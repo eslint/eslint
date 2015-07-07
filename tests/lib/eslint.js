@@ -1395,6 +1395,86 @@ describe("eslint", function() {
         });
     });
 
+    describe("when evaluating code containing /*exported */ block", function() {
+
+        it("we should behave nicely when no matching variable is found", function() {
+            var code = "/* exported horse */";
+            var config = { rules: {} };
+            eslint.reset();
+            eslint.verify(code, config, filename, true);
+        });
+
+        it("variables should be exported", function() {
+            var code = "/* exported horse */\n\nvar horse = 'circus'";
+            var config = { rules: {} };
+
+            eslint.reset();
+            eslint.on("Program", function() {
+                var scope = eslint.getScope(),
+                    horse = getVariable(scope, "horse");
+
+                assert.equal(horse.eslintUsed, true);
+            });
+            eslint.verify(code, config, filename, true);
+        });
+
+        it("undefined variables should not be exported", function() {
+            var code = "/* exported horse */\n\nhorse = 'circus'";
+            var config = { rules: {} };
+
+            eslint.reset();
+            eslint.on("Program", function() {
+                var scope = eslint.getScope(),
+                    horse = getVariable(scope, "horse");
+
+                assert.equal(horse, null);
+            });
+            eslint.verify(code, config, filename, true);
+        });
+
+        it("variables should be exported in strict mode", function() {
+            var code = "/* exported horse */\n'use strict';\nvar horse = 'circus'";
+            var config = { rules: {} };
+
+            eslint.reset();
+            eslint.on("Program", function() {
+                var scope = eslint.getScope(),
+                    horse = getVariable(scope, "horse");
+
+                assert.equal(horse.eslintUsed, true);
+            });
+            eslint.verify(code, config, filename, true);
+        });
+
+        it("variables should not be exported in the es6 module environment", function() {
+            var code = "/* exported horse */\nvar horse = 'circus'";
+            var config = { rules: {}, ecmaFeatures: { "modules": true } };
+
+            eslint.reset();
+            eslint.on("Program", function() {
+                var scope = eslint.getScope(),
+                    horse = getVariable(scope, "horse");
+
+                assert.equal(horse, null); // there is no global scope at all
+            });
+            eslint.verify(code, config, filename, true);
+        });
+
+        it("variables should not be exported when in the node environment", function() {
+            var code = "/* exported horse */\nvar horse = 'circus'";
+            var config = { rules: {}, env: { node: true } };
+
+            eslint.reset();
+            eslint.on("Program", function() {
+                var scope = eslint.getScope(),
+                    horse = getVariable(scope, "horse");
+
+                assert.equal(horse, null); // there is no global scope at all
+            });
+            eslint.verify(code, config, filename, true);
+        });
+    });
+
     describe("when evaluating code containing a line comment", function() {
         var code = "//global a \n function f() {}";
 
