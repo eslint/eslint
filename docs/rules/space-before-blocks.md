@@ -84,7 +84,7 @@ try{} catch(a){}
 
 ## When Not To Use It
 
-You can turn this rule off if you are not concerned with the consistency of spacing before blocks.
+You can turn this rule off if you are not concerned with the consistency of spacing before blocks or if you are using the `space-after-keywords` rule set to `"never"`.
 
 ## Related Rules
 
