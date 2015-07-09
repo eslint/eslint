@@ -33,6 +33,8 @@ eslintTester.addRuleTest("lib/rules/no-redeclare", {
         { code: "switch(foo) { case a: let b = 3;\ncase b: let b = 4}", ecmaFeatures: { blockBindings: true }, errors: [{ message: "b is already defined", type: "Identifier"}] },
         { code: "var a = 3; var a = 10;", errors: [{ message: "a is already defined", type: "Identifier"}] },
         { code: "var a = {}; var a = [];", errors: [{ message: "a is already defined", type: "Identifier"}] },
+        { code: "var a; function a() {}", errors: [{ message: "a is already defined", type: "Identifier" }] },
+        { code: "function a() {} function a() {}", errors: [{ message: "a is already defined", type: "Identifier" }] },
         { code: "var a = function() { }; var a = function() { }", errors: [{ message: "a is already defined", type: "Identifier"}] },
         { code: "var a = function() { }; var a = new Date();", errors: [{ message: "a is already defined", type: "Identifier"}] },
         { code: "var a = 3; var a = 10; var a = 15;", errors: [{ message: "a is already defined", type: "Identifier"}, { message: "a is already defined", type: "Identifier"}] },
