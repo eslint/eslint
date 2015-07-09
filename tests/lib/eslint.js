@@ -1,4 +1,4 @@
-/*globals window */
+/* globals window */
 /**
  * @fileoverview Tests for eslint object.
  * @author Nicholas C. Zakas
@@ -426,7 +426,7 @@ describe("eslint", function() {
                 "/** Code is good */",
                 "var o = {",
                 "/** Desc*/",
-                "foo: function (){}",
+                "foo: function(){}",
                 "};"
             ].join("\n");
 
@@ -471,7 +471,7 @@ describe("eslint", function() {
             var code = [
                 "/** Code is good */",
                 "/** Desc*/",
-                "Foo.bar = function (){}"
+                "Foo.bar = function(){}"
             ].join("\n");
 
             function assertJSDoc(node) {
@@ -493,7 +493,7 @@ describe("eslint", function() {
                 "/** Code is good */",
                 "(function iife() {",
                 "/** Desc*/",
-                "Foo.bar = function (){}",
+                "Foo.bar = function(){}",
                 "}());"
             ].join("\n");
 
@@ -518,7 +518,7 @@ describe("eslint", function() {
                 "/** Code is good */",
                 "(function iife() {",
                 "//* whatever",
-                "Foo.bar = function (){}",
+                "Foo.bar = function(){}",
                 "}());"
             ].join("\n");
 
@@ -599,7 +599,7 @@ describe("eslint", function() {
 
         it("should attach them to all nodes", function() {
             function assertCommentCount(leading, trailing) {
-                return function (node) {
+                return function(node) {
                     var comments = eslint.getComments(node);
                     assert.equal(comments.leading.length, leading);
                     assert.equal(comments.trailing.length, trailing);
@@ -1855,7 +1855,7 @@ describe("eslint", function() {
         it("should not report a violation", function() {
             var code = [
                 "/*eslint-disable */",
-                "(function (){ var b = 44;})()",
+                "(function(){ var b = 44;})()",
                 "/*eslint-enable */;any();"
             ].join("\n");
 
@@ -1867,7 +1867,7 @@ describe("eslint", function() {
 
         it("should not report a violation", function() {
             var code = [
-                "(function (){ /*eslint-disable */ var b = 44;})()",
+                "(function(){ /*eslint-disable */ var b = 44;})()",
                 "/*eslint-enable */;any();"
             ].join("\n");
 
@@ -2554,7 +2554,7 @@ describe("eslint", function() {
         });
 
         // TODO: Remove when escope is updated
-        it("should not crash due to no-undef mutating escope data", function () {
+        it("should not crash due to no-undef mutating escope data", function() {
             var code = "import foo from 'bar';";
             eslint.verify(code, {
                 ecmaFeatures: { modules: true },

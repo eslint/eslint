@@ -56,6 +56,6 @@ eslintTester.addRuleTest("lib/rules/consistent-this", {
         { code: "that = this", args: [1, "self"], errors: [{ message: "Unexpected alias 'that' for 'this'.", type: "AssignmentExpression"}] },
         { code: "self = this", args: [1, "that"], errors: [{ message: "Unexpected alias 'self' for 'this'.", type: "AssignmentExpression"}] },
         { code: "self += this", args: [1, "self"], errors: [{ message: "Designated alias 'self' is not assigned to 'this'.", type: "AssignmentExpression"}] },
-        { code: "var self; (function () { self = this; }())", args: [1, "self"], errors: [{ message: "Designated alias 'self' is not assigned to 'this'.", type: "VariableDeclarator"}] }
+        { code: "var self; (function() { self = this; }())", args: [1, "self"], errors: [{ message: "Designated alias 'self' is not assigned to 'this'.", type: "VariableDeclarator"}] }
     ]
 });

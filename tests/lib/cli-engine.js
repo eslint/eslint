@@ -11,16 +11,16 @@
 //------------------------------------------------------------------------------
 
 var assert = require("chai").assert,
+    path = require("path"),
     proxyquire = require("proxyquire"),
     sinon = require("sinon"),
     rules = require("../../lib/rules"),
-    path = require("path"),
     Config = require("../../lib/config");
 
 require("shelljs/global");
 proxyquire = proxyquire.noCallThru().noPreserveCache();
 
-/*global tempdir, mkdir, rm, cp*/
+/* global tempdir, mkdir, rm, cp */
 
 //------------------------------------------------------------------------------
 // Tests
@@ -33,14 +33,37 @@ describe("CLIEngine", function() {
         requireStubs = {},
         examplePlugin = { rules: { "example-rule": require("../fixtures/rules/custom-rule") } },
         CLIEngine,
-        examplePreprocessorName = "eslint-plugin-processor";
+        examplePreprocessorName = "eslint-plugin-processor",
+        fixtureDir;
 
     requireStubs[examplePluginName] = examplePlugin;
     requireStubs[examplePluginNameWithNamespace] = examplePlugin;
     requireStubs[examplePreprocessorName] = require("../fixtures/processors/custom-processor");
 
+    /**
+     * Returns the path inside of the fixture directory.
+     * @returns {string} The path inside the fixture directory.
+     * @private
+     */
+    function getFixturePath() {
+        var args = Array.prototype.slice.call(arguments);
+        args.unshift(fixtureDir);
+        return path.join.apply(path, args);
+    }
+
+    // copy into clean area so as not to get "infected" by this project's .eslintrc files
+    before(function() {
+        fixtureDir = tempdir() + "/eslint/fixtures";
+        mkdir("-p", fixtureDir);
+        cp("-r", "./tests/fixtures/.", fixtureDir);
+    });
+
     beforeEach(function() {
         CLIEngine = proxyquire("../../lib/cli-engine", requireStubs);
+    });
+
+    after(function() {
+        rm("-r", fixtureDir);
     });
 
     describe("executeOnText()", function() {
@@ -145,7 +168,7 @@ describe("CLIEngine", function() {
                 extensions: [".js2"]
             });
 
-            var report = engine.executeOnFiles(["tests/fixtures/files/"]);
+            var report = engine.executeOnFiles([getFixturePath("files/")]);
             assert.equal(report.results.length, 1);
             assert.equal(report.results[0].messages.length, 0);
         });
@@ -165,10 +188,10 @@ describe("CLIEngine", function() {
         it("should return one error message when given a config with rules with options and severity level set to error", function() {
 
             engine = new CLIEngine({
-                configFile: "tests/fixtures/configurations/quotes-error.json"
+                configFile: getFixturePath("configurations", "quotes-error.json")
             });
 
-            var report = engine.executeOnFiles(["tests/fixtures/single-quoted.js"]);
+            var report = engine.executeOnFiles([getFixturePath("single-quoted.js")]);
             assert.equal(report.results.length, 1);
             assert.equal(report.results[0].messages.length, 1);
             assert.equal(report.errorCount, 1);
@@ -182,10 +205,10 @@ describe("CLIEngine", function() {
         it("should return two messages when given a config file and a directory of files", function() {
 
             engine = new CLIEngine({
-                configFile: "tests/fixtures/configurations/semi-error.json"
+                configFile: getFixturePath("configurations", "semi-error.json")
             });
 
-            var report = engine.executeOnFiles(["tests/fixtures/formatters"]);
+            var report = engine.executeOnFiles([getFixturePath("formatters")]);
             assert.equal(report.results.length, 2);
             assert.equal(report.errorCount, 0);
             assert.equal(report.warningCount, 0);
@@ -200,10 +223,10 @@ describe("CLIEngine", function() {
         it("should return zero messages when given a config with environment set to browser", function() {
 
             engine = new CLIEngine({
-                configFile: "tests/fixtures/configurations/env-browser.json"
+                configFile: getFixturePath("configurations", "env-browser.json")
             });
 
-            var report = engine.executeOnFiles(["tests/fixtures/globals-browser.js"]);
+            var report = engine.executeOnFiles([getFixturePath("globals-browser.js")]);
             assert.equal(report.results.length, 1);
             assert.equal(report.results[0].messages.length, 0);
         });
@@ -218,7 +241,7 @@ describe("CLIEngine", function() {
                 }
             });
 
-            var report = engine.executeOnFiles(["tests/fixtures/globals-browser.js"]);
+            var report = engine.executeOnFiles([getFixturePath("globals-browser.js")]);
             assert.equal(report.results.length, 1);
             assert.equal(report.results[0].messages.length, 0);
         });
@@ -226,10 +249,10 @@ describe("CLIEngine", function() {
         it("should return zero messages when given a config with environment set to Node.js", function() {
 
             engine = new CLIEngine({
-                configFile: "tests/fixtures/configurations/env-node.json"
+                configFile: getFixturePath("configurations", "env-node.json")
             });
 
-            var report = engine.executeOnFiles(["tests/fixtures/globals-node.js"]);
+            var report = engine.executeOnFiles([getFixturePath("globals-node.js")]);
             assert.equal(report.results.length, 1);
             assert.equal(report.results[0].messages.length, 0);
         });
@@ -243,17 +266,19 @@ describe("CLIEngine", function() {
                 }
             });
 
-            var report = engine.executeOnFiles(["tests/fixtures/missing-semicolon.js"]);
+            var failFilePath = getFixturePath("missing-semicolon.js");
+            var passFilePath = getFixturePath("passing.js");
+
+            var report = engine.executeOnFiles([failFilePath]);
             assert.equal(report.results.length, 1);
-            assert.equal(report.results[0].filePath, "tests/fixtures/missing-semicolon.js");
+            assert.equal(report.results[0].filePath, failFilePath);
             assert.equal(report.results[0].messages.length, 1);
             assert.equal(report.results[0].messages[0].ruleId, "semi");
             assert.equal(report.results[0].messages[0].severity, 2);
 
-
-            report = engine.executeOnFiles(["tests/fixtures/passing.js"]);
+            report = engine.executeOnFiles([passFilePath]);
             assert.equal(report.results.length, 1);
-            assert.equal(report.results[0].filePath, "tests/fixtures/passing.js");
+            assert.equal(report.results[0].filePath, passFilePath);
             assert.equal(report.results[0].messages.length, 0);
 
         });
@@ -261,16 +286,16 @@ describe("CLIEngine", function() {
         it("should return zero messages when given a directory with eslint excluded files in the directory", function() {
 
             engine = new CLIEngine({
-                ignorePath: "tests/fixtures/.eslintignore"
+                ignorePath: getFixturePath(".eslintignore")
             });
 
-            var report = engine.executeOnFiles(["tests/fixtures/"]);
+            var report = engine.executeOnFiles([getFixturePath("./")]);
             assert.equal(report.results.length, 0);
         });
 
         it("should return zero messages when all given files are ignored", function() {
             engine = new CLIEngine({
-                ignorePath: "tests/fixtures/.eslintignore"
+                ignorePath: getFixturePath(".eslintignore")
             });
 
             var report = engine.executeOnFiles(["tests/fixtures/"]);
@@ -279,15 +304,16 @@ describe("CLIEngine", function() {
 
         it("should return a warning when an explicitly given file is ignored", function() {
             engine = new CLIEngine({
-                ignorePath: "tests/fixtures/.eslintignore"
+                ignorePath: getFixturePath(".eslintignore")
             });
 
-            var report = engine.executeOnFiles(["tests/fixtures/passing.js"]);
+            var filePath = getFixturePath("passing.js");
 
+            var report = engine.executeOnFiles([filePath]);
             assert.equal(report.results.length, 1);
             assert.equal(report.errorCount, 0);
             assert.equal(report.warningCount, 1);
-            assert.equal(report.results[0].filePath, "tests/fixtures/passing.js");
+            assert.equal(report.results[0].filePath, filePath);
             assert.equal(report.results[0].messages[0].severity, 1);
             assert.equal(report.results[0].messages[0].message, "File ignored because of your .eslintignore file. Use --no-ignore to override.");
             assert.equal(report.results[0].errorCount, 0);
@@ -297,16 +323,18 @@ describe("CLIEngine", function() {
         it("should return two messages when given a file in excluded files list while ignore is off", function() {
 
             engine = new CLIEngine({
-                ignorePath: "tests/fixtures/.eslintignore",
+                ignorePath: getFixturePath(".eslintignore"),
                 ignore: false,
                 rules: {
                     "no-undef": 2
                 }
             });
 
-            var report = engine.executeOnFiles(["tests/fixtures/undef.js"]);
+            var filePath = getFixturePath("undef.js");
+
+            var report = engine.executeOnFiles([filePath]);
             assert.equal(report.results.length, 1);
-            assert.equal(report.results[0].filePath, "tests/fixtures/undef.js");
+            assert.equal(report.results[0].filePath, filePath);
             assert.equal(report.results[0].messages[0].ruleId, "no-undef");
             assert.equal(report.results[0].messages[0].severity, 2);
             assert.equal(report.results[0].messages[1].ruleId, "no-undef");
@@ -319,7 +347,7 @@ describe("CLIEngine", function() {
                 ignore: false
             });
 
-            var report = engine.executeOnFiles(["tests/fixtures/shebang.js"]);
+            var report = engine.executeOnFiles([getFixturePath("shebang.js")]);
             assert.equal(report.results.length, 1);
             assert.equal(report.results[0].messages.length, 0);
         });
@@ -329,13 +357,12 @@ describe("CLIEngine", function() {
 
             engine = new CLIEngine({
                 ignore: false,
-                rulesPaths: ["./tests/fixtures/rules/dir1"],
-                configFile: "./tests/fixtures/rules/missing-rule.json"
+                rulesPaths: [getFixturePath("rules", "dir1")],
+                configFile: getFixturePath("rules", "missing-rule.json")
             });
-            var report = engine.executeOnFiles(["tests/fixtures/rules/test/test-custom-rule.js"]);
-
+            var report = engine.executeOnFiles([getFixturePath("rules", "test", "test-custom-rule.js")]);
             assert.equal(report.results.length, 1);
-            assert.equal(report.results[0].messages.length, 2);
+            assert.equal(report.results[0].messages.length, 1);
             assert.equal(report.results[0].messages[0].ruleId, "missing-rule");
             assert.equal(report.results[0].messages[0].severity, 1);
             assert.equal(report.results[0].messages[0].message, "Definition for rule \'missing-rule\' was not found");
@@ -347,13 +374,13 @@ describe("CLIEngine", function() {
 
             engine = new CLIEngine({
                 ignore: false,
-                rulePaths: ["./tests/fixtures/rules/wrong"],
-                configFile: "./tests/fixtures/rules/eslint.json"
+                rulePaths: [getFixturePath("rules", "wrong")],
+                configFile: getFixturePath("rules", "eslint.json")
             });
 
 
             assert.throws(function() {
-                engine.executeOnFiles(["tests/fixtures/rules/test/test-custom-rule.js"]);
+                engine.executeOnFiles([getFixturePath("rules", "test", "test-custom-rule.js")]);
             }, /Error while loading rule 'custom-rule'/);
         });
 
@@ -362,13 +389,15 @@ describe("CLIEngine", function() {
             engine = new CLIEngine({
                 ignore: false,
                 useEslintrc: false,
-                rulePaths: ["./tests/fixtures/rules/"],
-                configFile: "./tests/fixtures/rules/eslint.json"
+                rulePaths: [getFixturePath("rules/")],
+                configFile: getFixturePath("rules", "eslint.json")
             });
 
-            var report = engine.executeOnFiles(["tests/fixtures/rules/test/test-custom-rule.js"]);
+            var filePath = getFixturePath("rules", "test", "test-custom-rule.js");
+
+            var report = engine.executeOnFiles([filePath]);
             assert.equal(report.results.length, 1);
-            assert.equal(report.results[0].filePath, "tests/fixtures/rules/test/test-custom-rule.js");
+            assert.equal(report.results[0].filePath, filePath);
             assert.equal(report.results[0].messages.length, 2);
             assert.equal(report.results[0].messages[0].ruleId, "custom-rule");
             assert.equal(report.results[0].messages[0].severity, 1);
@@ -379,15 +408,17 @@ describe("CLIEngine", function() {
             engine = new CLIEngine({
                 ignore: false,
                 rulePaths: [
-                    "./tests/fixtures/rules/dir1",
-                    "./tests/fixtures/rules/dir2"
+                    getFixturePath("rules", "dir1"),
+                    getFixturePath("rules", "dir2")
                 ],
-                configFile: "./tests/fixtures/rules/multi-rulesdirs.json"
+                configFile: getFixturePath("rules", "multi-rulesdirs.json")
             });
 
-            var report = engine.executeOnFiles(["tests/fixtures/rules/test-multi-rulesdirs.js"]);
+            var filePath = getFixturePath("rules", "test-multi-rulesdirs.js");
+
+            var report = engine.executeOnFiles([filePath]);
             assert.equal(report.results.length, 1);
-            assert.equal(report.results[0].filePath, "tests/fixtures/rules/test-multi-rulesdirs.js");
+            assert.equal(report.results[0].filePath, filePath);
             assert.equal(report.results[0].messages.length, 2);
             assert.equal(report.results[0].messages[0].ruleId, "no-literals");
             assert.equal(report.results[0].messages[0].severity, 2);
@@ -402,9 +433,11 @@ describe("CLIEngine", function() {
                 useEslintrc: false
             });
 
-            var report = engine.executeOnFiles(["./tests/fixtures/missing-semicolon.js"]);
+            var filePath = getFixturePath("missing-semicolon.js");
+
+            var report = engine.executeOnFiles([filePath]);
             assert.equal(report.results.length, 1);
-            assert.equal(report.results[0].filePath, "./tests/fixtures/missing-semicolon.js");
+            assert.equal(report.results[0].filePath, filePath);
             assert.equal(report.results[0].messages.length, 0);
         });
 
@@ -416,9 +449,11 @@ describe("CLIEngine", function() {
                 envs: ["node"]
             });
 
-            var report = engine.executeOnFiles(["./tests/fixtures/process-exit.js"]);
+            var filePath = getFixturePath("process-exit.js");
+
+            var report = engine.executeOnFiles([filePath]);
             assert.equal(report.results.length, 1);
-            assert.equal(report.results[0].filePath, "./tests/fixtures/process-exit.js");
+            assert.equal(report.results[0].filePath, filePath);
             assert.equal(report.results[0].messages.length, 0);
         });
 
@@ -430,9 +465,11 @@ describe("CLIEngine", function() {
                 useEslintrc: false
             });
 
-            var report = engine.executeOnFiles(["./tests/fixtures/missing-semicolon.js"]);
+            var filePath = getFixturePath("missing-semicolon.js");
+
+            var report = engine.executeOnFiles([filePath]);
             assert.equal(report.results.length, 1);
-            assert.equal(report.results[0].filePath, "./tests/fixtures/missing-semicolon.js");
+            assert.equal(report.results[0].filePath, filePath);
             assert.equal(report.results[0].messages.length, 0);
         });
 
@@ -444,9 +481,11 @@ describe("CLIEngine", function() {
                 envs: ["node"]
             });
 
-            var report = engine.executeOnFiles(["./tests/fixtures/eslintrc/quotes.js"]);
+            var filePath = getFixturePath("eslintrc", "quotes.js");
+
+            var report = engine.executeOnFiles([filePath]);
             assert.equal(report.results.length, 1);
-            assert.equal(report.results[0].filePath, "./tests/fixtures/eslintrc/quotes.js");
+            assert.equal(report.results[0].filePath, filePath);
             assert.equal(report.results[0].messages.length, 0);
         });
 
@@ -458,28 +497,18 @@ describe("CLIEngine", function() {
                 envs: ["node"]
             });
 
-            var report = engine.executeOnFiles(["./tests/fixtures/packagejson/quotes.js"]);
+            var filePath = getFixturePath("packagejson", "quotes.js");
+
+
+            var report = engine.executeOnFiles([filePath]);
             assert.equal(report.results.length, 1);
-            assert.equal(report.results[0].filePath, "./tests/fixtures/packagejson/quotes.js");
+            assert.equal(report.results[0].filePath, filePath);
             assert.equal(report.results[0].messages.length, 0);
         });
 
         // These tests have to do with https://github.com/eslint/eslint/issues/963
 
         describe("configuration hierarchy", function() {
-
-            var fixtureDir;
-
-            // copy into clean area so as not to get "infected" by this project's .eslintrc files
-            before(function() {
-                fixtureDir = tempdir() + "/eslint/fixtures";
-                mkdir("-p", fixtureDir);
-                cp("-r", "./tests/fixtures/config-hierarchy", fixtureDir);
-            });
-
-            after(function() {
-                rm("-r", fixtureDir);
-            });
 
             // Default configuration - blank
             it("should return zero messages when executing with no .eslintrc", function() {
@@ -717,11 +746,11 @@ describe("CLIEngine", function() {
         describe("plugins", function() {
             it("should return two messages when executing with config file that specifies a plugin", function() {
                 engine = new CLIEngine({
-                    configFile: "./tests/fixtures/configurations/plugins-with-prefix.json",
+                    configFile: getFixturePath("configurations", "plugins-with-prefix.json"),
                     useEslintrc: false
                 });
 
-                var report = engine.executeOnFiles(["tests/fixtures/rules/test/test-custom-rule.js"]);
+                var report = engine.executeOnFiles([getFixturePath("rules", "test/test-custom-rule.js")]);
 
                 assert.equal(report.results.length, 1);
                 assert.equal(report.results[0].messages.length, 2);
@@ -730,11 +759,11 @@ describe("CLIEngine", function() {
 
             it("should return two messages when executing with config file that specifies a plugin with namespace", function() {
                 engine = new CLIEngine({
-                    configFile: "./tests/fixtures/configurations/plugins-with-prefix-and-namespace.json",
+                    configFile: getFixturePath("configurations", "plugins-with-prefix-and-namespace.json"),
                     useEslintrc: false
                 });
 
-                var report = engine.executeOnFiles(["tests/fixtures/rules/test/test-custom-rule.js"]);
+                var report = engine.executeOnFiles([getFixturePath("rules", "test", "test-custom-rule.js")]);
 
                 assert.equal(report.results.length, 1);
                 assert.equal(report.results[0].messages.length, 2);
@@ -743,11 +772,11 @@ describe("CLIEngine", function() {
 
             it("should return two messages when executing with config file that specifies a plugin without prefix", function() {
                 engine = new CLIEngine({
-                    configFile: "./tests/fixtures/configurations/plugins-without-prefix.json",
+                    configFile: getFixturePath("configurations", "plugins-without-prefix.json"),
                     useEslintrc: false
                 });
 
-                var report = engine.executeOnFiles(["tests/fixtures/rules/test/test-custom-rule.js"]);
+                var report = engine.executeOnFiles([getFixturePath("rules", "test", "test-custom-rule.js")]);
 
                 assert.equal(report.results.length, 1);
                 assert.equal(report.results[0].messages.length, 2);
@@ -756,11 +785,11 @@ describe("CLIEngine", function() {
 
             it("should return two messages when executing with config file that specifies a plugin without prefix and with namespace", function() {
                 engine = new CLIEngine({
-                    configFile: "./tests/fixtures/configurations/plugins-without-prefix-with-namespace.json",
+                    configFile: getFixturePath("configurations", "plugins-without-prefix-with-namespace.json"),
                     useEslintrc: false
                 });
 
-                var report = engine.executeOnFiles(["tests/fixtures/rules/test/test-custom-rule.js"]);
+                var report = engine.executeOnFiles([getFixturePath("rules", "test", "test-custom-rule.js")]);
 
                 assert.equal(report.results.length, 1);
                 assert.equal(report.results[0].messages.length, 2);
@@ -771,12 +800,14 @@ describe("CLIEngine", function() {
                 var importPlugin = this.spy(rules, "import");
 
                 engine = new CLIEngine({
-                    configFile: "./tests/fixtures/configurations/plugins-with-prefix.json",
+                    configFile: getFixturePath("configurations", "plugins-with-prefix.json"),
                     useEslintrc: false
                 });
 
-                engine.executeOnFiles(["tests/fixtures/rules/test/test-custom-rule.js"]);
-                engine.executeOnFiles(["tests/fixtures/rules/test/test-custom-rule.js"]);
+                var filePath = getFixturePath("rules", "test", "test-custom-rule.js");
+
+                engine.executeOnFiles([filePath]);
+                engine.executeOnFiles([filePath]);
 
                 assert.equal(importPlugin.calledOnce, true, "same plugin was imported more than once");
                 assert.equal(importPlugin.calledWithExactly(examplePlugin.rules, "example"), true);
@@ -789,7 +820,7 @@ describe("CLIEngine", function() {
                     rules: { "example/example-rule": 1 }
                 });
 
-                var report = engine.executeOnFiles(["tests/fixtures/rules/test/test-custom-rule.js"]);
+                var report = engine.executeOnFiles([getFixturePath("rules", "test", "test-custom-rule.js")]);
 
                 assert.equal(report.results.length, 1);
                 assert.equal(report.results[0].messages.length, 2);
@@ -805,7 +836,7 @@ describe("CLIEngine", function() {
 
                 engine.addPlugin("eslint-plugin-test", { rules: { "example-rule": require("../fixtures/rules/custom-rule") } });
 
-                var report = engine.executeOnFiles(["tests/fixtures/rules/test/test-custom-rule.js"]);
+                var report = engine.executeOnFiles([getFixturePath("rules", "test", "test-custom-rule.js")]);
 
                 assert.equal(report.results.length, 1);
                 assert.equal(report.results[0].messages.length, 2);
@@ -816,12 +847,12 @@ describe("CLIEngine", function() {
         describe("processors", function() {
             it("should return two messages when executing with config file that specifies a processor", function() {
                 engine = new CLIEngine({
-                    configFile: "./tests/fixtures/configurations/processors.json",
+                    configFile: getFixturePath("configurations", "processors.json"),
                     useEslintrc: false,
                     extensions: ["js", "txt"]
                 });
 
-                var report = engine.executeOnFiles(["tests/fixtures/processors/test/test-processor.txt"]);
+                var report = engine.executeOnFiles([getFixturePath("processors", "test", "test-processor.txt")]);
 
                 assert.equal(report.results.length, 1);
                 assert.equal(report.results[0].messages.length, 2);
@@ -850,19 +881,19 @@ describe("CLIEngine", function() {
                     }
                 });
 
-                var report = engine.executeOnFiles(["tests/fixtures/processors/test/test-processor.txt"]);
+                var report = engine.executeOnFiles([getFixturePath("processors", "test", "test-processor.txt")]);
 
                 assert.equal(report.results.length, 1);
                 assert.equal(report.results[0].messages.length, 2);
             });
             it("should run processors when calling executeOnFiles with config file that specifies a processor", function() {
                 engine = new CLIEngine({
-                    configFile: "./tests/fixtures/configurations/processors.json",
+                    configFile: getFixturePath("configurations", "processors.json"),
                     useEslintrc: false,
                     extensions: ["js", "txt"]
                 });
 
-                var report = engine.executeOnFiles(["tests/fixtures/processors/test/test-processor.txt"]);
+                var report = engine.executeOnFiles([getFixturePath("processors", "test", "test-processor.txt")]);
 
                 assert.equal(report.results[0].messages[0].message, "b is defined but never used");
                 assert.equal(report.results[0].messages[0].ruleId, "post-processed");
@@ -892,14 +923,14 @@ describe("CLIEngine", function() {
                     }
                 });
 
-                var report = engine.executeOnFiles(["tests/fixtures/processors/test/test-processor.txt"]);
+                var report = engine.executeOnFiles([getFixturePath("processors", "test", "test-processor.txt")]);
 
                 assert.equal(report.results[0].messages[0].message, "b is defined but never used");
                 assert.equal(report.results[0].messages[0].ruleId, "post-processed");
             });
             it("should run processors when calling executeOnText with config file that specifies a processor", function() {
                 engine = new CLIEngine({
-                    configFile: "./tests/fixtures/configurations/processors.json",
+                    configFile: getFixturePath("configurations", "processors.json"),
                     useEslintrc: false,
                     extensions: ["js", "txt"]
                 });
@@ -947,14 +978,16 @@ describe("CLIEngine", function() {
         it("should return the info from Config#getConfig when called", function() {
 
             var engine = new CLIEngine({
-                configFile: "tests/fixtures/configurations/quotes-error.json"
+                configFile: getFixturePath("configurations", "quotes-error.json")
             });
 
             var configHelper = new Config(engine.options);
 
+            var filePath = getFixturePath("single-quoted.js");
+
             assert.deepEqual(
-                engine.getConfigForFile("tests/fixtures/single-quoted.js"),
-                configHelper.getConfig("tests/fixtures/single-quoted.js")
+                engine.getConfigForFile(filePath),
+                configHelper.getConfig(filePath)
             );
 
         });
@@ -965,7 +998,7 @@ describe("CLIEngine", function() {
 
         it("should check if the given path is ignored", function() {
             var engine = new CLIEngine({
-                ignorePath: "tests/fixtures/.eslintignore2"
+                ignorePath: getFixturePath(".eslintignore2")
             });
 
             assert.isTrue(engine.isPathIgnored("undef.js"));
@@ -974,7 +1007,7 @@ describe("CLIEngine", function() {
 
         it("should always return false if ignoring is disabled", function() {
             var engine = new CLIEngine({
-                ignorePath: "tests/fixtures/.eslintignore2",
+                ignorePath: getFixturePath(".eslintignore2"),
                 ignore: false
             });
 
@@ -1002,7 +1035,7 @@ describe("CLIEngine", function() {
 
         it("should return a function when a custom formatter is requested", function() {
             var engine = new CLIEngine(),
-                formatter = engine.getFormatter("./tests/fixtures/formatters/simple.js");
+                formatter = engine.getFormatter(getFixturePath("formatters", "simple.js"));
 
             assert.isFunction(formatter);
         });
@@ -1016,7 +1049,7 @@ describe("CLIEngine", function() {
 
         it("should return null when a customer formatter doesn't exist", function() {
             var engine = new CLIEngine(),
-                formatter = engine.getFormatter("./tests/fixtures/formatters/doesntexist.js");
+                formatter = engine.getFormatter(getFixturePath("formatters", "doesntexist.js"));
 
             assert.isNull(formatter);
         });

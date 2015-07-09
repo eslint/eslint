@@ -1,4 +1,4 @@
-/*eslint no-octal-escape: 0 */
+/* eslint no-octal-escape: 0 */
 /**
  * @fileoverview Tests for no-octal-escape rule.
  * @author Ian Christian Myers

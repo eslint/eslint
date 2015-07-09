@@ -1,6 +1,6 @@
 # Requires or disallows a whitespace (space or tab) beginning a single-line comment (spaced-line-comment)
 
-**Deprecation notice**: This rule is deprecated and has been superseded by the [spaced-comment](spaced-comment.md) rule. It will be removed in ESLint v1.0.
+**Replacement notice**: This rule was removed in ESLint v1.0 and replaced by the [spaced-comment](spaced-comment.md) rule.
 
 Some style guides require or disallow a whitespace immediately after the initial `//` of a line comment.
 Whitespace after the `//` makes it easier to read text in comments.

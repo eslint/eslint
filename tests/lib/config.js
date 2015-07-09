@@ -20,7 +20,7 @@ var assert = require("chai").assert,
 require("shelljs/global");
 proxyquire = proxyquire.noCallThru().noPreserveCache();
 
-/*global tempdir, mkdir, rm, cp*/
+/* global tempdir, mkdir, rm, cp */
 
 
 /**
@@ -116,7 +116,7 @@ describe("Config", function() {
             assert.lengthOf(actual, 0);
         });
 
-        it("should return the path when a package.json file is found", function () {
+        it("should return the path when a package.json file is found", function() {
             var configHelper = new Config(),
                 expected = getFixturePath("broken", "package.json"),
 
@@ -174,7 +174,7 @@ describe("Config", function() {
 
             sandbox.stub(fs, "readFileSync").throws(new Error());
 
-            assert.throws(function () {
+            assert.throws(function() {
                 configHelper.getConfig(configPath);
             }, "Cannot read config file");
 
@@ -247,7 +247,7 @@ describe("Config", function() {
         });
 
         // No default configuration
-        it("should return an empty config when not using .eslintrc", function () {
+        it("should return an empty config when not using .eslintrc", function() {
 
             var configHelper = new Config({ useEslintrc: false }),
                 file = getFixturePath("broken", "console-wrong-quotes.js"),
@@ -283,7 +283,7 @@ describe("Config", function() {
         });
 
         // Project configuration - second level .eslintrc
-        it("should merge configs when local .eslintrc overrides parent .eslintrc", function () {
+        it("should merge configs when local .eslintrc overrides parent .eslintrc", function() {
 
             var configHelper = new Config({}),
                 file = getFixturePath("broken", "subbroken", "console-wrong-quotes.js"),
@@ -304,7 +304,7 @@ describe("Config", function() {
         });
 
         // Project configuration - third level .eslintrc
-        it("should merge configs when local .eslintrc overrides parent and grandparent .eslintrc", function () {
+        it("should merge configs when local .eslintrc overrides parent and grandparent .eslintrc", function() {
 
             var configHelper = new Config({}),
                 file = getFixturePath("broken", "subbroken", "subsubbroken", "console-wrong-quotes.js"),
@@ -339,7 +339,7 @@ describe("Config", function() {
         });
 
         // Command line configuration - --config with first level .eslintrc
-        it("should merge command line config when config file adds to local .eslintrc", function () {
+        it("should merge command line config when config file adds to local .eslintrc", function() {
 
             var configHelper = new Config({
                     configFile: getFixturePath("broken", "add-conf.yaml")
@@ -362,7 +362,7 @@ describe("Config", function() {
         });
 
         // Command line configuration - --config with first level .eslintrc
-        it("should merge command line config when config file overrides local .eslintrc", function () {
+        it("should merge command line config when config file overrides local .eslintrc", function() {
 
             var configHelper = new Config({
                     configFile: getFixturePath("broken", "override-conf.yaml")
@@ -384,7 +384,7 @@ describe("Config", function() {
         });
 
         // Command line configuration - --config with second level .eslintrc
-        it("should merge command line config when config file adds to local and parent .eslintrc", function () {
+        it("should merge command line config when config file adds to local and parent .eslintrc", function() {
 
             var configHelper = new Config({
                     configFile: getFixturePath("broken", "add-conf.yaml")
@@ -408,7 +408,7 @@ describe("Config", function() {
         });
 
         // Command line configuration - --config with second level .eslintrc
-        it("should merge command line config when config file overrides local and parent .eslintrc", function () {
+        it("should merge command line config when config file overrides local and parent .eslintrc", function() {
 
             var configHelper = new Config({
                     configFile: getFixturePath("broken", "override-conf.yaml")
@@ -431,7 +431,7 @@ describe("Config", function() {
         });
 
         // Command line configuration - --rule with --config and first level .eslintrc
-        it("should merge command line config and rule when rule and config file overrides local .eslintrc", function () {
+        it("should merge command line config and rule when rule and config file overrides local .eslintrc", function() {
 
             var configHelper = new Config({
                     configFile: getFixturePath("broken", "override-conf.yaml"),
@@ -725,7 +725,7 @@ describe("Config", function() {
         it("should include references to where an `extends` configuration was loaded from", function() {
             var configPath = path.resolve(__dirname, "..", "fixtures", "config-extends", "error.json");
 
-            assert.throws(function () {
+            assert.throws(function() {
                 var configHelper = new Config({ useEslintrc: false, configFile: configPath });
                 configHelper.getConfig(configPath);
             }, /Referenced from:.*?error\.json/);
@@ -827,7 +827,7 @@ describe("Config", function() {
                 assertConfigsEqual(actual, expected);
             });
 
-            it("should still work if the plugin does not provide a default configuration", function () {
+            it("should still work if the plugin does not provide a default configuration", function() {
                 requireStubs[examplePluginName] = { rules: examplePluginRules };
 
                 StubbedConfig = proxyquire("../../lib/config", requireStubs);
@@ -848,7 +848,7 @@ describe("Config", function() {
                 assertConfigsEqual(actual, expected);
             });
 
-            it("should not clobber config objects when loading shared configs", function () {
+            it("should not clobber config objects when loading shared configs", function() {
                 requireStubs[exampleConfigName] = { rules: { "example-rule": 2 } };
 
                 StubbedConfig = proxyquire("../../lib/config", requireStubs);

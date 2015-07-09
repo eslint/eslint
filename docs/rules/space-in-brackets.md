@@ -1,6 +1,6 @@
 # Disallow or enforce spaces inside of brackets. (space-in-brackets)
 
-**Deprecation notice**: This rule is deprecated and has been superseded by the [object-curly-spacing](object-curly-spacing.md) and [array-bracket-spacing](array-bracket-spacing.md) rules. It will be removed in ESLint v1.0.
+**Replacement notice**: This rule was removed in ESLint v1.0 and replaced by the [object-curly-spacing](object-curly-spacing.md) and [array-bracket-spacing](array-bracket-spacing.md) rules.
 
 While formatting preferences are very personal, a number of style guides require or disallow spaces between brackets:
 
