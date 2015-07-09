@@ -212,7 +212,7 @@ eslintTester.addRuleTest("lib/rules/no-extra-parens", {
         invalid("(0xBEEF).a", "Literal"),
         invalid("(1e6).a", "Literal"),
         invalid("({foo: 1})", "ObjectExpression"),
-        invalid("a[(function () {})]", "FunctionExpression"),
+        invalid("a[(function() {})]", "FunctionExpression"),
         invalid("(function(){})", "FunctionExpression"),
         invalid("new (function(){})", "FunctionExpression"),
         invalid("new (\nfunction(){}\n)", "FunctionExpression", 1),
@@ -227,7 +227,7 @@ eslintTester.addRuleTest("lib/rules/no-extra-parens", {
         invalid("new (function(){})", "FunctionExpression", null, {options: ["functions"]}),
         invalid("new (\nfunction(){}\n)", "FunctionExpression", 1, {options: ["functions"]}),
         invalid("((function foo() {return 1;}))()", "FunctionExpression", null, {options: ["functions"]}),
-        invalid("a[(function () {})]", "FunctionExpression", null, {options: ["functions"]}),
+        invalid("a[(function() {})]", "FunctionExpression", null, {options: ["functions"]}),
         invalid("0, (_ => 0)", "ArrowFunctionExpression", 1, {options: ["functions"], ecmaFeatures: { arrowFunctions: true }}),
         invalid("(_ => 0), 0", "ArrowFunctionExpression", 1, {options: ["functions"], ecmaFeatures: { arrowFunctions: true }}),
         invalid("a = (_ => 0)", "ArrowFunctionExpression", 1, {options: ["functions"], ecmaFeatures: { arrowFunctions: true }})

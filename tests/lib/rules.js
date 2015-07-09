@@ -54,15 +54,15 @@ describe("rules", function() {
         });
     });
 
-    describe("when importing plugin rules", function () {
+    describe("when importing plugin rules", function() {
         var customPlugin = {
                 rules: {
-                    "custom-rule": function () { }
+                    "custom-rule": function() { }
                 }
             },
             pluginName = "custom-plugin";
 
-        it("should define all plugin rules with a qualified rule id", function () {
+        it("should define all plugin rules with a qualified rule id", function() {
             rules.import(customPlugin.rules, pluginName);
 
             assert.isDefined(rules.get("custom-plugin/custom-rule"));

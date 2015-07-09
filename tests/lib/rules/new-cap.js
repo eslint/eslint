@@ -50,8 +50,8 @@ eslintTester.addRuleTest("lib/rules/new-cap", {
         {code: "var x = bar['Foo'](42)", args: [1, {"capIsNew": false}] },
         "var x = Foo.bar(42)",
         { code: "var x = new foo(42)", args: [1, {"newIsCap": false}] },
-        "var o = { 1: function () {} }; o[1]();",
-        "var o = { 1: function () {} }; new o[1]();",
+        "var o = { 1: function() {} }; o[1]();",
+        "var o = { 1: function() {} }; new o[1]();",
         { code: "var x = Foo(42);", args: [1, { capIsNew: true, capIsNewExceptions: ["Foo"] }] },
         { code: "var x = new foo(42);", args: [1, { newIsCap: true, newIsCapExceptions: ["foo"] }] },
         { code: "var x = Object(42);", args: [1, { capIsNewExceptions: ["Foo"] }] }

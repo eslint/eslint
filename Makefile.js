@@ -2,7 +2,7 @@
  * @fileoverview Build file
  * @author nzakas
  */
-/*global cat, cd, cp, echo, exec, exit, find, ls, mkdir, mv, pwd, rm, target, test*/
+/* global cat, cd, cp, echo, exec, exit, find, ls, mkdir, mv, pwd, rm, target, test*/
 
 "use strict";
 
@@ -54,12 +54,12 @@ var NODE = "node ", // intentional extra space
 
     // Files
     MAKEFILE = "./Makefile.js",
-    /*eslint-disable no-use-before-define */
+    /* eslint-disable no-use-before-define */
     JS_FILES = find("lib/").filter(fileType("js")).join(" "),
     JSON_FILES = find("conf/").filter(fileType("json")).join(" ") + " .eslintrc",
     MARKDOWN_FILES_ARRAY = find("docs/").concat(ls(".")).filter(fileType("md")),
     TEST_FILES = find("tests/lib/").filter(fileType("js")).join(" ");
-    /*eslint-enable no-use-before-define */
+    /* eslint-enable no-use-before-define */
 
 //------------------------------------------------------------------------------
 // Helpers
@@ -111,7 +111,7 @@ function execSilent(cmd) {
  * @returns {void}
  */
 function release(type) {
-    var newVersion;/*, changes;*/
+    var newVersion;/* , changes;*/
 
     target.test();
     echo("Generating new version");
@@ -697,7 +697,7 @@ target.checkLicenses = function() {
         });
 
         if (impermissible.length) {
-            impermissible.forEach(function (dependency) {
+            impermissible.forEach(function(dependency) {
                 console.error("%s license for %s is impermissible.",
                     dependency.licenses,
                     dependency.name

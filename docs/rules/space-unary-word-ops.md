@@ -1,6 +1,6 @@
 # Require spaces following unary word operators (space-unary-word-ops)
 
-**Removal notice**: This rule was removed and has been superseded by the [space-unary-ops](space-unary-ops.md) rule.
+**Replacement notice**: This rule was removed and has been replaced by the [space-unary-ops](space-unary-ops.md) rule.
 
 Require spaces following unary word operators.
 

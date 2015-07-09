@@ -24,7 +24,7 @@ eslintTester.addRuleTest("lib/rules/no-iterator", {
     ],
     invalid: [
         { code: "var a = test.__iterator__;", errors: [{ message: "Reserved name '__iterator__'.", type: "MemberExpression"}] },
-        { code: "Foo.prototype.__iterator__ = function () {};", errors: [{ message: "Reserved name '__iterator__'.", type: "MemberExpression"}] },
+        { code: "Foo.prototype.__iterator__ = function() {};", errors: [{ message: "Reserved name '__iterator__'.", type: "MemberExpression"}] },
         { code: "var a = test['__iterator__'];", errors: [{ message: "Reserved name '__iterator__'.", type: "MemberExpression"}] }
     ]
 });

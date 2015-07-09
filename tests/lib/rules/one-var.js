@@ -19,7 +19,7 @@ eslintTester.addRuleTest("lib/rules/one-var", {
     valid: [
         "function foo() { var bar = true; }",
         "function foo() { var bar = true, baz = 1; if (qux) { bar = false; } }",
-        "var foo = function () { var bar = true; baz(); }",
+        "var foo = function() { var bar = true; baz(); }",
         {
             code: "function foo() { var bar = true, baz = false; }",
             args: [2, "always"]
@@ -205,14 +205,14 @@ eslintTester.addRuleTest("lib/rules/one-var", {
         },
         "function foo() { var bar = true; var baz = false; }",
         "function foo() { var bar = true; if (qux) { var baz = false; } else { var quxx = 42; } }",
-        "var foo = function () { var bar = true; var baz = false; }",
+        "var foo = function() { var bar = true; var baz = false; }",
         {
             code: "var foo = () => { var bar = true; var baz = false; }",
             ecmaFeatures: {
                 arrowFunctions: true
             }
         },
-        "var foo = function () { var bar = true; if (qux) { var baz = false; } }",
+        "var foo = function() { var bar = true; if (qux) { var baz = false; } }",
         "var foo; var bar;",
         {
             code: "var foo, bar; const a=1; const b=2; let c, d",

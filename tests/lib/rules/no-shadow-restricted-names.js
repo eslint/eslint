@@ -20,7 +20,7 @@ eslintTester.addRuleTest("lib/rules/no-shadow-restricted-names", {
         "!function foo(bar){ var baz; }",
         "!function(bar){ var baz; }",
         "try {} catch(e) {}",
-        { code: "export default function () {}", ecmaFeatures: { modules: true }}
+        { code: "export default function() {}", ecmaFeatures: { modules: true }}
     ],
     invalid: [
         { code: "function NaN(NaN) { var NaN; !function NaN(NaN) { try {} catch(NaN) {} }; }",

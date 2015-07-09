@@ -17,16 +17,6 @@ var eslintTester = new ESLintTester(eslint);
 eslintTester.addRuleTest("lib/rules/strict", {
     valid: [
 
-        // "deprecated" mode (default)
-        "\"use strict\"; function foo () {  return; }",
-        "'use strict'; function foo () {  return; }",
-        "function foo () { \"use strict\"; return; }",
-        "function foo () { \"use strict\"; function bar() {}; }",
-        "function foo () { 'use strict'; return; }",
-        "'use strict'; var foo = function () { bar(); };",
-        "var foo = function () { 'use strict'; bar(); return; };",
-        { code: "a = () => { 'use strict'; return true; }", ecmaFeatures: { arrowFunctions: true } },
-
         // "never" mode
         { code: "foo();", options: ["never"] },
         { code: "function foo() { return; }", options: ["never"] },
@@ -53,33 +43,13 @@ eslintTester.addRuleTest("lib/rules/strict", {
         { code: "function foo() { return; }", ecmaFeatures: { modules: true }, options: ["function"] },
         { code: "var foo = function() { 'use strict'; return; }", options: ["function"] },
         { code: "function foo() { 'use strict'; return; } var bar = function() { 'use strict'; bar(); };", options: ["function"] },
-        { code: "var foo = function() { 'use strict'; function bar() { return; } bar(); };", options: ["function"] }
+        { code: "var foo = function() { 'use strict'; function bar() { return; } bar(); };", options: ["function"] },
+
+        // defaults to "function" mode
+        { code: "function foo() { 'use strict'; return; }" }
 
     ],
     invalid: [
-
-        // "deprecated" mode (default)
-        {
-            code: "function foo() \n { \n return; }",
-            errors: [
-                { message: "Missing \"use strict\" statement.", type: "FunctionDeclaration" }
-            ]
-        }, {
-            code: "function foo() { function bar() { 'use strict'; } }",
-            errors: [
-                { message: "Missing \"use strict\" statement.", type: "FunctionDeclaration" }
-            ]
-        }, {
-            code: "function foo() { function bar() {} }",
-            errors: [
-                { message: "Missing \"use strict\" statement.", type: "FunctionDeclaration" }
-            ]
-        }, {
-            code: "var foo = function () { return; };",
-            errors: [
-                { message: "Missing \"use strict\" statement.", type: "FunctionExpression" }
-            ]
-        },
 
         // "never" mode
         {
@@ -256,7 +226,20 @@ eslintTester.addRuleTest("lib/rules/strict", {
         {
             code: "var foo = () => { return; };",
             ecmaFeatures: { arrowFunctions: true },
-            errors: [{ message: "Missing \"use strict\" statement.", type: "ArrowFunctionExpression"}]
+            options: ["function"],
+            errors: [{ message: "Use the function form of \"use strict\".", type: "ArrowFunctionExpression"}]
+        },
+
+        // Default to "function" mode
+        {
+            code: "'use strict'; function foo() { return; }",
+            errors: [
+                { message: "Use the function form of \"use strict\".", type: "ExpressionStatement" },
+                { message: "Use the function form of \"use strict\".", type: "FunctionDeclaration" }
+            ]
+        }, {
+            code: "function foo() { return; }",
+            errors: [{ message: "Use the function form of \"use strict\".", type: "FunctionDeclaration" }]
         }
 
     ]
