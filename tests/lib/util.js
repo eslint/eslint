@@ -107,6 +107,9 @@ describe("util", function() {
                     forOf: true
                 }
             });
+
+            assert.deepEqual(code[0], { ecmaFeatures: { blockBindings: true }});
+            assert.deepEqual(code[1], { ecmaFeatures: { forOf: true }});
         });
 
         it("should override configs when passed configs with the same ecmaFeatures", function() {
@@ -136,6 +139,8 @@ describe("util", function() {
             assert.isArray(result.rules["no-mixed-requires"]);
             assert.equal(result.rules["no-mixed-requires"][0], 1);
             assert.equal(result.rules["no-mixed-requires"][1], false);
+            assert.deepEqual(code[0], { rules: { "no-mixed-requires": [0, false] }});
+            assert.deepEqual(code[1], { rules: { "no-mixed-requires": 1 }});
         });
 
         describe("plugins", function () {
@@ -153,6 +158,8 @@ describe("util", function() {
                 result = util.mergeConfigs(baseConfig, customConfig);
 
                 assert.deepEqual(result, expectedResult);
+                assert.deepEqual(baseConfig, { plugins: ["foo", "bar"] });
+                assert.deepEqual(customConfig, { plugins: ["baz"] });
             });
 
             it("should avoid duplicate plugin entries when each config has the same plugin", function () {
