@@ -334,23 +334,26 @@ describe("CLIEngine", function() {
         });
 
 
-        it("should throw an error when loading a custom rule that doesn't exist", function() {
+        it("should give a warning when loading a custom rule that doesn't exist", function() {
 
             engine = new CLIEngine({
                 ignore: false,
                 reset: true,
-                rulesPaths: ["./tests/fixtures/rules/wrong"],
-                configFile: "./tests/fixtures/rules/eslint.json"
+                rulesPaths: ["./tests/fixtures/rules/dir1"],
+                configFile: "./tests/fixtures/rules/missing-rule.json"
             });
+            var report = engine.executeOnFiles(["tests/fixtures/rules/test/test-custom-rule.js"]);
 
+            assert.equal(report.results.length, 1);
+            assert.equal(report.results[0].messages.length, 2);
+            assert.equal(report.results[0].messages[0].ruleId, "missing-rule");
+            assert.equal(report.results[0].messages[0].severity, 1);
+            assert.equal(report.results[0].messages[0].message, "Definition for rule \'missing-rule\' was not found");
 
-            assert.throws(function() {
-                engine.executeOnFiles(["tests/fixtures/rules/test/test-custom-rule.js"]);
-            }, /Definition for rule 'custom-rule' was not found/);
 
         });
 
-        it("should throw an error when loading a custom rule that doesn't exist", function() {
+        it("should throw an error when loading a bad custom rule", function() {
 
             engine = new CLIEngine({
                 ignore: false,
