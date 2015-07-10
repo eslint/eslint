@@ -45,7 +45,7 @@ eslintTester.addRuleTest("lib/rules/max-len", {
                     message: "Line 1 exceeds the maximum line length of 80.",
                     type: "Program",
                     line: 1,
-                    column: 1
+                    column: 0
                 }
             ]
         },
@@ -57,7 +57,7 @@ eslintTester.addRuleTest("lib/rules/max-len", {
                     message: "Line 1 exceeds the maximum line length of 10.",
                     type: "Program",
                     line: 1,
-                    column: 1
+                    column: 0
                 }
             ]
         },
@@ -69,7 +69,7 @@ eslintTester.addRuleTest("lib/rules/max-len", {
                     message: "Line 1 exceeds the maximum line length of 15.",
                     type: "Program",
                     line: 1,
-                    column: 1
+                    column: 0
                 }
             ]
         },
@@ -81,13 +81,13 @@ eslintTester.addRuleTest("lib/rules/max-len", {
                     message: "Line 1 exceeds the maximum line length of 15.",
                     type: "Program",
                     line: 1,
-                    column: 1
+                    column: 0
                 },
                 {
                     message: "Line 2 exceeds the maximum line length of 15.",
                     type: "Program",
                     line: 2,
-                    column: 1
+                    column: 0
                 }
             ]
         }

@@ -387,7 +387,7 @@ eslintTester.addRuleTest("lib/rules/comma-dangle", {
                     message: "Unexpected trailing comma.",
                     type: "Property",
                     line: 1,
-                    column: 11
+                    column: 10
                 }
             ]
         },
@@ -400,7 +400,7 @@ eslintTester.addRuleTest("lib/rules/comma-dangle", {
                     message: "Unexpected trailing comma.",
                     type: "Identifier",
                     line: 1,
-                    column: 11
+                    column: 10
                 }
             ]
         }
