@@ -2172,13 +2172,52 @@ describe("eslint", function() {
         });
     });
 
-    describe("when using an invalid rule", function() {
+    describe("when using an invalid (undefined) rule", function() {
         var code = TEST_CODE;
+        var results = eslint.verify(code, { rules: {foobar: 2 } });
+        var result = results[0];
+        var warningResult = eslint.verify(code, { rules: {foobar: 1 } })[0];
+        var arrayOptionResults = eslint.verify(code, { rules: {foobar: [2, "always"]} });
+        var objectOptionResults = eslint.verify(code, { rules: {foobar: [1, {bar: false}]} });
+        var resultsMultiple = eslint.verify(code, { rules: {foobar: 2, barfoo: 1} });
 
-        it("should throw an error", function() {
-            assert.throws(function() {
-                eslint.verify(code, { rules: {foobar: 2 } });
-            }, /Definition for rule 'foobar' was not found\./);
+        it("should add a stub rule", function() {
+            assert.isNotNull(result);
+            assert.isArray(results);
+            assert.isObject(result);
+            assert.property(result, "ruleId");
+            assert.equal(result.ruleId, "foobar");
+        });
+
+        it("should report that the rule does not exist", function() {
+            assert.property(result, "message");
+            assert.equal(result.message, "Definition for rule \'foobar\' was not found");
+        });
+
+        it("should report at the correct severity", function() {
+            assert.property(result, "severity");
+            assert.equal(result.severity, 2);
+            assert.equal(warningResult.severity, 1);
+        });
+
+        it("should accept any valid rule configuration", function() {
+            assert.isObject(arrayOptionResults[0]);
+            assert.isObject(objectOptionResults[0]);
+        });
+
+        it("should report multiple missing rules", function() {
+            assert.isArray(resultsMultiple);
+            assert.equal(resultsMultiple[1].ruleId, "barfoo");
+        });
+    });
+
+    describe("when using a rule which has been replaced", function() {
+        var code = TEST_CODE;
+        var results = eslint.verify(code, { rules: {"no-comma-dangle": 2 } });
+
+        it("should report the new rule", function() {
+            assert.equal(results[0].ruleId, "no-comma-dangle");
+            assert.equal(results[0].message, "Rule \'no-comma-dangle\' was removed and replaced by: comma-dangle");
         });
     });
 
