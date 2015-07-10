@@ -65,7 +65,6 @@ describe("CLIEngine", function() {
 
             engine = new CLIEngine({
                 configFile: "tests/fixtures/configurations/quotes-error.json",
-                reset: true,
                 useEslintrc: false
             });
 
@@ -109,7 +108,7 @@ describe("CLIEngine", function() {
             engine = new CLIEngine({
                 ignorePath: "tests/fixtures/.eslintignore",
                 ignore: false,
-                reset: true,
+                useEslintrc: false,
                 rules: {
                     "no-undef": 2
                 }
@@ -142,8 +141,7 @@ describe("CLIEngine", function() {
         it("should report zero messages when given a directory with a .js2 file", function() {
 
             engine = new CLIEngine({
-                extensions: [".js2"],
-                reset: true
+                extensions: [".js2"]
             });
 
             var report = engine.executeOnFiles(["tests/fixtures/files/"]);
@@ -154,8 +152,7 @@ describe("CLIEngine", function() {
         it("should report zero messages when given a directory with a .js and a .js2 file", function() {
 
             engine = new CLIEngine({
-                extensions: [".js", ".js2"],
-                reset: true
+                extensions: [".js", ".js2"]
             });
 
             var report = engine.executeOnFiles(["tests/fixtures/files/"]);
@@ -167,8 +164,7 @@ describe("CLIEngine", function() {
         it("should return one error message when given a config with rules with options and severity level set to error", function() {
 
             engine = new CLIEngine({
-                configFile: "tests/fixtures/configurations/quotes-error.json",
-                reset: true
+                configFile: "tests/fixtures/configurations/quotes-error.json"
             });
 
             var report = engine.executeOnFiles(["tests/fixtures/single-quoted.js"]);
@@ -185,8 +181,7 @@ describe("CLIEngine", function() {
         it("should return two messages when given a config file and a directory of files", function() {
 
             engine = new CLIEngine({
-                configFile: "tests/fixtures/configurations/semi-error.json",
-                reset: true
+                configFile: "tests/fixtures/configurations/semi-error.json"
             });
 
             var report = engine.executeOnFiles(["tests/fixtures/formatters"]);
@@ -204,8 +199,7 @@ describe("CLIEngine", function() {
         it("should return zero messages when given a config with environment set to browser", function() {
 
             engine = new CLIEngine({
-                configFile: "tests/fixtures/configurations/env-browser.json",
-                reset: true
+                configFile: "tests/fixtures/configurations/env-browser.json"
             });
 
             var report = engine.executeOnFiles(["tests/fixtures/globals-browser.js"]);
@@ -218,9 +212,9 @@ describe("CLIEngine", function() {
             engine = new CLIEngine({
                 envs: ["browser"],
                 rules: {
+                    "no-alert": 0,
                     "no-undef": 2
-                },
-                reset: true
+                }
             });
 
             var report = engine.executeOnFiles(["tests/fixtures/globals-browser.js"]);
@@ -231,8 +225,7 @@ describe("CLIEngine", function() {
         it("should return zero messages when given a config with environment set to Node.js", function() {
 
             engine = new CLIEngine({
-                configFile: "tests/fixtures/configurations/env-node.json",
-                reset: true
+                configFile: "tests/fixtures/configurations/env-node.json"
             });
 
             var report = engine.executeOnFiles(["tests/fixtures/globals-node.js"]);
@@ -244,7 +237,6 @@ describe("CLIEngine", function() {
 
             engine = new CLIEngine({
                 ignore: false,
-                reset: true,
                 rules: {
                     semi: 2
                 }
@@ -306,7 +298,6 @@ describe("CLIEngine", function() {
             engine = new CLIEngine({
                 ignorePath: "tests/fixtures/.eslintignore",
                 ignore: false,
-                reset: true,
                 rules: {
                     "no-undef": 2
                 }
@@ -324,8 +315,7 @@ describe("CLIEngine", function() {
         it("should return zero messages when executing a file with a shebang", function() {
 
             engine = new CLIEngine({
-                ignore: false,
-                reset: true
+                ignore: false
             });
 
             var report = engine.executeOnFiles(["tests/fixtures/shebang.js"]);
@@ -338,7 +328,6 @@ describe("CLIEngine", function() {
 
             engine = new CLIEngine({
                 ignore: false,
-                reset: true,
                 rulesPaths: ["./tests/fixtures/rules/dir1"],
                 configFile: "./tests/fixtures/rules/missing-rule.json"
             });
@@ -357,7 +346,6 @@ describe("CLIEngine", function() {
 
             engine = new CLIEngine({
                 ignore: false,
-                reset: true,
                 rulePaths: ["./tests/fixtures/rules/wrong"],
                 configFile: "./tests/fixtures/rules/eslint.json"
             });
@@ -372,7 +360,6 @@ describe("CLIEngine", function() {
 
             engine = new CLIEngine({
                 ignore: false,
-                reset: true,
                 useEslintrc: false,
                 rulePaths: ["./tests/fixtures/rules/"],
                 configFile: "./tests/fixtures/rules/eslint.json"
@@ -390,7 +377,6 @@ describe("CLIEngine", function() {
 
             engine = new CLIEngine({
                 ignore: false,
-                reset: true,
                 rulePaths: [
                     "./tests/fixtures/rules/dir1",
                     "./tests/fixtures/rules/dir2"
@@ -408,11 +394,10 @@ describe("CLIEngine", function() {
             assert.equal(report.results[0].messages[1].severity, 2);
         });
 
-        it("should return zero messages when executing with reset flag", function() {
+        it("should return zero messages when executing without useEslintrc flag", function() {
 
             engine = new CLIEngine({
                 ignore: false,
-                reset: true,
                 useEslintrc: false
             });
 
@@ -422,11 +407,10 @@ describe("CLIEngine", function() {
             assert.equal(report.results[0].messages.length, 0);
         });
 
-        it("should return zero messages when executing with reset flag in Node.js environment", function() {
+        it("should return zero messages when executing without useEslintrc flag in Node.js environment", function() {
 
             engine = new CLIEngine({
                 ignore: false,
-                reset: true,
                 useEslintrc: false,
                 envs: ["node"]
             });
@@ -455,7 +439,6 @@ describe("CLIEngine", function() {
 
             engine = new CLIEngine({
                 ignore: false,
-                reset: true,
                 useEslintrc: false,
                 envs: ["node"]
             });
@@ -470,7 +453,6 @@ describe("CLIEngine", function() {
 
             engine = new CLIEngine({
                 ignore: false,
-                reset: true,
                 useEslintrc: false,
                 envs: ["node"]
             });
@@ -499,10 +481,9 @@ describe("CLIEngine", function() {
             });
 
             // Default configuration - blank
-            it("should return zero messages when executing with reset and no .eslintrc", function() {
+            it("should return zero messages when executing with no .eslintrc", function() {
 
                 engine = new CLIEngine({
-                    reset: true,
                     useEslintrc: false
                 });
 
@@ -511,26 +492,8 @@ describe("CLIEngine", function() {
                 assert.equal(report.results[0].messages.length, 0);
             });
 
-            // Default configuration - conf/eslint.json
-            it("should return three messages when executing with no .eslintrc", function() {
-
-                engine = new CLIEngine({
-                    useEslintrc: false
-                });
-
-                var report = engine.executeOnFiles([fixtureDir + "/config-hierarchy/broken/console-wrong-quotes.js"]);
-                assert.equal(report.results.length, 1);
-                assert.equal(report.results[0].messages.length, 3);
-                assert.equal(report.results[0].messages[0].ruleId, "no-console");
-                assert.equal(report.results[0].messages[0].severity, 2);
-                assert.equal(report.results[0].messages[1].ruleId, "no-undef");
-                assert.equal(report.results[0].messages[1].severity, 2);
-                assert.equal(report.results[0].messages[2].ruleId, "quotes");
-                assert.equal(report.results[0].messages[2].severity, 2);
-            });
-
-            // Default configuration - conf/environments.js (/*eslint-env node*/)
-            it("should return one message when executing with no .eslintrc in the Node.js environment", function() {
+            // No default configuration rules - conf/environments.js (/*eslint-env node*/)
+            it("should return zero messages when executing with no .eslintrc in the Node.js environment", function() {
 
                 engine = new CLIEngine({
                     useEslintrc: false
@@ -538,29 +501,23 @@ describe("CLIEngine", function() {
 
                 var report = engine.executeOnFiles([fixtureDir + "/config-hierarchy/broken/console-wrong-quotes-node.js"]);
                 assert.equal(report.results.length, 1);
-                assert.equal(report.results[0].messages.length, 1);
-                assert.equal(report.results[0].messages[0].ruleId, "quotes");
-                assert.equal(report.results[0].messages[0].severity, 2);
+                assert.equal(report.results[0].messages.length, 0);
             });
 
             // Project configuration - first level .eslintrc
-            it("should return one message when executing with .eslintrc in the Node.js environment", function() {
+            it("should return zero messages when executing with .eslintrc in the Node.js environment", function() {
 
                 engine = new CLIEngine();
 
                 var report = engine.executeOnFiles([fixtureDir + "/config-hierarchy/broken/process-exit.js"]);
                 assert.equal(report.results.length, 1);
-                assert.equal(report.results[0].messages.length, 1);
-                assert.equal(report.results[0].messages[0].ruleId, "no-process-exit");
-                assert.equal(report.results[0].messages[0].severity, 2);
+                assert.equal(report.results[0].messages.length, 0);
             });
 
             // Project configuration - first level .eslintrc
-            it("should return zero messages when executing with .eslintrc in the Node.js environment and reset", function() {
+            it("should return zero messages when executing with .eslintrc in the Node.js environment", function() {
 
-                engine = new CLIEngine({
-                    reset: true
-                });
+                engine = new CLIEngine();
 
                 var report = engine.executeOnFiles([fixtureDir + "/config-hierarchy/broken/process-exit.js"]);
                 assert.equal(report.results.length, 1);
@@ -570,9 +527,7 @@ describe("CLIEngine", function() {
             // Project configuration - first level .eslintrc
             it("should return one message when executing with .eslintrc", function() {
 
-                engine = new CLIEngine({
-                    reset: true
-                });
+                engine = new CLIEngine();
 
                 var report = engine.executeOnFiles([fixtureDir + "/config-hierarchy/broken/console-wrong-quotes.js"]);
                 assert.equal(report.results.length, 1);
@@ -584,9 +539,7 @@ describe("CLIEngine", function() {
             // Project configuration - second level .eslintrc
             it("should return one message when executing with local .eslintrc that overrides parent .eslintrc", function() {
 
-                engine = new CLIEngine({
-                    reset: true
-                });
+                engine = new CLIEngine();
 
                 var report = engine.executeOnFiles([fixtureDir + "/config-hierarchy/broken/subbroken/console-wrong-quotes.js"]);
                 assert.equal(report.results.length, 1);
@@ -598,9 +551,7 @@ describe("CLIEngine", function() {
             // Project configuration - third level .eslintrc
             it("should return one message when executing with local .eslintrc that overrides parent and grandparent .eslintrc", function() {
 
-                engine = new CLIEngine({
-                    reset: true
-                });
+                engine = new CLIEngine();
 
                 var report = engine.executeOnFiles([fixtureDir + "/config-hierarchy/broken/subbroken/subsubbroken/console-wrong-quotes.js"]);
                 assert.equal(report.results.length, 1);
@@ -612,9 +563,7 @@ describe("CLIEngine", function() {
             // Project configuration - first level package.json
             it("should return one message when executing with package.json", function() {
 
-                engine = new CLIEngine({
-                    reset: true
-                });
+                engine = new CLIEngine();
 
                 var report = engine.executeOnFiles([fixtureDir + "/config-hierarchy/packagejson/subdir/wrong-quotes.js"]);
                 assert.equal(report.results.length, 1);
@@ -626,9 +575,7 @@ describe("CLIEngine", function() {
              // Project configuration - second level package.json
             it("should return zero messages when executing with local package.json that overrides parent package.json", function() {
 
-                engine = new CLIEngine({
-                    reset: true
-                });
+                engine = new CLIEngine();
 
                 var report = engine.executeOnFiles([fixtureDir + "/config-hierarchy/packagejson/subdir/subsubdir/wrong-quotes.js"]);
                 assert.equal(report.results.length, 1);
@@ -638,9 +585,7 @@ describe("CLIEngine", function() {
             // Project configuration - third level package.json
             it("should return one message when executing with local package.json that overrides parent and grandparent package.json", function() {
 
-                engine = new CLIEngine({
-                    reset: true
-                });
+                engine = new CLIEngine();
 
                 var report = engine.executeOnFiles([fixtureDir + "/config-hierarchy/packagejson/subdir/subsubdir/subsubsubdir/wrong-quotes.js"]);
                 assert.equal(report.results.length, 1);
@@ -652,9 +597,7 @@ describe("CLIEngine", function() {
             // Project configuration - .eslintrc overrides package.json in same directory
             it("should return one message when executing with .eslintrc that overrides a package.json in the same directory", function() {
 
-                engine = new CLIEngine({
-                    reset: true
-                });
+                engine = new CLIEngine();
 
                 var report = engine.executeOnFiles([fixtureDir + "/config-hierarchy/packagejson/wrong-quotes.js"]);
                 assert.equal(report.results.length, 1);
@@ -667,7 +610,6 @@ describe("CLIEngine", function() {
             it("should return two messages when executing with config file that adds to local .eslintrc", function() {
 
                 engine = new CLIEngine({
-                    reset: true,
                     configFile: fixtureDir + "/config-hierarchy/broken/add-conf.yaml"
                 });
 
@@ -684,7 +626,6 @@ describe("CLIEngine", function() {
             it("should return no messages when executing with config file that overrides local .eslintrc", function() {
 
                 engine = new CLIEngine({
-                    reset: true,
                     configFile: fixtureDir + "/config-hierarchy/broken/override-conf.yaml"
                 });
 
@@ -697,7 +638,6 @@ describe("CLIEngine", function() {
             it("should return two messages when executing with config file that adds to local and parent .eslintrc", function() {
 
                 engine = new CLIEngine({
-                    reset: true,
                     configFile: fixtureDir + "/config-hierarchy/broken/add-conf.yaml"
                 });
 
@@ -714,7 +654,6 @@ describe("CLIEngine", function() {
             it("should return one message when executing with config file that overrides local and parent .eslintrc", function() {
 
                 engine = new CLIEngine({
-                    reset: true,
                     configFile: fixtureDir + "/config-hierarchy/broken/override-conf.yaml"
                 });
 
@@ -729,7 +668,6 @@ describe("CLIEngine", function() {
             it("should return no messages when executing with config file that overrides local .eslintrc", function() {
 
                 engine = new CLIEngine({
-                    reset: true,
                     configFile: fixtureDir + "/config-hierarchy/broken/override-conf.yaml"
                 });
 
@@ -742,7 +680,6 @@ describe("CLIEngine", function() {
             it("should return one message when executing with command line rule and config file that overrides local .eslintrc", function() {
 
                 engine = new CLIEngine({
-                    reset: true,
                     configFile: fixtureDir + "/config-hierarchy/broken/override-conf.yaml",
                     rules: {
                         quotes: [1, "double"]
@@ -760,7 +697,6 @@ describe("CLIEngine", function() {
             it("should return one message when executing with command line rule and config file that overrides local .eslintrc", function() {
 
                 engine = new CLIEngine({
-                    reset: true,
                     configFile: fixtureDir + "/config-hierarchy/broken/override-conf.yaml",
                     rules: {
                         quotes: [1, "double"]
@@ -780,7 +716,6 @@ describe("CLIEngine", function() {
             it("should return two messages when executing with config file that specifies a plugin", function() {
                 engine = new CLIEngine({
                     configFile: "./tests/fixtures/configurations/plugins-with-prefix.json",
-                    reset: true,
                     useEslintrc: false
                 });
 
@@ -794,7 +729,6 @@ describe("CLIEngine", function() {
             it("should return two messages when executing with config file that specifies a plugin with namespace", function() {
                 engine = new CLIEngine({
                     configFile: "./tests/fixtures/configurations/plugins-with-prefix-and-namespace.json",
-                    reset: true,
                     useEslintrc: false
                 });
 
@@ -808,7 +742,6 @@ describe("CLIEngine", function() {
             it("should return two messages when executing with config file that specifies a plugin without prefix", function() {
                 engine = new CLIEngine({
                     configFile: "./tests/fixtures/configurations/plugins-without-prefix.json",
-                    reset: true,
                     useEslintrc: false
                 });
 
@@ -822,7 +755,6 @@ describe("CLIEngine", function() {
             it("should return two messages when executing with config file that specifies a plugin without prefix and with namespace", function() {
                 engine = new CLIEngine({
                     configFile: "./tests/fixtures/configurations/plugins-without-prefix-with-namespace.json",
-                    reset: true,
                     useEslintrc: false
                 });
 
@@ -838,7 +770,6 @@ describe("CLIEngine", function() {
 
                 engine = new CLIEngine({
                     configFile: "./tests/fixtures/configurations/plugins-with-prefix.json",
-                    reset: true,
                     useEslintrc: false
                 });
 
@@ -851,7 +782,6 @@ describe("CLIEngine", function() {
 
             it("should return two messages when executing with cli option that specifies a plugin", function() {
                 engine = new CLIEngine({
-                    reset: true,
                     useEslintrc: false,
                     plugins: ["example"],
                     rules: { "example/example-rule": 1 }
@@ -866,7 +796,6 @@ describe("CLIEngine", function() {
 
             it("should return two messages when executing with cli option that specifies preloaded plugin", function() {
                 engine = new CLIEngine({
-                    reset: true,
                     useEslintrc: false,
                     plugins: ["test"],
                     rules: { "test/example-rule": 1 }
@@ -886,7 +815,6 @@ describe("CLIEngine", function() {
             it("should return two messages when executing with config file that specifies a processor", function() {
                 engine = new CLIEngine({
                     configFile: "./tests/fixtures/configurations/processors.json",
-                    reset: true,
                     useEslintrc: false,
                     extensions: ["js", "txt"]
                 });
@@ -898,7 +826,6 @@ describe("CLIEngine", function() {
             });
             it("should return two messages when executing with config file that specifies preloaded processor", function() {
                 engine = new CLIEngine({
-                    reset: true,
                     useEslintrc: false,
                     plugins: ["test-processor"],
                     rules: {
@@ -929,7 +856,6 @@ describe("CLIEngine", function() {
             it("should run processors when calling executeOnFiles with config file that specifies a processor", function() {
                 engine = new CLIEngine({
                     configFile: "./tests/fixtures/configurations/processors.json",
-                    reset: true,
                     useEslintrc: false,
                     extensions: ["js", "txt"]
                 });
@@ -941,7 +867,6 @@ describe("CLIEngine", function() {
             });
             it("should run processors when calling executeOnFiles with config file that specifies preloaded processor", function() {
                 engine = new CLIEngine({
-                    reset: true,
                     useEslintrc: false,
                     plugins: ["test-processor"],
                     rules: {
@@ -973,7 +898,6 @@ describe("CLIEngine", function() {
             it("should run processors when calling executeOnText with config file that specifies a processor", function() {
                 engine = new CLIEngine({
                     configFile: "./tests/fixtures/configurations/processors.json",
-                    reset: true,
                     useEslintrc: false,
                     extensions: ["js", "txt"]
                 });
@@ -985,7 +909,6 @@ describe("CLIEngine", function() {
             });
             it("should run processors when calling executeOnText with config file that specifies preloaded processor", function() {
                 engine = new CLIEngine({
-                    reset: true,
                     useEslintrc: false,
                     plugins: ["test-processor"],
                     rules: {
@@ -1022,8 +945,7 @@ describe("CLIEngine", function() {
         it("should return the info from Config#getConfig when called", function() {
 
             var engine = new CLIEngine({
-                configFile: "tests/fixtures/configurations/quotes-error.json",
-                reset: true
+                configFile: "tests/fixtures/configurations/quotes-error.json"
             });
 
             var configHelper = new Config(engine.options);

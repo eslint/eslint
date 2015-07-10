@@ -377,10 +377,10 @@ no-empty-class          |    21.976 |     2.6%
 semi                    |    19.359 |     2.3%
 ```
 
-To test one rule explicitly, combine the `--reset`, `--no-eslintrc`, and `--rule` options:
+To test one rule explicitly, combine the `--no-eslintrc`, and `--rule` options:
 
 ```bash
-$ TIMING=1 eslint --reset --no-eslintrc --rule "quotes: [2, 'double']" lib
+$ TIMING=1 eslint --no-eslintrc --rule "quotes: [2, 'double']" lib
 Rule   | Time (ms) | Relative
 :------|----------:|--------:
 quotes |    18.066 |   100.0%
@@ -397,14 +397,11 @@ The rule naming conventions for ESLint are fairly simple:
 
 ## Rule Acceptance Criteria
 
-Because rules are highly personal (and therefore very contentious), the following guidelines determine whether or not a rule is accepted and whether or not it is on by default:
+Because rules are highly personal (and therefore very contentious), accepted rules should:
 
-* If the same rule exists in JSHint and is turned on by default, it must have the same message and be enabled by default.
-* If the same rule exists in JSLint but not in JSHint, it must have the same message and be disabled by default.
-* If the rule doesn't exist in JSHint or JSLint, then it must:
-    * Not be library-specific.
-    * Demonstrate a possible issue that can be resolved by rewriting the code.
-    * Be general enough so as to apply for a large number of developers.
+* Not be library-specific.
+* Demonstrate a possible issue that can be resolved by rewriting the code.
+* Be general enough so as to apply for a large number of developers.
 
 ## Runtime Rules
 

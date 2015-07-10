@@ -7,7 +7,7 @@ ESLint is designed to be completely configurable, meaning you can turn off every
 
 There are several pieces of information that can be configured:
 
-* **Environments** - which environments your script is designed to run in. Each environment brings with it a certain set of global variables and rules that are enabled by default.
+* **Environments** - which environments your script is designed to run in. Each environment brings with it a certain set of predefined global variables.
 * **Globals** - the additional global variables your script accesses during execution.
 * **Rules** - which rules are enabled and at what error level.
 
@@ -91,7 +91,7 @@ Note when using a custom parser, the `ecmaFeatures` configuration property is st
 
 ## Specifying Environments
 
-An environment defines both global variables that are predefined as well as which rules should be on or off by default. The available environments are:
+An environment defines global variables that are predefined. The available environments are:
 
 * `browser` - browser global variables.
 * `node` - Node.js global variables and Node.js-specific rules.
@@ -158,7 +158,7 @@ And in YAML:
 
 ## Specifying Globals
 
-By default, ESLint will warn on variables that are accessed but not defined within the same file. If you are using global variables inside of a file then it's worthwhile to define those globals so that ESLint will not warn about their usage. You can define global variables either using comments inside of a file or in the configuration file.
+The [no-undef](../rules/no-undef.md) rule will warn on variables that are accessed but not defined within the same file. If you are using global variables inside of a file then it's worthwhile to define those globals so that ESLint will not warn about their usage. You can define global variables either using comments inside of a file or in the configuration file.
 
 To specify globals using a comment inside of your JavaScript file, use the following format:
 
@@ -222,7 +222,7 @@ And in YAML:
 
 ## Configuring Rules
 
-ESLint comes with a large number of rules, some of which are on by default and some of which are off by default. You can modify which rules your project uses either using configuration comments or configuration files. To change a rule setting, you must set the rule ID equal to one of these values:
+ESLint comes with a large number of rules. You can modify which rules your project uses either using configuration comments or configuration files. To change a rule setting, you must set the rule ID equal to one of these values:
 
 * 0 - turn the rule off
 * 1 - turn the rule on as a warning (doesn't affect exit code)
@@ -417,12 +417,8 @@ The complete configuration hierarchy, from highest precedence to lowest preceden
 3. Project-level configuration:
     1. `.eslintrc` file in same directory as linted file
     1. `package.json` file in same directory as linted file
-    1. Continue searching for `.eslintrc` and `package.json` files in ancestor directories (parent has highest precedence, then grandparent, etc.), up to and including the root directory.
-    1. In the absence of any configuration from (i) and (ii), fall back to `~/.eslintrc` - personal default configuration
-4. ESLint default configuration:
-    1. `environments.json`
-    1. `eslint.json`
-    1. Blank (no config)
+    1. Continue searching for `.eslintrc` and `package.json` files in ancestor directories (parent has highest precedence, then grandparent, etc.), up to and including the root directory or until a config with `"root": true` is found.
+    1. In the absence of any configuration from (1) thru (3), fall back to a personal default configuration in  `~/.eslintrc`.
 
 ## Extending Configuration Files
 

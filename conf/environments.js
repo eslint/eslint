@@ -16,16 +16,6 @@ module.exports = {
         globals: globals.node,
         ecmaFeatures: {
             globalReturn: true
-        },
-        rules: {
-            "no-catch-shadow": 0,
-            "no-console": 0,
-            "no-mixed-requires": 2,
-            "no-new-require": 2,
-            "no-path-concat": 2,
-            "no-process-exit": 2,
-            "global-strict": [0, "always"],
-            "handle-callback-err": [2, "err"]
         }
     },
     worker: {
