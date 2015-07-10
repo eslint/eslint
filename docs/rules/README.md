@@ -195,6 +195,8 @@ These rules are purely matters of style and are quite subjective.
 
 These rules are only relevant to ES6 environments and are off by default.
 
+* [arrow-parens](arrow-parens.md) - Require parens in arrow function arguments (off by default)
+* [arrow-spacing](arrow-spacing.md) - Require space before/after arrow functions arrow (off by default)
 * [constructor-super](constructor-super.md) - verify `super()` callings in constructors (off by default)
 * [generator-star-spacing](generator-star-spacing.md) - enforce the spacing around the `*` in generator functions (off by default)
 * [generator-star](generator-star.md) - **(deprecated)** enforce the position of the `*` in generator functions (off by default)
