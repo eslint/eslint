@@ -90,6 +90,21 @@ eslintTester.addRuleTest("lib/rules/valid-jsdoc", {
                 arrowFunctions: true,
                 classes: true
             }
+        },
+        {
+            code: "/** @returns {object} foo */ var foo = () => bar();",
+            options: [{requireReturn: false}],
+            ecmaFeatures: {arrowFunctions: true}
+        },
+        {
+            code: "/** @returns {object} foo */ var foo = () => { return bar(); };",
+            options: [{requireReturn: false}],
+            ecmaFeatures: {arrowFunctions: true}
+        },
+        {
+            code: "/** foo */ var foo = () => { bar(); };",
+            options: [{requireReturn: false}],
+            ecmaFeatures: {arrowFunctions: true}
         }
     ],
 
@@ -243,6 +258,33 @@ eslintTester.addRuleTest("lib/rules/valid-jsdoc", {
             ecmaFeatures: { modules: true },
             errors: [{
                 message: "Use @returns instead.",
+                type: "Block"
+            }]
+        },
+        {
+            code: "/** foo */ var foo = () => bar();",
+            options: [{requireReturn: false}],
+            ecmaFeatures: {arrowFunctions: true},
+            errors: [{
+                message: "Missing JSDoc @returns for function.",
+                type: "Block"
+            }]
+        },
+        {
+            code: "/** foo */ var foo = () => { return bar(); };",
+            options: [{requireReturn: false}],
+            ecmaFeatures: {arrowFunctions: true},
+            errors: [{
+                message: "Missing JSDoc @returns for function.",
+                type: "Block"
+            }]
+        },
+        {
+            code: "/** @returns {object} foo */ var foo = () => { bar(); };",
+            options: [{requireReturn: false}],
+            ecmaFeatures: {arrowFunctions: true},
+            errors: [{
+                message: "Unexpected @returns tag; function has no return statement.",
                 type: "Block"
             }]
         }
