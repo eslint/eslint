@@ -204,6 +204,7 @@ These rules are only relevant to ES6 environments.
 * [no-var](no-var.md) - require `let` or `const` instead of `var`
 * [object-shorthand](object-shorthand.md) - require method and property shorthand syntax for object literals
 * [prefer-const](prefer-const.md) - suggest using of `const` declaration for variables that are never modified after declared
+* [prefer-spread](prefer-spread.md) - suggest using of the spread operator instead of `.apply()`.
 * [require-yield](require-yield.md) - disallow generator functions that does not have `yield`
 
 ## Legacy
