@@ -1,2 +1,2 @@
 var bar = baz;
-bat = 42;
+bat = bar;

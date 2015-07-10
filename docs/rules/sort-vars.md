@@ -4,7 +4,7 @@ When declaring multiple variables within the same block, some developers prefer 
 
 ## Rule Details
 
-This rule checks all variable declaration blocks and verifies that all variables are sorted alphabetically. This rule is off by default.
+This rule checks all variable declaration blocks and verifies that all variables are sorted alphabetically.
 The default configuration of the rule is case-sensitive.
 
 The following patterns are considered warnings:
