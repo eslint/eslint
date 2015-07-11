@@ -28,15 +28,22 @@ eslintTester.addRuleTest("lib/rules/padded-blocks", {
         {code: "{\n\n\na();\n\n\n}" },
         {code: "{\n\n//comment\na();\n\n}" },
         {code: "{\n\na();\n//comment\n\n}" },
+        {code: "{\n\na()\n//comment\n\n}" },
         {code: "{\n\na = 1\n\n}" },
         {code: "{\na();\n}", options: ["never"]},
         {code: "{\na();}", options: ["never"]},
         {code: "{a();\n}", options: ["never"]},
         {code: "{a();}", options: ["never"]},
         {code: "{//comment\na();}", options: ["never"]},
+        {code: "{\n//comment\na()\n}", options: ["never"]},
         {code: "{a();//comment\n}", options: ["never"]},
+        {code: "{\na();\n//comment\n}", options: ["never"]},
+        {code: "{\na()\n//comment\n}", options: ["never"]},
+        {code: "{\na()\n//comment\nb()\n}", options: ["never"]},
         {code: "function a() {\n/* comment */\nreturn;\n/* comment*/\n}", options: ["never"] },
-        {code: "{\n// comment\ndebugger;\n// comment\n}", options: ["never"] }
+        {code: "{\n// comment\ndebugger;\n// comment\n}", options: ["never"] },
+        {code: "{\n\n// comment\nif (\n// comment\n a) {}\n\n }", options: ["always"] },
+        {code: "{\n// comment\nif (\n// comment\n a) {}\n }", options: ["never"] }
     ],
     invalid: [
         {
@@ -56,6 +63,16 @@ eslintTester.addRuleTest("lib/rules/padded-blocks", {
                     message: ALWAYS_MESSAGE,
                     line: 5,
                     column: 2
+                }
+            ]
+        },
+        {
+            code: "{\n\na()\n//comment\n}",
+            errors: [
+                {
+                    message: ALWAYS_MESSAGE,
+                    line: 5,
+                    column: 0
                 }
             ]
         },
@@ -130,6 +147,16 @@ eslintTester.addRuleTest("lib/rules/padded-blocks", {
             ]
         },
         {
+            code: "{\na()\n//comment\n\n}",
+            options: ["never"],
+            errors: [
+                {
+                    message: NEVER_MESSAGE,
+                    line: 5
+                }
+            ]
+        },
+        {
             code: "{\n\na();\n\n}",
             options: ["never"],
             errors: [
@@ -174,6 +201,28 @@ eslintTester.addRuleTest("lib/rules/padded-blocks", {
                 {
                     message: NEVER_MESSAGE,
                     line: 4
+                }
+            ]
+        },
+        {
+            code: "{\n// comment\nif (\n// comment\n a) {}\n\n}",
+            options: ["always"],
+            errors: [
+                {
+                    message: ALWAYS_MESSAGE,
+                    line: 1,
+                    column: 1
+                }
+            ]
+        },
+        {
+            code: "{\n\n// comment\nif (\n// comment\n a) {}\n}",
+            options: ["never"],
+            errors: [
+                {
+                    message: NEVER_MESSAGE,
+                    line: 1,
+                    column: 1
                 }
             ]
         }
