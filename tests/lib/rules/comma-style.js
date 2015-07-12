@@ -71,12 +71,13 @@ eslintTester.addRuleTest("lib/rules/comma-style", {
         },
         {
             code: "var a = 'a',\nar ={fst:1,\nsnd: [1,\n2]};",
-            args: [2, "first",
-              {exceptions: {
+            args: [2, "first", {
+                exceptions: {
                     ArrayExpression: true,
                     ObjectExpression: true,
                     VariableDeclaration: true
-              }}]
+                }
+            }]
         }
     ],
 

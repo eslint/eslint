@@ -45,22 +45,22 @@ eslintTester.addRuleTest("lib/rules/no-unexpected-multiline", {
             errors: [{ message: "Unexpected newline between function and ( of function call." }]
         },
         {
-			code: "var a = b\n[a, b, c].forEach(doSomething)",
+            code: "var a = b\n[a, b, c].forEach(doSomething)",
             line: 2,
             column: 1,
             errors: [{ message: "Unexpected newline between object and [ of property access." }]
-		},
+        },
         {
-			code: "var a = b\n    (x || y).doSomething()",
+            code: "var a = b\n    (x || y).doSomething()",
             line: 2,
             column: 5,
             errors: [{ message: "Unexpected newline between function and ( of function call." }]
-		},
+        },
         {
-			code: "var a = b\n  [a, b, c].forEach(doSomething)",
+            code: "var a = b\n  [a, b, c].forEach(doSomething)",
             line: 2,
             column: 3,
             errors: [{ message: "Unexpected newline between object and [ of property access." }]
-		}
+        }
     ]
 });

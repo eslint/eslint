@@ -1956,8 +1956,8 @@ describe("eslint", function() {
         it("should report a violation", function() {
             var code = [
                 "/*eslint-disable no-alert */",
-                    "alert('test');",
-                    "console.log('test');" // here
+                "alert('test');",
+                "console.log('test');" // here
             ].join("\n");
             var config = { rules: { "no-alert": 1, "no-console": 1 } };
 
@@ -1970,8 +1970,8 @@ describe("eslint", function() {
         it("should report a violation", function() {
             var code = [
                 "/*eslint-disable no-alert, no-console */",
-                    "alert('test');",
-                    "console.log('test');",
+                "alert('test');",
+                "console.log('test');",
                 "/*eslint-enable*/",
 
                 "alert('test');", // here
@@ -1991,8 +1991,8 @@ describe("eslint", function() {
         it("should report a violation", function() {
             var code = [
                 "/*eslint-disable no-alert */",
-                    "alert('test');",
-                    "console.log('test');",
+                "alert('test');",
+                "console.log('test');",
                 "/*eslint-enable no-console */",
 
                 "alert('test');" // here
@@ -2009,8 +2009,8 @@ describe("eslint", function() {
         it("should report a violation", function() {
             var code = [
                 "/*eslint-disable no-alert, no-console */",
-                    "alert('test');",
-                    "console.log('test');",
+                "alert('test');",
+                "console.log('test');",
                 "/*eslint-enable no-alert*/",
 
                 "alert('test');", // here
@@ -2030,13 +2030,13 @@ describe("eslint", function() {
             var code = [
                 "/*eslint-disable no-alert */",
 
-                    "/*eslint-disable no-console */",
-                        "alert('test');",
-                        "console.log('test');",
-                    "/*eslint-enable */",
+                "/*eslint-disable no-console */",
+                "alert('test');",
+                "console.log('test');",
+                "/*eslint-enable */",
 
-                    "alert('test');",
-                    "console.log('test');", // here
+                "alert('test');",
+                "console.log('test');", // here
 
                 "/*eslint-enable */",
 
@@ -2064,18 +2064,18 @@ describe("eslint", function() {
         it("should report a violation", function() {
             var code = [
                 "/*eslint-disable no-alert, no-console */",
-                    "alert('test');",
-                    "console.log('test');",
+                "alert('test');",
+                "console.log('test');",
 
-                    "/*eslint-enable no-alert */",
+                "/*eslint-enable no-alert */",
 
-                    "alert('test');", // here
-                    "console.log('test');",
+                "alert('test');", // here
+                "console.log('test');",
 
-                    "/*eslint-enable no-console */",
+                "/*eslint-enable no-console */",
 
-                    "alert('test');", // here
-                    "console.log('test');", // here
+                "alert('test');", // here
+                "console.log('test');", // here
                 "/*eslint-enable no-console */"
             ].join("\n");
             var config = { rules: { "no-alert": 1, "no-console": 1 } };

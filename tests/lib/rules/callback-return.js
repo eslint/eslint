@@ -90,7 +90,7 @@ eslintTester.addRuleTest("lib/rules/callback-return", {
         "function x(err) { if (err) { setTimeout(callback, 0); } callback(); }", // callback() called twice
         "function x(err) { if (err) { process.nextTick(function(err) { callback(); }); } callback(); }" // callback() called twice
 
-],
+    ],
     invalid: [
         {
             code: "function a(err) { if (err) { callback (err); } }",
