@@ -27,6 +27,11 @@ eslintTester.addRuleTest("lib/rules/prefer-spread", {
         {code: "obj.foo.apply(otherObj, args);"},
         {code: "a.b(x, y).c.foo.apply(a.b(x, z).c, args);"},
 
+        // ignores non variadic.
+        {code: "foo.apply(undefined, [1, 2]);"},
+        {code: "foo.apply(null, [1, 2]);"},
+        {code: "obj.foo.apply(obj, [1, 2]);"},
+
         // ignores computed property.
         {code: "var apply; foo[apply](null, args);"},
 
