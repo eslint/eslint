@@ -216,7 +216,7 @@ eslintTester.addRuleTest("lib/rules/spaced-comment", {
             code: "//!< docblock style comment",
             errors: 1,
             options: ["never", {
-                    markers: ["/", "!<"]
+                markers: ["/", "!<"]
             }]
         },
         {

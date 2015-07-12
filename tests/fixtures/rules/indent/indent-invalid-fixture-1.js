@@ -124,7 +124,7 @@ switch (a) {
   break; // ->
   case 'f':
     var a = 'b';
-      break; // <-
+    break;
   case 'g': {
     var a = 'b';
     break;
@@ -132,31 +132,6 @@ switch (a) {
   case 'z':
   default:
       break; // <-
-}
-
-switch (a) {
-case 'a':
-var a = 'b'; // ->
-  break;
-case 'b':
-  var a = 'b';
-  break;
-case 'c':
-    var a = 'b'; // <-
-  break;
-case 'd':
-  var a = 'b';
-break; // ->
-case 'f':
-  var a = 'b';
-    break; // <-
-case 'g': {
-  var a = 'b';
-  break;
-}
-case 'z':
-default:
-    break; // <-
 }
 
 a.b('hi')
@@ -346,12 +321,6 @@ var c = {
     },
     d;
 
-var d = {
-      a: 1,
-      b: 2, // ->
-      c: 3 // <-
-    };
-
 // holes in arrays indentation
 [
  1,
@@ -448,27 +417,23 @@ a(); // ->
     c(); // <-
 });
 
-a =
-    function(content, dom) {
+a = function(content, dom) {
   b();
     c(); // <-
 d(); // ->
 };
 
-a =
-    function(content, dom) {
+a = function(content, dom) {
       b();
         c(); // <-
     d(); // ->
     };
 
-a =
-    function(content, dom) {
+a = function(content, dom) {
     b(); // ->
     };
 
-a =
-    function(content, dom) {
+a = function(content, dom) {
 b(); // ->
     };
 

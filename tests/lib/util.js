@@ -47,9 +47,9 @@ describe("util", function() {
 
         it("should combine two objects when passed two objects with different top-level properties", function() {
             var code = [
-                        { env: { browser: true } },
-                        { globals: { foo: "bar"} }
-                    ];
+                { env: { browser: true } },
+                { globals: { foo: "bar"} }
+            ];
 
             var result = util.mergeConfigs(code[0], code[1]);
 
@@ -59,9 +59,9 @@ describe("util", function() {
 
         it("should combine without blowing up on null values", function() {
             var code = [
-                        { env: { browser: true } },
-                        { env: { node: null } }
-                    ];
+                { env: { browser: true } },
+                { env: { node: null } }
+            ];
 
             var result = util.mergeConfigs(code[0], code[1]);
 
@@ -71,9 +71,9 @@ describe("util", function() {
 
         it("should combine two objects with parser when passed two objects with different top-level properties", function() {
             var code = [
-                        { env: { browser: true }, parser: "espree" },
-                        { globals: { foo: "bar"} }
-                    ];
+                { env: { browser: true }, parser: "espree" },
+                { globals: { foo: "bar"} }
+            ];
 
             var result = util.mergeConfigs(code[0], code[1]);
 

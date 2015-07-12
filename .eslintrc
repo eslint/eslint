@@ -7,7 +7,7 @@ extends:
     "./conf/eslint.json"
 
 rules:
-    indent: 2
+    indent: [2, 4, {indentSwitchCase: true}]
     brace-style: [2, "1tbs"]
     camelcase: [2, { properties: "never" }]
     callback-return: [2, ["cb", "callback", "next"]]

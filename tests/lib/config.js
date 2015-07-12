@@ -387,20 +387,20 @@ describe("Config", function() {
         it("should merge command line config when config file adds to local and parent .eslintrc", function () {
 
             var configHelper = new Config({
-                configFile: getFixturePath("broken", "add-conf.yaml")
-            }),
-            file = getFixturePath("broken", "subbroken", "console-wrong-quotes.js"),
-            expected = {
-                env: {
-                    node: true
+                    configFile: getFixturePath("broken", "add-conf.yaml")
+                }),
+                file = getFixturePath("broken", "subbroken", "console-wrong-quotes.js"),
+                expected = {
+                    env: {
+                        node: true
+                    },
+                    rules: {
+                        quotes: [2, "single"],
+                        "no-console": 1,
+                        semi: [1, "never"]
+                    }
                 },
-                rules: {
-                    quotes: [2, "single"],
-                    "no-console": 1,
-                    semi: [1, "never"]
-                }
-            },
-            actual = configHelper.getConfig(file);
+                actual = configHelper.getConfig(file);
 
             expected.env.node = true;
 
@@ -411,19 +411,19 @@ describe("Config", function() {
         it("should merge command line config when config file overrides local and parent .eslintrc", function () {
 
             var configHelper = new Config({
-                configFile: getFixturePath("broken", "override-conf.yaml")
-            }),
-            file = getFixturePath("broken", "subbroken", "console-wrong-quotes.js"),
-            expected = {
-                env: {
-                    node: true
+                    configFile: getFixturePath("broken", "override-conf.yaml")
+                }),
+                file = getFixturePath("broken", "subbroken", "console-wrong-quotes.js"),
+                expected = {
+                    env: {
+                        node: true
+                    },
+                    rules: {
+                        quotes: [0, "single"],
+                        "no-console": 1
+                    }
                 },
-                rules: {
-                    quotes: [0, "single"],
-                    "no-console": 1
-                }
-            },
-            actual = configHelper.getConfig(file);
+                actual = configHelper.getConfig(file);
 
             expected.env.node = true;
 
@@ -434,21 +434,21 @@ describe("Config", function() {
         it("should merge command line config and rule when rule and config file overrides local .eslintrc", function () {
 
             var configHelper = new Config({
-                configFile: getFixturePath("broken", "override-conf.yaml"),
-                rules: {
-                    quotes: [1, "double"]
-                }
-            }),
-            file = getFixturePath("broken", "console-wrong-quotes.js"),
-            expected = {
-                env: {
-                    node: true
+                    configFile: getFixturePath("broken", "override-conf.yaml"),
+                    rules: {
+                        quotes: [1, "double"]
+                    }
+                }),
+                file = getFixturePath("broken", "console-wrong-quotes.js"),
+                expected = {
+                    env: {
+                        node: true
+                    },
+                    rules: {
+                        quotes: [1, "double"]
+                    }
                 },
-                rules: {
-                    quotes: [1, "double"]
-                }
-            },
-            actual = configHelper.getConfig(file);
+                actual = configHelper.getConfig(file);
 
             expected.env.node = true;
 
@@ -763,18 +763,18 @@ describe("Config", function() {
                 StubbedConfig = proxyquire("../../lib/config", requireStubs);
 
                 var configHelper = new StubbedConfig({}),
-                file = getFixturePath("broken", "plugins", "console-wrong-quotes.js"),
-                expected = {
-                    env: {
-                        node: true
+                    file = getFixturePath("broken", "plugins", "console-wrong-quotes.js"),
+                    expected = {
+                        env: {
+                            node: true
+                        },
+                        rules: {
+                            quotes: [2, "double"],
+                            "example/example-rule": 1
+                        },
+                        plugins: ["example"]
                     },
-                    rules: {
-                        quotes: [2, "double"],
-                        "example/example-rule": 1
-                    },
-                    plugins: ["example"]
-                },
-                actual = configHelper.getConfig(file);
+                    actual = configHelper.getConfig(file);
                 assertConfigsEqual(actual, expected);
             });
 
@@ -786,19 +786,19 @@ describe("Config", function() {
                 StubbedConfig = proxyquire("../../lib/config", requireStubs);
 
                 var configHelper = new StubbedConfig({}),
-                file = getFixturePath("broken", "plugins", "console-wrong-quotes.js"),
-                expected = {
-                    env: {
-                        node: true
+                    file = getFixturePath("broken", "plugins", "console-wrong-quotes.js"),
+                    expected = {
+                        env: {
+                            node: true
+                        },
+                        rules: {
+                            quotes: [2, "double"],
+                            "example/example-rule": 1,
+                            "example/quotes": 2
+                        },
+                        plugins: ["example"]
                     },
-                    rules: {
-                        quotes: [2, "double"],
-                        "example/example-rule": 1,
-                        "example/quotes": 2
-                    },
-                    plugins: ["example"]
-                },
-                actual = configHelper.getConfig(file);
+                    actual = configHelper.getConfig(file);
                 assertConfigsEqual(actual, expected);
             });
 
@@ -809,21 +809,21 @@ describe("Config", function() {
                 StubbedConfig = proxyquire("../../lib/config", requireStubs);
 
                 var configHelper = new StubbedConfig({}),
-                file = getFixturePath("broken", "plugins2", "console-wrong-quotes.js"),
-                expected = {
-                    env: {
-                        node: true
+                    file = getFixturePath("broken", "plugins2", "console-wrong-quotes.js"),
+                    expected = {
+                        env: {
+                            node: true
+                        },
+                        rules: {
+                            quotes: [2, "double"],
+                            "example/example-rule": 1,
+                            "example/quotes": 2,
+                            "test/test-rule": 1,
+                            "test/quotes": 0
+                        },
+                        plugins: ["example", "eslint-plugin-test"]
                     },
-                    rules: {
-                        quotes: [2, "double"],
-                        "example/example-rule": 1,
-                        "example/quotes": 2,
-                        "test/test-rule": 1,
-                        "test/quotes": 0
-                    },
-                    plugins: ["example", "eslint-plugin-test"]
-                },
-                actual = configHelper.getConfig(file);
+                    actual = configHelper.getConfig(file);
                 assertConfigsEqual(actual, expected);
             });
 
