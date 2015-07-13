@@ -33,6 +33,8 @@ function expectedErrors(errors) {
 }
 
 var eslintTester = new ESLintTester(eslint);
+
+
 eslintTester.addRuleTest("lib/rules/indent", {
 
     valid: [
@@ -228,7 +230,7 @@ eslintTester.addRuleTest("lib/rules/indent", {
                 "        break;\n" +
                 "}",
             options: [4, {indentSwitchCase: true}],
-            errors: expectedErrors([10, 4])
+            errors: expectedErrors([[4, 8], [7, 8]])
         },
         {
             code:
@@ -289,7 +291,20 @@ eslintTester.addRuleTest("lib/rules/indent", {
                 "        break;\n" +
                 "}",
             options: [4, {indentSwitchCase: true}],
-            errors: expectedErrors([[13, 4], [15, 4], [17, 4]])
+            errors: expectedErrors([[5, 8], [8, 8]])
+        },
+        {
+            code:
+                "switch (a) {\n" +
+                "case '1':\n" +
+                "b();\n" +
+                "break;\n" +
+                "default:\n" +
+                "c();\n" +
+                "break;\n" +
+                "}",
+            options: [4, {indentSwitchCase: true}],
+            errors: expectedErrors([[3, 4], [4, 4], [6, 4], [7, 4]])
         },
         {
             code:
@@ -302,3 +317,4 @@ eslintTester.addRuleTest("lib/rules/indent", {
         }
     ]
 });
+
