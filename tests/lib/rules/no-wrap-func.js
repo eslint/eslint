@@ -28,6 +28,10 @@ eslintTester.addRuleTest("lib/rules/no-wrap-func", {
         {
             code: "opts.ease = opts.ease || (a => a * a * a)",
             ecmaFeatures: { arrowFunctions: true }
+        },
+        {
+            code: "(arg) => arg",
+            ecmaFeatures: { arrowFunctions: true }
         }
     ],
     invalid: [
