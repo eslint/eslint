@@ -35,15 +35,18 @@ obj.foo.apply(obj, args);
 The following patterns are not considered warnings:
 
 ```js
-foo.apply(obj, args); // the `this` binding is different.
+// The `this` binding is different.
+foo.apply(obj, args);
+obj.foo.apply(null, args);
+obj.foo.apply(otherObj, args);
 ```
 
 ```js
-obj.foo.apply(null, args); // the `this` binding is different.
-```
-
-```js
-obj.foo.apply(otherObj, args); // the `this` binding is different.
+// The argument list is not variadic.
+// Those are warned by the `no-useless-call` rule.
+foo.apply(undefined, [1, 2, 3]);
+foo.apply(null, [1, 2, 3]);
+obj.foo.apply(obj, [1, 2, 3]);
 ```
 
 ## When Not to Use It
@@ -51,3 +54,7 @@ obj.foo.apply(otherObj, args); // the `this` binding is different.
 This rule should not be used in ES3/5 environments.
 
 In ES2015 (ES6) or later, if you don't want to be notified about `Function.prototype.apply()` callings, you can safely disable this rule.
+
+## Related rules
+
+* [no-useless-call](no-useless-call.md)

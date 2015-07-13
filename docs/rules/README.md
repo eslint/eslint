@@ -85,6 +85,7 @@ These are rules designed to prevent you from making mistakes. They either prescr
 * [no-sequences](no-sequences.md) - disallow use of comma operator (recommended)
 * [no-throw-literal](no-throw-literal.md) - restrict what can be thrown as an exception
 * [no-unused-expressions](no-unused-expressions.md) - disallow usage of expressions in statement position (recommended)
+* [no-useless-call](no-useless-call.md) - disallow unnecessary `.call()` and `.apply()`
 * [no-void](no-void.md) - disallow use of `void` operator
 * [no-warning-comments](no-warning-comments.md) - disallow usage of configurable warning terms in comments - e.g. `TODO` or `FIXME`
 * [no-with](no-with.md) - disallow use of the `with` statement (recommended)
