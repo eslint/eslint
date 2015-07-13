@@ -9,40 +9,7 @@ var String;
 
 ## Rule Details
 
-The following objects are considered a native objects:
-
-* `Array`
-* `Boolean`
-* `Date`
-* `decodeURI`
-* `decodeURIComponent`
-* `encodeURI`
-* `encodeURIComponent`
-* `Error`
-* `eval`
-* `EvalError`
-* `Function`
-* `isFinite`
-* `isNaN`
-* `JSON`
-* `Math`
-* `Number`
-* `Object`
-* `parseInt`
-* `parseFloat`
-* `RangeError`
-* `ReferenceError`
-* `RegExp`
-* `String`
-* `SyntaxError`
-* `TypeError`
-* `URIError`
-* `Map`
-* `NaN`
-* `Set`
-* `WeakMap`
-* `Infinity`
-* `undefined`
+The native objects reported by this rule are the `builtin` variables from [globals](https://github.com/sindresorhus/globals/).
 
 The following patterns are considered warnings:
 
@@ -56,10 +23,7 @@ var String;
 
 ## Options
 
-### exceptions
-
-Array of native object names that are permitted to be reassigned.
-If provided, it must be an `Array`.
+This rule accepts an `exceptions` option, which can be used to specify a list of builtins for which reassignments will be allowed:
 
 ```js
 {
