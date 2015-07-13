@@ -44,6 +44,15 @@ For example, to specify a maximum line length of 80 characters with each tab cou
 "max-len": [2, 80, 4]
 ```
 
+There are additional optional arguments to ignore comments, lines with URLs, or lines matching a regular expression.
+
+```
+"max-len": [2, 80, 4, {ignoreComments: true, ignoreUrls: true, ignorePattern: "^\\s*var\\s.+=\\s*require\\s*\\("}]
+```
+
+The `ignoreComments` option only ignores trailing comments and comments on their own line. For example, `function foo(/*string*/ bar) { /* ... */ }` isn't collapsed.
+
+Be aware that regular expressions can only match a single line and need to be doubly escaped when written in YAML or JSON.
 
 ## Related Rules
 
