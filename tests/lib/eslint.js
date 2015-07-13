@@ -2570,6 +2570,244 @@ describe("eslint", function() {
         });
     });
 
+    describe("getDeclaredVariables(node)", function() {
+        /**
+         * Assert `eslint.getDeclaredVariables(node)` is empty.
+         * @param {ASTNode} node - A node to check.
+         * @returns {void}
+         */
+        function checkEmpty(node) {
+            assert.equal(0, eslint.getDeclaredVariables(node).length);
+        }
+
+        /**
+         * Assert `eslint.getDeclaredVariables(node)` is valid.
+         * @param {string} code - A code to check.
+         * @param {string} type - A type string of ASTNode. This method checks variables on the node of the type.
+         * @param {Array<Array<string>>} expectedNamesList - An array of expected variable names. The expected variable names is an array of string.
+         * @returns {void}
+         */
+        function verify(code, type, expectedNamesList) {
+            eslint.defineRules({test: function(context) {
+                var rule = {
+                    "Program": checkEmpty,
+                    "EmptyStatement": checkEmpty,
+                    "BlockStatement": checkEmpty,
+                    "ExpressionStatement": checkEmpty,
+                    "LabeledStatement": checkEmpty,
+                    "BreakStatement": checkEmpty,
+                    "ContinueStatement": checkEmpty,
+                    "WithStatement": checkEmpty,
+                    "SwitchStatement": checkEmpty,
+                    "ReturnStatement": checkEmpty,
+                    "ThrowStatement": checkEmpty,
+                    "TryStatement": checkEmpty,
+                    "WhileStatement": checkEmpty,
+                    "DoWhileStatement": checkEmpty,
+                    "ForStatement": checkEmpty,
+                    "ForInStatement": checkEmpty,
+                    "DebuggerStatement": checkEmpty,
+                    "ThisExpression": checkEmpty,
+                    "ArrayExpression": checkEmpty,
+                    "ObjectExpression": checkEmpty,
+                    "Property": checkEmpty,
+                    "SequenceExpression": checkEmpty,
+                    "UnaryExpression": checkEmpty,
+                    "BinaryExpression": checkEmpty,
+                    "AssignmentExpression": checkEmpty,
+                    "UpdateExpression": checkEmpty,
+                    "LogicalExpression": checkEmpty,
+                    "ConditionalExpression": checkEmpty,
+                    "CallExpression": checkEmpty,
+                    "NewExpression": checkEmpty,
+                    "MemberExpression": checkEmpty,
+                    "SwitchCase": checkEmpty,
+                    "Identifier": checkEmpty,
+                    "Literal": checkEmpty,
+                    "ForOfStatement": checkEmpty,
+                    "ArrowFunctionExpression": checkEmpty,
+                    "YieldExpression": checkEmpty,
+                    "TemplateLiteral": checkEmpty,
+                    "TaggedTemplateExpression": checkEmpty,
+                    "TemplateElement": checkEmpty,
+                    "ObjectPattern": checkEmpty,
+                    "ArrayPattern": checkEmpty,
+                    "RestElement": checkEmpty,
+                    "AssignmentPattern": checkEmpty,
+                    "ClassBody": checkEmpty,
+                    "MethodDefinition": checkEmpty,
+                    "MetaProperty": checkEmpty
+                };
+                rule[type] = function(node) {
+                    var expectedNames = expectedNamesList.shift();
+                    var variables = context.getDeclaredVariables(node);
+
+                    assert(Array.isArray(expectedNames));
+                    assert(Array.isArray(variables));
+                    assert.equal(expectedNames.length, variables.length);
+                    for (var i = variables.length - 1; i >= 0; i--) {
+                        assert.equal(expectedNames[i], variables[i].name);
+                    }
+                };
+                return rule;
+            }});
+            eslint.verify(code, {
+                rules: {test: 2},
+                ecmaFeatures: {
+                    arrowFunctions: true,
+                    blockBindings: true,
+                    classes: true,
+                    defaultParams: true,
+                    destructuring: true,
+                    forOf: true,
+                    modules: true
+                }
+            });
+
+            // Check all expected names are asserted.
+            assert.equal(0, expectedNamesList.length);
+        }
+
+        it("VariableDeclaration", function() {
+            var code = "\n var {a, x: [b], y: {c = 0}} = foo;\n let {d, x: [e], y: {f = 0}} = foo;\n const {g, x: [h], y: {i = 0}} = foo, {j, k = function(z) { let l; }} = bar;\n ";
+            var namesList = [
+                ["a", "b", "c"],
+                ["d", "e", "f"],
+                ["g", "h", "i", "j", "k"],
+                ["l"]
+            ];
+
+            verify(code, "VariableDeclaration", namesList);
+        });
+
+        it("VariableDeclaration (on for-in/of loop)", function() {
+            // TDZ scope is created here, so tests to exclude those.
+            var code = "\n for (var {a, x: [b], y: {c = 0}} in foo) {\n let g;\n }\n for (let {d, x: [e], y: {f = 0}} of foo) {\n let h;\n }\n ";
+            var namesList = [
+                ["a", "b", "c"],
+                ["g"],
+                ["d", "e", "f"],
+                ["h"]
+            ];
+
+            verify(code, "VariableDeclaration", namesList);
+        });
+
+        it("VariableDeclarator", function() {
+            // TDZ scope is created here, so tests to exclude those.
+            var code = "\n var {a, x: [b], y: {c = 0}} = foo;\n let {d, x: [e], y: {f = 0}} = foo;\n const {g, x: [h], y: {i = 0}} = foo, {j, k = function(z) { let l; }} = bar;\n ";
+            var namesList = [
+                ["a", "b", "c"],
+                ["d", "e", "f"],
+                ["g", "h", "i"],
+                ["j", "k"],
+                ["l"]
+            ];
+
+            verify(code, "VariableDeclarator", namesList);
+        });
+
+        it("FunctionDeclaration", function() {
+            var code = "\n function foo({a, x: [b], y: {c = 0}}, [d, e]) {\n let z;\n }\n function bar({f, x: [g], y: {h = 0}}, [i, j = function(q) { let w; }]) {\n let z;\n }\n ";
+            var namesList = [
+                ["foo", "a", "b", "c", "d", "e"],
+                ["bar", "f", "g", "h", "i", "j"]
+            ];
+
+            verify(code, "FunctionDeclaration", namesList);
+        });
+
+        it("FunctionExpression", function() {
+            var code = "\n (function foo({a, x: [b], y: {c = 0}}, [d, e]) {\n let z;\n });\n (function bar({f, x: [g], y: {h = 0}}, [i, j = function(q) { let w; }]) {\n let z;\n });\n ";
+            var namesList = [
+                ["foo", "a", "b", "c", "d", "e"],
+                ["bar", "f", "g", "h", "i", "j"],
+                ["q"]
+            ];
+
+            verify(code, "FunctionExpression", namesList);
+        });
+
+        it("ArrowFunctionExpression", function() {
+            var code = "\n (({a, x: [b], y: {c = 0}}, [d, e]) => {\n let z;\n });\n (({f, x: [g], y: {h = 0}}, [i, j]) => {\n let z;\n });\n ";
+            var namesList = [
+                ["a", "b", "c", "d", "e"],
+                ["f", "g", "h", "i", "j"]
+            ];
+
+            verify(code, "ArrowFunctionExpression", namesList);
+        });
+
+        it("ClassDeclaration", function() {
+            var code = "\n class A { foo(x) { let y; } }\n class B { foo(x) { let y; } }\n ";
+            var namesList = [
+                ["A", "A"], // outer scope's and inner scope's.
+                ["B", "B"]
+            ];
+
+            verify(code, "ClassDeclaration", namesList);
+        });
+
+        it("ClassExpression", function() {
+            var code = "\n (class A { foo(x) { let y; } });\n (class B { foo(x) { let y; } });\n ";
+            var namesList = [
+                ["A"],
+                ["B"]
+            ];
+
+            verify(code, "ClassExpression", namesList);
+        });
+
+        it("CatchClause", function() {
+            var code = "\n try {} catch ({a, b}) {\n let x;\n try {} catch ({c, d}) {\n let y;\n }\n }\n ";
+            var namesList = [
+                ["a", "b"],
+                ["c", "d"]
+            ];
+
+            verify(code, "CatchClause", namesList);
+        });
+
+        it("ImportDeclaration", function() {
+            var code = "\n import \"aaa\";\n import * as a from \"bbb\";\n import b, {c, x as d} from \"ccc\";\n ";
+            var namesList = [
+                [],
+                ["a"],
+                ["b", "c", "d"]
+            ];
+
+            verify(code, "ImportDeclaration", namesList);
+        });
+
+        it("ImportSpecifier", function() {
+            var code = "\n import \"aaa\";\n import * as a from \"bbb\";\n import b, {c, x as d} from \"ccc\";\n ";
+            var namesList = [
+                ["c"],
+                ["d"]
+            ];
+
+            verify(code, "ImportSpecifier", namesList);
+        });
+
+        it("ImportDefaultSpecifier", function() {
+            var code = "\n import \"aaa\";\n import * as a from \"bbb\";\n import b, {c, x as d} from \"ccc\";\n ";
+            var namesList = [
+                ["b"]
+            ];
+
+            verify(code, "ImportDefaultSpecifier", namesList);
+        });
+
+        it("ImportNamespaceSpecifier", function() {
+            var code = "\n import \"aaa\";\n import * as a from \"bbb\";\n import b, {c, x as d} from \"ccc\";\n ";
+            var namesList = [
+                ["a"]
+            ];
+
+            verify(code, "ImportNamespaceSpecifier", namesList);
+        });
+    });
+
     describe("Edge cases", function() {
 
         it("should properly parse import statements when ecmaFeatures.modules is true", function() {
