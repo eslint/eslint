@@ -287,6 +287,22 @@ eslintTester.addRuleTest("lib/rules/valid-jsdoc", {
                 message: "Unexpected @returns tag; function has no return statement.",
                 type: "Block"
             }]
+        },
+        {
+            code: "/**\n * Some text\n *\n * @param arg [optional] text description\n */\nfunction testFunction(arg) {}",
+            options: [{"requireReturn": false,
+                       "requireParamDescription": false,
+                       "requireReturnDescription": false}],
+            errors: [
+                {
+                    message: "Missing JSDoc parameter type for \'undefined\'.",
+                    type: "Block"
+                },
+                {
+                    message: "Missing JSDoc for parameter \'arg\'.",
+                    type: "Block"
+                }
+            ]
         }
     ]
 });
