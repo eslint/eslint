@@ -79,6 +79,7 @@ Additionally, the `context` object has the following methods:
 * `getAllComments()` - returns an array of all comments in the source.
 * `getAncestors()` - returns an array of ancestor nodes based on the current traversal.
 * `getComments(node)` - returns the leading and trailing comments arrays for the given node.
+* `getDeclaredVariables(node)` - returns the declared variables on the given node.
 * `getFilename()` - returns the filename associated with the source.
 * `getFirstToken(node)` - returns the first token representing the given node.
 * `getFirstTokens(node, count)` - returns the first `count` tokens representing the given node.
