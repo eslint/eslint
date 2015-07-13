@@ -89,6 +89,7 @@
         "no-undef": 2,
         "no-undef-init": 2,
         "no-undefined": 0,
+	"no-undocumented-named-function": 0,
         "no-unexpected-multiline": 0,
         "no-underscore-dangle": 2,
         "no-unneeded-ternary": 0,
@@ -101,7 +102,6 @@
         "no-warning-comments": [0, { "terms": ["todo", "fixme", "xxx"], "location": "start" }],
         "no-with": 2,
         "no-wrap-func": 2,
-
         "array-bracket-spacing": [0, "never"],
         "arrow-parens": 0,
         "arrow-spacing": 0,

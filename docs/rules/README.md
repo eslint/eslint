@@ -190,6 +190,7 @@ These rules are purely matters of style and are quite subjective.
 * [spaced-comment](spaced-comment.md) - require or disallow a space immediately following the `//` or `/*` in a comment
 * [spaced-line-comment](spaced-line-comment.md) - **(deprecated)** require or disallow a space immediately following the `//` in a line comment
 * [wrap-regex](wrap-regex.md) - require regex literals to be wrapped in parentheses
+* [no-undocumented-named-function](no-undocumented-named-function.md) - require functions that are called by a name to have documentation
 
 ## ECMAScript 6
 
