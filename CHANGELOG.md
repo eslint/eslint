@@ -1,3 +1,27 @@
+v0.24.1 - July 10, 2015
+
+* Docs: Clarify when not to use space-before-blocks (Ian VanSchooten)
+* Docs: remove mistaken "off by default" (Jan Schär)
+* Docs: remove mistaken "off by default" (Jan Schär)
+* Docs: Fix typo in the shareable configs doc (Siddharth Kannan)
+* Docs: clarification in no-unused-vars (Jan Schär)
+* Docs: missing quotes in JSON (Jan Schär)
+* Fix: Revert 1-based column changes in tests for patch (refs #2284) (Nicholas C. Zakas)
+* Fix: Shallow cloning issues in eslint config (fixes #2961) (Gyandeep Singh)
+* Fix: object-shorthand computed props (fixes #2937) (Jamund Ferguson)
+* Fix: Remove invalid check inside `getJSDocComment` function (fixes #2938) (Gyandeep Singh)
+* Fix: max-len to report correct column number (fixes #2926) (Mathias Schreck)
+* Fix: add destructuring support to comma-dangle rule (fixes #2911) (Mathias Schreck)
+* Fix: `no-redeclare` checks module scopes (fixes #2903) (Toru Nagashima)
+* Fix: Include execScript in no-implied-eval rule (fixes #2873) (Frederik Braun)
+* Fix: Support class syntax for line-around-comment rule (fixes #2894) (Gyandeep Singh)
+* Fix: lines-around-comment was crashing in some cases due to a missing check (fixes #2892) (Mathieu M-Gosselin)
+* Fix: Added missing export syntax support to the block-scoped-var rule. (fixes #2887) (Mathieu M-Gosselin)
+* Fix: Yoda should ignore comparisons where both sides are constants (fixes #2867) (cjihrig)
+* Docs: array-bracket-spacing examples used space-in-brackets (Brandon Mills)
+* Docs: Add spaced-line-comment deprecation notice (Brandon Mills)
+* Docs: Add space-in-brackets deprecation notice (Brandon Mills)
+
 v0.24.0 - June 26, 2015
 
 * Upgrade: eslint-tester to 0.8.1 (Nicholas C. Zakas)
