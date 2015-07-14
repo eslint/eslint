@@ -166,7 +166,7 @@ describe("options", function() {
     });
 
     describe("--global", function() {
-        it("should return an array for a single occurrence", function () {
+        it("should return an array for a single occurrence", function() {
             var currentOptions = options.parse("--global foo");
             assert.isArray(currentOptions.global);
             assert.equal(currentOptions.global.length, 1);
@@ -199,7 +199,7 @@ describe("options", function() {
     });
 
     describe("--plugin", function() {
-        it("should return an array when passed a single occurrence", function () {
+        it("should return an array when passed a single occurrence", function() {
             var currentOptions = options.parse("--plugin single");
             assert.isArray(currentOptions.plugin);
             assert.equal(currentOptions.plugin.length, 1);
@@ -223,7 +223,7 @@ describe("options", function() {
         });
     });
 
-    describe("--quiet", function () {
+    describe("--quiet", function() {
         it("should return true for .quiet when passed", function() {
             var currentOptions = options.parse("--quiet");
             assert.isTrue(currentOptions.quiet);

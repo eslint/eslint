@@ -22,7 +22,7 @@ var eslintTester = new ESLintTester(eslint),
 
 eslintTester.addRuleTest("lib/rules/no-implied-eval", {
     valid: [
-        "setInterval(function () { x = 1; }, 100);",
+        "setInterval(function() { x = 1; }, 100);",
         "foo.setTimeout('hi')",
         "setTimeout(foo, 10)",
         "setTimeout(function() {}, 10)",

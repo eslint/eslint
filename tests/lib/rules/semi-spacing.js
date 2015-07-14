@@ -24,7 +24,7 @@ eslintTester.addRuleTest("lib/rules/semi-spacing", {
         "var a = 'b';",
         "var a = 'b ; c';",
         "var a = 'b',\nc = 'd';",
-        "var a = function () {};",
+        "var a = function() {};",
         ";(function(){}());",
         "while (true) { break; }",
         "while (true) { continue; }",

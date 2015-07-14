@@ -5,7 +5,7 @@
 
 "use strict";
 
-/*jshint node:true*/
+/* jshint node:true */
 
 //------------------------------------------------------------------------------
 // Requirements

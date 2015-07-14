@@ -16,7 +16,6 @@ The following rules point out areas where you might have made mistakes.
 * [no-dupe-keys](no-dupe-keys.md) - disallow duplicate keys when creating object literals (recommended)
 * [no-duplicate-case](no-duplicate-case.md) - disallow a duplicate case label. (recommended)
 * [no-empty-character-class](no-empty-character-class.md) - disallow the use of empty character classes in regular expressions (recommended)
-* [no-empty-class](no-empty-class.md) - **(deprecated)** disallow the use of empty character classes in regular expressions
 * [no-empty](no-empty.md) - disallow empty statements (recommended)
 * [no-ex-assign](no-ex-assign.md) - disallow assigning to the exception in a `catch` block (recommended)
 * [no-extra-boolean-cast](no-extra-boolean-cast.md) - disallow double-negation boolean casts in a boolean context (recommended)
@@ -98,8 +97,6 @@ These are rules designed to prevent you from making mistakes. They either prescr
 
 These rules relate to using strict mode.
 
-* [global-strict](global-strict.md) - **(deprecated)** require or disallow the `"use strict"` pragma in the global scope
-* [no-extra-strict](no-extra-strict.md) - **(deprecated)** disallow unnecessary use of `"use strict";` when already in strict mode
 * [strict](strict.md) - controls location of Use Strict Directives
 
 ## Variables
@@ -161,13 +158,11 @@ These rules are purely matters of style and are quite subjective.
 * [no-multiple-empty-lines](no-multiple-empty-lines.md) - disallow multiple empty lines
 * [no-nested-ternary](no-nested-ternary.md) - disallow nested ternary expressions
 * [no-new-object](no-new-object.md) - disallow use of the `Object` constructor
-* [no-space-before-semi](no-space-before-semi.md) - **(deprecated)** disallow space before semicolon
 * [no-spaced-func](no-spaced-func.md) - disallow space between function identifier and application
 * [no-ternary](no-ternary.md) - disallow the use of ternary operators
 * [no-trailing-spaces](no-trailing-spaces.md) - disallow trailing whitespace at the end of lines
 * [no-underscore-dangle](no-underscore-dangle.md) - disallow dangling underscores in identifiers
 * [no-unneeded-ternary](no-unneeded-ternary.md) - disallow the use of `Boolean` literals in conditional expressions
-* [no-wrap-func](no-wrap-func.md) - **(deprecated)** disallow wrapping of non-IIFE statements in parens
 * [object-curly-spacing](object-curly-spacing.md) - require or disallow padding inside curly braces
 * [one-var](one-var.md) - allow or disallow one variable declaration per function
 * [operator-assignment](operator-assignment.md) - require assignment operator shorthand where possible or prohibit it entirely
@@ -178,18 +173,14 @@ These rules are purely matters of style and are quite subjective.
 * [semi-spacing](semi-spacing.md) - enforce spacing before and after semicolons
 * [semi](semi.md) - require or disallow use of semicolons instead of ASI
 * [sort-vars](sort-vars.md) - sort variables within the same declaration block
-* [space-after-function-name](space-after-function-name.md) - **(deprecated)** require a space after function names
 * [space-after-keywords](space-after-keywords.md) - require a space after certain keywords
 * [space-before-blocks](space-before-blocks.md) - require or disallow space before blocks
 * [space-before-function-paren](space-before-function-paren.md) - require or disallow space before function opening parenthesis
-* [space-before-function-parentheses](space-before-function-parentheses.md) - **(deprecated)** require or disallow space before function parentheses
-* [space-in-brackets](space-in-brackets.md) - **(deprecated)** require or disallow spaces inside brackets
 * [space-in-parens](space-in-parens.md) - require or disallow spaces inside parentheses
 * [space-infix-ops](space-infix-ops.md) - require spaces around operators
 * [space-return-throw-case](space-return-throw-case.md) - require a space after `return`, `throw`, and `case`
 * [space-unary-ops](space-unary-ops.md) - require or disallow spaces before/after unary operators
 * [spaced-comment](spaced-comment.md) - require or disallow a space immediately following the `//` or `/*` in a comment
-* [spaced-line-comment](spaced-line-comment.md) - **(deprecated)** require or disallow a space immediately following the `//` in a line comment
 * [wrap-regex](wrap-regex.md) - require regex literals to be wrapped in parentheses
 
 ## ECMAScript 6
@@ -200,7 +191,6 @@ These rules are only relevant to ES6 environments.
 * [arrow-spacing](arrow-spacing.md) - Require space before/after arrow functions arrow
 * [constructor-super](constructor-super.md) - verify `super()` callings in constructors
 * [generator-star-spacing](generator-star-spacing.md) - enforce the spacing around the `*` in generator functions
-* [generator-star](generator-star.md) - **(deprecated)** enforce the position of the `*` in generator functions
 * [no-this-before-super](no-this-before-super.md) - disallow to use `this`/`super` before `super()` calling in constructors.
 * [no-var](no-var.md) - require `let` or `const` instead of `var`
 * [object-shorthand](object-shorthand.md) - require method and property shorthand syntax for object literals
@@ -223,6 +213,15 @@ The following rules are included for compatibility with [JSHint](http://jshint.c
 
 These rules existed in a previous version of ESLint but have since been replaced by newer rules.
 
-* [space-unary-word-ops](space-unary-word-ops.md) - require or disallow spaces before/after unary operators (replaced by [space-unary-ops](space-unary-ops.md))
+* [generator-star](generator-star.md) - enforce the position of the `*` in generator functions (replaced by [generator-star-spacing](generator-star-spacing.md))
+* [global-strict](global-strict.md) - require or disallow the `"use strict"` pragma in the global scope (replaced by [strict](strict.md))
 * [no-comma-dangle](no-comma-dangle.md) - disallow trailing commas in object literals (replaced by [comma-dangle](comma-dangle.md))
-
+* [no-empty-class](no-empty-class.md) - disallow the use of empty character classes in regular expressions (replaced by [no-empty-character-class](no-empty-character-class.md))
+* [no-extra-strict](no-extra-strict.md) - disallow unnecessary use of `"use strict";` when already in strict mode (replaced by [strict](strict.md))
+* [no-space-before-semi](no-space-before-semi.md) - disallow space before semicolon (replaced by [semi-spacing](semi-spacing.md))
+* [no-wrap-func](no-wrap-func.md) - disallow wrapping of non-IIFE statements in parens (replaced by [no-extra-parens](no-extra-parens.md))
+* [space-after-function-name](space-after-function-name.md) - require a space after function names (replaced by [space-before-function-paren](space-before-function-paren.md))
+* [space-before-function-parentheses](space-before-function-parentheses.md) - require or disallow space before function parentheses (replaced by [space-before-function-paren](space-before-function-paren.md))
+* [space-in-brackets](space-in-brackets.md) - require or disallow spaces inside brackets (replaced by [object-curly-spacing](object-curly-spacing.md) and [array-bracket-spacing](array-bracket-spacing.md))
+* [space-unary-word-ops](space-unary-word-ops.md) - require or disallow spaces before/after unary operators (replaced by [space-unary-ops](space-unary-ops.md))
+* [spaced-line-comment](spaced-line-comment.md) - require or disallow a space immediately following the `//` in a line comment (replaced by [spaced-comment](spaced-comment.md))

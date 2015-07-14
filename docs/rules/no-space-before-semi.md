@@ -1,6 +1,6 @@
 # Disallow Spaces Before Semicolon (no-space-before-semi)
 
-**Deprecation notice**: This rule is deprecated and has been superseded by the [semi-spacing](semi-spacing.md) rule. It will be removed in ESLint v1.0.
+**Replacement notice**: This rule was removed in ESLint v1.0 and replaced by the [semi-spacing](semi-spacing.md) rule.
 
 JavaScript allows for placing unnecessary spaces between an expression and the closing semicolon.
 

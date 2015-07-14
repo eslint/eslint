@@ -35,7 +35,7 @@ eslintTester.addRuleTest("lib/rules/space-after-keywords", {
         { code: "if(a){}else if(b){}else{}", args: [1, "never"]},
         { code: "try {}finally {}", args: [1]},
         { code: "try{} finally{}", args: [1, "never"]},
-        { code: "(function (){})", args: [1] },
+        { code: "(function(){})", args: [1] },
         { code: "(function(){})", args: [1] }
     ],
     invalid: [

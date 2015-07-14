@@ -26,7 +26,7 @@ eslintTester.addRuleTest("lib/rules/no-alert", {
         "foo.confirm(foo)",
         "foo.prompt(foo)",
         "function alert() {} alert();",
-        "var alert = function () {}; alert();",
+        "var alert = function() {}; alert();",
         "function foo() { var alert = bar; alert(); }",
         "function foo(alert) { alert(); }",
         "var alert = function() {}; function test() { alert(); }",
@@ -79,7 +79,7 @@ eslintTester.addRuleTest("lib/rules/no-alert", {
             errors: [{ message: "Unexpected alert.", type: "CallExpression", line: 1, column: 21 }]
         },
         {
-            code: "var alert = function () {};\nwindow.alert(foo)",
+            code: "var alert = function() {};\nwindow.alert(foo)",
             errors: [{ message: "Unexpected alert.", type: "CallExpression", line: 2, column: 1 }]
         },
         {
