@@ -25,7 +25,7 @@ function expectedErrors(errors) {
         errors = [errors];
     }
 
-    return errors.map(function (err) {
+    return errors.map(function(err) {
         return {
             message: "Expected indentation of " + err[1] + " characters.",
             type: err[2] || "Program",

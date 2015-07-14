@@ -56,9 +56,9 @@ eslintTester.addRuleTest("lib/rules/array-bracket-spacing", {
         { code: "obj[ 'foo' ]", options: ["always"] },
         { code: "obj[ 'foo' + 'bar' ]", options: ["always"] },
         { code: "obj[ obj2[ foo ] ]", options: ["always"] },
-        { code: "obj.map(function (item) { return [\n1,\n2,\n3,\n4\n]; })", options: ["always"] },
-        { code: "obj[ 'map' ](function (item) { return [\n1,\n2,\n3,\n4\n]; })", options: ["always"] },
-        { code: "obj[ 'for' + 'Each' ](function (item) { return [\n1,\n2,\n3,\n4\n]; })", options: ["always"] },
+        { code: "obj.map(function(item) { return [\n1,\n2,\n3,\n4\n]; })", options: ["always"] },
+        { code: "obj[ 'map' ](function(item) { return [\n1,\n2,\n3,\n4\n]; })", options: ["always"] },
+        { code: "obj[ 'for' + 'Each' ](function(item) { return [\n1,\n2,\n3,\n4\n]; })", options: ["always"] },
 
         { code: "var arr = [ 1, 2, 3, 4 ];", options: ["always"] },
         { code: "var arr = [ [ 1, 2 ], 2, 3, 4 ];", options: ["always"] },
@@ -66,7 +66,7 @@ eslintTester.addRuleTest("lib/rules/array-bracket-spacing", {
         { code: "var foo = [];", options: ["always"] },
 
         // singleValue: false, objectsInArrays: true, arraysInArrays
-        { code: "this.db.mappings.insert([\n { alias: 'a', url: 'http://www.amazon.de' },\n { alias: 'g', url: 'http://www.google.de' }\n], function () {});", options: ["always", {singleValue: false, objectsInArrays: true, arraysInArrays: true}] },
+        { code: "this.db.mappings.insert([\n { alias: 'a', url: 'http://www.amazon.de' },\n { alias: 'g', url: 'http://www.google.de' }\n], function() {});", options: ["always", {singleValue: false, objectsInArrays: true, arraysInArrays: true}] },
 
         // always - destructuring assignment
         { code: "var [ x, y ] = z", ecmaFeatures: { destructuring: true }, options: ["always"] },
@@ -86,10 +86,10 @@ eslintTester.addRuleTest("lib/rules/array-bracket-spacing", {
         { code: "obj['foo' + 'bar']", options: ["never"] },
         { code: "obj['foo'+'bar']", options: ["never"] },
         { code: "obj[obj2[foo]]", options: ["never"] },
-        { code: "obj.map(function (item) { return [\n1,\n2,\n3,\n4\n]; })", options: ["never"] },
-        { code: "obj['map'](function (item) { return [\n1,\n2,\n3,\n4\n]; })", options: ["never"] },
-        { code: "obj['for' + 'Each'](function (item) { return [\n1,\n2,\n3,\n4\n]; })", options: ["never"] },
-        { code: "obj['for' + 'Each'](function (item) { return [\n1,\n2,\n3,\n4\n]; })", options: ["never"] },
+        { code: "obj.map(function(item) { return [\n1,\n2,\n3,\n4\n]; })", options: ["never"] },
+        { code: "obj['map'](function(item) { return [\n1,\n2,\n3,\n4\n]; })", options: ["never"] },
+        { code: "obj['for' + 'Each'](function(item) { return [\n1,\n2,\n3,\n4\n]; })", options: ["never"] },
+        { code: "obj['for' + 'Each'](function(item) { return [\n1,\n2,\n3,\n4\n]; })", options: ["never"] },
         { code: "var arr = [1, 2, 3, 4];", options: ["never"] },
         { code: "var arr = [[1, 2], 2, 3, 4];", options: ["never"] },
         { code: "var arr = [\n1, 2, 3, 4\n];", options: ["never"] },

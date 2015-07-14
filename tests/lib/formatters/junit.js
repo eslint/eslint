@@ -3,7 +3,7 @@
  * @author Jamund Ferguson
  */
 
-/*jshint node:true*/
+/* jshint node:true */
 
 "use strict";
 

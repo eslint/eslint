@@ -41,7 +41,7 @@ eslintTester.addRuleTest("lib/rules/func-names", {
         { code: "(function(){}())", errors: [{ message: "Missing function expression name.", type: "FunctionExpression"}] },
         { code: "f(function(){})", errors: [{ message: "Missing function expression name.", type: "FunctionExpression"}] },
         { code: "var a = new Date(function() {});", errors: [{ message: "Missing function expression name.", type: "FunctionExpression"}] },
-        { code: "var test = function (d, e, f) {};", errors: [{ message: "Missing function expression name.", type: "FunctionExpression"}] },
+        { code: "var test = function(d, e, f) {};", errors: [{ message: "Missing function expression name.", type: "FunctionExpression"}] },
         { code: "new function() {}", errors: [{ message: "Missing function expression name.", type: "FunctionExpression"}] }
     ]
 });

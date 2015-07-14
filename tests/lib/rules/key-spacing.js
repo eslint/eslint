@@ -100,7 +100,7 @@ eslintTester.addRuleTest("lib/rules/key-spacing", {
             "var obj = {",
             "    a:        (42 - 12),",
             "    'foobar': 'value',",
-            "    bat:      function () {",
+            "    bat:      function() {",
             "        return this.a;",
             "    },",
             "    baz: 42",

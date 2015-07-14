@@ -61,7 +61,7 @@ eslintTester.addRuleTest("lib/rules/consistent-return", {
             ]
         },
         {
-            code: "f(function () { if (true) return true; else return; })",
+            code: "f(function() { if (true) return true; else return; })",
             errors: [
                 {
                     message: "Expected a return value.",
@@ -70,7 +70,7 @@ eslintTester.addRuleTest("lib/rules/consistent-return", {
             ]
         },
         {
-            code: "f(function () { if (true) return; else return false; })",
+            code: "f(function() { if (true) return; else return false; })",
             errors: [
                 {
                     message: "Expected no return value.",

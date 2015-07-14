@@ -143,14 +143,14 @@ describe("util", function() {
             assert.deepEqual(code[1], { rules: { "no-mixed-requires": 1 }});
         });
 
-        describe("plugins", function () {
+        describe("plugins", function() {
             var baseConfig;
 
-            beforeEach(function () {
+            beforeEach(function() {
                 baseConfig = { plugins: ["foo", "bar"] };
             });
 
-            it("should combine the plugin entries when each config has different plugins", function () {
+            it("should combine the plugin entries when each config has different plugins", function() {
                 var customConfig = { plugins: ["baz"] },
                     expectedResult = { plugins: ["foo", "bar", "baz"] },
                     result;
@@ -162,7 +162,7 @@ describe("util", function() {
                 assert.deepEqual(customConfig, { plugins: ["baz"] });
             });
 
-            it("should avoid duplicate plugin entries when each config has the same plugin", function () {
+            it("should avoid duplicate plugin entries when each config has the same plugin", function() {
                 var customConfig = { plugins: ["bar"] },
                     expectedResult = { plugins: ["foo", "bar"] },
                     result;
@@ -172,7 +172,7 @@ describe("util", function() {
                 assert.deepEqual(result, expectedResult);
             });
 
-            it("should create a valid config when one argument is an empty object", function () {
+            it("should create a valid config when one argument is an empty object", function() {
                 var customConfig = { plugins: ["foo"] },
                     result;
 

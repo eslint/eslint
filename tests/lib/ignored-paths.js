@@ -63,7 +63,7 @@ describe("IgnoredPaths", function() {
         var filepath = path.resolve(__dirname, "..", "fixtures", "configurations", ".foobaz");
 
         it("should throw error", function() {
-            assert.throws(function () {
+            assert.throws(function() {
                 var ignoredPaths = IgnoredPaths.load({ ignore: true, ignorePath: filepath });
                 assert.ok(ignoredPaths);
             }, "Cannot read ignore file");

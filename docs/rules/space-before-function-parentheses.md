@@ -1,6 +1,6 @@
 # Require or disallow spaces before function parentheses (space-before-function-parentheses)
 
-**Deprecation notice**: This rule is deprecated, as it has been renamed to [space-before-function-paren](space-before-function-paren.md) for consistency with other rules' names, which used "parens" instead of "parentheses". This rule, by the old name, will be removed in ESLint v1.0. The new rule is identical in everything except name.
+**Replacement notice**: This rule was removed in ESLint v1.0 and has been renamed to [space-before-function-paren](space-before-function-paren.md) for consistency with other rules' names, which used "parens" instead of "parentheses". The new rule is identical in everything except name.
 
 When formatting a function, whitespace is allowed between the function name or `function` keyword and the opening paren. Named functions also require a space between the `function` keyword and the function name, but anonymous functions require no whitespace. For example:
 
