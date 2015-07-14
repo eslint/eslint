@@ -104,7 +104,7 @@ eslintTester.addRuleTest("lib/rules/space-unary-ops", {
             code: "!foo",
             args: [1, { "nonwords": false }]
         },
-       {
+        {
             code: "!!foo",
             args: [1, { "nonwords": false }]
         },

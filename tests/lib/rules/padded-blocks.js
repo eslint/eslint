@@ -11,7 +11,7 @@
 //------------------------------------------------------------------------------
 
 var eslint = require("../../../lib/eslint"),
-ESLintTester = require("eslint-tester");
+    ESLintTester = require("eslint-tester");
 
 //------------------------------------------------------------------------------
 // Tests

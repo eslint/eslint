@@ -30,28 +30,28 @@ eslintTester.addRuleTest("lib/rules/no-extra-strict", {
     ],
     invalid: [
         {
-          code: "\"use strict\"; function foo() { \"use strict\"; var bar = true; }",
-          errors: [{ message: "Unnecessary 'use strict'.", type: "Literal"}]
+            code: "\"use strict\"; function foo() { \"use strict\"; var bar = true; }",
+            errors: [{ message: "Unnecessary 'use strict'.", type: "Literal"}]
         },
         {
-          code: "'use strict'; function foo() { 'use strict'; var bar = true; }",
-          errors: [{ message: "Unnecessary 'use strict'.", type: "Literal"}]
+            code: "'use strict'; function foo() { 'use strict'; var bar = true; }",
+            errors: [{ message: "Unnecessary 'use strict'.", type: "Literal"}]
         },
         {
-          code: "\"use strict\"; (function foo() { function bar () { \"use strict\"; } }());",
-          errors: [{ message: "Unnecessary 'use strict'.", type: "Literal"}]
+            code: "\"use strict\"; (function foo() { function bar () { \"use strict\"; } }());",
+            errors: [{ message: "Unnecessary 'use strict'.", type: "Literal"}]
         },
         {
-          code: "'use strict'; (function foo() { function bar () { 'use strict'; } }());",
-          errors: [{ message: "Unnecessary 'use strict'.", type: "Literal"}]
+            code: "'use strict'; (function foo() { function bar () { 'use strict'; } }());",
+            errors: [{ message: "Unnecessary 'use strict'.", type: "Literal"}]
         },
         {
-          code: "(function foo() { 'use strict'; 'use strict'; }());",
-          errors: [{ message: "Multiple 'use strict' directives.", type: "Literal"}]
+            code: "(function foo() { 'use strict'; 'use strict'; }());",
+            errors: [{ message: "Multiple 'use strict' directives.", type: "Literal"}]
         },
         {
-          code: "'use strict'; a = function foo() { 'use strict'; return true; }",
-          errors: [{ message: "Unnecessary 'use strict'.", type: "Literal"}]
+            code: "'use strict'; a = function foo() { 'use strict'; return true; }",
+            errors: [{ message: "Unnecessary 'use strict'.", type: "Literal"}]
         }
 
         // TODO: When escope supports ES6, uncomment this
