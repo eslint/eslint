@@ -1,7 +1,9 @@
 /**
  * @fileoverview This option sets a specific tab width for your code
  * @author Dmitriy Shekhovtsov
+ * @author Gyandeep Singh
  * @copyright 2014 Dmitriy Shekhovtsov. All rights reserved.
+ * @copyright 2015 Gyandeep Singh. All rights reserved.
  */
 "use strict";
 
@@ -36,6 +38,38 @@ var eslintTester = new ESLintTester(eslint);
 eslintTester.addRuleTest("lib/rules/indent", {
 
     valid: [
+        {
+            code:
+            "[a, b, \nc].forEach((index) => {\n" +
+            "    index;\n" +
+            "});\n",
+            options: [4],
+            ecmaFeatures: { arrowFunctions: true }
+        },
+        {
+            code:
+            "[a, b, \nc].forEach(function(index){\n" +
+            "    return index;\n" +
+            "});\n",
+            options: [4],
+            ecmaFeatures: { arrowFunctions: true }
+        },
+        {
+            code:
+            "[a, b, c].forEach((index) => {\n" +
+            "    index;\n" +
+            "});\n",
+            options: [4],
+            ecmaFeatures: { arrowFunctions: true }
+        },
+        {
+            code:
+            "[a, b, c].forEach(function(index){\n" +
+            "    return index;\n" +
+            "});\n",
+            options: [4],
+            ecmaFeatures: { arrowFunctions: true }
+        },
         {
             code:
             "var a = new Test({\n" +
@@ -508,6 +542,50 @@ eslintTester.addRuleTest("lib/rules/indent", {
             errors: expectedErrors([
                 [2, 4, "VariableDeclarator"],
                 [3, 4, "VariableDeclarator"]
+            ])
+        },
+        {
+            code:
+            "[a, b, \nc].forEach((index) => {\n" +
+            "  index;\n" +
+            "});\n",
+            options: [4],
+            ecmaFeatures: { arrowFunctions: true },
+            errors: expectedErrors([
+                [3, 4, "ExpressionStatement"]
+            ])
+        },
+        {
+            code:
+            "[a, b, \nc].forEach(function(index){\n" +
+            "  return index;\n" +
+            "});\n",
+            options: [4],
+            ecmaFeatures: { arrowFunctions: true },
+            errors: expectedErrors([
+                [3, 4, "ReturnStatement"]
+            ])
+        },
+        {
+            code:
+            "[a, b, c].forEach((index) => {\n" +
+            "  index;\n" +
+            "});\n",
+            options: [4],
+            ecmaFeatures: { arrowFunctions: true },
+            errors: expectedErrors([
+                [2, 4, "ExpressionStatement"]
+            ])
+        },
+        {
+            code:
+            "[a, b, c].forEach(function(index){\n" +
+            "  return index;\n" +
+            "});\n",
+            options: [4],
+            ecmaFeatures: { arrowFunctions: true },
+            errors: expectedErrors([
+                [2, 4, "ReturnStatement"]
             ])
         }
     ]
