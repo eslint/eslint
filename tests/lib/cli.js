@@ -155,7 +155,7 @@ describe("cli", function() {
 
     describe("when executing a file with a lint error", function() {
         it("should exit with error", function() {
-            var exit = cli.execute("--no-ignore tests/fixtures/undef.js");
+            var exit = cli.execute("--no-ignore --rule no-undef:2 tests/fixtures/undef.js");
 
             assert.equal(exit, 1);
         });
@@ -171,7 +171,7 @@ describe("cli", function() {
 
     describe("when calling execute more than once", function() {
         it("should not print the results from previous execution", function() {
-            cli.execute("--no-ignore tests/fixtures/missing-semicolon.js");
+            cli.execute("--no-ignore --rule semi:2 tests/fixtures/missing-semicolon.js");
             assert.isTrue(console.log.called, "Log should have been called.");
 
             console.log.reset();
@@ -308,13 +308,13 @@ describe("cli", function() {
 
         it("should not define environment-specific globals", function () {
             cli.execute("--no-eslintrc --config ./conf/eslint.json --no-ignore " + files.join(" "));
-            assert.equal(console.log.args[0][0].split("\n").length, 12);
+            assert.equal(console.log.args[0][0].split("\n").length, 11);
         });
     });
 
     describe("when executing with global flag", function () {
         it("should default defined variables to read-only", function () {
-            var exit = cli.execute("--global baz,bat --no-ignore ./tests/fixtures/undef.js");
+            var exit = cli.execute("--global baz,bat --no-ignore --rule no-undef:2 ./tests/fixtures/undef.js");
 
             assert.isTrue(console.log.calledOnce);
             assert.equal(exit, 1);
@@ -379,7 +379,7 @@ describe("cli", function() {
         });
 
         it("should write the file and create dirs if they don't exist", function () {
-            var code = "--o tests/output/eslint-output.txt tests/fixtures/single-quoted.js";
+            var code = "--rule 'quotes: [1, double]' --o tests/output/eslint-output.txt tests/fixtures/single-quoted.js";
 
             cli.execute(code);
 
@@ -388,7 +388,7 @@ describe("cli", function() {
         });
 
         it("should return an error if the path is a directory", function () {
-            var code = "--o tests/output tests/fixtures/single-quoted.js";
+            var code = "--rule 'quotes: [1, double]' --o tests/output tests/fixtures/single-quoted.js";
             var exit;
 
             fs.mkdirSync("tests/output");
@@ -401,7 +401,7 @@ describe("cli", function() {
         });
 
         it("should return an error if the path could not be written to", function () {
-            var code = "--o tests/output/eslint-output.txt tests/fixtures/single-quoted.js";
+            var code = "--rule 'quotes: [1, double]' --o tests/output/eslint-output.txt tests/fixtures/single-quoted.js";
             var exit;
 
             fs.writeFileSync("tests/output", "foo");
