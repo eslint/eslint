@@ -40,6 +40,25 @@ eslintTester.addRuleTest("lib/rules/indent", {
     valid: [
         {
             code:
+            "if (1 < 2){\n" +
+            "//hi sd \n" +
+            "}",
+            options: [2]
+        },
+        {
+            code:
+            "while (1 < 2){\n" +
+            "  //hi sd \n" +
+            "}",
+            options: [2]
+        },
+        {
+            code:
+            "while (1 < 2) console.log('hi');",
+            options: [2]
+        },
+        {
+            code:
             "[a, b, \nc].forEach((index) => {\n" +
             "    index;\n" +
             "});\n",
