@@ -248,6 +248,20 @@ eslintTester.addRuleTest("lib/rules/indent", {
             "   ,b = 2\n" +
             "   ,c = 3;\n",
             options: [4]
+        },
+        {
+            code: "while (1 < 2) console.log('hi')\n",
+            options: [2]
+        },
+        {
+            code:
+                "function salutation () {\n" +
+                "  switch (1) {\n" +
+                "    case 0: return console.log('hi')\n" +
+                "    case 1: return console.log('hey')\n" +
+                "  }\n" +
+                "}\n",
+            options: [2, { indentSwitchCase: true }]
         }
     ],
     invalid: [
@@ -605,6 +619,27 @@ eslintTester.addRuleTest("lib/rules/indent", {
             ecmaFeatures: { arrowFunctions: true },
             errors: expectedErrors([
                 [2, 4, "ReturnStatement"]
+            ])
+        },
+        {
+            code: "while (1 < 2)\nconsole.log('foo')\n  console.log('bar')",
+            options: [2],
+            errors: expectedErrors([
+                [2, 2, "ExpressionStatement"],
+                [3, 0, "ExpressionStatement"]
+            ])
+        },
+        {
+            code:
+            "function salutation () {\n" +
+            "  switch (1) {\n" +
+            "  case 0: return console.log('hi')\n" +
+            "    case 1: return console.log('hey')\n" +
+            "  }\n" +
+            "}\n",
+            options: [2, { indentSwitchCase: true }],
+            errors: expectedErrors([
+                [3, 4, "SwitchCase"]
             ])
         }
     ]
