@@ -55,6 +55,7 @@ describe("configInitializer", function() {
         answers.react = true;
         var config = init.processAnswers(answers);
         assert.equal(config.ecmaFeatures.jsx, true);
+        assert.equal(config.ecmaFeatures.experimentalObjectRestSpread, true);
         assert.deepEqual(config.plugins, ["react"]);
     });
     it("should not enable es6", function() {
