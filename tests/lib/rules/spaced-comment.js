@@ -132,6 +132,14 @@ eslintTester.addRuleTest("lib/rules/spaced-comment", {
             options: ["always"]
         },
         {
+            code: "/*\r\n *Test\r\n */",
+            options: ["never"]
+        },
+        {
+            code: "/*     \r\n *Test\r\n */",
+            options: ["always"]
+        },
+        {
             code: "/*!\n *comment\n */",
             options: ["always", { markers: ["!"] }]
         },
