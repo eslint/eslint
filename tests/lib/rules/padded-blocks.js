@@ -72,7 +72,7 @@ eslintTester.addRuleTest("lib/rules/padded-blocks", {
                 {
                     message: ALWAYS_MESSAGE,
                     line: 5,
-                    column: 0
+                    column: 2
                 }
             ]
         },

@@ -2473,6 +2473,17 @@ describe("eslint", function() {
             assert.equal(messages.length, 0);
         });
 
+        it("should properly parse object spread when passed ecmaFeatures", function() {
+
+            var messages = eslint.verify("var x = { ...y };", {
+                ecmaFeatures: {
+                    experimentalObjectRestSpread: true
+                }
+            }, filename);
+
+            assert.equal(messages.length, 0);
+        });
+
         it("should properly parse global return when passed ecmaFeatures", function() {
 
             var messages = eslint.verify("return;", {
