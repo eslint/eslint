@@ -208,3 +208,4 @@ You can turn this rule off if you are not concerned with the consistency of spac
 
 * [space-in-parens](space-in-parens.md)
 * [object-curly-spacing](object-curly-spacing.md)
+* [computed-property-spacing](computed-property-spacing.md)
