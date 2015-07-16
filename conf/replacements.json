@@ -9,7 +9,7 @@
         "no-wrap-func": ["no-extra-parens"],
         "space-after-function-name": ["space-before-function-paren"],
         "space-before-function-parentheses": ["space-before-function-paren"],
-        "space-in-brackets": ["object-curly-spacing", "array-bracket-spacing"],
+        "space-in-brackets": ["object-curly-spacing", "array-bracket-spacing", "computed-property-spacing"],
         "space-unary-word-ops": ["space-unary-ops"],
         "spaced-line-comment": ["spaced-comment"]
     }
