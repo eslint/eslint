@@ -24,7 +24,10 @@ eslintTester.addRuleTest("lib/rules/no-ex-assign", {
         "function foo() { try { } catch (e) { return false; } }"
     ],
     invalid: [
-        { code: "try { } catch (e) { e = 10; }", errors: [{ message: "Do not assign to the exception parameter.", type: "AssignmentExpression"}] },
-        { code: "try { } catch (ex) { ex = 10; }", errors: [{ message: "Do not assign to the exception parameter.", type: "AssignmentExpression"}] }
+        { code: "try { } catch (e) { e = 10; }", errors: [{ message: "Do not assign to the exception parameter.", type: "Identifier"}] },
+        { code: "try { } catch (ex) { ex = 10; }", errors: [{ message: "Do not assign to the exception parameter.", type: "Identifier"}] },
+        { code: "try { } catch (ex) { [ex] = []; }", ecmaFeatures: {destructuring: true}, errors: [{ message: "Do not assign to the exception parameter.", type: "Identifier"}] },
+        { code: "try { } catch (ex) { ({x: ex = 0}) = {}; }", ecmaFeatures: {destructuring: true}, errors: [{ message: "Do not assign to the exception parameter.", type: "Identifier"}] },
+        { code: "try { } catch ({message}) { message = 10; }", ecmaFeatures: {destructuring: true}, errors: [{ message: "Do not assign to the exception parameter.", type: "Identifier"}] }
     ]
 });
