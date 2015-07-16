@@ -33,6 +33,10 @@ eslintTester.addRuleTest("lib/rules/no-param-reassign", {
         { code: "function foo(bar) { ++bar; }", errors: [{ message: "Assignment to function parameter 'bar'." }] },
         { code: "function foo(bar) { bar++; }", errors: [{ message: "Assignment to function parameter 'bar'." }] },
         { code: "function foo(bar) { --bar; }", errors: [{ message: "Assignment to function parameter 'bar'." }] },
-        { code: "function foo(bar) { bar--; }", errors: [{ message: "Assignment to function parameter 'bar'." }] }
+        { code: "function foo(bar) { bar--; }", errors: [{ message: "Assignment to function parameter 'bar'." }] },
+        { code: "function foo({bar}) { bar = 13; }", ecmaFeatures: {destructuring: true}, errors: [{ message: "Assignment to function parameter 'bar'." }] },
+        { code: "function foo([, {bar}]) { bar = 13; }", ecmaFeatures: {destructuring: true}, errors: [{ message: "Assignment to function parameter 'bar'." }] },
+        { code: "function foo(bar) { ({bar}) = {}; }", ecmaFeatures: {destructuring: true}, errors: [{ message: "Assignment to function parameter 'bar'." }] },
+        { code: "function foo(bar) { ({x: [, bar = 0]}) = {}; }", ecmaFeatures: {destructuring: true}, errors: [{ message: "Assignment to function parameter 'bar'." }] }
     ]
 });

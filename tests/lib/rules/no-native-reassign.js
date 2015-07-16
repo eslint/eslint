@@ -27,12 +27,28 @@ eslintTester.addRuleTest("lib/rules/no-native-reassign", {
         }
     ],
     invalid: [
-        { code: "String = 'hello world';", errors: [{ message: "String is a read-only native object.", type: "AssignmentExpression"}] },
-        { code: "var String;", errors: [{ message: "Redefinition of 'String'.", type: "VariableDeclarator"}] },
+        { code: "String = 'hello world';", errors: [{ message: "String is a read-only native object.", type: "Identifier"}] },
+        { code: "var String;", errors: [{ message: "Redefinition of 'String'.", type: "Identifier"}] },
         {
             code: "var Object = 0",
             options: [{exceptions: ["Number"]}],
-            errors: [{ message: "Redefinition of 'Object'.", type: "VariableDeclarator"}]
+            errors: [{ message: "Redefinition of 'Object'.", type: "Identifier"}]
+        },
+        {
+            code: "({Object = 0, String = 0}) = {};",
+            ecmaFeatures: {destructuring: true},
+            errors: [
+                {message: "Object is a read-only native object.", type: "Identifier"},
+                {message: "String is a read-only native object.", type: "Identifier"}
+            ]
+        },
+        {
+            code: "var {Array, Number = 0} = {};",
+            ecmaFeatures: {destructuring: true},
+            errors: [
+                {message: "Redefinition of 'Array'.", type: "Identifier"},
+                {message: "Redefinition of 'Number'.", type: "Identifier"}
+            ]
         }
     ]
 });
