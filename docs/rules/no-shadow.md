@@ -49,12 +49,12 @@ if (true) {
 
 ## Options
 
-This rule has a option for the hoisting behavior.
+This rule has options for hoisting behavior and ignoring identifier names.
 
 ```json
 {
     "rules": {
-        "no-shadow": [2, {"hoist": "functions"}]
+        "no-shadow": [2, {"hoist": "functions"}, {"ignore":[]}]
     }
 }
 ```
@@ -82,6 +82,34 @@ function b() {}
 * `all` - Both `let a` and `let b` in the `if` statement are considered warnings.
 * `functions` - `let b` is considered warnings. But `let a` in the `if` statement is not considered warnings. Because there is it before `let a` of the outer scope.
 * `never` - Both `let a` and `let b` in the `if` statement are not considered warnings. Because there are those before each declaration of the outer scope.
+
+### ignore
+
+The option is an array of identifier names to be ignored (ie. "resolve", "reject", "done", "cb" etc.):
+
+```json
+{
+    "rules": {
+        "no-shadow": [2, {"ignore":["done"]}]
+    }
+}
+```
+
+Allows for the following code to be valid:
+
+```js
+import async from 'async';
+
+function foo(done) {
+  async.map([1, 2], function (e, done) {
+    done(null, e * 2)
+  }, done);
+}
+
+foo(function (err, result) {
+  console.log({ err, result });
+});
+```
 
 ## Further Reading
 

@@ -52,7 +52,8 @@ eslintTester.addRuleTest("lib/rules/no-shadow", {
         { code: "function foo() { var a; } let a;", ecmaFeatures: {blockBindings: true} },
         { code: "function foo() { var a; } var a;", ecmaFeatures: {blockBindings: true} },
         { code: "function foo(a) { } let a;", ecmaFeatures: {blockBindings: true} },
-        { code: "function foo(a) { } var a;", ecmaFeatures: {blockBindings: true} }
+        { code: "function foo(a) { } var a;", ecmaFeatures: {blockBindings: true} },
+        { code: "function foo(cb) { (function (cb) { cb(42); })(cb); }", options: [{ ignore: [ "cb" ] }] }
     ],
     invalid: [
         {
@@ -286,6 +287,12 @@ eslintTester.addRuleTest("lib/rules/no-shadow", {
             errors: [
                 { message: "a is already declared in the upper scope.", type: "Identifier", line: 1, column: 26},
                 { message: "a is already declared in the upper scope.", type: "Identifier", line: 1, column: 40}
+            ]
+        },
+        {
+            code: "function foo(cb) { (function (cb) { cb(42); })(cb); }",
+            errors: [
+                { message: "cb is already declared in the upper scope.", type: "Identifier", line: 1, column: 31}
             ]
         }
     ]
