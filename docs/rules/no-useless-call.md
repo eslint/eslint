@@ -1,6 +1,6 @@
 # Disallow unnecessary `.call()` and `.apply()`. (no-useless-call)
 
-The function invocation can be writen by `Function.prototype.call()` and `Function.prototype.apply()`.
+The function invocation can be written by `Function.prototype.call()` and `Function.prototype.apply()`.
 But `Function.prototype.call()` and `Function.prototype.apply()` are slower than the normal function invocation.
 
 ## Rule Details
