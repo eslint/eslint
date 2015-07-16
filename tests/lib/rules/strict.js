@@ -26,6 +26,7 @@ eslintTester.addRuleTest("lib/rules/strict", {
         { code: "var foo = function() { { 'use strict'; } return; };", options: ["never"] },
         { code: "(function() { bar('use strict'); return; }());", options: ["never"] },
         { code: "var fn = x => 1;", ecmaFeatures: { arrowFunctions: true }, options: ["never"] },
+        { code: "var fn = x => { return; };", ecmaFeatures: { arrowFunctions: true }, options: ["never"] },
         { code: "foo();", ecmaFeatures: { modules: true }, options: ["never"] },
 
         // "global" mode
@@ -37,13 +38,32 @@ eslintTester.addRuleTest("lib/rules/strict", {
         { code: "'use strict'; function foo() { bar(); 'use strict'; return; }", options: ["global"] },
         { code: "'use strict'; var foo = function() { bar(); 'use strict'; return; };", options: ["global"] },
         { code: "'use strict'; function foo() { return function() { bar(); 'use strict'; return; }; }", options: ["global"] },
+        { code: "'use strict'; var foo = () => { return () => { bar(); 'use strict'; return; }; }", ecmaFeatures: { arrowFunctions: true }, options: ["global"] },
 
         // "function" mode
         { code: "function foo() { 'use strict'; return; }", options: ["function"] },
         { code: "function foo() { return; }", ecmaFeatures: { modules: true }, options: ["function"] },
+        { code: "var foo = function() { return; }", ecmaFeatures: { modules: true }, options: ["function"] },
         { code: "var foo = function() { 'use strict'; return; }", options: ["function"] },
         { code: "function foo() { 'use strict'; return; } var bar = function() { 'use strict'; bar(); };", options: ["function"] },
         { code: "var foo = function() { 'use strict'; function bar() { return; } bar(); };", options: ["function"] },
+        { code: "var foo = () => { 'use strict'; var bar = () => 1; bar(); };", ecmaFeatures: { arrowFunctions: true }, options: ["function"] },
+        { code: "var foo = () => { var bar = () => 1; bar(); };", ecmaFeatures: { arrowFunctions: true, modules: true }, options: ["function"] },
+        {
+            code: "class A { constructor() { } }",
+            ecmaFeatures: { classes: true },
+            options: ["function"]
+        },
+        {
+            code: "class A { foo() { } }",
+            ecmaFeatures: { classes: true },
+            options: ["function"]
+        },
+        {
+            code: "class A { foo() { function bar() { } } }",
+            ecmaFeatures: { classes: true },
+            options: ["function"]
+        },
 
         // defaults to "function" mode
         { code: "function foo() { 'use strict'; return; }" }
@@ -107,6 +127,14 @@ eslintTester.addRuleTest("lib/rules/strict", {
                 { message: "Use the global form of \"use strict\".", type: "ExpressionStatement" }
             ]
         }, {
+            code: "var foo = () => { 'use strict'; return () => 1; }",
+            options: ["global"],
+            ecmaFeatures: { arrowFunctions: true },
+            errors: [
+                { message: "Use the global form of \"use strict\".", type: "Program" },
+                { message: "Use the global form of \"use strict\".", type: "ExpressionStatement" }
+            ]
+        }, {
             code: "'use strict'; function foo() { 'use strict'; return; }",
             options: ["global"],
             errors: [
@@ -129,7 +157,7 @@ eslintTester.addRuleTest("lib/rules/strict", {
             options: ["global"],
             ecmaFeatures: { modules: true },
             errors: [
-                { message: "Unnecessary \"use strict\" directive.", type: "ExpressionStatement" }
+                { message: "\"use strict\" is unnecessary inside of modules.", type: "ExpressionStatement" }
             ]
         },
 
@@ -159,6 +187,20 @@ eslintTester.addRuleTest("lib/rules/strict", {
                 { message: "Use the function form of \"use strict\".", type: "FunctionExpression" }
             ]
         }, {
+            code: "(() => { return true; })();",
+            options: ["function"],
+            ecmaFeatures: { arrowFunctions: true },
+            errors: [
+                { message: "Use the function form of \"use strict\".", type: "ArrowFunctionExpression" }
+            ]
+        }, {
+            code: "(() => true)();",
+            options: ["function"],
+            ecmaFeatures: { arrowFunctions: true },
+            errors: [
+                { message: "Use the function form of \"use strict\".", type: "ArrowFunctionExpression" }
+            ]
+        }, {
             code: "var foo = function() { foo(); 'use strict'; return; }; function bar() { foo(); 'use strict'; }",
             options: ["function"],
             errors: [
@@ -182,7 +224,7 @@ eslintTester.addRuleTest("lib/rules/strict", {
             options: ["function"],
             ecmaFeatures: { modules: true },
             errors: [
-                { message: "Unnecessary \"use strict\" directive.", type: "ExpressionStatement" }
+                { message: "\"use strict\" is unnecessary inside of modules.", type: "ExpressionStatement" }
             ]
         }, {
             code: "function foo() { return function() { 'use strict'; return; }; }",
@@ -229,6 +271,26 @@ eslintTester.addRuleTest("lib/rules/strict", {
             options: ["function"],
             errors: [{ message: "Use the function form of \"use strict\".", type: "ArrowFunctionExpression"}]
         },
+        // Classes
+        {
+            code: "class A { constructor() { \"use strict\"; } }",
+            ecmaFeatures: { classes: true },
+            options: ["function"],
+            errors: [{ message: "\"use strict\" is unnecessary inside of classes.", type: "ExpressionStatement"}]
+        },
+        {
+            code: "class A { foo() { \"use strict\"; } }",
+            ecmaFeatures: { classes: true },
+            options: ["function"],
+            errors: [{ message: "\"use strict\" is unnecessary inside of classes.", type: "ExpressionStatement"}]
+        },
+        {
+            code: "class A { foo() { function bar() { \"use strict\"; } } }",
+            ecmaFeatures: { classes: true },
+            options: ["function"],
+            errors: [{ message: "\"use strict\" is unnecessary inside of classes.", type: "ExpressionStatement"}]
+        },
+
 
         // Default to "function" mode
         {
