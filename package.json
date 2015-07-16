@@ -75,7 +75,6 @@
     "mocha": "^2.1.0",
     "mocha-phantomjs": "^3.5.0",
     "npm-license": "^0.2.3",
-    "phantomjs": "^1.9.9",
     "proxyquire": "^1.0.0",
     "semver": "^4.1.0",
     "shelljs": "^0.3.0",
