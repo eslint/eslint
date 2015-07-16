@@ -42,7 +42,7 @@ These folks keep the project moving and are resources for help:
 * Mathias Schreck ([@lo1tuma](https://github.com/lo1tuma)) - committer
 * Gyandeep Singh ([@gyandeeps](https://github.com/gyandeeps)) - committer
 * Jamund Ferguson ([@xjamundx](https://github.com/xjamundx)) - committer
-
+* Ian VanSchooten ([@ianvs](https://github.com/ianvs)) - committer
 
 ## Frequently Asked Questions
 
