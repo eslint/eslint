@@ -24,6 +24,8 @@ eslintTester.addRuleTest("lib/rules/no-else-return", {
         "function foo() { if (true) { for (;;) { return x; } } else { return y; } }",
         "function foo() { var x = true; if (x) { return x; } else if (x === false) { return false; } }",
         "function foo() { if (true) notAReturn(); else return y; }",
+        "function foo() {if (x) { notAReturn(); } else if (y) { return true; } else { notAReturn(); } }",
+        "function foo() {if (x) { return true; } else if (y) { notAReturn() } else { notAReturn(); } }",
         "if (0) { if (0) {} else {} } else {}"
     ],
     invalid: [
@@ -40,6 +42,10 @@ eslintTester.addRuleTest("lib/rules/no-else-return", {
         { code: "function foo() { if (true) { if (false) { if (true) return x; else return y; } else { w = x; } } else { return z; } }", errors: [
             { message: "Unexpected 'else' after 'return'.", type: "ReturnStatement"},
             { message: "Unexpected 'else' after 'return'.", type: "BlockStatement"}
-        ] }
+        ] },
+        {
+            code: "function foo() {if (x) { return true; } else if (y) { return true; } else { notAReturn(); } }",
+            errors: [{message: "Unexpected 'else' after 'return'.", type: "BlockStatement"}]
+        }
     ]
 });
