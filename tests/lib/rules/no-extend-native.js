@@ -21,7 +21,6 @@ eslintTester.addRuleTest("lib/rules/no-extend-native", {
     valid: [
         "x.prototype.p = 0",
         "x.prototype['p'] = 0",
-        "Math.prototype.p = 0",
         "Object.p = 0",
         "Object.toString.bind = 0",
         "Object['toString'].bind = 0",
@@ -31,6 +30,7 @@ eslintTester.addRuleTest("lib/rules/no-extend-native", {
         "with(Object) { prototype.p = 0; }",
         "o = Object; o.prototype.toString = 0",
         "eval('Object.prototype.toString = 0')",
+        "parseFloat.prototype.x = 1",
         {
             code: "Object.prototype.g = 0",
             options: [{exceptions: ["Object"]}]
