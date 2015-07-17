@@ -198,6 +198,7 @@ These rules are only relevant to ES6 environments.
 * [object-shorthand](object-shorthand.md) - require method and property shorthand syntax for object literals
 * [prefer-const](prefer-const.md) - suggest using `const` declaration for variables that are never modified after declared
 * [prefer-spread](prefer-spread.md) - suggest using the spread operator instead of `.apply()`.
+* [prefer-reflect](prefer-reflect.md) - suggest using Reflect methods where applicable
 * [require-yield](require-yield.md) - disallow generator functions that do not have `yield`
 
 ## Legacy
