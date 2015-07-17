@@ -14,7 +14,7 @@ function foo() {
 
 ## Rule Details
 
-This rule is aimed at highlighting an unnecessary block of code following an `if` containing a return statement. As such, it will warn when it encounters an `else` following an `if` containing a `return`.
+This rule is aimed at highlighting an unnecessary block of code following an `if` containing a return statement. As such, it will warn when it encounters an `else` following a chain of `if`s, all of them containing a `return` statement.
 
 The following patterns are considered warnings:
 
@@ -24,6 +24,16 @@ function foo() {
         return y;
     } else {
         return z;
+    }
+}
+
+function foo() {
+    if (x) {
+        return y;
+    } else if (z) {
+        return w;
+    } else {
+        return t;
     }
 }
 
@@ -60,6 +70,16 @@ function foo() {
     }
 
     return z;
+}
+
+function foo() {
+    if (x) {
+        return y;
+    } else if (z) {
+        var t = "foo";
+    } else {
+        return w;
+    }
 }
 
 function foo() {
