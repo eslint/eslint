@@ -71,7 +71,7 @@ These are rules designed to prevent you from making mistakes. They either prescr
 * [no-native-reassign](no-native-reassign.md) - disallow reassignments of native objects
 * [no-new-func](no-new-func.md) - disallow use of new operator for `Function` object
 * [no-new-wrappers](no-new-wrappers.md) - disallows creating new instances of `String`,`Number`, and `Boolean`
-* [no-new](no-new.md) - disallow use of new operator when not part of the assignment or comparison
+* [no-new](no-new.md) - disallow use of the `new` operator when not part of an assignment or comparison
 * [no-octal-escape](no-octal-escape.md) - disallow use of octal escape sequences in string literals, such as `var foo = "Copyright \251";`
 * [no-octal](no-octal.md) - disallow use of octal literals (recommended)
 * [no-param-reassign](no-param-reassign.md) - disallow reassignment of function parameters
@@ -79,17 +79,17 @@ These are rules designed to prevent you from making mistakes. They either prescr
 * [no-proto](no-proto.md) - disallow usage of `__proto__` property
 * [no-redeclare](no-redeclare.md) - disallow declaring the same variable more than once (recommended)
 * [no-return-assign](no-return-assign.md) - disallow use of assignment in `return` statement
-* [no-script-url](no-script-url.md) - disallow use of javascript: urls.
+* [no-script-url](no-script-url.md) - disallow use of `javascript:` urls.
 * [no-self-compare](no-self-compare.md) - disallow comparisons where both sides are exactly the same
-* [no-sequences](no-sequences.md) - disallow use of comma operator
+* [no-sequences](no-sequences.md) - disallow use of the comma operator
 * [no-throw-literal](no-throw-literal.md) - restrict what can be thrown as an exception
 * [no-unused-expressions](no-unused-expressions.md) - disallow usage of expressions in statement position
 * [no-useless-call](no-useless-call.md) - disallow unnecessary `.call()` and `.apply()`
-* [no-void](no-void.md) - disallow use of `void` operator
+* [no-void](no-void.md) - disallow use of the `void` operator
 * [no-warning-comments](no-warning-comments.md) - disallow usage of configurable warning terms in comments - e.g. `TODO` or `FIXME`
 * [no-with](no-with.md) - disallow use of the `with` statement
 * [radix](radix.md) - require use of the second argument for `parseInt()`
-* [vars-on-top](vars-on-top.md) - requires to declare all vars on top of their containing scope
+* [vars-on-top](vars-on-top.md) - require declaration of all vars at the top of their containing scope
 * [wrap-iife](wrap-iife.md) - require immediate function invocation to be wrapped in parentheses
 * [yoda](yoda.md) - require or disallow Yoda conditions
 
@@ -119,10 +119,10 @@ These rules have to do with variable declarations.
 
 These rules are specific to JavaScript running on Node.js.
 
-* [callback-return](callback-return.md) - enforce return after a callback
-* [handle-callback-err](handle-callback-err.md) - enforces error handling in callbacks
+* [callback-return](callback-return.md) - enforce `return` after a callback
+* [handle-callback-err](handle-callback-err.md) - enforce error handling in callbacks
 * [no-mixed-requires](no-mixed-requires.md) - disallow mixing regular variable and require declarations
-* [no-new-require](no-new-require.md) - disallow use of new operator with the `require` function
+* [no-new-require](no-new-require.md) - disallow use of `new` operator with the `require` function
 * [no-path-concat](no-path-concat.md) - disallow string concatenation with `__dirname` and `__filename`
 * [no-process-exit](no-process-exit.md) - disallow `process.exit()`
 * [no-restricted-modules](no-restricted-modules.md) - restrict usage of specified node modules
@@ -138,33 +138,33 @@ These rules are purely matters of style and are quite subjective.
 * [comma-spacing](comma-spacing.md) - enforce spacing before and after comma
 * [comma-style](comma-style.md) - enforce one true comma style
 * [computed-property-spacing](computed-property-spacing.md) - require or disallow padding inside computed properties
-* [consistent-this](consistent-this.md) - enforces consistent naming when capturing the current execution context
+* [consistent-this](consistent-this.md) - enforce consistent naming when capturing the current execution context
 * [eol-last](eol-last.md) - enforce newline at the end of file, with no multiple empty lines
 * [func-names](func-names.md) - require function expressions to have a name
-* [func-style](func-style.md) - enforces use of function declarations or expressions
-* [indent](indent.md) - this option sets a specific tab width for your code
-* [key-spacing](key-spacing.md) - enforces spacing between keys and values in object literal properties
-* [lines-around-comment](lines-around-comment.md) - enforces empty lines around comments
+* [func-style](func-style.md) - enforce use of function declarations or expressions
+* [indent](indent.md) - specify tab or space width for your code
+* [key-spacing](key-spacing.md) - enforce spacing between keys and values in object literal properties
+* [lines-around-comment](lines-around-comment.md) - enforce empty lines around comments
 * [linebreak-style](linebreak-style.md) - disallow mixed 'LF' and 'CRLF' as linebreaks
 * [max-nested-callbacks](max-nested-callbacks.md) - specify the maximum depth callbacks can be nested
 * [new-cap](new-cap.md) - require a capital letter for constructors
 * [new-parens](new-parens.md) - disallow the omission of parentheses when invoking a constructor with no arguments
-* [newline-after-var](newline-after-var.md) - allow/disallow an empty newline after variable declarations
+* [newline-after-var](newline-after-var.md) - require or disallow an empty newline after variable declarations
 * [no-array-constructor](no-array-constructor.md) - disallow use of the `Array` constructor
 * [no-continue](no-continue.md) - disallow use of the `continue` statement
 * [no-inline-comments](no-inline-comments.md) - disallow comments inline after code
-* [no-lonely-if](no-lonely-if.md) - disallow if as the only statement in an else block
+* [no-lonely-if](no-lonely-if.md) - disallow `if` as the only statement in an `else` block
 * [no-mixed-spaces-and-tabs](no-mixed-spaces-and-tabs.md) - disallow mixed spaces and tabs for indentation (recommended)
 * [no-multiple-empty-lines](no-multiple-empty-lines.md) - disallow multiple empty lines
 * [no-nested-ternary](no-nested-ternary.md) - disallow nested ternary expressions
-* [no-new-object](no-new-object.md) - disallow use of the `Object` constructor
+* [no-new-object](no-new-object.md) - disallow the use of the `Object` constructor
 * [no-spaced-func](no-spaced-func.md) - disallow space between function identifier and application
 * [no-ternary](no-ternary.md) - disallow the use of ternary operators
 * [no-trailing-spaces](no-trailing-spaces.md) - disallow trailing whitespace at the end of lines
 * [no-underscore-dangle](no-underscore-dangle.md) - disallow dangling underscores in identifiers
 * [no-unneeded-ternary](no-unneeded-ternary.md) - disallow the use of `Boolean` literals in conditional expressions
 * [object-curly-spacing](object-curly-spacing.md) - require or disallow padding inside curly braces
-* [one-var](one-var.md) - allow or disallow one variable declaration per function
+* [one-var](one-var.md) - require or disallow one variable declaration per function
 * [operator-assignment](operator-assignment.md) - require assignment operator shorthand where possible or prohibit it entirely
 * [operator-linebreak](operator-linebreak.md) - enforce operators to be placed before or after line breaks
 * [padded-blocks](padded-blocks.md) - enforce padding within blocks
@@ -174,8 +174,8 @@ These rules are purely matters of style and are quite subjective.
 * [semi](semi.md) - require or disallow use of semicolons instead of ASI
 * [sort-vars](sort-vars.md) - sort variables within the same declaration block
 * [space-after-keywords](space-after-keywords.md) - require a space after certain keywords
-* [space-before-blocks](space-before-blocks.md) - require or disallow space before blocks
-* [space-before-function-paren](space-before-function-paren.md) - require or disallow space before function opening parenthesis
+* [space-before-blocks](space-before-blocks.md) - require or disallow a space before blocks
+* [space-before-function-paren](space-before-function-paren.md) - require or disallow a space before function opening parenthesis
 * [space-in-parens](space-in-parens.md) - require or disallow spaces inside parentheses
 * [space-infix-ops](space-infix-ops.md) - require spaces around operators
 * [space-return-throw-case](space-return-throw-case.md) - require a space after `return`, `throw`, and `case`
@@ -187,18 +187,18 @@ These rules are purely matters of style and are quite subjective.
 
 These rules are only relevant to ES6 environments.
 
-* [arrow-parens](arrow-parens.md) - Require parens in arrow function arguments
-* [arrow-spacing](arrow-spacing.md) - Require space before/after arrow functions arrow
-* [constructor-super](constructor-super.md) - verify `super()` callings in constructors
-* [generator-star-spacing](generator-star-spacing.md) - enforce the spacing around the `*` in generator functions
+* [arrow-parens](arrow-parens.md) - require parens in arrow function arguments
+* [arrow-spacing](arrow-spacing.md) - require space before/after arrow functions arrow
+* [constructor-super](constructor-super.md) - verify calls of `super()` in constructors
+* [generator-star-spacing](generator-star-spacing.md) - enforce spacing around the `*` in generator functions
 * [no-class-assign](no-class-assign.md) - disallow modifying variables of class declarations
 * [no-const-assign](no-const-assign.md) - disallow modifying variables that are declared using `const`
-* [no-this-before-super](no-this-before-super.md) - disallow to use `this`/`super` before `super()` calling in constructors.
+* [no-this-before-super](no-this-before-super.md) - disallow use of `this`/`super` before calling `super()` in constructors.
 * [no-var](no-var.md) - require `let` or `const` instead of `var`
 * [object-shorthand](object-shorthand.md) - require method and property shorthand syntax for object literals
-* [prefer-const](prefer-const.md) - suggest using of `const` declaration for variables that are never modified after declared
-* [prefer-spread](prefer-spread.md) - suggest using of the spread operator instead of `.apply()`.
-* [require-yield](require-yield.md) - disallow generator functions that does not have `yield`
+* [prefer-const](prefer-const.md) - suggest using `const` declaration for variables that are never modified after declared
+* [prefer-spread](prefer-spread.md) - suggest using the spread operator instead of `.apply()`.
+* [require-yield](require-yield.md) - disallow generator functions that do not have `yield`
 
 ## Legacy
 
