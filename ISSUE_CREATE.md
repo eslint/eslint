@@ -1,4 +1,4 @@
-Thanks for the issue! We get a lot of issues, and it would help us out if you double-check to ensure you've included all of the information we need to help you.
+Thanks for the issue! We get a lot of issues, so this message is automatically posted to each one to help you check that you've included all of the information we need to help you.
 
 Reporting a bug? Please be sure to include:
 
