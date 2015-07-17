@@ -152,6 +152,7 @@ These rules are purely matters of style and are quite subjective.
 * [newline-after-var](newline-after-var.md) - require or disallow an empty newline after variable declarations
 * [no-array-constructor](no-array-constructor.md) - disallow use of the `Array` constructor
 * [no-continue](no-continue.md) - disallow use of the `continue` statement
+* [no-for-in](no-for-in.md) - disallow use of the `for-in` statement
 * [no-inline-comments](no-inline-comments.md) - disallow comments inline after code
 * [no-lonely-if](no-lonely-if.md) - disallow `if` as the only statement in an `else` block
 * [no-mixed-spaces-and-tabs](no-mixed-spaces-and-tabs.md) - disallow mixed spaces and tabs for indentation (recommended)
