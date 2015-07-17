@@ -24,7 +24,8 @@ eslintTester.addRuleTest("lib/rules/no-dupe-keys", {
         "var foo = { __proto__: 1, two: 2};",
         "var x = { foo: 1, bar: 2 };",
         "+{ get a() { }, set a(b) { } };",
-        { code: "var x = { a: b, [a]: b };", ecmaFeatures: { objectLiteralComputedProperties: true }}
+        { code: "var x = { a: b, [a]: b };", ecmaFeatures: { objectLiteralComputedProperties: true }},
+        { code: "var x = { a: b, ...c }", ecmaFeatures: {experimentalObjectRestSpread: true }}
     ],
     invalid: [
         { code: "var x = { a: b, ['a']: b };", ecmaFeatures: { objectLiteralComputedProperties: true }, errors: [{ message: "Duplicate key 'a'.", type: "ObjectExpression"}] },
