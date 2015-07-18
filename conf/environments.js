@@ -31,7 +31,7 @@ module.exports = {
         globals: globals.jasmine
     },
     phantomjs: {
-        globals: globals.phantom
+        globals: globals.phantomjs
     },
     jquery: {
         globals: globals.jquery
