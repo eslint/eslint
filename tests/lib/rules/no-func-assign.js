@@ -29,8 +29,12 @@ eslintTester.addRuleTest("lib/rules/no-func-assign", {
         { code: "import bar from 'bar'; function foo() { var foo = bar; }", ecmaFeatures: { modules: true } }
     ],
     invalid: [
-        { code: "function foo() {}; foo = bar;", errors: [{ message: "'foo' is a function.", type: "AssignmentExpression"}] },
-        { code: "function foo() { foo = bar; }", errors: [{ message: "'foo' is a function.", type: "AssignmentExpression"}] },
-        { code: "foo = bar; function foo() { };", errors: [{ message: "'foo' is a function.", type: "AssignmentExpression"}] }
+        { code: "function foo() {}; foo = bar;", errors: [{ message: "'foo' is a function.", type: "Identifier"}] },
+        { code: "function foo() { foo = bar; }", errors: [{ message: "'foo' is a function.", type: "Identifier"}] },
+        { code: "foo = bar; function foo() { };", errors: [{ message: "'foo' is a function.", type: "Identifier"}] },
+        { code: "[foo] = bar; function foo() { };", ecmaFeatures: {destructuring: true}, errors: [{ message: "'foo' is a function.", type: "Identifier"}] },
+        { code: "({x: foo = 0}) = bar; function foo() { };", ecmaFeatures: {destructuring: true}, errors: [{ message: "'foo' is a function.", type: "Identifier"}] },
+        { code: "function foo() { [foo] = bar; }", ecmaFeatures: {destructuring: true}, errors: [{ message: "'foo' is a function.", type: "Identifier"}] },
+        { code: "(function() { ({x: foo = 0}) = bar; function foo() { }; })();", ecmaFeatures: {destructuring: true}, errors: [{ message: "'foo' is a function.", type: "Identifier"}] }
     ]
 });
