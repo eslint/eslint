@@ -18,7 +18,7 @@ var eslint = require("../../../lib/eslint"),
 //------------------------------------------------------------------------------
 
 var eslintTester = new ESLintTester(eslint),
-    neverArgs = [1, "never"],
+    neverArgs = ["never"],
     expectedSpacingErrorMessage = "Missing space before opening brace.",
     expectedSpacingError = { message: expectedSpacingErrorMessage },
     expectedNoSpacingError = { message: "Unexpected space before opening brace."};
@@ -27,24 +27,37 @@ eslintTester.addRuleTest("lib/rules/space-before-blocks", {
     valid: [
         { code: "if(a) {}" },
         { code: "if(a)  {}" },
-        { code: "if(a){}", args: neverArgs },
+        { code: "if(a){}", options: neverArgs },
         { code: "if(a)\n{}" },
-        { code: "if(a)\n{}", args: neverArgs },
+        { code: "if(a)\n{}", options: neverArgs },
         { code: "if(a) {}else {}" },
-        { code: "if(a){}else{}", args: neverArgs },
+        { code: "if(a){}else{}", options: neverArgs },
         { code: "function a() {}" },
-        { code: "function a(){}", args: neverArgs },
+        { code: "function a(){}", options: neverArgs },
         { code: "switch(a.b(c < d)) { case 'foo': foo(); break; default: if (a) { bar(); } }" },
         { code: "switch(a) { }" },
         { code: "switch(a)  {}" },
-        { code: "switch(a.b(c < d)){ case 'foo': foo(); break; default: if (a){ bar(); } }", args: neverArgs },
-        { code: "switch(a){}", args: neverArgs },
+        { code: "switch(a.b(c < d)){ case 'foo': foo(); break; default: if (a){ bar(); } }", options: neverArgs },
+        { code: "switch(a){}", options: neverArgs },
         { code: "try {}catch(a) {}" },
-        { code: "try{}catch(a){}", args: neverArgs },
+        { code: "try{}catch(a){}", options: neverArgs },
         { code: "for(;;) {}" },
-        { code: "for(;;){}", args: neverArgs },
+        { code: "for(;;){}", options: neverArgs },
         { code: "while(a) {}" },
-        { code: "while(a){}", args: neverArgs }
+        { code: "while(a){}", options: neverArgs },
+        {
+            code: "class test{}",
+            options: neverArgs,
+            ecmaFeatures: {
+                classes: true
+            }
+        },
+        {
+            code: "class test {}",
+            ecmaFeatures: {
+                classes: true
+            }
+        }
     ],
     invalid: [
         {
@@ -53,7 +66,7 @@ eslintTester.addRuleTest("lib/rules/space-before-blocks", {
         },
         {
             code: "if(a) {}",
-            args: neverArgs,
+            options: neverArgs,
             errors: [ expectedNoSpacingError ]
         },
         {
@@ -62,7 +75,7 @@ eslintTester.addRuleTest("lib/rules/space-before-blocks", {
         },
         {
             code: "if(a){}else {}",
-            args: neverArgs,
+            options: neverArgs,
             errors: [ expectedNoSpacingError ]
         },
         {
@@ -71,7 +84,7 @@ eslintTester.addRuleTest("lib/rules/space-before-blocks", {
         },
         {
             code: "function a() {}",
-            args: neverArgs,
+            options: neverArgs,
             errors: [ expectedNoSpacingError ]
         },
         {
@@ -80,7 +93,7 @@ eslintTester.addRuleTest("lib/rules/space-before-blocks", {
         },
         {
             code: "switch(a) {}",
-            args: neverArgs,
+            options: neverArgs,
             errors: [ expectedNoSpacingError ]
         },
         {
@@ -89,7 +102,7 @@ eslintTester.addRuleTest("lib/rules/space-before-blocks", {
         },
         {
             code: "switch(a.b()) { case 'foo': foo(); break; default: if (a){ bar(); } }",
-            args: neverArgs,
+            options: neverArgs,
             errors: [ expectedNoSpacingError ]
         },
         {
@@ -98,7 +111,7 @@ eslintTester.addRuleTest("lib/rules/space-before-blocks", {
         },
         {
             code: "try {}catch(a) {}",
-            args: neverArgs,
+            options: neverArgs,
             errors: [ expectedNoSpacingError, expectedNoSpacingError ]
         },
         {
@@ -107,7 +120,7 @@ eslintTester.addRuleTest("lib/rules/space-before-blocks", {
         },
         {
             code: "for(;;) {}",
-            args: neverArgs,
+            options: neverArgs,
             errors: [ expectedNoSpacingError ]
         },
         {
@@ -116,7 +129,22 @@ eslintTester.addRuleTest("lib/rules/space-before-blocks", {
         },
         {
             code: "while(a) {}",
-            args: neverArgs,
+            options: neverArgs,
+            errors: [ expectedNoSpacingError ]
+        },
+        {
+            code: "class test{}",
+            ecmaFeatures: {
+                classes: true
+            },
+            errors: [ expectedSpacingError ]
+        },
+        {
+            code: "class test {}",
+            options: neverArgs,
+            ecmaFeatures: {
+                classes: true
+            },
             errors: [ expectedNoSpacingError ]
         }
     ]
