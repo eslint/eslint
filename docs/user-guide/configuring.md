@@ -95,19 +95,20 @@ Note when using a custom parser, the `ecmaFeatures` configuration property is st
 An environment defines global variables that are predefined. The available environments are:
 
 * `browser` - browser global variables.
-* `node` - Node.js global variables and Node.js-specific rules.
+* `node` - Node.js global variables and Node.js scoping.
 * `worker` - web workers global variables.
 * `amd` - defines `require()` and `define()` as global variables as per the [amd](https://github.com/amdjs/amdjs-api/wiki/AMD) spec.
 * `mocha` - adds all of the Mocha testing global variables.
 * `jasmine` - adds all of the Jasmine testing global variables for version 1.3 and 2.0.
-* `phantomjs` - phantomjs global variables.
-* `jquery` - jquery global variables.
-* `prototypejs` - prototypejs global variables.
-* `shelljs` - shelljs global variables.
-* `meteor` - meteor global variables.
-* `mongo` - mongo global variables.
-* `applescript` - applescript global variables.
-* `serviceworker` - serviceworker global variables.
+* `phantomjs` - PhantomJS global variables.
+* `qunit` - QUnit global variables.
+* `jquery` - jQuery global variables.
+* `prototypejs` - Prototype.js global variables.
+* `shelljs` - ShellJS global variables.
+* `meteor` - Meteor global variables.
+* `mongo` - MongoDB global variables.
+* `applescript` - AppleScript global variables.
+* `serviceworker` - Service Worker global variables.
 * `es6` - enable all ECMAScript 6 features except for modules.
 
 These environments are not mutually exclusive, so you can define more than one at a time.
