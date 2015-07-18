@@ -5,7 +5,15 @@
  */
 "use strict";
 
+//------------------------------------------------------------------------------
+// Requirements
+//------------------------------------------------------------------------------
+
 var globals = require("globals");
+
+//------------------------------------------------------------------------------
+// Public Interface
+//------------------------------------------------------------------------------
 
 module.exports = {
     builtin: globals.builtin,
@@ -35,6 +43,9 @@ module.exports = {
     },
     jquery: {
         globals: globals.jquery
+    },
+    qunit: {
+        globals: globals.qunit
     },
     prototypejs: {
         globals: globals.prototypejs
