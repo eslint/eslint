@@ -234,6 +234,21 @@ eslintTester.addRuleTest("lib/rules/one-var", {
                 blockBindings: true
             },
             args: [2, { var: "always", let: "always" }]
+        },
+        {
+            code: "for (let x of foo) {}; for (let y of foo) {}",
+            ecmaFeatures: {
+                forOf: true,
+                blockBindings: true
+            },
+            args: [2, { uninitialized: "always" }]
+        },
+        {
+            code: "for (let x in foo) {}; for (let y in foo) {}",
+            ecmaFeatures: {
+                blockBindings: true
+            },
+            args: [2, { uninitialized: "always" }]
         }
     ],
     invalid: [
@@ -479,6 +494,29 @@ eslintTester.addRuleTest("lib/rules/one-var", {
             options: [ { "uninitialized": "never" } ],
             errors: [ {
                 message: "Split uninitialized 'var' declarations into multiple statements.",
+                type: "VariableDeclaration"
+            } ]
+        },
+        {
+            code: "for (var x of foo) {}; for (var y of foo) {}",
+            options: [ "always" ],
+            ecmaFeatures: {
+                forOf: true,
+                blockBindings: true
+            },
+            errors: [ {
+                message: "Combine this with the previous 'var' statement.",
+                type: "VariableDeclaration"
+            } ]
+        },
+        {
+            code: "for (var x in foo) {}; for (var y in foo) {}",
+            options: [ "always" ],
+            ecmaFeatures: {
+                blockBindings: true
+            },
+            errors: [ {
+                message: "Combine this with the previous 'var' statement.",
                 type: "VariableDeclaration"
             } ]
         }
