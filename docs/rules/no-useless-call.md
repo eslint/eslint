@@ -42,6 +42,19 @@ foo.apply(null, args);
 obj.foo.apply(obj, args);
 ```
 
+Known limitations:
+
+This rule compares code statically to check whether or not `thisArg` is changed.
+So if the code about `thisArg` is a dynamic expression, this rule cannot judge correctly.
+
+```js
+// This is warned.
+a[i++].foo.call(a[i++], 1, 2, 3);
+
+// This is not warned.
+a[++i].foo.call(a[i], 1, 2, 3);
+```
+
 ## When Not to Use It
 
 If you don't want to be notified about unnecessary `.call()` and `.apply()`, you can safely disable this rule.
