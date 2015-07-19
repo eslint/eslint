@@ -6,7 +6,20 @@ Assignment to variables declared as function parameters can be misleading and le
 
 This rule aims to prevent unintended behavior caused by overwriting function parameters.
 
-The following patterns are considered warnings:
+### Options
+
+This rule takes one option, an object, with a property `"props"`.
+
+```json
+{
+    "no-param-reassign": [2, {"props": false}]
+}
+```
+
+* `props` (`false` by default) - If `true` is set, this rule warns modifying of properties of parameters.
+
+
+### The following patterns are considered warnings:
 
 ```js
 function foo(bar) {
@@ -20,7 +33,27 @@ function foo(bar) {
 }
 ```
 
-The following patterns are not warnings:
+When `{"props": true}`:
+
+```js
+function foo(bar) {
+    bar.prop = "value";
+}
+```
+
+```js
+function foo(bar) {
+    delete bar.aaa;
+}
+```
+
+```js
+function foo(bar) {
+    bar.aaa++;
+}
+```
+
+### The following patterns are not warnings:
 
 ```js
 function foo(a) {
@@ -28,9 +61,23 @@ function foo(a) {
 }
 ```
 
+When `{"props": false}`:
+
 ```js
-function foo(a) {
-    a.prop = 'value';
+function foo(bar) {
+    bar.prop = "value";
+}
+```
+
+```js
+function foo(bar) {
+    delete bar.aaa;
+}
+```
+
+```js
+function foo(bar) {
+    bar.aaa++;
 }
 ```
 
