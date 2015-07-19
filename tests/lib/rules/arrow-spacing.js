@@ -93,6 +93,18 @@ var valid = [
         ecmaFeatures: { arrowFunctions: true },
         code: "(a) => {}",
         options: [{}]
+    },
+    {
+        ecmaFeatures: { arrowFunctions: true },
+        code: "(a) =>\n{}"
+    },
+    {
+        ecmaFeatures: { arrowFunctions: true },
+        code: "(a) =>\r\n{}"
+    },
+    {
+        ecmaFeatures: { arrowFunctions: true },
+        code: "(a) =>\n    0"
     }
 ];
 
@@ -123,33 +135,6 @@ var invalid = [
         errors: [
             { column: 3, line: 1, type: "Punctuator" },
             { column: 6, line: 1, type: "Punctuator" }
-        ]
-    },
-    {
-        code: "a  =>  a",
-        options: [{ after: true, before: true }],
-        ecmaFeatures: { arrowFunctions: true },
-        errors: [
-            { column: 1, line: 1, type: "Identifier" },
-            { column: 8, line: 1, type: "Identifier" }
-        ]
-    },
-    {
-        code: "()  =>  {}",
-        options: [{ after: true, before: true }],
-        ecmaFeatures: { arrowFunctions: true },
-        errors: [
-            { column: 2, line: 1, type: "Punctuator" },
-            { column: 9, line: 1, type: "Punctuator" }
-        ]
-    },
-    {
-        code: "(a)  =>  {}",
-        options: [{ after: true, before: true }],
-        ecmaFeatures: { arrowFunctions: true },
-        errors: [
-            { column: 3, line: 1, type: "Punctuator" },
-            { column: 10, line: 1, type: "Punctuator" }
         ]
     },
     {
@@ -312,6 +297,14 @@ var invalid = [
         errors: [
             { column: 3, line: 1, type: "Punctuator" },
             { column: 10, line: 1, type: "Punctuator" }
+        ]
+    },
+    {
+        code: "(a)  =>\n{}",
+        options: [{ after: false }],
+        ecmaFeatures: { arrowFunctions: true },
+        errors: [
+            { column: 1, line: 2, type: "Punctuator" }
         ]
     }
 ];

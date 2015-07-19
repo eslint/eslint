@@ -12,12 +12,11 @@ This rule normalize style of spacing before/after of arrow functions arrow(`=>`)
 
 ## Rule Details
 
-this rules takes one arguments of structure contains `before` and `after` property
-and each property has bool value.
+This rule takes an object argument with `before` and `after` properties, each with a Boolean value.
 
 default configuration is `{ "before": true, "after": true }`.
 
-`true` means there should have **one space** and `false` means **no space**.
+`true` means there should be **one or more spaces** and `false` means **no spaces**.
 
 The following patterns are considered warnings if `{ "before": true, "after": true }`.
 
