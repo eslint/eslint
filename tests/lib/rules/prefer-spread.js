@@ -26,6 +26,7 @@ eslintTester.addRuleTest("lib/rules/prefer-spread", {
         {code: "obj.foo.apply(null, args);"},
         {code: "obj.foo.apply(otherObj, args);"},
         {code: "a.b(x, y).c.foo.apply(a.b(x, z).c, args);"},
+        {code: "a.b.foo.apply(a.b.c, args);"},
 
         // ignores non variadic.
         {code: "foo.apply(undefined, [1, 2]);"},
@@ -45,6 +46,8 @@ eslintTester.addRuleTest("lib/rules/prefer-spread", {
         {code: "foo.apply(null, args);", errors: errors},
         {code: "obj.foo.apply(obj, args);", errors: errors},
         {code: "a.b.c.foo.apply(a.b.c, args);", errors: errors},
-        {code: "a.b(x, y).c.foo.apply(a.b(x, y).c, args);", errors: errors}
+        {code: "a.b(x, y).c.foo.apply(a.b(x, y).c, args);", errors: errors},
+        {code: "[].concat.apply([ ], args);", errors: errors},
+        {code: "[].concat.apply([\n/*empty*/\n], args);", errors: errors}
     ]
 });
