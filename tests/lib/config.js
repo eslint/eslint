@@ -11,9 +11,9 @@
 
 var assert = require("chai").assert,
     path = require("path"),
-
     fs = require("fs"),
     Config = require("../../lib/config"),
+    fixtureSharableConfig = require("@ljharb/eslint-config"),
     sinon = require("sinon"),
     proxyquire = require("proxyquire");
 
@@ -168,8 +168,20 @@ describe("Config", function() {
             assert.isObject(configHelper.getConfig(configPath));
         });
 
-        it("should throw error when an invalid configuration file is read", function() {
+        it("should throw error when a configuration file doesn't exist", function() {
             var configPath = path.resolve(__dirname, "..", "fixtures", "configurations", ".eslintrc");
+            var configHelper = new Config();
+
+            sandbox.stub(fs, "readFileSync").throws(new Error());
+
+            assert.throws(function() {
+                configHelper.getConfig(configPath);
+            }, "Cannot read config file");
+
+        });
+
+        it("should throw error when a configuration file is not require-able", function() {
+            var configPath = ".eslintrc";
             var configHelper = new Config();
 
             sandbox.stub(fs, "readFileSync").throws(new Error());
@@ -553,6 +565,17 @@ describe("Config", function() {
             config = configHelper.getConfig(configPath);
 
             assert.isUndefined(config.globals.window);
+        });
+
+        it("should load a sharable config as a command line config", function() {
+            var configHelper = new Config({
+                    useEslintrc: false,
+                    configFile: "@ljharb"
+                }),
+                expected = fixtureSharableConfig,
+                actual = configHelper.getConfig(path.resolve(__dirname, "..", "fixtures", "configurations", "empty", "empty.json"));
+
+            assertConfigsEqual(actual, expected);
         });
 
         it("should not error on fake environments", function() {
