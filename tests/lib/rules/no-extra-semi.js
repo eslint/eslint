@@ -21,6 +21,11 @@ eslintTester.addRuleTest("lib/rules/no-extra-semi", {
     valid: [
         "var x = 5;",
         "function foo(){}",
+        "for(;;);",
+        "while(0);",
+        "do;while(0);",
+        "for(a in b);",
+        { code: "for(a of b);", ecmaFeatures: { forOf: true } },
 
         // Class body.
         {code: "class A { }", ecmaFeatures: {classes: true}},
@@ -32,6 +37,11 @@ eslintTester.addRuleTest("lib/rules/no-extra-semi", {
     invalid: [
         { code: "var x = 5;;", errors: [{ message: "Unnecessary semicolon.", type: "EmptyStatement"}] },
         { code: "function foo(){};", errors: [{ message: "Unnecessary semicolon.", type: "EmptyStatement"}] },
+        { code: "for(;;);;", errors: [{ message: "Unnecessary semicolon.", type: "EmptyStatement" }] },
+        { code: "while(0);;", errors: [{ message: "Unnecessary semicolon.", type: "EmptyStatement" }] },
+        { code: "do;while(0);;", errors: [{ message: "Unnecessary semicolon.", type: "EmptyStatement" }] },
+        { code: "for(a in b);;", errors: [{ message: "Unnecessary semicolon.", type: "EmptyStatement" }] },
+        { code: "for(a of b);;", ecmaFeatures: { forOf: true }, errors: [{ message: "Unnecessary semicolon.", type: "EmptyStatement" }] },
 
         // Class body.
         {
