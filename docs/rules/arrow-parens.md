@@ -1,8 +1,8 @@
 # Require parens in arrow function arguments (arrow-parens)
 
-Arrow function can omit parens if there passed only one arguments.
-But you need to add parens if arguments decreased to 0 or increase.
-This rule requires parens in arrow function arguments for normalize coding style.
+Arrow function can omit parens if they are passed only one arguments,
+but you need to add parens if the argument count is different.
+This rule requires parens in arrow function arguments regardless of arity, for consistency.
 
 ```js
 // Bad
@@ -13,7 +13,7 @@ a => {}
 ```
 
 
-And also it will help to find if arrow function(`=>`) are wrote in condition context instead of comparison (`>=`) by mistake.
+It will also help to find arrow functions (`=>`) which may be mistakenly included in a condition when a comparison such as `>=` was the intent.
 
 
 ```js
@@ -51,30 +51,36 @@ a.then((foo) => {});
 a.then((foo) => { if (true) {}; });
 ```
 
-this saves you from bizarre behavior like below
+this saves you from behavior like the following:
 
 ```js
 var a = 1;
-if (a => 2) {
+var b = 2;
+// ...
+if (a => b) {
  console.log('bigger');
 } else {
- console.log('smaller')
+ console.log('smaller');
 };
+// outputs 'bigger', not smaller as expected
 ```
 
-this is better, because condition of if is arrow function, not comparison.
-this should be like this, and you can notice it's not what you expect.
+The contents of the `if` statement is an arrow function, not a comparison.
+If the arrow function is intentional, it should be wrapped in parens to remove ambiguity.
 
 ```js
 var a = 1;
-if ((a) => 2) {
- console.log('bigger');
+var b = 0;
+// ...
+if ((a) => b) {
+ console.log('truthy value returned');
 } else {
- console.log('smaller')
+ console.log('falsey value returned');
 };
+// outputs 'falsey value returned'
 ```
 
-same thing happens here.
+The following is another example of this behavior:
 
 ```js
 var a = 1, b = 2, c = 3, d = 4;
@@ -82,13 +88,11 @@ var f = a => b ? c: d;
 // f = ?
 ```
 
-`f` is arrow function which gets a as arguments and returns the result of `b ? c: d`.
+`f` is an arrow function which takes `a` as an argument and returns the result of `b ? c: d`.
 
-this should be like this again.
+This should be rewritten like so:
 
 ```js
 var a = 1, b = 2, c = 3, d = 4;
 var f = (a) => b ? c: d;
 ```
-
-you may notice what this is.

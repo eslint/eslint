@@ -40,7 +40,7 @@ var doSomething = function() {
 
 In this case, `doSomething()` is undefined at the time of invocation and so causes a runtime error.
 
-Due to these different behaviors, it's common to have guidelines as to which style of function should be used. There is really no correct or incorrect choice here, it's just a preference.
+Due to these different behaviors, it is common to have guidelines as to which style of function should be used. There is really no correct or incorrect choice here, it is just a preference.
 
 ## Rule Details
 
@@ -75,7 +75,7 @@ SomeObject.foo = function() {
 "func-style": [2, "declaration"]
 ```
 
-This reports an error (code is 2) if any function expressions are used where function declarations are expected. You can specify to use expressions instead:
+This reports an error if any function expressions are used where function declarations are expected. You can specify to use expressions instead:
 
 ```json
 "func-style": [2, "expression"]
