@@ -49,6 +49,19 @@ foo.apply(null, [1, 2, 3]);
 obj.foo.apply(obj, [1, 2, 3]);
 ```
 
+Known limitations:
+
+This rule compares code statically to check whether or not `thisArg` is changed.
+So if the code about `thisArg` is a dynamic expression, this rule cannot judge correctly.
+
+```js
+// This is warned.
+a[i++].foo.apply(a[i++], args);
+
+// This is not warned.
+a[++i].foo.apply(a[i], args);
+```
+
 ## When Not to Use It
 
 This rule should not be used in ES3/5 environments.
