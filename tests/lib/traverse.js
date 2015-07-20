@@ -123,7 +123,7 @@ describe("traverse", function() {
         assert.notEqual(files.length, 0);
     });
 
-    it("should throw if fs.statSync throws", sinon.test(function() {
+    it("should throw if fs.statSync throws", sinon.test(/* @this sinon.sandbox */function() {
         var error = new Error("anyError"),
             options = {
                 files: [ "/any/file.js" ],
