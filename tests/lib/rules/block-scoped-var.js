@@ -60,6 +60,8 @@ eslintTester.addRuleTest("lib/rules/block-scoped-var", {
         "function f(){ for(var a in {}) a; }",
         "function f(){ switch(2) { case 1: var b = 2; b; break; default: b; break;} b; }",
         "a:;",
+        "foo: while (true) { bar: for (var i = 0; i < 13; ++i) {if (i === 7) break foo; } }",
+        "foo: while (true) { bar: for (var i = 0; i < 13; ++i) {if (i === 7) continue foo; } }",
         { code: "const React = require(\"react/addons\");const cx = React.addons.classSet;", globals: { require: false }, ecmaFeatures: { globalReturn: true, modules: true, blockBindings: true }},
         { code: "var v = 1;  function x() { return v; };", ecmaFeatures: { globalReturn: true }},
         { code: "import * as y from \"./other.js\"; y();", ecmaFeatures: { modules: true }},
