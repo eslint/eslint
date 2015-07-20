@@ -1,6 +1,6 @@
-# Require space before/after arrow functions arrow (arrow-spacing)
+# Require space before/after arrow function's arrow (arrow-spacing)
 
-This rule normalize style of spacing before/after of arrow functions arrow(`=>`).
+This rule normalize style of spacing before/after an arrow function's arrow(`=>`).
 
 ```js
 // { "before": true, "after": true }

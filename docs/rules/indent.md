@@ -2,7 +2,7 @@
 
 This option validates a specific tab width for your code in block statements.
 
-There are several common guidelines, which indentation your code should have in nested blocks and statements, like:
+There are several common guidelines which require specific indentation of nested blocks and statements, like:
 
 ```js
 function hello(indentSize, type) {
@@ -22,19 +22,19 @@ This is the most common scenarios recommended in different style guides:
 
 This rule is aimed to enforce consistent indentation style. The default style is `4 spaces`.
 
-It takes an option as the second parameter which can be `"tab"` for tabs indentation or a positive number for space indentations.
+It takes an option as the second parameter which can be `"tab"` for tab-based indentation or a positive number for space indentations.
 
 ```js
-// 4 spaces indention
+// 4 space indention
 "indent": 2
 
-// 2 spaces indentation
+// 2 space indentation
 "indent": [2, 2]
 
-// tabs indentation
+// tabbed indentation
 "indent": [2, "tab"]
 
-// 4 spaces indentation with enabled switch cases validation
+// 4 space indentation with enabled switch cases validation
  "indent": [2, 4, {"indentSwitchCase": true}]
 ```
 
@@ -62,7 +62,7 @@ function(d) {
 The following patterns are not warnings:
 
 ```js
-// 2 spaces indentation
+// 2 space indentation
 if (a) {
   b=c;
   function(d) {
@@ -70,7 +70,7 @@ if (a) {
   }
 }
 
-// tab indentation
+// tabbed indentation
 if (a) {
     b=c;
     function(d) {
@@ -83,12 +83,12 @@ if (a) {
 
 The `indent` rule has two options:
 
-* Indentation style, positive number or `tab` (see rule detail for samples)
+* Indentation style, positive number or `tab` (see rule details for examples)
 * Configuring optional validations, `Object`.
     * `indentSwitchCase` - indent switch cases, `false` by default.
 
 ```js
-// 2 spaces indentation with enabled switch cases validation
+// 2 space indentation with enabled switch cases validation
  "indent": [2, 2, {"indentSwitchCase": true}]
 ```
 
