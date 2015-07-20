@@ -29,6 +29,7 @@ eslintTester.addRuleTest("lib/rules/no-useless-call", {
         {code: "obj.foo.apply(null, [1, 2]);"},
         {code: "obj.foo.apply(otherObj, [1, 2]);"},
         {code: "a.b(x, y).c.foo.apply(a.b(x, z).c, [1, 2]);"},
+        {code: "a.b.foo.apply(a.b.c, [1, 2]);"},
 
         // ignores variadic.
         {code: "foo.apply(null, args);"},
@@ -59,6 +60,9 @@ eslintTester.addRuleTest("lib/rules/no-useless-call", {
         {code: "foo.apply(null, [1, 2]);", errors: [{message: "unnecessary \".apply()\".", type: "CallExpression"}]},
         {code: "obj.foo.apply(obj, [1, 2]);", errors: [{message: "unnecessary \".apply()\".", type: "CallExpression"}]},
         {code: "a.b.c.foo.apply(a.b.c, [1, 2]);", errors: [{message: "unnecessary \".apply()\".", type: "CallExpression"}]},
-        {code: "a.b(x, y).c.foo.apply(a.b(x, y).c, [1, 2]);", errors: [{message: "unnecessary \".apply()\".", type: "CallExpression"}]}
+        {code: "a.b(x, y).c.foo.apply(a.b(x, y).c, [1, 2]);", errors: [{message: "unnecessary \".apply()\".", type: "CallExpression"}]},
+        {code: "[].concat.apply([ ], [1, 2]);", errors: [{message: "unnecessary \".apply()\".", type: "CallExpression"}]},
+        {code: "[].concat.apply([\n/*empty*/\n], [1, 2]);", errors: [{message: "unnecessary \".apply()\".", type: "CallExpression"}]},
+        {code: "abc.get(\"foo\", 0).concat.apply(abc . get(\"foo\",  0 ), [1, 2]);", errors: [{message: "unnecessary \".apply()\".", type: "CallExpression"}]}
     ]
 });
