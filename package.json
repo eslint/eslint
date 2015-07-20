@@ -18,7 +18,8 @@
     "browserify": "node Makefile.js browserify",
     "perf": "node Makefile.js perf",
     "profile": "beefy tests/bench/bench.js --open -- -t brfs -t ./tests/bench/xform-rules.js -r espree",
-    "coveralls": "cat ./coverage/lcov.info | coveralls"
+    "coveralls": "cat ./coverage/lcov.info | coveralls",
+    "checkCommit": "node Makefile.js checkGitCommit"
   },
   "files": [
     "LICENSE",
