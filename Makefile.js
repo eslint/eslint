@@ -2,7 +2,7 @@
  * @fileoverview Build file
  * @author nzakas
  */
-/*global cat, cd, cp, echo, exec, exit, find, ls, mkdir, mv, pwd, rm, target, test*/
+/* global cat, cd, cp, echo, exec, exit, find, ls, mkdir, mv, pwd, rm, target, test*/
 
 "use strict";
 
@@ -61,6 +61,10 @@ var NODE = "node ", // intentional extra space
     TEST_FILES = find("tests/lib/").filter(fileType("js")).join(" ");
     /*eslint-enable no-use-before-define */
 
+    // Regex
+var TAG_REGEX = /^(?:Fix|Update|Breaking|Docs|Build|New|Upgrade):/,
+    ISSUE_REGEX = /\((?:fixes|refs) #\d+(?:.*(?:fixes|refs) #\d+)*\)$/;
+
 //------------------------------------------------------------------------------
 // Helpers
 //------------------------------------------------------------------------------
@@ -111,7 +115,7 @@ function execSilent(cmd) {
  * @returns {void}
  */
 function release(type) {
-    var newVersion;/*, changes;*/
+    var newVersion;/* , changes;*/
 
     target.test();
     echo("Generating new version");
@@ -239,7 +243,7 @@ function getFirstVersionOfDeletion(filePath) {
 }
 
 function getVersionTags() {
-    var tags = splitCommandResultToLines(exec("git tag", { silent: true }).output);
+    var tags = splitCommandResultToLines(execSilent("git tag"));
 
     return tags.reduce(function(list, tag) {
         if (semver.valid(tag)) {
@@ -247,6 +251,18 @@ function getVersionTags() {
         }
         return list;
     }, []).sort(semver.compare);
+}
+
+function getBranches() {
+    var branchesRaw = splitCommandResultToLines(execSilent("git branch --list")),
+        branches = [],
+        branchName;
+
+    for (var i = 0; i < branchesRaw.length; i++) {
+        branchName = branchesRaw[i].replace(/^\*(.*)/, "$1").trim();
+        branches.push(branchName);
+    }
+    return branches;
 }
 
 /**
@@ -286,6 +302,17 @@ function lintMarkdown(files) {
         console.error(resultString);
     }
     return { code: returnCode };
+}
+
+
+function hasBranch(branchName) {
+    var branches = getBranches();
+    for (var i = 0; i < branches.length; i++) {
+        if (branches[i] === branchName) {
+            return true;
+        }
+    }
+    return false;
 }
 
 //------------------------------------------------------------------------------
@@ -544,7 +571,7 @@ target.changelog = function() {
     (rangeTags[1] + " - " + timestamp + "\n").to("CHANGELOG.tmp");
 
     // get log statements
-    var logs = exec("git log --pretty=format:\"* %s (%an)\" " + rangeTags.join(".."), {silent: true}).output.split(/\n/g);
+    var logs = execSilent("git log --pretty=format:\"* %s (%an)\" " + rangeTags.join("..")).split(/\n/g);
     logs = logs.filter(function(line) {
         return line.indexOf("Merge pull request") === -1 && line.indexOf("Merge branch") === -1;
     });
@@ -697,7 +724,7 @@ target.checkLicenses = function() {
         });
 
         if (impermissible.length) {
-            impermissible.forEach(function (dependency) {
+            impermissible.forEach(function(dependency) {
                 console.error("%s license for %s is impermissible.",
                     dependency.licenses,
                     dependency.name
@@ -706,6 +733,51 @@ target.checkLicenses = function() {
             exit(1);
         }
     });
+};
+
+target.checkGitCommit = function() {
+    var commitMsgs,
+        failed;
+
+    if (hasBranch("master")) {
+        commitMsgs = splitCommandResultToLines(execSilent("git log HEAD --not master --format=format:%s --no-merges"));
+    } else {
+        commitMsgs = [execSilent("git log -1 --format=format:%s --no-merges")];
+    }
+
+    echo("Validating Commit Message");
+
+    // No commit since master should not cause test to fail
+    if (commitMsgs[0] === "") {
+        return;
+    }
+
+    // Check for more than one commit
+    if (commitMsgs.length > 1) {
+        echo(" - More than one commit found, please squash.");
+        failed = true;
+    }
+
+    // Only check non-release messages
+    if (!semver.valid(commitMsgs[0])) {
+        // Check for tag at start of message
+        if (!TAG_REGEX.test(commitMsgs[0])) {
+            echo(" - Commit message must start with one of:\n    'Fix:'\n    'Update:'\n    'Breaking:'\n    'Docs:'\n    'Build:'\n    'New:'\n    'Upgrade:'");
+            failed = true;
+        }
+
+        // Check for an issue reference at end (unless it's a documentation commit)
+        if (!/^Docs:/.test(commitMsgs[0])) {
+            if (!ISSUE_REGEX.test(commitMsgs[0])) {
+                echo(" - Commit message must end with with one of:\n    '(fixes #1234)'\n    '(refs #1234)'\n   Where '1234' is the issue being addressed.");
+                failed = true;
+            }
+        }
+    }
+
+    if (failed) {
+        exit(1);
+    }
 };
 
 function time(cmd, runs, runNumber, results, cb) {
