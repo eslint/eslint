@@ -47,19 +47,30 @@ if (true) {
 }
 ```
 
-## Options
+### Options
 
-This rule has a option for the hoisting behavior.
+This rule takes one option, an object, with properties `"builtinGlobals"`, `"hoist"`.
 
 ```json
 {
-    "rules": {
-        "no-shadow": [2, {"hoist": "functions"}]
-    }
+    "no-shadow": [2, {"builtinGlobals": false, "hoist": "functions"}]
 }
 ```
 
-### hoist
+#### builtinGlobals
+
+`false` by default.
+If this is `true`, this rule checks with built-in global variables such as `Object`, `Array`, `Number`, ...
+
+When `{"builtinGlobals": true}`, the following patterns are considered warnings:
+
+```js
+function foo() {
+    var Object = 0; // shadowed the built-in globals.
+}
+```
+
+#### hoist
 
 The option has three settings:
 
