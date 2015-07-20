@@ -52,7 +52,10 @@ eslintTester.addRuleTest("lib/rules/no-shadow", {
         { code: "function foo() { var a; } let a;", ecmaFeatures: {blockBindings: true} },
         { code: "function foo() { var a; } var a;", ecmaFeatures: {blockBindings: true} },
         { code: "function foo(a) { } let a;", ecmaFeatures: {blockBindings: true} },
-        { code: "function foo(a) { } var a;", ecmaFeatures: {blockBindings: true} }
+        { code: "function foo(a) { } var a;", ecmaFeatures: {blockBindings: true} },
+        { code: "function foo() { var Object = 0; }" },
+        { code: "function foo() { var top = 0; }" },
+        { code: "function foo() { var top = 0; }", options: [{builtinGlobals: true}] }
     ],
     invalid: [
         {
@@ -287,6 +290,17 @@ eslintTester.addRuleTest("lib/rules/no-shadow", {
                 { message: "a is already declared in the upper scope.", type: "Identifier", line: 1, column: 26},
                 { message: "a is already declared in the upper scope.", type: "Identifier", line: 1, column: 40}
             ]
+        },
+        {
+            code: "function foo() { var Object = 0; }",
+            options: [{builtinGlobals: true}],
+            errors: [{ message: "Object is already declared in the upper scope.", type: "Identifier"}]
+        },
+        {
+            code: "function foo() { var top = 0; }",
+            options: [{builtinGlobals: true}],
+            env: {browser: true},
+            errors: [{ message: "top is already declared in the upper scope.", type: "Identifier"}]
         }
     ]
 });
