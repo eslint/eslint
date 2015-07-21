@@ -1,0 +1,20 @@
+/**
+ ** @fileoverview Test rule to flag if the filename is missing;
+ ** @author Stefan Lau
+ **/
+
+//------------------------------------------------------------------------------
+// Rule Definition
+//------------------------------------------------------------------------------
+
+module.exports = function(context) {
+    "use strict";
+
+    return {
+        "Program": function(node) {
+            if (context.getFilename() === '<input>') {
+                context.report(node, "Filename test was not defined.");
+            }
+        }
+    };
+};

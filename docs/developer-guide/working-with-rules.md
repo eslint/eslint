@@ -31,7 +31,7 @@ module.exports.schema = [
 
 ## Rule Basics
 
-Each rule is represented by a single object with several properties. The properties are equivalent to AST node types from [SpiderMonkey](https://developer.mozilla.org/en-US/docs/SpiderMonkey/Parser_API). For example, if your rule wants to know when an identifier is found in the AST, then add a method called "Identifier", such as:
+Each rule is represented by a single object with several properties. The properties are equivalent to AST node types from [ESTree](https://github.com/estree/estree). For example, if your rule wants to know when an identifier is found in the AST, then add a method called "Identifier", such as:
 
 ```js
 module.exports = function(context) {
@@ -224,7 +224,7 @@ The basic pattern for a rule unit test file is:
 //------------------------------------------------------------------------------
 
 var eslint = require("../../../lib/eslint"),
-    ESLintTester = require("eslint-tester");
+    ESLintTester = require("../../../lib/testers/eslint-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -276,18 +276,18 @@ valid: [
 ]
 ```
 
-You can also pass arguments to the rule (if it accepts them). These arguments are equivalent to how people can configure rules in their `.eslintrc` file. For example:
+You can also pass options to the rule (if it accepts them). These arguments are equivalent to how people can configure rules in their `.eslintrc` file. For example:
 
 ```js
 valid: [
     {
         code: "var msg = 'Hello';",
-        args: [1, "single" ]
+        options: ["single" ]
     }
 ]
 ```
 
-Your rule will then be passed the arguments as if they came from a configuration file.
+The `options` property must be an array of options. This gets passed through to `context.options` in the rule.
 
 ### Invalid Code
 
@@ -320,7 +320,7 @@ invalid: [
 ]
 ```
 
-### Write Many Tests
+### Write Several Tests
 
 You must have at least one valid and one invalid case for the rule tests to pass. Provide as many unit tests as possible. Your pull request will never be turned down for having too many tests submitted with it!
 
@@ -403,6 +403,8 @@ Because rules are highly personal (and therefore very contentious), accepted rul
 * Not be library-specific.
 * Demonstrate a possible issue that can be resolved by rewriting the code.
 * Be general enough so as to apply for a large number of developers.
+* Not be the opposite of an existing rule.
+* Not overlap with an existing rule.
 
 ## Runtime Rules
 

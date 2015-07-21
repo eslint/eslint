@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 var eslint = require("../../../lib/eslint"),
-    ESLintTester = require("eslint-tester");
+    ESLintTester = require("../../../lib/testers/eslint-tester");
 
 var BAD_LN_BRK_MSG = "Bad line breaking before and after ','.",
     FIRST_MSG = "',' should be placed first.",
