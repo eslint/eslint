@@ -18,6 +18,8 @@ throw 0;
 throw undefined;
 
 throw null;
+
+throw 'an ' + 'error';
 ```
 
 The following patterns are not considered warnings:
