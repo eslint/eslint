@@ -4,6 +4,6 @@ node_js:
     - "0.12"
     - iojs
 sudo: false
-script: "npm test && npm run docs"
+script: "npm test && npm run checkCommit && npm run docs"
 after_success:
     - npm run coveralls
