@@ -59,7 +59,7 @@ You can configure the rule as follows:
     "one-var": [2, {
         "var": "always", // Exactly one var declaration per function
         "let": "always", // Exactly one let declaration per block
-        "const", "never" // Exactly one declarator per const declaration per block
+        "const": "never" // Exactly one declarator per const declaration per block
     }]
 
     // Configure uninitialized and initialized seperately. Defaults to "always" if key not present.
