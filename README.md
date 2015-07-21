@@ -43,6 +43,7 @@ These folks keep the project moving and are resources for help:
 * Gyandeep Singh ([@gyandeeps](https://github.com/gyandeeps)) - committer
 * Jamund Ferguson ([@xjamundx](https://github.com/xjamundx)) - committer
 * Ian VanSchooten ([@ianvs](https://github.com/ianvs)) - committer
+* Toru Nagashima ([@mysticatea](https://github.com/mysticatea)) - committer
 
 ## Frequently Asked Questions
 
