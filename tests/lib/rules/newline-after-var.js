@@ -12,7 +12,7 @@
 //------------------------------------------------------------------------------
 
 var eslint = require("../../../lib/eslint"),
-    ESLintTester = require("eslint-tester");
+    ESLintTester = require("../../../lib/testers/eslint-tester");
 
 //------------------------------------------------------------------------------
 // Fixtures

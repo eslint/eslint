@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 var eslint = require("../../../lib/eslint"),
-    ESLintTester = require("eslint-tester");
+    ESLintTester = require("../../../lib/testers/eslint-tester");
 var ERROR_MESSAGE = "Expected a conditional expression and instead saw an assignment.";
 
 //------------------------------------------------------------------------------

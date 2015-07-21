@@ -9,7 +9,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 var eslint = require("../../../lib/eslint"),
-    ESLintTester = require("eslint-tester");
+    ESLintTester = require("../../../lib/testers/eslint-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -20,50 +20,50 @@ eslintTester.addRuleTest("lib/rules/prefer-reflect", {
     valid: [
         // Reflect.apply
         { code: "Reflect.apply(function(){}, null, 1, 2);" },
-        { code: "Reflect.apply(function(){}, null, 1, 2);", options: [{ exceptions: "apply" }] },
-        { code: "(function(){}).apply(null, [1, 2]);", options: [{ exceptions: "apply" }] },
-        { code: "(function(){}).call(null, 1, 2);", options: [{ exceptions: "call" }] },
+        { code: "Reflect.apply(function(){}, null, 1, 2);", options: [{ exceptions: ["apply"] }] },
+        { code: "(function(){}).apply(null, [1, 2]);", options: [{ exceptions: ["apply"] }] },
+        { code: "(function(){}).call(null, 1, 2);", options: [{ exceptions: ["call"] }] },
 
         // Reflect.defineProperty
         { code: "Reflect.defineProperty({}, 'foo', {value: 1})" },
-        { code: "Reflect.defineProperty({}, 'foo', {value: 1})", options: [{ exceptions: "defineProperty" }] },
-        { code: "Object.defineProperty({}, 'foo', {value: 1})", options: [{ exceptions: "defineProperty" }] },
+        { code: "Reflect.defineProperty({}, 'foo', {value: 1})", options: [{ exceptions: ["defineProperty"] }] },
+        { code: "Object.defineProperty({}, 'foo', {value: 1})", options: [{ exceptions: ["defineProperty"] }] },
 
         // Reflect.getOwnPropertyDescriptor
         { code: "Reflect.getOwnPropertyDescriptor({}, 'foo');" },
-        { code: "Reflect.getOwnPropertyDescriptor({}, 'foo');", options: [{ exceptions: "getOwnPropertyDescriptor" }] },
-        { code: "Object.getOwnPropertyDescriptor({}, 'foo');", options: [{ exceptions: "getOwnPropertyDescriptor" }] },
+        { code: "Reflect.getOwnPropertyDescriptor({}, 'foo');", options: [{ exceptions: ["getOwnPropertyDescriptor"] }] },
+        { code: "Object.getOwnPropertyDescriptor({}, 'foo');", options: [{ exceptions: ["getOwnPropertyDescriptor"] }] },
 
         // Reflect.getPrototypeOf
         { code: "Reflect.getPrototypeOf({});" },
-        { code: "Reflect.getPrototypeOf({});", options: [{ exceptions: "getPrototypeOf" }] },
-        { code: "Object.getPrototypeOf({});", options: [{ exceptions: "getPrototypeOf" }] },
+        { code: "Reflect.getPrototypeOf({});", options: [{ exceptions: ["getPrototypeOf"] }] },
+        { code: "Object.getPrototypeOf({});", options: [{ exceptions: ["getPrototypeOf"] }] },
 
         // Reflect.setPrototypeOf
         { code: "Reflect.setPrototypeOf({}, Object.prototype);" },
-        { code: "Reflect.setPrototypeOf({}, Object.prototype);", options: [{ exceptions: "setPrototypeOf" }] },
-        { code: "Object.setPrototypeOf({}, Object.prototype);", options: [{ exceptions: "setPrototypeOf" }] },
+        { code: "Reflect.setPrototypeOf({}, Object.prototype);", options: [{ exceptions: ["setPrototypeOf"] }] },
+        { code: "Object.setPrototypeOf({}, Object.prototype);", options: [{ exceptions: ["setPrototypeOf"] }] },
 
         // Reflect.isExtensible
         { code: "Reflect.isExtensible({});" },
-        { code: "Reflect.isExtensible({});", options: [{ exceptions: "isExtensible" }] },
-        { code: "Object.isExtensible({});", options: [{ exceptions: "isExtensible" }] },
+        { code: "Reflect.isExtensible({});", options: [{ exceptions: ["isExtensible"] }] },
+        { code: "Object.isExtensible({});", options: [{ exceptions: ["isExtensible"] }] },
 
         // Reflect.getOwnPropertyNames
         { code: "Reflect.getOwnPropertyNames({});" },
-        { code: "Reflect.getOwnPropertyNames({});", options: [{ exceptions: "getOwnPropertyNames" }] },
-        { code: "Object.getOwnPropertyNames({});", options: [{ exceptions: "getOwnPropertyNames" }] },
+        { code: "Reflect.getOwnPropertyNames({});", options: [{ exceptions: ["getOwnPropertyNames"] }] },
+        { code: "Object.getOwnPropertyNames({});", options: [{ exceptions: ["getOwnPropertyNames"] }] },
 
         // Reflect.getOwnPropertyNames
         { code: "Reflect.preventExtensions({});" },
-        { code: "Reflect.preventExtensions({});", options: [{ exceptions: "preventExtensions" }] },
-        { code: "Object.preventExtensions({});", options: [{ exceptions: "preventExtensions" }] },
+        { code: "Reflect.preventExtensions({});", options: [{ exceptions: ["preventExtensions"] }] },
+        { code: "Object.preventExtensions({});", options: [{ exceptions: ["preventExtensions"] }] },
 
         // Reflect.getOwnPropertyNames
         { code: "Reflect.deleteProperty({}, 'foo');" },
-        { code: "Reflect.deleteProperty({}, 'foo');", options: [{ exceptions: "delete" }] },
+        { code: "Reflect.deleteProperty({}, 'foo');", options: [{ exceptions: ["delete"] }] },
         { code: "delete foo;" },
-        { code: "delete ({}).foo", options: [{ exceptions: "delete" }] }
+        { code: "delete ({}).foo", options: [{ exceptions: ["delete"] }] }
     ],
     invalid: [
 
@@ -78,7 +78,7 @@ eslintTester.addRuleTest("lib/rules/prefer-reflect", {
         },
         {
             code: "(function(){}).apply(null, [1, 2])",
-            options: [{ exceptions: "defineProperty" }],
+            options: [{ exceptions: ["defineProperty"] }],
             errors: [
                 {
                     message: "Avoid using Function.prototype.apply, instead use Reflect.apply",
@@ -97,7 +97,7 @@ eslintTester.addRuleTest("lib/rules/prefer-reflect", {
         },
         {
             code: "(function(){}).call(null, 1, 2)",
-            options: [{ exceptions: "defineProperty" }],
+            options: [{ exceptions: ["defineProperty"] }],
             errors: [
                 {
                     message: "Avoid using Function.prototype.call, instead use Reflect.apply",
@@ -116,7 +116,7 @@ eslintTester.addRuleTest("lib/rules/prefer-reflect", {
         },
         {
             code: "Object.defineProperty({}, 'foo', { value: 1 })",
-            options: [{ exceptions: "apply" }],
+            options: [{ exceptions: ["apply"] }],
             errors: [
                 {
                     message: "Avoid using Object.defineProperty, instead use Reflect.defineProperty",
@@ -135,7 +135,7 @@ eslintTester.addRuleTest("lib/rules/prefer-reflect", {
         },
         {
             code: "Object.getOwnPropertyDescriptor({}, 'foo')",
-            options: [{ exceptions: "apply" }],
+            options: [{ exceptions: ["apply"] }],
             errors: [
                 {
                     message: "Avoid using Object.getOwnPropertyDescriptor, instead use Reflect.getOwnPropertyDescriptor",
@@ -154,7 +154,7 @@ eslintTester.addRuleTest("lib/rules/prefer-reflect", {
         },
         {
             code: "Object.getPrototypeOf({})",
-            options: [{ exceptions: "apply" }],
+            options: [{ exceptions: ["apply"] }],
             errors: [
                 {
                     message: "Avoid using Object.getPrototypeOf, instead use Reflect.getPrototypeOf",
@@ -173,7 +173,7 @@ eslintTester.addRuleTest("lib/rules/prefer-reflect", {
         },
         {
             code: "Object.setPrototypeOf({}, Object.prototype)",
-            options: [{ exceptions: "apply" }],
+            options: [{ exceptions: ["apply"] }],
             errors: [
                 {
                     message: "Avoid using Object.setPrototypeOf, instead use Reflect.setPrototypeOf",
@@ -192,7 +192,7 @@ eslintTester.addRuleTest("lib/rules/prefer-reflect", {
         },
         {
             code: "Object.isExtensible({})",
-            options: [{ exceptions: "apply" }],
+            options: [{ exceptions: ["apply"] }],
             errors: [
                 {
                     message: "Avoid using Object.isExtensible, instead use Reflect.isExtensible",
@@ -211,7 +211,7 @@ eslintTester.addRuleTest("lib/rules/prefer-reflect", {
         },
         {
             code: "Object.getOwnPropertyNames({})",
-            options: [{ exceptions: "apply" }],
+            options: [{ exceptions: ["apply"] }],
             errors: [
                 {
                     message: "Avoid using Object.getOwnPropertyNames, instead use Reflect.getOwnPropertyNames",
@@ -230,7 +230,7 @@ eslintTester.addRuleTest("lib/rules/prefer-reflect", {
         },
         {
             code: "Object.preventExtensions({})",
-            options: [{ exceptions: "apply" }],
+            options: [{ exceptions: ["apply"] }],
             errors: [
                 {
                     message: "Avoid using Object.preventExtensions, instead use Reflect.preventExtensions",
@@ -249,7 +249,7 @@ eslintTester.addRuleTest("lib/rules/prefer-reflect", {
         },
         {
             code: "delete ({}).foo",
-            options: [{ exceptions: "apply" }],
+            options: [{ exceptions: ["apply"] }],
             errors: [
                 {
                     message: "Avoid using the delete keyword, instead use Reflect.deleteProperty",
