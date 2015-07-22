@@ -12,7 +12,7 @@
 //------------------------------------------------------------------------------
 
 var eslint = require("../../../lib/eslint"),
-    ESLintTester = require("eslint-tester");
+    ESLintTester = require("../../../lib/testers/eslint-tester");
 
 var EXPECTED_LF_MSG = "Expected linebreaks to be 'LF' but found 'CRLF'.",
     EXPECTED_CRLF_MSG = "Expected linebreaks to be 'CRLF' but found 'LF'.";
