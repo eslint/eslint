@@ -11,7 +11,7 @@
 
 var util = require("util");
 var eslint = require("../../../lib/eslint"),
-    ESLintTester = require("eslint-tester");
+    ESLintTester = require("../../../lib/testers/eslint-tester");
 
 var BAD_LN_BRK_MSG = "Bad line breaking before and after '%s'.",
     BEFORE_MSG = "'%s' should be placed at the beginning of the line.",
