@@ -1,4 +1,4 @@
-# Disallow if as the Only Statement in an else Block (no-lonely-if)
+# Disallow `if` as the Only Statement in an `else` Block (no-lonely-if)
 
 If an `if` statement is the only statement in the `else` block of a parent `if` statement, it is often clearer to combine the two to using `else if` form.
 

@@ -1,13 +1,12 @@
-# Suggest to use `const` (prefer-const)
+# Suggest using `const` (prefer-const)
 
 If a variable is never modified, using the `const` declaration is better.
 
-`const` declaration tells readers "this variable is never modified", reduces what they must think.
-So it will improve maintainability.
+`const` declaration tells readers, "this variable is never modified," reducing cognitive load and improving maintainability.
 
 ## Rule Details
 
-This rule is aimed to flag variables that are declared using `let` keyword, but never modified after initial assignment.
+This rule is aimed at flagging variables that are declared using `let` keyword, but never modified after the initial assignment.
 
 The following patterns are considered warnings:
 
@@ -31,12 +30,12 @@ for (let a of [1,2,3]) { // `a` is re-defined (not modified) on each loop step.
 The following patterns are not considered warnings:
 
 ```js
-let a; // there is not the initializer.
+let a; // there is no initialization.
 console.log(a);
 ```
 
 ```js
-for (let i = 0, end = 10; i < end; ++i) { // `end` is never modified, but we cannot separate the declaration without changing the scope.
+for (let i = 0, end = 10; i < end; ++i) { // `end` is never modified, but we cannot separate the declarations without modifying the scope.
     console.log(a);
 }
 ```

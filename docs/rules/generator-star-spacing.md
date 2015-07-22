@@ -1,4 +1,4 @@
-# Enforce the spacing around the * in generators (generator-star-spacing)
+# Enforce spacing around the * in generator functions (generator-star-spacing)
 
 Generators are a new type of function in ECMAScript 6 that can return multiple values over time.
 These special functions are indicated by placing an `*` after the `function` keyword.
@@ -34,17 +34,17 @@ To keep a sense of consistency when using generators this rule enforces a single
 
 ## Rule Details
 
-This rule aims to enforce spacing around `*` of the generator function.
+This rule aims to enforce spacing around the `*` of generator functions.
 
 The rule takes one option, an object, which has two keys `before` and `after` having boolean values `true` or `false`.
 
-* `before` aims to spacing between the `*` and the `function` keyword.
-  If it's `true`, space is enforced, otherwise space is disallowed.
+* `before` enforces spacing between the `*` and the `function` keyword.
+  If it is `true`, a space is required, otherwise spaces are disallowed.
 
   In object literal shorthand methods, spacing before the `*` is not checked, as they lack a `function` keyword.
 
-* `after` aims to spacing between the `*` and the function name.
-  If it's `true`, space is enforced, otherwise space is disallowed.
+* `after` enforces spacing between the `*` and the function name.
+  If it is `true`, a space is required, otherwise spaces are disallowed.
 
   In anonymous function expressions, spacing between the `*` and the opening parenthesis is not checked. This is checked by the [space-before-function-paren](space-before-function-paren.md) rule.
 
@@ -109,7 +109,7 @@ To use this rule you must set the `generators` flag to `true` in the `ecmaFeatur
 
 ## When Not To Use It
 
-If your project will not be using generators you do not need this rule.
+If your project will not be using generators or you are not concerned with spacing consistency, you do not need this rule.
 
 ## Further Reading
 
