@@ -1,4 +1,4 @@
-# Require Variable Declarations to be at the Top (vars-on-top)
+# Require Variable Declarations to be at the top of their scope (vars-on-top)
 
 The `vars-on-top` rule generates warnings when variable declarations are not used serially at the top of a function scope or the top of a program.
 By default variable declarations are always moved (“hoisted”) invisibly to the top of their containing scope by the JavaScript interpreter.
@@ -7,7 +7,9 @@ This rule forces the programmer to represent that behaviour by manually moving t
 ## Rule Details
 
 This rule aims to keep all variable declarations in the leading series of statements.
-Allowing multiple helps promote maintainability and reduces syntax.
+Allowing multiple declarations helps promote maintainability and is thus allowed.
+
+### Examples
 
 No variable declarations in a block.
 

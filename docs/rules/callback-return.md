@@ -1,6 +1,6 @@
 # Enforce Return After Callback (callback-return)
 
-The callback pattern is at the heart most I/O and event programming
+The callback pattern is at the heart most I/O and event-driven programming
  in JavaScript.
 
 ```js
@@ -12,7 +12,7 @@ function doSomething(err, callback) {
 }
 ```
 
-To prevent calling the callback multiple times it's important to `return` anytime the callback is triggered outside
+To prevent calling the callback multiple times it is important to `return` anytime the callback is triggered outside
  of the main function body. Neglecting this technique often leads to issues where you do something more than once.
  For example in the case of an HTTP request, you may try to send HTTP headers more than once leading node.js to `throw`
  a `Can't render headers after they are sent to the client.` error.

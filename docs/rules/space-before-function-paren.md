@@ -1,4 +1,4 @@
-# Require or disallow spaces before function parenthesis (space-before-function-paren)
+# Require or disallow a space before function parenthesis (space-before-function-paren)
 
 When formatting a function, whitespace is allowed between the function name or `function` keyword and the opening paren. Named functions also require a space between the `function` keyword and the function name, but anonymous functions require no whitespace. For example:
 
@@ -22,7 +22,7 @@ Style guides may require a space after the `function` keyword for anonymous func
 
 This rule aims to enforce consistent spacing before function parentheses and as such, will warn whenever whitespace doesn't match the preferences specified.
 
-This rule takes one argument. If it is `"always"` then all named functions and anonymous functions must have space before function parentheses. If `"never"` then all named functions and anonymous functions must not have space before function parentheses. If you want different spacing for named and anonymous functions you can pass an configuration object as the rule argument to configure those separately (e. g. `{"anonymous": "always", "named": "never"}`).
+This rule takes one argument. If it is `"always"` then all named functions and anonymous functions must have space before function parentheses. If `"never"` then all named functions and anonymous functions must not have space before function parentheses. If you want different spacing for named and anonymous functions you can pass a configuration object as the rule argument to configure those separately (e. g. `{"anonymous": "always", "named": "never"}`).
 
 The default configuration is `"always"`.
 

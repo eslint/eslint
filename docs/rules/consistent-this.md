@@ -14,7 +14,7 @@ There are many commonly used aliases for `this` such as `self`, `that` or `me`. 
 
 ## Rule Details
 
-This rule designates a variable as the chosen alias for "this". It then enforces two things:
+This rule designates a variable as the chosen alias for `this`. It then enforces two things:
 
 * if a variable with the designated name is declared or assigned to, it *must* explicitly be assigned the current execution context, i.e. `this`
 * if `this` is explicitly assigned to a variable, the name of that variable must be the designated one
