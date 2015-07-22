@@ -63,7 +63,10 @@ var NODE = "node ", // intentional extra space
 
     // Regex
     TAG_REGEX = /^(?:Fix|Update|Breaking|Docs|Build|New|Upgrade):/,
-    ISSUE_REGEX = /\((?:fixes|refs) #\d+(?:.*(?:fixes|refs) #\d+)*\)$/;
+    ISSUE_REGEX = /\((?:fixes|refs) #\d+(?:.*(?:fixes|refs) #\d+)*\)$/,
+
+    // Settings
+    MOCHA_TIMEOUT = process.platform === "win32" ? 3000 : 2000;
 
 //------------------------------------------------------------------------------
 // Helpers
@@ -364,7 +367,7 @@ target.test = function() {
         lastReturn;
 
     // exec(ISTANBUL + " cover " + MOCHA + "-- -c " + TEST_FILES);
-    lastReturn = nodeCLI.exec("istanbul", "cover", MOCHA, "-- -R progress -c", TEST_FILES);
+    lastReturn = nodeCLI.exec("istanbul", "cover", MOCHA, "-- -R progress -t " + MOCHA_TIMEOUT, "-c", TEST_FILES);
     if (lastReturn.code !== 0) {
         errors++;
     }
