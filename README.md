@@ -32,6 +32,27 @@ After that, you can run ESLint on any JavaScript file:
 
     eslint test.js test2.js
 
+## Configuration
+
+After running `eslint --init`, you'll have a `.eslintrc` file in your directory. In it, you'll see some rules configured like this:
+
+```json
+{
+    "rules": {
+        "semi": [2, "always"],
+        "quotes": [2, "double"]
+    }
+}
+```
+
+The names `"semi"` and `"quotes"` are the names of [rules](http://eslint.org/docs/rules) in ESLint. The number is the error level of the rule and can be one of the three values:
+
+* `0` - turn the rule off
+* `1` - turn the rule on as a warning (doesn't affect exit code)
+* `2` - turn the rule on as an error (exit code will be 1)
+
+The three error levels allow you fine-grained control over how ESLint applies rules (for more configuration options and details, see the [configuration docs](http://eslint.org/docs/user-guide/configuring)).
+
 ## Team
 
 These folks keep the project moving and are resources for help:
