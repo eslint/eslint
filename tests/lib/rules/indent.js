@@ -40,6 +40,17 @@ eslintTester.addRuleTest("lib/rules/indent", {
     valid: [
         {
             code:
+            "var geometry, box, face1, face2, colorT, colorB, sprite, padding, maxWidth,\n" +
+            "  height, rotate;",
+            options: [2, {"indentSwitchCase": true}]
+        },
+        {
+            code:
+            "var geometry, box, face1, face2, colorT, colorB, sprite, padding, maxWidth;",
+            options: [2, {"indentSwitchCase": true}]
+        },
+        {
+            code:
             "if (1 < 2){\n" +
             "//hi sd \n" +
             "}",
@@ -640,6 +651,15 @@ eslintTester.addRuleTest("lib/rules/indent", {
             options: [2, { indentSwitchCase: true }],
             errors: expectedErrors([
                 [3, 4, "SwitchCase"]
+            ])
+        },
+        {
+            code:
+            "var geometry, box, face1, face2, colorT, colorB, sprite, padding, maxWidth,\n" +
+            "height, rotate;",
+            options: [2, {"indentSwitchCase": true}],
+            errors: expectedErrors([
+                [2, 2, "VariableDeclarator"]
             ])
         }
     ]
