@@ -920,6 +920,32 @@ describe("eslint", function() {
 
             eslint.verify("switch(foo){ case 'a': var b = 'foo'; }", config, filename, true);
         });
+
+        it("should retrieve the function scope correctly from within a BlockStatement", function() {
+            var config = { rules: {}, ecmaFeatures: { blockBindings: true } };
+
+            eslint.reset();
+            eslint.on("BlockStatement", function() {
+                var scope = eslint.getScope();
+                assert.equal(scope.type, "block");
+                assert.equal(scope.block.type, "BlockStatement");
+            });
+
+            eslint.verify("var x; {let y = 1}", config, filename, true);
+        });
+
+        it("should retrieve the function scope correctly from within a nested block statement", function() {
+            var config = { rules: {}, ecmaFeatures: { blockBindings: true } };
+
+            eslint.reset();
+            eslint.on("BlockStatement", function() {
+                var scope = eslint.getScope();
+                assert.equal(scope.type, "block");
+                assert.equal(scope.block.type, "BlockStatement");
+            });
+
+            eslint.verify("if (true) { let x = 1 }", config, filename, true);
+        });
     });
 
     describe("marking variables as used", function() {
