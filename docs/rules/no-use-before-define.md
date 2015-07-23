@@ -1,18 +1,12 @@
 # Disallow Early Use (no-use-before-define)
 
-Since variable and function declarations are hoisted to the top of a scope, it's possible to use identifiers before their formal declarations in code. This can be confusing and some believe it is best to always declare variables and functions before using them.
+In JavaScript, prior to ES6, variable and function declarations are hoisted to the top of a scope, so it's possible to use identifiers before their formal declarations in code. This can be confusing and some believe it is best to always declare variables and functions before using them.
 
-It takes an optional option as the second parameter which can be `"nofunc"` to allow named function definitions to be used before the location where they are defined.
-
-```js
-alert(a);
-
-var a = 10;
-```
+In ES6, block-level bindings (`let` and `const`) introduce a "temporal dead zone" where a `ReferenceError` will be thrown with any attempt to access the variable before its declaration.
 
 ## Rule Details
 
-This rule will warn when it encounters a reference to an identifier that has not been declared as part of a `var` or function statement.
+This rule will warn when it encounters a reference to an identifier that has not been yet declared.
 
 The following patterns are considered warnings:
 
@@ -22,19 +16,48 @@ var a = 10;
 
 f();
 function f() {}
-```
 
-The following patterns are not considered warnings when `"nofunc"` is specified:
+function g() {
+    return b;
+}
+var b = 1;
 
-```js
-f();
-function f() {}
+// With blockBindings: true
+{
+    alert(c);
+    let c = 1;
+}
 ```
 
 The following patterns are not considered warnings:
 
 ```js
-var a = 10; alert(a);
+var a;
+a = 10;
+alert(a);
 
-function f() {} f();
+function f() {}
+f(1);
+
+var b = 1;
+function g() {
+    return b;
+}
+
+// With blockBindings: true
+{
+    let C;
+    c++;
+}
+```
+
+
+The rule accepts an additional option that can take the value `"nofunc"`. If this option is active, function declarations are exempted from the rule, so it is allowed to use a function name *before* its declaration.
+
+The following patterns are not considered warnings when `"nofunc"` is specified:
+
+```js
+f();
+
+function f() {}
 ```
