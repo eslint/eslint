@@ -14,6 +14,7 @@ This error is raised to highlight the use of a bad practice. By passing a string
 
 ```js
 var x = new Function("a", "b", "return a + b");
+var x = Function("a", "b", "return a + b");
 ```
 
 The following patterns are considered okay and do not cause warnings:
