@@ -108,3 +108,11 @@ From the beginning, ESLint has reported errors using 0-based columns because tha
 In 0.x, the `cli` object was exported for use by external tools. It was later deprecated in favor of `CLIEngine`. In v1.0.0, we are no longer exporting `cli` as it should not be used by external tools. This will break existing tools that make use of it.
 
 **To address:** If you are using the exported `cli` object, switch to using `CLIEngine` instead.
+
+## Deprecating eslint-tester
+
+The `eslint-tester` module, which has long been the primary tester for ESLint rules, has now been moved into the `eslint` module. This was the result of a difficult relationship between these two modules that created circular dependencies and was causing a lot of problems in rule tests. Moving the tester into the `eslint` module fixed a lot of those issues. You can now access the same object from `eslint-tester` via:
+
+```js
+var ESLintTester = require("eslint").ESLintTester;
+```
