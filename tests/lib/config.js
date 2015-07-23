@@ -602,6 +602,90 @@ describe("Config", function() {
             assertConfigsEqual(actual, expected);
         });
 
+        it("should not modify a scoped package named 'eslint-config'", function() {
+
+            var StubbedConfig = proxyquire("../../lib/config", {
+                "@scope/eslint-config": {
+                    rules: {
+                        eqeqeq: 2
+                    }
+                }
+            });
+
+            var configPath = path.resolve(__dirname, "../fixtures/config-extends/scoped-package4/.eslintrc"),
+                configHelper = new StubbedConfig({ useEslintrc: false, configFile: configPath }),
+                expected = {
+                    rules: { "quotes": [2, "double"], "eqeqeq": 2, "valid-jsdoc": 0 },
+                    env: { "browser": false }
+                },
+                actual = configHelper.getConfig(configPath);
+
+            assertConfigsEqual(actual, expected);
+        });
+
+        it("should extend a scope with a slash to '@scope/eslint-config'", function() {
+
+            var StubbedConfig = proxyquire("../../lib/config", {
+                "@scope/eslint-config": {
+                    rules: {
+                        eqeqeq: 2
+                    }
+                }
+            });
+
+            var configPath = path.resolve(__dirname, "../fixtures/config-extends/scoped-package5/.eslintrc"),
+                configHelper = new StubbedConfig({ useEslintrc: false, configFile: configPath }),
+                expected = {
+                    rules: { "quotes": [2, "double"], "eqeqeq": 2, "valid-jsdoc": 0 },
+                    env: { "browser": false }
+                },
+                actual = configHelper.getConfig(configPath);
+
+            assertConfigsEqual(actual, expected);
+        });
+
+        it("should extend a lone scope to '@scope/eslint-config'", function() {
+
+            var StubbedConfig = proxyquire("../../lib/config", {
+                "@scope/eslint-config": {
+                    rules: {
+                        eqeqeq: 2
+                    }
+                }
+            });
+
+            var configPath = path.resolve(__dirname, "../fixtures/config-extends/scoped-package6/.eslintrc"),
+                configHelper = new StubbedConfig({ useEslintrc: false, configFile: configPath }),
+                expected = {
+                    rules: { "quotes": [2, "double"], "eqeqeq": 2, "valid-jsdoc": 0 },
+                    env: { "browser": false }
+                },
+                actual = configHelper.getConfig(configPath);
+
+            assertConfigsEqual(actual, expected);
+        });
+
+        it("should still prefix a name prefix of 'eslint-config' without a dash, with a dash", function() {
+
+            var StubbedConfig = proxyquire("../../lib/config", {
+                "@scope/eslint-config-eslint-configfoo": {
+                    rules: {
+                        eqeqeq: 2
+                    }
+                }
+            });
+
+            var configPath = path.resolve(__dirname, "../fixtures/config-extends/scoped-package7/.eslintrc"),
+                configHelper = new StubbedConfig({ useEslintrc: false, configFile: configPath }),
+                expected = {
+                    rules: { "quotes": [2, "double"], "eqeqeq": 2, "valid-jsdoc": 0 },
+                    env: { "browser": false }
+                },
+                actual = configHelper.getConfig(configPath);
+
+            assertConfigsEqual(actual, expected);
+        });
+
         it("should extend package sub-configuration without prefix", function() {
 
             var StubbedConfig = proxyquire("../../lib/config", {
