@@ -173,6 +173,7 @@ These rules are purely matters of style and are quite subjective.
 * [padded-blocks](padded-blocks.md) - enforce padding within blocks
 * [quote-props](quote-props.md) - require quotes around object literal property names
 * [quotes](quotes.md) - specify whether backticks, double or single quotes should be used
+* [id-match](id-match.md) - require identifiers to match the provided regular expression
 * [semi-spacing](semi-spacing.md) - enforce spacing before and after semicolons
 * [semi](semi.md) - require or disallow use of semicolons instead of ASI
 * [sort-vars](sort-vars.md) - sort variables within the same declaration block
