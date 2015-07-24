@@ -34,7 +34,14 @@ eslintTester.addRuleTest("lib/rules/quotes", {
         { code: "var foo = <div id=\"foo\"></div>;", args: [1, "backtick"], ecmaFeatures: { jsx: true } },
         { code: "var foo = <div>Hello world</div>;", args: [1, "backtick"], ecmaFeatures: { jsx: true }},
         { code: "var foo = `backtick`;", args: [1, "single"], ecmaFeatures: { templateStrings: true }},
-        { code: "var foo = `backtick`;", args: [1, "double"], ecmaFeatures: { templateStrings: true }}
+        { code: "var foo = `backtick`;", args: [1, "double"], ecmaFeatures: { templateStrings: true }},
+
+        // `backtick` should not warn the directive prologues.
+        { code: "\"use strict\"; var foo = `backtick`;", options: ["backtick"], ecmaFeatures: { templateStrings: true }},
+        { code: "\"use strict\"; 'use strong'; \"use asm\"; var foo = `backtick`;", options: ["backtick"], ecmaFeatures: { templateStrings: true }},
+        { code: "function foo() { \"use strict\"; \"use strong\"; \"use asm\"; var foo = `backtick`; }", options: ["backtick"], ecmaFeatures: { templateStrings: true }},
+        { code: "(function() { 'use strict'; 'use strong'; 'use asm'; var foo = `backtick`; })();", options: ["backtick"], ecmaFeatures: { templateStrings: true }},
+        { code: "(() => { \"use strict\"; \"use strong\"; \"use asm\"; var foo = `backtick`; })();", options: ["backtick"], ecmaFeatures: { arrowFunctions: true, templateStrings: true }}
     ],
     invalid: [
         { code: "var foo = 'bar';",
@@ -62,6 +69,20 @@ eslintTester.addRuleTest("lib/rules/quotes", {
           errors: [{ message: "Strings must use backtick.", type: "Literal" }]},
         { code: "var foo = 'bar';",
           args: [1, "backtick", "avoid-escape"],
+          errors: [{ message: "Strings must use backtick.", type: "Literal" }]},
+
+        // below are not the directive prologues.
+        { code: "var foo = `backtick`; \"use strict\";",
+          options: ["backtick"],
+          ecmaFeatures: { templateStrings: true },
+          errors: [{ message: "Strings must use backtick.", type: "Literal" }]},
+        { code: "{ \"use strict\"; var foo = `backtick`; }",
+          options: ["backtick"],
+          ecmaFeatures: { templateStrings: true },
+          errors: [{ message: "Strings must use backtick.", type: "Literal" }]},
+        { code: "if (1) { \"use strict\"; var foo = `backtick`; }",
+          options: ["backtick"],
+          ecmaFeatures: { templateStrings: true },
           errors: [{ message: "Strings must use backtick.", type: "Literal" }]}
     ]
 });
