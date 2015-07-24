@@ -26,7 +26,11 @@ eslintTester.addRuleTest("lib/rules/no-redeclare", {
             ecmaFeatures: {
                 blockBindings: true
             }
-        }
+        },
+        { code: "var Object = 0;" },
+        { code: "var Object = 0;", options: [{builtinGlobals: false}] },
+        { code: "var top = 0;", env: {browser: true} },
+        { code: "var top = 0;", options: [{builtinGlobals: true}] }
     ],
     invalid: [
         { code: "var a = 3; var a = 10;", ecmaFeatures: { globalReturn: true }, errors: [{ message: "a is already defined", type: "Identifier"}] },
@@ -41,6 +45,41 @@ eslintTester.addRuleTest("lib/rules/no-redeclare", {
         { code: "var a; var a;", ecmaFeatures: { modules: true }, errors: [{ message: "a is already defined", type: "Identifier"}] },
         { code: "export var a; export var a;", ecmaFeatures: { modules: true }, errors: [{ message: "a is already defined", type: "Identifier"}] },
         { code: "export class A {} export class A {}", ecmaFeatures: { classes: true, modules: true }, errors: [{ message: "A is already defined", type: "Identifier"}] },
-        { code: "export var a; var a;", ecmaFeatures: { modules: true, globalReturn: true }, errors: [{ message: "a is already defined", type: "Identifier"}] }
+        { code: "export var a; var a;", ecmaFeatures: { modules: true, globalReturn: true }, errors: [{ message: "a is already defined", type: "Identifier"}] },
+        {
+            code: "var Object = 0;",
+            options: [{builtinGlobals: true}],
+            errors: [{ message: "Object is already defined", type: "Identifier"}]
+        },
+        {
+            code: "var top = 0;",
+            options: [{builtinGlobals: true}],
+            env: {browser: true},
+            errors: [{ message: "top is already defined", type: "Identifier"}]
+        },
+        {
+            code: "var a; var {a = 0, b: Object = 0} = {};",
+            options: [{builtinGlobals: true}],
+            ecmaFeatures: {destructuring: true},
+            errors: [
+                { message: "a is already defined", type: "Identifier"},
+                { message: "Object is already defined", type: "Identifier"}
+            ]
+        },
+        {
+            code: "var a; var {a = 0, b: Object = 0} = {};",
+            options: [{builtinGlobals: true}],
+            ecmaFeatures: {modules: true, destructuring: true},
+            errors: [
+                { message: "a is already defined", type: "Identifier"},
+                { message: "Object is already defined", type: "Identifier"}
+            ]
+        },
+        {
+            code: "var a; var {a = 0, b: Object = 0} = {};",
+            options: [{builtinGlobals: false}],
+            ecmaFeatures: {modules: true, destructuring: true},
+            errors: [{ message: "a is already defined", type: "Identifier"}]
+        }
     ]
 });
