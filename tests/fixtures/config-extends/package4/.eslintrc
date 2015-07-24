@@ -1,0 +1,12 @@
+{
+    "extends": "bar-eslint-config-foo",
+
+    "rules": {
+        "quotes": [2, "double"],
+        "valid-jsdoc": 0
+    },
+
+    "env": {
+        "browser": false
+    }
+}
