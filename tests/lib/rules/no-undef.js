@@ -71,6 +71,13 @@ eslintTester.addRuleTest("lib/rules/no-undef", {
         { code: "[a] = [0];", ecmaFeatures: {destructuring: true}, errors: [{ message: "\"a\" is not defined." }] },
         { code: "({a}) = {};", ecmaFeatures: {destructuring: true}, errors: [{ message: "\"a\" is not defined." }] },
         { code: "({b: a}) = {};", ecmaFeatures: {destructuring: true}, errors: [{ message: "\"a\" is not defined." }] },
-        { code: "[obj.a, obj.b] = [0, 1];", ecmaFeatures: {destructuring: true}, errors: [{ message: "\"obj\" is not defined." }, { message: "\"obj\" is not defined." }] }
+        { code: "[obj.a, obj.b] = [0, 1];", ecmaFeatures: {destructuring: true}, errors: [{ message: "\"obj\" is not defined." }, { message: "\"obj\" is not defined." }] },
+
+        // Experimental
+        {
+            code: "const c = 0; const a = {...b, c};",
+            ecmaFeatures: {blockBindings: true, objectLiteralShorthandProperties: true, experimentalObjectRestSpread: true},
+            errors: [{ message: "\"b\" is not defined." }]
+        }
     ]
 });
