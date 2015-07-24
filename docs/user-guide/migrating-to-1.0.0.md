@@ -87,6 +87,7 @@ Over the past several releases, we have been deprecating rules and introducing n
 * [no-comma-dangle](http://eslint.org/docs/rules/no-comma-dangle) is replaced by [comma-dangle](http://eslint.org/docs/rules/comma-dangle)
 * [no-empty-class](http://eslint.org/docs/rules/no-empty-class) is replaced by [no-empty-character-class](http://eslint.org/docs/rules/no-empty-character-class)
 * [no-extra-strict](http://eslint.org/docs/rules/no-extra-strict) is replaced by [strict](http://eslint.org/docs/rules/strict)
+* [no-reserved-keys](http://eslint.org/docs/rules/no-reserved-keys) is replaced by [quote-props](http://eslint.org/docs/rules/quote-props)
 * [no-space-before-semi](http://eslint.org/docs/rules/no-space-before-semi) is replaced by [semi-spacing](http://eslint.org/docs/rules/semi-spacing)
 * [no-wrap-func](http://eslint.org/docs/rules/no-wrap-func) is replaced by [no-extra-parens](http://eslint.org/docs/rules/no-extra-parens)
 * [space-after-function-name](http://eslint.org/docs/rules/space-after-function-name) is replaced by [space-before-function-paren](http://eslint.org/docs/rules/space-before-function-paren)

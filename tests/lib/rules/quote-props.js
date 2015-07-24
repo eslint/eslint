@@ -30,11 +30,17 @@ eslintTester.addRuleTest("lib/rules/quote-props", {
         { code: "({ a: 0, 0: 0 })", options: ["as-needed"] },
         { code: "({ a: 0, true: 0 })", options: ["as-needed"] },
         { code: "({ a: 0, null: 0 })", options: ["as-needed"] },
+        { code: "({ a: 0, if: 0 })", options: ["as-needed"] },
+        { code: "({ a: 0, while: 0 })", options: ["as-needed"] },
+        { code: "({ a: 0, volatile: 0 })", options: ["as-needed"] },
         { code: "({ a: 0, '-b': 0 })", options: ["as-needed"] },
-        { code: "({ a: 0, 'if': 0 })", options: ["as-needed"] },
         { code: "({ a: 0, '@': 0 })", options: ["as-needed"] },
         { code: "({ a: 0, 0: 0 })", options: ["as-needed"] },
-        { code: "({ a: 0, '0x0': 0 })", options: ["as-needed"] }
+        { code: "({ a: 0, '0x0': 0 })", options: ["as-needed"] },
+
+        { code: "({ a: 0, 'if': 0 })", options: ["as-needed", {keywords: true}] },
+        { code: "({ a: 0, 'while': 0 })", options: ["as-needed", {keywords: true}] },
+        { code: "({ a: 0, 'volatile': 0 })", options: ["as-needed", {keywords: true}] }
     ],
     invalid: [{
         code: "({ a: 0 })",
@@ -69,6 +75,24 @@ eslintTester.addRuleTest("lib/rules/quote-props", {
         options: ["as-needed"],
         errors: [{
             message: "Unnecessarily quoted property `0` found.", type: "Property"
+        }]
+    }, {
+        code: "({'if': 0})",
+        options: ["as-needed"],
+        errors: [{
+            message: "Unnecessarily quoted property `if` found.", type: "Property"
+        }]
+    }, {
+        code: "({'synchronized': 0})",
+        options: ["as-needed"],
+        errors: [{
+            message: "Unnecessarily quoted property `synchronized` found.", type: "Property"
+        }]
+    }, {
+        code: "({while: 0})",
+        options: ["as-needed", {keywords: true}],
+        errors: [{
+            message: "Unquoted reserved word `while` used as key.", type: "Property"
         }]
     }]
 });
