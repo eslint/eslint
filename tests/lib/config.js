@@ -539,6 +539,23 @@ describe("Config", function() {
             assertConfigsEqual(actual, expected);
         });
 
+        it("should throw error if extend package dependency is not available", function() {
+
+            var StubbedConfig = proxyquire("../../lib/config", {
+                "bar-eslint-config-foo": {
+                    rules: {
+                        eqeqeq: [2, "smart"]
+                    }
+                }
+            });
+
+            var configPath = path.resolve(__dirname, "../fixtures/config-extends/package4/.eslintrc");
+
+            assert.throw(function() {
+                new StubbedConfig({ useEslintrc: false, configFile: configPath }); // eslint-disable-line no-new
+            });
+        });
+
         it("should extend package configuration without prefix", function() {
 
             var StubbedConfig = proxyquire("../../lib/config", {
@@ -558,6 +575,23 @@ describe("Config", function() {
                 actual = configHelper.getConfig(configPath);
 
             assertConfigsEqual(actual, expected);
+        });
+
+        it("should throw error if extend scoped package dependency is not available", function() {
+
+            var StubbedConfig = proxyquire("../../lib/config", {
+                "@scope/bar-eslint-config-foo": {
+                    rules: {
+                        eqeqeq: [2, "smart"]
+                    }
+                }
+            });
+
+            var configPath = path.resolve(__dirname, "../fixtures/config-extends/scoped-package8/.eslintrc");
+
+            assert.throw(function() {
+                new StubbedConfig({ useEslintrc: false, configFile: configPath }); // eslint-disable-line no-new
+            });
         });
 
         it("should extend scoped package configuration", function() {
