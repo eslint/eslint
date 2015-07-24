@@ -1,3 +1,14 @@
+v1.0.0-rc-3 - July 24, 2015
+
+* Fix: Make Chai and Mocha as a dependency (fixes #3156) (Gyandeep Singh)
+* Fix: traverse `ExperimentalSpread/RestProperty.argument` (fixes #3157) (Toru Nagashima)
+* Fix: Check shareable config package prefix correctly (fixes #3146) (Gyandeep Singh)
+* Update: move redeclaration checking for builtins (fixes #3070) (Toru Nagashima)
+* Fix: `quotes` with `"backtick"` allows directive prologues (fixes #3132) (Toru Nagashima)
+* Fix: `ESLintTester` path in exposed API (fixes #3149) (Gyandeep Singh)
+* Docs: Remove AppVeyor badge (Gyandeep Singh)
+* Fix: Check no-new-func on CallExpressions (fixes #3145) (Benjamin Woodruff)
+
 v1.0.0-rc-2 - July 23, 2015
 
 * Docs: Mention eslint-tester in migration guide (Nicholas C. Zakas)
