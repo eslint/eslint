@@ -130,6 +130,7 @@
         "generator-star-spacing": 0,
         "guard-for-in": 0,
         "handle-callback-err": 0,
+        "id-length": 0,
         "indent": 0,
         "init-declarations": 0,
         "key-spacing": [0, { "beforeColon": false, "afterColon": true }],
