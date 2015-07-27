@@ -148,6 +148,10 @@ eslintTester.addRuleTest("lib/rules/spaced-comment", {
             options: ["always"]
         },
         {
+            code: "/**\n *jsdoc\n */",
+            options: ["always", { markers: ["*"] }]
+        },
+        {
             code: "/**\r\n *jsdoc\r\n */",
             options: ["always"]
         },
@@ -158,8 +162,12 @@ eslintTester.addRuleTest("lib/rules/spaced-comment", {
         {
             code: "/**   \n *jsdoc \n */",
             options: ["always"]
-        }
+        },
 
+        {
+            code: "///--------\r\n/// test\r\n///--------",
+            options: ["always", {markers: ["/"], exceptions: ["-"]}]
+        }
     ],
 
     invalid: [
