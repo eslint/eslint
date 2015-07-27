@@ -30,17 +30,19 @@ This may look alright at first sight, but this code in fact throws a syntax erro
 
 ## Rule Details
 
-This rule aims to enforce use of quotes in property names and as such will flag any properties that don't use quotes.
+This rule aims to enforce use of quotes in property names and as such will flag any properties that don't use quotes (default behavior).
 
 ### Options
 
-There are two behaviors for this rule: `"always"` (default) and `"as-needed"`. You can define these options in your configuration as:
+There are four behaviors for this rule: `"always"` (default), `"as-needed"`, `"consistent"` and `"consistent-as-needed"`. You can define these options in your configuration as:
 
 ```json
 {
     "quote-props": [2, "as-needed"]
 }
 ```
+
+#### always
 
 When configured with `"always"` as the first option (the default), quoting for all properties will be enforced. Some believe that ensuring property names in object literals are always wrapped in quotes is generally a good idea, since [depending on the property name you may need to quote them anyway](https://mathiasbynens.be/notes/javascript-properties). Consider this example:
 
@@ -52,7 +54,7 @@ var object = {
 };
 ```
 
-Here, the properties `foo` and `baz` are not wrapped in quotes, but `qux-lorem` is, because it doesn’t work without the quotes. This is rather inconsistent. Instead, you may prefer to quote property names consistently:
+Here, the properties `foo` and `baz` are not wrapped in quotes, but `qux-lorem` is, because it doesn’t work without the quotes. This is rather inconsistent. Instead, you may prefer to quote names of all properties:
 
 ```js
 var object = {
@@ -104,6 +106,8 @@ var object3 = {
 };
 ```
 
+#### as-needed
+
 When configured with `"as-needed"` as the first option (the default), the following patterns are considered warnings:
 
 ```js
@@ -133,6 +137,75 @@ var object3 = {
     foo() {
         return;
     }
+};
+```
+
+#### consistent
+
+When configured with `"consistent"`, the patterns below are considered warnings. Basically `"consistent"` means all or no properties are expected to be quoted, in other words quoting style can't be mixed within an object. Please note the latter situation (no quotation at all) isn't always possible as some property names require quoting.
+
+```js
+var object1 = {
+    foo: "bar",
+    "baz": 42,
+    "qux-lorem": true
+};
+
+var object2 = {
+    'foo': 'bar',
+    baz: 42
+};
+```
+
+The following patterns are considered okay and do not cause warnings:
+
+```js
+var object1 = {
+    "foo": "bar",
+    "baz": 42,
+    "qux-lorem": true
+};
+
+var object2 = {
+    'foo': 'bar',
+    'baz': 42
+};
+
+var object3 = {
+    foo: 'bar',
+    baz: 42
+};
+```
+
+#### consistent-as-needed
+
+When configured with `"consistent-as-needed"`, the behavior is similar to `"consistent"` with one difference. Namely, properties' quoting should be consistent (as in `"consistent"`) but whenever all quotes are redundant a warning is raised. In other words if at least one property name has to be quoted (like `qux-lorem`) then all property names must be quoted, otherwise no properties can be quoted. The following patterns are considered warnings:
+
+```js
+var object1 = {
+    foo: "bar",
+    "baz": 42,
+    "qux-lorem": true
+};
+
+var object2 = {
+    'foo': 'bar',
+    'baz': 42
+};
+```
+
+The following patterns are considered okay and do not cause warnings:
+
+```js
+var object1 = {
+    "foo": "bar",
+    "baz": 42,
+    "qux-lorem": true
+};
+
+var object2 = {
+    foo: 'bar',
+    baz: 42
 };
 ```
 
