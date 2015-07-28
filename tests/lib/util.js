@@ -143,6 +143,109 @@ describe("util", function() {
             assert.deepEqual(code[1], { rules: { "no-mixed-requires": 1 }});
         });
 
+        it("should combine configs and override rules options completely", function() {
+
+            var code = [
+                { rules: { "no-mixed-requires": [1, {"event": ["evt", "e"]}] } },
+                { rules: { "no-mixed-requires": [1, {"err": ["error", "e"]}] } }
+            ];
+
+            var result = util.mergeConfigs(code[0], code[1]);
+
+            assert.isArray(result.rules["no-mixed-requires"]);
+            assert.deepEqual(result.rules["no-mixed-requires"][1], {"err": ["error", "e"]});
+            assert.deepEqual(code[0], { rules: { "no-mixed-requires": [1, {"event": ["evt", "e"]}] }});
+            assert.deepEqual(code[1], { rules: { "no-mixed-requires": [1, {"err": ["error", "e"]}] }});
+        });
+
+        it("should combine configs correctly", function() {
+
+            var code = [
+                {
+                    rules: {
+                        "no-mixed-requires": [1, {"event": ["evt", "e"]}],
+                        "valid-jsdoc": 1,
+                        "semi": 1,
+                        "quotes": [2, {"exception": ["hi"]}],
+                        "smile": [1, ["hi", "bye"]]
+                    },
+                    ecmaFeatures: { blockBindings: true },
+                    env: { browser: true },
+                    globals: { foo: false}
+                },
+                {
+                    rules: {
+                        "no-mixed-requires": [1, {"err": ["error", "e"]}],
+                        "valid-jsdoc": 2,
+                        "test": 1,
+                        "smile": [1, ["xxx", "yyy"]]
+                    },
+                    ecmaFeatures: { forOf: true },
+                    env: { browser: false },
+                    globals: { foo: true}
+                }
+            ];
+
+            var result = util.mergeConfigs(code[0], code[1]);
+
+            assert.deepEqual(result, {
+                "ecmaFeatures": {
+                    "blockBindings": true,
+                    "forOf": true
+                },
+                "env": {
+                    "browser": false
+                },
+                "globals": {
+                    "foo": true
+                },
+                "rules": {
+                    "no-mixed-requires": [1,
+                        {
+                            "err": [
+                                "error",
+                                "e"
+                            ]
+                        }
+                    ],
+                    "quotes": [2,
+                        {
+                            "exception": [
+                                "hi"
+                            ]
+                        }
+                    ],
+                    "semi": 1,
+                    "smile": [1, ["xxx", "yyy"]],
+                    "test": 1,
+                    "valid-jsdoc": 2
+                }
+            });
+            assert.deepEqual(code[0], {
+                rules: {
+                    "no-mixed-requires": [1, {"event": ["evt", "e"]}],
+                    "valid-jsdoc": 1,
+                    "semi": 1,
+                    "quotes": [2, {"exception": ["hi"]}],
+                    "smile": [1, ["hi", "bye"]]
+                },
+                ecmaFeatures: { blockBindings: true },
+                env: { browser: true },
+                globals: { foo: false}
+            });
+            assert.deepEqual(code[1], {
+                rules: {
+                    "no-mixed-requires": [1, {"err": ["error", "e"]}],
+                    "valid-jsdoc": 2,
+                    "test": 1,
+                    "smile": [1, ["xxx", "yyy"]]
+                },
+                ecmaFeatures: { forOf: true },
+                env: { browser: false },
+                globals: { foo: true}
+            });
+        });
+
         describe("plugins", function() {
             var baseConfig;
 
