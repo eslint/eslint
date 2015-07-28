@@ -46,47 +46,47 @@ describe("util", function() {
     describe("mergeConfigs()", function() {
 
         it("should combine two objects when passed two objects with different top-level properties", function() {
-            var code = [
+            var config = [
                 { env: { browser: true } },
                 { globals: { foo: "bar"} }
             ];
 
-            var result = util.mergeConfigs(code[0], code[1]);
+            var result = util.mergeConfigs(config[0], config[1]);
 
             assert.equal(result.globals.foo, "bar");
             assert.isTrue(result.env.browser);
         });
 
         it("should combine without blowing up on null values", function() {
-            var code = [
+            var config = [
                 { env: { browser: true } },
                 { env: { node: null } }
             ];
 
-            var result = util.mergeConfigs(code[0], code[1]);
+            var result = util.mergeConfigs(config[0], config[1]);
 
             assert.equal(result.env.node, null);
             assert.isTrue(result.env.browser);
         });
 
         it("should combine two objects with parser when passed two objects with different top-level properties", function() {
-            var code = [
+            var config = [
                 { env: { browser: true }, parser: "espree" },
                 { globals: { foo: "bar"} }
             ];
 
-            var result = util.mergeConfigs(code[0], code[1]);
+            var result = util.mergeConfigs(config[0], config[1]);
 
             assert.equal(result.parser, "espree");
         });
 
         it("should combine configs and override rules when passed configs with the same rules", function() {
-            var code = [
+            var config = [
                 { rules: { "no-mixed-requires": [0, false] } },
                 { rules: { "no-mixed-requires": [1, true] } }
             ];
 
-            var result = util.mergeConfigs(code[0], code[1]);
+            var result = util.mergeConfigs(config[0], config[1]);
 
             assert.isArray(result.rules["no-mixed-requires"]);
             assert.equal(result.rules["no-mixed-requires"][0], 1);
@@ -94,12 +94,12 @@ describe("util", function() {
         });
 
         it("should combine configs when passed configs with ecmaFeatures", function() {
-            var code = [
+            var config = [
                 { ecmaFeatures: { blockBindings: true } },
                 { ecmaFeatures: { forOf: true } }
             ];
 
-            var result = util.mergeConfigs(code[0], code[1]);
+            var result = util.mergeConfigs(config[0], config[1]);
 
             assert.deepEqual(result, {
                 ecmaFeatures: {
@@ -108,17 +108,17 @@ describe("util", function() {
                 }
             });
 
-            assert.deepEqual(code[0], { ecmaFeatures: { blockBindings: true }});
-            assert.deepEqual(code[1], { ecmaFeatures: { forOf: true }});
+            assert.deepEqual(config[0], { ecmaFeatures: { blockBindings: true }});
+            assert.deepEqual(config[1], { ecmaFeatures: { forOf: true }});
         });
 
         it("should override configs when passed configs with the same ecmaFeatures", function() {
-            var code = [
+            var config = [
                 { ecmaFeatures: { forOf: false } },
                 { ecmaFeatures: { forOf: true } }
             ];
 
-            var result = util.mergeConfigs(code[0], code[1]);
+            var result = util.mergeConfigs(config[0], config[1]);
 
             assert.deepEqual(result, {
                 ecmaFeatures: {
@@ -129,38 +129,70 @@ describe("util", function() {
 
         it("should combine configs and override rules when merging two configs with arrays and int", function() {
 
-            var code = [
+            var config = [
                 { rules: { "no-mixed-requires": [0, false] } },
                 { rules: { "no-mixed-requires": 1 } }
             ];
 
-            var result = util.mergeConfigs(code[0], code[1]);
+            var result = util.mergeConfigs(config[0], config[1]);
 
             assert.isArray(result.rules["no-mixed-requires"]);
             assert.equal(result.rules["no-mixed-requires"][0], 1);
             assert.equal(result.rules["no-mixed-requires"][1], false);
-            assert.deepEqual(code[0], { rules: { "no-mixed-requires": [0, false] }});
-            assert.deepEqual(code[1], { rules: { "no-mixed-requires": 1 }});
+            assert.deepEqual(config[0], { rules: { "no-mixed-requires": [0, false] }});
+            assert.deepEqual(config[1], { rules: { "no-mixed-requires": 1 }});
         });
 
         it("should combine configs and override rules options completely", function() {
 
-            var code = [
+            var config = [
                 { rules: { "no-mixed-requires": [1, {"event": ["evt", "e"]}] } },
                 { rules: { "no-mixed-requires": [1, {"err": ["error", "e"]}] } }
             ];
 
-            var result = util.mergeConfigs(code[0], code[1]);
+            var result = util.mergeConfigs(config[0], config[1]);
 
             assert.isArray(result.rules["no-mixed-requires"]);
             assert.deepEqual(result.rules["no-mixed-requires"][1], {"err": ["error", "e"]});
-            assert.deepEqual(code[0], { rules: { "no-mixed-requires": [1, {"event": ["evt", "e"]}] }});
-            assert.deepEqual(code[1], { rules: { "no-mixed-requires": [1, {"err": ["error", "e"]}] }});
+            assert.deepEqual(config[0], { rules: { "no-mixed-requires": [1, {"event": ["evt", "e"]}] }});
+            assert.deepEqual(config[1], { rules: { "no-mixed-requires": [1, {"err": ["error", "e"]}] }});
+        });
+
+        it("should combine configs and override rules options without array or object", function() {
+
+            var config = [
+                { rules: { "no-mixed-requires": [1, "nconf", "underscore"] } },
+                { rules: { "no-mixed-requires": [2, "requirejs"] } }
+            ];
+
+            var result = util.mergeConfigs(config[0], config[1]);
+
+            assert.strictEqual(result.rules["no-mixed-requires"][0], 2);
+            assert.strictEqual(result.rules["no-mixed-requires"][1], "requirejs");
+            assert.isUndefined(result.rules["no-mixed-requires"][2]);
+            assert.deepEqual(config[0], { rules: { "no-mixed-requires": [1, "nconf", "underscore"] }});
+            assert.deepEqual(config[1], { rules: { "no-mixed-requires": [2, "requirejs"] }});
+        });
+
+        it("should combine configs and override rules options without array or object but special case", function() {
+
+            var config = [
+                { rules: { "no-mixed-requires": [1, "nconf", "underscore"] } },
+                { rules: { "no-mixed-requires": 2 } }
+            ];
+
+            var result = util.mergeConfigs(config[0], config[1]);
+
+            assert.strictEqual(result.rules["no-mixed-requires"][0], 2);
+            assert.strictEqual(result.rules["no-mixed-requires"][1], "nconf");
+            assert.strictEqual(result.rules["no-mixed-requires"][2], "underscore");
+            assert.deepEqual(config[0], { rules: { "no-mixed-requires": [1, "nconf", "underscore"] }});
+            assert.deepEqual(config[1], { rules: { "no-mixed-requires": 2 }});
         });
 
         it("should combine configs correctly", function() {
 
-            var code = [
+            var config = [
                 {
                     rules: {
                         "no-mixed-requires": [1, {"event": ["evt", "e"]}],
@@ -186,7 +218,7 @@ describe("util", function() {
                 }
             ];
 
-            var result = util.mergeConfigs(code[0], code[1]);
+            var result = util.mergeConfigs(config[0], config[1]);
 
             assert.deepEqual(result, {
                 "ecmaFeatures": {
@@ -221,7 +253,7 @@ describe("util", function() {
                     "valid-jsdoc": 2
                 }
             });
-            assert.deepEqual(code[0], {
+            assert.deepEqual(config[0], {
                 rules: {
                     "no-mixed-requires": [1, {"event": ["evt", "e"]}],
                     "valid-jsdoc": 1,
@@ -233,7 +265,7 @@ describe("util", function() {
                 env: { browser: true },
                 globals: { foo: false}
             });
-            assert.deepEqual(code[1], {
+            assert.deepEqual(config[1], {
                 rules: {
                     "no-mixed-requires": [1, {"err": ["error", "e"]}],
                     "valid-jsdoc": 2,
