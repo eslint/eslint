@@ -10,11 +10,11 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslint = require("../../../lib/eslint"),
-    ESLintTester = require("../../../lib/testers/eslint-tester");
+var rule = require("../../../lib/rules/no-shadow-restricted-names"),
+    RuleTester = require("../../../lib/testers/rule-tester");
 
-var eslintTester = new ESLintTester(eslint);
-eslintTester.addRuleTest("lib/rules/no-shadow-restricted-names", {
+var ruleTester = new RuleTester();
+ruleTester.run("no-shadow-restricted-names", rule, {
     valid: [
         "function foo(bar){ var baz; }",
         "!function foo(bar){ var baz; }",

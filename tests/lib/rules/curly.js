@@ -9,15 +9,15 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslint = require("../../../lib/eslint"),
-    ESLintTester = require("../../../lib/testers/eslint-tester");
+var rule = require("../../../lib/rules/curly"),
+    RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
 // Helpers
 //------------------------------------------------------------------------------
 
-var eslintTester = new ESLintTester(eslint);
-eslintTester.addRuleTest("lib/rules/curly", {
+var ruleTester = new RuleTester();
+ruleTester.run("curly", rule, {
     valid: [
         "if (foo) { bar() }",
         "if (foo) { bar() } else if (foo2) { baz() }",
@@ -26,47 +26,47 @@ eslintTester.addRuleTest("lib/rules/curly", {
         "for (;foo;) { bar() }",
         {
             code: "for (;foo;) bar()",
-            args: [1, "multi"]
+            options: ["multi"]
         },
         {
             code: "if (foo) bar()",
-            args: [1, "multi"]
+            options: ["multi"]
         },
         {
             code: "if (foo) bar()",
-            args: [1, "multi-line"]
+            options: ["multi-line"]
         },
         {
             code: "if (foo) bar() \n",
-            args: [1, "multi-line"]
+            options: ["multi-line"]
         },
         {
             code: "if (foo) bar(); else baz()",
-            args: [1, "multi-line"]
+            options: ["multi-line"]
         },
         {
             code: "if (foo) bar(); \n else baz()",
-            args: [1, "multi-line"]
+            options: ["multi-line"]
         },
         {
             code: "if (foo) bar() \n else if (foo) bar() \n else baz()",
-            args: [1, "multi-line"]
+            options: ["multi-line"]
         },
         {
             code: "do baz(); while (foo)",
-            args: [1, "multi-line"]
+            options: ["multi-line"]
         },
         {
             code: "if (foo) { bar() }",
-            args: [1, "multi-line"]
+            options: ["multi-line"]
         },
         {
             code: "if (foo) { \n bar(); \n baz(); \n }",
-            args: [1, "multi-line"]
+            options: ["multi-line"]
         },
         {
             code: "do bar() \n while (foo)",
-            args: [1, "multi-line"]
+            options: ["multi-line"]
         }
     ],
     invalid: [
@@ -117,7 +117,7 @@ eslintTester.addRuleTest("lib/rules/curly", {
         },
         {
             code: "for (;foo;) { bar() }",
-            args: [1, "multi"],
+            options: ["multi"],
             errors: [
                 {
                     message: "Unnecessary { after 'for' condition.",
@@ -127,7 +127,7 @@ eslintTester.addRuleTest("lib/rules/curly", {
         },
         {
             code: "if (foo) { bar() }",
-            args: [1, "multi"],
+            options: ["multi"],
             errors: [
                 {
                     message: "Unnecessary { after 'if' condition.",
@@ -137,7 +137,7 @@ eslintTester.addRuleTest("lib/rules/curly", {
         },
         {
             code: "while (foo) { bar() }",
-            args: [1, "multi"],
+            options: ["multi"],
             errors: [
                 {
                     message: "Unnecessary { after 'while' condition.",
@@ -147,7 +147,7 @@ eslintTester.addRuleTest("lib/rules/curly", {
         },
         {
             code: "if (foo) baz(); else { bar() }",
-            args: [1, "multi"],
+            options: ["multi"],
             errors: [
                 {
                     message: "Unnecessary { after 'else'.",
@@ -157,7 +157,7 @@ eslintTester.addRuleTest("lib/rules/curly", {
         },
         {
             code: "if (foo) \n baz()",
-            args: [1, "multi-line"],
+            options: ["multi-line"],
             errors: [
                 {
                     message: "Expected { after 'if' condition.",
@@ -167,7 +167,7 @@ eslintTester.addRuleTest("lib/rules/curly", {
         },
         {
             code: "while (foo) \n baz()",
-            args: [1, "multi-line"],
+            options: ["multi-line"],
             errors: [
                 {
                     message: "Expected { after 'while' condition.",
@@ -177,7 +177,7 @@ eslintTester.addRuleTest("lib/rules/curly", {
         },
         {
             code: "for (;foo;) \n bar()",
-            args: [1, "multi-line"],
+            options: ["multi-line"],
             errors: [
                 {
                     message: "Expected { after 'for' condition.",
@@ -187,7 +187,7 @@ eslintTester.addRuleTest("lib/rules/curly", {
         },
         {
             code: "while (bar && \n baz) \n foo()",
-            args: [1, "multi-line"],
+            options: ["multi-line"],
             errors: [
                 {
                     message: "Expected { after 'while' condition.",
@@ -197,7 +197,7 @@ eslintTester.addRuleTest("lib/rules/curly", {
         },
         {
             code: "if (foo) bar(baz, \n baz)",
-            args: [1, "multi-line"],
+            options: ["multi-line"],
             errors: [
                 {
                     message: "Expected { after 'if' condition.",
@@ -207,7 +207,7 @@ eslintTester.addRuleTest("lib/rules/curly", {
         },
         {
             code: "do \n foo(); \n while (bar)",
-            args: [1, "multi-line"],
+            options: ["multi-line"],
             errors: [
                 {
                     message: "Expected { after 'do'.",

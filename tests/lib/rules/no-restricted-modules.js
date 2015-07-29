@@ -9,28 +9,28 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslint = require("../../../lib/eslint"),
-    ESLintTester = require("../../../lib/testers/eslint-tester");
+var rule = require("../../../lib/rules/no-restricted-modules"),
+    RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-var eslintTester = new ESLintTester(eslint);
-eslintTester.addRuleTest("lib/rules/no-restricted-modules", {
+var ruleTester = new RuleTester();
+ruleTester.run("no-restricted-modules", rule, {
     valid: [
-        { code: "require(\"fs\")", args: [2, "crypto"]},
-        { code: "require(\"path\")", args: [2, "crypto", "stream", "os"]},
+        { code: "require(\"fs\")", options: ["crypto"]},
+        { code: "require(\"path\")", options: ["crypto", "stream", "os"]},
         { code: "require(\"fs \")", args: 0 },
-        { code: "require(2)", args: [2, "crypto"]},
-        { code: "require(foo)", args: [2, "crypto"]},
-        { code: "var foo = bar('crypto');", args: [2, "crypto"]}
+        { code: "require(2)", options: ["crypto"]},
+        { code: "require(foo)", options: ["crypto"]},
+        { code: "var foo = bar('crypto');", options: ["crypto"]}
     ],
     invalid: [{
-        code: "require(\"fs\")", args: [2, "fs"],
+        code: "require(\"fs\")", options: ["fs"],
         errors: [{ message: "'fs' module is restricted from being used.", type: "CallExpression"}]
     }, {
-        code: "require(\"os \")", args: [2, "fs", "crypto ", "stream", "os"],
+        code: "require(\"os \")", options: ["fs", "crypto ", "stream", "os"],
         errors: [{ message: "'os' module is restricted from being used.", type: "CallExpression"}]
     }]
 });

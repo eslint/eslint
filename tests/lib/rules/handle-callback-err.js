@@ -10,20 +10,20 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslint = require("../../../lib/eslint"),
-    ESLintTester = require("../../../lib/testers/eslint-tester");
+var rule = require("../../../lib/rules/handle-callback-err"),
+    RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-var eslintTester = new ESLintTester(eslint);
+var ruleTester = new RuleTester();
 
 var expectedErrorMessage = "Expected error to be handled.";
 var expectedFunctionDeclarationError = { message: expectedErrorMessage, type: "FunctionDeclaration" };
 var expectedFunctionExpressionError = { message: expectedErrorMessage, type: "FunctionExpression" };
 
-eslintTester.addRuleTest("lib/rules/handle-callback-err", {
+ruleTester.run("handle-callback-err", rule, {
     valid: [
         "function test(error) {}",
         "function test(err) {console.log(err);}",
@@ -44,14 +44,14 @@ eslintTester.addRuleTest("lib/rules/handle-callback-err", {
         { code: "var test = err => err;", ecmaFeatures: { arrowFunctions: true } },
         { code: "var test = err => !err;", ecmaFeatures: { arrowFunctions: true } },
         { code: "var test = err => err.message;", ecmaFeatures: { arrowFunctions: true } },
-        { code: "var test = function(error) {if(error){/* do nothing */}};", args: [2, "error"] },
-        { code: "var test = (error) => {if(error){/* do nothing */}};", args: [2, "error"], ecmaFeatures: { arrowFunctions: true } },
-        { code: "var test = function(error) {if(! error){doSomethingHere();}};", args: [2, "error"] },
-        { code: "var test = function(err) { console.log(err); };", args: [2, "^(err|error)$"] },
-        { code: "var test = function(error) { console.log(error); };", args: [2, "^(err|error)$"] },
-        { code: "var test = function(anyError) { console.log(anyError); };", args: [2, "^.+Error$"] },
-        { code: "var test = function(any_error) { console.log(anyError); };", args: [2, "^.+Error$"] },
-        { code: "var test = function(any_error) { console.log(any_error); };", args: [2, "^.+(e|E)rror$"] }
+        { code: "var test = function(error) {if(error){/* do nothing */}};", options: ["error"] },
+        { code: "var test = (error) => {if(error){/* do nothing */}};", options: ["error"], ecmaFeatures: { arrowFunctions: true } },
+        { code: "var test = function(error) {if(! error){doSomethingHere();}};", options: ["error"] },
+        { code: "var test = function(err) { console.log(err); };", options: ["^(err|error)$"] },
+        { code: "var test = function(error) { console.log(error); };", options: ["^(err|error)$"] },
+        { code: "var test = function(anyError) { console.log(anyError); };", options: ["^.+Error$"] },
+        { code: "var test = function(any_error) { console.log(anyError); };", options: ["^.+Error$"] },
+        { code: "var test = function(any_error) { console.log(any_error); };", options: ["^.+(e|E)rror$"] }
     ],
     invalid: [
         { code: "function test(err) {}", errors: [expectedFunctionDeclarationError] },
@@ -64,13 +64,13 @@ eslintTester.addRuleTest("lib/rules/handle-callback-err", {
         { code: "var test = function test(err, data) {};", errors: [expectedFunctionExpressionError] },
         { code: "var test = function test(err) {/* if(err){} */};", errors: [expectedFunctionExpressionError] },
         { code: "function test(err) {doSomethingHere(function(err){console.log(err);})}", errors: [expectedFunctionDeclarationError] },
-        { code: "function test(error) {}", args: [2, "error"], errors: [expectedFunctionDeclarationError] },
+        { code: "function test(error) {}", options: ["error"], errors: [expectedFunctionDeclarationError] },
         { code: "getData(function(err, data) {getMoreDataWith(data, function(err, moreData) {if (err) {}getEvenMoreDataWith(moreData, function(err, allOfTheThings) {if (err) {}});}); });", errors: [expectedFunctionExpressionError]},
         { code: "getData(function(err, data) {getMoreDataWith(data, function(err, moreData) {getEvenMoreDataWith(moreData, function(err, allOfTheThings) {if (err) {}});}); });", errors: [expectedFunctionExpressionError, expectedFunctionExpressionError]},
         { code: "function userHandler(err) {logThisAction(function(err) {if (err) { console.log(err); } })}", errors: [expectedFunctionDeclarationError]},
         { code: "function help() { function userHandler(err) {function tester(err) { err; process.nextTick(function() { err; }); } } }", errors: [expectedFunctionDeclarationError]},
-        { code: "var test = function(anyError) { console.log(otherError); };", args: [2, "^.+Error$"], errors: [expectedFunctionExpressionError]},
-        { code: "var test = function(anyError) { };", args: [2, "^.+Error$"], errors: [expectedFunctionExpressionError]},
-        { code: "var test = function(err) { console.log(error); };", args: [2, "^(err|error)$"], errors: [expectedFunctionExpressionError]}
+        { code: "var test = function(anyError) { console.log(otherError); };", options: ["^.+Error$"], errors: [expectedFunctionExpressionError]},
+        { code: "var test = function(anyError) { };", options: ["^.+Error$"], errors: [expectedFunctionExpressionError]},
+        { code: "var test = function(err) { console.log(error); };", options: ["^(err|error)$"], errors: [expectedFunctionExpressionError]}
     ]
 });

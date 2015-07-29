@@ -11,8 +11,8 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslint = require("../../../lib/eslint"),
-    ESLintTester = require("../../../lib/testers/eslint-tester");
+var rule = require("../../../lib/rules/indent"),
+    RuleTester = require("../../../lib/testers/rule-tester");
 var fs = require("fs");
 var path = require("path");
 //------------------------------------------------------------------------------
@@ -34,8 +34,8 @@ function expectedErrors(errors) {
     });
 }
 
-var eslintTester = new ESLintTester(eslint);
-eslintTester.addRuleTest("lib/rules/indent", {
+var ruleTester = new RuleTester();
+ruleTester.run("indent", rule, {
 
     valid: [
         {

@@ -9,15 +9,15 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslint = require("../../../lib/eslint"),
-    ESLintTester = require("../../../lib/testers/eslint-tester");
+var rule = require("../../../lib/rules/no-lone-blocks"),
+    RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
 // Helpers
 //------------------------------------------------------------------------------
 
-var eslintTester = new ESLintTester(eslint);
-eslintTester.addRuleTest("lib/rules/no-lone-blocks", {
+var ruleTester = new RuleTester();
+ruleTester.run("no-lone-blocks", rule, {
     valid: [
         "if (foo) { if (bar) { baz(); } }",
         "do { bar(); } while (foo)",

@@ -10,8 +10,8 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslint = require("../../../lib/eslint"),
-    ESLintTester = require("../../../lib/testers/eslint-tester");
+var rule = require("../../../lib/rules/space-in-parens"),
+    RuleTester = require("../../../lib/testers/rule-tester");
 
 var MISSING_SPACE_ERROR = {
         message: "There must be a space inside this paren.",
@@ -26,8 +26,8 @@ var MISSING_SPACE_ERROR = {
 // Tests
 //------------------------------------------------------------------------------
 
-var eslintTester = new ESLintTester(eslint);
-eslintTester.addRuleTest("lib/rules/space-in-parens", {
+var ruleTester = new RuleTester();
+ruleTester.run("space-in-parens", rule, {
 
     valid: [
         { code: "foo()", options: ["always"] },

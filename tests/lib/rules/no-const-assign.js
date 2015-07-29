@@ -10,15 +10,15 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslint = require("../../../lib/eslint");
-var ESLintTester = require("../../../lib/testers/eslint-tester");
+var rule = require("../../../lib/rules/no-const-assign");
+var RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-var eslintTester = new ESLintTester(eslint);
-eslintTester.addRuleTest("lib/rules/no-const-assign", {
+var ruleTester = new RuleTester();
+ruleTester.run("no-const-assign", rule, {
     valid: [
         {code: "const x = 0; { let x; x = 1; }", ecmaFeatures: {blockBindings: true}},
         {code: "const x = 0; function a(x) { x = 1; }", ecmaFeatures: {blockBindings: true}},

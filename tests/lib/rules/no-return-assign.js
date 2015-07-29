@@ -9,8 +9,8 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslint = require("../../../lib/eslint"),
-    ESLintTester = require("../../../lib/testers/eslint-tester");
+var rule = require("../../../lib/rules/no-return-assign"),
+    RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -21,8 +21,8 @@ var error = {
     type: "ReturnStatement"
 };
 
-var eslintTester = new ESLintTester(eslint);
-eslintTester.addRuleTest("lib/rules/no-return-assign", {
+var ruleTester = new RuleTester();
+ruleTester.run("no-return-assign", rule, {
     valid: [
         "function x() { var result = a * b; return result; }",
         "function x() { return (result = a * b); }",

@@ -9,15 +9,15 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslint = require("../../../lib/eslint"),
-    ESLintTester = require("../../../lib/testers/eslint-tester");
+var rule = require("../../../lib/rules/no-multi-str"),
+    RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-var eslintTester = new ESLintTester(eslint);
-eslintTester.addRuleTest("lib/rules/no-multi-str", {
+var ruleTester = new RuleTester();
+ruleTester.run("no-multi-str", rule, {
     valid: [
         "var a = 'Line 1 Line 2';",
         { code: "var a = <div>\n<h1>Wat</h1>\n</div>;", ecmaFeatures: { jsx: true }}

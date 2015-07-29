@@ -9,13 +9,13 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslint = require("../../../lib/eslint"),
-    ESLintTester = require("../../../lib/testers/eslint-tester");
+var rule = require("../../../lib/rules/arrow-parens"),
+    RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
-var eslintTester = new ESLintTester(eslint);
+var ruleTester = new RuleTester();
 
 var valid = [
     { code: "() => {}", ecmaFeatures: { arrowFunctions: true } },
@@ -92,7 +92,7 @@ var invalid = [
     }
 ];
 
-eslintTester.addRuleTest("lib/rules/arrow-parens", {
+ruleTester.run("arrow-parens", rule, {
     valid: valid,
     invalid: invalid
 });

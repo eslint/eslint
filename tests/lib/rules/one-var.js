@@ -11,197 +11,197 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslint = require("../../../lib/eslint"),
-    ESLintTester = require("../../../lib/testers/eslint-tester");
+var rule = require("../../../lib/rules/one-var"),
+    RuleTester = require("../../../lib/testers/rule-tester");
 
-var eslintTester = new ESLintTester(eslint);
-eslintTester.addRuleTest("lib/rules/one-var", {
+var ruleTester = new RuleTester();
+ruleTester.run("one-var", rule, {
     valid: [
         "function foo() { var bar = true; }",
         "function foo() { var bar = true, baz = 1; if (qux) { bar = false; } }",
         "var foo = function() { var bar = true; baz(); }",
         {
             code: "function foo() { var bar = true, baz = false; }",
-            args: [2, "always"]
+            options: ["always"]
         },
         {
             code: "function foo() { var bar = true; var baz = false; }",
-            args: [2, "never"]
+            options: ["never"]
         },
         {
             code: "function foo() { var bar = true; var baz = false; }",
-            args: [2, "never"]
+            options: ["never"]
         },
         {
             code: "for (var i = 0, len = arr.length; i < len; i++) {}",
-            args: [2, "never"]
+            options: ["never"]
         },
         {
             code: "var bar = true; var baz = false;",
-            args: [2, {initialized: "never"}]
+            options: [{initialized: "never"}]
         },
         {
             code: "var bar = true, baz = false;",
-            args: [2, {initialized: "always"}]
+            options: [{initialized: "always"}]
         },
         {
             code: "var bar, baz;",
-            args: [2, {initialized: "never"}]
+            options: [{initialized: "never"}]
         },
         {
             code: "var bar; var baz;",
-            args: [2, {uninitialized: "never"}]
+            options: [{uninitialized: "never"}]
         },
         {
             code: "var bar, baz;",
-            args: [2, {uninitialized: "always"}]
+            options: [{uninitialized: "always"}]
         },
         {
             code: "var bar = true, baz = false;",
-            args: [2, {uninitialized: "never"}]
+            options: [{uninitialized: "never"}]
         },
         {
             code: "var bar = true, baz = false, a, b;",
-            args: [2, {uninitialized: "always", initialized: "always"}]
+            options: [{uninitialized: "always", initialized: "always"}]
         },
         {
             code: "var bar = true; var baz = false; var a; var b;",
-            args: [2, {uninitialized: "never", initialized: "never"}]
+            options: [{uninitialized: "never", initialized: "never"}]
         },
         {
             code: "var bar, baz; var a = true; var b = false;",
-            args: [2, {uninitialized: "always", initialized: "never"}]
+            options: [{uninitialized: "always", initialized: "never"}]
         },
         {
             code: "var bar, baz; var a = true; var b = false;",
-            args: [2, {uninitialized: "always", initialized: "never"}]
+            options: [{uninitialized: "always", initialized: "never"}]
         },
         {
             code: "var bar = true, baz = false; var a; var b;",
-            args: [2, {uninitialized: "never", initialized: "always"}]
+            options: [{uninitialized: "never", initialized: "always"}]
         },
         {
             code: "var bar; var baz; var a = true, b = false;",
-            args: [2, {uninitialized: "never", initialized: "always"}]
+            options: [{uninitialized: "never", initialized: "always"}]
         },
         {
             code: "function foo() { var a = [1, 2, 3]; var [b, c, d] = a; }",
             ecmaFeatures: {
                 destructuring: true
             },
-            args: [2, "never"]
+            options: ["never"]
         },
         {
             code: "function foo() { let a = 1; var c = true; if (a) {let c = true; } }",
             ecmaFeatures: {
                 blockBindings: true
             },
-            args: [2, "always"]
+            options: ["always"]
         },
         {
             code: "function foo() { const a = 1; var c = true; if (a) {const c = true; } }",
             ecmaFeatures: {
                 blockBindings: true
             },
-            args: [2, "always"]
+            options: ["always"]
         },
         {
             code: "function foo() { if (true) { const a = 1; }; if (true) {const a = true; } }",
             ecmaFeatures: {
                 blockBindings: true
             },
-            args: [2, "always"]
+            options: ["always"]
         },
         {
             code: "function foo() { let a = 1; let b = true; }",
             ecmaFeatures: {
                 blockBindings: true
             },
-            args: [2, "never"]
+            options: ["never"]
         },
         {
             code: "function foo() { const a = 1; const b = true; }",
             ecmaFeatures: {
                 blockBindings: true
             },
-            args: [2, "never"]
+            options: ["never"]
         },
         {
             code: "function foo() { let a = 1; const b = false; var c = true; }",
             ecmaFeatures: {
                 blockBindings: true
             },
-            args: [2, "always"]
+            options: ["always"]
         },
         {
             code: "function foo() { let a = 1, b = false; var c = true; }",
             ecmaFeatures: {
                 blockBindings: true
             },
-            args: [2, "always"]
+            options: ["always"]
         },
         {
             code: "function foo() { let a = 1; let b = 2; const c = false; const d = true; var e = true, f = false; }",
             ecmaFeatures: {
                 blockBindings: true
             },
-            args: [2, {var: "always", let: "never", const: "never"}]
+            options: [{var: "always", let: "never", const: "never"}]
         },
         {
             code: "let foo = true; for (let i = 0; i < 1; i++) { let foo = false; }",
             ecmaFeatures: {
                 blockBindings: true
             },
-            args: [2, {var: "always", let: "always", const: "never"}]
+            options: [{var: "always", let: "always", const: "never"}]
         },
         {
             code: "let foo = true; for (let i = 0; i < 1; i++) { let foo = false; }",
             ecmaFeatures: {
                 blockBindings: true
             },
-            args: [2, {var: "always"}]
+            options: [{var: "always"}]
         },
         {
             code: "let foo = true, bar = false;",
             ecmaFeatures: {
                 blockBindings: true
             },
-            args: [2, {var: "never"}]
+            options: [{var: "never"}]
         },
         {
             code: "let foo = true, bar = false;",
             ecmaFeatures: {
                 blockBindings: true
             },
-            args: [2, {const: "never"}]
+            options: [{const: "never"}]
         },
         {
             code: "let foo = true, bar = false;",
             ecmaFeatures: {
                 blockBindings: true
             },
-            args: [2, {uninitialized: "never"}]
+            options: [{uninitialized: "never"}]
         },
         {
             code: "let foo, bar",
             ecmaFeatures: {
                 blockBindings: true
             },
-            args: [2, {initialized: "never"}]
+            options: [{initialized: "never"}]
         },
         {
             code: "let foo = true, bar = false; let a; let b;",
             ecmaFeatures: {
                 blockBindings: true
             },
-            args: [2, {uninitialized: "never"}]
+            options: [{uninitialized: "never"}]
         },
         {
             code: "let foo, bar; let a = true; let b = true;",
             ecmaFeatures: {
                 blockBindings: true
             },
-            args: [2, {initialized: "never"}]
+            options: [{initialized: "never"}]
         },
         "function foo() { var bar = true; var baz = false; }",
         "function foo() { var bar = true; if (qux) { var baz = false; } else { var quxx = 42; } }",
@@ -219,21 +219,21 @@ eslintTester.addRuleTest("lib/rules/one-var", {
             ecmaFeatures: {
                 blockBindings: true
             },
-            args: [2, { var: "always", let: "always" }]
+            options: [{ var: "always", let: "always" }]
         },
         {
             code: "var foo; var bar; const a=1, b=2; let c; let d",
             ecmaFeatures: {
                 blockBindings: true
             },
-            args: [2, { const: "always" }]
+            options: [{ const: "always" }]
         },
         {
             code: "var foo, bar; const a=1; const b=2; let c, d",
             ecmaFeatures: {
                 blockBindings: true
             },
-            args: [2, { var: "always", let: "always" }]
+            options: [{ var: "always", let: "always" }]
         },
         {
             code: "for (let x of foo) {}; for (let y of foo) {}",
@@ -241,20 +241,20 @@ eslintTester.addRuleTest("lib/rules/one-var", {
                 forOf: true,
                 blockBindings: true
             },
-            args: [2, { uninitialized: "always" }]
+            options: [{ uninitialized: "always" }]
         },
         {
             code: "for (let x in foo) {}; for (let y in foo) {}",
             ecmaFeatures: {
                 blockBindings: true
             },
-            args: [2, { uninitialized: "always" }]
+            options: [{ uninitialized: "always" }]
         }
     ],
     invalid: [
         {
             code: "function foo() { var bar = true, baz = false; }",
-            args: [2, "never"],
+            options: ["never"],
             errors: [{
                 message: "Split 'var' declarations into multiple statements.",
                 type: "VariableDeclaration"
@@ -262,7 +262,7 @@ eslintTester.addRuleTest("lib/rules/one-var", {
         },
         {
             code: "function foo() { var bar = true; var baz = false; }",
-            args: [2, "always"],
+            options: ["always"],
             errors: [{
                 message: "Combine this with the previous 'var' statement.",
                 type: "VariableDeclaration"
@@ -270,7 +270,7 @@ eslintTester.addRuleTest("lib/rules/one-var", {
         },
         {
             code: "var a = 1; for (var b = 2;;) {}",
-            args: [2, "always"],
+            options: ["always"],
             errors: [{
                 message: "Combine this with the previous 'var' statement.",
                 type: "VariableDeclaration"
@@ -278,7 +278,7 @@ eslintTester.addRuleTest("lib/rules/one-var", {
         },
         {
             code: "function foo() { var foo = true, bar = false; }",
-            args: [2, {initialized: "never"}],
+            options: [{initialized: "never"}],
             errors: [
                 {
                     message: "Split initialized 'var' declarations into multiple statements.",
@@ -288,7 +288,7 @@ eslintTester.addRuleTest("lib/rules/one-var", {
         },
         {
             code: "function foo() { var foo, bar; }",
-            args: [2, {uninitialized: "never"}],
+            options: [{uninitialized: "never"}],
             errors: [
                 {
                     message: "Split uninitialized 'var' declarations into multiple statements.",
@@ -298,7 +298,7 @@ eslintTester.addRuleTest("lib/rules/one-var", {
         },
         {
             code: "function foo() { var bar, baz; var a = true; var b = false; var c, d;}",
-            args: [2, {uninitialized: "always", initialized: "never"}],
+            options: [{uninitialized: "always", initialized: "never"}],
             errors: [
                 {
                     message: "Combine this with the previous 'var' statement with uninitialized variables.",
@@ -308,7 +308,7 @@ eslintTester.addRuleTest("lib/rules/one-var", {
         },
         {
             code: "function foo() { var bar = true, baz = false; var a; var b; var c = true, d = false; }",
-            args: [2, {uninitialized: "never", initialized: "always"}],
+            options: [{uninitialized: "never", initialized: "always"}],
             errors: [
                 {
                     message: "Combine this with the previous 'var' statement with initialized variables.",
@@ -318,7 +318,7 @@ eslintTester.addRuleTest("lib/rules/one-var", {
         },
         {
             code: "function foo() { var bar = true, baz = false; var a, b;}",
-            args: [2, {uninitialized: "never", initialized: "never"}],
+            options: [{uninitialized: "never", initialized: "never"}],
             errors: [
                 {
                     message: "Split 'var' declarations into multiple statements.",
@@ -332,7 +332,7 @@ eslintTester.addRuleTest("lib/rules/one-var", {
         },
         {
             code: "function foo() { var bar = true; var baz = false; var a; var b;}",
-            args: [2, {uninitialized: "always", initialized: "always"}],
+            options: [{uninitialized: "always", initialized: "always"}],
             errors: [
                 {
                     message: "Combine this with the previous 'var' statement.",
@@ -353,7 +353,7 @@ eslintTester.addRuleTest("lib/rules/one-var", {
             ecmaFeatures: {
                 destructuring: true
             },
-            args: [2, "always"],
+            options: ["always"],
             errors: [{
                 message: "Combine this with the previous 'var' statement.",
                 type: "VariableDeclaration"
@@ -364,7 +364,7 @@ eslintTester.addRuleTest("lib/rules/one-var", {
             ecmaFeatures: {
                 blockBindings: true
             },
-            args: [2, "always"],
+            options: ["always"],
             errors: [{
                 message: "Combine this with the previous 'let' statement.",
                 type: "VariableDeclaration"
@@ -375,7 +375,7 @@ eslintTester.addRuleTest("lib/rules/one-var", {
             ecmaFeatures: {
                 blockBindings: true
             },
-            args: [2, "always"],
+            options: ["always"],
             errors: [{
                 message: "Combine this with the previous 'const' statement.",
                 type: "VariableDeclaration"
@@ -386,7 +386,7 @@ eslintTester.addRuleTest("lib/rules/one-var", {
             ecmaFeatures: {
                 blockBindings: true
             },
-            args: [2, {let: "always"}],
+            options: [{let: "always"}],
             errors: [{
                 message: "Combine this with the previous 'let' statement.",
                 type: "VariableDeclaration"
@@ -397,7 +397,7 @@ eslintTester.addRuleTest("lib/rules/one-var", {
             ecmaFeatures: {
                 blockBindings: true
             },
-            args: [2, {const: "always"}],
+            options: [{const: "always"}],
             errors: [{
                 message: "Combine this with the previous 'const' statement.",
                 type: "VariableDeclaration"
@@ -408,7 +408,7 @@ eslintTester.addRuleTest("lib/rules/one-var", {
             ecmaFeatures: {
                 blockBindings: true
             },
-            args: [2, {let: "never"}],
+            options: [{let: "never"}],
             errors: [{
                 message: "Split 'let' declarations into multiple statements.",
                 type: "VariableDeclaration"
@@ -419,7 +419,7 @@ eslintTester.addRuleTest("lib/rules/one-var", {
             ecmaFeatures: {
                 blockBindings: true
             },
-            args: [2, {initialized: "never"}],
+            options: [{initialized: "never"}],
             errors: [{
                 message: "Split initialized 'let' declarations into multiple statements.",
                 type: "VariableDeclaration"
@@ -430,7 +430,7 @@ eslintTester.addRuleTest("lib/rules/one-var", {
             ecmaFeatures: {
                 blockBindings: true
             },
-            args: [2, {uninitialized: "never"}],
+            options: [{uninitialized: "never"}],
             errors: [{
                 message: "Split uninitialized 'let' declarations into multiple statements.",
                 type: "VariableDeclaration"
@@ -441,7 +441,7 @@ eslintTester.addRuleTest("lib/rules/one-var", {
             ecmaFeatures: {
                 blockBindings: true
             },
-            args: [2, {initialized: "never"}],
+            options: [{initialized: "never"}],
             errors: [{
                 message: "Split initialized 'const' declarations into multiple statements.",
                 type: "VariableDeclaration"
@@ -452,7 +452,7 @@ eslintTester.addRuleTest("lib/rules/one-var", {
             ecmaFeatures: {
                 blockBindings: true
             },
-            args: [2, {const: "never"}],
+            options: [{const: "never"}],
             errors: [{
                 message: "Split 'const' declarations into multiple statements.",
                 type: "VariableDeclaration"
@@ -463,7 +463,7 @@ eslintTester.addRuleTest("lib/rules/one-var", {
             ecmaFeatures: {
                 blockBindings: true
             },
-            args: [2, {var: "always", let: "always", const: "never"}],
+            options: [{var: "always", let: "always", const: "never"}],
             errors: [{
                 message: "Combine this with the previous 'let' statement.",
                 type: "VariableDeclaration",

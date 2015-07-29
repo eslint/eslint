@@ -9,15 +9,15 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslint = require("../../../lib/eslint"),
-    ESLintTester = require("../../../lib/testers/eslint-tester");
+var rule = require("../../../lib/rules/no-nested-ternary"),
+    RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-var eslintTester = new ESLintTester(eslint);
-eslintTester.addRuleTest("lib/rules/no-nested-ternary", {
+var ruleTester = new RuleTester();
+ruleTester.run("no-nested-ternary", rule, {
     valid: [
         "foo ? doBar() : doBaz();",
         "var foo = bar === baz ? qux : quxx;"

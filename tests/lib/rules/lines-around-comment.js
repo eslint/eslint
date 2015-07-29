@@ -10,8 +10,8 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslint = require("../../../lib/eslint"),
-    ESLintTester = require("../../../lib/testers/eslint-tester");
+var rule = require("../../../lib/rules/lines-around-comment"),
+    RuleTester = require("../../../lib/testers/rule-tester");
 
 var afterMessage = "Expected line after comment.",
     beforeMessage = "Expected line before comment.";
@@ -20,8 +20,8 @@ var afterMessage = "Expected line after comment.",
 // Tests
 //------------------------------------------------------------------------------
 
-var eslintTester = new ESLintTester(eslint);
-eslintTester.addRuleTest("lib/rules/lines-around-comment", {
+var ruleTester = new RuleTester();
+ruleTester.run("lines-around-comment", rule, {
 
     valid: [
 

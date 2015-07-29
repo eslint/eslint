@@ -11,8 +11,8 @@
 //------------------------------------------------------------------------------
 
 var assign = require("object-assign");
-var eslint = require("../../../lib/eslint");
-var ESLintTester = require("../../../lib/testers/eslint-tester");
+var rule = require("../../../lib/rules/no-invalid-this");
+var RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
 // Helpers
@@ -487,8 +487,8 @@ var patterns = [
     }
 ];
 
-var eslintTester = new ESLintTester(eslint);
-eslintTester.addRuleTest("lib/rules/no-invalid-this", {
+var ruleTester = new RuleTester();
+ruleTester.run("no-invalid-this", rule, {
     valid: extractPatterns(patterns, "valid"),
     invalid: extractPatterns(patterns, "invalid")
 });

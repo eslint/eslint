@@ -9,15 +9,15 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslint = require("../../../lib/eslint"),
-    ESLintTester = require("../../../lib/testers/eslint-tester");
+var rule = require("../../../lib/rules/no-else-return"),
+    RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-var eslintTester = new ESLintTester(eslint);
-eslintTester.addRuleTest("lib/rules/no-else-return", {
+var ruleTester = new RuleTester();
+ruleTester.run("no-else-return", rule, {
     valid: [
         "function foo() { if (true) { if (false) { return x; } } else { return y; } }",
         "function foo() { if (true) { return x; } return y; }",

@@ -10,15 +10,15 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslint = require("../../../lib/eslint"),
-    ESLintTester = require("../../../lib/testers/eslint-tester");
+var rule = require("../../../lib/rules/no-duplicate-case"),
+    RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-var eslintTester = new ESLintTester(eslint);
-eslintTester.addRuleTest("lib/rules/no-duplicate-case", {
+var ruleTester = new RuleTester();
+ruleTester.run("no-duplicate-case", rule, {
     valid: [
         {
             code: "var a = 1; switch (a) {case 1: break; case 2: break; default: break;}",

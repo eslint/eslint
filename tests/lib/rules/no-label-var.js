@@ -9,15 +9,15 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslint = require("../../../lib/eslint"),
-    ESLintTester = require("../../../lib/testers/eslint-tester");
+var rule = require("../../../lib/rules/no-label-var"),
+    RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-var eslintTester = new ESLintTester(eslint);
-eslintTester.addRuleTest("lib/rules/no-label-var", {
+var ruleTester = new RuleTester();
+ruleTester.run("no-label-var", rule, {
     valid: [
         "function bar() { q: for(;;) { break q; } } function foo () { var q = t; }",
         "function bar() { var x = foo; q: for(;;) { break q; } }"

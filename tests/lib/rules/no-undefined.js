@@ -9,8 +9,8 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslint = require("../../../lib/eslint"),
-    ESLintTester = require("../../../lib/testers/eslint-tester");
+var rule = require("../../../lib/rules/no-undefined"),
+    RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -18,8 +18,8 @@ var eslint = require("../../../lib/eslint"),
 
 var errors = [{ message: "Unexpected use of undefined.", type: "Identifier"}];
 
-var eslintTester = new ESLintTester(eslint);
-eslintTester.addRuleTest("lib/rules/no-undefined", {
+var ruleTester = new RuleTester();
+ruleTester.run("no-undefined", rule, {
     valid: [
         "void 0",
         "void!0",

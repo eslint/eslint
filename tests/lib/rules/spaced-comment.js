@@ -6,14 +6,14 @@
  */
 "use strict";
 
-var eslint = require("../../../lib/eslint"),
-    ESLintTester = require("../../../lib/testers/eslint-tester");
+var rule = require("../../../lib/rules/spaced-comment"),
+    RuleTester = require("../../../lib/testers/rule-tester");
 
-var eslintTester = new ESLintTester(eslint),
+var ruleTester = new RuleTester(),
     validShebangProgram = "#!/path/to/node\nvar a = 3;",
     invalidShebangProgram = "#!/path/to/node\n#!/second/shebang\nvar a = 3;";
 
-eslintTester.addRuleTest("lib/rules/spaced-comment", {
+ruleTester.run("spaced-comment", rule, {
 
     valid: [
         {

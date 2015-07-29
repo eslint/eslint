@@ -9,15 +9,15 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslint = require("../../../lib/eslint"),
-    ESLintTester = require("../../../lib/testers/eslint-tester");
+var rule = require("../../../lib/rules/no-new-wrappers"),
+    RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-var eslintTester = new ESLintTester(eslint);
-eslintTester.addRuleTest("lib/rules/no-new-wrappers", {
+var ruleTester = new RuleTester();
+ruleTester.run("no-new-wrappers", rule, {
     valid: [
         "var a = new Object();",
         "var a = String('test'), b = String.fromCharCode(32);"
