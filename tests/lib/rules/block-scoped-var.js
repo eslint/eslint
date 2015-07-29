@@ -58,7 +58,7 @@ eslintTester.addRuleTest("lib/rules/block-scoped-var", {
         "function f(){ for(var i; i; i) i; }",
         "function f(){ for(var a=0, b=1; a; b) a, b; }",
         "function f(){ for(var a in {}) a; }",
-        "function f(){ switch(2) { case 1: var b = 2; b; break; default: b; break;} b; }",
+        "function f(){ switch(2) { case 1: var b = 2; b; break; default: b; break;} }",
         "a:;",
         "foo: while (true) { bar: for (var i = 0; i < 13; ++i) {if (i === 7) break foo; } }",
         "foo: while (true) { bar: for (var i = 0; i < 13; ++i) {if (i === 7) continue foo; } }",
@@ -75,7 +75,19 @@ eslintTester.addRuleTest("lib/rules/block-scoped-var", {
         { code: "class Test { get flag() { return true; }}", ecmaFeatures: { classes: true }},
         { code: "var Test = class { myFunction() { return true; }}", ecmaFeatures: { classes: true }},
         { code: "var doStuff; let {x: y} = {x: 1}; doStuff(y);", ecmaFeatures: { blockBindings: true, destructuring: true }},
-        { code: "function foo({x: y}) { return y; }", ecmaFeatures: { blockBindings: true, destructuring: true }}
+        { code: "function foo({x: y}) { return y; }", ecmaFeatures: { blockBindings: true, destructuring: true }},
+
+        // https://github.com/eslint/eslint/issues/2253
+        { code: "/*global React*/ let {PropTypes, addons: {PureRenderMixin}} = React; let Test = React.createClass({mixins: [PureRenderMixin]});", ecmaFeatures: { blockBindings: true, destructuring: true }},
+        { code: "/*global prevState*/ const { virtualSize: prevVirtualSize = 0 } = prevState;", ecmaFeatures: { blockBindings: true, destructuring: true }},
+        { code: "const { dummy: { data, isLoading }, auth: { isLoggedIn } } = this.props;", ecmaFeatures: { blockBindings: true, destructuring: true }},
+
+        // https://github.com/eslint/eslint/issues/2747
+        { code: "function a(n) { return n > 0 ? b(n - 1) : \"a\"; } function b(n) { return n > 0 ? a(n - 1) : \"b\"; }"},
+
+        // https://github.com/eslint/eslint/issues/2967
+        { code: "(function () { foo(); })(); function foo() {}"},
+        { code: "(function () { foo(); })(); function foo() {}", ecmaFeatures: { modules: true }}
     ],
     invalid: [
         { code: "!function f(){}; f", errors: [{ message: "\"f\" used outside of binding context." }] },
@@ -106,6 +118,28 @@ eslintTester.addRuleTest("lib/rules/block-scoped-var", {
             code: "function a() { for(var b of {}) { var c = b;} c; }",
             ecmaFeatures: { forOf: true },
             errors: [{ message: "\"c\" used outside of binding context.", type: "Identifier" }]
+        },
+        {
+            code: "function f(){ switch(2) { case 1: var b = 2; b; break; default: b; break;} b; }",
+            errors: [{ message: "\"b\" used outside of binding context.", type: "Identifier" }]
+        },
+        {
+            code: "for (var a = 0;;) {} a;",
+            errors: [{ message: "\"a\" used outside of binding context.", type: "Identifier" }]
+        },
+        {
+            code: "for (var a in []) {} a;",
+            errors: [{ message: "\"a\" used outside of binding context.", type: "Identifier" }]
+        },
+        {
+            code: "for (var a of []) {} a;",
+            ecmaFeatures: { forOf: true },
+            errors: [{ message: "\"a\" used outside of binding context.", type: "Identifier" }]
+        },
+        {
+            code: "{ var a = 0; } a;",
+            ecmaFeatures: { modules: true },
+            errors: [{ message: "\"a\" used outside of binding context.", type: "Identifier" }]
         }
     ]
 });
