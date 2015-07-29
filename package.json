@@ -70,7 +70,6 @@
     "browserify": "^8.1.3",
     "coveralls": "2.11.2",
     "dateformat": "^1.0.8",
-    "eslint-tester": "^0.8.1",
     "esprima": "^2.4.1",
     "esprima-fb": "^10001.1.0-dev-harmony-fb",
     "gh-got": "^1.0.3",
