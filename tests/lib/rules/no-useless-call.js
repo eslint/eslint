@@ -10,15 +10,15 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslint = require("../../../lib/eslint");
-var ESLintTester = require("../../../lib/testers/eslint-tester");
+var rule = require("../../../lib/rules/no-useless-call");
+var RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-var eslintTester = new ESLintTester(eslint);
-eslintTester.addRuleTest("lib/rules/no-useless-call", {
+var ruleTester = new RuleTester();
+ruleTester.run("no-useless-call", rule, {
     valid: [
         // `this` binding is different.
         {code: "foo.apply(obj, 1, 2);"},

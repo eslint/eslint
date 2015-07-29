@@ -11,15 +11,15 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslint = require("../../../lib/eslint"),
-    ESLintTester = require("../../../lib/testers/eslint-tester");
+var rule = require("../../../lib/rules/no-empty"),
+    RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-var eslintTester = new ESLintTester(eslint);
-eslintTester.addRuleTest("lib/rules/no-empty", {
+var ruleTester = new RuleTester();
+ruleTester.run("no-empty", rule, {
     valid: [
         "if (foo) { bar() }",
         "while (foo) { bar() }",

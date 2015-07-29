@@ -9,15 +9,15 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslint = require("../../../lib/eslint"),
-    ESLintTester = require("../../../lib/testers/eslint-tester");
+var rule = require("../../../lib/rules/no-inner-declarations"),
+    RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-var eslintTester = new ESLintTester(eslint);
-eslintTester.addRuleTest("lib/rules/no-inner-declarations", {
+var ruleTester = new RuleTester();
+ruleTester.run("no-inner-declarations", rule, {
 
     // Examples of code that should not trigger the rule
     valid: [
@@ -32,19 +32,19 @@ eslintTester.addRuleTest("lib/rules/no-inner-declarations", {
         { code: "function decl(arg) { var fn; if (arg) { fn = function expr() { }; } }", ecmaFeatures: { arrowFunctions: true } },
         "function decl(arg) { var fn; if (arg) { fn = function expr() { }; } }",
         "if (test) { var foo; }",
-        { code: "if (test) { let x = 1; }", ecmaFeatures: { blockBindings: true }, args: [2, "both"] },
-        { code: "if (test) { const x = 1; }", ecmaFeatures: { blockBindings: true }, args: [2, "both"] },
+        { code: "if (test) { let x = 1; }", ecmaFeatures: { blockBindings: true }, options: ["both"] },
+        { code: "if (test) { const x = 1; }", ecmaFeatures: { blockBindings: true }, options: ["both"] },
         "function doSomething() { while (test) { var foo; } }",
-        { code: "var foo;", args: [2, "both"] },
-        { code: "var foo = 42;", args: [2, "both"] },
-        { code: "function doSomething() { var foo; }", args: [2, "both"] },
-        { code: "(function() { var foo; }());", args: [2, "both"] },
+        { code: "var foo;", options: ["both"] },
+        { code: "var foo = 42;", options: ["both"] },
+        { code: "function doSomething() { var foo; }", options: ["both"] },
+        { code: "(function() { var foo; }());", options: ["both"] },
         { code: "foo(() => { function bar() { } });", ecmaFeatures: { arrowFunctions: true } },
-        { code: "var fn = () => {var foo;}", ecmaFeatures: { arrowFunctions: true }, args: [2, "both"] },
+        { code: "var fn = () => {var foo;}", ecmaFeatures: { arrowFunctions: true }, options: ["both"] },
         {
             code: "var x = {doSomething() {var foo;}}",
             ecmaFeatures: {objectLiteralShorthandMethods: true},
-            args: [2, "both"]
+            options: ["both"]
         }
 
     ],
@@ -52,7 +52,7 @@ eslintTester.addRuleTest("lib/rules/no-inner-declarations", {
     // Examples of code that should trigger the rule
     invalid: [{
         code: "if (test) { function doSomething() { } }",
-        args: [2, "both"],
+        options: ["both"],
         errors: [{
             message: "Move function declaration to program root.",
             type: "FunctionDeclaration"
@@ -71,21 +71,21 @@ eslintTester.addRuleTest("lib/rules/no-inner-declarations", {
         }]
     }, {
         code: "while (test) { var foo; }",
-        args: [2, "both"],
+        options: ["both"],
         errors: [{
             message: "Move variable declaration to program root.",
             type: "VariableDeclaration"
         }]
     }, {
         code: "function doSomething() { if (test) { var foo = 42; } }",
-        args: [2, "both"],
+        options: ["both"],
         errors: [{
             message: "Move variable declaration to function body root.",
             type: "VariableDeclaration"
         }]
     }, {
         code: "(function() { if (test) { var foo; } }());",
-        args: [2, "both"],
+        options: ["both"],
         errors: [{
             message: "Move variable declaration to function body root.",
             type: "VariableDeclaration"

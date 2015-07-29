@@ -9,16 +9,16 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslint = require("../../../lib/eslint"),
-    ESLintTester = require("../../../lib/testers/eslint-tester");
+var rule = require("../../../lib/rules/complexity"),
+    RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
 // Helpers
 //------------------------------------------------------------------------------
 
 
-var eslintTester = new ESLintTester(eslint);
-eslintTester.addRuleTest("lib/rules/complexity", {
+var ruleTester = new RuleTester();
+ruleTester.run("complexity", rule, {
     valid: [
         { code: "function a(x) {}", options: [1] },
         { code: "function a(x) {if (true) {return x;}}", options: [2] },

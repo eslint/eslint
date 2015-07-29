@@ -9,15 +9,15 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslint = require("../../../lib/eslint"),
-    ESLintTester = require("../../../lib/testers/eslint-tester");
+var rule = require("../../../lib/rules/no-debugger"),
+    RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-var eslintTester = new ESLintTester(eslint);
-eslintTester.addRuleTest("lib/rules/no-debugger", {
+var ruleTester = new RuleTester();
+ruleTester.run("no-debugger", rule, {
     valid: [
         "var test = { debugger: 1 }; test.debugger;"
     ],

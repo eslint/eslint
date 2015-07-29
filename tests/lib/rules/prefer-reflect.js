@@ -8,15 +8,15 @@
 //------------------------------------------------------------------------------
 // Requirements
 //------------------------------------------------------------------------------
-var eslint = require("../../../lib/eslint"),
-    ESLintTester = require("../../../lib/testers/eslint-tester");
+var rule = require("../../../lib/rules/prefer-reflect"),
+    RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-var eslintTester = new ESLintTester(eslint);
-eslintTester.addRuleTest("lib/rules/prefer-reflect", {
+var ruleTester = new RuleTester();
+ruleTester.run("prefer-reflect", rule, {
     valid: [
         // Reflect.apply
         { code: "Reflect.apply(function(){}, null, 1, 2);" },

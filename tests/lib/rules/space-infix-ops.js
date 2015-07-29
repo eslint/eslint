@@ -9,11 +9,11 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslint = require("../../../lib/eslint"),
-    ESLintTester = require("../../../lib/testers/eslint-tester");
+var rule = require("../../../lib/rules/space-infix-ops"),
+    RuleTester = require("../../../lib/testers/rule-tester");
 
-var eslintTester = new ESLintTester(eslint);
-eslintTester.addRuleTest("lib/rules/space-infix-ops", {
+var ruleTester = new RuleTester();
+ruleTester.run("space-infix-ops", rule, {
     valid: [
         "a + b",
         "a     + b",
@@ -25,8 +25,8 @@ eslintTester.addRuleTest("lib/rules/space-infix-ops", {
         "a = b",
         "a ? b : c",
         "var a = b",
-        { code: "a|0", args: [2, { int32Hint: true }] },
-        { code: "a |0", args: [2, { int32Hint: true }] }
+        { code: "a|0", options: [{ int32Hint: true }] },
+        { code: "a |0", options: [{ int32Hint: true }] }
     ],
     invalid: [
         {
@@ -211,7 +211,7 @@ eslintTester.addRuleTest("lib/rules/space-infix-ops", {
         },
         {
             code: "a| 0",
-            args: [2, {
+            options: [{
                 int32Hint: true
             }],
             errors: [{

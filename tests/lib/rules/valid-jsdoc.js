@@ -9,15 +9,15 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslint = require("../../../lib/eslint"),
-    ESLintTester = require("../../../lib/testers/eslint-tester");
+var rule = require("../../../lib/rules/valid-jsdoc"),
+    RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-var eslintTester = new ESLintTester(eslint);
-eslintTester.addRuleTest("lib/rules/valid-jsdoc", {
+var ruleTester = new RuleTester();
+ruleTester.run("valid-jsdoc", rule, {
 
     valid: [
 
@@ -34,53 +34,53 @@ eslintTester.addRuleTest("lib/rules/valid-jsdoc", {
         "/**\n* Description\n* @param {Object} p bar\n* @param {string[]} p.files qux\n* @param {Function} cb baz\n* @returns {void} */\nfunction foo(p, cb){}",
         {
             code: "/**\n* Description\n* @return {void} */\nfunction foo(){}",
-            args: [1, {}]
+            options: [{}]
         },
         {
             code: "/**\n* Description\n* @param {string} p bar\n*/\nFoo.bar = (p) => {};",
-            args: [2, {requireReturn: false}],
+            options: [{requireReturn: false}],
             ecmaFeatures: { arrowFunctions: true }
         },
         {
             code: "/**\n* Description\n* @param {string} p bar\n*/\nFoo.bar = function({p}){};",
-            args: [1, {requireReturn: false}],
+            options: [{requireReturn: false}],
             ecmaFeatures: { destructuring: true }
         },
         {
             code: "/**\n* Description\n* @param {string} p bar\n*/\nFoo.bar = function(p){};",
-            args: [1, {requireReturn: false}]
+            options: [{requireReturn: false}]
         },
         {
             code: "/**\n* Description\n* @param {string} p mytest\n*/\nFoo.bar = function(p){var t = function(){return p;}};",
-            args: [1, {requireReturn: false}]
+            options: [{requireReturn: false}]
         },
         {
             code: "/**\n* Description\n* @param {string} p mytest\n*/\nFoo.bar = function(p){function func(){return p;}};",
-            args: [1, {requireReturn: false}]
+            options: [{requireReturn: false}]
         },
         {
             code: "/**\n* Description\n* @param {string} p mytest\n*/\nFoo.bar = function(p){var t = false; if(t){ return; }};",
-            args: [1, {requireReturn: false}]
+            options: [{requireReturn: false}]
         },
         {
             code: "/**\n* Description\n* @param {string} p mytest\n* @returns {void} */\nFoo.bar = function(p){var t = false; if(t){ return; }};",
-            args: [1, {requireReturn: false}]
+            options: [{requireReturn: false}]
         },
         {
             code: "/**\n* Description\n* @param {string} p mytest\n*/\nFoo.bar = function(p){var t = function(){function name(){return p;}}};",
-            args: [1, {requireReturn: false}]
+            options: [{requireReturn: false}]
         },
         {
             code: "/**\n* Description\n* @param {string} p mytest\n*/\nFoo.bar = function(p){var t = function(){function name(){}; return name;}};",
-            args: [1, {requireReturn: false}]
+            options: [{requireReturn: false}]
         },
         {
             code: "/**\n* Description\n* @param {string} p\n* @returns {void}*/\nFoo.bar = function(p){var t = function(){function name(){}; return name;}};",
-            args: [1, {requireParamDescription: false}]
+            options: [{requireParamDescription: false}]
         },
         {
             code: "/**\n* Description\n* @param {string} p mytest\n* @returns {Object}*/\nFoo.bar = function(p){return name;};",
-            args: [1, {requireReturnDescription: false}]
+            options: [{requireReturnDescription: false}]
         },
         "var obj = {\n /**\n * Getter\n * @type {string}\n */\n get location() {\n return this._location;\n }\n }",
         {
@@ -132,7 +132,7 @@ eslintTester.addRuleTest("lib/rules/valid-jsdoc", {
         },
         {
             code: "/** Foo \n@return {void} Foo\n */\nfunction foo(){}",
-            args: [1, { prefer: { "return": "returns" }}],
+            options: [{ prefer: { "return": "returns" }}],
             errors: [{
                 message: "Use @returns instead.",
                 type: "Block"
@@ -140,7 +140,7 @@ eslintTester.addRuleTest("lib/rules/valid-jsdoc", {
         },
         {
             code: "/** Foo \n@return {void} Foo\n */\nfoo.bar = () => {}",
-            args: [1, { prefer: { "return": "returns" }}],
+            options: [{ prefer: { "return": "returns" }}],
             ecmaFeatures: { arrowFunctions: true },
             errors: [{
                 message: "Use @returns instead.",
@@ -221,7 +221,7 @@ eslintTester.addRuleTest("lib/rules/valid-jsdoc", {
         },
         {
             code: "/**\n* Foo\n* @param {string} a desc\n*/\nfunction foo(a){var t = false; if(t) {return t;}}",
-            args: [1, {requireReturn: false}],
+            options: [{requireReturn: false}],
             errors: [{
                 message: "Missing JSDoc @returns for function.",
                 type: "Block"
@@ -229,7 +229,7 @@ eslintTester.addRuleTest("lib/rules/valid-jsdoc", {
         },
         {
             code: "/**\n* Foo\n* @param {string} a desc\n*/\nfunction foo(a){var t = false; if(t) {return null;}}",
-            args: [1, {requireReturn: false}],
+            options: [{requireReturn: false}],
             errors: [{
                 message: "Missing JSDoc @returns for function.",
                 type: "Block"
@@ -237,7 +237,7 @@ eslintTester.addRuleTest("lib/rules/valid-jsdoc", {
         },
         {
             code: "/**\n* Foo\n* @param {string} a desc\n@returns {MyClass}*/\nfunction foo(a){var t = false; if(t) {process(t);}}",
-            args: [1, {requireReturn: false}],
+            options: [{requireReturn: false}],
             errors: [{
                 message: "Unexpected @returns tag; function has no return statement.",
                 type: "Block"
@@ -245,7 +245,7 @@ eslintTester.addRuleTest("lib/rules/valid-jsdoc", {
         },
         {
             code: "/**\n * Does something. \n* @param {string} a - this is a \n* @return {Array<number>} The result of doing it \n*/\n export function doSomething(a) { }",
-            args: [2, {"prefer": { "return": "returns" }}],
+            options: [{"prefer": { "return": "returns" }}],
             ecmaFeatures: { modules: true },
             errors: [{
                 message: "Use @returns instead.",
@@ -254,7 +254,7 @@ eslintTester.addRuleTest("lib/rules/valid-jsdoc", {
         },
         {
             code: "/**\n * Does something. \n* @param {string} a - this is a \n* @return {Array<number>} The result of doing it \n*/\n export default function doSomething(a) { }",
-            args: [2, {"prefer": { "return": "returns" }}],
+            options: [{"prefer": { "return": "returns" }}],
             ecmaFeatures: { modules: true },
             errors: [{
                 message: "Use @returns instead.",

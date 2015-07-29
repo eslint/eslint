@@ -9,14 +9,14 @@
 //------------------------------------------------------------------------------
 //
 
-var eslint = require("../../../lib/eslint"),
-    ESLintTester = require("../../../lib/testers/eslint-tester");
+var rule = require("../../../lib/rules/arrow-spacing"),
+    RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-var eslintTester = new ESLintTester(eslint);
+var ruleTester = new RuleTester();
 
 var valid = [
     {
@@ -309,7 +309,7 @@ var invalid = [
     }
 ];
 
-eslintTester.addRuleTest("lib/rules/arrow-spacing", {
+ruleTester.run("arrow-spacing", rule, {
     valid: valid,
     invalid: invalid
 });

@@ -9,16 +9,16 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslint = require("../../../lib/eslint"),
-    ESLintTester = require("../../../lib/testers/eslint-tester");
+var rule = require("../../../lib/rules/no-cond-assign"),
+    RuleTester = require("../../../lib/testers/rule-tester");
 var ERROR_MESSAGE = "Expected a conditional expression and instead saw an assignment.";
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-var eslintTester = new ESLintTester(eslint);
-eslintTester.addRuleTest("lib/rules/no-cond-assign", {
+var ruleTester = new RuleTester();
+ruleTester.run("no-cond-assign", rule, {
     valid: [
         "var x = 0; if (x == 0) { var b = 1; }",
         { code: "var x = 0; if (x == 0) { var b = 1; }", options: ["always"] },

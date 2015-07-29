@@ -10,18 +10,18 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslint = require("../../../lib/eslint"),
-    ESLintTester = require("../../../lib/testers/eslint-tester");
+var rule = require("../../../lib/rules/padded-blocks"),
+    RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-var eslintTester = new ESLintTester(eslint),
+var ruleTester = new RuleTester(),
     ALWAYS_MESSAGE = "Block must be padded by blank lines.",
     NEVER_MESSAGE = "Block must not be padded by blank lines.";
 
-eslintTester.addRuleTest("lib/rules/padded-blocks", {
+ruleTester.run("padded-blocks", rule, {
     valid: [
         {code: "{\n\na();\n\n}" },
         {code: "{\n\na();\n\n}" },

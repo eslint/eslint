@@ -9,11 +9,11 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslint = require("../../../lib/eslint"),
-    ESLintTester = require("../../../lib/testers/eslint-tester");
+var rule = require("../../../lib/rules/no-regex-spaces"),
+    RuleTester = require("../../../lib/testers/rule-tester");
 
-var eslintTester = new ESLintTester(eslint);
-eslintTester.addRuleTest("lib/rules/no-regex-spaces", {
+var ruleTester = new RuleTester();
+ruleTester.run("no-regex-spaces", rule, {
     valid: [
         "var foo = /bar {3}baz/;",
         "var foo = /bar\t\t\tbaz/;"

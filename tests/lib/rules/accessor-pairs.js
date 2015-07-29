@@ -9,17 +9,15 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslint = require("../../../lib/eslint"),
-    ESLintTester = require("../../../lib/testers/eslint-tester");
+var rule = require("../../../lib/rules/accessor-pairs"),
+    RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
 // Helpers
 //------------------------------------------------------------------------------
 
-
-var eslintTester = new ESLintTester(eslint);
-
-eslintTester.addRuleTest("lib/rules/accessor-pairs", {
+var ruleTester = new RuleTester();
+ruleTester.run("accessor-pairs", rule, {
     valid: [
         "var o = { a: 1 };",
         "var o = {\n get a() {\n return val; \n} \n};",

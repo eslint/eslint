@@ -9,11 +9,11 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslint = require("../../../lib/eslint"),
-    ESLintTester = require("../../../lib/testers/eslint-tester");
+var rule = require("../../../lib/rules/space-return-throw-case"),
+    RuleTester = require("../../../lib/testers/rule-tester");
 
-var eslintTester = new ESLintTester(eslint);
-eslintTester.addRuleTest("lib/rules/space-return-throw-case", {
+var ruleTester = new RuleTester();
+ruleTester.run("space-return-throw-case", rule, {
     valid: [
         "function f(){ return; }",
         "function f(){ return f; }",

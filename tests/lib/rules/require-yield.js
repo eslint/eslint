@@ -10,8 +10,8 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslint = require("../../../lib/eslint");
-var ESLintTester = require("../../../lib/testers/eslint-tester");
+var rule = require("../../../lib/rules/require-yield");
+var RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -19,8 +19,8 @@ var ESLintTester = require("../../../lib/testers/eslint-tester");
 
 var errorMessage = "This generator function does not have `yield`.";
 
-var eslintTester = new ESLintTester(eslint);
-eslintTester.addRuleTest("lib/rules/require-yield", {
+var ruleTester = new RuleTester();
+ruleTester.run("require-yield", rule, {
     valid: [
         {
             code: "function foo() { return 0; }",

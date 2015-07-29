@@ -9,7 +9,16 @@ var assert = require("chai").assert,
     api = require("../../lib/api");
 
 describe("api", function() {
-    it("should contain 4 exposed keys", function() {
-        assert.lengthOf(Object.keys(api), 4);
+
+    it("should have RuleTester exposed", function() {
+        assert.isFunction(api.RuleTester);
+    });
+
+    it("should have CLIEngine exposed", function() {
+        assert.isFunction(api.CLIEngine);
+    });
+
+    it("should have linter exposed", function() {
+        assert.isObject(api.linter);
     });
 });
