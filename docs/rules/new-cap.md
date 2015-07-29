@@ -22,6 +22,14 @@ The following patterns are considered okay and do not cause warnings:
 ```js
 var friend = new Person();
 var colleague = person();
+
+// When `{"capIsNewExceptions": ["Person"]}` is given:
+var colleague = Person();
+var colleague = foo.Person();
+var colleague = foo.bar.Person();
+
+// When `{"capIsNewExceptions": ["foo.Person"]}` is given:
+var colleague = foo.Person();
 ```
 
 ## Options

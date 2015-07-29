@@ -54,7 +54,12 @@ eslintTester.addRuleTest("lib/rules/new-cap", {
         "var o = { 1: function() {} }; new o[1]();",
         { code: "var x = Foo(42);", args: [1, { capIsNew: true, capIsNewExceptions: ["Foo"] }] },
         { code: "var x = new foo(42);", args: [1, { newIsCap: true, newIsCapExceptions: ["foo"] }] },
-        { code: "var x = Object(42);", args: [1, { capIsNewExceptions: ["Foo"] }] }
+        { code: "var x = Object(42);", args: [1, { capIsNewExceptions: ["Foo"] }] },
+
+        { code: "var x = Foo.Bar(42);", options: [{ capIsNewExceptions: ["Bar"] }] },
+        { code: "var x = Foo.Bar(42);", options: [{ capIsNewExceptions: ["Foo.Bar"] }] },
+        { code: "var x = new foo.bar(42);", options: [{ newIsCapExceptions: ["bar"] }] },
+        { code: "var x = new foo.bar(42);", options: [{ newIsCapExceptions: ["foo.bar"] }] }
     ],
     invalid: [
         { code: "var x = new c();", errors: [{ message: "A constructor name should not start with a lowercase letter.", type: "NewExpression"}] },
@@ -120,6 +125,17 @@ eslintTester.addRuleTest("lib/rules/new-cap", {
                     column: 13
                 }
             ]
+        },
+
+        {
+            code: "var x = Foo.Bar(42);",
+            options: [{capIsNewExceptions: ["Foo"]}],
+            errors: [{type: "CallExpression", message: "A function with a name starting with an uppercase letter should only be used as a constructor."}]
+        },
+        {
+            code: "var x = new foo.bar(42);",
+            options: [{newIsCapExceptions: ["foo"]}],
+            errors: [{type: "NewExpression", message: "A constructor name should not start with a lowercase letter."}]
         }
     ]
 });
