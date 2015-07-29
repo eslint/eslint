@@ -2488,6 +2488,23 @@ describe("eslint", function() {
             assert.equal(messages[2].column, 18);
         });
 
+        it("should accept a pregenerated ast", function() {
+
+            var code = "foo()\n    alert('test')";
+            var config = { rules: { "no-mixed-spaces-and-tabs": 1, "eol-last": 1, "semi": [1, "always"] } };
+
+            var ast = eslint.parse(code, config);
+
+            var messages = eslint.verify({text: code, ast: ast}, config, filename);
+            assert.equal(messages.length, 3);
+            assert.equal(messages[0].line, 1);
+            assert.equal(messages[0].column, 6);
+            assert.equal(messages[1].line, 2);
+            assert.equal(messages[1].column, 2);
+            assert.equal(messages[2].line, 2);
+            assert.equal(messages[2].column, 18);
+        });
+
         it("should properly parse let declaration when passed ecmaFeatures", function() {
 
             var messages = eslint.verify("let x = 5;", {
