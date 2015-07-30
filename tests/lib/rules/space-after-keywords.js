@@ -56,6 +56,9 @@ ruleTester.run("space-after-keywords", rule, {
         { code: "try{}finally {}", args: [1], errors: [{ message: "Keyword \"try\" must be followed by whitespace." }]},
         { code: "try {}finally{}", args: [1], errors: [{ message: "Keyword \"finally\" must be followed by whitespace." }]},
         { code: "try{}finally {}", options: ["never"], errors: [{ message: "Keyword \"finally\" must not be followed by whitespace." }]},
-        { code: "try {}finally{}", options: ["never"], errors: [{ message: "Keyword \"try\" must not be followed by whitespace." }]}
+        { code: "try {}finally{}", options: ["never"], errors: [{ message: "Keyword \"try\" must not be followed by whitespace." }]},
+        { code: "if\n(a) {} else\n{}", options: ["never"], errors: [{ message: "Keyword \"if\" must not be followed by whitespace." }, { message: "Keyword \"else\" must not be followed by whitespace." }]},
+        { code: "if\n(a) {} else\n{}", options: ["always"], errors: [{ message: "Keyword \"if\" must not be followed by a newline." }, { message: "Keyword \"else\" must not be followed by a newline." }]},
+        { code: "do\n{} while\n(0)", options: ["always"], errors: [{ message: "Keyword \"do\" must not be followed by a newline." }, { message: "Keyword \"while\" must not be followed by a newline." }]}
     ]
 });
