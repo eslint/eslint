@@ -10,15 +10,15 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslint = require("../../../lib/eslint"),
-    ESLintTester = require("../../../lib/testers/eslint-tester");
+var rule = require("../../../lib/rules/no-shadow"),
+    RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-var eslintTester = new ESLintTester(eslint);
-eslintTester.addRuleTest("lib/rules/no-shadow", {
+var ruleTester = new RuleTester();
+ruleTester.run("no-shadow", rule, {
     valid: [
         "var a=3; function b(x) { a++; return x + a; }; setTimeout(function() { b(a); }, 0);",
         "(function() { var doSomething = function doSomething() {}; doSomething() }())",

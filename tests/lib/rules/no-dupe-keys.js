@@ -11,15 +11,15 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslint = require("../../../lib/eslint"),
-    ESLintTester = require("../../../lib/testers/eslint-tester");
+var rule = require("../../../lib/rules/no-dupe-keys"),
+    RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-var eslintTester = new ESLintTester(eslint);
-eslintTester.addRuleTest("lib/rules/no-dupe-keys", {
+var ruleTester = new RuleTester();
+ruleTester.run("no-dupe-keys", rule, {
     valid: [
         "var foo = { __proto__: 1, two: 2};",
         "var x = { foo: 1, bar: 2 };",

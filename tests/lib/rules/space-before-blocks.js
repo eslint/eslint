@@ -10,20 +10,20 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslint = require("../../../lib/eslint"),
-    ESLintTester = require("../../../lib/testers/eslint-tester");
+var rule = require("../../../lib/rules/space-before-blocks"),
+    RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-var eslintTester = new ESLintTester(eslint),
+var ruleTester = new RuleTester(),
     neverArgs = ["never"],
     expectedSpacingErrorMessage = "Missing space before opening brace.",
     expectedSpacingError = { message: expectedSpacingErrorMessage },
     expectedNoSpacingError = { message: "Unexpected space before opening brace."};
 
-eslintTester.addRuleTest("lib/rules/space-before-blocks", {
+ruleTester.run("space-before-blocks", rule, {
     valid: [
         { code: "if(a) {}" },
         { code: "if(a)  {}" },

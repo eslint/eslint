@@ -8,15 +8,15 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslint = require("../../../lib/eslint"),
-    ESLintTester = require("../../../lib/testers/eslint-tester");
+var rule = require("../../../lib/rules/no-mixed-spaces-and-tabs"),
+    RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-var eslintTester = new ESLintTester(eslint);
-eslintTester.addRuleTest("lib/rules/no-mixed-spaces-and-tabs", {
+var ruleTester = new RuleTester();
+ruleTester.run("no-mixed-spaces-and-tabs", rule, {
 
     valid: [
         {
@@ -30,11 +30,11 @@ eslintTester.addRuleTest("lib/rules/no-mixed-spaces-and-tabs", {
         },
         {
             code: "\tvar x = 5,\n\t    y = 2;",
-            args: [2, true]
+            options: [true]
         },
         {
             code: "\tvar x = 5,\n\t    y = 2;",
-            args: [2, "smart-tabs"]
+            options: ["smart-tabs"]
         }
     ],
 
@@ -66,7 +66,7 @@ eslintTester.addRuleTest("lib/rules/no-mixed-spaces-and-tabs", {
         },
         {
             code: "\tvar x = 5,\n  \t  y = 2;",
-            args: [2, true],
+            options: [true],
             errors: [
                 {
                     message: "Mixed spaces and tabs.",
@@ -77,7 +77,7 @@ eslintTester.addRuleTest("lib/rules/no-mixed-spaces-and-tabs", {
         },
         {
             code: "\tvar x = 5,\n  \t  y = 2;",
-            args: [2, "smart-tabs"],
+            options: ["smart-tabs"],
             errors: [
                 {
                     message: "Mixed spaces and tabs.",

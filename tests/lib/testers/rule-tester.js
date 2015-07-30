@@ -10,55 +10,51 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var rewire = require("rewire"),
-    sinon = require("sinon"),
+var sinon = require("sinon"),
     eslint = require("../../../lib/eslint"),
+    RuleTester = require("../../../lib/testers/rule-tester"),
     assert = require("chai").assert;
 
 //------------------------------------------------------------------------------
 // Rewire Things
 //------------------------------------------------------------------------------
 
-var ESLintTester = rewire("../../../lib/testers/eslint-tester");
-
 /*
- * So here's the situation. Because ESLintTester uses it() and describe() from
+ * So here's the situation. Because RuleTester uses it() and describe() from
  * Mocha, any failures would show up in the output of this test file. That means
  * when we tested that a failure is thrown, that would also count as a failure
- * in the testing for ESLintTester. In order to remove those results from the
+ * in the testing for RuleTester. In order to remove those results from the
  * results of this file, we need to overwrite it() and describe() just in
- * ESLintTester to do nothing but run code. Effectively, it() and describe()
+ * RuleTester to do nothing but run code. Effectively, it() and describe()
  * just become regular functions inside of index.js, not at all related to Mocha.
  * That allows the results of this file to be untainted and therefore accurate.
  */
 
-/* eslint-disable no-underscore-dangle */
-ESLintTester.__set__("it", function(name, method) {
-    method.apply(null, arguments);
-});
+RuleTester.describe = function(text, method) {
+    return method.apply(this);
+};
 
-ESLintTester.__set__("describe", function(name, method) {
-    method.apply(null, arguments);
-});
-/* eslint-enable no-underscore-dangle */
+RuleTester.it = function(text, method) {
+    return method.apply(this);
+};
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-describe("ESLintTester", function() {
+describe("RuleTester", function() {
 
-    var eslintTester;
+    var ruleTester;
 
     beforeEach(function() {
-        ESLintTester.resetDefaultConfig();
-        eslintTester = new ESLintTester(eslint);
+        RuleTester.resetDefaultConfig();
+        ruleTester = new RuleTester();
     });
 
     it("should not throw an error when everything passes", function() {
 
         assert.doesNotThrow(function() {
-            eslintTester.addRuleTest("tests/fixtures/testers/eslint-tester/no-eval", {
+            ruleTester.run("no-eval", require("../../fixtures/testers/rule-tester/no-eval"), {
                 valid: [
                     "Eval(foo)"
                 ],
@@ -72,7 +68,7 @@ describe("ESLintTester", function() {
     it("should throw an error when valid code is invalid", function() {
 
         assert.throws(function() {
-            eslintTester.addRuleTest("tests/fixtures/testers/eslint-tester/no-eval", {
+            ruleTester.run("no-eval", require("../../fixtures/testers/rule-tester/no-eval"), {
                 valid: [
                     "eval(foo)"
                 ],
@@ -86,7 +82,7 @@ describe("ESLintTester", function() {
     it("should throw an error when valid code is invalid", function() {
 
         assert.throws(function() {
-            eslintTester.addRuleTest("tests/fixtures/testers/eslint-tester/no-eval", {
+            ruleTester.run("no-eval", require("../../fixtures/testers/rule-tester/no-eval"), {
                 valid: [
                     { code: "eval(foo)" }
                 ],
@@ -100,7 +96,7 @@ describe("ESLintTester", function() {
     it("should throw an error if invalid code is valid", function() {
 
         assert.throws(function() {
-            eslintTester.addRuleTest("tests/fixtures/testers/eslint-tester/no-eval", {
+            ruleTester.run("no-eval", require("../../fixtures/testers/rule-tester/no-eval"), {
                 valid: [
                     "Eval(foo)"
                 ],
@@ -114,7 +110,7 @@ describe("ESLintTester", function() {
     it("should throw an error if invalid code is valid", function() {
 
         assert.throws(function() {
-            eslintTester.addRuleTest("tests/fixtures/testers/eslint-tester/no-eval", {
+            ruleTester.run("no-eval", require("../../fixtures/testers/rule-tester/no-eval"), {
                 valid: [
                     "Eval(foo)"
                 ],
@@ -128,7 +124,7 @@ describe("ESLintTester", function() {
     it("should throw an error if invalid code specifies wrong type", function() {
 
         assert.throws(function() {
-            eslintTester.addRuleTest("tests/fixtures/testers/eslint-tester/no-eval", {
+            ruleTester.run("no-eval", require("../../fixtures/testers/rule-tester/no-eval"), {
                 valid: [
                     "Eval(foo)"
                 ],
@@ -142,7 +138,7 @@ describe("ESLintTester", function() {
     it("should throw an error if invalid code specifies wrong line", function() {
 
         assert.throws(function() {
-            eslintTester.addRuleTest("tests/fixtures/testers/eslint-tester/no-eval", {
+            ruleTester.run("no-eval", require("../../fixtures/testers/rule-tester/no-eval"), {
                 valid: [
                     "Eval(foo)"
                 ],
@@ -154,10 +150,8 @@ describe("ESLintTester", function() {
     });
 
     it("should not skip line assertion if line is a falsy value", function() {
-        var expectedErrorMessage = "Error line should be 0: expected 2 to equal 0";
-
         assert.throws(function() {
-            eslintTester.addRuleTest("tests/fixtures/testers/eslint-tester/no-eval", {
+            ruleTester.run("no-eval", require("../../fixtures/testers/rule-tester/no-eval"), {
                 valid: [
                     "Eval(foo)"
                 ],
@@ -165,7 +159,7 @@ describe("ESLintTester", function() {
                     { code: "\neval(foo)", errors: [{ message: "eval sucks.", type: "CallExpression", line: 0 }] }
                 ]
             });
-        }, expectedErrorMessage);
+        }, /Error line should be 0/);
     });
 
     it("should throw an error if invalid code specifies wrong column", function() {
@@ -173,7 +167,7 @@ describe("ESLintTester", function() {
             expectedErrorMessage = "Error column should be 1";
 
         assert.throws(function() {
-            eslintTester.addRuleTest("tests/fixtures/testers/eslint-tester/no-eval", {
+            ruleTester.run("no-eval", require("../../fixtures/testers/rule-tester/no-eval"), {
                 valid: [ "Eval(foo)" ],
                 invalid: [ {
                     code: "eval(foo)",
@@ -187,23 +181,22 @@ describe("ESLintTester", function() {
     });
 
     it("should not skip column assertion if column is a falsy value", function() {
-        var expectedErrorMessage = "Error column should be 0: expected 10 to equal 0";
 
         assert.throws(function() {
-            eslintTester.addRuleTest("tests/fixtures/testers/eslint-tester/no-eval", {
+            ruleTester.run("no-eval", require("../../fixtures/testers/rule-tester/no-eval"), {
                 valid: [ "Eval(foo)" ],
                 invalid: [ {
                     code: "var foo; eval(foo)",
                     errors: [ { message: "eval sucks.", column: 0 } ]
                 } ]
             });
-        }, expectedErrorMessage);
+        }, /Error column should be 0/);
     });
 
     it("should throw an error if invalid code has the wrong number of errors", function() {
 
         assert.throws(function() {
-            eslintTester.addRuleTest("tests/fixtures/testers/eslint-tester/no-eval", {
+            ruleTester.run("no-eval", require("../../fixtures/testers/rule-tester/no-eval"), {
                 valid: [
                     "Eval(foo)"
                 ],
@@ -220,7 +213,7 @@ describe("ESLintTester", function() {
     it("should throw an error if invalid code has the wrong explicit number of errors", function() {
 
         assert.throws(function() {
-            eslintTester.addRuleTest("tests/fixtures/testers/eslint-tester/no-eval", {
+            ruleTester.run("no-eval", require("../../fixtures/testers/rule-tester/no-eval"), {
                 valid: [
                     "Eval(foo)"
                 ],
@@ -233,7 +226,7 @@ describe("ESLintTester", function() {
 
     it("should not throw an error if invalid code has at least an expected empty error object", function() {
         assert.doesNotThrow(function() {
-            eslintTester.addRuleTest("tests/fixtures/testers/eslint-tester/no-eval", {
+            ruleTester.run("no-eval", require("../../fixtures/testers/rule-tester/no-eval"), {
                 valid: [ "Eval(foo)" ],
                 invalid: [ {
                     code: "eval(foo)",
@@ -245,7 +238,7 @@ describe("ESLintTester", function() {
 
     it("should pass-through the globals config of valid tests to the to rule", function() {
         assert.doesNotThrow(function() {
-            eslintTester.addRuleTest("tests/fixtures/testers/eslint-tester/no-test-global", {
+            ruleTester.run("no-test-global", require("../../fixtures/testers/rule-tester/no-test-global"), {
                 valid: [
                     "var test = 'foo'",
                     {
@@ -264,7 +257,7 @@ describe("ESLintTester", function() {
 
     it("should pass-through the globals config of invalid tests to the to rule", function() {
         assert.doesNotThrow(function() {
-            eslintTester.addRuleTest("tests/fixtures/testers/eslint-tester/no-test-global", {
+            ruleTester.run("no-test-global", require("../../fixtures/testers/rule-tester/no-test-global"), {
                 valid: [ "var test = 'foo'" ],
                 invalid: [
                     {
@@ -288,7 +281,7 @@ describe("ESLintTester", function() {
 
     it("should pass-through the settings config to rules", function() {
         assert.doesNotThrow(function() {
-            eslintTester.addRuleTest("tests/fixtures/testers/eslint-tester/no-test-settings", {
+            ruleTester.run("no-test-settings", require("../../fixtures/testers/rule-tester/no-test-settings"), {
                 valid: [
                     {
                         code: "var test = 'bar'", settings: { "test": 1 }
@@ -303,29 +296,9 @@ describe("ESLintTester", function() {
         });
     });
 
-    it("should pass-through the args to the rule", function() {
-        assert.doesNotThrow(function() {
-            eslintTester.addRuleTest("tests/fixtures/testers/eslint-tester/no-invalid-args", {
-                valid: [
-                    {
-                        code: "var foo = 'bar'",
-                        args: [ 1, false ]
-                    }
-                ],
-                invalid: [
-                    {
-                        code: "var foo = 'bar'",
-                        args: [ 1, true ],
-                        errors: [ { message: "Invalid args" } ]
-                    }
-                ]
-            });
-        });
-    });
-
-    it("should pass-through the args to the rule", function() {
+    it("should pass-through the filename to the rule", function() {
         (function() {
-            eslintTester.addRuleTest("tests/fixtures/testers/eslint-tester/no-test-filename", {
+            ruleTester.run("", require("../../fixtures/testers/rule-tester/no-test-filename"), {
                 valid: [
                     {
                         code: "var foo = 'bar'",
@@ -346,7 +319,7 @@ describe("ESLintTester", function() {
 
     it("should pass-through the options to the rule", function() {
         assert.doesNotThrow(function() {
-            eslintTester.addRuleTest("tests/fixtures/testers/eslint-tester/no-invalid-args", {
+            ruleTester.run("no-invalid-args", require("../../fixtures/testers/rule-tester/no-invalid-args"), {
                 valid: [
                     {
                         code: "var foo = 'bar'",
@@ -367,8 +340,8 @@ describe("ESLintTester", function() {
     it("should pass-through the parser to the rule", function() {
 
         assert.doesNotThrow(function() {
-            var spy = sinon.spy(eslintTester.eslint, "verify");
-            eslintTester.addRuleTest("tests/fixtures/testers/eslint-tester/no-eval", {
+            var spy = sinon.spy(eslint, "verify");
+            ruleTester.run("no-eval", require("../../fixtures/testers/rule-tester/no-eval"), {
                 valid: [
                     {
                         code: "Eval(foo)"
@@ -389,7 +362,7 @@ describe("ESLintTester", function() {
     it("should prevent invalid options schemas", function() {
 
         assert.throws(function() {
-            eslintTester.addRuleTest("tests/fixtures/testers/eslint-tester/no-invalid-schema", {
+            ruleTester.run("no-invalid-schema", require("../../fixtures/testers/rule-tester/no-invalid-schema"), {
                 valid: [
                     "var answer = 6 * 7;",
                     { code: "var answer = 6 * 7;", options: [] }
@@ -405,7 +378,7 @@ describe("ESLintTester", function() {
     it("should prevent schema violations in options", function() {
 
         assert.throws(function() {
-            eslintTester.addRuleTest("tests/fixtures/testers/eslint-tester/no-schema-violation", {
+            ruleTester.run("no-schema-violation", require("../../fixtures/testers/rule-tester/no-schema-violation"), {
                 valid: [
                     "var answer = 6 * 7;",
                     { code: "var answer = 6 * 7;", options: ["foo"] }
@@ -418,63 +391,13 @@ describe("ESLintTester", function() {
 
     });
 
-
-
-    it("should throw an error if there are no valid tests", function() {
-
-        assert.throws(function() {
-            eslintTester.addRuleTest("tests/fixtures/testers/eslint-tester/no-eval", {
-                valid: [
-                ],
-                invalid: [
-                    { code: "Eval(foo)", errors: [{ message: "eval sucks.", type: "CallExpression"}] }
-                ]
-            });
-        }, /^Each rule should have at least one valid test/);
-    });
-
-    it("should throw an error if there is no valid key", function() {
-
-        assert.throws(function() {
-            eslintTester.addRuleTest("tests/fixtures/testers/eslint-tester/no-eval", {
-                invalid: [
-                    { code: "Eval(foo)", errors: [{ message: "eval sucks.", type: "CallExpression"}] }
-                ]
-            });
-        }, /^Each rule should have at least one valid test/);
-    });
-
-    it("should throw an error if there are no invalid tests", function() {
-
-        assert.throws(function() {
-            eslintTester.addRuleTest("tests/fixtures/testers/eslint-tester/no-eval", {
-                valid: [
-                    "Eval(foo)"
-                ],
-                invalid: [
-
-                ]
-            });
-        }, /^Each rule should have at least one invalid test/);
-    });
-
-    it("should throw an error if there is no invalid key", function() {
-
-        assert.throws(function() {
-            eslintTester.addRuleTest("tests/fixtures/testers/eslint-tester/no-eval", {
-                valid: [
-                    "Eval(foo)"
-                ]
-            });
-        }, /^Each rule should have at least one invalid test/);
-    });
-
-    it("should pass-through the tester config to the to rule", function() {
-        eslintTester = new ESLintTester(eslint, {
+    it("should pass-through the tester config to the rule", function() {
+        ruleTester = new RuleTester({
             global: { test: true }
         });
+
         assert.doesNotThrow(function() {
-            eslintTester.addRuleTest("tests/fixtures/testers/eslint-tester/no-test-global", {
+            ruleTester.run("no-test-global", require("../../fixtures/testers/rule-tester/no-test-global"), {
                 valid: [
                     "var test = 'foo'",
                     "var test2 = test"
@@ -486,19 +409,19 @@ describe("ESLintTester", function() {
 
     it("should correctly set the global configuration", function() {
         var config = { global: { test: true } };
-        ESLintTester.setDefaultConfig(config);
+        RuleTester.setDefaultConfig(config);
         assert(
-            ESLintTester.getDefaultConfig().global.test,
+            RuleTester.getDefaultConfig().global.test,
             "The default config object is incorrect"
         );
     });
 
     it("should correctly reset the global configuration", function() {
         var config = { global: { test: true } };
-        ESLintTester.setDefaultConfig(config);
-        ESLintTester.resetDefaultConfig();
+        RuleTester.setDefaultConfig(config);
+        RuleTester.resetDefaultConfig();
         assert.deepEqual(
-            ESLintTester.getDefaultConfig(),
+            RuleTester.getDefaultConfig(),
             { rules: {} },
             "The default configuration has not reset correctly"
         );
@@ -507,7 +430,7 @@ describe("ESLintTester", function() {
     it("should enforce the global configuration to be an object", function() {
         function setConfig(config) {
             return function() {
-                ESLintTester.setDefaultConfig(config);
+                RuleTester.setDefaultConfig(config);
             };
         }
         assert.throw(setConfig());
@@ -520,10 +443,11 @@ describe("ESLintTester", function() {
 
     it("should pass-through the global config to the tester then to the to rule", function() {
         var config = { global: { test: true } };
-        ESLintTester.setDefaultConfig(config);
-        eslintTester = new ESLintTester(eslint);
+        RuleTester.setDefaultConfig(config);
+        ruleTester = new RuleTester();
+
         assert.doesNotThrow(function() {
-            eslintTester.addRuleTest("tests/fixtures/testers/eslint-tester/no-test-global", {
+            ruleTester.run("no-test-global", require("../../fixtures/testers/rule-tester/no-test-global"), {
                 valid: [
                     "var test = 'foo'",
                     "var test2 = test"

@@ -10,15 +10,15 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslint = require("../../../lib/eslint"),
-    ESLintTester = require("../../../lib/testers/eslint-tester");
+var rule = require("../../../lib/rules/no-continue"),
+    RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-var eslintTester = new ESLintTester(eslint);
-eslintTester.addRuleTest("lib/rules/no-continue", {
+var ruleTester = new RuleTester();
+ruleTester.run("no-continue", rule, {
     valid: [
         "var sum = 0, i; for(i = 0; i < 10; i++){ if(i > 5) { sum += i; } }",
         "var sum = 0, i = 0; while(i < 10) { if(i > 5) { sum += i; } i++; }"

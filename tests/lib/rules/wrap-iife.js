@@ -10,40 +10,40 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslint = require("../../../lib/eslint"),
-    ESLintTester = require("../../../lib/testers/eslint-tester");
+var rule = require("../../../lib/rules/wrap-iife"),
+    RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
 
-var eslintTester = new ESLintTester(eslint);
-eslintTester.addRuleTest("lib/rules/wrap-iife", {
+var ruleTester = new RuleTester();
+ruleTester.run("wrap-iife", rule, {
     valid: [
         {
             code: "(function(){ }());",
-            args: [1, "any"]
+            options: ["any"]
         },
         {
             code: "(function(){ })();",
-            args: [1, "any"]
+            options: ["any"]
         },
         {
             code: "(function a(){ }());",
-            args: [1, "any"]
+            options: ["any"]
         },
         {
             code: "(function a(){ })();",
-            args: [1, "any"]
+            options: ["any"]
         },
         {
             code: "(function a(){ }());",
-            args: [1, "outside"]
+            options: ["outside"]
         },
         {
             code: "(function a(){ })();",
-            args: [1, "inside"]
+            options: ["inside"]
         }
     ],
     invalid: [
@@ -65,12 +65,12 @@ eslintTester.addRuleTest("lib/rules/wrap-iife", {
         },
         {
             code: "(function a(){ })();",
-            args: [1, "outside"],
+            options: ["outside"],
             errors: [{ message: "Move the invocation into the parens that contain the function.", type: "CallExpression" }]
         },
         {
             code: "(function a(){ }());",
-            args: [1, "inside"],
+            options: ["inside"],
             errors: [{ message: "Wrap only the function expression in parens.", type: "CallExpression" }]
         }
     ]

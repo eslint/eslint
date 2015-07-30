@@ -9,15 +9,15 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslint = require("../../../lib/eslint"),
-    ESLintTester = require("../../../lib/testers/eslint-tester");
+var rule = require("../../../lib/rules/no-empty-character-class"),
+    RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-var eslintTester = new ESLintTester(eslint);
-eslintTester.addRuleTest("lib/rules/no-empty-character-class", {
+var ruleTester = new RuleTester();
+ruleTester.run("no-empty-character-class", rule, {
     valid: [
         "var foo = /^abc[a-zA-Z]/;",
         "var regExp = new RegExp(\"^abc[]\");",

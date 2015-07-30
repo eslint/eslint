@@ -10,8 +10,8 @@
 //------------------------------------------------------------------------------
 
 var util = require("util");
-var eslint = require("../../../lib/eslint"),
-    ESLintTester = require("../../../lib/testers/eslint-tester");
+var rule = require("../../../lib/rules/operator-linebreak"),
+    RuleTester = require("../../../lib/testers/rule-tester");
 
 var BAD_LN_BRK_MSG = "Bad line breaking before and after '%s'.",
     BEFORE_MSG = "'%s' should be placed at the beginning of the line.",
@@ -22,8 +22,8 @@ var BAD_LN_BRK_MSG = "Bad line breaking before and after '%s'.",
 // Tests
 //------------------------------------------------------------------------------
 
-var eslintTester = new ESLintTester(eslint);
-eslintTester.addRuleTest("lib/rules/operator-linebreak", {
+var ruleTester = new RuleTester();
+ruleTester.run("operator-linebreak", rule, {
 
     valid: [
         "1 + 1",

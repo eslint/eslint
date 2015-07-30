@@ -10,8 +10,8 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslint = require("../../../lib/eslint"),
-    ESLintTester = require("../../../lib/testers/eslint-tester");
+var rule = require("../../../lib/rules/no-extra-parens"),
+    RuleTester = require("../../../lib/testers/rule-tester");
 
 function invalid(code, type, line, config) {
     config = config || {};
@@ -35,8 +35,8 @@ function invalid(code, type, line, config) {
     return result;
 }
 
-var eslintTester = new ESLintTester(eslint);
-eslintTester.addRuleTest("lib/rules/no-extra-parens", {
+var ruleTester = new RuleTester();
+ruleTester.run("no-extra-parens", rule, {
     valid: [
         // all precedence boundaries
         "a = b, c = d",

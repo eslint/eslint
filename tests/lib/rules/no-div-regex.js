@@ -9,15 +9,15 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslint = require("../../../lib/eslint"),
-    ESLintTester = require("../../../lib/testers/eslint-tester");
+var rule = require("../../../lib/rules/no-div-regex"),
+    RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-var eslintTester = new ESLintTester(eslint);
-eslintTester.addRuleTest("lib/rules/no-div-regex", {
+var ruleTester = new RuleTester();
+ruleTester.run("no-div-regex", rule, {
     valid: [
         "var f = function() { return /foo/ig.test('bar'); };",
         "var f = function() { return /\\=foo/; };"

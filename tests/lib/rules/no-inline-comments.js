@@ -9,14 +9,14 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslint = require("../../../lib/eslint"),
-    ESLintTester = require("../../../lib/testers/eslint-tester");
+var rule = require("../../../lib/rules/no-inline-comments"),
+    RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-var eslintTester = new ESLintTester(eslint),
+var ruleTester = new RuleTester(),
     lineError = {
         messsage: "Unexpected comment inline with code.",
         type: "Line"
@@ -26,7 +26,7 @@ var eslintTester = new ESLintTester(eslint),
         type: "Block"
     };
 
-eslintTester.addRuleTest("lib/rules/no-inline-comments", {
+ruleTester.run("no-inline-comments", rule, {
 
     valid: [
         {

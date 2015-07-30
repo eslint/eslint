@@ -9,18 +9,18 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslint = require("../../../lib/eslint"),
-    ESLintTester = require("../../../lib/testers/eslint-tester");
+var rule = require("../../../lib/rules/no-implied-eval"),
+    RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-var eslintTester = new ESLintTester(eslint),
+var ruleTester = new RuleTester(),
     expectedErrorMessage = "Implied eval. Consider passing a function instead of a string.",
     expectedError = { message: expectedErrorMessage, type: "CallExpression" };
 
-eslintTester.addRuleTest("lib/rules/no-implied-eval", {
+ruleTester.run("no-implied-eval", rule, {
     valid: [
         // normal usage
         "setInterval(function() { x = 1; }, 100);",

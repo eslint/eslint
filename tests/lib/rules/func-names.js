@@ -11,15 +11,15 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslint = require("../../../lib/eslint"),
-    ESLintTester = require("../../../lib/testers/eslint-tester");
+var rule = require("../../../lib/rules/func-names"),
+    RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-var eslintTester = new ESLintTester(eslint);
-eslintTester.addRuleTest("lib/rules/func-names", {
+var ruleTester = new RuleTester();
+ruleTester.run("func-names", rule, {
     valid: [
         "Foo.prototype.bar = function bar(){};",
         { code: "Foo.prototype.bar = () => {}", ecmaFeatures: { arrowFunctions: true }},

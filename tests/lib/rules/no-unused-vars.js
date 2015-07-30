@@ -9,15 +9,15 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslint = require("../../../lib/eslint"),
-    ESLintTester = require("../../../lib/testers/eslint-tester");
+var rule = require("../../../lib/rules/no-unused-vars"),
+    RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-var eslintTester = new ESLintTester(eslint);
-eslint.defineRule("use-every-a", function(context) {
+var ruleTester = new RuleTester();
+ruleTester.defineRule("use-every-a", function(context) {
     function useA() {
         context.markVariableAsUsed("a");
     }
@@ -26,7 +26,8 @@ eslint.defineRule("use-every-a", function(context) {
         "ReturnStatement": useA
     };
 });
-eslintTester.addRuleTest("lib/rules/no-unused-vars", {
+
+ruleTester.run("no-unused-vars", rule, {
     valid: [
         "var foo = 5;\n\nlabel: while (true) {\n  console.log(foo);\n  break label;\n}",
         "var foo = 5;\n\nwhile (true) {\n  console.log(foo);\n  break;\n}",

@@ -10,21 +10,21 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslint = require("../../../lib/eslint"),
-    ESLintTester = require("../../../lib/testers/eslint-tester");
+var rule = require("../../../lib/rules/no-irregular-whitespace"),
+    RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-var eslintTester = new ESLintTester(eslint);
+var ruleTester = new RuleTester();
 
 var expectedErrors = [{
     message: "Irregular whitespace not allowed",
     type: "Program"
 }];
 
-eslintTester.addRuleTest("lib/rules/no-irregular-whitespace", {
+ruleTester.run("no-irregular-whitespace", rule, {
     valid: [
         "'\\u000B';",
         "'\\u000C';",

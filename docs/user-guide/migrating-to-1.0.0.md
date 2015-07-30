@@ -111,8 +111,32 @@ In 0.x, the `cli` object was exported for use by external tools. It was later de
 
 ## Deprecating eslint-tester
 
-The `eslint-tester` module, which has long been the primary tester for ESLint rules, has now been moved into the `eslint` module. This was the result of a difficult relationship between these two modules that created circular dependencies and was causing a lot of problems in rule tests. Moving the tester into the `eslint` module fixed a lot of those issues. You can now access the same object from `eslint-tester` via:
+The `eslint-tester` module, which has long been the primary tester for ESLint rules, has now been moved into the `eslint` module. This was the result of a difficult relationship between these two modules that created circular dependencies and was causing a lot of problems in rule tests. Moving the tester into the `eslint` module fixed a lot of those issues.
+
+The replacement for `eslint-tester` is called `RuleTester`. It's a simplified version of `ESLintTester` that's designed to work with any testing framework. This object is exposed by the package.
+
+**To address:** Convert all of your rule tests to use `RuleTester`. If you have this as a test using `ESLintTester`:
 
 ```js
-var ESLintTester = require("eslint").ESLintTester;
+var eslint = require("../../../lib/eslint"),
+    ESLintTester = require("eslint-tester");
+
+var eslintTester = new ESLintTester(eslint);
+eslintTester.addRuleTest("lib/rules/your-rule", {
+    valid: [],
+    invalid: []
+});
+```
+
+Then you can change to:
+
+```js
+var rule = require("../../../lib/rules/your-rule"),
+    RuleTester = require("eslint").RuleTester;
+
+var ruleTester = new RuleTester();
+ruleTester.run("your-rule", rule, {
+    valid: [],
+    invalid: []
+});
 ```

@@ -11,8 +11,8 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslint = require("../../../lib/eslint"),
-    ESLintTester = require("../../../lib/testers/eslint-tester");
+var rule = require("../../../lib/rules/newline-after-var"),
+    RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
 // Fixtures
@@ -76,9 +76,9 @@ var BLOCK_BINDINGS = { blockBindings: true };
 // Tests
 //------------------------------------------------------------------------------
 
-var eslintTester = new ESLintTester(eslint);
+var ruleTester = new RuleTester();
 
-eslintTester.addRuleTest("lib/rules/newline-after-var", {
+ruleTester.run("newline-after-var", rule, {
     valid: [
         // should skip rule entirely
         { code: NO_VAR, options: ["always"] },

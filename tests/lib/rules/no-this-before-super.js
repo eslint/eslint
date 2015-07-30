@@ -10,15 +10,15 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslint = require("../../../lib/eslint");
-var ESLintTester = require("../../../lib/testers/eslint-tester");
+var rule = require("../../../lib/rules/no-this-before-super");
+var RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-var eslintTester = new ESLintTester(eslint);
-eslintTester.addRuleTest("lib/rules/no-this-before-super", {
+var ruleTester = new RuleTester();
+ruleTester.run("no-this-before-super", rule, {
     valid: [
         // if the class has no extends or `extends null`, just ignores.
         // those cannot call `super()`.

@@ -217,45 +217,29 @@ The basic pattern for a rule unit test file is:
  * @author Nicholas C. Zakas
  * @copyright 2014 Nicholas C. Zakas. All rights reserved.
  */
+
 "use strict";
 
 //------------------------------------------------------------------------------
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslint = require("../../../lib/eslint"),
-    ESLintTester = require("../../../lib/testers/eslint-tester");
+var rule = require("../../../lib/rules/no-with"),
+    RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-var eslintTester = new ESLintTester(eslint);
-eslintTester.addRuleTest("lib/rules/block-scoped-var", {
-
-    // Examples of code that should not trigger the rule
+var ruleTester = new RuleTester();
+ruleTester.run("no-with", rule, {
     valid: [
-        "function doSomething() { var build, f; if (true) { build = true; } f = build; }",
-        "var build; function doSomething() { var f = build; }",
-        "function doSomething(e) { }",
-        "function doSomething(e) { var f = e; }",
-        "function doSomething() { var f = doSomething; }",
-        "function foo() { } function doSomething() { var f = foo; }"
+        "foo.bar()"
     ],
-
-    // Examples of code that should trigger the rule
     invalid: [
         {
-            code: "function doSomething() { var f; if (true) { var build = true; } f = build; }",
-            errors: [
-                { message: "build used outside of binding context.", type: "Identifier" }
-            ]
-        },
-        {
-            code: "function doSomething() { try { var build = 1; } catch (e) { var f = build; } }",
-            errors: [
-                { message: "build used outside of binding context.", type: "Identifier" }
-            ]
+            code: "with(foo) { bar() }",
+            errors: [{ message: "Unexpected use of 'with' statement.", type: "WithStatement"}]
         }
     ]
 });
@@ -282,7 +266,7 @@ You can also pass options to the rule (if it accepts them). These arguments are 
 valid: [
     {
         code: "var msg = 'Hello';",
-        options: ["single" ]
+        options: [ "single" ]
     }
 ]
 ```
@@ -306,13 +290,13 @@ invalid: [
 
 In this case, the message is specific to the variable being used and the AST node type is `Identifier`.
 
-Similar to the valid cases, you can also specify `args` to be passed to the rule:
+Similar to the valid cases, you can also specify `options` to be passed to the rule:
 
 ```js
 invalid: [
     {
         code: "function doSomething() { var f; if (true) { var build = true; } f = build; }",
-        args: [ 1, "double" ],
+        options: [ "double" ],
         errors: [
             { message: "build used outside of binding context.", type: "Identifier" }
         ]
@@ -330,7 +314,7 @@ To keep the linting process efficient and unobtrusive, it is useful to verify th
 
 ### Overall Performance
 
-The `npm run perf` command gives a high-level overview of ESLint running time.
+The `npm run perf` command gives a high-level overview of ESLint running time with default rules (`eslint:recommended`) enabled.
 
 ```bash
 $ git checkout master

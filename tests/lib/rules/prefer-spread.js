@@ -10,8 +10,8 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslint = require("../../../lib/eslint");
-var ESLintTester = require("../../../lib/testers/eslint-tester");
+var rule = require("../../../lib/rules/prefer-spread");
+var RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -19,8 +19,8 @@ var ESLintTester = require("../../../lib/testers/eslint-tester");
 
 var errors = [{message: "use the spread operator instead of the \".apply()\".", type: "CallExpression"}];
 
-var eslintTester = new ESLintTester(eslint);
-eslintTester.addRuleTest("lib/rules/prefer-spread", {
+var ruleTester = new RuleTester();
+ruleTester.run("prefer-spread", rule, {
     valid: [
         {code: "foo.apply(obj, args);"},
         {code: "obj.foo.apply(null, args);"},
