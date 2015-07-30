@@ -80,7 +80,7 @@ Examples:
 
 ### `-f`, `--format`
 
-This option specifies the output format for the console. Possible formats are "stylish" (the default), "compact", "checkstyle", "jslint-xml", "junit" and "tap".
+This option specifies the output format for the console. Possible formats are "stylish" (the default), "compact", "checkstyle", "jslint-xml", "junit", "json" and "tap".
 
 Example:
 
