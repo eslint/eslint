@@ -24,7 +24,29 @@ This rule is aimed to enforce consistent indentation style. The default style is
 
 It takes an option as the second parameter which can be `"tab"` for tab-based indentation or a positive number for space indentations.
 
+### Options
+
+The `indent` rule has two options:
+
+* Indentation style, positive number or `tab` (see rule details for examples)
+* Configuring optional validations, `Object`.
+    * `SwitchCase` - Level of switch cases indent, 0 by default.
+    * `VariableDeclarator` - Level of variable declaration indent, 1 by default.
+
+Level of indentation denotes the multiple of the indent specified. Example:
+
+* Indent of 4 spaces with `VariableDeclarator` set to 2 will indent the multi-line variable declarations with 8 spaces.
+* Indent of 2 spaces with `VariableDeclarator` set to 2 will indent the multi-line variable declarations with 4 spaces.
+* Indent of tab with `VariableDeclarator` set to 2 will indent the multi-line variable declarations with 2 tabs.
+* Indent of 2 spaces with SwitchCase set to 0 will not indent `SwitchCase` with respect to switch.
+* Indent of 2 spaces with SwitchCase set to 2 will indent `SwitchCase` with 4 space with respect to switch.
+* Indent of tabs with SwitchCase set to 2 will indent `SwitchCase` with 2 tabs with respect to switch.
+
+
 ```js
+// 2 space indentation with enabled switch cases validation
+ "indent": [2, 2, {"SwitchCase": 1}]
+
 // 4 space indention
 "indent": 2
 
@@ -33,9 +55,6 @@ It takes an option as the second parameter which can be `"tab"` for tab-based in
 
 // tabbed indentation
 "indent": [2, "tab"]
-
-// 4 space indentation with enabled switch cases validation
- "indent": [2, 4, {"indentSwitchCase": true}]
 ```
 
 The following patterns are considered warnings:
@@ -57,6 +76,26 @@ function(d) {
  }
 }
 
+// variable declarations
+// "indent": [2, 2, {"VariableDeclarator": 1}]
+var a,
+    b,
+    c;
+let a,
+    b,
+    c;
+const a,
+    b,
+    c;
+
+// switch case
+// "indent": [2, 2, {"SwitchCase": 1}]
+switch(a){
+case "a":
+    break;
+case "b":
+    break;
+}
 ```
 
 The following patterns are not warnings:
@@ -77,20 +116,29 @@ if (a) {
         e=f;
     }
 }
+
+// variable declarations
+// "indent": [2, 2, {"VariableDeclarator": 2}]
+var a,
+    b,
+    c;
+let a,
+    b,
+    c;
+const a = 1,
+    b = 2,
+    c = 3;
+
+// switch case
+// "indent": [2, 2, {"SwitchCase": 1}]
+switch(a){
+    case "a":
+        break;
+    case "b":
+        break;
+}
 ```
 
-### Options
-
-The `indent` rule has two options:
-
-* Indentation style, positive number or `tab` (see rule details for examples)
-* Configuring optional validations, `Object`.
-    * `indentSwitchCase` - indent switch cases, `false` by default.
-
-```js
-// 2 space indentation with enabled switch cases validation
- "indent": [2, 2, {"indentSwitchCase": true}]
-```
 
 ## Compatibility
 
