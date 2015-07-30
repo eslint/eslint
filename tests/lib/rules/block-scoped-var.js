@@ -77,6 +77,24 @@ eslintTester.addRuleTest("lib/rules/block-scoped-var", {
         { code: "var doStuff; let {x: y} = {x: 1}; doStuff(y);", ecmaFeatures: { blockBindings: true, destructuring: true }},
         { code: "function foo({x: y}) { return y; }", ecmaFeatures: { blockBindings: true, destructuring: true }},
 
+        // those are the same as `no-undef`.
+        { code: "!function f(){}; f" },
+        { code: "var f = function foo() { }; foo(); var exports = { f: foo };" },
+        { code: "var f = () => { x; }", ecmaFeatures: { arrowFunctions: true } },
+        { code: "function f(){ x; }" },
+        { code: "var eslint = require('eslint');" },
+        { code: "function f(a) { return a[b]; }" },
+        { code: "function f() { return b.a; }" },
+        { code: "var a = { foo: bar };" },
+        { code: "var a = { foo: foo };" },
+        { code: "var a = { bar: 7, foo: bar };" },
+        { code: "var a = arguments;" },
+        { code: "function x(){}; var a = arguments;" },
+        { code: "function z(b){}; var a = b;" },
+        { code: "function z(){var b;}; var a = b;" },
+        { code: "function f(){ try{}catch(e){} e }" },
+        { code: "a:b;" },
+
         // https://github.com/eslint/eslint/issues/2253
         { code: "/*global React*/ let {PropTypes, addons: {PureRenderMixin}} = React; let Test = React.createClass({mixins: [PureRenderMixin]});", ecmaFeatures: { blockBindings: true, destructuring: true }},
         { code: "/*global prevState*/ const { virtualSize: prevVirtualSize = 0 } = prevState;", ecmaFeatures: { blockBindings: true, destructuring: true }},
@@ -90,26 +108,10 @@ eslintTester.addRuleTest("lib/rules/block-scoped-var", {
         { code: "(function () { foo(); })(); function foo() {}", ecmaFeatures: { modules: true }}
     ],
     invalid: [
-        { code: "!function f(){}; f", errors: [{ message: "\"f\" used outside of binding context." }] },
-        { code: "var f = function foo() { }; foo(); var exports = { f: foo };", errors: [{ message: "\"foo\" used outside of binding context." }, { message: "\"foo\" used outside of binding context."}] },
-        { code: "var f = () => { x; }", ecmaFeatures: { arrowFunctions: true }, errors: [{ message: "\"x\" used outside of binding context.", type: "Identifier" }] },
-        { code: "function f(){ x; }", errors: [{ message: "\"x\" used outside of binding context.", type: "Identifier" }] },
         { code: "function f(){ x; { var x; } }", errors: [{ message: "\"x\" used outside of binding context.", type: "Identifier" }] },
         { code: "function f(){ { var x; } x; }", errors: [{ message: "\"x\" used outside of binding context.", type: "Identifier" }] },
         { code: "function f() { var a; { var b = 0; } a = b; }", errors: [{ message: "\"b\" used outside of binding context.", type: "Identifier" }] },
         { code: "function f() { try { var a = 0; } catch (e) { var b = a; } }", errors: [{ message: "\"a\" used outside of binding context.", type: "Identifier" }] },
-        { code: "var eslint = require('eslint');", globals: {}, errors: [{ message: "\"require\" used outside of binding context.", type: "Identifier" }] },
-        { code: "function f(a) { return a[b]; }", errors: [{ message: "\"b\" used outside of binding context.", type: "Identifier" }] },
-        { code: "function f() { return b.a; }", errors: [{ message: "\"b\" used outside of binding context.", type: "Identifier" }] },
-        { code: "var a = { foo: bar };", errors: [{ message: "\"bar\" used outside of binding context.", type: "Identifier" }] },
-        { code: "var a = { foo: foo };", errors: [{ message: "\"foo\" used outside of binding context.", type: "Identifier" }] },
-        { code: "var a = { bar: 7, foo: bar };", errors: [{ message: "\"bar\" used outside of binding context.", type: "Identifier" }] },
-        { code: "var a = arguments;", errors: [{ message: "\"arguments\" used outside of binding context.", type: "Identifier" }] },
-        { code: "function x(){}; var a = arguments;", errors: [{ message: "\"arguments\" used outside of binding context.", type: "Identifier" }] },
-        { code: "function z(b){}; var a = b;", errors: [{ message: "\"b\" used outside of binding context.", type: "Identifier" }] },
-        { code: "function z(){var b;}; var a = b;", errors: [{ message: "\"b\" used outside of binding context.", type: "Identifier" }] },
-        { code: "function f(){ try{}catch(e){} e }", errors: [{ message: "\"e\" used outside of binding context.", type: "Identifier" }] },
-        { code: "a:b;", errors: [{ message: "\"b\" used outside of binding context.", type: "Identifier" }] },
         {
             code: "function a() { for(var b in {}) { var c = b; } c; }",
             errors: [{ message: "\"c\" used outside of binding context.", type: "Identifier" }]
