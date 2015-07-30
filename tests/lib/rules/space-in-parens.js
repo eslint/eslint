@@ -42,6 +42,9 @@ eslintTester.addRuleTest("lib/rules/space-in-parens", {
         { code: "var x = ( 1 + 2 ) * 3", options: ["always"] },
         { code: "var x = 'foo(bar)'", options: ["always"] },
         { code: "var x = 'bar( baz )'", options: ["always"] },
+        { code: "var foo = `(bar)`;", options: ["always"], ecmaFeatures: { templateStrings: "true" } },
+        { code: "var foo = `(bar ${baz})`;", options: ["always"], ecmaFeatures: { templateStrings: "true" } },
+        { code: "var foo = `(bar ${( 1 + 2 )})`;", options: ["always"], ecmaFeatures: { templateStrings: "true" } },
 
         { code: "bar()", options: ["never"] },
         { code: "bar(baz)", options: ["never"] },
@@ -50,6 +53,9 @@ eslintTester.addRuleTest("lib/rules/space-in-parens", {
         { code: "foo\n(  \nbar\n )\n", options: ["never"] },
         { code: "foo\n(\n bar  \n)\n", options: ["never"] },
         { code: "foo\n( \n  bar \n  )\n", options: ["never"] },
+        { code: "var foo = `( bar )`;", options: ["never"], ecmaFeatures: { templateStrings: "true" } },
+        { code: "var foo = `( bar ${baz} )`;", options: ["never"], ecmaFeatures: { templateStrings: "true" } },
+        { code: "var foo = `(bar ${(1 + 2)})`;", options: ["never"], ecmaFeatures: { templateStrings: "true" } },
 
         // exceptions
         { code: "foo({ bar: 'baz' })", options: ["always", { exceptions: ["{}"] }] },
@@ -310,6 +316,18 @@ eslintTester.addRuleTest("lib/rules/space-in-parens", {
             code: "foo\n(\nbar )\n",
             options: ["never"],
             errors: [REJECTED_SPACE_ERROR]
+        },
+        {
+            code: "var foo = `(bar ${(1 + 2 )})`;",
+            options: ["never"],
+            ecmaFeatures: { templateStrings: "true" },
+            errors: [REJECTED_SPACE_ERROR]
+        },
+        {
+            code: "var foo = `(bar ${(1 + 2 )})`;",
+            options: ["always"],
+            ecmaFeatures: { templateStrings: "true" },
+            errors: [MISSING_SPACE_ERROR]
         }
     ]
 });
