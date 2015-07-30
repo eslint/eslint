@@ -10,11 +10,11 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslint = require("../../../lib/eslint"),
-    ESLintTester = require("../../../lib/testers/eslint-tester");
+var rule = require("../../../lib/rules/quote-props"),
+    RuleTester = require("../../../lib/testers/rule-tester");
 
-var eslintTester = new ESLintTester(eslint);
-eslintTester.addRuleTest("lib/rules/quote-props", {
+var ruleTester = new RuleTester();
+ruleTester.run("quote-props", rule, {
     valid: [
         "({ '0': 0 })",
         "({ 'a': 0 })",

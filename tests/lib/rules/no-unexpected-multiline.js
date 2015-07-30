@@ -9,11 +9,11 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslint = require("../../../lib/eslint"),
-    ESLintTester = require("../../../lib/testers/eslint-tester");
+var rule = require("../../../lib/rules/no-unexpected-multiline"),
+    RuleTester = require("../../../lib/testers/rule-tester");
 
-var eslintTester = new ESLintTester(eslint);
-eslintTester.addRuleTest("lib/rules/no-unexpected-multiline", {
+var ruleTester = new RuleTester();
+ruleTester.run("no-unexpected-multiline", rule, {
     valid: [
         "(x || y).aFunction()",
         "[a, b, c].forEach(doSomething)",

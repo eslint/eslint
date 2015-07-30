@@ -9,15 +9,15 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslint = require("../../../lib/eslint"),
-    ESLintTester = require("../../../lib/testers/eslint-tester");
+var rule = require("../../../lib/rules/no-multi-spaces"),
+    RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-var eslintTester = new ESLintTester(eslint);
-eslintTester.addRuleTest("lib/rules/no-multi-spaces", {
+var ruleTester = new RuleTester();
+ruleTester.run("no-multi-spaces", rule, {
 
     valid: [
         "var a = 1;",
@@ -72,7 +72,7 @@ eslintTester.addRuleTest("lib/rules/no-multi-spaces", {
         "({ a:  b })",
         {
             code: "var  answer = 6 *  7;",
-            args: [2, { exceptions: { "VariableDeclaration": true, "BinaryExpression": true } }]
+            options: [{ exceptions: { "VariableDeclaration": true, "BinaryExpression": true } }]
         }
     ],
 
@@ -318,7 +318,7 @@ eslintTester.addRuleTest("lib/rules/no-multi-spaces", {
         },
         {
             code: "({ a:   b })",
-            args: [2, { exceptions: { "Property": false } }],
+            options: [{ exceptions: { "Property": false } }],
             errors: [{
                 message: "Multiple spaces found before 'b'.",
                 type: "Identifier"

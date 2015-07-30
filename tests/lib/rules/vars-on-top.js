@@ -11,15 +11,15 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslint = require("../../../lib/eslint"),
-    EslintTester = require("../../../lib/testers/eslint-tester");
+var rule = require("../../../lib/rules/vars-on-top"),
+    EslintTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-var eslintTester = new EslintTester(eslint);
-eslintTester.addRuleTest("lib/rules/vars-on-top", {
+var ruleTester = new EslintTester();
+ruleTester.run("vars-on-top", rule, {
 
     valid: [
         [

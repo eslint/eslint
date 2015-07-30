@@ -10,15 +10,15 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslint = require("../../../lib/eslint");
-var ESLintTester = require("../../../lib/testers/eslint-tester");
+var rule = require("../../../lib/rules/no-class-assign");
+var RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-var eslintTester = new ESLintTester(eslint);
-eslintTester.addRuleTest("lib/rules/no-class-assign", {
+var ruleTester = new RuleTester();
+ruleTester.run("no-class-assign", rule, {
     valid: [
         {code: "class A { } foo(A);", ecmaFeatures: {classes: true}},
         {code: "let A = class A { }; foo(A);", ecmaFeatures: {classes: true, blockBindings: true}},

@@ -11,8 +11,8 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslint = require("../../../lib/eslint"),
-    ESLintTester = require("../../../lib/testers/eslint-tester");
+var rule = require("../../../lib/rules/linebreak-style"),
+    RuleTester = require("../../../lib/testers/rule-tester");
 
 var EXPECTED_LF_MSG = "Expected linebreaks to be 'LF' but found 'CRLF'.",
     EXPECTED_CRLF_MSG = "Expected linebreaks to be 'CRLF' but found 'LF'.";
@@ -21,8 +21,8 @@ var EXPECTED_LF_MSG = "Expected linebreaks to be 'LF' but found 'CRLF'.",
 // Tests
 //------------------------------------------------------------------------------
 
-var eslintTester = new ESLintTester(eslint);
-eslintTester.addRuleTest("lib/rules/linebreak-style", {
+var ruleTester = new RuleTester();
+ruleTester.run("linebreak-style", rule, {
 
     valid: [
         {
@@ -31,19 +31,19 @@ eslintTester.addRuleTest("lib/rules/linebreak-style", {
         },
         {
             code: "var a = 'a',\n b = 'b';\n\n function foo(params) {\n /* do stuff */ \n }\n",
-            args: [2, "unix"]
+            options: ["unix"]
         },
         {
             code: "var a = 'a',\r\n b = 'b';\r\n\r\n function foo(params) {\r\n /* do stuff */ \r\n }\r\n",
-            args: [2, "windows"]
+            options: ["windows"]
         },
         {
             code: "var b = 'b';",
-            args: [2, "unix"]
+            options: ["unix"]
         },
         {
             code: "var b = 'b';",
-            args: [2, "windows"]
+            options: ["windows"]
         }
     ],
 
@@ -59,7 +59,7 @@ eslintTester.addRuleTest("lib/rules/linebreak-style", {
         },
         {
             code: "var a = 'a';\r\n",
-            args: [2, "unix"],
+            options: ["unix"],
             errors: [{
                 line: 1,
                 column: 13,
@@ -68,7 +68,7 @@ eslintTester.addRuleTest("lib/rules/linebreak-style", {
         },
         {
             code: "var a = 'a';\n",
-            args: [2, "windows"],
+            options: ["windows"],
             errors: [{
                 line: 1,
                 column: 13,
@@ -86,7 +86,7 @@ eslintTester.addRuleTest("lib/rules/linebreak-style", {
         },
         {
             code: "var a = 'a',\r\n b = 'b';\r\n\n function foo(params) {\r\n /* do stuff */ \n }\r\n",
-            args: [2, "windows"],
+            options: ["windows"],
             errors: [{
                 line: 3,
                 column: 1,

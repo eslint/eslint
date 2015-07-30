@@ -10,17 +10,17 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslint = require("../../../lib/eslint"),
-    ESLintTester = require("../../../lib/testers/eslint-tester");
+var rule = require("../../../lib/rules/no-loop-func"),
+    RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-var eslintTester = new ESLintTester(eslint),
+var ruleTester = new RuleTester(),
     expectedErrorMessage = "Don't make functions within a loop";
 
-eslintTester.addRuleTest("lib/rules/no-loop-func", {
+ruleTester.run("no-loop-func", rule, {
     valid: [
         "string = 'function a() {}';",
         "for (var i=0; i<l; i++) { } var a = function() { i; };",

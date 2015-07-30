@@ -8,15 +8,15 @@
 //------------------------------------------------------------------------------
 // Requirements
 //------------------------------------------------------------------------------
-var eslint = require("../../../lib/eslint"),
-    ESLintTester = require("../../../lib/testers/eslint-tester");
+var rule = require("../../../lib/rules/max-len"),
+    RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-var eslintTester = new ESLintTester(eslint);
-eslintTester.addRuleTest("lib/rules/max-len", {
+var ruleTester = new RuleTester();
+ruleTester.run("max-len", rule, {
     valid: [
         "var x = 5;\nvar x = 2;",
         {

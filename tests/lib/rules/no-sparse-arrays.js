@@ -8,15 +8,15 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslint = require("../../../lib/eslint"),
-    ESLintTester = require("../../../lib/testers/eslint-tester");
+var rule = require("../../../lib/rules/no-sparse-arrays"),
+    RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-var eslintTester = new ESLintTester(eslint);
-eslintTester.addRuleTest("lib/rules/no-sparse-arrays", {
+var ruleTester = new RuleTester();
+ruleTester.run("no-sparse-arrays", rule, {
 
     valid: [
         "var a = [ 1, 2, ]"

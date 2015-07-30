@@ -10,51 +10,51 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslint = require("../../../lib/eslint"),
-    ESLintTester = require("../../../lib/testers/eslint-tester");
+var rule = require("../../../lib/rules/func-style"),
+    RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-var eslintTester = new ESLintTester(eslint);
-eslintTester.addRuleTest("lib/rules/func-style", {
+var ruleTester = new RuleTester();
+ruleTester.run("func-style", rule, {
     valid: [
         {
             code: "function foo(){}\n function bar(){}",
-            args: [1, "declaration"]
+            options: ["declaration"]
         },
         {
             code: "foo.bar = function(){};",
-            args: [1, "declaration"]
+            options: ["declaration"]
         },
         {
             code: "(function() { /* code */ }());",
-            args: [1, "declaration"]
+            options: ["declaration"]
         },
         {
             code: "var module = (function() { return {}; }());",
-            args: [1, "declaration"]
+            options: ["declaration"]
         },
         {
             code: "var object = { foo: function(){} };",
-            args: [1, "declaration"]
+            options: ["declaration"]
         },
         {
             code: "Array.prototype.foo = function(){};",
-            args: [1, "declaration"]
+            options: ["declaration"]
         },
         {
             code: "foo.bar = function(){};",
-            args: [1, "expression"]
+            options: ["expression"]
         },
         {
             code: "var foo = function(){};\n var bar = function(){};",
-            args: [1, "expression"]
+            options: ["expression"]
         },
         {
             code: "var foo = () => {};\n var bar = () => {}",
-            args: [1, "expression"],
+            options: ["expression"],
             ecmaFeatures: { arrowFunctions: true }
         }
     ],
@@ -62,7 +62,7 @@ eslintTester.addRuleTest("lib/rules/func-style", {
     invalid: [
         {
             code: "var foo = function(){};",
-            args: [1, "declaration"],
+            options: ["declaration"],
             errors: [
                 {
                     message: "Expected a function declaration.",
@@ -72,7 +72,7 @@ eslintTester.addRuleTest("lib/rules/func-style", {
         },
         {
             code: "var foo = () => {};",
-            args: [1, "declaration"],
+            options: ["declaration"],
             ecmaFeatures: { arrowFunctions: true },
             errors: [
                 {
@@ -83,7 +83,7 @@ eslintTester.addRuleTest("lib/rules/func-style", {
         },
         {
             code: "function foo(){}",
-            args: [1, "expression"],
+            options: ["expression"],
             errors: [
                 {
                     message: "Expected a function expression.",

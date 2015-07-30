@@ -10,16 +10,16 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslint = require("../../../lib/eslint"),
-    ESLintTester = require("../../../lib/testers/eslint-tester");
+var rule = require("../../../lib/rules/dot-location"),
+    RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-var eslintTester = new ESLintTester(eslint);
+var ruleTester = new RuleTester();
 
-eslintTester.addRuleTest("lib/rules/dot-location", {
+ruleTester.run("dot-location", rule, {
     valid: [
         "obj.\nprop",
         "obj. \nprop",

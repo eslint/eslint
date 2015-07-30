@@ -10,15 +10,15 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslint = require("../../../lib/eslint"),
-    ESLintTester = require("../../../lib/testers/eslint-tester");
+var rule = require("../../../lib/rules/operator-assignment"),
+    RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-var eslintTester = new ESLintTester(eslint);
-eslintTester.addRuleTest("lib/rules/operator-assignment", {
+var ruleTester = new RuleTester();
+ruleTester.run("operator-assignment", rule, {
 
     valid: [
         "x = y",
@@ -57,11 +57,11 @@ eslintTester.addRuleTest("lib/rules/operator-assignment", {
         "x[fn()] = x[fn()] + y",
         {
             code: "x += x + y",
-            args: [2, "always"]
+            options: ["always"]
         },
         {
             code: "x = x + y",
-            args: [2, "never"]
+            options: ["never"]
         },
         "x = x < y",
         "x = x > y",
@@ -167,14 +167,14 @@ eslintTester.addRuleTest("lib/rules/operator-assignment", {
         }]
     }, {
         code: "x = x + y",
-        args: [2, "always"],
+        options: ["always"],
         errors: [{
             message: "Assignment can be replaced with operator assignment.",
             type: "AssignmentExpression"
         }]
     }, {
         code: "x += y",
-        args: [2, "never"],
+        options: ["never"],
         errors: [{
             message: "Unexpected operator assignment shorthand.",
             type: "AssignmentExpression"

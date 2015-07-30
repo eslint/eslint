@@ -9,17 +9,17 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslint = require("../../../lib/eslint"),
-    ESLintTester = require("../../../lib/testers/eslint-tester");
+var rule = require("../../../lib/rules/callback-return"),
+    RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
 // Helpers
 //------------------------------------------------------------------------------
 
 
-var eslintTester = new ESLintTester(eslint);
+var ruleTester = new RuleTester();
 
-eslintTester.addRuleTest("lib/rules/callback-return", {
+ruleTester.run("callback-return", rule, {
     valid: [
 
         // callbacks inside of functions should  return

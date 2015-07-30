@@ -9,15 +9,15 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslint = require("../../../lib/eslint"),
-    ESLintTester = require("../../../lib/testers/eslint-tester");
+var rule = require("../../../lib/rules/new-cap"),
+    RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-var eslintTester = new ESLintTester(eslint);
-eslintTester.addRuleTest("lib/rules/new-cap", {
+var ruleTester = new RuleTester();
+ruleTester.run("new-cap", rule, {
     valid: [
         "var x = new Constructor();",
         "var x = new a.b.Constructor();",
@@ -44,17 +44,17 @@ eslintTester.addRuleTest("lib/rules/new-cap", {
         "var x = Symbol('symbol')",
         "var x = _();",
         "var x = $();",
-        { code: "var x = Foo(42)", args: [1, {"capIsNew": false}] },
-        { code: "var x = bar.Foo(42)", args: [1, {"capIsNew": false}] },
+        { code: "var x = Foo(42)", options: [{"capIsNew": false}] },
+        { code: "var x = bar.Foo(42)", options: [{"capIsNew": false}] },
         "var x = bar[Foo](42)",
-        {code: "var x = bar['Foo'](42)", args: [1, {"capIsNew": false}] },
+        {code: "var x = bar['Foo'](42)", options: [{"capIsNew": false}] },
         "var x = Foo.bar(42)",
-        { code: "var x = new foo(42)", args: [1, {"newIsCap": false}] },
+        { code: "var x = new foo(42)", options: [{"newIsCap": false}] },
         "var o = { 1: function() {} }; o[1]();",
         "var o = { 1: function() {} }; new o[1]();",
-        { code: "var x = Foo(42);", args: [1, { capIsNew: true, capIsNewExceptions: ["Foo"] }] },
-        { code: "var x = new foo(42);", args: [1, { newIsCap: true, newIsCapExceptions: ["foo"] }] },
-        { code: "var x = Object(42);", args: [1, { capIsNewExceptions: ["Foo"] }] },
+        { code: "var x = Foo(42);", options: [{ capIsNew: true, capIsNewExceptions: ["Foo"] }] },
+        { code: "var x = new foo(42);", options: [{ newIsCap: true, newIsCapExceptions: ["foo"] }] },
+        { code: "var x = Object(42);", options: [{ capIsNewExceptions: ["Foo"] }] },
 
         { code: "var x = Foo.Bar(42);", options: [{ capIsNewExceptions: ["Bar"] }] },
         { code: "var x = Foo.Bar(42);", options: [{ capIsNewExceptions: ["Foo.Bar"] }] },

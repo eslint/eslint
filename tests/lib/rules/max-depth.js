@@ -10,27 +10,27 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslint = require("../../../lib/eslint"),
-    ESLintTester = require("../../../lib/testers/eslint-tester");
+var rule = require("../../../lib/rules/max-depth"),
+    RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-var eslintTester = new ESLintTester(eslint);
-eslintTester.addRuleTest("lib/rules/max-depth", {
+var ruleTester = new RuleTester();
+ruleTester.run("max-depth", rule, {
     valid: [
-        { code: "function foo() { if (true) { if (false) { if (true) { } } } }", args: [1, 3] },
-        { code: "function foo() { if (true) { } else if (false) { } else if (true) { } else if (false) {} }", args: [1, 3] },
-        { code: "var foo = () => { if (true) { if (false) { if (true) { } } } }", args: [1, 3], ecmaFeatures: { arrowFunctions: true } },
+        { code: "function foo() { if (true) { if (false) { if (true) { } } } }", options: [3] },
+        { code: "function foo() { if (true) { } else if (false) { } else if (true) { } else if (false) {} }", options: [3] },
+        { code: "var foo = () => { if (true) { if (false) { if (true) { } } } }", options: [3], ecmaFeatures: { arrowFunctions: true } },
         "function foo() { if (true) { if (false) { if (true) { } } } }"
     ],
     invalid: [
-        { code: "function foo() { if (true) { if (false) { if (true) { } } } }", args: [1, 2], errors: [{ message: "Blocks are nested too deeply (3).", type: "IfStatement"}] },
-        { code: "var foo = () => { if (true) { if (false) { if (true) { } } } }", args: [1, 2], ecmaFeatures: { arrowFunctions: true }, errors: [{ message: "Blocks are nested too deeply (3).", type: "IfStatement"}] },
-        { code: "function foo() { if (true) {} else { for(;;) {} } }", args: [1, 1], errors: [{ message: "Blocks are nested too deeply (2).", type: "ForStatement"}] },
-        { code: "function foo() { while (true) { if (true) {} } }", args: [1, 1], errors: [{ message: "Blocks are nested too deeply (2).", type: "IfStatement"}] },
-        { code: "function foo() { for (let x of foo) { if (true) {} } }", args: [1, 1], ecmaFeatures: { blockBindings: true, forOf: true }, errors: [{ message: "Blocks are nested too deeply (2).", type: "IfStatement"}] },
-        { code: "function foo() { while (true) { if (true) { if (false) { } } } }", args: [1, 1], errors: [{ message: "Blocks are nested too deeply (2).", type: "IfStatement"}, { message: "Blocks are nested too deeply (3).", type: "IfStatement"}] }
+        { code: "function foo() { if (true) { if (false) { if (true) { } } } }", options: [2], errors: [{ message: "Blocks are nested too deeply (3).", type: "IfStatement"}] },
+        { code: "var foo = () => { if (true) { if (false) { if (true) { } } } }", options: [2], ecmaFeatures: { arrowFunctions: true }, errors: [{ message: "Blocks are nested too deeply (3).", type: "IfStatement"}] },
+        { code: "function foo() { if (true) {} else { for(;;) {} } }", options: [1], errors: [{ message: "Blocks are nested too deeply (2).", type: "ForStatement"}] },
+        { code: "function foo() { while (true) { if (true) {} } }", options: [1], errors: [{ message: "Blocks are nested too deeply (2).", type: "IfStatement"}] },
+        { code: "function foo() { for (let x of foo) { if (true) {} } }", options: [1], ecmaFeatures: { blockBindings: true, forOf: true }, errors: [{ message: "Blocks are nested too deeply (2).", type: "IfStatement"}] },
+        { code: "function foo() { while (true) { if (true) { if (false) { } } } }", options: [1], errors: [{ message: "Blocks are nested too deeply (2).", type: "IfStatement"}, { message: "Blocks are nested too deeply (3).", type: "IfStatement"}] }
     ]
 });

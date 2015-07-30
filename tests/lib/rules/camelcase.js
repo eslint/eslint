@@ -10,15 +10,15 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslint = require("../../../lib/eslint"),
-    ESLintTester = require("../../../lib/testers/eslint-tester");
+var rule = require("../../../lib/rules/camelcase"),
+    RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-var eslintTester = new ESLintTester(eslint);
-eslintTester.addRuleTest("lib/rules/camelcase", {
+var ruleTester = new RuleTester();
+ruleTester.run("camelcase", rule, {
     valid: [
         "firstName = \"Nicholas\"",
         "FIRST_NAME = \"Nicholas\"",
@@ -39,23 +39,23 @@ eslintTester.addRuleTest("lib/rules/camelcase", {
         "if (foo.bar_baz === boom.bam_pow) { [foo.baz_boom] }",
         {
             code: "var o = {key: 1}",
-            args: [2, {properties: "always"}]
+            options: [{properties: "always"}]
         },
         {
             code: "var o = {bar_baz: 1}",
-            args: [2, {properties: "never"}]
+            options: [{properties: "never"}]
         },
         {
             code: "obj.a_b = 2;",
-            args: [2, {properties: "never"}]
+            options: [{properties: "never"}]
         },
         {
             code: "var obj = {\n a_a: 1 \n};\n obj.a_b = 2;",
-            args: [2, {properties: "never"}]
+            options: [{properties: "never"}]
         },
         {
             code: "obj.foo_bar = function(){};",
-            args: [2, {properties: "never"}]
+            options: [{properties: "never"}]
         }
     ],
     invalid: [
@@ -151,7 +151,7 @@ eslintTester.addRuleTest("lib/rules/camelcase", {
         },
         {
             code: "var o = {bar_baz: 1}",
-            args: [2, {properties: "always"}],
+            options: [{properties: "always"}],
             errors: [
                 {
                     message: "Identifier 'bar_baz' is not in camel case.",
@@ -161,7 +161,7 @@ eslintTester.addRuleTest("lib/rules/camelcase", {
         },
         {
             code: "obj.a_b = 2;",
-            args: [2, {properties: "always"}],
+            options: [{properties: "always"}],
             errors: [
                 {
                     message: "Identifier 'a_b' is not in camel case.",
@@ -171,7 +171,7 @@ eslintTester.addRuleTest("lib/rules/camelcase", {
         },
         {
             code: "obj.a_b = 2;",
-            args: [2, {properties: "always"}],
+            options: [{properties: "always"}],
             errors: [
                 {
                     message: "Identifier 'a_b' is not in camel case.",

@@ -9,16 +9,16 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslint = require("../../../lib/eslint"),
-    ESLintTester = require("../../../lib/testers/eslint-tester");
+var rule = require("../../../lib/rules/wrap-regex"),
+    RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
 
-var eslintTester = new ESLintTester(eslint);
-eslintTester.addRuleTest("lib/rules/wrap-regex", {
+var ruleTester = new RuleTester();
+ruleTester.run("wrap-regex", rule, {
     valid: [
         "(/foo/).test(bar);",
         "(/foo/ig).test(bar);",

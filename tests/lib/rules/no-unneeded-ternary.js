@@ -9,15 +9,15 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslint = require("../../../lib/eslint"),
-    ESLintTester = require("../../../lib/testers/eslint-tester");
+var rule = require("../../../lib/rules/no-unneeded-ternary"),
+    RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-var eslintTester = new ESLintTester(eslint);
-eslintTester.addRuleTest("lib/rules/no-unneeded-ternary", {
+var ruleTester = new RuleTester();
+ruleTester.run("no-unneeded-ternary", rule, {
     valid: [
         "config.newIsCap = config.newIsCap !== false",
         "var a = x === 2 ? 'Yes' : 'No';",

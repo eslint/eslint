@@ -10,42 +10,42 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslint = require("../../../lib/eslint"),
-    ESLintTester = require("../../../lib/testers/eslint-tester");
+var rule = require("../../../lib/rules/max-nested-callbacks"),
+    RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-var eslintTester = new ESLintTester(eslint);
-eslintTester.addRuleTest("lib/rules/max-nested-callbacks", {
+var ruleTester = new RuleTester();
+ruleTester.run("max-nested-callbacks", rule, {
     valid: [
-        { code: "foo(function() { bar(thing, function(data) {}); });", args: [1, 3] },
-        { code: "var foo = function() {}; bar(function(){ baz(function() { qux(foo); }) });", args: [1, 2] },
-        { code: "fn(function(){}, function(){}, function(){});", args: [1, 2] },
-        { code: "fn(() => {}, function(){}, function(){});", args: [1, 2], ecmaFeatures: { arrowFunctions: true } }
+        { code: "foo(function() { bar(thing, function(data) {}); });", options: [3] },
+        { code: "var foo = function() {}; bar(function(){ baz(function() { qux(foo); }) });", options: [2] },
+        { code: "fn(function(){}, function(){}, function(){});", options: [2] },
+        { code: "fn(() => {}, function(){}, function(){});", options: [2], ecmaFeatures: { arrowFunctions: true } }
     ],
     invalid: [
         {
             code: "foo(function() { bar(thing, function(data) { baz(function() {}); }); });",
-            args: [1, 2],
+            options: [2],
             errors: [{ message: "Too many nested callbacks (3). Maximum allowed is 2.", type: "FunctionExpression"}]
         },
         {
             code: "foo(function() { bar(thing, (data) => { baz(function() {}); }); });",
-            args: [1, 2],
+            options: [2],
             ecmaFeatures: { arrowFunctions: true },
             errors: [{ message: "Too many nested callbacks (3). Maximum allowed is 2.", type: "FunctionExpression"}]
         },
         {
             code: "foo(() => { bar(thing, (data) => { baz( () => {}); }); });",
-            args: [1, 2],
+            options: [2],
             ecmaFeatures: { arrowFunctions: true },
             errors: [{ message: "Too many nested callbacks (3). Maximum allowed is 2.", type: "ArrowFunctionExpression"}]
         },
         {
             code: "foo(function() { if (isTrue) { bar(function(data) { baz(function() {}); }); } });",
-            args: [1, 2],
+            options: [2],
             errors: [{ message: "Too many nested callbacks (3). Maximum allowed is 2.", type: "FunctionExpression"}]
         }
     ]

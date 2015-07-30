@@ -10,15 +10,15 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslint = require("../../../lib/eslint"),
-    ESLintTester = require("../../../lib/testers/eslint-tester");
+var rule = require("../../../lib/rules/prefer-const"),
+    RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-var eslintTester = new ESLintTester(eslint);
-eslintTester.addRuleTest("lib/rules/prefer-const", {
+var ruleTester = new RuleTester();
+ruleTester.run("prefer-const", rule, {
     valid: [
         { code: "var x = 0;" },
         { code: "let x;", ecmaFeatures: {blockBindings: true} },

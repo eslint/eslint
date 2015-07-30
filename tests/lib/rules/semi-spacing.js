@@ -10,16 +10,16 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslint = require("../../../lib/eslint"),
-    ESLintTester = require("../../../lib/testers/eslint-tester");
+var rule = require("../../../lib/rules/semi-spacing"),
+    RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-var eslintTester = new ESLintTester(eslint);
+var ruleTester = new RuleTester();
 
-eslintTester.addRuleTest("lib/rules/semi-spacing", {
+ruleTester.run("semi-spacing", rule, {
     valid: [
         "var a = 'b';",
         "var a = 'b ; c';",
