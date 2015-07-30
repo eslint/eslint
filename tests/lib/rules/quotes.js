@@ -41,7 +41,15 @@ eslintTester.addRuleTest("lib/rules/quotes", {
         { code: "\"use strict\"; 'use strong'; \"use asm\"; var foo = `backtick`;", options: ["backtick"], ecmaFeatures: { templateStrings: true }},
         { code: "function foo() { \"use strict\"; \"use strong\"; \"use asm\"; var foo = `backtick`; }", options: ["backtick"], ecmaFeatures: { templateStrings: true }},
         { code: "(function() { 'use strict'; 'use strong'; 'use asm'; var foo = `backtick`; })();", options: ["backtick"], ecmaFeatures: { templateStrings: true }},
-        { code: "(() => { \"use strict\"; \"use strong\"; \"use asm\"; var foo = `backtick`; })();", options: ["backtick"], ecmaFeatures: { arrowFunctions: true, templateStrings: true }}
+        { code: "(() => { \"use strict\"; \"use strong\"; \"use asm\"; var foo = `backtick`; })();", options: ["backtick"], ecmaFeatures: { arrowFunctions: true, templateStrings: true }},
+
+        // `backtick` should not warn import/export sources.
+        { code: "import \"a\"; import 'b';", options: ["backtick"], ecmaFeatures: { modules: true, templateStrings: true }},
+        { code: "import a from \"a\"; import b from 'b';", options: ["backtick"], ecmaFeatures: { modules: true, templateStrings: true }},
+        { code: "export * from \"a\"; export * from 'b';", options: ["backtick"], ecmaFeatures: { modules: true, templateStrings: true }},
+
+        // `backtick` should not warn property names (not computed).
+        { code: "var obj = {\"key0\": 0, 'key1': 1};", options: ["backtick"], ecmaFeatures: { templateStrings: true }}
     ],
     invalid: [
         { code: "var foo = 'bar';",
@@ -83,6 +91,15 @@ eslintTester.addRuleTest("lib/rules/quotes", {
         { code: "if (1) { \"use strict\"; var foo = `backtick`; }",
           options: ["backtick"],
           ecmaFeatures: { templateStrings: true },
-          errors: [{ message: "Strings must use backtick.", type: "Literal" }]}
+          errors: [{ message: "Strings must use backtick.", type: "Literal" }]},
+
+        // `backtick` should not warn computed property names.
+        { code: "var obj = {[\"key0\"]: 0, ['key1']: 1};",
+          options: ["backtick"],
+          ecmaFeatures: { objectLiteralComputedProperties: true, templateStrings: true },
+          errors: [
+              { message: "Strings must use backtick.", type: "Literal" },
+              { message: "Strings must use backtick.", type: "Literal" }
+          ]}
     ]
 });
