@@ -22,6 +22,8 @@ eslintTester.addRuleTest("lib/rules/init-declarations", {
         "function foo() { var foo = 0; var bar = []; }",
         "var fn = function() {};",
         "var foo = bar = 2;",
+        "for (var foo in []) {}",
+        {code: "for (var foo of []) {}", ecmaFeatures: {forOf: true}},
         {
             code: "let a = true;",
             ecmaFeatures: {
@@ -117,9 +119,16 @@ eslintTester.addRuleTest("lib/rules/init-declarations", {
     invalid: [
         {
             code: "var foo;",
-            ecmaFeatures: {
-                blockBindings: true
-            },
+            options: ["always"],
+            errors: [
+                {
+                    message: "Variable 'foo' should be initialized on declaration.",
+                    type: "VariableDeclarator"
+                }
+            ]
+        },
+        {
+            code: "for (var a in []) var foo;",
             options: ["always"],
             errors: [
                 {
