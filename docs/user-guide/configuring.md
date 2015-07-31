@@ -109,6 +109,7 @@ An environment defines global variables that are predefined. The available envir
 * `mongo` - MongoDB global variables.
 * `applescript` - AppleScript global variables.
 * `serviceworker` - Service Worker global variables.
+* `embertest` - Ember test helper globals.
 * `es6` - enable all ECMAScript 6 features except for modules.
 
 These environments are not mutually exclusive, so you can define more than one at a time.
