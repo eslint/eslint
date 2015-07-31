@@ -7,7 +7,7 @@ extends:
     "eslint:recommended"
 
 rules:
-    indent: [2, 4, {indentSwitchCase: true}]
+    indent: [2, 4, {SwitchCase: 1}]
     brace-style: [2, "1tbs"]
     camelcase: [2, { properties: "never" }]
     callback-return: [2, ["cb", "callback", "next"]]

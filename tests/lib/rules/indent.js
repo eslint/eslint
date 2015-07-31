@@ -40,14 +40,62 @@ ruleTester.run("indent", rule, {
     valid: [
         {
             code:
+            "var geometry = 2,\n" +
+            "rotate = 2;",
+            options: [2, {VariableDeclarator: 0}]
+        },
+        {
+            code:
+            "var geometry,\n" +
+            "    rotate;",
+            options: [4, {VariableDeclarator: 1}]
+        },
+        {
+            code:
+            "var geometry,\n" +
+            "\trotate;",
+            options: ["tab", {VariableDeclarator: 1}]
+        },
+        {
+            code:
+            "var geometry,\n" +
+            "  rotate;",
+            options: [2, {VariableDeclarator: 1}]
+        },
+        {
+            code:
+            "var geometry,\n" +
+            "    rotate;",
+            options: [2, {VariableDeclarator: 2}]
+        },
+        {
+            code:
+            "let geometry,\n" +
+            "    rotate;",
+            options: [2, {VariableDeclarator: 2}],
+            ecmaFeatures: {
+                blockBindings: true
+            }
+        },
+        {
+            code:
+            "const geometry = 2,\n" +
+            "    rotate = 3;",
+            options: [2, {VariableDeclarator: 2}],
+            ecmaFeatures: {
+                blockBindings: true
+            }
+        },
+        {
+            code:
             "var geometry, box, face1, face2, colorT, colorB, sprite, padding, maxWidth,\n" +
             "  height, rotate;",
-            options: [2, {"indentSwitchCase": true}]
+            options: [2, {SwitchCase: 1}]
         },
         {
             code:
             "var geometry, box, face1, face2, colorT, colorB, sprite, padding, maxWidth;",
-            options: [2, {"indentSwitchCase": true}]
+            options: [2, {SwitchCase: 1}]
         },
         {
             code:
@@ -125,7 +173,26 @@ ruleTester.run("indent", rule, {
             "    case \"test\":\n" +
             "        break;\n" +
             "}",
-            options: [4, {indentSwitchCase: true}]
+            options: [4, {SwitchCase: 1}]
+        },
+        {
+            code:
+            "switch (x) {\n" +
+            "        case \"foo\":\n" +
+            "            a();\n" +
+            "            break;\n" +
+            "        case \"bar\":\n" +
+            "            switch (y) {\n" +
+            "                    case \"1\":\n" +
+            "                        break;\n" +
+            "                    case \"2\":\n" +
+            "                        a = 6;\n" +
+            "                        break;\n" +
+            "            }\n" +
+            "        case \"test\":\n" +
+            "            break;\n" +
+            "}",
+            options: [4, {SwitchCase: 2}]
         },
         {
             code:
@@ -220,7 +287,7 @@ ruleTester.run("indent", rule, {
             "    default:\n" +
             "        break;\n" +
             "}",
-            options: [4, {indentSwitchCase: true}]
+            options: [4, {SwitchCase: 1}]
         },
         {
             code:
@@ -272,7 +339,7 @@ ruleTester.run("indent", rule, {
                 "    case 1: return console.log('hey')\n" +
                 "  }\n" +
                 "}\n",
-            options: [2, { indentSwitchCase: true }]
+            options: [2, { SwitchCase: 1 }]
         }
     ],
     invalid: [
@@ -309,7 +376,7 @@ ruleTester.run("indent", rule, {
         },
         {
             code: fixture,
-            options: [2, {indentSwitchCase: true}],
+            options: [2, {SwitchCase: 1}],
             errors: expectedErrors([
                 [5, 2, "VariableDeclaration"],
                 [10, 4, "BlockStatement"],
@@ -412,7 +479,7 @@ ruleTester.run("indent", rule, {
                 "        a();\n" +
                 "        break;\n" +
                 "}",
-            options: [4, {indentSwitchCase: true}],
+            options: [4, {SwitchCase: 1}],
             errors: expectedErrors([[4, 8, "BreakStatement"], [7, 8, "BreakStatement"]])
         },
         {
@@ -427,7 +494,7 @@ ruleTester.run("indent", rule, {
                 "    default:\n" +
                 "    break;\n" +
                 "}",
-            options: [4, {indentSwitchCase: true}],
+            options: [4, {SwitchCase: 1}],
             errors: expectedErrors([9, 8, "BreakStatement"])
         },
         {
@@ -450,7 +517,7 @@ ruleTester.run("indent", rule, {
                 "        a();\n" +
                 "    break;\n" +
                 "}",
-            options: [4, {indentSwitchCase: true}],
+            options: [4, {SwitchCase: 1}],
             errors: expectedErrors([[11, 8, "BreakStatement"], [14, 8, "BreakStatement"], [17, 8, "BreakStatement"]])
         },
         {
@@ -493,7 +560,7 @@ ruleTester.run("indent", rule, {
                 "c();\n" +
                 "break;\n" +
                 "}\n",
-            options: [4, {indentSwitchCase: true}],
+            options: [4, {SwitchCase: 1}],
             errors: expectedErrors([
                 [2, 4, "SwitchCase"],
                 [3, 8, "ExpressionStatement"],
@@ -648,7 +715,7 @@ ruleTester.run("indent", rule, {
             "    case 1: return console.log('hey')\n" +
             "  }\n" +
             "}\n",
-            options: [2, { indentSwitchCase: true }],
+            options: [2, { SwitchCase: 1 }],
             errors: expectedErrors([
                 [3, 4, "SwitchCase"]
             ])
@@ -657,9 +724,68 @@ ruleTester.run("indent", rule, {
             code:
             "var geometry, box, face1, face2, colorT, colorB, sprite, padding, maxWidth,\n" +
             "height, rotate;",
-            options: [2, {"indentSwitchCase": true}],
+            options: [2, {SwitchCase: 1}],
             errors: expectedErrors([
                 [2, 2, "VariableDeclarator"]
+            ])
+        },
+        {
+            code:
+            "switch (a) {\n" +
+            "case '1':\n" +
+            "b();\n" +
+            "break;\n" +
+            "default:\n" +
+            "c();\n" +
+            "break;\n" +
+            "}\n",
+            options: [4, {SwitchCase: 2}],
+            errors: expectedErrors([
+                [2, 8, "SwitchCase"],
+                [3, 12, "ExpressionStatement"],
+                [4, 12, "BreakStatement"],
+                [5, 8, "SwitchCase"],
+                [6, 12, "ExpressionStatement"],
+                [7, 12, "BreakStatement"]
+            ])
+        },
+        {
+            code:
+            "var geometry,\n" +
+            "rotate;",
+            options: [2, {VariableDeclarator: 1}],
+            errors: expectedErrors([
+                [2, 2, "VariableDeclarator"]
+            ])
+        },
+        {
+            code:
+            "var geometry,\n" +
+            "  rotate;",
+            options: [2, {VariableDeclarator: 2}],
+            errors: expectedErrors([
+                [2, 4, "VariableDeclarator"]
+            ])
+        },
+        {
+            code:
+            "var geometry,\n" +
+            "\trotate;",
+            options: ["tab", {VariableDeclarator: 2}],
+            errors: expectedErrors([
+                [2, 2, "VariableDeclarator"]
+            ])
+        },
+        {
+            code:
+            "let geometry,\n" +
+            "  rotate;",
+            options: [2, {VariableDeclarator: 2}],
+            ecmaFeatures: {
+                blockBindings: true
+            },
+            errors: expectedErrors([
+                [2, 4, "VariableDeclarator"]
             ])
         }
     ]
