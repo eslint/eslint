@@ -95,6 +95,18 @@ var obj = {
 };
 ```
 
+You may wish to align variable declarations or import declarations with spaces. You can add exceptions for these cases:
+
+```js
+/* eslint no-multi-spaces: [2, { exceptions: { "VariableDeclaration": true } }] */
+var someVar      = 'foo';
+var someOtherVar = 'barBaz';
+
+/* eslint no-multi-spaces: [2, { exceptions: { "ImportDeclaration": true } }] */
+import mod          from 'mod';
+import someOtherMod from 'some-other-mod';
+```
+
 ## When Not To Use It
 
 If you don't want to check and disallow multiple spaces, then you should turn this rule off.
