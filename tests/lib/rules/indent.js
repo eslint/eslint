@@ -40,6 +40,31 @@ ruleTester.run("indent", rule, {
     valid: [
         {
             code:
+            "function hi(){     var a = 1;\n" +
+            "  y++;                   x++;\n" +
+            "}",
+            options: [2, {"VariableDeclarator": 2, "SwitchCase": 1}]
+        },
+        {
+            code:
+            "for(;length > index; index++)if(NO_HOLES || index in self){\n" +
+            "  x++;\n" +
+            "}",
+            options: [2, {"VariableDeclarator": 2, "SwitchCase": 1}]
+        },
+        {
+            code:
+            "function test(){\n" +
+            "  switch(length){\n" +
+            "    case 1: return function(a){\n" +
+            "      return fn.call(that, a);\n" +
+            "    };\n" +
+            "  }\n" +
+            "}",
+            options: [2, {"VariableDeclarator": 2, "SwitchCase": 1}]
+        },
+        {
+            code:
             "var geometry = 2,\n" +
             "rotate = 2;",
             options: [2, {VariableDeclarator: 0}]
@@ -395,7 +420,6 @@ ruleTester.run("indent", rule, {
                 [114, 4, 2, "VariableDeclaration"],
                 [120, 4, 6, "VariableDeclaration"],
                 [124, 4, 2, "BreakStatement"],
-                [128, 4, 2, "BlockStatement"],
                 [134, 4, 6, "BreakStatement"],
                 [143, 4, 0, "ExpressionStatement"],
                 [151, 4, 6, "ExpressionStatement"],

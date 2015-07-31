@@ -125,7 +125,7 @@ switch (a) {
   case 'f':
     var a = 'b';
     break;
-  case 'g': {
+  case 'g':     {
     var a = 'b';
     break;
   }
