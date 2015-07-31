@@ -38,6 +38,9 @@ module.exports = {
     jasmine: {
         globals: globals.jasmine
     },
+    jest: {
+        globals: globals.jest
+    },
     phantomjs: {
         globals: globals.phantomjs
     },
