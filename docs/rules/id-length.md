@@ -50,7 +50,7 @@ var handler = function (evt) { /* do stuff */ };
 
 try {
     dangerousStuff();
-} catch (error) {  // Identifier 'e' is too short. (< 2)
+} catch (error) {
     // ignore as many do
 }
 
@@ -63,7 +63,7 @@ data["y"] = 3;  // excused because of calculated property access
 
 ### Options
 
-The `id-length` rule has no required options and has 4 optional ones that needs to be passed in a single options object:
+The `id-length` rule has no required options and has 3 optional ones that needs to be passed in a single options object:
 
 * **min** *(default: 2)*: The minimum number of characters an identifier name should be, after it is stripped from it is prefixes and suffixes
 * **max** *(default: Infinity)*: The maximum number of characters an identifier name should be, after it is stripped from it is prefixes and suffixes
