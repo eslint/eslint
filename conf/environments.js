@@ -65,6 +65,9 @@ module.exports = {
     serviceworker: {
         globals: globals.serviceworker
     },
+    embertest: {
+        globals: globals.embertest
+    },
     es6: {
         ecmaFeatures: {
             arrowFunctions: true,
