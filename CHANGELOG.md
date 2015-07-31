@@ -1,3 +1,29 @@
+v1.0.0 - July 31, 2015
+
+* Update: merge `no-reserved-keys` into `quote-props` (fixes #1539) (Jose Roberto Vidal)
+* Fix: `indent` error message (fixes #3220) (Gyandeep Singh)
+* Update: Add embertest env (fixes #3205) (ismay)
+* Docs: Correct documentation errors for `id-length` rule. (Jess Telford)
+* Breaking: `indent` rule to have node specific options (fixes #3210) (Gyandeep Singh)
+* Fix: space-after-keyword shouldn't allow newlines (fixes #3198) (Brandon Mills)
+* New: Add JSON formatter (fixes #3036) (Burak Yigit Kaya)
+* Breaking: Switch to RuleTester (fixes #3186) (Nicholas C. Zakas)
+* Breaking: remove duplicate warnings of `no-undef` from `block-scoped-var` (fixes #3201) (Toru Nagashima)
+* Fix: `init-declarations` ignores in for-in/of (fixes #3202) (Toru Nagashima)
+* Fix: `quotes` with `"backtick"` ignores ModuleSpecifier and LiteralPropertyName (fixes #3181) (Toru Nagashima)
+* Fix: space-in-parens in Template Strings (fixes #3182) (Ian VanSchooten)
+* Fix: Check for concatenation in no-throw-literal (fixes #3099, fixes #3101) (Ian VanSchooten)
+* Build: Remove `eslint-tester` from devDependencies (fixes #3189) (Gyandeep Singh)
+* Fix: Use new ESLintTester (fixes #3187) (Nicholas C. Zakas)
+* Update: `new-cap` supports fullnames (fixes #2584) (Toru Nagashima)
+* Fix: Non object rule options merge (fixes #3179) (Gyandeep Singh)
+* New: add id-match rule (fixes #2829) (Matthieu Larcher)
+* Fix: Rule options merge (fixes #3175) (Gyandeep Singh)
+* Fix: `spaced-comment` allows a mix of markers and exceptions (fixes #2895) (Toru Nagashima)
+* Fix: `block-scoped-var` issues (fixes #2253, fixes #2747, fixes #2967) (Toru Nagashima)
+* New: Add id-length rule (fixes #2784) (Burak Yigit Kaya)
+* Update: New parameters for quote-props rule (fixes #1283, fixes #1658) (Tomasz Olędzki)
+
 v1.0.0-rc-3 - July 24, 2015
 
 * Fix: Make Chai and Mocha as a dependency (fixes #3156) (Gyandeep Singh)
