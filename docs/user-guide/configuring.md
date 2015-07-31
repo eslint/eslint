@@ -100,6 +100,7 @@ An environment defines global variables that are predefined. The available envir
 * `amd` - defines `require()` and `define()` as global variables as per the [amd](https://github.com/amdjs/amdjs-api/wiki/AMD) spec.
 * `mocha` - adds all of the Mocha testing global variables.
 * `jasmine` - adds all of the Jasmine testing global variables for version 1.3 and 2.0.
+* `jest` - Jest global variables.
 * `phantomjs` - PhantomJS global variables.
 * `qunit` - QUnit global variables.
 * `jquery` - jQuery global variables.
