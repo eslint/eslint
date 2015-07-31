@@ -28,7 +28,6 @@ The following rules point out areas where you might have made mistakes.
 * [no-negated-in-lhs](no-negated-in-lhs.md) - disallow negation of the left operand of an `in` expression (recommended)
 * [no-obj-calls](no-obj-calls.md) - disallow the use of object properties of the global object (`Math` and `JSON`) as functions (recommended)
 * [no-regex-spaces](no-regex-spaces.md) - disallow multiple spaces in a regular expression literal (recommended)
-* [no-reserved-keys](no-reserved-keys.md) - disallow reserved words being used as object literal keys
 * [no-sparse-arrays](no-sparse-arrays.md) - disallow sparse arrays (recommended)
 * [no-unreachable](no-unreachable.md) - disallow unreachable statements after a return, throw, continue, or break statement (recommended)
 * [use-isnan](use-isnan.md) - disallow comparisons with the value `NaN` (recommended)
@@ -225,6 +224,7 @@ These rules existed in a previous version of ESLint but have since been replaced
 * [no-comma-dangle](no-comma-dangle.md) - disallow trailing commas in object literals (replaced by [comma-dangle](comma-dangle.md))
 * [no-empty-class](no-empty-class.md) - disallow the use of empty character classes in regular expressions (replaced by [no-empty-character-class](no-empty-character-class.md))
 * [no-extra-strict](no-extra-strict.md) - disallow unnecessary use of `"use strict";` when already in strict mode (replaced by [strict](strict.md))
+* [no-reserved-keys](no-reserved-keys.md) - disallow reserved words being used as object literal keys
 * [no-space-before-semi](no-space-before-semi.md) - disallow space before semicolon (replaced by [semi-spacing](semi-spacing.md))
 * [no-wrap-func](no-wrap-func.md) - disallow wrapping of non-IIFE statements in parens (replaced by [no-extra-parens](no-extra-parens.md))
 * [space-after-function-name](space-after-function-name.md) - require a space after function names (replaced by [space-before-function-paren](space-before-function-paren.md))
