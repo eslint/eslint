@@ -106,7 +106,7 @@ var name = "ESLint"
 
 ## When Not To Use It
 
-If you do want to enforce semicolon usage (or omission) in any particular way, then you can turn this rule off.
+If you do not want to enforce semicolon usage (or omission) in any particular way, then you can turn this rule off.
 
 ## Further Reading
 
