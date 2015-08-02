@@ -592,10 +592,10 @@ describe("eslint", function() {
 
     describe("when retrieving comments", function() {
         var code = [
-                "// my line comment",
-                "var a = 42;",
-                "/* my block comment */"
-            ].join("\n");
+            "// my line comment",
+            "var a = 42;",
+            "/* my block comment */"
+        ].join("\n");
 
         it("should attach them to all nodes", function() {
             function assertCommentCount(leading, trailing) {
