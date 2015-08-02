@@ -279,6 +279,30 @@ var formatter = CLIEngine.getFormatter();
 
 **Important:** You must pass in the `results` property of the report. Passing in `report` directly will result in an error.
 
+### getErrorResults()
+
+This is a static function on `CLIEngine`. It can be used to filter out all the non error messages from the report object.
+
+```js
+var CLIEngine = require("eslint").CLIEngine;
+
+var cli = new CLIEngine({
+    envs: ["browser", "mocha"],
+    useEslintrc: false,
+    rules: {
+        semi: 2
+    }
+});
+
+// lint myfile.js and all files in lib/
+var report = cli.executeOnFiles(["myfile.js", "lib/"]);
+
+// only get the error messages
+var errorReport = CLIEngine.getErrorResults(report.results)
+```
+
+**Important:** You must pass in the `results` property of the report. Passing in `report` directly will result in an error.
+
 ## Deprecated APIs
 
 * `cli` - the `cli` object has been deprecated in favor of `CLIEngine`. As of v1.0.0, `cli` is no longer exported and should not be used by external tools.
