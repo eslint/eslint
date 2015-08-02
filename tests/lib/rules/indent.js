@@ -40,6 +40,77 @@ ruleTester.run("indent", rule, {
     valid: [
         {
             code:
+            "var a = new abc({\n" +
+            "        a: 1,\n" +
+            "        b: 2\n" +
+            "    }),\n" +
+            "    b = 2;",
+            options: [4, {"VariableDeclarator": 1, "SwitchCase": 1}]
+        },
+        {
+            code:
+            "var a = 2,\n" +
+            "  c = {\n" +
+            "    a: 1,\n" +
+            "    b: 2\n" +
+            "  },\n" +
+            "  b = 2;",
+            options: [2, {"VariableDeclarator": 1, "SwitchCase": 1}]
+        },
+        {
+            code:
+            "var x = 2,\n" +
+            "    y = {\n" +
+            "      a: 1,\n" +
+            "      b: 2\n" +
+            "    },\n" +
+            "    b = 2;",
+            options: [2, {"VariableDeclarator": 2, "SwitchCase": 1}]
+        },
+        {
+            code:
+            "var e = {\n" +
+            "      a: 1,\n" +
+            "      b: 2\n" +
+            "    },\n" +
+            "    b = 2;",
+            options: [2, {"VariableDeclarator": 2, "SwitchCase": 1}]
+        },
+        {
+            code:
+            "var a = {\n" +
+            "  a: 1,\n" +
+            "  b: 2\n" +
+            "};",
+            options: [2, {"VariableDeclarator": 2, "SwitchCase": 1}]
+        },
+        {
+            code:
+            "function test() {\n" +
+            "  if (true ||\n " +
+            "            false){\n" +
+            "    console.log(val);\n" +
+            "  }\n" +
+            "}",
+            options: [2, {"VariableDeclarator": 2, "SwitchCase": 1}]
+        },
+        {
+            code:
+            "for (var val in obj)\n" +
+            "  if (true)\n" +
+            "    console.log(val);",
+            options: [2, {"VariableDeclarator": 2, "SwitchCase": 1}]
+        },
+        {
+            code:
+            "if(true)\n" +
+            "  if (true)\n" +
+            "    if (true)\n" +
+            "      console.log(val);",
+            options: [2, {"VariableDeclarator": 2, "SwitchCase": 1}]
+        },
+        {
+            code:
             "function hi(){     var a = 1;\n" +
             "  y++;                   x++;\n" +
             "}",
@@ -172,14 +243,6 @@ ruleTester.run("indent", rule, {
             "});\n",
             options: [4],
             ecmaFeatures: { arrowFunctions: true }
-        },
-        {
-            code:
-            "var a = new Test({\n" +
-            "        a: 1\n" +
-            "    }),\n" +
-            "    b = 4;\n",
-            options: [4]
         },
         {
             code:
@@ -434,15 +497,15 @@ ruleTester.run("indent", rule, {
                 [305, 6, 4, "ExpressionStatement"],
                 [306, 6, 8, "ExpressionStatement"],
                 [308, 2, 4, "VariableDeclarator"],
-                [311, 2, 6, "Identifier"],
-                [312, 2, 6, "Identifier"],
-                [313, 2, 6, "Identifier"],
-                [314, 0, 4, "ArrayExpression"],
+                [311, 4, 6, "Identifier"],
+                [312, 4, 6, "Identifier"],
+                [313, 4, 6, "Identifier"],
+                [314, 2, 4, "ArrayExpression"],
                 [315, 2, 4, "VariableDeclarator"],
-                [318, 2, 6, "Property"],
-                [319, 2, 6, "Property"],
-                [320, 2, 6, "Property"],
-                [321, 0, 4, "ObjectExpression"],
+                [318, 4, 6, "Property"],
+                [319, 4, 6, "Property"],
+                [320, 4, 6, "Property"],
+                [321, 2, 4, "ObjectExpression"],
                 [322, 2, 4, "VariableDeclarator"],
                 [326, 2, 1, "Literal"],
                 [327, 2, 1, "Literal"],
@@ -810,6 +873,53 @@ ruleTester.run("indent", rule, {
             },
             errors: expectedErrors([
                 [2, 4, 2, "VariableDeclarator"]
+            ])
+        },
+        {
+            code:
+            "if(true)\n" +
+            "  if (true)\n" +
+            "    if (true)\n" +
+            "    console.log(val);",
+            options: [2, {"VariableDeclarator": 2, "SwitchCase": 1}],
+            errors: expectedErrors([
+                [4, 6, 4, "ExpressionStatement"]
+            ])
+        },
+        {
+            code:
+            "var a = {\n" +
+            "    a: 1,\n" +
+            "    b: 2\n" +
+            "}",
+            options: [2, {"VariableDeclarator": 2, "SwitchCase": 1}],
+            errors: expectedErrors([
+                [2, 2, 4, "Property"],
+                [3, 2, 4, "Property"]
+            ])
+        },
+        {
+            code:
+            "var a = [\n" +
+            "    a,\n" +
+            "    b\n" +
+            "]",
+            options: [2, {"VariableDeclarator": 2, "SwitchCase": 1}],
+            errors: expectedErrors([
+                [2, 2, 4, "Identifier"],
+                [3, 2, 4, "Identifier"]
+            ])
+        },
+        {
+            code:
+            "var a = new Test({\n" +
+            "      a: 1\n" +
+            "  }),\n" +
+            "    b = 4;\n",
+            options: [4],
+            errors: expectedErrors([
+                [2, 8, 6, "Property"],
+                [3, 4, 2, "ObjectExpression"]
             ])
         }
     ]
