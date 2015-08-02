@@ -1068,6 +1068,12 @@ describe("CLIEngine", function() {
             assert.isNull(formatter);
         });
 
+        it("should return a function when called as a static function on CLIEngine", function() {
+            var formatter = CLIEngine.getFormatter();
+
+            assert.isFunction(formatter);
+        });
+
     });
 
 });
