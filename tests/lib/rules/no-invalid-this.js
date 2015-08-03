@@ -484,6 +484,15 @@ var patterns = [
         errors: errors,
         valid: [NORMAL, USE_STRICT, MODULES],
         invalid: []
+    },
+
+    // https://github.com/eslint/eslint/issues/3254
+    {
+        code: "function foo() { console.log(this); z(x => console.log(x, this)); }",
+        ecmaFeatures: {arrowFunctions: true, blockBindings: true},
+        errors: errors,
+        valid: [NORMAL],
+        invalid: [USE_STRICT, MODULES]
     }
 ];
 
