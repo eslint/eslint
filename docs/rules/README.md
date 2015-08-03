@@ -169,7 +169,7 @@ These rules are purely matters of style and are quite subjective.
 * [no-ternary](no-ternary.md) - disallow the use of ternary operators
 * [no-trailing-spaces](no-trailing-spaces.md) - disallow trailing whitespace at the end of lines
 * [no-underscore-dangle](no-underscore-dangle.md) - disallow dangling underscores in identifiers
-* [no-unneeded-ternary](no-unneeded-ternary.md) - disallow the use of `Boolean` literals in conditional expressions
+* [no-unneeded-ternary](no-unneeded-ternary.md) - disallow the use of ternary operators when a simpler alternative exists
 * [object-curly-spacing](object-curly-spacing.md) - require or disallow padding inside curly braces
 * [one-var](one-var.md) - require or disallow one variable declaration per function
 * [operator-assignment](operator-assignment.md) - require assignment operator shorthand where possible or prohibit it entirely
