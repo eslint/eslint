@@ -17,16 +17,16 @@ function invalid(code, type, line, config) {
     config = config || {};
 
     var result = {
-            code: code,
-            ecmaFeatures: config.ecmaFeatures || {},
-            errors: [
-                {
-                    message: "Gratuitous parentheses around expression.",
-                    type: type
-                }
-            ],
-            options: config.options || []
-        };
+        code: code,
+        ecmaFeatures: config.ecmaFeatures || {},
+        errors: [
+            {
+                message: "Gratuitous parentheses around expression.",
+                type: type
+            }
+        ],
+        options: config.options || []
+    };
 
     if (line) {
         result.errors[0].line = line;
