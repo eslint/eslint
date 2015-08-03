@@ -144,6 +144,7 @@ These rules are purely matters of style and are quite subjective.
 * [func-names](func-names.md) - require function expressions to have a name
 * [func-style](func-style.md) - enforce use of function declarations or expressions
 * [id-length](id-length.md) - this option enforces minimum and maximum identifier lengths (variable names, property names etc.) (off by default)
+* [id-match](id-match.md) - require identifiers to match the provided regular expression
 * [indent](indent.md) - specify tab or space width for your code
 * [key-spacing](key-spacing.md) - enforce spacing between keys and values in object literal properties
 * [lines-around-comment](lines-around-comment.md) - enforce empty lines around comments
@@ -172,7 +173,6 @@ These rules are purely matters of style and are quite subjective.
 * [padded-blocks](padded-blocks.md) - enforce padding within blocks
 * [quote-props](quote-props.md) - require quotes around object literal property names
 * [quotes](quotes.md) - specify whether backticks, double or single quotes should be used
-* [id-match](id-match.md) - require identifiers to match the provided regular expression
 * [semi-spacing](semi-spacing.md) - enforce spacing before and after semicolons
 * [semi](semi.md) - require or disallow use of semicolons instead of ASI
 * [sort-vars](sort-vars.md) - sort variables within the same declaration block
