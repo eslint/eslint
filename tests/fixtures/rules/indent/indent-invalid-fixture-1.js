@@ -322,7 +322,7 @@ var c = {
     d;
 
 // holes in arrays indentation
-[
+x = [
  1,
  1,
  1,
@@ -332,7 +332,7 @@ var c = {
  1,
  1,
  1,
- 1,
+ 1
 ];
 
 try {
