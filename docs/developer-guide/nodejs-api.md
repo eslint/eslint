@@ -270,6 +270,13 @@ var formatter = cli.getFormatter();
 console.log(formatter(report.results));
 ```
 
+**Note:** Also available as a static function on `CLIEngine`.
+
+```js
+// get the default formatter by calling the static function
+var formatter = CLIEngine.getFormatter();
+```
+
 **Important:** You must pass in the `results` property of the report. Passing in `report` directly will result in an error.
 
 ## Deprecated APIs
