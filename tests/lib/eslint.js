@@ -946,6 +946,45 @@ describe("eslint", function() {
 
             eslint.verify("if (true) { let x = 1 }", config, filename, true);
         });
+
+        it("should retrieve the function scope correctly from within a FunctionDeclaration", function() {
+            var config = { rules: {}, ecmaFeatures: { blockBindings: true } };
+
+            eslint.reset();
+            eslint.on("FunctionDeclaration", function() {
+                var scope = eslint.getScope();
+                assert.equal(scope.type, "function");
+                assert.equal(scope.block.type, "FunctionDeclaration");
+            });
+
+            eslint.verify("function foo() {}", config, filename, true);
+        });
+
+        it("should retrieve the function scope correctly from within a FunctionExpression", function() {
+            var config = { rules: {}, ecmaFeatures: { blockBindings: true } };
+
+            eslint.reset();
+            eslint.on("FunctionExpression", function() {
+                var scope = eslint.getScope();
+                assert.equal(scope.type, "function");
+                assert.equal(scope.block.type, "FunctionExpression");
+            });
+
+            eslint.verify("(function foo() {})();", config, filename, true);
+        });
+
+        it("should retrieve the catch scope correctly from within a CatchClause", function() {
+            var config = { rules: {}, ecmaFeatures: { blockBindings: true } };
+
+            eslint.reset();
+            eslint.on("CatchClause", function() {
+                var scope = eslint.getScope();
+                assert.equal(scope.type, "catch");
+                assert.equal(scope.block.type, "CatchClause");
+            });
+
+            eslint.verify("try {} catch (err) {}", config, filename, true);
+        });
     });
 
     describe("marking variables as used", function() {
