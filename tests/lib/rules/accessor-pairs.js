@@ -34,7 +34,15 @@ ruleTester.run("accessor-pairs", rule, {
             options: [{
                 setWithoutGet: false
             }]
-        }
+        },
+
+        // https://github.com/eslint/eslint/issues/3262
+        {code: "var o = {set: function() {}}"},
+        {code: "Object.defineProperties(obj, {set: {value: function() {}}});"},
+        {code: "Object.create(null, {set: {value: function() {}}});"},
+        {code: "var o = {get: function() {}}", options: [{getWithoutSet: true}]},
+        {code: "var o = {[set]: function() {}}", ecmaFeatures: {objectLiteralComputedProperties: true}},
+        {code: "var set = 'value'; Object.defineProperty(obj, 'foo', {[set]: function(value) {}});", ecmaFeatures: {objectLiteralComputedProperties: true}}
     ],
     invalid: [
         {
@@ -54,6 +62,24 @@ ruleTester.run("accessor-pairs", rule, {
         },
         {
             code: "var o = {d: 1};\n Object.defineProperty(o, 'c', \n{set: function(value) {\n val = value; \n} \n});",
+            errors: [{
+                message: "Getter is not present"
+            }]
+        },
+        {
+            code: "Reflect.defineProperty(obj, 'foo', {set: function(value) {}});",
+            errors: [{
+                message: "Getter is not present"
+            }]
+        },
+        {
+            code: "Object.defineProperties(obj, {foo: {set: function(value) {}}});",
+            errors: [{
+                message: "Getter is not present"
+            }]
+        },
+        {
+            code: "Object.create(null, {foo: {set: function(value) {}}});",
             errors: [{
                 message: "Getter is not present"
             }]
