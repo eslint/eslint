@@ -1076,4 +1076,38 @@ describe("CLIEngine", function() {
 
     });
 
+    describe("getErrorResults()", function() {
+        it("should report 4 error message when looking for errors only", function() {
+
+            var engine = new CLIEngine();
+
+            var report = CLIEngine.getErrorResults(engine.executeOnText("var foo = 'bar';").results);
+            assert.lengthOf(report[0].messages, 4);
+            assert.equal(report[0].messages[0].ruleId, "strict");
+            assert.equal(report[0].messages[0].severity, 2);
+            assert.equal(report[0].messages[1].ruleId, "eol-last");
+            assert.equal(report[0].messages[1].severity, 2);
+            assert.equal(report[0].messages[2].ruleId, "no-unused-vars");
+            assert.equal(report[0].messages[2].severity, 2);
+            assert.equal(report[0].messages[3].ruleId, "quotes");
+            assert.equal(report[0].messages[3].severity, 2);
+        });
+
+        it("should return 0 error messages even when the file has warnings", function() {
+            var engine = new CLIEngine({
+                ignorePath: "tests/fixtures/.eslintignore"
+            });
+
+            var report = engine.executeOnText("var bar = foo;", "tests/fixtures/passing.js");
+            var errorReport = CLIEngine.getErrorResults(report.results);
+
+            assert.lengthOf(errorReport, 0);
+            assert.lengthOf(report.results, 1);
+            assert.equal(report.errorCount, 0);
+            assert.equal(report.warningCount, 1);
+            assert.equal(report.results[0].errorCount, 0);
+            assert.equal(report.results[0].warningCount, 1);
+        });
+    });
+
 });
