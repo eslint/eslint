@@ -38,7 +38,8 @@ ruleTester.run("id-length", rule, {
         { code: "var x = Foo(42)", options: [{"min": 0}] },
         { code: "foo.$x = Foo(42)", options: [{"min": 1}] },
         { code: "var lalala = Foo(42)", options: [{"max": 6}] },
-        { code: "for (var q, h=0; h < 10; h++) { console.log(h); q++;}", options: [{exceptions: ["h", "q"]}] }
+        { code: "for (var q, h=0; h < 10; h++) { console.log(h); q++;}", options: [{exceptions: ["h", "q"]}] },
+        { code: "(num) => { num * num };", ecmaFeatures: { arrowFunctions: true } }
     ],
     invalid: [
         { code: "var x = 1;", errors: [{ message: "Identifier name 'x' is too short. (< 2)", type: "Identifier"}] },
@@ -55,6 +56,9 @@ ruleTester.run("id-length", rule, {
         ]},
         { code: "var _$x$_t$ = Foo(42)", options: [{"min": 2, "max": 4}], errors: [
             { message: "Identifier name '_$x$_t$' is too long. (> 4)", type: "Identifier"}
-        ] }
+        ]},
+        { code: "(a) => { a * a };", ecmaFeatures: { arrowFunctions: true}, errors: [
+            { message: "Identifier name 'a' is too short. (< 2)", type: "Identifier"}
+        ]}
     ]
 });
