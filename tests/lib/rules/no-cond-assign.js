@@ -31,7 +31,8 @@ ruleTester.run("no-cond-assign", rule, {
         "if (someNode || (someNode = parentNode)) { }",
         "while (someNode || (someNode = parentNode)) { }",
         "do { } while (someNode || (someNode = parentNode));",
-        "if ((function(node) { return (node = parentNode); })(someNode)) { }"
+        "if ((function(node) { return (node = parentNode); })(someNode)) { }",
+        { code: "x = 0;", options: ["always"] }
     ],
     invalid: [
         { code: "var x; if (x = 0) { var b = 1; }", errors: [{ message: ERROR_MESSAGE, type: "IfStatement"}] },
@@ -43,6 +44,14 @@ ruleTester.run("no-cond-assign", rule, {
         { code: "while (someNode || (someNode = parentNode)) { }", options: ["always"], errors: [{ message: "Unexpected assignment within a 'while' statement.", type: "WhileStatement"}] },
         { code: "do { } while (someNode || (someNode = parentNode));", options: ["always"], errors: [{ message: "Unexpected assignment within a 'do...while' statement.", type: "DoWhileStatement"}] },
         { code: "for (; (typeof l === 'undefined' ? (l = 0) : l); i++) { }", options: ["always"], errors: [{ message: "Unexpected assignment within a 'for' statement.", type: "ForStatement"}] },
-        { code: "if ((function(node) { return (node = parentNode); })(someNode)) { }", options: ["always"], errors: [{ message: "Unexpected assignment within an 'if' statement.", type: "IfStatement"}] }
+        { code: "if ((function(node) { return (node = parentNode); })(someNode)) { }", options: ["always"], errors: [{ message: "Unexpected assignment within an 'if' statement.", type: "IfStatement"}] },
+        { code: "if (x = 0) { }", options: ["always"], errors: [{ message: "Unexpected assignment within an 'if' statement.", type: "IfStatement"}] },
+        { code: "while (x = 0) { }", options: ["always"], errors: [{ message: "Unexpected assignment within a 'while' statement.", type: "WhileStatement"}] },
+        { code: "do { } while (x = x + 1);", options: ["always"], errors: [{ message: "Unexpected assignment within a 'do...while' statement.", type: "DoWhileStatement"}] },
+        { code: "for(; x = y; ) { }", options: ["always"], errors: [{ message: "Unexpected assignment within a 'for' statement.", type: "ForStatement"}] },
+        { code: "if ((x = 0)) { }", options: ["always"], errors: [{ message: "Unexpected assignment within an 'if' statement.", type: "IfStatement"}] },
+        { code: "while ((x = 0)) { }", options: ["always"], errors: [{ message: "Unexpected assignment within a 'while' statement.", type: "WhileStatement"}] },
+        { code: "do { } while ((x = x + 1));", options: ["always"], errors: [{ message: "Unexpected assignment within a 'do...while' statement.", type: "DoWhileStatement"}] },
+        { code: "for(; (x = y); ) { }", options: ["always"], errors: [{ message: "Unexpected assignment within a 'for' statement.", type: "ForStatement"}] }
     ]
 });
