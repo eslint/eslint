@@ -138,6 +138,67 @@ while (true) {
 }
 ```
 
+You can use another configuration that forces brace-less `if`, `else if`, `else`, `for`, `while`, or `do` if their body contains only one single-line statement. And forces braces in all other cases.
+
+```json
+curly: [2, "multi-or-nest"]
+```
+
+With this configuration, the rule will warn for these patterns:
+
+```js
+if (foo)
+    return {
+        bar: baz,
+        qux: foo
+    };
+
+while (true)
+  if(foo)
+      doSomething();
+  else
+      doSomethingElse();
+
+if (foo) {
+    return;
+}
+
+while (true) {
+    doSomething();
+}
+
+for (var i = 0; foo; i++) {
+    doSomething();
+}
+```
+
+It will not warn for these patterns:
+
+```js
+if (foo) {
+    return {
+        bar: baz,
+        qux: foo
+    };
+}
+
+while (true) {
+  if(foo)
+      doSomething();
+  else
+      doSomethingElse();
+}
+
+if (foo)
+    return;
+
+while (true)
+    doSomething();
+
+for (var i = 0; foo; i++)
+    doSomething();
+```
+
 The default configuration is:
 
 ```json

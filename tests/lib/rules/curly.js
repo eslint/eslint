@@ -67,7 +67,32 @@ ruleTester.run("curly", rule, {
         {
             code: "do bar() \n while (foo)",
             options: ["multi-line"]
+        },
+        {
+            code: "if (foo) { \n quz = { \n bar: baz, \n qux: foo \n }; \n }",
+            options: ["multi-or-nest"]
+        },
+        {
+            code: "while (true) { \n if (foo) \n doSomething(); \n else \n doSomethingElse(); \n }",
+            options: ["multi-or-nest"]
+        },
+        {
+            code: "if (foo) \n quz = true;",
+            options: ["multi-or-nest"]
+        },
+        {
+            code: "while (true) \n doSomething();",
+            options: ["multi-or-nest"]
+        },
+        {
+            code: "for (var i = 0; foo; i++) \n doSomething();",
+            options: ["multi-or-nest"]
+        },
+        {
+            code: "if (foo) { \n if(bar) \n doSomething(); \n } else \n doSomethingElse();",
+            options: ["multi-or-nest"]
         }
+
     ],
     invalid: [
         {
@@ -212,6 +237,56 @@ ruleTester.run("curly", rule, {
                 {
                     message: "Expected { after 'do'.",
                     type: "DoWhileStatement"
+                }
+            ]
+        },
+        {
+            code: "if (foo) \n quz = { \n bar: baz, \n qux: foo \n };",
+            options: ["multi-or-nest"],
+            errors: [
+                {
+                    message: "Expected { after 'if' condition.",
+                    type: "IfStatement"
+                }
+            ]
+        },
+        {
+            code: "while (true) \n if (foo) \n doSomething(); \n else \n doSomethingElse(); \n",
+            options: ["multi-or-nest"],
+            errors: [
+                {
+                    message: "Expected { after 'while' condition.",
+                    type: "WhileStatement"
+                }
+            ]
+        },
+        {
+            code: "if (foo) { \n quz = true; \n }",
+            options: ["multi-or-nest"],
+            errors: [
+                {
+                    message: "Unnecessary { after 'if' condition.",
+                    type: "IfStatement"
+                }
+            ]
+        },
+        {
+            code: "while (true) { \n doSomething(); \n }",
+            options: ["multi-or-nest"],
+            errors: [
+                {
+                    message: "Unnecessary { after 'while' condition.",
+                    type: "WhileStatement"
+                }
+            ]
+        },
+        {
+            code: "for (var i = 0; foo; i++) { \n doSomething(); \n }",
+            options: ["multi-or-nest"],
+            errors: [
+                {
+                    message: "Unnecessary { after 'for' condition.",
+                    type: "ForStatement"
                 }
             ]
         }
