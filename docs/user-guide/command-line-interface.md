@@ -219,7 +219,7 @@ Example:
 
     eslint -v
 
-### '--init'
+### `--init`
 
 This option will start config initialization wizard. It's designed to help new users quickly create .eslintrc file by answering a few questions. File will be created in current directory.
 
