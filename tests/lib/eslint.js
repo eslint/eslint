@@ -2054,6 +2054,30 @@ describe("eslint", function() {
             assert.equal(messages[2].column, 18);
         });
 
+        // only test in Node.js, not browser
+        if (typeof window === "undefined") {
+            it("should accept a pregenerated ast", function() {
+
+                var SourceCode = require("../../lib/sourcecode");
+
+                var config = { parser: "espree", rules: { "no-mixed-spaces-and-tabs": 1, "eol-last": 1, "semi": [1, "always"] } };
+
+                var code = "foo()\n    alert('test')";
+                var parseResult = require("../fixtures/parseresults/foo-alert.json");
+
+                var sourceCode = new SourceCode(code, parseResult);
+
+                var messages = eslint.verify(sourceCode, config, filename);
+                assert.equal(messages.length, 3);
+                assert.equal(messages[0].line, 1);
+                assert.equal(messages[0].column, 6);
+                assert.equal(messages[1].line, 2);
+                assert.equal(messages[1].column, 2);
+                assert.equal(messages[2].line, 2);
+                assert.equal(messages[2].column, 18);
+            });
+        }
+
         it("should properly parse let declaration when passed ecmaFeatures", function() {
 
             var messages = eslint.verify("let x = 5;", {
