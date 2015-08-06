@@ -67,13 +67,12 @@ ruleTester.run("no-extend-native", rule, {
             type: "CallExpression"
         }]
     },
-        {
-            code: "Number['prototype']['p'] = 0",
-            options: [{exceptions: ["Object"]}],
-            errors: [{
-                message: "Number prototype is read only, properties should not be added.",
-                type: "AssignmentExpression"
-            }]
-        }
-    ]
+    {
+        code: "Number['prototype']['p'] = 0",
+        options: [{exceptions: ["Object"]}],
+        errors: [{
+            message: "Number prototype is read only, properties should not be added.",
+            type: "AssignmentExpression"
+        }]
+    }]
 });

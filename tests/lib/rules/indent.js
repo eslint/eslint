@@ -40,6 +40,131 @@ ruleTester.run("indent", rule, {
     valid: [
         {
             code:
+            "test(123, {\n" +
+            "    bye: {\n" +
+            "        hi: [1,\n" +
+            "            {\n" +
+            "                b: 2\n" +
+            "            }\n" +
+            "        ]\n" +
+            "    }\n" +
+            "});",
+            options: [4, {"VariableDeclarator": 1, "SwitchCase": 1}]
+        },
+        {
+            code:
+            "var xyz = 2,\n" +
+            "    lmn = [\n" +
+            "        {\n" +
+            "            a: 1\n" +
+            "        }\n" +
+            "    ];",
+            options: [4, {"VariableDeclarator": 1, "SwitchCase": 1}]
+        },
+        {
+            code:
+            "lmn = [{\n" +
+            "    a: 1\n" +
+            "},\n" +
+            "{\n" +
+            "    b: 2\n" +
+            "}," +
+            "{\n" +
+            "    x: 2\n" +
+            "}];",
+            options: [4, {"VariableDeclarator": 1, "SwitchCase": 1}]
+        },
+        {
+            code:
+            "abc({\n" +
+            "    test: [\n" +
+            "        [\n" +
+            "            c,\n" +
+            "            xyz,\n" +
+            "            2\n" +
+            "        ].join(',')\n" +
+            "    ]\n" +
+            "});",
+            options: [4, {"VariableDeclarator": 1, "SwitchCase": 1}]
+        },
+        {
+            code:
+            "abc = {\n" +
+            "  test: [\n" +
+            "    [\n" +
+            "      c,\n" +
+            "      xyz,\n" +
+            "      2\n" +
+            "    ]\n" +
+            "  ]\n" +
+            "};",
+            options: [2, {"VariableDeclarator": 1, "SwitchCase": 1}]
+        },
+        {
+            code:
+            "abc(\n" +
+            "  {\n" +
+            "    a: 1,\n" +
+            "    b: 2\n" +
+            "  }\n" +
+            ");",
+            options: [2, {"VariableDeclarator": 1, "SwitchCase": 1}]
+        },
+        {
+            code:
+            "abc({\n" +
+            "    a: 1,\n" +
+            "    b: 2\n" +
+            "});",
+            options: [4, {"VariableDeclarator": 1, "SwitchCase": 1}]
+        },
+        {
+            code:
+            "var abc = \n" +
+            "  [\n" +
+            "    c,\n" +
+            "    xyz,\n" +
+            "    {\n" +
+            "      a: 1,\n" +
+            "      b: 2\n" +
+            "    }\n" +
+            "  ];",
+            options: [2, {"VariableDeclarator": 1, "SwitchCase": 1}]
+        },
+        {
+            code:
+            "var abc = [\n" +
+            "  c,\n" +
+            "  xyz,\n" +
+            "  {\n" +
+            "    a: 1,\n" +
+            "    b: 2\n" +
+            "  }\n" +
+            "];",
+            options: [2, {"VariableDeclarator": 1, "SwitchCase": 1}]
+        },
+        {
+            code:
+            "var abc = 5,\n" +
+            "    c = 2,\n" +
+            "    xyz = \n" +
+            "    {\n" +
+            "      a: 1,\n" +
+            "      b: 2\n" +
+            "    };",
+            options: [2, {"VariableDeclarator": 2, "SwitchCase": 1}]
+        },
+        {
+            code:
+            "var abc = \n" +
+            "    {\n" +
+            "      a: 1,\n" +
+            "      b: 2\n" +
+            "    };",
+            options: [2, {"VariableDeclarator": 2, "SwitchCase": 1}]
+        },
+        {
+            code:
             "var a = new abc({\n" +
             "        a: 1,\n" +
             "        b: 2\n" +
@@ -920,6 +1045,38 @@ ruleTester.run("indent", rule, {
             errors: expectedErrors([
                 [2, 8, 6, "Property"],
                 [3, 4, 2, "ObjectExpression"]
+            ])
+        },
+        {
+            code:
+            "var abc = 5,\n" +
+            "    c = 2,\n" +
+            "    xyz = \n" +
+            "     {\n" +
+            "       a: 1,\n" +
+            "        b: 2\n" +
+            "     };",
+            options: [2, {"VariableDeclarator": 2, "SwitchCase": 1}],
+            errors: expectedErrors([
+                [4, 4, 5, "ObjectExpression"],
+                [5, 6, 7, "Property"],
+                [6, 6, 8, "Property"],
+                [7, 4, 5, "ObjectExpression"]
+            ])
+        },
+        {
+            code:
+            "var abc = \n" +
+            "     {\n" +
+            "       a: 1,\n" +
+            "        b: 2\n" +
+            "     };",
+            options: [2, {"VariableDeclarator": 2, "SwitchCase": 1}],
+            errors: expectedErrors([
+                [2, 4, 5, "ObjectExpression"],
+                [3, 6, 7, "Property"],
+                [4, 6, 8, "Property"],
+                [5, 4, 5, "ObjectExpression"]
             ])
         }
     ]
