@@ -287,6 +287,22 @@ ruleTester.run("valid-jsdoc", rule, {
                 message: "Unexpected @returns tag; function has no return statement.",
                 type: "Block"
             }]
+        },
+        {
+            code: "/**\n * Some text\n *\n * @param arg [optional] text description\n */\nfunction testFunction(arg) {}",
+            options: [{"requireReturn": false,
+                       "requireParamDescription": false,
+                       "requireReturnDescription": false}],
+            errors: [
+                {
+                    message: "Missing JSDoc parameter type for \'undefined\'.",
+                    type: "Block"
+                },
+                {
+                    message: "Missing JSDoc for parameter \'arg\'.",
+                    type: "Block"
+                }
+            ]
         }
     ]
 });
