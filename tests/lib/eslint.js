@@ -2167,6 +2167,39 @@ describe("eslint", function() {
                 }
             }, "filename");
         });
+
+        it("should be able to use es6 features if there is a comment which has \"eslint-env es6\"", function() {
+            var code = [
+                "/* eslint-env es6 */",
+                "var arrow = () => 0;",
+                "var binary = 0b1010;",
+                "{ let a = 0; const b = 1; }",
+                "class A {}",
+                "function defaultParams(a = 0) {}",
+                "var {a = 1, b = 2} = {};",
+                "for (var a of []) {}",
+                "function* generator() { yield 0; }",
+                "var computed = {[a]: 0};",
+                "var duplicate = {dup: 0, dup: 1};",
+                "var method = {foo() {}};",
+                "var property = {a, b};",
+                "var octal = 0o755;",
+                "var u = /^.$/u.test('𠮷');",
+                "var y = /hello/y.test('hello');",
+                "function restParam(a, ...rest) {}",
+                "function superInFunc() { super.foo(); }",
+                "var template = `hello, ${a}`;",
+                "var unicode = '\\u{20BB7}';"
+            ].join("\n");
+
+            var messages = eslint.verify(code, null, "eslint-env es6");
+            assert.equal(messages.length, 0);
+        });
+
+        it("should be able to return in global if there is a comment which has \"eslint-env node\"", function() {
+            var messages = eslint.verify("/* eslint-env node */ return;", null, "eslint-env node");
+            assert.equal(messages.length, 0);
+        });
     });
 
     describe("getDeclaredVariables(node)", function() {
