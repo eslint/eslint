@@ -91,7 +91,9 @@ module.exports = {
             objectLiteralDuplicateProperties: true,
             generators: true,
             destructuring: true,
-            classes: true
+            classes: true,
+            spread: true,
+            newTarget: true
         }
     }
 };
