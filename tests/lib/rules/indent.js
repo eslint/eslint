@@ -40,6 +40,13 @@ ruleTester.run("indent", rule, {
     valid: [
         {
             code:
+            "a = [\n" +
+            "    ,3\n" +
+            "]",
+            options: [4, {"VariableDeclarator": 1, "SwitchCase": 1}]
+        },
+        {
+            code:
             "test(123, {\n" +
             "    bye: {\n" +
             "        hi: [1,\n" +
