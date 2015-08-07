@@ -21,4 +21,7 @@ describe("api", function() {
     it("should have linter exposed", function() {
         assert.isObject(api.linter);
     });
+    it("should have SourceCode exposed", function() {
+        assert.isFunction(api.SourceCode);
+    });
 });
