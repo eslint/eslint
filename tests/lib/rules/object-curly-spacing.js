@@ -37,14 +37,18 @@ ruleTester.run("object-curly-spacing", rule, {
         { code: "var { x: { z }, y } = y", options: ["always"], ecmaFeatures: { destructuring: true } },
         { code: "var {\ny,\n} = x", options: ["always"], ecmaFeatures: { destructuring: true } },
         { code: "var { y, } = x", options: ["always"], ecmaFeatures: { destructuring: true } },
+        { code: "var { y: x } = x", options: ["always"], ecmaFeatures: { destructuring: true } },
 
         // always - import / export
         { code: "import { door } from 'room'", options: ["always"], ecmaFeatures: { modules: true } },
         { code: "import {\ndoor } from 'room'", options: ["always"], ecmaFeatures: { modules: true } },
         { code: "export { door } from 'room'", options: ["always"], ecmaFeatures: { modules: true } },
         { code: "import { house, mouse } from 'caravan'", options: ["always"], ecmaFeatures: { modules: true } },
+        { code: "import house, { mouse } from 'caravan'", options: ["always"], ecmaFeatures: { modules: true } },
         { code: "export { door }", options: ["always"], ecmaFeatures: { modules: true } },
         { code: "import 'room'", options: ["always"], ecmaFeatures: { modules: true } },
+        { code: "import { bar as x } from 'foo';", options: ["always"], ecmaFeatures: { modules: true } },
+
 
         // always - empty object
         { code: "var foo = {};", options: ["always"] },
@@ -83,6 +87,7 @@ ruleTester.run("object-curly-spacing", rule, {
         { code: "var {\nx: {z\n}, y} = y", options: ["never"], ecmaFeatures: { destructuring: true } },
         { code: "var {\ny,\n} = x", options: ["never"], ecmaFeatures: { destructuring: true } },
         { code: "var {y,} = x", options: ["never"], ecmaFeatures: { destructuring: true } },
+        { code: "var {y:x} = x", options: ["never"], ecmaFeatures: { destructuring: true } },
 
         // never - import / export
         { code: "import {door} from 'room'", options: ["never"], ecmaFeatures: { modules: true } },
@@ -93,6 +98,9 @@ ruleTester.run("object-curly-spacing", rule, {
         { code: "import {house, mouse} from 'caravan'", options: ["never"], ecmaFeatures: { modules: true } },
         { code: "export {door}", options: ["never"], ecmaFeatures: { modules: true } },
         { code: "import 'room'", options: ["never"], ecmaFeatures: { modules: true } },
+        { code: "import x, {bar} from 'foo';", options: ["never"], ecmaFeatures: { modules: true } },
+        { code: "import {bar as y} from 'foo';", options: ["never"], ecmaFeatures: { modules: true } },
+
 
         // never - empty object
         { code: "var foo = {};", options: ["never"] },
@@ -122,6 +130,95 @@ ruleTester.run("object-curly-spacing", rule, {
                     line: 1,
                     column: 12
                 }
+            ]
+        },
+        {
+            code: "import { bar as y} from 'foo.js';",
+            options: ["always"],
+            ecmaFeatures: {
+                modules: true
+            },
+            errors: [
+                {
+                    message: "A space is required before '}'",
+                    type: "ImportDeclaration",
+                    line: 1,
+                    column: 18
+                }
+            ]
+        },
+        {
+            code: "import {bar as y} from 'foo.js';",
+            options: ["always"],
+            ecmaFeatures: {
+                modules: true
+            },
+            errors: [
+                {
+                    message: "A space is required after '{'",
+                    type: "ImportDeclaration",
+                    line: 1,
+                    column: 8
+                },
+                {
+                    message: "A space is required before '}'",
+                    type: "ImportDeclaration",
+                    line: 1,
+                    column: 17
+                }
+            ]
+        },
+        {
+            code: "import { bar} from 'foo.js';",
+            options: ["always"],
+            ecmaFeatures: {
+                modules: true
+            },
+            errors: [
+                {
+                    message: "A space is required before '}'",
+                    type: "ImportDeclaration",
+                    line: 1,
+                    column: 13
+                }
+            ]
+        },
+        {
+            code: "import x, { bar} from 'foo';",
+            options: ["always"],
+            ecmaFeatures: {
+                modules: true
+            },
+            errors: [
+                {
+                    message: "A space is required before '}'",
+                    type: "ImportDeclaration",
+                    line: 1,
+                    column: 16
+                }
+
+            ]
+        },
+        {
+            code: "import x, {bar} from 'foo';",
+            options: ["always"],
+            ecmaFeatures: {
+                modules: true
+            },
+            errors: [
+                {
+                    message: "A space is required after '{'",
+                    type: "ImportDeclaration",
+                    line: 1,
+                    column: 11
+                },
+                {
+                    message: "A space is required before '}'",
+                    type: "ImportDeclaration",
+                    line: 1,
+                    column: 15
+                }
+
             ]
         },
         {
@@ -218,6 +315,38 @@ ruleTester.run("object-curly-spacing", rule, {
                     type: "ObjectPattern",
                     line: 1,
                     column: 9
+                }
+            ]
+        },
+        {
+            code: "var {a:b } = x;",
+            options: ["never"],
+            ecmaFeatures: { destructuring: true },
+            errors: [
+                {
+                    message: "There should be no space before '}'",
+                    type: "ObjectPattern",
+                    line: 1,
+                    column: 10
+                }
+            ]
+        },
+        {
+            code: "var { a:b } = x;",
+            options: ["never"],
+            ecmaFeatures: { destructuring: true },
+            errors: [
+                {
+                    message: "There should be no space after '{'",
+                    type: "ObjectPattern",
+                    line: 1,
+                    column: 5
+                },
+                {
+                    message: "There should be no space before '}'",
+                    type: "ObjectPattern",
+                    line: 1,
+                    column: 11
                 }
             ]
         },
