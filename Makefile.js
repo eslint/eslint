@@ -54,6 +54,7 @@ var NODE = "node ", // intentional extra space
 
     // Files
     MAKEFILE = "./Makefile.js",
+    PACKAGE = "./package.json",
     /* eslint-disable no-use-before-define */
     JS_FILES = find("lib/").filter(fileType("js")).join(" "),
     JSON_FILES = find("conf/").filter(fileType("json")).join(" ") + " .eslintrc",
@@ -82,6 +83,15 @@ function fileType(extension) {
     return function(filename) {
         return filename.substring(filename.lastIndexOf(".") + 1) === extension;
     };
+}
+
+/**
+ * Returns package.json contents as a JavaScript object
+ * @returns {Object} Contents of package.json for the project
+ * @private
+ */
+function getPackageInfo() {
+    return JSON.parse(fs.readFileSync(PACKAGE));
 }
 
 /**
@@ -158,7 +168,11 @@ function release(type) {
     //         echo("Warning: error when publishing changes to github release: " + pubErr.message);
     //     }
     echo("Publishing to npm");
+    getPackageInfo().files.filter(function(dirPath) {
+        return fs.lstatSync(dirPath).isDirectory();
+    }).forEach(nodeCLI.exec.bind(nodeCLI, "linefix"));
     exec("npm publish");
+    exec("git reset --hard");
 
     echo("Generating site");
     target.gensite();
