@@ -115,10 +115,14 @@ ruleTester.run("no-trailing-spaces", rule, {
             code: "var a = 5; \n b = 3; ",
             errors: [{
                 message: "Trailing spaces not allowed.",
-                type: "Program"
+                type: "Program",
+                line: 1,
+                column: 11
             }, {
                 message: "Trailing spaces not allowed.",
-                type: "Program"
+                type: "Program",
+                line: 2,
+                column: 8
             }],
             options: [{}]
         },
@@ -126,7 +130,9 @@ ruleTester.run("no-trailing-spaces", rule, {
             code: "var a = 5;\t\n  b = 3;",
             errors: [{
                 message: "Trailing spaces not allowed.",
-                type: "Program"
+                type: "Program",
+                line: 1,
+                column: 11
             }],
             options: [{}]
         },
@@ -134,7 +140,9 @@ ruleTester.run("no-trailing-spaces", rule, {
             code: "     \n    var c = 1;",
             errors: [{
                 message: "Trailing spaces not allowed.",
-                type: "Program"
+                type: "Program",
+                line: 1,
+                column: 1
             }],
             options: [{}]
         },
@@ -152,7 +160,7 @@ ruleTester.run("no-trailing-spaces", rule, {
                 message: "Trailing spaces not allowed.",
                 type: "Program",
                 line: 1,
-                column: 17 // there are invalid spaces in columns 15 and 16
+                column: 15 // there are invalid spaces in columns 15 and 16
             }],
             options: [{
                 skipBlankLines: true
