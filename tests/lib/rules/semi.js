@@ -87,7 +87,7 @@ ruleTester.run("semi", rule, {
 
     ],
     invalid: [
-        { code: "import * as utils from './utils'", ecmaFeatures: { modules: true }, errors: [{ message: "Missing semicolon.", type: "ImportDeclaration"}] },
+        { code: "import * as utils from './utils'", ecmaFeatures: { modules: true }, errors: [{ message: "Missing semicolon.", type: "ImportDeclaration", column: 33}] },
         { code: "import { square, diag } from 'lib'", ecmaFeatures: { modules: true }, errors: [{ message: "Missing semicolon.", type: "ImportDeclaration"}] },
         { code: "import { default as foo } from 'lib'", ecmaFeatures: { modules: true }, errors: [{ message: "Missing semicolon.", type: "ImportDeclaration"}] },
         { code: "import 'src/mylib'", ecmaFeatures: { modules: true }, errors: [{ message: "Missing semicolon.", type: "ImportDeclaration"}] },
@@ -109,7 +109,7 @@ ruleTester.run("semi", rule, {
         { code: "var foo\nvar bar;", errors: [{ message: "Missing semicolon.", type: "VariableDeclaration", line: 1}] },
         { code: "throw new Error('foo')", errors: [{ message: "Missing semicolon.", type: "ThrowStatement", line: 1}] },
 
-        { code: "throw new Error('foo');", options: ["never"], errors: [{ message: "Extra semicolon.", type: "ThrowStatement"}] },
+        { code: "throw new Error('foo');", options: ["never"], errors: [{ message: "Extra semicolon.", type: "ThrowStatement", column: 23}] },
         { code: "function foo() { return []; }", options: ["never"], errors: [{ message: "Extra semicolon.", type: "ReturnStatement"}] },
         { code: "while(true) { break; }", options: ["never"], errors: [{ message: "Extra semicolon.", type: "BreakStatement"}] },
         { code: "while(true) { continue; }", options: ["never"], errors: [{ message: "Extra semicolon.", type: "ContinueStatement"}] },
