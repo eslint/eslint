@@ -35,12 +35,12 @@ The `indent` rule has two options:
 
 Level of indentation denotes the multiple of the indent specified. Example:
 
-* Indent of 4 spaces with `VariableDeclarator` set to 2 will indent the multi-line variable declarations with 8 spaces.
-* Indent of 2 spaces with `VariableDeclarator` set to 2 will indent the multi-line variable declarations with 4 spaces.
+* Indent of 4 spaces with `VariableDeclarator` set to 3 will indent the multi-line variable declarations with 6 spaces with respect to the variable declarator keyword.
+* Indent of 2 spaces with `VariableDeclarator` set to 2 will indent the multi-line variable declarations with 4 spaces with respect to the variable declarator keyword.
 * Indent of tab with `VariableDeclarator` set to 2 will indent the multi-line variable declarations with 2 tabs.
 * Indent of 2 spaces with SwitchCase set to 0 will not indent `SwitchCase` with respect to switch.
-* Indent of 2 spaces with SwitchCase set to 2 will indent `SwitchCase` with 4 space with respect to switch.
-* Indent of tabs with SwitchCase set to 2 will indent `SwitchCase` with 2 tabs with respect to switch.
+* Indent of 2 spaces with SwitchCase set to 2 will indent `SwitchCase` with 4 spaces with respect to switch.
+* Indent of tabs with SwitchCase set to 1 will indent `SwitchCase` with 2 tabs with respect to switch.
 
 
 ```js
