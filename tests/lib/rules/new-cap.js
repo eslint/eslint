@@ -46,6 +46,7 @@ ruleTester.run("new-cap", rule, {
         "var x = $();",
         { code: "var x = Foo(42)", options: [{"capIsNew": false}] },
         { code: "var x = bar.Foo(42)", options: [{"capIsNew": false}] },
+        { code: "var x = Foo.bar(42)", options: [{"capIsNew": false}] },
         "var x = bar[Foo](42)",
         {code: "var x = bar['Foo'](42)", options: [{"capIsNew": false}] },
         "var x = Foo.bar(42)",
@@ -59,7 +60,10 @@ ruleTester.run("new-cap", rule, {
         { code: "var x = Foo.Bar(42);", options: [{ capIsNewExceptions: ["Bar"] }] },
         { code: "var x = Foo.Bar(42);", options: [{ capIsNewExceptions: ["Foo.Bar"] }] },
         { code: "var x = new foo.bar(42);", options: [{ newIsCapExceptions: ["bar"] }] },
-        { code: "var x = new foo.bar(42);", options: [{ newIsCapExceptions: ["foo.bar"] }] }
+        { code: "var x = new foo.bar(42);", options: [{ newIsCapExceptions: ["foo.bar"] }] },
+        { code: "var x = new foo.bar(42);", options: [{ properties: false }] },
+        { code: "var x = Foo.bar(42);", options: [{ properties: false }] },
+        { code: "var x = foo.Bar(42);", options: [{ capIsNew: false, properties: false }] }
     ],
     invalid: [
         { code: "var x = new c();", errors: [{ message: "A constructor name should not start with a lowercase letter.", type: "NewExpression"}] },
