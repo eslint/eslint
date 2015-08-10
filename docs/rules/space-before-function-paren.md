@@ -33,7 +33,7 @@ function foo() {
     // ...
 }
 
-var bar function() {
+var bar = function() {
     // ...
 };
 
@@ -61,7 +61,7 @@ function foo () {
     // ...
 }
 
-var bar function () {
+var bar = function () {
     // ...
 };
 
@@ -89,7 +89,7 @@ function foo () {
     // ...
 }
 
-var bar function () {
+var bar = function () {
     // ...
 };
 
@@ -117,7 +117,7 @@ function foo() {
     // ...
 }
 
-var bar function() {
+var bar = function() {
     // ...
 };
 
