@@ -31,6 +31,32 @@ try {
 }
 
 var myObj = { a: 1 };  // Identifier 'a' is too short. (< 2)
+
+(a) => { a * a };  // Identifier name 'a' is too short. (< 2)
+
+function foo(x = 0) { }  // Identifier name 'x' is too short. (< 2)
+
+class x { }  // Identifier name 'x' is too short. (< 2)
+
+class Foo { x() {} }  // Identifier name 'x' is too short. (< 2)
+
+function foo(...x) { }  // Identifier name 'x' is too short. (< 2)
+
+var { x} = {};  // Identifier name 'x' is too short. (< 2)
+
+var { x: a} = {};  // Identifier name 'x' is too short. (< 2)
+
+var { a: [x]} = {};  // Identifier name 'a' is too short. (< 2)
+
+import x from 'y';  // Identifier name 'x' is too short. (< 2)
+
+export var x = 0;  // Identifier name 'x' is too short. (< 2)
+
+({ a: obj.x.y.z }) = {};  // Identifier name 'a' is too short. (< 2)
+                          // Identifier name 'x' is too short. (< 2)
+
+({ prop: obj.x }) = {};  // Identifier name 'x' is too short. (< 2)
+
 ```
 
 The following patterns are not considered warnings:
@@ -55,6 +81,30 @@ try {
 }
 
 var myObj = { apple: 1 };
+
+(num) => { num * num };
+
+function foo(num = 0) { }
+
+class MyClass { }
+
+class Foo { method() {} }
+
+function foo(...args) { }
+
+var { prop } = {};
+
+var { prop: a } = {};
+
+var { prop: [x] } = {};
+
+import something from "y";
+
+export var num = 0;
+
+({ prop: obj.x.y.something }) = {};
+
+({ prop: obj.longName }) = {};
 
 var data = { "x": 1 };  // excused because of quotes
 
