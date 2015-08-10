@@ -28,6 +28,8 @@ ruleTester.run("spaced-comment", rule, {
             code: "//A valid comment NOT starting with space\nvar a = 2;",
             options: ["never"]
         },
+
+        // exceptions - line comments
         {
             code: "//-----------------------\n// A comment\n//-----------------------",
             options: ["always", {
@@ -52,6 +54,34 @@ ruleTester.run("spaced-comment", rule, {
                 exceptions: ["-", "=", "*", "#", "!@#"]
             }]
         },
+
+        // exceptions - block comments
+        {
+            code: "var a = 1; /*######*/",
+            options: ["always", {
+                exceptions: ["-", "=", "*", "#", "!@#"]
+            }]
+        },
+        {
+            code: "/*****************\n * A comment\n *****************/",
+            options: ["always", {
+                exceptions: ["*"]
+            }]
+        },
+        {
+            code: "/*++++++++++++++\n * A comment\n +++++++++++++++++*/",
+            options: ["always", {
+                exceptions: ["+"]
+            }]
+        },
+        {
+            code: "/*++++++++++++++\n + A comment\n * B comment\n - C comment\n----------------*/",
+            options: ["always", {
+                exceptions: ["+", "-"]
+            }]
+        },
+
+        // markers - line comments
         {
             code: "//!< docblock style comment",
             options: ["always", {
@@ -71,6 +101,40 @@ ruleTester.run("spaced-comment", rule, {
                 markers: ["/", "!<"]
             }]
         },
+
+        // markers - block comments
+        {
+            code: "var a = 1; /*# This is an example of a marker in a block comment\nsubsequent lines do not count*/",
+            options: ["always", {
+                markers: ["#"]
+            }]
+        },
+        {
+            code: "/*!\n *comment\n */",
+            options: ["always", { markers: ["!"] }]
+        },
+        {
+            code: "/**\n *jsdoc\n */",
+            options: ["always", { markers: ["*"] }]
+        },
+        {
+            code: "/*global ABC*/",
+            options: ["always", { markers: ["global"] }]
+        },
+        {
+            code: "/*eslint-env node*/",
+            options: ["always", { markers: ["eslint-env"] }]
+        },
+        {
+            code: "/*eslint eqeqeq:0, curly: 2*/",
+            options: ["always", { markers: ["eslint"] }]
+        },
+        {
+            code: "/*eslint-disable no-alert, no-console */\nalert()\nconsole.log()\n/*eslint-enable no-alert */",
+            options: ["always", { markers: ["eslint-enable", "eslint-disable"] }]
+        },
+
+        // misc. variations
         {
             code: validShebangProgram,
             options: ["always"]
@@ -91,18 +155,8 @@ ruleTester.run("spaced-comment", rule, {
             code: "var a = 1; /* A valid comment starting with space */",
             options: ["always"]
         },
-        {
-            code: "var a = 1; /*######*/",
-            options: ["always", {
-                exceptions: ["-", "=", "*", "#", "!@#"]
-            }]
-        },
-        {
-            code: "var a = 1; /*# This is an example of a marker in a block comment\nsubsequent lines do not count*/",
-            options: ["always", {
-                markers: ["#"]
-            }]
-        },
+
+        // block comments
         {
             code: "var a = 1; /*A valid comment NOT starting with space */",
             options: ["never"]
@@ -140,16 +194,8 @@ ruleTester.run("spaced-comment", rule, {
             options: ["always"]
         },
         {
-            code: "/*!\n *comment\n */",
-            options: ["always", { markers: ["!"] }]
-        },
-        {
             code: "/**\n *jsdoc\n */",
             options: ["always"]
-        },
-        {
-            code: "/**\n *jsdoc\n */",
-            options: ["always", { markers: ["*"] }]
         },
         {
             code: "/**\r\n *jsdoc\r\n */",
@@ -164,6 +210,7 @@ ruleTester.run("spaced-comment", rule, {
             options: ["always"]
         },
 
+        // markers & exceptions
         {
             code: "///--------\r\n/// test\r\n///--------",
             options: ["always", {markers: ["/"], exceptions: ["-"]}]
