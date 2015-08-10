@@ -40,6 +40,43 @@ ruleTester.run("indent", rule, {
     valid: [
         {
             code:
+            "if(data) {\n" +
+            "  console.log('hi');\n" +
+            "  b = true;};",
+            options: [2, {"VariableDeclarator": 1, "SwitchCase": 1}]
+        },
+        {
+            code:
+            "foo = () => {\n" +
+            "  console.log('hi');\n" +
+            "  return true;};",
+            options: [2, {"VariableDeclarator": 1, "SwitchCase": 1}],
+            ecmaFeatures: {arrowFunctions: true}
+        },
+        {
+            code:
+            "function test(data) {\n" +
+            "  console.log('hi');\n" +
+            "  return true;};",
+            options: [2, {"VariableDeclarator": 1, "SwitchCase": 1}]
+        },
+        {
+            code:
+            "var test = function(data) {\n" +
+            "  console.log('hi');\n" +
+            "};",
+            options: [2, {"VariableDeclarator": 1, "SwitchCase": 1}]
+        },
+        {
+            code:
+            "arr.forEach(function(data) {\n" +
+            "  otherdata.forEach(function(zero) {\n" +
+            "    console.log('hi');\n" +
+            "  }) });",
+            options: [2, {"VariableDeclarator": 1, "SwitchCase": 1}]
+        },
+        {
+            code:
             "a = [\n" +
             "    ,3\n" +
             "]",
