@@ -47,6 +47,18 @@ ruleTester.run("indent", rule, {
         },
         {
             code:
+            "[\n" +
+            "  ['gzip', 'gunzip'],\n" +
+            "  ['gzip', 'unzip'],\n" +
+            "  ['deflate', 'inflate'],\n" +
+            "  ['deflateRaw', 'inflateRaw'],\n" +
+            "].forEach(function(method) {\n" +
+            "  console.log(method);\n" +
+            "});\n",
+            options: [2, {"SwitchCase": 1, "VariableDeclarator": 2}]
+        },
+        {
+            code:
             "test(123, {\n" +
             "    bye: {\n" +
             "        hi: [1,\n" +
