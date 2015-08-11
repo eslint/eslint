@@ -20,14 +20,20 @@ var path = require("path");
 //------------------------------------------------------------------------------
 var fixture = fs.readFileSync(path.join(__dirname, "../../fixtures/rules/indent/indent-invalid-fixture-1.js"), "utf8");
 
-function expectedErrors(errors) {
+function expectedErrors(indentType, errors) {
+    if (Array.isArray(indentType)) {
+        errors = indentType;
+        indentType = "space";
+    }
+
     if (!errors[0].length) {
         errors = [errors];
     }
 
     return errors.map(function(err) {
+        var chars = err[1] === 1 ? "character" : "characters";
         return {
-            message: "Expected indentation of " + err[1] + " characters but found " + err[2] + ".",
+            message: "Expected indentation of " + err[1] + " " + indentType + " " + chars + " but found " + err[2] + ".",
             type: err[3] || "Program",
             line: err[0]
         };
@@ -636,7 +642,7 @@ ruleTester.run("indent", rule, {
         {
             code: "if (a){\n\tb=c;\n\t\tc=d;\ne=f;\n}",
             options: ["tab"],
-            errors: expectedErrors([[3, 1, 2, "ExpressionStatement"], [4, 1, 0, "ExpressionStatement"]])
+            errors: expectedErrors("tab", [[3, 1, 2, "ExpressionStatement"], [4, 1, 0, "ExpressionStatement"]])
         },
         {
             code: "if (a){\n    b=c;\n      c=d;\n e=f;\n}",
@@ -815,7 +821,6 @@ ruleTester.run("indent", rule, {
                 "with (obj) {\n" +
                 "console.log(foo + bar);\n" +
                 "}\n",
-            args: [2],
             errors: expectedErrors([3, 4, 0, "ExpressionStatement"])
         },
         {
@@ -1040,7 +1045,7 @@ ruleTester.run("indent", rule, {
             "var geometry,\n" +
             "\trotate;",
             options: ["tab", {VariableDeclarator: 2}],
-            errors: expectedErrors([
+            errors: expectedErrors("tab", [
                 [2, 2, 1, "VariableDeclarator"]
             ])
         },
