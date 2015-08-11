@@ -12,6 +12,7 @@
 var rule = require("../../../lib/rules/brace-style"),
     RuleTester = require("../../../lib/testers/rule-tester");
 var OPEN_MESSAGE = "Opening curly brace does not appear on the same line as controlling statement.",
+    OPEN_MESSAGE_ALLMAN = "Opening curly brace appears on the same line as controlling statement.",
     BODY_MESSAGE = "Statement inside of curly braces should be on next line.",
     CLOSE_MESSAGE = "Closing curly brace does not appear on the same line as the subsequent block.",
     CLOSE_MESSAGE_SINGLE = "Closing curly brace should be on the same line as opening curly brace or on the line after the previous block.",
@@ -41,7 +42,9 @@ ruleTester.run("brace-style", rule, {
         "if (a &&\n b &&\n c) { \n }",
         "switch(0) {\n}",
         { code: "if (foo) {\n}\nelse {\n}", options: ["stroustrup"] },
+        { code: "if (foo)\n{\n}\nelse\n{\n}", options: ["allman"] },
         { code: "try { \n bar();\n }\ncatch (e) {\n baz(); \n }", options: ["stroustrup"] },
+        { code: "try\n{\n bar();\n}\ncatch (e)\n{\n baz(); \n}", options: ["allman"] },
         // allowSingleLine: true
         { code: "function foo () { return; }", options: ["1tbs", { allowSingleLine: true }] },
         { code: "function foo () { a(); b(); return; }", options: ["1tbs", { allowSingleLine: true }] },
@@ -62,6 +65,9 @@ ruleTester.run("brace-style", rule, {
         { code: "if (foo) {}\nelse {}", options: ["stroustrup", { allowSingleLine: true }] },
         { code: "try {  bar(); }\ncatch (e) { baz();  }", options: ["stroustrup", { allowSingleLine: true }] },
         { code: "var foo = () => { return; }", ecmaFeatures: { arrowFunctions: true }, options: ["stroustrup", { allowSingleLine: true }] },
+        { code: "if (foo) {}\nelse {}", options: ["allman", { allowSingleLine: true }] },
+        { code: "try {  bar(); }\ncatch (e) { baz();  }", options: ["allman", { allowSingleLine: true }] },
+        { code: "var foo = () => { return; }", ecmaFeatures: { arrowFunctions: true }, options: ["allman", { allowSingleLine: true }] },
         {
             code: "if (tag === 1) fontstack.name = pbf.readString(); \nelse if (tag === 2) fontstack.range = pbf.readString(); \nelse if (tag === 3) {\n var glyph = pbf.readMessage(readGlyph, {});\n fontstack.glyphs[glyph.id] = glyph; \n}",
             options: ["1tbs"]
@@ -96,6 +102,28 @@ ruleTester.run("brace-style", rule, {
         { code: "if (a) { \nb();\n } else { \nc();\n }", options: ["stroustrup"], errors: [{ message: CLOSE_MESSAGE_STROUSTRUP, type: "BlockStatement" }]},
         { code: "if (foo) {\nbaz();\n} else if (bar) {\nbaz();\n}\nelse {\nqux();\n}", options: ["stroustrup"], errors: [{ message: CLOSE_MESSAGE_STROUSTRUP, type: "IfStatement" }] },
         { code: "if (foo) {\npoop();\n} \nelse if (bar) {\nbaz();\n} else if (thing) {\nboom();\n}\nelse {\nqux();\n}", options: ["stroustrup"], errors: [{ message: CLOSE_MESSAGE_STROUSTRUP, type: "IfStatement" }] },
+
+        { code: "try { \n bar(); \n }\n catch (e) {\n}\n finally {\n}", options: ["allman"], errors: [
+            { message: OPEN_MESSAGE_ALLMAN, type: "TryStatement", line: 1},
+            { message: OPEN_MESSAGE_ALLMAN, type: "TryStatement", line: 1},
+            { message: OPEN_MESSAGE_ALLMAN, type: "CatchClause", line: 4}
+        ] },
+        { code: "if (a) { \nb();\n } else { \nc();\n }", options: ["allman"], errors: [
+            { message: OPEN_MESSAGE_ALLMAN, type: "IfStatement" },
+            { message: OPEN_MESSAGE_ALLMAN, type: "IfStatement" }
+        ]},
+        { code: "if (foo) {\nbaz();\n} else if (bar) {\nbaz();\n}\nelse {\nqux();\n}", options: ["allman"], errors: [
+            { message: OPEN_MESSAGE_ALLMAN, type: "IfStatement" },
+            { message: OPEN_MESSAGE_ALLMAN, type: "IfStatement" },
+            { message: OPEN_MESSAGE_ALLMAN, type: "IfStatement" }
+        ] },
+        { code: "if (foo)\n{ poop();\n} \nelse if (bar) {\nbaz();\n} else if (thing) {\nboom();\n}\nelse {\nqux();\n}", options: ["allman"], errors: [
+            { message: BODY_MESSAGE, type: "ExpressionStatement" },
+            { message: OPEN_MESSAGE_ALLMAN, type: "IfStatement" },
+            { message: OPEN_MESSAGE_ALLMAN, type: "IfStatement" },
+            { message: OPEN_MESSAGE_ALLMAN, type: "IfStatement" }
+        ] },
+
         // allowSingleLine: true
         { code: "function foo() { return; \n}", options: ["1tbs", { allowSingleLine: true }], errors: [{ message: BODY_MESSAGE, type: "ReturnStatement"}] },
         { code: "function foo() { a(); b(); return; \n}", options: ["1tbs", { allowSingleLine: true }], errors: [{ message: BODY_MESSAGE, type: "ExpressionStatement"}] },
