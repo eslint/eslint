@@ -27,8 +27,7 @@ if(config.env === "development") {
 
 ## When Not To Use It
 
-It should be not used in your configuration/settings file where `process.env` is used to assign values to parameters to be accessed throughout the project.
-
+If prefer to use `process.env` throughout your project to retrieve values from environment variables, then you can safely disable this rule.
 
 ## Further Reading
 
