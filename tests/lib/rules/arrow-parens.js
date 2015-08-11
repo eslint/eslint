@@ -29,6 +29,10 @@ var valid = [
     { code: "() => {}", options: ["as-needed"], ecmaFeatures: { arrowFunctions: true } },
     { code: "a => {}", options: ["as-needed"], ecmaFeatures: { arrowFunctions: true } },
     { code: "a => a", options: ["as-needed"], ecmaFeatures: { arrowFunctions: true } },
+    { code: "([a, b]) => {}", options: ["as-needed"], ecmaFeatures: { arrowFunctions: true, destructuring: true } },
+    { code: "({ a, b }) => {}", options: ["as-needed"], ecmaFeatures: { arrowFunctions: true, destructuring: true } },
+    { code: "(a = 10) => {}", options: ["as-needed"], ecmaFeatures: { arrowFunctions: true, destructuring: true, defaultParams: true } },
+    { code: "(...a) => a[0]", options: ["as-needed"], ecmaFeatures: { arrowFunctions: true, restParams: true } },
     { code: "(a, b) => {}", options: ["as-needed"], ecmaFeatures: { arrowFunctions: true } }
 
 ];
