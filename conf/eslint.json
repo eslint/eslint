@@ -151,6 +151,7 @@
         "prefer-const": 0,
         "prefer-spread": 0,
         "prefer-reflect": 0,
+        "prefer-template": 0,
         "quote-props": 0,
         "quotes": [0, "double"],
         "radix": 0,
