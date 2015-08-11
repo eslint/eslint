@@ -135,7 +135,7 @@ v1.0.0-rc-1 - July 15, 2015
 * Fix: `valid-jsdoc` counts `return` for arrow expressions (fixes #2952) (Toru Nagashima)
 * New: Add exported comment option (fixes #1200) (Jamund Ferguson)
 * Breaking: Default to --reset behavior (fixes #2100) (Brandon Mills)
-* New: Add arrow-parens and arrow-paces rule (fixes #2628) (Jxck)
+* New: Add arrow-parens and arrow-spacing rule (fixes #2628) (Jxck)
 * Fix: Shallow cloning issues in eslint config (fixes #2961) (Gyandeep Singh)
 * Add: Warn on missing rule definition or deprecation (fixes #1549) (Ian VanSchooten)
 * Update: adding some tests for no-redeclare to test named functions (fixes #2953) (Dominic Barnes)
