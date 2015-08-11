@@ -23,6 +23,19 @@ else {
 }
 ```
 
+Another style is called [Allman](https://en.wikipedia.org/wiki/Indent_style#Allman_style), in which all the braces are expected to be on their own lines without any extra indentation:
+
+```js
+if (foo)
+{
+  bar();
+}
+else
+{
+  baz();
+}
+```
+
 While no style is considered better than the other, most developers agree that having a consistent style throughout a project is important for its long-term maintainability.
 
 ## Rule Details
@@ -33,7 +46,7 @@ This rule is aimed at enforcing a particular brace style in JavaScript. As such,
 
 The rule takes two options:
 
-1. A string which must be either "1tbs" or "stroustrup". The default is "1tbs".
+1. A string which must be either "1tbs", "stroustrup" or "allman". The default is "1tbs".
 2. An object that further controls the behaviour of this rule. Currently, the only available parameter is `allowSingleLine`, which indicates whether start and end braces may be on the same line.
 
 You can set the style in configuration like this:
@@ -166,6 +179,85 @@ try {
   somethingRisky();
 }
 catch(e) {
+  handleError();
+}
+
+// when there are no braces, there are no warnings
+if (foo) bar();
+else if (baz) boom();
+```
+
+With one-line form enabled, the following is also valid:
+
+```js
+function nop() { return; }
+
+if (foo) { bar(); }
+
+if (foo) { bar(); }
+else { baz(); }
+
+try { somethingRisky(); }
+catch(e) { handleError(); }
+```
+
+#### "allman"
+
+
+This enforces Allman style. While using this setting, the following patterns are considered warnings:
+
+```js
+function foo() {
+  return true;
+}
+
+if (foo)
+{
+  bar(); }
+
+try
+{
+  somethingRisky();
+} catch(e)
+{
+  handleError();
+}
+
+if (foo) {
+  bar();
+} else {
+  baz();
+}
+```
+
+The following patterns adhere to Allman style and do not cause warnings:
+
+```js
+function foo()
+{
+  return true;
+}
+
+if (foo)
+{
+  bar();
+}
+
+if (foo)
+{
+  bar();
+}
+else
+{
+  baz();
+}
+
+try
+{
+  somethingRisky();
+}
+catch(e)
+{
   handleError();
 }
 
