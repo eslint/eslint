@@ -49,7 +49,8 @@ ruleTester.run("object-curly-spacing", rule, {
         { code: "export { door }", options: ["always"], ecmaFeatures: { modules: true } },
         { code: "import 'room'", options: ["always"], ecmaFeatures: { modules: true } },
         { code: "import { bar as x } from 'foo';", options: ["always"], ecmaFeatures: { modules: true } },
-
+        { code: "import { x, } from 'foo';", options: ["always"], ecmaFeatures: { modules: true } },
+        { code: "import {\nx,\n} from 'foo';", options: ["always"], ecmaFeatures: { modules: true } },
 
         // always - empty object
         { code: "var foo = {};", options: ["always"] },
@@ -258,7 +259,49 @@ ruleTester.run("object-curly-spacing", rule, {
                     line: 1,
                     column: 20
                 }
+            ]
+        },
+        {
+            code: "import {bar,} from 'foo';",
+            options: ["always"],
+            ecmaFeatures: {
+                modules: true
+            },
+            errors: [
+                {
+                    message: "A space is required after '{'",
+                    type: "ImportDeclaration",
+                    line: 1,
+                    column: 8
+                },
+                {
+                    message: "A space is required before '}'",
+                    type: "ImportDeclaration",
+                    line: 1,
+                    column: 13
+                }
 
+            ]
+        },
+        {
+            code: "import { bar, } from 'foo';",
+            options: ["never"],
+            ecmaFeatures: {
+                modules: true
+            },
+            errors: [
+                {
+                    message: "There should be no space after '{'",
+                    type: "ImportDeclaration",
+                    line: 1,
+                    column: 8
+                },
+                {
+                    message: "There should be no space before '}'",
+                    type: "ImportDeclaration",
+                    line: 1,
+                    column: 15
+                }
             ]
         },
         {
