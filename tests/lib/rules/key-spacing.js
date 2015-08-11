@@ -161,6 +161,30 @@ ruleTester.run("key-spacing", rule, {
     }, {
         code: "var obj = {a: 'foo', bar: 'bam'};",
         options: [{ align: "colon" }]
+    }, {
+        code: [
+            "var x = {",
+            "    foo: 10",
+            "    , b: 20",
+            "};"
+        ].join("\n"),
+        options: [{ align: "colon" }]
+    }, {
+        code: [
+            "var x = {",
+            "    foo : 10",
+            "    , b : 20",
+            "};"
+        ].join("\n"),
+        options: [{ align: "colon", beforeColon: true }]
+    }, {
+        code: [
+            "var x = {",
+            "        foo: 10,",
+            " /*lol*/b  : 20",
+            "};"
+        ].join("\n"),
+        options: [{ align: "colon" }]
     }],
 
     invalid: [{
@@ -356,6 +380,28 @@ ruleTester.run("key-spacing", rule, {
         options: [{ align: "colon" }],
         errors: [
             { message: "Extra space after key \"a\".", line: 1, column: 12, type: "Identifier" }
+        ]
+    }, {
+        code: [
+            "var x = {",
+            "    foo: 10",
+            "  , b  : 20",
+            "};"
+        ].join("\n"),
+        options: [{ align: "colon" }],
+        errors: [
+            { message: "Extra space after key \"b\".", line: 3, column: 5, type: "Identifier" }
+        ]
+    }, {
+        code: [
+            "var x = {",
+            "        foo : 10,",
+            " /*lol*/  b : 20",
+            "};"
+        ].join("\n"),
+        options: [{ align: "colon", beforeColon: true }],
+        errors: [
+            { message: "Missing space after key \"b\".", line: 3, column: 11, type: "Identifier" }
         ]
     }]
 
