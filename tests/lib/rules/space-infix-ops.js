@@ -26,6 +26,8 @@ ruleTester.run("space-infix-ops", rule, {
         "a ? b : c",
         "var a = b",
         { code: "const my_object = {key: 'value'};", ecmaFeatures: { blockBindings: true } },
+        { code: "var {a = 0} = bar;", ecmaFeatures: { destructuring: true } },
+        { code: "function foo(a = 0) { }", ecmaFeatures: { defaultParams: true } },
         { code: "a|0", options: [{ int32Hint: true }] },
         { code: "a |0", options: [{ int32Hint: true }] }
     ],
@@ -257,6 +259,31 @@ ruleTester.run("space-infix-ops", rule, {
                 type: "VariableDeclarator",
                 line: 1,
                 column: 16
+            }]
+        },
+        {
+            code: "var {a=0}=bar;",
+            ecmaFeatures: { destructuring: true },
+            errors: [{
+                message: "Infix operators must be spaced.",
+                line: 1,
+                column: 7,
+                nodeType: "AssignmentPattern"
+            }, {
+                message: "Infix operators must be spaced.",
+                line: 1,
+                column: 10,
+                nodeType: "VariableDeclarator"
+            }]
+        },
+        {
+            code: "function foo(a=0) { }",
+            ecmaFeatures: { defaultParams: true },
+            errors: [{
+                message: "Infix operators must be spaced.",
+                line: 1,
+                column: 15,
+                nodeType: "AssignmentPattern"
             }]
         }
     ]
