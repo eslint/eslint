@@ -45,6 +45,7 @@ ruleTester.run("object-curly-spacing", rule, {
         { code: "export { door } from 'room'", options: ["always"], ecmaFeatures: { modules: true } },
         { code: "import { house, mouse } from 'caravan'", options: ["always"], ecmaFeatures: { modules: true } },
         { code: "import house, { mouse } from 'caravan'", options: ["always"], ecmaFeatures: { modules: true } },
+        { code: "import door, { house, mouse } from 'caravan'", options: ["always"], ecmaFeatures: { modules: true } },
         { code: "export { door }", options: ["always"], ecmaFeatures: { modules: true } },
         { code: "import 'room'", options: ["always"], ecmaFeatures: { modules: true } },
         { code: "import { bar as x } from 'foo';", options: ["always"], ecmaFeatures: { modules: true } },
@@ -99,6 +100,7 @@ ruleTester.run("object-curly-spacing", rule, {
         { code: "export {door}", options: ["never"], ecmaFeatures: { modules: true } },
         { code: "import 'room'", options: ["never"], ecmaFeatures: { modules: true } },
         { code: "import x, {bar} from 'foo';", options: ["never"], ecmaFeatures: { modules: true } },
+        { code: "import x, {bar, baz} from 'foo';", options: ["never"], ecmaFeatures: { modules: true } },
         { code: "import {bar as y} from 'foo';", options: ["never"], ecmaFeatures: { modules: true } },
 
 
@@ -200,6 +202,22 @@ ruleTester.run("object-curly-spacing", rule, {
             ]
         },
         {
+            code: "import x, { bar, baz} from 'foo';",
+            options: ["always"],
+            ecmaFeatures: {
+                modules: true
+            },
+            errors: [
+                {
+                    message: "A space is required before '}'",
+                    type: "ImportDeclaration",
+                    line: 1,
+                    column: 21
+                }
+
+            ]
+        },
+        {
             code: "import x, {bar} from 'foo';",
             options: ["always"],
             ecmaFeatures: {
@@ -217,6 +235,28 @@ ruleTester.run("object-curly-spacing", rule, {
                     type: "ImportDeclaration",
                     line: 1,
                     column: 15
+                }
+
+            ]
+        },
+        {
+            code: "import x, {bar, baz} from 'foo';",
+            options: ["always"],
+            ecmaFeatures: {
+                modules: true
+            },
+            errors: [
+                {
+                    message: "A space is required after '{'",
+                    type: "ImportDeclaration",
+                    line: 1,
+                    column: 11
+                },
+                {
+                    message: "A space is required before '}'",
+                    type: "ImportDeclaration",
+                    line: 1,
+                    column: 20
                 }
 
             ]
