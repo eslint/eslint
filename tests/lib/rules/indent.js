@@ -615,6 +615,15 @@ ruleTester.run("indent", rule, {
                 "  }\n" +
                 "}\n",
             options: [2, { SwitchCase: 1 }]
+        },
+        {
+            code:
+                "var items = [\n" +
+                "    {\n" +
+                "      foo: 'bar'\n" +
+                "    }\n" +
+                "];\n",
+            options: [2, {"VariableDeclarator": 2}]
         }
     ],
     invalid: [
