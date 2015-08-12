@@ -40,6 +40,14 @@ a?b:c
 const a={b:1};
 ```
 
+```js
+var {a=0}=bar;
+```
+
+```js
+function foo(a=0) { }
+```
+
 The following patterns are not considered warnings:
 
 ```js
@@ -56,6 +64,14 @@ a ? b : c
 
 ```js
 const a = {b:1};
+```
+
+```js
+var {a = 0} = bar;
+```
+
+```js
+function foo(a = 0) { }
 ```
 
 ### Options
