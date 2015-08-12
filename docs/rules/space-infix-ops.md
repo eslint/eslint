@@ -36,6 +36,10 @@ a +b
 a?b:c
 ```
 
+```js
+const a={b:1};
+```
+
 The following patterns are not considered warnings:
 
 ```js
@@ -48,6 +52,10 @@ a       + b
 
 ```js
 a ? b : c
+```
+
+```js
+const a = {b:1};
 ```
 
 ### Options
