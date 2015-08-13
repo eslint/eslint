@@ -624,6 +624,43 @@ ruleTester.run("indent", rule, {
                 "    }\n" +
                 "];\n",
             options: [2, {"VariableDeclarator": 2}]
+        },
+        {
+            code:
+                "const geometry = 2,\n" +
+                "      rotate = 3;\n" +
+                "var a = 1,\n" +
+                "  b = 2;\n" +
+                "let light = true,\n" +
+                "    shadow = false;",
+            options: [2, { VariableDeclarator: { "const": 3, "let": 2 } }],
+            ecmaFeatures: { blockBindings: true }
+        },
+        {
+            code:
+            "const abc = 5,\n" +
+            "      c = 2,\n" +
+            "      xyz = \n" +
+            "      {\n" +
+            "        a: 1,\n" +
+            "        b: 2\n" +
+            "      };\n" +
+            "let abc = 5,\n" +
+            "  c = 2,\n" +
+            "  xyz = \n" +
+            "  {\n" +
+            "    a: 1,\n" +
+            "    b: 2\n" +
+            "  };\n" +
+            "var abc = 5,\n" +
+            "    c = 2,\n" +
+            "    xyz = \n" +
+            "    {\n" +
+            "      a: 1,\n" +
+            "      b: 2\n" +
+            "    };\n",
+            options: [2, { VariableDeclarator: { var: 2, const: 3 }, "SwitchCase": 1}],
+            ecmaFeatures: { blockBindings: true }
         }
     ],
     invalid: [
@@ -1107,6 +1144,19 @@ ruleTester.run("indent", rule, {
         },
         {
             code:
+            "let a = [\n" +
+            "    a,\n" +
+            "    b\n" +
+            "]",
+            options: [2, {"VariableDeclarator": { let: 2 }, "SwitchCase": 1}],
+            ecmaFeatures: { blockBindings: true },
+            errors: expectedErrors([
+                [2, 2, 4, "Identifier"],
+                [3, 2, 4, "Identifier"]
+            ])
+        },
+        {
+            code:
             "var a = new Test({\n" +
             "      a: 1\n" +
             "  }),\n" +
@@ -1115,6 +1165,24 @@ ruleTester.run("indent", rule, {
             errors: expectedErrors([
                 [2, 8, 6, "Property"],
                 [3, 4, 2, "ObjectExpression"]
+            ])
+        },
+        {
+            code:
+            "var a = new Test({\n" +
+            "      a: 1\n" +
+            "    }),\n" +
+            "    b = 4;\n" +
+            "const a = new Test({\n" +
+            "      a: 1\n" +
+            "    }),\n" +
+            "    b = 4;\n",
+            options: [2, { VariableDeclarator: { var: 2 }}],
+            ecmaFeatures: { blockBindings: true },
+            errors: expectedErrors([
+                [6, 4, 6, "Property"],
+                [7, 2, 4, "ObjectExpression"],
+                [8, 2, 4, "VariableDeclarator"]
             ])
         },
         {
