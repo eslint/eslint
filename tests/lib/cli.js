@@ -14,7 +14,10 @@ var assert = require("chai").assert,
     path = require("path"),
     sinon = require("sinon"),
     fs = require("fs"),
-    sh = require("shelljs");
+    sh = require("shelljs"),
+    proxyquire = require("proxyquire");
+
+proxyquire = proxyquire.noCallThru().noPreserveCache();
 
 /* global tempdir, mkdir, rm, cp */
 
@@ -494,4 +497,27 @@ describe("cli", function() {
             assert.isTrue(console.error.calledOnce);
         });
     });
+
+    describe("when supplied with a plugin", function() {
+
+        it("should apply the plugin rules", function() {
+            var filePath = getFixturePath("rules", "test", "test-custom-rule.js"),
+                examplePluginName = "eslint-plugin-example",
+                requireStubs = {},
+                examplePlugin = { rules: { "cli-example-rule": require(getFixturePath("rules", "custom-rule.js")) } },
+                exampleRuleConfig = "'example/cli-example-rule: 2'";
+
+            requireStubs[examplePluginName] = examplePlugin;
+            requireStubs[examplePluginName]["@global"] = true;
+
+            cli = proxyquire("../../lib/cli", requireStubs);
+            var exit = cli.execute("--plugin " + examplePluginName + " --rule " + exampleRuleConfig + " " + filePath);
+
+            assert.isTrue(console.log.calledOnce);
+            assert.include(console.log.getCall(0).args[0], "Identifier cannot be named 'foo'");
+            assert.equal(exit, 1);
+        });
+
+    });
+
 });

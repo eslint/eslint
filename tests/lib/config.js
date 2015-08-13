@@ -43,6 +43,10 @@ function assertConfigsEqual(actual, expected) {
     if (actual.rules && expected.rules) {
         assert.deepEqual(actual.rules, expected.rules);
     }
+
+    if (actual.plugins && expected.plugins) {
+        assert.deepEqual(actual.plugins, expected.plugins);
+    }
 }
 
 //------------------------------------------------------------------------------
@@ -451,6 +455,24 @@ describe("Config", function() {
                 actual = configHelper.getConfig(file);
 
             expected.env.node = true;
+
+            assertConfigsEqual(actual, expected);
+        });
+
+        // Command line configuration - --plugin
+        it("should merge command line plugin with local .eslintrc", function() {
+
+            var configHelper = new Config({
+                    plugins: [ "another-plugin" ]
+                }),
+                file = getFixturePath("broken", "plugins", "console-wrong-quotes.js"),
+                expected = {
+                    plugins: [
+                        "example",
+                        "another-plugin"
+                    ]
+                },
+                actual = configHelper.getConfig(file);
 
             assertConfigsEqual(actual, expected);
         });
