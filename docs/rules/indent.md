@@ -31,12 +31,13 @@ The `indent` rule has two options:
 * Indentation style, positive number or `tab` (see rule details for examples)
 * Configuring optional validations, `Object`.
     * `SwitchCase` - Level of switch cases indent, 0 by default.
-    * `VariableDeclarator` - Level of variable declaration indent, 1 by default.
+    * `VariableDeclarator` - Level of variable declaration indent, 1 by default. Can take an object to define separate rules for `var`, `let` and `const` declarations.
 
 Level of indentation denotes the multiple of the indent specified. Example:
 
-* Indent of 4 spaces with `VariableDeclarator` set to 2 will indent the multi-line variable declarations with 8 spaces.
-* Indent of 2 spaces with `VariableDeclarator` set to 2 will indent the multi-line variable declarations with 4 spaces.
+* Indent of 4 spaces with `VariableDeclarator` set to `2` will indent the multi-line variable declarations with 8 spaces.
+* Indent of 2 spaces with `VariableDeclarator` set to `2` will indent the multi-line variable declarations with 4 spaces.
+* Indent of 2 spaces with `VariableDeclarator` set to `{"var": 2, "let": 2, "const": 3}` will indent the multi-line variable declarations with 4 spaces for `var` and `let`, 6 spaces for `const` statements.
 * Indent of tab with `VariableDeclarator` set to 2 will indent the multi-line variable declarations with 2 tabs.
 * Indent of 2 spaces with SwitchCase set to 0 will not indent `SwitchCase` with respect to switch.
 * Indent of 2 spaces with SwitchCase set to 2 will indent `SwitchCase` with 4 space with respect to switch.
@@ -128,6 +129,18 @@ let a,
 const a = 1,
     b = 2,
     c = 3;
+
+// variable declarations
+// "indent": [2, 2, {"VariableDeclarator": { "var": 2, "let": 2, "const": 3}]
+var a,
+    b,
+    c;
+let a,
+    b,
+    c;
+const a = 1,
+      b = 2,
+      c = 3;
 
 // switch case
 // "indent": [2, 2, {"SwitchCase": 1}]
