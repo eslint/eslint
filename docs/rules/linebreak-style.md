@@ -52,3 +52,7 @@ This rule may take one option which is either `unix` (LF) or `windows` (CRLF). W
 ## When Not To Use It
 
 If you aren't concerned about having different line endings within you code, then you can safely turn this rule off.
+
+## Compatibility
+
+* **JSCS**: `validateLineBreaks`
