@@ -282,6 +282,77 @@ describe("Config", function() {
             assertConfigsEqual(actual, expected);
         });
 
+        it("should return a modified config when baseConfig is set to an object with extend and no .eslintrc", function() {
+            var StubbedConfig = proxyquire("../../lib/config", {
+                "eslint-config-foo": {
+                    rules: {
+                        eqeqeq: [2, "smart"]
+                    }
+                }
+            });
+
+            var configHelper = new StubbedConfig({
+                    baseConfig: {
+                        env: {
+                            node: true
+                        },
+                        rules: {
+                            quotes: [2, "single"]
+                        },
+                        extends: "eslint-config-foo"
+                    },
+                    useEslintrc: false
+                }),
+                file = getFixturePath("broken", "console-wrong-quotes.js"),
+                expected = {
+                    env: {
+                        node: true
+                    },
+                    rules: {
+                        quotes: [2, "single"],
+                        eqeqeq: [2, "smart"]
+                    }
+                },
+                actual = configHelper.getConfig(file);
+
+            assertConfigsEqual(actual, expected);
+        });
+
+        it("should return a modified config when baseConfig is set to an object with plugin and no .eslintrc", function() {
+            var customRule = require("../fixtures/rules/custom-rule");
+            var examplePluginName = "eslint-plugin-example";
+            var requireStubs = {};
+
+            requireStubs[examplePluginName] = { rules: { "example-rule": customRule }, rulesConfig: { "example-rule": 1 } };
+
+            var StubbedConfig = proxyquire("../../lib/config", requireStubs);
+            var configHelper = new StubbedConfig({
+                    baseConfig: {
+                        env: {
+                            node: true
+                        },
+                        rules: {
+                            quotes: [2, "single"]
+                        },
+                        plugins: [examplePluginName]
+                    },
+                    useEslintrc: false
+                }),
+                file = getFixturePath("broken", "plugins", "console-wrong-quotes.js"),
+                expected = {
+                    env: {
+                        node: true
+                    },
+                    rules: {
+                        quotes: [2, "single"],
+                        "example/example-rule": 1
+                    }
+                },
+                actual = configHelper.getConfig(file);
+
+            assertConfigsEqual(actual, expected);
+        });
+
         // Project configuration - second level .eslintrc
         it("should merge configs when local .eslintrc overrides parent .eslintrc", function() {
 
