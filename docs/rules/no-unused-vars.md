@@ -6,6 +6,15 @@ Variables that are declared and not used anywhere in the code are most likely an
 
 This rule is aimed at eliminating unused variables, functions and variables in parameters of functions, as such, warns when one is found.
 
+A variable is considered to be used when it:
+
+1. Represents a function that is called (`doSomething()`)
+1. Is read (`var y = x`)
+1. Is passed into a function as an argument (`doSomething(x)`)
+1. Is used in the control sequence of a loop (`for (x in y) {}`)
+
+A variable is *not* considered read if it is only ever assigned to (`var x = 5`) or declared.
+
 The following patterns are considered warnings:
 
 ```js
