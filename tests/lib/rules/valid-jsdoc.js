@@ -27,6 +27,8 @@ ruleTester.run("valid-jsdoc", rule, {
         "/**\n* Description\n* @constructor */\nfunction Foo(){}",
         "/**\n* Description\n* @class */\nfunction Foo(){}",
         "/**\n* Description\n* @param {string} p bar\n* @returns {string} desc */\nfunction foo(p){}",
+        "/**\n* Description\n* @arg {string} p bar\n* @returns {string} desc */\nfunction foo(p){}",
+        "/**\n* Description\n* @argument {string} p bar\n* @returns {string} desc */\nfunction foo(p){}",
         "/**\n* Description\n* @param {string} [p] bar\n* @returns {string} desc */\nfunction foo(p){}",
         "/**\n* Description\n* @param {Object} p bar\n* @param {string} p.name bar\n* @returns {string} desc */\nFoo.bar = function(p){};",
         "(function(){\n/**\n* Description\n* @param {string} p bar\n* @returns {string} desc */\nfunction foo(p){}\n}())",
@@ -135,6 +137,17 @@ ruleTester.run("valid-jsdoc", rule, {
             options: [{ prefer: { "return": "returns" }}],
             errors: [{
                 message: "Use @returns instead.",
+                type: "Block"
+            }]
+        },
+        {
+            code: "/** Foo \n@argument {int} bar baz\n */\nfunction foo(bar){}",
+            options: [{ prefer: { "argument": "arg" }}],
+            errors: [{
+                message: "Use @arg instead.",
+                type: "Block"
+            }, {
+                message: "Missing JSDoc @returns for function.",
                 type: "Block"
             }]
         },
