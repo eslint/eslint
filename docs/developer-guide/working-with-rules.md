@@ -145,6 +145,8 @@ There are two formats for a rule's exported `schema`. The first is a full JSON S
 
 However, to simplify schema creation, rules may also export an array of schemas for each optional positional argument, and ESLint will automatically validate the required error level first. For example, the `yoda` rule accepts a primary mode argument, as well as an extra options object with named properties.
 
+If you need any informations about the syntax for this `schema` property, you should have a look to the [is-my-json-valid project](https://github.com/mafintosh/is-my-json-valid) used internally by ESLint.
+
 ```js
 // "yoda": [2, "never", { "exceptRange": true }]
 module.exports.schema = [
