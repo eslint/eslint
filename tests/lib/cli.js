@@ -164,6 +164,19 @@ describe("cli", function() {
         });
     });
 
+    describe("when given a config that is a sharable config", function() {
+        it("should execute without any errors", function() {
+            var configPath = "xo";
+            var filePath = getFixturePath("passing.js");
+            var code = "--config " + configPath + " " + filePath;
+
+            var exit = cli.execute(code);
+
+            assert.equal(exit, 1);
+            assert.isTrue(console.log.called);
+        });
+    });
+
     describe("when given a valid built-in formatter name", function() {
         it("should execute without any errors", function() {
             var filePath = getFixturePath("passing.js");
