@@ -26,6 +26,16 @@ module.exports = {
             globalReturn: true
         }
     },
+    commonjs: {
+        globals: {
+            module: false,
+            require: false,
+            exports: false
+        },
+        ecmaFeatures: {
+            globalReturn: true
+        }
+    },
     worker: {
         globals: globals.worker
     },
