@@ -55,6 +55,10 @@ ruleTester.run("no-duplicate-case", rule, {
         {
             code: "var a = 1, f1 = function() { return { p1: 1 } }, f2 = function() { return { p1: 2 } }; switch (a) {case f1().p1: break; case f2().p1: break; default: break;}",
             args: 2
+        },
+        {
+            code: "var a = [1,2]; switch(a.toString()){case ([1,2]).toString():break; case ([1]).toString():break; default:break;}",
+            args: 2
         }
     ],
     invalid: [
@@ -116,6 +120,14 @@ ruleTester.run("no-duplicate-case", rule, {
         },
         {
             code: "var a = 1, f1 = function() { return { p1: 1 } }; switch (a) {case f1().p1: break; case f1().p1: break; default: break;}",
+            args: 2,
+            errors: [{
+                message: "Duplicate case label.",
+                type: "SwitchCase"
+            }]
+        },
+        {
+            code: "var a = [1, 2]; switch(a.toString()){case ([1, 2]).toString():break; case ([1, 2]).toString():break; default:break;}",
             args: 2,
             errors: [{
                 message: "Duplicate case label.",
