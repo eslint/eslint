@@ -54,6 +54,15 @@ Example:
 
 This example uses the configuration file at `~/my-eslint.json`.
 
+It also accepts a module ID of [sharable config](../developer-guide/shareable-configs).
+
+Example:
+
+    eslint -c myconfig file.js
+
+This example directly uses the sharable config `eslint-config-myconfig`.
+
+
 ### `--env`
 
 This option enables specific environments. Details about the global variables defined by each environment are available on the [configuration](configuring) documentation. This flag only enables environments; it does not disable environments set in other configuration files. To specify multiple environments, separate them using commas, or use the flag multiple times.
