@@ -107,6 +107,7 @@
         "arrow-spacing": 0,
         "accessor-pairs": 0,
         "block-scoped-var": 0,
+        "block-spacing": 0,
         "brace-style": [0, "1tbs"],
         "callback-return": 0,
         "camelcase": 0,
