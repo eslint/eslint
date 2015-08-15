@@ -13,7 +13,6 @@ var assert = require("chai").assert,
     path = require("path"),
     fs = require("fs"),
     Config = require("../../lib/config"),
-    fixtureSharableConfig = require("@ljharb/eslint-config"),
     sinon = require("sinon"),
     proxyquire = require("proxyquire");
 
@@ -590,11 +589,22 @@ describe("Config", function() {
         });
 
         it("should load a sharable config as a command line config", function() {
-            var configHelper = new Config({
+            var StubbedConfig = proxyquire("../../lib/config", {
+                "@test/eslint-config": {
+                    rules: {
+                        "no-var": 2
+                    }
+                }
+            });
+            var configHelper = new StubbedConfig({
                     useEslintrc: false,
-                    configFile: "@ljharb"
+                    configFile: "@test"
                 }),
-                expected = fixtureSharableConfig,
+                expected = {
+                    rules: {
+                        "no-var": 2
+                    }
+                },
                 actual = configHelper.getConfig(path.resolve(__dirname, "..", "fixtures", "configurations", "empty", "empty.json"));
 
             assertConfigsEqual(actual, expected);

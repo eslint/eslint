@@ -4,7 +4,6 @@ node_js:
     - "0.12"
     - iojs
 sudo: false
-before_install: "if [[ `node --version` == *v0.10* ]]; then npm install -g npm; fi;"
 script: "npm test && npm run check-commit && npm run docs"
 after_success:
     - npm run coveralls
