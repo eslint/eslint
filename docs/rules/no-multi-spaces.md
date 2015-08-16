@@ -98,7 +98,7 @@ var obj = {
 You may wish to align variable declarations or import declarations with spaces. You can add exceptions for these cases:
 
 ```js
-/* eslint no-multi-spaces: [2, { exceptions: { "VariableDeclaration": true } }] */
+/* eslint no-multi-spaces: [2, { exceptions: { "VariableDeclarator": true } }] */
 var someVar      = 'foo';
 var someOtherVar = 'barBaz';
 
