@@ -8,7 +8,7 @@ This rule will warn when spacing in properties does not match the specified opti
 
 ### 1. Individual
 
-Use just the `beforeColon` and `afterColon` options to enforce having one space or zero spaces on each side, using `true` or `false`, respectively. The default is no whitespace between the key and the colon and one space between the colon and the value.
+Use just the `beforeColon` and `afterColon` options to enforce having spaces on each side. The expected type for this field is a number indicating the number of spaces you expect. Boolean values are also expected which are cast to integers. The default is no whitespace between the key and the colon and one space between the colon and the value. Pass `null` to any of these fields if you don't care about the number of spaces.
 
 The following patterns are considered valid:
 
