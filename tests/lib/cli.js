@@ -166,11 +166,27 @@ describe("cli", function() {
 
     describe("when given a config that is a sharable config", function() {
         it("should execute without any errors", function() {
+            var stubbedConfig = proxyquire("../../lib/config", {
+                "eslint-config-xo": {
+                    rules: {
+                        "no-var": 2
+                    }
+                },
+                "is-resolvable": function() {
+                    return true;
+                }
+            });
+            var stubbedCLIEngine = proxyquire("../../lib/cli-engine", {
+                "./config": stubbedConfig
+            });
+            var stubCli = proxyquire("../../lib/cli", {
+                "./cli-engine": stubbedCLIEngine
+            });
             var configPath = "xo";
             var filePath = getFixturePath("passing.js");
             var code = "--config " + configPath + " " + filePath;
 
-            var exit = cli.execute(code);
+            var exit = stubCli.execute(code);
 
             assert.equal(exit, 1);
             assert.isTrue(console.log.called);
