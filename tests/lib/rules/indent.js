@@ -661,6 +661,27 @@ ruleTester.run("indent", rule, {
             "    };\n",
             options: [2, { VariableDeclarator: { var: 2, const: 3 }, "SwitchCase": 1}],
             ecmaFeatures: { blockBindings: true }
+        },
+        {
+            code:
+                "module.exports =\n" +
+                "{\n" +
+                "  'Unit tests':\n" +
+                "  {\n" +
+                "    rootPath: './',\n" +
+                "    environment: 'node',\n" +
+                "    tests:\n" +
+                "    [\n" +
+                "      'test/test-*.js'\n" +
+                "    ],\n" +
+                "    sources:\n" +
+                "    [\n" +
+                "      '*.js',\n" +
+                "      'test/**.js'\n" +
+                "    ]\n" +
+                "  }\n" +
+                "};",
+            options: [2]
         }
     ],
     invalid: [
