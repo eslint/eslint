@@ -197,6 +197,7 @@ These rules are only relevant to ES6 environments.
 * [generator-star-spacing](generator-star-spacing.md) - enforce spacing around the `*` in generator functions
 * [no-class-assign](no-class-assign.md) - disallow modifying variables of class declarations
 * [no-const-assign](no-const-assign.md) - disallow modifying variables that are declared using `const`
+* [no-dupe-class-members](no-dupe-class-members.md) - disallow duplicate name in class members
 * [no-this-before-super](no-this-before-super.md) - disallow use of `this`/`super` before calling `super()` in constructors.
 * [no-var](no-var.md) - require `let` or `const` instead of `var`
 * [object-shorthand](object-shorthand.md) - require method and property shorthand syntax for object literals
