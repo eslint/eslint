@@ -682,6 +682,19 @@ ruleTester.run("indent", rule, {
                 "  }\n" +
                 "};",
             options: [2]
+        },
+        {
+            code:
+                "var path     = require('path')\n" +
+                "  , crypto    = require('crypto')\n" +
+                "  ;\n",
+            options: [2]
+        },
+        {
+            code:
+                "var a = 1\n" +
+                "   ,b = 2\n" +
+                "   ;"
         }
     ],
     invalid: [
@@ -1236,6 +1249,25 @@ ruleTester.run("indent", rule, {
                 [3, 6, 7, "Property"],
                 [4, 6, 8, "Property"],
                 [5, 4, 5, "ObjectExpression"]
+            ])
+        },
+        {
+            code:
+                "var path     = require('path')\n" +
+                " , crypto    = require('crypto')\n" +
+                ";\n",
+            options: [2],
+            errors: expectedErrors([
+                [3, 1, 0, "VariableDeclaration"]
+            ])
+        },
+        {
+            code:
+                "var a = 1\n" +
+                "   ,b = 2\n" +
+                ";",
+            errors: expectedErrors([
+                [3, 3, 0, "VariableDeclaration"]
             ])
         }
     ]
