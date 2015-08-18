@@ -197,8 +197,9 @@ var cli = new CLIEngine({
     }
 });
 
-// lint myfile.js and all files in lib/
-var report = cli.executeOnText("var foo = 'bar';");
+// lint the supplied text and optionally set
+// a filename that is displayed in the report
+var report = cli.executeOnText("var foo = 'bar';", "foo.js");
 ```
 
 The `report` returned from `executeOnText()` is in the same format as from `executeOnFiles()`, but there is only ever one result in `report.results`.
