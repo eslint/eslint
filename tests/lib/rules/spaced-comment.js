@@ -37,6 +37,12 @@ ruleTester.run("spaced-comment", rule, {
             }]
         },
         {
+            code: "//-----------------------\n// A comment\n//-----------------------",
+            options: ["always", {
+                line: { exceptions: ["-", "=", "*", "#", "!@#"] }
+            }]
+        },
+        {
             code: "//===========\n// A comment\n//*************",
             options: ["always", {
                 exceptions: ["-", "=", "*", "#", "!@#"]
@@ -60,6 +66,12 @@ ruleTester.run("spaced-comment", rule, {
             code: "var a = 1; /*######*/",
             options: ["always", {
                 exceptions: ["-", "=", "*", "#", "!@#"]
+            }]
+        },
+        {
+            code: "var a = 1; /*######*/",
+            options: ["always", {
+                block: { exceptions: ["-", "=", "*", "#", "!@#"] }
             }]
         },
         {
@@ -89,6 +101,12 @@ ruleTester.run("spaced-comment", rule, {
             }]
         },
         {
+            code: "//!< docblock style comment",
+            options: ["always", {
+                line: { markers: ["/", "!<"] }
+            }]
+        },
+        {
             code: "//----\n// a comment\n//----\n/// xmldoc style comment\n//!< docblock style comment",
             options: ["always", {
                 exceptions: ["-"],
@@ -112,6 +130,10 @@ ruleTester.run("spaced-comment", rule, {
         {
             code: "/*!\n *comment\n */",
             options: ["always", { markers: ["!"] }]
+        },
+        {
+            code: "/*!\n *comment\n */",
+            options: ["always", { block: { markers: ["!"] } }]
         },
         {
             code: "/**\n *jsdoc\n */",
@@ -213,7 +235,11 @@ ruleTester.run("spaced-comment", rule, {
         // markers & exceptions
         {
             code: "///--------\r\n/// test\r\n///--------",
-            options: ["always", {markers: ["/"], exceptions: ["-"]}]
+            options: ["always", { markers: ["/"], exceptions: ["-"] }]
+        },
+        {
+            code: "///--------\r\n/// test\r\n///--------\r\n/* blah */",
+            options: ["always", { markers: ["/"], exceptions: ["-"], block: { markers: [] } }]
         }
     ],
 
@@ -348,6 +374,67 @@ ruleTester.run("spaced-comment", rule, {
             errors: [{
                 message: "Unexpected space or tab after /* in comment.",
                 type: "Block"
+            }]
+        },
+        {
+            code: "//-----------------------\n// A comment\n//-----------------------",
+            options: ["always", {
+                block: { exceptions: ["-", "=", "*", "#", "!@#"] }
+            }],
+            errors: [
+                { message: "Expected space or tab after // in comment.", type: "Line"},
+                { message: "Expected space or tab after // in comment.", type: "Line"}
+            ]
+        },
+        {
+            code: "var a = 1; /*######*/",
+            options: ["always", {
+                line: { exceptions: ["-", "=", "*", "#", "!@#"] }
+            }],
+            errors: [{
+                message: "Expected space or tab after /* in comment.",
+                type: "Block"
+            }]
+        },
+        {
+            code: "//!< docblock style comment",
+            options: ["always", {
+                block: { markers: ["/", "!<"] }
+            }],
+            errors: [{
+                message: "Expected space or tab after // in comment.",
+                type: "Line"
+            }]
+        },
+        {
+            code: "/*!\n *comment\n */",
+            options: ["always", { line: { markers: ["!"] } }],
+            errors: [{
+                message: "Expected space or tab after /* in comment.",
+                type: "Block"
+            }]
+        },
+        {
+            code: "///--------\r\n/// test\r\n///--------\r\n/*/ blah *//*-----*/",
+            options: ["always", { markers: ["/"], exceptions: ["-"], block: { markers: [] } }],
+            errors: [{
+                message: "Expected exception block, space or tab after /* in comment.",
+                type: "Block"
+            }]
+        },
+        {
+            code: "///--------\r\n/// test\r\n///--------\r\n/*/ blah */ /*-----*/",
+            options: ["always", { line: { markers: ["/"], exceptions: ["-"] } }],
+            errors: [{
+                message: "Expected space or tab after /* in comment.",
+                type: "Block",
+                line: 4,
+                column: 1
+            }, {
+                message: "Expected space or tab after /* in comment.",
+                type: "Block",
+                line: 4,
+                column: 13
             }]
         }
     ]
