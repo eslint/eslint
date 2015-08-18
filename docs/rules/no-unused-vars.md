@@ -98,6 +98,51 @@ The following code:
 })();
 ```
 
+#### Ignore identifiers that match specific patterns
+
+* `varsIgnorePattern` - all variables that match this regexp pattern will not be checked.
+* `argsIgnorePattern` - all arguments that match this regexp pattern will not be checked.
+
+##### Examples
+
+* Ignore all unused function arguments with a leading underscore
+
+    ```json
+    {
+        "rules": {
+            "no-unused-vars": [2, {"args": "after-used", "argsIgnorePattern": "^_"}]
+        }
+    }
+    ```
+
+    With this configuration, this rule will not warn about the following code:
+
+    ```js
+    function foo(x, _y) {
+        return x + 1;
+    }
+    foo();
+    ```
+
+* Ignore all unused variables which contain the term `ignored` or `Ignored`:
+
+    ```json
+        {
+            "ecmaFeatures": { "destructuring": true },
+            "rules": {
+                "no-unused-vars": [2, {"vars": "all", "varsIgnorePattern": "[iI]gnored"}]
+            }
+        }
+    ```
+
+    With this configuration, this rule will not warn about the following code:
+
+    ```js
+    var [ firstItemIgnored, secondItem ] = items;
+    console.log(secondItem);
+    ```
+
+
 ## When Not to Use It
 
 If you don't want to be notified about unused variables or function arguments, you can safely turn this rule off.
