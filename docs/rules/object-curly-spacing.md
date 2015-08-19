@@ -104,9 +104,9 @@ Note that `{}` is always exempt from spacing requirements with this rule.
 
 #### Exceptions
 
-There is one exception you can apply to this rule. It's called `objectsInObjects` and
-can be set either `true` or `false` as part of an object literal set as the 3rd argument
-for the rule.
+There are two exceptions you can apply to this rule: `objectsInObjects` and
+`arraysInObjects`. Their values can be set to either `true` or `false` as part
+of an object literal set as the 3rd argument for the rule.
 
 These exceptions work in the context of the first option.
 That is, if `"always"` is set to enforce spacing and an exception is set to `false`,
