@@ -67,11 +67,11 @@ ruleTester.run("comma-spacing", rule, {
         {code: "var obj = {'foo':\n'bar' ,'baz':\n'qur'};", options: [{before: true, after: false}]},
         {code: "var a = 1 ,b = 2;", options: [{before: true, after: false}]},
         {code: "function foo(a ,b){}", options: [{before: true, after: false}]},
-        {code: "var arr = [ ,];", options: [{before: true, after: false}]},
+        {code: "var arr = [,];", options: [{before: true, after: false}]},
         {code: "var arr = [1 ,];", options: [{before: true, after: false}]},
         {code: "var arr = [ ,2];", options: [{before: true, after: false}]},
         {code: "var arr = [1 ,2];", options: [{before: true, after: false}]},
-        {code: "var arr = [ , ,];", options: [{before: true, after: false}]},
+        {code: "var arr = [,,];", options: [{before: true, after: false}]},
         {code: "var arr = [1 , ,];", options: [{before: true, after: false}]},
         {code: "var arr = [ ,2 ,];", options: [{before: true, after: false}]},
         {code: "var arr = [ , ,3];", options: [{before: true, after: false}]},
@@ -81,26 +81,30 @@ ruleTester.run("comma-spacing", rule, {
         {code: "var arr = [1 ,2 ,3];", options: [{before: true, after: false}]},
         {code: "var obj = {'foo':'bar' , 'baz':'qur'};", options: [{before: true, after: true}]},
         {code: "var a = 1 , b = 2;", options: [{before: true, after: true}]},
-        {code: "var arr = [ , ];", options: [{before: true, after: true}]},
+        {code: "var arr = [, ];", options: [{before: true, after: true}]},
         {code: "var arr = [1 , ];", options: [{before: true, after: true}]},
         {code: "var arr = [ , 2];", options: [{before: true, after: true}]},
         {code: "var arr = [1 , 2];", options: [{before: true, after: true}]},
-        {code: "var arr = [ , , ];", options: [{before: true, after: true}]},
+        {code: "var arr = [, , ];", options: [{before: true, after: true}]},
         {code: "var arr = [1 , , ];", options: [{before: true, after: true}]},
         {code: "var arr = [ , 2 , ];", options: [{before: true, after: true}]},
         {code: "var arr = [ , , 3];", options: [{before: true, after: true}]},
         {code: "var arr = [1 , 2 , ];", options: [{before: true, after: true}]},
-        {code: "var arr = [ , 2 , 3];", options: [{before: true, after: true}]},
+        {code: "var arr = [, 2 , 3];", options: [{before: true, after: true}]},
         {code: "var arr = [1 , , 3];", options: [{before: true, after: true}]},
         {code: "var arr = [1 , 2 , 3];", options: [{before: true, after: true}]},
         {code: "a , b", options: [{before: true, after: true}]},
         {code: "var arr = [,];", options: [{before: false, after: false}]},
+        {code: "var arr = [ ,];", options: [{before: false, after: false}]},
         {code: "var arr = [1,];", options: [{before: false, after: false}]},
         {code: "var arr = [,2];", options: [{before: false, after: false}]},
+        {code: "var arr = [ ,2];", options: [{before: false, after: false}]},
         {code: "var arr = [1,2];", options: [{before: false, after: false}]},
         {code: "var arr = [,,];", options: [{before: false, after: false}]},
+        {code: "var arr = [ ,,];", options: [{before: false, after: false}]},
         {code: "var arr = [1,,];", options: [{before: false, after: false}]},
         {code: "var arr = [,2,];", options: [{before: false, after: false}]},
+        {code: "var arr = [ ,2,];", options: [{before: false, after: false}]},
         {code: "var arr = [,,3];", options: [{before: false, after: false}]},
         {code: "var arr = [1,2,];", options: [{before: false, after: false}]},
         {code: "var arr = [,2,3];", options: [{before: false, after: false}]},
@@ -111,6 +115,8 @@ ruleTester.run("comma-spacing", rule, {
         { code: "var [a, b] = [1, 2];", ecmaFeatures: { destructuring: true } },
         { code: "var [a, b, ] = [1, 2];", ecmaFeatures: { destructuring: true } },
         { code: "var [a, , b] = [1, 2, 3];", ecmaFeatures: { destructuring: true } },
+        { code: "var [ , b] = a;", ecmaFeatures: { destructuring: true } },
+        { code: "var [, b] = a;", ecmaFeatures: { destructuring: true } },
         { code: "<a>,</a>", ecmaFeatures: { jsx: true } },
         { code: "<a>  ,  </a>", ecmaFeatures: { jsx: true } },
         { code: "<a>Hello, world</a>", options: [{ before: true, after: false }], ecmaFeatures: { jsx: true } }
@@ -160,15 +166,6 @@ ruleTester.run("comma-spacing", rule, {
         },
         {
             code: "var arr = [1 , 2];",
-            errors: [
-                {
-                    message: "There should be no space before ','.",
-                    type: "Punctuator"
-                }
-            ]
-        },
-        {
-            code: "var arr = [ , 2];",
             errors: [
                 {
                     message: "There should be no space before ','.",
