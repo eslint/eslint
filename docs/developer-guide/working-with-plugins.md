@@ -4,9 +4,11 @@ Each plugin is an npm module with a name in the format of `eslint-plugin-<plugin
 
 ## Create a Plugin
 
-The module must export an object with a `rules` property.
-This `rules` property should be an object containing a key-value mapping of rule ID to rule.
-The rule ID does not have to follow any naming convention (so it can just be `dollar-sign`, for instance).
+The easiest way to start creating a plugin is to use the [Yeoman generator](https://npmjs.com/package/generator-eslint). The generator will guide you through setting up the skeleton of a plugin.
+
+### Rules in Plugins
+
+If your plugin has rules, then it must export an object with a `rules` property. This `rules` property should be an object containing a key-value mapping of rule ID to rule. The rule ID does not have to follow any naming convention (so it can just be `dollar-sign`, for instance).
 
 ```js
 module.exports = {
@@ -20,8 +22,7 @@ module.exports = {
 
 ### Processors in Plugins
 
-You can also create plugins that would tell ESLint how to process files other than JavaScript. In order to create a
-processor, object that is exported from your module has to conform to the following interface:
+You can also create plugins that would tell ESLint how to process files other than JavaScript. In order to create a processor, object that is exported from your module has to conform to the following interface:
 
 ```js
 processors: {
@@ -98,11 +99,11 @@ Example:
 ```js
 "use strict";
 
-var linter = require("eslint").linter,
-    ESLintTester = require("eslint-tester"),
-    eslintTester = new ESLintTester(linter);
+var rule = require("../../../lib/rules/custom-plugin-rule"),
+    RuleTester = require("eslint").RuleTester;
 
-eslintTester.addRuleTest("lib/rules/custom-plugin-rule", {
+var ruleTester = new RuleTester();
+ruleTester.run("custom-plugin-rule", rule, {
     valid: [
         "var validVariable = true",
     ],
