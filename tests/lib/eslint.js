@@ -138,7 +138,32 @@ describe("eslint", function() {
 
     });
 
-    describe("toSource()", function() {
+    describe("getSourceCode()", function() {
+        var code = TEST_CODE;
+
+        it("should retrieve SourceCode object after reset", function() {
+            eslint.reset();
+            eslint.verify(code, {}, filename, true);
+
+            var sourceCode = eslint.getSourceCode();
+            assert.isObject(sourceCode);
+            assert.equal(sourceCode.text, code);
+            assert.isObject(sourceCode.ast);
+        });
+
+        it("should retrieve SourceCode object without reset", function() {
+            eslint.reset();
+            eslint.verify(code, {}, filename);
+
+            var sourceCode = eslint.getSourceCode();
+            assert.isObject(sourceCode);
+            assert.equal(sourceCode.text, code);
+            assert.isObject(sourceCode.ast);
+        });
+
+    });
+
+    describe("getSource()", function() {
         var code = TEST_CODE;
 
         it("should retrieve all text when used without parameters", function() {
