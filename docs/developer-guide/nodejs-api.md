@@ -4,6 +4,18 @@ While ESLint is designed to be run on the command line, it's possible to use ESL
 
 **Note:** Use undocumented parts of the API at your own risk. Only those parts that are specifically mentioned in this document are approved for use and will remain stable and reliable. Anything left undocumented is unstable and may change or be removed at any point.
 
+## SourceCode
+
+The `SourceCode` type represents the parsed source code that ESLint executes on. It's used internally in ESLint and is also available so that already-parsed code can be used. You can create a new instance of `SourceCode` by passing in the text string representing the code and an abstract syntax tree (AST) in [ESTree](https://github.com/estree/estree) format (including location information, range information, comments, and tokens):
+
+```js
+var SourceCode = require("eslint").SourceCode;
+
+var code = new SourceCode("var foo = bar;", ast);
+```
+
+The `SourceCode` constructor throws an error if the AST is missing any of the required information.
+
 ## linter
 
 The `linter` object does the actual evaluation of the JavaScript code. It doesn't do any filesystem operations, it simply parses and reports on the code. You can retrieve `linter` like this:
@@ -14,7 +26,7 @@ var linter = require("eslint").linter;
 
 The most important method on `linter` is `verify()`, which initiates linting of the given text. This method accepts four arguments:
 
-* `code` - the source code to lint (a string).
+* `code` - the source code to lint (a string or instance of `SourceCode`).
 * `config` - a configuration object.
 * `filename` - (optional) the filename to associate with the source code.
 * `saveState` - (optional) set to true to maintain the internal state of `linter` after linting (mostly used for testing purposes).
@@ -25,6 +37,19 @@ You can call `verify()` like this:
 var linter = require("eslint").linter;
 
 var messages = linter.verify("var foo;", {
+    rules: {
+        semi: 2
+    }
+}, "foo.js");
+
+// or using SourceCode
+
+var linter = require("eslint").linter,
+    SourceCode = require("eslint").SourceCode;
+
+var code = new SourceCode("var foo = bar;", ast);
+
+var messages = linter.verify(code, {
     rules: {
         semi: 2
     }
@@ -55,6 +80,24 @@ The information available for each linting message is:
 * `ruleId` - the ID of the rule that triggered the messages (or null if `fatal` is true).
 * `severity` - either 1 or 2, depending on your configuration.
 * `source` - the line of code where the problem is (or empty string if it can't be found).
+
+You can also get an instance of the `SourceCode` object used inside of `linter` by using the `getSourceCode()` method:
+
+```js
+var linter = require("eslint").linter;
+
+var messages = linter.verify("var foo = bar;", {
+    rules: {
+        semi: 2
+    }
+}, "foo.js");
+
+var code = linter.getSourceCode();
+
+console.log(code.text);     // "var foo = bar;"
+```
+
+In this way, you can retrieve the text and AST used for the last run of `linter.verify()`.
 
 ## CLIEngine
 
