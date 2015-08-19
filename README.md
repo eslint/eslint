@@ -59,11 +59,12 @@ These folks keep the project moving and are resources for help:
 * Nicholas C. Zakas ([@nzakas](https://github.com/nzakas)) - project lead
 * Ilya Volodin ([@ilyavolodin](https://github.com/ilyavolodin)) - reviewer
 * Brandon Mills ([@btmills](https://github.com/btmills)) - reviewer
+* Gyandeep Singh ([@gyandeeps](https://github.com/gyandeeps)) - reviewer
 * Mathias Schreck ([@lo1tuma](https://github.com/lo1tuma)) - committer
-* Gyandeep Singh ([@gyandeeps](https://github.com/gyandeeps)) - committer
 * Jamund Ferguson ([@xjamundx](https://github.com/xjamundx)) - committer
 * Ian VanSchooten ([@ianvs](https://github.com/ianvs)) - committer
 * Toru Nagashima ([@mysticatea](https://github.com/mysticatea)) - committer
+* Burak Yiğit Kaya ([@byk](https://github.com/byk)) - committer 
 
 ## Frequently Asked Questions
 
