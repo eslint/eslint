@@ -27,6 +27,9 @@ var foo = function foo(a) { return a; };
 
 // using `this` without `.bind(this)`.
 foo(function() { return this.a; });
+
+// recursively.
+foo(function bar(n) { return n && n + bar(n - 1); });
 ```
 
 ## When Not to Use It
