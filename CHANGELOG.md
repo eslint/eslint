@@ -1,3 +1,16 @@
+v1.2.1 - August 20, 2015
+
+* Fix: "key-spacing" crashes eslint on object literal shorthand properties  (fixes #3463) (Burak Yigit Kaya)
+* Fix: ignore leading space check for `null` elements in comma-spacing (fixes #3392) (Mathias Schreck)
+* Fix: `prefer-arrow-callback` false positive at recursive functions (fixes #3454) (Toru Nagashima)
+* Fix: one-var rule doesn’t have default options (fixes #3449) (Burak Yigit Kaya)
+* Fix: Refactor `no-duplicate-case` to be simpler and more efficient (fixes #3440) (Burak Yigit Kaya)
+* Docs: Fix trailing spaces in README (Nicholas C. Zakas)
+* Docs: Update gyandeeps and add byk (Nicholas C. Zakas)
+* Docs: Update plugins documentation for 1.0.0 (Nicholas C. Zakas)
+* Docs: `object-curly-spacing` doc is inaccurate about exceptions (Burak Yigit Kaya)
+* Fix: `object-curly-spacing` shows the incorrect column for opening brace (fixes #3438) (Burak Yigit Kaya)
+
 v1.2.0 - August 18, 2015
 
 * Update: add support for semicolon in comma-first setup in indent rule  (fixes #3423) (Burak Yigit Kaya)
