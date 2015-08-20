@@ -695,6 +695,29 @@ ruleTester.run("indent", rule, {
                 "var a = 1\n" +
                 "   ,b = 2\n" +
                 "   ;"
+        },
+        {
+            code:
+                "export function create (some,\n" +
+                "                        argument) {\n" +
+                "  return Object.create({\n" +
+                "    a: some,\n" +
+                "    b: argument\n" +
+                "  });\n" +
+                "};",
+            ecmaFeatures: { modules: true },
+            options: [2]
+        },
+        {
+            code:
+                "export function create (id, xfilter, rawType,\n" +
+                "                        width=defaultWidth, height=defaultHeight,\n" +
+                "                        footerHeight=defaultFooterHeight,\n" +
+                "                        padding=defaultPadding) {\n" +
+                "  // ... function body, indented two spaces\n" +
+                "}\n",
+            ecmaFeatures: { modules: true, defaultParams: true },
+            options: [2]
         }
     ],
     invalid: [
