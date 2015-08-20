@@ -1,6 +1,7 @@
 /**
  * @fileoverview Tests for id-length rule.
  * @author Burak Yigit Kaya
+ * @copyright 2015 Mathieu M-Gosselin. All rights reserved.
  */
 
 "use strict";
@@ -50,7 +51,10 @@ ruleTester.run("id-length", rule, {
         { code: "import something from 'y';", ecmaFeatures: { modules: true } },
         { code: "export var num = 0;", ecmaFeatures: { modules: true } },
         { code: "({ prop: obj.x.y.something }) = {};", ecmaFeatures: { destructuring: true } },
-        { code: "({ prop: obj.longName }) = {};", ecmaFeatures: { destructuring: true } }
+        { code: "({ prop: obj.longName }) = {};", ecmaFeatures: { destructuring: true } },
+        { code: "var obj = { a: 1, bc: 2 };", options: [{ "properties": "never" }] },
+        { code: "({ a: obj.x.y.z }) = {};", options: [{ "properties": "never" }], ecmaFeatures: { destructuring: true } },
+        { code: "({ prop: obj.x }) = {};", options: [{ "properties": "never" }], ecmaFeatures: { destructuring: true } }
     ],
     invalid: [
         { code: "var x = 1;", errors: [{ message: "Identifier name 'x' is too short. (< 2)", type: "Identifier" }] },
@@ -105,6 +109,7 @@ ruleTester.run("id-length", rule, {
         ]},
         { code: "({ prop: obj.x }) = {};", ecmaFeatures: { destructuring: true }, errors: [
             { message: "Identifier name 'x' is too short. (< 2)", type: "Identifier" }
-        ]}
+        ]},
+        { code: "var x = 1;", options: [{ "properties": "never" }], errors: [{ message: "Identifier name 'x' is too short. (< 2)", type: "Identifier" }] }
     ]
 });
