@@ -82,6 +82,8 @@ try {
 
 var myObj = { apple: 1 };
 
+var myObj = { a: 1 };  // With {"properties": "never"}
+
 (num) => { num * num };
 
 function foo(num = 0) { }
@@ -106,6 +108,10 @@ export var num = 0;
 
 ({ prop: obj.longName }) = {};
 
+({ a: obj.x.y.z }) = {};  // With {"properties": "never"}
+
+({ prop: obj.x }) = {};  // With {"properties": "never"}
+
 var data = { "x": 1 };  // excused because of quotes
 
 data["y"] = 3;  // excused because of calculated property access
@@ -113,16 +119,18 @@ data["y"] = 3;  // excused because of calculated property access
 
 ### Options
 
-The `id-length` rule has no required options and has 3 optional ones that needs to be passed in a single options object:
+The `id-length` rule has no required options and has 4 optional ones that needs to be passed in a single options object:
 
 * **min** *(default: 2)*: The minimum number of characters an identifier name should be, after it is stripped from it is prefixes and suffixes
 * **max** *(default: Infinity)*: The maximum number of characters an identifier name should be, after it is stripped from it is prefixes and suffixes
+* **properties** *(default: "always")*: If set to `"never"` does not check property names at all
 * **exceptions**: An array of identifier names that the rule should not apply to
 
-For example, to specify a minimum identifier length of 3 and maximum of 10 and add `x` to exception list, use the following configuration:
+
+For example, to specify a minimum identifier length of 3, a maximum of 10, ignore property names and add `x` to exception list, use the following configuration:
 
 ```json
-"id-length": [2, {"min": 3, "max": 10, "exceptions": ["x"]}]
+"id-length": [2, {"min": 3, "max": 10, "properties": "never", "exceptions": ["x"]}]
 ```
 
 
