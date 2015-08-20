@@ -185,6 +185,18 @@ ruleTester.run("key-spacing", rule, {
             "};"
         ].join("\n"),
         options: [{ align: "colon" }]
+    }, {
+        code: [
+            "var a = 'a';",
+            "var b = 'b';",
+            "",
+            "export default {",
+            "    a,",
+            "    b",
+            "};"
+        ].join("\n"),
+        ecmaFeatures: { modules: true, objectLiteralShorthandProperties: true },
+        options: [{ "align": "value" }]
     }],
 
     invalid: [{
