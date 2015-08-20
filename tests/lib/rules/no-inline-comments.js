@@ -37,6 +37,12 @@ ruleTester.run("no-inline-comments", rule, {
         },
         {
             code: "// A solitary comment"
+        },
+        {
+            code: "var a = 1; // eslint-disable-line some-rule"
+        },
+        {
+            code: "var a = 1; /* eslint-disable-line some-rule */"
         }
     ],
 
@@ -51,6 +57,10 @@ ruleTester.run("no-inline-comments", rule, {
         },
         {
             code: "var a = 3; //A comment inline with code",
+            errors: [ lineError ]
+        },
+        {
+            code: "var a = 3; // someday use eslint-disable-line here",
             errors: [ lineError ]
         },
         {
