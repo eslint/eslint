@@ -29,10 +29,6 @@ ruleTester.run("one-var", rule, {
             options: ["never"]
         },
         {
-            code: "function foo() { var bar = true; var baz = false; }",
-            options: ["never"]
-        },
-        {
             code: "for (var i = 0, len = arr.length; i < len; i++) {}",
             options: ["never"]
         },
@@ -203,17 +199,6 @@ ruleTester.run("one-var", rule, {
             },
             options: [{initialized: "never"}]
         },
-        "function foo() { var bar = true; var baz = false; }",
-        "function foo() { var bar = true; if (qux) { var baz = false; } else { var quxx = 42; } }",
-        "var foo = function() { var bar = true; var baz = false; }",
-        {
-            code: "var foo = () => { var bar = true; var baz = false; }",
-            ecmaFeatures: {
-                arrowFunctions: true
-            }
-        },
-        "var foo = function() { var bar = true; if (qux) { var baz = false; } }",
-        "var foo; var bar;",
         {
             code: "var foo, bar; const a=1; const b=2; let c, d",
             ecmaFeatures: {
@@ -518,6 +503,59 @@ ruleTester.run("one-var", rule, {
             errors: [ {
                 message: "Combine this with the previous 'var' statement.",
                 type: "VariableDeclaration"
+            } ]
+        },
+        {
+            code: "var foo = function() { var bar = true; var baz = false; }",
+            errors: [ {
+                message: "Combine this with the previous 'var' statement.",
+                type: "VariableDeclaration",
+                line: 1,
+                column: 40
+            } ]
+        },
+        {
+            code: "function foo() { var bar = true; if (qux) { var baz = false; } else { var quxx = 42; } }",
+            errors: [ {
+                message: "Combine this with the previous 'var' statement.",
+                type: "VariableDeclaration",
+                line: 1,
+                column: 45
+            }, {
+                message: "Combine this with the previous 'var' statement.",
+                type: "VariableDeclaration",
+                line: 1,
+                column: 71
+            } ]
+        },
+        {
+            code: "var foo = () => { var bar = true; var baz = false; }",
+            ecmaFeatures: {
+                arrowFunctions: true
+            },
+            errors: [ {
+                message: "Combine this with the previous 'var' statement.",
+                type: "VariableDeclaration",
+                line: 1,
+                column: 35
+            } ]
+        },
+        {
+            code: "var foo = function() { var bar = true; if (qux) { var baz = false; } }",
+            errors: [ {
+                message: "Combine this with the previous 'var' statement.",
+                type: "VariableDeclaration",
+                line: 1,
+                column: 51
+            } ]
+        },
+        {
+            code: "var foo; var bar;",
+            errors: [ {
+                message: "Combine this with the previous 'var' statement.",
+                type: "VariableDeclaration",
+                line: 1,
+                column: 10
             } ]
         }
     ]
