@@ -111,7 +111,14 @@ ruleTester.run("no-unused-vars", rule, {
         // Can mark variables as used via context.markVariableAsUsed()
         { code: "/*eslint use-every-a:1*/ var a;"},
         { code: "/*eslint use-every-a:1*/ !function(a) { return 1; }"},
-        { code: "/*eslint use-every-a:1*/ !function() { var a; return 1 }"}
+        { code: "/*eslint use-every-a:1*/ !function() { var a; return 1 }"},
+
+        // ignore pattern
+        { code: "var _a;", options: [ { vars: "all", varsIgnorePattern: "^_" } ] },
+        { code: "var a; function foo() { var _b; } foo();", options: [ { vars: "local", varsIgnorePattern: "^_" } ] },
+        { code: "function foo(_a) { } foo();", options: [ { args: "all", argsIgnorePattern: "^_" } ] },
+        { code: "function foo(a, _b) { return a; } foo();", options: [ { args: "after-used", argsIgnorePattern: "^_" } ] },
+        { code: "var [ firstItemIgnored, secondItem ] = items;\nconsole.log(secondItem);", ecmaFeatures: {destructuring: true}, options: [ { vars: "all", varsIgnorePattern: "[iI]gnored" } ] }
     ],
     invalid: [
         { code: "function foox() { return foox(); }", errors: [{ message: "foox is defined but never used", type: "Identifier"}] },
@@ -149,6 +156,13 @@ ruleTester.run("no-unused-vars", rule, {
 
         // exported
         { code: "/*exported max*/ var max = 1, min = {min: 1}", errors: [{ message: "min is defined but never used" }] },
-        { code: "/*exported x*/ var { x, y } = z", ecmaFeatures: { destructuring: true }, errors: [{ message: "y is defined but never used" }] }
+        { code: "/*exported x*/ var { x, y } = z", ecmaFeatures: { destructuring: true }, errors: [{ message: "y is defined but never used" }] },
+
+        // ignore pattern
+        { code: "var _a; var b;", options: [ { vars: "all", varsIgnorePattern: "^_" } ], errors: [{ message: "b is defined but never used", line: 1, column: 13 }] },
+        { code: "var a; function foo() { var _b; var c_; } foo();", options: [ { vars: "local", varsIgnorePattern: "^_" } ], errors: [{ message: "c_ is defined but never used", line: 1, column: 37 }] },
+        { code: "function foo(a, _b) { } foo();", options: [ { args: "all", argsIgnorePattern: "^_" } ], errors: [{ message: "a is defined but never used", line: 1, column: 14 }] },
+        { code: "function foo(a, _b, c) { return a; } foo();", options: [ { args: "after-used", argsIgnorePattern: "^_" } ], errors: [{ message: "c is defined but never used", line: 1, column: 21 }] },
+        { code: "var [ firstItemIgnored, secondItem ] = items;", ecmaFeatures: {destructuring: true}, options: [ { vars: "all", varsIgnorePattern: "[iI]gnored" } ], errors: [{ message: "secondItem is defined but never used", line: 1, column: 25 }] }
     ]
 });
