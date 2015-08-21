@@ -103,6 +103,7 @@ An environment defines global variables that are predefined. The available envir
 * `jasmine` - adds all of the Jasmine testing global variables for version 1.3 and 2.0.
 * `jest` - Jest global variables.
 * `phantomjs` - PhantomJS global variables.
+* `protractor` - Protractor global variables.
 * `qunit` - QUnit global variables.
 * `jquery` - jQuery global variables.
 * `prototypejs` - Prototype.js global variables.

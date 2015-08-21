@@ -72,6 +72,9 @@ module.exports = {
     mongo: {
         globals: globals.mongo
     },
+    protractor: {
+        globals: globals.protractor
+    },
     applescript: {
         globals: globals.applescript
     },
