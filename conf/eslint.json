@@ -16,6 +16,7 @@
         "no-debugger": 2,
         "no-delete-var": 2,
         "no-div-regex": 0,
+        "no-double-assignments": 2,
         "no-dupe-class-members": 0,
         "no-dupe-keys": 2,
         "no-dupe-args": 2,
