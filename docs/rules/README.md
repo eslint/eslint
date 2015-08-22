@@ -14,6 +14,7 @@ The following rules point out areas where you might have made mistakes.
 * [no-constant-condition](no-constant-condition.md) - disallow use of constant expressions in conditions (recommended)
 * [no-control-regex](no-control-regex.md) - disallow control characters in regular expressions (recommended)
 * [no-debugger](no-debugger.md) - disallow use of `debugger` (recommended)
+* [no-double-assignments](no-double-assignments.md) - disallow overwriting a variable twice in a row
 * [no-dupe-args](no-dupe-args.md) - disallow duplicate arguments in functions (recommended)
 * [no-dupe-keys](no-dupe-keys.md) - disallow duplicate keys when creating object literals (recommended)
 * [no-duplicate-case](no-duplicate-case.md) - disallow a duplicate case label. (recommended)
