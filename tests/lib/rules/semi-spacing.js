@@ -26,6 +26,8 @@ ruleTester.run("semi-spacing", rule, {
         "var a = 'b',\nc = 'd';",
         "var a = function() {};",
         ";(function(){}());",
+        "var a = 'b'\n;(function(){}())",
+        "debugger\n;(function(){}())",
         "while (true) { break; }",
         "while (true) { continue; }",
         "debugger;",
