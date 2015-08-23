@@ -160,6 +160,23 @@ var x = {
 };
 ```
 
+Another modifier for this rule is the `unnecessary` option which defaults to `true`. Setting this to `false` will prevent the rule from complaining about unnecessarily quoted properties. This comes in handy when you _only_ care about quoting keywords.
+
+```json
+{
+    "quote-props": [2, "as-needed", {"keywords": true, "unnecessary": false}]
+}
+```
+
+When `unnecessary` is set to `false`, the following patterns _stop_ becoming warnings:
+
+```
+var x = {
+    "while": 1,
+    "foo": "bar"  // Would normally have caused a warning
+};
+```
+
 #### consistent
 
 When configured with `"consistent"`, the patterns below are considered warnings. Basically `"consistent"` means all or no properties are expected to be quoted, in other words quoting style can't be mixed within an object. Please note the latter situation (no quotation at all) isn't always possible as some property names require quoting.
