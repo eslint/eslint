@@ -48,7 +48,8 @@ ruleTester.run("quote-props", rule, {
         { code: "({ '@': 0, 'B': 0 })", options: ["consistent-as-needed"] },
         { code: "({ a: 0, 'if': 0 })", options: ["as-needed", {keywords: true}] },
         { code: "({ a: 0, 'while': 0 })", options: ["as-needed", {keywords: true}] },
-        { code: "({ a: 0, 'volatile': 0 })", options: ["as-needed", {keywords: true}] }
+        { code: "({ a: 0, 'volatile': 0 })", options: ["as-needed", {keywords: true}] },
+        { code: "({'unnecessary': 1, 'if': 0})", options: ["as-needed", {keywords: true, unnecessary: false}] }
     ],
     invalid: [{
         code: "({ a: 0 })",
@@ -131,6 +132,12 @@ ruleTester.run("quote-props", rule, {
         options: ["as-needed", {keywords: true}],
         errors: [{
             message: "Unquoted reserved word `while` used as key.", type: "Property"
+        }]
+    }, {
+        code: "({'unnecessary': 1, if: 0})",
+        options: ["as-needed", {keywords: true, unnecessary: false}],
+        errors: [{
+            message: "Unquoted reserved word `if` used as key.", type: "Property"
         }]
     }]
 });
