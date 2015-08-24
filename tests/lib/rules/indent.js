@@ -740,6 +740,30 @@ ruleTester.run("indent", rule, {
                 "    var a;\n" +
                 "  }).d.e;\n",
             options: [2]
+        },
+        {
+            code:
+                "const YO = 'bah',\n" +
+                "      TE = 'mah'\n" +
+                "\n" +
+                "var res,\n" +
+                "    a = 5,\n" +
+                "    b = 4\n",
+            ecmaFeatures: { blockBindings: true },
+            options: [2, {"VariableDeclarator": { "var": 2, "let": 2, "const": 3}}]
+        },
+        {
+            code:
+                "const YO = 'bah',\n" +
+                "      TE = 'mah'\n" +
+                "\n" +
+                "var res,\n" +
+                "    a = 5,\n" +
+                "    b = 4\n" +
+                "\n" +
+                "if (YO) console.log(TE)",
+            ecmaFeatures: { blockBindings: true },
+            options: [2, {"VariableDeclarator": { "var": 2, "let": 2, "const": 3}}]
         }
     ],
     invalid: [
