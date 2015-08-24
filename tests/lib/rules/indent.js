@@ -718,6 +718,28 @@ ruleTester.run("indent", rule, {
                 "}\n",
             ecmaFeatures: { modules: true, defaultParams: true },
             options: [2]
+        },
+        {
+            code:
+                "var obj = {\n" +
+                "  foo: function () {\n" +
+                "    return new p()\n" +
+                "      .then(function (ok) {\n" +
+                "        return ok;\n" +
+                "      }, function () {\n" +
+                "        // ignore things\n" +
+                "      });\n" +
+                "  }\n" +
+                "};\n",
+            options: [2]
+        },
+        {
+            code:
+                "a.b()\n" +
+                "  .c(function(){\n" +
+                "    var a;\n" +
+                "  }).d.e;\n",
+            options: [2]
         }
     ],
     invalid: [
