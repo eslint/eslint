@@ -89,7 +89,7 @@ Examples:
 
 ### `-f`, `--format`
 
-This option specifies the output format for the console. Possible formats are "stylish" (the default), "compact", "checkstyle", "jslint-xml", "junit", "json", "tap" and "unix".
+This option specifies the output format for the console. Possible formats are "stylish" (the default), "checkstyle", "compact", "html", "jslint-xml", "junit", "json", "tap" and "unix".
 
 Example:
 
