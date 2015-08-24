@@ -67,7 +67,18 @@ ruleTester.run("sort-vars", rule, {
         { code: "var e, [a, c, d] = {};", ecmaFeatures: { destructuring: true }},
         { code: "var a, [E, c, D] = [];", options: ignoreCaseArgs,
             ecmaFeatures: { destructuring: true }},
-        { code: "var a, f, [e, c, d] = [1,2,3];", ecmaFeatures: { destructuring: true }}
+        { code: "var a, f, [e, c, d] = [1,2,3];", ecmaFeatures: { destructuring: true }},
+        { code: [
+            "export default class {",
+            "    render () {",
+            "        let {",
+            "            b",
+            "        } = this,",
+            "            a,",
+            "            c;",
+            "    }",
+            "}"
+        ].join("\n"), env: { es6: true }, ecmaFeatures: { modules: true }}
     ],
     invalid: [
         { code: "var b, a", errors: [ expectedError ] },
