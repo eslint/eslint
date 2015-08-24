@@ -16,7 +16,7 @@ var OPEN_MESSAGE = "Opening curly brace does not appear on the same line as cont
     BODY_MESSAGE = "Statement inside of curly braces should be on next line.",
     CLOSE_MESSAGE = "Closing curly brace does not appear on the same line as the subsequent block.",
     CLOSE_MESSAGE_SINGLE = "Closing curly brace should be on the same line as opening curly brace or on the line after the previous block.",
-    CLOSE_MESSAGE_STROUSTRUP = "Closing curly brace appears on the same line as the subsequent block.";
+    CLOSE_MESSAGE_STROUSTRUP_ALLMAN = "Closing curly brace appears on the same line as the subsequent block.";
 
 //------------------------------------------------------------------------------
 // Tests
@@ -80,13 +80,13 @@ ruleTester.run("brace-style", rule, {
     invalid: [
         { code: "var foo = () => { return; }", ecmaFeatures: { arrowFunctions: true }, errors: [{ message: BODY_MESSAGE, type: "ReturnStatement"}] },
         { code: "function foo() { return; }", errors: [{ message: BODY_MESSAGE, type: "ReturnStatement"}] },
-        { code: "function foo() \n { \n return; }", errors: [{ message: OPEN_MESSAGE, type: "FunctionDeclaration"}] },
-        { code: "!function foo() \n { \n return; }", errors: [{ message: OPEN_MESSAGE, type: "FunctionExpression"}] },
-        { code: "if (foo) \n { \n bar(); }", errors: [{ message: OPEN_MESSAGE, type: "IfStatement"}] },
-        { code: "if (a) { \nb();\n } else \n { c(); }", errors: [{ message: OPEN_MESSAGE, type: "IfStatement"}] },
-        { code: "while (foo) \n { \n bar(); }", errors: [{ message: OPEN_MESSAGE, type: "WhileStatement"}] },
-        { code: "for (;;) \n { \n bar(); }", errors: [{ message: OPEN_MESSAGE, type: "ForStatement"}] },
-        { code: "with (foo) \n { \n bar(); }", errors: [{ message: OPEN_MESSAGE, type: "WithStatement"}] },
+        { code: "function foo() \n { \n return; }", errors: [{ message: OPEN_MESSAGE, type: "FunctionDeclaration"}, { message: CLOSE_MESSAGE_SINGLE, type: "ReturnStatement"}] },
+        { code: "!function foo() \n { \n return; }", errors: [{ message: OPEN_MESSAGE, type: "FunctionExpression"}, { message: CLOSE_MESSAGE_SINGLE, type: "ReturnStatement"}] },
+        { code: "if (foo) \n { \n bar(); }", errors: [{ message: OPEN_MESSAGE, type: "IfStatement"}, { message: CLOSE_MESSAGE_SINGLE, type: "ExpressionStatement"}] },
+        { code: "if (a) { \nb();\n } else \n { c(); }", errors: [{ message: OPEN_MESSAGE, type: "IfStatement"}, { message: BODY_MESSAGE, type: "ExpressionStatement"}] },
+        { code: "while (foo) \n { \n bar(); }", errors: [{ message: OPEN_MESSAGE, type: "WhileStatement"}, { message: CLOSE_MESSAGE_SINGLE, type: "ExpressionStatement"}] },
+        { code: "for (;;) \n { \n bar(); }", errors: [{ message: OPEN_MESSAGE, type: "ForStatement"}, { message: CLOSE_MESSAGE_SINGLE, type: "ExpressionStatement"}] },
+        { code: "with (foo) \n { \n bar(); }", errors: [{ message: OPEN_MESSAGE, type: "WithStatement"}, { message: CLOSE_MESSAGE_SINGLE, type: "ExpressionStatement"}] },
         { code: "switch (foo) \n { \n case \"bar\": break; }", errors: [{ message: OPEN_MESSAGE, type: "SwitchStatement"}] },
         { code: "switch (foo) \n { }", errors: [{ message: OPEN_MESSAGE, type: "SwitchStatement"}] },
         { code: "try \n { \n bar(); \n } catch (e) {}", errors: [{ message: OPEN_MESSAGE, type: "TryStatement"}] },
@@ -97,11 +97,11 @@ ruleTester.run("brace-style", rule, {
         { code: "try { \n bar(); \n }\ncatch (e) {\n}", errors: [{ message: CLOSE_MESSAGE, type: "CatchClause"}] },
         { code: "try { \n bar(); \n } catch (e) {\n}\n finally {\n}", errors: [{ message: CLOSE_MESSAGE, type: "BlockStatement"}] },
         { code: "if (a) { \nb();\n } \n else { \nc();\n }", errors: [{ message: CLOSE_MESSAGE, type: "BlockStatement" }]},
-        { code: "try { \n bar(); \n }\ncatch (e) {\n} finally {\n}", options: ["stroustrup"], errors: [{ message: CLOSE_MESSAGE_STROUSTRUP, type: "BlockStatement"}] },
-        { code: "try { \n bar(); \n } catch (e) {\n}\n finally {\n}", options: ["stroustrup"], errors: [{ message: CLOSE_MESSAGE_STROUSTRUP, type: "CatchClause"}] },
-        { code: "if (a) { \nb();\n } else { \nc();\n }", options: ["stroustrup"], errors: [{ message: CLOSE_MESSAGE_STROUSTRUP, type: "BlockStatement" }]},
-        { code: "if (foo) {\nbaz();\n} else if (bar) {\nbaz();\n}\nelse {\nqux();\n}", options: ["stroustrup"], errors: [{ message: CLOSE_MESSAGE_STROUSTRUP, type: "IfStatement" }] },
-        { code: "if (foo) {\npoop();\n} \nelse if (bar) {\nbaz();\n} else if (thing) {\nboom();\n}\nelse {\nqux();\n}", options: ["stroustrup"], errors: [{ message: CLOSE_MESSAGE_STROUSTRUP, type: "IfStatement" }] },
+        { code: "try { \n bar(); \n }\ncatch (e) {\n} finally {\n}", options: ["stroustrup"], errors: [{ message: CLOSE_MESSAGE_STROUSTRUP_ALLMAN, type: "BlockStatement"}] },
+        { code: "try { \n bar(); \n } catch (e) {\n}\n finally {\n}", options: ["stroustrup"], errors: [{ message: CLOSE_MESSAGE_STROUSTRUP_ALLMAN, type: "CatchClause"}] },
+        { code: "if (a) { \nb();\n } else { \nc();\n }", options: ["stroustrup"], errors: [{ message: CLOSE_MESSAGE_STROUSTRUP_ALLMAN, type: "BlockStatement" }]},
+        { code: "if (foo) {\nbaz();\n} else if (bar) {\nbaz();\n}\nelse {\nqux();\n}", options: ["stroustrup"], errors: [{ message: CLOSE_MESSAGE_STROUSTRUP_ALLMAN, type: "IfStatement" }] },
+        { code: "if (foo) {\npoop();\n} \nelse if (bar) {\nbaz();\n} else if (thing) {\nboom();\n}\nelse {\nqux();\n}", options: ["stroustrup"], errors: [{ message: CLOSE_MESSAGE_STROUSTRUP_ALLMAN, type: "IfStatement" }] },
 
         { code: "try { \n bar(); \n }\n catch (e) {\n}\n finally {\n}", options: ["allman"], errors: [
             { message: OPEN_MESSAGE_ALLMAN, type: "TryStatement", line: 1},
@@ -110,18 +110,27 @@ ruleTester.run("brace-style", rule, {
         ] },
         { code: "if (a) { \nb();\n } else { \nc();\n }", options: ["allman"], errors: [
             { message: OPEN_MESSAGE_ALLMAN, type: "IfStatement" },
-            { message: OPEN_MESSAGE_ALLMAN, type: "IfStatement" }
+            { message: OPEN_MESSAGE_ALLMAN, type: "IfStatement" },
+            { message: CLOSE_MESSAGE_STROUSTRUP_ALLMAN, type: "BlockStatement" }
         ]},
         { code: "if (foo) {\nbaz();\n} else if (bar) {\nbaz();\n}\nelse {\nqux();\n}", options: ["allman"], errors: [
             { message: OPEN_MESSAGE_ALLMAN, type: "IfStatement" },
+            { message: CLOSE_MESSAGE_STROUSTRUP_ALLMAN, type: "IfStatement" },
             { message: OPEN_MESSAGE_ALLMAN, type: "IfStatement" },
             { message: OPEN_MESSAGE_ALLMAN, type: "IfStatement" }
         ] },
         { code: "if (foo)\n{ poop();\n} \nelse if (bar) {\nbaz();\n} else if (thing) {\nboom();\n}\nelse {\nqux();\n}", options: ["allman"], errors: [
             { message: BODY_MESSAGE, type: "ExpressionStatement" },
             { message: OPEN_MESSAGE_ALLMAN, type: "IfStatement" },
+            { message: CLOSE_MESSAGE_STROUSTRUP_ALLMAN, type: "IfStatement" },
             { message: OPEN_MESSAGE_ALLMAN, type: "IfStatement" },
             { message: OPEN_MESSAGE_ALLMAN, type: "IfStatement" }
+        ] },
+        { code: "if (foo)\n{\n  bar(); }", options: ["allman"], errors: [
+            { message: CLOSE_MESSAGE_SINGLE, type: "ExpressionStatement" }
+        ] },
+        { code: "try\n{\n  somethingRisky();\n} catch (e)\n{\n  handleError()\n}", options: ["allman"], errors: [
+            { message: CLOSE_MESSAGE_STROUSTRUP_ALLMAN, type: "CatchClause" }
         ] },
 
         // allowSingleLine: true
@@ -146,8 +155,8 @@ ruleTester.run("brace-style", rule, {
         { code: "try { \n bar(); \n }\ncatch (e) {\n}", options: ["1tbs", { allowSingleLine: true }], errors: [{ message: CLOSE_MESSAGE, type: "CatchClause"}] },
         { code: "try { \n bar(); \n } catch (e) {\n}\n finally {\n}", options: ["1tbs", { allowSingleLine: true }], errors: [{ message: CLOSE_MESSAGE, type: "BlockStatement"}] },
         { code: "if (a) { \nb();\n } \n else { \nc();\n }", options: ["1tbs", { allowSingleLine: true }], errors: [{ message: CLOSE_MESSAGE, type: "BlockStatement" }]},
-        { code: "try { \n bar(); \n }\ncatch (e) {\n} finally {\n}", options: ["stroustrup", { allowSingleLine: true }], errors: [{ message: CLOSE_MESSAGE_STROUSTRUP, type: "BlockStatement"}] },
-        { code: "try { \n bar(); \n } catch (e) {\n}\n finally {\n}", options: ["stroustrup", { allowSingleLine: true }], errors: [{ message: CLOSE_MESSAGE_STROUSTRUP, type: "CatchClause"}] },
-        { code: "if (a) { \nb();\n } else { \nc();\n }", options: ["stroustrup", { allowSingleLine: true }], errors: [{ message: CLOSE_MESSAGE_STROUSTRUP, type: "BlockStatement" }]}
+        { code: "try { \n bar(); \n }\ncatch (e) {\n} finally {\n}", options: ["stroustrup", { allowSingleLine: true }], errors: [{ message: CLOSE_MESSAGE_STROUSTRUP_ALLMAN, type: "BlockStatement"}] },
+        { code: "try { \n bar(); \n } catch (e) {\n}\n finally {\n}", options: ["stroustrup", { allowSingleLine: true }], errors: [{ message: CLOSE_MESSAGE_STROUSTRUP_ALLMAN, type: "CatchClause"}] },
+        { code: "if (a) { \nb();\n } else { \nc();\n }", options: ["stroustrup", { allowSingleLine: true }], errors: [{ message: CLOSE_MESSAGE_STROUSTRUP_ALLMAN, type: "BlockStatement" }]}
     ]
 });
