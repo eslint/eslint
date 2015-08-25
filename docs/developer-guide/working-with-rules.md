@@ -76,29 +76,34 @@ The `context` object contains additional functionality that is helpful for rules
 
 Additionally, the `context` object has the following methods:
 
-* `getAllComments()` - returns an array of all comments in the source.
 * `getAncestors()` - returns an array of ancestor nodes based on the current traversal.
-* `getComments(node)` - returns the leading and trailing comments arrays for the given node.
 * `getDeclaredVariables(node)` - returns the declared variables on the given node.
 * `getFilename()` - returns the filename associated with the source.
-* `getFirstToken(node)` - returns the first token representing the given node.
-* `getFirstTokens(node, count)` - returns the first `count` tokens representing the given node.
-* `getJSDocComment(node)` - returns the JSDoc comment for a given node or `null` if there is none.
-* `getLastToken(node)` - returns the last token representing the given node.
-* `getLastTokens(node, count)` - returns the last `count` tokens representing the given node.
-* `getNodeByRangeIndex(index)` - returns the deepest node in the AST containing the given source index.
 * `getScope()` - returns the current scope.
-* `getSource(node)` - returns the source code for the given node. Omit `node` to get the whole source.
-* `getSourceLines()` - returns the entire source code split into an array of string lines.
-* `getTokenAfter(nodeOrToken)` - returns the first token after the given node or token.
-* `getTokenBefore(nodeOrToken)` - returns the first token before the given node or token.
-* `getTokenByRangeStart(index)` - returns the token whose range starts at the given index in the source.
-* `getTokens(node)` - returns all tokens for the given node.
-* `getTokensAfter(nodeOrToken, count)` - returns `count` tokens after the given node or token.
-* `getTokensBefore(nodeOrToken, count)` - returns `count` tokens before the given node or token.
-* `getTokensBetween(node1, node2)` - returns the tokens between two nodes.
+* `getSourceCode()` - returns a `SourceCode` object that you can use to work with the source that was passed to ESLint
+* `isMarkedAsUsed(name)` - returns true if a given variable name has been marked as used.
 * `markVariableAsUsed(name)` - marks the named variable in scope as used. This affects the [no-unused-vars](../rules/no-unused-vars.md) rule.
 * `report(node, message)` - reports an error in the code.
+
+**Deprecated:** The following methods on the `context` object are deprecated. Please use the corresponding methods on `SourceCode` instead:
+
+* `getAllComments()` - returns an array of all comments in the source. Use `sourceCode.getAllComments()` instead.
+* `getComments(node)` - returns the leading and trailing comments arrays for the given node. Use `sourceCode.getComments(node)` instead.
+* `getFirstToken(node)` - returns the first token representing the given node. Use `sourceCode.getFirstToken(node)` instead.
+* `getFirstTokens(node, count)` - returns the first `count` tokens representing the given node. Use `sourceCode.getFirstTokens(node, count)` instead.
+* `getJSDocComment(node)` - returns the JSDoc comment for a given node or `null` if there is none. Use `sourceCode.getJSDocComment(node)` instead.
+* `getLastToken(node)` - returns the last token representing the given node.  Use `sourceCode.getLastToken(node)` instead.
+* `getLastTokens(node, count)` - returns the last `count` tokens representing the given node. Use `sourceCode.getLastTokens(node, count)` instead.
+* `getNodeByRangeIndex(index)` - returns the deepest node in the AST containing the given source index. Use `sourceCode.getNodeByRangeIndex(index)` instead.
+* `getSource(node)` - returns the source code for the given node. Omit `node` to get the whole source. Use `sourceCode.getText(node)` instead.
+* `getSourceLines()` - returns the entire source code split into an array of string lines. Use `sourceCode.lines` instead.
+* `getTokenAfter(nodeOrToken)` - returns the first token after the given node or token. Use `sourceCode.getTokenAfter(nodeOrToken)` instead.
+* `getTokenBefore(nodeOrToken)` - returns the first token before the given node or token. Use `sourceCode.getTokenBefore(nodeOrToken)` instead.
+* `getTokenByRangeStart(index)` - returns the token whose range starts at the given index in the source. Use `sourceCode.getTokenByRangeStart(index)` instead.
+* `getTokens(node)` - returns all tokens for the given node. Use `sourceCode.getTokens(node)` instead.
+* `getTokensAfter(nodeOrToken, count)` - returns `count` tokens after the given node or token. Use `sourceCode.getTokensAfter(nodeOrToken, count)` instead.
+* `getTokensBefore(nodeOrToken, count)` - returns `count` tokens before the given node or token. Use `sourceCode.getTokensBefore(nodeOrToken, count)` instead.
+* `getTokensBetween(node1, node2)` - returns the tokens between two nodes. Use `sourceCode.getTokensBetween(node1, node2)` instead.
 
 ### context.report()
 
@@ -137,6 +142,46 @@ Since `context.options` is just an array, you can use it to determine how many o
 
 When using options, make sure that your rule has some logic defaults in case the options are not provided.
 
+### context.getSourceCode()
+
+The `SourceCode` object is the main object for getting more information about the source code being linted. You can retrieve the `SourceCode` object at any time by using the `getSourceCode()` method:
+
+```js
+module.exports = function(context) {
+
+    var sourceCode = context.getSourceCode();
+
+    // ...
+}
+```
+
+Once you have an instance of `SourceCode`, you can use the methods on it to work with the code:
+
+* `getAllComments()` - returns an array of all comments in the source.
+* `getComments(node)` - returns the leading and trailing comments arrays for the given node.
+* `getFirstToken(node)` - returns the first token representing the given node.
+* `getFirstTokens(node, count)` - returns the first `count` tokens representing the given node.
+* `getJSDocComment(node)` - returns the JSDoc comment for a given node or `null` if there is none.
+* `getLastToken(node)` - returns the last token representing the given node.
+* `getLastTokens(node, count)` - returns the last `count` tokens representing the given node.
+* `getNodeByRangeIndex(index)` - returns the deepest node in the AST containing the given source index.
+* `getText(node)` - returns the source code for the given node. Omit `node` to get the whole source.
+* `getTokenAfter(nodeOrToken)` - returns the first token after the given node or token.
+* `getTokenBefore(nodeOrToken)` - returns the first token before the given node or token.
+* `getTokenByRangeStart(index)` - returns the token whose range starts at the given index in the source.
+* `getTokens(node)` - returns all tokens for the given node.
+* `getTokensAfter(nodeOrToken, count)` - returns `count` tokens after the given node or token.
+* `getTokensBefore(nodeOrToken, count)` - returns `count` tokens before the given node or token.
+* `getTokensBetween(node1, node2)` - returns the tokens between two nodes.
+
+There are also some properties you can access:
+
+* `text` - the full text of the code being linted.
+* `ast` - the `Program` node of the AST for the code being linted.
+* `lines` - an array of lines, split according to the specification's definition of line breaks.
+
+You should use a `SourceCode` object whenever you need to get more information about the code being linted.
+
 ### Options Schemas
 
 Rules may export a `schema` property, which is a [JSON schema](http://json-schema.org/) format description of a rule's options which will be used by ESLint to validate configuration options and prevent invalid or unexpected inputs before they are passed to the rule in `context.options`.
@@ -167,38 +212,38 @@ In the preceding example, the error level is assumed to be the first argument. I
 
 ### Getting the Source
 
-If your rule needs to get the actual JavaScript source to work with, then use the `context.getSource()` method. This method works as follows:
+If your rule needs to get the actual JavaScript source to work with, then use the `sourceCode.getText()` method. This method works as follows:
 
 ```js
 
 // get all source
-var source = context.getSource();
+var source = sourceCode.getText();
 
 // get source for just this AST node
-var nodeSource = context.getSource(node);
+var nodeSource = sourceCode.getText(node);
 
 // get source for AST node plus previous two characters
-var nodeSourceWithPrev = context.getSource(node, 2);
+var nodeSourceWithPrev = sourceCode.getText(node, 2);
 
 // get source for AST node plus following two characters
-var nodeSourceWithFollowing = context.getSource(node, 0, 2);
+var nodeSourceWithFollowing = sourceCode.getText(node, 0, 2);
 ```
 
 In this way, you can look for patterns in the JavaScript text itself when the AST isn't providing the appropriate data (such as location of commas, semicolons, parentheses, etc.).
 
 ### Accessing comments
 
-If you need to access comments for a specific node you can use `context.getComments(node)`:
+If you need to access comments for a specific node you can use `sourceCode.getComments(node)`:
 
 ```js
 // the "comments" variable has a "leading" and "trailing" property containing
 // its leading and trailing comments, respectively
-var comments = context.getComments(node);
+var comments = sourceCode.getComments(node);
 ```
 
 Keep in mind that comments are technically not a part of the AST and are only attached to it on demand, i.e. when you call `getComments()`.
 
-**Note:** One of the libraries adds AST node properties for comments - do not use these properties. Always use `context.getComments()` as this is the only guaranteed API for accessing comments (we will likely change how comments are handled later).
+**Note:** One of the libraries adds AST node properties for comments - do not use these properties. Always use `sourceCode.getComments()` as this is the only guaranteed API for accessing comments (we will likely change how comments are handled later).
 
 ## Rule Unit Tests
 
@@ -215,7 +260,7 @@ The basic pattern for a rule unit test file is:
 /**
  * @fileoverview Tests for no-with rule.
  * @author Nicholas C. Zakas
- * @copyright 2014 Nicholas C. Zakas. All rights reserved.
+ * @copyright 2015 Nicholas C. Zakas. All rights reserved.
  */
 
 "use strict";
