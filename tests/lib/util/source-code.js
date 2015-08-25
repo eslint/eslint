@@ -11,6 +11,8 @@
 //------------------------------------------------------------------------------
 
 var assert = require("chai").assert,
+    espree = require("espree"),
+    sinon = require("sinon"),
     eslint = require("../../../lib/eslint"),
     SourceCode = require("../../../lib/util/source-code");
 
@@ -18,195 +20,18 @@ var assert = require("chai").assert,
 // Helpers
 //------------------------------------------------------------------------------
 
-/* eslint-disable indent*/
-// let foo = bar;
-var AST = {
-  "type": "Program",
-  "body": [
-    {
-      "type": "VariableDeclaration",
-      "declarations": [
-        {
-          "type": "VariableDeclarator",
-          "id": {
-            "type": "Identifier",
-            "name": "foo",
-            "range": [
-              4,
-              7
-            ],
-            "loc": {
-              "start": {
-                "line": 1,
-                "column": 4
-              },
-              "end": {
-                "line": 1,
-                "column": 7
-              }
-            }
-          },
-          "init": {
-            "type": "Identifier",
-            "name": "bar",
-            "range": [
-              10,
-              13
-            ],
-            "loc": {
-              "start": {
-                "line": 1,
-                "column": 10
-              },
-              "end": {
-                "line": 1,
-                "column": 13
-              }
-            }
-          },
-          "range": [
-            4,
-            13
-          ],
-          "loc": {
-            "start": {
-              "line": 1,
-              "column": 4
-            },
-            "end": {
-              "line": 1,
-              "column": 13
-            }
-          }
-        }
-      ],
-      "kind": "let",
-      "range": [
-        0,
-        14
-      ],
-      "loc": {
-        "start": {
-          "line": 1,
-          "column": 0
-        },
-        "end": {
-          "line": 1,
-          "column": 14
-        }
-      }
-    }
-  ],
-  "sourceType": "module",
-  "range": [
-    0,
-    14
-  ],
-  "loc": {
-    "start": {
-      "line": 1,
-      "column": 0
+var DEFAULT_CONFIG = {
+    ecmaFeatures: {
+        blockBindings: true
     },
-    "end": {
-      "line": 1,
-      "column": 14
-    }
-  },
-  "tokens": [
-    {
-      "type": "Keyword",
-      "value": "let",
-      "range": [
-        0,
-        3
-      ],
-      "loc": {
-        "start": {
-          "line": 1,
-          "column": 0
-        },
-        "end": {
-          "line": 1,
-          "column": 3
-        }
-      }
-    },
-    {
-      "type": "Identifier",
-      "value": "foo",
-      "range": [
-        4,
-        7
-      ],
-      "loc": {
-        "start": {
-          "line": 1,
-          "column": 4
-        },
-        "end": {
-          "line": 1,
-          "column": 7
-        }
-      }
-    },
-    {
-      "type": "Punctuator",
-      "value": "=",
-      "range": [
-        8,
-        9
-      ],
-      "loc": {
-        "start": {
-          "line": 1,
-          "column": 8
-        },
-        "end": {
-          "line": 1,
-          "column": 9
-        }
-      }
-    },
-    {
-      "type": "Identifier",
-      "value": "bar",
-      "range": [
-        10,
-        13
-      ],
-      "loc": {
-        "start": {
-          "line": 1,
-          "column": 10
-        },
-        "end": {
-          "line": 1,
-          "column": 13
-        }
-      }
-    },
-    {
-      "type": "Punctuator",
-      "value": ";",
-      "range": [
-        13,
-        14
-      ],
-      "loc": {
-        "start": {
-          "line": 1,
-          "column": 13
-        },
-        "end": {
-          "line": 1,
-          "column": 14
-        }
-      }
-    }
-  ],
-  "comments": []
+    comment: true,
+    tokens: true,
+    range: true,
+    loc: true
 };
-/* eslint-enable indent */
+
+var AST = espree.parse("let foo = bar;", DEFAULT_CONFIG),
+    TEST_CODE = "var answer = 6 * 7;";
 
 //------------------------------------------------------------------------------
 // Tests
@@ -270,6 +95,583 @@ describe("SourceCode", function() {
 
 
     });
+
+    describe("getJSDocComment()", function() {
+
+        var sandbox = sinon.sandbox.create(),
+            filename = "foo.js";
+
+        beforeEach(function() {
+            eslint.reset();
+        });
+
+        afterEach(function() {
+            sandbox.verifyAndRestore();
+        });
+
+        it("should not take a JSDoc comment from a FunctionDeclaration parent node when the node is a FunctionExpression", function() {
+
+            var code = [
+                "/** Desc*/",
+                "function Foo(){var t = function(){}}"
+            ].join("\n");
+
+            function assertJSDoc(node) {
+                var sourceCode = eslint.getSourceCode();
+                var jsdoc = sourceCode.getJSDocComment(node);
+                assert.equal(jsdoc, null);
+            }
+
+            var spy = sandbox.spy(assertJSDoc);
+
+            eslint.on("FunctionExpression", spy);
+            eslint.verify(code, { rules: {}}, filename, true);
+            assert.isTrue(spy.calledOnce, "Event handler should be called.");
+
+        });
+
+        it("should not take a JSDoc comment from a FunctionExpression parent node when the node is a FunctionExpression", function() {
+
+            var code = [
+                "/** Desc*/",
+                "var f = function(){var t = function(arg){}}"
+            ].join("\n");
+
+            function assertJSDoc(node) {
+                if (node.params.length === 1) {
+                    var sourceCode = eslint.getSourceCode();
+                    var jsdoc = sourceCode.getJSDocComment(node);
+                    assert.equal(jsdoc, null);
+                }
+            }
+
+            var spy = sandbox.spy(assertJSDoc);
+
+            eslint.on("FunctionExpression", spy);
+            eslint.verify(code, { rules: {}}, filename, true);
+            assert.isTrue(spy.calledTwice, "Event handler should be called twice.");
+
+        });
+
+        it("should get JSDoc comment for node when the node is a FunctionDeclaration", function() {
+
+            var code = [
+                "/** Desc*/",
+                "function Foo(){}"
+            ].join("\n");
+
+            function assertJSDoc(node) {
+                var sourceCode = eslint.getSourceCode();
+                var jsdoc = sourceCode.getJSDocComment(node);
+                assert.equal(jsdoc.type, "Block");
+                assert.equal(jsdoc.value, "* Desc");
+            }
+
+            var spy = sandbox.spy(assertJSDoc);
+
+            eslint.on("FunctionDeclaration", spy);
+            eslint.verify(code, { rules: {}}, filename, true);
+            assert.isTrue(spy.calledOnce, "Event handler should be called.");
+
+        });
+
+        it("should get JSDoc comment for node when the node is a FunctionDeclaration but its parent is an export", function() {
+
+            var code = [
+                "/** Desc*/",
+                "export function Foo(){}"
+            ].join("\n");
+
+            function assertJSDoc(node) {
+                var sourceCode = eslint.getSourceCode();
+                var jsdoc = sourceCode.getJSDocComment(node);
+                assert.equal(jsdoc.type, "Block");
+                assert.equal(jsdoc.value, "* Desc");
+            }
+
+            var spy = sandbox.spy(assertJSDoc);
+
+            eslint.on("FunctionDeclaration", spy);
+            eslint.verify(code, { ecmaFeatures: { modules: true }, rules: {}}, filename, true);
+            assert.isTrue(spy.calledOnce, "Event handler should be called.");
+
+        });
+
+
+        it("should get JSDoc comment for node when the node is a FunctionDeclaration but not the first statement", function() {
+
+            var code = [
+                "'use strict';",
+                "/** Desc*/",
+                "function Foo(){}"
+            ].join("\n");
+
+            function assertJSDoc(node) {
+                var sourceCode = eslint.getSourceCode();
+                var jsdoc = sourceCode.getJSDocComment(node);
+                assert.equal(jsdoc.type, "Block");
+                assert.equal(jsdoc.value, "* Desc");
+            }
+
+            var spy = sandbox.spy(assertJSDoc);
+
+            eslint.on("FunctionDeclaration", spy);
+            eslint.verify(code, { rules: {}}, filename, true);
+            assert.isTrue(spy.calledOnce, "Event handler should be called.");
+
+        });
+
+
+        it("should not get JSDoc comment for node when the node is a FunctionDeclaration inside of an IIFE without a JSDoc comment", function() {
+
+            var code = [
+                "/** Desc*/",
+                "(function(){",
+                "function Foo(){}",
+                "}())"
+            ].join("\n");
+
+            function assertJSDoc(node) {
+                var sourceCode = eslint.getSourceCode();
+                var jsdoc = sourceCode.getJSDocComment(node);
+                assert.isNull(jsdoc);
+            }
+
+            var spy = sandbox.spy(assertJSDoc);
+
+            eslint.on("FunctionDeclaration", spy);
+            eslint.verify(code, { rules: {}}, filename, true);
+            assert.isTrue(spy.calledOnce, "Event handler should be called.");
+
+        });
+
+        it("should get JSDoc comment for node when the node is a FunctionDeclaration and there are multiple comments", function() {
+
+            var code = [
+                "/* Code is good */",
+                "/** Desc*/",
+                "function Foo(){}"
+            ].join("\n");
+
+            function assertJSDoc(node) {
+                var sourceCode = eslint.getSourceCode();
+                var jsdoc = sourceCode.getJSDocComment(node);
+                assert.equal(jsdoc.type, "Block");
+                assert.equal(jsdoc.value, "* Desc");
+            }
+
+            var spy = sandbox.spy(assertJSDoc);
+
+            eslint.on("FunctionDeclaration", spy);
+            eslint.verify(code, { rules: {}}, filename, true);
+            assert.isTrue(spy.calledOnce, "Event handler should be called.");
+
+        });
+
+        it("should get JSDoc comment for node when the node is a FunctionDeclaration inside of an IIFE", function() {
+
+            var code = [
+                "/** Code is good */",
+                "(function() {",
+                "/** Desc*/",
+                "function Foo(){}",
+                "}())"
+            ].join("\n");
+
+            function assertJSDoc(node) {
+                var sourceCode = eslint.getSourceCode();
+                var jsdoc = sourceCode.getJSDocComment(node);
+                assert.equal(jsdoc.type, "Block");
+                assert.equal(jsdoc.value, "* Desc");
+            }
+
+            var spy = sandbox.spy(assertJSDoc);
+
+            eslint.on("FunctionDeclaration", spy);
+            eslint.verify(code, { rules: {}}, filename, true);
+            assert.isTrue(spy.calledOnce, "Event handler should be called.");
+        });
+
+        it("should get JSDoc comment for node when the node is a FunctionExpression inside of an object literal", function() {
+
+            var code = [
+                "/** Code is good */",
+                "var o = {",
+                "/** Desc*/",
+                "foo: function(){}",
+                "};"
+            ].join("\n");
+
+            function assertJSDoc(node) {
+                var sourceCode = eslint.getSourceCode();
+                var jsdoc = sourceCode.getJSDocComment(node);
+                assert.equal(jsdoc.type, "Block");
+                assert.equal(jsdoc.value, "* Desc");
+            }
+
+            var spy = sandbox.spy(assertJSDoc);
+
+            eslint.on("FunctionExpression", spy);
+            eslint.verify(code, { rules: {}}, filename, true);
+            assert.isTrue(spy.calledOnce, "Event handler should be called.");
+        });
+
+        it("should get JSDoc comment for node when the node is a ArrowFunctionExpression inside of an object literal", function() {
+
+            var code = [
+                "/** Code is good */",
+                "var o = {",
+                "/** Desc*/",
+                "foo: () => {}",
+                "};"
+            ].join("\n");
+
+            function assertJSDoc(node) {
+                var sourceCode = eslint.getSourceCode();
+                var jsdoc = sourceCode.getJSDocComment(node);
+                assert.equal(jsdoc.type, "Block");
+                assert.equal(jsdoc.value, "* Desc");
+            }
+
+            var spy = sandbox.spy(assertJSDoc);
+
+            eslint.on("ArrowFunctionExpression", spy);
+            eslint.verify(code, { ecmaFeatures: { arrowFunctions: true }, rules: {}}, filename, true);
+            assert.isTrue(spy.calledOnce, "Event handler should be called.");
+        });
+
+        it("should get JSDoc comment for node when the node is a FunctionExpression in an assignment", function() {
+
+            var code = [
+                "/** Code is good */",
+                "/** Desc*/",
+                "Foo.bar = function(){}"
+            ].join("\n");
+
+            function assertJSDoc(node) {
+                var sourceCode = eslint.getSourceCode();
+                var jsdoc = sourceCode.getJSDocComment(node);
+                assert.equal(jsdoc.type, "Block");
+                assert.equal(jsdoc.value, "* Desc");
+            }
+
+            var spy = sandbox.spy(assertJSDoc);
+
+            eslint.on("FunctionExpression", spy);
+            eslint.verify(code, { rules: {}}, filename, true);
+            assert.isTrue(spy.calledOnce, "Event handler should be called.");
+        });
+
+        it("should get JSDoc comment for node when the node is a FunctionExpression in an assignment inside an IIFE", function() {
+
+            var code = [
+                "/** Code is good */",
+                "(function iife() {",
+                "/** Desc*/",
+                "Foo.bar = function(){}",
+                "}());"
+            ].join("\n");
+
+            function assertJSDoc(node) {
+                if (!node.id) {
+                    var sourceCode = eslint.getSourceCode();
+                    var jsdoc = sourceCode.getJSDocComment(node);
+                    assert.equal(jsdoc.type, "Block");
+                    assert.equal(jsdoc.value, "* Desc");
+                }
+            }
+
+            var spy = sandbox.spy(assertJSDoc);
+
+            eslint.on("FunctionExpression", spy);
+            eslint.verify(code, { rules: {}}, filename, true);
+            assert.isTrue(spy.calledTwice, "Event handler should be called.");
+        });
+
+        it("should not get JSDoc comment for node when the node is a FunctionExpression in an assignment inside an IIFE without a JSDoc comment", function() {
+
+            var code = [
+                "/** Code is good */",
+                "(function iife() {",
+                "//* whatever",
+                "Foo.bar = function(){}",
+                "}());"
+            ].join("\n");
+
+            function assertJSDoc(node) {
+                if (!node.id) {
+                    var sourceCode = eslint.getSourceCode();
+                    var jsdoc = sourceCode.getJSDocComment(node);
+                    assert.isNull(jsdoc);
+                }
+            }
+
+            var spy = sandbox.spy(assertJSDoc);
+
+            eslint.on("FunctionExpression", spy);
+            eslint.verify(code, { rules: {}}, filename, true);
+            assert.isTrue(spy.calledTwice, "Event handler should be called.");
+        });
+
+        it("should not get JSDoc comment for node when the node is a FunctionExpression inside of a CallExpression", function() {
+
+            var code = [
+                "/** Code is good */",
+                "module.exports = (function() {",
+                "}());"
+            ].join("\n");
+
+            function assertJSDoc(node) {
+                if (!node.id) {
+                    var sourceCode = eslint.getSourceCode();
+                    var jsdoc = sourceCode.getJSDocComment(node);
+                    assert.isNull(jsdoc);
+                }
+            }
+
+            var spy = sandbox.spy(assertJSDoc);
+
+            eslint.on("FunctionExpression", spy);
+            eslint.verify(code, { rules: {}}, filename, true);
+            assert.isTrue(spy.calledOnce, "Event handler should be called.");
+        });
+
+        it("should not get JSDoc comment for node when the node is a FunctionExpression in an assignment inside an IIFE without a JSDoc comment", function() {
+
+            var code = [
+                "/**",
+                " * Merges two objects together.",
+                " * @param {Object} target of the cloning operation",
+                " * @param {Object} [source] object",
+                " * @returns {void}",
+                " */",
+                "exports.mixin = function(target, source) {",
+                "    Object.keys(source).forEach(function forEach(key) {",
+                "        target[key] = source[key];",
+                "    });",
+                "};"
+            ].join("\n");
+
+            function assertJSDoc(node) {
+                if (node.id) {
+                    var sourceCode = eslint.getSourceCode();
+                    var jsdoc = sourceCode.getJSDocComment(node);
+                    assert.isNull(jsdoc);
+                }
+            }
+
+            var spy = sandbox.spy(assertJSDoc);
+
+            eslint.on("FunctionExpression", spy);
+            eslint.verify(code, { rules: {}}, filename, true);
+            assert.isTrue(spy.calledTwice, "Event handler should be called.");
+        });
+
+    });
+
+    describe("getComments()", function() {
+        var code = [
+            "// my line comment",
+            "var a = 42;",
+            "/* my block comment */"
+        ].join("\n");
+
+        it("should attach them to all nodes", function() {
+            function assertCommentCount(leading, trailing) {
+                return function(node) {
+                    var sourceCode = eslint.getSourceCode();
+                    var comments = sourceCode.getComments(node);
+                    assert.equal(comments.leading.length, leading);
+                    assert.equal(comments.trailing.length, trailing);
+                };
+            }
+
+            var config = { rules: {} };
+
+            eslint.reset();
+            eslint.on("Program", assertCommentCount(0, 0));
+            eslint.on("VariableDeclaration", assertCommentCount(1, 1));
+            eslint.on("VariableDeclarator", assertCommentCount(0, 0));
+            eslint.on("Identifier", assertCommentCount(0, 0));
+            eslint.on("Literal", assertCommentCount(0, 0));
+
+            eslint.verify(code, config, "", true);
+        });
+
+    });
+
+    describe("getLines()", function() {
+
+        it("should get proper lines when using \\n as a line break", function() {
+            var code = "a;\nb;",
+                ast = espree.parse(code, DEFAULT_CONFIG),
+                sourceCode = new SourceCode(code, ast);
+
+            var lines = sourceCode.getLines();
+            assert.equal(lines[0], "a;");
+            assert.equal(lines[1], "b;");
+        });
+
+        it("should get proper lines when using \\r\\n as a line break", function() {
+            var code = "a;\r\nb;",
+                ast = espree.parse(code, DEFAULT_CONFIG),
+                sourceCode = new SourceCode(code, ast);
+
+            var lines = sourceCode.getLines();
+            assert.equal(lines[0], "a;");
+            assert.equal(lines[1], "b;");
+        });
+
+        it("should get proper lines when using \\r as a line break", function() {
+            var code = "a;\rb;",
+                ast = espree.parse(code, DEFAULT_CONFIG),
+                sourceCode = new SourceCode(code, ast);
+
+            var lines = sourceCode.getLines();
+            assert.equal(lines[0], "a;");
+            assert.equal(lines[1], "b;");
+        });
+
+        it("should get proper lines when using \\u2028 as a line break", function() {
+            var code = "a;\u2028b;",
+                ast = espree.parse(code, DEFAULT_CONFIG),
+                sourceCode = new SourceCode(code, ast);
+
+            var lines = sourceCode.getLines();
+            assert.equal(lines[0], "a;");
+            assert.equal(lines[1], "b;");
+        });
+
+        it("should get proper lines when using \\u2029 as a line break", function() {
+            var code = "a;\u2029b;",
+                ast = espree.parse(code, DEFAULT_CONFIG),
+                sourceCode = new SourceCode(code, ast);
+
+            var lines = sourceCode.getLines();
+            assert.equal(lines[0], "a;");
+            assert.equal(lines[1], "b;");
+        });
+
+    });
+
+    describe("getText()", function() {
+
+        var sourceCode,
+            ast;
+
+        beforeEach(function() {
+            ast = espree.parse(TEST_CODE, DEFAULT_CONFIG);
+            sourceCode = new SourceCode(TEST_CODE, ast);
+        });
+
+        it("should retrieve all text when used without parameters", function() {
+            var text = sourceCode.getText();
+            assert.equal(text, TEST_CODE);
+        });
+
+        it("should retrieve all text for root node", function() {
+            var text = sourceCode.getText(ast);
+            assert.equal(text, TEST_CODE);
+        });
+
+        it("should clamp to valid range when retrieving characters before start of source", function() {
+            var text = sourceCode.getText(ast, 2, 0);
+            assert.equal(text, TEST_CODE);
+        });
+
+        it("should retrieve all text for binary expression", function() {
+
+            var node = ast.body[0].declarations[0].init;
+            var text = sourceCode.getText(node);
+            assert.equal(text, "6 * 7");
+        });
+
+        it("should retrieve all text plus two characters before for binary expression", function() {
+
+            var node = ast.body[0].declarations[0].init;
+            var text = sourceCode.getText(node, 2);
+            assert.equal(text, "= 6 * 7");
+        });
+
+        it("should retrieve all text plus one character after for binary expression", function() {
+            var node = ast.body[0].declarations[0].init;
+            var text = sourceCode.getText(node, 0, 1);
+            assert.equal(text, "6 * 7;");
+        });
+
+        it("should retrieve all text plus two characters before and one character after for binary expression", function() {
+            var node = ast.body[0].declarations[0].init;
+            var text = sourceCode.getText(node, 2, 1);
+            assert.equal(text, "= 6 * 7;");
+        });
+
+    });
+
+
+    describe("getNodeByRangeIndex()", function() {
+
+        var sourceCode,
+            ast;
+
+        beforeEach(function() {
+            ast = espree.parse(TEST_CODE, DEFAULT_CONFIG);
+            sourceCode = new SourceCode(TEST_CODE, ast);
+        });
+
+        it("should retrieve a node starting at the given index", function() {
+            var node = sourceCode.getNodeByRangeIndex(4);
+            assert.equal(node.type, "Identifier");
+        });
+
+        it("should retrieve a node containing the given index", function() {
+            var node = sourceCode.getNodeByRangeIndex(6);
+            assert.equal(node.type, "Identifier");
+        });
+
+        it("should retrieve a node that is exactly the given index", function() {
+            var node = sourceCode.getNodeByRangeIndex(13);
+            assert.equal(node.type, "Literal");
+            assert.equal(node.value, 6);
+        });
+
+        it("should retrieve a node ending with the given index", function() {
+            var node = sourceCode.getNodeByRangeIndex(9);
+            assert.equal(node.type, "Identifier");
+        });
+
+        it("should retrieve the deepest node containing the given index", function() {
+            var node = sourceCode.getNodeByRangeIndex(14);
+            assert.equal(node.type, "BinaryExpression");
+            node = sourceCode.getNodeByRangeIndex(3);
+            assert.equal(node.type, "VariableDeclaration");
+        });
+
+        it("should return null if the index is outside the range of any node", function() {
+            var node = sourceCode.getNodeByRangeIndex(-1);
+            assert.isNull(node);
+            node = sourceCode.getNodeByRangeIndex(-99);
+            assert.isNull(node);
+        });
+
+        it("should attach the node's parent", function() {
+            var node = sourceCode.getNodeByRangeIndex(14);
+            assert.property(node, "parent");
+            assert.equal(node.parent.type, "VariableDeclarator");
+        });
+
+        it("should not modify the node when attaching the parent", function() {
+            var node = sourceCode.getNodeByRangeIndex(10);
+            assert.equal(node.type, "VariableDeclarator");
+            node = sourceCode.getNodeByRangeIndex(4);
+            assert.equal(node.type, "Identifier");
+            assert.property(node, "parent");
+            assert.equal(node.parent.type, "VariableDeclarator");
+            assert.notProperty(node.parent, "parent");
+        });
+
+    });
+
+    // need to check that eslint.verify() works with SourceCode
 
     describe("eslint.verify()", function() {
 
