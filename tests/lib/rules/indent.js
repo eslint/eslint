@@ -764,6 +764,19 @@ ruleTester.run("indent", rule, {
                 "if (YO) console.log(TE)",
             ecmaFeatures: { blockBindings: true },
             options: [2, {"VariableDeclarator": { "var": 2, "let": 2, "const": 3}}]
+        },
+        {
+            code:
+                "var foo = 'foo',\n" +
+                "  bar = 'bar',\n" +
+                "  baz = function() {\n" +
+                "      \n" +
+                "  }\n" +
+                "\n" +
+                "function hello () { // <-- eslint complains about this line\n" +
+                "    \n" +
+                "}\n",
+            options: [2]
         }
     ],
     invalid: [
@@ -829,7 +842,7 @@ ruleTester.run("indent", rule, {
                 [189, 2, 0, "VariableDeclaration"],
                 [193, 6, 4, "ExpressionStatement"],
                 [195, 6, 8, "ExpressionStatement"],
-                [197, 2, 0, "VariableDeclaration"],
+                [196, 2, 4, "VariableDeclaration"],
                 [305, 6, 4, "ExpressionStatement"],
                 [306, 6, 8, "ExpressionStatement"],
                 [308, 2, 4, "VariableDeclarator"],
