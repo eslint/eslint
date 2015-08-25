@@ -28,9 +28,14 @@ ruleTester.run("prefer-template", rule, {
         {code: "'use strict';"},
         {code: "var foo = 'bar';"},
         {code: "var foo = 'bar' + 'baz';"},
+        {code: "var foo = +100 + 'yen';"},
         {code: "var foo = foo + +'100';"},
         {code: "var foo = `bar`;", ecmaFeatures: {templateStrings: true}},
-        {code: "var foo = `hello, ${name}!`;", ecmaFeatures: {templateStrings: true}}
+        {code: "var foo = `hello, ${name}!`;", ecmaFeatures: {templateStrings: true}},
+
+        // https://github.com/eslint/eslint/issues/3507
+        {code: "var foo = `foo` + `bar` + \"hoge\";", ecmaFeatures: {templateStrings: true}},
+        {code: "var foo = `foo` +\n    `bar` +\n    \"hoge\";", ecmaFeatures: {templateStrings: true}}
     ],
     invalid: [
         {code: "var foo = 'hello, ' + name + '!';", errors: errors},
