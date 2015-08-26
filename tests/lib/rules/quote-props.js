@@ -49,7 +49,10 @@ ruleTester.run("quote-props", rule, {
         { code: "({ a: 0, 'if': 0 })", options: ["as-needed", {keywords: true}] },
         { code: "({ a: 0, 'while': 0 })", options: ["as-needed", {keywords: true}] },
         { code: "({ a: 0, 'volatile': 0 })", options: ["as-needed", {keywords: true}] },
-        { code: "({'unnecessary': 1, 'if': 0})", options: ["as-needed", {keywords: true, unnecessary: false}] }
+        { code: "({'unnecessary': 1, 'if': 0})", options: ["as-needed", {keywords: true, unnecessary: false}] },
+        { code: "({'1': 1})", options: ["as-needed", {numbers: true}] },
+        { code: "({1: 1, x: 2})", options: ["consistent", {numbers: true}]},
+        { code: "({1: 1, x: 2})", options: ["consistent-as-needed", {numbers: true}]}
     ],
     invalid: [{
         code: "({ a: 0 })",
@@ -138,6 +141,18 @@ ruleTester.run("quote-props", rule, {
         options: ["as-needed", {keywords: true, unnecessary: false}],
         errors: [{
             message: "Unquoted reserved word `if` used as key.", type: "Property"
+        }]
+    }, {
+        code: "({1: 1})",
+        options: ["as-needed", {numbers: true}],
+        errors: [{
+            message: "Unquoted number literal `1` used as key.", type: "Property"
+        }]
+    }, {
+        code: "({1: 1})",
+        options: ["always", {numbers: false}],
+        errors: [{
+            message: "Unquoted property `1` found.", type: "Property"
         }]
     }]
 });

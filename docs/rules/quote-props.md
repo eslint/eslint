@@ -127,12 +127,14 @@ The following patterns are considered okay and do not cause warnings:
 var object1 = {
     "a-b": 0,
     "0x0": 0
+    "1e2": 0
 };
 
 var object2 = {
     foo: 'bar',
     baz: 42,
     true: 0,
+    0: 0,
     'qux-lorem': true
 };
 
@@ -175,6 +177,30 @@ var x = {
     "while": 1,
     "foo": "bar"  // Would normally have caused a warning
 };
+```
+
+A `numbers` flag, with default value `false`, can also be used as a modifier for the `"as-needed"` mode. When it is set to `true`, numeric literals should always be quoted.
+
+```json
+{
+    "quote-props": [2, "as-needed", {"numbers": true}]
+}
+```
+
+When `numbers` is set to `true`, the following patterns become warnings:
+
+```
+var x = {
+    100: 1
+}
+```
+
+and the following patterns _stop_ becoming warnings:
+
+```
+var x = {
+    "100": 1
+}
 ```
 
 #### consistent
