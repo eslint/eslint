@@ -1,6 +1,6 @@
 # Rules
 
-Rules in ESLint are divided into several categories to help you better understand their value. Though none are enabled by default, some are specifically recommended by ESLint and may be turned on using [configuration](../user-guide/configuring.md).
+Rules in ESLint are divided into several categories to help you better understand their value. Though none are enabled by default, you can turn on rules that ESLint recommends by specifying your configuration to inherit from `eslint:recommended`. The rules that will be enabled when you inherit from `eslint:recommended` are indicated below as "(recommended)". For more information on how to configure rules and inherit from `eslint:recommended`, please see the [configuration documentation](../user-guide/configuring.md).
 
 ## Possible Errors
 
