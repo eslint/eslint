@@ -86,6 +86,73 @@ Note that you can leave off the `.js` from the filename. In this way, you can ad
 
 **Important:** We strongly recommend always including a default config for your plugin to avoid errors.
 
+## Local Config File Resolution
+
+If you need to make multiple configs that can extend from each other and live in different directories, you can create a single shareable config that handles this scenario.
+
+As an example, let's assume you're using the package name `eslint-config-myconfig` and your package looks something like this:
+
+```text
+myconfig
+├── index.js
+└─┬ lib
+  ├── defaults.js
+  ├── dev.js
+  ├── ci.js
+  └─┬ ci
+    ├── frontend.js
+    ├── backend.js
+    └── common.js
+```
+
+In your `index.js` you can do something like this:
+
+```js
+module.exports = require('./lib/ci.js);
+```
+
+Now inside your package you have `/lib/defaults.js`, which contains:
+
+```js
+module.exports = {
+    rules: {
+        'no-console': 1
+    }
+};
+```
+
+Inside your `/lib/ci.js` you have
+
+```js
+module.exports = require('./ci/backend');
+```
+
+Inside your `/lib/ci/common.js`
+
+```js
+module.exports = {
+    rules: {
+        'no-alert': 2
+    },
+    extends: 'myconfig/lib/defaults'
+};
+```
+
+Despite being in an entirely different directory, you'll see that all `extends` must use the full package path to the config file you wish to extend.
+
+Now inside your `/lib/ci/backend.js`
+
+```js
+module.exports = {
+    rules: {
+        'no-console': 1
+    },
+    extends: 'myconfig/lib/ci/common'
+};
+```
+
+In the last file, you'll once again see that to properly resolve your config, you'll need include the full package path.
+
 ## Further Reading
 
 * [npm Developer Guide](https://www.npmjs.org/doc/misc/npm-developers.html)
