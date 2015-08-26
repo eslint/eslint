@@ -84,7 +84,7 @@ It will not warn for these patterns:
 
 ```js
 if (foo) return;
-else foo();
+else baz();
 
 while (true) {
     doSomething();
