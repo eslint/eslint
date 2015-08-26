@@ -106,9 +106,11 @@ The main method you'll use is `context.report()`, which publishes a warning or e
 
     context.report(node, "This is unexpected!");
 
-or
+or {% raw %}
 
     context.report(node, "`{{identifier}}` is unexpected!", { identifier: node.name });
+
+{% endraw %}
 
 The node contains all of the information necessary to figure out the line and column number of the offending text as well the source text representing the node.
 
