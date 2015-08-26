@@ -116,9 +116,9 @@ These rules have to do with variable declarations.
 * [no-unused-vars](no-unused-vars.md) - disallow declaration of variables that are not used in the code (recommended)
 * [no-use-before-define](no-use-before-define.md) - disallow use of variables before they are defined
 
-## Node.js
+## Node.js and CommonJS
 
-These rules are specific to JavaScript running on Node.js.
+These rules are specific to JavaScript running on Node.js or using CommonJS in the browser.
 
 * [callback-return](callback-return.md) - enforce `return` after a callback
 * [handle-callback-err](handle-callback-err.md) - enforce error handling in callbacks
