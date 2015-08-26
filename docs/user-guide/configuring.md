@@ -273,18 +273,48 @@ And in YAML:
       - "double"
 ```
 
-To configure a rule which is defined within a plugin you have to prefix the rule ID with the plugin name and a `/`.
-Example
+To configure a rule which is defined within a plugin you have to prefix the rule ID with the plugin name and a `/`. For example:
 
-```js
-/*eslint "jquery/dollar-sign": 2*/
+```json
+{
+    "plugins": [
+        "plugin1"
+    ],
+    "rules": {
+        "eqeqeq": 0,
+        "curly": 2,
+        "quotes": [2, "double"],
+        "plugin1/rule1": 2
+    }
+}
 ```
 
-There's no need to specify every single rule - you will automatically get the default setting for every rule. You only need to override the rules that you want to change.
+And in YAML:
 
-**Note:** All rules that are enabled by default are set to 2, so they will cause a non-zero exit code when encountered. You can lower these rule to a warning by setting them to 1, which has the effect of outputting the message onto the console but doesn't affect the exit code.
+```yaml
+---
+  plugins:
+    - plugin1
+  rules:
+    eqeqeq: 0
+    curly: 2
+    quotes:
+      - 2
+      - "double"
+    plugin1/rule1: 2
+```
 
-To temporary disable warnings in your file use the following format
+In these configuration files, the rule `plugin1/rule1` comes from the plugin named `plugin1`. You can also use this format with configuration comments, such as:
+
+```js
+/*eslint "plugin1/rule1": 2*/
+```
+
+**Note:** When specifying rules from plugins, make sure to omit `eslint-plugin-`. ESLint uses only the unprefixed name internally to locate rules.
+
+All rules that are enabled by default are set to 2, so they will cause a non-zero exit code when encountered. You can lower these rules to a warning by setting them to 1, which has the effect of outputting the message onto the console but doesn't affect the exit code.
+
+To temporary disable warnings in your file use the following format:
 
 ```js
 /*eslint-disable */
