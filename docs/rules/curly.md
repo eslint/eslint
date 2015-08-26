@@ -83,7 +83,7 @@ for (var i=0; i < items.length; i++) {
 It will not warn for these patterns:
 
 ```js
-if (foo) return;
+if (!foo) return;
 else foo();
 
 while (true) {
