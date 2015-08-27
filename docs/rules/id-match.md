@@ -16,7 +16,7 @@ It doesn't apply to function calls, so that you can still use functions or objec
 
 This rule needs a text RegExp to operate with, and accepts an options map. Its signature is as follows:
 
-```js
+```json
 {
     "rules": {
         "id-match": [2, "^[a-z]+([A-Z][a-z]+)*$", {"properties": false}]
@@ -27,35 +27,39 @@ This rule needs a text RegExp to operate with, and accepts an options map. Its s
 `properties` can have the following values:
 
 1. `true` is the default and checks all property names
-2. `false` does not check property names at all
+2. `false` does not check property names at all (default)
 
 For the rule in this example, which is simply camelcase, the following patterns are considered warnings:
 
 ```js
-var my_favorite_color = "#112C85";
+/*eslint id-match: [2, "^[a-z]+([A-Z][a-z]+)*$", {"properties": true}]*/
 
-var _myFavoriteColor  = "#112C85";
+var my_favorite_color = "#112C85"; /*error Identifier 'my_favorite_color' does not match the pattern '^[a-z]+([A-Z][a-z]+)*$'.*/
 
-var myFavoriteColor_  = "#112C85";
+var _myFavoriteColor  = "#112C85"; /*error Identifier '_myFavoriteColor' does not match the pattern '^[a-z]+([A-Z][a-z]+)*$'.*/
 
-var MY_FAVORITE_COLOR = "#112C85";
+var myFavoriteColor_  = "#112C85"; /*error Identifier 'myFavoriteColor_' does not match the pattern '^[a-z]+([A-Z][a-z]+)*$'.*/
 
-function do_something() {
+var MY_FAVORITE_COLOR = "#112C85"; /*error Identifier 'MY_FAVORITE_COLOR' does not match the pattern '^[a-z]+([A-Z][a-z]+)*$'.*/
+
+function do_something() {          /*error Identifier 'do_something' does not match the pattern '^[a-z]+([A-Z][a-z]+)*$'.*/
     // ...
 }
 
-obj.do_something = function() {
+obj.do_something = function() {    /*error Identifier 'do_something' does not match the pattern '^[a-z]+([A-Z][a-z]+)*$'.*/
     // ...
 };
 
 var obj = {
-    my_pref: 1
+    my_pref: 1                     /*error Identifier 'my_pref' does not match the pattern '^[a-z]+([A-Z][a-z]+)*$'.*/
 };
 ```
 
 The following patterns are considered okay and do not cause warnings:
 
 ```js
+/*eslint id-match: [2, "^[a-z]+([A-Z][a-z]+)*$", {"properties": false}]*/
+
 var myFavoriteColor   = "#112C85";
 var foo = bar.baz_boom;
 var foo = { qux: bar.baz_boom };

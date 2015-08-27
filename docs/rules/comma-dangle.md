@@ -24,22 +24,26 @@ The default value of this option is `"never"`.
 The following patterns are considered warnings when configured `"never"`:
 
 ```js
+/*eslint comma-dangle: [2, "never"]*/
+
 var foo = {
     bar: "baz",
-    qux: "quux",
+    qux: "quux",   /*error Unexpected trailing comma.*/
 };
 
-var arr = [1,2,];
+var arr = [1,2,];  /*error Unexpected trailing comma.*/
 
 foo({
   bar: "baz",
-  qux: "quux",
+  qux: "quux",     /*error Unexpected trailing comma.*/
 });
 ```
 
 The following patterns are not considered warnings when configured `"never"`:
 
 ```js
+/*eslint comma-dangle: [2, "never"]*/
+
 var foo = {
     bar: "baz",
     qux: "quux"
@@ -56,22 +60,26 @@ foo({
 The following patterns are considered warnings when configured `"always"`:
 
 ```js
+/*eslint comma-dangle: [2, "always"]*/
+
 var foo = {
     bar: "baz",
-    qux: "quux"
+    qux: "quux"   /*error Missing trailing comma.*/
 };
 
-var arr = [1,2];
+var arr = [1,2];  /*error Missing trailing comma.*/
 
 foo({
   bar: "baz",
-  qux: "quux"
+  qux: "quux"     /*error Missing trailing comma.*/
 });
 ```
 
 The following patterns are not considered warnings when configured `"always"`:
 
 ```js
+/*eslint comma-dangle: [2, "always"]*/
+
 var foo = {
     bar: "baz",
     qux: "quux",
@@ -88,32 +96,36 @@ foo({
 The following patterns are considered warnings when configured `"always-multiline"`:
 
 ```js
+/*eslint comma-dangle: [1, "always-multiline"]*/
+
 var foo = {
     bar: "baz",
-    qux: "quux"
+    qux: "quux"                         /*error Missing trailing comma.*/
 };
 
-var foo = { bar: "baz", qux: "quux", };
+var foo = { bar: "baz", qux: "quux", }; /*error Unexpected trailing comma.*/
 
-var arr = [1,2,];
+var arr = [1,2,];                       /*error Unexpected trailing comma.*/
 
 var arr = [1,
-    2,];
+    2,];                                /*error Unexpected trailing comma.*/
 
 var arr = [
     1,
-    2
+    2                                   /*error Missing trailing comma.*/
 ];
 
 foo({
   bar: "baz",
-  qux: "quux"
+  qux: "quux"                           /*error Missing trailing comma.*/
 });
 ```
 
 The following patterns are not considered warnings when configured `"always-multiline"`:
 
 ```js
+/*eslint comma-dangle: [2, "always-multiline"]*/
+
 var foo = {
     bar: "baz",
     qux: "quux",

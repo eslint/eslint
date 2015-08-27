@@ -16,53 +16,52 @@ It allows the programmers to silently by-pass this check by using "quoted" prope
 The following patterns are considered warnings:
 
 ```js
-// id-length: 1  // default is minimum 2-chars ({ min: 2})
+/*eslint id-length: 2*/     // default is minimum 2-chars ({ min: 2})
 
-var x = 5;
+var x = 5;                  /*error Identifier name 'x' is too short. (< 2)*/
 
-obj.e = document.body;
+obj.e = document.body;      /*error Identifier name 'e' is too short. (< 2)*/
 
-var handler = function (e) { /* do stuff */ };
+var foo = function (e) { }; /*error Identifier name 'e' is too short. (< 2)*/
 
 try {
     dangerousStuff();
-} catch (e) {  // Identifier 'e' is too short. (< 2)
+} catch (e) {               /*error Identifier name 'e' is too short. (< 2)*/
     // ignore as many do
 }
 
-var myObj = { a: 1 };  // Identifier 'a' is too short. (< 2)
+var myObj = { a: 1 };       /*error Identifier name 'a' is too short. (< 2)*/
 
-(a) => { a * a };  // Identifier name 'a' is too short. (< 2)
+(a) => { a * a };           /*error Identifier name 'a' is too short. (< 2)*/
 
-function foo(x = 0) { }  // Identifier name 'x' is too short. (< 2)
+function foo(x = 0) { }     /*error Identifier name 'x' is too short. (< 2)*/
 
-class x { }  // Identifier name 'x' is too short. (< 2)
+class x { }                 /*error Identifier name 'x' is too short. (< 2)*/
 
-class Foo { x() {} }  // Identifier name 'x' is too short. (< 2)
+class Foo { x() {} }        /*error Identifier name 'x' is too short. (< 2)*/
 
-function foo(...x) { }  // Identifier name 'x' is too short. (< 2)
+function foo(...x) { }      /*error Identifier name 'x' is too short. (< 2)*/
 
-var { x} = {};  // Identifier name 'x' is too short. (< 2)
+var { x} = {};              /*error Identifier name 'x' is too short. (< 2)*/
 
-var { x: a} = {};  // Identifier name 'x' is too short. (< 2)
+var { x: a} = {};           /*error Identifier name 'x' is too short. (< 2)*/
 
-var { a: [x]} = {};  // Identifier name 'a' is too short. (< 2)
+var { a: [x]} = {};         /*error Identifier name 'a' is too short. (< 2)*/
 
-import x from 'y';  // Identifier name 'x' is too short. (< 2)
+import x from 'y';          /*error Identifier name 'x' is too short. (< 2)*/
 
-export var x = 0;  // Identifier name 'x' is too short. (< 2)
+export var x = 0;           /*error Identifier name 'x' is too short. (< 2)*/
 
-({ a: obj.x.y.z }) = {};  // Identifier name 'a' is too short. (< 2)
-                          // Identifier name 'x' is too short. (< 2)
+({ a: obj.x.y.z }) = {};    /*error Identifier name 'a' is too short. (< 2)*/ /*error Identifier name 'z' is too short. (< 2)*/
 
-({ prop: obj.x }) = {};  // Identifier name 'x' is too short. (< 2)
+({ prop: obj.x }) = {};     /*error Identifier name 'x' is too short. (< 2)*/
 
 ```
 
 The following patterns are not considered warnings:
 
 ```js
-// id-length: 1  // default is minimum 2-chars ({ min: 2})
+/*eslint id-length: 2*/     // default is minimum 2-chars ({ min: 2})
 
 var num = 5;
 
@@ -72,7 +71,7 @@ function _func() { return 42; }
 
 obj.el = document.body;
 
-var handler = function (evt) { /* do stuff */ };
+var foo = function (evt) { /* do stuff */ };
 
 try {
     dangerousStuff();
@@ -81,8 +80,6 @@ try {
 }
 
 var myObj = { apple: 1 };
-
-var myObj = { a: 1 };  // With {"properties": "never"}
 
 (num) => { num * num };
 
@@ -108,14 +105,11 @@ export var num = 0;
 
 ({ prop: obj.longName }) = {};
 
-({ a: obj.x.y.z }) = {};  // With {"properties": "never"}
-
-({ prop: obj.x }) = {};  // With {"properties": "never"}
-
 var data = { "x": 1 };  // excused because of quotes
 
 data["y"] = 3;  // excused because of calculated property access
 ```
+
 
 ### Options
 
@@ -133,6 +127,17 @@ For example, to specify a minimum identifier length of 3, a maximum of 10, ignor
 "id-length": [2, {"min": 3, "max": 10, "properties": "never", "exceptions": ["x"]}]
 ```
 
+The following patterns will not be considered warnings
+
+```js
+/*eslint id-length: [2, {"properties": "never"}]*/
+
+var myObj = { a: 1 };
+
+({ a: obj.x.y.z }) = {};
+
+({ prop: obj.x }) = {};
+```
 
 ## Related Rules
 

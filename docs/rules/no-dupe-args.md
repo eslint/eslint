@@ -10,8 +10,10 @@ This rule prevents having duplicate param names.
 
 For example the following code will cause the rule to warn:
 
-```js
-function (a, b, a) {
+```
+/*eslint no-dupe-args: 2*/
+
+function foo(a, b, a) {               /*error Duplicate param 'a'.*/
     console.log("which a is it?", a);
 }
 ```

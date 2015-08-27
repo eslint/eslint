@@ -36,29 +36,48 @@ Depending on your coding conventions, you can choose either option by specifying
 
 #### never
 
-When `"never"` is set, the following patterns are considered correct:
+When `"never"` is set, the following patterns will give a warning:
 
 ```js
+/*eslint computed-property-spacing: [2, "never"]*/
+obj[foo ]                                                       /*error There should be no space before ']'*/
+obj[ 'foo']        /*error There should be no space after '['*/
+var x = {[ b ]: a} /*error There should be no space after '['*/ /*error There should be no space before ']'*/
+obj[foo[ bar ]]    /*error There should be no space after '['*/ /*error There should be no space before ']'*/
+```
+
+The following patterns are considered correct:
+
+```js
+/*eslint computed-property-spacing: [2, "never"]*/
+
 obj[foo]
 obj['foo']
 var x = {[b]: a}
 obj[foo[bar]]
 ```
 
-The following patterns will warn:
-
-```js
-obj[foo ]
-obj[ 'foo']
-var x = {[ b ]: a}
-obj[foo[ bar ]]
-```
-
 #### always
 
-When `"always"` is used, the following patterns are considered correct:
+When `"always"` is used, the following patterns will give a warning:
 
 ```js
+/*eslint computed-property-spacing: [2, "always"]*/
+
+obj[foo]          /*error A space is required after '['*/ /*error A space is required before ']'*/
+var x = {[b]: a}  /*error A space is required after '['*/ /*error A space is required before ']'*/
+obj[ foo]                                                 /*error A space is required before ']'*/
+obj[ foo ]
+obj['foo' ]       /*error A space is required after '['*/
+obj[foo[ bar ]]   /*error A space is required after '['*/ /*error A space is required before ']'*/
+var x = {[ b]: a}                                         /*error A space is required before ']'*/
+```
+
+The following patterns are considered correct:
+
+```js
+/*eslint computed-property-spacing: [2, "always"]*/
+
 obj[ foo ]
 obj[ 'foo' ]
 var x = {[ b ]: a}
@@ -66,17 +85,6 @@ obj[ foo[ bar ] ]
 
 ```
 
-The following patterns will warn:
-
-```js
-obj[foo]
-var x = {[b]: a}
-obj[ foo]
-obj[ foo ]
-obj['foo' ]
-obj[foo[ bar ]]
-var x = {[ b]: a}
-```
 
 ## When Not To Use It
 

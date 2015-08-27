@@ -21,21 +21,23 @@ This rule is aimed at preventing unexpected behavior in your program that may ar
 The following patterns are considered warnings:
 
 ```js
+/*eslint no-catch-shadow: 2*/
+
 var err = "x";
 
 try {
     throw "problem";
-} catch (err) {
+} catch (err) {      /*error Value of 'err' may be overwritten in IE 8 and earlier.*/
 
 }
 
 function err() {
-    ...
+    // ...
 };
 
 try {
     throw "problem";
-} catch (err) {
+} catch (err) {      /*error Value of 'err' may be overwritten in IE 8 and earlier.*/
 
 }
 ```
@@ -52,7 +54,7 @@ try {
 }
 
 function err() {
-    ...
+    // ...
 };
 
 try {

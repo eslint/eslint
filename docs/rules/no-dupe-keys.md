@@ -16,17 +16,19 @@ This rule is aimed at preventing possible errors and unexpected behavior that mi
 The following patterns are considered warnings:
 
 ```js
-var foo = {
+/*eslint no-dupe-keys: 2*/
+
+var foo = {        /*error Duplicate key 'bar'.*/
     bar: "baz",
     bar: "qux"
 };
 
-var foo = {
+var foo = {        /*error Duplicate key 'bar'.*/
     "bar": "baz",
     bar: "qux"
 };
 
-var foo = {
+var foo = {        /*error Duplicate key '1'.*/
     0x1: "baz",
     1: "qux"
 };
@@ -35,6 +37,8 @@ var foo = {
 The following patterns are considered okay and do not cause warnings:
 
 ```js
+/*eslint no-dupe-keys: 2*/
+
 var foo = {
     bar: "baz",
     quxx: "qux"

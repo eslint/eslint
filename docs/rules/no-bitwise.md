@@ -13,36 +13,40 @@ This rule is aimed at catching typos that end up as bitwise operators, but are m
 The following patterns are considered warnings:
 
 ```js
-var x = y | z;
+/*eslint no-bitwise: 2*/
 
-var x = y & z;
+var x = y | z;   /*error Unexpected use of '|'.*/
 
-var x = y ^ z;
+var x = y & z;   /*error Unexpected use of '&'.*/
 
-var x = ~ z;
+var x = y ^ z;   /*error Unexpected use of '^'.*/
 
-var x = y << z;
+var x = ~ z;     /*error Unexpected use of '~'.*/
 
-var x = y >> z;
+var x = y << z;  /*error Unexpected use of '<<'.*/
 
-var x = y >>> z;
+var x = y >> z;  /*error Unexpected use of '>>'.*/
 
-var x |= y;
+var x = y >>> z; /*error Unexpected use of '>>>'.*/
 
-var x &= y;
+x |= y;          /*error Unexpected use of '|='.*/
 
-var x ^= y;
+x &= y;          /*error Unexpected use of '&='.*/
 
-var x <<= y;
+x ^= y;          /*error Unexpected use of '^='.*/
 
-var x >>= y;
+x <<= y;         /*error Unexpected use of '<<='.*/
 
-var x >>>= y;
+x >>= y;         /*error Unexpected use of '>>='.*/
+
+x >>>= y;        /*error Unexpected use of '>>>='.*/
 ```
 
 The following patterns are not considered warnings:
 
 ```js
+/*eslint no-bitwise: 2*/
+
 var x = y || z;
 
 var x = y && z;
@@ -51,5 +55,5 @@ var x = y > z;
 
 var x = y < z;
 
-var x += y;
+x += y;
 ```

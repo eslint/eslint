@@ -19,21 +19,37 @@ This rule designates a variable as the chosen alias for `this`. It then enforces
 * if a variable with the designated name is declared or assigned to, it *must* explicitly be assigned the current execution context, i.e. `this`
 * if `this` is explicitly assigned to a variable, the name of that variable must be the designated one
 
-Assuming that alias is `self`, the following patterns are considered warnings:
+### Options
+
+This rule takes one option, a string, which is the designated `this` variable.
+
+#### Usage
+
+You can set the rule configuration like this:
+
+```json
+"consistent-this": [2, "self"]
+```
+
+The following patterns are considered warnings:
 
 ```js
-var self = 42;
+/*eslint consistent-this: [2, "self"]*/
 
-var that = this;
+var self = 42;   /*error Designated alias 'self' is not assigned to 'this'.*/
 
-self = 42;
+var that = this; /*error Unexpected alias 'that' for 'this'.*/
 
-that = this;
+self = 42;       /*error Designated alias 'self' is not assigned to 'this'.*/
+
+that = this;     /*error Unexpected alias 'that' for 'this'.*/
 ```
 
 The following patterns are considered okay and do not cause warnings:
 
 ```js
+/*eslint consistent-this: [2, "self"]*/
+
 var self = this;
 
 var that = 42;
@@ -48,6 +64,8 @@ foo.bar = this;
 A declaration of an alias does not need to assign `this` in the declaration, but it must perform an appropriate assignment in the same scope as the declaration. The following patterns are also considered okay:
 
 ```js
+/*eslint consistent-this: [2, "self"]*/
+
 var self;
 self = this;
 
@@ -59,18 +77,12 @@ self = this;
 But the following pattern is considered a warning:
 
 ```js
-var self;
+/*eslint consistent-this: [2, "self"]*/
+
+var self;        /*error Designated alias 'self' is not assigned to 'this'.*/
 function f() {
     self = this;
 }
-```
-
-### Options
-
-You can configure the designated `this` variable:
-
-```js
-"consistent-this": [0, "self"]
 ```
 
 ## When Not To Use It

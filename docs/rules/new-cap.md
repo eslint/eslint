@@ -13,22 +13,32 @@ This rule is aimed at helping to distinguish regular functions from constructor 
 The following patterns are considered warnings:
 
 ```js
-var friend = new person();
-var colleague = Person();
+/*eslint new-cap: 2*/
+
+var friend = new person(); /*error A constructor name should not start with a lowercase letter.*/
+var colleague = Person();  /*error A function with a name starting with an uppercase letter should only be used as a constructor.*/
 ```
 
 The following patterns are considered okay and do not cause warnings:
 
 ```js
+/*eslint new-cap: 2*/
+
 var friend = new Person();
 var colleague = person();
+```
 
-// When `{"capIsNewExceptions": ["Person"]}` is given:
+```js
+/*eslint new-cap: [2, {"capIsNewExceptions": ["Person"]}]*/
+
 var colleague = Person();
 var colleague = foo.Person();
 var colleague = foo.bar.Person();
+```
 
-// When `{"capIsNewExceptions": ["foo.Person"]}` is given:
+```js
+/*eslint new-cap: [2, {"capIsNewExceptions": ["foo.Person"]}]*/
+
 var colleague = foo.Person();
 ```
 

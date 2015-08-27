@@ -32,12 +32,18 @@ This rule is configured by passing in the string `"always"` (the default) to enf
 
 You can configure the rule as follows:
 
-```javascript
-{
-    // (default) All variables must be initialized at declaration
-    "init-declarations": [2, "always"],
+(default) All variables must be initialized at declaration
 
-    // Variables must not be initialized at declaration
+```json
+{
+    "init-declarations": [2, "always"],
+}
+```
+
+Variables must not be initialized at declaration
+
+```json
+{
     "init-declarations": [2, "never"]
 }
 ```
@@ -45,15 +51,19 @@ You can configure the rule as follows:
 When configured with `"always"` (the default), the following patterns are considered warnings:
 
 ```js
+/*eslint init-declarations: [2, "always"]*/
+
 function foo() {
-    var bar;
-    let baz;
+    var bar;     /*error Variable 'bar' should be initialized on declaration.*/
+    let baz;     /*error Variable 'baz' should be initialized on declaration.*/
 }
 ```
 
 The following patterns are not considered warnings with `"always"`.
 
 ```js
+/*eslint init-declarations: [2, "always"]*/
+
 function foo() {
     var bar = 1;
     let baz = 2;
@@ -64,15 +74,19 @@ function foo() {
 When configured with `"never"`, the following patterns are considered warnings.
 
 ```js
+/*eslint init-declarations: [2, "never"]*/
+
 function foo() {
-    var bar = 1;
-    let baz = 2;
+    var bar = 1;   /*error Variable 'bar' should not be initialized on declaration.*/
+    let baz = 2;   /*error Variable 'baz' should not be initialized on declaration.*/
 }
 ```
 
 The following patterns are not considered warnings with `"never"`. Note that `const` variable initializations are ignored with `"never"`.
 
 ```js
+/*eslint init-declarations: [2, "never"]*/
+
 function foo() {
     var bar;
     let baz;

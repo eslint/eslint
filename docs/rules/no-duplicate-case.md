@@ -27,13 +27,15 @@ This inspection reports any duplicated case labels on JavaScript switch statemen
 The following patterns are considered warnings:
 
 ```js
+/*eslint no-duplicate-case: 2*/
+
 var a = 1,
     one = 1;
 
 switch (a) {
     case 1:
         break;
-    case 1:
+    case 1:      /*error Duplicate case label.*/
         break;
     case 2:
         break;
@@ -44,7 +46,7 @@ switch (a) {
 switch (a) {
     case "1":
         break;
-    case "1":
+    case "1":    /*error Duplicate case label.*/
         break;
     case "2":
         break;
@@ -55,7 +57,7 @@ switch (a) {
 switch (a) {
     case one:
         break;
-    case one:
+    case one:    /*error Duplicate case label.*/
         break;
     case 2:
         break;
@@ -67,6 +69,8 @@ switch (a) {
 The following patterns are not considered warnings:
 
 ```js
+/*eslint no-duplicate-case: 2*/
+
 var a = 1;
 
 switch (a) {

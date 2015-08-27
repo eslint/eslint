@@ -18,29 +18,39 @@ As such, it warns whenever it sees a constant expression inside a condition expr
 The following patterns are considered warnings:
 
 ```js
-if (true) {
+/*eslint no-constant-condition: 2*/
+
+if (true) {             /*error Unexpected constant condition.*/
     doSomething();
 }
 ```
 
 ```js
-var result = 0 ? a : b;
+/*eslint no-constant-condition: 2*/
+
+var result = 0 ? a : b; /*error Unexpected constant condition.*/
 ```
 
 ```js
-while (-2) {
+/*eslint no-constant-condition: 2*/
+
+while (-2) {            /*error Unexpected constant condition.*/
     doSomething();
 }
 ```
 
 ```js
-for (;true;) {
+/*eslint no-constant-condition: 2*/
+
+for (;true;) {          /*error Unexpected constant condition.*/
     doSomething();
 }
 ```
 
 ```js
-do{
+/*eslint no-constant-condition: 2*/
+
+do{                     /*error Unexpected constant condition.*/
     something();
 } while (x = -1)
 ```
@@ -48,12 +58,16 @@ do{
 The following patterns are not warnings:
 
 ```js
+/*eslint no-constant-condition: 2*/
+
 if (x === 0) {
     doSomething();
 }
 ```
 
 ```js
+/*eslint no-constant-condition: 2*/
+
 do {
     something();
 } while (x)
