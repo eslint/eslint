@@ -54,6 +54,8 @@ ruleTester.run("quote-props", rule, {
         { code: "({ a: 0, null: 0 })", options: ["consistent-as-needed"] },
         { code: "({ 'a': 0, '-b': 0 })", options: ["consistent-as-needed"] },
         { code: "({ '@': 0, 'B': 0 })", options: ["consistent-as-needed"] },
+        { code: "({ 'while': 0, 'B': 0 })", options: ["consistent-as-needed", {keywords: true}] },
+        { code: "({ '@': 0, 'B': 0 })", options: ["consistent-as-needed", {keywords: true}] },
         { code: "({ '@': 1, [x]: 0 });", env: {"es6": true}, options: ["consistent-as-needed"]},
         { code: "({ '@': 1, x });", env: {"es6": true}, options: ["consistent-as-needed"]},
         { code: "({ a: 1, [x]: 0 });", env: {"es6": true}, options: ["consistent-as-needed"]},
@@ -141,6 +143,12 @@ ruleTester.run("quote-props", rule, {
     }, {
         code: "({ 'true': 0, 'null': 0 })",
         options: ["consistent-as-needed"],
+        errors: [{
+            message: "Properties shouldn't be quoted as all quotes are redundant.", type: "ObjectExpression"
+        }]
+    }, {
+        code: "({ 'a': 0, 'b': 0 })",
+        options: ["consistent-as-needed", {keywords: true}],
         errors: [{
             message: "Properties shouldn't be quoted as all quotes are redundant.", type: "ObjectExpression"
         }]

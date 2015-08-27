@@ -155,7 +155,7 @@ When the `"as-needed"` mode is selected, an additional `keywords` option can be 
 
 When `keywords` is set to `true`, the following patterns become warnings:
 
-```
+```js
 var x = {
     while: 1,
     volatile: "foo"
@@ -172,7 +172,7 @@ Another modifier for this rule is the `unnecessary` option which defaults to `tr
 
 When `unnecessary` is set to `false`, the following patterns _stop_ becoming warnings:
 
-```
+```js
 var x = {
     "while": 1,
     "foo": "bar"  // Would normally have caused a warning
@@ -269,6 +269,23 @@ var object1 = {
 var object2 = {
     foo: 'bar',
     baz: 42
+};
+```
+
+When the `"consistent-as-needed"` mode is selected, an additional `keywords` option can be provided. This flag indicates whether language keywords can be used unquoted as properties. By default it is set to `false`.
+
+```json
+{
+    "quote-props": [2, "consistent-as-needed", {"keywords": true}]
+}
+```
+
+When `keywords` is set to `true`, the following patterns become warnings:
+
+```js
+var x = {
+    while: 1,
+    volatile: "foo"
 };
 ```
 
