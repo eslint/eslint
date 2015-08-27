@@ -13,11 +13,15 @@ This rule is aimed at highlighting a lack of convention and increasing code clar
 The following patterns are considered warnings:
 
 ```js
-var person = new Person;
+/*eslint new-parens: 2*/
+
+var person = new Person; /*error Missing '()' invoking a constructor*/
 ```
 
 The following patterns are not considered warnings:
 
 ```js
+/*eslint new-parens: 2*/
+
 var person = new Person();
 ```

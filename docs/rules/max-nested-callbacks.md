@@ -18,13 +18,23 @@ foo(function () {
 
 This rule is aimed at increasing code clarity by discouraging deeply nesting callbacks. As such, it will warn when callbacks are nested deeper than the specified limit.
 
+### Options
+
+There is no default max depth for this rule.  You must configure the depth as an option by using the second argument in your configuration. For example, this sets the rule as an error (code is 2) with a maximum depth of 3:
+
+```json
+"max-nested-callbacks": [2, 3]
+```
+
 The following patterns are considered warnings:
 
 ```js
+/*eslint max-nested-callbacks: [2, 3]*/
+
 foo(function () {
     bar(function () {
         baz(function() {
-            qux(function () {
+            qux(function () { /*error Too many nested callbacks (4). Maximum allowed is 3.*/
 
             });
         });
@@ -35,6 +45,8 @@ foo(function () {
 The following patterns are not considered warnings:
 
 ```js
+/*eslint max-nested-callbacks: [2, 3]*/
+
 foo(handleFoo);
 
 function handleFoo (){
@@ -52,14 +64,6 @@ function handleBaz() {
 function handleQux() {
 
 }
-```
-
-### Options
-
-You can configure the depth as an option by using the second argument in your configuration. For example, this sets the rule as an error (code is 2) with a maximum depth of 3:
-
-```json
-"max-nested-callbacks": [2, 3]
 ```
 
 ## Further Reading

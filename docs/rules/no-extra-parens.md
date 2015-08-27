@@ -16,49 +16,57 @@ A few cases of redundant parentheses are always allowed:
 The default behavior of the rule is specified by `"all"` and it will report unnecessary parentheses around any expression. The following patterns are considered warnings:
 
 ```js
-a = (b * c)
+/*eslint no-extra-parens: 2*/
 
-(a * b) + c
+a = (b * c); /*error Gratuitous parentheses around expression.*/
 
-typeof (a)
+(a * b) + c; /*error Gratuitous parentheses around expression.*/
+
+typeof (a);  /*error Gratuitous parentheses around expression.*/
 ```
 
 The following patterns are not considered warnings:
 
 ```js
-(0).toString()
+/*eslint no-extra-parens: 2*/
 
-({}.toString.call())
+(0).toString();
+
+({}.toString.call());
 
 (function(){} ? a() : b())
 
-(/^a$/).test(var)
+(/^a$/).test(x);
 ```
 
 If the option is set to `"functions"`, only function expressions will be checked for unnecessary parentheses. The following patterns are considered warnings:
 
 ```js
-((function foo() {}))();
+/*eslint no-extra-parens: [2, "functions"]*/
 
-var y = (function () {return 1;});
+((function foo() {}))();           /*error Gratuitous parentheses around expression.*/
+
+var y = (function () {return 1;}); /*error Gratuitous parentheses around expression.*/
 ```
 
 The following patterns are not considered warnings:
 
 ```js
-(0).toString()
+/*eslint no-extra-parens: [2, "functions"]*/
 
-({}.toString.call())
+(0).toString();
 
-(function(){} ? a() : b())
+({}.toString.call());
 
-(/^a$/).test(var)
+(function(){} ? a() : b());
 
-a = (b * c)
+(/^a$/).test(x);
 
-(a * b) + c
+a = (b * c);
 
-typeof (a)
+(a * b) + c;
+
+typeof (a);
 ```
 
 

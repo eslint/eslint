@@ -13,42 +13,38 @@ This rule is aimed to flag invalid/missing `super()` calls.
 The following patterns are considered warnings:
 
 ```js
+/*eslint constructor-super: 2*/
+
 class A {
     constructor() {
-        super(); // unexpected `super()`.
+        super();       /*error unexpected `super()`.*/
     }
 }
-```
 
-```js
 class A extends null {
     constructor() {
-        super(); // unexpected `super()`.
+        super();       /*error unexpected `super()`.*/
     }
 }
-```
 
-```js
 class A extends B {
-    constructor() { } // requires `super()`.
+    constructor() { }  /*error this constructor requires `super()`.*/
 }
 ```
 
 The following patterns are not considered warnings:
 
 ```js
+/*eslint constructor-super: 2*/
+
 class A {
     constructor() { }
 }
-```
 
-```js
 class A extends null {
     constructor() { }
 }
-```
 
-```js
 class A extends B {
     constructor() {
         super();

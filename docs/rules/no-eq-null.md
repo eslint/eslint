@@ -15,11 +15,13 @@ The `no-eq-null` rule aims reduce potential bug and unwanted behavior by ensurin
 The following patterns are considered warnings:
 
 ```js
-if (foo == null) {
+/*eslint no-eq-null: 2*/
+
+if (foo == null) {     /*error Use ‘===’ to compare with ‘null’.*/
   bar();
 }
 
-while (qux != null) {
+while (qux != null) {  /*error Use ‘===’ to compare with ‘null’.*/
   baz();
 }
 ```
@@ -27,6 +29,8 @@ while (qux != null) {
 The following patterns are considered okay:
 
 ```js
+/*eslint no-eq-null: 2*/
+
 if (foo === null) {
   bar();
 }

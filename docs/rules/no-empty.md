@@ -17,20 +17,22 @@ A block will not be considered a warning if it contains a comment line.
 The following patterns are considered warnings:
 
 ```js
-if (foo) {
+/*eslint no-empty: 2*/
+
+if (foo) {         /*error Empty block statement.*/
 }
 
-while (foo) {
+while (foo) {      /*error Empty block statement.*/
 }
 
-switch(foo) {
+switch(foo) {      /*error Empty switch statement.*/
 }
 
 try {
     doSomething();
-} catch(ex) {
+} catch(ex) {      /*error Empty block statement.*/
 
-} finally {
+} finally {        /*error Empty block statement.*/
 
 }
 ```
@@ -38,6 +40,8 @@ try {
 The following patterns are not considered warnings:
 
 ```js
+/*eslint no-empty: 2*/
+
 if (foo) {
     // empty
 }

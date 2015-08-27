@@ -20,16 +20,20 @@ This rule's purpose is to enforce convention. Assigning a value to the exception
 The following patterns are considered warnings:
 
 ```js
+/*eslint no-ex-assign: 2*/
+
 try {
     // code
 } catch (e) {
-    e = 10;
+    e = 10;   /*error Do not assign to the exception parameter.*/
 }
 ```
 
 The following patterns are considered okay and do not cause warnings:
 
 ```js
+/*eslint no-ex-assign: 2*/
+
 try {
     // code
 } catch (e) {

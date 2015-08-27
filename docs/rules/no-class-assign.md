@@ -7,7 +7,7 @@ class A { }
 A = 0;
 ```
 
-But the modification is a mistake in most case.
+But the modification is a mistake in most cases.
 
 ## Rule Details
 
@@ -16,27 +16,36 @@ This rule is aimed to flag modifying variables of class declarations.
 The following patterns are considered warnings:
 
 ```js
+/*eslint no-class-assign: 2*/
+
 class A { }
-A = 0;
+A = 0;         /*error `A` is a class.*/
 ```
 
 ```js
-A = 0;
+/*eslint no-class-assign: 2*/
+
+A = 0;         /*error `A` is a class.*/
 class A { }
 ```
 
 ```js
+/*eslint no-class-assign: 2*/
+
 class A {
     b() {
-        A = 0;
+        A = 0; /*error `A` is a class.*/
     }
 }
 ```
 
 ```js
+/*eslint no-class-assign: 2*/
+
 let A = class A {
     b() {
-        A = 0; // `let A` is shadowed by the class name.
+        A = 0; /*error `A` is a class.*/
+        // `let A` is shadowed by the class name.
     }
 }
 ```
@@ -44,11 +53,15 @@ let A = class A {
 The following patterns are not considered warnings:
 
 ```js
+/*eslint no-class-assign: 2*/
+
 let A = class A { }
 A = 0; // A is a variable.
 ```
 
 ```js
+/*eslint no-class-assign: 2*/
+
 let A = class {
     b() {
         A = 0; // A is a variable.
@@ -57,6 +70,8 @@ let A = class {
 ```
 
 ```js
+/*eslint no-class-assign: 2*/
+
 class A {
     b(A) {
         A = 0; // A is a parameter.

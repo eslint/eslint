@@ -15,13 +15,17 @@ This rule is aimed at eliminating unwanted `console` references from your JavaSc
 The following patterns are considered warnings:
 
 ```js
-console.log("Hello world!");
-console.error("Something bad happened.");
+/*eslint no-console: 2*/
+
+console.log("Hello world!");              /*error Unexpected console statement.*/
+console.error("Something bad happened."); /*error Unexpected console statement.*/
 ```
 
 The following patterns are considered okay and do not cause warnings:
 
 ```js
+/*eslint no-console: 2*/
+
 // custom console
 Console.log("Hello world!");
 ```

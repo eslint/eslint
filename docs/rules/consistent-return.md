@@ -24,12 +24,14 @@ This rule is aimed at ensuring all `return` statements either specify a value or
 The following patterns are considered warnings:
 
 ```js
+/*eslint consistent-return: 2*/
+
 function doSomething(condition) {
 
     if (condition) {
         return true;
     } else {
-        return;
+        return;      /*error Expected a return value.*/
     }
 }
 
@@ -38,7 +40,7 @@ function doSomething(condition) {
     if (condition) {
         return;
     } else {
-        return true;
+        return true; /*error Expected no return value.*/
     }
 }
 ```
@@ -46,6 +48,8 @@ function doSomething(condition) {
 The following patterns are considered okay and do not cause warnings:
 
 ```js
+/*eslint consistent-return: 2*/
+
 function doSomething(condition) {
 
     if (condition) {

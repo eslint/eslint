@@ -10,17 +10,21 @@ This rule is aimed at eliminating extra unnecessary semicolons. While not techni
 The following patterns are considered warnings:
 
 ```js
-var x = 5;;
+/*eslint no-extra-semi: 2*/
+
+var x = 5;;      /*error Unnecessary semicolon.*/
 
 function foo() {
     // code
-};
+};               /*error Unnecessary semicolon.*/
 
 ```
 
 The following patterns are not considered warnings:
 
 ```js
+/*eslint no-extra-semi: 2*/
+
 var x = 5;
 
 var foo = function() {

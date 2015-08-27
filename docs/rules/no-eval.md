@@ -15,14 +15,18 @@ This rule is aimed at preventing potentially dangerous, unnecessary, and slow co
 The following patterns are considered warnings:
 
 ```js
+/*eslint no-eval: 2*/
+
 var obj = { x: "foo" },
     key = "x",
-    value = eval("obj." + key);
+    value = eval("obj." + key); /*error eval can be harmful.*/
 ```
 
 The following patterns are not considered warnings:
 
 ```js
+/*eslint no-eval: 2*/
+
 var obj = { x: "foo" },
     key = "x",
     value = obj[key];

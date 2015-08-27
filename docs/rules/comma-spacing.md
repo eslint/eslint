@@ -29,28 +29,30 @@ This is the default option. It enforces spacing after commas and disallows spaci
 The following patterns are considered warnings:
 
 ```js
+/*eslint comma-spacing: [2, {"before": false, "after": true}]*/
 
-    var foo = 1 ,bar = 2;
-    var arr = [1 , 2];
-    var obj = {"foo": "bar" ,"baz": "qur"};
-    foo(a ,b);
-    new Foo(a ,b);
-    function foo(a ,b){}
-    a ,b
+var foo = 1 ,bar = 2;                   /*error There should be no space before ','.*/ /*error A space is required after ','.*/
+var arr = [1 , 2];                      /*error There should be no space before ','.*/
+var obj = {"foo": "bar" ,"baz": "qur"}; /*error There should be no space before ','.*/ /*error A space is required after ','.*/
+foo(a ,b);                              /*error There should be no space before ','.*/ /*error A space is required after ','.*/
+new Foo(a ,b);                          /*error There should be no space before ','.*/ /*error A space is required after ','.*/
+function foo(a ,b){}                    /*error There should be no space before ','.*/ /*error A space is required after ','.*/
+a ,b                                    /*error There should be no space before ','.*/ /*error A space is required after ','.*/
 ```
 
 The following patterns are not warnings:
 
 ```js
+/*eslint comma-spacing: [2, {"before": false, "after": true}]*/
 
-    var foo = 1, bar = 2
-        , baz = 3;
-    var arr = [1, 2];
-    var obj = {"foo": "bar", "baz": "qur"};
-    foo(a, b);
-    new Foo(a, b);
-    function foo(a, b){}
-    a, b
+var foo = 1, bar = 2
+    , baz = 3;
+var arr = [1, 2];
+var obj = {"foo": "bar", "baz": "qur"};
+foo(a, b);
+new Foo(a, b);
+function foo(a, b){}
+a, b
 ```
 
 #### {"before": true, "after": false}
@@ -60,27 +62,29 @@ This option enforces spacing before commas and disallows spacing after commas.
 The following patterns are considered warnings:
 
 ```js
+/*eslint comma-spacing: [2, {"before": true, "after": false}]*/
 
-    var foo = 1, bar = 2;
-    var arr = [1 , 2];
-    var obj = {"foo": "bar", "baz": "qur"};
-    new Foo(a,b);
-    function foo(a,b){}
-    a, b
+var foo = 1, bar = 2;                   /*error A space is required before ','.*/ /*error There should be no space after ','.*/
+var arr = [1 , 2];                      /*error There should be no space after ','.*/
+var obj = {"foo": "bar", "baz": "qur"}; /*error A space is required before ','.*/ /*error There should be no space after ','.*/
+new Foo(a,b);                           /*error A space is required before ','.*/
+function foo(a,b){}                     /*error A space is required before ','.*/
+a, b                                    /*error A space is required before ','.*/ /*error There should be no space after ','.*/
 ```
 
 The following patterns are not warnings:
 
 ```js
+/*eslint comma-spacing: [2, {"before": true, "after": false}]*/
 
-    var foo = 1 ,bar = 2 ,
-        baz = true;
-    var arr = [1 ,2];
-    var obj = {"foo": "bar" ,"baz": "qur"};
-    foo(a ,b);
-    new Foo(a ,b);
-    function foo(a ,b){}
-    a ,b
+var foo = 1 ,bar = 2 ,
+    baz = true;
+var arr = [1 ,2];
+var obj = {"foo": "bar" ,"baz": "qur"};
+foo(a ,b);
+new Foo(a ,b);
+function foo(a ,b){}
+a ,b
 ```
 
 ### Handling of `null` elements in `ArrayExpression` or `ArrayPattern`
