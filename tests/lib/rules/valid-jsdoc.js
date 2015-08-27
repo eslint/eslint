@@ -22,6 +22,7 @@ ruleTester.run("valid-jsdoc", rule, {
     valid: [
 
         "/**\n* Description\n* @returns {void} */\nfunction foo(){}",
+        "/**\n* Description\n* @returns {undefined} */\nfunction foo(){}",
         "/**\n* Description\n* @alias Test#test\n* @returns {void} */\nfunction foo(){}",
         "/**\n* Description\n*@extends MyClass\n* @returns {void} */\nfunction foo(){}",
         "/**\n* Description\n* @constructor */\nfunction Foo(){}",
