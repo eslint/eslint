@@ -164,6 +164,7 @@ These rules are purely matters of style and are quite subjective.
 * [no-multiple-empty-lines](no-multiple-empty-lines.md) - disallow multiple empty lines
 * [no-nested-ternary](no-nested-ternary.md) - disallow nested ternary expressions
 * [no-new-object](no-new-object.md) - disallow the use of the `Object` constructor
+* [no-restricted-syntax](no-restricted-syntax.md) - disallow use of certain syntax in code
 * [no-spaced-func](no-spaced-func.md) - disallow space between function identifier and application
 * [no-ternary](no-ternary.md) - disallow the use of ternary operators
 * [no-trailing-spaces](no-trailing-spaces.md) - disallow trailing whitespace at the end of lines
