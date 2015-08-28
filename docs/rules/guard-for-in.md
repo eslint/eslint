@@ -15,7 +15,9 @@ This rule is aimed at preventing unexpected behavior that could arise from using
 The following patterns are considered warnings:
 
 ```js
-for (key in foo) {
+/*eslint guard-for-in: 2*/
+
+for (key in foo) {    /*error The body of a for-in should be wrapped in an if statement to filter unwanted properties from the prototype.*/
     doSomething(key);
 }
 ```
@@ -23,6 +25,8 @@ for (key in foo) {
 The following patterns are not considered warnings:
 
 ```js
+/*eslint guard-for-in: 2*/
+
 for (key in foo) {
     if ({}.hasOwnProperty.call(foo, key)) {
         doSomething(key);

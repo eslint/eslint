@@ -27,23 +27,24 @@ This is the default setting for this rule. This option requires that the comma b
 While using this setting, the following patterns are considered warnings:
 
 ```js
+/*eslint comma-style: [2, "last"]*/
 
 var foo = 1
-, //lone comma
+,                        /*error Bad line breaking before and after ','.*/
 bar = 2;
 
 var foo = 1
-  , bar = 2;
+  , bar = 2;             /*error ',' should be placed last.*/
 
 
 var foo = ["apples"
-           , "oranges"];
+           , "oranges"]; /*error ',' should be placed last.*/
 
 
 function bar() {
     return {
         "a": 1
-        ,"b:": 2
+        ,"b:": 2         /*error ',' should be placed last.*/
     };
 }
 
@@ -52,6 +53,7 @@ function bar() {
 The following patterns are not warnings:
 
 ```js
+/*eslint comma-style: [2, "last"]*/
 
 var foo = 1, bar = 2;
 
@@ -79,19 +81,20 @@ This option requires that the comma be placed before and be in the same line as 
 While using this setting, the following patterns are considered warnings:
 
 ```js
+/*eslint comma-style: [2, "first"]*/
 
 var foo = 1,
-    bar = 2;
+    bar = 2;           /*error ',' should be placed first.*/
 
 
 var foo = ["apples",
-           "oranges"];
+           "oranges"]; /*error ',' should be placed first.*/
 
 
 function bar() {
     return {
         "a": 1,
-        "b:": 2
+        "b:": 2        /*error ',' should be placed first.*/
     };
 }
 
@@ -100,6 +103,7 @@ function bar() {
 The following patterns are not warnings:
 
 ```js
+/*eslint comma-style: [2, "first"]*/
 
 var foo = 1, bar = 2;
 
@@ -131,22 +135,25 @@ VariableDeclaration
 ```
 
 An example use case is if a user wanted to only enforce comma style in var statements.
-The following code would lint.
+
+The following is considered a warning:
 
 ```js
-/* eslint comma-style: [2, "first", {exceptions: {ArrayExpression: true, ObjectExpression: true} }] */
+/*eslint comma-style: [2, "first", {exceptions: {ArrayExpression: true, ObjectExpression: true} }]*/
+
+var o = {},
+    a = []; /*error ',' should be placed first.*/
+```
+
+But the following would not be a warning:
+
+```js
+/*eslint comma-style: [2, "first", {exceptions: {ArrayExpression: true, ObjectExpression: true} }]*/
+
 var o = {fst:1,
          snd: [1,
                2]}
   , a = [];
-```
-
-Whereas the following would not.
-
-```js
-/* eslint comma-style: [2, "first", {exceptions: {ArrayExpression: true, ObjectExpression: true} }] */
-var o = {},
-    a = [];
 ```
 
 ## When Not To Use It

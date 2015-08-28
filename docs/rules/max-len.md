@@ -17,14 +17,16 @@ This rule is aimed at increasing code readability and maintainability by enforci
 The following patterns are considered warnings:
 
 ```js
-// max-len: [1, 80, 4]; // maximum length of 80 characters
-var foo = { "bar": "This is a bar.", "baz": { "qux": "This is a qux" }, "difficult": "to read" }; // too long
+/*eslint max-len: [2, 80, 4]*/ // maximum length of 80 characters
+
+var foo = { "bar": "This is a bar.", "baz": { "qux": "This is a qux" }, "difficult": "to read" }; /*error Line 3 exceeds the maximum line length of 80.*/
 ```
 
 The following patterns are not considered warnings:
 
 ```js
-// max-len: [1, 80, 4]; // maximum length of 80 characters
+/*eslint max-len: [2, 80, 4]*/ // maximum length of 80 characters
+
 var foo = {
     "bar": "This is a bar.",
     "baz": {
@@ -49,8 +51,8 @@ For example, to specify a maximum line length of 80 characters with each tab cou
 
 There are additional optional arguments to ignore comments, lines with URLs, or lines matching a regular expression.
 
-```
-"max-len": [2, 80, 4, {ignoreComments: true, ignoreUrls: true, ignorePattern: "^\\s*var\\s.+=\\s*require\\s*\\("}]
+```json
+"max-len": [2, 80, 4, {"ignoreComments": true, "ignoreUrls": true, "ignorePattern": "^\\s*var\\s.+=\\s*require\\s*\\("}]
 ```
 
 The `ignoreComments` option only ignores trailing comments and comments on their own line. For example, `function foo(/*string*/ bar) { /* ... */ }` isn't collapsed.

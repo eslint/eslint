@@ -18,11 +18,13 @@ This rule is aimed at eliminating the type-unsafe equality operators.
 The following patterns are considered warnings:
 
 ```js
-if (x == 42) { ... }
+/* eslint eqeqeq: 2 */
 
-if ("" == text) { ... }
+if (x == 42) { }                     /*error Expected '===' and instead saw '=='.*/
 
-if (obj.getStuff() != undefined) { ... }
+if ("" == text) { }                  /*error Expected '===' and instead saw '=='.*/
+
+if (obj.getStuff() != undefined) { } /*error Expected '!==' and instead saw '!='.*/
 ```
 
 ### Options
@@ -44,6 +46,8 @@ You can specify this option using the following configuration:
 The following patterns are considered okay and do not cause warnings:
 
 ```js
+/* eslint eqeqeq: [2, "smart"] */
+
 typeof foo == 'undefined'
 'hello' != 'world'
 0 == 0
@@ -54,15 +58,17 @@ foo == null
 The following patterns are considered warnings with "smart":
 
 ```js
+/* eslint eqeqeq: [2, "smart"] */
+
 // comparing two variables requires ===
-a == b
+a == b              /*error Expected '===' and instead saw '=='.*/
 
 // only one side is a literal
-foo == true
-bananas != 1
+foo == true         /*error Expected '===' and instead saw '=='.*/
+bananas != 1        /*error Expected '!==' and instead saw '!='.*/
 
 // comparing to undefined requires ===
-value == undefined
+value == undefined  /*error Expected '===' and instead saw '=='.*/
 ```
 
 * `"allow-null"`
@@ -78,17 +84,21 @@ You can specify this option using the following configuration:
 The following pattern is considered okay and do not cause warnings:
 
 ```js
+/* eslint eqeqeq: [2, "allow-null"] */
+
 foo == null
 ```
 
 The following patterns are considered warnings with "allow-null":
 
 ```js
-bananas != 1
-typeof foo == 'undefined'
-'hello' != 'world'
-0 == 0
-foo == undefined
+/* eslint eqeqeq: [2, "allow-null"] */
+
+bananas != 1              /*error Expected '!==' and instead saw '!='.*/
+typeof foo == 'undefined' /*error Expected '===' and instead saw '=='.*/
+'hello' != 'world'        /*error Expected '!==' and instead saw '!='.*/
+0 == 0                    /*error Expected '===' and instead saw '=='.*/
+foo == undefined          /*error Expected '===' and instead saw '=='.*/
 ```
 
 ## When Not To Use It

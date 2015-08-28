@@ -52,21 +52,25 @@ You can set the option in configuration like this:
 When the rule is set to `"always"` the following patterns are considered warnings:
 
 ```js
-a => {}
-a => a
-a => {\n}
-a.then(foo => {});
-a.then(foo => a);
-a(foo => { if (true) {}; });
+/*eslint arrow-parens: [2, "always"]*/
+
+a => {};                     /*error Expected parentheses around arrow function argument.*/
+a => a;                      /*error Expected parentheses around arrow function argument.*/
+a => {'\n'};                 /*error Expected parentheses around arrow function argument.*/
+a.then(foo => {});           /*error Expected parentheses around arrow function argument.*/
+a.then(foo => a);            /*error Expected parentheses around arrow function argument.*/
+a(foo => { if (true) {}; }); /*error Expected parentheses around arrow function argument.*/
 ```
 
 The following patterns are not warnings:
 
 ```js
-() => {}
-(a) => {}
-(a) => a
-(a) => {\n}
+/*eslint arrow-parens: [2, "always"]*/
+
+() => {};
+(a) => {};
+(a) => a;
+(a) => {'\n'}
 a.then((foo) => {});
 a.then((foo) => { if (true) {}; });
 ```
@@ -125,25 +129,29 @@ var f = (a) => b ? c: d;
 When the rule is set to `"as-needed"` the following patterns are considered warnings:
 
 ```js
-(a) => {}
-(a) => a
-(a) => {\n}
-a.then((foo) => {});
-a.then((foo) => a);
-a((foo) => { if (true) {}; });
+/*eslint arrow-parens: [2, "as-needed"]*/
+
+(a) => {};                     /*error Unexpected parentheses around single function argument*/
+(a) => a;                      /*error Unexpected parentheses around single function argument*/
+(a) => {'\n'};                 /*error Unexpected parentheses around single function argument*/
+a.then((foo) => {});           /*error Unexpected parentheses around single function argument*/
+a.then((foo) => a);            /*error Unexpected parentheses around single function argument*/
+a((foo) => { if (true) {}; }); /*error Unexpected parentheses around single function argument*/
 ```
 
 The following patterns are not warnings:
 
 ```js
-() => {}
-a => {}
-a => a
-a => {\n}
+/*eslint arrow-parens: [2, "as-needed"]*/
+
+() => {};
+a => {};
+a => a;
+a => {'\n'};
 a.then(foo => {});
 a.then(foo => { if (true) {}; });
-(a, b, c) => a
-(a = 10) => a
-([a, b]) => a
-({a, b}) => a
+(a, b, c) => a;
+(a = 10) => a;
+([a, b]) => a;
+({a, b}) => a;
 ```

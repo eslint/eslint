@@ -19,21 +19,25 @@ This rule aims to reduce the usage of variables outside of their binding context
 The following patterns are considered warnings:
 
 ```js
+/*eslint block-scoped-var: 2*/
+
 function doSomething() {
     if (true) {
         var build = true;
     }
 
-    console.log(build);
+    console.log(build); /*error "build" used outside of binding context.*/
 }
 ```
 
 ```js
+/*eslint block-scoped-var: 2*/
+
 function doAnother() {
     try {
         var build = 1;
     } catch (e) {
-        var f = build;
+        var f = build; /*error "build" used outside of binding context.*/
     }
 }
 ```
@@ -41,6 +45,8 @@ function doAnother() {
 The following patterns are not warnings:
 
 ```js
+/*eslint block-scoped-var: 2*/
+
 function doSomething() {
     var build;
 

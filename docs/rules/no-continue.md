@@ -23,12 +23,14 @@ As such it warns whenever it sees `continue` statement.
 The following patterns are considered warnings:
 
 ```js
+/*eslint no-continue: 2*/
+
 var sum = 0,
     i;
 
 for(i = 0; i < 10; i++) {
     if(i >= 5) {
-        continue;
+        continue;              /*error Unexpected use of continue statement*/
     }
 
     a += i;
@@ -36,12 +38,14 @@ for(i = 0; i < 10; i++) {
 ```
 
 ```js
+/*eslint no-continue: 2*/
+
 var sum = 0,
     i;
 
 labeledLoop: for(i = 0; i < 10; i++) {
     if(i >= 5) {
-        continue labeledLoop;
+        continue labeledLoop;  /*error Unexpected use of continue statement*/
     }
 
     a += i;
@@ -51,6 +55,8 @@ labeledLoop: for(i = 0; i < 10; i++) {
 The following patterns are not considered warnings:
 
 ```js
+/*eslint no-continue: 2*/
+
 var sum = 0,
     i;
 

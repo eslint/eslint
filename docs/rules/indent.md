@@ -44,57 +44,75 @@ Level of indentation denotes the multiple of the indent specified. Example:
 * Indent of tabs with SwitchCase set to 2 will indent `SwitchCase` with 2 tabs with respect to switch.
 
 
-```js
-// 2 space indentation with enabled switch cases validation
+2 space indentation with enabled switch cases validation
+
+```json
  "indent": [2, 2, {"SwitchCase": 1}]
+```
 
-// 4 space indention
+4 space indention
+
+```json
 "indent": 2
+```
 
-// 2 space indentation
+2 space indentation
+
+```json
 "indent": [2, 2]
+```
 
-// tabbed indentation
+tabbed indentation
+
+```json
 "indent": [2, "tab"]
 ```
 
 The following patterns are considered warnings:
 
 ```js
-// 2 spaces indentation
-if (a) {
-   b=c;
-function(d) {
-       e=f;
-}
-}
+/*eslint indent: [2, 2]*/
 
-// tab indentation
 if (a) {
-     b=c;
-function(d) {
-           e=f;
+   b=c;            /*error Expected indentation of 2 space characters but found 3.*/
+function foo(d) {  /*error Expected indentation of 2 space characters but found 0.*/
+       e=f;        /*error Expected indentation of 8 space characters but found 7.*/
+}                  /*error Expected indentation of 6 space characters but found 0.*/
+}
+```
+
+```js
+/*eslint indent: [2, "tab"]*/
+
+if (a) {
+     b=c;          /*error Expected indentation of 1 tab character but found 0.*/
+function foo(d) {  /*error Expected indentation of 1 tab character but found 0.*/
+           e=f;    /*error Expected indentation of 1 tab character but found 0.*/
  }
 }
+```
 
-// variable declarations
-// "indent": [2, 2, {"VariableDeclarator": 1}]
+```js
+/*eslint indent: [2, 2, {"VariableDeclarator": 1}]*/
+
 var a,
-    b,
-    c;
+    b,             /*error Expected indentation of 2 space characters but found 4.*/
+    c;             /*error Expected indentation of 2 space characters but found 4.*/
 let a,
-    b,
-    c;
-const a,
-    b,
-    c;
+    b,             /*error Expected indentation of 2 space characters but found 4.*/
+    c;             /*error Expected indentation of 2 space characters but found 4.*/
+const a = 1,
+    b = 2,         /*error Expected indentation of 2 space characters but found 4.*/
+    c = 3;         /*error Expected indentation of 2 space characters but found 4.*/
+```
 
-// switch case
-// "indent": [2, 2, {"SwitchCase": 1}]
+```js
+/*eslint indent: [2, 2, {"SwitchCase": 1}]*/
+
 switch(a){
-case "a":
+case "a":          /*error Expected indentation of 2 space characters but found 0.*/
     break;
-case "b":
+case "b":          /*error Expected indentation of 2 space characters but found 0.*/
     break;
 }
 ```
@@ -102,24 +120,30 @@ case "b":
 The following patterns are not warnings:
 
 ```js
-// 2 space indentation
+/*eslint indent: [2, 2]*/
+
 if (a) {
   b=c;
-  function(d) {
+  function foo(d) {
     e=f;
   }
 }
+```
 
-// tabbed indentation
+```js
+/*indent: [2, "tab"]*/
+
 if (a) {
-    b=c;
-    function(d) {
-        e=f;
-    }
+/*tab*/b=c;
+/*tab*/function foo(d) {
+/*tab*//*tab*/e=f;
+/*tab*/}
 }
+```
 
-// variable declarations
-// "indent": [2, 2, {"VariableDeclarator": 2}]
+```js
+/*eslint indent: [2, 2, {"VariableDeclarator": 2}]*/
+
 var a,
     b,
     c;
@@ -129,9 +153,11 @@ let a,
 const a = 1,
     b = 2,
     c = 3;
+```
 
-// variable declarations
-// "indent": [2, 2, {"VariableDeclarator": { "var": 2, "let": 2, "const": 3}]
+```js
+/*eslint indent: [2, 2, {"VariableDeclarator": { "var": 2, "let": 2, "const": 3}}]*/
+
 var a,
     b,
     c;
@@ -141,9 +167,11 @@ let a,
 const a = 1,
       b = 2,
       c = 3;
+```
 
-// switch case
-// "indent": [2, 2, {"SwitchCase": 1}]
+```js
+/*eslint indent: [2, 4, {"SwitchCase": 1}]*/
+
 switch(a){
     case "a":
         break;

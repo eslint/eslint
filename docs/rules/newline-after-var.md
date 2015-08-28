@@ -25,40 +25,95 @@ Invalid option value (anything other than `always` nor `never`), defaults to `al
 The following patterns are considered warnings:
 
 ```js
-// When [1, "always"]
-var greet = "hello,",
+/*eslint newline-after-var: [2, "always"]*/
+
+var greet = "hello,",      /*error Expected blank line after variable declarations.*/
     name = "world";
 console.log(greet, name);
+```
 
-// When [1, "never"]
-let greet = "hello,",
+```js
+/*eslint newline-after-var: [2, "never"]*/
+
+let greet = "hello,",     /*error Unexpected blank line after variable declarations.*/
     name = "world";
 
 console.log(greet, name);
+```
 
-// When [1, "unknown"] - considered to be "always"
+```js
+/*eslint newline-after-var: 2*/  // defaults to always
+
 var greet = "hello,";
-const NAME = "world";
+const NAME = "world";      /*error Expected blank line after variable declarations.*/
 console.log(greet, NAME);
 ```
 
 The following patterns are not considered warnings:
 
 ```js
-// When [1, "always"]
+/*eslint newline-after-var: [2, "always"]*/
+
 var greet = "hello,",
     name = "world";
 
 console.log(greet, name);
+```
 
-// When [1, "never"]
+```js
+/*eslint newline-after-var: [2, "never"]*/
+
 let greet = "hello,",
     name = "world";
 console.log(greet, name);
+```
 
-// When [1, "unknown"] - considered to be "always"
+```js
+/*eslint newline-after-var: 2*/  // defaults to always
+
 var greet = "hello,";
 const NAME = "world";
 
 console.log(greet, NAME);
+```
+
+Note: in `"always"` mode, comments on a line directly after var statements are treated like additional var statements.
+That is, they do not require a blank line between themselves and the var statements above, but do require a blank line after them.
+
+The following patterns are considered warnings:
+
+```js
+/*eslint newline-after-var: [2, "always"]*/
+
+var greet = "hello,";
+var name = "world";             /*error Expected blank line after variable declarations.*/
+// var name = require("world");
+console.log(greet, name);
+
+
+/*eslint-disable camelcase*/
+var greet = "hello,";
+var target_name = "world";      /*error Expected blank line after variable declarations.*/
+/*eslint-enable camelcase*/
+console.log(greet, name);
+```
+
+The following patterns are not considered warnings:
+
+```js
+/*eslint newline-after-var: [2, "always"]*/
+
+var greet = "hello,";
+var name = "world";
+// var name = require("world");
+
+console.log(greet, name);
+
+
+/*eslint-disable camelcase*/
+var greet = "hello,";
+var target_name = "world";
+/*eslint-enable camelcase*/
+
+console.log(greet, name);
 ```

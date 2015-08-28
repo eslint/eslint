@@ -68,6 +68,8 @@ And the option has shorthand as a string keyword:
 When using `{"before": true, "after": false}` this placement will be enforced:
 
 ```js
+/*eslint generator-star-spacing: [2, {"before": true, "after": false}]*/
+
 function *generator() {}
 
 var anonymous = function *() {};
@@ -78,6 +80,8 @@ var shorthand = { *generator() {} };
 When using `{"before": false, "after": true}` this placement will be enforced:
 
 ```js
+/*eslint generator-star-spacing: [2, {"before": false, "after": true}]*/
+
 function* generator() {}
 
 var anonymous = function*() {};
@@ -88,6 +92,8 @@ var shorthand = { * generator() {} };
 When using `{"before": true, "after": true}` this placement will be enforced:
 
 ```js
+/*eslint generator-star-spacing: [2, {"before": true, "after": true}]*/
+
 function * generator() {}
 
 var anonymous = function *() {};
@@ -98,6 +104,8 @@ var shorthand = { * generator() {} };
 When using `{"before": false, "after": false}` this placement will be enforced:
 
 ```js
+/*eslint generator-star-spacing: [2, {"before": false, "after": false}]*/
+
 function*generator() {}
 
 var anonymous = function*() {};

@@ -13,16 +13,20 @@ This rule is aimed at catching debugging code that should be removed and popup U
 The following patterns are considered warnings:
 
 ```js
-alert("here!");
+/*eslint no-alert: 2*/
 
-confirm("Are you sure?");
+alert("here!");                          /*error Unexpected alert.*/
 
-prompt("What's your name?", "John Doe");
+confirm("Are you sure?");                /*error Unexpected confirm.*/
+
+prompt("What's your name?", "John Doe"); /*error Unexpected prompt.*/
 ```
 
 The following patterns are not considered warnings:
 
 ```js
+/*eslint no-alert: 2*/
+
 customAlert("Something happened!");
 
 customConfirm("Are you sure?");

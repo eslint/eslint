@@ -14,55 +14,44 @@ The following patterns are considered valid:
 
 ```js
 // DEFAULT
-// "key-spacing": [2, {
-//     "beforeColon": false,
-//     "afterColon": true
-// }]
+/*eslint key-spacing: [2, {"beforeColon": false, "afterColon": true}]*/
+
 var obj = { "foo": (42) };
 
-// "key-spacing": [2, {
-//     "beforeColon": true,
-//     "afterColon": false
-// }]
+foo = { thisLineWouldBeTooLong:
+    soUseAnotherLine };
+```
+
+```js
+/*eslint key-spacing: [2, {"beforeColon": true, "afterColon": false}]*/
+
 call({
     foobar :42,
     bat :(2 * 2)
-};
-
-// "key-spacing": [2, {
-//     "beforeColon": false,
-//     "afterColon": true
-// }]
-foo = { thisLineWouldBeTooLong:
-    soUseAnotherLine };
+});
 ```
 
 The following patterns are considered warnings:
 
 ```js
-// "key-spacing": [2, {
-//     "beforeColon": false,
-//     "afterColon": false
-// }]
-var obj = { foo : 42 }; // Extra space on both sides
+/*eslint key-spacing: [2, {"beforeColon": false, "afterColon": false}]*/
 
-// "key-spacing": [2, {
-//     "beforeColon": true,
-//     "afterColon": true
-// }]
+var obj = { foo: 42 };          /*error Extra space before value for key "foo".*/
+var bar = { baz :52 };          /*error Extra space after key "baz".*/
+
+foo = { thisLineWouldBeTooLong:
+    soUseAnotherLine };         /*error Extra space before value for key "thisLineWouldBeTooLong".*/
+```
+
+```js
+/*eslint key-spacing: [2, {"beforeColon": true, "afterColon": true}]*/
+
 function foo() {
     return {
-        foobar: 42, // Missing space before colon
-        bat :"value" // Missing space after colon
+        foobar: 42,             /*error Missing space after key "foobar".*/
+        bat :"value"            /*error Missing space before value for key "bat".*/
     };
 }
-
-// "key-spacing": [2, {
-//     "beforeColon": false,
-//     "afterColon": false
-// }]
-foo = { thisLineWouldBeTooLong:
-    soUseAnotherLine };
 ```
 
 ### 2. Vertically align values `"align": "value"`
@@ -72,8 +61,9 @@ Use the `align` option to enforce vertical alignment of values in an object lite
 The following patterns are considered valid:
 
 ```js
-// "key-spacing": [2, { "align": "value" }]
+/*eslint key-spacing: [2, { "align": "value" }]*/
 // beforeColon and afterColon default to false and true, respectively
+
 var obj = {
     a:    value,
     bcde: 42,
@@ -85,30 +75,27 @@ var obj = {
     ijkl: 'Non-consecutive lines form a new group'
 };
 
-// "key-spacing": [2, {
-//     "align": "value",
-//     "beforeColon": true,
-//     "afterColon": false
-// }]
+var obj = { a: "foo", longPropertyName: "bar" };
+```
+
+```js
+/*eslint key-spacing: [2, { "align": "value", "beforeColon": true, "afterColon": false }]*/
+
 call({
     'a' :[],
     b :  []
 });
-
-// "key-spacing": [2, { "align": "value" }]
-// beforeColon and afterColon default to false and true, respectively
-var obj = { a: "foo", longPropertyName: "bar" };
 ```
 
 The following patterns are considered warnings:
 
 ```js
-// "key-spacing": [2, { "align": "value" }]
-// beforeColon and afterColon default to false and true, respectively
+/*eslint key-spacing: [2, { "align": "value" }]*/
+
 var obj = {
-    a: value, // Not enough space after colon
-    bcde:  42, // Extra space after colon
-    fg :   foo() // Extra space before colon
+    a: value,     /*error Missing space before value for key "a".*/
+    bcde:  42,    /*error Extra space before value for key "bcde".*/
+    fg :   foo()  /*error Extra space after key "fg".*/
 };
 ```
 
@@ -119,8 +106,8 @@ The `align` option can also vertically align colons and values together. Whereas
 The following patterns are considered valid:
 
 ```js
-// "key-spacing": [2, { "align": "colon" }]
-// beforeColon and afterColon default to false and true, respectively
+/*eslint key-spacing: [2, { "align": "colon" }]*/
+
 var obj = {
     foobar   : 42,
     bat      : (2 * 2),
@@ -129,12 +116,11 @@ var obj = {
     fn : function() {},
     abc: value
 };
+```
 
-// "key-spacing": [2, {
-//     "align": "colon",
-//     "beforeColon": true,
-//     "afterColon": false
-// }]
+```js
+/*eslint key-spacing: [2, { "align": "colon", "beforeColon": true, "afterColon": false }]*/
+
 obj = {
     first  :1,
     second :2,
@@ -145,12 +131,12 @@ obj = {
 The following patterns are considered warnings:
 
 ```js
-// "key-spacing": [2, { "align": "colon" }]
-// beforeColon and afterColon default to false and true, respectively
+/*eslint key-spacing: [2, { "align": "colon" }]*/
+
 var obj = {
-    one:   1, // Missing space before colon
+    one:   1,  /*error Missing space after key "one".*/ /*error Extra space before value for key "one".*/
     "two": 2,
-    three:  3 // Extra space after colon
+    three:  3  /*error Extra space before value for key "three".*/
 };
 ```
 
