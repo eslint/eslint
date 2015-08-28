@@ -19,7 +19,8 @@ var checker = require("npm-license"),
     nodeCLI = require("shelljs-nodecli"),
     os = require("os"),
     path = require("path"),
-    semver = require("semver");
+    semver = require("semver"),
+    ejs = require("ejs");
 
 //------------------------------------------------------------------------------
 // Settings
@@ -123,6 +124,42 @@ function execSilent(cmd) {
 }
 
 /**
+ * Generates a release blog post for eslint.org
+ * @param {Object} releaseInfo The release metadata.
+ * @returns {void}
+ * @private
+ */
+function generateBlogPost(releaseInfo) {
+    var output = ejs.render(cat("./templates/blogpost.md.ejs"), releaseInfo),
+        now = new Date(),
+        month = now.getMonth() + 1,
+        day = now.getDate(),
+        filename = "../eslint.github.io/_posts/" + now.getFullYear() + "-" +
+            (month < 10 ? "0" + month : month) + "-" +
+            (day < 10 ? "0" + day : day) + "-eslint-" + releaseInfo.version +
+            "-released.md";
+
+    output.to(filename);
+}
+
+/**
+ * Given a semver version, determine the type of version.
+ * @param {string} version A semver version string.
+ * @returns {string} The type of version.
+ * @private
+ */
+function getReleaseType(version) {
+
+    if (semver.patch(version) > 0) {
+        return "patch";
+    } else if (semver.minor(version) > 0) {
+        return "minor";
+    } else {
+        return "major";
+    }
+}
+
+/**
  * Creates a release version tag and pushes to origin.
  * @param {string} type The type of release to do (patch, minor, major)
  * @returns {void}
@@ -135,8 +172,7 @@ function release(type) {
     newVersion = execSilent("npm version " + type).trim();
 
     echo("Generating changelog");
-    // changes =
-    target.changelog();
+    var releaseInfo = target.changelog();
 
     // add changelog to commit
     exec("git add CHANGELOG.md");
@@ -176,6 +212,7 @@ function release(type) {
 
     echo("Generating site");
     target.gensite();
+    generateBlogPost(releaseInfo);
     target.publishsite();
     // });
 }
@@ -577,20 +614,30 @@ target.changelog = function() {
     var tags = getVersionTags(),
         rangeTags = tags.slice(tags.length - 2),
         now = new Date(),
-        timestamp = dateformat(now, "mmmm d, yyyy");
+        timestamp = dateformat(now, "mmmm d, yyyy"),
+        releaseInfo = {
+            releaseType: getReleaseType(rangeTags[1]),
+            version: rangeTags[1]
+        };
 
     // output header
     (rangeTags[1] + " - " + timestamp + "\n").to("CHANGELOG.tmp");
 
     // get log statements
-    var logs = execSilent("git log --pretty=format:\"* %s (%an)\" " + rangeTags.join("..")).split(/\n/g);
-    logs = logs.filter(function(line) {
-        return line.indexOf("Merge pull request") === -1 && line.indexOf("Merge branch") === -1;
+    var logs = execSilent("git log --no-merges --pretty=format:\"* %s (%an)\" " + rangeTags.join("..")).split(/\n/g);
+    logs.shift();   // get rid of version commit
+    logs.forEach(function(log) {
+        var tag = log.substring(2, log.indexOf(":")).toLowerCase();
+
+        if (!releaseInfo["changelog_" + tag]) {
+            releaseInfo["changelog_" + tag] = [];
+        }
+
+        releaseInfo["changelog_" + tag].push(log);
     });
 
-    var output = logs;
-    output.shift(); // get rid of tag name
-    output = output.join("\n"); // and join it into a string
+    var output = logs.join("\n"); // and join it into a string
+    releaseInfo.raw = output;
 
     logs.push(""); // to create empty lines
     logs.unshift("");
@@ -603,7 +650,8 @@ target.changelog = function() {
     rm("CHANGELOG.tmp");
     rm("CHANGELOG.md");
     mv("CHANGELOG.md.tmp", "CHANGELOG.md");
-    return output;
+
+    return releaseInfo;
 };
 
 target.checkRuleFiles = function() {
