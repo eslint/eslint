@@ -5,7 +5,7 @@ when the function does not use `this`.
 
 ```js
 var foo = function() {
-  do(stuff);
+  console.log("not using this");
 }.bind(bar)
 ```
 
@@ -14,21 +14,27 @@ var foo = function() {
 The following patterns are considered warnings:
 
 ```js
-function() {
+/*eslint no-extra-bind: 2*/
+
+var x = function () {   /*error The function binding is unnecessary.*/
   foo();
 }.bind(bar);
 ```
 
 ```js
-function() {
-  (function() {
+/*eslint no-extra-bind: 2*/
+
+var x = function () {   /*error The function binding is unnecessary.*/
+  (function () {
     this.foo();
   }());
 }.bind(bar);
 ```
 
 ```js
-function() {
+/*eslint no-extra-bind: 2*/
+
+var x = function () {  /*error The function binding is unnecessary.*/
   function foo() {
     this.bar();
   }
@@ -38,13 +44,17 @@ function() {
 The following patterns are not considered warnings:
 
 ```js
-function() {
+/*eslint no-extra-bind: 2*/
+
+var x = function () {
   this.foo();
 }.bind(bar);
 ```
 
 ```js
-function(a) {
+/*eslint no-extra-bind: 2*/
+
+var x = function (a) {
   return a + 1;
 }.bind(foo, bar);
 ```

@@ -38,23 +38,25 @@ This rule enforces a style where it requires to have a getter for every object w
 
 By default `setWithoutGet` option is always set to `true`.
 
-```js
+```json
 {
-    accessor-pairs: [2, {getWithoutSet: true}]
+    "accessor-pairs": [2, {"getWithoutSet": true}]
 }
 ```
 
 The following patterns are considered warnings by default:
 
 ```js
-var o = {
+/*eslint accessor-pairs: 2*/
+
+var o = {                       /*error Getter is not present*/
     set a(value) {
         this.val = value;
     }
 };
 
 var o = {d: 1};
-Object.defineProperty(o, 'c', {
+Object.defineProperty(o, 'c', { /*error Getter is not present*/
     set: function(value) {
         this.val = value;
     }
@@ -64,6 +66,8 @@ Object.defineProperty(o, 'c', {
 The following patterns are not considered warnings by default:
 
 ```js
+/*eslint accessor-pairs: 2*/
+
 var o = {
     set a(value) {
         this.val = value;
@@ -85,30 +89,34 @@ Object.defineProperty(o, 'c', {
 
 ```
 
+#### getWithoutSet
+
 The following patterns are considered warnings with option `getWithoutSet` set:
 
 ```js
-var o = {
+/*eslint accessor-pairs: [2, { getWithoutSet: true }]*/
+
+var o = {                       /*error Getter is not present*/
     set a(value) {
         this.val = value;
     }
 };
 
-var o = {
+var o = {                       /*error Setter is not present*/
     get a() {
         return this.val;
     }
 };
 
 var o = {d: 1};
-Object.defineProperty(o, 'c', {
+Object.defineProperty(o, 'c', { /*error Getter is not present*/
     set: function(value) {
         this.val = value;
     }
 });
 
 var o = {d: 1};
-Object.defineProperty(o, 'c', {
+Object.defineProperty(o, 'c', { /*error Setter is not present*/
     get: function() {
         return this.val;
     }
@@ -118,6 +126,7 @@ Object.defineProperty(o, 'c', {
 The following patterns are not considered warnings by option `getWithoutSet` set:
 
 ```js
+/*eslint accessor-pairs: [2, { getWithoutSet: true }]*/
 var o = {
     set a(value) {
         this.val = value;

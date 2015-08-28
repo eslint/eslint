@@ -21,48 +21,58 @@ default configuration is `{ "before": true, "after": true }`.
 The following patterns are considered warnings if `{ "before": true, "after": true }`.
 
 ```js
-()=> {}
-() =>{}
-(a)=> {}
-(a) =>{}
-a =>a
-a=> a
-()=> {\n}
-() =>{\n}
+/*eslint arrow-spacing: 2*/
+
+()=> {};     /*error Missing space before =>*/
+() =>{};     /*error Missing space after =>*/
+(a)=> {};    /*error Missing space before =>*/
+(a) =>{};    /*error Missing space after =>*/
+a =>a;       /*error Missing space after =>*/
+a=> a;       /*error Missing space before =>*/
+()=> {'\n'}; /*error Missing space before =>*/
+() =>{'\n'}; /*error Missing space after =>*/
 ```
 
 The following patterns are not warnings if `{ "before": true, "after": true }`.
 
 ```js
-() => {}
-(a) => {}
-a => a
-() => {\n}
+/*eslint arrow-spacing: 2*/
+
+() => {};
+(a) => {};
+a => a;
+() => {'\n'};
 ```
 
 The following patterns are not warnings if `{ "before": false, "after": false }`.
 
 ```js
-()=>{}
-(a)=>{}
-a=>a
-()=>{\n}
+/*eslint arrow-spacing: [2, { "before": false, "after": false }]*/
+
+()=>{};
+(a)=>{};
+a=>a;
+()=>{'\n'};
 ```
 
 The following patterns are not warnings if `{ "before": true, "after": false }`.
 
 ```js
-() =>{}
-(a) =>{}
-a =>a
-() =>{\n}
+/*eslint arrow-spacing: [2, { "before": true, "after": false }]*/
+
+() =>{};
+(a) =>{};
+a =>a;
+() =>{'\n'};
 ```
 
 The following patterns are not warnings if `{ "before": false, "after": true }`.
 
 ```js
-()=> {}
-(a)=> {}
-a=> a
-()=> {\n}
+/*eslint arrow-spacing: [2, { "before": false, "after": true }]*/
+
+()=> {};
+(a)=> {};
+a=> a;
+()=> {'\n'};
 ```

@@ -19,10 +19,12 @@ This rule is aimed at highlighting an unnecessary block of code following an `if
 The following patterns are considered warnings:
 
 ```js
+/*eslint no-else-return: 2*/
+
 function foo() {
     if (x) {
         return y;
-    } else {
+    } else {            /*error Unexpected 'else' after 'return'.*/
         return z;
     }
 }
@@ -32,7 +34,7 @@ function foo() {
         return y;
     } else if (z) {
         return w;
-    } else {
+    } else {            /*error Unexpected 'else' after 'return'.*/
         return t;
     }
 }
@@ -40,7 +42,7 @@ function foo() {
 function foo() {
     if (x) {
         return y;
-    } else {
+    } else {            /*error Unexpected 'else' after 'return'.*/
         var t = "foo";
     }
 
@@ -52,10 +54,10 @@ function foo() {
     if (x) {
         if (y) {
             return y;
-        } else {
+        } else {        /*error Unexpected 'else' after 'return'.*/
             return x;
         }
-    } else {
+    } else {            /*error Unexpected 'else' after 'return'.*/
         return z;
     }
 }
@@ -64,6 +66,8 @@ function foo() {
 The follow patterns are not considered warnings:
 
 ```js
+/*eslint no-else-return: 2*/
+
 function foo() {
     if (x) {
         return y;

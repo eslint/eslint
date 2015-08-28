@@ -20,25 +20,29 @@ This rule is aimed to flag the use of duplicate names in class members.
 The following patterns are considered warnings:
 
 ```js
+/*eslint no-dupe-class-members: 2*/
+
 class Foo {
   bar() { }
-  bar() { }
+  bar() { }          /*error Duplicate name "bar".*/
 }
 
 class Foo {
   bar() { }
-  get bar() { }
+  get bar() { }      /*error Duplicate name "bar".*/
 }
 
 class Foo {
   static bar() { }
-  static bar() { }
+  static bar() { }   /*error Duplicate name "bar".*/
 }
 ```
 
 The following patterns are not considered warnings:
 
 ```js
+/*eslint no-dupe-class-members: 2*/
+
 class Foo {
   bar() { }
   qux() { }

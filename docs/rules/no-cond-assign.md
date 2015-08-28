@@ -29,16 +29,18 @@ This is the default option. It disallows assignments unless they are enclosed in
 The following patterns are considered warnings:
 
 ```js
+/*eslint no-cond-assign: 2*/
+
 // Unintentional assignment
 var x;
-if (x = 0) {
+if (x = 0) {         /*error Expected a conditional expression and instead saw an assignment.*/
     var b = 1;
 }
 
 // Practical example that is similar to an error
 function setHeight(someNode) {
     "use strict";
-    do {
+    do {             /*error Expected a conditional expression and instead saw an assignment.*/
         someNode.height = "100px";
     } while (someNode = someNode.parentNode);
 }
@@ -47,6 +49,8 @@ function setHeight(someNode) {
 The following patterns are considered okay and do not cause warnings:
 
 ```js
+/*eslint no-cond-assign: 2*/
+
 // Assignment replaced by comparison
 var x;
 if (x === 0) {
@@ -77,16 +81,18 @@ This option disallows all assignments in conditional statement tests. All assign
 The following patterns are considered warnings:
 
 ```js
+/*eslint no-cond-assign: [2, "always"]*/
+
 // Unintentional assignment
 var x;
-if (x = 0) {
+if (x = 0) {         /*error Unexpected assignment within an 'if' statement.*/
     var b = 1;
 }
 
 // Practical example that is similar to an error
 function setHeight(someNode) {
     "use strict";
-    do {
+    do {             /*error Unexpected assignment within a 'do...while' statement.*/
         someNode.height = "100px";
     } while (someNode = someNode.parentNode);
 }
@@ -94,7 +100,7 @@ function setHeight(someNode) {
 // Practical example that wraps the assignment in parentheses
 function setHeight(someNode) {
     "use strict";
-    do {
+    do {             /*error Unexpected assignment within a 'do...while' statement.*/
         someNode.height = "100px";
     } while ((someNode = someNode.parentNode));
 }
@@ -102,7 +108,7 @@ function setHeight(someNode) {
 // Practical example that wraps the assignment and tests for 'null'
 function setHeight(someNode) {
     "use strict";
-    do {
+    do {             /*error Unexpected assignment within a 'do...while' statement.*/
         someNode.height = "100px";
     } while ((someNode = someNode.parentNode) !== null);
 }
@@ -111,6 +117,8 @@ function setHeight(someNode) {
 The following pattern does not cause warnings:
 
 ```js
+/*eslint no-cond-assign: [2, "always"]*/
+
 // Assignment replaced by comparison
 var x;
 if (x === 0) {

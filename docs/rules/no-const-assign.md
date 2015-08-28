@@ -12,34 +12,46 @@ This rule is aimed to flag modifying variables that are declared using `const` k
 The following patterns are considered warnings:
 
 ```js
+/*eslint no-const-assign: 2*/
+
 const a = 0;
-a = 1;
+a = 1;       /*error `a` is constant.*/
 ```
 
 ```js
+/*eslint no-const-assign: 2*/
+
 const a = 0;
-a += 1;
+a += 1;      /*error `a` is constant.*/
 ```
 
 ```js
+/*eslint no-const-assign: 2*/
+
 const a = 0;
-++a;
+++a;         /*error `a` is constant.*/
 ```
 
 The following patterns are not considered warnings:
 
 ```js
+/*eslint no-const-assign: 2*/
+
 const a = 0;
 console.log(a);
 ```
 
 ```js
+/*eslint no-const-assign: 2*/
+
 for (const a in [1, 2, 3]) { // `a` is re-defined (not modified) on each loop step.
     console.log(a);
 }
 ```
 
 ```js
+/*eslint no-const-assign: 2*/
+
 for (const a of [1, 2, 3]) { // `a` is re-defined (not modified) on each loop step.
     console.log(a);
 }

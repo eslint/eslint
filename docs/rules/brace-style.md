@@ -60,20 +60,21 @@ You can set the style in configuration like this:
 This is the default setting for this rule and enforces one true brace style. While using this setting, the following patterns are considered warnings:
 
 ```js
-function foo()
+/*eslint brace-style: 2*/
+function foo()       /*error Opening curly brace does not appear on the same line as controlling statement.*/
 {
   return true;
 }
 
-if (foo)
+if (foo)             /*error Opening curly brace does not appear on the same line as controlling statement.*/
 {
   bar();
 }
 
-try
+try                  /*error Opening curly brace does not appear on the same line as controlling statement.*/
 {
   somethingRisky();
-} catch(e)
+} catch(e)           /*error Opening curly brace does not appear on the same line as controlling statement.*/
 {
   handleError();
 }
@@ -81,7 +82,7 @@ try
 if (foo) {
   bar();
 }
-else {
+else {              /*error Closing curly brace does not appear on the same line as the subsequent block.*/
   baz();
 }
 ```
@@ -89,6 +90,8 @@ else {
 The following patterns adhere to one true brace style and do not cause warnings:
 
 ```js
+/*eslint brace-style: 2*/
+
 function foo() {
   return true;
 }
@@ -117,6 +120,8 @@ else if (baz) boom();
 With one-line form enabled, the following is also valid:
 
 ```js
+/*eslint brace-style: [2, "1tbs", { "allowSingleLine": true }]*/
+
 function nop() { return; }
 
 if (foo) { bar(); }
@@ -132,27 +137,29 @@ try { somethingRisky(); } catch(e) { handleError(); }
 This enforces Stroustrup style. While using this setting, the following patterns are considered warnings:
 
 ```js
-function foo()
+/*eslint brace-style: [2, "stroustrup"]*/
+
+function foo()        /*error Opening curly brace does not appear on the same line as controlling statement.*/
 {
   return true;
 }
 
-if (foo)
+if (foo)              /*error Opening curly brace does not appear on the same line as controlling statement.*/
 {
   bar();
 }
 
-try
+try                   /*error Opening curly brace does not appear on the same line as controlling statement.*/
 {
   somethingRisky();
-} catch(e)
+} catch(e)            /*error Opening curly brace does not appear on the same line as controlling statement.*/ /*error Closing curly brace appears on the same line as the subsequent block.*/
 {
   handleError();
 }
 
 if (foo) {
   bar();
-} else {
+} else {              /*error Closing curly brace appears on the same line as the subsequent block.*/
   baz();
 }
 ```
@@ -160,6 +167,8 @@ if (foo) {
 The following patterns adhere to Stroustrup style and do not cause warnings:
 
 ```js
+/*eslint brace-style: [2, "stroustrup"]*/
+
 function foo() {
   return true;
 }
@@ -190,6 +199,8 @@ else if (baz) boom();
 With one-line form enabled, the following is also valid:
 
 ```js
+/*eslint brace-style: [2, "stroustrup", { "allowSingleLine": true }]*/
+
 function nop() { return; }
 
 if (foo) { bar(); }
@@ -207,25 +218,27 @@ catch(e) { handleError(); }
 This enforces Allman style. While using this setting, the following patterns are considered warnings:
 
 ```js
-function foo() {
+/*eslint brace-style: [2, "allman"]*/
+
+function foo() {     /*error Opening curly brace appears on the same line as controlling statement.*/
   return true;
 }
 
 if (foo)
 {
-  bar(); }
+  bar(); }           /*error Closing curly brace should be on the same line as opening curly brace or on the line after the previous block.*/
 
 try
 {
   somethingRisky();
-} catch(e)
+} catch(e)           /*error Closing curly brace appears on the same line as the subsequent block.*/
 {
   handleError();
 }
 
-if (foo) {
+if (foo) {           /*error Opening curly brace appears on the same line as controlling statement.*/ /*error Opening curly brace appears on the same line as controlling statement.*/
   bar();
-} else {
+} else {             /*error Closing curly brace appears on the same line as the subsequent block.*/
   baz();
 }
 ```
@@ -233,6 +246,8 @@ if (foo) {
 The following patterns adhere to Allman style and do not cause warnings:
 
 ```js
+/*eslint brace-style: [2, "allman"]*/
+
 function foo()
 {
   return true;
@@ -269,6 +284,8 @@ else if (baz) boom();
 With one-line form enabled, the following is also valid:
 
 ```js
+/*eslint brace-style: [2, "allman", { "allowSingleLine": true }]*/
+
 function nop() { return; }
 
 if (foo) { bar(); }

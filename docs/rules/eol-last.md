@@ -15,16 +15,20 @@ the end of the file. If you still want this behaviour, consider enabling
 The following patterns are considered warnings:
 
 ```js
+/*eslint eol-last: 2*/
+
 function doSmth() {
-  ...
+  var foo = 2;
 }
 ```
 
 The following patterns are not warnings:
 
 ```js
+/*eslint eol-last: 2*/
+
 function doSmth() {
-  ...
+  var foo = 2;
 }
 // spaces here
 ```

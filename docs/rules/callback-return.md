@@ -26,9 +26,11 @@ By default the rule treats `cb`, `callback`, and `next` as callbacks.
 The following patterns are considered warnings:
 
 ```js
+/*eslint callback-return: 2*/
+
 function foo() {
     if (err) {
-        callback(err);
+        callback(err); /*error Expected return with your callback function.*/
     }
     callback();
 }
@@ -37,6 +39,8 @@ function foo() {
 The following patterns are not considered warnings:
 
 ```js
+/*eslint callback-return: 2*/
+
 function foo() {
     if (err) {
         return callback(err);
@@ -65,6 +69,8 @@ Here is a case where we pass the callback to the `setTimeout` function. Our rule
 it is likely a mistake.
 
 ```js
+/*eslint callback-return: 2*/
+
 function foo(callback) {
     if (err) {
         setTimeout(callback, 0); // this is bad, but WILL NOT warn
@@ -80,6 +86,8 @@ function expression, we won't be able to detect that you're calling the callback
 we won't warn.
 
 ```js
+/*eslint callback-return: 2*/
+
 function foo(callback) {
     if (err) {
         process.nextTick(function() {
@@ -96,11 +104,13 @@ Here is a case where you're doing the right thing in making sure to only `callba
 difficulty in determining what you're doing, this rule does not allow for this pattern.
 
 ```js
+/*eslint callback-return: 2*/
+
 function foo(callback) {
     if (err) {
-        callback(err); // this is fine, but WILL warn
+        callback(err); // this is fine, but WILL warn /*error Expected return with your callback function.*/
     } else {
-        callback();
+        callback();    // this is fine, but WILL warn /*error Expected return with your callback function.*/
     }
 }
 ```
