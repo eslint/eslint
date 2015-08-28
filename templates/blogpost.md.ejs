@@ -1,0 +1,72 @@
+---
+layout: post
+title: ESLint <%- version %> released
+tags:
+  - release
+  - <%- releaseType %>
+---
+# ESLint <%= version %> released
+
+We just pushed ESLint <%- version %>, which is a <%- releaseType %> release upgrade of ESLint. This release <% if (releaseType !== "patch") { %>adds some new features<% } if (releaseType === "major") { %>, including some breaking changes, <% } %> and fixes several bugs found in the previous release.
+
+<%
+function createIssueLink(line) {
+    return line.replace(/#(\d+)/g, "[#$1](https://github.com/eslint/eslint/issues/$1)");
+}
+
+function outputList(items) {
+    items.forEach(function(line) {%>
+<%- createIssueLink(line) %><%
+    });
+}
+
+%>
+
+<% if (typeof changelog_breaking !== "undefined") { %>
+## Breaking Changes
+
+<% outputList(changelog_breaking); %>
+
+<% } %>
+
+<% if (typeof changelog_new !== "undefined") { %>
+## Features
+
+<% outputList(changelog_new); %>
+
+<% } %>
+
+<% if (typeof changelog_update !== "undefined") { %>
+## Enhancements
+
+<% outputList(changelog_update); %>
+
+<% } %>
+
+<% if (typeof changelog_fix !== "undefined") { %>
+## Bug Fixes
+
+<% outputList(changelog_fix); %>
+
+<% } %>
+
+<% if (typeof changelog_docs !== "undefined") { %>
+## Documentation
+
+<% outputList(changelog_docs); %>
+
+<% } %>
+
+<% if (typeof changelog_upgrade !== "undefined") { %>
+## Dependency Upgrades
+
+<% outputList(changelog_upgrade); %>
+
+<% } %>
+
+<% if (typeof changelog_build !== "undefined") { %>
+## Build Related
+
+<% outputList(changelog_build); %>
+
+<% } %>
