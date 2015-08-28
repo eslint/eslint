@@ -46,6 +46,16 @@ ruleTester.run("indent", rule, {
     valid: [
         {
             code:
+            "// hi",
+            options: [2, {"VariableDeclarator": 1, "SwitchCase": 1}]
+        },
+        {
+            code:
+                "  ",
+            options: [2, {"VariableDeclarator": 1, "SwitchCase": 1}]
+        },
+        {
+            code:
             "if(data) {\n" +
             "  console.log('hi');\n" +
             "  b = true;};",
