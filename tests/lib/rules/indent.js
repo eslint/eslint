@@ -777,6 +777,14 @@ ruleTester.run("indent", rule, {
                 "    \n" +
                 "}\n",
             options: [2]
+        },
+        {
+            code: "//",
+            options: [2]
+        },
+        {
+            code: "/* */",
+            options: [2]
         }
     ],
     invalid: [
