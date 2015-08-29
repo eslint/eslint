@@ -13,13 +13,17 @@ This rule is aimed at preventing the accidental calling of global objects as fun
 The following patterns are considered warnings:
 
 ```js
-var x = Math();
-var y = JSON();
+/*eslint no-obj-calls: 2*/
+
+var x = Math(); /*error 'Math' is not a function.*/
+var y = JSON(); /*error 'JSON' is not a function.*/
 ```
 
 The following patterns are not considered warnings:
 
 ```js
+/*eslint no-obj-calls: 2*/
+
 var x = math();
 var y = json();
 ```

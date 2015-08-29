@@ -13,14 +13,18 @@ The `no-nested-ternary` rule aims to increase the clarity and readability of cod
 The following patterns are considered warnings:
 
 ```js
-var thing = foo ? bar : baz === qux ? quxx : foobar;
+/*eslint no-nested-ternary: 2*/
 
-foo ? baz === qux ? quxx() : foobar() : bar();
+var thing = foo ? bar : baz === qux ? quxx : foobar; /*error Do not nest ternary expressions*/
+
+foo ? baz === qux ? quxx() : foobar() : bar();       /*error Do not nest ternary expressions*/
 ```
 
 The following patterns are considered okay and could be used alternatively:
 
 ```js
+/*eslint no-nested-ternary: 2*/
+
 var thing;
 
 if (foo) {

@@ -9,14 +9,18 @@ This rule is aimed at preventing synchronous methods from being called in Node.j
 The following patterns are considered warnings:
 
 ```js
-fs.existsSync(somePath);
+/*eslint no-sync: 2*/
 
-var contents = fs.readFileSync(somePath).toString();
+fs.existsSync(somePath);                             /*error Unexpected sync method: 'existsSync'.*/
+
+var contents = fs.readFileSync(somePath).toString(); /*error Unexpected sync method: 'readFileSync'.*/
 ```
 
 The following patterns are not considered warnings:
 
 ```js
+/*eslint no-sync: 2*/
+
 obj.sync();
 
 async(function() {

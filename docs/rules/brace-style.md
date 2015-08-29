@@ -87,7 +87,7 @@ else {              /*error Closing curly brace does not appear on the same line
 }
 ```
 
-The following patterns adhere to one true brace style and do not cause warnings:
+The following patterns adhere to one true brace style and are not considered warnings:
 
 ```js
 /*eslint brace-style: 2*/
@@ -164,7 +164,7 @@ if (foo) {
 }
 ```
 
-The following patterns adhere to Stroustrup style and do not cause warnings:
+The following patterns adhere to Stroustrup style and are not considered warnings:
 
 ```js
 /*eslint brace-style: [2, "stroustrup"]*/
@@ -243,7 +243,7 @@ if (foo) {           /*error Opening curly brace appears on the same line as con
 }
 ```
 
-The following patterns adhere to Allman style and do not cause warnings:
+The following patterns adhere to Allman style and are not considered warnings:
 
 ```js
 /*eslint brace-style: [2, "allman"]*/

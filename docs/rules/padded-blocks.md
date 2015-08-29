@@ -24,28 +24,30 @@ then all blocks should never start **or** end with a blank line. The default is 
 The following patterns are considered warnings when set to `"always"`:
 
 ```js
-if (a) {
-    b();
-}
+/*eslint padded-blocks: [2, "always"]*/
 
-if (a) { b(); }
+if (a) {         /*error Block must be padded by blank lines.*/
+    b();
+}                /*error Block must be padded by blank lines.*/
+
+if (a) { b(); }  /*error Block must be padded by blank lines.*/
 
 if (a)
-{
+{                /*error Block must be padded by blank lines.*/
     b();
-}
+}                /*error Block must be padded by blank lines.*/
 
 if (a) {
 
     b();
-}
+}                /*error Block must be padded by blank lines.*/
 
-if (a) {
+if (a) {         /*error Block must be padded by blank lines.*/
     b();
 
 }
 
-if (a) {
+if (a) {         /*error Block must be padded by blank lines.*/
     // comment
     b();
 
@@ -55,6 +57,8 @@ if (a) {
 The following patterns are not considered warnings when set to `"always"`:
 
 ```js
+/*eslint padded-blocks: [2, "always"]*/
+
 if (a) {
 
     b();
@@ -79,33 +83,37 @@ if (a) {
 The following patterns are considered warnings when set to `"never"`:
 
 ```js
-if (a) {
+/*eslint padded-blocks: [2, "never"]*/
+
+if (a) {  /*error Block must not be padded by blank lines.*/
 
     b();
 
-}
+}        /*error Block must not be padded by blank lines.*/
 
 if (a)
-{
+{        /*error Block must not be padded by blank lines.*/
 
     b();
 
+}        /*error Block must not be padded by blank lines.*/
+
+if (a) { /*error Block must not be padded by blank lines.*/
+
+    b();
 }
 
 if (a) {
-
-    b();
-}
-
-if (a) {
     b();
 
-}
+}        /*error Block must not be padded by blank lines.*/
 ```
 
 The following patterns are not considered warnings when set to `"never"`:
 
 ```js
+/*eslint padded-blocks: [2, "never"]*/
+
 if (a) {
     b();
 }

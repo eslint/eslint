@@ -18,62 +18,6 @@ While this is valid JavaScript syntax, it is hard to determine what the author i
 
 This rule is aimed at ensuring there are spaces around infix operators.
 
-The following patterns are considered warnings:
-
-```js
-a+b
-```
-
-```js
-a+ b
-```
-
-```js
-a +b
-```
-
-```js
-a?b:c
-```
-
-```js
-const a={b:1};
-```
-
-```js
-var {a=0}=bar;
-```
-
-```js
-function foo(a=0) { }
-```
-
-The following patterns are not considered warnings:
-
-```js
-a + b
-```
-
-```js
-a       + b
-```
-
-```js
-a ? b : c
-```
-
-```js
-const a = {b:1};
-```
-
-```js
-var {a = 0} = bar;
-```
-
-```js
-function foo(a = 0) { }
-```
-
 ### Options
 
 This rule accepts a single options argument with the following defaults:
@@ -88,4 +32,42 @@ Set the `int32Hint` option to `true` (default is `false`) to allow write `a|0` w
 
 ```js
 var foo = bar|0; // `foo` is forced to be signed 32 bit integer
+```
+
+The following patterns are considered warnings:
+
+```js
+/*eslint space-infix-ops: 2*/
+
+a+b                   /*error Infix operators must be spaced.*/
+
+a+ b                  /*error Infix operators must be spaced.*/
+
+a +b                  /*error Infix operators must be spaced.*/
+
+a?b:c                 /*error Infix operators must be spaced.*/
+
+const a={b:1};        /*error Infix operators must be spaced.*/
+
+var {a=0}=bar;        /*error Infix operators must be spaced.*/
+
+function foo(a=0) { } /*error Infix operators must be spaced.*/
+```
+
+The following patterns are not considered warnings:
+
+```js
+/*eslint space-infix-ops: 2*/
+
+a + b
+
+a       + b
+
+a ? b : c
+
+const a = {b:1};
+
+var {a = 0} = bar;
+
+function foo(a = 0) { }
 ```

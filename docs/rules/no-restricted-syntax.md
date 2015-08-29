@@ -20,14 +20,14 @@ This rule takes a list of strings where strings denote the node types:
 
 The following patterns are considered warnings:
 
-```js
+```
 /* eslint no-restricted-syntax: [2, "FunctionExpression", "WithStatement"] */
 
-with (me) {
+with (me) {                       /*error Using "WithStatement" is not allowed.*/
     dontMess();
 }
 
-var doSomething = function () {};
+var doSomething = function () {}; /*error Using "FunctionExpression" is not allowed.*/
 ```
 
 The following patterns are not considered warnings:

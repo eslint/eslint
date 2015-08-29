@@ -7,27 +7,23 @@ Require spaces following `return`, `throw`, and `case`.
 The following patterns are considered warnings:
 
 ```js
-throw{a:0}
-```
+/*eslint space-return-throw-case: 2*/
 
-```js
-function f(){ return-a; }
-```
+throw{a:0}                   /*error Keyword "throw" must be followed by whitespace.*/
 
-```js
-switch(a){ case'a': break; }
+function f(){ return-a; }    /*error Keyword "return" must be followed by whitespace.*/
+
+switch(a){ case'a': break; } /*error Keyword "case" must be followed by whitespace.*/
 ```
 
 The following patterns are not considered warnings:
 
 ```js
+/*eslint space-return-throw-case: 2*/
+
 throw {a: 0};
-```
 
-```js
 function f(){ return -a; }
-```
 
-```js
 switch(a){ case 'a': break; }
 ```

@@ -9,15 +9,19 @@ This rule is aimed at eliminating variables that have multiple declarations in t
 The following patterns are considered warnings:
 
 ```js
+/*eslint no-redeclare: 2*/
+
 var a = 3;
-var a = 10; // redeclared
+var a = 10; /*error "a" is already defined*/
 ```
 
 The following patterns are considered okay and do not cause warnings:
 
 ```js
+/*eslint no-redeclare: 2*/
+
 var a = 3;
-...
+// ...
 a = 10;
 ```
 
@@ -39,13 +43,18 @@ If this is `true`, this rule checks with built-in global variables such as `Obje
 When `{"builtinGlobals": true}`, the following patterns are considered warnings:
 
 ```js
-var Object = 0; // redeclared of the built-in globals.
+/*eslint no-redeclare: [2, { "builtinGlobals": true }]*/
+
+var Object = 0; /*error "Object" is already defined*/
 ```
 
 When `{"builtinGlobals": true}` and under `browser` environment, the following patterns are considered warnings:
 
 ```js
-var top = 0; // redeclared of the built-in globals.
+/*eslint-env browser*/
+/*eslint no-redeclare: [2, { "builtinGlobals": true }]*/
+
+var top = 0; /*error "top" is already defined*/
 ```
 
 * Note: The `browser` environment has many built-in global variables, `top` is one of them.

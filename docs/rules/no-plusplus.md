@@ -35,16 +35,20 @@ This rule is aimed at flagging the use of `++` and `--`. Some believe that the u
 The following patterns are considered warnings:
 
 ```js
+/*eslint no-plusplus: 2*/
+
 var foo = 0;
-foo++;
+foo++;        /*error Unary operator '++' used.*/
 
 var bar = 42;
-bar--;
+bar--;        /*error Unary operator '--' used.*/
 ```
 
 The following patterns are not considered warnings:
 
 ```js
+/*eslint no-plusplus: 2*/
+
 var foo = 0;
 foo += 1;
 

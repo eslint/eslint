@@ -15,28 +15,32 @@ then all blocks should never have any preceding space. The default is `"always"`
 The following patterns are considered warnings when configured `"always"`:
 
 ```js
-if (a){
+/*eslint space-before-blocks: 2*/
+
+if (a){           /*error Missing space before opening brace.*/
     b();
 }
 
 if (a) {
     b();
-} else{
+} else{           /*error Missing space before opening brace.*/
     c();
 }
 
-function a(){}
+function a(){}    /*error Missing space before opening brace.*/
 
-for (;;){
+for (;;){         /*error Missing space before opening brace.*/
     b();
 }
 
-try {} catch(a){}
+try {} catch(a){} /*error Missing space before opening brace.*/
 ```
 
 The following patterns are not considered warnings when configured `"always"`:
 
 ```js
+/*eslint space-before-blocks: 2*/
+
 if (a) {
     b();
 }
@@ -53,22 +57,26 @@ try {} catch(a) {}
 The following patterns are considered warnings when configured `"never"`:
 
 ```js
-if (a) {
+/*eslint space-before-blocks: [2, "never"]*/
+
+if (a) {           /*error Unexpected space before opening brace.*/
     b();
 }
 
-function a() {}
+function a() {}    /*error Unexpected space before opening brace.*/
 
-for (;;) {
+for (;;) {         /*error Unexpected space before opening brace.*/
     b();
 }
 
-try {} catch(a) {}
+try {} catch(a) {} /*error Unexpected space before opening brace.*/
 ```
 
 The following patterns are not considered warnings when configured `"never"`:
 
 ```js
+/*eslint space-before-blocks: [2, "never"]*/
+
 if (a){
     b();
 }

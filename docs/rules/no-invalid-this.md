@@ -33,84 +33,70 @@ This rule warns below **only** under the strict mode.
 Please note your code in ES2015 Modules/Classes is always the strict mode.
 
 ```js
-this.a = 0;
-baz(() => this);
-```
+/*eslint no-invalid-this: 2*/
 
-```js
+this.a = 0;            /*error Unexpected `this`.*/
+baz(() => this);       /*error Unexpected `this`.*/
+
 (function() {
-    this.a = 0;
-    baz(() => this);
+    this.a = 0;        /*error Unexpected `this`.*/
+    baz(() => this);   /*error Unexpected `this`.*/
 })();
-```
 
-```js
 function foo() {
-    this.a = 0;
-    baz(() => this);
+    this.a = 0;        /*error Unexpected `this`.*/
+    baz(() => this);   /*error Unexpected `this`.*/
 }
-```
 
-```js
 var foo = function() {
-    this.a = 0;
-    baz(() => this);
+    this.a = 0;        /*error Unexpected `this`.*/
+    baz(() => this);   /*error Unexpected `this`.*/
 };
-```
 
-```js
 foo(function() {
-    this.a = 0;
-    baz(() => this);
+    this.a = 0;        /*error Unexpected `this`.*/
+    baz(() => this);   /*error Unexpected `this`.*/
 });
-```
 
-```js
 obj.foo = () => {
     // `this` of arrow functions is the outer scope's.
-    this.a = 0;
+    this.a = 0;        /*error Unexpected `this`.*/
 };
-```
 
-```js
 var obj = {
     aaa: function() {
         return function foo() {
             // There is in a method `aaa`, but `foo` is not a method.
-            this.a = 0;
-            baz(() => this);
+            this.a = 0;      /*error Unexpected `this`.*/
+            baz(() => this); /*error Unexpected `this`.*/
         };
     }
 };
-```
 
-```js
 class Foo {
     static foo() {
-        this.a = 0;
-        baz(() => this);
+        this.a = 0;      /*error Unexpected `this`.*/
+        baz(() => this); /*error Unexpected `this`.*/
     }
 }
-```
 
-```js
 foo.forEach(function() {
-    this.a = 0;
-    baz(() => this);
+    this.a = 0;          /*error Unexpected `this`.*/
+    baz(() => this);     /*error Unexpected `this`.*/
 });
 ```
 
 ### The following patterns are not considered warnings:
 
 ```js
+/*eslint no-invalid-regexp: 2*/
+
 function Foo() {
     // OK, this is in a legacy style constructor.
     this.a = 0;
     baz(() => this);
 }
-```
 
-```js
 class Foo {
     constructor() {
         // OK, this is in a constructor.
@@ -118,63 +104,49 @@ class Foo {
         baz(() => this);
     }
 }
-```
 
-```js
 var obj = {
     foo: function foo() {
         // OK, this is in a method (this function is on object literal).
         this.a = 0;
     }
 };
-```
 
-```js
 var obj = {
     foo() {
         // OK, this is in a method (this function is on object literal).
         this.a = 0;
     }
 };
-```
 
-```js
 var obj = {
     get foo() {
         // OK, this is in a method (this function is on object literal).
         return this.a;
     }
 };
-```
 
-```js
 var obj = Object.create(null, {
     foo: {value: function foo() {
         // OK, this is in a method (this function is on object literal).
         this.a = 0;
     }}
 });
-```
 
-```js
 Object.defineProperty(obj, "foo", {
     value: function foo() {
         // OK, this is in a method (this function is on object literal).
         this.a = 0;
     }
-};
-```
+});
 
-```js
 Object.defineProperties(obj, {
     foo: {value: function foo() {
         // OK, this is in a method (this function is on object literal).
         this.a = 0;
     }}
-};
-```
+});
 
-```js
 function Foo() {
     this.foo = function foo() {
         // OK, this is in a method (this function assigns to a property).
@@ -182,23 +154,17 @@ function Foo() {
         baz(() => this);
     };
 }
-```
 
-```js
 obj.foo = function foo() {
     // OK, this is in a method (this function assigns to a property).
     this.a = 0;
 };
-```
 
-```js
 Foo.prototype.foo = function foo() {
     // OK, this is in a method (this function assigns to a property).
     this.a = 0;
 };
-```
 
-```js
 class Foo {
     foo() {
         // OK, this is in a method.
@@ -206,24 +172,18 @@ class Foo {
         baz(() => this);
     }
 }
-```
 
-```js
 var foo = (function foo() {
     // OK, the `bind` method of this function is called directly.
     this.a = 0;
 }).bind(obj);
-```
 
-```js
 foo.forEach(function() {
     // OK, `thisArg` of `.forEach()` is given.
     this.a = 0;
     baz(() => this);
 }, thisArg);
-```
 
-```js
 /** @this Foo */
 function foo() {
     // OK, this function has a `@this` tag in its JSDoc comment.

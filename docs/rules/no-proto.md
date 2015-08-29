@@ -9,14 +9,18 @@ When an object is created `__proto__` is set to the original prototype property 
 The following patterns are considered warnings:
 
 ```js
-var a = obj.__proto__;
+/*eslint no-proto: 2*/
 
-var a = obj["__proto__"];
+var a = obj.__proto__;    /*error The '__proto__' property is deprecated.*/
+
+var a = obj["__proto__"]; /*error The '__proto__' property is deprecated.*/
 ```
 
 The following patterns are considered okay and could be used alternatively:
 
 ```js
+/*eslint no-proto: 2*/
+
 var a = Object.getPrototypeOf(obj);
 ```
 

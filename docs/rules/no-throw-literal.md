@@ -12,26 +12,30 @@ This rule is aimed at maintaining consistency when throwing exception by disallo
 The following patterns are considered warnings:
 
 ```js
-throw "error";
+/*eslint no-throw-literal: 2*/
 
-throw 0;
+throw "error";         /*error Expected an object to be thrown.*/
 
-throw undefined;
+throw 0;               /*error Expected an object to be thrown.*/
 
-throw null;
+throw undefined;       /*error Do not throw undefined.*/
+
+throw null;            /*error Expected an object to be thrown.*/
 
 var err = new Error();
-throw "an " + err;
+throw "an " + err;     /*error Expected an object to be thrown.*/
 // err is recast to a string literal
 
 var err = new Error();
-throw `${err}`
+throw `${err}`         /*error Expected an object to be thrown.*/
 
 ```
 
 The following patterns are not considered warnings:
 
 ```js
+/*eslint no-throw-literal: 2*/
+
 throw new Error();
 
 throw new Error("error");
@@ -51,6 +55,8 @@ try {
 Due to the limits of static analysis, this rule cannot guarantee that you will only throw `Error` objects.  For instance, the following cases do not throw an `Error` object, but they will not be considered warnings:
 
 ```js
+/*eslint no-throw-literal: 2*/
+
 var err = "error";
 throw err;
 

@@ -6,15 +6,15 @@ such as:
 
 ```js
 var count = people.length;
-var enoughFood = count > sandwhiches.length;
+var enoughFood = count > sandwiches.length;
 
 if (enoughFood) {
-    var count = sandwhiches.length; // accidently overriding the count variable
-    console.log("We have " + count + " sandwhiches for everyone. Plenty for all!");
+    var count = sandwiches.length; // accidently overriding the count variable
+    console.log("We have " + count + " sandwiches for everyone. Plenty for all!");
 }
 
 // our count variable is no longer accurate
-console.log("We have " + count + " people and " + sandwhiches.length + " sandwhiches!");
+console.log("We have " + count + " people and " + sandwiches.length + " sandwiches!");
 ```
 
 ## Rule Details
@@ -24,13 +24,17 @@ This rule is aimed at discouraging the use of `var` and encouraging the use of `
 The following patterns are considered warnings:
 
 ```js
-var x = "y";
-var CONFIG = {};
+/*eslint no-var: 2*/
+
+var x = "y";     /*error Unexpected var, use let or const instead.*/
+var CONFIG = {}; /*error Unexpected var, use let or const instead.*/
 ```
 
 The following patterns are not considered warnings:
 
 ```js
+/*eslint no-var: 2*/
+
 let x = "y";
 const CONFIG = {};
 ```

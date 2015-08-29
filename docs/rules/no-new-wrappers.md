@@ -42,18 +42,22 @@ This rule aims to eliminate the use of `String`, `Number`, and `Boolean` with th
 The following patterns are considered warnings:
 
 ```js
-var stringObject = new String("Hello world");
-var numberObject = new Number(33);
-var booleanObject = new Boolean(false);
+/*eslint no-new-wrappers: 2*/
 
-var stringObject = new String;
-var numberObject = new Number;
-var booleanObject = new Boolean;
+var stringObject = new String("Hello world"); /*error Do not use String as a constructor.*/
+var numberObject = new Number(33);            /*error Do not use Number as a constructor.*/
+var booleanObject = new Boolean(false);       /*error Do not use Boolean as a constructor.*/
+
+var stringObject = new String;                /*error Do not use String as a constructor.*/
+var numberObject = new Number;                /*error Do not use Number as a constructor.*/
+var booleanObject = new Boolean;              /*error Do not use Boolean as a constructor.*/
 ```
 
 The following patterns are not warnings:
 
 ```js
+/*eslint no-new-wrappers: 2*/
+
 var text = String(someValue);
 var num = Number(someValue);
 
