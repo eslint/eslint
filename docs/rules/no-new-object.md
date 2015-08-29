@@ -23,14 +23,18 @@ This rule aims to eliminate use of the `Object` constructor. As such, it warns w
 The following patterns are considered warnings:
 
 ```js
-var myObject = new Object();
+/*eslint no-new-object: 2*/
 
-var myObject = new Object;
+var myObject = new Object(); /*error The object literal notation {} is preferrable.*/
+
+var myObject = new Object;   /*error The object literal notation {} is preferrable.*/
 ```
 
 The following patterns are not warnings:
 
 ```js
+/*eslint no-new-object: 2*/
+
 var myObject = new CustomObject();
 
 var myObject = {};

@@ -9,8 +9,10 @@ The only time you would compare a variable against itself is when you are testin
 This error is raised to highlight a potentially confusing and potentially pointless piece of code. There are almost no situations in which you would need to compare something to itself.
 
 ```js
+/*eslint no-self-compare: 2*/
+
 var x = 10;
-if (x === x) {
+if (x === x) { /*error Comparing to itself is potentially pointless.*/
     x = 20;
 }
 ```

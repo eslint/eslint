@@ -7,7 +7,7 @@ JavaScript allows for placing unnecessary spaces between an expression and the c
 Space issues can also cause code to look inconsistent and harder to read.
 
 ```js
-var thing = function {
+var thing = function () {
   var test = 12 ;
 }  ;
 ```

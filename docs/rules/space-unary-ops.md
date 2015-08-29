@@ -6,100 +6,16 @@ Some styleguides require or disallow spaces before or after unary operators. Thi
 
 This rule enforces consistency regarding the spaces after `words` unary operators and after/before `nonwords` unary operators.
 
-### Examples
-
-Given the default values `words`: `true`, `nonwords`: `false`, the following patterns are considered warnings:
-
-Word unary operators (i.e. "typeof") should be followed by a whitespace.
-
-```js
-typeof!foo
-```
-
-Word unary operators (i.e. "void") should be followed by a whitespace.
-
-```js
-void{foo:0}
-```
-
-Word unary operators (i.e. "new") should be followed by a whitespace.
-
-```js
-new[foo][0]
-```
-
-Word unary operators (i.e. "delete") should be followed by a whitespace.
-
-```js
-delete(foo.bar)
-```
-
-Unary operator "++" should not be followed by whitespace.
-
-```js
-++ foo
-```
-
-Unary operator "--" should not be preceeded by whitespace.
-
-```js
-foo --
-```
-
-Unary operator "-" should not be preceeded by whitespace.
-
-```js
-- 1
-```
-
-Given the default values `words`: `true`, `nonwords`: `false`, the following patterns are not considered warnings:
-
-Word unary operator "delete" is followed by a whitespace.
-
-```js
-delete foo.bar
-```
-
-Word unary operator "new" is followed by a whitespace.
-
-```js
-new Foo
-```
-
-Word unary operator "void" is followed by a whitespace.
-
-```js
-void 0
-```
-
-Unary operator "++" is not followed by whitespace.
-
-```js
-++foo
-```
-
-Unary operator "--" is not preceeded by whitespace.
-
-```js
-foo--
-```
-
-Unary operator "-" is not followed by whitespace.
-
-```js
--1
-```
-
 ### Options
 
-This rule have two options: `words` and `nonwords`:
+This rule has two options: `words` and `nonwords`:
 
-* `words` - applies to unary word operators such as: `new`, `delete`, `typeof`, `void`
+* `words` - applies to unary word operators such as: `new`, `delete`, `typeof`, `void`, `yield`
 * `nonwords` - applies to unary operators such as: `-`, `+`, `--`, `++`, `!`, `!!`
 
 Default values are:
 
-```js
+```json
 "space-unary-ops": [1, { "words": true, "nonwords": false }]
 ```
 
@@ -130,4 +46,61 @@ foo = --foo;
 bar = bar++;
 baz = !foo;
 qux = !!baz;
+```
+
+### Examples
+
+Given the default values `words`: `true`, `nonwords`: `false`, the following patterns are considered warnings:
+
+```js
+/*eslint space-unary-ops: 2*/
+
+typeof!foo;        /*error Unary word operator "typeof" must be followed by whitespace.*/
+
+void{foo:0};       /*error Unary word operator "void" must be followed by whitespace.*/
+
+new[foo][0];       /*error Unary word operator "new" must be followed by whitespace.*/
+
+delete(foo.bar);   /*error Unary word operator "delete" must be followed by whitespace.*/
+
+function *foo() {
+    yield(0)       /*error Unary word operator "yield" must be followed by whitespace.*/
+}
+
+++ foo;            /*error Unexpected space after unary operator "++".*/
+
+foo --;            /*error Unexpected space before unary operator "--".*/
+
+- foo;             /*error Unexpected space after unary operator "-".*/
+
++ "3";             /*error Unexpected space after unary operator "+".*/
+```
+
+Given the default values `words`: `true`, `nonwords`: `false`, the following patterns are not considered warnings:
+
+
+
+```js
+/*eslint space-unary-ops: 2*/
+
+// Word unary operator "delete" is followed by a whitespace.
+delete foo.bar;
+
+// Word unary operator "new" is followed by a whitespace.
+new Foo;
+
+// Word unary operator "void" is followed by a whitespace.
+void 0;
+
+// Unary operator "++" is not followed by whitespace.
+++foo;
+
+// Unary operator "--" is not preceeded by whitespace.
+foo--;
+
+// Unary operator "-" is not followed by whitespace.
+-foo;
+
+// Unary operator "+" is not followed by whitespace.
++"3";
 ```

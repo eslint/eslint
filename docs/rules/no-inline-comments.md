@@ -14,32 +14,28 @@ This rule takes no arguments.
 The following patterns are considered warnings:
 
 ```js
-var a = 1; // declaring a to 1
-```
+/*eslint no-inline-comments: 2*/
 
-```js
+var a = 1; // declaring a to 1                /*error Unexpected comment inline with code.*/
+
 function getRandomNumber(){
-return 4; // chosen by fair dice roll.
-          // guaranteed to be random.
+    return 4; // chosen by fair dice roll.    /*error Unexpected comment inline with code.*/
+              // guaranteed to be random.
 }
-```
 
-```js
-/* A block comment before code */ var a = 2;
-```
+/* A block comment before code */ var b = 2;  /*error Unexpected comment inline with code.*/
 
-```js
-var a = 3; /* A block comment after code */
+var c = 3; /* A block comment after code */   /*error Unexpected comment inline with code.*/
 ```
 
 The following patterns are not warnings:
 
 ```js
+/*eslint no-inline-comments: 2*/
+
 // This is a comment above a line of code
 var foo = 5;
-```
 
-```js
-var foo = 5;
+var bar = 5;
 //This is a comment below a line of code
 ```

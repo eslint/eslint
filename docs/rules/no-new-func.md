@@ -13,13 +13,17 @@ This is considered by many to be a bad practice due to the difficult in debuggin
 This error is raised to highlight the use of a bad practice. By passing a string to the Function constructor, you are requiring the engine to parse that string much in the way it has to when you call the eval function.
 
 ```js
-var x = new Function("a", "b", "return a + b");
-var x = Function("a", "b", "return a + b");
+/*eslint no-new-func: 2*/
+
+var x = new Function("a", "b", "return a + b"); /*error The Function constructor is eval.*/
+var x = Function("a", "b", "return a + b");     /*error The Function constructor is eval.*/
 ```
 
 The following patterns are considered okay and do not cause warnings:
 
 ```js
+/*eslint no-new-func: 2*/
+
 var x = function (a, b) {
     return a + b;
 };

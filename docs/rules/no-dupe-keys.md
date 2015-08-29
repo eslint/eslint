@@ -18,19 +18,19 @@ The following patterns are considered warnings:
 ```js
 /*eslint no-dupe-keys: 2*/
 
-var foo = {        /*error Duplicate key 'bar'.*/
+var foo = {
     bar: "baz",
-    bar: "qux"
+    bar: "qux"     /*error Duplicate key 'bar'.*/
 };
 
-var foo = {        /*error Duplicate key 'bar'.*/
+var foo = {
     "bar": "baz",
-    bar: "qux"
+    bar: "qux"     /*error Duplicate key 'bar'.*/
 };
 
-var foo = {        /*error Duplicate key '1'.*/
+var foo = {
     0x1: "baz",
-    1: "qux"
+    1: "qux"       /*error Duplicate key '1'.*/
 };
 ```
 

@@ -21,25 +21,29 @@ This rule forbids the use of the comma operator, with the following exceptions:
 
 The following patterns are considered warnings:
 
-```js
-foo = doSomething, val;
+```
+/*eslint no-sequences: 2*/
 
-do {} while (doSomething(), !!test);
+foo = doSomething, val;              /*error Unexpected use of comma operator.*/
 
-for (; doSomething(), !!test; );
+do {} while (doSomething(), !!test); /*error Unexpected use of comma operator.*/
 
-if (doSomething(), !!test);
+for (; doSomething(), !!test; );     /*error Unexpected use of comma operator.*/
 
-switch (val = foo(), val) {}
+if (doSomething(), !!test);          /*error Unexpected use of comma operator.*/
 
-while (val = foo(), val < 42);
+switch (val = foo(), val) {}         /*error Unexpected use of comma operator.*/
 
-with (doSomething(), val) {}
+while (val = foo(), val < 42);       /*error Unexpected use of comma operator.*/
+
+with (doSomething(), val) {}         /*error Unexpected use of comma operator.*/
 ```
 
 The following patterns are not considered warnings:
 
-```js
+```
+/*eslint no-sequences: 2*/
+
 foo = (doSomething(), val);
 
 (0,eval)("doSomething();");
@@ -54,7 +58,7 @@ switch ((val = foo(), val)) {}
 
 while ((val = foo(), val < 42));
 
-with ((doSomething(), val)) {}
+// with ((doSomething(), val)) {}
 ```
 
 ## When Not To Use It

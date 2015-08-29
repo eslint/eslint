@@ -13,14 +13,16 @@ The native objects reported by this rule are the `builtin` variables from [globa
 The following patterns are considered warnings:
 
 ```js
-String = new Object();
+/*eslint no-native-reassign: 2*/
+
+String = new Object(); /*error String is a read-only native object.*/
 ```
 
 ## Options
 
 This rule accepts an `exceptions` option, which can be used to specify a list of builtins for which reassignments will be allowed:
 
-```js
+```json
 {
     "rules": {
         "no-native-reassign": [2, {"exceptions": ["Object"]}]

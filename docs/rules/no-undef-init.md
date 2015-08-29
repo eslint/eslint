@@ -23,13 +23,17 @@ This rule aims to eliminate variable declarations that initialize to `undefined`
 The following patterns are considered warnings:
 
 ```js
-var foo = undefined;
-let bar = undefined;
+/*eslint no-undef-init: 2*/
+
+var foo = undefined; /*error It's not necessary to initialize 'foo' to undefined.*/
+let bar = undefined; /*error It's not necessary to initialize 'bar' to undefined.*/
 ```
 
 The following patterns are not warnings:
 
 ```js
+/*eslint no-undef-init: 2*/
+
 var foo;
 let bar;
 ```

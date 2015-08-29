@@ -27,12 +27,16 @@ This rule aims to eliminate use of the `new require` expression. As such, it war
 The following pattern is considered a warning:
 
 ```js
-var appHeader = new require('app-header');
+/*eslint no-new-require: 2*/
+
+var appHeader = new require('app-header'); /*error Unexpected use of new with require.*/
 ```
 
 The following pattern is not a warning:
 
 ```js
+/*eslint no-new-require: 2*/
+
 var AppHeader = require('app-header');
 ```
 

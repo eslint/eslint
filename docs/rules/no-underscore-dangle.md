@@ -17,14 +17,18 @@ This rule aims to eliminate the use of dangling underscores in identifiers.
 The following patterns are considered warnings:
 
 ```js
-var foo_;
-var __proto__ = {};
-foo._bar();
+/*eslint no-underscore-dangle: 2*/
+
+var foo_;           /*error Unexpected dangling "_" in "foo_".*/
+var __proto__ = {}; /*error Unexpected dangling "_" in "__proto__".*/
+foo._bar();         /*error Unexpected dangling "_" in "_bar".*/
 ```
 
 The following patterns are not warnings:
 
 ```js
+/*eslint no-underscore-dangle: 2*/
+
 var _ = require('underscore');
 var obj = _.contains(items, item);
 obj.__proto__ = {};

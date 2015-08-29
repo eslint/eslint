@@ -18,7 +18,7 @@ The following patterns are considered warnings:
 function bar() { return /=foo/; } /*error A regular expression literal can be confused with '/='.*/
 ```
 
-The following patterns adhere to this rule:
+The following patterns are not considered warnings:
 
 ```js
 /*eslint no-div-regex: 2*/

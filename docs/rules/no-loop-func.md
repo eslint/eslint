@@ -32,29 +32,26 @@ This error is raised to highlight a piece of code that may not work as you expec
 The following patterns are considered warnings:
 
 ```js
-for (var i=10; i; i--) {
-    (function() { return i; })();
-}
-```
+/*eslint no-loop-func: 2*/
 
-```js
+for (var i=10; i; i--) {
+    (function() { return i; })();     /*error Don't make functions within a loop*/
+}
+
 while(i) {
-    var a = function() { return i; };
+    var a = function() { return i; }; /*error Don't make functions within a loop*/
     a();
 }
-```
 
-```js
 do {
-    function a() { return i; };
+    function a() { return i; };      /*error Don't make functions within a loop*/
     a();
 } while (i);
-```
 
-```js
 let foo = 0;
 for (let i=10; i; i--) {
-    var a = function() { return foo; }; // Bad, function is referencing block scoped variable in the outer scope.
+    // Bad, function is referencing block scoped variable in the outer scope.
+    var a = function() { return foo; }; /*error Don't make functions within a loop*/
     a();
 }
 ```
@@ -62,21 +59,19 @@ for (let i=10; i; i--) {
 The following patterns are considered okay and do not cause warnings:
 
 ```js
+/*eslint no-loop-func: 2*/
+
 var a = function() {};
 
 for (var i=10; i; i--) {
     a();
 }
-```
 
-```js
 for (var i=10; i; i--) {
     var a = function() {}; // OK, no references to variables in the outer scopes.
     a();
 }
-```
 
-```js
 for (let i=10; i; i--) {
     var a = function() { return i; }; // OK, all references are referring to block scoped variable in the loop.
     a();

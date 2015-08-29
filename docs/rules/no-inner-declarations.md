@@ -56,28 +56,44 @@ function doSomething() {
 
 This rule requires that function declarations and, optionally, variable declarations be in the root of a program or the body of a function.
 
+### Options
+
+This rule takes a single option to specify whether it should check just function declarations or both function and variable declarations. The default is `"functions"`. Setting it to `"both"` will apply the same rules to both types of declarations.
+
+You can set the option in configuration like this:
+
+```json
+"no-inner-declarations": [2, "both"]
+```
+
 The following patterns are considered warnings:
 
 ```js
+/*eslint no-inner-declarations: 2*/
+
 if (test) {
-    function doSomething() { }
+    function doSomething() { }        /*error Move function declaration to program root.*/
 }
 
 function doSomethingElse() {
     if (test) {
-        function doAnotherThing() { }
+        function doAnotherThing() { } /*error Move function declaration to function body root.*/
     }
 }
+```
 
-// With "both" option to check variable declarations
+With "both" option to check variable declarations, the following are considered warnings:
+
+```js
+/*eslint no-inner-declarations: [2, "both"]*/
+
 if (test) {
-    var foo = 42;
+    var foo = 42;            /*error Move variable declaration to program root.*/
 }
 
-// With "both" option to check variable declarations
 function doAnotherThing() {
     if (test) {
-        var bar = 81;
+        var bar = 81;        /*error Move variable declaration to function body root.*/
     }
 }
 ```
@@ -85,6 +101,8 @@ function doAnotherThing() {
 The following patterns are considered valid:
 
 ```js
+/*eslint no-inner-declarations: 2*/
+
 function doSomething() { }
 
 function doSomethingElse() {
@@ -110,10 +128,6 @@ function doAnotherThing() {
     var baz = 81;
 }
 ```
-
-## Options
-
-This rule takes a single option to specify whether it should check just function declarations or both function and variable declarations. The default is `"functions"`. Setting it to `"both"` will apply the same rules to both types of declarations.
 
 ## When Not To Use It
 

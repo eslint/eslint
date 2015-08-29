@@ -11,19 +11,35 @@ Allowing multiple declarations helps promote maintainability and is thus allowed
 
 ### Examples
 
-No variable declarations in a block.
+The following patterns are considered problems:
 
 ```js
-// BAD
+/*eslint vars-on-top: 2*/
+
+// Variable declarations in a block:
 function doSomething() {
     var first;
     if (true) {
         first = true;
     }
-    var second; //not declared at the top
+    var second;                 /*error All "var" declarations must be at the top of the function scope.*/
 }
 
-// GOOD
+// Variable declaration in for initializer:
+function doSomething() {
+    for (var i=0; i<10; i++) {} /*error All "var" declarations must be at the top of the function scope.*/
+}
+
+// Variables after other statements:
+f();
+var a;                          /*error All "var" declarations must be at the top of the function scope.*/
+```
+
+The following patterns are not considered warnings:
+
+```js
+/*eslint vars-on-top: 2*/
+
 function doSomething() {
     var first;
     var second; //multiple declarations are allowed at the top
@@ -31,54 +47,29 @@ function doSomething() {
         first = true;
     }
 }
-```
 
-No variable declarations in for initializer.
-
-```js
-// BAD
-function doSomething() {
-    for (var i=0; i<10; i++) {}
-}
-
-// GOOD
 function doSomething() {
     var i;
     for (i=0; i<10; i++) {}
 }
 ```
 
-No variables after other statements.
-
 ```js
-// BAD
-f();
-var a;
+/*eslint vars-on-top: 2*/
 
-// GOOD
 var a;
 f();
 ```
 
-Directives may precede variable declarations.
-
 ```js
-// GOOD
+/*eslint vars-on-top: 2*/
+
+// Directives may precede variable declarations.
 "use strict";
 var a;
 f();
-```
 
-Comments can describe variables.
-
-```js
-// GOOD
-function doSomething() {
-    var first;
-    var second
-}
-
-// ALSO GOOD
+// Comments can describe variables.
 function doSomething() {
     // this is the first var.
     var first;

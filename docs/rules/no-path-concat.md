@@ -29,16 +29,19 @@ This rule aims to prevent string concatenation of directory paths in Node.js
 The following patterns are considered warnings:
 
 ```js
+/*eslint no-path-concat: 2*/
 
-var fullPath = __dirname + "/foo.js";
+var fullPath = __dirname + "/foo.js";  /*error Use path.join() or path.resolve() instead of + to create paths.*/
 
-var fullPath = __filename + "/foo.js";
+var fullPath = __filename + "/foo.js"; /*error Use path.join() or path.resolve() instead of + to create paths.*/
 
 ```
 
 The following patterns are not warnings:
 
 ```js
+/*eslint no-path-concat: 2*/
+
 var fullPath = dirname + "/foo.js";
 ```
 

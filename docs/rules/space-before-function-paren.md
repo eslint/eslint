@@ -29,26 +29,28 @@ The default configuration is `"always"`.
 The following patterns are considered warnings when configured `"always"`:
 
 ```js
-function foo() {
+/*eslint space-before-function-paren: 2*/
+
+function foo() {           /*error Missing space before function parentheses.*/
     // ...
 }
 
-var bar = function() {
+var bar = function() {     /*error Missing space before function parentheses.*/
     // ...
 };
 
-var bar = function foo() {
+var bar = function foo() { /*error Missing space before function parentheses.*/
     // ...
 };
 
 class Foo {
-    constructor() {
+    constructor() {        /*error Missing space before function parentheses.*/
         // ...
     }
 }
 
 var foo = {
-    bar() {
+    bar() {                /*error Missing space before function parentheses.*/
         // ...
     }
 };
@@ -57,6 +59,8 @@ var foo = {
 The following patterns are not considered warnings when configured `"always"`:
 
 ```js
+/*eslint space-before-function-paren: 2*/
+
 function foo () {
     // ...
 }
@@ -85,26 +89,28 @@ var foo = {
 The following patterns are considered warnings when configured `"never"`:
 
 ```js
-function foo () {
+/*eslint space-before-function-paren: [2, "never"]*/
+
+function foo () {           /*error Unexpected space before function parentheses.*/
     // ...
 }
 
-var bar = function () {
+var bar = function () {     /*error Unexpected space before function parentheses.*/
     // ...
 };
 
-var bar = function foo () {
+var bar = function foo () { /*error Unexpected space before function parentheses.*/
     // ...
 };
 
 class Foo {
-    constructor () {
+    constructor () {        /*error Unexpected space before function parentheses.*/
         // ...
     }
 }
 
 var foo = {
-    bar () {
+    bar () {                /*error Unexpected space before function parentheses.*/
         // ...
     }
 };
@@ -113,6 +119,8 @@ var foo = {
 The following patterns are not considered warnings when configured `"never"`:
 
 ```js
+/*eslint space-before-function-paren: [2, "never"]*/
+
 function foo() {
     // ...
 }
@@ -141,22 +149,24 @@ var foo = {
 The following patterns are considered warnings when configured `{"anonymous": "always", "named": "never"}`:
 
 ```js
-function foo () {
+/*eslint space-before-function-paren: [2, { "anonymous": "always", "named": "never" }]*/
+
+function foo () {      /*error Unexpected space before function parentheses.*/
     // ...
 }
 
-var bar = function() {
+var bar = function() { /*error Missing space before function parentheses.*/
     // ...
 };
 
 class Foo {
-    constructor () {
+    constructor () {   /*error Unexpected space before function parentheses.*/
         // ...
     }
 }
 
 var foo = {
-    bar () {
+    bar () {           /*error Unexpected space before function parentheses.*/
         // ...
     }
 };
@@ -165,6 +175,8 @@ var foo = {
 The following patterns are not considered warnings when configured `{"anonymous": "always", "named": "never"}`:
 
 ```js
+/*eslint space-before-function-paren: [2, { "anonymous": "always", "named": "never" }]*/
+
 function foo() {
     // ...
 }
@@ -189,22 +201,24 @@ var foo = {
 The following patterns are considered warnings when configured `{"anonymous": "never", "named": "always"}`:
 
 ```js
-function foo() {
+/*eslint space-before-function-paren: [2, { "anonymous": "never", "named": "always" }]*/
+
+function foo() {        /*error Missing space before function parentheses.*/
     // ...
 }
 
-var bar = function () {
+var bar = function () { /*error Unexpected space before function parentheses.*/
     // ...
 };
 
 class Foo {
-    constructor() {
+    constructor() {     /*error Missing space before function parentheses.*/
         // ...
     }
 }
 
 var foo = {
-    bar() {
+    bar() {             /*error Missing space before function parentheses.*/
         // ...
     }
 };
@@ -213,6 +227,8 @@ var foo = {
 The following patterns are not considered warnings when configured `{"anonymous": "never", "named": "always"}`:
 
 ```js
+/*eslint space-before-function-paren: [2, { "anonymous": "never", "named": "always" }]*/
+
 function foo () {
     // ...
 }

@@ -6,36 +6,6 @@ Most code conventions require either tabs or spaces be used for indentation. As 
 
 The `no-mixed-spaces-and-tabs` rule is aimed at flagging any lines of code that are indented with a mixture of tabs and spaces.
 
-The following patterns are considered warnings:
-
-```js
-function add(x, y) {
---->..return x + y;
-}
-
-function main() {
---->var x = 5,
---->....y = 7;
-}
-```
-
-The following patterns are not warnings:
-
-```js
-function add(x, y) {
---->return x + y;
-}
-
-/*
- * When the SmartTabs option is enabled the following
- * does not produce a warning.
- */
-function main() {
---->var x = 5,
---->....y = 7;
-}
-```
-
 ### Options
 
 * Smart Tabs
@@ -47,6 +17,52 @@ You can enable this option by using the following configuration:
 ```json
 "no-mixed-spaces-and-tabs": [2, "smart-tabs"]
 ```
+
+The following patterns are considered warnings:
+
+```js
+/*eslint no-mixed-spaces-and-tabs: 2*/
+
+function add(x, y) {
+// --->..return x + y;
+
+      return x + y;    /*error Mixed spaces and tabs.*/
+}
+
+function main() {
+// --->var x = 5,
+// --->....y = 7;
+
+    var x = 5,
+        y = 7;         /*error Mixed spaces and tabs.*/
+}
+```
+
+The following patterns are not warnings:
+
+```js
+/*eslint no-mixed-spaces-and-tabs: 2*/
+
+function add(x, y) {
+// --->return x + y;
+    return x + y;
+}
+```
+
+When the SmartTabs option is enabled the following does not produce a warning:
+
+```js
+/*eslint no-mixed-spaces-and-tabs: [2, "smart-tabs"]*/
+
+function main() {
+// --->var x = 5,
+// --->....y = 7;
+
+    var x = 5,
+        y = 7;
+}
+```
+
 
 ## Further Reading
 

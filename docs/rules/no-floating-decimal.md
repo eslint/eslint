@@ -17,14 +17,18 @@ This rule is aimed at eliminating floating decimal points and will warn whenever
 The following patterns are considered warnings:
 
 ```js
-var num = .5;
-var num = 2.;
-var num = -.7;
+/*eslint no-floating-decimal: 2*/
+
+var num = .5;  /*error A leading decimal point can be confused with a dot.*/
+var num = 2.;  /*error A trailing decimal point can be confused with a dot.*/
+var num = -.7; /*error A leading decimal point can be confused with a dot.*/
 ```
 
 The following patterns are not considered warnings:
 
 ```js
+/*eslint no-floating-decimal: 2*/
+
 var num = 0.5;
 var num = 2.0;
 ```

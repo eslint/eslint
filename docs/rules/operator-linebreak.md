@@ -39,37 +39,36 @@ This is the default setting for this rule. This option requires the line break t
 While using this setting, the following patterns are considered warnings:
 
 ```js
+/*eslint operator-linebreak: [2, "after"]*/
 
 foo = 1
-+
++                        /*error Bad line breaking before and after '+'.*/
 2;
 
 foo = 1
-    + 2;
-
+    + 2;                 /*error '+' should be placed at the end of the line.*/
 
 foo
-    = 5;
+    = 5;                 /*error '=' should be placed at the end of the line.*/
 
 if (someCondition
-    || otherCondition) {
+    || otherCondition) { /*error '||' should be placed at the end of the line.*/
 }
 
 answer = everything
-  ? 42
-  : foo;
-
+  ? 42                   /*error '?' should be placed at the end of the line.*/
+  : foo;                 /*error ':' should be placed at the end of the line.*/
 ```
 
 The following patterns are not warnings:
 
 ```js
+/*eslint operator-linebreak: [2, "after"]*/
 
 foo = 1 + 2;
 
 foo = 1 +
       2;
-
 
 foo =
     5;
@@ -81,7 +80,6 @@ if (someCondition ||
 answer = everything ?
   42 :
   foo;
-
 ```
 
 #### `"before"`
@@ -91,27 +89,27 @@ This option requires the line break to be placed before the operator.
 While using this setting, the following patterns are considered warnings:
 
 ```js
+/*eslint operator-linebreak: [2, "before"]*/
 
-foo = 1 +
+foo = 1 +              /*error '+' should be placed at the beginning of the line.*/
       2;
 
-
-foo =
+foo =                  /*error '=' should be placed at the beginning of the line.*/
     5;
 
-if (someCondition ||
+if (someCondition ||   /*error '||' should be placed at the beginning of the line.*/
     otherCondition) {
 }
 
-answer = everything ?
-  42 :
+answer = everything ? /*error '?' should be placed at the beginning of the line.*/
+  42 :                /*error ':' should be placed at the beginning of the line.*/
   foo;
-
 ```
 
 The following patterns are not warnings:
 
 ```js
+/*eslint operator-linebreak: [2, "before"]*/
 
 foo = 1 + 2;
 
@@ -128,7 +126,6 @@ if (someCondition
 answer = everything
   ? 42
   : foo;
-
 ```
 
 #### `"none"`
@@ -138,34 +135,35 @@ This option disallows line breaks on either side of the operator.
 While using this setting, the following patterns are considered warnings:
 
 ```js
+/*eslint operator-linebreak: [2, "none"]*/
 
-foo = 1 +
+foo = 1 +                /*error There should be no line break before or after '+'*/
       2;
 
 foo = 1
-    + 2;
+    + 2;                 /*error There should be no line break before or after '+'*/
 
-if (someCondition ||
+if (someCondition ||     /*error There should be no line break before or after '||'*/
     otherCondition) {
 }
 
 if (someCondition
-    || otherCondition) {
+    || otherCondition) { /*error There should be no line break before or after '||'*/
 }
 
 answer = everything
-  ? 42
-  : foo;
+  ? 42                   /*error There should be no line break before or after '?'*/
+  : foo;                 /*error There should be no line break before or after ':'*/
 
-answer = everything ?
-  42 :
+answer = everything ?    /*error There should be no line break before or after '?'*/
+  42 :                   /*error There should be no line break before or after ':'*/
   foo;
-
 ```
 
 The following patterns are not warnings:
 
 ```js
+/*eslint operator-linebreak: [2, "none"]*/
 
 foo = 1 + 2;
 
@@ -175,7 +173,6 @@ if (someCondition || otherCondition) {
 }
 
 answer = everything ? 42 : foo;
-
 ```
 
 #### Fine-grained control

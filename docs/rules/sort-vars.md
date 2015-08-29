@@ -10,16 +10,20 @@ The default configuration of the rule is case-sensitive.
 The following patterns are considered warnings:
 
 ```js
-var b, a;
+/*eslint sort-vars: 2*/
 
-var a, B, c;
+var b, a;    /*error Variables within the same declaration block should be sorted alphabetically*/
 
-var a, A;
+var a, B, c; /*error Variables within the same declaration block should be sorted alphabetically*/
+
+var a, A;    /*error Variables within the same declaration block should be sorted alphabetically*/
 ```
 
 The following patterns are considered okay and do not cause warnings:
 
 ```js
+/*eslint sort-vars: 2*/
+
 var a, b, c, d;
 
 var _a = 10;
@@ -33,21 +37,23 @@ var B, a, c;
 Alphabetical list is maintained starting from the first variable and excluding any that are considered warnings. So the following code will produce two warnings:
 
 ```js
-var c, d, a, b;
+/*eslint sort-vars: 2*/
+
+var c, d, a, b; /*error Variables within the same declaration block should be sorted alphabetically*/
 ```
 
 But this one, will only produce one:
 
 ```js
-var c, d, a, e;
+/*eslint sort-vars: 2*/
+
+var c, d, a, e; /*error Variables within the same declaration block should be sorted alphabetically*/
 ```
 
 ## Rule Options
 
-```js
-...
+```
 "sort-vars": [<enabled>, { "ignoreCase": <boolean> }]
-...
 ```
 
 ### `ignoreCase`
@@ -57,6 +63,8 @@ When `true` the rule ignores the case-sensitivity of the variables order.
 The following patterns are considered okay and do not cause warnings:
 
 ```js
+/*eslint sort-vars: [2, { "ignoreCase": true }]*/
+
 var a, A;
 
 var a, B, c;

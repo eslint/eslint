@@ -17,29 +17,34 @@ This rule aims to eliminate unnecessary and potentially confusing blocks at the 
 The following patterns are considered warnings:
 
 ```js
-{}
+/*eslint no-lone-blocks: 2*/
+
+{}                    /*error Block is redundant.*/
 
 if (foo) {
     bar();
-    {
+    {                 /*error Nested block is redundant.*/
         baz();
     }
 }
 
 function bar() {
-    {
+    {                 /*error Nested block is redundant.*/
         baz();
     }
 }
 
 {
-    function foo() {}
+    function foo() {} /*error Block is redundant.*/
 }
 ```
 
 The following patterns are not considered warnings:
 
 ```js
+/*eslint-env es6*/
+/*eslint no-lone-blocks: 2*/
+
 while (foo) {
     bar();
 }
@@ -65,8 +70,15 @@ function bar() {
 {
     class Foo {}
 }
+```
 
-// In strict mode, with blockBindings: true
+In strict mode, with `ecmaFeatures: { blockBindings: true }`, the following will not warn:
+
+```js
+/*eslint-env es6*/
+/*eslint no-lone-blocks: 2*/
+"use strict";
+
 {
     function foo() {}
 }
