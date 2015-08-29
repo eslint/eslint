@@ -1,3 +1,8 @@
+v1.3.1 - August 29, 2015
+
+* Fix: `indent` to not crash on empty files (fixes #3570) (Gyandeep Singh)
+* Fix: Remove unused config file (fixes #2227) (Gyandeep Singh)
+
 v1.3.0 - August 28, 2015
 
 * Build: Autogenerate release blog post (fixes #3562) (Nicholas C. Zakas)
