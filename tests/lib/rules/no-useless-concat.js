@@ -28,6 +28,7 @@ ruleTester.run("no-useless-concat", rule, {
         { code: "var a = 1 - 2;" },
         { code: "var a = foo + bar;" },
         { code: "var a = 'foo' + bar;" },
+        { code: "var a = foo + 1 + 'bar';" },
         { code: "var foo = 'foo' +\n 'bar';" }
     ],
 
@@ -40,12 +41,6 @@ ruleTester.run("no-useless-concat", rule, {
         },
         {
             code: "'a' + 1",
-            errors: [
-                { message: "Unexpected string concatenation of literals."}
-            ]
-        },
-        {
-            code: "1 + '1'",
             errors: [
                 { message: "Unexpected string concatenation of literals."}
             ]
@@ -73,13 +68,6 @@ ruleTester.run("no-useless-concat", rule, {
         },
         {
             code: "`a` + 'b'",
-            ecmaFeatures: {templateStrings: true},
-            errors: [
-                { message: "Unexpected string concatenation of literals."}
-            ]
-        },
-        {
-            code: "1 + `1`",
             ecmaFeatures: {templateStrings: true},
             errors: [
                 { message: "Unexpected string concatenation of literals."}
