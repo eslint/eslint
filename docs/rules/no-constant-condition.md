@@ -72,3 +72,11 @@ do {
     something();
 } while (x)
 ```
+
+```js
+/*eslint no-constant-condition: 2*/
+
+for (;;) {
+    something();
+}
+```
