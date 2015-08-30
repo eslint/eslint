@@ -34,6 +34,11 @@ describe("ast-utils", function() {
 
     describe("isTokenSpaced", function() {
         it("should return false if its not spaced", function() {
+            /**
+             * Check the node for tokens
+             * @param {ASTNode} node node to examine
+             * @returns {void}
+             */
             function checker(node) {
                 assert.isFalse(astUtils.isTokenSpaced(eslint.getTokenBefore(node), node));
             }
@@ -44,6 +49,11 @@ describe("ast-utils", function() {
         });
 
         it("should return true if its spaced", function() {
+            /**
+             * Check the node for tokens
+             * @param {ASTNode} node node to examine
+             * @returns {void}
+             */
             function checker(node) {
                 assert.isTrue(astUtils.isTokenSpaced(eslint.getTokenBefore(node), node));
             }
@@ -56,6 +66,11 @@ describe("ast-utils", function() {
 
     describe("isTokenOnSameLine", function() {
         it("should return false if its not on sameline", function() {
+            /**
+             * Check the node for tokens
+             * @param {ASTNode} node node to examine
+             * @returns {void}
+             */
             function checker(node) {
                 assert.isFalse(astUtils.isTokenOnSameLine(eslint.getTokenBefore(node), node));
             }
@@ -66,6 +81,11 @@ describe("ast-utils", function() {
         });
 
         it("should return true if its on sameline", function() {
+            /**
+             * Check the node for tokens
+             * @param {ASTNode} node node to examine
+             * @returns {void}
+             */
             function checker(node) {
                 assert.isTrue(astUtils.isTokenOnSameLine(eslint.getTokenBefore(node), node));
             }
@@ -78,6 +98,11 @@ describe("ast-utils", function() {
 
     describe("isNullOrUndefined", function() {
         it("should return true if its null", function() {
+            /**
+             * Check the node for tokens
+             * @param {ASTNode} node node to examine
+             * @returns {void}
+             */
             function checker(node) {
                 assert.isTrue(astUtils.isNullOrUndefined(node.arguments[0]));
             }
@@ -88,6 +113,11 @@ describe("ast-utils", function() {
         });
 
         it("should return true if its undefined", function() {
+            /**
+             * Check the node for tokens
+             * @param {ASTNode} node node to examine
+             * @returns {void}
+             */
             function checker(node) {
                 assert.isTrue(astUtils.isNullOrUndefined(node.arguments[0]));
             }
@@ -98,6 +128,11 @@ describe("ast-utils", function() {
         });
 
         it("should return false if its a number", function() {
+            /**
+             * Check the node for tokens
+             * @param {ASTNode} node node to examine
+             * @returns {void}
+             */
             function checker(node) {
                 assert.isFalse(astUtils.isNullOrUndefined(node.arguments[0]));
             }
@@ -108,6 +143,11 @@ describe("ast-utils", function() {
         });
 
         it("should return false if its a string", function() {
+            /**
+             * Check the node for tokens
+             * @param {ASTNode} node node to examine
+             * @returns {void}
+             */
             function checker(node) {
                 assert.isFalse(astUtils.isNullOrUndefined(node.arguments[0]));
             }
@@ -118,6 +158,11 @@ describe("ast-utils", function() {
         });
 
         it("should return false if its a boolean", function() {
+            /**
+             * Check the node for tokens
+             * @param {ASTNode} node node to examine
+             * @returns {void}
+             */
             function checker(node) {
                 assert.isFalse(astUtils.isNullOrUndefined(node.arguments[0]));
             }
@@ -128,6 +173,11 @@ describe("ast-utils", function() {
         });
 
         it("should return false if its an object", function() {
+            /**
+             * Check the node for tokens
+             * @param {ASTNode} node node to examine
+             * @returns {void}
+             */
             function checker(node) {
                 assert.isFalse(astUtils.isNullOrUndefined(node.arguments[0]));
             }
@@ -141,6 +191,11 @@ describe("ast-utils", function() {
     describe("checkReference", function() {
         // catch
         it("should return true if reference is assigned for catch", function() {
+            /**
+             * Check the node for tokens
+             * @param {ASTNode} node node to examine
+             * @returns {void}
+             */
             function checker(node) {
                 var variables = eslint.getDeclaredVariables(node);
                 assert.lengthOf(astUtils.getModifyingReferences(variables[0].references), 1);
@@ -153,6 +208,11 @@ describe("ast-utils", function() {
 
         // const
         it("should return true if reference is assigned for const", function() {
+            /**
+             * Check the node for tokens
+             * @param {ASTNode} node node to examine
+             * @returns {void}
+             */
             function checker(node) {
                 var variables = eslint.getDeclaredVariables(node);
                 assert.lengthOf(astUtils.getModifyingReferences(variables[0].references), 1);
@@ -164,6 +224,11 @@ describe("ast-utils", function() {
         });
 
         it("should return false if reference is not assigned for const", function() {
+            /**
+             * Check the node for tokens
+             * @param {ASTNode} node node to examine
+             * @returns {void}
+             */
             function checker(node) {
                 var variables = eslint.getDeclaredVariables(node);
                 assert.lengthOf(astUtils.getModifyingReferences(variables[0].references), 0);
@@ -176,6 +241,11 @@ describe("ast-utils", function() {
 
         // class
         it("should return true if reference is assigned for class", function() {
+            /**
+             * Check the node for tokens
+             * @param {ASTNode} node node to examine
+             * @returns {void}
+             */
             function checker(node) {
                 var variables = eslint.getDeclaredVariables(node);
                 assert.lengthOf(astUtils.getModifyingReferences(variables[0].references), 1);
@@ -188,6 +258,11 @@ describe("ast-utils", function() {
         });
 
         it("should return false if reference is not assigned for class", function() {
+            /**
+             * Check the node for tokens
+             * @param {ASTNode} node node to examine
+             * @returns {void}
+             */
             function checker(node) {
                 var variables = eslint.getDeclaredVariables(node);
                 assert.lengthOf(astUtils.getModifyingReferences(variables[0].references), 0);

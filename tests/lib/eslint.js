@@ -10,7 +10,13 @@
 // Helper
 //------------------------------------------------------------------------------
 
-// To make sure this works in both browsers and Node.js
+/**
+ * To make sure this works in both browsers and Node.js
+ * @param {string} name Name of the module to require
+ * @param {object} windowName name of the window
+ * @returns {object} Required object
+ * @private
+ */
 function compatRequire(name, windowName) {
     if (typeof window === "object") {
         return window[windowName || name];
@@ -41,6 +47,13 @@ var TEST_CODE = "var answer = 6 * 7;",
 // Helpers
 //------------------------------------------------------------------------------
 
+/**
+ * Get variables in the current escope
+ * @param {object} scope current scope
+ * @param {string} name name of the variable to look for
+ * @returns {ASTNode} The variable object
+ * @private
+ */
 function getVariable(scope, name) {
     var variable = null;
     scope.variables.some(function(v) {
@@ -167,6 +180,10 @@ describe("eslint", function() {
         var code = TEST_CODE;
 
         it("should retrieve all text when used without parameters", function() {
+            /**
+             * Callback handler
+             * @returns {void}
+             */
             function handler() {
                 var source = eslint.getSource();
                 assert.equal(source, TEST_CODE);
@@ -183,6 +200,11 @@ describe("eslint", function() {
         });
 
         it("should retrieve all text for root node", function() {
+            /**
+             * Callback handler
+             * @param {ASTNode} node node to examine
+             * @returns {void}
+             */
             function handler(node) {
                 var source = eslint.getSource(node);
                 assert.equal(source, TEST_CODE);
@@ -199,6 +221,11 @@ describe("eslint", function() {
         });
 
         it("should clamp to valid range when retrieving characters before start of source", function() {
+            /**
+             * Callback handler
+             * @param {ASTNode} node node to examine
+             * @returns {void}
+             */
             function handler(node) {
                 var source = eslint.getSource(node, 2, 0);
                 assert.equal(source, TEST_CODE);
