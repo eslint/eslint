@@ -74,6 +74,7 @@ rules:
     no-with: 2
     quotes: [2, "double"]
     radix: 2
+    require-jsdoc: 2
     semi: 2
     semi-spacing: [2, {before: false, after: true}]
     space-after-keywords: [2, "always"]

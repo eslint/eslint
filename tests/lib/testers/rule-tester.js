@@ -428,6 +428,12 @@ describe("RuleTester", function() {
     });
 
     it("should enforce the global configuration to be an object", function() {
+        /**
+         * Set the default config for the rules tester
+         * @param {object} config configuration object
+         * @returns {function} Function to be executed
+         * @private
+         */
         function setConfig(config) {
             return function() {
                 RuleTester.setDefaultConfig(config);
