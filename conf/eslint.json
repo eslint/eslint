@@ -1,4 +1,5 @@
 {
+    "parser": "espree",
     "ecmaFeatures": {},
     "rules": {
         "no-alert": 0,

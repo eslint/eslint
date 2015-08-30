@@ -162,6 +162,43 @@ describe("CLIEngine", function() {
             assert.equal(report.results[0].messages.length, 0);
         });
 
+        it("should report zero messages when given a config file and a valid file and espree as parser", function() {
+
+            engine = new CLIEngine({
+                parser: "espree",
+                useEslintrc: false
+            });
+
+            var report = engine.executeOnFiles(["lib/cli.js"]);
+            assert.equal(report.results.length, 1);
+            assert.equal(report.results[0].messages.length, 0);
+        });
+
+        it("should report zero messages when given a config file and a valid file and esprima as parser", function() {
+
+            engine = new CLIEngine({
+                parser: "esprima",
+                useEslintrc: false
+            });
+
+            var report = engine.executeOnFiles(["lib/cli.js"]);
+            assert.equal(report.results.length, 1);
+            assert.equal(report.results[0].messages.length, 0);
+        });
+
+        it("should report one fatal message when given a config file and a valid file and invalid parser", function() {
+
+            engine = new CLIEngine({
+                parser: "test11",
+                useEslintrc: false
+            });
+
+            var report = engine.executeOnFiles(["lib/cli.js"]);
+            assert.lengthOf(report.results, 1);
+            assert.lengthOf(report.results[0].messages, 1);
+            assert.isTrue(report.results[0].messages[0].fatal);
+        });
+
         it("should report zero messages when given a directory with a .js2 file", function() {
 
             engine = new CLIEngine({

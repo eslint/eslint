@@ -549,4 +549,20 @@ describe("cli", function() {
 
     });
 
+    describe("when given an parser name", function() {
+        it("should exit with error if parser is invalid", function() {
+            var filePath = getFixturePath("passing.js");
+            var exit = cli.execute("--parser test111 " + filePath);
+
+            assert.equal(exit, 1);
+        });
+
+        it("should exit with no error if parser is valid", function() {
+            var filePath = getFixturePath("passing.js");
+            var exit = cli.execute("--parser espree " + filePath);
+
+            assert.equal(exit, 0);
+        });
+    });
+
 });
