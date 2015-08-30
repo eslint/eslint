@@ -30,6 +30,8 @@ Basic configuration:
   --ext [String]              Specify JavaScript file extensions - default: .js
   --global [String]           Define global variables
   --parser String             Specify the parser to be used - default: espree
+  --cache                     Only check changed files - default: false
+  --cache-file String         Path to the cache file - default: .eslintcache
 
 Specifying rules and plugins:
   --rulesdir [path::String]   Use additional rules from this directory
@@ -58,6 +60,7 @@ Miscellaneous:
   --init                      Run config initialization wizard - default: false
   -h, --help                  Show help
   -v, --version               Outputs the version number
+
 ```
 
 ### Basic configuration
@@ -274,6 +277,14 @@ This option outputs the current ESLint version onto the console. All other optio
 Example:
 
     eslint -v
+
+### `--cache`
+
+Store the info about processed files in order to only operate on the changed ones.
+
+### `--cache-file`
+
+Path to the cache file. If none specified `.eslintcache` will be used. The file will be created in the directory where the `eslint` command is executed.
 
 ## Ignoring files from linting
 

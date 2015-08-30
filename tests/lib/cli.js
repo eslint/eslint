@@ -318,8 +318,8 @@ describe("cli", function() {
 
     describe("when given a pattern to ignore", function() {
         it("should not process any files", function() {
-            var ignorePath = getFixturePath("syntax-error.js");
-            var filePath = getFixturePath("passing.js");
+            var ignorePath = fs.realpathSync(getFixturePath("syntax-error.js"));
+            var filePath = fs.realpathSync(getFixturePath("passing.js"));
             var exit = cli.execute("--ignore-pattern " + ignorePath + " " + ignorePath + " " + filePath);
 
             // a warning about the ignored file
