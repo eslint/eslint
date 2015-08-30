@@ -236,4 +236,16 @@ describe("options", function() {
             assert.isTrue(currentOptions.init);
         });
     });
+
+    describe("--parser", function() {
+        it("should return a string for --parser when passed", function() {
+            var currentOptions = options.parse("--parser test");
+            assert.equal(currentOptions.parser, "test");
+        });
+
+        it("should return a espree if --parser is not passed", function() {
+            var currentOptions = options.parse("");
+            assert.equal(currentOptions.parser, "espree");
+        });
+    });
 });

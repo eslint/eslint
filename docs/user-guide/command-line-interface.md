@@ -42,6 +42,7 @@ Options:
   --stdin                     Lint code provided on <STDIN> - default: false
   --stdin-filename            Specify filename to process STDIN as
   --init                      Run config initialization wizard
+  --parser                    Specify the parser to be used
 ```
 
 ### `-c`, `--config`
@@ -231,6 +232,10 @@ Example:
 ### `--init`
 
 This option will start config initialization wizard. It's designed to help new users quickly create .eslintrc file by answering a few questions. File will be created in current directory.
+
+### `--parser`
+
+This option allows you to specify a parser to be used by eslint. By default, `espree` will be used.
 
 ## Ignoring files from linting
 
