@@ -130,4 +130,4 @@ Add these keywords into your `package.json` file to make it easy for others to f
 
 ## Further Reading
 
-* [npm Developer Guide](https://www.npmjs.org/doc/misc/npm-developers.html)
+* [npm Developer Guide](https://docs.npmjs.com/misc/developers)
