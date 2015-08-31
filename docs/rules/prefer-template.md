@@ -18,16 +18,18 @@ The following patterns are considered warnings:
 
 ```js
 var str = "Hello, " + name + "!";
+var str = "Time: " + (12 * 60 * 60 * 1000);
 ```
 
 The following patterns are not considered warnings:
 
 ```js
 var str = "Hello World!";
-```
-
-```js
 var str = `Hello, ${name}!`;
+var str = `Time: ${12 * 60 * 60}`;
+
+// This is reported by `no-useless-concat`.
+var str = "Hello, " + "World!";
 ```
 
 ## When Not to Use It
