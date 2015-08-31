@@ -155,4 +155,4 @@ In the last file, you'll once again see that to properly resolve your config, yo
 
 ## Further Reading
 
-* [npm Developer Guide](https://www.npmjs.org/doc/misc/npm-developers.html)
+* [npm Developer Guide](https://docs.npmjs.com/misc/developers)

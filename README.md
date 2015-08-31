@@ -125,10 +125,10 @@ Join our [Mailing List](https://groups.google.com/group/eslint) or [Chatroom](ht
 
 
 [npm-image]: https://img.shields.io/npm/v/eslint.svg?style=flat-square
-[npm-url]: https://npmjs.org/package/eslint
+[npm-url]: https://www.npmjs.com/package/eslint
 [travis-image]: https://img.shields.io/travis/eslint/eslint/master.svg?style=flat-square
 [travis-url]: https://travis-ci.org/eslint/eslint
 [coveralls-image]: https://img.shields.io/coveralls/eslint/eslint/master.svg?style=flat-square
 [coveralls-url]: https://coveralls.io/r/eslint/eslint?branch=master
 [downloads-image]: http://img.shields.io/npm/dm/eslint.svg?style=flat-square
-[downloads-url]: https://npmjs.org/package/eslint
+[downloads-url]: https://www.npmjs.com/package/eslint
