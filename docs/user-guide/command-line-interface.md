@@ -8,11 +8,15 @@ Once npm is installed, run the following
 
 This installs the ESLint CLI from the npm repository. To run ESLint, use the following format:
 
-    eslint [options] [file|dir]*
+    eslint [options] [file|dir|glob]*
 
 Such as:
 
     eslint file1.js file2.js
+
+or:
+
+    eslint lib/**
 
 ## Options
 

@@ -19,8 +19,6 @@ var assert = require("chai").assert,
 
 proxyquire = proxyquire.noCallThru().noPreserveCache();
 
-/* global tempdir, mkdir, rm, cp */
-
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
@@ -42,9 +40,9 @@ describe("cli", function() {
 
     // copy into clean area so as not to get "infected" by this project's .eslintrc files
     before(function() {
-        fixtureDir = tempdir() + "/eslint/fixtures";
-        mkdir("-p", fixtureDir);
-        cp("-r", "./tests/fixtures/.", fixtureDir);
+        fixtureDir = sh.tempdir() + "/eslint/fixtures";
+        sh.mkdir("-p", fixtureDir);
+        sh.cp("-r", "./tests/fixtures/.", fixtureDir);
     });
 
     beforeEach(function() {
@@ -58,7 +56,7 @@ describe("cli", function() {
     });
 
     after(function() {
-        rm("-r", fixtureDir);
+        sh.rm("-r", fixtureDir);
     });
 
     describe("execute()", function() {
@@ -496,7 +494,7 @@ describe("cli", function() {
 
             cli.execute(code);
 
-            assert.include(fs.readFileSync("tests/output/eslint-output.txt", "utf8"), "tests/fixtures/single-quoted.js");
+            assert.include(fs.readFileSync("tests/output/eslint-output.txt", "utf8"), path.join("tests", "fixtures", "single-quoted.js"));
             assert.isTrue(console.log.notCalled);
         });
 
