@@ -122,6 +122,7 @@ These rules have to do with variable declarations.
 These rules are specific to JavaScript running on Node.js or using CommonJS in the browser.
 
 * [callback-return](callback-return.md) - enforce `return` after a callback
+* [global-require](global-require.md) - disallow `require()` outside of the top-level module scope
 * [handle-callback-err](handle-callback-err.md) - enforce error handling in callbacks
 * [no-mixed-requires](no-mixed-requires.md) - disallow mixing regular variable and require declarations
 * [no-new-require](no-new-require.md) - disallow use of `new` operator with the `require` function
