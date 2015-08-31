@@ -783,9 +783,25 @@ ruleTester.run("indent", rule, {
                 "      \n" +
                 "  }\n" +
                 "\n" +
-                "function hello () { // <-- eslint complains about this line\n" +
+                "function hello () {\n" +
                 "    \n" +
                 "}\n",
+            options: [2]
+        },
+        {
+            code:
+                "var obj = {\n" +
+                "  send: function () {\n" +
+                "    return P.resolve({\n" +
+                "      type: 'POST'\n" +
+                "    })\n" +
+                "    .then(function () {\n" +
+                "      return true;\n" +
+                "    }, function () {\n" +
+                "      return false;\n" +
+                "    });\n" +
+                "  }\n" +
+                "};\n",
             options: [2]
         }
     ],
