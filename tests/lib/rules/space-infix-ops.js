@@ -28,6 +28,7 @@ ruleTester.run("space-infix-ops", rule, {
         { code: "const my_object = {key: 'value'};", ecmaFeatures: { blockBindings: true } },
         { code: "var {a = 0} = bar;", ecmaFeatures: { destructuring: true } },
         { code: "function foo(a = 0) { }", ecmaFeatures: { defaultParams: true } },
+        { code: "function foo(a=0) { }", ecmaFeatures: { defaultParams: true }, options: [{ compactDefaultParams: true }] },
         { code: "a|0", options: [{ int32Hint: true }] },
         { code: "a |0", options: [{ int32Hint: true }] }
     ],
