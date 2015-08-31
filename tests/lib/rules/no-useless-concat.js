@@ -23,29 +23,22 @@ var ruleTester = new RuleTester();
 ruleTester.run("no-useless-concat", rule, {
 
     valid: [
-        { code: "var a = 1 + 1;" },
         { code: "var a = 1 * '2';" },
         { code: "var a = 1 - 2;" },
         { code: "var a = foo + bar;" },
         { code: "var a = 'foo' + bar;" },
-        { code: "var foo = 'foo' +\n 'bar';" }
+        { code: "var a = 1 + 1;" },
+        { code: "var foo = 'foo' +\n 'bar';" },
+        { code: "var string = (number + 1) + 'px';" },
+        { code: "var string = '1' + 1 + 'px';" },
+        { code: "'a' + 1" },
+        { code: "1 + `1`", ecmaFeatures: {templateStrings: true} },
+        { code: "`1` + 1", ecmaFeatures: {templateStrings: true} }
     ],
 
     invalid: [
         {
             code: "'a' + 'b'",
-            errors: [
-                { message: "Unexpected string concatenation of literals."}
-            ]
-        },
-        {
-            code: "'a' + 1",
-            errors: [
-                { message: "Unexpected string concatenation of literals."}
-            ]
-        },
-        {
-            code: "1 + '1'",
             errors: [
                 { message: "Unexpected string concatenation of literals."}
             ]
@@ -73,20 +66,6 @@ ruleTester.run("no-useless-concat", rule, {
         },
         {
             code: "`a` + 'b'",
-            ecmaFeatures: {templateStrings: true},
-            errors: [
-                { message: "Unexpected string concatenation of literals."}
-            ]
-        },
-        {
-            code: "1 + `1`",
-            ecmaFeatures: {templateStrings: true},
-            errors: [
-                { message: "Unexpected string concatenation of literals."}
-            ]
-        },
-        {
-            code: "`1` + 1",
             ecmaFeatures: {templateStrings: true},
             errors: [
                 { message: "Unexpected string concatenation of literals."}

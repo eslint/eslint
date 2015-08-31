@@ -9,22 +9,20 @@ This rule aims to flag the concenation of 2 literals when they could be combined
 The following patterns are considered warnings:
 
 ```js
-
 // these are the same as "10"
 var a = `some` + `string`;
 var a = '1' + '0';
 var a = '1' + `0`;
 var a = `1` + '0';
 var a = `1` + `0`;
-var a = 1 + '0';
-var a = '1' + 0;
-
 ```
 
 The following patterns are not warnings:
 
 ```js
-
+// not checking if different types
+var a = 1 + '0';
+var a = number + 1 + 'px'
 // a and b are identifiers
 var c = a + b;
 // a is an identifier
@@ -35,7 +33,6 @@ var c = 1 - 2;
 // exception for multiline string concatenation
 var c = "foo" +
     "bar";
-
 ```
 
 ## When Not To Use It
