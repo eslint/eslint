@@ -12,50 +12,85 @@ This string is a valid JavaScript expression, but isn't actually used. Even thou
 
 This rule aims to eliminate unused expressions. The value of an expression should always be used, except in the case of expressions that side effect: function calls, assignments, and the `new` operator.
 
-The following patterns are considered warnings:
+### Options
+
+This rule, in it's default state, does not require any arguments. If you would like to enable one or more of the following you may pass an object with the options set as follows:
+
+* `allowShortCircuit` set to `true` will allow you to use short circuit evaluations in your expressions (Default: `false`).
+* `allowTernary` set to `true` will enable you use ternary operators in your expressions similarly to short circuit evaluations (Default: `false`).
+
+### Usage
+
+By default the following patterns are considered warnings:
 
 ```js
+/*eslint no-unused-expressions: 2*/
+
 0
-```
 
-```js
 if(0) 0
-```
 
-```js
 {0}
-```
 
-```js
 f(0), {}
-```
 
-```js
 a && b()
 ```
 
-The following patterns are not considered warnings:
+The following patterns are not considered warnings by default:
 
 ```js
+/*eslint no-unused-expressions: 2*/
+
 {}
-```
 
-```js
 f()
-```
 
-```js
 a = 0
-```
 
-```js
 new C
-```
 
-```js
 delete a.b
+
+void a
 ```
 
+The following patterns are not considered warnings if `allowShortCircuit` is enabled:
+
 ```js
-void a
+/*eslint no-unused-expressions: [2, { allowShortCircuit: true }]*/
+
+a && b()
+
+a() || (b = c)
+```
+
+If you enable the `allowTernary` the following patterns will be allowed:
+
+```js
+/*eslint no-unused-expressions: [2, { allowTernary: true }]*/
+
+a ? b() : c()
+
+a ? (b = c) : d()
+```
+
+Enabling both options will allow a combination of both ternary and short circuit evaluation:
+
+```js
+/*eslint no-unused-expressions: [2, { allowShortCircuit: true, allowTernary: true }]*/
+
+a ? b() || (c = d) : e()
+```
+
+The above options still will not allow expressions that have code paths without side effects such as the following:
+
+```js
+/*eslint no-unused-expressions: [2, { allowShortCircuit: true, allowTernary: true }]*/
+
+a || b         /*error Expected an assignment or function call and instead saw an expression.*/
+
+a ? b : 0      /*error Expected an assignment or function call and instead saw an expression.*/
+
+a ? b : c()    /*error Expected an assignment or function call and instead saw an expression.*/
 ```
