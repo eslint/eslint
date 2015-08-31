@@ -27,11 +27,7 @@ module.exports = {
         }
     },
     commonjs: {
-        globals: {
-            module: false,
-            require: false,
-            exports: false
-        },
+        globals: globals.commonjs,
         ecmaFeatures: {
             globalReturn: true
         }
