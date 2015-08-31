@@ -39,6 +39,7 @@ Options:
   --no-color                  Disable color in piped output
   -o, --output-file path::String  Specify file to write report to
   --quiet                     Report errors only - default: false
+  --max-warnings Number       Number of warnings to trigger nonzero exit code
   --stdin                     Lint code provided on <STDIN> - default: false
   --stdin-filename            Specify filename to process STDIN as
   --init                      Run config initialization wizard
@@ -180,6 +181,16 @@ This option allows you to disable reporting on warnings. If you enable this opti
 Example:
 
     eslint --quiet file.js
+
+### `--max-warnings`
+
+This option allows you to specify a warning threshold, which can be used to force ESLint to exit with an error status if there are too many warning-level rule violations in your project.
+
+Normally, if ESLint runs and finds no errors (only warnings), it will exit with a success exit status. However, if this option is specified and the total warning count is greater than the specified threshold, ESLint will exit with an error status. Specifying a threshold of `-1` or omitting this option will prevent this behavior.
+
+Example:
+
+    eslint --max-warnings 10 file.js
 
 ### `--rule`
 

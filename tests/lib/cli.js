@@ -565,4 +565,44 @@ describe("cli", function() {
         });
     });
 
+    describe("when given the max-warnings flag", function() {
+        it("should not change exit code if warning count under threshold", function() {
+            var filePath = getFixturePath("max-warnings"),
+                exitCode;
+
+            exitCode = cli.execute("--max-warnings 10 " + filePath);
+
+            assert.equal(exitCode, 0);
+        });
+
+        it("should exit with exit code 1 if warning count exceeds threshold", function() {
+            var filePath = getFixturePath("max-warnings"),
+                exitCode;
+
+            exitCode = cli.execute("--max-warnings 5 " + filePath);
+
+            assert.equal(exitCode, 1);
+            assert.ok(console.error.calledOnce);
+            assert.include(console.error.getCall(0).args[0], "ESLint found too many warnings");
+        });
+
+        it("should not change exit code if warning count equals threshold", function() {
+            var filePath = getFixturePath("max-warnings"),
+                exitCode;
+
+            exitCode = cli.execute("--max-warnings 6 " + filePath);
+
+            assert.equal(exitCode, 0);
+        });
+
+        it("should not change exit code if flag is not specified and there are warnings", function() {
+            var filePath = getFixturePath("max-warnings"),
+                exitCode;
+
+            exitCode = cli.execute(filePath);
+
+            assert.equal(exitCode, 0);
+        });
+    });
+
 });

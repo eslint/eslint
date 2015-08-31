@@ -230,6 +230,18 @@ describe("options", function() {
         });
     });
 
+    describe("--max-warnings", function() {
+        it("should return correct value for .maxWarnings when passed", function() {
+            var currentOptions = options.parse("--max-warnings 10");
+            assert.equal(currentOptions.maxWarnings, 10);
+        });
+
+        it("should return -1 for .maxWarnings when not passed", function() {
+            var currentOptions = options.parse("");
+            assert.equal(currentOptions.maxWarnings, -1);
+        });
+    });
+
     describe("--init", function() {
         it("should return true for --init when passed", function() {
             var currentOptions = options.parse("--init");
