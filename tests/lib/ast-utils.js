@@ -273,4 +273,61 @@ describe("ast-utils", function() {
             eslint.verify("class A { } foo(A);", {ecmaFeatures: {classes: true}}, filename, true);
         });
     });
+
+    describe("isDirectiveComment", function() {
+        /**
+         * Asserts the node is NOT a directive comment
+         * @param {ASTNode} node node to assert
+         * @returns {void}
+         * */
+        function assertFalse(node) {
+            assert.isFalse(astUtils.isDirectiveComment(node));
+        }
+
+        /**
+         * Asserts the node is a directive comment
+         * @param {ASTNode} node node to assert
+         * @returns {void}
+         * */
+        function assertTrue(node) {
+            assert.isTrue(astUtils.isDirectiveComment(node));
+        }
+
+        it("should return false if it is not a directive line comment", function() {
+            eslint.reset();
+            eslint.on("LineComment", assertFalse);
+            eslint.verify("// lalala I'm a normal comment", {}, filename, true);
+            eslint.verify("// trying to confuse eslint ", {}, filename, true);
+            eslint.verify("//trying to confuse eslint-directive-detection", {}, filename, true);
+            eslint.verify("//eslint is awesome", {}, filename, true);
+        });
+
+        it("should return false if it is not a directive block comment", function() {
+            eslint.reset();
+            eslint.on("BlockComment", assertFalse);
+            eslint.verify("/* lalala I'm a normal comment */", {}, filename, true);
+            eslint.verify("/* trying to confuse eslint */", {}, filename, true);
+            eslint.verify("/* trying to confuse eslint-directive-detection */", {}, filename, true);
+            eslint.verify("/*eSlInT is awesome*/", {}, filename, true);
+        });
+
+        it("should return true if it is a directive line comment", function() {
+            eslint.reset();
+            eslint.on("LineComment", assertTrue);
+            eslint.verify("// eslint-disable-line no-undef", {}, filename, true);
+            eslint.verify("// eslint-secret-directive 4 8 15 16 23 42   ", {}, filename, true);
+            eslint.verify("// eslint-directive-without-argument", {}, filename, true);
+            eslint.verify("//eslint-directive-without-padding", {}, filename, true);
+        });
+
+        it("should return true if it is a directive block comment", function() {
+            eslint.reset();
+            eslint.on("BlockComment", assertTrue);
+            eslint.verify("/* eslint-disable no-undef", {}, filename, true);
+            eslint.verify("/*eslint-enable no-undef", {}, filename, true);
+            eslint.verify("/* eslint-env {\"es6\": true}", {}, filename, true);
+            eslint.verify("/* eslint foo", {}, filename, true);
+            eslint.verify("/*eslint bar", {}, filename, true);
+        });
+    });
 });
