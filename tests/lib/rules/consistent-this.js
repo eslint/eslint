@@ -16,6 +16,13 @@ var rule = require("../../../lib/rules/consistent-this"),
 //------------------------------------------------------------------------------
 // Helpers
 //------------------------------------------------------------------------------
+
+/**
+ * A destructuring Test
+ * @param {string} code source code
+ * @returns {object} Suitable object
+ * @private
+ */
 function destructuringTest(code) {
     return {
         code: code,

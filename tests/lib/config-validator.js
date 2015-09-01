@@ -18,6 +18,12 @@ var assert = require("chai").assert,
 // Tests
 //------------------------------------------------------------------------------
 
+/**
+ * Fake a rule object
+ * @param {object} context context passed to the rules by eslint
+ * @returns {object} mocked rule listeners
+ * @private
+ */
 function mockRule(context) {
     return {
         "Program": function(node) {
@@ -32,6 +38,12 @@ mockRule.schema = [
     }
 ];
 
+/**
+ * Fake a rule object
+ * @param {object} context context passed to the rules by eslint
+ * @returns {object} mocked rule listeners
+ * @private
+ */
 function mockObjectRule(context) {
     return {
         "Program": function(node) {

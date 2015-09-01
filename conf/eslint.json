@@ -163,6 +163,7 @@
         "quotes": [0, "double"],
         "radix": 0,
         "id-match": 0,
+        "require-jsdoc": 0,
         "require-yield": 0,
         "semi": 0,
         "semi-spacing": [0, {"before": false, "after": true}],
