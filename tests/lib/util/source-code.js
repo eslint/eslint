@@ -116,6 +116,12 @@ describe("SourceCode", function() {
                 "function Foo(){var t = function(){}}"
             ].join("\n");
 
+            /**
+             * Check jsdoc presence
+             * @param {ASTNode} node not to check
+             * @returns {void}
+             * @private
+             */
             function assertJSDoc(node) {
                 var sourceCode = eslint.getSourceCode();
                 var jsdoc = sourceCode.getJSDocComment(node);
@@ -137,6 +143,12 @@ describe("SourceCode", function() {
                 "var f = function(){var t = function(arg){}}"
             ].join("\n");
 
+            /**
+             * Check jsdoc presence
+             * @param {ASTNode} node not to check
+             * @returns {void}
+             * @private
+             */
             function assertJSDoc(node) {
                 if (node.params.length === 1) {
                     var sourceCode = eslint.getSourceCode();
@@ -160,6 +172,12 @@ describe("SourceCode", function() {
                 "function Foo(){}"
             ].join("\n");
 
+            /**
+             * Check jsdoc presence
+             * @param {ASTNode} node not to check
+             * @returns {void}
+             * @private
+             */
             function assertJSDoc(node) {
                 var sourceCode = eslint.getSourceCode();
                 var jsdoc = sourceCode.getJSDocComment(node);
@@ -182,6 +200,12 @@ describe("SourceCode", function() {
                 "export function Foo(){}"
             ].join("\n");
 
+            /**
+             * Check jsdoc presence
+             * @param {ASTNode} node not to check
+             * @returns {void}
+             * @private
+             */
             function assertJSDoc(node) {
                 var sourceCode = eslint.getSourceCode();
                 var jsdoc = sourceCode.getJSDocComment(node);
@@ -206,6 +230,12 @@ describe("SourceCode", function() {
                 "function Foo(){}"
             ].join("\n");
 
+            /**
+             * Check jsdoc presence
+             * @param {ASTNode} node not to check
+             * @returns {void}
+             * @private
+             */
             function assertJSDoc(node) {
                 var sourceCode = eslint.getSourceCode();
                 var jsdoc = sourceCode.getJSDocComment(node);
@@ -231,6 +261,12 @@ describe("SourceCode", function() {
                 "}())"
             ].join("\n");
 
+            /**
+             * Check jsdoc presence
+             * @param {ASTNode} node not to check
+             * @returns {void}
+             * @private
+             */
             function assertJSDoc(node) {
                 var sourceCode = eslint.getSourceCode();
                 var jsdoc = sourceCode.getJSDocComment(node);
@@ -253,6 +289,12 @@ describe("SourceCode", function() {
                 "function Foo(){}"
             ].join("\n");
 
+            /**
+             * Check jsdoc presence
+             * @param {ASTNode} node not to check
+             * @returns {void}
+             * @private
+             */
             function assertJSDoc(node) {
                 var sourceCode = eslint.getSourceCode();
                 var jsdoc = sourceCode.getJSDocComment(node);
@@ -278,6 +320,12 @@ describe("SourceCode", function() {
                 "}())"
             ].join("\n");
 
+            /**
+             * Check jsdoc presence
+             * @param {ASTNode} node not to check
+             * @returns {void}
+             * @private
+             */
             function assertJSDoc(node) {
                 var sourceCode = eslint.getSourceCode();
                 var jsdoc = sourceCode.getJSDocComment(node);
@@ -302,6 +350,12 @@ describe("SourceCode", function() {
                 "};"
             ].join("\n");
 
+            /**
+             * Check jsdoc presence
+             * @param {ASTNode} node not to check
+             * @returns {void}
+             * @private
+             */
             function assertJSDoc(node) {
                 var sourceCode = eslint.getSourceCode();
                 var jsdoc = sourceCode.getJSDocComment(node);
@@ -326,6 +380,12 @@ describe("SourceCode", function() {
                 "};"
             ].join("\n");
 
+            /**
+             * Check jsdoc presence
+             * @param {ASTNode} node not to check
+             * @returns {void}
+             * @private
+             */
             function assertJSDoc(node) {
                 var sourceCode = eslint.getSourceCode();
                 var jsdoc = sourceCode.getJSDocComment(node);
@@ -348,6 +408,12 @@ describe("SourceCode", function() {
                 "Foo.bar = function(){}"
             ].join("\n");
 
+            /**
+             * Check jsdoc presence
+             * @param {ASTNode} node not to check
+             * @returns {void}
+             * @private
+             */
             function assertJSDoc(node) {
                 var sourceCode = eslint.getSourceCode();
                 var jsdoc = sourceCode.getJSDocComment(node);
@@ -372,6 +438,12 @@ describe("SourceCode", function() {
                 "}());"
             ].join("\n");
 
+            /**
+             * Check jsdoc presence
+             * @param {ASTNode} node not to check
+             * @returns {void}
+             * @private
+             */
             function assertJSDoc(node) {
                 if (!node.id) {
                     var sourceCode = eslint.getSourceCode();
@@ -398,6 +470,12 @@ describe("SourceCode", function() {
                 "}());"
             ].join("\n");
 
+            /**
+             * Check jsdoc presence
+             * @param {ASTNode} node not to check
+             * @returns {void}
+             * @private
+             */
             function assertJSDoc(node) {
                 if (!node.id) {
                     var sourceCode = eslint.getSourceCode();
@@ -421,6 +499,12 @@ describe("SourceCode", function() {
                 "}());"
             ].join("\n");
 
+            /**
+             * Check jsdoc presence
+             * @param {ASTNode} node not to check
+             * @returns {void}
+             * @private
+             */
             function assertJSDoc(node) {
                 if (!node.id) {
                     var sourceCode = eslint.getSourceCode();
@@ -452,6 +536,12 @@ describe("SourceCode", function() {
                 "};"
             ].join("\n");
 
+            /**
+             * Check jsdoc presence
+             * @param {ASTNode} node not to check
+             * @returns {void}
+             * @private
+             */
             function assertJSDoc(node) {
                 if (node.id) {
                     var sourceCode = eslint.getSourceCode();
@@ -477,6 +567,13 @@ describe("SourceCode", function() {
         ].join("\n");
 
         it("should attach them to all nodes", function() {
+            /**
+             * Check comment count
+             * @param {int} leading Leading comment count
+             * @param {int} trailing Trailing comment count
+             * @returns {Function} function to execute
+             * @private
+             */
             function assertCommentCount(leading, trailing) {
                 return function(node) {
                     var sourceCode = eslint.getSourceCode();

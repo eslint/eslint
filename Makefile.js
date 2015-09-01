@@ -296,6 +296,12 @@ function getFirstVersionOfDeletion(filePath) {
         .sort(semver.compare)[0];
 }
 
+
+/**
+ * Returns the version tags
+ * @returns {string[]} Tags
+ * @private
+ */
 function getVersionTags() {
     var tags = splitCommandResultToLines(execSilent("git tag"));
 
@@ -307,6 +313,11 @@ function getVersionTags() {
     }, []).sort(semver.compare);
 }
 
+/**
+ * Returns all the branch names
+ * @returns {string[]} branch names
+ * @private
+ */
 function getBranches() {
     var branchesRaw = splitCommandResultToLines(execSilent("git branch --list")),
         branches = [],
@@ -358,7 +369,12 @@ function lintMarkdown(files) {
     return { code: returnCode };
 }
 
-
+/**
+ * Check if the branch name is valid
+ * @param {string} branchName Branch name to check
+ * @returns {boolean} true is branch exists
+ * @private
+ */
 function hasBranch(branchName) {
     var branches = getBranches();
     return branches.indexOf(branchName) !== -1;
@@ -671,28 +687,58 @@ target.checkRuleFiles = function() {
         var indexLine = new RegExp("\\* \\[" + basename + "\\].*").exec(rulesIndexText);
         indexLine = indexLine ? indexLine[0] : "";
 
-
+        /**
+         * Check if basename is present in eslint conf
+         * @returns {boolean} true if present
+         * @private
+         */
         function isInConfig() {
             return eslintConf.hasOwnProperty(basename);
         }
 
+        /**
+         * Check if rule is off in eslint conf
+         * @returns {boolean} true if off
+         * @private
+         */
         function isOffInConfig() {
             var rule = eslintConf[basename];
             return rule === 0 || (rule && rule[0] === 0);
         }
 
+        /**
+         * Check if rule is on in eslint conf
+         * @returns {boolean} true if on
+         * @private
+         */
         function isOnInConfig() {
             return !isOffInConfig();
         }
 
+        /**
+         * Check if rule is not recommended by eslint
+         * @returns {boolean} true if not recommended
+         * @private
+         */
         function isNotRecommended() {
             return indexLine.indexOf("(recommended)") === -1;
         }
 
+        /**
+         * Check if rule is recommended by eslint
+         * @returns {boolean} true if recommended
+         * @private
+         */
         function isRecommended() {
             return !isNotRecommended();
         }
 
+        /**
+         * Check if id is present in title
+         * @param {string} id id to check for
+         * @returns {boolean} true if present
+         * @private
+         */
         function hasIdInTitle(id) {
             var docText = cat(docFilename);
             var idInTitleRegExp = new RegExp("^# (.*?) \\(" + id + "\\)");
@@ -752,6 +798,12 @@ target.checkRuleFiles = function() {
 
 target.checkLicenses = function() {
 
+    /**
+     * Check if a dependency is eligible to be used by us
+     * @param {object} dependency dependency to check
+     * @returns {boolean} true if we have permission
+     * @private
+     */
     function isPermissible(dependency) {
         var licenses = dependency.licenses;
 
@@ -840,6 +892,16 @@ target.checkGitCommit = function() {
     }
 };
 
+/**
+ * Calculates the time for each run for performance
+ * @param {string} cmd cmd
+ * @param {int} runs Total number of runs to do
+ * @param {int} runNumber Current run number
+ * @param {int[]} results Collection results from each run
+ * @param {function} cb Function to call when everything is done
+ * @returns {int[]} calls the cb with all the results
+ * @private
+ */
 function time(cmd, runs, runNumber, results, cb) {
     var start = process.hrtime();
     exec(cmd, { silent: true }, function() {

@@ -20,6 +20,13 @@ var path = require("path");
 //------------------------------------------------------------------------------
 var fixture = fs.readFileSync(path.join(__dirname, "../../fixtures/rules/indent/indent-invalid-fixture-1.js"), "utf8");
 
+/**
+ * Create error message object for failure cases
+ * @param {string} indentType indent type of string or tab
+ * @param {array} errors error info
+ * @returns {object} returns the error messages collection
+ * @private
+ */
 function expectedErrors(indentType, errors) {
     if (Array.isArray(indentType)) {
         errors = indentType;

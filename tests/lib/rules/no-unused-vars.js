@@ -18,6 +18,11 @@ var rule = require("../../../lib/rules/no-unused-vars"),
 
 var ruleTester = new RuleTester();
 ruleTester.defineRule("use-every-a", function(context) {
+    /**
+     * Mark a variable as used
+     * @returns {void}
+     * @private
+     */
     function useA() {
         context.markVariableAsUsed("a");
     }

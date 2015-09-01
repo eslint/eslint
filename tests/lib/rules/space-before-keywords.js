@@ -20,10 +20,22 @@ var rule = require("../../../lib/rules/space-before-keywords"),
 var ruleTester = new RuleTester();
 var never = [ "never" ];
 
+/**
+ * Create expected space error message
+ * @param {string} keyword keyword to flag
+ * @returns {string} Created a string
+ * @private
+ */
 function expectedSpacingErrorMessageTpl(keyword) {
     return "Missing space before keyword \"" + keyword + "\".";
 }
 
+/**
+ * Create expected no space error message
+ * @param {string} keyword keyword to flag
+ * @returns {string} Created a string
+ * @private
+ */
 function expectedNoSpacingErrorMessageTpl(keyword) {
     return "Unexpected space before keyword \"" + keyword + "\".";
 }

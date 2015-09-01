@@ -13,6 +13,15 @@
 var rule = require("../../../lib/rules/no-extra-parens"),
     RuleTester = require("../../../lib/testers/rule-tester");
 
+/**
+ * Create error message object for failure cases
+ * @param {string} code source code
+ * @param {string} type node type
+ * @param {int} line line number
+ * @param {object} config rule configuration
+ * @returns {object} result object
+ * @private
+ */
 function invalid(code, type, line, config) {
     config = config || {};
 
