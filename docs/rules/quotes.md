@@ -16,6 +16,8 @@ Many codebases require strings to be defined in a consistent manner.
 
 This rule is aimed at ensuring consistency of string quotes and as such will report a problem when an inconsistent style is found.
 
+**Fixable:** This rule is automatically fixable using the `--fix` flag on the command line.
+
 The rule configuration takes up to two options:
 
 1. The first option is `"double"`, `"single"` or `"backtick"` for double-quotes, single-quotes or backticks respectively. There is no default.

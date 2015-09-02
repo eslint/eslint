@@ -107,18 +107,18 @@ describe("RuleTester", function() {
         }, /^Should have 1 errors but had 0/);
     });
 
-    it("should throw an error if invalid code is valid", function() {
+    it("should throw an error when the expected output doesn't match", function() {
 
         assert.throws(function() {
-            ruleTester.run("no-eval", require("../../fixtures/testers/rule-tester/no-eval"), {
+            ruleTester.run("no-var", require("../../fixtures/testers/rule-tester/no-var"), {
                 valid: [
-                    "Eval(foo)"
+                    "bar = baz;"
                 ],
                 invalid: [
-                    { code: "Eval(foo)", errors: [{ message: "eval sucks.", type: "CallExpression"}] }
+                    { code: "var foo = bar;", output: "foo = bar", errors: [{ message: "Bad var.", type: "VariableDeclaration"}] }
                 ]
             });
-        }, /^Should have 1 errors but had 0/);
+        }, /^Output is incorrect/);
     });
 
     it("should throw an error if invalid code specifies wrong type", function() {
