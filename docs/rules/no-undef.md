@@ -45,14 +45,15 @@ if (typeof UndefinedIdentifier === "undefined") {
 
 ## Environments
 
-For convenience, JSHint and JSLint provide shortcuts that pre-define global variables exposed by popular libraries and runtime environments. This rule supports some of these environments, as listed below.
+For convenience, ESLint provides shortcuts that pre-define global variables exposed by popular libraries and runtime environments. This rule supports these environments, as listed in [Specifying Environments](http://eslint.org/docs/user-guide/configuring#specifying-environments).  A few examples are given below.
 
 ### browser
 
-Defines common browser globals. Globals that should not be used in production (such as `alert`, `console`, etc.) are not included.
+Defines common browser globals.
 
 ```js
-/*jslint browser:true*/
+/*eslint-env browser*/
+
 setTimeout(function() {
     alert("Hello");
 });
@@ -63,7 +64,8 @@ setTimeout(function() {
 Defines globals for Node.js development.
 
 ```js
-/*jshint node:true*/
+/*eslint-env node*/
+
 var fs = require("fs");
 module.exports = function() {
     console.log(fs);
