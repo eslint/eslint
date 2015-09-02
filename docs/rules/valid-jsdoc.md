@@ -90,6 +90,15 @@ The following patterns are not warnings:
  * @param {int} num2 The second number.
  * @constructor
  */
+
+// use of @override make @param and @returns optional
+/**
+ * A description
+ * @override
+ */
+function foo(a) {
+    return a;
+}
 ```
 
 ### Options
