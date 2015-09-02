@@ -6,15 +6,15 @@ such as:
 
 ```js
 var count = people.length;
-var enoughFood = count > sandwhiches.length;
+var enoughFood = count > sandwiches.length;
 
 if (enoughFood) {
-    var count = sandwhiches.length; // accidently overriding the count variable
-    console.log("We have " + count + " sandwhiches for everyone. Plenty for all!");
+    var count = sandwiches.length; // accidently overriding the count variable
+    console.log("We have " + count + " sandwiches for everyone. Plenty for all!");
 }
 
 // our count variable is no longer accurate
-console.log("We have " + count + " people and " + sandwhiches.length + " sandwhiches!");
+console.log("We have " + count + " people and " + sandwiches.length + " sandwiches!");
 ```
 
 ## Rule Details
