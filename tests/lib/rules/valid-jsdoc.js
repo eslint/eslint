@@ -35,6 +35,8 @@ ruleTester.run("valid-jsdoc", rule, {
         "(function(){\n/**\n* Description\n* @param {string} p bar\n* @returns {string} desc */\nfunction foo(p){}\n}())",
         "var o = {\n/**\n* Description\n* @param {string} p bar\n* @returns {string} desc */\nfoo: function(p){}\n};",
         "/**\n* Description\n* @param {Object} p bar\n* @param {string[]} p.files qux\n* @param {Function} cb baz\n* @returns {void} */\nfunction foo(p, cb){}",
+        "/**\n* Description\n* @override */\nfunction foo(arg1, arg2){ return ''; }",
+        "/**\n* Description\n* @inheritdoc */\nfunction foo(arg1, arg2){ return ''; }",
         {
             code: "/**\n* Description\n* @return {void} */\nfunction foo(){}",
             options: [{}]
@@ -228,6 +230,20 @@ ruleTester.run("valid-jsdoc", rule, {
         },
         {
             code: "/**\n* Foo\n* @param {string} a desc\n@returns {void}*/\nfunction foo(b){}",
+            errors: [{
+                message: "Expected JSDoc for 'b' but found 'a'.",
+                type: "Block"
+            }]
+        },
+        {
+            code: "/**\n* Foo\n* @override\n* @param {string} a desc\n */\nfunction foo(b){}",
+            errors: [{
+                message: "Expected JSDoc for 'b' but found 'a'.",
+                type: "Block"
+            }]
+        },
+        {
+            code: "/**\n* Foo\n* @inheritdoc\n* @param {string} a desc\n */\nfunction foo(b){}",
             errors: [{
                 message: "Expected JSDoc for 'b' but found 'a'.",
                 type: "Block"
