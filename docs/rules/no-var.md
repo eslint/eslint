@@ -1,8 +1,7 @@
 # require `let` or `const` instead of `var` (no-var)
 
 ECMAScript 6 allows programmers to create variables with block scope instead of function scope using the `let`
-and `const` keywords. Block scope is common in many other programming languages and helps programmers avoid mistakes
-such as:
+and `const` keywords. Block scope is common in many other programming languages and helps programmers avoid mistakes such as:
 
 ```js
 var count = people.length;
