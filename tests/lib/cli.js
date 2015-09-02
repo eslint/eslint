@@ -11,8 +11,10 @@
 
 var assert = require("chai").assert,
     cli = require("../../lib/cli"),
+    CLIEngine = require("../../lib/cli-engine"),
     path = require("path"),
     sinon = require("sinon"),
+    leche = require("leche"),
     fs = require("fs"),
     sh = require("shelljs"),
     proxyquire = require("proxyquire");
@@ -601,6 +603,127 @@ describe("cli", function() {
 
             assert.equal(exitCode, 0);
         });
+    });
+
+    // NOTE: If you are adding new tests for cli.js, duplicate the following tests
+
+    describe("when passed --fix", function() {
+
+        var sandbox = sinon.sandbox.create(),
+            localCLI;
+
+        afterEach(function() {
+            sandbox.verifyAndRestore();
+        });
+
+        it("should pass fix:true to CLIEngine when executing on files", function() {
+
+            // create a fake CLIEngine to test with
+            var fakeCLIEngine = sandbox.mock().withExactArgs(sinon.match({ fix: true }));
+            fakeCLIEngine.prototype = leche.fake(CLIEngine.prototype);
+            sandbox.stub(fakeCLIEngine.prototype, "executeOnFiles").returns({
+                errorCount: 0,
+                warningCount: 0,
+                results: []
+            });
+            sandbox.stub(fakeCLIEngine.prototype, "getFormatter").returns(function() {
+                return "done";
+            });
+            fakeCLIEngine.outputFixes = sandbox.stub();
+
+            localCLI = proxyquire("../../lib/cli", {
+                "./cli-engine": fakeCLIEngine
+            });
+
+            var exitCode = localCLI.execute("--fix .");
+            assert.equal(exitCode, 0);
+
+        });
+
+        it("should rewrite files when in fix mode", function() {
+
+            var report = {
+                errorCount: 1,
+                warningCount: 0,
+                results: [{
+                    filePath: "./foo.js",
+                    output: "bar",
+                    messages: [
+                        {
+                            severity: 2,
+                            message: "Fake message"
+                        }
+                    ]
+                }]
+            };
+
+            // create a fake CLIEngine to test with
+            var fakeCLIEngine = sandbox.mock().withExactArgs(sinon.match({ fix: true }));
+            fakeCLIEngine.prototype = leche.fake(CLIEngine.prototype);
+            sandbox.stub(fakeCLIEngine.prototype, "executeOnFiles").returns(report);
+            sandbox.stub(fakeCLIEngine.prototype, "getFormatter").returns(function() {
+                return "done";
+            });
+            fakeCLIEngine.outputFixes = sandbox.mock().withExactArgs(report);
+
+            localCLI = proxyquire("../../lib/cli", {
+                "./cli-engine": fakeCLIEngine
+            });
+
+            var exitCode = localCLI.execute("--fix .");
+            assert.equal(exitCode, 1);
+
+        });
+
+        it("should rewrite files when in fix mode and quiet mode", function() {
+
+            var report = {
+                errorCount: 0,
+                warningCount: 1,
+                results: [{
+                    filePath: "./foo.js",
+                    output: "bar",
+                    messages: [
+                        {
+                            severity: 1,
+                            message: "Fake message"
+                        }
+                    ]
+                }]
+            };
+
+            // create a fake CLIEngine to test with
+            var fakeCLIEngine = sandbox.mock().withExactArgs(sinon.match({ fix: true }));
+            fakeCLIEngine.prototype = leche.fake(CLIEngine.prototype);
+            sandbox.stub(fakeCLIEngine.prototype, "executeOnFiles").returns(report);
+            sandbox.stub(fakeCLIEngine.prototype, "getFormatter").returns(function() {
+                return "done";
+            });
+            fakeCLIEngine.getErrorResults = sandbox.stub().returns([]);
+            fakeCLIEngine.outputFixes = sandbox.mock().withExactArgs(report);
+
+            localCLI = proxyquire("../../lib/cli", {
+                "./cli-engine": fakeCLIEngine
+            });
+
+            var exitCode = localCLI.execute("--fix --quiet .");
+            assert.equal(exitCode, 0);
+
+        });
+
+        it("should not call CLIEngine and return 1 when executing on text", function() {
+
+            // create a fake CLIEngine to test with
+            var fakeCLIEngine = sandbox.mock().never();
+
+            localCLI = proxyquire("../../lib/cli", {
+                "./cli-engine": fakeCLIEngine
+            });
+
+            var exitCode = localCLI.execute("--fix .", "foo = bar;");
+            assert.equal(exitCode, 1);
+        });
+
     });
 
 });

@@ -64,6 +64,8 @@
     "shelljs": "^0.3.0",
     "strip-json-comments": "~1.0.1",
     "text-table": "~0.2.0",
+    "to-double-quotes": "^1.0.1",
+    "to-single-quotes": "^1.0.3",
     "user-home": "^1.0.0",
     "xml-escape": "~1.0.0"
   },
@@ -82,6 +84,7 @@
     "istanbul": "^0.3.5",
     "jsdoc": "^3.3.0-beta1",
     "jsonlint": "^1.6.2",
+    "leche": "^2.1.1",
     "linefix": "^0.1.1",
     "markdownlint": "^0.0.6",
     "mocha": "^2.1.0",

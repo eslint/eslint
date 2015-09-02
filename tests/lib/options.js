@@ -249,6 +249,13 @@ describe("options", function() {
         });
     });
 
+    describe("--fix", function() {
+        it("should return true for --fix when passed", function() {
+            var currentOptions = options.parse("--fix");
+            assert.isTrue(currentOptions.fix);
+        });
+    });
+
     describe("--parser", function() {
         it("should return a string for --parser when passed", function() {
             var currentOptions = options.parse("--parser test");
