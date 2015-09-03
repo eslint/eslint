@@ -57,6 +57,7 @@
         "no-multiple-empty-lines": [0, {"max": 2}],
         "no-native-reassign": 0,
         "no-negated-in-lhs": 2,
+        "no-negated-instanceof-lhs": 0,
         "no-nested-ternary": 0,
         "no-new": 0,
         "no-new-func": 0,
