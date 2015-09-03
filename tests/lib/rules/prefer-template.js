@@ -28,7 +28,6 @@ ruleTester.run("prefer-template", rule, {
         {code: "'use strict';"},
         {code: "var foo = 'bar';"},
         {code: "var foo = 'bar' + 'baz';"},
-        {code: "var foo = +100 + 'yen';"},
         {code: "var foo = foo + +'100';"},
         {code: "var foo = `bar`;", ecmaFeatures: {templateStrings: true}},
         {code: "var foo = `hello, ${name}!`;", ecmaFeatures: {templateStrings: true}},
@@ -40,8 +39,11 @@ ruleTester.run("prefer-template", rule, {
     invalid: [
         {code: "var foo = 'hello, ' + name + '!';", errors: errors},
         {code: "var foo = bar + 'baz';", errors: errors},
+        {code: "var foo = bar + `baz`;", ecmaFeatures: {templateStrings: true}, errors: errors},
+        {code: "var foo = +100 + 'yen';", errors: errors},
         {code: "var foo = 'bar' + baz;", errors: errors},
         {code: "var foo = '￥' + (n * 1000) + '-'", errors: errors},
-        {code: "var foo = 'aaa' + aaa; var bar = 'bbb' + bbb;", errors: [errors[0], errors[0]]}
+        {code: "var foo = 'aaa' + aaa; var bar = 'bbb' + bbb;", errors: [errors[0], errors[0]]},
+        {code: "var string = (number + 1) + 'px';", errors: errors}
     ]
 });
