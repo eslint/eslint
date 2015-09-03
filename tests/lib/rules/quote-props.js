@@ -156,6 +156,18 @@ ruleTester.run("quote-props", rule, {
             message: "Properties shouldn't be quoted as all quotes are redundant.", type: "ObjectExpression"
         }]
     }, {
+        code: "({ while: 0, b: 0 })",
+        options: ["consistent-as-needed", {keywords: true}],
+        errors: [{
+            message: "Properties should be quoted as `while` is a reserved word.", type: "ObjectExpression"
+        }]
+    }, {
+        code: "({ while: 0, 'b': 0 })",
+        options: ["consistent-as-needed", {keywords: true}],
+        errors: [{
+            message: "Properties should be quoted as `while` is a reserved word.", type: "ObjectExpression"
+        }]
+    }, {
         code: "({'if': 0})",
         options: ["as-needed"],
         errors: [{
