@@ -94,6 +94,5 @@ You can turn this rule off if you are not concerned with the consistency of comp
 
 * [comma-spacing](comma-spacing.md)
 * [space-in-parens](space-in-parens.md)
-* [curly-braces-spacing](curly-braces-spacing.md)
 * [computed-property-spacing](computed-property-spacing.md)
 * [space-in-brackets](space-in-brackets.md) (deprecated)
