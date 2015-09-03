@@ -174,7 +174,6 @@ describe("FileFinder", function() {
                 expected = path.join(process.cwd(), "package.json");
                 finder = new FileFinder("package.json");
                 actual = finder.findAllInDirectoryAndParents(fileFinderDir);
-
                 assert.equal(actual, expected);
             });
         });
