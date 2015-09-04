@@ -610,16 +610,14 @@ describe("Config", function() {
             assertConfigsEqual(actual, expected);
         });
 
-        it("should not error on fake environments", function() {
-            var config, configPath, configHelper;
+        it("should error on fake environments", function() {
+            var configPath;
 
             configPath = path.resolve(__dirname, "..", "fixtures", "environments", "fake.yaml");
 
-            configHelper = new Config({ configFile: configPath, useEslintrc: false });
-
-            config = configHelper.getConfig(configPath);
-
-            assert.isDefined(config.env.es6);
+            assert.throw(function() {
+                new Config({ configFile: configPath, useEslintrc: false }); // eslint-disable-line no-new
+            });
         });
 
         it("should gracefully handle empty files", function() {
