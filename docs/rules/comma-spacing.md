@@ -108,7 +108,7 @@ If your project will not be following a consistent comma-spacing pattern, turn t
 ## Further Reading
 
 * [Javascript](http://javascript.crockford.com/code.html)
-* [Dojo Style Guide](http://dojotoolkit.org/community/styleGuide)
+* [Dojo Style Guide](https://dojotoolkit.org/reference-guide/1.9/developer/styleguide.html)
 
 
 ## Related Rules
