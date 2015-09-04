@@ -11,9 +11,7 @@
 
 var assert = require("chai").assert,
     path = require("path"),
-    IgnoredPaths = require("../../lib/ignored-paths.js"),
-    sinon = require("sinon"),
-    fs = require("fs");
+    IgnoredPaths = require("../../lib/ignored-paths.js");
 
 
 //------------------------------------------------------------------------------
@@ -71,61 +69,6 @@ describe("IgnoredPaths", function() {
 
     });
 
-    describe("contains", function() {
-
-        var filepath = path.resolve(__dirname, "..", "fixtures", ".eslintignore2");
-
-        it("should throw if load wasn't called", function() {
-            var ignoredPaths = new IgnoredPaths(null);
-            assert.throw(ignoredPaths.contains, Error);
-        });
-
-        it("should return true for file matching an ignore pattern", function() {
-            var ignoredPaths = IgnoredPaths.load({ ignore: true, ignorePath: filepath });
-            assert.ok(ignoredPaths.contains("undef.js"));
-        });
-
-        it("should return true for file matching an ignore pattern with leading './'", function() {
-            var ignoredPaths = IgnoredPaths.load({ ignore: true, ignorePath: filepath });
-            assert.ok(ignoredPaths.contains("undef2.js"));
-        });
-
-        it("should return true for file with leading './' matching an ignore pattern without leading './'", function() {
-            var ignoredPaths = IgnoredPaths.load({ ignore: true, ignorePath: filepath });
-            assert.ok(ignoredPaths.contains("./undef3.js"));
-        });
-
-        it("should return true for file matching a child of an ignore pattern", function() {
-            var ignoredPaths = IgnoredPaths.load({ ignore: true, ignorePath: filepath });
-            assert.ok(ignoredPaths.contains("undef.js/subdir/grandsubdir"));
-        });
-
-        it("should return true for file matching a child of an ignore pattern with windows line termination", function() {
-            var stub = sinon.stub(fs, "readFileSync");
-            stub.withArgs("test", "utf8").returns("undef.js\r\n");
-
-            var ignoredPaths = IgnoredPaths.load({ ignore: true, ignorePath: "test" });
-            assert.ok(ignoredPaths.contains("undef.js/subdir/grandsubdir"));
-            stub.restore();
-        });
-
-        it("should always ignore files in node_modules", function() {
-            var ignoredPaths = IgnoredPaths.load({ ignore: true, ignorePath: filepath });
-            assert.ok(ignoredPaths.contains("node_modules/mocha/bin/mocha"));
-        });
-
-        it("should not ignore files in node_modules in a subdirectory", function() {
-            var ignoredPaths = IgnoredPaths.load({ ignore: true, ignorePath: filepath });
-            assert.notOk(ignoredPaths.contains("subdir/node_modules/test.js"));
-        });
-
-        it("should return false for file not matching any ignore pattern", function() {
-            var ignoredPaths = IgnoredPaths.load({ ignore: true, ignorePath: filepath });
-            assert.notOk(ignoredPaths.contains("./passing.js"));
-        });
-
-    });
-
     describe("initialization with commented lines", function() {
 
         var filepath = path.resolve(__dirname, "..", "fixtures", ".eslintignore3");
@@ -133,22 +76,6 @@ describe("IgnoredPaths", function() {
         it("should ignore comments", function() {
             var ignoredPaths = IgnoredPaths.load({ ignore: true, ignorePath: filepath });
             assert.equal(ignoredPaths.patterns.length, 2);
-        });
-
-    });
-
-    describe("initialization with negations", function() {
-
-        var filepath = path.resolve(__dirname, "..", "fixtures", ".eslintignore4");
-
-        it("should ignore a normal pattern", function() {
-            var ignoredPaths = IgnoredPaths.load({ ignore: true, ignorePath: filepath });
-            assert.ok(ignoredPaths.contains("/dir/bar.js"));
-        });
-
-        it("should not ignore a negated pattern", function() {
-            var ignoredPaths = IgnoredPaths.load({ ignore: true, ignorePath: filepath });
-            assert.notOk(ignoredPaths.contains("/dir/foo.js"));
         });
 
     });

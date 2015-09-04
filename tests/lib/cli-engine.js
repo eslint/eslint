@@ -1267,8 +1267,8 @@ describe("CLIEngine", function() {
                 ignorePath: getFixturePath(".eslintignore2")
             });
 
-            assert.isTrue(engine.isPathIgnored("undef.js"));
-            assert.isFalse(engine.isPathIgnored("passing.js"));
+            assert.isTrue(engine.isPathIgnored(getFixturePath("undef.js")));
+            assert.isFalse(engine.isPathIgnored(getFixturePath("passing.js")));
         });
 
         it("should always return false if ignoring is disabled", function() {
