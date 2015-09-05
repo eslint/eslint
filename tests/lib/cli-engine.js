@@ -937,7 +937,7 @@ describe("CLIEngine", function() {
                 try {
                     fs.unlinkSync(path.resolve(".eslintcache"));
                     fs.unlinkSync(path.resolve(".cache/custom-cache"));
-                } catch(ex) {
+                } catch (ex) {
                     // we don't care if the file didn't exist
                     // since our intention was to remove the file
                 }
