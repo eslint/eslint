@@ -2252,6 +2252,38 @@ describe("eslint", function() {
             var messages = eslint.verify("/* eslint-env node */ return;", null, "eslint-env node");
             assert.equal(messages.length, 0);
         });
+
+        it("should attach a \"/*global\" comment node to declared variables", function() {
+            var code = "/* global foo */\n/* global bar, baz */";
+            var ok = false;
+
+            eslint.defineRules({test: function(context) {
+                return {
+                    "Program": function() {
+                        var scope = context.getScope();
+                        var comments = context.getAllComments();
+                        assert.equal(2, comments.length);
+
+                        var foo = getVariable(scope, "foo");
+                        assert.equal(true, foo.eslintExplicitGlobal);
+                        assert.equal(comments[0], foo.eslintExplicitGlobalComment);
+
+                        var bar = getVariable(scope, "bar");
+                        assert.equal(true, bar.eslintExplicitGlobal);
+                        assert.equal(comments[1], bar.eslintExplicitGlobalComment);
+
+                        var baz = getVariable(scope, "baz");
+                        assert.equal(true, baz.eslintExplicitGlobal);
+                        assert.equal(comments[1], baz.eslintExplicitGlobalComment);
+
+                        ok = true;
+                    }
+                };
+            }});
+
+            eslint.verify(code, {rules: {test: 2}});
+            assert(ok);
+        });
     });
 
     describe("getDeclaredVariables(node)", function() {
