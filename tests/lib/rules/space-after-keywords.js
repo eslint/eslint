@@ -38,7 +38,9 @@ ruleTester.run("space-after-keywords", rule, {
         { code: "if (a) {} else foo();", options: ["always"]},
         { code: "if(a) {} else foo();", options: ["never"]},
         { code: "try {}finally {}", args: [1]},
+        { code: "try {}catch (e) {}", args: [1]},
         { code: "try{} finally{}", options: ["never"]},
+        { code: "try{} catch(e) {}", options: ["never"]},
         { code: "(function(){})", args: [1] },
         { code: "(function(){})", args: [1] }
     ],
@@ -59,8 +61,11 @@ ruleTester.run("space-after-keywords", rule, {
         { code: "if(a){}else if(b){}else {}", options: ["never"], errors: [{ message: "Keyword \"else\" must not be followed by whitespace." }]},
         { code: "try{}finally {}", args: [1], errors: [{ message: "Keyword \"try\" must be followed by whitespace." }]},
         { code: "try {}finally{}", args: [1], errors: [{ message: "Keyword \"finally\" must be followed by whitespace." }]},
+        { code: "try {}catch(e) {}", args: [1], errors: [{ message: "Keyword \"catch\" must be followed by whitespace." }]},
         { code: "try{}finally {}", options: ["never"], errors: [{ message: "Keyword \"finally\" must not be followed by whitespace." }]},
+        { code: "try{}catch (e) {}", options: ["never"], errors: [{ message: "Keyword \"catch\" must not be followed by whitespace." }]},
         { code: "try {}finally{}", options: ["never"], errors: [{ message: "Keyword \"try\" must not be followed by whitespace." }]},
+        { code: "try {}catch(e) {}", options: ["never"], errors: [{ message: "Keyword \"try\" must not be followed by whitespace." }]},
         { code: "if\n(a) {} else\n{}", options: ["never"], errors: [{ message: "Keyword \"if\" must not be followed by whitespace." }, { message: "Keyword \"else\" must not be followed by whitespace." }]},
         { code: "if\n(a) {} else\n{}", options: ["always"], errors: [{ message: "Keyword \"if\" must not be followed by a newline." }, { message: "Keyword \"else\" must not be followed by a newline." }]},
         { code: "do\n{} while\n(0)", options: ["always"], errors: [{ message: "Keyword \"do\" must not be followed by a newline." }, { message: "Keyword \"while\" must not be followed by a newline." }]}
