@@ -168,6 +168,22 @@ ruleTester.run("no-unused-vars", rule, {
         { code: "var a; function foo() { var _b; var c_; } foo();", options: [ { vars: "local", varsIgnorePattern: "^_" } ], errors: [{ message: "\"c_\" is defined but never used", line: 1, column: 37 }] },
         { code: "function foo(a, _b) { } foo();", options: [ { args: "all", argsIgnorePattern: "^_" } ], errors: [{ message: "\"a\" is defined but never used", line: 1, column: 14 }] },
         { code: "function foo(a, _b, c) { return a; } foo();", options: [ { args: "after-used", argsIgnorePattern: "^_" } ], errors: [{ message: "\"c\" is defined but never used", line: 1, column: 21 }] },
-        { code: "var [ firstItemIgnored, secondItem ] = items;", ecmaFeatures: {destructuring: true}, options: [ { vars: "all", varsIgnorePattern: "[iI]gnored" } ], errors: [{ message: "\"secondItem\" is defined but never used", line: 1, column: 25 }] }
+        { code: "var [ firstItemIgnored, secondItem ] = items;", ecmaFeatures: {destructuring: true}, options: [ { vars: "all", varsIgnorePattern: "[iI]gnored" } ], errors: [{ message: "\"secondItem\" is defined but never used", line: 1, column: 25 }] },
+
+        // https://github.com/eslint/eslint/issues/3617
+        {
+            code: "\n/* global foobar, foo, bar */\nfoobar;",
+            errors: [
+                {line: 2, column: 19, message: "\"foo\" is defined but never used" },
+                {line: 2, column: 24, message: "\"bar\" is defined but never used" }
+            ]
+        },
+        {
+            code: "\n/* global foobar,\n   foo,\n   bar\n */\nfoobar;",
+            errors: [
+                {line: 3, column: 4, message: "\"foo\" is defined but never used" },
+                {line: 4, column: 4, message: "\"bar\" is defined but never used" }
+            ]
+        }
     ]
 });
