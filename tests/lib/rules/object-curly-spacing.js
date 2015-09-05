@@ -40,6 +40,8 @@ ruleTester.run("object-curly-spacing", rule, {
         { code: "var { y: x } = x", options: ["always"], ecmaFeatures: { destructuring: true } },
 
         // always - import / export
+        { code: "import door from 'room'", options: ["always"], ecmaFeatures: { modules: true } },
+        { code: "import * as door from 'room'", options: ["always"], ecmaFeatures: { modules: true } },
         { code: "import { door } from 'room'", options: ["always"], ecmaFeatures: { modules: true } },
         { code: "import {\ndoor } from 'room'", options: ["always"], ecmaFeatures: { modules: true } },
         { code: "export { door } from 'room'", options: ["always"], ecmaFeatures: { modules: true } },
@@ -51,6 +53,8 @@ ruleTester.run("object-curly-spacing", rule, {
         { code: "import { bar as x } from 'foo';", options: ["always"], ecmaFeatures: { modules: true } },
         { code: "import { x, } from 'foo';", options: ["always"], ecmaFeatures: { modules: true } },
         { code: "import {\nx,\n} from 'foo';", options: ["always"], ecmaFeatures: { modules: true } },
+        { code: "export { x, } from 'foo';", options: ["always"], ecmaFeatures: { modules: true } },
+        { code: "export {\nx,\n} from 'foo';", options: ["always"], ecmaFeatures: { modules: true } },
 
         // always - empty object
         { code: "var foo = {};", options: ["always"] },
@@ -92,6 +96,8 @@ ruleTester.run("object-curly-spacing", rule, {
         { code: "var {y:x} = x", options: ["never"], ecmaFeatures: { destructuring: true } },
 
         // never - import / export
+        { code: "import door from 'room'", options: ["never"], ecmaFeatures: { modules: true } },
+        { code: "import * as door from 'room'", options: ["never"], ecmaFeatures: { modules: true } },
         { code: "import {door} from 'room'", options: ["never"], ecmaFeatures: { modules: true } },
         { code: "export {door} from 'room'", options: ["never"], ecmaFeatures: { modules: true } },
         { code: "import {\ndoor} from 'room'", options: ["never"], ecmaFeatures: { modules: true } },
@@ -103,14 +109,34 @@ ruleTester.run("object-curly-spacing", rule, {
         { code: "import x, {bar} from 'foo';", options: ["never"], ecmaFeatures: { modules: true } },
         { code: "import x, {bar, baz} from 'foo';", options: ["never"], ecmaFeatures: { modules: true } },
         { code: "import {bar as y} from 'foo';", options: ["never"], ecmaFeatures: { modules: true } },
+        { code: "import {x,} from 'foo';", options: ["never"], ecmaFeatures: { modules: true } },
+        { code: "import {\nx,\n} from 'foo';", options: ["never"], ecmaFeatures: { modules: true } },
+        { code: "export {x,} from 'foo';", options: ["never"], ecmaFeatures: { modules: true } },
+        { code: "export {\nx,\n} from 'foo';", options: ["never"], ecmaFeatures: { modules: true } },
 
 
         // never - empty object
         { code: "var foo = {};", options: ["never"] },
 
         // never - objectsInObjects
-        { code: "var obj = {'foo': {'bar': 1, 'baz': 2} };", options: ["never", {"objectsInObjects": true}]}
+        { code: "var obj = {'foo': {'bar': 1, 'baz': 2} };", options: ["never", {"objectsInObjects": true}]},
 
+        // https://github.com/eslint/eslint/issues/3658
+        // Empty cases.
+        { code: "var {} = foo;", ecmaFeatures: {destructuring: true}},
+        { code: "var [] = foo;", ecmaFeatures: {destructuring: true}},
+        { code: "var {a: {}} = foo;", ecmaFeatures: {destructuring: true}},
+        { code: "var {a: []} = foo;", ecmaFeatures: {destructuring: true}},
+        { code: "import {} from 'foo';", ecmaFeatures: {modules: true}},
+        { code: "export {} from 'foo';", ecmaFeatures: {modules: true}},
+        { code: "export {};", ecmaFeatures: {modules: true}},
+        { code: "var {} = foo;", options: ["never"], ecmaFeatures: {destructuring: true}},
+        { code: "var [] = foo;", options: ["never"], ecmaFeatures: {destructuring: true}},
+        { code: "var {a: {}} = foo;", options: ["never"], ecmaFeatures: {destructuring: true}},
+        { code: "var {a: []} = foo;", options: ["never"], ecmaFeatures: {destructuring: true}},
+        { code: "import {} from 'foo';", options: ["never"], ecmaFeatures: {modules: true}},
+        { code: "export {} from 'foo';", options: ["never"], ecmaFeatures: {modules: true}},
+        { code: "export {};", options: ["never"], ecmaFeatures: {modules: true}}
     ],
 
     invalid: [
