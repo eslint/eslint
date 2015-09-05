@@ -66,7 +66,39 @@ ruleTester.run("comma-dangle", rule, {
         { code: "[,]", options: [ "always" ] },
         { code: "[\n,\n]", options: [ "always" ] },
         { code: "[]", options: [ "always" ] },
-        { code: "[\n]", options: [ "always" ] }
+        { code: "[\n]", options: [ "always" ] },
+
+        // https://github.com/eslint/eslint/issues/3627
+        {
+            code: "var [a, ...rest] = [];",
+            ecmaFeatures: {destructuring: true, spread: true},
+            options: ["always"]
+        },
+        {
+            code: "var [\n    a,\n    ...rest\n] = [];",
+            ecmaFeatures: {destructuring: true, spread: true},
+            options: ["always"]
+        },
+        {
+            code: "var [\n    a,\n    ...rest\n] = [];",
+            ecmaFeatures: {destructuring: true, spread: true},
+            options: ["always-multiline"]
+        },
+        {
+            code: "[a, ...rest] = [];",
+            ecmaFeatures: {destructuring: true, spread: true},
+            options: ["always"]
+        },
+        {
+            code: "for ([a, ...rest] of []);",
+            ecmaFeatures: {destructuring: true, spread: true, forOf: true},
+            options: ["always"]
+        },
+        {
+            code: "var a = [b, ...spread,];",
+            ecmaFeatures: {spread: true},
+            options: ["always"]
+        }
     ],
     invalid: [
         {
