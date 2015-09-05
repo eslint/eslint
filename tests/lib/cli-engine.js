@@ -304,6 +304,15 @@ describe("CLIEngine", function() {
             assert.equal(report.results[1].warningCount, 0);
         });
 
+        it("should process when file is given by not specifying extensions", function() {
+
+            engine = new CLIEngine();
+
+            var report = engine.executeOnFiles(["tests/fixtures/files/foo.js2"]);
+            assert.equal(report.results.length, 1);
+            assert.equal(report.results[0].messages.length, 0);
+        });
+
         it("should return zero messages when given a config with environment set to browser", function() {
 
             engine = new CLIEngine({
