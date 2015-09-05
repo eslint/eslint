@@ -810,6 +810,14 @@ ruleTester.run("indent", rule, {
                 "  }\n" +
                 "};\n",
             options: [2]
+        },
+        {
+            code:
+                "const someOtherFunction = argument => {\n" +
+                "        console.log(argument);\n" +
+                "    },\n" +
+                "    someOtherValue = 'someOtherValue';\n",
+            ecmaFeatures: { arrowFunctions: true, blockBindings: true }
         }
     ],
     invalid: [
