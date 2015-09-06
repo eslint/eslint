@@ -138,6 +138,7 @@
         "id-length": 0,
         "indent": 0,
         "init-declarations": 0,
+        "jsx-quotes": [0, "prefer-double"],
         "key-spacing": [0, { "beforeColon": false, "afterColon": true }],
         "lines-around-comment": 0,
         "max-depth": [0, 4],
