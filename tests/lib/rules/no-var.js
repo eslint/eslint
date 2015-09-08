@@ -27,6 +27,12 @@ ruleTester.run("no-var", rule, {
         {
             code: "let moo = 'car';",
             ecmaFeatures: { blockBindings: true }
+        },
+
+        // noop when rule is used in wrong environment
+        {
+            code: "var foo = bar;",
+            ecmaFeatures: { blockBindings: false }
         }
     ],
 

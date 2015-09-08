@@ -80,8 +80,11 @@ ruleTester.run("object-shorthand", rule, {
         { code: "var x = {y}", ecmaFeatures: features, options: ["properties"] },
         { code: "var x = {y: {b}}", ecmaFeatures: features, options: ["properties"] },
         { code: "var x = {a: n, c: d, f: g}", ecmaFeatures: features, options: ["never"] },
-        { code: "var x = {a: function(){}, b: {c: d}}", ecmaFeatures: features, options: ["never"] }
+        { code: "var x = {a: function(){}, b: {c: d}}", ecmaFeatures: features, options: ["never"] },
 
+        // noop when rule is used in wrong environment
+        { code: "var x = {x: x}", ecmaFeatures: { objectLiteralShorthandProperties: false } },
+        { code: "var x = {y: function() {}}", ecmaFeatures: { objectLiteralShorthandMethods: false } }
     ],
     invalid: [
         { code: "var x = {x: x}", ecmaFeatures: features, errors: [{ message: "Expected property shorthand.", type: "Property" }] },

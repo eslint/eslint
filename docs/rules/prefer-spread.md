@@ -64,7 +64,10 @@ a[++i].foo.apply(a[i], args);
 
 ## When Not to Use It
 
-This rule should not be used in ES3/5 environments.
+Your ESLint settings must enable either all ES2015 (ES6) features (`env.es6: true`),
+or specifically the spread operator syntax for arrays
+(`ecmaFeatures.spread: true`).
+Otherwise, this rule is automatically disabled for convenience.
 
 In ES2015 (ES6) or later, if you don't want to be notified about `Function.prototype.apply()` callings, you can safely disable this rule.
 

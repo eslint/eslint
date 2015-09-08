@@ -44,5 +44,9 @@ which will give ESLint the ability to read `let` and `const` variables.
 
 ## When Not To Use It
 
+Your ESLint settings must enable either all ES2015 (ES6) features (`env.es6: true`),
+or specifically the `let` and `const` keywords (`ecmaFeatures.blockBindings: true`).
+Otherwise, this rule is automatically disabled for convenience.
+
 In addition to non-ES6 environments, existing JavaScript projects that are beginning to introduce ES6 into their
 codebase may not want to apply this rule if the cost of migrating from `var` to `let` is too costly.
