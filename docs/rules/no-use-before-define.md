@@ -11,20 +11,22 @@ This rule will warn when it encounters a reference to an identifier that has not
 The following patterns are considered warnings:
 
 ```js
-alert(a);
+/*eslint no-use-before-define: 2*/
+
+alert(a);       /*error a was used before it was defined*/
 var a = 10;
 
-f();
+f();            /*error f was used before it was defined*/
 function f() {}
 
 function g() {
-    return b;
+    return b;  /*error b was used before it was defined*/
 }
 var b = 1;
 
 // With blockBindings: true
 {
-    alert(c);
+    alert(c);  /*error c was used before it was defined*/
     let c = 1;
 }
 ```
@@ -32,6 +34,8 @@ var b = 1;
 The following patterns are not considered warnings:
 
 ```js
+/*eslint no-use-before-define: 2*/
+
 var a;
 a = 10;
 alert(a);
@@ -51,13 +55,13 @@ function g() {
 }
 ```
 
-
 The rule accepts an additional option that can take the value `"nofunc"`. If this option is active, function declarations are exempted from the rule, so it is allowed to use a function name *before* its declaration.
 
 The following patterns are not considered warnings when `"nofunc"` is specified:
 
 ```js
-f();
+/*eslint no-use-before-define: [2, "nofunc"]*/
 
+f();
 function f() {}
 ```

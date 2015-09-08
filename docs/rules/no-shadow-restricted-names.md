@@ -12,29 +12,25 @@ Then any code used within the same scope would not get the global `undefined`, b
 
 The following patterns are considered warnings:
 
-```js
-function NaN(){}
 ```
+/*eslint no-shadow-restricted-names: 2*/
 
-```js
-!function(Infinity){};
-```
+function NaN(){}       /*error Shadowing of global property "NaN".*/
 
-```js
-var undefined;
-```
+!function(Infinity){}; /*error Shadowing of global property "Infinity".*/
 
-```js
-try {} catch(eval){}
+var undefined;         /*error Shadowing of global property "undefined".*/
+
+try {} catch(eval){}   /*error Shadowing of global property "eval".*/
 ```
 
 The following patterns are not considered warnings:
 
 ```js
-var Object;
-```
+/*eslint no-shadow-restricted-names: 2*/
 
-```js
+var Object;
+
 function f(a, b){}
 ```
 

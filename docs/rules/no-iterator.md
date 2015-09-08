@@ -17,19 +17,23 @@ This rule is aimed at preventing errors that may arise from using the `__iterato
 The following patterns are considered warnings:
 
 ```js
-Foo.prototype.__iterator__ = function() {
+/*eslint no-iterator: 2*/
+
+Foo.prototype.__iterator__ = function() { /*error Reserved name '__iterator__'.*/
     return new FooIterator(this);
 };
 
-foo.__iterator__ = function () {};
+foo.__iterator__ = function () {};        /*error Reserved name '__iterator__'.*/
 
-foo["__iterator__"] = function () {};
+foo["__iterator__"] = function () {};     /*error Reserved name '__iterator__'.*/
 
 ```
 
 The following patterns are not considered warnings:
 
 ```js
+/*eslint no-iterator: 2*/
+
 var __iterator__ = foo; // Not using the `__iterator__` property.
 ```
 

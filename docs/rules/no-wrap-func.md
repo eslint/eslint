@@ -22,15 +22,15 @@ This rule will raise a warning when it encounters a function expression wrapped 
 The following patterns are considered warnings:
 
 ```js
-var a = (function() {...});
+var a = (function() {/*...*/});
 ```
 
 The following patterns are considered okay and do not cause warnings:
 
 ```js
-var a = function() {...};
+var a = function() {/*...*/};
 
-(function() {...})();
+(function() {/*...*/})();
 ```
 
 ## Further Reading

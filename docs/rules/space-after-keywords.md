@@ -26,33 +26,33 @@ then there should be no spaces following. The default is `"always"`.
 The following patterns are considered warnings:
 
 ```js
-if(a) {}
+/*eslint space-after-keywords: 2*/
+
+if(a) {}         /*error Keyword "if" must be followed by whitespace.*/
+
+if (a) {} else{} /*error Keyword "else" must be followed by whitespace.*/
+
+do{} while (a);  /*error Keyword "do" must be followed by whitespace.*/
 ```
 
 ```js
-if (a) {} else{}
-```
+/*eslint space-after-keywords: [2, "never"]*/
 
-```js
-do{} while (a);
-```
-
-```js
-// When ["never"]
-if (a) {}
+if (a) {}        /*error Keyword "if" must not be followed by whitespace.*/
 ```
 
 The following patterns are not considered warnings:
 
 ```js
-if (a) {}
-```
+/*eslint space-after-keywords: 2*/
 
-```js
+if (a) {}
+
 if (a) {} else {}
 ```
 
 ```js
-// When ["never"]
+/*eslint space-after-keywords: [2, "never"]*/
+
 if(a) {}
 ```

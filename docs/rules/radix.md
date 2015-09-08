@@ -23,14 +23,18 @@ This rule is aimed at preventing the unintended conversion of a string to a numb
 The following patterns are considered warnings:
 
 ```js
-var num = parseInt("071");
+/*eslint radix: 2*/
 
-var num = parseInt(someValue);
+var num = parseInt("071");     /*error Missing radix parameter.*/
+
+var num = parseInt(someValue); /*error Missing radix parameter.*/
 ```
 
 The following patterns are not considered warnings:
 
 ```js
+/*eslint radix: 2*/
+
 var num = parseInt("071", 10);
 
 var num = parseFloat(someValue);

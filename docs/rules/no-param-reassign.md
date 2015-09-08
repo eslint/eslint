@@ -22,40 +22,40 @@ This rule takes one option, an object, with a property `"props"`.
 ### The following patterns are considered warnings:
 
 ```js
-function foo(bar) {
-    bar = 13;
-}
-```
+/*eslint no-param-reassign: 2*/
 
-```js
 function foo(bar) {
-    bar++;
+    bar = 13;       /*error Assignment to function parameter 'bar'.*/
+}
+
+function foo(bar) {
+    bar++;          /*error Assignment to function parameter 'bar'.*/
 }
 ```
 
 When `{"props": true}`:
 
 ```js
-function foo(bar) {
-    bar.prop = "value";
-}
-```
+/*eslint no-param-reassign: [2, { "props": true }]*/
 
-```js
 function foo(bar) {
-    delete bar.aaa;
+    bar.prop = "value"; /*error Assignment to function parameter 'bar'.*/
 }
-```
 
-```js
 function foo(bar) {
-    bar.aaa++;
+    delete bar.aaa;     /*error Assignment to function parameter 'bar'.*/
+}
+
+function foo(bar) {
+    bar.aaa++;          /*error Assignment to function parameter 'bar'.*/
 }
 ```
 
 ### The following patterns are not warnings:
 
 ```js
+/*eslint no-param-reassign: 2*/
+
 function foo(a) {
     var b = a;
 }
@@ -64,18 +64,16 @@ function foo(a) {
 When `{"props": false}`:
 
 ```js
+/*eslint no-param-reassign: [2, { "props": false }]*/
+
 function foo(bar) {
     bar.prop = "value";
 }
-```
 
-```js
 function foo(bar) {
     delete bar.aaa;
 }
-```
 
-```js
 function foo(bar) {
     bar.aaa++;
 }

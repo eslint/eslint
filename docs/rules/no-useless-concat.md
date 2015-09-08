@@ -9,17 +9,21 @@ This rule aims to flag the concenation of 2 literals when they could be combined
 The following patterns are considered warnings:
 
 ```js
+/*eslint no-useless-concat: 2*/
+
 // these are the same as "10"
-var a = `some` + `string`;
-var a = '1' + '0';
-var a = '1' + `0`;
-var a = `1` + '0';
-var a = `1` + `0`;
+var a = `some` + `string`; /*error Unexpected string concatenation of literals.*/
+var a = '1' + '0';         /*error Unexpected string concatenation of literals.*/
+var a = '1' + `0`;         /*error Unexpected string concatenation of literals.*/
+var a = `1` + '0';         /*error Unexpected string concatenation of literals.*/
+var a = `1` + `0`;         /*error Unexpected string concatenation of literals.*/
 ```
 
 The following patterns are not warnings:
 
 ```js
+/*eslint no-useless-concat: 2*/
+
 // when a non string is included
 var c = a + b;
 var c = '1' + a;

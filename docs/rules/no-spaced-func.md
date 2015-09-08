@@ -13,17 +13,19 @@ fn ()
 The following patterns are considered warnings:
 
 ```js
-fn ()
-```
+/*eslint no-spaced-func: 2*/
 
-```js
-fn
+fn () /*error Unexpected space between function name and paren.*/
+
+fn    /*error Unexpected space between function name and paren.*/
 ()
 ```
 
 The following patterns are not warnings:
 
 ```js
+/*eslint no-spaced-func: 2*/
+
 fn()
 ```
 

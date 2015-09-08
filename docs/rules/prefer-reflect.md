@@ -13,29 +13,45 @@ The prefer-reflect rule will flag usage of any older method, suggesting to inste
 
 ## Rule Details
 
+## Options
+
+### Exceptions
+
+```
+"prefer-reflect": [<enabled>, { exceptions: [<...exceptions>] }]
+```
+
+The `exceptions` option allows you to pass an array of methods names you'd like to continue to use in the old style.
+
+For example if you wish to use all Reflect methods, except for `Function.prototype.apply` then your config would look like `prefer-reflect: [2, { exceptions: ["apply"] }]`.
+
+If you want to use Reflect methods, but keep using the `delete` keyword, then your config would look like `prefer-reflect: [2, { exceptions: ["delete"] }]`.
+
+These can be combined as much as you like. To make all methods exceptions (thereby rendering this rule useless), use `prefer-reflect: [2, { exceptions: ["apply", "call", "defineProperty", "getOwnPropertyDescriptor", "getPrototypeOf", "setPrototypeOf", "isExtensible", "getOwnPropertyNames", "preventExtensions", "delete"] }]`
+
 ### Reflect.apply (Function.prototype.apply/Function.prototype.call)
 
 The following patterns are considered warnings:
 
-__config:__ `prefer-reflect: [2]`
-
 ```js
-foo.apply(undefined, args);
-foo.apply(null, args);
-obj.foo.apply(obj, args);
-obj.foo.apply(other, args);
+/*eslint prefer-reflect: 2*/
 
-foo.call(undefined, arg);
-foo.call(null, arg);
-obj.foo.call(obj, arg);
-obj.foo.call(other, arg);
+foo.apply(undefined, args); /*error Avoid using Function.prototype.apply, instead use Reflect.apply*/
+foo.apply(null, args);      /*error Avoid using Function.prototype.apply, instead use Reflect.apply*/
+obj.foo.apply(obj, args);   /*error Avoid using Function.prototype.apply, instead use Reflect.apply*/
+obj.foo.apply(other, args); /*error Avoid using Function.prototype.apply, instead use Reflect.apply*/
+
+foo.call(undefined, arg);   /*error Avoid using Function.prototype.call, instead use Reflect.apply*/
+foo.call(null, arg);        /*error Avoid using Function.prototype.call, instead use Reflect.apply*/
+obj.foo.call(obj, arg);     /*error Avoid using Function.prototype.call, instead use Reflect.apply*/
+obj.foo.call(other, arg);   /*error Avoid using Function.prototype.call, instead use Reflect.apply*/
 ```
 
 The following patterns are not considered warnings:
 
-__config:__ `prefer-reflect: [2]`
-
 ```js
+/*eslint prefer-reflect: 2*/
+
 Reflect.apply(undefined, args);
 Reflect.apply(null, args);
 Reflect.apply(obj.foo, obj, args);
@@ -46,9 +62,9 @@ Reflect.apply(obj.foo, obj, [arg]);
 Reflect.apply(obj.foo, other, [arg]);
 ```
 
-__config:__ `prefer-reflect: [2, { exceptions: ["apply"] }]`
-
 ```js
+/*eslint prefer-reflect: [2, { exceptions: ["apply"] }]*/
+
 foo.apply(undefined, args);
 foo.apply(null, args);
 obj.foo.apply(obj, args);
@@ -59,9 +75,9 @@ Reflect.apply(obj.foo, obj, args);
 Reflect.apply(obj.foo, other, args);
 ```
 
-__config:__ `prefer-reflect: [2, { exceptions: ["call"] }]`
-
 ```js
+/*eslint prefer-reflect: [2, { exceptions: ["call"] }]*/
+
 foo.call(undefined, arg);
 foo.call(null, arg);
 obj.foo.call(obj, arg);
@@ -76,23 +92,23 @@ Reflect.apply(obj.foo, other, [arg]);
 
 The following patterns are considered warnings:
 
-__config:__ `prefer-reflect: [2]`
-
 ```js
-Object.defineProperty({}, 'foo', {value: 1})
+/*eslint prefer-reflect: 2*/
+
+Object.defineProperty({}, 'foo', {value: 1}) /*error Avoid using Object.defineProperty, instead use Reflect.defineProperty*/
 ```
 
 The following patterns are not considered warnings:
 
-__config:__ `prefer-reflect: [2]`
-
 ```js
+/*eslint prefer-reflect: 2*/
+
 Reflect.defineProperty({}, 'foo', {value: 1})
 ```
 
-__config:__ `prefer-reflect: [2, { exceptions: ["defineProperty"] }]`
-
 ```js
+/*eslint prefer-reflect: [2, { exceptions: ["defineProperty"] }]*/
+
 Object.defineProperty({}, 'foo', {value: 1})
 Reflect.defineProperty({}, 'foo', {value: 1})
 ```
@@ -101,23 +117,25 @@ Reflect.defineProperty({}, 'foo', {value: 1})
 
 The following patterns are considered warnings:
 
-__config:__ `prefer-reflect: [2]`
-
 ```js
-Object.getOwnPropertyDescriptor({}, 'foo')
+/*eslint prefer-reflect: 2*/
+
+Object.getOwnPropertyDescriptor({}, 'foo') /*error Avoid using Object.getOwnPropertyDescriptor, instead use Reflect.getOwnPropertyDescriptor*/
 ```
 
 The following patterns are not considered warnings:
 
-__config:__ `prefer-reflect: [2]`
-
 ```js
+/*eslint prefer-reflect: 2*/
+
 Reflect.getOwnPropertyDescriptor({}, 'foo')
 ```
 
 __config:__ `prefer-reflect: [2, { exceptions: ["getOwnPropertyDescriptor"] }]`
 
 ```js
+/*eslint prefer-reflect: [2, { exceptions: ["getOwnPropertyDescriptor"] }]*/
+
 Object.getOwnPropertyDescriptor({}, 'foo')
 Reflect.getOwnPropertyDescriptor({}, 'foo')
 ```
@@ -126,23 +144,23 @@ Reflect.getOwnPropertyDescriptor({}, 'foo')
 
 The following patterns are considered warnings:
 
-__config:__ `prefer-reflect: [2]`
-
 ```js
-Object.getPrototypeOf({}, 'foo')
+/*eslint prefer-reflect: 2*/
+
+Object.getPrototypeOf({}, 'foo') /*error Avoid using Object.getPrototypeOf, instead use Reflect.getPrototypeOf*/
 ```
 
 The following patterns are not considered warnings:
 
-__config:__ `prefer-reflect: [2]`
-
 ```js
+/*eslint prefer-reflect: 2*/
+
 Reflect.getPrototypeOf({}, 'foo')
 ```
 
-__config:__ `prefer-reflect: [2, { exceptions: ["getPrototypeOf"] }]`
-
 ```js
+/*eslint prefer-reflect: [2, { exceptions: ["getPrototypeOf"] }]*/
+
 Object.getPrototypeOf({}, 'foo')
 Reflect.getPrototypeOf({}, 'foo')
 ```
@@ -151,23 +169,25 @@ Reflect.getPrototypeOf({}, 'foo')
 
 The following patterns are considered warnings:
 
-__config:__ `prefer-reflect: [2]`
-
 ```js
-Object.setPrototypeOf({}, Object.prototype)
+/*eslint prefer-reflect: 2*/
+
+Object.setPrototypeOf({}, Object.prototype) /*error Avoid using Object.setPrototypeOf, instead use Reflect.setPrototypeOf*/
 ```
 
 The following patterns are not considered warnings:
 
-__config:__ `prefer-reflect: [2]`
-
 ```js
+/*eslint prefer-reflect: 2*/
+
 Reflect.setPrototypeOf({}, Object.prototype)
 ```
 
 __config:__ `prefer-reflect: [2, { exceptions: ["setPrototypeOf"] }]`
 
 ```js
+/*eslint prefer-reflect: [2, { exceptions: ["setPrototypeOf"] }]*/
+
 Object.setPrototypeOf({}, Object.prototype)
 Reflect.setPrototypeOf({}, Object.prototype)
 ```
@@ -176,23 +196,23 @@ Reflect.setPrototypeOf({}, Object.prototype)
 
 The following patterns are considered warnings:
 
-__config:__ `prefer-reflect: [2]`
-
 ```js
-Object.isExtensible({})
+/*eslint prefer-reflect: 2*/
+
+Object.isExtensible({}) /*error Avoid using Object.isExtensible, instead use Reflect.isExtensible*/
 ```
 
 The following patterns are not considered warnings:
 
-__config:__ `prefer-reflect: [2]`
-
 ```js
+/*eslint prefer-reflect: 2*/
+
 Reflect.isExtensible({})
 ```
 
-__config:__ `prefer-reflect: [2, { exceptions: ["isExtensible"] }]`
-
 ```js
+/*eslint prefer-reflect: [2, { exceptions: ["isExtensible"] }]*/
+
 Object.isExtensible({})
 Reflect.isExtensible({})
 ```
@@ -201,23 +221,23 @@ Reflect.isExtensible({})
 
 The following patterns are considered warnings:
 
-__config:__ `prefer-reflect: [2]`
-
 ```js
-Object.getOwnPropertyNames({})
+/*eslint prefer-reflect: 2*/
+
+Object.getOwnPropertyNames({}) /*error Avoid using Object.getOwnPropertyNames, instead use Reflect.getOwnPropertyNames*/
 ```
 
 The following patterns are not considered warnings:
 
-__config:__ `prefer-reflect: [2]`
-
 ```js
+/*eslint prefer-reflect: 2*/
+
 Reflect.getOwnPropertyNames({})
 ```
 
-__config:__ `prefer-reflect: [2, { exceptions: ["getOwnPropertyNames"] }]`
-
 ```js
+/*eslint prefer-reflect: [2, { exceptions: ["getOwnPropertyNames"] }]*/
+
 Object.getOwnPropertyNames({})
 Reflect.getOwnPropertyNames({})
 ```
@@ -226,23 +246,23 @@ Reflect.getOwnPropertyNames({})
 
 The following patterns are considered warnings:
 
-__config:__ `prefer-reflect: [2]`
-
 ```js
-Object.preventExtensions({})
+/*eslint prefer-reflect: 2*/
+
+Object.preventExtensions({}) /*error Avoid using Object.preventExtensions, instead use Reflect.preventExtensions*/
 ```
 
 The following patterns are not considered warnings:
 
-__config:__ `prefer-reflect: [2]`
-
 ```js
+/*eslint prefer-reflect: 2*/
+
 Reflect.preventExtensions({})
 ```
 
-__config:__ `prefer-reflect: [2, { exceptions: ["preventExtensions"] }]`
-
 ```js
+/*eslint prefer-reflect: [2, { exceptions: ["preventExtensions"] }]*/
+
 Object.preventExtensions({})
 Reflect.preventExtensions({})
 ```
@@ -251,46 +271,31 @@ Reflect.preventExtensions({})
 
 The following patterns are considered warnings:
 
-__config:__ `prefer-reflect: [2]`
-
 ```js
-delete foo.bar;
+/*eslint prefer-reflect: 2*/
+
+delete foo.bar; /*error Avoid using the delete keyword, instead use Reflect.deleteProperty*/
 ```
 
 The following patterns are not considered warnings:
 
-__config:__ `prefer-reflect: [2]`
+```
+/*eslint prefer-reflect: 2*/
 
-```js
 delete bar; // Does not reference an object, just a var
 Reflect.deleteProperty(foo, 'bar');
 ```
 
 (Note: For a rule preventing deletion of variables, see [no-delete-var instead](no-delete-var.md))
 
-__config:__ `prefer-reflect: [2, { exceptions: ["delete"] }]`
+```
+/*eslint prefer-reflect: [2, { exceptions: ["delete"] }]*/
 
-```js
 delete bar
 delete foo.bar
 Reflect.deleteProperty(foo, 'bar');
 ```
 
-## Options
-
-### Exceptions
-
-```js
-"prefer-reflect": [<enabled>, { exceptions: [<...exceptions>] }]
-```
-
-The `exceptions` option allows you to pass an array of methods names you'd like to continue to use in the old style.
-
-For example if you wish to use all Reflect methods, except for `Function.prototype.apply` then your config would look like `prefer-reflect: [2, { exceptions: ["apply"] }]`.
-
-If you want to use Reflect methods, but keep using the `delete` keyword, then your config would look like `prefer-reflect: [2, { exceptions: ["delete"] }]`.
-
-These can be combined as much as you like. To make all methods exceptions (thereby rendering this rule useless), use `prefer-reflect: [2, { exceptions: ["apply", "call", "defineProperty", "getOwnPropertyDescriptor", "getPrototypeOf", "setPrototypeOf", "isExtensible", "getOwnPropertyNames", "preventExtensions", "delete"] }]`
 
 ## When Not to Use It
 

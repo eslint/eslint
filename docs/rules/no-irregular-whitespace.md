@@ -43,48 +43,51 @@ With this rule enabled the following characters will cause warnings outside of s
     \u205f - Medium Mathematical Space
     \u3000 - Ideographic Space
 
-
 The following examples are considered warnings:
 
 ```js
-function thing()<NBSP>{
+/*eslint no-irregular-whitespace: 2*/
+
+function thing() /*<NBSP>*/{ /*error Irregular whitespace not allowed*/
   return 'test';
 }
 
-function thing(<NBSP>){
+function thing( /*<NBSP>*/){ /*error Irregular whitespace not allowed*/
   return 'test';
 }
 
-function thing<NBSP>(){
+function thing /*<NBSP>*/(){ /*error Irregular whitespace not allowed*/
   return 'test';
 }
 
-function thing<MVS>(){
+function thing᠎/*<MVS>*/(){   /*error Irregular whitespace not allowed*/
   return 'test';
 }
 
 function thing() {
-  return 'test';<ZWSP>
+  return 'test'; /*<ENSP>*/  /*error Irregular whitespace not allowed*/
 }
 
 function thing() {
-  return 'test';<NBSP>
+  return 'test'; /*<NBSP>*/  /*error Irregular whitespace not allowed*/
 }
 ```
 
 The following patterns are not considered warnings:
 
 ```js
+/*eslint no-irregular-whitespace: 2*/
+
 function thing() {
-  return '<NBSP>thing';
+  return ' <NBSP>thing';
 }
 
 function thing() {
-  return '<ZWSP>thing';
+  return '​<ZWSP>thing';
 }
 
 function thing() {
-  return 'th<NBSP>ing';
+  return 'th <NBSP>ing';
 }
 ```
 

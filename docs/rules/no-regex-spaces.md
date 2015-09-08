@@ -21,12 +21,18 @@ This rule aims to eliminate errors due to multiple spaces inside of a regular ex
 The following patterns are considered warnings:
 
 ```js
-var re = /foo   bar/;
+/*eslint no-regex-spaces: 2*/
+
+var re = /foo   bar/; /*error Spaces are hard to count. Use {3}.*/
 ```
 
 The following patterns are not warnings:
 
 ```js
+/*eslint no-regex-spaces: 2*/
+
+var re = /foo {3}bar/;
+
 var re = new RegExp("foo   bar");
 ```
 

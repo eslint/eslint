@@ -21,12 +21,16 @@ This rule is aimed at maintaining consistency and convention by disallowing cons
 The following patterns are considered warnings:
 
 ```js
-new Thing();
+/*eslint no-new: 2*/
+
+new Thing(); /*error Do not use 'new' for side effects.*/
 ```
 
 The following patterns are not considered warnings:
 
 ```js
+/*eslint no-new: 2*/
+
 var thing = new Thing();
 
 Thing();

@@ -39,15 +39,17 @@ This rule aims to eliminate the use of `undefined`, and as such, generates a war
 The following patterns are considered warnings:
 
 ```js
-var foo = undefined;
+/*eslint no-undefined: 2*/
 
-var undefined = "foo";
+var foo = undefined;      /*error Unexpected use of undefined.*/
 
-if (foo === undefined) {
+var undefined = "foo";    /*error Unexpected use of undefined.*/
+
+if (foo === undefined) {  /*error Unexpected use of undefined.*/
     // ...
 }
 
-function foo(undefined) {
+function foo(undefined) { /*error Unexpected use of undefined.*/
     // ...
 }
 ```
@@ -55,6 +57,8 @@ function foo(undefined) {
 The following patterns are not warnings:
 
 ```js
+/*eslint no-undefined: 2*/
+
 var foo = void 0;
 
 var Undefined = "foo";

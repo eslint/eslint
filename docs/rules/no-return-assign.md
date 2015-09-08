@@ -31,18 +31,22 @@ It disallows assignments unless they are enclosed in parentheses.
 The following patterns are considered warnings:
 
 ```js
+/*eslint no-return-assign: 2*/
+
 function doSomething() {
-    return foo = bar + 2;
+    return foo = bar + 2; /*error Return statement should not contain assignment.*/
 }
 
 function doSomething() {
-    return foo += 2;
+    return foo += 2;      /*error Return statement should not contain assignment.*/
 }
 ```
 
 The following patterns are not warnings:
 
 ```js
+/*eslint no-return-assign: 2*/
+
 function doSomething() {
     return foo == bar + 2;
 }
@@ -64,22 +68,26 @@ All assignments are treated as warnings.
 The following patterns are considered warnings:
 
 ```js
+/*eslint no-return-assign: [2, "always"]*/
+
 function doSomething() {
-    return foo = bar + 2;
+    return foo = bar + 2;   /*error Return statement should not contain assignment.*/
 }
 
 function doSomething() {
-    return foo += 2;
+    return foo += 2;        /*error Return statement should not contain assignment.*/
 }
 
 function doSomething() {
-    return (foo = bar + 2);
+    return (foo = bar + 2); /*error Return statement should not contain assignment.*/
 }
 ```
 
 The following patterns are not warnings:
 
 ```js
+/*eslint no-return-assign: [2, "always"]*/
+
 function doSomething() {
     return foo == bar + 2;
 }

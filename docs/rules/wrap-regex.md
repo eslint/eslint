@@ -15,14 +15,18 @@ This is used to disambiguate the slash operator and facilitates in more readable
 The following patterns are considered warnings:
 
 ```js
+/*eslint wrap-regex: 2*/
+
 function a() {
-    return /foo/.test("bar");
+    return /foo/.test("bar"); /*error Wrap the regexp literal in parens to disambiguate the slash.*/
 }
 ```
 
-The following patterns adhere to this rule:
+The following patterns are not considered problems:
 
 ```js
+/*eslint wrap-regex: 2*/
+
 function a() {
     return (/foo/).test("bar");
 }

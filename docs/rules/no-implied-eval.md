@@ -27,20 +27,24 @@ This rule aims to eliminate implied `eval()` through the use of `setTimeout()`, 
 The following patterns are considered warnings:
 
 ```js
-setTimeout("alert('Hi!');", 100);
+/*eslint no-implied-eval: 2*/
 
-setInterval("alert('Hi!');", 100);
+setTimeout("alert('Hi!');", 100);    /*error Implied eval. Consider passing a function instead of a string.*/
 
-execScript("alert('Hi!')");
+setInterval("alert('Hi!');", 100);   /*error Implied eval. Consider passing a function instead of a string.*/
 
-window.setTimeout("count = 5", 10);
+execScript("alert('Hi!')");          /*error Implied eval. Consider passing a function instead of a string.*/
 
-window.setInterval("foo = bar", 10);
+window.setTimeout("count = 5", 10);  /*error Implied eval. Consider passing a function instead of a string.*/
+
+window.setInterval("foo = bar", 10); /*error Implied eval. Consider passing a function instead of a string.*/
 ```
 
 The following patterns are not warnings:
 
 ```js
+/*eslint no-implied-eval: 2*/
+
 setTimeout(function() {
     alert("Hi!");
 }, 100);
