@@ -72,7 +72,7 @@ These folks keep the project moving and are resources for help:
 
 ## Releases
 
-We have scheduled releases every two weeks on Friday or Saturday. 
+We have scheduled releases every two weeks on Friday or Saturday.
 
 ## Frequently Asked Questions
 
