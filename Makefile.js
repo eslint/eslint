@@ -68,7 +68,7 @@ var NODE = "node ", // intentional extra space
     ISSUE_REGEX = /\((?:fixes|refs) #\d+(?:.*(?:fixes|refs) #\d+)*\)$/,
 
     // Settings
-    MOCHA_TIMEOUT = process.platform === "win32" ? 3000 : 2000;
+    MOCHA_TIMEOUT = 4000;
 
 //------------------------------------------------------------------------------
 // Helpers
