@@ -564,6 +564,30 @@ describe("eslint", function() {
 
             eslint.verify("try {} catch (err) {}", config, filename, true);
         });
+
+        it("should retrieve module scope correctly from an ES6 module", function() {
+            var config = { rules: {}, ecmaFeatures: { modules: true } };
+
+            eslint.reset();
+            eslint.on("AssignmentExpression", function() {
+                var scope = eslint.getScope();
+                assert.equal(scope.type, "module");
+            });
+
+            eslint.verify("var foo = {}; foo.bar = 1;", config, filename, true);
+        });
+
+        it("should retrieve function scope correctly when globalReturn is true", function() {
+            var config = { rules: {}, ecmaFeatures: { globalReturn: true } };
+
+            eslint.reset();
+            eslint.on("AssignmentExpression", function() {
+                var scope = eslint.getScope();
+                assert.equal(scope.type, "function");
+            });
+
+            eslint.verify("var foo = {}; foo.bar = 1;", config, filename, true);
+        });
     });
 
     describe("marking variables as used", function() {
