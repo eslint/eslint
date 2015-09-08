@@ -93,6 +93,11 @@ You can set the option in configuration like this:
 
 ## When Not To Use It
 
+Your ESLint settings must enable either all ES2015 (ES6) features (`env.es6: true`),
+or specifically the Object literal shorthand syntax
+(`ecmaFeatures: { objectLiteralShorthandMethods: true, objectLiteralShorthandProperties: true }`).
+Otherwise, this rule is automatically disabled for convenience.
+
 Anyone not yet in an ES6 environment would not want to apply this rule. Others may find the terseness of the shorthand
 syntax harder to read and may not want to encourage it with this rule.
 

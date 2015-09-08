@@ -22,32 +22,35 @@ var errors = [{message: "use the spread operator instead of the \".apply()\".", 
 var ruleTester = new RuleTester();
 ruleTester.run("prefer-spread", rule, {
     valid: [
-        {code: "foo.apply(obj, args);"},
-        {code: "obj.foo.apply(null, args);"},
-        {code: "obj.foo.apply(otherObj, args);"},
-        {code: "a.b(x, y).c.foo.apply(a.b(x, z).c, args);"},
-        {code: "a.b.foo.apply(a.b.c, args);"},
+        {code: "foo.apply(obj, args);", ecmaFeatures: {spread: true}},
+        {code: "obj.foo.apply(null, args);", ecmaFeatures: {spread: true}},
+        {code: "obj.foo.apply(otherObj, args);", ecmaFeatures: {spread: true}},
+        {code: "a.b(x, y).c.foo.apply(a.b(x, z).c, args);", ecmaFeatures: {spread: true}},
+        {code: "a.b.foo.apply(a.b.c, args);", ecmaFeatures: {spread: true}},
 
         // ignores non variadic.
-        {code: "foo.apply(undefined, [1, 2]);"},
-        {code: "foo.apply(null, [1, 2]);"},
-        {code: "obj.foo.apply(obj, [1, 2]);"},
+        {code: "foo.apply(undefined, [1, 2]);", ecmaFeatures: {spread: true}},
+        {code: "foo.apply(null, [1, 2]);", ecmaFeatures: {spread: true}},
+        {code: "obj.foo.apply(obj, [1, 2]);", ecmaFeatures: {spread: true}},
 
         // ignores computed property.
-        {code: "var apply; foo[apply](null, args);"},
+        {code: "var apply; foo[apply](null, args);", ecmaFeatures: {spread: true}},
 
         // ignores incomplete things.
-        {code: "foo.apply();"},
-        {code: "obj.foo.apply();"}
+        {code: "foo.apply();", ecmaFeatures: {spread: true}},
+        {code: "obj.foo.apply();", ecmaFeatures: {spread: true}},
+
+        // noop when rule is used in wrong environment
+        {code: "foo.apply(undefined, args);", ecmaFeatures: {spread: false}}
     ],
     invalid: [
-        {code: "foo.apply(undefined, args);", errors: errors},
-        {code: "foo.apply(void 0, args);", errors: errors},
-        {code: "foo.apply(null, args);", errors: errors},
-        {code: "obj.foo.apply(obj, args);", errors: errors},
-        {code: "a.b.c.foo.apply(a.b.c, args);", errors: errors},
-        {code: "a.b(x, y).c.foo.apply(a.b(x, y).c, args);", errors: errors},
-        {code: "[].concat.apply([ ], args);", errors: errors},
-        {code: "[].concat.apply([\n/*empty*/\n], args);", errors: errors}
+        {code: "foo.apply(undefined, args);", ecmaFeatures: {spread: true}, errors: errors},
+        {code: "foo.apply(void 0, args);", ecmaFeatures: {spread: true}, errors: errors},
+        {code: "foo.apply(null, args);", ecmaFeatures: {spread: true}, errors: errors},
+        {code: "obj.foo.apply(obj, args);", ecmaFeatures: {spread: true}, errors: errors},
+        {code: "a.b.c.foo.apply(a.b.c, args);", ecmaFeatures: {spread: true}, errors: errors},
+        {code: "a.b(x, y).c.foo.apply(a.b(x, y).c, args);", ecmaFeatures: {spread: true}, errors: errors},
+        {code: "[].concat.apply([ ], args);", ecmaFeatures: {spread: true}, errors: errors},
+        {code: "[].concat.apply([\n/*empty*/\n], args);", ecmaFeatures: {spread: true}, errors: errors}
     ]
 });

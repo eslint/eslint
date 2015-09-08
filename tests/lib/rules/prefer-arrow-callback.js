@@ -27,23 +27,26 @@ ruleTester.run("prefer-arrow-callback", rule, {
     valid: [
         {code: "foo(a => a);", ecmaFeatures: {arrowFunctions: true}},
         {code: "foo(function*() {});", ecmaFeatures: {generators: true}},
-        {code: "foo(function() { this; });"},
+        {code: "foo(function() { this; });", ecmaFeatures: {arrowFunctions: true}},
         {code: "foo(function() { (() => this); });", ecmaFeatures: {arrowFunctions: true}},
-        {code: "foo(function() { this; }.bind(obj));"},
-        {code: "foo(function() { this; }.call(this));"},
+        {code: "foo(function() { this; }.bind(obj));", ecmaFeatures: {arrowFunctions: true}},
+        {code: "foo(function() { this; }.call(this));", ecmaFeatures: {arrowFunctions: true}},
         {code: "foo(a => { (function() {}); });", ecmaFeatures: {arrowFunctions: true}},
-        {code: "var foo = function foo() {};"},
-        {code: "(function foo() {})();"},
-        {code: "foo(function bar() { bar; });"}
+        {code: "var foo = function foo() {};", ecmaFeatures: {arrowFunctions: true}},
+        {code: "(function foo() {})();", ecmaFeatures: {arrowFunctions: true}},
+        {code: "foo(function bar() { bar; });", ecmaFeatures: {arrowFunctions: true}},
+
+        // noop when rule is used in wrong environment
+        {code: "foo(function() { this; }.bind(this));", ecmaFeatures: {arrowFunctions: false}}
     ],
     invalid: [
-        {code: "foo(function() {});", errors: errors},
-        {code: "foo(nativeCb || function() {});", errors: errors},
-        {code: "foo(bar ? function() {} : function() {});", errors: [errors[0], errors[0]]},
-        {code: "foo(function() { (function() { this; }); });", errors: errors},
-        {code: "foo(function() { this; }.bind(this));", errors: errors},
+        {code: "foo(function() {});", ecmaFeatures: {arrowFunctions: true}, errors: errors},
+        {code: "foo(nativeCb || function() {});", ecmaFeatures: {arrowFunctions: true}, errors: errors},
+        {code: "foo(bar ? function() {} : function() {});", ecmaFeatures: {arrowFunctions: true}, errors: [errors[0], errors[0]]},
+        {code: "foo(function() { (function() { this; }); });", ecmaFeatures: {arrowFunctions: true}, errors: errors},
+        {code: "foo(function() { this; }.bind(this));", ecmaFeatures: {arrowFunctions: true}, errors: errors},
         {code: "foo(function() { (() => this); }.bind(this));", ecmaFeatures: {arrowFunctions: true}, errors: errors},
-        {code: "foo(function bar(a) { a; });", errors: errors},
-        {code: "foo(function(a) { a; });", errors: errors}
+        {code: "foo(function bar(a) { a; });", ecmaFeatures: {arrowFunctions: true}, errors: errors},
+        {code: "foo(function(a) { a; });", ecmaFeatures: {arrowFunctions: true}, errors: errors}
     ]
 });

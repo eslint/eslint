@@ -166,6 +166,9 @@ describe("cli", function() {
         it("should execute without any errors", function() {
             var stubbedConfig = proxyquire("../../lib/config", {
                 "eslint-config-xo": {
+                    ecmaFeatures: {
+                        blockBindings: true
+                    },
                     rules: {
                         "no-var": 2
                     }

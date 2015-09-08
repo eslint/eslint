@@ -38,6 +38,9 @@ foo(function bar(n) { return n && n + bar(n - 1); });
 
 ## When Not to Use It
 
-This rule should not be used in ES3/5 environments.
+Your ESLint settings must enable either all ES2015 (ES6) features (`env.es6: true`),
+or specifically the arrow function syntax
+(`ecmaFeatures.arrowFunctions: true`).
+Otherwise, this rule is automatically disabled for convenience.
 
 In ES2015 (ES6) or later, if you don't want to be notified about function expressions in an argument list, you can safely disable this rule.
