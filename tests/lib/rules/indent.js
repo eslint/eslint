@@ -58,6 +58,16 @@ ruleTester.run("indent", rule, {
         },
         {
             code:
+            "var Command = function() {\n" +
+            "  var fileList = [],\n" +
+            "      files = []\n" +
+            "\n" +
+            "  files.concat(fileList)\n" +
+            "};\n",
+            options: [2, {"VariableDeclarator": { "var": 2, "let": 2, "const": 3}}]
+        },
+        {
+            code:
                 "  ",
             options: [2, {"VariableDeclarator": 1, "SwitchCase": 1}]
         },
@@ -883,7 +893,6 @@ ruleTester.run("indent", rule, {
                 [189, 2, 0, "VariableDeclaration"],
                 [193, 6, 4, "ExpressionStatement"],
                 [195, 6, 8, "ExpressionStatement"],
-                [196, 2, 4, "VariableDeclaration"],
                 [305, 6, 4, "ExpressionStatement"],
                 [306, 6, 8, "ExpressionStatement"],
                 [308, 2, 4, "VariableDeclarator"],
