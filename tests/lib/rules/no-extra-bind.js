@@ -2,6 +2,7 @@
  * @fileoverview Tests for no-extra-bind rule
  * @author Bence Dányi <bence@danyi.me>
  * @copyright 2014 Bence Dányi. All rights reserved.
+ * See LICENSE in root directory for full license.
  */
 "use strict";
 
@@ -29,6 +30,7 @@ ruleTester.run("no-extra-bind", rule, {
     invalid: [
         { code: "var a = function() { return 1; }.bind(b)", errors: [{ message: "The function binding is unnecessary.", type: "CallExpression"}] },
         { code: "var a = (() => { return 1; }).bind(b)", ecmaFeatures: { arrowFunctions: true }, errors: [{ message: "The function binding is unnecessary.", type: "CallExpression"}] },
+        { code: "var a = (() => { return this; }).bind(b)", ecmaFeatures: { arrowFunctions: true }, errors: [{ message: "The function binding is unnecessary.", type: "CallExpression"}] },
         { code: "var a = function() { (function(){ this.c }) }.bind(b)", errors: [{ message: "The function binding is unnecessary.", type: "CallExpression"}] },
         { code: "var a = function() { function c(){ this.d } }.bind(b)", errors: [{ message: "The function binding is unnecessary.", type: "CallExpression"}] }
     ]
