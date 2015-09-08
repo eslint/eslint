@@ -52,6 +52,10 @@ The names `"semi"` and `"quotes"` are the names of [rules](http://eslint.org/doc
 
 The three error levels allow you fine-grained control over how ESLint applies rules (for more configuration options and details, see the [configuration docs](http://eslint.org/docs/user-guide/configuring)).
 
+## Sponsors
+
+* Development is sponsored by [Box](https://box.com)
+
 ## Team
 
 These folks keep the project moving and are resources for help:
@@ -65,6 +69,10 @@ These folks keep the project moving and are resources for help:
 * Ian VanSchooten ([@ianvs](https://github.com/ianvs)) - committer
 * Toru Nagashima ([@mysticatea](https://github.com/mysticatea)) - committer
 * Burak Yiğit Kaya ([@byk](https://github.com/byk)) - committer
+
+## Releases
+
+We have scheduled releases every two weeks on Friday or Saturday. 
 
 ## Frequently Asked Questions
 
