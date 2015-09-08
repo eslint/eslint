@@ -40,9 +40,11 @@ This rule enforces a coding style where it disallows conditional expressions tha
 The following patterns are considered warnings:
 
 ```js
-var a = x === 2 ? true : false;
+/*eslint no-unneeded-ternary: 2*/
 
-var a = x ? true : false;
+var a = x === 2 ? true : false; /*error Unnecessary use of boolean literals in conditional expression*/
+
+var a = x ? true : false;       /*error Unnecessary use of boolean literals in conditional expression*/
 ```
 
 The following pattern is considered a warning when `defaultAssignment` is `false`:
@@ -54,6 +56,8 @@ var a = x ? x : 1;
 The following patterns are not considered warnings:
 
 ```js
+/*eslint no-unneeded-ternary: 2*/
+
 var a = x === 2 ? "Yes" : "No";
 
 var a = x !== false;

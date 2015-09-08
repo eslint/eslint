@@ -10,6 +10,9 @@ insert_final_newline = true
 [docs/rules/linebreak-style.md]
 end_of_line = disabled
 
-[docs/rules/indent.md]
+[{docs/rules/{indent.md,no-mixed-spaces-and-tabs.md}]
 indent_style = disabled
 indent_size = disabled
+
+[docs/rules/no-trailing-spaces.md]
+trim_trailing_whitespace = false

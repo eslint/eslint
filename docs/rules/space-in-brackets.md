@@ -49,8 +49,8 @@ var arr = ['foo',
 
 var obj = { 'foo': 'bar' };
 var obj = {'foo': 'bar' };
-var obj = { baz: {'foo': 'qux'}, 'bar'};
-var obj = {baz: { 'foo': 'qux' }, 'bar'};
+var obj = { baz: {'foo': 'qux'}, bar};
+var obj = {baz: { 'foo': 'qux' }, bar};
 ```
 
 The following patterns are not warnings:
@@ -115,8 +115,8 @@ var arr = [
 
 var obj = {'foo': 'bar'};
 var obj = {'foo': 'bar' };
-var obj = { baz: {'foo': 'qux'}, 'bar'};
-var obj = {baz: { 'foo': 'qux' }, 'bar'};
+var obj = { baz: {'foo': 'qux'}, bar};
+var obj = {baz: { 'foo': 'qux' }, bar};
 var obj = {'foo': 'bar'
 };
 

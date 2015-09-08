@@ -10,41 +10,41 @@ Blocking the `os` module can be useful if you don't want to allow any operating 
 
 This rule allows you to specify modules that you don't want to use in your application.
 
-The following patterns are considered warnings:
-
-__config:__ `no-restricted-modules: [2, "fs"]`
-
-```js
-var fs = require('fs');
-```
-
-__config:__ `no-restricted-modules: [2, "cluster"]`
-
-```js
-var fs = require(' cluster ');
-```
-
-The following patterns are not warnings:
-
-__config:__ `no-restricted-modules: [2, "fs"]`
-
-```js
-var crypto = require('crypto');
-```
-
 ### Options
 
 The syntax to specify restricted modules looks like this:
 
+```json
+"no-restricted-modules": [2, <...moduleNames>]
+```
+
+The following patterns are considered warnings:
+
 ```js
-"no-restricted-modules": [<enabled>, <...moduleNames>]
+/*eslint no-restricted-modules: [2, "fs"]*/
+
+var fs = require('fs'); /*error 'fs' module is restricted from being used.*/
+```
+
+```js
+/*eslint no-restricted-modules: [2, "cluster"]*/
+
+var fs = require(' cluster '); /*error 'cluster' module is restricted from being used.*/
+```
+
+The following patterns are not warnings:
+
+```js
+/*eslint no-restricted-modules: [2, "fs"]*/
+
+var crypto = require('crypto');
 ```
 
 ### Examples
 
 To restrict the use of all Node.js core modules (via https://github.com/joyent/node/tree/master/lib):
 
-```js
+```json
     "no-restricted-modules": [2,
          "assert","buffer","child_process","cluster","crypto","dgram","dns","domain","events","freelist","fs","http","https","module","net","os","path","punycode","querystring","readline","repl","smalloc","stream","string_decoder","sys","timers","tls","tracing","tty","url","util","vm","zlib"
     ],

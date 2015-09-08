@@ -10,7 +10,9 @@ This rule is aimed at discouraging use of `process.env` to avoid global dependen
 The following patterns are considered warnings:
 
 ```js
-if(process.env.NODE_ENV === "development") {
+/*eslint no-process-env: 2*/
+
+if(process.env.NODE_ENV === "development") { /*error Unexpected use of process.env.*/
     //...
 }
 ```
@@ -18,6 +20,8 @@ if(process.env.NODE_ENV === "development") {
 The following patterns are considered okay and do not cause warnings:
 
 ```js
+/*eslint no-process-env: 2*/
+
 var config = require("./config");
 
 if(config.env === "development") {

@@ -13,7 +13,7 @@ When this rule is enabled, all `var` statements must satisfy the following condi
 
 This rule comes with one boolean option called `grouping` which is turned off by default. You can set it in your `eslint.json`:
 
-```js
+```json
 {
     "no-mixed-requires": [1, true]
 }
@@ -50,6 +50,8 @@ var fs = require('fs'),        // "core"     \
 The following patterns are considered okay and do not cause warnings:
 
 ```js
+/*eslint no-mixed-requires: 2*/
+
 // only require declarations (grouping off)
 var eventEmitter = require('events').EventEmitter,
     myUtils = require('./utils'),
@@ -69,16 +71,23 @@ var foo = require('foo' + VERSION),
 The following patterns are considered warnings:
 
 ```js
-// mixing require and other declarations
-var fs = require('fs'),
-    i = 0;
+/*eslint no-mixed-requires: 2*/
 
-// invalid because of mixed types "core" and "file" (grouping on)
-var fs = require('fs'),
+var fs = require('fs'), /*error Do not mix 'require' and other declarations.*/
+    i = 0;
+```
+
+The following patterns are considered warnings when grouping is turned on:
+
+```js
+/*eslint no-mixed-requires: [2, true]*/
+
+// invalid because of mixed types "core" and "file"
+var fs = require('fs'),                /*error Do not mix core, module, file and computed requires.*/
     async = require('async');
 
-// invalid because of mixed types "file" and "unknown" (grouping on)
-var foo = require('foo'),
+// invalid because of mixed types "file" and "unknown"
+var foo = require('foo'),              /*error Do not mix core, module, file and computed requires.*/
     bar = require(getBarModuleName());
 ```
 

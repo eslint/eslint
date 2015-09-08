@@ -23,44 +23,32 @@ This rule aims to disallow multiple whitespace around logical expressions, condi
 The following patterns are considered warnings:
 
 ```js
-var a =  1;
-```
+/*eslint no-multi-spaces: 2*/
 
-```js
-if(foo   === "bar") {}
-```
+var a =  1;            /*error Multiple spaces found before '1'.*/
 
-```js
-a <<  b
-```
+if(foo   === "bar") {} /*error Multiple spaces found before '==='.*/
 
-```js
-var arr = [1,  2];
-```
+a <<  b                /*error Multiple spaces found before 'b'.*/
 
-```js
-a ?  b: c
+var arr = [1,  2];     /*error Multiple spaces found before '2'.*/
+
+a ?  b: c              /*error Multiple spaces found before 'b'.*/
 ```
 
 The following patterns are not warnings:
 
 ```js
+/*eslint no-multi-spaces: 2*/
+
 var a = 1;
-```
 
-```js
 if(foo === "bar") {}
-```
 
-```js
 a << b
-```
 
-```js
 var arr = [1, 2];
-```
 
-```js
 a ? b: c
 ```
 
@@ -73,6 +61,7 @@ With this option, the following patterns are not warnings:
 ```js
 /* eslint no-multi-spaces: 2 */
 /* eslint key-spacing: [2, { align: "value" }] */
+
 var obj = {
     first:  "first",
     second: "second"
@@ -89,8 +78,9 @@ The default `Property` exception can be disabled by setting it to `false`, so th
 ```js
 /* eslint no-multi-spaces: [2, { exceptions: { "Property": false } }] */
 /* eslint key-spacing: [2, { align: "value" }] */
+
 var obj = {
-    first:  "first",
+    first:  "first",  /*error Multiple spaces found before '"first"'.*/
     second: "second"
 };
 ```
@@ -99,10 +89,14 @@ You may wish to align variable declarations or import declarations with spaces. 
 
 ```js
 /* eslint no-multi-spaces: [2, { exceptions: { "VariableDeclarator": true } }] */
+
 var someVar      = 'foo';
 var someOtherVar = 'barBaz';
+```
 
+```js
 /* eslint no-multi-spaces: [2, { exceptions: { "ImportDeclaration": true } }] */
+
 import mod          from 'mod';
 import someOtherMod from 'some-other-mod';
 ```

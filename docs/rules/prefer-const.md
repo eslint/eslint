@@ -11,18 +11,18 @@ This rule is aimed at flagging variables that are declared using `let` keyword, 
 The following patterns are considered warnings:
 
 ```js
-let a = 3;
-console.log(a);
-```
+/*eslint prefer-const: 2*/
 
-```js
-for (let i in [1,2,3]) { // `i` is re-defined (not modified) on each loop step.
+let a = 3;               /*error `a` is never modified, use `const` instead.*/
+console.log(a);
+
+// `i` is re-defined (not modified) on each loop step.
+for (let i in [1,2,3]) {  /*error `i` is never modified, use `const` instead.*/
     console.log(i);
 }
-```
 
-```js
-for (let a of [1,2,3]) { // `a` is re-defined (not modified) on each loop step.
+// `a` is re-defined (not modified) on each loop step.
+for (let a of [1,2,3]) { /*error `a` is never modified, use `const` instead.*/
     console.log(a);
 }
 ```
@@ -30,19 +30,19 @@ for (let a of [1,2,3]) { // `a` is re-defined (not modified) on each loop step.
 The following patterns are not considered warnings:
 
 ```js
+/*eslint prefer-const: 2*/
+
 let a; // there is no initialization.
 console.log(a);
-```
 
-```js
-for (let i = 0, end = 10; i < end; ++i) { // `end` is never modified, but we cannot separate the declarations without modifying the scope.
+// `end` is never modified, but we cannot separate the declarations without modifying the scope.
+for (let i = 0, end = 10; i < end; ++i) {
     console.log(a);
 }
-```
 
-```js
-var a = 3; // suggest to use `no-var` rule.
-console.log(a);
+// suggest to use `no-var` rule.
+var b = 3;
+console.log(b);
 ```
 
 ## When Not to Use It

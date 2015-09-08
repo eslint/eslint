@@ -4,7 +4,7 @@ Object literal property names can be defined in two ways: using literals or usin
 
 ```js
 var object1 = {
-    property: true;
+    property: true
 };
 
 var object2 = {
@@ -79,16 +79,20 @@ var object = {
 When configured with `"always"` as the first option (the default), quoting for all properties will be enforced. The following patterns are considered warnings:
 
 ```js
+/*eslint quote-props: [2, "always"]*/
+
 var object = {
-    foo: "bar",
-    baz: 42,
+    foo: "bar",         /*error Unquoted property `foo` found.*/
+    baz: 42,            /*error Unquoted property `baz` found.*/
     "qux-lorem": true
 };
 ```
 
-The following patterns are considered okay and do not cause warnings:
+The following patterns are not considered warnings:
 
 ```js
+/*eslint quote-props: [2, "always"]*/
+
 var object1 = {
     "foo": "bar",
     "baz": 42,
@@ -113,20 +117,24 @@ var object3 = {
 When configured with `"as-needed"` as the first option, quotes will be enforced when they are strictly required, and unnecessary quotes will cause warnings. The following patterns are considered warnings:
 
 ```js
+/*eslint quote-props: [2, "as-needed"]*/
+
 var object = {
-    "a": 0,
-    "0": 0,
-    "true": 0,
-    "null": 0
+    "a": 0,    /*error Unnecessarily quoted property `a` found.*/
+    "0": 0,    /*error Unnecessarily quoted property `0` found.*/
+    "true": 0, /*error Unnecessarily quoted property `true` found.*/
+    "null": 0  /*error Unnecessarily quoted property `null` found.*/
 };
 ```
 
-The following patterns are considered okay and do not cause warnings:
+The following patterns are not considered warnings:
 
 ```js
+/*eslint quote-props: [2, "as-needed"]*/
+
 var object1 = {
     "a-b": 0,
-    "0x0": 0
+    "0x0": 0,
     "1e2": 0
 };
 
@@ -149,16 +157,18 @@ When the `"as-needed"` mode is selected, an additional `keywords` option can be 
 
 ```json
 {
-    "quote-props": [2, "as-needed", {"keywords": true}]
+    "quote-props": [2, "as-needed", { "keywords": true }]
 }
 ```
 
 When `keywords` is set to `true`, the following patterns become warnings:
 
 ```js
+/*eslint quote-props: [2, "as-needed", { "keywords": true }]*/
+
 var x = {
-    while: 1,
-    volatile: "foo"
+    while: 1,       /*error Unquoted reserved word `while` used as key.*/
+    volatile: "foo" /*error Unquoted reserved word `volatile` used as key.*/
 };
 ```
 
@@ -166,13 +176,15 @@ Another modifier for this rule is the `unnecessary` option which defaults to `tr
 
 ```json
 {
-    "quote-props": [2, "as-needed", {"keywords": true, "unnecessary": false}]
+    "quote-props": [2, "as-needed", { "keywords": true, "unnecessary": false }]
 }
 ```
 
 When `unnecessary` is set to `false`, the following patterns _stop_ becoming warnings:
 
 ```js
+/*eslint quote-props: [2, "as-needed", { "keywords": true, "unnecessary": false }]*/
+
 var x = {
     "while": 1,
     "foo": "bar"  // Would normally have caused a warning
@@ -189,15 +201,17 @@ A `numbers` flag, with default value `false`, can also be used as a modifier for
 
 When `numbers` is set to `true`, the following patterns become warnings:
 
-```
+```js
+/*eslint quote-props: [2, "as-needed", { "numbers": true }]*/
+
 var x = {
-    100: 1
+    100: 1 /*error Unquoted number literal `100` used as key.*/
 }
 ```
 
 and the following patterns _stop_ becoming warnings:
 
-```
+```js
 var x = {
     "100": 1
 }
@@ -208,21 +222,25 @@ var x = {
 When configured with `"consistent"`, the patterns below are considered warnings. Basically `"consistent"` means all or no properties are expected to be quoted, in other words quoting style can't be mixed within an object. Please note the latter situation (no quotation at all) isn't always possible as some property names require quoting.
 
 ```js
-var object1 = {
+/*eslint quote-props: [2, "consistent"]*/
+
+var object1 = {        /*error Inconsistently quoted property `baz` found.*/ /*error Inconsistently quoted property `qux-lorem` found.*/
     foo: "bar",
     "baz": 42,
     "qux-lorem": true
 };
 
-var object2 = {
+var object2 = {        /*error Inconsistently quoted property `baz` found.*/
     'foo': 'bar',
     baz: 42
 };
 ```
 
-The following patterns are considered okay and do not cause warnings:
+The following patterns are not considered warnings:
 
 ```js
+/*eslint quote-props: [2, "consistent"]*/
+
 var object1 = {
     "foo": "bar",
     "baz": 42,
@@ -245,21 +263,25 @@ var object3 = {
 When configured with `"consistent-as-needed"`, the behavior is similar to `"consistent"` with one difference. Namely, properties' quoting should be consistent (as in `"consistent"`) but whenever all quotes are redundant a warning is raised. In other words if at least one property name has to be quoted (like `qux-lorem`) then all property names must be quoted, otherwise no properties can be quoted. The following patterns are considered warnings:
 
 ```js
-var object1 = {
+/*eslint quote-props: [2, "consistent-as-needed"]*/
+
+var object1 = {         /*error Inconsistently quoted property `baz` found.*/ /*error Inconsistently quoted property `qux-lorem` found.*/
     foo: "bar",
     "baz": 42,
     "qux-lorem": true
 };
 
-var object2 = {
+var object2 = {         /*error Properties shouldn't be quoted as all quotes are redundant.*/
     'foo': 'bar',
     'baz': 42
 };
 ```
 
-The following patterns are considered okay and do not cause warnings:
+The following patterns are not considered warnings:
 
 ```js
+/*eslint quote-props: [2, "consistent-as-needed"]*/
+
 var object1 = {
     "foo": "bar",
     "baz": 42,
@@ -276,14 +298,16 @@ When the `"consistent-as-needed"` mode is selected, an additional `keywords` opt
 
 ```json
 {
-    "quote-props": [2, "consistent-as-needed", {"keywords": true}]
+    "quote-props": [2, "consistent-as-needed", { "keywords": true }]
 }
 ```
 
 When `keywords` is set to `true`, the following patterns become warnings:
 
 ```js
-var x = {
+/*eslint quote-props: [2, "consistent-as-needed", { "keywords": true }]*/
+
+var x = {           /*error Properties should be quoted as `while` is a reserved word.*/ /*error Properties should be quoted as `volatile` is a reserved word.*/
     while: 1,
     volatile: "foo"
 };

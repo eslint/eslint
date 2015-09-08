@@ -15,7 +15,7 @@ The rule takes two options. The first is a string which be either "always" or "n
 
 Here is an example of how to configure the rule with this option:
 
-```js
+```json
 "spaced-comment": [2, "always"]
 ```
 
@@ -26,7 +26,7 @@ This rule can also take a 2nd option, an object with either of the following key
 The `"exceptions"` value is an array of string patterns which are considered exceptions to the rule.
 Please note that exceptions are ignored if the first argument is `"never"`.
 
-```js
+```json
 "spaced-comment": [2, "always", { "exceptions": ["-", "+"] }]
 ```
 
@@ -34,7 +34,7 @@ The `"markers"` value is an array of string patterns which are considered marker
 such as an additional `/`, used to denote documentation read by doxygen, vsdoc, etc. which must have additional characters.
 The `"markers"` array will apply regardless of the value of the first argument, e.g. `"always"` or `"never"`.
 
-```js
+```json
 "spaced-comment": [2, "always", { "markers": ["/"] }]
 ```
 
@@ -43,7 +43,7 @@ exceptions can occur anywhere in the comment string.
 
 You can also define separate exceptions and markers for block and line comments:
 
-```js
+```json
 "spaced-comment": [2, "always", {
     "line": {
         "markers": ["/"],
@@ -58,144 +58,141 @@ You can also define separate exceptions and markers for block and line comments:
 
 #### Examples
 
-The following patterns **are** considered warnings:
+The following patterns are considered warnings:
 
 ```js
-// When [2, "never"]
-// This is a comment with a whitespace at the beginning
+/*eslint spaced-comment: [2, "never"]*/
+
+// This is a comment with a whitespace at the beginning      /*error Unexpected space or tab after // in comment.*/
+
+/* This is a comment with a whitespace at the beginning */   /*error Unexpected space or tab after /* in comment.*/
+
+/* \nThis is a comment with a whitespace at the beginning */ /*error Unexpected space or tab after /* in comment.*/
 ```
 
 ```js
-// When [2, "never"]
-/* This is a comment with a whitespace at the beginning */
-```
+/*eslint spaced-comment: [2, "always"]*/                     /*error Expected space or tab after /* in comment.*/
 
+//This is a comment with no whitespace at the beginning      /*error Expected space or tab after // in comment.*/
 
-```js
-// When [2, "never"]
-/* \nThis is a comment with a whitespace at the beginning */
+/*This is a comment with no whitespace at the beginning */   /*error Expected space or tab after /* in comment.*/
 ```
 
 ```js
-// When [2, "always"]
-//This is a comment with no whitespace at the beginning
-var foo = 5;
-```
+/* eslint spaced-comment: [2, "always", { "block": { "exceptions": ["-"] } }] */
 
-```js
-// When [2, "always"]
-/*This is a comment with no whitespace at the beginning */
-var foo = 5;
-```
-
-```js
-// When [2, "always", { "block": { "exceptions": ["-"] } }]
-//--------------
+//--------------    /*error Expected space or tab after // in comment.*/
 // Comment block
-//--------------
+//--------------    /*error Expected space or tab after // in comment.*/
 ```
 
 ```js
-// When [2, "always", { "exceptions": ["-", "+"] }]
-//------++++++++
+/* eslint spaced-comment: [2, "always", { "exceptions": ["-", "+"] }] */
+
+//------++++++++    /*error Expected exception block, space or tab after // in comment.*/
 // Comment block
-//------++++++++
+//------++++++++    /*error Expected exception block, space or tab after // in comment.*/
 ```
 
 ```js
-// When [2, "always", { "markers": ["/"] }]
-///This is a comment with a marker but without whitespace
+/* eslint spaced-comment: [2, "always", { "markers": ["/"] }] */
+
+///This is a comment with a marker but without whitespace  /*error Expected space or tab after // in comment.*/
 ```
 
 ```js
-// When [2, "always", { "exceptions": ["-", "+"] }]
-/*------++++++++*/
+/* eslint spaced-comment: [2, "always", { "exceptions": ["-", "+"] }] */
+
+/*------++++++++*/     /*error Expected exception block, space or tab after /* in comment.*/
 /* Comment block */
-/*------++++++++*/
+/*------++++++++*/     /*error Expected exception block, space or tab after /* in comment.*/
 ```
 
 ```js
-// When [2, "always", { "line": { "exceptions": ["-+"] } }]
-/*-+-+-+-+-+-+-+*/
+/* eslint spaced-comment: [2, "always", { "line": { "exceptions": ["-+"] } }] */
+
+/*-+-+-+-+-+-+-+*/     /*error Expected space or tab after /* in comment.*/
 // Comment block
-/*-+-+-+-+-+-+-+*/
+/*-+-+-+-+-+-+-+*/     /*error Expected space or tab after /* in comment.*/
 ```
 
-The following patterns **are not** warnings:
+The following patterns are not considered warnings:
 
 ```js
-// When [2, "always"]
+/* eslint spaced-comment: [2, "always"] */
+
 // This is a comment with a whitespace at the beginning
-var foo = 5;
-```
 
-```js
-// When [2, "always"]
 /* This is a comment with a whitespace at the beginning */
-var foo = 5;
+
+/*
+ * This is a comment with a whitespace at the beginning
+ */
+
+/*
+This comment has a newline
+*/
 ```
 
 ```js
-// When [2, "always"]
-/*\n * This is a comment with a whitespace at the beginning */
-var foo = 5;
-```
+/*eslint spaced-comment: [2, "never"]*/
 
-```js
-// When [2, "never"]
 /*This is a comment with no whitespace at the beginning */
-var foo = 5;
 ```
 
 ```js
-// When [2, "always", { "exceptions": ["-"] }]
+/* eslint spaced-comment: [2, "always", { "exceptions": ["-"] }] */
+
 //--------------
 // Comment block
 //--------------
 ```
 
 ```js
-// When [2, "always", { "line": "exceptions": ["-"] } }]
+/* eslint spaced-comment: [2, "always", { "line": { "exceptions": ["-"] } }] */
+
 //--------------
 // Comment block
 //--------------
 ```
 
 ```js
-// When [2, "always", { "exceptions": ["-+"] }]
+/* eslint spaced-comment: [2, "always", { "exceptions": ["-+"] }] */
+
 //-+-+-+-+-+-+-+
 // Comment block
 //-+-+-+-+-+-+-+
-```
 
-```js
-// When [2, "always", { "exceptions": ["-+"] }]
 /*-+-+-+-+-+-+-+*/
 // Comment block
 /*-+-+-+-+-+-+-+*/
 ```
 
 ```js
-// When [2, "always", { "block": { "exceptions": ["-+"] } }]
+/* eslint spaced-comment: [2, "always", { "block": { "exceptions": ["-+"] } }] */
+
 /*-+-+-+-+-+-+-+*/
 // Comment block
 /*-+-+-+-+-+-+-+*/
 ```
 
 ```js
-// When [2, "always", { "exceptions": ["*"] }]
+/* eslint spaced-comment: [2, "always", { "exceptions": ["*"] }] */
+
 /****************
  * Comment block
  ****************/
 ```
 
 ```js
-// When [2, "always", { "markers": ["/"] }]
+/* eslint spaced-comment: [2, "always", { "markers": ["/"] }] */
+
 /// This is a comment with a marker
 ```
 
 ```js
-// When [2, "never", { "markers": ["!<"] }]
+/*eslint spaced-comment: [2, "never", { "markers": ["!<"] }]*/
+
 //!<This is a comment with a marker
 /*!<this is a block comment with a marker
 subsequent lines are ignored
@@ -203,21 +200,23 @@ subsequent lines are ignored
 ```
 
 ```js
-// When [2, "always", { "markers": ["global"] }]
+/* eslint spaced-comment: [2, "always", { "markers": ["global"] }] */
+
 /*global ABC*/
 ```
 
 ```js
-// When [2, "always"]
+/* eslint spaced-comment: [2, "always"] */
+
 /**
 * I am jsdoc
 */
 ```
 
 ```js
-// When [2, "never"]
+/*eslint spaced-comment: [2, "never"]*/
+
 /**
 * I am jsdoc
 */
 ```
-

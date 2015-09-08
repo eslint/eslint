@@ -23,13 +23,17 @@ This rule aims to eliminate sparse arrays that are defined by extra commas.
 The following patterns are considered warnings:
 
 ```js
-var items = [,];
-var colors = [ "red",, "blue" ];
+/*eslint no-sparse-arrays: 2*/
+
+var items = [,];                 /*error Unexpected comma in middle of array.*/
+var colors = [ "red",, "blue" ]; /*error Unexpected comma in middle of array.*/
 ```
 
 The following patterns are not warnings:
 
 ```js
+/*eslint no-sparse-arrays: 2*/
+
 var items = [];
 var items = new Array(23);
 

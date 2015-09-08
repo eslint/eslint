@@ -7,15 +7,19 @@ Sometimes in the course of editing files, you can end up with extra whitespace a
 The following patterns are considered warnings:
 
 ```js
+/*eslint no-trailing-spaces: 2*/
+
 // spaces, tabs and unicode whitespaces
 // are not allowed at the end of lines
-var foo = 0;•••••
-var baz = 5;••
+var foo = 0;//•••••  /*error Trailing spaces not allowed.*/
+var baz = 5;//••     /*error Trailing spaces not allowed.*/
 ```
 
 The following patterns are not warnings:
 
 ```js
+/*eslint no-trailing-spaces: 2*/
+
 var foo = 0;
 
 var baz = 5;
@@ -36,7 +40,9 @@ You can enable this option in your config like this:
 With this option enabled, the following patterns are not warnings:
 
 ```js
+/*eslint no-trailing-spaces: [2, { "skipBlankLines": true }]*/
+
 var foo = 0;
-••••
+//••••
 var baz = 5;
 ```

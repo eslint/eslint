@@ -30,32 +30,47 @@ This rule aims to prevent invalid and incomplete JSDoc comments. In doing so, it
 The following patterns are considered warnings:
 
 ```js
+/*eslint valid-jsdoc: 2*/
+
 // missing type for @param and missing @returns
-/**
+/**                                 // 2 errors
  * A description
  * @param num1 The first number.
  */
+function foo(num1) {
+    // ...
+}
 
 // missing description for @param
-/**
+/**                                 //error Missing JSDoc parameter description for 'num1'.
  * A description
  * @param {int} num1
+ * @returns {void}
  */
+function foo(num1) {
+    // ...
+}
 
 // no description for @returns
-/**
+/**                                 //error Missing JSDoc return description.
  * A description
  * @returns {int}
  */
+function foo() {
+    // ...
+}
 
 // no type for @returns
-/**
+/**                                 //error JSDoc syntax error.
  * A description
  * @returns Something awesome
  */
+function foo() {
+    // ...
+}
 
 // missing @param
-/**
+/**                                 //error Missing JSDoc for parameter 'a'.
  * A description
  * @returns {void}
  */
@@ -64,7 +79,7 @@ function foo(a) {
 }
 
 // incorrect @param
-/**
+/**                                 //error Expected JSDoc for 'a' but found 'b'.
  * A description
  * @param {string} b Desc
  * @returns {void}
@@ -77,12 +92,17 @@ function foo(a) {
 The following patterns are not warnings:
 
 ```js
+/*eslint valid-jsdoc: 2*/
+
 /**
  * Adds two numbers together.
  * @param {int} num1 The first number.
  * @param {int} num2 The second number.
  * @returns {int} The sum of the two numbers.
  */
+function foo(num1, num2) {
+    return num1 + num2;
+}
 
 /**
  * Represents a sum.
@@ -90,6 +110,7 @@ The following patterns are not warnings:
  * @param {int} num2 The second number.
  * @constructor
  */
+function foo(num1, num2) { }
 
 // use of @override make @param and @returns optional
 /**

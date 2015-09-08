@@ -44,18 +44,21 @@ Depending on your coding conventions, you can choose either option by specifying
 When `"never"` is set, the following patterns are considered warnings:
 
 ```js
-var obj = { 'foo': 'bar' };
-var obj = {'foo': 'bar' };
-var obj = { baz: {'foo': 'qux'}, 'bar'};
-var obj = {baz: { 'foo': 'qux' }, 'bar'};
-var {x } = y;
-import { foo } from 'bar';
+/*eslint object-curly-spacing: [2, "never"]*/
+
+var obj = { 'foo': 'bar' };            /*error There should be no space after '{'*/ /*error There should be no space before '}'*/
+var obj = {'foo': 'bar' };                                                          /*error There should be no space before '}'*/
+var obj = { baz: {'foo': 'qux'}, bar}; /*error There should be no space after '{'*/
+var obj = {baz: { 'foo': 'qux'}, bar}; /*error There should be no space after '{'*/
+var {x } = y;                                                                       /*error There should be no space before '}'*/
+import { foo } from 'bar';             /*error There should be no space after '{'*/ /*error There should be no space before '}'*/
 ```
 
 The following patterns are not warnings:
 
 ```js
-// When options are [2, "never"]
+/*eslint object-curly-spacing: [2, "never"]*/
+
 var obj = {'foo': 'bar'};
 var obj = {'foo': {'bar': 'baz'}, 'qux': 'quxx'};
 var obj = {
@@ -75,21 +78,25 @@ import {foo} from 'bar';
 When `"always"` is used, the following patterns are considered warnings:
 
 ```js
-var obj = {'foo': 'bar'};
-var obj = {'foo': 'bar' };
-var obj = { baz: {'foo': 'qux'}, 'bar'};
-var obj = {baz: { 'foo': 'qux' }, 'bar'};
-var obj = {'foo': 'bar'
+/*eslint object-curly-spacing: [2, "always"]*/
+
+var obj = {'foo': 'bar'};               /*error A space is required after '{'*/ /*error A space is required before '}'*/
+var obj = {'foo': 'bar' };              /*error A space is required after '{'*/
+var obj = { baz: {'foo': 'qux'}, bar};  /*error A space is required after '{'*/ /*error A space is required before '}'*/
+var obj = {baz: { 'foo': 'qux' }, bar}; /*error A space is required after '{'*/ /*error A space is required before '}'*/
+var obj = {'foo': 'bar'                 /*error A space is required after '{'*/
 };
 var obj = {
-  'foo':'bar'};
-var {x} = y;
-import {foo } from 'bar';
+  'foo':'bar'};                                                                 /*error A space is required before '}'*/
+var {x} = y;                            /*error A space is required after '{'*/ /*error A space is required before '}'*/
+import {foo } from 'bar';               /*error A space is required after '{'*/
 ```
 
 The following patterns are not warnings:
 
 ```js
+/*eslint object-curly-spacing: [2, "always"]*/
+
 var obj = {};
 var obj = { 'foo': 'bar' };
 var obj = { 'foo': { 'bar': 'baz' }, 'qux': 'quxx' };

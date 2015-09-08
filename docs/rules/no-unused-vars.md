@@ -17,22 +17,24 @@ A variable is *not* considered read if it is only ever assigned to (`var x = 5`)
 The following patterns are considered warnings:
 
 ```js
+/*eslint no-unused-vars: 2*/
+/*global some_unsed_var */   /*error "some_unsed_var" is defined but never used*/
 
 //It checks variables you have defined as global
-/*global some_used_var */
+some_unsed_var = 42;
 
-var x = 10;
+var x;                       /*error "x" is defined but never used*/
 
-var y = 10;
+var y = 10;                  /*error "y" is defined but never used*/
 y = 5;
 
 // By default, unused arguments cause warnings.
-(function(foo) {
+(function(foo) {             /*error "foo" is defined but never used*/
     return 5;
 })();
 
 // Unused recursive functions also cause warnings.
-function fact(n) {
+function fact(n) {           /*error "fact" is defined but never used*/
     if (n < 2) return 1;
     return n * fact(n - 1);
 }
@@ -41,6 +43,8 @@ function fact(n) {
 The following patterns are not considered warnings:
 
 ```js
+/*eslint no-unused-vars: 2*/
+
 var x = 10;
 alert(x);
 
@@ -86,13 +90,31 @@ This option has three settings:
 * `after-used` - only the last argument must be used. This allows you, for instance, to have two named parameters to a function and as long as you use the second argument, ESLint will not warn you about the first. This is the default setting.
 * `none` - do not check arguments.
 
-The following code:
-
-* will throw `"baz" is defined but never used` when `args`: `after-used`
-* will throw `"foo" is defined but never used` and `"baz" is defined but never used` when `args`: `all`
-* will throw nothing when `args`: `none`
+##### with `{ "args": "all" }`
 
 ```js
+/*eslint no-unused-vars: [2, { "args": "all" }]*/
+
+(function(foo, bar, baz) { /*error "foo" is defined but never used*/ /*error "baz" is defined but never used*/
+    return bar;
+})();
+```
+
+##### with `{ "args": "after-used" }`
+
+```js
+/*eslint no-unused-vars: [2, { "args": "after-used" }]*/
+
+(function(foo, bar, baz) { /*error "baz" is defined but never used*/
+    return bar;
+})();
+```
+
+##### with `{ "args": "none" }`
+
+```js
+/*eslint no-unused-vars: [2, { "args": "none" }]*/
+
 (function(foo, bar, baz) {
     return bar;
 })();
@@ -118,6 +140,8 @@ The following code:
     With this configuration, this rule will not warn about the following code:
 
     ```js
+    /*eslint no-unused-vars: [2, {"args": "after-used", "argsIgnorePattern": "^_"}]*/
+
     function foo(x, _y) {
         return x + 1;
     }
@@ -138,6 +162,8 @@ The following code:
     With this configuration, this rule will not warn about the following code:
 
     ```js
+    /*eslint no-unused-vars: [2, {"args": "after-used", "varsIgnorePattern": "[iI]gnored"}]*/
+
     var [ firstItemIgnored, secondItem ] = items;
     console.log(secondItem);
     ```

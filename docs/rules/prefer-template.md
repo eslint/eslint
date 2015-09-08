@@ -17,13 +17,17 @@ This rule is aimed to flag usage of `+` operators with strings.
 The following patterns are considered warnings:
 
 ```js
-var str = "Hello, " + name + "!";
-var str = "Time: " + (12 * 60 * 60 * 1000);
+/*eslint prefer-template: 2*/
+
+var str = "Hello, " + name + "!";           /*error Unexpected string concatenation.*/
+var str = "Time: " + (12 * 60 * 60 * 1000); /*error Unexpected string concatenation.*/
 ```
 
 The following patterns are not considered warnings:
 
 ```js
+/*eslint prefer-template: 2*/
+
 var str = "Hello World!";
 var str = `Hello, ${name}!`;
 var str = `Time: ${12 * 60 * 60}`;

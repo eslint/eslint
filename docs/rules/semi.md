@@ -11,7 +11,7 @@ On the first line, the JavaScript engine will automatically insert a semicolon, 
 
 In the debate over ASI, there are generally two schools of thought. The first is that we should treat ASI as if it didn't exist and always include semicolons manually. The rationale is that it's easier to always include semicolons than to try to remember when they are or are not required, and thus decreases the possibility of introducing an error. For example, consider this code:
 
-```js
+```
 return
 {
     name: "ESLint"
@@ -20,7 +20,7 @@ return
 
 This may look like a `return` statement that returns an object literal, however, the JavaScript engine will interpret this code as:
 
-```js
+```
 return;
 {
     name: "ESLint"
@@ -51,16 +51,20 @@ semi: [2, "always"]
 The following patterns are considered warnings:
 
 ```js
-var name = "ESLint"
+/*eslint semi: 2*/
+
+var name = "ESLint"          /*error Missing semicolon.*/
 
 object.method = function() {
     // ...
-}
+}                            /*error Missing semicolon.*/
 ```
 
 The following patterns are not considered warnings:
 
 ```js
+/*eslint semi: 2*/
+
 var name = "ESLint";
 
 object.method = function() {
@@ -77,16 +81,20 @@ semi: [2, "never"]
 Then, the following patterns are considered warnings:
 
 ```js
-var name = "ESLint";
+/*eslint semi: [2, "never"]*/
+
+var name = "ESLint";         /*error Extra semicolon.*/
 
 object.method = function() {
     // ...
-};
+};                           /*error Extra semicolon.*/
 ```
 
 And the following patterns are not considered warnings:
 
 ```js
+/*eslint semi: [2, "never"]*/
+
 var name = "ESLint"
 
 object.method = function() {
@@ -97,6 +105,8 @@ object.method = function() {
 Even in "never" mode, semicolons are still allowed to disambiguate statements beginning with `[`, `(`, `/`, `+`, or `-`:
 
 ```js
+/*eslint semi: [2, "never"]*/
+
 var name = "ESLint"
 
 ;(function() {

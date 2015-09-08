@@ -21,27 +21,25 @@ This rule is aimed to flag usage of `Function.prototype.apply()` that can be rep
 The following patterns are considered warnings:
 
 ```js
-foo.apply(undefined, args);
-```
+/*eslint prefer-spread: 2*/
 
-```js
-foo.apply(null, args);
-```
+foo.apply(undefined, args); /*error use the spread operator instead of the ".apply()".*/
 
-```js
-obj.foo.apply(obj, args);
+foo.apply(null, args);      /*error use the spread operator instead of the ".apply()".*/
+
+obj.foo.apply(obj, args);   /*error use the spread operator instead of the ".apply()".*/
 ```
 
 The following patterns are not considered warnings:
 
 ```js
+/*eslint prefer-spread: 2*/
+
 // The `this` binding is different.
 foo.apply(obj, args);
 obj.foo.apply(null, args);
 obj.foo.apply(otherObj, args);
-```
 
-```js
 // The argument list is not variadic.
 // Those are warned by the `no-useless-call` rule.
 foo.apply(undefined, [1, 2, 3]);
@@ -55,8 +53,10 @@ This rule analyzes code statically to check whether or not the `this` argument i
 So if the `this` argument is computed in a dynamic expression, this rule cannot detect a violation.
 
 ```js
+/*eslint prefer-spread: 2*/
+
 // This warns.
-a[i++].foo.apply(a[i++], args);
+a[i++].foo.apply(a[i++], args); /*error use the spread operator instead of the ".apply()".*/
 
 // This does not warn.
 a[++i].foo.apply(a[i], args);
