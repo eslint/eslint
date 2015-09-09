@@ -3,6 +3,7 @@ node_js:
     - "0.10"
     - "0.12"
     - iojs
+    - "4"
 sudo: false
 script: "npm test && npm run check-commit && npm run docs"
 after_success:
