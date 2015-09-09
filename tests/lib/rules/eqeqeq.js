@@ -34,6 +34,13 @@ ruleTester.run("eqeqeq", rule, {
     invalid: [
         { code: "a == b", errors: [{ message: "Expected '===' and instead saw '=='.", type: "BinaryExpression"}] },
         { code: "a != b", errors: [{ message: "Expected '!==' and instead saw '!='.", type: "BinaryExpression"}] },
+        { code: "typeof a == 'number'", errors: [{ message: "Expected '===' and instead saw '=='.", type: "BinaryExpression"}] },
+        { code: "'string' != typeof a", errors: [{ message: "Expected '!==' and instead saw '!='.", type: "BinaryExpression"}] },
+        { code: "true == true", errors: [{ message: "Expected '===' and instead saw '=='.", type: "BinaryExpression"}] },
+        { code: "2 == 3", errors: [{ message: "Expected '===' and instead saw '=='.", type: "BinaryExpression"}] },
+        { code: "'hello' != 'world'", errors: [{ message: "Expected '!==' and instead saw '!='.", type: "BinaryExpression"}] },
+        { code: "a == null", errors: [{ message: "Expected '===' and instead saw '=='.", type: "BinaryExpression"}] },
+        { code: "null != a", errors: [{ message: "Expected '!==' and instead saw '!='.", type: "BinaryExpression"}] },
         { code: "true == 1", options: ["smart"], errors: [{ message: "Expected '===' and instead saw '=='.", type: "BinaryExpression"}] },
         { code: "0 != '1'", options: ["smart"], errors: [{ message: "Expected '!==' and instead saw '!='.", type: "BinaryExpression"}] },
         { code: "'wee' == /wee/", options: ["smart"], errors: [{ message: "Expected '===' and instead saw '=='.", type: "BinaryExpression"}] },
