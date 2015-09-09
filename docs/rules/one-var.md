@@ -231,7 +231,7 @@ function foo() {
 }
 ```
 
-If you are configuring the rule with an object, by default, if you didn't specify declaration type it will not be checked. So the following patten is not considered warning when options are set to: `{ var: "always", let: "always" }`
+If you are configuring the rule with an object, by default, if you didn't specify declaration type it will not be checked. So the following pattern is not considered a warning when options are set to: `{ var: "always", let: "always" }`
 
 ```js
 /*eslint one-var: [2, { var: "always", let: "always" }]*/
