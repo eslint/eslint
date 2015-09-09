@@ -723,6 +723,137 @@ describe("eslint", function() {
             var messages = eslint.verify("0", config);
             assert.equal(messages[0].message, "my message testing!");
         });
+
+        it("should allow template parameter with inner whitespace", function() {
+            eslint.reset();
+            eslint.defineRule("test-rule", function(context) {
+                return {
+                    "Literal": function(node) {
+                        context.report(node, "message {{parameter name}}", {
+                            "parameter name": "yay!"
+                        });
+                    }
+                };
+            });
+
+            var config = { rules: {} };
+            config.rules["test-rule"] = 1;
+
+            var messages = eslint.verify("0", config);
+            assert.equal(messages[0].message, "message yay!");
+        });
+
+        it("should allow template parameter with non-identifier characters", function() {
+            eslint.reset();
+            eslint.defineRule("test-rule", function(context) {
+                return {
+                    "Literal": function(node) {
+                        context.report(node, "message {{parameter-name}}", {
+                            "parameter-name": "yay!"
+                        });
+                    }
+                };
+            });
+
+            var config = { rules: {} };
+            config.rules["test-rule"] = 1;
+
+            var messages = eslint.verify("0", config);
+            assert.equal(messages[0].message, "message yay!");
+        });
+
+        it("should ignore template parameter with no specified value", function() {
+            eslint.reset();
+            eslint.defineRule("test-rule", function(context) {
+                return {
+                    "Literal": function(node) {
+                        context.report(node, "message {{parameter}}", {});
+                    }
+                };
+            });
+
+            var config = { rules: {} };
+            config.rules["test-rule"] = 1;
+
+            var messages = eslint.verify("0", config);
+            assert.equal(messages[0].message, "message {{parameter}}");
+        });
+
+        it("should handle leading whitespace in template parameter", function() {
+            eslint.reset();
+            eslint.defineRule("test-rule", function(context) {
+                return {
+                    "Literal": function(node) {
+                        context.report(node, "message {{ parameter}}", {
+                            parameter: "yay!"
+                        });
+                    }
+                };
+            });
+
+            var config = { rules: {} };
+            config.rules["test-rule"] = 1;
+
+            var messages = eslint.verify("0", config);
+            assert.equal(messages[0].message, "message yay!");
+        });
+
+        it("should handle trailing whitespace in template parameter", function() {
+            eslint.reset();
+            eslint.defineRule("test-rule", function(context) {
+                return {
+                    "Literal": function(node) {
+                        context.report(node, "message {{parameter }}", {
+                            parameter: "yay!"
+                        });
+                    }
+                };
+            });
+
+            var config = { rules: {} };
+            config.rules["test-rule"] = 1;
+
+            var messages = eslint.verify("0", config);
+            assert.equal(messages[0].message, "message yay!");
+        });
+
+        it("should still allow inner whitespace as well as leading/trailing", function() {
+            eslint.reset();
+            eslint.defineRule("test-rule", function(context) {
+                return {
+                    "Literal": function(node) {
+                        context.report(node, "message {{ parameter name }}", {
+                            "parameter name": "yay!"
+                        });
+                    }
+                };
+            });
+
+            var config = { rules: {} };
+            config.rules["test-rule"] = 1;
+
+            var messages = eslint.verify("0", config);
+            assert.equal(messages[0].message, "message yay!");
+        });
+
+        it("should still allow non-identifier characters as well as leading/trailing whitespace", function() {
+            eslint.reset();
+            eslint.defineRule("test-rule", function(context) {
+                return {
+                    "Literal": function(node) {
+                        context.report(node, "message {{ parameter-name }}", {
+                            "parameter-name": "yay!"
+                        });
+                    }
+                };
+            });
+
+            var config = { rules: {} };
+            config.rules["test-rule"] = 1;
+
+            var messages = eslint.verify("0", config);
+            assert.equal(messages[0].message, "message yay!");
+        });
     });
 
     describe("when evaluating code", function() {
