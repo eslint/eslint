@@ -2,6 +2,8 @@
 
 Rules in ESLint are divided into several categories to help you better understand their value. Though none are enabled by default, you can turn on rules that ESLint recommends by specifying your configuration to inherit from `eslint:recommended`. The rules that will be enabled when you inherit from `eslint:recommended` are indicated below as "(recommended)". For more information on how to configure rules and inherit from `eslint:recommended`, please see the [configuration documentation](../user-guide/configuring.md).
 
+Some rules are fixable using the `--fix` command line flag. Those rules are marked as "(fixable)" below.
+
 ## Possible Errors
 
 The following rules point out areas where you might have made mistakes.
@@ -47,7 +49,7 @@ These are rules designed to prevent you from making mistakes. They either prescr
 * [default-case](default-case.md) - require `default` case in `switch` statements
 * [dot-notation](dot-notation.md) - encourages use of dot notation whenever possible
 * [dot-location](dot-location.md) - enforces consistent newlines before or after dots
-* [eqeqeq](eqeqeq.md) - require the use of `===` and `!==`
+* [eqeqeq](eqeqeq.md) - require the use of `===` and `!==` (fixable)
 * [guard-for-in](guard-for-in.md) - make sure `for-in` loops have an `if` statement
 * [no-alert](no-alert.md) - disallow the use of `alert`, `confirm`, and `prompt`
 * [no-caller](no-caller.md) - disallow use of `arguments.caller` or `arguments.callee`
@@ -177,10 +179,10 @@ These rules are purely matters of style and are quite subjective.
 * [operator-linebreak](operator-linebreak.md) - enforce operators to be placed before or after line breaks
 * [padded-blocks](padded-blocks.md) - enforce padding within blocks
 * [quote-props](quote-props.md) - require quotes around object literal property names
-* [quotes](quotes.md) - specify whether backticks, double or single quotes should be used
+* [quotes](quotes.md) - specify whether backticks, double or single quotes should be used (fixable)
 * [require-jsdoc](require-jsdoc.md) - Require JSDoc comment
 * [semi-spacing](semi-spacing.md) - enforce spacing before and after semicolons
-* [semi](semi.md) - require or disallow use of semicolons instead of ASI
+* [semi](semi.md) - require or disallow use of semicolons instead of ASI (fixable)
 * [sort-vars](sort-vars.md) - sort variables within the same declaration block
 * [space-after-keywords](space-after-keywords.md) - require a space after certain keywords
 * [space-before-keywords](space-before-keywords.md) - require a space before certain keywords

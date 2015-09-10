@@ -83,7 +83,6 @@ describe("eslint", function() {
         sandbox.verifyAndRestore();
     });
 
-
     describe("when using events", function() {
         var code = TEST_CODE;
 
@@ -677,75 +676,98 @@ describe("eslint", function() {
         });
     });
 
-    describe("when calling report", function() {
-        it("should correctly parse a message when being passed all options", function() {
+    describe("report()", function() {
+
+        var config;
+        beforeEach(function() {
             eslint.reset();
-            eslint.defineRule("test-rule", function(context) {
-                return {
-                    "Literal": function(node) {
-                        context.report(node, node.loc.end, "hello {{dynamic}}", {dynamic: node.type});
-                    }
-                };
+            config = { rules: {} };
+        });
+
+        it("should correctly parse a message when being passed all options", function() {
+            eslint.on("Program", function(node) {
+                eslint.report("test-rule", 2, node, node.loc.end, "hello {{dynamic}}", {dynamic: node.type});
             });
 
-            var config = { rules: {} };
-            config.rules["test-rule"] = 1;
-
-            var messages = eslint.verify("0", config);
-            assert.equal(messages[0].message, "hello Literal");
+            var messages = eslint.verify("0", config, "", true);
+            assert.deepEqual(messages[0], {
+                severity: 2,
+                ruleId: "test-rule",
+                message: "hello Program",
+                nodeType: "Program",
+                line: 1,
+                column: 2,
+                source: "0"
+            });
         });
 
         it("should use the report the provided location when given", function() {
-            eslint.reset();
-            eslint.defineRule("test-rule", function(context) {
-                return {
-                    "Literal": function(node) {
-                        context.report(node, {line: 42, column: 13}, "hello world");
-                    }
-                };
+            eslint.on("Program", function(node) {
+                eslint.report("test-rule", 2, node, {line: 42, column: 13}, "hello world");
             });
 
-            var config = { rules: {} };
-            config.rules["test-rule"] = 1;
-
-            var messages = eslint.verify("0", config);
-            assert.equal(messages[0].message, "hello world");
-            assert.equal(messages[0].line, 42);
-            assert.equal(messages[0].column, 14);
+            var messages = eslint.verify("0", config, "", true);
+            assert.deepEqual(messages[0], {
+                severity: 2,
+                ruleId: "test-rule",
+                message: "hello world",
+                nodeType: "Program",
+                line: 42,
+                column: 14,
+                source: ""
+            });
         });
 
         it("should correctly parse a message with object keys as numbers", function() {
-            eslint.reset();
-            eslint.defineRule("test-rule", function(context) {
-                return {
-                    "Literal": function(node) {
-                        context.report(node, "my message {{name}}{{0}}", {0: "!", name: "testing"});
-                    }
-                };
+            eslint.on("Program", function(node) {
+                eslint.report("test-rule", 2, node, "my message {{name}}{{0}}", {0: "!", name: "testing"});
             });
 
-            var config = { rules: {} };
-            config.rules["test-rule"] = 1;
-
-            var messages = eslint.verify("0", config);
-            assert.equal(messages[0].message, "my message testing!");
+            var messages = eslint.verify("0", config, "", true);
+            assert.deepEqual(messages[0], {
+                severity: 2,
+                ruleId: "test-rule",
+                message: "my message testing!",
+                nodeType: "Program",
+                line: 1,
+                column: 1,
+                source: "0"
+            });
         });
 
         it("should correctly parse a message with array", function() {
-            eslint.reset();
-            eslint.defineRule("test-rule", function(context) {
-                return {
-                    "Literal": function(node) {
-                        context.report(node, "my message {{1}}{{0}}", ["!", "testing"]);
-                    }
-                };
+            eslint.on("Program", function(node) {
+                eslint.report("test-rule", 2, node, "my message {{1}}{{0}}", ["!", "testing"]);
             });
 
-            var config = { rules: {} };
-            config.rules["test-rule"] = 1;
+            var messages = eslint.verify("0", config, "", true);
+            assert.deepEqual(messages[0], {
+                severity: 2,
+                ruleId: "test-rule",
+                message: "my message testing!",
+                nodeType: "Program",
+                line: 1,
+                column: 1,
+                source: "0"
+            });
+        });
 
-            var messages = eslint.verify("0", config);
-            assert.equal(messages[0].message, "my message testing!");
+        it("should include a fix passed as the last argument when location is not passed", function() {
+            eslint.on("Program", function(node) {
+                eslint.report("test-rule", 2, node, "my message {{1}}{{0}}", ["!", "testing"], { range: [1, 1], text: "" });
+            });
+
+            var messages = eslint.verify("0", config, "", true);
+            assert.deepEqual(messages[0], {
+                severity: 2,
+                ruleId: "test-rule",
+                message: "my message testing!",
+                nodeType: "Program",
+                line: 1,
+                column: 1,
+                source: "0",
+                fix: { range: [1, 1], text: "" }
+            });
         });
 
         it("should allow template parameter with inner whitespace", function() {
@@ -760,7 +782,6 @@ describe("eslint", function() {
                 };
             });
 
-            var config = { rules: {} };
             config.rules["test-rule"] = 1;
 
             var messages = eslint.verify("0", config);
@@ -779,7 +800,6 @@ describe("eslint", function() {
                 };
             });
 
-            var config = { rules: {} };
             config.rules["test-rule"] = 1;
 
             var messages = eslint.verify("0", config);
@@ -796,7 +816,6 @@ describe("eslint", function() {
                 };
             });
 
-            var config = { rules: {} };
             config.rules["test-rule"] = 1;
 
             var messages = eslint.verify("0", config);
@@ -815,7 +834,6 @@ describe("eslint", function() {
                 };
             });
 
-            var config = { rules: {} };
             config.rules["test-rule"] = 1;
 
             var messages = eslint.verify("0", config);
@@ -834,7 +852,6 @@ describe("eslint", function() {
                 };
             });
 
-            var config = { rules: {} };
             config.rules["test-rule"] = 1;
 
             var messages = eslint.verify("0", config);
@@ -853,7 +870,6 @@ describe("eslint", function() {
                 };
             });
 
-            var config = { rules: {} };
             config.rules["test-rule"] = 1;
 
             var messages = eslint.verify("0", config);
@@ -872,12 +888,30 @@ describe("eslint", function() {
                 };
             });
 
-            var config = { rules: {} };
             config.rules["test-rule"] = 1;
 
             var messages = eslint.verify("0", config);
             assert.equal(messages[0].message, "message yay!");
         });
+
+        it("should include a fix passed as the last argument when location is passed", function() {
+            eslint.on("Program", function(node) {
+                eslint.report("test-rule", 2, node, { line: 42, column: 23 }, "my message {{1}}{{0}}", ["!", "testing"], { range: [1, 1], text: "" });
+            });
+
+            var messages = eslint.verify("0", config, "", true);
+            assert.deepEqual(messages[0], {
+                severity: 2,
+                ruleId: "test-rule",
+                message: "my message testing!",
+                nodeType: "Program",
+                line: 42,
+                column: 24,
+                source: "",
+                fix: { range: [1, 1], text: "" }
+            });
+        });
+
     });
 
     describe("when evaluating code", function() {
