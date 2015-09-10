@@ -184,6 +184,54 @@ ruleTester.run("no-unused-vars", rule, {
                 {line: 3, column: 4, message: "\"foo\" is defined but never used" },
                 {line: 4, column: 4, message: "\"bar\" is defined but never used" }
             ]
+        },
+
+        // https://github.com/eslint/eslint/issues/3714
+        {
+            code: "/* global a$fooz,$foo */\na$fooz;",
+            errors: [
+                {line: 1, column: 18, message: "\"$foo\" is defined but never used" }
+            ]
+        },
+        {
+            code: "/* globals a$fooz, $ */\na$fooz;",
+            errors: [
+                {line: 1, column: 20, message: "\"$\" is defined but never used" }
+            ]
+        },
+        {
+            code: "/*globals $foo*/",
+            errors: [
+                {line: 1, column: 11, message: "\"$foo\" is defined but never used" }
+            ]
+        },
+        {
+            code: "/* global global*/",
+            errors: [
+                {line: 1, column: 11, message: "\"global\" is defined but never used" }
+            ]
+        },
+        {
+            code: "/*global foo:true*/",
+            errors: [
+                {line: 1, column: 10, message: "\"foo\" is defined but never used" }
+            ]
+        },
+        // non ascii.
+        {
+            code: "/*global 変数, 数*/\n変数;",
+            errors: [
+                {line: 1, column: 14, message: "\"数\" is defined but never used" }
+            ]
         }
+        // surrogate pair.
+        // TODO: https://github.com/eslint/espree/issues/181
+        // {
+        //     code: "/*global 𠮷𩸽, 𠮷*/\n\\u{20BB7}\\u{29E3D};",
+        //     env: {es6: true},
+        //     errors: [
+        //         {line: 1, column: 16, message: "\"𠮷\" is defined but never used" }
+        //     ]
+        // }
     ]
 });
