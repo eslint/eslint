@@ -2,6 +2,8 @@
 
 Require spaces following `return`, `throw`, and `case`.
 
+**Fixable:** This rule is automatically fixable using the `--fix` flag on the command line.
+
 ## Rule Details
 
 The following patterns are considered warnings:
