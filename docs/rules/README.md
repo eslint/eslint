@@ -170,7 +170,7 @@ These rules are purely matters of style and are quite subjective.
 * [no-restricted-syntax](no-restricted-syntax.md) - disallow use of certain syntax in code
 * [no-spaced-func](no-spaced-func.md) - disallow space between function identifier and application
 * [no-ternary](no-ternary.md) - disallow the use of ternary operators
-* [no-trailing-spaces](no-trailing-spaces.md) - disallow trailing whitespace at the end of lines
+* [no-trailing-spaces](no-trailing-spaces.md) - disallow trailing whitespace at the end of lines (fixable)
 * [no-underscore-dangle](no-underscore-dangle.md) - disallow dangling underscores in identifiers
 * [no-unneeded-ternary](no-unneeded-ternary.md) - disallow the use of ternary operators when a simpler alternative exists
 * [object-curly-spacing](object-curly-spacing.md) - require or disallow padding inside curly braces
