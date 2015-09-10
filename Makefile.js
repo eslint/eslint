@@ -882,6 +882,11 @@ target.checkGitCommit = function() {
 
     // Only check non-release messages
     if (!semver.valid(commitMsgs[0])) {
+        if (commitMsgs[0].slice(0, commitMsgs[0].indexOf("\n")).length > 72) {
+            echo(" - First line of commit message must not exceed 72 characters");
+            failed = true;
+        }
+
         // Check for tag at start of message
         if (!TAG_REGEX.test(commitMsgs[0])) {
             echo(" - Commit message must start with one of:\n    'Fix:'\n    'Update:'\n    'Breaking:'\n    'Docs:'\n    'Build:'\n    'New:'\n    'Upgrade:'");
