@@ -66,7 +66,8 @@ ruleTester.run("camelcase", rule, {
                     message: "Identifier 'first_name' is not in camel case.",
                     type: "Identifier"
                 }
-            ]
+            ],
+            output: "firstName = \"Nicholas\""
         },
         {
             code: "__private_first_name = \"Patrick\"",
@@ -75,7 +76,8 @@ ruleTester.run("camelcase", rule, {
                     message: "Identifier '__private_first_name' is not in camel case.",
                     type: "Identifier"
                 }
-            ]
+            ],
+            output: "privateFirstName = \"Patrick\""
         },
         {
             code: "function foo_bar(){}",
@@ -84,7 +86,8 @@ ruleTester.run("camelcase", rule, {
                     message: "Identifier 'foo_bar' is not in camel case.",
                     type: "Identifier"
                 }
-            ]
+            ],
+            output: "function fooBar(){}"
         },
         {
             code: "obj.foo_bar = function(){};",
@@ -93,7 +96,8 @@ ruleTester.run("camelcase", rule, {
                     message: "Identifier 'foo_bar' is not in camel case.",
                     type: "Identifier"
                 }
-            ]
+            ],
+            output: "obj.fooBar = function(){};"
         },
         {
             code: "bar_baz.foo = function(){};",
@@ -102,7 +106,8 @@ ruleTester.run("camelcase", rule, {
                     message: "Identifier 'bar_baz' is not in camel case.",
                     type: "Identifier"
                 }
-            ]
+            ],
+            output: "barBaz.foo = function(){};"
         },
         {
             code: "[foo_bar.baz]",
@@ -111,7 +116,8 @@ ruleTester.run("camelcase", rule, {
                     message: "Identifier 'foo_bar' is not in camel case.",
                     type: "Identifier"
                 }
-            ]
+            ],
+            output: "[fooBar.baz]"
         },
         {
             code: "if (foo.bar_baz === boom.bam_pow) { [foo_bar.baz] }",
@@ -120,7 +126,8 @@ ruleTester.run("camelcase", rule, {
                     message: "Identifier 'foo_bar' is not in camel case.",
                     type: "Identifier"
                 }
-            ]
+            ],
+            output: "if (foo.bar_baz === boom.bam_pow) { [fooBar.baz] }"
         },
         {
             code: "foo.bar_baz = boom.bam_pow",
@@ -129,7 +136,8 @@ ruleTester.run("camelcase", rule, {
                     message: "Identifier 'bar_baz' is not in camel case.",
                     type: "Identifier"
                 }
-            ]
+            ],
+            output: "foo.barBaz = boom.bam_pow"
         },
         {
             code: "var foo = { bar_baz: boom.bam_pow }",
@@ -138,7 +146,8 @@ ruleTester.run("camelcase", rule, {
                     message: "Identifier 'bar_baz' is not in camel case.",
                     type: "Identifier"
                 }
-            ]
+            ],
+            output: "var foo = { barBaz: boom.bam_pow }"
         },
         {
             code: "foo.qux.boom_pow = { bar: boom.bam_pow }",
@@ -147,7 +156,8 @@ ruleTester.run("camelcase", rule, {
                     message: "Identifier 'boom_pow' is not in camel case.",
                     type: "Identifier"
                 }
-            ]
+            ],
+            output: "foo.qux.boomPow = { bar: boom.bam_pow }"
         },
         {
             code: "var o = {bar_baz: 1}",
@@ -157,7 +167,8 @@ ruleTester.run("camelcase", rule, {
                     message: "Identifier 'bar_baz' is not in camel case.",
                     type: "Identifier"
                 }
-            ]
+            ],
+            output: "var o = {barBaz: 1}"
         },
         {
             code: "obj.a_b = 2;",
@@ -167,7 +178,8 @@ ruleTester.run("camelcase", rule, {
                     message: "Identifier 'a_b' is not in camel case.",
                     type: "Identifier"
                 }
-            ]
+            ],
+            output: "obj.aB = 2;"
         },
         {
             code: "obj.a_b = 2;",
@@ -177,7 +189,8 @@ ruleTester.run("camelcase", rule, {
                     message: "Identifier 'a_b' is not in camel case.",
                     type: "Identifier"
                 }
-            ]
+            ],
+            output: "obj.aB = 2;"
         }
 
     ]
