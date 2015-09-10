@@ -122,7 +122,7 @@ Environments can be specified inside of a file, in configuration files or using 
 To specify environments using a comment inside of your JavaScript file, use the following format:
 
 ```js
-/*eslint-env node, mocha */
+/* eslint-env node, mocha */
 ```
 
 This enables Node.js and Mocha environments.
@@ -169,13 +169,13 @@ The [no-undef](../rules/no-undef.md) rule will warn on variables that are access
 To specify globals using a comment inside of your JavaScript file, use the following format:
 
 ```js
-/*global var1, var2*/
+/* global var1, var2 */
 ```
 
 This defines two global variables, `var1` and `var2`. If you want to optionally specify that these global variables should never be written to (only read), then you can set each with a `false` flag:
 
 ```js
-/*global var1:false, var2:false*/
+/* global var1:false, var2:false */
 ```
 
 To configure global variables inside of a configuration file, use the `globals` key and indicate the global variables you want to use. Set each global variable name equal to `true` to allow the variable to be overwritten or `false` to disallow overwriting. For example:
@@ -237,13 +237,13 @@ ESLint comes with a large number of rules. You can modify which rules your proje
 To configure rules inside of a file using configuration comments, use a comment in the following format:
 
 ```js
-/*eslint eqeqeq:0, curly: 2*/
+/* eslint eqeqeq:0, curly: 2 */
 ```
 
 In this example, [`eqeqeq`](../rules/eqeqeq) is turned off and [`curly`](../rules/curly) is turned on as an error. If a rule has additional options, you can specify them using array literal syntax, such as:
 
 ```js
-/*eslint quotes: [2, "double"], curly: 2*/
+/* eslint quotes: [2, "double"], curly: 2 */
 ```
 
 This comment specifies the "double" option for the [`quotes`](../rules/quotes) rule.
@@ -307,7 +307,7 @@ And in YAML:
 In these configuration files, the rule `plugin1/rule1` comes from the plugin named `plugin1`. You can also use this format with configuration comments, such as:
 
 ```js
-/*eslint "plugin1/rule1": 2*/
+/* eslint "plugin1/rule1": 2 */
 ```
 
 **Note:** When specifying rules from plugins, make sure to omit `eslint-plugin-`. ESLint uses only the unprefixed name internally to locate rules.
@@ -317,23 +317,23 @@ All rules that are enabled by default are set to 2, so they will cause a non-zer
 To temporary disable warnings in your file use the following format:
 
 ```js
-/*eslint-disable */
+/* eslint-disable */
 
 //suppress all warnings between comments
 alert('foo');
 
-/*eslint-enable */
+/* eslint-enable */
 ```
 
 You can also disable and enable back warnings of specific rules
 
 ```js
-/*eslint-disable no-alert, no-console */
+/* eslint-disable no-alert, no-console */
 
 alert('foo');
 console.log('bar');
 
-/*eslint-enable no-alert */
+/* eslint-enable no-alert */
 ```
 
 To disable warnings on a specific line
