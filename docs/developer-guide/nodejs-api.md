@@ -66,7 +66,11 @@ The `verify()` method returns an array of objects containing information about t
     severity: 2,
     line: 1,
     column: 23,
-    message: "Expected a semicolon."
+    message: "Expected a semicolon.",
+    fix: {
+        range: [1, 15],
+        text: ";"
+    }
 }
 ```
 
@@ -80,6 +84,7 @@ The information available for each linting message is:
 * `ruleId` - the ID of the rule that triggered the messages (or null if `fatal` is true).
 * `severity` - either 1 or 2, depending on your configuration.
 * `source` - the line of code where the problem is (or empty string if it can't be found).
+* `fix` - an object describing the fix for the problem (this property is omitted if no fix is available).
 
 You can also get an instance of the `SourceCode` object used inside of `linter` by using the `getSourceCode()` method:
 
@@ -115,6 +120,7 @@ The `CLIEngine` is a constructor, and you can create a new instance by passing i
 * `envs` - An array of environments to load (default: empty array). Corresponds to `--env`.
 * `extensions` - An array of filename extensions that should be checked for code. The default is an array containing just `".js"`. Corresponds to `--ext`.
 * `globals` - An array of global variables to declare (default: empty array). Corresponds to `--global`.
+* `fix` - True indicates that fixes should be applied to the text when possible.
 * `ignore` - False disables use of `.eslintignore` (default: true). Corresponds to `--no-ignore`.
 * `ignorePath` - The ignore file to use instead of `.eslintignore` (default: null). Corresponds to `--ignore-path`.
 * `baseConfig` - Set to false to disable use of base config. Could be set to an object to override default base config as well.
@@ -167,6 +173,7 @@ The return value is an object containing the results of the linting operation. H
     results: [
         {
             filePath: "./myfile.js",
+            output: "foo;",
             messages: [
                 {
                     fatal: false,
@@ -187,7 +194,7 @@ The return value is an object containing the results of the linting operation. H
 }
 ```
 
-The top-level report object has a `results` array containing all linting results for files that had warnings or errors (any files that did not produce a warning or error are omitted). Each file result includes the `filePath`, a `messages` array, `errorCount` and `warningCount`. The `messages` array contains the result of calling `linter.verify()` on the given file. The `errorCount` and `warningCount` give the exact number of errors and warnings respectively on the given file. The top-level report object also has `errorCount` and `warningCount` which give the exact number of errors and warnings respectively on all the files.
+The top-level report object has a `results` array containing all linting results for files that had warnings or errors (any files that did not produce a warning or error are omitted). Each file result includes the `filePath`, a `messages` array, `errorCount`, `warningCount`, and optionally `output`. The `messages` array contains the result of calling `linter.verify()` on the given file. The `errorCount` and `warningCount` give the exact number of errors and warnings respectively on the given file. The `output` property gives the source code for the file with as many fixes applied as possible, so you can use that to rewrite the files if necessary. The top-level report object also has `errorCount` and `warningCount` which give the exact number of errors and warnings respectively on all the files.
 
 Once you get a report object, it's up to you to determine how to output the results.
 
@@ -349,6 +356,28 @@ var errorReport = CLIEngine.getErrorResults(report.results)
 ```
 
 **Important:** You must pass in the `results` property of the report. Passing in `report` directly will result in an error.
+
+### outputFixes()
+
+This is a static function on `CLIEngine` that is used to output fixes from `report` to disk. It does by looking for files that have an `output` property in their results. Here's an example:
+
+```js
+var CLIEngine = require("eslint").CLIEngine;
+
+var cli = new CLIEngine({
+    envs: ["browser", "mocha"],
+    useEslintrc: false,
+    rules: {
+        semi: 2
+    }
+});
+
+// lint myfile.js and all files in lib/
+var report = cli.executeOnFiles(["myfile.js", "lib/"]);
+
+// output fixes to disk
+CLIEngine.outputFixes(report);
+```
 
 ## Deprecated APIs
 

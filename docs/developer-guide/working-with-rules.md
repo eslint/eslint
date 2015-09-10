@@ -83,7 +83,7 @@ Additionally, the `context` object has the following methods:
 * `getSourceCode()` - returns a `SourceCode` object that you can use to work with the source that was passed to ESLint
 * `isMarkedAsUsed(name)` - returns true if a given variable name has been marked as used.
 * `markVariableAsUsed(name)` - marks the named variable in scope as used. This affects the [no-unused-vars](../rules/no-unused-vars.md) rule.
-* `report(node, message)` - reports an error in the code.
+* `report(descriptor)` - reports a problem in the code.
 
 **Deprecated:** The following methods on the `context` object are deprecated. Please use the corresponding methods on `SourceCode` instead:
 
@@ -104,22 +104,81 @@ Additionally, the `context` object has the following methods:
 * `getTokensAfter(nodeOrToken, count)` - returns `count` tokens after the given node or token. Use `sourceCode.getTokensAfter(nodeOrToken, count)` instead.
 * `getTokensBefore(nodeOrToken, count)` - returns `count` tokens before the given node or token. Use `sourceCode.getTokensBefore(nodeOrToken, count)` instead.
 * `getTokensBetween(node1, node2)` - returns the tokens between two nodes. Use `sourceCode.getTokensBetween(node1, node2)` instead.
+* `report(node, [location], message)` - reports a problem in the code.
 
 ### context.report()
 
-The main method you'll use is `context.report()`, which publishes a warning or error (depending on the configuration being used). This method accepts three arguments: the AST node that caused the report, a message to display, and an optional object literal which is used to interpolate. For example:
+The main method you'll use is `context.report()`, which publishes a warning or error (depending on the configuration being used). This method accepts a single argument, which is an object containing the following properties:
 
-    context.report(node, "This is unexpected!");
+* `message` - the problem message.
+* `node` - (optional)  the AST node related to the problem. If present and `loc` is not specified, then the starting location of the node is used as the location of the problem.
+* `loc` - (optional) an object specifying the location of the problem. If both `loc` and `node` are specified, then the location is used from `loc` instead of `node`.
+    * `line` - the 1-based line number at which the problem occurred.
+    * `col` - the 0-based column number at which the problem occurred.
+* `data` - (optional) placeholder data for `message`.
+* `fix` - (optional) a function that applies a fix to resolve the problem.
 
-or {% raw %}
+The simplest example is to use just `node` and `message`:
 
-    context.report(node, "`{{ identifier }}` is unexpected!", { identifier: node.name });
+```js
+context.report({
+    node: node,
+    message: "Unexpected identifier"
+});
+```
 
+The node contains all of the information necessary to figure out the line and column number of the offending text as well the source text representing the node.
+
+You can also use placeholders in the message and provide `data`:
+
+```js
+{% raw %}
+context.report({
+    node: node,
+    message: "Unexpected identifier: {{ identifier }}",
+    data: {
+        identifier: node.name
+    }
+});
 {% endraw %}
+```
 
 Note that leading and trailing whitespace is optional in message parameters.
 
 The node contains all of the information necessary to figure out the line and column number of the offending text as well the source text representing the node.
+
+### Applying Fixes
+
+If you'd like ESLint to attempt to fix the problem you're reporting, you can do so by specifying the `fix` function when using `context.report()`. The `fix` function receives a single argument, a `fixer` object, that you can use to apply a fix. For example:
+
+```js
+context.report({
+    node: node,
+    message: "Missing semicolon".
+    fix: function(fixer) {
+        return fixer.insertTextAfter(node, ";");
+    }
+});
+```
+
+Here, the `fix()` function is used to insert a semicolon after the node. Note that the fix is not immediately applied and may not be applied at all if there are conflicts with other fixes. If the fix cannot be applied, then the problem message is reported as usual; if the fix can be applied, then the problem message is not reported.
+
+The `fixer` object has the following methods:
+
+* `insertTextAfter(nodeOrToken, text)` - inserts text after the given node or token
+* `insertTextAfterRange(range, text)` - inserts text after the given range
+* `insertTextBefore(nodeOrToken, text)` - inserts text before the given node or token
+* `insertTextBeforeRange(range, text)` - inserts text before the given range
+* `remove(nodeOrToken, text)` - removes the given node or token
+* `removeRange(range, text)` - removes text in the given range
+* `replaceText(nodeOrToken, text)` - replaces the text in the given node or token
+* `replaceTextRange(range, text)` - replaces the text in the given range
+
+Best practices for fixes:
+
+1. Make fixes that are as small as possible. Anything more than a single character is risky and could prevent other, simpler fixes from being made.
+1. Only make one fix per message. This is enforced because you must return the result of the fixer operation from `fix()`.
+1. Fixes should not introduce clashes with other rules. You can accidentally introduce a new problem that won't be reported until ESLint is run again. Another good reason to make as small a fix as possible.
 
 ### context.options
 

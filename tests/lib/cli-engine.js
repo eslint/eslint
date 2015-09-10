@@ -14,6 +14,7 @@ var assert = require("chai").assert,
     path = require("path"),
     proxyquire = require("proxyquire"),
     sinon = require("sinon"),
+    leche = require("leche"),
     rules = require("../../lib/rules"),
     Config = require("../../lib/config"),
     fs = require("fs");
@@ -99,6 +100,7 @@ describe("CLIEngine", function() {
             assert.equal(report.warningCount, 0);
             assert.equal(report.results[0].messages.length, 1);
             assert.equal(report.results[0].messages[0].ruleId, "quotes");
+            assert.isUndefined(report.results[0].messages[0].output);
             assert.equal(report.results[0].errorCount, 1);
             assert.equal(report.results[0].warningCount, 0);
         });
@@ -124,6 +126,7 @@ describe("CLIEngine", function() {
             assert.equal(report.results[0].filePath, path.resolve("tests/fixtures/passing.js"));
             assert.equal(report.results[0].messages[0].severity, 1);
             assert.equal(report.results[0].messages[0].message, "File ignored because of your .eslintignore file. Use --no-ignore to override.");
+            assert.isUndefined(report.results[0].messages[0].output);
             assert.equal(report.results[0].errorCount, 0);
             assert.equal(report.results[0].warningCount, 1);
         });
@@ -144,6 +147,68 @@ describe("CLIEngine", function() {
             assert.equal(report.results[0].filePath, "tests/fixtures/passing.js");
             assert.equal(report.results[0].messages[0].ruleId, "no-undef");
             assert.equal(report.results[0].messages[0].severity, 2);
+            assert.isUndefined(report.results[0].messages[0].output);
+        });
+
+        it("should return a message and fixed text when in fix mode", function() {
+
+            engine = new CLIEngine({
+                useEslintrc: false,
+                fix: true,
+                rules: {
+                    "semi": 2
+                }
+            });
+
+            var report = engine.executeOnText("var bar = foo", "tests/fixtures/passing.js");
+            assert.deepEqual(report, {
+                "results": [
+                    {
+                        "filePath": "tests/fixtures/passing.js",
+                        "messages": [],
+                        "errorCount": 0,
+                        "warningCount": 0,
+                        "output": "var bar = foo;"
+                    }
+                ],
+                "errorCount": 0,
+                "warningCount": 0
+            });
+        });
+
+        it("should return a message and omit fixed text when in fix mode and fixes aren't done", function() {
+
+            engine = new CLIEngine({
+                useEslintrc: false,
+                fix: true,
+                rules: {
+                    "no-undef": 2
+                }
+            });
+
+            var report = engine.executeOnText("var bar = foo", "tests/fixtures/passing.js");
+            assert.deepEqual(report, {
+                "results": [
+                    {
+                        "filePath": "tests/fixtures/passing.js",
+                        "messages": [
+                            {
+                                "ruleId": "no-undef",
+                                "severity": 2,
+                                "message": "\"foo\" is not defined.",
+                                "line": 1,
+                                "column": 11,
+                                "nodeType": "Identifier",
+                                "source": "var bar = foo"
+                            }
+                        ],
+                        "errorCount": 1,
+                        "warningCount": 0
+                    }
+                ],
+                "errorCount": 1,
+                "warningCount": 0
+            });
         });
 
     });
@@ -596,6 +661,62 @@ describe("CLIEngine", function() {
             assert.equal(report.results.length, 1);
             assert.equal(report.results[0].filePath, filePath);
             assert.equal(report.results[0].messages.length, 0);
+        });
+
+        describe("Fix Mode", function() {
+
+            it("should return fixed text on multiple files when in fix mode", function() {
+
+                engine = new CLIEngine({
+                    useEslintrc: false,
+                    fix: true,
+                    rules: {
+                        semi: 2,
+                        quotes: [2, "double"],
+                        eqeqeq: 2,
+                        "no-undef": 2
+                    }
+                });
+
+                var report = engine.executeOnFiles([fixtureDir + "/fixmode"]);
+                assert.deepEqual(report, {
+                    "results": [
+                        {
+                            "filePath": path.resolve(fixtureDir, "fixmode/ok.js"),
+                            "messages": [],
+                            "errorCount": 0,
+                            "warningCount": 0
+                        },
+                        {
+                            "filePath": path.resolve(fixtureDir, "fixmode/quotes-semi-eqeqeq.js"),
+                            "messages": [],
+                            "errorCount": 0,
+                            "warningCount": 0,
+                            "output": "var msg = \"hi\";\nif (msg === \"hi\") {\n\n}\n"
+                        },
+                        {
+                            "filePath": path.resolve(fixtureDir, "fixmode/quotes.js"),
+                            "messages": [
+                                {
+                                    column: 18,
+                                    line: 1,
+                                    message: "\"foo\" is not defined.",
+                                    nodeType: "Identifier",
+                                    ruleId: "no-undef",
+                                    severity: 2,
+                                    source: "var msg = 'hi' + foo;"
+                                }
+                            ],
+                            "errorCount": 1,
+                            "warningCount": 0,
+                            "output": "var msg = \"hi\" + foo;\n"
+                        }
+                    ],
+                    "errorCount": 1,
+                    "warningCount": 0
+                });
+            });
+
         });
 
         // These tests have to do with https://github.com/eslint/eslint/issues/963
@@ -1384,4 +1505,74 @@ describe("CLIEngine", function() {
         });
     });
 
+    describe("outputFixes()", function() {
+
+        var sandbox = sinon.sandbox.create();
+
+        afterEach(function() {
+            sandbox.verifyAndRestore();
+        });
+
+        it("should call fs.writeFileSync() for each result with output", function() {
+            var fakeFS = leche.fake(fs),
+                localCLIEngine = proxyquire("../../lib/cli-engine", {
+                    fs: fakeFS
+                }),
+                report = {
+                    results: [
+                        {
+                            filePath: "foo.js",
+                            output: "bar"
+                        },
+                        {
+                            filePath: "bar.js",
+                            output: "baz"
+                        }
+                    ]
+                };
+
+            fakeFS.writeFileSync = function() {};
+            var spy = sandbox.spy(fakeFS, "writeFileSync");
+
+            localCLIEngine.outputFixes(report);
+
+            assert.equal(spy.callCount, 2);
+            assert.isTrue(spy.firstCall.calledWithExactly("foo.js", "bar"), "First call was incorrect.");
+            assert.isTrue(spy.secondCall.calledWithExactly("bar.js", "baz"), "Second call was incorrect.");
+
+        });
+
+        it("should call fs.writeFileSync() for each result with output and not at all for a result without output", function() {
+            var fakeFS = leche.fake(fs),
+                localCLIEngine = proxyquire("../../lib/cli-engine", {
+                    fs: fakeFS
+                }),
+                report = {
+                    results: [
+                        {
+                            filePath: "foo.js",
+                            output: "bar"
+                        },
+                        {
+                            filePath: "abc.js"
+                        },
+                        {
+                            filePath: "bar.js",
+                            output: "baz"
+                        }
+                    ]
+                };
+
+            fakeFS.writeFileSync = function() {};
+            var spy = sandbox.spy(fakeFS, "writeFileSync");
+
+            localCLIEngine.outputFixes(report);
+
+            assert.equal(spy.callCount, 2);
+            assert.isTrue(spy.firstCall.calledWithExactly("foo.js", "bar"), "First call was incorrect.");
+            assert.isTrue(spy.secondCall.calledWithExactly("bar.js", "baz"), "Second call was incorrect.");
+
+        });
+
+    });
 });
