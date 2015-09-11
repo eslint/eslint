@@ -22,7 +22,7 @@ The following rules point out areas where you might have made mistakes.
 * [no-ex-assign](no-ex-assign.md) - disallow assigning to the exception in a `catch` block (recommended)
 * [no-extra-boolean-cast](no-extra-boolean-cast.md) - disallow double-negation boolean casts in a boolean context (recommended)
 * [no-extra-parens](no-extra-parens.md) - disallow unnecessary parentheses
-* [no-extra-semi](no-extra-semi.md) - disallow unnecessary semicolons (recommended)
+* [no-extra-semi](no-extra-semi.md) - disallow unnecessary semicolons (recommended) (fixable)
 * [no-func-assign](no-func-assign.md) - disallow overwriting functions written as function declarations (recommended)
 * [no-inner-declarations](no-inner-declarations.md) - disallow function or variable declarations in nested blocks (recommended)
 * [no-invalid-regexp](no-invalid-regexp.md) - disallow invalid regular expression strings in the `RegExp` constructor (recommended)
