@@ -29,11 +29,13 @@ ruleTester.run("eol-last", rule, {
     invalid: [
         {
             code: "var a = 123;",
-            errors: [{ message: "Newline required at end of file but not found.", type: "Program" }]
+            errors: [{ message: "Newline required at end of file but not found.", type: "Program" }],
+            output: "var a = 123;\n"
         },
         {
             code: "var a = 123;\n   ",
-            errors: [{ message: "Newline required at end of file but not found.", type: "Program" }]
+            errors: [{ message: "Newline required at end of file but not found.", type: "Program" }],
+            output: "var a = 123;\n   \n"
         }
     ]
 });

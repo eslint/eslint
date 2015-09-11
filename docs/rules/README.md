@@ -145,7 +145,7 @@ These rules are purely matters of style and are quite subjective.
 * [comma-style](comma-style.md) - enforce one true comma style
 * [computed-property-spacing](computed-property-spacing.md) - require or disallow padding inside computed properties
 * [consistent-this](consistent-this.md) - enforce consistent naming when capturing the current execution context
-* [eol-last](eol-last.md) - enforce newline at the end of file, with no multiple empty lines
+* [eol-last](eol-last.md) - enforce newline at the end of file, with no multiple empty lines (fixable)
 * [func-names](func-names.md) - require function expressions to have a name
 * [func-style](func-style.md) - enforce use of function declarations or expressions
 * [id-length](id-length.md) - this option enforces minimum and maximum identifier lengths (variable names, property names etc.)

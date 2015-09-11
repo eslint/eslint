@@ -10,6 +10,8 @@ the end of the file. If you still want this behaviour, consider enabling
 [no-multiple-empty-lines](no-multiple-empty-lines.md) and/or
 [no-trailing-spaces](no-trailing-spaces.md).
 
+**Fixable:** This rule is automatically fixable using the `--fix` flag on the command line.
+
 ## Rule Details
 
 The following patterns are considered warnings:
