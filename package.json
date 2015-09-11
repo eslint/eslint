@@ -35,6 +35,7 @@
   "homepage": "http://eslint.org",
   "bugs": "https://github.com/eslint/eslint/issues/",
   "dependencies": {
+    "camelcase": "^1.2.1",
     "chalk": "^1.0.0",
     "concat-stream": "^1.4.6",
     "debug": "^2.1.1",

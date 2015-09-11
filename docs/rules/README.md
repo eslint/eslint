@@ -140,7 +140,7 @@ These rules are purely matters of style and are quite subjective.
 * [array-bracket-spacing](array-bracket-spacing.md) - enforce spacing inside array brackets
 * [block-spacing](block-spacing.md) - disallow or enforce spaces inside of single line blocks
 * [brace-style](brace-style.md) - enforce one true brace style
-* [camelcase](camelcase.md) - require camel case names
+* [camelcase](camelcase.md) - require camel case names (fixable)
 * [comma-spacing](comma-spacing.md) - enforce spacing before and after comma
 * [comma-style](comma-style.md) - enforce one true comma style
 * [computed-property-spacing](computed-property-spacing.md) - require or disallow padding inside computed properties
