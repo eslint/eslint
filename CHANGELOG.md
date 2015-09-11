@@ -1,3 +1,10 @@
+v1.4.1 - September 11, 2015
+
+* Fix: CLIEngine default cache parameter name (fixes #3755) (Daniel G. Taylor)
+* Fix: Glob pattern from .eslintignore not applied (fixes #3750) (Burak Yigit Kaya)
+* Fix: Skip JSDoc from NewExpression (fixes #3744) (Nicholas C. Zakas)
+* Docs: Shorten and simplify autocomment for new issues (Nicholas C. Zakas)
+
 v1.4.0 - September 11, 2015
 
 * Docs: Add new formatters to API docs (Ian VanSchooten)
