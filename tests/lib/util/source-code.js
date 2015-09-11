@@ -136,6 +136,33 @@ describe("SourceCode", function() {
 
         });
 
+        it("should not take a JSDoc comment from a VariableDeclaration parent node when the node is a FunctionExpression inside a NewExpression", function() {
+
+            var code = [
+                "/** Desc*/",
+                "var x = new Foo(function(){});"
+            ].join("\n");
+
+            /**
+             * Check jsdoc presence
+             * @param {ASTNode} node not to check
+             * @returns {void}
+             * @private
+             */
+            function assertJSDoc(node) {
+                var sourceCode = eslint.getSourceCode();
+                var jsdoc = sourceCode.getJSDocComment(node);
+                assert.equal(jsdoc, null);
+            }
+
+            var spy = sandbox.spy(assertJSDoc);
+
+            eslint.on("FunctionExpression", spy);
+            eslint.verify(code, { rules: {}}, filename, true);
+            assert.isTrue(spy.calledOnce, "Event handler should be called.");
+
+        });
+
         it("should not take a JSDoc comment from a FunctionExpression parent node when the node is a FunctionExpression", function() {
 
             var code = [
