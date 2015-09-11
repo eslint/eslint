@@ -143,6 +143,20 @@ function generateBlogPost(releaseInfo) {
 }
 
 /**
+ * Generates a doc page with formatter result examples
+ * @param  {Object} formatterInfo Linting results from each formatter
+ * @returns {void}
+ */
+function generateFormatterExamples(formatterInfo) {
+    var output = ejs.render(cat("./templates/formatter-examples.md.ejs"), formatterInfo),
+        filename = "../eslint.github.io/docs/user-guide/formatters/index.md",
+        htmlFilename = "../eslint.github.io/docs/user-guide/formatters/html-formatter-example.html";
+
+    output.to(filename);
+    formatterInfo.formatterResults.html.result.to(htmlFilename);
+}
+
+/**
  * Given a semver version, determine the type of version.
  * @param {string} version A semver version string.
  * @returns {string} The type of version.
@@ -380,6 +394,49 @@ function hasBranch(branchName) {
     return branches.indexOf(branchName) !== -1;
 }
 
+/**
+ * Gets linting results from every formatter, based on a hard-coded snippet and config
+ * @returns {Object} Output from each formatter
+ */
+function getFormatterResults() {
+    var CLIEngine = require("eslint").CLIEngine,
+        chalk = require("chalk");
+
+    var formatterFiles = fs.readdirSync("./lib/formatters/"),
+        cli = new CLIEngine({
+            useEslintrc: false,
+            baseConfig: { "extends": "eslint:recommended" },
+            rules: {
+                "no-else-return": 1,
+                "indent": [1, 4],
+                "space-unary-ops": 2,
+                "semi": [1, "always"],
+                "consistent-return": 2
+            }
+        }),
+        codeString = [
+            "function addOne(i) {",
+            "    if (i != NaN) {",
+            "        return i ++",
+            "    } else {",
+            "      return",
+            "    }",
+            "};"
+        ].join("\n"),
+        rawMessages = cli.executeOnText(codeString, "fullOfProblems.js");
+
+    return formatterFiles.reduce(function(data, filename) {
+        var fileExt = path.extname(filename),
+            name = path.basename(filename, fileExt);
+        if (fileExt === ".js") {
+            data.formatterResults[name] = {
+                result: chalk.stripColor(cli.getFormatter(name)(rawMessages.results))
+            };
+        }
+        return data;
+    }, { formatterResults: {} });
+}
+
 //------------------------------------------------------------------------------
 // Tasks
 //------------------------------------------------------------------------------
@@ -588,6 +645,9 @@ target.gensite = function() {
     target.browserify();
     cp("-f", "build/eslint.js", SITE_DIR + "js/app/eslint.js");
     cp("-f", "conf/eslint.json", SITE_DIR + "js/app/eslint.json");
+
+    // 13. Create Example Formatter Output Page
+    generateFormatterExamples(getFormatterResults());
 };
 
 target.publishsite = function() {
