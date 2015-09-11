@@ -460,6 +460,24 @@ describe("CLIEngine", function() {
             assert.equal(report.results.length, 0);
         });
 
+        it("should return zero messages when all given files are ignored event with a `./` prefix", function() {
+            engine = new CLIEngine({
+                ignorePath: getFixturePath(".eslintignore")
+            });
+
+            var report = engine.executeOnFiles(["./tests/fixtures/"]);
+            assert.equal(report.results.length, 0);
+        });
+
+        it("should return zero messages when all given files are ignored via ignore-pattern", function() {
+            engine = new CLIEngine({
+                ignorePattern: "tests/fixtures/single-quoted.js"
+            });
+
+            var report = engine.executeOnFiles(["tests/fixtures/*-quoted.js"]);
+            assert.equal(report.results.length, 0);
+        });
+
         it("should return a warning when an explicitly given file is ignored", function() {
             engine = new CLIEngine({
                 ignorePath: getFixturePath(".eslintignore")
