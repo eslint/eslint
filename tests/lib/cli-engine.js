@@ -1057,7 +1057,7 @@ describe("CLIEngine", function() {
             });
         });
 
-        describe("useCache", function() {
+        describe("cache", function() {
             var sandbox;
             /**
              * helper method to delete the cache files created during testing
@@ -1087,8 +1087,8 @@ describe("CLIEngine", function() {
 
                 engine = new CLIEngine({
                     useEslintrc: false,
-                    // specifying useCache true the cache will be created
-                    useCache: true,
+                    // specifying cache true the cache will be created
+                    cache: true,
                     rules: {
                         "no-console": 0,
                         "no-unused-vars": 2
@@ -1111,8 +1111,8 @@ describe("CLIEngine", function() {
 
                 engine = new CLIEngine({
                     useEslintrc: false,
-                    // specifying useCache true the cache will be created
-                    useCache: true,
+                    // specifying cache true the cache will be created
+                    cache: true,
                     rules: {
                         "no-console": 0,
                         "no-unused-vars": 2
@@ -1137,8 +1137,8 @@ describe("CLIEngine", function() {
 
                 engine = new CLIEngine({
                     useEslintrc: false,
-                    // specifying useCache true the cache will be created
-                    useCache: true,
+                    // specifying cache true the cache will be created
+                    cache: true,
                     rules: {
                         "no-console": 0,
                         "no-unused-vars": 2
@@ -1155,8 +1155,8 @@ describe("CLIEngine", function() {
 
                 engine = new CLIEngine({
                     useEslintrc: false,
-                    // specifying useCache true the cache will be created
-                    useCache: false,
+                    // specifying cache true the cache will be created
+                    cache: false,
                     rules: {
                         "no-console": 0,
                         "no-unused-vars": 2
@@ -1174,8 +1174,8 @@ describe("CLIEngine", function() {
 
                 engine = new CLIEngine({
                     useEslintrc: false,
-                    // specifying useCache true the cache will be created
-                    useCache: true,
+                    // specifying cache true the cache will be created
+                    cache: true,
                     rules: {
                         "no-console": 0,
                         "no-unused-vars": 2
@@ -1211,8 +1211,8 @@ describe("CLIEngine", function() {
                         useEslintrc: false,
                         // specify a custom cache file
                         cacheFile: customCacheFile,
-                        // specifying useCache true the cache will be created
-                        useCache: true,
+                        // specifying cache true the cache will be created
+                        cache: true,
                         rules: {
                             "no-console": 0,
                             "no-unused-vars": 2
