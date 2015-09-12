@@ -187,7 +187,7 @@ These rules are purely matters of style and are quite subjective.
 * [space-after-keywords](space-after-keywords.md) - require a space after certain keywords
 * [space-before-keywords](space-before-keywords.md) - require a space before certain keywords
 * [space-before-blocks](space-before-blocks.md) - require or disallow a space before blocks
-* [space-before-function-paren](space-before-function-paren.md) - require or disallow a space before function opening parenthesis
+* [space-before-function-paren](space-before-function-paren.md) - require or disallow a space before function opening parenthesis (fixable)
 * [space-in-parens](space-in-parens.md) - require or disallow spaces inside parentheses
 * [space-infix-ops](space-infix-ops.md) - require spaces around operators
 * [space-return-throw-case](space-return-throw-case.md) - require a space after `return`, `throw`, and `case` (fixable)
