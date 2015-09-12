@@ -222,167 +222,206 @@ ruleTester.run("space-before-keywords", rule, {
         // IfStatement
         {
             code: ";if ('') {}",
-            errors: [ { message: expectedSpacingErrorMessageTpl("if"), type: "IfStatement" } ]
+            errors: [ { message: expectedSpacingErrorMessageTpl("if"), type: "IfStatement" } ],
+            output: "; if ('') {}"
         },
         {
             code: "if ('') {}else {}",
-            errors: [ { message: expectedSpacingErrorMessageTpl("else"), type: "Keyword", line: 1, column: 11 } ]
+            errors: [ { message: expectedSpacingErrorMessageTpl("else"), type: "Keyword", line: 1, column: 11 } ],
+            output: "if ('') {} else {}"
         },
         {
             code: "if ('') {} else {}",
             errors: [ { message: expectedNoSpacingErrorMessageTpl("else"), type: "Keyword", line: 1, column: 12 } ],
-            options: never
+            options: never,
+            output: "if ('') {}else {}"
         },
         {
             code: "if ('') {}\nelse {}",
             errors: [ { message: expectedNoSpacingErrorMessageTpl("else"), type: "Keyword", line: 2, column: 1 } ],
-            options: never
+            options: never,
+            output: "if ('') {}else {}"
         },
         // ForStatement
         {
             code: ";for (;;) {}",
-            errors: [ { message: expectedSpacingErrorMessageTpl("for"), type: "ForStatement" } ]
+            errors: [ { message: expectedSpacingErrorMessageTpl("for"), type: "ForStatement" } ],
+            output: "; for (;;) {}"
         },
         // ForInStatement
         {
             code: ";for (var foo in [1, 2, 3]) {}",
-            errors: [ { message: expectedSpacingErrorMessageTpl("for"), type: "ForInStatement" } ]
+            errors: [ { message: expectedSpacingErrorMessageTpl("for"), type: "ForInStatement" } ],
+            output: "; for (var foo in [1, 2, 3]) {}"
         },
         // WhileStatement
         {
             code: ";while (false) {}",
-            errors: [ { message: expectedSpacingErrorMessageTpl("while"), type: "WhileStatement" } ]
+            errors: [ { message: expectedSpacingErrorMessageTpl("while"), type: "WhileStatement" } ],
+            output: "; while (false) {}"
         },
         // DoWhileStatement
         {
             code: ";do {} while (false)",
-            errors: [ { message: expectedSpacingErrorMessageTpl("do"), type: "DoWhileStatement" } ]
+            errors: [ { message: expectedSpacingErrorMessageTpl("do"), type: "DoWhileStatement" } ],
+            output: "; do {} while (false)"
         },
         {
             code: "do {}while (false)",
-            errors: [ { message: expectedSpacingErrorMessageTpl("while"), type: "Keyword", line: 1, column: 6 } ]
+            errors: [ { message: expectedSpacingErrorMessageTpl("while"), type: "Keyword", line: 1, column: 6 } ],
+            output: "do {} while (false)"
         },
         {
             code: "do {} while (false)",
             errors: [ { message: expectedNoSpacingErrorMessageTpl("while"), type: "Keyword", line: 1, column: 7 } ],
-            options: never
+            options: never,
+            output: "do {}while (false)"
+        },
+        {
+            code: "do {}   while (false)",
+            errors: [ { message: expectedNoSpacingErrorMessageTpl("while"), type: "Keyword", line: 1, column: 9 } ],
+            options: never,
+            output: "do {}while (false)"
         },
         {
             code: "do {}\nwhile (false)",
             errors: [ { message: expectedNoSpacingErrorMessageTpl("while"), type: "Keyword", line: 2, column: 1 } ],
-            options: never
+            options: never,
+            output: "do {}while (false)"
         },
         // SwitchStatement
         {
             code: ";switch ('') {}",
-            errors: [ { message: expectedSpacingErrorMessageTpl("switch"), type: "SwitchStatement" } ]
+            errors: [ { message: expectedSpacingErrorMessageTpl("switch"), type: "SwitchStatement" } ],
+            output: "; switch ('') {}"
         },
         {
             code: "switch ('') {case 'foo': '' }",
-            errors: [ { message: expectedSpacingErrorMessageTpl("case"), type: "SwitchCase", line: 1, column: 14 } ]
+            errors: [ { message: expectedSpacingErrorMessageTpl("case"), type: "SwitchCase", line: 1, column: 14 } ],
+            output: "switch ('') { case 'foo': '' }"
         },
         // ThrowStatement
         {
             code: ";throw new Error()",
-            errors: [ { message: expectedSpacingErrorMessageTpl("throw"), type: "ThrowStatement" } ]
+            errors: [ { message: expectedSpacingErrorMessageTpl("throw"), type: "ThrowStatement" } ],
+            output: "; throw new Error()"
         },
         // TryStatement
         {
             code: ";try {} finally {}",
-            errors: [ { message: expectedSpacingErrorMessageTpl("try"), type: "TryStatement" } ]
+            errors: [ { message: expectedSpacingErrorMessageTpl("try"), type: "TryStatement" } ],
+            output: "; try {} finally {}"
         },
         {
             code: "try {}finally {}",
-            errors: [ { message: expectedSpacingErrorMessageTpl("finally"), type: "Keyword", line: 1, column: 7 } ]
+            errors: [ { message: expectedSpacingErrorMessageTpl("finally"), type: "Keyword", line: 1, column: 7 } ],
+            output: "try {} finally {}"
         },
         {
             code: "try {} finally {}",
             errors: [ { message: expectedNoSpacingErrorMessageTpl("finally"), type: "Keyword", line: 1, column: 8 } ],
-            options: never
+            options: never,
+            output: "try {}finally {}"
         },
         {
             code: "try {}\nfinally {}",
             errors: [ { message: expectedNoSpacingErrorMessageTpl("finally"), type: "Keyword", line: 2, column: 1 } ],
-            options: never
+            options: never,
+            output: "try {}finally {}"
         },
         // CatchClause
         {
             code: "try {}catch (e) {}",
-            errors: [ { message: expectedSpacingErrorMessageTpl("catch"), type: "CatchClause", line: 1, column: 7 } ]
+            errors: [ { message: expectedSpacingErrorMessageTpl("catch"), type: "CatchClause", line: 1, column: 7 } ],
+            output: "try {} catch (e) {}"
         },
         {
             code: "try {} catch (e) {}",
             errors: [ { message: expectedNoSpacingErrorMessageTpl("catch"), type: "CatchClause", line: 1, column: 8 } ],
-            options: never
+            options: never,
+            output: "try {}catch (e) {}"
         },
         {
             code: "try {}\ncatch (e) {}",
             errors: [ { message: expectedNoSpacingErrorMessageTpl("catch"), type: "CatchClause", line: 2, column: 1 } ],
-            options: never
+            options: never,
+            output: "try {}catch (e) {}"
         },
         // WithStatement
         {
             code: ";with (false) {}",
-            errors: [ { message: expectedSpacingErrorMessageTpl("with"), type: "WithStatement" } ]
+            errors: [ { message: expectedSpacingErrorMessageTpl("with"), type: "WithStatement" } ],
+            output: "; with (false) {}"
         },
         // VariableDeclaration
         {
             code: ";var foo = 1",
-            errors: [ { message: expectedSpacingErrorMessageTpl("var"), type: "VariableDeclaration" } ]
+            errors: [ { message: expectedSpacingErrorMessageTpl("var"), type: "VariableDeclaration" } ],
+            output: "; var foo = 1"
         },
         // BreakStatement
         {
             code: "for (;;) {break; }",
-            errors: [ { message: expectedSpacingErrorMessageTpl("break"), type: "BreakStatement" } ]
+            errors: [ { message: expectedSpacingErrorMessageTpl("break"), type: "BreakStatement" } ],
+            output: "for (;;) { break; }"
         },
         // LabeledStatement
         {
             code: "foo: for (;;) {bar: for (;;) {} }",
-            errors: [ { message: expectedSpacingErrorMessageTpl("bar"), type: "LabeledStatement" } ]
+            errors: [ { message: expectedSpacingErrorMessageTpl("bar"), type: "LabeledStatement" } ],
+            output: "foo: for (;;) { bar: for (;;) {} }"
         },
         // ContinueStatement
         {
             code: "for (;;) {continue; }",
-            errors: [ { message: expectedSpacingErrorMessageTpl("continue"), type: "ContinueStatement" } ]
+            errors: [ { message: expectedSpacingErrorMessageTpl("continue"), type: "ContinueStatement" } ],
+            output: "for (;;) { continue; }"
         },
         // ReturnStatement
         {
             code: "function foo() {return; }",
-            errors: [ { message: expectedSpacingErrorMessageTpl("return"), type: "ReturnStatement" } ]
+            errors: [ { message: expectedSpacingErrorMessageTpl("return"), type: "ReturnStatement" } ],
+            output: "function foo() { return; }"
         },
         // FunctionDeclaration
         {
             code: ";function foo () {}",
-            errors: [ { message: expectedSpacingErrorMessageTpl("function"), type: "FunctionDeclaration" } ]
+            errors: [ { message: expectedSpacingErrorMessageTpl("function"), type: "FunctionDeclaration" } ],
+            output: "; function foo () {}"
         },
         // FunctionExpression
         {
             code: "var foo =function bar () {}",
-            errors: [ { message: expectedSpacingErrorMessageTpl("function"), type: "FunctionExpression" } ]
+            errors: [ { message: expectedSpacingErrorMessageTpl("function"), type: "FunctionExpression" } ],
+            output: "var foo = function bar () {}"
         },
         // YieldExpression
         {
             code: "function* foo() {yield 0; }",
             errors: [ { message: expectedSpacingErrorMessageTpl("yield"), type: "YieldExpression" } ],
-            ecmaFeatures: { generators: true }
+            ecmaFeatures: { generators: true },
+            output: "function* foo() { yield 0; }"
         },
         // ForOfStatement
         {
             code: ";for (var b of [1, 2, 3]) {}",
             errors: [ { message: expectedSpacingErrorMessageTpl("for"), type: "ForOfStatement" } ],
-            ecmaFeatures: { forOf: true }
+            ecmaFeatures: { forOf: true },
+            output: "; for (var b of [1, 2, 3]) {}"
         },
         // ClassBody
         {
             code: ";class Bar {}",
             errors: [ { message: expectedSpacingErrorMessageTpl("class"), type: "Keyword" } ],
-            ecmaFeatures: { classes: true }
+            ecmaFeatures: { classes: true },
+            output: "; class Bar {}"
         },
         // Super
         {
             code: "class Bar { constructor() {super.foo(); } }",
             errors: [ { message: expectedSpacingErrorMessageTpl("super"), type: "Super" } ],
-            ecmaFeatures: { classes: true }
+            ecmaFeatures: { classes: true },
+            output: "class Bar { constructor() { super.foo(); } }"
         }
     ]
 });
