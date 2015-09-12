@@ -2,6 +2,8 @@
 
 Some styleguides require or disallow spaces preceding certain keywords.
 
+**Fixable:** This rule is automatically fixable using the `--fix` flag on the command line.
+
 ## Rule Details
 
 This rule will enforce consistency of spacing before the keywords `if`, `else`, `for`,
