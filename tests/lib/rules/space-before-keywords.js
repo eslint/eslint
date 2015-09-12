@@ -129,14 +129,19 @@ ruleTester.run("space-before-keywords", rule, {
         { code: ";\nfunction foo () {}" },
         { code: "; function foo () {}", options: never },
         { code: ";\nfunction foo () {}", options: never },
+        { code: "var foo = {bar() {}}", ecmaFeatures: { objectLiteralShorthandMethods: true } },
+        { code: "var foo = { bar() {} }", ecmaFeatures: { objectLiteralShorthandMethods: true }, options: never },
+        { code: "var foo = {\nbar() {}}", ecmaFeatures: { objectLiteralShorthandMethods: true }, options: never },
         // FunctionExpression
         { code: "var foo = function bar () {}" },
         { code: "var foo =\nfunction bar () {}" },
         { code: "function foo () { return function () {} }" },
         { code: "var foo = (function bar () {})()" },
+        { code: "var foo = { foo: function () {} }" },
         { code: "var foo = function bar () {}", options: never },
         { code: "var foo =\nfunction bar () {}", options: never },
         { code: "function foo () { return function () {} }", options: never },
+        { code: "var foo = { foo:function () {} }", options: never },
         // YieldExpression
         {
             code: "function* foo() { yield 0; }",
@@ -189,12 +194,21 @@ ruleTester.run("space-before-keywords", rule, {
             ecmaFeatures: { classes: true }
         },
         {
+            code: "; class Bar extends Foo.Baz {}",
+            ecmaFeatures: { classes: true }
+        },
+        {
             code: "; class Bar {}",
             ecmaFeatures: { classes: true },
             options: never
         },
         {
             code: ";\nclass Bar {}",
+            ecmaFeatures: { classes: true },
+            options: never
+        },
+        {
+            code: "; class Bar extends Foo.Baz {}",
             ecmaFeatures: { classes: true },
             options: never
         },
@@ -395,6 +409,11 @@ ruleTester.run("space-before-keywords", rule, {
             errors: [ { message: expectedSpacingErrorMessageTpl("function"), type: "FunctionExpression" } ],
             output: "var foo = function bar () {}"
         },
+        {
+            code: "var foo = { foo:function () {} }",
+            errors: [ { message: expectedSpacingErrorMessageTpl("function"), type: "FunctionExpression" } ],
+            output: "var foo = { foo: function () {} }"
+        },
         // YieldExpression
         {
             code: "function* foo() {yield 0; }",
@@ -415,6 +434,12 @@ ruleTester.run("space-before-keywords", rule, {
             errors: [ { message: expectedSpacingErrorMessageTpl("class"), type: "Keyword" } ],
             ecmaFeatures: { classes: true },
             output: "; class Bar {}"
+        },
+        {
+            code: ";class Bar extends Foo.Baz {}",
+            errors: [ { message: expectedSpacingErrorMessageTpl("class"), type: "Keyword" } ],
+            ecmaFeatures: { classes: true },
+            output: "; class Bar extends Foo.Baz {}"
         },
         // Super
         {
