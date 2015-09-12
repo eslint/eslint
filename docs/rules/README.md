@@ -186,7 +186,7 @@ These rules are purely matters of style and are quite subjective.
 * [sort-vars](sort-vars.md) - sort variables within the same declaration block
 * [space-after-keywords](space-after-keywords.md) - require a space after certain keywords
 * [space-before-keywords](space-before-keywords.md) - require a space before certain keywords (fixable)
-* [space-before-blocks](space-before-blocks.md) - require or disallow a space before blocks
+* [space-before-blocks](space-before-blocks.md) - require or disallow a space before blocks (fixable)
 * [space-before-function-paren](space-before-function-paren.md) - require or disallow a space before function opening parenthesis (fixable)
 * [space-in-parens](space-in-parens.md) - require or disallow spaces inside parentheses
 * [space-infix-ops](space-infix-ops.md) - require spaces around operators
