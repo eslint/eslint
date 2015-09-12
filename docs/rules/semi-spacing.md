@@ -14,6 +14,9 @@ var c = "d";var e = "f";
 
 This rule aims to enforce spacing around a semicolon. This rule prevents the use of spaces before a semicolon in expressions.
 
+This rule doesn't check spacing which is after semicolons if the semicolon is before a closing parenthesis (`)` or `}`).
+That spacing is checked by `space-in-parens` or `block-spacing`.
+
 ### Options
 
 The rule takes one option, an object, which has two keys `before` and `after` having boolean values `true` or `false`.
@@ -94,3 +97,5 @@ You can turn this rule off if you are not concerned with the consistency of spac
 * [semi](semi.md)
 * [no-extra-semi](no-extra-semi.md)
 * [comma-spacing](comma-spacing.md)
+* [block-spacing](block-spacing.md)
+* [space-in-parens](space-in-parens.md)
