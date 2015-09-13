@@ -62,82 +62,105 @@ ruleTester.run("space-before-blocks", rule, {
     invalid: [
         {
             code: "if(a){}",
-            errors: [ { message: expectedSpacingErrorMessage, line: 1, column: 6 } ]
+            errors: [ { message: expectedSpacingErrorMessage, line: 1, column: 6 } ],
+            output: "if(a) {}"
         },
         {
             code: "if(a) {}",
             options: neverArgs,
-            errors: [ expectedNoSpacingError ]
+            errors: [ expectedNoSpacingError ],
+            output: "if(a){}"
         },
         {
             code: "if(a) {}else{}",
-            errors: [ expectedSpacingError ]
+            errors: [ expectedSpacingError ],
+            output: "if(a) {}else {}"
         },
         {
             code: "if(a){}else {}",
             options: neverArgs,
-            errors: [ expectedNoSpacingError ]
+            errors: [ expectedNoSpacingError ],
+            output: "if(a){}else{}"
         },
         {
             code: "function a(){}",
-            errors: [ expectedSpacingError ]
+            errors: [ expectedSpacingError ],
+            output: "function a() {}"
         },
         {
             code: "function a() {}",
             options: neverArgs,
-            errors: [ expectedNoSpacingError ]
+            errors: [ expectedNoSpacingError ],
+            output: "function a(){}"
+        },
+        {
+            code: "function a()    {}",
+            options: neverArgs,
+            errors: [ expectedNoSpacingError ],
+            output: "function a(){}"
         },
         {
             code: "switch(a){}",
-            errors: [ expectedSpacingError ]
+            errors: [ expectedSpacingError ],
+            output: "switch(a) {}"
         },
         {
             code: "switch(a) {}",
             options: neverArgs,
-            errors: [ expectedNoSpacingError ]
+            errors: [ expectedNoSpacingError ],
+            output: "switch(a){}"
         },
         {
             code: "switch(a.b()){ case 'foo': foo(); break; default: if (a) { bar(); } }",
-            errors: [ expectedSpacingError ]
+            errors: [ expectedSpacingError ],
+            output: "switch(a.b()) { case 'foo': foo(); break; default: if (a) { bar(); } }"
         },
         {
             code: "switch(a.b()) { case 'foo': foo(); break; default: if (a){ bar(); } }",
             options: neverArgs,
-            errors: [ expectedNoSpacingError ]
+            errors: [ expectedNoSpacingError ],
+            output: "switch(a.b()){ case 'foo': foo(); break; default: if (a){ bar(); } }"
         },
         {
             code: "try{}catch(a){}",
-            errors: [ expectedSpacingError, expectedSpacingError ]
+            errors: [ expectedSpacingError, expectedSpacingError ],
+            output: "try {}catch(a) {}"
         },
         {
             code: "try {}catch(a) {}",
             options: neverArgs,
-            errors: [ expectedNoSpacingError, expectedNoSpacingError ]
+            errors: [ expectedNoSpacingError, expectedNoSpacingError ],
+            output: "try{}catch(a){}"
         },
         {
             code: "for(;;){}",
-            errors: [ expectedSpacingError ]
+            errors: [ expectedSpacingError ],
+            output: "for(;;) {}"
         },
         {
             code: "for(;;) {}",
             options: neverArgs,
-            errors: [ expectedNoSpacingError ]
+            errors: [ expectedNoSpacingError ],
+            output: "for(;;){}"
         },
         {
             code: "while(a){}",
-            errors: [ expectedSpacingError ]
+            errors: [ expectedSpacingError ],
+            output: "while(a) {}"
         },
         {
             code: "while(a) {}",
             options: neverArgs,
-            errors: [ expectedNoSpacingError ]
+            errors: [ expectedNoSpacingError ],
+            output: "while(a){}"
         },
         {
             code: "class test{}",
             ecmaFeatures: {
                 classes: true
             },
-            errors: [ expectedSpacingError ]
+            errors: [ expectedSpacingError ],
+            output: "class test {}"
         },
         {
             code: "class test {}",
@@ -145,7 +168,8 @@ ruleTester.run("space-before-blocks", rule, {
             ecmaFeatures: {
                 classes: true
             },
-            errors: [ expectedNoSpacingError ]
+            errors: [ expectedNoSpacingError ],
+            output: "class test{}"
         }
     ]
 });
