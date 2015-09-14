@@ -38,6 +38,16 @@ if (condition) {
         // ...
     }
 }
+
+if (condition) {
+    // ...
+} else {
+    if (anotherCondition) { /*error Unexpected if as the only statement in an else block.*/
+        // ...
+    } else {
+        // ...
+    }
+}
 ```
 
 The following patterns are not considered warnings:
@@ -48,6 +58,14 @@ The following patterns are not considered warnings:
 if (condition) {
     // ...
 } else if (anotherCondition) {
+    // ...
+}
+
+if (condition) {
+    // ...
+} else if (anotherCondition) {
+    // ...
+} else {
     // ...
 }
 
