@@ -34,6 +34,7 @@ ruleTester.run("space-infix-ops", rule, {
     invalid: [
         {
             code: "a+b",
+            output: "a + b",
             errors: [{
                 message: "Infix operators must be spaced.",
                 type: "BinaryExpression",
@@ -43,6 +44,7 @@ ruleTester.run("space-infix-ops", rule, {
         },
         {
             code: "a +b",
+            output: "a + b",
             errors: [{
                 message: "Infix operators must be spaced.",
                 type: "BinaryExpression",
@@ -52,6 +54,7 @@ ruleTester.run("space-infix-ops", rule, {
         },
         {
             code: "a+ b",
+            output: "a + b",
             errors: [{
                 message: "Infix operators must be spaced.",
                 type: "BinaryExpression",
@@ -61,6 +64,7 @@ ruleTester.run("space-infix-ops", rule, {
         },
         {
             code: "a||b",
+            output: "a || b",
             errors: [{
                 message: "Infix operators must be spaced.",
                 type: "LogicalExpression",
@@ -70,6 +74,7 @@ ruleTester.run("space-infix-ops", rule, {
         },
         {
             code: "a ||b",
+            output: "a || b",
             errors: [{
                 message: "Infix operators must be spaced.",
                 type: "LogicalExpression",
@@ -79,6 +84,7 @@ ruleTester.run("space-infix-ops", rule, {
         },
         {
             code: "a|| b",
+            output: "a || b",
             errors: [{
                 message: "Infix operators must be spaced.",
                 type: "LogicalExpression",
@@ -88,6 +94,7 @@ ruleTester.run("space-infix-ops", rule, {
         },
         {
             code: "a=b",
+            output: "a = b",
             errors: [{
                 message: "Infix operators must be spaced.",
                 type: "AssignmentExpression",
@@ -97,6 +104,7 @@ ruleTester.run("space-infix-ops", rule, {
         },
         {
             code: "a= b",
+            output: "a = b",
             errors: [{
                 message: "Infix operators must be spaced.",
                 type: "AssignmentExpression",
@@ -106,6 +114,7 @@ ruleTester.run("space-infix-ops", rule, {
         },
         {
             code: "a =b",
+            output: "a = b",
             errors: [{
                 message: "Infix operators must be spaced.",
                 type: "AssignmentExpression",
@@ -115,6 +124,7 @@ ruleTester.run("space-infix-ops", rule, {
         },
         {
             code: "a?b:c",
+            output: "a ? b:c",
             errors: [{
                 message: "Infix operators must be spaced.",
                 type: "ConditionalExpression",
@@ -124,6 +134,7 @@ ruleTester.run("space-infix-ops", rule, {
         },
         {
             code: "a?b : c",
+            output: "a ? b : c",
             errors: [{
                 message: "Infix operators must be spaced.",
                 type: "ConditionalExpression",
@@ -133,6 +144,7 @@ ruleTester.run("space-infix-ops", rule, {
         },
         {
             code: "a ? b:c",
+            output: "a ? b : c",
             errors: [{
                 message: "Infix operators must be spaced.",
                 type: "ConditionalExpression",
@@ -142,6 +154,7 @@ ruleTester.run("space-infix-ops", rule, {
         },
         {
             code: "a? b : c",
+            output: "a ? b : c",
             errors: [{
                 message: "Infix operators must be spaced.",
                 type: "ConditionalExpression",
@@ -151,6 +164,7 @@ ruleTester.run("space-infix-ops", rule, {
         },
         {
             code: "a ?b : c",
+            output: "a ? b : c",
             errors: [{
                 message: "Infix operators must be spaced.",
                 type: "ConditionalExpression",
@@ -160,6 +174,7 @@ ruleTester.run("space-infix-ops", rule, {
         },
         {
             code: "a ? b: c",
+            output: "a ? b : c",
             errors: [{
                 message: "Infix operators must be spaced.",
                 type: "ConditionalExpression",
@@ -169,6 +184,7 @@ ruleTester.run("space-infix-ops", rule, {
         },
         {
             code: "a ? b :c",
+            output: "a ? b : c",
             errors: [{
                 message: "Infix operators must be spaced.",
                 type: "ConditionalExpression",
@@ -178,6 +194,7 @@ ruleTester.run("space-infix-ops", rule, {
         },
         {
             code: "var a=b;",
+            output: "var a = b;",
             errors: [{
                 message: "Infix operators must be spaced.",
                 type: "VariableDeclarator",
@@ -187,6 +204,7 @@ ruleTester.run("space-infix-ops", rule, {
         },
         {
             code: "var a= b;",
+            output: "var a = b;",
             errors: [{
                 message: "Infix operators must be spaced.",
                 type: "VariableDeclarator",
@@ -196,6 +214,7 @@ ruleTester.run("space-infix-ops", rule, {
         },
         {
             code: "var a =b;",
+            output: "var a = b;",
             errors: [{
                 message: "Infix operators must be spaced.",
                 type: "VariableDeclarator",
@@ -205,6 +224,7 @@ ruleTester.run("space-infix-ops", rule, {
         },
         {
             code: "var a = b, c=d;",
+            output: "var a = b, c = d;",
             errors: [{
                 message: "Infix operators must be spaced.",
                 type: "VariableDeclarator",
@@ -214,6 +234,7 @@ ruleTester.run("space-infix-ops", rule, {
         },
         {
             code: "a| 0",
+            output: "a | 0",
             options: [{
                 int32Hint: true
             }],
@@ -226,6 +247,7 @@ ruleTester.run("space-infix-ops", rule, {
         },
         {
             code: "var output = test || (test && test.value) ||(test2 && test2.value);",
+            output: "var output = test || (test && test.value) || (test2 && test2.value);",
             errors: [{
                 message: "Infix operators must be spaced.",
                 type: "LogicalExpression",
@@ -235,6 +257,7 @@ ruleTester.run("space-infix-ops", rule, {
         },
         {
             code: "var output = a ||(b && c.value) || (d && e.value);",
+            output: "var output = a || (b && c.value) || (d && e.value);",
             errors: [{
                 message: "Infix operators must be spaced.",
                 type: "LogicalExpression",
@@ -244,6 +267,7 @@ ruleTester.run("space-infix-ops", rule, {
         },
         {
             code: "var output = a|| (b && c.value) || (d && e.value);",
+            output: "var output = a || (b && c.value) || (d && e.value);",
             errors: [{
                 message: "Infix operators must be spaced.",
                 type: "LogicalExpression",
@@ -253,6 +277,7 @@ ruleTester.run("space-infix-ops", rule, {
         },
         {
             code: "const my_object={key: 'value'}",
+            output: "const my_object = {key: 'value'}",
             ecmaFeatures: { blockBindings: true },
             errors: [{
                 message: "Infix operators must be spaced.",
@@ -263,6 +288,7 @@ ruleTester.run("space-infix-ops", rule, {
         },
         {
             code: "var {a=0}=bar;",
+            output: "var {a = 0} = bar;",
             ecmaFeatures: { destructuring: true },
             errors: [{
                 message: "Infix operators must be spaced.",
@@ -278,6 +304,7 @@ ruleTester.run("space-infix-ops", rule, {
         },
         {
             code: "function foo(a=0) { }",
+            output: "function foo(a = 0) { }",
             ecmaFeatures: { defaultParams: true },
             errors: [{
                 message: "Infix operators must be spaced.",

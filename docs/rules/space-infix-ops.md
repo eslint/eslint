@@ -14,6 +14,8 @@ var sum = i+++2;
 
 While this is valid JavaScript syntax, it is hard to determine what the author intended.
 
+**Fixable:** This rule is automatically fixable using the `--fix` flag on the command line.
+
 ## Rule Details
 
 This rule is aimed at ensuring there are spaces around infix operators.
