@@ -110,7 +110,8 @@ ruleTester.run("comma-dangle", rule, {
                     line: 1,
                     column: 23
                 }
-            ]
+            ],
+            output: "var foo = { bar: 'baz' }"
         },
         {
             code: "var foo = {\nbar: 'baz',\n}",
@@ -121,7 +122,8 @@ ruleTester.run("comma-dangle", rule, {
                     line: 2,
                     column: 11
                 }
-            ]
+            ],
+            output: "var foo = {\nbar: 'baz'\n}"
         },
         {
             code: "foo({ bar: 'baz', qux: 'quux', });",
@@ -132,7 +134,8 @@ ruleTester.run("comma-dangle", rule, {
                     line: 1,
                     column: 30
                 }
-            ]
+            ],
+            output: "foo({ bar: 'baz', qux: 'quux' });"
         },
         {
             code: "foo({\nbar: 'baz',\nqux: 'quux',\n});",
@@ -143,7 +146,8 @@ ruleTester.run("comma-dangle", rule, {
                     line: 3,
                     column: 12
                 }
-            ]
+            ],
+            output: "foo({\nbar: 'baz',\nqux: 'quux'\n});"
         },
         {
             code: "var foo = [ 'baz', ]",
@@ -154,7 +158,8 @@ ruleTester.run("comma-dangle", rule, {
                     line: 1,
                     column: 18
                 }
-            ]
+            ],
+            output: "var foo = [ 'baz' ]"
         },
         {
             code: "var foo = [ 'baz',\n]",
@@ -165,7 +170,8 @@ ruleTester.run("comma-dangle", rule, {
                     line: 1,
                     column: 18
                 }
-            ]
+            ],
+            output: "var foo = [ 'baz'\n]"
         },
         {
             code: "var foo = { bar: 'bar'\n\n, }",
@@ -176,7 +182,8 @@ ruleTester.run("comma-dangle", rule, {
                     line: 3,
                     column: 1
                 }
-            ]
+            ],
+            output: "var foo = { bar: 'bar'\n\n }"
         },
 
 
@@ -190,7 +197,8 @@ ruleTester.run("comma-dangle", rule, {
                     line: 1,
                     column: 23
                 }
-            ]
+            ],
+            output: "var foo = { bar: 'baz' }"
         },
         {
             code: "var foo = {\nbar: 'baz',\n}",
@@ -202,7 +210,8 @@ ruleTester.run("comma-dangle", rule, {
                     line: 2,
                     column: 11
                 }
-            ]
+            ],
+            output: "var foo = {\nbar: 'baz'\n}"
         },
         {
             code: "foo({ bar: 'baz', qux: 'quux', });",
@@ -214,7 +223,8 @@ ruleTester.run("comma-dangle", rule, {
                     line: 1,
                     column: 30
                 }
-            ]
+            ],
+            output: "foo({ bar: 'baz', qux: 'quux' });"
         },
 
         {
@@ -227,7 +237,8 @@ ruleTester.run("comma-dangle", rule, {
                     line: 1,
                     column: 23
                 }
-            ]
+            ],
+            output: "var foo = { bar: 'baz', }"
         },
         {
             code: "var foo = {\nbar: 'baz'\n}",
@@ -239,7 +250,8 @@ ruleTester.run("comma-dangle", rule, {
                     line: 2,
                     column: 11
                 }
-            ]
+            ],
+            output: "var foo = {\nbar: 'baz',\n}"
         },
         {
             code: "foo({ bar: 'baz', qux: 'quux' });",
@@ -251,7 +263,8 @@ ruleTester.run("comma-dangle", rule, {
                     line: 1,
                     column: 30
                 }
-            ]
+            ],
+            output: "foo({ bar: 'baz', qux: 'quux', });"
         },
         {
             code: "foo({\nbar: 'baz',\nqux: 'quux'\n});",
@@ -263,7 +276,8 @@ ruleTester.run("comma-dangle", rule, {
                     line: 3,
                     column: 12
                 }
-            ]
+            ],
+            output: "foo({\nbar: 'baz',\nqux: 'quux',\n});"
         },
         {
             code: "var foo = [ 'baz' ]",
@@ -275,7 +289,8 @@ ruleTester.run("comma-dangle", rule, {
                     line: 1,
                     column: 18
                 }
-            ]
+            ],
+            output: "var foo = [ 'baz', ]"
         },
         {
             code: "var foo = [ 'baz'\n]",
@@ -287,7 +302,8 @@ ruleTester.run("comma-dangle", rule, {
                     line: 1,
                     column: 18
                 }
-            ]
+            ],
+            output: "var foo = [ 'baz',\n]"
         },
         {
             code: "var foo = { bar:\n\n'bar' }",
@@ -299,7 +315,8 @@ ruleTester.run("comma-dangle", rule, {
                     line: 3,
                     column: 6
                 }
-            ]
+            ],
+            output: "var foo = { bar:\n\n'bar', }"
         },
 
         {
@@ -312,7 +329,8 @@ ruleTester.run("comma-dangle", rule, {
                     line: 2,
                     column: 11
                 }
-            ]
+            ],
+            output: "var foo = {\nbar: 'baz',\n}"
         },
         {
             code: "var foo = { bar: 'baz', }",
@@ -324,7 +342,8 @@ ruleTester.run("comma-dangle", rule, {
                     line: 1,
                     column: 23
                 }
-            ]
+            ],
+            output: "var foo = { bar: 'baz' }"
         },
         {
             code: "foo({\nbar: 'baz',\nqux: 'quux'\n});",
@@ -336,7 +355,8 @@ ruleTester.run("comma-dangle", rule, {
                     line: 3,
                     column: 12
                 }
-            ]
+            ],
+            output: "foo({\nbar: 'baz',\nqux: 'quux',\n});"
         },
         {
             code: "foo({ bar: 'baz', qux: 'quux', });",
@@ -348,7 +368,8 @@ ruleTester.run("comma-dangle", rule, {
                     line: 1,
                     column: 30
                 }
-            ]
+            ],
+            output: "foo({ bar: 'baz', qux: 'quux' });"
         },
         {
             code: "var foo = [\n'baz'\n]",
@@ -360,7 +381,8 @@ ruleTester.run("comma-dangle", rule, {
                     line: 2,
                     column: 6
                 }
-            ]
+            ],
+            output: "var foo = [\n'baz',\n]"
         },
         {
             code: "var foo = ['baz',]",
@@ -372,7 +394,8 @@ ruleTester.run("comma-dangle", rule, {
                     line: 1,
                     column: 17
                 }
-            ]
+            ],
+            output: "var foo = ['baz']"
         },
         {
             code: "var foo = {x: {\nfoo: 'bar',\n},}",
@@ -384,7 +407,8 @@ ruleTester.run("comma-dangle", rule, {
                     line: 3,
                     column: 2
                 }
-            ]
+            ],
+            output: "var foo = {x: {\nfoo: 'bar',\n}}"
         },
         {
             code: "var foo = {a: 1, b: 2,\nc: 3, d: 4,}",
@@ -396,7 +420,8 @@ ruleTester.run("comma-dangle", rule, {
                     line: 2,
                     column: 11
                 }
-            ]
+            ],
+            output: "var foo = {a: 1, b: 2,\nc: 3, d: 4}"
         },
         {
             code: "var foo = [{\na: 1,\nb: 2,\nc: 3,\nd: 4,\n},]",
@@ -408,7 +433,8 @@ ruleTester.run("comma-dangle", rule, {
                     line: 6,
                     column: 2
                 }
-            ]
+            ],
+            output: "var foo = [{\na: 1,\nb: 2,\nc: 3,\nd: 4,\n}]"
         },
         {
             code: "var { a, b, } = foo;",
@@ -421,7 +447,8 @@ ruleTester.run("comma-dangle", rule, {
                     line: 1,
                     column: 11
                 }
-            ]
+            ],
+            output: "var { a, b } = foo;"
         },
         {
             code: "var [ a, b, ] = foo;",
@@ -434,7 +461,8 @@ ruleTester.run("comma-dangle", rule, {
                     line: 1,
                     column: 11
                 }
-            ]
+            ],
+            output: "var [ a, b ] = foo;"
         }
     ]
 });
