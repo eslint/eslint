@@ -65,7 +65,8 @@ Miscellaneous:
   --init                      Run config initialization wizard - default: false
   --fix                       Automatically fix problems
   -h, --help                  Show help
-  -v, --version               Outputs the version number```
+  -v, --version               Outputs the version number
+```
 
 ### Basic configuration
 
