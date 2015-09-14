@@ -50,6 +50,10 @@ ruleTester.run("jsx-quotes", rule, {
         {
             code: "<foo bar={baz} />",
             ecmaFeatures: { jsx: true }
+        },
+        {
+            code: "<foo bar />",
+            ecmaFeatures: { jsx: true }
         }
     ],
     invalid: [
