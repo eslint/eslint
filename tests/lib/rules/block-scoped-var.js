@@ -37,6 +37,10 @@ ruleTester.run("block-scoped-var", rule, {
         "function f() { var hasOwnProperty; { hasOwnProperty; } }",
         "function f(){ a; b; var a, b; }",
         "function f(){ g(); function g(){} }",
+        "if (true) { var a = 1; a; }",
+        "var a; if (true) { a; }",
+        "for (var i = 0; i < 10; i++) { i; }",
+        "var i; for(i; i; i) { i; }",
         { code: "function myFunc(foo) {  \"use strict\";  var { bar } = foo;  bar.hello();}", ecmaFeatures: { destructuring: true } },
         { code: "function myFunc(foo) {  \"use strict\";  var [ bar ]  = foo;  bar.hello();}", ecmaFeatures: { destructuring: true } },
         { code: "function myFunc(...foo) {  return foo;}", ecmaFeatures: { restParams: true } },
@@ -117,7 +121,7 @@ ruleTester.run("block-scoped-var", rule, {
             errors: [{ message: "\"c\" used outside of binding context.", type: "Identifier" }]
         },
         {
-            code: "function a() { for(var b of {}) { var c = b;} c; }",
+            code: "function a() { for(var b of {}) { var c = b; } c; }",
             ecmaFeatures: { forOf: true },
             errors: [{ message: "\"c\" used outside of binding context.", type: "Identifier" }]
         },
@@ -142,6 +146,24 @@ ruleTester.run("block-scoped-var", rule, {
             code: "{ var a = 0; } a;",
             ecmaFeatures: { modules: true },
             errors: [{ message: "\"a\" used outside of binding context.", type: "Identifier" }]
+        },
+        {
+            code: "if (true) { var a; } a;",
+            errors: [{ message: "\"a\" used outside of binding context.", type: "Identifier" }]
+        },
+        {
+            code: "if (true) { var a = 1; } else { var a = 2; }",
+            errors: [
+                { message: "\"a\" used outside of binding context.", type: "Identifier" },
+                { message: "\"a\" used outside of binding context.", type: "Identifier" }
+            ]
+        },
+        {
+            code: "for (var i = 0;;) {} for(var i = 0;;) {}",
+            errors: [
+                { message: "\"i\" used outside of binding context.", type: "Identifier" },
+                { message: "\"i\" used outside of binding context.", type: "Identifier" }
+            ]
         }
     ]
 });
