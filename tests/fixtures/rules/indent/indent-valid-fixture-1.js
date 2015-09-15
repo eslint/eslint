@@ -2,48 +2,48 @@ if (a) {
   var b = c;
   var d = e
     * f;
-    var e = f; // <-
+  var e = f; // <-
 // NO ERROR: DON'T VALIDATE EMPTY OR COMMENT ONLY LINES
   function g() {
     if (h) {
       var i = j;
-      } // <-
     } // <-
+  } // <-
 
   while (k) l++;
   while (m) {
-  n--; // ->
-    } // <-
+    n--; // ->
+  } // <-
 
   do {
     o = p +
   q; // NO ERROR: DON'T VALIDATE MULTILINE STATEMENTS
     o = p +
     q;
-    } while(r); // <-
+  } while(r); // <-
 
   for (var s in t) {
     u++;
   }
 
-    for (;;) { // <- Fix this when issue #3737 gets resolved
+  for (;;) { // <- Fix this when issue #3737 gets resolved
       v++; // <-
-  }
+    }
 
   if ( w ) {
     x++;
   } else if (y) {
-      z++; // <-
+    z++; // <-
     aa++;
-    } else { // <-
-  bb++; // ->
-} // ->
+  } else { // <-
+    bb++; // ->
+  } // ->
 }
 
 /**/var b; // NO ERROR: single line multi-line comments followed by code is OK
 /*
  *
- */ var b; // ERROR: multi-line comments followed by code is not OK
+ */var b; // ERROR: multi-line comments followed by code is not OK
 
 var arr = [
   a,
@@ -51,7 +51,7 @@ var arr = [
   c,
   function (){
     d
-    }, // <-
+  }, // <-
   {},
   {
     a: b,
@@ -111,17 +111,17 @@ var objObject = {a:{
 
 switch (a) {
   case 'a':
-  var a = 'b'; // ->
+    var a = 'b'; // ->
     break;
   case 'b':
     var a = 'b';
     break;
   case 'c':
-      var a = 'b'; // <-
+    var a = 'b'; // <-
     break;
   case 'd':
     var a = 'b';
-  break; // ->
+    break; // ->
   case 'f':
     var a = 'b';
     break;
@@ -131,7 +131,7 @@ switch (a) {
   }
   case 'z':
   default:
-      break; // <-
+    break; // <-
 }
 
 a.b('hi')
@@ -140,7 +140,7 @@ a.b('hi')
 
 if ( a ) {
   if ( b ) {
-d.e(f) // ->
+    d.e(f) // ->
   .g() // NO ERROR: DON'T VALIDATE MULTILINE STATEMENTS
   .h(); // NO ERROR: DON'T VALIDATE MULTILINE STATEMENTS
 
@@ -148,7 +148,7 @@ d.e(f) // ->
       .k() // NO ERROR: DON'T VALIDATE MULTILINE STATEMENTS
       .l(); // NO ERROR: DON'T VALIDATE MULTILINE STATEMENTS
 
-      n.o(p) // <-
+    n.o(p) // <-
         .q() // NO ERROR: DON'T VALIDATE MULTILINE STATEMENTS
         .r(); // NO ERROR: DON'T VALIDATE MULTILINE STATEMENTS
   }
@@ -156,9 +156,9 @@ d.e(f) // ->
 
 var a = b,
   c = function () {
-  h = i; // ->
+    h = i; // ->
     j = k;
-      l = m; // <-
+    l = m; // <-
   },
   e = {
     f: g,
@@ -172,9 +172,9 @@ var a = b,
   ];
 
 var a = function () {
-b = c; // ->
+  b = c; // ->
   d = e;
-    f = g; // <-
+  f = g; // <-
 };
 
 function c(a, b) {
@@ -186,13 +186,13 @@ function c(a, b) {
 
 if ( a
   || b ) {
-var x; // ->
+  var x; // ->
   var c,
     d = function(a,
                   b) {
-    a; // ->
+      a; // ->
       b;
-        c; // <-
+      c; // <-
     }
 }
 
@@ -302,94 +302,94 @@ a
 
 var a = function() {
       a++;
-    b++; // <-
-        c++; // <-
+      b++; // <-
+      c++; // <-
     },
-    b;
+  b;
 
 var b = [
-      a,
-      b,
-      c
-    ],
-    c;
+    a,
+    b,
+    c
+  ],
+  c;
 
 var c = {
-      a: 1,
-      b: 2,
-      c: 3
-    },
-    d;
+    a: 1,
+    b: 2,
+    c: 3
+  },
+  d;
 
 // holes in arrays indentation
 x = [
- 1,
- 1,
- 1,
- 1,
- 1,
- 1,
- 1,
- 1,
- 1,
- 1
+  1,
+  1,
+  1,
+  1,
+  1,
+  1,
+  1,
+  1,
+  1,
+  1
 ];
 
 try {
   a++;
-    b++; // <-
-c++; // ->
+  b++; // <-
+  c++; // ->
 } catch (d) {
   e++;
-    f++; // <-
-g++; // ->
+  f++; // <-
+  g++; // ->
 } finally {
   h++;
-    i++; // <-
-j++; // ->
+  i++; // <-
+  j++; // ->
 }
 
 if (array.some(function(){
   return true;
 })) {
-a++; // ->
+  a++; // ->
   b++;
-    c++; // <-
+  c++; // <-
 }
 
 var a = b.c(function() {
       d++;
     }),
-    e;
+  e;
 
 switch (true) {
   case (a
   && b):
-case (c // ->
+  case (c // ->
 && d):
-    case (e // <-
+  case (e // <-
     && f):
   case (g
 && h):
-      var i = j; // <-
+    var i = j; // <-
     var k = l;
-  var m = n; // ->
+    var m = n; // ->
 }
 
 if (a) {
   b();
 }
 else {
-c(); // ->
+  c(); // ->
   d();
-    e(); // <-
+  e(); // <-
 }
 
 if (a) b();
 else {
-c(); // ->
+  c(); // ->
   d();
-    e(); // <-
+  e(); // <-
 }
 
 if (a) {
@@ -406,36 +406,36 @@ a();
 if( "very very long multi line" +
       "with weird indentation" ) {
   b();
-a(); // ->
-    c(); // <-
+  a(); // ->
+  c(); // <-
 }
 
 a( "very very long multi line" +
    "with weird indentation", function() {
   b();
-a(); // ->
-    c(); // <-
+  a(); // ->
+  c(); // <-
 });
 
 a = function(content, dom) {
   b();
-    c(); // <-
-d(); // ->
+  c(); // <-
+  d(); // ->
 };
 
 a = function(content, dom) {
       b();
-        c(); // <-
-    d(); // ->
+      c(); // <-
+      d(); // ->
     };
 
 a = function(content, dom) {
     b(); // ->
-    };
+  };
 
 a = function(content, dom) {
-b(); // ->
-    };
+  b(); // ->
+};
 
 a('This is a terribly long description youll ' +
   'have to read', function () {
@@ -448,9 +448,9 @@ if (
     return true;
   })
 ) {
-a++; // ->
+  a++; // ->
   b++;
-    c++; // <-
+  c++; // <-
 }
 
 function c(d) {
@@ -496,14 +496,14 @@ function test() {
 function a(b) {
   switch(x) {
     case 1:
-        {
-        a();
-      }
+      {
+          a();
+        }
       break;
     default:
       {
         b();
-        }
+      }
   }
 }
 
