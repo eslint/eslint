@@ -18,6 +18,8 @@ This is the most common scenarios recommended in different style guides:
 * Tabs: jQuery
 * Four spaces: Crockford
 
+**Fixable:** This rule is automatically fixable using the `--fix` flag on the command line.
+
 ## Rule Details
 
 This rule is aimed to enforce consistent indentation style. The default style is `4 spaces`.
