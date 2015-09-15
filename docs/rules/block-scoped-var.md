@@ -33,6 +33,18 @@ function doSomething() {
 ```js
 /*eslint block-scoped-var: 2*/
 
+function doSomething() {
+    if (true) {
+        var build = true;
+    } else {
+        var build = false; /*error "build" used outside of binding context.*/
+    }
+}
+```
+
+```js
+/*eslint block-scoped-var: 2*/
+
 function doAnother() {
     try {
         var build = 1;
@@ -55,6 +67,20 @@ function doSomething() {
     }
 
     console.log(build);
+}
+```
+
+```js
+/*eslint block-scoped-var: 2*/
+
+function doSomething() {
+    var build;
+
+    if (true) {
+        build = true;
+    } else {
+        build = false;
+    }
 }
 ```
 
