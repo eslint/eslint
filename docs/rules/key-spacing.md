@@ -8,7 +8,9 @@ This rule will warn when spacing in properties does not match the specified opti
 
 ### 1. Individual
 
-Use just the `beforeColon` and `afterColon` options to enforce having one space or zero spaces on each side, using `true` or `false`, respectively. The default is no whitespace between the key and the colon and one space between the colon and the value.
+Use the `beforeColon`, `afterColon` and `mode` options to enforce having one space or zero spaces on each side, using `true` or `false`, respectively. The default is no whitespace between the key and the colon and one space between the colon and the value.
+
+`mode` option can be either `"strict"` or `"minimum"` and defaults to `"strict"`. In `strict` mode, it enforces exactly 1 space before or after the colon where as in `minimum` mode, it enforces at least 1 space but more are okay.
 
 The following patterns are considered valid:
 
@@ -27,6 +29,15 @@ foo = { thisLineWouldBeTooLong:
 
 call({
     foobar :42,
+    bat :(2 * 2)
+});
+```
+
+```js
+/*eslint key-spacing: [2, {"beforeColon": true, "afterColon": false, "mode": "minimum"}]*/
+
+call({
+    foobar   :42,
     bat :(2 * 2)
 });
 ```
@@ -50,6 +61,17 @@ function foo() {
     return {
         foobar: 42,             /*error Missing space after key "foobar".*/
         bat :"value"            /*error Missing space before value for key "bat".*/
+    };
+}
+```
+
+```js
+/*eslint key-spacing: [2, {"beforeColon": true, "afterColon": true}]*/
+
+function foo() {
+    return {
+        foobar  : 42,             /*error Extra space after key "foobar".*/
+        bat :  "value"            /*error Extra space before value for key "bat".*/
     };
 }
 ```
