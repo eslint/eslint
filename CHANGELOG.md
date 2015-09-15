@@ -1,3 +1,8 @@
+v1.4.3 - September 15, 2015
+
+* Fix: Directory ignoring should work (fixes #3812) (Nicholas C. Zakas)
+* Fix: jsx-quotes exception for attributes without value (fixes #3793) (Mathias Schreck)
+
 v1.4.2 - September 15, 2015
 
 * Fix: Ensure **/node_modules works in ignore files (fixes #3788) (Nicholas C. Zakas)
