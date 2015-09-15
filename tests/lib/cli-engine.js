@@ -2,6 +2,7 @@
  * @fileoverview Tests for CLIEngine.
  * @author Nicholas C. Zakas
  * @copyright 2014 Nicholas C. Zakas. All rights reserved.
+ * See LICENSE in root directory for full license.
  */
 
 "use strict";
@@ -1590,6 +1591,25 @@ describe("CLIEngine", function() {
             assert.isTrue(spy.firstCall.calledWithExactly("foo.js", "bar"), "First call was incorrect.");
             assert.isTrue(spy.secondCall.calledWithExactly("bar.js", "baz"), "Second call was incorrect.");
 
+        });
+
+    });
+
+    describe("resolveFileGlobPatterns", function() {
+
+        leche.withData([
+            [".", "**/*.js"],
+            ["./", "**/*.js"],
+            ["../", "../**/*.js"]
+        ], function(input, expected) {
+
+            it("should correctly resolve " + input + " to " + expected, function() {
+                var engine = new CLIEngine();
+
+                var result = engine.resolveFileGlobPatterns([input]);
+                assert.equal(result[0], expected);
+
+            });
         });
 
     });
