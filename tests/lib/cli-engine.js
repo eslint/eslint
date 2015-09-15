@@ -486,6 +486,20 @@ describe("CLIEngine", function() {
             assert.equal(report.results[0].warningCount, 0);
         });
 
+        // https://github.com/eslint/eslint/issues/3812
+        it("should ignore all files when tests/fixtures/ is in ignore file", function() {
+            engine = new CLIEngine({
+                ignorePath: getFixturePath("cli-engine/.eslintignore2"),
+                useEslintrc: false,
+                rules: {
+                    quotes: [2, "double"]
+                }
+            });
+
+            var report = engine.executeOnFiles(["./tests/fixtures/cli-engine/"]);
+            assert.equal(report.results.length, 0);
+        });
+
         it("should return zero messages when all given files are ignored via ignore-pattern", function() {
             engine = new CLIEngine({
                 ignorePattern: "tests/fixtures/single-quoted.js"
