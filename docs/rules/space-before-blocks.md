@@ -14,7 +14,13 @@ This rule will enforce consistency of spacing before blocks. It is only applied 
 This rule ignores spacing which is between `=>` and a block. The spacing is handled by the `arrow-spacing` rule.
 
 This rule takes one argument. If it is `"always"` then blocks must always have at least one preceding space. If `"never"`
-then all blocks should never have any preceding space. The default is `"always"`.
+then all blocks should never have any preceding space. If different spacing is desired for function
+blocks and keyword blocks, an optional configuration object can be passed as the rule argument to
+configure the cases separately.
+
+( e.g. `{ "functions": "never", "keywords": "always" }` )
+
+The default is `"always"`.
 
 ### `"always"`
 
@@ -96,6 +102,70 @@ for (;;){
 }
 
 try{} catch(a){}
+```
+
+The following patterns are considered problems when configured `{ "functions": "never", "keywords": "always" }`:
+
+```js
+/*eslint space-before-blocks: [2, { "functions": "never", "keywords": "always" }]*/
+
+function a() {}    /*error Unexpected space before opening brace.*/
+
+try {} catch(a){}  /*error Missing space before opening brace.*/
+
+class Foo{         /*error Missing space before opening brace.*/
+  constructor() {} /*error Unexpected space before opening brace.*/
+}
+```
+
+
+The following patterns are not considered problems when configured `{ "functions": "never", "keywords": "always" }`:
+
+```js
+/*eslint space-before-blocks: [2, { "functions": "never", "keywords": "always" }]*/
+
+for (;;) {
+  // ...
+}
+
+describe(function(){
+  // ...
+});
+
+class Foo {
+  constructor(){}
+}
+```
+
+The following patterns are considered problems when configured `{ "functions": "always", "keywords": "never" }`:
+
+```js
+/*eslint space-before-blocks: [2, { "functions": "always", "keywords": "never" }]*/
+
+function a(){}      /*error Missing space before opening brace.*/
+
+try {} catch(a) {}  /*error Unexpected space before opening brace.*/
+
+class Foo {         /*error Unexpected space before opening brace.*/
+  constructor(){}   /*error Missing space before opening brace.*/
+}
+```
+
+
+The following patterns are not considered problems when configured `{ "functions": "always", "keywords": "never" }`:
+
+```js
+/*eslint space-before-blocks: [2, { "functions": "always", "keywords": "never" }]*/
+
+if (a){
+  b();
+}
+
+var a = function() {}
+
+class Foo{
+  constructor() {}
+}
 ```
 
 ## When Not To Use It
