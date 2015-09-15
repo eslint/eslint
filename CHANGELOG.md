@@ -1,3 +1,8 @@
+v1.4.2 - September 15, 2015
+
+* Fix: Ensure **/node_modules works in ignore files (fixes #3788) (Nicholas C. Zakas)
+* Fix: Ensure ./ works correctly with CLI (fixes #3792) (Nicholas C. Zakas)
+
 v1.4.1 - September 11, 2015
 
 * Fix: CLIEngine default cache parameter name (fixes #3755) (Daniel G. Taylor)
