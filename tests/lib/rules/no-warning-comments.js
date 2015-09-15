@@ -35,7 +35,9 @@ ruleTester.run("no-warning-comments", rule, {
         { code: "/* any block comment with TODO, FIXME or XXX */", args: 1 },
         { code: "/* any block comment with (TODO, FIXME's or XXX!) */", args: 1 },
         { code: "// comments containing terms as substrings like TodoMVC", options: [{ "terms": ["todo"], "location": "anywhere" } ] },
-        { code: "// special regex characters don't cause problems", options: [{ "terms": ["[aeiou]"], "location": "anywhere" } ] }
+        { code: "// special regex characters don't cause problems", options: [{ "terms": ["[aeiou]"], "location": "anywhere" } ] },
+        { code: "/*eslint no-warning-comments: [2, { \"terms\": [\"todo\", \"fixme\", \"any other term\"], \"location\": \"anywhere\" }]*/\n\nvar x = 10;\n" },
+        { code: "/*eslint no-warning-comments: [2, { \"terms\": [\"todo\", \"fixme\", \"any other term\"], \"location\": \"anywhere\" }]*/\n\nvar x = 10;\n", options: [{ "location": "anywhere" }] }
     ],
     invalid: [
         { code: "// fixme", args: [1], errors: [ { message: "Unexpected fixme comment." } ] },
@@ -52,6 +54,8 @@ ruleTester.run("no-warning-comments", rule, {
         { code: "/* fixme and todo */", args: [1], errors: [ { message: "Unexpected fixme comment." } ] },
         { code: "/* any fixme */", options: [{ "location": "anywhere" } ], errors: [ { message: "Unexpected fixme comment." } ] },
         { code: "/* fixme! */", options: [{ "terms": ["fixme"] } ], errors: [ { message: "Unexpected fixme comment." } ] },
-        { code: "// regex [litera|$]", options: [{ "terms": ["[litera|$]"], "location": "anywhere" } ], errors: [ { message: "Unexpected [litera|$] comment." } ] }
+        { code: "// regex [litera|$]", options: [{ "terms": ["[litera|$]"], "location": "anywhere" } ], errors: [ { message: "Unexpected [litera|$] comment." } ] },
+        { code: "/* eslint one-var: 2 */", options: [{ "terms": ["eslint"] } ], errors: [ { message: "Unexpected eslint comment." } ] },
+        { code: "/* eslint one-var: 2 */", options: [{ "terms": ["one"], "location": "anywhere" } ], errors: [ { message: "Unexpected one comment." } ] }
     ]
 });
