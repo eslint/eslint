@@ -470,6 +470,22 @@ describe("CLIEngine", function() {
             assert.equal(report.results.length, 0);
         });
 
+        // https://github.com/eslint/eslint/issues/3788
+        it("should ignore one-level down node_modules when ignore file has **/_node_modules in it", function() {
+            engine = new CLIEngine({
+                ignorePath: getFixturePath("cli-engine/.eslintignore"),
+                useEslintrc: false,
+                rules: {
+                    quotes: [2, "double"]
+                }
+            });
+
+            var report = engine.executeOnFiles(["./tests/fixtures/cli-engine/"]);
+            assert.equal(report.results.length, 1);
+            assert.equal(report.results[0].errorCount, 0);
+            assert.equal(report.results[0].warningCount, 0);
+        });
+
         it("should return zero messages when all given files are ignored via ignore-pattern", function() {
             engine = new CLIEngine({
                 ignorePattern: "tests/fixtures/single-quoted.js"
