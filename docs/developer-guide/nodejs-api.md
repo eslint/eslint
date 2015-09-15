@@ -198,6 +198,21 @@ The top-level report object has a `results` array containing all linting results
 
 Once you get a report object, it's up to you to determine how to output the results.
 
+### resolveFileGlobPatterns()
+
+You can pass filesystem-style or glob patterns to ESLint and have it function properly. In order to achieve this, ESLint must resolve non-glob patterns into glob patterns before determining which files to execute on. The `resolveFileGlobPatterns()` methods uses the current settings from `CLIEngine` to resolve non-glob patterns into glob patterns. Pass an array of patterns that might be passed to the ESLint CLI and it will return an array of glob patterns that mean the same thing. Here's an example:
+
+```js
+var CLIEngine = require("eslint").CLIEngine;
+
+var cli = new CLIEngine({
+});
+
+// pass an array of patterns
+var globPatterns = cli.resolveFileGlobPatterns(["."]);
+console.log(globPatterns[i]);       // ["**/*.js"]
+```
+
 ### getConfigForFile()
 
 If you want to retrieve a configuration object for a given file, use the `getConfigForFile()` method. This method accepts one argument, a file path, and returns an object represented the calculated configuration of the file. Here's an example:
