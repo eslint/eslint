@@ -24,49 +24,50 @@ The command line utility has several options. You can view the options by runnin
 
 ```text
 Basic configuration:
-  -c, --config path::String   Use configuration from this file or shareable
-                              config
-  --no-eslintrc               Disable use of configuration from .eslintrc
-  --env [String]              Specify environments
-  --ext [String]              Specify JavaScript file extensions - default: .js
-  --global [String]           Define global variables
-  --parser String             Specify the parser to be used - default: espree
+  -c, --config path::String  Use configuration from this file or shareable
+                             config
+  --no-eslintrc              Disable use of configuration from .eslintrc
+  --env [String]             Specify environments
+  --ext [String]             Specify JavaScript file extensions - default: .js
+  --global [String]          Define global variables
+  --parser String            Specify the parser to be used - default: espree
 
 Caching:
-  --cache                     Only check changed files - default: false
-  --cache-file String         Path to the cache file - default: .eslintcache
+  --cache                    Only check changed files - default: false
+  --cache-file String        Path to the cache file - default: .eslintcache
 
 Specifying rules and plugins:
-  --rulesdir [path::String]   Use additional rules from this directory
-  --plugin [String]           Specify plugins
-  --rule Object               Specify rules
+  --rulesdir [path::String]  Use additional rules from this directory
+  --plugin [String]          Specify plugins
+  --rule Object              Specify rules
 
 Ignoring files:
   --ignore-path path::String  Specify path of ignore file
-  --no-ignore                 Disable use of .eslintignore
-  --ignore-pattern String     Pattern of files to ignore (in addition to those
-                              in .eslintignore)
+  --no-ignore                Disable use of .eslintignore
+  --ignore-pattern String    Pattern of files to ignore (in addition to those
+                             in .eslintignore)
 
 Using stdin:
-  --stdin                     Lint code provided on <STDIN> - default: false
-  --stdin-filename String     Specify filename to process STDIN as
+  --stdin                    Lint code provided on <STDIN> - default: false
+  --stdin-filename String    Specify filename to process STDIN as
 
 Handling warnings:
-  --quiet                     Report errors only - default: false
-  --max-warnings Number       Number of warnings to trigger nonzero exit code
-                              - default: -1
+  --quiet                    Report errors only - default: false
+  --max-warnings Number      Number of warnings to trigger nonzero exit code -
+                             default: -1
 
 Output:
   -o, --output-file path::String  Specify file to write report to
-  -f, --format String         Use a specific output format - default: stylish
-  --no-color                  Disable color in piped output
+  -f, --format String        Use a specific output format - default: stylish
+  --no-color                 Disable color in piped output
 
 Miscellaneous:
-  --init                      Run config initialization wizard - default: false
-  --fix                       Automatically fix problems
-  -h, --help                  Show help
-  -v, --version               Outputs the version number
-```
+  --init                     Run config initialization wizard - default: false
+  --fix                      Automatically fix problems
+  --debug                    Output debugging information
+  -h, --help                 Show help
+  -v, --version              Outputs the version number
+  ```
 
 ### Basic configuration
 
@@ -287,6 +288,10 @@ This option instructs ESLint to try to fix as many issues as possible. The fixes
 
 1. This option throws an error when code is piped to ESLint.
 1. This option has no effect on code that uses processors.
+
+#### `--debug`
+
+This option outputs debugging information to the console. This information is useful when you're seeing a problem and having a hard time pinpointing it. The ESLint team may ask for this debugging information to help solve bugs.
 
 #### `-h`, `--help`
 
