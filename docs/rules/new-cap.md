@@ -61,8 +61,7 @@ If provided, it must be an `Array`.
 
 ### capIsNewExceptions
 
-Array of uppercase-starting function names that are permitted to be used without the `new` operator.
-If not provided, `capIsNewExceptions` defaults to the following:
+Array of uppercase-starting function names that are permitted to be used without the `new` operator. If not provided, `capIsNewExceptions` defaults to the following:
 
 * `Array`
 * `Boolean`
@@ -76,6 +75,10 @@ If not provided, `capIsNewExceptions` defaults to the following:
 * `Symbol`
 
 If provided, it must be an `Array`. The default values will continue to be excluded when `capIsNewExceptions` is provided.
+
+### properties
+
+By default, this rule will check properties such as `object.Property` using the other options (default value is `true`). When set to `false`, this rule will not check properties so `new object.property()` is valid even when `newIsCap` is `true`.
 
 ## When Not To Use It
 
