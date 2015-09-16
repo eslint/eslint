@@ -195,7 +195,7 @@ These rules are purely matters of style and are quite subjective.
 * [quote-props](quote-props.md) - require quotes around object literal property names
 * [quotes](quotes.md) - specify whether backticks, double or single quotes should be used (fixable)
 * [require-jsdoc](require-jsdoc.md) - Require JSDoc comment
-* [semi-spacing](semi-spacing.md) - enforce spacing before and after semicolons
+* [semi-spacing](semi-spacing.md) - enforce spacing before and after semicolons (fixable)
 * [semi](semi.md) - require or disallow use of semicolons instead of ASI (fixable)
 * [sort-vars](sort-vars.md) - sort variables within the same declaration block
 * [space-after-keywords](space-after-keywords.md) - require a space after certain keywords (fixable)
