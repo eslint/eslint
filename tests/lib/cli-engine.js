@@ -731,20 +731,20 @@ describe("CLIEngine", function() {
                 assert.deepEqual(report, {
                     "results": [
                         {
-                            "filePath": path.resolve(fixtureDir, "fixmode/ok.js"),
+                            "filePath": fs.realpathSync(path.resolve(fixtureDir, "fixmode/ok.js")),
                             "messages": [],
                             "errorCount": 0,
                             "warningCount": 0
                         },
                         {
-                            "filePath": path.resolve(fixtureDir, "fixmode/quotes-semi-eqeqeq.js"),
+                            "filePath": fs.realpathSync(path.resolve(fixtureDir, "fixmode/quotes-semi-eqeqeq.js")),
                             "messages": [],
                             "errorCount": 0,
                             "warningCount": 0,
                             "output": "var msg = \"hi\";\nif (msg === \"hi\") {\n\n}\n"
                         },
                         {
-                            "filePath": path.resolve(fixtureDir, "fixmode/quotes.js"),
+                            "filePath": fs.realpathSync(path.resolve(fixtureDir, "fixmode/quotes.js")),
                             "messages": [
                                 {
                                     column: 18,
