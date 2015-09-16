@@ -1,6 +1,7 @@
 /**
  * @fileoverview Tests for options.
  * @author George Zahariev
+ * See LICENSE in root directory for full license.
  */
 
 "use strict";
@@ -253,6 +254,13 @@ describe("options", function() {
         it("should return true for --fix when passed", function() {
             var currentOptions = options.parse("--fix");
             assert.isTrue(currentOptions.fix);
+        });
+    });
+
+    describe("--debug", function() {
+        it("should return true for --debug when passed", function() {
+            var currentOptions = options.parse("--debug");
+            assert.isTrue(currentOptions.debug);
         });
     });
 
