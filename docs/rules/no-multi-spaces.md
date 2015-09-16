@@ -1,18 +1,18 @@
 # Disallow multiple spaces (no-multi-spaces)
 
-It's a good practice to add whitespace in expressions to enhance readability of code such as:
-
-```js
-
-if(foo === "bar") {}
-
-```
-
-In cases where more than one whitespace is added, it can lead to ugly and inconsistent looking code such as:
+Multiple spaces in a row that are not used for indentation are typically mistakes. For example:
 
 ```js
 
 if(foo  === "bar") {}
+
+```
+
+It's hard to tell, but there are two spaces between `foo` and `===`. Multiple spaces such as this are generally frowned upon in favor of single spaces:
+
+```js
+
+if(foo === "bar") {}
 
 ```
 
@@ -54,7 +54,9 @@ a ? b: c
 
 ### Exceptions
 
-Some rules, like key-spacing in one of its alignment modes, might require multiple spaces in some instances. To support this case, this rule accepts an options object with a property named `exceptions`. Excepted node types can be added as properties on the `exceptions` object with their value set to `true`. `Property` nodes are excepted by default.
+Some rules, like key-spacing in one of its alignment modes, might require multiple spaces in some instances. To support this case, this rule accepts an options object with a property named `exceptions`. The `exceptions` object expects property names to be AST node types as defined by [ESTree](https://github.com/estree/estree). The easiest way to determine the node types for `exceptions` is to use the [online demo](http://eslint.org/parser).
+
+You can ignore certain parts of your code by setting node types as properties on the `exceptions` object with a value of `true`. By default, all node types are `false` except for `Property`, which is `true` by default in order to skip properties.
 
 With this option, the following patterns are not warnings:
 
