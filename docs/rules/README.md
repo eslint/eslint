@@ -189,7 +189,7 @@ These rules are purely matters of style and are quite subjective.
 * [space-before-blocks](space-before-blocks.md) - require or disallow a space before blocks (fixable)
 * [space-before-function-paren](space-before-function-paren.md) - require or disallow a space before function opening parenthesis (fixable)
 * [space-in-parens](space-in-parens.md) - require or disallow spaces inside parentheses
-* [space-infix-ops](space-infix-ops.md) - require spaces around operators
+* [space-infix-ops](space-infix-ops.md) - require spaces around operators (fixable)
 * [space-return-throw-case](space-return-throw-case.md) - require a space after `return`, `throw`, and `case` (fixable)
 * [space-unary-ops](space-unary-ops.md) - require or disallow spaces before/after unary operators
 * [spaced-comment](spaced-comment.md) - require or disallow a space immediately following the `//` or `/*` in a comment
