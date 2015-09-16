@@ -98,6 +98,78 @@ ruleTester.run("comma-dangle", rule, {
             code: "var a = [b, ...spread,];",
             ecmaFeatures: {spread: true},
             options: ["always"]
+        },
+
+        // https://github.com/eslint/eslint/issues/3794
+        {
+            code: "import {foo,} from 'foo';",
+            ecmaFeatures: {modules: true},
+            options: ["always"]
+        },
+        {
+            code: "import foo from 'foo';",
+            ecmaFeatures: {modules: true},
+            options: ["always"]
+        },
+        {
+            code: "import foo, {abc,} from 'foo';",
+            ecmaFeatures: {modules: true},
+            options: ["always"]
+        },
+        {
+            code: "import * as foo from 'foo';",
+            ecmaFeatures: {modules: true},
+            options: ["always"]
+        },
+        {
+            code: "export {foo,} from 'foo';",
+            ecmaFeatures: {modules: true},
+            options: ["always"]
+        },
+        {
+            code: "import {foo} from 'foo';",
+            ecmaFeatures: {modules: true},
+            options: ["never"]
+        },
+        {
+            code: "import foo from 'foo';",
+            ecmaFeatures: {modules: true},
+            options: ["never"]
+        },
+        {
+            code: "import foo, {abc} from 'foo';",
+            ecmaFeatures: {modules: true},
+            options: ["never"]
+        },
+        {
+            code: "import * as foo from 'foo';",
+            ecmaFeatures: {modules: true},
+            options: ["never"]
+        },
+        {
+            code: "export {foo} from 'foo';",
+            ecmaFeatures: {modules: true},
+            options: ["never"]
+        },
+        {
+            code: "import {foo} from 'foo';",
+            ecmaFeatures: {modules: true},
+            options: ["always-multiline"]
+        },
+        {
+            code: "export {foo} from 'foo';",
+            ecmaFeatures: {modules: true},
+            options: ["always-multiline"]
+        },
+        {
+            code: "import {\n  foo,\n} from 'foo';",
+            ecmaFeatures: {modules: true},
+            options: ["always-multiline"]
+        },
+        {
+            code: "export {\n  foo,\n} from 'foo';",
+            ecmaFeatures: {modules: true},
+            options: ["always-multiline"]
         }
     ],
     invalid: [
@@ -435,6 +507,68 @@ ruleTester.run("comma-dangle", rule, {
                     column: 11
                 }
             ]
+        },
+
+        // https://github.com/eslint/eslint/issues/3794
+        {
+            code: "import {foo} from 'foo';",
+            ecmaFeatures: {modules: true},
+            options: ["always"],
+            errors: [{message: "Missing trailing comma.", type: "ImportSpecifier"}]
+        },
+        {
+            code: "import foo, {abc} from 'foo';",
+            ecmaFeatures: {modules: true},
+            options: ["always"],
+            errors: [{message: "Missing trailing comma.", type: "ImportSpecifier"}]
+        },
+        {
+            code: "export {foo} from 'foo';",
+            ecmaFeatures: {modules: true},
+            options: ["always"],
+            errors: [{message: "Missing trailing comma.", type: "ExportSpecifier"}]
+        },
+        {
+            code: "import {foo,} from 'foo';",
+            ecmaFeatures: {modules: true},
+            options: ["never"],
+            errors: [{message: "Unexpected trailing comma.", type: "ImportSpecifier"}]
+        },
+        {
+            code: "import foo, {abc,} from 'foo';",
+            ecmaFeatures: {modules: true},
+            options: ["never"],
+            errors: [{message: "Unexpected trailing comma.", type: "ImportSpecifier"}]
+        },
+        {
+            code: "export {foo,} from 'foo';",
+            ecmaFeatures: {modules: true},
+            options: ["never"],
+            errors: [{message: "Unexpected trailing comma.", type: "ExportSpecifier"}]
+        },
+        {
+            code: "import {foo,} from 'foo';",
+            ecmaFeatures: {modules: true},
+            options: ["always-multiline"],
+            errors: [{message: "Unexpected trailing comma.", type: "ImportSpecifier"}]
+        },
+        {
+            code: "export {foo,} from 'foo';",
+            ecmaFeatures: {modules: true},
+            options: ["always-multiline"],
+            errors: [{message: "Unexpected trailing comma.", type: "ExportSpecifier"}]
+        },
+        {
+            code: "import {\n  foo\n} from 'foo';",
+            ecmaFeatures: {modules: true},
+            options: ["always-multiline"],
+            errors: [{message: "Missing trailing comma.", type: "ImportSpecifier"}]
+        },
+        {
+            code: "export {\n  foo\n} from 'foo';",
+            ecmaFeatures: {modules: true},
+            options: ["always-multiline"],
+            errors: [{message: "Missing trailing comma.", type: "ExportSpecifier"}]
         }
     ]
 });
