@@ -10,6 +10,8 @@ var a = "b" ;
 var c = "d";var e = "f";
 ```
 
+**Fixable:** This rule is automatically fixable using the `--fix` flag on the command line.
+
 ## Rule Details
 
 This rule aims to enforce spacing around a semicolon. This rule prevents the use of spaces before a semicolon in expressions.
