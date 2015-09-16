@@ -57,7 +57,11 @@ ruleTester.run("space-before-blocks", rule, {
             ecmaFeatures: {
                 classes: true
             }
-        }
+        },
+
+        // https://github.com/eslint/eslint/issues/3769
+        {code: "()=>{};", options: ["always"], ecmaFeatures: {arrowFunctions: true}},
+        {code: "() => {};", options: ["never"], ecmaFeatures: {arrowFunctions: true}}
     ],
     invalid: [
         {
