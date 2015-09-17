@@ -6,7 +6,7 @@ In JavaScript, it's possible to redeclare the same variable name using `var`. Th
 
 This rule is aimed at eliminating variables that have multiple declarations in the same scope.
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```js
 /*eslint no-redeclare: 2*/
@@ -15,7 +15,7 @@ var a = 3;
 var a = 10; /*error "a" is already defined*/
 ```
 
-The following patterns are considered okay and do not cause warnings:
+The following patterns are not considered problems:
 
 ```js
 /*eslint no-redeclare: 2*/
@@ -40,7 +40,7 @@ This rule takes one option, an object, with a property `"builtinGlobals"`.
 `false` by default.
 If this is `true`, this rule checks with built-in global variables such as `Object`, `Array`, `Number`, ...
 
-When `{"builtinGlobals": true}`, the following patterns are considered warnings:
+When `{"builtinGlobals": true}`, the following patterns are considered problems:
 
 ```js
 /*eslint no-redeclare: [2, { "builtinGlobals": true }]*/
@@ -48,7 +48,7 @@ When `{"builtinGlobals": true}`, the following patterns are considered warnings:
 var Object = 0; /*error "Object" is already defined*/
 ```
 
-When `{"builtinGlobals": true}` and under `browser` environment, the following patterns are considered warnings:
+When `{"builtinGlobals": true}` and under `browser` environment, the following patterns are considered problems:
 
 ```js
 /*eslint-env browser*/

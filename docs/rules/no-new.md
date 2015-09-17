@@ -18,7 +18,7 @@ In this case, the created object is thrown away because its reference isn't stor
 
 This rule is aimed at maintaining consistency and convention by disallowing constructor calls using the `new` keyword that do not assign the resulting object to a variable.
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```js
 /*eslint no-new: 2*/
@@ -26,7 +26,7 @@ The following patterns are considered warnings:
 new Thing(); /*error Do not use 'new' for side effects.*/
 ```
 
-The following patterns are not considered warnings:
+The following patterns are not considered problems:
 
 ```js
 /*eslint no-new: 2*/

@@ -8,7 +8,7 @@ If a variable is never modified, using the `const` declaration is better.
 
 This rule is aimed at flagging variables that are declared using `let` keyword, but never modified after the initial assignment.
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```js
 /*eslint prefer-const: 2*/
@@ -27,7 +27,7 @@ for (let a of [1,2,3]) { /*error `a` is never modified, use `const` instead.*/
 }
 ```
 
-The following patterns are not considered warnings:
+The following patterns are not considered problems:
 
 ```js
 /*eslint prefer-const: 2*/

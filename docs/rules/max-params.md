@@ -12,7 +12,7 @@ function foo (bar, baz, qux, qxx) { // four parameters, may be too many
 
 This rule is aimed at making functions easier to read and write by capping the number of formal arguments a function can accept. As such it will warn when it encounters a function that accepts more than the configured maximum number of parameters.
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```js
 /*eslint max-params: [2, 3]*/
@@ -22,7 +22,7 @@ function foo (bar, baz, qux, qxx) { /*error This function has too many parameter
 }
 ```
 
-The following patterns are not considered warnings:
+The following patterns are not considered problems:
 
 ```js
 /*eslint max-params: [2, 3]*/

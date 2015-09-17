@@ -21,7 +21,7 @@ Here, one branch of the function returns `true`, a Boolean value, while the othe
 
 This rule is aimed at ensuring all `return` statements either specify a value or don't specify a value.
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```js
 /*eslint consistent-return: 2*/
@@ -45,7 +45,7 @@ function doSomething(condition) {
 }
 ```
 
-The following patterns are considered okay and do not cause warnings:
+The following patterns are not considered problems:
 
 ```js
 /*eslint consistent-return: 2*/

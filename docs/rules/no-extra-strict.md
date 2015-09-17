@@ -17,7 +17,7 @@ The `"use strict";` directive applies to the scope in which it appears and all i
 
 This rule is aimed at preventing unnecessary `"use strict";` directives. As such, it will warn when it encounters a `"use strict";` directive when already in strict mode.
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```js
 "use strict";
@@ -28,7 +28,7 @@ The following patterns are considered warnings:
 }());
 ```
 
-The following patterns are not considered warnings:
+The following patterns are not considered problems:
 
 ```js
 "use strict";

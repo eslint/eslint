@@ -23,7 +23,7 @@ By throwing an error in this way, other parts of the application have an opportu
 
 This rule aims to prevent the use of `process.exit()` in Node.js JavaScript. As such, it warns whenever `process.exit()` is found in code.
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```js
 /*eslint no-process-exit: 2*/
@@ -32,7 +32,7 @@ process.exit(1); /*error Don't use process.exit(); throw an error instead.*/
 process.exit(0); /*error Don't use process.exit(); throw an error instead.*/
 ```
 
-The following patterns are not warnings:
+The following patterns are not considered problems:
 
 ```js
 /*eslint no-process-exit: 2*/

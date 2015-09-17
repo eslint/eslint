@@ -10,7 +10,7 @@ var foo = isBar ? baz : qux;
 
 The `no-ternary` rule aims to disallow the use of ternary operators.
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```js
 /*eslint no-ternary: 2*/

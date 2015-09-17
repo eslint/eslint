@@ -12,7 +12,7 @@ function a() {
 
 This is used to disambiguate the slash operator and facilitates in more readable code.
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```js
 /*eslint wrap-regex: 2*/

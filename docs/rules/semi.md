@@ -50,7 +50,7 @@ By using the default option, semicolons must be used any place where they are va
 semi: [2, "always"]
 ```
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```js
 /*eslint semi: 2*/
@@ -62,7 +62,7 @@ object.method = function() {
 }                            /*error Missing semicolon.*/
 ```
 
-The following patterns are not considered warnings:
+The following patterns are not considered problems:
 
 ```js
 /*eslint semi: 2*/
@@ -80,7 +80,7 @@ If you want to enforce that semicolons are never used, switch the configuration 
 semi: [2, "never"]
 ```
 
-Then, the following patterns are considered warnings:
+Then, the following patterns are considered problems:
 
 ```js
 /*eslint semi: [2, "never"]*/
@@ -92,7 +92,7 @@ object.method = function() {
 };                           /*error Extra semicolon.*/
 ```
 
-And the following patterns are not considered warnings:
+And the following patterns are not considered problems:
 
 ```js
 /*eslint semi: [2, "never"]*/

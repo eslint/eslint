@@ -58,7 +58,7 @@ You can also define separate exceptions and markers for block and line comments:
 
 #### Examples
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```js
 /*eslint spaced-comment: [2, "never"]*/
@@ -116,7 +116,7 @@ The following patterns are considered warnings:
 /*-+-+-+-+-+-+-+*/     /*error Expected space or tab after /* in comment.*/
 ```
 
-The following patterns are not considered warnings:
+The following patterns are not considered problems:
 
 ```js
 /* eslint spaced-comment: [2, "always"] */

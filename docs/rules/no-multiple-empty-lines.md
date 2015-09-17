@@ -15,7 +15,7 @@ You can configure the depth as an option by using the second argument in your co
 "no-multiple-empty-lines": [2, {"max": 2}]
 ```
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```js
 /*eslint no-multiple-empty-lines: [2, {max: 2}]*/
@@ -28,7 +28,7 @@ var bar = 3;
 
 ```
 
-The following patterns are not warnings:
+The following patterns are not considered problems:
 
 ```js
 /*eslint no-multiple-empty-lines: [2, {max: 2}]*/

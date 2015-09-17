@@ -43,7 +43,7 @@ With this rule enabled the following characters will cause warnings outside of s
     \u205f - Medium Mathematical Space
     \u3000 - Ideographic Space
 
-The following examples are considered warnings:
+The following examples are considered problems:
 
 ```js
 /*eslint no-irregular-whitespace: 2*/
@@ -73,7 +73,7 @@ function thing() {
 }
 ```
 
-The following patterns are not considered warnings:
+The following patterns are not considered problems:
 
 ```js
 /*eslint no-irregular-whitespace: 2*/

@@ -49,7 +49,7 @@ You can set the option in configuration like this:
 
 #### "always"
 
-When the rule is set to `"always"` the following patterns are considered warnings:
+When the rule is set to `"always"` the following patterns are considered problems:
 
 ```js
 /*eslint arrow-parens: [2, "always"]*/
@@ -62,7 +62,7 @@ a.then(foo => a);            /*error Expected parentheses around arrow function 
 a(foo => { if (true) {}; }); /*error Expected parentheses around arrow function argument.*/
 ```
 
-The following patterns are not warnings:
+The following patterns are not considered problems:
 
 ```js
 /*eslint arrow-parens: [2, "always"]*/
@@ -126,7 +126,7 @@ var f = (a) => b ? c: d;
 
 #### "as-needed"
 
-When the rule is set to `"as-needed"` the following patterns are considered warnings:
+When the rule is set to `"as-needed"` the following patterns are considered problems:
 
 ```js
 /*eslint arrow-parens: [2, "as-needed"]*/
@@ -139,7 +139,7 @@ a.then((foo) => a);            /*error Unexpected parentheses around single func
 a((foo) => { if (true) {}; }); /*error Unexpected parentheses around single function argument*/
 ```
 
-The following patterns are not warnings:
+The following patterns are not considered problems:
 
 ```js
 /*eslint arrow-parens: [2, "as-needed"]*/

@@ -10,7 +10,7 @@ var foo = "Copyright \251";
 
 The rule is aimed at preventing the use of a deprecated JavaScript feature, the use of octal escape sequences. As such it will warn whenever an octal escape sequence is found in a string literal.
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```
 /*eslint no-octal-escape: 2*/
@@ -18,7 +18,7 @@ The following patterns are considered warnings:
 var foo = "Copyright \251"; /*error Don't use octal: '\251'. Use '\u....' instead.*/
 ```
 
-The following patterns are not considered warnings:
+The following patterns are not considered problems:
 
 ```
 /*eslint no-octal-escape: 2*/

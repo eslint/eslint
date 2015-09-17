@@ -15,7 +15,7 @@ In this case, the variable `a` inside of `b()` is shadowing the variable `a` in 
 
 This rule aims to eliminate shadowed variable declarations.
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```js
 /*eslint no-shadow: 2*/
@@ -54,7 +54,7 @@ This rule takes one option, an object, with properties `"builtinGlobals"` and `"
 `false` by default.
 If this is `true`, this rule checks with built-in global variables such as `Object`, `Array`, `Number`, ...
 
-When `{"builtinGlobals": true}`, the following patterns are considered warnings:
+When `{"builtinGlobals": true}`, the following patterns are considered problems:
 
 ```js
 /*eslint no-shadow: [2, { "builtinGlobals": true }]*/
@@ -74,7 +74,7 @@ The option has three settings:
 
 ##### { "hoist": "all" }
 
-With `"hoist"` set to `"all"`, both `let a` and `let b` in the `if` statement are considered warnings.
+With `"hoist"` set to `"all"`, both `let a` and `let b` in the `if` statement are considered problems.
 
 ```js
 /*eslint no-shadow: [2, { "hoist": "all" }]*/
@@ -106,7 +106,7 @@ function b() {}
 
 ##### { "hoist": "never" }
 
-With `"hoist"` set to `"never"`, neither `let a` nor `let b` in the `if` statement are considered warnings, because they are before the declarations of the outer scope.
+With `"hoist"` set to `"never"`, neither `let a` nor `let b` in the `if` statement are considered problems, because they are before the declarations of the outer scope.
 
 ```js
 /*eslint no-shadow: [2, { "hoist": "never" }]*/

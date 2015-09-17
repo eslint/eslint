@@ -19,7 +19,7 @@ This rule forbids the use of the comma operator, with the following exceptions:
 * In the initialization or update portions of a `for` statement.
 * If the expression sequence is explicitly wrapped in parentheses.
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```
 /*eslint no-sequences: 2*/
@@ -39,7 +39,7 @@ while (val = foo(), val < 42);       /*error Unexpected use of comma operator.*/
 with (doSomething(), val) {}         /*error Unexpected use of comma operator.*/
 ```
 
-The following patterns are not considered warnings:
+The following patterns are not considered problems:
 
 ```
 /*eslint no-sequences: 2*/

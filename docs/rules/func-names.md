@@ -10,7 +10,7 @@ Adding the second `bar` in the above example is optional.  If you leave off the 
 
 ## Rule Details
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```js
 /* eslint func-names: 2*/
@@ -22,7 +22,7 @@ Foo.prototype.bar = function() {}; /*error Missing function expression name.*/
 }())
 ```
 
-The following patterns are not considered warnings:
+The following patterns are not considered problems:
 
 ```js
 /* eslint func-names: 2*/

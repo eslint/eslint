@@ -66,7 +66,7 @@ You can set the option in configuration like this:
 "no-inner-declarations": [2, "both"]
 ```
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```js
 /*eslint no-inner-declarations: 2*/
@@ -82,7 +82,7 @@ function doSomethingElse() {
 }
 ```
 
-With "both" option to check variable declarations, the following are considered warnings:
+With "both" option to check variable declarations, the following are considered problems:
 
 ```js
 /*eslint no-inner-declarations: [2, "both"]*/

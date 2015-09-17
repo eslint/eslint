@@ -26,7 +26,7 @@ The default depth above which this rule will warn is `4`.  You can configure the
 "max-depth": [2, 10]
 ```
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```js
 /*eslint max-depth: [2, 2]*/
@@ -42,7 +42,7 @@ function foo() {
 }
 ```
 
-The following patterns are not warnings:
+The following patterns are not considered problems:
 
 ```js
 /*eslint max-depth: [2, 2]*/

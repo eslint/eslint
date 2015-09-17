@@ -37,7 +37,7 @@ This rule disallows the conditional expression as a default assignment pattern w
 
 This rule enforces a coding style where it disallows conditional expressions that can be implemented using simpler language constructs. Specifically, this rule disallows the use of Boolean literals inside conditional expressions, and conditional expressions where a single variable is used as both the test and consequent. This rule's default options are `{"defaultAssignment": true }`.
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```js
 /*eslint no-unneeded-ternary: 2*/
@@ -53,7 +53,7 @@ The following pattern is considered a warning when `defaultAssignment` is `false
 var a = x ? x : 1;
 ```
 
-The following patterns are not considered warnings:
+The following patterns are not considered problems:
 
 ```js
 /*eslint no-unneeded-ternary: 2*/

@@ -18,7 +18,7 @@ Now it is very clear that three spaces are expected to be matched.
 
 This rule aims to eliminate errors due to multiple spaces inside of a regular expression. As such, it warns whenever more than one space in a row is found inside of a regular expression literal.
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```js
 /*eslint no-regex-spaces: 2*/
@@ -26,7 +26,7 @@ The following patterns are considered warnings:
 var re = /foo   bar/; /*error Spaces are hard to count. Use {3}.*/
 ```
 
-The following patterns are not warnings:
+The following patterns are not considered problems:
 
 ```js
 /*eslint no-regex-spaces: 2*/

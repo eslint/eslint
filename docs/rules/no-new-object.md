@@ -20,7 +20,7 @@ While there are no performance differences between the two approaches, the byte 
 
 This rule aims to eliminate use of the `Object` constructor. As such, it warns whenever `new Object` is found in code.
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```js
 /*eslint no-new-object: 2*/
@@ -30,7 +30,7 @@ var myObject = new Object(); /*error The object literal notation {} is preferrab
 var myObject = new Object;   /*error The object literal notation {} is preferrable.*/
 ```
 
-The following patterns are not warnings:
+The following patterns are not considered problems:
 
 ```js
 /*eslint no-new-object: 2*/

@@ -10,7 +10,7 @@ var x = y | z;
 
 This rule is aimed at catching typos that end up as bitwise operators, but are meant to be the much more common `&&`, '||', `<`, `>` operators. As such, it will warn whenever it encounters a bitwise operator:
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```js
 /*eslint no-bitwise: 2*/
@@ -42,7 +42,7 @@ x >>= y;         /*error Unexpected use of '>>='.*/
 x >>>= y;        /*error Unexpected use of '>>>='.*/
 ```
 
-The following patterns are not considered warnings:
+The following patterns are not considered problems:
 
 ```js
 /*eslint no-bitwise: 2*/

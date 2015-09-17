@@ -6,7 +6,7 @@ In Node.js, most I/O is done through asynchronous methods. However, there are of
 
 This rule is aimed at preventing synchronous methods from being called in Node.js. It looks specifically for the method suffix "`Sync`" (as is the convention with Node.js operations).
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```js
 /*eslint no-sync: 2*/
@@ -16,7 +16,7 @@ fs.existsSync(somePath);                             /*error Unexpected sync met
 var contents = fs.readFileSync(somePath).toString(); /*error Unexpected sync method: 'readFileSync'.*/
 ```
 
-The following patterns are not considered warnings:
+The following patterns are not considered problems:
 
 ```js
 /*eslint no-sync: 2*/

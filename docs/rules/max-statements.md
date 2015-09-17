@@ -14,7 +14,7 @@ function foo() {
 
 This rule allows you to configure the maximum number of statements allowed in a function.  The default is 10.
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```js
 /*eslint max-statements: [2, 2]*/  // Maximum of 2 statements.
@@ -26,7 +26,7 @@ function foo() { /*error This function has too many statements (3). Maximum allo
 }
 ```
 
-The following patterns are not warnings:
+The following patterns are not considered problems:
 
 ```js
 /*eslint max-statements: [2, 2]*/  // Maximum of 2 statements.

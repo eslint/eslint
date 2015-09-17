@@ -62,7 +62,7 @@ In this example, there is no confusion as to the expected behavior. It is clear 
 
 This rule is aimed at eliminating unintentional fallthrough of one case to the other. As such, it flags and fallthrough scenarios that are not marked by a comment.
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```js
 /*eslint no-fallthrough: 2*/
@@ -76,7 +76,7 @@ switch(foo) {
 }
 ```
 
-The following patterns are considered okay and do not cause warnings:
+The following patterns are not considered problems:
 
 ```js
 /*eslint no-fallthrough: 2*/

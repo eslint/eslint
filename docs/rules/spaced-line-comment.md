@@ -20,7 +20,7 @@ The value is an array of string patterns which are considered exceptions to the 
 It is important to note that the exceptions are ignored if the first argument is `"never"`.
 Exceptions cannot be mixed.
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```js
 // When ["never"]
@@ -40,7 +40,7 @@ var foo = 5;
 //------++++++++
 ```
 
-The following patterns are not warnings:
+The following patterns are not considered problems:
 
 ```js
 // When ["always"]

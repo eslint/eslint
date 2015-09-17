@@ -19,7 +19,7 @@ This rule takes one option, an object, with a property `"props"`.
 * `props` (`false` by default) - If `true` is set, this rule warns modifying of properties of parameters.
 
 
-### The following patterns are considered warnings:
+### The following patterns are considered problems:
 
 ```js
 /*eslint no-param-reassign: 2*/
@@ -51,7 +51,7 @@ function foo(bar) {
 }
 ```
 
-### The following patterns are not warnings:
+### The following patterns are not considered problems:
 
 ```js
 /*eslint no-param-reassign: 2*/
