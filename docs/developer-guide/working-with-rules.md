@@ -228,6 +228,7 @@ Once you have an instance of `SourceCode`, you can use the methods on it to work
 * `getLastToken(node)` - returns the last token representing the given node.
 * `getLastTokens(node, count)` - returns the last `count` tokens representing the given node.
 * `getNodeByRangeIndex(index)` - returns the deepest node in the AST containing the given source index.
+* `isSpaceBetweenTokens(first, second)` - returns true if there is a whitespace character between the two tokens.
 * `getText(node)` - returns the source code for the given node. Omit `node` to get the whole source.
 * `getTokenAfter(nodeOrToken)` - returns the first token after the given node or token.
 * `getTokenBefore(nodeOrToken)` - returns the first token before the given node or token.
