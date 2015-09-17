@@ -35,6 +35,10 @@ function assertConfigsEqual(actual, expected) {
         assert.deepEqual(actual.env, expected.env);
     }
 
+    if (actual.ecmaFeatures && expected.ecmaFeatures) {
+        assert.deepEqual(actual.ecmaFeatures, expected.ecmaFeatures);
+    }
+
     if (actual.globals && expected.globals) {
         assert.deepEqual(actual.globals, expected.globals);
     }
@@ -1106,6 +1110,21 @@ describe("Config", function() {
                 var expected = configHelper.getConfig(file2);
 
                 assert(!("quotes" in expected.rules), "shared config should not be clobbered");
+            });
+        });
+
+        describe("with env in a child configuration file", function() {
+            it("should overwrite ecmaFeatures of the parent with env of the child", function() {
+                var config = new Config();
+                var targetPath = getFixturePath("overwrite-ecmaFeatures", "child", "foo.js");
+                var expected = {
+                    rules: {},
+                    env: {commonjs: true},
+                    ecmaFeatures: {globalReturn: true}
+                };
+                var actual = config.getConfig(targetPath);
+
+                assertConfigsEqual(actual, expected);
             });
         });
     });
