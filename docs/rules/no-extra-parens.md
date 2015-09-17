@@ -13,7 +13,7 @@ A few cases of redundant parentheses are always allowed:
 
 ### Options
 
-The default behavior of the rule is specified by `"all"` and it will report unnecessary parentheses around any expression. The following patterns are considered warnings:
+The default behavior of the rule is specified by `"all"` and it will report unnecessary parentheses around any expression. The following patterns are considered problems:
 
 ```js
 /*eslint no-extra-parens: 2*/
@@ -25,7 +25,7 @@ a = (b * c); /*error Gratuitous parentheses around expression.*/
 typeof (a);  /*error Gratuitous parentheses around expression.*/
 ```
 
-The following patterns are not considered warnings:
+The following patterns are not considered problems:
 
 ```js
 /*eslint no-extra-parens: 2*/
@@ -39,7 +39,7 @@ The following patterns are not considered warnings:
 (/^a$/).test(x);
 ```
 
-If the option is set to `"functions"`, only function expressions will be checked for unnecessary parentheses. The following patterns are considered warnings:
+If the option is set to `"functions"`, only function expressions will be checked for unnecessary parentheses. The following patterns are considered problems:
 
 ```js
 /*eslint no-extra-parens: [2, "functions"]*/
@@ -49,7 +49,7 @@ If the option is set to `"functions"`, only function expressions will be checked
 var y = (function () {return 1;}); /*error Gratuitous parentheses around expression.*/
 ```
 
-The following patterns are not considered warnings:
+The following patterns are not considered problems:
 
 ```js
 /*eslint no-extra-parens: [2, "functions"]*/

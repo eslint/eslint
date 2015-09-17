@@ -23,7 +23,7 @@ This rule is aimed at ensuring that callbacks used outside of the main function 
 preceding a `return` statement. This rules decides what is a callback based on the name of the function being called.
 By default the rule treats `cb`, `callback`, and `next` as callbacks.
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```js
 /*eslint callback-return: 2*/
@@ -36,7 +36,7 @@ function foo() {
 }
 ```
 
-The following patterns are not considered warnings:
+The following patterns are not considered problems:
 
 ```js
 /*eslint callback-return: 2*/

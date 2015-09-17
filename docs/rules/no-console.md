@@ -12,7 +12,7 @@ console.error("That shouldn't have happened.");
 
 This rule is aimed at eliminating unwanted `console` references from your JavaScript. As such, it warns whenever it sees `console` used as an identifier in code.
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```js
 /*eslint no-console: 2*/
@@ -21,7 +21,7 @@ console.log("Hello world!");              /*error Unexpected console statement.*
 console.error("Something bad happened."); /*error Unexpected console statement.*/
 ```
 
-The following patterns are considered okay and do not cause warnings:
+The following patterns are not considered problems:
 
 ```js
 /*eslint no-console: 2*/

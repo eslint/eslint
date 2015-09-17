@@ -18,7 +18,7 @@ Math.max(...args);
 
 This rule is aimed to flag usage of `Function.prototype.apply()` that can be replaced with the spread operator.
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```js
 /*eslint prefer-spread: 2*/
@@ -30,7 +30,7 @@ foo.apply(null, args);      /*error use the spread operator instead of the ".app
 obj.foo.apply(obj, args);   /*error use the spread operator instead of the ".apply()".*/
 ```
 
-The following patterns are not considered warnings:
+The following patterns are not considered problems:
 
 ```js
 /*eslint prefer-spread: 2*/

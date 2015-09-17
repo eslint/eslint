@@ -7,7 +7,7 @@ Supported nodes:
 
 ## Rule details
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```js
 /*eslint require-jsdoc: 2*/
@@ -17,7 +17,7 @@ function foo() {       /*error Missing JSDoc comment.*/
 }
 ```
 
-The following patterns are not considered warnings:
+The following patterns are not considered problems:
 
 ```js
 /*eslint require-jsdoc: 2*/

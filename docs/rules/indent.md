@@ -70,7 +70,7 @@ tabbed indentation
 "indent": [2, "tab"]
 ```
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```js
 /*eslint indent: [2, 2]*/
@@ -119,7 +119,7 @@ case "b":          /*error Expected indentation of 2 space characters but found 
 }
 ```
 
-The following patterns are not warnings:
+The following patterns are not considered problems:
 
 ```js
 /*eslint indent: [2, 2]*/

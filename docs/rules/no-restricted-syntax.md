@@ -18,7 +18,7 @@ This rule takes a list of strings where strings denote the node types:
 }
 ```
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```
 /* eslint no-restricted-syntax: [2, "FunctionExpression", "WithStatement"] */
@@ -30,7 +30,7 @@ with (me) {                       /*error Using "WithStatement" is not allowed.*
 var doSomething = function () {}; /*error Using "FunctionExpression" is not allowed.*/
 ```
 
-The following patterns are not considered warnings:
+The following patterns are not considered problems:
 
 ```js
 /* eslint no-restricted-syntax: [2, "FunctionExpression", "WithStatement"] */

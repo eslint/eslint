@@ -57,7 +57,7 @@ You can set the style in configuration like this:
 
 #### "1tbs"
 
-This is the default setting for this rule and enforces one true brace style. While using this setting, the following patterns are considered warnings:
+This is the default setting for this rule and enforces one true brace style. While using this setting, the following patterns are considered problems:
 
 ```js
 /*eslint brace-style: 2*/
@@ -87,7 +87,7 @@ else {              /*error Closing curly brace does not appear on the same line
 }
 ```
 
-The following patterns adhere to one true brace style and are not considered warnings:
+The following patterns use the one true brace style and are not considered problems:
 
 ```js
 /*eslint brace-style: 2*/
@@ -112,7 +112,7 @@ try {
   handleError();
 }
 
-// when there are no braces, there are no warnings
+// when there are no braces, there are no problems
 if (foo) bar();
 else if (baz) boom();
 ```
@@ -134,7 +134,7 @@ try { somethingRisky(); } catch(e) { handleError(); }
 #### "stroustrup"
 
 
-This enforces Stroustrup style. While using this setting, the following patterns are considered warnings:
+This enforces Stroustrup style. While using this setting, the following patterns are considered problems:
 
 ```js
 /*eslint brace-style: [2, "stroustrup"]*/
@@ -164,7 +164,7 @@ if (foo) {
 }
 ```
 
-The following patterns adhere to Stroustrup style and are not considered warnings:
+The following patterns use the Stroustrup style and are not considered problems:
 
 ```js
 /*eslint brace-style: [2, "stroustrup"]*/
@@ -191,7 +191,7 @@ catch(e) {
   handleError();
 }
 
-// when there are no braces, there are no warnings
+// when there are no braces, there are no problems
 if (foo) bar();
 else if (baz) boom();
 ```
@@ -215,7 +215,7 @@ catch(e) { handleError(); }
 #### "allman"
 
 
-This enforces Allman style. While using this setting, the following patterns are considered warnings:
+This enforces Allman style. While using this setting, the following patterns are considered problems:
 
 ```js
 /*eslint brace-style: [2, "allman"]*/
@@ -243,7 +243,7 @@ if (foo) {           /*error Opening curly brace appears on the same line as con
 }
 ```
 
-The following patterns adhere to Allman style and are not considered warnings:
+The following patterns use the Allman style and are not considered problems:
 
 ```js
 /*eslint brace-style: [2, "allman"]*/
@@ -276,7 +276,7 @@ catch(e)
   handleError();
 }
 
-// when there are no braces, there are no warnings
+// when there are no braces, there are no problems
 if (foo) bar();
 else if (baz) boom();
 ```

@@ -13,7 +13,7 @@ This rule is aimed at increasing code readability and maintainability by enforci
 
 It allows the programmers to silently by-pass this check by using "quoted" property names or calculated property access to allow potential server-side data requirements.
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```js
 /*eslint id-length: 2*/     // default is minimum 2-chars ({ min: 2})
@@ -58,7 +58,7 @@ export var x = 0;           /*error Identifier name 'x' is too short. (< 2)*/
 
 ```
 
-The following patterns are not considered warnings:
+The following patterns are not considered problems:
 
 ```js
 /*eslint id-length: 2*/     // default is minimum 2-chars ({ min: 2})
@@ -127,7 +127,7 @@ For example, to specify a minimum identifier length of 3, a maximum of 10, ignor
 "id-length": [2, {"min": 3, "max": 10, "properties": "never", "exceptions": ["x"]}]
 ```
 
-The following patterns will not be considered warnings
+The following patterns will not be considered problems
 
 ```js
 /*eslint id-length: [2, {"properties": "never"}]*/

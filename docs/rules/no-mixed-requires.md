@@ -47,7 +47,7 @@ var fs = require('fs'),        // "core"     \
 
 ## Examples
 
-The following patterns are considered okay and do not cause warnings:
+The following patterns are not considered problems:
 
 ```js
 /*eslint no-mixed-requires: 2*/
@@ -68,7 +68,7 @@ var foo = require('foo' + VERSION),
     baz = require();
 ```
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```js
 /*eslint no-mixed-requires: 2*/
@@ -77,7 +77,7 @@ var fs = require('fs'), /*error Do not mix 'require' and other declarations.*/
     i = 0;
 ```
 
-The following patterns are considered warnings when grouping is turned on:
+The following patterns are considered problems when grouping is turned on:
 
 ```js
 /*eslint no-mixed-requires: [2, true]*/

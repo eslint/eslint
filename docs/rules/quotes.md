@@ -72,7 +72,7 @@ var single = 'single'; /*error Strings must use backtick.*/
 var double = "double"; /*error Strings must use backtick.*/
 ```
 
-The following patterns are not considered warnings:
+The following patterns are not considered problems:
 
 ```js
 /*eslint quotes: [2, "double"]*/

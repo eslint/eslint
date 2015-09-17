@@ -15,7 +15,7 @@ This pattern is most likely an error and should be avoided.
 The rule is aimed at preventing the use of a constant expression in a condition.
 As such, it warns whenever it sees a constant expression inside a condition expression.
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```js
 /*eslint no-constant-condition: 2*/
@@ -55,7 +55,7 @@ do{                     /*error Unexpected constant condition.*/
 } while (x = -1)
 ```
 
-The following patterns are not warnings:
+The following patterns are not considered problems:
 
 ```js
 /*eslint no-constant-condition: 2*/

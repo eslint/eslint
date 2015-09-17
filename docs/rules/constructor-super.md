@@ -10,7 +10,7 @@ This rule checks whether or not there is a valid `super()` call.
 
 This rule is aimed to flag invalid/missing `super()` calls.
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```js
 /*eslint constructor-super: 2*/
@@ -32,7 +32,7 @@ class A extends B {
 }
 ```
 
-The following patterns are not considered warnings:
+The following patterns are not considered problems:
 
 ```js
 /*eslint constructor-super: 2*/

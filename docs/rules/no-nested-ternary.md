@@ -10,7 +10,7 @@ var foo = bar ? baz : qux === quxx ? bing : bam;
 
 The `no-nested-ternary` rule aims to increase the clarity and readability of code by disallowing the use of nested ternary expressions.
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```js
 /*eslint no-nested-ternary: 2*/

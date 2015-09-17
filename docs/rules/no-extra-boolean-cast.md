@@ -16,7 +16,7 @@ if (foo) {
 
 This rule aims to eliminate the use of double-negation Boolean casts in an already Boolean context.
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```js
 /*eslint no-extra-boolean-cast: 2*/
@@ -46,7 +46,7 @@ for (; !!foo; ) {             /*error Redundant double negation in a for loop co
 }
 ```
 
-The following patterns are not warnings:
+The following patterns are not considered problems:
 
 ```js
 /*eslint no-extra-boolean-cast: 2*/

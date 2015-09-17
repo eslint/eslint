@@ -35,7 +35,7 @@ f();
 var a;                          /*error All "var" declarations must be at the top of the function scope.*/
 ```
 
-The following patterns are not considered warnings:
+The following patterns are not considered problems:
 
 ```js
 /*eslint vars-on-top: 2*/

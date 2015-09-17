@@ -14,7 +14,7 @@ A variable is considered to be used when it:
 
 A variable is *not* considered read if it is only ever assigned to (`var x = 5`) or declared.
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```js
 /*eslint no-unused-vars: 2*/
@@ -40,7 +40,7 @@ function fact(n) {           /*error "fact" is defined but never used*/
 }
 ```
 
-The following patterns are not considered warnings:
+The following patterns are not considered problems:
 
 ```js
 /*eslint no-unused-vars: 2*/
