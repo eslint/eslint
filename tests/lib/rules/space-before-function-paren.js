@@ -111,6 +111,18 @@ ruleTester.run("space-before-function-paren", rule, {
             output: "function foo () {}"
         },
         {
+            code: "function foo/* */() {}",
+            errors: [
+                {
+                    type: "FunctionDeclaration",
+                    message: "Missing space before function parentheses.",
+                    line: 1,
+                    column: 13
+                }
+            ],
+            output: "function foo /* */() {}"
+        },
+        {
             code: "var foo = function() {}",
             errors: [
                 {

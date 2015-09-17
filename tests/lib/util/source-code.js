@@ -13,6 +13,7 @@
 var assert = require("chai").assert,
     espree = require("espree"),
     sinon = require("sinon"),
+    leche = require("leche"),
     eslint = require("../../../lib/eslint"),
     SourceCode = require("../../../lib/util/source-code");
 
@@ -793,6 +794,36 @@ describe("SourceCode", function() {
             assert.notProperty(node.parent, "parent");
         });
 
+    });
+
+    describe("isSpaceBetweenTokens()", function() {
+
+        leche.withData([
+            ["let foo = bar;", true],
+            ["let  foo = bar;", true],
+            ["let /**/ foo = bar;", true],
+            ["let/**/foo = bar;", false],
+            ["a+b", false],
+            ["a/**/+b", false],
+            ["a/* */+b", false],
+            ["a/**/ +b", true],
+            ["a/**/ /**/+b", true],
+            ["a/**/\n/**/+b", true],
+            ["a +b", true]
+        ], function(code, expected) {
+
+            it("should return true when there is one space between tokens", function() {
+                var ast = espree.parse(code, DEFAULT_CONFIG),
+                    sourceCode = new SourceCode(code, ast);
+
+                assert.equal(
+                    sourceCode.isSpaceBetweenTokens(
+                        sourceCode.ast.tokens[0], sourceCode.ast.tokens[1]
+                    ),
+                    expected
+                );
+            });
+        });
     });
 
     // need to check that eslint.verify() works with SourceCode
