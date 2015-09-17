@@ -19,7 +19,7 @@ var x = new Function("a", "b", "return a + b"); /*error The Function constructor
 var x = Function("a", "b", "return a + b");     /*error The Function constructor is eval.*/
 ```
 
-The following patterns are considered okay and do not cause warnings:
+The following patterns are not considered problems:
 
 ```js
 /*eslint no-new-func: 2*/

@@ -31,7 +31,7 @@ You can set the rule configuration like this:
 "consistent-this": [2, "self"]
 ```
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```js
 /*eslint consistent-this: [2, "self"]*/
@@ -45,7 +45,7 @@ self = 42;       /*error Designated alias 'self' is not assigned to 'this'.*/
 that = this;     /*error Unexpected alias 'that' for 'this'.*/
 ```
 
-The following patterns are considered okay and do not cause warnings:
+The following patterns are not considered problems:
 
 ```js
 /*eslint consistent-this: [2, "self"]*/

@@ -25,7 +25,7 @@ As already seen above, the configuration is quite simple. Example that enables t
 "no-warning-comments": [2, { "terms": ["todo", "fixme", "any other term"], "location": "anywhere" }]
 ```
 
-The following patterns are considered warnings with the example configuration from above:
+The following patterns are considered problems:
 
 ```
 /*eslint no-warning-comments: [2, { "terms": ["todo", "fixme", "any other term"], "location": "anywhere" }]*/
@@ -40,7 +40,7 @@ The following patterns are considered warnings with the example configuration fr
  */
 ```
 
-These patterns would not be considered warnings with the same example configuration:
+These patterns would not be considered problems:
 
 ```
 /*eslint no-warning-comments: [2, { "terms": ["todo", "fixme", "any other term"], "location": "anywhere" }]*/

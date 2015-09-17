@@ -12,7 +12,7 @@ Many versioning systems (like git and subversion) can automatically ensure the c
 
 This rule aims to ensure having consistent line endings independent of operating system, VCS or editor used.
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```js
 /*eslint linebreak-style: 2*/
@@ -34,7 +34,7 @@ var a = 'a'; // \r\n /*error Expected linebreaks to be 'LF' but found 'CRLF'.*/
 var a = 'a';// \n    /*error Expected linebreaks to be 'CRLF' but found 'LF'.*/
 ```
 
-The following patterns are not warnings:
+The following patterns are not considered problems:
 
 ```js
 /*eslint linebreak-style: [2, "unix"]*/

@@ -4,7 +4,7 @@ This rule generates warnings for generator functions that do not have the `yield
 
 ## Rule details
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```js
 /*eslint require-yield: 2*/
@@ -14,7 +14,7 @@ function* foo() { /*error This generator function does not have `yield`.*/
 }
 ```
 
-The following patterns are not considered warnings:
+The following patterns are not considered problems:
 
 ```js
 /*eslint require-yield: 2*/

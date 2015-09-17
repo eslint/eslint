@@ -48,7 +48,7 @@ Variables must not be initialized at declaration
 }
 ```
 
-When configured with `"always"` (the default), the following patterns are considered warnings:
+When configured with `"always"` (the default), the following patterns are considered problems:
 
 ```js
 /*eslint init-declarations: [2, "always"]*/
@@ -59,7 +59,7 @@ function foo() {
 }
 ```
 
-The following patterns are not considered warnings with `"always"`.
+The following patterns are not considered problems with `"always"`.
 
 ```js
 /*eslint init-declarations: [2, "always"]*/
@@ -71,7 +71,7 @@ function foo() {
 }
 ```
 
-When configured with `"never"`, the following patterns are considered warnings.
+When configured with `"never"`, the following patterns are considered problems.
 
 ```js
 /*eslint init-declarations: [2, "never"]*/
@@ -82,7 +82,7 @@ function foo() {
 }
 ```
 
-The following patterns are not considered warnings with `"never"`. Note that `const` variable initializations are ignored with `"never"`.
+The following patterns are not considered problems with `"never"`. Note that `const` variable initializations are ignored with `"never"`.
 
 ```js
 /*eslint init-declarations: [2, "never"]*/

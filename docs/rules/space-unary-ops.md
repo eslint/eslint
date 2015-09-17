@@ -50,7 +50,7 @@ qux = !!baz;
 
 ### Examples
 
-Given the default values `words`: `true`, `nonwords`: `false`, the following patterns are considered warnings:
+Given the default values `words`: `true`, `nonwords`: `false`, the following patterns are considered problems:
 
 ```js
 /*eslint space-unary-ops: 2*/
@@ -76,7 +76,7 @@ foo --;            /*error Unexpected space before unary operator "--".*/
 + "3";             /*error Unexpected space after unary operator "+".*/
 ```
 
-Given the default values `words`: `true`, `nonwords`: `false`, the following patterns are not considered warnings:
+Given the default values `words`: `true`, `nonwords`: `false`, the following patterns are not considered problems:
 
 
 

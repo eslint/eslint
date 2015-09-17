@@ -15,7 +15,7 @@ function loadData (err, data) {
 This rule expects that when you're using the callback pattern in node you'll handle the error and
 requires that you specify the name of your error object. The name of the argument will default to `err`.
 
-The following are considered warnings:
+The following are considered problems:
 
 ```js
 /*eslint handle-callback-err: 2*/
@@ -26,7 +26,7 @@ function loadData (err, data) { /*error Expected error to be handled.*/
 
 ```
 
-The following are not considered warnings:
+The following are not considered problems:
 
 ```js
 /*eslint handle-callback-err: 2*/

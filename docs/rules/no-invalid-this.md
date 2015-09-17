@@ -25,9 +25,9 @@ And this rule allows `this` keywords in functions below:
 * The function is a callback of array methods (such as `.forEach()`) if `thisArg` is given.
 * The function has `@this` tag in its JSDoc comment.
 
-Otherwise are considered warnings.
+Otherwise are considered problems.
 
-### The following patterns are considered warnings:
+### The following patterns are considered problems:
 
 This rule warns below **only** under the strict mode.
 Please note your code in ES2015 Modules/Classes is always the strict mode.
@@ -86,7 +86,7 @@ foo.forEach(function() {
 });
 ```
 
-### The following patterns are not considered warnings:
+### The following patterns are not considered problems:
 
 ```js
 /*eslint no-invalid-regexp: 2*/

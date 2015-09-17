@@ -29,7 +29,7 @@ This rule needs a text RegExp to operate with, and accepts an options map. Its s
 1. `true` is the default and checks all property names
 2. `false` does not check property names at all (default)
 
-For the rule in this example, which is simply camelcase, the following patterns are considered warnings:
+For the rule in this example, which is simply camelcase, the following patterns are considered problems:
 
 ```js
 /*eslint id-match: [2, "^[a-z]+([A-Z][a-z]+)*$", {"properties": true}]*/
@@ -55,7 +55,7 @@ var obj = {
 };
 ```
 
-The following patterns are considered okay and do not cause warnings:
+The following patterns are not considered problems:
 
 ```js
 /*eslint id-match: [2, "^[a-z]+([A-Z][a-z]+)*$", {"properties": false}]*/

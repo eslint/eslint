@@ -42,7 +42,7 @@ call({
 });
 ```
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```js
 /*eslint key-spacing: [2, {"beforeColon": false, "afterColon": false}]*/
@@ -109,7 +109,7 @@ call({
 });
 ```
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```js
 /*eslint key-spacing: [2, { "align": "value" }]*/
@@ -150,7 +150,7 @@ obj = {
 };
 ```
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```js
 /*eslint key-spacing: [2, { "align": "colon" }]*/

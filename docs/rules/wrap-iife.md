@@ -32,7 +32,7 @@ This configures the rule to enforce wrapping always the function expression.
 
 This allows any wrapping style.
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```js
 /*eslint wrap-iife: 2*/

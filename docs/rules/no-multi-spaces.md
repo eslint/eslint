@@ -20,7 +20,7 @@ if(foo === "bar") {}
 
 This rule aims to disallow multiple whitespace around logical expressions, conditional expressions, declarations, array elements, object properties, sequences and function parameters.
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```js
 /*eslint no-multi-spaces: 2*/
@@ -36,7 +36,7 @@ var arr = [1,  2];     /*error Multiple spaces found before '2'.*/
 a ?  b: c              /*error Multiple spaces found before 'b'.*/
 ```
 
-The following patterns are not warnings:
+The following patterns are not considered problems:
 
 ```js
 /*eslint no-multi-spaces: 2*/
@@ -58,7 +58,7 @@ Some rules, like key-spacing in one of its alignment modes, might require multip
 
 You can ignore certain parts of your code by setting node types as properties on the `exceptions` object with a value of `true`. By default, all node types are `false` except for `Property`, which is `true` by default in order to skip properties.
 
-With this option, the following patterns are not warnings:
+With this option, The following patterns are not considered problems:
 
 ```js
 /* eslint no-multi-spaces: 2 */

@@ -4,7 +4,7 @@ This rule validates string arguments passed to the `RegExp` constructor.
 
 ## Rule Details
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```js
 /*eslint no-invalid-regexp: 2*/
@@ -16,7 +16,7 @@ RegExp('.', 'z') /*error Invalid flags supplied to RegExp constructor 'z'*/
 new RegExp('\\') /*error Invalid regular expression: /\/: \ at end of pattern*/
 ```
 
-The following patterns are not considered warnings:
+The following patterns are not considered problems:
 
 ```js
 /*eslint no-invalid-regexp: 2*/

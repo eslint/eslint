@@ -36,7 +36,7 @@ The default configuration is to enforce line breaks _after_ the operator except 
 
 This is the default setting for this rule. This option requires the line break to be placed after the operator.
 
-While using this setting, the following patterns are considered warnings:
+While using this setting, the following patterns are considered problems:
 
 ```js
 /*eslint operator-linebreak: [2, "after"]*/
@@ -60,7 +60,7 @@ answer = everything
   : foo;                 /*error ':' should be placed at the end of the line.*/
 ```
 
-The following patterns are not warnings:
+The following patterns are not considered problems:
 
 ```js
 /*eslint operator-linebreak: [2, "after"]*/
@@ -86,7 +86,7 @@ answer = everything ?
 
 This option requires the line break to be placed before the operator.
 
-While using this setting, the following patterns are considered warnings:
+While using this setting, the following patterns are considered problems:
 
 ```js
 /*eslint operator-linebreak: [2, "before"]*/
@@ -106,7 +106,7 @@ answer = everything ? /*error '?' should be placed at the beginning of the line.
   foo;
 ```
 
-The following patterns are not warnings:
+The following patterns are not considered problems:
 
 ```js
 /*eslint operator-linebreak: [2, "before"]*/
@@ -132,7 +132,7 @@ answer = everything
 
 This option disallows line breaks on either side of the operator.
 
-While using this setting, the following patterns are considered warnings:
+While using this setting, the following patterns are considered problems:
 
 ```js
 /*eslint operator-linebreak: [2, "none"]*/
@@ -160,7 +160,7 @@ answer = everything ?    /*error There should be no line break before or after '
   foo;
 ```
 
-The following patterns are not warnings:
+The following patterns are not considered problems:
 
 ```js
 /*eslint operator-linebreak: [2, "none"]*/

@@ -32,7 +32,7 @@ j
 
 This rule is aimed at flagging the use of `++` and `--`. Some believe that the use of these unary operators reduces code quality and clarity. There are some programming languages that completely exclude these operators.
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```js
 /*eslint no-plusplus: 2*/
@@ -44,7 +44,7 @@ var bar = 42;
 bar--;        /*error Unary operator '--' used.*/
 ```
 
-The following patterns are not considered warnings:
+The following patterns are not considered problems:
 
 ```js
 /*eslint no-plusplus: 2*/

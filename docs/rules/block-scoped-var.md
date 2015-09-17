@@ -16,7 +16,7 @@ function doSomething() {
 
 This rule aims to reduce the usage of variables outside of their binding context and emulate traditional block scope from other languages. This is to help newcomers to the language avoid difficult bugs with variable hoisting.
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```js
 /*eslint block-scoped-var: 2*/
@@ -54,7 +54,7 @@ function doAnother() {
 }
 ```
 
-The following patterns are not warnings:
+The following patterns are not considered problems:
 
 ```js
 /*eslint block-scoped-var: 2*/

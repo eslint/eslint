@@ -8,7 +8,7 @@ In ES6, block-level bindings (`let` and `const`) introduce a "temporal dead zone
 
 This rule will warn when it encounters a reference to an identifier that has not been yet declared.
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```js
 /*eslint no-use-before-define: 2*/
@@ -31,7 +31,7 @@ var b = 1;
 }
 ```
 
-The following patterns are not considered warnings:
+The following patterns are not considered problems:
 
 ```js
 /*eslint no-use-before-define: 2*/
@@ -57,7 +57,7 @@ function g() {
 
 The rule accepts an additional option that can take the value `"nofunc"`. If this option is active, function declarations are exempted from the rule, so it is allowed to use a function name *before* its declaration.
 
-The following patterns are not considered warnings when `"nofunc"` is specified:
+The following patterns are not considered problems when `"nofunc"` is specified:
 
 ```js
 /*eslint no-use-before-define: [2, "nofunc"]*/

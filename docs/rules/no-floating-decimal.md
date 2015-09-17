@@ -14,7 +14,7 @@ Although not a syntax error, this format for numbers can make it difficult to di
 
 This rule is aimed at eliminating floating decimal points and will warn whenever a numeric value has a decimal point but is missing a number either before or after it.
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```js
 /*eslint no-floating-decimal: 2*/
@@ -24,7 +24,7 @@ var num = 2.;  /*error A trailing decimal point can be confused with a dot.*/
 var num = -.7; /*error A leading decimal point can be confused with a dot.*/
 ```
 
-The following patterns are not considered warnings:
+The following patterns are not considered problems:
 
 ```js
 /*eslint no-floating-decimal: 2*/

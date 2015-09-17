@@ -44,7 +44,7 @@ By default `setWithoutGet` option is always set to `true`.
 }
 ```
 
-The following patterns are considered warnings by default:
+The following patterns are considered problems by default:
 
 ```js
 /*eslint accessor-pairs: 2*/
@@ -63,7 +63,7 @@ Object.defineProperty(o, 'c', { /*error Getter is not present*/
 });
 ```
 
-The following patterns are not considered warnings by default:
+The following patterns are not considered problems by default:
 
 ```js
 /*eslint accessor-pairs: 2*/
@@ -91,7 +91,7 @@ Object.defineProperty(o, 'c', {
 
 #### getWithoutSet
 
-The following patterns are considered warnings with option `getWithoutSet` set:
+The following patterns are considered problems with option `getWithoutSet` set:
 
 ```js
 /*eslint accessor-pairs: [2, { getWithoutSet: true }]*/
@@ -123,7 +123,7 @@ Object.defineProperty(o, 'c', { /*error Setter is not present*/
 });
 ```
 
-The following patterns are not considered warnings by option `getWithoutSet` set:
+The following patterns are not considered problems with option `getWithoutSet` set:
 
 ```js
 /*eslint accessor-pairs: [2, { getWithoutSet: true }]*/

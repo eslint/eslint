@@ -14,7 +14,7 @@ the end of the file. If you still want this behaviour, consider enabling
 
 ## Rule Details
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```js
 /*eslint eol-last: 2*/
@@ -24,7 +24,7 @@ function doSmth() {
 }
 ```
 
-The following patterns are not warnings:
+The following patterns are not considered problems:
 
 ```js
 /*eslint eol-last: 2*/

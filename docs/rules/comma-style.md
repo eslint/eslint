@@ -24,7 +24,7 @@ You can set the style in configuration like this:
 
 This is the default setting for this rule. This option requires that the comma be placed after and be in the same line as the variable declaration, object property and array element.
 
-While using this setting, the following patterns are considered warnings:
+While using this setting, the following patterns are considered problems:
 
 ```js
 /*eslint comma-style: [2, "last"]*/
@@ -50,7 +50,7 @@ function bar() {
 
 ```
 
-The following patterns are not warnings:
+The following patterns are not considered problems:
 
 ```js
 /*eslint comma-style: [2, "last"]*/
@@ -78,7 +78,7 @@ function bar() {
 
 This option requires that the comma be placed before and be in the same line as the variable declaration, object property and array element.
 
-While using this setting, the following patterns are considered warnings:
+While using this setting, the following patterns are considered problems:
 
 ```js
 /*eslint comma-style: [2, "first"]*/
@@ -100,7 +100,7 @@ function bar() {
 
 ```
 
-The following patterns are not warnings:
+The following patterns are not considered problems:
 
 ```js
 /*eslint comma-style: [2, "first"]*/

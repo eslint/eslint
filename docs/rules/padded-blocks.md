@@ -21,7 +21,7 @@ This rule enforces consistent padding within blocks.
 This rule takes one argument. If it is `"always"` then blocks must start **and** end with a blank line. If `"never"`
 then all blocks should never start **or** end with a blank line. The default is `"always"`.
 
-The following patterns are considered warnings when set to `"always"`:
+The following patterns are considered problems when set to `"always"`:
 
 ```js
 /*eslint padded-blocks: [2, "always"]*/
@@ -54,7 +54,7 @@ if (a) {         /*error Block must be padded by blank lines.*/
 }
 ```
 
-The following patterns are not considered warnings when set to `"always"`:
+The following patterns are not considered problems when set to `"always"`:
 
 ```js
 /*eslint padded-blocks: [2, "always"]*/
@@ -80,7 +80,7 @@ if (a) {
 }
 ```
 
-The following patterns are considered warnings when set to `"never"`:
+The following patterns are considered problems when set to `"never"`:
 
 ```js
 /*eslint padded-blocks: [2, "never"]*/
@@ -109,7 +109,7 @@ if (a) {
 }        /*error Block must not be padded by blank lines.*/
 ```
 
-The following patterns are not considered warnings when set to `"never"`:
+The following patterns are not considered problems when set to `"never"`:
 
 ```js
 /*eslint padded-blocks: [2, "never"]*/

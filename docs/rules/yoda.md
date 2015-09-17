@@ -26,7 +26,7 @@ Opponents of Yoda conditions point out that tooling has made us better programme
 
 This rule takes one argument. If it is `"never"` then comparisons must never be a Yoda condition. If `"always"`, then the literal must always come first. The default is `"never"`.
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```js
 /*eslint yoda: 2*/
@@ -61,7 +61,7 @@ if (color == "blue") { /*error Expected literal to be on the left side of ==.*/
 ```
 
 
-The following patterns are not considered warnings:
+The following patterns are not considered problems:
 
 ```js
 /*eslint yoda: 2*/
@@ -132,7 +132,7 @@ function howLong(arr) {
 
 #### Apply only to equality, but not other operators
 
-Some developers might prefer to only enforce the rule for the equality operators `==` and `===`, and not showing any warnings for any code around other operators. With `onlyEquality` option, these patterns will not be considered warnings:
+Some developers might prefer to only enforce the rule for the equality operators `==` and `===`, and not showing any warnings for any code around other operators. With `onlyEquality` option, these patterns will not be considered problems:
 
 ```js
 /*eslint yoda: [2, "never", { "onlyEquality": true }]*/

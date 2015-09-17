@@ -9,7 +9,7 @@ Under non ES2015 environment, it might be ignored merely.
 
 This rule is aimed to flag modifying variables that are declared using `const` keyword.
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```js
 /*eslint no-const-assign: 2*/
@@ -32,7 +32,7 @@ const a = 0;
 ++a;         /*error `a` is constant.*/
 ```
 
-The following patterns are not considered warnings:
+The following patterns are not considered problems:
 
 ```js
 /*eslint no-const-assign: 2*/

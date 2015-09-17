@@ -54,7 +54,7 @@ switch (a) {       /*error Expected a default case.*/
 
 ```
 
-The following patterns are not warnings:
+The following patterns are not considered problems:
 
 ```js
 /*eslint default-case: 2*/

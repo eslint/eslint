@@ -18,7 +18,7 @@ default configuration is `{ "before": true, "after": true }`.
 
 `true` means there should be **one or more spaces** and `false` means **no spaces**.
 
-The following patterns are considered warnings if `{ "before": true, "after": true }`.
+The following patterns are considered problems if `{ "before": true, "after": true }`.
 
 ```js
 /*eslint arrow-spacing: 2*/
@@ -33,7 +33,7 @@ a=> a;       /*error Missing space before =>*/
 () =>{'\n'}; /*error Missing space after =>*/
 ```
 
-The following patterns are not warnings if `{ "before": true, "after": true }`.
+The following patterns are not considered problems if `{ "before": true, "after": true }`.
 
 ```js
 /*eslint arrow-spacing: 2*/
@@ -44,7 +44,7 @@ a => a;
 () => {'\n'};
 ```
 
-The following patterns are not warnings if `{ "before": false, "after": false }`.
+The following patterns are not considered problems if `{ "before": false, "after": false }`.
 
 ```js
 /*eslint arrow-spacing: [2, { "before": false, "after": false }]*/
@@ -55,7 +55,7 @@ a=>a;
 ()=>{'\n'};
 ```
 
-The following patterns are not warnings if `{ "before": true, "after": false }`.
+The following patterns are not considered problems if `{ "before": true, "after": false }`.
 
 ```js
 /*eslint arrow-spacing: [2, { "before": true, "after": false }]*/
@@ -66,7 +66,7 @@ a =>a;
 () =>{'\n'};
 ```
 
-The following patterns are not warnings if `{ "before": false, "after": true }`.
+The following patterns are not considered problems if `{ "before": false, "after": true }`.
 
 ```js
 /*eslint arrow-spacing: [2, { "before": false, "after": true }]*/

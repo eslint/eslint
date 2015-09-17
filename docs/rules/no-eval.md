@@ -12,7 +12,7 @@ var obj = { x: "foo" },
 
 This rule is aimed at preventing potentially dangerous, unnecessary, and slow code by disallowing the use of the `eval()` function. As such, it will warn whenever the `eval()` function is used.
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```js
 /*eslint no-eval: 2*/
@@ -22,7 +22,7 @@ var obj = { x: "foo" },
     value = eval("obj." + key); /*error eval can be harmful.*/
 ```
 
-The following patterns are not considered warnings:
+The following patterns are not considered problems:
 
 ```js
 /*eslint no-eval: 2*/

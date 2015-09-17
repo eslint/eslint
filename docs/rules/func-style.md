@@ -46,7 +46,7 @@ Due to these different behaviors, it is common to have guidelines as to which st
 
 This error is aimed at enforcing a particular type of function style throughout a JavaScript file, either declarations or expressions. You can specify which you prefer in the configuration.
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```js
 /*eslint func-style: [2, "declaration"]*/
@@ -64,7 +64,7 @@ function foo() {  /*error Expected a function expression.*/
 }
 ```
 
-The following patterns are not considered warnings:
+The following patterns are not considered problems:
 
 ```js
 /*eslint func-style: [2, "declaration"]*/

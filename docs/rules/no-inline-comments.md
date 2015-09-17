@@ -11,7 +11,7 @@ This rule will disallow comments on the same line as code.
 
 This rule takes no arguments.
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```js
 /*eslint no-inline-comments: 2*/
@@ -28,7 +28,7 @@ function getRandomNumber(){
 var c = 3; /* A block comment after code */   /*error Unexpected comment inline with code.*/
 ```
 
-The following patterns are not warnings:
+The following patterns are not considered problems:
 
 ```js
 /*eslint no-inline-comments: 2*/

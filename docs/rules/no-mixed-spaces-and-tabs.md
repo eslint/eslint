@@ -18,7 +18,7 @@ You can enable this option by using the following configuration:
 "no-mixed-spaces-and-tabs": [2, "smart-tabs"]
 ```
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```js
 /*eslint no-mixed-spaces-and-tabs: 2*/
@@ -38,7 +38,7 @@ function main() {
 }
 ```
 
-The following patterns are not warnings:
+The following patterns are not considered problems:
 
 ```js
 /*eslint no-mixed-spaces-and-tabs: 2*/

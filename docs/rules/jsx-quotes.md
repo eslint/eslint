@@ -23,26 +23,26 @@ If `"prefer-single"` is configured then the rule enforces the usage of single qu
 
 The default is `"prefer-double"`.
 
-The following patterns are considered warnings when set to `"prefer-double"`:
+The following patterns are considered problems when set to `"prefer-double"`:
 
 ```js
 <a b='c' />
 ```
 
-The following patterns are not considered warnings when set to `"prefer-double"`:
+The following patterns are not considered problems when set to `"prefer-double"`:
 
 ```js
 <a b="c" />
 <a b='"' />
 ```
 
-The following patterns are considered warnings when set to `"prefer-single"`:
+The following patterns are considered problems when set to `"prefer-single"`:
 
 ```js
 <a b="c" />
 ```
 
-The following patterns are not considered warnings when set to `"prefer-single"`:
+The following patterns are not considered problems when set to `"prefer-single"`:
 
 ```js
 <a b='c' />

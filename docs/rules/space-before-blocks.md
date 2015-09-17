@@ -16,7 +16,9 @@ This rule ignores spacing which is between `=>` and a block. The spacing is hand
 This rule takes one argument. If it is `"always"` then blocks must always have at least one preceding space. If `"never"`
 then all blocks should never have any preceding space. The default is `"always"`.
 
-The following patterns are considered warnings when configured `"always"`:
+### `"always"`
+
+The following patterns are considered problems:
 
 ```js
 /*eslint space-before-blocks: 2*/
@@ -40,7 +42,7 @@ for (;;){         /*error Missing space before opening brace.*/
 try {} catch(a){} /*error Missing space before opening brace.*/
 ```
 
-The following patterns are not considered warnings when configured `"always"`:
+The following patterns are not considered problems:
 
 ```js
 /*eslint space-before-blocks: 2*/
@@ -58,7 +60,9 @@ for (;;) {
 try {} catch(a) {}
 ```
 
-The following patterns are considered warnings when configured `"never"`:
+### `"never"`
+
+The following patterns are considered problems:
 
 ```js
 /*eslint space-before-blocks: [2, "never"]*/
@@ -76,7 +80,7 @@ for (;;) {         /*error Unexpected space before opening brace.*/
 try {} catch(a) {} /*error Unexpected space before opening brace.*/
 ```
 
-The following patterns are not considered warnings when configured `"never"`:
+The following patterns are not considered problems:
 
 ```js
 /*eslint space-before-blocks: [2, "never"]*/

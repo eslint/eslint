@@ -20,7 +20,7 @@ There are, however, some who prefer to only use braces when there is more than o
 
 This rule is aimed at preventing bugs and increasing code clarity by ensuring that block statements are wrapped in curly braces. It will warn when it encounters blocks that omit curly braces.
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```js
 /*eslint curly: 2*/
@@ -35,7 +35,7 @@ if (foo) {      /*error Expected { after 'else'.*/
 } else qux();
 ```
 
-The following patterns are not considered warnings:
+The following patterns are not considered problems:
 
 ```js
 /*eslint curly: 2*/
