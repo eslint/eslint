@@ -31,39 +31,6 @@ describe("ast-utils", function() {
         sandbox.verifyAndRestore();
     });
 
-
-    describe("isTokenSpaced", function() {
-        it("should return false if its not spaced", function() {
-            /**
-             * Check the node for tokens
-             * @param {ASTNode} node node to examine
-             * @returns {void}
-             */
-            function checker(node) {
-                assert.isFalse(astUtils.isTokenSpaced(eslint.getTokenBefore(node), node));
-            }
-
-            eslint.reset();
-            eslint.on("BlockStatement", checker);
-            eslint.verify("if(a){}", {}, filename, true);
-        });
-
-        it("should return true if its spaced", function() {
-            /**
-             * Check the node for tokens
-             * @param {ASTNode} node node to examine
-             * @returns {void}
-             */
-            function checker(node) {
-                assert.isTrue(astUtils.isTokenSpaced(eslint.getTokenBefore(node), node));
-            }
-
-            eslint.reset();
-            eslint.on("BlockStatement", checker);
-            eslint.verify("if(a) {}", {}, filename, true);
-        });
-    });
-
     describe("isTokenOnSameLine", function() {
         it("should return false if its not on sameline", function() {
             /**
