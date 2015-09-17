@@ -23,7 +23,7 @@ This rule, in it's default state, does not require any arguments. If you would l
 
 ### Usage
 
-By default the following patterns are considered warnings:
+By default the following patterns are considered problems:
 
 ```js
 /*eslint no-unused-expressions: 2*/
@@ -41,7 +41,7 @@ a && b() /*error Expected an assignment or function call and instead saw an expr
 a, b()   /*error Expected an assignment or function call and instead saw an expression.*/
 ```
 
-The following patterns are not considered warnings by default:
+The following patterns are not considered problems by default:
 
 ```js
 /*eslint no-unused-expressions: 2*/
@@ -61,7 +61,7 @@ void a
 c = a, b;
 ```
 
-The following patterns are not considered warnings if `allowShortCircuit` is enabled:
+The following patterns are not considered problems if `allowShortCircuit` is enabled:
 
 ```js
 /*eslint no-unused-expressions: [2, { allowShortCircuit: true }]*/

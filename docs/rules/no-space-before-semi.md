@@ -16,7 +16,7 @@ var thing = function () {
 
 This rule prevents the use of spaces before a semicolon in expressions.
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```js
 var foo = "bar" ;
@@ -29,7 +29,7 @@ var foo = function() {
 var foo = 1 + 2 ;
 ```
 
-The following patterns are not warnings:
+The following patterns are not considered problems:
 
 ```js
 ;(function(){}());

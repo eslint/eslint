@@ -8,7 +8,7 @@ JavaScript will more or less let you put semicolons after any statement without 
 
 This rule is aimed at eliminating extra unnecessary semicolons. While not technically an error, extra semicolons can be a source of confusion when reading code.
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```js
 /*eslint no-extra-semi: 2*/
@@ -21,7 +21,7 @@ function foo() {
 
 ```
 
-The following patterns are not considered warnings:
+The following patterns are not considered problems:
 
 ```js
 /*eslint no-extra-semi: 2*/

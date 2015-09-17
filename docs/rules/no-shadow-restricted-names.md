@@ -10,7 +10,7 @@ Then any code used within the same scope would not get the global `undefined`, b
 
 ## Rule Details
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```
 /*eslint no-shadow-restricted-names: 2*/
@@ -24,7 +24,7 @@ var undefined;         /*error Shadowing of global property "undefined".*/
 try {} catch(eval){}   /*error Shadowing of global property "eval".*/
 ```
 
-The following patterns are not considered warnings:
+The following patterns are not considered problems:
 
 ```js
 /*eslint no-shadow-restricted-names: 2*/

@@ -12,7 +12,7 @@ This rule does not allow gaps between the function identifier and application.
 fn ()
 ```
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```js
 /*eslint no-spaced-func: 2*/
@@ -23,7 +23,7 @@ fn    /*error Unexpected space between function name and paren.*/
 ()
 ```
 
-The following patterns are not warnings:
+The following patterns are not considered problems:
 
 ```js
 /*eslint no-spaced-func: 2*/

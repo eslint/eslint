@@ -26,7 +26,7 @@ if (foo) {
 
 This rule warns when an `if` statement's `else` block contains only another `if` statement.
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```js
 /*eslint no-lonely-if: 2*/
@@ -50,7 +50,7 @@ if (condition) {
 }
 ```
 
-The following patterns are not considered warnings:
+The following patterns are not considered problems:
 
 ```js
 /*eslint no-lonely-if: 2*/

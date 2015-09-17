@@ -26,7 +26,7 @@ The rule takes one option, a string, which must contain one of the following val
 
 This is the default option. It disallows assignments unless they are enclosed in parentheses. This option makes it possible to use common patterns, such as reassigning a value in the condition of a `while` or `do...while` loop, without causing a warning.
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```js
 /*eslint no-cond-assign: 2*/
@@ -46,7 +46,7 @@ function setHeight(someNode) {
 }
 ```
 
-The following patterns are considered okay and do not cause warnings:
+The following patterns are not considered problems:
 
 ```js
 /*eslint no-cond-assign: 2*/
@@ -76,9 +76,9 @@ function setHeight(someNode) {
 
 #### "always"
 
-This option disallows all assignments in conditional statement tests. All assignments are treated as warnings.
+This option disallows all assignments in conditional statement tests. All assignments are treated as problems.
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```js
 /*eslint no-cond-assign: [2, "always"]*/
@@ -114,7 +114,7 @@ function setHeight(someNode) {
 }
 ```
 
-The following pattern does not cause warnings:
+The following patterns are not considered problems:
 
 ```js
 /*eslint no-cond-assign: [2, "always"]*/

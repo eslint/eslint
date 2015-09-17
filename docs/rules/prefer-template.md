@@ -14,7 +14,7 @@ var str = `Hello, ${name}!`;
 
 This rule is aimed to flag usage of `+` operators with strings.
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```js
 /*eslint prefer-template: 2*/
@@ -23,7 +23,7 @@ var str = "Hello, " + name + "!";           /*error Unexpected string concatenat
 var str = "Time: " + (12 * 60 * 60 * 1000); /*error Unexpected string concatenation.*/
 ```
 
-The following patterns are not considered warnings:
+The following patterns are not considered problems:
 
 ```js
 /*eslint prefer-template: 2*/

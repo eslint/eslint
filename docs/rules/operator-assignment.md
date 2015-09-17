@@ -42,7 +42,7 @@ x[foo()] = x[foo()] % 2;
 x = y + x; // `+` is not always commutative (e.g. x = "abc")
 ```
 
-The following patterns are considered warnings and should be replaced by their shorthand equivalents:
+The following patterns are considered problems and should be replaced by their shorthand equivalents:
 
 ```js
 /*eslint operator-assignment: [2, "always"]*/
@@ -68,7 +68,7 @@ x = x + y;
 x.y = x.y / a.b;
 ```
 
-The following patterns are considered warnings and should be written out fully without the shorthand assignments:
+The following patterns are considered problems and should be written out fully without the shorthand assignments:
 
 ```js
 /*eslint operator-assignment: [2, "never"]*/

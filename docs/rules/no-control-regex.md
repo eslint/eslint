@@ -7,7 +7,7 @@ Control characters are special, invisible characters in the ASCII range 0-31. Th
 This rule is aimed at ensuring all regular expressions don't use control characters.
 
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```js
 /*eslint no-control-regex: 2*/

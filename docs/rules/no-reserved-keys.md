@@ -18,7 +18,7 @@ ECMAScript 5 loosened the restriction such that keywords and reserved words can 
 
 This rule is aimed at eliminating the use of ECMAScript 3 keywords and reserved words as object literal keys. As such, it warns whenever an object key would throw an error in an ECMAScript 3 environment.
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```js
 var superman = {
@@ -31,7 +31,7 @@ var values = {
 };
 ```
 
-The following patterns are not considered warnings:
+The following patterns are not considered problems:
 
 ```js
 var superman = {

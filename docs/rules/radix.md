@@ -20,7 +20,7 @@ ECMAScript 5 changed the behavior of `parseInt()` so that it no longer autodetec
 
 This rule is aimed at preventing the unintended conversion of a string to a number of a different base than intended.
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```js
 /*eslint radix: 2*/
@@ -30,7 +30,7 @@ var num = parseInt("071");     /*error Missing radix parameter.*/
 var num = parseInt(someValue); /*error Missing radix parameter.*/
 ```
 
-The following patterns are not considered warnings:
+The following patterns are not considered problems:
 
 ```js
 /*eslint radix: 2*/

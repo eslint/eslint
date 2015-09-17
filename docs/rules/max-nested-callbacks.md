@@ -26,7 +26,7 @@ There is no default max depth for this rule.  You must configure the depth as an
 "max-nested-callbacks": [2, 3]
 ```
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```js
 /*eslint max-nested-callbacks: [2, 3]*/
@@ -42,7 +42,7 @@ foo(function () {
 });
 ```
 
-The following patterns are not considered warnings:
+The following patterns are not considered problems:
 
 ```js
 /*eslint max-nested-callbacks: [2, 3]*/

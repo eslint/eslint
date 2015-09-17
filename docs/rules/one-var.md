@@ -78,7 +78,7 @@ Configure uninitialized and initialized seperately. Defaults to "always" if key 
 }]
 ```
 
-When configured with `"always"` as the first option (the default), the following patterns are considered warnings:
+When configured with `"always"` as the first option (the default), the following patterns are considered problems:
 
 ```js
 /*eslint one-var: [2, "always"]*/
@@ -106,7 +106,7 @@ function foo() {
 }
 ```
 
-The following patterns are not considered warnings:
+The following patterns are not considered problems:
 
 ```js
 /*eslint one-var: [2, "always"]*/
@@ -143,7 +143,7 @@ function foo(){
 }
 ```
 
-When configured with `"never"` as the first option, the following patterns are considered warnings:
+When configured with `"never"` as the first option, the following patterns are considered problems:
 
 ```js
 /*eslint one-var: [2, "never"]*/
@@ -170,7 +170,7 @@ function foo(){
 }
 ```
 
-The following patterns are not considered warnings:
+The following patterns are not considered problems:
 
 ```js
 /*eslint one-var: [2, "never"]*/
@@ -199,7 +199,7 @@ function foo() {
 
 When configured with an object as the first option, you can individually control how `var`, `let`, and `const` are handled, or alternatively how `uninitialized` and `initialized` variables are handled (which if used will override `var`, `let`, and `const`).
 
-The following patterns are not considered warnings when the first option is `{ var: "always", let: "never", const: "never" }`
+The following patterns are not considered problems:
 
 ```js
 /*eslint one-var: [2, { var: "always", let: "never", const: "never" }]*/
@@ -219,7 +219,7 @@ function foo() {
 }
 ```
 
-The following patterns are not considered warnings when the first option is `{ uninitialized: "always", initialized: "never" }`
+The following patterns are not considered problems:
 
 ```js
 /*eslint one-var: [2, { uninitialized: "always", initialized: "never" }]*/

@@ -14,7 +14,7 @@ This rule is aimed at increasing code readability and maintainability by enforci
 
 **Note:** This rule calculates the length of a line via code points, not characters. That means if you use a double-byte character in your code, it will count as 2 code points instead of 1, and 2 will be used to calculate line length. This is a technical limitation of JavaScript that is made easier with ES2015, and we will look to update this when ES2015 is available in Node.js.
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```js
 /*eslint max-len: [2, 80, 4]*/ // maximum length of 80 characters
@@ -22,7 +22,7 @@ The following patterns are considered warnings:
 var foo = { "bar": "This is a bar.", "baz": { "qux": "This is a qux" }, "difficult": "to read" }; /*error Line 3 exceeds the maximum line length of 80.*/
 ```
 
-The following patterns are not considered warnings:
+The following patterns are not considered problems:
 
 ```js
 /*eslint max-len: [2, 80, 4]*/ // maximum length of 80 characters

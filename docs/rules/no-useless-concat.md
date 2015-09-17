@@ -6,7 +6,7 @@ It is unncessary to concatenate two strings together when they are on the same l
 
 This rule aims to flag the concenation of 2 literals when they could be combined into a single literal. Literals can be strings or template literals.
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```js
 /*eslint no-useless-concat: 2*/
@@ -19,7 +19,7 @@ var a = `1` + '0';         /*error Unexpected string concatenation of literals.*
 var a = `1` + `0`;         /*error Unexpected string concatenation of literals.*/
 ```
 
-The following patterns are not warnings:
+The following patterns are not considered problems:
 
 ```js
 /*eslint no-useless-concat: 2*/

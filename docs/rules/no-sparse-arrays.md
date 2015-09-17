@@ -20,7 +20,7 @@ The confusion around sparse arrays defined in this manner is enough that it's re
 
 This rule aims to eliminate sparse arrays that are defined by extra commas.
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```js
 /*eslint no-sparse-arrays: 2*/
@@ -29,7 +29,7 @@ var items = [,];                 /*error Unexpected comma in middle of array.*/
 var colors = [ "red",, "blue" ]; /*error Unexpected comma in middle of array.*/
 ```
 
-The following patterns are not warnings:
+The following patterns are not considered problems:
 
 ```js
 /*eslint no-sparse-arrays: 2*/

@@ -34,7 +34,7 @@ The default is `{"before": false, "after": true}`.
 
 This is the default option. It enforces spacing after semicolons and disallows spacing before semicolons.
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```js
 /*eslint semi-spacing: 2*/
@@ -47,7 +47,7 @@ for (i = 0 ; i < 10 ; i++) {}  /*error Unexpected whitespace before semicolon.*/
 for (i = 0;i < 10;i++) {}      /*error Missing whitespace after semicolon.*/
 ```
 
-The following patterns are not warnings:
+The following patterns are not considered problems:
 
 ```js
 /*eslint semi-spacing: 2*/
@@ -63,7 +63,7 @@ for (i = 0; i < 10; i++) {}
 
 This option enforces spacing before semicolons and disallows spacing after semicolons.
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```js
 /*eslint semi-spacing: [2, { "before": true, "after": false }]*/
@@ -76,7 +76,7 @@ for (i = 0;i < 10;i++) {}   /*error Missing whitespace before semicolon.*/
 for (i = 0; i < 10; i++) {} /*error Missing whitespace before semicolon.*/ /*error Unexpected whitespace after semicolon.*/
 ```
 
-The following patterns are not warnings:
+The following patterns are not considered problems:
 
 ```js
 /*eslint semi-spacing: [2, { "before": true, "after": false }]*/

@@ -28,7 +28,7 @@ This rule is aimed at controlling how Use Strict Directives are used in code. It
 
 This mode forbids any occurrence of a Use Strict Directive.
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```js
 /*eslint strict: [2, "never"]*/
@@ -70,7 +70,7 @@ bar();
 
 This mode ensures that all code is in strict mode and that there are no extraneous Use Strict Directives at the top level or in nested functions, which are themselves already strict by virtue of being contained in strict global code. It requires that global code contains exactly one Use Strict Directive. Use Strict Directives inside functions are considered unnecessary. Multiple Use Strict Directives at any level also trigger warnings.
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```
 /*eslint strict: [2, "global"]*/
@@ -112,7 +112,7 @@ foo();
 
 This mode ensures that all function bodies are strict mode code, while global code is not. Particularly if a build step concatenates multiple scripts, a Use Strict Directive in global code of one script could unintentionally enable strict mode in another script that was not intended to be strict code. It forbids any occurrence of a Use Strict Directive in global code. It requires exactly one Use Strict Directive in each function declaration or expression whose parent is global code. Use Strict Directives inside nested functions are considered unnecessary. Multiple Use Strict Directives at any level also trigger warnings.
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```
 /*eslint strict: [2, "function"]*/
@@ -161,7 +161,7 @@ foo();
 
 This mode ensures that all functions are executed in strict mode. A Use Strict Directive must be present in global code or in every top-level function declaration or expression. It does not concern itself with unnecessary Use Strict Directives in nested functions that are already strict, nor with multiple Use Strict Directives at the same level.
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```js
 // "strict": 2

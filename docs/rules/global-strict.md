@@ -26,7 +26,7 @@ function foo() {
 }
 ```
 
-The following patterns apply strict mode only to functions so are valid with the "never" option but are warnings with the "always" option.
+The following patterns apply strict mode only to functions so are valid with the "never" option but are problems with the "always" option.
 
 ```js
 function foo() {

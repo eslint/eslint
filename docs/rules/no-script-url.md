@@ -4,7 +4,7 @@ Using `javascript:` URLs is considered by some as a form of `eval`. Code passed 
 
 ## Rule Details
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```js
 /*eslint no-script-url: 2*/

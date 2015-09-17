@@ -10,7 +10,7 @@ function bar() { return /=foo/; }
 
 This is used to disambiguate the division operator to not confuse users.
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```js
 /*eslint no-div-regex: 2*/
@@ -18,7 +18,7 @@ The following patterns are considered warnings:
 function bar() { return /=foo/; } /*error A regular expression literal can be confused with '/='.*/
 ```
 
-The following patterns are not considered warnings:
+The following patterns are not considered problems:
 
 ```js
 /*eslint no-div-regex: 2*/
