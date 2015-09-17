@@ -1,0 +1,57 @@
+---
+title: Documentation
+layout: doc
+---
+# ESLint Formatters
+
+ESLint comes with several built-in formatters to control the appearance of the linting results, and supports third-party formatters as well.
+
+The built-in formatter options are:
+
+<% Object.keys(formatterResults).forEach(function(formatterName) { -%>
+* [<%= formatterName %>](#<%= formatterName %>)
+<% }) -%>
+
+## Example Source
+
+Examples of each formatter were created from linting `fullOfProblems.js` using the `.eslintrc` configuration shown below.
+
+### `fullOfProblems.js`
+
+```js
+function addOne(i) {
+    if (i != NaN) {
+        return i ++
+    } else {
+      return
+    }
+};
+```
+
+### `.eslintrc`:
+
+```json
+{
+    "extends": "eslint:recommended",
+    "rules": {
+        "consistent-return": 2,
+        "indent"           : [1, 4],
+        "no-else-return"   : 1,
+        "semi"             : [1, "always"],
+        "space-unary-ops"  : 2
+    }
+}
+```
+
+## Output Examples
+<% Object.keys(formatterResults).forEach(function(formatterName) { -%>
+
+### <%= formatterName %>
+<% if (formatterName !== "html") { -%>
+```
+<%- formatterResults[formatterName].result %>
+```
+<% } else {-%>
+<iframe src="html-formatter-example.html" width="100%" height="460px"></iframe>
+<% } -%>
+<% }) -%>
