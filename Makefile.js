@@ -399,7 +399,7 @@ function hasBranch(branchName) {
  * @returns {Object} Output from each formatter
  */
 function getFormatterResults() {
-    var CLIEngine = require("eslint").CLIEngine,
+    var CLIEngine = require("./lib/cli-engine"),
         chalk = require("chalk");
 
     var formatterFiles = fs.readdirSync("./lib/formatters/"),
