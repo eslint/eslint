@@ -15,6 +15,9 @@ This rule takes one argument: `"always"` or `"never"`. If `"always"` then the ke
 must be followed by at least one space. If `"never"` then no spaces will be allowed before
 the keywords `else`, `while` (do...while), `finally` and `catch`. The default value is `"always"`.
 
+This rule will allow keywords to be preceded by an opening curly brace (`{`). If you wish to alter
+this behaviour, consider using the [block-spacing](block-spacing.md) rule.
+
 The following patterns are considered errors when configured `"never"`:
 
 ```js
@@ -79,6 +82,8 @@ if (foo) {
 
 (function() {})()
 
+<Foo onClick={function bar() {}} />
+
 for (let foo of ['bar', 'baz', 'qux']) {}
 ```
 
@@ -89,6 +94,7 @@ If you do not wish to enforce consistency on keyword spacing.
 ## Related Rules
 
 * [space-after-keywords](space-after-keywords.md)
+* [block-spacing](block-spacing.md)
 * [space-return-throw-case](space-return-throw-case.md)
 * [space-unary-ops](space-unary-ops.md)
 * [space-infix-ops](space-infix-ops.md)
