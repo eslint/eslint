@@ -56,6 +56,17 @@ ruleTester.run("func-style", rule, {
             code: "var foo = () => {};\n var bar = () => {}",
             options: ["expression"],
             ecmaFeatures: { arrowFunctions: true }
+        },
+
+        // https://github.com/eslint/eslint/issues/3819
+        {
+            code: "var foo = function() { this; }.bind(this);",
+            options: ["declaration"]
+        },
+        {
+            code: "var foo = () => { this; };",
+            options: ["declaration"],
+            ecmaFeatures: { arrowFunctions: true }
         }
     ],
 
@@ -72,6 +83,17 @@ ruleTester.run("func-style", rule, {
         },
         {
             code: "var foo = () => {};",
+            options: ["declaration"],
+            ecmaFeatures: { arrowFunctions: true },
+            errors: [
+                {
+                    message: "Expected a function declaration.",
+                    type: "VariableDeclarator"
+                }
+            ]
+        },
+        {
+            code: "var foo = () => { function foo() { this; } };",
             options: ["declaration"],
             ecmaFeatures: { arrowFunctions: true },
             errors: [
