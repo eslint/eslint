@@ -54,6 +54,37 @@ ruleTester.run("indent", rule, {
     valid: [
         {
             code:
+            "function test() {\n" +
+            "  return client.signUp(email, PASSWORD, { preVerified: true })\n" +
+            "    .then(function (result) {\n" +
+            "      // hi\n" +
+            "    })\n" +
+            "    .then(function () {\n" +
+            "      return FunctionalHelpers.clearBrowserState(self, {\n" +
+            "        contentServer: true,\n" +
+            "        contentServer1: true\n" +
+            "      });\n" +
+            "    });\n" +
+            "}",
+            options: [2]
+        },
+        {
+            code:
+            "function test() {\n" +
+            "    return client.signUp(email, PASSWORD, { preVerified: true })\n" +
+            "    .then(function (result) {\n" +
+            "        var x = 1;\n" +
+            "        var y = 1;\n" +
+            "    }, function(err){\n" +
+            "        var o = 1 - 2;\n" +
+            "        var y = 1 - 2;\n" +
+            "        return true;\n" +
+            "    });\n" +
+            "}",
+            options: [4]
+        },
+        {
+            code:
             "// hi",
             options: [2, {"VariableDeclarator": 1, "SwitchCase": 1}]
         },
@@ -910,8 +941,9 @@ ruleTester.run("indent", rule, {
                 [189, 2, 0, "VariableDeclaration"],
                 [193, 6, 4, "ExpressionStatement"],
                 [195, 6, 8, "ExpressionStatement"],
-                [305, 6, 4, "ExpressionStatement"],
-                [306, 6, 8, "ExpressionStatement"],
+                [304, 4, 6, "ExpressionStatement"],
+                [306, 4, 8, "ExpressionStatement"],
+                [307, 2, 4, "BlockStatement"],
                 [308, 2, 4, "VariableDeclarator"],
                 [311, 4, 6, "Identifier"],
                 [312, 4, 6, "Identifier"],
@@ -941,6 +973,8 @@ ruleTester.run("indent", rule, {
                 [349, 2, 0, "ExpressionStatement"],
                 [355, 2, 0, "ExpressionStatement"],
                 [357, 2, 4, "ExpressionStatement"],
+                [361, 4, 6, "ExpressionStatement"],
+                [362, 2, 4, "BlockStatement"],
                 [363, 2, 4, "VariableDeclarator"],
                 [368, 2, 0, "SwitchCase"],
                 [370, 2, 4, "SwitchCase"],
@@ -952,15 +986,23 @@ ruleTester.run("indent", rule, {
                 [392, 2, 4, "ExpressionStatement"],
                 [409, 2, 0, "ExpressionStatement"],
                 [410, 2, 4, "ExpressionStatement"],
-                [416, 2, 0, "ExpressionStatement"],
-                [417, 2, 4, "ExpressionStatement"],
+                [415, 6, 2, "ExpressionStatement"],
+                [416, 6, 0, "ExpressionStatement"],
+                [417, 6, 4, "ExpressionStatement"],
+                [418, 4, 0, "BlockStatement"],
                 [422, 2, 4, "ExpressionStatement"],
                 [423, 2, 0, "ExpressionStatement"],
-                [428, 6, 8, "ExpressionStatement"],
-                [429, 6, 4, "ExpressionStatement"],
-                [434, 2, 4, "BlockStatement"],
+                [427, 2, 6, "ExpressionStatement"],
+                [428, 2, 8, "ExpressionStatement"],
+                [429, 2, 4, "ExpressionStatement"],
+                [430, 0, 4, "BlockStatement"],
+                [433, 2, 4, "ExpressionStatement"],
+                [434, 0, 4, "BlockStatement"],
                 [437, 2, 0, "ExpressionStatement"],
                 [438, 0, 4, "BlockStatement"],
+                [442, 4, 2, "ExpressionStatement"],
+                [443, 4, 2, "ExpressionStatement"],
+                [444, 2, 0, "BlockStatement"],
                 [451, 2, 0, "ExpressionStatement"],
                 [453, 2, 4, "ExpressionStatement"],
                 [499, 6, 8, "BlockStatement"],
