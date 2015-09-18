@@ -411,7 +411,7 @@ a(); // ->
 }
 
 a( "very very long multi line" +
-   "with weird indentation", function() {
+    "with weird indentation", function() {
   b();
 a(); // ->
     c(); // <-
