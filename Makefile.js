@@ -577,7 +577,8 @@ target.gensite = function() {
 
     // 4. Loop through all files in temporary directory
     find(TEMP_DIR).forEach(function(filename) {
-        if (test("-f", filename)) {
+        if (test("-f", filename) && path.extname(filename) !== "") {
+
             var rulesUrl = "https://github.com/eslint/eslint/tree/master/lib/rules/";
             var docsUrl = "https://github.com/eslint/eslint/tree/master/docs/rules/";
 
