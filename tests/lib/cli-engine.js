@@ -1130,6 +1130,56 @@ describe("CLIEngine", function() {
                 sandbox.restore();
                 delCache();
             });
+
+            it("should invalidate the cache if the configuration changed between executions", function() {
+                assert.isFalse(fs.existsSync(path.resolve(".eslintcache")), "the cache for eslint does not exist");
+
+                engine = new CLIEngine({
+                    useEslintrc: false,
+                    // specifying cache true the cache will be created
+                    cache: true,
+                    rules: {
+                        "no-console": 0,
+                        "no-unused-vars": 2
+                    },
+                    extensions: ["js"]
+                });
+
+                var spy = sandbox.spy(fs, "readFileSync");
+
+                var file = getFixturePath("cache/src", "test-file.js");
+                file = fs.realpathSync(file);
+
+                var result = engine.executeOnFiles([file]);
+
+                assert.equal(result.errorCount + result.warningCount, 0, "the file passed without errors or warnings");
+                assert.equal(spy.getCall(0).args[0], file, "the module read the file because is considered changed");
+                assert.isTrue(fs.existsSync(path.resolve(".eslintcache")), "the cache for eslint was created");
+
+                // destroy the spy
+                sandbox.restore();
+
+                engine = new CLIEngine({
+                    useEslintrc: false,
+                    // specifying cache true the cache will be created
+                    cache: true,
+                    rules: {
+                        "no-console": 2,
+                        "no-unused-vars": 2
+                    },
+                    extensions: ["js"]
+                });
+
+                // create a new spy
+                spy = sandbox.spy(fs, "readFileSync");
+
+                var cachedResult = engine.executeOnFiles([file]);
+
+                assert.equal(spy.getCall(0).args[0], file, "the module read the file because is considered changed because the config changed");
+                assert.equal(cachedResult.errorCount, 1, "since configuration changed the cache was not used an one error was reported");
+                assert.isTrue(fs.existsSync(path.resolve(".eslintcache")), "the cache for eslint was created");
+            });
+
             it("should remember the files from a previous run and do not operate on them if not changed", function() {
 
                 assert.isFalse(fs.existsSync(path.resolve(".eslintcache")), "the cache for eslint does not exist");
