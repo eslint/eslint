@@ -166,6 +166,7 @@ These rules are purely matters of style and are quite subjective.
 * [no-mixed-spaces-and-tabs](no-mixed-spaces-and-tabs.md) - disallow mixed spaces and tabs for indentation (recommended)
 * [no-multiple-empty-lines](no-multiple-empty-lines.md) - disallow multiple empty lines
 * [no-nested-ternary](no-nested-ternary.md) - disallow nested ternary expressions
+* [no-negated-condition](no-negated-condition.md) - disallow negated conditions
 * [no-new-object](no-new-object.md) - disallow the use of the `Object` constructor
 * [no-restricted-syntax](no-restricted-syntax.md) - disallow use of certain syntax in code
 * [no-spaced-func](no-spaced-func.md) - disallow space between function identifier and application (fixable)
