@@ -1127,5 +1127,111 @@ describe("Config", function() {
                 assertConfigsEqual(actual, expected);
             });
         });
+
+        describe("personal config file within home directory", function() {
+            var getCwd;
+
+            beforeEach(function() {
+                getCwd = sinon.stub(process, "cwd");
+            });
+
+            afterEach(function() {
+                getCwd.restore();
+            });
+
+            it("should load the personal config if no local config was found", function() {
+                var projectPath = getFixturePath("personal-config", "project-without-config"),
+                    homePath = getFixturePath("personal-config", "home-folder"),
+                    filePath = getFixturePath("personal-config", "project-without-config", "foo.js");
+
+                getCwd.returns(projectPath);
+
+                var StubbedConfig = proxyquire("../../lib/config", { "user-home": homePath });
+
+                var config = new StubbedConfig(),
+                    actual = config.getConfig(filePath),
+                    expected = {
+                        ecmaFeatures: {},
+                        env: {},
+                        globals: {},
+                        parser: void 0,
+                        rules: {
+                            "home-folder-rule": 2
+                        }
+                    };
+
+                assert.deepEqual(actual, expected);
+            });
+
+            it("should ignore the personal config if a local config was found", function() {
+                var projectPath = getFixturePath("personal-config", "home-folder", "project"),
+                    homePath = getFixturePath("personal-config", "home-folder"),
+                    filePath = getFixturePath("personal-config", "home-folder", "project", "foo.js");
+
+                getCwd.returns(projectPath);
+
+                var StubbedConfig = proxyquire("../../lib/config", { "user-home": homePath });
+
+                var config = new StubbedConfig(),
+                    actual = config.getConfig(filePath),
+                    expected = {
+                        ecmaFeatures: {},
+                        env: {},
+                        globals: {},
+                        parser: void 0,
+                        rules: {
+                            "project-level-rule": 2
+                        }
+                    };
+
+                assert.deepEqual(actual, expected);
+            });
+
+            it("should have an empty config if no local config and no personal config was found", function() {
+                var projectPath = getFixturePath("personal-config", "project-without-config"),
+                    homePath = getFixturePath("personal-config", "folder-does-not-exist"),
+                    filePath = getFixturePath("personal-config", "project-without-config", "foo.js");
+
+                getCwd.returns(projectPath);
+
+                var StubbedConfig = proxyquire("../../lib/config", { "user-home": homePath });
+
+                var config = new StubbedConfig(),
+                    actual = config.getConfig(filePath),
+                    expected = {
+                        ecmaFeatures: {},
+                        env: {},
+                        globals: {},
+                        parser: void 0,
+                        rules: {}
+                    };
+
+                assert.deepEqual(actual, expected);
+            });
+
+            it("should still load the project config if the current working directory is the same as the home folder", function() {
+                var projectPath = getFixturePath("personal-config", "project-with-config"),
+                    filePath = getFixturePath("personal-config", "project-with-config", "subfolder", "foo.js");
+
+                var StubbedConfig = proxyquire("../../lib/config", { "user-home": projectPath });
+
+                getCwd.returns(projectPath);
+
+                var config = new StubbedConfig(),
+                    actual = config.getConfig(filePath),
+                    expected = {
+                        ecmaFeatures: {},
+                        env: {},
+                        globals: {},
+                        parser: void 0,
+                        rules: {
+                            "project-level-rule": 2,
+                            "subfolder-level-rule": 2
+                        }
+                    };
+
+                assert.deepEqual(actual, expected);
+            });
+        });
     });
 });
