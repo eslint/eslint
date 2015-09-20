@@ -54,6 +54,7 @@ Given the default values `words`: `true`, `nonwords`: `false`, the following pat
 
 ```js
 /*eslint space-unary-ops: 2*/
+/*eslint-env es6*/
 
 typeof!foo;        /*error Unary word operator "typeof" must be followed by whitespace.*/
 

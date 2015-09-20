@@ -15,6 +15,8 @@ In this case, you would expect each function created within the loop to return a
 `let` or `const` mitigate this problem.
 
 ```js
+/*eslint-env es6*/
+
 for (let i = 0; i < 10; i++) {
     funcs[i] = function() {
         return i;
@@ -33,6 +35,7 @@ The following patterns are considered problems:
 
 ```js
 /*eslint no-loop-func: 2*/
+/*eslint-env es6*/
 
 for (var i=10; i; i--) {
     (function() { return i; })();     /*error Don't make functions within a loop*/
@@ -60,6 +63,7 @@ The following patterns are not considered problems:
 
 ```js
 /*eslint no-loop-func: 2*/
+/*eslint-env es6*/
 
 var a = function() {};
 

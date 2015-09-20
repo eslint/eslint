@@ -12,6 +12,7 @@ The following patterns are considered problems:
 
 ```js
 /*eslint no-use-before-define: 2*/
+/*eslint-env es6*/
 
 alert(a);       /*error a was used before it was defined*/
 var a = 10;
@@ -35,6 +36,7 @@ The following patterns are not considered problems:
 
 ```js
 /*eslint no-use-before-define: 2*/
+/*eslint-env es6*/
 
 var a;
 a = 10;

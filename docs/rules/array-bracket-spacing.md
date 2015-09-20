@@ -4,6 +4,8 @@ A number of style guides require or disallow spaces between array brackets. This
 applies to both array literals and destructuring assignment (EcmaScript 6) using arrays.
 
 ```js
+/*eslint-env es6*/
+
 var arr = [ 'foo', 'bar' ];
 var [ x, y ] = z;
 
@@ -37,6 +39,7 @@ When `"never"` is set, the following patterns are considered problems:
 
 ```js
 /*eslint array-bracket-spacing: [2, "never"]*/
+/*eslint-env es6*/
 
 var arr = [ 'foo', 'bar' ];   /*error There should be no space after '['*/ /*error There should be no space before ']'*/
 var arr = ['foo', 'bar' ];                                                 /*error There should be no space before ']'*/
@@ -55,6 +58,7 @@ The following patterns are not considered problems:
 
 ```js
 /*eslint array-bracket-spacing: [2, "never"]*/
+/*eslint-env es6*/
 
 var arr = [];
 var arr = ['foo', 'bar', 'baz'];
@@ -80,6 +84,7 @@ When `"always"` is used, the following patterns are considered problems:
 
 ```js
 /*eslint array-bracket-spacing: [2, "always"]*/
+/*eslint-env es6*/
 
 var arr = ['foo', 'bar'];      /*error A space is required after '['*/ /*error A space is required before ']'*/
 var arr = ['foo', 'bar' ];     /*error A space is required after '['*/
@@ -101,6 +106,7 @@ The following patterns are not considered problems:
 
 ```js
 /*eslint array-bracket-spacing: [2, "always"]*/
+/*eslint-env es6*/
 
 var arr = [];
 var arr = [ 'foo', 'bar', 'baz' ];

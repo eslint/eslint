@@ -12,7 +12,7 @@ Then any code used within the same scope would not get the global `undefined`, b
 
 The following patterns are considered problems:
 
-```
+```js
 /*eslint no-shadow-restricted-names: 2*/
 
 function NaN(){}       /*error Shadowing of global property "NaN".*/

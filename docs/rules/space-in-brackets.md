@@ -36,6 +36,8 @@ Depending on your coding conventions, you can choose either option by specifying
 When `"never"` is set, the following patterns are considered problems:
 
 ```js
+/*eslint-env es6*/
+
 foo[ 'bar' ];
 foo['bar' ];
 
@@ -98,6 +100,8 @@ var obj = {};
 When `"always"` is used, the following patterns are considered problems:
 
 ```js
+/*eslint-env es6*/
+
 foo['bar'];
 foo['bar' ];
 foo[ 'bar'];
