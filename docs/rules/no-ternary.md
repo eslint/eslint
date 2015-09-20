@@ -55,3 +55,4 @@ function quux() {
 ## Related Rules
 
 * [no-nested-ternary](no-nested-ternary.md)
+* [no-unneeded-ternary](no-unneeded-ternary.md)
