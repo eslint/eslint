@@ -200,7 +200,7 @@ These rules are purely matters of style and are quite subjective.
 These rules are only relevant to ES6 environments.
 
 * [arrow-parens](arrow-parens.md) - require parens in arrow function arguments
-* [arrow-spacing](arrow-spacing.md) - require space before/after arrow function's arrow
+* [arrow-spacing](arrow-spacing.md) - require space before/after arrow function's arrow (fixable)
 * [constructor-super](constructor-super.md) - verify calls of `super()` in constructors
 * [generator-star-spacing](generator-star-spacing.md) - enforce spacing around the `*` in generator functions
 * [no-class-assign](no-class-assign.md) - disallow modifying variables of class declarations
