@@ -169,8 +169,8 @@ The `fixer` object has the following methods:
 * `insertTextAfterRange(range, text)` - inserts text after the given range
 * `insertTextBefore(nodeOrToken, text)` - inserts text before the given node or token
 * `insertTextBeforeRange(range, text)` - inserts text before the given range
-* `remove(nodeOrToken, text)` - removes the given node or token
-* `removeRange(range, text)` - removes text in the given range
+* `remove(nodeOrToken)` - removes the given node or token
+* `removeRange(range)` - removes text in the given range
 * `replaceText(nodeOrToken, text)` - replaces the text in the given node or token
 * `replaceTextRange(range, text)` - replaces the text in the given range
 
