@@ -23,7 +23,8 @@ ruleTester.run("no-dupe-args", rule, {
         "function a(a, b, c){}",
         "var a = function(a, b, c){}",
         { code: "function a({a, b}, {c, d}){}", ecmaFeatures: { destructuring: true } },
-        { code: "function a([ , a]) {}", ecmaFeatures: { destructuring: true } }
+        { code: "function a([ , a]) {}", ecmaFeatures: { destructuring: true } },
+        { code: "function foo([[a, b], [c, d]]) {}", ecmaFeatures: { destructuring: true } }
     ],
     invalid: [
         { code: "function a(a, b, b) {}", errors: [{ message: "Duplicate param 'b'." }] },
