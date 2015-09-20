@@ -39,3 +39,4 @@ if (foo) {
 ## Related Rules
 
 * [no-ternary](no-ternary.md)
+* [no-unneeded-ternary](no-unneeded-ternary.md)
