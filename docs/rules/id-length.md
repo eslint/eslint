@@ -17,6 +17,7 @@ The following patterns are considered problems:
 
 ```js
 /*eslint id-length: 2*/     // default is minimum 2-chars ({ min: 2})
+/*eslint-env es6*/
 
 var x = 5;                  /*error Identifier name 'x' is too short. (< 2)*/
 
@@ -48,20 +49,22 @@ var { x: a} = {};           /*error Identifier name 'x' is too short. (< 2)*/
 
 var { a: [x]} = {};         /*error Identifier name 'a' is too short. (< 2)*/
 
-import x from 'y';          /*error Identifier name 'x' is too short. (< 2)*/
-
-export var x = 0;           /*error Identifier name 'x' is too short. (< 2)*/
-
 ({ a: obj.x.y.z }) = {};    /*error Identifier name 'a' is too short. (< 2)*/ /*error Identifier name 'z' is too short. (< 2)*/
 
 ({ prop: obj.x }) = {};     /*error Identifier name 'x' is too short. (< 2)*/
+```
 
+```
+import x from 'y';          /*error Identifier name 'x' is too short. (< 2)*/
+
+export var x = 0;           /*error Identifier name 'x' is too short. (< 2)*/
 ```
 
 The following patterns are not considered problems:
 
 ```js
 /*eslint id-length: 2*/     // default is minimum 2-chars ({ min: 2})
+/*eslint-env es6*/
 
 var num = 5;
 
@@ -97,10 +100,6 @@ var { prop: a } = {};
 
 var { prop: [x] } = {};
 
-import something from "y";
-
-export var num = 0;
-
 ({ prop: obj.x.y.something }) = {};
 
 ({ prop: obj.longName }) = {};
@@ -108,6 +107,12 @@ export var num = 0;
 var data = { "x": 1 };  // excused because of quotes
 
 data["y"] = 3;  // excused because of calculated property access
+```
+
+```
+import something from "y";
+
+export var num = 0;
 ```
 
 
@@ -131,6 +136,7 @@ The following patterns will not be considered problems
 
 ```js
 /*eslint id-length: [2, {"properties": "never"}]*/
+/*eslint-env es6*/
 
 var myObj = { a: 1 };
 

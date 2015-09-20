@@ -7,6 +7,8 @@ var str = "Hello, " + name + "!";
 ```
 
 ```js
+/*eslint-env es6*/
+
 var str = `Hello, ${name}!`;
 ```
 
@@ -27,6 +29,7 @@ The following patterns are not considered problems:
 
 ```js
 /*eslint prefer-template: 2*/
+/*eslint-env es6*/
 
 var str = "Hello World!";
 var str = `Hello, ${name}!`;

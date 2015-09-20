@@ -34,6 +34,7 @@ The following patterns are not considered problems:
 
 ```js
 /*eslint no-var: 2*/
+/*eslint-env es6*/
 
 let x = "y";
 const CONFIG = {};

@@ -279,7 +279,7 @@ delete foo.bar; /*error Avoid using the delete keyword, instead use Reflect.dele
 
 The following patterns are not considered problems:
 
-```
+```js
 /*eslint prefer-reflect: 2*/
 
 delete bar; // Does not reference an object, just a var
@@ -288,7 +288,7 @@ Reflect.deleteProperty(foo, 'bar');
 
 (Note: For a rule preventing deletion of variables, see [no-delete-var instead](no-delete-var.md))
 
-```
+```js
 /*eslint prefer-reflect: [2, { exceptions: ["delete"] }]*/
 
 delete bar

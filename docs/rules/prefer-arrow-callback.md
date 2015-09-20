@@ -22,6 +22,7 @@ The following patterns are not considered problems:
 
 ```js
 /*eslint prefer-arrow-callback: 2*/
+/*eslint-env es6*/
 
 foo(a => a);
 foo(function*() { yield; });

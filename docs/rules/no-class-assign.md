@@ -3,6 +3,8 @@
 `ClassDeclaration` creates a variable, and we can modify the variable.
 
 ```js
+/*eslint-env es6*/
+
 class A { }
 A = 0;
 ```
@@ -17,6 +19,7 @@ The following patterns are considered problems:
 
 ```js
 /*eslint no-class-assign: 2*/
+/*eslint-env es6*/
 
 class A { }
 A = 0;         /*error `A` is a class.*/
@@ -24,6 +27,7 @@ A = 0;         /*error `A` is a class.*/
 
 ```js
 /*eslint no-class-assign: 2*/
+/*eslint-env es6*/
 
 A = 0;         /*error `A` is a class.*/
 class A { }
@@ -31,6 +35,7 @@ class A { }
 
 ```js
 /*eslint no-class-assign: 2*/
+/*eslint-env es6*/
 
 class A {
     b() {
@@ -41,6 +46,7 @@ class A {
 
 ```js
 /*eslint no-class-assign: 2*/
+/*eslint-env es6*/
 
 let A = class A {
     b() {
@@ -54,6 +60,7 @@ The following patterns are not considered problems:
 
 ```js
 /*eslint no-class-assign: 2*/
+/*eslint-env es6*/
 
 let A = class A { }
 A = 0; // A is a variable.
@@ -61,6 +68,7 @@ A = 0; // A is a variable.
 
 ```js
 /*eslint no-class-assign: 2*/
+/*eslint-env es6*/
 
 let A = class {
     b() {
@@ -71,6 +79,7 @@ let A = class {
 
 ```js
 /*eslint no-class-assign: 2*/
+/*eslint-env es6*/
 
 class A {
     b(A) {

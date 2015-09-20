@@ -35,6 +35,7 @@ The following patterns are considered problems:
 
 ```js
 /*eslint no-extra-bind: 2*/
+/*eslint-env es6*/
 
 var x = function () {   /*error The function binding is unnecessary.*/
     foo();
@@ -42,11 +43,11 @@ var x = function () {   /*error The function binding is unnecessary.*/
 
 var x = (() => {        /*error The function binding is unnecessary.*/
     foo();
-}.bind(bar);
+}).bind(bar);
 
 var x = (() => {        /*error The function binding is unnecessary.*/
     this.foo();
-}.bind(bar);
+}).bind(bar);
 
 var x = function () {   /*error The function binding is unnecessary.*/
     (function () {
