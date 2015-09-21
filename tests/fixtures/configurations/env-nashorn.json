@@ -1,0 +1,8 @@
+{
+  "env": {
+    "nashorn": true
+  },
+  "rules": {
+    "no-undef": 2
+  }
+}
