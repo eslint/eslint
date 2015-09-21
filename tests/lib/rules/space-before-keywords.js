@@ -131,9 +131,6 @@ ruleTester.run("space-before-keywords", rule, {
         { code: ";\nfunction foo () {}" },
         { code: "; function foo () {}", options: never },
         { code: ";\nfunction foo () {}", options: never },
-        { code: "var foo = {bar() {}}", ecmaFeatures: { objectLiteralShorthandMethods: true } },
-        { code: "var foo = { bar() {} }", ecmaFeatures: { objectLiteralShorthandMethods: true }, options: never },
-        { code: "var foo = {\nbar() {}}", ecmaFeatures: { objectLiteralShorthandMethods: true }, options: never },
         // FunctionExpression
         { code: "var foo = function bar () {}" },
         { code: "var foo =\nfunction bar () {}" },
@@ -145,6 +142,13 @@ ruleTester.run("space-before-keywords", rule, {
         { code: "var foo =\nfunction bar () {}", options: never },
         { code: "function foo () { return function () {} }", options: never },
         { code: "var foo = { foo:function () {} }", options: never },
+        { code: "var foo = {bar() {}}", ecmaFeatures: { objectLiteralShorthandMethods: true } },
+        { code: "var foo = { bar() {} }", ecmaFeatures: { objectLiteralShorthandMethods: true }, options: never },
+        { code: "var foo = {\nbar() {}}", ecmaFeatures: { objectLiteralShorthandMethods: true }, options: never },
+        { code: "var foo = {get bar() {}}" },
+        { code: "var foo = {get bar() {}}", options: never },
+        { code: "var foo = {set bar(v) {}}" },
+        { code: "var foo = {set bar(v) {}}", options: never },
         // YieldExpression
         {
             code: "function* foo() { yield 0; }",
