@@ -25,6 +25,7 @@ ruleTester.run("no-underscore-dangle", rule, {
         "console.log(__filename); console.log(__dirname);",
         "var _ = require('underscore');",
         "var a = b._;",
+        "this._bar;",
         { code: "export default function() {}", ecmaFeatures: { modules: true }}
     ],
     invalid: [
