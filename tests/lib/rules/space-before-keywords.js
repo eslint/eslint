@@ -74,10 +74,12 @@ ruleTester.run("space-before-keywords", rule, {
         { code: "; switch ('') {}" },
         { code: ";\nswitch ('') {}" },
         { code: "switch ('') { case 'foo': '' }" },
+        { code: "switch ('') { case 'foo': break; case 'bar': '' }" },
         { code: "switch ('') {\ncase 'foo': '' }" },
         { code: "; switch ('') {}", options: never },
         { code: ";\nswitch ('') {}", options: never },
         { code: "switch ('') { case 'foo': '' }", options: never },
+        { code: "switch ('') { case 'foo': break; case 'bar': '' }", options: never },
         { code: "switch ('') {\ncase 'foo': '' }", options: never },
         // ThrowStatement
         { code: "; throw new Error()" },
@@ -138,6 +140,7 @@ ruleTester.run("space-before-keywords", rule, {
         { code: "function foo () { return function () {} }" },
         { code: "var foo = (function bar () {})()" },
         { code: "var foo = { foo: function () {} }" },
+        { code: "<Foo onClick={function () {}} />", ecmaFeatures: { jsx: true } },
         { code: "var foo = function bar () {}", options: never },
         { code: "var foo =\nfunction bar () {}", options: never },
         { code: "function foo () { return function () {} }", options: never },
@@ -310,9 +313,9 @@ ruleTester.run("space-before-keywords", rule, {
             output: "; switch ('') {}"
         },
         {
-            code: "switch ('') {case 'foo': '' }",
-            errors: [ { message: expectedSpacingErrorMessageTpl("case"), type: "SwitchCase", line: 1, column: 14 } ],
-            output: "switch ('') { case 'foo': '' }"
+            code: "switch ('') { case 'foo': break;case 'bar': break; }",
+            errors: [ { message: expectedSpacingErrorMessageTpl("case"), type: "SwitchCase", line: 1, column: 33 } ],
+            output: "switch ('') { case 'foo': break; case 'bar': break; }"
         },
         // ThrowStatement
         {
@@ -375,27 +378,27 @@ ruleTester.run("space-before-keywords", rule, {
         },
         // BreakStatement
         {
-            code: "for (;;) {break; }",
+            code: "for (;;) { var foo = 'bar';break; }",
             errors: [ { message: expectedSpacingErrorMessageTpl("break"), type: "BreakStatement" } ],
-            output: "for (;;) { break; }"
+            output: "for (;;) { var foo = 'bar'; break; }"
         },
         // LabeledStatement
         {
-            code: "foo: for (;;) {bar: for (;;) {} }",
+            code: "foo: for (;;) { var foo = 'bar';bar: for (;;) {} }",
             errors: [ { message: expectedSpacingErrorMessageTpl("bar"), type: "LabeledStatement" } ],
-            output: "foo: for (;;) { bar: for (;;) {} }"
+            output: "foo: for (;;) { var foo = 'bar'; bar: for (;;) {} }"
         },
         // ContinueStatement
         {
-            code: "for (;;) {continue; }",
+            code: "for (;;) { var foo = 'bar';continue; }",
             errors: [ { message: expectedSpacingErrorMessageTpl("continue"), type: "ContinueStatement" } ],
-            output: "for (;;) { continue; }"
+            output: "for (;;) { var foo = 'bar'; continue; }"
         },
         // ReturnStatement
         {
-            code: "function foo() {return; }",
+            code: "function foo() { var foo = 'bar';return foo; }",
             errors: [ { message: expectedSpacingErrorMessageTpl("return"), type: "ReturnStatement" } ],
-            output: "function foo() { return; }"
+            output: "function foo() { var foo = 'bar'; return foo; }"
         },
         // FunctionDeclaration
         {
@@ -416,10 +419,10 @@ ruleTester.run("space-before-keywords", rule, {
         },
         // YieldExpression
         {
-            code: "function* foo() {yield 0; }",
+            code: "function* foo() { var foo = 'bar';yield foo; }",
             errors: [ { message: expectedSpacingErrorMessageTpl("yield"), type: "YieldExpression" } ],
             ecmaFeatures: { generators: true },
-            output: "function* foo() { yield 0; }"
+            output: "function* foo() { var foo = 'bar'; yield foo; }"
         },
         // ForOfStatement
         {
@@ -443,10 +446,10 @@ ruleTester.run("space-before-keywords", rule, {
         },
         // Super
         {
-            code: "class Bar { constructor() {super.foo(); } }",
+            code: "class Bar { constructor() { var foo = 'bar';super.bar(foo); } }",
             errors: [ { message: expectedSpacingErrorMessageTpl("super"), type: "Super" } ],
             ecmaFeatures: { classes: true },
-            output: "class Bar { constructor() { super.foo(); } }"
+            output: "class Bar { constructor() { var foo = 'bar'; super.bar(foo); } }"
         }
     ]
 });
