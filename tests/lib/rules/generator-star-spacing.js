@@ -523,6 +523,7 @@ ruleTester.run("generator-star-spacing", rule, {
         // Default ("before")
         {
             code: "function*foo(){}",
+            output: "function *foo(){}",
             ecmaFeatures: { generators: true },
             errors: [{
                 message: "Missing space before *.",
@@ -531,6 +532,7 @@ ruleTester.run("generator-star-spacing", rule, {
         },
         {
             code: "function* foo(arg1, arg2){}",
+            output: "function *foo(arg1, arg2){}",
             ecmaFeatures: { generators: true },
             errors: [{
                 message: "Missing space before *.",
@@ -542,6 +544,7 @@ ruleTester.run("generator-star-spacing", rule, {
         },
         {
             code: "var foo = function*foo(){};",
+            output: "var foo = function *foo(){};",
             ecmaFeatures: { generators: true },
             errors: [{
                 message: "Missing space before *.",
@@ -550,6 +553,7 @@ ruleTester.run("generator-star-spacing", rule, {
         },
         {
             code: "var foo = function* (){};",
+            output: "var foo = function * (){};",
             ecmaFeatures: { generators: true },
             errors: [{
                 message: "Missing space before *.",
@@ -558,6 +562,7 @@ ruleTester.run("generator-star-spacing", rule, {
         },
         {
             code: "var foo = {* foo(){} };",
+            output: "var foo = {*foo(){} };",
             ecmaFeatures: { generators: true, objectLiteralShorthandMethods: true },
             errors: [{
                 message: "Unexpected space after *.",
@@ -566,6 +571,7 @@ ruleTester.run("generator-star-spacing", rule, {
         },
         {
             code: "class Foo {* foo(){} }",
+            output: "class Foo {*foo(){} }",
             ecmaFeatures: { classes: true, generators: true },
             errors: [{
                 message: "Unexpected space after *.",
@@ -574,6 +580,7 @@ ruleTester.run("generator-star-spacing", rule, {
         },
         {
             code: "class Foo { static* foo(){} }",
+            output: "class Foo { static *foo(){} }",
             ecmaFeatures: { classes: true, generators: true },
             errors: [{
                 message: "Missing space before *.",
@@ -587,6 +594,7 @@ ruleTester.run("generator-star-spacing", rule, {
         // "before"
         {
             code: "function*foo(){}",
+            output: "function *foo(){}",
             options: ["before"],
             ecmaFeatures: { generators: true },
             errors: [{
@@ -596,6 +604,7 @@ ruleTester.run("generator-star-spacing", rule, {
         },
         {
             code: "function* foo(arg1, arg2){}",
+            output: "function *foo(arg1, arg2){}",
             options: ["before"],
             ecmaFeatures: { generators: true },
             errors: [{
@@ -608,6 +617,7 @@ ruleTester.run("generator-star-spacing", rule, {
         },
         {
             code: "var foo = function*foo(){};",
+            output: "var foo = function *foo(){};",
             options: ["before"],
             ecmaFeatures: { generators: true },
             errors: [{
@@ -617,6 +627,7 @@ ruleTester.run("generator-star-spacing", rule, {
         },
         {
             code: "var foo = function* (){};",
+            output: "var foo = function * (){};",
             options: ["before"],
             ecmaFeatures: { generators: true },
             errors: [{
@@ -626,6 +637,7 @@ ruleTester.run("generator-star-spacing", rule, {
         },
         {
             code: "var foo = {* foo(){} };",
+            output: "var foo = {*foo(){} };",
             options: ["before"],
             ecmaFeatures: { generators: true, objectLiteralShorthandMethods: true },
             errors: [{
@@ -635,6 +647,7 @@ ruleTester.run("generator-star-spacing", rule, {
         },
         {
             code: "class Foo {* foo(){} }",
+            output: "class Foo {*foo(){} }",
             options: ["before"],
             ecmaFeatures: { classes: true, generators: true },
             errors: [{
@@ -646,6 +659,7 @@ ruleTester.run("generator-star-spacing", rule, {
         // "after"
         {
             code: "function*foo(){}",
+            output: "function* foo(){}",
             options: ["after"],
             ecmaFeatures: { generators: true },
             errors: [{
@@ -655,6 +669,7 @@ ruleTester.run("generator-star-spacing", rule, {
         },
         {
             code: "function *foo(arg1, arg2){}",
+            output: "function* foo(arg1, arg2){}",
             options: ["after"],
             ecmaFeatures: { generators: true },
             errors: [{
@@ -667,6 +682,7 @@ ruleTester.run("generator-star-spacing", rule, {
         },
         {
             code: "var foo = function *foo(){};",
+            output: "var foo = function* foo(){};",
             options: ["after"],
             ecmaFeatures: { generators: true },
             errors: [{
@@ -679,6 +695,7 @@ ruleTester.run("generator-star-spacing", rule, {
         },
         {
             code: "var foo = function *(){};",
+            output: "var foo = function*(){};",
             options: ["after"],
             ecmaFeatures: { generators: true },
             errors: [{
@@ -688,6 +705,7 @@ ruleTester.run("generator-star-spacing", rule, {
         },
         {
             code: "var foo = { *foo(){} };",
+            output: "var foo = { * foo(){} };",
             options: ["after"],
             ecmaFeatures: { generators: true, objectLiteralShorthandMethods: true },
             errors: [{
@@ -697,6 +715,7 @@ ruleTester.run("generator-star-spacing", rule, {
         },
         {
             code: "class Foo { *foo(){} }",
+            output: "class Foo { * foo(){} }",
             options: ["after"],
             ecmaFeatures: { classes: true, generators: true },
             errors: [{
@@ -706,6 +725,7 @@ ruleTester.run("generator-star-spacing", rule, {
         },
         {
             code: "class Foo { static *foo(){} }",
+            output: "class Foo { static* foo(){} }",
             options: ["after"],
             ecmaFeatures: { classes: true, generators: true },
             errors: [{
@@ -720,6 +740,7 @@ ruleTester.run("generator-star-spacing", rule, {
         // "both"
         {
             code: "function*foo(){}",
+            output: "function * foo(){}",
             options: ["both"],
             ecmaFeatures: { generators: true },
             errors: [{
@@ -732,6 +753,7 @@ ruleTester.run("generator-star-spacing", rule, {
         },
         {
             code: "function*foo(arg1, arg2){}",
+            output: "function * foo(arg1, arg2){}",
             options: ["both"],
             ecmaFeatures: { generators: true },
             errors: [{
@@ -744,6 +766,7 @@ ruleTester.run("generator-star-spacing", rule, {
         },
         {
             code: "var foo = function*foo(){};",
+            output: "var foo = function * foo(){};",
             options: ["both"],
             ecmaFeatures: { generators: true },
             errors: [{
@@ -756,6 +779,7 @@ ruleTester.run("generator-star-spacing", rule, {
         },
         {
             code: "var foo = function*(){};",
+            output: "var foo = function *(){};",
             options: ["both"],
             ecmaFeatures: { generators: true },
             errors: [{
@@ -765,6 +789,7 @@ ruleTester.run("generator-star-spacing", rule, {
         },
         {
             code: "var foo = {*foo(){} };",
+            output: "var foo = {* foo(){} };",
             options: ["both"],
             ecmaFeatures: { generators: true, objectLiteralShorthandMethods: true },
             errors: [{
@@ -774,6 +799,7 @@ ruleTester.run("generator-star-spacing", rule, {
         },
         {
             code: "class Foo {*foo(){} }",
+            output: "class Foo {* foo(){} }",
             options: ["both"],
             ecmaFeatures: { classes: true, generators: true },
             errors: [{
@@ -783,6 +809,7 @@ ruleTester.run("generator-star-spacing", rule, {
         },
         {
             code: "class Foo { static*foo(){} }",
+            output: "class Foo { static * foo(){} }",
             options: ["both"],
             ecmaFeatures: { classes: true, generators: true },
             errors: [{
@@ -797,6 +824,7 @@ ruleTester.run("generator-star-spacing", rule, {
         // "neither"
         {
             code: "function * foo(){}",
+            output: "function*foo(){}",
             options: ["neither"],
             ecmaFeatures: { generators: true },
             errors: [{
@@ -809,6 +837,7 @@ ruleTester.run("generator-star-spacing", rule, {
         },
         {
             code: "function * foo(arg1, arg2){}",
+            output: "function*foo(arg1, arg2){}",
             options: ["neither"],
             ecmaFeatures: { generators: true },
             errors: [{
@@ -821,6 +850,7 @@ ruleTester.run("generator-star-spacing", rule, {
         },
         {
             code: "var foo = function * foo(){};",
+            output: "var foo = function*foo(){};",
             options: ["neither"],
             ecmaFeatures: { generators: true },
             errors: [{
@@ -833,6 +863,7 @@ ruleTester.run("generator-star-spacing", rule, {
         },
         {
             code: "var foo = function * (){};",
+            output: "var foo = function* (){};",
             options: ["neither"],
             ecmaFeatures: { generators: true },
             errors: [{
@@ -842,6 +873,7 @@ ruleTester.run("generator-star-spacing", rule, {
         },
         {
             code: "var foo = { * foo(){} };",
+            output: "var foo = { *foo(){} };",
             options: ["neither"],
             ecmaFeatures: { generators: true, objectLiteralShorthandMethods: true },
             errors: [{
@@ -851,6 +883,7 @@ ruleTester.run("generator-star-spacing", rule, {
         },
         {
             code: "class Foo { * foo(){} }",
+            output: "class Foo { *foo(){} }",
             options: ["neither"],
             ecmaFeatures: { classes: true, generators: true },
             errors: [{
@@ -860,6 +893,7 @@ ruleTester.run("generator-star-spacing", rule, {
         },
         {
             code: "class Foo { static * foo(){} }",
+            output: "class Foo { static*foo(){} }",
             options: ["neither"],
             ecmaFeatures: { classes: true, generators: true },
             errors: [{
@@ -874,6 +908,7 @@ ruleTester.run("generator-star-spacing", rule, {
         // {"before": true, "after": false}
         {
             code: "function*foo(){}",
+            output: "function *foo(){}",
             options: [{"before": true, "after": false}],
             ecmaFeatures: { generators: true },
             errors: [{
@@ -883,6 +918,7 @@ ruleTester.run("generator-star-spacing", rule, {
         },
         {
             code: "function* foo(arg1, arg2){}",
+            output: "function *foo(arg1, arg2){}",
             options: [{"before": true, "after": false}],
             ecmaFeatures: { generators: true },
             errors: [{
@@ -895,6 +931,7 @@ ruleTester.run("generator-star-spacing", rule, {
         },
         {
             code: "var foo = function*foo(){};",
+            output: "var foo = function *foo(){};",
             options: [{"before": true, "after": false}],
             ecmaFeatures: { generators: true },
             errors: [{
@@ -904,6 +941,7 @@ ruleTester.run("generator-star-spacing", rule, {
         },
         {
             code: "var foo = function* (){};",
+            output: "var foo = function * (){};",
             options: [{"before": true, "after": false}],
             ecmaFeatures: { generators: true },
             errors: [{
@@ -913,6 +951,7 @@ ruleTester.run("generator-star-spacing", rule, {
         },
         {
             code: "var foo = {* foo(){} };",
+            output: "var foo = {*foo(){} };",
             options: [{"before": true, "after": false}],
             ecmaFeatures: { generators: true, objectLiteralShorthandMethods: true },
             errors: [{
@@ -922,6 +961,7 @@ ruleTester.run("generator-star-spacing", rule, {
         },
         {
             code: "class Foo {* foo(){} }",
+            output: "class Foo {*foo(){} }",
             options: [{"before": true, "after": false}],
             ecmaFeatures: { classes: true, generators: true },
             errors: [{
@@ -933,6 +973,7 @@ ruleTester.run("generator-star-spacing", rule, {
         // {"before": false, "after": true}
         {
             code: "function*foo(){}",
+            output: "function* foo(){}",
             options: [{"before": false, "after": true}],
             ecmaFeatures: { generators: true },
             errors: [{
@@ -942,6 +983,7 @@ ruleTester.run("generator-star-spacing", rule, {
         },
         {
             code: "function *foo(arg1, arg2){}",
+            output: "function* foo(arg1, arg2){}",
             options: [{"before": false, "after": true}],
             ecmaFeatures: { generators: true },
             errors: [{
@@ -954,6 +996,7 @@ ruleTester.run("generator-star-spacing", rule, {
         },
         {
             code: "var foo = function *foo(){};",
+            output: "var foo = function* foo(){};",
             options: [{"before": false, "after": true}],
             ecmaFeatures: { generators: true },
             errors: [{
@@ -966,6 +1009,7 @@ ruleTester.run("generator-star-spacing", rule, {
         },
         {
             code: "var foo = function *(){};",
+            output: "var foo = function*(){};",
             options: [{"before": false, "after": true}],
             ecmaFeatures: { generators: true },
             errors: [{
@@ -975,6 +1019,7 @@ ruleTester.run("generator-star-spacing", rule, {
         },
         {
             code: "var foo = { *foo(){} };",
+            output: "var foo = { * foo(){} };",
             options: [{"before": false, "after": true}],
             ecmaFeatures: { generators: true, objectLiteralShorthandMethods: true },
             errors: [{
@@ -984,6 +1029,7 @@ ruleTester.run("generator-star-spacing", rule, {
         },
         {
             code: "class Foo { *foo(){} }",
+            output: "class Foo { * foo(){} }",
             options: [{"before": false, "after": true}],
             ecmaFeatures: { classes: true, generators: true },
             errors: [{
@@ -993,6 +1039,7 @@ ruleTester.run("generator-star-spacing", rule, {
         },
         {
             code: "class Foo { static *foo(){} }",
+            output: "class Foo { static* foo(){} }",
             options: [{"before": false, "after": true}],
             ecmaFeatures: { classes: true, generators: true },
             errors: [{
@@ -1007,6 +1054,7 @@ ruleTester.run("generator-star-spacing", rule, {
         // {"before": true, "after": true}
         {
             code: "function*foo(){}",
+            output: "function * foo(){}",
             options: [{"before": true, "after": true}],
             ecmaFeatures: { generators: true },
             errors: [{
@@ -1019,6 +1067,7 @@ ruleTester.run("generator-star-spacing", rule, {
         },
         {
             code: "function*foo(arg1, arg2){}",
+            output: "function * foo(arg1, arg2){}",
             options: [{"before": true, "after": true}],
             ecmaFeatures: { generators: true },
             errors: [{
@@ -1031,6 +1080,7 @@ ruleTester.run("generator-star-spacing", rule, {
         },
         {
             code: "var foo = function*foo(){};",
+            output: "var foo = function * foo(){};",
             options: [{"before": true, "after": true}],
             ecmaFeatures: { generators: true },
             errors: [{
@@ -1043,6 +1093,7 @@ ruleTester.run("generator-star-spacing", rule, {
         },
         {
             code: "var foo = function*(){};",
+            output: "var foo = function *(){};",
             options: [{"before": true, "after": true}],
             ecmaFeatures: { generators: true },
             errors: [{
@@ -1052,6 +1103,7 @@ ruleTester.run("generator-star-spacing", rule, {
         },
         {
             code: "var foo = {*foo(){} };",
+            output: "var foo = {* foo(){} };",
             options: [{"before": true, "after": true}],
             ecmaFeatures: { generators: true, objectLiteralShorthandMethods: true },
             errors: [{
@@ -1061,6 +1113,7 @@ ruleTester.run("generator-star-spacing", rule, {
         },
         {
             code: "class Foo {*foo(){} }",
+            output: "class Foo {* foo(){} }",
             options: [{"before": true, "after": true}],
             ecmaFeatures: { classes: true, generators: true },
             errors: [{
@@ -1070,6 +1123,7 @@ ruleTester.run("generator-star-spacing", rule, {
         },
         {
             code: "class Foo { static*foo(){} }",
+            output: "class Foo { static * foo(){} }",
             options: [{"before": true, "after": true}],
             ecmaFeatures: { classes: true, generators: true },
             errors: [{
@@ -1084,6 +1138,7 @@ ruleTester.run("generator-star-spacing", rule, {
         // {"before": false, "after": false}
         {
             code: "function * foo(){}",
+            output: "function*foo(){}",
             options: [{"before": false, "after": false}],
             ecmaFeatures: { generators: true },
             errors: [{
@@ -1096,6 +1151,7 @@ ruleTester.run("generator-star-spacing", rule, {
         },
         {
             code: "function * foo(arg1, arg2){}",
+            output: "function*foo(arg1, arg2){}",
             options: [{"before": false, "after": false}],
             ecmaFeatures: { generators: true },
             errors: [{
@@ -1108,6 +1164,7 @@ ruleTester.run("generator-star-spacing", rule, {
         },
         {
             code: "var foo = function * foo(){};",
+            output: "var foo = function*foo(){};",
             options: [{"before": false, "after": false}],
             ecmaFeatures: { generators: true },
             errors: [{
@@ -1120,6 +1177,7 @@ ruleTester.run("generator-star-spacing", rule, {
         },
         {
             code: "var foo = function * (){};",
+            output: "var foo = function* (){};",
             options: [{"before": false, "after": false}],
             ecmaFeatures: { generators: true },
             errors: [{
@@ -1129,6 +1187,7 @@ ruleTester.run("generator-star-spacing", rule, {
         },
         {
             code: "var foo = { * foo(){} };",
+            output: "var foo = { *foo(){} };",
             options: [{"before": false, "after": false}],
             ecmaFeatures: { generators: true, objectLiteralShorthandMethods: true },
             errors: [{
@@ -1138,6 +1197,7 @@ ruleTester.run("generator-star-spacing", rule, {
         },
         {
             code: "class Foo { * foo(){} }",
+            output: "class Foo { *foo(){} }",
             options: [{"before": false, "after": false}],
             ecmaFeatures: { classes: true, generators: true },
             errors: [{
@@ -1147,6 +1207,7 @@ ruleTester.run("generator-star-spacing", rule, {
         },
         {
             code: "class Foo { static * foo(){} }",
+            output: "class Foo { static*foo(){} }",
             options: [{"before": false, "after": false}],
             ecmaFeatures: { classes: true, generators: true },
             errors: [{
