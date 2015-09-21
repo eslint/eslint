@@ -106,6 +106,12 @@ The following projects are using ESLint to validate their JavaScript:
 * [Esprima](https://github.com/ariya/esprima)
 * [Node.js](https://github.com/nodejs/node/commit/f9dd34d301ab385ae316769b85ef916f9b70b6f6)
 * [WebKit](https://bugs.webkit.org/show_bug.cgi?id=125048)
+* [React](https://github.com/facebook/react)
+* [React Native](https://github.com/facebook/react-native)
+* [Ionic](https://github.com/driftyco/ionic)
+* [Babel](https://github.com/babel/babel)
+* [webpack](https://github.com/webpack/webpack)
+* [Leaflet](https://github.com/Leaflet/Leaflet)
 
 In addition, the following companies are using ESLint internally to validate their JavaScript:
 
