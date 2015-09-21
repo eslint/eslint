@@ -32,6 +32,8 @@ function * generator() {
 
 To keep a sense of consistency when using generators this rule enforces a single position for the `*`.
 
+**Fixable:** This rule is automatically fixable using the `--fix` flag on the command line.
+
 ## Rule Details
 
 This rule aims to enforce spacing around the `*` of generator functions.
