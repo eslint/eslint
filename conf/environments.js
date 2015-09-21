@@ -74,6 +74,9 @@ module.exports = {
     applescript: {
         globals: globals.applescript
     },
+    nashorn: {
+        globals: globals.nashorn
+    },
     serviceworker: {
         globals: globals.serviceworker
     },
