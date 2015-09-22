@@ -7,7 +7,7 @@ tags:
 ---
 # ESLint <%= version %> released
 
-We just pushed ESLint <%- version %>, which is a <%- releaseType %> release upgrade of ESLint. This release <% if (releaseType !== "patch") { %>adds some new features<% } if (releaseType === "major") { %>, including some breaking changes, <% } %> and fixes several bugs found in the previous release.
+We just pushed ESLint <%- version %>, which is a <%- releaseType %> release upgrade of ESLint. This release <% if (releaseType !== "patch") { %>adds some new features<% } if (releaseType === "major") { %>, including some breaking changes, and<% } %> fixes several bugs found in the previous release.
 
 <%
 function createIssueLink(line) {
