@@ -20,6 +20,7 @@ var ruleTester = new RuleTester();
 ruleTester.run("valid-jsdoc", rule, {
 
     valid: [
+        "/**\n* Description\n * @param {Object[]} screenings Array of screenings.\n * @param {Number} screenings[].timestamp its a time stamp \n @return {void} */\nfunction foo(){}",
         "/**\n* Description\n */\nvar x = new Foo(function foo(){})",
         "/**\n* Description\n* @returns {void} */\nfunction foo(){}",
         "/**\n* Description\n* @returns {undefined} */\nfunction foo(){}",
