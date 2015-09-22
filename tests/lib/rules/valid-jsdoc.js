@@ -317,6 +317,19 @@ ruleTester.run("valid-jsdoc", rule, {
                 message: "Unexpected @returns tag; function has no return statement.",
                 type: "Block"
             }]
+        },
+        {
+            code: "/**\n* @param fields [Array]\n */\n function foo(){}",
+            errors: [
+                {
+                    message: "Missing JSDoc parameter type for 'fields'.",
+                    type: "Block"
+                },
+                {
+                    message: "Missing JSDoc @returns for function.",
+                    type: "Block"
+                }
+            ]
         }
     ]
 });
