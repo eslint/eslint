@@ -1,3 +1,19 @@
+v1.5.1 - September 22, 2015
+
+* Fix: valid-jsdoc fix for param with properties (fixes #3476) (Gyandeep Singh)
+* Fix: valid-jsdoc error with square braces (fixes #2270) (Gyandeep Singh)
+* Upgrade: `doctrine` to 0.7.0 (fixes #3891) (Gyandeep Singh)
+* Fix: `space-before-keywords` had been wrong on getters (fixes #3854) (Toru Nagashima)
+* Fix: `no-dupe-args` had been wrong for nested destructure (fixes #3867) (Toru Nagashima)
+* Docs: io.js is the new Node.js (thefourtheye)
+* Docs: Fix method signature on working-with-rules docs (fixes #3862) (alberto)
+* Docs: Add related ternary links (refs #3835) (Ian VanSchooten)
+* Fix: don’t ignore config if cwd is the home dir (fixes #3846) (Mathias Schreck)
+* Fix: `func-style` had been warning arrows with `this` (fixes #3819) (Toru Nagashima)
+* Fix: `space-before-keywords`; allow opening curly braces (fixes #3789) (Marko Raatikka)
+* Build: Fix broken .gitattributes generation (fixes #3566) (Nicholas C. Zakas)
+* Build: Fix formatter docs generation (fixes #3847) (Nicholas C. Zakas)
+
 v1.5.0 - September 18, 2015
 
 * Fix: invalidate cache when config changes. (fixes #3770) (royriojas)
