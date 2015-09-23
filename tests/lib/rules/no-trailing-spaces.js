@@ -66,59 +66,97 @@ ruleTester.run("no-trailing-spaces", rule, {
 
     invalid: [
         {
-            code: "var a = 5;      \n",
+            code:
+            "\n" +
+            "measAr.push(\"<dl></dl>\",  \n" +
+            "         \" </dt><dd class ='pta-res'>\");",
+            output:
+            "\n" +
+            "measAr.push(\"<dl></dl>\",\n" +
+            "         \" </dt><dd class ='pta-res'>\");",
             errors: [{
                 message: "Trailing spaces not allowed.",
                 type: "Program"
-            }],
-            output: "var a = 5;\n"
+            }]
+        },
+        {
+            code:
+            "measAr.push(\"<dl></dl>\",  \n" +
+            "         \" </dt><dd class ='pta-res'>\");",
+            output:
+            "measAr.push(\"<dl></dl>\",\n" +
+            "         \" </dt><dd class ='pta-res'>\");",
+            errors: [{
+                message: "Trailing spaces not allowed.",
+                type: "Program"
+            }]
+        },
+        {
+            code: "var a = 5;      \n",
+            output: "var a = 5;\n",
+            errors: [{
+                message: "Trailing spaces not allowed.",
+                type: "Program"
+            }]
         },
         {
             code: "var a = 5; \n b = 3; ",
+            output: "var a = 5;\n b = 3;",
             errors: [{
                 message: "Trailing spaces not allowed.",
                 type: "Program"
             }, {
                 message: "Trailing spaces not allowed.",
                 type: "Program"
-            }],
-            output: "var a = 5;\n b = 3;"
+            }]
+        },
+        {
+            code: "var a = 5; \n\n b = 3; ",
+            output: "var a = 5;\n\n b = 3;",
+            errors: [{
+                message: "Trailing spaces not allowed.",
+                type: "Program"
+            }, {
+                message: "Trailing spaces not allowed.",
+                type: "Program"
+            }]
         },
         {
             code: "var a = 5;\t\n  b = 3;",
+            output: "var a = 5;\n  b = 3;",
             errors: [{
                 message: "Trailing spaces not allowed.",
                 type: "Program"
-            }],
-            output: "var a = 5;\n  b = 3;"
+            }]
         },
         {
             code: "     \n    var c = 1;",
+            output: "\n    var c = 1;",
             errors: [{
                 message: "Trailing spaces not allowed.",
                 type: "Program"
-            }],
-            output: "\n    var c = 1;"
+            }]
         },
         {
             code: "\t\n\tvar c = 2;",
+            output: "\n\tvar c = 2;",
             errors: [{
                 message: "Trailing spaces not allowed.",
                 type: "Program"
-            }],
-            output: "\n\tvar c = 2;"
+            }]
         },
         {
             code: "var a = 5;      \n",
+            output: "var a = 5;\n",
             errors: [{
                 message: "Trailing spaces not allowed.",
                 type: "Program"
             }],
-            options: [{}],
-            output: "var a = 5;\n"
+            options: [{}]
         },
         {
             code: "var a = 5; \n b = 3; ",
+            output: "var a = 5;\n b = 3;",
             errors: [{
                 message: "Trailing spaces not allowed.",
                 type: "Program",
@@ -130,42 +168,42 @@ ruleTester.run("no-trailing-spaces", rule, {
                 line: 2,
                 column: 8
             }],
-            options: [{}],
-            output: "var a = 5;\n b = 3;"
+            options: [{}]
         },
         {
             code: "var a = 5;\t\n  b = 3;",
+            output: "var a = 5;\n  b = 3;",
             errors: [{
                 message: "Trailing spaces not allowed.",
                 type: "Program",
                 line: 1,
                 column: 11
             }],
-            options: [{}],
-            output: "var a = 5;\n  b = 3;"
+            options: [{}]
         },
         {
             code: "     \n    var c = 1;",
+            output: "\n    var c = 1;",
             errors: [{
                 message: "Trailing spaces not allowed.",
                 type: "Program",
                 line: 1,
                 column: 1
             }],
-            options: [{}],
-            output: "\n    var c = 1;"
+            options: [{}]
         },
         {
             code: "\t\n\tvar c = 2;",
+            output: "\n\tvar c = 2;",
             errors: [{
                 message: "Trailing spaces not allowed.",
                 type: "Program"
             }],
-            options: [{}],
-            output: "\n\tvar c = 2;"
+            options: [{}]
         },
         {
             code: "var a = 'bar';  \n \n\t",
+            output: "var a = 'bar';\n \n\t",
             errors: [{
                 message: "Trailing spaces not allowed.",
                 type: "Program",
@@ -174,8 +212,7 @@ ruleTester.run("no-trailing-spaces", rule, {
             }],
             options: [{
                 skipBlankLines: true
-            }],
-            output: "var a = 'bar';\n \n\t"
+            }]
         }
     ]
 
