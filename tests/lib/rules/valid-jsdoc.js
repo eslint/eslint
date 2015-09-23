@@ -156,6 +156,14 @@ ruleTester.run("valid-jsdoc", rule, {
             }]
         },
         {
+            code: "/** Foo \n */\nfunction foo(){}",
+            options: [{ prefer: { "returns": "return" }}],
+            errors: [{
+                message: "Missing JSDoc @return for function.",
+                type: "Block"
+            }]
+        },
+        {
             code: "/** Foo \n@return {void} Foo\n */\nfoo.bar = () => {}",
             options: [{ prefer: { "return": "returns" }}],
             ecmaFeatures: { arrowFunctions: true },
