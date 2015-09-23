@@ -63,6 +63,7 @@ ruleTester.run("block-spacing", rule, {
         // default/always
         {
             code: "{foo();}",
+            output: "{ foo(); }",
             options: ["always"],
             errors: [
                 {type: "BlockStatement", line: 1, column: 1, message: "Requires a space after \"{\"."},
@@ -71,6 +72,7 @@ ruleTester.run("block-spacing", rule, {
         },
         {
             code: "{foo();}",
+            output: "{ foo(); }",
             errors: [
                 {type: "BlockStatement", line: 1, column: 1, message: "Requires a space after \"{\"."},
                 {type: "BlockStatement", line: 1, column: 8, message: "Requires a space before \"}\"."}
@@ -78,30 +80,35 @@ ruleTester.run("block-spacing", rule, {
         },
         {
             code: "{ foo();}",
+            output: "{ foo(); }",
             errors: [
                 {type: "BlockStatement", line: 1, column: 9, message: "Requires a space before \"}\"."}
             ]
         },
         {
             code: "{foo(); }",
+            output: "{ foo(); }",
             errors: [
                 {type: "BlockStatement", line: 1, column: 1, message: "Requires a space after \"{\"."}
             ]
         },
         {
             code: "{\nfoo();}",
+            output: "{\nfoo(); }",
             errors: [
                 {type: "BlockStatement", line: 2, column: 7, message: "Requires a space before \"}\"."}
             ]
         },
         {
             code: "{foo();\n}",
+            output: "{ foo();\n}",
             errors: [
                 {type: "BlockStatement", line: 1, column: 1, message: "Requires a space after \"{\"."}
             ]
         },
         {
             code: "if (a) {foo();}",
+            output: "if (a) { foo(); }",
             errors: [
                 {type: "BlockStatement", line: 1, column: 8, message: "Requires a space after \"{\"."},
                 {type: "BlockStatement", line: 1, column: 15, message: "Requires a space before \"}\"."}
@@ -109,6 +116,7 @@ ruleTester.run("block-spacing", rule, {
         },
         {
             code: "if (a) {} else {foo();}",
+            output: "if (a) {} else { foo(); }",
             errors: [
                 {type: "BlockStatement", line: 1, column: 16, message: "Requires a space after \"{\"."},
                 {type: "BlockStatement", line: 1, column: 23, message: "Requires a space before \"}\"."}
@@ -116,6 +124,7 @@ ruleTester.run("block-spacing", rule, {
         },
         {
             code: "switch (a) {case 0: foo();}",
+            output: "switch (a) { case 0: foo(); }",
             errors: [
                 {type: "SwitchStatement", line: 1, column: 12, message: "Requires a space after \"{\"."},
                 {type: "SwitchStatement", line: 1, column: 27, message: "Requires a space before \"}\"."}
@@ -123,6 +132,7 @@ ruleTester.run("block-spacing", rule, {
         },
         {
             code: "while (a) {foo();}",
+            output: "while (a) { foo(); }",
             errors: [
                 {type: "BlockStatement", line: 1, column: 11, message: "Requires a space after \"{\"."},
                 {type: "BlockStatement", line: 1, column: 18, message: "Requires a space before \"}\"."}
@@ -130,6 +140,7 @@ ruleTester.run("block-spacing", rule, {
         },
         {
             code: "do {foo();} while (a);",
+            output: "do { foo(); } while (a);",
             errors: [
                 {type: "BlockStatement", line: 1, column: 4, message: "Requires a space after \"{\"."},
                 {type: "BlockStatement", line: 1, column: 11, message: "Requires a space before \"}\"."}
@@ -137,6 +148,7 @@ ruleTester.run("block-spacing", rule, {
         },
         {
             code: "for (;;) {foo();}",
+            output: "for (;;) { foo(); }",
             errors: [
                 {type: "BlockStatement", line: 1, column: 10, message: "Requires a space after \"{\"."},
                 {type: "BlockStatement", line: 1, column: 17, message: "Requires a space before \"}\"."}
@@ -144,6 +156,7 @@ ruleTester.run("block-spacing", rule, {
         },
         {
             code: "for (var a in b) {foo();}",
+            output: "for (var a in b) { foo(); }",
             errors: [
                 {type: "BlockStatement", line: 1, column: 18, message: "Requires a space after \"{\"."},
                 {type: "BlockStatement", line: 1, column: 25, message: "Requires a space before \"}\"."}
@@ -151,6 +164,7 @@ ruleTester.run("block-spacing", rule, {
         },
         {
             code: "for (var a of b) {foo();}",
+            output: "for (var a of b) { foo(); }",
             ecmaFeatures: {forOf: true},
             errors: [
                 {type: "BlockStatement", line: 1, column: 18, message: "Requires a space after \"{\"."},
@@ -159,6 +173,7 @@ ruleTester.run("block-spacing", rule, {
         },
         {
             code: "try {foo();} catch (e) {foo();} finally {foo();}",
+            output: "try { foo(); } catch (e) { foo(); } finally { foo(); }",
             errors: [
                 {type: "BlockStatement", line: 1, column: 5, message: "Requires a space after \"{\"."},
                 {type: "BlockStatement", line: 1, column: 12, message: "Requires a space before \"}\"."},
@@ -170,6 +185,7 @@ ruleTester.run("block-spacing", rule, {
         },
         {
             code: "function foo() {bar();}",
+            output: "function foo() { bar(); }",
             errors: [
                 {type: "BlockStatement", line: 1, column: 16, message: "Requires a space after \"{\"."},
                 {type: "BlockStatement", line: 1, column: 23, message: "Requires a space before \"}\"."}
@@ -177,6 +193,7 @@ ruleTester.run("block-spacing", rule, {
         },
         {
             code: "(function() {bar();});",
+            output: "(function() { bar(); });",
             errors: [
                 {type: "BlockStatement", line: 1, column: 13, message: "Requires a space after \"{\"."},
                 {type: "BlockStatement", line: 1, column: 20, message: "Requires a space before \"}\"."}
@@ -184,6 +201,7 @@ ruleTester.run("block-spacing", rule, {
         },
         {
             code: "(() => {bar();});",
+            output: "(() => { bar(); });",
             ecmaFeatures: {arrowFunctions: true},
             errors: [
                 {type: "BlockStatement", line: 1, column: 8, message: "Requires a space after \"{\"."},
@@ -195,6 +213,7 @@ ruleTester.run("block-spacing", rule, {
         // never
         {
             code: "{ foo(); }",
+            output: "{foo();}",
             options: ["never"],
             errors: [
                 {type: "BlockStatement", line: 1, column: 1, message: "Unexpected space(s) after \"{\"."},
@@ -203,6 +222,7 @@ ruleTester.run("block-spacing", rule, {
         },
         {
             code: "{ foo();}",
+            output: "{foo();}",
             options: ["never"],
             errors: [
                 {type: "BlockStatement", line: 1, column: 1, message: "Unexpected space(s) after \"{\"."}
@@ -210,6 +230,7 @@ ruleTester.run("block-spacing", rule, {
         },
         {
             code: "{foo(); }",
+            output: "{foo();}",
             options: ["never"],
             errors: [
                 {type: "BlockStatement", line: 1, column: 9, message: "Unexpected space(s) before \"}\"."}
@@ -217,6 +238,7 @@ ruleTester.run("block-spacing", rule, {
         },
         {
             code: "{\nfoo(); }",
+            output: "{\nfoo();}",
             options: ["never"],
             errors: [
                 {type: "BlockStatement", line: 2, column: 8, message: "Unexpected space(s) before \"}\"."}
@@ -224,6 +246,7 @@ ruleTester.run("block-spacing", rule, {
         },
         {
             code: "{ foo();\n}",
+            output: "{foo();\n}",
             options: ["never"],
             errors: [
                 {type: "BlockStatement", line: 1, column: 1, message: "Unexpected space(s) after \"{\"."}
@@ -231,6 +254,7 @@ ruleTester.run("block-spacing", rule, {
         },
         {
             code: "if (a) { foo(); }",
+            output: "if (a) {foo();}",
             options: ["never"],
             errors: [
                 {type: "BlockStatement", line: 1, column: 8, message: "Unexpected space(s) after \"{\"."},
@@ -239,6 +263,7 @@ ruleTester.run("block-spacing", rule, {
         },
         {
             code: "if (a) {} else { foo(); }",
+            output: "if (a) {} else {foo();}",
             options: ["never"],
             errors: [
                 {type: "BlockStatement", line: 1, column: 16, message: "Unexpected space(s) after \"{\"."},
@@ -247,6 +272,7 @@ ruleTester.run("block-spacing", rule, {
         },
         {
             code: "switch (a) { case 0: foo(); }",
+            output: "switch (a) {case 0: foo();}",
             options: ["never"],
             errors: [
                 {type: "SwitchStatement", line: 1, column: 12, message: "Unexpected space(s) after \"{\"."},
@@ -255,6 +281,7 @@ ruleTester.run("block-spacing", rule, {
         },
         {
             code: "while (a) { foo(); }",
+            output: "while (a) {foo();}",
             options: ["never"],
             errors: [
                 {type: "BlockStatement", line: 1, column: 11, message: "Unexpected space(s) after \"{\"."},
@@ -263,6 +290,7 @@ ruleTester.run("block-spacing", rule, {
         },
         {
             code: "do { foo(); } while (a);",
+            output: "do {foo();} while (a);",
             options: ["never"],
             errors: [
                 {type: "BlockStatement", line: 1, column: 4, message: "Unexpected space(s) after \"{\"."},
@@ -271,6 +299,7 @@ ruleTester.run("block-spacing", rule, {
         },
         {
             code: "for (;;) { foo(); }",
+            output: "for (;;) {foo();}",
             options: ["never"],
             errors: [
                 {type: "BlockStatement", line: 1, column: 10, message: "Unexpected space(s) after \"{\"."},
@@ -279,6 +308,7 @@ ruleTester.run("block-spacing", rule, {
         },
         {
             code: "for (var a in b) { foo(); }",
+            output: "for (var a in b) {foo();}",
             options: ["never"],
             errors: [
                 {type: "BlockStatement", line: 1, column: 18, message: "Unexpected space(s) after \"{\"."},
@@ -287,6 +317,7 @@ ruleTester.run("block-spacing", rule, {
         },
         {
             code: "for (var a of b) { foo(); }",
+            output: "for (var a of b) {foo();}",
             options: ["never"],
             ecmaFeatures: {forOf: true},
             errors: [
@@ -296,6 +327,7 @@ ruleTester.run("block-spacing", rule, {
         },
         {
             code: "try { foo(); } catch (e) { foo(); } finally { foo(); }",
+            output: "try {foo();} catch (e) {foo();} finally {foo();}",
             options: ["never"],
             errors: [
                 {type: "BlockStatement", line: 1, column: 5, message: "Unexpected space(s) after \"{\"."},
@@ -308,6 +340,7 @@ ruleTester.run("block-spacing", rule, {
         },
         {
             code: "function foo() { bar(); }",
+            output: "function foo() {bar();}",
             options: ["never"],
             errors: [
                 {type: "BlockStatement", line: 1, column: 16, message: "Unexpected space(s) after \"{\"."},
@@ -316,6 +349,7 @@ ruleTester.run("block-spacing", rule, {
         },
         {
             code: "(function() { bar(); });",
+            output: "(function() {bar();});",
             options: ["never"],
             errors: [
                 {type: "BlockStatement", line: 1, column: 13, message: "Unexpected space(s) after \"{\"."},
@@ -324,6 +358,7 @@ ruleTester.run("block-spacing", rule, {
         },
         {
             code: "(() => { bar(); });",
+            output: "(() => {bar();});",
             ecmaFeatures: {arrowFunctions: true},
             options: ["never"],
             errors: [
