@@ -2,9 +2,25 @@
 
 Checks against the use of a negated expression in an if condition when the else branch is not empty or in a ternary operator. Negated conditions are more difficult to understand. Code can be made more readable by inverting the condition instead.
 
+For example:
+
 ```js
-if (false) {
-    doSomethingUnfinished();
+if (!a) {
+    doSomething();
+}
+else {
+    doSomethingElse();
+}
+```
+
+should instead be written as:
+
+```js
+if (a) {
+    doSomethingElse();
+}
+else {
+    doSomething();
 }
 ```
 
