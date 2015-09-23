@@ -112,6 +112,7 @@ var valid = [
 var invalid = [
     {
         code: "a=>a",
+        output: "a => a",
         options: [{ after: true, before: true }],
         ecmaFeatures: { arrowFunctions: true },
         errors: [
@@ -121,6 +122,7 @@ var invalid = [
     },
     {
         code: "()=>{}",
+        output: "() => {}",
         options: [{ after: true, before: true }],
         ecmaFeatures: { arrowFunctions: true },
         errors: [
@@ -130,6 +132,7 @@ var invalid = [
     },
     {
         code: "(a)=>{}",
+        output: "(a) => {}",
         options: [{ after: true, before: true }],
         ecmaFeatures: { arrowFunctions: true },
         errors: [
@@ -139,6 +142,7 @@ var invalid = [
     },
     {
         code: "a=> a",
+        output: "a =>a",
         options: [{ after: false, before: true }],
         ecmaFeatures: { arrowFunctions: true },
         errors: [
@@ -148,6 +152,7 @@ var invalid = [
     },
     {
         code: "()=> {}",
+        output: "() =>{}",
         options: [{ after: false, before: true }],
         ecmaFeatures: { arrowFunctions: true },
         errors: [
@@ -157,6 +162,7 @@ var invalid = [
     },
     {
         code: "(a)=> {}",
+        output: "(a) =>{}",
         options: [{ after: false, before: true }],
         ecmaFeatures: { arrowFunctions: true },
         errors: [
@@ -166,6 +172,7 @@ var invalid = [
     },
     {
         code: "a=>  a",
+        output: "a =>a",
         options: [{ after: false, before: true }],
         ecmaFeatures: { arrowFunctions: true },
         errors: [
@@ -175,6 +182,7 @@ var invalid = [
     },
     {
         code: "()=>  {}",
+        output: "() =>{}",
         options: [{ after: false, before: true }],
         ecmaFeatures: { arrowFunctions: true },
         errors: [
@@ -184,6 +192,7 @@ var invalid = [
     },
     {
         code: "(a)=>  {}",
+        output: "(a) =>{}",
         options: [{ after: false, before: true }],
         ecmaFeatures: { arrowFunctions: true },
         errors: [
@@ -193,6 +202,7 @@ var invalid = [
     },
     {
         code: "a =>a",
+        output: "a=> a",
         options: [{ after: true, before: false }],
         ecmaFeatures: { arrowFunctions: true },
         errors: [
@@ -202,6 +212,7 @@ var invalid = [
     },
     {
         code: "() =>{}",
+        output: "()=> {}",
         options: [{ after: true, before: false }],
         ecmaFeatures: { arrowFunctions: true },
         errors: [
@@ -211,6 +222,7 @@ var invalid = [
     },
     {
         code: "(a) =>{}",
+        output: "(a)=> {}",
         options: [{ after: true, before: false }],
         ecmaFeatures: { arrowFunctions: true },
         errors: [
@@ -220,6 +232,7 @@ var invalid = [
     },
     {
         code: "a  =>a",
+        output: "a=> a",
         options: [{ after: true, before: false }],
         ecmaFeatures: { arrowFunctions: true },
         errors: [
@@ -229,6 +242,7 @@ var invalid = [
     },
     {
         code: "()  =>{}",
+        output: "()=> {}",
         options: [{ after: true, before: false }],
         ecmaFeatures: { arrowFunctions: true },
         errors: [
@@ -238,6 +252,7 @@ var invalid = [
     },
     {
         code: "(a)  =>{}",
+        output: "(a)=> {}",
         options: [{ after: true, before: false }],
         ecmaFeatures: { arrowFunctions: true },
         errors: [
@@ -247,6 +262,7 @@ var invalid = [
     },
     {
         code: "a => a",
+        output: "a=>a",
         options: [{ after: false, before: false }],
         ecmaFeatures: { arrowFunctions: true },
         errors: [
@@ -256,6 +272,7 @@ var invalid = [
     },
     {
         code: "() => {}",
+        output: "()=>{}",
         options: [{ after: false, before: false }],
         ecmaFeatures: { arrowFunctions: true },
         errors: [
@@ -265,6 +282,7 @@ var invalid = [
     },
     {
         code: "(a) => {}",
+        output: "(a)=>{}",
         options: [{ after: false, before: false }],
         ecmaFeatures: { arrowFunctions: true },
         errors: [
@@ -274,6 +292,7 @@ var invalid = [
     },
     {
         code: "a  =>  a",
+        output: "a=>a",
         options: [{ after: false, before: false }],
         ecmaFeatures: { arrowFunctions: true },
         errors: [
@@ -283,6 +302,7 @@ var invalid = [
     },
     {
         code: "()  =>  {}",
+        output: "()=>{}",
         options: [{ after: false, before: false }],
         ecmaFeatures: { arrowFunctions: true },
         errors: [
@@ -292,6 +312,7 @@ var invalid = [
     },
     {
         code: "(a)  =>  {}",
+        output: "(a)=>{}",
         options: [{ after: false, before: false }],
         ecmaFeatures: { arrowFunctions: true },
         errors: [
@@ -301,6 +322,7 @@ var invalid = [
     },
     {
         code: "(a)  =>\n{}",
+        output: "(a)  =>{}",
         options: [{ after: false }],
         ecmaFeatures: { arrowFunctions: true },
         errors: [
