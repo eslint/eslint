@@ -75,6 +75,10 @@ ruleTester.run("brace-style", rule, {
         {
             code: "if (tag === 1) fontstack.name = pbf.readString(); \nelse if (tag === 2) fontstack.range = pbf.readString(); \nelse if (tag === 3) {\n var glyph = pbf.readMessage(readGlyph, {});\n fontstack.glyphs[glyph.id] = glyph; \n}",
             options: ["stroustrup"]
+        },
+        {
+            code: "switch(x) \n{ \n case 1: \nbar(); \n }\n ",
+            options: ["allman"]
         }
     ],
     invalid: [
@@ -107,6 +111,9 @@ ruleTester.run("brace-style", rule, {
             { message: OPEN_MESSAGE_ALLMAN, type: "TryStatement", line: 1},
             { message: OPEN_MESSAGE_ALLMAN, type: "TryStatement", line: 1},
             { message: OPEN_MESSAGE_ALLMAN, type: "CatchClause", line: 4}
+        ] },
+        { code: "switch(x) { \n case 1: \nbar(); \n }\n ", options: ["allman"], errors: [
+            { message: OPEN_MESSAGE_ALLMAN, type: "SwitchStatement", line: 1}
         ] },
         { code: "if (a) { \nb();\n } else { \nc();\n }", options: ["allman"], errors: [
             { message: OPEN_MESSAGE_ALLMAN, type: "IfStatement" },
