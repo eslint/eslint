@@ -16,7 +16,7 @@ This rule normalize style of spacing before/after an arrow function's arrow(`=>`
 
 This rule takes an object argument with `before` and `after` properties, each with a Boolean value.
 
-default configuration is `{ "before": true, "after": true }`.
+The default configuration is `{ "before": true, "after": true }`.
 
 `true` means there should be **one or more spaces** and `false` means **no spaces**.
 
