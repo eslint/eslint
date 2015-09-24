@@ -29,7 +29,6 @@ if (debug) {
 
 // now we can safely include the other modules that use debug
 var concat = require("concat-stream"),
-    configInit = require("../lib/config-initializer"),
     cli = require("../lib/cli");
 
 //------------------------------------------------------------------------------
@@ -47,6 +46,7 @@ if (useStdIn) {
         }
     }));
 } else if (init) {
+    var configInit = require("../lib/config-initializer");
     configInit.initializeConfig(function(err) {
         if (err) {
             exitCode = 1;
