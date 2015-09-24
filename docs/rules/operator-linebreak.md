@@ -22,7 +22,7 @@ The `operator-linebreak` rule is aimed at enforcing a particular operator line b
 
 ### Options
 
-The rule takes two options, a string, which could be "after", "before" or "none where the default is "after" and an object for more fine-grained configuration.
+The rule takes two options, a string, which can be "after", "before" or "none" where the default is "after" and an object for more fine-grained configuration.
 
 You can set the style in configuration like this:
 
