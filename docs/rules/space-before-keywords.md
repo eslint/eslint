@@ -12,7 +12,7 @@ This rule will enforce consistency of spacing before the keywords `if`, `else`, 
 and label statements.
 
 This rule takes one argument: `"always"` or `"never"`. If `"always"` then the keywords
-must be followed by at least one space. If `"never"` then no spaces will be allowed before
+must be preceded by at least one space. If `"never"` then no spaces will be allowed before
 the keywords `else`, `while` (do...while), `finally` and `catch`. The default value is `"always"`.
 
 This rule will allow keywords to be preceded by an opening curly brace (`{`). If you wish to alter
