@@ -142,6 +142,7 @@ ruleTester.run("object-curly-spacing", rule, {
     invalid: [
         {
             code: "import {bar} from 'foo.js';",
+            output: "import { bar } from 'foo.js';",
             options: ["always"],
             ecmaFeatures: {
                 modules: true
@@ -163,6 +164,7 @@ ruleTester.run("object-curly-spacing", rule, {
         },
         {
             code: "import { bar as y} from 'foo.js';",
+            output: "import { bar as y } from 'foo.js';",
             options: ["always"],
             ecmaFeatures: {
                 modules: true
@@ -178,6 +180,7 @@ ruleTester.run("object-curly-spacing", rule, {
         },
         {
             code: "import {bar as y} from 'foo.js';",
+            output: "import { bar as y } from 'foo.js';",
             options: ["always"],
             ecmaFeatures: {
                 modules: true
@@ -199,6 +202,7 @@ ruleTester.run("object-curly-spacing", rule, {
         },
         {
             code: "import { bar} from 'foo.js';",
+            output: "import { bar } from 'foo.js';",
             options: ["always"],
             ecmaFeatures: {
                 modules: true
@@ -214,6 +218,7 @@ ruleTester.run("object-curly-spacing", rule, {
         },
         {
             code: "import x, { bar} from 'foo';",
+            output: "import x, { bar } from 'foo';",
             options: ["always"],
             ecmaFeatures: {
                 modules: true
@@ -230,6 +235,7 @@ ruleTester.run("object-curly-spacing", rule, {
         },
         {
             code: "import x, { bar, baz} from 'foo';",
+            output: "import x, { bar, baz } from 'foo';",
             options: ["always"],
             ecmaFeatures: {
                 modules: true
@@ -246,6 +252,7 @@ ruleTester.run("object-curly-spacing", rule, {
         },
         {
             code: "import x, {bar} from 'foo';",
+            output: "import x, { bar } from 'foo';",
             options: ["always"],
             ecmaFeatures: {
                 modules: true
@@ -268,6 +275,7 @@ ruleTester.run("object-curly-spacing", rule, {
         },
         {
             code: "import x, {bar, baz} from 'foo';",
+            output: "import x, { bar, baz } from 'foo';",
             options: ["always"],
             ecmaFeatures: {
                 modules: true
@@ -289,6 +297,7 @@ ruleTester.run("object-curly-spacing", rule, {
         },
         {
             code: "import {bar,} from 'foo';",
+            output: "import { bar, } from 'foo';",
             options: ["always"],
             ecmaFeatures: {
                 modules: true
@@ -311,6 +320,7 @@ ruleTester.run("object-curly-spacing", rule, {
         },
         {
             code: "import { bar, } from 'foo';",
+            output: "import {bar,} from 'foo';",
             options: ["never"],
             ecmaFeatures: {
                 modules: true
@@ -332,6 +342,7 @@ ruleTester.run("object-curly-spacing", rule, {
         },
         {
             code: "export {bar};",
+            output: "export { bar };",
             options: ["always"],
             ecmaFeatures: {
                 modules: true
@@ -355,6 +366,7 @@ ruleTester.run("object-curly-spacing", rule, {
         // always - arraysInObjects
         {
             code: "var obj = { 'foo': [ 1, 2 ] };",
+            output: "var obj = { 'foo': [ 1, 2 ]};",
             options: ["always", {"arraysInObjects": false}],
             errors: [
                 {
@@ -365,6 +377,7 @@ ruleTester.run("object-curly-spacing", rule, {
         },
         {
             code: "var obj = { 'foo': [ 1, 2 ] , 'bar': [ 'baz', 'qux' ] };",
+            output: "var obj = { 'foo': [ 1, 2 ] , 'bar': [ 'baz', 'qux' ]};",
             options: ["always", {"arraysInObjects": false}],
             errors: [
                 {
@@ -377,6 +390,7 @@ ruleTester.run("object-curly-spacing", rule, {
         // always-objectsInObjects
         {
             code: "var obj = { 'foo': { 'bar': 1, 'baz': 2 } };",
+            output: "var obj = { 'foo': { 'bar': 1, 'baz': 2 }};",
             options: ["always", {"objectsInObjects": false}],
             errors: [
                 {
@@ -389,6 +403,7 @@ ruleTester.run("object-curly-spacing", rule, {
         },
         {
             code: "var obj = { 'foo': [ 1, 2 ] , 'bar': { 'baz': 1, 'qux': 2 } };",
+            output: "var obj = { 'foo': [ 1, 2 ] , 'bar': { 'baz': 1, 'qux': 2 }};",
             options: ["always", {"objectsInObjects": false}],
             errors: [
                 {
@@ -403,6 +418,7 @@ ruleTester.run("object-curly-spacing", rule, {
         // always-destructuring trailing comma
         {
             code: "var { a,} = x;",
+            output: "var { a, } = x;",
             options: ["always"],
             ecmaFeatures: { destructuring: true },
             errors: [
@@ -416,6 +432,7 @@ ruleTester.run("object-curly-spacing", rule, {
         },
         {
             code: "var {a, } = x;",
+            output: "var {a,} = x;",
             options: ["never"],
             ecmaFeatures: { destructuring: true },
             errors: [
@@ -429,6 +446,7 @@ ruleTester.run("object-curly-spacing", rule, {
         },
         {
             code: "var {a:b } = x;",
+            output: "var {a:b} = x;",
             options: ["never"],
             ecmaFeatures: { destructuring: true },
             errors: [
@@ -442,6 +460,7 @@ ruleTester.run("object-curly-spacing", rule, {
         },
         {
             code: "var { a:b } = x;",
+            output: "var {a:b} = x;",
             options: ["never"],
             ecmaFeatures: { destructuring: true },
             errors: [
@@ -463,6 +482,7 @@ ruleTester.run("object-curly-spacing", rule, {
         // never-objectsInObjects
         {
             code: "var obj = {'foo': {'bar': 1, 'baz': 2}};",
+            output: "var obj = {'foo': {'bar': 1, 'baz': 2} };",
             options: ["never", {"objectsInObjects": true}],
             errors: [
                 {
@@ -475,6 +495,7 @@ ruleTester.run("object-curly-spacing", rule, {
         },
         {
             code: "var obj = {'foo': [1, 2] , 'bar': {'baz': 1, 'qux': 2}};",
+            output: "var obj = {'foo': [1, 2] , 'bar': {'baz': 1, 'qux': 2} };",
             options: ["never", {"objectsInObjects": true}],
             errors: [
                 {
@@ -489,6 +510,7 @@ ruleTester.run("object-curly-spacing", rule, {
         // always & never
         {
             code: "var obj = {foo: bar, baz: qux};",
+            output: "var obj = { foo: bar, baz: qux };",
             options: ["always"],
             errors: [
                 {
@@ -507,6 +529,7 @@ ruleTester.run("object-curly-spacing", rule, {
         },
         {
             code: "var obj = {foo: bar, baz: qux };",
+            output: "var obj = { foo: bar, baz: qux };",
             options: ["always"],
             errors: [
                 {
@@ -519,6 +542,7 @@ ruleTester.run("object-curly-spacing", rule, {
         },
         {
             code: "var obj = { foo: bar, baz: qux};",
+            output: "var obj = { foo: bar, baz: qux };",
             options: ["always"],
             errors: [
                 {
@@ -531,6 +555,7 @@ ruleTester.run("object-curly-spacing", rule, {
         },
         {
             code: "var obj = { foo: bar, baz: qux };",
+            output: "var obj = {foo: bar, baz: qux};",
             options: ["never"],
             errors: [
                 {
@@ -549,6 +574,7 @@ ruleTester.run("object-curly-spacing", rule, {
         },
         {
             code: "var obj = {foo: bar, baz: qux };",
+            output: "var obj = {foo: bar, baz: qux};",
             options: ["never"],
             errors: [
                 {
@@ -561,6 +587,7 @@ ruleTester.run("object-curly-spacing", rule, {
         },
         {
             code: "var obj = { foo: bar, baz: qux};",
+            output: "var obj = {foo: bar, baz: qux};",
             options: ["never"],
             errors: [
                 {
@@ -573,6 +600,7 @@ ruleTester.run("object-curly-spacing", rule, {
         },
         {
             code: "var obj = { foo: { bar: quxx}, baz: qux};",
+            output: "var obj = {foo: {bar: quxx}, baz: qux};",
             options: ["never"],
             errors: [
                 {
@@ -591,6 +619,7 @@ ruleTester.run("object-curly-spacing", rule, {
         },
         {
             code: "var obj = {foo: {bar: quxx }, baz: qux };",
+            output: "var obj = {foo: {bar: quxx}, baz: qux};",
             options: ["never"],
             errors: [
                 {
@@ -609,6 +638,7 @@ ruleTester.run("object-curly-spacing", rule, {
         },
         {
             code: "export const thing = {value: 1 };",
+            output: "export const thing = { value: 1 };",
             ecmaFeatures: {
                 modules: true,
                 blockBindings: true
@@ -627,6 +657,7 @@ ruleTester.run("object-curly-spacing", rule, {
         // destructuring
         {
             code: "var {x, y} = y",
+            output: "var { x, y } = y",
             ecmaFeatures: {destructuring: true},
             options: ["always"],
             errors: [
@@ -646,6 +677,7 @@ ruleTester.run("object-curly-spacing", rule, {
         },
         {
             code: "var { x, y} = y",
+            output: "var { x, y } = y",
             ecmaFeatures: {destructuring: true},
             options: ["always"],
             errors: [
@@ -659,6 +691,7 @@ ruleTester.run("object-curly-spacing", rule, {
         },
         {
             code: "var { x, y } = y",
+            output: "var {x, y} = y",
             ecmaFeatures: {destructuring: true},
             options: ["never"],
             errors: [
@@ -678,6 +711,7 @@ ruleTester.run("object-curly-spacing", rule, {
         },
         {
             code: "var {x, y } = y",
+            output: "var {x, y} = y",
             ecmaFeatures: {destructuring: true},
             options: ["never"],
             errors: [
@@ -691,6 +725,7 @@ ruleTester.run("object-curly-spacing", rule, {
         },
         {
             code: "var { x=10} = y",
+            output: "var { x=10 } = y",
             ecmaFeatures: {destructuring: true},
             options: ["always"],
             errors: [
@@ -704,6 +739,7 @@ ruleTester.run("object-curly-spacing", rule, {
         },
         {
             code: "var {x=10 } = y",
+            output: "var { x=10 } = y",
             ecmaFeatures: {destructuring: true},
             options: ["always"],
             errors: [
@@ -719,6 +755,7 @@ ruleTester.run("object-curly-spacing", rule, {
         // never - arraysInObjects
         {
             code: "var obj = {'foo': [1, 2]};",
+            output: "var obj = {'foo': [1, 2] };",
             options: ["never", {"arraysInObjects": true}],
             errors: [
                 {
@@ -729,6 +766,7 @@ ruleTester.run("object-curly-spacing", rule, {
         },
         {
             code: "var obj = {'foo': [1, 2] , 'bar': ['baz', 'qux']};",
+            output: "var obj = {'foo': [1, 2] , 'bar': ['baz', 'qux'] };",
             options: ["never", {"arraysInObjects": true}],
             errors: [
                 {

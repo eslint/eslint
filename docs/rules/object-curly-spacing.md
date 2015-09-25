@@ -18,6 +18,8 @@ import { foo } from "bar";
 export { foo };
 ```
 
+**Fixable:** This rule is automatically fixable using the `--fix` flag on the command line.
+
 ## Rule Details
 
 This rule aims to maintain consistency around the spacing inside of object literals. It also
@@ -174,4 +176,3 @@ You can turn this rule off if you are not concerned with the consistency of spac
 * [comma-spacing](comma-spacing.md)
 * [space-in-parens](space-in-parens.md)
 * [space-in-brackets](space-in-brackets.md) (deprecated)
-
