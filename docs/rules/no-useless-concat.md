@@ -10,6 +10,7 @@ The following patterns are considered problems:
 
 ```js
 /*eslint no-useless-concat: 2*/
+/*eslint-env es6*/
 
 // these are the same as "10"
 var a = `some` + `string`; /*error Unexpected string concatenation of literals.*/

@@ -6,6 +6,8 @@ These special functions are indicated by placing an `*` after the `function` key
 Here is an example of a generator function:
 
 ```js
+/*eslint-env es6*/
+
 function* generator() {
     yield "44";
     yield "55";
@@ -15,6 +17,8 @@ function* generator() {
 This is also valid:
 
 ```js
+/*eslint-env es6*/
+
 function *generator() {
     yield "44";
     yield "55";
@@ -24,6 +28,8 @@ function *generator() {
 This is valid as well:
 
 ```js
+/*eslint-env es6*/
+
 function * generator() {
     yield "44";
     yield "55";
@@ -71,6 +77,7 @@ When using `{"before": true, "after": false}` this placement will be enforced:
 
 ```js
 /*eslint generator-star-spacing: [2, {"before": true, "after": false}]*/
+/*eslint-env es6*/
 
 function *generator() {}
 
@@ -83,6 +90,7 @@ When using `{"before": false, "after": true}` this placement will be enforced:
 
 ```js
 /*eslint generator-star-spacing: [2, {"before": false, "after": true}]*/
+/*eslint-env es6*/
 
 function* generator() {}
 
@@ -95,6 +103,7 @@ When using `{"before": true, "after": true}` this placement will be enforced:
 
 ```js
 /*eslint generator-star-spacing: [2, {"before": true, "after": true}]*/
+/*eslint-env es6*/
 
 function * generator() {}
 
@@ -107,6 +116,7 @@ When using `{"before": false, "after": false}` this placement will be enforced:
 
 ```js
 /*eslint generator-star-spacing: [2, {"before": false, "after": false}]*/
+/*eslint-env es6*/
 
 function*generator() {}
 

@@ -2,7 +2,7 @@
 
 As of version 5 of the ECMAScript specification, octal escape sequences are a deprecated feature and should not be used. It is recommended that Unicode escapes be used instead.
 
-```
+```js
 var foo = "Copyright \251";
 ```
 
@@ -12,7 +12,7 @@ The rule is aimed at preventing the use of a deprecated JavaScript feature, the 
 
 The following patterns are considered problems:
 
-```
+```js
 /*eslint no-octal-escape: 2*/
 
 var foo = "Copyright \251"; /*error Don't use octal: '\251'. Use '\u....' instead.*/
@@ -20,7 +20,7 @@ var foo = "Copyright \251"; /*error Don't use octal: '\251'. Use '\u....' instea
 
 The following patterns are not considered problems:
 
-```
+```js
 /*eslint no-octal-escape: 2*/
 
 var foo = "Copyright \u00A9";   // unicode

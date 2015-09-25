@@ -28,17 +28,19 @@ By default the following patterns are considered problems:
 ```js
 /*eslint no-unused-expressions: 2*/
 
-0        /*error Expected an assignment or function call and instead saw an expression.*/
+0         /*error Expected an assignment or function call and instead saw an expression.*/
 
-if(0) 0  /*error Expected an assignment or function call and instead saw an expression.*/
+if(0) 0   /*error Expected an assignment or function call and instead saw an expression.*/
 
-{0}      /*error Expected an assignment or function call and instead saw an expression.*/
+{0}       /*error Expected an assignment or function call and instead saw an expression.*/
 
-f(0), {} /*error Expected an assignment or function call and instead saw an expression.*/
+f(0), {}  /*error Expected an assignment or function call and instead saw an expression.*/
 
-a && b() /*error Expected an assignment or function call and instead saw an expression.*/
+a && b()  /*error Expected an assignment or function call and instead saw an expression.*/
 
-a, b()   /*error Expected an assignment or function call and instead saw an expression.*/
+a, b()    /*error Expected an assignment or function call and instead saw an expression.*/
+
+c = a, b; /*error Expected an assignment or function call and instead saw an expression.*/
 ```
 
 The following patterns are not considered problems by default:
@@ -57,8 +59,6 @@ new C
 delete a.b
 
 void a
-
-c = a, b;
 ```
 
 The following patterns are not considered problems if `allowShortCircuit` is enabled:

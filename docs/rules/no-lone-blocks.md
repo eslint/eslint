@@ -34,8 +34,8 @@ function bar() {
     }
 }
 
-{
-    function foo() {} /*error Block is redundant.*/
+{                     /*error Block is redundant.*/
+    function foo() {}
 }
 ```
 

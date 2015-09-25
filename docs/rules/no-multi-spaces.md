@@ -96,7 +96,7 @@ var someVar      = 'foo';
 var someOtherVar = 'barBaz';
 ```
 
-```js
+```
 /* eslint no-multi-spaces: [2, { exceptions: { "ImportDeclaration": true } }] */
 
 import mod          from 'mod';
@@ -116,4 +116,3 @@ If you don't want to check and disallow multiple spaces, then you should turn th
 * [space-after-keywords](space-after-keywords)
 * [space-unary-ops](space-unary-ops)
 * [space-return-throw-case](space-return-throw-case)
-

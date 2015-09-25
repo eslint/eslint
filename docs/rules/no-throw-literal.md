@@ -13,6 +13,7 @@ The following patterns are considered problems:
 
 ```js
 /*eslint no-throw-literal: 2*/
+/*eslint-env es6*/
 
 throw "error";         /*error Expected an object to be thrown.*/
 

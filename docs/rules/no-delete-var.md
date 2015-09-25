@@ -2,7 +2,7 @@
 
 This rule prevents the use of `delete` operator on variables:
 
-```
+```js
 /*eslint no-delete-var: 2*/
 
 var x;
