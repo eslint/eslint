@@ -174,7 +174,7 @@ These rules are purely matters of style and are quite subjective.
 * [no-trailing-spaces](no-trailing-spaces.md) - disallow trailing whitespace at the end of lines (fixable)
 * [no-underscore-dangle](no-underscore-dangle.md) - disallow dangling underscores in identifiers
 * [no-unneeded-ternary](no-unneeded-ternary.md) - disallow the use of ternary operators when a simpler alternative exists
-* [object-curly-spacing](object-curly-spacing.md) - require or disallow padding inside curly braces
+* [object-curly-spacing](object-curly-spacing.md) - require or disallow padding inside curly braces (fixable)
 * [one-var](one-var.md) - require or disallow one variable declaration per function
 * [operator-assignment](operator-assignment.md) - require assignment operator shorthand where possible or prohibit it entirely
 * [operator-linebreak](operator-linebreak.md) - enforce operators to be placed before or after line breaks
