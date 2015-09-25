@@ -10,6 +10,8 @@ Math.max.apply(Math, args);
 In ES2015, one can use the spread operator to call variadic functions.
 
 ```js
+/*eslint-env es6*/
+
 var args = [1, 2, 3, 4];
 Math.max(...args);
 ```

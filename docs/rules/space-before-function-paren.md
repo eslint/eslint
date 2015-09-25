@@ -34,6 +34,7 @@ The following patterns are considered problems:
 
 ```js
 /*eslint space-before-function-paren: 2*/
+/*eslint-env es6*/
 
 function foo() {           /*error Missing space before function parentheses.*/
     // ...
@@ -64,6 +65,7 @@ The following patterns are not considered problems:
 
 ```js
 /*eslint space-before-function-paren: 2*/
+/*eslint-env es6*/
 
 function foo () {
     // ...
@@ -96,6 +98,7 @@ The following patterns are considered problems:
 
 ```js
 /*eslint space-before-function-paren: [2, "never"]*/
+/*eslint-env es6*/
 
 function foo () {           /*error Unexpected space before function parentheses.*/
     // ...
@@ -126,6 +129,7 @@ The following patterns are not considered problems:
 
 ```js
 /*eslint space-before-function-paren: [2, "never"]*/
+/*eslint-env es6*/
 
 function foo() {
     // ...
@@ -158,6 +162,7 @@ The following patterns are considered problems:
 
 ```js
 /*eslint space-before-function-paren: [2, { "anonymous": "always", "named": "never" }]*/
+/*eslint-env es6*/
 
 function foo () {      /*error Unexpected space before function parentheses.*/
     // ...
@@ -184,6 +189,7 @@ The following patterns are not considered problems:
 
 ```js
 /*eslint space-before-function-paren: [2, { "anonymous": "always", "named": "never" }]*/
+/*eslint-env es6*/
 
 function foo() {
     // ...
@@ -212,6 +218,7 @@ The following patterns are considered problems:
 
 ```js
 /*eslint space-before-function-paren: [2, { "anonymous": "never", "named": "always" }]*/
+/*eslint-env es6*/
 
 function foo() {        /*error Missing space before function parentheses.*/
     // ...
@@ -238,6 +245,7 @@ The following patterns are not considered problems:
 
 ```js
 /*eslint space-before-function-paren: [2, { "anonymous": "never", "named": "always" }]*/
+/*eslint-env es6*/
 
 function foo () {
     // ...

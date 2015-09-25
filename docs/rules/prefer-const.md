@@ -12,6 +12,7 @@ The following patterns are considered problems:
 
 ```js
 /*eslint prefer-const: 2*/
+/*eslint-env es6*/
 
 let a = 3;               /*error `a` is never modified, use `const` instead.*/
 console.log(a);
@@ -31,6 +32,7 @@ The following patterns are not considered problems:
 
 ```js
 /*eslint prefer-const: 2*/
+/*eslint-env es6*/
 
 let a; // there is no initialization.
 console.log(a);

@@ -40,6 +40,7 @@ The following patterns are considered problems:
 
 ```js
 /*eslint space-infix-ops: 2*/
+/*eslint-env es6*/
 
 a+b                   /*error Infix operators must be spaced.*/
 
@@ -60,6 +61,7 @@ The following patterns are not considered problems:
 
 ```js
 /*eslint space-infix-ops: 2*/
+/*eslint-env es6*/
 
 a + b
 

@@ -25,6 +25,7 @@ The following patterns are considered problems:
 
 ```js
 /*eslint no-undef-init: 2*/
+/*eslint-env es6*/
 
 var foo = undefined; /*error It's not necessary to initialize 'foo' to undefined.*/
 let bar = undefined; /*error It's not necessary to initialize 'bar' to undefined.*/
@@ -34,6 +35,7 @@ The following patterns are not considered problems:
 
 ```js
 /*eslint no-undef-init: 2*/
+/*eslint-env es6*/
 
 var foo;
 let bar;

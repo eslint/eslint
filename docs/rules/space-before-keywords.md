@@ -57,6 +57,7 @@ The following patterns are considered errors when configured `"always"`:
 
 ```js
 /*eslint space-before-keywords: [2, "always"]*/
+/*eslint-env es6*/
 
 if (foo) {
     // ...
@@ -75,6 +76,7 @@ The following patterns are not considered errors when configured `"always"`:
 
 ```js
 /*eslint space-before-keywords: [2, "always"]*/
+/*eslint-env es6*/
 
 if (foo) {
     // ...
