@@ -137,7 +137,7 @@ These rules are specific to JavaScript running on Node.js or using CommonJS in t
 
 These rules are purely matters of style and are quite subjective.
 
-* [array-bracket-spacing](array-bracket-spacing.md) - enforce spacing inside array brackets
+* [array-bracket-spacing](array-bracket-spacing.md) - enforce spacing inside array brackets (fixable)
 * [block-spacing](block-spacing.md) - disallow or enforce spaces inside of single line blocks (fixable)
 * [brace-style](brace-style.md) - enforce one true brace style
 * [camelcase](camelcase.md) - require camel case names

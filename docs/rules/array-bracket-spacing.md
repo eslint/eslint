@@ -11,6 +11,8 @@ var arr = ['foo', 'bar'];
 var [x,y] = z;
 ```
 
+**Fixable:** This rule is automatically fixable using the `--fix` flag on the command line.
+
 ## Rule Details
 
 This rule aims to maintain consistency around the spacing inside of array brackets, either by disallowing
