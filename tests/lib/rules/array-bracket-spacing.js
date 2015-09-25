@@ -153,6 +153,7 @@ ruleTester.run("array-bracket-spacing", rule, {
         // objectsInArrays
         {
             code: "var foo = [ { 'bar': 'baz' }, 1,  5];",
+            output: "var foo = [{ 'bar': 'baz' }, 1,  5 ];",
             options: ["always", {objectsInArrays: false}],
             errors: [
                 {
@@ -171,6 +172,7 @@ ruleTester.run("array-bracket-spacing", rule, {
         },
         {
             code: "var foo = [1, 5, { 'bar': 'baz' } ];",
+            output: "var foo = [ 1, 5, { 'bar': 'baz' }];",
             options: ["always", {objectsInArrays: false}],
             errors: [
                 {
@@ -189,6 +191,7 @@ ruleTester.run("array-bracket-spacing", rule, {
         },
         {
             code: "var foo = [ { 'bar':'baz' }, 1, { 'bar': 'baz' } ];",
+            output: "var foo = [{ 'bar':'baz' }, 1, { 'bar': 'baz' }];",
             options: ["always", {objectsInArrays: false}],
             errors: [
                 {
@@ -209,6 +212,7 @@ ruleTester.run("array-bracket-spacing", rule, {
         // singleValue
         {
             code: "var obj = [ 'foo' ];",
+            output: "var obj = ['foo'];",
             options: ["always", {singleValue: false}],
             errors: [
                 {
@@ -227,6 +231,7 @@ ruleTester.run("array-bracket-spacing", rule, {
         },
         {
             code: "var obj = ['foo' ];",
+            output: "var obj = ['foo'];",
             options: ["always", {singleValue: false}],
             errors: [
                 {
@@ -239,6 +244,7 @@ ruleTester.run("array-bracket-spacing", rule, {
         },
         {
             code: "var obj = ['foo'];",
+            output: "var obj = [ 'foo' ];",
             options: ["never", {singleValue: true}],
             errors: [
                 {
@@ -259,6 +265,7 @@ ruleTester.run("array-bracket-spacing", rule, {
         // always - arraysInArrays
         {
             code: "var arr = [ [ 1, 2 ], 2, 3, 4 ];",
+            output: "var arr = [[ 1, 2 ], 2, 3, 4 ];",
             options: ["always", {"arraysInArrays": false}],
             errors: [
                 {
@@ -271,6 +278,7 @@ ruleTester.run("array-bracket-spacing", rule, {
         },
         {
             code: "var arr = [ 1, 2, 2, [ 3, 4 ] ];",
+            output: "var arr = [ 1, 2, 2, [ 3, 4 ]];",
             options: ["always", {"arraysInArrays": false}],
             errors: [
                 {
@@ -283,6 +291,7 @@ ruleTester.run("array-bracket-spacing", rule, {
         },
         {
             code: "var arr = [[ 1, 2 ], 2, [ 3, 4 ] ];",
+            output: "var arr = [[ 1, 2 ], 2, [ 3, 4 ]];",
             options: ["always", {"arraysInArrays": false}],
             errors: [
                 {
@@ -295,6 +304,7 @@ ruleTester.run("array-bracket-spacing", rule, {
         },
         {
             code: "var arr = [ [ 1, 2 ], 2, [ 3, 4 ]];",
+            output: "var arr = [[ 1, 2 ], 2, [ 3, 4 ]];",
             options: ["always", {"arraysInArrays": false}],
             errors: [
                 {
@@ -307,6 +317,7 @@ ruleTester.run("array-bracket-spacing", rule, {
         },
         {
             code: "var arr = [ [ 1, 2 ], 2, [ 3, 4 ] ];",
+            output: "var arr = [[ 1, 2 ], 2, [ 3, 4 ]];",
             options: ["always", {"arraysInArrays": false}],
             errors: [
                 {
@@ -327,6 +338,7 @@ ruleTester.run("array-bracket-spacing", rule, {
         // always - destructuring
         {
             code: "var [x,y] = y",
+            output: "var [ x,y ] = y",
             options: ["always"],
             ecmaFeatures: { destructuring: true },
             errors: [{
@@ -344,6 +356,7 @@ ruleTester.run("array-bracket-spacing", rule, {
         },
         {
             code: "var [x,y ] = y",
+            output: "var [ x,y ] = y",
             options: ["always"],
             ecmaFeatures: { destructuring: true },
             errors: [{
@@ -355,6 +368,7 @@ ruleTester.run("array-bracket-spacing", rule, {
         },
         {
             code: "var [,,,x,,] = y",
+            output: "var [ ,,,x,, ] = y",
             options: ["always"],
             ecmaFeatures: { destructuring: true },
             errors: [{
@@ -372,6 +386,7 @@ ruleTester.run("array-bracket-spacing", rule, {
         },
         {
             code: "var [ ,,,x,,] = y",
+            output: "var [ ,,,x,, ] = y",
             options: ["always"],
             ecmaFeatures: { destructuring: true },
             errors: [{
@@ -383,6 +398,7 @@ ruleTester.run("array-bracket-spacing", rule, {
         },
         {
             code: "var [...horse] = y",
+            output: "var [ ...horse ] = y",
             options: ["always"],
             ecmaFeatures: { destructuring: true, restParams: true },
             errors: [{
@@ -400,6 +416,7 @@ ruleTester.run("array-bracket-spacing", rule, {
         },
         {
             code: "var [...horse ] = y",
+            output: "var [ ...horse ] = y",
             options: ["always"],
             ecmaFeatures: { destructuring: true, restParams: true },
             errors: [{
@@ -413,6 +430,7 @@ ruleTester.run("array-bracket-spacing", rule, {
         // never -  arraysInArrays
         {
             code: "var arr = [[1, 2], 2, [3, 4]];",
+            output: "var arr = [ [1, 2], 2, [3, 4] ];",
             options: ["never", {"arraysInArrays": true}],
             errors: [
                 {
@@ -433,6 +451,7 @@ ruleTester.run("array-bracket-spacing", rule, {
         // always
         {
             code: "var arr = [1, 2, 3, 4];",
+            output: "var arr = [ 1, 2, 3, 4 ];",
             options: ["always"],
             errors: [
                 {
@@ -451,6 +470,7 @@ ruleTester.run("array-bracket-spacing", rule, {
         },
         {
             code: "var arr = [1, 2, 3, 4 ];",
+            output: "var arr = [ 1, 2, 3, 4 ];",
             options: ["always"],
             errors: [
                 {
@@ -463,6 +483,7 @@ ruleTester.run("array-bracket-spacing", rule, {
         },
         {
             code: "var arr = [ 1, 2, 3, 4];",
+            output: "var arr = [ 1, 2, 3, 4 ];",
             options: ["always"],
             errors: [
                 {
@@ -475,6 +496,7 @@ ruleTester.run("array-bracket-spacing", rule, {
         },
         {
             code: "var arr = [ 1, 2, 3, 4 ];",
+            output: "var arr = [1, 2, 3, 4];",
             options: ["never"],
             errors: [
                 {
@@ -493,6 +515,7 @@ ruleTester.run("array-bracket-spacing", rule, {
         },
         {
             code: "var arr = [1, 2, 3, 4 ];",
+            output: "var arr = [1, 2, 3, 4];",
             options: ["never"],
             errors: [
                 {
@@ -505,6 +528,7 @@ ruleTester.run("array-bracket-spacing", rule, {
         },
         {
             code: "var arr = [ 1, 2, 3, 4];",
+            output: "var arr = [1, 2, 3, 4];",
             options: ["never"],
             errors: [
                 {
@@ -517,6 +541,7 @@ ruleTester.run("array-bracket-spacing", rule, {
         },
         {
             code: "var arr = [ [ 1], 2, 3, 4];",
+            output: "var arr = [[1], 2, 3, 4];",
             options: ["never"],
             errors: [
                 {
@@ -535,6 +560,7 @@ ruleTester.run("array-bracket-spacing", rule, {
         },
         {
             code: "var arr = [[1 ], 2, 3, 4 ];",
+            output: "var arr = [[1], 2, 3, 4];",
             options: ["never"],
             errors: [
                 {
