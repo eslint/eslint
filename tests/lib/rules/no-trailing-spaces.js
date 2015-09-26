@@ -67,6 +67,47 @@ ruleTester.run("no-trailing-spaces", rule, {
     invalid: [
         {
             code:
+            "var short2 = true;\n" +
+            "\n" +
+            "module.exports = {\n" +
+            "  short: short,    \n" +
+            "  short2: short\n" +
+            "}\n",
+            output:
+            "var short2 = true;\n" +
+            "\n" +
+            "module.exports = {\n" +
+            "  short: short,\n" +
+            "  short2: short\n" +
+            "}\n",
+            errors: [{
+                message: "Trailing spaces not allowed.",
+                type: "Program"
+            }]
+        },
+        {
+            code:
+            "var short2 = true;\n" +
+            "\n" +
+            "module.exports = {\n" +
+            "  short,    \n" +
+            "  short2\n" +
+            "}\n",
+            output:
+            "var short2 = true;\n" +
+            "\n" +
+            "module.exports = {\n" +
+            "  short,\n" +
+            "  short2\n" +
+            "}\n",
+            "ecmaFeatures": {objectLiteralShorthandProperties: true},
+            errors: [{
+                message: "Trailing spaces not allowed.",
+                type: "Program"
+            }]
+        },
+        {
+            code:
             "\n" +
             "measAr.push(\"<dl></dl>\",  \n" +
             "         \" </dt><dd class ='pta-res'>\");",
