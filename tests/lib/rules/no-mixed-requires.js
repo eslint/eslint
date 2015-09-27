@@ -28,6 +28,7 @@ ruleTester.run("no-mixed-requires", rule, {
         { code: "var emitter = require('events').EventEmitter, fs = require('fs')", options: [false] },
         { code: "var foo = require(42), bar = require(getName())", options: [false] },
         { code: "var foo = require(42), bar = require(getName())", options: [true] },
+        { code: "var fs = require('fs'), foo = require('./foo')", options: [{grouping: false}] },
         { code: "var foo = require('foo'), bar = require(getName())", options: [false] },
         { code: "var a;", options: [true] }
     ],
@@ -36,6 +37,7 @@ ruleTester.run("no-mixed-requires", rule, {
         { code: "var fs = require('fs'), foo", options: [false], errors: [{ message: "Do not mix 'require' and other declarations.", type: "VariableDeclaration"}] },
         { code: "var a = require(42), b = require(), c = require('y'), d = require(doStuff())", options: [true], errors: [{ message: "Do not mix core, module, file and computed requires.", type: "VariableDeclaration"}] },
         { code: "var fs = require('fs'), foo = require('foo')", options: [true], errors: [{ message: "Do not mix core, module, file and computed requires.", type: "VariableDeclaration"}] },
+        { code: "var fs = require('fs'), foo = require('foo')", options: [{grouping: true}], errors: [{ message: "Do not mix core, module, file and computed requires.", type: "VariableDeclaration"}] },
         { code: "var exec = require('child_process').exec, foo = require('foo')", options: [true], errors: [{ message: "Do not mix core, module, file and computed requires.", type: "VariableDeclaration"}] },
         { code: "var fs = require('fs'), foo = require('./foo')", options: [true], errors: [{ message: "Do not mix core, module, file and computed requires.", type: "VariableDeclaration"}] },
         { code: "var foo = require('foo'), foo2 = require('./foo')", options: [true], errors: [{ message: "Do not mix core, module, file and computed requires.", type: "VariableDeclaration"}] },
