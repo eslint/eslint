@@ -1,5 +1,8 @@
 {
     "ecmaFeatures": {
         "globalReturn": false
+    },
+    "globals": {
+        "require": true
     }
 }
