@@ -33,6 +33,10 @@ ruleTester.run("curly", rule, {
             options: ["multi"]
         },
         {
+            code: "if (a) { b; c; }",
+            options: ["multi"]
+        },
+        {
             code: "if (foo) bar()",
             options: ["multi-line"]
         },
@@ -91,8 +95,33 @@ ruleTester.run("curly", rule, {
         {
             code: "if (foo) { \n if(bar) \n doSomething(); \n } else \n doSomethingElse();",
             options: ["multi-or-nest"]
-        }
+        },
 
+        // https://github.com/eslint/eslint/issues/3856
+        {
+            code: "if (true) { if (false) console.log(1) } else console.log(2)",
+            options: ["multi"]
+        },
+        {
+            code: "if (a) { if (b) console.log(1); else if (c) console.log(2) } else console.log(3)",
+            options: ["multi"]
+        },
+        {
+            code: "if (true) { while(false) if (true); } else;",
+            options: ["multi"]
+        },
+        {
+            code: "if (true) { label: if (false); } else;",
+            options: ["multi"]
+        },
+        {
+            code: "if (true) { with(0) if (false); } else;",
+            options: ["multi"]
+        },
+        {
+            code: "if (true) { while(a) if(b) while(c) if (d); else; } else;",
+            options: ["multi"]
+        }
     ],
     invalid: [
         {
@@ -176,6 +205,26 @@ ruleTester.run("curly", rule, {
             errors: [
                 {
                     message: "Unnecessary { after 'else'.",
+                    type: "IfStatement"
+                }
+            ]
+        },
+        {
+            code: "if (true) { if (false) console.log(1) }",
+            options: ["multi"],
+            errors: [
+                {
+                    message: "Unnecessary { after 'if' condition.",
+                    type: "IfStatement"
+                }
+            ]
+        },
+        {
+            code: "if (a) { if (b) console.log(1); else console.log(2) } else console.log(3)",
+            options: ["multi"],
+            errors: [
+                {
+                    message: "Unnecessary { after 'if' condition.",
                     type: "IfStatement"
                 }
             ]
