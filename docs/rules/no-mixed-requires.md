@@ -11,7 +11,15 @@ When this rule is enabled, all `var` statements must satisfy the following condi
 
 ### Options
 
-This rule comes with one boolean option called `grouping` which is turned off by default. You can set it in your `eslint.json`:
+This rule comes with option called `grouping` which is turned off by default. You can set it in your `eslint.json`:
+
+```json
+{
+    "no-mixed-requires": [1, {"grouping": true}]
+}
+```
+
+The second way to configure this rule is with boolean (This way of setting is deprecated).
 
 ```json
 {
@@ -80,7 +88,7 @@ var fs = require('fs'), /*error Do not mix 'require' and other declarations.*/
 The following patterns are considered problems when grouping is turned on:
 
 ```js
-/*eslint no-mixed-requires: [2, true]*/
+/*eslint no-mixed-requires: [2, {"grouping": true}]*/
 
 // invalid because of mixed types "core" and "file"
 var fs = require('fs'),                /*error Do not mix core, module, file and computed requires.*/
