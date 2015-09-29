@@ -369,7 +369,8 @@ function lintMarkdown(files) {
             MD029: false, // Ordered list item prefix
             MD030: false, // Spaces after list markers
             MD034: false, // Bare URL used
-            MD040: false  // Fenced code blocks should have a language specified
+            MD040: false, // Fenced code blocks should have a language specified
+            MD041: false  // First line in file should be a top level header
         },
         result = markdownlint.sync({
             files: files,
