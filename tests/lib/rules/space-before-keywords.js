@@ -447,13 +447,6 @@ ruleTester.run("space-before-keywords", rule, {
             errors: [ { message: expectedSpacingErrorMessageTpl("class"), type: "Keyword" } ],
             ecmaFeatures: { classes: true },
             output: "; class Bar extends Foo.Baz {}"
-        },
-        // Super
-        {
-            code: "class Bar { constructor() { var foo = 'bar';super.bar(foo); } }",
-            errors: [ { message: expectedSpacingErrorMessageTpl("super"), type: "Super" } ],
-            ecmaFeatures: { classes: true },
-            output: "class Bar { constructor() { var foo = 'bar'; super.bar(foo); } }"
         }
     ]
 });
