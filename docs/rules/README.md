@@ -69,7 +69,7 @@ These are rules designed to prevent you from making mistakes. They either prescr
 * [no-labels](no-labels.md) - disallow use of labeled statements
 * [no-lone-blocks](no-lone-blocks.md) - disallow unnecessary nested blocks
 * [no-loop-func](no-loop-func.md) - disallow creation of functions within loops
-* [no-multi-spaces](no-multi-spaces.md) - disallow use of multiple spaces
+* [no-multi-spaces](no-multi-spaces.md) - disallow use of multiple spaces (fixable)
 * [no-multi-str](no-multi-str.md) - disallow use of multiline strings
 * [no-native-reassign](no-native-reassign.md) - disallow reassignments of native objects
 * [no-new-func](no-new-func.md) - disallow use of new operator for `Function` object
