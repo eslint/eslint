@@ -16,6 +16,8 @@ var a = "prop";
 var obj = { [a]: "value" };
 ```
 
+**Fixable:** This rule is automatically fixable using the `--fix` flag on the command line.
+
 ## Rule Details
 
 This rule aims to maintain consistency around the spacing inside of computed properties.
