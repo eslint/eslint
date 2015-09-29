@@ -56,6 +56,7 @@ These are rules designed to prevent you from making mistakes. They either prescr
 * [no-div-regex](no-div-regex.md) - disallow division operators explicitly at beginning of regular expression
 * [no-else-return](no-else-return.md) - disallow `else` after a `return` in an `if`
 * [no-empty-label](no-empty-label.md) - disallow use of labels for anything other than loops and switches
+* [no-empty-pattern](no-empty-pattern.md) - disallow use of empty patterns
 * [no-eq-null](no-eq-null.md) - disallow comparisons to null without a type-checking operator
 * [no-eval](no-eval.md) - disallow use of `eval()`
 * [no-extend-native](no-extend-native.md) - disallow adding to native types
