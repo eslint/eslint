@@ -93,7 +93,7 @@
     "phantomjs": "1.9.7-15",
     "proxyquire": "^1.0.0",
     "rewire": "^2.3.4",
-    "semver": "^4.1.0",
+    "semver": "^4.3.2",
     "shelljs-nodecli": "~0.1.0",
     "sinon": "1.14.1",
     "through": "^2.3.6"
