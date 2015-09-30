@@ -712,6 +712,27 @@ describe("CLIEngine", function() {
             assert.equal(report.results[0].messages.length, 0);
         });
 
+        it("should not fail if an ignored file cannot be resolved", function() {
+
+            var fakeFS = leche.fake(fs),
+                LocalCLIEngine = proxyquire("../../lib/cli-engine", {
+                    fs: fakeFS
+                });
+
+            fakeFS.realpathSync = function() {
+                throw new Error("this error should not happen");
+            };
+
+            engine = new LocalCLIEngine({
+                ignorePattern: "tests"
+            });
+
+            assert.doesNotThrow(function() {
+                engine.executeOnFiles(["tests/fixtures/single-quoted.js"]);
+            });
+
+        });
+
         describe("Fix Mode", function() {
 
             it("should return fixed text on multiple files when in fix mode", function() {
