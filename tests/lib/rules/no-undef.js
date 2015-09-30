@@ -56,6 +56,7 @@ ruleTester.run("no-undef", rule, {
     ],
     invalid: [
         { code: "a = 1;", errors: [{ message: "\"a\" is not defined.", type: "Identifier"}] },
+        { code: "if (typeof anUndefinedVar === 'string') {}", options: [{typeof: true}], errors: [{ message: "\"anUndefinedVar\" is not defined.", type: "Identifier"}] },
         { code: "var a = b;", errors: [{ message: "\"b\" is not defined.", type: "Identifier"}] },
         { code: "function f() { b; }", errors: [{ message: "\"b\" is not defined.", type: "Identifier"}] },
         { code: "/*global b:false*/ function f() { b = 1; }", errors: [{ message: "\"b\" is read only.", type: "Identifier"}] },
