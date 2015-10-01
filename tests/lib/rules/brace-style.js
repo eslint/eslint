@@ -112,7 +112,7 @@ ruleTester.run("brace-style", rule, {
             { message: OPEN_MESSAGE_ALLMAN, type: "TryStatement", line: 1},
             { message: OPEN_MESSAGE_ALLMAN, type: "CatchClause", line: 4}
         ] },
-        { code: "switch(x) { \n case 1: \nbar(); \n }\n ", options: ["allman"], errors: [
+        { code: "switch(x) { case 1: \nbar(); }\n ", options: ["allman"], errors: [
             { message: OPEN_MESSAGE_ALLMAN, type: "SwitchStatement", line: 1}
         ] },
         { code: "if (a) { \nb();\n } else { \nc();\n }", options: ["allman"], errors: [
