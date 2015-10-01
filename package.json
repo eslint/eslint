@@ -86,6 +86,7 @@
     "jsonlint": "^1.6.2",
     "leche": "^2.1.1",
     "linefix": "^0.1.1",
+    "load-perf": "^0.2.0",
     "markdownlint": "^0.0.8",
     "mocha": "^2.1.0",
     "mocha-phantomjs": "3.6.0",
