@@ -153,6 +153,7 @@ ruleTester.run("space-unary-ops", rule, {
     invalid: [
         {
             code: "delete(foo.bar)",
+            output: "delete (foo.bar)",
             options: [{ "words": true }],
             errors: [{
                 message: "Unary word operator \"delete\" must be followed by whitespace.",
@@ -161,6 +162,7 @@ ruleTester.run("space-unary-ops", rule, {
         },
         {
             code: "delete(foo[\"bar\"]);",
+            output: "delete (foo[\"bar\"]);",
             options: [{ "words": true }],
             errors: [{
                 message: "Unary word operator \"delete\" must be followed by whitespace.",
@@ -169,6 +171,7 @@ ruleTester.run("space-unary-ops", rule, {
         },
         {
             code: "new(Foo)",
+            output: "new (Foo)",
             options: [{ "words": true }],
             errors: [{
                 message: "Unary word operator \"new\" must be followed by whitespace.",
@@ -177,6 +180,7 @@ ruleTester.run("space-unary-ops", rule, {
         },
         {
             code: "new(Foo())",
+            output: "new (Foo())",
             options: [{ "words": true }],
             errors: [{
                 message: "Unary word operator \"new\" must be followed by whitespace.",
@@ -186,6 +190,7 @@ ruleTester.run("space-unary-ops", rule, {
 
         {
             code: "typeof(foo)",
+            output: "typeof (foo)",
             options: [{ "words": true }],
             errors: [{
                 message: "Unary word operator \"typeof\" must be followed by whitespace.",
@@ -194,6 +199,7 @@ ruleTester.run("space-unary-ops", rule, {
         },
         {
             code: "typeof{foo:true}",
+            output: "typeof {foo:true}",
             options: [{ "words": true }],
             errors: [{
                 message: "Unary word operator \"typeof\" must be followed by whitespace.",
@@ -202,6 +208,7 @@ ruleTester.run("space-unary-ops", rule, {
         },
         {
             code: "typeof {foo:true}",
+            output: "typeof{foo:true}",
             options: [{ "words": false }],
             errors: [{
                 message: "Unexpected space after unary word operator \"typeof\".",
@@ -210,6 +217,7 @@ ruleTester.run("space-unary-ops", rule, {
         },
         {
             code: "typeof!foo",
+            output: "typeof !foo",
             options: [{ "words": true }],
             errors: [{
                 message: "Unary word operator \"typeof\" must be followed by whitespace.",
@@ -219,6 +227,7 @@ ruleTester.run("space-unary-ops", rule, {
 
         {
             code: "void(0);",
+            output: "void (0);",
             options: [{ "words": true }],
             errors: [{
                 message: "Unary word operator \"void\" must be followed by whitespace.",
@@ -227,6 +236,7 @@ ruleTester.run("space-unary-ops", rule, {
         },
         {
             code: "void(foo);",
+            output: "void (foo);",
             options: [{ "words": true }],
             errors: [{
                 message: "Unary word operator \"void\" must be followed by whitespace.",
@@ -235,6 +245,7 @@ ruleTester.run("space-unary-ops", rule, {
         },
         {
             code: "void{a:0};",
+            output: "void {a:0};",
             options: [{ "words": true }],
             errors: [{
                 message: "Unary word operator \"void\" must be followed by whitespace.",
@@ -244,6 +255,7 @@ ruleTester.run("space-unary-ops", rule, {
 
         {
             code: "! foo",
+            output: "!foo",
             options: [{ "nonwords": false }],
             errors: [{
                 message: "Unexpected space after unary operator \"!\"."
@@ -251,6 +263,7 @@ ruleTester.run("space-unary-ops", rule, {
         },
         {
             code: "!foo",
+            output: "! foo",
             options: [{ "nonwords": true }],
             errors: [{
                 message: "Unary operator \"!\" must be followed by whitespace."
@@ -259,21 +272,30 @@ ruleTester.run("space-unary-ops", rule, {
 
         {
             code: "!! foo",
+            output: "!!foo",
             options: [{ "nonwords": false }],
             errors: [{
-                message: "Unexpected space after unary operator \"!\"."
+                message: "Unexpected space after unary operator \"!\".",
+                type: "UnaryExpression",
+                line: 1,
+                column: 2
             }]
         },
         {
             code: "!!foo",
+            output: "!! foo",
             options: [{ "nonwords": true }],
             errors: [{
-                message: "Unary operator \"!\" must be followed by whitespace."
+                message: "Unary operator \"!\" must be followed by whitespace.",
+                type: "UnaryExpression",
+                line: 1,
+                column: 2
             }]
         },
 
         {
             code: "- 1",
+            output: "-1",
             options: [{ "nonwords": false }],
             errors: [{
                 message: "Unexpected space after unary operator \"-\".",
@@ -282,6 +304,7 @@ ruleTester.run("space-unary-ops", rule, {
         },
         {
             code: "-1",
+            output: "- 1",
             options: [{ "nonwords": true }],
             errors: [{
                 message: "Unary operator \"-\" must be followed by whitespace.",
@@ -291,6 +314,7 @@ ruleTester.run("space-unary-ops", rule, {
 
         {
             code: "foo++",
+            output: "foo ++",
             options: [{ "nonwords": true }],
             errors: [{
                 message: "Space is required before unary expressions \"++\"."
@@ -298,6 +322,7 @@ ruleTester.run("space-unary-ops", rule, {
         },
         {
             code: "foo ++",
+            output: "foo++",
             options: [{ "nonwords": false }],
             errors: [{
                 message: "Unexpected space before unary operator \"++\"."
@@ -305,6 +330,7 @@ ruleTester.run("space-unary-ops", rule, {
         },
         {
             code: "++ foo",
+            output: "++foo",
             options: [{ "nonwords": false }],
             errors: [{
                 message: "Unexpected space after unary operator \"++\"."
@@ -312,6 +338,7 @@ ruleTester.run("space-unary-ops", rule, {
         },
         {
             code: "++foo",
+            output: "++ foo",
             options: [{ "nonwords": true }],
             errors: [{
                 message: "Unary operator \"++\" must be followed by whitespace."
@@ -319,6 +346,7 @@ ruleTester.run("space-unary-ops", rule, {
         },
         {
             code: "function *foo() { yield(0) }",
+            output: "function *foo() { yield (0) }",
             ecmaFeatures: { generators: true },
             errors: [{
                 message: "Unary word operator \"yield\" must be followed by whitespace.",
@@ -329,6 +357,7 @@ ruleTester.run("space-unary-ops", rule, {
         },
         {
             code: "function *foo() { yield+0 }",
+            output: "function *foo() { yield +0 }",
             ecmaFeatures: { generators: true },
             errors: [{
                 message: "Unary word operator \"yield\" must be followed by whitespace.",
@@ -339,6 +368,7 @@ ruleTester.run("space-unary-ops", rule, {
         },
         {
             code: "function *foo() { yield*0 }",
+            output: "function *foo() { yield* 0 }",
             ecmaFeatures: { generators: true },
             errors: [{
                 message: "Unary word operator \"yield*\" must be followed by whitespace.",
@@ -349,6 +379,7 @@ ruleTester.run("space-unary-ops", rule, {
         },
         {
             code: "function *foo() { yield *0 }",
+            output: "function *foo() { yield * 0 }",
             ecmaFeatures: { generators: true },
             errors: [{
                 message: "Unary word operator \"yield*\" must be followed by whitespace.",
