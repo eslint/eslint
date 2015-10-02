@@ -93,6 +93,13 @@ var patterns = [
         valid: [NORMAL],
         invalid: [USE_STRICT, MODULES]
     },
+    {
+        code: "console.log(this); z(x => console.log(x, this));",
+        ecmaFeatures: {arrowFunctions: true, globalReturn: true},
+        errors: errors,
+        valid: [NORMAL],
+        invalid: [USE_STRICT, MODULES]
+    },
 
     // IIFE.
     {
