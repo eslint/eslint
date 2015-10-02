@@ -736,6 +736,17 @@ describe("CLIEngine", function() {
         describe("Fix Mode", function() {
 
             it("should return fixed text on multiple files when in fix mode", function() {
+                /**
+                 * Converts CRLF to LF in output.
+                 * This is a workaround for git's autocrlf option on Windows.
+                 * @param {object} result - A result object to convert.
+                 * @returns {void}
+                 */
+                function convertCRLF(result) {
+                    if (result && result.output) {
+                        result.output = result.output.replace(/\r\n/g, "\n");
+                    }
+                }
 
                 engine = new CLIEngine({
                     useEslintrc: false,
@@ -749,6 +760,7 @@ describe("CLIEngine", function() {
                 });
 
                 var report = engine.executeOnFiles([fixtureDir + "/fixmode"]);
+                report.results.forEach(convertCRLF);
                 assert.deepEqual(report, {
                     "results": [
                         {
