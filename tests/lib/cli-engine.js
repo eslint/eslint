@@ -108,7 +108,9 @@ describe("CLIEngine", function() {
 
         it("should report the filename when passed in", function() {
 
-            engine = new CLIEngine();
+            engine = new CLIEngine({
+                ignore: false
+            });
 
             var report = engine.executeOnText("var foo = 'bar';", "test.js");
             assert.equal(report.results[0].filePath, "test.js");
@@ -158,7 +160,8 @@ describe("CLIEngine", function() {
                 fix: true,
                 rules: {
                     "semi": 2
-                }
+                },
+                ignore: false
             });
 
             var report = engine.executeOnText("var bar = foo", "tests/fixtures/passing.js");
@@ -184,7 +187,8 @@ describe("CLIEngine", function() {
                 fix: true,
                 rules: {
                     "no-undef": 2
-                }
+                },
+                ignore: false
             });
 
             var report = engine.executeOnText("var bar = foo", "tests/fixtures/passing.js");
@@ -293,7 +297,8 @@ describe("CLIEngine", function() {
         it("should report zero messages when given a directory with a .js and a .js2 file", function() {
 
             engine = new CLIEngine({
-                extensions: [".js", ".js2"]
+                extensions: [".js", ".js2"],
+                ignore: false
             });
 
             var report = engine.executeOnFiles(["tests/fixtures/files/"]);
@@ -305,7 +310,8 @@ describe("CLIEngine", function() {
         it("should report zero messages when given a '**' pattern with a .js and a .js2 file", function() {
 
             engine = new CLIEngine({
-                extensions: [".js", ".js2"]
+                extensions: [".js", ".js2"],
+                ignore: false
             });
 
             var report = engine.executeOnFiles(["tests/fixtures/files/**"]);
@@ -326,7 +332,8 @@ describe("CLIEngine", function() {
         it("should report zero messages when given a pattern with a .js and a .js2 file", function() {
 
             engine = new CLIEngine({
-                extensions: [".js", ".js2"]
+                extensions: [".js", ".js2"],
+                ignore: false
             });
 
             var report = engine.executeOnFiles(["tests/fixtures/files/*.?s*"]);
@@ -372,7 +379,9 @@ describe("CLIEngine", function() {
 
         it("should process when file is given by not specifying extensions", function() {
 
-            engine = new CLIEngine();
+            engine = new CLIEngine({
+                ignore: false
+            });
 
             var report = engine.executeOnFiles(["tests/fixtures/files/foo.js2"]);
             assert.equal(report.results.length, 1);
@@ -1175,7 +1184,8 @@ describe("CLIEngine", function() {
                         "no-console": 0,
                         "no-unused-vars": 2
                     },
-                    extensions: ["js"]
+                    extensions: ["js"],
+                    ignore: false
                 });
 
                 var spy = sandbox.spy(fs, "readFileSync");
@@ -1200,7 +1210,8 @@ describe("CLIEngine", function() {
                         "no-console": 2,
                         "no-unused-vars": 2
                     },
-                    extensions: ["js"]
+                    extensions: ["js"],
+                    ignore: false
                 });
 
                 // create a new spy
@@ -1225,7 +1236,8 @@ describe("CLIEngine", function() {
                         "no-console": 0,
                         "no-unused-vars": 2
                     },
-                    extensions: ["js"]
+                    extensions: ["js"],
+                    ignore: false
                 });
 
                 var spy = sandbox.spy(fs, "readFileSync");
@@ -1249,7 +1261,8 @@ describe("CLIEngine", function() {
                         "no-console": 0,
                         "no-unused-vars": 2
                     },
-                    extensions: ["js"]
+                    extensions: ["js"],
+                    ignore: false
                 });
 
                 // create a new spy
@@ -1460,7 +1473,8 @@ describe("CLIEngine", function() {
                 engine = new CLIEngine({
                     configFile: getFixturePath("configurations", "processors.json"),
                     useEslintrc: false,
-                    extensions: ["js", "txt"]
+                    extensions: ["js", "txt"],
+                    ignore: false
                 });
 
                 var report = engine.executeOnText("function a() {console.log(\"Test\");}", "tests/fixtures/processors/test/test-processor.txt");
@@ -1476,7 +1490,8 @@ describe("CLIEngine", function() {
                         "no-console": 2,
                         "no-unused-vars": 2
                     },
-                    extensions: ["js", "txt"]
+                    extensions: ["js", "txt"],
+                    ignore: false
                 });
 
                 engine.addPlugin("test-processor", {
