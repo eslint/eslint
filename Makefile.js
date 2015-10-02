@@ -20,7 +20,8 @@ var checker = require("npm-license"),
     os = require("os"),
     path = require("path"),
     semver = require("semver"),
-    ejs = require("ejs");
+    ejs = require("ejs"),
+    loadPerf = require("load-perf");
 
 //------------------------------------------------------------------------------
 // Settings
@@ -996,6 +997,28 @@ function time(cmd, runs, runNumber, results, cb) {
 
 }
 
+/**
+ * Run the load performance for eslint
+ * @returns {void}
+ * @private
+ */
+function loadPerformance() {
+    var results = [];
+    for (var cnt = 0; cnt < 5; cnt++) {
+        var loadPerfData = loadPerf({
+            checkDependencies: false
+        });
+
+        echo("Load performance Run #" + (cnt + 1) + ":  %dms", loadPerfData.loadTime);
+        results.push(loadPerfData.loadTime);
+    }
+    results.sort(function(a, b) {
+        return a - b;
+    });
+    var median = results[~~(results.length / 2)];
+    echo("\nLoad Performance median :  %dms", median);
+}
+
 target.perf = function() {
     var cpuSpeed = os.cpus()[0].speed,
         max = PERF_MULTIPLIER / cpuSpeed,
@@ -1012,10 +1035,11 @@ target.perf = function() {
 
         if (median > max) {
             echo("Performance budget exceeded: %dms (limit: %dms)", median, max);
-            exit(1);
         } else {
             echo("Performance budget ok:  %dms (limit: %dms)", median, max);
         }
+        echo("\n");
+        loadPerformance();
     });
 
 };
