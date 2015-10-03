@@ -98,23 +98,6 @@ If you are using both JSHint and JSCS on your files, then using just ESLint will
 
 ESLint does both traditional linting (looking for problematic patterns) and style checking (enforcement of conventions). You can use it for both.
 
-### Who is using ESLint?
-
-The following projects are using ESLint to validate their JavaScript:
-
-* [Drupal](https://www.drupal.org/node/2274223)
-* [Esprima](https://github.com/ariya/esprima)
-* [Node.js](https://github.com/nodejs/node/commit/f9dd34d301ab385ae316769b85ef916f9b70b6f6)
-* [WebKit](https://bugs.webkit.org/show_bug.cgi?id=125048)
-
-In addition, the following companies are using ESLint internally to validate their JavaScript:
-
-* [Box](https://box.com)
-* [CustomInk](https://customink.com)
-* [Fitbit](http://www.fitbit.com)
-* [HolidayCheck](http://holidaycheck.de)
-* [the native web](http://www.thenativeweb.io)
-
 ### What about ECMAScript 6 support?
 
 ESLint has full support for ECMAScript 6. By default, this support is off. You can enable ECMAScript 6 support through [configuration](http://eslint.org/docs/user-guide/configuring).
