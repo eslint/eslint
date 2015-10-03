@@ -54,8 +54,9 @@ ruleTester.run("no-shadow", rule, {
         { code: "function foo(a) { } let a;", ecmaFeatures: {blockBindings: true} },
         { code: "function foo(a) { } var a;", ecmaFeatures: {blockBindings: true} },
         { code: "function foo() { var Object = 0; }" },
-        { code: "function foo() { var top = 0; }" },
-        { code: "function foo() { var top = 0; }", options: [{builtinGlobals: true}] }
+        { code: "function foo() { var top = 0; }", env: {browser: true} },
+        { code: "var Object = 0;", options: [{builtinGlobals: true}] },
+        { code: "var top = 0;", options: [{builtinGlobals: true}], env: {browser: true} }
     ],
     invalid: [
         {
@@ -300,6 +301,32 @@ ruleTester.run("no-shadow", rule, {
             code: "function foo() { var top = 0; }",
             options: [{builtinGlobals: true}],
             env: {browser: true},
+            errors: [{ message: "top is already declared in the upper scope.", type: "Identifier"}]
+        },
+        {
+            code: "var Object = 0;",
+            options: [{builtinGlobals: true}],
+            ecmaFeatures: {modules: true},
+            errors: [{ message: "Object is already declared in the upper scope.", type: "Identifier"}]
+        },
+        {
+            code: "var top = 0;",
+            options: [{builtinGlobals: true}],
+            env: {browser: true},
+            ecmaFeatures: {modules: true},
+            errors: [{ message: "top is already declared in the upper scope.", type: "Identifier"}]
+        },
+        {
+            code: "var Object = 0;",
+            options: [{builtinGlobals: true}],
+            ecmaFeatures: {globalReturn: true},
+            errors: [{ message: "Object is already declared in the upper scope.", type: "Identifier"}]
+        },
+        {
+            code: "var top = 0;",
+            options: [{builtinGlobals: true}],
+            env: {browser: true},
+            ecmaFeatures: {globalReturn: true},
             errors: [{ message: "top is already declared in the upper scope.", type: "Identifier"}]
         }
     ]
