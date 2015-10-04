@@ -29,7 +29,11 @@ var NO_VAR = "console.log(greet);",
     FOR_OF_LOOP_WITH_VAR = "for(var a in obj){\n break;\n}",
     EXPORT_WITH_LET = "export let a = 1;\nexport let b = 2;",
     EXPORT_WITH_VAR = "export var a = 1;\nexport var b = 2;",
-    EXPORT_WITH_CONST = "export const a = 1;\nexport const b = 2;";
+    EXPORT_WITH_CONST = "export const a = 1;\nexport const b = 2;",
+    END_OF_FUNCTION = "function example() {\nvar greet = 'hello'\n}",
+    END_OF_FUNCTION_EXPRESSION = "var f = function() {\nvar greet = 'hello'\n};",
+    END_OF_ARROW_FUNCTION = "() => {\nvar greet = 'hello';\n}";
+
 
 // Valid for "Always"
 var ONE_BLANK = "var greet = 'hello';\n\nconsole.log(greet);",
@@ -73,8 +77,10 @@ var NO_BREAK = "var greet = 'hello'; console.log(greet);",
     MULTI_LINE_NEXT_LINE_COMMENT = "var greet = 'hello',\nname = 'world';\n// next-line comment\nconsole.log(greet);",
     MULTI_LINE_NEXT_LINE_BLOCK_COMMENT = "var greet = 'hello',\nname = 'world';\n/* block comment\nblock comment */\nconsole.log(greet);",
     LET_NO_BLANK = "let greet = 'hello';\nconsole.log(greet);",
-    CONST_NO_BLANK = "const greet = 'hello';\nconsole.log(greet);";
-
+    CONST_NO_BLANK = "const greet = 'hello';\nconsole.log(greet);",
+    NOT_END_OF_FUNCTION = "function example() {\nvar greet = 'hello';\nconsole.log(greet);\n}",
+    NOT_END_OF_FUNCTION_EXPRESSION = "var f = function() {\nvar greet = 'hello';\nconsole.log(greet);\n};",
+    NOT_END_OF_ARROW_FUNCTION = "() => {\nvar greet = 'hello';\nconsole.log(greet);\n}";
 
 var ALWAYS_ERROR = {
     message: "Expected blank line after variable declarations.",
@@ -195,7 +201,18 @@ ruleTester.run("newline-after-var", rule, {
         { code: EXPORT_WITH_VAR, options: ["never"], ecmaFeatures: { blockBindings: true, modules: true } },
         { code: EXPORT_WITH_VAR, options: ["always"], ecmaFeatures: { blockBindings: true, modules: true } },
         { code: EXPORT_WITH_CONST, options: ["never"], ecmaFeatures: { blockBindings: true, modules: true } },
-        { code: EXPORT_WITH_CONST, options: ["always"], ecmaFeatures: { blockBindings: true, modules: true } }
+        { code: EXPORT_WITH_CONST, options: ["always"], ecmaFeatures: { blockBindings: true, modules: true } },
+
+        // should allow no blank line at end of function
+        { code: END_OF_FUNCTION, options: ["always"] },
+        { code: END_OF_FUNCTION, options: ["never"] },
+        { code: NOT_END_OF_FUNCTION, options: ["never"]},
+        { code: END_OF_FUNCTION_EXPRESSION, options: ["always"] },
+        { code: END_OF_FUNCTION_EXPRESSION, options: ["never"] },
+        { code: NOT_END_OF_FUNCTION_EXPRESSION, options: ["never"]},
+        { code: END_OF_ARROW_FUNCTION, options: ["always"], ecmaFeatures: {arrowFunctions: true}},
+        { code: END_OF_ARROW_FUNCTION, options: ["never"], ecmaFeatures: {arrowFunctions: true}},
+        { code: NOT_END_OF_ARROW_FUNCTION, options: ["never"], ecmaFeatures: {arrowFunctions: true}}
     ],
 
     invalid: [
@@ -213,6 +230,9 @@ ruleTester.run("newline-after-var", rule, {
         { code: MULTI_LINE_NO_BLANK, options: ["always"], errors: [ALWAYS_ERROR] },
         { code: LET_NO_BLANK, options: ["always"], ecmaFeatures: BLOCK_BINDINGS, errors: [ALWAYS_ERROR] },
         { code: CONST_NO_BLANK, options: ["always"], ecmaFeatures: BLOCK_BINDINGS, errors: [ALWAYS_ERROR] },
+        { code: NOT_END_OF_FUNCTION, options: ["always"], errors: [ALWAYS_ERROR] },
+        { code: NOT_END_OF_FUNCTION_EXPRESSION, options: ["always"], errors: [ALWAYS_ERROR] },
+        { code: NOT_END_OF_ARROW_FUNCTION, options: ["always"], ecmaFeatures: {arrowFunctions: true}, errors: [ALWAYS_ERROR]},
 
         // should disallow blank lines in "never" mode
         { code: ONE_BLANK, options: ["never"], errors: [NEVER_ERROR] },
@@ -234,6 +254,5 @@ ruleTester.run("newline-after-var", rule, {
         { code: MULTI_LINE_NEXT_LINE_BLOCK_COMMENT, options: ["always"], errors: [ALWAYS_ERROR] },
         { code: NEXT_LINE_TWO_COMMENTS_NO_BLANK, options: ["always"], errors: [ALWAYS_ERROR] },
         { code: NEXT_LINE_COMMENT_BLOCK_COMMENT_NO_BLANK, options: ["always"], errors: [ALWAYS_ERROR] }
-
     ]
 });
