@@ -22,6 +22,7 @@ ruleTester.run("init-declarations", rule, {
         "function foo() { var foo = 0; var bar = []; }",
         "var fn = function() {};",
         "var foo = bar = 2;",
+        "for (var i = 0; i < 1; i++) {}",
         "for (var foo in []) {}",
         {code: "for (var foo of []) {}", ecmaFeatures: {forOf: true}},
         {
@@ -114,6 +115,21 @@ ruleTester.run("init-declarations", rule, {
                 blockBindings: true
             },
             options: ["never"]
+        },
+        {
+            code: "for(var i = 0; i < 1; i++){}",
+            options: ["never", { "ignoreForLoopInit": true }]
+        },
+        {
+            code: "for (var foo in []) {}",
+            options: ["never", { "ignoreForLoopInit": true }]
+        },
+        {
+            code: "for (var foo of []) {}",
+            ecmaFeatures: {
+                forOf: true
+            },
+            options: ["never", { "ignoreForLoopInit": true }]
         }
     ],
     invalid: [
@@ -314,6 +330,39 @@ ruleTester.run("init-declarations", rule, {
             errors: [
                 {
                     message: "Variable 'c' should not be initialized on declaration.",
+                    type: "VariableDeclarator"
+                }
+            ]
+        },
+        {
+            code: "for(var i = 0; i < 1; i++){}",
+            options: ["never"],
+            errors: [
+                {
+                    message: "Variable 'i' should not be initialized on declaration.",
+                    type: "VariableDeclarator"
+                }
+            ]
+        },
+        {
+            code: "for (var foo in []) {}",
+            options: ["never"],
+            errors: [
+                {
+                    message: "Variable 'foo' should not be initialized on declaration.",
+                    type: "VariableDeclarator"
+                }
+            ]
+        },
+        {
+            code: "for (var foo of []) {}",
+            ecmaFeatures: {
+                forOf: true
+            },
+            options: ["never"],
+            errors: [
+                {
+                    message: "Variable 'foo' should not be initialized on declaration.",
                     type: "VariableDeclarator"
                 }
             ]
