@@ -6,6 +6,10 @@ This rule can help you locate potential ReferenceErrors resulting from misspelli
 
 ## Rule Details
 
+### Options
+
+* `typeof` set to true will warn for variables used inside typeof check (Default false).
+
 The following code causes 2 warnings, as the globals `someFunction` and `b` have not been declared.
 
 ```js
@@ -52,6 +56,27 @@ Explicitly checking an undefined identifier with `typeof` causes no warning.
 if (typeof UndefinedIdentifier === "undefined") {
     // do something ...
 }
+```
+
+#### typeof
+
+You can use this option if you want to prevent `typeof` check on a variable which has not been declared.
+
+The following patterns are considered problems with option `typeof` set:
+
+```js
+/* eslint no-undef: [2, { typeof: true }] */
+
+if(typeof a === "string"){}      /* error "a" is not defined. */
+```
+
+The following patterns are not considered problems with option `typeof` set:
+
+```js
+/* eslint no-undef: [2, { typeof: true }] */
+/*global a*/
+
+if(typeof a === "string"){}
 ```
 
 ## Environments

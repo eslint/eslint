@@ -2067,12 +2067,12 @@ describe("eslint", function() {
     describe("when evaluating broken code", function() {
         var code = BROKEN_TEST_CODE;
 
-        it("should report a violation", function() {
+        it("should report a violation with a useful parse error prefix", function() {
             var messages = eslint.verify(code);
             assert.equal(messages.length, 1);
             assert.equal(messages[0].severity, 2);
             assert.isTrue(messages[0].fatal);
-
+            assert.match(messages[0].message, /^Parsing error:/);
         });
     });
 
@@ -2351,7 +2351,7 @@ describe("eslint", function() {
             }, filename);
 
             assert.equal(messages.length, 1);
-            assert.equal(messages[0].message, "Illegal return statement");
+            assert.equal(messages[0].message, "Parsing error: Illegal return statement");
         });
 
         it("should not parse global return when Node.js environment is false", function() {
@@ -2359,7 +2359,7 @@ describe("eslint", function() {
             var messages = eslint.verify("return;", {}, filename);
 
             assert.equal(messages.length, 1);
-            assert.equal(messages[0].message, "Illegal return statement");
+            assert.equal(messages[0].message, "Parsing error: Illegal return statement");
         });
 
         it("should properly parse JSX when passed ecmaFeatures", function() {
@@ -2380,7 +2380,7 @@ describe("eslint", function() {
             assert.equal(messages.length, 1);
             assert.equal(messages[0].line, 1);
             assert.equal(messages[0].column, 21);
-            assert.equal(messages[0].message, "Unexpected token <");
+            assert.equal(messages[0].message, "Parsing error: Unexpected token <");
         });
 
         it("should not report an error when JSX code is encountered and JSX is enabled", function() {
@@ -2752,7 +2752,8 @@ describe("eslint", function() {
 
         describe("Custom parser", function() {
 
-            var parserFixtures = path.join(__dirname, "../fixtures/parsers");
+            var parserFixtures = path.join(__dirname, "../fixtures/parsers"),
+                errorPrefix = "Parsing error: ";
 
             it("should not report an error when JSX code contains a spread operator and JSX is enabled", function() {
                 var code = "var myDivElement = <div {...this.props} />;";
@@ -2773,7 +2774,7 @@ describe("eslint", function() {
                 var messages = eslint.verify(";", { parser: parser }, "filename");
                 assert.equal(messages.length, 1);
                 assert.equal(messages[0].severity, 2);
-                assert.equal(messages[0].message, require(parser).expectedError);
+                assert.equal(messages[0].message, errorPrefix + require(parser).expectedError);
             });
 
             it("should not modify a parser error message without a leading line: prefix", function() {
@@ -2781,7 +2782,7 @@ describe("eslint", function() {
                 var messages = eslint.verify(";", { parser: parser }, "filename");
                 assert.equal(messages.length, 1);
                 assert.equal(messages[0].severity, 2);
-                assert.equal(messages[0].message, require(parser).expectedError);
+                assert.equal(messages[0].message, errorPrefix + require(parser).expectedError);
             });
 
         });

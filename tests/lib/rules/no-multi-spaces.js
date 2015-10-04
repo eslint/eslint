@@ -79,6 +79,7 @@ ruleTester.run("no-multi-spaces", rule, {
     invalid: [
         {
             code: "function foo(a,  b) {}",
+            output: "function foo(a, b) {}",
             errors: [{
                 message: "Multiple spaces found before 'b'.",
                 type: "Identifier"
@@ -86,6 +87,7 @@ ruleTester.run("no-multi-spaces", rule, {
         },
         {
             code: "var foo = (a,  b) => {}",
+            output: "var foo = (a, b) => {}",
             ecmaFeatures: { arrowFunctions: true },
             errors: [{
                 message: "Multiple spaces found before 'b'.",
@@ -94,6 +96,7 @@ ruleTester.run("no-multi-spaces", rule, {
         },
         {
             code: "var a =  1",
+            output: "var a = 1",
             errors: [{
                 message: "Multiple spaces found before '1'.",
                 type: "Numeric"
@@ -101,6 +104,7 @@ ruleTester.run("no-multi-spaces", rule, {
         },
         {
             code: "var a = 1,  b = 2;",
+            output: "var a = 1, b = 2;",
             errors: [{
                 message: "Multiple spaces found before 'b'.",
                 type: "Identifier"
@@ -108,6 +112,7 @@ ruleTester.run("no-multi-spaces", rule, {
         },
         {
             code: "a <<  b",
+            output: "a << b",
             errors: [{
                 message: "Multiple spaces found before 'b'.",
                 type: "Identifier"
@@ -115,6 +120,7 @@ ruleTester.run("no-multi-spaces", rule, {
         },
         {
             code: "var arr = {'a': 1,  'b': 2};",
+            output: "var arr = {'a': 1, 'b': 2};",
             errors: [{
                 message: "Multiple spaces found before ''b''.",
                 type: "String"
@@ -122,6 +128,7 @@ ruleTester.run("no-multi-spaces", rule, {
         },
         {
             code: "if (a &  b) { }",
+            output: "if (a & b) { }",
             errors: [{
                 message: "Multiple spaces found before 'b'.",
                 type: "Identifier"
@@ -129,6 +136,7 @@ ruleTester.run("no-multi-spaces", rule, {
         },
         {
             code: "if ( a === 3  &&  b === 4) {}",
+            output: "if ( a === 3 && b === 4) {}",
             errors: [{
                 message: "Multiple spaces found before '&&'.",
                 type: "Punctuator"
@@ -139,6 +147,7 @@ ruleTester.run("no-multi-spaces", rule, {
         },
         {
             code: "var foo = bar === 1 ?  2:  3",
+            output: "var foo = bar === 1 ? 2: 3",
             errors: [{
                 message: "Multiple spaces found before '2'.",
                 type: "Numeric"
@@ -149,6 +158,7 @@ ruleTester.run("no-multi-spaces", rule, {
         },
         {
             code: "var a = [1,  2,  3,  4]",
+            output: "var a = [1, 2, 3, 4]",
             errors: [{
                 message: "Multiple spaces found before '2'.",
                 type: "Numeric"
@@ -162,6 +172,7 @@ ruleTester.run("no-multi-spaces", rule, {
         },
         {
             code: "var arr = [1,  2];",
+            output: "var arr = [1, 2];",
             errors: [{
                 message: "Multiple spaces found before '2'.",
                 type: "Numeric"
@@ -169,6 +180,7 @@ ruleTester.run("no-multi-spaces", rule, {
         },
         {
             code: "[  , 1,  , 3,  ,  ]",
+            output: "[ , 1, , 3, , ]",
             errors: [{
                 message: "Multiple spaces found before ','.",
                 type: "Punctuator"
@@ -185,6 +197,7 @@ ruleTester.run("no-multi-spaces", rule, {
         },
         {
             code: "a >>>  b",
+            output: "a >>> b",
             errors: [{
                 message: "Multiple spaces found before 'b'.",
                 type: "Identifier"
@@ -192,6 +205,7 @@ ruleTester.run("no-multi-spaces", rule, {
         },
         {
             code: "a = 1,  b =  2;",
+            output: "a = 1, b = 2;",
             errors: [{
                 message: "Multiple spaces found before 'b'.",
                 type: "Identifier"
@@ -202,6 +216,7 @@ ruleTester.run("no-multi-spaces", rule, {
         },
         {
             code: "(function(a,  b){})",
+            output: "(function(a, b){})",
             errors: [{
                 message: "Multiple spaces found before 'b'.",
                 type: "Identifier"
@@ -209,6 +224,7 @@ ruleTester.run("no-multi-spaces", rule, {
         },
         {
             code: "function foo(a,  b){}",
+            output: "function foo(a, b){}",
             errors: [{
                 message: "Multiple spaces found before 'b'.",
                 type: "Identifier"
@@ -216,6 +232,7 @@ ruleTester.run("no-multi-spaces", rule, {
         },
         {
             code: "var o = { fetch: function    () {} };",
+            output: "var o = { fetch: function () {} };",
             errors: [{
                 message: "Multiple spaces found before '('.",
                 type: "Punctuator"
@@ -223,6 +240,7 @@ ruleTester.run("no-multi-spaces", rule, {
         },
         {
             code: "var o = { fetch: function    () {} };",
+            output: "var o = { fetch: function () {} };",
             errors: [{
                 message: "Multiple spaces found before '('.",
                 type: "Punctuator"
@@ -230,6 +248,7 @@ ruleTester.run("no-multi-spaces", rule, {
         },
         {
             code: "function foo      () {}",
+            output: "function foo () {}",
             errors: [{
                 message: "Multiple spaces found before '('.",
                 type: "Punctuator"
@@ -237,6 +256,7 @@ ruleTester.run("no-multi-spaces", rule, {
         },
         {
             code: "if (foo)      {}",
+            output: "if (foo) {}",
             errors: [{
                 message: "Multiple spaces found before '{'.",
                 type: "Punctuator"
@@ -244,6 +264,7 @@ ruleTester.run("no-multi-spaces", rule, {
         },
         {
             code: "function    foo(){}",
+            output: "function foo(){}",
             errors: [{
                 message: "Multiple spaces found before 'foo'.",
                 type: "Identifier"
@@ -251,6 +272,7 @@ ruleTester.run("no-multi-spaces", rule, {
         },
         {
             code: "if    (foo) {}",
+            output: "if (foo) {}",
             errors: [{
                 message: "Multiple spaces found before '('.",
                 type: "Punctuator"
@@ -258,6 +280,7 @@ ruleTester.run("no-multi-spaces", rule, {
         },
         {
             code: "try    {} catch(ex) {}",
+            output: "try {} catch(ex) {}",
             errors: [{
                 message: "Multiple spaces found before '{'.",
                 type: "Punctuator"
@@ -265,6 +288,7 @@ ruleTester.run("no-multi-spaces", rule, {
         },
         {
             code: "try {} catch    (ex) {}",
+            output: "try {} catch (ex) {}",
             errors: [{
                 message: "Multiple spaces found before '('.",
                 type: "Punctuator"
@@ -272,6 +296,7 @@ ruleTester.run("no-multi-spaces", rule, {
         },
         {
             code: "var o = { fetch: function    () {} };",
+            output: "var o = { fetch: function () {} };",
             errors: [{
                 message: "Multiple spaces found before '('.",
                 type: "Punctuator"
@@ -279,6 +304,7 @@ ruleTester.run("no-multi-spaces", rule, {
         },
         {
             code: "throw  error;",
+            output: "throw error;",
             errors: [{
                 message: "Multiple spaces found before 'error'.",
                 type: "Identifier"
@@ -286,6 +312,7 @@ ruleTester.run("no-multi-spaces", rule, {
         },
         {
             code: "function foo() { return      bar; }",
+            output: "function foo() { return bar; }",
             errors: [{
                 message: "Multiple spaces found before 'bar'.",
                 type: "Identifier"
@@ -293,6 +320,7 @@ ruleTester.run("no-multi-spaces", rule, {
         },
         {
             code: "switch   (a) {default: foo(); break;}",
+            output: "switch (a) {default: foo(); break;}",
             errors: [{
                 message: "Multiple spaces found before '('.",
                 type: "Punctuator"
@@ -300,6 +328,7 @@ ruleTester.run("no-multi-spaces", rule, {
         },
         {
             code: "var  answer = 6 *  7;",
+            output: "var answer = 6 * 7;",
             errors: [{
                 message: "Multiple spaces found before 'answer'.",
                 type: "Identifier"
@@ -310,6 +339,7 @@ ruleTester.run("no-multi-spaces", rule, {
         },
         {
             code: "({ a:  6  * 7 })",
+            output: "({ a:  6 * 7 })",
             args: 2,
             errors: [{
                 message: "Multiple spaces found before '*'.",
@@ -318,6 +348,7 @@ ruleTester.run("no-multi-spaces", rule, {
         },
         {
             code: "({ a:   b })",
+            output: "({ a: b })",
             options: [{ exceptions: { "Property": false } }],
             errors: [{
                 message: "Multiple spaces found before 'b'.",
@@ -326,6 +357,7 @@ ruleTester.run("no-multi-spaces", rule, {
         },
         {
             code: "var foo = { bar: function() { return 1    + 2; } };",
+            output: "var foo = { bar: function() { return 1 + 2; } };",
             errors: [{
                 message: "Multiple spaces found before '+'.",
                 type: "Punctuator"

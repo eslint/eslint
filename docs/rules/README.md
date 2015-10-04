@@ -69,7 +69,7 @@ These are rules designed to prevent you from making mistakes. They either prescr
 * [no-labels](no-labels.md) - disallow use of labeled statements
 * [no-lone-blocks](no-lone-blocks.md) - disallow unnecessary nested blocks
 * [no-loop-func](no-loop-func.md) - disallow creation of functions within loops
-* [no-multi-spaces](no-multi-spaces.md) - disallow use of multiple spaces
+* [no-multi-spaces](no-multi-spaces.md) - disallow use of multiple spaces (fixable)
 * [no-multi-str](no-multi-str.md) - disallow use of multiline strings
 * [no-native-reassign](no-native-reassign.md) - disallow reassignments of native objects
 * [no-new-func](no-new-func.md) - disallow use of new operator for `Function` object
@@ -143,7 +143,7 @@ These rules are purely matters of style and are quite subjective.
 * [camelcase](camelcase.md) - require camel case names
 * [comma-spacing](comma-spacing.md) - enforce spacing before and after comma
 * [comma-style](comma-style.md) - enforce one true comma style
-* [computed-property-spacing](computed-property-spacing.md) - require or disallow padding inside computed properties
+* [computed-property-spacing](computed-property-spacing.md) - require or disallow padding inside computed properties (fixable)
 * [consistent-this](consistent-this.md) - enforce consistent naming when capturing the current execution context
 * [eol-last](eol-last.md) - enforce newline at the end of file, with no multiple empty lines (fixable)
 * [func-names](func-names.md) - require function expressions to have a name
@@ -192,7 +192,7 @@ These rules are purely matters of style and are quite subjective.
 * [space-in-parens](space-in-parens.md) - require or disallow spaces inside parentheses
 * [space-infix-ops](space-infix-ops.md) - require spaces around operators (fixable)
 * [space-return-throw-case](space-return-throw-case.md) - require a space after `return`, `throw`, and `case` (fixable)
-* [space-unary-ops](space-unary-ops.md) - require or disallow spaces before/after unary operators
+* [space-unary-ops](space-unary-ops.md) - require or disallow spaces before/after unary operators (fixable)
 * [spaced-comment](spaced-comment.md) - require or disallow a space immediately following the `//` or `/*` in a comment
 * [wrap-regex](wrap-regex.md) - require regex literals to be wrapped in parentheses
 

@@ -62,6 +62,8 @@ ruleTester.run("complexity", rule, {
         { code: "function a(x) {while(true) {'foo';}}", options: [1], errors: 1 },
         { code: "function a(x) {do {'foo';} while (true)}", options: [1], errors: 1 },
         { code: "function a(x) {(function() {while(true){'foo';}})(); (function() {while(true){'bar';}})();}", options: [1], errors: 2 },
-        { code: "function a(x) {(function() {while(true){'foo';}})(); (function() {'bar';})();}", options: [1], errors: 1 }
+        { code: "function a(x) {(function() {while(true){'foo';}})(); (function() {'bar';})();}", options: [1], errors: 1 },
+        { code: "var obj = { a(x) { return x ? 0 : 1; } };", options: [1], ecmaFeatures: { objectLiteralShorthandMethods: true }, errors: [{ message: "Function 'a' has a complexity of 2."}] },
+        { code: "var obj = { a: function b(x) { return x ? 0 : 1; } };", options: [1], errors: [{ message: "Function 'b' has a complexity of 2."}] }
     ]
 });

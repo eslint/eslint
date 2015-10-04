@@ -29,8 +29,12 @@ ruleTester.run("no-redeclare", rule, {
         },
         { code: "var Object = 0;" },
         { code: "var Object = 0;", options: [{builtinGlobals: false}] },
+        { code: "var Object = 0;", options: [{builtinGlobals: true}], ecmaFeatures: {modules: true} },
+        { code: "var Object = 0;", options: [{builtinGlobals: true}], ecmaFeatures: {globalReturn: true} },
         { code: "var top = 0;", env: {browser: true} },
-        { code: "var top = 0;", options: [{builtinGlobals: true}] }
+        { code: "var top = 0;", options: [{builtinGlobals: true}] },
+        { code: "var top = 0;", options: [{builtinGlobals: true}], env: {browser: true}, ecmaFeatures: {modules: true} },
+        { code: "var top = 0;", options: [{builtinGlobals: true}], env: {browser: true}, ecmaFeatures: {globalReturn: true} }
     ],
     invalid: [
         { code: "var a = 3; var a = 10;", ecmaFeatures: { globalReturn: true }, errors: [{ message: "\"a\" is already defined", type: "Identifier"}] },
@@ -71,15 +75,24 @@ ruleTester.run("no-redeclare", rule, {
             options: [{builtinGlobals: true}],
             ecmaFeatures: {modules: true, destructuring: true},
             errors: [
-                { message: "\"a\" is already defined", type: "Identifier"},
-                { message: "\"Object\" is already defined", type: "Identifier"}
+                { message: "\"a\" is already defined", type: "Identifier"}
+            ]
+        },
+        {
+            code: "var a; var {a = 0, b: Object = 0} = {};",
+            options: [{builtinGlobals: true}],
+            ecmaFeatures: {globalReturn: true, destructuring: true},
+            errors: [
+                { message: "\"a\" is already defined", type: "Identifier"}
             ]
         },
         {
             code: "var a; var {a = 0, b: Object = 0} = {};",
             options: [{builtinGlobals: false}],
-            ecmaFeatures: {modules: true, destructuring: true},
-            errors: [{ message: "\"a\" is already defined", type: "Identifier"}]
+            ecmaFeatures: {destructuring: true},
+            errors: [
+                { message: "\"a\" is already defined", type: "Identifier"}
+            ]
         }
     ]
 });

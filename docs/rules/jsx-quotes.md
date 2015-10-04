@@ -2,7 +2,7 @@
 
 JSX attribute values can contain string literals, which are delimited with single or double quotes.
 
-```jsx
+```xml
 <a b='c' />
 <a b="c" />
 ```
@@ -10,7 +10,7 @@ JSX attribute values can contain string literals, which are delimited with singl
 Unlike string literals in JavaScript, string literals within JSX attributes can’t contain escaped quotes.
 If you want to have e.g. a double quote within a JSX attribute value, you have to use single quotes as string delimiter.
 
-```jsx
+```xml
 <a b="'" />
 <a b='"' />
 ```
@@ -25,26 +25,26 @@ The default is `"prefer-double"`.
 
 The following patterns are considered problems when set to `"prefer-double"`:
 
-```jsx
+```xml
 <a b='c' />
 ```
 
 The following patterns are not considered problems when set to `"prefer-double"`:
 
-```jsx
+```xml
 <a b="c" />
 <a b='"' />
 ```
 
 The following patterns are considered problems when set to `"prefer-single"`:
 
-```jsx
+```xml
 <a b="c" />
 ```
 
 The following patterns are not considered problems when set to `"prefer-single"`:
 
-```jsx
+```xml
 <a b='c' />
 <a b="'" />
 ```

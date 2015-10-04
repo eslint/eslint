@@ -1,6 +1,6 @@
 {
   "name": "eslint",
-  "version": "1.5.1",
+  "version": "1.6.0",
   "author": "Nicholas C. Zakas <nicholas+npm@nczconsulting.com>",
   "description": "An AST-based pattern checker for JavaScript.",
   "bin": {
@@ -44,6 +44,7 @@
     "espree": "^2.2.4",
     "estraverse": "^4.1.0",
     "estraverse-fb": "^1.3.1",
+    "esutils": "^2.0.2",
     "fallback-cli": "^1.0.3",
     "file-entry-cache": "^1.1.1",
     "glob": "^5.0.14",
@@ -53,6 +54,7 @@
     "is-my-json-valid": "^2.10.0",
     "is-resolvable": "^1.0.0",
     "js-yaml": "^3.2.5",
+    "json-stable-stringify": "^1.0.0",
     "lodash.clonedeep": "^3.0.1",
     "lodash.merge": "^3.3.2",
     "lodash.omit": "^3.1.0",
@@ -87,6 +89,7 @@
     "jsonlint": "^1.6.2",
     "leche": "^2.1.1",
     "linefix": "^0.1.1",
+    "load-perf": "^0.2.0",
     "markdownlint": "^0.0.8",
     "mocha": "^2.1.0",
     "mocha-phantomjs": "3.6.0",

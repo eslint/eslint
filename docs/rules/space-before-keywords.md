@@ -8,7 +8,7 @@ Some styleguides require or disallow spaces preceding certain keywords.
 
 This rule will enforce consistency of spacing before the keywords `if`, `else`, `for`,
 `while`, `do`, `switch`, `throw`, `try`, `catch`, `finally`, `with`, `break`, `continue`,
-`return`, `function`, `yield`, `class`, `super` and variable declarations (`let`, `const`, `var`)
+`return`, `function`, `yield`, `class` and variable declarations (`let`, `const`, `var`)
 and label statements.
 
 This rule takes one argument: `"always"` or `"never"`. If `"always"` then the keywords
