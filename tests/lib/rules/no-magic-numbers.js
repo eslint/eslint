@@ -1,5 +1,5 @@
 /**
- * @fileoverview Tests for no-magic-number rule.
+ * @fileoverview Tests for no-magic-numbers rule.
  * @author Vincent Lemeunier
  * @copyright 2015 Vincent Lemeunier. All rights reserved.
  */
@@ -10,7 +10,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var rule = require("../../../lib/rules/no-magic-number"),
+var rule = require("../../../lib/rules/no-magic-numbers"),
     RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
@@ -18,7 +18,7 @@ var rule = require("../../../lib/rules/no-magic-number"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
-ruleTester.run("no-magic-number", rule, {
+ruleTester.run("no-magic-numbers", rule, {
     valid: [
         {
             code: "const foo = 42;",

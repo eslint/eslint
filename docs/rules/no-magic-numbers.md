@@ -1,4 +1,4 @@
-# Disallow Magic Numbers (no-magic-number)
+# Disallow Magic Numbers (no-magic-numbers)
 
 'Magic numbers' are numbers that occur multiple time in code without an explicit meaning.
 They should preferably be replaced by named constants.
@@ -10,13 +10,13 @@ var now = Date.now(),
 
 ## Rule Details
 
-The `no-magic-number` rule aims to make code more readable and refactoring easier by ensuring that special numbers
+The `no-magic-numbers` rule aims to make code more readable and refactoring easier by ensuring that special numbers
 are declared as constants to make their meaning explicit.
 
 The following pattern is considered a problem:
 
 ```js
-/*eslint no-magic-number: 2*/
+/*eslint no-magic-numbers: 2*/
 
 var dutyFreePrice = 100,
     finalPrice = dutyFreePrice + (dutyFreePrice * 0.25); /*error No magic number: 0.25*/
@@ -25,7 +25,7 @@ var dutyFreePrice = 100,
 The following pattern is considered okay:
 
 ```js
-/*eslint no-magic-number: 2*/
+/*eslint no-magic-numbers: 2*/
 
 var TAX_PERCENTAGE = 0.25;
 

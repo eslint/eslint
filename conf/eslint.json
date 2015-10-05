@@ -107,7 +107,7 @@
         "no-var": 0,
         "no-warning-comments": [0, { "terms": ["todo", "fixme", "xxx"], "location": "start" }],
         "no-with": 0,
-        "no-magic-number": 0,
+        "no-magic-numbers": 0,
 
         "array-bracket-spacing": [0, "never"],
         "arrow-parens": 0,
