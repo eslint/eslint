@@ -83,6 +83,9 @@ module.exports = {
     embertest: {
         globals: globals.embertest
     },
+    webextensions: {
+        globals: globals.webextensions
+    },
     es6: {
         ecmaFeatures: {
             arrowFunctions: true,

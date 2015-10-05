@@ -176,6 +176,18 @@ describe("cli", function() {
         });
     });
 
+    describe("when given a config with environment set to WebExtensions", function() {
+        it("should execute without any errors", function() {
+            var configPath = getFixturePath("configurations", "env-webextensions.json");
+            var filePath = getFixturePath("globals-webextensions.js");
+            var code = "--config " + configPath + " " + filePath;
+
+            var exit = cli.execute(code);
+
+            assert.equal(exit, 0);
+        });
+    });
+
     describe("when given a config that is a sharable config", function() {
         it("should execute without any errors", function() {
             var stubbedConfig = proxyquire("../../lib/config", {
