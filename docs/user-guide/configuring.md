@@ -114,6 +114,7 @@ An environment defines global variables that are predefined. The available envir
 * `nashorn` - Java 8 Nashorn global variables.
 * `serviceworker` - Service Worker global variables.
 * `embertest` - Ember test helper globals.
+* `webextensions` - WebExtensions globals.
 * `es6` - enable all ECMAScript 6 features except for modules.
 
 These environments are not mutually exclusive, so you can define more than one at a time.
