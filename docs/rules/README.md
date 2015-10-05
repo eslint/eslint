@@ -93,7 +93,7 @@ These are rules designed to prevent you from making mistakes. They either prescr
 * [no-void](no-void.md) - disallow use of the `void` operator
 * [no-warning-comments](no-warning-comments.md) - disallow usage of configurable warning terms in comments - e.g. `TODO` or `FIXME`
 * [no-with](no-with.md) - disallow use of the `with` statement
-* [no-magic-number](no-magic-number.md) - disallow the use of magic numbers
+* [no-magic-numbers](no-magic-numbers.md) - disallow the use of magic numbers
 * [radix](radix.md) - require use of the second argument for `parseInt()`
 * [vars-on-top](vars-on-top.md) - require declaration of all vars at the top of their containing scope
 * [wrap-iife](wrap-iife.md) - require immediate function invocation to be wrapped in parentheses
