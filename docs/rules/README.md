@@ -132,6 +132,7 @@ These rules are specific to JavaScript running on Node.js or using CommonJS in t
 * [no-process-exit](no-process-exit.md) - disallow `process.exit()`
 * [no-restricted-modules](no-restricted-modules.md) - restrict usage of specified node modules
 * [no-sync](no-sync.md) - disallow use of synchronous methods
+* [required-modules](required-modules.md) - require usage of specific node modules
 
 ## Stylistic Issues
 

@@ -167,6 +167,7 @@
         "id-match": 0,
         "require-jsdoc": 0,
         "require-yield": 0,
+        "required-modules": 0,
         "semi": 0,
         "semi-spacing": [0, {"before": false, "after": true}],
         "sort-vars": 0,
