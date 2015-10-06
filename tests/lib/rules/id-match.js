@@ -93,6 +93,10 @@ ruleTester.run("id-match", rule, {
             options: ["^[^_]+$"]
         },
         {
+            code: "var myArray = new Array(); var myDate = new Date();",
+            options: ["^[a-z$]+([A-Z][a-z]+)*$"]
+        },
+        {
             code: "var o = {key: 1}",
             options: ["^[^_]+$", {
                 properties: true
