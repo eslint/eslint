@@ -1022,7 +1022,7 @@ function loadPerformance() {
 target.perf = function() {
     var cpuSpeed = os.cpus()[0].speed,
         max = PERF_MULTIPLIER / cpuSpeed,
-        cmd = ESLINT + "./tests/performance/jshint.js";
+        cmd = ESLINT + "--no-ignore ./tests/performance/jshint.js";
 
     echo("CPU Speed is %d with multiplier %d", cpuSpeed, PERF_MULTIPLIER);
 
