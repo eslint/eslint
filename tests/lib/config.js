@@ -116,6 +116,18 @@ describe("Config", function() {
             assert.equal(actual, expected);
         });
 
+        it("should return the paths for all .eslintrc files with extensions when they are found", function() {
+            var configHelper = new Config(),
+                expected = ["", ".yaml", ".yml", ".json"].map(function(ext) {
+                    return getFixturePath("extensions", ".eslintrc" + ext);
+                }),
+                actual = configHelper.findLocalConfigFiles(getFixturePath("extensions"));
+
+            actual.forEach(function(eslintrc, idx) {
+                assert.equal(eslintrc, expected[idx]);
+            });
+        });
+
         it("should return an empty array when an .eslintrc file is not found", function() {
             var configHelper = new Config(),
                 actual = configHelper.findLocalConfigFiles(getFixturePath());

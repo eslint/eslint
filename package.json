@@ -55,6 +55,7 @@
     "js-yaml": "^3.2.5",
     "json-stable-stringify": "^1.0.0",
     "lodash.clonedeep": "^3.0.1",
+    "lodash.find": "^3.2.1",
     "lodash.merge": "^3.3.2",
     "lodash.omit": "^3.1.0",
     "minimatch": "^2.0.1",
