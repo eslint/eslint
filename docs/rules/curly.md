@@ -222,6 +222,77 @@ for (var i = 0; foo; i++)
     doSomething();
 ```
 
+#### consistent
+
+When using any of the `multi*` option, you can add an option to enforce all bodies of a `if`,
+`else if` and `else` chain to be with or without braces.
+
+```json
+curly: [2, "multi", "consistent"]
+```
+
+With this configuration, the rule will warn for those patterns:
+
+```js
+/*eslint curly: [2, "multi", "consistent"]*/
+
+if (foo) {
+    bar();
+    baz();
+} else                      /*error Expected { after 'else'.*/
+    buz();
+
+if (foo)                    /*error Expected { after 'if' condition.*/
+    bar();
+else if (faa)               /*error Expected { after 'if' condition.*/
+    bor();
+else {
+    other();
+    things();
+}
+
+if (true)
+    foo();
+else {                      /*error Unnecessary { after 'else'.*/
+    baz();
+}
+
+if (foo) {                  /*error Unnecessary { after 'if' condition.*/
+    foo++;
+}
+```
+
+It will not warn for these patterns:
+
+```js
+/*eslint curly: [2, "multi", "consistent"]*/
+
+if (foo) {
+    bar();
+    baz();
+} else {
+    buz();
+}
+
+if (foo) {
+    bar();
+} else if (faa) {
+    bor();
+} else {
+    other();
+    things();
+}
+
+if (true)
+    foo();
+else
+    baz();
+
+if (foo)
+    foo++;
+
+```
+
 The default configuration is:
 
 ```json
