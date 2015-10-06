@@ -121,6 +121,23 @@ ruleTester.run("curly", rule, {
         {
             code: "if (true) { while(a) if(b) while(c) if (d); else; } else;",
             options: ["multi"]
+        },
+        {
+            code: "if (true) foo(); else { bar(); baz(); }",
+            options: ["multi"]
+        },
+
+        {
+            code: "if (true) { foo(); } else { bar(); baz(); }",
+            options: ["multi", "consistent"]
+        },
+        {
+            code: "if (true) { foo(); } else if (true) { faa(); } else { bar(); baz(); }",
+            options: ["multi", "consistent"]
+        },
+        {
+            code: "if (true) { foo(); faa(); } else { bar(); }",
+            options: ["multi", "consistent"]
         }
     ],
     invalid: [
@@ -138,6 +155,15 @@ ruleTester.run("curly", rule, {
             errors: [
                 {
                     message: "Expected { after 'else'.",
+                    type: "IfStatement"
+                }
+            ]
+        },
+        {
+            code: "if (foo) { bar() } else if (faa) baz()",
+            errors: [
+                {
+                    message: "Expected { after 'if' condition.",
                     type: "IfStatement"
                 }
             ]
@@ -336,6 +362,50 @@ ruleTester.run("curly", rule, {
                 {
                     message: "Unnecessary { after 'for' condition.",
                     type: "ForStatement"
+                }
+            ]
+        },
+        {
+            code: "if (true) foo(); \n else { \n bar(); \n baz(); \n }",
+            options: ["multi", "consistent"],
+            errors: [
+                {
+                    message: "Expected { after 'if' condition.",
+                    type: "IfStatement"
+                }
+            ]
+        },
+        {
+            code: "if (true) { foo(); faa(); }\n else bar();",
+            options: ["multi", "consistent"],
+            errors: [
+                {
+                    message: "Expected { after 'else'.",
+                    type: "IfStatement"
+                }
+            ]
+        },
+        {
+            code: "if (true) foo(); else { baz(); }",
+            options: ["multi", "consistent"],
+            errors: [
+                {
+                    message: "Unnecessary { after 'else'.",
+                    type: "IfStatement"
+                }
+            ]
+        },
+        {
+            code: "if (true) foo(); else if (true) faa(); else { bar(); baz(); }",
+            options: ["multi", "consistent"],
+            errors: [
+                {
+                    message: "Expected { after 'if' condition.",
+                    type: "IfStatement"
+                },
+                {
+                    message: "Expected { after 'if' condition.",
+                    type: "IfStatement"
                 }
             ]
         }
