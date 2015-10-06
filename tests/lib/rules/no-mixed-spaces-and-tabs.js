@@ -33,6 +33,26 @@ ruleTester.run("no-mixed-spaces-and-tabs", rule, {
             options: [true]
         },
         {
+            code: "`\n\t   `;",
+            env: { es6: true }
+        },
+        {
+            code: "`\n\t   \n`;",
+            env: { es6: true }
+        },
+        {
+            code: "`\t   `;",
+            env: { es6: true }
+        },
+        {
+            code: "`\t   `;`   \t`",
+            env: { es6: true }
+        },
+        {
+            code: "`foo${ 5 }\t    `;",
+            env: { es6: true }
+        },
+        {
             code: "\tvar x = 5,\n\t    y = 2;",
             options: ["smart-tabs"]
         }
@@ -83,6 +103,31 @@ ruleTester.run("no-mixed-spaces-and-tabs", rule, {
                     message: "Mixed spaces and tabs.",
                     type: "Program",
                     line: 2
+                }
+            ]
+        },
+        {
+            code: "`foo${\n \t  5 }bar`;",
+            env: { es6: true },
+            options: ["smart-tabs"],
+            errors: [
+                {
+                    message: "Mixed spaces and tabs.",
+                    type: "Program",
+                    line: 2,
+                    column: 2
+                }
+            ]
+        },
+        {
+            code: "`foo${\n\t  5 }bar`;",
+            env: { es6: true },
+            errors: [
+                {
+                    message: "Mixed spaces and tabs.",
+                    type: "Program",
+                    line: 2,
+                    column: 2
                 }
             ]
         }
