@@ -67,6 +67,46 @@ ruleTester.run("no-trailing-spaces", rule, {
     invalid: [
         {
             code:
+            "var short2 = true;\r\n" +
+            "\r\n" +
+            "module.exports = {\r\n" +
+            "  short: short,    \r\n" +
+            "  short2: short\r\n" +
+            "}",
+            output:
+            "var short2 = true;\r\n" +
+            "\r\n" +
+            "module.exports = {\r\n" +
+            "  short: short,\r\n" +
+            "  short2: short\r\n" +
+            "}",
+            errors: [{
+                message: "Trailing spaces not allowed.",
+                type: "Program"
+            }]
+        },
+        {
+            code:
+            "var short2 = true;\n" +
+            "\r\n" +
+            "module.exports = {\r\n" +
+            "  short: short,    \r\n" +
+            "  short2: short\n" +
+            "}",
+            output:
+            "var short2 = true;\n" +
+            "\r\n" +
+            "module.exports = {\r\n" +
+            "  short: short,\r\n" +
+            "  short2: short\n" +
+            "}",
+            errors: [{
+                message: "Trailing spaces not allowed.",
+                type: "Program"
+            }]
+        },
+        {
+            code:
             "var short2 = true;\n" +
             "\n" +
             "module.exports = {\n" +
