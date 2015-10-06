@@ -12,15 +12,21 @@
 var assert = require("chai").assert,
     path = require("path"),
     fs = require("fs"),
-    Config = require("../../lib/config"),
     sinon = require("sinon"),
-    proxyquire = require("proxyquire");
+    proxyquire = require("proxyquire"),
+    assign = require("object-assign"),
+    Config = require("../../lib/config"),
+    Environments = require("../../conf/environments");
 
 require("shelljs/global");
 proxyquire = proxyquire.noCallThru().noPreserveCache();
 
 /* global tempdir, mkdir, rm, cp */
 
+
+//------------------------------------------------------------------------------
+// Helpers
+//------------------------------------------------------------------------------
 
 /**
  * Asserts that two configs are equal. This is necessary because assert.deepEqual()
@@ -50,6 +56,21 @@ function assertConfigsEqual(actual, expected) {
     if (actual.plugins && expected.plugins) {
         assert.deepEqual(actual.plugins, expected.plugins);
     }
+}
+
+/**
+ * Stub configs and plugins with proxyquire.
+ * @param {object} stubImpls - Stub implements.
+ *      Keys are module names.
+ *      Values are each module implementation.
+ * @returns {Config} The stubbed config object.
+ */
+function stubConfigAndPlugin(stubImpls) {
+    var forConfig = assign({}, stubImpls);
+    forConfig["./cascading-config-data"] =
+        proxyquire("../../lib/cascading-config-data", stubImpls);
+
+    return proxyquire("../../lib/config", forConfig);
 }
 
 //------------------------------------------------------------------------------
@@ -302,7 +323,7 @@ describe("Config", function() {
         });
 
         it("should return a modified config when baseConfig is set to an object with extend and no .eslintrc", function() {
-            var StubbedConfig = proxyquire("../../lib/config", {
+            var StubbedConfig = stubConfigAndPlugin({
                 "eslint-config-foo": {
                     rules: {
                         eqeqeq: [2, "smart"]
@@ -344,7 +365,7 @@ describe("Config", function() {
 
             requireStubs[examplePluginName] = { rules: { "example-rule": customRule }, rulesConfig: { "example-rule": 1 } };
 
-            var StubbedConfig = proxyquire("../../lib/config", requireStubs);
+            var StubbedConfig = stubConfigAndPlugin(requireStubs);
             var configHelper = new StubbedConfig({
                     baseConfig: {
                         env: {
@@ -593,7 +614,7 @@ describe("Config", function() {
         });
 
         it("should load a sharable config as a command line config", function() {
-            var StubbedConfig = proxyquire("../../lib/config", {
+            var StubbedConfig = stubConfigAndPlugin({
                 "@test/eslint-config": {
                     rules: {
                         "no-var": 2
@@ -648,7 +669,7 @@ describe("Config", function() {
         // package extends
         it("should extend package configuration", function() {
 
-            var StubbedConfig = proxyquire("../../lib/config", {
+            var StubbedConfig = stubConfigAndPlugin({
                 "eslint-config-foo": {
                     rules: {
                         eqeqeq: [2, "smart"]
@@ -669,7 +690,7 @@ describe("Config", function() {
 
         it("should throw error if extend package dependency is not available", function() {
 
-            var StubbedConfig = proxyquire("../../lib/config", {
+            var StubbedConfig = stubConfigAndPlugin({
                 "bar-eslint-config-foo": {
                     rules: {
                         eqeqeq: [2, "smart"]
@@ -680,13 +701,14 @@ describe("Config", function() {
             var configPath = path.resolve(__dirname, "../fixtures/config-extends/package4/.eslintrc");
 
             assert.throw(function() {
-                new StubbedConfig({ useEslintrc: false, configFile: configPath }); // eslint-disable-line no-new
+                var config = new StubbedConfig({ useEslintrc: false, configFile: configPath });
+                config.getConfig(process.cwd());
             });
         });
 
         it("should extend package configuration without prefix", function() {
 
-            var StubbedConfig = proxyquire("../../lib/config", {
+            var StubbedConfig = stubConfigAndPlugin({
                 "eslint-config-foo": {
                     rules: {
                         eqeqeq: [2, "smart"]
@@ -707,7 +729,7 @@ describe("Config", function() {
 
         it("should throw error if extend scoped package dependency is not available", function() {
 
-            var StubbedConfig = proxyquire("../../lib/config", {
+            var StubbedConfig = stubConfigAndPlugin({
                 "@scope/bar-eslint-config-foo": {
                     rules: {
                         eqeqeq: [2, "smart"]
@@ -718,13 +740,14 @@ describe("Config", function() {
             var configPath = path.resolve(__dirname, "../fixtures/config-extends/scoped-package8/.eslintrc");
 
             assert.throw(function() {
-                new StubbedConfig({ useEslintrc: false, configFile: configPath }); // eslint-disable-line no-new
+                var config = new StubbedConfig({ useEslintrc: false, configFile: configPath });
+                config.getConfig(process.cwd());
             });
         });
 
         it("should extend scoped package configuration", function() {
 
-            var StubbedConfig = proxyquire("../../lib/config", {
+            var StubbedConfig = stubConfigAndPlugin({
                 "@scope/eslint-config-foo": {
                     rules: {
                         eqeqeq: 2
@@ -745,7 +768,7 @@ describe("Config", function() {
 
         it("should extend scoped package configuration without prefix", function() {
 
-            var StubbedConfig = proxyquire("../../lib/config", {
+            var StubbedConfig = stubConfigAndPlugin({
                 "@scope/eslint-config-foo": {
                     rules: {
                         eqeqeq: 2
@@ -766,7 +789,7 @@ describe("Config", function() {
 
         it("should not modify a scoped package named 'eslint-config'", function() {
 
-            var StubbedConfig = proxyquire("../../lib/config", {
+            var StubbedConfig = stubConfigAndPlugin({
                 "@scope/eslint-config": {
                     rules: {
                         eqeqeq: 2
@@ -787,7 +810,7 @@ describe("Config", function() {
 
         it("should extend a scope with a slash to '@scope/eslint-config'", function() {
 
-            var StubbedConfig = proxyquire("../../lib/config", {
+            var StubbedConfig = stubConfigAndPlugin({
                 "@scope/eslint-config": {
                     rules: {
                         eqeqeq: 2
@@ -808,7 +831,7 @@ describe("Config", function() {
 
         it("should extend a lone scope to '@scope/eslint-config'", function() {
 
-            var StubbedConfig = proxyquire("../../lib/config", {
+            var StubbedConfig = stubConfigAndPlugin({
                 "@scope/eslint-config": {
                     rules: {
                         eqeqeq: 2
@@ -829,7 +852,7 @@ describe("Config", function() {
 
         it("should still prefix a name prefix of 'eslint-config' without a dash, with a dash", function() {
 
-            var StubbedConfig = proxyquire("../../lib/config", {
+            var StubbedConfig = stubConfigAndPlugin({
                 "@scope/eslint-config-eslint-configfoo": {
                     rules: {
                         eqeqeq: 2
@@ -850,7 +873,7 @@ describe("Config", function() {
 
         it("should extend package sub-configuration without prefix", function() {
 
-            var StubbedConfig = proxyquire("../../lib/config", {
+            var StubbedConfig = stubConfigAndPlugin({
                 "eslint-config-foo/bar": {
                     rules: {
                         eqeqeq: 2
@@ -879,7 +902,7 @@ describe("Config", function() {
 
         it("should extend scoped package sub-configuration without prefix", function() {
 
-            var StubbedConfig = proxyquire("../../lib/config", {
+            var StubbedConfig = stubConfigAndPlugin({
                 "@scope/eslint-config-foo/bar": {
                     rules: {
                         eqeqeq: 2
@@ -908,7 +931,7 @@ describe("Config", function() {
 
         it("should extend package configuration with sub directories", function() {
 
-            var StubbedConfig = proxyquire("../../lib/config", {
+            var StubbedConfig = stubConfigAndPlugin({
                 "eslint-config-foo": {
                     rules: {
                         "eqeqeq": 2
@@ -1006,7 +1029,7 @@ describe("Config", function() {
             it("should return config with plugin config", function() {
                 requireStubs[examplePluginName] = examplePlugin;
 
-                StubbedConfig = proxyquire("../../lib/config", requireStubs);
+                StubbedConfig = stubConfigAndPlugin(requireStubs);
 
                 var configHelper = new StubbedConfig({}),
                     file = getFixturePath("broken", "plugins", "console-wrong-quotes.js"),
@@ -1029,7 +1052,7 @@ describe("Config", function() {
 
                 requireStubs[examplePluginName] = examplePlugin;
 
-                StubbedConfig = proxyquire("../../lib/config", requireStubs);
+                StubbedConfig = stubConfigAndPlugin(requireStubs);
 
                 var configHelper = new StubbedConfig({}),
                     file = getFixturePath("broken", "plugins", "console-wrong-quotes.js"),
@@ -1052,7 +1075,7 @@ describe("Config", function() {
                 requireStubs[examplePluginName] = examplePlugin;
                 requireStubs[testPluginName] = testPlugin;
 
-                StubbedConfig = proxyquire("../../lib/config", requireStubs);
+                StubbedConfig = stubConfigAndPlugin(requireStubs);
 
                 var configHelper = new StubbedConfig({}),
                     file = getFixturePath("broken", "plugins2", "console-wrong-quotes.js"),
@@ -1076,7 +1099,7 @@ describe("Config", function() {
             it("should still work if the plugin does not provide a default configuration", function() {
                 requireStubs[examplePluginName] = { rules: examplePluginRules };
 
-                StubbedConfig = proxyquire("../../lib/config", requireStubs);
+                StubbedConfig = stubConfigAndPlugin(requireStubs);
 
                 var configHelper = new StubbedConfig({}),
                     file = getFixturePath("broken", "plugins", "console-wrong-quotes.js"),
@@ -1097,7 +1120,7 @@ describe("Config", function() {
             it("should not clobber config objects when loading shared configs", function() {
                 requireStubs[exampleConfigName] = { rules: { "example-rule": 2 } };
 
-                StubbedConfig = proxyquire("../../lib/config", requireStubs);
+                StubbedConfig = stubConfigAndPlugin(requireStubs);
 
                 var configHelper = new StubbedConfig({}),
                     file1 = getFixturePath("shared", "a", "index.js"),
@@ -1114,17 +1137,130 @@ describe("Config", function() {
         });
 
         describe("with env in a child configuration file", function() {
-            it("should overwrite ecmaFeatures of the parent with env of the child", function() {
+            it("should overwrite ecmaFeatures of the parent with env of the child (true)", function() {
                 var config = new Config();
                 var targetPath = getFixturePath("overwrite-ecmaFeatures", "child", "foo.js");
                 var expected = {
-                    rules: {},
                     env: {commonjs: true},
                     ecmaFeatures: {globalReturn: true}
                 };
                 var actual = config.getConfig(targetPath);
 
                 assertConfigsEqual(actual, expected);
+            });
+
+            it("should overwrite ecmaFeatures of the parent with env of the child (false)", function() {
+                var config = new Config();
+                var targetPath = getFixturePath("overwrite-ecmaFeatures", "child", "child", "foo.js");
+                var expected = {
+                    env: {commonjs: false},
+                    ecmaFeatures: {globalReturn: false}
+                };
+                var actual = config.getConfig(targetPath);
+
+                assertConfigsEqual(actual, expected);
+            });
+
+            it("should overwrite globals of the parent with env of the child (true)", function() {
+                var config = new Config();
+                var targetPath = getFixturePath("overwrite-ecmaFeatures", "child", "foo.js");
+                var expected = {
+                    env: {commonjs: true},
+                    globals: Environments.commonjs.globals
+                };
+                var actual = config.getConfig(targetPath);
+
+                assertConfigsEqual(actual, expected);
+            });
+
+            it("should overwrite globals of the parent with env of the child (false)", function() {
+                var config = new Config();
+                var targetPath = getFixturePath("overwrite-ecmaFeatures", "child", "child", "foo.js");
+                var expected = {
+                    env: {commonjs: false},
+                    globals: {require: true}
+                };
+                var actual = config.getConfig(targetPath);
+
+                assertConfigsEqual(actual, expected);
+            });
+
+            it("should handle overlapped ecmaFeatures/globals correctly (all true).", function() {
+                var config = new Config();
+                var targetPath = getFixturePath("overwrite-ecmaFeatures", "child2", "foo.js");
+                var expected = {
+                    env: {commonjs: true, node: true},
+                    ecmaFeatures: {globalReturn: true},
+                    globals: assign({}, Environments.commonjs.globals, Environments.node.globals)
+                };
+                var actual = config.getConfig(targetPath);
+
+                assertConfigsEqual(actual, expected);
+            });
+
+            it("should handle overlapped ecmaFeatures/globals correctly (half false).", function() {
+                var config = new Config();
+                var targetPath = getFixturePath("overwrite-ecmaFeatures", "child2", "node-false", "foo.js");
+                var expected = {
+                    env: {commonjs: true, node: false},
+                    ecmaFeatures: {globalReturn: true},
+                    globals: Environments.commonjs.globals
+                };
+                var actual = config.getConfig(targetPath);
+
+                assertConfigsEqual(actual, expected);
+            });
+
+            it("should handle overlapped ecmaFeatures/globals correctly (all false).", function() {
+                var config = new Config();
+                var targetPath = getFixturePath("overwrite-ecmaFeatures", "child2", "both-false", "foo.js");
+                var expected = {
+                    env: {commonjs: false, node: false},
+                    ecmaFeatures: {globalReturn: false},
+                    globals: {require: true}
+                };
+                var actual = config.getConfig(targetPath);
+
+                assertConfigsEqual(actual, expected);
+            });
+
+            it("should handle ecmaFeatures/globals which overlapped with \"extends\" options.", function() {
+                var StubbedConfig = stubConfigAndPlugin({
+                    "eslint-config-test1": {extends: "test2", env: {node: false}},
+                    "eslint-config-test2": {env: {node: true}}
+                });
+                var config = new StubbedConfig();
+                var targetPath = getFixturePath("overwrite-ecmaFeatures", "child3", "child", "foo.js");
+                var expected = {
+                    env: {commonjs: true, node: false},
+                    ecmaFeatures: {globalReturn: true},
+                    globals: assign({}, Environments.commonjs.globals, {__dirname: true})
+                };
+                var actual = config.getConfig(targetPath);
+
+                assertConfigsEqual(actual, expected);
+            });
+
+            it("should be ok even if Object.prototype is modified.", function() {
+                Object.prototype.foobar = true; // eslint-disable-line no-extend-native
+                try {
+                    var StubbedConfig = stubConfigAndPlugin({
+                        "eslint-config-test1": {extends: "test2", env: {node: false}},
+                        "eslint-config-test2": {env: {node: true}}
+                    });
+                    var config = new StubbedConfig();
+                    var targetPath = getFixturePath("overwrite-ecmaFeatures", "child3", "child", "foo.js");
+                    var expected = {
+                        env: {commonjs: true, node: false},
+                        ecmaFeatures: {globalReturn: true},
+                        globals: assign({}, Environments.commonjs.globals, {__dirname: true})
+                    };
+                    var actual = config.getConfig(targetPath);
+
+                    assertConfigsEqual(actual, expected);
+                } finally {
+                    delete Object.prototype.foobar;
+                }
             });
         });
 
@@ -1146,7 +1282,7 @@ describe("Config", function() {
 
                 getCwd.returns(projectPath);
 
-                var StubbedConfig = proxyquire("../../lib/config", { "user-home": homePath });
+                var StubbedConfig = stubConfigAndPlugin({ "user-home": homePath });
 
                 var config = new StubbedConfig(),
                     actual = config.getConfig(filePath),
@@ -1154,7 +1290,8 @@ describe("Config", function() {
                         ecmaFeatures: {},
                         env: {},
                         globals: {},
-                        parser: void 0,
+                        parser: "espree",
+                        plugins: [],
                         rules: {
                             "home-folder-rule": 2
                         }
@@ -1170,7 +1307,7 @@ describe("Config", function() {
 
                 getCwd.returns(projectPath);
 
-                var StubbedConfig = proxyquire("../../lib/config", { "user-home": homePath });
+                var StubbedConfig = stubConfigAndPlugin({ "user-home": homePath });
 
                 var config = new StubbedConfig(),
                     actual = config.getConfig(filePath),
@@ -1178,7 +1315,8 @@ describe("Config", function() {
                         ecmaFeatures: {},
                         env: {},
                         globals: {},
-                        parser: void 0,
+                        parser: "espree",
+                        plugins: [],
                         rules: {
                             "project-level-rule": 2
                         }
@@ -1194,7 +1332,7 @@ describe("Config", function() {
 
                 getCwd.returns(projectPath);
 
-                var StubbedConfig = proxyquire("../../lib/config", { "user-home": homePath });
+                var StubbedConfig = stubConfigAndPlugin({ "user-home": homePath });
 
                 var config = new StubbedConfig(),
                     actual = config.getConfig(filePath),
@@ -1202,7 +1340,8 @@ describe("Config", function() {
                         ecmaFeatures: {},
                         env: {},
                         globals: {},
-                        parser: void 0,
+                        parser: "espree",
+                        plugins: [],
                         rules: {}
                     };
 
@@ -1213,7 +1352,7 @@ describe("Config", function() {
                 var projectPath = getFixturePath("personal-config", "project-with-config"),
                     filePath = getFixturePath("personal-config", "project-with-config", "subfolder", "foo.js");
 
-                var StubbedConfig = proxyquire("../../lib/config", { "user-home": projectPath });
+                var StubbedConfig = stubConfigAndPlugin({ "user-home": projectPath });
 
                 getCwd.returns(projectPath);
 
@@ -1223,7 +1362,8 @@ describe("Config", function() {
                         ecmaFeatures: {},
                         env: {},
                         globals: {},
-                        parser: void 0,
+                        parser: "espree",
+                        plugins: [],
                         rules: {
                             "project-level-rule": 2,
                             "subfolder-level-rule": 2

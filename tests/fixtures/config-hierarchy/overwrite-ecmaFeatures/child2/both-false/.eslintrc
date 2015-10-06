@@ -1,0 +1,6 @@
+{
+    "env": {
+        "node": false,
+        "commonjs": false
+    }
+}

@@ -1,0 +1,6 @@
+{
+    "extends": "test1",
+    "globals": {
+        "__dirname": true
+    }
+}
