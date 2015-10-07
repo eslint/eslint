@@ -67,6 +67,16 @@ ruleTester.run("func-style", rule, {
             code: "var foo = () => { this; };",
             options: ["declaration"],
             ecmaFeatures: { arrowFunctions: true }
+        },
+        {
+            code: "var foo = () => {};",
+            options: ["declaration", {allowArrowFunctions: true}],
+            ecmaFeatures: { arrowFunctions: true }
+        },
+        {
+            code: "var foo = () => { function foo() { this; } };",
+            options: ["declaration", {allowArrowFunctions: true}],
+            ecmaFeatures: { arrowFunctions: true }
         }
     ],
 
