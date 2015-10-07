@@ -33,6 +33,10 @@ ruleTester.run("no-mixed-spaces-and-tabs", rule, {
             options: [true]
         },
         {
+            code: "/*\n\t */`\n\t   `;",
+            env: { es6: true }
+        },
+        {
             code: "`\n\t   `;",
             env: { es6: true }
         },
