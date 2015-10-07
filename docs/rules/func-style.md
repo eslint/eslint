@@ -64,6 +64,12 @@ function foo() {  /*error Expected a function expression.*/
 }
 ```
 
+```js
+/*eslint func-style: [2, "declaration"]*/
+
+var foo = () => {};  /*error Expected a function declaration.*/
+```
+
 The following patterns are not considered problems:
 
 ```js
@@ -87,6 +93,13 @@ var foo = function() {
 };
 ```
 
+```js
+/*eslint func-style: [2, "declaration", { "allowArrowFunctions": true }]*/
+
+var foo = () => {};
+```
+
+
 ### Options
 
 ```json
@@ -100,6 +113,12 @@ This reports an error if any function expressions are used where function declar
 ```
 
 This configuration reports an error when function declarations are used instead of function expressions.
+
+```json
+"func-style": [2, "expression", { "allowArrowFunctions": true }]
+```
+
+This configuration works as expression setting works but does not check for arrow functions.
 
 ## When Not To Use It
 
