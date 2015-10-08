@@ -29,6 +29,9 @@ ruleTester.run("no-mixed-spaces-and-tabs", rule, {
             code: "\t/*\n\t * Hello\n\t */"
         },
         {
+            code: "/*\n\n \t \n*/"
+        },
+        {
             code: "\tvar x = 5,\n\t    y = 2;",
             options: [true]
         },
