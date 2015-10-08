@@ -25,7 +25,11 @@ ruleTester.run("no-underscore-dangle", rule, {
         "console.log(__filename); console.log(__dirname);",
         "var _ = require('underscore');",
         "var a = b._;",
-        { code: "export default function() {}", ecmaFeatures: { modules: true }}
+        { code: "export default function() {}", ecmaFeatures: { modules: true }},
+        { code: "var _foo = 1", options: [{ allow: ["_foo"] }]},
+        { code: "var __proto__ = 1;", options: [{ allow: ["__proto__"] }]},
+        { code: "foo._bar;", options: [{ allow: ["_bar"] }]},
+        { code: "function _foo() {}", options: [{ allow: ["_foo"] }]}
     ],
     invalid: [
         { code: "var _foo = 1", errors: [{ message: "Unexpected dangling \"_\" in \"_foo\".", type: "VariableDeclarator"}] },
