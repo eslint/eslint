@@ -223,7 +223,7 @@ ruleTester.run("no-unused-vars", rule, {
             errors: [
                 {line: 1, column: 14, message: "\"数\" is defined but never used" }
             ]
-        }
+        },
         // surrogate pair.
         // TODO: https://github.com/eslint/espree/issues/181
         // {
@@ -233,5 +233,37 @@ ruleTester.run("no-unused-vars", rule, {
         //         {line: 1, column: 16, message: "\"𠮷\" is defined but never used" }
         //     ]
         // }
+
+        // https://github.com/eslint/eslint/issues/4047
+        {
+            code: "export default function(a) {}",
+            ecmaFeatures: {modules: true},
+            errors: [{message: "\"a\" is defined but never used"}]
+        },
+        {
+            code: "export default function(a, b) { console.log(a); }",
+            ecmaFeatures: {modules: true},
+            errors: [{message: "\"b\" is defined but never used"}]
+        },
+        {
+            code: "export default (function(a) {});",
+            ecmaFeatures: {modules: true},
+            errors: [{message: "\"a\" is defined but never used"}]
+        },
+        {
+            code: "export default (function(a, b) { console.log(a); });",
+            ecmaFeatures: {modules: true},
+            errors: [{message: "\"b\" is defined but never used"}]
+        },
+        {
+            code: "export default (a) => {};",
+            ecmaFeatures: {modules: true, arrowFunctions: true},
+            errors: [{message: "\"a\" is defined but never used"}]
+        },
+        {
+            code: "export default (a, b) => { console.log(a); };",
+            ecmaFeatures: {modules: true, arrowFunctions: true},
+            errors: [{message: "\"b\" is defined but never used"}]
+        }
     ]
 });
