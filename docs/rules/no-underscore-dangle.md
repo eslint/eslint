@@ -14,6 +14,16 @@ Whether or not you choose to allow dangling underscores in identifiers is purely
 
 This rule aims to eliminate the use of dangling underscores in identifiers.
 
+### Options
+
+#### allow
+
+```json
+"no-underscore-dangle": [2, { "allow": [] }]
+```
+
+Array of variable names that are permitted to be used with underscore. If provided, it must be an `Array`.
+
 The following patterns are considered problems:
 
 ```js
@@ -33,6 +43,14 @@ var _ = require('underscore');
 var obj = _.contains(items, item);
 obj.__proto__ = {};
 var file = __filename;
+```
+
+
+```js
+/*eslint no-underscore-dangle: [2, { "allow": ["foo_", "_bar"] }*/
+
+var foo_;
+foo._bar();
 ```
 
 ## When Not To Use It
