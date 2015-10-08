@@ -33,9 +33,9 @@ var _ = require('underscore');
 var obj = _.contains(items, item);
 obj.__proto__ = {};
 var file = __filename;
+this._bar();
 ```
 
 ## When Not To Use It
 
 If you want to allow dangling underscores in identifiers, then you can safely turn this rule off.
-
