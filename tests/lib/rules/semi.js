@@ -43,6 +43,8 @@ ruleTester.run("semi", rule, {
         { code: "a++\nb++", options: ["never"] },
         { code: "a++; b++", options: ["never"] },
         { code: "for (let thing of {}) {\n  console.log(thing);\n}", ecmaFeatures: { forOf: true, blockBindings: true }},
+        { code: "do{}while(true)", options: ["never"] },
+        { code: "do{}while(true);", options: ["always"] },
 
         // method definitions don't have a semicolon.
         { code: "class A { a() {} b() {} }", ecmaFeatures: { classes: true }},
@@ -110,6 +112,7 @@ ruleTester.run("semi", rule, {
         { code: "var foo = {\n bar: baz\n}", output: "var foo = {\n bar: baz\n};", errors: [{ message: "Missing semicolon.", type: "VariableDeclaration", line: 3}] },
         { code: "var foo\nvar bar;", output: "var foo;\nvar bar;", errors: [{ message: "Missing semicolon.", type: "VariableDeclaration", line: 1}] },
         { code: "throw new Error('foo')", output: "throw new Error('foo');", errors: [{ message: "Missing semicolon.", type: "ThrowStatement", line: 1}] },
+        { code: "do{}while(true)", output: "do{}while(true);", errors: [{ message: "Missing semicolon.", type: "DoWhileStatement", line: 1}] },
 
         { code: "throw new Error('foo');", output: "throw new Error('foo')", options: ["never"], errors: [{ message: "Extra semicolon.", type: "ThrowStatement", column: 23}] },
         { code: "function foo() { return []; }", output: "function foo() { return [] }", options: ["never"], errors: [{ message: "Extra semicolon.", type: "ReturnStatement"}] },
@@ -127,6 +130,7 @@ ruleTester.run("semi", rule, {
         { code: "for (var j;;) {var i;}", output: "for (var j;;) {var i}", options: ["never"], errors: [{ message: "Extra semicolon.", type: "VariableDeclaration"}] },
         { code: "var foo = {\n bar: baz\n};", output: "var foo = {\n bar: baz\n}", options: ["never"], errors: [{ message: "Extra semicolon.", type: "VariableDeclaration", line: 3}] },
         { code: "import theDefault, { named1, named2 } from 'src/mylib';", output: "import theDefault, { named1, named2 } from 'src/mylib'", options: ["never"], ecmaFeatures: { modules: true }, errors: [{ message: "Extra semicolon.", type: "ImportDeclaration"}] },
+        { code: "do{}while(true);", output: "do{}while(true)", options: ["never"], errors: [{ message: "Extra semicolon.", type: "DoWhileStatement", line: 1}] },
 
         // exports, "always"
         { code: "export * from 'foo'", output: "export * from 'foo';", ecmaFeatures: { modules: true }, errors: [{ message: "Missing semicolon.", type: "ExportAllDeclaration" }] },
