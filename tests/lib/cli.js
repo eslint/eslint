@@ -16,6 +16,7 @@ var assert = require("chai").assert,
     sinon = require("sinon"),
     leche = require("leche"),
     fs = require("fs"),
+    os = require("os"),
     sh = require("shelljs"),
     proxyquire = require("proxyquire");
 
@@ -42,7 +43,7 @@ describe("cli", function() {
 
     // copy into clean area so as not to get "infected" by this project's .eslintrc files
     before(function() {
-        fixtureDir = sh.tempdir() + "/eslint/fixtures";
+        fixtureDir = os.tmpdir() + "/eslint/fixtures";
         sh.mkdir("-p", fixtureDir);
         sh.cp("-r", "./tests/fixtures/.", fixtureDir);
     });
