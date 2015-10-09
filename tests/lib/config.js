@@ -12,6 +12,7 @@
 var assert = require("chai").assert,
     path = require("path"),
     fs = require("fs"),
+    os = require("os"),
     Config = require("../../lib/config"),
     sinon = require("sinon"),
     proxyquire = require("proxyquire");
@@ -19,7 +20,7 @@ var assert = require("chai").assert,
 require("shelljs/global");
 proxyquire = proxyquire.noCallThru().noPreserveCache();
 
-/* global tempdir, mkdir, rm, cp */
+/* global mkdir, rm, cp */
 
 
 /**
@@ -75,7 +76,7 @@ describe("Config", function() {
 
     // copy into clean area so as not to get "infected" by this project's .eslintrc files
     before(function() {
-        fixtureDir = tempdir() + "/eslint/fixtures";
+        fixtureDir = os.tmpdir() + "/eslint/fixtures";
         mkdir("-p", fixtureDir);
         cp("-r", "./tests/fixtures/config-hierarchy", fixtureDir);
     });
