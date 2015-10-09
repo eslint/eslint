@@ -80,6 +80,8 @@
     "coveralls": "2.11.2",
     "dateformat": "^1.0.8",
     "ejs": "^2.3.3",
+    "eslint": "^1.5.0",
+    "eslint-plugin-markdown": "eslint/eslint-plugin-markdown",
     "esprima": "^2.4.1",
     "esprima-fb": "^10001.1.0-dev-harmony-fb",
     "gh-got": "^1.0.3",

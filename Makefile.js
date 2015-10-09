@@ -49,10 +49,12 @@ var NODE = "node ", // intentional extra space
     BUILD_DIR = "./build/",
     DOCS_DIR = "../eslint.github.io/docs",
     SITE_DIR = "../eslint.github.io/",
+    RULES_DOCS_DIR = "./docs/rules",
 
     // Utilities - intentional extra space at the end of each string
     MOCHA = NODE_MODULES + "mocha/bin/_mocha ",
     ESLINT = NODE + " bin/eslint.js ",
+    PLUGIN_MARKDOWN = "--plugin markdown ",
 
     // Files
     MAKEFILE = "./Makefile.js",
@@ -475,6 +477,12 @@ target.lint = function() {
 
     echo("Validating Markdown Files");
     lastReturn = lintMarkdown(MARKDOWN_FILES_ARRAY);
+    if (lastReturn.code !== 0) {
+        errors++;
+    }
+
+    echo("Validating Rule Doc Code Examples");
+    lastReturn = exec(ESLINT + PLUGIN_MARKDOWN + RULES_DOCS_DIR + " --no-eslintrc --ext .md");
     if (lastReturn.code !== 0) {
         errors++;
     }
