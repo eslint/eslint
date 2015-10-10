@@ -31,11 +31,11 @@ The following rules point out areas where you might have made mistakes.
 * [no-obj-calls](no-obj-calls.md) - disallow the use of object properties of the global object (`Math` and `JSON`) as functions (recommended)
 * [no-regex-spaces](no-regex-spaces.md) - disallow multiple spaces in a regular expression literal (recommended)
 * [no-sparse-arrays](no-sparse-arrays.md) - disallow sparse arrays (recommended)
+* [no-unexpected-multiline](no-unexpected-multiline.md) - Avoid code that looks like two expressions but is actually one
 * [no-unreachable](no-unreachable.md) - disallow unreachable statements after a return, throw, continue, or break statement (recommended)
 * [use-isnan](use-isnan.md) - disallow comparisons with the value `NaN` (recommended)
 * [valid-jsdoc](valid-jsdoc.md) - Ensure JSDoc comments are valid
 * [valid-typeof](valid-typeof.md) - Ensure that the results of typeof are compared against a valid string (recommended)
-* [no-unexpected-multiline](no-unexpected-multiline.md) - Avoid code that looks like two expressions but is actually one
 
 ## Best Practices
 
@@ -47,8 +47,8 @@ These are rules designed to prevent you from making mistakes. They either prescr
 * [consistent-return](consistent-return.md) - require `return` statements to either always or never specify values
 * [curly](curly.md) - specify curly brace conventions for all control statements
 * [default-case](default-case.md) - require `default` case in `switch` statements
-* [dot-notation](dot-notation.md) - encourages use of dot notation whenever possible
 * [dot-location](dot-location.md) - enforces consistent newlines before or after dots
+* [dot-notation](dot-notation.md) - encourages use of dot notation whenever possible
 * [eqeqeq](eqeqeq.md) - require the use of `===` and `!==` (fixable)
 * [guard-for-in](guard-for-in.md) - make sure `for-in` loops have an `if` statement
 * [no-alert](no-alert.md) - disallow the use of `alert`, `confirm`, and `prompt`
@@ -70,6 +70,7 @@ These are rules designed to prevent you from making mistakes. They either prescr
 * [no-labels](no-labels.md) - disallow use of labeled statements
 * [no-lone-blocks](no-lone-blocks.md) - disallow unnecessary nested blocks
 * [no-loop-func](no-loop-func.md) - disallow creation of functions within loops
+* [no-magic-numbers](no-magic-numbers.md) - disallow the use of magic numbers
 * [no-multi-spaces](no-multi-spaces.md) - disallow use of multiple spaces (fixable)
 * [no-multi-str](no-multi-str.md) - disallow use of multiline strings
 * [no-native-reassign](no-native-reassign.md) - disallow reassignments of native objects
@@ -93,7 +94,6 @@ These are rules designed to prevent you from making mistakes. They either prescr
 * [no-void](no-void.md) - disallow use of the `void` operator
 * [no-warning-comments](no-warning-comments.md) - disallow usage of configurable warning terms in comments - e.g. `TODO` or `FIXME`
 * [no-with](no-with.md) - disallow use of the `with` statement
-* [no-magic-numbers](no-magic-numbers.md) - disallow the use of magic numbers
 * [radix](radix.md) - require use of the second argument for `parseInt()`
 * [vars-on-top](vars-on-top.md) - require declaration of all vars at the top of their containing scope
 * [wrap-iife](wrap-iife.md) - require immediate function invocation to be wrapped in parentheses
@@ -155,8 +155,8 @@ These rules are purely matters of style and are quite subjective.
 * [indent](indent.md) - specify tab or space width for your code (fixable)
 * [jsx-quotes](jsx-quotes.md) - specify whether double or single quotes should be used in JSX attributes
 * [key-spacing](key-spacing.md) - enforce spacing between keys and values in object literal properties
-* [lines-around-comment](lines-around-comment.md) - enforce empty lines around comments
 * [linebreak-style](linebreak-style.md) - disallow mixed 'LF' and 'CRLF' as linebreaks
+* [lines-around-comment](lines-around-comment.md) - enforce empty lines around comments
 * [max-nested-callbacks](max-nested-callbacks.md) - specify the maximum depth callbacks can be nested
 * [new-cap](new-cap.md) - require a capital letter for constructors
 * [new-parens](new-parens.md) - disallow the omission of parentheses when invoking a constructor with no arguments
@@ -167,8 +167,8 @@ These rules are purely matters of style and are quite subjective.
 * [no-lonely-if](no-lonely-if.md) - disallow `if` as the only statement in an `else` block
 * [no-mixed-spaces-and-tabs](no-mixed-spaces-and-tabs.md) - disallow mixed spaces and tabs for indentation (recommended)
 * [no-multiple-empty-lines](no-multiple-empty-lines.md) - disallow multiple empty lines
-* [no-nested-ternary](no-nested-ternary.md) - disallow nested ternary expressions
 * [no-negated-condition](no-negated-condition.md) - disallow negated conditions
+* [no-nested-ternary](no-nested-ternary.md) - disallow nested ternary expressions
 * [no-new-object](no-new-object.md) - disallow the use of the `Object` constructor
 * [no-restricted-syntax](no-restricted-syntax.md) - disallow use of certain syntax in code
 * [no-spaced-func](no-spaced-func.md) - disallow space between function identifier and application (fixable)
@@ -188,9 +188,9 @@ These rules are purely matters of style and are quite subjective.
 * [semi](semi.md) - require or disallow use of semicolons instead of ASI (fixable)
 * [sort-vars](sort-vars.md) - sort variables within the same declaration block
 * [space-after-keywords](space-after-keywords.md) - require a space after certain keywords (fixable)
-* [space-before-keywords](space-before-keywords.md) - require a space before certain keywords (fixable)
 * [space-before-blocks](space-before-blocks.md) - require or disallow a space before blocks (fixable)
 * [space-before-function-paren](space-before-function-paren.md) - require or disallow a space before function opening parenthesis (fixable)
+* [space-before-keywords](space-before-keywords.md) - require a space before certain keywords (fixable)
 * [space-in-parens](space-in-parens.md) - require or disallow spaces inside parentheses
 * [space-infix-ops](space-infix-ops.md) - require spaces around operators (fixable)
 * [space-return-throw-case](space-return-throw-case.md) - require a space after `return`, `throw`, and `case` (fixable)
@@ -214,8 +214,8 @@ These rules are only relevant to ES6 environments.
 * [object-shorthand](object-shorthand.md) - require method and property shorthand syntax for object literals
 * [prefer-arrow-callback](prefer-arrow-callback.md) - suggest using arrow functions as callbacks
 * [prefer-const](prefer-const.md) - suggest using `const` declaration for variables that are never modified after declared
-* [prefer-spread](prefer-spread.md) - suggest using the spread operator instead of `.apply()`.
 * [prefer-reflect](prefer-reflect.md) - suggest using Reflect methods where applicable
+* [prefer-spread](prefer-spread.md) - suggest using the spread operator instead of `.apply()`.
 * [prefer-template](prefer-template.md) - suggest using template literals instead of strings concatenation
 * [require-yield](require-yield.md) - disallow generator functions that do not have `yield`
 
