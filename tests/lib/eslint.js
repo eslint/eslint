@@ -788,6 +788,22 @@ describe("eslint", function() {
             assert.equal(messages[0].message, "message yay!");
         });
 
+        it("should not crash if no template parameters are passed", function() {
+            eslint.reset();
+            eslint.defineRule("test-rule", function(context) {
+                return {
+                    "Literal": function(node) {
+                        context.report(node, "message {{code}}");
+                    }
+                };
+            });
+
+            config.rules["test-rule"] = 1;
+
+            var messages = eslint.verify("0", config);
+            assert.equal(messages[0].message, "message {{code}}");
+        });
+
         it("should allow template parameter with non-identifier characters", function() {
             eslint.reset();
             eslint.defineRule("test-rule", function(context) {
