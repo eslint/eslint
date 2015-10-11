@@ -412,10 +412,10 @@ if( "very very long multi line" +
 
 a( "very very long multi line" +
     "with weird indentation", function() {
-      b();
-      a(); // ->
-      c(); // <-
-    });
+  b();
+  a(); // ->
+  c(); // <-
+});
 
 a = function(content, dom) {
   b();
@@ -439,9 +439,9 @@ a = function(content, dom) {
 
 a('This is a terribly long description youll ' +
   'have to read', function () {
-    b();
-    c();
-  });
+  b();
+  c();
+});
 
 if (
   array.some(function(){
