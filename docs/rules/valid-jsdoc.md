@@ -168,6 +168,16 @@ By default ESLint requires you to specify a description for each `@return`. You 
 }]
 ```
 
+#### matchDescription
+
+Specify a regular expression to validate jsdoc comment block description against.
+
+```json
+"valid-jsdoc": [2, {
+    "matchDescription": "^[A-Z][A-Za-z0-9\\s]*[.]$"
+}]
+```
+
 ## When Not To Use It
 
 If you aren't using JSDoc, then you can safely turn this rule off.
