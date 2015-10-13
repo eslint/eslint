@@ -111,6 +111,12 @@ ruleTester.run("valid-jsdoc", rule, {
             code: "/** foo */ var foo = () => { bar(); };",
             options: [{requireReturn: false}],
             ecmaFeatures: {arrowFunctions: true}
+        },
+        {
+            code: "/**\n* Start with caps and end with period.\n* @return {void} */\nfunction foo(){}",
+            options: [{
+                "matchDescription": "^[A-Z][A-Za-z0-9\\s]*[.]$"
+            }]
         }
     ],
 
@@ -339,6 +345,16 @@ ruleTester.run("valid-jsdoc", rule, {
                     type: "Block"
                 }
             ]
+        },
+        {
+            code: "/**\n* Start with caps and end with period\n* @return {void} */\nfunction foo(){}",
+            options: [{
+                "matchDescription": "^[A-Z][A-Za-z0-9\\s]*[.]$"
+            }],
+            errors: [{
+                message: "JSDoc description does not satisfy the regex pattern.",
+                type: "Block"
+            }]
         }
     ]
 });
