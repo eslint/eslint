@@ -317,8 +317,353 @@ ruleTester.run("lines-around-comment", rule, {
                 allowBlockEnd: true
             }],
             ecmaFeatures: {classes: true}
-        }
+        },
 
+        // check for object start comments
+        {
+            code:
+            "var a,\n\n" +
+            "// line\n" +
+            "b;",
+            options: [{
+                beforeLineComment: true,
+                allowObjectStart: true
+            }]
+        },
+        {
+            code:
+            "var obj = {\n" +
+            "  // line at object start\n" +
+            "  g: 1\n" +
+            "};",
+            options: [{
+                beforeLineComment: true,
+                allowObjectStart: true
+            }]
+        },
+        {
+            code:
+            "function hi() {\n" +
+            "  return {\n" +
+            "    // hi\n" +
+            "    test: function() {\n" +
+            "    }\n" +
+            "  }\n" +
+            "}",
+            options: [{
+                beforeLineComment: true,
+                allowObjectStart: true
+            }]
+        },
+        {
+            code:
+            "var obj = {\n" +
+            "  /* block comment at object start*/\n" +
+            "  g: 1\n" +
+            "};",
+            options: [{
+                beforeBlockComment: true,
+                allowObjectStart: true
+            }]
+        },
+        {
+            code:
+            "function hi() {\n" +
+            "  return {\n" +
+            "    /**\n" +
+            "    * hi\n" +
+            "    */\n" +
+            "    test: function() {\n" +
+            "    }\n" +
+            "  }\n" +
+            "}",
+            options: [{
+                beforeLineComment: true,
+                allowObjectStart: true
+            }]
+        },
+        {
+            code:
+            "const {\n" +
+            "  // line at object start\n" +
+            "  g: a\n" +
+            "} = {};",
+            options: [{
+                beforeLineComment: true,
+                allowObjectStart: true
+            }],
+            ecmaFeatures: {blockBindings: true, destructuring: true}
+        },
+        {
+            code:
+            "const {\n" +
+            "  // line at object start\n" +
+            "  g\n" +
+            "} = {};",
+            options: [{
+                beforeLineComment: true,
+                allowObjectStart: true
+            }],
+            ecmaFeatures: {blockBindings: true, destructuring: true}
+        },
+        {
+            code:
+            "const {\n" +
+            "  /* block comment at object-like start*/\n" +
+            "  g: a\n" +
+            "} = {};",
+            options: [{
+                beforeBlockComment: true,
+                allowObjectStart: true
+            }],
+            ecmaFeatures: {blockBindings: true, destructuring: true}
+        },
+        {
+            code:
+            "const {\n" +
+            "  /* block comment at object-like start*/\n" +
+            "  g\n" +
+            "} = {};",
+            options: [{
+                beforeBlockComment: true,
+                allowObjectStart: true
+            }],
+            ecmaFeatures: {blockBindings: true, destructuring: true}
+        },
+
+        // check for object end comments
+        {
+            code:
+            "var a,\n" +
+            "// line\n\n" +
+            "b;",
+            options: [{
+                afterLineComment: true,
+                allowObjectEnd: true
+            }]
+        },
+        {
+            code:
+            "var obj = {\n" +
+            "  g: 1\n" +
+            "  // line at object end\n" +
+            "};",
+            options: [{
+                afterLineComment: true,
+                allowObjectEnd: true
+            }]
+        },
+        {
+            code:
+            "function hi() {\n" +
+            "  return {\n" +
+            "    test: function() {\n" +
+            "    }\n" +
+            "    // hi\n" +
+            "  }\n" +
+            "}",
+            options: [{
+                afterLineComment: true,
+                allowObjectEnd: true
+            }]
+        },
+        {
+            code:
+            "var obj = {\n" +
+            "  g: 1\n" +
+            "  \n" +
+            "  /* block comment at object end*/\n" +
+            "};",
+            options: [{
+                afterBlockComment: true,
+                allowObjectEnd: true
+            }]
+        },
+        {
+            code:
+            "function hi() {\n" +
+            "  return {\n" +
+            "    test: function() {\n" +
+            "    }\n" +
+            "    \n" +
+            "    /**\n" +
+            "    * hi\n" +
+            "    */\n" +
+            "  }\n" +
+            "}",
+            options: [{
+                afterBlockComment: true,
+                allowObjectEnd: true
+            }]
+        },
+        {
+            code:
+            "const {\n" +
+            "  g: a\n" +
+            "  // line at object end\n" +
+            "} = {};",
+            options: [{
+                afterLineComment: true,
+                allowObjectEnd: true
+            }],
+            ecmaFeatures: {blockBindings: true, destructuring: true}
+        },
+        {
+            code:
+            "const {\n" +
+            "  g\n" +
+            "  // line at object end\n" +
+            "} = {};",
+            options: [{
+                afterLineComment: true,
+                allowObjectEnd: true
+            }],
+            ecmaFeatures: {blockBindings: true, destructuring: true}
+        },
+        {
+            code:
+            "const {\n" +
+            "  g: a\n" +
+            "  \n" +
+            "  /* block comment at object-like end*/\n" +
+            "} = {};",
+            options: [{
+                afterBlockComment: true,
+                allowObjectEnd: true
+            }],
+            ecmaFeatures: {blockBindings: true, destructuring: true}
+        },
+        {
+            code:
+            "const {\n" +
+            "  g\n" +
+            "  \n" +
+            "  /* block comment at object-like end*/\n" +
+            "} = {};",
+            options: [{
+                afterBlockComment: true,
+                allowObjectEnd: true
+            }],
+            ecmaFeatures: {blockBindings: true, destructuring: true}
+        },
+
+        // check for array start comments
+        {
+            code:
+            "var a,\n\n" +
+            "// line\n" +
+            "b;",
+            options: [{
+                beforeLineComment: true,
+                allowArrayStart: true
+            }]
+        },
+        {
+            code:
+            "var arr = [\n" +
+            "  // line at array start\n" +
+            "  1\n" +
+            "];",
+            options: [{
+                beforeLineComment: true,
+                allowArrayStart: true
+            }]
+        },
+        {
+            code:
+            "var arr = [\n" +
+            "  /* block comment at array start*/\n" +
+            "  1\n" +
+            "];",
+            options: [{
+                beforeBlockComment: true,
+                allowArrayStart: true
+            }]
+        },
+        {
+            code:
+            "const [\n" +
+            "  // line at array start\n" +
+            "  a\n" +
+            "] = [];",
+            options: [{
+                beforeLineComment: true,
+                allowArrayStart: true
+            }],
+            ecmaFeatures: {blockBindings: true, destructuring: true}
+        },
+        {
+            code:
+            "const [\n" +
+            "  /* block comment at array start*/\n" +
+            "  a\n" +
+            "] = [];",
+            options: [{
+                beforeBlockComment: true,
+                allowArrayStart: true
+            }],
+            ecmaFeatures: {blockBindings: true, destructuring: true}
+        },
+
+        // check for array end comments
+        {
+            code:
+            "var a,\n" +
+            "// line\n\n" +
+            "b;",
+            options: [{
+                afterLineComment: true,
+                allowArrayEnd: true
+            }]
+        },
+        {
+            code:
+            "var arr = [\n" +
+            "  1\n" +
+            "  // line at array end\n" +
+            "];",
+            options: [{
+                afterLineComment: true,
+                allowArrayEnd: true
+            }]
+        },
+        {
+            code:
+            "var arr = [\n" +
+            "  1\n" +
+            "  \n" +
+            "  /* block comment at array end*/\n" +
+            "];",
+            options: [{
+                afterBlockComment: true,
+                allowArrayEnd: true
+            }]
+        },
+        {
+            code:
+            "const [\n" +
+            "  a\n" +
+            "  // line at array end\n" +
+            "] = [];",
+            options: [{
+                afterLineComment: true,
+                allowArrayEnd: true
+            }],
+            ecmaFeatures: {blockBindings: true, destructuring: true}
+        },
+        {
+            code:
+            "const [\n" +
+            "  a\n" +
+            "  \n" +
+            "  /* block comment at array end*/\n" +
+            "] = [];",
+            options: [{
+                afterBlockComment: true,
+                allowArrayEnd: true
+            }],
+            ecmaFeatures: {blockBindings: true, destructuring: true}
+        }
     ],
 
     invalid: [
@@ -414,6 +759,312 @@ ruleTester.run("lines-around-comment", rule, {
                 allowBlockEnd: true
             }],
             errors: [{ message: beforeMessage, type: "Line", line: 2 }]
+        },
+
+        // object start comments
+        {
+            code:
+            "var obj = {\n" +
+            "  // line at object start\n" +
+            "  g: 1\n" +
+            "};",
+            options: [{
+                beforeLineComment: true
+            }],
+            errors: [{ message: beforeMessage, type: "Line", line: 2 }]
+        },
+        {
+            code:
+            "function hi() {\n" +
+            "  return {\n" +
+            "    // hi\n" +
+            "    test: function() {\n" +
+            "    }\n" +
+            "  }\n" +
+            "}",
+            options: [{
+                beforeLineComment: true
+            }],
+            errors: [{ message: beforeMessage, type: "Line", line: 3 }]
+        },
+        {
+            code:
+            "var obj = {\n" +
+            "  /* block comment at object start*/\n" +
+            "  g: 1\n" +
+            "};",
+            options: [{
+                beforeBlockComment: true
+            }],
+            errors: [{ message: beforeMessage, type: "Block", line: 2 }]
+        },
+        {
+            code:
+            "function hi() {\n" +
+            "  return {\n" +
+            "    /**\n" +
+            "    * hi\n" +
+            "    */\n" +
+            "    test: function() {\n" +
+            "    }\n" +
+            "  }\n" +
+            "}",
+            options: [{
+                beforeLineComment: true
+            }],
+            errors: [{ message: beforeMessage, type: "Block", line: 3 }]
+        },
+        {
+            code:
+            "const {\n" +
+            "  // line at object start\n" +
+            "  g: a\n" +
+            "} = {};",
+            options: [{
+                beforeLineComment: true
+            }],
+            ecmaFeatures: {blockBindings: true, destructuring: true},
+            errors: [{ message: beforeMessage, type: "Line", line: 2 }]
+        },
+        {
+            code:
+            "const {\n" +
+            "  // line at object start\n" +
+            "  g\n" +
+            "} = {};",
+            options: [{
+                beforeLineComment: true
+            }],
+            ecmaFeatures: {blockBindings: true, destructuring: true},
+            errors: [{ message: beforeMessage, type: "Line", line: 2 }]
+        },
+        {
+            code:
+            "const {\n" +
+            "  /* block comment at object-like start*/\n" +
+            "  g: a\n" +
+            "} = {};",
+            options: [{
+                beforeBlockComment: true
+            }],
+            ecmaFeatures: {blockBindings: true, destructuring: true},
+            errors: [{ message: beforeMessage, type: "Block", line: 2 }]
+        },
+        {
+            code:
+            "const {\n" +
+            "  /* block comment at object-like start*/\n" +
+            "  g\n" +
+            "} = {};",
+            options: [{
+                beforeBlockComment: true
+            }],
+            ecmaFeatures: {blockBindings: true, destructuring: true},
+            errors: [{ message: beforeMessage, type: "Block", line: 2 }]
+        },
+
+        // object end comments
+        {
+            code:
+            "var obj = {\n" +
+            "  g: 1\n" +
+            "  // line at object end\n" +
+            "};",
+            options: [{
+                afterLineComment: true
+            }],
+            errors: [{ message: afterMessage, type: "Line", line: 3 }]
+        },
+        {
+            code:
+            "function hi() {\n" +
+            "  return {\n" +
+            "    test: function() {\n" +
+            "    }\n" +
+            "    // hi\n" +
+            "  }\n" +
+            "}",
+            options: [{
+                afterLineComment: true
+            }],
+            errors: [{ message: afterMessage, type: "Line", line: 5 }]
+        },
+        {
+            code:
+            "var obj = {\n" +
+            "  g: 1\n" +
+            "  \n" +
+            "  /* block comment at object end*/\n" +
+            "};",
+            options: [{
+                afterBlockComment: true
+            }],
+            errors: [{ message: afterMessage, type: "Block", line: 4 }]
+        },
+        {
+            code:
+            "function hi() {\n" +
+            "  return {\n" +
+            "    test: function() {\n" +
+            "    }\n" +
+            "    \n" +
+            "    /**\n" +
+            "    * hi\n" +
+            "    */\n" +
+            "  }\n" +
+            "}",
+            options: [{
+                afterBlockComment: true
+            }],
+            errors: [{ message: afterMessage, type: "Block", line: 6 }]
+        },
+        {
+            code:
+            "const {\n" +
+            "  g: a\n" +
+            "  // line at object end\n" +
+            "} = {};",
+            options: [{
+                afterLineComment: true
+            }],
+            ecmaFeatures: {blockBindings: true, destructuring: true},
+            errors: [{ message: afterMessage, type: "Line", line: 3 }]
+        },
+        {
+            code:
+            "const {\n" +
+            "  g\n" +
+            "  // line at object end\n" +
+            "} = {};",
+            options: [{
+                afterLineComment: true
+            }],
+            ecmaFeatures: {blockBindings: true, destructuring: true},
+            errors: [{ message: afterMessage, type: "Line", line: 3 }]
+        },
+        {
+            code:
+            "const {\n" +
+            "  g: a\n" +
+            "  \n" +
+            "  /* block comment at object-like end*/\n" +
+            "} = {};",
+            options: [{
+                afterBlockComment: true
+            }],
+            ecmaFeatures: {blockBindings: true, destructuring: true},
+            errors: [{ message: afterMessage, type: "Block", line: 4 }]
+        },
+        {
+            code:
+            "const {\n" +
+            "  g\n" +
+            "  \n" +
+            "  /* block comment at object-like end*/\n" +
+            "} = {};",
+            options: [{
+                afterBlockComment: true
+            }],
+            ecmaFeatures: {blockBindings: true, destructuring: true},
+            errors: [{ message: afterMessage, type: "Block", line: 4 }]
+        },
+
+        // array start comments
+        {
+            code:
+            "var arr = [\n" +
+            "  // line at array start\n" +
+            "  1\n" +
+            "];",
+            options: [{
+                beforeLineComment: true
+            }],
+            errors: [{ message: beforeMessage, type: "Line", line: 2 }]
+        },
+        {
+            code:
+            "var arr = [\n" +
+            "  /* block comment at array start*/\n" +
+            "  1\n" +
+            "];",
+            options: [{
+                beforeBlockComment: true
+            }],
+            errors: [{ message: beforeMessage, type: "Block", line: 2 }]
+        },
+        {
+            code:
+            "const [\n" +
+            "  // line at array start\n" +
+            "  a\n" +
+            "] = [];",
+            options: [{
+                beforeLineComment: true
+            }],
+            ecmaFeatures: {blockBindings: true, destructuring: true},
+            errors: [{ message: beforeMessage, type: "Line", line: 2 }]
+        },
+        {
+            code:
+            "const [\n" +
+            "  /* block comment at array start*/\n" +
+            "  a\n" +
+            "] = [];",
+            options: [{
+                beforeBlockComment: true
+            }],
+            ecmaFeatures: {blockBindings: true, destructuring: true},
+            errors: [{ message: beforeMessage, type: "Block", line: 2 }]
+        },
+
+        // array end comments
+        {
+            code:
+            "var arr = [\n" +
+            "  1\n" +
+            "  // line at array end\n" +
+            "];",
+            options: [{
+                afterLineComment: true
+            }],
+            errors: [{ message: afterMessage, type: "Line", line: 3 }]
+        },
+        {
+            code:
+            "var arr = [\n" +
+            "  1\n" +
+            "  \n" +
+            "  /* block comment at array end*/\n" +
+            "];",
+            options: [{
+                afterBlockComment: true
+            }],
+            errors: [{ message: afterMessage, type: "Block", line: 4 }]
+        },
+        {
+            code:
+            "const [\n" +
+            "  a\n" +
+            "  // line at array end\n" +
+            "] = [];",
+            options: [{
+                afterLineComment: true
+            }],
+            ecmaFeatures: {blockBindings: true, destructuring: true},
+            errors: [{ message: afterMessage, type: "Line", line: 3 }]
+        },
+        {
+            code:
+            "const [\n" +
+            "  a\n" +
+            "  \n" +
+            "  /* block comment at array end*/\n" +
+            "] = [];",
+            options: [{
+                afterBlockComment: true
+            }],
+            ecmaFeatures: {blockBindings: true, destructuring: true},
+            errors: [{ message: afterMessage, type: "Block", line: 4 }]
         }
     ]
 
