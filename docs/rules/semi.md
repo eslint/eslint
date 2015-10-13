@@ -130,3 +130,4 @@ If you do not want to enforce semicolon usage (or omission) in any particular wa
 
 * [no-extra-semi](no-extra-semi.md)
 * [no-space-before-semi](no-space-before-semi.md)
+* [no-unexpected-multiline](no-unexpected-multiline.md)
