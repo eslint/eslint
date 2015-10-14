@@ -1,17 +1,27 @@
-# Disallow require() outside of the top-level module scope. (global-require)
+# Enforce require() on the top-level module scope. (global-require)
 
-Declaring module's dependencies at the beginning of a module improves readability and provides insight to
-other developers about what modules are required. Declaring these dependencies inline within other parts of the
-code may make them harder to spot and could lead to poorly-maintainable code in the long term.
+In Node.js, module dependencies are included using the `require()` function, such as:
 
-In addition to maintainability issues there are also performance implications. `require` is a synchronous function and
-will block the main thread while it loads its modules. This can be a problem even after `require()` caches the loaded
-module and thus should be avoided whenever possible.
+```js
+var fs = require("fs");
+```
 
+While `require()` may be called anywhere in code, some style guide prescribe that it should be called only in the top-level scope of a module to make it easier to identify dependencies. For instance, it's arguably harder to identify dependencies when they are deeply nested inside of functions and other statements:
+
+```js
+function foo() {
+
+    if (condition) {
+        var fs = require("fs");
+    }
+}
+```
+
+Since `require()` does a synchronous load, it can cause performance problems when used in other locations.
 
 ## Rule Details
 
-This rule disallow `require()` outside of the top-level module scope.
+This rule requires all calls to `require()` to be at the top-level module scope.
 
 You can enable this rule with the following syntax:
 
@@ -80,5 +90,4 @@ var x = require("x"),
 
 ## When Not To Use It
 
-If you have a module that must be initialized with information that comes from the file-system or if a module
- is only used in very rare situations and will cause significant overhead to load it may make sense to disable the rule.
+If you have a module that must be initialized with information that comes from the file-system or if a module is only used in very rare situations and will cause significant overhead to load it may make sense to disable the rule.
