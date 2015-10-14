@@ -1,6 +1,8 @@
 /**
  * @fileoverview Tests for ESLint Tester
  * @author Nicholas C. Zakas
+ * @Copyright 2015 Kevin Partington. All rights reserved.
+ * @copyright 2015 Nicholas C. Zakas. All rights reserved.
  */
 "use strict";
 
@@ -105,6 +107,62 @@ describe("RuleTester", function() {
                 ]
             });
         }, /^Should have 1 errors but had 0/);
+    });
+
+    it("should throw an error when the error message is wrong", function() {
+        assert.throws(function() {
+            ruleTester.run("no-var", require("../../fixtures/testers/rule-tester/no-var"), {
+                // Only the invalid test matters here
+                valid: [
+                    "bar = baz;"
+                ],
+                invalid: [
+                    { code: "var foo = bar;", errors: [{ message: "Bad error message." }] }
+                ]
+            });
+        }, /^Error message should be /);
+    });
+
+    it("should throw an error when the error is neither an object nor a string", function() {
+        assert.throws(function() {
+            ruleTester.run("no-var", require("../../fixtures/testers/rule-tester/no-var"), {
+                // Only the invalid test matters here
+                valid: [
+                    "bar = baz;"
+                ],
+                invalid: [
+                    { code: "var foo = bar;", errors: [42] }
+                ]
+            });
+        }, /^Error should be a string or object/);
+    });
+
+    it("should throw an error when the error is a string and it does not match error message", function() {
+        assert.throws(function() {
+            ruleTester.run("no-var", require("../../fixtures/testers/rule-tester/no-var"), {
+                // Only the invalid test matters here
+                valid: [
+                    "bar = baz;"
+                ],
+                invalid: [
+                    { code: "var foo = bar;", errors: ["Bad error message."] }
+                ]
+            });
+        }, /^Error message should be /);
+    });
+
+    it("should not throw an error when the error is a string and it matches error message", function() {
+        assert.doesNotThrow(function() {
+            ruleTester.run("no-var", require("../../fixtures/testers/rule-tester/no-var"), {
+                // Only the invalid test matters here
+                valid: [
+                    "bar = baz;"
+                ],
+                invalid: [
+                    { code: "var foo = bar;", errors: ["Bad var."] }
+                ]
+            });
+        });
     });
 
     it("should throw an error when the expected output doesn't match", function() {
