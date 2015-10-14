@@ -1,11 +1,26 @@
 # Require JSDoc comment (require-jsdoc)
 
-This rule generates warnings for nodes which do not have JSDoc comments. It considered a good practice to document the behavior of different nodes to help engineers understand the functionality of the node.
-Supported nodes:
+[JSDoc](http://usejsdoc.org) is a JavaScript API documentation generator. It uses specially-formatted comments inside of code to generate API documentation automatically. For example, this is what a JSDoc comment looks like for a function:
 
-* `FunctionDeclaration`
+```js
+/**
+ * Adds two numbers together.
+ * @param {int} num1 The first number.
+ * @param {int} num2 The second number.
+ * @returns {int} The sum of the two numbers.
+ */
+function sum(num1, num2) {
+    return num1 + num2;
+}
+```
+
+Some style guides require JSDoc comments for all functions as a way of explaining function behavior.
 
 ## Rule details
+
+This rule generates warnings for nodes that do not have JSDoc comments when they should. Supported nodes:
+
+* `FunctionDeclaration`
 
 The following patterns are considered problems:
 
@@ -44,7 +59,7 @@ array.filter(function(item) {
 
 ## When not to use
 
-If you do not require node documentation, then you can leave this rule off.
+If you do not require JSDoc for your functions, then you can leave this rule off.
 
 ## Related Rules
 
