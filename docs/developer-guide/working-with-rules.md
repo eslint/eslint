@@ -415,6 +415,18 @@ invalid: [
 ]
 ```
 
+For simpler cases where the only thing that really matters is the error message, you can also specify any `errors` as strings. You can also have some strings and some objects, if you like.
+
+```js
+invalid: [
+    {
+        code: "'single quotes'",
+        options: ["double"],
+        errors: ["Strings must use doublequote."]
+    }
+]
+```
+
 ### Write Several Tests
 
 You must have at least one valid and one invalid case for the rule tests to pass. Provide as many unit tests as possible. Your pull request will never be turned down for having too many tests submitted with it!
