@@ -47,70 +47,92 @@ ruleTester.run("no-this-before-super", rule, {
         // ignores out of constructors.
         { code: "class A { b() { this.c = 0; } }", ecmaFeatures: {classes: true} },
         { code: "class A extends B { c() { this.d = 0; } }", ecmaFeatures: {classes: true} },
-        { code: "function a() { this.b = 0; }", ecmaFeatures: {classes: true} }
+        { code: "function a() { this.b = 0; }", ecmaFeatures: {classes: true} },
+
+        // multi code path.
+        { code: "class A extends B { constructor() { if (a) { super(); this.a(); } else { super(); this.b(); } } }", ecmaFeatures: {classes: true} },
+        { code: "class A extends B { constructor() { if (a) super(); else super(); this.a(); } }", ecmaFeatures: {classes: true} },
+        { code: "class A extends B { constructor() { try { super(); } finally {} this.a(); } }", ecmaFeatures: {classes: true} }
     ],
     invalid: [
         // disallows all `this`/`super` if `super()` is missing.
         {
             code: "class A extends B { constructor() { this.c = 0; } }",
             ecmaFeatures: {classes: true},
-            errors: [{ message: "\"this\" is not allowed before super()", type: "ThisExpression"}]
+            errors: [{ message: "\"this\" is not allowed before \"super()\".", type: "ThisExpression"}]
         },
         {
             code: "class A extends B { constructor() { this.c(); } }",
             ecmaFeatures: {classes: true},
-            errors: [{ message: "\"this\" is not allowed before super()", type: "ThisExpression"}]
+            errors: [{ message: "\"this\" is not allowed before \"super()\".", type: "ThisExpression"}]
         },
         {
             code: "class A extends B { constructor() { super.c(); } }",
             ecmaFeatures: {classes: true},
-            errors: [{ message: "\"super\" is not allowed before super()", type: "Super"}]
+            errors: [{ message: "\"super\" is not allowed before \"super()\".", type: "Super"}]
         },
 
         // disallows `this`/`super` before `super()`.
         {
             code: "class A extends B { constructor() { this.c = 0; super(); } }",
             ecmaFeatures: {classes: true},
-            errors: [{ message: "\"this\" is not allowed before super()", type: "ThisExpression"}]
+            errors: [{ message: "\"this\" is not allowed before \"super()\".", type: "ThisExpression"}]
         },
         {
             code: "class A extends B { constructor() { this.c(); super(); } }",
             ecmaFeatures: {classes: true},
-            errors: [{ message: "\"this\" is not allowed before super()", type: "ThisExpression"}]
+            errors: [{ message: "\"this\" is not allowed before \"super()\".", type: "ThisExpression"}]
         },
         {
             code: "class A extends B { constructor() { super.c(); super(); } }",
             ecmaFeatures: {classes: true},
-            errors: [{ message: "\"super\" is not allowed before super()", type: "Super"}]
+            errors: [{ message: "\"super\" is not allowed before \"super()\".", type: "Super"}]
         },
 
         // disallows `this`/`super` in arguments of `super()`.
         {
             code: "class A extends B { constructor() { super(this.c); } }",
             ecmaFeatures: {classes: true},
-            errors: [{ message: "\"this\" is not allowed before super()", type: "ThisExpression"}]
+            errors: [{ message: "\"this\" is not allowed before \"super()\".", type: "ThisExpression"}]
         },
         {
             code: "class A extends B { constructor() { super(this.c()); } }",
             ecmaFeatures: {classes: true},
-            errors: [{ message: "\"this\" is not allowed before super()", type: "ThisExpression"}]
+            errors: [{ message: "\"this\" is not allowed before \"super()\".", type: "ThisExpression"}]
         },
         {
             code: "class A extends B { constructor() { super(super.c()); } }",
             ecmaFeatures: {classes: true},
-            errors: [{ message: "\"super\" is not allowed before super()", type: "Super"}]
+            errors: [{ message: "\"super\" is not allowed before \"super()\".", type: "Super"}]
         },
 
         // even if is nested, reports correctly.
         {
             code: "class A extends B { constructor() { class C extends D { constructor() { super(); this.e(); } } this.f(); super(); } }",
             ecmaFeatures: {classes: true},
-            errors: [{ message: "\"this\" is not allowed before super()", type: "ThisExpression", column: 96}]
+            errors: [{ message: "\"this\" is not allowed before \"super()\".", type: "ThisExpression", column: 96}]
         },
         {
             code: "class A extends B { constructor() { class C extends D { constructor() { this.e(); super(); } } super(); this.f(); } }",
             ecmaFeatures: {classes: true},
-            errors: [{ message: "\"this\" is not allowed before super()", type: "ThisExpression", column: 73}]
+            errors: [{ message: "\"this\" is not allowed before \"super()\".", type: "ThisExpression", column: 73}]
+        },
+
+        // multi code path.
+        {
+            code: "class A extends B { constructor() { if (a) super(); this.a(); } }",
+            ecmaFeatures: {classes: true},
+            errors: [{ message: "\"this\" is not allowed before \"super()\".", type: "ThisExpression"}]
+        },
+        {
+            code: "class A extends B { constructor() { try { super(); } finally { this.a; } } }",
+            ecmaFeatures: {classes: true},
+            errors: [{ message: "\"this\" is not allowed before \"super()\".", type: "ThisExpression"}]
+        },
+        {
+            code: "class A extends B { constructor() { try { super(); } catch (err) { } this.a; } }",
+            ecmaFeatures: {classes: true},
+            errors: [{ message: "\"this\" is not allowed before \"super()\".", type: "ThisExpression"}]
         }
     ]
 });
