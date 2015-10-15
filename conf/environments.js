@@ -12,80 +12,41 @@
 var globals = require("globals");
 
 //------------------------------------------------------------------------------
-// Public Interface
+// Helpers
 //------------------------------------------------------------------------------
 
-module.exports = {
+var globalImports = [
+    "browser",
+    "node",
+    "commonjs",
+    "worker",
+    "amd",
+    "mocha",
+    "jasmine",
+    "jest",
+    "phantomjs",
+    "jquery",
+    "qunit",
+    "prototypejs",
+    "shelljs",
+    "meteor",
+    "mongo",
+    "protractor",
+    "applescript",
+    "nashorn",
+    "serviceworker",
+    "embertest",
+    "webextensions",
+    "wsh"
+];
+
+var globalReturns = [
+    "node",
+    "commonjs"
+];
+
+var environments = {
     builtin: globals.builtin,
-    browser: {
-        globals: globals.browser
-    },
-    node: {
-        globals: globals.node,
-        ecmaFeatures: {
-            globalReturn: true
-        }
-    },
-    commonjs: {
-        globals: globals.commonjs,
-        ecmaFeatures: {
-            globalReturn: true
-        }
-    },
-    worker: {
-        globals: globals.worker
-    },
-    amd: {
-        globals: globals.amd
-    },
-    mocha: {
-        globals: globals.mocha
-    },
-    jasmine: {
-        globals: globals.jasmine
-    },
-    jest: {
-        globals: globals.jest
-    },
-    phantomjs: {
-        globals: globals.phantomjs
-    },
-    jquery: {
-        globals: globals.jquery
-    },
-    qunit: {
-        globals: globals.qunit
-    },
-    prototypejs: {
-        globals: globals.prototypejs
-    },
-    shelljs: {
-        globals: globals.shelljs
-    },
-    meteor: {
-        globals: globals.meteor
-    },
-    mongo: {
-        globals: globals.mongo
-    },
-    protractor: {
-        globals: globals.protractor
-    },
-    applescript: {
-        globals: globals.applescript
-    },
-    nashorn: {
-        globals: globals.nashorn
-    },
-    serviceworker: {
-        globals: globals.serviceworker
-    },
-    embertest: {
-        globals: globals.embertest
-    },
-    webextensions: {
-        globals: globals.webextensions
-    },
     es6: {
         ecmaFeatures: {
             arrowFunctions: true,
@@ -112,3 +73,25 @@ module.exports = {
         }
     }
 };
+
+globalImports.forEach(function (environment) {
+
+    var importedGlobals = globals[environment];
+    if (importedGlobals) {
+        var newEnvironment = environments[environment] = {
+            globals: importedGlobals
+        };
+        if (-1 < globalReturns.indexOf(environment)) {
+            newEnvironment.ecmaFeatures = {
+                globalReturn: true
+            };
+        }
+    }
+
+});
+
+//------------------------------------------------------------------------------
+// Public Interface
+//------------------------------------------------------------------------------
+
+module.exports = environments;
