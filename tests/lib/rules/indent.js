@@ -54,6 +54,18 @@ ruleTester.run("indent", rule, {
     valid: [
         {
             code:
+            "let foo = somethingList\n" +
+            "    .filter(x => {\n" +
+            "        return x;\n" +
+            "    })\n" +
+            "    .map(x => {\n" +
+            "        return 100 * x;\n" +
+            "    });\n",
+            options: [4],
+            ecmaFeatures: {arrowFunctions: true, blockBindings: true}
+        },
+        {
+            code:
             "require('http').request({hostname: 'localhost',\n" +
             "                         port: 80}, function(res) {\n" +
             "  res.end();\n" +
