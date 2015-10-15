@@ -110,6 +110,7 @@
         "no-magic-numbers": 0,
 
         "array-bracket-spacing": [0, "never"],
+        "arrow-body-style": [0, "as-needed"],
         "arrow-parens": 0,
         "arrow-spacing": 0,
         "accessor-pairs": 0,
