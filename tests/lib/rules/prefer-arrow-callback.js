@@ -34,7 +34,13 @@ ruleTester.run("prefer-arrow-callback", rule, {
         {code: "foo(a => { (function() {}); });", ecmaFeatures: {arrowFunctions: true}},
         {code: "var foo = function foo() {};"},
         {code: "(function foo() {})();"},
-        {code: "foo(function bar() { bar; });"}
+        {code: "foo(function bar() { bar; });"},
+        {code: "foo(function bar() { arguments; });"},
+        {code: "foo(function bar() { arguments; }.bind(this));"},
+        {code: "foo(function bar() { super.a; });", ecmaFeatures: {classes: true}},
+        {code: "foo(function bar() { super.a; }.bind(this));", ecmaFeatures: {classes: true}},
+        {code: "foo(function bar() { new.target; });", ecmaFeatures: {newTarget: true}},
+        {code: "foo(function bar() { new.target; }.bind(this));", ecmaFeatures: {newTarget: true}}
     ],
     invalid: [
         {code: "foo(function() {});", errors: errors},
@@ -44,6 +50,7 @@ ruleTester.run("prefer-arrow-callback", rule, {
         {code: "foo(function() { this; }.bind(this));", errors: errors},
         {code: "foo(function() { (() => this); }.bind(this));", ecmaFeatures: {arrowFunctions: true}, errors: errors},
         {code: "foo(function bar(a) { a; });", errors: errors},
-        {code: "foo(function(a) { a; });", errors: errors}
+        {code: "foo(function(a) { a; });", errors: errors},
+        {code: "foo(function(arguments) { arguments; });", errors: errors}
     ]
 });
