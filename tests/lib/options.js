@@ -264,6 +264,18 @@ describe("options", function() {
         });
     });
 
+    describe("--inline-config", function() {
+        it("should return false when passed --no-inline-config", function() {
+            var currentOptions = options.parse("--no-inline-config");
+            assert.isFalse(currentOptions.inlineConfig);
+        });
+
+        it("should return true for --inline-config when empty", function() {
+            var currentOptions = options.parse("");
+            assert.isTrue(currentOptions.inlineConfig);
+        });
+    });
+
     describe("--parser", function() {
         it("should return a string for --parser when passed", function() {
             var currentOptions = options.parse("--parser test");

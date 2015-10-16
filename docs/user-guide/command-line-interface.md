@@ -69,7 +69,9 @@ Miscellaneous:
   --debug                    Output debugging information
   -h, --help                 Show help
   -v, --version              Outputs the version number
-  ```
+  --no-inline-config         Prevent comments from changing eslint rules -
+                             default: false
+```
 
 ### Basic configuration
 
@@ -328,6 +330,23 @@ This option outputs the current ESLint version onto the console. All other optio
 Example:
 
     eslint -v
+
+#### `--no-inline-config`
+
+This option prevents inline comments like `/*eslint-disable*/` or
+`/*global foo*/` from having any effect. This allows you to set an ESLint
+config without files modifying it. All inline config comments are ignored, e.g.:
+
+* `/*eslint-disable*/`
+* `/*eslint-enable*/`
+* `/*global*/`
+* `/*eslint*/`
+* `/*eslint-env*/`
+* `// eslint-disable-line`
+
+Example:
+
+    eslint --no-inline-config file.js
 
 ## Ignoring files from linting
 

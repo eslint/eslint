@@ -31,6 +31,7 @@ The most important method on `linter` is `verify()`, which initiates linting of 
 * `options` - (optional) Additional options for this run.
     * `filename` - (optional) the filename to associate with the source code.
     * `saveState` - (optional) set to true to maintain the internal state of `linter` after linting (mostly used for testing purposes).
+    * `allowInlineConfig` - (optional) set to `false` to disable inline comments from changing eslint rules.
 
 You can call `verify()` like this:
 
