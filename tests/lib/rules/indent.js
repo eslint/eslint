@@ -54,6 +54,38 @@ ruleTester.run("indent", rule, {
     valid: [
         {
             code:
+            "bridge.callHandler(\n" +
+            "  'getAppVersion',\n" +
+            "  null,\n" +
+            "  function responseCallback(responseData) {\n" +
+            "    window.ah.mobileAppVersion = responseData;\n" +
+            "  });\n",
+            options: [2]
+        },
+        {
+            code:
+            "function doStuff(keys) {\n" +
+            "    _.forEach(\n" +
+            "        keys,\n" +
+            "        key => {\n" +
+            "            doSomething(key);\n" +
+            "        }\n" +
+            "   );\n" +
+            "}\n",
+            options: [4],
+            ecmaFeatures: {arrowFunctions: true}
+        },
+        {
+            code:
+            "example(\n" +
+            "    function () {\n" +
+            "        console.log('example');\n" +
+            "    }\n" +
+            ");\n",
+            options: [4]
+        },
+        {
+            code:
             "let foo = somethingList\n" +
             "    .filter(x => {\n" +
             "        return x;\n" +
