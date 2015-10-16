@@ -162,6 +162,19 @@ ruleTester.run("array-bracket-spacing", rule, {
     ],
 
     invalid: [
+        {
+            code: "var foo = [ ]",
+            output: "var foo = []",
+            options: ["never"],
+            errors: [
+                {
+                    message: "There should be no space after '['",
+                    type: "ArrayExpression",
+                    line: 1,
+                    column: 11
+                }
+            ]
+        },
         // objectsInArrays
         {
             code: "var foo = [ { 'bar': 'baz' }, 1,  5];",
