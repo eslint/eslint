@@ -1,3 +1,9 @@
+v1.7.1 - October 16, 2015
+
+* Fix: id-match schema (fixes #4155) (Nicholas C. Zakas)
+* Fix: no-magic-numbers should ignore parseInt (fixes #4167) (Nicholas C. Zakas)
+* Fix: `indent` param function fix (fixes #4165, fixes #4164) (Gyandeep Singh)
+
 v1.7.0 - October 16, 2015
 
 * Fix: array-bracket-spacing for empty array (fixes #4141) (alberto)
