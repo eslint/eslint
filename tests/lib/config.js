@@ -685,6 +685,26 @@ describe("Config", function() {
             });
         });
 
+        it("should extend using a .js file", function() {
+            var stubSetup = {};
+            stubSetup[path.resolve(__dirname, "../fixtures/config-extends/js/foo.js")] = {
+                rules: {
+                    eqeqeq: [2, "smart"]
+                }
+            };
+            var StubbedConfig = proxyquire("../../lib/config", stubSetup);
+
+            var configPath = path.resolve(__dirname, "../fixtures/config-extends/js/.eslintrc"),
+                configHelper = new StubbedConfig({ useEslintrc: false, configFile: configPath }),
+                expected = {
+                    rules: { eqeqeq: [2, "smart"], "quotes": [2, "double"], "valid-jsdoc": 0 },
+                    env: { "browser": false }
+                },
+                actual = configHelper.getConfig(configPath);
+
+            assertConfigsEqual(actual, expected);
+        });
+
         it("should extend package configuration without prefix", function() {
 
             var StubbedConfig = proxyquire("../../lib/config", {
