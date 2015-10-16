@@ -2,6 +2,7 @@
  * @fileoverview Tests for no-magic-numbers rule.
  * @author Vincent Lemeunier
  * @copyright 2015 Vincent Lemeunier. All rights reserved.
+ * See LICENSE in root directory for full license.
  */
 
 "use strict";
@@ -20,6 +21,9 @@ var rule = require("../../../lib/rules/no-magic-numbers"),
 var ruleTester = new RuleTester();
 ruleTester.run("no-magic-numbers", rule, {
     valid: [
+        {
+            code: "var x = parseInt(y, 10)"
+        },
         {
             code: "const foo = 42;",
             env: { es6: true }
