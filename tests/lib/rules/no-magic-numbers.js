@@ -25,6 +25,9 @@ ruleTester.run("no-magic-numbers", rule, {
             code: "var x = parseInt(y, 10)"
         },
         {
+            code: "var x = Number.parseInt(y, 10)"
+        },
+        {
             code: "const foo = 42;",
             env: { es6: true }
         },
