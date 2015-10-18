@@ -25,6 +25,7 @@ ruleTester.run("no-extend-native", rule, {
         "Object.toString.bind = 0",
         "Object['toString'].bind = 0",
         "Object.defineProperty(x, 'p', {value: 0})",
+        "Object.defineProperties(x, {p: {value: 0}})",
         "global.Object.prototype.toString = 0",
         "this.Object.prototype.toString = 0",
         "with(Object) { prototype.p = 0; }",
@@ -62,6 +63,12 @@ ruleTester.run("no-extend-native", rule, {
         }]
     }, {
         code: "Object.defineProperty(Array.prototype, 'p', {value: 0})",
+        errors: [{
+            message: "Array prototype is read only, properties should not be added.",
+            type: "CallExpression"
+        }]
+    }, {
+        code: "Object.defineProperties(Array.prototype, {p: {value: 0}})",
         errors: [{
             message: "Array prototype is read only, properties should not be added.",
             type: "CallExpression"
