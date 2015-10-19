@@ -1,3 +1,10 @@
+v1.7.2 - October 19, 2015
+
+* Fix: comma-dangle confused by parens (fixes #4195) (Nicholas C. Zakas)
+* Fix: no-mixed-spaces-and-tabs (fixes #4189, fixes #4190) (alberto)
+* Fix: no-extend-native disallow using Object.properties (fixes #4180) (Nathan Woltman)
+* Fix: no-magic-numbers should ignore Number.parseInt (fixes #4167) (Henry Zhu)
+
 v1.7.1 - October 16, 2015
 
 * Fix: id-match schema (fixes #4155) (Nicholas C. Zakas)
