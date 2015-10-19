@@ -22,10 +22,13 @@ var ruleTester = new RuleTester();
 ruleTester.run("no-magic-numbers", rule, {
     valid: [
         {
-            code: "var x = parseInt(y, 10)"
+            code: "var x = parseInt(y, 10);"
         },
         {
-            code: "var x = Number.parseInt(y, 10)"
+            code: "var x = parseInt(y, -10);"
+        },
+        {
+            code: "var x = Number.parseInt(y, 10);"
         },
         {
             code: "const foo = 42;",
@@ -39,7 +42,19 @@ ruleTester.run("no-magic-numbers", rule, {
             }]
         },
         {
+            code: "var foo = -42;"
+        },
+        {
             code: "var foo = 0 + 1 + 2;"
+        },
+        {
+            code: "var foo = 0 + 1 - 2;"
+        },
+        {
+            code: "var foo = 0 + 1 - 2 + -2;",
+            options: [{
+                ignore: [0, 1, 2, -2]
+            }]
         },
         {
             code: "var foo = 0 + 1 + 2 + 3 + 4;",
@@ -67,6 +82,12 @@ ruleTester.run("no-magic-numbers", rule, {
             errors: [{
                 message: "Number constants declarations must use 'const'"
             }]
+        },
+        {
+            code: "var foo = 0 + 1 - 2 + -2;",
+            errors: [
+                { message: "No magic number: -2"}
+            ]
         },
         {
             code: "var foo = 0 + 1 + 2;",
@@ -110,6 +131,12 @@ ruleTester.run("no-magic-numbers", rule, {
             code: "function getSecondsInMinute() {return 60;}",
             errors: [
                 { message: "No magic number: 60"}
+            ]
+        },
+        {
+            code: "function getNegativeSecondsInMinute() {return -60;}",
+            errors: [
+                { message: "No magic number: -60"}
             ]
         },
         {
