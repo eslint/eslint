@@ -55,6 +55,10 @@ ruleTester.run("no-magic-numbers", rule, {
         },
         {
             code: "setTimeout(function() {return 1;}, 0);"
+        },
+        {
+            code: "<foo bar={3} />",
+            ecmaFeatures: { jsx: true }
         }
     ],
     invalid: [
