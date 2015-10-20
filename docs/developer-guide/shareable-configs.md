@@ -108,7 +108,7 @@ myconfig
 In your `index.js` you can do something like this:
 
 ```js
-module.exports = require('./lib/ci.js);
+module.exports = require('./lib/ci.js');
 ```
 
 Now inside your package you have `/lib/defaults.js`, which contains:
