@@ -32,7 +32,7 @@ ruleTester.run("comma-dangle", rule, {
         "[\n,\n]",
         "[]",
         "[\n]",
-
+        { code: "var foo = [\n      (bar ? baz : qux),\n    ];", options: ["always-multiline"] },
         { code: "var foo = { bar: 'baz' }", options: ["never"] },
         { code: "var foo = {\nbar: 'baz'\n}", options: ["never"] },
         { code: "var foo = [ 'baz' ]", options: ["never"] },
