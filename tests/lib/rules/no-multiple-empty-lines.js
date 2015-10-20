@@ -87,6 +87,11 @@ ruleTester.run("no-multiple-empty-lines", rule, {
             options: ruleArgs
         },
         {
+            code: "// invalid 3\nvar a=5;\n\n\n\nvar b = 3;\n",
+            errors: [ expectedError ],
+            options: ruleArgs
+        },
+        {
             code: "// invalid 4\nvar a = 5;\n\n\n\nb = 3;\nvar c = 5;\n\n\n\nvar d = 3;",
             errors: 2,
             options: ruleArgs
