@@ -117,6 +117,10 @@ ruleTester.run("valid-jsdoc", rule, {
             options: [{
                 "matchDescription": "^[A-Z][A-Za-z0-9\\s]*[.]$"
             }]
+        },
+        {
+            code: "/** Foo \n@return {void} Foo\n */\nfunction foo(){}",
+            options: [{ prefer: { "return": "return" }}]
         }
     ],
 
