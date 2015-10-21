@@ -86,6 +86,35 @@ ruleTester.run("indent", rule, {
         },
         {
             code:
+            "example(\n" +
+            "    precedingArg, function () {\n" +
+            "        console.log('example');\n" +
+            "    }\n" +
+            ");\n",
+            options: [4]
+        },
+        {
+            code:
+            "example(\n" +
+            "    precedingArg, () => {\n" +
+            "        console.log('example');\n" +
+            "    }\n" +
+            ");\n",
+            options: [4],
+            ecmaFeatures: {arrowFunctions: true}
+        },
+        {
+            code:
+            "example(arg0,\n" +
+            "    precedingArg, () => {\n" +
+            "        console.log('example');\n" +
+            "    }\n" +
+            ");\n",
+            options: [4],
+            ecmaFeatures: {arrowFunctions: true}
+        },
+        {
+            code:
             "let foo = somethingList\n" +
             "    .filter(x => {\n" +
             "        return x;\n" +
