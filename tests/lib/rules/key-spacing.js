@@ -183,7 +183,7 @@ ruleTester.run("key-spacing", rule, {
         code: [
             "var x = {",
             "    foo: 10",
-            "    , b: 20",
+            "  , b  : 20",
             "};"
         ].join("\n"),
         options: [{ align: "colon" }]
@@ -191,7 +191,7 @@ ruleTester.run("key-spacing", rule, {
         code: [
             "var x = {",
             "    foo : 10",
-            "    , b : 20",
+            "  , b   : 20",
             "};"
         ].join("\n"),
         options: [{ align: "colon", beforeColon: true }]
@@ -284,6 +284,35 @@ ruleTester.run("key-spacing", rule, {
         ].join("\n"),
         ecmaFeatures: { objectLiteralShorthandMethods: true },
         options: [{ "align": "value" }]
+    }, {
+        code: [
+            "var obj = {",
+            "    foo : foo",
+            "  , bar : bar",
+            "  , cats: cats",
+            "};"
+        ].join("\n"),
+        options: [{ "align": "colon" }]
+    }, {
+        code: [
+            "var obj = { foo : foo",
+            "          , bar : bar",
+            "          , cats: cats",
+            "};"
+        ].join("\n"),
+        options: [{ "align": "colon" }]
+    }, {
+        code: [
+            "var obj = {",
+            "    foo :  foo",
+            "  , bar :  bar",
+            "  , cats : cats",
+            "};"
+        ].join("\n"),
+        options: [{
+            "align": "value",
+            "beforeColon": true
+        }]
     }],
 
     invalid: [{
@@ -484,7 +513,7 @@ ruleTester.run("key-spacing", rule, {
         code: [
             "var x = {",
             "    foo: 10",
-            "  , b  : 20",
+            "  , b   : 20",
             "};"
         ].join("\n"),
         options: [{ align: "colon" }],
@@ -580,6 +609,78 @@ ruleTester.run("key-spacing", rule, {
         options: [{ "align": "value" }],
         errors: [
             { message: "Extra space before value for key \"baz\".", line: 6, column: 13, type: "Literal" }
+        ]
+    }, {
+        code: [
+            "var obj = {",
+            "    foo: foo",
+            "  , cats: cats",
+            "};"
+        ].join("\n"),
+        options: [{ "align": "colon" }],
+        errors: [
+            { message: "Missing space after key \"foo\".", line: 2, column: 5, type: "Identifier" }
+        ]
+    }, {
+        code: [
+            "var obj = {",
+            "    foo : foo",
+            "  , cats:  cats",
+            "};"
+        ].join("\n"),
+        options: [{ "align": "colon" }],
+        errors: [
+            { message: "Extra space before value for key \"cats\".", line: 3, column: 12, type: "Identifier" }
+        ]
+    }, {
+        code: [
+            "var obj = { foo: foo",
+            "          , cats: cats",
+            "};"
+        ].join("\n"),
+        options: [{ "align": "colon" }],
+        errors: [
+            { message: "Missing space after key \"foo\".", line: 1, column: 13, type: "Identifier" }
+        ]
+    }, {
+        code: [
+            "var obj = { foo  : foo",
+            "          , cats: cats",
+            "};"
+        ].join("\n"),
+        options: [{ "align": "colon" }],
+        errors: [
+            { message: "Extra space after key \"foo\".", line: 1, column: 13, type: "Identifier" }
+        ]
+    }, {
+        code: [
+            "var obj = { foo :foo",
+            "          , cats: cats",
+            "};"
+        ].join("\n"),
+        options: [{ "align": "colon" }],
+        errors: [
+            { message: "Missing space before value for key \"foo\".", line: 1, column: 18, type: "Identifier" }
+        ]
+    }, {
+        code: [
+            "var obj = { foo :  foo",
+            "          , cats: cats",
+            "};"
+        ].join("\n"),
+        options: [{ "align": "colon" }],
+        errors: [
+            { message: "Extra space before value for key \"foo\".", line: 1, column: 20, type: "Identifier" }
+        ]
+    }, {
+        code: [
+            "var obj = { foo : foo",
+            "          , cats:  cats",
+            "};"
+        ].join("\n"),
+        options: [{ "align": "colon" }],
+        errors: [
+            { message: "Extra space before value for key \"cats\".", line: 2, column: 20, type: "Identifier" }
         ]
     }]
 });
