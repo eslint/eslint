@@ -55,6 +55,34 @@ ruleTester.run("indent", rule, {
         {
             code:
             "bridge.callHandler(\n" +
+            "  'getAppVersion', 'test23', function(responseData) {\n" +
+            "    window.ah.mobileAppVersion = responseData;\n" +
+            "  }\n" +
+            ");\n",
+            options: [2]
+        },
+        {
+            code:
+            "bridge.callHandler(\n" +
+            "  'getAppVersion', 'test23', function(responseData) {\n" +
+            "    window.ah.mobileAppVersion = responseData;\n" +
+            "  });\n",
+            options: [2]
+        },
+        {
+            code:
+            "bridge.callHandler(\n" +
+            "  'getAppVersion',\n" +
+            "  null,\n" +
+            "  function responseCallback(responseData) {\n" +
+            "    window.ah.mobileAppVersion = responseData;\n" +
+            "  }\n" +
+            ");\n",
+            options: [2]
+        },
+        {
+            code:
+            "bridge.callHandler(\n" +
             "  'getAppVersion',\n" +
             "  null,\n" +
             "  function responseCallback(responseData) {\n" +
