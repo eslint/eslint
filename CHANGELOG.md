@@ -1,3 +1,16 @@
+v1.7.3 - October 21, 2015
+
+* Fix: Support comma-first style in key-spacing (fixes #3877) (Brandon Mills)
+* Fix: no-magic-numbers: variable declarations (fixes #4192) (Ilya Panasenko)
+* Fix: Support ES6 shorthand in key-spacing (fixes #3678) (Brandon Mills)
+* Fix: `indent` array with memberExpression (fixes #4203) (Gyandeep Singh)
+* Fix: `indent` param function on sameline (fixes #4174) (Gyandeep Singh)
+* Fix: no-multiple-empty-lines fails when empty line at EOF (fixes #4214) (alberto)
+* Fix: `comma-dangle` false positive (fixes #4200) (Nicholas C. Zakas)
+* Fix: `valid-jsdoc` prefer problem (fixes #4205) (Nicholas C. Zakas)
+* Docs: Add missing single-quote (Kevin Lamping)
+* Fix: correct no-multiple-empty-lines at EOF (fixes #4140) (alberto)
+
 v1.7.2 - October 19, 2015
 
 * Fix: comma-dangle confused by parens (fixes #4195) (Nicholas C. Zakas)
