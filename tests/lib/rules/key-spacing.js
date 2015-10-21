@@ -215,6 +215,75 @@ ruleTester.run("key-spacing", rule, {
         ].join("\n"),
         ecmaFeatures: { modules: true, objectLiteralShorthandProperties: true },
         options: [{ "align": "value" }]
+    }, {
+        code: [
+            "var test = {",
+            "    prop: 123,",
+            "    a,",
+            "    b",
+            "};"
+        ].join("\n"),
+        ecmaFeatures: { objectLiteralShorthandProperties: true }
+    }, {
+        code: [
+            "var test = {",
+            "    prop: 456,",
+            "    c,",
+            "    d",
+            "};"
+        ].join("\n"),
+        ecmaFeatures: { objectLiteralShorthandProperties: true },
+        options: [{ "align": "value" }]
+    }, {
+        code: [
+            "var obj = {",
+            "    foobar: 123,",
+            "    prop,",
+            "    baz:    456",
+            "};"
+        ].join("\n"),
+        ecmaFeatures: { objectLiteralShorthandProperties: true },
+        options: [{ "align": "value" }]
+    }, {
+        code: [
+            "var test = {",
+            "    prop: 123,",
+            "    a() { }",
+            "};"
+        ].join("\n"),
+        ecmaFeatures: { objectLiteralShorthandMethods: true }
+    }, {
+        code: [
+            "var test = {",
+            "    prop: 123,",
+            "    a() { },",
+            "    b() { }",
+            "};"
+        ].join("\n"),
+        ecmaFeatures: { objectLiteralShorthandMethods: true },
+        options: [{ "align": "value" }]
+    }, {
+        code: [
+            "var obj = {",
+            "    foobar: 123,",
+            "    method() { },",
+            "    baz:    456",
+            "};"
+        ].join("\n"),
+        ecmaFeatures: { objectLiteralShorthandMethods: true },
+        options: [{ "align": "value" }]
+    }, {
+        code: [
+            "var obj = {",
+            "    foobar: 123,",
+            "    method() {",
+            "        return 42;",
+            "    },",
+            "    baz: 456",
+            "};"
+        ].join("\n"),
+        ecmaFeatures: { objectLiteralShorthandMethods: true },
+        options: [{ "align": "value" }]
     }],
 
     invalid: [{
@@ -444,6 +513,73 @@ ruleTester.run("key-spacing", rule, {
         }],
         errors: [
             { message: "Extra space before value for key \"key\".", line: 2, column: 8, type: "Identifier" }
+        ]
+    }, {
+        code: [
+            "var obj = {",
+            "    foobar: 123,",
+            "    prop,",
+            "    baz: 456",
+            "};"
+        ].join("\n"),
+        ecmaFeatures: { objectLiteralShorthandProperties: true },
+        options: [{ "align": "value" }],
+        errors: [
+            { message: "Missing space before value for key \"baz\".", line: 4, column: 10, type: "Literal" }
+        ]
+    }, {
+        code: [
+            "var obj = {",
+            "    foobar:  123,",
+            "    prop,",
+            "    baz:    456",
+            "};"
+        ].join("\n"),
+        ecmaFeatures: { objectLiteralShorthandProperties: true },
+        options: [{ "align": "value" }],
+        errors: [
+            { message: "Extra space before value for key \"foobar\".", line: 2, column: 14, type: "Literal" }
+        ]
+    }, {
+        code: [
+            "var obj = {",
+            "    foobar: 123,",
+            "    method() { },",
+            "    baz: 456",
+            "};"
+        ].join("\n"),
+        ecmaFeatures: { objectLiteralShorthandMethods: true },
+        options: [{ "align": "value" }],
+        errors: [
+            { message: "Missing space before value for key \"baz\".", line: 4, column: 10, type: "Literal" }
+        ]
+    }, {
+        code: [
+            "var obj = {",
+            "    foobar:  123,",
+            "    method() { },",
+            "    baz:    456",
+            "};"
+        ].join("\n"),
+        ecmaFeatures: { objectLiteralShorthandMethods: true },
+        options: [{ "align": "value" }],
+        errors: [
+            { message: "Extra space before value for key \"foobar\".", line: 2, column: 14, type: "Literal" }
+        ]
+    }, {
+        code: [
+            "var obj = {",
+            "    foobar: 123,",
+            "    method() {",
+            "        return 42;",
+            "    },",
+            "    baz:    456",
+            "};"
+        ].join("\n"),
+        ecmaFeatures: { objectLiteralShorthandMethods: true },
+        options: [{ "align": "value" }],
+        errors: [
+            { message: "Extra space before value for key \"baz\".", line: 6, column: 13, type: "Literal" }
         ]
     }]
 });
