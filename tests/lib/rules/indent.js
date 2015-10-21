@@ -921,6 +921,17 @@ ruleTester.run("indent", rule, {
                 "    },\n" +
                 "    someOtherValue = 'someOtherValue';\n",
             ecmaFeatures: { arrowFunctions: true, blockBindings: true }
+        },
+        {
+            code:
+            "[\n" +
+            "  'a',\n" +
+            "  'b'\n" +
+            "].sort().should.deepEqual([\n" +
+            "  'x',\n" +
+            "  'y'\n" +
+            "]);\n",
+            options: [2]
         }
     ],
     invalid: [
