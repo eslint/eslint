@@ -42,11 +42,11 @@ if (true) {
 
 ### Options
 
-This rule takes one option, an object, with properties `"builtinGlobals"` and `"hoist"`.
+This rule takes one option, an object, with properties `"builtinGlobals"`, `"hoist"` and `"allow"`.
 
 ```json
 {
-    "no-shadow": [2, {"builtinGlobals": false, "hoist": "functions"}]
+    "no-shadow": [2, {"builtinGlobals": false, "hoist": "functions", "allow": []}]
 }
 ```
 
@@ -124,6 +124,33 @@ let a = 5;
 function b() {}
 ```
 
+#### allow
+
+The option is an array of identifier names to be allowed (ie. "resolve", "reject", "done", "cb" etc.):
+
+```json
+{
+    "rules": {
+        "no-shadow": [2, {"allow": ["done"]}]
+    }
+}
+```
+
+Allows for the following code to be valid:
+
+```js
+import async from 'async';
+
+function foo(done) {
+  async.map([1, 2], function (e, done) {
+    done(null, e * 2)
+  }, done);
+}
+
+foo(function (err, result) {
+  console.log({ err, result });
+});
+```
 
 ## Further Reading
 
