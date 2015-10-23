@@ -56,7 +56,8 @@ ruleTester.run("no-shadow", rule, {
         { code: "function foo() { var Object = 0; }" },
         { code: "function foo() { var top = 0; }", env: {browser: true} },
         { code: "var Object = 0;", options: [{builtinGlobals: true}] },
-        { code: "var top = 0;", options: [{builtinGlobals: true}], env: {browser: true} }
+        { code: "var top = 0;", options: [{builtinGlobals: true}], env: {browser: true} },
+        { code: "function foo(cb) { (function (cb) { cb(42); })(cb); }", options: [{ allow: [ "cb" ] }] }
     ],
     invalid: [
         {
@@ -328,6 +329,12 @@ ruleTester.run("no-shadow", rule, {
             env: {browser: true},
             ecmaFeatures: {globalReturn: true},
             errors: [{ message: "top is already declared in the upper scope.", type: "Identifier"}]
+        },
+        {
+            code: "function foo(cb) { (function (cb) { cb(42); })(cb); }",
+            errors: [
+                {message: "cb is already declared in the upper scope.", type: "Identifier", line: 1, column: 31}
+            ]
         }
     ]
 });
