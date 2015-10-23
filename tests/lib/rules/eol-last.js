@@ -24,11 +24,18 @@ ruleTester.run("eol-last", rule, {
         "var a = 123;\n",
         "var a = 123;\n\n",
         "var a = 123;\n   \n",
-
         "\r\n",
         "var a = 123;\r\n",
         "var a = 123;\r\n\r\n",
-        "var a = 123;\r\n   \r\n"
+        "var a = 123;\r\n   \r\n",
+        {
+            code: "var a = 123;\n\n\n\n\n\n\n\n\n\n",
+            options: [{"max": 10}]
+        },
+        {
+            code: "var a = 123;\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n",
+            options: [{"type": "windows", "max": 10}]
+        }
     ],
 
     invalid: [
@@ -44,15 +51,33 @@ ruleTester.run("eol-last", rule, {
         },
         {
             code: "var a = 123;",
-            options: ["windows"],
+            options: [{"type": "windows"}],
             errors: [{ message: "Newline required at end of file but not found.", type: "Program" }],
             output: "var a = 123;\r\n"
         },
         {
             code: "var a = 123;\r\n   ",
-            options: ["windows"],
+            options: [{"type": "windows"}],
             errors: [{ message: "Newline required at end of file but not found.", type: "Program" }],
             output: "var a = 123;\r\n   \r\n"
+        },
+        {
+            code: "var a = 123;\n\n",
+            options: [{"max": 1}],
+            errors: [{ message: "Too many newlines at end of file.", type: "Program" }],
+            output: "var a = 123;\n"
+        },
+        {
+            code: "var a = 123;\n\n\n\n\n\n\n\n\n\n",
+            options: [{"max": 5}],
+            errors: [{ message: "Too many newlines at end of file.", type: "Program" }],
+            output: "var a = 123;\n\n\n\n\n"
+        },
+        {
+            code: "var a = 123;\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n",
+            options: [{"type": "windows", "max": 5}],
+            errors: [{ message: "Too many newlines at end of file.", type: "Program" }],
+            output: "var a = 123;\r\n\r\n\r\n\r\n\r\n"
         }
     ]
 });
