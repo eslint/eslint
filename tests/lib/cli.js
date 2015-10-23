@@ -10,7 +10,6 @@
 //------------------------------------------------------------------------------
 
 var assert = require("chai").assert,
-    cli = require("../../lib/cli"),
     CLIEngine = require("../../lib/cli-engine"),
     path = require("path"),
     sinon = require("sinon"),
@@ -29,6 +28,13 @@ proxyquire = proxyquire.noCallThru().noPreserveCache();
 describe("cli", function() {
 
     var fixtureDir;
+    var log = {
+        info: sinon.spy(),
+        error: sinon.spy()
+    };
+    var cli = proxyquire("../../lib/cli", {
+        "./logging": log
+    });
 
     /**
      * Returns the path inside of the fixture directory.
@@ -48,14 +54,9 @@ describe("cli", function() {
         sh.cp("-r", "./tests/fixtures/.", fixtureDir);
     });
 
-    beforeEach(function() {
-        sinon.stub(console, "log").returns(void 0);
-        sinon.stub(console, "error").returns(void 0);
-    });
-
     afterEach(function() {
-        console.log.restore();
-        console.error.restore();
+        log.info.reset();
+        log.error.reset();
     });
 
     after(function() {
@@ -205,7 +206,8 @@ describe("cli", function() {
                 "./config": stubbedConfig
             });
             var stubCli = proxyquire("../../lib/cli", {
-                "./cli-engine": stubbedCLIEngine
+                "./cli-engine": stubbedCLIEngine,
+                "./logging": log
             });
             var configPath = "xo";
             var filePath = getFixturePath("passing.js");
@@ -214,7 +216,7 @@ describe("cli", function() {
             var exit = stubCli.execute(code);
 
             assert.equal(exit, 1);
-            assert.isTrue(console.log.called);
+            assert.isTrue(log.info.called);
         });
     });
 
@@ -283,12 +285,12 @@ describe("cli", function() {
 
             cli.execute("--no-ignore --rule semi:2 " + filePath);
 
-            assert.isTrue(console.log.called, "Log should have been called.");
+            assert.isTrue(log.info.called, "Log should have been called.");
 
-            console.log.reset();
+            log.info.reset();
 
             cli.execute("--no-ignore --rule semi:2 " + passingPath);
-            assert.isTrue(console.log.notCalled);
+            assert.isTrue(log.info.notCalled);
 
         });
     });
@@ -297,7 +299,7 @@ describe("cli", function() {
         it("should print out current version", function() {
             cli.execute("-v");
 
-            assert.equal(console.log.callCount, 1);
+            assert.equal(log.info.callCount, 1);
         });
     });
 
@@ -305,7 +307,7 @@ describe("cli", function() {
         it("should print out help", function() {
             cli.execute("-h");
 
-            assert.equal(console.log.callCount, 1);
+            assert.equal(log.info.callCount, 1);
         });
     });
 
@@ -314,7 +316,7 @@ describe("cli", function() {
             var ignorePath = getFixturePath(".eslintignore");
             var filePath = getFixturePath(".");
             var exit = cli.execute("--ignore-path " + ignorePath + " " + filePath);
-            assert.isTrue(console.log.notCalled);
+            assert.isTrue(log.info.notCalled);
             assert.equal(exit, 0);
         });
     });
@@ -327,7 +329,7 @@ describe("cli", function() {
             var exit = cli.execute("--ignore-path " + ignorePath + " " + filePath);
 
             // a warning about the ignored file
-            assert.isTrue(console.log.called);
+            assert.isTrue(log.info.called);
             assert.equal(exit, 0);
         });
 
@@ -337,7 +339,7 @@ describe("cli", function() {
             var exit = cli.execute("--ignore-path " + ignorePath + " --no-ignore " + filePath);
 
             // no warnings
-            assert.isFalse(console.log.called);
+            assert.isFalse(log.info.called);
             assert.equal(exit, 0);
         });
     });
@@ -350,7 +352,7 @@ describe("cli", function() {
             var exit = cli.execute("--ignore-pattern " + ignorePath + " " + ignorePath + " " + filePath);
 
             // a warning about the ignored file
-            assert.isTrue(console.log.called);
+            assert.isTrue(log.info.called);
             assert.equal(exit, 0);
         });
     });
@@ -388,8 +390,8 @@ describe("cli", function() {
 
             cli.execute(code);
 
-            assert.isTrue(console.log.calledOnce);
-            assert.isTrue(console.log.neverCalledWith(""));
+            assert.isTrue(log.info.calledOnce);
+            assert.isTrue(log.info.neverCalledWith(""));
         });
 
         it("should return warnings from multiple rules in different directories", function() {
@@ -400,12 +402,12 @@ describe("cli", function() {
             var code = "--rulesdir " + rulesPath + " --rulesdir " + rulesPath2 + " --config " + configPath + " --no-ignore " + filePath;
             var exit = cli.execute(code);
 
-            var call = console.log.getCall(0);
-            assert.isTrue(console.log.calledOnce);
+            var call = log.info.getCall(0);
+            assert.isTrue(log.info.calledOnce);
             assert.isTrue(call.args[0].indexOf("String!") > -1);
             assert.isTrue(call.args[0].indexOf("Literal!") > -1);
             assert.isTrue(call.args[0].indexOf("2 problems") > -1);
-            assert.isTrue(console.log.neverCalledWith(""));
+            assert.isTrue(log.info.neverCalledWith(""));
             assert.equal(exit, 1);
         });
 
@@ -417,7 +419,7 @@ describe("cli", function() {
             var filePath = getFixturePath("eslintrc", "quotes.js");
             var exit = cli.execute("--no-eslintrc --no-ignore " + filePath);
 
-            assert.isTrue(console.log.notCalled);
+            assert.isTrue(log.info.notCalled);
             assert.equal(exit, 0);
         });
     });
@@ -427,7 +429,7 @@ describe("cli", function() {
             var filePath = getFixturePath("eslintrc", "quotes.js");
             var exit = cli.execute("--no-ignore " + filePath);
 
-            assert.isTrue(console.log.calledOnce);
+            assert.isTrue(log.info.calledOnce);
             assert.equal(exit, 1);
         });
     });
@@ -440,7 +442,7 @@ describe("cli", function() {
             ];
 
             cli.execute("--no-eslintrc --config ./conf/eslint.json --no-ignore " + files.join(" "));
-            assert.equal(console.log.args[0][0].split("\n").length, 11);
+            assert.equal(log.info.args[0][0].split("\n").length, 11);
         });
     });
 
@@ -449,7 +451,7 @@ describe("cli", function() {
             var filePath = getFixturePath("undef.js");
             var exit = cli.execute("--global baz,bat --no-ignore --rule no-undef:2 " + filePath);
 
-            assert.isTrue(console.log.calledOnce);
+            assert.isTrue(log.info.calledOnce);
             assert.equal(exit, 1);
         });
 
@@ -457,7 +459,7 @@ describe("cli", function() {
             var filePath = getFixturePath("undef.js");
             var exit = cli.execute("--global baz:false,bat:true --no-ignore " + filePath);
 
-            assert.isTrue(console.log.notCalled);
+            assert.isTrue(log.info.notCalled);
             assert.equal(exit, 0);
         });
 
@@ -465,7 +467,7 @@ describe("cli", function() {
             var filePath = getFixturePath("undef.js");
             var exit = cli.execute("--global baz --global bat:true --no-ignore " + filePath);
 
-            assert.isTrue(console.log.notCalled);
+            assert.isTrue(log.info.notCalled);
             assert.equal(exit, 0);
         });
     });
@@ -493,9 +495,9 @@ describe("cli", function() {
 
             cli.execute(cliArgs);
 
-            sinon.assert.calledOnce(console.log);
+            sinon.assert.calledOnce(log.info);
 
-            formattedOutput = console.log.firstCall.args[0];
+            formattedOutput = log.info.firstCall.args[0];
             assert.include(formattedOutput, "Error");
             assert.notInclude(formattedOutput, "Warning");
         });
@@ -506,7 +508,7 @@ describe("cli", function() {
 
             cli.execute(cliArgs);
 
-            sinon.assert.notCalled(console.log);
+            sinon.assert.notCalled(log.info);
         });
     });
 
@@ -522,7 +524,7 @@ describe("cli", function() {
             cli.execute(code);
 
             assert.include(fs.readFileSync("tests/output/eslint-output.txt", "utf8"), path.join("tests", "fixtures", "single-quoted.js"));
-            assert.isTrue(console.log.notCalled);
+            assert.isTrue(log.info.notCalled);
         });
 
         it("should return an error if the path is a directory", function() {
@@ -534,8 +536,8 @@ describe("cli", function() {
             exit = cli.execute(code);
 
             assert.equal(exit, 1);
-            assert.isTrue(console.log.notCalled);
-            assert.isTrue(console.error.calledOnce);
+            assert.isTrue(log.info.notCalled);
+            assert.isTrue(log.error.calledOnce);
         });
 
         it("should return an error if the path could not be written to", function() {
@@ -547,8 +549,8 @@ describe("cli", function() {
             exit = cli.execute(code);
 
             assert.equal(exit, 1);
-            assert.isTrue(console.log.notCalled);
-            assert.isTrue(console.error.calledOnce);
+            assert.isTrue(log.info.notCalled);
+            assert.isTrue(log.error.calledOnce);
         });
     });
 
@@ -561,14 +563,15 @@ describe("cli", function() {
                 examplePlugin = { rules: { "cli-example-rule": require(getFixturePath("rules", "custom-rule.js")) } },
                 exampleRuleConfig = "'example/cli-example-rule: 2'";
 
+            requireStubs["./logging"] = log;
             requireStubs[examplePluginName] = examplePlugin;
             requireStubs[examplePluginName]["@global"] = true;
 
             cli = proxyquire("../../lib/cli", requireStubs);
             var exit = cli.execute("--plugin " + examplePluginName + " --rule " + exampleRuleConfig + " " + filePath);
 
-            assert.isTrue(console.log.calledOnce);
-            assert.include(console.log.getCall(0).args[0], "Identifier cannot be named 'foo'");
+            assert.isTrue(log.info.calledOnce);
+            assert.include(log.info.getCall(0).args[0], "Identifier cannot be named 'foo'");
             assert.equal(exit, 1);
         });
 
@@ -607,8 +610,8 @@ describe("cli", function() {
             exitCode = cli.execute("--max-warnings 5 " + filePath);
 
             assert.equal(exitCode, 1);
-            assert.ok(console.error.calledOnce);
-            assert.include(console.error.getCall(0).args[0], "ESLint found too many warnings");
+            assert.ok(log.error.calledOnce);
+            assert.include(log.error.getCall(0).args[0], "ESLint found too many warnings");
         });
 
         it("should not change exit code if warning count equals threshold", function() {
@@ -657,7 +660,8 @@ describe("cli", function() {
             fakeCLIEngine.outputFixes = sandbox.stub();
 
             localCLI = proxyquire("../../lib/cli", {
-                "./cli-engine": fakeCLIEngine
+                "./cli-engine": fakeCLIEngine,
+                "./logging": log
             });
 
             var exitCode = localCLI.execute("--fix .");
@@ -692,7 +696,8 @@ describe("cli", function() {
             fakeCLIEngine.outputFixes = sandbox.mock().withExactArgs(report);
 
             localCLI = proxyquire("../../lib/cli", {
-                "./cli-engine": fakeCLIEngine
+                "./cli-engine": fakeCLIEngine,
+                "./logging": log
             });
 
             var exitCode = localCLI.execute("--fix .");
@@ -728,7 +733,8 @@ describe("cli", function() {
             fakeCLIEngine.outputFixes = sandbox.mock().withExactArgs(report);
 
             localCLI = proxyquire("../../lib/cli", {
-                "./cli-engine": fakeCLIEngine
+                "./cli-engine": fakeCLIEngine,
+                "./logging": log
             });
 
             var exitCode = localCLI.execute("--fix --quiet .");
@@ -742,7 +748,8 @@ describe("cli", function() {
             var fakeCLIEngine = sandbox.mock().never();
 
             localCLI = proxyquire("../../lib/cli", {
-                "./cli-engine": fakeCLIEngine
+                "./cli-engine": fakeCLIEngine,
+                "./logging": log
             });
 
             var exitCode = localCLI.execute("--fix .", "foo = bar;");
