@@ -23,7 +23,12 @@ ruleTester.run("eol-last", rule, {
         "\n",
         "var a = 123;\n",
         "var a = 123;\n\n",
-        "var a = 123;\n   \n"
+        "var a = 123;\n   \n",
+
+        "\r\n",
+        "var a = 123;\r\n",
+        "var a = 123;\r\n\r\n",
+        "var a = 123;\r\n   \r\n"
     ],
 
     invalid: [
@@ -36,6 +41,18 @@ ruleTester.run("eol-last", rule, {
             code: "var a = 123;\n   ",
             errors: [{ message: "Newline required at end of file but not found.", type: "Program" }],
             output: "var a = 123;\n   \n"
+        },
+        {
+            code: "var a = 123;",
+            options: ["windows"],
+            errors: [{ message: "Newline required at end of file but not found.", type: "Program" }],
+            output: "var a = 123;\r\n"
+        },
+        {
+            code: "var a = 123;\r\n   ",
+            options: ["windows"],
+            errors: [{ message: "Newline required at end of file but not found.", type: "Program" }],
+            output: "var a = 123;\r\n   \r\n"
         }
     ]
 });
