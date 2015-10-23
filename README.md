@@ -69,6 +69,7 @@ These folks keep the project moving and are resources for help:
 * Ian VanSchooten ([@ianvs](https://github.com/ianvs)) - committer
 * Toru Nagashima ([@mysticatea](https://github.com/mysticatea)) - committer
 * Burak Yiğit Kaya ([@byk](https://github.com/byk)) - committer
+* Alberto Rodriguez ([@alberto](https://github.com/alberto)) - committer
 
 ## Releases
 
