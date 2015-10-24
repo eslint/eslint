@@ -836,14 +836,23 @@ describe("SourceCode", function() {
             }
         };
 
-        it("should work when passed a SourceCode object", function() {
+        it("should work when passed a SourceCode object without a config", function() {
+            var ast = espree.parse(TEST_CODE, DEFAULT_CONFIG);
+
+            var sourceCode = new SourceCode(TEST_CODE, ast),
+                messages = eslint.verify(sourceCode);
+
+            assert.equal(messages.length, 0);
+        });
+
+        it("should work when passed a SourceCode object containing ES6 syntax and config", function() {
             var sourceCode = new SourceCode("let foo = bar;", AST),
                 messages = eslint.verify(sourceCode, CONFIG);
 
             assert.equal(messages.length, 0);
         });
 
-        it("should report an error when blockBindings is false", function() {
+        it("should report an error when using let and blockBindings is false", function() {
             var sourceCode = new SourceCode("let foo = bar;", AST),
                 messages = eslint.verify(sourceCode, {
                     ecmaFeatures: { blockBindings: true },
