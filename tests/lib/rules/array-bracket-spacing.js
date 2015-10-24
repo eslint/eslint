@@ -136,10 +136,12 @@ ruleTester.run("array-bracket-spacing", rule, {
         { code: "var foo = [1, {'bar': 'baz'} , 5];", options: ["never", {objectsInArrays: true}] },
         { code: "var foo = [1, {'bar': 'baz'}, [ {'bar': 'baz'} ]];", options: ["never", {objectsInArrays: true}] },
         { code: "var foo = [function(){}];", options: ["never", {objectsInArrays: true}] },
+        { code: "var foo = [];", options: ["never", {objectsInArrays: true}] },
 
         // never - arraysInArrays
         { code: "var arr = [ [1, 2], 2, 3, 4];", options: ["never", {"arraysInArrays": true}] },
         { code: "var foo = [arr[i], arr[j]];", options: ["never", {"arraysInArrays": true}] },
+        { code: "var foo = [];", options: ["never", {"arraysInArrays": true}] },
 
         // never - arraysInArrays, singleValue
         { code: "var arr = [ [1, 2], [ [ [ 1 ] ] ], 3, 4];", options: ["never", {"arraysInArrays": true, singleValue: true}] },
@@ -508,6 +510,34 @@ ruleTester.run("array-bracket-spacing", rule, {
                 }
             ]
         },
+        {
+            code: "var arr = [ ];",
+            output: "var arr = [];",
+            options: ["never", {"arraysInArrays": true}],
+            errors: [
+                {
+                    message: "There should be no space after '['",
+                    type: "ArrayExpression",
+                    line: 1,
+                    column: 11
+                }
+            ]
+        },
+
+        // never -  objectsInArrays
+        {
+            code: "var arr = [ ];",
+            output: "var arr = [];",
+            options: ["never", {"objectsInArrays": true}],
+            errors: [
+                {
+                    message: "There should be no space after '['",
+                    type: "ArrayExpression",
+                    line: 1,
+                    column: 11
+                }
+            ]
+        },
 
         // always
         {
@@ -555,6 +585,8 @@ ruleTester.run("array-bracket-spacing", rule, {
                 }
             ]
         },
+
+        // never
         {
             code: "var arr = [ 1, 2, 3, 4 ];",
             output: "var arr = [1, 2, 3, 4];",
