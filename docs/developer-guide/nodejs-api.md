@@ -129,7 +129,8 @@ The `CLIEngine` is a constructor, and you can create a new instance by passing i
 * `useEslintrc` - Set to false to disable use of `.eslintrc` files (default: true). Corresponds to `--no-eslintrc`.
 * `parser` - Specify the parser to be used (default: `espree`). Corresponds to `--parser`.
 * `cache` - Operate only on changed files (default: `false`). Corresponds to `--cache`.
-* `cacheFile` - Name of the file where the cache will be stored (default: `.eslintcache`). Corresponds to `--cache-file`.
+* `cacheFile` - Name of the file where the cache will be stored (default: `.eslintcache`). Corresponds to `--cache-file`. Deprecated: use `cacheLocation` instead.
+* `cacheLocation` - Name of the file or directory where the cache will be stored (default: `.estlintcache`). Correspond to `--cache-location`
 
 For example:
 
