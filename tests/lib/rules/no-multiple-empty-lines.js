@@ -21,6 +21,10 @@ var ruleTester = new RuleTester(),
         messsage: "Multiple blank lines not allowed.",
         type: "Program"
     },
+    expectedErrorEOF = {
+        messsage: "Too many blank lines at the end of file.",
+        type: "Program"
+    },
     ruleArgs = [
         {
             max: 2
@@ -61,8 +65,16 @@ ruleTester.run("no-multiple-empty-lines", rule, {
             code: "`\n\n`",
             options: [{ max: 0 }],
             ecmaFeatures: { templateStrings: true }
-        }
+        },
 
+        {
+            code: "// valid 5\nvar a = 5;\n\n\n\n",
+            options: [ { max: 0, maxEOF: 4 } ]
+        },
+        {
+            code: "// valid 5\nvar a = 5;\n\n\n\n",
+            options: [ { max: 3 } ]
+        }
     ],
 
     invalid: [
@@ -110,6 +122,26 @@ ruleTester.run("no-multiple-empty-lines", rule, {
             code: "// invalid 7\nvar a = 5;\n\nvar b = 3;",
             errors: [ expectedError ],
             options: [ { max: 0 } ]
+        },
+        {
+            code: "// valid 5\nvar a = 5;\n\n",
+            errors: [ expectedErrorEOF ],
+            options: [ { max: 5, maxEOF: 1 } ]
+        },
+        {
+            code: "// valid 5\nvar a = 5;\n\n\n\n\n",
+            errors: [ expectedErrorEOF ],
+            options: [ { max: 0, maxEOF: 4 } ]
+        },
+        {
+            code: "// valid 5\n\n\n\n\n\n\n\n\nvar a = 5;\n\n",
+            errors: [ expectedErrorEOF ],
+            options: [ { max: 10, maxEOF: 1 } ]
+        },
+        {
+            code: "// valid 5\nvar a = 5;\n",
+            errors: [ expectedErrorEOF ],
+            options: [ { max: 2, maxEOF: 0 } ]
         }
     ]
 });
