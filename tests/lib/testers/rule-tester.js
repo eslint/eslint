@@ -521,4 +521,60 @@ describe("RuleTester", function() {
         });
     });
 
+    it("should throw an error if AST was modified", function() {
+        assert.throws(function() {
+            ruleTester.run("foo", require("../../fixtures/testers/rule-tester/modify-ast"), {
+                valid: [
+                    "var foo = 0;"
+                ],
+                invalid: []
+            });
+        }, "Rule should not modify AST.");
+        assert.throws(function() {
+            ruleTester.run("foo", require("../../fixtures/testers/rule-tester/modify-ast"), {
+                valid: [],
+                invalid: [
+                    {code: "var bar = 0;", errors: ["error"]}
+                ]
+            });
+        }, "Rule should not modify AST.");
+    });
+
+    it("should throw an error if AST was modified (at Program)", function() {
+        assert.throws(function() {
+            ruleTester.run("foo", require("../../fixtures/testers/rule-tester/modify-ast-at-first"), {
+                valid: [
+                    "var foo = 0;"
+                ],
+                invalid: []
+            });
+        }, "Rule should not modify AST.");
+        assert.throws(function() {
+            ruleTester.run("foo", require("../../fixtures/testers/rule-tester/modify-ast-at-first"), {
+                valid: [],
+                invalid: [
+                    {code: "var bar = 0;", errors: ["error"]}
+                ]
+            });
+        }, "Rule should not modify AST.");
+    });
+
+    it("should throw an error if AST was modified (at Program:exit)", function() {
+        assert.throws(function() {
+            ruleTester.run("foo", require("../../fixtures/testers/rule-tester/modify-ast-at-last"), {
+                valid: [
+                    "var foo = 0;"
+                ],
+                invalid: []
+            });
+        }, "Rule should not modify AST.");
+        assert.throws(function() {
+            ruleTester.run("foo", require("../../fixtures/testers/rule-tester/modify-ast-at-last"), {
+                valid: [],
+                invalid: [
+                    {code: "var bar = 0;", errors: ["error"]}
+                ]
+            });
+        }, "Rule should not modify AST.");
+    });
 });
