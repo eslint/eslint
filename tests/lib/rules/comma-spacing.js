@@ -125,6 +125,7 @@ ruleTester.run("comma-spacing", rule, {
     invalid: [
         {
             code: "a(b,c)",
+            output: "a(b , c)",
             options: [{before: true, after: true}],
             errors: [
                 {
@@ -139,6 +140,7 @@ ruleTester.run("comma-spacing", rule, {
         },
         {
             code: "new A(b,c)",
+            output: "new A(b , c)",
             options: [{before: true, after: true}],
             errors: [
                 {
@@ -153,6 +155,7 @@ ruleTester.run("comma-spacing", rule, {
         },
         {
             code: "var a = 1 ,b = 2;",
+            output: "var a = 1, b = 2;",
             errors: [
                 {
                     message: "There should be no space before ','.",
@@ -166,6 +169,7 @@ ruleTester.run("comma-spacing", rule, {
         },
         {
             code: "var arr = [1 , 2];",
+            output: "var arr = [1, 2];",
             errors: [
                 {
                     message: "There should be no space before ','.",
@@ -175,6 +179,7 @@ ruleTester.run("comma-spacing", rule, {
         },
         {
             code: "var arr = [1 , ];",
+            output: "var arr = [1, ];",
             errors: [
                 {
                     message: "There should be no space before ','.",
@@ -184,6 +189,7 @@ ruleTester.run("comma-spacing", rule, {
         },
         {
             code: "var arr = [1 , ];",
+            output: "var arr = [1 ,];",
             options: [{ before: true, after: false }],
             errors: [
                 {
@@ -194,6 +200,7 @@ ruleTester.run("comma-spacing", rule, {
         },
         {
             code: "var arr = [1 ,2];",
+            output: "var arr = [1, 2];",
             errors: [
                 {
                     message: "There should be no space before ','.",
@@ -207,6 +214,7 @@ ruleTester.run("comma-spacing", rule, {
         },
         {
             code: "var arr = [(1) , 2];",
+            output: "var arr = [(1), 2];",
             errors: [
                 {
                     message: "There should be no space before ','.",
@@ -216,6 +224,7 @@ ruleTester.run("comma-spacing", rule, {
         },
         {
             code: "var arr = [1, 2];",
+            output: "var arr = [1 ,2];",
             options: [{before: true, after: false}],
             errors: [
                 {
@@ -230,6 +239,7 @@ ruleTester.run("comma-spacing", rule, {
         },
         {
             code: "var arr = [1\n  , 2];",
+            output: "var arr = [1\n  ,2];",
             options: [{before: false, after: false}],
             errors: [
                 {
@@ -240,6 +250,7 @@ ruleTester.run("comma-spacing", rule, {
         },
         {
             code: "var arr = [1,\n  2];",
+            output: "var arr = [1 ,\n  2];",
             options: [{before: true, after: false}],
             errors: [
                 {
@@ -250,6 +261,7 @@ ruleTester.run("comma-spacing", rule, {
         },
         {
             code: "var obj = {'foo':\n'bar', 'baz':\n'qur'};",
+            output: "var obj = {'foo':\n'bar' ,'baz':\n'qur'};",
             options: [{before: true, after: false}],
             errors: [
                 {
@@ -264,6 +276,7 @@ ruleTester.run("comma-spacing", rule, {
         },
         {
             code: "var obj = {a: 1\n  ,b: 2};",
+            output: "var obj = {a: 1\n  , b: 2};",
             options: [{before: false, after: true}],
             errors: [
                 {
@@ -274,6 +287,7 @@ ruleTester.run("comma-spacing", rule, {
         },
         {
             code: "var obj = {a: 1 ,\n  b: 2};",
+            output: "var obj = {a: 1,\n  b: 2};",
             options: [{before: false, after: false}],
             errors: [
                 {
@@ -284,6 +298,7 @@ ruleTester.run("comma-spacing", rule, {
         },
         {
             code: "var arr = [1 ,2];",
+            output: "var arr = [1 , 2];",
             options: [{before: true, after: true}],
             errors: [
                 {
@@ -294,6 +309,7 @@ ruleTester.run("comma-spacing", rule, {
         },
         {
             code: "var arr = [1,2];",
+            output: "var arr = [1 , 2];",
             options: [{before: true, after: true}],
             errors: [
                 {
@@ -308,6 +324,7 @@ ruleTester.run("comma-spacing", rule, {
         },
         {
             code: "var obj = {'foo':\n'bar','baz':\n'qur'};",
+            output: "var obj = {'foo':\n'bar' , 'baz':\n'qur'};",
             options: [{before: true, after: true}],
             errors: [
                 {
@@ -322,6 +339,7 @@ ruleTester.run("comma-spacing", rule, {
         },
         {
             code: "var arr = [1 , 2];",
+            output: "var arr = [1,2];",
             options: [{before: false, after: false}],
             errors: [
                 {
@@ -336,6 +354,7 @@ ruleTester.run("comma-spacing", rule, {
         },
         {
             code: "a ,b",
+            output: "a, b",
             options: [{before: false, after: true}],
             errors: [
                 {
@@ -350,6 +369,7 @@ ruleTester.run("comma-spacing", rule, {
         },
         {
             code: "function foo(a,b){}",
+            output: "function foo(a , b){}",
             options: [{before: true, after: true}],
             errors: [
                 {
@@ -364,6 +384,7 @@ ruleTester.run("comma-spacing", rule, {
         },
         {
             code: "var foo = (a,b) => {}",
+            output: "var foo = (a , b) => {}",
             ecmaFeatures: { arrowFunctions: true },
             options: [{before: true, after: true}],
             errors: [
@@ -379,6 +400,7 @@ ruleTester.run("comma-spacing", rule, {
         },
         {
             code: "var foo = (a = 1,b) => {}",
+            output: "var foo = (a = 1 , b) => {}",
             ecmaFeatures: { arrowFunctions: true, defaultParams: true },
             options: [{before: true, after: true}],
             errors: [
@@ -394,6 +416,7 @@ ruleTester.run("comma-spacing", rule, {
         },
         {
             code: "function foo(a = 1 ,b = 2) {}",
+            output: "function foo(a = 1, b = 2) {}",
             ecmaFeatures: { defaultParams: true },
             options: [{before: false, after: true}],
             errors: [
@@ -409,6 +432,7 @@ ruleTester.run("comma-spacing", rule, {
         },
         {
             code: "<a>{foo(1 ,2)}</a>",
+            output: "<a>{foo(1, 2)}</a>",
             ecmaFeatures: { jsx: true },
             errors: [
                 {
@@ -423,6 +447,7 @@ ruleTester.run("comma-spacing", rule, {
         },
         {
             code: "myfunc(404, true/* bla bla bla */ , 'hello');",
+            output: "myfunc(404, true/* bla bla bla */, 'hello');",
             errors: [
                 {
                     message: "There should be no space before ','.",
@@ -432,6 +457,7 @@ ruleTester.run("comma-spacing", rule, {
         },
         {
             code: "myfunc(404, true/* bla bla bla */ /* hi */, 'hello');",
+            output: "myfunc(404, true/* bla bla bla *//* hi */, 'hello');",
             errors: [
                 {
                     message: "There should be no space before ','.",
