@@ -585,6 +585,62 @@ describe("SourceCode", function() {
             assert.isTrue(spy.calledTwice, "Event handler should be called.");
         });
 
+        it("should get JSDoc comment for node when the node is a ClassExpression", function() {
+
+            var code = [
+                "/** Merges two objects together.*/",
+                "var A = class {",
+                "};"
+            ].join("\n");
+
+            /**
+             * Check jsdoc presence
+             * @param {ASTNode} node not to check
+             * @returns {void}
+             * @private
+             */
+            function assertJSDoc(node) {
+                var sourceCode = eslint.getSourceCode();
+                var jsdoc = sourceCode.getJSDocComment(node);
+                assert.equal(jsdoc.type, "Block");
+                assert.equal(jsdoc.value, "* Merges two objects together.");
+            }
+
+            var spy = sandbox.spy(assertJSDoc);
+
+            eslint.on("ClassExpression", spy);
+            eslint.verify(code, { rules: {}, ecmaFeatures: {classes: true}}, filename, true);
+            assert.isTrue(spy.calledOnce, "Event handler should be called.");
+        });
+
+        it("should get JSDoc comment for node when the node is a ClassDeclaration", function() {
+
+            var code = [
+                "/** Merges two objects together.*/",
+                "class A {",
+                "};"
+            ].join("\n");
+
+            /**
+             * Check jsdoc presence
+             * @param {ASTNode} node not to check
+             * @returns {void}
+             * @private
+             */
+            function assertJSDoc(node) {
+                var sourceCode = eslint.getSourceCode();
+                var jsdoc = sourceCode.getJSDocComment(node);
+                assert.equal(jsdoc.type, "Block");
+                assert.equal(jsdoc.value, "* Merges two objects together.");
+            }
+
+            var spy = sandbox.spy(assertJSDoc);
+
+            eslint.on("ClassDeclaration", spy);
+            eslint.verify(code, { rules: {}, ecmaFeatures: {classes: true}}, filename, true);
+            assert.isTrue(spy.calledOnce, "Event handler should be called.");
+        });
+
     });
 
     describe("getComments()", function() {
