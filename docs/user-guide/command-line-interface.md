@@ -34,7 +34,9 @@ Basic configuration:
 
 Caching:
   --cache                    Only check changed files - default: false
-  --cache-file String        Path to the cache file - default: .eslintcache
+  --cache-file path::String  Path to the cache file - default: .eslintcache.
+                             Deprecated: use --cache-location
+  --cache-location path::String  Path to the cache file or directory.
 
 Specifying rules and plugins:
   --rulesdir [path::String]  Use additional rules from this directory
@@ -142,7 +144,19 @@ Store the info about processed files in order to only operate on the changed one
 
 #### `--cache-file`
 
-Path to the cache file. If none specified `.eslintcache` will be used. The file will be created in the directory where the `eslint` command is executed.
+Path to the cache file. If none specified `.eslintcache` will be used. The file will be created in the directory where the `eslint` command is executed. **Deprecated**: Use `--cache-location` instead.
+
+#### `--cache-location`
+
+Path to the cache location. Can be a file or a directory. If none specified `.eslintcache` will be used. The file will be created in the directory where the `eslint` command is executed.
+
+In case a directory is specified a cache file will be created inside the specified folder. The name of the file will be based on the hash of the current working directory (CWD). e.g.: `.cache_hashOfCWD`
+
+**Important note:** If the directory for the cache does not exist make sure you add a trailing `/` on *nix systems or `\` in windows. Otherwise the path will be assumed to be a file.
+
+Example:
+
+    eslint 'src/**/*.js' --cache --cache-location '/Users/user/.eslintcache/'
 
 ### Specifying rules and plugins
 
