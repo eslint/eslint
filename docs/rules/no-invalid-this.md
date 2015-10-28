@@ -90,7 +90,7 @@ foo.forEach(function() {
 ### The following patterns are not considered problems:
 
 ```js
-/*eslint no-invalid-regexp: 2*/
+/*eslint no-invalid-this: 2*/
 /*eslint-env es6*/
 
 function Foo() {
