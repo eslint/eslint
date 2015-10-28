@@ -9,11 +9,28 @@ This rule aims to reduce the scrolling required when reading through your code. 
 
 ### Options
 
-You can configure the depth as an option by using the second argument in your configuration. For example, this sets the rule as an error (code is 2) with a maximum tolerated blank lines of 2:
+The second argument can be used to configure this rule:
+
+* `max` sets the maximum number of consecutive blank lines.
+* `maxEOF` can be used to set a different number for the end of file. The last
+  blank lines will then be treated differently. If omitted, the `max` option is
+  applied everywhere.
+
+For example, this sets the rule as an error (code is 2) with a maximum
+tolerated blank lines of 2 (for the whole file):
 
 ```json
 "no-multiple-empty-lines": [2, {"max": 2}]
 ```
+
+While this tolerates three consecutive blank lines within the file, but only
+one at the end:
+
+```json
+"no-multiple-empty-lines": [2, {"max": 3, "maxEOF": 1}]
+```
+
+### Examples
 
 The following patterns are considered problems:
 
@@ -26,6 +43,14 @@ var foo = 5;
                   /*error Multiple blank lines not allowed.*/
 var bar = 3;
 
+```
+
+```js
+/*eslint no-multiple-empty-lines: [2, {max: 2, maxEOF: 1}]*/
+
+var foo = 5;
+
+                  /*error Too many blank lines at the end of file.*/
 ```
 
 The following patterns are not considered problems:
@@ -47,6 +72,21 @@ var foo = 5;
 
 
 var bar = 3;
+```
+
+```js
+/*eslint no-multiple-empty-lines: [2, {max: 2}]*/
+
+var foo = 5;
+// extra line
+```
+
+```js
+/*eslint no-multiple-empty-lines: [2, {max: 2, maxEOF: 10}]*/
+
+var foo = 5;
+
+// 10 extra lines
 ```
 
 ## When Not To Use It
