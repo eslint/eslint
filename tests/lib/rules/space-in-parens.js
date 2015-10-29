@@ -45,7 +45,7 @@ ruleTester.run("space-in-parens", rule, {
         { code: "var foo = `(bar)`;", options: ["always"], ecmaFeatures: { templateStrings: "true" } },
         { code: "var foo = `(bar ${baz})`;", options: ["always"], ecmaFeatures: { templateStrings: "true" } },
         { code: "var foo = `(bar ${( 1 + 2 )})`;", options: ["always"], ecmaFeatures: { templateStrings: "true" } },
-
+        { code: "foo( //some comment\nbar\n)\n", options: ["never"] },
         { code: "bar()", options: ["never"] },
         { code: "bar(baz)", options: ["never"] },
         { code: "var x = (4 + 5) * 6", options: ["never"] },
@@ -259,8 +259,13 @@ ruleTester.run("space-in-parens", rule, {
         },
         {
             code: "( ( 1 + 2 ) )",
+            options: ["never"],
+            errors: [REJECTED_SPACE_ERROR, REJECTED_SPACE_ERROR, REJECTED_SPACE_ERROR, REJECTED_SPACE_ERROR]
+        },
+        {
+            code: "( ( 1 + 2 ) )",
             options: ["never", { exceptions: ["[]"] }],
-            errors: [REJECTED_SPACE_ERROR, REJECTED_SPACE_ERROR]
+            errors: [REJECTED_SPACE_ERROR, REJECTED_SPACE_ERROR, REJECTED_SPACE_ERROR, REJECTED_SPACE_ERROR]
         },
         {
             code: "( ( 1 + 2 ))",
