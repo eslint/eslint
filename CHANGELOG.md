@@ -1,3 +1,29 @@
+v1.8.0 - October 30, 2015
+
+* Fix: Check for node property before testing type (fixes #4298) (Ian VanSchooten)
+* Docs: Specify 'double' as default for quotes (fixes #4270) (Ian VanSchooten)
+* Fix: Missing errors in space-in-parens (fixes #4257, fixes #3996) (alberto)
+* Docs: fixed typo (Mathieu M-Gosselin)
+* Fix: `cacheLocation` handles paths in windows style. (fixes #4285) (royriojas)
+* Docs: fixed typo (mpal9000)
+* Update: Add support for class in `valid-jsdoc` rule (fixes #4279) (Gyandeep Singh)
+* Update: cache-file accepts a directory. (fixes #4241) (royriojas)
+* Update: Add `maxEOF` to no-multiple-empty-lines (fixes #4235) (Adrien Vergé)
+* Update: fix option for comma-spacing (fixes #4232) (HIPP Edgar (PRESTA EXT))
+* Docs: Fix use of wrong word in configuration doc (Jérémie Astori)
+* Fix: Prepare config before verifying SourceCode (fixes #4230) (Ian VanSchooten)
+* Update: RuleTester come to check AST was not modified (fixes #4156) (Toru Nagashima)
+* Fix: wrong count for 'no-multiple-empty-lines' on last line (fixes #4228) (alberto)
+* Update: Add `allow` option to `no-shadow` rule (fixes #3035) (Gyandeep Singh)
+* Doc: Correct the spelling of Alberto's surname (alberto)
+* Docs: Add alberto as a committer (Gyandeep Singh)
+* Build: Do not stub console in testing (fixes #1328) (Gyandeep Singh)
+* Fix: Check node exists before checking type (fixes #4231) (Ian VanSchooten)
+* Update: Option to exclude afterthoughts from no-plusplus (fixes #4093) (Brody McKee)
+* New: Add rule no-arrow-condition (fixes #3280) (Luke Karrys)
+* Update: Add linebreak style option to eol-last (fixes #4148) (alberto)
+* New: arrow-body-style rule (fixes #4109) (alberto)
+
 v1.7.3 - October 21, 2015
 
 * Fix: Support comma-first style in key-spacing (fixes #3877) (Brandon Mills)
