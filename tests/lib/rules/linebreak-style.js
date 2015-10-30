@@ -50,6 +50,7 @@ ruleTester.run("linebreak-style", rule, {
     invalid: [
         {
             code: "var a = 'a';\r\n",
+            output: "var a = 'a';\n",
             args: [2],
             errors: [{
                 line: 1,
@@ -59,6 +60,7 @@ ruleTester.run("linebreak-style", rule, {
         },
         {
             code: "var a = 'a';\r\n",
+            output: "var a = 'a';\n",
             options: ["unix"],
             errors: [{
                 line: 1,
@@ -68,6 +70,7 @@ ruleTester.run("linebreak-style", rule, {
         },
         {
             code: "var a = 'a';\n",
+            output: "var a = 'a';\r\n",
             options: ["windows"],
             errors: [{
                 line: 1,
@@ -77,19 +80,36 @@ ruleTester.run("linebreak-style", rule, {
         },
         {
             code: "var a = 'a',\n b = 'b';\n\n function foo(params) {\r\n /* do stuff */ \n }\r\n",
+            output: "var a = 'a',\n b = 'b';\n\n function foo(params) {\n /* do stuff */ \n }\n",
             args: [2],
             errors: [{
                 line: 4,
                 column: 24,
                 message: EXPECTED_LF_MSG
+            },
+            {
+                line: 6,
+                column: 3,
+                message: EXPECTED_LF_MSG
             }]
         },
         {
-            code: "var a = 'a',\r\n b = 'b';\r\n\n function foo(params) {\r\n /* do stuff */ \n }\r\n",
+            code: "var a = 'a',\r\n b = 'b';\r\n\n function foo(params) {\r\n\n /* do stuff */ \n }\r\n",
+            output: "var a = 'a',\r\n b = 'b';\r\n\r\n function foo(params) {\r\n\r\n /* do stuff */ \r\n }\r\n",
             options: ["windows"],
             errors: [{
                 line: 3,
                 column: 1,
+                message: EXPECTED_CRLF_MSG
+            },
+            {
+                line: 5,
+                column: 1,
+                message: EXPECTED_CRLF_MSG
+            },
+            {
+                line: 6,
+                column: 17,
                 message: EXPECTED_CRLF_MSG
             }]
         }
