@@ -18,6 +18,7 @@ var ruleTester = new RuleTester();
 ruleTester.run("quotes", rule, {
     valid: [
         "var foo = \"bar\";",
+        { code: "var foo = \"bar\";"},
         { code: "var foo = 'bar';", options: ["single"] },
         { code: "var foo = \"bar\";", options: ["double"] },
         { code: "var foo = 1;", options: ["single"] },
