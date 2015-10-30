@@ -110,5 +110,8 @@ module.exports = {
             spread: true,
             newTarget: true
         }
-    }
+    },
+    wsh: {
+        globals: globals.wsh
+    }    
 };
