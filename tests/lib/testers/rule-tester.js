@@ -78,7 +78,7 @@ describe("RuleTester", function() {
                     { code: "eval(foo)", errors: [{ message: "eval sucks.", type: "CallExpression"}] }
                 ]
             });
-        }, /^Should have no errors but had 1/);
+        }, /Should have no errors but had 1/);
     });
 
     it("should throw an error when valid code is invalid", function() {
@@ -92,7 +92,7 @@ describe("RuleTester", function() {
                     { code: "eval(foo)", errors: [{ message: "eval sucks.", type: "CallExpression"}] }
                 ]
             });
-        }, /^Should have no errors but had 1/);
+        }, /Should have no errors but had 1/);
     });
 
     it("should throw an error if invalid code is valid", function() {
@@ -106,7 +106,7 @@ describe("RuleTester", function() {
                     { code: "Eval(foo)", errors: [{ message: "eval sucks.", type: "CallExpression"}] }
                 ]
             });
-        }, /^Should have 1 errors but had 0/);
+        }, /Should have 1 errors but had 0/);
     });
 
     it("should throw an error when the error message is wrong", function() {
@@ -120,7 +120,7 @@ describe("RuleTester", function() {
                     { code: "var foo = bar;", errors: [{ message: "Bad error message." }] }
                 ]
             });
-        }, /^Error message should be /);
+        }, /Error message should be /);
     });
 
     it("should throw an error when the error is neither an object nor a string", function() {
@@ -134,7 +134,7 @@ describe("RuleTester", function() {
                     { code: "var foo = bar;", errors: [42] }
                 ]
             });
-        }, /^Error should be a string or object/);
+        }, /Error should be a string or object/);
     });
 
     it("should throw an error when the error is a string and it does not match error message", function() {
@@ -148,7 +148,7 @@ describe("RuleTester", function() {
                     { code: "var foo = bar;", errors: ["Bad error message."] }
                 ]
             });
-        }, /^Error message should be /);
+        }, /Error message should be /);
     });
 
     it("should not throw an error when the error is a string and it matches error message", function() {
@@ -176,7 +176,7 @@ describe("RuleTester", function() {
                     { code: "var foo = bar;", output: "foo = bar", errors: [{ message: "Bad var.", type: "VariableDeclaration"}] }
                 ]
             });
-        }, /^Output is incorrect/);
+        }, /Output is incorrect/);
     });
 
     it("should throw an error if invalid code specifies wrong type", function() {
@@ -190,7 +190,7 @@ describe("RuleTester", function() {
                     { code: "eval(foo)", errors: [{ message: "eval sucks.", type: "CallExpression2"}] }
                 ]
             });
-        }, /^Error type should be CallExpression2/);
+        }, /Error type should be CallExpression2/);
     });
 
     it("should throw an error if invalid code specifies wrong line", function() {
@@ -204,7 +204,7 @@ describe("RuleTester", function() {
                     { code: "eval(foo)", errors: [{ message: "eval sucks.", type: "CallExpression", line: 5 }] }
                 ]
             });
-        }, /^Error line should be 5/);
+        }, /Error line should be 5/);
     });
 
     it("should not skip line assertion if line is a falsy value", function() {
@@ -265,7 +265,7 @@ describe("RuleTester", function() {
                     ] }
                 ]
             });
-        }, /^Should have 2 errors but had 1/);
+        }, /Should have 2 errors but had 1/);
     });
 
     it("should throw an error if invalid code has the wrong explicit number of errors", function() {
@@ -279,7 +279,7 @@ describe("RuleTester", function() {
                     { code: "eval(foo)", errors: 2 }
                 ]
             });
-        }, /^Should have 2 errors but had 1/);
+        }, /Should have 2 errors but had 1/);
     });
 
     it("should not throw an error if invalid code has at least an expected empty error object", function() {
