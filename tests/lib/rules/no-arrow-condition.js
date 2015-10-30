@@ -60,7 +60,8 @@ ruleTester.run("no-arrow-condition", rule, {
         { code: "for (var a = 1; a >= 10; a++) {}" },
         { code: "a >= 1 ? 2 : 3" },
         { code: "(a >= 1) ? 2 : 3" },
-        { code: "[1,2,3].filter(n => n > 2)" }
+        { code: "[1,2,3].filter(n => n > 2)" },
+        { code: "for (;;){}" }
     ].map(addArrowFunctions),
     invalid: [
         {
