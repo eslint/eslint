@@ -14,7 +14,8 @@ var assert = require("chai").assert,
     path = require("path"),
     os = require("os"),
     sh = require("shelljs"),
-    globUtil = require("../../../lib/util/glob-util");
+    globUtil = require("../../../lib/util/glob-util"),
+    fs = require("fs");
 
 //------------------------------------------------------------------------------
 // Helpers
@@ -29,7 +30,7 @@ var fixtureDir;
  */
 function getFixturePath() {
     var args = Array.prototype.slice.call(arguments);
-    args.unshift(fixtureDir);
+    args.unshift(fs.realpathSync(fixtureDir));
     return path.join.apply(path, args);
 }
 
