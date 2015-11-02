@@ -718,6 +718,46 @@ describe("eslint", function() {
             });
         });
 
+        it("should not throw an error if node is provided and location is not", function() {
+            eslint.on("Program", function(node) {
+                eslint.report("test-rule", 2, node, "hello world");
+            });
+
+            assert.doesNotThrow(function() {
+                eslint.verify("0", config, "", true);
+            });
+        });
+
+        it("should not throw an error if location is provided and node is not", function() {
+            eslint.on("Program", function() {
+                eslint.report("test-rule", 2, null, { line: 1, column: 1}, "hello world");
+            });
+
+            assert.doesNotThrow(function() {
+                eslint.verify("0", config, "", true);
+            });
+        });
+
+        it("should throw an error if neither node nor location is provided", function() {
+            eslint.on("Program", function() {
+                eslint.report("test-rule", 2, null, "hello world");
+            });
+
+            assert.throws(function() {
+                eslint.verify("0", config, "", true);
+            }, /Node must be provided when reporting error if location is not provided$/);
+        });
+
+        it("should throw an error if node is not an object", function() {
+            eslint.on("Program", function() {
+                eslint.report("test-rule", 2, "not a node", "hello world");
+            });
+
+            assert.throws(function() {
+                eslint.verify("0", config, "", true);
+            }, /Node must be an object$/);
+        });
+
         it("should correctly parse a message with object keys as numbers", function() {
             eslint.on("Program", function(node) {
                 eslint.report("test-rule", 2, node, "my message {{name}}{{0}}", {0: "!", name: "testing"});

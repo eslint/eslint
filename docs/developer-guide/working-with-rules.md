@@ -118,6 +118,8 @@ The main method you'll use is `context.report()`, which publishes a warning or e
 * `data` - (optional) placeholder data for `message`.
 * `fix` - (optional) a function that applies a fix to resolve the problem.
 
+Note that at least one of `node` or `loc` is required.
+
 The simplest example is to use just `node` and `message`:
 
 ```js
