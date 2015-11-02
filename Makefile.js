@@ -952,14 +952,26 @@ target.checkGitCommit = function() {
 
         // Check for tag at start of message
         if (!TAG_REGEX.test(commitMsgs[0])) {
-            echo(" - Commit message must start with one of:\n    'Fix:'\n    'Update:'\n    'Breaking:'\n    'Docs:'\n    'Build:'\n    'New:'\n    'Upgrade:'");
+            echo([" - Commit summary must start with one of:",
+                "    'Fix:'",
+                "    'Update:'",
+                "    'Breaking:'",
+                "    'Docs:'",
+                "    'Build:'",
+                "    'New:'",
+                "    'Upgrade:'",
+                "   Please refer to the contribution guidelines for more details."].join("\n"));
             failed = true;
         }
 
         // Check for an issue reference at end (unless it's a documentation commit)
         if (!/^Docs:/.test(commitMsgs[0])) {
             if (!ISSUE_REGEX.test(commitMsgs[0])) {
-                echo(" - Commit message must end with with one of:\n    '(fixes #1234)'\n    '(refs #1234)'\n   Where '1234' is the issue being addressed.");
+                echo([" - Commit summary must end with with one of:",
+                    "    '(fixes #1234)'",
+                    "    '(refs #1234)'",
+                    "   Where '1234' is the issue being addressed.",
+                    "   Please refer to the contribution guidelines for more details."].join("\n"));
                 failed = true;
             }
         }
