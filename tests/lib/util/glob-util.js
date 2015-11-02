@@ -71,13 +71,6 @@ describe("globUtil", function() {
             assert.deepEqual(result, ["lib/**/*.js", "tests/**/*.js"]);
         });
 
-        it("should convert a directory name with a leading slash into a glob pattern", function() {
-            var patterns = ["/lib"];
-            var result = globUtil.resolveFileGlobPatterns(patterns);
-
-            assert.deepEqual(result, ["/lib/**/*.js"]);
-        });
-
         it("should remove leading './' from glob patterns", function() {
             var patterns = ["./lib"];
             var result = globUtil.resolveFileGlobPatterns(patterns);
