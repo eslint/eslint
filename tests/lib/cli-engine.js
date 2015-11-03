@@ -782,10 +782,27 @@ describe("CLIEngine", function() {
                         },
                         {
                             "filePath": fs.realpathSync(path.resolve(fixtureDir, "fixmode/quotes-semi-eqeqeq.js")),
-                            "messages": [],
-                            "errorCount": 0,
+                            "messages": [
+                                {
+                                    "column": 11,
+                                    "fix": {
+                                        "range": [
+                                            10,
+                                            14
+                                        ],
+                                        "text": "\"hi\""
+                                    },
+                                    "line": 1,
+                                    "message": "Strings must use doublequote.",
+                                    "nodeType": "Literal",
+                                    "ruleId": "quotes",
+                                    "severity": 2,
+                                    "source": "var msg = 'hi'"
+                                }
+                            ],
+                            "errorCount": 1,
                             "warningCount": 0,
-                            "output": "var msg = \"hi\";\nif (msg === \"hi\") {\n\n}\n"
+                            "output": "var msg = 'hi';\nif (msg === \"hi\") {\n\n}\n"
                         },
                         {
                             "filePath": fs.realpathSync(path.resolve(fixtureDir, "fixmode/quotes.js")),
@@ -805,7 +822,7 @@ describe("CLIEngine", function() {
                             "output": "var msg = \"hi\" + foo;\n"
                         }
                     ],
-                    "errorCount": 1,
+                    "errorCount": 2,
                     "warningCount": 0
                 });
             });
