@@ -53,6 +53,7 @@ These are rules designed to prevent you from making mistakes. They either prescr
 * [guard-for-in](guard-for-in.md) - make sure `for-in` loops have an `if` statement
 * [no-alert](no-alert.md) - disallow the use of `alert`, `confirm`, and `prompt`
 * [no-caller](no-caller.md) - disallow use of `arguments.caller` or `arguments.callee`
+* [no-case-declarations](no-case-declarations.md) - disallow lexical declarations in case clauses
 * [no-div-regex](no-div-regex.md) - disallow division operators explicitly at beginning of regular expression
 * [no-else-return](no-else-return.md) - disallow `else` after a `return` in an `if`
 * [no-empty-label](no-empty-label.md) - disallow use of labels for anything other than loops and switches
