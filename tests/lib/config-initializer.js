@@ -67,4 +67,21 @@ describe("configInitializer", function() {
         var config = init.processAnswers(answers);
         assert.equal(config.extends, "eslint:recommended");
     });
+    it("should support the google style guide", function() {
+        var config = init.getConfigForStyleGuide("google");
+        assert.deepEqual(config, {extends: "google"});
+    });
+    it("should support the airbnb style guide", function() {
+        var config = init.getConfigForStyleGuide("airbnb");
+        assert.deepEqual(config, {extends: "airbnb", plugins: ["react"]});
+    });
+    it("should support the standard style guide", function() {
+        var config = init.getConfigForStyleGuide("standard");
+        assert.deepEqual(config, {extends: "standard", plugins: ["standard"]});
+    });
+    it("should throw when encountering an unsupported style guide", function() {
+        assert.throws(function() {
+            init.getConfigForStyleGuide("non-standard");
+        }, "You referenced an unsupported guide.");
+    });
 });
