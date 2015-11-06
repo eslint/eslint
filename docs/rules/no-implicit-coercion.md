@@ -11,6 +11,7 @@ var b = ~foo.indexOf(".");
 var n = +foo;
 var n = 1 * foo;
 var s = "" + foo;
+foo += "";
 ```
 
 Those can be replaced with the following code:
@@ -21,6 +22,7 @@ var b = foo.indexOf(".") !== -1;
 var n = Number(foo);
 var n = Number(foo);
 var s = String(foo);
+foo = String(foo);
 ```
 
 ## Rule Details
@@ -96,6 +98,8 @@ The following patterns are considered problems:
 /*eslint no-implicit-coercion: 2*/
 
 var n = "" + foo; /*error use `String(foo)` instead.*/
+
+foo += ""; /*error use `foo = String(foo)` instead.*/
 ```
 
 The following patterns are not considered problems:
