@@ -94,8 +94,24 @@ describe("SourceCode", function() {
             }, /missing range information/);
         });
 
+        it("should store all tokens and comments sorted by range", function() {
+            var comments = [
+                { range: [0, 2] },
+                { range: [10, 12] }
+            ];
+            var tokens = [
+                { range: [3, 8] },
+                { range: [8, 10] },
+                { range: [12, 20] }
+            ];
+            var sourceCode = new SourceCode("", { comments: comments, tokens: tokens, loc: {}, range: [] });
 
+            var actual = sourceCode.tokensAndComments;
+            var expected = [comments[0], tokens[0], tokens[1], comments[1], tokens[2]];
+            assert.deepEqual(actual, expected);
+        });
     });
+
 
     describe("getJSDocComment()", function() {
 

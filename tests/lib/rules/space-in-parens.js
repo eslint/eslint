@@ -45,7 +45,6 @@ ruleTester.run("space-in-parens", rule, {
         { code: "var foo = `(bar)`;", options: ["always"], ecmaFeatures: { templateStrings: "true" } },
         { code: "var foo = `(bar ${baz})`;", options: ["always"], ecmaFeatures: { templateStrings: "true" } },
         { code: "var foo = `(bar ${( 1 + 2 )})`;", options: ["always"], ecmaFeatures: { templateStrings: "true" } },
-        { code: "foo( //some comment\nbar\n)\n", options: ["never"] },
         { code: "bar()", options: ["never"] },
         { code: "bar(baz)", options: ["never"] },
         { code: "var x = (4 + 5) * 6", options: ["never"] },
@@ -56,6 +55,18 @@ ruleTester.run("space-in-parens", rule, {
         { code: "var foo = `( bar )`;", options: ["never"], ecmaFeatures: { templateStrings: "true" } },
         { code: "var foo = `( bar ${baz} )`;", options: ["never"], ecmaFeatures: { templateStrings: "true" } },
         { code: "var foo = `(bar ${(1 + 2)})`;", options: ["never"], ecmaFeatures: { templateStrings: "true" } },
+
+        // comments
+        { code: "foo( /* bar */ )", options: ["always"] },
+        { code: "foo( /* bar */baz )", options: ["always"] },
+        { code: "foo( /* bar */ baz )", options: ["always"] },
+        { code: "foo( baz/* bar */ )", options: ["always"] },
+        { code: "foo( baz /* bar */ )", options: ["always"] },
+        { code: "foo(/* bar */)", options: ["never"] },
+        { code: "foo(/* bar */ baz)", options: ["never"] },
+        { code: "foo( //some comment\nbar\n)\n" },
+        { code: "foo(//some comment\nbar\n)\n", options: ["never"] },
+        { code: "foo( //some comment\nbar\n)\n", options: ["never"] },
 
         // exceptions
         { code: "foo({ bar: 'baz' })", options: ["always", { exceptions: ["{}"] }] },
@@ -157,6 +168,43 @@ ruleTester.run("space-in-parens", rule, {
         },
         {
             code: "var x = (4 + 5 ) * 6",
+            options: ["never"],
+            errors: [REJECTED_SPACE_ERROR]
+        },
+
+        // comments
+        {
+            code: "foo(/* bar */)",
+            options: ["always"],
+            errors: [MISSING_SPACE_ERROR, MISSING_SPACE_ERROR]
+        },
+        {
+            code: "foo(/* bar */baz )",
+            options: ["always"],
+            errors: [MISSING_SPACE_ERROR]
+        },
+        {
+            code: "foo(/* bar */ baz )",
+            options: ["always"],
+            errors: [MISSING_SPACE_ERROR]
+        },
+        {
+            code: "foo( baz/* bar */)",
+            options: ["always"],
+            errors: [MISSING_SPACE_ERROR]
+        },
+        {
+            code: "foo( baz /* bar */)",
+            options: ["always"],
+            errors: [MISSING_SPACE_ERROR]
+        },
+        {
+            code: "foo( /* bar */ )",
+            options: ["never"],
+            errors: [REJECTED_SPACE_ERROR, REJECTED_SPACE_ERROR]
+        },
+        {
+            code: "foo( /* bar */ baz)",
             options: ["never"],
             errors: [REJECTED_SPACE_ERROR]
         },
