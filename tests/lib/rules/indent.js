@@ -4,6 +4,7 @@
  * @author Gyandeep Singh
  * @copyright 2014 Dmitriy Shekhovtsov. All rights reserved.
  * @copyright 2015 Gyandeep Singh. All rights reserved.
+ * @copyright 2016 Kevin Partington. All rights reserved.
  */
 "use strict";
 
@@ -1117,6 +1118,20 @@ ruleTester.run("indent", rule, {
         },
         {
             code:
+                "var a = b;\n" +
+                "if (a) {\n" +
+                "b();\n" +
+                "}\n",
+            options: ["tab"],
+            errors: expectedErrors("tab", [[3, 1, 0, "ExpressionStatement"]]),
+            output:
+                "var a = b;\n" +
+                "if (a) {\n" +
+                "\tb();\n" +
+                "}\n"
+        },
+        {
+            code:
                 "if (array.some(function(){\n" +
                 "  return true;\n" +
                 "})) {\n" +
@@ -1136,10 +1151,36 @@ ruleTester.run("indent", rule, {
             errors: expectedErrors([[4, 2, 0, "ExpressionStatement"], [6, 2, 4, "ExpressionStatement"]])
         },
         {
+            code:
+                "if (array.some(function(){\n" +
+                "\treturn true;\n" +
+                "})) {\n" +
+                "a++; // ->\n" +
+                "\tb++;\n" +
+                "\t\tc++; // <-\n" +
+                "}\n",
+            output:
+                "if (array.some(function(){\n" +
+                "\treturn true;\n" +
+                "})) {\n" +
+                "\ta++; // ->\n" +
+                "\tb++;\n" +
+                "\tc++; // <-\n" +
+                "}\n",
+            options: ["tab"],
+            errors: expectedErrors("tab", [[4, 1, 0, "ExpressionStatement"], [6, 1, 2, "ExpressionStatement"]])
+        },
+        {
             code: "if (a){\n\tb=c;\n\t\tc=d;\ne=f;\n}",
             output: "if (a){\n\tb=c;\n\tc=d;\n\te=f;\n}",
             options: ["tab"],
             errors: expectedErrors("tab", [[3, 1, 2, "ExpressionStatement"], [4, 1, 0, "ExpressionStatement"]])
+        },
+        {
+            code: "if (a){\n    b=c;\n      c=d;\n\te=f;\n}",
+            output: "if (a){\n    b=c;\n    c=d;\n    e=f;\n}",
+            options: [4],
+            errors: expectedErrors([[3, 4, 6, "ExpressionStatement"], [4, 4, 0, "ExpressionStatement"]])
         },
         {
             code: "if (a){\n    b=c;\n      c=d;\n e=f;\n}",
@@ -2008,6 +2049,118 @@ ruleTester.run("indent", rule, {
             "}\n",
             options: [4],
             errors: expectedErrors([[4, 4, 2, "Keyword"]])
+        },
+        {
+            code:
+                "var a = {\n" +
+                "    foo: true\n" +
+                "};",
+            output:
+                "var a = {\n" +
+                "\tfoo: true\n" +
+                "};",
+            options: ["tab"],
+            errors: expectedErrors("tab", [
+                [2, 1, 0, "Property"]
+            ])
+        },
+        {
+            code:
+                "var a = {\n" +
+                "\tfoo: true\n" +
+                "};",
+            output:
+                "var a = {\n" +
+                "    foo: true\n" +
+                "};",
+            options: [4],
+            errors: expectedErrors("space", [
+                [2, 4, 0, "Property"]
+            ])
+        },
+        {
+            code: "if (a) { /* multiline comment\nwooooo */  var x;\n}",
+            output: "if (a) { /* multiline comment\nwooooo */\tvar x;\n}",
+            options: ["tab"],
+            errors: expectedErrors("tab", [
+                [2, 1, 0, "VariableDeclaration"]
+            ])
+        },
+        {
+            code: "if (a) {\n  var x; /* multiline comment\nwooooo */}",
+            output: "if (a) {\n\tvar x; /* multiline comment\nwooooo */}",
+            options: ["tab"],
+            errors: expectedErrors("tab", [
+                [2, 1, 0, "VariableDeclaration"]
+            ])
+        },
+
+        /**
+         * The following are situations where the autofix
+         * does not really behave correctly yet.
+         */
+
+        // autofixing can have trouble with multi-line
+        // comments on the same line as the code
+        {
+            code:
+            "function a() {\n" +
+            "if (a) {\n" +
+            "\tvar x; /* multiline comment\n" +
+            "wooooo */\t}\n" +
+            "}",
+            output:
+            "function a() {\n" +
+            "\tif (a) {\n" +
+            "\tvar x; /* multiline comment\n" +
+            "wooooo */\t}\n" +
+            "}",
+            options: ["tab"],
+            errors: expectedErrors("tab", [
+                [2, 1, 0, "IfStatement"]
+            ])
+        },
+
+        // autofixing basically ignores block comments
+        {
+            code:
+            "function x() {\n" +
+            "\t/**\n" +
+            "\t * Exciting comment\n" +
+            "\t */\n" +
+            "\tfunction y() {}\n" +
+            "}",
+            output:
+            "function x() {\n" +
+            "\t/**\n" +
+            "\t * Exciting comment\n" +
+            "\t */\n" +
+            "    function y() {}\n" +
+            "}",
+            options: [4],
+            errors: expectedErrors([
+                [5, 4, 0, "FunctionDeclaration"]
+            ])
+        },
+
+        // code in between comments can become misaligned
+        {
+            code:
+            "function x() {\n" +
+            "  //////////////////////////\n" +
+            "  /**/  suite('foo, ')  /**/\n" +
+            "  //////////////////////////\n" +
+            "}\n",
+            output:
+            "function x() {\n" +
+            "  //////////////////////////\n" +
+            "  /**/    suite('foo, ')  /**/\n" +
+            "  //////////////////////////\n" +
+            "}\n",
+            options: [4],
+            errors: expectedErrors([
+                [3, 4, 2, "ExpressionStatement"]
+            ])
         }
     ]
 });
