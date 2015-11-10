@@ -62,7 +62,8 @@ ruleTester.run("jsx-quotes", rule, {
             ecmaFeatures: { jsx: true },
             errors: [
                 { message: "Unexpected usage of singlequote.", line: 1, column: 10, type: "Literal" }
-            ]
+            ],
+            output: "<foo bar=\"baz\" />"
         },
         {
             code: "<foo bar=\"baz\" />",
@@ -70,7 +71,8 @@ ruleTester.run("jsx-quotes", rule, {
             ecmaFeatures: { jsx: true },
             errors: [
                 { message: "Unexpected usage of doublequote.", line: 1, column: 10, type: "Literal" }
-            ]
+            ],
+            output: "<foo bar=\'baz\' />"
         }
     ]
 });
