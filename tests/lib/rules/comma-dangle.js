@@ -177,6 +177,7 @@ ruleTester.run("comma-dangle", rule, {
     invalid: [
         {
             code: "var foo = { bar: 'baz', }",
+            output: "var foo = { bar: 'baz' }",
             errors: [
                 {
                     message: "Unexpected trailing comma.",
@@ -188,6 +189,7 @@ ruleTester.run("comma-dangle", rule, {
         },
         {
             code: "var foo = {\nbar: 'baz',\n}",
+            output: "var foo = {\nbar: 'baz'\n}",
             errors: [
                 {
                     message: "Unexpected trailing comma.",
@@ -199,6 +201,7 @@ ruleTester.run("comma-dangle", rule, {
         },
         {
             code: "foo({ bar: 'baz', qux: 'quux', });",
+            output: "foo({ bar: 'baz', qux: 'quux' });",
             errors: [
                 {
                     message: "Unexpected trailing comma.",
@@ -210,6 +213,7 @@ ruleTester.run("comma-dangle", rule, {
         },
         {
             code: "foo({\nbar: 'baz',\nqux: 'quux',\n});",
+            output: "foo({\nbar: 'baz',\nqux: 'quux'\n});",
             errors: [
                 {
                     message: "Unexpected trailing comma.",
@@ -221,6 +225,7 @@ ruleTester.run("comma-dangle", rule, {
         },
         {
             code: "var foo = [ 'baz', ]",
+            output: "var foo = [ 'baz' ]",
             errors: [
                 {
                     message: "Unexpected trailing comma.",
@@ -232,6 +237,7 @@ ruleTester.run("comma-dangle", rule, {
         },
         {
             code: "var foo = [ 'baz',\n]",
+            output: "var foo = [ 'baz'\n]",
             errors: [
                 {
                     message: "Unexpected trailing comma.",
@@ -243,6 +249,7 @@ ruleTester.run("comma-dangle", rule, {
         },
         {
             code: "var foo = { bar: 'bar'\n\n, }",
+            output: "var foo = { bar: 'bar'\n\n }",
             errors: [
                 {
                     message: "Unexpected trailing comma.",
@@ -256,6 +263,7 @@ ruleTester.run("comma-dangle", rule, {
 
         {
             code: "var foo = { bar: 'baz', }",
+            output: "var foo = { bar: 'baz' }",
             options: [ "never" ],
             errors: [
                 {
@@ -268,6 +276,7 @@ ruleTester.run("comma-dangle", rule, {
         },
         {
             code: "var foo = {\nbar: 'baz',\n}",
+            output: "var foo = {\nbar: 'baz'\n}",
             options: [ "never" ],
             errors: [
                 {
@@ -280,6 +289,7 @@ ruleTester.run("comma-dangle", rule, {
         },
         {
             code: "foo({ bar: 'baz', qux: 'quux', });",
+            output: "foo({ bar: 'baz', qux: 'quux' });",
             options: [ "never" ],
             errors: [
                 {
@@ -293,6 +303,7 @@ ruleTester.run("comma-dangle", rule, {
 
         {
             code: "var foo = { bar: 'baz' }",
+            output: "var foo = { bar: 'baz', }",
             options: [ "always" ],
             errors: [
                 {
@@ -305,6 +316,7 @@ ruleTester.run("comma-dangle", rule, {
         },
         {
             code: "var foo = {\nbar: 'baz'\n}",
+            output: "var foo = {\nbar: 'baz',\n}",
             options: [ "always" ],
             errors: [
                 {
@@ -317,6 +329,7 @@ ruleTester.run("comma-dangle", rule, {
         },
         {
             code: "foo({ bar: 'baz', qux: 'quux' });",
+            output: "foo({ bar: 'baz', qux: 'quux', });",
             options: [ "always" ],
             errors: [
                 {
@@ -329,6 +342,7 @@ ruleTester.run("comma-dangle", rule, {
         },
         {
             code: "foo({\nbar: 'baz',\nqux: 'quux'\n});",
+            output: "foo({\nbar: 'baz',\nqux: 'quux',\n});",
             options: [ "always" ],
             errors: [
                 {
@@ -341,6 +355,7 @@ ruleTester.run("comma-dangle", rule, {
         },
         {
             code: "var foo = [ 'baz' ]",
+            output: "var foo = [ 'baz', ]",
             options: [ "always" ],
             errors: [
                 {
@@ -353,6 +368,7 @@ ruleTester.run("comma-dangle", rule, {
         },
         {
             code: "var foo = [ 'baz'\n]",
+            output: "var foo = [ 'baz',\n]",
             options: [ "always" ],
             errors: [
                 {
@@ -365,6 +381,7 @@ ruleTester.run("comma-dangle", rule, {
         },
         {
             code: "var foo = { bar:\n\n'bar' }",
+            output: "var foo = { bar:\n\n'bar', }",
             options: [ "always" ],
             errors: [
                 {
@@ -378,6 +395,7 @@ ruleTester.run("comma-dangle", rule, {
 
         {
             code: "var foo = {\nbar: 'baz'\n}",
+            output: "var foo = {\nbar: 'baz',\n}",
             options: [ "always-multiline" ],
             errors: [
                 {
@@ -390,6 +408,7 @@ ruleTester.run("comma-dangle", rule, {
         },
         {
             code: "var foo = { bar: 'baz', }",
+            output: "var foo = { bar: 'baz' }",
             options: [ "always-multiline" ],
             errors: [
                 {
@@ -402,6 +421,7 @@ ruleTester.run("comma-dangle", rule, {
         },
         {
             code: "foo({\nbar: 'baz',\nqux: 'quux'\n});",
+            output: "foo({\nbar: 'baz',\nqux: 'quux',\n});",
             options: [ "always-multiline" ],
             errors: [
                 {
@@ -414,6 +434,7 @@ ruleTester.run("comma-dangle", rule, {
         },
         {
             code: "foo({ bar: 'baz', qux: 'quux', });",
+            output: "foo({ bar: 'baz', qux: 'quux' });",
             options: [ "always-multiline" ],
             errors: [
                 {
@@ -426,6 +447,7 @@ ruleTester.run("comma-dangle", rule, {
         },
         {
             code: "var foo = [\n'baz'\n]",
+            output: "var foo = [\n'baz',\n]",
             options: [ "always-multiline" ],
             errors: [
                 {
@@ -438,6 +460,7 @@ ruleTester.run("comma-dangle", rule, {
         },
         {
             code: "var foo = ['baz',]",
+            output: "var foo = ['baz']",
             options: [ "always-multiline" ],
             errors: [
                 {
@@ -450,6 +473,7 @@ ruleTester.run("comma-dangle", rule, {
         },
         {
             code: "var foo = {x: {\nfoo: 'bar',\n},}",
+            output: "var foo = {x: {\nfoo: 'bar',\n}}",
             options: [ "always-multiline" ],
             errors: [
                 {
@@ -462,6 +486,7 @@ ruleTester.run("comma-dangle", rule, {
         },
         {
             code: "var foo = {a: 1, b: 2,\nc: 3, d: 4,}",
+            output: "var foo = {a: 1, b: 2,\nc: 3, d: 4}",
             options: [ "always-multiline" ],
             errors: [
                 {
@@ -474,6 +499,7 @@ ruleTester.run("comma-dangle", rule, {
         },
         {
             code: "var foo = [{\na: 1,\nb: 2,\nc: 3,\nd: 4,\n},]",
+            output: "var foo = [{\na: 1,\nb: 2,\nc: 3,\nd: 4,\n}]",
             options: [ "always-multiline" ],
             errors: [
                 {
@@ -486,6 +512,7 @@ ruleTester.run("comma-dangle", rule, {
         },
         {
             code: "var { a, b, } = foo;",
+            output: "var { a, b } = foo;",
             options: [ "never" ],
             ecmaFeatures: { destructuring: true },
             errors: [
@@ -499,6 +526,7 @@ ruleTester.run("comma-dangle", rule, {
         },
         {
             code: "var [ a, b, ] = foo;",
+            output: "var [ a, b ] = foo;",
             options: [ "never" ],
             ecmaFeatures: { destructuring: true },
             errors: [
@@ -512,6 +540,7 @@ ruleTester.run("comma-dangle", rule, {
         },
         {
             code: "[(1),]",
+            output: "[(1)]",
             options: [ "never" ],
             errors: [
                 {
@@ -524,6 +553,7 @@ ruleTester.run("comma-dangle", rule, {
         },
         {
             code: "var x = { foo: (1),};",
+            output: "var x = { foo: (1)};",
             options: [ "never" ],
             errors: [
                 {
@@ -538,60 +568,70 @@ ruleTester.run("comma-dangle", rule, {
         // https://github.com/eslint/eslint/issues/3794
         {
             code: "import {foo} from 'foo';",
+            output: "import {foo,} from 'foo';",
             ecmaFeatures: {modules: true},
             options: ["always"],
             errors: [{message: "Missing trailing comma.", type: "ImportSpecifier"}]
         },
         {
             code: "import foo, {abc} from 'foo';",
+            output: "import foo, {abc,} from 'foo';",
             ecmaFeatures: {modules: true},
             options: ["always"],
             errors: [{message: "Missing trailing comma.", type: "ImportSpecifier"}]
         },
         {
             code: "export {foo} from 'foo';",
+            output: "export {foo,} from 'foo';",
             ecmaFeatures: {modules: true},
             options: ["always"],
             errors: [{message: "Missing trailing comma.", type: "ExportSpecifier"}]
         },
         {
             code: "import {foo,} from 'foo';",
+            output: "import {foo} from 'foo';",
             ecmaFeatures: {modules: true},
             options: ["never"],
             errors: [{message: "Unexpected trailing comma.", type: "ImportSpecifier"}]
         },
         {
             code: "import foo, {abc,} from 'foo';",
+            output: "import foo, {abc} from 'foo';",
             ecmaFeatures: {modules: true},
             options: ["never"],
             errors: [{message: "Unexpected trailing comma.", type: "ImportSpecifier"}]
         },
         {
             code: "export {foo,} from 'foo';",
+            output: "export {foo} from 'foo';",
             ecmaFeatures: {modules: true},
             options: ["never"],
             errors: [{message: "Unexpected trailing comma.", type: "ExportSpecifier"}]
         },
         {
             code: "import {foo,} from 'foo';",
+            output: "import {foo} from 'foo';",
             ecmaFeatures: {modules: true},
             options: ["always-multiline"],
             errors: [{message: "Unexpected trailing comma.", type: "ImportSpecifier"}]
         },
         {
             code: "export {foo,} from 'foo';",
+            output: "export {foo} from 'foo';",
             ecmaFeatures: {modules: true},
             options: ["always-multiline"],
             errors: [{message: "Unexpected trailing comma.", type: "ExportSpecifier"}]
         },
         {
             code: "import {\n  foo\n} from 'foo';",
+            output: "import {\n  foo,\n} from 'foo';",
             ecmaFeatures: {modules: true},
             options: ["always-multiline"],
             errors: [{message: "Missing trailing comma.", type: "ImportSpecifier"}]
         },
         {
             code: "export {\n  foo\n} from 'foo';",
+            output: "export {\n  foo,\n} from 'foo';",
             ecmaFeatures: {modules: true},
             options: ["always-multiline"],
             errors: [{message: "Missing trailing comma.", type: "ExportSpecifier"}]

@@ -15,6 +15,8 @@ On the other hand, trailing commas simplify adding and removing items to objects
 
 This rule enforces consistent use of trailing commas in object and array literals.
 
+**Fixable:** This rule is automatically fixable using the `--fix` flag on the command line.
+
 This rule takes one argument, which can be one of the following options:
 
 - `"always"` - warn whenever a missing comma is detected.
