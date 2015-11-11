@@ -66,8 +66,6 @@
     "shelljs": "^0.5.3",
     "strip-json-comments": "~1.0.1",
     "text-table": "~0.2.0",
-    "to-double-quotes": "^2.0.0",
-    "to-single-quotes": "^2.0.0",
     "user-home": "^2.0.0",
     "xml-escape": "~1.0.0"
   },
