@@ -455,7 +455,7 @@ The complete configuration hierarchy, from highest precedence to lowest preceden
 3. Project-level configuration:
     1. `.eslintrc` file in same directory as linted file
     1. `package.json` file in same directory as linted file
-    1. Continue searching for `.eslintrc` and `package.json` files in ancestor directories (parent has highest precedence, then grandparent, etc.), up to and including the root directory or until a config with `"root": true` is found.
+    1. Continue searching for `.eslintrc` and `package.json` files in ancestor directories (parent has highest precedence, then grandparent, etc.), up to and including the root directory or until a config with `"root": true` is found. If there is a default configuration in `~/.eslintrc`, it will be ignored if the project has any local `.eslintrc` configurations.
     1. In the absence of any configuration from (1) thru (3), fall back to a personal default configuration in  `~/.eslintrc`.
 
 ## Extending Configuration Files
