@@ -45,6 +45,7 @@ ruleTester.run("semi", rule, {
         { code: "for (let thing of {}) {\n  console.log(thing);\n}", ecmaFeatures: { forOf: true, blockBindings: true }},
         { code: "do{}while(true)", options: ["never"] },
         { code: "do{}while(true);", options: ["always"] },
+        { code: "(function () { return 'foo' })();", options: ["always-except-oneline"] },
 
         // method definitions don't have a semicolon.
         { code: "class A { a() {} b() {} }", ecmaFeatures: { classes: true }},
@@ -131,6 +132,8 @@ ruleTester.run("semi", rule, {
         { code: "var foo = {\n bar: baz\n};", output: "var foo = {\n bar: baz\n}", options: ["never"], errors: [{ message: "Extra semicolon.", type: "VariableDeclaration", line: 3}] },
         { code: "import theDefault, { named1, named2 } from 'src/mylib';", output: "import theDefault, { named1, named2 } from 'src/mylib'", options: ["never"], ecmaFeatures: { modules: true }, errors: [{ message: "Extra semicolon.", type: "ImportDeclaration"}] },
         { code: "do{}while(true);", output: "do{}while(true)", options: ["never"], errors: [{ message: "Extra semicolon.", type: "DoWhileStatement", line: 1}] },
+
+        { code: "(function () { return 'foo'\n })();", output: "(function () { return 'foo';\n })();", options: ["always-except-oneline"], errors: [{ message: "Missing semicolon.", type: "ReturnStatement", line: 1}] },
 
         // exports, "always"
         { code: "export * from 'foo'", output: "export * from 'foo';", ecmaFeatures: { modules: true }, errors: [{ message: "Missing semicolon.", type: "ExportAllDeclaration" }] },
