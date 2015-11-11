@@ -94,8 +94,20 @@ ruleTester.run("quotes", rule, {
             errors: [{ message: "Strings must use doublequote.", type: "Literal" }]
         },
         {
+            code: "var foo = '\\\\';",
+            output: "var foo = \"\\\\\";",
+            options: ["double", "avoid-escape"],
+            errors: [{ message: "Strings must use doublequote.", type: "Literal" }]
+        },
+        {
             code: "var foo = 'bar';",
             output: "var foo = `bar`;",
+            options: ["backtick"],
+            errors: [{ message: "Strings must use backtick.", type: "Literal" }]
+        },
+        {
+            code: "var foo = 'b${x}a$r';",
+            output: "var foo = `b\\${x}a$r`;",
             options: ["backtick"],
             errors: [{ message: "Strings must use backtick.", type: "Literal" }]
         },
