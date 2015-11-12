@@ -28,8 +28,9 @@ The most important method on `linter` is `verify()`, which initiates linting of 
 
 * `code` - the source code to lint (a string or instance of `SourceCode`).
 * `config` - a configuration object.
-* `filename` - (optional) the filename to associate with the source code.
-* `saveState` - (optional) set to true to maintain the internal state of `linter` after linting (mostly used for testing purposes).
+* `options` - (optional) Additional options for this run.
+    * `filename` - (optional) the filename to associate with the source code.
+    * `saveState` - (optional) set to true to maintain the internal state of `linter` after linting (mostly used for testing purposes).
 
 You can call `verify()` like this:
 
@@ -40,7 +41,7 @@ var messages = linter.verify("var foo;", {
     rules: {
         semi: 2
     }
-}, "foo.js");
+}, { filename: "foo.js" });
 
 // or using SourceCode
 
@@ -53,7 +54,7 @@ var messages = linter.verify(code, {
     rules: {
         semi: 2
     }
-}, "foo.js");
+}, { filename: "foo.js" });
 ```
 
 The `verify()` method returns an array of objects containing information about the linting warnings and errors. Here's an example:
@@ -95,7 +96,7 @@ var messages = linter.verify("var foo = bar;", {
     rules: {
         semi: 2
     }
-}, "foo.js");
+}, { filename: "foo.js" });
 
 var code = linter.getSourceCode();
 
