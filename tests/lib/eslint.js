@@ -1,8 +1,10 @@
-/* globals window */
 /**
  * @fileoverview Tests for eslint object.
  * @author Nicholas C. Zakas
+ * @copyright 2013 Nicholas C. Zakas. All rights reserved.
+ * See LICENSE file in root directory for full license.
  */
+/* globals window */
 
 "use strict";
 
@@ -2335,6 +2337,48 @@ describe("eslint", function() {
     });
 
     describe("verify()", function() {
+
+        describe("filenames", function() {
+            it("should allow filename to be passed on options object", function() {
+
+                eslint.verify("foo;", {}, { filename: "foo.js"});
+                var result = eslint.getFilename();
+                assert.equal(result, "foo.js");
+            });
+
+            it("should allow filename to be passed as third argument", function() {
+
+                eslint.verify("foo;", {}, "foo.js");
+                var result = eslint.getFilename();
+                assert.equal(result, "foo.js");
+            });
+
+            it("should default filename to <input> when options object doesn't have filename", function() {
+
+                eslint.verify("foo;", {}, {});
+                var result = eslint.getFilename();
+                assert.equal(result, "<input>");
+            });
+
+            it("should default filename to <input> when only two arguments are passed", function() {
+
+                eslint.verify("foo;", {});
+                var result = eslint.getFilename();
+                assert.equal(result, "<input>");
+            });
+        });
+
+        describe("saveState", function() {
+            it("should save the state when saveState is passed as an option", function() {
+
+                var spy = sinon.spy(eslint, "reset");
+                eslint.verify("foo;", {}, { saveState: true });
+                assert.equal(spy.callCount, 0);
+            });
+
+
+        });
+
 
         it("should report warnings in order by line and column when called", function() {
 
