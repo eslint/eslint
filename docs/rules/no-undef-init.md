@@ -39,6 +39,7 @@ The following patterns are not considered problems:
 
 var foo;
 let bar;
+const baz = undefined;
 ```
 
 ## When Not To Use It
