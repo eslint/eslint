@@ -11,8 +11,8 @@
 //------------------------------------------------------------------------------
 
 var assert = require("chai").assert,
-    eslint = require("../../lib/eslint"),
-    validator = require("../../lib/config-validator");
+    eslint = require("../../../lib/eslint"),
+    validator = require("../../../lib/config/config-validator");
 
 //------------------------------------------------------------------------------
 // Tests

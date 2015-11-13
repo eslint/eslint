@@ -192,18 +192,24 @@ describe("cli", function() {
 
     describe("when given a config that is a sharable config", function() {
         it("should execute without any errors", function() {
-            var stubbedConfig = proxyquire("../../lib/config", {
+
+            var configDeps = {
+                "is-resolvable": function() {
+                    return true;
+                }
+            };
+            configDeps["./config/config-file"] = proxyquire("../../lib/config/config-file", {
                 "eslint-config-xo": {
                     rules: {
                         "no-var": 2
                     }
-                },
-                "is-resolvable": function() {
-                    return true;
                 }
             });
+
+            var StubbedConfig = proxyquire("../../lib/config", configDeps);
+
             var stubbedCLIEngine = proxyquire("../../lib/cli-engine", {
-                "./config": stubbedConfig
+                "./config": StubbedConfig
             });
             var stubCli = proxyquire("../../lib/cli", {
                 "./cli-engine": stubbedCLIEngine,
