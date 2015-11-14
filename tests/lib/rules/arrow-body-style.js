@@ -20,7 +20,6 @@ var rule = require("../../../lib/rules/arrow-body-style"),
 var ruleTester = new RuleTester();
 ruleTester.run("arrow-body-style", rule, {
     valid: [
-        { code: "var foo = () => {};", ecmaFeatures: { arrowFunctions: true } },
         { code: "var foo = () => 0;", ecmaFeatures: { arrowFunctions: true } },
         { code: "var addToB = (a) => { b =  b + a };", ecmaFeatures: { arrowFunctions: true } },
         { code: "var foo = () => { /* do nothing */ };", ecmaFeatures: { arrowFunctions: true } },
@@ -34,6 +33,13 @@ ruleTester.run("arrow-body-style", rule, {
         { code: "var foo = () => { return bar(); };", ecmaFeatures: { arrowFunctions: true }, options: ["always"] }
     ],
     invalid: [
+        {
+            code: "var foo = () => {};",
+            ecmaFeatures: { arrowFunctions: true },
+            errors: [
+                { line: 1, column: 17, type: "ArrowFunctionExpression", message: "Unexpected empty block in arrow body." }
+            ]
+        },
         {
             code: "var foo = () => 0;",
             ecmaFeatures: { arrowFunctions: true },
