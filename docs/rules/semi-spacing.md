@@ -14,8 +14,13 @@ var c = "d";var e = "f";
 
 This rule aims to enforce spacing around a semicolon. This rule prevents the use of spaces before a semicolon in expressions.
 
-This rule doesn't check spacing which is after semicolons if the semicolon is before a closing parenthesis (`)` or `}`).
-That spacing is checked by `space-in-parens` or `block-spacing`.
+This rule doesn't check spacing in the following cases:
+
+* The spacing after the semicolon if it is the first token in the line.
+
+* The spacing before the semicolon if it is after an opening parenthesis (`(` or `{`), or the spacing after the semicolon if it is before a closing parenthesis (`)` or `}`). That spacing is checked by `space-in-parens` or `block-spacing`.
+
+* The spacing around the semicolon in a for loop with an empty condition (`for(;;)`).
 
 ### Options
 
@@ -57,6 +62,9 @@ var foo; var bar;
 throw new Error("error");
 while (a) { break; }
 for (i = 0; i < 10; i++) {}
+for (;;) {}
+if (true) {;}
+;foo();
 ```
 
 #### {"before": true, "after": false}
