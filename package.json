@@ -94,6 +94,7 @@
     "mocha-phantomjs": "4.0.1",
     "npm-license": "^0.3.1",
     "phantomjs": "1.9.18",
+    "phantomjs-polyfill": "0.0.1",
     "proxyquire": "^1.0.0",
     "rewire": "^2.3.4",
     "semver": "^5.0.3",
