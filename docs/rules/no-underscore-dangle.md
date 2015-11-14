@@ -47,7 +47,7 @@ var file = __filename;
 
 
 ```js
-/*eslint no-underscore-dangle: [2, { "allow": ["foo_", "_bar"] }*/
+/*eslint no-underscore-dangle: [2, { "allow": ["foo_", "_bar"] }]*/
 
 var foo_;
 foo._bar();
