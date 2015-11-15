@@ -122,6 +122,13 @@ ruleTester.run("lines-around-comment", rule, {
             }]
         },
         {
+            code: "var foo = function(){\n// line at block start\n}",
+            options: [{
+                beforeLineComment: true,
+                allowBlockStart: true
+            }]
+        },
+        {
             code: "if(true){\n// line at block start\nvar g = 1;\n}",
             options: [{
                 beforeLineComment: true,
@@ -130,6 +137,20 @@ ruleTester.run("lines-around-comment", rule, {
         },
         {
             code: "if(true){\n\n// line at block start\nvar g = 1;\n}",
+            options: [{
+                beforeLineComment: true,
+                allowBlockStart: true
+            }]
+        },
+        {
+            code: "if(true){\n// line at block start\n}",
+            options: [{
+                beforeLineComment: true,
+                allowBlockStart: true
+            }]
+        },
+        {
+            code: "if(true){ bar(); } else {\n// line at block start\n}",
             options: [{
                 beforeLineComment: true,
                 allowBlockStart: true
