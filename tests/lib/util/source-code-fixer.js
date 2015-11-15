@@ -211,11 +211,17 @@ describe("SourceCodeFixer", function() {
                 assert.isTrue(result.fixed);
             });
 
-            it("should apply one fix when the end of one range is the same as the start of a previous range overlap", function() {
+            it("should apply two fixes when the end of one range is the same as the start of a previous range overlap", function() {
                 var result = SourceCodeFixer.applyFixes(sourceCode, [ REMOVE_START, REPLACE_ID ]);
-                assert.equal(result.output, TEST_CODE.replace("answer", "foo"));
-                assert.equal(result.messages.length, 1);
-                assert.equal(result.messages[0].message, "removestart");
+                assert.equal(result.output, TEST_CODE.replace("var answer", "foo"));
+                assert.equal(result.messages.length, 0);
+                assert.isTrue(result.fixed);
+            });
+
+            it("should apply neither fix when ranges of two fixes are identical", function() {
+                var result = SourceCodeFixer.applyFixes(sourceCode, [ INSERT_IN_MIDDLE, INSERT_IN_MIDDLE ]);
+                assert.equal(result.output, TEST_CODE);
+                assert.equal(result.messages.length, 2);
                 assert.isTrue(result.fixed);
             });
 
@@ -232,7 +238,7 @@ describe("SourceCodeFixer", function() {
 
         describe("No Fixes", function() {
 
-            it("should only apply one fix when ranges overlap and one message has no fix", function() {
+            it("should apply no fix when sole message has no fix", function() {
                 var result = SourceCodeFixer.applyFixes(sourceCode, [ NO_FIX ]);
                 assert.equal(result.output, TEST_CODE);
                 assert.equal(result.messages.length, 1);
