@@ -256,6 +256,30 @@ ruleTester.run("curly", rule, {
             ]
         },
         {
+            code: [
+                "if (0)",
+                "    console.log(0)",
+                "else if (1) {",
+                "    console.log(1)",
+                "    console.log(1)",
+                "} else {",
+                "    if (2)",
+                "        console.log(2)",
+                "    else",
+                "        console.log(3)",
+                "}"
+            ].join("\n"),
+            options: ["multi"],
+            errors: [
+                {
+                    message: "Unnecessary { after 'else'.",
+                    type: "IfStatement",
+                    line: 6,
+                    column: 3
+                }
+            ]
+        },
+        {
             code: "if (foo) \n baz()",
             options: ["multi-line"],
             errors: [
