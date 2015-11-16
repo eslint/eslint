@@ -20,11 +20,13 @@ var assert = require("chai").assert,
 describe("FileFinder", function() {
     var fixtureDir = path.resolve(__dirname, "..", "fixtures"),
         fileFinderDir = path.join(fixtureDir, "file-finder"),
-        subsubsubdir = path.join(fileFinderDir, "subdir", "subsubdir", "subsubsubdir"),
+        subdir = path.join(fileFinderDir, "subdir"),
+        subsubdir = path.join(subdir, "subsubdir"),
+        subsubsubdir = path.join(subsubdir, "subsubsubdir"),
         absentFileName = "4ktrgrtUTYjkopoohFe54676hnjyumlimn6r787",
         uniqueFileName = "xvgRHtyH56756764535jkJ6jthty65tyhteHTEY";
 
-    describe("findInDirectoryOrParents", function() {
+    describe("findInDirectoryOrParents()", function() {
 
         describe("a searched for file that is present", function() {
             var actual,
@@ -35,6 +37,30 @@ describe("FileFinder", function() {
             it("should be found when in the cwd", function() {
                 process.chdir(fileFinderDir);
                 finder = new FileFinder(".eslintignore");
+                actual = finder.findInDirectoryOrParents();
+
+                try {
+                    assert.equal(actual, expected);
+                } finally {
+                    process.chdir(cwd);
+                }
+            });
+
+            it("should be found when in the cwd and passed an array", function() {
+                process.chdir(fileFinderDir);
+                finder = new FileFinder([".eslintignore"]);
+                actual = finder.findInDirectoryOrParents();
+
+                try {
+                    assert.equal(actual, expected);
+                } finally {
+                    process.chdir(cwd);
+                }
+            });
+
+            it("should be found when in the cwd and passed an array with a missing file", function() {
+                process.chdir(fileFinderDir);
+                finder = new FileFinder(["missing", ".eslintignore"]);
                 actual = finder.findInDirectoryOrParents();
 
                 try {
@@ -100,7 +126,7 @@ describe("FileFinder", function() {
         });
     });
 
-    describe("findAllInDirectoryAndParents", function() {
+    describe("findAllInDirectoryAndParents()", function() {
         var actual,
             expected,
             finder;
@@ -129,11 +155,53 @@ describe("FileFinder", function() {
             });
         });
 
+        describe("searching for multiple files", function() {
+
+            it("should return only the first specified file", function() {
+                var firstExpected = path.join(fileFinderDir, "subdir", "empty"),
+                    secondExpected = path.join(fileFinderDir, "empty");
+
+                finder = new FileFinder(["empty", uniqueFileName]);
+                actual = finder.findAllInDirectoryAndParents(subdir);
+
+                assert.equal(actual.length, 2);
+                assert.equal(actual[0], firstExpected);
+                assert.equal(actual[1], secondExpected);
+            });
+
+            it("should return the second file when the first is missing", function() {
+                var firstExpected = path.join(fileFinderDir, "subdir", uniqueFileName),
+                    secondExpected = path.join(fileFinderDir, uniqueFileName);
+
+                finder = new FileFinder(["notreal", uniqueFileName]);
+                actual = finder.findAllInDirectoryAndParents(subdir);
+
+                assert.equal(actual.length, 2);
+                assert.equal(actual[0], firstExpected);
+                assert.equal(actual[1], secondExpected);
+            });
+
+            it("should return multiple files when the first is missing and more than one filename is requested", function() {
+                var firstExpected = path.join(fileFinderDir, "subdir", uniqueFileName),
+                    secondExpected = path.join(fileFinderDir, "subdir", "empty2");
+
+                finder = new FileFinder(["notreal", uniqueFileName], "empty2");
+                actual = finder.findAllInDirectoryAndParents(subdir);
+
+                assert.equal(actual.length, 3);
+                assert.equal(actual[0], firstExpected);
+                assert.equal(actual[1], secondExpected);
+            });
+
+        });
+
         describe("two files present with the same name in parent directories", function() {
             var firstExpected = path.join(fileFinderDir, "subdir", uniqueFileName),
                 secondExpected = path.join(fileFinderDir, uniqueFileName);
 
-            finder = new FileFinder(uniqueFileName);
+            before(function() {
+                finder = new FileFinder(uniqueFileName);
+            });
 
             it("should both be found, and returned in an array", function() {
                 actual = finder.findAllInDirectoryAndParents(subsubsubdir);
@@ -144,8 +212,6 @@ describe("FileFinder", function() {
             });
 
             it("should be in the cache after they have been found", function() {
-                var subdir = path.join(fileFinderDir, "subdir"),
-                    subsubdir = path.join(subdir, "subsubdir");
 
                 assert.equal(finder.cache[subsubsubdir][0], firstExpected);
                 assert.equal(finder.cache[subsubsubdir][1], secondExpected);
