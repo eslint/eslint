@@ -5,6 +5,9 @@
 
 "use strict";
 
+// NOTE: If you are adding new tests for cli.js, use verifyCLIEngineOpts(). The
+// test only needs to verify that CLIEngine receives the correct opts.
+
 //------------------------------------------------------------------------------
 // Requirements
 //------------------------------------------------------------------------------
@@ -35,6 +38,34 @@ describe("cli", function() {
     var cli = proxyquire("../../lib/cli", {
         "./logging": log
     });
+
+    /**
+     * Verify that CLIEngine receives correct opts via cli.execute().
+     * @param {string} cmd CLI command.
+     * @param {object} opts Options hash that should match that received by CLIEngine.
+     * @returns {void}
+     */
+    function verifyCLIEngineOpts(cmd, opts) {
+        var sandbox = sinon.sandbox.create(),
+            localCLI,
+            fakeCLIEngine;
+
+        // create a fake CLIEngine to test with
+        fakeCLIEngine = sandbox.mock().withExactArgs(sinon.match(opts));
+
+        fakeCLIEngine.prototype = leche.fake(CLIEngine.prototype);
+        sandbox.stub(fakeCLIEngine.prototype, "executeOnFiles").returns({});
+        sandbox.stub(fakeCLIEngine.prototype, "getFormatter").returns(sinon.spy());
+
+        localCLI = proxyquire("../../lib/cli", {
+            "./cli-engine": fakeCLIEngine,
+            "./logging": log
+        });
+
+        localCLI.execute(cmd);
+        sandbox.verifyAndRestore();
+    }
+    // verifyCLIEngineOpts
 
     /**
      * Returns the path inside of the fixture directory.
@@ -363,6 +394,21 @@ describe("cli", function() {
         });
     });
 
+    describe("when given patterns to ignore", function() {
+        it("should not process any matching files", function() {
+            var ignorePaths = ["a", "b"];
+
+            var cmd = ignorePaths.map(function(ignorePath) {
+                return "--ignore-pattern " + ignorePath;
+            }).concat(".").join(" ");
+
+            var opts = {
+                ignorePattern: ignorePaths
+            };
+
+            verifyCLIEngineOpts(cmd, opts);
+        });
+    });
 
     describe("when executing a file with a shebang", function() {
 
@@ -705,8 +751,6 @@ describe("cli", function() {
         });
 
     });
-
-    // NOTE: If you are adding new tests for cli.js, duplicate the following tests
 
     describe("when passed --fix", function() {
 
