@@ -195,7 +195,13 @@ ruleTester.run("no-extra-parens", rule, {
         {code: "(class{}).foo() ? bar : baz;", ecmaFeatures: {classes: true}},
         {code: "(class{}).foo.bar();", ecmaFeatures: {classes: true}},
         {code: "(class{}.foo());", ecmaFeatures: {classes: true}},
-        {code: "(class{}.foo.bar);", ecmaFeatures: {classes: true}}
+        {code: "(class{}.foo.bar);", ecmaFeatures: {classes: true}},
+
+        {code: "<foo />", ecmaFeatures: {jsx: true}},
+        {code: "<foo>\n    Hello\n</foo>", ecmaFeatures: {jsx: true}},
+        {code: "(<foo />)", options: ["all", { "jsx": "all" }], ecmaFeatures: { jsx: true }},
+        {code: "(<foo>\n    Hello\n</foo>)", options: ["all", { "jsx": "all" }], ecmaFeatures: {jsx: true}},
+        {code: "(<foo>\n    Hello\n</foo>)", options: ["all", { "jsx": "multiline" }], ecmaFeatures: {jsx: true}}
     ],
     invalid: [
         invalid("(0)", "Literal"),
@@ -291,6 +297,12 @@ ruleTester.run("no-extra-parens", rule, {
         invalid("bar ? baz : (class{}).foo();", "ClassExpression", null, {ecmaFeatures: {classes: true}}),
         invalid("bar((class{}).foo(), 0);", "ClassExpression", null, {ecmaFeatures: {classes: true}}),
         invalid("bar[(class{}).foo()];", "ClassExpression", null, {ecmaFeatures: {classes: true}}),
-        invalid("var bar = (class{}).foo();", "ClassExpression", null, {ecmaFeatures: {classes: true}})
+        invalid("var bar = (class{}).foo();", "ClassExpression", null, {ecmaFeatures: {classes: true}}),
+
+        invalid("(<foo />)", "JSXElement", null, {ecmaFeatures: {jsx: true}}),
+        invalid("(<foo>\n    Hello\n</foo>)", "JSXElement", null, {ecmaFeatures: {jsx: true}}),
+        invalid("(<foo />)", "JSXElement", null, {ecmaFeatures: {jsx: true}, options: ["all", {"jsx": "never"}]}),
+        invalid("(<foo>\n    Hello\n</foo>)", "JSXElement", null, {ecmaFeatures: {jsx: true}, options: ["all", {"jsx": "never"}]}),
+        invalid("(<foo />)", "JSXElement", null, {ecmaFeatures: {jsx: true}, options: ["all", {"jsx": "multiline"}]})
     ]
 });
