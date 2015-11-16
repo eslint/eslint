@@ -46,7 +46,7 @@ Specifying rules and plugins:
 Ignoring files:
   --ignore-path path::String  Specify path of ignore file
   --no-ignore                Disable use of .eslintignore
-  --ignore-pattern String    Pattern of files to ignore (in addition to those
+  --ignore-pattern [String]  Patterns of files to ignore (in addition to those
                              in .eslintignore)
 
 Using stdin:
@@ -72,6 +72,14 @@ Miscellaneous:
   --no-inline-config         Prevent comments from changing eslint rules -
                              default: false
 ```
+
+Options that accept array values can be specified by repeating the option or with a comma-delimited list.
+
+Example:
+
+    eslint --ignore-pattern a.js --ignore-pattern b.js file.js
+
+    eslint --ignore-pattern a.js,b.js file.js
 
 ### Basic configuration
 

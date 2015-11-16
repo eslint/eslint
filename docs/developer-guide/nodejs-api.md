@@ -125,6 +125,7 @@ The `CLIEngine` is a constructor, and you can create a new instance by passing i
 * `fix` - True indicates that fixes should be applied to the text when possible.
 * `ignore` - False disables use of `.eslintignore` (default: true). Corresponds to `--no-ignore`.
 * `ignorePath` - The ignore file to use instead of `.eslintignore` (default: null). Corresponds to `--ignore-path`.
+* `ignorePattern` - Glob patterns for paths to ignore. String or array of strings.
 * `baseConfig` - Set to false to disable use of base config. Could be set to an object to override default base config as well.
 * `rulePaths` - An array of directories to load custom rules from (default: empty array). Corresponds to `--rulesdir`.
 * `rules` - An object of rules to use (default: null). Corresponds to `--rule`.
