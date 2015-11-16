@@ -122,6 +122,10 @@ ruleTester.run("valid-jsdoc", rule, {
             code: "/** Foo \n@return {void} Foo\n */\nfunction foo(){}",
             options: [{ prefer: { "return": "return" }}]
         },
+        {
+            code: "/** Foo \n@return Foo\n */\nfunction foo(){}",
+            options: [{ requireReturnType: false }]
+        },
 
         // classes
         {
@@ -426,6 +430,14 @@ ruleTester.run("valid-jsdoc", rule, {
             }],
             errors: [{
                 message: "JSDoc description does not satisfy the regex pattern.",
+                type: "Block"
+            }]
+        },
+        {
+            code: "/** Foo \n@return Foo\n */\nfunction foo(){}",
+            options: [{ prefer: { "return": "return" }}],
+            errors: [{
+                message: "Missing JSDoc return type.",
                 type: "Block"
             }]
         },
