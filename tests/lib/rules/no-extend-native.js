@@ -35,7 +35,11 @@ ruleTester.run("no-extend-native", rule, {
         {
             code: "Object.prototype.g = 0",
             options: [{exceptions: ["Object"]}]
-        }
+        },
+
+        // https://github.com/eslint/eslint/issues/4438
+        "Object.defineProperty()",
+        "Object.defineProperties()"
     ],
     invalid: [{
         code: "Object.prototype.p = 0",
