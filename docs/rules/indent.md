@@ -46,7 +46,7 @@ Level of indentation denotes the multiple of the indent specified. Example:
 * Indent of tabs with SwitchCase set to 2 will indent `SwitchCase` with 2 tabs with respect to switch.
 
 
-2 space indentation with enabled switch cases validation
+2 space indentation with enabled switch cases indentation
 
 ```json
  "indent": [2, 2, {"SwitchCase": 1}]
