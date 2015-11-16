@@ -227,7 +227,7 @@ describe("CLIEngine", function() {
         it("should report zero messages when given a config file and a valid file", function() {
 
             engine = new CLIEngine({
-                configFile: path.join(__dirname, "..", "..", ".eslintrc")
+                configFile: path.join(__dirname, "..", "..", ".eslintrc.yml")
             });
 
             var report = engine.executeOnFiles(["lib/cli*.js"]);
@@ -239,7 +239,7 @@ describe("CLIEngine", function() {
         it("should handle multiple patterns with overlapping files", function() {
 
             engine = new CLIEngine({
-                configFile: path.join(__dirname, "..", "..", ".eslintrc")
+                configFile: path.join(__dirname, "..", "..", ".eslintrc.yml")
             });
 
             var report = engine.executeOnFiles(["lib/cli*.js", "lib/cli.?s", "lib/{cli,cli-engine}.js"]);
