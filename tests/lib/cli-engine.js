@@ -763,10 +763,13 @@ describe("CLIEngine", function() {
                     useEslintrc: false,
                     fix: true,
                     rules: {
-                        semi: 2,
-                        quotes: [2, "double"],
-                        eqeqeq: 2,
-                        "no-undef": 2
+                        "eqeqeq": 2,
+                        "no-extra-semi": 2,
+                        "no-trailing-spaces": 2,
+                        "no-undef": 2,
+                        "quotes": [2, "double"],
+                        "semi": 2,
+                        "space-infix-ops": 2
                     }
                 });
 
@@ -775,6 +778,47 @@ describe("CLIEngine", function() {
                 assert.deepEqual(report, {
                     "results": [
                         {
+                            "filePath": fs.realpathSync(path.resolve(fixtureDir, "fixmode/eqeqeq-space-infix-ops.js")),
+                            "messages": [
+                                {
+                                    column: 11,
+                                    line: 1,
+                                    fix: {
+                                        range: [10, 12],
+                                        text: "==="
+                                    },
+                                    message: "Expected '===' and instead saw '=='.",
+                                    nodeType: "BinaryExpression",
+                                    ruleId: "eqeqeq",
+                                    severity: 2,
+                                    source: "var x = 4 ==4;"
+                                },
+                                {
+                                    column: 11,
+                                    line: 1,
+                                    fix: {
+                                        range: [10, 12],
+                                        text: "== "
+                                    },
+                                    message: "Infix operators must be spaced.",
+                                    nodeType: "BinaryExpression",
+                                    ruleId: "space-infix-ops",
+                                    severity: 2,
+                                    source: "var x = 4 ==4;"
+                                }
+                            ],
+                            "errorCount": 2,
+                            "warningCount": 0,
+                            "output": "var x = 4 ==4;\n"
+                        },
+                        {
+                            "filePath": fs.realpathSync(path.resolve(fixtureDir, "fixmode/no-extra-semi-no-trailing-spaces.js")),
+                            "messages": [],
+                            "errorCount": 0,
+                            "warningCount": 0,
+                            "output": "var x = 5;\n"
+                        },
+                        {
                             "filePath": fs.realpathSync(path.resolve(fixtureDir, "fixmode/ok.js")),
                             "messages": [],
                             "errorCount": 0,
@@ -782,27 +826,10 @@ describe("CLIEngine", function() {
                         },
                         {
                             "filePath": fs.realpathSync(path.resolve(fixtureDir, "fixmode/quotes-semi-eqeqeq.js")),
-                            "messages": [
-                                {
-                                    "column": 11,
-                                    "fix": {
-                                        "range": [
-                                            10,
-                                            14
-                                        ],
-                                        "text": "\"hi\""
-                                    },
-                                    "line": 1,
-                                    "message": "Strings must use doublequote.",
-                                    "nodeType": "Literal",
-                                    "ruleId": "quotes",
-                                    "severity": 2,
-                                    "source": "var msg = 'hi'"
-                                }
-                            ],
-                            "errorCount": 1,
+                            "messages": [],
+                            "errorCount": 0,
                             "warningCount": 0,
-                            "output": "var msg = 'hi';\nif (msg === \"hi\") {\n\n}\n"
+                            "output": "var msg = \"hi\";\nif (msg === \"hi\") {\n\n}\n"
                         },
                         {
                             "filePath": fs.realpathSync(path.resolve(fixtureDir, "fixmode/quotes.js")),
@@ -822,7 +849,7 @@ describe("CLIEngine", function() {
                             "output": "var msg = \"hi\" + foo;\n"
                         }
                     ],
-                    "errorCount": 2,
+                    "errorCount": 3,
                     "warningCount": 0
                 });
             });
