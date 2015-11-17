@@ -45,6 +45,18 @@ describe("IgnoredPaths", function() {
             assert.lengthOf(ignoredPaths.patterns, 0);
         });
 
+        it("should accept an array for options.ignorePattern", function() {
+            var ignorePattern = ["a", "b"];
+
+            var ignoredPaths = IgnoredPaths.load({
+                ignore: false,
+                ignorePattern: ignorePattern
+            });
+
+            assert.ok(ignorePattern.every(function(pattern) {
+                return ignoredPaths.patterns.indexOf(pattern) >= 0;
+            }));
+        });
     });
 
     describe("initialization with specific file", function() {
