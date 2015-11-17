@@ -15,10 +15,20 @@ var rule = require("../../../lib/rules/no-sequences"),
 // Tests
 //------------------------------------------------------------------------------
 
-var errors = [{
-    message: "Unexpected use of comma operator.",
-    type: "SequenceExpression"
-}];
+/**
+ * Create error message object for failure cases
+ * @param {int} column column of the error
+ * @returns {object} returns the error messages collection
+ * @private
+ */
+function errors(column) {
+    return [{
+        message: "Unexpected use of comma operator.",
+        type: "SequenceExpression",
+        line: 1,
+        column: column
+    }];
+}
 
 var ruleTester = new RuleTester();
 ruleTester.run("no-sequences", rule, {
@@ -42,12 +52,12 @@ ruleTester.run("no-sequences", rule, {
 
     // Examples of code that should trigger the rule
     invalid: [
-        { code: "a = 1, 2", errors: errors },
-        { code: "do {} while (doSomething(), !!test);", errors: errors },
-        { code: "for (; doSomething(), !!test; );", errors: errors },
-        { code: "if (doSomething(), !!test);", errors: errors },
-        { code: "switch (doSomething(), val) {}", errors: errors },
-        { code: "while (doSomething(), !!test);", errors: errors },
-        { code: "with (doSomething(), val) {}", errors: errors }
+        { code: "a = 1, 2", errors: errors(6) },
+        { code: "do {} while (doSomething(), !!test);", errors: errors(27) },
+        { code: "for (; doSomething(), !!test; );", errors: errors(21) },
+        { code: "if (doSomething(), !!test);", errors: errors(18) },
+        { code: "switch (doSomething(), val) {}", errors: errors(22) },
+        { code: "while (doSomething(), !!test);", errors: errors(21) },
+        { code: "with (doSomething(), val) {}", errors: errors(20) }
     ]
 });
