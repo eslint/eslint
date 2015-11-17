@@ -37,7 +37,7 @@ var dutyFreePrice = 100,
 
 ### ignore
 
-An array of numbers to ignore. It's set to `[0, 1, 2]` by default.
+An array of numbers to ignore. It's set to `[]` by default.
 If provided, it must be an `Array`.
 
 ### enforceConst
