@@ -53,8 +53,13 @@ ruleTester.run("id-length", rule, {
         { code: "({ prop: obj.x.y.something }) = {};", ecmaFeatures: { destructuring: true } },
         { code: "({ prop: obj.longName }) = {};", ecmaFeatures: { destructuring: true } },
         { code: "var obj = { a: 1, bc: 2 };", options: [{ "properties": "never" }] },
+        { code: "var obj = {}; obj.a = 1; obj.bc = 2;", options: [{ "properties": "never" }] },
         { code: "({ a: obj.x.y.z }) = {};", options: [{ "properties": "never" }], ecmaFeatures: { destructuring: true } },
-        { code: "({ prop: obj.x }) = {};", options: [{ "properties": "never" }], ecmaFeatures: { destructuring: true } }
+        { code: "({ prop: obj.x }) = {};", options: [{ "properties": "never" }], ecmaFeatures: { destructuring: true } },
+        { code: "var obj = { aaaaa: 1 };", options: [{ "max": 4, "properties": "never" }] },
+        { code: "var obj = {}; obj.aaaaa = 1;", options: [{ "max": 4, "properties": "never" }] },
+        { code: "({ a: obj.x.y.z }) = {};", options: [{ "max": 4, "properties": "never" }], ecmaFeatures: { destructuring: true } },
+        { code: "({ prop: obj.xxxxx }) = {};", options: [{ "max": 4, "properties": "never" }], ecmaFeatures: { destructuring: true } }
     ],
     invalid: [
         { code: "var x = 1;", errors: [{ message: "Identifier name 'x' is too short. (< 2)", type: "Identifier" }] },
