@@ -2287,6 +2287,168 @@ describe("eslint", function() {
         });
     });
 
+    describe("when evaluating code with comments to change config when allowInlineConfig is enabled", function() {
+
+        it("should report a violation for disabling rules", function() {
+            var code = [
+                "alert('test'); // eslint-disable-line no-alert"
+            ].join("\n");
+            var config = {
+                rules: {
+                    "no-alert": 1
+                }
+            };
+
+            var messages = eslint.verify(code, config, {
+                filename: filename,
+                allowInlineConfig: false
+            });
+
+            assert.equal(messages.length, 1);
+            assert.equal(messages[0].ruleId, "no-alert");
+        });
+
+        it("should report a violation for global variable declarations",
+        function() {
+            var code = [
+                "/* global foo */"
+            ].join("\n");
+            var config = {
+                rules: {
+                    test: 2
+                }
+            };
+            var ok = false;
+
+            eslint.defineRules({test: function(context) {
+                return {
+                    "Program": function() {
+                        var scope = context.getScope();
+                        var comments = context.getAllComments();
+                        assert.equal(1, comments.length);
+
+                        var foo = getVariable(scope, "foo");
+                        assert.notOk(foo);
+
+                        ok = true;
+                    }
+                };
+            }});
+
+            eslint.verify(code, config, {allowInlineConfig: false});
+            assert(ok);
+        });
+
+        it("should report a violation for eslint-disable", function() {
+            var code = [
+                "/* eslint-disable */",
+                "alert('test');"
+            ].join("\n");
+            var config = {
+                rules: {
+                    "no-alert": 1
+                }
+            };
+
+            var messages = eslint.verify(code, config, {
+                filename: filename,
+                allowInlineConfig: false
+            });
+
+            assert.equal(messages.length, 1);
+            assert.equal(messages[0].ruleId, "no-alert");
+        });
+
+        it("should not report a violation for rule changes", function() {
+            var code = [
+                "/*eslint no-alert:2*/",
+                "alert('test');"
+            ].join("\n");
+            var config = {
+                rules: {
+                    "no-alert": 0
+                }
+            };
+
+            var messages = eslint.verify(code, config, {
+                filename: filename,
+                allowInlineConfig: false
+            });
+
+            assert.equal(messages.length, 0);
+        });
+
+        it("should report a violation for disable-line", function() {
+            var code = [
+                "alert('test'); // eslint-disable-line"
+            ].join("\n");
+            var config = {
+                rules: {
+                    "no-alert": 2
+                }
+            };
+
+            var messages = eslint.verify(code, config, {
+                filename: filename,
+                allowInlineConfig: false
+            });
+
+            assert.equal(messages.length, 1);
+            assert.equal(messages[0].ruleId, "no-alert");
+        });
+
+        it("should report a violation for env changes", function() {
+            var code = [
+                "/*eslint-env browser*/"
+            ].join("\n");
+            var config = {
+                rules: {
+                    test: 2
+                }
+            };
+            var ok = false;
+
+            eslint.defineRules({test: function(context) {
+                return {
+                    "Program": function() {
+                        var scope = context.getScope();
+                        var comments = context.getAllComments();
+                        assert.equal(1, comments.length);
+
+                        var windowVar = getVariable(scope, "window");
+                        assert.notOk(windowVar.eslintExplicitGlobal);
+
+                        ok = true;
+                    }
+                };
+            }});
+
+            eslint.verify(code, config, {allowInlineConfig: false});
+            assert(ok);
+        });
+    });
+
+    describe("when evaluating code with comments to change config when allowInlineConfig is disabled", function() {
+
+        it("should not report a violation", function() {
+            var code = [
+                "alert('test'); // eslint-disable-line no-alert"
+            ].join("\n");
+            var config = {
+                rules: {
+                    "no-alert": 1
+                }
+            };
+
+            var messages = eslint.verify(code, config, {
+                filename: filename,
+                allowInlineConfig: true
+            });
+
+            assert.equal(messages.length, 0);
+        });
+    });
+
     describe("when evaluating code with code comments", function() {
 
         it("should emit enter only once for each comment", function() {

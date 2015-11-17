@@ -639,6 +639,73 @@ describe("cli", function() {
         });
     });
 
+    describe("when passed --no-inline-config", function() {
+
+        var sandbox = sinon.sandbox.create(),
+            localCLI;
+
+        afterEach(function() {
+            sandbox.verifyAndRestore();
+        });
+
+        it("should pass allowInlineConfig:true to CLIEngine when --no-inline-config is used", function() {
+
+            // create a fake CLIEngine to test with
+            var fakeCLIEngine = sandbox.mock().withExactArgs(sinon.match({ allowInlineConfig: false }));
+            fakeCLIEngine.prototype = leche.fake(CLIEngine.prototype);
+            sandbox.stub(fakeCLIEngine.prototype, "executeOnFiles").returns({
+                errorCount: 1,
+                warningCount: 0,
+                results: [{
+                    filePath: "./foo.js",
+                    output: "bar",
+                    messages: [
+                        {
+                            severity: 2,
+                            message: "Fake message"
+                        }
+                    ]
+                }]
+            });
+            sandbox.stub(fakeCLIEngine.prototype, "getFormatter").returns(function() {
+                return "done";
+            });
+            fakeCLIEngine.outputFixes = sandbox.stub();
+
+            localCLI = proxyquire("../../lib/cli", {
+                "./cli-engine": fakeCLIEngine,
+                "./logging": log
+            });
+
+            localCLI.execute("--no-inline-config .");
+        });
+
+        it("should not error and allowInlineConfig should be true by default", function() {
+            // create a fake CLIEngine to test with
+            var fakeCLIEngine = sandbox.mock().withExactArgs(sinon.match({ allowInlineConfig: true }));
+            fakeCLIEngine.prototype = leche.fake(CLIEngine.prototype);
+            sandbox.stub(fakeCLIEngine.prototype, "executeOnFiles").returns({
+                errorCount: 0,
+                warningCount: 0,
+                results: []
+            });
+            sandbox.stub(fakeCLIEngine.prototype, "getFormatter").returns(function() {
+                return "done";
+            });
+            fakeCLIEngine.outputFixes = sandbox.stub();
+
+            localCLI = proxyquire("../../lib/cli", {
+                "./cli-engine": fakeCLIEngine,
+                "./logging": log
+            });
+
+            var exitCode = localCLI.execute(".");
+            assert.equal(exitCode, 0);
+
+        });
+
+    });
+
     // NOTE: If you are adding new tests for cli.js, duplicate the following tests
 
     describe("when passed --fix", function() {
