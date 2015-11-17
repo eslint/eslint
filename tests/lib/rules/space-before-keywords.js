@@ -50,6 +50,7 @@ ruleTester.run("space-before-keywords", rule, {
         { code: "; if ('') {}", options: never },
         { code: ";\nif ('') {}", options: never },
         { code: "if ('') {}else {}", options: never },
+        { code: "if(true) foo();\nelse bar();", options: never },
         // ForStatement
         { code: "; for (;;) {}" },
         { code: ";\nfor (;;) {}" },
