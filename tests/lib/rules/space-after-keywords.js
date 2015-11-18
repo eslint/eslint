@@ -77,7 +77,7 @@ ruleTester.run("space-after-keywords", rule, {
         },
         {
             code: "do ;while((0))",
-            errors: [{ message: "Keyword \"while\" must be followed by whitespace.", type: "DoWhileStatement" }],
+            errors: [{ message: "Keyword \"while\" must be followed by whitespace.", type: "DoWhileStatement", line: 1, column: 10 }],
             output: "do ;while ((0))"
         },
         {
@@ -98,7 +98,7 @@ ruleTester.run("space-after-keywords", rule, {
         {
             code: "do;while (0)",
             options: ["never"],
-            errors: [{ message: "Keyword \"while\" must not be followed by whitespace.", type: "DoWhileStatement" }],
+            errors: [{ message: "Keyword \"while\" must not be followed by whitespace.", type: "DoWhileStatement", line: 1, column: 9 }],
             output: "do;while(0)"
         },
         {
@@ -173,7 +173,7 @@ ruleTester.run("space-after-keywords", rule, {
         {
             code: "do\n{} while\n(0)",
             options: ["always"],
-            errors: [{ message: "Keyword \"do\" must not be followed by a newline." }, { message: "Keyword \"while\" must not be followed by a newline." }],
+            errors: [{ message: "Keyword \"do\" must not be followed by a newline." }, { message: "Keyword \"while\" must not be followed by a newline.", line: 2, column: 9 }],
             output: "do {} while (0)"
         }
     ]
