@@ -46,14 +46,13 @@ if (useStdIn) {
         }
     }));
 } else if (init) {
-    var configInit = require("../lib/config-initializer");
+    var configInit = require("../lib/config/config-initializer");
     configInit.initializeConfig(function(err) {
         if (err) {
             exitCode = 1;
             console.error(err.message);
             console.error(err.stack);
         } else {
-            console.log("Successfully created .eslintrc file in " + process.cwd());
             exitCode = 0;
         }
     });
