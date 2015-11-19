@@ -431,6 +431,8 @@ your-project
 
 If there is an `.eslintrc` and a `package.json` file found in the same directory, both will be used, with the `.eslintrc` having the higher precendence.
 
+**Note:** If you have a personal configuration file in your home directory (`~/.eslintrc`), it will only be used if no other configuration files are found. Since a personal configuration would apply to everything inside of a user's directory, including third-party code, this could cause problems when running ESLint.
+
 By default, ESLint will look for configuration files in all parent folders up to the root directory. This can be useful if you want all of your projects to follow a certain convention, but can sometimes lead to unexpected results. To limit ESLint to a specific project, place `"root": true` inside the `eslintConfig` field of the `package.json` file or in the `.eslintrc` file at your project's root level.  ESLint will stop looking in parent folders once it finds a configuration with `"root": true`.
 
 ```js
@@ -446,16 +448,16 @@ And in YAML:
   root: true
 ```
 
-For example, consider `projectA` which has `"root": true` set in the `.eslintrc` file in the main project directory.  In this case, while linting main.js, the configurations within `lib/` and `projectA` will be used, but the `.eslintrc` file in `user/` will not.
+For example, consider `projectA` which has `"root": true` set in the `.eslintrc` file in the main project directory.  In this case, while linting `main.js`, the configurations within `lib/`will be used, but the `.eslintrc` file in `projectA/` will not.
 
 ```text
 home
 └── user
-    ├── .eslintrc
+    ├── .eslintrc <- Always skipped if other configs present
     └── projectA
-        ├── .eslintrc <- { "root": true }
+        ├── .eslintrc  <- Not used
         └── lib
-            ├── .eslintrc
+            ├── .eslintrc  <- { "root": true }
             └── main.js
 ```
 
