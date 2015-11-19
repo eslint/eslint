@@ -21,21 +21,61 @@ Some style guides require JSDoc comments for all functions as a way of explainin
 This rule generates warnings for nodes that do not have JSDoc comments when they should. Supported nodes:
 
 * `FunctionDeclaration`
+* `ClassDeclaration`
+* `MethodDefinition`
+
+### Options
+
+This rule accepts a `require` object with its properties as
+
+* `FunctionDeclaration` (default: `true`)
+* `ClassDeclaration` (default: `false`)
+* `MethodDefinition` (default: `false`)
+
+Default option settings are
+
+```json
+{
+    "require-jsdoc": [2, {
+        "require": {
+            "FunctionDeclaration": true,
+            "MethodDefinition": false,
+            "ClassDeclaration": false
+        }
+    }]
+}
+```
 
 The following patterns are considered problems:
 
 ```js
-/*eslint require-jsdoc: 2*/
+/*eslint "require-jsdoc": [2, {
+    "require": {
+        "FunctionDeclaration": true,
+        "MethodDefinition": false,
+        "ClassDeclaration": false
+    }
+}]*/
 
 function foo() {       /*error Missing JSDoc comment.*/
     return 10;
+}
+
+class Test{            /*error Missing JSDoc comment.*/
+    getDate(){}        /*error Missing JSDoc comment.*/
 }
 ```
 
 The following patterns are not considered problems:
 
 ```js
-/*eslint require-jsdoc: 2*/
+/*eslint "require-jsdoc": [2, {
+    "require": {
+        "FunctionDeclaration": true,
+        "MethodDefinition": false,
+        "ClassDeclaration": false
+    }
+}]*/
 
 /**
 * It returns 10
@@ -55,6 +95,16 @@ var array = [1,2,3];
 array.filter(function(item) {
     return item > 2;
 });
+
+/**
+* It returns 10
+*/
+class Test{
+    /**
+    * returns the date
+    */
+    getDate(){}
+}
 ```
 
 ## When not to use
