@@ -158,11 +158,16 @@ These rules are purely matters of style and are quite subjective.
 * [key-spacing](key-spacing.md) - enforce spacing between keys and values in object literal properties
 * [linebreak-style](linebreak-style.md) - disallow mixed 'LF' and 'CRLF' as linebreaks
 * [lines-around-comment](lines-around-comment.md) - enforce empty lines around comments
+* [max-depth](max-depth.md) - specify the maximum depth that blocks can be nested
+* [max-len](max-len.md) - specify the maximum length of a line in your program
 * [max-nested-callbacks](max-nested-callbacks.md) - specify the maximum depth callbacks can be nested
+* [max-params](max-params.md) - limits the number of parameters that can be used in the function declaration.
+* [max-statements](max-statements.md) - specify the maximum number of statement allowed in a function
 * [new-cap](new-cap.md) - require a capital letter for constructors
 * [new-parens](new-parens.md) - disallow the omission of parentheses when invoking a constructor with no arguments
 * [newline-after-var](newline-after-var.md) - require or disallow an empty newline after variable declarations
 * [no-array-constructor](no-array-constructor.md) - disallow use of the `Array` constructor
+* [no-bitwise](no-bitwise.md) - disallow use of bitwise operators
 * [no-continue](no-continue.md) - disallow use of the `continue` statement
 * [no-inline-comments](no-inline-comments.md) - disallow comments inline after code
 * [no-lonely-if](no-lonely-if.md) - disallow `if` as the only statement in an `else` block
@@ -171,6 +176,7 @@ These rules are purely matters of style and are quite subjective.
 * [no-negated-condition](no-negated-condition.md) - disallow negated conditions
 * [no-nested-ternary](no-nested-ternary.md) - disallow nested ternary expressions
 * [no-new-object](no-new-object.md) - disallow the use of the `Object` constructor
+* [no-plusplus](no-plusplus.md) - disallow use of unary operators, `++` and `--`
 * [no-restricted-syntax](no-restricted-syntax.md) - disallow use of certain syntax in code
 * [no-spaced-func](no-spaced-func.md) - disallow space between function identifier and application (fixable)
 * [no-ternary](no-ternary.md) - disallow the use of ternary operators
@@ -222,16 +228,6 @@ These rules are only relevant to ES6 environments.
 * [prefer-template](prefer-template.md) - suggest using template literals instead of strings concatenation
 * [require-yield](require-yield.md) - disallow generator functions that do not have `yield`
 
-## Legacy
-
-The following rules are included for compatibility with [JSHint](http://jshint.com/) and [JSLint](http://jslint.com/). While the names of the rules may not match up with the JSHint/JSLint counterpart, the functionality is the same.
-
-* [max-depth](max-depth.md) - specify the maximum depth that blocks can be nested
-* [max-len](max-len.md) - specify the maximum length of a line in your program
-* [max-params](max-params.md) - limits the number of parameters that can be used in the function declaration.
-* [max-statements](max-statements.md) - specify the maximum number of statement allowed in a function
-* [no-bitwise](no-bitwise.md) - disallow use of bitwise operators
-* [no-plusplus](no-plusplus.md) - disallow use of unary operators, `++` and `--`
 
 ## Removed
 
