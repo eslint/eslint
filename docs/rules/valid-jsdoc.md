@@ -178,6 +178,16 @@ Specify a regular expression to validate jsdoc comment block description against
 }]
 ```
 
+#### requireReturnType
+
+By default ESLint requires you to specify `type` for `@return` tag for every documented function.
+
+```json
+"valid-jsdoc": [2, {
+    "requireReturnType": false
+}]
+```
+
 ## When Not To Use It
 
 If you aren't using JSDoc, then you can safely turn this rule off.
