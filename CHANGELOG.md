@@ -1,3 +1,8 @@
+v1.10.1 - November 20, 2015
+
+* Fix: Revert freezing context object (refs #4495) (Nicholas C. Zakas)
+* 1.10.0 (Nicholas C. Zakas)
+
 v1.10.0 - November 20, 2015
 
 * Docs: Remove dupes from changelog (Nicholas C. Zakas)
