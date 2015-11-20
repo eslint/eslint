@@ -12,7 +12,10 @@
 
 var assert = require("chai").assert,
     leche = require("leche"),
+    sinon = require("sinon"),
     path = require("path"),
+    fs = require("fs"),
+    yaml = require("js-yaml"),
     proxyquire = require("proxyquire"),
     environments = require("../../../conf/environments"),
     ConfigFile = require("../../../lib/config/config-file");
@@ -31,6 +34,17 @@ proxyquire = proxyquire.noCallThru().noPreserveCache();
  */
 function getFixturePath(filepath) {
     return path.resolve(__dirname, "../../fixtures/config-file", filepath);
+}
+
+/**
+ * Reads a JS configuration object from a string to ensure that it parses.
+ * Used for testing configuration file output.
+ * @param {string} code The code to eval.
+ * @returns {*} The result of the evaluation.
+ * @private
+ */
+function readJSModule(code) {
+    return eval("var module = {};\n" + code);  // eslint-disable-line no-eval
 }
 
 //------------------------------------------------------------------------------
@@ -296,6 +310,57 @@ describe("ConfigFile", function() {
             });
         });
 
+    });
+
+    describe("write()", function() {
+
+        var sandbox,
+            config;
+
+        beforeEach(function() {
+            sandbox = sinon.sandbox.create();
+            config = {
+                env: {
+                    browser: true,
+                    node: true
+                },
+                rules: {
+                    quotes: 2,
+                    semi: 1
+                }
+            };
+        });
+
+        afterEach(function() {
+            sandbox.verifyAndRestore();
+        });
+
+        leche.withData([
+            ["JavaScript", "foo.js", readJSModule],
+            ["JSON", "bar.json", JSON.parse],
+            ["YAML", "foo.yaml", yaml.safeLoad],
+            ["YML", "foo.yml", yaml.safeLoad]
+        ], function(fileType, filename, validate) {
+
+            it("should write a file through fs when a " + fileType + " path is passed", function() {
+                var fakeFS = leche.fake(fs);
+
+                sandbox.mock(fakeFS).expects("writeFileSync").withExactArgs(
+                    filename,
+                    sinon.match(function(value) {
+                        return !!validate(value);
+                    }),
+                    "utf8"
+                );
+
+                var StubbedConfigFile = proxyquire("../../../lib/config/config-file", {
+                    fs: fakeFS
+                });
+
+                StubbedConfigFile.write(config, filename);
+            });
+
+        });
     });
 
 });
