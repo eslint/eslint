@@ -1,3 +1,23 @@
+v1.9.0 - November 20, 2015
+
+* Update: Make radix accept a "as-needed" option (fixes #4048) (Michał Gołębiowski)
+* Fix: Update the message to include number of lines (fixes #4342) (Brian Delahunty)
+* Docs: ASI causes problem whether semicolons are used or not (Thai Pangsakulyanont)
+* Fix: Fixer to not overlap ranges among fix objects (fixes #4321) (Gyandeep Singh)
+* Update: Add default to `max-nested-callbacks` (fixes #4297) (alberto)
+* Fix: Check comments in space-in-parens (fixes #4302) (alberto)
+* Update: Add quotes to error messages to improve clarity (fixes #4313) (alberto)
+* Fix: tests failing due to differences in temporary paths (fixes #4324) (alberto)
+* Fix: Make tests compatible with Windows (fixes #4315) (Ian VanSchooten)
+* Update: Extract glob and filesystem logic from cli-engine (fixes #4305) (Ian VanSchooten)
+* Build: Clarify commit-check messages (fixes #4256) (Ian VanSchooten)
+* Upgrade: Upgrade various dependencies (fixes #4303) (Gyandeep Singh)
+* Build: Add node 5 to travis build (fixes #4310) (Gyandeep Singh)
+* Fix: ensure using correct estraverse (fixes #3951) (Toru Nagashima)
+* Docs: update docs about using gitignore (Mateusz Derks)
+* Update: Detect and fix wrong linebreaks (fixes #3981) (alberto)
+* New: Add no-case-declarations rule (fixes #4278) (Erik Arvidsson)
+
 v1.9.0 - November 6, 2015
 
 * Update: Make radix accept a "as-needed" option (fixes #4048) (Michał Gołębiowski)

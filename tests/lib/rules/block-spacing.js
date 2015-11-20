@@ -39,6 +39,8 @@ ruleTester.run("block-spacing", rule, {
         {code: "function foo() { bar(); }"},
         {code: "(function() { bar(); });"},
         {code: "(() => { bar(); });", ecmaFeatures: {arrowFunctions: true}},
+        {code: "if (a) { /* comment */ foo(); /* comment */ }"},
+        {code: "if (a) { //comment\n foo(); }"},
 
         // never
         {code: "{foo();}", options: ["never"]},
@@ -57,7 +59,9 @@ ruleTester.run("block-spacing", rule, {
         {code: "try {foo();} catch (e) {foo();}", options: ["never"]},
         {code: "function foo() {bar();}", options: ["never"]},
         {code: "(function() {bar();});", options: ["never"]},
-        {code: "(() => {bar();});", ecmaFeatures: {arrowFunctions: true}, options: ["never"]}
+        {code: "(() => {bar();});", ecmaFeatures: {arrowFunctions: true}, options: ["never"]},
+        {code: "if (a) {/* comment */ foo(); /* comment */}", options: ["never"]},
+        {code: "if (a) { //comment\n foo();}", options: ["never"]}
     ],
     invalid: [
         // default/always
@@ -206,6 +210,23 @@ ruleTester.run("block-spacing", rule, {
             errors: [
                 {type: "BlockStatement", line: 1, column: 8, message: "Requires a space after \"{\"."},
                 {type: "BlockStatement", line: 1, column: 15, message: "Requires a space before \"}\"."}
+            ]
+        },
+        {
+            code: "if (a) {/* comment */ foo(); /* comment */}",
+            output: "if (a) { /* comment */ foo(); /* comment */ }",
+            ecmaFeatures: {arrowFunctions: true},
+            errors: [
+                {type: "BlockStatement", line: 1, column: 8, message: "Requires a space after \"{\"."},
+                {type: "BlockStatement", line: 1, column: 43, message: "Requires a space before \"}\"."}
+            ]
+        },
+        {
+            code: "if (a) {//comment\n foo(); }",
+            output: "if (a) { //comment\n foo(); }",
+            ecmaFeatures: {arrowFunctions: true},
+            errors: [
+                {type: "BlockStatement", line: 1, column: 8, message: "Requires a space after \"{\"."}
             ]
         },
 
@@ -364,6 +385,15 @@ ruleTester.run("block-spacing", rule, {
             errors: [
                 {type: "BlockStatement", line: 1, column: 8, message: "Unexpected space(s) after \"{\"."},
                 {type: "BlockStatement", line: 1, column: 17, message: "Unexpected space(s) before \"}\"."}
+            ]
+        },
+        {
+            code: "if (a) { /* comment */ foo(); /* comment */ }",
+            output: "if (a) {/* comment */ foo(); /* comment */}",
+            options: ["never"],
+            errors: [
+                {type: "BlockStatement", line: 1, column: 8, message: "Unexpected space(s) after \"{\"."},
+                {type: "BlockStatement", line: 1, column: 45, message: "Unexpected space(s) before \"}\"."}
             ]
         }
     ]
