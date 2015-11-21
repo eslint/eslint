@@ -1670,6 +1670,23 @@ describe("CLIEngine", function() {
             assert.isFalse(engine.isPathIgnored("undef.js"));
             assert.isFalse(engine.isPathIgnored("passing.js"));
         });
+
+        it("should return true if extension of path does not match any extensions", function() {
+            var engine;
+
+            engine = new CLIEngine();
+            assert.isTrue(engine.isPathIgnored("jsxfile.jsx"));
+
+            engine = new CLIEngine({
+                extensions: [".js", ".es6"]
+            });
+            assert.isTrue(engine.isPathIgnored("jsxfile.jsx"));
+
+            engine = new CLIEngine({
+                extensions: [".js", ".jsx"]
+            });
+            assert.isFalse(engine.isPathIgnored("jsxfile.jsx"));
+        });
     });
 
     describe("getFormatter()", function() {
