@@ -52,7 +52,14 @@ ruleTester.run("no-undef", rule, {
         { code: "var a; [a] = [0];", ecmaFeatures: {destructuring: true} },
         { code: "var a; ({a}) = {};", ecmaFeatures: {destructuring: true} },
         { code: "var a; ({b: a}) = {};", ecmaFeatures: {destructuring: true} },
-        { code: "var obj; [obj.a, obj.b] = [0, 1];", ecmaFeatures: {destructuring: true} }
+        { code: "var obj; [obj.a, obj.b] = [0, 1];", ecmaFeatures: {destructuring: true} },
+
+        // Experimental,
+        {
+            code: "var {bacon, ...others} = stuff; foo(others)",
+            ecmaFeatures: {destructuring: true, experimentalObjectRestSpread: true},
+            globals: {stuff: false, foo: false}
+        }
     ],
     invalid: [
         { code: "a = 1;", errors: [{ message: "\"a\" is not defined.", type: "Identifier"}] },
