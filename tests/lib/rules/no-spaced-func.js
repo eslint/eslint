@@ -33,7 +33,8 @@ ruleTester.run("no-spaced-func", rule, {
         "( f()() )(0)",
         "(function(){ if (foo) { bar(); } }());",
         "f(0, (1))",
-        "describe/*.only*/('foo', function () {});"
+        "describe/**/('foo', function () {});",
+        "new (foo())"
     ],
     invalid: [
         {
