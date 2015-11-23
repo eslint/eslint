@@ -48,20 +48,24 @@ ruleTester.run("no-fallthrough", rule, {
     ],
     invalid: [
         {
-            code: "switch(foo) { case 0: a(); case 1: b() }",
+            code: "switch(foo) { case 0: a();\ncase 1: b() }",
             errors: [
                 {
                     message: "Expected a \"break\" statement before \"case\".",
-                    type: "SwitchCase"
+                    type: "SwitchCase",
+                    line: 2,
+                    column: 1
                 }
             ]
         },
         {
-            code: "switch(foo) { case 0: a(); default: b() }",
+            code: "switch(foo) { case 0: a();\ndefault: b() }",
             errors: [
                 {
                     message: "Expected a \"break\" statement before \"default\".",
-                    type: "SwitchCase"
+                    type: "SwitchCase",
+                    line: 2,
+                    column: 1
                 }
             ]
         }
