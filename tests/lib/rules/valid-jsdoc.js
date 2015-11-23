@@ -441,6 +441,17 @@ ruleTester.run("valid-jsdoc", rule, {
                 type: "Block"
             }]
         },
+        {
+            code: "/** Foo \n@return sdf\n */\nfunction foo(){}",
+            options: [{
+                prefer: { "return": "return" },
+                requireReturn: false
+            }],
+            errors: [{
+                message: "Unexpected @return tag; function has no return statement.",
+                type: "Block"
+            }]
+        },
         // classes
         {
             code:
