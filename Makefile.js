@@ -182,6 +182,9 @@ function getReleaseType(version) {
 function release(type) {
     var newVersion;/* , changes;*/
 
+    exec("git checkout master && git fetch origin && git reset --hard origin/master");
+    exec("npm install && npm prune");
+
     target.test();
     echo("Generating new version");
     newVersion = execSilent("npm version " + type).trim();
