@@ -24,6 +24,7 @@ ruleTester.run("curly", rule, {
         "while (foo) { bar() }",
         "do { bar(); } while (foo)",
         "for (;foo;) { bar() }",
+        "for (var foo in bar) { console.log(foo) }",
         {
             code: "for (;foo;) bar()",
             options: ["multi"]
@@ -34,6 +35,14 @@ ruleTester.run("curly", rule, {
         },
         {
             code: "if (a) { b; c; }",
+            options: ["multi"]
+        },
+        {
+            code: "for (var foo in bar) console.log(foo)",
+            options: ["multi"]
+        },
+        {
+            code: "for (var foo in bar) { console.log(1); console.log(2) }",
             options: ["multi"]
         },
         {
@@ -62,6 +71,14 @@ ruleTester.run("curly", rule, {
         },
         {
             code: "if (foo) { bar() }",
+            options: ["multi-line"]
+        },
+        {
+            code: "for (var foo in bar) console.log(foo)",
+            options: ["multi-line"]
+        },
+        {
+            code: "for (var foo in bar) { \n console.log(1); \n console.log(2); \n }",
             options: ["multi-line"]
         },
         {
@@ -94,6 +111,14 @@ ruleTester.run("curly", rule, {
         },
         {
             code: "if (foo) { \n if(bar) \n doSomething(); \n } else \n doSomethingElse();",
+            options: ["multi-or-nest"]
+        },
+        {
+            code: "for (var foo in bar) \n console.log(foo)",
+            options: ["multi-or-nest"]
+        },
+        {
+            code: "for (var foo in bar) { \n if (foo) console.log(1); \n else console.log(2) \n }",
             options: ["multi-or-nest"]
         },
 
@@ -196,6 +221,15 @@ ruleTester.run("curly", rule, {
             ]
         },
         {
+            code: "for (var foo in bar) console.log(foo)",
+            errors: [
+                {
+                    message: "Expected { after 'for-in'.",
+                    type: "ForInStatement"
+                }
+            ]
+        },
+        {
             code: "for (;foo;) { bar() }",
             options: ["multi"],
             errors: [
@@ -280,6 +314,16 @@ ruleTester.run("curly", rule, {
             ]
         },
         {
+            code: "for (var foo in bar) { console.log(foo) }",
+            options: ["multi"],
+            errors: [
+                {
+                    message: "Unnecessary { after 'for-in'.",
+                    type: "ForInStatement"
+                }
+            ]
+        },
+        {
             code: "if (foo) \n baz()",
             options: ["multi-line"],
             errors: [
@@ -340,6 +384,27 @@ ruleTester.run("curly", rule, {
             ]
         },
         {
+            code: "for (var foo in bar) \n console.log(foo)",
+            options: ["multi-line"],
+            errors: [
+                {
+                    message: "Expected { after 'for-in'.",
+                    type: "ForInStatement"
+                }
+            ]
+        },
+        {
+            code: "for (var foo in bar) \n console.log(1); \n console.log(2)",
+            options: ["multi-line"],
+            errors: [
+                {
+                    message: "Expected { after 'for-in'.",
+                    type: "ForInStatement"
+                }
+            ]
+        },
+
+        {
             code: "if (foo) \n quz = { \n bar: baz, \n qux: foo \n };",
             options: ["multi-or-nest"],
             errors: [
@@ -386,6 +451,26 @@ ruleTester.run("curly", rule, {
                 {
                     message: "Unnecessary { after 'for' condition.",
                     type: "ForStatement"
+                }
+            ]
+        },
+        {
+            code: "for (var foo in bar) \n if (foo) console.log(1); \n else console.log(2);",
+            options: ["multi-or-nest"],
+            errors: [
+                {
+                    message: "Expected { after 'for-in'.",
+                    type: "ForInStatement"
+                }
+            ]
+        },
+        {
+            code: "for (var foo in bar) { if (foo) console.log(1) }",
+            options: ["multi-or-nest"],
+            errors: [
+                {
+                    message: "Unnecessary { after 'for-in'.",
+                    type: "ForInStatement"
                 }
             ]
         },
