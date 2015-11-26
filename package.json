@@ -38,7 +38,7 @@
     "chalk": "^1.0.0",
     "concat-stream": "^1.4.6",
     "debug": "^2.1.1",
-    "doctrine": "^0.7.0",
+    "doctrine": "^0.7.1",
     "escape-string-regexp": "^1.0.2",
     "escope": "^3.2.1",
     "espree": "^2.2.4",
