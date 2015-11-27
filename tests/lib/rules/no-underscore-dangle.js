@@ -29,7 +29,8 @@ ruleTester.run("no-underscore-dangle", rule, {
         { code: "var _foo = 1", options: [{ allow: ["_foo"] }]},
         { code: "var __proto__ = 1;", options: [{ allow: ["__proto__"] }]},
         { code: "foo._bar;", options: [{ allow: ["_bar"] }]},
-        { code: "function _foo() {}", options: [{ allow: ["_foo"] }]}
+        { code: "function _foo() {}", options: [{ allow: ["_foo"] }]},
+        { code: "this._bar;", options: [{allowAfterThis: true}]}
     ],
     invalid: [
         { code: "var _foo = 1", errors: [{ message: "Unexpected dangling \"_\" in \"_foo\".", type: "VariableDeclarator"}] },
@@ -37,6 +38,7 @@ ruleTester.run("no-underscore-dangle", rule, {
         { code: "function _foo() {}", errors: [{ message: "Unexpected dangling \"_\" in \"_foo\".", type: "FunctionDeclaration"}] },
         { code: "function foo_() {}", errors: [{ message: "Unexpected dangling \"_\" in \"foo_\".", type: "FunctionDeclaration"}] },
         { code: "var __proto__ = 1;", errors: [{ message: "Unexpected dangling \"_\" in \"__proto__\".", type: "VariableDeclarator"}] },
-        { code: "foo._bar;", errors: [{ message: "Unexpected dangling \"_\" in \"_bar\".", type: "MemberExpression"}] }
+        { code: "foo._bar;", errors: [{ message: "Unexpected dangling \"_\" in \"_bar\".", type: "MemberExpression"}] },
+        { code: "this._prop;", errors: [{ message: "Unexpected dangling \"_\" in \"_prop\".", type: "MemberExpression"}] }
     ]
 });
