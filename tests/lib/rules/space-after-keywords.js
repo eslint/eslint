@@ -17,6 +17,7 @@ var ruleTester = new RuleTester();
 ruleTester.run("space-after-keywords", rule, {
     valid: [
         { code: "switch (a){ default: break; }", args: [1] },
+        { code: "switch(a){ default: break; }", args: ["no-paren"] },
         { code: "if (a) {}", args: [1] },
         { code: "if (a) {} else {}", args: [1] },
         { code: "for (;;){}", args: [1] },
@@ -32,6 +33,7 @@ ruleTester.run("space-after-keywords", rule, {
         { code: "with (a) {}", args: [1]},
         { code: "if(a) {}", options: ["never"]},
         { code: "if(a){}else{}", options: ["never"]},
+        { code: "if(a){} else {}", options: ["no-paren"]},
         { code: "if(a){}else if(b){}else{}", options: ["never"]},
         { code: "if (a) {} else\nfoo();", options: ["always"]},
         { code: "if(a) {} else\nfoo();", options: ["never"]},
@@ -41,6 +43,7 @@ ruleTester.run("space-after-keywords", rule, {
         { code: "try {}catch (e) {}", args: [1]},
         { code: "try{} finally{}", options: ["never"]},
         { code: "try{} catch(e) {}", options: ["never"]},
+        { code: "try {} catch(e) {}", options: ["no-paren"]},
         { code: "(function(){})", args: [1] },
         { code: "(function(){})", args: [1] }
     ],
@@ -108,10 +111,22 @@ ruleTester.run("space-after-keywords", rule, {
             output: "if(a) {}"
         },
         {
+            code: "if (a) {}",
+            options: ["no-paren"],
+            errors: [{ message: "Keyword \"if\" must not be followed by whitespace.", type: "IfStatement" }],
+            output: "if(a) {}"
+        },
+        {
             code: "if(a){}else {}",
             options: ["never"],
             errors: [{ message: "Keyword \"else\" must not be followed by whitespace." }],
             output: "if(a){}else{}"
+        },
+        {
+            code: "if (a){}else {}",
+            options: ["no-paren"],
+            errors: [{ message: "Keyword \"if\" must not be followed by whitespace." }],
+            output: "if(a){}else {}"
         },
         {
             code: "if(a){}else if(b){}else {}",
@@ -125,7 +140,19 @@ ruleTester.run("space-after-keywords", rule, {
             output: "try {}finally {}"
         },
         {
+            code: "try{}finally {}",
+            options: ["no-paren"],
+            errors: [{ message: "Keyword \"try\" must be followed by whitespace." }],
+            output: "try {}finally {}"
+        },
+        {
             code: "try {}finally{}",
+            errors: [{ message: "Keyword \"finally\" must be followed by whitespace." }],
+            output: "try {}finally {}"
+        },
+        {
+            code: "try {}finally{}",
+            options: ["no-paren"],
             errors: [{ message: "Keyword \"finally\" must be followed by whitespace." }],
             output: "try {}finally {}"
         },
