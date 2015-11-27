@@ -1,3 +1,21 @@
+v1.10.2 - November 27, 2015
+
+* Upgrade: escope@3.3.0 (refs #4485) (Nicholas C. Zakas)
+* Upgrade: Pinned down js-yaml to avoid breaking dep (fixes #4553) (alberto)
+* Fix: lines-around-comment with multiple comments (fixes #3509) (alberto)
+* Upgrade: doctrine@0.7.1 (fixes #4545) (Kevin Partington)
+* Fix: Bugfix for eqeqeq autofix (fixes #4540) (Kevin Partington)
+* Fix: Add for-in to `curly` rule (fixes #4436) (Kai Cataldo)
+* Fix: `valid-jsdoc` unneeded require check fix (fixes #4527) (Gyandeep Singh)
+* Fix: `brace-style` ASI fix for if-else condition (fixes #4520) (Gyandeep Singh)
+* Build: Add branch update during release process (fixes #4491) (Gyandeep Singh)
+* Build: Allow revert commits in commit messages (fixes #4452) (alberto)
+* Fix: Incorrect location in no-fallthrough (fixes #4516) (alberto)
+* Fix: `no-spaced-func` had been crashed (fixes #4508) (Toru Nagashima)
+* Fix: Add a RestProperty test of `no-undef` (fixes #3271) (Toru Nagashima)
+* Docs: Load badge from HTTPS (Brian J Brennan)
+* Build: Update eslint bot messages (fixes #4497) (Nicholas C. Zakas)
+
 v1.10.1 - November 20, 2015
 
 * Fix: Revert freezing context object (refs #4495) (Nicholas C. Zakas)
