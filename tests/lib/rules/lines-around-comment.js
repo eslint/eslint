@@ -724,6 +724,16 @@ ruleTester.run("lines-around-comment", rule, {
             errors: [{ message: beforeMessage, type: "Block", line: 2 }, { message: afterMessage, type: "Block", line: 2 }]
         },
         {
+            code: "bar()\n/* first block comment */ /* second block comment */\nvar a = 1;",
+            options: [{ afterBlockComment: true, beforeBlockComment: true }],
+            errors: [
+                { message: beforeMessage, type: "Block", line: 2 },
+                { message: afterMessage, type: "Block", line: 2 },
+                { message: beforeMessage, type: "Block", line: 2 },
+                { message: afterMessage, type: "Block", line: 2 }
+            ]
+        },
+        {
             code: "bar()\n/**\n * block block block\n */\nvar a = 1;",
             options: [{ afterBlockComment: true, beforeBlockComment: false }],
             errors: [{ message: afterMessage, type: "Block", line: 2 }]
