@@ -51,6 +51,14 @@ ruleTester.run("eqeqeq", rule, {
         { code: "'hello' != 'world'", output: "'hello' !== 'world'", options: ["allow-null"], errors: [{ message: "Expected '!==' and instead saw '!='.", type: "BinaryExpression"}] },
         { code: "2 == 3", output: "2 === 3", options: ["allow-null"], errors: [{ message: "Expected '===' and instead saw '=='.", type: "BinaryExpression"}] },
         { code: "true == true", output: "true === true", options: ["allow-null"], errors: [{ message: "Expected '===' and instead saw '=='.", type: "BinaryExpression"}] },
-        { code: "a\n==\nb", output: "a\n===\nb", errors: [{ message: "Expected '===' and instead saw '=='.", type: "BinaryExpression", line: 2 }] }
+        { code: "a\n==\nb", output: "a\n===\nb", errors: [{ message: "Expected '===' and instead saw '=='.", type: "BinaryExpression", line: 2 }] },
+        { code: "(a) == b", output: "(a) === b", errors: [{ message: "Expected '===' and instead saw '=='.", type: "BinaryExpression", line: 1 }] },
+        { code: "(a) != b", output: "(a) !== b", errors: [{ message: "Expected '!==' and instead saw '!='.", type: "BinaryExpression", line: 1 }] },
+        { code: "a == (b)", output: "a === (b)", errors: [{ message: "Expected '===' and instead saw '=='.", type: "BinaryExpression", line: 1 }] },
+        { code: "a != (b)", output: "a !== (b)", errors: [{ message: "Expected '!==' and instead saw '!='.", type: "BinaryExpression", line: 1 }] },
+        { code: "(a) == (b)", output: "(a) === (b)", errors: [{ message: "Expected '===' and instead saw '=='.", type: "BinaryExpression", line: 1 }] },
+        { code: "(a) != (b)", output: "(a) !== (b)", errors: [{ message: "Expected '!==' and instead saw '!='.", type: "BinaryExpression", line: 1 }] },
+        { code: "(a == b) == (c)", output: "(a === b) === (c)", errors: [{ message: "Expected '===' and instead saw '=='.", type: "BinaryExpression", line: 1 }, { message: "Expected '===' and instead saw '=='.", type: "BinaryExpression", line: 1 }] },
+        { code: "(a != b) != (c)", output: "(a !== b) !== (c)", errors: [{ message: "Expected '!==' and instead saw '!='.", type: "BinaryExpression", line: 1 }, { message: "Expected '!==' and instead saw '!='.", type: "BinaryExpression", line: 1 }] }
     ]
 });
