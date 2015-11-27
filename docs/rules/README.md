@@ -230,5 +230,5 @@ of ESLint but have since been replaced by newer rules.
 | [space-after-function-name](space-after-function-name.md) | require a space after function names (replaced by [space-before-function-paren](space-before-function-paren.md)) | Stylistic | | | | Removed 1.0 |
 | [space-before-function-parentheses](space-before-function-parentheses.md) | require or disallow space before function parentheses (replaced by [space-before-function-paren](space-before-function-paren.md)) | Stylistic | | | | Removed 1.0 |
 | [space-in-brackets](space-in-brackets.md) | require or disallow spaces inside brackets (replaced by [object-curly-spacing](object-curly-spacing.md) and [array-bracket-spacing](array-bracket-spacing.md)) | Stylistic | | | | Removed 1.0 |
-| [space-unary-word-ops](space-unary-word-ops.md) | require or disallow spaces before/after unary operators (replaced by [space-unary-ops](space-unary-ops.md)) | Stylistic | | | | Removed 1.0 |
+| [space-unary-word-ops](space-unary-word-ops.md) | require or disallow spaces before/after unary operators (replaced by [space-unary-ops](space-unary-ops.md)) | Stylistic | | | | Removed 0.10.0 |
 | [spaced-line-comment](spaced-line-comment.md) | require or disallow a space immediately following the `//` in a line comment (replaced by [spaced-comment](spaced-comment.md)) | Stylistic | | | | Removed 1.0 |
