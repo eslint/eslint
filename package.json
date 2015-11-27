@@ -52,7 +52,7 @@
     "inquirer": "^0.11.0",
     "is-my-json-valid": "^2.10.0",
     "is-resolvable": "^1.0.0",
-    "js-yaml": "^3.2.5",
+    "js-yaml": "3.4.5",
     "json-stable-stringify": "^1.0.0",
     "lodash.clonedeep": "^3.0.1",
     "lodash.merge": "^3.3.2",
