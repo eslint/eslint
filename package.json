@@ -40,7 +40,7 @@
     "debug": "^2.1.1",
     "doctrine": "^0.7.1",
     "escape-string-regexp": "^1.0.2",
-    "escope": "^3.2.1",
+    "escope": "^3.3.0",
     "espree": "^2.2.4",
     "estraverse": "^4.1.1",
     "estraverse-fb": "^1.3.1",
