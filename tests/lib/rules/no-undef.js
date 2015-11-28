@@ -54,6 +54,14 @@ ruleTester.run("no-undef", rule, {
         { code: "var a; ({b: a}) = {};", ecmaFeatures: {destructuring: true} },
         { code: "var obj; [obj.a, obj.b] = [0, 1];", ecmaFeatures: {destructuring: true} },
 
+        // Notifications of readonly are removed: https://github.com/eslint/eslint/issues/4504
+        { code: "/*global b:false*/ function f() { b = 1; }" },
+        { code: "function f() { b = 1; }", global: { b: false } },
+        { code: "/*global b:false*/ function f() { b++; }" },
+        { code: "/*global b*/ b = 1;" },
+        { code: "/*global b:false*/ var b = 1;" },
+        { code: "Array = 1;" },
+
         // Experimental,
         {
             code: "var {bacon, ...others} = stuff; foo(others)",
@@ -66,14 +74,8 @@ ruleTester.run("no-undef", rule, {
         { code: "if (typeof anUndefinedVar === 'string') {}", options: [{typeof: true}], errors: [{ message: "\"anUndefinedVar\" is not defined.", type: "Identifier"}] },
         { code: "var a = b;", errors: [{ message: "\"b\" is not defined.", type: "Identifier"}] },
         { code: "function f() { b; }", errors: [{ message: "\"b\" is not defined.", type: "Identifier"}] },
-        { code: "/*global b:false*/ function f() { b = 1; }", errors: [{ message: "\"b\" is read only.", type: "Identifier"}] },
-        { code: "function f() { b = 1; }", global: { b: false }, errors: [{ message: "\"b\" is read only.", type: "Identifier"}] },
-        { code: "/*global b:false*/ function f() { b++; }", errors: [{ message: "\"b\" is read only.", type: "Identifier"}] },
-        { code: "/*global b*/ b = 1;", errors: [{ message: "\"b\" is read only.", type: "Identifier"}] },
-        { code: "/*global b:false*/ var b = 1;", errors: [{ message: "\"b\" is read only.", type: "Identifier"}] },
         { code: "window;", errors: [{ message: "\"window\" is not defined.", type: "Identifier"}] },
         { code: "require(\"a\");", errors: [{ message: "\"require\" is not defined.", type: "Identifier"}] },
-        { code: "Array = 1;", errors: [{ message: "\"Array\" is read only.", type: "Identifier"}] },
         { code: "var React; React.render(<img attr={a} />);", errors: [{ message: "\"a\" is not defined." }], ecmaFeatures: { jsx: true } },
         { code: "var React, App; React.render(<App attr={a} />);", errors: [{ message: "\"a\" is not defined." }], ecmaFeatures: { jsx: true } },
         { code: "[a] = [0];", ecmaFeatures: {destructuring: true}, errors: [{ message: "\"a\" is not defined." }] },
