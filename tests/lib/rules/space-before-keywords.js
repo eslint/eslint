@@ -133,6 +133,7 @@ ruleTester.run("space-before-keywords", rule, {
         { code: "; function foo () {}", options: never },
         { code: ";\nfunction foo () {}", options: never },
         // FunctionExpression
+        { code: "[function () {}]" },
         { code: "var foo = function bar () {}" },
         { code: "var foo =\nfunction bar () {}" },
         { code: "function foo () { return function () {} }" },
