@@ -224,6 +224,7 @@ These rules are only relevant to ES6 environments.
 * [prefer-arrow-callback](prefer-arrow-callback.md) - suggest using arrow functions as callbacks
 * [prefer-const](prefer-const.md) - suggest using `const` declaration for variables that are never modified after declared
 * [prefer-reflect](prefer-reflect.md) - suggest using Reflect methods where applicable
+* [prefer-rest-params](prefer-rest-params.md) - suggest using the rest parameters instead of `arguments`
 * [prefer-spread](prefer-spread.md) - suggest using the spread operator instead of `.apply()`.
 * [prefer-template](prefer-template.md) - suggest using template literals instead of strings concatenation
 * [require-yield](require-yield.md) - disallow generator functions that do not have `yield`
