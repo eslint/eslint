@@ -1,3 +1,10 @@
+v1.10.3 - December 1, 2015
+
+* Docs: Update strict rule docs (fixes #4583) (Nicholas C. Zakas)
+* Docs: Reference .eslintrc.* in contributing docs (fixes #4532) (Kai Cataldo)
+* Fix: Add for-of to `curly` rule (fixes #4571) (Kai Cataldo)
+* Fix: Ignore space before function in array start (fixes #4569) (alberto)
+
 v1.10.2 - November 27, 2015
 
 * Upgrade: escope@3.3.0 (refs #4485) (Nicholas C. Zakas)
