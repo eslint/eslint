@@ -147,6 +147,14 @@ ruleTester.run("space-unary-ops", rule, {
         {
             code: "function *foo() { (yield) * 0 }",
             ecmaFeatures: { generators: true }
+        },
+        {
+            code: "function *foo() { yield*0 }",
+            ecmaFeatures: { generators: true }
+        },
+        {
+            code: "function *foo() { yield *0 }",
+            ecmaFeatures: { generators: true }
         }
     ],
 
@@ -361,28 +369,6 @@ ruleTester.run("space-unary-ops", rule, {
             ecmaFeatures: { generators: true },
             errors: [{
                 message: "Unary word operator \"yield\" must be followed by whitespace.",
-                type: "YieldExpression",
-                line: 1,
-                column: 19
-            }]
-        },
-        {
-            code: "function *foo() { yield*0 }",
-            output: "function *foo() { yield* 0 }",
-            ecmaFeatures: { generators: true },
-            errors: [{
-                message: "Unary word operator \"yield*\" must be followed by whitespace.",
-                type: "YieldExpression",
-                line: 1,
-                column: 19
-            }]
-        },
-        {
-            code: "function *foo() { yield *0 }",
-            output: "function *foo() { yield * 0 }",
-            ecmaFeatures: { generators: true },
-            errors: [{
-                message: "Unary word operator \"yield*\" must be followed by whitespace.",
                 type: "YieldExpression",
                 line: 1,
                 column: 19
