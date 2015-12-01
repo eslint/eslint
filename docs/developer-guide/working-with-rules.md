@@ -313,6 +313,13 @@ Keep in mind that comments are technically not a part of the AST and are only at
 
 **Note:** One of the libraries adds AST node properties for comments - do not use these properties. Always use `sourceCode.getComments()` as this is the only guaranteed API for accessing comments (we will likely change how comments are handled later).
 
+### Accessing Code Paths
+
+ESLint analyzes code paths while traversing AST.
+You can access that code path objects with five events related to code paths.
+
+[details here](./code-path-analysis.md)
+
 ## Rule Unit Tests
 
 Each rule must have a set of unit tests submitted with it to be accepted. The test file is named the same as the source file but lives in `tests/lib/`. For example, if your rule source file is `lib/rules/foo.js` then your test file should be `tests/lib/rules/foo.js`.
