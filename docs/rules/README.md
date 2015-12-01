@@ -133,6 +133,7 @@ These rules are specific to JavaScript running on Node.js or using CommonJS in t
 * [no-new-require](no-new-require.md) - disallow use of `new` operator with the `require` function
 * [no-path-concat](no-path-concat.md) - disallow string concatenation with `__dirname` and `__filename`
 * [no-process-exit](no-process-exit.md) - disallow `process.exit()`
+* [no-restricted-imports](no-restricted-imports.md) - restrict usage of specified node imports
 * [no-restricted-modules](no-restricted-modules.md) - restrict usage of specified node modules
 * [no-sync](no-sync.md) - disallow use of synchronous methods
 
