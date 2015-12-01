@@ -22,7 +22,15 @@ var bar = function() {
 
 ## Rule Details
 
-This rule is aimed at controlling how Use Strict Directives are used in code. It has three modes, each enabled by a single string argument:
+This rule is aimed at using strict directives effectively, and as such, will flag any unexpected uses or omissions of strict directives.
+
+### Options
+
+There are three options for this rule:
+
+1. `never` - don't use `"use strict"` at all
+1. `global` - require `"use strict"` in the global scope
+1. `function` - require `"use strict"` in function scopes only
 
 ### "never" mode
 
