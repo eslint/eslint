@@ -22,6 +22,7 @@ var assert = require("chai").assert,
     sh = require("shelljs"),
     proxyquire = require("proxyquire");
 
+var originalDir = process.cwd();
 proxyquire = proxyquire.noCallThru().noPreserveCache();
 
 //------------------------------------------------------------------------------
@@ -75,7 +76,13 @@ describe("cli", function() {
     function getFixturePath() {
         var args = Array.prototype.slice.call(arguments);
         args.unshift(fixtureDir);
-        return path.join.apply(path, args);
+        var filepath = path.join.apply(path, args);
+        try {
+            filepath = fs.realpathSync(filepath);
+            return filepath;
+        } catch (e) {
+            return filepath;
+        }
     }
 
     // copy into clean area so as not to get "infected" by this project's .eslintrc files
@@ -83,9 +90,15 @@ describe("cli", function() {
         fixtureDir = os.tmpdir() + "/eslint/fixtures";
         sh.mkdir("-p", fixtureDir);
         sh.cp("-r", "./tests/fixtures/.", fixtureDir);
+        fixtureDir = fs.realpathSync(fixtureDir);
+    });
+
+    beforeEach(function() {
+        process.chdir(fixtureDir);
     });
 
     afterEach(function() {
+        process.chdir(originalDir);
         log.info.reset();
         log.error.reset();
     });
@@ -147,11 +160,9 @@ describe("cli", function() {
         it("should exit with an error status (1)", function() {
             var configPath = getFixturePath("configurations", "quotes-error.json");
             var filePath = getFixturePath("single-quoted.js");
-            var code = "--config " + configPath + " " + filePath;
+            var code = "--no-ignore --config " + configPath + " " + filePath;
 
-            var exitStatus;
-
-            exitStatus = cli.execute(code);
+            var exitStatus = cli.execute(code);
 
             assert.equal(exitStatus, 1);
         });
@@ -248,7 +259,7 @@ describe("cli", function() {
             });
             var configPath = "xo";
             var filePath = getFixturePath("passing.js");
-            var code = "--config " + configPath + " " + filePath;
+            var code = "--no-ignore --config " + configPath + " " + filePath;
 
             var exit = stubCli.execute(code);
 
@@ -381,15 +392,14 @@ describe("cli", function() {
         });
     });
 
-
     describe("when given a pattern to ignore", function() {
         it("should not process any files", function() {
-            var ignorePath = fs.realpathSync(getFixturePath("syntax-error.js"));
-            var filePath = fs.realpathSync(getFixturePath("passing.js"));
-            var exit = cli.execute("--ignore-pattern " + ignorePath + " " + ignorePath + " " + filePath);
+            var ignoredFile = "cli/syntax-error.js";
+            var filePath = "cli/passing.js";
+            var exit = cli.execute("--ignore-pattern cli/ " + ignoredFile + " " + filePath);
 
-            // a warning about the ignored file
-            assert.isTrue(log.info.called);
+            // no warnings
+            assert.isFalse(log.info.called);
             assert.equal(exit, 0);
         });
     });
@@ -492,7 +502,7 @@ describe("cli", function() {
                 getFixturePath("globals-browser.js"),
                 getFixturePath("globals-node.js")
             ];
-
+            process.chdir(originalDir);
             cli.execute("--no-eslintrc --config ./conf/eslint.json --no-ignore " + files.join(" "));
             assert.equal(log.info.args[0][0].split("\n").length, 11);
         });
@@ -527,7 +537,7 @@ describe("cli", function() {
     describe("when supplied with rule flag and severity level set to error", function() {
         it("should exit with an error status (2)", function() {
             var filePath = getFixturePath("single-quoted.js");
-            var code = "--rule 'quotes: [2, double]' " + filePath;
+            var code = "--no-ignore --rule 'quotes: [2, double]' " + filePath;
 
             var exitStatus;
 
@@ -539,10 +549,9 @@ describe("cli", function() {
 
     describe("when the quiet option is enabled", function() {
 
-
         it("should only print error", function() {
             var filePath = getFixturePath("single-quoted.js");
-            var cliArgs = "--quiet  -f compact --rule 'quotes: [2, double]' --rule 'no-unused-vars: 1' " + filePath,
+            var cliArgs = "--no-ignore --quiet  -f compact --rule 'quotes: [2, double]' --rule 'no-unused-vars: 1' " + filePath,
                 formattedOutput;
 
             cli.execute(cliArgs);
@@ -571,16 +580,18 @@ describe("cli", function() {
         });
 
         it("should write the file and create dirs if they don't exist", function() {
-            var code = "--rule 'quotes: [1, double]' --o tests/output/eslint-output.txt tests/fixtures/single-quoted.js";
+            var filePath = getFixturePath("single-quoted.js");
+            var code = "--no-ignore --rule 'quotes: [1, double]' --o tests/output/eslint-output.txt " + filePath;
 
             cli.execute(code);
 
-            assert.include(fs.readFileSync("tests/output/eslint-output.txt", "utf8"), path.join("tests", "fixtures", "single-quoted.js"));
+            assert.include(fs.readFileSync("tests/output/eslint-output.txt", "utf8"), filePath);
             assert.isTrue(log.info.notCalled);
         });
 
         it("should return an error if the path is a directory", function() {
-            var code = "--rule 'quotes: [1, double]' --o tests/output tests/fixtures/single-quoted.js";
+            var filePath = getFixturePath("single-quoted.js");
+            var code = "--no-ignore --rule 'quotes: [1, double]' --o tests/output " + filePath;
             var exit;
 
             fs.mkdirSync("tests/output");
@@ -593,7 +604,8 @@ describe("cli", function() {
         });
 
         it("should return an error if the path could not be written to", function() {
-            var code = "--rule 'quotes: [1, double]' --o tests/output/eslint-output.txt tests/fixtures/single-quoted.js";
+            var filePath = getFixturePath("single-quoted.js");
+            var code = "--no-ignore --rule 'quotes: [1, double]' --o tests/output/eslint-output.txt " + filePath;
             var exit;
 
             fs.writeFileSync("tests/output", "foo");
@@ -620,7 +632,7 @@ describe("cli", function() {
             requireStubs[examplePluginName]["@global"] = true;
 
             cli = proxyquire("../../lib/cli", requireStubs);
-            var exit = cli.execute("--plugin " + examplePluginName + " --rule " + exampleRuleConfig + " " + filePath);
+            var exit = cli.execute("--no-ignore --plugin " + examplePluginName + " --rule " + exampleRuleConfig + " " + filePath);
 
             assert.isTrue(log.info.calledOnce);
             assert.include(log.info.getCall(0).args[0], "Identifier cannot be named 'foo'");
@@ -632,14 +644,14 @@ describe("cli", function() {
     describe("when given an parser name", function() {
         it("should exit with error if parser is invalid", function() {
             var filePath = getFixturePath("passing.js");
-            var exit = cli.execute("--parser test111 " + filePath);
+            var exit = cli.execute("--no-ignore --parser test111 " + filePath);
 
             assert.equal(exit, 1);
         });
 
         it("should exit with no error if parser is valid", function() {
             var filePath = getFixturePath("passing.js");
-            var exit = cli.execute("--parser espree " + filePath);
+            var exit = cli.execute("--no-ignore --parser espree " + filePath);
 
             assert.equal(exit, 0);
         });
@@ -650,7 +662,7 @@ describe("cli", function() {
             var filePath = getFixturePath("max-warnings"),
                 exitCode;
 
-            exitCode = cli.execute("--max-warnings 10 " + filePath);
+            exitCode = cli.execute("--no-ignore --max-warnings 10 " + filePath);
 
             assert.equal(exitCode, 0);
         });
@@ -659,7 +671,7 @@ describe("cli", function() {
             var filePath = getFixturePath("max-warnings"),
                 exitCode;
 
-            exitCode = cli.execute("--max-warnings 5 " + filePath);
+            exitCode = cli.execute("--no-ignore --max-warnings 5 " + filePath);
 
             assert.equal(exitCode, 1);
             assert.ok(log.error.calledOnce);
@@ -670,7 +682,7 @@ describe("cli", function() {
             var filePath = getFixturePath("max-warnings"),
                 exitCode;
 
-            exitCode = cli.execute("--max-warnings 6 " + filePath);
+            exitCode = cli.execute("--no-ignore --max-warnings 6 " + filePath);
 
             assert.equal(exitCode, 0);
         });
