@@ -93,6 +93,15 @@ ruleTester.run("no-redeclare", rule, {
             errors: [
                 { message: "\"a\" is already defined", type: "Identifier"}
             ]
+        },
+
+        // Notifications of readonly are moved from no-undef: https://github.com/eslint/eslint/issues/4504
+        {
+            code: "/*global b:false*/ var b = 1;",
+            options: [{builtinGlobals: true}],
+            errors: [
+                { message: "\"b\" is already defined", type: "Identifier"}
+            ]
         }
     ]
 });

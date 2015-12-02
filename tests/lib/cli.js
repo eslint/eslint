@@ -501,7 +501,7 @@ describe("cli", function() {
     describe("when executing with global flag", function() {
         it("should default defined variables to read-only", function() {
             var filePath = getFixturePath("undef.js");
-            var exit = cli.execute("--global baz,bat --no-ignore --rule no-undef:2 " + filePath);
+            var exit = cli.execute("--global baz,bat --no-ignore --rule no-native-reassign:2 " + filePath);
 
             assert.isTrue(log.info.calledOnce);
             assert.equal(exit, 1);
