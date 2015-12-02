@@ -574,12 +574,12 @@ Globs are matched using [minimatch](https://github.com/isaacs/minimatch), so a n
 * Lines preceded by `!` are negated patterns that re-include a pattern that was ignored by an earlier pattern.
 * Brace expansion can refer to multiple files in a pattern. For example, `file.{js,ts,coffee}` will ignore `file.js`, `file.ts`, and `file.coffee`.
 
-In addition to any patterns in a `.eslintignore` file, ESLint always ignores files in `node_modules/**`.
+In addition to any patterns in a `.eslintignore` file, ESLint always ignores files in `node_modules/**` and `bower_components/**`.
 
-For example, placing the following `.eslintignore` file in the current working directory will ignore all of `node_modules`, any files with the extensions `.ts.js` or `.coffee.js` extension that might have been transpiled, and anything in the `build/` directory except `build/index.js`:
+For example, placing the following `.eslintignore` file in the current working directory will ignore all of `node_modules`, `bower_components`, any files with the extensions `.ts.js` or `.coffee.js` extension that might have been transpiled, and anything in the `build/` directory except `build/index.js`:
 
 ```text
-# node_modules ignored by default
+# node_modules and bower_components ignored by default
 
 # Ignore files compiled from TypeScript and CoffeeScript
 **/*.{ts,coffee}.js
