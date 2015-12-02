@@ -326,7 +326,7 @@ ruleTester.run("key-spacing", rule, {
         code: "var obj = { [ (a + b) ]:value };",
         options: [{}],
         ecmaFeatures: { objectLiteralComputedProperties: true },
-        errors: [{ message: "Missing space before value for computed key \"(a + b)\".", type: "Identifier", line: 1, column: 24 }]
+        errors: [{ message: "Missing space before value for computed key \"a + b\".", type: "Identifier", line: 1, column: 25 }]
     }, {
         code: "fn({ foo:bar, 'key' :value });",
         options: [{

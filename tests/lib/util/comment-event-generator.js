@@ -32,7 +32,7 @@ describe("NodeEventGenerator", function() {
     it("should generate comment events without duplicate.", function() {
         var emitter = new EventEmitter();
         var generator = new NodeEventGenerator(emitter);
-        var code = "//foo\nvar zzz /*aaa*/ = 777\n//bar";
+        var code = "//foo\nvar zzz /*aaa*/ = 777;\n//bar";
         var ast = espree.parse(code, {
             range: true,
             loc: true,
@@ -42,11 +42,12 @@ describe("NodeEventGenerator", function() {
         });
         var sourceCode = new SourceCode(code, ast);
         var expected = [
+
             ["Program", ast],
             ["LineComment", ast.comments[0]], // foo
             ["VariableDeclaration", ast.body[0]],
-            ["VariableDeclarator", ast.body[0].declarations[0]],
             ["LineComment", ast.comments[2]], // bar
+            ["VariableDeclarator", ast.body[0].declarations[0]],
             ["Identifier", ast.body[0].declarations[0].id],
             ["BlockComment", ast.comments[1]], /* aaa */
             ["BlockComment:exit", ast.comments[1]], /* aaa */
@@ -54,8 +55,8 @@ describe("NodeEventGenerator", function() {
             ["Literal", ast.body[0].declarations[0].init],
             ["Literal:exit", ast.body[0].declarations[0].init],
             ["LineComment:exit", ast.comments[0]], // foo
-            ["LineComment:exit", ast.comments[2]], // bar
             ["VariableDeclarator:exit", ast.body[0].declarations[0]],
+            ["LineComment:exit", ast.comments[2]], // bar
             ["VariableDeclaration:exit", ast.body[0]],
             ["Program:exit", ast]
         ];
@@ -73,6 +74,7 @@ describe("NodeEventGenerator", function() {
         });
 
         assert.equal(emitter.emit.callCount, expected.length);
+
         for (var i = 0; i < expected.length; ++i) {
             assert.equal(emitter.emit.args[i][0], expected[i][0]);
             assert.equal(emitter.emit.args[i][1], expected[i][1]);

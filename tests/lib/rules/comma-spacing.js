@@ -66,7 +66,7 @@ ruleTester.run("comma-spacing", rule, {
         {code: "`${[1, 2]}`", ecmaFeatures: {templateStrings: true}},
         "foo(/,/, 'a')",
         "var x = ',,,,,';",
-        "var code = 'var foo = 1, bar = 3;',",
+        "var code = 'var foo = 1, bar = 3;'",
         "['apples', \n 'oranges'];",
         "{x: 'var x,y,z'}",
         {code: "var obj = {'foo':\n'bar' ,'baz':\n'qur'};", options: [{before: true, after: false}]},
