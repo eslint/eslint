@@ -31,7 +31,7 @@ function doSomething(condition) {
     if (condition) {
         return true;
     } else {
-        return;      /*error Expected a return value.*/
+        return;                   /*error Expected a return value.*/
     }
 }
 
@@ -40,7 +40,14 @@ function doSomething(condition) {
     if (condition) {
         return;
     } else {
-        return true; /*error Expected no return value.*/
+        return true;              /*error Expected no return value.*/
+    }
+}
+
+function doSomething(condition) { /*error Expected to return a value at the end of this function.*/
+
+    if (condition) {
+        return true;
     }
 }
 ```
