@@ -203,7 +203,41 @@ ruleTester.run("no-extra-parens", rule, {
         { code: "function *a() { yield b, c; }", ecmaFeatures: { generators: true } },
         { code: "function *a() { yield (b, c); }", ecmaFeatures: { generators: true } },
         { code: "function *a() { yield b + c; }", ecmaFeatures: { generators: true } },
-        { code: "function *a() { (yield b) + c; }", ecmaFeatures: { generators: true } }
+        { code: "function *a() { (yield b) + c; }", ecmaFeatures: { generators: true } },
+
+        // https://github.com/eslint/eslint/issues/4229
+        [
+            "function a() {",
+            "    return (",
+            "        b",
+            "    );",
+            "}"
+        ].join("\n"),
+        {
+            code: [
+                "function a() {",
+                "    return (",
+                "        <JSX />",
+                "    );",
+                "}"
+            ].join("\n"),
+            ecmaFeatures: { jsx: true }
+        },
+        [
+            "throw (",
+            "    a",
+            ");"
+        ].join("\n"),
+        {
+            code: [
+                "function *a() {",
+                "    yield (",
+                "        b",
+                "    );",
+                "}"
+            ].join("\n"),
+            ecmaFeatures: { generators: true }
+        }
     ],
     invalid: [
         invalid("(0)", "Literal"),
@@ -305,6 +339,70 @@ ruleTester.run("no-extra-parens", rule, {
         invalid("function *a() { yield (b); }", "Identifier", null, {ecmaFeatures: {generators: true}}),
         invalid("function *a() { (yield b), c; }", "YieldExpression", null, {ecmaFeatures: {generators: true}}),
         invalid("function *a() { yield ((b, c)); }", "SequenceExpression", null, {ecmaFeatures: {generators: true}}),
-        invalid("function *a() { yield (b + c); }", "BinaryExpression", null, {ecmaFeatures: {generators: true}})
+        invalid("function *a() { yield (b + c); }", "BinaryExpression", null, {ecmaFeatures: {generators: true}}),
+
+        // https://github.com/eslint/eslint/issues/4229
+        invalid([
+            "function a() {",
+            "    return (b);",
+            "}"
+        ].join("\n"), "Identifier"),
+        invalid([
+            "function a() {",
+            "    return",
+            "    (b);",
+            "}"
+        ].join("\n"), "Identifier"),
+        invalid([
+            "function a() {",
+            "    return ((",
+            "       b",
+            "    ));",
+            "}"
+        ].join("\n"), "Identifier"),
+        invalid([
+            "function a() {",
+            "    return (<JSX />);",
+            "}"
+        ].join("\n"), "JSXElement", null, {ecmaFeatures: {jsx: true}}),
+        invalid([
+            "function a() {",
+            "    return",
+            "    (<JSX />);",
+            "}"
+        ].join("\n"), "JSXElement", null, {ecmaFeatures: {jsx: true}}),
+        invalid([
+            "function a() {",
+            "    return ((",
+            "       <JSX />",
+            "    ));",
+            "}"
+        ].join("\n"), "JSXElement", null, {ecmaFeatures: {jsx: true}}),
+        invalid([
+            "throw (a);"
+        ].join("\n"), "Identifier"),
+        invalid([
+            "throw ((",
+            "   a",
+            "));"
+        ].join("\n"), "Identifier"),
+        invalid([
+            "function *a() {",
+            "    yield (b);",
+            "}"
+        ].join("\n"), "Identifier", null, {ecmaFeatures: {generators: true}}),
+        invalid([
+            "function *a() {",
+            "    yield",
+            "    (b);",
+            "}"
+        ].join("\n"), "Identifier", null, {ecmaFeatures: {generators: true}}),
+        invalid([
+            "function *a() {",
+            "    yield ((",
+            "       b",
+            "    ));",
+            "}"
+        ].join("\n"), "Identifier", null, {ecmaFeatures: {generators: true}})
     ]
 });
