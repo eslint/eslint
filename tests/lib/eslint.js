@@ -1591,7 +1591,7 @@ describe("eslint", function() {
             var config = { rules: {} };
 
             var fn = eslint.verify.bind(eslint, code, config, filename);
-            assert.throws(fn, "filename.js line 1:\n\tConfiguration for rule \"no-alert\" is invalid:\n\tValue \"true\" is the wrong type.\n");
+            assert.throws(fn, "filename.js line 1:\n\tConfiguration for rule \"no-alert\" is invalid:\n\tSeverity should be one of the following: 0 = off, 1 = warning, 2 = error (you passed \"true\").\n");
         });
     });
 
