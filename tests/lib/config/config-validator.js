@@ -117,32 +117,8 @@ describe("Validator", function() {
 
     describe("getRuleOptionsSchema", function() {
 
-        it("should return a default schema for a missing rule", function() {
-            assert.deepEqual(validator.getRuleOptionsSchema("non-existent-rule"), {
-                "type": "array",
-                "items": [
-                    {
-                        "enum": [0, 1, 2]
-                    }
-                ],
-                "minItems": 1
-            });
-        });
-
-        it("should add warning level validation to provided schemas", function() {
-            assert.deepEqual(validator.getRuleOptionsSchema("mock-rule"), {
-                "type": "array",
-                "items": [
-                    {
-                        "enum": [0, 1, 2]
-                    },
-                    {
-                        "enum": ["first", "second"]
-                    }
-                ],
-                "minItems": 1,
-                "maxItems": 2
-            });
+        it("should return null for a missing rule", function() {
+            assert.equal(validator.getRuleOptionsSchema("non-existent-rule"), null);
         });
 
         it("should not modify object schema", function() {
@@ -183,7 +159,7 @@ describe("Validator", function() {
         it("should throw for too many configuration values", function() {
             var fn = validator.validateRuleOptions.bind(null, "mock-rule", [2, "first", "second"], "tests");
 
-            assert.throws(fn, "tests:\n\tConfiguration for rule \"mock-rule\" is invalid:\n\tValue \"2,first,second\" has more items than allowed.\n");
+            assert.throws(fn, "tests:\n\tConfiguration for rule \"mock-rule\" is invalid:\n\tValue \"first,second\" has more items than allowed.\n");
         });
 
     });
