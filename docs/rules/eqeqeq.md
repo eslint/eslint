@@ -15,8 +15,6 @@ If one of those occurs in an innocent-looking statement such as `a == b` the act
 
 This rule is aimed at eliminating the type-unsafe equality operators.
 
-**Fixable:** This rule is automatically fixable using the `--fix` flag on the command line.
-
 The following patterns are considered problems:
 
 ```js

@@ -798,11 +798,20 @@ describe("CLIEngine", function() {
                                     "ruleId": "quotes",
                                     "severity": 2,
                                     "source": "var msg = 'hi'"
+                                },
+                                {
+                                    "column": 9,
+                                    "line": 2,
+                                    "message": "Expected '===' and instead saw '=='.",
+                                    "nodeType": "BinaryExpression",
+                                    "ruleId": "eqeqeq",
+                                    "severity": 2,
+                                    "source": "if (msg == 'hi') {"
                                 }
                             ],
-                            "errorCount": 1,
+                            "errorCount": 2,
                             "warningCount": 0,
-                            "output": "var msg = 'hi';\nif (msg === \"hi\") {\n\n}\n"
+                            "output": "var msg = 'hi';\nif (msg == \"hi\") {\n\n}\n"
                         },
                         {
                             "filePath": fs.realpathSync(path.resolve(fixtureDir, "fixmode/quotes.js")),
@@ -822,7 +831,7 @@ describe("CLIEngine", function() {
                             "output": "var msg = \"hi\" + foo;\n"
                         }
                     ],
-                    "errorCount": 2,
+                    "errorCount": 3,
                     "warningCount": 0
                 });
             });
