@@ -49,7 +49,7 @@ These are rules designed to prevent you from making mistakes. They either prescr
 * [default-case](default-case.md) - require `default` case in `switch` statements
 * [dot-location](dot-location.md) - enforces consistent newlines before or after dots
 * [dot-notation](dot-notation.md) - encourages use of dot notation whenever possible
-* [eqeqeq](eqeqeq.md) - require the use of `===` and `!==` (fixable)
+* [eqeqeq](eqeqeq.md) - require the use of `===` and `!==`
 * [guard-for-in](guard-for-in.md) - make sure `for-in` loops have an `if` statement
 * [no-alert](no-alert.md) - disallow the use of `alert`, `confirm`, and `prompt`
 * [no-caller](no-caller.md) - disallow use of `arguments.caller` or `arguments.callee`
