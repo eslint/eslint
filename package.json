@@ -98,7 +98,8 @@
     "semver": "^5.0.3",
     "shelljs-nodecli": "~0.1.0",
     "sinon": "1.17.2",
-    "through": "^2.3.6"
+    "through": "^2.3.6",
+    "tmp": "0.0.28"
   },
   "keywords": [
     "ast",
