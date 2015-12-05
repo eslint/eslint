@@ -101,6 +101,7 @@
         "no-undefined": 0,
         "no-unexpected-multiline": 0,
         "no-underscore-dangle": 0,
+        "no-unmodified-loop-condition": 0,
         "no-unneeded-ternary": 0,
         "no-unreachable": 2,
         "no-unused-expressions": 0,

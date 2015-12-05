@@ -64,6 +64,7 @@ rules:
     no-undef-init: 2
     no-undefined: 2
     no-underscore-dangle: [2, {allowAfterThis: true}]
+    no-unmodified-loop-condition: 2
     no-unused-expressions: 2
     no-unused-vars: [2, {vars: "all", args: "after-used"}]
     no-use-before-define: 2
