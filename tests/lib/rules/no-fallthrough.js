@@ -5,8 +5,6 @@
 
 "use strict";
 
-/* jshint node:true */
-
 //------------------------------------------------------------------------------
 // Requirements
 //------------------------------------------------------------------------------
@@ -17,6 +15,11 @@ var rule = require("../../../lib/rules/no-fallthrough"),
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
+
+var errorsDefault = [{
+    message: "Expected a \"break\" statement before \"default\".",
+    type: "SwitchCase"
+}];
 
 var ruleTester = new RuleTester();
 ruleTester.run("no-fallthrough", rule, {
@@ -44,7 +47,12 @@ ruleTester.run("no-fallthrough", rule, {
         "switch(foo) { case 0: switch(bar) { case 2: break; } /* falls through */ case 1: break; }",
         "function foo() { switch(foo) { case 1: return a; a++; }}",
         "switch (foo) { case 0: a(); /* falls through */ default:  b(); /* comment */ }",
-        "switch (foo) { case 0: a(); /* falls through */ default: /* comment */ b(); }"
+        "switch (foo) { case 0: a(); /* falls through */ default: /* comment */ b(); }",
+        "switch (foo) { case 0: if (a) { break; } else { throw 0; } default: b(); }",
+        "switch (foo) { case 0: try { break; } finally {} default: b(); }",
+        "switch (foo) { case 0: try {} finally { break; } default: b(); }",
+        "switch (foo) { case 0: try { throw 0; } catch (err) { break; } default: b(); }",
+        "switch (foo) { case 0: do { throw 0; } while(a); default: b(); }"
     ],
     invalid: [
         {
@@ -68,7 +76,11 @@ ruleTester.run("no-fallthrough", rule, {
                     column: 1
                 }
             ]
-        }
-
+        },
+        {code: "switch(foo) { case 0: a(); default: b() }", errors: errorsDefault},
+        {code: "switch(foo) { case 0: if (a) { break; } default: b() }", errors: errorsDefault},
+        {code: "switch(foo) { case 0: try { throw 0; } catch (err) {} default: b() }", errors: errorsDefault},
+        {code: "switch(foo) { case 0: while (a) { break; } default: b() }", errors: errorsDefault},
+        {code: "switch(foo) { case 0: do { break; } while (a); default: b() }", errors: errorsDefault}
     ]
 });
