@@ -16,7 +16,7 @@ var globals = require("globals");
 //------------------------------------------------------------------------------
 
 module.exports = {
-    builtin: globals.builtin,
+    builtin: globals.es5,
     browser: {
         globals: globals.browser
     },
@@ -87,6 +87,7 @@ module.exports = {
         globals: globals.webextensions
     },
     es6: {
+        globals: globals.es6,
         ecmaFeatures: {
             arrowFunctions: true,
             blockBindings: true,

@@ -47,3 +47,20 @@ module.exports = {
 };
 ```
 
+## Built-In Global Variables
+
+Prior to 2.0.0, new global variables that were standardized as part of ES6 such as `Promise`, `Map`, `Set`, and `Symbol` were included in the built-in global environment. This could lead to potential issues when, for example, `no-undef` permitted use of the `Promise` constructor even in ES5 code where promises are unavailable. In 2.0.0, the built-in environment only includes the standard ES5 global variables, and the new ES6 global variables have been moved to the `es6` environment.
+
+**To address:** If you are writing ES6 code, enable the `es6` environment if you have not already done so:
+
+```js
+// In your .eslintrc
+{
+    env: {
+        es6: true
+    }
+}
+
+// Or in a configuration comment
+/*eslint-env es6*/
+```
