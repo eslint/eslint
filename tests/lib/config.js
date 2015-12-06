@@ -124,13 +124,26 @@ describe("Config", function() {
             assert.lengthOf(actual, 0);
         });
 
-        it("should return the path when a package.json file is found", function() {
+        it("should return package.json only when no other config files are found", function() {
             var configHelper = new Config(),
-                expected = getFixturePath("broken", "package.json"),
+                expected0 = getFixturePath("packagejson", "subdir", "package.json"),
+                expected1 = getFixturePath("packagejson", ".eslintrc"),
+                actual = configHelper.findLocalConfigFiles(getFixturePath("packagejson", "subdir"));
+
+            assert.isArray(actual);
+            assert.lengthOf(actual, 2);
+            assert.equal(actual[0], expected0);
+            assert.equal(actual[1], expected1);
+        });
+
+        it("should return the only one config file even if there are multiple found", function() {
+            var configHelper = new Config(),
+                expected = getFixturePath("broken", ".eslintrc"),
 
                 // The first element of the array is the .eslintrc in the same directory.
-                actual = configHelper.findLocalConfigFiles(getFixturePath("broken"))[1];
+                actual = configHelper.findLocalConfigFiles(getFixturePath("broken"));
 
+            assert.equal(actual.length, 1);
             assert.equal(actual, expected);
         });
 

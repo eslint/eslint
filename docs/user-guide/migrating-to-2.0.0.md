@@ -47,6 +47,11 @@ module.exports = {
 };
 ```
 
+## Configuration cascading changes
+
+If you previously relied on the fact that ESLint will merge configurations from `.eslintrc` and `package.json` files located in the same directory you will have to choose either `.eslintrc` or `package.json` file
+and move all of your configuration into one or the other. In 2.0.0 `package.json` will be treated just like any other configuration file and will have the lowest priority.
+
 ## Built-In Global Variables
 
 Prior to 2.0.0, new global variables that were standardized as part of ES6 such as `Promise`, `Map`, `Set`, and `Symbol` were included in the built-in global environment. This could lead to potential issues when, for example, `no-undef` permitted use of the `Promise` constructor even in ES5 code where promises are unavailable. In 2.0.0, the built-in environment only includes the standard ES5 global variables, and the new ES6 global variables have been moved to the `es6` environment.
