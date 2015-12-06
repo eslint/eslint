@@ -183,12 +183,12 @@ describe("FileFinder", function() {
 
             it("should return multiple files when the first is missing and more than one filename is requested", function() {
                 var firstExpected = path.join(fileFinderDir, "subdir", uniqueFileName),
-                    secondExpected = path.join(fileFinderDir, "subdir", "empty2");
+                    secondExpected = path.join(fileFinderDir, uniqueFileName);
 
-                finder = new FileFinder(["notreal", uniqueFileName], "empty2");
+                finder = new FileFinder(["notreal", uniqueFileName, "empty2"]);
                 actual = finder.findAllInDirectoryAndParents(subdir);
 
-                assert.equal(actual.length, 3);
+                assert.equal(actual.length, 2);
                 assert.equal(actual[0], firstExpected);
                 assert.equal(actual[1], secondExpected);
             });
