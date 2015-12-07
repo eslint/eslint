@@ -203,7 +203,7 @@ describe("ConfigFile", function() {
                 extends: "../package-json/package.json",
                 ecmaFeatures: environments.es6.ecmaFeatures,
                 env: { es6: true },
-                globals: {},
+                globals: environments.es6.globals,
                 rules: {
                     eqeqeq: 2
                 }
@@ -282,7 +282,7 @@ describe("ConfigFile", function() {
             assert.deepEqual(config, {
                 ecmaFeatures: environments.es6.ecmaFeatures,
                 env: { es6: true },
-                globals: {},
+                globals: environments.es6.globals,
                 rules: {}
             });
         });
@@ -343,7 +343,7 @@ describe("ConfigFile", function() {
                 extends: "../package-json/package.json",
                 ecmaFeatures: environments.es6.ecmaFeatures,
                 env: { es6: true },
-                globals: {},
+                globals: environments.es6.globals,
                 rules: { booya: 2 }
             });
         });

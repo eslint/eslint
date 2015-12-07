@@ -97,7 +97,7 @@ describe("ConfigOps", function() {
                     es6: true
                 },
                 ecmaFeatures: environments.es6.ecmaFeatures,
-                globals: {},
+                globals: environments.es6.globals,
                 rules: {}
             });
         });

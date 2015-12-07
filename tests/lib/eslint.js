@@ -1409,6 +1409,34 @@ describe("eslint", function() {
             });
             eslint.verify(code, config, filename, true);
         });
+
+        it("ES6 global variables should not be available by default", function() {
+            var config = { rules: {} };
+
+            eslint.reset();
+            eslint.on("Program", function() {
+                var scope = eslint.getScope();
+
+                assert.equal(getVariable(scope, "Promise"), null);
+                assert.equal(getVariable(scope, "Symbol"), null);
+                assert.equal(getVariable(scope, "WeakMap"), null);
+            });
+            eslint.verify(code, config, filename, true);
+        });
+
+        it("ES6 global variables should be available in the es6 environment", function() {
+            var config = { rules: {} };
+
+            eslint.reset();
+            eslint.on("Program", function() {
+                var scope = eslint.getScope();
+
+                assert.notEqual(getVariable(scope, "Promise"), null);
+                assert.notEqual(getVariable(scope, "Symbol"), null);
+                assert.notEqual(getVariable(scope, "WeakMap"), null);
+            });
+            eslint.verify(code, config, filename, true);
+        });
     });
 
     describe("when evaluating empty code", function() {
@@ -2201,6 +2229,26 @@ describe("eslint", function() {
         });
     });
 
+    describe("when evaluating code without comments to environment", function() {
+        it("should report a violation when using typed array", function() {
+            var code = "var array = new Uint8Array();";
+
+            var config = { rules: { "no-undef": 1} };
+
+            var messages = eslint.verify(code, config, filename);
+            assert.equal(messages.length, 1);
+        });
+
+        it("should report a violation when using Promise", function() {
+            var code = "new Promise();";
+
+            var config = { rules: { "no-undef": 1} };
+
+            var messages = eslint.verify(code, config, filename);
+            assert.equal(messages.length, 1);
+        });
+    });
+
     describe("when evaluating code with comments to environment", function() {
         it("should not support legacy config", function() {
             var code = "/*jshint mocha:true */ describe();";
@@ -2214,10 +2262,10 @@ describe("eslint", function() {
             assert.equal(messages[0].line, 1);
         });
 
-        it("should not report a violation when using typed array", function() {
-            var code = "var array = new Uint8Array();";
+        it("should not report a violation", function() {
+            var code = "/*eslint-env es6 */ new Promise();";
 
-            var config = { rules: { "no-undef": 1} };
+            var config = { rules: { "no-undef": 1 } };
 
             var messages = eslint.verify(code, config, filename);
             assert.equal(messages.length, 0);
