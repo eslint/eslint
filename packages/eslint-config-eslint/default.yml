@@ -2,6 +2,7 @@ extends:
     "eslint:recommended"
 
 rules:
+    array-callback-return: 2
     indent: [2, 4, {SwitchCase: 1}]
     block-spacing: 2
     brace-style: [2, "1tbs"]
