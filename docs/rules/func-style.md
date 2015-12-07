@@ -44,7 +44,7 @@ Due to these different behaviors, it is common to have guidelines as to which st
 
 ## Rule Details
 
-This error is aimed at enforcing a particular type of function style throughout a JavaScript file, either declarations or expressions. You can specify which you prefer in the configuration.
+This rule is aimed at enforcing a particular type of function style throughout a JavaScript file, either declarations or expressions. You can specify which you prefer in the configuration.
 
 The following patterns are considered problems:
 
