@@ -8,7 +8,7 @@ Some rules are fixable using the `--fix` command line flag. Those rules are mark
 
 The following rules point out areas where you might have made mistakes.
 
-* [comma-dangle](comma-dangle.md) - disallow or enforce trailing commas (recommended)
+* [comma-dangle](comma-dangle.md) - disallow or enforce trailing commas (recommended) (fixable)
 * [no-cond-assign](no-cond-assign.md) - disallow assignment in conditional expressions (recommended)
 * [no-console](no-console.md) - disallow use of `console` in the node environment (recommended)
 * [no-constant-condition](no-constant-condition.md) - disallow use of constant expressions in conditions (recommended)
