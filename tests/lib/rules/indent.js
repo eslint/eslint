@@ -960,6 +960,50 @@ ruleTester.run("indent", rule, {
             "  'y'\n" +
             "]);\n",
             options: [2]
+        },
+        {
+            code:
+            "var a = 1,\n" +
+            "    B = class {\n" +
+            "      constructor(){}\n" +
+            "      a(){}\n" +
+            "      get b(){}\n" +
+            "    };",
+            options: [2, {"VariableDeclarator": 2, "SwitchCase": 1}],
+            ecmaFeatures: {classes: true}
+        },
+        {
+            code:
+            "var a = 1,\n" +
+            "    B = \n" +
+            "    class {\n" +
+            "      constructor(){}\n" +
+            "      a(){}\n" +
+            "      get b(){}\n" +
+            "    },\n" +
+            "    c = 3;",
+            options: [2, {"VariableDeclarator": 2, "SwitchCase": 1}],
+            ecmaFeatures: {classes: true}
+        },
+        {
+            code:
+            "class A{\n" +
+            "    constructor(){}\n" +
+            "    a(){}\n" +
+            "    get b(){}\n" +
+            "}",
+            options: [4, {"VariableDeclarator": 1, "SwitchCase": 1}],
+            ecmaFeatures: {classes: true}
+        },
+        {
+            code:
+            "var A = class {\n" +
+            "    constructor(){}\n" +
+            "    a(){}\n" +
+            "    get b(){}\n" +
+            "}",
+            options: [4, {"VariableDeclarator": 1, "SwitchCase": 1}],
+            ecmaFeatures: {classes: true}
         }
     ],
     invalid: [
@@ -1757,6 +1801,59 @@ ruleTester.run("indent", rule, {
             errors: expectedErrors([
                 [3, 3, 0, "VariableDeclaration"]
             ])
+        },
+        {
+            code:
+            "class A{\n" +
+            "  constructor(){}\n" +
+            "    a(){}\n" +
+            "    get b(){}\n" +
+            "}",
+            output:
+            "class A{\n" +
+            "    constructor(){}\n" +
+            "    a(){}\n" +
+            "    get b(){}\n" +
+            "}",
+            options: [4, {"VariableDeclarator": 1, "SwitchCase": 1}],
+            ecmaFeatures: {classes: true},
+            errors: expectedErrors([[2, 4, 2, "MethodDefinition"]])
+        },
+        {
+            code:
+            "var A = class {\n" +
+            "  constructor(){}\n" +
+            "    a(){}\n" +
+            "  get b(){}\n" +
+            "};",
+            output:
+            "var A = class {\n" +
+            "    constructor(){}\n" +
+            "    a(){}\n" +
+            "    get b(){}\n" +
+            "};",
+            options: [4, {"VariableDeclarator": 1, "SwitchCase": 1}],
+            ecmaFeatures: {classes: true},
+            errors: expectedErrors([[2, 4, 2, "MethodDefinition"], [4, 4, 2, "MethodDefinition"]])
+        },
+        {
+            code:
+            "var a = 1,\n" +
+            "    B = class {\n" +
+            "    constructor(){}\n" +
+            "      a(){}\n" +
+            "      get b(){}\n" +
+            "    };",
+            output:
+            "var a = 1,\n" +
+            "    B = class {\n" +
+            "      constructor(){}\n" +
+            "      a(){}\n" +
+            "      get b(){}\n" +
+            "    };",
+            options: [2, {"VariableDeclarator": 2, "SwitchCase": 1}],
+            ecmaFeatures: {classes: true},
+            errors: expectedErrors([[3, 6, 4, "MethodDefinition"]])
         }
     ]
 });
