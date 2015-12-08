@@ -16,20 +16,20 @@ var rule = require("../../../lib/rules/space-after-keywords"),
 var ruleTester = new RuleTester();
 ruleTester.run("space-after-keywords", rule, {
     valid: [
-        { code: "switch (a){ default: break; }", args: [1] },
-        { code: "if (a) {}", args: [1] },
-        { code: "if (a) {} else {}", args: [1] },
-        { code: "for (;;){}", args: [1] },
-        { code: "while (true) {}", args: [1]},
-        { code: "do {} while (0)", args: [1]},
-        { code: "do ;while (0)", args: [1]},
-        { code: "do ;while ((0))", args: [1]},
-        { code: "do (a);while ((0))", args: [1]},
-        { code: "do (a)\nwhile ((0))", args: [1]},
-        { code: "do ((a))\nwhile ((0))", args: [1]},
+        { code: "switch (a){ default: break; }" },
+        { code: "if (a) {}" },
+        { code: "if (a) {} else {}" },
+        { code: "for (;;){}" },
+        { code: "while (true) {}"},
+        { code: "do {} while (0)"},
+        { code: "do ;while (0)"},
+        { code: "do ;while ((0))"},
+        { code: "do (a);while ((0))"},
+        { code: "do (a)\nwhile ((0))"},
+        { code: "do ((a))\nwhile ((0))"},
         { code: "do; while(0)", options: ["never"]},
-        { code: "try {} catch (e) {}", args: [1]},
-        { code: "with (a) {}", args: [1]},
+        { code: "try {} catch (e) {}"},
+        { code: "with (a) {}"},
         { code: "if(a) {}", options: ["never"]},
         { code: "if(a){}else{}", options: ["never"]},
         { code: "if(a){}else if(b){}else{}", options: ["never"]},
@@ -37,12 +37,20 @@ ruleTester.run("space-after-keywords", rule, {
         { code: "if(a) {} else\nfoo();", options: ["never"]},
         { code: "if (a) {} else foo();", options: ["always"]},
         { code: "if(a) {} else foo();", options: ["never"]},
-        { code: "try {}finally {}", args: [1]},
-        { code: "try {}catch (e) {}", args: [1]},
+        { code: "try {}finally {}"},
+        { code: "try {}catch (e) {}"},
         { code: "try{} finally{}", options: ["never"]},
         { code: "try{} catch(e) {}", options: ["never"]},
-        { code: "(function(){})", args: [1] },
-        { code: "(function(){})", args: [1] }
+        { code: "(function(){})" },
+        { code: "(function(){})" },
+        {
+            code: "if\n(a) {} else\n{}",
+            options: ["always"]
+        },
+        {
+            code: "do\n{} while\n(0)",
+            options: ["always"]
+        }
     ],
     invalid: [
         {
@@ -163,18 +171,6 @@ ruleTester.run("space-after-keywords", rule, {
             options: ["never"],
             errors: [{ message: "Keyword \"if\" must not be followed by whitespace." }, { message: "Keyword \"else\" must not be followed by whitespace." }],
             output: "if(a) {} else{}"
-        },
-        {
-            code: "if\n(a) {} else\n{}",
-            options: ["always"],
-            errors: [{ message: "Keyword \"if\" must not be followed by a newline." }, { message: "Keyword \"else\" must not be followed by a newline." }],
-            output: "if (a) {} else {}"
-        },
-        {
-            code: "do\n{} while\n(0)",
-            options: ["always"],
-            errors: [{ message: "Keyword \"do\" must not be followed by a newline." }, { message: "Keyword \"while\" must not be followed by a newline.", line: 2, column: 9 }],
-            output: "do {} while (0)"
         }
     ]
 });
