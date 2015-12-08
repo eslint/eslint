@@ -65,6 +65,38 @@ try {
 
 Since you must always have at least a `catch` or a `finally` block for any `try`, it is common to have empty statements when execution should continue regardless of error.
 
+### Options
+
+`methods` set to `true` will warn for empty methods. This option is set to `false` by default.
+
+```json
+{
+    "no-empty": [2, { "methods": true } ]
+}
+```
+
+The following pattern is considered a problem when `methods` is set to `true`:
+
+```js
+/*eslint no-empty: [2, { methods: true }]*/
+
+var foo = {
+    bar() {}              /*error Empty block statement.*/
+}
+```
+
+The following pattern is not considered a problem when `methods` is set to `true`:
+
+```js
+/*eslint no-empty: [2, { methods: true }]*/
+
+var foo = {
+    bar() {
+        console.log('baz');
+    }
+}
+```
+
 ## When Not To Use It
 
 If you intentionally use empty statements then you can disable this rule.
