@@ -28,6 +28,11 @@ ruleTester.run("no-use-before-define", rule, {
         { code: "(() => { var a = 42; alert(a); })();", ecmaFeatures: { arrowFunctions: true } },
         { code: "a(); try { throw new Error() } catch (a) {}" },
         { code: "class A {} new A();", ecmaFeatures: { classes: true } },
+        "var a = 0, b = a;",
+        { code: "var {a = 0, b = a} = {};", ecmaFeatures: { destructuring: true } },
+        { code: "var [a = 0, b = a] = {};", ecmaFeatures: { destructuring: true } },
+        "function foo() { foo(); }",
+        "var foo = function() { foo(); };",
 
         // Block-level bindings
         { code: "\"use strict\"; a(); { function a() {} }", ecmaFeatures: { blockBindings: true } },
@@ -70,6 +75,18 @@ ruleTester.run("no-use-before-define", rule, {
         { code: "a(); var a=function() {};", options: [{functions: false, classes: false}], errors: [{ message: "\"a\" was used before it was defined", type: "Identifier"}] },
         { code: "new A(); class A {};", options: [{functions: false, classes: false}], ecmaFeatures: { classes: true }, errors: [{ message: "\"A\" was used before it was defined", type: "Identifier" }] },
         { code: "new A(); var A = class {};", options: [{classes: false}], ecmaFeatures: { classes: true }, errors: [{ message: "\"A\" was used before it was defined", type: "Identifier" }] },
-        { code: "function foo() { new A(); } var A = class {};", options: [{classes: false}], ecmaFeatures: { classes: true }, errors: [{ message: "\"A\" was used before it was defined", type: "Identifier" }] }
+        { code: "function foo() { new A(); } var A = class {};", options: [{classes: false}], ecmaFeatures: { classes: true }, errors: [{ message: "\"A\" was used before it was defined", type: "Identifier" }] },
+
+        // invalid initializers
+        { code: "var a = a;", errors: [{ message: "\"a\" was used before it was defined", type: "Identifier"}] },
+        { code: "let a = a + b;", ecmaFeatures: {blockBindings: true}, errors: [{ message: "\"a\" was used before it was defined", type: "Identifier"}] },
+        { code: "const a = foo(a);", ecmaFeatures: {blockBindings: true}, errors: [{ message: "\"a\" was used before it was defined", type: "Identifier"}] },
+        { code: "function foo(a = a) {}", ecmaFeatures: {defaultParams: true}, errors: [{ message: "\"a\" was used before it was defined", type: "Identifier"}] },
+        { code: "var {a = a} = [];", ecmaFeatures: {destructuring: true}, errors: [{ message: "\"a\" was used before it was defined", type: "Identifier"}] },
+        { code: "var [a = a] = [];", ecmaFeatures: {destructuring: true}, errors: [{ message: "\"a\" was used before it was defined", type: "Identifier"}] },
+        { code: "var {b = a, a} = {};", ecmaFeatures: { destructuring: true }, errors: [{ message: "\"a\" was used before it was defined", type: "Identifier"}] },
+        { code: "var [b = a, a] = {};", ecmaFeatures: { destructuring: true }, errors: [{ message: "\"a\" was used before it was defined", type: "Identifier"}] },
+        { code: "var {a = 0} = a;", ecmaFeatures: {destructuring: true}, errors: [{ message: "\"a\" was used before it was defined", type: "Identifier"}] },
+        { code: "var [a = 0] = a;", ecmaFeatures: {destructuring: true}, errors: [{ message: "\"a\" was used before it was defined", type: "Identifier"}] }
     ]
 });

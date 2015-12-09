@@ -32,8 +32,8 @@ var valid = [
     { code: "var logger = DEBUG ? require('dev-logger') : require('logger');" }
 ];
 
-var message = message;
-var type = type;
+var message = "Unexpected require().";
+var type = "CallExpression";
 
 var invalid = [
 
