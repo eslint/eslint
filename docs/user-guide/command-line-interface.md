@@ -73,13 +73,13 @@ Miscellaneous:
                              default: false
 ```
 
-Options that accept array values can be specified by repeating the option or with a comma-delimited list.
+Options that accept array values can be specified by repeating the option or with a comma-delimited list (other than `--ignore-pattern` which does not allow the second style).
 
 Example:
 
-    eslint --ignore-pattern a.js --ignore-pattern b.js file.js
+    eslint --ext .jsx --ext .js file.js
 
-    eslint --ignore-pattern a.js,b.js file.js
+    eslint --ext .jsx,.js file.js
 
 ### Basic configuration
 

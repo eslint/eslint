@@ -60,7 +60,7 @@
     "minimatch": "^3.0.0",
     "mkdirp": "^0.5.0",
     "object-assign": "^4.0.1",
-    "optionator": "^0.6.0",
+    "optionator": "^0.7.1",
     "path-is-absolute": "^1.0.0",
     "path-is-inside": "^1.0.1",
     "shelljs": "^0.5.3",
