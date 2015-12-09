@@ -160,6 +160,14 @@ describe("options", function() {
             assert.equal(currentOptions.ignorePattern[0], "*.js");
             assert.equal(currentOptions.ignorePattern[1], "*.ts");
         });
+
+        it("should return a string array of properly parsed values, when those values include commas", function() {
+            var currentOptions = options.parse("--ignore-pattern *.js --ignore-pattern foo-{bar,baz}.js");
+            assert.ok(currentOptions.ignorePattern);
+            assert.equal(currentOptions.ignorePattern.length, 2);
+            assert.equal(currentOptions.ignorePattern[0], "*.js");
+            assert.equal(currentOptions.ignorePattern[1], "foo-{bar,baz}.js");
+        });
     });
 
     describe("--color", function() {
