@@ -69,3 +69,55 @@ Prior to 2.0.0, new global variables that were standardized as part of ES6 such 
 // Or in a configuration comment
 /*eslint-env es6*/
 ```
+
+## Scope Analysis API Changes
+
+Analysis for variables and references came to doing more correct.
+This might affect plugins.
+
+Originally, `Variable` objects and `Reference` objects refer each other.
+
+* `Variable#references` property is an array of `Reference` objects which are referencing the variable.
+* `Reference#resolved` property is a `Variable` object which are referenced.
+
+But until 1.x, the following variables and references had wrong value (empty) in those properties.
+
+* `var` declarations in the global.
+* `function` declarations in the global.
+* Variables defined in config files.
+* Variables defined in `/* global */` comments.
+
+Now, those variables and references have correct values in these properties.
+
+`Scope#through` property has references that `Reference#resolved` is `null`.
+So as a result of this change, the value of `Scope#through` property was changed also.
+
+**To address:** If you are using `Scope#through` to find references of a built-in global variable, you need to make several changes.
+
+For example,
+
+Before:
+
+```js
+var globalScope = context.getScope();
+globalScope.through.forEach(function(reference) {
+    if (reference.identifier.name === "window") {
+        checkForWindow(reference);
+    }
+});
+```
+
+Now, `Scope#through` does not contains references of existing variables correctly.
+You need to use `Variable#references` property instead.
+
+After:
+
+```js
+var globalScope = context.getScope();
+var variable = globalScope.set.get("window");
+if (variable) {
+    variable.references.forEach(checkForWindow);
+}
+```
+
+Further Reading: http://estools.github.io/escope/

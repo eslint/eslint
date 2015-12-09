@@ -2785,6 +2785,116 @@ describe("eslint", function() {
         });
     });
 
+    describe("Variables and references", function() {
+        var code = [
+            "a;",
+            "function foo() { b; }",
+            "Object;",
+            "foo;",
+            "var c;",
+            "c;",
+            "/* global d */",
+            "d;",
+            "e;",
+            "f;"
+        ].join("\n");
+        var scope = null;
+
+        beforeEach(function() {
+            var ok = false;
+            eslint.defineRules({test: function(context) {
+                return {
+                    "Program": function() {
+                        scope = context.getScope();
+                        ok = true;
+                    }
+                };
+            }});
+            eslint.verify(code, {rules: {test: 2}, globals: {e: true, f: false}});
+            assert(ok);
+        });
+
+        afterEach(function() {
+            scope = null;
+        });
+
+        it("Scope#through should contain references of undefined variables", function() {
+            assert.equal(scope.through.length, 2);
+            assert.equal(scope.through[0].identifier.name, "a");
+            assert.equal(scope.through[0].identifier.loc.start.line, 1);
+            assert.equal(scope.through[0].resolved, null);
+            assert.equal(scope.through[1].identifier.name, "b");
+            assert.equal(scope.through[1].identifier.loc.start.line, 2);
+            assert.equal(scope.through[1].resolved, null);
+        });
+
+        it("Scope#variables should contain global variables", function() {
+            assert(scope.variables.some(function(v) {
+                return v.name === "Object";
+            }));
+            assert(scope.variables.some(function(v) {
+                return v.name === "foo";
+            }));
+            assert(scope.variables.some(function(v) {
+                return v.name === "c";
+            }));
+            assert(scope.variables.some(function(v) {
+                return v.name === "d";
+            }));
+            assert(scope.variables.some(function(v) {
+                return v.name === "e";
+            }));
+            assert(scope.variables.some(function(v) {
+                return v.name === "f";
+            }));
+        });
+
+        it("Scope#set should contain global variables", function() {
+            assert(scope.set.get("Object"));
+            assert(scope.set.get("foo"));
+            assert(scope.set.get("c"));
+            assert(scope.set.get("d"));
+            assert(scope.set.get("e"));
+            assert(scope.set.get("f"));
+        });
+
+        it("Variables#references should contain their references", function() {
+            assert.equal(scope.set.get("Object").references.length, 1);
+            assert.equal(scope.set.get("Object").references[0].identifier.name, "Object");
+            assert.equal(scope.set.get("Object").references[0].identifier.loc.start.line, 3);
+            assert.equal(scope.set.get("Object").references[0].resolved, scope.set.get("Object"));
+            assert.equal(scope.set.get("foo").references.length, 1);
+            assert.equal(scope.set.get("foo").references[0].identifier.name, "foo");
+            assert.equal(scope.set.get("foo").references[0].identifier.loc.start.line, 4);
+            assert.equal(scope.set.get("foo").references[0].resolved, scope.set.get("foo"));
+            assert.equal(scope.set.get("c").references.length, 1);
+            assert.equal(scope.set.get("c").references[0].identifier.name, "c");
+            assert.equal(scope.set.get("c").references[0].identifier.loc.start.line, 6);
+            assert.equal(scope.set.get("c").references[0].resolved, scope.set.get("c"));
+            assert.equal(scope.set.get("d").references.length, 1);
+            assert.equal(scope.set.get("d").references[0].identifier.name, "d");
+            assert.equal(scope.set.get("d").references[0].identifier.loc.start.line, 8);
+            assert.equal(scope.set.get("d").references[0].resolved, scope.set.get("d"));
+            assert.equal(scope.set.get("e").references.length, 1);
+            assert.equal(scope.set.get("e").references[0].identifier.name, "e");
+            assert.equal(scope.set.get("e").references[0].identifier.loc.start.line, 9);
+            assert.equal(scope.set.get("e").references[0].resolved, scope.set.get("e"));
+            assert.equal(scope.set.get("f").references.length, 1);
+            assert.equal(scope.set.get("f").references[0].identifier.name, "f");
+            assert.equal(scope.set.get("f").references[0].identifier.loc.start.line, 10);
+            assert.equal(scope.set.get("f").references[0].resolved, scope.set.get("f"));
+        });
+
+        it("Reference#resolved should be their variable", function() {
+            assert.equal(scope.set.get("Object").references[0].resolved, scope.set.get("Object"));
+            assert.equal(scope.set.get("foo").references[0].resolved, scope.set.get("foo"));
+            assert.equal(scope.set.get("c").references[0].resolved, scope.set.get("c"));
+            assert.equal(scope.set.get("d").references[0].resolved, scope.set.get("d"));
+            assert.equal(scope.set.get("e").references[0].resolved, scope.set.get("e"));
+            assert.equal(scope.set.get("f").references[0].resolved, scope.set.get("f"));
+        });
+    });
+
     describe("getDeclaredVariables(node)", function() {
         /**
          * Assert `eslint.getDeclaredVariables(node)` is empty.
