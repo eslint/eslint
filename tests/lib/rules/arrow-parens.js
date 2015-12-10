@@ -37,9 +37,9 @@ var valid = [
 
 ];
 
-var message = message;
-var asNeededMessage = asNeededMessage;
-var type = type;
+var message = "Expected parentheses around arrow function argument.";
+var asNeededMessage = "Unexpected parentheses around single function argument";
+var type = "ArrowFunctionExpression";
 
 var invalid = [
     {
