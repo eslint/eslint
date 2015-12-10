@@ -27,7 +27,7 @@ ruleTester.run("curly", rule, {
         "for (var foo in bar) { console.log(foo) }",
         {
             code: "for (var foo of bar) { console.log(foo) }",
-            ecmaFeatures: { forOf: true }
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "for (;foo;) bar()",
@@ -52,12 +52,12 @@ ruleTester.run("curly", rule, {
         {
             code: "for (var foo of bar) console.log(foo)",
             options: ["multi"],
-            ecmaFeatures: { forOf: true }
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "for (var foo of bar) { console.log(1); console.log(2) }",
             options: ["multi"],
-            ecmaFeatures: { forOf: true }
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "if (foo) bar()",
@@ -98,12 +98,12 @@ ruleTester.run("curly", rule, {
         {
             code: "for (var foo of bar) console.log(foo)",
             options: ["multi-line"],
-            ecmaFeatures: { forOf: true }
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "for (var foo of bar) { \n console.log(1); \n console.log(2); \n }",
             options: ["multi-line"],
-            ecmaFeatures: { forOf: true }
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "if (foo) { \n bar(); \n baz(); \n }",
@@ -148,12 +148,12 @@ ruleTester.run("curly", rule, {
         {
             code: "for (var foo of bar) \n console.log(foo)",
             options: ["multi-or-nest"],
-            ecmaFeatures: { forOf: true }
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "for (var foo of bar) { \n if (foo) console.log(1); \n else console.log(2) \n }",
             options: ["multi-or-nest"],
-            ecmaFeatures: { forOf: true }
+            parserOptions: { ecmaVersion: 6 }
         },
 
         // https://github.com/eslint/eslint/issues/3856
@@ -264,7 +264,7 @@ ruleTester.run("curly", rule, {
         },
         {
             code: "for (var foo of bar) console.log(foo)",
-            ecmaFeatures: { forOf: true },
+            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     message: "Expected { after 'for-of'.",
@@ -369,7 +369,7 @@ ruleTester.run("curly", rule, {
         {
             code: "for (var foo of bar) { console.log(foo) }",
             options: ["multi"],
-            ecmaFeatures: { forOf: true },
+            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     message: "Unnecessary { after 'for-of'.",
@@ -460,7 +460,7 @@ ruleTester.run("curly", rule, {
         {
             code: "for (var foo of bar) \n console.log(foo)",
             options: ["multi-line"],
-            ecmaFeatures: { forOf: true },
+            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     message: "Expected { after 'for-of'.",
@@ -471,7 +471,7 @@ ruleTester.run("curly", rule, {
         {
             code: "for (var foo of bar) \n console.log(1); \n console.log(2)",
             options: ["multi-line"],
-            ecmaFeatures: { forOf: true },
+            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     message: "Expected { after 'for-of'.",
@@ -552,7 +552,7 @@ ruleTester.run("curly", rule, {
         {
             code: "for (var foo of bar) \n if (foo) console.log(1); \n else console.log(2);",
             options: ["multi-or-nest"],
-            ecmaFeatures: { forOf: true },
+            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     message: "Expected { after 'for-of'.",
@@ -563,7 +563,7 @@ ruleTester.run("curly", rule, {
         {
             code: "for (var foo of bar) { if (foo) console.log(1) }",
             options: ["multi-or-nest"],
-            ecmaFeatures: { forOf: true },
+            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     message: "Unnecessary { after 'for-of'.",

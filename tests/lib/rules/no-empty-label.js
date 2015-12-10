@@ -20,7 +20,7 @@ var ruleTester = new RuleTester();
 ruleTester.run("no-empty-label", rule, {
     valid: [
         "labeled: for (var i in {}) { }",
-        { code: "labeled: for (var i of {}) { }", ecmaFeatures: { forOf: true } },
+        { code: "labeled: for (var i of {}) { }", parserOptions: { ecmaVersion: 6 } },
         "labeled: for (var i=10; i; i--) { }",
         "labeled: while(i) {}",
         "labeled: do {} while (i)",

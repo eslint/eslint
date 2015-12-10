@@ -88,12 +88,12 @@ ruleTester.run("no-multiple-empty-lines", rule, {
         {
             code: "x = `\n\n\n\nhi\n\n\n\n`",
             options: [ { max: 2 } ],
-            ecmaFeatures: { templateStrings: true }
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "`\n\n`",
             options: [ { max: 0 } ],
-            ecmaFeatures: { templateStrings: true }
+            parserOptions: { ecmaVersion: 6 }
         },
 
         {

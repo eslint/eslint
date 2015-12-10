@@ -29,17 +29,17 @@ ruleTester.run("prefer-template", rule, {
         {code: "var foo = 'bar';"},
         {code: "var foo = 'bar' + 'baz';"},
         {code: "var foo = foo + +'100';"},
-        {code: "var foo = `bar`;", ecmaFeatures: {templateStrings: true}},
-        {code: "var foo = `hello, ${name}!`;", ecmaFeatures: {templateStrings: true}},
+        {code: "var foo = `bar`;", parserOptions: { ecmaVersion: 6 }},
+        {code: "var foo = `hello, ${name}!`;", parserOptions: { ecmaVersion: 6 }},
 
         // https://github.com/eslint/eslint/issues/3507
-        {code: "var foo = `foo` + `bar` + \"hoge\";", ecmaFeatures: {templateStrings: true}},
-        {code: "var foo = `foo` +\n    `bar` +\n    \"hoge\";", ecmaFeatures: {templateStrings: true}}
+        {code: "var foo = `foo` + `bar` + \"hoge\";", parserOptions: { ecmaVersion: 6 }},
+        {code: "var foo = `foo` +\n    `bar` +\n    \"hoge\";", parserOptions: { ecmaVersion: 6 }}
     ],
     invalid: [
         {code: "var foo = 'hello, ' + name + '!';", errors: errors},
         {code: "var foo = bar + 'baz';", errors: errors},
-        {code: "var foo = bar + `baz`;", ecmaFeatures: {templateStrings: true}, errors: errors},
+        {code: "var foo = bar + `baz`;", parserOptions: { ecmaVersion: 6 }, errors: errors},
         {code: "var foo = +100 + 'yen';", errors: errors},
         {code: "var foo = 'bar' + baz;", errors: errors},
         {code: "var foo = '￥' + (n * 1000) + '-'", errors: errors},

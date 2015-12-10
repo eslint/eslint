@@ -143,22 +143,22 @@ ruleTester.run("vars-on-top", rule, {
                 "   i = i + 1;",
                 "}"
             ].join("\n"),
-            ecmaFeatures: {
-                blockBindings: true
+            parserOptions: {
+                ecmaVersion: 6
             }
         },
         "'use strict'; var x; f();",
         "'use strict'; 'directive'; var x; var y; f();",
         "function f() { 'use strict'; var x; f(); }",
         "function f() { 'use strict'; 'directive'; var x; var y; f(); }",
-        {code: "import React from 'react'; var y; function f() { 'use strict'; var x; var y; f(); }", ecmaFeatures: { modules: true }},
-        {code: "'use strict'; import React from 'react'; var y; function f() { 'use strict'; var x; var y; f(); }", ecmaFeatures: { modules: true }},
-        {code: "import React from 'react'; 'use strict'; var y; function f() { 'use strict'; var x; var y; f(); }", ecmaFeatures: { modules: true }},
-        {code: "import * as foo from 'mod.js'; 'use strict'; var y; function f() { 'use strict'; var x; var y; f(); }", ecmaFeatures: { modules: true }},
-        {code: "import { square, diag } from 'lib'; 'use strict'; var y; function f() { 'use strict'; var x; var y; f(); }", ecmaFeatures: { modules: true }},
-        {code: "import { default as foo } from 'lib'; 'use strict'; var y; function f() { 'use strict'; var x; var y; f(); }", ecmaFeatures: { modules: true }},
-        {code: "import 'src/mylib'; 'use strict'; var y; function f() { 'use strict'; var x; var y; f(); }", ecmaFeatures: { modules: true }},
-        {code: "import theDefault, { named1, named2 } from 'src/mylib'; 'use strict'; var y; function f() { 'use strict'; var x; var y; f(); }", ecmaFeatures: { modules: true }}
+        {code: "import React from 'react'; var y; function f() { 'use strict'; var x; var y; f(); }", parserOptions: { sourceType: "module" }},
+        {code: "'use strict'; import React from 'react'; var y; function f() { 'use strict'; var x; var y; f(); }", parserOptions: { sourceType: "module" }},
+        {code: "import React from 'react'; 'use strict'; var y; function f() { 'use strict'; var x; var y; f(); }", parserOptions: { sourceType: "module" }},
+        {code: "import * as foo from 'mod.js'; 'use strict'; var y; function f() { 'use strict'; var x; var y; f(); }", parserOptions: { sourceType: "module" }},
+        {code: "import { square, diag } from 'lib'; 'use strict'; var y; function f() { 'use strict'; var x; var y; f(); }", parserOptions: { sourceType: "module" }},
+        {code: "import { default as foo } from 'lib'; 'use strict'; var y; function f() { 'use strict'; var x; var y; f(); }", parserOptions: { sourceType: "module" }},
+        {code: "import 'src/mylib'; 'use strict'; var y; function f() { 'use strict'; var x; var y; f(); }", parserOptions: { sourceType: "module" }},
+        {code: "import theDefault, { named1, named2 } from 'src/mylib'; 'use strict'; var y; function f() { 'use strict'; var x; var y; f(); }", parserOptions: { sourceType: "module" }}
     ],
 
     invalid: [
@@ -379,7 +379,7 @@ ruleTester.run("vars-on-top", rule, {
                 "   }",
                 "}"
             ].join("\n"),
-            ecmaFeatures: { arrowFunctions: true },
+            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     message: "All \"var\" declarations must be at the top of the function scope.",

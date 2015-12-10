@@ -24,96 +24,70 @@ ruleTester.run("init-declarations", rule, {
         "var foo = bar = 2;",
         "for (var i = 0; i < 1; i++) {}",
         "for (var foo in []) {}",
-        {code: "for (var foo of []) {}", ecmaFeatures: {forOf: true}},
+        {code: "for (var foo of []) {}", parserOptions: { ecmaVersion: 6 }},
         {
             code: "let a = true;",
-            ecmaFeatures: {
-                blockBindings: true
-            },
+            parserOptions: { ecmaVersion: 6 },
             options: ["always"]
         },
         {
             code: "const a = {};",
-            ecmaFeatures: {
-                blockBindings: true
-            },
+            parserOptions: { ecmaVersion: 6 },
             options: ["always"]
         },
         {
             code: "function foo() { let a = 1, b = false; if (a) { let c = 3, d = null; } }",
-            ecmaFeatures: {
-                blockBindings: true
-            },
+            parserOptions: { ecmaVersion: 6 },
             options: ["always"]
         },
         {
             code: "function foo() { const a = 1, b = true; if (a) { const c = 3, d = null; } }",
-            ecmaFeatures: {
-                blockBindings: true
-            },
+            parserOptions: { ecmaVersion: 6 },
             options: ["always"]
         },
         {
             code: "function foo() { let a = 1; const b = false; var c = true; }",
-            ecmaFeatures: {
-                blockBindings: true
-            },
+            parserOptions: { ecmaVersion: 6 },
             options: ["always"]
         },
         {
             code: "var foo;",
-            ecmaFeatures: {
-                blockBindings: true
-            },
+            parserOptions: { ecmaVersion: 6 },
             options: ["never"]
         },
         {
             code: "var foo, bar, baz;",
-            ecmaFeatures: {
-                blockBindings: true
-            },
+            parserOptions: { ecmaVersion: 6 },
             options: ["never"]
         },
         {
             code: "function foo() { var foo; var bar; }",
-            ecmaFeatures: {
-                blockBindings: true
-            },
+            parserOptions: { ecmaVersion: 6 },
             options: ["never"]
         },
         {
             code: "let a;",
-            ecmaFeatures: {
-                blockBindings: true
-            },
+            parserOptions: { ecmaVersion: 6 },
             options: ["never"]
         },
         {
             code: "const a = 1;",
-            ecmaFeatures: {
-                blockBindings: true
-            },
+            parserOptions: { ecmaVersion: 6 },
             options: ["never"]
         },
         {
             code: "function foo() { let a, b; if (a) { let c, d; } }",
-            ecmaFeatures: {
-                blockBindings: true
-            },
+            parserOptions: { ecmaVersion: 6 },
             options: ["never"]
         },
         {
             code: "function foo() { const a = 1, b = true; if (a) { const c = 3, d = null; } }",
-            ecmaFeatures: {
-                blockBindings: true
-            },
+            parserOptions: { ecmaVersion: 6 },
             options: ["never"]
         },
         {
             code: "function foo() { let a; const b = false; var c; }",
-            ecmaFeatures: {
-                blockBindings: true
-            },
+            parserOptions: { ecmaVersion: 6 },
             options: ["never"]
         },
         {
@@ -126,9 +100,7 @@ ruleTester.run("init-declarations", rule, {
         },
         {
             code: "for (var foo of []) {}",
-            ecmaFeatures: {
-                forOf: true
-            },
+            parserOptions: { ecmaVersion: 6 },
             options: ["never", { "ignoreForLoopInit": true }]
         }
     ],
@@ -155,9 +127,7 @@ ruleTester.run("init-declarations", rule, {
         },
         {
             code: "var foo, bar = false, baz;",
-            ecmaFeatures: {
-                blockBindings: true
-            },
+            parserOptions: { ecmaVersion: 6 },
             options: ["always"],
             errors: [
                 {
@@ -172,9 +142,7 @@ ruleTester.run("init-declarations", rule, {
         },
         {
             code: "function foo() { var foo = 0; var bar; }",
-            ecmaFeatures: {
-                blockBindings: true
-            },
+            parserOptions: { ecmaVersion: 6 },
             options: ["always"],
             errors: [
                 {
@@ -185,9 +153,7 @@ ruleTester.run("init-declarations", rule, {
         },
         {
             code: "function foo() { var foo; var bar = foo; }",
-            ecmaFeatures: {
-                blockBindings: true
-            },
+            parserOptions: { ecmaVersion: 6 },
             options: ["always"],
             errors: [
                 {
@@ -198,9 +164,7 @@ ruleTester.run("init-declarations", rule, {
         },
         {
             code: "let a;",
-            ecmaFeatures: {
-                blockBindings: true
-            },
+            parserOptions: { ecmaVersion: 6 },
             options: ["always"],
             errors: [
                 {
@@ -211,9 +175,7 @@ ruleTester.run("init-declarations", rule, {
         },
         {
             code: "function foo() { let a = 1, b; if (a) { let c = 3, d = null; } }",
-            ecmaFeatures: {
-                blockBindings: true
-            },
+            parserOptions: { ecmaVersion: 6 },
             options: ["always"],
             errors: [
                 {
@@ -224,9 +186,7 @@ ruleTester.run("init-declarations", rule, {
         },
         {
             code: "function foo() { let a; const b = false; var c; }",
-            ecmaFeatures: {
-                blockBindings: true
-            },
+            parserOptions: { ecmaVersion: 6 },
             options: ["always"],
             errors: [
                 {
@@ -241,9 +201,7 @@ ruleTester.run("init-declarations", rule, {
         },
         {
             code: "var foo = bar = 2;",
-            ecmaFeatures: {
-                blockBindings: true
-            },
+            parserOptions: { ecmaVersion: 6 },
             options: ["never"],
             errors: [
                 {
@@ -254,9 +212,7 @@ ruleTester.run("init-declarations", rule, {
         },
         {
             code: "var foo = true;",
-            ecmaFeatures: {
-                blockBindings: true
-            },
+            parserOptions: { ecmaVersion: 6 },
             options: ["never"],
             errors: [
                 {
@@ -267,9 +223,7 @@ ruleTester.run("init-declarations", rule, {
         },
         {
             code: "var foo, bar = 5, baz = 3;",
-            ecmaFeatures: {
-                blockBindings: true
-            },
+            parserOptions: { ecmaVersion: 6 },
             options: ["never"],
             errors: [
                 {
@@ -284,9 +238,7 @@ ruleTester.run("init-declarations", rule, {
         },
         {
             code: "function foo() { var foo; var bar = foo; }",
-            ecmaFeatures: {
-                blockBindings: true
-            },
+            parserOptions: { ecmaVersion: 6 },
             options: ["never"],
             errors: [
                 {
@@ -297,9 +249,7 @@ ruleTester.run("init-declarations", rule, {
         },
         {
             code: "let a = 1;",
-            ecmaFeatures: {
-                blockBindings: true
-            },
+            parserOptions: { ecmaVersion: 6 },
             options: ["never"],
             errors: [
                 {
@@ -310,9 +260,7 @@ ruleTester.run("init-declarations", rule, {
         },
         {
             code: "function foo() { let a = 'foo', b; if (a) { let c, d; } }",
-            ecmaFeatures: {
-                blockBindings: true
-            },
+            parserOptions: { ecmaVersion: 6 },
             options: ["never"],
             errors: [
                 {
@@ -323,9 +271,7 @@ ruleTester.run("init-declarations", rule, {
         },
         {
             code: "function foo() { let a; const b = false; var c = 1; }",
-            ecmaFeatures: {
-                blockBindings: true
-            },
+            parserOptions: { ecmaVersion: 6 },
             options: ["never"],
             errors: [
                 {
@@ -356,9 +302,7 @@ ruleTester.run("init-declarations", rule, {
         },
         {
             code: "for (var foo of []) {}",
-            ecmaFeatures: {
-                forOf: true
-            },
+            parserOptions: { ecmaVersion: 6 },
             options: ["never"],
             errors: [
                 {

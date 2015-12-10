@@ -58,11 +58,11 @@ ruleTester.run("no-implied-eval", rule, {
         { code: "window['setTimeout']('foo')", errors: [expectedError] },
         { code: "window['setInterval']('foo')", errors: [expectedError] },
         // template literals
-        { code: "setTimeout(`foo${bar}`)", errors: [expectedError], ecmaFeatures: {templateStrings: true} },
+        { code: "setTimeout(`foo${bar}`)", errors: [expectedError], parserOptions: { ecmaVersion: 6 } },
         // string concatination
         { code: "setTimeout('foo' + bar)", errors: [expectedError] },
         { code: "setTimeout(foo + 'bar')", errors: [expectedError] },
-        { code: "setTimeout(`foo` + bar)", errors: [expectedError], ecmaFeatures: {templateStrings: true} },
+        { code: "setTimeout(`foo` + bar)", errors: [expectedError], parserOptions: { ecmaVersion: 6 } },
         { code: "setTimeout(1 + ';' + 1)", errors: [expectedError] },
         // gives the correct node when dealing with nesting
         {

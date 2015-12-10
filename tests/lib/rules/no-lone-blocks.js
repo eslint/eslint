@@ -24,12 +24,12 @@ ruleTester.run("no-lone-blocks", rule, {
         "function foo() { while (bar) { baz() } }",
 
         // Block-level bindings
-        {code: "{ let x = 1; }", ecmaFeatures: {blockBindings: true}},
-        {code: "{ const x = 1; }", ecmaFeatures: {blockBindings: true}},
-        {code: "'use strict'; { function bar() {} }", ecmaFeatures: {blockBindings: true}},
-        {code: "{ class Bar {} }", ecmaFeatures: {classes: true}},
+        {code: "{ let x = 1; }", parserOptions: { ecmaVersion: 6 }},
+        {code: "{ const x = 1; }", parserOptions: { ecmaVersion: 6 }},
+        {code: "'use strict'; { function bar() {} }", parserOptions: { ecmaVersion: 6 }},
+        {code: "{ class Bar {} }", parserOptions: { ecmaVersion: 6 }},
 
-        {code: "{ {let y = 1;} let x = 1; }", ecmaFeatures: {blockBindings: true}}
+        {code: "{ {let y = 1;} let x = 1; }", parserOptions: { ecmaVersion: 6 }}
     ],
     invalid: [
         { code: "{}", errors: [{ message: "Block is redundant.", type: "BlockStatement"}] },
@@ -44,24 +44,24 @@ ruleTester.run("no-lone-blocks", rule, {
         { code: "while (foo) { {} }", errors: [{ message: "Nested block is redundant.", type: "BlockStatement"}] },
 
         // Non-block-level bindings, even in ES6
-        { code: "{ function bar() {} }", errors: [{ message: "Block is redundant.", type: "BlockStatement"}], ecmaFeatures: {blockBindings: true}},
-        { code: "{var x = 1;}", errors: [{ message: "Block is redundant.", type: "BlockStatement"}], ecmaFeatures: {blockBindings: true} },
-        { code: "{ function bar() {} }", errors: [{ message: "Block is redundant.", type: "BlockStatement"}], ecmaFeatures: {classes: true}},
-        { code: "{var x = 1;}", errors: [{ message: "Block is redundant.", type: "BlockStatement"}], ecmaFeatures: {classes: true} },
+        { code: "{ function bar() {} }", errors: [{ message: "Block is redundant.", type: "BlockStatement"}], parserOptions: { ecmaVersion: 6 }},
+        { code: "{var x = 1;}", errors: [{ message: "Block is redundant.", type: "BlockStatement"}], parserOptions: { ecmaVersion: 6 } },
+        { code: "{ function bar() {} }", errors: [{ message: "Block is redundant.", type: "BlockStatement"}], parserOptions: { ecmaVersion: 6 }},
+        { code: "{var x = 1;}", errors: [{ message: "Block is redundant.", type: "BlockStatement"}], parserOptions: { ecmaVersion: 6 } },
 
         {
             code: "{ \n{var x = 1;}\n let y = 2; } {let z = 1;}",
-            ecmaFeatures: {blockBindings: true},
+            parserOptions: { ecmaVersion: 6 },
             errors: [{message: "Nested block is redundant.", type: "BlockStatement", line: 2}]
         },
         {
             code: "{ \n{let x = 1;}\n var y = 2; } {let z = 1;}",
-            ecmaFeatures: {blockBindings: true},
+            parserOptions: { ecmaVersion: 6 },
             errors: [{message: "Block is redundant.", type: "BlockStatement", line: 1}]
         },
         {
             code: "{ \n{var x = 1;}\n var y = 2; }\n {var z = 1;}",
-            ecmaFeatures: {blockBindings: true},
+            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {message: "Block is redundant.", type: "BlockStatement", line: 1},
                 {message: "Nested block is redundant.", type: "BlockStatement", line: 2},

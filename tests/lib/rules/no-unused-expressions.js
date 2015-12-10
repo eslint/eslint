@@ -36,12 +36,12 @@ ruleTester.run("no-unused-expressions", rule, {
         "\"use strict\";",
         "\"directive one\"; \"directive two\"; f();",
         "function foo() {\"use strict\"; return true; }",
-        { code: "var foo = () => {\"use strict\"; return true; }", ecmaFeatures: { arrowFunctions: true } },
+        { code: "var foo = () => {\"use strict\"; return true; }", parserOptions: { ecmaVersion: 6 } },
         "function foo() {\"directive one\"; \"directive two\"; f(); }",
         "function foo() { var foo = \"use strict\"; return true; }",
         {
             code: "function* foo(){ yield 0; }",
-            ecmaFeatures: { "generators": true }
+            parserOptions: { ecmaVersion: 6 }
         }
     ],
     invalid: [
@@ -67,6 +67,6 @@ ruleTester.run("no-unused-expressions", rule, {
         { code: "function foo() {\"directive one\"; f(); \"directive two\"; }", errors: [{ message: "Expected an assignment or function call and instead saw an expression.", type: "ExpressionStatement"}] },
         { code: "if (0) { \"not a directive\"; f(); }", errors: [{ message: "Expected an assignment or function call and instead saw an expression.", type: "ExpressionStatement"}] },
         { code: "function foo() { var foo = true; \"use strict\"; }", errors: [{ message: "Expected an assignment or function call and instead saw an expression.", type: "ExpressionStatement"}] },
-        { code: "var foo = () => { var foo = true; \"use strict\"; }", ecmaFeatures: { arrowFunctions: true }, errors: [{ message: "Expected an assignment or function call and instead saw an expression.", type: "ExpressionStatement"}] }
+        { code: "var foo = () => { var foo = true; \"use strict\"; }", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "Expected an assignment or function call and instead saw an expression.", type: "ExpressionStatement"}] }
     ]
 });

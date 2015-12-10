@@ -25,10 +25,10 @@ ruleTester.run("quote-props", rule, {
         "({ 'if': 0 })",
         "({ '@': 0 })",
 
-        { code: "({ 'a': 0, b(){} })", ecmaFeatures: { objectLiteralShorthandMethods: true }},
+        { code: "({ 'a': 0, b(){} })", parserOptions: { ecmaVersion: 6 }},
         { code: "({ [x]: 0 });", env: {es6: true}},
         { code: "({ x });", env: {es6: true}},
-        { code: "({ a: 0, b(){} })", options: ["as-needed"], ecmaFeatures: { objectLiteralShorthandMethods: true } },
+        { code: "({ a: 0, b(){} })", options: ["as-needed"], parserOptions: { ecmaVersion: 6 } },
         { code: "({ a: 0, [x]: 1 })", options: ["as-needed"], env: {es6: true} },
         { code: "({ a: 0, x })", options: ["as-needed"], env: {es6: true} },
         { code: "({ '@': 0, [x]: 1 })", options: ["as-needed"], env: {es6: true} },
@@ -67,9 +67,9 @@ ruleTester.run("quote-props", rule, {
         { code: "({'1': 1})", options: ["as-needed", {numbers: true}] },
         { code: "({1: 1, x: 2})", options: ["consistent", {numbers: true}]},
         { code: "({1: 1, x: 2})", options: ["consistent-as-needed", {numbers: true}]},
-        { code: "({ ...x })", options: ["as-needed"], ecmaFeatures: { experimentalObjectRestSpread: true }},
-        { code: "({ ...x })", options: ["consistent"], ecmaFeatures: { experimentalObjectRestSpread: true }},
-        { code: "({ ...x })", options: ["consistent-as-needed"], ecmaFeatures: { experimentalObjectRestSpread: true }}
+        { code: "({ ...x })", options: ["as-needed"], parserOptions: { ecmaVersion: 6, ecmaFeatures: { experimentalObjectRestSpread: true } }},
+        { code: "({ ...x })", options: ["consistent"], parserOptions: { ecmaVersion: 6, ecmaFeatures: { experimentalObjectRestSpread: true } }},
+        { code: "({ ...x })", options: ["consistent-as-needed"], parserOptions: { ecmaVersion: 6, ecmaFeatures: { experimentalObjectRestSpread: true } }}
     ],
     invalid: [{
         code: "({ a: 0 })",

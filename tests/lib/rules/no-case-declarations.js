@@ -22,61 +22,61 @@ ruleTester.run("no-case-declarations", rule, {
     valid: [
         {
             code: "switch (a) { case 1: { let x = 1; break; } default: { let x = 2; break; } }",
-            ecmaFeatures: { blockBindings: true }
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "switch (a) { case 1: { const x = 1; break; } default: { const x = 2; break; } }",
-            ecmaFeatures: { blockBindings: true }
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "switch (a) { case 1: { function f() {} break; } default: { function f() {} break; } }",
-            ecmaFeatures: { blockBindings: true }
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "switch (a) { case 1: { class C {} break; } default: { class C {} break; } }",
-            ecmaFeatures: { classes: true }
+            parserOptions: { ecmaVersion: 6 }
         }
     ],
     invalid: [
         {
             code: "switch (a) { case 1: let x = 1; break; }",
             errors: [{ message: "Unexpected lexical declaration in case block." }],
-            ecmaFeatures: { blockBindings: true }
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "switch (a) { default: let x = 2; break; }",
             errors: [{ message: "Unexpected lexical declaration in case block." }],
-            ecmaFeatures: { blockBindings: true }
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "switch (a) { case 1: const x = 1; break; }",
             errors: [{ message: "Unexpected lexical declaration in case block." }],
-            ecmaFeatures: { blockBindings: true }
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "switch (a) { default: const x = 2; break; }",
             errors: [{ message: "Unexpected lexical declaration in case block." }],
-            ecmaFeatures: { blockBindings: true }
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "switch (a) { case 1: function f() {} break; }",
             errors: [{ message: "Unexpected lexical declaration in case block." }],
-            ecmaFeatures: { blockBindings: true }
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "switch (a) { default: function f() {} break; }",
             errors: [{ message: "Unexpected lexical declaration in case block." }],
-            ecmaFeatures: { blockBindings: true }
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "switch (a) { case 1: class C {} break; }",
             errors: [{ message: "Unexpected lexical declaration in case block." }],
-            ecmaFeatures: { classes: true }
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "switch (a) { default: class C {} break; }",
             errors: [{ message: "Unexpected lexical declaration in case block." }],
-            ecmaFeatures: { classes: true }
+            parserOptions: { ecmaVersion: 6 }
         }
     ]
 });

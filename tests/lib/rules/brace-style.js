@@ -72,10 +72,10 @@ ruleTester.run("brace-style", rule, {
         { code: "switch(0) {}", options: ["1tbs", { allowSingleLine: true }] },
         { code: "if (foo) {}\nelse {}", options: ["stroustrup", { allowSingleLine: true }] },
         { code: "try {  bar(); }\ncatch (e) { baz();  }", options: ["stroustrup", { allowSingleLine: true }] },
-        { code: "var foo = () => { return; }", ecmaFeatures: { arrowFunctions: true }, options: ["stroustrup", { allowSingleLine: true }] },
+        { code: "var foo = () => { return; }", parserOptions: { ecmaVersion: 6 }, options: ["stroustrup", { allowSingleLine: true }] },
         { code: "if (foo) {}\nelse {}", options: ["allman", { allowSingleLine: true }] },
         { code: "try {  bar(); }\ncatch (e) { baz();  }", options: ["allman", { allowSingleLine: true }] },
-        { code: "var foo = () => { return; }", ecmaFeatures: { arrowFunctions: true }, options: ["allman", { allowSingleLine: true }] },
+        { code: "var foo = () => { return; }", parserOptions: { ecmaVersion: 6 }, options: ["allman", { allowSingleLine: true }] },
         {
             code: "if (tag === 1) fontstack.name = pbf.readString(); \nelse if (tag === 2) fontstack.range = pbf.readString(); \nelse if (tag === 3) {\n var glyph = pbf.readMessage(readGlyph, {});\n fontstack.glyphs[glyph.id] = glyph; \n}",
             options: ["1tbs"]
@@ -90,7 +90,7 @@ ruleTester.run("brace-style", rule, {
         }
     ],
     invalid: [
-        { code: "var foo = () => { return; }", ecmaFeatures: { arrowFunctions: true }, errors: [{ message: BODY_MESSAGE, type: "ReturnStatement"}] },
+        { code: "var foo = () => { return; }", parserOptions: { ecmaVersion: 6 }, errors: [{ message: BODY_MESSAGE, type: "ReturnStatement"}] },
         { code: "function foo() { return; }", errors: [{ message: BODY_MESSAGE, type: "ReturnStatement"}] },
         { code: "function foo() \n { \n return; }", errors: [{ message: OPEN_MESSAGE, type: "FunctionDeclaration"}, { message: CLOSE_MESSAGE_SINGLE, type: "ReturnStatement"}] },
         { code: "!function foo() \n { \n return; }", errors: [{ message: OPEN_MESSAGE, type: "FunctionExpression"}, { message: CLOSE_MESSAGE_SINGLE, type: "ReturnStatement"}] },
@@ -105,7 +105,7 @@ ruleTester.run("brace-style", rule, {
         { code: "try { \n bar(); \n } catch (e) \n {}", errors: [{ message: OPEN_MESSAGE, type: "CatchClause"}] },
         { code: "do \n { \n bar(); \n} while (true)", errors: [{ message: OPEN_MESSAGE, type: "DoWhileStatement"}] },
         { code: "for (foo in bar) \n { \n baz(); \n }", errors: [{ message: OPEN_MESSAGE, type: "ForInStatement"}] },
-        { code: "for (foo of bar) \n { \n baz(); \n }", ecmaFeatures: { forOf: true }, errors: [{ message: OPEN_MESSAGE, type: "ForOfStatement"}] },
+        { code: "for (foo of bar) \n { \n baz(); \n }", parserOptions: { ecmaVersion: 6 }, errors: [{ message: OPEN_MESSAGE, type: "ForOfStatement"}] },
         { code: "try { \n bar(); \n }\ncatch (e) {\n}", errors: [{ message: CLOSE_MESSAGE, type: "CatchClause"}] },
         { code: "try { \n bar(); \n } catch (e) {\n}\n finally {\n}", errors: [{ message: CLOSE_MESSAGE, type: "BlockStatement"}] },
         { code: "if (a) { \nb();\n } \n else { \nc();\n }", errors: [{ message: CLOSE_MESSAGE, type: "BlockStatement" }]},

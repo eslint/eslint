@@ -20,8 +20,8 @@ ruleTester.run("prefer-rest-params", rule, {
         "arguments;",
         "function foo(arguments) { arguments; }",
         "function foo() { var arguments; arguments; }",
-        {code: "var foo = () => arguments;", ecmaFeatures: {arrowFunctions: true}}, // Arrows don't have "arguments".,
-        {code: "function foo(...args) { args; }", ecmaFeatures: {restParams: true}}
+        {code: "var foo = () => arguments;", parserOptions: { ecmaVersion: 6 }}, // Arrows don't have "arguments".,
+        {code: "function foo(...args) { args; }", parserOptions: { ecmaVersion: 6 }}
     ],
     invalid: [
         {code: "function foo() { arguments; }", errors: [{type: "Identifier", message: "Use the rest parameters instead of \"arguments\"."}]}

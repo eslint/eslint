@@ -36,7 +36,7 @@ ruleTester.run("no-unused-vars", rule, {
     valid: [
         "var foo = 5;\n\nlabel: while (true) {\n  console.log(foo);\n  break label;\n}",
         "var foo = 5;\n\nwhile (true) {\n  console.log(foo);\n  break;\n}",
-        { code: "for (let prop in box) {\n        box[prop] = parseInt(box[prop]);\n}", ecmaFeatures: { blockBindings: true }},
+        { code: "for (let prop in box) {\n        box[prop] = parseInt(box[prop]);\n}", parserOptions: { ecmaVersion: 6 }},
         "var box = {a: 2};\n    for (var prop in box) {\n        box[prop] = parseInt(box[prop]);\n}",
         "f({ set foo(a) { return; } });",
         { code: "a; var a;", options: ["all"] },
@@ -68,48 +68,48 @@ ruleTester.run("no-unused-vars", rule, {
         { code: "var g = function(bar, baz) { return 2; }; g();", options: [{"vars": "all", "args": "none"}] },
         "(function z() { z(); })();",
         { code: " ", globals: {a: true} },
-        { code: "var who = \"Paul\";\nmodule.exports = `Hello ${who}!`;", ecmaFeatures: { templateStrings: true }},
-        { code: "export var foo = 123;", ecmaFeatures: { modules: true }},
-        { code: "export function foo () {}", ecmaFeatures: { modules: true }},
-        { code: "let toUpper = (partial) => partial.toUpperCase; export {toUpper}", ecmaFeatures: { blockBindings: true, arrowFunctions: true, modules: true }},
-        { code: "export class foo {}", ecmaFeatures: { modules: true, classes: true }},
-        { code: "class Foo{}; var x = new Foo(); x.foo()", ecmaFeatures: { classes: true }},
-        { code: "const foo = \"hello!\";function bar(foobar = foo) {  foobar.replace(/!$/, \" world!\");}\nbar();", ecmaFeatures: { blockBindings: true, defaultParams: true }},
+        { code: "var who = \"Paul\";\nmodule.exports = `Hello ${who}!`;", parserOptions: { ecmaVersion: 6 }},
+        { code: "export var foo = 123;", parserOptions: { sourceType: "module" }},
+        { code: "export function foo () {}", parserOptions: { sourceType: "module" }},
+        { code: "let toUpper = (partial) => partial.toUpperCase; export {toUpper}", parserOptions: { sourceType: "module" }},
+        { code: "export class foo {}", parserOptions: { sourceType: "module" }},
+        { code: "class Foo{}; var x = new Foo(); x.foo()", parserOptions: { ecmaVersion: 6 }},
+        { code: "const foo = \"hello!\";function bar(foobar = foo) {  foobar.replace(/!$/, \" world!\");}\nbar();", parserOptions: { ecmaVersion: 6 }},
         "function Foo(){}; var x = new Foo(); x.foo()",
         "function foo() {var foo = 1; return foo}; foo();",
         "function foo(foo) {return foo}; foo(1);",
         "function foo() {function foo() {return 1;}; return foo()}; foo();",
-        {code: "function foo() {var foo = 1; return foo}; foo();", ecmaFeatures: {globalReturn: true}},
-        {code: "function foo(foo) {return foo}; foo(1);", ecmaFeatures: {globalReturn: true}},
-        {code: "function foo() {function foo() {return 1;}; return foo()}; foo();", ecmaFeatures: {globalReturn: true}},
-        {code: "const x = 1; const [y = x] = []; foo(y);", ecmaFeatures: {blockBindings: true, destructuring: true}},
-        {code: "const x = 1; const {y = x} = {}; foo(y);", ecmaFeatures: {blockBindings: true, destructuring: true}},
-        {code: "const x = 1; const {z: [y = x]} = {}; foo(y);", ecmaFeatures: {blockBindings: true, destructuring: true}},
-        {code: "const x = []; const {z: [y] = x} = {}; foo(y);", ecmaFeatures: {blockBindings: true, destructuring: true}},
-        {code: "const x = 1; let y; [y = x] = []; foo(y);", ecmaFeatures: {blockBindings: true, destructuring: true}},
-        {code: "const x = 1; let y; ({z: [y = x]}) = {}; foo(y);", ecmaFeatures: {blockBindings: true, destructuring: true}},
-        {code: "const x = []; let y; ({z: [y] = x}) = {}; foo(y);", ecmaFeatures: {blockBindings: true, destructuring: true}},
-        {code: "const x = 1; function foo(y = x) { bar(y); } foo();", ecmaFeatures: {blockBindings: true, defaultParams: true}},
-        {code: "const x = 1; function foo({y = x} = {}) { bar(y); } foo();", ecmaFeatures: {blockBindings: true, destructuring: true, defaultParams: true}},
-        {code: "const x = 1; function foo(y = function(z = x) { bar(z); }) { y(); } foo();", ecmaFeatures: {blockBindings: true, defaultParams: true}},
-        {code: "const x = 1; function foo(y = function() { bar(x); }) { y(); } foo();", ecmaFeatures: {blockBindings: true, defaultParams: true}},
-        {code: "var x = 1; var [y = x] = []; foo(y);", ecmaFeatures: {destructuring: true}},
-        {code: "var x = 1; var {y = x} = {}; foo(y);", ecmaFeatures: {destructuring: true}},
-        {code: "var x = 1; var {z: [y = x]} = {}; foo(y);", ecmaFeatures: {destructuring: true}},
-        {code: "var x = []; var {z: [y] = x} = {}; foo(y);", ecmaFeatures: {destructuring: true}},
-        {code: "var x = 1, y; [y = x] = []; foo(y);", ecmaFeatures: {destructuring: true}},
-        {code: "var x = 1, y; ({z: [y = x]}) = {}; foo(y);", ecmaFeatures: {destructuring: true}},
-        {code: "var x = [], y; ({z: [y] = x}) = {}; foo(y);", ecmaFeatures: {destructuring: true}},
-        {code: "var x = 1; function foo(y = x) { bar(y); } foo();", ecmaFeatures: {defaultParams: true}},
-        {code: "var x = 1; function foo({y = x} = {}) { bar(y); } foo();", ecmaFeatures: {destructuring: true, defaultParams: true}},
-        {code: "var x = 1; function foo(y = function(z = x) { bar(z); }) { y(); } foo();", ecmaFeatures: {defaultParams: true}},
-        {code: "var x = 1; function foo(y = function() { bar(x); }) { y(); } foo();", ecmaFeatures: {defaultParams: true}},
+        {code: "function foo() {var foo = 1; return foo}; foo();", parserOptions: { parserOptions: { ecmaVersion: 6 } }},
+        {code: "function foo(foo) {return foo}; foo(1);", parserOptions: { parserOptions: { ecmaVersion: 6 } }},
+        {code: "function foo() {function foo() {return 1;}; return foo()}; foo();", parserOptions: { parserOptions: { ecmaVersion: 6 } }},
+        {code: "const x = 1; const [y = x] = []; foo(y);", parserOptions: { ecmaVersion: 6 }},
+        {code: "const x = 1; const {y = x} = {}; foo(y);", parserOptions: { ecmaVersion: 6 }},
+        {code: "const x = 1; const {z: [y = x]} = {}; foo(y);", parserOptions: { ecmaVersion: 6 }},
+        {code: "const x = []; const {z: [y] = x} = {}; foo(y);", parserOptions: { ecmaVersion: 6 }},
+        {code: "const x = 1; let y; [y = x] = []; foo(y);", parserOptions: { ecmaVersion: 6 }},
+        {code: "const x = 1; let y; ({z: [y = x]}) = {}; foo(y);", parserOptions: { ecmaVersion: 6 }},
+        {code: "const x = []; let y; ({z: [y] = x}) = {}; foo(y);", parserOptions: { ecmaVersion: 6 }},
+        {code: "const x = 1; function foo(y = x) { bar(y); } foo();", parserOptions: { ecmaVersion: 6 }},
+        {code: "const x = 1; function foo({y = x} = {}) { bar(y); } foo();", parserOptions: { ecmaVersion: 6 }},
+        {code: "const x = 1; function foo(y = function(z = x) { bar(z); }) { y(); } foo();", parserOptions: { ecmaVersion: 6 }},
+        {code: "const x = 1; function foo(y = function() { bar(x); }) { y(); } foo();", parserOptions: { ecmaVersion: 6 }},
+        {code: "var x = 1; var [y = x] = []; foo(y);", parserOptions: { ecmaVersion: 6 }},
+        {code: "var x = 1; var {y = x} = {}; foo(y);", parserOptions: { ecmaVersion: 6 }},
+        {code: "var x = 1; var {z: [y = x]} = {}; foo(y);", parserOptions: { ecmaVersion: 6 }},
+        {code: "var x = []; var {z: [y] = x} = {}; foo(y);", parserOptions: { ecmaVersion: 6 }},
+        {code: "var x = 1, y; [y = x] = []; foo(y);", parserOptions: { ecmaVersion: 6 }},
+        {code: "var x = 1, y; ({z: [y = x]}) = {}; foo(y);", parserOptions: { ecmaVersion: 6 }},
+        {code: "var x = [], y; ({z: [y] = x}) = {}; foo(y);", parserOptions: { ecmaVersion: 6 }},
+        {code: "var x = 1; function foo(y = x) { bar(y); } foo();", parserOptions: { ecmaVersion: 6 }},
+        {code: "var x = 1; function foo({y = x} = {}) { bar(y); } foo();", parserOptions: { ecmaVersion: 6 }},
+        {code: "var x = 1; function foo(y = function(z = x) { bar(z); }) { y(); } foo();", parserOptions: { ecmaVersion: 6 }},
+        {code: "var x = 1; function foo(y = function() { bar(x); }) { y(); } foo();", parserOptions: { ecmaVersion: 6 }},
 
         // exported variables should work
         { code: "/*exported toaster*/ var toaster = 'great'" },
         { code: "/*exported toaster, poster*/ var toaster = 1; poster = 0;" },
-        { code: "/*exported x*/ var { x } = y", ecmaFeatures: {destructuring: true} },
-        { code: "/*exported x, y*/  var { x, y } = z", ecmaFeatures: {destructuring: true} },
+        { code: "/*exported x*/ var { x } = y", parserOptions: { ecmaVersion: 6 } },
+        { code: "/*exported x, y*/  var { x, y } = z", parserOptions: { ecmaVersion: 6 } },
 
         // Can mark variables as used via context.markVariableAsUsed()
         { code: "/*eslint use-every-a:1*/ var a;"},
@@ -121,7 +121,7 @@ ruleTester.run("no-unused-vars", rule, {
         { code: "var a; function foo() { var _b; } foo();", options: [ { vars: "local", varsIgnorePattern: "^_" } ] },
         { code: "function foo(_a) { } foo();", options: [ { args: "all", argsIgnorePattern: "^_" } ] },
         { code: "function foo(a, _b) { return a; } foo();", options: [ { args: "after-used", argsIgnorePattern: "^_" } ] },
-        { code: "var [ firstItemIgnored, secondItem ] = items;\nconsole.log(secondItem);", ecmaFeatures: {destructuring: true}, options: [ { vars: "all", varsIgnorePattern: "[iI]gnored" } ] }
+        { code: "var [ firstItemIgnored, secondItem ] = items;\nconsole.log(secondItem);", parserOptions: { ecmaVersion: 6 }, options: [ { vars: "all", varsIgnorePattern: "[iI]gnored" } ] }
     ],
     invalid: [
         { code: "function foox() { return foox(); }", errors: [{ message: "\"foox\" is defined but never used", type: "Identifier"}] },
@@ -153,20 +153,20 @@ ruleTester.run("no-unused-vars", rule, {
         { code: "(function z(foo) { var bar = 33; })();", options: [{"vars": "all", "args": "all"}], errors: [{ message: "\"foo\" is defined but never used" }, { message: "\"bar\" is defined but never used" }]},
         { code: "(function z(foo) { z(); })();", options: [{}], errors: [{ message: "\"foo\" is defined but never used" }]},
         { code: "function f() { var a = 1; return function(){ f(a = 2); }; }", options: [{}], errors: [{ message: "\"f\" is defined but never used" }, {message: "\"a\" is defined but never used"}]},
-        { code: "import x from \"y\";", ecmaFeatures: { modules: true }, errors: [{ message: "\"x\" is defined but never used" }]},
-        { code: "export function fn2({ x, y }) {\n console.log(x); \n};", ecmaFeatures: { modules: true, destructuring: true }, errors: [{ message: "\"y\" is defined but never used" }]},
-        { code: "export function fn2( x, y ) {\n console.log(x); \n};", ecmaFeatures: { modules: true }, errors: [{ message: "\"y\" is defined but never used" }]},
+        { code: "import x from \"y\";", parserOptions: { sourceType: "module" }, errors: [{ message: "\"x\" is defined but never used" }]},
+        { code: "export function fn2({ x, y }) {\n console.log(x); \n};", parserOptions: { sourceType: "module" }, errors: [{ message: "\"y\" is defined but never used" }]},
+        { code: "export function fn2( x, y ) {\n console.log(x); \n};", parserOptions: { sourceType: "module" }, errors: [{ message: "\"y\" is defined but never used" }]},
 
         // exported
         { code: "/*exported max*/ var max = 1, min = {min: 1}", errors: [{ message: "\"min\" is defined but never used" }] },
-        { code: "/*exported x*/ var { x, y } = z", ecmaFeatures: { destructuring: true }, errors: [{ message: "\"y\" is defined but never used" }] },
+        { code: "/*exported x*/ var { x, y } = z", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "\"y\" is defined but never used" }] },
 
         // ignore pattern
         { code: "var _a; var b;", options: [ { vars: "all", varsIgnorePattern: "^_" } ], errors: [{ message: "\"b\" is defined but never used", line: 1, column: 13 }] },
         { code: "var a; function foo() { var _b; var c_; } foo();", options: [ { vars: "local", varsIgnorePattern: "^_" } ], errors: [{ message: "\"c_\" is defined but never used", line: 1, column: 37 }] },
         { code: "function foo(a, _b) { } foo();", options: [ { args: "all", argsIgnorePattern: "^_" } ], errors: [{ message: "\"a\" is defined but never used", line: 1, column: 14 }] },
         { code: "function foo(a, _b, c) { return a; } foo();", options: [ { args: "after-used", argsIgnorePattern: "^_" } ], errors: [{ message: "\"c\" is defined but never used", line: 1, column: 21 }] },
-        { code: "var [ firstItemIgnored, secondItem ] = items;", ecmaFeatures: {destructuring: true}, options: [ { vars: "all", varsIgnorePattern: "[iI]gnored" } ], errors: [{ message: "\"secondItem\" is defined but never used", line: 1, column: 25 }] },
+        { code: "var [ firstItemIgnored, secondItem ] = items;", parserOptions: { ecmaVersion: 6 }, options: [ { vars: "all", varsIgnorePattern: "[iI]gnored" } ], errors: [{ message: "\"secondItem\" is defined but never used", line: 1, column: 25 }] },
 
         // https://github.com/eslint/eslint/issues/3617
         {
@@ -235,32 +235,32 @@ ruleTester.run("no-unused-vars", rule, {
         // https://github.com/eslint/eslint/issues/4047
         {
             code: "export default function(a) {}",
-            ecmaFeatures: {modules: true},
+            parserOptions: { sourceType: "module" },
             errors: [{message: "\"a\" is defined but never used"}]
         },
         {
             code: "export default function(a, b) { console.log(a); }",
-            ecmaFeatures: {modules: true},
+            parserOptions: { sourceType: "module" },
             errors: [{message: "\"b\" is defined but never used"}]
         },
         {
             code: "export default (function(a) {});",
-            ecmaFeatures: {modules: true},
+            parserOptions: { sourceType: "module" },
             errors: [{message: "\"a\" is defined but never used"}]
         },
         {
             code: "export default (function(a, b) { console.log(a); });",
-            ecmaFeatures: {modules: true},
+            parserOptions: { sourceType: "module" },
             errors: [{message: "\"b\" is defined but never used"}]
         },
         {
             code: "export default (a) => {};",
-            ecmaFeatures: {modules: true, arrowFunctions: true},
+            parserOptions: { sourceType: "module" },
             errors: [{message: "\"a\" is defined but never used"}]
         },
         {
             code: "export default (a, b) => { console.log(a); };",
-            ecmaFeatures: {modules: true, arrowFunctions: true},
+            parserOptions: { sourceType: "module" },
             errors: [{message: "\"b\" is defined but never used"}]
         }
     ]

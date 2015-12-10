@@ -22,18 +22,18 @@ ruleTester.run("no-var", rule, {
     valid: [
         {
             code: "const JOE = 'schmoe';",
-            ecmaFeatures: { blockBindings: true }
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "let moo = 'car';",
-            ecmaFeatures: { blockBindings: true }
+            parserOptions: { ecmaVersion: 6 }
         }
     ],
 
     invalid: [
         {
             code: "var foo = bar;",
-            ecmaFeatures: { blockBindings: true },
+            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     message: "Unexpected var, use let or const instead.",
@@ -43,7 +43,7 @@ ruleTester.run("no-var", rule, {
         },
         {
             code: "var foo = bar, toast = most;",
-            ecmaFeatures: { blockBindings: true },
+            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     message: "Unexpected var, use let or const instead.",
@@ -53,7 +53,7 @@ ruleTester.run("no-var", rule, {
         },
         {
             code: "var foo = bar; let toast = most;",
-            ecmaFeatures: { blockBindings: true },
+            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     message: "Unexpected var, use let or const instead.",
