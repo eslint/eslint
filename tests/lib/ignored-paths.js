@@ -40,6 +40,17 @@ describe("IgnoredPaths", function() {
             }
         });
 
+        it("should travel to parent directories to find .eslintignore when cwd is provided", function() {
+            var cwd, ignoredPaths;
+
+            cwd = path.resolve(__dirname, "..", "fixtures", "configurations");
+
+            ignoredPaths = IgnoredPaths.load({ ignore: true, cwd: cwd });
+            assert.ok(ignoredPaths.patterns.length > 1);
+            assert.equal(ignoredPaths.patterns[0], "node_modules/**");
+            assert.equal(ignoredPaths.patterns[1], "bower_components/**");
+        });
+
         it("should load empty array with ignore option off or missing", function() {
             var ignoredPaths = IgnoredPaths.load();
             assert.isArray(ignoredPaths.patterns);
