@@ -22,18 +22,18 @@ ruleTester.run("no-empty-pattern", rule, {
 
     // Examples of code that should not trigger the rule
     valid: [
-        { code: "var {a = {}} = foo;", ecmaFeatures: { destructuring: true, defaultParams: true}},
-        { code: "var {a, b = {}} = foo;", ecmaFeatures: { destructuring: true, defaultParams: true}},
-        { code: "var {a = []} = foo;", ecmaFeatures: { destructuring: true, defaultParams: true}},
-        { code: "function foo({a = {}}) {}", ecmaFeatures: { destructuring: true, defaultParams: true}},
-        { code: "function foo({a = []}) {}", ecmaFeatures: { destructuring: true, defaultParams: true}}
+        { code: "var {a = {}} = foo;", parserOptions: { ecmaVersion: 6 }},
+        { code: "var {a, b = {}} = foo;", parserOptions: { ecmaVersion: 6 }},
+        { code: "var {a = []} = foo;", parserOptions: { ecmaVersion: 6 }},
+        { code: "function foo({a = {}}) {}", parserOptions: { ecmaVersion: 6 }},
+        { code: "function foo({a = []}) {}", parserOptions: { ecmaVersion: 6 }}
     ],
 
     // Examples of code that should trigger the rule
     invalid: [
         {
             code: "var {} = foo",
-            ecmaFeatures: {destructuring: true, defaultParams: true},
+            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 message: "Unexpected empty object pattern.",
                 type: "ObjectPattern"
@@ -41,7 +41,7 @@ ruleTester.run("no-empty-pattern", rule, {
         },
         {
             code: "var [] = foo",
-            ecmaFeatures: {destructuring: true, defaultParams: true},
+            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 message: "Unexpected empty array pattern.",
                 type: "ArrayPattern"
@@ -49,7 +49,7 @@ ruleTester.run("no-empty-pattern", rule, {
         },
         {
             code: "var {a: {}} = foo",
-            ecmaFeatures: {destructuring: true, defaultParams: true},
+            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 message: "Unexpected empty object pattern.",
                 type: "ObjectPattern"
@@ -57,7 +57,7 @@ ruleTester.run("no-empty-pattern", rule, {
         },
         {
             code: "var {a, b: {}} = foo",
-            ecmaFeatures: {destructuring: true, defaultParams: true},
+            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 message: "Unexpected empty object pattern.",
                 type: "ObjectPattern"
@@ -65,7 +65,7 @@ ruleTester.run("no-empty-pattern", rule, {
         },
         {
             code: "var {a: []} = foo",
-            ecmaFeatures: {destructuring: true, defaultParams: true},
+            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 message: "Unexpected empty array pattern.",
                 type: "ArrayPattern"
@@ -73,7 +73,7 @@ ruleTester.run("no-empty-pattern", rule, {
         },
         {
             code: "function foo({}) {}",
-            ecmaFeatures: {destructuring: true, defaultParams: true},
+            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 message: "Unexpected empty object pattern.",
                 type: "ObjectPattern"
@@ -81,7 +81,7 @@ ruleTester.run("no-empty-pattern", rule, {
         },
         {
             code: "function foo([]) {}",
-            ecmaFeatures: {destructuring: true, defaultParams: true},
+            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 message: "Unexpected empty array pattern.",
                 type: "ArrayPattern"
@@ -89,7 +89,7 @@ ruleTester.run("no-empty-pattern", rule, {
         },
         {
             code: "function foo({a: {}}) {}",
-            ecmaFeatures: {destructuring: true, defaultParams: true},
+            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 message: "Unexpected empty object pattern.",
                 type: "ObjectPattern"
@@ -97,7 +97,7 @@ ruleTester.run("no-empty-pattern", rule, {
         },
         {
             code: "function foo({a: []}) {}",
-            ecmaFeatures: {destructuring: true, defaultParams: true},
+            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 message: "Unexpected empty array pattern.",
                 type: "ArrayPattern"

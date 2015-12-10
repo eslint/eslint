@@ -34,9 +34,9 @@ ruleTester.run("no-useless-concat", rule, {
         { code: "var string = (number + 1) + 'px';" },
         { code: "'a' + 1" },
         { code: "1 + '1'" },
-        { code: "1 + `1`", ecmaFeatures: {templateStrings: true} },
-        { code: "`1` + 1", ecmaFeatures: {templateStrings: true} },
-        { code: "(1 + +2) + `b`", ecmaFeatures: {templateStrings: true} }
+        { code: "1 + `1`", parserOptions: { ecmaVersion: 6 } },
+        { code: "`1` + 1", parserOptions: { ecmaVersion: 6 } },
+        { code: "(1 + +2) + `b`", parserOptions: { ecmaVersion: 6 } }
     ],
 
     invalid: [
@@ -76,21 +76,21 @@ ruleTester.run("no-useless-concat", rule, {
         },
         {
             code: "`a` + 'b'",
-            ecmaFeatures: {templateStrings: true},
+            parserOptions: { ecmaVersion: 6 },
             errors: [
                 { message: "Unexpected string concatenation of literals."}
             ]
         },
         {
             code: "`a` + `b`",
-            ecmaFeatures: {templateStrings: true},
+            parserOptions: { ecmaVersion: 6 },
             errors: [
                 { message: "Unexpected string concatenation of literals."}
             ]
         },
         {
             code: "foo + `a` + `b`",
-            ecmaFeatures: {templateStrings: true},
+            parserOptions: { ecmaVersion: 6 },
             errors: [
                 { message: "Unexpected string concatenation of literals."}
             ]

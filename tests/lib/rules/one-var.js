@@ -82,157 +82,112 @@ ruleTester.run("one-var", rule, {
         },
         {
             code: "function foo() { var a = [1, 2, 3]; var [b, c, d] = a; }",
-            ecmaFeatures: {
-                destructuring: true
-            },
+            parserOptions: { ecmaVersion: 6 },
             options: ["never"]
         },
         {
             code: "function foo() { let a = 1; var c = true; if (a) {let c = true; } }",
-            ecmaFeatures: {
-                blockBindings: true
-            },
+            parserOptions: { ecmaVersion: 6 },
             options: ["always"]
         },
         {
             code: "function foo() { const a = 1; var c = true; if (a) {const c = true; } }",
-            ecmaFeatures: {
-                blockBindings: true
-            },
+            parserOptions: { ecmaVersion: 6 },
             options: ["always"]
         },
         {
             code: "function foo() { if (true) { const a = 1; }; if (true) {const a = true; } }",
-            ecmaFeatures: {
-                blockBindings: true
-            },
+            parserOptions: { ecmaVersion: 6 },
             options: ["always"]
         },
         {
             code: "function foo() { let a = 1; let b = true; }",
-            ecmaFeatures: {
-                blockBindings: true
-            },
+            parserOptions: { ecmaVersion: 6 },
             options: ["never"]
         },
         {
             code: "function foo() { const a = 1; const b = true; }",
-            ecmaFeatures: {
-                blockBindings: true
-            },
+            parserOptions: { ecmaVersion: 6 },
             options: ["never"]
         },
         {
             code: "function foo() { let a = 1; const b = false; var c = true; }",
-            ecmaFeatures: {
-                blockBindings: true
-            },
+            parserOptions: { ecmaVersion: 6 },
             options: ["always"]
         },
         {
             code: "function foo() { let a = 1, b = false; var c = true; }",
-            ecmaFeatures: {
-                blockBindings: true
-            },
+            parserOptions: { ecmaVersion: 6 },
             options: ["always"]
         },
         {
             code: "function foo() { let a = 1; let b = 2; const c = false; const d = true; var e = true, f = false; }",
-            ecmaFeatures: {
-                blockBindings: true
-            },
+            parserOptions: { ecmaVersion: 6 },
             options: [{var: "always", let: "never", const: "never"}]
         },
         {
             code: "let foo = true; for (let i = 0; i < 1; i++) { let foo = false; }",
-            ecmaFeatures: {
-                blockBindings: true
-            },
+            parserOptions: { ecmaVersion: 6 },
             options: [{var: "always", let: "always", const: "never"}]
         },
         {
             code: "let foo = true; for (let i = 0; i < 1; i++) { let foo = false; }",
-            ecmaFeatures: {
-                blockBindings: true
-            },
+            parserOptions: { ecmaVersion: 6 },
             options: [{var: "always"}]
         },
         {
             code: "let foo = true, bar = false;",
-            ecmaFeatures: {
-                blockBindings: true
-            },
+            parserOptions: { ecmaVersion: 6 },
             options: [{var: "never"}]
         },
         {
             code: "let foo = true, bar = false;",
-            ecmaFeatures: {
-                blockBindings: true
-            },
+            parserOptions: { ecmaVersion: 6 },
             options: [{const: "never"}]
         },
         {
             code: "let foo = true, bar = false;",
-            ecmaFeatures: {
-                blockBindings: true
-            },
+            parserOptions: { ecmaVersion: 6 },
             options: [{uninitialized: "never"}]
         },
         {
             code: "let foo, bar",
-            ecmaFeatures: {
-                blockBindings: true
-            },
+            parserOptions: { ecmaVersion: 6 },
             options: [{initialized: "never"}]
         },
         {
             code: "let foo = true, bar = false; let a; let b;",
-            ecmaFeatures: {
-                blockBindings: true
-            },
+            parserOptions: { ecmaVersion: 6 },
             options: [{uninitialized: "never"}]
         },
         {
             code: "let foo, bar; let a = true; let b = true;",
-            ecmaFeatures: {
-                blockBindings: true
-            },
+            parserOptions: { ecmaVersion: 6 },
             options: [{initialized: "never"}]
         },
         {
             code: "var foo, bar; const a=1; const b=2; let c, d",
-            ecmaFeatures: {
-                blockBindings: true
-            },
+            parserOptions: { ecmaVersion: 6 },
             options: [{ var: "always", let: "always" }]
         },
         {
             code: "var foo; var bar; const a=1, b=2; let c; let d",
-            ecmaFeatures: {
-                blockBindings: true
-            },
+            parserOptions: { ecmaVersion: 6 },
             options: [{ const: "always" }]
         },
         {
             code: "var foo, bar; const a=1; const b=2; let c, d",
-            ecmaFeatures: {
-                blockBindings: true
-            },
+            parserOptions: { ecmaVersion: 6 },
             options: [{ var: "always", let: "always" }]
         },
         {
             code: "for (let x of foo) {}; for (let y of foo) {}",
-            ecmaFeatures: {
-                forOf: true,
-                blockBindings: true
-            },
+            parserOptions: { ecmaVersion: 6 },
             options: [{ uninitialized: "always" }]
         },
         {
             code: "for (let x in foo) {}; for (let y in foo) {}",
-            ecmaFeatures: {
-                blockBindings: true
-            },
+            parserOptions: { ecmaVersion: 6 },
             options: [{ uninitialized: "always" }]
         }
     ],
@@ -335,9 +290,7 @@ ruleTester.run("one-var", rule, {
         },
         {
             code: "function foo() { var a = [1, 2, 3]; var [b, c, d] = a; }",
-            ecmaFeatures: {
-                destructuring: true
-            },
+            parserOptions: { ecmaVersion: 6 },
             options: ["always"],
             errors: [{
                 message: "Combine this with the previous 'var' statement.",
@@ -346,9 +299,7 @@ ruleTester.run("one-var", rule, {
         },
         {
             code: "function foo() { let a = 1; let b = 2; }",
-            ecmaFeatures: {
-                blockBindings: true
-            },
+            parserOptions: { ecmaVersion: 6 },
             options: ["always"],
             errors: [{
                 message: "Combine this with the previous 'let' statement.",
@@ -357,9 +308,7 @@ ruleTester.run("one-var", rule, {
         },
         {
             code: "function foo() { const a = 1; const b = 2; }",
-            ecmaFeatures: {
-                blockBindings: true
-            },
+            parserOptions: { ecmaVersion: 6 },
             options: ["always"],
             errors: [{
                 message: "Combine this with the previous 'const' statement.",
@@ -368,9 +317,7 @@ ruleTester.run("one-var", rule, {
         },
         {
             code: "function foo() { let a = 1; let b = 2; }",
-            ecmaFeatures: {
-                blockBindings: true
-            },
+            parserOptions: { ecmaVersion: 6 },
             options: [{let: "always"}],
             errors: [{
                 message: "Combine this with the previous 'let' statement.",
@@ -379,9 +326,7 @@ ruleTester.run("one-var", rule, {
         },
         {
             code: "function foo() { const a = 1; const b = 2; }",
-            ecmaFeatures: {
-                blockBindings: true
-            },
+            parserOptions: { ecmaVersion: 6 },
             options: [{const: "always"}],
             errors: [{
                 message: "Combine this with the previous 'const' statement.",
@@ -390,9 +335,7 @@ ruleTester.run("one-var", rule, {
         },
         {
             code: "function foo() { let a = 1, b = 2; }",
-            ecmaFeatures: {
-                blockBindings: true
-            },
+            parserOptions: { ecmaVersion: 6 },
             options: [{let: "never"}],
             errors: [{
                 message: "Split 'let' declarations into multiple statements.",
@@ -401,9 +344,7 @@ ruleTester.run("one-var", rule, {
         },
         {
             code: "function foo() { let a = 1, b = 2; }",
-            ecmaFeatures: {
-                blockBindings: true
-            },
+            parserOptions: { ecmaVersion: 6 },
             options: [{initialized: "never"}],
             errors: [{
                 message: "Split initialized 'let' declarations into multiple statements.",
@@ -412,9 +353,7 @@ ruleTester.run("one-var", rule, {
         },
         {
             code: "function foo() { let a, b; }",
-            ecmaFeatures: {
-                blockBindings: true
-            },
+            parserOptions: { ecmaVersion: 6 },
             options: [{uninitialized: "never"}],
             errors: [{
                 message: "Split uninitialized 'let' declarations into multiple statements.",
@@ -423,9 +362,7 @@ ruleTester.run("one-var", rule, {
         },
         {
             code: "function foo() { const a = 1, b = 2; }",
-            ecmaFeatures: {
-                blockBindings: true
-            },
+            parserOptions: { ecmaVersion: 6 },
             options: [{initialized: "never"}],
             errors: [{
                 message: "Split initialized 'const' declarations into multiple statements.",
@@ -434,9 +371,7 @@ ruleTester.run("one-var", rule, {
         },
         {
             code: "function foo() { const a = 1, b = 2; }",
-            ecmaFeatures: {
-                blockBindings: true
-            },
+            parserOptions: { ecmaVersion: 6 },
             options: [{const: "never"}],
             errors: [{
                 message: "Split 'const' declarations into multiple statements.",
@@ -445,9 +380,7 @@ ruleTester.run("one-var", rule, {
         },
         {
             code: "let foo = true; switch(foo) { case true: let bar = 2; break; case false: let baz = 3; break; }",
-            ecmaFeatures: {
-                blockBindings: true
-            },
+            parserOptions: { ecmaVersion: 6 },
             options: [{var: "always", let: "always", const: "never"}],
             errors: [{
                 message: "Combine this with the previous 'let' statement.",
@@ -485,10 +418,7 @@ ruleTester.run("one-var", rule, {
         {
             code: "for (var x of foo) {}; for (var y of foo) {}",
             options: [ "always" ],
-            ecmaFeatures: {
-                forOf: true,
-                blockBindings: true
-            },
+            parserOptions: { ecmaVersion: 6 },
             errors: [ {
                 message: "Combine this with the previous 'var' statement.",
                 type: "VariableDeclaration"
@@ -497,9 +427,7 @@ ruleTester.run("one-var", rule, {
         {
             code: "for (var x in foo) {}; for (var y in foo) {}",
             options: [ "always" ],
-            ecmaFeatures: {
-                blockBindings: true
-            },
+            parserOptions: { ecmaVersion: 6 },
             errors: [ {
                 message: "Combine this with the previous 'var' statement.",
                 type: "VariableDeclaration"
@@ -530,9 +458,7 @@ ruleTester.run("one-var", rule, {
         },
         {
             code: "var foo = () => { var bar = true; var baz = false; }",
-            ecmaFeatures: {
-                arrowFunctions: true
-            },
+            parserOptions: { ecmaVersion: 6 },
             errors: [ {
                 message: "Combine this with the previous 'var' statement.",
                 type: "VariableDeclaration",

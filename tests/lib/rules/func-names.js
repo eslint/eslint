@@ -22,18 +22,18 @@ var ruleTester = new RuleTester();
 ruleTester.run("func-names", rule, {
     valid: [
         "Foo.prototype.bar = function bar(){};",
-        { code: "Foo.prototype.bar = () => {}", ecmaFeatures: { arrowFunctions: true }},
+        { code: "Foo.prototype.bar = () => {}", parserOptions: { ecmaVersion: 6 }},
         "function foo(){}",
         "function test(d, e, f) {}",
         "new function bar(){}",
         "exports = { get foo() { return 1; }, set bar(val) { return val; } };",
         {
             code: "({ foo() { return 1; } });",
-            ecmaFeatures: { objectLiteralShorthandMethods: true }
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "class A { constructor(){} foo(){} get bar(){} set baz(value){} static qux(){}}",
-            ecmaFeatures: { classes: true }
+            parserOptions: { ecmaVersion: 6 }
         }
     ],
     invalid: [

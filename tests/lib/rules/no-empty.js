@@ -27,7 +27,7 @@ ruleTester.run("no-empty", rule, {
         "try { foo() } catch (ex) { foo() }",
         "switch(foo) {case 'foo': break;}",
         "(function() { }())",
-        { code: "var foo = () => {};", ecmaFeatures: { arrowFunctions: true } },
+        { code: "var foo = () => {};", parserOptions: { ecmaVersion: 6 } },
         "function foo() { }",
         "if (foo) {/* empty */}",
         "while (foo) {/* empty */}",
@@ -44,8 +44,8 @@ ruleTester.run("no-empty", rule, {
 
         // methods
         "var foo = { bar: function() {} }",
-        { code: "var foo = { bar() {} }", ecmaFeatures: { objectLiteralShorthandMethods: true } },
-        { code: "var foo = { bar() { console.log('baz'); } }", ecmaFeatures: { objectLiteralShorthandMethods: true }, options: [{ methods: true }] }
+        { code: "var foo = { bar() {} }", parserOptions: { ecmaVersion: 6 } },
+        { code: "var foo = { bar() { console.log('baz'); } }", parserOptions: { ecmaVersion: 6 }, options: [{ methods: true }] }
     ],
     invalid: [
         { code: "try {} catch (ex) {throw ex}", errors: [{ message: "Empty block statement.", type: "BlockStatement"}] },
@@ -57,6 +57,6 @@ ruleTester.run("no-empty", rule, {
         { code: "switch(foo) {}", errors: [{ message: "Empty switch statement.", type: "SwitchStatement"}] },
 
         // methods
-        { code: "var foo = { bar() {} }", ecmaFeatures: { objectLiteralShorthandMethods: true }, options: [{ methods: true }], errors: [{ message: "Empty block statement.", type: "BlockStatement"}] }
+        { code: "var foo = { bar() {} }", parserOptions: { ecmaVersion: 6 }, options: [{ methods: true }], errors: [{ message: "Empty block statement.", type: "BlockStatement"}] }
     ]
 });

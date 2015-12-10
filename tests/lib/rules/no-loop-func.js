@@ -28,7 +28,7 @@ ruleTester.run("no-loop-func", rule, {
         "for (var x in xs.filter(function(x) { return x != upper; })) { }",
         {
             code: "for (var x of xs.filter(function(x) { return x != upper; })) { }",
-            ecmaFeatures: { forOf: true }
+            parserOptions: { ecmaVersion: 6 }
         },
 
         // no refers to variables that declared on upper scope.
@@ -40,26 +40,26 @@ ruleTester.run("no-loop-func", rule, {
         },
         {
             code: "for (var i of {}) { (function() {}) }",
-            ecmaFeatures: { forOf: true }
+            parserOptions: { ecmaVersion: 6 }
         },
 
         // refers to only variables that declared with `let`/`const` keyword in the loop.
         // these are rebound on each loop step.
         {
             code: "for (let i=0; i<l; i++) { (function() { i; }) }",
-            ecmaFeatures: { blockBindings: true }
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "for (let i in {}) { (function() { i; }) }",
-            ecmaFeatures: { blockBindings: true }
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "for (const i of {}) { (function() { i; }) }",
-            ecmaFeatures: { blockBindings: true, forOf: true }
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "for (let i = 0; i < 10; ++i) { for (let x in xs.filter(x => x != i)) {  } }",
-            ecmaFeatures: { arrowFunctions: true, blockBindings: true }
+            parserOptions: { ecmaVersion: 6 }
         }
     ],
     invalid: [
@@ -73,12 +73,12 @@ ruleTester.run("no-loop-func", rule, {
         },
         {
             code: "for (var i of {}) { (function() { i; }) }",
-            ecmaFeatures: { forOf: true },
+            parserOptions: { ecmaVersion: 6 },
             errors: [ { message: expectedErrorMessage, type: "FunctionExpression" } ]
         },
         {
             code: "for (var i=0; i < l; i++) { (() => { i; }) }",
-            ecmaFeatures: { arrowFunctions: true },
+            parserOptions: { ecmaVersion: 6 },
             errors: [ { message: expectedErrorMessage, type: "ArrowFunctionExpression" } ]
         },
         {
@@ -110,37 +110,37 @@ ruleTester.run("no-loop-func", rule, {
         // these are not rebound on each loop step.
         {
             code: "let a; for (let i=0; i<l; i++) { (function() { a; }); }",
-            ecmaFeatures: { blockBindings: true },
+            parserOptions: { ecmaVersion: 6 },
             errors: [ { message: expectedErrorMessage, type: "FunctionExpression" } ]
         },
         {
             code: "let a; for (let i in {}) { (function() { a; }); }",
-            ecmaFeatures: { blockBindings: true },
+            parserOptions: { ecmaVersion: 6 },
             errors: [ { message: expectedErrorMessage, type: "FunctionExpression" } ]
         },
         {
             code: "let a; for (let i of {}) { (function() { a; }); }",
-            ecmaFeatures: { blockBindings: true, forOf: true },
+            parserOptions: { ecmaVersion: 6 },
             errors: [ { message: expectedErrorMessage, type: "FunctionExpression" } ]
         },
         {
             code: "let a; for (let i=0; i<l; i++) { (function() { (function() { a; }); }); }",
-            ecmaFeatures: { blockBindings: true },
+            parserOptions: { ecmaVersion: 6 },
             errors: [ { message: expectedErrorMessage, type: "FunctionExpression" } ]
         },
         {
             code: "let a; for (let i in {}) { function foo() { (function() { a; }); } }",
-            ecmaFeatures: { blockBindings: true },
+            parserOptions: { ecmaVersion: 6 },
             errors: [ { message: expectedErrorMessage, type: "FunctionDeclaration" } ]
         },
         {
             code: "let a; for (let i of {}) { (() => { (function() { a; }); }); }",
-            ecmaFeatures: { arrowFunctions: true, blockBindings: true, forOf: true },
+            parserOptions: { ecmaVersion: 6 },
             errors: [ { message: expectedErrorMessage, type: "ArrowFunctionExpression" } ]
         },
         {
             code: "for (var i = 0; i < 10; ++i) { for (let x in xs.filter(x => x != i)) {  } }",
-            ecmaFeatures: { arrowFunctions: true, blockBindings: true },
+            parserOptions: { ecmaVersion: 6 },
             errors: [ { message: expectedErrorMessage, type: "ArrowFunctionExpression" } ]
         }
     ]

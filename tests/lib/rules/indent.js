@@ -101,7 +101,7 @@ ruleTester.run("indent", rule, {
             "   );\n" +
             "}\n",
             options: [4],
-            ecmaFeatures: {arrowFunctions: true}
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code:
@@ -122,7 +122,7 @@ ruleTester.run("indent", rule, {
             "        return 100 * x;\n" +
             "    });\n",
             options: [4],
-            ecmaFeatures: {arrowFunctions: true, blockBindings: true}
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code:
@@ -155,7 +155,7 @@ ruleTester.run("indent", rule, {
             "  expect(true).toBe(true);\n" +
             "});\n",
             options: [2],
-            ecmaFeatures: {arrowFunctions: true}
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code:
@@ -205,7 +205,7 @@ ruleTester.run("indent", rule, {
             "  console.log('hi');\n" +
             "  return true;};",
             options: [2, {"VariableDeclarator": 1, "SwitchCase": 1}],
-            ecmaFeatures: {arrowFunctions: true}
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code:
@@ -504,18 +504,14 @@ ruleTester.run("indent", rule, {
             "let geometry,\n" +
             "    rotate;",
             options: [2, {VariableDeclarator: 2}],
-            ecmaFeatures: {
-                blockBindings: true
-            }
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code:
             "const geometry = 2,\n" +
             "    rotate = 3;",
             options: [2, {VariableDeclarator: 2}],
-            ecmaFeatures: {
-                blockBindings: true
-            }
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code:
@@ -553,7 +549,7 @@ ruleTester.run("indent", rule, {
             "    index;\n" +
             "});\n",
             options: [4],
-            ecmaFeatures: { arrowFunctions: true }
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code:
@@ -561,7 +557,7 @@ ruleTester.run("indent", rule, {
             "    return index;\n" +
             "});\n",
             options: [4],
-            ecmaFeatures: { arrowFunctions: true }
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code:
@@ -569,7 +565,7 @@ ruleTester.run("indent", rule, {
             "    index;\n" +
             "});\n",
             options: [4],
-            ecmaFeatures: { arrowFunctions: true }
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code:
@@ -577,7 +573,7 @@ ruleTester.run("indent", rule, {
             "    return index;\n" +
             "});\n",
             options: [4],
-            ecmaFeatures: { arrowFunctions: true }
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code:
@@ -732,9 +728,7 @@ ruleTester.run("indent", rule, {
         {
             code: "import {addons} from 'react/addons'\nimport React from 'react'",
             options: [2],
-            ecmaFeatures: {
-                modules: true
-            }
+            parserOptions: { sourceType: "module" }
         },
         {
             code:
@@ -782,7 +776,7 @@ ruleTester.run("indent", rule, {
                 "let light = true,\n" +
                 "    shadow = false;",
             options: [2, { VariableDeclarator: { "const": 3, "let": 2 } }],
-            ecmaFeatures: { blockBindings: true }
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code:
@@ -808,7 +802,7 @@ ruleTester.run("indent", rule, {
             "      b: 2\n" +
             "    };\n",
             options: [2, { VariableDeclarator: { var: 2, const: 3 }, "SwitchCase": 1}],
-            ecmaFeatures: { blockBindings: true }
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code:
@@ -853,7 +847,7 @@ ruleTester.run("indent", rule, {
                 "    b: argument\n" +
                 "  });\n" +
                 "};",
-            ecmaFeatures: { modules: true },
+            parserOptions: { sourceType: "module" },
             options: [2]
         },
         {
@@ -864,7 +858,7 @@ ruleTester.run("indent", rule, {
                 "                        padding=defaultPadding) {\n" +
                 "  // ... function body, indented two spaces\n" +
                 "}\n",
-            ecmaFeatures: { modules: true, defaultParams: true },
+            parserOptions: { sourceType: "module" },
             options: [2]
         },
         {
@@ -897,7 +891,7 @@ ruleTester.run("indent", rule, {
                 "var res,\n" +
                 "    a = 5,\n" +
                 "    b = 4\n",
-            ecmaFeatures: { blockBindings: true },
+            parserOptions: { ecmaVersion: 6 },
             options: [2, {"VariableDeclarator": { "var": 2, "let": 2, "const": 3}}]
         },
         {
@@ -910,7 +904,7 @@ ruleTester.run("indent", rule, {
                 "    b = 4\n" +
                 "\n" +
                 "if (YO) console.log(TE)",
-            ecmaFeatures: { blockBindings: true },
+            parserOptions: { ecmaVersion: 6 },
             options: [2, {"VariableDeclarator": { "var": 2, "let": 2, "const": 3}}]
         },
         {
@@ -948,7 +942,7 @@ ruleTester.run("indent", rule, {
                 "        console.log(argument);\n" +
                 "    },\n" +
                 "    someOtherValue = 'someOtherValue';\n",
-            ecmaFeatures: { arrowFunctions: true, blockBindings: true }
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code:
@@ -970,7 +964,7 @@ ruleTester.run("indent", rule, {
             "      get b(){}\n" +
             "    };",
             options: [2, {"VariableDeclarator": 2, "SwitchCase": 1}],
-            ecmaFeatures: {classes: true}
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code:
@@ -983,7 +977,7 @@ ruleTester.run("indent", rule, {
             "    },\n" +
             "    c = 3;",
             options: [2, {"VariableDeclarator": 2, "SwitchCase": 1}],
-            ecmaFeatures: {classes: true}
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code:
@@ -993,7 +987,7 @@ ruleTester.run("indent", rule, {
             "    get b(){}\n" +
             "}",
             options: [4, {"VariableDeclarator": 1, "SwitchCase": 1}],
-            ecmaFeatures: {classes: true}
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code:
@@ -1003,7 +997,7 @@ ruleTester.run("indent", rule, {
             "    get b(){}\n" +
             "}",
             options: [4, {"VariableDeclarator": 1, "SwitchCase": 1}],
-            ecmaFeatures: {classes: true}
+            parserOptions: { ecmaVersion: 6 }
         }
     ],
     invalid: [
@@ -1446,7 +1440,7 @@ ruleTester.run("indent", rule, {
             "    index;\n" +
             "});\n",
             options: [4],
-            ecmaFeatures: { arrowFunctions: true },
+            parserOptions: { ecmaVersion: 6 },
             errors: expectedErrors([
                 [3, 4, 2, "ExpressionStatement"]
             ])
@@ -1461,7 +1455,7 @@ ruleTester.run("indent", rule, {
             "    return index;\n" +
             "});\n",
             options: [4],
-            ecmaFeatures: { arrowFunctions: true },
+            parserOptions: { ecmaVersion: 6 },
             errors: expectedErrors([
                 [3, 4, 2, "ReturnStatement"]
             ])
@@ -1476,7 +1470,7 @@ ruleTester.run("indent", rule, {
             "    index;\n" +
             "});\n",
             options: [4],
-            ecmaFeatures: { arrowFunctions: true },
+            parserOptions: { ecmaVersion: 6 },
             errors: expectedErrors([
                 [2, 4, 2, "ExpressionStatement"]
             ])
@@ -1491,7 +1485,7 @@ ruleTester.run("indent", rule, {
             "    return index;\n" +
             "});\n",
             options: [4],
-            ecmaFeatures: { arrowFunctions: true },
+            parserOptions: { ecmaVersion: 6 },
             errors: expectedErrors([
                 [2, 4, 2, "ReturnStatement"]
             ])
@@ -1610,9 +1604,7 @@ ruleTester.run("indent", rule, {
             "let geometry,\n" +
             "    rotate;",
             options: [2, {VariableDeclarator: 2}],
-            ecmaFeatures: {
-                blockBindings: true
-            },
+            parserOptions: { ecmaVersion: 6 },
             errors: expectedErrors([
                 [2, 4, 2, "VariableDeclarator"]
             ])
@@ -1679,7 +1671,7 @@ ruleTester.run("indent", rule, {
             "  b\n" +
             "]",
             options: [2, {"VariableDeclarator": { let: 2 }, "SwitchCase": 1}],
-            ecmaFeatures: { blockBindings: true },
+            parserOptions: { ecmaVersion: 6 },
             errors: expectedErrors([
                 [2, 2, 4, "Identifier"],
                 [3, 2, 4, "Identifier"]
@@ -1722,7 +1714,7 @@ ruleTester.run("indent", rule, {
             "  }),\n" +
             "  b = 4;\n",
             options: [2, { VariableDeclarator: { var: 2 }}],
-            ecmaFeatures: { blockBindings: true },
+            parserOptions: { ecmaVersion: 6 },
             errors: expectedErrors([
                 [6, 4, 6, "Property"],
                 [7, 2, 4, "ObjectExpression"],
@@ -1816,7 +1808,7 @@ ruleTester.run("indent", rule, {
             "    get b(){}\n" +
             "}",
             options: [4, {"VariableDeclarator": 1, "SwitchCase": 1}],
-            ecmaFeatures: {classes: true},
+            parserOptions: { ecmaVersion: 6 },
             errors: expectedErrors([[2, 4, 2, "MethodDefinition"]])
         },
         {
@@ -1833,7 +1825,7 @@ ruleTester.run("indent", rule, {
             "    get b(){}\n" +
             "};",
             options: [4, {"VariableDeclarator": 1, "SwitchCase": 1}],
-            ecmaFeatures: {classes: true},
+            parserOptions: { ecmaVersion: 6 },
             errors: expectedErrors([[2, 4, 2, "MethodDefinition"], [4, 4, 2, "MethodDefinition"]])
         },
         {
@@ -1852,7 +1844,7 @@ ruleTester.run("indent", rule, {
             "      get b(){}\n" +
             "    };",
             options: [2, {"VariableDeclarator": 2, "SwitchCase": 1}],
-            ecmaFeatures: {classes: true},
+            parserOptions: { ecmaVersion: 6 },
             errors: expectedErrors([[3, 6, 4, "MethodDefinition"]])
         }
     ]

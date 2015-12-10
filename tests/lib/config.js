@@ -36,8 +36,8 @@ function assertConfigsEqual(actual, expected) {
         assert.deepEqual(actual.env, expected.env);
     }
 
-    if (actual.ecmaFeatures && expected.ecmaFeatures) {
-        assert.deepEqual(actual.ecmaFeatures, expected.ecmaFeatures);
+    if (actual.parserOptions && expected.parserOptions) {
+        assert.deepEqual(actual.parserOptions, expected.parserOptions);
     }
 
     if (actual.globals && expected.globals) {
@@ -1232,13 +1232,13 @@ describe("Config", function() {
         });
 
         describe("with env in a child configuration file", function() {
-            it("should overwrite ecmaFeatures of the parent with env of the child", function() {
+            it("should overwrite parserOptions of the parent with env of the child", function() {
                 var config = new Config();
                 var targetPath = getFixturePath("overwrite-ecmaFeatures", "child", "foo.js");
                 var expected = {
                     rules: {},
                     env: {commonjs: true},
-                    ecmaFeatures: {globalReturn: true}
+                    parserOptions: {ecmaFeatures: {globalReturn: true}}
                 };
                 var actual = config.getConfig(targetPath);
 
@@ -1269,7 +1269,7 @@ describe("Config", function() {
                 var config = new StubbedConfig(),
                     actual = config.getConfig(filePath),
                     expected = {
-                        ecmaFeatures: {},
+                        parserOptions: {},
                         env: {},
                         globals: {},
                         parser: void 0,
@@ -1293,7 +1293,7 @@ describe("Config", function() {
                 var config = new StubbedConfig(),
                     actual = config.getConfig(filePath),
                     expected = {
-                        ecmaFeatures: {},
+                        parserOptions: {},
                         env: {},
                         globals: {},
                         parser: void 0,
@@ -1317,7 +1317,7 @@ describe("Config", function() {
                 var config = new StubbedConfig(),
                     actual = config.getConfig(filePath),
                     expected = {
-                        ecmaFeatures: {},
+                        parserOptions: {},
                         env: {},
                         globals: {},
                         parser: void 0,
@@ -1338,7 +1338,7 @@ describe("Config", function() {
                 var config = new StubbedConfig(),
                     actual = config.getConfig(filePath),
                     expected = {
-                        ecmaFeatures: {},
+                        parserOptions: {},
                         env: {},
                         globals: {},
                         parser: void 0,

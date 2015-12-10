@@ -22,7 +22,7 @@ var ruleTester = new RuleTester();
 ruleTester.run("no-undef-init", rule, {
     valid: [
         "var a;",
-        { code: "const foo = undefined", ecmaFeatures: { blockBindings: true } }
+        { code: "const foo = undefined", parserOptions: { ecmaVersion: 6 } }
     ],
     invalid: [
         { code: "var a = undefined;", errors: [{ message: "It's not necessary to initialize 'a' to undefined.", type: "VariableDeclarator"}] }

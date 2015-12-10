@@ -20,23 +20,23 @@ var rule = require("../../../lib/rules/arrow-body-style"),
 var ruleTester = new RuleTester();
 ruleTester.run("arrow-body-style", rule, {
     valid: [
-        { code: "var foo = () => {};", ecmaFeatures: { arrowFunctions: true } },
-        { code: "var foo = () => 0;", ecmaFeatures: { arrowFunctions: true } },
-        { code: "var addToB = (a) => { b =  b + a };", ecmaFeatures: { arrowFunctions: true } },
-        { code: "var foo = () => { /* do nothing */ };", ecmaFeatures: { arrowFunctions: true } },
-        { code: "var foo = () => {\n /* do nothing */ \n};", ecmaFeatures: { arrowFunctions: true } },
-        { code: "var foo = (retv, name) => {\nretv[name] = true;\nreturn retv;\n};", ecmaFeatures: { arrowFunctions: true } },
-        { code: "var foo = () => ({});", ecmaFeatures: { arrowFunctions: true } },
-        { code: "var foo = () => { bar(); };", ecmaFeatures: { arrowFunctions: true } },
-        { code: "var foo = () => { b = a };", ecmaFeatures: { arrowFunctions: true } },
-        { code: "var foo = () => { bar: 1 };", ecmaFeatures: { arrowFunctions: true } },
-        { code: "var foo = () => { return 0; };", ecmaFeatures: { arrowFunctions: true }, options: ["always"] },
-        { code: "var foo = () => { return bar(); };", ecmaFeatures: { arrowFunctions: true }, options: ["always"] }
+        { code: "var foo = () => {};", parserOptions: { ecmaVersion: 6 } },
+        { code: "var foo = () => 0;", parserOptions: { ecmaVersion: 6 } },
+        { code: "var addToB = (a) => { b =  b + a };", parserOptions: { ecmaVersion: 6 } },
+        { code: "var foo = () => { /* do nothing */ };", parserOptions: { ecmaVersion: 6 } },
+        { code: "var foo = () => {\n /* do nothing */ \n};", parserOptions: { ecmaVersion: 6 } },
+        { code: "var foo = (retv, name) => {\nretv[name] = true;\nreturn retv;\n};", parserOptions: { ecmaVersion: 6 } },
+        { code: "var foo = () => ({});", parserOptions: { ecmaVersion: 6 } },
+        { code: "var foo = () => { bar(); };", parserOptions: { ecmaVersion: 6 } },
+        { code: "var foo = () => { b = a };", parserOptions: { ecmaVersion: 6 } },
+        { code: "var foo = () => { bar: 1 };", parserOptions: { ecmaVersion: 6 } },
+        { code: "var foo = () => { return 0; };", parserOptions: { ecmaVersion: 6 }, options: ["always"] },
+        { code: "var foo = () => { return bar(); };", parserOptions: { ecmaVersion: 6 }, options: ["always"] }
     ],
     invalid: [
         {
             code: "var foo = () => 0;",
-            ecmaFeatures: { arrowFunctions: true },
+            parserOptions: { ecmaVersion: 6 },
             options: ["always"],
             errors: [
                 { line: 1, column: 17, type: "ArrowFunctionExpression", message: "Expected block statement surrounding arrow body." }
@@ -44,7 +44,7 @@ ruleTester.run("arrow-body-style", rule, {
         },
         {
             code: "var foo = () => ({});",
-            ecmaFeatures: { arrowFunctions: true },
+            parserOptions: { ecmaVersion: 6 },
             options: ["always"],
             errors: [
                 { line: 1, column: 18, type: "ArrowFunctionExpression", message: "Expected block statement surrounding arrow body." }
@@ -52,7 +52,7 @@ ruleTester.run("arrow-body-style", rule, {
         },
         {
             code: "var foo = () => { return 0; };",
-            ecmaFeatures: { arrowFunctions: true },
+            parserOptions: { ecmaVersion: 6 },
             options: ["as-needed"],
             errors: [
                 { line: 1, column: 17, type: "ArrowFunctionExpression", message: "Unexpected block statement surrounding arrow body." }
@@ -60,7 +60,7 @@ ruleTester.run("arrow-body-style", rule, {
         },
         {
             code: "var foo = () => { return bar(); };",
-            ecmaFeatures: { arrowFunctions: true },
+            parserOptions: { ecmaVersion: 6 },
             options: ["as-needed"],
             errors: [
                 { line: 1, column: 17, type: "ArrowFunctionExpression", message: "Unexpected block statement surrounding arrow body." }

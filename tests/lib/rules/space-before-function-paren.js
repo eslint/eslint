@@ -26,10 +26,10 @@ ruleTester.run("space-before-function-paren", rule, {
         { code: "var obj = { get foo () {}, set foo (val) {} };" },
         {
             code: "var obj = { foo () {} };",
-            ecmaFeatures: { objectLiteralShorthandMethods: true }
+            parserOptions: { ecmaVersion: 6 }
         },
-        { code: "function* foo () {}", ecmaFeatures: { generators: true } },
-        { code: "var foo = function *() {};", ecmaFeatures: { generators: true } },
+        { code: "function* foo () {}", parserOptions: { ecmaVersion: 6 } },
+        { code: "var foo = function *() {};", parserOptions: { ecmaVersion: 6 } },
 
         { code: "function foo() {}", options: ["never"] },
         { code: "var foo = function() {}", options: ["never"] },
@@ -38,17 +38,17 @@ ruleTester.run("space-before-function-paren", rule, {
         {
             code: "var obj = { foo() {} };",
             options: ["never"],
-            ecmaFeatures: { objectLiteralShorthandMethods: true }
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "function* foo() {}",
             options: ["never"],
-            ecmaFeatures: { generators: true }
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "var foo = function*() {};",
             options: ["never"],
-            ecmaFeatures: { generators: true }
+            parserOptions: { ecmaVersion: 6 }
         },
 
         {
@@ -60,10 +60,7 @@ ruleTester.run("space-before-function-paren", rule, {
                 "var obj = { get foo() {}, set foo(val) {}, bar() {} };"
             ].join("\n"),
             options: [ { named: "never", anonymous: "always" } ],
-            ecmaFeatures: {
-                generators: true,
-                objectLiteralShorthandMethods: true
-            }
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code: [
@@ -74,26 +71,17 @@ ruleTester.run("space-before-function-paren", rule, {
                 "var obj = { get foo () {}, set foo (val) {}, bar () {} };"
             ].join("\n"),
             options: [ { named: "always", anonymous: "never" } ],
-            ecmaFeatures: {
-                generators: true,
-                objectLiteralShorthandMethods: true
-            }
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "class Foo { constructor() {} *method() {} }",
             options: [ { named: "never", anonymous: "always" } ],
-            ecmaFeatures: {
-                classes: true,
-                generators: true
-            }
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "class Foo { constructor () {} *method () {} }",
             options: [ { named: "always", anonymous: "never" } ],
-            ecmaFeatures: {
-                classes: true,
-                generators: true
-            }
+            parserOptions: { ecmaVersion: 6 }
         }
     ],
 
@@ -166,7 +154,7 @@ ruleTester.run("space-before-function-paren", rule, {
         },
         {
             code: "var obj = { foo() {} };",
-            ecmaFeatures: { objectLiteralShorthandMethods: true },
+            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     type: "FunctionExpression",
@@ -179,7 +167,7 @@ ruleTester.run("space-before-function-paren", rule, {
         },
         {
             code: "function* foo() {}",
-            ecmaFeatures: { generators: true },
+            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     type: "FunctionDeclaration",
@@ -252,7 +240,7 @@ ruleTester.run("space-before-function-paren", rule, {
         {
             code: "var obj = { foo () {} };",
             options: ["never"],
-            ecmaFeatures: { objectLiteralShorthandMethods: true },
+            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     type: "FunctionExpression",
@@ -266,7 +254,7 @@ ruleTester.run("space-before-function-paren", rule, {
         {
             code: "function* foo () {}",
             options: ["never"],
-            ecmaFeatures: { generators: true },
+            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     type: "FunctionDeclaration",
@@ -285,7 +273,7 @@ ruleTester.run("space-before-function-paren", rule, {
                 "var obj = { get foo () {}, set foo (val) {}, bar () {} };"
             ].join("\n"),
             options: [ { named: "never", anonymous: "always" } ],
-            ecmaFeatures: { objectLiteralShorthandMethods: true },
+            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     type: "FunctionDeclaration",
@@ -327,7 +315,7 @@ ruleTester.run("space-before-function-paren", rule, {
         {
             code: "class Foo { constructor () {} *method () {} }",
             options: [ { named: "never", anonymous: "always" } ],
-            ecmaFeatures: { classes: true, generators: true },
+            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     type: "FunctionExpression",
@@ -347,7 +335,7 @@ ruleTester.run("space-before-function-paren", rule, {
         {
             code: "var foo = { bar () {} }",
             options: [ { named: "never", anonymous: "always" } ],
-            ecmaFeatures: { objectLiteralShorthandMethods: true },
+            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     type: "FunctionExpression",
@@ -365,7 +353,7 @@ ruleTester.run("space-before-function-paren", rule, {
                 "var obj = { get foo() {}, set foo(val) {}, bar() {} };"
             ].join("\n"),
             options: [ { named: "always", anonymous: "never" } ],
-            ecmaFeatures: { objectLiteralShorthandMethods: true },
+            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     type: "FunctionDeclaration",

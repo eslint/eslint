@@ -30,7 +30,7 @@ ruleTester.run("no-native-reassign", rule, {
         { code: "String = 'hello world';", errors: [{ message: "String is a read-only native object.", type: "Identifier"}] },
         {
             code: "({Object = 0, String = 0} = {});",
-            ecmaFeatures: {destructuring: true},
+            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {message: "Object is a read-only native object.", type: "Identifier"},
                 {message: "String is a read-only native object.", type: "Identifier"}

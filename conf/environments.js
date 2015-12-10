@@ -22,14 +22,18 @@ module.exports = {
     },
     node: {
         globals: globals.node,
-        ecmaFeatures: {
-            globalReturn: true
+        parserOptions: {
+            ecmaFeatures: {
+                globalReturn: true
+            }
         }
     },
     commonjs: {
         globals: globals.commonjs,
-        ecmaFeatures: {
-            globalReturn: true
+        parserOptions: {
+            ecmaFeatures: {
+                globalReturn: true
+            }
         }
     },
     worker: {
@@ -88,28 +92,8 @@ module.exports = {
     },
     es6: {
         globals: globals.es6,
-        ecmaFeatures: {
-            arrowFunctions: true,
-            blockBindings: true,
-            regexUFlag: true,
-            regexYFlag: true,
-            templateStrings: true,
-            binaryLiterals: true,
-            octalLiterals: true,
-            unicodeCodePointEscapes: true,
-            superInFunctions: true,
-            defaultParams: true,
-            restParams: true,
-            forOf: true,
-            objectLiteralComputedProperties: true,
-            objectLiteralShorthandMethods: true,
-            objectLiteralShorthandProperties: true,
-            objectLiteralDuplicateProperties: true,
-            generators: true,
-            destructuring: true,
-            classes: true,
-            spread: true,
-            newTarget: true
+        parserOptions: {
+            ecmaVersion: 6
         }
     }
 };

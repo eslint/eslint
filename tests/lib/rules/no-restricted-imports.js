@@ -21,17 +21,17 @@ var rule = require("../../../lib/rules/no-restricted-imports"),
 var ruleTester = new RuleTester();
 ruleTester.run("no-restricted-imports", rule, {
     valid: [
-        { code: "import os from \"os\";", options: ["osx"], ecmaFeatures: { modules: true } },
-        { code: "import fs from \"fs\";", options: ["crypto"], ecmaFeatures: { modules: true } },
-        { code: "import path from \"path\";", options: ["crypto", "stream", "os"], ecmaFeatures: { modules: true } },
-        { code: "import async from \"async\";", ecmaFeatures: { modules: true } },
-        { code: "import \"foo\"", options: ["crypto"], ecmaFeatures: { modules: true } }
+        { code: "import os from \"os\";", options: ["osx"], parserOptions: { sourceType: "module" } },
+        { code: "import fs from \"fs\";", options: ["crypto"], parserOptions: { sourceType: "module" } },
+        { code: "import path from \"path\";", options: ["crypto", "stream", "os"], parserOptions: { sourceType: "module" } },
+        { code: "import async from \"async\";", parserOptions: { sourceType: "module" } },
+        { code: "import \"foo\"", options: ["crypto"], parserOptions: { sourceType: "module" } }
     ],
     invalid: [{
-        code: "import \"fs\"", options: ["fs"], ecmaFeatures: { modules: true },
+        code: "import \"fs\"", options: ["fs"], parserOptions: { sourceType: "module" },
         errors: [{ message: "'fs' import is restricted from being used.", type: "ImportDeclaration"}]
     }, {
-        code: "import os from \"os \";", options: ["fs", "crypto ", "stream", "os"], ecmaFeatures: { modules: true },
+        code: "import os from \"os \";", options: ["fs", "crypto ", "stream", "os"], parserOptions: { sourceType: "module" },
         errors: [{ message: "'os' import is restricted from being used.", type: "ImportDeclaration"}]
     }]
 });

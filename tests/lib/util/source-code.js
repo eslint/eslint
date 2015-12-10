@@ -22,9 +22,7 @@ var assert = require("chai").assert,
 //------------------------------------------------------------------------------
 
 var DEFAULT_CONFIG = {
-    ecmaFeatures: {
-        blockBindings: true
-    },
+    ecmaVersion: 6,
     comment: true,
     tokens: true,
     range: true,
@@ -260,7 +258,7 @@ describe("SourceCode", function() {
             var spy = sandbox.spy(assertJSDoc);
 
             eslint.on("FunctionDeclaration", spy);
-            eslint.verify(code, { ecmaFeatures: { modules: true }, rules: {}}, filename, true);
+            eslint.verify(code, { parserOptions: { sourceType: "module" }, rules: {}}, filename, true);
             assert.isTrue(spy.calledOnce, "Event handler should be called.");
 
         });
@@ -440,7 +438,7 @@ describe("SourceCode", function() {
             var spy = sandbox.spy(assertJSDoc);
 
             eslint.on("ArrowFunctionExpression", spy);
-            eslint.verify(code, { ecmaFeatures: { arrowFunctions: true }, rules: {}}, filename, true);
+            eslint.verify(code, { parserOptions: { ecmaVersion: 6 }, rules: {}}, filename, true);
             assert.isTrue(spy.calledOnce, "Event handler should be called.");
         });
 
@@ -625,7 +623,7 @@ describe("SourceCode", function() {
             var spy = sandbox.spy(assertJSDoc);
 
             eslint.on("ClassExpression", spy);
-            eslint.verify(code, { rules: {}, ecmaFeatures: {classes: true}}, filename, true);
+            eslint.verify(code, { rules: {}, parserOptions: { ecmaVersion: 6 }}, filename, true);
             assert.isTrue(spy.calledOnce, "Event handler should be called.");
         });
 
@@ -653,7 +651,7 @@ describe("SourceCode", function() {
             var spy = sandbox.spy(assertJSDoc);
 
             eslint.on("ClassDeclaration", spy);
-            eslint.verify(code, { rules: {}, ecmaFeatures: {classes: true}}, filename, true);
+            eslint.verify(code, { rules: {}, parserOptions: { ecmaVersion: 6 }}, filename, true);
             assert.isTrue(spy.calledOnce, "Event handler should be called.");
         });
 
@@ -903,9 +901,7 @@ describe("SourceCode", function() {
     describe("eslint.verify()", function() {
 
         var CONFIG = {
-            ecmaFeatures: {
-                blockBindings: true
-            }
+            parserOptions: { ecmaVersion: 6 }
         };
 
         it("should work when passed a SourceCode object without a config", function() {
@@ -927,7 +923,7 @@ describe("SourceCode", function() {
         it("should report an error when using let and blockBindings is false", function() {
             var sourceCode = new SourceCode("let foo = bar;", AST),
                 messages = eslint.verify(sourceCode, {
-                    ecmaFeatures: { blockBindings: true },
+                    parserOptions: { ecmaVersion: 6 },
                     rules: { "no-unused-vars": 2 }
                 });
 
