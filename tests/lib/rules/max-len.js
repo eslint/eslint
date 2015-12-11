@@ -26,6 +26,12 @@ ruleTester.run("max-len", rule, {
             code: "\t\t\tvar i = 1;\n\t\t\tvar j = 1;",
             options: [15, 1]
         }, {
+            code: "var one\t\t= 1;\nvar three\t= 3;",
+            options: [16, 4]
+        }, {
+            code: "\tvar one\t\t= 1;\n\tvar three\t= 3;",
+            options: [20, 4]
+        }, {
             code: "var i = 1;\r\nvar i = 1;\n",
             options: [10, 4]
         }, {
