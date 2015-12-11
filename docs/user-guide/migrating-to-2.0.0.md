@@ -170,3 +170,51 @@ Additionally, if you are using `context.ecmaFeatures` inside of your rules, then
 1. If you're using a non-ES6 feature flag such as `context.ecmaFeatures.jsx`, rewrite to check for `context.parserOptions.ecmaFeatures.jsx`.
 
 If you're not using `ecmaFeatures` in your configuration, then no change is needed.
+
+
+## Scope Analysis Changes
+
+We found some bugs in our scope analysis that needed to be addressed. Specifically, we were not properly accounting for global variables in all the ways they are defined.
+
+Originally, `Variable` objects and `Reference` objects refer each other:
+
+* `Variable#references` property is an array of `Reference` objects which are referencing the variable.
+* `Reference#resolved` property is a `Variable` object which are referenced.
+
+But until 1.x, the following variables and references had the wrong value (empty) in those properties:
+
+* `var` declarations in the global.
+* `function` declarations in the global.
+* Variables defined in config files.
+* Variables defined in `/* global */` comments.
+
+Now, those variables and references have correct values in these properties.
+
+`Scope#through` property has references where `Reference#resolved` is `null`. So as a result of this change, the value of `Scope#through` property was changed also.
+
+**To address:** If you are using `Scope#through` to find references of a built-in global variable, you need to make several changes.
+
+For example, this is how you might locate the `window` global variable in 1.x:
+
+```js
+var globalScope = context.getScope();
+globalScope.through.forEach(function(reference) {
+    if (reference.identifier.name === "window") {
+        checkForWindow(reference);
+    }
+});
+```
+
+This was a roundabout way to find the variable because it was added after the fact by ESLint. The `window` variable was in `Scope#through` because the definition couldn't be found.
+
+In 2.0.0, `window` is no longer located in `Scope#through` because we have added back the correct declaration. That means you can reference the `window` object (or any other global object) directly. So the previous example would change to this:
+
+```js
+var globalScope = context.getScope();
+var variable = globalScope.set.get("window");
+if (variable) {
+    variable.references.forEach(checkForWindow);
+}
+```
+
+Further Reading: http://estools.github.io/escope/
