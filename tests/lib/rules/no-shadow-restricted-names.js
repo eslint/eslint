@@ -20,7 +20,7 @@ ruleTester.run("no-shadow-restricted-names", rule, {
         "!function foo(bar){ var baz; }",
         "!function(bar){ var baz; }",
         "try {} catch(e) {}",
-        { code: "export default function() {}", ecmaFeatures: { modules: true }}
+        { code: "export default function() {}", parserOptions: { sourceType: "module" }}
     ],
     invalid: [
         { code: "function NaN(NaN) { var NaN; !function NaN(NaN) { try {} catch(NaN) {} }; }",
@@ -74,7 +74,7 @@ ruleTester.run("no-shadow-restricted-names", rule, {
             ]
         },
         { code: "var eval = (eval) => { var eval; !function eval(eval) { try {} catch(eval) {} }; }",
-            ecmaFeatures: { arrowFunctions: true },
+            parserOptions: { ecmaVersion: 6 },
             errors: [
                 { message: "Shadowing of global property \"eval\".", type: "Identifier"},
                 { message: "Shadowing of global property \"eval\".", type: "Identifier"},

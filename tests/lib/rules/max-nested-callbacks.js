@@ -40,7 +40,7 @@ ruleTester.run("max-nested-callbacks", rule, {
         { code: "foo(function() { bar(thing, function(data) {}); });", options: [3] },
         { code: "var foo = function() {}; bar(function(){ baz(function() { qux(foo); }) });", options: [2] },
         { code: "fn(function(){}, function(){}, function(){});", options: [2] },
-        { code: "fn(() => {}, function(){}, function(){});", options: [2], ecmaFeatures: { arrowFunctions: true } },
+        { code: "fn(() => {}, function(){}, function(){});", options: [2], parserOptions: { ecmaVersion: 6 } },
         { code: nestFunctions(10)}
 
     ],
@@ -53,13 +53,13 @@ ruleTester.run("max-nested-callbacks", rule, {
         {
             code: "foo(function() { bar(thing, (data) => { baz(function() {}); }); });",
             options: [2],
-            ecmaFeatures: { arrowFunctions: true },
+            parserOptions: { ecmaVersion: 6 },
             errors: [{ message: "Too many nested callbacks (3). Maximum allowed is 2.", type: "FunctionExpression"}]
         },
         {
             code: "foo(() => { bar(thing, (data) => { baz( () => {}); }); });",
             options: [2],
-            ecmaFeatures: { arrowFunctions: true },
+            parserOptions: { ecmaVersion: 6 },
             errors: [{ message: "Too many nested callbacks (3). Maximum allowed is 2.", type: "ArrowFunctionExpression"}]
         },
         {

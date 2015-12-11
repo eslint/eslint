@@ -37,7 +37,9 @@ describe("ConfigOps", function() {
             assert.deepEqual(result, {
                 env: config.env,
                 rules: config.rules,
-                ecmaFeatures: environments.node.ecmaFeatures,
+                parserOptions: {
+                    ecmaFeatures: environments.node.parserOptions.ecmaFeatures
+                },
                 globals: environments.node.globals
             });
         });
@@ -70,7 +72,10 @@ describe("ConfigOps", function() {
             assert.deepEqual(result, {
                 env: config.env,
                 rules: config.rules,
-                ecmaFeatures: assign({}, environments.node.ecmaFeatures, environments.es6.ecmaFeatures),
+                parserOptions: {
+                    ecmaVersion: 6,
+                    ecmaFeatures: environments.node.parserOptions.ecmaFeatures
+                },
                 globals: assign({}, environments.node.globals, environments.es6.globals)
             });
         });
@@ -84,7 +89,9 @@ describe("ConfigOps", function() {
                 env: {
                     node: true
                 },
-                ecmaFeatures: environments.node.ecmaFeatures,
+                parserOptions: {
+                    ecmaFeatures: environments.node.parserOptions.ecmaFeatures
+                },
                 globals: environments.node.globals,
                 rules: {}
             });
@@ -96,7 +103,9 @@ describe("ConfigOps", function() {
                 env: {
                     es6: true
                 },
-                ecmaFeatures: environments.es6.ecmaFeatures,
+                parserOptions: {
+                    ecmaVersion: 6
+                },
                 globals: environments.es6.globals,
                 rules: {}
             });
@@ -106,7 +115,7 @@ describe("ConfigOps", function() {
             var config = ConfigOps.createEnvironmentConfig({});
             assert.deepEqual(config, {
                 env: {},
-                ecmaFeatures: {},
+                parserOptions: {},
                 globals: {},
                 rules: {}
             });
@@ -118,7 +127,7 @@ describe("ConfigOps", function() {
                 env: {
                     foo: true
                 },
-                ecmaFeatures: {},
+                parserOptions: {},
                 globals: {},
                 rules: {}
             });
@@ -176,36 +185,41 @@ describe("ConfigOps", function() {
             assert.equal(result.rules["no-mixed-requires"][1], true);
         });
 
-        it("should combine configs when passed configs with ecmaFeatures", function() {
+        it("should combine configs when passed configs with parserOptions", function() {
             var config = [
-                { ecmaFeatures: { blockBindings: true } },
-                { ecmaFeatures: { forOf: true } }
+                { parserOptions: { ecmaFeatures: { blockBindings: true } } },
+                { parserOptions: { ecmaFeatures: { forOf: true } } }
             ];
 
             var result = ConfigOps.merge(config[0], config[1]);
 
             assert.deepEqual(result, {
-                ecmaFeatures: {
-                    blockBindings: true,
-                    forOf: true
+                parserOptions: {
+                    ecmaFeatures: {
+                        blockBindings: true,
+                        forOf: true
+                    }
                 }
             });
 
-            assert.deepEqual(config[0], { ecmaFeatures: { blockBindings: true }});
-            assert.deepEqual(config[1], { ecmaFeatures: { forOf: true }});
+            // double-check that originals were not changed
+            assert.deepEqual(config[0], { parserOptions: { ecmaFeatures: { blockBindings: true }}});
+            assert.deepEqual(config[1], { parserOptions: { ecmaFeatures: { forOf: true }}});
         });
 
         it("should override configs when passed configs with the same ecmaFeatures", function() {
             var config = [
-                { ecmaFeatures: { forOf: false } },
-                { ecmaFeatures: { forOf: true } }
+                { parserOptions: { ecmaFeatures: { forOf: false } } },
+                { parserOptions: { ecmaFeatures: { forOf: true } } }
             ];
 
             var result = ConfigOps.merge(config[0], config[1]);
 
             assert.deepEqual(result, {
-                ecmaFeatures: {
-                    forOf: true
+                parserOptions: {
+                    ecmaFeatures: {
+                        forOf: true
+                    }
                 }
             });
         });
@@ -284,7 +298,9 @@ describe("ConfigOps", function() {
                         "quotes": [2, { "exception": ["hi"] }],
                         "smile": [1, ["hi", "bye"]]
                     },
-                    ecmaFeatures: { blockBindings: true },
+                    parserOptions: {
+                        ecmaFeatures: { blockBindings: true }
+                    },
                     env: { browser: true },
                     globals: { foo: false}
                 },
@@ -295,7 +311,9 @@ describe("ConfigOps", function() {
                         "test": 1,
                         "smile": [1, ["xxx", "yyy"]]
                     },
-                    ecmaFeatures: { forOf: true },
+                    parserOptions: {
+                        ecmaFeatures: { forOf: true }
+                    },
                     env: { browser: false },
                     globals: { foo: true}
                 }
@@ -304,9 +322,11 @@ describe("ConfigOps", function() {
             var result = ConfigOps.merge(config[0], config[1]);
 
             assert.deepEqual(result, {
-                "ecmaFeatures": {
-                    "blockBindings": true,
-                    "forOf": true
+                parserOptions: {
+                    "ecmaFeatures": {
+                        "blockBindings": true,
+                        "forOf": true
+                    }
                 },
                 "env": {
                     "browser": false
@@ -344,7 +364,9 @@ describe("ConfigOps", function() {
                     "quotes": [2, { "exception": ["hi"] }],
                     "smile": [1, ["hi", "bye"]]
                 },
-                ecmaFeatures: { blockBindings: true },
+                parserOptions: {
+                    ecmaFeatures: { blockBindings: true }
+                },
                 env: { browser: true },
                 globals: { foo: false}
             });
@@ -355,7 +377,9 @@ describe("ConfigOps", function() {
                     "test": 1,
                     "smile": [1, ["xxx", "yyy"]]
                 },
-                ecmaFeatures: { forOf: true },
+                parserOptions: {
+                    ecmaFeatures: { forOf: true }
+                },
                 env: { browser: false },
                 globals: { foo: true }
             });

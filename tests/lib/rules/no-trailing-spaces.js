@@ -140,7 +140,7 @@ ruleTester.run("no-trailing-spaces", rule, {
             "  short,\n" +
             "  short2\n" +
             "}\n",
-            "ecmaFeatures": {objectLiteralShorthandProperties: true},
+            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 message: "Trailing spaces not allowed.",
                 type: "Program"

@@ -87,7 +87,7 @@ var invalid = [
     // non-block statements
     {
         code: "var getModule = x => require(x);",
-        ecmaFeatures: { arrowFunctions: true },
+        parserOptions: { ecmaVersion: 6 },
         errors: [{
             line: 1,
             column: 22,
@@ -97,7 +97,7 @@ var invalid = [
     },
     {
         code: "var x = (x => require(x))('weird')",
-        ecmaFeatures: { arrowFunctions: true },
+        parserOptions: { ecmaVersion: 6 },
         errors: [{
             line: 1,
             column: 15,

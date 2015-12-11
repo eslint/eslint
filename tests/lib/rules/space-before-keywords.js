@@ -139,14 +139,14 @@ ruleTester.run("space-before-keywords", rule, {
         { code: "function foo () { return function () {} }" },
         { code: "var foo = (function bar () {})()" },
         { code: "var foo = { foo: function () {} }" },
-        { code: "<Foo onClick={function () {}} />", ecmaFeatures: { jsx: true } },
+        { code: "<Foo onClick={function () {}} />", parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } } },
         { code: "var foo = function bar () {}", options: never },
         { code: "var foo =\nfunction bar () {}", options: never },
         { code: "function foo () { return function () {} }", options: never },
         { code: "var foo = { foo:function () {} }", options: never },
-        { code: "var foo = {bar() {}}", ecmaFeatures: { objectLiteralShorthandMethods: true } },
-        { code: "var foo = { bar() {} }", ecmaFeatures: { objectLiteralShorthandMethods: true }, options: never },
-        { code: "var foo = {\nbar() {}}", ecmaFeatures: { objectLiteralShorthandMethods: true }, options: never },
+        { code: "var foo = {bar() {}}", parserOptions: { ecmaVersion: 6 } },
+        { code: "var foo = { bar() {} }", parserOptions: { ecmaVersion: 6 }, options: never },
+        { code: "var foo = {\nbar() {}}", parserOptions: { ecmaVersion: 6 }, options: never },
         { code: "var foo = {get bar() {}}" },
         { code: "var foo = {get bar() {}}", options: never },
         { code: "var foo = {set bar(v) {}}" },
@@ -154,90 +154,90 @@ ruleTester.run("space-before-keywords", rule, {
         // YieldExpression
         {
             code: "function* foo() { yield 0; }",
-            ecmaFeatures: { generators: true }
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "function* foo() { if (yield 0) {} }",
-            ecmaFeatures: { generators: true }
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "function* foo() {\nyield 0; }",
-            ecmaFeatures: { generators: true }
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "function* foo() { yield 0; }",
-            ecmaFeatures: { generators: true },
+            parserOptions: { ecmaVersion: 6 },
             options: never
         },
         {
             code: "function* foo() {\nyield 0; }",
-            ecmaFeatures: { generators: true },
+            parserOptions: { ecmaVersion: 6 },
             options: never
         },
         // ForOfStatement
         {
             code: "; for (var foo of [1, 2, 3]) {}",
-            ecmaFeatures: { forOf: true }
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code: ";\nfor (var foo of [1, 2, 3]) {}",
-            ecmaFeatures: { forOf: true }
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "; for (var foo of [1, 2, 3]) {}",
-            ecmaFeatures: { forOf: true },
+            parserOptions: { ecmaVersion: 6 },
             options: never
         },
         {
             code: ";\nfor (var foo of [1, 2, 3]) {}",
-            ecmaFeatures: { forOf: true },
+            parserOptions: { ecmaVersion: 6 },
             options: never
         },
         // ClassBody
         {
             code: "; class Bar {}",
-            ecmaFeatures: { classes: true }
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code: ";\nclass Bar {}",
-            ecmaFeatures: { classes: true }
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "; class Bar extends Foo.Baz {}",
-            ecmaFeatures: { classes: true }
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "; class Bar {}",
-            ecmaFeatures: { classes: true },
+            parserOptions: { ecmaVersion: 6 },
             options: never
         },
         {
             code: ";\nclass Bar {}",
-            ecmaFeatures: { classes: true },
+            parserOptions: { ecmaVersion: 6 },
             options: never
         },
         {
             code: "; class Bar extends Foo.Baz {}",
-            ecmaFeatures: { classes: true },
+            parserOptions: { ecmaVersion: 6 },
             options: never
         },
         // Super
         {
             code: "class Bar { constructor() { super(); } }",
-            ecmaFeatures: { classes: true }
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "class Bar { constructor() {\nsuper(); } }",
-            ecmaFeatures: { classes: true }
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "class Bar { constructor() { super(); } }",
-            ecmaFeatures: { classes: true },
+            parserOptions: { ecmaVersion: 6 },
             options: never
         },
         {
             code: "class Bar { constructor() {\nsuper(); } }",
-            ecmaFeatures: { classes: true },
+            parserOptions: { ecmaVersion: 6 },
             options: never
         }
     ],
@@ -427,27 +427,27 @@ ruleTester.run("space-before-keywords", rule, {
         {
             code: "function* foo() { var foo = 'bar';yield foo; }",
             errors: [ { message: expectedSpacingErrorMessageTpl("yield"), type: "YieldExpression" } ],
-            ecmaFeatures: { generators: true },
+            parserOptions: { ecmaVersion: 6 },
             output: "function* foo() { var foo = 'bar'; yield foo; }"
         },
         // ForOfStatement
         {
             code: ";for (var b of [1, 2, 3]) {}",
             errors: [ { message: expectedSpacingErrorMessageTpl("for"), type: "ForOfStatement" } ],
-            ecmaFeatures: { forOf: true },
+            parserOptions: { ecmaVersion: 6 },
             output: "; for (var b of [1, 2, 3]) {}"
         },
         // ClassBody
         {
             code: ";class Bar {}",
             errors: [ { message: expectedSpacingErrorMessageTpl("class"), type: "Keyword" } ],
-            ecmaFeatures: { classes: true },
+            parserOptions: { ecmaVersion: 6 },
             output: "; class Bar {}"
         },
         {
             code: ";class Bar extends Foo.Baz {}",
             errors: [ { message: expectedSpacingErrorMessageTpl("class"), type: "Keyword" } ],
-            ecmaFeatures: { classes: true },
+            parserOptions: { ecmaVersion: 6 },
             output: "; class Bar extends Foo.Baz {}"
         }
     ]

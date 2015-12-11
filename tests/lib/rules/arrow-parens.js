@@ -18,22 +18,22 @@ var rule = require("../../../lib/rules/arrow-parens"),
 var ruleTester = new RuleTester();
 
 var valid = [
-    { code: "() => {}", ecmaFeatures: { arrowFunctions: true } },
-    { code: "(a) => {}", ecmaFeatures: { arrowFunctions: true } },
-    { code: "(a) => a", ecmaFeatures: { arrowFunctions: true } },
-    { code: "(a) => {\n}", ecmaFeatures: { arrowFunctions: true } },
-    { code: "a.then((foo) => {});", ecmaFeatures: { arrowFunctions: true } },
-    { code: "a.then((foo) => { if (true) {}; });", ecmaFeatures: { arrowFunctions: true } },
+    { code: "() => {}", parserOptions: { ecmaVersion: 6 } },
+    { code: "(a) => {}", parserOptions: { ecmaVersion: 6 } },
+    { code: "(a) => a", parserOptions: { ecmaVersion: 6 } },
+    { code: "(a) => {\n}", parserOptions: { ecmaVersion: 6 } },
+    { code: "a.then((foo) => {});", parserOptions: { ecmaVersion: 6 } },
+    { code: "a.then((foo) => { if (true) {}; });", parserOptions: { ecmaVersion: 6 } },
 
     // as-needed
-    { code: "() => {}", options: ["as-needed"], ecmaFeatures: { arrowFunctions: true } },
-    { code: "a => {}", options: ["as-needed"], ecmaFeatures: { arrowFunctions: true } },
-    { code: "a => a", options: ["as-needed"], ecmaFeatures: { arrowFunctions: true } },
-    { code: "([a, b]) => {}", options: ["as-needed"], ecmaFeatures: { arrowFunctions: true, destructuring: true } },
-    { code: "({ a, b }) => {}", options: ["as-needed"], ecmaFeatures: { arrowFunctions: true, destructuring: true } },
-    { code: "(a = 10) => {}", options: ["as-needed"], ecmaFeatures: { arrowFunctions: true, destructuring: true, defaultParams: true } },
-    { code: "(...a) => a[0]", options: ["as-needed"], ecmaFeatures: { arrowFunctions: true, restParams: true } },
-    { code: "(a, b) => {}", options: ["as-needed"], ecmaFeatures: { arrowFunctions: true } }
+    { code: "() => {}", options: ["as-needed"], parserOptions: { ecmaVersion: 6 } },
+    { code: "a => {}", options: ["as-needed"], parserOptions: { ecmaVersion: 6 } },
+    { code: "a => a", options: ["as-needed"], parserOptions: { ecmaVersion: 6 } },
+    { code: "([a, b]) => {}", options: ["as-needed"], parserOptions: { ecmaVersion: 6 } },
+    { code: "({ a, b }) => {}", options: ["as-needed"], parserOptions: { ecmaVersion: 6 } },
+    { code: "(a = 10) => {}", options: ["as-needed"], parserOptions: { ecmaVersion: 6 } },
+    { code: "(...a) => a[0]", options: ["as-needed"], parserOptions: { ecmaVersion: 6 } },
+    { code: "(a, b) => {}", options: ["as-needed"], parserOptions: { ecmaVersion: 6 } }
 
 ];
 
@@ -44,7 +44,7 @@ var type = "ArrowFunctionExpression";
 var invalid = [
     {
         code: "a => {}",
-        ecmaFeatures: { arrowFunctions: true },
+        parserOptions: { ecmaVersion: 6 },
         errors: [{
             line: 1,
             column: 1,
@@ -54,7 +54,7 @@ var invalid = [
     },
     {
         code: "a => a",
-        ecmaFeatures: { arrowFunctions: true },
+        parserOptions: { ecmaVersion: 6 },
         errors: [{
             line: 1,
             column: 1,
@@ -64,7 +64,7 @@ var invalid = [
     },
     {
         code: "a => {\n}",
-        ecmaFeatures: { arrowFunctions: true },
+        parserOptions: { ecmaVersion: 6 },
         errors: [{
             line: 1,
             column: 1,
@@ -74,7 +74,7 @@ var invalid = [
     },
     {
         code: "a.then(foo => {});",
-        ecmaFeatures: { arrowFunctions: true },
+        parserOptions: { ecmaVersion: 6 },
         errors: [{
             line: 1,
             column: 8,
@@ -84,7 +84,7 @@ var invalid = [
     },
     {
         code: "a.then(foo => a);",
-        ecmaFeatures: { arrowFunctions: true },
+        parserOptions: { ecmaVersion: 6 },
         errors: [{
             line: 1,
             column: 8,
@@ -94,7 +94,7 @@ var invalid = [
     },
     {
         code: "a(foo => { if (true) {}; });",
-        ecmaFeatures: { arrowFunctions: true },
+        parserOptions: { ecmaVersion: 6 },
         errors: [{
             line: 1,
             column: 3,
@@ -107,7 +107,7 @@ var invalid = [
     {
         code: "(a) => a",
         options: ["as-needed"],
-        ecmaFeatures: { arrowFunctions: true },
+        parserOptions: { ecmaVersion: 6 },
         errors: [{
             line: 1,
             column: 1,
@@ -118,7 +118,7 @@ var invalid = [
     {
         code: "(b) => b",
         options: ["as-needed"],
-        ecmaFeatures: { arrowFunctions: true },
+        parserOptions: { ecmaVersion: 6 },
         errors: [{
             line: 1,
             column: 1,

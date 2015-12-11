@@ -34,11 +34,11 @@ ruleTester.run("block-spacing", rule, {
         {code: "do { foo(); } while (a);"},
         {code: "for (;;) { foo(); }"},
         {code: "for (var a in b) { foo(); }"},
-        {code: "for (var a of b) { foo(); }", ecmaFeatures: {forOf: true}},
+        {code: "for (var a of b) { foo(); }", parserOptions: { ecmaVersion: 6 }},
         {code: "try { foo(); } catch (e) { foo(); }"},
         {code: "function foo() { bar(); }"},
         {code: "(function() { bar(); });"},
-        {code: "(() => { bar(); });", ecmaFeatures: {arrowFunctions: true}},
+        {code: "(() => { bar(); });", parserOptions: { ecmaVersion: 6 }},
         {code: "if (a) { /* comment */ foo(); /* comment */ }"},
         {code: "if (a) { //comment\n foo(); }"},
 
@@ -55,11 +55,11 @@ ruleTester.run("block-spacing", rule, {
         {code: "do {foo();} while (a);", options: ["never"]},
         {code: "for (;;) {foo();}", options: ["never"]},
         {code: "for (var a in b) {foo();}", options: ["never"]},
-        {code: "for (var a of b) {foo();}", ecmaFeatures: {forOf: true}, options: ["never"]},
+        {code: "for (var a of b) {foo();}", parserOptions: { ecmaVersion: 6 }, options: ["never"]},
         {code: "try {foo();} catch (e) {foo();}", options: ["never"]},
         {code: "function foo() {bar();}", options: ["never"]},
         {code: "(function() {bar();});", options: ["never"]},
-        {code: "(() => {bar();});", ecmaFeatures: {arrowFunctions: true}, options: ["never"]},
+        {code: "(() => {bar();});", parserOptions: { ecmaVersion: 6 }, options: ["never"]},
         {code: "if (a) {/* comment */ foo(); /* comment */}", options: ["never"]},
         {code: "if (a) { //comment\n foo();}", options: ["never"]}
     ],
@@ -169,7 +169,7 @@ ruleTester.run("block-spacing", rule, {
         {
             code: "for (var a of b) {foo();}",
             output: "for (var a of b) { foo(); }",
-            ecmaFeatures: {forOf: true},
+            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {type: "BlockStatement", line: 1, column: 18, message: "Requires a space after \"{\"."},
                 {type: "BlockStatement", line: 1, column: 25, message: "Requires a space before \"}\"."}
@@ -206,7 +206,7 @@ ruleTester.run("block-spacing", rule, {
         {
             code: "(() => {bar();});",
             output: "(() => { bar(); });",
-            ecmaFeatures: {arrowFunctions: true},
+            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {type: "BlockStatement", line: 1, column: 8, message: "Requires a space after \"{\"."},
                 {type: "BlockStatement", line: 1, column: 15, message: "Requires a space before \"}\"."}
@@ -215,7 +215,7 @@ ruleTester.run("block-spacing", rule, {
         {
             code: "if (a) {/* comment */ foo(); /* comment */}",
             output: "if (a) { /* comment */ foo(); /* comment */ }",
-            ecmaFeatures: {arrowFunctions: true},
+            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {type: "BlockStatement", line: 1, column: 8, message: "Requires a space after \"{\"."},
                 {type: "BlockStatement", line: 1, column: 43, message: "Requires a space before \"}\"."}
@@ -224,7 +224,7 @@ ruleTester.run("block-spacing", rule, {
         {
             code: "if (a) {//comment\n foo(); }",
             output: "if (a) { //comment\n foo(); }",
-            ecmaFeatures: {arrowFunctions: true},
+            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {type: "BlockStatement", line: 1, column: 8, message: "Requires a space after \"{\"."}
             ]
@@ -340,7 +340,7 @@ ruleTester.run("block-spacing", rule, {
             code: "for (var a of b) { foo(); }",
             output: "for (var a of b) {foo();}",
             options: ["never"],
-            ecmaFeatures: {forOf: true},
+            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {type: "BlockStatement", line: 1, column: 18, message: "Unexpected space(s) after \"{\"."},
                 {type: "BlockStatement", line: 1, column: 27, message: "Unexpected space(s) before \"}\"."}
@@ -380,7 +380,7 @@ ruleTester.run("block-spacing", rule, {
         {
             code: "(() => { bar(); });",
             output: "(() => {bar();});",
-            ecmaFeatures: {arrowFunctions: true},
+            parserOptions: { ecmaVersion: 6 },
             options: ["never"],
             errors: [
                 {type: "BlockStatement", line: 1, column: 8, message: "Unexpected space(s) after \"{\"."},

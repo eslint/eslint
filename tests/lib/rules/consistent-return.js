@@ -29,8 +29,8 @@ ruleTester.run("consistent-return", rule, {
         "f(function() { if (true) return true; else return false; })",
         "function foo() { function bar() { return true; } return; }",
         "function foo() { function bar() { return; } return false; }",
-        { code: "var x = () => {  return {}; };", ecmaFeatures: { arrowFunctions: true } },
-        { code: "if (true) { return 1; } return 0;", ecmaFeatures: { globalReturn: true } }
+        { code: "var x = () => {  return {}; };", parserOptions: { ecmaVersion: 6 } },
+        { code: "if (true) { return 1; } return 0;", parserOptions: { ecmaVersion: 6, ecmaFeatures: { globalReturn: true } } }
     ],
 
     invalid: [
@@ -45,7 +45,7 @@ ruleTester.run("consistent-return", rule, {
         },
         {
             code: "var foo = () => { if (true) return true; else return; }",
-            ecmaFeatures: { arrowFunctions: true },
+            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     message: "Expected a return value.",
@@ -82,7 +82,7 @@ ruleTester.run("consistent-return", rule, {
         },
         {
             code: "f(a => { if (true) return; else return false; })",
-            ecmaFeatures: { arrowFunctions: true },
+            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     message: "Expected no return value.",
@@ -92,7 +92,7 @@ ruleTester.run("consistent-return", rule, {
         },
         {
             code: "if (true) { return 1; } return;",
-            ecmaFeatures: { globalReturn: true },
+            parserOptions: { ecmaFeatures: { globalReturn: true } },
             errors: [
                 {
                     message: "Expected a return value.",
@@ -132,7 +132,7 @@ ruleTester.run("consistent-return", rule, {
         },
         {
             code: "f(() => { if (a) return true; });",
-            ecmaFeatures: {arrowFunctions: true},
+            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     message: "Expected to return a value at the end of this function.",
@@ -143,7 +143,7 @@ ruleTester.run("consistent-return", rule, {
         },
         {
             code: "var obj = {foo() { if (a) return true; }};",
-            ecmaFeatures: {objectLiteralShorthandMethods: true},
+            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     message: "Expected to return a value at the end of this method.",
@@ -154,7 +154,7 @@ ruleTester.run("consistent-return", rule, {
         },
         {
             code: "class A {foo() { if (a) return true; }};",
-            ecmaFeatures: {classes: true},
+            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     message: "Expected to return a value at the end of this method.",
@@ -165,7 +165,7 @@ ruleTester.run("consistent-return", rule, {
         },
         {
             code: "if (a) return true;",
-            ecmaFeatures: {globalReturn: true},
+            parserOptions: { ecmaFeatures: { globalReturn: true } },
             errors: [
                 {
                     message: "Expected to return a value at the end of this program.",

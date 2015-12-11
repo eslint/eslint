@@ -32,7 +32,7 @@ ruleTester.run("key-spacing", rule, {
     }, {
         code: "var obj = { [(a + b)]: value };",
         options: [{}],
-        ecmaFeatures: { objectLiteralComputedProperties: true }
+        parserOptions: { ecmaVersion: 6 }
     }, {
         code: "var foo = { a:bar };",
         options: [{
@@ -80,7 +80,7 @@ ruleTester.run("key-spacing", rule, {
         options: [{
             align: "colon"
         }],
-        ecmaFeatures: { objectLiteralComputedProperties: true }
+        parserOptions: { ecmaVersion: 6 }
     }, {
         code: [
             "callExpr(arg, {",
@@ -94,7 +94,7 @@ ruleTester.run("key-spacing", rule, {
             beforeColon: true,
             afterColon: false
         }],
-        ecmaFeatures: { objectLiteralComputedProperties: true }
+        parserOptions: { ecmaVersion: 6 }
     }, {
         code: [
             "var obj = {",
@@ -213,7 +213,7 @@ ruleTester.run("key-spacing", rule, {
             "    b",
             "};"
         ].join("\n"),
-        ecmaFeatures: { modules: true, objectLiteralShorthandProperties: true },
+        parserOptions: { sourceType: "module" },
         options: [{ "align": "value" }]
     }, {
         code: [
@@ -223,7 +223,7 @@ ruleTester.run("key-spacing", rule, {
             "    b",
             "};"
         ].join("\n"),
-        ecmaFeatures: { objectLiteralShorthandProperties: true }
+        parserOptions: { ecmaVersion: 6 }
     }, {
         code: [
             "var test = {",
@@ -232,7 +232,7 @@ ruleTester.run("key-spacing", rule, {
             "    d",
             "};"
         ].join("\n"),
-        ecmaFeatures: { objectLiteralShorthandProperties: true },
+        parserOptions: { ecmaVersion: 6 },
         options: [{ "align": "value" }]
     }, {
         code: [
@@ -242,7 +242,7 @@ ruleTester.run("key-spacing", rule, {
             "    baz:    456",
             "};"
         ].join("\n"),
-        ecmaFeatures: { objectLiteralShorthandProperties: true },
+        parserOptions: { ecmaVersion: 6 },
         options: [{ "align": "value" }]
     }, {
         code: [
@@ -251,7 +251,7 @@ ruleTester.run("key-spacing", rule, {
             "    a() { }",
             "};"
         ].join("\n"),
-        ecmaFeatures: { objectLiteralShorthandMethods: true }
+        parserOptions: { ecmaVersion: 6 }
     }, {
         code: [
             "var test = {",
@@ -260,7 +260,7 @@ ruleTester.run("key-spacing", rule, {
             "    b() { }",
             "};"
         ].join("\n"),
-        ecmaFeatures: { objectLiteralShorthandMethods: true },
+        parserOptions: { ecmaVersion: 6 },
         options: [{ "align": "value" }]
     }, {
         code: [
@@ -270,7 +270,7 @@ ruleTester.run("key-spacing", rule, {
             "    baz:    456",
             "};"
         ].join("\n"),
-        ecmaFeatures: { objectLiteralShorthandMethods: true },
+        parserOptions: { ecmaVersion: 6 },
         options: [{ "align": "value" }]
     }, {
         code: [
@@ -282,7 +282,7 @@ ruleTester.run("key-spacing", rule, {
             "    baz: 456",
             "};"
         ].join("\n"),
-        ecmaFeatures: { objectLiteralShorthandMethods: true },
+        parserOptions: { ecmaVersion: 6 },
         options: [{ "align": "value" }]
     }, {
         code: [
@@ -325,7 +325,7 @@ ruleTester.run("key-spacing", rule, {
     }, {
         code: "var obj = { [ (a + b) ]:value };",
         options: [{}],
-        ecmaFeatures: { objectLiteralComputedProperties: true },
+        parserOptions: { ecmaVersion: 6 },
         errors: [{ message: "Missing space before value for computed key \"a + b\".", type: "Identifier", line: 1, column: 25 }]
     }, {
         code: "fn({ foo:bar, 'key' :value });",
@@ -415,7 +415,7 @@ ruleTester.run("key-spacing", rule, {
         options: [{
             align: "value"
         }],
-        ecmaFeatures: { objectLiteralComputedProperties: true },
+        parserOptions: { ecmaVersion: 6 },
         errors: [
             { message: "Extra space before value for key \"a\".", type: "CallExpression", line: 2, column: 11 },
             { message: "Extra space after key \"b\".", type: "Literal", line: 3, column: 5 },
@@ -551,7 +551,7 @@ ruleTester.run("key-spacing", rule, {
             "    baz: 456",
             "};"
         ].join("\n"),
-        ecmaFeatures: { objectLiteralShorthandProperties: true },
+        parserOptions: { ecmaVersion: 6 },
         options: [{ "align": "value" }],
         errors: [
             { message: "Missing space before value for key \"baz\".", line: 4, column: 10, type: "Literal" }
@@ -564,7 +564,7 @@ ruleTester.run("key-spacing", rule, {
             "    baz:    456",
             "};"
         ].join("\n"),
-        ecmaFeatures: { objectLiteralShorthandProperties: true },
+        parserOptions: { ecmaVersion: 6 },
         options: [{ "align": "value" }],
         errors: [
             { message: "Extra space before value for key \"foobar\".", line: 2, column: 14, type: "Literal" }
@@ -577,7 +577,7 @@ ruleTester.run("key-spacing", rule, {
             "    baz: 456",
             "};"
         ].join("\n"),
-        ecmaFeatures: { objectLiteralShorthandMethods: true },
+        parserOptions: { ecmaVersion: 6 },
         options: [{ "align": "value" }],
         errors: [
             { message: "Missing space before value for key \"baz\".", line: 4, column: 10, type: "Literal" }
@@ -590,7 +590,7 @@ ruleTester.run("key-spacing", rule, {
             "    baz:    456",
             "};"
         ].join("\n"),
-        ecmaFeatures: { objectLiteralShorthandMethods: true },
+        parserOptions: { ecmaVersion: 6 },
         options: [{ "align": "value" }],
         errors: [
             { message: "Extra space before value for key \"foobar\".", line: 2, column: 14, type: "Literal" }
@@ -605,7 +605,7 @@ ruleTester.run("key-spacing", rule, {
             "    baz:    456",
             "};"
         ].join("\n"),
-        ecmaFeatures: { objectLiteralShorthandMethods: true },
+        parserOptions: { ecmaVersion: 6 },
         options: [{ "align": "value" }],
         errors: [
             { message: "Extra space before value for key \"baz\".", line: 6, column: 13, type: "Literal" }

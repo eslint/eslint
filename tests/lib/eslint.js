@@ -489,7 +489,7 @@ describe("eslint", function() {
         });
 
         it("should retrieve the function scope correctly from within an SwitchStatement", function() {
-            var config = { rules: {}, ecmaFeatures: { blockBindings: true } };
+            var config = { rules: {}, parserOptions: { ecmaVersion: 6 } };
 
             eslint.reset();
             eslint.on("SwitchStatement", function() {
@@ -502,7 +502,7 @@ describe("eslint", function() {
         });
 
         it("should retrieve the function scope correctly from within a BlockStatement", function() {
-            var config = { rules: {}, ecmaFeatures: { blockBindings: true } };
+            var config = { rules: {}, parserOptions: { ecmaVersion: 6 } };
 
             eslint.reset();
             eslint.on("BlockStatement", function() {
@@ -515,7 +515,7 @@ describe("eslint", function() {
         });
 
         it("should retrieve the function scope correctly from within a nested block statement", function() {
-            var config = { rules: {}, ecmaFeatures: { blockBindings: true } };
+            var config = { rules: {}, parserOptions: { ecmaVersion: 6 } };
 
             eslint.reset();
             eslint.on("BlockStatement", function() {
@@ -528,7 +528,7 @@ describe("eslint", function() {
         });
 
         it("should retrieve the function scope correctly from within a FunctionDeclaration", function() {
-            var config = { rules: {}, ecmaFeatures: { blockBindings: true } };
+            var config = { rules: {}, parserOptions: { ecmaVersion: 6 } };
 
             eslint.reset();
             eslint.on("FunctionDeclaration", function() {
@@ -541,7 +541,7 @@ describe("eslint", function() {
         });
 
         it("should retrieve the function scope correctly from within a FunctionExpression", function() {
-            var config = { rules: {}, ecmaFeatures: { blockBindings: true } };
+            var config = { rules: {}, parserOptions: { ecmaVersion: 6 } };
 
             eslint.reset();
             eslint.on("FunctionExpression", function() {
@@ -554,7 +554,7 @@ describe("eslint", function() {
         });
 
         it("should retrieve the catch scope correctly from within a CatchClause", function() {
-            var config = { rules: {}, ecmaFeatures: { blockBindings: true } };
+            var config = { rules: {}, parserOptions: { ecmaVersion: 6 } };
 
             eslint.reset();
             eslint.on("CatchClause", function() {
@@ -567,7 +567,7 @@ describe("eslint", function() {
         });
 
         it("should retrieve module scope correctly from an ES6 module", function() {
-            var config = { rules: {}, ecmaFeatures: { modules: true } };
+            var config = { rules: {}, parserOptions: { sourceType: "module" } };
 
             eslint.reset();
             eslint.on("AssignmentExpression", function() {
@@ -579,7 +579,7 @@ describe("eslint", function() {
         });
 
         it("should retrieve function scope correctly when globalReturn is true", function() {
-            var config = { rules: {}, ecmaFeatures: { globalReturn: true } };
+            var config = { rules: {}, parserOptions: { ecmaFeatures: { globalReturn: true } } };
 
             eslint.reset();
             eslint.on("AssignmentExpression", function() {
@@ -674,7 +674,7 @@ describe("eslint", function() {
                 assert.isUndefined(getVariable(childScope, "b").eslintUsed);
             });
 
-            eslint.verify(code, { ecmaFeatures: { modules: true }}, filename, true);
+            eslint.verify(code, { parserOptions: { sourceType: "module" }}, filename, true);
         });
     });
 
@@ -1046,32 +1046,34 @@ describe("eslint", function() {
         });
     });
 
-    describe("when config has ecmaFeatures", function() {
+    describe("when config has parseOptions", function() {
 
         it("should pass ecmaFeatures to all rules when provided on config", function() {
 
-            var ecmaFeatures = {
-                regexYFlag: true,
-                regexUFlag: true
+            var parserOptions = {
+                ecmaFeatures: {
+                    jsx: true,
+                    globalReturn: true
+                }
             };
 
             eslint.reset();
             eslint.defineRule("test-rule", sandbox.mock().withArgs(
-                sinon.match({ecmaFeatures: ecmaFeatures})
+                sinon.match({parserOptions: parserOptions})
             ).returns({}));
 
-            var config = { rules: { "test-rule": 2 }, ecmaFeatures: ecmaFeatures };
+            var config = { rules: { "test-rule": 2 }, parserOptions: parserOptions };
 
             eslint.verify("0", config, filename);
         });
 
-        it("should pass ecmaFeatures to all rules when default ecmaFeatures is used", function() {
+        it("should pass parserOptions to all rules when default parserOptions is used", function() {
 
-            var ecmaFeatures = {};
+            var parserOptions = {};
 
             eslint.reset();
             eslint.defineRule("test-rule", sandbox.mock().withArgs(
-                sinon.match({ecmaFeatures: ecmaFeatures})
+                sinon.match({parserOptions: parserOptions})
             ).returns({}));
 
             var config = { rules: { "test-rule": 2 } };
@@ -1330,7 +1332,7 @@ describe("eslint", function() {
 
         it("variables should not be exported in the es6 module environment", function() {
             var code = "/* exported horse */\nvar horse = 'circus'";
-            var config = { rules: {}, ecmaFeatures: { "modules": true } };
+            var config = { rules: {}, parserOptions: { sourceType: "module" }};
 
             eslint.reset();
             eslint.on("Program", function() {
@@ -2605,11 +2607,11 @@ describe("eslint", function() {
             assert.equal(messages[2].column, 18);
         });
 
-        it("should properly parse let declaration when passed ecmaFeatures", function() {
+        it("should properly parse let declaration when passed ecmaVersion", function() {
 
             var messages = eslint.verify("let x = 5;", {
-                ecmaFeatures: {
-                    blockBindings: true
+                parserOptions: {
+                    ecmaVersion: 6
                 }
             }, filename);
 
@@ -2619,8 +2621,11 @@ describe("eslint", function() {
         it("should properly parse object spread when passed ecmaFeatures", function() {
 
             var messages = eslint.verify("var x = { ...y };", {
-                ecmaFeatures: {
-                    experimentalObjectRestSpread: true
+                parserOptions: {
+                    ecmaVersion: 6,
+                    ecmaFeatures: {
+                        experimentalObjectRestSpread: true
+                    }
                 }
             }, filename);
 
@@ -2630,8 +2635,10 @@ describe("eslint", function() {
         it("should properly parse global return when passed ecmaFeatures", function() {
 
             var messages = eslint.verify("return;", {
-                ecmaFeatures: {
-                    globalReturn: true
+                parserOptions: {
+                    ecmaFeatures: {
+                        globalReturn: true
+                    }
                 }
             }, filename);
 
@@ -2655,8 +2662,10 @@ describe("eslint", function() {
                 env: {
                     node: true
                 },
-                ecmaFeatures: {
-                    globalReturn: false
+                parserOptions: {
+                    ecmaFeatures: {
+                        globalReturn: false
+                    }
                 }
             }, filename);
 
@@ -2675,8 +2684,10 @@ describe("eslint", function() {
         it("should properly parse JSX when passed ecmaFeatures", function() {
 
             var messages = eslint.verify("var x = <div/>;", {
-                ecmaFeatures: {
-                    jsx: true
+                parserOptions: {
+                    ecmaFeatures: {
+                        jsx: true
+                    }
                 }
             }, filename);
 
@@ -2695,15 +2706,14 @@ describe("eslint", function() {
 
         it("should not report an error when JSX code is encountered and JSX is enabled", function() {
             var code = "var myDivElement = <div className=\"foo\" />;";
-            var messages = eslint.verify(code, { ecmaFeatures: { jsx: true }}, "filename");
+            var messages = eslint.verify(code, { parserOptions: { ecmaFeatures: { jsx: true }}}, "filename");
 
             assert.equal(messages.length, 0);
         });
 
         it("should not report an error when JSX code contains a spread operator and JSX is enabled", function() {
             var code = "var myDivElement = <div {...this.props} />;";
-            var messages = eslint.verify(code, { ecmaFeatures: { jsx: true }}, "filename");
-
+            var messages = eslint.verify(code, { parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true }}}, "filename");
             assert.equal(messages.length, 0);
         });
 
@@ -2711,7 +2721,9 @@ describe("eslint", function() {
         it("should not crash due to no-undef mutating escope data", function() {
             var code = "import foo from 'bar';";
             eslint.verify(code, {
-                ecmaFeatures: { modules: true },
+                parserOptions: {
+                    sourceType: "module"
+                },
                 rules: {
                     "no-undef": 2,
                     "no-unused-vars": 2
@@ -2868,14 +2880,9 @@ describe("eslint", function() {
             }});
             eslint.verify(code, {
                 rules: {test: 2},
-                ecmaFeatures: {
-                    arrowFunctions: true,
-                    blockBindings: true,
-                    classes: true,
-                    defaultParams: true,
-                    destructuring: true,
-                    forOf: true,
-                    modules: true
+                parserOptions: {
+                    ecmaVersion: 6,
+                    sourceType: "module"
                 }
             });
 
@@ -3025,21 +3032,21 @@ describe("eslint", function() {
 
     describe("Edge cases", function() {
 
-        it("should properly parse import statements when ecmaFeatures.modules is true", function() {
+        it("should properly parse import statements when sourceType is module", function() {
             var code = "import foo from 'foo';";
-            var messages = eslint.verify(code, { ecmaFeatures: { modules: true }});
+            var messages = eslint.verify(code, { parserOptions: { sourceType: "module" } });
             assert.equal(messages.length, 0);
         });
 
-        it("should properly parse import all statements when ecmaFeatures.modules is true", function() {
+        it("should properly parse import all statements when sourceType is module", function() {
             var code = "import * as foo from 'foo';";
-            var messages = eslint.verify(code, { ecmaFeatures: { modules: true }});
+            var messages = eslint.verify(code, { parserOptions: { sourceType: "module" } });
             assert.equal(messages.length, 0);
         });
 
-        it("should properly parse default export statements when ecmaFeatures.modules is true", function() {
+        it("should properly parse default export statements when sourceType is module", function() {
             var code = "export default function initialize() {}";
-            var messages = eslint.verify(code, { ecmaFeatures: { modules: true }});
+            var messages = eslint.verify(code, { parserOptions: { sourceType: "module" } });
             assert.equal(messages.length, 0);
         });
 
@@ -3048,11 +3055,11 @@ describe("eslint", function() {
         });
 
         it("should not crash when let is used inside of switch case", function() {
-            eslint.verify("switch(foo) { case 1: let bar=2; }", { ecmaFeatures: { blockBindings: true }});
+            eslint.verify("switch(foo) { case 1: let bar=2; }", { parserOptions: { ecmaVersion: 6 }});
         });
 
         it("should not crash when parsing destructured assignment", function() {
-            eslint.verify("var { a='a' } = {};", { ecmaFeatures: { destructuring: true }});
+            eslint.verify("var { a='a' } = {};", { parserOptions: { ecmaVersion: 6 }});
         });
 
     });

@@ -42,9 +42,9 @@ ruleTester.run("space-in-parens", rule, {
         { code: "var x = ( 1 + 2 ) * 3", options: ["always"] },
         { code: "var x = 'foo(bar)'", options: ["always"] },
         { code: "var x = 'bar( baz )'", options: ["always"] },
-        { code: "var foo = `(bar)`;", options: ["always"], ecmaFeatures: { templateStrings: "true" } },
-        { code: "var foo = `(bar ${baz})`;", options: ["always"], ecmaFeatures: { templateStrings: "true" } },
-        { code: "var foo = `(bar ${( 1 + 2 )})`;", options: ["always"], ecmaFeatures: { templateStrings: "true" } },
+        { code: "var foo = `(bar)`;", options: ["always"], parserOptions: { ecmaVersion: 6 } },
+        { code: "var foo = `(bar ${baz})`;", options: ["always"], parserOptions: { ecmaVersion: 6 } },
+        { code: "var foo = `(bar ${( 1 + 2 )})`;", options: ["always"], parserOptions: { ecmaVersion: 6 } },
         { code: "bar()", options: ["never"] },
         { code: "bar(baz)", options: ["never"] },
         { code: "var x = (4 + 5) * 6", options: ["never"] },
@@ -52,9 +52,9 @@ ruleTester.run("space-in-parens", rule, {
         { code: "foo\n(  \nbar\n )\n", options: ["never"] },
         { code: "foo\n(\n bar  \n)\n", options: ["never"] },
         { code: "foo\n( \n  bar \n  )\n", options: ["never"] },
-        { code: "var foo = `( bar )`;", options: ["never"], ecmaFeatures: { templateStrings: "true" } },
-        { code: "var foo = `( bar ${baz} )`;", options: ["never"], ecmaFeatures: { templateStrings: "true" } },
-        { code: "var foo = `(bar ${(1 + 2)})`;", options: ["never"], ecmaFeatures: { templateStrings: "true" } },
+        { code: "var foo = `( bar )`;", options: ["never"], parserOptions: { ecmaVersion: 6 } },
+        { code: "var foo = `( bar ${baz} )`;", options: ["never"], parserOptions: { ecmaVersion: 6 } },
+        { code: "var foo = `(bar ${(1 + 2)})`;", options: ["never"], parserOptions: { ecmaVersion: 6 } },
 
         // comments
         { code: "foo( /* bar */ )", options: ["always"] },
@@ -373,13 +373,13 @@ ruleTester.run("space-in-parens", rule, {
         {
             code: "var foo = `(bar ${(1 + 2 )})`;",
             options: ["never"],
-            ecmaFeatures: { templateStrings: "true" },
+            parserOptions: { ecmaVersion: 6 },
             errors: [REJECTED_SPACE_ERROR]
         },
         {
             code: "var foo = `(bar ${(1 + 2 )})`;",
             options: ["always"],
-            ecmaFeatures: { templateStrings: "true" },
+            parserOptions: { ecmaVersion: 6 },
             errors: [MISSING_SPACE_ERROR]
         }
     ]

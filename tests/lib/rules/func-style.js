@@ -55,7 +55,7 @@ ruleTester.run("func-style", rule, {
         {
             code: "var foo = () => {};\n var bar = () => {}",
             options: ["expression"],
-            ecmaFeatures: { arrowFunctions: true }
+            parserOptions: { ecmaVersion: 6 }
         },
 
         // https://github.com/eslint/eslint/issues/3819
@@ -66,17 +66,17 @@ ruleTester.run("func-style", rule, {
         {
             code: "var foo = () => { this; };",
             options: ["declaration"],
-            ecmaFeatures: { arrowFunctions: true }
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "var foo = () => {};",
             options: ["declaration", {allowArrowFunctions: true}],
-            ecmaFeatures: { arrowFunctions: true }
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "var foo = () => { function foo() { this; } };",
             options: ["declaration", {allowArrowFunctions: true}],
-            ecmaFeatures: { arrowFunctions: true }
+            parserOptions: { ecmaVersion: 6 }
         }
     ],
 
@@ -94,7 +94,7 @@ ruleTester.run("func-style", rule, {
         {
             code: "var foo = () => {};",
             options: ["declaration"],
-            ecmaFeatures: { arrowFunctions: true },
+            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     message: "Expected a function declaration.",
@@ -105,7 +105,7 @@ ruleTester.run("func-style", rule, {
         {
             code: "var foo = () => { function foo() { this; } };",
             options: ["declaration"],
-            ecmaFeatures: { arrowFunctions: true },
+            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     message: "Expected a function declaration.",

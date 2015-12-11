@@ -45,12 +45,12 @@ ruleTester.run("valid-jsdoc", rule, {
         {
             code: "/**\n* Description\n* @param {string} p bar\n*/\nFoo.bar = (p) => {};",
             options: [{requireReturn: false}],
-            ecmaFeatures: { arrowFunctions: true }
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "/**\n* Description\n* @param {string} p bar\n*/\nFoo.bar = function({p}){};",
             options: [{requireReturn: false}],
-            ecmaFeatures: { destructuring: true }
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "/**\n* Description\n* @param {string} p bar\n*/\nFoo.bar = function(p){};",
@@ -92,25 +92,24 @@ ruleTester.run("valid-jsdoc", rule, {
         {
             code: "/**\n * Description for A.\n */\n class A {\n /**\n * Description for constructor.\n * @param {object[]} xs - xs\n */\n constructor(xs) {\n /**\n * Description for this.xs;\n * @type {object[]}\n */\n this.xs = xs.filter(x => x != null);\n }\n}",
             options: [{requireReturn: false}],
-            ecmaFeatures: {
-                arrowFunctions: true,
-                classes: true
+            parserOptions: {
+                ecmaVersion: 6
             }
         },
         {
             code: "/** @returns {object} foo */ var foo = () => bar();",
             options: [{requireReturn: false}],
-            ecmaFeatures: {arrowFunctions: true}
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "/** @returns {object} foo */ var foo = () => { return bar(); };",
             options: [{requireReturn: false}],
-            ecmaFeatures: {arrowFunctions: true}
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "/** foo */ var foo = () => { bar(); };",
             options: [{requireReturn: false}],
-            ecmaFeatures: {arrowFunctions: true}
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "/**\n* Start with caps and end with period.\n* @return {void} */\nfunction foo(){}",
@@ -143,8 +142,8 @@ ruleTester.run("valid-jsdoc", rule, {
                 "    }\n" +
                 "}",
             options: [{requireReturn: false}],
-            ecmaFeatures: {
-                classes: true
+            parserOptions: {
+                ecmaVersion: 6
             }
         },
         {
@@ -163,8 +162,8 @@ ruleTester.run("valid-jsdoc", rule, {
                 "    }\n" +
                 "}",
             options: [{requireReturn: true}],
-            ecmaFeatures: {
-                classes: true
+            parserOptions: {
+                ecmaVersion: 6
             }
         },
         {
@@ -191,8 +190,8 @@ ruleTester.run("valid-jsdoc", rule, {
                 "    }\n" +
                 "}",
             options: [],
-            ecmaFeatures: {
-                classes: true
+            parserOptions: {
+                ecmaVersion: 6
             }
         }
     ],
@@ -249,7 +248,7 @@ ruleTester.run("valid-jsdoc", rule, {
         {
             code: "/** Foo \n@return {void} Foo\n */\nfoo.bar = () => {}",
             options: [{ prefer: { "return": "returns" }}],
-            ecmaFeatures: { arrowFunctions: true },
+            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 message: "Use @returns instead.",
                 type: "Block"
@@ -368,7 +367,7 @@ ruleTester.run("valid-jsdoc", rule, {
         {
             code: "/**\n * Does something. \n* @param {string} a - this is a \n* @return {Array<number>} The result of doing it \n*/\n export function doSomething(a) { }",
             options: [{"prefer": { "return": "returns" }}],
-            ecmaFeatures: { modules: true },
+            parserOptions: { sourceType: "module" },
             errors: [{
                 message: "Use @returns instead.",
                 type: "Block"
@@ -377,7 +376,7 @@ ruleTester.run("valid-jsdoc", rule, {
         {
             code: "/**\n * Does something. \n* @param {string} a - this is a \n* @return {Array<number>} The result of doing it \n*/\n export default function doSomething(a) { }",
             options: [{"prefer": { "return": "returns" }}],
-            ecmaFeatures: { modules: true },
+            parserOptions: { sourceType: "module" },
             errors: [{
                 message: "Use @returns instead.",
                 type: "Block"
@@ -386,7 +385,7 @@ ruleTester.run("valid-jsdoc", rule, {
         {
             code: "/** foo */ var foo = () => bar();",
             options: [{requireReturn: false}],
-            ecmaFeatures: {arrowFunctions: true},
+            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 message: "Missing JSDoc @returns for function.",
                 type: "Block"
@@ -395,7 +394,7 @@ ruleTester.run("valid-jsdoc", rule, {
         {
             code: "/** foo */ var foo = () => { return bar(); };",
             options: [{requireReturn: false}],
-            ecmaFeatures: {arrowFunctions: true},
+            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 message: "Missing JSDoc @returns for function.",
                 type: "Block"
@@ -404,7 +403,7 @@ ruleTester.run("valid-jsdoc", rule, {
         {
             code: "/** @returns {object} foo */ var foo = () => { bar(); };",
             options: [{requireReturn: false}],
-            ecmaFeatures: {arrowFunctions: true},
+            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 message: "Unexpected @returns tag; function has no return statement.",
                 type: "Block"
@@ -481,8 +480,8 @@ ruleTester.run("valid-jsdoc", rule, {
                     type: "Block"
                 }
             ],
-            ecmaFeatures: {
-                classes: true
+            parserOptions: {
+                ecmaVersion: 6
             }
         },
         {
@@ -513,8 +512,8 @@ ruleTester.run("valid-jsdoc", rule, {
                     type: "Block"
                 }
             ],
-            ecmaFeatures: {
-                classes: true
+            parserOptions: {
+                ecmaVersion: 6
             }
         },
         {
@@ -549,8 +548,8 @@ ruleTester.run("valid-jsdoc", rule, {
                     type: "Block"
                 }
             ],
-            ecmaFeatures: {
-                classes: true
+            parserOptions: {
+                ecmaVersion: 6
             }
         }
     ]

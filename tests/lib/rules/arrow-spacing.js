@@ -20,90 +20,90 @@ var ruleTester = new RuleTester();
 
 var valid = [
     {
-        ecmaFeatures: { arrowFunctions: true },
+        parserOptions: { ecmaVersion: 6 },
         code: "a => a",
         options: [{ after: true, before: true }]
     },
     {
-        ecmaFeatures: { arrowFunctions: true },
+        parserOptions: { ecmaVersion: 6 },
         code: "() => {}",
         options: [{ after: true, before: true }]
     },
     {
-        ecmaFeatures: { arrowFunctions: true },
+        parserOptions: { ecmaVersion: 6 },
         code: "(a) => {}",
         options: [{ after: true, before: true }]
     },
     {
-        ecmaFeatures: { arrowFunctions: true },
+        parserOptions: { ecmaVersion: 6 },
         code: "a=> a",
         options: [{ after: true, before: false }]
     },
     {
-        ecmaFeatures: { arrowFunctions: true },
+        parserOptions: { ecmaVersion: 6 },
         code: "()=> {}",
         options: [{ after: true, before: false }]
     },
     {
-        ecmaFeatures: { arrowFunctions: true },
+        parserOptions: { ecmaVersion: 6 },
         code: "(a)=> {}",
         options: [{ after: true, before: false }]
     },
     {
-        ecmaFeatures: { arrowFunctions: true },
+        parserOptions: { ecmaVersion: 6 },
         code: "a =>a",
         options: [{ after: false, before: true }]
     },
     {
-        ecmaFeatures: { arrowFunctions: true },
+        parserOptions: { ecmaVersion: 6 },
         code: "() =>{}",
         options: [{ after: false, before: true }]
     },
     {
-        ecmaFeatures: { arrowFunctions: true },
+        parserOptions: { ecmaVersion: 6 },
         code: "(a) =>{}",
         options: [{ after: false, before: true }]
     },
     {
-        ecmaFeatures: { arrowFunctions: true },
+        parserOptions: { ecmaVersion: 6 },
         code: "a=>a",
         options: [{ after: false, before: false }]
     },
     {
-        ecmaFeatures: { arrowFunctions: true },
+        parserOptions: { ecmaVersion: 6 },
         code: "()=>{}",
         options: [{ after: false, before: false }]
     },
     {
-        ecmaFeatures: { arrowFunctions: true },
+        parserOptions: { ecmaVersion: 6 },
         code: "(a)=>{}",
         options: [{ after: false, before: false }]
     },
     {
-        ecmaFeatures: { arrowFunctions: true },
+        parserOptions: { ecmaVersion: 6 },
         code: "a => a",
         options: [{}]
     },
     {
-        ecmaFeatures: { arrowFunctions: true },
+        parserOptions: { ecmaVersion: 6 },
         code: "() => {}",
         options: [{}]
     },
     {
-        ecmaFeatures: { arrowFunctions: true },
+        parserOptions: { ecmaVersion: 6 },
         code: "(a) => {}",
         options: [{}]
     },
     {
-        ecmaFeatures: { arrowFunctions: true },
+        parserOptions: { ecmaVersion: 6 },
         code: "(a) =>\n{}"
     },
     {
-        ecmaFeatures: { arrowFunctions: true },
+        parserOptions: { ecmaVersion: 6 },
         code: "(a) =>\r\n{}"
     },
     {
-        ecmaFeatures: { arrowFunctions: true },
+        parserOptions: { ecmaVersion: 6 },
         code: "(a) =>\n    0"
     }
 ];
@@ -114,7 +114,7 @@ var invalid = [
         code: "a=>a",
         output: "a => a",
         options: [{ after: true, before: true }],
-        ecmaFeatures: { arrowFunctions: true },
+        parserOptions: { ecmaVersion: 6 },
         errors: [
             { column: 1, line: 1, type: "Identifier" },
             { column: 4, line: 1, type: "Identifier" }
@@ -124,7 +124,7 @@ var invalid = [
         code: "()=>{}",
         output: "() => {}",
         options: [{ after: true, before: true }],
-        ecmaFeatures: { arrowFunctions: true },
+        parserOptions: { ecmaVersion: 6 },
         errors: [
             { column: 2, line: 1, type: "Punctuator" },
             { column: 5, line: 1, type: "Punctuator" }
@@ -134,7 +134,7 @@ var invalid = [
         code: "(a)=>{}",
         output: "(a) => {}",
         options: [{ after: true, before: true }],
-        ecmaFeatures: { arrowFunctions: true },
+        parserOptions: { ecmaVersion: 6 },
         errors: [
             { column: 3, line: 1, type: "Punctuator" },
             { column: 6, line: 1, type: "Punctuator" }
@@ -144,7 +144,7 @@ var invalid = [
         code: "a=> a",
         output: "a =>a",
         options: [{ after: false, before: true }],
-        ecmaFeatures: { arrowFunctions: true },
+        parserOptions: { ecmaVersion: 6 },
         errors: [
             { column: 1, line: 1, type: "Identifier" },
             { column: 5, line: 1, type: "Identifier" }
@@ -154,7 +154,7 @@ var invalid = [
         code: "()=> {}",
         output: "() =>{}",
         options: [{ after: false, before: true }],
-        ecmaFeatures: { arrowFunctions: true },
+        parserOptions: { ecmaVersion: 6 },
         errors: [
             { column: 2, line: 1, type: "Punctuator" },
             { column: 6, line: 1, type: "Punctuator" }
@@ -164,7 +164,7 @@ var invalid = [
         code: "(a)=> {}",
         output: "(a) =>{}",
         options: [{ after: false, before: true }],
-        ecmaFeatures: { arrowFunctions: true },
+        parserOptions: { ecmaVersion: 6 },
         errors: [
             { column: 3, line: 1, type: "Punctuator" },
             { column: 7, line: 1, type: "Punctuator" }
@@ -174,7 +174,7 @@ var invalid = [
         code: "a=>  a",
         output: "a =>a",
         options: [{ after: false, before: true }],
-        ecmaFeatures: { arrowFunctions: true },
+        parserOptions: { ecmaVersion: 6 },
         errors: [
             { column: 1, line: 1, type: "Identifier" },
             { column: 6, line: 1, type: "Identifier" }
@@ -184,7 +184,7 @@ var invalid = [
         code: "()=>  {}",
         output: "() =>{}",
         options: [{ after: false, before: true }],
-        ecmaFeatures: { arrowFunctions: true },
+        parserOptions: { ecmaVersion: 6 },
         errors: [
             { column: 2, line: 1, type: "Punctuator" },
             { column: 7, line: 1, type: "Punctuator" }
@@ -194,7 +194,7 @@ var invalid = [
         code: "(a)=>  {}",
         output: "(a) =>{}",
         options: [{ after: false, before: true }],
-        ecmaFeatures: { arrowFunctions: true },
+        parserOptions: { ecmaVersion: 6 },
         errors: [
             { column: 3, line: 1, type: "Punctuator" },
             { column: 8, line: 1, type: "Punctuator" }
@@ -204,7 +204,7 @@ var invalid = [
         code: "a =>a",
         output: "a=> a",
         options: [{ after: true, before: false }],
-        ecmaFeatures: { arrowFunctions: true },
+        parserOptions: { ecmaVersion: 6 },
         errors: [
             { column: 1, line: 1, type: "Identifier" },
             { column: 5, line: 1, type: "Identifier" }
@@ -214,7 +214,7 @@ var invalid = [
         code: "() =>{}",
         output: "()=> {}",
         options: [{ after: true, before: false }],
-        ecmaFeatures: { arrowFunctions: true },
+        parserOptions: { ecmaVersion: 6 },
         errors: [
             { column: 2, line: 1, type: "Punctuator" },
             { column: 6, line: 1, type: "Punctuator" }
@@ -224,7 +224,7 @@ var invalid = [
         code: "(a) =>{}",
         output: "(a)=> {}",
         options: [{ after: true, before: false }],
-        ecmaFeatures: { arrowFunctions: true },
+        parserOptions: { ecmaVersion: 6 },
         errors: [
             { column: 3, line: 1, type: "Punctuator" },
             { column: 7, line: 1, type: "Punctuator" }
@@ -234,7 +234,7 @@ var invalid = [
         code: "a  =>a",
         output: "a=> a",
         options: [{ after: true, before: false }],
-        ecmaFeatures: { arrowFunctions: true },
+        parserOptions: { ecmaVersion: 6 },
         errors: [
             { column: 1, line: 1, type: "Identifier" },
             { column: 6, line: 1, type: "Identifier" }
@@ -244,7 +244,7 @@ var invalid = [
         code: "()  =>{}",
         output: "()=> {}",
         options: [{ after: true, before: false }],
-        ecmaFeatures: { arrowFunctions: true },
+        parserOptions: { ecmaVersion: 6 },
         errors: [
             { column: 2, line: 1, type: "Punctuator" },
             { column: 7, line: 1, type: "Punctuator" }
@@ -254,7 +254,7 @@ var invalid = [
         code: "(a)  =>{}",
         output: "(a)=> {}",
         options: [{ after: true, before: false }],
-        ecmaFeatures: { arrowFunctions: true },
+        parserOptions: { ecmaVersion: 6 },
         errors: [
             { column: 3, line: 1, type: "Punctuator" },
             { column: 8, line: 1, type: "Punctuator" }
@@ -264,7 +264,7 @@ var invalid = [
         code: "a => a",
         output: "a=>a",
         options: [{ after: false, before: false }],
-        ecmaFeatures: { arrowFunctions: true },
+        parserOptions: { ecmaVersion: 6 },
         errors: [
             { column: 1, line: 1, type: "Identifier" },
             { column: 6, line: 1, type: "Identifier" }
@@ -274,7 +274,7 @@ var invalid = [
         code: "() => {}",
         output: "()=>{}",
         options: [{ after: false, before: false }],
-        ecmaFeatures: { arrowFunctions: true },
+        parserOptions: { ecmaVersion: 6 },
         errors: [
             { column: 2, line: 1, type: "Punctuator" },
             { column: 7, line: 1, type: "Punctuator" }
@@ -284,7 +284,7 @@ var invalid = [
         code: "(a) => {}",
         output: "(a)=>{}",
         options: [{ after: false, before: false }],
-        ecmaFeatures: { arrowFunctions: true },
+        parserOptions: { ecmaVersion: 6 },
         errors: [
             { column: 3, line: 1, type: "Punctuator" },
             { column: 8, line: 1, type: "Punctuator" }
@@ -294,7 +294,7 @@ var invalid = [
         code: "a  =>  a",
         output: "a=>a",
         options: [{ after: false, before: false }],
-        ecmaFeatures: { arrowFunctions: true },
+        parserOptions: { ecmaVersion: 6 },
         errors: [
             { column: 1, line: 1, type: "Identifier" },
             { column: 8, line: 1, type: "Identifier" }
@@ -304,7 +304,7 @@ var invalid = [
         code: "()  =>  {}",
         output: "()=>{}",
         options: [{ after: false, before: false }],
-        ecmaFeatures: { arrowFunctions: true },
+        parserOptions: { ecmaVersion: 6 },
         errors: [
             { column: 2, line: 1, type: "Punctuator" },
             { column: 9, line: 1, type: "Punctuator" }
@@ -314,7 +314,7 @@ var invalid = [
         code: "(a)  =>  {}",
         output: "(a)=>{}",
         options: [{ after: false, before: false }],
-        ecmaFeatures: { arrowFunctions: true },
+        parserOptions: { ecmaVersion: 6 },
         errors: [
             { column: 3, line: 1, type: "Punctuator" },
             { column: 10, line: 1, type: "Punctuator" }
@@ -324,7 +324,7 @@ var invalid = [
         code: "(a)  =>\n{}",
         output: "(a)  =>{}",
         options: [{ after: false }],
-        ecmaFeatures: { arrowFunctions: true },
+        parserOptions: { ecmaVersion: 6 },
         errors: [
             { column: 1, line: 2, type: "Punctuator" }
         ]
