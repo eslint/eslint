@@ -65,6 +65,7 @@ These are rules designed to prevent you from making mistakes. They either prescr
 * [no-fallthrough](no-fallthrough.md) - disallow fallthrough of `case` statements (recommended)
 * [no-floating-decimal](no-floating-decimal.md) - disallow the use of leading or trailing decimal points in numeric literals
 * [no-implicit-coercion](no-implicit-coercion.md) - disallow the type conversions with shorter notations
+* [no-implicit-globals](no-implicit-globals.md) - disallow `var` and named functions in global scope
 * [no-implied-eval](no-implied-eval.md) - disallow use of `eval()`-like methods
 * [no-invalid-this](no-invalid-this.md) - disallow `this` keywords outside of classes or class-like objects
 * [no-iterator](no-iterator.md) - disallow usage of `__iterator__` property
