@@ -23,23 +23,23 @@ ruleTester.run("no-implicit-globals", rule, {
     valid: [
         {
             code: "const foo = 1;",
-            ecmaFeatures: { blockBindings: true }
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "let foo = 1;",
-            ecmaFeatures: { blockBindings: true }
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "let foo = function() {};",
-            ecmaFeatures: { blockBindings: true }
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "const foo = function() {};",
-            ecmaFeatures: { blockBindings: true }
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "class Foo {}",
-            ecmaFeatures: { classes: true }
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "window.foo = 1;"
@@ -52,7 +52,7 @@ ruleTester.run("no-implicit-globals", rule, {
         },
         {
             code: "window.foo = function*() {};",
-            ecmaFeatures: { generators: true }
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "self.foo = 1;"
@@ -77,54 +77,54 @@ ruleTester.run("no-implicit-globals", rule, {
         },
         {
             code: "(function() { let foo = 1; })();",
-            ecmaFeatures: { blockBindings: true }
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "(function() { const foo = 1; })();",
-            ecmaFeatures: { blockBindings: true }
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "(function() { function foo() {} })();"
         },
         {
             code: "(function() { function *foo() {} })();",
-            ecmaFeatures: { generators: true }
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "var foo = 1;",
-            ecmaFeatures: { modules: true }
+            parserOptions: { sourceType: "module" }
         },
         {
             code: "let foo = 1;",
-            ecmaFeatures: { modules: true, blockBindings: true }
+            parserOptions: { sourceType: "module" }
         },
         {
             code: "const foo = 1;",
-            ecmaFeatures: { modules: true, blockBindings: true }
+            parserOptions: { sourceType: "module" }
         },
         {
             code: "function foo() {}",
-            ecmaFeatures: { modules: true }
+            parserOptions: { sourceType: "module" }
         },
         {
             code: "function *foo() {}",
-            ecmaFeatures: { generators: true, modules: true }
+            parserOptions: { sourceType: "module" }
         },
         {
             code: "var foo = 1;",
-            ecmaFeatures: { globalReturn: true }
+            parserOptions: { ecmaFeatures: { globalReturn: true } }
         },
         {
             code: "let foo = 1;",
-            ecmaFeatures: { globalReturn: true, blockBindings: true }
+            parserOptions: { ecmaVersion: 6, ecmaFeatures: { globalReturn: true } }
         },
         {
             code: "const foo = 1;",
-            ecmaFeatures: { globalReturn: true, blockBindings: true }
+            parserOptions: { ecmaVersion: 6, ecmaFeatures: { globalReturn: true } }
         },
         {
             code: "function foo() {}",
-            ecmaFeatures: { globalReturn: true }
+            parserOptions: { ecmaFeatures: { globalReturn: true } }
         },
         {
             code: "/*global foo:true*/ var foo = 1;"
@@ -220,7 +220,7 @@ ruleTester.run("no-implicit-globals", rule, {
         },
         {
             code: "function *foo() {}",
-            ecmaFeatures: { generators: true },
+            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     message: "Implicit global variable, assign as global property instead.",
@@ -230,7 +230,7 @@ ruleTester.run("no-implicit-globals", rule, {
         },
         {
             code: "foo = function*() {};",
-            ecmaFeatures: { generators: true },
+            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     message: "Implicit global variable, assign as global property instead.",
@@ -240,7 +240,7 @@ ruleTester.run("no-implicit-globals", rule, {
         },
         {
             code: "var foo = function*() {};",
-            ecmaFeatures: { generators: true },
+            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     message: "Implicit global variable, assign as global property instead.",
@@ -250,7 +250,7 @@ ruleTester.run("no-implicit-globals", rule, {
         },
         {
             code: "var foo = function *foo() {};",
-            ecmaFeatures: { generators: true },
+            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     message: "Implicit global variable, assign as global property instead.",
@@ -260,7 +260,7 @@ ruleTester.run("no-implicit-globals", rule, {
         },
         {
             code: "foo = 1;",
-            ecmaFeatures: { globalReturn: true },
+            parserOptions: { ecmaFeatures: { globalReturn: true } },
             errors: [
                 {
                     message: "Implicit global variable, assign as global property instead.",
