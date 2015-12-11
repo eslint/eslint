@@ -266,6 +266,11 @@ describe("options", function() {
             var currentOptions = options.parse("");
             assert.equal(currentOptions.maxWarnings, -1);
         });
+
+        it("should return correct integer value for .maxWarnings when passed a float", function() {
+            var currentOptions = options.parse("--max-warnings 10.2");
+            assert.equal(currentOptions.maxWarnings, 10);
+        });
     });
 
     describe("--init", function() {
