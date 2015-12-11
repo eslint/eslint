@@ -188,7 +188,7 @@ These rules are purely matters of style and are quite subjective.
 * [one-var](one-var.md) - require or disallow one variable declaration per function
 * [operator-assignment](operator-assignment.md) - require assignment operator shorthand where possible or prohibit it entirely
 * [operator-linebreak](operator-linebreak.md) - enforce operators to be placed before or after line breaks
-* [padded-blocks](padded-blocks.md) - enforce padding within blocks
+* [padded-blocks](padded-blocks.md) - enforce padding within blocks (fixable)
 * [quote-props](quote-props.md) - require quotes around object literal property names
 * [quotes](quotes.md) - specify whether backticks, double or single quotes should be used (fixable)
 * [require-jsdoc](require-jsdoc.md) - Require JSDoc comment
