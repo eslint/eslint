@@ -67,9 +67,7 @@ ruleTester.run("require-jsdoc", rule, {
                 "        this.a = xs;" +
                 "    }\n" +
                 "}",
-            ecmaFeatures: {
-                classes: true
-            },
+            parserOptions: { ecmaVersion: 6 },
             options: [{
                 "require": {
                     "MethodDefinition": true,
@@ -91,9 +89,7 @@ ruleTester.run("require-jsdoc", rule, {
             "        this.a = xs;" +
             "    }\n" +
             "}",
-            ecmaFeatures: {
-                classes: true
-            },
+            parserOptions: { ecmaVersion: 6 },
             options: [{
                 "require": {
                     "MethodDefinition": true,
@@ -121,9 +117,7 @@ ruleTester.run("require-jsdoc", rule, {
                 "        this.a = xs;" +
                 "    }\n" +
                 "}",
-            ecmaFeatures: {
-                classes: true
-            },
+            parserOptions: { ecmaVersion: 6 },
             options: [{
                 "require": {
                     "MethodDefinition": true,
@@ -146,9 +140,7 @@ ruleTester.run("require-jsdoc", rule, {
                 "        this.a = xs;" +
                 "    }\n" +
                 "}",
-            ecmaFeatures: {
-                classes: true
-            },
+            parserOptions: { ecmaVersion: 6 },
             options: [{
                 "require": {
                     "MethodDefinition": true,
@@ -171,9 +163,7 @@ ruleTester.run("require-jsdoc", rule, {
             "        this.a = xs;" +
             "    }\n" +
             "}",
-            ecmaFeatures: {
-                classes: true
-            },
+            parserOptions: { ecmaVersion: 6 },
             options: [{
                 "require": {
                     "MethodDefinition": true,
@@ -196,10 +186,7 @@ ruleTester.run("require-jsdoc", rule, {
             "        this.a = xs;" +
             "    }\n" +
             "}",
-            ecmaFeatures: {
-                classes: true,
-                modules: true
-            },
+            parserOptions: { sourceType: "module" },
             options: [{
                 "require": {
                     "MethodDefinition": true,

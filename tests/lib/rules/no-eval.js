@@ -41,7 +41,7 @@ ruleTester.run("no-eval", rule, {
         "function foo() { 'use strict'; this.eval('foo'); }",
         "var obj = {foo: function() { this.eval('foo'); }}",
         "var obj = {}; obj.foo = function() { this.eval('foo'); }",
-        { code: "class A { foo() { this.eval(); } }", ecmaFeatures: {"classes": true} },
+        { code: "class A { foo() { this.eval(); } }", parserOptions: { ecmaVersion: 6 } },
 
         // Allows indirect eval
         { code: "(0, eval)('foo')", options: [{"allowIndirect": true}] },
@@ -80,7 +80,7 @@ ruleTester.run("no-eval", rule, {
         { code: "window.window['eval']('foo')", env: {"browser": true}, errors: [{ message: "eval can be harmful.", type: "CallExpression"}] },
         { code: "global.eval('foo')", env: {"node": true}, errors: [{ message: "eval can be harmful.", type: "CallExpression"}] },
         { code: "global.global.eval('foo')", env: {"node": true}, errors: [{ message: "eval can be harmful.", type: "CallExpression"}] },
-        { code: "global.global[`eval`]('foo')", env: {"node": true}, ecmaFeatures: {templateStrings: true}, errors: [{ message: "eval can be harmful.", type: "CallExpression"}] },
+        { code: "global.global[`eval`]('foo')", env: {"node": true}, parserOptions: { ecmaVersion: 6 }, errors: [{ message: "eval can be harmful.", type: "CallExpression"}] },
         { code: "this.eval('foo')", errors: [{ message: "eval can be harmful.", type: "CallExpression"}] },
         { code: "function foo() { this.eval('foo') }", errors: [{ message: "eval can be harmful.", type: "CallExpression"}] }
     ]

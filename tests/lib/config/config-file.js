@@ -93,7 +93,7 @@ describe("ConfigFile", function() {
 
             assert.deepEqual(config, {
                 extends: "foo",
-                ecmaFeatures: {},
+                parserOptions: {},
                 env: { browser: true },
                 globals: environments.browser.globals,
                 rules: { eqeqeq: 2 }
@@ -122,7 +122,7 @@ describe("ConfigFile", function() {
 
             assert.deepEqual(config, {
                 extends: "foo",
-                ecmaFeatures: {},
+                parserOptions: {},
                 env: { browser: true },
                 globals: environments.browser.globals,
                 rules: {
@@ -142,7 +142,7 @@ describe("ConfigFile", function() {
 
             assert.deepEqual(config, {
                 extends: ".eslintrc.js",
-                ecmaFeatures: {},
+                parserOptions: {},
                 env: {},
                 globals: {},
                 rules: {
@@ -162,7 +162,7 @@ describe("ConfigFile", function() {
 
             assert.deepEqual(config, {
                 extends: ".eslintrc.yaml",
-                ecmaFeatures: {},
+                parserOptions: {},
                 env: { browser: true },
                 globals: environments.browser.globals,
                 rules: {
@@ -181,7 +181,7 @@ describe("ConfigFile", function() {
 
             assert.deepEqual(config, {
                 extends: ".eslintrc.json",
-                ecmaFeatures: {},
+                parserOptions: {},
                 env: {},
                 globals: {},
                 rules: {
@@ -201,7 +201,7 @@ describe("ConfigFile", function() {
 
             assert.deepEqual(config, {
                 extends: "../package-json/package.json",
-                ecmaFeatures: environments.es6.ecmaFeatures,
+                parserOptions: {ecmaVersion: 6},
                 env: { es6: true },
                 globals: environments.es6.globals,
                 rules: {
@@ -218,7 +218,7 @@ describe("ConfigFile", function() {
         it("should load information from a legacy file", function() {
             var config = ConfigFile.load(getFixturePath("legacy/.eslintrc"));
             assert.deepEqual(config, {
-                ecmaFeatures: {},
+                parserOptions: {},
                 env: {},
                 globals: {},
                 rules: {
@@ -230,7 +230,7 @@ describe("ConfigFile", function() {
         it("should load information from a JavaScript file", function() {
             var config = ConfigFile.load(getFixturePath("js/.eslintrc.js"));
             assert.deepEqual(config, {
-                ecmaFeatures: {},
+                parserOptions: {},
                 env: {},
                 globals: {},
                 rules: {
@@ -242,7 +242,7 @@ describe("ConfigFile", function() {
         it("should load information from a JSON file", function() {
             var config = ConfigFile.load(getFixturePath("json/.eslintrc.json"));
             assert.deepEqual(config, {
-                ecmaFeatures: {},
+                parserOptions: {},
                 env: {},
                 globals: {},
                 rules: {
@@ -253,7 +253,7 @@ describe("ConfigFile", function() {
 
         it("should load fresh information from a JSON file", function() {
             var initialConfig = {
-                    ecmaFeatures: {},
+                    parserOptions: {},
                     env: {},
                     globals: {},
                     rules: {
@@ -261,7 +261,7 @@ describe("ConfigFile", function() {
                     }
                 },
                 updatedConfig = {
-                    ecmaFeatures: {},
+                    parserOptions: {},
                     env: {},
                     globals: {},
                     rules: {
@@ -280,7 +280,7 @@ describe("ConfigFile", function() {
         it("should load information from a package.json file", function() {
             var config = ConfigFile.load(getFixturePath("package-json/package.json"));
             assert.deepEqual(config, {
-                ecmaFeatures: environments.es6.ecmaFeatures,
+                parserOptions: { ecmaVersion: 6 },
                 env: { es6: true },
                 globals: environments.es6.globals,
                 rules: {}
@@ -290,7 +290,7 @@ describe("ConfigFile", function() {
         it("should load fresh information from a package.json file", function() {
             var initialConfig = {
                     eslintConfig: {
-                        ecmaFeatures: {},
+                        parserOptions: {},
                         env: {},
                         globals: {},
                         rules: {
@@ -300,7 +300,7 @@ describe("ConfigFile", function() {
                 },
                 updatedConfig = {
                     eslintConfig: {
-                        ecmaFeatures: {},
+                        parserOptions: {},
                         env: {},
                         globals: {},
                         rules: {
@@ -320,7 +320,7 @@ describe("ConfigFile", function() {
         it("should load information from a YAML file", function() {
             var config = ConfigFile.load(getFixturePath("yaml/.eslintrc.yaml"));
             assert.deepEqual(config, {
-                ecmaFeatures: {},
+                parserOptions: {},
                 env: { browser: true },
                 globals: environments.browser.globals,
                 rules: {}
@@ -330,7 +330,7 @@ describe("ConfigFile", function() {
         it("should load information from a YML file", function() {
             var config = ConfigFile.load(getFixturePath("yml/.eslintrc.yml"));
             assert.deepEqual(config, {
-                ecmaFeatures: { globalReturn: true },
+                parserOptions: {ecmaFeatures: { globalReturn: true }},
                 env: { node: true },
                 globals: environments.node.globals,
                 rules: {}
@@ -341,7 +341,7 @@ describe("ConfigFile", function() {
             var config = ConfigFile.load(getFixturePath("extends/.eslintrc.yml"));
             assert.deepEqual(config, {
                 extends: "../package-json/package.json",
-                ecmaFeatures: environments.es6.ecmaFeatures,
+                parserOptions: { ecmaVersion: 6 },
                 env: { es6: true },
                 globals: environments.es6.globals,
                 rules: { booya: 2 }

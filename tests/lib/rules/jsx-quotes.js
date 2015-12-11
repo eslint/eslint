@@ -18,48 +18,48 @@ ruleTester.run("jsx-quotes", rule, {
     valid: [
         {
             code: "<foo bar=\"baz\" />",
-            ecmaFeatures: { jsx: true }
+            parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } }
         },
         {
             code: "<foo bar='\"' />",
-            ecmaFeatures: { jsx: true }
+            parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } }
         },
         {
             code: "<foo bar='baz' />",
             options: [ "prefer-single" ],
-            ecmaFeatures: { jsx: true }
+            parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } }
         },
         {
             code: "<foo bar=\"baz\">\"</foo>",
-            ecmaFeatures: { jsx: true }
+            parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } }
         },
         {
             code: "<foo bar='baz'>'</foo>",
             options: [ "prefer-single" ],
-            ecmaFeatures: { jsx: true }
+            parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } }
         },
         {
             code: "<foo bar={'baz'} />",
-            ecmaFeatures: { jsx: true }
+            parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } }
         },
         {
             code: "<foo bar={\"baz\"} />",
             options: [ "prefer-single" ],
-            ecmaFeatures: { jsx: true }
+            parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } }
         },
         {
             code: "<foo bar={baz} />",
-            ecmaFeatures: { jsx: true }
+            parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } }
         },
         {
             code: "<foo bar />",
-            ecmaFeatures: { jsx: true }
+            parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } }
         }
     ],
     invalid: [
         {
             code: "<foo bar=\'baz\' />",
-            ecmaFeatures: { jsx: true },
+            parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } },
             errors: [
                 { message: "Unexpected usage of singlequote.", line: 1, column: 10, type: "Literal" }
             ]
@@ -67,7 +67,7 @@ ruleTester.run("jsx-quotes", rule, {
         {
             code: "<foo bar=\"baz\" />",
             options: [ "prefer-single" ],
-            ecmaFeatures: { jsx: true },
+            parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } },
             errors: [
                 { message: "Unexpected usage of doublequote.", line: 1, column: 10, type: "Literal" }
             ]

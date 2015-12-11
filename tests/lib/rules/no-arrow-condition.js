@@ -41,10 +41,10 @@ var rule = require("../../../lib/rules/no-arrow-condition"),
 /**
  * Extends a rule object to include support for arrow functions
  * @param {object} obj - rule object
- * @returns {object} object extened to include `ecmaFeatures.arrowFunctions = true`
+ * @returns {object} object extend to include ES6 features
  */
 function addArrowFunctions(obj) {
-    obj.ecmaFeatures = { arrowFunctions: true };
+    obj.parserOptions = { ecmaVersion: 6 };
     return obj;
 }
 

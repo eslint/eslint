@@ -21,8 +21,8 @@ var ruleTester = new RuleTester();
 ruleTester.run("block-scoped-var", rule, {
     valid: [
         // See issue https://github.com/eslint/eslint/issues/2242
-        { code: "function f() { } f(); var exports = { f: f };", ecmaFeatures: {modules: true} },
-        { code: "var f = () => {}; f(); var exports = { f: f };", ecmaFeatures: {arrowFunctions: true, modules: true} },
+        { code: "function f() { } f(); var exports = { f: f };", parserOptions: { ecmaVersion: 6 } },
+        { code: "var f = () => {}; f(); var exports = { f: f };", parserOptions: { sourceType: "module" } },
         "!function f(){ f; }",
         "function f() { } f(); var exports = { f: f };",
         "function f() { var a, b; { a = true; } b = a; }",
@@ -41,16 +41,16 @@ ruleTester.run("block-scoped-var", rule, {
         "var a; if (true) { a; }",
         "for (var i = 0; i < 10; i++) { i; }",
         "var i; for(i; i; i) { i; }",
-        { code: "function myFunc(foo) {  \"use strict\";  var { bar } = foo;  bar.hello();}", ecmaFeatures: { destructuring: true } },
-        { code: "function myFunc(foo) {  \"use strict\";  var [ bar ]  = foo;  bar.hello();}", ecmaFeatures: { destructuring: true } },
-        { code: "function myFunc(...foo) {  return foo;}", ecmaFeatures: { restParams: true } },
-        { code: "var f = () => { var g = f; }", ecmaFeatures: { arrowFunctions: true } },
-        { code: "class Foo {}\nexport default Foo;", ecmaFeatures: { modules: true, classes: true } },
+        { code: "function myFunc(foo) {  \"use strict\";  var { bar } = foo;  bar.hello();}", parserOptions: { ecmaVersion: 6 } },
+        { code: "function myFunc(foo) {  \"use strict\";  var [ bar ]  = foo;  bar.hello();}", parserOptions: { ecmaVersion: 6 } },
+        { code: "function myFunc(...foo) {  return foo;}", parserOptions: { ecmaVersion: 6 } },
+        { code: "var f = () => { var g = f; }", parserOptions: { ecmaVersion: 6 } },
+        { code: "class Foo {}\nexport default Foo;", parserOptions: { sourceType: "module" } },
         { code: "new Date", globals: {Date: false} },
         { code: "new Date", globals: {} },
         { code: "var eslint = require('eslint');", globals: {require: false} },
-        { code: "var fun = function({x}) {return x;};", ecmaFeatures: { destructuring: true } },
-        { code: "var fun = function([,x]) {return x;};", ecmaFeatures: { destructuring: true } },
+        { code: "var fun = function({x}) {return x;};", parserOptions: { ecmaVersion: 6 } },
+        { code: "var fun = function([,x]) {return x;};", parserOptions: { ecmaVersion: 6 } },
         "function f(a) { return a.b; }",
         "var a = { \"foo\": 3 };",
         "var a = { foo: 3 };",
@@ -66,25 +66,25 @@ ruleTester.run("block-scoped-var", rule, {
         "a:;",
         "foo: while (true) { bar: for (var i = 0; i < 13; ++i) {if (i === 7) break foo; } }",
         "foo: while (true) { bar: for (var i = 0; i < 13; ++i) {if (i === 7) continue foo; } }",
-        { code: "const React = require(\"react/addons\");const cx = React.addons.classSet;", globals: { require: false }, ecmaFeatures: { globalReturn: true, modules: true, blockBindings: true }},
-        { code: "var v = 1;  function x() { return v; };", ecmaFeatures: { globalReturn: true }},
-        { code: "import * as y from \"./other.js\"; y();", ecmaFeatures: { modules: true }},
-        { code: "import y from \"./other.js\"; y();", ecmaFeatures: { modules: true }},
-        { code: "import {x as y} from \"./other.js\"; y();", ecmaFeatures: { modules: true }},
-        { code: "var x; export {x};", ecmaFeatures: { modules: true }},
-        { code: "var x; export {x as v};", ecmaFeatures: { modules: true }},
-        { code: "export {x} from \"./other.js\";", ecmaFeatures: { modules: true }},
-        { code: "export {x as v} from \"./other.js\";", ecmaFeatures: { modules: true }},
-        { code: "class Test { myFunction() { return true; }}", ecmaFeatures: { classes: true }},
-        { code: "class Test { get flag() { return true; }}", ecmaFeatures: { classes: true }},
-        { code: "var Test = class { myFunction() { return true; }}", ecmaFeatures: { classes: true }},
-        { code: "var doStuff; let {x: y} = {x: 1}; doStuff(y);", ecmaFeatures: { blockBindings: true, destructuring: true }},
-        { code: "function foo({x: y}) { return y; }", ecmaFeatures: { blockBindings: true, destructuring: true }},
+        { code: "const React = require(\"react/addons\");const cx = React.addons.classSet;", globals: { require: false }, parserOptions: { sourceType: "module" }},
+        { code: "var v = 1;  function x() { return v; };", parserOptions: { parserOptions: { ecmaVersion: 6 } }},
+        { code: "import * as y from \"./other.js\"; y();", parserOptions: { sourceType: "module" }},
+        { code: "import y from \"./other.js\"; y();", parserOptions: { sourceType: "module" }},
+        { code: "import {x as y} from \"./other.js\"; y();", parserOptions: { sourceType: "module" }},
+        { code: "var x; export {x};", parserOptions: { sourceType: "module" }},
+        { code: "var x; export {x as v};", parserOptions: { sourceType: "module" }},
+        { code: "export {x} from \"./other.js\";", parserOptions: { sourceType: "module" }},
+        { code: "export {x as v} from \"./other.js\";", parserOptions: { sourceType: "module" }},
+        { code: "class Test { myFunction() { return true; }}", parserOptions: { ecmaVersion: 6 }},
+        { code: "class Test { get flag() { return true; }}", parserOptions: { ecmaVersion: 6 }},
+        { code: "var Test = class { myFunction() { return true; }}", parserOptions: { ecmaVersion: 6 }},
+        { code: "var doStuff; let {x: y} = {x: 1}; doStuff(y);", parserOptions: { ecmaVersion: 6 }},
+        { code: "function foo({x: y}) { return y; }", parserOptions: { ecmaVersion: 6 }},
 
         // those are the same as `no-undef`.
         { code: "!function f(){}; f" },
         { code: "var f = function foo() { }; foo(); var exports = { f: foo };" },
-        { code: "var f = () => { x; }", ecmaFeatures: { arrowFunctions: true } },
+        { code: "var f = () => { x; }", parserOptions: { ecmaVersion: 6 } },
         { code: "function f(){ x; }" },
         { code: "var eslint = require('eslint');" },
         { code: "function f(a) { return a[b]; }" },
@@ -100,16 +100,16 @@ ruleTester.run("block-scoped-var", rule, {
         { code: "a:b;" },
 
         // https://github.com/eslint/eslint/issues/2253
-        { code: "/*global React*/ let {PropTypes, addons: {PureRenderMixin}} = React; let Test = React.createClass({mixins: [PureRenderMixin]});", ecmaFeatures: { blockBindings: true, destructuring: true }},
-        { code: "/*global prevState*/ const { virtualSize: prevVirtualSize = 0 } = prevState;", ecmaFeatures: { blockBindings: true, destructuring: true }},
-        { code: "const { dummy: { data, isLoading }, auth: { isLoggedIn } } = this.props;", ecmaFeatures: { blockBindings: true, destructuring: true }},
+        { code: "/*global React*/ let {PropTypes, addons: {PureRenderMixin}} = React; let Test = React.createClass({mixins: [PureRenderMixin]});", parserOptions: { ecmaVersion: 6 }},
+        { code: "/*global prevState*/ const { virtualSize: prevVirtualSize = 0 } = prevState;", parserOptions: { ecmaVersion: 6 }},
+        { code: "const { dummy: { data, isLoading }, auth: { isLoggedIn } } = this.props;", parserOptions: { ecmaVersion: 6 }},
 
         // https://github.com/eslint/eslint/issues/2747
         { code: "function a(n) { return n > 0 ? b(n - 1) : \"a\"; } function b(n) { return n > 0 ? a(n - 1) : \"b\"; }"},
 
         // https://github.com/eslint/eslint/issues/2967
         { code: "(function () { foo(); })(); function foo() {}"},
-        { code: "(function () { foo(); })(); function foo() {}", ecmaFeatures: { modules: true }}
+        { code: "(function () { foo(); })(); function foo() {}", parserOptions: { sourceType: "module" }}
     ],
     invalid: [
         { code: "function f(){ x; { var x; } }", errors: [{ message: "\"x\" used outside of binding context.", type: "Identifier" }] },
@@ -122,7 +122,7 @@ ruleTester.run("block-scoped-var", rule, {
         },
         {
             code: "function a() { for(var b of {}) { var c = b; } c; }",
-            ecmaFeatures: { forOf: true },
+            parserOptions: { ecmaVersion: 6 },
             errors: [{ message: "\"c\" used outside of binding context.", type: "Identifier" }]
         },
         {
@@ -139,12 +139,12 @@ ruleTester.run("block-scoped-var", rule, {
         },
         {
             code: "for (var a of []) {} a;",
-            ecmaFeatures: { forOf: true },
+            parserOptions: { ecmaVersion: 6 },
             errors: [{ message: "\"a\" used outside of binding context.", type: "Identifier" }]
         },
         {
             code: "{ var a = 0; } a;",
-            ecmaFeatures: { modules: true },
+            parserOptions: { sourceType: "module" },
             errors: [{ message: "\"a\" used outside of binding context.", type: "Identifier" }]
         },
         {

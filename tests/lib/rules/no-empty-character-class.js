@@ -29,7 +29,7 @@ ruleTester.run("no-empty-character-class", rule, {
         "var foo = /[\\[a-z[]]/;",
         "var foo = /[\\-\\[\\]\\/\\{\\}\\(\\)\\*\\+\\?\\.\\\\^\\$\\|]/g;",
         "var foo = /\\s*:\\s*/gim;",
-        { code: "var foo = /[\\]]/uy;", ecmaFeatures: { regexUFlag: true, regexYFlag: true } }
+        { code: "var foo = /[\\]]/uy;", parserOptions: { ecmaVersion: 6 } }
     ],
     invalid: [
         { code: "var foo = /^abc[]/;", errors: [{ message: "Empty class.", type: "Literal"}] },

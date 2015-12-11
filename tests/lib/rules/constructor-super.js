@@ -21,150 +21,150 @@ var ruleTester = new RuleTester();
 ruleTester.run("constructor-super", rule, {
     valid: [
         // non derived classes.
-        { code: "class A { }", ecmaFeatures: {classes: true} },
-        { code: "class A { constructor() { } }", ecmaFeatures: {classes: true} },
-        { code: "class A extends null { }", ecmaFeatures: {classes: true} },
-        { code: "class A extends null { constructor() { } }", ecmaFeatures: {classes: true} },
+        { code: "class A { }", parserOptions: { ecmaVersion: 6 } },
+        { code: "class A { constructor() { } }", parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends null { }", parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends null { constructor() { } }", parserOptions: { ecmaVersion: 6 } },
 
         // derived classes.
-        { code: "class A extends B { }", ecmaFeatures: {classes: true} },
-        { code: "class A extends B { constructor() { super(); } }", ecmaFeatures: {classes: true} },
-        { code: "class A extends B { constructor() { if (true) { super(); } else { super(); } } }", ecmaFeatures: {classes: true} },
+        { code: "class A extends B { }", parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() { super(); } }", parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() { if (true) { super(); } else { super(); } } }", parserOptions: { ecmaVersion: 6 } },
 
         // nested.
-        { code: "class A { constructor() { class B extends C { constructor() { super(); } } } }", ecmaFeatures: {classes: true} },
-        { code: "class A extends B { constructor() { super(); class C extends D { constructor() { super(); } } } }", ecmaFeatures: {classes: true} },
-        { code: "class A extends B { constructor() { super(); class C { constructor() { } } } }", ecmaFeatures: {classes: true} },
+        { code: "class A { constructor() { class B extends C { constructor() { super(); } } } }", parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() { super(); class C extends D { constructor() { super(); } } } }", parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() { super(); class C { constructor() { } } } }", parserOptions: { ecmaVersion: 6 } },
 
         // ignores out of constructors.
-        { code: "class A { b() { super(); } }", ecmaFeatures: {classes: true} },
-        { code: "function a() { super(); }", ecmaFeatures: {classes: true} },
+        { code: "class A { b() { super(); } }", parserOptions: { ecmaVersion: 6 } },
+        { code: "function a() { super(); }", parserOptions: { ecmaVersion: 6 } },
 
         // multi code path.
-        { code: "class A extends B { constructor() { a ? super() : super(); } }", ecmaFeatures: {classes: true} },
-        { code: "class A extends B { constructor() { if (a) super(); else super(); } }", ecmaFeatures: {classes: true} },
-        { code: "class A extends B { constructor() { switch (a) { case 0: super(); break; default: super(); } } }", ecmaFeatures: {classes: true} },
-        { code: "class A extends B { constructor() { try {} finally { super(); } } }", ecmaFeatures: {classes: true} },
-        { code: "class A extends B { constructor() { if (a) throw Error(); super(); } }", ecmaFeatures: {classes: true} }
+        { code: "class A extends B { constructor() { a ? super() : super(); } }", parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() { if (a) super(); else super(); } }", parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() { switch (a) { case 0: super(); break; default: super(); } } }", parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() { try {} finally { super(); } } }", parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() { if (a) throw Error(); super(); } }", parserOptions: { ecmaVersion: 6 } }
     ],
     invalid: [
         // non derived classes.
         {
             code: "class A { constructor() { super(); } }",
-            ecmaFeatures: {classes: true},
+            parserOptions: { ecmaVersion: 6 },
             errors: [{ message: "Unexpected \"super()\".", type: "CallExpression"}]
         },
         {
             code: "class A extends null { constructor() { super(); } }",
-            ecmaFeatures: {classes: true},
+            parserOptions: { ecmaVersion: 6 },
             errors: [{ message: "Unexpected \"super()\".", type: "CallExpression"}]
         },
 
         // derived classes.
         {
             code: "class A extends B { constructor() { } }",
-            ecmaFeatures: {classes: true},
+            parserOptions: { ecmaVersion: 6 },
             errors: [{ message: "Expected to call \"super()\".", type: "MethodDefinition"}]
         },
 
         // nested execution scope.
         {
             code: "class A extends B { constructor() { function c() { super(); } } }",
-            ecmaFeatures: {classes: true},
+            parserOptions: { ecmaVersion: 6 },
             errors: [{ message: "Expected to call \"super()\".", type: "MethodDefinition"}]
         },
         {
             code: "class A extends B { constructor() { var c = function() { super(); } } }",
-            ecmaFeatures: {classes: true},
+            parserOptions: { ecmaVersion: 6 },
             errors: [{ message: "Expected to call \"super()\".", type: "MethodDefinition"}]
         },
         {
             code: "class A extends B { constructor() { var c = () => super(); } }",
-            ecmaFeatures: {classes: true, arrowFunctions: true},
+            parserOptions: { ecmaVersion: 6 },
             errors: [{ message: "Expected to call \"super()\".", type: "MethodDefinition"}]
         },
         {
             code: "class A extends B { constructor() { class C extends D { constructor() { super(); } } } }",
-            ecmaFeatures: {classes: true},
+            parserOptions: { ecmaVersion: 6 },
             errors: [{ message: "Expected to call \"super()\".", type: "MethodDefinition", column: 21}]
         },
         {
             code: "class A extends B { constructor() { var C = class extends D { constructor() { super(); } } } }",
-            ecmaFeatures: {classes: true},
+            parserOptions: { ecmaVersion: 6 },
             errors: [{ message: "Expected to call \"super()\".", type: "MethodDefinition", column: 21}]
         },
         {
             code: "class A extends B { constructor() { super(); class C extends D { constructor() { } } } }",
-            ecmaFeatures: {classes: true},
+            parserOptions: { ecmaVersion: 6 },
             errors: [{ message: "Expected to call \"super()\".", type: "MethodDefinition", column: 66}]
         },
         {
             code: "class A extends B { constructor() { super(); var C = class extends D { constructor() { } } } }",
-            ecmaFeatures: {classes: true},
+            parserOptions: { ecmaVersion: 6 },
             errors: [{ message: "Expected to call \"super()\".", type: "MethodDefinition", column: 72}]
         },
 
         // lacked in some code path.
         {
             code: "class A extends B { constructor() { if (a) super(); } }",
-            ecmaFeatures: {classes: true},
+            parserOptions: { ecmaVersion: 6 },
             errors: [{ message: "Lacked a call of \"super()\" in some code paths.", type: "MethodDefinition"}]
         },
         {
             code: "class A extends B { constructor() { if (a); else super(); } }",
-            ecmaFeatures: {classes: true},
+            parserOptions: { ecmaVersion: 6 },
             errors: [{ message: "Lacked a call of \"super()\" in some code paths.", type: "MethodDefinition"}]
         },
         {
             code: "class A extends B { constructor() { a && super(); } }",
-            ecmaFeatures: {classes: true},
+            parserOptions: { ecmaVersion: 6 },
             errors: [{ message: "Lacked a call of \"super()\" in some code paths.", type: "MethodDefinition"}]
         },
         {
             code: "class A extends B { constructor() { switch (a) { case 0: super(); } } }",
-            ecmaFeatures: {classes: true},
+            parserOptions: { ecmaVersion: 6 },
             errors: [{ message: "Lacked a call of \"super()\" in some code paths.", type: "MethodDefinition"}]
         },
         {
             code: "class A extends B { constructor() { switch (a) { case 0: break; default: super(); } } }",
-            ecmaFeatures: {classes: true},
+            parserOptions: { ecmaVersion: 6 },
             errors: [{ message: "Lacked a call of \"super()\" in some code paths.", type: "MethodDefinition"}]
         },
         {
             code: "class A extends B { constructor() { try { super(); } catch (err) {} } }",
-            ecmaFeatures: {classes: true},
+            parserOptions: { ecmaVersion: 6 },
             errors: [{ message: "Lacked a call of \"super()\" in some code paths.", type: "MethodDefinition"}]
         },
         {
             code: "class A extends B { constructor() { try { a; } catch (err) { super(); } } }",
-            ecmaFeatures: {classes: true},
+            parserOptions: { ecmaVersion: 6 },
             errors: [{ message: "Lacked a call of \"super()\" in some code paths.", type: "MethodDefinition"}]
         },
         {
             code: "class A extends B { constructor() { if (a) return; super(); } }",
-            ecmaFeatures: {classes: true},
+            parserOptions: { ecmaVersion: 6 },
             errors: [{ message: "Lacked a call of \"super()\" in some code paths.", type: "MethodDefinition"}]
         },
 
         // duplicate.
         {
             code: "class A extends B { constructor() { super(); super(); } }",
-            ecmaFeatures: {classes: true},
+            parserOptions: { ecmaVersion: 6 },
             errors: [{ message: "Unexpected duplicate \"super()\".", type: "CallExpression", column: 46}]
         },
         {
             code: "class A extends B { constructor() { super() || super(); } }",
-            ecmaFeatures: {classes: true},
+            parserOptions: { ecmaVersion: 6 },
             errors: [{ message: "Unexpected duplicate \"super()\".", type: "CallExpression", column: 48}]
         },
         {
             code: "class A extends B { constructor() { if (a) super(); super(); } }",
-            ecmaFeatures: {classes: true},
+            parserOptions: { ecmaVersion: 6 },
             errors: [{ message: "Unexpected duplicate \"super()\".", type: "CallExpression", column: 53}]
         },
         {
             code: "class A extends B { constructor() { switch (a) { case 0: super(); default: super(); } } }",
-            ecmaFeatures: {classes: true},
+            parserOptions: { ecmaVersion: 6 },
             errors: [{ message: "Unexpected duplicate \"super()\".", type: "CallExpression", column: 76}]
         }
     ]

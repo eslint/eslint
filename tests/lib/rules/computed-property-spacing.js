@@ -24,7 +24,7 @@ ruleTester.run("computed-property-spacing", rule, {
         // default - never
         { code: "obj[foo]" },
         { code: "obj['foo']" },
-        { code: "var x = {[b]: a}", ecmaFeatures: { objectLiteralComputedProperties: true } },
+        { code: "var x = {[b]: a}", parserOptions: { ecmaVersion: 6 } },
 
         // always
         { code: "obj[ foo ]", options: ["always"] },
@@ -41,10 +41,10 @@ ruleTester.run("computed-property-spacing", rule, {
         { code: "var foo = obj[ [1, 1] ];", options: ["always"] },
 
         // always - objectLiteralComputedProperties
-        { code: "var x = {[ \"a\" ]: a}", options: ["always"], ecmaFeatures: { "objectLiteralComputedProperties": true } },
-        { code: "var y = {[ x ]: a}", options: ["always"], ecmaFeatures: { "objectLiteralComputedProperties": true } },
-        { code: "var x = {[ \"a\" ]() {}}", options: ["always"], ecmaFeatures: { objectLiteralComputedProperties: true, objectLiteralShorthandMethods: true } },
-        { code: "var y = {[ x ]() {}}", options: ["always"], ecmaFeatures: { objectLiteralComputedProperties: true, objectLiteralShorthandMethods: true } },
+        { code: "var x = {[ \"a\" ]: a}", options: ["always"], parserOptions: { ecmaVersion: 6 } },
+        { code: "var y = {[ x ]: a}", options: ["always"], parserOptions: { ecmaVersion: 6 } },
+        { code: "var x = {[ \"a\" ]() {}}", options: ["always"], parserOptions: { ecmaVersion: 6 } },
+        { code: "var y = {[ x ]() {}}", options: ["always"], parserOptions: { ecmaVersion: 6 } },
 
         // always - unrelated cases
         { code: "var foo = {};", options: ["always"] },
@@ -67,10 +67,10 @@ ruleTester.run("computed-property-spacing", rule, {
         { code: "var foo = obj[[ 1, 1 ]];", options: ["never"] },
 
         // never - objectLiteralComputedProperties
-        { code: "var x = {[\"a\"]: a}", options: ["never"], ecmaFeatures: { objectLiteralComputedProperties: true } },
-        { code: "var y = {[x]: a}", options: ["never"], ecmaFeatures: { objectLiteralComputedProperties: true } },
-        { code: "var x = {[\"a\"]() {}}", options: ["never"], ecmaFeatures: { objectLiteralComputedProperties: true, objectLiteralShorthandMethods: true } },
-        { code: "var y = {[x]() {}}", options: ["never"], ecmaFeatures: { objectLiteralComputedProperties: true, objectLiteralShorthandMethods: true } },
+        { code: "var x = {[\"a\"]: a}", options: ["never"], parserOptions: { ecmaVersion: 6 } },
+        { code: "var y = {[x]: a}", options: ["never"], parserOptions: { ecmaVersion: 6 } },
+        { code: "var x = {[\"a\"]() {}}", options: ["never"], parserOptions: { ecmaVersion: 6 } },
+        { code: "var y = {[x]() {}}", options: ["never"], parserOptions: { ecmaVersion: 6 } },
 
         // never - unrelated cases
         { code: "var foo = {};", options: ["never"] },
@@ -224,7 +224,7 @@ ruleTester.run("computed-property-spacing", rule, {
             code: "var x = {[a]: b}",
             output: "var x = {[ a ]: b}",
             options: ["always"],
-            ecmaFeatures: { "objectLiteralComputedProperties": true },
+            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     message: "A space is required after '['",
@@ -244,7 +244,7 @@ ruleTester.run("computed-property-spacing", rule, {
             code: "var x = {[a ]: b}",
             output: "var x = {[ a ]: b}",
             options: ["always"],
-            ecmaFeatures: { "objectLiteralComputedProperties": true },
+            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     message: "A space is required after '['",
@@ -258,7 +258,7 @@ ruleTester.run("computed-property-spacing", rule, {
             code: "var x = {[ a]: b}",
             output: "var x = {[ a ]: b}",
             options: ["always"],
-            ecmaFeatures: { "objectLiteralComputedProperties": true },
+            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     message: "A space is required before ']'",
@@ -274,7 +274,7 @@ ruleTester.run("computed-property-spacing", rule, {
             code: "var x = {[ a ]: b}",
             output: "var x = {[a]: b}",
             options: ["never"],
-            ecmaFeatures: { "objectLiteralComputedProperties": true },
+            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     message: "There should be no space after '['",
@@ -294,7 +294,7 @@ ruleTester.run("computed-property-spacing", rule, {
             code: "var x = {[a ]: b}",
             output: "var x = {[a]: b}",
             options: ["never"],
-            ecmaFeatures: { "objectLiteralComputedProperties": true },
+            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     message: "There should be no space before ']'",
@@ -308,7 +308,7 @@ ruleTester.run("computed-property-spacing", rule, {
             code: "var x = {[ a]: b}",
             output: "var x = {[a]: b}",
             options: ["never"],
-            ecmaFeatures: { "objectLiteralComputedProperties": true },
+            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     message: "There should be no space after '['",
@@ -322,7 +322,7 @@ ruleTester.run("computed-property-spacing", rule, {
             code: "var x = {[ a\n]: b}",
             output: "var x = {[a\n]: b}",
             options: ["never"],
-            ecmaFeatures: { "objectLiteralComputedProperties": true },
+            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     message: "There should be no space after '['",

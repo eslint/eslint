@@ -33,7 +33,7 @@ ruleTester.run("no-catch-shadow", rule, {
                 "}",
                 "",
                 "module.exports = broken;"
-            ].join("\n"), ecmaFeatures: {blockBindings: true}
+            ].join("\n"), parserOptions: { ecmaVersion: 6 }
         }
     ],
     invalid: [

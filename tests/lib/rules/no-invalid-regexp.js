@@ -22,10 +22,10 @@ ruleTester.run("no-invalid-regexp", rule, {
         "new RegExp",
         "new RegExp('.', 'im')",
         "global.RegExp('\\\\')",
-        { code: "new RegExp('.', 'y')", ecmaFeatures: { regexYFlag: true }},
-        { code: "new RegExp('.', 'u')", ecmaFeatures: { regexUFlag: true }},
-        { code: "new RegExp('.', 'yu')", ecmaFeatures: { regexUFlag: true, regexYFlag: true }},
-        { code: "new RegExp('\/', 'yu')", ecmaFeatures: { regexUFlag: true, regexYFlag: true }}
+        { code: "new RegExp('.', 'y')", parserOptions: { ecmaVersion: 6 }},
+        { code: "new RegExp('.', 'u')", parserOptions: { ecmaVersion: 6 }},
+        { code: "new RegExp('.', 'yu')", parserOptions: { ecmaVersion: 6 }},
+        { code: "new RegExp('\/', 'yu')", parserOptions: { ecmaVersion: 6 }}
     ],
     invalid: [
         { code: "RegExp('[');", errors: [{ message: "Invalid regular expression: /[/: Unterminated character class", type: "CallExpression" }] },
