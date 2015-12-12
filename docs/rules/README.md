@@ -219,6 +219,7 @@ These rules are only relevant to ES6 environments.
 * [generator-star-spacing](generator-star-spacing.md) - enforce spacing around the `*` in generator functions (fixable)
 * [no-arrow-condition](no-arrow-condition.md) - disallow arrow functions where a condition is expected
 * [no-class-assign](no-class-assign.md) - disallow modifying variables of class declarations
+* [no-confusing-arrow](no-confusing-arrow.md) - disallow arrow functions where they could be confused with comparisons
 * [no-const-assign](no-const-assign.md) - disallow modifying variables that are declared using `const`
 * [no-dupe-class-members](no-dupe-class-members.md) - disallow duplicate name in class members
 * [no-this-before-super](no-this-before-super.md) - disallow use of `this`/`super` before calling `super()` in constructors.
