@@ -26,11 +26,12 @@ This rule is aimed at using strict directives effectively, and as such, will fla
 
 ### Options
 
-There are three options for this rule:
+There are four options for this rule:
 
 1. `never` - don't use `"use strict"` at all
 1. `global` - require `"use strict"` in the global scope
 1. `function` - require `"use strict"` in function scopes only
+1. `safe` - require `"use strict"` globally when inside a module wrapper and in function scopes everywhere else.
 
 ### "never" mode
 
@@ -162,6 +163,10 @@ function foo() {
 
 foo();
 ```
+
+### "safe" mode
+
+Node.js and the CommonJS module system wrap modules inside a hidden function wrapper that defines each module's scope. The wrapper makes it safe to concatenate strict-mode modules while maintaining their original `"use strict"` directives. When the `node` or `commonjs` environments are enabled or `globalReturn` is enabled in `ecmaFeatures`, ESLint considers code to be inside the module wrapper, and `"safe"` mode corresponds to `"global"` mode and enforces global `"use strict"` directives. Everywhere else, `"safe"` mode corresponds to `"function"` mode and enforces `"use strict"` directives inside top-level functions.
 
 ### deprecated mode (Removed)
 
