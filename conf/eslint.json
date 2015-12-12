@@ -11,6 +11,7 @@
         "no-catch-shadow": 0,
         "no-class-assign": 0,
         "no-cond-assign": 2,
+        "no-confusing-arrow": 0,
         "no-console": 2,
         "no-const-assign": 0,
         "no-constant-condition": 2,
