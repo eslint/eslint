@@ -96,6 +96,50 @@ ruleTester.run("require-jsdoc", rule, {
                     "ClassDeclaration": true
                 }
             }]
+        },
+        {
+            code:
+            "/**\n" +
+            " * Description for A.\n" +
+            " */\n" +
+            "export default class App extends Component {\n" +
+            "    /**\n" +
+            "     * Description for constructor.\n" +
+            "     * @param {object[]} xs - xs\n" +
+            "     */\n" +
+            "    constructor(xs) {\n" +
+            "        this.a = xs;" +
+            "    }\n" +
+            "}",
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            options: [{
+                "require": {
+                    "MethodDefinition": true,
+                    "ClassDeclaration": true
+                }
+            }]
+        },
+        {
+            code:
+            "/**\n" +
+            " * Description for A.\n" +
+            " */\n" +
+            "export class App extends Component {\n" +
+            "    /**\n" +
+            "     * Description for constructor.\n" +
+            "     * @param {object[]} xs - xs\n" +
+            "     */\n" +
+            "    constructor(xs) {\n" +
+            "        this.a = xs;" +
+            "    }\n" +
+            "}",
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            options: [{
+                "require": {
+                    "MethodDefinition": true,
+                    "ClassDeclaration": true
+                }
+            }]
         }
     ],
 
@@ -178,6 +222,29 @@ ruleTester.run("require-jsdoc", rule, {
         {
             code:
             "export class A extends B {\n" +
+            "    /**\n" +
+            "     * Description for constructor.\n" +
+            "     * @param {object[]} xs - xs\n" +
+            "     */\n" +
+            "    constructor(xs) {\n" +
+            "        this.a = xs;" +
+            "    }\n" +
+            "}",
+            parserOptions: { sourceType: "module" },
+            options: [{
+                "require": {
+                    "MethodDefinition": true,
+                    "ClassDeclaration": true
+                }
+            }],
+            errors: [{
+                message: "Missing JSDoc comment.",
+                type: "ClassDeclaration"
+            }]
+        },
+        {
+            code:
+            "export default class A extends B {\n" +
             "    /**\n" +
             "     * Description for constructor.\n" +
             "     * @param {object[]} xs - xs\n" +
