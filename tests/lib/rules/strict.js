@@ -66,7 +66,11 @@ ruleTester.run("strict", rule, {
         },
 
         // defaults to "function" mode
-        { code: "function foo() { 'use strict'; return; }" }
+        { code: "function foo() { 'use strict'; return; }" },
+
+        // "safe" mode corresponds to "global" if ecmaFeatures.globalReturn is true, otherwise "function"
+        { code: "function foo() { 'use strict'; return; }", options: ["safe"] },
+        { code: "'use strict'; function foo() { return; }", parserOptions: { ecmaFeatures: { globalReturn: true } }, options: ["safe"] }
 
     ],
     invalid: [
@@ -302,6 +306,25 @@ ruleTester.run("strict", rule, {
         }, {
             code: "function foo() { return; }",
             errors: [{ message: "Use the function form of \"use strict\".", type: "FunctionDeclaration" }]
+        },
+
+        // "safe" mode corresponds to "global" if ecmaFeatures.globalReturn is true, otherwise "function"
+        {
+            code: "'use strict'; function foo() { return; }",
+            options: ["safe"],
+            errors: [
+                { message: "Use the function form of \"use strict\".", type: "ExpressionStatement" },
+                { message: "Use the function form of \"use strict\".", type: "FunctionDeclaration" }
+            ]
+        },
+        {
+            code: "function foo() { 'use strict'; return; }",
+            parserOptions: { ecmaFeatures: { globalReturn: true } },
+            options: ["safe"],
+            errors: [
+                { message: "Use the global form of \"use strict\".", type: "Program" },
+                { message: "Use the global form of \"use strict\".", type: "ExpressionStatement" }
+            ]
         }
 
     ]
