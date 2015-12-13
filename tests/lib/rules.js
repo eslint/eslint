@@ -41,7 +41,7 @@ describe("rules", function() {
 
         it("should load rules and not log an error or exit", function() {
             assert.equal(typeof rules.get("fixture-rule"), "undefined");
-            rules.load(code);
+            rules.load(code, process.cwd());
             assert.equal(typeof rules.get("fixture-rule"), "object");
         });
     });

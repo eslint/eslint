@@ -36,7 +36,7 @@ describe("FileFinder", function() {
 
             it("should be found when in the cwd", function() {
                 process.chdir(fileFinderDir);
-                finder = new FileFinder(".eslintignore");
+                finder = new FileFinder(".eslintignore", process.cwd());
                 actual = finder.findInDirectoryOrParents();
 
                 try {
@@ -48,7 +48,7 @@ describe("FileFinder", function() {
 
             it("should be found when in the cwd and passed an array", function() {
                 process.chdir(fileFinderDir);
-                finder = new FileFinder([".eslintignore"]);
+                finder = new FileFinder([".eslintignore"], process.cwd());
                 actual = finder.findInDirectoryOrParents();
 
                 try {
@@ -60,7 +60,7 @@ describe("FileFinder", function() {
 
             it("should be found when in the cwd and passed an array with a missing file", function() {
                 process.chdir(fileFinderDir);
-                finder = new FileFinder(["missing", ".eslintignore"]);
+                finder = new FileFinder(["missing", ".eslintignore"], process.cwd());
                 actual = finder.findInDirectoryOrParents();
 
                 try {
@@ -72,7 +72,7 @@ describe("FileFinder", function() {
 
             it("should be found when in a parent directory of the cwd", function() {
                 process.chdir(subsubsubdir);
-                finder = new FileFinder(".eslintignore");
+                finder = new FileFinder(".eslintignore", process.cwd());
                 actual = finder.findInDirectoryOrParents();
 
                 try {
@@ -83,14 +83,14 @@ describe("FileFinder", function() {
             });
 
             it("should be found when in a specified directory", function() {
-                finder = new FileFinder(".eslintignore");
+                finder = new FileFinder(".eslintignore", process.cwd());
                 actual = finder.findInDirectoryOrParents(fileFinderDir);
 
                 assert.equal(actual, expected);
             });
 
             it("should be found when in a parent directory of a specified directory", function() {
-                finder = new FileFinder(".eslintignore");
+                finder = new FileFinder(".eslintignore", process.cwd());
                 actual = finder.findInDirectoryOrParents(subsubsubdir);
 
                 assert.equal(actual, expected);
@@ -108,7 +108,7 @@ describe("FileFinder", function() {
 
             it("should not be found, and an empty string returned", function() {
                 var expected = String(),
-                    finder = new FileFinder(absentFileName),
+                    finder = new FileFinder(absentFileName, process.cwd()),
                     actual = finder.findInDirectoryOrParents();
 
                 assert.equal(actual, expected);
@@ -118,7 +118,7 @@ describe("FileFinder", function() {
         describe("Not consider directory with expected file names", function() {
             it("should only find one package.json from the root", function() {
                 var expected = path.join(process.cwd(), "package.json");
-                var finder = new FileFinder("package.json");
+                var finder = new FileFinder("package.json", process.cwd());
                 var actual = finder.findInDirectoryOrParents(fileFinderDir);
 
                 assert.equal(actual, expected);
@@ -134,7 +134,7 @@ describe("FileFinder", function() {
         describe("a file present in the cwd", function() {
 
             it("should be found, and returned as the first element of an array", function() {
-                finder = new FileFinder(uniqueFileName);
+                finder = new FileFinder(uniqueFileName, process.cwd());
                 actual = finder.findAllInDirectoryAndParents(fileFinderDir);
                 expected = path.join(fileFinderDir, uniqueFileName);
 
@@ -146,7 +146,7 @@ describe("FileFinder", function() {
         describe("a file present in a parent directory", function() {
 
             it("should be found, and returned as the first element of an array", function() {
-                finder = new FileFinder(uniqueFileName);
+                finder = new FileFinder(uniqueFileName, process.cwd());
                 actual = finder.findAllInDirectoryAndParents(subsubsubdir);
                 expected = path.join(fileFinderDir, "subdir", uniqueFileName);
 
@@ -161,7 +161,7 @@ describe("FileFinder", function() {
                 var firstExpected = path.join(fileFinderDir, "subdir", "empty"),
                     secondExpected = path.join(fileFinderDir, "empty");
 
-                finder = new FileFinder(["empty", uniqueFileName]);
+                finder = new FileFinder(["empty", uniqueFileName], process.cwd());
                 actual = finder.findAllInDirectoryAndParents(subdir);
 
                 assert.equal(actual.length, 2);
@@ -173,7 +173,7 @@ describe("FileFinder", function() {
                 var firstExpected = path.join(fileFinderDir, "subdir", uniqueFileName),
                     secondExpected = path.join(fileFinderDir, uniqueFileName);
 
-                finder = new FileFinder(["notreal", uniqueFileName]);
+                finder = new FileFinder(["notreal", uniqueFileName], process.cwd());
                 actual = finder.findAllInDirectoryAndParents(subdir);
 
                 assert.equal(actual.length, 2);
@@ -185,7 +185,7 @@ describe("FileFinder", function() {
                 var firstExpected = path.join(fileFinderDir, "subdir", uniqueFileName),
                     secondExpected = path.join(fileFinderDir, uniqueFileName);
 
-                finder = new FileFinder(["notreal", uniqueFileName, "empty2"]);
+                finder = new FileFinder(["notreal", uniqueFileName, "empty2"], process.cwd());
                 actual = finder.findAllInDirectoryAndParents(subdir);
 
                 assert.equal(actual.length, 2);
@@ -200,7 +200,7 @@ describe("FileFinder", function() {
                 secondExpected = path.join(fileFinderDir, uniqueFileName);
 
             before(function() {
-                finder = new FileFinder(uniqueFileName);
+                finder = new FileFinder(uniqueFileName, process.cwd());
             });
 
             it("should both be found, and returned in an array", function() {
@@ -227,7 +227,7 @@ describe("FileFinder", function() {
         describe("an absent file", function() {
 
             it("should not be found, and an empty array returned", function() {
-                finder = new FileFinder(absentFileName);
+                finder = new FileFinder(absentFileName, process.cwd());
                 actual = finder.findAllInDirectoryAndParents();
 
                 assert.isArray(actual);
@@ -238,7 +238,7 @@ describe("FileFinder", function() {
         describe("Not consider directory with expected file names", function() {
             it("should only find one package.json from the root", function() {
                 expected = path.join(process.cwd(), "package.json");
-                finder = new FileFinder("package.json");
+                finder = new FileFinder("package.json", process.cwd());
                 actual = finder.findAllInDirectoryAndParents(fileFinderDir);
                 assert.equal(actual, expected);
             });

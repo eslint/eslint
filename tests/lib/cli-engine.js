@@ -570,7 +570,6 @@ describe("CLIEngine", function() {
             assert.equal(report.results[0].messages.length, 0);
         });
 
-
         it("should give a warning when loading a custom rule that doesn't exist", function() {
 
             engine = new CLIEngine({
@@ -609,6 +608,25 @@ describe("CLIEngine", function() {
                 useEslintrc: false,
                 rulePaths: [getFixturePath("rules/")],
                 configFile: getFixturePath("rules", "eslint.json")
+            });
+
+            var filePath = fs.realpathSync(getFixturePath("rules", "test", "test-custom-rule.js"));
+
+            var report = engine.executeOnFiles([filePath]);
+            assert.equal(report.results.length, 1);
+            assert.equal(report.results[0].filePath, filePath);
+            assert.equal(report.results[0].messages.length, 2);
+            assert.equal(report.results[0].messages[0].ruleId, "custom-rule");
+            assert.equal(report.results[0].messages[0].severity, 1);
+        });
+
+        it("should load custom rule from the provided cwd", function() {
+            var cwd = path.resolve(getFixturePath("rules"));
+            engine = new CLIEngine({
+                ignore: false,
+                cwd: cwd,
+                rulePaths: ["./"],
+                configFile: "eslint.json"
             });
 
             var filePath = fs.realpathSync(getFixturePath("rules", "test", "test-custom-rule.js"));
@@ -1293,6 +1311,27 @@ describe("CLIEngine", function() {
                 assert.isTrue(fs.existsSync(path.resolve("./tmp/.cacheFileDir/.cache_hashOfCurrentWorkingDirectory")), "the cache for eslint was created");
 
                 sandbox.restore();
+            });
+
+            it("should create the cache file inside cwd when no cacheLocation provided", function() {
+                var cwd = path.resolve(getFixturePath("cli-engine"));
+
+                engine = new CLIEngine({
+                    useEslintrc: false,
+                    cache: true,
+                    cwd: cwd,
+                    rules: {
+                        "no-console": 0
+                    },
+                    extensions: ["js"],
+                    ignore: false
+                });
+
+                var file = getFixturePath("cli-engine", "console.js");
+
+                engine.executeOnFiles([file]);
+
+                assert.isTrue(fs.existsSync(path.resolve(cwd, ".eslintcache")), "the cache for eslint was created at provided cwd");
             });
 
             it("should invalidate the cache if the configuration changed between executions", function() {
