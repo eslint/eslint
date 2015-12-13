@@ -202,8 +202,8 @@ var patterns = [
         code: "class A {static foo() { console.log(this); z(x => console.log(x, this)); }};",
         parserOptions: { ecmaVersion: 6 },
         errors: errors,
-        valid: [],
-        invalid: [NORMAL, USE_STRICT, MODULES]
+        valid: [NORMAL, USE_STRICT, MODULES],
+        invalid: []
     },
 
     // Constructors.
