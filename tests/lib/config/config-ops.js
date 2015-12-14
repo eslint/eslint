@@ -385,6 +385,20 @@ describe("ConfigOps", function() {
             });
         });
 
+        it("should copy deeply if there is not the destination's property", function() {
+            var a = {};
+            var b = {foo: {bar: 1}};
+
+            var result = ConfigOps.merge(a, b);
+            assert(a.foo === void 0);
+            assert(b.foo.bar === 1);
+            assert(result.foo.bar === 1);
+
+            result.foo.bar = 2;
+            assert(b.foo.bar === 1);
+            assert(result.foo.bar === 2);
+        });
+
         describe("plugins", function() {
             var baseConfig;
 
