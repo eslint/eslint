@@ -34,9 +34,21 @@ describe("IgnoredPaths", function() {
                 ignoredPaths = IgnoredPaths.load({ ignore: true });
                 assert.ok(ignoredPaths.patterns.length > 1);
                 assert.equal(ignoredPaths.patterns[0], "node_modules/**");
+                assert.equal(ignoredPaths.patterns[1], "bower_components/**");
             } finally {
                 process.chdir(cwd);
             }
+        });
+
+        it("should travel to parent directories to find .eslintignore when cwd is provided", function() {
+            var cwd, ignoredPaths;
+
+            cwd = path.resolve(__dirname, "..", "fixtures", "configurations");
+
+            ignoredPaths = IgnoredPaths.load({ ignore: true, cwd: cwd });
+            assert.ok(ignoredPaths.patterns.length > 1);
+            assert.equal(ignoredPaths.patterns[0], "node_modules/**");
+            assert.equal(ignoredPaths.patterns[1], "bower_components/**");
         });
 
         it("should load empty array with ignore option off or missing", function() {
@@ -45,6 +57,18 @@ describe("IgnoredPaths", function() {
             assert.lengthOf(ignoredPaths.patterns, 0);
         });
 
+        it("should accept an array for options.ignorePattern", function() {
+            var ignorePattern = ["a", "b"];
+
+            var ignoredPaths = IgnoredPaths.load({
+                ignore: false,
+                ignorePattern: ignorePattern
+            });
+
+            assert.ok(ignorePattern.every(function(pattern) {
+                return ignoredPaths.patterns.indexOf(pattern) >= 0;
+            }));
+        });
     });
 
     describe("initialization with specific file", function() {
@@ -114,9 +138,19 @@ describe("IgnoredPaths", function() {
             assert.ok(ignoredPaths.contains("node_modules/mocha/bin/mocha"));
         });
 
+        it("should always ignore files in bower_components", function() {
+            var ignoredPaths = IgnoredPaths.load({ ignore: true, ignorePath: filepath });
+            assert.ok(ignoredPaths.contains("bower_components/mocha/bin/mocha"));
+        });
+
         it("should not ignore files in node_modules in a subdirectory", function() {
             var ignoredPaths = IgnoredPaths.load({ ignore: true, ignorePath: filepath });
             assert.notOk(ignoredPaths.contains("subdir/node_modules/test.js"));
+        });
+
+        it("should not ignore files in bower_components in a subdirectory", function() {
+            var ignoredPaths = IgnoredPaths.load({ ignore: true, ignorePath: filepath });
+            assert.notOk(ignoredPaths.contains("subdir/bower_components/test.js"));
         });
 
         it("should return false for file not matching any ignore pattern", function() {
@@ -132,7 +166,7 @@ describe("IgnoredPaths", function() {
 
         it("should ignore comments", function() {
             var ignoredPaths = IgnoredPaths.load({ ignore: true, ignorePath: filepath });
-            assert.equal(ignoredPaths.patterns.length, 2);
+            assert.equal(ignoredPaths.patterns.length, 3);
         });
 
     });

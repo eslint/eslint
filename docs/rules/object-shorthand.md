@@ -93,7 +93,28 @@ The rule takes an option which specifies when it should be applied. It can be se
 You can set the option in configuration like this:
 
 ```json
-"object-shorthand": [2, "always"]
+{
+    "object-shorthand": [2, "always"]
+}
+```
+
+While set to "always" or "methods", constructor functions can be ignored with the optional parameter "ignoreConstructors" enabled. Note: The first parameter must be specified when using this optional parameter.
+
+```json
+{
+    "object-shorthand": [2, "always", { "ignoreConstructors": true }]
+}
+```
+
+The following will *not* warn when "ignoreConstructors" is enabled:
+
+```js
+/*eslint object-shorthand: [2, "always", { "ignoreConstructors": true }]*/
+/*eslint-env es6*/
+
+var foo = {
+    ConstructorFunction: function() {}
+};
 ```
 
 ## When Not To Use It

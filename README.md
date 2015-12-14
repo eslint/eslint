@@ -122,5 +122,5 @@ Join our [Mailing List](https://groups.google.com/group/eslint) or [Chatroom](ht
 [travis-url]: https://travis-ci.org/eslint/eslint
 [coveralls-image]: https://img.shields.io/coveralls/eslint/eslint/master.svg?style=flat-square
 [coveralls-url]: https://coveralls.io/r/eslint/eslint?branch=master
-[downloads-image]: http://img.shields.io/npm/dm/eslint.svg?style=flat-square
+[downloads-image]: https://img.shields.io/npm/dm/eslint.svg?style=flat-square
 [downloads-url]: https://www.npmjs.com/package/eslint

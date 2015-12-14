@@ -1,4 +1,4 @@
-# Command line Interface
+# Command Line Interface
 
 To run ESLint on Node.js, you must have npm installed. If npm is not installed, follow the instructions here: https://www.npmjs.com/
 
@@ -46,7 +46,7 @@ Specifying rules and plugins:
 Ignoring files:
   --ignore-path path::String  Specify path of ignore file
   --no-ignore                Disable use of .eslintignore
-  --ignore-pattern String    Pattern of files to ignore (in addition to those
+  --ignore-pattern [String]  Patterns of files to ignore (in addition to those
                              in .eslintignore)
 
 Using stdin:
@@ -69,7 +69,17 @@ Miscellaneous:
   --debug                    Output debugging information
   -h, --help                 Show help
   -v, --version              Outputs the version number
-  ```
+  --no-inline-config         Prevent comments from changing eslint rules -
+                             default: false
+```
+
+Options that accept array values can be specified by repeating the option or with a comma-delimited list (other than `--ignore-pattern` which does not allow the second style).
+
+Example:
+
+    eslint --ext .jsx --ext .js file.js
+
+    eslint --ext .jsx,.js file.js
 
 ### Basic configuration
 
@@ -329,9 +339,28 @@ Example:
 
     eslint -v
 
+#### `--no-inline-config`
+
+This option prevents inline comments like `/*eslint-disable*/` or
+`/*global foo*/` from having any effect. This allows you to set an ESLint
+config without files modifying it. All inline config comments are ignored, e.g.:
+
+* `/*eslint-disable*/`
+* `/*eslint-enable*/`
+* `/*global*/`
+* `/*eslint*/`
+* `/*eslint-env*/`
+* `// eslint-disable-line`
+
+Example:
+
+    eslint --no-inline-config file.js
+
 ## Ignoring files from linting
 
 ESLint supports `.eslintignore` files to exclude files from the linting process when ESLint operates on a directory. Files given as individual CLI arguments will be exempt from exclusion. The `.eslintignore` file is a plain text file containing one pattern per line. It can be located in any of the target directory's ancestors; it will affect files in its containing directory as well as all sub-directories. Here's a simple example of a `.eslintignore` file:
 
     node_modules/*
     **/vendor/*.js
+
+A more detailed breakdown of supported patterns and directories ESLint ignores by default can be found in [Configuring ESLint](http://eslint.org/docs/user-guide/configuring#ignoring-files-and-directories).

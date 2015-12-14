@@ -73,7 +73,7 @@ for (i = 0; i < l; i += 1) {
 The following patterns are not considered problems if `allowForLoopAfterthoughts` is set to true:
 
 ```js
-/*eslint no-plusplus: 2, [{ allowForLoopAfterthoughts: true }]*/
+/*eslint no-plusplus: [2, { allowForLoopAfterthoughts: true }]*/
 
 for (i = 0; i < l; i++) {
     return;

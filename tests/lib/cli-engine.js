@@ -227,7 +227,7 @@ describe("CLIEngine", function() {
         it("should report zero messages when given a config file and a valid file", function() {
 
             engine = new CLIEngine({
-                configFile: path.join(__dirname, "..", "..", ".eslintrc")
+                configFile: path.join(__dirname, "..", "..", ".eslintrc.yml")
             });
 
             var report = engine.executeOnFiles(["lib/cli*.js"]);
@@ -239,7 +239,7 @@ describe("CLIEngine", function() {
         it("should handle multiple patterns with overlapping files", function() {
 
             engine = new CLIEngine({
-                configFile: path.join(__dirname, "..", "..", ".eslintrc")
+                configFile: path.join(__dirname, "..", "..", ".eslintrc.yml")
             });
 
             var report = engine.executeOnFiles(["lib/cli*.js", "lib/cli.?s", "lib/{cli,cli-engine}.js"]);
@@ -570,7 +570,6 @@ describe("CLIEngine", function() {
             assert.equal(report.results[0].messages.length, 0);
         });
 
-
         it("should give a warning when loading a custom rule that doesn't exist", function() {
 
             engine = new CLIEngine({
@@ -609,6 +608,25 @@ describe("CLIEngine", function() {
                 useEslintrc: false,
                 rulePaths: [getFixturePath("rules/")],
                 configFile: getFixturePath("rules", "eslint.json")
+            });
+
+            var filePath = fs.realpathSync(getFixturePath("rules", "test", "test-custom-rule.js"));
+
+            var report = engine.executeOnFiles([filePath]);
+            assert.equal(report.results.length, 1);
+            assert.equal(report.results[0].filePath, filePath);
+            assert.equal(report.results[0].messages.length, 2);
+            assert.equal(report.results[0].messages[0].ruleId, "custom-rule");
+            assert.equal(report.results[0].messages[0].severity, 1);
+        });
+
+        it("should load custom rule from the provided cwd", function() {
+            var cwd = path.resolve(getFixturePath("rules"));
+            engine = new CLIEngine({
+                ignore: false,
+                cwd: cwd,
+                rulePaths: ["./"],
+                configFile: "eslint.json"
             });
 
             var filePath = fs.realpathSync(getFixturePath("rules", "test", "test-custom-rule.js"));
@@ -798,11 +816,20 @@ describe("CLIEngine", function() {
                                     "ruleId": "quotes",
                                     "severity": 2,
                                     "source": "var msg = 'hi'"
+                                },
+                                {
+                                    "column": 9,
+                                    "line": 2,
+                                    "message": "Expected '===' and instead saw '=='.",
+                                    "nodeType": "BinaryExpression",
+                                    "ruleId": "eqeqeq",
+                                    "severity": 2,
+                                    "source": "if (msg == 'hi') {"
                                 }
                             ],
-                            "errorCount": 1,
+                            "errorCount": 2,
                             "warningCount": 0,
-                            "output": "var msg = 'hi';\nif (msg === \"hi\") {\n\n}\n"
+                            "output": "var msg = 'hi';\nif (msg == \"hi\") {\n\n}\n"
                         },
                         {
                             "filePath": fs.realpathSync(path.resolve(fixtureDir, "fixmode/quotes.js")),
@@ -822,7 +849,7 @@ describe("CLIEngine", function() {
                             "output": "var msg = \"hi\" + foo;\n"
                         }
                     ],
-                    "errorCount": 2,
+                    "errorCount": 3,
                     "warningCount": 0
                 });
             });
@@ -1284,6 +1311,27 @@ describe("CLIEngine", function() {
                 assert.isTrue(fs.existsSync(path.resolve("./tmp/.cacheFileDir/.cache_hashOfCurrentWorkingDirectory")), "the cache for eslint was created");
 
                 sandbox.restore();
+            });
+
+            it("should create the cache file inside cwd when no cacheLocation provided", function() {
+                var cwd = path.resolve(getFixturePath("cli-engine"));
+
+                engine = new CLIEngine({
+                    useEslintrc: false,
+                    cache: true,
+                    cwd: cwd,
+                    rules: {
+                        "no-console": 0
+                    },
+                    extensions: ["js"],
+                    ignore: false
+                });
+
+                var file = getFixturePath("cli-engine", "console.js");
+
+                engine.executeOnFiles([file]);
+
+                assert.isTrue(fs.existsSync(path.resolve(cwd, ".eslintcache")), "the cache for eslint was created at provided cwd");
             });
 
             it("should invalidate the cache if the configuration changed between executions", function() {
@@ -1854,4 +1902,60 @@ describe("CLIEngine", function() {
         });
 
     });
+
+    describe("when evaluating code with comments to change config when allowInlineConfig is disabled", function() {
+
+        it("should report a violation for disabling rules", function() {
+            var code = [
+                "alert('test'); // eslint-disable-line no-alert"
+            ].join("\n");
+            var config = {
+                envs: ["browser"],
+                ignore: true,
+                allowInlineConfig: false,
+                rules: {
+                    "eol-last": 0,
+                    "no-alert": 1,
+                    "no-trailing-spaces": 0,
+                    "strict": 0,
+                    "quotes": 0
+                }
+            };
+
+            var eslintCLI = new CLIEngine(config);
+
+            var report = eslintCLI.executeOnText(code);
+            var messages = report.results[0].messages;
+
+            assert.equal(messages.length, 1);
+            assert.equal(messages[0].ruleId, "no-alert");
+        });
+
+        it("should not report a violation by default", function() {
+            var code = [
+                "alert('test'); // eslint-disable-line no-alert"
+            ].join("\n");
+            var config = {
+                envs: ["browser"],
+                ignore: true,
+                // allowInlineConfig: true is the default
+                rules: {
+                    "eol-last": 0,
+                    "no-alert": 1,
+                    "no-trailing-spaces": 0,
+                    "strict": 0,
+                    "quotes": 0
+                }
+            };
+
+            var eslintCLI = new CLIEngine(config);
+
+            var report = eslintCLI.executeOnText(code);
+            var messages = report.results[0].messages;
+
+            assert.equal(messages.length, 0);
+        });
+
+    });
+
 });

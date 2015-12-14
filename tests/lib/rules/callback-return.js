@@ -52,24 +52,24 @@ ruleTester.run("callback-return", rule, {
         // arrow functions
         {
             code: "var x = err => { if (err) { callback(); return; } }",
-            ecmaFeatures: { arrowFunctions: true }
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "var x = err => callback(err)",
-            ecmaFeatures: { arrowFunctions: true }
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "var x = err => { setTimeout( () => { callback(); }); }",
-            ecmaFeatures: { arrowFunctions: true }
+            parserOptions: { ecmaVersion: 6 }
         },
 
         // classes
         {
             code: "class x { horse() { callback(); } } ",
-            ecmaFeatures: { classes: true }
+            parserOptions: { ecmaVersion: 6 }
         }, {
             code: "class x { horse() { if (err) { return callback(); } callback(); } } ",
-            ecmaFeatures: { classes: true }
+            parserOptions: { ecmaVersion: 6 }
         },
 
         // options (only warns with the correct callback name)
@@ -130,7 +130,7 @@ ruleTester.run("callback-return", rule, {
         },
         {
             code: "var x = (err) => { if (err) { callback (err); } }",
-            ecmaFeatures: { arrowFunctions: true },
+            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 message: "Expected return with your callback function.",
                 line: 1,
@@ -140,7 +140,7 @@ ruleTester.run("callback-return", rule, {
         },
         {
             code: "var x = { x(err) { if (err) { callback (err); } } }",
-            ecmaFeatures: {objectLiteralShorthandMethods: true},
+            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 message: "Expected return with your callback function.",
                 line: 1,
@@ -159,7 +159,7 @@ ruleTester.run("callback-return", rule, {
         },
         {
             code: "var x = { x(err) { if (err) { callback && callback (err); } } }",
-            ecmaFeatures: {objectLiteralShorthandMethods: true},
+            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 message: "Expected return with your callback function.",
                 line: 1,
@@ -196,7 +196,7 @@ ruleTester.run("callback-return", rule, {
         },
         {
             code: "var a = (err) => { callback (err); callback(); }",
-            ecmaFeatures: { arrowFunctions: true },
+            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 message: "Expected return with your callback function.",
                 line: 1,
@@ -225,7 +225,7 @@ ruleTester.run("callback-return", rule, {
         },
         {
             code: "class x { horse() { if (err) { callback(); } callback(); } } ",
-            ecmaFeatures: { classes: true },
+            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 message: "Expected return with your callback function.",
                 line: 1,
@@ -263,7 +263,7 @@ ruleTester.run("callback-return", rule, {
         },
         {
             code: "() => { if (x) { callback(); } }",
-            ecmaFeatures: { arrowFunctions: true },
+            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     message: "Expected return with your callback function.",

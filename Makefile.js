@@ -182,6 +182,9 @@ function getReleaseType(version) {
 function release(type) {
     var newVersion;/* , changes;*/
 
+    exec("git checkout master && git fetch origin && git reset --hard origin/master");
+    exec("npm install && npm prune");
+
     target.test();
     echo("Generating new version");
     newVersion = execSilent("npm version " + type).trim();
@@ -541,6 +544,7 @@ target.gensite = function() {
         "/rules/",
         "/user-guide/command-line-interface.md",
         "/user-guide/configuring.md",
+        "/developer-guide/code-path-analysis.md",
         "/developer-guide/nodejs-api.md",
         "/developer-guide/working-with-plugins.md",
         "/developer-guide/working-with-rules.md"
@@ -579,7 +583,7 @@ target.gensite = function() {
 
     // 4. Loop through all files in temporary directory
     find(TEMP_DIR).forEach(function(filename) {
-        if (test("-f", filename) && path.extname(filename) !== "") {
+        if (test("-f", filename) && path.extname(filename) === ".md") {
 
             var rulesUrl = "https://github.com/eslint/eslint/tree/master/lib/rules/";
             var docsUrl = "https://github.com/eslint/eslint/tree/master/docs/rules/";
@@ -944,7 +948,7 @@ target.checkGitCommit = function() {
     }
 
     // Only check non-release messages
-    if (!semver.valid(commitMsgs[0])) {
+    if (!semver.valid(commitMsgs[0]) && !/^Revert /.test(commitMsgs[0])) {
         if (commitMsgs[0].slice(0, commitMsgs[0].indexOf("\n")).length > 72) {
             echo(" - First line of commit message must not exceed 72 characters");
             failed = true;
@@ -1001,7 +1005,7 @@ function time(cmd, runs, runNumber, results, cb) {
         results.push(actual);
         echo("Performance Run #" + runNumber + ":  %dms", actual);
         if (runs > 1) {
-            time(cmd, runs - 1, runNumber + 1, results, cb);
+            return time(cmd, runs - 1, runNumber + 1, results, cb);
         } else {
             return cb(results);
         }

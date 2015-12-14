@@ -25,22 +25,22 @@ var errors = [{
 var ruleTester = new RuleTester();
 ruleTester.run("prefer-arrow-callback", rule, {
     valid: [
-        {code: "foo(a => a);", ecmaFeatures: {arrowFunctions: true}},
-        {code: "foo(function*() {});", ecmaFeatures: {generators: true}},
+        {code: "foo(a => a);", parserOptions: { ecmaVersion: 6 }},
+        {code: "foo(function*() {});", parserOptions: { ecmaVersion: 6 }},
         {code: "foo(function() { this; });"},
-        {code: "foo(function() { (() => this); });", ecmaFeatures: {arrowFunctions: true}},
+        {code: "foo(function() { (() => this); });", parserOptions: { ecmaVersion: 6 }},
         {code: "foo(function() { this; }.bind(obj));"},
         {code: "foo(function() { this; }.call(this));"},
-        {code: "foo(a => { (function() {}); });", ecmaFeatures: {arrowFunctions: true}},
+        {code: "foo(a => { (function() {}); });", parserOptions: { ecmaVersion: 6 }},
         {code: "var foo = function foo() {};"},
         {code: "(function foo() {})();"},
         {code: "foo(function bar() { bar; });"},
         {code: "foo(function bar() { arguments; });"},
         {code: "foo(function bar() { arguments; }.bind(this));"},
-        {code: "foo(function bar() { super.a; });", ecmaFeatures: {classes: true}},
-        {code: "foo(function bar() { super.a; }.bind(this));", ecmaFeatures: {classes: true}},
-        {code: "foo(function bar() { new.target; });", ecmaFeatures: {newTarget: true}},
-        {code: "foo(function bar() { new.target; }.bind(this));", ecmaFeatures: {newTarget: true}}
+        {code: "foo(function bar() { super.a; });", parserOptions: { ecmaVersion: 6 }},
+        {code: "foo(function bar() { super.a; }.bind(this));", parserOptions: { ecmaVersion: 6 }},
+        {code: "foo(function bar() { new.target; });", parserOptions: { ecmaVersion: 6 }},
+        {code: "foo(function bar() { new.target; }.bind(this));", parserOptions: { ecmaVersion: 6 }}
     ],
     invalid: [
         {code: "foo(function() {});", errors: errors},
@@ -48,7 +48,7 @@ ruleTester.run("prefer-arrow-callback", rule, {
         {code: "foo(bar ? function() {} : function() {});", errors: [errors[0], errors[0]]},
         {code: "foo(function() { (function() { this; }); });", errors: errors},
         {code: "foo(function() { this; }.bind(this));", errors: errors},
-        {code: "foo(function() { (() => this); }.bind(this));", ecmaFeatures: {arrowFunctions: true}, errors: errors},
+        {code: "foo(function() { (() => this); }.bind(this));", parserOptions: { ecmaVersion: 6 }, errors: errors},
         {code: "foo(function bar(a) { a; });", errors: errors},
         {code: "foo(function(a) { a; });", errors: errors},
         {code: "foo(function(arguments) { arguments; });", errors: errors}

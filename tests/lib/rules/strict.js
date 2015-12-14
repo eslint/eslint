@@ -25,48 +25,52 @@ ruleTester.run("strict", rule, {
         { code: "function foo() { bar(); 'use strict'; return; }", options: ["never"] },
         { code: "var foo = function() { { 'use strict'; } return; };", options: ["never"] },
         { code: "(function() { bar('use strict'); return; }());", options: ["never"] },
-        { code: "var fn = x => 1;", ecmaFeatures: { arrowFunctions: true }, options: ["never"] },
-        { code: "var fn = x => { return; };", ecmaFeatures: { arrowFunctions: true }, options: ["never"] },
-        { code: "foo();", ecmaFeatures: { modules: true }, options: ["never"] },
+        { code: "var fn = x => 1;", parserOptions: { ecmaVersion: 6 }, options: ["never"] },
+        { code: "var fn = x => { return; };", parserOptions: { ecmaVersion: 6 }, options: ["never"] },
+        { code: "foo();", parserOptions: { sourceType: "module" }, options: ["never"] },
 
         // "global" mode
         { code: "// Intentionally empty", options: ["global"] },
         { code: "\"use strict\"; foo();", options: ["global"] },
-        { code: "foo();", ecmaFeatures: { modules: true }, options: ["global"] },
+        { code: "foo();", parserOptions: { sourceType: "module" }, options: ["global"] },
         { code: "'use strict'; function foo() { return; }", options: ["global"] },
         { code: "'use strict'; var foo = function() { return; };", options: ["global"] },
         { code: "'use strict'; function foo() { bar(); 'use strict'; return; }", options: ["global"] },
         { code: "'use strict'; var foo = function() { bar(); 'use strict'; return; };", options: ["global"] },
         { code: "'use strict'; function foo() { return function() { bar(); 'use strict'; return; }; }", options: ["global"] },
-        { code: "'use strict'; var foo = () => { return () => { bar(); 'use strict'; return; }; }", ecmaFeatures: { arrowFunctions: true }, options: ["global"] },
+        { code: "'use strict'; var foo = () => { return () => { bar(); 'use strict'; return; }; }", parserOptions: { ecmaVersion: 6 }, options: ["global"] },
 
         // "function" mode
         { code: "function foo() { 'use strict'; return; }", options: ["function"] },
-        { code: "function foo() { return; }", ecmaFeatures: { modules: true }, options: ["function"] },
-        { code: "var foo = function() { return; }", ecmaFeatures: { modules: true }, options: ["function"] },
+        { code: "function foo() { return; }", parserOptions: { sourceType: "module" }, options: ["function"] },
+        { code: "var foo = function() { return; }", parserOptions: { sourceType: "module" }, options: ["function"] },
         { code: "var foo = function() { 'use strict'; return; }", options: ["function"] },
         { code: "function foo() { 'use strict'; return; } var bar = function() { 'use strict'; bar(); };", options: ["function"] },
         { code: "var foo = function() { 'use strict'; function bar() { return; } bar(); };", options: ["function"] },
-        { code: "var foo = () => { 'use strict'; var bar = () => 1; bar(); };", ecmaFeatures: { arrowFunctions: true }, options: ["function"] },
-        { code: "var foo = () => { var bar = () => 1; bar(); };", ecmaFeatures: { arrowFunctions: true, modules: true }, options: ["function"] },
+        { code: "var foo = () => { 'use strict'; var bar = () => 1; bar(); };", parserOptions: { ecmaVersion: 6 }, options: ["function"] },
+        { code: "var foo = () => { var bar = () => 1; bar(); };", parserOptions: { ecmaVersion: 6, sourceType: "module" }, options: ["function"] },
         {
             code: "class A { constructor() { } }",
-            ecmaFeatures: { classes: true },
+            parserOptions: { ecmaVersion: 6 },
             options: ["function"]
         },
         {
             code: "class A { foo() { } }",
-            ecmaFeatures: { classes: true },
+            parserOptions: { ecmaVersion: 6 },
             options: ["function"]
         },
         {
             code: "class A { foo() { function bar() { } } }",
-            ecmaFeatures: { classes: true },
+            parserOptions: { ecmaVersion: 6 },
             options: ["function"]
         },
 
         // defaults to "function" mode
-        { code: "function foo() { 'use strict'; return; }" }
+        { code: "function foo() { 'use strict'; return; }" },
+
+        // "safe" mode corresponds to "global" if ecmaFeatures.globalReturn is true, otherwise "function"
+        { code: "function foo() { 'use strict'; return; }", options: ["safe"] },
+        { code: "'use strict'; function foo() { return; }", parserOptions: { ecmaFeatures: { globalReturn: true } }, options: ["safe"] }
 
     ],
     invalid: [
@@ -129,7 +133,7 @@ ruleTester.run("strict", rule, {
         }, {
             code: "var foo = () => { 'use strict'; return () => 1; }",
             options: ["global"],
-            ecmaFeatures: { arrowFunctions: true },
+            parserOptions: { ecmaVersion: 6 },
             errors: [
                 { message: "Use the global form of \"use strict\".", type: "Program" },
                 { message: "Use the global form of \"use strict\".", type: "ExpressionStatement" }
@@ -155,7 +159,7 @@ ruleTester.run("strict", rule, {
         }, {
             code: "'use strict'; foo();",
             options: ["global"],
-            ecmaFeatures: { modules: true },
+            parserOptions: { sourceType: "module" },
             errors: [
                 { message: "\"use strict\" is unnecessary inside of modules.", type: "ExpressionStatement" }
             ]
@@ -189,14 +193,14 @@ ruleTester.run("strict", rule, {
         }, {
             code: "(() => { return true; })();",
             options: ["function"],
-            ecmaFeatures: { arrowFunctions: true },
+            parserOptions: { ecmaVersion: 6 },
             errors: [
                 { message: "Use the function form of \"use strict\".", type: "ArrowFunctionExpression" }
             ]
         }, {
             code: "(() => true)();",
             options: ["function"],
-            ecmaFeatures: { arrowFunctions: true },
+            parserOptions: { ecmaVersion: 6 },
             errors: [
                 { message: "Use the function form of \"use strict\".", type: "ArrowFunctionExpression" }
             ]
@@ -222,7 +226,7 @@ ruleTester.run("strict", rule, {
         }, {
             code: "var foo = function() {  'use strict'; return; }",
             options: ["function"],
-            ecmaFeatures: { modules: true },
+            parserOptions: { sourceType: "module" },
             errors: [
                 { message: "\"use strict\" is unnecessary inside of modules.", type: "ExpressionStatement" }
             ]
@@ -267,26 +271,26 @@ ruleTester.run("strict", rule, {
         },
         {
             code: "var foo = () => { return; };",
-            ecmaFeatures: { arrowFunctions: true },
+            parserOptions: { ecmaVersion: 6 },
             options: ["function"],
             errors: [{ message: "Use the function form of \"use strict\".", type: "ArrowFunctionExpression"}]
         },
         // Classes
         {
             code: "class A { constructor() { \"use strict\"; } }",
-            ecmaFeatures: { classes: true },
+            parserOptions: { ecmaVersion: 6 },
             options: ["function"],
             errors: [{ message: "\"use strict\" is unnecessary inside of classes.", type: "ExpressionStatement"}]
         },
         {
             code: "class A { foo() { \"use strict\"; } }",
-            ecmaFeatures: { classes: true },
+            parserOptions: { ecmaVersion: 6 },
             options: ["function"],
             errors: [{ message: "\"use strict\" is unnecessary inside of classes.", type: "ExpressionStatement"}]
         },
         {
             code: "class A { foo() { function bar() { \"use strict\"; } } }",
-            ecmaFeatures: { classes: true },
+            parserOptions: { ecmaVersion: 6 },
             options: ["function"],
             errors: [{ message: "\"use strict\" is unnecessary inside of classes.", type: "ExpressionStatement"}]
         },
@@ -302,6 +306,25 @@ ruleTester.run("strict", rule, {
         }, {
             code: "function foo() { return; }",
             errors: [{ message: "Use the function form of \"use strict\".", type: "FunctionDeclaration" }]
+        },
+
+        // "safe" mode corresponds to "global" if ecmaFeatures.globalReturn is true, otherwise "function"
+        {
+            code: "'use strict'; function foo() { return; }",
+            options: ["safe"],
+            errors: [
+                { message: "Use the function form of \"use strict\".", type: "ExpressionStatement" },
+                { message: "Use the function form of \"use strict\".", type: "FunctionDeclaration" }
+            ]
+        },
+        {
+            code: "function foo() { 'use strict'; return; }",
+            parserOptions: { ecmaFeatures: { globalReturn: true } },
+            options: ["safe"],
+            errors: [
+                { message: "Use the global form of \"use strict\".", type: "Program" },
+                { message: "Use the global form of \"use strict\".", type: "ExpressionStatement" }
+            ]
         }
 
     ]

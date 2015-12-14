@@ -11,6 +11,7 @@
         "no-catch-shadow": 0,
         "no-class-assign": 0,
         "no-cond-assign": 2,
+        "no-confusing-arrow": 0,
         "no-console": 2,
         "no-const-assign": 0,
         "no-constant-condition": 2,
@@ -40,6 +41,7 @@
         "no-floating-decimal": 0,
         "no-func-assign": 2,
         "no-implicit-coercion": 0,
+        "no-implicit-globals": 0,
         "no-implied-eval": 0,
         "no-inline-comments": 0,
         "no-inner-declarations": [2, "functions"],
@@ -78,6 +80,7 @@
         "no-proto": 0,
         "no-redeclare": 2,
         "no-regex-spaces": 2,
+        "no-restricted-imports": 0,
         "no-restricted-modules": 0,
         "no-restricted-syntax": 0,
         "no-return-assign": 0,
@@ -112,6 +115,7 @@
         "no-magic-numbers": 0,
 
         "array-bracket-spacing": [0, "never"],
+        "array-callback-return": 0,
         "arrow-body-style": [0, "as-needed"],
         "arrow-parens": 0,
         "arrow-spacing": 0,
@@ -163,8 +167,9 @@
         "padded-blocks": 0,
         "prefer-arrow-callback": 0,
         "prefer-const": 0,
-        "prefer-spread": 0,
         "prefer-reflect": 0,
+        "prefer-rest-params": 0,
+        "prefer-spread": 0,
         "prefer-template": 0,
         "quote-props": 0,
         "quotes": [0, "double"],
@@ -191,6 +196,7 @@
         "vars-on-top": 0,
         "wrap-iife": 0,
         "wrap-regex": 0,
+        "yield-star-spacing": 0,
         "yoda": [0, "never"]
     }
 }

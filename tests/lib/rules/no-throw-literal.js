@@ -36,8 +36,8 @@ ruleTester.run("no-throw-literal", rule, {
         "throw new Error() || 'literal';", // LogicalExpression (left)
         "throw foo ? new Error() : 'literal';", // ConditionalExpression (consequent)
         "throw foo ? 'literal' : new Error();", // ConditionalExpression (alternate)
-        { code: "throw tag `${foo}`;", ecmaFeatures: {templateStrings: true} }, // TaggedTemplateExpression
-        { code: "function* foo() { var index = 0; throw yield index++; }", ecmaFeatures: {generators: true} } // YieldExpression
+        { code: "throw tag `${foo}`;", parserOptions: { ecmaVersion: 6 } }, // TaggedTemplateExpression
+        { code: "function* foo() { var index = 0; throw yield index++; }", parserOptions: { ecmaVersion: 6 } } // YieldExpression
     ],
     invalid: [
         {
@@ -125,7 +125,7 @@ ruleTester.run("no-throw-literal", rule, {
         // TemplateLiteral
         {
             code: "throw `${err}`;",
-            ecmaFeatures: {templateStrings: true},
+            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 message: "Expected an object to be thrown.",
                 type: "ThrowStatement"

@@ -24,6 +24,11 @@ ruleTester.run("curly", rule, {
         "while (foo) { bar() }",
         "do { bar(); } while (foo)",
         "for (;foo;) { bar() }",
+        "for (var foo in bar) { console.log(foo) }",
+        {
+            code: "for (var foo of bar) { console.log(foo) }",
+            parserOptions: { ecmaVersion: 6 }
+        },
         {
             code: "for (;foo;) bar()",
             options: ["multi"]
@@ -35,6 +40,24 @@ ruleTester.run("curly", rule, {
         {
             code: "if (a) { b; c; }",
             options: ["multi"]
+        },
+        {
+            code: "for (var foo in bar) console.log(foo)",
+            options: ["multi"]
+        },
+        {
+            code: "for (var foo in bar) { console.log(1); console.log(2) }",
+            options: ["multi"]
+        },
+        {
+            code: "for (var foo of bar) console.log(foo)",
+            options: ["multi"],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "for (var foo of bar) { console.log(1); console.log(2) }",
+            options: ["multi"],
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "if (foo) bar()",
@@ -63,6 +86,24 @@ ruleTester.run("curly", rule, {
         {
             code: "if (foo) { bar() }",
             options: ["multi-line"]
+        },
+        {
+            code: "for (var foo in bar) console.log(foo)",
+            options: ["multi-line"]
+        },
+        {
+            code: "for (var foo in bar) { \n console.log(1); \n console.log(2); \n }",
+            options: ["multi-line"]
+        },
+        {
+            code: "for (var foo of bar) console.log(foo)",
+            options: ["multi-line"],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "for (var foo of bar) { \n console.log(1); \n console.log(2); \n }",
+            options: ["multi-line"],
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "if (foo) { \n bar(); \n baz(); \n }",
@@ -96,6 +137,24 @@ ruleTester.run("curly", rule, {
             code: "if (foo) { \n if(bar) \n doSomething(); \n } else \n doSomethingElse();",
             options: ["multi-or-nest"]
         },
+        {
+            code: "for (var foo in bar) \n console.log(foo)",
+            options: ["multi-or-nest"]
+        },
+        {
+            code: "for (var foo in bar) { \n if (foo) console.log(1); \n else console.log(2) \n }",
+            options: ["multi-or-nest"]
+        },
+        {
+            code: "for (var foo of bar) \n console.log(foo)",
+            options: ["multi-or-nest"],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "for (var foo of bar) { \n if (foo) console.log(1); \n else console.log(2) \n }",
+            options: ["multi-or-nest"],
+            parserOptions: { ecmaVersion: 6 }
+        },
 
         // https://github.com/eslint/eslint/issues/3856
         {
@@ -126,7 +185,6 @@ ruleTester.run("curly", rule, {
             code: "if (true) foo(); else { bar(); baz(); }",
             options: ["multi"]
         },
-
         {
             code: "if (true) { foo(); } else { bar(); baz(); }",
             options: ["multi", "consistent"]
@@ -196,6 +254,25 @@ ruleTester.run("curly", rule, {
             ]
         },
         {
+            code: "for (var foo in bar) console.log(foo)",
+            errors: [
+                {
+                    message: "Expected { after 'for-in'.",
+                    type: "ForInStatement"
+                }
+            ]
+        },
+        {
+            code: "for (var foo of bar) console.log(foo)",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    message: "Expected { after 'for-of'.",
+                    type: "ForOfStatement"
+                }
+            ]
+        },
+        {
             code: "for (;foo;) { bar() }",
             options: ["multi"],
             errors: [
@@ -252,6 +329,51 @@ ruleTester.run("curly", rule, {
                 {
                     message: "Unnecessary { after 'if' condition.",
                     type: "IfStatement"
+                }
+            ]
+        },
+        {
+            code: [
+                "if (0)",
+                "    console.log(0)",
+                "else if (1) {",
+                "    console.log(1)",
+                "    console.log(1)",
+                "} else {",
+                "    if (2)",
+                "        console.log(2)",
+                "    else",
+                "        console.log(3)",
+                "}"
+            ].join("\n"),
+            options: ["multi"],
+            errors: [
+                {
+                    message: "Unnecessary { after 'else'.",
+                    type: "IfStatement",
+                    line: 6,
+                    column: 3
+                }
+            ]
+        },
+        {
+            code: "for (var foo in bar) { console.log(foo) }",
+            options: ["multi"],
+            errors: [
+                {
+                    message: "Unnecessary { after 'for-in'.",
+                    type: "ForInStatement"
+                }
+            ]
+        },
+        {
+            code: "for (var foo of bar) { console.log(foo) }",
+            options: ["multi"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    message: "Unnecessary { after 'for-of'.",
+                    type: "ForOfStatement"
                 }
             ]
         },
@@ -316,6 +438,48 @@ ruleTester.run("curly", rule, {
             ]
         },
         {
+            code: "for (var foo in bar) \n console.log(foo)",
+            options: ["multi-line"],
+            errors: [
+                {
+                    message: "Expected { after 'for-in'.",
+                    type: "ForInStatement"
+                }
+            ]
+        },
+        {
+            code: "for (var foo in bar) \n console.log(1); \n console.log(2)",
+            options: ["multi-line"],
+            errors: [
+                {
+                    message: "Expected { after 'for-in'.",
+                    type: "ForInStatement"
+                }
+            ]
+        },
+        {
+            code: "for (var foo of bar) \n console.log(foo)",
+            options: ["multi-line"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    message: "Expected { after 'for-of'.",
+                    type: "ForOfStatement"
+                }
+            ]
+        },
+        {
+            code: "for (var foo of bar) \n console.log(1); \n console.log(2)",
+            options: ["multi-line"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    message: "Expected { after 'for-of'.",
+                    type: "ForOfStatement"
+                }
+            ]
+        },
+        {
             code: "if (foo) \n quz = { \n bar: baz, \n qux: foo \n };",
             options: ["multi-or-nest"],
             errors: [
@@ -362,6 +526,48 @@ ruleTester.run("curly", rule, {
                 {
                     message: "Unnecessary { after 'for' condition.",
                     type: "ForStatement"
+                }
+            ]
+        },
+        {
+            code: "for (var foo in bar) \n if (foo) console.log(1); \n else console.log(2);",
+            options: ["multi-or-nest"],
+            errors: [
+                {
+                    message: "Expected { after 'for-in'.",
+                    type: "ForInStatement"
+                }
+            ]
+        },
+        {
+            code: "for (var foo in bar) { if (foo) console.log(1) }",
+            options: ["multi-or-nest"],
+            errors: [
+                {
+                    message: "Unnecessary { after 'for-in'.",
+                    type: "ForInStatement"
+                }
+            ]
+        },
+        {
+            code: "for (var foo of bar) \n if (foo) console.log(1); \n else console.log(2);",
+            options: ["multi-or-nest"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    message: "Expected { after 'for-of'.",
+                    type: "ForOfStatement"
+                }
+            ]
+        },
+        {
+            code: "for (var foo of bar) { if (foo) console.log(1) }",
+            options: ["multi-or-nest"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    message: "Unnecessary { after 'for-of'.",
+                    type: "ForOfStatement"
                 }
             ]
         },

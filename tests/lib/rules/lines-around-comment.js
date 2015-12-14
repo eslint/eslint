@@ -122,6 +122,13 @@ ruleTester.run("lines-around-comment", rule, {
             }]
         },
         {
+            code: "var foo = function(){\n// line at block start\n}",
+            options: [{
+                beforeLineComment: true,
+                allowBlockStart: true
+            }]
+        },
+        {
             code: "if(true){\n// line at block start\nvar g = 1;\n}",
             options: [{
                 beforeLineComment: true,
@@ -130,6 +137,20 @@ ruleTester.run("lines-around-comment", rule, {
         },
         {
             code: "if(true){\n\n// line at block start\nvar g = 1;\n}",
+            options: [{
+                beforeLineComment: true,
+                allowBlockStart: true
+            }]
+        },
+        {
+            code: "if(true){\n// line at block start\n}",
+            options: [{
+                beforeLineComment: true,
+                allowBlockStart: true
+            }]
+        },
+        {
+            code: "if(true){ bar(); } else {\n// line at block start\n}",
             options: [{
                 beforeLineComment: true,
                 allowBlockStart: true
@@ -174,12 +195,12 @@ ruleTester.run("lines-around-comment", rule, {
         {
             code: "class A {\n/**\n* hi\n */\nconstructor() {}\n}",
             options: [{ allowBlockStart: true }],
-            ecmaFeatures: {classes: true}
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "class A {\nconstructor() {\n/**\n* hi\n */\n}\n}",
             options: [{ allowBlockStart: true }],
-            ecmaFeatures: {classes: true}
+            parserOptions: { ecmaVersion: 6 }
         },
 
         // check for block end comments
@@ -316,7 +337,7 @@ ruleTester.run("lines-around-comment", rule, {
                 afterBlockComment: true,
                 allowBlockEnd: true
             }],
-            ecmaFeatures: {classes: true}
+            parserOptions: { ecmaVersion: 6 }
         },
 
         // check for object start comments
@@ -392,7 +413,7 @@ ruleTester.run("lines-around-comment", rule, {
                 beforeLineComment: true,
                 allowObjectStart: true
             }],
-            ecmaFeatures: {blockBindings: true, destructuring: true}
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code:
@@ -404,7 +425,7 @@ ruleTester.run("lines-around-comment", rule, {
                 beforeLineComment: true,
                 allowObjectStart: true
             }],
-            ecmaFeatures: {blockBindings: true, destructuring: true}
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code:
@@ -416,7 +437,7 @@ ruleTester.run("lines-around-comment", rule, {
                 beforeBlockComment: true,
                 allowObjectStart: true
             }],
-            ecmaFeatures: {blockBindings: true, destructuring: true}
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code:
@@ -428,7 +449,7 @@ ruleTester.run("lines-around-comment", rule, {
                 beforeBlockComment: true,
                 allowObjectStart: true
             }],
-            ecmaFeatures: {blockBindings: true, destructuring: true}
+            parserOptions: { ecmaVersion: 6 }
         },
 
         // check for object end comments
@@ -506,7 +527,7 @@ ruleTester.run("lines-around-comment", rule, {
                 afterLineComment: true,
                 allowObjectEnd: true
             }],
-            ecmaFeatures: {blockBindings: true, destructuring: true}
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code:
@@ -518,7 +539,7 @@ ruleTester.run("lines-around-comment", rule, {
                 afterLineComment: true,
                 allowObjectEnd: true
             }],
-            ecmaFeatures: {blockBindings: true, destructuring: true}
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code:
@@ -531,7 +552,7 @@ ruleTester.run("lines-around-comment", rule, {
                 afterBlockComment: true,
                 allowObjectEnd: true
             }],
-            ecmaFeatures: {blockBindings: true, destructuring: true}
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code:
@@ -544,7 +565,7 @@ ruleTester.run("lines-around-comment", rule, {
                 afterBlockComment: true,
                 allowObjectEnd: true
             }],
-            ecmaFeatures: {blockBindings: true, destructuring: true}
+            parserOptions: { ecmaVersion: 6 }
         },
 
         // check for array start comments
@@ -590,7 +611,7 @@ ruleTester.run("lines-around-comment", rule, {
                 beforeLineComment: true,
                 allowArrayStart: true
             }],
-            ecmaFeatures: {blockBindings: true, destructuring: true}
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code:
@@ -602,7 +623,7 @@ ruleTester.run("lines-around-comment", rule, {
                 beforeBlockComment: true,
                 allowArrayStart: true
             }],
-            ecmaFeatures: {blockBindings: true, destructuring: true}
+            parserOptions: { ecmaVersion: 6 }
         },
 
         // check for array end comments
@@ -649,7 +670,7 @@ ruleTester.run("lines-around-comment", rule, {
                 afterLineComment: true,
                 allowArrayEnd: true
             }],
-            ecmaFeatures: {blockBindings: true, destructuring: true}
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code:
@@ -662,7 +683,7 @@ ruleTester.run("lines-around-comment", rule, {
                 afterBlockComment: true,
                 allowArrayEnd: true
             }],
-            ecmaFeatures: {blockBindings: true, destructuring: true}
+            parserOptions: { ecmaVersion: 6 }
         }
     ],
 
@@ -701,6 +722,16 @@ ruleTester.run("lines-around-comment", rule, {
             code: "bar()\n/**\n * block block block\n */\nvar a = 1;",
             options: [{ afterBlockComment: true, beforeBlockComment: true }],
             errors: [{ message: beforeMessage, type: "Block", line: 2 }, { message: afterMessage, type: "Block", line: 2 }]
+        },
+        {
+            code: "bar()\n/* first block comment */ /* second block comment */\nvar a = 1;",
+            options: [{ afterBlockComment: true, beforeBlockComment: true }],
+            errors: [
+                { message: beforeMessage, type: "Block", line: 2 },
+                { message: afterMessage, type: "Block", line: 2 },
+                { message: beforeMessage, type: "Block", line: 2 },
+                { message: afterMessage, type: "Block", line: 2 }
+            ]
         },
         {
             code: "bar()\n/**\n * block block block\n */\nvar a = 1;",
@@ -823,7 +854,7 @@ ruleTester.run("lines-around-comment", rule, {
             options: [{
                 beforeLineComment: true
             }],
-            ecmaFeatures: {blockBindings: true, destructuring: true},
+            parserOptions: { ecmaVersion: 6 },
             errors: [{ message: beforeMessage, type: "Line", line: 2 }]
         },
         {
@@ -835,7 +866,7 @@ ruleTester.run("lines-around-comment", rule, {
             options: [{
                 beforeLineComment: true
             }],
-            ecmaFeatures: {blockBindings: true, destructuring: true},
+            parserOptions: { ecmaVersion: 6 },
             errors: [{ message: beforeMessage, type: "Line", line: 2 }]
         },
         {
@@ -847,7 +878,7 @@ ruleTester.run("lines-around-comment", rule, {
             options: [{
                 beforeBlockComment: true
             }],
-            ecmaFeatures: {blockBindings: true, destructuring: true},
+            parserOptions: { ecmaVersion: 6 },
             errors: [{ message: beforeMessage, type: "Block", line: 2 }]
         },
         {
@@ -859,7 +890,7 @@ ruleTester.run("lines-around-comment", rule, {
             options: [{
                 beforeBlockComment: true
             }],
-            ecmaFeatures: {blockBindings: true, destructuring: true},
+            parserOptions: { ecmaVersion: 6 },
             errors: [{ message: beforeMessage, type: "Block", line: 2 }]
         },
 
@@ -927,7 +958,7 @@ ruleTester.run("lines-around-comment", rule, {
             options: [{
                 afterLineComment: true
             }],
-            ecmaFeatures: {blockBindings: true, destructuring: true},
+            parserOptions: { ecmaVersion: 6 },
             errors: [{ message: afterMessage, type: "Line", line: 3 }]
         },
         {
@@ -939,7 +970,7 @@ ruleTester.run("lines-around-comment", rule, {
             options: [{
                 afterLineComment: true
             }],
-            ecmaFeatures: {blockBindings: true, destructuring: true},
+            parserOptions: { ecmaVersion: 6 },
             errors: [{ message: afterMessage, type: "Line", line: 3 }]
         },
         {
@@ -952,7 +983,7 @@ ruleTester.run("lines-around-comment", rule, {
             options: [{
                 afterBlockComment: true
             }],
-            ecmaFeatures: {blockBindings: true, destructuring: true},
+            parserOptions: { ecmaVersion: 6 },
             errors: [{ message: afterMessage, type: "Block", line: 4 }]
         },
         {
@@ -965,7 +996,7 @@ ruleTester.run("lines-around-comment", rule, {
             options: [{
                 afterBlockComment: true
             }],
-            ecmaFeatures: {blockBindings: true, destructuring: true},
+            parserOptions: { ecmaVersion: 6 },
             errors: [{ message: afterMessage, type: "Block", line: 4 }]
         },
 
@@ -1001,7 +1032,7 @@ ruleTester.run("lines-around-comment", rule, {
             options: [{
                 beforeLineComment: true
             }],
-            ecmaFeatures: {blockBindings: true, destructuring: true},
+            parserOptions: { ecmaVersion: 6 },
             errors: [{ message: beforeMessage, type: "Line", line: 2 }]
         },
         {
@@ -1013,7 +1044,7 @@ ruleTester.run("lines-around-comment", rule, {
             options: [{
                 beforeBlockComment: true
             }],
-            ecmaFeatures: {blockBindings: true, destructuring: true},
+            parserOptions: { ecmaVersion: 6 },
             errors: [{ message: beforeMessage, type: "Block", line: 2 }]
         },
 
@@ -1050,7 +1081,7 @@ ruleTester.run("lines-around-comment", rule, {
             options: [{
                 afterLineComment: true
             }],
-            ecmaFeatures: {blockBindings: true, destructuring: true},
+            parserOptions: { ecmaVersion: 6 },
             errors: [{ message: afterMessage, type: "Line", line: 3 }]
         },
         {
@@ -1063,7 +1094,7 @@ ruleTester.run("lines-around-comment", rule, {
             options: [{
                 afterBlockComment: true
             }],
-            ecmaFeatures: {blockBindings: true, destructuring: true},
+            parserOptions: { ecmaVersion: 6 },
             errors: [{ message: afterMessage, type: "Block", line: 4 }]
         }
     ]

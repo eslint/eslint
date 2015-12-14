@@ -5,6 +5,9 @@
 
 "use strict";
 
+// NOTE: If you are adding new tests for cli.js, use verifyCLIEngineOpts(). The
+// test only needs to verify that CLIEngine receives the correct opts.
+
 //------------------------------------------------------------------------------
 // Requirements
 //------------------------------------------------------------------------------
@@ -35,6 +38,34 @@ describe("cli", function() {
     var cli = proxyquire("../../lib/cli", {
         "./logging": log
     });
+
+    /**
+     * Verify that CLIEngine receives correct opts via cli.execute().
+     * @param {string} cmd CLI command.
+     * @param {object} opts Options hash that should match that received by CLIEngine.
+     * @returns {void}
+     */
+    function verifyCLIEngineOpts(cmd, opts) {
+        var sandbox = sinon.sandbox.create(),
+            localCLI,
+            fakeCLIEngine;
+
+        // create a fake CLIEngine to test with
+        fakeCLIEngine = sandbox.mock().withExactArgs(sinon.match(opts));
+
+        fakeCLIEngine.prototype = leche.fake(CLIEngine.prototype);
+        sandbox.stub(fakeCLIEngine.prototype, "executeOnFiles").returns({});
+        sandbox.stub(fakeCLIEngine.prototype, "getFormatter").returns(sinon.spy());
+
+        localCLI = proxyquire("../../lib/cli", {
+            "./cli-engine": fakeCLIEngine,
+            "./logging": log
+        });
+
+        localCLI.execute(cmd);
+        sandbox.verifyAndRestore();
+    }
+    // verifyCLIEngineOpts
 
     /**
      * Returns the path inside of the fixture directory.
@@ -192,18 +223,24 @@ describe("cli", function() {
 
     describe("when given a config that is a sharable config", function() {
         it("should execute without any errors", function() {
-            var stubbedConfig = proxyquire("../../lib/config", {
+
+            var configDeps = {
+                "is-resolvable": function() {
+                    return true;
+                }
+            };
+            configDeps["./config/config-file"] = proxyquire("../../lib/config/config-file", {
                 "eslint-config-xo": {
                     rules: {
                         "no-var": 2
                     }
-                },
-                "is-resolvable": function() {
-                    return true;
                 }
             });
+
+            var StubbedConfig = proxyquire("../../lib/config", configDeps);
+
             var stubbedCLIEngine = proxyquire("../../lib/cli-engine", {
-                "./config": stubbedConfig
+                "./config": StubbedConfig
             });
             var stubCli = proxyquire("../../lib/cli", {
                 "./cli-engine": stubbedCLIEngine,
@@ -357,6 +394,21 @@ describe("cli", function() {
         });
     });
 
+    describe("when given patterns to ignore", function() {
+        it("should not process any matching files", function() {
+            var ignorePaths = ["a", "b"];
+
+            var cmd = ignorePaths.map(function(ignorePath) {
+                return "--ignore-pattern " + ignorePath;
+            }).concat(".").join(" ");
+
+            var opts = {
+                ignorePattern: ignorePaths
+            };
+
+            verifyCLIEngineOpts(cmd, opts);
+        });
+    });
 
     describe("when executing a file with a shebang", function() {
 
@@ -449,7 +501,7 @@ describe("cli", function() {
     describe("when executing with global flag", function() {
         it("should default defined variables to read-only", function() {
             var filePath = getFixturePath("undef.js");
-            var exit = cli.execute("--global baz,bat --no-ignore --rule no-undef:2 " + filePath);
+            var exit = cli.execute("--global baz,bat --no-ignore --rule no-native-reassign:2 " + filePath);
 
             assert.isTrue(log.info.calledOnce);
             assert.equal(exit, 1);
@@ -633,7 +685,72 @@ describe("cli", function() {
         });
     });
 
-    // NOTE: If you are adding new tests for cli.js, duplicate the following tests
+    describe("when passed --no-inline-config", function() {
+
+        var sandbox = sinon.sandbox.create(),
+            localCLI;
+
+        afterEach(function() {
+            sandbox.verifyAndRestore();
+        });
+
+        it("should pass allowInlineConfig:true to CLIEngine when --no-inline-config is used", function() {
+
+            // create a fake CLIEngine to test with
+            var fakeCLIEngine = sandbox.mock().withExactArgs(sinon.match({ allowInlineConfig: false }));
+            fakeCLIEngine.prototype = leche.fake(CLIEngine.prototype);
+            sandbox.stub(fakeCLIEngine.prototype, "executeOnFiles").returns({
+                errorCount: 1,
+                warningCount: 0,
+                results: [{
+                    filePath: "./foo.js",
+                    output: "bar",
+                    messages: [
+                        {
+                            severity: 2,
+                            message: "Fake message"
+                        }
+                    ]
+                }]
+            });
+            sandbox.stub(fakeCLIEngine.prototype, "getFormatter").returns(function() {
+                return "done";
+            });
+            fakeCLIEngine.outputFixes = sandbox.stub();
+
+            localCLI = proxyquire("../../lib/cli", {
+                "./cli-engine": fakeCLIEngine,
+                "./logging": log
+            });
+
+            localCLI.execute("--no-inline-config .");
+        });
+
+        it("should not error and allowInlineConfig should be true by default", function() {
+            // create a fake CLIEngine to test with
+            var fakeCLIEngine = sandbox.mock().withExactArgs(sinon.match({ allowInlineConfig: true }));
+            fakeCLIEngine.prototype = leche.fake(CLIEngine.prototype);
+            sandbox.stub(fakeCLIEngine.prototype, "executeOnFiles").returns({
+                errorCount: 0,
+                warningCount: 0,
+                results: []
+            });
+            sandbox.stub(fakeCLIEngine.prototype, "getFormatter").returns(function() {
+                return "done";
+            });
+            fakeCLIEngine.outputFixes = sandbox.stub();
+
+            localCLI = proxyquire("../../lib/cli", {
+                "./cli-engine": fakeCLIEngine,
+                "./logging": log
+            });
+
+            var exitCode = localCLI.execute(".");
+            assert.equal(exitCode, 0);
+
+        });
+
+    });
 
     describe("when passed --fix", function() {
 
