@@ -1,5 +1,7 @@
 # Disallow arrow functions where a condition is expected (no-arrow-condition)
 
+**Replacement notice**: This rule was removed in ESLint v2.0 and replaced by a combination of [no-confusing-arrow](no-confusing-arrow.md) and [no-constant-condition](no-constant-condition.md) rules.
+
 Arrow functions (`=>`) are similar in syntax to some comparison operators (`>`, `<`, `<=`, and `>=`). This rule warns against using the arrow function syntax in places where a condition is expected. Even if the arguments of the arrow function are wrapped with parens, this rule still warns about it.
 
 Here's an example where the usage of `=>` is most likely a typo:
@@ -42,3 +44,5 @@ var x = (a) => 1 ? 2 : 3
 ## Related Rules
 
 * [arrow-parens](arrow-parens.md)
+* [no-confusing-arrow](no-confusing-arrow.md)
+* [no-constant-condition](no-constant-condition.md)

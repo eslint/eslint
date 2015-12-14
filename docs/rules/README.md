@@ -217,7 +217,6 @@ These rules are only relevant to ES6 environments.
 * [arrow-spacing](arrow-spacing.md) - require space before/after arrow function's arrow (fixable)
 * [constructor-super](constructor-super.md) - verify calls of `super()` in constructors
 * [generator-star-spacing](generator-star-spacing.md) - enforce spacing around the `*` in generator functions (fixable)
-* [no-arrow-condition](no-arrow-condition.md) - disallow arrow functions where a condition is expected
 * [no-class-assign](no-class-assign.md) - disallow modifying variables of class declarations
 * [no-confusing-arrow](no-confusing-arrow.md) - disallow arrow functions where they could be confused with comparisons
 * [no-const-assign](no-const-assign.md) - disallow modifying variables that are declared using `const`
@@ -241,6 +240,7 @@ These rules existed in a previous version of ESLint but have since been replaced
 
 * [generator-star](generator-star.md) - enforce the position of the `*` in generator functions (replaced by [generator-star-spacing](generator-star-spacing.md))
 * [global-strict](global-strict.md) - require or disallow the `"use strict"` pragma in the global scope (replaced by [strict](strict.md))
+* [no-arrow-condition](no-arrow-condition.md) - disallow arrow functions where a condition is expected (replaced by [no-confusing-arrow](no-confusing-arrow.md) and [no-constant-condition](no-constant-condition.md))
 * [no-comma-dangle](no-comma-dangle.md) - disallow trailing commas in object literals (replaced by [comma-dangle](comma-dangle.md))
 * [no-empty-class](no-empty-class.md) - disallow the use of empty character classes in regular expressions (replaced by [no-empty-character-class](no-empty-character-class.md))
 * [no-extra-strict](no-extra-strict.md) - disallow unnecessary use of `"use strict";` when already in strict mode (replaced by [strict](strict.md))

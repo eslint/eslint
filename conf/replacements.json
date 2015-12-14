@@ -2,6 +2,7 @@
     "rules": {
         "generator-star": ["generator-star-spacing"],
         "global-strict": ["strict"],
+        "no-arrow-condition": ["no-confusing-arrow", "no-constant-condition"],
         "no-comma-dangle": ["comma-dangle"],
         "no-empty-class": ["no-empty-character-class"],
         "no-extra-strict": ["strict"],
