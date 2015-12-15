@@ -172,6 +172,11 @@ ruleTester.run("comma-dangle", rule, {
             code: "export {\n  foo,\n} from 'foo';",
             parserOptions: { sourceType: "module" },
             options: ["always-multiline"]
+        },
+        {
+            code: "import {foo} from \n'foo';",
+            parserOptions: { sourceType: "module" },
+            options: ["always-multiline"]
         }
     ],
     invalid: [
