@@ -95,7 +95,7 @@ describe("ConfigFile", function() {
                 extends: "foo",
                 parserOptions: {},
                 env: { browser: true },
-                globals: environments.browser.globals,
+                globals: {},
                 rules: { eqeqeq: 2 }
             });
 
@@ -124,7 +124,7 @@ describe("ConfigFile", function() {
                 extends: "foo",
                 parserOptions: {},
                 env: { browser: true },
-                globals: environments.browser.globals,
+                globals: {},
                 rules: {
                     eqeqeq: 2,
                     bar: 2
@@ -164,7 +164,7 @@ describe("ConfigFile", function() {
                 extends: ".eslintrc.yaml",
                 parserOptions: {},
                 env: { browser: true },
-                globals: environments.browser.globals,
+                globals: {},
                 rules: {
                     eqeqeq: 2
                 }
@@ -201,9 +201,9 @@ describe("ConfigFile", function() {
 
             assert.deepEqual(config, {
                 extends: "../package-json/package.json",
-                parserOptions: {ecmaVersion: 6},
+                parserOptions: {},
                 env: { es6: true },
-                globals: environments.es6.globals,
+                globals: {},
                 rules: {
                     eqeqeq: 2
                 }
@@ -280,6 +280,16 @@ describe("ConfigFile", function() {
         it("should load information from a package.json file", function() {
             var config = ConfigFile.load(getFixturePath("package-json/package.json"));
             assert.deepEqual(config, {
+                parserOptions: {},
+                env: { es6: true },
+                globals: {},
+                rules: {}
+            });
+        });
+
+        it("should load information from a package.json file and apply environments", function() {
+            var config = ConfigFile.load(getFixturePath("package-json/package.json"), true);
+            assert.deepEqual(config, {
                 parserOptions: { ecmaVersion: 6 },
                 env: { es6: true },
                 globals: environments.es6.globals,
@@ -322,6 +332,16 @@ describe("ConfigFile", function() {
             assert.deepEqual(config, {
                 parserOptions: {},
                 env: { browser: true },
+                globals: {},
+                rules: {}
+            });
+        });
+
+        it("should load information from a YAML file and apply environments", function() {
+            var config = ConfigFile.load(getFixturePath("yaml/.eslintrc.yaml"), true);
+            assert.deepEqual(config, {
+                parserOptions: {},
+                env: { browser: true },
                 globals: environments.browser.globals,
                 rules: {}
             });
@@ -329,6 +349,16 @@ describe("ConfigFile", function() {
 
         it("should load information from a YML file", function() {
             var config = ConfigFile.load(getFixturePath("yml/.eslintrc.yml"));
+            assert.deepEqual(config, {
+                parserOptions: {},
+                env: { node: true },
+                globals: {},
+                rules: {}
+            });
+        });
+
+        it("should load information from a YML file and apply environments", function() {
+            var config = ConfigFile.load(getFixturePath("yml/.eslintrc.yml"), true);
             assert.deepEqual(config, {
                 parserOptions: {ecmaFeatures: { globalReturn: true }},
                 env: { node: true },
@@ -338,7 +368,7 @@ describe("ConfigFile", function() {
         });
 
         it("should load information from a YML file and apply extensions", function() {
-            var config = ConfigFile.load(getFixturePath("extends/.eslintrc.yml"));
+            var config = ConfigFile.load(getFixturePath("extends/.eslintrc.yml"), true);
             assert.deepEqual(config, {
                 extends: "../package-json/package.json",
                 parserOptions: { ecmaVersion: 6 },
