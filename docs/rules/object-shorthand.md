@@ -35,6 +35,8 @@ var foo = {
 };
 ```
 
+**Fixable:** This rule is automatically fixable using the `--fix` flag on the command line.
+
 ## Rule Details
 
 This rule enforces the use of the shorthand syntax. This applies
