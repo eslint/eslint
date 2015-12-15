@@ -39,6 +39,7 @@ ruleTester.run("callback-return", rule, {
         "function x() { switch(x) { case 'a': return next(); } }",
         "function x() { for(x = 0; x < 10; x++) { return next(); } }",
         "function x() { while(x) { return next(); } }",
+        "function a(err) { if (err) { send.error (err); } }",
 
         // callback() all you want outside of a function
         "callback()",
@@ -234,6 +235,27 @@ ruleTester.run("callback-return", rule, {
             }]
         },
 
+        // object methods
+        {
+            code: "function a(err) { if (err) { send.error (err); } }",
+            options: [["send.error"]],
+            errors: [{
+                message: "Expected return with your callback function.",
+                line: 1,
+                column: 30,
+                nodeType: "CallExpression"
+            }]
+        },
+        {
+            code: "function a(err) { if (err) { send.error (err); } send.success(); }",
+            options: [["send.error", "send.success"]],
+            errors: [{
+                message: "Expected return with your callback function.",
+                line: 1,
+                column: 30,
+                nodeType: "CallExpression"
+            }]
+        },
 
         // generally good behavior which we must not allow to keep the rule simple
         {
