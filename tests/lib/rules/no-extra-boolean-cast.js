@@ -24,71 +24,112 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         "function foo() { return !!bar; }",
         "var foo = bar() ? !!baz : !!bat",
         "for(!!foo;;) {}",
-        "for(;; !!foo) {}"
+        "for(;; !!foo) {}",
+        "var foo = Boolean(bar);",
+        "function foo() { return Boolean(bar); }",
+        "var foo = bar() ? Boolean(baz) : Boolean(bat)",
+        "for(Boolean(foo);;) {}",
+        "for(;; Boolean(foo)) {}",
+        "if (new Boolean(foo)) {}"
     ],
 
     invalid: [
         {
             code: "if (!!foo) {}",
             errors: [{
-                message: "Redundant double negation in an if statement condition.",
+                message: "Redundant double negation.",
                 type: "UnaryExpression"
             }]
         },
         {
             code: "do {} while (!!foo)",
             errors: [{
-                message: "Redundant double negation in a do while loop condition.",
+                message: "Redundant double negation.",
                 type: "UnaryExpression"
             }]
         },
         {
             code: "while (!!foo) {}",
             errors: [{
-                message: "Redundant double negation in a while loop condition.",
+                message: "Redundant double negation.",
                 type: "UnaryExpression"
             }]
         },
         {
             code: "!!foo ? bar : baz",
             errors: [{
-                message: "Redundant double negation in a ternary condition.",
+                message: "Redundant double negation.",
                 type: "UnaryExpression"
             }]
         },
         {
             code: "for (; !!foo;) {}",
             errors: [{
-                message: "Redundant double negation in a for loop condition.",
+                message: "Redundant double negation.",
                 type: "UnaryExpression"
             }]
         },
         {
             code: "!!!foo",
             errors: [{
-                message: "Redundant multiple negation.",
+                message: "Redundant double negation.",
                 type: "UnaryExpression"
             }]
         },
         {
             code: "Boolean(!!foo)",
             errors: [{
-                message: "Redundant double negation in call to Boolean().",
-                type: "UnaryExpression"
-            }]
-        },
-        {
-            code: "Boolean(!!foo)",
-            errors: [{
-                message: "Redundant double negation in call to Boolean().",
+                message: "Redundant double negation.",
                 type: "UnaryExpression"
             }]
         },
         {
             code: "new Boolean(!!foo)",
             errors: [{
-                message: "Redundant double negation in Boolean constructor call.",
+                message: "Redundant double negation.",
                 type: "UnaryExpression"
+            }]
+        },
+        {
+            code: "if (Boolean(foo)) {}",
+            errors: [{
+                message: "Redundant Boolean call.",
+                type: "CallExpression"
+            }]
+        },
+        {
+            code: "do {} while (Boolean(foo))",
+            errors: [{
+                message: "Redundant Boolean call.",
+                type: "CallExpression"
+            }]
+        },
+        {
+            code: "while (Boolean(foo)) {}",
+            errors: [{
+                message: "Redundant Boolean call.",
+                type: "CallExpression"
+            }]
+        },
+        {
+            code: "Boolean(foo) ? bar : baz",
+            errors: [{
+                message: "Redundant Boolean call.",
+                type: "CallExpression"
+            }]
+        },
+        {
+            code: "for (; Boolean(foo);) {}",
+            errors: [{
+                message: "Redundant Boolean call.",
+                type: "CallExpression"
+            }]
+        },
+        {
+            code: "!Boolean(foo)",
+            errors: [{
+                message: "Redundant Boolean call.",
+                type: "CallExpression"
             }]
         }
     ]
