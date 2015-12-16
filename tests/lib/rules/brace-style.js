@@ -90,6 +90,7 @@ ruleTester.run("brace-style", rule, {
         }
     ],
     invalid: [
+        { code: "if (f) {\nbar;\n}\nelse\nbaz;", errors: [{ message: CLOSE_MESSAGE, type: "ExpressionStatement"}] },
         { code: "var foo = () => { return; }", parserOptions: { ecmaVersion: 6 }, errors: [{ message: BODY_MESSAGE, type: "ReturnStatement"}] },
         { code: "function foo() { return; }", errors: [{ message: BODY_MESSAGE, type: "ReturnStatement"}] },
         { code: "function foo() \n { \n return; }", errors: [{ message: OPEN_MESSAGE, type: "FunctionDeclaration"}, { message: CLOSE_MESSAGE_SINGLE, type: "ReturnStatement"}] },
