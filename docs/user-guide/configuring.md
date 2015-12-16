@@ -100,6 +100,7 @@ An environment defines global variables that are predefined. The available envir
 * `embertest` - Ember test helper globals.
 * `webextensions` - WebExtensions globals.
 * `es6` - enable all ECMAScript 6 features except for modules.
+* `greasemonkey` - GreaseMonkey globals.
 
 These environments are not mutually exclusive, so you can define more than one at a time.
 
