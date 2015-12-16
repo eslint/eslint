@@ -2159,6 +2159,7 @@ describe("eslint", function() {
             var messages = eslint.verify(code);
             assert.equal(messages.length, 1);
             assert.equal(messages[0].severity, 2);
+            assert.isNull(messages[0].ruleId);
             assert.isTrue(messages[0].fatal);
             assert.match(messages[0].message, /^Parsing error:/);
         });
