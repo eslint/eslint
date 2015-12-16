@@ -1083,6 +1083,41 @@ describe("eslint", function() {
 
     });
 
+    describe("when config has parser", function() {
+
+        // custom parser unsupported in browser, only test in Node
+        if (typeof window === "undefined") {
+            it("should pass parser as parserName to all rules when provided on config", function() {
+
+                var alternateParser = "esprima-fb";
+
+                eslint.reset();
+                eslint.defineRule("test-rule", sandbox.mock().withArgs(
+                    sinon.match({parserName: alternateParser})
+                ).returns({}));
+
+                var config = { rules: { "test-rule": 2 }, parser: alternateParser };
+
+                eslint.verify("0", config, filename);
+            });
+        }
+
+        it("should pass parser as parserName to all rules when default parser is used", function() {
+
+            var DEFAULT_PARSER = eslint.defaults().parser;
+
+            eslint.reset();
+            eslint.defineRule("test-rule", sandbox.mock().withArgs(
+                sinon.match({parserName: DEFAULT_PARSER})
+            ).returns({}));
+
+            var config = { rules: { "test-rule": 2 } };
+
+            eslint.verify("0", config, filename);
+        });
+
+    });
+
 
     describe("when passing in configuration values for rules", function() {
         var code = "var answer = 6 * 7";
