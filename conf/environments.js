@@ -95,5 +95,8 @@ module.exports = {
         parserOptions: {
             ecmaVersion: 6
         }
+    },
+    greasemonkey: {
+        globals: globals.greasemonkey
     }
 };
