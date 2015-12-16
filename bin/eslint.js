@@ -20,7 +20,7 @@ var exitCode = 0,
 
 // must do this initialization *before* other requires in order to work
 if (debug) {
-    require("debug").enable("eslint:*");
+    require("debug").enable("eslint:*,-eslint:code-path");
 }
 
 //------------------------------------------------------------------------------
