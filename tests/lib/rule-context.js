@@ -26,7 +26,7 @@ describe("RuleContext", function() {
 
         beforeEach(function() {
             eslint = leche.fake(realESLint);
-            ruleContext = new RuleContext("fake-rule", eslint, 2, {}, {}, {});
+            ruleContext = new RuleContext("fake-rule", eslint, 2, {}, {}, {}, "espree");
         });
 
         describe("old-style call with location", function() {
