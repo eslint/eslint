@@ -438,7 +438,7 @@ invalid: [
 
 ### Write Several Tests
 
-You must have at least one valid and one invalid case for the rule tests to pass. Provide as many unit tests as possible. Your pull request will never be turned down for having too many tests submitted with it!
+Provide as many unit tests as possible. Your pull request will never be turned down for having too many tests submitted with it!
 
 ## Performance Testing
 
