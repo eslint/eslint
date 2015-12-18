@@ -23,6 +23,11 @@ If `"prefer-single"` is configured then the rule enforces the usage of single qu
 
 The default is `"prefer-double"`.
 
+It may be specified as follows
+```javascript
+"jsx-quotes: [2, "prefer-double"]
+```
+
 The following patterns are considered problems when set to `"prefer-double"`:
 
 ```xml
