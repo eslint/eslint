@@ -998,6 +998,27 @@ ruleTester.run("indent", rule, {
             "}",
             options: [4, {"VariableDeclarator": 1, "SwitchCase": 1}],
             parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code:
+            "var a = {\n" +
+            "  some: 1\n" +
+            ", name: 2\n" +
+            "};\n",
+            options: [2]
+        },
+        {
+            code:
+            "a.c = {\n" +
+            "    aa: function() {\n" +
+            "        'test1';\n" +
+            "        return 'aa';\n" +
+            "    }\n" +
+            "    , bb: function() {\n" +
+            "        return this.bb();\n" +
+            "    }\n" +
+            "};\n",
+            options: [4]
         }
     ],
     invalid: [
