@@ -543,6 +543,10 @@ Both the JSON and YAML configuration file formats support comments (`package.jso
 }
 ```
 
+## Specifying File extensions to Lint
+
+Currently the sole method for telling ESLint which file extensions to lint is by specifying a comma separated list of extensions using the [`--ext`](./command-line-interface#ext) command line option.
+
 ## Ignoring Files and Directories
 
 You can tell ESLint to ignore specific files and directories by creating an `.eslintignore` file in your project's root directory. The `.eslintignore` file is a plain text file where each line is a glob pattern indicating which paths should be omitted from linting. For example, the following will omit all JavaScript files:
