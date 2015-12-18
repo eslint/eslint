@@ -59,13 +59,13 @@ The `max-len` rule supports the following options:
 Optionally, you may specify `code` and `tabWidth` as integers before the options object:
 
 ```json
-"max-len": [2, 80, 4, {ignoreUrls: true}]
+"max-len": [2, 80, 4, {"ignoreUrls": true}]
 ```
 
 is equivalent to
 
 ```json
-"max-len": [2, {code: 80, tabWidth: 4, ignoreUrls: true}]
+"max-len": [2, {"code": 80, "tabWidth": 4, "ignoreUrls": true}]
 ```
 
 
