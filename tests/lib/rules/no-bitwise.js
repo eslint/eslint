@@ -21,7 +21,10 @@ ruleTester.run("no-bitwise", rule, {
     valid: [
         "a + b",
         "!a",
-        "a += b"
+        "a += b",
+        { code: "~[1, 2, 3].indexOf(1)", options: ["allow-not"] },
+        { code: "~1<<2 === -8", options: ["allow-not,allow-leftshift"] },
+        { code: "~1<<2 === -8", options: ["allow-NOT,allow-leftShift"] }
     ],
     invalid: [
         { code: "a ^ b", errors: [{ message: "Unexpected use of '^'.", type: "BinaryExpression"}] },
