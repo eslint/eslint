@@ -41,6 +41,11 @@ describe("CLIEngine", function() {
         examplePreprocessorName = "eslint-plugin-processor",
         fixtureDir;
 
+    requireStubs.resolve = {
+        sync: function(s) {
+            return s;
+        }
+    };
     requireStubs[examplePluginName] = examplePlugin;
     requireStubs[examplePluginNameWithNamespace] = examplePlugin;
     requireStubs[examplePreprocessorName] = require("../fixtures/processors/custom-processor");
