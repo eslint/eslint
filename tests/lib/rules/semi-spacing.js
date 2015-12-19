@@ -61,50 +61,62 @@ ruleTester.run("semi-spacing", rule, {
     invalid: [
         {
             code: "var a = 'b' ;",
+            output: "var a = 'b';",
             errors: [ { message: "Unexpected whitespace before semicolon.", type: "VariableDeclaration", line: 1, column: 13 } ]
         },
         {
             code: "var a = 'b',\nc = 'd' ;",
+            output: "var a = 'b',\nc = 'd';",
             errors: [ { message: "Unexpected whitespace before semicolon.", type: "VariableDeclaration", line: 2, column: 9 } ]
         },
         {
             code: "var a = function() {} ;",
+            output: "var a = function() {};",
             errors: [ { message: "Unexpected whitespace before semicolon.", type: "VariableDeclaration", line: 1, column: 23 } ]
         },
         {
             code: "var a = function() {\n} ;",
+            output: "var a = function() {\n};",
             errors: [ { message: "Unexpected whitespace before semicolon.", type: "VariableDeclaration", line: 2, column: 3 } ]
         },
         {
             code: "/^a$/.test('b') ;",
+            output: "/^a$/.test('b');",
             errors: [ { message: "Unexpected whitespace before semicolon.", type: "ExpressionStatement", line: 1, column: 17 } ]
         },
         {
             code: ";(function(){}()) ;",
+            output: ";(function(){}());",
             errors: [ { message: "Unexpected whitespace before semicolon.", type: "ExpressionStatement", line: 1, column: 19 } ]
         },
         {
             code: "while (true) { break ; }",
+            output: "while (true) { break; }",
             errors: [ { message: "Unexpected whitespace before semicolon.", type: "BreakStatement", line: 1, column: 22 } ]
         },
         {
             code: "while (true) { continue ; }",
+            output: "while (true) { continue; }",
             errors: [ { message: "Unexpected whitespace before semicolon.", type: "ContinueStatement", line: 1, column: 25 } ]
         },
         {
             code: "debugger ;",
+            output: "debugger;",
             errors: [ { message: "Unexpected whitespace before semicolon.", type: "DebuggerStatement", line: 1, column: 10 } ]
         },
         {
             code: "function foo() { return ; }",
+            output: "function foo() { return; }",
             errors: [ { message: "Unexpected whitespace before semicolon.", type: "ReturnStatement", line: 1, column: 25 } ]
         },
         {
             code: "throw new Error('foo') ;",
+            output: "throw new Error('foo');",
             errors: [ { message: "Unexpected whitespace before semicolon.", type: "ThrowStatement", line: 1, column: 24 } ]
         },
         {
             code: "for (var i = 0 ; i < 10 ; i++) {}",
+            output: "for (var i = 0; i < 10; i++) {}",
             errors: [
                 { message: "Unexpected whitespace before semicolon.", type: "ForStatement", line: 1, column: 16 },
                 { message: "Unexpected whitespace before semicolon.", type: "ForStatement", line: 1, column: 25 }
@@ -112,20 +124,24 @@ ruleTester.run("semi-spacing", rule, {
         },
         {
             code: "var a = 'b';c = 'd';",
+            output: "var a = 'b'; c = 'd';",
             errors: [ { message: "Missing whitespace after semicolon.", type: "VariableDeclaration", line: 1, column: 12 } ]
         },
         {
             code: "var a = 'b';",
+            output: "var a = 'b' ;",
             options: [ { before: true, after: true } ],
             errors: [ { message: "Missing whitespace before semicolon.", type: "VariableDeclaration", line: 1, column: 12 } ]
         },
         {
             code: "var a = 'b'; c = 'd';",
+            output: "var a = 'b';c = 'd';",
             options: [ { before: false, after: false } ],
             errors: [ { message: "Unexpected whitespace after semicolon.", type: "VariableDeclaration", line: 1, column: 12 } ]
         },
         {
             code: "for (var i = 0;i < 10;i++) {}",
+            output: "for (var i = 0; i < 10; i++) {}",
             errors: [
                 { message: "Missing whitespace after semicolon.", type: "ForStatement", line: 1, column: 15 },
                 { message: "Missing whitespace after semicolon.", type: "ForStatement", line: 1, column: 22 }
@@ -133,6 +149,7 @@ ruleTester.run("semi-spacing", rule, {
         },
         {
             code: "for (var i = 0; i < 10; i++) {}",
+            output: "for (var i = 0 ; i < 10 ; i++) {}",
             options: [ { before: true, after: true } ],
             errors: [
                 { message: "Missing whitespace before semicolon.", type: "ForStatement", line: 1, column: 15 },
@@ -141,6 +158,7 @@ ruleTester.run("semi-spacing", rule, {
         },
         {
             code: "for (var i = 0; i < 10; i++) {}",
+            output: "for (var i = 0;i < 10;i++) {}",
             options: [ { before: false, after: false } ],
             errors: [
                 { message: "Unexpected whitespace after semicolon.", type: "ForStatement", line: 1, column: 15 },
