@@ -2159,6 +2159,23 @@ describe("eslint", function() {
             var messages = eslint.verify(code);
             assert.equal(messages.length, 1);
             assert.equal(messages[0].severity, 2);
+            assert.isNull(messages[0].ruleId);
+            assert.equal(messages[0].source, BROKEN_TEST_CODE);
+            assert.isTrue(messages[0].fatal);
+            assert.match(messages[0].message, /^Parsing error:/);
+        });
+
+        it("should report source code where the issue is present", function() {
+            var inValidCode = [
+                "var x = 20;",
+                "if (x ==4 {",
+                "    x++;",
+                "}"
+            ];
+            var messages = eslint.verify(inValidCode.join("\n"));
+            assert.equal(messages.length, 1);
+            assert.equal(messages[0].severity, 2);
+            assert.equal(messages[0].source, inValidCode[1]);
             assert.isTrue(messages[0].fatal);
             assert.match(messages[0].message, /^Parsing error:/);
         });
@@ -3201,6 +3218,7 @@ describe("eslint", function() {
                 var messages = eslint.verify(";", { parser: parser }, "filename");
                 assert.equal(messages.length, 1);
                 assert.equal(messages[0].severity, 2);
+                assert.isNull(messages[0].source);
                 assert.equal(messages[0].message, errorPrefix + require(parser).expectedError);
             });
 

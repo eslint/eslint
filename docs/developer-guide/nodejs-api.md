@@ -16,6 +16,27 @@ var code = new SourceCode("var foo = bar;", ast);
 
 The `SourceCode` constructor throws an error if the AST is missing any of the required information.
 
+### splitLines()
+
+This is a static function on `SourceCode` that is used to split the source code text into an array of lines.
+
+```js
+var SourceCode = require("eslint").SourceCode;
+
+var code = "var a = 1;\nvar b = 2;"
+
+// split code into an array
+var codeLines = SourceCode.splitLines(code);
+
+/*
+    Value of codeLines will be
+    [
+        "var a = 1;",
+        "var b = 2;"
+    ]
+ */
+```
+
 ## linter
 
 The `linter` object does the actual evaluation of the JavaScript code. It doesn't do any filesystem operations, it simply parses and reports on the code. You can retrieve `linter` like this:

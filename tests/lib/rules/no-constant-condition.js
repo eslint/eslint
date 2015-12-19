@@ -24,6 +24,7 @@ ruleTester.run("no-constant-condition", rule, {
         "if(a == 0);",
         "if(a = f());",
         "if(1, a);",
+        "if ('every' in []);",
         "while(~!a);",
         "while(a = b);",
         "for(;x < 10;);",

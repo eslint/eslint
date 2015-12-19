@@ -14,6 +14,7 @@ var assert = require("chai").assert,
     fs = require("fs"),
     os = require("os"),
     Config = require("../../lib/config"),
+    environments = require("../../conf/environments"),
     sinon = require("sinon"),
     proxyquire = require("proxyquire");
 
@@ -262,7 +263,28 @@ describe("Config", function() {
             assert.equal(noUndef, 2);
         });
 
+
         // Configuration hierarchy ---------------------------------------------
+
+        // https://github.com/eslint/eslint/issues/3915
+        it("should correctly merge environment settings", function() {
+            var configHelper = new Config({ useEslintrc: true, cwd: process.cwd() }),
+                file = getFixturePath("envs", "sub", "foo.js"),
+                expected = {
+                    rules: {},
+                    env: {
+                        browser: true,
+                        node: false
+                    },
+                    ecmaFeatures: {
+                        globalReturn: false
+                    },
+                    globals: environments.browser.globals
+                },
+                actual = configHelper.getConfig(file);
+
+            assertConfigsEqual(actual, expected);
+        });
 
         // Default configuration - blank
         it("should return a blank config when using no .eslintrc", function() {
