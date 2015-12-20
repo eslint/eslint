@@ -19,8 +19,9 @@ var rule = require("../../../lib/rules/space-before-blocks"),
 
 var ruleTester = new RuleTester(),
     neverArgs = ["never"],
-    functionsOnlyArgs = [ { functions: "always", keywords: "never" } ],
-    keywordOnlyArgs = [ { functions: "never", keywords: "always" } ],
+    functionsOnlyArgs = [ { functions: "always", keywords: "never", classes: "never" } ],
+    keywordOnlyArgs = [ { functions: "never", keywords: "always", classes: "never" } ],
+    classesOnlyArgs = [ { functions: "never", keywords: "never", classes: "always" }],
     expectedSpacingErrorMessage = "Missing space before opening brace.",
     expectedSpacingError = { message: expectedSpacingErrorMessage },
     expectedNoSpacingErrorMessage = "Unexpected space before opening brace.",
@@ -52,7 +53,7 @@ ruleTester.run("space-before-blocks", rule, {
         },
         {
             code: "export default class {}",
-            options: keywordOnlyArgs,
+            options: classesOnlyArgs,
             parserOptions: { sourceType: "module" }
         },
         {
@@ -98,8 +99,13 @@ ruleTester.run("space-before-blocks", rule, {
         { code: "while(a){ function b() {} }", options: functionsOnlyArgs },
         { code: "while(a) { function b(){} }", options: keywordOnlyArgs },
         {
+            code: "class test { constructor() {} }",
+            options: [{ functions: "always", keywords: "never"}],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
             code: "class test { constructor(){} }",
-            options: keywordOnlyArgs,
+            options: classesOnlyArgs,
             parserOptions: { ecmaVersion: 6 }
         },
         {
@@ -109,7 +115,7 @@ ruleTester.run("space-before-blocks", rule, {
         },
         {
             code: "class test {}",
-            options: keywordOnlyArgs,
+            options: classesOnlyArgs,
             parserOptions: { ecmaVersion: 6 }
         },
         {
@@ -395,7 +401,7 @@ ruleTester.run("space-before-blocks", rule, {
         },
         {
             code: "export default class{}",
-            options: keywordOnlyArgs,
+            options: classesOnlyArgs,
             parserOptions: { sourceType: "module" },
             errors: [ expectedSpacingError ],
             output: "export default class {}"
@@ -408,7 +414,7 @@ ruleTester.run("space-before-blocks", rule, {
         },
         {
             code: "class test{}",
-            options: keywordOnlyArgs,
+            options: classesOnlyArgs,
             parserOptions: { ecmaVersion: 6 },
             errors: [ expectedSpacingError ],
             output: "class test {}"
@@ -422,7 +428,7 @@ ruleTester.run("space-before-blocks", rule, {
         },
         {
             code: "class test { constructor() {} }",
-            options: keywordOnlyArgs,
+            options: classesOnlyArgs,
             parserOptions: { ecmaVersion: 6 },
             errors: [ expectedNoSpacingError ],
             output: "class test { constructor(){} }"
