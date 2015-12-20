@@ -37,6 +37,16 @@ ruleTester.run("no-return-assign", rule, {
         {
             code: "function x() { var result = a * b; return result; }",
             options: ["always"]
+        },
+        {
+            code: "() => { return (result = a * b); }",
+            parserOptions: { ecmaVersion: 6 },
+            options: ["except-parens"]
+        },
+        {
+            code: "() => (result = a * b)",
+            parserOptions: { ecmaVersion: 6 },
+            options: ["except-parens"]
         }
     ],
     invalid: [
@@ -57,6 +67,16 @@ ruleTester.run("no-return-assign", rule, {
             code: "function x() { return (result) = (a * b); };",
             options: ["except-parens"],
             errors: [error]
+        },
+        {
+            code: "() => { return result = a * b; }",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [error]
+        },
+        {
+            code: "() => result = a * b",
+            parserOptions: { ecmaVersion: 6 },
+            errors: ["Arrow function should not return assignment."]
         },
         {
             code: "function x() { return result = a * b; };",
