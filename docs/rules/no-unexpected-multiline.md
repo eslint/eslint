@@ -13,7 +13,7 @@ This particular rule aims to spot scenarios where a newline looks like it is end
 
 ## Rule Details
 
-This rule is aimed at ensuring that two unrelated consecutive lines are not accidentially interpreted as a single expression.
+This rule is aimed at ensuring that two unrelated consecutive lines are not accidentally interpreted as a single expression.
 
 The following patterns are considered problems:
 
