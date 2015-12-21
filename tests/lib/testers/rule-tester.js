@@ -282,6 +282,19 @@ describe("RuleTester", function() {
         }, /Should have 2 errors but had 1/);
     });
 
+    // https://github.com/eslint/eslint/issues/4779
+    it("should throw an error if there's a parsing error and output doesn't match", function() {
+
+        assert.throws(function() {
+            ruleTester.run("no-eval", require("../../fixtures/testers/rule-tester/no-eval"), {
+                valid: [],
+                invalid: [
+                    { code: "eval(`foo`)", output: "eval(`foo`);", errors: [{}] }
+                ]
+            });
+        }, /fatal parsing error/i);
+    });
+
     it("should not throw an error if invalid code has at least an expected empty error object", function() {
         assert.doesNotThrow(function() {
             ruleTester.run("no-eval", require("../../fixtures/testers/rule-tester/no-eval"), {
