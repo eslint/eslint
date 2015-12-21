@@ -182,6 +182,8 @@ Best practices for fixes:
 1. Only make one fix per message. This is enforced because you must return the result of the fixer operation from `fix()`.
 1. Fixes should not introduce clashes with other rules. You can accidentally introduce a new problem that won't be reported until ESLint is run again. Another good reason to make as small a fix as possible.
 
+**Note:** Going forward eslint's builtin rules will only fix whitespace.  For other fixes, please use [Runtime Rules](#runtime-rules).
+
 ### context.options
 
 Some rules require options in order to function correctly. These options appear in configuration (`.eslintrc`, command line, or in comments). For example:
