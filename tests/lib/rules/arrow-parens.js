@@ -44,6 +44,7 @@ var type = "ArrowFunctionExpression";
 var invalid = [
     {
         code: "a => {}",
+        output: "(a) => {}",
         parserOptions: { ecmaVersion: 6 },
         errors: [{
             line: 1,
@@ -54,6 +55,7 @@ var invalid = [
     },
     {
         code: "a => a",
+        output: "(a) => a",
         parserOptions: { ecmaVersion: 6 },
         errors: [{
             line: 1,
@@ -64,6 +66,7 @@ var invalid = [
     },
     {
         code: "a => {\n}",
+        output: "(a) => {\n}",
         parserOptions: { ecmaVersion: 6 },
         errors: [{
             line: 1,
@@ -74,6 +77,7 @@ var invalid = [
     },
     {
         code: "a.then(foo => {});",
+        output: "a.then((foo) => {});",
         parserOptions: { ecmaVersion: 6 },
         errors: [{
             line: 1,
@@ -84,6 +88,7 @@ var invalid = [
     },
     {
         code: "a.then(foo => a);",
+        output: "a.then((foo) => a);",
         parserOptions: { ecmaVersion: 6 },
         errors: [{
             line: 1,
@@ -94,6 +99,7 @@ var invalid = [
     },
     {
         code: "a(foo => { if (true) {}; });",
+        output: "a((foo) => { if (true) {}; });",
         parserOptions: { ecmaVersion: 6 },
         errors: [{
             line: 1,

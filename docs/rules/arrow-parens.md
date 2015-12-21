@@ -45,6 +45,8 @@ The rule can also be configured to discourage the use of parens when they are no
 a => {}
 ```
 
+**Fixable:** This rule is automatically fixable using the `--fix` flag on the command line **when using the "always" option**.
+
 ### Options
 
 The rule takes one option, a string, which could be either "always" or "as-needed". The default is "always".
