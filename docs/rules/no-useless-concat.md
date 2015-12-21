@@ -1,4 +1,4 @@
-# Disallow unncessary concatenation of strings (no-useless-concat)
+# Disallow unnecessary concatenation of strings (no-useless-concat)
 
 It's unnecessary to concatenate two strings together, such as:
 
