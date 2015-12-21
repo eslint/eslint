@@ -2,7 +2,7 @@
 
 ## Rule Details
 
-This error is raised to highlight a potential error. Commonly, when a developer intends to write
+This rule is raised to highlight a potential error. Commonly, when a developer intends to write
 
 ```js
 if(!(a in b)) {
