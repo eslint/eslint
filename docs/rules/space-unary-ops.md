@@ -98,7 +98,7 @@ void 0;
 // Unary operator "++" is not followed by whitespace.
 ++foo;
 
-// Unary operator "--" is not preceeded by whitespace.
+// Unary operator "--" is not preceded by whitespace.
 foo--;
 
 // Unary operator "-" is not followed by whitespace.
