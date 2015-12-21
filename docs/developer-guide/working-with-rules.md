@@ -365,7 +365,7 @@ ruleTester.run("no-with", rule, {
 });
 ```
 
-Be sure to replace the value of `"block-scoped-var"` with your rule's ID. There are plenty of examples in the `tests/lib/rules/` directory.
+Be sure to replace the value of `"no-with"` with your rule's ID. There are plenty of examples in the `tests/lib/rules/` directory.
 
 ### Valid Code
 
