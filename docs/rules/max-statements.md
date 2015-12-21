@@ -14,6 +14,14 @@ function foo() {
 
 This rule allows you to configure the maximum number of statements allowed in a function.  The default is 10.
 
+### Options
+
+There is an additional optional argument to ignore top level functions.
+
+```json
+"max-statements": [2, 10, {"ignoreTopLevelFunctions": true}]
+```
+
 The following patterns are considered problems:
 
 ```js
@@ -40,6 +48,16 @@ function foo() {
     return 42;
   };
 }
+```
+
+```js
+/*eslint max-statements: [2, 1, {ignoreTopLevelFunctions: true}]*/  // Maximum of 1 statement.
+(function() {
+  var bar = 1;
+  return function () {
+    return 42;
+  };
+})()
 ```
 
 ## Related Rules
