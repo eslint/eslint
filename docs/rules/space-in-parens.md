@@ -87,7 +87,7 @@ var foo = (1 + 2) * 3;
 
 An object literal may be used as a third array item to specify exceptions, with the key `"exceptions"` and an array as the value. These exceptions work in the context of the first option. That is, if `"always"` is set to enforce spacing, then any "exception" will *disallow* spacing. Conversely, if `"never"` is set to disallow spacing, then any "exception" will *enforce* spacing.
 
-The following exceptions are available: `["{}", "[]", "()", "empty"`].
+The following exceptions are available: `["{}", "[]", "()", "empty"]`.
 
 For example, given `"space-in-parens": [2, "always", { "exceptions": ["{}"] }]`, the following patterns are considered problems:
 

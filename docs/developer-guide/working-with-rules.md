@@ -365,7 +365,7 @@ ruleTester.run("no-with", rule, {
 });
 ```
 
-Be sure to replace the value of `"block-scoped-var"` with your rule's ID. There are plenty of examples in the `tests/lib/rules/` directory.
+Be sure to replace the value of `"no-with"` with your rule's ID. There are plenty of examples in the `tests/lib/rules/` directory.
 
 ### Valid Code
 
@@ -395,7 +395,7 @@ The `options` property must be an array of options. This gets passed through to 
 
 ### Invalid Code
 
-Each invalid case must be an object containing the code to test and at least the message that is produced by the rule. The `errors` key specifies an array of objects, each containing a message (your rule may trigger multiple messages for the same code). You should also specify the type of AST node you expect to receive back using the `type` key. The AST node should represent the actual spot in the code where there is a problem. For example:
+Each invalid case must be an object containing the code to test and at least one message that is produced by the rule. The `errors` key specifies an array of objects, each containing a message (your rule may trigger multiple messages for the same code). You should also specify the type of AST node you expect to receive back using the `type` key. The AST node should represent the actual spot in the code where there is a problem. For example:
 
 ```js
 invalid: [
