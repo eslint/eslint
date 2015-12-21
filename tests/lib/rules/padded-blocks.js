@@ -48,6 +48,7 @@ ruleTester.run("padded-blocks", rule, {
     invalid: [
         {
             code: "{\n//comment\na();\n\n}",
+            output: "{\n\n//comment\na();\n\n}",
             errors: [
                 {
                     message: ALWAYS_MESSAGE,
@@ -58,6 +59,7 @@ ruleTester.run("padded-blocks", rule, {
         },
         {
             code: "{\n\na();\n//comment\n}",
+            output: "{\n\na();\n//comment\n\n}",
             errors: [
                 {
                     message: ALWAYS_MESSAGE,
@@ -68,6 +70,7 @@ ruleTester.run("padded-blocks", rule, {
         },
         {
             code: "{\n\na()\n//comment\n}",
+            output: "{\n\na()\n//comment\n\n}",
             errors: [
                 {
                     message: ALWAYS_MESSAGE,
@@ -78,6 +81,7 @@ ruleTester.run("padded-blocks", rule, {
         },
         {
             code: "{\na();\n\n}",
+            output: "{\n\na();\n\n}",
             errors: [
                 {
                     message: ALWAYS_MESSAGE,
@@ -87,6 +91,7 @@ ruleTester.run("padded-blocks", rule, {
         },
         {
             code: "{\n\na();\n}",
+            output: "{\n\na();\n\n}",
             errors: [
                 {
                     message: ALWAYS_MESSAGE,
@@ -96,6 +101,7 @@ ruleTester.run("padded-blocks", rule, {
         },
         {
             code: "{\na();\n}",
+            output: "{\n\na();\n\n}",
             errors: [
                 {
                     message: ALWAYS_MESSAGE,
@@ -109,6 +115,7 @@ ruleTester.run("padded-blocks", rule, {
         },
         {
             code: "{\na();}",
+            output: "{\n\na();\n\n}",
             errors: [
                 {
                     message: ALWAYS_MESSAGE,
@@ -122,6 +129,7 @@ ruleTester.run("padded-blocks", rule, {
         },
         {
             code: "{a();\n}",
+            output: "{\n\na();\n\n}",
             errors: [
                 {
                     message: ALWAYS_MESSAGE,
@@ -135,6 +143,7 @@ ruleTester.run("padded-blocks", rule, {
         },
         {
             code: "{a();}",
+            output: "{\n\na();\n\n}",
             errors: [
                 {
                     message: ALWAYS_MESSAGE,
@@ -148,6 +157,7 @@ ruleTester.run("padded-blocks", rule, {
         },
         {
             code: "{\na()\n//comment\n\n}",
+            output: "{\na()\n//comment\n}",
             options: ["never"],
             errors: [
                 {
@@ -158,6 +168,7 @@ ruleTester.run("padded-blocks", rule, {
         },
         {
             code: "{\n\na();\n\n}",
+            output: "{\na();\n}",
             options: ["never"],
             errors: [
                 {
@@ -172,6 +183,7 @@ ruleTester.run("padded-blocks", rule, {
         },
         {
             code: "{\n\n\na();\n\n\n}",
+            output: "{\na();\n}",
             options: ["never"],
             errors: [
                 {
@@ -186,6 +198,7 @@ ruleTester.run("padded-blocks", rule, {
         },
         {
             code: "{\n\na();\n}",
+            output: "{\na();\n}",
             options: ["never"],
             errors: [
                 {
@@ -196,6 +209,7 @@ ruleTester.run("padded-blocks", rule, {
         },
         {
             code: "{\na();\n\n}",
+            output: "{\na();\n}",
             options: ["never"],
             errors: [
                 {
@@ -206,6 +220,7 @@ ruleTester.run("padded-blocks", rule, {
         },
         {
             code: "{\n// comment\nif (\n// comment\n a) {}\n\n}",
+            output: "{\n\n// comment\nif (\n// comment\n a) {}\n\n}",
             options: ["always"],
             errors: [
                 {
@@ -217,6 +232,7 @@ ruleTester.run("padded-blocks", rule, {
         },
         {
             code: "{\n\n// comment\nif (\n// comment\n a) {}\n}",
+            output: "{\n// comment\nif (\n// comment\n a) {}\n}",
             options: ["never"],
             errors: [
                 {

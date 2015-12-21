@@ -1,5 +1,7 @@
 # Enforce padding within blocks (padded-blocks)
 
+**Fixable:** This rule is automatically fixable using the `--fix` flag on the command line.
+
 Some style guides require block statements to start and end with blank lines. The goal is
 to improve readability by visually separating the block content and the surrounding code.
 
