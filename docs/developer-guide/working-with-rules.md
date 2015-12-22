@@ -82,7 +82,6 @@ Additionally, the `context` object has the following methods:
 * `getFilename()` - returns the filename associated with the source.
 * `getScope()` - returns the current scope.
 * `getSourceCode()` - returns a `SourceCode` object that you can use to work with the source that was passed to ESLint
-* `isMarkedAsUsed(name)` - returns true if a given variable name has been marked as used.
 * `markVariableAsUsed(name)` - marks the named variable in scope as used. This affects the [no-unused-vars](../rules/no-unused-vars.md) rule.
 * `report(descriptor)` - reports a problem in the code.
 
