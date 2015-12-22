@@ -43,7 +43,7 @@ To keep a sense of consistency when using generators this rule enforces a single
 ## Rule Details
 
 This rule enforces that the `*` is either placed next to the `function` keyword or the name of the function. The single
-option for this rule is a string specifying the placement of the asterick. For this option you may pass
+option for this rule is a string specifying the placement of the asterisk. For this option you may pass
 `"start"`, `"middle"` or `"end"`. The default is `"end"`.
 
 You can set the style in configuration like this:
