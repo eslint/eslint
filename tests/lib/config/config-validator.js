@@ -2,6 +2,7 @@
  * @fileoverview Tests for config validator.
  * @author Brandon Mills
  * @copyright 2015 Brandon Mills
+ * See LICENSE file in root directory for full license.
  */
 
 "use strict";
@@ -56,6 +57,22 @@ mockObjectRule.schema = {
     "enum": ["first", "second"]
 };
 
+/**
+ * Fake a rule with no options
+ * @param {object} context context passed to the rules by eslint
+ * @returns {object} mocked rule listeners
+ * @private
+ */
+function mockNoOptionsRule(context) {
+    return {
+        "Program": function(node) {
+            context.report(node, "Expected a validation error.");
+        }
+    };
+}
+
+mockNoOptionsRule.schema = [];
+
 describe("Validator", function() {
 
     beforeEach(function() {
@@ -86,6 +103,22 @@ describe("Validator", function() {
             var fn = validator.validate.bind(null, { rules: { "mock-rule": [3, "third"] } }, "tests");
 
             assert.throws(fn, "tests:\n\tConfiguration for rule \"mock-rule\" is invalid:\n\tSeverity should be one of the following: 0 = off, 1 = warning, 2 = error (you passed \"3\").\n\tValue \"third\" must be an enum value.\n");
+        });
+
+        it("should allow for rules with no options", function() {
+            eslint.defineRule("mock-no-options-rule", mockNoOptionsRule);
+
+            var fn = validator.validate.bind(null, { rules: { "mock-no-options-rule": 2 } }, "tests");
+
+            assert.doesNotThrow(fn);
+        });
+
+        it("should not allow options for rules with no options", function() {
+            eslint.defineRule("mock-no-options-rule", mockNoOptionsRule);
+
+            var fn = validator.validate.bind(null, { rules: { "mock-no-options-rule": [2, "extra"] } }, "tests");
+
+            assert.throws(fn, "tests:\n\tConfiguration for rule \"mock-no-options-rule\" is invalid:\n\tValue \"extra\" has more items than allowed.\n");
         });
 
         it("should throw with an array environment", function() {
