@@ -7,6 +7,7 @@ Each ESLint rule has two files: a source file in the `lib/rules` directory and a
  * @fileoverview Rule to flag use of an empty block statement
  * @author Nicholas C. Zakas
  * @copyright 2014 Nicholas C. Zakas. All rights reserved.
+ * See LICENSE in root directory for full license.
  */
 "use strict";
 
@@ -336,6 +337,7 @@ The basic pattern for a rule unit test file is:
  * @fileoverview Tests for no-with rule.
  * @author Nicholas C. Zakas
  * @copyright 2015 Nicholas C. Zakas. All rights reserved.
+ * See LICENSE in root directory for full license.
  */
 
 "use strict";
