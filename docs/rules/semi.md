@@ -61,6 +61,12 @@ This rule is aimed at ensuring consistent use of semicolons. You can decide whet
 
 ### Options
 
+The rule takes one or two options. The fists one is a string, which could be "always" or "never". The default is "always". The second one is an object for more fine-grained configuration when the first option is "always".
+
+You can set the option in configuration like this:
+
+#### "always"
+
 By using the default option, semicolons must be used any place where they are valid.
 
 ```json
@@ -90,6 +96,38 @@ object.method = function() {
     // ...
 };
 ```
+
+##### Fine-grained control
+
+When setting the first option as "always", an additional option can be added to omit the last semicolon in a one-line block, that is, a block in which its braces (and therefore the content of the block) are in the same line:
+
+```json
+semi: [2, "always", { "omitLastInOneLineBlock": true}]
+```
+
+The following patterns are considered problems:
+
+```js
+/*eslint semi: [2, "always", { "omitLastInOneLineBlock": true}] */
+
+if (foo) {
+    bar()                   /*error Missing semicolon.*/
+}
+
+if (foo) { bar(); }         /*error Extra semicolon.*/
+```
+
+The following patterns are not considered problems:
+
+```js
+/*eslint semi: [2, "always", { "omitLastInOneLineBlock": true}] */
+
+if (foo) { bar() }
+
+if (foo) { bar(); baz() }
+```
+
+#### "never"
 
 If you want to enforce that semicolons are never used, switch the configuration to:
 
