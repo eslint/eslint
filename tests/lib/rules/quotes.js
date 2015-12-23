@@ -36,8 +36,11 @@ ruleTester.run("quotes", rule, {
         { code: "var foo = \"a string containing `backtick` quotes\";", options: ["backtick", "avoid-escape"] },
         { code: "var foo = <div id=\"foo\"></div>;", options: ["backtick"], parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } } },
         { code: "var foo = <div>Hello world</div>;", options: ["backtick"], parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } }},
-        { code: "var foo = `backtick`;", options: ["single"], parserOptions: { ecmaVersion: 6 }},
-        { code: "var foo = `backtick`;", options: ["double"], parserOptions: { ecmaVersion: 6 }},
+
+        // Backticks are only okay if they have substitutions, contain a line break, or are tagged
+        { code: "var foo = `back\ntick`;", options: ["single"], parserOptions: { ecmaVersion: 6 }},
+        { code: "var foo = `back${x}tick`;", options: ["double"], parserOptions: { ecmaVersion: 6 }},
+        { code: "var foo = tag`backtick`;", options: ["double"], parserOptions: { ecmaVersion: 6 }},
 
         // `backtick` should not warn the directive prologues.
         { code: "\"use strict\"; var foo = `backtick`;", options: ["backtick"], parserOptions: { ecmaVersion: 6 }},
@@ -67,6 +70,15 @@ ruleTester.run("quotes", rule, {
             errors: [{ message: "Strings must use singlequote.", type: "Literal"}]
         },
         {
+            code: "var foo = `bar`;",
+            output: "var foo = 'bar';",
+            options: ["single"],
+            parserOptions: {
+                ecmaVersion: 6
+            },
+            errors: [{ message: "Strings must use singlequote.", type: "TemplateLiteral"}]
+        },
+        {
             code: "var foo = 'don\\'t';",
             output: "var foo = \"don't\";",
             errors: [{ message: "Strings must use doublequote.", type: "Literal"}]
@@ -85,6 +97,15 @@ ruleTester.run("quotes", rule, {
             output: "var foo = \"bar\";",
             options: ["double"],
             errors: [{ message: "Strings must use doublequote.", type: "Literal"}]
+        },
+        {
+            code: "var foo = `bar`;",
+            output: "var foo = \"bar\";",
+            options: ["double"],
+            parserOptions: {
+                ecmaVersion: 6
+            },
+            errors: [{ message: "Strings must use doublequote.", type: "TemplateLiteral"}]
         },
         {
             code: "var foo = \"bar\";",
