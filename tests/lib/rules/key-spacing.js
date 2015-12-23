@@ -388,6 +388,41 @@ ruleTester.run("key-spacing", rule, {
             align: "colon"
         }],
         parserOptions: { ecmaVersion: 6, ecmaFeatures: { experimentalObjectRestSpread: true } }
+    },
+
+    // https://github.com/eslint/eslint/issues/4792
+    {
+        code: [
+            "({",
+            "    a: 42,",
+            "    get b() { return 42; }",
+            "})"
+        ].join("\n"),
+        options: [{
+            align: "colon"
+        }]
+    }, {
+        code: [
+            "({",
+            "    set a(b) { b; },",
+            "    c: 42",
+            "})"
+        ].join("\n"),
+        options: [{
+            align: "value"
+        }]
+    }, {
+        code: [
+            "({",
+            "    a  : 42,",
+            "    get b() { return 42; },",
+            "    set c(v) { v; },",
+            "    def: 42",
+            "})"
+        ].join("\n"),
+        options: [{
+            align: "colon"
+        }]
     }],
 
     invalid: [{
@@ -781,6 +816,50 @@ ruleTester.run("key-spacing", rule, {
         errors: [
             { message: "Missing space after key \"a\".", line: 3, column: 5, type: "Identifier" },
             { message: "Extra space after key \"f\".", line: 12, column: 5, type: "Identifier" }
+        ]
+    },
+
+    // https://github.com/eslint/eslint/issues/4792
+    {
+        code: [
+            "({",
+            "    a : 42,",
+            "    get b() { return 42; }",
+            "})"
+        ].join("\n"),
+        options: [{
+            align: "colon"
+        }],
+        errors: [
+            { message: "Extra space after key \"a\".", line: 2, column: 5, type: "Identifier" }
+        ]
+    }, {
+        code: [
+            "({",
+            "    set a(b) { b; },",
+            "    c : 42",
+            "})"
+        ].join("\n"),
+        options: [{
+            align: "value"
+        }],
+        errors: [
+            { message: "Extra space after key \"c\".", line: 3, column: 5, type: "Identifier" }
+        ]
+    }, {
+        code: [
+            "({",
+            "    a: 42,",
+            "    get b() { return 42; },",
+            "    set c(v) { v; },",
+            "    def: 42",
+            "})"
+        ].join("\n"),
+        options: [{
+            align: "colon"
+        }],
+        errors: [
+            { message: "Missing space after key \"a\".", line: 2, column: 5, type: "Identifier" }
         ]
     }]
 });
