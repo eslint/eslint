@@ -38,6 +38,7 @@ ruleTester.run("valid-jsdoc", rule, {
         "/**\n* Description\n* @param {Object} p bar\n* @param {string[]} p.files qux\n* @param {Function} cb baz\n* @returns {void} */\nfunction foo(p, cb){}",
         "/**\n* Description\n* @override */\nfunction foo(arg1, arg2){ return ''; }",
         "/**\n* Description\n* @inheritdoc */\nfunction foo(arg1, arg2){ return ''; }",
+        "/**\n* Description\n* @inheritDoc */\nfunction foo(arg1, arg2){ return ''; }",
         {
             code: "/**\n* Description\n* @return {void} */\nfunction foo(){}",
             options: [{}]
