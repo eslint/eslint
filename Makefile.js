@@ -146,12 +146,19 @@ function generateBlogPost(releaseInfo) {
 /**
  * Generates a doc page with formatter result examples
  * @param  {Object} formatterInfo Linting results from each formatter
+ * @param  {string} [prereleaseVersion] The version used for a prerelease. This
+ *      changes where the output is stored.
  * @returns {void}
  */
-function generateFormatterExamples(formatterInfo) {
+function generateFormatterExamples(formatterInfo, prereleaseVersion) {
     var output = ejs.render(cat("./templates/formatter-examples.md.ejs"), formatterInfo),
         filename = "../eslint.github.io/docs/user-guide/formatters/index.md",
         htmlFilename = "../eslint.github.io/docs/user-guide/formatters/html-formatter-example.html";
+
+    if (prereleaseVersion) {
+        filename = filename.replace("/docs", "/docs/" + prereleaseVersion);
+        htmlFilename = htmlFilename.replace("/docs", "/docs/" + prereleaseVersion);
+    }
 
     output.to(filename);
     formatterInfo.formatterResults.html.result.to(htmlFilename);
@@ -234,6 +241,49 @@ function release(type) {
     target.publishsite();
     // });
 }
+
+/**
+ * Creates a prerelease version tag and pushes to origin.
+ * @param {string} version The prerelease version to create (i.e. 2.0.0-alpha-1).
+ * @returns {void}
+ */
+function prerelease(version) {
+    var newVersion;/* , changes;*/
+
+    // exec("git checkout master && git fetch origin && git reset --hard origin/master");
+    // exec("npm install && npm prune");
+
+    target.test();
+    echo("Generating new version");
+    newVersion = execSilent("npm version " + version).trim();
+
+    echo("Generating changelog");
+    var releaseInfo = target.changelog();
+
+    // add changelog to commit
+    exec("git add CHANGELOG.md");
+    exec("git commit --amend --no-edit");
+
+    // replace existing tag
+    exec("git tag -f " + newVersion);
+
+    // push all the things
+    echo("Publishing to git");
+    exec("git push origin master --tags");
+
+    // publish to npm
+    echo("Publishing to npm");
+    getPackageInfo().files.filter(function(dirPath) {
+        return fs.lstatSync(dirPath).isDirectory();
+    }).forEach(nodeCLI.exec.bind(nodeCLI, "linefix"));
+    exec("npm publish --tag next");
+    exec("git reset --hard");
+
+    echo("Generating site");
+    target.gensite(semver.inc(version, "major"));
+    generateBlogPost(releaseInfo);
+}
+
 
 /**
  * Splits a command result to separate lines.
@@ -537,7 +587,7 @@ target.docs = function() {
     echo("Documentation has been output to /jsdoc");
 };
 
-target.gensite = function() {
+target.gensite = function(prereleaseVersion) {
     echo("Generating eslint.org");
 
     var docFiles = [
@@ -549,6 +599,13 @@ target.gensite = function() {
         "/developer-guide/working-with-plugins.md",
         "/developer-guide/working-with-rules.md"
     ];
+
+    // append version
+    if (prereleaseVersion) {
+        docFiles = docFiles.map(function(docFile) {
+            return "/" + prereleaseVersion + docFile;
+        });
+    }
 
     // 1. create temp and build directory
     if (!test("-d", TEMP_DIR)) {
@@ -643,15 +700,20 @@ target.gensite = function() {
     JSON.stringify(versions).to("./versions.json");
 
     // 10. Copy temorary directory to site's docs folder
-    cp("-rf", TEMP_DIR + "*", DOCS_DIR);
+    var outputDir = DOCS_DIR;
+    if (prereleaseVersion) {
+        outputDir += "/" + prereleaseVersion;
+    }
+    cp("-rf", TEMP_DIR + "*", outputDir);
 
     // 11. Delete temporary directory
     rm("-r", TEMP_DIR);
 
-    // 12. Browserify ESLint
-    target.browserify();
-    cp("-f", "build/eslint.js", SITE_DIR + "js/app/eslint.js");
-    cp("-f", "conf/eslint.json", SITE_DIR + "js/app/eslint.json");
+    // 12. Update demos, but only for non-prereleases
+    if (!prereleaseVersion) {
+        cp("-f", "build/eslint.js", SITE_DIR + "js/app/eslint.js");
+        cp("-f", "conf/eslint.json", SITE_DIR + "js/app/eslint.json");
+    }
 
     // 13. Create Example Formatter Output Page
     generateFormatterExamples(getFormatterResults());
@@ -1070,4 +1132,8 @@ target.minor = function() {
 
 target.major = function() {
     release("major");
+};
+
+target.prerelease = function(version) {
+    prerelease(version);
 };
