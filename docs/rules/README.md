@@ -182,6 +182,7 @@ These rules are purely matters of style and are quite subjective.
 * [no-new-object](no-new-object.md) - disallow the use of the `Object` constructor
 * [no-plusplus](no-plusplus.md) - disallow use of unary operators, `++` and `--`
 * [no-restricted-syntax](no-restricted-syntax.md) - disallow use of certain syntax in code
+* [no-whitespace-before-property](no-whitespace-before-property.md) - disallow whitespace before properties
 * [no-spaced-func](no-spaced-func.md) - disallow space between function identifier and application (fixable)
 * [no-ternary](no-ternary.md) - disallow the use of ternary operators
 * [no-trailing-spaces](no-trailing-spaces.md) - disallow trailing whitespace at the end of lines (fixable)
