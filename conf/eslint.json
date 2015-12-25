@@ -153,6 +153,7 @@
         "init-declarations": 0,
         "jsx-quotes": [0, "prefer-double"],
         "key-spacing": [0, { "beforeColon": false, "afterColon": true }],
+        "keyword-spacing": 0,
         "lines-around-comment": 0,
         "max-depth": [0, 4],
         "max-len": [0, 80, 4],
