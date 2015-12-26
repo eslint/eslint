@@ -10,7 +10,7 @@ The following rules point out areas where you might have made mistakes.
 
 * [comma-dangle](comma-dangle.md) - disallow or enforce trailing commas (recommended)
 * [no-cond-assign](no-cond-assign.md) - disallow assignment in conditional expressions (recommended)
-* [no-console](no-console.md) - disallow use of `console` in the node environment (recommended)
+* [no-console](no-console.md) - disallow use of `console` (recommended)
 * [no-constant-condition](no-constant-condition.md) - disallow use of constant expressions in conditions (recommended)
 * [no-control-regex](no-control-regex.md) - disallow control characters in regular expressions (recommended)
 * [no-debugger](no-debugger.md) - disallow use of `debugger` (recommended)
