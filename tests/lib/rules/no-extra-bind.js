@@ -32,6 +32,7 @@ ruleTester.run("no-extra-bind", rule, {
         { code: "var a = (() => { return 1; }).bind(b)", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "The function binding is unnecessary.", type: "CallExpression"}] },
         { code: "var a = (() => { return this; }).bind(b)", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "The function binding is unnecessary.", type: "CallExpression"}] },
         { code: "var a = function() { (function(){ this.c }) }.bind(b)", errors: [{ message: "The function binding is unnecessary.", type: "CallExpression"}] },
-        { code: "var a = function() { function c(){ this.d } }.bind(b)", errors: [{ message: "The function binding is unnecessary.", type: "CallExpression"}] }
+        { code: "var a = function() { function c(){ this.d } }.bind(b)", errors: [{ message: "The function binding is unnecessary.", type: "CallExpression"}] },
+        { code: "var a = function() { (function(){ (function(){ this.d }.bind(c)) }) }.bind(b)", errors: [{ message: "The function binding is unnecessary.", type: "CallExpression", column: 9}] }
     ]
 });
