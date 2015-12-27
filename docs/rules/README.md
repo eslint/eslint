@@ -200,6 +200,7 @@ These rules are purely matters of style and are quite subjective.
 * [semi-spacing](semi-spacing.md) - enforce spacing before and after semicolons (fixable)
 * [semi](semi.md) - require or disallow use of semicolons instead of ASI (fixable)
 * [sort-vars](sort-vars.md) - sort variables within the same declaration block
+* [sort-imports](sort-imports.md) - sort import declarations within module
 * [space-before-blocks](space-before-blocks.md) - require or disallow a space before blocks (fixable)
 * [space-before-function-paren](space-before-function-paren.md) - require or disallow a space before function opening parenthesis (fixable)
 * [space-in-parens](space-in-parens.md) - require or disallow spaces inside parentheses
