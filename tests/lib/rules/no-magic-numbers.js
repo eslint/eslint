@@ -67,6 +67,12 @@ ruleTester.run("no-magic-numbers", rule, {
             options: [{
                 ignore: [0, 1]
             }]
+        },
+        {
+            code: "var data = ['foo', 'bar', 'baz']; var third = data[3];",
+            options: [{
+                ignoreArrayIndexes: true
+            }]
         }
     ],
     invalid: [
@@ -180,6 +186,13 @@ ruleTester.run("no-magic-numbers", rule, {
                 { message: "No magic number: 0", line: 19},
                 { message: "No magic number: 10", line: 22}
             ]
+        },
+        {
+            code: "var data = ['foo', 'bar', 'baz']; var third = data[3];",
+            options: [{}],
+            errors: [{
+                message: "No magic number: 3", line: 1
+            }]
         }
     ]
 });
