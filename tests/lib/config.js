@@ -884,6 +884,30 @@ describe("Config", function() {
             assertConfigsEqual(actual, expected);
         });
 
+        it("should extend package sub-configuration with prefix", function() {
+
+            var configDeps = {};
+            configDeps["./config/config-file"] = proxyquire("../../lib/config/config-file", {
+                "@scope/eslint-config/foo": {
+                    rules: {
+                        eqeqeq: 2
+                    }
+                }
+            });
+
+            var StubbedConfig = proxyquire("../../lib/config", configDeps);
+
+            var configPath = path.resolve(__dirname, "../fixtures/config-extends/scoped-package9/.eslintrc"),
+                configHelper = new StubbedConfig({ useEslintrc: false, configFile: configPath, cwd: process.cwd() }),
+                expected = {
+                    rules: { "quotes": [2, "double"], "eqeqeq": 2, "valid-jsdoc": 0 },
+                    env: { "browser": false }
+                },
+                actual = configHelper.getConfig(configPath);
+
+            assertConfigsEqual(actual, expected);
+        });
+
         it("should not modify a scoped package named 'eslint-config'", function() {
 
             var configDeps = {};
@@ -994,20 +1018,12 @@ describe("Config", function() {
             var StubbedConfig = proxyquire("../../lib/config", configDeps);
 
             var configPath = path.resolve(__dirname, "../fixtures/config-extends/package3/.eslintrc"),
-                configHelper = new StubbedConfig({ useEslintrc: true, configFile: configPath, cwd: process.cwd() }),
+                configHelper = new StubbedConfig({ useEslintrc: false, configFile: configPath, cwd: process.cwd() }),
                 expected = {
                     rules: { "quotes": [2, "double"], "eqeqeq": 2, "valid-jsdoc": 0 },
                     env: { "browser": false }
-                };
-
-            // Reason to override this function in this special case is that I dont want it to keep looking into the
-            // chain of parent directries for .eslintrc or package.json file for configs.
-            // If that is allowed then the expected outcome will change based on the machine you are running this test.
-            sinon.stub(configHelper, "findLocalConfigFiles").returns([
-                path.resolve(__dirname, "../fixtures/config-extends/package3/.eslintrc")
-            ]);
-
-            var actual = configHelper.getConfig(configPath);
+                },
+                actual = configHelper.getConfig(configPath);
 
             assertConfigsEqual(actual, expected);
         });
@@ -1026,20 +1042,12 @@ describe("Config", function() {
             var StubbedConfig = proxyquire("../../lib/config", configDeps);
 
             var configPath = path.resolve(__dirname, "../fixtures/config-extends/scoped-package3/.eslintrc"),
-                configHelper = new StubbedConfig({ useEslintrc: true, configFile: configPath, cwd: process.cwd() }),
+                configHelper = new StubbedConfig({ useEslintrc: false, configFile: configPath, cwd: process.cwd() }),
                 expected = {
                     rules: { "quotes": [2, "double"], "eqeqeq": 2, "valid-jsdoc": 0 },
                     env: { "browser": false }
-                };
-
-            // Reason to override this function in this special case is that I dont want it to keep looking into the
-            // chain of parent directries for .eslintrc or package.json file for configs.
-            // If that is allowed then the expected outcome will change based on the machine you are running this test.
-            sinon.stub(configHelper, "findLocalConfigFiles").returns([
-                path.resolve(__dirname, "../fixtures/config-extends/scoped-package3/.eslintrc")
-            ]);
-
-            var actual = configHelper.getConfig(configPath);
+                },
+                actual = configHelper.getConfig(configPath);
 
             assertConfigsEqual(actual, expected);
         });
@@ -1064,8 +1072,8 @@ describe("Config", function() {
                     env: { "browser": false }
                 };
 
-            // Reason to override this function in this special case is that I dont want it to keep looking into the
-            // chain of parent directries for .eslintrc or package.json file for configs.
+            // Reason to override this function in this special case is that I don't want it to keep looking into the
+            // chain of parent directories for .eslintrc or package.json file for configs.
             // If that is allowed then the expected outcome will change based on the machine you are running this test.
             sinon.stub(configHelper, "findLocalConfigFiles").returns([
                 path.resolve(__dirname, "../fixtures/config-extends/package2/.eslintrc")
