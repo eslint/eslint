@@ -19,13 +19,13 @@ The following pattern is considered a problem:
 /*eslint no-magic-numbers: 2*/
 
 var dutyFreePrice = 100,
-    finalPrice = dutyFreePrice + (dutyFreePrice * 0.25);    /*error No magic number: 0.25*/
+    finalPrice = dutyFreePrice + (dutyFreePrice * 0.25); /*error No magic number: 0.25*/
 
 
 /*eslint no-magic-numbers: 2*/
 
 var data = ['foo', 'bar', 'baz'];
-var thirdValue = data[3];   /*error No magic number: 3*/
+var thirdValue = data[3]; /*error No magic number: 3*/
 ```
 
 The following pattern is considered okay:
@@ -48,7 +48,7 @@ If provided, it must be an `Array`.
 
 ### ignoreArrayIndexes
 
-a boolean to specify if number literals used as array indexes are not magic numbers. `false` by default.
+A boolean to specify if numbers used as array indexes are considered okay. `false` by default.
 
 The following pattern is considered okay:
 ```js
