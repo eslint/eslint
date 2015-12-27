@@ -224,6 +224,7 @@ These rules are only relevant to ES6 environments.
 * [no-dupe-class-members](no-dupe-class-members.md) - disallow duplicate name in class members
 * [no-this-before-super](no-this-before-super.md) - disallow use of `this`/`super` before calling `super()` in constructors.
 * [no-var](no-var.md) - require `let` or `const` instead of `var`
+* [no-useless-constructor](no-useless-constructor.md) - disallow unnecessary constructor
 * [object-shorthand](object-shorthand.md) - require method and property shorthand syntax for object literals
 * [prefer-arrow-callback](prefer-arrow-callback.md) - suggest using arrow functions as callbacks
 * [prefer-const](prefer-const.md) - suggest using `const` declaration for variables that are never modified after declared
