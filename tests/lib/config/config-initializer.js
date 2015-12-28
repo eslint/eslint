@@ -32,7 +32,8 @@ describe("configInitializer", function() {
                 env: ["browser"],
                 jsx: false,
                 react: false,
-                format: "JSON"
+                format: "JSON",
+                commonjs: false
             };
         });
 
@@ -98,6 +99,17 @@ describe("configInitializer", function() {
             assert.throws(function() {
                 init.getConfigForStyleGuide("non-standard");
             }, "You referenced an unsupported guide.");
+        });
+
+        it("should not use commonjs by default", function() {
+            var config = init.processAnswers(answers);
+            assert.isUndefined(config.env.commonjs);
+        });
+
+        it("should use commonjs when set", function() {
+            answers.commonjs = true;
+            var config = init.processAnswers(answers);
+            assert.isTrue(config.env.commonjs);
         });
     });
 
