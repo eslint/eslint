@@ -89,6 +89,7 @@
         "no-sequences": 0,
         "no-shadow": 0,
         "no-shadow-restricted-names": 0,
+        "no-whitespace-before-property": 0,
         "no-spaced-func": 0,
         "no-sparse-arrays": 2,
         "no-sync": 0,
