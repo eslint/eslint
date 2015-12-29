@@ -23,6 +23,8 @@ a = (b * c); /*error Gratuitous parentheses around expression.*/
 (a * b) + c; /*error Gratuitous parentheses around expression.*/
 
 typeof (a);  /*error Gratuitous parentheses around expression.*/
+
+(function(){} ? a() : b());  /*error Gratuitous parentheses around expression.*/
 ```
 
 The following patterns are not considered problems:
@@ -34,7 +36,7 @@ The following patterns are not considered problems:
 
 ({}.toString.call());
 
-(function(){} ? a() : b())
+(function(){}) ? a() : b();
 
 (/^a$/).test(x);
 ```
