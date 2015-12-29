@@ -55,7 +55,7 @@ Using stdin:
 
 Handling warnings:
   --quiet                    Report errors only - default: false
-  --max-warnings Number      Number of warnings to trigger nonzero exit code -
+  --max-warnings Int         Number of warnings to trigger nonzero exit code -
                              default: -1
 
 Output:
