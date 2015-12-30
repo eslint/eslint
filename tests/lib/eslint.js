@@ -3189,6 +3189,36 @@ describe("eslint", function() {
             eslint.verify("var { a='a' } = {};", { parserOptions: { ecmaVersion: 6 }});
         });
 
+        it("should not rewrite env setting in core (https://github.com/eslint/eslint/issues/4814)", function() {
+            // This test focuses on the instance of https://github.com/eslint/eslint/blob/v2.0.0-alpha-2/conf/environments.js#L26-L28
+
+            // This `verify()` takes the instance and runs https://github.com/eslint/eslint/blob/v2.0.0-alpha-2/lib/eslint.js#L416
+            eslint.defineRule("test", function() {
+                return {};
+            });
+            eslint.verify("var a = 0;", {
+                env: {node: true},
+                parserOptions: {sourceType: "module"},
+                rules: {test: 2}
+            });
+
+            // This `verify()` takes the instance and tests that the instance was not modified.
+            var ok = false;
+            eslint.defineRule("test", function(context) {
+                assert(
+                    context.parserOptions.ecmaFeatures.globalReturn,
+                    "`ecmaFeatures.globalReturn` of the node environment should not be modified."
+                );
+                ok = true;
+                return {};
+            });
+            eslint.verify("var a = 0;", {
+                env: {node: true},
+                rules: {test: 2}
+            });
+
+            assert(ok);
+        });
     });
 
     // only test in Node.js, not browser
