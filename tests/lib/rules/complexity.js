@@ -20,7 +20,8 @@ var rule = require("../../../lib/rules/complexity"),
 var ruleTester = new RuleTester();
 ruleTester.run("complexity", rule, {
     valid: [
-        { code: "function a(x) {}", options: [1] },
+        { code: "function a(x) {}" },
+        { code: "function b(x) {}", options: [1] },
         { code: "function a(x) {if (true) {return x;}}", options: [2] },
         { code: "function a(x) {if (true) {return x;} else {return x+1;}}", options: [2] },
         { code: "function a(x) {if (true) {return x;} else if (false) {return x+1;} else {return 4;}}", options: [3] },
