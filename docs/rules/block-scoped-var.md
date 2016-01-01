@@ -26,7 +26,7 @@ function doSomething() {
         var build = true;
     }
 
-    console.log(build); /*error "build" used outside of binding context.*/
+    console.log(build); /*error 'build' used outside of binding context.*/
 }
 ```
 
@@ -35,9 +35,9 @@ function doSomething() {
 
 function doSomething() {
     if (true) {
-        var build = true;  /*error "build" used outside of binding context.*/
+        var build = true;  /*error 'build' used outside of binding context.*/
     } else {
-        var build = false; /*error "build" used outside of binding context.*/
+        var build = false; /*error 'build' used outside of binding context.*/
     }
 }
 ```
@@ -49,7 +49,7 @@ function doAnother() {
     try {
         var build = 1;
     } catch (e) {
-        var f = build; /*error "build" used outside of binding context.*/
+        var f = build; /*error 'build' used outside of binding context.*/
     }
 }
 ```

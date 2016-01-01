@@ -29,17 +29,17 @@ If a reference is inside of a dynamic expression (e.g. `CallExpression`,
 The following patterns are considered problems:
 
 ```js
-while (node) {                           /*error "node" is not modified in this loop.*/
+while (node) {                           /*error 'node' is not modified in this loop.*/
     doSomething(node);
 }
 node = other.
 
-for (var j = 0; j < items.length; ++i) { /*error "j" is not modified in this loop.*/
+for (var j = 0; j < items.length; ++i) { /*error 'j' is not modified in this loop.*/
     doSomething(items[j]);
 }
 
-while (node !== root) {                  /*error "node" is not modified in this loop.*/
-                                         /*error "root" is not modified in this loop.*/
+while (node !== root) {                  /*error 'node' is not modified in this loop.*/
+                                         /*error 'root' is not modified in this loop.*/
     doSomething(node);
 }
 ```

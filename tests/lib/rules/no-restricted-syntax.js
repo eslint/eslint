@@ -27,21 +27,21 @@ ruleTester.run("no-restricted-syntax", rule, {
         {
             code: "var foo = 41;",
             options: ["VariableDeclaration"],
-            errors: [{ message: "Using \"VariableDeclaration\" is not allowed.", type: "VariableDeclaration"}]
+            errors: [{ message: "Using 'VariableDeclaration' is not allowed.", type: "VariableDeclaration"}]
         },
         {
             code: ";function lol(a) { return 42; }",
             options: ["EmptyStatement"],
-            errors: [{ message: "Using \"EmptyStatement\" is not allowed.", type: "EmptyStatement"}]
+            errors: [{ message: "Using 'EmptyStatement' is not allowed.", type: "EmptyStatement"}]
         },
         {
             code: "try { voila(); } catch (e) { oops(); }",
             options: ["TryStatement", "CallExpression", "CatchClause"],
             errors: [
-                { message: "Using \"TryStatement\" is not allowed.", type: "TryStatement"},
-                { message: "Using \"CallExpression\" is not allowed.", type: "CallExpression"},
-                { message: "Using \"CatchClause\" is not allowed.", type: "CatchClause"},
-                { message: "Using \"CallExpression\" is not allowed.", type: "CallExpression"}
+                { message: "Using 'TryStatement' is not allowed.", type: "TryStatement"},
+                { message: "Using 'CallExpression' is not allowed.", type: "CallExpression"},
+                { message: "Using 'CatchClause' is not allowed.", type: "CatchClause"},
+                { message: "Using 'CallExpression' is not allowed.", type: "CallExpression"}
             ]
         }
     ]

@@ -24,6 +24,6 @@ ruleTester.run("prefer-rest-params", rule, {
         {code: "function foo(...args) { args; }", parserOptions: { ecmaVersion: 6 }}
     ],
     invalid: [
-        {code: "function foo() { arguments; }", errors: [{type: "Identifier", message: "Use the rest parameters instead of \"arguments\"."}]}
+        {code: "function foo() { arguments; }", errors: [{type: "Identifier", message: "Use the rest parameters instead of 'arguments'."}]}
     ]
 });

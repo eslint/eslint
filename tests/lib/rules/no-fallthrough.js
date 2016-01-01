@@ -17,7 +17,7 @@ var rule = require("../../../lib/rules/no-fallthrough"),
 //------------------------------------------------------------------------------
 
 var errorsDefault = [{
-    message: "Expected a \"break\" statement before \"default\".",
+    message: "Expected a 'break' statement before 'default'.",
     type: "SwitchCase"
 }];
 
@@ -59,7 +59,7 @@ ruleTester.run("no-fallthrough", rule, {
             code: "switch(foo) { case 0: a();\ncase 1: b() }",
             errors: [
                 {
-                    message: "Expected a \"break\" statement before \"case\".",
+                    message: "Expected a 'break' statement before 'case'.",
                     type: "SwitchCase",
                     line: 2,
                     column: 1
@@ -70,7 +70,7 @@ ruleTester.run("no-fallthrough", rule, {
             code: "switch(foo) { case 0: a();\ndefault: b() }",
             errors: [
                 {
-                    message: "Expected a \"break\" statement before \"default\".",
+                    message: "Expected a 'break' statement before 'default'.",
                     type: "SwitchCase",
                     line: 2,
                     column: 1

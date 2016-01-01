@@ -52,120 +52,120 @@ ruleTester.run("constructor-super", rule, {
         {
             code: "class A { constructor() { super(); } }",
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Unexpected \"super()\".", type: "CallExpression"}]
+            errors: [{ message: "Unexpected 'super()'.", type: "CallExpression"}]
         },
         {
             code: "class A extends null { constructor() { super(); } }",
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Unexpected \"super()\".", type: "CallExpression"}]
+            errors: [{ message: "Unexpected 'super()'.", type: "CallExpression"}]
         },
 
         // derived classes.
         {
             code: "class A extends B { constructor() { } }",
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Expected to call \"super()\".", type: "MethodDefinition"}]
+            errors: [{ message: "Expected to call 'super()'.", type: "MethodDefinition"}]
         },
 
         // nested execution scope.
         {
             code: "class A extends B { constructor() { function c() { super(); } } }",
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Expected to call \"super()\".", type: "MethodDefinition"}]
+            errors: [{ message: "Expected to call 'super()'.", type: "MethodDefinition"}]
         },
         {
             code: "class A extends B { constructor() { var c = function() { super(); } } }",
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Expected to call \"super()\".", type: "MethodDefinition"}]
+            errors: [{ message: "Expected to call 'super()'.", type: "MethodDefinition"}]
         },
         {
             code: "class A extends B { constructor() { var c = () => super(); } }",
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Expected to call \"super()\".", type: "MethodDefinition"}]
+            errors: [{ message: "Expected to call 'super()'.", type: "MethodDefinition"}]
         },
         {
             code: "class A extends B { constructor() { class C extends D { constructor() { super(); } } } }",
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Expected to call \"super()\".", type: "MethodDefinition", column: 21}]
+            errors: [{ message: "Expected to call 'super()'.", type: "MethodDefinition", column: 21}]
         },
         {
             code: "class A extends B { constructor() { var C = class extends D { constructor() { super(); } } } }",
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Expected to call \"super()\".", type: "MethodDefinition", column: 21}]
+            errors: [{ message: "Expected to call 'super()'.", type: "MethodDefinition", column: 21}]
         },
         {
             code: "class A extends B { constructor() { super(); class C extends D { constructor() { } } } }",
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Expected to call \"super()\".", type: "MethodDefinition", column: 66}]
+            errors: [{ message: "Expected to call 'super()'.", type: "MethodDefinition", column: 66}]
         },
         {
             code: "class A extends B { constructor() { super(); var C = class extends D { constructor() { } } } }",
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Expected to call \"super()\".", type: "MethodDefinition", column: 72}]
+            errors: [{ message: "Expected to call 'super()'.", type: "MethodDefinition", column: 72}]
         },
 
         // lacked in some code path.
         {
             code: "class A extends B { constructor() { if (a) super(); } }",
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Lacked a call of \"super()\" in some code paths.", type: "MethodDefinition"}]
+            errors: [{ message: "Lacked a call of 'super()' in some code paths.", type: "MethodDefinition"}]
         },
         {
             code: "class A extends B { constructor() { if (a); else super(); } }",
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Lacked a call of \"super()\" in some code paths.", type: "MethodDefinition"}]
+            errors: [{ message: "Lacked a call of 'super()' in some code paths.", type: "MethodDefinition"}]
         },
         {
             code: "class A extends B { constructor() { a && super(); } }",
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Lacked a call of \"super()\" in some code paths.", type: "MethodDefinition"}]
+            errors: [{ message: "Lacked a call of 'super()' in some code paths.", type: "MethodDefinition"}]
         },
         {
             code: "class A extends B { constructor() { switch (a) { case 0: super(); } } }",
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Lacked a call of \"super()\" in some code paths.", type: "MethodDefinition"}]
+            errors: [{ message: "Lacked a call of 'super()' in some code paths.", type: "MethodDefinition"}]
         },
         {
             code: "class A extends B { constructor() { switch (a) { case 0: break; default: super(); } } }",
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Lacked a call of \"super()\" in some code paths.", type: "MethodDefinition"}]
+            errors: [{ message: "Lacked a call of 'super()' in some code paths.", type: "MethodDefinition"}]
         },
         {
             code: "class A extends B { constructor() { try { super(); } catch (err) {} } }",
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Lacked a call of \"super()\" in some code paths.", type: "MethodDefinition"}]
+            errors: [{ message: "Lacked a call of 'super()' in some code paths.", type: "MethodDefinition"}]
         },
         {
             code: "class A extends B { constructor() { try { a; } catch (err) { super(); } } }",
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Lacked a call of \"super()\" in some code paths.", type: "MethodDefinition"}]
+            errors: [{ message: "Lacked a call of 'super()' in some code paths.", type: "MethodDefinition"}]
         },
         {
             code: "class A extends B { constructor() { if (a) return; super(); } }",
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Lacked a call of \"super()\" in some code paths.", type: "MethodDefinition"}]
+            errors: [{ message: "Lacked a call of 'super()' in some code paths.", type: "MethodDefinition"}]
         },
 
         // duplicate.
         {
             code: "class A extends B { constructor() { super(); super(); } }",
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Unexpected duplicate \"super()\".", type: "CallExpression", column: 46}]
+            errors: [{ message: "Unexpected duplicate 'super()'.", type: "CallExpression", column: 46}]
         },
         {
             code: "class A extends B { constructor() { super() || super(); } }",
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Unexpected duplicate \"super()\".", type: "CallExpression", column: 48}]
+            errors: [{ message: "Unexpected duplicate 'super()'.", type: "CallExpression", column: 48}]
         },
         {
             code: "class A extends B { constructor() { if (a) super(); super(); } }",
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Unexpected duplicate \"super()\".", type: "CallExpression", column: 53}]
+            errors: [{ message: "Unexpected duplicate 'super()'.", type: "CallExpression", column: 53}]
         },
         {
             code: "class A extends B { constructor() { switch (a) { case 0: super(); default: super(); } } }",
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Unexpected duplicate \"super()\".", type: "CallExpression", column: 76}]
+            errors: [{ message: "Unexpected duplicate 'super()'.", type: "CallExpression", column: 76}]
         }
     ]
 });

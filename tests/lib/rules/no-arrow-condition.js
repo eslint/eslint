@@ -66,27 +66,27 @@ ruleTester.run("no-arrow-condition", rule, {
     invalid: [
         {
             code: "if (a => 1) {}",
-            errors: [{ message: "Arrow function `=>` used inside IfStatement instead of comparison operator." }]
+            errors: [{ message: "Arrow function '=>' used inside IfStatement instead of comparison operator." }]
         },
         {
             code: "if ((a) => 1) {}",
-            errors: [{ message: "Arrow function `=>` used inside IfStatement instead of comparison operator." }]
+            errors: [{ message: "Arrow function '=>' used inside IfStatement instead of comparison operator." }]
         },
         {
             code: "while (a => 1) {}",
-            errors: [{ message: "Arrow function `=>` used inside WhileStatement instead of comparison operator." }]
+            errors: [{ message: "Arrow function '=>' used inside WhileStatement instead of comparison operator." }]
         },
         {
             code: "for (var a = 1; a => 10; a++) {}",
-            errors: [{ message: "Arrow function `=>` used inside ForStatement instead of comparison operator." }]
+            errors: [{ message: "Arrow function '=>' used inside ForStatement instead of comparison operator." }]
         },
         {
             code: "(a => 1) ? 2 : 3",
-            errors: [{ message: "Arrow function `=>` used inside ConditionalExpression instead of comparison operator." }]
+            errors: [{ message: "Arrow function '=>' used inside ConditionalExpression instead of comparison operator." }]
         },
         {
             code: "var x = (a => 1) ? 2 : 3",
-            errors: [{ message: "Arrow function `=>` used inside ConditionalExpression instead of comparison operator." }]
+            errors: [{ message: "Arrow function '=>' used inside ConditionalExpression instead of comparison operator." }]
         },
         {
             code: "a => 1 ? 2 : 3",
