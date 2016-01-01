@@ -37,6 +37,16 @@ The following patterns are not considered problems:
 let a; // there is no initialization.
 console.log(a);
 
+// `i` gets a new binding each iteration
+for (const i in [1,2,3]) {
+  console.log(i);
+}
+
+// `a` gets a new binding each iteration
+for (const a of [1,2,3]) {
+  console.log(a);
+}
+
 // `end` is never modified, but we cannot separate the declarations without modifying the scope.
 for (let i = 0, end = 10; i < end; ++i) {
     console.log(a);
