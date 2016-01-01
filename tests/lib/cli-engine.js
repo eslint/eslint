@@ -202,7 +202,7 @@ describe("CLIEngine", function() {
                             {
                                 "ruleId": "no-undef",
                                 "severity": 2,
-                                "message": "\"foo\" is not defined.",
+                                "message": "'foo' is not defined.",
                                 "line": 1,
                                 "column": 11,
                                 "nodeType": "Identifier",
@@ -837,7 +837,7 @@ describe("CLIEngine", function() {
                                 {
                                     column: 18,
                                     line: 1,
-                                    message: "\"foo\" is not defined.",
+                                    message: "'foo' is not defined.",
                                     nodeType: "Identifier",
                                     ruleId: "no-undef",
                                     severity: 2,
@@ -1597,7 +1597,7 @@ describe("CLIEngine", function() {
 
                 var report = engine.executeOnFiles([getFixturePath("processors", "test", "test-processor.txt")]);
 
-                assert.equal(report.results[0].messages[0].message, "\"b\" is defined but never used");
+                assert.equal(report.results[0].messages[0].message, "'b' is defined but never used");
                 assert.equal(report.results[0].messages[0].ruleId, "post-processed");
             });
             it("should run processors when calling executeOnFiles with config file that specifies preloaded processor", function() {
@@ -1627,7 +1627,7 @@ describe("CLIEngine", function() {
 
                 var report = engine.executeOnFiles([getFixturePath("processors", "test", "test-processor.txt")]);
 
-                assert.equal(report.results[0].messages[0].message, "\"b\" is defined but never used");
+                assert.equal(report.results[0].messages[0].message, "'b' is defined but never used");
                 assert.equal(report.results[0].messages[0].ruleId, "post-processed");
             });
             it("should run processors when calling executeOnText with config file that specifies a processor", function() {
@@ -1640,7 +1640,7 @@ describe("CLIEngine", function() {
 
                 var report = engine.executeOnText("function a() {console.log(\"Test\");}", "tests/fixtures/processors/test/test-processor.txt");
 
-                assert.equal(report.results[0].messages[0].message, "\"b\" is defined but never used");
+                assert.equal(report.results[0].messages[0].message, "'b' is defined but never used");
                 assert.equal(report.results[0].messages[0].ruleId, "post-processed");
             });
             it("should run processors when calling executeOnText with config file that specifies preloaded processor", function() {
@@ -1671,7 +1671,7 @@ describe("CLIEngine", function() {
 
                 var report = engine.executeOnText("function a() {console.log(\"Test\");}", "tests/fixtures/processors/test/test-processor.txt");
 
-                assert.equal(report.results[0].messages[0].message, "\"b\" is defined but never used");
+                assert.equal(report.results[0].messages[0].message, "'b' is defined but never used");
                 assert.equal(report.results[0].messages[0].ruleId, "post-processed");
             });
         });

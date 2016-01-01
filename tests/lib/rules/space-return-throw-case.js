@@ -24,17 +24,17 @@ ruleTester.run("space-return-throw-case", rule, {
     invalid: [
         {
             code: "function f(){ return-a; }",
-            errors: [{ message: "Keyword \"return\" must be followed by whitespace.", type: "ReturnStatement" }],
+            errors: [{ message: "Keyword 'return' must be followed by whitespace.", type: "ReturnStatement" }],
             output: "function f(){ return -a; }"
         },
         {
             code: "switch(a){ case'a': break; }",
-            errors: [{ message: "Keyword \"case\" must be followed by whitespace.", type: "SwitchCase" }],
+            errors: [{ message: "Keyword 'case' must be followed by whitespace.", type: "SwitchCase" }],
             output: "switch(a){ case 'a': break; }"
         },
         {
             code: "throw~a",
-            errors: [{ message: "Keyword \"throw\" must be followed by whitespace.", type: "ThrowStatement" }],
+            errors: [{ message: "Keyword 'throw' must be followed by whitespace.", type: "ThrowStatement" }],
             output: "throw ~a"
         }
     ]

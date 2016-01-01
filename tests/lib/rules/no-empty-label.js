@@ -27,6 +27,6 @@ ruleTester.run("no-empty-label", rule, {
         "labeled: switch(i) { case 1: break; default: break; }"
     ],
     invalid: [
-        { code: "labeled: var a = 10;", errors: [{ message: "Unexpected label \"labeled\"", type: "LabeledStatement"}] }
+        { code: "labeled: var a = 10;", errors: [{ message: "Unexpected label 'labeled'", type: "LabeledStatement"}] }
     ]
 });

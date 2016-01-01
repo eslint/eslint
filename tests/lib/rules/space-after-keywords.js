@@ -55,121 +55,121 @@ ruleTester.run("space-after-keywords", rule, {
     invalid: [
         {
             code: "if (a) {} else if(b){}",
-            errors: [{ message: "Keyword \"if\" must be followed by whitespace.", type: "IfStatement" }],
+            errors: [{ message: "Keyword 'if' must be followed by whitespace.", type: "IfStatement" }],
             output: "if (a) {} else if (b){}"
         },
         {
             code: "if (a) {} else{}",
-            errors: [{ message: "Keyword \"else\" must be followed by whitespace." }],
+            errors: [{ message: "Keyword 'else' must be followed by whitespace." }],
             output: "if (a) {} else {}"
         },
         {
             code: "switch(a){ default: break; }",
-            errors: [{ message: "Keyword \"switch\" must be followed by whitespace.", type: "SwitchStatement" }],
+            errors: [{ message: "Keyword 'switch' must be followed by whitespace.", type: "SwitchStatement" }],
             output: "switch (a){ default: break; }"
         },
         {
             code: "if(a){}",
-            errors: [{ message: "Keyword \"if\" must be followed by whitespace.", type: "IfStatement" }],
+            errors: [{ message: "Keyword 'if' must be followed by whitespace.", type: "IfStatement" }],
             output: "if (a){}"
         },
         {
             code: "do{} while (0)",
-            errors: [{ message: "Keyword \"do\" must be followed by whitespace.", type: "DoWhileStatement" }],
+            errors: [{ message: "Keyword 'do' must be followed by whitespace.", type: "DoWhileStatement" }],
             output: "do {} while (0)"
         },
         {
             code: "do ;while(0)",
-            errors: [{ message: "Keyword \"while\" must be followed by whitespace.", type: "DoWhileStatement" }],
+            errors: [{ message: "Keyword 'while' must be followed by whitespace.", type: "DoWhileStatement" }],
             output: "do ;while (0)"
         },
         {
             code: "do ;while((0))",
-            errors: [{ message: "Keyword \"while\" must be followed by whitespace.", type: "DoWhileStatement", line: 1, column: 10 }],
+            errors: [{ message: "Keyword 'while' must be followed by whitespace.", type: "DoWhileStatement", line: 1, column: 10 }],
             output: "do ;while ((0))"
         },
         {
             code: "do (a);while((0))",
-            errors: [{ message: "Keyword \"while\" must be followed by whitespace.", type: "DoWhileStatement" }],
+            errors: [{ message: "Keyword 'while' must be followed by whitespace.", type: "DoWhileStatement" }],
             output: "do (a);while ((0))"
         },
         {
             code: "do (a)\nwhile((0))",
-            errors: [{ message: "Keyword \"while\" must be followed by whitespace.", type: "DoWhileStatement" }],
+            errors: [{ message: "Keyword 'while' must be followed by whitespace.", type: "DoWhileStatement" }],
             output: "do (a)\nwhile ((0))"
         },
         {
             code: "do ((a))\nwhile((0))",
-            errors: [{ message: "Keyword \"while\" must be followed by whitespace.", type: "DoWhileStatement" }],
+            errors: [{ message: "Keyword 'while' must be followed by whitespace.", type: "DoWhileStatement" }],
             output: "do ((a))\nwhile ((0))"
         },
         {
             code: "do;while (0)",
             options: ["never"],
-            errors: [{ message: "Keyword \"while\" must not be followed by whitespace.", type: "DoWhileStatement", line: 1, column: 9 }],
+            errors: [{ message: "Keyword 'while' must not be followed by whitespace.", type: "DoWhileStatement", line: 1, column: 9 }],
             output: "do;while(0)"
         },
         {
             code: "if (a) {}",
             options: ["never"],
-            errors: [{ message: "Keyword \"if\" must not be followed by whitespace.", type: "IfStatement" }],
+            errors: [{ message: "Keyword 'if' must not be followed by whitespace.", type: "IfStatement" }],
             output: "if(a) {}"
         },
         {
             code: "if(a){}else {}",
             options: ["never"],
-            errors: [{ message: "Keyword \"else\" must not be followed by whitespace." }],
+            errors: [{ message: "Keyword 'else' must not be followed by whitespace." }],
             output: "if(a){}else{}"
         },
         {
             code: "if(a){}else if(b){}else {}",
             options: ["never"],
-            errors: [{ message: "Keyword \"else\" must not be followed by whitespace." }],
+            errors: [{ message: "Keyword 'else' must not be followed by whitespace." }],
             output: "if(a){}else if(b){}else{}"
         },
         {
             code: "try{}finally {}",
-            errors: [{ message: "Keyword \"try\" must be followed by whitespace." }],
+            errors: [{ message: "Keyword 'try' must be followed by whitespace." }],
             output: "try {}finally {}"
         },
         {
             code: "try {}finally{}",
-            errors: [{ message: "Keyword \"finally\" must be followed by whitespace." }],
+            errors: [{ message: "Keyword 'finally' must be followed by whitespace." }],
             output: "try {}finally {}"
         },
         {
             code: "try {}catch(e) {}",
-            errors: [{ message: "Keyword \"catch\" must be followed by whitespace." }],
+            errors: [{ message: "Keyword 'catch' must be followed by whitespace." }],
             output: "try {}catch (e) {}"
         },
         {
             code: "try{}finally {}",
             options: ["never"],
-            errors: [{ message: "Keyword \"finally\" must not be followed by whitespace." }],
+            errors: [{ message: "Keyword 'finally' must not be followed by whitespace." }],
             output: "try{}finally{}"
         },
         {
             code: "try{}catch (e) {}",
             options: ["never"],
-            errors: [{ message: "Keyword \"catch\" must not be followed by whitespace." }],
+            errors: [{ message: "Keyword 'catch' must not be followed by whitespace." }],
             output: "try{}catch(e) {}"
         },
         {
             code: "try {}finally{}",
             options: ["never"],
-            errors: [{ message: "Keyword \"try\" must not be followed by whitespace." }],
+            errors: [{ message: "Keyword 'try' must not be followed by whitespace." }],
             output: "try{}finally{}"
         },
         {
             code: "try {}catch(e) {}",
             options: ["never"],
-            errors: [{ message: "Keyword \"try\" must not be followed by whitespace." }],
+            errors: [{ message: "Keyword 'try' must not be followed by whitespace." }],
             output: "try{}catch(e) {}"
         },
         {
             code: "if\n(a) {} else\n{}",
             options: ["never"],
-            errors: [{ message: "Keyword \"if\" must not be followed by whitespace." }, { message: "Keyword \"else\" must not be followed by whitespace." }],
+            errors: [{ message: "Keyword 'if' must not be followed by whitespace." }, { message: "Keyword 'else' must not be followed by whitespace." }],
             output: "if(a) {} else{}"
         }
     ]

@@ -47,11 +47,11 @@ The following patterns are considered problems:
 ```js
 /*eslint key-spacing: [2, {"beforeColon": false, "afterColon": false}]*/
 
-var obj = { foo: 42 };          /*error Extra space before value for key "foo".*/
-var bar = { baz :52 };          /*error Extra space after key "baz".*/
+var obj = { foo: 42 };          /*error Extra space before value for key 'foo'.*/
+var bar = { baz :52 };          /*error Extra space after key 'baz'.*/
 
 foo = { thisLineWouldBeTooLong:
-    soUseAnotherLine };         /*error Extra space before value for key "thisLineWouldBeTooLong".*/
+    soUseAnotherLine };         /*error Extra space before value for key 'thisLineWouldBeTooLong'.*/
 ```
 
 ```js
@@ -59,8 +59,8 @@ foo = { thisLineWouldBeTooLong:
 
 function foo() {
     return {
-        foobar: 42,             /*error Missing space after key "foobar".*/
-        bat :"value"            /*error Missing space before value for key "bat".*/
+        foobar: 42,             /*error Missing space after key 'foobar'.*/
+        bat :"value"            /*error Missing space before value for key 'bat'.*/
     };
 }
 ```
@@ -70,8 +70,8 @@ function foo() {
 
 function foo() {
     return {
-        foobar  : 42,             /*error Extra space after key "foobar".*/
-        bat :  "value"            /*error Extra space before value for key "bat".*/
+        foobar  : 42,             /*error Extra space after key 'foobar'.*/
+        bat :  "value"            /*error Extra space before value for key 'bat'.*/
     };
 }
 ```
@@ -115,9 +115,9 @@ The following patterns are considered problems:
 /*eslint key-spacing: [2, { "align": "value" }]*/
 
 var obj = {
-    a: value,     /*error Missing space before value for key "a".*/
-    bcde:  42,    /*error Extra space before value for key "bcde".*/
-    fg :   foo()  /*error Extra space after key "fg".*/
+    a: value,     /*error Missing space before value for key 'a'.*/
+    bcde:  42,    /*error Extra space before value for key 'bcde'.*/
+    fg :   foo()  /*error Extra space after key 'fg'.*/
 };
 ```
 
@@ -156,9 +156,9 @@ The following patterns are considered problems:
 /*eslint key-spacing: [2, { "align": "colon" }]*/
 
 var obj = {
-    one:   1,  /*error Missing space after key "one".*/ /*error Extra space before value for key "one".*/
+    one:   1,  /*error Missing space after key 'one'.*/ /*error Extra space before value for key 'one'.*/
     "two": 2,
-    three:  3  /*error Extra space before value for key "three".*/
+    three:  3  /*error Extra space before value for key 'three'.*/
 };
 ```
 

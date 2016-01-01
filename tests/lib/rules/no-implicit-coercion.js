@@ -72,18 +72,18 @@ ruleTester.run("no-implicit-coercion", rule, {
         {code: "foo += \"\"", options: [{string: false}]}
     ],
     invalid: [
-        {code: "!!foo", errors: [{message: "use `Boolean(foo)` instead.", type: "UnaryExpression"}]},
-        {code: "!!(foo + bar)", errors: [{message: "use `Boolean(foo + bar)` instead.", type: "UnaryExpression"}]},
-        {code: "~foo.indexOf(1)", errors: [{message: "use `foo.indexOf(1) !== -1` instead.", type: "UnaryExpression"}]},
-        {code: "~foo.bar.indexOf(2)", errors: [{message: "use `foo.bar.indexOf(2) !== -1` instead.", type: "UnaryExpression"}]},
-        {code: "+foo", errors: [{message: "use `Number(foo)` instead.", type: "UnaryExpression"}]},
-        {code: "+foo.bar", errors: [{message: "use `Number(foo.bar)` instead.", type: "UnaryExpression"}]},
-        {code: "1*foo", errors: [{message: "use `Number(foo)` instead.", type: "BinaryExpression"}]},
-        {code: "foo*1", errors: [{message: "use `Number(foo)` instead.", type: "BinaryExpression"}]},
-        {code: "1*foo.bar", errors: [{message: "use `Number(foo.bar)` instead.", type: "BinaryExpression"}]},
-        {code: "\"\"+foo", errors: [{message: "use `String(foo)` instead.", type: "BinaryExpression"}]},
-        {code: "foo+\"\"", errors: [{message: "use `String(foo)` instead.", type: "BinaryExpression"}]},
-        {code: "\"\"+foo.bar", errors: [{message: "use `String(foo.bar)` instead.", type: "BinaryExpression"}]},
-        {code: "foo += \"\"", errors: [{message: "use `foo = String(foo)` instead.", type: "AssignmentExpression"}]}
+        {code: "!!foo", errors: [{message: "use 'Boolean(foo)' instead.", type: "UnaryExpression"}]},
+        {code: "!!(foo + bar)", errors: [{message: "use 'Boolean(foo + bar)' instead.", type: "UnaryExpression"}]},
+        {code: "~foo.indexOf(1)", errors: [{message: "use 'foo.indexOf(1) !== -1' instead.", type: "UnaryExpression"}]},
+        {code: "~foo.bar.indexOf(2)", errors: [{message: "use 'foo.bar.indexOf(2) !== -1' instead.", type: "UnaryExpression"}]},
+        {code: "+foo", errors: [{message: "use 'Number(foo)' instead.", type: "UnaryExpression"}]},
+        {code: "+foo.bar", errors: [{message: "use 'Number(foo.bar)' instead.", type: "UnaryExpression"}]},
+        {code: "1*foo", errors: [{message: "use 'Number(foo)' instead.", type: "BinaryExpression"}]},
+        {code: "foo*1", errors: [{message: "use 'Number(foo)' instead.", type: "BinaryExpression"}]},
+        {code: "1*foo.bar", errors: [{message: "use 'Number(foo.bar)' instead.", type: "BinaryExpression"}]},
+        {code: "\"\"+foo", errors: [{message: "use 'String(foo)' instead.", type: "BinaryExpression"}]},
+        {code: "foo+\"\"", errors: [{message: "use 'String(foo)' instead.", type: "BinaryExpression"}]},
+        {code: "\"\"+foo.bar", errors: [{message: "use 'String(foo.bar)' instead.", type: "BinaryExpression"}]},
+        {code: "foo += \"\"", errors: [{message: "use 'foo = String(foo)' instead.", type: "AssignmentExpression"}]}
     ]
 });

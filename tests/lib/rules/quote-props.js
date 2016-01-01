@@ -74,54 +74,54 @@ ruleTester.run("quote-props", rule, {
     invalid: [{
         code: "({ a: 0 })",
         errors: [{
-            message: "Unquoted property `a` found.", type: "Property"
+            message: "Unquoted property 'a' found.", type: "Property"
         }]
     }, {
         code: "({ 0: '0' })",
         errors: [{
-            message: "Unquoted property `0` found.", type: "Property"
+            message: "Unquoted property '0' found.", type: "Property"
         }]
     }, {
         code: "({ 'a': 0 })",
         options: ["as-needed"],
         errors: [{
-            message: "Unnecessarily quoted property `a` found.", type: "Property"
+            message: "Unnecessarily quoted property 'a' found.", type: "Property"
         }]
     }, {
         code: "({ 'null': 0 })",
         options: ["as-needed"],
         errors: [{
-            message: "Unnecessarily quoted property `null` found.", type: "Property"
+            message: "Unnecessarily quoted property 'null' found.", type: "Property"
         }]
     }, {
         code: "({ 'true': 0 })",
         options: ["as-needed"],
         errors: [{
-            message: "Unnecessarily quoted property `true` found.", type: "Property"
+            message: "Unnecessarily quoted property 'true' found.", type: "Property"
         }]
     }, {
         code: "({ '0': 0 })",
         options: ["as-needed"],
         errors: [{
-            message: "Unnecessarily quoted property `0` found.", type: "Property"
+            message: "Unnecessarily quoted property '0' found.", type: "Property"
         }]
     }, {
         code: "({ '-a': 0, b: 0 })",
         options: ["consistent"],
         errors: [{
-            message: "Inconsistently quoted property `b` found.", type: "ObjectExpression"
+            message: "Inconsistently quoted property 'b' found.", type: "ObjectExpression"
         }]
     }, {
         code: "({ a: 0, 'b': 0 })",
         options: ["consistent"],
         errors: [{
-            message: "Inconsistently quoted property `b` found.", type: "ObjectExpression"
+            message: "Inconsistently quoted property 'b' found.", type: "ObjectExpression"
         }]
     }, {
         code: "({ '-a': 0, b: 0 })",
         options: ["consistent-as-needed"],
         errors: [{
-            message: "Inconsistently quoted property `b` found.", type: "ObjectExpression"
+            message: "Inconsistently quoted property 'b' found.", type: "ObjectExpression"
         }]
     }, {
         code: "({ 'a': 0, 'b': 0 })",
@@ -159,49 +159,49 @@ ruleTester.run("quote-props", rule, {
         code: "({ while: 0, b: 0 })",
         options: ["consistent-as-needed", {keywords: true}],
         errors: [{
-            message: "Properties should be quoted as `while` is a reserved word.", type: "ObjectExpression"
+            message: "Properties should be quoted as 'while' is a reserved word.", type: "ObjectExpression"
         }]
     }, {
         code: "({ while: 0, 'b': 0 })",
         options: ["consistent-as-needed", {keywords: true}],
         errors: [{
-            message: "Properties should be quoted as `while` is a reserved word.", type: "ObjectExpression"
+            message: "Properties should be quoted as 'while' is a reserved word.", type: "ObjectExpression"
         }]
     }, {
         code: "({'if': 0})",
         options: ["as-needed"],
         errors: [{
-            message: "Unnecessarily quoted property `if` found.", type: "Property"
+            message: "Unnecessarily quoted property 'if' found.", type: "Property"
         }]
     }, {
         code: "({'synchronized': 0})",
         options: ["as-needed"],
         errors: [{
-            message: "Unnecessarily quoted property `synchronized` found.", type: "Property"
+            message: "Unnecessarily quoted property 'synchronized' found.", type: "Property"
         }]
     }, {
         code: "({while: 0})",
         options: ["as-needed", {keywords: true}],
         errors: [{
-            message: "Unquoted reserved word `while` used as key.", type: "Property"
+            message: "Unquoted reserved word 'while' used as key.", type: "Property"
         }]
     }, {
         code: "({'unnecessary': 1, if: 0})",
         options: ["as-needed", {keywords: true, unnecessary: false}],
         errors: [{
-            message: "Unquoted reserved word `if` used as key.", type: "Property"
+            message: "Unquoted reserved word 'if' used as key.", type: "Property"
         }]
     }, {
         code: "({1: 1})",
         options: ["as-needed", {numbers: true}],
         errors: [{
-            message: "Unquoted number literal `1` used as key.", type: "Property"
+            message: "Unquoted number literal '1' used as key.", type: "Property"
         }]
     }, {
         code: "({1: 1})",
         options: ["always", {numbers: false}],
         errors: [{
-            message: "Unquoted property `1` found.", type: "Property"
+            message: "Unquoted property '1' found.", type: "Property"
         }]
     }]
 });

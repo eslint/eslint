@@ -37,9 +37,9 @@ The following patterns are considered problems:
 ```js
 /*eslint no-underscore-dangle: 2*/
 
-var foo_;           /*error Unexpected dangling "_" in "foo_".*/
-var __proto__ = {}; /*error Unexpected dangling "_" in "__proto__".*/
-foo._bar();         /*error Unexpected dangling "_" in "_bar".*/
+var foo_;           /*error Unexpected dangling '_' in 'foo_'.*/
+var __proto__ = {}; /*error Unexpected dangling '_' in '__proto__'.*/
+foo._bar();         /*error Unexpected dangling '_' in '_bar'.*/
 ```
 
 The following patterns are not considered problems:

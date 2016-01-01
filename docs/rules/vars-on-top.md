@@ -22,17 +22,17 @@ function doSomething() {
     if (true) {
         first = true;
     }
-    var second;                 /*error All "var" declarations must be at the top of the function scope.*/
+    var second;                 /*error All 'var' declarations must be at the top of the function scope.*/
 }
 
 // Variable declaration in for initializer:
 function doSomething() {
-    for (var i=0; i<10; i++) {} /*error All "var" declarations must be at the top of the function scope.*/
+    for (var i=0; i<10; i++) {} /*error All 'var' declarations must be at the top of the function scope.*/
 }
 
 // Variables after other statements:
 f();
-var a;                          /*error All "var" declarations must be at the top of the function scope.*/
+var a;                          /*error All 'var' declarations must be at the top of the function scope.*/
 ```
 
 The following patterns are not considered problems:

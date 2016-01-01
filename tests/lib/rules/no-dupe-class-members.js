@@ -32,43 +32,43 @@ ruleTester.run("no-dupe-class-members", rule, {
             code: "class A { foo() {} foo() {} }",
             parserOptions: { ecmaVersion: 6 },
             errors: [
-                {type: "MethodDefinition", line: 1, column: 20, message: "Duplicate name \"foo\"."}
+                {type: "MethodDefinition", line: 1, column: 20, message: "Duplicate name 'foo'."}
             ]
         },
         {
             code: "!class A { foo() {} foo() {} };",
             parserOptions: { ecmaVersion: 6 },
             errors: [
-                {type: "MethodDefinition", line: 1, column: 21, message: "Duplicate name \"foo\"."}
+                {type: "MethodDefinition", line: 1, column: 21, message: "Duplicate name 'foo'."}
             ]
         },
         {
             code: "class A { foo() {} foo() {} foo() {} }",
             parserOptions: { ecmaVersion: 6 },
             errors: [
-                {type: "MethodDefinition", line: 1, column: 20, message: "Duplicate name \"foo\"."},
-                {type: "MethodDefinition", line: 1, column: 29, message: "Duplicate name \"foo\"."}
+                {type: "MethodDefinition", line: 1, column: 20, message: "Duplicate name 'foo'."},
+                {type: "MethodDefinition", line: 1, column: 29, message: "Duplicate name 'foo'."}
             ]
         },
         {
             code: "class A { static foo() {} static foo() {} }",
             parserOptions: { ecmaVersion: 6 },
             errors: [
-                {type: "MethodDefinition", line: 1, column: 27, message: "Duplicate name \"foo\"."}
+                {type: "MethodDefinition", line: 1, column: 27, message: "Duplicate name 'foo'."}
             ]
         },
         {
             code: "class A { foo() {} get foo() {} }",
             parserOptions: { ecmaVersion: 6 },
             errors: [
-                {type: "MethodDefinition", line: 1, column: 20, message: "Duplicate name \"foo\"."}
+                {type: "MethodDefinition", line: 1, column: 20, message: "Duplicate name 'foo'."}
             ]
         },
         {
             code: "class A { set foo(value) {} foo() {} }",
             parserOptions: { ecmaVersion: 6 },
             errors: [
-                {type: "MethodDefinition", line: 1, column: 29, message: "Duplicate name \"foo\"."}
+                {type: "MethodDefinition", line: 1, column: 29, message: "Duplicate name 'foo'."}
             ]
         }
     ]
