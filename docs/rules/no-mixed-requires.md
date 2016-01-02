@@ -11,11 +11,11 @@ When this rule is enabled, all `var` statements must satisfy the following condi
 
 ### Options
 
-This rule comes with option called `grouping` which is turned off by default. You can set it in your `eslint.json`:
+This rule comes with two boolean options. Both are turned off by default. You can set those in your `eslint.json`:
 
 ```json
 {
-    "no-mixed-requires": [1, {"grouping": true}]
+    "no-mixed-requires": [1, {"grouping": true, "allowCall": true}]
 }
 ```
 
@@ -99,6 +99,21 @@ var foo = require('foo'),              /*error Do not mix core, module, file and
     bar = require(getBarModuleName());
 ```
 
+The following patterns are not considered problems when `allowCall` is turned on:
+
+```js
+var async = require('async'),
+    debug = require('diagnostics')('my-module'),
+    eslint = require('eslint');
+```
+
+The following patterns are always considered problems regardless of `allowCall`:
+
+```js
+var async = require('async'),
+    debug = require('diagnostics').someFunction('my-module'), /* Allow Call doesn't allow calling any function */
+    eslint = require('eslint');
+```
 
 ## When Not To Use It
 
