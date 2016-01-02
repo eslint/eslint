@@ -97,6 +97,7 @@ An environment defines global variables that are predefined. The available envir
 * `applescript` - AppleScript global variables.
 * `nashorn` - Java 8 Nashorn global variables.
 * `serviceworker` - Service Worker global variables.
+* `atomtest` - Atom test helper globals.
 * `embertest` - Ember test helper globals.
 * `webextensions` - WebExtensions globals.
 * `es6` - enable all ECMAScript 6 features except for modules.

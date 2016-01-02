@@ -84,6 +84,9 @@ module.exports = {
     serviceworker: {
         globals: globals.serviceworker
     },
+    atomtest: {
+        globals: globals.atomtest
+    },
     embertest: {
         globals: globals.embertest
     },
