@@ -51,7 +51,7 @@ module.exports = {
 
 The following rules have been deprecated with new rules created to take their place. The following is a list of the removed rules and their replacements:
 
-* [no-arrow-condition](http://eslint.org/docs/rules/no-arrow-condition) is replaced by a combination of [no-confusing-arrow](http://eslint.org/docs/rules/no-confusing-arrow) and [no-arrow-condition](http://eslint.org/docs/rules/no-arrow-condition). Turn on both of these rules to get the same functionality as `no-arrow-condition`.
+* [no-arrow-condition](http://eslint.org/docs/rules/no-arrow-condition) is replaced by a combination of [no-confusing-arrow](http://eslint.org/docs/rules/no-confusing-arrow) and [no-constant-condition](http://eslint.org/docs/rules/no-constant-condition). Turn on both of these rules to get the same functionality as `no-arrow-condition`.
 
 **To address:** You'll need to update your rule configurations to use the new rules. ESLint v2.0.0 will also warn you when you're using a rule that has been removed and will suggest the replacement rules. Hopefully, this will result in few surprises during the upgrade process.
 
