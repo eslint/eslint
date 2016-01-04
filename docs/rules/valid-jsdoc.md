@@ -188,6 +188,85 @@ By default ESLint requires you to specify `type` for `@return` tag for every doc
 }]
 ```
 
+#### preferType
+
+It will validate all the types from jsdoc with the options setup by the user. Inside the options, key should be what the type you want to check and the value of it should be what the expected type should be. Note that we don't check for spelling mistakes with this option.
+In the example below, it will expect the "object" to start with an uppercase and all the "string" type to start with a lowercase.
+
+```json
+"valid-jsdoc": [2, {
+    "preferType": {
+        "String": "string",
+        "object": "Object",
+        "test": "TesT"
+    }
+}]
+```
+
+The following patterns are considered problems with option `preferType` setup as above:
+
+```js
+/**
+ * Adds two numbers together.
+ * @param {String} num1 The first parameter.
+ * @returns {object} The sum of the two numbers.
+ */
+function foo(param1) {
+    return {a: param1};
+}
+
+/**
+ * Adds two numbers together.
+ * @param {Array<String>} num1 The first parameter.
+ * @param {{1:test}} num2 The second parameter.
+ * @returns {object} The sum of the two numbers.
+ */
+function foo(param1, param2) {
+    return {a: param1};
+}
+
+/**
+ * Adds two numbers together.
+ * @param {String|int} num1 The first parameter.
+ * @returns {object} The sum of the two numbers.
+ */
+function foo(param1) {
+    return {a: param1};
+}
+```
+
+The following patterns are not considered problems with option `preferType` setup as above:
+
+```js
+/**
+ * Adds two numbers together.
+ * @param {string} num1 The first parameter.
+ * @returns {Object} The sum of the two numbers.
+ */
+function foo(param1) {
+    return {a: param1};
+}
+
+/**
+ * Adds two numbers together.
+ * @param {Array<string>} num1 The first parameter.
+ * @param {{1:TesT}} num2 The second parameter.
+ * @returns {Object} The sum of the two numbers.
+ */
+function foo(param1, param2) {
+    return {a: param1};
+}
+
+/**
+ * Adds two numbers together.
+ * @param {string|int} num1 The first parameter.
+ * @returns {Object} The sum of the two numbers.
+ */
+function foo(param1) {
+    return {a: param1};
+}
+```
+
 ## When Not To Use It
 
 If you aren't using JSDoc, then you can safely turn this rule off.
