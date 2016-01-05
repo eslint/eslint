@@ -61,7 +61,9 @@ ruleTester.run("operator-linebreak", rule, {
         {code: "var a;", options: ["none"]},
         {code: "\n1 + 1", options: ["none"]},
         {code: "1 + 1\n", options: ["none"]},
-        {code: "answer = everything ? 42 : foo;", options: ["none"]}
+        {code: "answer = everything ? 42 : foo;", options: ["none"]},
+        {code: "answer = everything \n?\n 42 : foo;", options: [null, { overrides: {"?": "ignore"}}]},
+        {code: "answer = everything ? 42 \n:\n foo;", options: [null, { overrides: {":": "ignore"}}]}
     ],
 
     invalid: [
@@ -362,7 +364,22 @@ ruleTester.run("operator-linebreak", rule, {
                 column: 2
             }]
         },
-
+        {
+            code: "answer = everything\n?\n42\n:\nfoo;",
+            options: ["none"],
+            errors: [{
+                message: util.format(BAD_LN_BRK_MSG, "?"),
+                type: "ConditionalExpression",
+                line: 2,
+                column: 2
+            },
+            {
+                message: util.format(BAD_LN_BRK_MSG, ":"),
+                type: "ConditionalExpression",
+                line: 4,
+                column: 2
+            }]
+        },
         {
             code: "foo +=\n42;\nbar -=\n12\n+ 5;",
             options: ["after", { overrides: {"+=": "none", "+": "before" }}],
@@ -371,6 +388,16 @@ ruleTester.run("operator-linebreak", rule, {
                 type: "AssignmentExpression",
                 line: 1,
                 column: 7
+            }]
+        },
+        {
+            code: "answer = everything\n?\n42\n:\nfoo;",
+            options: ["after", { overrides: {"?": "ignore", ":": "before" }}],
+            errors: [{
+                message: util.format(BAD_LN_BRK_MSG, ":"),
+                type: "ConditionalExpression",
+                line: 4,
+                column: 2
             }]
         }
     ]
