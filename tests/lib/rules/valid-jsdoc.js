@@ -126,6 +126,15 @@ ruleTester.run("valid-jsdoc", rule, {
             code: "/** Foo \n@return Foo\n */\nfunction foo(){}",
             options: [{ requireReturnType: false }]
         },
+        {
+            code:
+                "/**\n" +
+                " * A thing interface. \n" +
+                " * @interface\n" +
+                " */\n" +
+                "function Thing() {}",
+            options: [{ requireReturn: true }]
+        },
 
         // classes
         {
