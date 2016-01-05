@@ -185,6 +185,26 @@ The rule allows you to have even finer-grained control over individual operators
 
 This would override the global setting for that specific operator.
 
+#### `"ignore"` override
+
+This option is only supported using overrides and ignores line breaks on either side of the operator.
+
+While using this setting, the following patterns are not considered problems:
+
+```js
+/*eslint operator-linebreak: [2, "after", { "overrides": { "?": "ignore", ":": "ignore"} }]*/
+
+answer = everything ?
+  42
+  : foo;
+
+answer = everything
+  ?
+  42
+  :
+  foo;
+```
+
 ## When Not To Use It
 
 If your project will not be using a common operator line break style, turn this rule off.
