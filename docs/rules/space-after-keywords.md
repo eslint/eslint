@@ -1,5 +1,7 @@
 # Require or disallow spaces following keywords (space-after-keywords)
 
+**Replacement notice**: This rule was removed in ESLint v2.0 and replaced by [keyword-spacing](keyword-spacing.md) rule.
+
 Some style guides will require or disallow spaces following the certain keywords.
 
 ```js
