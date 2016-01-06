@@ -18,23 +18,23 @@ The following patterns are considered problems:
 
 ```js
 /*eslint no-unused-vars: 2*/
-/*global some_unsed_var */   /*error "some_unsed_var" is defined but never used*/
+/*global some_unsed_var */   /*error 'some_unsed_var' is defined but never used*/
 
 //It checks variables you have defined as global
 some_unsed_var = 42;
 
-var x;                       /*error "x" is defined but never used*/
+var x;                       /*error 'x' is defined but never used*/
 
-var y = 10;                  /*error "y" is defined but never used*/
+var y = 10;                  /*error 'y' is defined but never used*/
 y = 5;
 
 // By default, unused arguments cause warnings.
-(function(foo) {             /*error "foo" is defined but never used*/
+(function(foo) {             /*error 'foo' is defined but never used*/
     return 5;
 })();
 
 // Unused recursive functions also cause warnings.
-function fact(n) {           /*error "fact" is defined but never used*/
+function fact(n) {           /*error 'fact' is defined but never used*/
     if (n < 2) return 1;
     return n * fact(n - 1);
 }
@@ -94,7 +94,7 @@ This option has three settings:
 ```js
 /*eslint no-unused-vars: [2, { "args": "all" }]*/
 
-(function(foo, bar, baz) { /*error "foo" is defined but never used*/ /*error "baz" is defined but never used*/
+(function(foo, bar, baz) { /*error 'foo' is defined but never used*/ /*error 'baz' is defined but never used*/
     return bar;
 })();
 ```
@@ -104,7 +104,7 @@ This option has three settings:
 ```js
 /*eslint no-unused-vars: [2, { "args": "after-used" }]*/
 
-(function(foo, bar, baz) { /*error "baz" is defined but never used*/
+(function(foo, bar, baz) { /*error 'baz' is defined but never used*/
     return bar;
 })();
 ```

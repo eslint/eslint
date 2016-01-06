@@ -37,16 +37,16 @@ The following patterns are considered errors when configured `"never"`:
 
 if (foo) {
     // ...
-} else {}         /*error Unexpected space before keyword "else".*/
+} else {}         /*error Unexpected space before keyword 'else'.*/
 
 do {
 
 }
-while (foo)       /*error Unexpected space before keyword "while".*/
+while (foo)       /*error Unexpected space before keyword 'while'.*/
 
-try {} finally {} /*error Unexpected space before keyword "finally".*/
+try {} finally {} /*error Unexpected space before keyword 'finally'.*/
 
-try {} catch(e) {} /*error Unexpected space before keyword "catch".*/
+try {} catch(e) {} /*error Unexpected space before keyword 'catch'.*/
 ```
 
 The following patterns are not considered errors when configured `"never"`:
@@ -73,14 +73,14 @@ The following patterns are considered errors when configured `"always"`:
 
 if (foo) {
     // ...
-}else {}                           /*error Missing space before keyword "else".*/
+}else {}                           /*error Missing space before keyword 'else'.*/
 
-const foo = 'bar';let baz = 'qux'; /*error Missing space before keyword "let".*/
+const foo = 'bar';let baz = 'qux'; /*error Missing space before keyword 'let'.*/
 
-var foo =function bar () {}        /*error Missing space before keyword "function".*/
+var foo =function bar () {}        /*error Missing space before keyword 'function'.*/
 
 function bar() {
-    if (foo) {return; }            /*error Missing space before keyword "return".*/
+    if (foo) {return; }            /*error Missing space before keyword 'return'.*/
 }
 ```
 

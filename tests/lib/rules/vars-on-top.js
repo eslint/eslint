@@ -173,7 +173,7 @@ ruleTester.run("vars-on-top", rule, {
             ].join("\n"),
             errors: [
                 {
-                    message: "All \"var\" declarations must be at the top of the function scope.",
+                    message: "All 'var' declarations must be at the top of the function scope.",
                     type: "VariableDeclaration"
                 }
             ]
@@ -193,7 +193,7 @@ ruleTester.run("vars-on-top", rule, {
             ].join("\n"),
             errors: [
                 {
-                    message: "All \"var\" declarations must be at the top of the function scope.",
+                    message: "All 'var' declarations must be at the top of the function scope.",
                     type: "VariableDeclaration"
                 }
             ]
@@ -210,7 +210,7 @@ ruleTester.run("vars-on-top", rule, {
             ].join("\n"),
             errors: [
                 {
-                    message: "All \"var\" declarations must be at the top of the function scope.",
+                    message: "All 'var' declarations must be at the top of the function scope.",
                     type: "VariableDeclaration"
                 }
             ]
@@ -225,7 +225,7 @@ ruleTester.run("vars-on-top", rule, {
             ].join("\n"),
             errors: [
                 {
-                    message: "All \"var\" declarations must be at the top of the function scope.",
+                    message: "All 'var' declarations must be at the top of the function scope.",
                     type: "VariableDeclaration"
                 }
             ]
@@ -242,7 +242,7 @@ ruleTester.run("vars-on-top", rule, {
             ].join("\n"),
             errors: [
                 {
-                    message: "All \"var\" declarations must be at the top of the function scope.",
+                    message: "All 'var' declarations must be at the top of the function scope.",
                     type: "VariableDeclaration"
                 }
             ]
@@ -261,7 +261,7 @@ ruleTester.run("vars-on-top", rule, {
             ].join("\n"),
             errors: [
                 {
-                    message: "All \"var\" declarations must be at the top of the function scope.",
+                    message: "All 'var' declarations must be at the top of the function scope.",
                     type: "VariableDeclaration"
                 }
             ]
@@ -280,7 +280,7 @@ ruleTester.run("vars-on-top", rule, {
             ].join("\n"),
             errors: [
                 {
-                    message: "All \"var\" declarations must be at the top of the function scope.",
+                    message: "All 'var' declarations must be at the top of the function scope.",
                     type: "VariableDeclaration"
                 }
             ]
@@ -299,7 +299,7 @@ ruleTester.run("vars-on-top", rule, {
             ].join("\n"),
             errors: [
                 {
-                    message: "All \"var\" declarations must be at the top of the function scope.",
+                    message: "All 'var' declarations must be at the top of the function scope.",
                     type: "VariableDeclaration"
                 }
             ]
@@ -315,7 +315,7 @@ ruleTester.run("vars-on-top", rule, {
             ].join("\n"),
             errors: [
                 {
-                    message: "All \"var\" declarations must be at the top of the function scope.",
+                    message: "All 'var' declarations must be at the top of the function scope.",
                     type: "VariableDeclaration"
                 }
             ]
@@ -331,7 +331,7 @@ ruleTester.run("vars-on-top", rule, {
             ].join("\n"),
             errors: [
                 {
-                    message: "All \"var\" declarations must be at the top of the function scope.",
+                    message: "All 'var' declarations must be at the top of the function scope.",
                     type: "VariableDeclaration"
                 }
             ]
@@ -347,7 +347,7 @@ ruleTester.run("vars-on-top", rule, {
             ].join("\n"),
             errors: [
                 {
-                    message: "All \"var\" declarations must be at the top of the function scope.",
+                    message: "All 'var' declarations must be at the top of the function scope.",
                     type: "VariableDeclaration"
                 }
             ]
@@ -364,7 +364,7 @@ ruleTester.run("vars-on-top", rule, {
             ].join("\n"),
             errors: [
                 {
-                    message: "All \"var\" declarations must be at the top of the function scope.",
+                    message: "All 'var' declarations must be at the top of the function scope.",
                     type: "VariableDeclaration"
                 }
             ]
@@ -382,26 +382,26 @@ ruleTester.run("vars-on-top", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: "All \"var\" declarations must be at the top of the function scope.",
+                    message: "All 'var' declarations must be at the top of the function scope.",
                     type: "VariableDeclaration"
                 }
             ]
         },
         {
             code: "'use strict'; 0; var x; f();",
-            errors: [{message: "All \"var\" declarations must be at the top of the function scope.", type: "VariableDeclaration"}]
+            errors: [{message: "All 'var' declarations must be at the top of the function scope.", type: "VariableDeclaration"}]
         },
         {
             code: "'use strict'; var x; 'directive'; var y; f();",
-            errors: [{message: "All \"var\" declarations must be at the top of the function scope.", type: "VariableDeclaration"}]
+            errors: [{message: "All 'var' declarations must be at the top of the function scope.", type: "VariableDeclaration"}]
         },
         {
             code: "function f() { 'use strict'; 0; var x; f(); }",
-            errors: [{message: "All \"var\" declarations must be at the top of the function scope.", type: "VariableDeclaration"}]
+            errors: [{message: "All 'var' declarations must be at the top of the function scope.", type: "VariableDeclaration"}]
         },
         {
             code: "function f() { 'use strict'; var x; 'directive';  var y; f(); }",
-            errors: [{message: "All \"var\" declarations must be at the top of the function scope.", type: "VariableDeclaration"}]
+            errors: [{message: "All 'var' declarations must be at the top of the function scope.", type: "VariableDeclaration"}]
         }
     ]
 });

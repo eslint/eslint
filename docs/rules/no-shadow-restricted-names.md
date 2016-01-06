@@ -15,13 +15,13 @@ The following patterns are considered problems:
 ```js
 /*eslint no-shadow-restricted-names: 2*/
 
-function NaN(){}       /*error Shadowing of global property "NaN".*/
+function NaN(){}       /*error Shadowing of global property 'NaN'.*/
 
-!function(Infinity){}; /*error Shadowing of global property "Infinity".*/
+!function(Infinity){}; /*error Shadowing of global property 'Infinity'.*/
 
-var undefined;         /*error Shadowing of global property "undefined".*/
+var undefined;         /*error Shadowing of global property 'undefined'.*/
 
-try {} catch(eval){}   /*error Shadowing of global property "eval".*/
+try {} catch(eval){}   /*error Shadowing of global property 'eval'.*/
 ```
 
 The following patterns are not considered problems:

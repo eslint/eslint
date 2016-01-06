@@ -80,8 +80,8 @@ function extractPatterns(patterns, type) {
 //------------------------------------------------------------------------------
 
 var errors = [
-    {message: "Unexpected `this`.", type: "ThisExpression"},
-    {message: "Unexpected `this`.", type: "ThisExpression"}
+    {message: "Unexpected 'this'.", type: "ThisExpression"},
+    {message: "Unexpected 'this'.", type: "ThisExpression"}
 ];
 
 var patterns = [

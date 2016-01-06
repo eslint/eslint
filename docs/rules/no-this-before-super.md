@@ -16,28 +16,28 @@ The following patterns are considered problems:
 
 class A extends B {
     constructor() {
-        this.a = 0;        /*error "this" is not allowed before super()*/
+        this.a = 0;        /*error 'this' is not allowed before 'super()'*/
         super();
     }
 }
 
 class A extends B {
     constructor() {
-        this.foo();        /*error "this" is not allowed before super()*/
+        this.foo();        /*error 'this' is not allowed before 'super()'*/
         super();
     }
 }
 
 class A extends B {
     constructor() {
-        super.foo();       /*error "super" is not allowed before super()*/
+        super.foo();       /*error 'super' is not allowed before 'super()'*/
         super();
     }
 }
 
 class A extends B {
     constructor() {
-        super(this.foo()); /*error "this" is not allowed before super()*/
+        super(this.foo()); /*error 'this' is not allowed before 'super()'*/
     }
 }
 ```

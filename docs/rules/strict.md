@@ -85,14 +85,14 @@ The following patterns are considered problems:
 /*eslint strict: [2, "global"]*/
 
 "use strict";
-"use strict";           /*error Multiple "use strict" directives.*/
+"use strict";           /*error Multiple 'use strict' directives.*/
 
 function foo() {
-    "use strict";       /*error Use the global form of "use strict".*/
+    "use strict";       /*error Use the global form of 'use strict'.*/
 
     return function() {
-        "use strict";   /*error Use the global form of "use strict".*/
-        "use strict";   /*error Use the global form of "use strict".*/
+        "use strict";   /*error Use the global form of 'use strict'.*/
+        "use strict";   /*error Use the global form of 'use strict'.*/
 
         return;
     };
@@ -126,14 +126,14 @@ The following patterns are considered problems:
 ```
 /*eslint strict: [2, "function"]*/
 
-"use strict";           /*error Use the function form of "use strict".*/
+"use strict";           /*error Use the function form of 'use strict'.*/
 
-function foo() {        /*error Use the function form of "use strict".*/
+function foo() {        /*error Use the function form of 'use strict'.*/
     // Missing Use Strict Directive
 
     return function() {
         "use strict";   // Unnecessary; parent should contain a Strict Mode Directive
-        "use strict";   /*error Multiple "use strict" directives.*/
+        "use strict";   /*error Multiple 'use strict' directives.*/
 
         return;
     };

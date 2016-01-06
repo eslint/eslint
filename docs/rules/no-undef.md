@@ -15,8 +15,8 @@ The following code causes 2 warnings, as the globals `someFunction` and `b` have
 ```js
 /*eslint no-undef: 2*/
 
-var a = someFunction();  /*error "someFunction" is not defined.*/
-b = 10;                  /*error "b" is not defined.*/
+var a = someFunction();  /*error 'someFunction' is not defined.*/
+b = 10;                  /*error 'b' is not defined.*/
 ```
 
 In this code, no warnings are generated, since the global variables have been properly declared in a `/*global */` block.
@@ -67,7 +67,7 @@ The following patterns are considered problems with option `typeof` set:
 ```js
 /* eslint no-undef: [2, { typeof: true }] */
 
-if(typeof a === "string"){}      /* error "a" is not defined. */
+if(typeof a === "string"){}      /* error 'a' is not defined. */
 ```
 
 The following patterns are not considered problems with option `typeof` set:

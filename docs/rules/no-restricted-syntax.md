@@ -25,11 +25,11 @@ The following patterns are considered problems:
 ```js
 /* eslint no-restricted-syntax: [2, "FunctionExpression", "WithStatement"] */
 
-with (me) {                       /*error Using "WithStatement" is not allowed.*/
+with (me) {                       /*error Using 'WithStatement' is not allowed.*/
     dontMess();
 }
 
-var doSomething = function () {}; /*error Using "FunctionExpression" is not allowed.*/
+var doSomething = function () {}; /*error Using 'FunctionExpression' is not allowed.*/
 ```
 
 The following patterns are not considered problems:
