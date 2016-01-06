@@ -7,33 +7,32 @@
 
 # ESLint
 
-[Website](http://eslint.org) | [Configuring](http://eslint.org/docs/user-guide/configuring) | [Rules](http://eslint.org/docs/rules/) | [Contributing](http://eslint.org/docs/developer-guide/contributing) | [Twitter](https://twitter.com/geteslint) | [Mailing List](https://groups.google.com/group/eslint)
+[网址](http://eslint.org) | [配置](http://eslint.org/docs/user-guide/configuring) | [Rules](http://eslint.org/docs/rules/) | [贡献者](http://eslint.org/docs/developer-guide/contributing) | [Twitter](https://twitter.com/geteslint) | [Mailing List](https://groups.google.com/group/eslint)
 
-ESLint is a tool for identifying and reporting on patterns found in ECMAScript/JavaScript code. In many ways, it is similar to JSLint and JSHint with a few exceptions:
+ESLint是 ECMAScript/JavaScript 代码中识别和报告特征的工具。很多场合，类似JSLint和JSHint，除了少许区别。
+* ESLint 采用 [Espree](https://github.com/eslint/espree) 作为 JavaScript 解析器.
+* ESLint 采用 AST 评估代码的特征
+* ESLint是完全可配置的，所有单一的规则都是一个插件，你可以实时添加。
 
-* ESLint uses [Espree](https://github.com/eslint/espree) for JavaScript parsing.
-* ESLint uses an AST to evaluate patterns in code.
-* ESLint is completely pluggable, every single rule is a plugin and you can add more at runtime.
+## 安装
 
-## Installation
-
-You can install ESLint using npm:
+采用 npm 安装:
 
     npm install -g eslint
 
-## Usage
+## 用法
 
-If it's your first time using ESLint, you should set up a config file using `--init`:
+如果你第一次使用，采用 `--init` 命令创建配置文件:
 
     eslint --init
 
-After that, you can run ESLint on any JavaScript file:
+然后，你可以在任何JavaScript文件上运行eslint:
 
     eslint test.js test2.js
 
-## Configuration
+## 配置
 
-After running `eslint --init`, you'll have a `.eslintrc` file in your directory. In it, you'll see some rules configured like this:
+运行`eslint --init`后, 你会得到 `.eslintrc` 文件. 打开，你可以看到配置规则如下:
 
 ```json
 {
@@ -44,21 +43,21 @@ After running `eslint --init`, you'll have a `.eslintrc` file in your directory.
 }
 ```
 
-The names `"semi"` and `"quotes"` are the names of [rules](http://eslint.org/docs/rules) in ESLint. The number is the error level of the rule and can be one of the three values:
+ `"semi"` 和 `"quotes"` 是ESLint中[rules](http://eslint.org/docs/rules)规则之一. 数字含义如下：
 
-* `0` - turn the rule off
-* `1` - turn the rule on as a warning (doesn't affect exit code)
-* `2` - turn the rule on as an error (exit code will be 1)
+* `0` - 设规则无效
+* `1` - 设规则为警告 (doesn't affect exit code)
+* `2` - 设规则为错误 (exit code will be 1)
 
-The three error levels allow you fine-grained control over how ESLint applies rules (for more configuration options and details, see the [configuration docs](http://eslint.org/docs/user-guide/configuring)).
+更多可查看配置文件 [configuration docs](http://eslint.org/docs/user-guide/configuring)).
 
-## Sponsors
+## 发起者
 
-* Development is sponsored by [Box](https://box.com)
+*  [Box](https://box.com)
 
-## Team
+## 团队
 
-These folks keep the project moving and are resources for help:
+这些分支让项目保持活力:
 
 * Nicholas C. Zakas ([@nzakas](https://github.com/nzakas)) - project lead
 * Ilya Volodin ([@ilyavolodin](https://github.com/ilyavolodin)) - reviewer
@@ -71,49 +70,47 @@ These folks keep the project moving and are resources for help:
 * Burak Yiğit Kaya ([@byk](https://github.com/byk)) - committer
 * Alberto Rodríguez ([@alberto](https://github.com/alberto)) - committer
 
-## Releases
+## 发布
 
-We have scheduled releases every two weeks on Friday or Saturday.
+我们计划每两周发布一次.
 
-## Frequently Asked Questions
+## 常见问题
 
-### Why don't you like JSHint???
+### 为什么你不喜欢 JSHint???
 
-I do like JSHint. And I like Anton and Rick. Neither of those were deciding factors in creating this tool. The fact is that I've had a dire need for a JavaScript tool with pluggable linting rules. I had hoped JSHint would be able to do this, however after chatting with Anton, I found that the planned plugin infrastructure wasn't going to suit my purpose.
+我确实喜欢 JSHint. 我新号 Anton and Rick. 它们是创建这个工具的重要因素. 事实上我非常需要一个适合JavaScript，可配置的代码校验工具.我希望JSHint可以做到，但和Anton谈完之后，我发现它不能达成我的目标。
 
-### I'm not giving up JSHint for this!
+### 我没有放弃 JSHint。
 
-That's not really a question, but I got it. I'm not trying to convince you that ESLint is better than JSHint. The only thing I know is that ESLint is better than JSHint for what I'm doing. In the off chance you're doing something similar, it might be better for you. Otherwise, keep using JSHint, I'm certainly not going to tell you to stop using it.
+这不是个问题,我还是提一下. 我并非像证明 ESLint 优于 JSHint. 据我所知，ESLint 优于 JSHint仅是因为这是我做的。 In the off chance you're doing something similar, it might be better for you. 否则, 请使用JSHint, 我肯定没有让你不使用它.
 
-### How does ESLint performance compare to JSHint and JSCS?
+### 与JSHint 和 JSCS 相比，ESLint的表现?
 
-ESLint is slower than JSHint, usually 2-3x slower on a single file. This is because ESLint uses Espree to construct an AST before it can evaluate your code whereas JSHint evaluates your code as it's being parsed. The speed is also based on the number of rules you enable; the more rules you enable, the slower the process.
+ESLint 慢于 JSHint, 在一个文件中通常慢2-3倍 . 这是因为ESLint在评估你代码之前，采用Espree构造AST，而JSHint默认你的代码已经解析过了。速度取决于你创建的规则数目，规则越多，速度越慢。
 
-Despite being slower, we believe that ESLint is fast enough to replace JSHint without causing significant pain.
+尽管慢了，我们相信ESLint的速度仍然不会造成大的伤害。
+ESLint 比 JSCS 快, 因为 ESLint 采用单层遍历分析， 而 JSCS 采用查询模式.
 
-ESLint is faster than JSCS, as ESLint uses a single-pass traversal for analysis whereas JSCS using a querying model.
+如果你同时使用JSHint和JSCS，请仅仅使用ESLint，这会更快。
+###  ESLint 仅仅是代码校验，还是支持格式校验 ?
 
-If you are using both JSHint and JSCS on your files, then using just ESLint will be faster.
+ESLint 支持 传统的校验 (查找错误特征) ，同时支持样式检查 (enforcement of conventions). 你可以都使用。
 
-### Is ESLint just linting or does it also check style?
+###  ECMAScript 6 是否支持?
 
-ESLint does both traditional linting (looking for problematic patterns) and style checking (enforcement of conventions). You can use it for both.
+ESLint 全面支持 ECMAScript 6. 默认，是不支持的. 你可以通过配置设定 [配置](http://eslint.org/docs/user-guide/configuring).
 
-### What about ECMAScript 6 support?
+###  ESLint 是否支持 JSX?
 
-ESLint has full support for ECMAScript 6. By default, this support is off. You can enable ECMAScript 6 support through [configuration](http://eslint.org/docs/user-guide/configuring).
+是的, ESLint 天然 支持 解析 JSX syntax (必须在配置中设定 [配置](http://eslint.org/docs/user-guide/configuring).). 需要注意的是，支持 JSX syntax *is not* 和支持 React不完全一样. React 使用了特殊的 JSX 语法， ESLint 不能识别. 如果你使用React，我们推荐使用 [eslint-plugin-react](https://www.npmjs.com/package/eslint-plugin-react) 
 
-### Does ESLint support JSX?
+### ECMAScript 7/2016 ?
 
-Yes, ESLint natively supports parsing JSX syntax (this must be enabled in [configuration](http://eslint.org/docs/user-guide/configuring).). Please note that supporting JSX syntax *is not* the same as supporting React. React applies specific semantics to JSX syntax that ESLint doesn't recognize. We recommend using [eslint-plugin-react](https://www.npmjs.com/package/eslint-plugin-react) if you are using React and want React semantics.
+ESLint 不支持实验性的 ECMAScript 语言特征. 你可以使用 [babel-eslint](https://github.com/babel/babel-eslint) .
 
-### What about ECMAScript 7/2016 and experimental features?
+### 哪里可以获取帮助?
 
-ESLint doesn't natively support experimental ECMAScript language features. You can use [babel-eslint](https://github.com/babel/babel-eslint) to use any option available in Babel.
-
-### Where to ask for help?
-
-Join our [Mailing List](https://groups.google.com/group/eslint) or [Chatroom](https://gitter.im/eslint/eslint)
+加入我们 [Mailing List](https://groups.google.com/group/eslint) or [Chatroom](https://gitter.im/eslint/eslint)
 
 
 [npm-image]: https://img.shields.io/npm/v/eslint.svg?style=flat-square
