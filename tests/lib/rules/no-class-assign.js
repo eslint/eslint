@@ -38,39 +38,39 @@ ruleTester.run("no-class-assign", rule, {
         {
             code: "class A { } A = 0;",
             parserOptions: { ecmaVersion: 6 },
-            errors: [{message: "`A` is a class.", type: "Identifier"}]
+            errors: [{message: "'A' is a class.", type: "Identifier"}]
         },
         {
             code: "class A { } ({A}) = 0;",
             parserOptions: { ecmaVersion: 6 },
-            errors: [{message: "`A` is a class.", type: "Identifier"}]
+            errors: [{message: "'A' is a class.", type: "Identifier"}]
         },
         {
             code: "class A { } ({b: A = 0}) = {};",
             parserOptions: { ecmaVersion: 6 },
-            errors: [{message: "`A` is a class.", type: "Identifier"}]
+            errors: [{message: "'A' is a class.", type: "Identifier"}]
         },
         {
             code: "A = 0; class A { }",
             parserOptions: { ecmaVersion: 6 },
-            errors: [{message: "`A` is a class.", type: "Identifier"}]
+            errors: [{message: "'A' is a class.", type: "Identifier"}]
         },
         {
             code: "class A { b() { A = 0; } }",
             parserOptions: { ecmaVersion: 6 },
-            errors: [{message: "`A` is a class.", type: "Identifier"}]
+            errors: [{message: "'A' is a class.", type: "Identifier"}]
         },
         {
             code: "let A = class A { b() { A = 0; } }",
             parserOptions: { ecmaVersion: 6 },
-            errors: [{message: "`A` is a class.", type: "Identifier"}]
+            errors: [{message: "'A' is a class.", type: "Identifier"}]
         },
         {
             code: "class A { } A = 0; A = 1;",
             parserOptions: { ecmaVersion: 6 },
             errors: [
-                {message: "`A` is a class.", type: "Identifier", line: 1, column: 13},
-                {message: "`A` is a class.", type: "Identifier", line: 1, column: 20}
+                {message: "'A' is a class.", type: "Identifier", line: 1, column: 13},
+                {message: "'A' is a class.", type: "Identifier", line: 1, column: 20}
             ]
         }
     ]

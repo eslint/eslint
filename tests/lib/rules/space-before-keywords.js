@@ -27,7 +27,7 @@ var never = [ "never" ];
  * @private
  */
 function expectedSpacingErrorMessageTpl(keyword) {
-    return "Missing space before keyword \"" + keyword + "\".";
+    return "Missing space before keyword '" + keyword + "'.";
 }
 
 /**
@@ -37,7 +37,7 @@ function expectedSpacingErrorMessageTpl(keyword) {
  * @private
  */
 function expectedNoSpacingErrorMessageTpl(keyword) {
-    return "Unexpected space before keyword \"" + keyword + "\".";
+    return "Unexpected space before keyword '" + keyword + "'.";
 }
 
 ruleTester.run("space-before-keywords", rule, {

@@ -30,10 +30,10 @@ The following patterns are considered problems:
 ```
 /*eslint no-warning-comments: [2, { "terms": ["todo", "fixme", "any other term"], "location": "anywhere" }]*/
 
-// TODO: this                          /*error Unexpected todo comment.*/
-// todo: this too                      /*error Unexpected todo comment.*/
-// Even this: TODO                     /*error Unexpected todo comment.*/
-/*                                     /*error Unexpected todo comment.*/ /*error Unexpected fixme comment.*/ /*Unexpected any other term comment.*/ /*
+// TODO: this                          /*error Unexpected 'todo' comment.*/
+// todo: this too                      /*error Unexpected 'todo' comment.*/
+// Even this: TODO                     /*error Unexpected 'todo' comment.*/
+/*                                     /*error Unexpected 'todo' comment.*/ /*error Unexpected 'fixme' comment.*/ /*Unexpected 'any other term' comment.*/ /*
  * The same goes for this TODO comment
  * Or a fixme
  * as well as any other term
