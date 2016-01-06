@@ -39,6 +39,7 @@ function destructuringTest(code) {
 var ruleTester = new RuleTester();
 ruleTester.run("consistent-this", rule, {
     valid: [
+        { code: "var foo = 42, that = this" },
         { code: "var foo = 42, self = this", options: ["self"] },
         { code: "var self = 42", options: ["that"] },
         { code: "var self", options: ["that"] },
@@ -53,7 +54,7 @@ ruleTester.run("consistent-this", rule, {
         destructuringTest("[foo, bar] = this")
     ],
     invalid: [
-        { code: "var context = this", options: ["that"], errors: [{ message: "Unexpected alias 'context' for 'this'.", type: "VariableDeclarator"}] },
+        { code: "var context = this", errors: [{ message: "Unexpected alias 'context' for 'this'.", type: "VariableDeclarator"}] },
         { code: "var that = this", options: ["self"], errors: [{ message: "Unexpected alias 'that' for 'this'.", type: "VariableDeclarator"}] },
         { code: "var foo = 42, self = this", options: ["that"], errors: [{ message: "Unexpected alias 'self' for 'this'.", type: "VariableDeclarator"}] },
         { code: "var self = 42", options: ["self"], errors: [{ message: "Designated alias 'self' is not assigned to 'this'.", type: "VariableDeclarator"}] },
