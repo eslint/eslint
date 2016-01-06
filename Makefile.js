@@ -716,7 +716,7 @@ target.gensite = function(prereleaseVersion) {
     }
 
     // 13. Create Example Formatter Output Page
-    generateFormatterExamples(getFormatterResults());
+    generateFormatterExamples(getFormatterResults(), prereleaseVersion);
 };
 
 target.publishsite = function() {
