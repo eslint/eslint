@@ -221,6 +221,7 @@ These rules are only relevant to ES6 environments.
 * [no-confusing-arrow](no-confusing-arrow.md) - disallow arrow functions where they could be confused with comparisons
 * [no-const-assign](no-const-assign.md) - disallow modifying variables that are declared using `const`
 * [no-dupe-class-members](no-dupe-class-members.md) - disallow duplicate name in class members
+* [no-new-symbol](no-new-symbol.md) - disallow use of the `new` operator with the `Symbol` object
 * [no-this-before-super](no-this-before-super.md) - disallow use of `this`/`super` before calling `super()` in constructors.
 * [no-var](no-var.md) - require `let` or `const` instead of `var`
 * [no-useless-constructor](no-useless-constructor.md) - disallow unnecessary constructor
