@@ -68,6 +68,7 @@
         "no-new-func": 0,
         "no-new-object": 0,
         "no-new-require": 0,
+        "no-new-symbol": 0,
         "no-new-wrappers": 0,
         "no-obj-calls": 2,
         "no-octal": 2,
