@@ -29,7 +29,9 @@ var valid = [
     { code: "require('y');" },
     { code: "function x(){}\n\n\nx();\n\n\nif (x > y) {\n\tdoSomething()\n\n}\n\nvar x = require('y').foo;" },
     { code: "var logger = require(DEBUG ? 'dev-logger' : 'logger');" },
-    { code: "var logger = DEBUG ? require('dev-logger') : require('logger');" }
+    { code: "var logger = DEBUG ? require('dev-logger') : require('logger');" },
+    { code: "function localScopedRequire(require) { require('y'); }" },
+    { code: "var someFunc = require('./someFunc'); someFunc(function(require) { return('bananas'); });" }
 ];
 
 var message = "Unexpected require().";
