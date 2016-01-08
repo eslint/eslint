@@ -16,8 +16,8 @@ var assert = require("chai").assert,
     proxyquire = require("proxyquire"),
     sinon = require("sinon"),
     leche = require("leche"),
-    rules = require("../../lib/rules"),
     Config = require("../../lib/config"),
+    Plugins = require("../../lib/config/plugins"),
     fs = require("fs"),
     os = require("os"),
     crypto = require("crypto");
@@ -42,10 +42,6 @@ describe("CLIEngine", function() {
         originalDir = process.cwd(),
         fixtureDir;
 
-    requireStubs[examplePluginName] = examplePlugin;
-    requireStubs[examplePluginNameWithNamespace] = examplePlugin;
-    requireStubs[examplePreprocessorName] = require("../fixtures/processors/custom-processor");
-
     /**
      * Returns the path inside of the fixture directory.
      * @returns {string} The path inside the fixture directory.
@@ -69,6 +65,10 @@ describe("CLIEngine", function() {
         mkdir("-p", fixtureDir);
         cp("-r", "./tests/fixtures/.", fixtureDir);
         fixtureDir = fs.realpathSync(fixtureDir);
+        Plugins.testReset();
+        Plugins.define(examplePluginName, examplePlugin);
+        Plugins.define(examplePluginNameWithNamespace, examplePlugin);
+        Plugins.define(examplePreprocessorName, require("../fixtures/processors/custom-processor"));
     });
 
     beforeEach(function() {
@@ -77,6 +77,7 @@ describe("CLIEngine", function() {
 
     after(function() {
         rm("-r", fixtureDir);
+        Plugins.testReset();
     });
 
     describe("executeOnText()", function() {
@@ -1225,24 +1226,6 @@ describe("CLIEngine", function() {
                 assert.equal(report.results[0].messages.length, 2);
                 assert.equal(report.results[0].messages[0].ruleId, "example/example-rule");
             });
-
-            it("should import the same plugin only once if it is configured multiple times", sinon.test(/* @this sinon.sandbox */function() {
-                var importPlugin = this.spy(rules, "import");
-
-                engine = new CLIEngine({
-                    cwd: path.join(fixtureDir, ".."),
-                    configFile: getFixturePath("configurations/plugins-with-prefix.json"),
-                    useEslintrc: false
-                });
-
-                var filePath = getFixturePath("rules", "test", "test-custom-rule.js");
-
-                engine.executeOnFiles([filePath]);
-                engine.executeOnFiles([filePath]);
-
-                assert.equal(importPlugin.calledOnce, true, "same plugin was imported more than once");
-                assert.equal(importPlugin.calledWithExactly(examplePlugin.rules, "example"), true);
-            }));
 
             it("should return two messages when executing with cli option that specifies a plugin", function() {
                 engine = new CLIEngine({

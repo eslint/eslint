@@ -1700,6 +1700,7 @@ describe("eslint", function() {
     });
 
     describe("when evaluating code with comments to disable and enable configurable rule as part of plugin", function() {
+
         eslint.defineRule("test-plugin/test-rule", function(context) {
             return {
                 "Literal": function(node) {
@@ -1710,7 +1711,7 @@ describe("eslint", function() {
             };
         });
 
-        it("should not report a violation", function() {
+        it("should not report a violation when inline comment enables plugin rule and there's no violation", function() {
             var config = { rules: {} };
             var code = "/*eslint test-plugin/test-rule: 2*/ var a = \"no violation\";";
 
@@ -1719,7 +1720,7 @@ describe("eslint", function() {
             assert.equal(messages.length, 0);
         });
 
-        it("should not report a violation", function() {
+        it("should not report a violation when inline comment disables plugin rule", function() {
             var code = "/*eslint test-plugin/test-rule:0*/ var a = \"trigger violation\"";
             var config = { rules: { "test-plugin/test-rule": 1 } };
 

@@ -81,6 +81,7 @@ An environment defines global variables that are predefined. The available envir
 * `browser` - browser global variables.
 * `node` - Node.js global variables and Node.js scoping.
 * `commonjs` - CommonJS global variables and CommonJS scoping (use this for browser-only code that uses Browserify/WebPack).
+* `es6` - enable all ECMAScript 6 features except for modules.
 * `worker` - web workers global variables.
 * `amd` - defines `require()` and `define()` as global variables as per the [amd](https://github.com/amdjs/amdjs-api/wiki/AMD) spec.
 * `mocha` - adds all of the Mocha testing global variables.
@@ -100,7 +101,6 @@ An environment defines global variables that are predefined. The available envir
 * `atomtest` - Atom test helper globals.
 * `embertest` - Ember test helper globals.
 * `webextensions` - WebExtensions globals.
-* `es6` - enable all ECMAScript 6 features except for modules.
 * `greasemonkey` - GreaseMonkey globals.
 
 These environments are not mutually exclusive, so you can define more than one at a time.
@@ -148,6 +148,42 @@ And in YAML:
   env:
     browser: true
     node: true
+```
+
+If you want to use an environment from a plugin, be sure to specify the plugin name in the `plugins` array and the use the unprefixed plugin name, followed by a slash, followed by the environment name. For example:
+
+```json
+{
+    "plugins": ["example"],
+    "env": {
+        "example/custom": true
+    }
+}
+```
+
+Or in a `package.json` file
+
+```json
+{
+    "name": "mypackage",
+    "version": "0.0.1",
+    "eslintConfig": {
+        "plugins": ["example"],
+        "env": {
+            "example/custom": true
+        }
+    }
+}
+```
+
+And in YAML:
+
+```yaml
+---
+  plugins:
+    - example
+  env:
+    example/custom: true
 ```
 
 ## Specifying Globals

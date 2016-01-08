@@ -265,7 +265,6 @@ ESLint 2.0.0 removes these conflicting defaults, and so you may begin seeing lin
 [`no-multiple-empty-lines`]: ../rules/no-multiple-empty-lines
 [`func-style`]: ../rules/func-style
 
-
 ## SourceCode constructor (Node API) changes
 
 `SourceCode` constructor got to handle Unicode BOM.
@@ -291,4 +290,10 @@ var sourceCode = new SourceCode(text, ast);
 
 ## Rule Changes
 
-* [strict](strict.md) - defaults to `"safe"`
+* [`strict`](../rules/strict.md) - defaults to `"safe"` (previous default was `"function"`)
+
+## Plugins No Longer Have Default Configurations
+
+Prior to v2.0.0, plugins could specify a `rulesConfig` for the plugin. The `rulesConfig` would automatically be applied whenever someone uses the plugin, which is the opposite of what ESLint does in every other situation (where nothing is on by default). To bring plugins behavior in line, we have removed support for `rulesConfig` in plugins.
+
+**To address:** If you are using a plugin in your configuration file, you will need to manually enable the plugin rules in the configuration file.

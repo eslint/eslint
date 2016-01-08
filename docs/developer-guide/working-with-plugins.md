@@ -8,7 +8,7 @@ The easiest way to start creating a plugin is to use the [Yeoman generator](http
 
 ### Rules in Plugins
 
-If your plugin has rules, then it must export an object with a `rules` property. This `rules` property should be an object containing a key-value mapping of rule ID to rule. The rule ID does not have to follow any naming convention (so it can just be `dollar-sign`, for instance).
+Plugins can expose additional rules for use in ESLint. To do so, the plugin must export a `rules` object containing a key-value mapping of rule ID to rule. The rule ID does not have to follow any naming convention (so it can just be `dollar-sign`, for instance).
 
 ```js
 module.exports = {
@@ -19,6 +19,32 @@ module.exports = {
     }
 };
 ```
+
+To use the rule in ESLint, you would use the unprefixed plugin name, followed by a slash, followed by the rule name. So if this plugin were named `eslint-plugin-myplugin`, then you would set the environment in your configuration to be `"myplugin/dollar-sign"`.
+
+
+### Environments in Plugins
+
+Plugins can expose additional environments for use in ESLint. To do so, the plugin must export an `environments` object. The keys of the `environments` object are the names of the different environments provided and the values are the environment settings. For example:
+
+```js
+module.exports = {
+    environments: {
+        jquery: {
+            globals: {
+                $: false
+            }
+        }
+    }
+};
+```
+
+There's a `jquery` environment defined in this plugin. To use the environment in ESLint, you would use the unprefixed plugin name, followed by a slash, followed by the environment name. So if this plugin were named `eslint-plugin-myplugin`, then you would set the environment in your configuration to be `"myplugin/jquery"`.
+
+Plugin environments can define the following objects:
+
+1. `globals` - acts the same `globals` in a configuration file. The keys are the names of the globals and the values are `true` to allow the global to be overwritten and `false` to disallow.
+1. `parserOptions` - acts the same as `parserOptions` in a configuration file.
 
 ### Processors in Plugins
 
@@ -57,25 +83,6 @@ array corresponds to the part that was returned from the `preprocess` method. Th
 
 You can have both rules and processors in a single plugin. You can also have multiple processors in one plugin.
 To support multiple extensions, add each one to the `processors` element and point them to the same object.
-
-### Default Configuration for Plugins
-
-You can provide default configuration for the rules included in your plugin by modifying
-exported object to include `rulesConfig` property. `rulesConfig` follows the same pattern as
-you would use in your .eslintrc config `rules` property, but without plugin name as a prefix.
-
-```js
-module.exports = {
-    rules: {
-        "myFirstRule": require("./lib/rules/my-first-rule"),
-        "mySecondRule": require("./lib/rules/my-second-rule")
-    },
-    rulesConfig: {
-        "myFirstRule": 1,
-        "mySecondRule": [2, "on"]
-    }
-};
-```
 
 ### Peer Dependency
 
