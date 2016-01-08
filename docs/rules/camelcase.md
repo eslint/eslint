@@ -54,6 +54,8 @@ var foo = bar.baz_boom;
 var foo = { qux: bar.baz_boom };
 
 obj.do_something();
+
+var { category_id: category } = query;
 ```
 
 
