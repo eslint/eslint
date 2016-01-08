@@ -56,6 +56,15 @@ ruleTester.run("camelcase", rule, {
         {
             code: "obj.foo_bar = function(){};",
             options: [{properties: "never"}]
+        },
+        {
+            code: "var { category_id: category } = query;",
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var { category_id: category } = query;",
+            parserOptions: { ecmaVersion: 6 },
+            options: [{properties: "never"}]
         }
     ],
     invalid: [
@@ -178,7 +187,26 @@ ruleTester.run("camelcase", rule, {
                     type: "Identifier"
                 }
             ]
+        },
+        {
+            code: "var { category_id: category_id } = query;",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    message: "Identifier 'category_id' is not in camel case.",
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "var { category_id } = query;",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    message: "Identifier 'category_id' is not in camel case.",
+                    type: "Identifier"
+                }
+            ]
         }
-
     ]
 });
