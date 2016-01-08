@@ -828,7 +828,7 @@ describe("CLIEngine", function() {
                     }
                 });
 
-                var report = engine.executeOnFiles([fixtureDir + "/fixmode"]);
+                var report = engine.executeOnFiles([path.resolve(fixtureDir, fixtureDir + "/fixmode")]);
                 report.results.forEach(convertCRLF);
                 assert.deepEqual(report, {
                     "results": [
