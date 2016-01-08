@@ -97,16 +97,19 @@ describe("ConfigOps", function() {
         });
 
         it("should return correct config for env with no globals", function() {
-            var stubbedConfigOps = proxyquire("../../../lib/config/config-ops", {
-                "../../conf/environments": {
-                    test: {
-                        parserOptions: {
-                            modules: true
-                        }
+            var StubbedConfigOps = proxyquire("../../../lib/config/config-ops", {
+                "./environments": {
+                    get: function() {
+                        return {
+                            parserOptions: {
+                                sourceType: "module"
+                            }
+                        };
                     }
                 }
             });
-            var config = stubbedConfigOps.createEnvironmentConfig({ test: true });
+
+            var config = StubbedConfigOps.createEnvironmentConfig({ test: true });
             assert.deepEqual(config, {
                 globals: {},
                 env: {
@@ -114,7 +117,7 @@ describe("ConfigOps", function() {
                 },
                 rules: {},
                 parserOptions: {
-                    modules: true
+                    sourceType: "module"
                 }
             });
         });

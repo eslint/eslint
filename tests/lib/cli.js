@@ -1,6 +1,8 @@
 /**
  * @fileoverview Tests for cli.
  * @author Ian Christian Myers
+ * @copyright 2013 Ian Christian Meyers. All rights reserved.
+ * See LICENSE file in root directory for full license.
  */
 
 "use strict";
@@ -620,23 +622,12 @@ describe("cli", function() {
 
     describe("when supplied with a plugin", function() {
 
-        it("should apply the plugin rules", function() {
-            var filePath = getFixturePath("rules", "test", "test-custom-rule.js"),
-                examplePluginName = "eslint-plugin-example",
-                requireStubs = {},
-                examplePlugin = { rules: { "cli-example-rule": require(getFixturePath("rules", "custom-rule.js")) } },
-                exampleRuleConfig = "'example/cli-example-rule: 2'";
+        it("should pass plugins to CLIEngine", function() {
+            var examplePluginName = "eslint-plugin-example";
 
-            requireStubs["./logging"] = log;
-            requireStubs[examplePluginName] = examplePlugin;
-            requireStubs[examplePluginName]["@global"] = true;
-
-            cli = proxyquire("../../lib/cli", requireStubs);
-            var exit = cli.execute("--no-ignore --plugin " + examplePluginName + " --rule " + exampleRuleConfig + " " + filePath);
-
-            assert.isTrue(log.info.calledOnce);
-            assert.include(log.info.getCall(0).args[0], "Identifier cannot be named 'foo'");
-            assert.equal(exit, 1);
+            verifyCLIEngineOpts("--no-ignore --plugin " + examplePluginName + " foo.js", {
+                plugins: [examplePluginName]
+            });
         });
 
     });
