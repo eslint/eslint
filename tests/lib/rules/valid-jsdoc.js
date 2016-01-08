@@ -326,6 +326,59 @@ ruleTester.run("valid-jsdoc", rule, {
             }]
         },
         {
+            code: "/**\n* Foo\n* @param {string} p \n*/\nvar foo = function(){}",
+            errors: [{
+                message: "Missing JSDoc parameter description for 'p'.",
+                type: "Block"
+            }, {
+                message: "Missing JSDoc @returns for function.",
+                type: "Block"
+            }]
+        },
+        {
+            code: "/**\n* Foo\n* @param {string} p \n*/\nvar foo = \nfunction(){}",
+            errors: [{
+                message: "Missing JSDoc parameter description for 'p'.",
+                type: "Block"
+            }, {
+                message: "Missing JSDoc @returns for function.",
+                type: "Block"
+            }]
+        },
+        {
+            code:
+            "/**\n" +
+            " * Description for a\n" +
+            " */\n" +
+            "var A = \n" +
+            "  class {\n" +
+            "    /**\n" +
+            "     * Description for constructor.\n" +
+            "     * @param {object[]} xs - xs\n" +
+            "     */\n" +
+            "    constructor(xs) {\n" +
+            "        this.a = xs;" +
+            "    }\n" +
+            "};",
+            options: [{
+                requireReturn: true,
+                "matchDescription": "^[A-Z][A-Za-z0-9\\s]*[.]$"
+            }],
+            errors: [
+                {
+                    message: "JSDoc description does not satisfy the regex pattern.",
+                    type: "Block"
+                },
+                {
+                    message: "Missing JSDoc @returns for function.",
+                    type: "Block"
+                }
+            ],
+            parserOptions: {
+                ecmaVersion: 6
+            }
+        },
+        {
             code: "/**\n* Foo\n* @returns {string} \n*/\nfunction foo(){}",
             errors: [{
                 message: "Missing JSDoc return description.",
