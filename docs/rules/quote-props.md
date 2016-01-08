@@ -155,7 +155,7 @@ var object3 = {
 };
 ```
 
-When the `"as-needed"` mode is selected, an additional `keywords` option can be provided. This flag indicates whether language keywords can be used unquoted as properties. By default it is set to `false`.
+When the `"as-needed"` mode is selected, an additional `keywords` option can be provided. This flag indicates whether language keywords should be quoted as properties. By default it is set to `false`.
 
 ```json
 {
