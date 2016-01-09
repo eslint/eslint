@@ -655,6 +655,96 @@ describe("SourceCode", function() {
             assert.isTrue(spy.calledOnce, "Event handler should be called.");
         });
 
+        it("should not get JSDoc comment for class method even if the class has jsdoc present", function() {
+
+            var code = [
+                "/** Merges two objects together.*/",
+                "var A = class {",
+                "    constructor(xs) {}",
+                "};"
+            ].join("\n");
+
+            /**
+             * Check jsdoc presence
+             * @param {ASTNode} node not to check
+             * @returns {void}
+             * @private
+             */
+            function assertJSDoc(node) {
+                var sourceCode = eslint.getSourceCode();
+                var jsdoc = sourceCode.getJSDocComment(node);
+                assert.isNull(jsdoc);
+            }
+
+            var spy = sandbox.spy(assertJSDoc);
+
+            eslint.on("FunctionExpression", spy);
+            eslint.verify(code, { rules: {}, parserOptions: { ecmaVersion: 6 }}, filename, true);
+            assert.isTrue(spy.calledOnce, "Event handler should be called.");
+        });
+
+        it("should get JSDoc comment for function expression even if function has blank lines on top", function() {
+
+            var code = [
+                "/** Merges two objects together.*/",
+                "var A = ",
+                " ",
+                " ",
+                " ",
+                "     function() {",
+                "};"
+            ].join("\n");
+
+            /**
+             * Check jsdoc presence
+             * @param {ASTNode} node not to check
+             * @returns {void}
+             * @private
+             */
+            function assertJSDoc(node) {
+                var sourceCode = eslint.getSourceCode();
+                var jsdoc = sourceCode.getJSDocComment(node);
+                assert.equal(jsdoc.type, "Block");
+                assert.equal(jsdoc.value, "* Merges two objects together.");
+            }
+
+            var spy = sandbox.spy(assertJSDoc);
+
+            eslint.on("FunctionExpression", spy);
+            eslint.verify(code, { rules: {}, parserOptions: { ecmaVersion: 6 }}, filename, true);
+            assert.isTrue(spy.calledOnce, "Event handler should be called.");
+        });
+
+        it("should not get JSDoc comment for function declaration when the function has blank lines on top", function() {
+
+            var code = [
+                "/** Merges two objects together.*/",
+                " ",
+                " ",
+                " ",
+                "function test() {",
+                "};"
+            ].join("\n");
+
+            /**
+             * Check jsdoc presence
+             * @param {ASTNode} node not to check
+             * @returns {void}
+             * @private
+             */
+            function assertJSDoc(node) {
+                var sourceCode = eslint.getSourceCode();
+                var jsdoc = sourceCode.getJSDocComment(node);
+                assert.isNull(jsdoc);
+            }
+
+            var spy = sandbox.spy(assertJSDoc);
+
+            eslint.on("FunctionDeclaration", spy);
+            eslint.verify(code, { rules: {}, parserOptions: { ecmaVersion: 6 }}, filename, true);
+            assert.isTrue(spy.calledOnce, "Event handler should be called.");
+        });
+
     });
 
     describe("getComments()", function() {
