@@ -69,7 +69,7 @@ var NODE = "node ", // intentional extra space
     ISSUE_REGEX = /\((?:fixes|refs) #\d+(?:.*(?:fixes|refs) #\d+)*\)$/,
 
     // Settings
-    MOCHA_TIMEOUT = 4000;
+    MOCHA_TIMEOUT = 10000;
 
 //------------------------------------------------------------------------------
 // Helpers
