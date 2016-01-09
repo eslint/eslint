@@ -1,5 +1,6 @@
 [![NPM version][npm-image]][npm-url]
 [![build status][travis-image]][travis-url]
+[![Build status][appveyor-image]][appveyor-url]
 [![Test coverage][coveralls-image]][coveralls-url]
 [![Downloads][downloads-image]][downloads-url]
 [![Bountysource](https://www.bountysource.com/badge/tracker?tracker_id=282608)](https://www.bountysource.com/trackers/282608-eslint?utm_source=282608&utm_medium=shield&utm_campaign=TRACKER_BADGE)
@@ -120,6 +121,8 @@ Join our [Mailing List](https://groups.google.com/group/eslint) or [Chatroom](ht
 [npm-url]: https://www.npmjs.com/package/eslint
 [travis-image]: https://img.shields.io/travis/eslint/eslint/master.svg?style=flat-square
 [travis-url]: https://travis-ci.org/eslint/eslint
+[appveyor-image]: https://ci.appveyor.com/api/projects/status/iwxmiobcvbw3b0av/branch/master?svg=true
+[appveyor-url]: https://ci.appveyor.com/project/nzakas/eslint/branch/master
 [coveralls-image]: https://img.shields.io/coveralls/eslint/eslint/master.svg?style=flat-square
 [coveralls-url]: https://coveralls.io/r/eslint/eslint?branch=master
 [downloads-image]: https://img.shields.io/npm/dm/eslint.svg?style=flat-square
