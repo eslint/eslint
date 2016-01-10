@@ -129,8 +129,14 @@ ruleTester.run("no-extra-parens", rule, {
         "[a, b]",
         "!{a: 0, b: 1}",
 
+        // ExpressionStatement restricted productions
+        "({});",
+        "(function(){});",
+        "(let[a] = b);",
+        { code: "(function*(){});", parserOptions: { ecmaVersion: 6 } },
+        { code: "(class{});", parserOptions: { ecmaVersion: 6 } },
+
         // special cases
-        "(a + b) * (c + d) == e",
         "(0).a",
         "(function(){ }())",
         "({a: function(){}}.a());",
@@ -282,9 +288,7 @@ ruleTester.run("no-extra-parens", rule, {
         invalid("(0.0).a", "Literal"),
         invalid("(0xBEEF).a", "Literal"),
         invalid("(1e6).a", "Literal"),
-        invalid("({foo: 1})", "ObjectExpression"),
         invalid("a[(function() {})]", "FunctionExpression"),
-        invalid("(function(){})", "FunctionExpression"),
         invalid("new (function(){})", "FunctionExpression"),
         invalid("new (\nfunction(){}\n)", "FunctionExpression", 1),
         invalid("((function foo() {return 1;}))()", "FunctionExpression"),
