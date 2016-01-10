@@ -20,7 +20,7 @@
   "homepage": "http://eslint.org",
   "bugs": "https://github.com/eslint/eslint/issues/",
   "dependencies": {
-    "js-yaml": "^3.4.3"
+    "js-yaml": "^3.5.1"
   },
   "keywords": [
     "eslintconfig",
