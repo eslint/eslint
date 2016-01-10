@@ -62,7 +62,7 @@ ruleTester.run("padded-blocks", rule, {
                 {
                     message: ALWAYS_MESSAGE,
                     line: 5,
-                    column: 2
+                    column: 1
                 }
             ]
         },
@@ -72,7 +72,7 @@ ruleTester.run("padded-blocks", rule, {
                 {
                     message: ALWAYS_MESSAGE,
                     line: 5,
-                    column: 2
+                    column: 1
                 }
             ]
         },
