@@ -1341,6 +1341,31 @@ describe("Config", function() {
                 assert.deepEqual(actual, expected);
             });
 
+            it("should ignore the personal config if config is passed through cli", function() {
+                var configPath = path.resolve(__dirname, "..", "fixtures", "configurations", "quotes-error.json");
+                var projectPath = getFixturePath("personal-config", "project-without-config"),
+                    homePath = getFixturePath("personal-config", "home-folder"),
+                    filePath = getFixturePath("personal-config", "project-without-config", "foo.js");
+
+                getCwd.returns(projectPath);
+
+                var StubbedConfig = proxyquire("../../lib/config", { "user-home": homePath });
+
+                var config = new StubbedConfig({ configFile: configPath, cwd: process.cwd() }),
+                    actual = config.getConfig(filePath),
+                    expected = {
+                        parserOptions: {},
+                        env: {},
+                        globals: {},
+                        parser: void 0,
+                        rules: {
+                            "quotes": [2, "double"]
+                        }
+                    };
+
+                assert.deepEqual(actual, expected);
+            });
+
             it("should have an empty config if no local config and no personal config was found", function() {
                 var projectPath = getFixturePath("personal-config", "project-without-config"),
                     homePath = getFixturePath("personal-config", "folder-does-not-exist"),
