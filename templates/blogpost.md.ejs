@@ -10,13 +10,14 @@ tags:
 We just pushed ESLint <%- version %>, which is a <%- releaseType %> release upgrade of ESLint. This release <% if (releaseType !== "patch") { %>adds some new features<% } if (releaseType === "major") { %>, including some breaking changes, and<% } %> fixes several bugs found in the previous release.
 
 <%
-function createIssueLink(line) {
-    return line.replace(/#(\d+)/g, "[#$1](https://github.com/eslint/eslint/issues/$1)");
+function linkify(line) {
+    line = line.replace(/#(\d+)/g, "[#$1](https://github.com/eslint/eslint/issues/$1)");
+    return line.replace(/([a-z0-9]+)/, "[#$1](https://github.com/eslint/eslint/commit/$1)");
 }
 
 function outputList(items) {
     items.forEach(function(line) {%>
-<%- createIssueLink(line) %><%
+<%- linkify(line) %><%
     });
 }
 
