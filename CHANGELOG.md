@@ -1,4 +1,4 @@
-vv2.0.0-beta.1 - January 11, 2016
+v2.0.0-beta.1 - January 11, 2016
 
 * 6c70d84 Build: Fix prerelease script (fixes #4919) (Nicholas C. Zakas)
 * d5c9435 New: 'sort-imports' rule (refs #3143) (Christian Schuller)
