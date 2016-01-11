@@ -283,6 +283,11 @@ function release() {
  */
 function prerelease(version) {
 
+    if (!version) {
+        echo("Missing prerelease version.");
+        exit(1);
+    }
+
     echo("Updating dependencies");
     exec("npm install && npm prune");
 
@@ -294,7 +299,6 @@ function prerelease(version) {
 
     // override the version for prereleases
     releaseInfo.version = version[0] === "v" ? version : "v" + version;
-
     echo("Release is " + releaseInfo.version);
 
     echo("Generating changelog");
@@ -1126,6 +1130,6 @@ target.major = function() {
     release("major");
 };
 
-target.prerelease = function(version) {
-    prerelease(version);
+target.prerelease = function(args) {
+    prerelease(args[0]);
 };
