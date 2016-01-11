@@ -185,6 +185,7 @@
         "semi": 0,
         "semi-spacing": 0,
         "sort-vars": 0,
+        "sort-imports": 0,
         "space-after-keywords": 0,
         "space-before-keywords": 0,
         "space-before-blocks": 0,
