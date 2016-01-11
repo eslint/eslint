@@ -135,7 +135,13 @@ ruleTester.run("space-before-blocks", rule, {
 
         // https://github.com/eslint/eslint/issues/3769
         {code: "()=>{};", options: ["always"], parserOptions: { ecmaVersion: 6 }},
-        {code: "() => {};", options: ["never"], parserOptions: { ecmaVersion: 6 }}
+        {code: "() => {};", options: ["never"], parserOptions: { ecmaVersion: 6 }},
+
+        // https://github.com/eslint/eslint/issues/1338
+        {code: "if(a) {}else{}"},
+        {code: "if(a){}else {}", options: neverArgs},
+        {code: "try {}catch(a){}", options: functionsOnlyArgs},
+        {code: "export default class{}", options: classesOnlyArgs, parserOptions: { sourceType: "module" }}
     ],
     invalid: [
         {
@@ -172,17 +178,6 @@ ruleTester.run("space-before-blocks", rule, {
             options: neverArgs,
             errors: [ expectedNoSpacingError ],
             output: "if(a){}"
-        },
-        {
-            code: "if(a) {}else{}",
-            errors: [ expectedSpacingError ],
-            output: "if(a) {}else {}"
-        },
-        {
-            code: "if(a){}else {}",
-            options: neverArgs,
-            errors: [ expectedNoSpacingError ],
-            output: "if(a){}else{}"
         },
         {
             code: "function a(){}",
@@ -261,20 +256,14 @@ ruleTester.run("space-before-blocks", rule, {
         },
         {
             code: "try{}catch(a){}",
-            errors: [ expectedSpacingError, expectedSpacingError ],
-            output: "try {}catch(a) {}"
+            errors: [ expectedSpacingError ],
+            output: "try{}catch(a) {}"
         },
         {
             code: "try {}catch(a) {}",
             options: neverArgs,
-            errors: [ expectedNoSpacingError, expectedNoSpacingError ],
-            output: "try{}catch(a){}"
-        },
-        {
-            code: "try {}catch(a){}",
-            options: functionsOnlyArgs,
             errors: [ expectedNoSpacingError ],
-            output: "try{}catch(a){}"
+            output: "try {}catch(a){}"
         },
         {
             code: "try {} catch(a){}",
@@ -398,13 +387,6 @@ ruleTester.run("space-before-blocks", rule, {
             parserOptions: { sourceType: "module" },
             errors: [ expectedNoSpacingError ],
             output: "export function a(){}"
-        },
-        {
-            code: "export default class{}",
-            options: classesOnlyArgs,
-            parserOptions: { sourceType: "module" },
-            errors: [ expectedSpacingError ],
-            output: "export default class {}"
         },
         {
             code: "class test{}",
