@@ -12,7 +12,7 @@ We just pushed ESLint <%- version %>, which is a <%- releaseType %> release upgr
 <%
 function linkify(line) {
     line = line.replace(/#(\d+)/g, "[#$1](https://github.com/eslint/eslint/issues/$1)");
-    return line.replace(/([a-z0-9]+)/, "[#$1](https://github.com/eslint/eslint/commit/$1)");
+    return line.replace(/([a-z0-9]+)/, "[$1](https://github.com/eslint/eslint/commit/$1)");
 }
 
 function outputList(items) {
