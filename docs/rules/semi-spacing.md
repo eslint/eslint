@@ -37,7 +37,7 @@ The default is `{"before": false, "after": true}`.
     "semi-spacing": [2, {"before": false, "after": true}]
 ```
 
-#### {"before": false, "after": true}
+#### `{"before": false, "after": true}`
 
 This is the default option. It enforces spacing after semicolons and disallows spacing before semicolons.
 
@@ -69,7 +69,7 @@ if (true) {;}
 ;foo();
 ```
 
-#### {"before": true, "after": false}
+#### `{"before": true, "after": false}`
 
 This option enforces spacing before semicolons and disallows spacing after semicolons.
 

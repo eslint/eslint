@@ -74,14 +74,14 @@ By default this rule is enabled with `all` option for variables and `after-used`
 }
 ```
 
-#### vars
+#### `vars`
 
 This option has two settings:
 
 * `all` checks all variables for usage, including those in the global scope. This is the default setting.
 * `local` checks only that locally-declared variables are used but will allow global variables to be unused.
 
-#### args
+#### `args`
 
 This option has three settings:
 

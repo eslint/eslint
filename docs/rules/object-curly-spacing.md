@@ -41,7 +41,7 @@ Depending on your coding conventions, you can choose either option by specifying
 "object-curly-spacing": [2, "always"]
 ```
 
-#### never
+#### "never"
 
 When `"never"` is set, the following patterns are considered problems:
 
@@ -75,7 +75,7 @@ var {x} = y;
 import {foo} from 'bar';
 ```
 
-#### always
+#### "always"
 
 When `"always"` is used, the following patterns are considered problems:
 
@@ -132,7 +132,7 @@ You can add exceptions like so:
 }]
 ```
 
-##### objectsInObjects
+##### `objectsInObjects`
 
 In the case of the `"always"` option, set `objectsInObjects` exception to `false` to
 enforce the following syntax (notice the `}}` at the end):
@@ -149,7 +149,7 @@ the following style (with a space between the `}` at the end:
 var obj = {"foo": {"baz": 1, "bar": 2} };
 ```
 
-##### arraysInObjects
+##### `arraysInObjects`
 
 In the case of the `"always"` option, set `arraysInObjects` exception to `false` to
 enforce the following syntax (notice the `]}` at the end):

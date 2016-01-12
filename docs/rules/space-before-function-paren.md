@@ -28,7 +28,7 @@ This rule takes one argument. If it is `"always"` then all named functions and a
 
 The default configuration is `"always"`.
 
-### `"always"`
+### "always"
 
 The following patterns are considered problems:
 
@@ -92,7 +92,7 @@ var foo = {
 };
 ```
 
-### `"never"`
+### "never"
 
 The following patterns are considered problems:
 
