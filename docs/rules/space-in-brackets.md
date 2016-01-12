@@ -31,7 +31,7 @@ Depending on your coding conventions, you can choose either option by specifying
 "space-in-brackets": [2, "always"]
 ```
 
-#### never
+#### "never"
 
 When `"never"` is set, the following patterns are considered problems:
 
@@ -95,7 +95,7 @@ var obj = {
 var obj = {};
 ```
 
-#### always
+#### "always"
 
 When `"always"` is used, the following patterns are considered problems:
 

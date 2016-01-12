@@ -45,7 +45,7 @@ This rule has three options.
 * `"number"` (`true` by default) - When this is `true`, this rule warns shorter type conversions for `number` type.
 * `"string"` (`true` by default) - When this is `true`, this rule warns shorter type conversions for `string` type.
 
-#### boolean
+#### `boolean`
 
 The following patterns are considered problems:
 
@@ -69,7 +69,7 @@ var b = foo.indexOf(".") !== -1;
 var n = ~foo; // This is a just binary negating.
 ```
 
-#### number
+#### `number`
 
 The following patterns are considered problems:
 
@@ -90,7 +90,7 @@ var b = parseFloat(foo);
 var b = parseInt(foo, 10);
 ```
 
-#### string
+#### `string`
 
 The following patterns are considered problems:
 

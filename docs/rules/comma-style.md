@@ -12,7 +12,7 @@ This rule is aimed at enforcing a particular comma style in JavaScript. As such,
 
 ### Options
 
-The rule takes an option, a string, which could be either "last" or "first". The default is "last".
+The rule takes an option, a string, which could be either `"last"` or `"first"`. The default is `"last"`.
 
 You can set the style in configuration like this:
 

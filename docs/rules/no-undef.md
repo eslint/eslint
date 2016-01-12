@@ -58,7 +58,7 @@ if (typeof UndefinedIdentifier === "undefined") {
 }
 ```
 
-#### typeof
+#### `typeof`
 
 You can use this option if you want to prevent `typeof` check on a variable which has not been declared.
 
@@ -83,7 +83,7 @@ if(typeof a === "string"){}
 
 For convenience, ESLint provides shortcuts that pre-define global variables exposed by popular libraries and runtime environments. This rule supports these environments, as listed in [Specifying Environments](http://eslint.org/docs/user-guide/configuring#specifying-environments).  A few examples are given below.
 
-### browser
+### `browser`
 
 Defines common browser globals.
 
@@ -95,7 +95,7 @@ setTimeout(function() {
 });
 ```
 
-### node
+### `node`
 
 Defines globals for Node.js development.
 
