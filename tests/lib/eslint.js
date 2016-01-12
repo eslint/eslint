@@ -2736,6 +2736,40 @@ describe("eslint", function() {
             assert.equal(messages[0].message, "Parsing error: 'return' outside of function");
         });
 
+        it("should properly parse sloppy-mode code when impliedStrict is false", function() {
+
+            var messages = eslint.verify("var private;", {}, filename);
+
+            assert.equal(messages.length, 0);
+        });
+
+        it("should not parse sloppy-mode code when impliedStrict is true", function() {
+
+            var messages = eslint.verify("var private;", {
+                parserOptions: {
+                    ecmaFeatures: {
+                        impliedStrict: true
+                    }
+                }
+            }, filename);
+
+            assert.equal(messages.length, 1);
+            assert.equal(messages[0].message, "Parsing error: The keyword 'private' is reserved");
+        });
+
+        it("should properly parse valid code when impliedStrict is true", function() {
+
+            var messages = eslint.verify("var foo;", {
+                parserOptions: {
+                    ecmaFeatures: {
+                        impliedStrict: true
+                    }
+                }
+            }, filename);
+
+            assert.equal(messages.length, 0);
+        });
+
         it("should properly parse JSX when passed ecmaFeatures", function() {
 
             var messages = eslint.verify("var x = <div/>;", {
