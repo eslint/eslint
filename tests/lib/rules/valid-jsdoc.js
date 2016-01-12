@@ -40,6 +40,33 @@ ruleTester.run("valid-jsdoc", rule, {
         "/**\n* Description\n* @inheritdoc */\nfunction foo(arg1, arg2){ return ''; }",
         "/**\n* Description\n* @inheritDoc */\nfunction foo(arg1, arg2){ return ''; }",
         {
+            code:
+                "/**\n" +
+                "* Create a new thing.\n" +
+                "*/\n" +
+                "var thing = new Thing({\n" +
+                "  foo: function() {\n" +
+                "    return 'bar';\n" +
+                "  }\n" +
+                "});\n",
+            options: [{requireReturn: false}]
+        },
+        {
+            code:
+                "/**\n" +
+                "* Create a new thing.\n" +
+                "*/\n" +
+                "var thing = new Thing({\n" +
+                "  /**\n" +
+                "   * @return {string} A string.\n" +
+                "   */\n" +
+                "  foo: function() {\n" +
+                "    return 'bar';\n" +
+                "  }\n" +
+                "});\n",
+            options: [{requireReturn: false}]
+        },
+        {
             code: "/**\n* Description\n* @return {void} */\nfunction foo(){}",
             options: [{}]
         },
@@ -231,6 +258,25 @@ ruleTester.run("valid-jsdoc", rule, {
             code: "/** @@foo */\nfunction foo(){}",
             errors: [{
                 message: "JSDoc syntax error.",
+                type: "Block"
+            }]
+        },
+        {
+            code:
+                "/**\n" +
+                "* Create a new thing.\n" +
+                "*/\n" +
+                "var thing = new Thing({\n" +
+                "  /**\n" +
+                "   * Missing return tag.\n" +
+                "   */\n" +
+                "  foo: function() {\n" +
+                "    return 'bar';\n" +
+                "  }\n" +
+                "});\n",
+            options: [{requireReturn: false}],
+            errors: [{
+                message: "Missing JSDoc @returns for function.",
                 type: "Block"
             }]
         },
