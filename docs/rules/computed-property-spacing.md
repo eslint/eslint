@@ -38,7 +38,7 @@ Depending on your coding conventions, you can choose either option by specifying
 "computed-property-spacing": [2, "never"]
 ```
 
-#### never
+#### "never"
 
 When `"never"` is set, the following patterns will give a warning:
 
@@ -64,7 +64,7 @@ var x = {[b]: a}
 obj[foo[bar]]
 ```
 
-#### always
+#### "always"
 
 When `"always"` is used, the following patterns will give a warning:
 

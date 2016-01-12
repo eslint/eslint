@@ -28,12 +28,12 @@ This rule is aimed at using strict directives effectively, and as such, will fla
 
 There are four options for this rule:
 
-1. `never` - don't use `"use strict"` at all
-1. `global` - require `"use strict"` in the global scope
-1. `function` - require `"use strict"` in function scopes only
-1. `safe` - require `"use strict"` globally when inside a module wrapper and in function scopes everywhere else.
+1. `"never"` - don't use `"use strict"` at all
+1. `"global"` - require `"use strict"` in the global scope
+1. `"function"` - require `"use strict"` in function scopes only
+1. `"safe"` - require `"use strict"` globally when inside a module wrapper and in function scopes everywhere else.
 
-### "never" mode
+### "never"
 
 This mode forbids any occurrence of a Use Strict Directive.
 
@@ -75,7 +75,7 @@ foo();
 bar();
 ```
 
-### "global" mode
+### "global"
 
 This mode ensures that all code is in strict mode and that there are no extraneous Use Strict Directives at the top level or in nested functions, which are themselves already strict by virtue of being contained in strict global code. It requires that global code contains exactly one Use Strict Directive. Use Strict Directives inside functions are considered unnecessary. Multiple Use Strict Directives at any level also trigger warnings.
 
@@ -117,7 +117,7 @@ function foo() {
 foo();
 ```
 
-### "function" mode (default)
+### "function" (default)
 
 This mode ensures that all function bodies are strict mode code, while global code is not. Particularly if a build step concatenates multiple scripts, a Use Strict Directive in global code of one script could unintentionally enable strict mode in another script that was not intended to be strict code. It forbids any occurrence of a Use Strict Directive in global code. It requires exactly one Use Strict Directive in each function declaration or expression whose parent is global code. Use Strict Directives inside nested functions are considered unnecessary. Multiple Use Strict Directives at any level also trigger warnings.
 
@@ -164,11 +164,11 @@ function foo() {
 foo();
 ```
 
-### "safe" mode
+### "safe"
 
 Node.js and the CommonJS module system wrap modules inside a hidden function wrapper that defines each module's scope. The wrapper makes it safe to concatenate strict-mode modules while maintaining their original `"use strict"` directives. When the `node` or `commonjs` environments are enabled or `globalReturn` is enabled in `ecmaFeatures`, ESLint considers code to be inside the module wrapper, and `"safe"` mode corresponds to `"global"` mode and enforces global `"use strict"` directives. Everywhere else, `"safe"` mode corresponds to `"function"` mode and enforces `"use strict"` directives inside top-level functions.
 
-### deprecated mode (Removed)
+### "deprecated" (Removed)
 
 **Replacement notice**: This mode, previously enabled by turning on the rule without specifying a mode, has been removed in ESLint v1.0. `"function"` mode is most similar to the deprecated behavior, and has been made the default if no mode is specified.
 

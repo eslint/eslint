@@ -46,7 +46,7 @@ This rule is aimed at enforcing a particular brace style in JavaScript. As such,
 
 The rule takes two options:
 
-1. A string which must be either "1tbs", "stroustrup" or "allman". The default is "1tbs".
+1. A string which must be either `"1tbs"`, `"stroustrup"` or `"allman"`. The default is `"1tbs"`.
 2. An object that further controls the behaviour of this rule. Currently, the only available parameter is `allowSingleLine`, which indicates whether start and end braces may be on the same line.
 
 You can set the style in configuration like this:
