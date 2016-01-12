@@ -32,7 +32,11 @@ ruleTester.run("no-extra-semi", rule, {
         {code: "var A = class { };", parserOptions: { ecmaVersion: 6 }},
         {code: "class A { a() { this; } }", parserOptions: { ecmaVersion: 6 }},
         {code: "var A = class { a() { this; } };", parserOptions: { ecmaVersion: 6 }},
-        {code: "class A { } a;", parserOptions: { ecmaVersion: 6 }}
+        {code: "class A { } a;", parserOptions: { ecmaVersion: 6 }},
+
+        // modules
+        {code: "export const x = 42;", parserOptions: { sourceType: "module" }},
+        {code: "export default 42;", parserOptions: { sourceType: "module" }}
     ],
     invalid: [
         {
