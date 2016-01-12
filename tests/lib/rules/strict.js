@@ -28,11 +28,13 @@ ruleTester.run("strict", rule, {
         { code: "var fn = x => 1;", parserOptions: { ecmaVersion: 6 }, options: ["never"] },
         { code: "var fn = x => { return; };", parserOptions: { ecmaVersion: 6 }, options: ["never"] },
         { code: "foo();", parserOptions: { sourceType: "module" }, options: ["never"] },
+        { code: "function foo() { return; }", parserOptions: { ecmaFeatures: { impliedStrict: true } }, options: ["never"] },
 
         // "global" mode
         { code: "// Intentionally empty", options: ["global"] },
         { code: "\"use strict\"; foo();", options: ["global"] },
         { code: "foo();", parserOptions: { sourceType: "module" }, options: ["global"] },
+        { code: "function foo() { return; }", parserOptions: { ecmaFeatures: { impliedStrict: true } }, options: ["global"] },
         { code: "'use strict'; function foo() { return; }", options: ["global"] },
         { code: "'use strict'; var foo = function() { return; };", options: ["global"] },
         { code: "'use strict'; function foo() { bar(); 'use strict'; return; }", options: ["global"] },
@@ -43,6 +45,7 @@ ruleTester.run("strict", rule, {
         // "function" mode
         { code: "function foo() { 'use strict'; return; }", options: ["function"] },
         { code: "function foo() { return; }", parserOptions: { sourceType: "module" }, options: ["function"] },
+        { code: "function foo() { return; }", parserOptions: { ecmaFeatures: { impliedStrict: true } }, options: ["function"] },
         { code: "var foo = function() { return; }", parserOptions: { sourceType: "module" }, options: ["function"] },
         { code: "var foo = function() { 'use strict'; return; }", options: ["function"] },
         { code: "function foo() { 'use strict'; return; } var bar = function() { 'use strict'; bar(); };", options: ["function"] },
@@ -69,10 +72,14 @@ ruleTester.run("strict", rule, {
         // "safe" mode corresponds to "global" if ecmaFeatures.globalReturn is true, otherwise "function"
         { code: "function foo() { 'use strict'; return; }", options: ["safe"] },
         { code: "'use strict'; function foo() { return; }", parserOptions: { ecmaFeatures: { globalReturn: true } }, options: ["safe"] },
+        { code: "function foo() { return; }", parserOptions: { sourceType: "module" }, options: ["safe"] },
+        { code: "function foo() { return; }", parserOptions: { ecmaFeatures: { impliedStrict: true } }, options: ["safe"] },
 
         // defaults to "safe" mode
         { code: "function foo() { 'use strict'; return; }" },
-        { code: "'use strict'; function foo() { return; }", parserOptions: { ecmaFeatures: { globalReturn: true } } }
+        { code: "'use strict'; function foo() { return; }", parserOptions: { ecmaFeatures: { globalReturn: true } } },
+        { code: "function foo() { return; }", parserOptions: { sourceType: "module" } },
+        { code: "function foo() { return; }", parserOptions: { ecmaFeatures: { impliedStrict: true } } }
 
     ],
     invalid: [
@@ -114,6 +121,22 @@ ruleTester.run("strict", rule, {
             options: ["never"],
             parserOptions: { sourceType: "module" },
             errors: [
+                { message: "'use strict' is unnecessary inside of modules.", type: "ExpressionStatement" }
+            ]
+        }, {
+            code: "'use strict'; function foo() { 'use strict'; return; }",
+            options: ["never"],
+            parserOptions: { ecmaFeatures: { impliedStrict: true } },
+            errors: [
+                { message: "'use strict' is unnecessary when implied strict mode is enabled.", type: "ExpressionStatement" },
+                { message: "'use strict' is unnecessary when implied strict mode is enabled.", type: "ExpressionStatement" }
+            ]
+        }, {
+            code: "'use strict'; function foo() { 'use strict'; return; }",
+            options: ["never"],
+            parserOptions: { sourceType: "module", ecmaFeatures: { impliedStrict: true } },
+            errors: [
+                { message: "'use strict' is unnecessary inside of modules.", type: "ExpressionStatement" },
                 { message: "'use strict' is unnecessary inside of modules.", type: "ExpressionStatement" }
             ]
         },
@@ -170,6 +193,22 @@ ruleTester.run("strict", rule, {
             options: ["global"],
             parserOptions: { sourceType: "module" },
             errors: [
+                { message: "'use strict' is unnecessary inside of modules.", type: "ExpressionStatement" }
+            ]
+        }, {
+            code: "'use strict'; function foo() { 'use strict'; return; }",
+            options: ["global"],
+            parserOptions: { ecmaFeatures: { impliedStrict: true } },
+            errors: [
+                { message: "'use strict' is unnecessary when implied strict mode is enabled.", type: "ExpressionStatement" },
+                { message: "'use strict' is unnecessary when implied strict mode is enabled.", type: "ExpressionStatement" }
+            ]
+        }, {
+            code: "'use strict'; function foo() { 'use strict'; return; }",
+            options: ["global"],
+            parserOptions: { sourceType: "module", ecmaFeatures: { impliedStrict: true } },
+            errors: [
+                { message: "'use strict' is unnecessary inside of modules.", type: "ExpressionStatement" },
                 { message: "'use strict' is unnecessary inside of modules.", type: "ExpressionStatement" }
             ]
         },
@@ -237,6 +276,22 @@ ruleTester.run("strict", rule, {
             options: ["function"],
             parserOptions: { sourceType: "module" },
             errors: [
+                { message: "'use strict' is unnecessary inside of modules.", type: "ExpressionStatement" }
+            ]
+        }, {
+            code: "'use strict'; function foo() { 'use strict'; return; }",
+            options: ["function"],
+            parserOptions: { ecmaFeatures: { impliedStrict: true } },
+            errors: [
+                { message: "'use strict' is unnecessary when implied strict mode is enabled.", type: "ExpressionStatement" },
+                { message: "'use strict' is unnecessary when implied strict mode is enabled.", type: "ExpressionStatement" }
+            ]
+        }, {
+            code: "'use strict'; function foo() { 'use strict'; return; }",
+            options: ["function"],
+            parserOptions: { sourceType: "module", ecmaFeatures: { impliedStrict: true } },
+            errors: [
+                { message: "'use strict' is unnecessary inside of modules.", type: "ExpressionStatement" },
                 { message: "'use strict' is unnecessary inside of modules.", type: "ExpressionStatement" }
             ]
         }, {
@@ -323,6 +378,24 @@ ruleTester.run("strict", rule, {
                 { message: "Use the global form of 'use strict'.", type: "ExpressionStatement" }
             ]
         },
+        {
+            code: "'use strict'; function foo() { 'use strict'; return; }",
+            options: ["safe"],
+            parserOptions: { ecmaFeatures: { impliedStrict: true } },
+            errors: [
+                { message: "'use strict' is unnecessary when implied strict mode is enabled.", type: "ExpressionStatement" },
+                { message: "'use strict' is unnecessary when implied strict mode is enabled.", type: "ExpressionStatement" }
+            ]
+        },
+        {
+            code: "'use strict'; function foo() { 'use strict'; return; }",
+            options: ["safe"],
+            parserOptions: { sourceType: "module", ecmaFeatures: { impliedStrict: true } },
+            errors: [
+                { message: "'use strict' is unnecessary inside of modules.", type: "ExpressionStatement" },
+                { message: "'use strict' is unnecessary inside of modules.", type: "ExpressionStatement" }
+            ]
+        },
 
         // Default to "safe" mode
         {
@@ -342,6 +415,22 @@ ruleTester.run("strict", rule, {
             errors: [
                 { message: "Use the global form of 'use strict'.", type: "Program" },
                 { message: "Use the global form of 'use strict'.", type: "ExpressionStatement" }
+            ]
+        },
+        {
+            code: "'use strict'; function foo() { 'use strict'; return; }",
+            parserOptions: { ecmaFeatures: { impliedStrict: true } },
+            errors: [
+                { message: "'use strict' is unnecessary when implied strict mode is enabled.", type: "ExpressionStatement" },
+                { message: "'use strict' is unnecessary when implied strict mode is enabled.", type: "ExpressionStatement" }
+            ]
+        },
+        {
+            code: "'use strict'; function foo() { 'use strict'; return; }",
+            parserOptions: { sourceType: "module", ecmaFeatures: { impliedStrict: true } },
+            errors: [
+                { message: "'use strict' is unnecessary inside of modules.", type: "ExpressionStatement" },
+                { message: "'use strict' is unnecessary inside of modules.", type: "ExpressionStatement" }
             ]
         }
 

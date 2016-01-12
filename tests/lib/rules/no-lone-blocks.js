@@ -27,6 +27,7 @@ ruleTester.run("no-lone-blocks", rule, {
         {code: "{ let x = 1; }", parserOptions: { ecmaVersion: 6 }},
         {code: "{ const x = 1; }", parserOptions: { ecmaVersion: 6 }},
         {code: "'use strict'; { function bar() {} }", parserOptions: { ecmaVersion: 6 }},
+        {code: "{ function bar() {} }", parserOptions: { ecmaVersion: 6, ecmaFeatures: { impliedStrict: true }}},
         {code: "{ class Bar {} }", parserOptions: { ecmaVersion: 6 }},
 
         {code: "{ {let y = 1;} let x = 1; }", parserOptions: { ecmaVersion: 6 }}
