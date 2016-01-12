@@ -27,7 +27,7 @@ Depending on your coding conventions, you can choose either option by specifying
 "space-in-parens": [2, "always"]
 ```
 
-#### always
+#### "always"
 
 When `"always"` is set, the following patterns are considered problems:
 
@@ -55,7 +55,7 @@ var foo = ( 1 + 2 ) * 3;
 ( function () { return 'bar'; }() );
 ```
 
-#### never
+#### "never"
 
 When `"never"` is used, the following patterns are considered problems:
 

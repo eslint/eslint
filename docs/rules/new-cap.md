@@ -46,20 +46,20 @@ var colleague = foo.Person();
 
 By default both `newIsCap` and `capIsNew` options are set to `true`.
 
-### newIsCap
+### `newIsCap`
 
 When `true`, rule checks if all `new` operators are called only with uppercase-started functions.
 
-### capIsNew
+### `capIsNew`
 
 When `true`, rule checks if all uppercase-started functions are called only with `new` operator.
 
-### newIsCapExceptions
+### `newIsCapExceptions`
 
 Array of lowercase function names that are permitted to be used with the `new` operator.
 If provided, it must be an `Array`.
 
-### capIsNewExceptions
+### `capIsNewExceptions`
 
 Array of uppercase-starting function names that are permitted to be used without the `new` operator. If not provided, `capIsNewExceptions` defaults to the following:
 
@@ -76,7 +76,7 @@ Array of uppercase-starting function names that are permitted to be used without
 
 If provided, it must be an `Array`. The default values will continue to be excluded when `capIsNewExceptions` is provided.
 
-### properties
+### `properties`
 
 By default, this rule will check properties such as `object.Property` using the other options (default value is `true`). When set to `false`, this rule will not check properties so `new object.property()` is valid even when `newIsCap` is `true`.
 

@@ -48,7 +48,7 @@ This rule is aimed at enforcing a particular type of function style throughout a
 
 ### Options
 
-#### expression
+#### "expression"
 
 This is the default configuration.  It reports an error when function declarations are used instead of function expressions.
 
@@ -62,7 +62,7 @@ An additional option object can be added with a property `"allowArrowFunctions"`
 "func-style": [2, "expression", { "allowArrowFunctions": true }]
 ```
 
-#### declaration
+#### "declaration"
 
 This reports an error if any function expressions are used where function declarations are expected. You can specify to use expressions instead:
 

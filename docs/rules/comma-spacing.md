@@ -24,7 +24,7 @@ The rule takes one option, an object, which has two keys `before` and `after` ha
 
 The following examples show two primary usages of this option.
 
-#### {"before": false, "after": true}
+#### `{"before": false, "after": true}`
 
 This is the default option. It enforces spacing after commas and disallows spacing before commas.
 
@@ -57,7 +57,7 @@ function foo(a, b){}
 a, b
 ```
 
-#### {"before": true, "after": false}
+#### `{"before": true, "after": false}`
 
 This option enforces spacing before commas and disallows spacing after commas.
 

@@ -35,7 +35,7 @@ Depending on your coding conventions, you can choose either option by specifying
 "radix": [2, "always"]
 ```
 
-#### always
+#### "always"
 
 The following patterns are considered problems:
 
@@ -63,7 +63,7 @@ var num = parseInt("071", 8);
 var num = parseFloat(someValue);
 ```
 
-#### as-needed
+#### "as-needed"
 
 The following patterns are considered problems:
 

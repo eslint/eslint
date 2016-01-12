@@ -98,7 +98,7 @@ You can set the option in configuration like this:
 }
 ```
 
-While set to "always" or "methods", constructor functions can be ignored with the optional parameter "ignoreConstructors" enabled. Note: The first parameter must be specified when using this optional parameter.
+While set to `"always"` or `"methods"`, constructor functions can be ignored with the optional parameter `"ignoreConstructors"` enabled. Note: The first parameter must be specified when using this optional parameter.
 
 ```json
 {
@@ -106,7 +106,7 @@ While set to "always" or "methods", constructor functions can be ignored with th
 }
 ```
 
-The following will *not* warn when "ignoreConstructors" is enabled:
+The following will *not* warn when `"ignoreConstructors"` is enabled:
 
 ```js
 /*eslint object-shorthand: [2, "always", { "ignoreConstructors": true }]*/

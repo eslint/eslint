@@ -47,7 +47,7 @@ a => {}
 
 ### Options
 
-The rule takes one option, a string, which could be either "always" or "as-needed". The default is "always".
+The rule takes one option, a string, which could be either `"always"` or `"as-needed"`. The default is `"always"`.
 
 You can set the option in configuration like this:
 

@@ -16,7 +16,7 @@ This rule aims to eliminate the use of dangling underscores in identifiers.
 
 ### Options
 
-#### allow
+#### `allow`
 
 ```json
 "no-underscore-dangle": [2, { "allow": [] }]
@@ -24,7 +24,7 @@ This rule aims to eliminate the use of dangling underscores in identifiers.
 
 Array of variable names that are permitted to be used with underscore. If provided, it must be an `Array`.
 
-#### allowAfterThis
+#### `allowAfterThis`
 
 ```json
 "no-underscore-dangle": [2, { "allowAfterThis": true }]

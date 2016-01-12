@@ -11,7 +11,7 @@ exceptions for various documentation styles.
 
 ### Options
 
-The rule takes two options. The first is a string which be either "always" or "never". If you pass `"always"` then the `//` or `/*` must be followed by at least once whitespace. If `"never"` then there should be no whitespace following. The default is `"always"`.
+The rule takes two options. The first is a string which be either `"always"` or `"never"`. If you pass `"always"` then the `//` or `/*` must be followed by at least once whitespace. If `"never"` then there should be no whitespace following. The default is `"always"`.
 
 Here is an example of how to configure the rule with this option:
 
