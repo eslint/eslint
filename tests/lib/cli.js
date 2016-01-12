@@ -627,9 +627,15 @@ describe("cli", function() {
                 examplePlugin = { rules: { "cli-example-rule": require(getFixturePath("rules", "custom-rule.js")) } },
                 exampleRuleConfig = "'example/cli-example-rule: 2'";
 
+            requireStubs.resolve = {
+                sync: function(s) {
+                    return s;
+                }
+            };
             requireStubs["./logging"] = log;
             requireStubs[examplePluginName] = examplePlugin;
             requireStubs[examplePluginName]["@global"] = true;
+            requireStubs["./cli-engine"] = proxyquire("../../lib/cli-engine", requireStubs);
 
             cli = proxyquire("../../lib/cli", requireStubs);
             var exit = cli.execute("--no-ignore --plugin " + examplePluginName + " --rule " + exampleRuleConfig + " " + filePath);
