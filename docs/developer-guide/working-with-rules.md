@@ -74,6 +74,7 @@ The `context` object contains additional functionality that is helpful for rules
 * `id` - the rule ID.
 * `options` - an array of rule options.
 * `settings` - the `settings` from configuration.
+* `parserName` - the `parser` from configuration.
 
 Additionally, the `context` object has the following methods:
 
