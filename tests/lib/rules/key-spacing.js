@@ -423,6 +423,63 @@ ruleTester.run("key-spacing", rule, {
         options: [{
             align: "colon"
         }]
+    }, {
+        code: [
+            "({",
+            "    a  : 42,",
+            "    get b() { return 42; },",
+            "    set c(v) { v; },",
+            "    def: 42",
+            "})"
+        ].join("\n"),
+        options: [{
+            "multiLine": {
+                "afterColon": true,
+                "align": "colon"
+            }
+        }]
+    }, {
+        code: [
+            "({",
+            "    a   : 42,",
+            "    get b() { return 42; },",
+            "    set c(v) { v; },",
+            "    def : 42,",
+            "    obj : {a: 1, b: 2, c: 3}",
+            "})"
+        ].join("\n"),
+        options: [{
+            "singleLine": {
+                "afterColon": true,
+                "beforeColon": false
+            },
+            "multiLine": {
+                "afterColon": true,
+                "beforeColon": true,
+                "align": "colon"
+            }
+        }]
+    }, {
+        code: [
+            "({",
+            "    a   : 42,",
+            "    get b() { return 42; },",
+            "    set c(v) { v; },",
+            "    def : 42,",
+            "    def : {a: 1, b: 2, c: 3}",
+            "})"
+        ].join("\n"),
+        options: [{
+            "multiLine": {
+                "afterColon": true,
+                "beforeColon": true,
+                "align": "colon"
+            },
+            "singleLine": {
+                "afterColon": true,
+                "beforeColon": false
+            }
+        }]
     }],
 
     invalid: [{
@@ -860,6 +917,91 @@ ruleTester.run("key-spacing", rule, {
         }],
         errors: [
             { message: "Missing space after key 'a'.", line: 2, column: 5, type: "Identifier" }
+        ]
+    }, {
+        code: [
+            "({",
+            "    a :    42,",
+            "    get b() { return 42; },",
+            "    set c(v) { v; },",
+            "    def  :  42,",
+            "    def2 : {a1: 1, b1:2, c1:3}",
+            "})"
+        ].join("\n"),
+        options: [{
+            "singleLine": {
+                "afterColon": false,
+                "beforeColon": false
+            },
+            "multiLine": {
+                "mode": "minimum",
+                "afterColon": true,
+                "beforeColon": true,
+                "align": "value"
+            }
+        }],
+        errors: [
+            { message: "Extra space before value for key 'a1'.", line: 6, column: 17, type: "Literal" }
+        ]
+    }, {
+        code: [
+            "({",
+            "    a  : 42,",
+            "    get b() { return 42; },",
+            "    set c(v) { v; },",
+            "    def: 42,",
+            "    de1: {a2: 1, b2 : 2, c2 : 3}",
+            "})"
+        ].join("\n"),
+        options: [{
+            "multiLine": {
+                "afterColon": true,
+                "beforeColon": false,
+                "align": "colon"
+            },
+            "singleLine": {
+                "afterColon": true,
+                "beforeColon": true
+            }
+        }],
+        errors: [
+            { message: "Missing space after key 'a2'.", line: 6, column: 11, type: "Identifier" }
+        ]
+    }, {
+        code: [
+            "obj = {",
+            "   get fx() { return 'f'; },",
+            "   get gx() { return 'g'; },",
+            "   ex:e",
+            "};"
+        ].join("\n"),
+        options: [{
+            align: "colon",
+            beforeColon: false,
+            afterColon: true,
+            mode: "minimum"
+        }],
+        errors: [
+            { message: "Missing space before value for key 'ex'.", line: 4, column: 7, type: "Identifier" }
+        ]
+    }, {
+        code: [
+            "({",
+            "    aInv :43,",
+            "    get b() { return 43; },",
+            "    set c(v) { v; },",
+            "    defInv: 43",
+            "})"
+        ].join("\n"),
+        options: [{
+            "multiLine": {
+                "afterColon": true,
+                "align": "colon"
+            }
+        }],
+        errors: [
+            { message: "Missing space after key 'aInv'.", line: 2, column: 5, type: "Identifier" },
+            { message: "Missing space before value for key 'aInv'.", line: 2, column: 11, type: "Literal" }
         ]
     }]
 });
