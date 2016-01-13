@@ -162,6 +162,36 @@ var obj = {
 };
 ```
 
+#### Fine-grained control
+
+You can specify these options separately for single-line and multi-line configurations by organizing the options this way:
+
+```js
+"key-spacing": [2, {
+    "singleLine": {
+        "beforeColon": false,
+        "afterColon": true
+    },
+    "multiLine": {
+        "beforeColon": true,
+        "afterColon": true,
+        "align": "colon"
+    }
+}]
+```
+
+The following patterns are considered valid:
+
+```js
+var obj = {one: 1, "two": 2, three: 3}; /* valid due to `singleLine:{ beforeColon: false }`*/
+var obj2 = {
+    "two" : 2,
+    three : 3
+};
+```
+
+Please note that you can either use the top-level options or the grouped options (`singleLine` and `multiLine`) but not both.
+
 ## When Not To Use It
 
 If you have another convention for property spacing that might not be consistent with the available options, or if you want to permit multiple styles concurrently you can safely disable this rule.
