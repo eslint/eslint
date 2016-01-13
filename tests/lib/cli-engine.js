@@ -338,6 +338,16 @@ describe("CLIEngine", function() {
             assert.equal(report.results[1].messages.length, 0);
         });
 
+        it("should not check default ignored files without --no-ignore flag", function() {
+
+            engine = new CLIEngine({
+                cwd: path.join(fixtureDir, "..")
+            });
+
+            var report = engine.executeOnFiles(["fixtures/files/node_modules/.bar.js"]);
+            assert.equal(report.results.length, 0);
+        });
+
         it("should not check .hidden files if they are passed explicitly without --no-ignore flag", function() {
 
             engine = new CLIEngine({
@@ -345,8 +355,7 @@ describe("CLIEngine", function() {
             });
 
             var report = engine.executeOnFiles(["fixtures/files/.bar.js"]);
-            assert.equal(report.results.length, 1);
-            assert.equal(report.results[0].warningCount, 1);
+            assert.equal(report.results.length, 0);
         });
 
         it("should check .hidden files if they are passed explicitly with --no-ignore flag", function() {
