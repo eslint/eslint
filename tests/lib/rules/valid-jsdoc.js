@@ -250,6 +250,81 @@ ruleTester.run("valid-jsdoc", rule, {
                 " */\n" +
                 "function foo() {}",
             options: [{requireReturn: false}]
+        },
+        // type validations
+        {
+            code:
+            "/**\n" +
+            "* Foo\n" +
+            "* @param {Array.<*>} hi - desc\n" +
+            "* @returns {*} returns a node\n" +
+            "*/\n" +
+            "function foo(hi){}",
+            options: [{
+                preferType: {
+                    "String": "string",
+                    "Astnode": "ASTNode"
+                }
+            }]
+        },
+        {
+            code:
+            "/**\n" +
+            "* Foo\n" +
+            "* @param {string} hi - desc\n" +
+            "* @returns {ASTNode} returns a node\n" +
+            "*/\n" +
+            "function foo(hi){}",
+            options: [{
+                preferType: {
+                    "String": "string",
+                    "Astnode": "ASTNode"
+                }
+            }]
+        },
+        {
+            code:
+            "/**\n" +
+            "* Foo\n" +
+            "* @param {{20:string}} hi - desc\n" +
+            "* @returns {Astnode} returns a node\n" +
+            "*/\n" +
+            "function foo(hi){}",
+            options: [{
+                preferType: {
+                    "String": "string",
+                    "astnode": "ASTNode"
+                }
+            }]
+        },
+        {
+            code:
+            "/**\n" +
+            "* Foo\n" +
+            "* @param {String|number|Test} hi - desc\n" +
+            "* @returns {Astnode} returns a node\n" +
+            "*/\n" +
+            "function foo(hi){}",
+            options: [{
+                preferType: {
+                    "test": "Test"
+                }
+            }]
+        },
+        {
+            code:
+            "/**\n" +
+            "* Foo\n" +
+            "* @param {Array.<string>} hi - desc\n" +
+            "* @returns {Astnode} returns a node\n" +
+            "*/\n" +
+            "function foo(hi){}",
+            options: [{
+                preferType: {
+                    "String": "string",
+                    "astnode": "ASTNode"
+                }
+            }]
         }
     ],
 
@@ -706,6 +781,99 @@ ruleTester.run("valid-jsdoc", rule, {
                 message: "JSDoc syntax error.",
                 type: "Block"
             }]
+        },
+
+        // type validations
+        {
+            code:
+            "/**\n" +
+            "* Foo\n" +
+            "* @param {String} hi - desc\n" +
+            "* @returns {Astnode} returns a node\n" +
+            "*/\n" +
+            "function foo(hi){}",
+            options: [{
+                preferType: {
+                    "String": "string",
+                    "Astnode": "ASTNode"
+                }
+            }],
+            errors: [
+                {
+                    message: "Use 'string' instead of 'String'.",
+                    type: "Block"
+                },
+                {
+                    message: "Use 'ASTNode' instead of 'Astnode'.",
+                    type: "Block"
+                }
+            ]
+        },
+        {
+            code:
+            "/**\n" +
+            "* Foo\n" +
+            "* @param {{20:String}} hi - desc\n" +
+            "* @returns {Astnode} returns a node\n" +
+            "*/\n" +
+            "function foo(hi){}",
+            options: [{
+                preferType: {
+                    "String": "string",
+                    "Astnode": "ASTNode"
+                }
+            }],
+            errors: [
+                {
+                    message: "Use 'string' instead of 'String'.",
+                    type: "Block"
+                },
+                {
+                    message: "Use 'ASTNode' instead of 'Astnode'.",
+                    type: "Block"
+                }
+            ]
+        },
+        {
+            code:
+            "/**\n" +
+            "* Foo\n" +
+            "* @param {String|number|test} hi - desc\n" +
+            "* @returns {Astnode} returns a node\n" +
+            "*/\n" +
+            "function foo(hi){}",
+            options: [{
+                preferType: {
+                    "test": "Test"
+                }
+            }],
+            errors: [
+                {
+                    message: "Use 'Test' instead of 'test'.",
+                    type: "Block"
+                }
+            ]
+        },
+        {
+            code:
+            "/**\n" +
+            "* Foo\n" +
+            "* @param {Array.<String>} hi - desc\n" +
+            "* @returns {Astnode} returns a node\n" +
+            "*/\n" +
+            "function foo(hi){}",
+            options: [{
+                preferType: {
+                    "String": "string",
+                    "astnode": "ASTNode"
+                }
+            }],
+            errors: [
+                {
+                    message: "Use 'string' instead of 'String'.",
+                    type: "Block"
+                }
+            ]
         }
     ]
 });
