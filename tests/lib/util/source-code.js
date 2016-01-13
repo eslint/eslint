@@ -10,7 +10,9 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var assert = require("chai").assert,
+var fs = require("fs"),
+    path = require("path"),
+    assert = require("chai").assert,
     espree = require("espree"),
     sinon = require("sinon"),
     leche = require("leche"),
@@ -107,6 +109,71 @@ describe("SourceCode", function() {
             var actual = sourceCode.tokensAndComments;
             var expected = [comments[0], tokens[0], tokens[1], comments[1], tokens[2]];
             assert.deepEqual(actual, expected);
+        });
+
+        describe("if a text has BOM,", function() {
+            var sourceCode;
+
+            beforeEach(function() {
+                var ast = { comments: [], tokens: [], loc: {}, range: [] };
+                sourceCode = new SourceCode("\uFEFFconsole.log('hello');", ast);
+            });
+
+            it("should has true at `hasBOM` property.", function() {
+                assert.equal(sourceCode.hasBOM, true);
+            });
+
+            it("should not has BOM in `text` property.", function() {
+                assert.equal(sourceCode.text, "console.log('hello');");
+            });
+        });
+
+        describe("if a text doesn't have BOM,", function() {
+            var sourceCode;
+
+            beforeEach(function() {
+                var ast = { comments: [], tokens: [], loc: {}, range: [] };
+                sourceCode = new SourceCode("console.log('hello');", ast);
+            });
+
+            it("should has false at `hasBOM` property.", function() {
+                assert.equal(sourceCode.hasBOM, false);
+            });
+
+            it("should not has BOM in `text` property.", function() {
+                assert.equal(sourceCode.text, "console.log('hello');");
+            });
+        });
+
+        describe("when it read a UTF-8 file (has BOM), SourceCode", function() {
+            var UTF8_FILE = path.resolve(__dirname, "../../fixtures/utf8-bom.js");
+            var text = fs.readFileSync(
+                    UTF8_FILE,
+                    "utf8"
+                ).replace(/\r\n/g, "\n"); // <-- For autocrlf of "git for Windows"
+            var sourceCode;
+
+            beforeEach(function() {
+                var ast = { comments: [], tokens: [], loc: {}, range: [] };
+                sourceCode = new SourceCode(text, ast);
+            });
+
+            it("to be clear, check the file has UTF-8 BOM.", function() {
+                var buffer = fs.readFileSync(UTF8_FILE);
+                assert.equal(buffer[0], 0xEF);
+                assert.equal(buffer[1], 0xBB);
+                assert.equal(buffer[2], 0xBF);
+            });
+
+            it("should has true at `hasBOM` property.", function() {
+                assert.equal(sourceCode.hasBOM, true);
+            });
+
+            it("should not has BOM in `text` property.", function() {
+                assert.equal(
+                    sourceCode.text,
+                    "\"use strict\";\n\nconsole.log(\"This file has [0xEF, 0xBB, 0xBF] as BOM.\");\n");
+            });
         });
     });
 
