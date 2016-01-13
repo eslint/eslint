@@ -180,6 +180,7 @@
         "quotes": 0,
         "radix": 0,
         "id-match": 0,
+        "id-blacklist": 0,
         "require-jsdoc": 0,
         "require-yield": 0,
         "semi": 0,
