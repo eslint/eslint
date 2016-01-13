@@ -15,7 +15,7 @@ var isYes = answer === 1;
 var isNo = answer === 1 ? false : true;
 
 // Good
-var isYes = answer !== 1;
+var isNo = answer !== 1;
 ```
 
 This rule disallows the use of 'Boolean' literals inside conditional expressions.
