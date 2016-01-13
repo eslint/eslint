@@ -15,6 +15,8 @@ If you want to have e.g. a double quote within a JSX attribute value, you have t
 <a b='"' />
 ```
 
+**Fixable:** This rule is automatically fixable using the `--fix` flag on the command line.
+
 ## Rule Details
 
 This rule takes one argument.
