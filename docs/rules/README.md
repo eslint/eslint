@@ -105,9 +105,9 @@ These are rules designed to prevent you from making mistakes. They either prescr
 
 ## Strict Mode
 
-These rules relate to using strict mode.
+These rules relate to using strict mode and strict mode directives.
 
-* [strict](strict.md) - controls location of Use Strict Directives
+* [strict](strict.md) - require effective use of strict mode directives
 
 ## Variables
 
