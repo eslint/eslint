@@ -31,19 +31,27 @@ This rule is aimed to flag shorter notations for the type conversion, then sugge
 
 ### Options
 
-This rule has three options.
+This rule has three main options and one override option to allow some coercions as required.
 
-```json
+```js
 {
-  "rules": {
-    "no-implicit-coercion": [2, {"boolean": true, "number": true, "string": true}]
-  }
+    "rules": {
+        "no-implicit-coercion": [2, {
+            "boolean": true,
+            "number": true,
+            "string": true,
+            "allow": [/* "!!", "~", "*", "+" */]
+        }]
+    }
 }
 ```
 
 * `"boolean"` (`true` by default) - When this is `true`, this rule warns shorter type conversions for `boolean` type.
 * `"number"` (`true` by default) - When this is `true`, this rule warns shorter type conversions for `number` type.
 * `"string"` (`true` by default) - When this is `true`, this rule warns shorter type conversions for `string` type.
+* `"array"` (`empty` by default) - Each entry in this array can be one of `~`, `!!`, `+` or `*` that are to be allowed.
+
+Note that operator `+` in `allow` list would allow `+foo` (number coercion) as well as `"" + foo` (string coercion).
 
 #### `boolean`
 
@@ -108,6 +116,32 @@ The following patterns are not considered problems:
 /*eslint no-implicit-coercion: 2*/
 
 var b = String(foo);
+```
+
+#### Fine-grained control
+
+Using `allow` list, we can override and allow specific operators.
+
+For example, when the configuration is like this:
+
+```json
+{
+    "rules": {
+        "no-implicit-coercion": [2, {
+            "boolean": true,
+            "number": true,
+            "string": true,
+            "allow": ["!!", "~"]
+        }]
+    }
+}
+```
+
+The following patterns are not considered problems:
+
+```js
+var b = !!foo;
+var c = ~foo.indexOf(".");
 ```
 
 ## When Not to Use It
