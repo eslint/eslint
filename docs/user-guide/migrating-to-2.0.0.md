@@ -177,7 +177,7 @@ If you were using `ecmaFeatures.modules` to enable ES6 module support like this:
 Additionally, if you are using `context.ecmaFeatures` inside of your rules, then you'll need to update your code in the following ways:
 
 1. If you're using an ES6 feature flag such as `context.ecmaFeatures.blockBindings`, rewrite to check for `context.parserOptions.ecmaVersion > 5`.
-1. If you're using `context.ecmaFeatures.modules`, rewrite to check for `context.parserOptions.sourceType === "module"`.
+1. If you're using `context.ecmaFeatures.modules`, rewrite to check that the `sourceType` property of the Program node is `"module"`.
 1. If you're using a non-ES6 feature flag such as `context.ecmaFeatures.jsx`, rewrite to check for `context.parserOptions.ecmaFeatures.jsx`.
 
 If you're not using `ecmaFeatures` in your configuration, then no change is needed.
