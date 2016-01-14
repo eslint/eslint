@@ -157,6 +157,7 @@ These rules are purely matters of style and are quite subjective.
 * [func-style](func-style.md) - enforce use of function declarations or expressions
 * [id-length](id-length.md) - this option enforces minimum and maximum identifier lengths (variable names, property names etc.)
 * [id-match](id-match.md) - require identifiers to match the provided regular expression
+* [id-blacklist](id-blacklist.md) - blacklist certain identifiers to prevent them being used
 * [indent](indent.md) - specify tab or space width for your code (fixable)
 * [jsx-quotes](jsx-quotes.md) - specify whether double or single quotes should be used in JSX attributes
 * [key-spacing](key-spacing.md) - enforce spacing between keys and values in object literal properties
