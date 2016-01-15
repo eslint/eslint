@@ -2196,6 +2196,8 @@ describe("eslint", function() {
             assert.equal(messages[0].severity, 2);
             assert.isNull(messages[0].ruleId);
             assert.equal(messages[0].source, BROKEN_TEST_CODE);
+            assert.equal(messages[0].line, 1);
+            assert.equal(messages[0].column, 4);
             assert.isTrue(messages[0].fatal);
             assert.match(messages[0].message, /^Parsing error:/);
         });
@@ -2752,7 +2754,7 @@ describe("eslint", function() {
 
             assert.equal(messages.length, 1);
             assert.equal(messages[0].line, 1);
-            assert.equal(messages[0].column, 21);
+            assert.equal(messages[0].column, 20);
             assert.equal(messages[0].message, "Parsing error: Unexpected token <");
         });
 
