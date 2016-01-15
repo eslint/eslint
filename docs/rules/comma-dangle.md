@@ -19,6 +19,7 @@ This rule takes one argument, which can be one of the following options:
 
 - `"always"` - warn whenever a missing comma is detected.
 - `"always-multiline"` - warn if there is a missing trailing comma on arrays or objects that span multiple lines, and warns if there is a trailing comma present on single line arrays or objects.
+- `"only-multiline"` - warn whenever a trailing comma is detected on single line nodes.
 - `"never"` - warn whenever a trailing comma is detected.
 
 The default value of this option is `"never"`.
@@ -147,6 +148,62 @@ var arr = [
 foo({
   bar: "baz",
   qux: "quux",
+});
+```
+
+The following patterns are considered problems when configured `"only-multiline"`:
+
+```js
+/*eslint comma-dangle: [1, "only-multiline"]*/
+
+var foo = { bar: "baz", qux: "quux", }; /*error Unexpected trailing comma.*/
+
+var arr = [1,2,];                       /*error Unexpected trailing comma.*/
+
+var arr = [1,
+    2,];                                /*error Unexpected trailing comma.*/
+
+```
+
+The following patterns are not considered problems when configured `"only-multiline"`:
+
+```js
+/*eslint comma-dangle: [2, "only-multiline"]*/
+
+var foo = {
+    bar: "baz",
+    qux: "quux",
+};
+
+var foo = {
+    bar: "baz",
+    qux: "quux"
+};
+
+var foo = {bar: "baz", qux: "quux"};
+var arr = [1,2];
+
+var arr = [1,
+    2];
+
+var arr = [
+    1,
+    2,
+];
+
+var arr = [
+    1,
+    2
+];
+
+foo({
+  bar: "baz",
+  qux: "quux",
+});
+
+foo({
+  bar: "baz",
+  qux: "quux"
 });
 ```
 
