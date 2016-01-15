@@ -150,7 +150,7 @@ ruleTester.run("object-curly-spacing", rule, {
                     message: "A space is required after '{'",
                     type: "ImportDeclaration",
                     line: 1,
-                    column: 9
+                    column: 8
                 },
                 {
                     message: "A space is required before '}'",
@@ -184,7 +184,7 @@ ruleTester.run("object-curly-spacing", rule, {
                     message: "A space is required after '{'",
                     type: "ImportDeclaration",
                     line: 1,
-                    column: 9
+                    column: 8
                 },
                 {
                     message: "A space is required before '}'",
@@ -248,7 +248,7 @@ ruleTester.run("object-curly-spacing", rule, {
                     message: "A space is required after '{'",
                     type: "ImportDeclaration",
                     line: 1,
-                    column: 12
+                    column: 11
                 },
                 {
                     message: "A space is required before '}'",
@@ -269,7 +269,7 @@ ruleTester.run("object-curly-spacing", rule, {
                     message: "A space is required after '{'",
                     type: "ImportDeclaration",
                     line: 1,
-                    column: 12
+                    column: 11
                 },
                 {
                     message: "A space is required before '}'",
@@ -289,7 +289,7 @@ ruleTester.run("object-curly-spacing", rule, {
                     message: "A space is required after '{'",
                     type: "ImportDeclaration",
                     line: 1,
-                    column: 9
+                    column: 8
                 },
                 {
                     message: "A space is required before '}'",
@@ -310,7 +310,7 @@ ruleTester.run("object-curly-spacing", rule, {
                     message: "There should be no space after '{'",
                     type: "ImportDeclaration",
                     line: 1,
-                    column: 9
+                    column: 8
                 },
                 {
                     message: "There should be no space before '}'",
@@ -330,7 +330,7 @@ ruleTester.run("object-curly-spacing", rule, {
                     message: "A space is required after '{'",
                     type: "ExportNamedDeclaration",
                     line: 1,
-                    column: 9
+                    column: 8
                 },
                 {
                     message: "A space is required before '}'",
@@ -446,7 +446,7 @@ ruleTester.run("object-curly-spacing", rule, {
                     message: "There should be no space after '{'",
                     type: "ObjectPattern",
                     line: 1,
-                    column: 6
+                    column: 5
                 },
                 {
                     message: "There should be no space before '}'",
@@ -495,7 +495,7 @@ ruleTester.run("object-curly-spacing", rule, {
                     message: "A space is required after '{'",
                     type: "ObjectExpression",
                     line: 1,
-                    column: 12
+                    column: 11
                 },
                 {
                     message: "A space is required before '}'",
@@ -514,7 +514,7 @@ ruleTester.run("object-curly-spacing", rule, {
                     message: "A space is required after '{'",
                     type: "ObjectExpression",
                     line: 1,
-                    column: 12
+                    column: 11
                 }
             ]
         },
@@ -540,7 +540,7 @@ ruleTester.run("object-curly-spacing", rule, {
                     message: "There should be no space after '{'",
                     type: "ObjectExpression",
                     line: 1,
-                    column: 12
+                    column: 11
                 },
                 {
                     message: "There should be no space before '}'",
@@ -572,7 +572,7 @@ ruleTester.run("object-curly-spacing", rule, {
                     message: "There should be no space after '{'",
                     type: "ObjectExpression",
                     line: 1,
-                    column: 12
+                    column: 11
                 }
             ]
         },
@@ -585,13 +585,13 @@ ruleTester.run("object-curly-spacing", rule, {
                     message: "There should be no space after '{'",
                     type: "ObjectExpression",
                     line: 1,
-                    column: 12
+                    column: 11
                 },
                 {
                     message: "There should be no space after '{'",
                     type: "ObjectExpression",
                     line: 1,
-                    column: 19
+                    column: 18
                 }
             ]
         },
@@ -624,7 +624,7 @@ ruleTester.run("object-curly-spacing", rule, {
                     message: "A space is required after '{'",
                     type: "ObjectExpression",
                     line: 1,
-                    column: 23
+                    column: 22
                 }
             ]
         },
@@ -640,7 +640,7 @@ ruleTester.run("object-curly-spacing", rule, {
                     message: "A space is required after '{'",
                     type: "ObjectPattern",
                     line: 1,
-                    column: 6
+                    column: 5
                 },
                 {
                     message: "A space is required before '}'",
@@ -674,7 +674,7 @@ ruleTester.run("object-curly-spacing", rule, {
                     message: "There should be no space after '{'",
                     type: "ObjectPattern",
                     line: 1,
-                    column: 6
+                    column: 5
                 },
                 {
                     message: "There should be no space before '}'",
@@ -722,7 +722,7 @@ ruleTester.run("object-curly-spacing", rule, {
                     message: "A space is required after '{'",
                     type: "ObjectPattern",
                     line: 1,
-                    column: 6
+                    column: 5
                 }
             ]
         },
