@@ -159,7 +159,7 @@ These rules are purely matters of style and are quite subjective.
 * [id-match](id-match.md) - require identifiers to match the provided regular expression
 * [id-blacklist](id-blacklist.md) - blacklist certain identifiers to prevent them being used
 * [indent](indent.md) - specify tab or space width for your code (fixable)
-* [jsx-quotes](jsx-quotes.md) - specify whether double or single quotes should be used in JSX attributes
+* [jsx-quotes](jsx-quotes.md) - specify whether double or single quotes should be used in JSX attributes (fixable)
 * [key-spacing](key-spacing.md) - enforce spacing between keys and values in object literal properties
 * [keyword-spacing](keyword-spacing.md) - enforce spacing before and after keywords (fixable)
 * [linebreak-style](linebreak-style.md) - disallow mixed 'LF' and 'CRLF' as linebreaks
