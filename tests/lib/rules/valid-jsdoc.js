@@ -41,6 +41,20 @@ ruleTester.run("valid-jsdoc", rule, {
         "/**\n* Description\n* @inheritDoc */\nfunction foo(arg1, arg2){ return ''; }",
         {
             code:
+                "call(\n" +
+                "  /**\n" +
+                "   * Doc for a function expression in a call expression.\n" +
+                "   * @param {string} argName This is the param description.\n" +
+                "   * @return {string} This is the return description.\n" +
+                "   */\n" +
+                "  function(argName) {\n" +
+                "    return 'the return';\n" +
+                "  }\n" +
+                ");\n",
+            options: [{requireReturn: false}]
+        },
+        {
+            code:
                 "/**\n" +
                 "* Create a new thing.\n" +
                 "*/\n" +
@@ -329,6 +343,24 @@ ruleTester.run("valid-jsdoc", rule, {
     ],
 
     invalid: [
+        {
+            code:
+                "call(\n" +
+                "  /**\n" +
+                "   * Doc for a function expression in a call expression.\n" +
+                "   * @param {string} bogusName This is the param description.\n" +
+                "   * @return {string} This is the return description.\n" +
+                "   */\n" +
+                "  function(argName) {\n" +
+                "    return 'the return';\n" +
+                "  }\n" +
+                ");\n",
+            options: [{requireReturn: false}],
+            errors: [{
+                message: "Expected JSDoc for 'argName' but found 'bogusName'.",
+                type: "Block"
+            }]
+        },
         {
             code: "/** @@foo */\nfunction foo(){}",
             errors: [{
