@@ -207,6 +207,36 @@ describe("SourceCode", function() {
 
         });
 
+        it("should get JSDoc comment for FunctionExpression in a CallExpression", function() {
+            var code = [
+                "call(",
+                "  /** Documentation. */",
+                "  function(argName) {",
+                "    return 'the return';",
+                "  }",
+                ");"
+            ].join("\n");
+
+            /**
+             * Check jsdoc presence
+             * @param {ASTNode} node not to check
+             * @returns {void}
+             * @private
+             */
+            function assertJSDoc(node) {
+                var sourceCode = eslint.getSourceCode();
+                var jsdoc = sourceCode.getJSDocComment(node);
+                assert.equal(jsdoc.type, "Block");
+                assert.equal(jsdoc.value, "* Documentation. ");
+            }
+
+            var spy = sandbox.spy(assertJSDoc);
+
+            eslint.on("FunctionExpression", spy);
+            eslint.verify(code, {rules: {}}, filename, true);
+            assert.isTrue(spy.calledOnce, "Event handler should be called.");
+        });
+
         it("should get JSDoc comment for node when the node is a FunctionDeclaration", function() {
 
             var code = [
