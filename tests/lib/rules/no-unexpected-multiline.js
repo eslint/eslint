@@ -24,7 +24,23 @@ ruleTester.run("no-unexpected-multiline", rule, {
         "var a = b\nvoid [1, 2, 3].forEach(console.log)",
         "\"abc\\\n(123)\"",
         "var a = (\n(123)\n)",
-        "f(\n(x)\n)"
+        "f(\n(x)\n)",
+        {
+            code: "let x = function() {};\n   `hello`",
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "let x = function() {}\nx `hello`",
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "String.raw `Hi\n${2+3}!`;",
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "x\n.y\nz `Valid Test Case`",
+            parserOptions: { ecmaVersion: 6 }
+        }
     ],
     invalid: [
         {
@@ -62,6 +78,27 @@ ruleTester.run("no-unexpected-multiline", rule, {
             line: 2,
             column: 3,
             errors: [{ message: "Unexpected newline between object and [ of property access." }]
+        },
+        {
+            code: "let x = function() {}\n `hello`",
+            parserOptions: { ecmaVersion: 6 },
+            line: 1,
+            column: 9,
+            errors: [{ message: "Unexpected newline between template tag and template literal." }]
+        },
+        {
+            code: "let x = function() {}\nx\n`hello`",
+            parserOptions: { ecmaVersion: 6 },
+            line: 2,
+            column: 1,
+            errors: [{ message: "Unexpected newline between template tag and template literal." }]
+        },
+        {
+            code: "x\n.y\nz\n`Invalid Test Case`",
+            parserOptions: { ecmaVersion: 6 },
+            line: 3,
+            column: 1,
+            errors: [{ message: "Unexpected newline between template tag and template literal." }]
         }
     ]
 });
