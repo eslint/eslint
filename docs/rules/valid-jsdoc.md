@@ -120,6 +120,17 @@ function foo(num1, num2) { }
 function foo(a) {
     return a;
 }
+
+// @returns is not required for a constructor
+class Foo {
+    /**
+    *
+    * @param {int} num1 The first number.
+    */
+    constructor(num1) {
+        this.num1 = num1;
+    }
+}
 ```
 
 ### Options
