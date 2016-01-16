@@ -39,6 +39,7 @@ ruleTester.run("no-eval", rule, {
         { code: "function foo() { var eval = 'foo'; global[eval]('foo') }", env: {"node": true} },
         "this.noeval('foo');",
         "function foo() { 'use strict'; this.eval('foo'); }",
+        { code: "function foo() { this.eval('foo'); }", parserOptions: { sourceType: "module" } },
         "var obj = {foo: function() { this.eval('foo'); }}",
         "var obj = {}; obj.foo = function() { this.eval('foo'); }",
         { code: "class A { foo() { this.eval(); } }", parserOptions: { ecmaVersion: 6 } },
