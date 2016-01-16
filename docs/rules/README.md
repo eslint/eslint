@@ -172,6 +172,7 @@ These rules are purely matters of style and are quite subjective.
 * [new-cap](new-cap.md) - require a capital letter for constructors
 * [new-parens](new-parens.md) - disallow the omission of parentheses when invoking a constructor with no arguments
 * [newline-after-var](newline-after-var.md) - require or disallow an empty newline after variable declarations
+* [newline-per-chained-call](newline-per-chained-call.md) - enforce newline after each call when chaining the calls
 * [no-array-constructor](no-array-constructor.md) - disallow use of the `Array` constructor
 * [no-bitwise](no-bitwise.md) - disallow use of bitwise operators
 * [no-continue](no-continue.md) - disallow use of the `continue` statement
