@@ -61,7 +61,7 @@ var NODE = "node ", // intentional extra space
     JS_FILES = find("lib/").filter(fileType("js")).join(" "),
     JSON_FILES = find("conf/").filter(fileType("json")).join(" ") + " .eslintrc",
     MARKDOWN_FILES_ARRAY = find("docs/").concat(ls(".")).filter(fileType("md")),
-    TEST_FILES = find("tests/lib/").filter(fileType("js")).join(" "),
+    TEST_FILES = getTestFilePatterns(),
     /* eslint-enable no-use-before-define */
 
     // Regex
@@ -74,6 +74,24 @@ var NODE = "node ", // intentional extra space
 //------------------------------------------------------------------------------
 // Helpers
 //------------------------------------------------------------------------------
+
+/**
+ * Generates file patterns for test files
+ * @returns {string} test file patterns
+ * @private
+ */
+function getTestFilePatterns() {
+    var testLibPath = "tests/lib/";
+
+    return ls(testLibPath).filter(function(pathToCheck) {
+        return test("-d", testLibPath + pathToCheck);
+    }).reduce(function(initialValue, currentValues) {
+        if (currentValues !== "rules") {
+            initialValue.push(testLibPath + currentValues + "/**/*.js");
+        }
+        return initialValue;
+    }, [testLibPath + "rules/**/*.js", testLibPath + "*.js"]).join(" ");
+}
 
 /**
  * Generates a function that matches files with a particular extension.

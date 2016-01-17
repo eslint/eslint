@@ -215,6 +215,16 @@ describe("ConfigFile", function() {
 
     describe("load", function() {
 
+        it("should throw error if file doesnt exist", function() {
+            assert.throws(function() {
+                ConfigFile.load(getFixturePath("legacy/nofile.js"));
+            });
+
+            assert.throws(function() {
+                ConfigFile.load(getFixturePath("legacy/package.json"));
+            });
+        });
+
         it("should load information from a legacy file", function() {
             var config = ConfigFile.load(getFixturePath("legacy/.eslintrc"));
             assert.deepEqual(config, {
@@ -463,6 +473,12 @@ describe("ConfigFile", function() {
                 StubbedConfigFile.write(config, filename);
             });
 
+        });
+
+        it("should throw error if file extension is not valid", function() {
+            assert.throws(function() {
+                ConfigFile.write({}, getFixturePath("yaml/.eslintrc.class"));
+            });
         });
     });
 

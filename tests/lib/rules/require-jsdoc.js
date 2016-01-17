@@ -54,6 +54,16 @@ ruleTester.run("require-jsdoc", rule, {
             }]
         },
         {
+            code: "var myFunction = function() {}",
+            options: [{
+                "require": {
+                    "FunctionDeclaration": false,
+                    "MethodDefinition": true,
+                    "ClassDeclaration": true
+                }
+            }]
+        },
+        {
             code:
                 "/**\n" +
                 " * Description for A.\n" +
@@ -138,6 +148,21 @@ ruleTester.run("require-jsdoc", rule, {
                 "require": {
                     "MethodDefinition": true,
                     "ClassDeclaration": true
+                }
+            }]
+        },
+        {
+            code:
+            "class A {\n" +
+            "    constructor(xs) {\n" +
+            "        this.a = xs;" +
+            "    }\n" +
+            "}",
+            parserOptions: { ecmaVersion: 6 },
+            options: [{
+                "require": {
+                    "MethodDefinition": false,
+                    "ClassDeclaration": false
                 }
             }]
         }
