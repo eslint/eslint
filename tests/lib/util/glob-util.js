@@ -214,5 +214,20 @@ describe("globUtil", function() {
             assert.equal(result.length, 0);
         });
 
+        it("should return a file only once if listed in more than 1 pattern", function() {
+            var patterns = [
+                getFixturePath("glob-util", "one-js-file", "**/*.js"),
+                getFixturePath("glob-util", "one-js-file", "baz.js")
+            ];
+            var result = globUtil.listFilesToProcess(patterns, {
+                cwd: path.join(fixtureDir, "..")
+            });
+
+            var file1 = getFixturePath("glob-util", "one-js-file", "baz.js");
+
+            assert.isArray(result);
+            assert.deepEqual(result, [file1]);
+        });
+
     });
 });

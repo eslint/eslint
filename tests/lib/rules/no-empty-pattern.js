@@ -26,7 +26,8 @@ ruleTester.run("no-empty-pattern", rule, {
         { code: "var {a, b = {}} = foo;", parserOptions: { ecmaVersion: 6 }},
         { code: "var {a = []} = foo;", parserOptions: { ecmaVersion: 6 }},
         { code: "function foo({a = {}}) {}", parserOptions: { ecmaVersion: 6 }},
-        { code: "function foo({a = []}) {}", parserOptions: { ecmaVersion: 6 }}
+        { code: "function foo({a = []}) {}", parserOptions: { ecmaVersion: 6 }},
+        { code: "var [a] = foo", parserOptions: { ecmaVersion: 6 }}
     ],
 
     // Examples of code that should trigger the rule
