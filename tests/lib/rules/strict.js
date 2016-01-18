@@ -65,12 +65,14 @@ ruleTester.run("strict", rule, {
             options: ["function"]
         },
 
-        // defaults to "function" mode
-        { code: "function foo() { 'use strict'; return; }" },
 
         // "safe" mode corresponds to "global" if ecmaFeatures.globalReturn is true, otherwise "function"
         { code: "function foo() { 'use strict'; return; }", options: ["safe"] },
-        { code: "'use strict'; function foo() { return; }", parserOptions: { ecmaFeatures: { globalReturn: true } }, options: ["safe"] }
+        { code: "'use strict'; function foo() { return; }", parserOptions: { ecmaFeatures: { globalReturn: true } }, options: ["safe"] },
+
+        // defaults to "safe" mode
+        { code: "function foo() { 'use strict'; return; }" },
+        { code: "'use strict'; function foo() { return; }", parserOptions: { ecmaFeatures: { globalReturn: true } } }
 
     ],
     invalid: [
@@ -296,18 +298,6 @@ ruleTester.run("strict", rule, {
         },
 
 
-        // Default to "function" mode
-        {
-            code: "'use strict'; function foo() { return; }",
-            errors: [
-                { message: "Use the function form of 'use strict'.", type: "ExpressionStatement" },
-                { message: "Use the function form of 'use strict'.", type: "FunctionDeclaration" }
-            ]
-        }, {
-            code: "function foo() { return; }",
-            errors: [{ message: "Use the function form of 'use strict'.", type: "FunctionDeclaration" }]
-        },
-
         // "safe" mode corresponds to "global" if ecmaFeatures.globalReturn is true, otherwise "function"
         {
             code: "'use strict'; function foo() { return; }",
@@ -321,6 +311,27 @@ ruleTester.run("strict", rule, {
             code: "function foo() { 'use strict'; return; }",
             parserOptions: { ecmaFeatures: { globalReturn: true } },
             options: ["safe"],
+            errors: [
+                { message: "Use the global form of 'use strict'.", type: "Program" },
+                { message: "Use the global form of 'use strict'.", type: "ExpressionStatement" }
+            ]
+        },
+
+        // Default to "safe" mode
+        {
+            code: "'use strict'; function foo() { return; }",
+            errors: [
+                { message: "Use the function form of 'use strict'.", type: "ExpressionStatement" },
+                { message: "Use the function form of 'use strict'.", type: "FunctionDeclaration" }
+            ]
+        },
+        {
+            code: "function foo() { return; }",
+            errors: [{ message: "Use the function form of 'use strict'.", type: "FunctionDeclaration" }]
+        },
+        {
+            code: "function foo() { 'use strict'; return; }",
+            parserOptions: { ecmaFeatures: { globalReturn: true } },
             errors: [
                 { message: "Use the global form of 'use strict'.", type: "Program" },
                 { message: "Use the global form of 'use strict'.", type: "ExpressionStatement" }
