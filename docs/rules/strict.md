@@ -117,7 +117,7 @@ function foo() {
 foo();
 ```
 
-### "function" (default)
+### "function"
 
 This mode ensures that all function bodies are strict mode code, while global code is not. Particularly if a build step concatenates multiple scripts, a Use Strict Directive in global code of one script could unintentionally enable strict mode in another script that was not intended to be strict code. It forbids any occurrence of a Use Strict Directive in global code. It requires exactly one Use Strict Directive in each function declaration or expression whose parent is global code. Use Strict Directives inside nested functions are considered unnecessary. Multiple Use Strict Directives at any level also trigger warnings.
 
@@ -164,13 +164,13 @@ function foo() {
 foo();
 ```
 
-### "safe"
+### "safe"  (default)
 
 Node.js and the CommonJS module system wrap modules inside a hidden function wrapper that defines each module's scope. The wrapper makes it safe to concatenate strict-mode modules while maintaining their original `"use strict"` directives. When the `node` or `commonjs` environments are enabled or `globalReturn` is enabled in `ecmaFeatures`, ESLint considers code to be inside the module wrapper, and `"safe"` mode corresponds to `"global"` mode and enforces global `"use strict"` directives. Everywhere else, `"safe"` mode corresponds to `"function"` mode and enforces `"use strict"` directives inside top-level functions.
 
 ### "deprecated" (Removed)
 
-**Replacement notice**: This mode, previously enabled by turning on the rule without specifying a mode, has been removed in ESLint v1.0. `"function"` mode is most similar to the deprecated behavior, and has been made the default if no mode is specified.
+**Replacement notice**: This mode, previously enabled by turning on the rule without specifying a mode, has been removed in ESLint v1.0. `"function"` mode is most similar to the deprecated behavior.
 
 This mode ensures that all functions are executed in strict mode. A Use Strict Directive must be present in global code or in every top-level function declaration or expression. It does not concern itself with unnecessary Use Strict Directives in nested functions that are already strict, nor with multiple Use Strict Directives at the same level.
 
