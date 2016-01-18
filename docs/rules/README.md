@@ -31,7 +31,7 @@ The following rules point out areas where you might have made mistakes.
 * [no-obj-calls](no-obj-calls.md) - disallow the use of object properties of the global object (`Math` and `JSON`) as functions (recommended)
 * [no-regex-spaces](no-regex-spaces.md) - disallow multiple spaces in a regular expression literal (recommended)
 * [no-sparse-arrays](no-sparse-arrays.md) - disallow sparse arrays (recommended)
-* [no-unexpected-multiline](no-unexpected-multiline.md) - Avoid code that looks like two expressions but is actually one
+* [no-unexpected-multiline](no-unexpected-multiline.md) - Avoid code that looks like two expressions but is actually one (recommended)
 * [no-unreachable](no-unreachable.md) - disallow unreachable statements after a return, throw, continue, or break statement (recommended)
 * [use-isnan](use-isnan.md) - disallow comparisons with the value `NaN` (recommended)
 * [valid-jsdoc](valid-jsdoc.md) - Ensure JSDoc comments are valid
@@ -54,11 +54,11 @@ These are rules designed to prevent you from making mistakes. They either prescr
 * [guard-for-in](guard-for-in.md) - make sure `for-in` loops have an `if` statement
 * [no-alert](no-alert.md) - disallow the use of `alert`, `confirm`, and `prompt`
 * [no-caller](no-caller.md) - disallow use of `arguments.caller` or `arguments.callee`
-* [no-case-declarations](no-case-declarations.md) - disallow lexical declarations in case clauses
+* [no-case-declarations](no-case-declarations.md) - disallow lexical declarations in case clauses (recommended)
 * [no-div-regex](no-div-regex.md) - disallow division operators explicitly at beginning of regular expression
 * [no-else-return](no-else-return.md) - disallow `else` after a `return` in an `if`
-* [no-empty-label](no-empty-label.md) - disallow use of labels for anything other than loops and switches
-* [no-empty-pattern](no-empty-pattern.md) - disallow use of empty destructuring patterns
+* [no-empty-label](no-empty-label.md) - disallow use of labels for anything other than loops and switches (recommended)
+* [no-empty-pattern](no-empty-pattern.md) - disallow use of empty destructuring patterns (recommended)
 * [no-eq-null](no-eq-null.md) - disallow comparisons to null without a type-checking operator
 * [no-eval](no-eval.md) - disallow use of `eval()`
 * [no-extend-native](no-extend-native.md) - disallow adding to native types
@@ -217,14 +217,14 @@ These rules are only relevant to ES6 environments.
 * [arrow-body-style](arrow-body-style.md) - require braces in arrow function body
 * [arrow-parens](arrow-parens.md) - require parens in arrow function arguments
 * [arrow-spacing](arrow-spacing.md) - require space before/after arrow function's arrow (fixable)
-* [constructor-super](constructor-super.md) - verify calls of `super()` in constructors
+* [constructor-super](constructor-super.md) - verify calls of `super()` in constructors (recommended)
 * [generator-star-spacing](generator-star-spacing.md) - enforce spacing around the `*` in generator functions (fixable)
-* [no-class-assign](no-class-assign.md) - disallow modifying variables of class declarations
+* [no-class-assign](no-class-assign.md) - disallow modifying variables of class declarations (recommended)
 * [no-confusing-arrow](no-confusing-arrow.md) - disallow arrow functions where they could be confused with comparisons
-* [no-const-assign](no-const-assign.md) - disallow modifying variables that are declared using `const`
-* [no-dupe-class-members](no-dupe-class-members.md) - disallow duplicate name in class members
-* [no-new-symbol](no-new-symbol.md) - disallow use of the `new` operator with the `Symbol` object
-* [no-this-before-super](no-this-before-super.md) - disallow use of `this`/`super` before calling `super()` in constructors.
+* [no-const-assign](no-const-assign.md) - disallow modifying variables that are declared using `const` (recommended)
+* [no-dupe-class-members](no-dupe-class-members.md) - disallow duplicate name in class members (recommended)
+* [no-new-symbol](no-new-symbol.md) - disallow use of the `new` operator with the `Symbol` object (recommended)
+* [no-this-before-super](no-this-before-super.md) - disallow use of `this`/`super` before calling `super()` in constructors (recommended)
 * [no-var](no-var.md) - require `let` or `const` instead of `var`
 * [no-useless-constructor](no-useless-constructor.md) - disallow unnecessary constructor
 * [object-shorthand](object-shorthand.md) - require method and property shorthand syntax for object literals
