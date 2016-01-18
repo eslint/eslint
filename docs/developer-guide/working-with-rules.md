@@ -243,7 +243,8 @@ Once you have an instance of `SourceCode`, you can use the methods on it to work
 
 There are also some properties you can access:
 
-* `text` - the full text of the code being linted.
+* `hasBOM` - the flag to indicate whether or not the source code has Unicode BOM.
+* `text` - the full text of the code being linted. Unicode BOM has been stripped from this text.
 * `ast` - the `Program` node of the AST for the code being linted.
 * `lines` - an array of lines, split according to the specification's definition of line breaks.
 

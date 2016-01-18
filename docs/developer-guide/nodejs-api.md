@@ -16,6 +16,18 @@ var code = new SourceCode("var foo = bar;", ast);
 
 The `SourceCode` constructor throws an error if the AST is missing any of the required information.
 
+The `SourceCode` constructor strips Unicode BOM.
+Please note the AST also should be parsed from stripped text.
+
+```js
+var SourceCode = require("eslint").SourceCode;
+
+var code = new SourceCode("\uFEFFvar foo = bar;", ast);
+
+assert(code.hasBOM === true);
+assert(code.text === "var foo = bar;");
+```
+
 ### splitLines()
 
 This is a static function on `SourceCode` that is used to split the source code text into an array of lines.
@@ -84,7 +96,6 @@ The `verify()` method returns an array of objects containing information about t
 ```js
 {
     fatal: false,
-    severity: 2,
     ruleId: "semi",
     severity: 2,
     line: 1,
