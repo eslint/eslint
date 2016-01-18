@@ -71,7 +71,10 @@ ruleTester.run("no-irregular-whitespace", rule, {
         "'\\\u2029';", // multiline string
         "'\u202F';",
         "'\u205f';",
-        "'\u3000';"
+        "'\u3000';",
+
+        // Unicode BOM.
+        "\uFEFFconsole.log('hello BOM');"
     ],
 
     invalid: [
