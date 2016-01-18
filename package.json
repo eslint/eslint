@@ -67,8 +67,10 @@
     "path-is-inside": "^1.0.1",
     "resolve": "^1.1.6",
     "progress": "^1.1.8",
+    "pluralize": "^1.2.1",
     "shelljs": "^0.5.3",
     "strip-json-comments": "~1.0.1",
+    "table": "^3.7.8",
     "text-table": "~0.2.0",
     "user-home": "^2.0.0",
     "xml-escape": "~1.0.0"
