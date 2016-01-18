@@ -91,6 +91,12 @@ describe("formatter:tap", function() {
                 line: 6,
                 column: 11,
                 ruleId: "bar"
+            }, {
+                message: "Unexpected baz.",
+                severity: 1,
+                line: 7,
+                column: 12,
+                ruleId: "baz"
             }]
         }];
 
@@ -104,6 +110,9 @@ describe("formatter:tap", function() {
             assert.include(result, "Unexpected bar.");
             assert.include(result, "line: 6");
             assert.include(result, "column: 11");
+            assert.include(result, "Unexpected baz.");
+            assert.include(result, "line: 7");
+            assert.include(result, "column: 12");
         });
     });
 
