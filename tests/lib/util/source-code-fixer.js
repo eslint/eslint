@@ -114,6 +114,16 @@ var INSERT_AT_END = {
             range: [-1, 0],
             text: "// start\n"
         }
+    },
+    NO_FIX1 = {
+        message: "nofix1",
+        line: 1,
+        column: 3
+    },
+    NO_FIX2 = {
+        message: "nofix2",
+        line: 1,
+        column: 7
     };
 
 //------------------------------------------------------------------------------
@@ -122,12 +132,27 @@ var INSERT_AT_END = {
 
 describe("SourceCodeFixer", function() {
 
+    describe("constructor", function() {
+
+        it("Should not be able to add anything to this", function() {
+            var result = new SourceCodeFixer();
+            assert.throws(function() {
+                result.test = 1;
+            });
+        });
+    });
+
     describe("applyFixes() with no BOM", function() {
 
         var sourceCode;
 
         beforeEach(function() {
             sourceCode = new SourceCode(TEST_CODE, TEST_AST);
+        });
+
+        it("Should have empty output if sourceCode is not provided", function() {
+            var result = SourceCodeFixer.applyFixes(null, [ INSERT_AT_END ]);
+            assert.equal(result.output.length, 0);
         });
 
         describe("Text Insertion", function() {
@@ -266,6 +291,15 @@ describe("SourceCodeFixer", function() {
                 assert.equal(result.messages.length, 1);
                 assert.equal(result.messages[0].message, "nofix");
                 assert.isFalse(result.fixed);
+            });
+
+            it("should sort the no fix messages correctly", function() {
+                var result = SourceCodeFixer.applyFixes(sourceCode, [ REPLACE_ID, NO_FIX2, NO_FIX1 ]);
+                assert.equal(result.output, TEST_CODE.replace("answer", "foo"));
+                assert.equal(result.messages.length, 2);
+                assert.equal(result.messages[0].message, "nofix1");
+                assert.equal(result.messages[1].message, "nofix2");
+                assert.isTrue(result.fixed);
             });
 
         });
