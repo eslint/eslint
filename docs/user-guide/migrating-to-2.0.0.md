@@ -288,3 +288,7 @@ So the second argument `ast` also should be parsed from stripped text.
 var ast = yourParser.parse(text.replace(/^\uFEFF/, ""), options);
 var sourceCode = new SourceCode(text, ast);
 ```
+
+## Rule Changes
+
+* [strict](strict.md) - defaults to `"safe"`
