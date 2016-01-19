@@ -56,6 +56,7 @@ The three error levels allow you fine-grained control over how ESLint applies ru
 ## Sponsors
 
 * Development is sponsored by [Box](https://box.com)
+* Site search ([eslint.org](http://eslint.org)) is sponsored by [Algolia](https://www.algolia.com)
 
 ## Team
 
