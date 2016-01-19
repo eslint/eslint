@@ -109,6 +109,13 @@ ruleTester.run("strict", rule, {
                 { message: "Strict mode is not permitted.", type: "ExpressionStatement" },
                 { message: "Strict mode is not permitted.", type: "ExpressionStatement" }
             ]
+        }, {
+            code: "\"use strict\"; foo();",
+            options: ["never"],
+            parserOptions: { sourceType: "module" },
+            errors: [
+                { message: "'use strict' is unnecessary inside of modules.", type: "ExpressionStatement" }
+            ]
         },
 
         // "global" mode
