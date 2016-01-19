@@ -76,7 +76,7 @@ describe("ConfigFile", function() {
         });
     });
 
-    describe("applyExtends", function() {
+    describe("applyExtends()", function() {
 
         it("should apply extensions when specified from package", function() {
 
@@ -213,7 +213,7 @@ describe("ConfigFile", function() {
 
     });
 
-    describe("load", function() {
+    describe("load()", function() {
 
         it("should throw error if file doesnt exist", function() {
             assert.throws(function() {
@@ -247,6 +247,12 @@ describe("ConfigFile", function() {
                     semi: [2, "always"]
                 }
             });
+        });
+
+        it("should throw error when loading invalid JavaScript file", function() {
+            assert.throws(function() {
+                ConfigFile.load(getFixturePath("js/.eslintrc.broken.js"));
+            }, /Cannot read config file/);
         });
 
         it("should load information from a JSON file", function() {
@@ -295,6 +301,12 @@ describe("ConfigFile", function() {
                 globals: {},
                 rules: {}
             });
+        });
+
+        it("should throw error when loading invalid package.json file", function() {
+            assert.throws(function() {
+                ConfigFile.load(getFixturePath("broken-package-json/package.json"));
+            }, /Cannot read config file/);
         });
 
         it("should load information from a package.json file and apply environments", function() {
@@ -347,6 +359,16 @@ describe("ConfigFile", function() {
             });
         });
 
+        it("should load information from a YAML file", function() {
+            var config = ConfigFile.load(getFixturePath("yaml/.eslintrc.empty.yaml"));
+            assert.deepEqual(config, {
+                parserOptions: {},
+                env: {},
+                globals: {},
+                rules: {}
+            });
+        });
+
         it("should load information from a YAML file and apply environments", function() {
             var config = ConfigFile.load(getFixturePath("yaml/.eslintrc.yaml"), true);
             assert.deepEqual(config, {
@@ -385,6 +407,37 @@ describe("ConfigFile", function() {
                 env: { es6: true },
                 globals: environments.es6.globals,
                 rules: { booya: 2 }
+            });
+        });
+
+
+        describe("Plugins", function() {
+
+            it("should load information from a YML file and load plugins", function() {
+
+                var StubbedPlugins = proxyquire("../../../lib/config/plugins", {
+                    "eslint-plugin-test": {
+                        environments: {
+                            bar: { globals: { bar: true } }
+                        }
+                    }
+                });
+
+                var StubbedConfigFile = proxyquire("../../../lib/config/config-file", {
+                    "./plugins": StubbedPlugins
+                });
+
+                var config = StubbedConfigFile.load(getFixturePath("plugins/.eslintrc.yml"));
+
+                assert.deepEqual(config, {
+                    parserOptions: {},
+                    env: { "test/bar": true },
+                    globals: {},
+                    plugins: [ "test" ],
+                    rules: {
+                        "test/foo": 2
+                    }
+                });
             });
         });
 
@@ -478,7 +531,7 @@ describe("ConfigFile", function() {
         it("should throw error if file extension is not valid", function() {
             assert.throws(function() {
                 ConfigFile.write({}, getFixturePath("yaml/.eslintrc.class"));
-            });
+            }, /write to unknown file type/);
         });
     });
 

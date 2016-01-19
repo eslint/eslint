@@ -25,6 +25,30 @@ proxyquire = proxyquire.noCallThru().noPreserveCache();
 
 
 /**
+ * Creates a stubbed Config object that will bypass normal require() to load
+ * plugins by name from the objects specified.
+ * @param {Object} plugins The keys are the package names, values are plugin objects.
+ * @returns {Config} The stubbed instance of Config.
+ * @private
+ */
+function createStubbedConfigWithPlugins(plugins) {
+
+    // stub out plugins
+    var StubbedPlugins = proxyquire("../../lib/config/plugins", plugins);
+
+    // stub out config file to use stubbed plugins
+    var StubbedConfigFile = proxyquire("../../lib/config/config-file", {
+        "./plugins": StubbedPlugins
+    });
+
+    // stub out Config to use stub config file
+    return proxyquire("../../lib/config", {
+        "./config/config-file": StubbedConfigFile,
+        "./config/plugins": StubbedPlugins
+    });
+}
+
+/**
  * Asserts that two configs are equal. This is necessary because assert.deepEqual()
  * gets confused when properties are in different orders.
  * @param {Object} actual The config object to check.
@@ -391,12 +415,17 @@ describe("Config", function() {
             assertConfigsEqual(actual, expected);
         });
 
-        it("should return a modified config when baseConfig is set to an object with plugin and no .eslintrc", function() {
+        it("should return a modified config without plugin rules enabled when baseConfig is set to an object with plugin and no .eslintrc", function() {
             var customRule = require("../fixtures/rules/custom-rule");
             var examplePluginName = "eslint-plugin-example";
             var requireStubs = {};
 
-            requireStubs[examplePluginName] = { rules: { "example-rule": customRule }, rulesConfig: { "example-rule": 1 } };
+            requireStubs[examplePluginName] = {
+                rules: { "example-rule": customRule },
+
+                // rulesConfig support removed in 2.0.0, so this should have no effect
+                rulesConfig: { "example-rule": 1 }
+            };
 
             var StubbedConfig = proxyquire("../../lib/config", requireStubs);
             var configHelper = new StubbedConfig({
@@ -417,8 +446,7 @@ describe("Config", function() {
                         node: true
                     },
                     rules: {
-                        quotes: [2, "single"],
-                        "example/example-rule": 1
+                        quotes: [2, "single"]
                     }
                 },
                 actual = configHelper.getConfig(file);
@@ -607,7 +635,13 @@ describe("Config", function() {
         // Command line configuration - --plugin
         it("should merge command line plugin with local .eslintrc", function() {
 
-            var configHelper = new Config({
+            // stub out Config to use stub config file
+            var StubbedConfig = createStubbedConfigWithPlugins({
+                "eslint-plugin-example": {},
+                "eslint-plugin-another-plugin": {}
+            });
+
+            var configHelper = new StubbedConfig({
                     plugins: [ "another-plugin" ],
                     cwd: process.cwd()
                 }),
@@ -1139,134 +1173,6 @@ describe("Config", function() {
             assertConfigsEqual(actual, expected);
         });
 
-        describe("with plugin configuration", function() {
-            var customRule = require("../fixtures/rules/custom-rule");
-
-            var examplePluginName = "eslint-plugin-example",
-                exampleConfigName = "eslint-config-example",
-                testPluginName = "eslint-plugin-test",
-                requireStubs = {},
-                examplePluginRules = { "example-rule": customRule },
-                testPluginRules = { "test-rule": customRule },
-                examplePlugin = { rules: examplePluginRules, rulesConfig: { "example-rule": 1 } },
-                testPlugin = { rules: testPluginRules, rulesConfig: { "test-rule": 1, "quotes": 0} },
-                StubbedConfig;
-
-            it("should return config with plugin config", function() {
-                requireStubs[examplePluginName] = examplePlugin;
-
-                StubbedConfig = proxyquire("../../lib/config", requireStubs);
-
-                var configHelper = new StubbedConfig({ cwd: process.cwd() }),
-                    file = getFixturePath("broken", "plugins", "console-wrong-quotes.js"),
-                    expected = {
-                        env: {
-                            node: true
-                        },
-                        rules: {
-                            quotes: [2, "double"],
-                            "example/example-rule": 1
-                        },
-                        plugins: ["example"]
-                    },
-                    actual = configHelper.getConfig(file);
-                assertConfigsEqual(actual, expected);
-            });
-
-            it("should only return plugin config for rules with correct prefix", function() {
-                examplePlugin = { rules: examplePluginRules, rulesConfig: { "example-rule": 1, "quotes": 2 } };
-
-                requireStubs[examplePluginName] = examplePlugin;
-
-                StubbedConfig = proxyquire("../../lib/config", requireStubs);
-
-                var configHelper = new StubbedConfig({ cwd: process.cwd() }),
-                    file = getFixturePath("broken", "plugins", "console-wrong-quotes.js"),
-                    expected = {
-                        env: {
-                            node: true
-                        },
-                        rules: {
-                            quotes: [2, "double"],
-                            "example/example-rule": 1,
-                            "example/quotes": 2
-                        },
-                        plugins: ["example"]
-                    },
-                    actual = configHelper.getConfig(file);
-                assertConfigsEqual(actual, expected);
-            });
-
-            it("should return merged configs for both plugins", function() {
-                requireStubs[examplePluginName] = examplePlugin;
-                requireStubs[testPluginName] = testPlugin;
-
-                StubbedConfig = proxyquire("../../lib/config", requireStubs);
-
-                var configHelper = new StubbedConfig({ cwd: process.cwd() }),
-                    file = getFixturePath("broken", "plugins2", "console-wrong-quotes.js"),
-                    expected = {
-                        env: {
-                            node: true
-                        },
-                        rules: {
-                            quotes: [2, "double"],
-                            "example/example-rule": 1,
-                            "example/quotes": 2,
-                            "test/test-rule": 1,
-                            "test/quotes": 0
-                        },
-                        plugins: ["example", "eslint-plugin-test"]
-                    },
-                    actual = configHelper.getConfig(file);
-                assertConfigsEqual(actual, expected);
-            });
-
-            it("should still work if the plugin does not provide a default configuration", function() {
-                requireStubs[examplePluginName] = { rules: examplePluginRules };
-
-                StubbedConfig = proxyquire("../../lib/config", requireStubs);
-
-                var configHelper = new StubbedConfig({ cwd: process.cwd() }),
-                    file = getFixturePath("broken", "plugins", "console-wrong-quotes.js"),
-                    expected = {
-                        env: {
-                            node: true
-                        },
-                        rules: {
-                            quotes: [2, "double"]
-                        },
-                        plugins: ["example"]
-                    },
-                    actual = configHelper.getConfig(file);
-
-                assertConfigsEqual(actual, expected);
-            });
-
-            it("should not clobber config objects when loading shared configs", function() {
-
-                var configFileDeps = {};
-                configFileDeps[exampleConfigName] = { rules: { "example-rule": 2 } };
-
-                var configDeps = {};
-                configDeps["./config/config-file"] = proxyquire("../../lib/config/config-file", configFileDeps);
-
-                StubbedConfig = proxyquire("../../lib/config", configDeps);
-
-                var configHelper = new StubbedConfig({ cwd: process.cwd() }),
-                    file1 = getFixturePath("shared", "a", "index.js"),
-                    file2 = getFixturePath("shared", "b", "index.js");
-
-                // first load creates object
-                configHelper.getConfig(file1);
-
-                // subsequent loads clobber #2592
-                var expected = configHelper.getConfig(file2);
-
-                assert(!("quotes" in expected.rules), "shared config should not be clobbered");
-            });
-        });
-
         describe("with env in a child configuration file", function() {
             it("should overwrite parserOptions of the parent with env of the child", function() {
                 var config = new Config({ cwd: process.cwd() });
@@ -1411,6 +1317,31 @@ describe("Config", function() {
 
                 assert.deepEqual(actual, expected);
             });
+        });
+    });
+
+    describe("Plugin Environments", function() {
+        it("should load environments from plugin", function() {
+
+            var StubbedConfig = createStubbedConfigWithPlugins({
+                "eslint-plugin-test": {
+                    environments: { example: { globals: { test: false } } }
+                }
+            });
+
+            var configPath = path.resolve(__dirname, "..", "fixtures", "environments", "plugin.yaml"),
+                configHelper = new StubbedConfig({
+                    reset: true, configFile: configPath, useEslintrc: false
+                }),
+                expected = {
+                    env: {
+                        "test/example": true
+                    },
+                    plugins: ["test"]
+                },
+                actual = configHelper.getConfig(configPath);
+
+            assertConfigsEqual(actual, expected);
         });
     });
 });
