@@ -17,29 +17,11 @@ var assert = require("chai").assert,
 
 describe("util", function() {
 
-    describe("removePluginPrefix()", function() {
-        it("should remove common prefix when passed a plugin name  with a prefix", function() {
-            var pluginName = util.removePluginPrefix("eslint-plugin-test");
-            assert.equal(pluginName, "test");
-        });
 
-        it("should not modify plugin name when passed a plugin name without a prefix", function() {
-            var pluginName = util.removePluginPrefix("test");
-            assert.equal(pluginName, "test");
-        });
-    });
-
-    describe("getNamespace()", function() {
-        it("should remove namepace when passed with namepace", function() {
-            var namespace = util.getNamespace("@namepace/eslint-plugin-test");
-            assert.equal(namespace, "@namepace/");
-        });
-    });
-
-    describe("removeNameSpace()", function() {
-        it("should remove namepace when passed with namepace", function() {
-            var namespace = util.removeNameSpace("@namepace/eslint-plugin-test");
-            assert.equal(namespace, "eslint-plugin-test");
+    describe("getLast()", function() {
+        it("should return the last item in the array", function() {
+            var items = [1, 2, 3];
+            assert.equal(util.getLast(items), 3);
         });
     });
 
