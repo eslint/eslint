@@ -167,7 +167,7 @@ These rules are purely matters of style and are quite subjective.
 * [max-depth](max-depth.md) - specify the maximum depth that blocks can be nested
 * [max-len](max-len.md) - specify the maximum length of a line in your program
 * [max-nested-callbacks](max-nested-callbacks.md) - specify the maximum depth callbacks can be nested
-* [max-params](max-params.md) - limits the number of parameters that can be used in the function declaration.
+* [max-params](max-params.md) - limits the number of parameters that can be used in the function declaration
 * [max-statements](max-statements.md) - specify the maximum number of statement allowed in a function
 * [new-cap](new-cap.md) - require a capital letter for constructors
 * [new-parens](new-parens.md) - disallow the omission of parentheses when invoking a constructor with no arguments
@@ -232,7 +232,7 @@ These rules are only relevant to ES6 environments.
 * [prefer-const](prefer-const.md) - suggest using `const` declaration for variables that are never modified after declared
 * [prefer-reflect](prefer-reflect.md) - suggest using Reflect methods where applicable
 * [prefer-rest-params](prefer-rest-params.md) - suggest using the rest parameters instead of `arguments`
-* [prefer-spread](prefer-spread.md) - suggest using the spread operator instead of `.apply()`.
+* [prefer-spread](prefer-spread.md) - suggest using the spread operator instead of `.apply()`
 * [prefer-template](prefer-template.md) - suggest using template literals instead of strings concatenation
 * [require-yield](require-yield.md) - disallow generator functions that do not have `yield`
 * [yield-star-spacing](yield-star-spacing.md) - enforce spacing around the `*` in `yield*` expressions (fixable)
