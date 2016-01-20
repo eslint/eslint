@@ -167,6 +167,7 @@
         "object-curly-spacing": 0,
         "object-shorthand": 0,
         "one-var": 0,
+        "one-var-declaration-per-line": 0,
         "operator-assignment": 0,
         "operator-linebreak": 0,
         "padded-blocks": 0,
