@@ -86,32 +86,15 @@
         </style>
     </head>
     <body>
-        <div id="overview" class="bg-{{getColor totalErrors totalWarnings}}">
+        <div id="overview" class="bg-<%= reportColor %>">
             <h1>ESLint Report</h1>
             <div>
-                <span>{{renderText totalErrors totalWarnings}}</span> - Generated on {{date}}
+                <span><%= reportSummary %></span> - Generated on <%= date %>
             </div>
         </div>
         <table>
             <tbody>
-                {{#each results}}
-                    <tr class="bg-{{getColor this.errorCount this.warningCount}}" data-group="f-{{@index}}">
-                        <th colspan="4">
-                            [+] {{this.filePath}}
-                            <span>{{renderText this.errorCount this.warningCount}}</span>
-                        </th>
-                    </tr>
-                    {{#each this.messages}}
-                        <tr class="f-{{@../index}}" style="display:none">
-                            <td>{{#if this.line}}{{this.line}}{{else}}0{{/if}}:{{#if this.column}}{{this.column}}{{else}}0{{/if}}</td>
-                            {{getSeverity this.severity}}
-                            <td>{{this.message}}</td>
-                            <td>
-                                <a href="http://eslint.org/docs/rules/{{this.ruleId}}" target="_blank">{{this.ruleId}}</a>
-                            </td>
-                        </tr>
-                    {{/each}}
-                {{/each}}
+                <%= results %>
             </tbody>
         </table>
         <script type="text/javascript">

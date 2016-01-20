@@ -11,7 +11,7 @@
 //------------------------------------------------------------------------------
 
 var assert = require("chai").assert,
-    assign = require("object-assign"),
+    lodash = require("lodash"),
     environments = require("../../../conf/environments"),
     ConfigOps = require("../../../lib/config/config-ops"),
     proxyquire = require("proxyquire");
@@ -79,7 +79,7 @@ describe("ConfigOps", function() {
                     ecmaVersion: 6,
                     ecmaFeatures: environments.node.parserOptions.ecmaFeatures
                 },
-                globals: assign({}, environments.node.globals, environments.es6.globals)
+                globals: lodash.assign({}, environments.node.globals, environments.es6.globals)
             });
         });
     });

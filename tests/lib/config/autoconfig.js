@@ -11,13 +11,13 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var assert = require("chai").assert,
-    assign = require("object-assign"),
+var lodash = require("lodash"),
+    assert = require("chai").assert,
     autoconfig = require("../../../lib/config/autoconfig"),
     sourceCodeUtil = require("../../../lib/util/source-code-util"),
     defaultOptions = require("../../../conf/cli-options");
 
-defaultOptions = assign({}, defaultOptions, {cwd: process.cwd()});
+defaultOptions = lodash.assign({}, defaultOptions, {cwd: process.cwd()});
 
 //------------------------------------------------------------------------------
 // Data
