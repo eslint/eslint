@@ -10,7 +10,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var cloneDeep = require("lodash.clonedeep");
+var lodash = require("lodash");
 var rule = require("../../../lib/rules/no-invalid-this");
 var RuleTester = require("../../../lib/testers/rule-tester");
 
@@ -69,7 +69,7 @@ function extractPatterns(patterns, type) {
     // Clone and apply the pattern environment.
     var patternsList = patterns.map(function(pattern) {
         return pattern[type].map(function(applyCondition) {
-            var thisPattern = cloneDeep(pattern);
+            var thisPattern = lodash.cloneDeep(pattern);
             applyCondition(thisPattern);
 
             if (type === "valid") {
