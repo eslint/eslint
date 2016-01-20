@@ -131,6 +131,7 @@ ruleTester.run("valid-jsdoc", rule, {
             options: [{requireReturnDescription: false}]
         },
         "var obj = {\n /**\n * Getter\n * @type {string}\n */\n get location() {\n return this._location;\n }\n }",
+        "var obj = {\n /**\n * Setter\n * @param {string} value The location\n */\n set location(value) {\n this._location = value;\n }\n }",
         {
             code: "/**\n * Description for A.\n */\n class A {\n /**\n * Description for constructor.\n * @param {object[]} xs - xs\n */\n constructor(xs) {\n /**\n * Description for this.xs;\n * @type {object[]}\n */\n this.xs = xs.filter(x => x != null);\n }\n}",
             options: [{requireReturn: false}],
@@ -192,27 +193,26 @@ ruleTester.run("valid-jsdoc", rule, {
                 "        this.a = xs;" +
                 "    }\n" +
                 "}",
-            options: [{requireReturn: false}],
+            options: [{requireReturn: true}],
             parserOptions: {
                 ecmaVersion: 6
             }
         },
         {
             code:
-                "/**\n" +
-                " * Description for A.\n" +
-                " */\n" +
-                "class A {\n" +
-                "    /**\n" +
-                "     * Description for constructor.\n" +
-                "     * @param {object[]} xs - xs\n" +
-                "     * @returns {void}\n" +
-                "     */\n" +
-                "    constructor(xs) {\n" +
-                "        this.a = xs;" +
-                "    }\n" +
-                "}",
-            options: [{requireReturn: true}],
+            "/**\n" +
+            " * Description for A.\n" +
+            " */\n" +
+            "class A {\n" +
+            "    /**\n" +
+            "     * Description for method.\n" +
+            "     * @param {object[]} xs - xs\n" +
+            "     */\n" +
+            "    print(xs) {\n" +
+            "        this.a = xs;" +
+            "    }\n" +
+            "}",
+            options: [{requireReturn: false}],
             parserOptions: {
                 ecmaVersion: 6
             }
@@ -506,10 +506,10 @@ ruleTester.run("valid-jsdoc", rule, {
             "var A = \n" +
             "  class {\n" +
             "    /**\n" +
-            "     * Description for constructor.\n" +
+            "     * Description for method.\n" +
             "     * @param {object[]} xs - xs\n" +
             "     */\n" +
-            "    constructor(xs) {\n" +
+            "    print(xs) {\n" +
             "        this.a = xs;" +
             "    }\n" +
             "};",
@@ -730,7 +730,7 @@ ruleTester.run("valid-jsdoc", rule, {
                 "     * Description for constructor.\n" +
                 "     * @param {object[]} xs - xs\n" +
                 "     */\n" +
-                "    constructor(xs) {\n" +
+                "    print(xs) {\n" +
                 "        this.a = xs;" +
                 "    }\n" +
                 "};",
