@@ -1087,13 +1087,13 @@ describe("eslint", function() {
 
         // custom parser unsupported in browser, only test in Node
         if (typeof window === "undefined") {
-            it("should pass parser as parserName to all rules when provided on config", function() {
+            it("should pass parser as parserPath to all rules when provided on config", function() {
 
                 var alternateParser = "esprima-fb";
 
                 eslint.reset();
                 eslint.defineRule("test-rule", sandbox.mock().withArgs(
-                    sinon.match({parserName: alternateParser})
+                    sinon.match({parserPath: alternateParser})
                 ).returns({}));
 
                 var config = { rules: { "test-rule": 2 }, parser: alternateParser };
@@ -1102,13 +1102,13 @@ describe("eslint", function() {
             });
         }
 
-        it("should pass parser as parserName to all rules when default parser is used", function() {
+        it("should pass parser as parserPath to all rules when default parser is used", function() {
 
             var DEFAULT_PARSER = eslint.defaults().parser;
 
             eslint.reset();
             eslint.defineRule("test-rule", sandbox.mock().withArgs(
-                sinon.match({parserName: DEFAULT_PARSER})
+                sinon.match({parserPath: DEFAULT_PARSER})
             ).returns({}));
 
             var config = { rules: { "test-rule": 2 } };

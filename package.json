@@ -64,6 +64,7 @@
     "optionator": "^0.8.1",
     "path-is-absolute": "^1.0.0",
     "path-is-inside": "^1.0.1",
+    "resolve": "^1.1.6",
     "shelljs": "^0.5.3",
     "strip-json-comments": "~1.0.1",
     "text-table": "~0.2.0",
