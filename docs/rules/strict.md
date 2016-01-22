@@ -35,7 +35,7 @@ There are four options for this rule:
 1. `"function"` - require `"use strict"` in function scopes only
 1. `"safe"` - require `"use strict"` globally when inside a module wrapper and in function scopes everywhere else.
 
-All strict mode directives are flagged as unnecessary if ECMAScript modules are enabled (see [Configuring ESLint](configuring)). This behaviour does not depend on the rule options, but can be silenced by disabling this rule.
+All strict mode directives are flagged as unnecessary if ECMAScript modules are enabled (see [Specifying Parser Options](../user-guide/configuring#specifying-parser-options)). This behaviour does not depend on the rule options, but can be silenced by disabling this rule.
 
 ### "never"
 
