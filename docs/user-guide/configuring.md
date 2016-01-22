@@ -55,7 +55,7 @@ By default, ESLint uses [Espree](https://github.com/eslint/espree) as its parser
 
 Note that even with these compatibilities, there are no guarantees that an external parser will work correctly with ESLint and ESLint will not fix bugs related to incompatibilities with other parsers.
 
-To indicate the npm module to use as your parser, specify it using the `parser` option in your `.eslintrc` file. For example, the following specifies to use Esprima instead of Espree:
+To indicate the npm module to use as your parser, specify it using the `parser` option in your `.eslintrc.*` file. For example, the following specifies to use Esprima instead of Espree:
 
 ```json
 {
@@ -65,6 +65,8 @@ To indicate the npm module to use as your parser, specify it using the `parser` 
     }
 }
 ```
+
+The value of `parser` can be a package, as in this example, or a filename. In both cases, the path is resolved relative to the configuration file. For if your configuration file is in `~/project/.esintrc.js`, then `esprima` will start the search from `~/projects/node_modules/esprima`. Similarly, any relative path in the `parser` field will be relative to the config file.
 
 The following parsers are compatible with ESLint:
 
@@ -531,8 +533,10 @@ Configurations may also be provided as an array, with additional files overridin
 {
     "extends": [
         "./node_modules/coding-standard/eslintDefaults.js",
+
         // Override eslintDefaults.js
         "./node_modules/coding-standard/.eslintrc-es6",
+
         // Override .eslintrc-es6
         "./node_modules/coding-standard/.eslintrc-jsx",
     ],
@@ -559,7 +563,7 @@ You can also extend configurations using shareable configuration packages. To do
 }
 ```
 
-In this example, the `eslint-config-myrules` package will be loaded as an object and used as the parent of this configuration.
+In this example, the `eslint-config-myrules` package will be loaded as an object and used as the parent of this configuration. Similar to the `parser` setting, any package specified in `extends` is resolved from the configuration file location rather than the current working directory.
 
 **Note:** You can omit `eslint-config-` and ESLint will automatically insert it for you, similar to how plugins work. See [Shareable Configs](../developer-guide/shareable-configs) for more information.
 
