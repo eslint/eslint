@@ -84,6 +84,23 @@ array corresponds to the part that was returned from the `preprocess` method. Th
 You can have both rules and processors in a single plugin. You can also have multiple processors in one plugin.
 To support multiple extensions, add each one to the `processors` element and point them to the same object.
 
+### Configs in Plugins
+
+You can bundle configurations inside a plugin. This can be useful when you want to provide not just code style, but also some custom rules to support it. You can specify configurations under `configs` key. Please note that when exposing configurations, you have to name each one, and there is no default. So your users will have to specify the name of the configuration they want to use.
+
+```js
+configs: {
+    myConfig: {
+        env: ["browser"],
+        rules: {
+            semi: 2
+        }
+    }
+}
+```
+
+**Note:** Please note that configuration will not automatically attach your rules and you have to specify your plugin name and any rules you want to enable that are part of the plugin. See [Configuring Plugins](../user-guide/configuring#configuring-plugins)
+
 ### Peer Dependency
 
 To make clear that the plugin requires ESLint to work correctly you have to declare ESLint as a `peerDependency` in your `package.json`.
