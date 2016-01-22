@@ -36,7 +36,13 @@ ruleTester.run("prefer-const", rule, {
         { code: "(function() { for (let i = 0, end = 10; i < end; ++i) {} })();", parserOptions: { ecmaVersion: 6 } },
         { code: "(function() { for (let i in [1,2,3]) { i = 0; } })();", parserOptions: { ecmaVersion: 6 } },
         { code: "(function() { for (let x of [1,2,3]) { x = 0; } })();", parserOptions: { ecmaVersion: 6 } },
-        { code: "(function(x = 0) { })();", parserOptions: { ecmaVersion: 6 } }
+        { code: "(function(x = 0) { })();", parserOptions: { ecmaVersion: 6 } },
+        { code: "let a; while (a = foo());", parserOptions: { ecmaVersion: 6 } },
+        { code: "let a; do {} while (a = foo());", parserOptions: { ecmaVersion: 6 } },
+        { code: "let a; for (; a = foo(); );", parserOptions: { ecmaVersion: 6 } },
+        { code: "let a; for (;; ++a);", parserOptions: { ecmaVersion: 6 } },
+        { code: "let a; for (const {b = ++a} in foo());", parserOptions: { ecmaVersion: 6 } },
+        { code: "let a; for (const {b = ++a} of foo());", parserOptions: { ecmaVersion: 6 } }
     ],
     invalid: [
         {
