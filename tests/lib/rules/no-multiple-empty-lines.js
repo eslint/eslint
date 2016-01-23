@@ -52,6 +52,24 @@ function getExpectedErrorEOF(lines) {
     };
 }
 
+/**
+ * Creates the expected error message object for the specified number of lines
+ * @param {lines} lines - The number of lines expected.
+ * @returns {object} the expected error message object
+ * @private
+ */
+function getExpectedErrorBOF(lines) {
+    if (typeof lines !== "number") {
+        lines = 0;
+    }
+
+    return {
+        message: "Too many blank lines at the beginning of file. Max of " + lines + " allowed.",
+        type: "Program"
+    };
+}
+
+
 ruleTester.run("no-multiple-empty-lines", rule, {
 
     valid: [
@@ -91,26 +109,35 @@ ruleTester.run("no-multiple-empty-lines", rule, {
             code: "// valid 9\nvar a = 1;\n\n",
             options: [{ "max": 2, "maxEOF": 1 }]
         },
+        {
+            code: "// valid 10\nvar a = 5;\n",
+            options: [ { max: 0, maxBOF: 0 } ]
+        },
+        {
+            code: "\n// valid 11\nvar a = 1;\n",
+            options: [{ "max": 2, "maxBOF": 1 }]
+        },
 
         // template strings
         {
-            code: "// valid 10\nx = `\n\n\n\nhi\n\n\n\n`",
+            code: "// valid 12\nx = `\n\n\n\nhi\n\n\n\n`",
             options: [ { max: 2 } ],
             parserOptions: { ecmaVersion: 6 }
         },
         {
-            code: "// valid 11\n`\n\n`",
+            code: "// valid 13\n`\n\n`",
             options: [ { max: 0 } ],
             parserOptions: { ecmaVersion: 6 }
         },
-
         {
-            code: "// valid 12\nvar a = 5;\n\n\n\n\n",
-            options: [ { max: 0, maxEOF: 4 } ]
+            code: "// valid 14\nvar a = 5;`\n\n\n\n\n`",
+            options: [ { max: 0, maxEOF: 0 } ],
+            parserOptions: { ecmaVersion: 6 }
         },
         {
-            code: "// valid 13\nvar a = 5;\n\n\n\n",
-            options: [ { max: 3 } ]
+            code: "`\n\n\n\n\n`\n// valid 15\nvar a = 5;",
+            options: [ { max: 0, maxBOF: 0 } ],
+            parserOptions: { ecmaVersion: 6 }
         }
     ],
 
@@ -184,6 +211,34 @@ ruleTester.run("no-multiple-empty-lines", rule, {
             code: "// invalid 14\nvar a = 5;\n\n",
             errors: [ getExpectedErrorEOF(0) ],
             options: [ { max: 2, maxEOF: 0 } ]
+        },
+        {
+            code: "\n\n// invalid 15\nvar a = 5;\n",
+            errors: [ getExpectedErrorBOF(1) ],
+            options: [ { max: 5, maxBOF: 1 } ]
+        },
+        {
+            code: "\n\n\n\n\n// invalid 16\nvar a = 5;\n",
+            errors: [ getExpectedErrorBOF(4),
+                      getExpectedError(0) ],
+            options: [ { max: 0, maxBOF: 4 } ]
+        },
+        {
+            code: "\n\n// invalid 17\n\n\n\n\n\n\n\n\nvar a = 5;\n",
+            errors: [ getExpectedErrorBOF(1) ],
+            options: [ { max: 10, maxBOF: 1 } ]
+        },
+        {
+            code: "\n// invalid 18\nvar a = 5;\n",
+            errors: [ getExpectedErrorBOF(0) ],
+            options: [ { max: 2, maxBOF: 0 } ]
+        },
+        {
+            code: "\n\n\n// invalid 19\nvar a = 5;\n\n",
+            errors: [ getExpectedErrorBOF(0),
+                      getExpectedError(2),
+                      getExpectedErrorEOF(0) ],
+            options: [ { max: 2, maxBOF: 0, maxEOF: 0 } ]
         }
     ]
 });
