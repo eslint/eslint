@@ -235,6 +235,10 @@ ruleTester.run("keyword-spacing", rule, {
         {code: "!class {}", parserOptions: {ecmaVersion: 6}},
         {code: "! class{}", options: [NEITHER], parserOptions: {ecmaVersion: 6}},
 
+        // not conflict with `template-curly-spacing`
+        {code: "`${class {}}`", parserOptions: {ecmaVersion: 6}},
+        {code: "`${ class{}}`", options: [NEITHER], parserOptions: {ecmaVersion: 6}},
+
         // not conflict with `jsx-curly-spacing`
         {code: "<Foo onClick={class {}} />", parserOptions: {ecmaVersion: 6, ecmaFeatures: {jsx: true}}},
         {code: "<Foo onClick={ class{}} />", options: [NEITHER], parserOptions: {ecmaVersion: 6, ecmaFeatures: {jsx: true}}},
@@ -361,6 +365,10 @@ ruleTester.run("keyword-spacing", rule, {
         // not conflict with `space-unary-ops`
         {code: "!delete(foo.a)"},
         {code: "! delete (foo.a)", options: [NEITHER]},
+
+        // not conflict with `template-curly-spacing`
+        {code: "`${delete foo.a}`", parserOptions: {ecmaVersion: 6}},
+        {code: "`${ delete foo.a}`", options: [NEITHER], parserOptions: {ecmaVersion: 6}},
 
         // not conflict with `jsx-curly-spacing`
         {code: "<Foo onClick={delete foo.a} />", parserOptions: {ecmaFeatures: {jsx: true}}},
@@ -551,6 +559,10 @@ ruleTester.run("keyword-spacing", rule, {
         {code: "!function() {}"},
         {code: "! function() {}", options: [NEITHER]},
 
+        // not conflict with `template-curly-spacing`
+        {code: "`${function() {}}`", parserOptions: {ecmaVersion: 6}},
+        {code: "`${ function() {}}`", options: [NEITHER], parserOptions: {ecmaVersion: 6}},
+
         // not conflict with `jsx-curly-spacing`
         {code: "<Foo onClick={function() {}} />", parserOptions: {ecmaFeatures: {jsx: true}}},
         {code: "<Foo onClick={ function() {}} />", options: [NEITHER], parserOptions: {ecmaFeatures: {jsx: true}}},
@@ -702,6 +714,10 @@ ruleTester.run("keyword-spacing", rule, {
         {code: "!new(foo)()"},
         {code: "! new (foo)()", options: [NEITHER]},
 
+        // not conflict with `template-curly-spacing`
+        {code: "`${new foo()}`", parserOptions: {ecmaVersion: 6}},
+        {code: "`${ new foo()}`", options: [NEITHER], parserOptions: {ecmaVersion: 6}},
+
         // not conflict with `jsx-curly-spacing`
         {code: "<Foo onClick={new foo()} />", parserOptions: {ecmaFeatures: {jsx: true}}},
         {code: "<Foo onClick={ new foo()} />", options: [NEITHER], parserOptions: {ecmaFeatures: {jsx: true}}},
@@ -822,6 +838,10 @@ ruleTester.run("keyword-spacing", rule, {
         {code: "class A { a() { !super } }", parserOptions: {ecmaVersion: 6}},
         {code: "class A { a() { ! super } }", options: [NEITHER], parserOptions: {ecmaVersion: 6}},
 
+        // not conflict with `template-curly-spacing`
+        {code: "class A { a() { `${super}` } }", parserOptions: {ecmaVersion: 6}},
+        {code: "class A { a() { `${ super }` } }", options: [NEITHER], parserOptions: {ecmaVersion: 6}},
+
         // not conflict with `jsx-curly-spacing`
         {code: "class A { a() { <Foo onClick={super} /> } }", parserOptions: {ecmaVersion: 6, ecmaFeatures: {jsx: true}}},
         {code: "class A { a() { <Foo onClick={ super } /> } }", options: [NEITHER], parserOptions: {ecmaVersion: 6, ecmaFeatures: {jsx: true}}},
@@ -893,6 +913,10 @@ ruleTester.run("keyword-spacing", rule, {
         // not conflict with `space-unary-ops`
         {code: "!this"},
         {code: "! this", options: [NEITHER]},
+
+        // not conflict with `template-curly-spacing`
+        {code: "`${this}`", parserOptions: {ecmaVersion: 6}},
+        {code: "`${ this }`", options: [NEITHER], parserOptions: {ecmaVersion: 6}},
 
         // not conflict with `jsx-curly-spacing`
         {code: "<Foo onClick={this} />", parserOptions: {ecmaFeatures: {jsx: true}}},
@@ -985,6 +1009,10 @@ ruleTester.run("keyword-spacing", rule, {
         {code: "!typeof+foo"},
         {code: "! typeof +foo", options: [NEITHER]},
 
+        // not conflict with `template-curly-spacing`
+        {code: "`${typeof foo}`", parserOptions: {ecmaVersion: 6}},
+        {code: "`${ typeof foo}`", options: [NEITHER], parserOptions: {ecmaVersion: 6}},
+
         // not conflict with `jsx-curly-spacing`
         {code: "<Foo onClick={typeof foo} />", parserOptions: {ecmaFeatures: {jsx: true}}},
         {code: "<Foo onClick={ typeof foo} />", options: [NEITHER], parserOptions: {ecmaFeatures: {jsx: true}}},
@@ -1057,6 +1085,10 @@ ruleTester.run("keyword-spacing", rule, {
         // not conflict with `space-unary-ops`
         {code: "!void+foo"},
         {code: "! void +foo", options: [NEITHER]},
+
+        // not conflict with `template-curly-spacing`
+        {code: "`${void foo}`", parserOptions: {ecmaVersion: 6}},
+        {code: "`${ void foo}`", options: [NEITHER], parserOptions: {ecmaVersion: 6}},
 
         // not conflict with `jsx-curly-spacing`
         {code: "<Foo onClick={void foo} />", parserOptions: {ecmaFeatures: {jsx: true}}},
@@ -1154,6 +1186,10 @@ ruleTester.run("keyword-spacing", rule, {
         // not conflict with `space-unary-ops`
         {code: "function* foo() { yield+foo }", parserOptions: {ecmaVersion: 6}},
         {code: "function* foo() { yield +foo }", options: [NEITHER], parserOptions: {ecmaVersion: 6}},
+
+        // not conflict with `template-curly-spacing`
+        {code: "`${yield}`", parserOptions: {ecmaVersion: 6}},
+        {code: "`${ yield}`", options: [NEITHER], parserOptions: {ecmaVersion: 6}},
 
         // not conflict with `jsx-curly-spacing`
         {code: "function* foo() { <Foo onClick={yield} /> }", parserOptions: {ecmaVersion: 6, ecmaFeatures: {jsx: true}}},
@@ -1723,6 +1759,12 @@ ruleTester.run("keyword-spacing", rule, {
             output: "class Bar extends[] {}",
             errors: unexpectedAfter("extends"),
             options: [override("extends", NEITHER)],
+            parserOptions: {ecmaVersion: 6}
+        },
+        {
+            code: "class Bar extends`}` {}",
+            output: "class Bar extends `}` {}",
+            errors: expectedAfter("extends"),
             parserOptions: {ecmaVersion: 6}
         },
 
