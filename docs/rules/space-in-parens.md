@@ -10,6 +10,8 @@ foo('bar');
 var x = (1 + 2) * 3;
 ```
 
+**Fixable:** This rule is automatically fixable using the `--fix` flag on the command line.
+
 ## Rule Details
 
 This rule will enforce consistency of spacing directly inside of parentheses, by disallowing or requiring one or more spaces to the right of `(` and to the left of `)`. In either case, `()` will still be allowed.
