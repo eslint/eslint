@@ -1,4 +1,4 @@
-node_modules/
+/node_modules
 test.js
 coverage/
 build/
@@ -11,4 +11,4 @@ versions.json
 *.iml
 .eslintcache
 .cache
-**/node_modules
+/packages/**/node_modules
