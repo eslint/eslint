@@ -4,6 +4,8 @@ Some style guides require or disallow a whitespace immediately after the initial
 Whitespace after the `//` or `/*` makes it easier to read text in comments.
 On the other hand, commenting out code is easier without having to put a whitespace right after the `//` or `/*`.
 
+**Fixable:** This rule is automatically fixable using the `--fix` flag on the command line.
+
 ## Rule Details
 
 This rule will enforce consistency of spacing after the start of a comment `//` or `/*`. It also provides several
@@ -97,7 +99,7 @@ The following patterns are considered problems:
 ```js
 /* eslint spaced-comment: [2, "always", { "markers": ["/"] }] */
 
-///This is a comment with a marker but without whitespace  /*error Expected space or tab after '//' in comment.*/
+///This is a comment with a marker but without whitespace  /*error Expected space or tab after '///' in comment.*/
 ```
 
 ```js
