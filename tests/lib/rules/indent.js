@@ -1019,6 +1019,29 @@ ruleTester.run("indent", rule, {
             "    }\n" +
             "};\n",
             options: [4]
+        },
+        {
+            code:
+            "var a =\n" +
+            "{\n" +
+            "    actions:\n" +
+            "    [\n" +
+            "        {\n" +
+            "            name: 'compile'\n" +
+            "        }\n" +
+            "    ]\n" +
+            "};\n",
+            options: [4, {"VariableDeclarator": 0, "SwitchCase": 1}]
+        },
+        {
+            code:
+            "var a =\n" +
+            "[\n" +
+            "    {\n" +
+            "        name: 'compile'\n" +
+            "    }\n" +
+            "];\n",
+            options: [4, {"VariableDeclarator": 0, "SwitchCase": 1}]
         }
     ],
     invalid: [
