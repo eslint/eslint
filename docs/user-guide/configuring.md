@@ -563,6 +563,65 @@ In this example, the `eslint-config-myrules` package will be loaded as an object
 
 **Note:** You can omit `eslint-config-` and ESLint will automatically insert it for you, similar to how plugins work. See [Shareable Configs](../developer-guide/shareable-configs) for more information.
 
+## Glob Pattern based Configuration
+
+Sometimes a more fine-controlled configuration is necessary e.g. if the configuration for files within the same directory has to be different. Therefore you can provide configurations that will only apply to files that match a specific glob pattern (based on [minimatch](https://github.com/isaacs/minimatch)).
+
+### How it works
+
+* Glob pattern based configurations can only be configured within `.eslintrc` files.
+* The patterns are applied against the file path relative to the directory of the `.eslintrc` file.
+  Example: If your `.eslintrc` file has the path `/Users/john/workspace/any-project/.eslintrc`
+  and the file you want to lint has the path `/Users/john/workspace/any-project/lib/util.js` then the pattern, provided in `.eslintrc` will be executed against the relative path `lib/util.js`.
+* Glob pattern based configuration has higher precedence than the regular configuration in the same `.eslintrc` file.
+* A glob specific configuration works almost the same as the regular configuration in your `.eslintrc`, except that you can’t define nested glob based configurations or using `extends`.
+
+### Examples
+
+#### Relative relative glob patterns
+
+```
+project-root
+├── app
+│   ├── lib
+│   │   ├── foo.js
+│   │   ├── fooSpec.js
+│   ├── components
+│   │   ├── bar.js
+│   │   ├── barSpec.js
+│   ├── .eslintrc
+├── server
+│   ├── server.js
+│   ├── serverSpec.js
+├── .eslintrc
+```
+
+The config in `app/.eslintrc` defines the glob pattern `**/*Spec.js`. This pattern is relative to the base directory of `app/.eslintrc`. So, this pattern would match `app/lib/fooSpec.js` and `app/components/barSpec.js` but **NOT** `server/serverSpec.js`.
+If you would define the same pattern in the `.eslintrc` file within in the `project-root` folder, it would match all three of the `*Spec` files.
+
+#### Configurations
+
+In your `.eslintrc`:
+
+```json
+{
+  "rules": {
+    "quotes": [ 2, "double" ]
+  },
+
+  "files": [
+    {
+      "patterns": [ "lib/*.jsx" ],
+      "config": {
+        "rules": {
+          "quotes": [ 2, "single" ]
+        }
+      }
+    }
+  ]
+}
+```
+
 ## Comments in Configuration Files
 
 Both the JSON and YAML configuration file formats support comments (`package.json` files should not include them). You can use JavaScript-style comments or YAML-style comments in either type of file and ESLint will safely ignore them. This allows your configuration files to be more human-friendly. For example:

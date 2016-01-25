@@ -478,7 +478,50 @@ describe("ConfigOps", function() {
             });
         });
 
+        describe("files", function() {
+            it("should combine the files entries in the correct order", function() {
+                var baseConfig = { files: [ { patterns: [ "**/*Spec.js" ], config: { env: { mocha: true } } } ] };
+                var customConfig = { files: [ { patterns: [ "**/*.jsx" ], config: { ecmaFeatures: { jsx: true } } } ] };
+                var expectedResult = {
+                    files: [
+                        { patterns: [ "**/*Spec.js" ], config: { env: { mocha: true } } },
+                        { patterns: [ "**/*.jsx" ], config: { ecmaFeatures: { jsx: true } } }
+                    ]
+                };
 
+                var result = ConfigOps.merge(baseConfig, customConfig);
+
+                assert.deepEqual(result, expectedResult);
+            });
+
+            it("should work if the base config doesn’t have a files property", function() {
+                var baseConfig = {};
+                var customConfig = { files: [ { patterns: [ "**/*.jsx" ], config: { ecmaFeatures: { jsx: true } } } ] };
+                var expectedResult = {
+                    files: [
+                        { patterns: [ "**/*.jsx" ], config: { ecmaFeatures: { jsx: true } } }
+                    ]
+                };
+
+                var result = ConfigOps.merge(baseConfig, customConfig);
+
+                assert.deepEqual(result, expectedResult);
+            });
+
+            it("should work if the custom config doesn’t have a files property", function() {
+                var baseConfig = { files: [ { patterns: [ "**/*Spec.js" ], config: { env: { mocha: true } } } ] };
+                var customConfig = {};
+                var expectedResult = {
+                    files: [
+                        { patterns: [ "**/*Spec.js" ], config: { env: { mocha: true } } }
+                    ]
+                };
+
+                var result = ConfigOps.merge(baseConfig, customConfig);
+
+                assert.deepEqual(result, expectedResult);
+            });
+        });
     });
 
 });

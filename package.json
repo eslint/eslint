@@ -59,6 +59,7 @@
     "lodash.clonedeep": "^3.0.1",
     "lodash.merge": "^3.3.2",
     "lodash.omit": "^3.1.0",
+    "minimatch": "^3.0.0",
     "mkdirp": "^0.5.0",
     "object-assign": "^4.0.1",
     "optionator": "^0.8.1",
