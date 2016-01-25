@@ -255,6 +255,32 @@ describe("ConfigFile", function() {
             }, /Cannot read config file/);
         });
 
+        it("should interpret parser module name when present in a JavaScript file", function() {
+            var config = ConfigFile.load(getFixturePath("js/.eslintrc.parser.js"));
+            assert.deepEqual(config, {
+                parser: path.resolve(getFixturePath("js/node_modules/foo/index.js")),
+                parserOptions: {},
+                env: {},
+                globals: {},
+                rules: {
+                    semi: [2, "always"]
+                }
+            });
+        });
+
+        it("should interpret parser path when present in a JavaScript file", function() {
+            var config = ConfigFile.load(getFixturePath("js/.eslintrc.parser2.js"));
+            assert.deepEqual(config, {
+                parser: path.resolve(getFixturePath("js/not-a-config.js")),
+                parserOptions: {},
+                env: {},
+                globals: {},
+                rules: {
+                    semi: [2, "always"]
+                }
+            });
+        });
+
         it("should load information from a JSON file", function() {
             var config = ConfigFile.load(getFixturePath("json/.eslintrc.json"));
             assert.deepEqual(config, {
