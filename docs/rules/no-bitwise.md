@@ -58,10 +58,22 @@ var x = y < z;
 x += y;
 ```
 
-This rule takes one argument, an object with the `allow` property. This allows the listed bitwise operators to be used as exceptions to the rule. For example:
+### Options
+
+This rule supports the following options:
+
+`allow`: The list of bitwise operators to be used as exceptions to the rule. For example:
 
 ```js
 /*eslint no-bitwise: [2, { allow: ["~"] }] */
 
 ~[1,2,3].indexOf(1) === -1;
+```
+
+`int32Hint`: Allows the use of bitwise OR in `|0` pattern for type casting:
+
+```js
+/*eslint no-bitwise: [2, { int32Hint: true }] */
+
+var b = a|0;
 ```
