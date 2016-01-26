@@ -234,42 +234,6 @@ describe("cli", function() {
         });
     });
 
-    describe("when given a config that is a sharable config", function() {
-        it("should execute without any errors", function() {
-
-            var configDeps = {
-                "is-resolvable": function() {
-                    return true;
-                }
-            };
-            configDeps["./config/config-file"] = proxyquire("../../lib/config/config-file", {
-                "eslint-config-xo": {
-                    rules: {
-                        "no-var": 2
-                    }
-                }
-            });
-
-            var StubbedConfig = proxyquire("../../lib/config", configDeps);
-
-            var stubbedCLIEngine = proxyquire("../../lib/cli-engine", {
-                "./config": StubbedConfig
-            });
-            var stubCli = proxyquire("../../lib/cli", {
-                "./cli-engine": stubbedCLIEngine,
-                "./logging": log
-            });
-            var configPath = "xo";
-            var filePath = getFixturePath("passing.js");
-            var code = "--no-ignore --config " + configPath + " " + filePath;
-
-            var exit = stubCli.execute(code);
-
-            assert.equal(exit, 1);
-            assert.isTrue(log.info.called);
-        });
-    });
-
     describe("when given a valid built-in formatter name", function() {
         it("should execute without any errors", function() {
             var filePath = getFixturePath("passing.js");

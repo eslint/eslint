@@ -17,6 +17,7 @@ var assert = require("chai").assert,
     fs = require("fs"),
     tmp = require("tmp"),
     yaml = require("js-yaml"),
+    resolve = require("resolve"),
     proxyquire = require("proxyquire"),
     environments = require("../../../conf/environments"),
     ConfigFile = require("../../../lib/config/config-file");
@@ -64,6 +65,27 @@ function writeTempConfigFile(config, filename, existingTmpDir) {
     return tmpFilePath;
 }
 
+/**
+ * Creates a module path relative to the current working directory.
+ * @param {string} moduleName The full module name.
+ * @returns {string} A full path for the module local to cwd.
+ * @private
+ */
+function getCWDModulePath(moduleName) {
+    return path.resolve("./node_modules", moduleName, "index.js");
+}
+
+/**
+ * Creates a module path relative to the given directory.
+ * @param {string} moduleName The full module name.
+ * @returns {string} A full path for the module local to the given directory.
+ * @private
+ */
+function getRelativeModulePath(moduleName) {
+    return path.resolve("./node_modules", moduleName, "index.js");
+}
+
+
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
@@ -78,13 +100,45 @@ describe("ConfigFile", function() {
 
     describe("applyExtends()", function() {
 
+        var target = [];
+
+        /**
+         * Called by resolve.sync() to get a function that checks for a specific
+         * value. This is the only way to validate that ConfigFile.resolve()
+         * works without actually creating all the dummy packages for the
+         * resolve package to find.
+         * @returns {Function} The function to pass in as isFile to resolve.sync().
+         * @private
+         */
+        function getFileCheck() {
+            return function(filename) {
+                return target.indexOf(filename) > -1;
+            };
+        }
+
+        afterEach(function() {
+            target = [];
+        });
+
         it("should apply extensions when specified from package", function() {
 
-            var StubbedConfigFile = proxyquire("../../../lib/config/config-file", {
-                "eslint-config-foo": {
-                    env: { browser: true }
+            target.push(path.resolve("./node_modules/eslint-config-foo/index.js"));
+
+            var configDeps = {
+                // Hacky: need to override isFile for each call for testing
+                "resolve": {
+                    sync: function(filename, opts) {
+                        opts.isFile = getFileCheck();
+                        return resolve.sync(filename, opts);
+                    }
                 }
-            });
+            };
+
+            configDeps[target[0]] = {
+                env: { browser: true }
+            };
+
+            var StubbedConfigFile = proxyquire("../../../lib/config/config-file", configDeps);
 
             var config = StubbedConfigFile.applyExtends({
                 extends: "foo",
@@ -103,17 +157,31 @@ describe("ConfigFile", function() {
 
         it("should apply extensions recursively when specified from package", function() {
 
-            var StubbedConfigFile = proxyquire("../../../lib/config/config-file", {
-                "eslint-config-foo": {
-                    extends: "bar",
-                    env: { browser: true }
-                },
-                "eslint-config-bar": {
-                    rules: {
-                        bar: 2
+            target.push(path.resolve("./node_modules/eslint-config-foo/index.js"));
+            target.push(path.resolve("./node_modules/eslint-config-bar/index.js"));
+
+            var configDeps = {
+                // Hacky: need to override isFile for each call for testing
+                "resolve": {
+                    sync: function(filename, opts) {
+                        opts.isFile = getFileCheck();
+                        return resolve.sync(filename, opts);
                     }
                 }
-            });
+            };
+
+            configDeps[target[0]] = {
+                extends: "bar",
+                env: { browser: true }
+            };
+
+            configDeps[target[1]] = {
+                rules: {
+                    bar: 2
+                }
+            };
+
+            var StubbedConfigFile = proxyquire("../../../lib/config/config-file", configDeps);
 
             var config = StubbedConfigFile.applyExtends({
                 extends: "foo",
@@ -471,18 +539,79 @@ describe("ConfigFile", function() {
 
     describe("resolve()", function() {
 
-        leche.withData([
-            [ ".eslintrc", path.resolve(".eslintrc") ],
-            [ "eslint-config-foo", "eslint-config-foo" ],
-            [ "foo", "eslint-config-foo" ],
-            [ "eslint-configfoo", "eslint-config-eslint-configfoo" ],
-            [ "@foo/eslint-config", "@foo/eslint-config" ],
-            [ "@foo/bar", "@foo/eslint-config-bar" ]
-        ], function(input, expected) {
-            it("should return " + expected + " when passed " + input, function() {
-                var result = ConfigFile.resolve(input);
-                assert.equal(result, expected);
+        var StubbedConfigFile,
+            target;
+
+        /**
+         * Called by resolve.sync() to get a function that checks for a specific
+         * value. This is the only way to validate that ConfigFile.resolve()
+         * works without actually creating all the dummy packages for the
+         * resolve package to find.
+         * @returns {Function} The function to pass in as isFile to resolve.sync().
+         * @private
+         */
+        function getFileCheck() {
+            return function(filename) {
+                return filename === target;
+            };
+        }
+
+        beforeEach(function() {
+            StubbedConfigFile = proxyquire("../../../lib/config/config-file", {
+                // Hacky: need to override isFile for each call for testing
+                "resolve": {
+                    sync: function(filename, opts) {
+                        opts.isFile = getFileCheck();
+                        return resolve.sync(filename, opts);
+                    }
+                }
             });
+
+        });
+
+        describe("Relative to CWD", function() {
+
+            leche.withData([
+                [ ".eslintrc", path.resolve(".eslintrc") ],
+                [ "eslint-config-foo", getCWDModulePath("eslint-config-foo") ],
+                [ "foo", getCWDModulePath("eslint-config-foo") ],
+                [ "eslint-configfoo", getCWDModulePath("eslint-config-eslint-configfoo") ],
+                [ "@foo/eslint-config", getCWDModulePath("@foo/eslint-config") ],
+                [ "@foo/bar", getCWDModulePath("@foo/eslint-config-bar") ]
+            ], function(input, expected) {
+                it("should return " + expected + " when passed " + input, function() {
+
+                    // used to stub out resolve.sync
+                    target = expected;
+
+                    var result = StubbedConfigFile.resolve(input);
+                    assert.equal(result, expected);
+                });
+            });
+        });
+
+        describe("Relative to config file", function() {
+
+            var relativePath = path.resolve("./foo/bar");
+
+            leche.withData([
+                [ ".eslintrc", path.resolve("./foo/bar", ".eslintrc"), relativePath ],
+                [ "eslint-config-foo", getRelativeModulePath("eslint-config-foo", relativePath), relativePath],
+                [ "foo", getRelativeModulePath("eslint-config-foo", relativePath), relativePath],
+                [ "eslint-configfoo", getRelativeModulePath("eslint-config-eslint-configfoo", relativePath), relativePath],
+                [ "@foo/eslint-config", getRelativeModulePath("@foo/eslint-config", relativePath), relativePath],
+                [ "@foo/bar", getRelativeModulePath("@foo/eslint-config-bar", relativePath), relativePath]
+            ], function(input, expected, relativeTo) {
+                it("should return " + expected + " when passed " + input, function() {
+
+                    // used to stub out resolve.sync
+                    target = expected;
+
+                    var result = StubbedConfigFile.resolve(input, relativeTo);
+                    assert.equal(result, expected);
+                });
+            });
+
         });
 
     });
