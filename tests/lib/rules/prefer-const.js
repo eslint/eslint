@@ -42,7 +42,27 @@ ruleTester.run("prefer-const", rule, {
         { code: "let a; for (; a = foo(); );", parserOptions: { ecmaVersion: 6 } },
         { code: "let a; for (;; ++a);", parserOptions: { ecmaVersion: 6 } },
         { code: "let a; for (const {b = ++a} in foo());", parserOptions: { ecmaVersion: 6 } },
-        { code: "let a; for (const {b = ++a} of foo());", parserOptions: { ecmaVersion: 6 } }
+        { code: "let a; for (const {b = ++a} of foo());", parserOptions: { ecmaVersion: 6 } },
+        { code: "let a; for (const x of [1,2,3]) { if (a) {} a = foo(); }", parserOptions: { ecmaVersion: 6 } },
+        { code: "let a; for (const x of [1,2,3]) { a = a || foo(); bar(a); }", parserOptions: { ecmaVersion: 6 } },
+        { code: "let a; for (const x of [1,2,3]) { foo(++a); }", parserOptions: { ecmaVersion: 6 } },
+        { code: "let a; function foo() { if (a) {} a = bar(); }", parserOptions: { ecmaVersion: 6 } },
+        { code: "let a; function foo() { a = a || bar(); baz(a); }", parserOptions: { ecmaVersion: 6 } },
+        { code: "let a; function foo() { bar(++a); }", parserOptions: { ecmaVersion: 6 } },
+        {
+            code: [
+                "let id;",
+                "function foo() {",
+                "    if (typeof id !== 'undefined') {",
+                "        return;",
+                "    }",
+                "    id = setInterval(() => {}, 250);",
+                "}",
+                "foo();"
+            ].join("\n"),
+            parserOptions: { ecmaVersion: 6 }
+        },
+        { code: "/*exported a*/ let a; function init() { a = foo(); }", parserOptions: { ecmaVersion: 6 } }
     ],
     invalid: [
         {
@@ -131,6 +151,16 @@ ruleTester.run("prefer-const", rule, {
         },
         {
             code: "(function() { let x; { x = 0; foo(x); } })();",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{ message: "'x' is never modified, use 'const' instead.", type: "Identifier"}]
+        },
+        {
+            code: "let x; for (const a of [1,2,3]) { x = foo(); bar(x); }",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{ message: "'x' is never modified, use 'const' instead.", type: "Identifier"}]
+        },
+        {
+            code: "(function() { let x; for (const a of [1,2,3]) { x = foo(); bar(x); } })();",
             parserOptions: { ecmaVersion: 6 },
             errors: [{ message: "'x' is never modified, use 'const' instead.", type: "Identifier"}]
         }
