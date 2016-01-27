@@ -15,6 +15,7 @@ require("shelljs/make");
 var checker = require("npm-license"),
     dateformat = require("dateformat"),
     fs = require("fs"),
+    glob = require("glob"),
     markdownlint = require("markdownlint"),
     nodeCLI = require("shelljs-nodecli"),
     os = require("os"),
@@ -28,12 +29,12 @@ var checker = require("npm-license"),
 //------------------------------------------------------------------------------
 
 /*
- * A little bit fuzzy. My computer has a first CPU speed of 3093 and the perf test
- * always completes in < 2000ms. However, Travis is less predictable due to
+ * A little bit fuzzy. My computer has a first CPU speed of 3392 and the perf test
+ * always completes in < 3800ms. However, Travis is less predictable due to
  * multiple different VM types. So I'm fudging this for now in the hopes that it
  * at least provides some sort of useful signal.
  */
-var PERF_MULTIPLIER = 7.5e6;
+var PERF_MULTIPLIER = 13e6;
 
 var OPEN_SOURCE_LICENSES = [
     /MIT/, /BSD/, /Apache/, /ISC/, /WTF/, /Public Domain/
@@ -49,6 +50,7 @@ var NODE = "node ", // intentional extra space
     BUILD_DIR = "./build/",
     DOCS_DIR = "../eslint.github.io/docs",
     SITE_DIR = "../eslint.github.io/",
+    PERF_TMP_DIR = path.join(os.tmpdir(), "eslint", "performance"),
 
     // Utilities - intentional extra space at the end of each string
     MOCHA = NODE_MODULES + "mocha/bin/_mocha ",
@@ -57,12 +59,13 @@ var NODE = "node ", // intentional extra space
     // Files
     MAKEFILE = "./Makefile.js",
     PACKAGE = "./package.json",
-    /* eslint-disable no-use-before-define */
     JS_FILES = find("lib/").filter(fileType("js")).join(" "),
     JSON_FILES = find("conf/").filter(fileType("json")).join(" ") + " .eslintrc",
     MARKDOWN_FILES_ARRAY = find("docs/").concat(ls(".")).filter(fileType("md")),
     TEST_FILES = getTestFilePatterns(),
-    /* eslint-enable no-use-before-define */
+    PERF_ESLINTRC = path.join(PERF_TMP_DIR, "eslintrc.yml"),
+    PERF_MULTIFILES_TARGET_DIR = path.join(PERF_TMP_DIR, "eslint"),
+    PERF_MULTIFILES_TARGETS = PERF_MULTIFILES_TARGET_DIR + path.sep + "{lib,tests" + path.sep + "lib}" + path.sep + "**" + path.sep + "*.js",
 
     // Regex
     TAG_REGEX = /^(?:Fix|Update|Breaking|Docs|Build|New|Upgrade):/,
@@ -1063,6 +1066,45 @@ target.checkGitCommit = function() {
 };
 
 /**
+ * Downloads a repository which has many js files to test performance with multi files.
+ * Here, it's eslint@1.10.3 (450 files)
+ * @param {function} cb - A callback function.
+ * @returns {void}
+ */
+function downloadMultifilesTestTarget(cb) {
+    if (test("-d", PERF_MULTIFILES_TARGET_DIR)) {
+        process.nextTick(cb);
+    } else {
+        mkdir("-p", PERF_MULTIFILES_TARGET_DIR);
+        echo("Downloading the repository of multi-files performance test target.");
+        exec("git clone -b v1.10.3 --depth 1 https://github.com/eslint/eslint.git \"" + PERF_MULTIFILES_TARGET_DIR + "\"", {silent: true}, cb);
+    }
+}
+
+/**
+ * Creates a config file to use performance tests.
+ * This config is turning all core rules on.
+ * @returns {void}
+ */
+function createConfigForPerformanceTest() {
+    var content = [
+        "root: true",
+        "env:",
+        "    node: true",
+        "    es6: true",
+        "rules:"
+    ];
+    content.push.apply(
+        content,
+        ls("lib/rules").map(function(fileName) {
+            return "    " + path.basename(fileName, ".js") + ": 2";
+        })
+    );
+
+    content.join("\n").to(PERF_ESLINTRC);
+}
+
+/**
  * Calculates the time for each run for performance
  * @param {string} cmd cmd
  * @param {int} runs Total number of runs to do
@@ -1079,7 +1121,7 @@ function time(cmd, runs, runNumber, results, cb) {
             actual = (diff[0] * 1e3 + diff[1] / 1e6); // ms
 
         results.push(actual);
-        echo("Performance Run #" + runNumber + ":  %dms", actual);
+        echo("  Performance Run #" + runNumber + ":  %dms", actual);
         if (runs > 1) {
             return time(cmd, runs - 1, runNumber + 1, results, cb);
         } else {
@@ -1090,33 +1132,22 @@ function time(cmd, runs, runNumber, results, cb) {
 }
 
 /**
- * Run the load performance for eslint
+ * Run a performance test.
+ *
+ * @param {string} title - A title.
+ * @param {string} targets - Test targets.
+ * @param {number} multiplier - A multiplier for limitation.
+ * @param {function} cb - A callback function.
  * @returns {void}
- * @private
  */
-function loadPerformance() {
-    var results = [];
-    for (var cnt = 0; cnt < 5; cnt++) {
-        var loadPerfData = loadPerf({
-            checkDependencies: false
-        });
-
-        echo("Load performance Run #" + (cnt + 1) + ":  %dms", loadPerfData.loadTime);
-        results.push(loadPerfData.loadTime);
-    }
-    results.sort(function(a, b) {
-        return a - b;
-    });
-    var median = results[~~(results.length / 2)];
-    echo("\nLoad Performance median :  %dms", median);
-}
-
-target.perf = function() {
+function runPerformanceTest(title, targets, multiplier, cb) {
     var cpuSpeed = os.cpus()[0].speed,
-        max = PERF_MULTIPLIER / cpuSpeed,
-        cmd = ESLINT + "--no-ignore ./tests/performance/jshint.js";
+        max = multiplier / cpuSpeed,
+        cmd = ESLINT + "--config \"" + PERF_ESLINTRC + "\" --no-eslintrc --no-ignore " + targets;
 
-    echo("CPU Speed is %d with multiplier %d", cpuSpeed, PERF_MULTIPLIER);
+    echo("");
+    echo(title);
+    echo("  CPU Speed is %d with multiplier %d", cpuSpeed, multiplier);
 
     time(cmd, 5, 1, [], function(results) {
         results.sort(function(a, b) {
@@ -1125,15 +1156,72 @@ target.perf = function() {
 
         var median = results[~~(results.length / 2)];
 
+        echo("");
         if (median > max) {
-            echo("Performance budget exceeded: %dms (limit: %dms)", median, max);
+            echo("  Performance budget exceeded: %dms (limit: %dms)", median, max);
         } else {
-            echo("Performance budget ok:  %dms (limit: %dms)", median, max);
+            echo("  Performance budget ok:  %dms (limit: %dms)", median, max);
         }
-        echo("\n");
-        loadPerformance();
+        echo("");
+        cb();
     });
+}
 
+/**
+ * Run the load performance for eslint
+ * @returns {void}
+ * @private
+ */
+function loadPerformance() {
+    echo("");
+    echo("Loading:");
+
+    var results = [];
+    for (var cnt = 0; cnt < 5; cnt++) {
+        var loadPerfData = loadPerf({
+            checkDependencies: false
+        });
+
+        echo("  Load performance Run #" + (cnt + 1) + ":  %dms", loadPerfData.loadTime);
+        results.push(loadPerfData.loadTime);
+    }
+
+    results.sort(function(a, b) {
+        return a - b;
+    });
+    var median = results[~~(results.length / 2)];
+    echo("");
+    echo("  Load Performance median:  %dms", median);
+    echo("");
+}
+
+target.perf = function() {
+    downloadMultifilesTestTarget(function() {
+        createConfigForPerformanceTest();
+
+        loadPerformance();
+
+        runPerformanceTest(
+            "Single File:",
+            "tests/performance/jshint.js",
+            PERF_MULTIPLIER,
+            function() {
+                // Count test target files.
+                var count = glob.sync(
+                    process.platform === "win32"
+                        ? PERF_MULTIFILES_TARGETS.slice(2).replace("\\", "/")
+                        : PERF_MULTIFILES_TARGETS
+                ).length;
+
+                runPerformanceTest(
+                    "Multi Files (" + count + " files):",
+                    PERF_MULTIFILES_TARGETS,
+                    3 * PERF_MULTIPLIER,
+                    function() {}
+                );
+            }
+        );
+    });
 };
 
 target.patch = function() {
