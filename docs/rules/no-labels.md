@@ -62,3 +62,9 @@ while (true) {
 ## When Not To Use It
 
 If you need to use labeled statements, then you can safely disable this rule.
+
+## Related Rules
+
+* [no-empty-label](./no-empty-label.md)
+* [no-label-var](./no-label-var.md)
+* [no-unused-labels](./no-unused-labels.md)

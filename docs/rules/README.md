@@ -93,6 +93,7 @@ These are rules designed to prevent you from making mistakes. They either prescr
 * [no-throw-literal](no-throw-literal.md) - restrict what can be thrown as an exception
 * [no-unmodified-loop-condition](no-unmodified-loop-condition.md) - disallow unmodified conditions of loops
 * [no-unused-expressions](no-unused-expressions.md) - disallow usage of expressions in statement position
+* [no-unused-labels](no-unused-labels.md) - disallow unused labels
 * [no-useless-call](no-useless-call.md) - disallow unnecessary `.call()` and `.apply()`
 * [no-useless-concat](no-useless-concat.md) - disallow unnecessary concatenation of literals or template literals
 * [no-void](no-void.md) - disallow use of the `void` operator

@@ -37,6 +37,16 @@ q:
 }
 ```
 
+## When Not To Use It
+
+If you don't want to be notified about usage of labels, then it's safe to disable this rule.
+
+## Related Rules
+
+* [no-empty-label](./no-empty-label.md)
+* [no-labels](./no-labels.md)
+* [no-unused-labels](./no-unused-labels.md)
+
 ## Further Reading
 
 * ['{a}' is a statement label](http://jslinterrors.com/a-is-a-statement-label/)

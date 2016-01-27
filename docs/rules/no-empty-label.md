@@ -26,3 +26,13 @@ for (var i=10; i; i--) {
     // ...
 }
 ```
+
+## When Not To Use It
+
+If you don't want to be notified about usage of labels, then it's safe to disable this rule.
+
+## Related Rules
+
+* [no-labels](./no-labels.md)
+* [no-label-var](./no-label-var.md)
+* [no-unused-labels](./no-unused-labels.md)
