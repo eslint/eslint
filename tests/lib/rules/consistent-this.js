@@ -48,6 +48,7 @@ ruleTester.run("consistent-this", rule, {
         { code: "var foo, self; foo = 42; self = this", options: ["self"] },
         { code: "self = 42", options: ["that"] },
         { code: "var foo = {}; foo.bar = this", options: ["self"] },
+        { code: "var self = this; var vm = this;", options: ["self", "vm" ] },
         destructuringTest("var {foo, bar} = this"),
         destructuringTest("({foo, bar} = this)"),
         destructuringTest("var [foo, bar] = this"),
