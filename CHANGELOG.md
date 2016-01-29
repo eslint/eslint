@@ -1,3 +1,24 @@
+v2.0.0-beta.3 - January 29, 2016
+
+* 86a3e3d Update: Remove blank lines at beginning of files (fixes #5045) (Jared Sohn)
+* 4fea752 New: Autoconfiguration from source inspection (fixes #3567) (Ian VanSchooten)
+* 519f39f Breaking: Remove deprecated rules (fixes #5032) (Gyandeep Singh)
+* c75ee4a New: Add support for configs in plugins (fixes #3659) (Ilya Volodin)
+* 361377f Fix: `prefer-const` false positive reading before writing (fixes #5074) (Toru Nagashima)
+* ff2551d Build: Improve `npm run perf` command (fixes #5028) (Toru Nagashima)
+* bcca69b Update: add int32Hint option to `no-bitwise` rule (fixes #4873) (Maga D. Zandaqo)
+* e3f2683 Update: config extends dependency lookup (fixes #5023) (Nicholas C. Zakas)
+* a327a06 Fix: Indent rule for allman brace style scenario (fixes #5064) (Gyandeep Singh)
+* afdff6d Fix: `no-extra-bind` false positive (fixes #5058) (Toru Nagashima)
+* c1fad4f Update: add autofix support for spaced-comment (fixes #4969, fixes #5030) (Maga D. Zandaqo)
+* 889b942 Revert "Docs: Update readme for legend describing rules icons (refs #4355)" (Nicholas C. Zakas)
+* b0f21a0 Fix: `keyword-spacing` false positive in template strings (fixes #5043) (Toru Nagashima)
+* 53fa5d1 Fix: `prefer-const` false positive in a loop condition (fixes #5024) (Toru Nagashima)
+* 385d399 Docs: Update readme for legend describing rules icons (Kai Cataldo)
+* 505f1a6 Update: Allow parser to be relative to config (fixes #4985) (Nicholas C. Zakas)
+* 79e8a0b New: `one-var-declaration-per-line` rule (fixes #1622) (alberto)
+* 654e6e1 Update: Check extra Boolean calls in no-extra-boolean-cast (fixes #3650) (Andrew Sutton)
+
 v2.0.0-beta.2 - January 22, 2016
 
 * 3fa834f Docs: Fix formatter links (fixes #5006) (Gyandeep Singh)
