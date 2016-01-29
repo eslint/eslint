@@ -563,6 +563,23 @@ In this example, the `eslint-config-myrules` package will be loaded as an object
 
 **Note:** You can omit `eslint-config-` and ESLint will automatically insert it for you, similar to how plugins work. See [Shareable Configs](../developer-guide/shareable-configs) for more information.
 
+ESLint also supports extending configuration from plugins that provide configs:
+
+```js
+{
+    "extends": "plugin:eslint-plugin-myplugin/myConfig",
+
+    "rules": {
+        // Override any settings from the "parent" configuration
+        "eqeqeq": 1
+    }
+}
+```
+
+In this example, the `eslint-plugin-myplugin` package contains configuration named `default`.
+
+**Note:** Please note that when you are extending from the configuration bundled with plugins, you need to start with `plugin:` prefix as well as specify configuration name after the slash. You may optionally omit the `eslint-plugin-` prefix.
+
 ## Comments in Configuration Files
 
 Both the JSON and YAML configuration file formats support comments (`package.json` files should not include them). You can use JavaScript-style comments or YAML-style comments in either type of file and ESLint will safely ignore them. This allows your configuration files to be more human-friendly. For example:

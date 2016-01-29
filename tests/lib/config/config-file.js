@@ -577,7 +577,8 @@ describe("ConfigFile", function() {
                 [ "foo", getCWDModulePath("eslint-config-foo") ],
                 [ "eslint-configfoo", getCWDModulePath("eslint-config-eslint-configfoo") ],
                 [ "@foo/eslint-config", getCWDModulePath("@foo/eslint-config") ],
-                [ "@foo/bar", getCWDModulePath("@foo/eslint-config-bar") ]
+                [ "@foo/bar", getCWDModulePath("@foo/eslint-config-bar") ],
+                [ "plugin:foo/bar", getCWDModulePath("eslint-plugin-foo") ]
             ], function(input, expected) {
                 it("should return " + expected + " when passed " + input, function() {
 
@@ -585,7 +586,7 @@ describe("ConfigFile", function() {
                     target = expected;
 
                     var result = StubbedConfigFile.resolve(input);
-                    assert.equal(result, expected);
+                    assert.equal(result.filePath, expected);
                 });
             });
         });
@@ -600,7 +601,8 @@ describe("ConfigFile", function() {
                 [ "foo", getRelativeModulePath("eslint-config-foo", relativePath), relativePath],
                 [ "eslint-configfoo", getRelativeModulePath("eslint-config-eslint-configfoo", relativePath), relativePath],
                 [ "@foo/eslint-config", getRelativeModulePath("@foo/eslint-config", relativePath), relativePath],
-                [ "@foo/bar", getRelativeModulePath("@foo/eslint-config-bar", relativePath), relativePath]
+                [ "@foo/bar", getRelativeModulePath("@foo/eslint-config-bar", relativePath), relativePath],
+                [ "plugin:@foo/bar/baz", getRelativeModulePath("@foo/eslint-plugin-bar", relativePath), relativePath]
             ], function(input, expected, relativeTo) {
                 it("should return " + expected + " when passed " + input, function() {
 
@@ -608,7 +610,7 @@ describe("ConfigFile", function() {
                     target = expected;
 
                     var result = StubbedConfigFile.resolve(input, relativeTo);
-                    assert.equal(result, expected);
+                    assert.equal(result.filePath, expected);
                 });
             });
 
