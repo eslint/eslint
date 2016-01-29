@@ -42,7 +42,7 @@ var crypto = require('crypto');
 
 ### Examples
 
-To restrict the use of all Node.js core modules (via https://github.com/joyent/node/tree/master/lib):
+To restrict the use of all Node.js core modules (via https://github.com/nodejs/node/tree/master/lib):
 
 ```json
     "no-restricted-modules": [2,

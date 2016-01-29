@@ -44,7 +44,7 @@ import crypto from 'crypto';
 
 ### Examples
 
-To restrict the use of all Node.js core imports (via https://github.com/joyent/node/tree/master/lib):
+To restrict the use of all Node.js core imports (via https://github.com/nodejs/node/tree/master/lib):
 
 ```json
     "no-restricted-imports": [2,
