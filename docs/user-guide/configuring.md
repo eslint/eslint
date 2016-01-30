@@ -336,9 +336,7 @@ In these configuration files, the rule `plugin1/rule1` comes from the plugin nam
 
 **Note:** When specifying rules from plugins, make sure to omit `eslint-plugin-`. ESLint uses only the unprefixed name internally to locate rules.
 
-All rules that are enabled by default are set to 2, so they will cause a non-zero exit code when encountered. You can lower these rules to a warning by setting them to 1, which has the effect of outputting the message onto the console but doesn't affect the exit code.
-
-To temporary disable rule warnings in your file use the following format:
+To temporarily disable rule warnings in your file use the following format:
 
 ```js
 /*eslint-disable */
