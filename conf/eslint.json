@@ -85,6 +85,7 @@
         "no-restricted-syntax": 0,
         "no-return-assign": 0,
         "no-script-url": 0,
+        "no-self-assign": 0,
         "no-self-compare": 0,
         "no-sequences": 0,
         "no-shadow": 0,

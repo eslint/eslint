@@ -88,6 +88,7 @@ These are rules designed to prevent you from making mistakes. They either prescr
 * [no-redeclare](no-redeclare.md) - disallow declaring the same variable more than once (recommended)
 * [no-return-assign](no-return-assign.md) - disallow use of assignment in `return` statement
 * [no-script-url](no-script-url.md) - disallow use of `javascript:` urls.
+* [no-self-assign](no-self-assign.md) - disallow assignments where both sides are exactly the same
 * [no-self-compare](no-self-compare.md) - disallow comparisons where both sides are exactly the same
 * [no-sequences](no-sequences.md) - disallow use of the comma operator
 * [no-throw-literal](no-throw-literal.md) - restrict what can be thrown as an exception
