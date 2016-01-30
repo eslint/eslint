@@ -23,6 +23,12 @@ This rule designates a variable as the chosen alias for `this`. It then enforces
 
 This rule takes one option, a string, which is the designated `this` variable. The default is `that`.
 
+Additionally, you may configure extra aliases for cases where there are more than one supported alias for `this`.
+
+```js
+{ "consistent-this": [ 2, "self",  "vm" ] } ] }
+```
+
 #### Usage
 
 You can set the rule configuration like this:
