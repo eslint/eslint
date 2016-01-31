@@ -219,7 +219,7 @@ The following patterns are considered problems with option `preferType` setup as
 ```js
 /**
  * Adds two numbers together.
- * @param {String} num1 The first parameter.
+ * @param {String} param1 The first parameter.
  * @returns {object} The sum of the two numbers.
  */
 function foo(param1) {
@@ -228,8 +228,8 @@ function foo(param1) {
 
 /**
  * Adds two numbers together.
- * @param {Array<String>} num1 The first parameter.
- * @param {{1:test}} num2 The second parameter.
+ * @param {Array<String>} param1 The first parameter.
+ * @param {{1:test}} param2 The second parameter.
  * @returns {object} The sum of the two numbers.
  */
 function foo(param1, param2) {
@@ -238,7 +238,7 @@ function foo(param1, param2) {
 
 /**
  * Adds two numbers together.
- * @param {String|int} num1 The first parameter.
+ * @param {String|int} param1 The first parameter.
  * @returns {object} The sum of the two numbers.
  */
 function foo(param1) {
@@ -251,7 +251,7 @@ The following patterns are not considered problems with option `preferType` setu
 ```js
 /**
  * Adds two numbers together.
- * @param {string} num1 The first parameter.
+ * @param {string} param1 The first parameter.
  * @returns {Object} The sum of the two numbers.
  */
 function foo(param1) {
@@ -260,8 +260,8 @@ function foo(param1) {
 
 /**
  * Adds two numbers together.
- * @param {Array<string>} num1 The first parameter.
- * @param {{1:TesT}} num2 The second parameter.
+ * @param {Array<string>} param1 The first parameter.
+ * @param {{1:TesT}} param2 The second parameter.
  * @returns {Object} The sum of the two numbers.
  */
 function foo(param1, param2) {
@@ -270,7 +270,7 @@ function foo(param1, param2) {
 
 /**
  * Adds two numbers together.
- * @param {string|int} num1 The first parameter.
+ * @param {string|int} param1 The first parameter.
  * @returns {Object} The sum of the two numbers.
  */
 function foo(param1) {
