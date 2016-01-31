@@ -1,5 +1,7 @@
 # No empty labels (no-empty-label)
 
+**Replacement notice**: This rule was removed in ESLint v2.0 and replaced by [no-labels](no-labels.md) rule.
+
 Labeled statements are only used in conjunction with labeled break and continue statements. ECMAScript has no goto statement.
 
 
