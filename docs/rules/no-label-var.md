@@ -43,7 +43,7 @@ If you don't want to be notified about usage of labels, then it's safe to disabl
 
 ## Related Rules
 
-* [no-empty-label](./no-empty-label.md)
+* [no-extra-label](./no-extra-label.md)
 * [no-labels](./no-labels.md)
 * [no-unused-labels](./no-unused-labels.md)
 
