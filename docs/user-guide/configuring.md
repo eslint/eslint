@@ -338,18 +338,18 @@ In these configuration files, the rule `plugin1/rule1` comes from the plugin nam
 
 All rules that are enabled by default are set to 2, so they will cause a non-zero exit code when encountered. You can lower these rules to a warning by setting them to 1, which has the effect of outputting the message onto the console but doesn't affect the exit code.
 
-To temporary disable warnings in your file use the following format:
+To temporary disable rule warnings in your file use the following format:
 
 ```js
 /*eslint-disable */
 
-//suppress all warnings between comments
+//Disable all rules between comments
 alert('foo');
 
 /*eslint-enable */
 ```
 
-You can also disable and enable back warnings of specific rules
+You can also disable or enable warnings for specific rules:
 
 ```js
 /*eslint-disable no-alert, no-console */
@@ -360,17 +360,19 @@ console.log('bar');
 /*eslint-enable no-alert */
 ```
 
-To disable warnings on a specific line
+To disable all rules on a specific line:
 
 ```js
 alert('foo'); // eslint-disable-line
 ```
 
-To disable a specific rule on a specific line
+To disable a specific rule on a specific line:
 
 ```js
 alert('foo'); // eslint-disable-line no-alert
 ```
+
+**Note:** Comments that disable warnings for a portion of a file tell ESLint not to report rule violations for the disabled code. ESLint parses the entire file, so disabled code still needs to be syntactically valid JavaScript.
 
 ## Adding Shared Settings
 
