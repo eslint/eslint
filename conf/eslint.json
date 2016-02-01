@@ -196,6 +196,7 @@
         "space-unary-ops": 0,
         "spaced-comment": 0,
         "strict": 0,
+        "template-curly-spacing": 0,
         "use-isnan": 2,
         "valid-jsdoc": 0,
         "valid-typeof": 2,
