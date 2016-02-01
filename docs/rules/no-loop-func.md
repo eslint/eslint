@@ -77,9 +77,16 @@ for (var i=10; i; i--) {
 }
 
 for (let i=10; i; i--) {
-    var a = function() { return i; }; // OK, all references are referring to block scoped variable in the loop.
+    var a = function() { return i; }; // OK, all references are referring to block scoped variables in the loop.
     a();
 }
+
+var foo = 100;
+for (let i=10; i; i--) {
+    var a = function() { return foo; }; // OK, all references are referring to never modified variables.
+    a();
+}
+//... no modifications of foo after this loop ...
 ```
 
 ## Further Reading
