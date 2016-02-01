@@ -17,8 +17,12 @@ var path = require("path"),
     assert = require("chai").assert,
     sinon = require("sinon"),
     sh = require("shelljs"),
-    getSourceCodeOfFiles = require("../../../lib/util/source-code-util").getSourceCodeOfFiles,
+    proxyquire = require("proxyquire"),
+    globUtil = require("../../../lib/util/glob-util"),
     SourceCode = require("../../../lib/util/source-code");
+
+proxyquire = proxyquire.noCallThru().noPreserveCache();
+var originalDir = process.cwd();
 
 //------------------------------------------------------------------------------
 // Tests
@@ -26,7 +30,8 @@ var path = require("path"),
 
 describe("SourceCodeUtil", function() {
 
-    var fixtureDir;
+    var fixtureDir,
+        getSourceCodeOfFiles;
 
     /**
      * Returns the path inside of the fixture directory.
@@ -45,12 +50,29 @@ describe("SourceCodeUtil", function() {
         }
     }
 
+    var log = {
+        info: sinon.spy(),
+        error: sinon.spy()
+    };
+    var requireStubs = {
+        "../logging": log
+    };
+
     // copy into clean area so as not to get "infected" by this project's .eslintrc files
     before(function() {
         fixtureDir = os.tmpdir() + "/eslint/fixtures/source-code-util";
         sh.mkdir("-p", fixtureDir);
         sh.cp("-r", "./tests/fixtures/source-code-util/.", fixtureDir);
         fixtureDir = fs.realpathSync(fixtureDir);
+    });
+
+    beforeEach(function() {
+        getSourceCodeOfFiles = proxyquire("../../../lib/util/source-code-util", requireStubs).getSourceCodeOfFiles;
+    });
+
+    afterEach(function() {
+        log.info.reset();
+        log.error.reset();
     });
 
     after(function() {
@@ -73,11 +95,37 @@ describe("SourceCodeUtil", function() {
         });
 
         it("should accept a glob argument", function() {
-            var glob = getFixturePath("**/*.js");
-            var nestedFilename = getFixturePath("nested", "foo.js");
+            var glob = getFixturePath("*.js");
+            var filename = getFixturePath("foo.js");
             var sourceCode = getSourceCodeOfFiles(glob, {cwd: fixtureDir});
             assert.isObject(sourceCode);
-            assert.property(sourceCode, nestedFilename);
+            assert.property(sourceCode, filename);
+        });
+
+        it("should accept a callback", function() {
+            var filename = getFixturePath("foo.js");
+            var spy = sinon.spy();
+            process.chdir(fixtureDir);
+            getSourceCodeOfFiles(filename, spy);
+            process.chdir(originalDir);
+            assert(spy.calledOnce);
+        });
+
+        it("should call the callback with total number of files being processed", function() {
+            var filename = getFixturePath("foo.js");
+            var spy = sinon.spy();
+            process.chdir(fixtureDir);
+            getSourceCodeOfFiles(filename, spy);
+            process.chdir(originalDir);
+            assert.equal(spy.firstCall.args[0], 1);
+        });
+
+        it("should use default options if none are provided", function() {
+            var filename = getFixturePath("foo.js");
+            var spy = sinon.spy(globUtil, "resolveFileGlobPatterns");
+            getSourceCodeOfFiles(filename);
+            assert(spy.called);
+            assert.deepEqual(spy.firstCall.args[1], [".js"]);
         });
 
         it("should create an object with located filenames as keys", function() {
@@ -94,10 +142,12 @@ describe("SourceCodeUtil", function() {
             assert.notProperty(sourceCode, filename);
         });
 
-        it("should should not throw on files with parsing errors", function() {
-            var filename = getFixturePath("parse-error.js");
-            var sourceCode = getSourceCodeOfFiles(filename);
-            assert.isObject(sourceCode);
+        it("should throw for files with parsing errors", function() {
+            var filename = getFixturePath("parse-error", "parse-error.js");
+            assert.throw(function() {
+                getSourceCodeOfFiles(filename, {cwd: fixtureDir});
+            }, /Parsing error: Unexpected token ;/);
+
         });
 
         it("should obtain the sourceCode of a file", function() {
