@@ -24,6 +24,8 @@ require("shelljs/global");
 // Helper
 //------------------------------------------------------------------------------
 
+var ORIGINAL_CWD = process.cwd();
+
 var fixtureDir;
 
 /**
@@ -85,29 +87,31 @@ describe("IgnoredPaths", function() {
 
     describe("initialization", function() {
 
-        it("should travel to parent directories to find .eslintignore", function() {
-            var cwd, ignoredPaths;
-
-            cwd = process.cwd();
-            process.chdir(getFixturePath("configurations"));
-
-            try {
-                ignoredPaths = new IgnoredPaths({ ignore: true, cwd: fixtureDir });
-                assert.ok(getRules(ignoredPaths).length > 1);
-                assert.isNotNull(ignoredPaths.baseDir);
-                assert.equal(getRules(ignoredPaths).length, countDefaultPatterns(ignoredPaths) + 2);
-            } finally {
-                process.chdir(cwd);
+        after(function() {
+            if (process.cwd() !== ORIGINAL_CWD) {
+                process.chdir(ORIGINAL_CWD);
             }
         });
 
-        it("should travel to parent directories to find .eslintignore when cwd is provided", function() {
+        it("should load .eslintignore from cwd when explicitly passed", function() {
+            var ignoredPaths;
+
+            process.chdir(getFixturePath("configurations"));
+            ignoredPaths = new IgnoredPaths({ ignore: true, cwd: fixtureDir });
+
+            // there are only 3 rules loaded by default
+            assert.ok(getRules(ignoredPaths).length > 3);
+            assert.isNotNull(ignoredPaths.baseDir);
+            assert.equal(getRules(ignoredPaths).length, countDefaultPatterns(ignoredPaths) + 2);
+        });
+
+        it("should not travel to parent directories to find .eslintignore when it's missing and cwd is provided", function() {
             var cwd, ignoredPaths;
 
             cwd = path.resolve(__dirname, "..", "fixtures", "configurations");
 
             ignoredPaths = new IgnoredPaths({ ignore: true, cwd: cwd });
-            assert.ok(getRules(ignoredPaths).length > 1);
+            assert.ok(getRules(ignoredPaths).length === 3);
 
             assert.equal(getRules(ignoredPaths).filter(function(rule) {
                 return rule.pattern === "/node_modules/";
