@@ -106,6 +106,7 @@
         "no-unneeded-ternary": 0,
         "no-unreachable": 2,
         "no-unused-expressions": 0,
+        "no-unused-labels": 0,
         "no-unused-vars": 2,
         "no-use-before-define": 0,
         "no-useless-call": 0,
