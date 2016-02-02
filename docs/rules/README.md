@@ -63,6 +63,7 @@ These are rules designed to prevent you from making mistakes. They either prescr
 * [no-eval](no-eval.md) - disallow use of `eval()`
 * [no-extend-native](no-extend-native.md) - disallow adding to native types
 * [no-extra-bind](no-extra-bind.md) - disallow unnecessary function binding
+* [no-extra-label](no-extra-label.md) - disallow unnecessary labels
 * [no-fallthrough](no-fallthrough.md) - disallow fallthrough of `case` statements (recommended)
 * [no-floating-decimal](no-floating-decimal.md) - disallow the use of leading or trailing decimal points in numeric literals
 * [no-implicit-coercion](no-implicit-coercion.md) - disallow the type conversions with shorter notations

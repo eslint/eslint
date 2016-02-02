@@ -34,6 +34,7 @@
         "no-extend-native": 0,
         "no-extra-bind": 0,
         "no-extra-boolean-cast": 2,
+        "no-extra-label": 0,
         "no-extra-parens": 0,
         "no-extra-semi": 2,
         "no-fallthrough": 2,
