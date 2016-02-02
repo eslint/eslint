@@ -1,3 +1,23 @@
+v2.0.0-rc.0 - February 2, 2016
+
+* 973c499 Fix: `sort-imports` crash (fixes #5130) (Toru Nagashima)
+* e64b2c2 Breaking: remove `no-empty-label` (fixes #5042) (Toru Nagashima)
+* 79ebbc9 Breaking: update `eslint:recommended` (fixes #5103) (Toru Nagashima)
+* e1d7368 New: `no-extra-label` rule (fixes #5059) (Toru Nagashima)
+* c83b48c Fix: find ignore file only in cwd (fixes #5087) (Nicholas C. Zakas)
+* 3a24240 Docs: Fix jsdoc param names to match function param names (Thanos Lefteris)
+* 1d79746 Docs: Replace ecmaFeatures setting with link to config page (Thanos Lefteris)
+* e96ffd2 New: `template-curly-spacing` rule (fixes #5049) (Toru Nagashima)
+* 4b02902 Update: Extended no-console rule (fixes #5095) (EricHenry)
+* 757651e Docs: Remove reference to rules enabled by default (fixes #5100) (Brandon Mills)
+* 0d87f5d Docs: Clarify eslint-disable comments only affect rules (fixes #5005) (Brandon Mills)
+* 1e791a2 New: `no-self-assign` rule (fixes #4729) (Toru Nagashima)
+* c706eb9 Fix: reduced `no-loop-func` false positive (fixes #5044) (Toru Nagashima)
+* 3275e86 Update: Add extra aliases to consistent-this rule (fixes #4492) (Zachary Alexander Belford)
+* a227360 Docs: Replace joyent org with nodejs (Thanos Lefteris)
+* b2aedfe New: Rule to enforce newline after each call in the chain (fixes #4538) (Rajendra Patil)
+* d67bfdd New: `no-unused-labels` rule (fixes #5052) (Toru Nagashima)
+
 v2.0.0-beta.3 - January 29, 2016
 
 * 86a3e3d Update: Remove blank lines at beginning of files (fixes #5045) (Jared Sohn)
