@@ -25,19 +25,35 @@ The following patterns are considered problems:
 ```js
 /*eslint no-labels: 2*/
 
-label:                   /*error Unexpected labeled statement.*/
+label:                  /*error Unexpected labeled statement.*/
     while(true) {
         // ...
     }
 
-label:                   /*error Unexpected labeled statement.*/
+label:                  /*error Unexpected labeled statement.*/
     while(true) {
-        break label;     /*error Unexpected label in break statement.*/
+        break label;    /*error Unexpected label in break statement.*/
     }
 
 label:                  /*error Unexpected labeled statement.*/
     while(true) {
         continue label; /*error Unexpected label in continue statement.*/
+    }
+
+label:                  /*error Unexpected labeled statement.*/
+    switch (a) {
+    case 0:
+        break label;    /*error Unexpected label in break statement.*/
+    }
+
+label:                  /*error Unexpected labeled statement.*/
+    {
+        break label;    /*error Unexpected label in break statement.*/
+    }
+
+label:                  /*error Unexpected labeled statement.*/
+    if (a) {
+        break label;    /*error Unexpected label in break statement.*/
     }
 ```
 
@@ -59,12 +75,57 @@ while (true) {
 }
 ```
 
+### Options
+
+```json
+{
+    "no-labels": [2, {"allowLoop": false, "allowSwitch": false}]
+}
+```
+
+* `"allowLoop"` (`boolean`, default is `false`) - If this option was set `true`, this rule ignores labels which are sticking to loop statements.
+* `"allowSwitch"` (`boolean`, default is `false`) - If this option was set `true`, this rule ignores labels which are sticking to switch statements.
+
+Actually labeled statements in JavaScript can be used with other than loop and switch statements.
+However, this way is ultra rare, not well-known, so this would be confusing developers.
+
+Those options allow us to use labels only with loop or switch statements.
+
+The following patterns are considered problems when configured `{"allowLoop": true, "allowSwitch": true}`:
+
+```js
+label:                /*error Unexpected labeled statement.*/
+    {
+        break label;  /*error Unexpected label in break statement.*/
+    }
+
+label:                /*error Unexpected labeled statement.*/
+    if (a) {
+        break label;  /*error Unexpected label in break statement.*/
+    }
+```
+
+The following patterns are not considered problems when configured `{"allowLoop": true, "allowSwitch": true}`:
+
+```js
+label:
+    while (true) {
+        break label;
+    }
+
+label:
+    switch (a) {
+        case 0:
+            break label;
+    }
+```
+
 ## When Not To Use It
 
-If you need to use labeled statements, then you can safely disable this rule.
+If you need to use labeled statements everywhere, then you can safely disable this rule.
 
 ## Related Rules
 
-* [no-empty-label](./no-empty-label.md)
+* [no-extra-label](./no-extra-label.md)
 * [no-label-var](./no-label-var.md)
 * [no-unused-labels](./no-unused-labels.md)

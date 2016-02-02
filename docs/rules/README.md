@@ -57,7 +57,6 @@ These are rules designed to prevent you from making mistakes. They either prescr
 * [no-case-declarations](no-case-declarations.md) - disallow lexical declarations in case clauses (recommended)
 * [no-div-regex](no-div-regex.md) - disallow division operators explicitly at beginning of regular expression
 * [no-else-return](no-else-return.md) - disallow `else` after a `return` in an `if`
-* [no-empty-label](no-empty-label.md) - disallow use of labels for anything other than loops and switches
 * [no-empty-pattern](no-empty-pattern.md) - disallow use of empty destructuring patterns (recommended)
 * [no-eq-null](no-eq-null.md) - disallow comparisons to null without a type-checking operator
 * [no-eval](no-eval.md) - disallow use of `eval()`
@@ -253,6 +252,7 @@ These rules existed in a previous version of ESLint but have since been replaced
 * [no-arrow-condition](no-arrow-condition.md) - disallow arrow functions where a condition is expected (replaced by [no-confusing-arrow](no-confusing-arrow.md) and [no-constant-condition](no-constant-condition.md))
 * [no-comma-dangle](no-comma-dangle.md) - disallow trailing commas in object literals (replaced by [comma-dangle](comma-dangle.md))
 * [no-empty-class](no-empty-class.md) - disallow the use of empty character classes in regular expressions (replaced by [no-empty-character-class](no-empty-character-class.md))
+* [no-empty-label](no-empty-label.md) - disallow use of labels for anything other than loops and switches (replaced by [no-labels](no-labels.md))
 * [no-extra-strict](no-extra-strict.md) - disallow unnecessary use of `"use strict";` when already in strict mode (replaced by [strict](strict.md))
 * [no-reserved-keys](no-reserved-keys.md) - disallow reserved words being used as object literal keys
 * [no-space-before-semi](no-space-before-semi.md) - disallow space before semicolon (replaced by [semi-spacing](semi-spacing.md))

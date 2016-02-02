@@ -52,6 +52,7 @@ module.exports = {
 The following rules have been deprecated with new rules created to take their place. The following is a list of the removed rules and their replacements:
 
 * [no-arrow-condition](http://eslint.org/docs/rules/no-arrow-condition) is replaced by a combination of [no-confusing-arrow](http://eslint.org/docs/rules/no-confusing-arrow) and [no-constant-condition](http://eslint.org/docs/rules/no-constant-condition). Turn on both of these rules to get the same functionality as `no-arrow-condition`.
+* [no-empty-label](http://eslint.org/docs/rules/no-empty-label) is replaced by [no-labels](http://eslint.org/docs/rules/no-labels) with `{"allowLoop": true, "allowSwitch": true}` option.
 * [space-after-keywords](http://eslint.org/docs/rules/space-after-keywords) is replaced by [keyword-spacing](http://eslint.org/docs/rules/keyword-spacing).
 * [space-before-keywords](http://eslint.org/docs/rules/space-before-keywords) is replaced by [keyword-spacing](http://eslint.org/docs/rules/keyword-spacing).
 * [space-return-throw-case](http://eslint.org/docs/rules/space-return-throw-case) is replaced by [keyword-spacing](http://eslint.org/docs/rules/keyword-spacing).
