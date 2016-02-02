@@ -63,6 +63,6 @@ If you don't want to be notified about unused labels, then it's safe to disable 
 
 ## Related Rules
 
-* [no-empty-label](./no-empty-label.md)
+* [no-extra-label](./no-extra-label.md)
 * [no-labels](./no-labels.md)
 * [no-label-var](./no-label-var.md)
