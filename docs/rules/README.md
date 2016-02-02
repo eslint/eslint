@@ -57,7 +57,7 @@ These are rules designed to prevent you from making mistakes. They either prescr
 * [no-case-declarations](no-case-declarations.md) - disallow lexical declarations in case clauses (recommended)
 * [no-div-regex](no-div-regex.md) - disallow division operators explicitly at beginning of regular expression
 * [no-else-return](no-else-return.md) - disallow `else` after a `return` in an `if`
-* [no-empty-label](no-empty-label.md) - disallow use of labels for anything other than loops and switches (recommended)
+* [no-empty-label](no-empty-label.md) - disallow use of labels for anything other than loops and switches
 * [no-empty-pattern](no-empty-pattern.md) - disallow use of empty destructuring patterns (recommended)
 * [no-eq-null](no-eq-null.md) - disallow comparisons to null without a type-checking operator
 * [no-eval](no-eval.md) - disallow use of `eval()`
@@ -88,13 +88,13 @@ These are rules designed to prevent you from making mistakes. They either prescr
 * [no-redeclare](no-redeclare.md) - disallow declaring the same variable more than once (recommended)
 * [no-return-assign](no-return-assign.md) - disallow use of assignment in `return` statement
 * [no-script-url](no-script-url.md) - disallow use of `javascript:` urls.
-* [no-self-assign](no-self-assign.md) - disallow assignments where both sides are exactly the same
+* [no-self-assign](no-self-assign.md) - disallow assignments where both sides are exactly the same (recommended)
 * [no-self-compare](no-self-compare.md) - disallow comparisons where both sides are exactly the same
 * [no-sequences](no-sequences.md) - disallow use of the comma operator
 * [no-throw-literal](no-throw-literal.md) - restrict what can be thrown as an exception
 * [no-unmodified-loop-condition](no-unmodified-loop-condition.md) - disallow unmodified conditions of loops
 * [no-unused-expressions](no-unused-expressions.md) - disallow usage of expressions in statement position
-* [no-unused-labels](no-unused-labels.md) - disallow unused labels
+* [no-unused-labels](no-unused-labels.md) - disallow unused labels (recommended)
 * [no-useless-call](no-useless-call.md) - disallow unnecessary `.call()` and `.apply()`
 * [no-useless-concat](no-useless-concat.md) - disallow unnecessary concatenation of literals or template literals
 * [no-void](no-void.md) - disallow use of the `void` operator
