@@ -147,6 +147,15 @@ ruleTester.run("sort-imports", rule, {
                 "import * as bar from 'bar.js';\n" +
                 "import * as foo from 'foo.js';",
             parserOptions: parserOptions
+        },
+
+        // https://github.com/eslint/eslint/issues/5130
+        {
+            code:
+                "import 'foo';\n" +
+                "import bar from 'bar';",
+            parserOptions: parserOptions,
+            options: ignoreCaseArgs
         }
     ],
     invalid: [
