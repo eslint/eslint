@@ -1,6 +1,6 @@
 {
   "name": "eslint-config-eslint",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "author": "Nicholas C. Zakas <nicholas+npm@nczconsulting.com>",
   "description": "Default ESLint configuration for ESLint projects.",
   "scripts": {
