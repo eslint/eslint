@@ -106,7 +106,7 @@ describe("RuleTester", function() {
                     { code: "Eval(foo)", errors: [{ message: "eval sucks.", type: "CallExpression"}] }
                 ]
             });
-        }, /Should have 1 errors but had 0/);
+        }, /Should have 1 error but had 0/);
     });
 
     it("should throw an error when the error message is wrong", function() {
