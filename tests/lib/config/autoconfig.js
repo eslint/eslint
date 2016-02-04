@@ -292,12 +292,6 @@ describe("autoconfig", function() {
                 assert.lengthOf(filteredRegistry2.rules.quotes, 3);
                 assert.lengthOf(filteredRegistry3.rules.quotes, 3);
             });
-
-            xit("should remove rules which no longer have configurations", function() {
-                var filteredRegistry = registry.filterBySpecificity(3);
-                assert.notProperty(filteredRegistry.rules, "semi");
-                assert.notProperty(filteredRegistry.rules, "semi-spacing");
-            });
         });
     });
 });
