@@ -18,7 +18,7 @@ The following rules point out areas where you might have made mistakes.
 * [no-dupe-keys](no-dupe-keys.md) - disallow duplicate keys when creating object literals (recommended)
 * [no-duplicate-case](no-duplicate-case.md) - disallow a duplicate case label. (recommended)
 * [no-empty-character-class](no-empty-character-class.md) - disallow the use of empty character classes in regular expressions (recommended)
-* [no-empty](no-empty.md) - disallow empty statements (recommended)
+* [no-empty](no-empty.md) - disallow empty block statements (recommended)
 * [no-ex-assign](no-ex-assign.md) - disallow assigning to the exception in a `catch` block (recommended)
 * [no-extra-boolean-cast](no-extra-boolean-cast.md) - disallow double-negation boolean casts in a boolean context (recommended)
 * [no-extra-parens](no-extra-parens.md) - disallow unnecessary parentheses
