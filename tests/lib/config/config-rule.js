@@ -238,21 +238,6 @@ describe("ConfigRule", function() {
             it("should create a set of configs", function() {
                 assert.isArray(actualConfigs);
             });
-
-            xit("should create configs for each possibility", function() {
-                var expectedConfigs = [
-                    SEVERITY,
-                    [SEVERITY, "before"],
-                    [SEVERITY, "after"],
-                    [SEVERITY, "both"],
-                    [SEVERITY, "neither"],
-                    [SEVERITY, {before: true, after: true}],
-                    [SEVERITY, {before: true, after: false}],
-                    [SEVERITY, {before: false, after: true}],
-                    [SEVERITY, {before: false, after: false}]
-                ];
-                assert.sameDeepMembers(actualConfigs, expectedConfigs);
-            });
         });
 
         describe("for a schema with nested objects", function() {
@@ -263,15 +248,6 @@ describe("ConfigRule", function() {
 
             it("should create a set of configs", function() {
                 assert.isArray(actualConfigs);
-            });
-
-            xit("should create configs with nested objects", function() {
-                var expectedConfigs = [
-                    SEVERITY,
-                    [SEVERITY, {prefer: {nestedProperty: true}}],
-                    [SEVERITY, {prefer: {nestedProperty: false}}]
-                ];
-                assert.sameDeepMembers(actualConfigs, expectedConfigs);
             });
         });
     });
