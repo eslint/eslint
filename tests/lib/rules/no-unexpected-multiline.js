@@ -25,6 +25,7 @@ ruleTester.run("no-unexpected-multiline", rule, {
         "\"abc\\\n(123)\"",
         "var a = (\n(123)\n)",
         "f(\n(x)\n)",
+        "(\nfunction () {}\n)[1]",
         {
             code: "let x = function() {};\n   `hello`",
             parserOptions: { ecmaVersion: 6 }
