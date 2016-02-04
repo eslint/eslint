@@ -276,13 +276,14 @@ When specified, the given format is output into the provided file name.
 
 This option specifies the output format for the console. Possible formats are:
 
-* [stylish](formatters/#stylish) (the default)
 * [checkstyle](formatters/#checkstyle)
 * [compact](formatters/#compact)
 * [html](formatters/#html)
 * [jslint-xml](formatters/#jslint-xml)
 * [json](formatters/#json)
 * [junit](formatters/#junit)
+* [stylish](formatters/#stylish) (the default)
+* [table](formatters/#table)
 * [tap](formatters/#tap)
 * [unix](formatters/#unix)
 * [visualstudio](formatters/#visualstudio)
