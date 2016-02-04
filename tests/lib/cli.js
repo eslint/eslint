@@ -842,4 +842,34 @@ describe("cli", function() {
 
     });
 
+    describe("when passing --print-config", function() {
+        it("should print out the configuration", function() {
+            var filePath = getFixturePath("files");
+
+            var exitCode = cli.execute("--print-config " + filePath);
+
+            assert.isTrue(log.info.calledOnce);
+            assert.equal(exitCode, 0);
+        });
+
+        it("should require a single positional file argument", function() {
+            var filePath1 = getFixturePath("files", "bar.js");
+            var filePath2 = getFixturePath("files", "foo.js");
+
+            var exitCode = cli.execute("--print-config " + filePath1 + " " + filePath2);
+
+            assert.isTrue(log.info.notCalled);
+            assert.isTrue(log.error.calledOnce);
+            assert.equal(exitCode, 1);
+        });
+
+        it("should error out when executing on text", function() {
+            var exitCode = cli.execute("--print-config", "foo = bar;");
+
+            assert.isTrue(log.info.notCalled);
+            assert.isTrue(log.error.calledOnce);
+            assert.equal(exitCode, 1);
+        });
+    });
+
 });
