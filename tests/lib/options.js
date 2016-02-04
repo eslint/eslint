@@ -318,4 +318,11 @@ describe("options", function() {
             assert.equal(currentOptions.parser, "espree");
         });
     });
+
+    describe("--print-config", function() {
+        it("should return true when passed --print-config", function() {
+            var currentOptions = options.parse("--print-config");
+            assert.isTrue(currentOptions.printConfig);
+        });
+    });
 });
