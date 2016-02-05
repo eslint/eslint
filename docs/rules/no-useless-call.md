@@ -57,6 +57,6 @@ a[i++].foo.call(a[i++], 1, 2, 3); /*error unnecessary '.call()'.*/
 a[++i].foo.call(a[i], 1, 2, 3);
 ```
 
-## When Not to Use It
+## When Not To Use It
 
 If you don't want to be notified about unnecessary `.call()` and `.apply()`, you can safely disable this rule.

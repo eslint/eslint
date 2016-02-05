@@ -41,7 +41,7 @@ var foo = 1;
 function bar() {}
 ```
 
-## When Not to Use It
+## When Not To Use It
 
 If you want to be able to declare variables and functions in the global scope you can safely disable this rule. Or if you are always using module scoped files, this rule will never apply.
 
