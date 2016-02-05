@@ -57,10 +57,10 @@ var b = 3;
 console.log(b);
 ```
 
-## When Not to Use It
+## When Not To Use It
 
 If you don't want to be notified about variables that are never modified after initial assignment, you can safely disable this rule.
 
-## Related
+## Related Rules
 
 * [no-var](no-var.md)

@@ -52,6 +52,6 @@ To restrict the use of all Node.js core imports (via https://github.com/nodejs/n
     ],
 ```
 
-### When Not to Use It
+### When Not To Use It
 
 Don't use this rule or don't include a module in the list for this rule if you want to be able to import a module in your project without an ESLint error or warning.

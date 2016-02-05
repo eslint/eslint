@@ -196,6 +196,6 @@ import {a, b} from 'foo.js';
 
 Default is `["none", "all", "multiple", "single"]`.
 
-## When not to use
+## When Not To Use It
 
 This rule is a formatting preference and not following it won't negatively affect the quality of your code. If you alphabetizing imports isn't a part of your coding standards, then you can leave this rule disabled.

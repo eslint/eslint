@@ -66,12 +66,10 @@ These patterns would not be considered problems:
 * `terms`: optional array of terms to match. Terms are matched ignoring the case. Defaults to `["todo", "fixme", "xxx"]`.
 * `location`: optional string that configures where in your comments to check for matches. Defaults to `"start"`.
 
-## When not to use it
+## When Not To Use It
 
 * If you have a large code base that was not developed with a policy to not use such warning terms, you might get hundreds of warnings / errors which might be contra-productive if you can't fix all of them (e.g. if you don't get the time to do it) as you might overlook other warnings / errors or get used to many of them and don't pay attention on it anymore.
 * Same reason as the point above: You shouldn't configure terms that are used very often (e.g. central parts of the native language used in your comments).
-
-## Further reading
 
 ### More examples of valid configurations
 
