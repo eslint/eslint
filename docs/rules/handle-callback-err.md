@@ -88,7 +88,7 @@ Examples for valid configurations:
     // ...
     ```
 
-## When Not To Use This Rule
+## When Not To Use It
 
 There are cases where it may be safe for your application to ignore errors, however only ignore errors if you are
 confident that some other form of monitoring will help you catch the problem.

@@ -49,6 +49,6 @@ This rule should not be used in ES3/5 environments.
 
 In ES2015 (ES6) or later, if you don't want to be notified about `arguments` variables, then it's safe to disable this rule.
 
-## Related rules
+## Related Rules
 
 * [prefer-spread](prefer-spread.md)

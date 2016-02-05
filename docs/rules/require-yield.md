@@ -2,7 +2,7 @@
 
 This rule generates warnings for generator functions that do not have the `yield` keyword.
 
-## Rule details
+## Rule Details
 
 The following patterns are considered problems:
 

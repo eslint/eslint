@@ -63,6 +63,6 @@ function foo() {return true;}
 if (foo) {bar = 0;}
 ```
 
-## When Not to Use It
+## When Not To Use It
 
 If you don't want to be notified about spacing style inside of blocks, you can safely disable this rule.

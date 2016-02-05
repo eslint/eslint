@@ -48,7 +48,7 @@ function a(x) {
 }
 ```
 
-## When Not to Use It
+## When Not To Use It
 
 If you can't determine an appropriate complexity limit for your code, then it's best to disable this rule.
 
