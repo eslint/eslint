@@ -30,6 +30,8 @@ ruleTester.run("padded-blocks", rule, {
         {code: "{\n\na();\n//comment\n\n}" },
         {code: "{\n\na()\n//comment\n\n}" },
         {code: "{\n\na = 1\n\n}" },
+        {code: "{//comment\n\na();\n\n}" },
+        {code: "{\n\na();\n\n/* comment */ }" },
         {code: "{\na();\n}", options: ["never"]},
         {code: "{\na();}", options: ["never"]},
         {code: "{a();\n}", options: ["never"]},
