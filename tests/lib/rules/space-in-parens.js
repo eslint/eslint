@@ -117,16 +117,19 @@ ruleTester.run("space-in-parens", rule, {
     invalid: [
         {
             code: "foo( )",
+            output: "foo()",
             options: ["never"],
             errors: [{message: REJECTED_SPACE_ERROR, line: 1, column: 4}]
         },
         {
             code: "foo( bar)",
+            output: "foo( bar )",
             options: ["always"],
             errors: [{message: MISSING_SPACE_ERROR, line: 1, column: 9}]
         },
         {
             code: "foo(bar)",
+            output: "foo( bar )",
             options: ["always"],
             errors: [
                 {message: MISSING_SPACE_ERROR, line: 1, column: 4},
@@ -135,26 +138,31 @@ ruleTester.run("space-in-parens", rule, {
         },
         {
             code: "var x = ( 1 + 2) * 3",
+            output: "var x = ( 1 + 2 ) * 3",
             options: ["always"],
             errors: [{message: MISSING_SPACE_ERROR, line: 1, column: 16}]
         },
         {
             code: "var x = (1 + 2 ) * 3",
+            output: "var x = ( 1 + 2 ) * 3",
             options: ["always"],
             errors: [{message: MISSING_SPACE_ERROR, line: 1, column: 9}]
         },
         {
             code: "foo\n(bar\n)\n",
+            output: "foo\n( bar\n)\n",
             options: ["always"],
             errors: [{message: MISSING_SPACE_ERROR, line: 2, column: 1}]
         },
         {
             code: "bar(baz )",
+            output: "bar(baz)",
             options: ["never"],
             errors: [REJECTED_SPACE_ERROR]
         },
         {
             code: "bar( baz )",
+            output: "bar(baz)",
             options: ["never"],
             errors: [
                 {message: REJECTED_SPACE_ERROR, line: 1, column: 4},
@@ -163,11 +171,13 @@ ruleTester.run("space-in-parens", rule, {
         },
         {
             code: "var x = ( 4 + 5) * 6",
+            output: "var x = (4 + 5) * 6",
             options: ["never"],
             errors: [REJECTED_SPACE_ERROR]
         },
         {
             code: "var x = (4 + 5 ) * 6",
+            output: "var x = (4 + 5) * 6",
             options: ["never"],
             errors: [REJECTED_SPACE_ERROR]
         },
@@ -175,36 +185,43 @@ ruleTester.run("space-in-parens", rule, {
         // comments
         {
             code: "foo(/* bar */)",
+            output: "foo( /* bar */ )",
             options: ["always"],
             errors: [MISSING_SPACE_ERROR, MISSING_SPACE_ERROR]
         },
         {
             code: "foo(/* bar */baz )",
+            output: "foo( /* bar */baz )",
             options: ["always"],
             errors: [MISSING_SPACE_ERROR]
         },
         {
             code: "foo(/* bar */ baz )",
+            output: "foo( /* bar */ baz )",
             options: ["always"],
             errors: [MISSING_SPACE_ERROR]
         },
         {
             code: "foo( baz/* bar */)",
+            output: "foo( baz/* bar */ )",
             options: ["always"],
             errors: [MISSING_SPACE_ERROR]
         },
         {
             code: "foo( baz /* bar */)",
+            output: "foo( baz /* bar */ )",
             options: ["always"],
             errors: [MISSING_SPACE_ERROR]
         },
         {
             code: "foo( /* bar */ )",
+            output: "foo(/* bar */)",
             options: ["never"],
             errors: [REJECTED_SPACE_ERROR, REJECTED_SPACE_ERROR]
         },
         {
             code: "foo( /* bar */ baz)",
+            output: "foo(/* bar */ baz)",
             options: ["never"],
             errors: [{message: REJECTED_SPACE_ERROR, line: 1, column: 4}]
         },
@@ -212,91 +229,109 @@ ruleTester.run("space-in-parens", rule, {
         // exceptions
         {
             code: "foo({ bar: 'baz' })",
+            output: "foo( { bar: 'baz' } )",
             options: ["always", { exceptions: ["[]"] }],
             errors: [MISSING_SPACE_ERROR, MISSING_SPACE_ERROR]
         },
         {
             code: "foo( { bar: 'baz' } )",
+            output: "foo({ bar: 'baz' })",
             options: ["always", { exceptions: ["{}"] }],
             errors: [REJECTED_SPACE_ERROR, REJECTED_SPACE_ERROR]
         },
         {
             code: "foo({ bar: 'baz' })",
+            output: "foo( { bar: 'baz' } )",
             options: ["never", { exceptions: ["{}"] }],
             errors: [MISSING_SPACE_ERROR, MISSING_SPACE_ERROR]
         },
         {
             code: "foo( { bar: 'baz' } )",
+            output: "foo({ bar: 'baz' })",
             options: ["never", { exceptions: ["[]"] }],
             errors: [REJECTED_SPACE_ERROR, REJECTED_SPACE_ERROR]
         },
         {
             code: "foo( { bar: 'baz' })",
+            output: "foo({ bar: 'baz' })",
             options: ["always", { exceptions: ["{}"] }],
             errors: [REJECTED_SPACE_ERROR]
         },
         {
             code: "foo( { bar: 'baz' })",
+            output: "foo( { bar: 'baz' } )",
             options: ["never", { exceptions: ["{}"] }],
             errors: [MISSING_SPACE_ERROR]
         },
         {
             code: "foo({ bar: 'baz' } )",
+            output: "foo({ bar: 'baz' })",
             options: ["always", { exceptions: ["{}"] }],
             errors: [REJECTED_SPACE_ERROR]
         },
         {
             code: "foo({ bar: 'baz' } )",
+            output: "foo( { bar: 'baz' } )",
             options: ["never", { exceptions: ["{}"] }],
             errors: [MISSING_SPACE_ERROR]
         },
         {
             code: "foo([ 1, 2 ])",
+            output: "foo( [ 1, 2 ] )",
             options: ["always", { exceptions: ["empty"] }],
             errors: [MISSING_SPACE_ERROR, MISSING_SPACE_ERROR]
         },
         {
             code: "foo( [ 1, 2 ] )",
+            output: "foo([ 1, 2 ])",
             options: ["always", { exceptions: ["[]"] }],
             errors: [REJECTED_SPACE_ERROR, REJECTED_SPACE_ERROR]
         },
         {
             code: "foo([ 1, 2 ])",
+            output: "foo( [ 1, 2 ] )",
             options: ["never", { exceptions: ["[]"] }],
             errors: [MISSING_SPACE_ERROR, MISSING_SPACE_ERROR]
         },
         {
             code: "foo( [ 1, 2 ] )",
+            output: "foo([ 1, 2 ])",
             options: ["never", { exceptions: ["()"] }],
             errors: [REJECTED_SPACE_ERROR, REJECTED_SPACE_ERROR]
         },
         {
             code: "foo([ 1, 2 ] )",
+            output: "foo([ 1, 2 ])",
             options: ["always", { exceptions: ["[]"] }],
             errors: [REJECTED_SPACE_ERROR]
         },
         {
             code: "foo([ 1, 2 ] )",
+            output: "foo( [ 1, 2 ] )",
             options: ["never", { exceptions: ["[]"] }],
             errors: [MISSING_SPACE_ERROR]
         },
         {
             code: "foo( [ 1, 2 ])",
+            output: "foo([ 1, 2 ])",
             options: ["always", { exceptions: ["[]"] }],
             errors: [REJECTED_SPACE_ERROR]
         },
         {
             code: "foo( [ 1, 2 ])",
+            output: "foo( [ 1, 2 ] )",
             options: ["never", { exceptions: ["[]"] }],
             errors: [MISSING_SPACE_ERROR]
         },
         {
             code: "(( 1 + 2 ))",
+            output: "( ( 1 + 2 ) )",
             options: ["always", { exceptions: ["[]"] }],
             errors: [MISSING_SPACE_ERROR, MISSING_SPACE_ERROR]
         },
         {
             code: "( ( 1 + 2 ) )",
+            output: "(( 1 + 2 ))",
             options: ["always", { exceptions: ["()"] }],
             errors: [
                 {message: REJECTED_SPACE_ERROR, line: 1, column: 1},
@@ -305,11 +340,13 @@ ruleTester.run("space-in-parens", rule, {
         },
         {
             code: "(( 1 + 2 ))",
+            output: "( ( 1 + 2 ) )",
             options: ["always", { exceptions: ["[]"] }],
             errors: [MISSING_SPACE_ERROR, MISSING_SPACE_ERROR]
         },
         {
             code: "( ( 1 + 2 ) )",
+            output: "((1 + 2))",
             options: ["never"],
             errors: [
                 {message: REJECTED_SPACE_ERROR, line: 1, column: 1},
@@ -320,72 +357,86 @@ ruleTester.run("space-in-parens", rule, {
         },
         {
             code: "( ( 1 + 2 ) )",
+            output: "((1 + 2))",
             options: ["never", { exceptions: ["[]"] }],
             errors: [REJECTED_SPACE_ERROR, REJECTED_SPACE_ERROR, REJECTED_SPACE_ERROR, REJECTED_SPACE_ERROR]
         },
         {
             code: "( ( 1 + 2 ))",
+            output: "(( 1 + 2 ))",
             options: ["always", { exceptions: ["()"] }],
             errors: [{message: REJECTED_SPACE_ERROR, line: 1, column: 1}]
         },
         {
             code: "( (1 + 2))",
+            output: "( (1 + 2) )",
             options: ["never", { exceptions: ["()"] }],
             errors: [MISSING_SPACE_ERROR]
         },
         {
             code: "(( 1 + 2 ) )",
+            output: "(( 1 + 2 ))",
             options: ["always", { exceptions: ["()"] }],
             errors: [REJECTED_SPACE_ERROR]
         },
         {
             code: "((1 + 2) )",
+            output: "( (1 + 2) )",
             options: ["never", { exceptions: ["()"] }],
             errors: [MISSING_SPACE_ERROR]
         },
         {
             code: "var result = ( 1 / ( 1 + 2 ) ) + 3",
+            output: "var result = ( 1 / ( 1 + 2 )) + 3",
             options: ["always", { exceptions: ["()"] }],
             errors: [REJECTED_SPACE_ERROR]
         },
         {
             code: "var result = (1 / (1 + 2)) + 3",
+            output: "var result = (1 / (1 + 2) ) + 3",
             options: ["never", { exceptions: ["()"] }],
             errors: [MISSING_SPACE_ERROR]
         },
         {
             code: "var result = ( 1 / ( 1 + 2)) + 3",
+            output: "var result = ( 1 / ( 1 + 2 )) + 3",
             options: ["always", { exceptions: ["()"] }],
             errors: [MISSING_SPACE_ERROR]
         },
         {
             code: "var result = (1 / (1 + 2)) + 3",
+            output: "var result = (1 / (1 + 2) ) + 3",
             options: ["never", { exceptions: ["()"] }],
             errors: [MISSING_SPACE_ERROR]
         },
         {
             code: "foo( )",
+            output: "foo()",
             options: ["always", { exceptions: ["empty"] }],
             errors: [{message: REJECTED_SPACE_ERROR, line: 1, column: 4}]
         },
         {
             code: "foo()",
+            output: "foo( )",
             options: ["never", { exceptions: ["empty"] }],
             errors: [{message: MISSING_SPACE_ERROR, line: 1, column: 4}]
         },
         {
             code: "foo\n(\nbar )\n",
+            output: "foo\n(\nbar)\n",
             options: ["never"],
             errors: [{message: REJECTED_SPACE_ERROR, line: 3, column: 5}]
         },
         {
             code: "var foo = `(bar ${(1 + 2 )})`;",
+            output: "var foo = `(bar ${(1 + 2)})`;",
             options: ["never"],
             parserOptions: { ecmaVersion: 6 },
             errors: [{message: REJECTED_SPACE_ERROR, line: 1, column: 26}]
         },
         {
             code: "var foo = `(bar ${(1 + 2 )})`;",
+            output: "var foo = `(bar ${( 1 + 2 )})`;",
             options: ["always"],
             parserOptions: { ecmaVersion: 6 },
             errors: [{message: MISSING_SPACE_ERROR, line: 1, column: 19}]
