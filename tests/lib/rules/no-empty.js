@@ -45,7 +45,13 @@ ruleTester.run("no-empty", rule, {
         // methods
         "var foo = { bar: function() {} }",
         { code: "var foo = { bar() {} }", parserOptions: { ecmaVersion: 6 } },
-        { code: "var foo = { bar() { console.log('baz'); } }", parserOptions: { ecmaVersion: 6 }, options: [{ methods: true }] }
+        { code: "var foo = { bar() { console.log('baz'); } }", parserOptions: { ecmaVersion: 6 }, options: [{ methods: true }] },
+
+        // arrowFunctions
+        { code: "var foo = () => {/* empty */};", parserOptions: { ecmaVersion: 6 }, options: [{ arrowFunctions: true }] },
+        { code: "var foo = () => {\n    // empty\n};", parserOptions: { ecmaVersion: 6 }, options: [{ arrowFunctions: true }] },
+        { code: "var foo = () => bar;", parserOptions: { ecmaVersion: 6 }, options: [{ arrowFunctions: true }] },
+        { code: "var foo = () => { bar(); };", parserOptions: { ecmaVersion: 6 }, options: [{ arrowFunctions: true }] }
     ],
     invalid: [
         { code: "try {} catch (ex) {throw ex}", errors: [{ message: "Empty block statement.", type: "BlockStatement"}] },
@@ -57,6 +63,9 @@ ruleTester.run("no-empty", rule, {
         { code: "switch(foo) {}", errors: [{ message: "Empty switch statement.", type: "SwitchStatement"}] },
 
         // methods
-        { code: "var foo = { bar() {} }", parserOptions: { ecmaVersion: 6 }, options: [{ methods: true }], errors: [{ message: "Empty block statement.", type: "BlockStatement"}] }
+        { code: "var foo = { bar() {} }", parserOptions: { ecmaVersion: 6 }, options: [{ methods: true }], errors: [{ message: "Empty block statement.", type: "BlockStatement"}] },
+
+        // arrowFunctions
+        { code: "var foo = () => {};", parserOptions: { ecmaVersion: 6 }, options: [{ arrowFunctions: true }], errors: [{ message: "Empty block statement.", type: "BlockStatement"}] }
     ]
 });
