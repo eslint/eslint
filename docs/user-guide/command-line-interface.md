@@ -71,6 +71,7 @@ Miscellaneous:
   -v, --version              Outputs the version number
   --no-inline-config         Prevent comments from changing eslint rules -
                              default: false
+  --print-config             Print the configuration to be used
 ```
 
 Options that accept array values can be specified by repeating the option or with a comma-delimited list (other than `--ignore-pattern` which does not allow the second style).
@@ -357,6 +358,14 @@ config without files modifying it. All inline config comments are ignored, e.g.:
 Example:
 
     eslint --no-inline-config file.js
+
+#### `--print-config`
+
+This option outputs the configuration to be used for the file passed. When present, no linting is performed and only config-related options are valid.
+
+Example:
+
+    eslint --print-config file.js
 
 ## Ignoring files from linting
 
