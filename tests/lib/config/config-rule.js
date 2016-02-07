@@ -260,13 +260,16 @@ describe("ConfigRule", function() {
             var coreRules = loadRules(),
                 expectedRules = Object.keys(coreRules),
                 actualRules = Object.keys(rulesConfig);
-
             assert.sameMembers(actualRules, expectedRules);
         });
 
         it("should create arrays of configs for rules", function() {
             assert.isArray(rulesConfig.quotes);
             assert.include(rulesConfig.quotes, 2);
+        });
+
+        it("should create configs for rules with meta", function() {
+            assert(rulesConfig["accessor-pairs"].length > 1);
         });
     });
 });
