@@ -60,11 +60,12 @@ var linter = require("eslint").linter;
 The most important method on `linter` is `verify()`, which initiates linting of the given text. This method accepts four arguments:
 
 * `code` - the source code to lint (a string or instance of `SourceCode`).
-* `config` - a configuration object.
-* `options` - (optional) Additional options for this run.
+* `config` - a configuration object that is equivalent to an eslintrc file.
+* `optionsOrFilename` - (optional) Additional options for this run or a string representing the filename to associate with the code being linted.
     * `filename` - (optional) the filename to associate with the source code.
-    * `saveState` - (optional) set to true to maintain the internal state of `linter` after linting (mostly used for testing purposes).
+    * `saveState` - (optional) see below. This will override any value passed as the fourth argument if an options object is used here instead of the filename.
     * `allowInlineConfig` - (optional) set to `false` to disable inline comments from changing eslint rules.
+* `saveState` - (optional) set to true to maintain the internal state of `linter` after linting (mostly used for testing purposes)
 
 You can call `verify()` like this:
 
