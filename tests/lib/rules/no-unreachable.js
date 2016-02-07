@@ -38,7 +38,8 @@ ruleTester.run("no-unreachable", rule, {
         "function foo() { var x = 1; while (x) { return; } x = 2; }",
         "function foo() { var x = 1; for (x in {}) { return; } x = 2; }",
         "function foo() { var x = 1; try { return; } finally { x = 2; } }",
-        "function foo() { var x = 1; for (;;) { if (x) break; } x = 2; }"
+        "function foo() { var x = 1; for (;;) { if (x) break; } x = 2; }",
+        "A: { break A; } foo()"
     ],
     invalid: [
         { code: "function foo() { return x; var x = 1; }", errors: [{ message: "Unreachable code.", type: "VariableDeclaration"}] },
