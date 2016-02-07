@@ -15,10 +15,12 @@ var assert = require("chai").assert,
     os = require("os"),
     sinon = require("sinon"),
     sh = require("shelljs"),
-    proxyquire = require("proxyquire");
+    proxyquire = require("proxyquire"),
+    autoconfig = require("../../../lib/config/autoconfig"),
+    npmUtil = require("../../../lib/util/npm-util");
 
 var originalDir = process.cwd();
-proxyquire = proxyquire.noCallThru().noPreserveCache();
+proxyquire = proxyquire.noPreserveCache();
 
 //------------------------------------------------------------------------------
 // Tests
@@ -29,22 +31,15 @@ var answers = {};
 describe("configInitializer", function() {
 
     var fixtureDir,
+        npmCheckStub,
+        npmInstallStub,
         init;
-    var fakeNpm = {
-        checkInstalled: function(packages) {
-            return packages.reduce(function(status, pkg) {
-                status[pkg] = true;
-                return status;
-            }, {});
-        },
-        installSyncSaveDev: function() {}
-    };
+
     var log = {
         info: sinon.spy(),
         error: sinon.spy()
     };
     var requireStubs = {
-        "../util/npm-util": fakeNpm,
         "../logging": log
     };
 
@@ -74,12 +69,21 @@ describe("configInitializer", function() {
     });
 
     beforeEach(function() {
-        process.chdir(fixtureDir);
+        npmInstallStub = sinon.stub(npmUtil, "installSyncSaveDev");
+        npmCheckStub = sinon.stub(npmUtil, "checkDevDeps", function(packages) {
+            return packages.reduce(function(status, pkg) {
+                status[pkg] = false;
+                return status;
+            }, {});
+        });
         init = proxyquire("../../../lib/config/config-initializer", requireStubs);
     });
 
     afterEach(function() {
-        process.chdir(originalDir);
+        log.info.reset();
+        log.error.reset();
+        npmInstallStub.restore();
+        npmCheckStub.restore();
     });
 
     after(function() {
@@ -99,6 +103,7 @@ describe("configInitializer", function() {
                     linebreak: "unix",
                     semi: true,
                     es6: true,
+                    modules: true,
                     env: ["browser"],
                     jsx: false,
                     react: false,
@@ -114,6 +119,7 @@ describe("configInitializer", function() {
                 assert.deepEqual(config.rules["linebreak-style"], [2, "unix"]);
                 assert.deepEqual(config.rules.semi, [2, "always"]);
                 assert.equal(config.env.es6, true);
+                assert.equal(config.parserOptions.sourceType, "module");
                 assert.equal(config.env.browser, true);
                 assert.equal(config.extends, "eslint:recommended");
             });
@@ -150,6 +156,19 @@ describe("configInitializer", function() {
                 assert.equal(config.extends, "eslint:recommended");
             });
 
+            it("should not use commonjs by default", function() {
+                var config = init.processAnswers(answers);
+                assert.isUndefined(config.env.commonjs);
+            });
+
+            it("should use commonjs when set", function() {
+                answers.commonjs = true;
+                var config = init.processAnswers(answers);
+                assert.isTrue(config.env.commonjs);
+            });
+        });
+
+        describe("guide", function() {
             it("should support the google style guide", function() {
                 var config = init.getConfigForStyleGuide("google");
                 assert.deepEqual(config, {extends: "google"});
@@ -171,15 +190,10 @@ describe("configInitializer", function() {
                 }, "You referenced an unsupported guide.");
             });
 
-            it("should not use commonjs by default", function() {
-                var config = init.processAnswers(answers);
-                assert.isUndefined(config.env.commonjs);
-            });
-
-            it("should use commonjs when set", function() {
-                answers.commonjs = true;
-                var config = init.processAnswers(answers);
-                assert.isTrue(config.env.commonjs);
+            it("should install required sharable config", function() {
+                init.getConfigForStyleGuide("google");
+                assert(npmInstallStub.calledOnce);
+                assert.deepEqual(npmInstallStub.firstCall.args[0], ["eslint-config-google"]);
             });
         });
 
@@ -205,9 +219,9 @@ describe("configInitializer", function() {
                 };
                 origLog = console.log;
                 console.log = function() {}; // necessary to replace, because of progress bar
-                var uiMock = {complete: completeSpy};
                 process.chdir(fixtureDir);
-                config = init.processAnswers(answers, uiMock);
+                config = init.processAnswers(answers);
+                process.chdir(originalDir);
             });
 
             beforeEach(function() {
@@ -227,6 +241,32 @@ describe("configInitializer", function() {
             it("should extend and not disable recommended rules", function() {
                 assert.equal(config.extends, "eslint:recommended");
                 assert.notProperty(config.rules, "no-console");
+            });
+
+            it("should callback with error message on fatal parsing error", function() {
+                var filename = getFixturePath("parse-error");
+                var spy = sinon.spy();
+                sinon.stub(autoconfig, "extendFromRecommended");
+                answers.patterns = filename;
+                process.chdir(fixtureDir);
+                config = init.processAnswers(answers, spy);
+                process.chdir(originalDir);
+                assert(spy.called);
+                assert.include(spy.firstCall.args[0].message, filename);
+                assert.include(spy.firstCall.args[0].message, "Parsing error: Unexpected token ;");
+                autoconfig.extendFromRecommended.restore();
+            });
+
+            it("should callback with error message if no files are matched from patterns", function() {
+                var spy = sinon.spy();
+                sinon.stub(autoconfig, "extendFromRecommended");
+                answers.patterns = "not-a-real-filename";
+                process.chdir(fixtureDir);
+                config = init.processAnswers(answers, spy);
+                process.chdir(originalDir);
+                assert(spy.called);
+                assert.include(spy.firstCall.args[0].message, "Automatic Configuration failed.  No files were able to be parsed.");
+                autoconfig.extendFromRecommended.restore();
             });
         });
     });
