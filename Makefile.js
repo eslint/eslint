@@ -12,7 +12,8 @@
 
 require("shelljs/make");
 
-var checker = require("npm-license"),
+var lodash = require("lodash"),
+    checker = require("npm-license"),
     dateformat = require("dateformat"),
     fs = require("fs"),
     glob = require("glob"),
@@ -60,7 +61,7 @@ var NODE = "node ", // intentional extra space
     MAKEFILE = "./Makefile.js",
     PACKAGE = "./package.json",
     JS_FILES = find("lib/").filter(fileType("js")).join(" "),
-    JSON_FILES = find("conf/").filter(fileType("json")).join(" ") + " .eslintrc",
+    JSON_FILES = find("conf/").filter(fileType("json")),
     MARKDOWN_FILES_ARRAY = find("docs/").concat(ls(".")).filter(fileType("md")),
     TEST_FILES = getTestFilePatterns(),
     PERF_ESLINTRC = path.join(PERF_TMP_DIR, "eslintrc.yml"),
@@ -94,6 +95,20 @@ function getTestFilePatterns() {
         }
         return initialValue;
     }, [testLibPath + "rules/**/*.js", testLibPath + "*.js"]).join(" ");
+}
+
+/**
+ * Simple JSON file validation that relies on ES JSON parser.
+ * @param {string} filePath Path to JSON.
+ * @throws Error If file contents is invalid JSON.
+ * @returns {undefined}
+ */
+function validateJsonFile(filePath) {
+    var contents;
+
+    contents = fs.readFileSync(filePath, "utf8");
+
+    JSON.parse(contents);
 }
 
 /**
@@ -584,10 +599,7 @@ target.lint = function() {
     }
 
     echo("Validating JSON Files");
-    lastReturn = nodeCLI.exec("jsonlint", "-q -c", JSON_FILES);
-    if (lastReturn.code !== 0) {
-        errors++;
-    }
+    lodash.forEach(JSON_FILES, validateJsonFile);
 
     echo("Validating Markdown Files");
     lastReturn = lintMarkdown(MARKDOWN_FILES_ARRAY);
