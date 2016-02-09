@@ -25,7 +25,7 @@ var a = 3;
 a = 10;
 ```
 
-### Options
+## Options
 
 This rule takes one option, an object, with a property `"builtinGlobals"`.
 
@@ -35,7 +35,7 @@ This rule takes one option, an object, with a property `"builtinGlobals"`.
 }
 ```
 
-#### builtinGlobals
+### builtinGlobals
 
 `false` by default.
 If this is `true`, this rule checks with built-in global variables such as `Object`, `Array`, `Number`, ...

@@ -11,7 +11,7 @@ On the other hand, commenting out code is easier without having to put a whitesp
 This rule will enforce consistency of spacing after the start of a comment `//` or `/*`. It also provides several
 exceptions for various documentation styles.
 
-### Options
+## Options
 
 The rule takes two options. The first is a string which be either `"always"` or `"never"`. If you pass `"always"` then the `//` or `/*` must be followed by at least once whitespace. If `"never"` then there should be no whitespace following. The default is `"always"`.
 
@@ -21,7 +21,7 @@ Here is an example of how to configure the rule with this option:
 "spaced-comment": [2, "always"]
 ```
 
-#### Exceptions
+### Exceptions
 
 This rule can also take a 2nd option, an object with either of the following keys: `"exceptions"` and `"markers"`.
 
@@ -58,7 +58,7 @@ You can also define separate exceptions and markers for block and line comments:
 }]
 ```
 
-#### Examples
+## Examples
 
 The following patterns are considered problems:
 

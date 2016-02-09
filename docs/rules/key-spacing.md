@@ -6,7 +6,7 @@ This rule enforces spacing around the colon in object literal properties. It can
 
 This rule will warn when spacing in properties does not match the specified options. In the case of long lines, it is acceptable to add a new line wherever whitespace is allowed. There are three modes:
 
-### 1. Individual
+## Options
 
 Use the `beforeColon`, `afterColon` and `mode` options to enforce having one space or zero spaces on each side, using `true` or `false`, respectively. The default is no whitespace between the key and the colon and one space between the colon and the value.
 
@@ -76,7 +76,7 @@ function foo() {
 }
 ```
 
-### 2. Vertically align values `"align": "value"`
+### `"align": "value"`
 
 Use the `align` option to enforce vertical alignment of values in an object literal. This mode still respects `beforeColon` and `afterColon` where possible, but it will pad with spaces after the colon where necessary. Groups of properties separated by blank lines are considered distinct and can have different alignment than other groups. Single line object literals will not be checked for vertical alignment, but each property will still be checked for `beforeColon` and `afterColon`.
 
@@ -121,7 +121,7 @@ var obj = {
 };
 ```
 
-### 3. Vertically align colons `"align": "colon"`
+### `"align": "colon"`
 
 The `align` option can also vertically align colons and values together. Whereas with `"value"` alignment, padding belongs right of the colon, with `"colon"` alignment, padding goes to the left of the colon. Except in the case of padding, it still respects `beforeColon` and `afterColon`. As with `"value"` alignment, groups of properties separated by blank lines are considered distinct and can have different alignment than other groups.
 
@@ -162,7 +162,7 @@ var obj = {
 };
 ```
 
-#### Fine-grained control
+### Fine-grained control
 
 You can specify these options separately for single-line and multi-line configurations by organizing the options this way:
 

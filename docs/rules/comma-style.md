@@ -10,7 +10,7 @@ In case linting is turned off, missing commas in variable declarations lead to l
 
 This rule is aimed at enforcing a particular comma style in JavaScript. As such, it warns whenever it sees a variable declaration, object property and array element that does not adhere to a particular comma style. It doesn't support cases where there are line breaks before and after comma (lone commas) with in declarations, properties and elements. It also avoids single line declaration cases.
 
-### Options
+## Options
 
 The rule takes an option, a string, which could be either `"last"` or `"first"`. The default is `"last"`.
 
@@ -20,7 +20,7 @@ You can set the style in configuration like this:
 "comma-style": [2, "first"]
 ```
 
-#### "last"
+### "last"
 
 This is the default setting for this rule. This option requires that the comma be placed after and be in the same line as the variable declaration, object property and array element.
 
@@ -74,7 +74,7 @@ function bar() {
 
 ```
 
-#### "first"
+### "first"
 
 This option requires that the comma be placed before and be in the same line as the variable declaration, object property and array element.
 
@@ -124,7 +124,7 @@ function bar() {
 
 ```
 
-#### Exceptions
+### Exceptions
 
 Exceptions of the following nodes may be passed in order to tell ESLint to ignore nodes of certain types.
 

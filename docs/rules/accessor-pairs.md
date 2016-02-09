@@ -32,12 +32,10 @@ This rule enforces a style where it requires to have a getter for every property
 
 By activating the option `getWithoutSet` it enforces the presence of a setter for every property which has a getter defined.
 
-### Options
+## Options
 
 `getWithoutSet` set to `true` will warn for getters without setters (Default `false`).
 `setWithoutGet` set to `true` will warn for setters without getters (Default `true`).
-
-#### Usage
 
 By default `setWithoutGet` option is always set to `true`.
 
@@ -92,7 +90,7 @@ Object.defineProperty(o, 'c', {
 
 ```
 
-#### `getWithoutSet`
+### `getWithoutSet`
 
 The following patterns are considered problems with option `getWithoutSet` set:
 

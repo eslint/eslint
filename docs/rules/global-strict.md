@@ -42,7 +42,7 @@ function foo() {
 }());
 ```
 
-### Options
+## Options
 
 ```json
 "global-strict": [2, "always"]

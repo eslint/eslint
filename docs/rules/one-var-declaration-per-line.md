@@ -20,7 +20,7 @@ This rule enforces a consistent style across the entire project.
 
 This rule enforces a consistent coding style where newlines are required or disallowed after each var declaration or just when there is a variable initialization. It ignores var declarations inside for loop conditionals.
 
-### Options
+## Options
 
 This rule takes one option, a string, which can be:
 

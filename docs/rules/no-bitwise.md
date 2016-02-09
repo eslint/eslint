@@ -58,7 +58,7 @@ var x = y < z;
 x += y;
 ```
 
-### Options
+## Options
 
 This rule supports the following options:
 

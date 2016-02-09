@@ -32,7 +32,7 @@ j
 
 This rule is aimed at flagging the use of `++` and `--`. Some believe that the use of these unary operators reduces code quality and clarity. There are some programming languages that completely exclude these operators.
 
-### Options
+## Options
 
 This rule, in its default state, does not require any arguments. If you would like to enable one or more of the following you may pass an object with the options set as follows:
 

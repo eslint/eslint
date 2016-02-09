@@ -34,7 +34,7 @@ This may look alright at first sight, but this code in fact throws a syntax erro
 
 This rule aims to enforce use of quotes in property names and as such will flag any properties that don't use quotes (default behavior).
 
-### Options
+## Options
 
 There are four behaviors for this rule: `"always"` (default), `"as-needed"`, `"consistent"` and `"consistent-as-needed"`. You can define these options in your configuration as:
 
@@ -44,7 +44,7 @@ There are four behaviors for this rule: `"always"` (default), `"as-needed"`, `"c
 }
 ```
 
-#### "always"
+### "always"
 
 When configured with `"always"` as the first option (the default), quoting for all properties will be enforced. Some believe that ensuring property names in object literals are always wrapped in quotes is generally a good idea, since [depending on the property name you may need to quote them anyway](https://mathiasbynens.be/notes/javascript-properties). Consider this example:
 
@@ -113,7 +113,7 @@ var object3 = {
 };
 ```
 
-#### "as-needed"
+### "as-needed"
 
 When configured with `"as-needed"` as the first option, quotes will be enforced when they are strictly required, and unnecessary quotes will cause warnings. The following patterns are considered problems:
 
@@ -219,7 +219,7 @@ var x = {
 }
 ```
 
-#### "consistent"
+### "consistent"
 
 When configured with `"consistent"`, the patterns below are considered problems. Basically `"consistent"` means all or no properties are expected to be quoted, in other words quoting style can't be mixed within an object. Please note the latter situation (no quotation at all) isn't always possible as some property names require quoting.
 
@@ -260,7 +260,7 @@ var object3 = {
 };
 ```
 
-#### "consistent-as-needed"
+### "consistent-as-needed"
 
 When configured with `"consistent-as-needed"`, the behavior is similar to `"consistent"` with one difference. Namely, properties' quoting should be consistent (as in `"consistent"`) but whenever all quotes are redundant a warning is raised. In other words if at least one property name has to be quoted (like `qux-lorem`) then all property names must be quoted, otherwise no properties can be quoted. The following patterns are considered problems:
 

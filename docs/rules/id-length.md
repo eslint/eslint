@@ -116,7 +116,7 @@ export var num = 0;
 ```
 
 
-### Options
+## Options
 
 The `id-length` rule has no required options and has 4 optional ones that needs to be passed in a single options object:
 

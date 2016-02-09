@@ -80,15 +80,15 @@ var foo = {
 };
 ```
 
-### Options
+## Options
 
 The rule takes an option which specifies when it should be applied. It can be set to
 "always", "properties", "methods", or "never". The default is "always".
 
-1. `"always"` expects that the shorthand will be used whenever possible.
-2. `"methods"` ensures the method shorthand is used (also applies to generators).
-3. `"properties` ensures the property shorthand is used (where the key and variable name match).
-4. `"never"` ensures that no property or method shorthand is used in any object literal.
+* `"always"` expects that the shorthand will be used whenever possible.
+* `"methods"` ensures the method shorthand is used (also applies to generators).
+* `"properties` ensures the property shorthand is used (where the key and variable name match).
+* `"never"` ensures that no property or method shorthand is used in any object literal.
 
 You can set the option in configuration like this:
 

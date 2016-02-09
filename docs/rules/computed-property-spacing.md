@@ -25,7 +25,7 @@ This rule aims to maintain consistency around the spacing inside of computed pro
 It either requires or disallows spaces between the brackets and the values inside of them.
 Brackets that are separated from the adjacent value by a new line are exempt from this rule.
 
-### Options
+## Options
 
 There are two main options for the rule:
 
@@ -38,7 +38,7 @@ Depending on your coding conventions, you can choose either option by specifying
 "computed-property-spacing": [2, "never"]
 ```
 
-#### "never"
+### "never"
 
 When `"never"` is set, the following patterns will give a warning:
 
@@ -64,7 +64,7 @@ var x = {[b]: a}
 obj[foo[bar]]
 ```
 
-#### "always"
+### "always"
 
 When `"always"` is used, the following patterns will give a warning:
 

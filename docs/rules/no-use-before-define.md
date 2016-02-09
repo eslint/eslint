@@ -57,7 +57,7 @@ function g() {
 }
 ```
 
-### Options
+## Options
 
 ```json
 {

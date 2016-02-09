@@ -133,9 +133,9 @@ class Foo {
 }
 ```
 
-### Options
+## Options
 
-#### `prefer`
+### `prefer`
 
 JSDoc offers a lot of tags with overlapping meaning. For example, both `@return` and `@returns` are acceptable for specifying the return value of a function. However, you may want to enforce a certain tag be used instead of others. You can specify your preferences regarding tag substitution by providing a mapping called `prefer` in the rule configuration. For example, to specify that `@returns` should be used instead of `@return`, you can use the following configuration:
 
@@ -149,7 +149,7 @@ JSDoc offers a lot of tags with overlapping meaning. For example, both `@return`
 
 With this configuration, ESLint will warn when it finds `@return` and recommend to replace it with `@returns`.
 
-#### `requireReturn`
+### `requireReturn`
 
 By default ESLint requires you to document every function with a `@return` tag regardless of whether there is anything returned by the function. If instead you want to enforce that only functions with a `return` statement are documented with a `@return` tag, set the `requireReturn` option to `false`.  When `requireReturn` is `false`, every function documented with a `@return` tag must have a `return` statement, and every function with a `return` statement must have a `@return` tag.
 
@@ -159,7 +159,7 @@ By default ESLint requires you to document every function with a `@return` tag r
 }]
 ```
 
-#### `requireParamDescription`
+### `requireParamDescription`
 
 By default ESLint requires you to specify a description for each `@param`. You can choose not to require descriptions for parameters by setting `requireParamDescription` to `false`.
 
@@ -169,7 +169,7 @@ By default ESLint requires you to specify a description for each `@param`. You c
 }]
 ```
 
-#### `requireReturnDescription`
+### `requireReturnDescription`
 
 By default ESLint requires you to specify a description for each `@return`. You can choose not to require descriptions for `@return` by setting `requireReturnDescription` to `false`.
 
@@ -179,7 +179,7 @@ By default ESLint requires you to specify a description for each `@return`. You 
 }]
 ```
 
-#### `matchDescription`
+### `matchDescription`
 
 Specify a regular expression to validate jsdoc comment block description against.
 
@@ -189,7 +189,7 @@ Specify a regular expression to validate jsdoc comment block description against
 }]
 ```
 
-#### `requireReturnType`
+### `requireReturnType`
 
 By default ESLint requires you to specify `type` for `@return` tag for every documented function.
 
@@ -199,7 +199,7 @@ By default ESLint requires you to specify `type` for `@return` tag for every doc
 }]
 ```
 
-#### preferType
+### preferType
 
 It will validate all the types from jsdoc with the options setup by the user. Inside the options, key should be what the type you want to check and the value of it should be what the expected type should be. Note that we don't check for spelling mistakes with this option.
 In the example below, it will expect the "object" to start with an uppercase and all the "string" type to start with a lowercase.
