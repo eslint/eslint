@@ -36,6 +36,9 @@ module.exports = {
             }
         }
     },
+    "shared-node-browser": {
+        globals: globals["shared-node-browser"]
+    },
     worker: {
         globals: globals.worker
     },
