@@ -1,3 +1,30 @@
+v2.0.0-rc.1 - February 9, 2016
+
+* 4dad82a Update: Adding shared environment for node and browser (refs #5196) (Eli White)
+* b46c893 Fix: Config file relative paths (fixes #5164, fixes #5160) (Nicholas C. Zakas)
+* aa5b2ac Fix: no-whitespace-before-property fixes (fixes #5167) (Kai Cataldo)
+* 4e99924 Update: Replace several dependencies with lodash (fixes #5012) (Gajus Kuizinas)
+* 718dc68 Docs: Remove periods in rules' README for consistency. (alberto)
+* 7a47085 Docs: Correct `arrow-spacing` overview. (alberto)
+* a4cde1b Docs: Clarify global-require inside try/catch (fixes #3834) (Brandon Mills)
+* fd07925 Docs: Clarify docs for api.verify (fixes #5101, fixes #5104) (Burak Yigit Kaya)
+* 413247f New: Add a --print-config flag (fixes #5099) (Christopher Crouzet)
+* efeef42 Update: Implement auto fix for space-in-parens (fixes #5050) (alberto)
+* e07fdd4 Fix: code path analysis and labels (fixes #5171) (Toru Nagashima)
+* 2417bb2 Fix: `no-unmodified-loop-condition` false positive (fixes #5166) (Toru Nagashima)
+* fae1884 Fix: Allow same-line comments in padded-blocks (fixes #5055) (Brandon Mills)
+* a24d8ad Fix: Improve autoconfig logging (fixes #5119) (Ian VanSchooten)
+* e525923 Docs: Correct obvious inconsistencies in rules h2 elements (Mark Pedrotti)
+* 9675b5e Docs: `avoid-escape` does not allow backticks (fixes #5147) (alberto)
+* a03919a Fix: `no-unexpected-multiline` false positive (fixes #5148) (Feross Aboukhadijeh)
+* 74360d6 Docs: Note no-empty applies to empty block statements (fixes #5105) (alberto)
+* 6eeaa3f Build: Remove pending tests (fixes #5126) (Ian VanSchooten)
+* 02c83df Docs: Update docs/rules/no-plusplus.md (Sheldon Griffin)
+* 0c4de5c New: Added "table" formatter (fixes #4037) (Gajus Kuizinas)
+* 0a59926 Update: 'implied strict mode' ecmaFeature (fixes #4832) (Nick Evans)
+* 53a6eb3 Fix: Handle singular case in rule-tester error message (fixes #5141) (Bryan Smith)
+* 97ac91c Build: Increment eslint-config-eslint (Nicholas C. Zakas)
+
 v2.0.0-rc.0 - February 2, 2016
 
 * 973c499 Fix: `sort-imports` crash (fixes #5130) (Toru Nagashima)
