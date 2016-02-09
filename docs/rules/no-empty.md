@@ -67,12 +67,42 @@ Since you must always have at least a `catch` or a `finally` block for any `try`
 
 ### Options
 
-`methods` set to `true` will warn for empty methods. This option is set to `false` by default.
-
 ```json
 {
-    "no-empty": [2, { "methods": true } ]
+    "no-empty": [2, {"arrowFunctions": false, "methods": false}]
 }
+```
+
+This rule has 2 options:
+
+* `arrowFunctions` (`boolean`) - If `true`, this rule will warn for empty arrow functions. This option is set to `false` by default.
+* `methods` (`boolean`) - If `true`, this rule will warn for empty methods. This option is set to `false` by default.
+
+The following pattern is considered a problem when `arrowFunctions` is set to `true`:
+
+```js
+/*eslint no-empty: [2, { arrowFunctions: true }]*/
+
+// Note: this is a block, not an empty object.
+var foo = () => {}  /*error Empty block statement.*/
+```
+
+The following pattern is not considered a problem when `arrowFunctions` is set to `true`:
+
+```js
+/*eslint no-empty: [2, { arrowFunctions: true }]*/
+
+const foo = () => {
+    console.log("this is not empty.");
+};
+
+// this is an empty object literal.
+const foo = () => ({});
+
+// there is an clear comment.
+const foo = () => {
+    // do nohting.
+};
 ```
 
 The following pattern is considered a problem when `methods` is set to `true`:
