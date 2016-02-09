@@ -18,6 +18,7 @@ var assert = require("chai").assert,
     tmp = require("tmp"),
     yaml = require("js-yaml"),
     resolve = require("resolve"),
+    userHome = require("user-home"),
     proxyquire = require("proxyquire"),
     environments = require("../../../conf/environments"),
     ConfigFile = require("../../../lib/config/config-file");
@@ -27,6 +28,14 @@ var assert = require("chai").assert,
 //------------------------------------------------------------------------------
 
 proxyquire = proxyquire.noCallThru().noPreserveCache();
+
+/*
+ * Project path is the project that is including ESLint as a dependency. In the
+ * case of these tests, it will end up the parent of the "eslint" folder. That's
+ * fine for the purposes of testing because the tests are just relative to an
+ * ancestor location.
+ */
+var PROJECT_PATH = path.resolve(__dirname, "../../../../");
 
 /**
  * Helper function get easily get a path in the fixtures directory.
@@ -71,8 +80,8 @@ function writeTempConfigFile(config, filename, existingTmpDir) {
  * @returns {string} A full path for the module local to cwd.
  * @private
  */
-function getCWDModulePath(moduleName) {
-    return path.resolve("./node_modules", moduleName, "index.js");
+function getProjectModulePath(moduleName) {
+    return path.resolve(PROJECT_PATH, "./node_modules", moduleName, "index.js");
 }
 
 /**
@@ -120,9 +129,10 @@ describe("ConfigFile", function() {
             target = [];
         });
 
-        it("should apply extensions when specified from package", function() {
+        it("should apply extensions when specified from root directory config", function() {
 
-            target.push(path.resolve("./node_modules/eslint-config-foo/index.js"));
+            // Even though config is in /whatever, it should still lookup relative to project directory
+            target.push(path.resolve(PROJECT_PATH, "./node_modules/eslint-config-foo/index.js"));
 
             var configDeps = {
                 // Hacky: need to override isFile for each call for testing
@@ -155,10 +165,41 @@ describe("ConfigFile", function() {
 
         });
 
+        it("should throw an error when extends config is not found", function() {
+
+            // Even though config is in /whatever, it should still lookup relative to eslint directory
+            // So this file should not be found
+            target.push(path.resolve("/whatever/node_modules/eslint-config-foo/index.js"));
+
+            var configDeps = {
+                // Hacky: need to override isFile for each call for testing
+                "resolve": {
+                    sync: function(filename, opts) {
+                        opts.isFile = getFileCheck();
+                        return resolve.sync(filename, opts);
+                    }
+                }
+            };
+
+            configDeps[target[0]] = {
+                env: { browser: true }
+            };
+
+            var StubbedConfigFile = proxyquire("../../../lib/config/config-file", configDeps);
+
+            assert.throws(function() {
+                StubbedConfigFile.applyExtends({
+                    extends: "foo",
+                    rules: { eqeqeq: 2 }
+                }, "/whatever");
+            }, /Cannot find module 'eslint-config-foo'/);
+
+        });
+
         it("should apply extensions recursively when specified from package", function() {
 
-            target.push(path.resolve("./node_modules/eslint-config-foo/index.js"));
-            target.push(path.resolve("./node_modules/eslint-config-bar/index.js"));
+            target.push(path.resolve(PROJECT_PATH, "./node_modules/eslint-config-foo/index.js"));
+            target.push(path.resolve(PROJECT_PATH, "./node_modules/eslint-config-bar/index.js"));
 
             var configDeps = {
                 // Hacky: need to override isFile for each call for testing
@@ -573,12 +614,12 @@ describe("ConfigFile", function() {
 
             leche.withData([
                 [ ".eslintrc", path.resolve(".eslintrc") ],
-                [ "eslint-config-foo", getCWDModulePath("eslint-config-foo") ],
-                [ "foo", getCWDModulePath("eslint-config-foo") ],
-                [ "eslint-configfoo", getCWDModulePath("eslint-config-eslint-configfoo") ],
-                [ "@foo/eslint-config", getCWDModulePath("@foo/eslint-config") ],
-                [ "@foo/bar", getCWDModulePath("@foo/eslint-config-bar") ],
-                [ "plugin:foo/bar", getCWDModulePath("eslint-plugin-foo") ]
+                [ "eslint-config-foo", getProjectModulePath("eslint-config-foo") ],
+                [ "foo", getProjectModulePath("eslint-config-foo") ],
+                [ "eslint-configfoo", getProjectModulePath("eslint-config-eslint-configfoo") ],
+                [ "@foo/eslint-config", getProjectModulePath("@foo/eslint-config") ],
+                [ "@foo/bar", getProjectModulePath("@foo/eslint-config-bar") ],
+                [ "plugin:foo/bar", getProjectModulePath("eslint-plugin-foo") ]
             ], function(input, expected) {
                 it("should return " + expected + " when passed " + input, function() {
 
@@ -614,6 +655,35 @@ describe("ConfigFile", function() {
                 });
             });
 
+        });
+
+    });
+
+    describe("getLookupPath()", function() {
+
+        // can only run this test if there's a home directory
+        if (userHome) {
+
+            it("should return project path when config file is in home directory", function() {
+                var result = ConfigFile.getLookupPath(userHome);
+                assert.equal(result, PROJECT_PATH);
+            });
+        }
+
+        it("should return project path when config file is in an ancestor directory of the project path", function() {
+            var result = ConfigFile.getLookupPath(path.resolve(PROJECT_PATH, "../../"));
+            assert.equal(result, PROJECT_PATH);
+        });
+
+        it("should return config file path when config file is in a descendant directory of the project path", function() {
+            var configFilePath = path.resolve(PROJECT_PATH, "./foo/bar/"),
+                result = ConfigFile.getLookupPath(path.resolve(PROJECT_PATH, "./foo/bar/"));
+            assert.equal(result, configFilePath);
+        });
+
+        it("should return project path when config file is not an ancestor or descendant of the project path", function() {
+            var result = ConfigFile.getLookupPath(path.resolve("/tmp/foo"));
+            assert.equal(result, PROJECT_PATH);
         });
 
     });

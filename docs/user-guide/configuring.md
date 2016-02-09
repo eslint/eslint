@@ -580,7 +580,9 @@ ESLint also supports extending configuration from plugins that provide configs:
 
 In this example, the `eslint-plugin-myplugin` package contains configuration named `default`.
 
-**Note:** Please note that when you are extending from the configuration bundled with plugins, you need to start with `plugin:` prefix as well as specify configuration name after the slash. You may optionally omit the `eslint-plugin-` prefix.
+**Important:** When you are extending from the configuration bundled with plugins, you need to start with `plugin:` prefix as well as specify configuration name after the slash. You may optionally omit the `eslint-plugin-` prefix.
+
+**Note:** For configuration files in your home directory, or in any path that isn't an ancestor to the location of ESLint (either globally or locally), `extends` is resolved from the path of the project using ESLint (typically the current working directory) rather than relative to the file itself.
 
 ## Comments in Configuration Files
 
