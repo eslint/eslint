@@ -55,9 +55,9 @@ if (foo) {
 }
 ```
 
-### Options
+## Options
 
-#### "multi"
+### "multi"
 
 By default, this rule warns whenever `if`, `else`, `for`, `while`, or `do` are used without block statements as their body. However, you can specify that block statements should be used only when there are multiple statements in the block and warn when there is only one statement in the block. To do so, configure the rule as:
 
@@ -103,7 +103,7 @@ while (true) {
 }
 ```
 
-#### "multi-line"
+### "multi-line"
 
 Alternatively, you can relax the rule to allow brace-less single-line `if`, `else if`, `else`, `for`, `while`, or `do`, while still enforcing the use of curly braces for other instances. To do so, configure the rule as:
 
@@ -155,7 +155,7 @@ while (true) {
 }
 ```
 
-#### "multi-or-nest"
+### "multi-or-nest"
 
 You can use another configuration that forces brace-less `if`, `else if`, `else`, `for`, `while`, or `do` if their body contains only one single-line statement. And forces braces in all other cases.
 
@@ -222,7 +222,7 @@ for (var i = 0; foo; i++)
     doSomething();
 ```
 
-#### "consistent"
+### "consistent"
 
 When using any of the `multi*` option, you can add an option to enforce all bodies of a `if`,
 `else if` and `else` chain to be with or without braces.

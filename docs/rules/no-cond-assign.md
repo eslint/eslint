@@ -15,14 +15,14 @@ There are valid reasons to use assignment operators in conditional statements. H
 
 This rule is aimed at eliminating ambiguous assignments in `for`, `if`, `while`, and `do...while` conditional statements.
 
-### Options
+## Options
 
 The rule takes one option, a string, which must contain one of the following values:
 
 * `except-parens` (default): Disallow assignments unless they are enclosed in parentheses.
 * `always`: Disallow all assignments.
 
-#### "except-parens"
+### "except-parens"
 
 This is the default option. It disallows assignments unless they are enclosed in parentheses. This option makes it possible to use common patterns, such as reassigning a value in the condition of a `while` or `do...while` loop, without causing a warning.
 
@@ -74,7 +74,7 @@ function setHeight(someNode) {
 }
 ```
 
-#### "always"
+### "always"
 
 This option disallows all assignments in conditional statement tests. All assignments are treated as problems.
 

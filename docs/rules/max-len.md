@@ -36,7 +36,7 @@ var foo = {
 };
 ```
 
-### Options
+## Options
 
 The `max-len` rule supports the following options:
 

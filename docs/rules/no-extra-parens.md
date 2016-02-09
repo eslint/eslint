@@ -4,14 +4,12 @@ This rule restricts the use of parentheses to only where they are necessary. It 
 
 ## Rule Details
 
-### Exceptions
-
 A few cases of redundant parentheses are always allowed:
 
 * RegExp literals: `(/abc/).test(var)` is always valid.
 * IIFEs: `var x = (function () {})();`, `((function foo() {return 1;})())` are always valid.
 
-### Options
+## Options
 
 This rule takes 1 or 2 arguments. The first one is a string which must be one of the following:
 
@@ -20,7 +18,7 @@ This rule takes 1 or 2 arguments. The first one is a string which must be one of
 
 The second one is an object for more fine-grained configuration when the first option is "all".
 
-#### "all"
+### "all"
 
 The following patterns are considered problems:
 
@@ -50,7 +48,7 @@ The following patterns are not considered problems:
 (/^a$/).test(x);
 ```
 
-##### Fine-grained control
+#### Fine-grained control
 
 When setting the first option as "all", an additional option can be added to allow extra parens for assignment in conditional statements.
 
@@ -68,7 +66,7 @@ do; while ((foo = bar()))
 for (;(a = b););
 ```
 
-#### "functions"
+### "functions"
 
 The following patterns are considered problems:
 

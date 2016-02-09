@@ -14,14 +14,12 @@ This rule aims to eliminate unused expressions. The value of an expression shoul
 
 **Note:** Sequence expressions (those using a comma, such as `a = 1, b = 2`) are always considered unused unless their return value is assigned or a function call is made with the sequence expression value.
 
-### Options
+## Options
 
 This rule, in it's default state, does not require any arguments. If you would like to enable one or more of the following you may pass an object with the options set as follows:
 
 * `allowShortCircuit` set to `true` will allow you to use short circuit evaluations in your expressions (Default: `false`).
 * `allowTernary` set to `true` will enable you use ternary operators in your expressions similarly to short circuit evaluations (Default: `false`).
-
-### Usage
 
 By default the following patterns are considered problems:
 

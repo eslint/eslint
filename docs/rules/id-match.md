@@ -12,7 +12,7 @@ No more limiting yourself to camelCase, snake_case, PascalCase or oHungarianNota
 This rule compares assignments and function definitions to a provided regular expression, giving you the maximum flexibility on the matter.
 It doesn't apply to function calls, so that you can still use functions or objects you do not have control over.
 
-### Options
+## Options
 
 This rule needs a text RegExp to operate with, and accepts an options map. Its signature is as follows:
 

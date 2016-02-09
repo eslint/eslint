@@ -6,14 +6,14 @@ Arrow functions can omit braces when there is a single statement in the body. Th
 
 This rule can enforce the use of braces around arrow function body.
 
-### Options
+## Options
 
 The rule takes one option, a string, which can be:
 
 * `"always"` enforces braces around the function body
 * `"as-needed"` enforces no braces where they can be omitted (default)
 
-#### "always"
+### "always"
 
 ```json
 "arrow-body-style": [2, "always"]
@@ -39,7 +39,7 @@ let foo = (retv, name) => {
 };
 ```
 
-#### "as-needed"
+### "as-needed"
 
 When the rule is set to `"as-needed"` the following patterns are considered problems:
 

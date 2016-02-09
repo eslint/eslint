@@ -7,7 +7,7 @@ Some developers prefer to have multiple blank lines removed, while others feel t
 
 This rule aims to reduce the scrolling required when reading through your code. It will warn when the maximum amount of empty lines has been exceeded.
 
-### Options
+## Options
 
 The second argument can be used to configure this rule:
 
@@ -40,7 +40,7 @@ the beginning:
 ```
 
 
-### Examples
+## Examples
 
 The following patterns are considered problems:
 

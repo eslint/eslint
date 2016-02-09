@@ -21,7 +21,7 @@ The problem is when these developers work together in a project. This rule enfor
 
 This rule enforces a coding style where empty newlines are required or disallowed after `var`, `let`, or `const` statements to achieve a consistent coding style across the project.
 
-### Options
+## Options
 
 This rule takes one option, a string, which can be:
 

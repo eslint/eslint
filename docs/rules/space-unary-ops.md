@@ -8,7 +8,7 @@ Some styleguides require or disallow spaces before or after unary operators. Thi
 
 This rule enforces consistency regarding the spaces after `words` unary operators and after/before `nonwords` unary operators.
 
-### Options
+## Options
 
 This rule has two options: `words` and `nonwords`:
 
@@ -50,7 +50,7 @@ baz = !foo;
 qux = !!baz;
 ```
 
-### Examples
+## Examples
 
 Given the default values `words`: `true`, `nonwords`: `false`, the following patterns are considered problems:
 

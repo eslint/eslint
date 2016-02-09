@@ -56,7 +56,7 @@ These patterns would not be considered problems:
 
 ```
 
-## Rule Options
+## Options
 
 ```json
 "no-warning-comments": [<enabled>, { "terms": <terms>, "location": <location> }]
@@ -66,39 +66,39 @@ These patterns would not be considered problems:
 * `terms`: optional array of terms to match. Terms are matched ignoring the case. Defaults to `["todo", "fixme", "xxx"]`.
 * `location`: optional string that configures where in your comments to check for matches. Defaults to `"start"`.
 
-## When Not To Use It
+### Examples
 
-* If you have a large code base that was not developed with a policy to not use such warning terms, you might get hundreds of warnings / errors which might be contra-productive if you can't fix all of them (e.g. if you don't get the time to do it) as you might overlook other warnings / errors or get used to many of them and don't pay attention on it anymore.
-* Same reason as the point above: You shouldn't configure terms that are used very often (e.g. central parts of the native language used in your comments).
-
-### More examples of valid configurations
-
-1. Rule configured to warn on matches and search the complete comment, not only the start of it. Note that the `term` configuration is omitted to use the defaults terms.
+* Rule configured to warn on matches and search the complete comment, not only the start of it. Note that the `term` configuration is omitted to use the defaults terms.
 
    ```json
    "no-warning-comments": [1, { "location": "anywhere" }]
    ```
 
-2. Rule configured to warn on matches of the term `bad string` at the start of comments. Note that the `location` configuration is omitted to use the default location.
+* Rule configured to warn on matches of the term `bad string` at the start of comments. Note that the `location` configuration is omitted to use the default location.
 
    ```json
    "no-warning-comments": [1, { "terms": ["bad string"] }]
    ```
 
-3. Rule configured to warn with error on matches of the default terms at the start of comments. Note that the complete configuration object (that normally holds `terms` and/or `location`) can be omitted for simplicity.
+* Rule configured to warn with error on matches of the default terms at the start of comments. Note that the complete configuration object (that normally holds `terms` and/or `location`) can be omitted for simplicity.
 
    ```json
    "no-warning-comments": [2]
    ```
 
-4. Rule configured to warn on matches of the default terms at the start of comments. Note that the complete configuration object (as already seen in the example above) and even the square brackets can be omitted for simplicity.
+* Rule configured to warn on matches of the default terms at the start of comments. Note that the complete configuration object (as already seen in the example above) and even the square brackets can be omitted for simplicity.
 
    ```json
    "no-warning-comments": 1
    ```
 
-5. Rule configured to warn on matches of the specified terms at any location in the comments. Note that you can use as many terms as you want.
+* Rule configured to warn on matches of the specified terms at any location in the comments. Note that you can use as many terms as you want.
 
    ```json
    "no-warning-comments": [1, { "terms": ["really any", "term", "can be matched"], "location": "anywhere" }]
    ```
+
+## When Not To Use It
+
+* If you have a large code base that was not developed with a policy to not use such warning terms, you might get hundreds of warnings / errors which might be contra-productive if you can't fix all of them (e.g. if you don't get the time to do it) as you might overlook other warnings / errors or get used to many of them and don't pay attention on it anymore.
+* Same reason as the point above: You shouldn't configure terms that are used very often (e.g. central parts of the native language used in your comments).

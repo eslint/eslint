@@ -50,7 +50,7 @@ But this one, will only produce one:
 var c, d, a, e; /*error Variables within the same declaration block should be sorted alphabetically*/
 ```
 
-## Rule Options
+## Options
 
 ```
 "sort-vars": [<enabled>, { "ignoreCase": <boolean> }]

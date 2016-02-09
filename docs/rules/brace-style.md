@@ -42,7 +42,7 @@ While no style is considered better than the other, most developers agree that h
 
 This rule is aimed at enforcing a particular brace style in JavaScript. As such, it warns whenever it sees a statement or declaration that does not adhere to the one true brace style.
 
-### Options
+## Options
 
 The rule takes two options:
 
@@ -55,7 +55,7 @@ You can set the style in configuration like this:
 "brace-style": [2, "stroustrup", { "allowSingleLine": true }]
 ```
 
-#### "1tbs"
+### "1tbs"
 
 This is the default setting for this rule and enforces one true brace style. While using this setting, the following patterns are considered problems:
 
@@ -131,7 +131,7 @@ if (foo) { bar(); } else { baz(); }
 try { somethingRisky(); } catch(e) { handleError(); }
 ```
 
-#### "stroustrup"
+### "stroustrup"
 
 
 This enforces Stroustrup style. While using this setting, the following patterns are considered problems:
@@ -212,7 +212,7 @@ try { somethingRisky(); }
 catch(e) { handleError(); }
 ```
 
-#### "allman"
+### "allman"
 
 
 This enforces Allman style. While using this setting, the following patterns are considered problems:

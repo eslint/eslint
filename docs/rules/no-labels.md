@@ -75,7 +75,7 @@ while (true) {
 }
 ```
 
-### Options
+## Options
 
 ```json
 {

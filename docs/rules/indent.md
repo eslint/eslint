@@ -26,7 +26,7 @@ This rule is aimed to enforce consistent indentation style. The default style is
 
 It takes an option as the second parameter which can be `"tab"` for tab-based indentation or a positive number for space indentations.
 
-### Options
+## Options
 
 The `indent` rule has two options:
 
