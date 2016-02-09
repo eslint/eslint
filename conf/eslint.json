@@ -130,6 +130,7 @@
         "brace-style": 0,
         "callback-return": 0,
         "camelcase": 0,
+        "class-methods-use-this": 0,
         "comma-dangle": 2,
         "comma-spacing": 0,
         "comma-style": 0,
