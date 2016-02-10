@@ -1890,6 +1890,30 @@ ruleTester.run("indent", rule, {
             options: [2, {"VariableDeclarator": 2, "SwitchCase": 1}],
             parserOptions: { ecmaVersion: 6 },
             errors: expectedErrors([[3, 6, 4, "MethodDefinition"]])
+        },
+        {
+            code:
+            "if (true) {\n" +
+            "	var x = 10\n" +
+            "}\n",
+            output:
+            "if (true) {\n" +
+            "  var x = 10\n" +
+            "}\n",
+            options: [2],
+            errors: expectedErrors([[2, 2, 0, "VariableDeclaration"]])
+        },
+        {
+            code:
+            "if (true) {\n" +
+            "  var x = 10\n" +
+            "}\n",
+            output:
+            "if (true) {\n" +
+            "	var x = 10\n" +
+            "}\n",
+            options: ["tab"],
+            errors: expectedErrors("tab", [[2, 1, 0, "VariableDeclaration"]])
         }
     ]
 });
