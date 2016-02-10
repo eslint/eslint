@@ -1,0 +1,2 @@
+This line does not matter!
+var foo = true;

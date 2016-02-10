@@ -61,18 +61,17 @@ describe("CLIEngine", function() {
 
     // copy into clean area so as not to get "infected" by this project's .eslintrc files
     before(function() {
+        this.timeout(0);    // eslint-disable-line no-invalid-this
+
         fixtureDir = path.join(os.tmpdir(), "/eslint/fixtures");
         mkdir("-p", fixtureDir);
         cp("-r", "./tests/fixtures/.", fixtureDir);
         fixtureDir = fs.realpathSync(fixtureDir);
-        Plugins.testReset();
-        Plugins.define(examplePluginName, examplePlugin);
-        Plugins.define(examplePluginNameWithNamespace, examplePlugin);
-        Plugins.define(examplePreprocessorName, require("../fixtures/processors/custom-processor"));
     });
 
     beforeEach(function() {
         CLIEngine = proxyquire("../../lib/cli-engine", requireStubs);
+        Plugins.testReset();
     });
 
     after(function() {
@@ -1173,6 +1172,11 @@ describe("CLIEngine", function() {
         });
 
         describe("plugins", function() {
+            beforeEach(function() {
+                Plugins.define(examplePluginName, examplePlugin);
+                Plugins.define(examplePluginNameWithNamespace, examplePlugin);
+            });
+
             it("should return two messages when executing with config file that specifies a plugin", function() {
                 engine = new CLIEngine({
                     cwd: path.join(fixtureDir, ".."),
@@ -1595,6 +1599,11 @@ describe("CLIEngine", function() {
         });
 
         describe("processors", function() {
+            beforeEach(function() {
+                Plugins.define(examplePluginName, examplePlugin);
+                Plugins.define(examplePreprocessorName, require("../fixtures/processors/custom-processor"));
+            });
+
             it("should return two messages when executing with config file that specifies a processor", function() {
                 engine = new CLIEngine({
                     configFile: getFixturePath("configurations", "processors.json"),
@@ -1608,6 +1617,7 @@ describe("CLIEngine", function() {
                 assert.equal(report.results.length, 1);
                 assert.equal(report.results[0].messages.length, 2);
             });
+
             it("should return two messages when executing with config file that specifies preloaded processor", function() {
                 engine = new CLIEngine({
                     useEslintrc: false,
@@ -1638,6 +1648,7 @@ describe("CLIEngine", function() {
                 assert.equal(report.results.length, 1);
                 assert.equal(report.results[0].messages.length, 2);
             });
+
             it("should run processors when calling executeOnFiles with config file that specifies a processor", function() {
                 engine = new CLIEngine({
                     configFile: getFixturePath("configurations", "processors.json"),
@@ -1651,6 +1662,7 @@ describe("CLIEngine", function() {
                 assert.equal(report.results[0].messages[0].message, "'b' is defined but never used");
                 assert.equal(report.results[0].messages[0].ruleId, "post-processed");
             });
+
             it("should run processors when calling executeOnFiles with config file that specifies preloaded processor", function() {
                 engine = new CLIEngine({
                     useEslintrc: false,
@@ -1682,6 +1694,7 @@ describe("CLIEngine", function() {
                 assert.equal(report.results[0].messages[0].message, "'b' is defined but never used");
                 assert.equal(report.results[0].messages[0].ruleId, "post-processed");
             });
+
             it("should run processors when calling executeOnText with config file that specifies a processor", function() {
                 engine = new CLIEngine({
                     configFile: getFixturePath("configurations", "processors.json"),
@@ -1695,6 +1708,7 @@ describe("CLIEngine", function() {
                 assert.equal(report.results[0].messages[0].message, "'b' is defined but never used");
                 assert.equal(report.results[0].messages[0].ruleId, "post-processed");
             });
+
             it("should run processors when calling executeOnText with config file that specifies preloaded processor", function() {
                 engine = new CLIEngine({
                     useEslintrc: false,
@@ -1725,6 +1739,132 @@ describe("CLIEngine", function() {
 
                 assert.equal(report.results[0].messages[0].message, "'b' is defined but never used");
                 assert.equal(report.results[0].messages[0].ruleId, "post-processed");
+            });
+
+            describe("with auto-fix", function() {
+                beforeEach(function() {
+                    Plugins.testReset();
+                });
+
+                it("should not apply fixes on code when processor is being used by default", function() {
+                    engine = new CLIEngine({
+                        fix: true,
+                        useEslintrc: false,
+                        plugins: ["test-processor-nofix"],
+                        rules: {
+                            "semi": [2, "never"]
+                        },
+                        extensions: ["js", "txt"],
+                        ignore: false
+                    });
+
+                    engine.addPlugin("test-processor-nofix", {
+                        processors: {
+                            ".txt": {
+                                preprocess: function(text) {
+                                    return [text];
+                                },
+                                postprocess: function(messages) {
+                                    return messages[0];
+                                }
+                            }
+                        }
+                    });
+
+                    var report = engine.executeOnText("function a() {console.log(\"Test\");}", "test.txt");
+
+                    assert.strictEqual(report.results[0].messages[0].message, "Extra semicolon.");
+                    assert.strictEqual(report.results[0].messages[0].ruleId, "semi");
+                    assert.notProperty(report.results[0], "output");
+                });
+
+                it("should apply fixes on code when processor which supports auto-fix is used", function() {
+                    engine = new CLIEngine({
+                        fix: true,
+                        useEslintrc: false,
+                        plugins: ["test-processor-willfix"],
+                        rules: {
+                            "semi": [2, "never"]
+                        },
+                        extensions: ["js", "txt"],
+                        ignore: false
+                    });
+
+                    engine.addPlugin("test-processor-willfix", {
+                        processors: {
+                            ".txt": {
+                                preprocess: function(text) {
+                                    return [text];
+                                },
+                                postprocess: function(messages) {
+                                    return messages[0];
+                                },
+                                handlesFixes: true
+                            }
+                        }
+                    });
+
+                    var report = engine.executeOnText("function a() {console.log(\"Test\");}", "test.txt");
+
+                    assert.strictEqual(report.results[0].messages.length, 0);
+                    assert.strictEqual(report.results[0].output, "function a() {console.log(\"Test\")}");
+                });
+
+                it("should not apply fixes if plugin handles fixes by nulling fix info out", function() {
+                    engine = new CLIEngine({
+                        fix: true,
+                        useEslintrc: false,
+                        plugins: ["first-line-processor-nofix"],
+                        rules: {
+                            "semi": [2, "never"]
+                        },
+                        extensions: ["js", "txt"],
+                        ignore: false
+                    });
+
+                    var processor = getFixturePath("processors", "first-line-processor", "nofix");
+                    var filePath = getFixturePath("processors", "first-line-processor", "test", "test.txt");
+
+                    engine.addPlugin("first-line-processor-nofix", {
+                        processors: {
+                            ".txt": require(processor)
+                        }
+                    });
+
+                    var report = engine.executeOnFiles([filePath]);
+
+                    assert.strictEqual(report.results[0].messages.length, 1);
+                    assert.strictEqual(report.results[0].messages[0].line, 2);
+                    assert.notProperty(report.results[0], "output");
+                });
+
+                it("should apply fixes if plugin handles fixes by modifying fix info", function() {
+                    engine = new CLIEngine({
+                        fix: true,
+                        useEslintrc: false,
+                        plugins: ["first-line-processor-willfix"],
+                        rules: {
+                            "semi": [2, "never"]
+                        },
+                        extensions: ["js", "txt"],
+                        ignore: false
+                    });
+
+                    var processor = getFixturePath("processors", "first-line-processor", "willfix");
+                    var filePath = getFixturePath("processors", "first-line-processor", "test", "test.txt");
+
+                    engine.addPlugin("first-line-processor-willfix", {
+                        processors: {
+                            ".txt": require(processor)
+                        }
+                    });
+
+                    debugger;
+                    var report = engine.executeOnFiles([filePath]);
+
+                    assert.strictEqual(report.results[0].messages.length, 0);
+                    assert.strictEqual(report.results[0].output, "This line does not matter!\nvar foo = true");
+                });
             });
         });
     });
