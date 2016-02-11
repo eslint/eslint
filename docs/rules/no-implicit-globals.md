@@ -11,9 +11,9 @@ The following patterns are considered problems:
 ```js
 /*eslint no-implicit-globals: 2*/
 
-var foo = 1; /*error Implicit global variable.*/
+var foo = 1;
 
-function bar() {} /*error Implicit global variable.*/
+function bar() {}
 ```
 
 The following patterns are not considered problems:

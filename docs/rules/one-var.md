@@ -86,23 +86,23 @@ When configured with `"always"` as the first option (the default), the following
 
 function foo() {
     var bar;
-    var baz;     /*error Combine this with the previous 'var' statement.*/
+    var baz;
     let qux;
-    let norf;    /*error Combine this with the previous 'let' statement.*/
+    let norf;
 }
 
 function foo(){
     const bar = false;
-    const baz = true;  /*error Combine this with the previous 'const' statement.*/
+    const baz = true;
     let qux;
-    let norf;          /*error Combine this with the previous 'let' statement.*/
+    let norf;
 }
 
 function foo() {
     var bar;
 
     if (baz) {
-        var qux = true; /*error Combine this with the previous 'var' statement.*/
+        var qux = true;
     }
 }
 ```
@@ -152,14 +152,14 @@ When configured with `"never"` as the first option, the following patterns are c
 /*eslint-env es6*/
 
 function foo() {
-    var bar,          /*error Split 'var' declarations into multiple statements.*/
+    var bar,
         baz;
-    const bar = true, /*error Split 'const' declarations into multiple statements.*/
+    const bar = true,
         baz = false;
 }
 
 function foo() {
-    var bar,          /*error Split 'var' declarations into multiple statements.*/
+    var bar,
         qux;
 
     if (baz) {
@@ -168,7 +168,7 @@ function foo() {
 }
 
 function foo(){
-    let bar = true,   /*error Split 'let' declarations into multiple statements.*/
+    let bar = true,
         baz = false;
 }
 ```

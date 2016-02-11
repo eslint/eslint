@@ -58,25 +58,25 @@ Given the default values `words`: `true`, `nonwords`: `false`, the following pat
 /*eslint space-unary-ops: 2*/
 /*eslint-env es6*/
 
-typeof!foo;        /*error Unary word operator 'typeof' must be followed by whitespace.*/
+typeof!foo;
 
-void{foo:0};       /*error Unary word operator 'void' must be followed by whitespace.*/
+void{foo:0};
 
-new[foo][0];       /*error Unary word operator 'new' must be followed by whitespace.*/
+new[foo][0];
 
-delete(foo.bar);   /*error Unary word operator 'delete' must be followed by whitespace.*/
+delete(foo.bar);
 
 function *foo() {
-    yield(0)       /*error Unary word operator 'yield' must be followed by whitespace.*/
+    yield(0)
 }
 
-++ foo;            /*error Unexpected space after unary operator '++'.*/
+++ foo;
 
-foo --;            /*error Unexpected space before unary operator '--'.*/
+foo --;
 
-- foo;             /*error Unexpected space after unary operator '-'.*/
+- foo;
 
-+ "3";             /*error Unexpected space after unary operator '+'.*/
++ "3";
 ```
 
 Given the default values `words`: `true`, `nonwords`: `false`, the following patterns are not considered problems:

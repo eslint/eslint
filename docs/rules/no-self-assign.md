@@ -17,14 +17,13 @@ The following patterns are considered problems:
 ```js
 /*eslint no-self-assign: 2*/
 
-foo = foo;              /*error 'foo' is assigned to itself.*/
+foo = foo;
 
-[a, b] = [a, b];        /*error 'a' is assigned to itself.*/
-                        /*error 'b' is assigned to itself.*/
+[a, b] = [a, b];
 
-[a, ...b] = [x, ...b];  /*error 'b' is assigned to itself.*/
+[a, ...b] = [x, ...b];
 
-({a, b} = {a, x});      /*error 'a' is assigned to itself.*/
+({a, b} = {a, x});
 ```
 
 The following patterns are considered not problems:

@@ -31,9 +31,9 @@ The following patterns are considered problems:
 ```js
 /*eslint no-path-concat: 2*/
 
-var fullPath = __dirname + "/foo.js";  /*error Use path.join() or path.resolve() instead of + to create paths.*/
+var fullPath = __dirname + "/foo.js";
 
-var fullPath = __filename + "/foo.js"; /*error Use path.join() or path.resolve() instead of + to create paths.*/
+var fullPath = __filename + "/foo.js";
 
 ```
 

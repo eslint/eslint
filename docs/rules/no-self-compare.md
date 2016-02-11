@@ -12,7 +12,7 @@ This error is raised to highlight a potentially confusing and potentially pointl
 /*eslint no-self-compare: 2*/
 
 var x = 10;
-if (x === x) { /*error Comparing to itself is potentially pointless.*/
+if (x === x) {
     x = 20;
 }
 ```

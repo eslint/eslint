@@ -25,35 +25,35 @@ The following patterns are considered problems:
 ```js
 /*eslint no-labels: 2*/
 
-label:                  /*error Unexpected labeled statement.*/
+label:
     while(true) {
         // ...
     }
 
-label:                  /*error Unexpected labeled statement.*/
+label:
     while(true) {
-        break label;    /*error Unexpected label in break statement.*/
+        break label;
     }
 
-label:                  /*error Unexpected labeled statement.*/
+label:
     while(true) {
-        continue label; /*error Unexpected label in continue statement.*/
+        continue label;
     }
 
-label:                  /*error Unexpected labeled statement.*/
+label:
     switch (a) {
     case 0:
-        break label;    /*error Unexpected label in break statement.*/
+        break label;
     }
 
-label:                  /*error Unexpected labeled statement.*/
+label:
     {
-        break label;    /*error Unexpected label in break statement.*/
+        break label;
     }
 
-label:                  /*error Unexpected labeled statement.*/
+label:
     if (a) {
-        break label;    /*error Unexpected label in break statement.*/
+        break label;
     }
 ```
 
@@ -94,14 +94,14 @@ Those options allow us to use labels only with loop or switch statements.
 The following patterns are considered problems when configured `{"allowLoop": true, "allowSwitch": true}`:
 
 ```js
-label:                /*error Unexpected labeled statement.*/
+label:
     {
-        break label;  /*error Unexpected label in break statement.*/
+        break label;
     }
 
-label:                /*error Unexpected labeled statement.*/
+label:
     if (a) {
-        break label;  /*error Unexpected label in break statement.*/
+        break label;
     }
 ```
 

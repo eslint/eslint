@@ -20,7 +20,7 @@ The following are considered problems:
 ```js
 /*eslint handle-callback-err: 2*/
 
-function loadData (err, data) { /*error Expected error to be handled.*/
+function loadData (err, data) {
     doSomething();
 }
 

@@ -15,9 +15,9 @@ The following patterns are considered problems:
 ```js
 /*eslint no-nested-ternary: 2*/
 
-var thing = foo ? bar : baz === qux ? quxx : foobar; /*error Do not nest ternary expressions*/
+var thing = foo ? bar : baz === qux ? quxx : foobar;
 
-foo ? baz === qux ? quxx() : foobar() : bar();       /*error Do not nest ternary expressions*/
+foo ? baz === qux ? quxx() : foobar() : bar();
 ```
 
 The following patterns are considered okay and could be used alternatively:

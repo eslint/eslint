@@ -34,11 +34,11 @@ The following patterns are considered problems:
 /*eslint no-return-assign: 2*/
 
 function doSomething() {
-    return foo = bar + 2; /*error Return statement should not contain assignment.*/
+    return foo = bar + 2;
 }
 
 function doSomething() {
-    return foo += 2;      /*error Return statement should not contain assignment.*/
+    return foo += 2;
 }
 ```
 
@@ -71,15 +71,15 @@ The following patterns are considered problems:
 /*eslint no-return-assign: [2, "always"]*/
 
 function doSomething() {
-    return foo = bar + 2;   /*error Return statement should not contain assignment.*/
+    return foo = bar + 2;
 }
 
 function doSomething() {
-    return foo += 2;        /*error Return statement should not contain assignment.*/
+    return foo += 2;
 }
 
 function doSomething() {
-    return (foo = bar + 2); /*error Return statement should not contain assignment.*/
+    return (foo = bar + 2);
 }
 ```
 

@@ -36,47 +36,47 @@ Please note your code in ES2015 Modules/Classes is always the strict mode.
 /*eslint no-invalid-this: 2*/
 /*eslint-env es6*/
 
-this.a = 0;            /*error Unexpected 'this'.*/
-baz(() => this);       /*error Unexpected 'this'.*/
+this.a = 0;
+baz(() => this);
 
 (function() {
-    this.a = 0;        /*error Unexpected 'this'.*/
-    baz(() => this);   /*error Unexpected 'this'.*/
+    this.a = 0;
+    baz(() => this);
 })();
 
 function foo() {
-    this.a = 0;        /*error Unexpected 'this'.*/
-    baz(() => this);   /*error Unexpected 'this'.*/
+    this.a = 0;
+    baz(() => this);
 }
 
 var foo = function() {
-    this.a = 0;        /*error Unexpected 'this'.*/
-    baz(() => this);   /*error Unexpected 'this'.*/
+    this.a = 0;
+    baz(() => this);
 };
 
 foo(function() {
-    this.a = 0;        /*error Unexpected 'this'.*/
-    baz(() => this);   /*error Unexpected 'this'.*/
+    this.a = 0;
+    baz(() => this);
 });
 
 obj.foo = () => {
     // `this` of arrow functions is the outer scope's.
-    this.a = 0;        /*error Unexpected 'this'.*/
+    this.a = 0;
 };
 
 var obj = {
     aaa: function() {
         return function foo() {
             // There is in a method `aaa`, but `foo` is not a method.
-            this.a = 0;      /*error Unexpected 'this'.*/
-            baz(() => this); /*error Unexpected 'this'.*/
+            this.a = 0;
+            baz(() => this);
         };
     }
 };
 
 foo.forEach(function() {
-    this.a = 0;          /*error Unexpected 'this'.*/
-    baz(() => this);     /*error Unexpected 'this'.*/
+    this.a = 0;
+    baz(() => this);
 });
 ```
 

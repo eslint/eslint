@@ -24,7 +24,7 @@ The following patterns are considered problems:
 function foo() {
     if (x) {
         return y;
-    } else {            /*error Unexpected 'else' after 'return'.*/
+    } else {
         return z;
     }
 }
@@ -34,7 +34,7 @@ function foo() {
         return y;
     } else if (z) {
         return w;
-    } else {            /*error Unexpected 'else' after 'return'.*/
+    } else {
         return t;
     }
 }
@@ -42,7 +42,7 @@ function foo() {
 function foo() {
     if (x) {
         return y;
-    } else {            /*error Unexpected 'else' after 'return'.*/
+    } else {
         var t = "foo";
     }
 
@@ -54,10 +54,10 @@ function foo() {
     if (x) {
         if (y) {
             return y;
-        } else {        /*error Unexpected 'else' after 'return'.*/
+        } else {
             return x;
         }
-    } else {            /*error Unexpected 'else' after 'return'.*/
+    } else {
         return z;
     }
 }

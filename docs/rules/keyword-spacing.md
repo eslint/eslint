@@ -27,50 +27,44 @@ The following patterns are considered problems:
 /*eslint keyword-spacing: 2*/
 /*eslint-env es6*/
 
-if(foo){              /*error Expected space(s) after "if".*/
+if(foo){
     //...
-}else if (bar) {      /*error Expected space(s) before "else".*/
+}else if (bar) {
     //...
-} else{               /*error Expected space(s) after "else".*/
+} else{
     //...
 }
 
-try{                  /*error Expected space(s) after "try".*/
+try{
     //...
-}catch(e) {           /*error Expected space(s) before "catch".*/
-                      /*error Expected space(s) after "catch".*/
+}catch(e) {
     //...
 }
 
 switch (a) {
-    case+1:           /*error Expected space(s) after "case".*/
+    case+1:
         break;
 }
 
 function foo() {
-    return[0, 1, 2];  /*error Expected space(s) after "return".*/
+    return[0, 1, 2];
 }
 
-for (let[a, b]of[foo, bar, baz]) { /*error Expected space(s) after "let".*/
-                                   /*error Expected space(s) before "of".*/
-                                   /*error Expected space(s) after "of".*/
+for (let[a, b]of[foo, bar, baz]) {
     //...
 }
 
 let obj = {
-    get[FOO]() {      /*error Expected space(s) after "get".*/
+    get[FOO]() {
         //...
     },
-    set[FOO](value) { /*error Expected space(s) after "set".*/
+    set[FOO](value) {
         //...
     }
 };
 
-import{foo}from"foo";     /*error Expected space(s) after "import".*/
-                          /*error Expected space(s) before "from".*/
-                          /*error Expected space(s) after "from".*/
-import*as bar from "foo"; /*error Expected space(s) after "import".*/
-                          /*error Expected space(s) before "as".*/
+import{foo}from"foo";
+import*as bar from "foo";
 ```
 
 The following patterns are considered not problems:
@@ -227,50 +221,44 @@ The following patterns are considered problems when configured `{"before": false
 /*eslint keyword-spacing: [2, {before: false, after: false}]*/
 /*eslint-env es6*/
 
-if (foo){              /*error Unexpected space(s) after "if".*/
+if (foo){
     //...
-} else if(bar) {       /*error Unexpected space(s) before "else".*/
+} else if(bar) {
     //...
-}else {                /*error Unexpected space(s) after "else".*/
+}else {
     //...
 }
 
-try {                  /*error Unexpected space(s) after "try".*/
+try {
     //...
-} catch (e) {          /*error Unexpected space(s) before "catch".*/
-                       /*error Unexpected space(s) after "catch".*/
+} catch (e) {
     //...
 }
 
 switch(a) {
-    case +1:           /*error Unexpected space(s) after "case".*/
+    case +1:
         break;
 }
 
 function foo() {
-    return [0, 1, 2];  /*error Unexpected space(s) after "return".*/
+    return [0, 1, 2];
 }
 
-for (let [a, b] of [foo, bar, baz]) { /*error Unexpected space(s) after "let".*/
-                                      /*error Unexpected space(s) before "of".*/
-                                      /*error Unexpected space(s) after "of".*/
+for (let [a, b] of [foo, bar, baz]) {
     //...
 }
 
 let obj = {
-    get [FOO]() {      /*error Unexpected space(s) after "get".*/
+    get [FOO]() {
         //...
     },
-    set [FOO](value) { /*error Unexpected space(s) after "set".*/
+    set [FOO](value) {
         //...
     }
 };
 
-import {foo} from "foo";   /*error Unexpected space(s) after "import".*/
-                           /*error Unexpected space(s) before "from".*/
-                           /*error Unexpected space(s) after "from".*/
-import * as bar from"foo"; /*error Unexpected space(s) after "import".*/
-                           /*error Unexpected space(s) before "as".*/
+import {foo} from "foo";
+import * as bar from"foo";
 ```
 
 The following patterns are considered not problems when configured `{"before": false, "after": false}`:

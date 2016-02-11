@@ -20,7 +20,7 @@ The following patterns are considered problems:
 ```js
 /*eslint no-constant-condition: 2*/
 
-if (true) {             /*error Unexpected constant condition.*/
+if (true) {
     doSomething();
 }
 ```
@@ -28,13 +28,13 @@ if (true) {             /*error Unexpected constant condition.*/
 ```js
 /*eslint no-constant-condition: 2*/
 
-var result = 0 ? a : b; /*error Unexpected constant condition.*/
+var result = 0 ? a : b;
 ```
 
 ```js
 /*eslint no-constant-condition: 2*/
 
-while (-2) {            /*error Unexpected constant condition.*/
+while (-2) {
     doSomething();
 }
 ```
@@ -42,7 +42,7 @@ while (-2) {            /*error Unexpected constant condition.*/
 ```js
 /*eslint no-constant-condition: 2*/
 
-for (;true;) {          /*error Unexpected constant condition.*/
+for (;true;) {
     doSomething();
 }
 ```
@@ -50,7 +50,7 @@ for (;true;) {          /*error Unexpected constant condition.*/
 ```js
 /*eslint no-constant-condition: 2*/
 
-do{                     /*error Unexpected constant condition.*/
+do{
     something();
 } while (x = -1)
 ```

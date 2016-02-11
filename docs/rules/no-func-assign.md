@@ -17,10 +17,10 @@ The following patterns are considered problems:
 /*eslint no-func-assign: 2*/
 
 function foo() {}
-foo = bar;        /*error 'foo' is a function.*/
+foo = bar;
 
 function foo() {
-    foo = bar;    /*error 'foo' is a function.*/
+    foo = bar;
 }
 ```
 
@@ -29,7 +29,7 @@ Unlike the same rule in JSHint, the following pattern is also considered a warni
 ```js
 /*eslint no-func-assign: 2*/
 
-foo = bar;        /*error 'foo' is a function.*/
+foo = bar;
 function foo() {}
 ```
 

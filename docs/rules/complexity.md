@@ -23,7 +23,7 @@ The following patterns are considered problems:
 ```js
 /*eslint complexity: [2, 2]*/
 
-function a(x) {               /*error Function 'a' has a complexity of 3.*/
+function a(x) {
     if (true) {
         return x;
     } else if (false) {

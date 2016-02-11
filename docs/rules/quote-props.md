@@ -82,8 +82,8 @@ When configured with `"always"` as the first option (the default), quoting for a
 /*eslint quote-props: [2, "always"]*/
 
 var object = {
-    foo: "bar",         /*error Unquoted property 'foo' found.*/
-    baz: 42,            /*error Unquoted property 'baz' found.*/
+    foo: "bar",
+    baz: 42,
     "qux-lorem": true
 };
 ```
@@ -121,10 +121,10 @@ When configured with `"as-needed"` as the first option, quotes will be enforced 
 /*eslint quote-props: [2, "as-needed"]*/
 
 var object = {
-    "a": 0,    /*error Unnecessarily quoted property 'a' found.*/
-    "0": 0,    /*error Unnecessarily quoted property '0' found.*/
-    "true": 0, /*error Unnecessarily quoted property 'true' found.*/
-    "null": 0  /*error Unnecessarily quoted property 'null' found.*/
+    "a": 0,
+    "0": 0,
+    "true": 0,
+    "null": 0
 };
 ```
 
@@ -169,8 +169,8 @@ When `keywords` is set to `true`, the following patterns become problems:
 /*eslint quote-props: [2, "as-needed", { "keywords": true }]*/
 
 var x = {
-    while: 1,       /*error Unquoted reserved word 'while' used as key.*/
-    volatile: "foo" /*error Unquoted reserved word 'volatile' used as key.*/
+    while: 1,
+    volatile: "foo"
 };
 ```
 
@@ -207,7 +207,7 @@ When `numbers` is set to `true`, the following patterns become problems:
 /*eslint quote-props: [2, "as-needed", { "numbers": true }]*/
 
 var x = {
-    100: 1 /*error Unquoted number literal '100' used as key.*/
+    100: 1
 }
 ```
 
@@ -226,13 +226,13 @@ When configured with `"consistent"`, the patterns below are considered problems.
 ```js
 /*eslint quote-props: [2, "consistent"]*/
 
-var object1 = {        /*error Inconsistently quoted property 'baz' found.*/ /*error Inconsistently quoted property 'qux-lorem' found.*/
+var object1 = {
     foo: "bar",
     "baz": 42,
     "qux-lorem": true
 };
 
-var object2 = {        /*error Inconsistently quoted property 'baz' found.*/
+var object2 = {
     'foo': 'bar',
     baz: 42
 };
@@ -267,13 +267,13 @@ When configured with `"consistent-as-needed"`, the behavior is similar to `"cons
 ```js
 /*eslint quote-props: [2, "consistent-as-needed"]*/
 
-var object1 = {         /*error Inconsistently quoted property 'baz' found.*/ /*error Inconsistently quoted property 'qux-lorem' found.*/
+var object1 = {
     foo: "bar",
     "baz": 42,
     "qux-lorem": true
 };
 
-var object2 = {         /*error Properties shouldn't be quoted as all quotes are redundant.*/
+var object2 = {
     'foo': 'bar',
     'baz': 42
 };
@@ -309,7 +309,7 @@ When `keywords` is set to `true`, the following patterns are considered problems
 ```js
 /*eslint quote-props: [2, "consistent-as-needed", { "keywords": true }]*/
 
-var x = {           /*error Properties should be quoted as 'while' is a reserved word.*/ /*error Properties should be quoted as 'volatile' is a reserved word.*/
+var x = {
     while: 1,
     volatile: "foo"
 };

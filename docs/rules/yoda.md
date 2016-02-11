@@ -31,23 +31,23 @@ The following patterns are considered problems:
 ```js
 /*eslint yoda: 2*/
 
-if ("red" === color) {          /*error Expected literal to be on the right side of ===.*/
+if ("red" === color) {
     // ...
 }
 
-if (true == flag) {             /*error Expected literal to be on the right side of ==.*/
+if (true == flag) {
     // ...
 }
 
-if (5 > count) {                /*error Expected literal to be on the right side of >.*/
+if (5 > count) {
     // ...
 }
 
-if (-1 < str.indexOf(substr)) { /*error Expected literal to be on the right side of <.*/
+if (-1 < str.indexOf(substr)) {
     // ...
 }
 
-if (0 <= x && x < 1) {          /*error Expected literal to be on the right side of <=.*/
+if (0 <= x && x < 1) {
     // ...
 }
 ```
@@ -55,7 +55,7 @@ if (0 <= x && x < 1) {          /*error Expected literal to be on the right side
 ```js
 /*eslint yoda: [2, "always"]*/
 
-if (color == "blue") { /*error Expected literal to be on the left side of ==.*/
+if (color == "blue") {
     // ...
 }
 ```

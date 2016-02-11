@@ -15,9 +15,9 @@ The following patterns are considered problems:
 ```js
 /* eslint func-names: 2*/
 
-Foo.prototype.bar = function() {}; /*error Missing function expression name.*/
+Foo.prototype.bar = function() {};
 
-(function() {                      /*error Missing function expression name.*/
+(function() {
     // ...
 }())
 ```

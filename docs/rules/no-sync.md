@@ -11,9 +11,9 @@ The following patterns are considered problems:
 ```js
 /*eslint no-sync: 2*/
 
-fs.existsSync(somePath);                             /*error Unexpected sync method: 'existsSync'.*/
+fs.existsSync(somePath);
 
-var contents = fs.readFileSync(somePath).toString(); /*error Unexpected sync method: 'readFileSync'.*/
+var contents = fs.readFileSync(somePath).toString();
 ```
 
 The following patterns are not considered problems:

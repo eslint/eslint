@@ -29,15 +29,15 @@ The following patterns are considered problems:
 ```js
 /*eslint no-implied-eval: 2*/
 
-setTimeout("alert('Hi!');", 100);    /*error Implied eval. Consider passing a function instead of a string.*/
+setTimeout("alert('Hi!');", 100);
 
-setInterval("alert('Hi!');", 100);   /*error Implied eval. Consider passing a function instead of a string.*/
+setInterval("alert('Hi!');", 100);
 
-execScript("alert('Hi!')");          /*error Implied eval. Consider passing a function instead of a string.*/
+execScript("alert('Hi!')");
 
-window.setTimeout("count = 5", 10);  /*error Implied eval. Consider passing a function instead of a string.*/
+window.setTimeout("count = 5", 10);
 
-window.setInterval("foo = bar", 10); /*error Implied eval. Consider passing a function instead of a string.*/
+window.setInterval("foo = bar", 10);
 ```
 
 The following patterns are not considered problems:

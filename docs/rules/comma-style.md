@@ -30,21 +30,21 @@ While using this setting, the following patterns are considered problems:
 /*eslint comma-style: [2, "last"]*/
 
 var foo = 1
-,                        /*error Bad line breaking before and after ','.*/
+,
 bar = 2;
 
 var foo = 1
-  , bar = 2;             /*error ',' should be placed last.*/
+  , bar = 2;
 
 
 var foo = ["apples"
-           , "oranges"]; /*error ',' should be placed last.*/
+           , "oranges"];
 
 
 function bar() {
     return {
         "a": 1
-        ,"b:": 2         /*error ',' should be placed last.*/
+        ,"b:": 2
     };
 }
 
@@ -84,17 +84,17 @@ While using this setting, the following patterns are considered problems:
 /*eslint comma-style: [2, "first"]*/
 
 var foo = 1,
-    bar = 2;           /*error ',' should be placed first.*/
+    bar = 2;
 
 
 var foo = ["apples",
-           "oranges"]; /*error ',' should be placed first.*/
+           "oranges"];
 
 
 function bar() {
     return {
         "a": 1,
-        "b:": 2        /*error ',' should be placed first.*/
+        "b:": 2
     };
 }
 
@@ -142,7 +142,7 @@ The following is considered a warning:
 /*eslint comma-style: [2, "first", {exceptions: {ArrayExpression: true, ObjectExpression: true} }]*/
 
 var o = {},
-    a = []; /*error ',' should be placed first.*/
+    a = [];
 ```
 
 But the following would not be a warning:

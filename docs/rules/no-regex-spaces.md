@@ -23,7 +23,7 @@ The following patterns are considered problems:
 ```js
 /*eslint no-regex-spaces: 2*/
 
-var re = /foo   bar/; /*error Spaces are hard to count. Use {3}.*/
+var re = /foo   bar/;
 ```
 
 The following patterns are not considered problems:

@@ -34,7 +34,7 @@ The following patterns are considered problems:
 if (condition) {
     // ...
 } else {
-    if (anotherCondition) { /*error Unexpected if as the only statement in an else block.*/
+    if (anotherCondition) {
         // ...
     }
 }
@@ -42,7 +42,7 @@ if (condition) {
 if (condition) {
     // ...
 } else {
-    if (anotherCondition) { /*error Unexpected if as the only statement in an else block.*/
+    if (anotherCondition) {
         // ...
     } else {
         // ...

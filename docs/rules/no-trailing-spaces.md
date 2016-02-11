@@ -13,8 +13,8 @@ The following patterns are considered problems:
 
 // spaces, tabs and unicode whitespaces
 // are not allowed at the end of lines
-var foo = 0;//•••••  /*error Trailing spaces not allowed.*/
-var baz = 5;//••     /*error Trailing spaces not allowed.*/
+var foo = 0;//•••••
+var baz = 5;//••
 ```
 
 The following patterns are not considered problems:

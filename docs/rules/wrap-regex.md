@@ -18,7 +18,7 @@ The following patterns are considered problems:
 /*eslint wrap-regex: 2*/
 
 function a() {
-    return /foo/.test("bar"); /*error Wrap the regexp literal in parens to disambiguate the slash.*/
+    return /foo/.test("bar");
 }
 ```
 

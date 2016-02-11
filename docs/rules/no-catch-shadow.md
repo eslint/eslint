@@ -27,7 +27,7 @@ var err = "x";
 
 try {
     throw "problem";
-} catch (err) {      /*error Value of 'err' may be overwritten in IE 8 and earlier.*/
+} catch (err) {
 
 }
 
@@ -37,7 +37,7 @@ function err() {
 
 try {
     throw "problem";
-} catch (err) {      /*error Value of 'err' may be overwritten in IE 8 and earlier.*/
+} catch (err) {
 
 }
 ```
