@@ -2,7 +2,7 @@
 
 Rules in ESLint are divided into several categories to help you better understand their value. All rules are disabled by default. ESLint recommends some rules to catch common problems, and you can use these recommended rules by including `extends: "eslint:recommended"` in your configuration file. The rules that will be enabled when you inherit from `eslint:recommended` are indicated below as "(recommended)". For more information on how to configure rules and use `extends`, please see the [configuration documentation](../user-guide/configuring.md).
 
-Some rules are fixable using the `--fix` command line flag. Those rules are marked as "(fixable)" below.
+Some rules are fixable using the `--fix` command line flag. Those rules are marked as "(fixable)" below. Currently these fixes are limited only to whitespace fixes.
 
 ## Possible Errors
 
