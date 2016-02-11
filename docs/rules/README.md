@@ -57,6 +57,7 @@ These are rules designed to prevent you from making mistakes. They either prescr
 * [no-case-declarations](no-case-declarations.md) - disallow lexical declarations in case clauses (recommended)
 * [no-div-regex](no-div-regex.md) - disallow division operators explicitly at beginning of regular expression
 * [no-else-return](no-else-return.md) - disallow `else` after a `return` in an `if`
+* [no-empty-function](no-empty-function.md) - disallow use of empty functions
 * [no-empty-pattern](no-empty-pattern.md) - disallow use of empty destructuring patterns (recommended)
 * [no-eq-null](no-eq-null.md) - disallow comparisons to null without a type-checking operator
 * [no-eval](no-eval.md) - disallow use of `eval()`
