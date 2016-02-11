@@ -13,7 +13,7 @@ let hello = `hello, ${people.name}!`;
 
 This rule aims to maintain consistency around the spacing inside of template literals.
 
-### Options
+## Options
 
 ```json
 {

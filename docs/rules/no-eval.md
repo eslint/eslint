@@ -64,7 +64,7 @@ class A {
 }
 ```
 
-### Options
+## Options
 
 This rule has an option to allow indirect calls to `eval`.
 Indirect calls to `eval` are less dangerous than direct calls to `eval` because they cannot dynamically change the scope. Because of this, they also will not negatively impact performance to the degree of direct `eval`.
@@ -112,7 +112,7 @@ window.eval("var a = 0");
 global.eval("var a = 0");
 ```
 
-### Known Limitations
+## Known Limitations
 
 * This rule is warning every `eval()` even if the `eval` is not global's.
   This behavior is in order to detect calls of direct `eval`. Such as:

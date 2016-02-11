@@ -24,7 +24,7 @@ This rule generates warnings for nodes that do not have JSDoc comments when they
 * `ClassDeclaration`
 * `MethodDefinition`
 
-### Options
+## Options
 
 This rule accepts a `require` object with its properties as
 

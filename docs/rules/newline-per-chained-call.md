@@ -35,13 +35,11 @@ This rule reports such code and encourages new lines after each call in the chai
 
 This rule checks and reports the chained calls if there are no new lines after each call or deep member access.
 
-### Options
+## Options
 
 The rule takes a single option `ignoreChainWithDepth`. The level/depth to be allowed is configurable through `ignoreChainWithDepth` option. This rule, in its default state, allows 2 levels.
 
 * `ignoreChainWithDepth` Number of depths to be allowed (Default: `2`).
-
-### Usage
 
 Following patterns are considered problems with default configuration:
 

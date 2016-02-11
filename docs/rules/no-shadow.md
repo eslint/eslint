@@ -40,7 +40,7 @@ if (true) {
 }
 ```
 
-### Options
+## Options
 
 This rule takes one option, an object, with properties `"builtinGlobals"`, `"hoist"` and `"allow"`.
 
@@ -50,7 +50,7 @@ This rule takes one option, an object, with properties `"builtinGlobals"`, `"hoi
 }
 ```
 
-#### `builtinGlobals`
+### `builtinGlobals`
 
 `false` by default.
 If this is `true`, this rule checks with built-in global variables such as `Object`, `Array`, `Number`, ...
@@ -65,7 +65,7 @@ function foo() {
 }
 ```
 
-#### `hoist`
+### `hoist`
 
 The option has three settings:
 
@@ -73,7 +73,7 @@ The option has three settings:
 * `functions` (by default) - reports shadowing before the outer functions are defined.
 * `never` - never report shadowing before the outer variables/functions are defined.
 
-##### `{ "hoist": "all" }`
+#### `{ "hoist": "all" }`
 
 With `"hoist"` set to `"all"`, both `let a` and `let b` in the `if` statement are considered problems.
 
@@ -90,7 +90,7 @@ let a = 5;
 function b() {}
 ```
 
-##### `{ "hoist": "functions" }` (default)
+#### `{ "hoist": "functions" }` (default)
 
 With `"hoist"` set to `"functions"`, `let b` is considered a warning. But `let a` in the `if` statement is not considered a warning, because it is before `let a` of the outer scope.
 
@@ -107,7 +107,7 @@ let a = 5;
 function b() {}
 ```
 
-##### `{ "hoist": "never" }`
+#### `{ "hoist": "never" }`
 
 With `"hoist"` set to `"never"`, neither `let a` nor `let b` in the `if` statement are considered problems, because they are before the declarations of the outer scope.
 
@@ -124,7 +124,7 @@ let a = 5;
 function b() {}
 ```
 
-#### `allow`
+### `allow`
 
 The option is an array of identifier names to be allowed (ie. "resolve", "reject", "done", "cb" etc.):
 

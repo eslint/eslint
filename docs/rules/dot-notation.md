@@ -28,7 +28,7 @@ var x = foo.bar;
 var x = foo[bar];    // Property name is a variable, square-bracket notation required
 ```
 
-### Options
+## Options
 
 This rule accepts a single options argument with the following defaults:
 
@@ -40,7 +40,7 @@ This rule accepts a single options argument with the following defaults:
 }
 ```
 
-#### `allowKeywords`
+### `allowKeywords`
 
 Set the `allowKeywords` option to `false` (default is `true`) to follow ECMAScript version 3 compatible style, avoiding dot notation for reserved word properties.
 
@@ -57,7 +57,7 @@ var foo = { "class": "CS 101" }
 var x = foo["class"]; // Property name is a reserved word, square-bracket notation required
 ```
 
-#### `allowPattern`
+### `allowPattern`
 
 Set the `allowPattern` option to a regular expression string to allow bracket notation for property names that match a pattern (by default, no pattern is tested).
 

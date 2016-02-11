@@ -20,7 +20,11 @@ JavaScript provides shorthand operators that combine variable assignment and som
 
 ## Rule Details
 
-This rule enforces use of the shorthand assignment operators by requiring them where possible or prohibiting them entirely. It has two modes: `always` and `never`. The default is `always`.
+This rule enforces use of the shorthand assignment operators by requiring them where possible or prohibiting them entirely.
+
+## Options
+
+This rule has two options: `always` and `never`. The default is `always`.
 
 ### "always"
 

@@ -9,7 +9,27 @@ When this rule is enabled, all `var` statements must satisfy the following condi
 * either none or all variable declarations must be require declarations
 * all require declarations must be of the same type (optional)
 
-### Options
+This rule distinguishes between six kinds of variable declaration types:
+
+* `core`: declaration of a required [core module][1]
+* `file`: declaration of a required [file module][2]
+* `module`: declaration of a required module from the [node_modules folder][3]
+* `computed`: declaration of a required module whose type could not be determined (either because it is computed or because require was called without an argument)
+* `uninitialized`: a declaration that is not initialized
+* `other`: any other kind of declaration
+
+In this document, the first four types are summed up under the term *require declaration*.
+
+```javascript
+var fs = require('fs'),        // "core"     \
+    async = require('async'),  // "module"   |- these are "require declaration"s
+    foo = require('./foo'),    // "file"     |
+    bar = require(getName()),  // "computed" /
+    baz = 42,                  // "other"
+    bam;                       // "uninitialized"
+```
+
+## Options
 
 This rule comes with two boolean options. Both are turned off by default. You can set those in your `eslint.json`:
 
@@ -28,30 +48,6 @@ The second way to configure this rule is with boolean (This way of setting is de
 ```
 
 If enabled, violations will be reported whenever a single `var` statement contains require declarations of mixed types (see the examples below).
-
-### Nomenclature
-
-This rule distinguishes between six kinds of variable declaration types:
-
-* `core`: declaration of a required [core module][1]
-* `file`: declaration of a required [file module][2]
-* `module`: declaration of a required module from the [node_modules folder][3]
-* `computed`: declaration of a required module whose type could not be determined (either because it is computed or because require was called without an argument)
-* `uninitialized`: a declaration that is not initialized
-* `other`: any other kind of declaration
-
-In this document, the first four types are summed up under the term *require declaration*.
-
-#### Example
-
-```javascript
-var fs = require('fs'),        // "core"     \
-    async = require('async'),  // "module"   |- these are "require declaration"s
-    foo = require('./foo'),    // "file"     |
-    bar = require(getName()),  // "computed" /
-    baz = 42,                  // "other"
-    bam;                       // "uninitialized"
-```
 
 ## Examples
 

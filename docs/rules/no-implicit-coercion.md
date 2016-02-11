@@ -29,7 +29,7 @@ foo = String(foo);
 
 This rule is aimed to flag shorter notations for the type conversion, then suggest a more self-explanatory notation.
 
-### Options
+## Options
 
 This rule has three main options and one override option to allow some coercions as required.
 
@@ -53,7 +53,7 @@ This rule has three main options and one override option to allow some coercions
 
 Note that operator `+` in `allow` list would allow `+foo` (number coercion) as well as `"" + foo` (string coercion).
 
-#### `boolean`
+### `boolean`
 
 The following patterns are considered problems:
 
@@ -77,7 +77,7 @@ var b = foo.indexOf(".") !== -1;
 var n = ~foo; // This is a just binary negating.
 ```
 
-#### `number`
+### `number`
 
 The following patterns are considered problems:
 
@@ -98,7 +98,7 @@ var b = parseFloat(foo);
 var b = parseInt(foo, 10);
 ```
 
-#### `string`
+### `string`
 
 The following patterns are considered problems:
 
@@ -118,7 +118,7 @@ The following patterns are not considered problems:
 var b = String(foo);
 ```
 
-#### Fine-grained control
+### Fine-grained control
 
 Using `allow` list, we can override and allow specific operators.
 

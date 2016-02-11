@@ -14,6 +14,8 @@ This rule will enforce consistency of spacing before blocks. It is only applied 
 * This rule ignores spacing which is between `=>` and a block. The spacing is handled by the `arrow-spacing` rule.
 * This rule ignores spacing which is between a keyword and a block. The spacing is handled by the `keyword-spacing` rule.
 
+## Options
+
 This rule takes one argument. If it is `"always"` then blocks must always have at least one preceding space. If `"never"`
 then all blocks should never have any preceding space. If different spacing is desired for function
 blocks, keyword blocks and classes, an optional configuration object can be passed as the rule argument to

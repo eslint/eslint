@@ -26,14 +26,14 @@ Unlike scripts, ECMAScript modules are always in strict mode. Strict mode direct
 
 This rule is aimed at using strict mode directives effectively, and as such, will flag any unexpected uses or omissions of strict mode directives.
 
-### Options
+## Options
 
 There are four options for this rule:
 
-1. `"never"` - don't use `"use strict"` at all
-1. `"global"` - require `"use strict"` in the global scope
-1. `"function"` - require `"use strict"` in function scopes only
-1. `"safe"` - require `"use strict"` globally when inside a module wrapper and in function scopes everywhere else.
+* `"never"` - don't use `"use strict"` at all
+* `"global"` - require `"use strict"` in the global scope
+* `"function"` - require `"use strict"` in function scopes only
+* `"safe"` - require `"use strict"` globally when inside a module wrapper and in function scopes everywhere else.
 
 All strict mode directives are flagged as unnecessary if ECMAScript modules or implied strict mode are enabled (see [Specifying Parser Options](../user-guide/configuring#specifying-parser-options)). This behaviour does not depend on the rule options, but can be silenced by disabling this rule.
 
@@ -168,7 +168,7 @@ function foo() {
 foo();
 ```
 
-### "safe"  (default)
+### "safe" (default)
 
 Node.js and the CommonJS module system wrap modules inside a hidden function wrapper that defines each module's scope. The wrapper makes it safe to concatenate strict mode modules while maintaining their original strict mode directives. When the `node` or `commonjs` environments are enabled or `globalReturn` is enabled in `ecmaFeatures`, ESLint considers code to be inside the module wrapper, and `"safe"` mode corresponds to `"global"` mode and enforces global strict mode directives. Everywhere else, `"safe"` mode corresponds to `"function"` mode and enforces strict mode directives inside top-level functions.
 

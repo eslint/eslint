@@ -187,7 +187,7 @@ let a = <A foo={this.foo} bar={function(){}} />
 ```
 
 
-### Options
+## Options
 
 This rule has 3 options.
 

@@ -6,7 +6,7 @@ This rule can help you locate potential ReferenceErrors resulting from misspelli
 
 ## Rule Details
 
-### Options
+## Options
 
 * `typeof` set to true will warn for variables used inside typeof check (Default false).
 
@@ -58,7 +58,7 @@ if (typeof UndefinedIdentifier === "undefined") {
 }
 ```
 
-#### `typeof`
+### `typeof`
 
 You can use this option if you want to prevent `typeof` check on a variable which has not been declared.
 

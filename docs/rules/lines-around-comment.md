@@ -31,20 +31,43 @@ var x = 0;
 var y = 10;
 ```
 
-### Options
+### Inline comments
 
-This rule has 10 options:
+Inline comments are always excluded from the rule.
 
-1. `beforeBlockComment` (enabled by default)
-2. `afterBlockComment`
-3. `beforeLineComment`
-4. `afterLineComment`
-5. `allowBlockStart`
-6. `allowBlockEnd`
-7. `allowObjectStart`
-8. `allowObjectEnd`
-9. `allowArrayStart`
-10. `allowArrayEnd`
+The following would be acceptable:
+
+```js
+/*eslint lines-around-comment: 2*/
+
+var x = 0;
+var y = 10; /* the vertical position */
+```
+
+Empty lines are also not required at the beginning or end of a file.
+
+## Options
+
+This rule has 10 options.
+
+2 options for block comments:
+
+* `beforeBlockComment` (enabled by default)
+* `afterBlockComment`
+
+2 options for line comments:
+
+* `beforeLineComment`
+* `afterLineComment`
+
+6 options for exceptions:
+
+* `allowBlockStart`
+* `allowBlockEnd`
+* `allowObjectStart`
+* `allowObjectEnd`
+* `allowArrayStart`
+* `allowArrayEnd`
 
 Any combination of these rules may be applied at the same time.
 
@@ -58,7 +81,7 @@ Any combination of these rules may be applied at the same time.
 When set to `false` the option is simply ignored.
 
 
-#### Block Comments
+### Block Comments
 
 Block comments are any comment that start with `/*` and need not extend to multiple lines.
 
@@ -107,7 +130,7 @@ var night = "long";
 var day = "great"
 ```
 
-#### Line Comments
+### Line Comments
 
 Line comments are any comments that start with `//`.
 
@@ -136,9 +159,7 @@ var night = "long";
 var day = "great"
 ```
 
-### Exceptions
-
-#### `allowBlockStart` option
+### `allowBlockStart`
 
 When this option is set to `true`, it allows the comment to be present at the start of any block statement without any space above it. This option can be useful when combined with options `beforeLineComment` and `beforeBlockComment` only.
 
@@ -168,7 +189,7 @@ function foo(){
 }
 ```
 
-#### `allowBlockEnd` option
+### `allowBlockEnd`
 
 When this option is set to `true`, it allows the comment to be present at the end of any block statement without any space below it. This option can be useful when combined with options `afterLineComment` and `afterBlockComment` only.
 
@@ -199,7 +220,7 @@ function foo(){
 }
 ```
 
-#### `allowObjectStart` option
+### `allowObjectStart`
 
 When this option is set to `true`, it allows the comment to be present at the start of any object-like statement without any space above it. This option can be useful when combined with options `beforeLineComment` and `beforeBlockComment` only.
 
@@ -247,7 +268,7 @@ const {
 } = {day: "great"};
 ```
 
-#### `allowObjectEnd` option
+### `allowObjectEnd`
 
 When this option is set to `true`, it allows the comment to be present at the end of any object-like statement without any space below it. This option can be useful when combined with options `afterLineComment` and `afterBlockComment` only.
 
@@ -298,7 +319,7 @@ const {
 } = {day: "great"};
 ```
 
-#### `allowArrayStart` option
+### `allowArrayStart`
 
 When this option is set to `true`, it allows the comment to be present at the start of any array-like statement without any space above it. This option can be useful when combined with options `beforeLineComment` and `beforeBlockComment` only.
 
@@ -338,7 +359,7 @@ const [
 ] = ["great", "not great"];
 ```
 
-#### `allowArrayEnd` option
+### `allowArrayEnd`
 
 When this option is set to `true`, it allows the comment to be present at the end of any array-like statement without any space below it. This option can be useful when combined with options `afterLineComment` and `afterBlockComment` only.
 
@@ -379,21 +400,6 @@ const [
     /* what a great and wonderful day */
 ] = ["great", "not great"];
 ```
-
-#### Inline comments
-
-Inline comments are always excluded from the rule.
-
-The following would be acceptable:
-
-```js
-/*eslint lines-around-comment: 2*/
-
-var x = 0;
-var y = 10; /* the vertical position */
-```
-
-Empty lines are also not required at the beginning or end of a file.
 
 ## When Not To Use It
 

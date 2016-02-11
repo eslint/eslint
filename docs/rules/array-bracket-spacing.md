@@ -22,7 +22,7 @@ spaces inside of brackets between the brackets and other tokens or enforcing spa
 separated from the adjacent value by a new line are excepted from this rule, as this is a common pattern.
   Object literals that are used as the first or last element in an array are also ignored.
 
-### Options
+## Options
 
 There are two options for this rule:
 
@@ -35,7 +35,7 @@ Depending on your coding conventions, you can choose either option by specifying
 "array-bracket-spacing": [2, "always"]
 ```
 
-#### "never"
+### "never"
 
 When `"never"` is set, the following patterns are considered problems:
 
@@ -80,7 +80,7 @@ var [x, ...y] = z;
 var [,,x,] = z;
 ```
 
-#### "always"
+### "always"
 
 When `"always"` is used, the following patterns are considered problems:
 
@@ -127,7 +127,7 @@ var [ ,,x, ] = z;
 
 Note that `"always"` has a special case where `{}` and `[]` are not considered problems.
 
-#### Exceptions
+### Exceptions
 
 An object literal may be used as a third array item to specify spacing exceptions. These exceptions work in the context of the first option. That is, if `"always"` is set to enforce spacing and an exception is set to `false`, it will disallow spacing for cases matching the exception. Likewise, if `"never"` is set to disallow spacing and an exception is set to `true`, it will enforce spacing for cases matching the exception.
 
