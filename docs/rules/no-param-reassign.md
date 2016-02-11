@@ -6,7 +6,7 @@ Assignment to variables declared as function parameters can be misleading and le
 
 This rule aims to prevent unintended behavior caused by overwriting function parameters.
 
-### Options
+## Options
 
 This rule takes one option, an object, with a property `"props"`.
 
@@ -16,10 +16,11 @@ This rule takes one option, an object, with a property `"props"`.
 }
 ```
 
-* `props` (`false` by default) - If `true` is set, this rule warns modifying of properties of parameters.
+### `props`
 
+It is `false` by default. If it is `true` is set, this rule warns modifying of properties of parameters.
 
-### The following patterns are considered problems:
+The following patterns are considered problems:
 
 ```js
 /*eslint no-param-reassign: 2*/
@@ -51,7 +52,7 @@ function foo(bar) {
 }
 ```
 
-### The following patterns are not considered problems:
+The following patterns are not considered problems:
 
 ```js
 /*eslint no-param-reassign: 2*/

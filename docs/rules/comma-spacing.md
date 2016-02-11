@@ -14,7 +14,7 @@ var foo = 1 ,bar = 2;
 This rule aims to enforce spacing around a comma. As such, it warns whenever it sees a missing or unwanted space in commas of variable declaration, object property, function parameter, sequence and array element.
 
 
-### Options
+## Options
 
 The rule takes one option, an object, which has two keys `before` and `after` having boolean values `true` or `false`. If `before` is `true`, space is enforced before commas and if it's `false`, space is disallowed before commas. If `after` is `true`, space is enforced after commas and if it's `false`, space is disallowed after commas. The default is `{"before": false, "after": true}`.
 
@@ -24,7 +24,7 @@ The rule takes one option, an object, which has two keys `before` and `after` ha
 
 The following examples show two primary usages of this option.
 
-#### `{"before": false, "after": true}`
+### `{"before": false, "after": true}`
 
 This is the default option. It enforces spacing after commas and disallows spacing before commas.
 
@@ -57,7 +57,7 @@ function foo(a, b){}
 a, b
 ```
 
-#### `{"before": true, "after": false}`
+### `{"before": true, "after": false}`
 
 This option enforces spacing before commas and disallows spacing after commas.
 

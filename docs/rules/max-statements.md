@@ -14,7 +14,7 @@ function foo() {
 
 This rule allows you to configure the maximum number of statements allowed in a function.  The default is 10.
 
-### Options
+## Options
 
 There is an additional optional argument to ignore top level functions.
 

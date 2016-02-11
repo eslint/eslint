@@ -7,6 +7,9 @@ This rule is for spacing style within single line blocks.
 ## Rule Details
 
 This rule is aimed to flag usage of spacing inside of blocks.
+
+## Options
+
 This rule has a option, its value is `"always"` or `"never"`.
 
 - `"always"` (by default) enforces one or more spaces.

@@ -59,13 +59,13 @@ This rule is aimed at ensuring consistent use of semicolons. You can decide whet
 
 **Fixable:** This rule is automatically fixable using the `--fix` flag on the command line.
 
-### Options
+## Options
 
 The rule takes one or two options. The fists one is a string, which could be `"always"` or `"never"`. The default is `"always"`. The second one is an object for more fine-grained configuration when the first option is `"always"`.
 
 You can set the option in configuration like this:
 
-#### "always"
+### "always"
 
 By using the default option, semicolons must be used any place where they are valid.
 
@@ -97,7 +97,7 @@ object.method = function() {
 };
 ```
 
-##### Fine-grained control
+#### Fine-grained control
 
 When setting the first option as "always", an additional option can be added to omit the last semicolon in a one-line block, that is, a block in which its braces (and therefore the content of the block) are in the same line:
 
@@ -127,7 +127,7 @@ if (foo) { bar() }
 if (foo) { bar(); baz() }
 ```
 
-#### "never"
+### "never"
 
 If you want to enforce that semicolons are never used, switch the configuration to:
 

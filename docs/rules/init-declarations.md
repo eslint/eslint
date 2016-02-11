@@ -26,20 +26,16 @@ bar = 2;
 
 This rule aims to bring consistency to variable initializations and declarations.
 
-### Options
+## Options
 
 The rule takes two options:
 
 1. A string which must be either `"always"` (the default), to enforce initialization at declaration, or `"never"` to disallow initialization during declaration. This rule applies to `var`, `let`, and `const` variables, however `"never"` is ignored for `const` variables, as unassigned `const`s generate a parse error.
 2. An object that further controls the behavior of this rule. Currently, the only available parameter is `ignoreForLoopInit`, which indicates if initialization at declaration is allowed in `for` loops when `"never"` is set, since it is a very typical use case.
 
-### Options
-
-This rule is configured by passing in the string `"always"` (the default)
-
 You can configure the rule as follows:
 
-(default) All variables must be initialized at declaration
+Variables must be initialized at declaration (default)
 
 ```json
 {
@@ -122,6 +118,6 @@ With `"ignoreForLoopInit"` enabled, the following pattern is not considered a pr
 for (var i = 0; i < 1; i++) {}
 ```
 
-### When Not To Use It
+## When Not To Use It
 
 When you are indifferent as to how your variables are initialized.

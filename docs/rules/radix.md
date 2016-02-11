@@ -22,7 +22,7 @@ On the other hand, if the code is targeting only ES5-compliant environments pass
 
 This rule is aimed at preventing the unintended conversion of a string to a number of a different base than intended or at preventing the redundant `10` radix if targeting modern environments only.
 
-### Options
+## Options
 
 There are two options for this rule:
 
@@ -35,7 +35,7 @@ Depending on your coding conventions, you can choose either option by specifying
 "radix": [2, "always"]
 ```
 
-#### "always"
+### "always"
 
 The following patterns are considered problems:
 
@@ -63,7 +63,7 @@ var num = parseInt("071", 8);
 var num = parseFloat(someValue);
 ```
 
-#### "as-needed"
+### "as-needed"
 
 The following patterns are considered problems:
 

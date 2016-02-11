@@ -20,7 +20,7 @@ var fullHeight = borderTop
 
 The `operator-linebreak` rule is aimed at enforcing a particular operator line break style. As such, it warns whenever it sees a binary operator or assignment that does not adhere to a particular style: either placing linebreaks after or before the operators.
 
-### Options
+## Options
 
 The rule takes two options, a string, which can be `"after"`, `"before"` or `"none"` where the default is `"after"` and an object for more fine-grained configuration.
 
@@ -32,7 +32,7 @@ You can set the style in configuration like this:
 
 The default configuration is to enforce line breaks _after_ the operator except for the ternary operator `?` and `:` following that.
 
-#### "after"
+### "after"
 
 This is the default setting for this rule. This option requires the line break to be placed after the operator.
 
@@ -82,7 +82,7 @@ answer = everything ?
   foo;
 ```
 
-#### "before"
+### "before"
 
 This option requires the line break to be placed before the operator.
 
@@ -128,7 +128,7 @@ answer = everything
   : foo;
 ```
 
-#### "none"
+### "none"
 
 This option disallows line breaks on either side of the operator.
 
@@ -175,7 +175,7 @@ if (someCondition || otherCondition) {
 answer = everything ? 42 : foo;
 ```
 
-#### Fine-grained control
+### Fine-grained control
 
 The rule allows you to have even finer-grained control over individual operators by specifying an `overrides` dictionary:
 

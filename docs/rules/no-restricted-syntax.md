@@ -8,7 +8,7 @@ Rather than creating separate rules for every language feature you want to turn 
 
 This rule is aimed at eliminating certain syntax from your JavaScript. As such, it warns whenever it sees a node type that is restricted by its options.
 
-### Options
+## Options
 
 This rule takes a list of strings where strings denote the node types:
 

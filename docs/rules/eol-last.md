@@ -35,6 +35,6 @@ function doSmth() {
 // spaces here
 ```
 
-### Options
+## Options
 
 This rule may take one option which is either `unix` (LF) or `windows` (CRLF). When omitted `unix` is assumed.

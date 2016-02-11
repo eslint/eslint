@@ -20,7 +20,7 @@ It will not catch blacklisted identifiers that are:
 - object properties (so you can still use objects you do not have control over)
 
 
-### Options
+## Options
 
 This rule needs a a set of identifier names to blacklist, like so:
 
