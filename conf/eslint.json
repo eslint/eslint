@@ -26,6 +26,7 @@
         "no-else-return": 0,
         "no-empty": 2,
         "no-empty-character-class": 2,
+        "no-empty-function": 0,
         "no-empty-pattern": 2,
         "no-eq-null": 0,
         "no-eval": 0,
