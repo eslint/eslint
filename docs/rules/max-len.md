@@ -19,7 +19,7 @@ The following patterns are considered problems:
 ```js
 /*eslint max-len: [2, 80, 4]*/ // maximum length of 80 characters
 
-var foo = { "bar": "This is a bar.", "baz": { "qux": "This is a qux" }, "difficult": "to read" }; /*error Line 3 exceeds the maximum line length of 80.*/
+var foo = { "bar": "This is a bar.", "baz": { "qux": "This is a qux" }, "difficult": "to read" };
 ```
 
 The following patterns are not considered problems:

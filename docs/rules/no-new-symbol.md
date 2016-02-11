@@ -18,7 +18,7 @@ The following patterns are considered problems:
 /*eslint no-new-symbol: 2*/
 /*eslint-env es6*/
 
-var foo = new Symbol('foo');                    /*error `Symbol` cannot be called as a constructor. */
+var foo = new Symbol('foo');
 ```
 
 The following patterns are not considered problems:

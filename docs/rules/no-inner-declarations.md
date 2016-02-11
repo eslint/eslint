@@ -74,12 +74,12 @@ The following patterns are considered problems:
 /*eslint no-inner-declarations: 2*/
 
 if (test) {
-    function doSomething() { }        /*error Move function declaration to program root.*/
+    function doSomething() { }
 }
 
 function doSomethingElse() {
     if (test) {
-        function doAnotherThing() { } /*error Move function declaration to function body root.*/
+        function doAnotherThing() { }
     }
 }
 ```
@@ -90,12 +90,12 @@ With `"both"` option to check variable declarations, the following are considere
 /*eslint no-inner-declarations: [2, "both"]*/
 
 if (test) {
-    var foo = 42;            /*error Move variable declaration to program root.*/
+    var foo = 42;
 }
 
 function doAnotherThing() {
     if (test) {
-        var bar = 81;        /*error Move variable declaration to function body root.*/
+        var bar = 81;
     }
 }
 ```

@@ -42,19 +42,19 @@ The following patterns are considered problems:
 /*eslint space-infix-ops: 2*/
 /*eslint-env es6*/
 
-a+b                   /*error Infix operators must be spaced.*/
+a+b
 
-a+ b                  /*error Infix operators must be spaced.*/
+a+ b
 
-a +b                  /*error Infix operators must be spaced.*/
+a +b
 
-a?b:c                 /*error Infix operators must be spaced.*/
+a?b:c
 
-const a={b:1};        /*error Infix operators must be spaced.*/
+const a={b:1};
 
-var {a=0}=bar;        /*error Infix operators must be spaced.*/
+var {a=0}=bar;
 
-function foo(a=0) { } /*error Infix operators must be spaced.*/
+function foo(a=0) { }
 ```
 
 The following patterns are not considered problems:

@@ -49,9 +49,9 @@ Each of the following properties would warn:
 /*eslint-env es6*/
 
 var foo = {
-    x: function() {},   /*error Expected method shorthand.*/
-    y: function *() {}, /*error Expected method shorthand.*/
-    z: z                /*error Expected property shorthand.*/
+    x: function() {},
+    y: function *() {},
+    z: z
 };
 ```
 

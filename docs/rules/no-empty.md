@@ -19,20 +19,20 @@ The following patterns are considered problems:
 ```js
 /*eslint no-empty: 2*/
 
-if (foo) {         /*error Empty block statement.*/
+if (foo) {
 }
 
-while (foo) {      /*error Empty block statement.*/
+while (foo) {
 }
 
-switch(foo) {      /*error Empty switch statement.*/
+switch(foo) {
 }
 
 try {
     doSomething();
-} catch(ex) {      /*error Empty block statement.*/
+} catch(ex) {
 
-} finally {        /*error Empty block statement.*/
+} finally {
 
 }
 ```

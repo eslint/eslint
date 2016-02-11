@@ -23,7 +23,7 @@ The following patterns are considered problems:
 ```js
 /*eslint no-new: 2*/
 
-new Thing(); /*error Do not use 'new' for side effects.*/
+new Thing();
 ```
 
 The following patterns are not considered problems:

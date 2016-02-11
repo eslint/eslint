@@ -17,7 +17,7 @@ The following patterns are considered problems:
 ```js
 /*eslint guard-for-in: 2*/
 
-for (key in foo) {    /*error The body of a for-in should be wrapped in an if statement to filter unwanted properties from the prototype.*/
+for (key in foo) {
     doSomething(key);
 }
 ```

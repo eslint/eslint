@@ -53,9 +53,9 @@ The following patterns are considered problems:
 ```js
 /*eslint no-void: 2*/
 
-void foo              /*error Expected 'undefined' and instead saw 'void'.*/
+void foo
 
-var foo = void bar(); /*error Expected 'undefined' and instead saw 'void'.*/
+var foo = void bar();
 ```
 
 ## When Not To Use It

@@ -42,13 +42,13 @@ The following patterns are considered problems:
 ```js
 /*eslint consistent-this: [2, "that"]*/
 
-var that = 42;   /*error Designated alias 'that' is not assigned to 'this'.*/
+var that = 42;
 
-var self = this; /*error Unexpected alias 'self' for 'this'.*/
+var self = this;
 
-that = 42;       /*error Designated alias 'that' is not assigned to 'this'.*/
+that = 42;
 
-self = this;     /*error Unexpected alias 'self' for 'this'.*/
+self = this;
 ```
 
 The following patterns are not considered problems:
@@ -85,7 +85,7 @@ But the following pattern is considered a warning:
 ```js
 /*eslint consistent-this: [2, "that"]*/
 
-var that;        /*error Designated alias 'that' is not assigned to 'this'.*/
+var that;
 function f() {
     that = this;
 }

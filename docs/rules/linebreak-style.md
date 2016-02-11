@@ -17,21 +17,21 @@ The following patterns are considered problems:
 ```js
 /*eslint linebreak-style: 2*/
 
-var a = 'a', // \r\n /*error Expected linebreaks to be 'LF' but found 'CRLF'.*/
+var a = 'a', // \r\n
     b = 'b'; // \n
 ```
 
 ```js
 /*eslint linebreak-style: [2, "unix"]*/
 
-var a = 'a'; // \r\n /*error Expected linebreaks to be 'LF' but found 'CRLF'.*/
+var a = 'a'; // \r\n
 
 ```
 
 ```js
 /*eslint linebreak-style: [2, "windows"]*/
 
-var a = 'a';// \n    /*error Expected linebreaks to be 'CRLF' but found 'LF'.*/
+var a = 'a';// \n
 ```
 
 The following patterns are not considered problems:

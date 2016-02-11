@@ -60,8 +60,8 @@ The following patterns are considered problems:
 ```js
 /*eslint no-implicit-coercion: 2*/
 
-var b = !!foo;             /*error use 'Boolean(foo)' instead.*/
-var b = ~foo.indexOf("."); /*error use 'foo.indexOf(".") !== -1' instead.*/
+var b = !!foo;
+var b = ~foo.indexOf(".");
 // only with `indexOf`/`lastIndexOf` method calling.
 
 ```
@@ -84,8 +84,8 @@ The following patterns are considered problems:
 ```js
 /*eslint no-implicit-coercion: 2*/
 
-var n = +foo;    /*error use 'Number(foo)' instead.*/
-var n = 1 * foo; /*error use 'Number(foo)' instead.*/
+var n = +foo;
+var n = 1 * foo;
 ```
 
 The following patterns are not considered problems:
@@ -105,9 +105,9 @@ The following patterns are considered problems:
 ```js
 /*eslint no-implicit-coercion: 2*/
 
-var n = "" + foo; /*error use 'String(foo)' instead.*/
+var n = "" + foo;
 
-foo += ""; /*error use 'foo = String(foo)' instead.*/
+foo += "";
 ```
 
 The following patterns are not considered problems:

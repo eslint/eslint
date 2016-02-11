@@ -26,7 +26,7 @@ The following patterns are considered problems:
 function add(x, y) {
 // --->..return x + y;
 
-      return x + y;    /*error Mixed spaces and tabs.*/
+      return x + y;
 }
 
 function main() {
@@ -34,7 +34,7 @@ function main() {
 // --->....y = 7;
 
     var x = 5,
-        y = 7;         /*error Mixed spaces and tabs.*/
+        y = 7;
 }
 ```
 

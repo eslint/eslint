@@ -57,12 +57,12 @@ The following patterns are considered problems:
     }
 }]*/
 
-function foo() {       /*error Missing JSDoc comment.*/
+function foo() {
     return 10;
 }
 
-class Test{            /*error Missing JSDoc comment.*/
-    getDate(){}        /*error Missing JSDoc comment.*/
+class Test{
+    getDate(){}
 }
 ```
 

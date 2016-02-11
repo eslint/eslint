@@ -17,11 +17,11 @@ The following patterns are considered problems:
 ```js
 /*eslint no-eq-null: 2*/
 
-if (foo == null) {     /*error Use ‘===’ to compare with ‘null’.*/
+if (foo == null) {
   bar();
 }
 
-while (qux != null) {  /*error Use ‘===’ to compare with ‘null’.*/
+while (qux != null) {
   baz();
 }
 ```

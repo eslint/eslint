@@ -13,7 +13,7 @@ For example the following code will cause the rule to warn:
 ```js
 /*eslint no-dupe-args: 2*/
 
-function foo(a, b, a) {               /*error Duplicate param 'a'.*/
+function foo(a, b, a) {
     console.log("which a is it?", a);
 }
 ```

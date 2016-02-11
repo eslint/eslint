@@ -10,7 +10,7 @@ The following patterns are considered problems:
 /*eslint require-yield: 2*/
 /*eslint-env es6*/
 
-function* foo() { /*error This generator function does not have 'yield'.*/
+function* foo() {
   return 10;
 }
 ```

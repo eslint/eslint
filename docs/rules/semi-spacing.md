@@ -46,12 +46,12 @@ The following patterns are considered problems:
 ```js
 /*eslint semi-spacing: 2*/
 
-var foo ;                      /*error Unexpected whitespace before semicolon.*/
-var foo;var bar;               /*error Missing whitespace after semicolon.*/
-throw new Error("error") ;     /*error Unexpected whitespace before semicolon.*/
-while (a) { break ; }          /*error Unexpected whitespace before semicolon.*/
-for (i = 0 ; i < 10 ; i++) {}  /*error Unexpected whitespace before semicolon.*/
-for (i = 0;i < 10;i++) {}      /*error Missing whitespace after semicolon.*/
+var foo ;
+var foo;var bar;
+throw new Error("error") ;
+while (a) { break ; }
+for (i = 0 ; i < 10 ; i++) {}
+for (i = 0;i < 10;i++) {}
 ```
 
 The following patterns are not considered problems:
@@ -78,12 +78,12 @@ The following patterns are considered problems:
 ```js
 /*eslint semi-spacing: [2, { "before": true, "after": false }]*/
 
-var foo;                    /*error Missing whitespace before semicolon.*/
-var foo ; var bar;          /*error Missing whitespace before semicolon.*/ /*error Unexpected whitespace after semicolon.*/
-throw new Error("error");   /*error Missing whitespace before semicolon.*/
-while (a) { break; }        /*error Missing whitespace before semicolon.*/ /*error Unexpected whitespace after semicolon.*/
-for (i = 0;i < 10;i++) {}   /*error Missing whitespace before semicolon.*/
-for (i = 0; i < 10; i++) {} /*error Missing whitespace before semicolon.*/ /*error Unexpected whitespace after semicolon.*/
+var foo;
+var foo ; var bar;
+throw new Error("error");
+while (a) { break; }
+for (i = 0;i < 10;i++) {}
+for (i = 0; i < 10; i++) {}
 ```
 
 The following patterns are not considered problems:

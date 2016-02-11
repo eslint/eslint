@@ -15,8 +15,8 @@ The following patterns are considered problems:
 ```js
 /*eslint new-cap: 2*/
 
-var friend = new person(); /*error A constructor name should not start with a lowercase letter.*/
-var colleague = Person();  /*error A function with a name starting with an uppercase letter should only be used as a constructor.*/
+var friend = new person();
+var colleague = Person();
 ```
 
 The following patterns are not considered problems:

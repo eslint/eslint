@@ -34,7 +34,7 @@ The following patterns are considered problems:
 function foo() {
   for (;;) {
     if (true) {
-      if (true) { /*error Blocks are nested too deeply (3).*/
+      if (true) {
 
       }
     }

@@ -19,13 +19,13 @@ The following patterns are considered problems:
 ```js
 /*eslint no-iterator: 2*/
 
-Foo.prototype.__iterator__ = function() { /*error Reserved name '__iterator__'.*/
+Foo.prototype.__iterator__ = function() {
     return new FooIterator(this);
 };
 
-foo.__iterator__ = function () {};        /*error Reserved name '__iterator__'.*/
+foo.__iterator__ = function () {};
 
-foo["__iterator__"] = function () {};     /*error Reserved name '__iterator__'.*/
+foo["__iterator__"] = function () {};
 
 ```
 

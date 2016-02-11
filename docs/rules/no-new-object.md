@@ -25,9 +25,9 @@ The following patterns are considered problems:
 ```js
 /*eslint no-new-object: 2*/
 
-var myObject = new Object(); /*error The object literal notation {} is preferrable.*/
+var myObject = new Object();
 
-var myObject = new Object;   /*error The object literal notation {} is preferrable.*/
+var myObject = new Object;
 ```
 
 The following patterns are not considered problems:

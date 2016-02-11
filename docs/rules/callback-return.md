@@ -30,7 +30,7 @@ The following patterns are considered problems:
 
 function foo() {
     if (err) {
-        callback(err); /*error Expected return with your callback function.*/
+        callback(err);
     }
     callback();
 }
@@ -108,9 +108,9 @@ difficulty in determining what you're doing, this rule does not allow for this p
 
 function foo(callback) {
     if (err) {
-        callback(err); // this is fine, but WILL warn /*error Expected return with your callback function.*/
+        callback(err); // this is fine, but WILL warn
     } else {
-        callback();    // this is fine, but WILL warn /*error Expected return with your callback function.*/
+        callback();    // this is fine, but WILL warn
     }
 }
 ```

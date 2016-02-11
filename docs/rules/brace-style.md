@@ -61,20 +61,20 @@ This is the default setting for this rule and enforces one true brace style. Whi
 
 ```js
 /*eslint brace-style: 2*/
-function foo()       /*error Opening curly brace does not appear on the same line as controlling statement.*/
+function foo()
 {
   return true;
 }
 
-if (foo)             /*error Opening curly brace does not appear on the same line as controlling statement.*/
+if (foo)
 {
   bar();
 }
 
-try                  /*error Opening curly brace does not appear on the same line as controlling statement.*/
+try
 {
   somethingRisky();
-} catch(e)           /*error Opening curly brace does not appear on the same line as controlling statement.*/
+} catch(e)
 {
   handleError();
 }
@@ -82,7 +82,7 @@ try                  /*error Opening curly brace does not appear on the same lin
 if (foo) {
   bar();
 }
-else {              /*error Closing curly brace does not appear on the same line as the subsequent block.*/
+else {
   baz();
 }
 ```
@@ -139,27 +139,27 @@ This enforces Stroustrup style. While using this setting, the following patterns
 ```js
 /*eslint brace-style: [2, "stroustrup"]*/
 
-function foo()        /*error Opening curly brace does not appear on the same line as controlling statement.*/
+function foo()
 {
   return true;
 }
 
-if (foo)              /*error Opening curly brace does not appear on the same line as controlling statement.*/
+if (foo)
 {
   bar();
 }
 
-try                   /*error Opening curly brace does not appear on the same line as controlling statement.*/
+try
 {
   somethingRisky();
-} catch(e)            /*error Opening curly brace does not appear on the same line as controlling statement.*/ /*error Closing curly brace appears on the same line as the subsequent block.*/
+} catch(e)
 {
   handleError();
 }
 
 if (foo) {
   bar();
-} else {              /*error Closing curly brace appears on the same line as the subsequent block.*/
+} else {
   baz();
 }
 ```
@@ -220,25 +220,25 @@ This enforces Allman style. While using this setting, the following patterns are
 ```js
 /*eslint brace-style: [2, "allman"]*/
 
-function foo() {     /*error Opening curly brace appears on the same line as controlling statement.*/
+function foo() {
   return true;
 }
 
 if (foo)
 {
-  bar(); }           /*error Closing curly brace should be on the same line as opening curly brace or on the line after the previous block.*/
+  bar(); }
 
 try
 {
   somethingRisky();
-} catch(e)           /*error Closing curly brace appears on the same line as the subsequent block.*/
+} catch(e)
 {
   handleError();
 }
 
-if (foo) {           /*error Opening curly brace appears on the same line as controlling statement.*/ /*error Opening curly brace appears on the same line as controlling statement.*/
+if (foo) {
   bar();
-} else {             /*error Closing curly brace appears on the same line as the subsequent block.*/
+} else {
   baz();
 }
 ```

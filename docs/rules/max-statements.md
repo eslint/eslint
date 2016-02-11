@@ -26,7 +26,7 @@ The following patterns are considered problems:
 
 ```js
 /*eslint max-statements: [2, 2]*/  // Maximum of 2 statements.
-function foo() { /*error This function has too many statements (3). Maximum allowed is 2.*/
+function foo() {
   var bar = 1;
   var baz = 2;
 

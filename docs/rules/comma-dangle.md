@@ -31,14 +31,14 @@ The following patterns are considered problems when configured `"never"`:
 
 var foo = {
     bar: "baz",
-    qux: "quux",   /*error Unexpected trailing comma.*/
+    qux: "quux",
 };
 
-var arr = [1,2,];  /*error Unexpected trailing comma.*/
+var arr = [1,2,];
 
 foo({
   bar: "baz",
-  qux: "quux",     /*error Unexpected trailing comma.*/
+  qux: "quux",
 });
 ```
 
@@ -67,14 +67,14 @@ The following patterns are considered problems when configured `"always"`:
 
 var foo = {
     bar: "baz",
-    qux: "quux"   /*error Missing trailing comma.*/
+    qux: "quux"
 };
 
-var arr = [1,2];  /*error Missing trailing comma.*/
+var arr = [1,2];
 
 foo({
   bar: "baz",
-  qux: "quux"     /*error Missing trailing comma.*/
+  qux: "quux"
 });
 ```
 
@@ -103,24 +103,24 @@ The following patterns are considered problems when configured `"always-multilin
 
 var foo = {
     bar: "baz",
-    qux: "quux"                         /*error Missing trailing comma.*/
+    qux: "quux"
 };
 
-var foo = { bar: "baz", qux: "quux", }; /*error Unexpected trailing comma.*/
+var foo = { bar: "baz", qux: "quux", };
 
-var arr = [1,2,];                       /*error Unexpected trailing comma.*/
+var arr = [1,2,];
 
 var arr = [1,
-    2,];                                /*error Unexpected trailing comma.*/
+    2,];
 
 var arr = [
     1,
-    2                                   /*error Missing trailing comma.*/
+    2
 ];
 
 foo({
   bar: "baz",
-  qux: "quux"                           /*error Missing trailing comma.*/
+  qux: "quux"
 });
 ```
 
@@ -156,12 +156,12 @@ The following patterns are considered problems when configured `"only-multiline"
 ```js
 /*eslint comma-dangle: [1, "only-multiline"]*/
 
-var foo = { bar: "baz", qux: "quux", }; /*error Unexpected trailing comma.*/
+var foo = { bar: "baz", qux: "quux", };
 
-var arr = [1,2,];                       /*error Unexpected trailing comma.*/
+var arr = [1,2,];
 
 var arr = [1,
-    2,];                                /*error Unexpected trailing comma.*/
+    2,];
 
 ```
 

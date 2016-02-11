@@ -36,15 +36,15 @@ The following patterns are considered problems:
 ```js
 /*eslint prefer-reflect: 2*/
 
-foo.apply(undefined, args); /*error Avoid using Function.prototype.apply, instead use Reflect.apply*/
-foo.apply(null, args);      /*error Avoid using Function.prototype.apply, instead use Reflect.apply*/
-obj.foo.apply(obj, args);   /*error Avoid using Function.prototype.apply, instead use Reflect.apply*/
-obj.foo.apply(other, args); /*error Avoid using Function.prototype.apply, instead use Reflect.apply*/
+foo.apply(undefined, args);
+foo.apply(null, args);
+obj.foo.apply(obj, args);
+obj.foo.apply(other, args);
 
-foo.call(undefined, arg);   /*error Avoid using Function.prototype.call, instead use Reflect.apply*/
-foo.call(null, arg);        /*error Avoid using Function.prototype.call, instead use Reflect.apply*/
-obj.foo.call(obj, arg);     /*error Avoid using Function.prototype.call, instead use Reflect.apply*/
-obj.foo.call(other, arg);   /*error Avoid using Function.prototype.call, instead use Reflect.apply*/
+foo.call(undefined, arg);
+foo.call(null, arg);
+obj.foo.call(obj, arg);
+obj.foo.call(other, arg);
 ```
 
 The following patterns are not considered problems:
@@ -95,7 +95,7 @@ The following patterns are considered problems:
 ```js
 /*eslint prefer-reflect: 2*/
 
-Object.defineProperty({}, 'foo', {value: 1}) /*error Avoid using Object.defineProperty, instead use Reflect.defineProperty*/
+Object.defineProperty({}, 'foo', {value: 1})
 ```
 
 The following patterns are not considered problems:
@@ -120,7 +120,7 @@ The following patterns are considered problems:
 ```js
 /*eslint prefer-reflect: 2*/
 
-Object.getOwnPropertyDescriptor({}, 'foo') /*error Avoid using Object.getOwnPropertyDescriptor, instead use Reflect.getOwnPropertyDescriptor*/
+Object.getOwnPropertyDescriptor({}, 'foo')
 ```
 
 The following patterns are not considered problems:
@@ -147,7 +147,7 @@ The following patterns are considered problems:
 ```js
 /*eslint prefer-reflect: 2*/
 
-Object.getPrototypeOf({}, 'foo') /*error Avoid using Object.getPrototypeOf, instead use Reflect.getPrototypeOf*/
+Object.getPrototypeOf({}, 'foo')
 ```
 
 The following patterns are not considered problems:
@@ -172,7 +172,7 @@ The following patterns are considered problems:
 ```js
 /*eslint prefer-reflect: 2*/
 
-Object.setPrototypeOf({}, Object.prototype) /*error Avoid using Object.setPrototypeOf, instead use Reflect.setPrototypeOf*/
+Object.setPrototypeOf({}, Object.prototype)
 ```
 
 The following patterns are not considered problems:
@@ -199,7 +199,7 @@ The following patterns are considered problems:
 ```js
 /*eslint prefer-reflect: 2*/
 
-Object.isExtensible({}) /*error Avoid using Object.isExtensible, instead use Reflect.isExtensible*/
+Object.isExtensible({})
 ```
 
 The following patterns are not considered problems:
@@ -224,7 +224,7 @@ The following patterns are considered problems:
 ```js
 /*eslint prefer-reflect: 2*/
 
-Object.getOwnPropertyNames({}) /*error Avoid using Object.getOwnPropertyNames, instead use Reflect.getOwnPropertyNames*/
+Object.getOwnPropertyNames({})
 ```
 
 The following patterns are not considered problems:
@@ -249,7 +249,7 @@ The following patterns are considered problems:
 ```js
 /*eslint prefer-reflect: 2*/
 
-Object.preventExtensions({}) /*error Avoid using Object.preventExtensions, instead use Reflect.preventExtensions*/
+Object.preventExtensions({})
 ```
 
 The following patterns are not considered problems:
@@ -274,7 +274,7 @@ The following patterns are considered problems:
 ```js
 /*eslint prefer-reflect: 2*/
 
-delete foo.bar; /*error Avoid using the delete keyword, instead use Reflect.deleteProperty*/
+delete foo.bar;
 ```
 
 The following patterns are not considered problems:

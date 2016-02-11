@@ -11,7 +11,7 @@ The following patterns are considered problems:
 
 var x = foo;
 function bar() {
-x:               /*error Found identifier with same name as label.*/
+x:
   for (;;) {
     break x;
   }

@@ -28,14 +28,14 @@ The following patterns are considered problems if `{ "before": true, "after": tr
 /*eslint arrow-spacing: 2*/
 /*eslint-env es6*/
 
-()=> {};     /*error Missing space before =>*/
-() =>{};     /*error Missing space after =>*/
-(a)=> {};    /*error Missing space before =>*/
-(a) =>{};    /*error Missing space after =>*/
-a =>a;       /*error Missing space after =>*/
-a=> a;       /*error Missing space before =>*/
-()=> {'\n'}; /*error Missing space before =>*/
-() =>{'\n'}; /*error Missing space after =>*/
+()=> {};
+() =>{};
+(a)=> {};
+(a) =>{};
+a =>a;
+a=> a;
+()=> {'\n'};
+() =>{'\n'};
 ```
 
 The following patterns are not considered problems if `{ "before": true, "after": true }`.

@@ -24,13 +24,13 @@ The following patterns are considered problems:
 ```js
 /*eslint no-unused-labels: 2*/
 
-A: var foo = 0;  /*error 'A:' is defined but never used.*/
+A: var foo = 0;
 
-B: {             /*error 'B:' is defined but never used.*/
+B: {
     foo();
 }
 
-C:               /*error 'C:' is defined but never used.*/
+C:
 for (let i = 0; i < 10; ++i) {
     foo();
 }

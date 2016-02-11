@@ -23,20 +23,20 @@ The following patterns are considered problems:
 
 var a = 3;
 function b() {
-    var a = 10;       /*error 'a' is already declared in the upper scope.*/
+    var a = 10;
 }
 
 var b = function () {
-    var a = 10;       /*error 'a' is already declared in the upper scope.*/
+    var a = 10;
 }
 
-function b(a) {       /*error 'a' is already declared in the upper scope.*/
+function b(a) {
     a = 10;
 }
 b(a);
 
 if (true) {
-    let a = 5;        /*error 'a' is already declared in the upper scope.*/
+    let a = 5;
 }
 ```
 
@@ -61,7 +61,7 @@ When `{"builtinGlobals": true}`, the following patterns are considered problems:
 /*eslint no-shadow: [2, { "builtinGlobals": true }]*/
 
 function foo() {
-    var Object = 0; /*error 'Object' is already declared in the upper scope.*/
+    var Object = 0;
 }
 ```
 
@@ -82,8 +82,8 @@ With `"hoist"` set to `"all"`, both `let a` and `let b` in the `if` statement ar
 /*eslint-env es6*/
 
 if (true) {
-    let a = 3;    /*error 'a' is already declared in the upper scope.*/
-    let b = 6;    /*error 'b' is already declared in the upper scope.*/
+    let a = 3;
+    let b = 6;
 }
 
 let a = 5;
@@ -100,7 +100,7 @@ With `"hoist"` set to `"functions"`, `let b` is considered a warning. But `let a
 
 if (true) {
     let a = 3;
-    let b = 6;    /*error 'b' is already declared in the upper scope.*/
+    let b = 6;
 }
 
 let a = 5;

@@ -33,14 +33,14 @@ The following patterns are considered problems:
 
 // Unintentional assignment
 var x;
-if (x = 0) {         /*error Expected a conditional expression and instead saw an assignment.*/
+if (x = 0) {
     var b = 1;
 }
 
 // Practical example that is similar to an error
 function setHeight(someNode) {
     "use strict";
-    do {             /*error Expected a conditional expression and instead saw an assignment.*/
+    do {
         someNode.height = "100px";
     } while (someNode = someNode.parentNode);
 }
@@ -85,14 +85,14 @@ The following patterns are considered problems:
 
 // Unintentional assignment
 var x;
-if (x = 0) {         /*error Unexpected assignment within an 'if' statement.*/
+if (x = 0) {
     var b = 1;
 }
 
 // Practical example that is similar to an error
 function setHeight(someNode) {
     "use strict";
-    do {             /*error Unexpected assignment within a 'do...while' statement.*/
+    do {
         someNode.height = "100px";
     } while (someNode = someNode.parentNode);
 }
@@ -100,7 +100,7 @@ function setHeight(someNode) {
 // Practical example that wraps the assignment in parentheses
 function setHeight(someNode) {
     "use strict";
-    do {             /*error Unexpected assignment within a 'do...while' statement.*/
+    do {
         someNode.height = "100px";
     } while ((someNode = someNode.parentNode));
 }
@@ -108,7 +108,7 @@ function setHeight(someNode) {
 // Practical example that wraps the assignment and tests for 'null'
 function setHeight(someNode) {
     "use strict";
-    do {             /*error Unexpected assignment within a 'do...while' statement.*/
+    do {
         someNode.height = "100px";
     } while ((someNode = someNode.parentNode) !== null);
 }

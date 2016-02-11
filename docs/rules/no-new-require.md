@@ -29,7 +29,7 @@ The following pattern is considered a warning:
 ```js
 /*eslint no-new-require: 2*/
 
-var appHeader = new require('app-header'); /*error Unexpected use of new with require.*/
+var appHeader = new require('app-header');
 ```
 
 The following pattern is not a warning:
