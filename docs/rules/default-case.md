@@ -46,7 +46,7 @@ The following pattern is considered a warning:
 ```js
 /*eslint default-case: 2*/
 
-switch (a) {       /*error Expected a default case.*/
+switch (a) {
     case 1:
         /* code */
         break;

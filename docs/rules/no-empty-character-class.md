@@ -15,11 +15,11 @@ The following patterns are considered problems:
 ```js
 /*eslint no-empty-character-class: 2*/
 
-var foo = /^abc[]/;  /*error Empty class.*/
+var foo = /^abc[]/;
 
-/^abc[]/.test(foo);  /*error Empty class.*/
+/^abc[]/.test(foo);
 
-bar.match(/^abc[]/); /*error Empty class.*/
+bar.match(/^abc[]/);
 ```
 
 The following patterns are not considered problems:

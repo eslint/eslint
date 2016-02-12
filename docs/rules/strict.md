@@ -46,15 +46,15 @@ The following patterns are considered problems:
 ```js
 /*eslint strict: [2, "never"]*/
 
-"use strict";          /*error Strict mode is not permitted.*/
+"use strict";
 
 function foo() {
-    "use strict";      /*error Strict mode is not permitted.*/
+    "use strict";
     return;
 }
 
 var bar = function() {
-    "use strict";      /*error Strict mode is not permitted.*/
+    "use strict";
     return;
 };
 
@@ -89,14 +89,14 @@ The following patterns are considered problems:
 /*eslint strict: [2, "global"]*/
 
 "use strict";
-"use strict";           /*error Multiple 'use strict' directives.*/
+"use strict";
 
 function foo() {
-    "use strict";       /*error Use the global form of 'use strict'.*/
+    "use strict";
 
     return function() {
-        "use strict";   /*error Use the global form of 'use strict'.*/
-        "use strict";   /*error Use the global form of 'use strict'.*/
+        "use strict";
+        "use strict";
 
         return;
     };
@@ -130,14 +130,14 @@ The following patterns are considered problems:
 ```
 /*eslint strict: [2, "function"]*/
 
-"use strict";           /*error Use the function form of 'use strict'.*/
+"use strict";
 
-function foo() {        /*error Use the function form of 'use strict'.*/
+function foo() {
     // Missing strict mode directive
 
     return function() {
         "use strict";   // Unnecessary; parent should contain a strict mode directive
-        "use strict";   /*error Multiple 'use strict' directives.*/
+        "use strict";
 
         return;
     };

@@ -104,7 +104,7 @@ This however would provide 2 warnings:
 /*eslint lines-around-comment: [2, { "beforeBlockComment": true, "afterBlockComment": true }]*/
 
 var night = "long";
-/* what a great and wonderful day */  /*error Expected line before comment.*/ /*error Expected line after comment.*/
+/* what a great and wonderful day */
 var day = "great"
 ```
 
@@ -126,7 +126,7 @@ But this would cause 1 warning:
 /*eslint lines-around-comment: [2, { "beforeBlockComment": true }]*/
 
 var night = "long";
-/* what a great and wonderful day */     /*error Expected line before comment.*/
+/* what a great and wonderful day */
 var day = "great"
 ```
 

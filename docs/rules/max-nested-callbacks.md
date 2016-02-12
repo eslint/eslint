@@ -34,7 +34,7 @@ The following patterns are considered problems:
 foo(function () {
     bar(function () {
         baz(function() {
-            qux(function () { /*error Too many nested callbacks (4). Maximum allowed is 3.*/
+            qux(function () {
 
             });
         });

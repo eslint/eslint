@@ -25,12 +25,12 @@ The following patterns are considered problems:
 ```js
 /*eslint curly: 2*/
 
-if (foo) foo++; /*error Expected { after 'if' condition.*/
+if (foo) foo++;
 
-while (bar)     /*error Expected { after 'while' condition.*/
+while (bar)
     baz();
 
-if (foo) {      /*error Expected { after 'else'.*/
+if (foo) {
     baz();
 } else qux();
 ```
@@ -70,20 +70,20 @@ With this configuration, the rule will warn for these patterns:
 ```js
 /*eslint curly: [2, "multi"]*/
 
-if (foo) {                             /*error Unnecessary { after 'if' condition.*/
+if (foo) {
     foo++;
 }
 
-if (foo) bar();                        /*error Unnecessary { after 'else'.*/
+if (foo) bar();
 else {
     foo++;
 }
 
-while (true) {                         /*error Unnecessary { after 'while' condition.*/
+while (true) {
     doSomething();
 }
 
-for (var i=0; i < items.length; i++) { /*error Unnecessary { after 'for' condition.*/
+for (var i=0; i < items.length; i++) {
     doSomething();
 }
 ```
@@ -116,12 +116,12 @@ With this configuration, the rule will warn for these patterns:
 ```js
 /*eslint curly: [2, "multi-line"]*/
 
-if (foo)             /*error Expected { after 'if' condition.*/ /*error Expected { after 'else'.*/
+if (foo)
   doSomething();
 else
   doSomethingElse();
 
-if (foo) foo(        /*error Expected { after 'if' condition.*/
+if (foo) foo(
   bar,
   baz);
 ```
@@ -168,27 +168,27 @@ With this configuration, the rule will warn for these patterns:
 ```js
 /*eslint curly: [2, "multi-or-nest"]*/
 
-if (!foo)                   /*error Expected { after 'if' condition.*/
+if (!foo)
     foo = {
         bar: baz,
         qux: foo
     };
 
-while (true)                /*error Expected { after 'while' condition.*/
+while (true)
   if(foo)
       doSomething();
   else
       doSomethingElse();
 
-if (foo) {                  /*error Unnecessary { after 'if' condition.*/
+if (foo) {
     foo++;
 }
 
-while (true) {              /*error Unnecessary { after 'while' condition.*/
+while (true) {
     doSomething();
 }
 
-for (var i = 0; foo; i++) { /*error Unnecessary { after 'for' condition.*/
+for (var i = 0; foo; i++) {
     doSomething();
 }
 ```
@@ -239,12 +239,12 @@ With this configuration, the rule will warn for those patterns:
 if (foo) {
     bar();
     baz();
-} else                      /*error Expected { after 'else'.*/
+} else
     buz();
 
-if (foo)                    /*error Expected { after 'if' condition.*/
+if (foo)
     bar();
-else if (faa)               /*error Expected { after 'if' condition.*/
+else if (faa)
     bor();
 else {
     other();
@@ -253,11 +253,11 @@ else {
 
 if (true)
     foo();
-else {                      /*error Unnecessary { after 'else'.*/
+else {
     baz();
 }
 
-if (foo) {                  /*error Unnecessary { after 'if' condition.*/
+if (foo) {
     foo++;
 }
 ```

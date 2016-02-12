@@ -77,7 +77,7 @@ The following patterns are considered problems:
 ```js
 /*eslint no-mixed-requires: 2*/
 
-var fs = require('fs'), /*error Do not mix 'require' and other declarations.*/
+var fs = require('fs'),
     i = 0;
 ```
 
@@ -87,11 +87,11 @@ The following patterns are considered problems when grouping is turned on:
 /*eslint no-mixed-requires: [2, {"grouping": true}]*/
 
 // invalid because of mixed types "core" and "file"
-var fs = require('fs'),                /*error Do not mix core, module, file and computed requires.*/
+var fs = require('fs'),
     async = require('async');
 
 // invalid because of mixed types "file" and "unknown"
-var foo = require('foo'),              /*error Do not mix core, module, file and computed requires.*/
+var foo = require('foo'),
     bar = require(getBarModuleName());
 ```
 

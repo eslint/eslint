@@ -68,7 +68,7 @@ The following patterns are considered problems:
 /*eslint no-fallthrough: 2*/
 
 switch(foo) {
-    case 1:            /*error Expected a 'break' statement before 'case'.*/
+    case 1:
         doSomething();
 
     case 2:

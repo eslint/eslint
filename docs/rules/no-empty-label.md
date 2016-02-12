@@ -14,7 +14,7 @@ The following patterns are considered problems:
 ```js
 /*eslint no-empty-label: 2*/
 
-labeled:     /*error Unexpected label 'labeled'*/
+labeled:
 var x = 10;
 ```
 

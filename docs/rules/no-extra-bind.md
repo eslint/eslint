@@ -37,25 +37,25 @@ The following patterns are considered problems:
 /*eslint no-extra-bind: 2*/
 /*eslint-env es6*/
 
-var x = function () {   /*error The function binding is unnecessary.*/
+var x = function () {
     foo();
 }.bind(bar);
 
-var x = (() => {        /*error The function binding is unnecessary.*/
+var x = (() => {
     foo();
 }).bind(bar);
 
-var x = (() => {        /*error The function binding is unnecessary.*/
+var x = (() => {
     this.foo();
 }).bind(bar);
 
-var x = function () {   /*error The function binding is unnecessary.*/
+var x = function () {
     (function () {
       this.foo();
     }());
 }.bind(bar);
 
-var x = function () {   /*error The function binding is unnecessary.*/
+var x = function () {
     function foo() {
       this.bar();
     }

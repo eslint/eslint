@@ -25,13 +25,13 @@ The following patterns are considered problems:
 ```js
 /*eslint no-extra-parens: 2*/
 
-a = (b * c); /*error Gratuitous parentheses around expression.*/
+a = (b * c);
 
-(a * b) + c; /*error Gratuitous parentheses around expression.*/
+(a * b) + c;
 
-typeof (a);  /*error Gratuitous parentheses around expression.*/
+typeof (a);
 
-(function(){} ? a() : b());  /*error Gratuitous parentheses around expression.*/
+(function(){} ? a() : b());
 ```
 
 The following patterns are not considered problems:
@@ -73,9 +73,9 @@ The following patterns are considered problems:
 ```js
 /*eslint no-extra-parens: [2, "functions"]*/
 
-((function foo() {}))();           /*error Gratuitous parentheses around expression.*/
+((function foo() {}))();
 
-var y = (function () {return 1;}); /*error Gratuitous parentheses around expression.*/
+var y = (function () {return 1;});
 ```
 
 The following patterns are not considered problems:

@@ -15,7 +15,7 @@ The following patterns are considered problems:
 ```js
 /*eslint dot-notation: 2*/
 
-var x = foo["bar"]; /*error ["bar"] is better written in dot notation.*/
+var x = foo["bar"];
 ```
 
 The following patterns are not considered problems:
@@ -81,10 +81,10 @@ Example code patterns:
 /*eslint dot-notation: [2, {"allowPattern": "^[a-z]+(_[a-z]+)+$"}]*/
 
 var data = {};
-data.foo_bar = 42;    /*error Identifier 'foo_bar' is not in camel case.*/
+data.foo_bar = 42;
 
 var data = {};
-data["fooBar"] = 42;  /*error ["fooBar"] is better written in dot notation.*/
+data["fooBar"] = 42;
 
 var data = {};
 data["foo_bar"] = 42; // no warning

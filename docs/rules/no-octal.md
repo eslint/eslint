@@ -19,8 +19,8 @@ The following patterns are considered problems:
 ```js
 /*eslint no-octal: 2*/
 
-var num = 071;       /*error Octal literals should not be used.*/
-var result = 5 + 07; /*error Octal literals should not be used.*/
+var num = 071;
+var result = 5 + 07;
 ```
 
 The following patterns are not considered problems:

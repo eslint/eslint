@@ -44,12 +44,12 @@ The following patterns are considered problems:
 /*eslint no-plusplus: 2*/
 
 var foo = 0;
-foo++;                          /*error Unary operator '++' used.*/
+foo++;
 
 var bar = 42;
-bar--;                          /*error Unary operator '--' used.*/
+bar--;
 
-for (i = 0; i < l; i++) {       /*error Unary operator '++' used.*/
+for (i = 0; i < l; i++) {
     return;
 }
 ```

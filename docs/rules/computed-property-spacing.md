@@ -46,10 +46,10 @@ When `"never"` is set, the following patterns will give a warning:
 /*eslint computed-property-spacing: [2, "never"]*/
 /*eslint-env es6*/
 
-obj[foo ]                                                       /*error There should be no space before ']'*/
-obj[ 'foo']        /*error There should be no space after '['*/
-var x = {[ b ]: a} /*error There should be no space after '['*/ /*error There should be no space before ']'*/
-obj[foo[ bar ]]    /*error There should be no space after '['*/ /*error There should be no space before ']'*/
+obj[foo ]
+obj[ 'foo']
+var x = {[ b ]: a}
+obj[foo[ bar ]]
 ```
 
 The following patterns are considered correct:
@@ -72,13 +72,13 @@ When `"always"` is used, the following patterns will give a warning:
 /*eslint computed-property-spacing: [2, "always"]*/
 /*eslint-env es6*/
 
-obj[foo]          /*error A space is required after '['*/ /*error A space is required before ']'*/
-var x = {[b]: a}  /*error A space is required after '['*/ /*error A space is required before ']'*/
-obj[ foo]                                                 /*error A space is required before ']'*/
+obj[foo]
+var x = {[b]: a}
+obj[ foo]
 obj[ foo ]
-obj['foo' ]       /*error A space is required after '['*/
-obj[foo[ bar ]]   /*error A space is required after '['*/ /*error A space is required before ']'*/
-var x = {[ b]: a}                                         /*error A space is required before ']'*/
+obj['foo' ]
+obj[foo[ bar ]]
+var x = {[ b]: a}
 ```
 
 The following patterns are considered correct:

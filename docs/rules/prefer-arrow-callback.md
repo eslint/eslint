@@ -14,8 +14,8 @@ The following patterns are considered problems:
 ```js
 /*eslint prefer-arrow-callback: 2*/
 
-foo(function(a) { return a; });                /*error Unexpected function expression.*/
-foo(function() { return this.a; }.bind(this)); /*error Unexpected function expression.*/
+foo(function(a) { return a; });
+foo(function() { return this.a; }.bind(this));
 ```
 
 The following patterns are not considered problems:

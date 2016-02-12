@@ -11,10 +11,10 @@ The following patterns are considered problems:
 ```js
 /*eslint valid-typeof: 2*/
 
-typeof foo === "strnig"   /*error Invalid typeof comparison value*/
-typeof foo == "undefimed" /*error Invalid typeof comparison value*/
-typeof bar != "nunber"    /*error Invalid typeof comparison value*/
-typeof bar !== "fucntion" /*error Invalid typeof comparison value*/
+typeof foo === "strnig"
+typeof foo == "undefimed"
+typeof bar != "nunber"
+typeof bar !== "fucntion"
 ```
 
 The following patterns are not considered problems:

@@ -77,7 +77,7 @@ The following patterns are considered problems:
 ```js
 /*eslint func-style: [2, "declaration"]*/
 
-var foo = function() {  /*error Expected a function declaration.*/
+var foo = function() {
     // ...
 };
 ```
@@ -85,7 +85,7 @@ var foo = function() {  /*error Expected a function declaration.*/
 ```js
 /*eslint func-style: [2, "expression"]*/
 
-function foo() {  /*error Expected a function expression.*/
+function foo() {
     // ...
 }
 ```
@@ -93,7 +93,7 @@ function foo() {  /*error Expected a function expression.*/
 ```js
 /*eslint func-style: [2, "declaration"]*/
 
-var foo = () => {};  /*error Expected a function declaration.*/
+var foo = () => {};
 ```
 
 The following patterns are not considered problems:

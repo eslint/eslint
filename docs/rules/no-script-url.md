@@ -9,7 +9,7 @@ The following patterns are considered problems:
 ```js
 /*eslint no-script-url: 2*/
 
-location.href = "javascript:void(0)"; /*error Script URL is a form of eval.*/
+location.href = "javascript:void(0)";
 ```
 
 ## Compatibility

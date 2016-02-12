@@ -21,16 +21,16 @@ The following patterns are considered problems:
 /*eslint no-extra-label: 2*/
 
 A: while (a) {
-    break A;      /*error This label 'A' is unnecessary.*/
+    break A;
 }
 
 B: for (let i = 0; i < 10; ++i) {
-    break B;      /*error This label 'B' is unnecessary.*/
+    break B;
 }
 
 C: switch (a) {
     case 0:
-        break C;  /*error This label 'C' is unnecessary.*/
+        break C;
 }
 ```
 

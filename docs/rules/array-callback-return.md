@@ -33,11 +33,11 @@ This rule finds callback functions of the following methods, then checks usage o
 The following patterns are considered problems:
 
 ```js
-var indexMap = myArray.reduce(function(memo, item, index) { /*error Expected to return a value in this function.*/
+var indexMap = myArray.reduce(function(memo, item, index) {
     memo[item] = index;
 }, {});
 
-var foo = Array.from(nodes, function(node) { /*error Expected to return a value at the end of this function.*/
+var foo = Array.from(nodes, function(node) {
     if (node.tagName === "DIV") {
         return true;
     }
@@ -47,7 +47,7 @@ var bar = foo.filter(function(x) {
     if (x) {
         return true;
     } else {
-        return;                              /*error Expected a return value.*/
+        return;
     }
 });
 ```

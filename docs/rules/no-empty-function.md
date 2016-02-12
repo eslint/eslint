@@ -27,48 +27,48 @@ The following patterns are considered problems:
 ```js
 /*eslint no-empty-function: 2*/
 
-function foo() {}             /*error Unexpected empty function.*/
+function foo() {}
 
-var foo = function() {};      /*error Unexpected empty function.*/
+var foo = function() {};
 
-var foo = () => {};           /*error Unexpected empty arrow function.*/
+var foo = () => {};
 
-function* foo() {}            /*error Unexpected empty generator function.*/
+function* foo() {}
 
-var foo = function*() {};     /*error Unexpected empty generator function.*/
+var foo = function*() {};
 
 var obj = {
-    foo: function() {},       /*error Unexpected empty function.*/
+    foo: function() {},
 
-    foo: function*() {},      /*error Unexpected empty generator function.*/
+    foo: function*() {},
 
-    foo() {},                 /*error Unexpected empty method.*/
+    foo() {},
 
-    *foo() {},                /*error Unexpected empty generator method.*/
+    *foo() {},
 
-    get foo() {},             /*error Unexpected empty getter.*/
+    get foo() {},
 
-    set foo(value) {}         /*error Unexpected empty setter.*/
+    set foo(value) {}
 };
 
 class A {
-    constructor() {}          /*error Unexpected empty constructor.*/
+    constructor() {}
 
-    foo() {}                  /*error Unexpected empty method.*/
+    foo() {}
 
-    *foo() {}                 /*error Unexpected empty generator method.*/
+    *foo() {}
 
-    get foo() {}              /*error Unexpected empty getter.*/
+    get foo() {}
 
-    set foo(value) {}         /*error Unexpected empty setter.*/
+    set foo(value) {}
 
-    static foo() {}           /*error Unexpected empty method.*/
+    static foo() {}
 
-    static *foo() {}          /*error Unexpected empty generator method.*/
+    static *foo() {}
 
-    static get foo() {}       /*error Unexpected empty getter.*/
+    static get foo() {}
 
-    static set foo(value) {}  /*error Unexpected empty setter.*/
+    static set foo(value) {}
 }
 ```
 

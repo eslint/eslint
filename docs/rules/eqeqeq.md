@@ -20,11 +20,11 @@ The following patterns are considered problems:
 ```js
 /* eslint eqeqeq: 2 */
 
-if (x == 42) { }                     /*error Expected '===' and instead saw '=='.*/
+if (x == 42) { }
 
-if ("" == text) { }                  /*error Expected '===' and instead saw '=='.*/
+if ("" == text) { }
 
-if (obj.getStuff() != undefined) { } /*error Expected '!==' and instead saw '!='.*/
+if (obj.getStuff() != undefined) { }
 ```
 
 ## Options
@@ -61,14 +61,14 @@ The following patterns are considered problems with "smart":
 /* eslint eqeqeq: [2, "smart"] */
 
 // comparing two variables requires ===
-a == b              /*error Expected '===' and instead saw '=='.*/
+a == b
 
 // only one side is a literal
-foo == true         /*error Expected '===' and instead saw '=='.*/
-bananas != 1        /*error Expected '!==' and instead saw '!='.*/
+foo == true
+bananas != 1
 
 // comparing to undefined requires ===
-value == undefined  /*error Expected '===' and instead saw '=='.*/
+value == undefined
 ```
 
 ### "allow-null"
@@ -94,11 +94,11 @@ The following patterns are considered problems with "allow-null":
 ```js
 /* eslint eqeqeq: [2, "allow-null"] */
 
-bananas != 1              /*error Expected '!==' and instead saw '!='.*/
-typeof foo == 'undefined' /*error Expected '===' and instead saw '=='.*/
-'hello' != 'world'        /*error Expected '!==' and instead saw '!='.*/
-0 == 0                    /*error Expected '===' and instead saw '=='.*/
-foo == undefined          /*error Expected '===' and instead saw '=='.*/
+bananas != 1
+typeof foo == 'undefined'
+'hello' != 'world'
+0 == 0
+foo == undefined
 ```
 
 ## When Not To Use It

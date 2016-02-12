@@ -27,15 +27,15 @@ The following patterns are considered problems:
 ```js
 /*eslint no-multi-spaces: 2*/
 
-var a =  1;            /*error Multiple spaces found before '1'.*/
+var a =  1;
 
-if(foo   === "bar") {} /*error Multiple spaces found before '==='.*/
+if(foo   === "bar") {}
 
-a <<  b                /*error Multiple spaces found before 'b'.*/
+a <<  b
 
-var arr = [1,  2];     /*error Multiple spaces found before '2'.*/
+var arr = [1,  2];
 
-a ?  b: c              /*error Multiple spaces found before 'b'.*/
+a ?  b: c
 ```
 
 The following patterns are not considered problems:
@@ -86,7 +86,7 @@ The default `Property` exception can be disabled by setting it to `false`, so th
 /* eslint key-spacing: [2, { align: "value" }] */
 
 var obj = {
-    first:  "first",  /*error Multiple spaces found before '"first"'.*/
+    first:  "first",
     second: "second"
 };
 ```

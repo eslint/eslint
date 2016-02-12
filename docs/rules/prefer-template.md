@@ -21,8 +21,8 @@ The following patterns are considered problems:
 ```js
 /*eslint prefer-template: 2*/
 
-var str = "Hello, " + name + "!";           /*error Unexpected string concatenation.*/
-var str = "Time: " + (12 * 60 * 60 * 1000); /*error Unexpected string concatenation.*/
+var str = "Hello, " + name + "!";
+var str = "Time: " + (12 * 60 * 60 * 1000);
 ```
 
 The following patterns are not considered problems:

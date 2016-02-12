@@ -14,20 +14,20 @@ The following patterns are considered problems:
 /*eslint no-use-before-define: 2*/
 /*eslint-env es6*/
 
-alert(a);       /*error 'a' was used before it was defined*/
+alert(a);
 var a = 10;
 
-f();            /*error 'f' was used before it was defined*/
+f();
 function f() {}
 
 function g() {
-    return b;  /*error 'b' was used before it was defined*/
+    return b;
 }
 var b = 1;
 
 // With blockBindings: true
 {
-    alert(c);  /*error 'c' was used before it was defined*/
+    alert(c);
     let c = 1;
 }
 ```
@@ -108,7 +108,7 @@ The following patterns are considered problems when `"classes": false` is specif
 ```js
 /*eslint no-use-before-define: [2, {classes: false}]*/
 
-new A();  /*error 'A' was used before it was defined*/
+new A();
 class A {
 }
 ```

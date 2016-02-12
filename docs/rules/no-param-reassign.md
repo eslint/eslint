@@ -26,11 +26,11 @@ The following patterns are considered problems:
 /*eslint no-param-reassign: 2*/
 
 function foo(bar) {
-    bar = 13;       /*error Assignment to function parameter 'bar'.*/
+    bar = 13;
 }
 
 function foo(bar) {
-    bar++;          /*error Assignment to function parameter 'bar'.*/
+    bar++;
 }
 ```
 
@@ -40,15 +40,15 @@ When `{"props": true}`:
 /*eslint no-param-reassign: [2, { "props": true }]*/
 
 function foo(bar) {
-    bar.prop = "value"; /*error Assignment to function parameter 'bar'.*/
+    bar.prop = "value";
 }
 
 function foo(bar) {
-    delete bar.aaa;     /*error Assignment to function parameter 'bar'.*/
+    delete bar.aaa;
 }
 
 function foo(bar) {
-    bar.aaa++;          /*error Assignment to function parameter 'bar'.*/
+    bar.aaa++;
 }
 ```
 

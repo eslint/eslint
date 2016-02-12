@@ -53,16 +53,16 @@ This rule aims to prevent access to uninitialized lexical bindings as well as ac
 
 switch (foo) {
     case 1:
-        let x = 1;  /*error Unexpected lexical declaration in case block.*/
+        let x = 1;
         break;
     case 2:
-        const y = 2;  /*error Unexpected lexical declaration in case block.*/
+        const y = 2;
         break;
     case 3:
-        function f() {}  /*error Unexpected lexical declaration in case block.*/
+        function f() {}
         break;
     default:
-        class C {}  /*error Unexpected lexical declaration in case block.*/
+        class C {}
 }
 ```
 

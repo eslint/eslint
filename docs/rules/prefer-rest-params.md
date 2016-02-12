@@ -13,11 +13,11 @@ The following patterns are considered problems:
 
 ```js
 function foo() {
-    console.log(arguments);                 /*error Use the rest parameters instead of 'arguments'. */
+    console.log(arguments);
 }
 
 function foo(action) {
-    var args = [].slice.call(arguments, 1); /*error Use the rest parameters instead of 'arguments'. */
+    var args = [].slice.call(arguments, 1);
     action.apply(null, args);
 }
 ```

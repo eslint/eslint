@@ -25,7 +25,7 @@ The following patterns are considered problems:
 try {
     // code
 } catch (e) {
-    e = 10;   /*error Do not assign to the exception parameter.*/
+    e = 10;
 }
 ```
 

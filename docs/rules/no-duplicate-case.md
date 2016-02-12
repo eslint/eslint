@@ -35,7 +35,7 @@ var a = 1,
 switch (a) {
     case 1:
         break;
-    case 1:      /*error Duplicate case label.*/
+    case 1:
         break;
     case 2:
         break;
@@ -46,7 +46,7 @@ switch (a) {
 switch (a) {
     case "1":
         break;
-    case "1":    /*error Duplicate case label.*/
+    case "1":
         break;
     case "2":
         break;
@@ -57,7 +57,7 @@ switch (a) {
 switch (a) {
     case one:
         break;
-    case one:    /*error Duplicate case label.*/
+    case one:
         break;
     case 2:
         break;

@@ -15,11 +15,11 @@ The following patterns are considered problems:
 ```js
 /*eslint no-alert: 2*/
 
-alert("here!");                          /*error Unexpected alert.*/
+alert("here!");
 
-confirm("Are you sure?");                /*error Unexpected confirm.*/
+confirm("Are you sure?");
 
-prompt("What's your name?", "John Doe"); /*error Unexpected prompt.*/
+prompt("What's your name?", "John Doe");
 ```
 
 The following patterns are not considered problems:

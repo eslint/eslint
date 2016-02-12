@@ -39,44 +39,44 @@ The following patterns are considered problems:
 ```js
 /*eslint quotes: [2, "double"]*/
 
-var single = 'single';                                 /*error Strings must use doublequote.*/
-var unescaped = 'a string containing "double" quotes'; /*error Strings must use doublequote.*/
+var single = 'single';
+var unescaped = 'a string containing "double" quotes';
 ```
 
 ```js
 /*eslint quotes: [2, "single"]*/
 
-var double = "double";                                 /*error Strings must use singlequote.*/
-var unescaped = "a string containing 'single' quotes"; /*error Strings must use singlequote.*/
+var double = "double";
+var unescaped = "a string containing 'single' quotes";
 ```
 
 ```js
 /*eslint quotes: [2, "double", "avoid-escape"]*/
 
-var single = 'single'; /*error Strings must use doublequote.*/
-var single = `single`; /*error Strings must use doublequote.*/
+var single = 'single';
+var single = `single`;
 ```
 
 ```js
 /*eslint quotes: [2, "single", "avoid-escape"]*/
 
-var double = "double"; /*error Strings must use singlequote.*/
-var double = `double`; /*error Strings must use singlequote.*/
+var double = "double";
+var double = `double`;
 ```
 
 ```js
 /*eslint quotes: [2, "backtick"]*/
 
-var single = 'single';                             /*error Strings must use backtick.*/
-var double = "double";                             /*error Strings must use backtick.*/
-var unescaped = 'a string containing `backticks`'; /*error Strings must use backtick.*/
+var single = 'single';
+var double = "double";
+var unescaped = 'a string containing `backticks`';
 ```
 
 ```js
 /*eslint quotes: [2, "backtick", "avoid-escape"]*/
 
-var single = 'single'; /*error Strings must use backtick.*/
-var double = "double"; /*error Strings must use backtick.*/
+var single = 'single';
+var double = "double";
 ```
 
 The following patterns are not considered problems:

@@ -22,14 +22,14 @@ The following patterns are considered problems:
 /*eslint-env es6*/
 
 class A { }
-A = 0;         /*error 'A' is a class.*/
+A = 0;
 ```
 
 ```js
 /*eslint no-class-assign: 2*/
 /*eslint-env es6*/
 
-A = 0;         /*error 'A' is a class.*/
+A = 0;
 class A { }
 ```
 
@@ -39,7 +39,7 @@ class A { }
 
 class A {
     b() {
-        A = 0; /*error 'A' is a class.*/
+        A = 0;
     }
 }
 ```
@@ -50,7 +50,7 @@ class A {
 
 let A = class A {
     b() {
-        A = 0; /*error 'A' is a class.*/
+        A = 0;
         // `let A` is shadowed by the class name.
     }
 }

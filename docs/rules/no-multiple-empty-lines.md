@@ -48,8 +48,6 @@ The following patterns are considered problems:
 /*eslint no-multiple-empty-lines: [2, {max: 1}]*/
 
 var foo = 5;
-
-                  /*error Multiple blank lines not allowed.*/
 var bar = 3;
 
 ```
@@ -58,13 +56,10 @@ var bar = 3;
 /*eslint no-multiple-empty-lines: [2, {max: 2, maxEOF: 1}]*/
 
 var foo = 5;
-
-                  /*error Too many blank lines at the end of file.*/
 ```
 
 ```js
 /*eslint no-multiple-empty-lines: [2, {max: 999, maxBOF: 0}]*/
-                  /*error Too many blank lines at the beginning of file.*/
 var foo = 5;
 ```
 

@@ -22,11 +22,11 @@ function foo(n) {
         return;
     }
 
-    arguments.callee(n - 1);   /*error Avoid arguments.callee.*/
+    arguments.callee(n - 1);
 }
 
 [1,2,3,4,5].map(function(n) {
-    return !(n > 1) ? 1 : arguments.callee(n - 1) * n; /*error Avoid arguments.callee.*/
+    return !(n > 1) ? 1 : arguments.callee(n - 1) * n;
 });
 ```
 

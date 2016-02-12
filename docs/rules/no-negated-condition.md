@@ -33,26 +33,26 @@ The following patterns are considered warnings:
 ```js
 /*eslint no-negated-condition: 2*/
 
-if (!a) {               /*error Unexpected negated condition.*/
+if (!a) {
     doSomething();
 } else {
     doSomethingElse();
 }
 
-if (a != b) {           /*error Unexpected negated condition.*/
+if (a != b) {
     doSomething();
 } else {
     doSomethingElse();
 }
 
-if (a !== b) {          /*error Unexpected negated condition.*/
+if (a !== b) {
     doSomething();
 } else {
     doSomethingElse();
 }
 
 
-!a ? b : c              /*error Unexpected negated condition.*/
+!a ? b : c
 
 ```
 

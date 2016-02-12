@@ -14,16 +14,16 @@ The following patterns are considered problems:
 /*eslint prefer-const: 2*/
 /*eslint-env es6*/
 
-let a = 3;               /*error 'a' is never modified, use 'const' instead.*/
+let a = 3;
 console.log(a);
 
 // `i` is re-defined (not modified) on each loop step.
-for (let i in [1,2,3]) {  /*error 'i' is never modified, use 'const' instead.*/
+for (let i in [1,2,3]) {
     console.log(i);
 }
 
 // `a` is re-defined (not modified) on each loop step.
-for (let a of [1,2,3]) { /*error 'a' is never modified, use 'const' instead.*/
+for (let a of [1,2,3]) {
     console.log(a);
 }
 ```

@@ -12,11 +12,11 @@ The following patterns are considered problems:
 ```js
 /*eslint sort-vars: 2*/
 
-var b, a;    /*error Variables within the same declaration block should be sorted alphabetically*/
+var b, a;
 
-var a, B, c; /*error Variables within the same declaration block should be sorted alphabetically*/
+var a, B, c;
 
-var a, A;    /*error Variables within the same declaration block should be sorted alphabetically*/
+var a, A;
 ```
 
 The following patterns are not considered problems:
@@ -39,7 +39,7 @@ Alphabetical list is maintained starting from the first variable and excluding a
 ```js
 /*eslint sort-vars: 2*/
 
-var c, d, a, b; /*error Variables within the same declaration block should be sorted alphabetically*/
+var c, d, a, b;
 ```
 
 But this one, will only produce one:
@@ -47,7 +47,7 @@ But this one, will only produce one:
 ```js
 /*eslint sort-vars: 2*/
 
-var c, d, a, e; /*error Variables within the same declaration block should be sorted alphabetically*/
+var c, d, a, e;
 ```
 
 ## Options

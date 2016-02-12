@@ -19,9 +19,9 @@ The following patterns are considered problems:
 ```js
 /*eslint no-floating-decimal: 2*/
 
-var num = .5;  /*error A leading decimal point can be confused with a dot.*/
-var num = 2.;  /*error A trailing decimal point can be confused with a dot.*/
-var num = -.7; /*error A leading decimal point can be confused with a dot.*/
+var num = .5;
+var num = 2.;
+var num = -.7;
 ```
 
 The following patterns are not considered problems:
