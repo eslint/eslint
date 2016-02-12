@@ -152,8 +152,7 @@ ruleTester.run("key-spacing", rule, {
     }, {
         code: [
             "obj = { key ",
-            "    :     ",
-            " longName };"
+            "    :longName };"
         ].join("\n"),
         options: [{
             beforeColon: true,
@@ -161,7 +160,7 @@ ruleTester.run("key-spacing", rule, {
             mode: "minimum"
         }]
     }, {
-        code: "obj = { key     :      longName };",
+        code: "obj = { key     :longName };",
         options: [{
             beforeColon: true,
             afterColon: false,
@@ -983,6 +982,23 @@ ruleTester.run("key-spacing", rule, {
         }],
         errors: [
             { message: "Missing space before value for key 'ex'.", line: 4, column: 7, type: "Identifier" }
+        ]
+    }, {
+        code: [
+            "obj = {",
+            "   get fx() { return 'f'; },",
+            "   get gx() { return 'g'; },",
+            "   ex : e",
+            "};"
+        ].join("\n"),
+        options: [{
+            align: "colon",
+            beforeColon: false,
+            afterColon: true,
+            mode: "minimum"
+        }],
+        errors: [
+            { message: "Extra space after key 'ex'.", line: 4, column: 4, type: "Identifier" }
         ]
     }, {
         code: [
