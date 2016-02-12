@@ -41,15 +41,15 @@ The following patterns are considered problems:
 ```js
 /*eslint no-undefined: 2*/
 
-var foo = undefined;      /*error Unexpected use of undefined.*/
+var foo = undefined;
 
-var undefined = "foo";    /*error Unexpected use of undefined.*/
+var undefined = "foo";
 
-if (foo === undefined) {  /*error Unexpected use of undefined.*/
+if (foo === undefined) {
     // ...
 }
 
-function foo(undefined) { /*error Unexpected use of undefined.*/
+function foo(undefined) {
     // ...
 }
 ```

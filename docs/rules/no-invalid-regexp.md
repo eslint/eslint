@@ -9,11 +9,11 @@ The following patterns are considered problems:
 ```js
 /*eslint no-invalid-regexp: 2*/
 
-RegExp('[')      /*error Invalid regular expression: /[/: Unterminated character class*/
+RegExp('[')
 
-RegExp('.', 'z') /*error Invalid flags supplied to RegExp constructor 'z'*/
+RegExp('.', 'z')
 
-new RegExp('\\') /*error Invalid regular expression: /\/: \ at end of pattern*/
+new RegExp('\\')
 ```
 
 The following patterns are not considered problems:

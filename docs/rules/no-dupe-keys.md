@@ -20,17 +20,17 @@ The following patterns are considered problems:
 
 var foo = {
     bar: "baz",
-    bar: "qux"     /*error Duplicate key 'bar'.*/
+    bar: "qux"
 };
 
 var foo = {
     "bar": "baz",
-    bar: "qux"     /*error Duplicate key 'bar'.*/
+    bar: "qux"
 };
 
 var foo = {
     0x1: "baz",
-    1: "qux"       /*error Duplicate key '1'.*/
+    1: "qux"
 };
 ```
 

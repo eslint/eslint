@@ -15,7 +15,7 @@ The following patterns are considered problems:
 ```js
 /*eslint no-octal-escape: 2*/
 
-var foo = "Copyright \251"; /*error Don't use octal: '\251'. Use '\u....' instead.*/
+var foo = "Copyright \251";
 ```
 
 The following patterns are not considered problems:

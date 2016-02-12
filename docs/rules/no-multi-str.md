@@ -16,9 +16,7 @@ This rule is aimed at preventing the use of multiline strings.
 The following generates a warning:
 
 ```js
-/*eslint no-multi-str: 2*/
-
-/*error Multiline support is limited to browsers supporting ES5 only.*/ var x = "Line 1 \
+/*eslint no-multi-str: 2*/ var x = "Line 1 \
          Line 2";
 ```
 

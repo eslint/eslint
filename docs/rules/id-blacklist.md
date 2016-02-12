@@ -37,18 +37,18 @@ For the rule in this example, the following patterns are considered problems:
 ```js
 /*eslint id-blacklist: [2, "data", "err", "e", "cb", "callback"] */
 
-var data = {...};                  /*error Identifier 'data' is blacklisted*/
+var data = {...};
 
-function callback() {              /*error Identifier 'callback' is blacklisted*/
+function callback() {
     // ...
 }
 
-element.callback = function() {    /*error Identifier 'callback' is blacklisted*/
+element.callback = function() {
     // ...
 };
 
 var itemSet = {
-    data: [...]                    /*error Identifier 'data' is blacklisted*/
+    data: [...]
 };
 ```
 

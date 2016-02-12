@@ -78,11 +78,11 @@ The following patterns are considered problems:
 ```js
 /*eslint semi: 2*/
 
-var name = "ESLint"          /*error Missing semicolon.*/
+var name = "ESLint"
 
 object.method = function() {
     // ...
-}                            /*error Missing semicolon.*/
+}
 ```
 
 The following patterns are not considered problems:
@@ -111,10 +111,10 @@ The following patterns are considered problems:
 /*eslint semi: [2, "always", { "omitLastInOneLineBlock": true}] */
 
 if (foo) {
-    bar()                   /*error Missing semicolon.*/
+    bar()
 }
 
-if (foo) { bar(); }         /*error Extra semicolon.*/
+if (foo) { bar(); }
 ```
 
 The following patterns are not considered problems:
@@ -140,11 +140,11 @@ Then, the following patterns are considered problems:
 ```js
 /*eslint semi: [2, "never"]*/
 
-var name = "ESLint";         /*error Extra semicolon.*/
+var name = "ESLint";
 
 object.method = function() {
     // ...
-};                           /*error Extra semicolon.*/
+};
 ```
 
 And the following patterns are not considered problems:

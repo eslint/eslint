@@ -61,12 +61,12 @@ When the rule is set to `"always"` the following patterns are considered problem
 /*eslint arrow-parens: [2, "always"]*/
 /*eslint-env es6*/
 
-a => {};                     /*error Expected parentheses around arrow function argument.*/
-a => a;                      /*error Expected parentheses around arrow function argument.*/
-a => {'\n'};                 /*error Expected parentheses around arrow function argument.*/
-a.then(foo => {});           /*error Expected parentheses around arrow function argument.*/
-a.then(foo => a);            /*error Expected parentheses around arrow function argument.*/
-a(foo => { if (true) {}; }); /*error Expected parentheses around arrow function argument.*/
+a => {};
+a => a;
+a => {'\n'};
+a.then(foo => {});
+a.then(foo => a);
+a(foo => { if (true) {}; });
 ```
 
 The following patterns are not considered problems:
@@ -148,12 +148,12 @@ When the rule is set to `"as-needed"` the following patterns are considered prob
 /*eslint arrow-parens: [2, "as-needed"]*/
 /*eslint-env es6*/
 
-(a) => {};                     /*error Unexpected parentheses around single function argument*/
-(a) => a;                      /*error Unexpected parentheses around single function argument*/
-(a) => {'\n'};                 /*error Unexpected parentheses around single function argument*/
-a.then((foo) => {});           /*error Unexpected parentheses around single function argument*/
-a.then((foo) => a);            /*error Unexpected parentheses around single function argument*/
-a((foo) => { if (true) {}; }); /*error Unexpected parentheses around single function argument*/
+(a) => {};
+(a) => a;
+(a) => {'\n'};
+a.then((foo) => {});
+a.then((foo) => a);
+a((foo) => { if (true) {}; });
 ```
 
 The following patterns are not considered problems:

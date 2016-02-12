@@ -37,19 +37,19 @@ The following patterns are considered problems:
 ```js
 /*eslint wrap-iife: 2*/
 
-var x = function () { return { y: 1 };}(); /*error Wrap an immediate function invocation in parentheses.*/
+var x = function () { return { y: 1 };}();
 ```
 
 ```js
 /*eslint wrap-iife: [2, "outside"]*/
 
-var x = (function () { return { y: 1 };})(); /*error Move the invocation into the parens that contain the function.*/
+var x = (function () { return { y: 1 };})();
 ```
 
 ```js
 /*eslint wrap-iife: [2, "inside"]*/
 
-var x = (function () { return { y: 1 };}()); /*error Wrap only the function expression in parens.*/
+var x = (function () { return { y: 1 };}());
 ```
 
 The following patterns are not considered problems:

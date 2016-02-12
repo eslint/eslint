@@ -26,28 +26,28 @@ The following patterns are considered problems when set to `"always"`:
 ```js
 /*eslint padded-blocks: [2, "always"]*/
 
-if (a) {         /*error Block must be padded by blank lines.*/
+if (a) {
     b();
-}                /*error Block must be padded by blank lines.*/
+}
 
-if (a) { b(); }  /*error Block must be padded by blank lines.*/
+if (a) { b(); }
 
 if (a)
-{                /*error Block must be padded by blank lines.*/
+{
     b();
-}                /*error Block must be padded by blank lines.*/
+}
 
 if (a) {
 
     b();
-}                /*error Block must be padded by blank lines.*/
+}
 
-if (a) {         /*error Block must be padded by blank lines.*/
+if (a) {
     b();
 
 }
 
-if (a) {         /*error Block must be padded by blank lines.*/
+if (a) {
     // comment
     b();
 
@@ -85,20 +85,20 @@ The following patterns are considered problems when set to `"never"`:
 ```js
 /*eslint padded-blocks: [2, "never"]*/
 
-if (a) {  /*error Block must not be padded by blank lines.*/
+if (a) {
 
     b();
 
-}        /*error Block must not be padded by blank lines.*/
+}
 
 if (a)
-{        /*error Block must not be padded by blank lines.*/
+{
 
     b();
 
-}        /*error Block must not be padded by blank lines.*/
+}
 
-if (a) { /*error Block must not be padded by blank lines.*/
+if (a) {
 
     b();
 }
@@ -106,7 +106,7 @@ if (a) { /*error Block must not be padded by blank lines.*/
 if (a) {
     b();
 
-}        /*error Block must not be padded by blank lines.*/
+}
 ```
 
 The following patterns are not considered problems when set to `"never"`:

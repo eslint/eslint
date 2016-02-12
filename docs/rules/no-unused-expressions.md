@@ -26,19 +26,19 @@ By default the following patterns are considered problems:
 ```js
 /*eslint no-unused-expressions: 2*/
 
-0         /*error Expected an assignment or function call and instead saw an expression.*/
+0
 
-if(0) 0   /*error Expected an assignment or function call and instead saw an expression.*/
+if(0) 0
 
-{0}       /*error Expected an assignment or function call and instead saw an expression.*/
+{0}
 
-f(0), {}  /*error Expected an assignment or function call and instead saw an expression.*/
+f(0), {}
 
-a && b()  /*error Expected an assignment or function call and instead saw an expression.*/
+a && b()
 
-a, b()    /*error Expected an assignment or function call and instead saw an expression.*/
+a, b()
 
-c = a, b; /*error Expected an assignment or function call and instead saw an expression.*/
+c = a, b;
 ```
 
 The following patterns are not considered problems by default:
@@ -92,9 +92,9 @@ The above options still will not allow expressions that have code paths without 
 ```js
 /*eslint no-unused-expressions: [2, { allowShortCircuit: true, allowTernary: true }]*/
 
-a || b         /*error Expected an assignment or function call and instead saw an expression.*/
+a || b
 
-a ? b : 0      /*error Expected an assignment or function call and instead saw an expression.*/
+a ? b : 0
 
-a ? b : c()    /*error Expected an assignment or function call and instead saw an expression.*/
+a ? b : c()
 ```

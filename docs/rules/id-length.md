@@ -19,45 +19,45 @@ The following patterns are considered problems:
 /*eslint id-length: 2*/     // default is minimum 2-chars ({ min: 2})
 /*eslint-env es6*/
 
-var x = 5;                  /*error Identifier name 'x' is too short. (< 2)*/
+var x = 5;
 
-obj.e = document.body;      /*error Identifier name 'e' is too short. (< 2)*/
+obj.e = document.body;
 
-var foo = function (e) { }; /*error Identifier name 'e' is too short. (< 2)*/
+var foo = function (e) { };
 
 try {
     dangerousStuff();
-} catch (e) {               /*error Identifier name 'e' is too short. (< 2)*/
+} catch (e) {
     // ignore as many do
 }
 
-var myObj = { a: 1 };       /*error Identifier name 'a' is too short. (< 2)*/
+var myObj = { a: 1 };
 
-(a) => { a * a };           /*error Identifier name 'a' is too short. (< 2)*/
+(a) => { a * a };
 
-function foo(x = 0) { }     /*error Identifier name 'x' is too short. (< 2)*/
+function foo(x = 0) { }
 
-class x { }                 /*error Identifier name 'x' is too short. (< 2)*/
+class x { }
 
-class Foo { x() {} }        /*error Identifier name 'x' is too short. (< 2)*/
+class Foo { x() {} }
 
-function foo(...x) { }      /*error Identifier name 'x' is too short. (< 2)*/
+function foo(...x) { }
 
-var { x} = {};              /*error Identifier name 'x' is too short. (< 2)*/
+var { x} = {};
 
-var { x: a} = {};           /*error Identifier name 'x' is too short. (< 2)*/
+var { x: a} = {};
 
-var { a: [x]} = {};         /*error Identifier name 'a' is too short. (< 2)*/
+var { a: [x]} = {};
 
-({ a: obj.x.y.z }) = {};    /*error Identifier name 'a' is too short. (< 2)*/ /*error Identifier name 'z' is too short. (< 2)*/
+({ a: obj.x.y.z }) = {};
 
-({ prop: obj.x }) = {};     /*error Identifier name 'x' is too short. (< 2)*/
+({ prop: obj.x }) = {};
 ```
 
 ```
-import x from 'y';          /*error Identifier name 'x' is too short. (< 2)*/
+import x from 'y';
 
-export var x = 0;           /*error Identifier name 'x' is too short. (< 2)*/
+export var x = 0;
 ```
 
 The following patterns are not considered problems:

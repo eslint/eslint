@@ -34,24 +34,24 @@ For the rule in this example, which is simply camelcase, the following patterns 
 ```js
 /*eslint id-match: [2, "^[a-z]+([A-Z][a-z]+)*$", {"properties": true}]*/
 
-var my_favorite_color = "#112C85"; /*error Identifier 'my_favorite_color' does not match the pattern '^[a-z]+([A-Z][a-z]+)*$'.*/
+var my_favorite_color = "#112C85";
 
-var _myFavoriteColor  = "#112C85"; /*error Identifier '_myFavoriteColor' does not match the pattern '^[a-z]+([A-Z][a-z]+)*$'.*/
+var _myFavoriteColor  = "#112C85";
 
-var myFavoriteColor_  = "#112C85"; /*error Identifier 'myFavoriteColor_' does not match the pattern '^[a-z]+([A-Z][a-z]+)*$'.*/
+var myFavoriteColor_  = "#112C85";
 
-var MY_FAVORITE_COLOR = "#112C85"; /*error Identifier 'MY_FAVORITE_COLOR' does not match the pattern '^[a-z]+([A-Z][a-z]+)*$'.*/
+var MY_FAVORITE_COLOR = "#112C85";
 
-function do_something() {          /*error Identifier 'do_something' does not match the pattern '^[a-z]+([A-Z][a-z]+)*$'.*/
+function do_something() {
     // ...
 }
 
-obj.do_something = function() {    /*error Identifier 'do_something' does not match the pattern '^[a-z]+([A-Z][a-z]+)*$'.*/
+obj.do_something = function() {
     // ...
 };
 
 var obj = {
-    my_pref: 1                     /*error Identifier 'my_pref' does not match the pattern '^[a-z]+([A-Z][a-z]+)*$'.*/
+    my_pref: 1
 };
 ```
 

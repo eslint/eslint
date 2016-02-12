@@ -13,11 +13,11 @@ The following patterns are considered problems:
 ```js
 /*eslint no-extra-semi: 2*/
 
-var x = 5;;      /*error Unnecessary semicolon.*/
+var x = 5;;
 
 function foo() {
     // code
-};               /*error Unnecessary semicolon.*/
+};
 
 ```
 

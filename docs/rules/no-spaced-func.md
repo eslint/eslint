@@ -17,9 +17,9 @@ The following patterns are considered problems:
 ```js
 /*eslint no-spaced-func: 2*/
 
-fn () /*error Unexpected space between function name and paren.*/
+fn ()
 
-fn    /*error Unexpected space between function name and paren.*/
+fn
 ()
 ```
 

@@ -27,18 +27,18 @@ The following patterns are considered problems:
 
 ```js
 /*eslint camelcase: 2*/
-var my_favorite_color = "#112C85"; /*error Identifier 'my_favorite_color' is not in camel case.*/
+var my_favorite_color = "#112C85";
 
-function do_something() {          /*error Identifier 'do_something' is not in camel case.*/
+function do_something() {
     // ...
 }
 
-obj.do_something = function() {    /*error Identifier 'do_something' is not in camel case.*/
+obj.do_something = function() {
     // ...
 };
 
 var obj = {
-    my_pref: 1                     /*error Identifier 'my_pref' is not in camel case.*/
+    my_pref: 1
 };
 ```
 

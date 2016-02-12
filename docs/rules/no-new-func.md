@@ -15,8 +15,8 @@ This error is raised to highlight the use of a bad practice. By passing a string
 ```js
 /*eslint no-new-func: 2*/
 
-var x = new Function("a", "b", "return a + b"); /*error The Function constructor is eval.*/
-var x = Function("a", "b", "return a + b");     /*error The Function constructor is eval.*/
+var x = new Function("a", "b", "return a + b");
+var x = Function("a", "b", "return a + b");
 ```
 
 The following patterns are not considered problems:

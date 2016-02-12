@@ -26,8 +26,8 @@ The following patterns are considered problems:
 ```js
 /*eslint no-var: 2*/
 
-var x = "y";     /*error Unexpected var, use let or const instead.*/
-var CONFIG = {}; /*error Unexpected var, use let or const instead.*/
+var x = "y";
+var CONFIG = {};
 ```
 
 The following patterns are not considered problems:

@@ -13,7 +13,7 @@ The following patterns are considered problems:
 /*eslint no-control-regex: 2*/
 
 var pattern1 = /\\x1f/;
-var pattern2 = new RegExp("\x1f"); /*error Unexpected control character in regular expression.*/
+var pattern2 = new RegExp("\x1f");
 ```
 
 The following patterns do not cause a warning:

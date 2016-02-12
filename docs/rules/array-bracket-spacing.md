@@ -43,17 +43,17 @@ When `"never"` is set, the following patterns are considered problems:
 /*eslint array-bracket-spacing: [2, "never"]*/
 /*eslint-env es6*/
 
-var arr = [ 'foo', 'bar' ];   /*error There should be no space after '['*/ /*error There should be no space before ']'*/
-var arr = ['foo', 'bar' ];                                                 /*error There should be no space before ']'*/
-var arr = [ ['foo'], 'bar'];  /*error There should be no space after '['*/
-var arr = [[ 'foo' ], 'bar']; /*error There should be no space after '['*/ /*error There should be no space before ']'*/
+var arr = [ 'foo', 'bar' ];
+var arr = ['foo', 'bar' ];
+var arr = [ ['foo'], 'bar'];
+var arr = [[ 'foo' ], 'bar'];
 var arr = ['foo',
   'bar'
 ];
-var [ x, y ] = z;             /*error There should be no space after '['*/ /*error There should be no space before ']'*/
-var [ x,y ] = z;              /*error There should be no space after '['*/ /*error There should be no space before ']'*/
-var [ x, ...y ] = z;          /*error There should be no space after '['*/ /*error There should be no space before ']'*/
-var [ ,,x, ] = z;             /*error There should be no space after '['*/ /*error There should be no space before ']'*/
+var [ x, y ] = z;
+var [ x,y ] = z;
+var [ x, ...y ] = z;
+var [ ,,x, ] = z;
 ```
 
 The following patterns are not considered problems:
@@ -88,20 +88,20 @@ When `"always"` is used, the following patterns are considered problems:
 /*eslint array-bracket-spacing: [2, "always"]*/
 /*eslint-env es6*/
 
-var arr = ['foo', 'bar'];      /*error A space is required after '['*/ /*error A space is required before ']'*/
-var arr = ['foo', 'bar' ];     /*error A space is required after '['*/
-var arr = [ ['foo'], 'bar' ];  /*error A space is required after '['*/ /*error A space is required before ']'*/
-var arr = ['foo',              /*error A space is required after '['*/
+var arr = ['foo', 'bar'];
+var arr = ['foo', 'bar' ];
+var arr = [ ['foo'], 'bar' ];
+var arr = ['foo',
   'bar'
 ];
 var arr = [
   'foo',
-  'bar'];                      /*error A space is required before ']'*/
+  'bar'];
 
-var [x, y] = z;                /*error A space is required after '['*/ /*error A space is required before ']'*/
-var [x,y] = z;                 /*error A space is required after '['*/ /*error A space is required before ']'*/
-var [x, ...y] = z;             /*error A space is required after '['*/ /*error A space is required before ']'*/
-var [,,x,] = z;                /*error A space is required after '['*/ /*error A space is required before ']'*/
+var [x, y] = z;
+var [x,y] = z;
+var [x, ...y] = z;
+var [,,x,] = z;
 ```
 
 The following patterns are not considered problems:
@@ -166,14 +166,14 @@ When `"singleValue"` is set to `false`, the following patterns are considered pr
 ```js
 /*eslint array-bracket-spacing: [2, "always", { singleValue: false }]*/
 
-var foo = [ 'foo' ];             /*error There should be no space after '['*/ /*error There should be no space before ']'*/
-var foo = [ 'foo'];              /*error There should be no space after '['*/
-var foo = ['foo' ];                                                           /*error There should be no space before ']'*/
-var foo = [ 1 ];                 /*error There should be no space after '['*/ /*error There should be no space before ']'*/
-var foo = [ 1];                  /*error There should be no space after '['*/
-var foo = [1 ];                                                               /*error There should be no space before ']'*/
-var foo = [ [ 1, 2 ] ];          /*error There should be no space after '['*/ /*error There should be no space before ']'*/
-var foo = [ { 'foo': 'bar' } ];  /*error There should be no space after '['*/ /*error There should be no space before ']'*/
+var foo = [ 'foo' ];
+var foo = [ 'foo'];
+var foo = ['foo' ];
+var foo = [ 1 ];
+var foo = [ 1];
+var foo = [1 ];
+var foo = [ [ 1, 2 ] ];
+var foo = [ { 'foo': 'bar' } ];
 ```
 
 The following patterns are not considered problems:
@@ -192,10 +192,10 @@ When `"objectsInArrays"` is set to `false`, the following patterns are considere
 ```js
 /*eslint array-bracket-spacing: [2, "always", { objectsInArrays: false }]*/
 
-var arr = [ { 'foo': 'bar' } ];   /*error There should be no space after '['*/ /*error There should be no space before ']'*/
-var arr = [ {                     /*error There should be no space after '['*/
+var arr = [ { 'foo': 'bar' } ];
+var arr = [ {
   'foo': 'bar'
-} ]                                                                            /*error There should be no space before ']'*/
+} ]
 ```
 
 The following patterns are not considered problems:
@@ -214,8 +214,8 @@ When `"arraysInArrays"` is set to `false`, the following patterns are considered
 ```js
 /*eslint array-bracket-spacing: [2, "always", { arraysInArrays: false }]*/
 
-var arr = [ [ 1, 2 ], 2, 3, 4 ];     /*error There should be no space after '['*/
-var arr = [ [ 1, 2 ], 2, [ 3, 4 ] ]; /*error There should be no space after '['*/ /*error There should be no space before ']'*/
+var arr = [ [ 1, 2 ], 2, 3, 4 ];
+var arr = [ [ 1, 2 ], 2, [ 3, 4 ] ];
 ```
 
 The following patterns are not considered problems:

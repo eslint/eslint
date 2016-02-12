@@ -66,8 +66,8 @@ When configured with `"always"` (the default), the following patterns are consid
 /*eslint-env es6*/
 
 function foo() {
-    var bar;     /*error Variable 'bar' should be initialized on declaration.*/
-    let baz;     /*error Variable 'baz' should be initialized on declaration.*/
+    var bar;
+    let baz;
 }
 ```
 
@@ -91,10 +91,10 @@ When configured with `"never"`, the following patterns are considered problems.
 /*eslint-env es6*/
 
 function foo() {
-    var bar = 1;   /*error Variable 'bar' should not be initialized on declaration.*/
-    let baz = 2;   /*error Variable 'baz' should not be initialized on declaration.*/
+    var bar = 1;
+    let baz = 2;
 
-    for (var i = 0; i < 1; i++) {}  /*error Variable 'i' should not be initialized on declaration.*/
+    for (var i = 0; i < 1; i++) {}
 }
 ```
 

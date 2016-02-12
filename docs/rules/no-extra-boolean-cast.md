@@ -25,31 +25,31 @@ The following patterns are considered problems:
 ```js
 /*eslint no-extra-boolean-cast: 2*/
 
-var foo = !!!bar;             /*error Redundant double negation.*/
+var foo = !!!bar;
 
-var foo = !!bar ? baz : bat;  /*error Redundant double negation.*/
+var foo = !!bar ? baz : bat;
 
-var foo = Boolean(!!bar);     /*error Redundant double negation.*/
+var foo = Boolean(!!bar);
 
-var foo = new Boolean(!!bar); /*error Redundant double negation.*/
+var foo = new Boolean(!!bar);
 
-if (!!foo) {                  /*error Redundant double negation.*/
+if (!!foo) {
     // ...
 }
 
-if (Boolean(foo)) {           /*error Redundant Boolean call.*/
+if (Boolean(foo)) {
     // ...
 }
 
-while (!!foo) {               /*error Redundant double negation.*/
+while (!!foo) {
     // ...
 }
 
 do {
     // ...
-} while (Boolean(foo));       /*error Redundant Boolean call.*/
+} while (Boolean(foo));
 
-for (; !!foo; ) {             /*error Redundant double negation.*/
+for (; !!foo; ) {
     // ...
 }
 ```

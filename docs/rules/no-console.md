@@ -17,8 +17,8 @@ The following patterns are considered problems:
 ```js
 /*eslint no-console: 2*/
 
-console.log("Hello world!");              /*error Unexpected console statement.*/
-console.error("Something bad happened."); /*error Unexpected console statement.*/
+console.log("Hello world!");
+console.error("Something bad happened.");
 ```
 
 The following patterns are not considered problems:

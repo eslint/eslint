@@ -48,28 +48,28 @@ The following examples are considered problems:
 ```js
 /*eslint no-irregular-whitespace: 2*/
 
-function thing() /*<NBSP>*/{ /*error Irregular whitespace not allowed*/
+function thing() /*<NBSP>*/{
   return 'test';
 }
 
-function thing( /*<NBSP>*/){ /*error Irregular whitespace not allowed*/
+function thing( /*<NBSP>*/){
   return 'test';
 }
 
-function thing /*<NBSP>*/(){ /*error Irregular whitespace not allowed*/
+function thing /*<NBSP>*/(){
   return 'test';
 }
 
-function thing᠎/*<MVS>*/(){   /*error Irregular whitespace not allowed*/
+function thing᠎/*<MVS>*/(){
   return 'test';
 }
 
 function thing() {
-  return 'test'; /*<ENSP>*/  /*error Irregular whitespace not allowed*/
+  return 'test'; /*<ENSP>*/
 }
 
 function thing() {
-  return 'test'; /*<NBSP>*/  /*error Irregular whitespace not allowed*/
+  return 'test'; /*<NBSP>*/
 }
 ```
 

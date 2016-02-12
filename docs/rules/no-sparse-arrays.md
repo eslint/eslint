@@ -25,8 +25,8 @@ The following patterns are considered problems:
 ```js
 /*eslint no-sparse-arrays: 2*/
 
-var items = [,];                 /*error Unexpected comma in middle of array.*/
-var colors = [ "red",, "blue" ]; /*error Unexpected comma in middle of array.*/
+var items = [,];
+var colors = [ "red",, "blue" ];
 ```
 
 The following patterns are not considered problems:

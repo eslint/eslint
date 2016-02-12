@@ -15,12 +15,12 @@ The following patterns are considered problems:
 ```js
 /*eslint no-ternary: 2*/
 
-var foo = isBar ? baz : qux; /*error Ternary operator used.*/
+var foo = isBar ? baz : qux;
 
-foo ? bar() : baz();         /*error Ternary operator used.*/
+foo ? bar() : baz();
 
 function quux() {
-  return foo ? bar : baz;    /*error Ternary operator used.*/
+  return foo ? bar : baz;
 }
 ```
 

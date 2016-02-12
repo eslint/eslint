@@ -19,22 +19,22 @@ The following patterns are considered problems:
 ```js
 /*eslint no-lone-blocks: 2*/
 
-{}                    /*error Block is redundant.*/
+{}
 
 if (foo) {
     bar();
-    {                 /*error Nested block is redundant.*/
+    {
         baz();
     }
 }
 
 function bar() {
-    {                 /*error Nested block is redundant.*/
+    {
         baz();
     }
 }
 
-{                     /*error Block is redundant.*/
+{
     function foo() {}
 }
 ```

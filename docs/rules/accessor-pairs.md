@@ -50,14 +50,14 @@ The following patterns are considered problems by default:
 ```js
 /*eslint accessor-pairs: 2*/
 
-var o = {                       /*error Getter is not present*/
+var o = {
     set a(value) {
         this.val = value;
     }
 };
 
 var o = {d: 1};
-Object.defineProperty(o, 'c', { /*error Getter is not present*/
+Object.defineProperty(o, 'c', {
     set: function(value) {
         this.val = value;
     }
@@ -97,27 +97,27 @@ The following patterns are considered problems with option `getWithoutSet` set:
 ```js
 /*eslint accessor-pairs: [2, { getWithoutSet: true }]*/
 
-var o = {                       /*error Getter is not present*/
+var o = {
     set a(value) {
         this.val = value;
     }
 };
 
-var o = {                       /*error Setter is not present*/
+var o = {
     get a() {
         return this.val;
     }
 };
 
 var o = {d: 1};
-Object.defineProperty(o, 'c', { /*error Getter is not present*/
+Object.defineProperty(o, 'c', {
     set: function(value) {
         this.val = value;
     }
 });
 
 var o = {d: 1};
-Object.defineProperty(o, 'c', { /*error Setter is not present*/
+Object.defineProperty(o, 'c', {
     get: function() {
         return this.val;
     }

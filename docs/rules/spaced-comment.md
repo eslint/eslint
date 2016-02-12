@@ -65,57 +65,57 @@ The following patterns are considered problems:
 ```js
 /*eslint spaced-comment: [2, "never"]*/
 
-// This is a comment with a whitespace at the beginning      /*error Unexpected space or tab after '//' in comment.*/
+// This is a comment with a whitespace at the beginning
 
-/* This is a comment with a whitespace at the beginning */   /*error Unexpected space or tab after '/*' in comment.*/
+/* This is a comment with a whitespace at the beginning */
 
-/* \nThis is a comment with a whitespace at the beginning */ /*error Unexpected space or tab after '/*' in comment.*/
+/* \nThis is a comment with a whitespace at the beginning */
 ```
 
 ```js
-/*eslint spaced-comment: [2, "always"]*/                     /*error Expected space or tab after '/*' in comment.*/
+/*eslint spaced-comment: [2, "always"]*/
 
-//This is a comment with no whitespace at the beginning      /*error Expected space or tab after '//' in comment.*/
+//This is a comment with no whitespace at the beginning
 
-/*This is a comment with no whitespace at the beginning */   /*error Expected space or tab after '/*' in comment.*/
+/*This is a comment with no whitespace at the beginning */
 ```
 
 ```js
 /* eslint spaced-comment: [2, "always", { "block": { "exceptions": ["-"] } }] */
 
-//--------------    /*error Expected space or tab after '//' in comment.*/
+//--------------
 // Comment block
-//--------------    /*error Expected space or tab after '//' in comment.*/
+//--------------
 ```
 
 ```js
 /* eslint spaced-comment: [2, "always", { "exceptions": ["-", "+"] }] */
 
-//------++++++++    /*error Expected exception block, space or tab after '//' in comment.*/
+//------++++++++
 // Comment block
-//------++++++++    /*error Expected exception block, space or tab after '//' in comment.*/
+//------++++++++
 ```
 
 ```js
 /* eslint spaced-comment: [2, "always", { "markers": ["/"] }] */
 
-///This is a comment with a marker but without whitespace  /*error Expected space or tab after '///' in comment.*/
+///This is a comment with a marker but without whitespace
 ```
 
 ```js
 /* eslint spaced-comment: [2, "always", { "exceptions": ["-", "+"] }] */
 
-/*------++++++++*/     /*error Expected exception block, space or tab after '/*' in comment.*/
+/*------++++++++*/
 /* Comment block */
-/*------++++++++*/     /*error Expected exception block, space or tab after '/*' in comment.*/
+/*------++++++++*/
 ```
 
 ```js
 /* eslint spaced-comment: [2, "always", { "line": { "exceptions": ["-+"] } }] */
 
-/*-+-+-+-+-+-+-+*/     /*error Expected space or tab after '/*' in comment.*/
+/*-+-+-+-+-+-+-+*/
 // Comment block
-/*-+-+-+-+-+-+-+*/     /*error Expected space or tab after '/*' in comment.*/
+/*-+-+-+-+-+-+-+*/
 ```
 
 The following patterns are not considered problems:

@@ -31,11 +31,10 @@ The following patterns are considered problems when configured `"never"`:
 ```js
 /*eslint template-curly-spacing: 2*/
 
-`hello, ${ people.name}!`;  /*error Unexpected space(s) after '${'.*/
-`hello, ${people.name }!`;  /*error Unexpected space(s) before '}'.*/
+`hello, ${ people.name}!`;
+`hello, ${people.name }!`;
 
-`hello, ${ people.name }!`; /*error Unexpected space(s) after '${'.*/
-                            /*error Unexpected space(s) before '}'.*/
+`hello, ${ people.name }!`;
 ```
 
 The following patterns are considered problems when configured `"always"`:
@@ -43,11 +42,10 @@ The following patterns are considered problems when configured `"always"`:
 ```js
 /*eslint template-curly-spacing: [2, "always"]*/
 
-`hello, ${ people.name}!`;  /*error Expected space(s) before '}'.*/
-`hello, ${people.name }!`;  /*error Expected space(s) after '${'.*/
+`hello, ${ people.name}!`;
+`hello, ${people.name }!`;
 
-`hello, ${people.name}!`;   /*error Expected space(s) after '${'.*/
-                            /*error Expected space(s) before '}'.*/
+`hello, ${people.name}!`;
 ```
 
 The following patterns are not considered problems when configured `"never"`:

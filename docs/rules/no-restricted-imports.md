@@ -33,13 +33,13 @@ The following patterns are considered problems:
 ```js
 /*eslint no-restricted-imports: [2, "fs"]*/
 
-import fs from 'fs'; /*error 'fs' import is restricted from being used.*/
+import fs from 'fs';
 ```
 
 ```js
 /*eslint no-restricted-imports: [2, "cluster"]*/
 
-import cluster from ' cluster '; /*error 'cluster' import is restricted from being used.*/
+import cluster from ' cluster ';
 ```
 
 The following patterns are not considered problems:

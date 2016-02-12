@@ -15,7 +15,7 @@ The following patterns are considered problems:
 ```js
 /*eslint new-parens: 2*/
 
-var person = new Person; /*error Missing '()' invoking a constructor*/
+var person = new Person;
 ```
 
 The following patterns are not considered problems:

@@ -31,7 +31,7 @@ The following patterns are considered problems:
 ```js
 /*eslint no-negated-in-lhs: 2*/
 
-if(!a in b) {       /*error The 'in' expression's left operand is negated*/
+if(!a in b) {
     // do something
 }
 ```

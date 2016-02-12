@@ -31,13 +31,13 @@ The following patterns are considered problems:
 ```js
 /*eslint no-restricted-modules: [2, "fs"]*/
 
-var fs = require('fs'); /*error 'fs' module is restricted from being used.*/
+var fs = require('fs');
 ```
 
 ```js
 /*eslint no-restricted-modules: [2, "cluster"]*/
 
-var fs = require(' cluster '); /*error 'cluster' module is restricted from being used.*/
+var fs = require(' cluster ');
 ```
 
 The following patterns are not considered problems:

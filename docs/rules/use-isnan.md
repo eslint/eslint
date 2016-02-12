@@ -11,11 +11,11 @@ The following patterns are considered problems:
 ```js
 /*eslint use-isnan: 2*/
 
-if (foo == NaN) { /*error Use the isNaN function to compare with NaN.*/
+if (foo == NaN) {
     // ...
 }
 
-if (foo != NaN) { /*error Use the isNaN function to compare with NaN.*/
+if (foo != NaN) {
     // ...
 }
 ```

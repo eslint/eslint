@@ -42,13 +42,13 @@ The following patterns are considered problems:
 ```js
 /*eslint radix: 2*/
 
-var num = parseInt("071");        /*error Missing radix parameter.*/
+var num = parseInt("071");
 
-var num = parseInt(someValue);    /*error Missing radix parameter.*/
+var num = parseInt(someValue);
 
-var num = parseInt("071", "abc"); /*error Invalid radix parameter.*/
+var num = parseInt("071", "abc");
 
-var num = parseInt();             /*error Missing parameters.*/
+var num = parseInt();
 ```
 
 The following patterns are not considered problems:
@@ -70,11 +70,11 @@ The following patterns are considered problems:
 ```js
 /*eslint radix: [2. "as-needed"] */
 
-var num = parseInt("071", 10);    /*error Redundant radix parameter.*/
+var num = parseInt("071", 10);
 
-var num = parseInt("071", "abc"); /*error Invalid radix parameter.*/
+var num = parseInt("071", "abc");
 
-var num = parseInt();             /*error Missing parameters.*/
+var num = parseInt();
 ```
 
 The following patterns are not considered problems:
