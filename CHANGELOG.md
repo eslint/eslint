@@ -1,3 +1,12 @@
+v2.0.0 - February 12, 2016
+
+* cc3a66b Docs: Issue message when more info is needed (Nicholas C. Zakas)
+* 2bc40fa Docs: Simplify hierarchy of headings in rule pages (Mark Pedrotti)
+* 1666254 Docs: Add note about only-whitespace rule for `--fix` (fixes #4774) (Burak Yigit Kaya)
+* 2fa09d2 Docs: Add `quotes` to related section of `prefer-template` (fixes #5192) (Burak Yigit Kaya)
+* 7b12995 Fix: `key-spacing` not enforcing no-space in minimum mode (fixes #5008) (Burak Yigit Kaya)
+* c1c4f4d Breaking: new `no-empty-function` rule (fixes #5161) (Toru Nagashima)
+
 v2.0.0-rc.1 - February 9, 2016
 
 * 4dad82a Update: Adding shared environment for node and browser (refs #5196) (Eli White)
