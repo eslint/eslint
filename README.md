@@ -8,7 +8,7 @@
 
 # ESLint
 
-[Website](http://eslint.org) | [Configuring](http://eslint.org/docs/user-guide/configuring) | [Rules](http://eslint.org/docs/rules/) | [Contributing](http://eslint.org/docs/developer-guide/contributing) | [Twitter](https://twitter.com/geteslint) | [Mailing List](https://groups.google.com/group/eslint)
+[Website](http://eslint.org) | [Configuring](http://eslint.org/docs/user-guide/configuring) | [Rules](http://eslint.org/docs/rules/) | [Contributing](http://eslint.org/docs/developer-guide/contributing) | [Reporting Bugs](http://eslint.org/docs/developer-guide/contributing/reporting-bugs) | [Twitter](https://twitter.com/geteslint) | [Mailing List](https://groups.google.com/group/eslint)
 
 ESLint is a tool for identifying and reporting on patterns found in ECMAScript/JavaScript code. In many ways, it is similar to JSLint and JSHint with a few exceptions:
 
@@ -76,6 +76,14 @@ These folks keep the project moving and are resources for help:
 ## Releases
 
 We have scheduled releases every two weeks on Friday or Saturday.
+
+## Filing Issues
+
+Before filing an issue, please be sure to read the guidelines for what you're reporting:
+
+* [Bug Report](http://eslint.org/docs/developer-guide/contributing/reporting-bugs)
+* [Propose a New Rule](http://eslint.org/docs/developer-guide/contributing/new-rules)
+* [Request a Change](http://eslint.org/docs/developer-guide/contributing/changes)
 
 ## Frequently Asked Questions
 
