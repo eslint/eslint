@@ -30,7 +30,7 @@ This rule takes one option, a string, which is the designated `this` variable. T
 Additionally, you may configure extra aliases for cases where there are more than one supported alias for `this`.
 
 ```js
-{ "consistent-this": [ 2, "self",  "vm" ] } ] }
+{ "consistent-this": [ 2, "self",  "vm" ] }
 ```
 
 The following patterns are considered problems:
