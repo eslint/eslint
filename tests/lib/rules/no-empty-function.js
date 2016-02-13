@@ -233,4 +233,12 @@ ruleTester.run("no-empty-function", rule, [
         message: "Unexpected empty constructor.",
         allow: "constructors"
     }
-].reduce(toValidInvalid, {valid: [], invalid: []}));
+].reduce(toValidInvalid, {
+    valid: [
+        {
+            code: "var foo = () => 0;",
+            parserOptions: {ecmaVersion: 6}
+        }
+    ],
+    invalid: []
+}));
