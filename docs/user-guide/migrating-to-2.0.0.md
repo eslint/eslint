@@ -183,6 +183,48 @@ Additionally, if you are using `context.ecmaFeatures` inside of your rules, then
 
 If you're not using `ecmaFeatures` in your configuration, then no change is needed.
 
+## New Rules in `"eslint:recommended"`
+
+```json
+{
+    "extends": "eslint:recommended"
+}
+```
+
+In 2.0.0, the following 11 rules were added to `"eslint:recommended"`.
+
+* [constructor-super](http://eslint.org/docs/rules/constructor-super)
+* [no-case-declarations](http://eslint.org/docs/rules/no-case-declarations)
+* [no-class-assign](http://eslint.org/docs/rules/no-class-assign)
+* [no-const-assign](http://eslint.org/docs/rules/no-const-assign)
+* [no-dupe-class-members](http://eslint.org/docs/rules/no-dupe-class-members)
+* [no-empty-pattern](http://eslint.org/docs/rules/no-empty-pattern)
+* [no-new-symbol](http://eslint.org/docs/rules/no-new-symbol)
+* [no-self-assign](http://eslint.org/docs/rules/no-self-assign)
+* [no-this-before-super](http://eslint.org/docs/rules/no-this-before-super)
+* [no-unexpected-multiline](http://eslint.org/docs/rules/no-unexpected-multiline)
+* [no-unused-labels](http://eslint.org/docs/rules/no-unused-labels)
+
+**To address:** If you don't want to be notified by those rules, you can simply disable those rules.
+
+```json
+{
+    "extends": "eslint:recommended",
+    "rules": {
+        "no-case-declarations": 0,
+        "no-class-assign": 0,
+        "no-const-assign": 0,
+        "no-dupe-class-members": 0,
+        "no-empty-pattern": 0,
+        "no-new-symbol": 0,
+        "no-self-assign": 0,
+        "no-this-before-super": 0,
+        "no-unexpected-multiline": 0,
+        "no-unused-labels": 0,
+        "constructor-super": 0
+    }
+}
+```
 
 ## Scope Analysis Changes
 
