@@ -50,7 +50,6 @@ function expectedErrors(indentType, errors) {
 
 var ruleTester = new RuleTester();
 ruleTester.run("indent", rule, {
-
     valid: [
         {
             code:
@@ -1042,6 +1041,19 @@ ruleTester.run("indent", rule, {
             "    }\n" +
             "];\n",
             options: [4, {"VariableDeclarator": 0, "SwitchCase": 1}]
+        },
+        {
+            code:
+            "const func = function (opts) {\n" +
+            "    return Promise.resolve()\n" +
+            "    .then(() => {\n" +
+            "        [\n" +
+            "            'ONE', 'TWO'\n" +
+            "        ].forEach(command => { doSomething(); });\n" +
+            "    });\n" +
+            "};",
+            parserOptions: { ecmaVersion: 6 },
+            options: [4, {"SwitchCase": 1}]
         }
     ],
     invalid: [
