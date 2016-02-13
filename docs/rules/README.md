@@ -17,8 +17,8 @@ The following rules point out areas where you might have made mistakes.
 * [no-dupe-args](no-dupe-args.md) - disallow duplicate arguments in functions (recommended)
 * [no-dupe-keys](no-dupe-keys.md) - disallow duplicate keys when creating object literals (recommended)
 * [no-duplicate-case](no-duplicate-case.md) - disallow a duplicate case label. (recommended)
-* [no-empty-character-class](no-empty-character-class.md) - disallow the use of empty character classes in regular expressions (recommended)
 * [no-empty](no-empty.md) - disallow empty block statements (recommended)
+* [no-empty-character-class](no-empty-character-class.md) - disallow the use of empty character classes in regular expressions (recommended)
 * [no-ex-assign](no-ex-assign.md) - disallow assigning to the exception in a `catch` block (recommended)
 * [no-extra-boolean-cast](no-extra-boolean-cast.md) - disallow double-negation boolean casts in a boolean context (recommended)
 * [no-extra-parens](no-extra-parens.md) - disallow unnecessary parentheses
@@ -78,11 +78,11 @@ These are rules designed to prevent you from making mistakes. They either prescr
 * [no-multi-spaces](no-multi-spaces.md) - disallow use of multiple spaces (fixable)
 * [no-multi-str](no-multi-str.md) - disallow use of multiline strings
 * [no-native-reassign](no-native-reassign.md) - disallow reassignments of native objects
+* [no-new](no-new.md) - disallow use of the `new` operator when not part of an assignment or comparison
 * [no-new-func](no-new-func.md) - disallow use of new operator for `Function` object
 * [no-new-wrappers](no-new-wrappers.md) - disallows creating new instances of `String`,`Number`, and `Boolean`
-* [no-new](no-new.md) - disallow use of the `new` operator when not part of an assignment or comparison
-* [no-octal-escape](no-octal-escape.md) - disallow use of octal escape sequences in string literals, such as `var foo = "Copyright \251";`
 * [no-octal](no-octal.md) - disallow use of octal literals (recommended)
+* [no-octal-escape](no-octal-escape.md) - disallow use of octal escape sequences in string literals, such as `var foo = "Copyright \251";`
 * [no-param-reassign](no-param-reassign.md) - disallow reassignment of function parameters
 * [no-process-env](no-process-env.md) - disallow use of `process.env`
 * [no-proto](no-proto.md) - disallow usage of `__proto__` property
@@ -120,10 +120,10 @@ These rules have to do with variable declarations.
 * [no-catch-shadow](no-catch-shadow.md) - disallow the catch clause parameter name being the same as a variable in the outer scope
 * [no-delete-var](no-delete-var.md) - disallow deletion of variables (recommended)
 * [no-label-var](no-label-var.md) - disallow labels that share a name with a variable
-* [no-shadow-restricted-names](no-shadow-restricted-names.md) - disallow shadowing of names such as `arguments`
 * [no-shadow](no-shadow.md) - disallow declaration of variables already declared in the outer scope
-* [no-undef-init](no-undef-init.md) - disallow use of undefined when initializing variables
+* [no-shadow-restricted-names](no-shadow-restricted-names.md) - disallow shadowing of names such as `arguments`
 * [no-undef](no-undef.md) - disallow use of undeclared variables unless mentioned in a `/*global */` block (recommended)
+* [no-undef-init](no-undef-init.md) - disallow use of undefined when initializing variables
 * [no-undefined](no-undefined.md) - disallow use of `undefined` variable
 * [no-unused-vars](no-unused-vars.md) - disallow declaration of variables that are not used in the code (recommended)
 * [no-use-before-define](no-use-before-define.md) - disallow use of variables before they are defined
@@ -158,9 +158,9 @@ These rules are purely matters of style and are quite subjective.
 * [eol-last](eol-last.md) - enforce newline at the end of file, with no multiple empty lines (fixable)
 * [func-names](func-names.md) - require function expressions to have a name
 * [func-style](func-style.md) - enforce use of function declarations or expressions
+* [id-blacklist](id-blacklist.md) - blacklist certain identifiers to prevent them being used
 * [id-length](id-length.md) - this option enforces minimum and maximum identifier lengths (variable names, property names etc.)
 * [id-match](id-match.md) - require identifiers to match the provided regular expression
-* [id-blacklist](id-blacklist.md) - blacklist certain identifiers to prevent them being used
 * [indent](indent.md) - specify tab or space width for your code (fixable)
 * [jsx-quotes](jsx-quotes.md) - specify whether double or single quotes should be used in JSX attributes (fixable)
 * [key-spacing](key-spacing.md) - enforce spacing between keys and values in object literal properties
@@ -188,12 +188,12 @@ These rules are purely matters of style and are quite subjective.
 * [no-new-object](no-new-object.md) - disallow the use of the `Object` constructor
 * [no-plusplus](no-plusplus.md) - disallow use of unary operators, `++` and `--`
 * [no-restricted-syntax](no-restricted-syntax.md) - disallow use of certain syntax in code
-* [no-whitespace-before-property](no-whitespace-before-property.md) - disallow whitespace before properties
 * [no-spaced-func](no-spaced-func.md) - disallow space between function identifier and application (fixable)
 * [no-ternary](no-ternary.md) - disallow the use of ternary operators
 * [no-trailing-spaces](no-trailing-spaces.md) - disallow trailing whitespace at the end of lines (fixable)
 * [no-underscore-dangle](no-underscore-dangle.md) - disallow dangling underscores in identifiers
 * [no-unneeded-ternary](no-unneeded-ternary.md) - disallow the use of ternary operators when a simpler alternative exists
+* [no-whitespace-before-property](no-whitespace-before-property.md) - disallow whitespace before properties
 * [object-curly-spacing](object-curly-spacing.md) - require or disallow padding inside curly braces (fixable)
 * [one-var](one-var.md) - require or disallow one variable declaration per function
 * [one-var-declaration-per-line](one-var-declaration-per-line.md) - require or disallow an newline around variable declarations
@@ -203,10 +203,10 @@ These rules are purely matters of style and are quite subjective.
 * [quote-props](quote-props.md) - require quotes around object literal property names
 * [quotes](quotes.md) - specify whether backticks, double or single quotes should be used (fixable)
 * [require-jsdoc](require-jsdoc.md) - Require JSDoc comment
-* [semi-spacing](semi-spacing.md) - enforce spacing before and after semicolons (fixable)
 * [semi](semi.md) - require or disallow use of semicolons instead of ASI (fixable)
-* [sort-vars](sort-vars.md) - sort variables within the same declaration block
+* [semi-spacing](semi-spacing.md) - enforce spacing before and after semicolons (fixable)
 * [sort-imports](sort-imports.md) - sort import declarations within module
+* [sort-vars](sort-vars.md) - sort variables within the same declaration block
 * [space-before-blocks](space-before-blocks.md) - require or disallow a space before blocks (fixable)
 * [space-before-function-paren](space-before-function-paren.md) - require or disallow a space before function opening parenthesis (fixable)
 * [space-in-parens](space-in-parens.md) - require or disallow spaces inside parentheses (fixable)
@@ -230,8 +230,8 @@ These rules are only relevant to ES6 environments.
 * [no-dupe-class-members](no-dupe-class-members.md) - disallow duplicate name in class members (recommended)
 * [no-new-symbol](no-new-symbol.md) - disallow use of the `new` operator with the `Symbol` object (recommended)
 * [no-this-before-super](no-this-before-super.md) - disallow use of `this`/`super` before calling `super()` in constructors (recommended)
-* [no-var](no-var.md) - require `let` or `const` instead of `var`
 * [no-useless-constructor](no-useless-constructor.md) - disallow unnecessary constructor
+* [no-var](no-var.md) - require `let` or `const` instead of `var`
 * [object-shorthand](object-shorthand.md) - require method and property shorthand syntax for object literals
 * [prefer-arrow-callback](prefer-arrow-callback.md) - suggest using arrow functions as callbacks
 * [prefer-const](prefer-const.md) - suggest using `const` declaration for variables that are never modified after declared
