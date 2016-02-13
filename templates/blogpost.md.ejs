@@ -1,13 +1,13 @@
 ---
 layout: post
-title: ESLint <%- version %> released
+title: ESLint v<%- version %> released
 tags:
   - release
-  - <%- releaseType %>
+  - <%- type %>
 ---
-# ESLint <%= version %> released
+# ESLint v<%= version %> released
 
-We just pushed ESLint <%- version %>, which is a <%- releaseType %> release upgrade of ESLint. This release <% if (releaseType !== "patch") { %>adds some new features<% } if (releaseType === "major") { %>, including some breaking changes, and<% } %> fixes several bugs found in the previous release.
+We just pushed ESLint v<%- version %>, which is a <%- type %> release upgrade of ESLint. This release <% if (type !== "patch") { %>adds some new features and<% } %> fixes several bugs found in the previous release. <% if (type === "major") { %>This release also has some breaking changes, so please read the following closely. <% } %>
 
 <%
 function linkify(line) {
@@ -23,51 +23,51 @@ function outputList(items) {
 
 %>
 
-<% if (typeof changelog_breaking !== "undefined") { %>
+<% if (typeof changelog.breaking !== "undefined") { %>
 ## Breaking Changes
 
-<% outputList(changelog_breaking); %>
+<% outputList(changelog.breaking); %>
 
 <% } %>
 
-<% if (typeof changelog_new !== "undefined") { %>
+<% if (typeof changelog.new !== "undefined") { %>
 ## Features
 
-<% outputList(changelog_new); %>
+<% outputList(changelog.new); %>
 
 <% } %>
 
-<% if (typeof changelog_update !== "undefined") { %>
+<% if (typeof changelog.update !== "undefined") { %>
 ## Enhancements
 
-<% outputList(changelog_update); %>
+<% outputList(changelog.update); %>
 
 <% } %>
 
-<% if (typeof changelog_fix !== "undefined") { %>
+<% if (typeof changelog.fix !== "undefined") { %>
 ## Bug Fixes
 
-<% outputList(changelog_fix); %>
+<% outputList(changelog.fix); %>
 
 <% } %>
 
-<% if (typeof changelog_docs !== "undefined") { %>
+<% if (typeof changelog.docs !== "undefined") { %>
 ## Documentation
 
-<% outputList(changelog_docs); %>
+<% outputList(changelog.docs); %>
 
 <% } %>
 
-<% if (typeof changelog_upgrade !== "undefined") { %>
+<% if (typeof changelog.upgrade !== "undefined") { %>
 ## Dependency Upgrades
 
-<% outputList(changelog_upgrade); %>
+<% outputList(changelog.upgrade); %>
 
 <% } %>
 
-<% if (typeof changelog_build !== "undefined") { %>
+<% if (typeof changelog.build !== "undefined") { %>
 ## Build Related
 
-<% outputList(changelog_build); %>
+<% outputList(changelog.build); %>
 
 <% } %>

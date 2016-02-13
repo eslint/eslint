@@ -77,6 +77,7 @@
     "coveralls": "2.11.4",
     "dateformat": "^1.0.8",
     "ejs": "^2.3.3",
+    "eslint-release": "^0.3.0",
     "esprima": "^2.4.1",
     "esprima-fb": "^15001.1001.0-dev-harmony-fb",
     "gh-got": "^2.2.0",
