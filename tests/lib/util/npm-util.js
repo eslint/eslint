@@ -11,6 +11,7 @@
 //------------------------------------------------------------------------------
 
 var assert = require("chai").assert,
+    fs = require("fs"),
     shell = require("shelljs"),
     sinon = require("sinon"),
     npmUtil = require("../../../lib/util/npm-util");
@@ -48,6 +49,25 @@ describe("npmUtil", function() {
             installStatus = npmUtil.checkDevDeps(["notarealpackage"]);
             assert.isFalse(installStatus.notarealpackage);
         });
+
+        it("should handle missing devDependencies key", function() {
+            sinon.stub(fs, "existsSync", function() {
+                return true;
+            });
+            sinon.stub(fs, "readFileSync", function() {
+                return JSON.stringify({
+                    private: true,
+                    dependencies: {}
+                });
+            });
+
+            var fn = npmUtil.checkDevDeps.bind(null, ["some-package"]);
+
+            assert.doesNotThrow(fn);
+
+            fs.existsSync.restore();
+            fs.readFileSync.restore();
+        });
     });
 
     describe("checkDeps()", function() {
@@ -82,6 +102,25 @@ describe("npmUtil", function() {
             assert.throws(function() {
                 installStatus = npmUtil.checkDeps(["notarealpackage"], "/fakepath");
             }, "Could not find a package.json file");
+        });
+
+        it("should handle missing dependencies key", function() {
+            sinon.stub(fs, "existsSync", function() {
+                return true;
+            });
+            sinon.stub(fs, "readFileSync", function() {
+                return JSON.stringify({
+                    private: true,
+                    devDependencies: {}
+                });
+            });
+
+            var fn = npmUtil.checkDeps.bind(null, ["some-package"]);
+
+            assert.doesNotThrow(fn);
+
+            fs.existsSync.restore();
+            fs.readFileSync.restore();
         });
     });
 
