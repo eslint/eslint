@@ -187,7 +187,7 @@ This rule has 3 options.
 
 ```json
 {
-    "keyword-spacing": [2, {"before": true, "after": true, "overrides": null}]
+    "keyword-spacing": [2, {"before": true, "after": true, "overrides": {}}]
 }
 ```
 
@@ -199,7 +199,7 @@ This rule has 3 options.
   This option specifies usage of spacing after the keywords.
   If `true` then the keywords must be followed by at least one space.
   Otherwise, no spaces will be allowed after the keywords (if possible).
-- `"overrides"` (`object`, default is `null`) -
+- `"overrides"` (`object`, default is `{}`) -
   This option specifies overwriting usage of spacing for each keyword.
   For Example:
 
