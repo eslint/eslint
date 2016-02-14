@@ -32,7 +32,9 @@ var NO_VAR = "console.log(greet);",
     EXPORT_WITH_CONST = "export const a = 1;\nexport const b = 2;",
     END_OF_FUNCTION = "function example() {\nvar greet = 'hello'\n}",
     END_OF_FUNCTION_EXPRESSION = "var f = function() {\nvar greet = 'hello'\n};",
-    END_OF_ARROW_FUNCTION = "() => {\nvar greet = 'hello';\n}";
+    END_OF_ARROW_FUNCTION = "() => {\nvar greet = 'hello';\n}",
+    END_OF_BLOCK = "{\nvar foo;\n}",
+    END_OF_IF = "if(true) {\nvar foo;\n}";
 
 
 // Valid for "Always"
@@ -201,7 +203,7 @@ ruleTester.run("newline-after-var", rule, {
         { code: EXPORT_WITH_CONST, options: ["never"], parserOptions: { sourceType: "module" } },
         { code: EXPORT_WITH_CONST, options: ["always"], parserOptions: { sourceType: "module" } },
 
-        // should allow no blank line at end of function
+        // should allow no blank line at end of block
         { code: END_OF_FUNCTION, options: ["always"] },
         { code: END_OF_FUNCTION, options: ["never"] },
         { code: NOT_END_OF_FUNCTION, options: ["never"]},
@@ -210,7 +212,11 @@ ruleTester.run("newline-after-var", rule, {
         { code: NOT_END_OF_FUNCTION_EXPRESSION, options: ["never"]},
         { code: END_OF_ARROW_FUNCTION, options: ["always"], parserOptions: { ecmaVersion: 6 }},
         { code: END_OF_ARROW_FUNCTION, options: ["never"], parserOptions: { ecmaVersion: 6 }},
-        { code: NOT_END_OF_ARROW_FUNCTION, options: ["never"], parserOptions: { ecmaVersion: 6 }}
+        { code: NOT_END_OF_ARROW_FUNCTION, options: ["never"], parserOptions: { ecmaVersion: 6 }},
+        { code: END_OF_BLOCK, options: ["always"]},
+        { code: END_OF_BLOCK, options: ["never"]},
+        { code: END_OF_IF, options: ["always"]},
+        { code: END_OF_IF, options: ["never"]}
     ],
 
     invalid: [
