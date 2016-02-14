@@ -94,6 +94,17 @@ function getRelativeModulePath(moduleName) {
     return path.resolve("./node_modules", moduleName, "index.js");
 }
 
+/**
+ * Creates a module path to the global node_modules directory.
+ * @param {string} moduleName The full module name.
+ * @param {string} nodePath The full path to global node_modules directory.
+ * @returns {string} A full path for the global module.
+ * @private
+ */
+function getGlobalModulePath(moduleName, nodePath) {
+    return path.resolve(nodePath, moduleName, "index.js");
+}
+
 
 //------------------------------------------------------------------------------
 // Tests
@@ -651,6 +662,30 @@ describe("ConfigFile", function() {
                     target = expected;
 
                     var result = StubbedConfigFile.resolve(input, relativeTo);
+                    assert.equal(result.filePath, expected);
+                });
+            });
+
+        });
+
+        describe("From global node_modules", function() {
+
+            var nodePath = "/usr/lib/node_modules/";
+
+            leche.withData([
+                [ "eslint-config-foo", getGlobalModulePath("eslint-config-foo", nodePath), null, [ nodePath ]],
+                [ "foo", getGlobalModulePath("eslint-config-foo", nodePath), null, [ nodePath ]],
+                [ "eslint-configfoo", getGlobalModulePath("eslint-config-eslint-configfoo", nodePath), null, [ nodePath ]],
+                [ "@foo/eslint-config", getGlobalModulePath("@foo/eslint-config", nodePath), null, [ nodePath ]],
+                [ "@foo/bar", getGlobalModulePath("@foo/eslint-config-bar", nodePath), null, [ nodePath ]],
+                [ "plugin:@foo/bar/baz", getGlobalModulePath("@foo/eslint-plugin-bar", nodePath), null, [ nodePath ]]
+            ], function(input, expected, relativeTo, additionalPaths) {
+                it("should return " + expected + " when passed " + input, function() {
+
+                    // used to stub out resolve.sync
+                    target = expected;
+
+                    var result = StubbedConfigFile.resolve(input, relativeTo, additionalPaths);
                     assert.equal(result.filePath, expected);
                 });
             });
