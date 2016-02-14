@@ -53,7 +53,7 @@ A boolean to specify if numbers used as array indexes are considered okay. `fals
 The following pattern is considered okay:
 
 ```js
-/*eslint no-magic-numbers: 2, { ignoreArrayIndexes: true }*/
+/*eslint no-magic-numbers: [2, {"ignoreArrayIndexes": true }]*/
 
 var data = ['foo', 'bar', 'baz'];
 var thirdValue = data[3];
