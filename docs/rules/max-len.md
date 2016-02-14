@@ -50,8 +50,6 @@ The `max-len` rule supports the following options:
 
 `ignoreTrailingComments`: Only ignores comments that are trailing source.
 
-`commentLength`: Specifies an alternate max length that applies only to full length comments.
-
 `ignoreUrls`: Ignores lines that contain a URL.
 
 `ignorePattern`: Ignores lines matching a regular express, such as `^\\s*var\\s.+=\\s*require\\s*\\(`. Be aware that regular expressions can only match a single line and need to be doubly escaped when written in YAML or JSON.
