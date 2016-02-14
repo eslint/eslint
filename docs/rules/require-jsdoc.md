@@ -52,8 +52,8 @@ The following patterns are considered problems:
 /*eslint "require-jsdoc": [2, {
     "require": {
         "FunctionDeclaration": true,
-        "MethodDefinition": false,
-        "ClassDeclaration": false
+        "MethodDefinition": true,
+        "ClassDeclaration": true
     }
 }]*/
 
@@ -72,8 +72,8 @@ The following patterns are not considered problems:
 /*eslint "require-jsdoc": [2, {
     "require": {
         "FunctionDeclaration": true,
-        "MethodDefinition": false,
-        "ClassDeclaration": false
+        "MethodDefinition": true,
+        "ClassDeclaration": true
     }
 }]*/
 
