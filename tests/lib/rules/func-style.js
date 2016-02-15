@@ -69,6 +69,10 @@ ruleTester.run("func-style", rule, {
             parserOptions: { ecmaVersion: 6 }
         },
         {
+            code: "export default function () {};",
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
+        },
+        {
             code: "var foo = () => {};",
             options: ["declaration", {allowArrowFunctions: true}],
             parserOptions: { ecmaVersion: 6 }
