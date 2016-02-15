@@ -1,3 +1,32 @@
+v2.1.0 - February 15, 2016
+
+* 7981ef5 Build: Fix release script (Nicholas C. Zakas)
+* c9c34ea Fix: Skip computed members in `newline-per-chained-call` (fixes #5245) (Burak Yigit Kaya)
+* b32ddad Build: `npm run perf` command should check the exit code (fixes #5279) (Burak Yigit Kaya)
+* 6580d1c Docs: Fix incorrect `api.verify` JSDoc for `config` param (refs #5104) (Burak Yigit Kaya)
+* 1f47868 Docs: Update yield-star-spacing documentation for 2.0.0 (fixes #5272) (Burak Yigit Kaya)
+* 29da8aa Fix: `newline-after-var` crash on a switch statement (fixes #5277) (Toru Nagashima)
+* 86c5a20 Fix: `func-style` should ignore ExportDefaultDeclarations (fixes #5183) (Burak Yigit Kaya)
+* ba287aa Fix: Consolidate try/catches to top levels (fixes #5243) (Ian VanSchooten)
+* 3ef5da1 Docs: Update no-magic-numbers#ignorearrayindexes. (KazuakiM)
+* 0d6850e Update: Allow var declaration at end of block (fixes #5246) (alberto)
+* c1e3a73 Fix: Popular style init handles missing package.json keys (refs #5243) (Brandon Mills)
+* 68c6e22 Docs: fix default value of `keyword-spacing`'s overrides option. (Toru Nagashima)
+* 00fe46f Upgrade: inquirer (fixes #5265) (Bogdan Chadkin)
+* ef729d7 Docs: Remove option that is not being used in max-len rule (Thanos Lefteris)
+* 4a5ddd5 Docs: Fix rule config above examples for require-jsdoc (Thanos Lefteris)
+* c5cbc1b Docs: Add rule config above each example in jsx-quotes (Thanos Lefteris)
+* f0aceba Docs: Correct alphabetical ordering in rule list (Randy Coulman)
+* 1651ffa Docs: update migrating to 2.0.0 (fixes #5232) (Toru Nagashima)
+* 9078537 Fix: `indent` on variable declaration with separate array (fixes #5237) (Burak Yigit Kaya)
+* f8868b2 Docs: Typo fix in consistent-this rule doc fixes #5240 (Nicolas Froidure)
+* 44f6915 Fix: ESLint Bot mentions the wrong person for extra info (fixes #5229) (Burak Yigit Kaya)
+* c612a8e Fix: `no-empty-function` crash (fixes #5227) (Toru Nagashima)
+* ae663b6 Docs: Add links for issue documentation (Nicholas C. Zakas)
+* 717bede Build: Switch to using eslint-release (fixes #5223) (Nicholas C. Zakas)
+* 980e139 Fix: Combine all answers for processAnswers (fixes #5220) (Ian VanSchooten)
+* 1f2a1d5 Docs: Remove inline errors from doc examples (fixes #4104) (Burak Yigit Kaya)
+
 v2.0.0 - February 12, 2016
 
 * cc3a66b Docs: Issue message when more info is needed (Nicholas C. Zakas)
