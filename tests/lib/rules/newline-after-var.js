@@ -34,7 +34,8 @@ var NO_VAR = "console.log(greet);",
     END_OF_FUNCTION_EXPRESSION = "var f = function() {\nvar greet = 'hello'\n};",
     END_OF_ARROW_FUNCTION = "() => {\nvar greet = 'hello';\n}",
     END_OF_BLOCK = "{\nvar foo;\n}",
-    END_OF_IF = "if(true) {\nvar foo;\n}";
+    END_OF_IF = "if(true) {\nvar foo;\n}",
+    END_OF_SWITCH = "switch(a) {\ncase 0:\nvar foo;\n}";
 
 
 // Valid for "Always"
@@ -56,7 +57,8 @@ var ONE_BLANK = "var greet = 'hello';\n\nconsole.log(greet);",
     CONST_ONE_BLANK = "const greet = 'hello';\n\nconsole.log(greet);",
     MIXED_LET_VAR = "let greet = 'hello';\nvar name = 'world';\n\nconsole.log(greet, name);",
     MIXED_CONST_VAR = "const greet = 'hello';\nvar name = 'world';\n\nconsole.log(greet, name);",
-    MIXED_LET_CONST = "let greet = 'hello';\nconst name = 'world';\n\nconsole.log(greet, name);";
+    MIXED_LET_CONST = "let greet = 'hello';\nconst name = 'world';\n\nconsole.log(greet, name);",
+    ONE_BLANK_BEFORE_CASE = "switch(a) {\ncase 0:\nvar foo;\n\ncase 1:}";
 
 
 // Valid for "Never"
@@ -82,7 +84,8 @@ var NO_BREAK = "var greet = 'hello'; console.log(greet);",
     CONST_NO_BLANK = "const greet = 'hello';\nconsole.log(greet);",
     NOT_END_OF_FUNCTION = "function example() {\nvar greet = 'hello';\nconsole.log(greet);\n}",
     NOT_END_OF_FUNCTION_EXPRESSION = "var f = function() {\nvar greet = 'hello';\nconsole.log(greet);\n};",
-    NOT_END_OF_ARROW_FUNCTION = "() => {\nvar greet = 'hello';\nconsole.log(greet);\n}";
+    NOT_END_OF_ARROW_FUNCTION = "() => {\nvar greet = 'hello';\nconsole.log(greet);\n}",
+    NO_BLANK_BEFORE_CASE = "switch(a) {\ncase 0:\nvar foo;\ncase 1:}";
 
 var ALWAYS_ERROR = {
     message: "Expected blank line after variable declarations.",
@@ -216,7 +219,13 @@ ruleTester.run("newline-after-var", rule, {
         { code: END_OF_BLOCK, options: ["always"]},
         { code: END_OF_BLOCK, options: ["never"]},
         { code: END_OF_IF, options: ["always"]},
-        { code: END_OF_IF, options: ["never"]}
+        { code: END_OF_IF, options: ["never"]},
+        { code: END_OF_SWITCH, options: ["always"]},
+        { code: END_OF_SWITCH, options: ["never"]},
+
+        // should handle one/no blank before case.
+        { code: ONE_BLANK_BEFORE_CASE, options: ["always"] },
+        { code: NO_BLANK_BEFORE_CASE, options: ["never"] }
     ],
 
     invalid: [
@@ -237,6 +246,7 @@ ruleTester.run("newline-after-var", rule, {
         { code: NOT_END_OF_FUNCTION, options: ["always"], errors: [ALWAYS_ERROR] },
         { code: NOT_END_OF_FUNCTION_EXPRESSION, options: ["always"], errors: [ALWAYS_ERROR] },
         { code: NOT_END_OF_ARROW_FUNCTION, options: ["always"], parserOptions: { ecmaVersion: 6 }, errors: [ALWAYS_ERROR]},
+        { code: NO_BLANK_BEFORE_CASE, options: ["always"], errors: [ALWAYS_ERROR] },
 
         // should disallow blank lines in "never" mode
         { code: ONE_BLANK, options: ["never"], errors: [NEVER_ERROR] },
@@ -250,6 +260,7 @@ ruleTester.run("newline-after-var", rule, {
         { code: MULTI_LINE_ONE_BLANK_WITH_COMMENTS, options: ["never"], errors: [NEVER_ERROR] },
         { code: LET_ONE_BLANK, options: ["never"], parserOptions: { ecmaVersion: 6 }, errors: [NEVER_ERROR] },
         { code: CONST_ONE_BLANK, options: ["never"], parserOptions: { ecmaVersion: 6 }, errors: [NEVER_ERROR] },
+        { code: ONE_BLANK_BEFORE_CASE, options: ["never"], errors: [NEVER_ERROR] },
 
         // should disallow a comment on the next line that's not in turn followed by a blank in "always" mode
         { code: NEXT_LINE_COMMENT, options: ["always"], errors: [ALWAYS_ERROR] },
