@@ -243,29 +243,26 @@ describe("configInitializer", function() {
                 assert.notProperty(config.rules, "no-console");
             });
 
-            it("should callback with error message on fatal parsing error", function() {
+            it("should throw on fatal parsing error", function() {
                 var filename = getFixturePath("parse-error");
-                var spy = sinon.spy();
                 sinon.stub(autoconfig, "extendFromRecommended");
                 answers.patterns = filename;
                 process.chdir(fixtureDir);
-                config = init.processAnswers(answers, spy);
+                assert.throws(function() {
+                    config = init.processAnswers(answers);
+                }, "Parsing error: Unexpected token ;");
                 process.chdir(originalDir);
-                assert(spy.called);
-                assert.include(spy.firstCall.args[0].message, filename);
-                assert.include(spy.firstCall.args[0].message, "Parsing error: Unexpected token ;");
                 autoconfig.extendFromRecommended.restore();
             });
 
-            it("should callback with error message if no files are matched from patterns", function() {
-                var spy = sinon.spy();
+            it("should throw if no files are matched from patterns", function() {
                 sinon.stub(autoconfig, "extendFromRecommended");
                 answers.patterns = "not-a-real-filename";
                 process.chdir(fixtureDir);
-                config = init.processAnswers(answers, spy);
+                assert.throws(function() {
+                    config = init.processAnswers(answers);
+                }, "Automatic Configuration failed.  No files were able to be parsed.");
                 process.chdir(originalDir);
-                assert(spy.called);
-                assert.include(spy.firstCall.args[0].message, "Automatic Configuration failed.  No files were able to be parsed.");
                 autoconfig.extendFromRecommended.restore();
             });
         });
