@@ -974,9 +974,21 @@ function createConfigForPerformanceTest() {
  */
 function time(cmd, runs, runNumber, results, cb) {
     var start = process.hrtime();
-    exec(cmd, { silent: true }, function() {
+    exec(cmd, { silent: true }, function(code, stdout, stderr) {
         var diff = process.hrtime(start),
             actual = (diff[0] * 1e3 + diff[1] / 1e6); // ms
+
+        if (code) {
+            echo("  Performance Run #" + runNumber + " failed.");
+            if (stdout) {
+                echo("STDOUT:\n" + stdout + "\n\n");
+            }
+
+            if (stderr) {
+                echo("STDERR:\n" + stderr + "\n\n");
+            }
+            return cb(null);
+        }
 
         results.push(actual);
         echo("  Performance Run #" + runNumber + ":  %dms", actual);
@@ -1008,6 +1020,10 @@ function runPerformanceTest(title, targets, multiplier, cb) {
     echo("  CPU Speed is %d with multiplier %d", cpuSpeed, multiplier);
 
     time(cmd, 5, 1, [], function(results) {
+        if (!results || results.length === 0) {  // No results? Something is wrong.
+            throw new Error("Performance test failed.");
+        }
+
         results.sort(function(a, b) {
             return a - b;
         });
