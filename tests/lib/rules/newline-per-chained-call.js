@@ -28,6 +28,10 @@ ruleTester.run("newline-per-chained-call", rule, {
     }, {
         code: "var a = m1();"
     }, {
+        code: "var a = window\n.location\n.href\n.match(/(^[^#]*)/)[0];"
+    }, {
+        code: "var a = window['location']\n.href\n.match(/(^[^#]*)/)[0];"
+    }, {
         code: "var a = m1().m2.m3();",
         options: [{
             ignoreChainWithDepth: 3
