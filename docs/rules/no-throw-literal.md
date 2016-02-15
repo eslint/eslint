@@ -51,7 +51,7 @@ try {
 }
 ```
 
-### Known Limitations
+## Known Limitations
 
 Due to the limits of static analysis, this rule cannot guarantee that you will only throw `Error` objects.  For instance, the following cases do not throw an `Error` object, but they will not be considered problems:
 

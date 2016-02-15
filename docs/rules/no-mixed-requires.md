@@ -4,10 +4,10 @@ In the Node.JS community it is often customary to separate the `require`d module
 
 ## Rule Details
 
-When this rule is enabled, all `var` statements must satisfy the following conditions:
+When this rule is enabled, each `var` statement must satisfy the following conditions:
 
-* either none or all variable declarations must be require declarations
-* all require declarations must be of the same type (optional)
+* either none or all variable declarations must be require declarations (default)
+* all require declarations must be of the same type (grouping)
 
 This rule distinguishes between six kinds of variable declaration types:
 
@@ -35,21 +35,28 @@ This rule comes with two boolean options. Both are turned off by default. You ca
 
 ```json
 {
-    "no-mixed-requires": [1, {"grouping": true, "allowCall": true}]
+    "no-mixed-requires": [2, {"grouping": true, "allowCall": true}]
 }
 ```
 
-The second way to configure this rule is with boolean (This way of setting is deprecated).
+The second way to configure this rule is with boolean. This way of setting is deprecated.
 
 ```json
 {
-    "no-mixed-requires": [1, true]
+    "no-mixed-requires": [2, true]
 }
 ```
 
 If enabled, violations will be reported whenever a single `var` statement contains require declarations of mixed types (see the examples below).
 
-## Examples
+The following patterns are considered problems:
+
+```js
+/*eslint no-mixed-requires: 2*/
+
+var fs = require('fs'),
+    i = 0;
+```
 
 The following patterns are not considered problems:
 
@@ -72,14 +79,7 @@ var foo = require('foo' + VERSION),
     baz = require();
 ```
 
-The following patterns are considered problems:
-
-```js
-/*eslint no-mixed-requires: 2*/
-
-var fs = require('fs'),
-    i = 0;
-```
+### grouping
 
 The following patterns are considered problems when grouping is turned on:
 
@@ -94,6 +94,8 @@ var fs = require('fs'),
 var foo = require('foo'),
     bar = require(getBarModuleName());
 ```
+
+### allowCall
 
 The following patterns are not considered problems when `allowCall` is turned on:
 
@@ -111,14 +113,16 @@ var async = require('async'),
     eslint = require('eslint');
 ```
 
+## Known Limitations
+
+* The implementation is not aware of any local functions with the name `require` that may shadow Node's global `require`.
+
+* Internally, the list of core modules is retrieved via `require("repl")._builtinLibs`. If you use different versions of Node.JS for ESLint and your application, the list of core modules for each version may be different.
+  The above mentioned `_builtinLibs` property became available in 0.8, for earlier versions a hardcoded list of module names is used as a fallback. If your version of Node is older than 0.6 that list may be inaccurate.
+
 ## When Not To Use It
 
-Internally, the list of core modules is retrieved via `require("repl")._builtinLibs`. If you use different versions of Node.JS for ESLint and your application, the list of core modules for each version may be different.
-The above mentioned `_builtinLibs` property became available in 0.8, for earlier versions a hardcoded list of module names is used as a fallback. If your version of Node is older than 0.6 that list may be inaccurate.
-
 If you use a pattern such as [UMD][4] where the `require`d modules are not loaded in variable declarations, this rule will obviously do nothing for you.
-
-The implementation is not aware of any local functions with the name `require` that may shadow Node's global `require`.
 
 [1]: http://nodejs.org/api/modules.html#modules_core_modules
 [2]: http://nodejs.org/api/modules.html#modules_file_modules
