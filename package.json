@@ -10,9 +10,9 @@
   "scripts": {
     "test": "node Makefile.js test",
     "lint": "node Makefile.js lint",
-    "patch": "node Makefile.js patch",
-    "minor": "node Makefile.js minor",
-    "major": "node Makefile.js major",
+    "release": "node Makefile.js release",
+    "alpharelease": "node Makefile.js prerelease -- alpha",
+    "betarelease": "node Makefile.js prerelease -- beta",
     "docs": "node Makefile.js docs",
     "gensite": "node Makefile.js gensite",
     "browserify": "node Makefile.js browserify",
