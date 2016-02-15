@@ -33,7 +33,7 @@ This rule reports such code and encourages new lines after each call in the chai
 
 ## Rule Details
 
-This rule checks and reports the chained calls if there are no new lines after each call or deep member access.
+This rule checks and reports the chained calls if there are no new lines after each call or deep member access. Computed property accesses such as `instance[something]` are excluded.
 
 ## Options
 
