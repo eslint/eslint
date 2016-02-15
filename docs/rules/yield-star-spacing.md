@@ -75,7 +75,8 @@ function *generator() {
 }
 ```
 
-To use this rule you must set the `generators` flag to `true` in the `ecmaFeatures` configuration object.
+To use this rule you either need to [use the `es6` environment](../user-guide/configuring.md#specifying-environments) or
+[set `ecmaVersion` to `6` in `parserOptions`](../user-guide/configuring.md#specifying-parser-options).
 
 ## When Not To Use It
 
