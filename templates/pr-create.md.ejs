@@ -1,5 +1,53 @@
-Thanks for the pull request, @<%= payload.sender.login %>! It looks like this is your first time contributing to ESLint, so please take a moment to read over our [contribution guidelines](http://eslint.org/docs/developer-guide/contributing/pull-requests).
+<%
 
-We'll also need you to sign our [CLA](http://eslint.org/cla), which is just a way for you to say that you give us permission to use your contribution.
+var FLAG_PATTERN = /^(Fix|Update|New|Breaking|Build|Docs|Upgrade):/,
+    ISSUE_REF_PATTERN = /\((fixes|refs) #\d+.*?\)$/;
 
-If you have any questions about the process, don't hesitate to ask.
+function isValidCommitFlag(log) {
+    var result = log.match(FLAG_PATTERN);
+    return !!result || log.indexOf("Revert \"") === 0;
+}
+
+function needsIssueRef(log) {
+    var result = log.match(ISSUE_REF_PATTERN);
+    return !result && log.indexOf("Docs:") !== 0;
+}
+
+var problems = [];
+
+// Check for one commit per pull request
+if (payload.commits > 1) {
+    problems.push("We require one commit per pull request. Please [squash](https://egghead.io/lessons/javascript-how-to-squash-multiple-git-commits) your commits.");
+} else if (meta.commits) {
+    var log = meta.commits[0].commit.message;
+    if (!isValidCommitFlag(log)) {
+        problems.push("The commit summary needs to begin with a tag (such as `Fix:` or `Update:`). Please check out our [guide](http://eslint.org/docs/developer-guide/contributing/pull-requests#step-2-make-your-changes) for how to properly format your commit summary and [update](http://eslint.org/docs/developer-guide/contributing/pull-requests#updating-the-commit-message) it on this pull request.")
+    }
+
+    if (log.length > 72) {
+        problems.push("The commit summary must be 72 characters or shorter. Please check out our [guide](http://eslint.org/docs/developer-guide/contributing/pull-requests#step-2-make-your-changes) for how to properly format your commit summary and [update](http://eslint.org/docs/developer-guide/contributing/pull-requests#updating-the-commit-message) it on this pull request.");
+    }
+
+    if (needsIssueRef(log)) {
+        problems.push("Pull requests with code require an issue to be mentioned at the end of the commit summary, such as `(fixes #1234)`. Please [update](http://eslint.org/docs/developer-guide/contributing/pull-requests#updating-the-commit-message) the commit summary with an issue (file a new issue if one doesn't already exist).")
+    }
+}
+
+// Check for CLA signature
+if (!meta.cla) {
+    problems.push("Please sign our [CLA](http://eslint.org/cla). This is just a way for you to say that you give us permission to use your contribution.")
+}
+
+if (problems.length) { %>
+Thanks for the pull request, @<%= payload.sender.login %>! I took a look to make sure it's ready for merging and found some changes are needed:
+
+<% problems.forEach(function(problem) { %>
+* <%- problem %>
+<% }); %>
+
+Can you please update the pull request to address these?
+
+(More information can be found in our [pull request guide](http://eslint.org/docs/developer-guide/contributing/pull-requests).)
+<% } else { %>
+LGTM
+<% } %>
