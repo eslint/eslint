@@ -57,7 +57,7 @@ The rule takes a single option, which is an array of possible callback names.
 callback-return: [2, ["callback", "cb", "next"]]
 ```
 
-## Gotchas
+## Known Limitations
 
 There are several cases of bad behavior that this rule will not catch and even a few cases where
 the rule will warn even though you are handling your callbacks correctly. Most of these issues arise

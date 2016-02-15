@@ -41,11 +41,7 @@ try {
 }
 ```
 
-## Notes
-
-Related aside: there are some interesting caveats in IE 6-8 where the exception identifier will leak into the outer scope causing some unexpected behavior. Ben Alman has a [great article](http://weblog.bocoup.com/the-catch-with-try-catch/) that explains this behavior in detail
-
 ## Further Reading
 
 * [Do not assign to the exception parameter](http://jslinterrors.com/do-not-assign-to-the-exception-parameter/)
-* [The "catch" with try...catch -- Ben Alman](http://weblog.bocoup.com/the-catch-with-try-catch/)
+* [The "catch" with try...catch](http://weblog.bocoup.com/the-catch-with-try-catch/) by Ben Alman explains how the exception identifier can leak into the outer scope in IE 6-8

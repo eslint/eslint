@@ -1,10 +1,10 @@
 # Disallow Undeclared Variables (no-undef)
 
-Any reference to an undeclared variable causes a warning, unless the variable is explicitly mentioned in a `/*global ...*/` comment. This rule provides compatibility with [JSHint](http://www.jshint.com)'s and [JSLint](http://www.jslint.com)'s treatment of global variables.
-
 This rule can help you locate potential ReferenceErrors resulting from misspellings of variable and parameter names, or accidental implicit globals (for example, from forgetting the `var` keyword in a `for` loop initializer).
 
 ## Rule Details
+
+Any reference to an undeclared variable causes a warning, unless the variable is explicitly mentioned in a `/*global ...*/` comment.
 
 ## Options
 
@@ -111,6 +111,10 @@ module.exports = function() {
 ## When Not To Use It
 
 If explicit declaration of global variables is not to your taste.
+
+## Compatibility
+
+This rule provides compatibility with treatment of global variables in [JSHint](http://www.jshint.com) and [JSLint](http://www.jslint.com).
 
 ## Further Reading
 

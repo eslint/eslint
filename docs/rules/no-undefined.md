@@ -32,7 +32,7 @@ Taking all of this into account, some style guides forbid the use of `undefined`
 * Checking if a value is `undefined` should be done with `typeof`.
 * Using the `void` operator to generate the value of `undefined` if necessary.
 
-## Examples
+## Rule Details
 
 This rule aims to eliminate the use of `undefined`, and as such, generates a warning whenever it is used.
 
