@@ -56,6 +56,26 @@ ruleTester.run("no-useless-constructor", rule, {
         {
             code: "class A { dummyMethod(){ doSomething(); } }",
             parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "class A extends B.C { constructor() { super(foo); } }",
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "class A extends B.C { constructor([a, b, c]) { super(...arguments); } }",
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "class A extends B.C { constructor(a = f()) { super(...arguments); } }",
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "class A extends B { constructor(a, b, c) { super(a, b); } }",
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "class A extends B { constructor(foo, bar){ super(foo); } }",
+            parserOptions: { ecmaVersion: 6 }
         }
     ],
     invalid: [
@@ -66,6 +86,11 @@ ruleTester.run("no-useless-constructor", rule, {
         },
         {
             code: "class A { 'constructor'(){} }",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [error]
+        },
+        {
+            code: "class A extends B { constructor() { super(); } }",
             parserOptions: { ecmaVersion: 6 },
             errors: [error]
         },
@@ -85,10 +110,19 @@ ruleTester.run("no-useless-constructor", rule, {
             errors: [error]
         },
         {
-            code: "class A extends B { constructor(foo, bar){ super(foo); } }",
+            code: "class A extends B.C { constructor() { super(...arguments); } }",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [error]
+        },
+        {
+            code: "class A extends B { constructor(a, b, ...c) { super(...arguments); } }",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [error]
+        },
+        {
+            code: "class A extends B { constructor(a, b, ...c) { super(a, b, ...c); } }",
             parserOptions: { ecmaVersion: 6 },
             errors: [error]
         }
-
     ]
 });
