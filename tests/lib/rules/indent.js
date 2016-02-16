@@ -1053,7 +1053,37 @@ ruleTester.run("indent", rule, {
             "    });\n" +
             "};",
             parserOptions: { ecmaVersion: 6 },
-            options: [4, {"SwitchCase": 1}]
+            options: [4]
+        },
+        {
+            code:
+            "var haveFun = function () {\n" +
+            "    SillyFunction(\n" +
+            "        {\n" +
+            "            value: true,\n" +
+            "        },\n" +
+            "        {\n" +
+            "            _id: true,\n" +
+            "        }\n" +
+            "    );\n" +
+            "};",
+            options: [4]
+        },
+        {
+            code:
+            "let object1 = {\n" +
+            "  doThing() {\n" +
+            "    return _.chain([])\n" +
+            "      .map(v => (\n" +
+            "        {\n" +
+            "          value: true,\n" +
+            "        }\n" +
+            "      ))\n" +
+            "      .value();\n" +
+            "  }\n" +
+            "};",
+            parserOptions: { ecmaVersion: 6 },
+            options: [2]
         }
     ],
     invalid: [
