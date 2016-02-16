@@ -11,6 +11,8 @@ var foo = {
 
 On the other hand, trailing commas simplify adding and removing items to objects and arrays, since only the lines you are modifying must be touched.
 
+**Fixable:** This rule is automatically fixable using the `--fix` flag on the command line.
+
 ## Rule Details
 
 This rule enforces consistent use of trailing commas in object and array literals.
