@@ -390,6 +390,19 @@ describe("ConfigFile", function() {
             });
         });
 
+        it("should not interpret parser module name or path when parser is set to default parser in a JavaScript file", function() {
+            var config = ConfigFile.load(getFixturePath("js/.eslintrc.parser3.js"));
+            assert.deepEqual(config, {
+                parser: null,
+                parserOptions: {},
+                env: {},
+                globals: {},
+                rules: {
+                    semi: [2, "always"]
+                }
+            });
+        });
+
         it("should load information from a JSON file", function() {
             var config = ConfigFile.load(getFixturePath("json/.eslintrc.json"));
             assert.deepEqual(config, {
