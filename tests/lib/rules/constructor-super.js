@@ -45,7 +45,10 @@ ruleTester.run("constructor-super", rule, {
         { code: "class A extends B { constructor() { if (a) super(); else super(); } }", parserOptions: { ecmaVersion: 6 } },
         { code: "class A extends B { constructor() { switch (a) { case 0: super(); break; default: super(); } } }", parserOptions: { ecmaVersion: 6 } },
         { code: "class A extends B { constructor() { try {} finally { super(); } } }", parserOptions: { ecmaVersion: 6 } },
-        { code: "class A extends B { constructor() { if (a) throw Error(); super(); } }", parserOptions: { ecmaVersion: 6 } }
+        { code: "class A extends B { constructor() { if (a) throw Error(); super(); } }", parserOptions: { ecmaVersion: 6 } },
+
+        // https://github.com/eslint/eslint/issues/5261
+        { code: "class A extends B { constructor(a) { super(); for (const b of a) { this.a(); } } }", parserOptions: { ecmaVersion: 6 } }
     ],
     invalid: [
         // non derived classes.
@@ -63,6 +66,11 @@ ruleTester.run("constructor-super", rule, {
         // derived classes.
         {
             code: "class A extends B { constructor() { } }",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{ message: "Expected to call 'super()'.", type: "MethodDefinition"}]
+        },
+        {
+            code: "class A extends B { constructor() { for (var a of b) super.foo(); } }",
             parserOptions: { ecmaVersion: 6 },
             errors: [{ message: "Expected to call 'super()'.", type: "MethodDefinition"}]
         },
@@ -166,6 +174,14 @@ ruleTester.run("constructor-super", rule, {
             code: "class A extends B { constructor() { switch (a) { case 0: super(); default: super(); } } }",
             parserOptions: { ecmaVersion: 6 },
             errors: [{ message: "Unexpected duplicate 'super()'.", type: "CallExpression", column: 76}]
+        },
+        {
+            code: "class A extends B { constructor(a) { while (a) super(); } }",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                { message: "Lacked a call of 'super()' in some code paths.", type: "MethodDefinition"},
+                { message: "Unexpected duplicate 'super()'.", type: "CallExpression", column: 48}
+            ]
         }
     ]
 });
