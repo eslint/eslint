@@ -354,6 +354,7 @@ config without files modifying it. All inline config comments are ignored, e.g.:
 * `/*eslint*/`
 * `/*eslint-env*/`
 * `// eslint-disable-line`
+* `// eslint-disable-next-line`
 
 Example:
 

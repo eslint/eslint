@@ -364,12 +364,27 @@ To disable all rules on a specific line:
 
 ```js
 alert('foo'); // eslint-disable-line
+
+// eslint-disable-next-line
+alert('foo');
 ```
 
 To disable a specific rule on a specific line:
 
 ```js
 alert('foo'); // eslint-disable-line no-alert
+
+// eslint-disable-next-line no-alert
+alert('foo');
+```
+
+To disable multiple rules on a specific line:
+
+```js
+alert('foo'); // eslint-disable-line no-alert, quotes, semi
+
+// eslint-disable-next-line no-alert, quotes, semi
+alert('foo');
 ```
 
 **Note:** Comments that disable warnings for a portion of a file tell ESLint not to report rule violations for the disabled code. ESLint parses the entire file, so disabled code still needs to be syntactically valid JavaScript.
