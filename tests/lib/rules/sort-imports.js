@@ -156,6 +156,12 @@ ruleTester.run("sort-imports", rule, {
                 "import bar from 'bar';",
             parserOptions: parserOptions,
             options: ignoreCaseArgs
+        },
+
+        // https://github.com/eslint/eslint/issues/5305
+        {
+            code: "import React, {Component} from 'react';",
+            parserOptions: parserOptions
         }
     ],
     invalid: [
