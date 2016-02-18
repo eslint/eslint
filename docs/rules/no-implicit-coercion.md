@@ -49,7 +49,7 @@ This rule has three main options and one override option to allow some coercions
 * `"boolean"` (`true` by default) - When this is `true`, this rule warns shorter type conversions for `boolean` type.
 * `"number"` (`true` by default) - When this is `true`, this rule warns shorter type conversions for `number` type.
 * `"string"` (`true` by default) - When this is `true`, this rule warns shorter type conversions for `string` type.
-* `"array"` (`empty` by default) - Each entry in this array can be one of `~`, `!!`, `+` or `*` that are to be allowed.
+* `"allow"` (`empty` by default) - Each entry in this array can be one of `~`, `!!`, `+` or `*` that are to be allowed.
 
 Note that operator `+` in `allow` list would allow `+foo` (number coercion) as well as `"" + foo` (string coercion).
 
