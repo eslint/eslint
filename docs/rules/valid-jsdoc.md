@@ -199,7 +199,7 @@ By default ESLint requires you to specify `type` for `@return` tag for every doc
 }]
 ```
 
-### preferType
+### `preferType`
 
 It will validate all the types from jsdoc with the options setup by the user. Inside the options, key should be what the type you want to check and the value of it should be what the expected type should be. Note that we don't check for spelling mistakes with this option.
 In the example below, it will expect the "object" to start with an uppercase and all the "string" type to start with a lowercase.
