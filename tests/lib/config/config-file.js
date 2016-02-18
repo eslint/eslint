@@ -16,12 +16,15 @@ var assert = require("chai").assert,
     path = require("path"),
     fs = require("fs"),
     tmp = require("tmp"),
+    temp = require("temp"),
     yaml = require("js-yaml"),
     resolve = require("resolve"),
     userHome = require("user-home"),
     proxyquire = require("proxyquire"),
     environments = require("../../../conf/environments"),
     ConfigFile = require("../../../lib/config/config-file");
+
+temp = temp.track();
 
 //------------------------------------------------------------------------------
 // Helpers
@@ -70,6 +73,22 @@ function writeTempConfigFile(config, filename, existingTmpDir) {
     var tmpFileDir = existingTmpDir || tmp.dirSync({prefix: "eslint-tests-"}).name,
         tmpFilePath = path.join(tmpFileDir, filename),
         tmpFileContents = JSON.stringify(config);
+    fs.writeFileSync(tmpFilePath, tmpFileContents);
+    return tmpFilePath;
+}
+
+/**
+ * Helper function to write JS configs to temp file.
+ * @param {object} config Config to write out to temp file.
+ * @param {string} filename Name of file to write in temp dir.
+ * @param {string} existingTmpDir Optional dir path if temp file exists.
+ * @returns {string} Full path to the temp file.
+ * @private
+ */
+function writeTempJsConfigFile(config, filename, existingTmpDir) {
+    var tmpFileDir = existingTmpDir || temp.mkdirSync("eslint-tests-"),
+        tmpFilePath = path.join(tmpFileDir, filename),
+        tmpFileContents = "module.exports = " + JSON.stringify(config);
     fs.writeFileSync(tmpFilePath, tmpFileContents);
     return tmpFilePath;
 }
@@ -141,6 +160,9 @@ describe("ConfigFile", function() {
                         opts.isFile = getFileCheck();
                         return resolve.sync(filename, opts);
                     }
+                },
+                "require-uncached": function(filename) {
+                    return configDeps[filename];
                 }
             };
 
@@ -208,6 +230,9 @@ describe("ConfigFile", function() {
                         opts.isFile = getFileCheck();
                         return resolve.sync(filename, opts);
                     }
+                },
+                "require-uncached": function(filename) {
+                    return configDeps[filename];
                 }
             };
 
@@ -495,6 +520,32 @@ describe("ConfigFile", function() {
             writeTempConfigFile(updatedConfig, tmpFilename, path.dirname(tmpFilePath));
             config = ConfigFile.load(tmpFilePath);
             assert.deepEqual(config, updatedConfig.eslintConfig);
+        });
+
+        it("should load fresh information from a .eslintrc.js file", function() {
+            var initialConfig = {
+                    parserOptions: {},
+                    env: {},
+                    globals: {},
+                    rules: {
+                        quotes: [2, "double"]
+                    }
+                },
+                updatedConfig = {
+                    parserOptions: {},
+                    env: {},
+                    globals: {},
+                    rules: {
+                        quotes: 0
+                    }
+                },
+                tmpFilename = ".eslintrc.js",
+                tmpFilePath = writeTempJsConfigFile(initialConfig, tmpFilename),
+                config = ConfigFile.load(tmpFilePath);
+            assert.deepEqual(config, initialConfig);
+            writeTempJsConfigFile(updatedConfig, tmpFilename, path.dirname(tmpFilePath));
+            config = ConfigFile.load(tmpFilePath);
+            assert.deepEqual(config, updatedConfig);
         });
 
         it("should load information from a YAML file", function() {
