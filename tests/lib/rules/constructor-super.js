@@ -48,7 +48,10 @@ ruleTester.run("constructor-super", rule, {
         { code: "class A extends B { constructor() { if (a) throw Error(); super(); } }", parserOptions: { ecmaVersion: 6 } },
 
         // https://github.com/eslint/eslint/issues/5261
-        { code: "class A extends B { constructor(a) { super(); for (const b of a) { this.a(); } } }", parserOptions: { ecmaVersion: 6 } }
+        { code: "class A extends B { constructor(a) { super(); for (const b of a) { this.a(); } } }", parserOptions: { ecmaVersion: 6 } },
+
+        // https://github.com/eslint/eslint/issues/5319
+        { code: "class Foo extends Object { constructor(method) { super(); this.method = method || function() {}; } }", parserOptions: { ecmaVersion: 6 } }
     ],
     invalid: [
         // non derived classes.
