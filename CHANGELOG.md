@@ -1,3 +1,20 @@
+v2.2.0 - February 19, 2016
+
+* 45a22b5 Docs: remove esprima-fb from suggested parsers (Henry Zhu)
+* a4d9cd3 Docs: Fix semi rule typo (Brandon Mills)
+* 9d005c0 Docs: Correct option name in `no-implicit-coercion` rule (Neil Kistner)
+* 2977248 Fix: Do not cache `.eslintrc.js` (fixes #5067) (Nick)
+* 211eb8f Fix: no-multi-spaces conflicts with smart tabs (fixes #2077) (Afnan Fahim)
+* 6dc9483 Fix: Crash in `constructor-super` (fixes #5319) (Burak Yigit Kaya)
+* 3f48875 Docs: Fix yield star spacing examples (Dmitriy Lazarev)
+* 4dab76e Docs: Update `preferType` heading to keep code format (fixes #5307) (chinesedfan)
+* 7020b82 Fix: `sort-imports` warned between default and members (fixes #5305) (Toru Nagashima)
+* 2f4cd1c Fix: `constructor-super` and `no-this-before-super` false (fixes #5261) (Toru Nagashima)
+* 59e9c5b New: eslint-disable-next-line (fixes #5206) (Kai Cataldo)
+* afb6708 Fix: `indent` rule forgot about some CallExpressions (fixes #5295) (Burak Yigit Kaya)
+* d18d406 Docs: Update PR creation bot message (fixes #5268) (Nicholas C. Zakas)
+* 0b1cd19 Fix: Ignore parser option if set to default parser (fixes #5241) (Kai Cataldo)
+
 v2.1.0 - February 15, 2016
 
 * 7981ef5 Build: Fix release script (Nicholas C. Zakas)
