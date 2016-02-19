@@ -26,6 +26,7 @@ ruleTester.run("no-multi-spaces", rule, {
         "var arr = [1, 2];",
         "var arr = [ (1), (2) ];",
         "var obj = {'a': 1, 'b': (2)};",
+        "\t\tvar x = 5,\n\t\t    y = 2;",
         "a, b",
         "a >>> b",
         "a ^ b",
@@ -361,6 +362,22 @@ ruleTester.run("no-multi-spaces", rule, {
             errors: [{
                 message: "Multiple spaces found before '+'.",
                 type: "Punctuator"
+            }]
+        },
+        {
+            code: "\t\tvar x = 5,\n\t\t    y =  2;",
+            output: "\t\tvar x = 5,\n\t\t    y = 2;",
+            errors: [{
+                message: "Multiple spaces found before '2'.",
+                type: "Numeric"
+            }]
+        },
+        {
+            code: "var x =\t  5;",
+            output: "var x = 5;",
+            errors: [{
+                message: "Multiple spaces found before '5'.",
+                type: "Numeric"
             }]
         }
     ]
