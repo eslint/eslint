@@ -155,6 +155,30 @@ describe("pr-create.md.ejs", function() {
         assert.ok(result.indexOf("require an issue") === -1);
     });
 
+    it("should not mention missing issue or length check when there's one fix commit", function() {
+        var result = ejs.render(TEMPLATE_TEXT, {
+            payload: {
+                sender: {
+                    login: "nzakas"
+                },
+                commits: 1
+            },
+            meta: {
+                cla: true,
+                commits: [
+                    {
+                        commit: {
+                            message: "Fix: Foo bar (fixes #1234)\nSome really long string. abcdefghijklmnopqrstuvwxyz abcdefghijklmnopqrstuvwxyz abcdefghijklmnopqrstuvwxyz"
+                        }
+                    }
+                ]
+            }
+        });
+
+        assert.equal(result.trim(), "LGTM");
+        assert.ok(result.indexOf("require an issue") === -1);
+    });
+
     it("should mention missing issue when there's a missing closing paren", function() {
         var result = ejs.render(TEMPLATE_TEXT, {
             payload: {
