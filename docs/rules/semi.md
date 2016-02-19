@@ -61,7 +61,7 @@ This rule is aimed at ensuring consistent use of semicolons. You can decide whet
 
 ## Options
 
-The rule takes one or two options. The fists one is a string, which could be `"always"` or `"never"`. The default is `"always"`. The second one is an object for more fine-grained configuration when the first option is `"always"`.
+The rule takes one or two options. The first one is a string, which could be `"always"` or `"never"`. The default is `"always"`. The second one is an object for more fine-grained configuration when the first option is `"always"`.
 
 You can set the option in configuration like this:
 
