@@ -98,8 +98,7 @@
     "shelljs-nodecli": "~0.1.0",
     "sinon": "^1.17.2",
     "temp": "^0.8.3",
-    "through": "^2.3.6",
-    "tmp": "0.0.28"
+    "through": "^2.3.6"
   },
   "keywords": [
     "ast",

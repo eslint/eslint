@@ -15,7 +15,6 @@ var assert = require("chai").assert,
     sinon = require("sinon"),
     path = require("path"),
     fs = require("fs"),
-    tmp = require("tmp"),
     temp = require("temp"),
     yaml = require("js-yaml"),
     resolve = require("resolve"),
@@ -70,7 +69,7 @@ function readJSModule(code) {
  * @private
  */
 function writeTempConfigFile(config, filename, existingTmpDir) {
-    var tmpFileDir = existingTmpDir || tmp.dirSync({prefix: "eslint-tests-"}).name,
+    var tmpFileDir = existingTmpDir || temp.mkdirSync("eslint-tests-"),
         tmpFilePath = path.join(tmpFileDir, filename),
         tmpFileContents = JSON.stringify(config);
     fs.writeFileSync(tmpFilePath, tmpFileContents);
