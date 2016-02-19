@@ -85,7 +85,8 @@ var NODE = "node ", // intentional extra space
  * @private
  */
 function getTestFilePatterns() {
-    var testLibPath = "tests/lib/";
+    var testLibPath = "tests/lib/",
+        testTemplatesPath = "tests/templates/";
 
     return ls(testLibPath).filter(function(pathToCheck) {
         return test("-d", testLibPath + pathToCheck);
@@ -94,7 +95,7 @@ function getTestFilePatterns() {
             initialValue.push(testLibPath + currentValues + "/**/*.js");
         }
         return initialValue;
-    }, [testLibPath + "rules/**/*.js", testLibPath + "*.js"]).join(" ");
+    }, [testLibPath + "rules/**/*.js", testLibPath + "*.js", testTemplatesPath + "*.js"]).join(" ");
 }
 
 /**
