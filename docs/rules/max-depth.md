@@ -24,6 +24,10 @@ The default depth above which this rule will warn is `4`.  You can configure the
 
 ```json
 "max-depth": [2, 10]
+
+// or you can use an object property
+
+"max-depth": [2, {"maximum": 10}]
 ```
 
 The following patterns are considered problems:
