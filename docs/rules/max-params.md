@@ -32,6 +32,19 @@ function foo (bar, baz, qux) {
 }
 ```
 
+Optionally, you may specify a `maximum` object property:
+
+```json
+"max-params": [2, 2]
+```
+
+is equivalent to
+
+```json
+"max-params": [2, {"maximum": 2}]
+```
+
+
 ## Related Rules
 
 * [complexity](complexity.md)
