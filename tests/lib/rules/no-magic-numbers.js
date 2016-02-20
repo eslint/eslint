@@ -73,6 +73,22 @@ ruleTester.run("no-magic-numbers", rule, {
             options: [{
                 ignoreArrayIndexes: true
             }]
+        },
+        {
+            code: "var a = <input maxLength={10} />;",
+            parserOptions: {
+                ecmaFeatures: {
+                    jsx: true
+                }
+            }
+        },
+        {
+            code: "var a = <div objectProp={{ test: 1}}></div>;",
+            parserOptions: {
+                ecmaFeatures: {
+                    jsx: true
+                }
+            }
         }
     ],
     invalid: [
@@ -193,6 +209,19 @@ ruleTester.run("no-magic-numbers", rule, {
             errors: [{
                 message: "No magic number: 3", line: 1
             }]
+        },
+        {
+            code: "var a = <div arrayProp={[1,2,3]}></div>;",
+            parserOptions: {
+                ecmaFeatures: {
+                    jsx: true
+                }
+            },
+            errors: [
+                { message: "No magic number: 1", line: 1 },
+                { message: "No magic number: 2", line: 1 },
+                { message: "No magic number: 3", line: 1 }
+            ]
         }
     ]
 });
