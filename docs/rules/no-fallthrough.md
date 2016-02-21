@@ -12,7 +12,7 @@ switch(foo) {
 }
 ```
 
-In this example, if `foo` is `1`,then execution will flow through both cases, as the first falls through to the second. You can prevent this by using `break`, as in this example:
+In this example, if `foo` is `1`, then execution will flow through both cases, as the first falls through to the second. You can prevent this by using `break`, as in this example:
 
 ```js
 switch(foo) {
