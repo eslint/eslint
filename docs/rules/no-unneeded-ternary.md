@@ -73,11 +73,11 @@ The following pattern is not considered a warning when `defaultAssignment` is `t
 var a = x ? x : 1;
 ```
 
+## When Not To Use It
+
+You can turn this rule off if you are not concerned with unnecessary complexity in conditional expressions.
+
 ## Related Rules
 
 * [no-ternary](no-ternary.md)
 * [no-nested-ternary](no-nested-ternary.md)
-
-## When Not To Use It
-
-You can turn this rule off if you are not concerned with unnecessary complexity in conditional expressions.
