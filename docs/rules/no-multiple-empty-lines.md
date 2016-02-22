@@ -18,49 +18,28 @@ The second argument can be used to configure this rule:
 * `maxBOF` can be used to set a different number for the beginning of the file.
   If omitted, the 'max' option is applied at the beginning of the file.
 
-For example, this sets the rule as an error (code is 2) with a maximum
-tolerated blank lines of 2 (for the whole file):
+### max
+
+In the following example, the first 2 is the code for an error
+and the second 2 is the maximum number of empty lines:
 
 ```json
 "no-multiple-empty-lines": [2, {"max": 2}]
 ```
 
-While this tolerates three consecutive blank lines within the file, but only
-one at the end:
-
-```json
-"no-multiple-empty-lines": [2, {"max": 3, "maxEOF": 1}]
-```
-
-And this tolerates three consecutive blank lines within the file, but none at
-the beginning:
-
-```json
-"no-multiple-empty-lines": [2, {"max": 3, "maxBOF": 0}]
-```
-
-
-## Examples
-
 The following patterns are considered problems:
 
 ```js
-/*eslint no-multiple-empty-lines: [2, {max: 1}]*/
+/*eslint no-multiple-empty-lines: [2, {max: 2}]*/
+
 
 var foo = 5;
+
+
+
 var bar = 3;
 
-```
 
-```js
-/*eslint no-multiple-empty-lines: [2, {max: 2, maxEOF: 1}]*/
-
-var foo = 5;
-```
-
-```js
-/*eslint no-multiple-empty-lines: [2, {max: 999, maxBOF: 0}]*/
-var foo = 5;
 ```
 
 The following patterns are not considered problems:
@@ -68,41 +47,78 @@ The following patterns are not considered problems:
 ```js
 /*eslint no-multiple-empty-lines: [2, {max: 2}]*/
 
-var foo = 5;
-
-var bar = 3;
-```
-
-```js
-/*eslint no-multiple-empty-lines: [2, {max: 4}]*/
 
 var foo = 5;
-
-
 
 
 var bar = 3;
+
+
 ```
 
-```js
-/*eslint no-multiple-empty-lines: [2, {max: 2}]*/
+### maxEOF
 
-var foo = 5;
-// extra line
+```json
+"no-multiple-empty-lines": [2, {"max": 2, "maxEOF": 1}]
 ```
 
+The following patterns are considered problems:
+
 ```js
-/*eslint no-multiple-empty-lines: [2, {max: 2, maxBOF: 1}]*/
-// extra line
+/*eslint no-multiple-empty-lines: [2, {max: 2, maxEOF: 1}]*/
+
+
 var foo = 5;
-// extra line
+
+
+var bar = 3;
+
+
 ```
 
+The following patterns are not considered problems:
+
 ```js
-/*eslint no-multiple-empty-lines: [2, {max: 2, maxEOF: 10}]*/
+/*eslint no-multiple-empty-lines: [2, {max: 2, maxEOF: 1}]*/
+
 
 var foo = 5;
-// 10 extra lines
+
+
+var bar = 3;
+
+```
+
+### maxBOF
+
+```json
+"no-multiple-empty-lines": [2, {"max": 2, "maxBOF": 0}]
+```
+
+The following patterns are considered problems:
+
+```js
+/*eslint no-multiple-empty-lines: [2, {max: 2, maxBOF: 0}]*/
+
+
+var foo = 5;
+
+
+var bar = 3;
+
+
+```
+
+The following patterns are not considered problems:
+
+```js
+/*eslint no-multiple-empty-lines: [2, {max: 2, maxBOF: 0}]*/
+var foo = 5;
+
+
+var bar = 3;
+
+
 ```
 
 ## When Not To Use It

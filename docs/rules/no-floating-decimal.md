@@ -33,13 +33,13 @@ var num = 0.5;
 var num = 2.0;
 ```
 
-## Compatibility
-
-* **JSHint**: W008
-
 ## When Not To Use It
 
 If you aren't concerned about misinterpreting floating decimal point values, then you can safely turn this rule off.
+
+## Compatibility
+
+* **JSHint**: W008
 
 ## Further Reading
 

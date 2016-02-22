@@ -9,8 +9,6 @@ This rule forces the programmer to represent that behaviour by manually moving t
 This rule aims to keep all variable declarations in the leading series of statements.
 Allowing multiple declarations helps promote maintainability and is thus allowed.
 
-### Examples
-
 The following patterns are considered problems:
 
 ```js

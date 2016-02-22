@@ -27,7 +27,7 @@ And this rule allows `this` keywords in functions below:
 
 Otherwise are considered problems.
 
-### The following patterns are considered problems:
+The following patterns are considered problems:
 
 This rule warns below **only** under the strict mode.
 Please note your code in ES2015 Modules/Classes is always the strict mode.
@@ -80,7 +80,7 @@ foo.forEach(function() {
 });
 ```
 
-### The following patterns are not considered problems:
+The following patterns are not considered problems:
 
 ```js
 /*eslint no-invalid-this: 2*/
