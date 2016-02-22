@@ -23,6 +23,7 @@ ruleTester.run("no-self-assign", rule, {
     valid: [
         "var a = a",
         "a = b",
+        "a += a",
         "a = +a",
         "a = [a]",
         {code: "let a = a", parserOptions: {ecmaVersion: 6}},
