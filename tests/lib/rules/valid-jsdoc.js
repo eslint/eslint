@@ -339,6 +339,29 @@ ruleTester.run("valid-jsdoc", rule, {
                     "astnode": "ASTNode"
                 }
             }]
+        },
+        {
+            code:
+            "/**\n" +
+            " * Test dash and slash.\n" +
+            " * @extends module:stb/emitter~Emitter\n" +
+            " */\n" +
+            "function foo() {}",
+            options: [{
+                "requireReturn": false
+            }]
+        },
+        {
+            code:
+            "/**\n" +
+            " * Test dash and slash.\n" +
+            " * @requires module:config\n" +
+            " * @requires module:modules/notifications\n" +
+            " */\n" +
+            "function foo() {}",
+            options: [{
+                "requireReturn": false
+            }]
         }
     ],
 
