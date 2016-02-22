@@ -15,7 +15,7 @@ In this case, the variable `a` inside of `b()` is shadowing the variable `a` in 
 
 This rule aims to eliminate shadowed variable declarations.
 
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule:
 
 ```js
 /*eslint no-shadow: 2*/
@@ -46,16 +46,16 @@ This rule takes one option, an object, with properties `"builtinGlobals"`, `"hoi
 
 ```json
 {
-    "no-shadow": [2, {"builtinGlobals": false, "hoist": "functions", "allow": []}]
+    "no-shadow": [2, { "builtinGlobals": false, "hoist": "functions", "allow": [] }]
 }
 ```
 
-### `builtinGlobals`
+### builtinGlobals
 
-`false` by default.
-If this is `true`, this rule checks with built-in global variables such as `Object`, `Array`, `Number`, ...
+The `builtinGlobals` option is `false` by default.
+If it is `true`, the rule prevents shadowing of built-in global variables: `Object`, `Array`, `Number`, and so on.
 
-When `{"builtinGlobals": true}`, the following patterns are considered problems:
+Examples of **incorrect** code for the `{ "builtinGlobals": true }` option:
 
 ```js
 /*eslint no-shadow: [2, { "builtinGlobals": true }]*/
@@ -65,17 +65,49 @@ function foo() {
 }
 ```
 
-### `hoist`
+### hoist
 
-The option has three settings:
+The `hoist` option has three settings:
 
-* `all` - reports all shadowing before the outer variables/functions are defined.
 * `functions` (by default) - reports shadowing before the outer functions are defined.
+* `all` - reports all shadowing before the outer variables/functions are defined.
 * `never` - never report shadowing before the outer variables/functions are defined.
 
-#### `{ "hoist": "all" }`
+#### hoist: functions
 
-With `"hoist"` set to `"all"`, both `let a` and `let b` in the `if` statement are considered problems.
+Examples of **incorrect** code for the default `{ "hoist": "functions" }` option:
+
+```js
+/*eslint no-shadow: [2, { "hoist": "functions" }]*/
+/*eslint-env es6*/
+
+if (true) {
+    let b = 6;
+}
+
+function b() {}
+```
+
+Although `let b` in the `if` statement is before the *function* declaration in the outer scope, it is incorrect.
+
+Examples of **correct** code for the default `{ "hoist": "functions" }` option:
+
+```js
+/*eslint no-shadow: [2, { "hoist": "functions" }]*/
+/*eslint-env es6*/
+
+if (true) {
+    let a = 3;
+}
+
+let a = 5;
+```
+
+Because `let a` in the `if` statement is before the *variable* declaration in the outer scope, it is correct.
+
+#### hoist: all
+
+Examples of **incorrect** code for the `{ "hoist": "all" }` option:
 
 ```js
 /*eslint no-shadow: [2, { "hoist": "all" }]*/
@@ -90,26 +122,9 @@ let a = 5;
 function b() {}
 ```
 
-#### `{ "hoist": "functions" }` (default)
+#### hoist: never
 
-With `"hoist"` set to `"functions"`, `let b` is considered a warning. But `let a` in the `if` statement is not considered a warning, because it is before `let a` of the outer scope.
-
-```js
-/*eslint no-shadow: [2, { "hoist": "functions" }]*/
-/*eslint-env es6*/
-
-if (true) {
-    let a = 3;
-    let b = 6;
-}
-
-let a = 5;
-function b() {}
-```
-
-#### `{ "hoist": "never" }`
-
-With `"hoist"` set to `"never"`, neither `let a` nor `let b` in the `if` statement are considered problems, because they are before the declarations of the outer scope.
+Examples of **correct** code for the `{ "hoist": "never" }` option:
 
 ```js
 /*eslint no-shadow: [2, { "hoist": "never" }]*/
@@ -124,21 +139,18 @@ let a = 5;
 function b() {}
 ```
 
-### `allow`
+Because `let a` and `let b` in the `if` statement are before the declarations in the outer scope, they are correct.
 
-The option is an array of identifier names to be allowed (ie. "resolve", "reject", "done", "cb" etc.):
+### allow
 
-```json
-{
-    "rules": {
-        "no-shadow": [2, {"allow": ["done"]}]
-    }
-}
-```
+The `allow` option is an array of identifier names for which shadowing is allowed. For example, `"resolve"`, `"reject"`, `"done"`, `"cb"`.
 
-Allows for the following code to be valid:
+Examples of **correct** code for the `{ "allow": ["done"] }` option:
 
 ```js
+/*eslint no-shadow: [2, { "allow": ["done"] }]*/
+/*eslint-env es6*/
+
 import async from 'async';
 
 function foo(done) {
@@ -155,3 +167,7 @@ foo(function (err, result) {
 ## Further Reading
 
 * [Variable Shadowing](http://en.wikipedia.org/wiki/Variable_shadowing)
+
+## Related Rules
+
+* [no-shadow-restricted-names](no-shadow-restricted-names.md)

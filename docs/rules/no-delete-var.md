@@ -1,6 +1,12 @@
 # Disallow Variables Deletion (no-delete-var)
 
-This rule prevents the use of `delete` operator on variables:
+The purpose of the `delete` operator is to remove a property from an object. Using the `delete` operator on a variable might lead to unexpected behavior.
+
+## Rule Details
+
+This rule prevents the use of `delete` operator on variables.
+
+Examples of **incorrect** code for this rule:
 
 ```js
 /*eslint no-delete-var: 2*/
@@ -8,8 +14,6 @@ This rule prevents the use of `delete` operator on variables:
 var x;
 delete x;
 ```
-
-The delete operator will only delete the properties of objects. It cannot "delete" variables or anything else. Using them on variables might lead to unexpected behavior.
 
 ## Further Reading
 
