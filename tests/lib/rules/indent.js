@@ -2120,6 +2120,40 @@ ruleTester.run("indent", rule, {
                 [2, 1, 0, "IfStatement"]
             ])
         },
+        {
+            code:
+            "function a() {\n" +
+            "\tif (a) {\n" +
+            "\t\tvar x; /* multiline comment\n" +
+            "wooooo */}\n" +
+            "}",
+            output:
+            "function a() {\n" +
+            "\tif (a) {\n" +
+            "\t\tvar x; /* multiline comment\n" +
+            "wooooo */}\n" +
+            "}",
+            options: ["tab"],
+            errors: expectedErrors("tab", [
+                [4, 1, 0, "BlockStatement"]
+            ])
+        },
+        {
+            code:
+            "/* Leading\n" +
+            "comment */\tif (a) {\n" +
+            "\tvar x; /* multiline comment\n" +
+            "wooooo */}",
+            output:
+            "/* Leading\n" +
+            "comment */if (a) {\n" +
+            "\tvar x; /* multiline comment\n" +
+            "wooooo */}",
+            options: ["tab"],
+            errors: expectedErrors("tab", [
+                [4, 1, 0, "BlockStatement"]
+            ])
+        },
 
         // autofixing basically ignores block comments
         {
