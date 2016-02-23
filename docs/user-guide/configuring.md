@@ -62,7 +62,7 @@ To indicate the npm module to use as your parser, specify it using the `parser` 
 {
     "parser": "esprima",
     "rules": {
-        "semi": 2
+        "semi": "error"
     }
 }
 ```
@@ -255,23 +255,31 @@ And in YAML:
 
 ESLint comes with a large number of rules. You can modify which rules your project uses either using configuration comments or configuration files. To change a rule setting, you must set the rule ID equal to one of these values:
 
-* 0 - turn the rule off
-* 1 - turn the rule on as a warning (doesn't affect exit code)
-* 2 - turn the rule on as an error (exit code is 1 when triggered)
+* `"off"` or `0` - turn the rule off
+* `"warn"` or `1` - turn the rule on as a warning (doesn't affect exit code)
+* `"error"` or `2` - turn the rule on as an error (exit code is 1 when triggered)
 
 To configure rules inside of a file using configuration comments, use a comment in the following format:
 
 ```js
-/*eslint eqeqeq:0, curly: 2*/
+/*eslint eqeqeq: "off", curly: "error"*/
 ```
 
-In this example, [`eqeqeq`](../rules/eqeqeq) is turned off and [`curly`](../rules/curly) is turned on as an error. If a rule has additional options, you can specify them using array literal syntax, such as:
+In this example, [`eqeqeq`](../rules/eqeqeq) is turned off and [`curly`](../rules/curly) is turned on as an error. You can also use the numeric equivalent for the rule severity:
 
 ```js
-/*eslint quotes: [2, "double"], curly: 2*/
+/*eslint eqeqeq: 0, curly: 2*/
 ```
 
-This comment specifies the "double" option for the [`quotes`](../rules/quotes) rule.
+This example is the same as the last example, only it uses the numeric codes instead of the string values. The `eqeqeq` rule is off and the `curly` rule is set to be an error.
+
+If a rule has additional options, you can specify them using array literal syntax, such as:
+
+```js
+/*eslint quotes: ["error", "double"], curly: 2*/
+```
+
+This comment specifies the "double" option for the [`quotes`](../rules/quotes) rule. The first item in the array is always the rule severity (number or string).
 
 To configure rules inside of a configuration file, use the `rules` key along with an error level and any options you want to use. For example:
 
@@ -279,9 +287,9 @@ To configure rules inside of a configuration file, use the `rules` key along wit
 ```json
 {
     "rules": {
-        "eqeqeq": 0,
-        "curly": 2,
-        "quotes": [2, "double"]
+        "eqeqeq": "off",
+        "curly": "error",
+        "quotes": ["error", "double"]
     }
 }
 ```
@@ -290,12 +298,12 @@ And in YAML:
 
 ```yaml
 ---
-  rules:
-    eqeqeq: 0
-    curly: 2
-    quotes:
-      - 2
-      - "double"
+rules:
+  eqeqeq: off
+  curly: error
+  quotes:
+    - error
+    - double
 ```
 
 To configure a rule which is defined within a plugin you have to prefix the rule ID with the plugin name and a `/`. For example:
@@ -306,10 +314,10 @@ To configure a rule which is defined within a plugin you have to prefix the rule
         "plugin1"
     ],
     "rules": {
-        "eqeqeq": 0,
-        "curly": 2,
-        "quotes": [2, "double"],
-        "plugin1/rule1": 2
+        "eqeqeq": "off",
+        "curly": "error",
+        "quotes": ["error", "double"],
+        "plugin1/rule1": "error"
     }
 }
 ```
@@ -318,21 +326,21 @@ And in YAML:
 
 ```yaml
 ---
-  plugins:
-    - plugin1
-  rules:
-    eqeqeq: 0
-    curly: 2
-    quotes:
-      - 2
-      - "double"
-    plugin1/rule1: 2
+plugins:
+  - plugin1
+rules:
+  eqeqeq: 0
+  curly: error
+  quotes:
+    - error
+    - "double"
+  plugin1/rule1: error
 ```
 
 In these configuration files, the rule `plugin1/rule1` comes from the plugin named `plugin1`. You can also use this format with configuration comments, such as:
 
 ```js
-/*eslint "plugin1/rule1": 2*/
+/*eslint "plugin1/rule1": "error" */
 ```
 
 **Note:** When specifying rules from plugins, make sure to omit `eslint-plugin-`. ESLint uses only the unprefixed name internally to locate rules.
@@ -555,7 +563,7 @@ Configurations may also be provided as an array, with additional files overridin
 
     "rules": {
         // Override any settings from the "parent" configuration
-        "eqeqeq": 1
+        "eqeqeq": "warn"
     }
 }
 ```
@@ -570,7 +578,7 @@ You can also extend configurations using shareable configuration packages. To do
 
     "rules": {
         // Override any settings from the "parent" configuration
-        "eqeqeq": 1
+        "eqeqeq": "warn"
     }
 }
 ```
@@ -587,7 +595,7 @@ ESLint also supports extending configuration from plugins that provide configs:
 
     "rules": {
         // Override any settings from the "parent" configuration
-        "eqeqeq": 1
+        "eqeqeq": "warn"
     }
 }
 ```
@@ -609,8 +617,8 @@ Both the JSON and YAML configuration file formats support comments (`package.jso
     },
     "rules": {
         // Override our default settings just for this directory
-        "eqeqeq": 1,
-        "strict": 0
+        "eqeqeq": "warn",
+        "strict": "off"
     }
 }
 ```

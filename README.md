@@ -39,17 +39,17 @@ After running `eslint --init`, you'll have a `.eslintrc` file in your directory.
 ```json
 {
     "rules": {
-        "semi": [2, "always"],
-        "quotes": [2, "double"]
+        "semi": ["error", "always"],
+        "quotes": ["error", "double"]
     }
 }
 ```
 
 The names `"semi"` and `"quotes"` are the names of [rules](http://eslint.org/docs/rules) in ESLint. The number is the error level of the rule and can be one of the three values:
 
-* `0` - turn the rule off
-* `1` - turn the rule on as a warning (doesn't affect exit code)
-* `2` - turn the rule on as an error (exit code will be 1)
+* `"off"` or `0` - turn the rule off
+* `"warn"` or `1` - turn the rule on as a warning (doesn't affect exit code)
+* `"error"` or `2` - turn the rule on as an error (exit code will be 1)
 
 The three error levels allow you fine-grained control over how ESLint applies rules (for more configuration options and details, see the [configuration docs](http://eslint.org/docs/user-guide/configuring)).
 
