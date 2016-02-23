@@ -99,6 +99,42 @@ describe("Validator", function() {
             assert.doesNotThrow(fn);
         });
 
+        it("should do nothing with a valid config when severity is off", function() {
+            var fn = validator.validate.bind(null, { rules: { "mock-rule": ["off", "second"] } }, "tests");
+
+            assert.doesNotThrow(fn);
+        });
+
+        it("should do nothing with a valid config when severity is warn", function() {
+            var fn = validator.validate.bind(null, { rules: { "mock-rule": ["warn", "second"] } }, "tests");
+
+            assert.doesNotThrow(fn);
+        });
+
+        it("should do nothing with a valid config when severity is error", function() {
+            var fn = validator.validate.bind(null, { rules: { "mock-rule": ["error", "second"] } }, "tests");
+
+            assert.doesNotThrow(fn);
+        });
+
+        it("should do nothing with a valid config when severity is Off", function() {
+            var fn = validator.validate.bind(null, { rules: { "mock-rule": ["Off", "second"] } }, "tests");
+
+            assert.doesNotThrow(fn);
+        });
+
+        it("should do nothing with a valid config when severity is Warn", function() {
+            var fn = validator.validate.bind(null, { rules: { "mock-rule": ["Warn", "second"] } }, "tests");
+
+            assert.doesNotThrow(fn);
+        });
+
+        it("should do nothing with a valid config when severity is Error", function() {
+            var fn = validator.validate.bind(null, { rules: { "mock-rule": ["Error", "second"] } }, "tests");
+
+            assert.doesNotThrow(fn);
+        });
+
         it("should catch invalid rule options", function() {
             var fn = validator.validate.bind(null, { rules: { "mock-rule": [3, "third"] } }, "tests");
 
@@ -169,6 +205,12 @@ describe("Validator", function() {
             var fn = validator.validateRuleOptions.bind(null, "mock-rule", 3, "tests");
 
             assert.throws(fn, "tests:\n\tConfiguration for rule \"mock-rule\" is invalid:\n\tSeverity should be one of the following: 0 = off, 1 = warning, 2 = error (you passed \"3\").\n");
+        });
+
+        it("should throw for incorrect warning level", function() {
+            var fn = validator.validateRuleOptions.bind(null, "mock-rule", "booya", "tests");
+
+            assert.throws(fn, "tests:\n\tConfiguration for rule \"mock-rule\" is invalid:\n\tSeverity should be one of the following: 0 = off, 1 = warning, 2 = error (you passed \"booya\").\n");
         });
 
         it("should only check warning level for nonexistent rules", function() {

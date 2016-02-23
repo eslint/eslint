@@ -718,7 +718,7 @@ target.checkRuleFiles = function() {
          */
         function isOffInConfig() {
             var rule = eslintConf[basename];
-            return rule === 0 || (rule && rule[0] === 0);
+            return rule === "off" || (rule && rule[0] === "off");
         }
 
         /**

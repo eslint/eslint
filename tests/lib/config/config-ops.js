@@ -12,6 +12,7 @@
 
 var assert = require("chai").assert,
     lodash = require("lodash"),
+    leche = require("leche"),
     environments = require("../../../conf/environments"),
     ConfigOps = require("../../../lib/config/config-ops"),
     proxyquire = require("proxyquire");
@@ -297,7 +298,7 @@ describe("ConfigOps", function() {
         it("should combine configs and override rules options without array or object", function() {
 
             var config = [
-                { rules: { "no-mixed-requires": [1, "nconf", "underscore"] } },
+                { rules: { "no-mixed-requires": ["warn", "nconf", "underscore"] } },
                 { rules: { "no-mixed-requires": [2, "requirejs"] } }
             ];
 
@@ -306,7 +307,7 @@ describe("ConfigOps", function() {
             assert.strictEqual(result.rules["no-mixed-requires"][0], 2);
             assert.strictEqual(result.rules["no-mixed-requires"][1], "requirejs");
             assert.isUndefined(result.rules["no-mixed-requires"][2]);
-            assert.deepEqual(config[0], { rules: { "no-mixed-requires": [1, "nconf", "underscore"] }});
+            assert.deepEqual(config[0], { rules: { "no-mixed-requires": ["warn", "nconf", "underscore"] }});
             assert.deepEqual(config[1], { rules: { "no-mixed-requires": [2, "requirejs"] }});
         });
 
@@ -314,16 +315,16 @@ describe("ConfigOps", function() {
 
             var config = [
                 { rules: { "no-mixed-requires": [1, "nconf", "underscore"] } },
-                { rules: { "no-mixed-requires": 2 } }
+                { rules: { "no-mixed-requires": "error" } }
             ];
 
             var result = ConfigOps.merge(config[0], config[1]);
 
-            assert.strictEqual(result.rules["no-mixed-requires"][0], 2);
+            assert.strictEqual(result.rules["no-mixed-requires"][0], "error");
             assert.strictEqual(result.rules["no-mixed-requires"][1], "nconf");
             assert.strictEqual(result.rules["no-mixed-requires"][2], "underscore");
             assert.deepEqual(config[0], { rules: { "no-mixed-requires": [1, "nconf", "underscore"] }});
-            assert.deepEqual(config[1], { rules: { "no-mixed-requires": 2 }});
+            assert.deepEqual(config[1], { rules: { "no-mixed-requires": "error" }});
         });
 
         it("should combine configs correctly", function() {
@@ -478,6 +479,321 @@ describe("ConfigOps", function() {
             });
         });
 
+
+    });
+
+    describe("normalize()", function() {
+        it("should convert error rule setting to 2 when rule has just a severity", function() {
+            var config = {
+                rules: {
+                    foo: "errOr",
+                    bar: "error"
+                }
+            };
+
+            ConfigOps.normalize(config);
+
+            assert.deepEqual(config, {
+                rules: {
+                    foo: 2,
+                    bar: 2
+                }
+            });
+        });
+
+        it("should convert error rule setting to 2 when rule has array with severity", function() {
+            var config = {
+                rules: {
+                    foo: ["Error", "something"],
+                    bar: "error"
+                }
+            };
+
+            ConfigOps.normalize(config);
+
+            assert.deepEqual(config, {
+                rules: {
+                    foo: [2, "something"],
+                    bar: 2
+                }
+            });
+        });
+
+        it("should convert warn rule setting to 1 when rule has just a severity", function() {
+            var config = {
+                rules: {
+                    foo: "waRn",
+                    bar: "warn"
+                }
+            };
+
+            ConfigOps.normalize(config);
+
+            assert.deepEqual(config, {
+                rules: {
+                    foo: 1,
+                    bar: 1
+                }
+            });
+        });
+
+        it("should convert warn rule setting to 1 when rule has array with severity", function() {
+            var config = {
+                rules: {
+                    foo: ["Warn", "something"],
+                    bar: "warn"
+                }
+            };
+
+            ConfigOps.normalize(config);
+
+            assert.deepEqual(config, {
+                rules: {
+                    foo: [1, "something"],
+                    bar: 1
+                }
+            });
+        });
+
+        it("should convert off rule setting to 0 when rule has just a severity", function() {
+            var config = {
+                rules: {
+                    foo: "ofF",
+                    bar: "off"
+                }
+            };
+
+            ConfigOps.normalize(config);
+
+            assert.deepEqual(config, {
+                rules: {
+                    foo: 0,
+                    bar: 0
+                }
+            });
+        });
+
+        it("should convert off rule setting to 0 when rule has array with severity", function() {
+            var config = {
+                rules: {
+                    foo: ["Off", "something"],
+                    bar: "off"
+                }
+            };
+
+            ConfigOps.normalize(config);
+
+            assert.deepEqual(config, {
+                rules: {
+                    foo: [0, "something"],
+                    bar: 0
+                }
+            });
+        });
+
+        it("should convert invalid rule setting to 0 when rule has just a severity", function() {
+            var config = {
+                rules: {
+                    foo: "invalid",
+                    bar: "invalid"
+                }
+            };
+
+            ConfigOps.normalize(config);
+
+            assert.deepEqual(config, {
+                rules: {
+                    foo: 0,
+                    bar: 0
+                }
+            });
+        });
+
+        it("should convert invalid rule setting to 0 when rule has array with severity", function() {
+            var config = {
+                rules: {
+                    foo: ["invalid", "something"],
+                    bar: "invalid"
+                }
+            };
+
+            ConfigOps.normalize(config);
+
+            assert.deepEqual(config, {
+                rules: {
+                    foo: [0, "something"],
+                    bar: 0
+                }
+            });
+        });
+    });
+
+    describe("normalizeToStrings()", function() {
+        it("should convert 2 rule setting to error when rule has just a severity", function() {
+            var config = {
+                rules: {
+                    foo: 2,
+                    bar: 2
+                }
+            };
+
+            ConfigOps.normalizeToStrings(config);
+
+            assert.deepEqual(config, {
+                rules: {
+                    foo: "error",
+                    bar: "error"
+                }
+            });
+        });
+
+        it("should convert 2 rule setting to error when rule has array with severity", function() {
+            var config = {
+                rules: {
+                    foo: [2, "something"],
+                    bar: 2
+                }
+            };
+
+            ConfigOps.normalizeToStrings(config);
+
+            assert.deepEqual(config, {
+                rules: {
+                    foo: ["error", "something"],
+                    bar: "error"
+                }
+            });
+        });
+
+        it("should convert 1 rule setting to warn when rule has just a severity", function() {
+            var config = {
+                rules: {
+                    foo: 1,
+                    bar: 1
+                }
+            };
+
+            ConfigOps.normalizeToStrings(config);
+
+            assert.deepEqual(config, {
+                rules: {
+                    foo: "warn",
+                    bar: "warn"
+                }
+            });
+        });
+
+        it("should convert 1 rule setting to warn when rule has array with severity", function() {
+            var config = {
+                rules: {
+                    foo: [1, "something"],
+                    bar: 1
+                }
+            };
+
+            ConfigOps.normalizeToStrings(config);
+
+            assert.deepEqual(config, {
+                rules: {
+                    foo: ["warn", "something"],
+                    bar: "warn"
+                }
+            });
+        });
+
+        it("should convert 0 rule setting to off when rule has just a severity", function() {
+            var config = {
+                rules: {
+                    foo: 0,
+                    bar: 0
+                }
+            };
+
+            ConfigOps.normalizeToStrings(config);
+
+            assert.deepEqual(config, {
+                rules: {
+                    foo: "off",
+                    bar: "off"
+                }
+            });
+        });
+
+        it("should convert 0 rule setting to off when rule has array with severity", function() {
+            var config = {
+                rules: {
+                    foo: [0, "something"],
+                    bar: 0
+                }
+            };
+
+            ConfigOps.normalizeToStrings(config);
+
+            assert.deepEqual(config, {
+                rules: {
+                    foo: ["off", "something"],
+                    bar: "off"
+                }
+            });
+        });
+
+        it("should convert 256 rule setting to off when rule has just a severity", function() {
+            var config = {
+                rules: {
+                    foo: 256,
+                    bar: 256
+                }
+            };
+
+            ConfigOps.normalizeToStrings(config);
+
+            assert.deepEqual(config, {
+                rules: {
+                    foo: "off",
+                    bar: "off"
+                }
+            });
+        });
+
+        it("should convert 256 rule setting to off when rule has array with severity", function() {
+            var config = {
+                rules: {
+                    foo: [256, "something"],
+                    bar: 256
+                }
+            };
+
+            ConfigOps.normalizeToStrings(config);
+
+            assert.deepEqual(config, {
+                rules: {
+                    foo: ["off", "something"],
+                    bar: "off"
+                }
+            });
+        });
+    });
+
+    describe("isError()", function() {
+
+        leche.withData([
+            ["error", true],
+            ["Error", true],
+            [2, true],
+            [["error"], true],
+            [["erRor"], true],
+            [[2], true],
+            [["error", "foo"], true],
+            [["eRror", "bar"], true],
+            [[2, "baz"], true]
+        ], function(input, expected) {
+
+            it("should return " + expected + "when passed " + input, function() {
+                var result = ConfigOps.isErrorSeverity(input);
+                assert.equal(result, expected);
+            });
+
+        });
 
     });
 
