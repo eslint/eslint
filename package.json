@@ -26,7 +26,8 @@
     "README.md",
     "bin",
     "conf",
-    "lib"
+    "lib",
+    "messages"
   ],
   "repository": {
     "type": "git",
