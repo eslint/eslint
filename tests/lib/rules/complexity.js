@@ -16,6 +16,23 @@ var rule = require("../../../lib/rules/complexity"),
 // Helpers
 //------------------------------------------------------------------------------
 
+/**
+ * Generates a code string with the amount of complexity specified in the parameter
+ * @param {int} complexity The level of complexity
+ * @returns {string} Code with the amount of complexity specified in the parameter
+ * @private
+ */
+function createComplexity(complexity) {
+    var funcString = "function test (a) { if (a === 1) {";
+
+    for (var i = 2; i < complexity; i++) {
+        funcString += "} else if (a === " + i + ") {";
+    }
+
+    funcString += "} };";
+
+    return funcString;
+}
 
 var ruleTester = new RuleTester();
 ruleTester.run("complexity", rule, {
@@ -65,6 +82,10 @@ ruleTester.run("complexity", rule, {
         { code: "function a(x) {(function() {while(true){'foo';}})(); (function() {while(true){'bar';}})();}", options: [1], errors: 2 },
         { code: "function a(x) {(function() {while(true){'foo';}})(); (function() {'bar';})();}", options: [1], errors: 1 },
         { code: "var obj = { a(x) { return x ? 0 : 1; } };", options: [1], parserOptions: { ecmaVersion: 6 }, errors: [{ message: "Function 'a' has a complexity of 2."}] },
-        { code: "var obj = { a: function b(x) { return x ? 0 : 1; } };", options: [1], errors: [{ message: "Function 'b' has a complexity of 2."}] }
+        { code: "var obj = { a: function b(x) { return x ? 0 : 1; } };", options: [1], errors: [{ message: "Function 'b' has a complexity of 2."}] },
+        {
+            code: createComplexity(21),
+            errors: [{ message: "Function 'test' has a complexity of 21." }]
+        }
     ]
 });
