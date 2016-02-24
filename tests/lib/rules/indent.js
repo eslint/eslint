@@ -1071,6 +1071,20 @@ ruleTester.run("indent", rule, {
         },
         {
             code:
+            "var haveFun = function () {\n" +
+            "    new SillyFunction(\n" +
+            "        {\n" +
+            "            value: true,\n" +
+            "        },\n" +
+            "        {\n" +
+            "            _id: true,\n" +
+            "        }\n" +
+            "    );\n" +
+            "};",
+            options: [4]
+        },
+        {
+            code:
             "let object1 = {\n" +
             "  doThing() {\n" +
             "    return _.chain([])\n" +
