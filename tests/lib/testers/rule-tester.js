@@ -268,6 +268,19 @@ describe("RuleTester", function() {
         }, /Should have 2 errors but had 1/);
     });
 
+    it("should throw an error if invalid code does not have errors", function() {
+        assert.throws(function() {
+            ruleTester.run("no-eval", require("../../fixtures/testers/rule-tester/no-eval"), {
+                valid: [
+                    "Eval(foo)"
+                ],
+                invalid: [
+                    { code: "eval(foo)" }
+                ]
+            });
+        }, /Did not specify errors for an invalid test of no-eval/);
+    });
+
     it("should throw an error if invalid code has the wrong explicit number of errors", function() {
 
         assert.throws(function() {
