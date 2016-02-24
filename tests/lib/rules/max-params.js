@@ -20,7 +20,7 @@ var rule = require("../../../lib/rules/max-params"),
 var ruleTester = new RuleTester();
 ruleTester.run("max-params", rule, {
     valid: [
-        "function test(d, e, f) {}",
+        { code: "function test(d, e, f) {}" },
         { code: "var test = function(a, b, c) {};", options: [3] },
         { code: "var test = (a, b, c) => {};", options: [3], parserOptions: { ecmaVersion: 6 } },
         { code: "var test = function test(a, b, c) {};", options: [3] }
