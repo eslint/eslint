@@ -120,6 +120,7 @@ These rules have to do with variable declarations.
 * [no-catch-shadow](no-catch-shadow.md) - disallow the catch clause parameter name being the same as a variable in the outer scope
 * [no-delete-var](no-delete-var.md) - disallow deletion of variables (recommended)
 * [no-label-var](no-label-var.md) - disallow labels that share a name with a variable
+* [no-restricted-globals](no-restricted-globals.md) - restrict usage of specified global variables
 * [no-shadow](no-shadow.md) - disallow declaration of variables already declared in the outer scope
 * [no-shadow-restricted-names](no-shadow-restricted-names.md) - disallow shadowing of names such as `arguments`
 * [no-undef](no-undef.md) - disallow use of undeclared variables unless mentioned in a `/*global */` block (recommended)
