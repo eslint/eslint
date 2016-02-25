@@ -52,6 +52,36 @@ ruleTester.run("dot-notation", rule, {
         { code: "a['b'];", errors: [{ message: "[\"b\"] is better written in dot notation." }] },
         { code: "a.b['c'];", errors: [{ message: "[\"c\"] is better written in dot notation." }] },
         { code: "a['_dangle'];", options: [{allowPattern: "^[a-z]+(_[a-z]+)+$"}], errors: [{ message: "[\"_dangle\"] is better written in dot notation." }] },
-        { code: "a['SHOUT_CASE'];", options: [{allowPattern: "^[a-z]+(_[a-z]+)+$"}], errors: [{ message: "[\"SHOUT_CASE\"] is better written in dot notation." }] }
+        { code: "a['SHOUT_CASE'];", options: [{allowPattern: "^[a-z]+(_[a-z]+)+$"}], errors: [{ message: "[\"SHOUT_CASE\"] is better written in dot notation." }] },
+        {
+            code:
+                "a\n" +
+                "  ['SHOUT_CASE'];",
+            errors: [{
+                message: "[\"SHOUT_CASE\"] is better written in dot notation.",
+                line: 2,
+                column: 4
+            }]
+        },
+        {
+            code:
+            "getResource()\n" +
+            "    .then(function(){})\n" +
+            "    [\"catch\"](function(){})\n" +
+            "    .then(function(){})\n" +
+            "    [\"catch\"](function(){});",
+            errors: [
+                {
+                    message: "[\"catch\"] is better written in dot notation.",
+                    line: 3,
+                    column: 6
+                },
+                {
+                    message: "[\"catch\"] is better written in dot notation.",
+                    line: 5,
+                    column: 6
+                }
+            ]
+        }
     ]
 });
