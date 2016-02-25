@@ -29,6 +29,7 @@ ruleTester.run("consistent-return", rule, {
         "f(function() { if (true) return true; else return false; })",
         "function foo() { function bar() { return true; } return; }",
         "function foo() { function bar() { return; } return false; }",
+        "function Foo() { if (!(this instanceof Foo)) return new Foo(); }",
         { code: "var x = () => {  return {}; };", parserOptions: { ecmaVersion: 6 } },
         { code: "if (true) { return 1; } return 0;", parserOptions: { ecmaVersion: 6, ecmaFeatures: { globalReturn: true } } }
     ],

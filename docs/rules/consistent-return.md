@@ -21,6 +21,8 @@ Here, one branch of the function returns `true`, a Boolean value, while the othe
 
 This rule is aimed at ensuring all `return` statements either specify a value or don't specify a value.
 
+It excludes constructors which, when invoked with the `new` operator, return the instantiated object if another object is not explicitly returned.  This rule treats a function as a constructor if its name starts with an uppercase letter.
+
 The following patterns are considered problems:
 
 ```js
@@ -64,6 +66,14 @@ function doSomething(condition) {
     } else {
         return false;
     }
+}
+
+function Foo() {
+    if (!(this instanceof Foo)) {
+        return new Foo();
+    }
+
+    this.a = 0;
 }
 ```
 
