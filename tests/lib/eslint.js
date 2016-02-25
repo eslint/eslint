@@ -880,6 +880,23 @@ describe("eslint", function() {
             assert.equal(messages[0].message, "message {{parameter}}");
         });
 
+        it("should ignore template parameter with no specified value with warn severity", function() {
+            eslint.reset();
+            eslint.defineRule("test-rule", function(context) {
+                return {
+                    "Literal": function(node) {
+                        context.report(node, "message {{parameter}}", {});
+                    }
+                };
+            });
+
+            config.rules["test-rule"] = "warn";
+
+            var messages = eslint.verify("0", config);
+            assert.equal(messages[0].severity, 1);
+            assert.equal(messages[0].message, "message {{parameter}}");
+        });
+
         it("should handle leading whitespace in template parameter", function() {
             eslint.reset();
             eslint.defineRule("test-rule", function(context) {
@@ -1135,6 +1152,20 @@ describe("eslint", function() {
             assert.equal(messages[0].ruleId, rule);
         });
 
+        it("should be configurable by only setting the string value", function() {
+            var rule = "semi",
+                config = { rules: {} };
+
+            config.rules[rule] = "warn";
+            eslint.reset();
+
+            var messages = eslint.verify(code, config, filename, true);
+
+            assert.equal(messages.length, 1);
+            assert.equal(messages[0].severity, 1);
+            assert.equal(messages[0].ruleId, rule);
+        });
+
         it("should be configurable by passing in values as an array", function() {
             var rule = "semi",
                 config = { rules: {} };
@@ -1145,6 +1176,20 @@ describe("eslint", function() {
             var messages = eslint.verify(code, config, filename, true);
 
             assert.equal(messages.length, 1);
+            assert.equal(messages[0].ruleId, rule);
+        });
+
+        it("should be configurable by passing in string value as an array", function() {
+            var rule = "semi",
+                config = { rules: {} };
+
+            config.rules[rule] = ["warn"];
+            eslint.reset();
+
+            var messages = eslint.verify(code, config, filename, true);
+
+            assert.equal(messages.length, 1);
+            assert.equal(messages[0].severity, 1);
             assert.equal(messages[0].ruleId, rule);
         });
 
@@ -2189,6 +2234,39 @@ describe("eslint", function() {
             assert.equal(messages[2].line, 9);
 
         });
+
+        it("should report a violation when severity is warn", function() {
+            var code = [
+                "/*eslint-disable no-alert, no-console */",
+                "alert('test');",
+                "console.log('test');",
+
+                "/*eslint-enable no-alert */",
+
+                "alert('test');", // here
+                "console.log('test');",
+
+                "/*eslint-enable no-console */",
+
+                "alert('test');", // here
+                "console.log('test');", // here
+                "/*eslint-enable no-console */"
+            ].join("\n");
+            var config = { rules: { "no-alert": "warn", "no-console": "warn" } };
+
+            var messages = eslint.verify(code, config, filename);
+            assert.equal(messages.length, 3);
+
+            assert.equal(messages[0].ruleId, "no-alert");
+            assert.equal(messages[0].line, 5);
+
+            assert.equal(messages[1].ruleId, "no-alert");
+            assert.equal(messages[1].line, 8);
+
+            assert.equal(messages[2].ruleId, "no-console");
+            assert.equal(messages[2].line, 9);
+
+        });
     });
 
     describe("when evaluating code with comments to enable and disable multiple comma separated rules", function() {
@@ -2207,6 +2285,20 @@ describe("eslint", function() {
 
     describe("when evaluating code with comments to enable configurable rule", function() {
         var code = "/*eslint quotes:[2, \"double\"]*/ alert('test');";
+
+        it("should report a violation", function() {
+            var config = { rules: { "quotes": [2, "single"] } };
+
+            var messages = eslint.verify(code, config, filename);
+            assert.equal(messages.length, 1);
+            assert.equal(messages[0].ruleId, "quotes");
+            assert.equal(messages[0].message, "Strings must use doublequote.");
+            assert.include(messages[0].nodeType, "Literal");
+        });
+    });
+
+    describe("when evaluating code with comments to enable configurable rule using string severity", function() {
+        var code = "/*eslint quotes:[\"error\", \"double\"]*/ alert('test');";
 
         it("should report a violation", function() {
             var config = { rules: { "quotes": [2, "single"] } };

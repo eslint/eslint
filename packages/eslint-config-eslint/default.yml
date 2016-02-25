@@ -2,93 +2,93 @@ extends:
     "eslint:recommended"
 
 rules:
-    array-callback-return: 2
-    indent: [2, 4, {SwitchCase: 1}]
-    block-spacing: 2
-    brace-style: [2, "1tbs"]
-    camelcase: [2, { properties: "never" }]
-    callback-return: [2, ["cb", "callback", "next"]]
-    comma-spacing: 2
-    comma-style: [2, "last"]
-    consistent-return: 2
-    curly: [2, "all"]
-    default-case: 2
-    dot-notation: [2, { allowKeywords: true }]
-    eol-last: 2
-    eqeqeq: 2
-    func-style: [2, "declaration"]
-    guard-for-in: 2
-    key-spacing: [2, { beforeColon: false, afterColon: true }]
-    keyword-spacing: 2
-    new-cap: 2
-    new-parens: 2
-    no-alert: 2
-    no-array-constructor: 2
-    no-caller: 2
+    array-callback-return: "error"
+    indent: ["error", 4, {SwitchCase: 1}]
+    block-spacing: "error"
+    brace-style: ["error", "1tbs"]
+    camelcase: ["error", { properties: "never" }]
+    callback-return: ["error", ["cb", "callback", "next"]]
+    comma-spacing: "error"
+    comma-style: ["error", "last"]
+    consistent-return: "error"
+    curly: ["error", "all"]
+    default-case: "error"
+    dot-notation: ["error", { allowKeywords: true }]
+    eol-last: "error"
+    eqeqeq: "error"
+    func-style: ["error", "declaration"]
+    guard-for-in: "error"
+    key-spacing: ["error", { beforeColon: false, afterColon: true }]
+    keyword-spacing: "error"
+    new-cap: "error"
+    new-parens: "error"
+    no-alert: "error"
+    no-array-constructor: "error"
+    no-caller: "error"
     no-console: 0
-    no-delete-var: 2
-    no-eval: 2
-    no-extend-native: 2
-    no-extra-bind: 2
-    no-fallthrough: 2
-    no-floating-decimal: 2
-    no-implied-eval: 2
-    no-invalid-this: 2
-    no-iterator: 2
-    no-label-var: 2
-    no-labels: 2
-    no-lone-blocks: 2
-    no-loop-func: 2
-    no-mixed-spaces-and-tabs: [2, false]
-    no-multi-spaces: 2
-    no-multi-str: 2
-    no-native-reassign: 2
-    no-nested-ternary: 2
-    no-new: 2
-    no-new-func: 2
-    no-new-object: 2
-    no-new-wrappers: 2
-    no-octal: 2
-    no-octal-escape: 2
-    no-process-exit: 2
-    no-proto: 2
-    no-redeclare: 2
-    no-return-assign: 2
-    no-script-url: 2
-    no-self-assign: 2
-    no-sequences: 2
-    no-shadow: 2
-    no-shadow-restricted-names: 2
-    no-spaced-func: 2
-    no-trailing-spaces: 2
-    no-undef: 2
-    no-undef-init: 2
-    no-undefined: 2
-    no-underscore-dangle: [2, {allowAfterThis: true}]
-    no-unmodified-loop-condition: 2
-    no-unused-expressions: 2
-    no-unused-vars: [2, {vars: "all", args: "after-used"}]
-    no-use-before-define: 2
-    no-useless-concat: 2
-    no-with: 2
-    quotes: [2, "double"]
-    radix: 2
-    require-jsdoc: 2
-    semi: 2
-    semi-spacing: [2, {before: false, after: true}]
-    space-before-blocks: 2
-    space-before-function-paren: [2, "never"]
-    space-infix-ops: 2
-    space-unary-ops: [2, {words: true, nonwords: false}]
-    spaced-comment: [2, "always", { exceptions: ["-"]}]
-    strict: [2, "global"]
-    valid-jsdoc: [2, { prefer: { "return": "returns"}}]
-    wrap-iife: 2
-    yoda: [2, "never"]
+    no-delete-var: "error"
+    no-eval: "error"
+    no-extend-native: "error"
+    no-extra-bind: "error"
+    no-fallthrough: "error"
+    no-floating-decimal: "error"
+    no-implied-eval: "error"
+    no-invalid-this: "error"
+    no-iterator: "error"
+    no-label-var: "error"
+    no-labels: "error"
+    no-lone-blocks: "error"
+    no-loop-func: "error"
+    no-mixed-spaces-and-tabs: ["error", false]
+    no-multi-spaces: "error"
+    no-multi-str: "error"
+    no-native-reassign: "error"
+    no-nested-ternary: "error"
+    no-new: "error"
+    no-new-func: "error"
+    no-new-object: "error"
+    no-new-wrappers: "error"
+    no-octal: "error"
+    no-octal-escape: "error"
+    no-process-exit: "error"
+    no-proto: "error"
+    no-redeclare: "error"
+    no-return-assign: "error"
+    no-script-url: "error"
+    no-self-assign: "error"
+    no-sequences: "error"
+    no-shadow: "error"
+    no-shadow-restricted-names: "error"
+    no-spaced-func: "error"
+    no-trailing-spaces: "error"
+    no-undef: "error"
+    no-undef-init: "error"
+    no-undefined: "error"
+    no-underscore-dangle: ["error", {allowAfterThis: true}]
+    no-unmodified-loop-condition: "error"
+    no-unused-expressions: "error"
+    no-unused-vars: ["error", {vars: "all", args: "after-used"}]
+    no-use-before-define: "error"
+    no-useless-concat: "error"
+    no-with: "error"
+    quotes: ["error", "double"]
+    radix: "error"
+    require-jsdoc: "error"
+    semi: "error"
+    semi-spacing: ["error", {before: false, after: true}]
+    space-before-blocks: "error"
+    space-before-function-paren: ["error", "never"]
+    space-infix-ops: "error"
+    space-unary-ops: ["error", {words: true, nonwords: false}]
+    spaced-comment: ["error", "always", { exceptions: ["-"]}]
+    strict: ["error", "global"]
+    valid-jsdoc: ["error", { prefer: { "return": "returns"}}]
+    wrap-iife: "error"
+    yoda: ["error", "never"]
 
     # Previously on by default in node environment
-    no-catch-shadow: 0
-    no-mixed-requires: 2
-    no-new-require: 2
-    no-path-concat: 2
-    handle-callback-err: [2, "err"]
+    no-catch-shadow: "off"
+    no-mixed-requires: "error"
+    no-new-require: "error"
+    no-path-concat: "error"
+    handle-callback-err: ["error", "err"]

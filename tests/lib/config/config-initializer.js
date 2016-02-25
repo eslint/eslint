@@ -114,10 +114,10 @@ describe("configInitializer", function() {
 
             it("should create default config", function() {
                 var config = init.processAnswers(answers);
-                assert.deepEqual(config.rules.indent, [2, 2]);
-                assert.deepEqual(config.rules.quotes, [2, "single"]);
-                assert.deepEqual(config.rules["linebreak-style"], [2, "unix"]);
-                assert.deepEqual(config.rules.semi, [2, "always"]);
+                assert.deepEqual(config.rules.indent, ["error", 2]);
+                assert.deepEqual(config.rules.quotes, ["error", "single"]);
+                assert.deepEqual(config.rules["linebreak-style"], ["error", "unix"]);
+                assert.deepEqual(config.rules.semi, ["error", "always"]);
                 assert.equal(config.env.es6, true);
                 assert.equal(config.parserOptions.sourceType, "module");
                 assert.equal(config.env.browser, true);
@@ -127,7 +127,7 @@ describe("configInitializer", function() {
             it("should disable semi", function() {
                 answers.semi = false;
                 var config = init.processAnswers(answers);
-                assert.deepEqual(config.rules.semi, [2, "never"]);
+                assert.deepEqual(config.rules.semi, ["error", "never"]);
             });
 
             it("should enable jsx flag", function() {
@@ -234,8 +234,8 @@ describe("configInitializer", function() {
             });
 
             it("should create the config based on examined files", function() {
-                assert.deepEqual(config.rules.quotes, [2, "double"]);
-                assert.equal(config.rules.semi, 0);
+                assert.deepEqual(config.rules.quotes, ["error", "double"]);
+                assert.equal(config.rules.semi, "off");
             });
 
             it("should extend and not disable recommended rules", function() {
