@@ -18,8 +18,10 @@ padded blocks or never do it.
 
 This rule enforces consistent padding within blocks.
 
-This rule takes one argument. If it is `"always"` then blocks must start **and** end with a blank line. If `"never"`
-then all blocks should never start **or** end with a blank line. The default is `"always"`.
+This rule takes one argument, which can be an string or an object. If it is `"always"` (the default) then block statements must start **and** end with a blank line. If `"never"`, then block statements should neither start nor end with a blank line. By default, this rule ignores padding in switch statements.
+
+If you want to enforce padding for switch statements, a configuration object can be passed as the rule argument to configure the cases separately ( e.g. `{ "blocks": "always", "switches": "always" }` ).
+
 
 The following patterns are considered problems when set to `"always"`:
 
@@ -123,6 +125,61 @@ if (a)
     b();
 }
 ```
+
+The following patterns are considered problems when configured `{ switches: "always" }`:
+
+```js
+/*eslint padded-blocks: [2, { switches: "always" }]*/
+
+switch (a) {
+    case 0: foo();
+}
+```
+
+The following patterns are not considered problems when configured `{ switches: "always" }`:
+
+```js
+/*eslint padded-blocks: [2, { switches: "always" }]*/
+
+switch (a) {
+
+    case 0: foo();
+
+}
+
+if (a) {
+    b();
+}
+```
+
+The following patterns are considered problems when configured `{ switches: "never" }`:
+
+```js
+/*eslint padded-blocks: [2, { switches: "never" }]*/
+
+switch (a) {
+
+    case 0: foo();
+
+}
+```
+
+The following patterns are not considered problems when configured `{ switches: "never" }`:
+
+```js
+/*eslint padded-blocks: [2, { switches: "never" }]*/
+
+switch (a) {
+    case 0: foo();
+}
+
+if (a) {
+
+    b();
+
+}
+```
+
 
 ## When Not To Use It
 
