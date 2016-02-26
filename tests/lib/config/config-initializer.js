@@ -220,8 +220,15 @@ describe("configInitializer", function() {
                 origLog = console.log;
                 console.log = function() {}; // necessary to replace, because of progress bar
                 process.chdir(fixtureDir);
-                config = init.processAnswers(answers);
-                process.chdir(originalDir);
+                try {
+                    config = init.processAnswers(answers);
+                    process.chdir(originalDir);
+                } catch (err) {
+                    // if processAnswers crashes, we need to be sure to restore cwd and console.log
+                    console.log = origLog;
+                    process.chdir(originalDir);
+                    throw err;
+                }
             });
 
             beforeEach(function() {
