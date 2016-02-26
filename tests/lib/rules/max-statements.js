@@ -28,7 +28,10 @@ ruleTester.run("max-statements", rule, {
         { code: "function foo() { var a; var b; var c; var x; var y; var z; bar(); baz(); qux(); quxx(); }" },
         { code: "(function() { var bar = 1; return function () { return 42; }; })()", options: [1, {ignoreTopLevelFunctions: true}] },
         { code: "function foo() { var bar = 1; var baz = 2; }", options: [1, {ignoreTopLevelFunctions: true}] },
-        { code: "define(['foo', 'qux'], function(foo, qux) { var bar = 1; var baz = 2; })", options: [1, {ignoreTopLevelFunctions: true}] }
+        { code: "define(['foo', 'qux'], function(foo, qux) { var bar = 1; var baz = 2; })", options: [1, {ignoreTopLevelFunctions: true}] },
+
+        // object property options
+        { code: "var foo = { thing: function() { var bar = 1; var baz = 2; } }", options: [{ "maximum": 2 }] }
     ],
     invalid: [
         { code: "function foo() { var bar = 1; var baz = 2; var qux = 3; }", options: [2], errors: [{ message: "This function has too many statements (3). Maximum allowed is 2."}] },
@@ -42,6 +45,9 @@ ruleTester.run("max-statements", rule, {
         { code: ";(function() { var bar = 1; return function () { var z; return 42; }; })()", options: [1, {ignoreTopLevelFunctions: true}], errors: [{ message: "This function has too many statements (2). Maximum allowed is 1."}] },
         { code: ";(function() { var bar = 1; var baz = 2; })(); (function() { var bar = 1; var baz = 2; })()", options: [1, {ignoreTopLevelFunctions: true}], errors: [{ message: "This function has too many statements (2). Maximum allowed is 1."}, { message: "This function has too many statements (2). Maximum allowed is 1."}] },
         { code: "define(['foo', 'qux'], function(foo, qux) { var bar = 1; var baz = 2; return function () { var z; return 42; }; })", options: [1, {ignoreTopLevelFunctions: true}], errors: [{ message: "This function has too many statements (2). Maximum allowed is 1."}] },
-        { code: "function foo() { var a; var b; var c; var x; var y; var z; bar(); baz(); qux(); quxx(); foo(); }", errors: [{ message: "This function has too many statements (11). Maximum allowed is 10."}] }
+        { code: "function foo() { var a; var b; var c; var x; var y; var z; bar(); baz(); qux(); quxx(); foo(); }", errors: [{ message: "This function has too many statements (11). Maximum allowed is 10."}] },
+
+        // object property options
+        { code: "function foo() { var bar = 1; var baz = 2; var qux = 3; }", options: [{ "maximum": 2 }], errors: [{ message: "This function has too many statements (3). Maximum allowed is 2."}] }
     ]
 });

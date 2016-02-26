@@ -24,6 +24,10 @@ The default max depth for this rule is 10. You can define the depth as an option
 
 ```json
 "max-nested-callbacks": [2, 3]
+
+// or you can use an object property
+
+"max-nested-callbacks": [2, {"maximum": 3}]
 ```
 
 The following patterns are considered problems:

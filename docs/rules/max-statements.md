@@ -20,6 +20,10 @@ There is an additional optional argument to ignore top level functions.
 
 ```json
 "max-statements": [2, 10, {"ignoreTopLevelFunctions": true}]
+
+// or you can use an object property to set the maximum
+
+"max-statements": [2, {"maximum": 10}, {"ignoreTopLevelFunctions": true}]
 ```
 
 The following patterns are considered problems:
