@@ -18,9 +18,9 @@ padded blocks or never do it.
 
 This rule enforces consistent padding within blocks.
 
-This rule takes one argument, which can be an string or an object. If it is `"always"` (the default) then block statements must start **and** end with a blank line. If `"never"`, then block statements should neither start nor end with a blank line. By default, this rule ignores padding in switch statements.
+This rule takes one argument, which can be an string or an object. If it is `"always"` (the default) then block statements must start **and** end with a blank line. If `"never"`, then block statements should neither start nor end with a blank line. By default, this rule ignores padding in switch statements and classes.
 
-If you want to enforce padding for switch statements, a configuration object can be passed as the rule argument to configure the cases separately ( e.g. `{ "blocks": "always", "switches": "always" }` ).
+If you want to enforce padding within switches and classes, a configuration object can be passed as the rule argument to configure the cases separately ( e.g. `{ "blocks": "always", "switches": "always", "classes": "always" }` ).
 
 
 The following patterns are considered problems when set to `"always"`:
@@ -126,20 +126,20 @@ if (a)
 }
 ```
 
-The following patterns are considered problems when configured `{ switches: "always" }`:
+The following patterns are considered problems when configured `{ "switches": "always" }`:
 
 ```js
-/*eslint padded-blocks: [2, { switches: "always" }]*/
+/*eslint padded-blocks: [2, { "switches": "always" }]*/
 
 switch (a) {
     case 0: foo();
 }
 ```
 
-The following patterns are not considered problems when configured `{ switches: "always" }`:
+The following patterns are not considered problems when configured `{ "switches": "always" }`:
 
 ```js
-/*eslint padded-blocks: [2, { switches: "always" }]*/
+/*eslint padded-blocks: [2, { "switches": "always" }]*/
 
 switch (a) {
 
@@ -152,10 +152,10 @@ if (a) {
 }
 ```
 
-The following patterns are considered problems when configured `{ switches: "never" }`:
+The following patterns are considered problems when configured `{ "switches": "never" }`:
 
 ```js
-/*eslint padded-blocks: [2, { switches: "never" }]*/
+/*eslint padded-blocks: [2, { "switches": "never" }]*/
 
 switch (a) {
 
@@ -164,10 +164,10 @@ switch (a) {
 }
 ```
 
-The following patterns are not considered problems when configured `{ switches: "never" }`:
+The following patterns are not considered problems when configured `{ "switches": "never" }`:
 
 ```js
-/*eslint padded-blocks: [2, { switches: "never" }]*/
+/*eslint padded-blocks: [2, { "switches": "never" }]*/
 
 switch (a) {
     case 0: foo();
@@ -180,6 +180,53 @@ if (a) {
 }
 ```
 
+The following patterns are considered problems when configured `{ "classes": "always" }`:
+
+```js
+/*eslint padded-blocks: [2, { "classes": "always" }]*/
+
+class  A {
+    constructor(){
+    }
+}
+```
+
+The following patterns are not considered problems when configured `{ "classes": "always" }`:
+
+```js
+/*eslint padded-blocks: [2, { "classes": "always" }]*/
+
+class  A {
+
+    constructor(){
+    }
+
+}
+```
+
+The following patterns are considered problems when configured `{ "classes": "never" }`:
+
+```js
+/*eslint padded-blocks: [2, { "classes": "never" }]*/
+
+class  A {
+
+    constructor(){
+    }
+
+}
+```
+
+The following patterns are not considered problems when configured `{ "classes": "never" }`:
+
+```js
+/*eslint padded-blocks: [2, { "classes": "never" }]*/
+
+class  A {
+    constructor(){
+    }
+}
+```
 
 ## When Not To Use It
 
