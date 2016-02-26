@@ -30,6 +30,20 @@ The following patterns are not considered problems:
 Console.log("Hello world!");
 ```
 
+## Options
+
+This rule supports the following options:
+
+`allow`: The list of console operations to be used as exceptions to the rule. For example:
+
+```js
+/*eslint no-console: [2, { allow: ["warn", "error"] }] */
+
+console.log("this will be considered a problem");
+console.warn("this will not be considered a problem");
+console.error("this will not be considered a problem");
+```
+
 ## When Not To Use It
 
 If you're using Node.js, however, `console` is used to output information to the user and so is not strictly used for debugging purposes. If you are developing for Node.js then you most likely do not want this rule enabled.
