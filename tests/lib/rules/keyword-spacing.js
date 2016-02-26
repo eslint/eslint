@@ -1149,9 +1149,10 @@ ruleTester.run("keyword-spacing", rule, {
         {code: "function* foo() { [yield] }", parserOptions: {ecmaVersion: 6}},
         {code: "function* foo() { [ yield ] }", options: [NEITHER], parserOptions: {ecmaVersion: 6}},
 
+        // This is invalid syntax: https://github.com/eslint/eslint/issues/5405
         // not conflict with `arrow-spacing`
-        {code: "function* foo() { (() =>yield foo) }", parserOptions: {ecmaVersion: 6}},
-        {code: "function* foo() { (() => yield foo) }", options: [NEITHER], parserOptions: {ecmaVersion: 6}},
+        // {code: "function* foo() { (() =>yield foo) }", parserOptions: {ecmaVersion: 6}},
+        // {code: "function* foo() { (() => yield foo) }", options: [NEITHER], parserOptions: {ecmaVersion: 6}},
 
         // not conflict with `block-spacing`
         {code: "function* foo() {yield}", parserOptions: {ecmaVersion: 6}},
