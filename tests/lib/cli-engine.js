@@ -1860,6 +1860,12 @@ describe("CLIEngine", function() {
             assert.isFunction(formatter);
         });
 
+        it("should return a function when called as a static function on CLIEngine and a custom formatter is requested", function() {
+            var formatter = CLIEngine.getFormatter(getFixturePath("formatters", "simple.js"));
+
+            assert.isFunction(formatter);
+        });
+
     });
 
     describe("getErrorResults()", function() {
