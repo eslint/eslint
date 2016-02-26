@@ -48,6 +48,18 @@ function a(x) {
 }
 ```
 
+Optionally, you may specify a `maximum` object property:
+
+```json
+"complexity": [2, 2]
+```
+
+is equivalent to
+
+```json
+"complexity": [2, {"maximum": 2}]
+```
+
 ## When Not To Use It
 
 If you can't determine an appropriate complexity limit for your code, then it's best to disable this rule.

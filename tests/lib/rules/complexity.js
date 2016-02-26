@@ -56,7 +56,10 @@ ruleTester.run("complexity", rule, {
         { code: "function a(x) {while(true) {'foo';}}", options: [2] },
         { code: "function a(x) {do {'foo';} while (true)}", options: [2] },
         { code: "if (foo) { bar(); }", options: [3] },
-        { code: "var a = (x) => {do {'foo';} while (true)}", options: [2], parserOptions: { ecmaVersion: 6 } }
+        { code: "var a = (x) => {do {'foo';} while (true)}", options: [2], parserOptions: { ecmaVersion: 6 } },
+
+        // object property options
+        { code: "function b(x) {}", options: [{ "maximum": 1 }] }
     ],
     invalid: [
         { code: "function a(x) {}", options: [0], errors: [{ message: "Function 'a' has a complexity of 1."}] },
@@ -86,6 +89,9 @@ ruleTester.run("complexity", rule, {
         {
             code: createComplexity(21),
             errors: [{ message: "Function 'test' has a complexity of 21." }]
-        }
+        },
+
+        // object property options
+        { code: "function a(x) {}", options: [{ "maximum": 0 }], errors: [{ message: "Function 'a' has a complexity of 1."}] }
     ]
 });
