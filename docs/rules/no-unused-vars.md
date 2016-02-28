@@ -64,6 +64,8 @@ In environments outside of CommonJS or ECMAScript modules, you may use `var` to 
 
 ## Options
 
+This rule takes one argument which can be an string or an object. The string settings are the same as those of the `vars` property (explained below).
+
 By default this rule is enabled with `all` option for variables and `after-used` for arguments.
 
 ```json
