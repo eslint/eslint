@@ -104,7 +104,7 @@ describe("CLIEngine", function() {
             engine = new CLIEngine({
                 configFile: "fixtures/configurations/quotes-error.json",
                 useEslintrc: false,
-                cwd: path.join(fixtureDir, "..")
+                cwd: getFixturePath("..")
             });
 
             var report = engine.executeOnText("var foo = 'bar';");
@@ -121,17 +121,18 @@ describe("CLIEngine", function() {
         it("should report the filename when passed in", function() {
 
             engine = new CLIEngine({
-                ignore: false
+                ignore: false,
+                cwd: getFixturePath()
             });
 
             var report = engine.executeOnText("var foo = 'bar';", "test.js");
-            assert.equal(report.results[0].filePath, "test.js");
+            assert.equal(report.results[0].filePath, getFixturePath("test.js"));
         });
 
         it("should return a warning when given a filename by --stdin-filename in excluded files list", function() {
             engine = new CLIEngine({
                 ignorePath: getFixturePath(".eslintignore"),
-                cwd: path.join(fixtureDir, "..")
+                cwd: getFixturePath("..")
             });
 
             var report = engine.executeOnText("var bar = foo;", "fixtures/passing.js");
@@ -139,7 +140,7 @@ describe("CLIEngine", function() {
             assert.equal(report.results.length, 1);
             assert.equal(report.errorCount, 0);
             assert.equal(report.warningCount, 1);
-            assert.equal(report.results[0].filePath, path.resolve("fixtures/passing.js"));
+            assert.equal(report.results[0].filePath, getFixturePath("passing.js"));
             assert.equal(report.results[0].messages[0].severity, 1);
             assert.equal(report.results[0].messages[0].message, "File ignored because of a matching ignore pattern. Use --no-ignore to override.");
             assert.isUndefined(report.results[0].messages[0].output);
@@ -151,7 +152,7 @@ describe("CLIEngine", function() {
 
             engine = new CLIEngine({
                 ignorePath: "fixtures/.eslintignore",
-                cwd: path.join(fixtureDir, ".."),
+                cwd: getFixturePath(".."),
                 ignore: false,
                 useEslintrc: false,
                 rules: {
@@ -161,7 +162,7 @@ describe("CLIEngine", function() {
 
             var report = engine.executeOnText("var bar = foo;", "fixtures/passing.js");
             assert.equal(report.results.length, 1);
-            assert.equal(report.results[0].filePath, "fixtures/passing.js");
+            assert.equal(report.results[0].filePath, getFixturePath("passing.js"));
             assert.equal(report.results[0].messages[0].ruleId, "no-undef");
             assert.equal(report.results[0].messages[0].severity, 2);
             assert.isUndefined(report.results[0].messages[0].output);
@@ -175,14 +176,15 @@ describe("CLIEngine", function() {
                 rules: {
                     "semi": 2
                 },
-                ignore: false
+                ignore: false,
+                cwd: getFixturePath()
             });
 
-            var report = engine.executeOnText("var bar = foo", "tests/fixtures/passing.js");
+            var report = engine.executeOnText("var bar = foo", "passing.js");
             assert.deepEqual(report, {
                 "results": [
                     {
-                        "filePath": "tests/fixtures/passing.js",
+                        "filePath": getFixturePath("passing.js"),
                         "messages": [],
                         "errorCount": 0,
                         "warningCount": 0,
@@ -202,14 +204,15 @@ describe("CLIEngine", function() {
                 rules: {
                     "no-undef": 2
                 },
-                ignore: false
+                ignore: false,
+                cwd: getFixturePath()
             });
 
-            var report = engine.executeOnText("var bar = foo", "tests/fixtures/passing.js");
+            var report = engine.executeOnText("var bar = foo", "passing.js");
             assert.deepEqual(report, {
                 "results": [
                     {
-                        "filePath": "tests/fixtures/passing.js",
+                        "filePath": getFixturePath("passing.js"),
                         "messages": [
                             {
                                 "ruleId": "no-undef",
@@ -316,7 +319,7 @@ describe("CLIEngine", function() {
             engine = new CLIEngine({
                 extensions: [".js", ".js2"],
                 ignore: false,
-                cwd: path.join(fixtureDir, "..")
+                cwd: getFixturePath("..")
             });
 
             var report = engine.executeOnFiles(["fixtures/files/"]);
@@ -388,11 +391,10 @@ describe("CLIEngine", function() {
         it("should return one error message when given a config with rules with options and severity level set to error", function() {
 
             engine = new CLIEngine({
-                cwd: "/tmp",
+                cwd: getFixturePath("configurations"),
                 configFile: getFixturePath("configurations", "quotes-error.json")
             });
-
-            var report = engine.executeOnFiles([fs.realpathSync(getFixturePath("single-quoted.js"))]);
+            var report = engine.executeOnFiles([getFixturePath("single-quoted.js")]);
             assert.equal(report.results.length, 1);
             assert.equal(report.results[0].messages.length, 1);
             assert.equal(report.errorCount, 1);
@@ -1782,7 +1784,8 @@ describe("CLIEngine", function() {
 
         it("should check if the given path is ignored", function() {
             var engine = new CLIEngine({
-                ignorePath: getFixturePath(".eslintignore2")
+                ignorePath: getFixturePath(".eslintignore2"),
+                cwd: getFixturePath()
             });
 
             assert.isTrue(engine.isPathIgnored("undef.js"));
@@ -1791,8 +1794,9 @@ describe("CLIEngine", function() {
 
         it("should always return false if ignoring is disabled", function() {
             var engine = new CLIEngine({
+                ignore: false,
                 ignorePath: getFixturePath(".eslintignore2"),
-                ignore: false
+                cwd: getFixturePath()
             });
 
             assert.isFalse(engine.isPathIgnored("undef.js"));
