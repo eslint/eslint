@@ -439,6 +439,45 @@ invalid: [
 ]
 ```
 
+### Specifying Parser Options
+
+Some tests require that a certain parser configuration must be used. This can be specified in test specifications via the `parserOptions` setting.
+
+For example, to set `ecmaVersion` to 6 (in order to use constructs like `for ... of`):
+
+```js
+valid: [
+    {
+        code: "for (x of a) doSomething();",
+        parserOptions: { ecmaVersion: 6 }
+    }
+]
+```
+
+If you are working with ES6 modules:
+
+```js
+valid: [
+    {
+        code: "export default function () {};",
+        parserOptions: { ecmaVersion: 6, sourceType: "module" }
+    }
+]
+```
+
+For non-version specific features such as JSX:
+
+```js
+valid: [
+    {
+        code: "var foo = <div>{bar}</div>",
+        parserOptions: { ecmaFeatures: { jsx: true } }
+    }
+]
+```
+
+The options available and the expected syntax for `parserOptions` is the same as those used in [configuration](../user-guide/configuring#specifying-parser-options).
+
 ### Write Several Tests
 
 Provide as many unit tests as possible. Your pull request will never be turned down for having too many tests submitted with it!
