@@ -94,6 +94,9 @@ This option has three settings:
 ```js
 /*eslint no-unused-vars: [2, { "args": "all" }]*/
 
+// 2 errors
+// "foo" is defined but never used
+// "baz" is defined but never used
 (function(foo, bar, baz) {
     return bar;
 })();
@@ -104,6 +107,8 @@ This option has three settings:
 ```js
 /*eslint no-unused-vars: [2, { "args": "after-used" }]*/
 
+// 1 error
+// "baz" is defined but never used
 (function(foo, bar, baz) {
     return bar;
 })();
@@ -114,6 +119,7 @@ This option has three settings:
 ```js
 /*eslint no-unused-vars: [2, { "args": "none" }]*/
 
+// no error
 (function(foo, bar, baz) {
     return bar;
 })();
