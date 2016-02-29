@@ -20,7 +20,7 @@ if (foo) {
 
 This rule aims to eliminate the use of Boolean casts in an already Boolean context.
 
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule:
 
 ```js
 /*eslint no-extra-boolean-cast: 2*/
@@ -54,7 +54,7 @@ for (; !!foo; ) {
 }
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule:
 
 ```js
 /*eslint no-extra-boolean-cast: 2*/

@@ -1,20 +1,29 @@
 # No duplicate arguments (no-dupe-args)
 
 In strict mode you will receive a `SyntaxError` if a function takes multiple arguments with the same name.
-Outside of strict mode duplicate arguments will mask the value of the first argument. This rule checks for duplicate
-parameter names to help prevent that mistake.
+Outside of strict mode duplicate arguments will mask the value of the first argument.
 
 ## Rule Details
 
-This rule prevents having duplicate param names.
+This rule prevents duplicate parameter names in a function.
 
-For example the following code will cause the rule to warn:
+Examples of **incorrect** code for this rule:
 
 ```js
 /*eslint no-dupe-args: 2*/
 
 function foo(a, b, a) {
     console.log("which a is it?", a);
+}
+```
+
+Examples of **correct** code for this rule:
+
+```js
+/*eslint no-dupe-args: 2*/
+
+function foo(a, b, c) {
+    console.log(a, b, c);
 }
 ```
 

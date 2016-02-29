@@ -7,7 +7,7 @@ Control characters are special, invisible characters in the ASCII range 0-31. Th
 This rule is aimed at ensuring all regular expressions don't use control characters.
 
 
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule:
 
 ```js
 /*eslint no-control-regex: 2*/
@@ -16,7 +16,7 @@ var pattern1 = /\\x1f/;
 var pattern2 = new RegExp("\x1f");
 ```
 
-The following patterns do not cause a warning:
+Examples of **correct** code for this rule:
 
 ```js
 /*eslint no-control-regex: 2*/
@@ -33,4 +33,3 @@ If you need to use control character pattern matching, then you should turn this
 
 * [no-div-regex](no-div-regex.md)
 * [no-regex-spaces](no-regex-spaces.md)
-
