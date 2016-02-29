@@ -181,7 +181,21 @@ Additionally, if you are using `context.ecmaFeatures` inside of your rules, then
 1. If you're using `context.ecmaFeatures.modules`, rewrite to check that the `sourceType` property of the Program node is `"module"`.
 1. If you're using a non-ES6 feature flag such as `context.ecmaFeatures.jsx`, rewrite to check for `context.parserOptions.ecmaFeatures.jsx`.
 
-If you're not using `ecmaFeatures` in your configuration, then no change is needed.
+If you have a plugin with rules and you are using RuleTester, then you also need to update the options you pass for rules that use `ecmaFeatures`. For example:
+
+```js
+var ruleTester = new RuleTester();
+ruleTester.run("no-var", rule, {
+    valid: [
+        {
+            code: "let x;",
+            parserOptions: { ecmaVersion: 6 }
+        }
+    ]
+});
+```
+
+If you're not using `ecmaFeatures` in your configuration or your custom/plugin rules and tests, then no change is needed.
 
 ## New Rules in `"eslint:recommended"`
 
