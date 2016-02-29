@@ -70,7 +70,7 @@ In this code, `"Identifier:exit"` is called on the way up the AST. This capabili
 
 The `context` object contains additional functionality that is helpful for rules to do their jobs. As the name implies, the `context` object contains information that is relevant to the context of the rule. The `context` object has the following properties:
 
-* `ecmaFeatures` - the language feature flags.
+* `parserOptions` - the parser options configured for this run (more details [here](../user-guide/configuring#specifying-parser-options)).
 * `id` - the rule ID.
 * `options` - an array of rule options.
 * `settings` - the `settings` from configuration.
