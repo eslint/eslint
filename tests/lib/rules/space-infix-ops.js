@@ -28,6 +28,7 @@ ruleTester.run("space-infix-ops", rule, {
         { code: "const my_object = {key: 'value'};", parserOptions: { ecmaVersion: 6 } },
         { code: "var {a = 0} = bar;", parserOptions: { ecmaVersion: 6 } },
         { code: "function foo(a = 0) { }", parserOptions: { ecmaVersion: 6 } },
+        { code: "a ** b", parserOptions: { ecmaVersion: 7 } },
         { code: "a|0", options: [{ int32Hint: true }] },
         { code: "a |0", options: [{ int32Hint: true }] }
     ],
@@ -311,6 +312,17 @@ ruleTester.run("space-infix-ops", rule, {
                 line: 1,
                 column: 15,
                 nodeType: "AssignmentPattern"
+            }]
+        },
+        {
+            code: "a**b",
+            output: "a ** b",
+            parserOptions: { ecmaVersion: 7 },
+            errors: [{
+                message: "Infix operators must be spaced.",
+                line: 1,
+                column: 2,
+                nodeType: "BinaryExpression"
             }]
         }
     ]
