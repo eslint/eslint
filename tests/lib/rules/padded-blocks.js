@@ -47,6 +47,15 @@ ruleTester.run("padded-blocks", rule, {
         {code: "switch (a) {\n\ncase 0: foo();\ncase 1: bar();\n\n}", options: [{"switches": "always"}]},
         {code: "switch (a) {\n\n//comment\ncase 0: foo();//comment\n\n}", options: [{"switches": "always"}]},
         {code: "switch (a) {//coment\n\ncase 0: foo();\ncase 1: bar();\n\n/* comment */}", options: [{"switches": "always"}]},
+
+        // Ignore classes by default
+        {code: "class A{\nfoo(){}\n}", parserOptions: { ecmaVersion: 6 }},
+        {code: "class A{\n\nfoo(){}\n\n}", parserOptions: { ecmaVersion: 6 }},
+
+        {code: "class A{}", parserOptions: { ecmaVersion: 6 }, options: [{"classes": "always"}]},
+        {code: "class A{\n\n}", parserOptions: { ecmaVersion: 6 }, options: [{"classes": "always"}]},
+        {code: "class A{\n\nfoo(){}\n\n}", parserOptions: { ecmaVersion: 6 }, options: [{"classes": "always"}]},
+
         {code: "{\na();\n}", options: ["never"]},
         {code: "{\na();}", options: ["never"]},
         {code: "{a();\n}", options: ["never"]},
@@ -62,7 +71,8 @@ ruleTester.run("padded-blocks", rule, {
         {code: "{\n\n// comment\nif (\n// comment\n a) {}\n\n }", options: ["always"] },
         {code: "{\n// comment\nif (\n// comment\n a) {}\n }", options: ["never"] },
         {code: "{\n// comment\nif (\n// comment\n a) {}\n }", options: [{"blocks": "never"}] },
-        {code: "switch (a) {\ncase 0: foo();\n}", options: [{"switches": "never"}]}
+        {code: "switch (a) {\ncase 0: foo();\n}", options: [{"switches": "never"}]},
+        {code: "class A{\nfoo(){}\n}", parserOptions: { ecmaVersion: 6 }, options: [{"classes": "never"}]}
     ],
     invalid: [
         {
@@ -199,6 +209,23 @@ ruleTester.run("padded-blocks", rule, {
             ]
         },
         {
+            code: "class A {\nconstructor(){}\n}",
+            parserOptions: { ecmaVersion: 6 },
+            options: [{"classes": "always"}],
+            errors: [
+                {
+                    message: ALWAYS_MESSAGE,
+                    line: 1,
+                    column: 9
+                },
+                {
+                    message: ALWAYS_MESSAGE,
+                    line: 3,
+                    column: 1
+                }
+            ]
+        },
+        {
             code: "{a();}",
             errors: [
                 {
@@ -321,6 +348,44 @@ ruleTester.run("padded-blocks", rule, {
                     message: NEVER_MESSAGE,
                     line: 4,
                     column: 3
+                }
+            ]
+        },
+        {
+            code: "class A {\n\nconstructor(){\n\nfoo();\n\n}\n\n}",
+            parserOptions: { ecmaVersion: 6 },
+            options: [{"classes": "never"}],
+            errors: [
+                {
+                    message: NEVER_MESSAGE,
+                    line: 1
+                },
+                {
+                    message: NEVER_MESSAGE,
+                    line: 9
+                }
+            ]
+        },
+        {
+            code: "class A {\n\nconstructor(){\n\nfoo();\n\n}\n\n}",
+            parserOptions: { ecmaVersion: 6 },
+            options: [{"blocks": "never", "classes": "never"}],
+            errors: [
+                {
+                    message: NEVER_MESSAGE,
+                    line: 1
+                },
+                {
+                    message: NEVER_MESSAGE,
+                    line: 3
+                },
+                {
+                    message: NEVER_MESSAGE,
+                    line: 7
+                },
+                {
+                    message: NEVER_MESSAGE,
+                    line: 9
                 }
             ]
         }
