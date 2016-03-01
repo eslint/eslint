@@ -62,6 +62,9 @@ ruleTester.run("no-undef", rule, {
         { code: "/*global b:false*/ var b = 1;" },
         { code: "Array = 1;" },
 
+        // new.target: https://github.com/eslint/eslint/issues/5420
+        { code: "class A { constructor() { new.target; } }", parserOptions: { ecmaVersion: 6 } },
+
         // Experimental,
         {
             code: "var {bacon, ...others} = stuff; foo(others)",
