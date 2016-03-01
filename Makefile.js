@@ -956,7 +956,7 @@ function createConfigForPerformanceTest() {
     content.push.apply(
         content,
         ls("lib/rules").map(function(fileName) {
-            return "    " + path.basename(fileName, ".js") + ": 2";
+            return "    " + path.basename(fileName, ".js") + ": 1";
         })
     );
 
