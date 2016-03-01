@@ -44,10 +44,6 @@ ruleTester.run("generator-star-spacing", rule, {
             parserOptions: { ecmaVersion: 6 }
         },
         {
-            code: "var foo = function * (){};",
-            parserOptions: { ecmaVersion: 6 }
-        },
-        {
             code: "var foo = { *foo(){} };",
             parserOptions: { ecmaVersion: 6 }
         },
@@ -90,11 +86,6 @@ ruleTester.run("generator-star-spacing", rule, {
         },
         {
             code: "var foo = function *(){};",
-            options: ["before"],
-            parserOptions: { ecmaVersion: 6 }
-        },
-        {
-            code: "var foo = function * (){};",
             options: ["before"],
             parserOptions: { ecmaVersion: 6 }
         },
@@ -150,11 +141,6 @@ ruleTester.run("generator-star-spacing", rule, {
             parserOptions: { ecmaVersion: 6 }
         },
         {
-            code: "var foo = function*(){};",
-            options: ["after"],
-            parserOptions: { ecmaVersion: 6 }
-        },
-        {
             code: "var foo = {* foo(){} };",
             options: ["after"],
             parserOptions: { ecmaVersion: 6 }
@@ -202,11 +188,6 @@ ruleTester.run("generator-star-spacing", rule, {
         },
         {
             code: "var foo = function * (){};",
-            options: ["both"],
-            parserOptions: { ecmaVersion: 6 }
-        },
-        {
-            code: "var foo = function *(){};",
             options: ["both"],
             parserOptions: { ecmaVersion: 6 }
         },
@@ -262,11 +243,6 @@ ruleTester.run("generator-star-spacing", rule, {
             parserOptions: { ecmaVersion: 6 }
         },
         {
-            code: "var foo = function* (){};",
-            options: ["neither"],
-            parserOptions: { ecmaVersion: 6 }
-        },
-        {
             code: "var foo = {*foo(){} };",
             options: ["neither"],
             parserOptions: { ecmaVersion: 6 }
@@ -314,11 +290,6 @@ ruleTester.run("generator-star-spacing", rule, {
         },
         {
             code: "var foo = function *(){};",
-            options: [{"before": true, "after": false}],
-            parserOptions: { ecmaVersion: 6 }
-        },
-        {
-            code: "var foo = function * (){};",
             options: [{"before": true, "after": false}],
             parserOptions: { ecmaVersion: 6 }
         },
@@ -374,11 +345,6 @@ ruleTester.run("generator-star-spacing", rule, {
             parserOptions: { ecmaVersion: 6 }
         },
         {
-            code: "var foo = function*(){};",
-            options: [{"before": false, "after": true}],
-            parserOptions: { ecmaVersion: 6 }
-        },
-        {
             code: "var foo = {* foo(){} };",
             options: [{"before": false, "after": true}],
             parserOptions: { ecmaVersion: 6 }
@@ -430,11 +396,6 @@ ruleTester.run("generator-star-spacing", rule, {
             parserOptions: { ecmaVersion: 6 }
         },
         {
-            code: "var foo = function *(){};",
-            options: [{"before": true, "after": true}],
-            parserOptions: { ecmaVersion: 6 }
-        },
-        {
             code: "var foo = { * foo(){} };",
             options: [{"before": true, "after": true}],
             parserOptions: { ecmaVersion: 6 }
@@ -482,11 +443,6 @@ ruleTester.run("generator-star-spacing", rule, {
         },
         {
             code: "var foo = function*(){};",
-            options: [{"before": false, "after": false}],
-            parserOptions: { ecmaVersion: 6 }
-        },
-        {
-            code: "var foo = function* (){};",
             options: [{"before": false, "after": false}],
             parserOptions: { ecmaVersion: 6 }
         },
@@ -553,10 +509,13 @@ ruleTester.run("generator-star-spacing", rule, {
         },
         {
             code: "var foo = function* (){};",
-            output: "var foo = function * (){};",
+            output: "var foo = function *(){};",
             parserOptions: { ecmaVersion: 6 },
             errors: [{
                 message: "Missing space before *.",
+                type: "Punctuator"
+            }, {
+                message: "Unexpected space after *.",
                 type: "Punctuator"
             }]
         },
@@ -627,11 +586,14 @@ ruleTester.run("generator-star-spacing", rule, {
         },
         {
             code: "var foo = function* (){};",
-            output: "var foo = function * (){};",
+            output: "var foo = function *(){};",
             options: ["before"],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
                 message: "Missing space before *.",
+                type: "Punctuator"
+            }, {
+                message: "Unexpected space after *.",
                 type: "Punctuator"
             }]
         },
@@ -695,11 +657,14 @@ ruleTester.run("generator-star-spacing", rule, {
         },
         {
             code: "var foo = function *(){};",
-            output: "var foo = function*(){};",
+            output: "var foo = function* (){};",
             options: ["after"],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
                 message: "Unexpected space before *.",
+                type: "Punctuator"
+            }, {
+                message: "Missing space after *.",
                 type: "Punctuator"
             }]
         },
@@ -779,11 +744,14 @@ ruleTester.run("generator-star-spacing", rule, {
         },
         {
             code: "var foo = function*(){};",
-            output: "var foo = function *(){};",
+            output: "var foo = function * (){};",
             options: ["both"],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
                 message: "Missing space before *.",
+                type: "Punctuator"
+            }, {
+                message: "Missing space after *.",
                 type: "Punctuator"
             }]
         },
@@ -863,11 +831,14 @@ ruleTester.run("generator-star-spacing", rule, {
         },
         {
             code: "var foo = function * (){};",
-            output: "var foo = function* (){};",
+            output: "var foo = function*(){};",
             options: ["neither"],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
                 message: "Unexpected space before *.",
+                type: "Punctuator"
+            }, {
+                message: "Unexpected space after *.",
                 type: "Punctuator"
             }]
         },
@@ -941,11 +912,14 @@ ruleTester.run("generator-star-spacing", rule, {
         },
         {
             code: "var foo = function* (){};",
-            output: "var foo = function * (){};",
+            output: "var foo = function *(){};",
             options: [{"before": true, "after": false}],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
                 message: "Missing space before *.",
+                type: "Punctuator"
+            }, {
+                message: "Unexpected space after *.",
                 type: "Punctuator"
             }]
         },
@@ -1009,11 +983,14 @@ ruleTester.run("generator-star-spacing", rule, {
         },
         {
             code: "var foo = function *(){};",
-            output: "var foo = function*(){};",
+            output: "var foo = function* (){};",
             options: [{"before": false, "after": true}],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
                 message: "Unexpected space before *.",
+                type: "Punctuator"
+            }, {
+                message: "Missing space after *.",
                 type: "Punctuator"
             }]
         },
@@ -1093,11 +1070,14 @@ ruleTester.run("generator-star-spacing", rule, {
         },
         {
             code: "var foo = function*(){};",
-            output: "var foo = function *(){};",
+            output: "var foo = function * (){};",
             options: [{"before": true, "after": true}],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
                 message: "Missing space before *.",
+                type: "Punctuator"
+            }, {
+                message: "Missing space after *.",
                 type: "Punctuator"
             }]
         },
@@ -1177,11 +1157,14 @@ ruleTester.run("generator-star-spacing", rule, {
         },
         {
             code: "var foo = function * (){};",
-            output: "var foo = function* (){};",
+            output: "var foo = function*(){};",
             options: [{"before": false, "after": false}],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
                 message: "Unexpected space before *.",
+                type: "Punctuator"
+            }, {
+                message: "Unexpected space after *.",
                 type: "Punctuator"
             }]
         },

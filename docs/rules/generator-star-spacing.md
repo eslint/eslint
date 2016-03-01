@@ -51,10 +51,8 @@ The rule takes one option, an object, which has two keys `before` and `after` ha
 
   In object literal shorthand methods, spacing before the `*` is not checked, as they lack a `function` keyword.
 
-* `after` enforces spacing between the `*` and the function name.
+* `after` enforces spacing between the `*` and the function name (or the opening parenthesis for anonymous generator functions).
   If it is `true`, a space is required, otherwise spaces are disallowed.
-
-  In anonymous function expressions, spacing between the `*` and the opening parenthesis is not checked. This is checked by the [space-before-function-paren](space-before-function-paren.md) rule.
 
 The default is `{"before": true, "after": false}`.
 
@@ -94,7 +92,7 @@ When using `{"before": false, "after": true}` this placement will be enforced:
 
 function* generator() {}
 
-var anonymous = function*() {};
+var anonymous = function* () {};
 
 var shorthand = { * generator() {} };
 ```
@@ -107,7 +105,7 @@ When using `{"before": true, "after": true}` this placement will be enforced:
 
 function * generator() {}
 
-var anonymous = function *() {};
+var anonymous = function * () {};
 
 var shorthand = { * generator() {} };
 ```
