@@ -6,11 +6,7 @@ This rule can help you locate potential ReferenceErrors resulting from misspelli
 
 Any reference to an undeclared variable causes a warning, unless the variable is explicitly mentioned in a `/*global ...*/` comment.
 
-## Options
-
-* `typeof` set to true will warn for variables used inside typeof check (Default false).
-
-The following code causes 2 warnings, as the globals `someFunction` and `b` have not been declared.
+Examples of **incorrect** code for this rule:
 
 ```js
 /*eslint no-undef: 2*/
@@ -19,7 +15,7 @@ var a = someFunction();
 b = 10;
 ```
 
-In this code, no warnings are generated, since the global variables have been properly declared in a `/*global */` block.
+Examples of **correct** code with `global` declaration for this rule:
 
 ```js
 /*global someFunction b:true*/
@@ -29,26 +25,26 @@ var a = someFunction();
 b = 10;
 ```
 
-By default, variables declared in `/*global */` are considered read-only. Assignment to a read-only global causes a warning:
+The `b:true` syntax in `/*global */` indicates that assignment to `b` is correct.
+
+Examples of **incorrect** code with `global` declaration for this rule:
 
 ```js
 /*global b*/
 /*eslint no-undef: 2*/
 
-
 b = 10;
 ```
 
-Use the `variable:true` syntax to indicate that a variable can be assigned to.
+By default, variables declared in `/*global */` are read-only, therefore assignment is incorrect.
 
-```js
-/*global b:true*/
-/*eslint no-undef: 2*/
+## Options
 
-b = 10;
-```
+* `typeof` set to true will warn for variables used inside typeof check (Default false).
 
-Explicitly checking an undefined identifier with `typeof` causes no warning.
+### typeof
+
+Examples of **correct** code for the default option:
 
 ```js
 /*eslint no-undef: 2*/
@@ -58,23 +54,21 @@ if (typeof UndefinedIdentifier === "undefined") {
 }
 ```
 
-### `typeof`
-
 You can use this option if you want to prevent `typeof` check on a variable which has not been declared.
 
-The following patterns are considered problems with option `typeof` set:
+Examples of **incorrect** code for the `{ "typeof": true }` option:
 
 ```js
-/* eslint no-undef: [2, { typeof: true }] */
+/*eslint no-undef: [2, { "typeof": true }] */
 
 if(typeof a === "string"){}
 ```
 
-The following patterns are not considered problems with option `typeof` set:
+Examples of **correct** code for the `{ "typeof": true }` option:
 
 ```js
-/* eslint no-undef: [2, { typeof: true }] */
 /*global a*/
+/*eslint no-undef: [2, { "typeof": true }] */
 
 if(typeof a === "string"){}
 ```
@@ -83,7 +77,7 @@ if(typeof a === "string"){}
 
 For convenience, ESLint provides shortcuts that pre-define global variables exposed by popular libraries and runtime environments. This rule supports these environments, as listed in [Specifying Environments](http://eslint.org/docs/user-guide/configuring#specifying-environments).  A few examples are given below.
 
-### `browser`
+### browser
 
 Defines common browser globals.
 
@@ -95,7 +89,7 @@ setTimeout(function() {
 });
 ```
 
-### `node`
+### node
 
 Defines globals for Node.js development.
 

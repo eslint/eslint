@@ -4,7 +4,7 @@
 
 This rule aims to create clearer code by disallowing the bad practice of creating a label that shares a name with a variable that is in scope.
 
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule:
 
 ```js
 /*eslint no-label-var: 2*/
@@ -18,7 +18,7 @@ x:
 }
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule:
 
 ```js
 /*eslint no-label-var: 2*/
