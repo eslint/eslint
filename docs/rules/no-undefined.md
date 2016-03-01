@@ -36,7 +36,7 @@ Taking all of this into account, some style guides forbid the use of `undefined`
 
 This rule aims to eliminate the use of `undefined`, and as such, generates a warning whenever it is used.
 
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule:
 
 ```js
 /*eslint no-undefined: 2*/
@@ -54,7 +54,7 @@ function foo(undefined) {
 }
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule:
 
 ```js
 /*eslint no-undefined: 2*/

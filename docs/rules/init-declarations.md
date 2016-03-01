@@ -59,7 +59,9 @@ Variables must not be initialized at declaration, except in for loops, where it 
 }
 ```
 
-When configured with `"always"` (the default), the following patterns are considered problems:
+### always
+
+Examples of **incorrect** code for the default `"always"` option:
 
 ```js
 /*eslint init-declarations: [2, "always"]*/
@@ -71,7 +73,7 @@ function foo() {
 }
 ```
 
-The following patterns are not considered problems with `"always"`.
+Examples of **correct** code for the default `"always"` option:
 
 ```js
 /*eslint init-declarations: [2, "always"]*/
@@ -84,7 +86,9 @@ function foo() {
 }
 ```
 
-When configured with `"never"`, the following patterns are considered problems.
+### never
+
+Examples of **incorrect** code for the `"never"` option:
 
 ```js
 /*eslint init-declarations: [2, "never"]*/
@@ -98,7 +102,7 @@ function foo() {
 }
 ```
 
-The following patterns are not considered problems with `"never"`. Note that `const` variable initializations are ignored with `"never"`.
+Examples of **correct** code for the `"never"` option:
 
 ```js
 /*eslint init-declarations: [2, "never"]*/
@@ -111,7 +115,11 @@ function foo() {
 }
 ```
 
-With `"ignoreForLoopInit"` enabled, the following pattern is not considered a problem.
+The `"never"` option ignores `const` variable initializations.
+
+### ignoreForLoopInit
+
+Examples of **correct** code for the `"never", { "ignoreForLoopInit": true }` options:
 
 ```js
 /*eslint init-declarations: [2, "never", { "ignoreForLoopInit": true }]*/
