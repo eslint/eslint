@@ -57,7 +57,7 @@ _
   .filter(bar);
 
 // Or
-obj.prop.method().prop
+obj.method().method2().method3();
 ```
 
 Following patterns are not considered problems with default configuration:
@@ -78,10 +78,20 @@ _
   .filter(bar);
 
 // Or
+_.chain({})
+  .map(foo)
+  .filter(bar);
+
+// Or
 obj
   .prop
-  .method()
-  .prop
+  .method().prop;
+
+// Or
+obj
+  .prop.method()
+  .method2()
+  .method3().prop;
 ```
 
 Change the option `ignoreChainWithDepth` value to allow single line chains of that depth.
@@ -110,12 +120,13 @@ Following patterns are considered problems:
 _.chain({}).map(foo).filter(bar);
 
 // Or
-obj.prop.method().prop;
+obj.prop.method().method2().method3();
 
 // Or
 obj
   .prop
-  .method().prop;
+  .method()
+  .method2().method3();
 
 ```
 

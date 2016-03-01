@@ -28,9 +28,17 @@ ruleTester.run("newline-per-chained-call", rule, {
     }, {
         code: "var a = m1();"
     }, {
+        code: "a()\n.b().c.e.d()"
+    }, {
+        code: "a().b().c.e.d()"
+    }, {
+        code: "a.b.c.e.d()"
+    }, {
         code: "var a = window\n.location\n.href\n.match(/(^[^#]*)/)[0];"
     }, {
         code: "var a = window['location']\n.href\n.match(/(^[^#]*)/)[0];"
+    }, {
+        code: "var a = window['location'].href.match(/(^[^#]*)/)[0];"
     }, {
         code: "var a = m1().m2.m3();",
         options: [{
@@ -45,11 +53,9 @@ ruleTester.run("newline-per-chained-call", rule, {
     invalid: [{
         code: "_\n.chain({}).map(foo).filter(bar).value();",
         errors: [{
-            message: "Expected line break after `_\\n.chain({}).map(foo).filter(bar)`."
-        }, {
             message: "Expected line break after `_\\n.chain({}).map(foo)`."
         }, {
-            message: "Expected line break after `_\\n.chain({})`."
+            message: "Expected line break after `_\\n.chain({}).map(foo).filter(bar)`."
         }]
     }, {
         code: "_\n.chain({})\n.map(foo)\n.filter(bar).value();",
@@ -57,61 +63,46 @@ ruleTester.run("newline-per-chained-call", rule, {
             message: "Expected line break after `_\\n.chain({})\\n.map(foo)\\n.filter(bar)`."
         }]
     }, {
-        code: "a()\n.b().c.e.d()",
+        code: "a().b().c().e.d()",
         errors: [{
-            message: "Expected line break after `a()\\n.b().c.e`."
-        }, {
-            message: "Expected line break after `a()\\n.b().c`."
-        }, {
-            message: "Expected line break after `a()\\n.b()`."
-        }]
-    }, {
-        code: "a().b().c.e.d()",
-        errors: [{
-            message: "Expected line break after `a().b().c.e`."
-        }, {
-            message: "Expected line break after `a().b().c`."
-        }, {
             message: "Expected line break after `a().b()`."
-        }, {
-            message: "Expected line break after `a()`."
         }]
     }, {
-        code: "a.b.c.e.d()",
+        code: "a().b().c().e.d()",
         errors: [{
-            message: "Expected line break after `a.b.c.e`."
-        }, {
-            message: "Expected line break after `a.b.c`."
-        }, {
-            message: "Expected line break after `a.b`."
-        }, {
-            message: "Expected line break after `a`."
+            message: "Expected line break after `a().b()`."
         }]
     }, {
-        code: "_.chain({}).map(a); ",
+        code: "a.b.c().e().d()",
         errors: [{
-            message: "Expected line break after `_.chain({})`."
-        }, {
-            message: "Expected line break after `_`."
+            message: "Expected line break after `a.b.c().e()`."
         }]
     }, {
-        code: "var a = m1.m2();\n var b = m1.m2().m3().m4();",
+        code: "_.chain({}).map(a).value(); ",
+        errors: [{
+            message: "Expected line break after `_.chain({}).map(a)`."
+        }]
+    }, {
+        code: "var a = m1.m2();\n var b = m1.m2().m3().m4().m5();",
         errors: [{
             message: "Expected line break after `m1.m2().m3()`."
         }, {
-            message: "Expected line break after `m1.m2()`."
-        }, {
-            message: "Expected line break after `m1`."
+            message: "Expected line break after `m1.m2().m3().m4()`."
         }]
     }, {
-        code: "var a = m1().m2\n.m3().m4();",
+        code: "var a = m1.m2();\n var b = m1.m2().m3()\n.m4().m5();",
+        errors: [{
+            message: "Expected line break after `m1.m2().m3()\\n.m4()`."
+        }]
+    }, {
+        code: "var a = m1().m2\n.m3().m4().m5().m6().m7();",
         options: [{
             ignoreChainWithDepth: 3
         }],
         errors: [{
-            message: "Expected line break after `m1().m2\\n.m3()`."
+            message: "Expected line break after `m1().m2\\n.m3().m4().m5()`."
         }, {
-            message: "Expected line break after `m1()`."
+            message: "Expected line break after `m1().m2\\n.m3().m4().m5().m6()`."
         }]
     }]
 
