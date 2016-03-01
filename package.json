@@ -44,7 +44,6 @@
     "escope": "^3.5.0",
     "espree": "^3.1.1",
     "estraverse": "^4.1.1",
-    "estraverse-fb": "^1.3.1",
     "esutils": "^2.0.2",
     "file-entry-cache": "^1.1.1",
     "glob": "^6.0.4",
