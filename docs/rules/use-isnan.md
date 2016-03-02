@@ -6,7 +6,7 @@ In JavaScript, `NaN` is a special value of the `Number` type. It's used to repre
 
 This rule is aimed at eliminating potential errors as the result of comparing against the special value `NaN`.
 
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule:
 
 ```js
 /*eslint use-isnan: 2*/
@@ -20,7 +20,7 @@ if (foo != NaN) {
 }
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule:
 
 ```js
 /*eslint use-isnan: 2*/

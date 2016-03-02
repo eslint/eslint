@@ -68,7 +68,9 @@ You can set the option in configuration like this:
 "no-inner-declarations": [2, "both"]
 ```
 
-The following patterns are considered problems:
+### functions
+
+Examples of **incorrect** code for the default `"functions"` option:
 
 ```js
 /*eslint no-inner-declarations: 2*/
@@ -84,27 +86,10 @@ function doSomethingElse() {
 }
 ```
 
-With `"both"` option to check variable declarations, the following are considered problems:
-
-```js
-/*eslint no-inner-declarations: [2, "both"]*/
-
-if (test) {
-    var foo = 42;
-}
-
-function doAnotherThing() {
-    if (test) {
-        var bar = 81;
-    }
-}
-```
-
-The following patterns are considered valid:
+Examples of **correct** code for the default `"functions"` option:
 
 ```js
 /*eslint no-inner-declarations: 2*/
-/*eslint-env es6*/
 
 function doSomething() { }
 
@@ -120,6 +105,31 @@ var fn;
 if (test) {
     fn = function fnExpression() { };
 }
+```
+
+### both
+
+Examples of **incorrect** code for the `"both"` option:
+
+```js
+/*eslint no-inner-declarations: [2, "both"]*/
+
+if (test) {
+    var foo = 42;
+}
+
+function doAnotherThing() {
+    if (test) {
+        var bar = 81;
+    }
+}
+```
+
+Examples of **correct** code for the `"both"` option:
+
+```js
+/*eslint no-inner-declarations: 2*/
+/*eslint-env es6*/
 
 var bar = 42;
 
