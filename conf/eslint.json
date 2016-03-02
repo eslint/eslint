@@ -23,6 +23,7 @@
         "no-dupe-keys": "error",
         "no-dupe-args": "error",
         "no-duplicate-case": "error",
+        "no-duplicate-imports": "off",
         "no-else-return": "off",
         "no-empty": "error",
         "no-empty-character-class": "error",
