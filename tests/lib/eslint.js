@@ -3115,6 +3115,11 @@ describe("eslint", function() {
             eslint.verify(code, {rules: {test: 2}});
             assert(ok);
         });
+
+        it("should not crash when we reuse the SourceCode object", function() {
+            eslint.verify("function render() { return <div className='test'>{hello}</div> }", { parserOptions: { ecmaVersion: 6, ecmaFeatures: {jsx: true} }});
+            eslint.verify(eslint.getSourceCode(), { parserOptions: { ecmaVersion: 6, ecmaFeatures: {jsx: true} }});
+        });
     });
 
     describe("Variables and references", function() {
