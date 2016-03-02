@@ -166,6 +166,7 @@
         "new-cap": "off",
         "new-parens": "off",
         "newline-after-var": "off",
+        "newline-before-return": "off",
         "newline-per-chained-call": "off",
         "object-curly-spacing": ["off", "never"],
         "object-shorthand": "off",
