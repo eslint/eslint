@@ -6,7 +6,7 @@ For a vast majority of use-cases, the only valid results of the `typeof` operato
 
 This rule aims to prevent errors from likely typos by ensuring that when the result of a `typeof` operation is compared against a string, that the string is a valid value.
 
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule:
 
 ```js
 /*eslint valid-typeof: 2*/
@@ -17,7 +17,7 @@ typeof bar != "nunber"
 typeof bar !== "fucntion"
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule:
 
 ```js
 /*eslint valid-typeof: 2*/

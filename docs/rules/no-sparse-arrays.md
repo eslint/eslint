@@ -20,7 +20,7 @@ The confusion around sparse arrays defined in this manner is enough that it's re
 
 This rule aims to eliminate sparse arrays that are defined by extra commas.
 
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule:
 
 ```js
 /*eslint no-sparse-arrays: 2*/
@@ -29,7 +29,7 @@ var items = [,];
 var colors = [ "red",, "blue" ];
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule:
 
 ```js
 /*eslint no-sparse-arrays: 2*/

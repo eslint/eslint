@@ -43,7 +43,7 @@ With this rule enabled the following characters will cause warnings outside of s
     \u205f - Medium Mathematical Space
     \u3000 - Ideographic Space
 
-The following examples are considered problems:
+Examples of **incorrect** code for this rule:
 
 ```js
 /*eslint no-irregular-whitespace: 2*/
@@ -73,7 +73,7 @@ function thing() {
 }
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule:
 
 ```js
 /*eslint no-irregular-whitespace: 2*/
@@ -106,7 +106,7 @@ The `no-irregular-whitespace` rule has no required option and has one optional o
 For example, to specify that you want to skip checking for irregular whitespace within comments, use the following configuration:
 
 ```json
-"no-irregular-whitespace": [2, {"skipComments": true}]
+"no-irregular-whitespace": [2, { "skipComments": true }]
 ```
 
 ## When Not To Use It

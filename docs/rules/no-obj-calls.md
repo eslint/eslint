@@ -10,7 +10,7 @@ The [ECMAScript 5 specification](http://es5.github.io/#x15.8) makes it clear tha
 
 This rule is aimed at preventing the accidental calling of global objects as functions.
 
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule:
 
 ```js
 /*eslint no-obj-calls: 2*/
@@ -19,7 +19,7 @@ var x = Math();
 var y = JSON();
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule:
 
 ```js
 /*eslint no-obj-calls: 2*/
