@@ -12,10 +12,12 @@ This pattern is most likely an error and should be avoided.
 
 ## Rule Details
 
-The rule is aimed at preventing the use of a constant expression in a condition.
-As such, it warns whenever it sees a constant expression inside a condition expression.
+The rule is aimed at preventing a constant expression in the test of:
 
-The following patterns are considered problems:
+* `if`, `for`, `while`, or `do...while` statement
+* `?:` ternary expression
+
+Examples of **incorrect** code for this rule:
 
 ```js
 /*eslint no-constant-condition: 2*/
@@ -55,7 +57,7 @@ do{
 } while (x = -1)
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule:
 
 ```js
 /*eslint no-constant-condition: 2*/
