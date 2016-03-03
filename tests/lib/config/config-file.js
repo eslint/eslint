@@ -608,6 +608,20 @@ describe("ConfigFile", function() {
             });
         });
 
+        it("should load information from `extends` chain.", function() {
+            var config = ConfigFile.load(getFixturePath("extends-chain/.eslintrc.json"));
+            assert.deepEqual(config, {
+                env: {},
+                extends: "a",
+                globals: {},
+                parserOptions: {},
+                rules: {
+                    a: 2, // from node_modules/eslint-config-a
+                    b: 2, // from node_modules/eslint-config-a/node_modules/eslint-config-b
+                    c: 2  // from node_modules/eslint-config-a/node_modules/eslint-config-b/node_modules/eslint-config-c
+                }
+            });
+        });
 
         describe("Plugins", function() {
 
