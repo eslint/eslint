@@ -16,11 +16,11 @@ This rule takes 1 or 2 arguments. The first one is a string which must be one of
 * `"all"` (default): it will report unnecessary parentheses around any expression.
 * `"functions"`: only function expressions will be checked for unnecessary parentheses.
 
-The second one is an object for more fine-grained configuration when the first option is "all".
+The second one is an object for more fine-grained configuration when the first option is `"all"`.
 
-### "all"
+### all
 
-The following patterns are considered problems:
+Examples of **incorrect** code for the default `"all"` option:
 
 ```js
 /*eslint no-extra-parens: 2*/
@@ -34,7 +34,7 @@ typeof (a);
 (function(){} ? a() : b());
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for the default `"all"` option:
 
 ```js
 /*eslint no-extra-parens: 2*/
@@ -48,14 +48,14 @@ The following patterns are not considered problems:
 (/^a$/).test(x);
 ```
 
-#### Fine-grained control
+### conditionalAssign
 
-When setting the first option as "all", an additional option can be added to allow extra parens for assignment in conditional statements.
+When setting the first option as `"all"`, an additional option can be added to allow extra parens for assignment in conditional statements.
 
-The following patterns are not considered problems:
+Examples of **correct** code for the `"all"` and `{ "conditionalAssign": true }` options:
 
 ```js
-/*eslint no-extra-parens: [2, "all", {"conditionalAssign": false}]*/
+/*eslint no-extra-parens: [2, "all", { "conditionalAssign": false }]*/
 
 while ((foo = bar())) {}
 
@@ -66,9 +66,9 @@ do; while ((foo = bar()))
 for (;(a = b););
 ```
 
-### "functions"
+### functions
 
-The following patterns are considered problems:
+Examples of **incorrect** code for the `"functions"` option:
 
 ```js
 /*eslint no-extra-parens: [2, "functions"]*/
@@ -78,7 +78,7 @@ The following patterns are considered problems:
 var y = (function () {return 1;});
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for the `"functions"` option:
 
 ```js
 /*eslint no-extra-parens: [2, "functions"]*/
@@ -102,3 +102,7 @@ typeof (a);
 ## Further Reading
 
 * [MDN: Operator Precedence](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Operator_Precedence)
+
+## Related Rules
+
+* [no-cond-assign](no-cond-assign.md)
