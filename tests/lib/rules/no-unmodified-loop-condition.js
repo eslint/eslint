@@ -41,7 +41,8 @@ ruleTester.run("no-unmodified-loop-condition", rule, {
         "for (var foo = 0; foo; ++foo) { }",
         "for (var foo = 0; foo;) { ++foo }",
         "var foo = 0, bar = 0; for (bar; foo;) { ++foo }",
-        "var foo; if (foo) { }"
+        "var foo; if (foo) { }",
+        "var a = [1, 2, 3]; var len = a.length; for (var i = 0; i < len - 1; i++) {}"
     ],
     invalid: [
         {code: "var foo = 0; while (foo) { } foo = 1;", errors: ["'foo' is not modified in this loop."]},
