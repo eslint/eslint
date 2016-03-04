@@ -12,7 +12,7 @@ for (key in foo) {
 
 This rule is aimed at preventing unexpected behavior that could arise from using a `for in` loop without filtering the results in the loop. As such, it will warn when `for in` loops do not filter their results with an `if` statement.
 
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule:
 
 ```js
 /*eslint guard-for-in: 2*/
@@ -22,7 +22,7 @@ for (key in foo) {
 }
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule:
 
 ```js
 /*eslint guard-for-in: 2*/

@@ -23,7 +23,7 @@ This rule is aimed at ensuring all `return` statements either specify a value or
 
 It excludes constructors which, when invoked with the `new` operator, return the instantiated object if another object is not explicitly returned.  This rule treats a function as a constructor if its name starts with an uppercase letter.
 
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule:
 
 ```js
 /*eslint consistent-return: 2*/
@@ -54,7 +54,7 @@ function doSomething(condition) {
 }
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule:
 
 ```js
 /*eslint consistent-return: 2*/
