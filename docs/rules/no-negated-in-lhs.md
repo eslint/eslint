@@ -26,7 +26,7 @@ if(('' + !a) in b) {
 }
 ```
 
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule:
 
 ```js
 /*eslint no-negated-in-lhs: 2*/
@@ -36,7 +36,7 @@ if(!a in b) {
 }
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule:
 
 ```js
 /*eslint no-negated-in-lhs: 2*/
