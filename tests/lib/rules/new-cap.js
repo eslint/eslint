@@ -54,7 +54,10 @@ ruleTester.run("new-cap", rule, {
         "var o = { 1: function() {} }; o[1]();",
         "var o = { 1: function() {} }; new o[1]();",
         { code: "var x = Foo(42);", options: [{ capIsNew: true, capIsNewExceptions: ["Foo"] }] },
+        { code: "var x = Foo.Bar(42);", options: [{ capIsNew: true, capIsNewWildcardExceptions: ["Foo"] }] },
         { code: "var x = new foo(42);", options: [{ newIsCap: true, newIsCapExceptions: ["foo"] }] },
+        { code: "var x = new foo(42);", options: [{ newIsCap: true, newIsCapWildcardExceptions: ["foo"] }] },
+        { code: "var x = new foo.bar(42);", options: [{ newIsCap: true, newIsCapWildcardExceptions: ["foo"] }] },
         { code: "var x = Object(42);", options: [{ capIsNewExceptions: ["Foo"] }] },
 
         { code: "var x = Foo.Bar(42);", options: [{ capIsNewExceptions: ["Bar"] }] },
