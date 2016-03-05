@@ -479,6 +479,25 @@ ruleTester.run("key-spacing", rule, {
                 "beforeColon": false
             }
         }]
+    }, {
+        code: [
+            "var obj = {",
+            "    foobar: 42,",
+            "    bat:    2",
+            "};"
+        ].join("\n"),
+        options: [{
+            singleLine: {
+                beforeColon: false,
+                afterColon: true,
+                mode: "strict"
+            },
+            multiLine: {
+                beforeColon: false,
+                afterColon: true,
+                mode: "minimum"
+            }
+        }]
     }],
 
     invalid: [{
