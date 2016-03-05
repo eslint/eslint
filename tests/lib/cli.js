@@ -318,6 +318,54 @@ describe("cli", function() {
         });
     });
 
+    describe("when executing with verbose flag", function() {
+        var CLIEngineLog = {
+            info: sinon.spy()
+        };
+
+        var localCLIEngine = proxyquire("../../lib/cli-engine", {
+            "./logging": CLIEngineLog
+        });
+
+        var localCLI = proxyquire("../../lib/cli", {
+            "./cli-engine": localCLIEngine,
+            "./logging": log
+        });
+
+        afterEach(function() {
+            CLIEngineLog.info.reset();
+        });
+
+        describe("and is run on an unignored file", function() {
+            it("should log the file being linted", function() {
+                var toBeLintedFilePath = getFixturePath("passing.js");
+                var exit = localCLI.execute("--verbose " + toBeLintedFilePath);
+
+                assert.isTrue(CLIEngineLog.info.calledOnce);
+
+                var logStatement = CLIEngineLog.info.getCall(0).args[0];
+                assert.isTrue(logStatement.indexOf("Linting:") > -1);
+                assert.isTrue(logStatement.indexOf("passing.js") > -1);
+                assert.equal(exit, 0);
+            });
+        });
+
+        describe("and is run on an ignored file", function() {
+            it("should log the file being ignored", function() {
+                var ignoreConfigPath = getFixturePath(".eslintignore");
+                var ignoredFilePath = getFixturePath("syntax-error.js");
+                var exit = localCLI.execute("--verbose --ignore-path " + ignoreConfigPath + " " + ignoredFilePath);
+
+                assert.isTrue(CLIEngineLog.info.calledOnce);
+
+                var logStatement = CLIEngineLog.info.getCall(0).args[0];
+                assert.isTrue(logStatement.indexOf("Ignoring:") > -1);
+                assert.isTrue(logStatement.indexOf("syntax-error.js") > -1);
+                assert.equal(exit, 0);
+            });
+        });
+    });
+
     describe("when given a directory with eslint excluded files in the directory", function() {
         it("should not process any files", function() {
             var ignorePath = getFixturePath(".eslintignore");
