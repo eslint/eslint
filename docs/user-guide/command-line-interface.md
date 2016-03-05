@@ -67,6 +67,7 @@ Miscellaneous:
   --init                     Run config initialization wizard - default: false
   --fix                      Automatically fix problems
   --debug                    Output debugging information
+  --verbose                  Output verbose logs during runtime
   -h, --help                 Show help
   -v, --version              Outputs the version number
   --no-inline-config         Prevent comments from changing eslint rules -
@@ -329,6 +330,10 @@ This option instructs ESLint to try to fix as many issues as possible. The fixes
 #### `--debug`
 
 This option outputs debugging information to the console. This information is useful when you're seeing a problem and having a hard time pinpointing it. The ESLint team may ask for this debugging information to help solve bugs.
+
+#### `--verbose`
+
+This option outputs to the console which file is being linted and which file is being ignored. The logging is done during runtime.
 
 #### `-h`, `--help`
 
