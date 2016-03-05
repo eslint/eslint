@@ -1,0 +1,20 @@
+ESLint encountered an uncaught exception from rule "<%= ruleName %>".
+
+<% if (pluginName) { %>The rule in question comes from the plugin "eslint-plugin-<%= pluginName %>". You should open an issue on that plugin's issue tracker. Be sure to include your configuration, file source code, the installed version of the plugin, and the error message and stack trace.
+<% } else { %>This is a core rule, so this exception may indicate a bug in ESLint. Please open an issue in our issue tracker, using the following information in addition to your exact source code and configuration.
+<% } %>
+Useful information:
+
+    ESLint version: <%= eslintVersion %>
+
+    Parser: <%= parserPath %> <%= hasDefaultParser ? "(default)" : "" %>
+<% if (stackTrace) { %>
+    Exception stack trace: <%= stackTrace %>
+<% } %>
+    You can run this command to get your configuration:
+        eslint --print-config path/to/your/file.js
+
+    File name: <%= fileName %>
+    You should include the source from this file in your bug report.
+
+Be sure that your bug report also clearly calls out any unusual configuration.
