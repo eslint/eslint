@@ -79,7 +79,10 @@ ruleTester.run("object-shorthand", rule, {
         { code: "var x = {ConstructorFunction: function(){}, a: b}", parserOptions: { ecmaVersion: 6 }, options: ["methods", { "ignoreConstructors": true }] },
         { code: "var x = {notConstructorFunction(){}, b: c}", parserOptions: { ecmaVersion: 6 }, options: ["methods", { "ignoreConstructors": true }] },
         { code: "var x = {ConstructorFunction: function(){}, a: b}", parserOptions: { ecmaVersion: 6 }, options: ["never"] },
-        { code: "var x = {notConstructorFunction: function(){}, b: c}", parserOptions: { ecmaVersion: 6 }, options: ["never"] }
+        { code: "var x = {notConstructorFunction: function(){}, b: c}", parserOptions: { ecmaVersion: 6 }, options: ["never"] },
+
+        // ignore object shorthand
+        { code: "let {a, b} = o;", parserOptions: { ecmaVersion: 6 }, options: ["never"] }
     ],
     invalid: [
         { code: "var x = {x: x}", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "Expected property shorthand.", type: "Property" }] },
