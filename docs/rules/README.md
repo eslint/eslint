@@ -236,7 +236,7 @@ These rules are only relevant to ES6 environments.
 * [no-var](no-var.md) - require `let` or `const` instead of `var`
 * [object-shorthand](object-shorthand.md) - require method and property shorthand syntax for object literals
 * [prefer-arrow-callback](prefer-arrow-callback.md) - suggest using arrow functions as callbacks
-* [prefer-const](prefer-const.md) - suggest using `const` declaration for variables that are never modified after declared
+* [prefer-const](prefer-const.md) - suggest using `const` declaration for variables that are never reassigned after declared
 * [prefer-reflect](prefer-reflect.md) - suggest using Reflect methods where applicable
 * [prefer-rest-params](prefer-rest-params.md) - suggest using the rest parameters instead of `arguments`
 * [prefer-spread](prefer-spread.md) - suggest using the spread operator instead of `.apply()`
