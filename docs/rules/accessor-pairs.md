@@ -34,18 +34,12 @@ By activating the option `getWithoutSet` it enforces the presence of a setter fo
 
 ## Options
 
-`getWithoutSet` set to `true` will warn for getters without setters (Default `false`).
-`setWithoutGet` set to `true` will warn for setters without getters (Default `true`).
+* `setWithoutGet` set to `true` will warn for setters without getters (Default `true`).
+* `getWithoutSet` set to `true` will warn for getters without setters (Default `false`).
 
-By default `setWithoutGet` option is always set to `true`.
+### setWithoutGet
 
-```json
-{
-    "accessor-pairs": [2, {"getWithoutSet": true}]
-}
-```
-
-The following patterns are considered problems by default:
+Examples of **incorrect** code for the default `{ "setWithoutGet": true }` option:
 
 ```js
 /*eslint accessor-pairs: 2*/
@@ -64,7 +58,7 @@ Object.defineProperty(o, 'c', {
 });
 ```
 
-The following patterns are not considered problems by default:
+Examples of **correct** code for the default `{ "setWithoutGet": true }` option:
 
 ```js
 /*eslint accessor-pairs: 2*/
@@ -90,12 +84,12 @@ Object.defineProperty(o, 'c', {
 
 ```
 
-### `getWithoutSet`
+### getWithoutSet
 
-The following patterns are considered problems with option `getWithoutSet` set:
+Examples of **incorrect** code for the `{ "getWithoutSet": true }` option:
 
 ```js
-/*eslint accessor-pairs: [2, { getWithoutSet: true }]*/
+/*eslint accessor-pairs: [2, { "getWithoutSet": true }]*/
 
 var o = {
     set a(value) {
@@ -124,10 +118,10 @@ Object.defineProperty(o, 'c', {
 });
 ```
 
-The following patterns are not considered problems with option `getWithoutSet` set:
+Examples of **correct** code for the `{ "getWithoutSet": true }` option:
 
 ```js
-/*eslint accessor-pairs: [2, { getWithoutSet: true }]*/
+/*eslint accessor-pairs: [2, { "getWithoutSet": true }]*/
 var o = {
     set a(value) {
         this.val = value;

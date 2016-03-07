@@ -28,11 +28,11 @@ This rule finds callback functions of the following methods, then checks usage o
 * [`Array.prototype.sort`](http://www.ecma-international.org/ecma-262/6.0/#sec-array.prototype.sort)
 * And above of typed arrays.
 
-**Note:** this rule finds by the method name, so the object which has the method might not be an array.
-
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule:
 
 ```js
+/*eslint array-callback-return: 2*/
+
 var indexMap = myArray.reduce(function(memo, item, index) {
     memo[item] = index;
 }, {});
@@ -52,9 +52,11 @@ var bar = foo.filter(function(x) {
 });
 ```
 
-The following patterns are considered not problems:
+Examples of **correct** code for this rule:
 
 ```js
+/*eslint array-callback-return: 2*/
+
 var indexMap = myArray.reduce(function(memo, item, index) {
     memo[item] = index;
     return memo;
@@ -69,6 +71,10 @@ var foo = Array.from(nodes, function(node) {
 
 var bar = foo.map(node => node.getAttribute("id"));
 ```
+
+## Known Limitations
+
+This rule checks callback functions of methods with the given names, *even if* the object which has the method is *not* an array.
 
 ## When Not To Use It
 
