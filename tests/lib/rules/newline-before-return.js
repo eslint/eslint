@@ -53,6 +53,7 @@ ruleTester.run("newline-before-return", rule, {
         "function a() {\nfor (b in c) { return; }\n}",
         "function a() {\nfor (b in c) {\nreturn;\n}\n}",
         "function a() {\nfor (b in c) {\nd();\n\nreturn;\n}\n}",
+        "function a() {\nvar b = {\n//comment\n};\n\nreturn;\n}",
         {
             code: "function a() {\nfor (b of c) return;\n}",
             parserOptions: { ecmaVersion: 6 }
