@@ -16,7 +16,7 @@ function foo() {
 
 This rule is aimed at highlighting an unnecessary block of code following an `if` containing a return statement. As such, it will warn when it encounters an `else` following a chain of `if`s, all of them containing a `return` statement.
 
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule:
 
 ```js
 /*eslint no-else-return: 2*/
@@ -63,7 +63,7 @@ function foo() {
 }
 ```
 
-The follow patterns are not considered problems:
+Examples of **correct** code for this rule:
 
 ```js
 /*eslint no-else-return: 2*/
