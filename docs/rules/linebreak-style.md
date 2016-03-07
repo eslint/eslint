@@ -8,6 +8,8 @@ whereas Linux and Unix use a simple _line feed_ (LF). The corresponding _control
 
 Many versioning systems (like git and subversion) can automatically ensure the correct ending. However to cover all contingencies you can activate this rule.
 
+**Fixable:** This rule is automatically fixable using the `--fix` flag on the command line.
+
 ## Rule Details
 
 This rule aims to ensure having consistent line endings independent of operating system, VCS or editor used.
