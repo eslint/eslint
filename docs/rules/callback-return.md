@@ -14,7 +14,7 @@ function doSomething(err, callback) {
 
 To prevent calling the callback multiple times it is important to `return` anytime the callback is triggered outside
  of the main function body. Neglecting this technique often leads to issues where you do something more than once.
- For example, in the case of an HTTP request, you may try to send HTTP headers more than once leading node.js to `throw`
+ For example, in the case of an HTTP request, you may try to send HTTP headers more than once leading Node.js to `throw`
  a `Can't render headers after they are sent to the client.` error.
 
 ## Rule Details
