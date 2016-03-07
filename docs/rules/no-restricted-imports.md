@@ -4,7 +4,7 @@ Imports are an ES6/ES2015 standard for making the functionality of other modules
 
 Why would you want to restrict imports?
 
-* Some imports might not make sense in a particular environment. For example, Node's `fs` module would not make sense in an environment that didn't have a file system.
+* Some imports might not make sense in a particular environment. For example, Node.js' `fs` module would not make sense in an environment that didn't have a file system.
 
 * Some modules provide similar or identical functionality, think `lodash` and `underscore`. Your project may have standardized on a module. You want to make sure that the other alternatives are not being used as this would unnecessarily bloat the project and provide a higher maintenance cost of two dependencies when one would suffice.
 
