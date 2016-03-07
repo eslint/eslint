@@ -6,7 +6,7 @@ When working with browser scripts, developers often forget that variable and fun
 
 This rule disallows `var` and named `function` declarations at the top-level script scope. This does not apply to ES and CommonJS modules since they have a module scope.
 
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule:
 
 ```js
 /*eslint no-implicit-globals: "error"*/
@@ -16,7 +16,7 @@ var foo = 1;
 function bar() {}
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule:
 
 ```js
 /*eslint no-implicit-globals: "error"*/
@@ -33,8 +33,10 @@ window.bar = function() {};
 })();
 ```
 
+Examples of **correct** code for this rule with `"parserOptions": { "sourceType": "module" }` in the ESLint configuration:
+
 ```js
-/*eslint modules: true*/
+/*eslint no-implicit-globals: 2*/
 
 // foo and bar are local to module
 var foo = 1;

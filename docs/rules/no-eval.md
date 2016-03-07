@@ -12,7 +12,7 @@ var obj = { x: "foo" },
 
 This rule is aimed at preventing potentially dangerous, unnecessary, and slow code by disallowing the use of the `eval()` function. As such, it will warn whenever the `eval()` function is used.
 
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule:
 
 ```js
 /*eslint no-eval: "error"*/
@@ -44,10 +44,11 @@ window.eval("var a = 0");
 global.eval("var a = 0");
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule:
 
 ```js
 /*eslint no-eval: "error"*/
+/*eslint-env es6*/
 
 var obj = { x: "foo" },
     key = "x",

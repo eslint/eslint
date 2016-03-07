@@ -15,7 +15,7 @@ Probably those labels would confuse developers because they expect labels to jum
 
 This rule is aimed at eliminating unnecessary labels.
 
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule:
 
 ```js
 /*eslint no-extra-label: "error"*/
@@ -34,7 +34,7 @@ C: switch (a) {
 }
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule:
 
 ```js
 /*eslint no-extra-label: "error"*/
