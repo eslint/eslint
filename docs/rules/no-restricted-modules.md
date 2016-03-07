@@ -1,6 +1,6 @@
-# Disallow Node modules (no-restricted-modules)
+# Disallow Node.js modules (no-restricted-modules)
 
-Disallowing usage of specific node modules can be useful if you want to control the available methods, a developer can
+Disallowing usage of specific Node.js modules can be useful if you want to control the available methods, a developer can
 use, to implement a feature.
 
 This way you can block usage of the `fs` module if you want disallow file system access.
