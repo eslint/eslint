@@ -12,7 +12,7 @@ if (foo == null) {
 
 The `no-eq-null` rule aims reduce potential bug and unwanted behavior by ensuring that comparisons to `null` only match `null`, and not also `undefined`. As such it will flag comparisons to null when using `==` and `!=`.
 
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule:
 
 ```js
 /*eslint no-eq-null: "error"*/
@@ -26,7 +26,7 @@ while (qux != null) {
 }
 ```
 
-The following patterns are considered okay:
+Examples of **correct** code for this rule:
 
 ```js
 /*eslint no-eq-null: "error"*/

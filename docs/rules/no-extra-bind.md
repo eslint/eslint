@@ -31,7 +31,7 @@ This rule is aimed at avoiding the unnecessary use of `bind()` and as such will 
 
 **Note:** Arrow functions can never have their `this` value set using `bind()`. This rule flags all uses of `bind()` with arrow functions as a problem
 
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule:
 
 ```js
 /*eslint no-extra-bind: "error"*/
@@ -62,7 +62,7 @@ var x = function () {
 }.bind(baz);
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule:
 
 ```js
 /*eslint no-extra-bind: "error"*/
