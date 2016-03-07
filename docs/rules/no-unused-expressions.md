@@ -59,6 +59,8 @@ delete a.b
 void a
 ```
 
+Strict mode directives are also not considered problems.
+
 The following patterns are not considered problems if `allowShortCircuit` is enabled:
 
 ```js
