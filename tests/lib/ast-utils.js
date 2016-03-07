@@ -11,8 +11,10 @@
 
 var assert = require("chai").assert,
     sinon = require("sinon"),
+    espree = require("espree"),
     astUtils = require("../../lib/ast-utils"),
-    eslint = require("../../lib/eslint");
+    eslint = require("../../lib/eslint"),
+    SourceCode = require("../../lib/util/source-code");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -295,6 +297,31 @@ describe("ast-utils", function() {
             eslint.verify("/* eslint-env {\"es6\": true}", {}, filename, true);
             eslint.verify("/* eslint foo", {}, filename, true);
             eslint.verify("/*eslint bar", {}, filename, true);
+        });
+    });
+
+    describe("isParenthesised", function() {
+        var ESPREE_CONFIG = {
+            ecmaVersion: 6,
+            comment: true,
+            tokens: true,
+            range: true,
+            loc: true
+        };
+        it("should return false for not parenthesised nodes", function() {
+            var code = "condition ? 1 : 2";
+            var ast = espree.parse(code, ESPREE_CONFIG);
+            var sourceCode = new SourceCode(code, ast);
+
+            assert.isFalse(astUtils.isParenthesised(sourceCode, ast.body[0].expression));
+        });
+
+        it("should return true for not parenthesised nodes", function() {
+            var code = "(condition ? 1 : 2)";
+            var ast = espree.parse(code, ESPREE_CONFIG);
+            var sourceCode = new SourceCode(code, ast);
+
+            assert.isTrue(astUtils.isParenthesised(sourceCode, ast.body[0].expression));
         });
     });
 });

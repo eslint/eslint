@@ -57,7 +57,8 @@ ruleTester.run("no-confusing-arrow", rule, {
     valid: [
         { code: "a => { return 1 ? 2 : 3; }" },
         { code: "var x = a => { return 1 ? 2 : 3; }" },
-        { code: "var x = (a) => { return 1 ? 2 : 3; }" }
+        { code: "var x = (a) => { return 1 ? 2 : 3; }" },
+        { code: "var x = a => (1 ? 2 : 3)", options: [{ allowParens: true }]}
     ].map(addArrowFunctions),
     invalid: [
         {
@@ -70,6 +71,10 @@ ruleTester.run("no-confusing-arrow", rule, {
         },
         {
             code: "var x = (a) => 1 ? 2 : 3",
+            errors: [{ message: "Arrow function used ambiguously with a conditional expression." }]
+        },
+        {
+            code: "var x = a => (1 ? 2 : 3)",
             errors: [{ message: "Arrow function used ambiguously with a conditional expression." }]
         }
     ].map(addArrowFunctions)
