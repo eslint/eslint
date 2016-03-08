@@ -760,11 +760,29 @@ ruleTester.run("indent", rule, {
         {
             code:
                 "var items = [\n" +
-                "    {\n" +
-                "      foo: 'bar'\n" +
-                "    }\n" +
+                "  {\n" +
+                "    foo: 'bar'\n" +
+                "  }\n" +
                 "];\n",
             options: [2, {"VariableDeclarator": 2}]
+        },
+        {
+            code:
+                "const a = 1,\n" +
+                "      b = 2;\n" +
+                "const items1 = [\n" +
+                "  {\n" +
+                "    foo: 'bar'\n" +
+                "  }\n" +
+                "];\n" +
+                "const items2 = Items(\n" +
+                "  {\n" +
+                "    foo: 'bar'\n" +
+                "  }\n" +
+                ");\n",
+            options: [2, {"VariableDeclarator": 3}],
+            parserOptions: { ecmaVersion: 6 }
+
         },
         {
             code:
