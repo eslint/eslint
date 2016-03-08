@@ -31,7 +31,35 @@ ruleTester.run("arrow-body-style", rule, {
         { code: "var foo = () => { b = a };", parserOptions: { ecmaVersion: 6 } },
         { code: "var foo = () => { bar: 1 };", parserOptions: { ecmaVersion: 6 } },
         { code: "var foo = () => { return 0; };", parserOptions: { ecmaVersion: 6 }, options: ["always"] },
-        { code: "var foo = () => { return bar(); };", parserOptions: { ecmaVersion: 6 }, options: ["always"] }
+        { code: "var foo = () => { return bar(); };", parserOptions: { ecmaVersion: 6 }, options: ["always"] },
+        { code: "var foo = () => bar();", parserOptions: { ecmaVersion: 6 }, options: ["as-needed", { "max-len": 30 }] },
+        { code: "var foo = () => () => {\n    return bar();\n};", parserOptions: { ecmaVersion: 6 }, options: ["as-needed", { "max-lines": 1 }] },
+        { code: "var foo = () => function() {\n    return bar();\n};", parserOptions: { ecmaVersion: 6 }, options: ["as-needed", { "max-lines": 1 }] },
+        {
+            code: "var foo = () => { return Promise.resolve(bar()).then(bar).then(bar); }",
+            parserOptions: { ecmaVersion: 6 },
+            options: ["as-needed", { "max-len": 30 }]
+        },
+        {
+            code: "var foo = () =>\n    Promise\n    .resolve(bar())\n    .then(bar);",
+            parserOptions: { ecmaVersion: 6 },
+            options: ["as-needed", { "max-len": 33 }]
+        },
+        {
+            code: "var foo = () =>\n    Promise\n    .resolve(bar())\n    .then(bar);",
+            parserOptions: { ecmaVersion: 6 },
+            options: ["as-needed", { "max-len": 33, "max-lines": 5 }]
+        },
+        {
+            code: "var foo = () => {\nreturn Promise.resolve(bar())\n.then(bar)\n.then(bar);\n}",
+            parserOptions: { ecmaVersion: 6 },
+            options: ["as-needed", { "max-lines": 2 }]
+        },
+        {
+            code: "var foo = ({\n\tbar: bar,\n\tbaz: baz\n}) => bar + baz",
+            parserOptions: { ecmaVersion: 6 },
+            options: ["as-needed", { "max-lines": 1 }]
+        }
     ],
     invalid: [
         {
@@ -39,7 +67,7 @@ ruleTester.run("arrow-body-style", rule, {
             parserOptions: { ecmaVersion: 6 },
             options: ["always"],
             errors: [
-                { line: 1, column: 17, type: "ArrowFunctionExpression", message: "Expected block statement surrounding arrow body." }
+              { line: 1, column: 17, type: "ArrowFunctionExpression", message: "Expected block statement surrounding arrow body." }
             ]
         },
         {
@@ -55,7 +83,7 @@ ruleTester.run("arrow-body-style", rule, {
             parserOptions: { ecmaVersion: 6 },
             options: ["as-needed"],
             errors: [
-                { line: 1, column: 17, type: "ArrowFunctionExpression", message: "Unexpected block statement surrounding arrow body." }
+              { line: 1, column: 17, type: "ArrowFunctionExpression", message: "Unexpected block statement surrounding arrow body." }
             ]
         },
         {
@@ -63,7 +91,63 @@ ruleTester.run("arrow-body-style", rule, {
             parserOptions: { ecmaVersion: 6 },
             options: ["as-needed"],
             errors: [
-                { line: 1, column: 17, type: "ArrowFunctionExpression", message: "Unexpected block statement surrounding arrow body." }
+              { line: 1, column: 17, type: "ArrowFunctionExpression", message: "Unexpected block statement surrounding arrow body." }
+            ]
+        },
+        {
+            code: "var foo = () => { return bar(); };",
+            parserOptions: { ecmaVersion: 6 },
+            options: ["as-needed", { "max-len": 30 }],
+            errors: [
+              { line: 1, column: 16, type: "ArrowFunctionExpression", message: "Unexpected block statement surrounding arrow body." }
+            ]
+        },
+        {
+            code: "var foo = () => Promise.resolve(bar()).then(bar).then(bar);",
+            parserOptions: { ecmaVersion: 6 },
+            options: ["as-needed", { "max-len": 30 }],
+            errors: [
+              { line: 1, column: 16, type: "ArrowFunctionExpression", message: "Arrow function exceeds maximum characters and requires block formatting." }
+            ]
+        },
+        {
+            code: "var foo = () => Promise.resolve(bar())\n.then(bar)\n.then(bar);",
+            parserOptions: { ecmaVersion: 6 },
+            options: ["as-needed", { "max-lines": 2 }],
+            errors: [
+              { line: 1, column: 16, type: "ArrowFunctionExpression", message: "Arrow function exceeds maximum number of lines and requires block formatting." }
+            ]
+        },
+        {
+            code: "var foo = () => Promise.resolve(bar())\n.then(bar)\n.then(bar);",
+            parserOptions: { ecmaVersion: 6 },
+            options: ["as-needed", { "max-lines": 2, "max-len": 100 }],
+            errors: [
+              { line: 1, column: 16, type: "ArrowFunctionExpression", message: "Arrow function exceeds maximum number of lines and requires block formatting." }
+            ]
+        },
+        {
+            code: "var foo = (bar, baz) => bar(baz());",
+            parserOptions: { ecmaVersion: 6 },
+            options: ["as-needed", { "max-len": 15, "include-args": true }],
+            errors: [
+              { line: 1, column: 12, type: "ArrowFunctionExpression", message: "Arrow function exceeds maximum characters and requires block formatting." }
+            ]
+        },
+        {
+            code: "var foo = ({\n\tbar: bar,\n\tbaz: baz\n}) => bar + baz",
+            parserOptions: { ecmaVersion: 6 },
+            options: ["as-needed", { "max-lines": 1, "include-args": true }],
+            errors: [
+              { line: 1, column: 12, type: "ArrowFunctionExpression", message: "Arrow function exceeds maximum number of lines and requires block formatting." }
+            ]
+        },
+        {
+            code: "var foo = () =>\n    () => {\n    return bar();\n};",
+            parserOptions: { ecmaVersion: 6 },
+            options: ["as-needed", { "max-lines": 1 }],
+            errors: [
+                { line: 1, column: 16, type: "ArrowFunctionExpression", message: "Arrow function exceeds maximum number of lines and requires block formatting." }
             ]
         }
     ]
