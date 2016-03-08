@@ -84,7 +84,6 @@ These are rules designed to prevent you from making mistakes. They either prescr
 * [no-octal](no-octal.md) - disallow use of octal literals (recommended)
 * [no-octal-escape](no-octal-escape.md) - disallow use of octal escape sequences in string literals, such as `var foo = "Copyright \251";`
 * [no-param-reassign](no-param-reassign.md) - disallow reassignment of function parameters
-* [no-process-env](no-process-env.md) - disallow use of `process.env`
 * [no-proto](no-proto.md) - disallow usage of `__proto__` property
 * [no-redeclare](no-redeclare.md) - disallow declaring the same variable more than once (recommended)
 * [no-return-assign](no-return-assign.md) - disallow use of assignment in `return` statement
@@ -139,9 +138,9 @@ These rules are specific to JavaScript running on Node.js or using CommonJS in t
 * [no-mixed-requires](no-mixed-requires.md) - disallow mixing regular variable and require declarations
 * [no-new-require](no-new-require.md) - disallow use of `new` operator with the `require` function
 * [no-path-concat](no-path-concat.md) - disallow string concatenation with `__dirname` and `__filename`
+* [no-process-env](no-process-env.md) - disallow use of `process.env`
 * [no-process-exit](no-process-exit.md) - disallow `process.exit()`
-* [no-restricted-imports](no-restricted-imports.md) - restrict usage of specified Node.js imports
-* [no-restricted-modules](no-restricted-modules.md) - restrict usage of specified Node.js modules
+* [no-restricted-modules](no-restricted-modules.md) - restrict usage of specified modules when loaded by `require` function
 * [no-sync](no-sync.md) - disallow use of synchronous methods
 
 ## Stylistic Issues
@@ -231,6 +230,7 @@ These rules are only relevant to ES6 environments.
 * [no-const-assign](no-const-assign.md) - disallow modifying variables that are declared using `const` (recommended)
 * [no-dupe-class-members](no-dupe-class-members.md) - disallow duplicate name in class members (recommended)
 * [no-new-symbol](no-new-symbol.md) - disallow use of the `new` operator with the `Symbol` object (recommended)
+* [no-restricted-imports](no-restricted-imports.md) - restrict usage of specified modules when loaded by `import` declaration
 * [no-this-before-super](no-this-before-super.md) - disallow use of `this`/`super` before calling `super()` in constructors (recommended)
 * [no-useless-constructor](no-useless-constructor.md) - disallow unnecessary constructor
 * [no-var](no-var.md) - require `let` or `const` instead of `var`
