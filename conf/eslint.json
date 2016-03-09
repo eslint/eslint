@@ -164,6 +164,7 @@
         "max-nested-callbacks": "off",
         "max-params": "off",
         "max-statements": "off",
+        "max-statements-per-line": "off",
         "new-cap": "off",
         "new-parens": "off",
         "newline-after-var": "off",
