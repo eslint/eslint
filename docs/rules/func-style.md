@@ -56,12 +56,6 @@ This is the default configuration.  It reports an error when function declaratio
 "func-style": [2, "expression"]
 ```
 
-An additional option object can be added with a property `"allowArrowFunctions"`.  Setting this to `true` will allow arrow functions.
-
-```json
-"func-style": [2, "expression", { "allowArrowFunctions": true }]
-```
-
 The following patterns are considered problems:
 
 ```js
@@ -82,18 +76,18 @@ var foo = function() {
 };
 ```
 
-```js
-/*eslint func-style: [2, "declaration", { "allowArrowFunctions": true }]*/
-
-var foo = () => {};
-```
-
 ### "declaration"
 
 This reports an error if any function expressions are used where function declarations are expected. You can specify to use expressions instead:
 
 ```json
 "func-style": [2, "declaration"]
+```
+
+An additional option object can be added with a property `"allowArrowFunctions"`.  Setting this to `true` will allow arrow functions.
+
+```json
+"func-style": [2, "declaration", { "allowArrowFunctions": true }]
 ```
 
 The following patterns are considered problems:
@@ -125,6 +119,12 @@ function foo() {
 SomeObject.foo = function() {
     // ...
 };
+```
+
+```js
+/*eslint func-style: [2, "declaration", { "allowArrowFunctions": true }]*/
+
+var foo = () => {};
 ```
 
 
