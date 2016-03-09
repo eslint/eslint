@@ -612,6 +612,36 @@ describe("cli", function() {
         });
     });
 
+    describe("when given parser options", function() {
+        it("should exit with error if parser options are invalid", function() {
+            var filePath = getFixturePath("passing.js");
+            var exit = cli.execute("--no-ignore --parser-options test111 " + filePath);
+
+            assert.equal(exit, 1);
+        });
+
+        it("should exit with no error if parser is valid", function() {
+            var filePath = getFixturePath("passing.js");
+            var exit = cli.execute("--no-ignore --parser-options=ecmaVersion:6 " + filePath);
+
+            assert.equal(exit, 0);
+        });
+
+        it("should exit with an error on ecmaVersion 7 feature in ecmaVersion 6", function() {
+            var filePath = getFixturePath("passing-es7.js");
+            var exit = cli.execute("--no-ignore --parser-options=ecmaVersion:6 " + filePath);
+
+            assert.equal(exit, 1);
+        });
+
+        it("should exit with no error on ecmaVersion 7 feature in ecmaVersion 7", function() {
+            var filePath = getFixturePath("passing-es7.js");
+            var exit = cli.execute("--no-ignore --parser-options=ecmaVersion:7 " + filePath);
+
+            assert.equal(exit, 0);
+        });
+    });
+
     describe("when given the max-warnings flag", function() {
         it("should not change exit code if warning count under threshold", function() {
             var filePath = getFixturePath("max-warnings"),
