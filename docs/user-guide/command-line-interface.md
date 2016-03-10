@@ -31,6 +31,7 @@ Basic configuration:
   --ext [String]             Specify JavaScript file extensions - default: .js
   --global [String]          Define global variables
   --parser String            Specify the parser to be used - default: espree
+  --parser-options Object    Specify parser options
 
 Caching:
   --cache                    Only check changed files - default: false
@@ -146,6 +147,15 @@ Examples:
 #### `--parser`
 
 This option allows you to specify a parser to be used by eslint. By default, `espree` will be used.
+
+#### `--parser-options`
+
+This option allows you to specify parser options to be used by eslint.
+
+Examples:
+
+    echo '3 ** 4' | eslint --stdin --parser-options=ecmaVersion:6 # will fail with a parsing error
+    echo '3 ** 4' | eslint --stdin --parser-options=ecmaVersion:7 # succeeds, yay!
 
 ### Caching
 
