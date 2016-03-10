@@ -46,6 +46,8 @@ const baz = undefined;
 
 There is one situation where initializing to `undefined` behaves differently than omitting the initialization, and that's when a `var` declaration occurs inside of a loop. For example:
 
+Example of **incorrect** code for this rule:
+
 ```js
 for (i = 0; i < 10; i++) {
     var x = undefined;
@@ -90,6 +92,18 @@ for (i = 0; i < 10; i++) {
 This produces a different outcome than defining `var x = undefined` in the loop, as `x` is no longer reset to `undefined` each time through the loop.
 
 If you're using such an initialization inside of a loop, then you should disable this rule.
+
+Example of **correct** code for this rule, because it is disabled on a specific line:
+
+```js
+/*eslint no-undef-init: 2*/
+
+for (i = 0; i < 10; i++) {
+    var x = undefined; // eslint-disable-line no-undef-init
+    console.log(x);
+    x = i;
+}
+```
 
 ## Related Rules
 
