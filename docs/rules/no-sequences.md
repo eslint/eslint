@@ -9,7 +9,7 @@ a = b += 5, a + b;
 
 while (a = next(), a && a.length);
 
-(0,eval)("doSomething();");
+(0, eval)("doSomething();");
 ```
 
 ## Rule Details
@@ -24,7 +24,7 @@ The following patterns are considered problems:
 ```js
 /*eslint no-sequences: 2*/
 
-foo = doSomething, val;
+foo = doSomething(), val;
 
 do {} while (doSomething(), !!test);
 
@@ -46,7 +46,7 @@ The following patterns are not considered problems:
 
 foo = (doSomething(), val);
 
-(0,eval)("doSomething();");
+(0, eval)("doSomething();");
 
 do {} while ((doSomething(), !!test));
 
