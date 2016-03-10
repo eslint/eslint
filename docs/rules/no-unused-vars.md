@@ -4,7 +4,7 @@ Variables that are declared and not used anywhere in the code are most likely an
 
 ## Rule Details
 
-This rule is aimed at eliminating unused variables, functions and variables in parameters of functions, as such, warns when one is found.
+This rule is aimed at eliminating unused variables, functions, and parameters of functions.
 
 A variable is considered to be used if any of the following are true:
 
@@ -58,7 +58,7 @@ myFunc(function foo() {
 })();
 ```
 
-### Exporting Variables
+### exported
 
 In environments outside of CommonJS or ECMAScript modules, you may use `var` to create a global variable that may be used by other scripts. You can use the `/* exported variableName */` comment block to indicate that this variable is being exported and therefore should not be considered unused. Note that `/* exported */` has no effect when used with the `node` or `commonjs` environments or when `ecmaFeatures.modules` or `ecmaFeatures.globalReturn` are true.
 
@@ -82,6 +82,17 @@ The `vars` option has two settings:
 
 * `all` checks all variables for usage, including those in the global scope. This is the default setting.
 * `local` checks only that locally-declared variables are used but will allow global variables to be unused.
+
+#### vars: local
+
+Examples of **correct** code for the `{ "vars": "local" }` option:
+
+```js
+/*eslint no-unused-vars: [2, { "vars": "local" }]*/
+/*global some_unused_var */
+
+some_unused_var = 42;
+```
 
 ### varsIgnorePattern
 
