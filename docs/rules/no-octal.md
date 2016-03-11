@@ -14,7 +14,7 @@ It's therefore recommended to avoid using octal literals in JavaScript code.
 
 The rule is aimed at preventing the use of a deprecated JavaScript feature, the use of octal literals. As such it will warn whenever an octal literal is found.
 
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule:
 
 ```js
 /*eslint no-octal: 2*/
@@ -23,7 +23,7 @@ var num = 071;
 var result = 5 + 07;
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule:
 
 ```js
 /*eslint no-octal: 2*/

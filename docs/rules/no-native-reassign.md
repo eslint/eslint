@@ -10,7 +10,7 @@ String = "hello world";
 
 The native objects reported by this rule are the `builtin` variables from [globals](https://github.com/sindresorhus/globals/).
 
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule:
 
 ```js
 /*eslint no-native-reassign: 2*/
