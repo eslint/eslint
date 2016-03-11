@@ -6,7 +6,7 @@ In JavaScript, it's possible to redeclare the same variable name using `var`. Th
 
 This rule is aimed at eliminating variables that have multiple declarations in the same scope.
 
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule:
 
 ```js
 /*eslint no-redeclare: 2*/
@@ -15,7 +15,7 @@ var a = 3;
 var a = 10;
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule:
 
 ```js
 /*eslint no-redeclare: 2*/
@@ -27,20 +27,12 @@ a = 10;
 
 ## Options
 
-This rule takes one option, an object, with a property `"builtinGlobals"`.
-
-```json
-{
-    "no-redeclare": [2, {"builtinGlobals": true}]
-}
-```
+This rule takes one option, an object, with a property `"builtinGlobals"`. `false` by default.
+If this is `true`, this rule checks with built-in global variables such as `Object`, `Array`, `Number`, ...
 
 ### builtinGlobals
 
-`false` by default.
-If this is `true`, this rule checks with built-in global variables such as `Object`, `Array`, `Number`, ...
-
-When `{"builtinGlobals": true}`, the following patterns are considered problems:
+Examples of **incorrect** code for the `{ "builtinGlobals": true }` option:
 
 ```js
 /*eslint no-redeclare: [2, { "builtinGlobals": true }]*/
@@ -48,21 +40,13 @@ When `{"builtinGlobals": true}`, the following patterns are considered problems:
 var Object = 0;
 ```
 
-When `{"builtinGlobals": true}` and under `browser` environment, the following patterns are considered problems:
+Examples of **incorrect** code for the `{ "builtinGlobals": true }` option and the `browser` environment:
 
 ```js
-/*eslint-env browser*/
 /*eslint no-redeclare: [2, { "builtinGlobals": true }]*/
+/*eslint-env browser*/
 
 var top = 0;
 ```
 
-* Note: The `browser` environment has many built-in global variables, `top` is one of them.
-  Some of built-in global variables cannot be redeclared. It's a trap.
-
-  ```js
-  var top = 0;
-  var left = 0;
-  console.log(top + " " + left); // prints "[object Window] 0"
-  console.log(top * left); // prints "NaN"
-  ```
+The `browser` environment has many built-in global variables (for example, `top`). Some of built-in global variables cannot be redeclared.

@@ -22,7 +22,7 @@ if(foo === "bar") {}
 
 This rule aims to disallow multiple whitespace around logical expressions, conditional expressions, declarations, array elements, object properties, sequences and function parameters.
 
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule:
 
 ```js
 /*eslint no-multi-spaces: 2*/
@@ -38,7 +38,7 @@ var arr = [1,  2];
 a ?  b: c
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule:
 
 ```js
 /*eslint no-multi-spaces: 2*/
@@ -56,13 +56,15 @@ a ? b: c
 
 ## Options
 
-Some rules, like key-spacing in one of its alignment modes, might require multiple spaces in some instances. To support this case, this rule accepts an options object with a property named `exceptions`. The `exceptions` object expects property names to be AST node types as defined by [ESTree](https://github.com/estree/estree). The easiest way to determine the node types for `exceptions` is to use the [online demo](http://eslint.org/parser).
-
-You can ignore certain parts of your code by setting node types as properties on the `exceptions` object with a value of `true`. By default, all node types are `false` except for `Property`, which is `true` by default in order to skip properties.
+To avoid contradictions if some other rules require multiple spaces, this rule has an option to ignore certain node types in the abstract syntax tree (AST) of JavaScript code.
 
 ### exceptions
 
-With this option, The following patterns are not considered problems:
+The `exceptions` object expects property names to be AST node types as defined by [ESTree](https://github.com/estree/estree). The easiest way to determine the node types for `exceptions` is to use the [online demo](http://eslint.org/parser).
+
+Only the `Property` node type is ignored by default, because for the [key-spacing](key-spacing.md) rule some alignment options require multiple spaces in properties of object literals.
+
+Examples of **correct** code for the default `"exceptions": { "Property": true }` option:
 
 ```js
 /* eslint no-multi-spaces: 2 */
@@ -74,12 +76,7 @@ var obj = {
 };
 ```
 
-```js
-/* eslint no-multi-spaces: [2, { exceptions: { "BinaryExpression": true } }] */
-var a = 1  *  2;
-```
-
-The default `Property` exception can be disabled by setting it to `false`, so the following pattern is considered a warning:
+Examples of **incorrect** code for the `"exceptions": { "Property": false }` option:
 
 ```js
 /* eslint no-multi-spaces: [2, { exceptions: { "Property": false } }] */
@@ -91,7 +88,15 @@ var obj = {
 };
 ```
 
-You may wish to align variable declarations or import declarations with spaces. You can add exceptions for these cases:
+Examples of **correct** code for the `"exceptions": { "BinaryExpression": true }` option:
+
+```js
+/* eslint no-multi-spaces: [2, { exceptions: { "BinaryExpression": true } }] */
+
+var a = 1  *  2;
+```
+
+Examples of **correct** code for the `"exceptions": { "VariableDeclarator": true }` option:
 
 ```js
 /* eslint no-multi-spaces: [2, { exceptions: { "VariableDeclarator": true } }] */
@@ -100,7 +105,9 @@ var someVar      = 'foo';
 var someOtherVar = 'barBaz';
 ```
 
-```
+Examples of **correct** code for the `"exceptions": { "ImportDeclaration": true }` option:
+
+```js
 /* eslint no-multi-spaces: [2, { exceptions: { "ImportDeclaration": true } }] */
 
 import mod          from 'mod';
