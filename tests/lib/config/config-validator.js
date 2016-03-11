@@ -138,7 +138,7 @@ describe("Validator", function() {
         it("should catch invalid rule options", function() {
             var fn = validator.validate.bind(null, { rules: { "mock-rule": [3, "third"] } }, "tests");
 
-            assert.throws(fn, "tests:\n\tConfiguration for rule \"mock-rule\" is invalid:\n\tSeverity should be one of the following: 0 = off, 1 = warning, 2 = error (you passed \"3\").\n\tValue \"third\" must be an enum value.\n");
+            assert.throws(fn, "tests:\n\tConfiguration for rule \"mock-rule\" is invalid:\n\tSeverity should be one of the following: 0 = off, 1 = warning, 2 = error (you passed '3').\n\tValue \"third\" must be an enum value.\n");
         });
 
         it("should allow for rules with no options", function() {
@@ -201,28 +201,34 @@ describe("Validator", function() {
 
     describe("validateRuleOptions", function() {
 
-        it("should throw for incorrect warning level", function() {
+        it("should throw for incorrect warning level number", function() {
             var fn = validator.validateRuleOptions.bind(null, "mock-rule", 3, "tests");
 
-            assert.throws(fn, "tests:\n\tConfiguration for rule \"mock-rule\" is invalid:\n\tSeverity should be one of the following: 0 = off, 1 = warning, 2 = error (you passed \"3\").\n");
+            assert.throws(fn, "tests:\n\tConfiguration for rule \"mock-rule\" is invalid:\n\tSeverity should be one of the following: 0 = off, 1 = warning, 2 = error (you passed '3').\n");
         });
 
-        it("should throw for incorrect warning level", function() {
+        it("should throw for incorrect warning level string", function() {
             var fn = validator.validateRuleOptions.bind(null, "mock-rule", "booya", "tests");
 
-            assert.throws(fn, "tests:\n\tConfiguration for rule \"mock-rule\" is invalid:\n\tSeverity should be one of the following: 0 = off, 1 = warning, 2 = error (you passed \"booya\").\n");
+            assert.throws(fn, "tests:\n\tConfiguration for rule \"mock-rule\" is invalid:\n\tSeverity should be one of the following: 0 = off, 1 = warning, 2 = error (you passed '\"booya\"').\n");
+        });
+
+        it("should throw for invalid-type warning level", function() {
+            var fn = validator.validateRuleOptions.bind(null, "mock-rule", [["error"]], "tests");
+
+            assert.throws(fn, "tests:\n\tConfiguration for rule \"mock-rule\" is invalid:\n\tSeverity should be one of the following: 0 = off, 1 = warning, 2 = error (you passed '[ \"error\" ]').\n");
         });
 
         it("should only check warning level for nonexistent rules", function() {
             var fn = validator.validateRuleOptions.bind(null, "non-existent-rule", [3, "foobar"], "tests");
 
-            assert.throws(fn, "tests:\n\tConfiguration for rule \"non-existent-rule\" is invalid:\n\tSeverity should be one of the following: 0 = off, 1 = warning, 2 = error (you passed \"3\").\n");
+            assert.throws(fn, "tests:\n\tConfiguration for rule \"non-existent-rule\" is invalid:\n\tSeverity should be one of the following: 0 = off, 1 = warning, 2 = error (you passed '3').\n");
         });
 
         it("should only check warning level for plugin rules", function() {
             var fn = validator.validateRuleOptions.bind(null, "plugin/rule", 3, "tests");
 
-            assert.throws(fn, "tests:\n\tConfiguration for rule \"plugin/rule\" is invalid:\n\tSeverity should be one of the following: 0 = off, 1 = warning, 2 = error (you passed \"3\").\n");
+            assert.throws(fn, "tests:\n\tConfiguration for rule \"plugin/rule\" is invalid:\n\tSeverity should be one of the following: 0 = off, 1 = warning, 2 = error (you passed '3').\n");
         });
 
         it("should throw for incorrect configuration values", function() {
