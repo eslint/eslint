@@ -1,3 +1,26 @@
+v2.4.0 - March 11, 2016
+
+* 97b2466 Fix: estraverse/escope to work with unknowns (fixes #5476) (Nicholas C. Zakas)
+* 641b3f7 Fix: validate the type of severity level (fixes #5499) (Shinnosuke Watanabe)
+* 9ee8869 Docs: no-unused-expressions - add more edge unusable and usable examples (Brett Zamir)
+* 56bf864 Docs: Create parity between no-sequences examples (Brett Zamir)
+* 13ef1c7 New: add `--parser-options` to CLI (fixes #5495) (Jordan Harband)
+* ae1ee54 Docs: fix func-style arrow exception option (Craig Martin)
+* 91852fd Docs: no-lone-blocks - show non-problematic (and problematic) label (Brett Zamir)
+* b34458f Docs: Rearrange rules for better categories (and improve rule summaries) (Brett Zamir)
+* 1198b26 Docs: Minor README clarifications (Brett Zamir)
+* 03e6869 Fix: newline-before-return: bug with comment (fixes #5480) (mustafa)
+* ad100fd Fix: overindent in VariableDeclarator parens or brackets (fixes #5492) (David Greenspan)
+* 9b8e04b Docs: Replace all node references to Node.js which is the official name (Brett Zamir)
+* cc1f2f0 Docs: Minor fixes in no-new-func (Brett Zamir)
+* 6ab81d4 Docs: Distinguish examples in rules under Best Practices part 1 (Mark Pedrotti)
+* 9c6c70c Update: add `allowParens` option to `no-confusing-arrow` (fixes #5332) (Burak Yigit Kaya)
+* 979c096 Docs: Document linebreak-style as fixable. (Afnan Fahim)
+* 9f18a81 Fix: Ignore destructuring assignment in `object-shorthand` (fixes #5488) (alberto)
+* 5d9a798 Docs: README.md, prefer-const; change modified to reassigned (Michiel de Bruijne)
+* 38eb7f1 Fix: key-spacing checks ObjectExpression is multiline (fixes #5479) (Kevin Partington)
+* 9592c45 Fix: `no-unmodified-loop-condition` false positive (fixes #5445) (Toru Nagashima)
+
 v2.3.0 - March 4, 2016
 
 * 1b2c6e0 Update: Proposed no-magic-numbers option: ignoreJSXNumbers (fixes #5348) (Brandon Beeks)
