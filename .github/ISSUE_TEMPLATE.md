@@ -10,7 +10,9 @@ Note that leaving sections blank will make it difficult for us to troubleshoot a
 
 **What version of ESLint are you using?**
 
-**What configuration and parser (Espree, Babel-ESLint, etc.) are you using?**
+**What parser (default, Babel-ESLint, etc.) are you using?**
+
+**Please show your full configuration:**
 
 **What did you do? Please include the actual source code causing the issue.**
 
