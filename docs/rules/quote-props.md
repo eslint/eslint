@@ -208,7 +208,7 @@ When `numbers` is set to `true`, the following patterns become problems:
 
 var x = {
     100: 1
-}
+};
 ```
 
 and the following patterns _stop_ being problems:
@@ -216,7 +216,33 @@ and the following patterns _stop_ being problems:
 ```js
 var x = {
     "100": 1
+};
+```
+
+A `computed` flag, with default value `false`, can also be used as a modifier for the `"as-needed"` mode. When it is set to `true`, unnecessary property name computations will be reported.
+
+```json
+{
+    "quote-props": [2, "as-needed", {"computed": true}]
 }
+```
+
+When `computed` is set to `true`, the following patterns become problems:
+
+```js
+/*eslint quote-props: [2, "as-needed", { "computed": true }]*/
+
+var x = {
+    [100]: 1
+};
+
+var y = {
+    ["100"]: 1
+};
+
+var z = {
+    ["x"]: 1
+};
 ```
 
 ### "consistent"
