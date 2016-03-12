@@ -61,9 +61,11 @@ ruleTester.run("object-curly-spacing", rule, {
 
         // always - objectsInObjects
         { code: "var obj = { 'foo': { 'bar': 1, 'baz': 2 }};", options: ["always", {"objectsInObjects": false}] },
+        { code: "var a = { noop: function () {} };", options: ["always", {"objectsInObjects": false}] },
 
         // always - arraysInObjects
         { code: "var obj = { 'foo': [ 1, 2 ]};", options: ["always", {"arraysInObjects": false}] },
+        { code: "var a = { thingInList: list[0] };", options: ["always", {"arraysInObjects": false}] },
 
         // always - arraysInObjects, objectsInObjects
         { code: "var obj = { 'qux': [ 1, 2 ], 'foo': { 'bar': 1, 'baz': 2 }};", options: ["always", {"arraysInObjects": false, "objectsInObjects": false}] },
