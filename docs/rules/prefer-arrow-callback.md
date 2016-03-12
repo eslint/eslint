@@ -39,9 +39,11 @@ foo(function bar(n) { return n && n + bar(n - 1); });
 
 ## Options
 
-This rule takes one optional argument, an object with a boolean property `"allowNamedFunctions"`. It is `false` by default. If it is set to `true`, this rule doesn't warn on named functions used as callbacks.
+This rule takes one optional argument, an object which is an options object.
 
 ### allowNamedFunctions
+
+This is a `boolean` option and it is `false` by default. When set to `true`, the rule doesn't warn on named functions used as callbacks.
 
 Examples of **correct** code for the `{ "allowNamedFunctions": true }` option:
 
@@ -49,6 +51,23 @@ Examples of **correct** code for the `{ "allowNamedFunctions": true }` option:
 /*eslint prefer-arrow-callback: ["error", { "allowNamedFunctions": true }]*/
 
 foo(function bar() {});
+```
+
+### allowUnboundThis
+
+This is a `boolean` option and it is `true` by default. When set to `false`, this option allows the use of `this` without restriction and checks for dynamically assigned `this` values such as when using `Array.prototype.map` with a `context` argument. Normally, the rule will flag the use of `this` whenever a function does not use `bind()` to specify the value of `this` constantly.
+
+Examples of **correct** code for the `{ "allowUnboundThis": false }` option:
+
+```js
+/*eslint prefer-arrow-callback: ["error", { "allowUnboundThis": false }]*/
+/*eslint-env es6*/
+
+foo(function() { this.a; });
+
+foo(function() { (() => this); });
+
+someArray.map(function (itm) { return this.doSomething(itm); }, someObject);
 ```
 
 ## When Not To Use It
