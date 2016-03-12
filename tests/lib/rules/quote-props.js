@@ -25,10 +25,13 @@ ruleTester.run("quote-props", rule, {
         "({ 'if': 0 })",
         "({ '@': 0 })",
 
-        { code: "({ 'a': 0, b(){} })", parserOptions: { ecmaVersion: 6 }},
+        { code: "({ 'a': 0, b(){} })", env: {es6: true}},
         { code: "({ [x]: 0 });", env: {es6: true}},
+        { code: "({ ['0']: 0 });", env: {es6: true}},
+        { code: "({ ['x']: 0 });", env: {es6: true}},
+        { code: "({ [0]: 0 });", env: {es6: true}},
         { code: "({ x });", env: {es6: true}},
-        { code: "({ a: 0, b(){} })", options: ["as-needed"], parserOptions: { ecmaVersion: 6 } },
+        { code: "({ a: 0, b(){} })", options: ["as-needed"], env: {es6: true} },
         { code: "({ a: 0, [x]: 1 })", options: ["as-needed"], env: {es6: true} },
         { code: "({ a: 0, x })", options: ["as-needed"], env: {es6: true} },
         { code: "({ '@': 0, [x]: 1 })", options: ["as-needed"], env: {es6: true} },
@@ -65,6 +68,7 @@ ruleTester.run("quote-props", rule, {
         { code: "({ a: 0, 'volatile': 0 })", options: ["as-needed", {keywords: true}] },
         { code: "({'unnecessary': 1, 'if': 0})", options: ["as-needed", {keywords: true, unnecessary: false}] },
         { code: "({'1': 1})", options: ["as-needed", {numbers: true}] },
+        { code: "({[1]: 1})", env: {es6: true}, options: ["as-needed", {numbers: true}] },
         { code: "({1: 1, x: 2})", options: ["consistent", {numbers: true}]},
         { code: "({1: 1, x: 2})", options: ["consistent-as-needed", {numbers: true}]},
         { code: "({ ...x })", options: ["as-needed"], parserOptions: { ecmaVersion: 6, ecmaFeatures: { experimentalObjectRestSpread: true } }},
@@ -104,6 +108,27 @@ ruleTester.run("quote-props", rule, {
         options: ["as-needed"],
         errors: [{
             message: "Unnecessarily quoted property '0' found.", type: "Property"
+        }]
+    }, {
+        code: "({ ['0']: 0 })",
+        env: {es6: true},
+        options: ["as-needed", {computed: true}],
+        errors: [{
+            message: "Unnecessarily computed property ['0'] found.", type: "Property"
+        }]
+    }, {
+        code: "({ [0]: 0 })",
+        env: {es6: true},
+        options: ["as-needed", {computed: true}],
+        errors: [{
+            message: "Unnecessarily computed property [0] found.", type: "Property"
+        }]
+    }, {
+        code: "({ ['x']: 0 })",
+        env: {es6: true},
+        options: ["as-needed", {computed: true}],
+        errors: [{
+            message: "Unnecessarily computed property ['x'] found.", type: "Property"
         }]
     }, {
         code: "({ '-a': 0, b: 0 })",
