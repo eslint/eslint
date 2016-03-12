@@ -10,7 +10,7 @@ var x = a => 1 ? 2 : 3
 // Did the author mean this
 var x = function (a) { return a >= 1 ? 2 : 3 }
 // Or this
-var x = a <= 1 ? 2 : 3
+var x = 1 <= a ? 2 : 3
 ```
 
 ## Rule Details
