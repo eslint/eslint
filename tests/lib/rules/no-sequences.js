@@ -47,17 +47,23 @@ ruleTester.run("no-sequences", rule, {
         "if ((doSomething(), !!test));",
         "switch ((doSomething(), !!test)) {}",
         "while ((doSomething(), !!test));",
-        "with ((doSomething(), val)) {}"
+        "with ((doSomething(), val)) {}",
+        { code: "(0,eval)(\"foo()\");", options: [{ ignoreParenthesized: false }] },
+        // Below is a valid case since ignoreParenthesized simply ignores anything in parens
+        { code: "(0,eval)(1)", options: [{ allowIndirectEval: false }] }
     ],
 
     // Examples of code that should trigger the rule
     invalid: [
         { code: "a = 1, 2", errors: errors(6) },
+        { code: "a = (1, 2)", options: [{ ignoreParenthesized: false }], errors: errors(7) },
+        { code: "(0,eval)(1)", options: [{ ignoreParenthesized: false, allowIndirectEval: false }], errors: errors(3) },
         { code: "do {} while (doSomething(), !!test);", errors: errors(27) },
         { code: "for (; doSomething(), !!test; );", errors: errors(21) },
         { code: "if (doSomething(), !!test);", errors: errors(18) },
         { code: "switch (doSomething(), val) {}", errors: errors(22) },
         { code: "while (doSomething(), !!test);", errors: errors(21) },
-        { code: "with (doSomething(), val) {}", errors: errors(20) }
+        { code: "with (doSomething(), val) {}", errors: errors(20) },
+        { code: "while ((doSomething(), !!test));", options: [{ ignoreParenthesized: false }], errors: errors(22) }
     ]
 });
