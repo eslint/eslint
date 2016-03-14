@@ -102,6 +102,20 @@ describe("SourceCodeUtil", function() {
             assert.property(sourceCode, filename);
         });
 
+        it("should accept a relative filename", function() {
+            var filename = "foo.js";
+            var sourceCode = getSourceCodeOfFiles(filename, {cwd: fixtureDir});
+            assert.isObject(sourceCode);
+            assert.property(sourceCode, getFixturePath(filename));
+        });
+
+        it("should accept a relative path to a file in a parent directory", function() {
+            var filename = "../foo.js";
+            var sourceCode = getSourceCodeOfFiles(filename, {cwd: getFixturePath("nested")});
+            assert.isObject(sourceCode);
+            assert.property(sourceCode, getFixturePath("foo.js"));
+        });
+
         it("should accept a callback", function() {
             var filename = getFixturePath("foo.js");
             var spy = sinon.spy();
@@ -125,7 +139,7 @@ describe("SourceCodeUtil", function() {
             var spy = sinon.spy(globUtil, "resolveFileGlobPatterns");
             getSourceCodeOfFiles(filename);
             assert(spy.called);
-            assert.deepEqual(spy.firstCall.args[1], [".js"]);
+            assert.deepEqual(spy.firstCall.args[1].extensions, [ ".js" ]);
         });
 
         it("should create an object with located filenames as keys", function() {
