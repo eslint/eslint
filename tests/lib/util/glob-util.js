@@ -21,7 +21,7 @@ var assert = require("chai").assert,
 // Helpers
 //------------------------------------------------------------------------------
 
-var fixtureDir, originalDir = process.cwd();
+var fixtureDir;
 
 /**
  * Returns the path inside of the fixture directory.
@@ -41,14 +41,12 @@ function getFixturePath() {
 describe("globUtil", function() {
 
     before(function() {
-        fixtureDir = os.tmpdir() + "/eslint/fixtures";
+        fixtureDir = os.tmpdir() + "/eslint/tests/fixtures/";
         sh.mkdir("-p", fixtureDir);
-        sh.cp("-r", "./tests/fixtures/.", fixtureDir);
-        process.chdir(path.join(fixtureDir, "glob-util"));
+        sh.cp("-r", "./tests/fixtures/", fixtureDir);
     });
 
     after(function() {
-        process.chdir(originalDir);
         sh.rm("-r", fixtureDir);
     });
 
@@ -56,61 +54,97 @@ describe("globUtil", function() {
 
         it("should convert a directory name with no provided extensions into a glob pattern", function() {
             var patterns = ["one-js-file"];
-            var result = globUtil.resolveFileGlobPatterns(patterns);
+            var opts = {
+                cwd: getFixturePath("glob-util")
+            };
+            var result = globUtil.resolveFileGlobPatterns(patterns, opts);
 
             assert.deepEqual(result, ["one-js-file/**/*.js"]);
         });
 
+        it("should convert an absolute directory name with no provided extensions into a posix glob pattern", function() {
+            var patterns = [getFixturePath("glob-util", "one-js-file")];
+            var opts = {
+                cwd: getFixturePath("glob-util")
+            };
+            var result = globUtil.resolveFileGlobPatterns(patterns, opts);
+            var expected = [getFixturePath("glob-util", "one-js-file").replace(/\\/g, "/") + "/**/*.js"];
+
+            assert.deepEqual(result, expected);
+        });
+
         it("should convert a directory name with a single provided extension into a glob pattern", function() {
             var patterns = ["one-js-file"];
-            var extensions = [".jsx"];
-            var result = globUtil.resolveFileGlobPatterns(patterns, extensions);
+            var opts = {
+                cwd: getFixturePath("glob-util"),
+                extensions: [".jsx"]
+            };
+            var result = globUtil.resolveFileGlobPatterns(patterns, opts);
 
             assert.deepEqual(result, ["one-js-file/**/*.jsx"]);
         });
 
         it("should convert a directory name with multiple provided extensions into a glob pattern", function() {
             var patterns = ["one-js-file"];
-            var extensions = [".jsx", ".js"];
-            var result = globUtil.resolveFileGlobPatterns(patterns, extensions);
+            var opts = {
+                cwd: getFixturePath("glob-util"),
+                extensions: [".jsx", ".js"]
+            };
+            var result = globUtil.resolveFileGlobPatterns(patterns, opts);
 
             assert.deepEqual(result, ["one-js-file/**/*.{jsx,js}"]);
         });
 
         it("should convert multiple directory names into glob patterns", function() {
             var patterns = ["one-js-file", "two-js-files"];
-            var result = globUtil.resolveFileGlobPatterns(patterns);
+            var opts = {
+                cwd: getFixturePath("glob-util")
+            };
+            var result = globUtil.resolveFileGlobPatterns(patterns, opts);
 
             assert.deepEqual(result, ["one-js-file/**/*.js", "two-js-files/**/*.js"]);
         });
 
         it("should remove leading './' from glob patterns", function() {
             var patterns = ["./one-js-file"];
-            var result = globUtil.resolveFileGlobPatterns(patterns);
+            var opts = {
+                cwd: getFixturePath("glob-util")
+            };
+            var result = globUtil.resolveFileGlobPatterns(patterns, opts);
 
             assert.deepEqual(result, ["one-js-file/**/*.js"]);
         });
 
         it("should convert a directory name with a trailing '/' into a glob pattern", function() {
             var patterns = ["one-js-file/"];
-            var result = globUtil.resolveFileGlobPatterns(patterns);
+            var opts = {
+                cwd: getFixturePath("glob-util")
+            };
+            var result = globUtil.resolveFileGlobPatterns(patterns, opts);
 
             assert.deepEqual(result, ["one-js-file/**/*.js"]);
         });
 
         it("should return filenames as they are", function() {
             var patterns = ["some-file.js"];
-            var result = globUtil.resolveFileGlobPatterns(patterns);
+            var opts = {
+                cwd: getFixturePath("glob-util")
+            };
+            var result = globUtil.resolveFileGlobPatterns(patterns, opts);
 
             assert.deepEqual(result, ["some-file.js"]);
         });
 
         it("should convert backslashes into forward slashes", function() {
             var patterns = ["one-js-file\\example.js"];
-            var result = globUtil.resolveFileGlobPatterns(patterns);
+            var opts = {
+                cwd: getFixturePath()
+            };
+            var result = globUtil.resolveFileGlobPatterns(patterns, opts);
 
             assert.deepEqual(result, ["one-js-file/example.js"]);
         });
+
     });
 
     describe("listFilesToProcess()", function() {
@@ -118,26 +152,29 @@ describe("globUtil", function() {
         it("should return an array with a resolved (absolute) filename", function() {
             var patterns = [getFixturePath("glob-util", "one-js-file", "**/*.js")];
             var result = globUtil.listFilesToProcess(patterns, {
-                cwd: path.join(fixtureDir, "..")
+                cwd: getFixturePath()
             });
 
             var file1 = getFixturePath("glob-util", "one-js-file", "baz.js");
 
             assert.isArray(result);
-            assert.deepEqual(result, [file1]);
+            assert.deepEqual(result, [{filename: file1, ignored: false}]);
         });
 
         it("should return all files matching a glob pattern", function() {
             var patterns = [getFixturePath("glob-util", "two-js-files", "**/*.js")];
             var result = globUtil.listFilesToProcess(patterns, {
-                cwd: path.join(fixtureDir, "..")
+                cwd: getFixturePath()
             });
 
             var file1 = getFixturePath("glob-util", "two-js-files", "bar.js");
             var file2 = getFixturePath("glob-util", "two-js-files", "foo.js");
 
             assert.equal(result.length, 2);
-            assert.deepEqual(result, [file1, file2]);
+            assert.deepEqual(result, [
+                {filename: file1, ignored: false},
+                {filename: file2, ignored: false}
+            ]);
         });
 
         it("should return all files matching multiple glob patterns", function() {
@@ -146,7 +183,7 @@ describe("globUtil", function() {
                 getFixturePath("glob-util", "one-js-file", "**/*.js")
             ];
             var result = globUtil.listFilesToProcess(patterns, {
-                cwd: path.join(fixtureDir, "..")
+                cwd: getFixturePath()
             });
 
             var file1 = getFixturePath("glob-util", "two-js-files", "bar.js");
@@ -154,7 +191,11 @@ describe("globUtil", function() {
             var file3 = getFixturePath("glob-util", "one-js-file", "baz.js");
 
             assert.equal(result.length, 3);
-            assert.deepEqual(result, [file1, file2, file3]);
+            assert.deepEqual(result, [
+                {filename: file1, ignored: false},
+                {filename: file2, ignored: false},
+                {filename: file3, ignored: false}
+            ]);
         });
 
         it("should not return hidden files for standard glob patterns", function() {
@@ -167,14 +208,16 @@ describe("globUtil", function() {
         it("should return hidden files if included in glob pattern", function() {
             var patterns = [getFixturePath("glob-util", "hidden", "**/.*.js")];
             var result = globUtil.listFilesToProcess(patterns, {
-                cwd: path.join(fixtureDir, ".."),
+                cwd: getFixturePath(),
                 dotfiles: true
             });
 
             var file1 = getFixturePath("glob-util", "hidden", ".foo.js");
 
             assert.equal(result.length, 1);
-            assert.deepEqual(result, [file1]);
+            assert.deepEqual(result, [
+                {filename: file1, ignored: false}
+            ]);
         });
 
         it("should not return a file which does not exist", function() {
@@ -208,7 +251,7 @@ describe("globUtil", function() {
         });
 
         it("should not return a file listed in a specified ignore pattern", function() {
-            var options = { ignore: true, ignorePattern: "*/foo.js" };
+            var options = { ignore: true, ignorePattern: "foo.js", cwd: getFixturePath() };
             var patterns = [getFixturePath("glob-util", "ignored", "**/*.js")];
             var result = globUtil.listFilesToProcess(patterns, options);
             assert.equal(result.length, 0);
@@ -226,8 +269,9 @@ describe("globUtil", function() {
             var file1 = getFixturePath("glob-util", "one-js-file", "baz.js");
 
             assert.isArray(result);
-            assert.deepEqual(result, [file1]);
+            assert.deepEqual(result, [
+                {filename: file1, ignored: false}
+            ]);
         });
-
     });
 });

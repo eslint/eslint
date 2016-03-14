@@ -24,7 +24,6 @@ var assert = require("chai").assert,
     sh = require("shelljs"),
     proxyquire = require("proxyquire");
 
-var originalDir = process.cwd();
 proxyquire = proxyquire.noCallThru().noPreserveCache();
 
 //------------------------------------------------------------------------------
@@ -78,13 +77,7 @@ describe("cli", function() {
     function getFixturePath() {
         var args = Array.prototype.slice.call(arguments);
         args.unshift(fixtureDir);
-        var filepath = path.join.apply(path, args);
-        try {
-            filepath = fs.realpathSync(filepath);
-            return filepath;
-        } catch (e) {
-            return filepath;
-        }
+        return path.join.apply(path, args);
     }
 
     // copy into clean area so as not to get "infected" by this project's .eslintrc files
@@ -92,15 +85,9 @@ describe("cli", function() {
         fixtureDir = os.tmpdir() + "/eslint/fixtures";
         sh.mkdir("-p", fixtureDir);
         sh.cp("-r", "./tests/fixtures/.", fixtureDir);
-        fixtureDir = fs.realpathSync(fixtureDir);
-    });
-
-    beforeEach(function() {
-        process.chdir(fixtureDir);
     });
 
     afterEach(function() {
-        process.chdir(originalDir);
         log.info.reset();
         log.error.reset();
     });
@@ -360,12 +347,12 @@ describe("cli", function() {
 
     describe("when given a pattern to ignore", function() {
         it("should not process any files", function() {
-            var ignoredFile = "cli/syntax-error.js";
-            var filePath = "cli/passing.js";
+            var ignoredFile = getFixturePath("cli/syntax-error.js");
+            var filePath = getFixturePath("cli/passing.js");
             var exit = cli.execute("--ignore-pattern cli/ " + ignoredFile + " " + filePath);
 
-            // no warnings
-            assert.isFalse(log.info.called);
+            // warnings about the ignored files
+            assert.isTrue(log.info.called);
             assert.equal(exit, 0);
         });
     });
@@ -468,8 +455,8 @@ describe("cli", function() {
                 getFixturePath("globals-browser.js"),
                 getFixturePath("globals-node.js")
             ];
-            process.chdir(originalDir);
             cli.execute("--no-eslintrc --config ./conf/eslint.json --no-ignore " + files.join(" "));
+
             assert.equal(log.info.args[0][0].split("\n").length, 11);
         });
     });
