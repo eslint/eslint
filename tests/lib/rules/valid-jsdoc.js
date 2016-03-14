@@ -362,6 +362,34 @@ ruleTester.run("valid-jsdoc", rule, {
             options: [{
                 "requireReturn": false
             }]
+        },
+        {
+            code:
+            "/**\n" +
+            "* Foo\n" +
+            "* @param {Array.<string>} hi - desc\n" +
+            "* @returns {Array.<string|number>} desc\n" +
+            "*/\n" +
+            "function foo(hi){}",
+            options: [{
+                preferType: {
+                    "String": "string"
+                }
+            }]
+        },
+        {
+            code:
+            "/**\n" +
+            "* Foo\n" +
+            "* @param {Array.<string|number>} hi - desc\n" +
+            "* @returns {Array.<string>} desc\n" +
+            "*/\n" +
+            "function foo(hi){}",
+            options: [{
+                preferType: {
+                    "String": "string"
+                }
+            }]
         }
     ],
 
