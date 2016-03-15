@@ -367,10 +367,10 @@ describe("IgnoredPaths", function() {
             assert.isTrue(ignoredPaths.contains(getFixturePath("node_modules/package/file.js")));
         });
 
-        it("should not apply defaultPatterns if ignore option is is false", function() {
+        it("should still apply defaultPatterns if ignore option is is false", function() {
             var ignoredPaths = new IgnoredPaths({ ignore: false, cwd: getFixturePath() });
-            assert.isFalse(ignoredPaths.contains(getFixturePath("bower_components/package/file.js")));
-            assert.isFalse(ignoredPaths.contains(getFixturePath("node_modules/package/file.js")));
+            assert.isTrue(ignoredPaths.contains(getFixturePath("bower_components/package/file.js")));
+            assert.isTrue(ignoredPaths.contains(getFixturePath("node_modules/package/file.js")));
         });
 
         it("should not ignore files in defaultPatterns within a subdirectory", function() {
