@@ -229,6 +229,7 @@ These rules are only relevant to ES6 environments.
 * [no-confusing-arrow](no-confusing-arrow.md) - disallow arrow functions where they could be confused with comparisons
 * [no-const-assign](no-const-assign.md) - disallow modifying variables that are declared using `const` (recommended)
 * [no-dupe-class-members](no-dupe-class-members.md) - disallow duplicate name in class members (recommended)
+* [no-duplicate-imports](no-duplicate-imports.md) - disallow duplicate module imports
 * [no-new-symbol](no-new-symbol.md) - disallow use of the `new` operator with the `Symbol` object (recommended)
 * [no-restricted-imports](no-restricted-imports.md) - restrict usage of specified modules when loaded by `import` declaration
 * [no-this-before-super](no-this-before-super.md) - disallow use of `this`/`super` before calling `super()` in constructors (recommended)
