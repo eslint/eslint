@@ -3120,6 +3120,14 @@ describe("eslint", function() {
             eslint.verify("function render() { return <div className='test'>{hello}</div> }", { parserOptions: { ecmaVersion: 6, ecmaFeatures: {jsx: true} }});
             eslint.verify(eslint.getSourceCode(), { parserOptions: { ecmaVersion: 6, ecmaFeatures: {jsx: true} }});
         });
+
+        it("should allow 'await' as a property name in modules", function() {
+            var result = eslint.verify(
+                "obj.await",
+                {parserOptions: {ecmaVersion: 6, sourceType: "module"}}
+            );
+            assert(result.length === 0);
+        });
     });
 
     describe("Variables and references", function() {
