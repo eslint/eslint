@@ -15,7 +15,7 @@ var a = someFunction();
 b = 10;
 ```
 
-Examples of **correct** code with `global` declaration for this rule:
+Examples of **correct** code for this rule with `global` declaration:
 
 ```js
 /*global someFunction b:true*/
@@ -27,7 +27,7 @@ b = 10;
 
 The `b:true` syntax in `/*global */` indicates that assignment to `b` is correct.
 
-Examples of **incorrect** code with `global` declaration for this rule:
+Examples of **incorrect** code for this rule with `global` declaration:
 
 ```js
 /*global b*/
@@ -44,7 +44,7 @@ By default, variables declared in `/*global */` are read-only, therefore assignm
 
 ### typeof
 
-Examples of **correct** code for the default option:
+Examples of **correct** code for the default `{ "typeof": false }` option:
 
 ```js
 /*eslint no-undef: 2*/
@@ -64,7 +64,7 @@ Examples of **incorrect** code for the `{ "typeof": true }` option:
 if(typeof a === "string"){}
 ```
 
-Examples of **correct** code for the `{ "typeof": true }` option:
+Examples of **correct** code for the `{ "typeof": true }` option with `global` declaration:
 
 ```js
 /*global a*/
@@ -79,9 +79,10 @@ For convenience, ESLint provides shortcuts that pre-define global variables expo
 
 ### browser
 
-Defines common browser globals.
+Examples of **correct** code for this rule with `browser` environment:
 
 ```js
+/*eslint no-undef: 2*/
 /*eslint-env browser*/
 
 setTimeout(function() {
@@ -91,9 +92,10 @@ setTimeout(function() {
 
 ### node
 
-Defines globals for Node.js development.
+Examples of **correct** code for this rule with `node` environment:
 
 ```js
+/*eslint no-undef: 2*/
 /*eslint-env node*/
 
 var fs = require("fs");
