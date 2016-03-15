@@ -20,7 +20,7 @@ var assert = require("chai").assert,
     Plugins = require("../../lib/config/plugins"),
     fs = require("fs"),
     os = require("os"),
-    crypto = require("crypto");
+    hash = require("../../lib/util/hash");
 
 require("shelljs/global");
 proxyquire = proxyquire.noCallThru().noPreserveCache();
@@ -1311,17 +1311,6 @@ describe("CLIEngine", function() {
                 it("should create the cache file inside the provided directory", function() {
                     assert.isFalse(fs.existsSync(path.resolve("./tmp/.cacheFileDir/.cache_hashOfCurrentWorkingDirectory")), "the cache for eslint does not exist");
 
-                    sandbox.stub(crypto, "createHash", function() {
-                        return {
-                            update: function() {
-                                return this;
-                            },
-                            digest: function() {
-                                return "hashOfCurrentWorkingDirectory";
-                            }
-                        };
-                    });
-
                     engine = new CLIEngine({
                         useEslintrc: false,
                         // specifying cache true the cache will be created
@@ -1339,7 +1328,7 @@ describe("CLIEngine", function() {
 
                     engine.executeOnFiles([file]);
 
-                    assert.isTrue(fs.existsSync(path.resolve("./tmp/.cacheFileDir/.cache_hashOfCurrentWorkingDirectory")), "the cache for eslint was created");
+                    assert.isTrue(fs.existsSync(path.resolve("./tmp/.cacheFileDir/.cache_" + hash(process.cwd()))), "the cache for eslint was created");
 
                     sandbox.restore();
                 });
@@ -1347,17 +1336,6 @@ describe("CLIEngine", function() {
 
             it("should create the cache file inside the provided directory using the cacheLocation option", function() {
                 assert.isFalse(fs.existsSync(path.resolve("./tmp/.cacheFileDir/.cache_hashOfCurrentWorkingDirectory")), "the cache for eslint does not exist");
-
-                sandbox.stub(crypto, "createHash", function() {
-                    return {
-                        update: function() {
-                            return this;
-                        },
-                        digest: function() {
-                            return "hashOfCurrentWorkingDirectory";
-                        }
-                    };
-                });
 
                 engine = new CLIEngine({
                     useEslintrc: false,
@@ -1376,7 +1354,7 @@ describe("CLIEngine", function() {
 
                 engine.executeOnFiles([file]);
 
-                assert.isTrue(fs.existsSync(path.resolve("./tmp/.cacheFileDir/.cache_hashOfCurrentWorkingDirectory")), "the cache for eslint was created");
+                assert.isTrue(fs.existsSync(path.resolve("./tmp/.cacheFileDir/.cache_" + hash(process.cwd()))), "the cache for eslint was created");
 
                 sandbox.restore();
             });
