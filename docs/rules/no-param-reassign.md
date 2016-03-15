@@ -6,21 +6,7 @@ Assignment to variables declared as function parameters can be misleading and le
 
 This rule aims to prevent unintended behavior caused by overwriting function parameters.
 
-## Options
-
-This rule takes one option, an object, with a property `"props"`.
-
-```json
-{
-    "no-param-reassign": [2, {"props": false}]
-}
-```
-
-### `props`
-
-It is `false` by default. If it is `true` is set, this rule warns modifying of properties of parameters.
-
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule:
 
 ```js
 /*eslint no-param-reassign: 2*/
@@ -34,10 +20,26 @@ function foo(bar) {
 }
 ```
 
-When `{"props": true}`:
+Examples of **correct** code for this rule:
 
 ```js
-/*eslint no-param-reassign: [2, { "props": true }]*/
+/*eslint no-param-reassign: 2*/
+
+function foo(bar) {
+    var baz = bar;
+}
+```
+
+## Options
+
+This rule takes one option, an object, with a property `"props"`. It is `false` by default. If it is `true` is set, this rule warns modifying of properties of parameters.
+
+### props
+
+Examples of **correct** code for the default `{ "props": false }` option:
+
+```js
+/*eslint no-param-reassign: [2, { "props": false }]*/
 
 function foo(bar) {
     bar.prop = "value";
@@ -52,20 +54,10 @@ function foo(bar) {
 }
 ```
 
-The following patterns are not considered problems:
+Examples of **incorrect** code for the `{ "props": true }` option:
 
 ```js
-/*eslint no-param-reassign: 2*/
-
-function foo(a) {
-    var b = a;
-}
-```
-
-When `{"props": false}`:
-
-```js
-/*eslint no-param-reassign: [2, { "props": false }]*/
+/*eslint no-param-reassign: [2, { "props": true }]*/
 
 function foo(bar) {
     bar.prop = "value";
