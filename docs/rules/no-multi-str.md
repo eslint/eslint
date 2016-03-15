@@ -13,14 +13,14 @@ Some consider this to be a bad practice as it was an undocumented feature of Jav
 
 This rule is aimed at preventing the use of multiline strings.
 
-The following generates a warning:
+Examples of **incorrect** code for this rule:
 
 ```js
 /*eslint no-multi-str: 2*/ var x = "Line 1 \
          Line 2";
 ```
 
-The following does not generate a warning:
+Examples of **correct** code for this rule:
 
 ```js
 /*eslint no-multi-str: 2*/
