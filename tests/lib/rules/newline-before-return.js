@@ -53,7 +53,6 @@ ruleTester.run("newline-before-return", rule, {
         "function a() {\nfor (b in c) { return; }\n}",
         "function a() {\nfor (b in c) {\nreturn;\n}\n}",
         "function a() {\nfor (b in c) {\nd();\n\nreturn;\n}\n}",
-        "function a() {\nvar b = {\n//comment\n};\n\nreturn;\n}",
         {
             code: "function a() {\nfor (b of c) return;\n}",
             parserOptions: { ecmaVersion: 6 }
@@ -71,6 +70,7 @@ ruleTester.run("newline-before-return", rule, {
         "function a() {\nswitch (b) {\ncase 'b':\nreturn;\n}\n}",
         "function a() {\nswitch (b) {\ncase 'b': {\nreturn;\n}\n}\n}",
         "function a() {\n//comment\nreturn b;\n}",
+        "function a() {\nvar b = {\n//comment\n};\n\nreturn;\n}",
         "function a() {/*multi-line\ncomment*/return b;\n}",
         "function a() {\n/*comment\ncomment*/\n//comment\nreturn b;\n}",
         "function a() {\n/*comment\ncomment*/\n//comment\nif (b) return;\n}",
