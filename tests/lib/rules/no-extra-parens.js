@@ -192,6 +192,12 @@ ruleTester.run("no-extra-parens", rule, {
         {code: "do; while ((foo = bar()))", options: ["all", {conditionalAssign: false}]},
         {code: "for (;(a = b););", options: ["all", {conditionalAssign: false}]},
 
+        // ["all", { nestedBinaryExpressions: false }] enables extra parens around conditional assignments
+        {code: "a + (b * c)", options: ["all", {nestedBinaryExpressions: false}]},
+        {code: "(a * b) + c", options: ["all", {nestedBinaryExpressions: false}]},
+        {code: "(a * b) / c", options: ["all", {nestedBinaryExpressions: false}]},
+        {code: "a || (b && c)", options: ["all", {nestedBinaryExpressions: false}]},
+
         // https://github.com/eslint/eslint/issues/3653
         "(function(){}).foo(), 1, 2;",
         "(function(){}).foo++;",
@@ -291,6 +297,10 @@ ruleTester.run("no-extra-parens", rule, {
         invalid("a + (b * c)", "BinaryExpression"),
         invalid("(a * b) + c", "BinaryExpression"),
         invalid("(a * b) / c", "BinaryExpression"),
+
+        invalid("a = (b * c)", "BinaryExpression", null, { options: ["all", {nestedBinaryExpressions: false}]}),
+        invalid("(b * c)", "BinaryExpression", null, { options: ["all", {nestedBinaryExpressions: false}]}),
+
         invalid("a = (b = c)", "AssignmentExpression"),
         invalid("(a).b", "Identifier"),
         invalid("(0)[a]", "Literal"),
