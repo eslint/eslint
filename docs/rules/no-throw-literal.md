@@ -9,7 +9,7 @@ This rule restricts what can be thrown as an exception.  When it was first creat
 
 This rule is aimed at maintaining consistency when throwing exception by disallowing to throw literals and other expressions which cannot possibly be an `Error` object.
 
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule:
 
 ```js
 /*eslint no-throw-literal: 2*/
@@ -32,7 +32,7 @@ throw `${err}`
 
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule:
 
 ```js
 /*eslint no-throw-literal: 2*/
@@ -53,7 +53,9 @@ try {
 
 ## Known Limitations
 
-Due to the limits of static analysis, this rule cannot guarantee that you will only throw `Error` objects.  For instance, the following cases do not throw an `Error` object, but they will not be considered problems:
+Due to the limits of static analysis, this rule cannot guarantee that you will only throw `Error` objects.
+
+Examples of **correct** code for this rule, but which do not throw an `Error` object:
 
 ```js
 /*eslint no-throw-literal: 2*/

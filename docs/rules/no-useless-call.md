@@ -7,7 +7,7 @@ But `Function.prototype.call()` and `Function.prototype.apply()` are slower than
 
 This rule is aimed to flag usage of `Function.prototype.call()` and `Function.prototype.apply()` that can be replaced with the normal function invocation.
 
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule:
 
 ```js
 /*eslint no-useless-call: 2*/
@@ -23,7 +23,7 @@ obj.foo.call(obj, 1, 2, 3);
 obj.foo.apply(obj, [1, 2, 3]);
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule:
 
 ```js
 /*eslint no-useless-call: 2*/
@@ -42,18 +42,24 @@ foo.apply(null, args);
 obj.foo.apply(obj, args);
 ```
 
-Known limitations:
+## Known Limitations
 
 This rule compares code statically to check whether or not `thisArg` is changed.
 So if the code about `thisArg` is a dynamic expression, this rule cannot judge correctly.
 
+Examples of **incorrect** code for this rule:
+
 ```js
 /*eslint no-useless-call: 2*/
 
-// This is warned.
 a[i++].foo.call(a[i++], 1, 2, 3);
+```
 
-// This is not warned.
+Examples of **correct** code for this rule:
+
+```js
+/*eslint no-useless-call: 2*/
+
 a[++i].foo.call(a[i], 1, 2, 3);
 ```
 
