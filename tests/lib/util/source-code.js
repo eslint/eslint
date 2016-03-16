@@ -845,30 +845,29 @@ describe("SourceCode", function() {
     });
 
     describe("getComments()", function() {
-        var code = [
-            "// my line comment",
-            "var a = 42;",
-            "/* my block comment */"
-        ].join("\n");
+        var config = { rules: {} };
+        /**
+         * Check comment count
+         * @param {int} leading Leading comment count
+         * @param {int} trailing Trailing comment count
+         * @returns {Function} function to execute
+         * @private
+         */
+        function assertCommentCount(leading, trailing) {
+            return function(node) {
+                var sourceCode = eslint.getSourceCode();
+                var comments = sourceCode.getComments(node);
+                assert.equal(comments.leading.length, leading);
+                assert.equal(comments.trailing.length, trailing);
+            };
+        }
 
         it("should attach them to all nodes", function() {
-            /**
-             * Check comment count
-             * @param {int} leading Leading comment count
-             * @param {int} trailing Trailing comment count
-             * @returns {Function} function to execute
-             * @private
-             */
-            function assertCommentCount(leading, trailing) {
-                return function(node) {
-                    var sourceCode = eslint.getSourceCode();
-                    var comments = sourceCode.getComments(node);
-                    assert.equal(comments.leading.length, leading);
-                    assert.equal(comments.trailing.length, trailing);
-                };
-            }
-
-            var config = { rules: {} };
+            var code = [
+                "// my line comment",
+                "var a = 42;",
+                "/* my block comment */"
+            ].join("\n");
 
             eslint.reset();
             eslint.on("Program", assertCommentCount(0, 0));
@@ -876,6 +875,28 @@ describe("SourceCode", function() {
             eslint.on("VariableDeclarator", assertCommentCount(0, 0));
             eslint.on("Identifier", assertCommentCount(0, 0));
             eslint.on("Literal", assertCommentCount(0, 0));
+
+            eslint.verify(code, config, "", true);
+        });
+
+        it("should not attach leading comments from previous node", function() {
+            var code = [
+                "function a() {",
+                "    var b = {",
+                "        // comment",
+                "    };",
+                "    return b;",
+                "}"
+            ].join("\n");
+
+            eslint.reset();
+            eslint.on("Program", assertCommentCount(0, 0));
+            eslint.on("Identifier", assertCommentCount(0, 0));
+            eslint.on("BlockStatement", assertCommentCount(0, 0));
+            eslint.on("VariableDeclaration", assertCommentCount(0, 0));
+            eslint.on("VariableDeclarator", assertCommentCount(0, 0));
+            eslint.on("ObjectExpression", assertCommentCount(0, 1));
+            eslint.on("ReturnStatement", assertCommentCount(0, 0));
 
             eslint.verify(code, config, "", true);
         });
