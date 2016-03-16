@@ -9,7 +9,7 @@ This rule forces the programmer to represent that behaviour by manually moving t
 This rule aims to keep all variable declarations in the leading series of statements.
 Allowing multiple declarations helps promote maintainability and is thus allowed.
 
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule:
 
 ```js
 /*eslint vars-on-top: 2*/
@@ -27,13 +27,17 @@ function doSomething() {
 function doSomething() {
     for (var i=0; i<10; i++) {}
 }
+```
+
+```js
+/*eslint vars-on-top: 2*/
 
 // Variables after other statements:
 f();
 var a;
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule:
 
 ```js
 /*eslint vars-on-top: 2*/

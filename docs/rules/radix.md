@@ -29,15 +29,10 @@ There are two options for this rule:
 * `"always"` enforces providing a radix (default)
 * `"as-needed"` disallows providing the `10` radix
 
-Depending on your coding conventions, you can choose either option by specifying it in your configuration:
 
-```json
-"radix": [2, "always"]
-```
+### always
 
-### "always"
-
-The following patterns are considered problems:
+Examples of **incorrect** code for the default `"always"` option:
 
 ```js
 /*eslint radix: 2*/
@@ -51,7 +46,7 @@ var num = parseInt("071", "abc");
 var num = parseInt();
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for the default `"always"` option:
 
 ```js
 /*eslint radix: 2*/
@@ -63,12 +58,12 @@ var num = parseInt("071", 8);
 var num = parseFloat(someValue);
 ```
 
-### "as-needed"
+### as-needed
 
-The following patterns are considered problems:
+Examples of **incorrect** code for the `"as-needed"` option:
 
 ```js
-/*eslint radix: [2. "as-needed"] */
+/*eslint radix: [2, "as-needed"]*/
 
 var num = parseInt("071", 10);
 
@@ -77,10 +72,10 @@ var num = parseInt("071", "abc");
 var num = parseInt();
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for the `"as-needed"` option:
 
 ```js
-/*eslint radix: [2. "as-needed"] */
+/*eslint radix: [2, "as-needed"]*/
 
 var num = parseInt("071");
 
