@@ -1,4 +1,4 @@
-# Enforce require() on the top-level module scope. (global-require)
+# Enforce require() on the top-level module scope (global-require)
 
 In Node.js, module dependencies are included using the `require()` function, such as:
 
@@ -25,13 +25,7 @@ Further, ES6 modules mandate that `import` and `export` statements can only occu
 
 This rule requires all calls to `require()` to be at the top level of the module, similar to ES6 `import` and `export` statements, which also can occur only at the top level.
 
-You can enable this rule with the following syntax:
-
-```json
-"global-require": 2
-```
-
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule:
 
 ```js
 /*eslint global-require: 2*/
@@ -63,7 +57,7 @@ try {
 }
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule:
 
 ```js
 /*eslint global-require: 2*/
