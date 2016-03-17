@@ -235,11 +235,31 @@ describe("FileFinder", function() {
             });
         });
 
+        /**
+         * The intention of this test case is not clear to me. It seems
+         * to be a special case of "a file present in a parent directory" above.
+         * Apart from that: Searching for package.json up to the root
+         * is kind of non-deterministic for testing purposes. A unique file name
+         * and/or restricting the search up to the workspace root (not /) would
+         * be better. The original code assumed there will never be a package.json
+         * outside of the eslint workspace, but that cannot be guaranteed.
+         */
         describe("Not consider directory with expected file names", function() {
             it("should only find one package.json from the root", function() {
                 expected = path.join(process.cwd(), "package.json");
                 finder = new FileFinder("package.json", process.cwd());
                 actual = finder.findAllInDirectoryAndParents(fileFinderDir);
+
+                /**
+                 * Filter files outside of current workspace, otherwise test fails,
+                 * if there is for example a ~/package.json file.
+                 * In order to eliminate side effects of files located outside of
+                 * workspace this should be done for all test cases here.
+                 */
+                actual = actual.filter(function(file) {
+                    return (file || "").indexOf(process.cwd()) === 0;
+                });
+
                 assert.equal(actual, expected);
             });
         });
