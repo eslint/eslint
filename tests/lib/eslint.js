@@ -181,6 +181,7 @@ describe("eslint", function() {
         var code = TEST_CODE;
 
         it("should retrieve all text when used without parameters", function() {
+
             /**
              * Callback handler
              * @returns {void}
@@ -201,6 +202,7 @@ describe("eslint", function() {
         });
 
         it("should retrieve all text for root node", function() {
+
             /**
              * Callback handler
              * @param {ASTNode} node node to examine
@@ -222,6 +224,7 @@ describe("eslint", function() {
         });
 
         it("should clamp to valid range when retrieving characters before start of source", function() {
+
             /**
              * Callback handler
              * @param {ASTNode} node node to examine
@@ -2320,11 +2323,13 @@ describe("eslint", function() {
             var messages = eslint.verify(code, config, filename);
             assert.equal(messages.length, 2);
 
-            // Incorrectly formatted comment threw error;
-            // message from caught exception
-            // may differ amongst UAs, so verifying
-            // first part only as defined in the
-            // parseJsonConfig function in lib/eslint.js
+            /*
+             * Incorrectly formatted comment threw error;
+             * message from caught exception
+             * may differ amongst UAs, so verifying
+             * first part only as defined in the
+             * parseJsonConfig function in lib/eslint.js
+             */
             assert.match(messages[0].message, /^Failed to parse JSON from ' "no-alert":'1'':/);
             assert.equal(messages[0].line, 1);
             assert.equal(messages[0].column, 1);
@@ -2342,11 +2347,13 @@ describe("eslint", function() {
             var messages = eslint.verify(code, config, filename);
             assert.equal(messages.length, 2);
 
-            // Incorrectly formatted comment threw error;
-            // message from caught exception
-            // may differ amongst UAs, so verifying
-            // first part only as defined in the
-            // parseJsonConfig function in lib/eslint.js
+            /*
+             * Incorrectly formatted comment threw error;
+             * message from caught exception
+             * may differ amongst UAs, so verifying
+             * first part only as defined in the
+             * parseJsonConfig function in lib/eslint.js
+             */
             assert.match(messages[0].message, /^Failed to parse JSON from ' "no-alert":abc':/);
             assert.equal(messages[0].line, 1);
             assert.equal(messages[0].column, 1);
@@ -2364,11 +2371,13 @@ describe("eslint", function() {
             var messages = eslint.verify(code, config, filename);
             assert.equal(messages.length, 2);
 
-            // Incorrectly formatted comment threw error;
-            // message from caught exception
-            // may differ amongst UAs, so verifying
-            // first part only as defined in the
-            // parseJsonConfig function in lib/eslint.js
+            /*
+             * Incorrectly formatted comment threw error;
+             * message from caught exception
+             * may differ amongst UAs, so verifying
+             * first part only as defined in the
+             * parseJsonConfig function in lib/eslint.js
+             */
             assert.match(messages[0].message, /^Failed to parse JSON from ' "no-alert":0 2':/);
             assert.equal(messages[0].line, 1);
             assert.equal(messages[0].column, 1);
@@ -3241,6 +3250,7 @@ describe("eslint", function() {
     });
 
     describe("getDeclaredVariables(node)", function() {
+
         /**
          * Assert `eslint.getDeclaredVariables(node)` is empty.
          * @param {ASTNode} node - A node to check.
@@ -3346,6 +3356,7 @@ describe("eslint", function() {
         });
 
         it("VariableDeclaration (on for-in/of loop)", function() {
+
             // TDZ scope is created here, so tests to exclude those.
             var code = "\n for (var {a, x: [b], y: {c = 0}} in foo) {\n let g;\n }\n for (let {d, x: [e], y: {f = 0}} of foo) {\n let h;\n }\n ";
             var namesList = [
@@ -3359,6 +3370,7 @@ describe("eslint", function() {
         });
 
         it("VariableDeclarator", function() {
+
             // TDZ scope is created here, so tests to exclude those.
             var code = "\n var {a, x: [b], y: {c = 0}} = foo;\n let {d, x: [e], y: {f = 0}} = foo;\n const {g, x: [h], y: {i = 0}} = foo, {j, k = function(z) { let l; }} = bar;\n ";
             var namesList = [
@@ -3506,6 +3518,7 @@ describe("eslint", function() {
         });
 
         it("should not rewrite env setting in core (https://github.com/eslint/eslint/issues/4814)", function() {
+
             // This test focuses on the instance of https://github.com/eslint/eslint/blob/v2.0.0-alpha-2/conf/environments.js#L26-L28
 
             // This `verify()` takes the instance and runs https://github.com/eslint/eslint/blob/v2.0.0-alpha-2/lib/eslint.js#L416

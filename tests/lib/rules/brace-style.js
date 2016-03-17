@@ -53,6 +53,7 @@ ruleTester.run("brace-style", rule, {
         { code: "if (foo)\n{\n}\nelse\n{\n}", options: ["allman"] },
         { code: "try { \n bar();\n }\ncatch (e) {\n baz(); \n }", options: ["stroustrup"] },
         { code: "try\n{\n bar();\n}\ncatch (e)\n{\n baz(); \n}", options: ["allman"] },
+
         // allowSingleLine: true
         { code: "function foo () { return; }", options: ["1tbs", { allowSingleLine: true }] },
         { code: "function foo () { a(); b(); return; }", options: ["1tbs", { allowSingleLine: true }] },
@@ -89,6 +90,7 @@ ruleTester.run("brace-style", rule, {
             options: ["allman"]
         }
     ],
+
     invalid: [
         { code: "if (f) {\nbar;\n}\nelse\nbaz;", errors: [{ message: CLOSE_MESSAGE, type: "ExpressionStatement"}] },
         { code: "var foo = () => { return; }", parserOptions: { ecmaVersion: 6 }, errors: [{ message: BODY_MESSAGE, type: "ReturnStatement"}] },

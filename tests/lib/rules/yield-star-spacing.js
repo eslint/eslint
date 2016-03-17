@@ -167,6 +167,7 @@ ruleTester.run("yield-star-spacing", rule, {
     ],
 
     invalid: [
+
         // default (after)
         {
             code: "function *foo(){ yield *foo1; }",

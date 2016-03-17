@@ -122,6 +122,7 @@ ruleTester.run("no-irregular-whitespace", rule, {
         { code: "/* \u202F */", options: [{ skipComments: true }] },
         { code: "/* \u205f */", options: [{ skipComments: true }] },
         { code: "/* \u3000 */", options: [{ skipComments: true }] },
+
         // Unicode BOM.
         "\uFEFFconsole.log('hello BOM');"
     ],

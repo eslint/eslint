@@ -72,6 +72,7 @@ describe("ConfigRule", function() {
             });
 
             it("should return configs with option objects", function() {
+
                 // Skip first config (severity only)
                 actualConfigs.slice(1).forEach(function(actualConfig) {
                     var actualConfigOption = actualConfig[1]; // severity is first element, option is second

@@ -67,6 +67,7 @@ describe("cli", function() {
         localCLI.execute(cmd);
         sandbox.verifyAndRestore();
     }
+
     // verifyCLIEngineOpts
 
     /**
@@ -132,6 +133,7 @@ describe("cli", function() {
         var code = "lib/cli.js";
 
         it("should load the local config file", function() {
+
             // Mock CWD
             process.eslintCwd = getFixturePath("configurations", "single-quotes");
 
@@ -711,6 +713,7 @@ describe("cli", function() {
         });
 
         it("should not error and allowInlineConfig should be true by default", function() {
+
             // create a fake CLIEngine to test with
             var fakeCLIEngine = sandbox.mock().withExactArgs(sinon.match({ allowInlineConfig: true }));
             fakeCLIEngine.prototype = leche.fake(CLIEngine.prototype);

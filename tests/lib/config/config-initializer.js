@@ -224,6 +224,7 @@ describe("configInitializer", function() {
                     config = init.processAnswers(answers);
                     process.chdir(originalDir);
                 } catch (err) {
+
                     // if processAnswers crashes, we need to be sure to restore cwd and console.log
                     console.log = origLog;
                     process.chdir(originalDir);

@@ -20,6 +20,7 @@ var RuleTester = require("../../../lib/testers/rule-tester");
 var ruleTester = new RuleTester();
 ruleTester.run("constructor-super", rule, {
     valid: [
+
         // non derived classes.
         { code: "class A { }", parserOptions: { ecmaVersion: 6 } },
         { code: "class A { constructor() { } }", parserOptions: { ecmaVersion: 6 } },
@@ -67,6 +68,7 @@ ruleTester.run("constructor-super", rule, {
         }
     ],
     invalid: [
+
         // non derived classes.
         {
             code: "class A { constructor() { super(); } }",
