@@ -23,16 +23,19 @@ This rule is aimed at ensuring consistency of string quotes and as such will rep
 The rule configuration takes up to two options:
 
 1. The first option is `"double"`, `"single"` or `"backtick"` for double-quotes, single-quotes or backticks respectively. The default is `"double"`.
-1. The second option is the `"avoid-escape"` flag. When using `"avoid-escape"`, this rule will not report a problem when a string is using single-quotes or double-quotes so long as the string contains a quote that would have to be escaped otherwise. For example, if you specify `"double"` and `"avoid-escape"`, the string `'He said, "hi!"'` is not considered a problem because using double quotes for that string would require escaping the double quotes inside of the string. This option is off by default.
+1. The second option takes two options:
+    1. `"avoidEscape"`: When using `"avoidEscape"`, this rule will not report a problem when a string is using single-quotes or double-quotes so long as the string contains a quote that would have to be escaped otherwise. For example, if you specify `"double"` and `"avoidEscape"`, the string `'He said, "hi!"'` is not considered a problem because using double quotes for that string would require escaping the double quotes inside of the string. This option is off by default.
+    1. `"allowTemplateLiterals"`: when using `"allowTemplateLiterals"`, this rule will not report a problem when a string is using backticks and option one is either `"double"` or `"single"`.
 
-When using `"single"` or `"double"`, template literals that don't contain a substitution, don't contain a line break and aren't tagged templates, are flagged as problems, even with the `"avoid-escape"` option.
-
+When using `"single"` or `"double"`, template literals that don't contain a substitution, don't contain a line break and aren't tagged templates, are flagged as problems, even with the `"avoidEscape"` option. However they are not problems when `"allowTemplateLiterals"` is used.
 
 Configuration looks like this:
 
 ```js
-[2, "single", "avoid-escape"]
+[2, "single", {"avoidEscape": true, "allowTemplateLiterals": true}]
 ```
+
+**Deprecation notice**: The `avoid-escape` option is a deprecated syntax and you should use the object form instead.
 
 The following patterns are considered problems:
 
@@ -51,14 +54,14 @@ var unescaped = "a string containing 'single' quotes";
 ```
 
 ```js
-/*eslint quotes: ["error", "double", "avoid-escape"]*/
+/*eslint quotes: ["error", "double", {"avoidEscape": true}]*/
 
 var single = 'single';
 var single = `single`;
 ```
 
 ```js
-/*eslint quotes: ["error", "single", "avoid-escape"]*/
+/*eslint quotes: ["error", "single", {"avoidEscape": true}]*/
 
 var double = "double";
 var double = `double`;
@@ -73,7 +76,7 @@ var unescaped = 'a string containing `backticks`';
 ```
 
 ```js
-/*eslint quotes: ["error", "backtick", "avoid-escape"]*/
+/*eslint quotes: ["error", "backtick", {"avoidEscape": true}]*/
 
 var single = 'single';
 var double = "double";
@@ -99,15 +102,29 @@ var backtick = `back${x}tick`; // backticks are allowed due to substitution
 ```
 
 ```js
-/*eslint quotes: ["error", "double", "avoid-escape"]*/
+/*eslint quotes: ["error", "double", {"avoidEscape": true}]*/
 
 var single = 'a string containing "double" quotes';
 ```
 
 ```js
-/*eslint quotes: ["error", "single", "avoid-escape"]*/
+/*eslint quotes: ["error", "single", {"avoidEscape": true}]*/
 
 var double = "a string containing 'single' quotes";
+```
+
+```js
+/*eslint quotes: ["error", "double", {"allowTemplateLiterals": true}]*/
+
+var single = 'single';
+var single = `single`;
+```
+
+```js
+/*eslint quotes: ["error", "single", {"allowTemplateLiterals": true}]*/
+
+var double = "double";
+var double = `double`;
 ```
 
 ```js
@@ -118,7 +135,7 @@ var backtick = `backtick`;
 ```
 
 ```js
-/*eslint quotes: ["error", "backtick", "avoid-escape"]*/
+/*eslint quotes: ["error", "backtick", {"avoidEscape": true}]*/
 
 var double = "a string containing `backtick` quotes"
 ```
