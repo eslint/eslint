@@ -18,6 +18,7 @@ var rule = require("../../../lib/rules/prefer-reflect"),
 var ruleTester = new RuleTester();
 ruleTester.run("prefer-reflect", rule, {
     valid: [
+
         // Reflect.apply
         { code: "Reflect.apply(function(){}, null, 1, 2);" },
         { code: "Reflect.apply(function(){}, null, 1, 2);", options: [{ exceptions: ["apply"] }] },

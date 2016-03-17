@@ -153,6 +153,7 @@ describe("ConfigFile", function() {
             target.push(path.resolve(PROJECT_PATH, "./node_modules/eslint-config-foo/index.js"));
 
             var configDeps = {
+
                 // Hacky: need to override isFile for each call for testing
                 "resolve": {
                     sync: function(filename, opts) {
@@ -193,6 +194,7 @@ describe("ConfigFile", function() {
             target.push(path.resolve("/whatever/node_modules/eslint-config-foo/index.js"));
 
             var configDeps = {
+
                 // Hacky: need to override isFile for each call for testing
                 "resolve": {
                     sync: function(filename, opts) {
@@ -223,6 +225,7 @@ describe("ConfigFile", function() {
             target.push(path.resolve(PROJECT_PATH, "./node_modules/eslint-config-bar/index.js"));
 
             var configDeps = {
+
                 // Hacky: need to override isFile for each call for testing
                 "resolve": {
                     sync: function(filename, opts) {
@@ -676,6 +679,7 @@ describe("ConfigFile", function() {
 
         beforeEach(function() {
             StubbedConfigFile = proxyquire("../../../lib/config/config-file", {
+
                 // Hacky: need to override isFile for each call for testing
                 "resolve": {
                     sync: function(filename, opts) {

@@ -156,6 +156,7 @@ describe("autoconfig", function() {
             });
 
             it("should create as many ruleSets as the highest number of configs in a rule", function() {
+
                 // `quotes` has 7 possible configurations
                 assert.lengthOf(ruleSets, 7);
             });

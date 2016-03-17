@@ -20,6 +20,7 @@ var rule = require("../../../lib/rules/block-scoped-var"),
 var ruleTester = new RuleTester();
 ruleTester.run("block-scoped-var", rule, {
     valid: [
+
         // See issue https://github.com/eslint/eslint/issues/2242
         { code: "function f() { } f(); var exports = { f: f };", parserOptions: { ecmaVersion: 6 } },
         { code: "var f = () => {}; f(); var exports = { f: f };", parserOptions: { sourceType: "module" } },

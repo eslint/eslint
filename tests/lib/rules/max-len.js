@@ -83,6 +83,7 @@ ruleTester.run("max-len", rule, {
             code: "var foo = module.exports = {}; // really long trailing comment",
             options: [40, 4, {ignoreComments: true, ignoreTrailingComments: false}]
         },
+
         // blank line
         ""
     ],

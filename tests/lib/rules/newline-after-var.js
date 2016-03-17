@@ -105,6 +105,7 @@ var ruleTester = new RuleTester();
 
 ruleTester.run("newline-after-var", rule, {
     valid: [
+
         // should skip rule entirely
         { code: NO_VAR, options: ["always"] },
         { code: NO_VAR, options: ["never"] },
@@ -229,6 +230,7 @@ ruleTester.run("newline-after-var", rule, {
     ],
 
     invalid: [
+
         // should disallow no line break in "always" mode
         { code: NO_BREAK, options: ["always"], errors: [ALWAYS_ERROR] },
         { code: MULTI_VAR_NO_BREAK, options: ["always"], errors: [ALWAYS_ERROR] },

@@ -244,8 +244,10 @@ describe("IgnoredPaths", function() {
         });
 
         it("should return false for files outside of the cwd (with no ignore file provided)", function() {
+
             // Default ignore patterns should not inadvertantly ignore files in parent directories
             var ignoredPaths = new IgnoredPaths({ ignore: true, cwd: getFixturePath("no-ignore-file") });
+
             assert.isFalse(ignoredPaths.contains(getFixturePath("undef.js")));
         });
 

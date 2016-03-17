@@ -76,6 +76,7 @@ describe("CodePathAnalyzer", function() {
                 var order = getOrderOfTraversing(codePath);
 
                 assert.deepEqual(order, ["s1_1"]);
+
                 /*
                 digraph {
                     node[shape=box,style="rounded,filled",fillcolor=white];
@@ -92,6 +93,7 @@ describe("CodePathAnalyzer", function() {
                 var order = getOrderOfTraversing(codePath);
 
                 assert.deepEqual(order, ["s1_1", "s1_2", "s1_3", "s1_4"]);
+
                 /*
                 digraph {
                     node[shape=box,style="rounded,filled",fillcolor=white];
@@ -112,6 +114,7 @@ describe("CodePathAnalyzer", function() {
                 var order = getOrderOfTraversing(codePath);
 
                 assert.deepEqual(order, ["s1_1", "s1_2", "s1_4", "s1_5", "s1_6"]);
+
                 /*
                 digraph {
                     node[shape=box,style="rounded,filled",fillcolor=white];
@@ -136,6 +139,7 @@ describe("CodePathAnalyzer", function() {
                 var order = getOrderOfTraversing(codePath);
 
                 assert.deepEqual(order, ["s1_1", "s1_2", "s1_3", "s1_4"]);
+
                 /*
                 digraph {
                     node[shape=box,style="rounded,filled",fillcolor=white];
@@ -155,6 +159,7 @@ describe("CodePathAnalyzer", function() {
                 var order = getOrderOfTraversing(codePath);
 
                 assert.deepEqual(order, ["s1_1", "s1_2", "s1_3", "s1_4", "s1_5"]);
+
                 /*
                 digraph {
                     node[shape=box,style="rounded,filled",fillcolor=white];
@@ -175,6 +180,7 @@ describe("CodePathAnalyzer", function() {
                 var order = getOrderOfTraversing(codePath);
 
                 assert.deepEqual(order, ["s1_1", "s1_3", "s1_2", "s1_4", "s1_5"]);
+
                 /*
                 digraph {
                     node[shape=box,style="rounded,filled",fillcolor=white];
@@ -197,6 +203,7 @@ describe("CodePathAnalyzer", function() {
                 var order = getOrderOfTraversing(codePath);
 
                 assert.deepEqual(order, ["s1_1", "s1_2", "s1_3", "s1_4"]);
+
                 /*
                 digraph {
                     node[shape=box,style="rounded,filled",fillcolor=white];
@@ -222,6 +229,7 @@ describe("CodePathAnalyzer", function() {
             });
 
             assert.deepEqual(order, ["s1_2", "s1_3", "s1_4"]);
+
             /*
             digraph {
                 node[shape=box,style="rounded,filled",fillcolor=white];
@@ -250,6 +258,7 @@ describe("CodePathAnalyzer", function() {
             });
 
             assert.deepEqual(order, ["s1_1", "s1_2"]);
+
             /*
             digraph {
                 node[shape=box,style="rounded,filled",fillcolor=white];
@@ -278,6 +287,7 @@ describe("CodePathAnalyzer", function() {
             });
 
             assert.deepEqual(order, ["s1_1", "s1_2", "s1_5", "s1_6"]);
+
             /*
             digraph {
                 node[shape=box,style="rounded,filled",fillcolor=white];
