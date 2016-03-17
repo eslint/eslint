@@ -76,6 +76,12 @@ ruleTester.run("max-len", rule, {
                 "// Full line comment\n" +
                 "someCode(); // With a long trailing comment.",
             options: [{code: 30, tabWidth: 4, comments: 20, ignoreTrailingComments: true}]
+        }, {
+            code: "var foo = module.exports = {}; // really long trailing comment",
+            options: [40, 4, {ignoreTrailingComments: true}]
+        }, {
+            code: "var foo = module.exports = {}; // really long trailing comment",
+            options: [40, 4, {ignoreComments: true, ignoreTrailingComments: false}]
         },
         // blank line
         ""
@@ -224,6 +230,17 @@ ruleTester.run("max-len", rule, {
             errors: [
                 {
                     message: "Line 1 exceeds the maximum line length of 20.",
+                    type: "Program",
+                    line: 1,
+                    column: 1
+                }
+            ]
+        }, {
+            code: "//This is very long comment with more than 40 characters which is invalid",
+            options: [40, 4, {ignoreTrailingComments: true }],
+            errors: [
+                {
+                    message: "Line 1 exceeds the maximum line length of 40.",
                     type: "Program",
                     line: 1,
                     column: 1
