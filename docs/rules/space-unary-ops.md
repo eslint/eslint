@@ -39,10 +39,27 @@ qux = !!baz;
 
 ## Options
 
-This rule has two options: `words` and `nonwords`:
+This rule has three options:
 
 * `words` - applies to unary word operators such as: `new`, `delete`, `typeof`, `void`, `yield`
 * `nonwords` - applies to unary operators such as: `-`, `+`, `--`, `++`, `!`, `!!`
+* `overrides` - specifies overwriting usage of spacing for each
+  operator, word or non word. This is empty by default, but can be used
+  to enforce or disallow spacing around operators. For example:
+
+```js
+    "space-unary-ops": [
+        2, {
+          "words": true,
+          "nonwords": false,
+          "overrides": {
+            "new": false,
+            "++": true
+          }
+    }]
+```
+
+In this case, spacing will be disallowed after a `new` operator and required before/after a `++` operator.
 
 Given the default values `words`: `true`, `nonwords`: `false`, the following patterns are considered problems:
 
