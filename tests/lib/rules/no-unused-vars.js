@@ -121,7 +121,28 @@ ruleTester.run("no-unused-vars", rule, {
         { code: "var a; function foo() { var _b; } foo();", options: [ { vars: "local", varsIgnorePattern: "^_" } ] },
         { code: "function foo(_a) { } foo();", options: [ { args: "all", argsIgnorePattern: "^_" } ] },
         { code: "function foo(a, _b) { return a; } foo();", options: [ { args: "after-used", argsIgnorePattern: "^_" } ] },
-        { code: "var [ firstItemIgnored, secondItem ] = items;\nconsole.log(secondItem);", parserOptions: { ecmaVersion: 6 }, options: [ { vars: "all", varsIgnorePattern: "[iI]gnored" } ] }
+        { code: "var [ firstItemIgnored, secondItem ] = items;\nconsole.log(secondItem);", parserOptions: { ecmaVersion: 6 }, options: [ { vars: "all", varsIgnorePattern: "[iI]gnored" } ] },
+
+        // exceptions
+        {
+            code: "try{}catch(err){console.error(err);}",
+            options: [{exceptions: "all"}]
+        },
+        {
+            code: "try{}catch(err){}",
+            options: [{exceptions: "none"}]
+        },
+        {
+            code: "try{}catch(ignoreErr){}",
+            options: [{exceptions: "all", exceptionsIgnorePattern: "^ignore"}]
+        },
+
+        // exceptions with other combinations
+        {
+            code: "try{}catch(err){}",
+            options: [{vars: "all", args: "all"}]
+        }
+
     ],
     invalid: [
         { code: "function foox() { return foox(); }", errors: [{ message: "'foox' is defined but never used", type: "Identifier"}] },
@@ -262,6 +283,52 @@ ruleTester.run("no-unused-vars", rule, {
             code: "export default (a, b) => { console.log(a); };",
             parserOptions: { sourceType: "module" },
             errors: [{message: "'b' is defined but never used"}]
+        },
+
+        // exceptions
+        {
+            code: "try{}catch(err){};",
+            options: [{"exceptions": "all"}],
+            errors: [{message: "'err' is defined but never used"}]
+        },
+        {
+            code: "try{}catch(err){};",
+            options: [{"exceptions": "all", "exceptionsIgnorePattern": "^ignore"}],
+            errors: [{message: "'err' is defined but never used"}]
+        },
+        // multiple try catch with one success
+        {
+            code: "try{}catch(ignoreErr){}try{}catch(err){};",
+            options: [{"exceptions": "all", "exceptionsIgnorePattern": "^ignore"}],
+            errors: [{message: "'err' is defined but never used"}]
+        },
+        // multiple try catch both fail
+        {
+            code: "try{}catch(error){}try{}catch(err){};",
+            options: [{"exceptions": "all", "exceptionsIgnorePattern": "^ignore"}],
+            errors: [
+                {message: "'error' is defined but never used"},
+                {message: "'err' is defined but never used"}
+            ]
+        },
+        // exceptions with other configs
+        {
+            code: "try{}catch(err){};",
+            options: [{vars: "all", args: "all", exceptions: "all"}],
+            errors: [{message: "'err' is defined but never used"}]
+        },
+        // no conclict in ignore patterns
+        {
+            code: "try{}catch(err){};",
+            options: [
+                {
+                    vars: "all",
+                    args: "all",
+                    exceptions: "all",
+                    argsIgnorePattern: "^er"
+                }
+            ],
+            errors: [{message: "'err' is defined but never used"}]
         }
     ]
 });
