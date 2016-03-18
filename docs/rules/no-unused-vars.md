@@ -182,6 +182,63 @@ function foo(x, _y) {
 foo();
 ```
 
+### exceptions
+
+The `exceptions` option is used for `catch` block arguments validation.
+
+It has two settings:
+
+* `none` - do not check arguments. This is the default setting.
+* `all` - all named arguments must be used.
+
+#### exceptions: none
+
+Not specifying this rule is equivalent of assigning it to `none`.
+
+Examples of **correct** code for the `{ "exceptions": "none" }` option:
+
+```js
+/*eslint no-unused-vars: [2, { "exceptions": "none" }]*/
+
+try {
+    //...
+} catch( err ){
+    console.error("exception");
+}
+```
+
+#### exceptions: all
+
+Examples of **incorrect** code for the `{ "exceptions": "all" }` option:
+
+```js
+/*eslint no-unused-vars: [2, { "exceptions": "all" }]*/
+
+// 1 error
+// "err" is defined but never used
+try {
+    //...
+} catch( err ){
+    console.error("exception");
+}
+```
+
+### exceptionsIgnorePattern
+
+The `exceptionsIgnorePattern` option specifies exceptions not to check for usage: catch arguments whose names match a regexp pattern. For example, variables whose names begin with a string 'ignore'.
+
+Examples of **correct** code for the `{ "exceptionsIgnorePattern": "^ignore" }` option:
+
+```js
+/*eslint no-unused-vars: [2, { "exceptionsIgnorePattern": "^ignore" }]*/
+
+try {
+    //...
+} catch( ignoreErr ){
+    console.error("exception");
+}
+```
+
 
 ## When Not To Use It
 
