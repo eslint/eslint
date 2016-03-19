@@ -643,7 +643,6 @@ Globs are matched using [node-ignore](https://github.com/kaelzhang/node-ignore),
 * Paths are relative to `.eslintignore` location or the current working directory. This also influences paths passed via `--ignore-pattern`.
 * Ignore patterns behave according to the `.gitignore` [specification](http://git-scm.com/docs/gitignore)
 * Lines preceded by `!` are negated patterns that re-include a pattern that was ignored by an earlier pattern.
-* Brace expansion can refer to multiple files in a pattern. For example, `file.{js,ts,coffee}` will ignore `file.js`, `file.ts`, and `file.coffee`.
 
 In addition to any patterns in a `.eslintignore` file, ESLint always ignores files in `/node_modules/**` and `/bower_components/**`.
 
@@ -651,9 +650,6 @@ For example, placing the following `.eslintignore` file in the current working d
 
 ```text
 # /node_modules and /bower_components ignored by default
-
-# Ignore files compiled from TypeScript and CoffeeScript
-**/*.{ts,coffee}.js
 
 # Ignore built files except build/index.js
 build/
