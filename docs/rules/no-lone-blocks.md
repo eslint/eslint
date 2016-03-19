@@ -80,7 +80,7 @@ aLabel: {
 }
 ```
 
-In strict mode, with `ecmaFeatures: { blockBindings: true }`, the following will not warn:
+In strict mode, the following will not warn:
 
 ```js
 /*eslint-env es6*/
