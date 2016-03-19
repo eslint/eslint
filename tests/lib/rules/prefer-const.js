@@ -63,6 +63,7 @@ ruleTester.run("prefer-const", rule, {
             parserOptions: { ecmaVersion: 6 }
         },
         { code: "/*exported a*/ let a; function init() { a = foo(); }", parserOptions: { ecmaVersion: 6 } },
+        { code: "let a; if (true) a = 0; foo(a);", parserOptions: { ecmaVersion: 6 } },
 
         // The assignment is located in a different scope.
         // Those are warned by prefer-smaller-scope.
@@ -144,6 +145,11 @@ ruleTester.run("prefer-const", rule, {
 
         {
             code: "let x; x = 0;",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{ message: "'x' is never reassigned, use 'const' instead.", type: "Identifier"}]
+        },
+        {
+            code: "switch (a) { case 0: let x; x = 0; }",
             parserOptions: { ecmaVersion: 6 },
             errors: [{ message: "'x' is never reassigned, use 'const' instead.", type: "Identifier"}]
         },
