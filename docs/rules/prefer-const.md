@@ -26,6 +26,11 @@ for (let i in [1,2,3]) {
 for (let a of [1,2,3]) {
     console.log(a);
 }
+
+// the initializer is separated.
+let a;
+a = 0;
+console.log(a);
 ```
 
 The following patterns are not considered problems:
@@ -51,6 +56,13 @@ for (const a of [1,2,3]) {
 for (let i = 0, end = 10; i < end; ++i) {
     console.log(a);
 }
+
+// the initializer is located at another block.
+let a;
+if (true) {
+    a = 0;
+}
+console.log(a);
 
 // suggest to use `no-var` rule.
 var b = 3;
