@@ -123,8 +123,6 @@ var anonymous = function*() {};
 var shorthand = { *generator() {} };
 ```
 
-To use this rule you must set the `generators` flag to `true` in the `ecmaFeatures` configuration object.
-
 ## When Not To Use It
 
 If your project will not be using generators or you are not concerned with spacing consistency, you do not need this rule.
