@@ -29,6 +29,11 @@ This rule needs a text RegExp to operate with, and accepts an options map. Its s
 1. `true` is the default and checks all property names
 2. `false` does not check property names at all (default)
 
+`onlyDeclarations` can have the following values:
+
+1. `true` validates only declaration of variables, functions and classes
+2. `false` validates all identifiers (default)
+
 For the rule in this example, which is simply camelcase, the following patterns are considered problems:
 
 ```js
@@ -70,6 +75,10 @@ obj.do_something();
 var obj = {
     my_pref: 1
 };
+
+/*eslint id-match: [2, "^[a-z]+([A-Z][a-z]+)*$", {"onlyDeclarations": true}]*/
+
+do_something(__dirname);
 ```
 
 ## When Not To Use It
