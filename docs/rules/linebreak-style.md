@@ -1,4 +1,4 @@
-# Disallow mixing CRLF and LF linebreaks (linebreak-style)
+# Enforce linebreak style (linebreak-style)
 
 When developing with a lot of people all having different editors, VCS applications and operating systems it may occur that
 different line endings are written by either of the mentioned (might especially happen when using the windows and mac versions of SourceTree together).
@@ -12,15 +12,14 @@ Many versioning systems (like git and subversion) can automatically ensure the c
 
 ## Rule Details
 
-This rule aims to ensure having consistent line endings independent of operating system, VCS or editor used.
+This rule aims to ensure having consistent line endings independent of operating system, VCS or editor used across your codebase.
 
 The following patterns are considered problems:
 
 ```js
 /*eslint linebreak-style: 2*/
 
-var a = 'a', // \r\n
-    b = 'b'; // \n
+var a = 'a'; // \r\n
 ```
 
 ```js
