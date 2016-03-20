@@ -116,6 +116,7 @@
         "no-useless-call": "off",
         "no-useless-concat": "off",
         "no-useless-constructor": "off",
+        "no-useless-escape": "off",
         "no-void": "off",
         "no-var": "off",
         "no-warning-comments": "off",
