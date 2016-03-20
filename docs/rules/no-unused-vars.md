@@ -60,7 +60,13 @@ myFunc(function foo() {
 
 ### exported
 
-In environments outside of CommonJS or ECMAScript modules, you may use `var` to create a global variable that may be used by other scripts. You can use the `/* exported variableName */` comment block to indicate that this variable is being exported and therefore should not be considered unused. Note that `/* exported */` has no effect when used with the `node` or `commonjs` environments or when `ecmaFeatures.modules` or `ecmaFeatures.globalReturn` are true.
+In environments outside of CommonJS or ECMAScript modules, you may use `var` to create a global variable that may be used by other scripts. You can use the `/* exported variableName */` comment block to indicate that this variable is being exported and therefore should not be considered unused.
+
+Note that `/* exported */` has no effect for any of the following:
+
+* when the environment is `node` or `commonjs`
+* when `parserOptions.sourceType` is `module`
+* when `ecmaFeatures.globalReturn` is `true`
 
 ## Options
 

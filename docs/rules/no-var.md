@@ -40,9 +40,6 @@ let x = "y";
 const CONFIG = {};
 ```
 
-If you intend to use this rule, you must set `blockBindings` to `true` in the `ecmaFeatures` configuration object,
-which will give ESLint the ability to read `let` and `const` variables.
-
 ## When Not To Use It
 
 In addition to non-ES6 environments, existing JavaScript projects that are beginning to introduce ES6 into their

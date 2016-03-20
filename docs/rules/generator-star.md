@@ -115,9 +115,7 @@ var generator = function*() {
 }
 ```
 
-To use this rule you must set the `generators` flag to `true` in the `ecmaFeatures` configuration object.
-
-Also note, that shortened object literal syntax for generators is not affected by this rule.
+The shortened object literal syntax for generators is not affected by this rule.
 
 ## When Not To Use It
 
