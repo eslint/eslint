@@ -165,7 +165,7 @@ These rules are purely matters of style and are quite subjective.
 * [jsx-quotes](jsx-quotes.md) - specify whether double or single quotes should be used in JSX attributes (fixable)
 * [key-spacing](key-spacing.md) - enforce spacing between keys and values in object literal properties
 * [keyword-spacing](keyword-spacing.md) - enforce spacing before and after keywords (fixable)
-* [linebreak-style](linebreak-style.md) - disallow mixed 'LF' and 'CRLF' as linebreaks (fixable)
+* [linebreak-style](linebreak-style.md) - enforce linebreak style (fixable)
 * [lines-around-comment](lines-around-comment.md) - enforce empty lines around comments
 * [max-depth](max-depth.md) - specify the maximum depth that blocks can be nested
 * [max-len](max-len.md) - specify the maximum length of a line in your program
