@@ -72,6 +72,7 @@ These folks keep the project moving and are resources for help:
 * Ian VanSchooten ([@ianvs](https://github.com/ianvs)) - committer
 * Burak Yiğit Kaya ([@byk](https://github.com/byk)) - committer
 * Alberto Rodríguez ([@alberto](https://github.com/alberto)) - committer
+* Kai Cataldo ([@kaicataldo](https://github.com/kaicataldo)) - committer
 
 ## Releases
 
