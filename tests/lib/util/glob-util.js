@@ -243,14 +243,14 @@ describe("globUtil", function() {
             assert.equal(result.length, 1);
         });
 
-        it("should not return a file listed in a specified ignore file", function() {
+        it("should not return a file from a glob if it matches a pattern in an ignore file", function() {
             var options = { ignore: true, ignorePath: getFixturePath("glob-util", "ignored", ".eslintignore") };
             var patterns = [getFixturePath("glob-util", "ignored", "**/*.js")];
             var result = globUtil.listFilesToProcess(patterns, options);
             assert.equal(result.length, 0);
         });
 
-        it("should not return a file listed in a specified ignore pattern", function() {
+        it("should not return a file from a glob if matching a specified ignore pattern", function() {
             var options = { ignore: true, ignorePattern: "foo.js", cwd: getFixturePath() };
             var patterns = [getFixturePath("glob-util", "ignored", "**/*.js")];
             var result = globUtil.listFilesToProcess(patterns, options);
@@ -272,6 +272,37 @@ describe("globUtil", function() {
             assert.deepEqual(result, [
                 {filename: file1, ignored: false}
             ]);
+        });
+
+        it("should set 'ignored: true' for files that are explicitly specified but ignored", function() {
+            var options = { ignore: true, ignorePattern: "foo.js", cwd: getFixturePath() };
+            var filename = getFixturePath("glob-util", "ignored", "foo.js");
+            var patterns = [filename];
+            var result = globUtil.listFilesToProcess(patterns, options);
+            assert.equal(result.length, 1);
+            assert.deepEqual(result, [
+                {filename: filename, ignored: true}
+            ]);
+        });
+
+        it("should not return files from default ignored folders", function() {
+            var options = { cwd: getFixturePath("glob-util") };
+            var glob = getFixturePath("glob-util", "**/*.js");
+            var patterns = [glob];
+            var result = globUtil.listFilesToProcess(patterns, options);
+            var resultFilenames = result.map(function(resultObj) {
+                return resultObj.filename;
+            });
+            assert.notInclude(resultFilenames, getFixturePath("glob-util", "node_modules", "dependency.js"));
+        });
+
+        it("should return unignored files from default ignored folders", function() {
+            var options = { ignorePattern: "!/node_modules/dependency.js", cwd: getFixturePath("glob-util") };
+            var glob = getFixturePath("glob-util", "**/*.js");
+            var patterns = [glob];
+            var result = globUtil.listFilesToProcess(patterns, options);
+            var unignoredFilename = getFixturePath("glob-util", "node_modules", "dependency.js");
+            assert.includeDeepMembers(result, [{filename: unignoredFilename, ignored: false}]);
         });
     });
 });
