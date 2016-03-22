@@ -73,6 +73,7 @@ These folks keep the project moving and are resources for help:
 * Burak Yiğit Kaya ([@byk](https://github.com/byk)) - committer
 * Alberto Rodríguez ([@alberto](https://github.com/alberto)) - committer
 * Kai Cataldo ([@kaicataldo](https://github.com/kaicataldo)) - committer
+* Michael Ficarra ([@michaelficarra](https://github.com/michaelficarra)) - committer
 
 ## Releases
 
