@@ -54,7 +54,7 @@ function foo() {
 The rule takes a single option, which is an array of possible callback names.
 
 ```json
-callback-return: [2, ["callback", "cb", "next"]]
+callback-return: [2, ["callback", "cb", "next", "send.sucess"]]
 ```
 
 ## Known Limitations
