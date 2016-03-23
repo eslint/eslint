@@ -12,7 +12,7 @@ foo = foo;
 
 This rule is aimed at eliminating self assignments.
 
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule:
 
 ```js
 /*eslint no-self-assign: 2*/
@@ -26,7 +26,7 @@ foo = foo;
 ({a, b} = {a, x});
 ```
 
-The following patterns are considered not problems:
+Examples of **correct** code for this rule:
 
 ```js
 /*eslint no-self-assign: 2*/

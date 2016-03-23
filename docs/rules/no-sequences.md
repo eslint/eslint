@@ -19,7 +19,7 @@ This rule forbids the use of the comma operator, with the following exceptions:
 * In the initialization or update portions of a `for` statement.
 * If the expression sequence is explicitly wrapped in parentheses.
 
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule:
 
 ```js
 /*eslint no-sequences: 2*/
@@ -41,7 +41,7 @@ while (val = foo(), val < 42);
 with (doSomething(), val) {}
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule:
 
 ```js
 /*eslint no-sequences: 2*/

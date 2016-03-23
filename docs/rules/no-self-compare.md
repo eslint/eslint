@@ -8,6 +8,8 @@ The only time you would compare a variable against itself is when you are testin
 
 This error is raised to highlight a potentially confusing and potentially pointless piece of code. There are almost no situations in which you would need to compare something to itself.
 
+Examples of **incorrect** code for this rule:
+
 ```js
 /*eslint no-self-compare: 2*/
 

@@ -19,7 +19,7 @@ Such labels take up space in the code and can lead to confusion by readers.
 
 This rule is aimed at eliminating unused labels.
 
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule:
 
 ```js
 /*eslint no-unused-labels: 2*/
@@ -36,7 +36,7 @@ for (let i = 0; i < 10; ++i) {
 }
 ```
 
-The following patterns are considered not problems:
+Examples of **correct** code for this rule:
 
 ```js
 /*eslint no-unused-labels: 2*/

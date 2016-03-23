@@ -48,7 +48,7 @@ Some code styles prohibit `void` operator marking it as non-obvious and hard to 
 
 This rule aims to eliminate use of void operator.
 
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule:
 
 ```js
 /*eslint no-void: 2*/

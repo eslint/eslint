@@ -1,20 +1,28 @@
 # Disallow Unused Expressions (no-unused-expressions)
 
-Unused expressions are those expressions that evaluate to a value but are never used. For example:
+An unused expression which has no effect on the state of the program indicates a logic error.
 
-```js
-n + 1;
-```
-
-This is a valid JavaScript expression, but isn't actually used. Even though it's not a syntax error it is clearly a logic error and it has no effect on the code being executed.
+For example, `n + 1;` is not a syntax error, but it might be a typing mistake where a programmer meant an assignment statement `n += 1;` instead.
 
 ## Rule Details
 
-This rule aims to eliminate unused expressions. The value of an expression should always be used, except in the case of expressions that side effect: function calls, assignments, and the `new` operator.
+This rule aims to eliminate unused expressions which have no effect on the state of the program.
 
-Note that sequence expressions (those using a comma, such as `a = 1, b = 2`) are always considered unused unless their return value is assigned or used in a condition evaluation, or a function call is made with the sequence expression value.
+This rule does not apply to function calls or constructor calls with the `new` operator, because they could have *side effects* on the state of the program.
 
-Please also note that this rule does not apply to directives (which are in the form of literal string expressions (e.g., `"use strict";`) at the beginning of a script, module, or function).
+```js
+var i = 0;
+function increment() { i += 1; }
+increment(); // return value is unused, but i changed as a side effect
+
+var nThings = 0;
+function Thing() { nThings += 1; }
+new Thing(); // constructed object is unused, but nThings changed as a side effect
+```
+
+This rule does not apply to directives (which are in the form of literal string expressions such as `"use strict";` at the beginning of a script, module, or function).
+
+Sequence expressions (those using a comma, such as `a = 1, b = 2`) are always considered unused unless their return value is assigned or used in a condition evaluation, or a function call is made with the sequence expression value.
 
 ## Options
 
@@ -23,7 +31,9 @@ This rule, in its default state, does not require any arguments. If you would li
 * `allowShortCircuit` set to `true` will allow you to use short circuit evaluations in your expressions (Default: `false`).
 * `allowTernary` set to `true` will enable you use ternary operators in your expressions similarly to short circuit evaluations (Default: `false`).
 
-By default the following patterns are considered problems:
+These options allow unused expressions *only if all* of the code paths either directly change the state (for example, assignment statement) or could have *side effects* (for example, function call).
+
+Examples of **incorrect** code for the default `{ "allowShortCircuit": false, "allowTernary": false }` options:
 
 ```js
 /*eslint no-unused-expressions: 2*/
@@ -58,7 +68,7 @@ Note that one or more string expression statements (with or without semi-colons)
 "any other strings like this in the prologue";
 ```
 
-The following patterns are not considered problems by default:
+Examples of **correct** code for the default `{ "allowShortCircuit": false, "allowTernary": false }` options:
 
 ```js
 /*eslint no-unused-expressions: 2*/
@@ -82,42 +92,51 @@ delete a.b
 void a
 ```
 
-The following patterns are not considered problems if `allowShortCircuit` is enabled:
+### allowShortCircuit
+
+Examples of **incorrect** code for the `{ "allowShortCircuit": true }` option:
 
 ```js
-/*eslint no-unused-expressions: [2, { allowShortCircuit: true }]*/
+/*eslint no-unused-expressions: [2, { "allowShortCircuit": true }]*/
+
+a || b
+```
+
+Examples of **correct** code for the `{ "allowShortCircuit": true }` option:
+
+```js
+/*eslint no-unused-expressions: [2, { "allowShortCircuit": true }]*/
 
 a && b()
-
 a() || (b = c)
 ```
 
-If you enable the `allowTernary` the following patterns will be allowed:
+### allowTernary
+
+Examples of **incorrect** code for the `{ "allowTernary": true }` option:
 
 ```js
-/*eslint no-unused-expressions: [2, { allowTernary: true }]*/
+/*eslint no-unused-expressions: [2, { "allowTernary": true }]*/
+
+a ? b : 0
+a ? b : c()
+```
+
+Examples of **correct** code for the `{ "allowTernary": true }` option:
+
+```js
+/*eslint no-unused-expressions: [2, { "allowTernary": true }]*/
 
 a ? b() : c()
-
 a ? (b = c) : d()
 ```
 
-Enabling both options will allow a combination of both ternary and short circuit evaluation:
+### allowShortCircuit and allowTernary
+
+Examples of **correct** code for the `{ "allowShortCircuit": true, "allowTernary": true }` options:
 
 ```js
-/*eslint no-unused-expressions: [2, { allowShortCircuit: true, allowTernary: true }]*/
+/*eslint no-unused-expressions: [2, { "allowShortCircuit": true, "allowTernary": true }]*/
 
 a ? b() || (c = d) : e()
-```
-
-The above options still will not allow expressions that have code paths without side effects such as the following:
-
-```js
-/*eslint no-unused-expressions: [2, { allowShortCircuit: true, allowTernary: true }]*/
-
-a || b
-
-a ? b : 0
-
-a ? b : c()
 ```
