@@ -1,6 +1,6 @@
 # Disallow Use of the Comma Operator (no-sequences)
 
-The comma operator includes multiple expressions where only one is expected. It evaluates each operand from left to right and returns the value of the last operand. However, this frequently obscures side effects, and its use is often an accident. Here are some examples of its use:
+The comma operator includes multiple expressions where only one is expected. It evaluates each operand from left to right and returns the value of the last operand. However, this frequently obscures side effects, and its use is often an accident. Here are some examples of sequences:
 
 ```js
 var a = (3, 5); // a = 5
@@ -25,6 +25,8 @@ The following patterns are considered problems:
 /*eslint no-sequences: 2*/
 
 foo = doSomething(), val;
+
+0, eval("doSomething();");
 
 do {} while (doSomething(), !!test);
 
