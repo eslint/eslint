@@ -70,7 +70,7 @@ Note that `/* exported */` has no effect for any of the following:
 
 ## Options
 
-This rule takes one argument which can be an string or an object. The string settings are the same as those of the `vars` property (explained below).
+This rule takes one argument which can be a string or an object. The string settings are the same as those of the `vars` property (explained below).
 
 By default this rule is enabled with `all` option for variables and `after-used` for arguments.
 
