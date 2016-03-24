@@ -172,6 +172,7 @@ These rules are purely matters of style and are quite subjective.
 * [max-nested-callbacks](max-nested-callbacks.md): specify the maximum depth callbacks can be nested
 * [max-params](max-params.md): specify the number of parameters that can be used in the function declaration
 * [max-statements](max-statements.md): specify the maximum number of statement allowed in a function
+* [max-statements-per-line](max-statements-per-line.md): specify the maximum number of statements allowed per line
 * [new-cap](new-cap.md): require a capital letter for constructors
 * [new-parens](new-parens.md): disallow the omission of parentheses when invoking a constructor with no arguments
 * [newline-after-var](newline-after-var.md): require or disallow an empty newline after variable declarations
