@@ -47,7 +47,7 @@
     "esutils": "^2.0.2",
     "file-entry-cache": "^1.1.1",
     "glob": "^7.0.3",
-    "globals": "^8.18.0",
+    "globals": "^9.2.0",
     "ignore": "^3.0.10",
     "imurmurhash": "^0.1.4",
     "inquirer": "^0.12.0",
