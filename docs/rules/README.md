@@ -97,6 +97,7 @@ These are rules designed to prevent you from making mistakes. They either prescr
 * [no-unused-labels](no-unused-labels.md): disallow unused labels (recommended)
 * [no-useless-call](no-useless-call.md): disallow unnecessary `.call()` and `.apply()`
 * [no-useless-concat](no-useless-concat.md): disallow unnecessary concatenation of literals or template literals
+* [no-useless-escape](no-useless-escape.md): disallow unnecessary usage of escape character
 * [no-void](no-void.md): disallow use of the `void` operator
 * [no-warning-comments](no-warning-comments.md): disallow usage of configurable warning terms in comments: e.g. `TODO` or `FIXME`
 * [no-with](no-with.md): disallow use of the `with` statement
