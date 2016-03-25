@@ -299,12 +299,14 @@ ruleTester.run("no-unused-vars", rule, {
             options: [{"caughtErrors": "all", "caughtErrorsIgnorePattern": "^ignore"}],
             errors: [{message: "'err' is defined but never used"}]
         },
+
         // multiple try catch with one success
         {
             code: "try{}catch(ignoreErr){}try{}catch(err){};",
             options: [{"caughtErrors": "all", "caughtErrorsIgnorePattern": "^ignore"}],
             errors: [{message: "'err' is defined but never used"}]
         },
+
         // multiple try catch both fail
         {
             code: "try{}catch(error){}try{}catch(err){};",
@@ -314,12 +316,14 @@ ruleTester.run("no-unused-vars", rule, {
                 {message: "'err' is defined but never used"}
             ]
         },
+
         // caughtErrors with other configs
         {
             code: "try{}catch(err){};",
             options: [{vars: "all", args: "all", caughtErrors: "all"}],
             errors: [{message: "'err' is defined but never used"}]
         },
+
         // no conclict in ignore patterns
         {
             code: "try{}catch(err){};",
