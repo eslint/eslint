@@ -85,6 +85,7 @@ Before filing an issue, please be sure to read the guidelines for what you're re
 
 * [Bug Report](http://eslint.org/docs/developer-guide/contributing/reporting-bugs)
 * [Propose a New Rule](http://eslint.org/docs/developer-guide/contributing/new-rules)
+* [Proposing a Rule Change](http://eslint.org/docs/developer-guide/contributing/rule-changes)
 * [Request a Change](http://eslint.org/docs/developer-guide/contributing/changes)
 
 ## Frequently Asked Questions
