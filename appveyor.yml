@@ -8,6 +8,7 @@ version: "{build}"
 environment:
   matrix:
     - nodejs_version: 4
+  PHANTOMJS_CDNURL: http://cnpmjs.org/downloads
 
 install:
   # Get the latest stable version of Node.js or io.js
