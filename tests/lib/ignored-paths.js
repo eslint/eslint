@@ -42,9 +42,12 @@ function getIgnoreRules(ignoredPaths) {
             var ruleOrigins = ignoreRules.map(function(ruleObj) {
                 return ruleObj.origin;
             });
-            // Don't include duplicate ignore rules.
-            // (Duplicates occur because we add custom ignore patterns to the
-            // defaults as well, to allow unignoring default ignores)
+
+            /*
+             * Don't include duplicate ignore rules.
+             * (Duplicates occur because we add custom ignore patterns to the
+             * defaults as well, to allow unignoring default ignores)
+             */
             if (!includes(ruleOrigins, rule.origin)) {
                 ignoreRules = ignoreRules.concat(rule);
             }
