@@ -228,6 +228,7 @@ describe("globUtil", function() {
         });
 
         it("should not return an ignored file", function() {
+
             // Relying here on the .eslintignore from the repo root
             var patterns = ["tests/fixtures/glob-util/ignored/**/*.js"];
             var result = globUtil.listFilesToProcess(patterns);

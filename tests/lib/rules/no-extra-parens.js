@@ -48,6 +48,7 @@ function invalid(code, type, line, config) {
 var ruleTester = new RuleTester();
 ruleTester.run("no-extra-parens", rule, {
     valid: [
+
         // all precedence boundaries
         "a = b, c = d",
         "a = b ? c : d",
@@ -251,6 +252,7 @@ ruleTester.run("no-extra-parens", rule, {
             parserOptions: { ecmaVersion: 6 }
         }
     ],
+
     invalid: [
         invalid("(0)", "Literal"),
         invalid("(  0  )", "Literal"),

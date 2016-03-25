@@ -35,6 +35,7 @@ describe("ast-utils", function() {
 
     describe("isTokenOnSameLine", function() {
         it("should return false if its not on sameline", function() {
+
             /**
              * Check the node for tokens
              * @param {ASTNode} node node to examine
@@ -50,6 +51,7 @@ describe("ast-utils", function() {
         });
 
         it("should return true if its on sameline", function() {
+
             /**
              * Check the node for tokens
              * @param {ASTNode} node node to examine
@@ -67,6 +69,7 @@ describe("ast-utils", function() {
 
     describe("isNullOrUndefined", function() {
         it("should return true if its null", function() {
+
             /**
              * Check the node for tokens
              * @param {ASTNode} node node to examine
@@ -82,6 +85,7 @@ describe("ast-utils", function() {
         });
 
         it("should return true if its undefined", function() {
+
             /**
              * Check the node for tokens
              * @param {ASTNode} node node to examine
@@ -97,6 +101,7 @@ describe("ast-utils", function() {
         });
 
         it("should return false if its a number", function() {
+
             /**
              * Check the node for tokens
              * @param {ASTNode} node node to examine
@@ -112,6 +117,7 @@ describe("ast-utils", function() {
         });
 
         it("should return false if its a string", function() {
+
             /**
              * Check the node for tokens
              * @param {ASTNode} node node to examine
@@ -127,6 +133,7 @@ describe("ast-utils", function() {
         });
 
         it("should return false if its a boolean", function() {
+
             /**
              * Check the node for tokens
              * @param {ASTNode} node node to examine
@@ -142,6 +149,7 @@ describe("ast-utils", function() {
         });
 
         it("should return false if its an object", function() {
+
             /**
              * Check the node for tokens
              * @param {ASTNode} node node to examine
@@ -158,8 +166,10 @@ describe("ast-utils", function() {
     });
 
     describe("checkReference", function() {
+
         // catch
         it("should return true if reference is assigned for catch", function() {
+
             /**
              * Check the node for tokens
              * @param {ASTNode} node node to examine
@@ -177,6 +187,7 @@ describe("ast-utils", function() {
 
         // const
         it("should return true if reference is assigned for const", function() {
+
             /**
              * Check the node for tokens
              * @param {ASTNode} node node to examine
@@ -193,6 +204,7 @@ describe("ast-utils", function() {
         });
 
         it("should return false if reference is not assigned for const", function() {
+
             /**
              * Check the node for tokens
              * @param {ASTNode} node node to examine
@@ -210,6 +222,7 @@ describe("ast-utils", function() {
 
         // class
         it("should return true if reference is assigned for class", function() {
+
             /**
              * Check the node for tokens
              * @param {ASTNode} node node to examine
@@ -227,6 +240,7 @@ describe("ast-utils", function() {
         });
 
         it("should return false if reference is not assigned for class", function() {
+
             /**
              * Check the node for tokens
              * @param {ASTNode} node node to examine
@@ -244,6 +258,7 @@ describe("ast-utils", function() {
     });
 
     describe("isDirectiveComment", function() {
+
         /**
          * Asserts the node is NOT a directive comment
          * @param {ASTNode} node node to assert

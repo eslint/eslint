@@ -112,6 +112,7 @@ describe("RuleTester", function() {
     it("should throw an error when the error message is wrong", function() {
         assert.throws(function() {
             ruleTester.run("no-var", require("../../fixtures/testers/rule-tester/no-var"), {
+
                 // Only the invalid test matters here
                 valid: [
                     "bar = baz;"
@@ -126,6 +127,7 @@ describe("RuleTester", function() {
     it("should throw an error when the error is neither an object nor a string", function() {
         assert.throws(function() {
             ruleTester.run("no-var", require("../../fixtures/testers/rule-tester/no-var"), {
+
                 // Only the invalid test matters here
                 valid: [
                     "bar = baz;"
@@ -140,6 +142,7 @@ describe("RuleTester", function() {
     it("should throw an error when the error is a string and it does not match error message", function() {
         assert.throws(function() {
             ruleTester.run("no-var", require("../../fixtures/testers/rule-tester/no-var"), {
+
                 // Only the invalid test matters here
                 valid: [
                     "bar = baz;"
@@ -154,6 +157,7 @@ describe("RuleTester", function() {
     it("should not throw an error when the error is a string and it matches error message", function() {
         assert.doesNotThrow(function() {
             ruleTester.run("no-var", require("../../fixtures/testers/rule-tester/no-var"), {
+
                 // Only the invalid test matters here
                 valid: [
                     "bar = baz;"
@@ -512,6 +516,7 @@ describe("RuleTester", function() {
     });
 
     it("should enforce the global configuration to be an object", function() {
+
         /**
          * Set the default config for the rules tester
          * @param {object} config configuration object

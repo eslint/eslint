@@ -18,6 +18,7 @@ var rule = require("../../../lib/rules/no-unused-vars"),
 
 var ruleTester = new RuleTester();
 ruleTester.defineRule("use-every-a", function(context) {
+
     /**
      * Mark a variable as used
      * @returns {void}
@@ -236,6 +237,7 @@ ruleTester.run("no-unused-vars", rule, {
                 {line: 1, column: 10, message: "'foo' is defined but never used" }
             ]
         },
+
         // non ascii.
         {
             code: "/*global 変数, 数*/\n変数;",
@@ -243,6 +245,7 @@ ruleTester.run("no-unused-vars", rule, {
                 {line: 1, column: 14, message: "'数' is defined but never used" }
             ]
         },
+
         // surrogate pair.
         // TODO: https://github.com/eslint/espree/issues/181
         // {

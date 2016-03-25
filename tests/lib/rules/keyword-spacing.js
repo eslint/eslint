@@ -126,6 +126,7 @@ function unexpectedBeforeAndAfter(keyword) {
 var ruleTester = new RuleTester();
 ruleTester.run("keyword-spacing", rule, {
     valid: [
+
         //----------------------------------------------------------------------
         // as
         //----------------------------------------------------------------------
@@ -1196,7 +1197,9 @@ ruleTester.run("keyword-spacing", rule, {
         {code: "function* foo() { <Foo onClick={yield} /> }", parserOptions: {ecmaVersion: 6, ecmaFeatures: {jsx: true}}},
         {code: "function* foo() { <Foo onClick={ yield } /> }", options: [NEITHER], parserOptions: {ecmaVersion: 6, ecmaFeatures: {jsx: true}}}
     ],
+
     invalid: [
+
         //----------------------------------------------------------------------
         // as
         //----------------------------------------------------------------------
