@@ -20,6 +20,7 @@ var RuleTester = require("../../../lib/testers/rule-tester");
 var ruleTester = new RuleTester();
 ruleTester.run("no-useless-call", rule, {
     valid: [
+
         // `this` binding is different.
         {code: "foo.apply(obj, 1, 2);"},
         {code: "obj.foo.apply(null, 1, 2);"},
@@ -46,6 +47,7 @@ ruleTester.run("no-useless-call", rule, {
         {code: "obj.foo.apply();"}
     ],
     invalid: [
+
         // call.
         {code: "foo.call(undefined, 1, 2);", errors: [{message: "unnecessary '.call()'.", type: "CallExpression"}]},
         {code: "foo.call(void 0, 1, 2);", errors: [{message: "unnecessary '.call()'.", type: "CallExpression"}]},

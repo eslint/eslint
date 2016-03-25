@@ -63,6 +63,7 @@ ruleTester.run("no-eval", rule, {
     ],
 
     invalid: [
+
         // Direct eval
         { code: "eval(foo)", errors: [{ message: "eval can be harmful.", type: "CallExpression"}] },
         { code: "eval('foo')", errors: [{ message: "eval can be harmful.", type: "CallExpression"}] },

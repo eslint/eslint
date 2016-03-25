@@ -15,9 +15,11 @@ var rule = require("../../../lib/rules/indent"),
     RuleTester = require("../../../lib/testers/rule-tester");
 var fs = require("fs");
 var path = require("path");
+
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
+
 var fixture = fs.readFileSync(path.join(__dirname, "../../fixtures/rules/indent/indent-invalid-fixture-1.js"), "utf8");
 var fixedFixture = fs.readFileSync(path.join(__dirname, "../../fixtures/rules/indent/indent-valid-fixture-1.js"), "utf8");
 

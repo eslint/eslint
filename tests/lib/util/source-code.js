@@ -846,6 +846,7 @@ describe("SourceCode", function() {
 
     describe("getComments()", function() {
         var config = { rules: {} };
+
         /**
          * Check comment count
          * @param {int} leading Leading comment count

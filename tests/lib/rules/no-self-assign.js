@@ -40,6 +40,7 @@ ruleTester.run("no-self-assign", rule, {
         {code: "({a} = {a: b})", parserOptions: {ecmaVersion: 6}},
         {code: "({a} = {a() {}})", parserOptions: {ecmaVersion: 6}},
         {code: "({a} = {[a]: a})", parserOptions: {ecmaVersion: 6}}
+
         // TODO: https://github.com/eslint/espree/issues/247
         // {code: "({a, ...b} = {a, ...b})", parserOptions: {ecmaVersion: 6, ecmaFeatures: {experimentalObjectRestSpread: true}}},
     ],
