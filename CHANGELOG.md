@@ -1,3 +1,7 @@
+v2.5.1 - March 25, 2016
+
+* Build: No functional changes, just republished with a working package.
+
 v2.5.0 - March 25, 2016
 
 * 7021aa9 Fix: lines-around-comment in ESLint repo, part 2 (refs #5188) (Kevin Partington)
