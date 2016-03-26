@@ -119,6 +119,7 @@
     "es6-map",
     "escope",
     "espree",
+    "esprima",
     "estraverse",
     "esutils",
     "file-entry-cache",
@@ -144,6 +145,7 @@
     "strip-json-comments",
     "table",
     "text-table",
+    "through",
     "user-home"
   ]
 }
