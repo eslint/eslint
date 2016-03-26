@@ -10,7 +10,7 @@ The default configuration of the rule is case-sensitive.
 The following patterns are considered problems:
 
 ```js
-/*eslint sort-vars: 2*/
+/*eslint sort-vars: "error"*/
 
 var b, a;
 
@@ -22,7 +22,7 @@ var a, A;
 The following patterns are not considered problems:
 
 ```js
-/*eslint sort-vars: 2*/
+/*eslint sort-vars: "error"*/
 
 var a, b, c, d;
 
@@ -37,7 +37,7 @@ var B, a, c;
 Alphabetical list is maintained starting from the first variable and excluding any that are considered problems. So the following code will produce two problems:
 
 ```js
-/*eslint sort-vars: 2*/
+/*eslint sort-vars: "error"*/
 
 var c, d, a, b;
 ```
@@ -45,7 +45,7 @@ var c, d, a, b;
 But this one, will only produce one:
 
 ```js
-/*eslint sort-vars: 2*/
+/*eslint sort-vars: "error"*/
 
 var c, d, a, e;
 ```
@@ -63,7 +63,7 @@ When `true` the rule ignores the case-sensitivity of the variables order.
 The following patterns are not considered problems:
 
 ```js
-/*eslint sort-vars: [2, { "ignoreCase": true }]*/
+/*eslint sort-vars: ["error", { "ignoreCase": true }]*/
 
 var a, A;
 

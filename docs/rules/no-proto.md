@@ -9,7 +9,7 @@ When an object is created `__proto__` is set to the original prototype property 
 Examples of **incorrect** code for this rule:
 
 ```js
-/*eslint no-proto: 2*/
+/*eslint no-proto: "error"*/
 
 var a = obj.__proto__;
 
@@ -19,7 +19,7 @@ var a = obj["__proto__"];
 Examples of **correct** code for this rule:
 
 ```js
-/*eslint no-proto: 2*/
+/*eslint no-proto: "error"*/
 
 var a = Object.getPrototypeOf(obj);
 ```

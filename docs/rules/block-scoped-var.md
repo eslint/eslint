@@ -9,7 +9,7 @@ This rule aims to reduce the usage of variables outside of their binding context
 Examples of **incorrect** code for this rule:
 
 ```js
-/*eslint block-scoped-var: 2*/
+/*eslint block-scoped-var: "error"*/
 
 function doIf() {
     if (true) {
@@ -39,7 +39,7 @@ function doTryCatch() {
 Examples of **correct** code for this rule:
 
 ```js
-/*eslint block-scoped-var: 2*/
+/*eslint block-scoped-var: "error"*/
 
 function doIf() {
     var build;

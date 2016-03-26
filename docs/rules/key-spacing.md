@@ -16,7 +16,7 @@ The following patterns are considered valid:
 
 ```js
 // DEFAULT
-/*eslint key-spacing: [2, {"beforeColon": false, "afterColon": true}]*/
+/*eslint key-spacing: ["error", {"beforeColon": false, "afterColon": true}]*/
 
 var obj = { "foo": (42) };
 
@@ -25,7 +25,7 @@ foo = { thisLineWouldBeTooLong:
 ```
 
 ```js
-/*eslint key-spacing: [2, {"beforeColon": true, "afterColon": false}]*/
+/*eslint key-spacing: ["error", {"beforeColon": true, "afterColon": false}]*/
 
 call({
     foobar :42,
@@ -34,7 +34,7 @@ call({
 ```
 
 ```js
-/*eslint key-spacing: [2, {"beforeColon": true, "afterColon": false, "mode": "minimum"}]*/
+/*eslint key-spacing: ["error", {"beforeColon": true, "afterColon": false, "mode": "minimum"}]*/
 
 call({
     foobar   :42,
@@ -45,7 +45,7 @@ call({
 The following patterns are considered problems:
 
 ```js
-/*eslint key-spacing: [2, {"beforeColon": false, "afterColon": false}]*/
+/*eslint key-spacing: ["error", {"beforeColon": false, "afterColon": false}]*/
 
 var obj = { foo: 42 };
 var bar = { baz :52 };
@@ -55,7 +55,7 @@ foo = { thisLineWouldBeTooLong:
 ```
 
 ```js
-/*eslint key-spacing: [2, {"beforeColon": true, "afterColon": true}]*/
+/*eslint key-spacing: ["error", {"beforeColon": true, "afterColon": true}]*/
 
 function foo() {
     return {
@@ -66,7 +66,7 @@ function foo() {
 ```
 
 ```js
-/*eslint key-spacing: [2, {"beforeColon": true, "afterColon": true}]*/
+/*eslint key-spacing: ["error", {"beforeColon": true, "afterColon": true}]*/
 
 function foo() {
     return {
@@ -83,7 +83,7 @@ Use the `align` option to enforce vertical alignment of values in an object lite
 The following patterns are considered valid:
 
 ```js
-/*eslint key-spacing: [2, { "align": "value" }]*/
+/*eslint key-spacing: ["error", { "align": "value" }]*/
 // beforeColon and afterColon default to false and true, respectively
 
 var obj = {
@@ -101,7 +101,7 @@ var obj = { a: "foo", longPropertyName: "bar" };
 ```
 
 ```js
-/*eslint key-spacing: [2, { "align": "value", "beforeColon": true, "afterColon": false }]*/
+/*eslint key-spacing: ["error", { "align": "value", "beforeColon": true, "afterColon": false }]*/
 
 call({
     'a' :[],
@@ -112,7 +112,7 @@ call({
 The following patterns are considered problems:
 
 ```js
-/*eslint key-spacing: [2, { "align": "value" }]*/
+/*eslint key-spacing: ["error", { "align": "value" }]*/
 
 var obj = {
     a: value,
@@ -128,7 +128,7 @@ The `align` option can also vertically align colons and values together. Whereas
 The following patterns are considered valid:
 
 ```js
-/*eslint key-spacing: [2, { "align": "colon" }]*/
+/*eslint key-spacing: ["error", { "align": "colon" }]*/
 
 var obj = {
     foobar   : 42,
@@ -141,7 +141,7 @@ var obj = {
 ```
 
 ```js
-/*eslint key-spacing: [2, { "align": "colon", "beforeColon": true, "afterColon": false }]*/
+/*eslint key-spacing: ["error", { "align": "colon", "beforeColon": true, "afterColon": false }]*/
 
 obj = {
     first  :1,
@@ -153,7 +153,7 @@ obj = {
 The following patterns are considered problems:
 
 ```js
-/*eslint key-spacing: [2, { "align": "colon" }]*/
+/*eslint key-spacing: ["error", { "align": "colon" }]*/
 
 var obj = {
     one:   1,

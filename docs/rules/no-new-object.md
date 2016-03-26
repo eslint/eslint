@@ -23,7 +23,7 @@ This rule aims to eliminate use of the `Object` constructor. As such, it warns w
 The following patterns are considered problems:
 
 ```js
-/*eslint no-new-object: 2*/
+/*eslint no-new-object: "error"*/
 
 var myObject = new Object();
 
@@ -33,7 +33,7 @@ var myObject = new Object;
 The following patterns are not considered problems:
 
 ```js
-/*eslint no-new-object: 2*/
+/*eslint no-new-object: "error"*/
 
 var myObject = new CustomObject();
 

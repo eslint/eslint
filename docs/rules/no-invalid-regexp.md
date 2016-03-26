@@ -7,7 +7,7 @@ This rule validates string arguments passed to the `RegExp` constructor.
 Examples of **incorrect** code for this rule:
 
 ```js
-/*eslint no-invalid-regexp: 2*/
+/*eslint no-invalid-regexp: "error"*/
 
 RegExp('[')
 
@@ -19,7 +19,7 @@ new RegExp('\\')
 Examples of **correct** code for this rule:
 
 ```js
-/*eslint no-invalid-regexp: 2*/
+/*eslint no-invalid-regexp: "error"*/
 
 RegExp('.')
 
@@ -42,7 +42,7 @@ If you want to allow additional constructor flags for any reason, you can specif
 This takes in an array of flags. With this option, the following patterns aren't considered problems:
 
 ```js
-/*eslint no-invalid-regexp: [2, {"allowConstructorFlags": ["u", "y"]}]*/
+/*eslint no-invalid-regexp: ["error", {"allowConstructorFlags": ["u", "y"]}]*/
 
 new RegExp('.', 'y')
 

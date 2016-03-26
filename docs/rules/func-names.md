@@ -13,7 +13,7 @@ Adding the second `bar` in the above example is optional.  If you leave off the 
 The following patterns are considered problems:
 
 ```js
-/* eslint func-names: 2*/
+/*eslint func-names: "error"*/
 
 Foo.prototype.bar = function() {};
 
@@ -25,7 +25,7 @@ Foo.prototype.bar = function() {};
 The following patterns are not considered problems:
 
 ```js
-/* eslint func-names: 2*/
+/*eslint func-names: "error"*/
 
 Foo.prototype.bar = function bar() {};
 

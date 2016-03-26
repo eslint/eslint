@@ -42,7 +42,7 @@ By activating the option `getWithoutSet` it enforces the presence of a setter fo
 Examples of **incorrect** code for the default `{ "setWithoutGet": true }` option:
 
 ```js
-/*eslint accessor-pairs: 2*/
+/*eslint accessor-pairs: "error"*/
 
 var o = {
     set a(value) {
@@ -61,7 +61,7 @@ Object.defineProperty(o, 'c', {
 Examples of **correct** code for the default `{ "setWithoutGet": true }` option:
 
 ```js
-/*eslint accessor-pairs: 2*/
+/*eslint accessor-pairs: "error"*/
 
 var o = {
     set a(value) {
@@ -89,7 +89,7 @@ Object.defineProperty(o, 'c', {
 Examples of **incorrect** code for the `{ "getWithoutSet": true }` option:
 
 ```js
-/*eslint accessor-pairs: [2, { "getWithoutSet": true }]*/
+/*eslint accessor-pairs: ["error", { "getWithoutSet": true }]*/
 
 var o = {
     set a(value) {
@@ -121,7 +121,7 @@ Object.defineProperty(o, 'c', {
 Examples of **correct** code for the `{ "getWithoutSet": true }` option:
 
 ```js
-/*eslint accessor-pairs: [2, { "getWithoutSet": true }]*/
+/*eslint accessor-pairs: ["error", { "getWithoutSet": true }]*/
 var o = {
     set a(value) {
         this.val = value;

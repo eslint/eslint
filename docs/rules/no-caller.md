@@ -15,7 +15,7 @@ This rule is aimed at discouraging the use of deprecated and sub-optimal code, b
 Examples of **incorrect** code for this rule:
 
 ```js
-/*eslint no-caller: 2*/
+/*eslint no-caller: "error"*/
 
 function foo(n) {
     if (n <= 0) {
@@ -33,7 +33,7 @@ function foo(n) {
 Examples of **correct** code for this rule:
 
 ```js
-/*eslint no-caller: 2*/
+/*eslint no-caller: "error"*/
 
 function foo(n) {
     if (n <= 0) {

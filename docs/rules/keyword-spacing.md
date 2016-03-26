@@ -24,7 +24,7 @@ This rule will enforce consistency of spacing around keywords and keyword-like t
 The following patterns are considered problems:
 
 ```js
-/*eslint keyword-spacing: 2*/
+/*eslint keyword-spacing: "error"*/
 /*eslint-env es6*/
 
 if(foo){
@@ -70,7 +70,7 @@ import*as bar from "foo";
 The following patterns are considered not problems:
 
 ```js
-/*eslint keyword-spacing: 2*/
+/*eslint keyword-spacing: "error"*/
 /*eslint-env es6*/
 
 if (foo) {
@@ -118,7 +118,7 @@ Basically this rule ignores usage of spacing at places that other rules are catc
 So the following patterns are considered not problems.
 
 ```js
-/*eslint keyword-spacing: 2*/
+/*eslint keyword-spacing: "error"*/
 /*eslint-env es6*/
 
 // not conflict with `array-bracket-spacing`
@@ -187,7 +187,7 @@ This rule has 3 options.
 
 ```json
 {
-    "keyword-spacing": [2, {"before": true, "after": true, "overrides": {}}]
+    "keyword-spacing": ["error", {"before": true, "after": true, "overrides": {}}]
 }
 ```
 
@@ -205,7 +205,7 @@ This rule has 3 options.
 
   ```json
   {
-      "keyword-spacing": [2, {"overrides": {
+      "keyword-spacing": ["error", {"overrides": {
           "if": {"after": false},
           "for": {"after": false},
           "while": {"after": false}
@@ -218,7 +218,7 @@ This rule has 3 options.
 The following patterns are considered problems when configured `{"before": false, "after": false}`:
 
 ```js
-/*eslint keyword-spacing: [2, {before: false, after: false}]*/
+/*eslint keyword-spacing: ["error", {before: false, after: false}]*/
 /*eslint-env es6*/
 
 if (foo){
@@ -264,7 +264,7 @@ import * as bar from"foo";
 The following patterns are considered not problems when configured `{"before": false, "after": false}`:
 
 ```js
-/*eslint keyword-spacing: [2, {before: false, after: false}]*/
+/*eslint keyword-spacing: ["error", {before: false, after: false}]*/
 /*eslint-env es6*/
 
 if(foo) {

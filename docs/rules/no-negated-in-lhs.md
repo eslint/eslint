@@ -29,7 +29,7 @@ if(('' + !a) in b) {
 Examples of **incorrect** code for this rule:
 
 ```js
-/*eslint no-negated-in-lhs: 2*/
+/*eslint no-negated-in-lhs: "error"*/
 
 if(!a in b) {
     // do something
@@ -39,7 +39,7 @@ if(!a in b) {
 Examples of **correct** code for this rule:
 
 ```js
-/*eslint no-negated-in-lhs: 2*/
+/*eslint no-negated-in-lhs: "error"*/
 
 if(!(a in b)) {
     // do something

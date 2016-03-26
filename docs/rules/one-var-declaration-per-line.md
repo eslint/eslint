@@ -30,7 +30,7 @@ This rule takes one option, a string, which can be:
 The following patterns are considered problems when set to `"always"`:
 
 ```js
-/*eslint one-var-declaration-per-line: [2, "always"]*/
+/*eslint one-var-declaration-per-line: ["error", "always"]*/
 /*eslint-env es6*/
 
 var a, b;
@@ -43,7 +43,7 @@ const a = 0, b = 0;
 The following patterns are not considered problems when set to `"always"`:
 
 ```js
-/*eslint one-var-declaration-per-line: [2, "always"]*/
+/*eslint one-var-declaration-per-line: ["error", "always"]*/
 /*eslint-env es6*/
 
 var a,
@@ -56,7 +56,7 @@ let a,
 The following patterns are considered problems when set to `"initializations"`:
 
 ```js
-/*eslint one-var-declaration-per-line: [2, "initializations"]*/
+/*eslint one-var-declaration-per-line: ["error", "initializations"]*/
 /*eslint-env es6*/
 
 var a, b, c = 0;
@@ -68,7 +68,7 @@ let a,
 The following patterns are not considered problems when set to `"initializations"`:
 
 ```js
-/*eslint one-var-declaration-per-line: [2, "initializations"]*/
+/*eslint one-var-declaration-per-line: ["error", "initializations"]*/
 /*eslint-env es6*/
 
 var a, b;

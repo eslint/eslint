@@ -58,7 +58,7 @@ You can set the option in configuration like this:
 When the rule is set to `"always"` the following patterns are considered problems:
 
 ```js
-/*eslint arrow-parens: [2, "always"]*/
+/*eslint arrow-parens: ["error", "always"]*/
 /*eslint-env es6*/
 
 a => {};
@@ -72,7 +72,7 @@ a(foo => { if (true) {}; });
 The following patterns are not considered problems:
 
 ```js
-/*eslint arrow-parens: [2, "always"]*/
+/*eslint arrow-parens: ["error", "always"]*/
 /*eslint-env es6*/
 
 () => {};
@@ -145,7 +145,7 @@ var f = (a) => b ? c: d;
 When the rule is set to `"as-needed"` the following patterns are considered problems:
 
 ```js
-/*eslint arrow-parens: [2, "as-needed"]*/
+/*eslint arrow-parens: ["error", "as-needed"]*/
 /*eslint-env es6*/
 
 (a) => {};
@@ -159,7 +159,7 @@ a((foo) => { if (true) {}; });
 The following patterns are not considered problems:
 
 ```js
-/*eslint arrow-parens: [2, "as-needed"]*/
+/*eslint arrow-parens: ["error", "as-needed"]*/
 /*eslint-env es6*/
 
 () => {};

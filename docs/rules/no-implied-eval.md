@@ -27,7 +27,7 @@ This rule aims to eliminate implied `eval()` through the use of `setTimeout()`, 
 The following patterns are considered problems:
 
 ```js
-/*eslint no-implied-eval: 2*/
+/*eslint no-implied-eval: "error"*/
 
 setTimeout("alert('Hi!');", 100);
 
@@ -43,7 +43,7 @@ window.setInterval("foo = bar", 10);
 The following patterns are not considered problems:
 
 ```js
-/*eslint no-implied-eval: 2*/
+/*eslint no-implied-eval: "error"*/
 
 setTimeout(function() {
     alert("Hi!");

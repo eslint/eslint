@@ -65,7 +65,7 @@ This rule is aimed at eliminating unintentional fallthrough of one case to the o
 The following patterns are considered problems:
 
 ```js
-/*eslint no-fallthrough: 2*/
+/*eslint no-fallthrough: "error"*/
 
 switch(foo) {
     case 1:
@@ -79,7 +79,7 @@ switch(foo) {
 The following patterns are not considered problems:
 
 ```js
-/*eslint no-fallthrough: 2*/
+/*eslint no-fallthrough: "error"*/
 
 switch(foo) {
     case 1:

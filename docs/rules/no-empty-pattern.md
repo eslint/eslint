@@ -30,7 +30,7 @@ This rule aims to flag any empty patterns in destructured objects and arrays, an
 The following patterns are considered problems:
 
 ```js
-/*eslint no-empty-pattern: 2*/
+/*eslint no-empty-pattern: "error"*/
 
 var {} = foo;
 var [] = foo;
@@ -45,7 +45,7 @@ function foo({a: []}) {}
 The following patterns are not considered problems:
 
 ```js
-/*eslint no-empty-pattern: 2*/
+/*eslint no-empty-pattern: "error"*/
 
 var {a = {}} = foo;
 var {a = []} = foo;

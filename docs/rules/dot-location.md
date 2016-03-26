@@ -30,7 +30,7 @@ The default `"object"` option requires the dot to be on the same line as the obj
 Examples of **incorrect** code for the default `"object"` option:
 
 ```js
-/*eslint dot-location: [2, "object"]*/
+/*eslint dot-location: ["error", "object"]*/
 
 var foo = object
 .property;
@@ -39,7 +39,7 @@ var foo = object
 Examples of **correct** code for the default `"object"` option:
 
 ```js
-/*eslint dot-location: [2, "object"]*/
+/*eslint dot-location: ["error", "object"]*/
 
 var foo = object.
 property;
@@ -53,7 +53,7 @@ The `"property"` option requires the dot to be on the same line as the property.
 Examples of **incorrect** code for the `"property"` option:
 
 ```js
-/*eslint dot-location: [2, "property"]*/
+/*eslint dot-location: ["error", "property"]*/
 
 var foo = object.
 property;
@@ -62,7 +62,7 @@ property;
 Examples of **correct** code for the `"property"` option:
 
 ```js
-/*eslint dot-location: [2, "property"]*/
+/*eslint dot-location: ["error", "property"]*/
 
 var foo = object
 .property;

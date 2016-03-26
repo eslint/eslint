@@ -9,7 +9,7 @@ This rule aims to prevent errors from likely typos by ensuring that when the res
 Examples of **incorrect** code for this rule:
 
 ```js
-/*eslint valid-typeof: 2*/
+/*eslint valid-typeof: "error"*/
 
 typeof foo === "strnig"
 typeof foo == "undefimed"
@@ -20,7 +20,7 @@ typeof bar !== "fucntion"
 Examples of **correct** code for this rule:
 
 ```js
-/*eslint valid-typeof: 2*/
+/*eslint valid-typeof: "error"*/
 
 typeof foo === "string"
 typeof bar == "undefined"

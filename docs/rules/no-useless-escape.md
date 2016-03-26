@@ -14,7 +14,7 @@ This rule flags escapes that can be safely removed without changing behavior.
 The following patterns are considered problems:
 
 ```js
-/*eslint no-useless-escape: 2*/
+/*eslint no-useless-escape: "error"*/
 
 "\'";
 '\"';
@@ -28,7 +28,7 @@ The following patterns are considered problems:
 The following patterns are not considered problems:
 
 ```js
-/*eslint no-useless-escape: 2*/
+/*eslint no-useless-escape: "error"*/
 
 "\"";
 '\'';

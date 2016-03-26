@@ -23,7 +23,7 @@ This rule aims to eliminate the use of Boolean casts in an already Boolean conte
 Examples of **incorrect** code for this rule:
 
 ```js
-/*eslint no-extra-boolean-cast: 2*/
+/*eslint no-extra-boolean-cast: "error"*/
 
 var foo = !!!bar;
 
@@ -57,7 +57,7 @@ for (; !!foo; ) {
 Examples of **correct** code for this rule:
 
 ```js
-/*eslint no-extra-boolean-cast: 2*/
+/*eslint no-extra-boolean-cast: "error"*/
 
 var foo = !!bar;
 var foo = Boolean(bar);

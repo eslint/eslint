@@ -52,7 +52,7 @@ The rule takes two options:
 You can set the style in configuration like this:
 
 ```json
-"brace-style": [2, "stroustrup", { "allowSingleLine": true }]
+"brace-style": ["error", "stroustrup", { "allowSingleLine": true }]
 ```
 
 ### "1tbs"
@@ -60,7 +60,7 @@ You can set the style in configuration like this:
 This is the default setting for this rule and enforces one true brace style. While using this setting, the following patterns are considered problems:
 
 ```js
-/*eslint brace-style: 2*/
+/*eslint brace-style: "error"*/
 function foo()
 {
   return true;
@@ -90,7 +90,7 @@ else {
 The following patterns use the one true brace style and are not considered problems:
 
 ```js
-/*eslint brace-style: 2*/
+/*eslint brace-style: "error"*/
 
 function foo() {
   return true;
@@ -120,7 +120,7 @@ else if (baz) boom();
 With one-line form enabled, the following is also valid:
 
 ```js
-/*eslint brace-style: [2, "1tbs", { "allowSingleLine": true }]*/
+/*eslint brace-style: ["error", "1tbs", { "allowSingleLine": true }]*/
 
 function nop() { return; }
 
@@ -137,7 +137,7 @@ try { somethingRisky(); } catch(e) { handleError(); }
 This enforces Stroustrup style. While using this setting, the following patterns are considered problems:
 
 ```js
-/*eslint brace-style: [2, "stroustrup"]*/
+/*eslint brace-style: ["error", "stroustrup"]*/
 
 function foo()
 {
@@ -167,7 +167,7 @@ if (foo) {
 The following patterns use the Stroustrup style and are not considered problems:
 
 ```js
-/*eslint brace-style: [2, "stroustrup"]*/
+/*eslint brace-style: ["error", "stroustrup"]*/
 
 function foo() {
   return true;
@@ -199,7 +199,7 @@ else if (baz) boom();
 With one-line form enabled, the following is also valid:
 
 ```js
-/*eslint brace-style: [2, "stroustrup", { "allowSingleLine": true }]*/
+/*eslint brace-style: ["error", "stroustrup", { "allowSingleLine": true }]*/
 
 function nop() { return; }
 
@@ -218,7 +218,7 @@ catch(e) { handleError(); }
 This enforces Allman style. While using this setting, the following patterns are considered problems:
 
 ```js
-/*eslint brace-style: [2, "allman"]*/
+/*eslint brace-style: ["error", "allman"]*/
 
 function foo() {
   return true;
@@ -246,7 +246,7 @@ if (foo) {
 The following patterns use the Allman style and are not considered problems:
 
 ```js
-/*eslint brace-style: [2, "allman"]*/
+/*eslint brace-style: ["error", "allman"]*/
 
 function foo()
 {
@@ -284,7 +284,7 @@ else if (baz) boom();
 With one-line form enabled, the following is also valid:
 
 ```js
-/*eslint brace-style: [2, "allman", { "allowSingleLine": true }]*/
+/*eslint brace-style: ["error", "allman", { "allowSingleLine": true }]*/
 
 function nop() { return; }
 

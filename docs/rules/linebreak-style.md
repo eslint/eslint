@@ -17,20 +17,20 @@ This rule aims to ensure having consistent line endings independent of operating
 The following patterns are considered problems:
 
 ```js
-/*eslint linebreak-style: 2*/
+/*eslint linebreak-style: "error"*/
 
 var a = 'a'; // \r\n
 ```
 
 ```js
-/*eslint linebreak-style: [2, "unix"]*/
+/*eslint linebreak-style: ["error", "unix"]*/
 
 var a = 'a'; // \r\n
 
 ```
 
 ```js
-/*eslint linebreak-style: [2, "windows"]*/
+/*eslint linebreak-style: ["error", "windows"]*/
 
 var a = 'a';// \n
 ```
@@ -38,7 +38,7 @@ var a = 'a';// \n
 The following patterns are not considered problems:
 
 ```js
-/*eslint linebreak-style: [2, "unix"]*/
+/*eslint linebreak-style: ["error", "unix"]*/
 
 var a = 'a', // \n
     b = 'b'; // \n
@@ -49,7 +49,7 @@ function foo(params) {// \n
 ```
 
 ```js
-/*eslint linebreak-style: [2, "windows"]*/
+/*eslint linebreak-style: ["error", "windows"]*/
 
 var a = 'a', // \r\n
     b = 'b'; // \r\n

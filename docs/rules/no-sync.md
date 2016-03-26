@@ -9,7 +9,7 @@ This rule is aimed at preventing synchronous methods from being called in Node.j
 Examples of **incorrect** code for this rule:
 
 ```js
-/*eslint no-sync: 2*/
+/*eslint no-sync: "error"*/
 
 fs.existsSync(somePath);
 
@@ -19,7 +19,7 @@ var contents = fs.readFileSync(somePath).toString();
 Examples of **correct** code for this rule:
 
 ```js
-/*eslint no-sync: 2*/
+/*eslint no-sync: "error"*/
 
 obj.sync();
 

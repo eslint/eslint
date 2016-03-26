@@ -20,7 +20,7 @@ This rule's purpose is to enforce convention. Assigning a value to the exception
 Examples of **incorrect** code for this rule:
 
 ```js
-/*eslint no-ex-assign: 2*/
+/*eslint no-ex-assign: "error"*/
 
 try {
     // code
@@ -32,7 +32,7 @@ try {
 Examples of **correct** code for this rule:
 
 ```js
-/*eslint no-ex-assign: 2*/
+/*eslint no-ex-assign: "error"*/
 
 try {
     // code

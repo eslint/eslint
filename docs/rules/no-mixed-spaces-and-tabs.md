@@ -15,13 +15,13 @@ This option suppresses warnings about mixed tabs and spaces when the latter are 
 You can enable this option by using the following configuration:
 
 ```json
-"no-mixed-spaces-and-tabs": [2, "smart-tabs"]
+"no-mixed-spaces-and-tabs": ["error", "smart-tabs"]
 ```
 
 The following patterns are considered problems:
 
 ```js
-/*eslint no-mixed-spaces-and-tabs: 2*/
+/*eslint no-mixed-spaces-and-tabs: "error"*/
 
 function add(x, y) {
 // --->..return x + y;
@@ -41,7 +41,7 @@ function main() {
 The following patterns are not considered problems:
 
 ```js
-/*eslint no-mixed-spaces-and-tabs: 2*/
+/*eslint no-mixed-spaces-and-tabs: "error"*/
 
 function add(x, y) {
 // --->return x + y;
@@ -52,7 +52,7 @@ function add(x, y) {
 When the SmartTabs option is enabled the following does not produce a warning:
 
 ```js
-/*eslint no-mixed-spaces-and-tabs: [2, "smart-tabs"]*/
+/*eslint no-mixed-spaces-and-tabs: ["error", "smart-tabs"]*/
 
 function main() {
 // --->var x = 5,
