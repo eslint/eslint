@@ -29,7 +29,7 @@ This rule takes one argument, which can be one of the following options:
 Examples of **incorrect** code for the default `"never"` option:
 
 ```js
-/*eslint comma-dangle: [2, "never"]*/
+/*eslint comma-dangle: ["error", "never"]*/
 
 var foo = {
     bar: "baz",
@@ -47,7 +47,7 @@ foo({
 Examples of **correct** code for the default `"never"` option:
 
 ```js
-/*eslint comma-dangle: [2, "never"]*/
+/*eslint comma-dangle: ["error", "never"]*/
 
 var foo = {
     bar: "baz",
@@ -67,7 +67,7 @@ foo({
 Examples of **incorrect** code for the `"always"` option:
 
 ```js
-/*eslint comma-dangle: [2, "always"]*/
+/*eslint comma-dangle: ["error", "always"]*/
 
 var foo = {
     bar: "baz",
@@ -85,7 +85,7 @@ foo({
 Examples of **correct** code for the `"always"` option:
 
 ```js
-/*eslint comma-dangle: [2, "always"]*/
+/*eslint comma-dangle: ["error", "always"]*/
 
 var foo = {
     bar: "baz",
@@ -105,7 +105,7 @@ foo({
 Examples of **incorrect** code for the `"always-multiline"` option:
 
 ```js
-/*eslint comma-dangle: [2, "always-multiline"]*/
+/*eslint comma-dangle: ["error", "always-multiline"]*/
 
 var foo = {
     bar: "baz",
@@ -133,7 +133,7 @@ foo({
 Examples of **correct** code for the `"always-multiline"` option:
 
 ```js
-/*eslint comma-dangle: [2, "always-multiline"]*/
+/*eslint comma-dangle: ["error", "always-multiline"]*/
 
 var foo = {
     bar: "baz",
@@ -162,7 +162,7 @@ foo({
 Examples of **incorrect** code for the `"only-multiline"` option:
 
 ```js
-/*eslint comma-dangle: [2, "only-multiline"]*/
+/*eslint comma-dangle: ["error", "only-multiline"]*/
 
 var foo = { bar: "baz", qux: "quux", };
 
@@ -176,7 +176,7 @@ var arr = [1,
 Examples of **correct** code for the `"only-multiline"` option:
 
 ```js
-/*eslint comma-dangle: [2, "only-multiline"]*/
+/*eslint comma-dangle: ["error", "only-multiline"]*/
 
 var foo = {
     bar: "baz",

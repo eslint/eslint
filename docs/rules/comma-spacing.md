@@ -19,7 +19,7 @@ This rule aims to enforce spacing around a comma. As such, it warns whenever it 
 The rule takes one option, an object, which has two keys `before` and `after` having boolean values `true` or `false`. If `before` is `true`, space is enforced before commas and if it's `false`, space is disallowed before commas. If `after` is `true`, space is enforced after commas and if it's `false`, space is disallowed after commas. The default is `{"before": false, "after": true}`.
 
 ```json
-    "comma-spacing": [2, {"before": false, "after": true}]
+    "comma-spacing": ["error", {"before": false, "after": true}]
 ```
 
 The following examples show two primary usages of this option.
@@ -31,7 +31,7 @@ This is the default option. It enforces spacing after commas and disallows spaci
 The following patterns are considered problems:
 
 ```js
-/*eslint comma-spacing: [2, {"before": false, "after": true}]*/
+/*eslint comma-spacing: ["error", {"before": false, "after": true}]*/
 
 var foo = 1 ,bar = 2;
 var arr = [1 , 2];
@@ -45,7 +45,7 @@ a ,b
 The following patterns are not considered problems:
 
 ```js
-/*eslint comma-spacing: [2, {"before": false, "after": true}]*/
+/*eslint comma-spacing: ["error", {"before": false, "after": true}]*/
 
 var foo = 1, bar = 2
     , baz = 3;
@@ -64,7 +64,7 @@ This option enforces spacing before commas and disallows spacing after commas.
 The following patterns are considered problems:
 
 ```js
-/*eslint comma-spacing: [2, {"before": true, "after": false}]*/
+/*eslint comma-spacing: ["error", {"before": true, "after": false}]*/
 
 var foo = 1, bar = 2;
 var arr = [1 , 2];
@@ -77,7 +77,7 @@ a, b
 The following patterns are not considered problems:
 
 ```js
-/*eslint comma-spacing: [2, {"before": true, "after": false}]*/
+/*eslint comma-spacing: ["error", {"before": true, "after": false}]*/
 
 var foo = 1 ,bar = 2 ,
     baz = true;

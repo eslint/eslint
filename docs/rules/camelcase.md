@@ -13,7 +13,7 @@ This rule accepts a single options argument with the following defaults:
 ```json
 {
     "rules": {
-        "camelcase": [2, {"properties": "always"}]
+        "camelcase": ["error", {"properties": "always"}]
     }
 }
 ```
@@ -26,7 +26,7 @@ This rule accepts a single options argument with the following defaults:
 The following patterns are considered problems:
 
 ```js
-/*eslint camelcase: 2*/
+/*eslint camelcase: "error"*/
 var my_favorite_color = "#112C85";
 
 function do_something() {
@@ -45,7 +45,7 @@ var obj = {
 The following patterns are not considered problems:
 
 ```js
-/*eslint camelcase: 2*/
+/*eslint camelcase: "error"*/
 var myFavoriteColor   = "#112C85";
 var _myFavoriteColor  = "#112C85";
 var myFavoriteColor_  = "#112C85";
@@ -60,7 +60,7 @@ var { category_id: category } = query;
 
 
 ```js
-/*eslint camelcase: [2, {properties: "never"}]*/
+/*eslint camelcase: ["error", {properties: "never"}]*/
 
 var obj = {
     my_pref: 1

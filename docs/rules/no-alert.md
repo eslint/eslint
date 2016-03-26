@@ -13,7 +13,7 @@ This rule is aimed at catching debugging code that should be removed and popup U
 Examples of **incorrect** code for this rule:
 
 ```js
-/*eslint no-alert: 2*/
+/*eslint no-alert: "error"*/
 
 alert("here!");
 
@@ -25,7 +25,7 @@ prompt("What's your name?", "John Doe");
 Examples of **correct** code for this rule:
 
 ```js
-/*eslint no-alert: 2*/
+/*eslint no-alert: "error"*/
 
 customAlert("Something happened!");
 

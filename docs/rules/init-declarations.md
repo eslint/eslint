@@ -39,7 +39,7 @@ Variables must be initialized at declaration (default)
 
 ```json
 {
-    "init-declarations": [2, "always"],
+    "init-declarations": ["error", "always"],
 }
 ```
 
@@ -47,7 +47,7 @@ Variables must not be initialized at declaration
 
 ```json
 {
-    "init-declarations": [2, "never"]
+    "init-declarations": ["error", "never"]
 }
 ```
 
@@ -55,7 +55,7 @@ Variables must not be initialized at declaration, except in for loops, where it 
 
 ```json
 {
-    "init-declarations": [2, "never", { "ignoreForLoopInit": true }]
+    "init-declarations": ["error", "never", { "ignoreForLoopInit": true }]
 }
 ```
 
@@ -64,7 +64,7 @@ Variables must not be initialized at declaration, except in for loops, where it 
 Examples of **incorrect** code for the default `"always"` option:
 
 ```js
-/*eslint init-declarations: [2, "always"]*/
+/*eslint init-declarations: ["error", "always"]*/
 /*eslint-env es6*/
 
 function foo() {
@@ -76,7 +76,7 @@ function foo() {
 Examples of **correct** code for the default `"always"` option:
 
 ```js
-/*eslint init-declarations: [2, "always"]*/
+/*eslint init-declarations: ["error", "always"]*/
 /*eslint-env es6*/
 
 function foo() {
@@ -91,7 +91,7 @@ function foo() {
 Examples of **incorrect** code for the `"never"` option:
 
 ```js
-/*eslint init-declarations: [2, "never"]*/
+/*eslint init-declarations: ["error", "never"]*/
 /*eslint-env es6*/
 
 function foo() {
@@ -105,7 +105,7 @@ function foo() {
 Examples of **correct** code for the `"never"` option:
 
 ```js
-/*eslint init-declarations: [2, "never"]*/
+/*eslint init-declarations: ["error", "never"]*/
 /*eslint-env es6*/
 
 function foo() {
@@ -122,7 +122,7 @@ The `"never"` option ignores `const` variable initializations.
 Examples of **correct** code for the `"never", { "ignoreForLoopInit": true }` options:
 
 ```js
-/*eslint init-declarations: [2, "never", { "ignoreForLoopInit": true }]*/
+/*eslint init-declarations: ["error", "never", { "ignoreForLoopInit": true }]*/
 for (var i = 0; i < 1; i++) {}
 ```
 

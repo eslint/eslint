@@ -22,7 +22,7 @@ This rule forbids the use of the comma operator, with the following exceptions:
 Examples of **incorrect** code for this rule:
 
 ```js
-/*eslint no-sequences: 2*/
+/*eslint no-sequences: "error"*/
 
 foo = doSomething(), val;
 
@@ -44,7 +44,7 @@ with (doSomething(), val) {}
 Examples of **correct** code for this rule:
 
 ```js
-/*eslint no-sequences: 2*/
+/*eslint no-sequences: "error"*/
 
 foo = (doSomething(), val);
 

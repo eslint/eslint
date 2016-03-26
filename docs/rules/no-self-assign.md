@@ -15,7 +15,7 @@ This rule is aimed at eliminating self assignments.
 Examples of **incorrect** code for this rule:
 
 ```js
-/*eslint no-self-assign: 2*/
+/*eslint no-self-assign: "error"*/
 
 foo = foo;
 
@@ -29,7 +29,7 @@ foo = foo;
 Examples of **correct** code for this rule:
 
 ```js
-/*eslint no-self-assign: 2*/
+/*eslint no-self-assign: "error"*/
 
 foo = bar;
 [a, b] = [b, a];

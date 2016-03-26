@@ -31,7 +31,7 @@ This rule takes one option, a string, which can be:
 The following patterns are considered problems:
 
 ```js
-/*eslint newline-after-var: [2, "always"]*/
+/*eslint newline-after-var: ["error", "always"]*/
 
 var greet = "hello,",
     name = "world";
@@ -39,7 +39,7 @@ console.log(greet, name);
 ```
 
 ```js
-/*eslint newline-after-var: [2, "never"]*/
+/*eslint newline-after-var: ["error", "never"]*/
 /*eslint-env es6*/
 
 let greet = "hello,",
@@ -49,7 +49,7 @@ console.log(greet, name);
 ```
 
 ```js
-/*eslint newline-after-var: 2*/  // defaults to always
+/*eslint newline-after-var: "error"*/  // defaults to always
 /*eslint-env es6*/
 
 var greet = "hello,";
@@ -60,7 +60,7 @@ console.log(greet, NAME);
 The following patterns are not considered problems:
 
 ```js
-/*eslint newline-after-var: [2, "always"]*/
+/*eslint newline-after-var: ["error", "always"]*/
 
 var greet = "hello,",
     name = "world";
@@ -69,7 +69,7 @@ console.log(greet, name);
 ```
 
 ```js
-/*eslint newline-after-var: [2, "never"]*/
+/*eslint newline-after-var: ["error", "never"]*/
 /*eslint-env es6*/
 
 let greet = "hello,",
@@ -78,7 +78,7 @@ console.log(greet, name);
 ```
 
 ```js
-/*eslint newline-after-var: 2*/  // defaults to always
+/*eslint newline-after-var: "error"*/  // defaults to always
 /*eslint-env es6*/
 
 var greet = "hello,";
@@ -93,7 +93,7 @@ That is, they do not require a blank line between themselves and the var stateme
 The following patterns are considered problems:
 
 ```js
-/*eslint newline-after-var: [2, "always"]*/
+/*eslint newline-after-var: ["error", "always"]*/
 
 var greet = "hello,";
 var name = "world";
@@ -111,7 +111,7 @@ console.log(greet, name);
 The following patterns are not considered problems:
 
 ```js
-/*eslint newline-after-var: [2, "always"]*/
+/*eslint newline-after-var: ["error", "always"]*/
 
 var greet = "hello,";
 var name = "world";

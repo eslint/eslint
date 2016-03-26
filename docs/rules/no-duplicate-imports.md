@@ -17,7 +17,7 @@ This inspection reports any duplicated module in an import statement.
 The following patterns are considered problems:
 
 ```js
-/*eslint no-duplicate-imports: 2*/
+/*eslint no-duplicate-imports: "error"*/
 
 import { merge } from 'module';
 import path from 'another-module';
@@ -31,7 +31,7 @@ import _, { find } from 'module';
 The following patterns are not considered problems:
 
 ```js
-/*eslint no-duplicate-imports: 2*/
+/*eslint no-duplicate-imports: "error"*/
 
 import { merge, find } from 'module';
 import path from 'another-module';
@@ -44,7 +44,7 @@ This rule takes one optional argument, an object with a single key, `includeExpo
 With this option set to `true`, the following patterns are considered problems:
 
 ```js
-/*eslint no-duplicate-imports: [2, { includeExports: true }]*/
+/*eslint no-duplicate-imports: ["error", { includeExports: true }]*/
 
 import { merge } from 'module';
 import path from 'another-module';
@@ -61,7 +61,7 @@ export { find as lodashFind } from 'module';
 The following patterns are not considered problems:
 
 ```js
-/*eslint no-duplicate-imports: [2, { includeExports: true }]*/
+/*eslint no-duplicate-imports: ["error", { includeExports: true }]*/
 
 import { merge, find } from 'module';
 

@@ -34,7 +34,7 @@ The `after` option will be only applied if a semicolon is not at the end of line
 The default is `{"before": false, "after": true}`.
 
 ```json
-    "semi-spacing": [2, {"before": false, "after": true}]
+    "semi-spacing": ["error", {"before": false, "after": true}]
 ```
 
 ### `{"before": false, "after": true}`
@@ -44,7 +44,7 @@ This is the default option. It enforces spacing after semicolons and disallows s
 The following patterns are considered problems:
 
 ```js
-/*eslint semi-spacing: 2*/
+/*eslint semi-spacing: "error"*/
 
 var foo ;
 var foo;var bar;
@@ -57,7 +57,7 @@ for (i = 0;i < 10;i++) {}
 The following patterns are not considered problems:
 
 ```js
-/*eslint semi-spacing: 2*/
+/*eslint semi-spacing: "error"*/
 
 var foo;
 var foo; var bar;
@@ -76,7 +76,7 @@ This option enforces spacing before semicolons and disallows spacing after semic
 The following patterns are considered problems:
 
 ```js
-/*eslint semi-spacing: [2, { "before": true, "after": false }]*/
+/*eslint semi-spacing: ["error", { "before": true, "after": false }]*/
 
 var foo;
 var foo ; var bar;
@@ -89,7 +89,7 @@ for (i = 0; i < 10; i++) {}
 The following patterns are not considered problems:
 
 ```js
-/*eslint semi-spacing: [2, { "before": true, "after": false }]*/
+/*eslint semi-spacing: ["error", { "before": true, "after": false }]*/
 
 var foo ;
 var foo ;var bar ;

@@ -19,7 +19,7 @@ Examples of **incorrect** code for sample `"event", "fdescribe"` global variable
 
 ```js
 /*global event, fdescribe*/
-/*eslint no-restricted-globals: [2, "event", "fdescribe"]*/
+/*eslint no-restricted-globals: ["error", "event", "fdescribe"]*/
 
 function onClick() {
     console.log(event);
@@ -33,14 +33,14 @@ Examples of **correct** code for a sample `"event"` global variable name:
 
 ```js
 /*global event*/
-/*eslint no-restricted-globals: [2, "event"]*/
+/*eslint no-restricted-globals: ["error", "event"]*/
 
 import event from "event-module";
 ```
 
 ```js
 /*global event*/
-/*eslint no-restricted-globals: [2, "event"]*/
+/*eslint no-restricted-globals: ["error", "event"]*/
 
 var event = 1;
 ```

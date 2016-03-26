@@ -29,7 +29,7 @@ The rule takes a single option, which is an array of possible callback names. Th
 Examples of **incorrect** code for this rule with the default `["callback", "cb", "next"]` option:
 
 ```js
-/*eslint callback-return: 2*/
+/*eslint callback-return: "error"*/
 
 function foo() {
     if (err) {
@@ -42,7 +42,7 @@ function foo() {
 Examples of **correct** code for this rule with the default `["callback", "cb", "next"]` option:
 
 ```js
-/*eslint callback-return: 2*/
+/*eslint callback-return: "error"*/
 
 function foo() {
     if (err) {
@@ -66,7 +66,7 @@ The static analysis of this rule does not detect that the program calls the call
 Example of a *false negative* when this rule reports correct code:
 
 ```js
-/*eslint callback-return: 2*/
+/*eslint callback-return: "error"*/
 
 function foo(callback) {
     if (err) {
@@ -83,7 +83,7 @@ The static analysis of this rule does not detect that the program calls the call
 Example of a *false negative* when this rule reports correct code:
 
 ```js
-/*eslint callback-return: 2*/
+/*eslint callback-return: "error"*/
 
 function foo(callback) {
     if (err) {
@@ -102,7 +102,7 @@ The static analysis of this rule does not detect that the program calls the call
 Example of a *false positive* when this rule reports incorrect code:
 
 ```js
-/*eslint callback-return: 2*/
+/*eslint callback-return: "error"*/
 
 function foo(callback) {
     if (err) {

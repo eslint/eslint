@@ -12,7 +12,7 @@ This rule is aimed at maintaining consistency when throwing exception by disallo
 Examples of **incorrect** code for this rule:
 
 ```js
-/*eslint no-throw-literal: 2*/
+/*eslint no-throw-literal: "error"*/
 /*eslint-env es6*/
 
 throw "error";
@@ -35,7 +35,7 @@ throw `${err}`
 Examples of **correct** code for this rule:
 
 ```js
-/*eslint no-throw-literal: 2*/
+/*eslint no-throw-literal: "error"*/
 
 throw new Error();
 
@@ -58,7 +58,7 @@ Due to the limits of static analysis, this rule cannot guarantee that you will o
 Examples of **correct** code for this rule, but which do not throw an `Error` object:
 
 ```js
-/*eslint no-throw-literal: 2*/
+/*eslint no-throw-literal: "error"*/
 
 var err = "error";
 throw err;

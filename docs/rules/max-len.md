@@ -3,7 +3,7 @@
 Very long lines of code in any language can be difficult to read. In order to aid in readability and maintainability many coders have developed a convention to limit lines of code to X number of characters (traditionally 80 characters).
 
 ```js
-// max-len: [1, 80, 4]; // maximum length of 80 characters
+// max-len: ["error", 80, 4]; // maximum length of 80 characters
 var foo = { "bar": "This is a bar.", "baz": { "qux": "This is a qux" }, "difficult": "to read" }; // too long
 ```
 
@@ -17,7 +17,7 @@ This rule is aimed at increasing code readability and maintainability by enforci
 The following patterns are considered problems:
 
 ```js
-/*eslint max-len: [2, 80, 4]*/ // maximum length of 80 characters
+/*eslint max-len: ["error", 80, 4]*/ // maximum length of 80 characters
 
 var foo = { "bar": "This is a bar.", "baz": { "qux": "This is a qux" }, "difficult": "to read" };
 ```
@@ -25,7 +25,7 @@ var foo = { "bar": "This is a bar.", "baz": { "qux": "This is a qux" }, "difficu
 The following patterns are not considered problems:
 
 ```js
-/*eslint max-len: [2, 80, 4]*/ // maximum length of 80 characters
+/*eslint max-len: ["error", 80, 4]*/ // maximum length of 80 characters
 
 var foo = {
     "bar": "This is a bar.",
@@ -57,13 +57,13 @@ The `max-len` rule supports the following options:
 Optionally, you may specify `code` and `tabWidth` as integers before the options object:
 
 ```json
-"max-len": [2, 80, 4, {"ignoreUrls": true}]
+"max-len": ["error", 80, 4, {"ignoreUrls": true}]
 ```
 
 is equivalent to
 
 ```json
-"max-len": [2, {"code": 80, "tabWidth": 4, "ignoreUrls": true}]
+"max-len": ["error", {"code": 80, "tabWidth": 4, "ignoreUrls": true}]
 ```
 
 

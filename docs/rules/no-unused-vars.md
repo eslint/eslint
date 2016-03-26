@@ -17,8 +17,8 @@ A variable is *not* considered to be used if it is only ever assigned to (`var x
 Examples of **incorrect** code for this rule:
 
 ```js
-/*eslint no-unused-vars: 2*/
-/*global some_unused_var */
+/*eslint no-unused-vars: "error"*/
+/*global some_unused_var*/
 
 //It checks variables you have defined as global
 some_unused_var = 42;
@@ -43,7 +43,7 @@ function fact(n) {
 Examples of **correct** code for this rule:
 
 ```js
-/*eslint no-unused-vars: 2*/
+/*eslint no-unused-vars: "error"*/
 
 var x = 10;
 alert(x);
@@ -77,7 +77,7 @@ By default this rule is enabled with `all` option for variables and `after-used`
 ```json
 {
     "rules": {
-        "no-unused-vars": [2, { "vars": "all", "args": "after-used" }]
+        "no-unused-vars": ["error", { "vars": "all", "args": "after-used" }]
     }
 }
 ```
@@ -94,7 +94,7 @@ The `vars` option has two settings:
 Examples of **correct** code for the `{ "vars": "local" }` option:
 
 ```js
-/*eslint no-unused-vars: [2, { "vars": "local" }]*/
+/*eslint no-unused-vars: ["error", { "vars": "local" }]*/
 /*global some_unused_var */
 
 some_unused_var = 42;
@@ -107,7 +107,7 @@ The `varsIgnorePattern` option specifies exceptions not to check for usage: vari
 Examples of **correct** code for the `{ "varsIgnorePattern": "[iI]gnored" }` option:
 
 ```js
-/*eslint no-unused-vars: [2, { "varsIgnorePattern": "[iI]gnored" }]*/
+/*eslint no-unused-vars: ["error", { "varsIgnorePattern": "[iI]gnored" }]*/
 
 var firstVarIgnored = 1;
 var secondVar = 2;
@@ -127,7 +127,7 @@ The `args` option has three settings:
 Examples of **incorrect** code for the default `{ "args": "after-used" }` option:
 
 ```js
-/*eslint no-unused-vars: [2, { "args": "after-used" }]*/
+/*eslint no-unused-vars: ["error", { "args": "after-used" }]*/
 
 // 1 error
 // "baz" is defined but never used
@@ -139,7 +139,7 @@ Examples of **incorrect** code for the default `{ "args": "after-used" }` option
 Examples of **correct** code for the default `{ "args": "after-used" }` option:
 
 ```js
-/*eslint no-unused-vars: [2, {"args": "after-used"}]*/
+/*eslint no-unused-vars: ["error", {"args": "after-used"}]*/
 
 (function(foo, bar, baz) {
     return baz;
@@ -151,7 +151,7 @@ Examples of **correct** code for the default `{ "args": "after-used" }` option:
 Examples of **incorrect** code for the `{ "args": "all" }` option:
 
 ```js
-/*eslint no-unused-vars: [2, { "args": "all" }]*/
+/*eslint no-unused-vars: ["error", { "args": "all" }]*/
 
 // 2 errors
 // "foo" is defined but never used
@@ -166,7 +166,7 @@ Examples of **incorrect** code for the `{ "args": "all" }` option:
 Examples of **correct** code for the `{ "args": "none" }` option:
 
 ```js
-/*eslint no-unused-vars: [2, { "args": "none" }]*/
+/*eslint no-unused-vars: ["error", { "args": "none" }]*/
 
 (function(foo, bar, baz) {
     return bar;
@@ -180,7 +180,7 @@ The `argsIgnorePattern` option specifies exceptions not to check for usage: argu
 Examples of **correct** code for the `{ "argsIgnorePattern": "^_" }` option:
 
 ```js
-/*eslint no-unused-vars: [2, { "argsIgnorePattern": "^_" }]*/
+/*eslint no-unused-vars: ["error", { "argsIgnorePattern": "^_" }]*/
 
 function foo(x, _y) {
     return x + 1;
@@ -204,7 +204,7 @@ Not specifying this rule is equivalent of assigning it to `none`.
 Examples of **correct** code for the `{ "caughtErrors": "none" }` option:
 
 ```js
-/*eslint no-unused-vars: [2, { "caughtErrors": "none" }]*/
+/*eslint no-unused-vars: ["error", { "caughtErrors": "none" }]*/
 
 try {
     //...
@@ -218,7 +218,7 @@ try {
 Examples of **incorrect** code for the `{ "caughtErrors": "all" }` option:
 
 ```js
-/*eslint no-unused-vars: [2, { "caughtErrors": "all" }]*/
+/*eslint no-unused-vars: ["error", { "caughtErrors": "all" }]*/
 
 // 1 error
 // "err" is defined but never used
@@ -236,7 +236,7 @@ The `caughtErrorsIgnorePattern` option specifies exceptions not to check for usa
 Examples of **correct** code for the `{ "caughtErrorsIgnorePattern": "^ignore" }` option:
 
 ```js
-/*eslint no-unused-vars: [2, { "caughtErrorsIgnorePattern": "^ignore" }]*/
+/*eslint no-unused-vars: ["error", { "caughtErrorsIgnorePattern": "^ignore" }]*/
 
 try {
     //...

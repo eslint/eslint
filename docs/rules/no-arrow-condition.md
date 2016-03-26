@@ -29,7 +29,7 @@ var x = a <= 1 ? 2 : 3
 The following patterns are considered warnings:
 
 ```js
-/*eslint no-arrow-condition: 2*/
+/*eslint no-arrow-condition: "error"*/
 /*eslint-env es6*/
 
 if (a => 1) {}

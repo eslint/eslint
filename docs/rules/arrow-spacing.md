@@ -25,7 +25,7 @@ The default configuration is `{ "before": true, "after": true }`.
 The following patterns are considered problems if `{ "before": true, "after": true }`.
 
 ```js
-/*eslint arrow-spacing: 2*/
+/*eslint arrow-spacing: "error"*/
 /*eslint-env es6*/
 
 ()=> {};
@@ -41,7 +41,7 @@ a=> a;
 The following patterns are not considered problems if `{ "before": true, "after": true }`.
 
 ```js
-/*eslint arrow-spacing: 2*/
+/*eslint arrow-spacing: "error"*/
 /*eslint-env es6*/
 
 () => {};
@@ -53,7 +53,7 @@ a => a;
 The following patterns are not considered problems if `{ "before": false, "after": false }`.
 
 ```js
-/*eslint arrow-spacing: [2, { "before": false, "after": false }]*/
+/*eslint arrow-spacing: ["error", { "before": false, "after": false }]*/
 /*eslint-env es6*/
 
 ()=>{};
@@ -65,7 +65,7 @@ a=>a;
 The following patterns are not considered problems if `{ "before": true, "after": false }`.
 
 ```js
-/*eslint arrow-spacing: [2, { "before": true, "after": false }]*/
+/*eslint arrow-spacing: ["error", { "before": true, "after": false }]*/
 /*eslint-env es6*/
 
 () =>{};
@@ -77,7 +77,7 @@ a =>a;
 The following patterns are not considered problems if `{ "before": false, "after": true }`.
 
 ```js
-/*eslint arrow-spacing: [2, { "before": false, "after": true }]*/
+/*eslint arrow-spacing: ["error", { "before": false, "after": true }]*/
 /*eslint-env es6*/
 
 ()=> {};

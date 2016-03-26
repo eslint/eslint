@@ -15,7 +15,7 @@ This rule is aimed at eliminating unwanted `console` references from your JavaSc
 Examples of **incorrect** code for this rule:
 
 ```js
-/*eslint no-console: 2*/
+/*eslint no-console: "error"*/
 
 console.log("Hello world!");
 console.error("Something bad happened.");
@@ -24,7 +24,7 @@ console.error("Something bad happened.");
 Examples of **correct** code for this rule:
 
 ```js
-/*eslint no-console: 2*/
+/*eslint no-console: "error"*/
 
 // custom console
 Console.log("Hello world!");
@@ -37,7 +37,7 @@ This rule supports the following options:
 `allow`: The list of console operations to be used as exceptions to the rule. For example:
 
 ```js
-/*eslint no-console: [2, { allow: ["warn", "error"] }] */
+/*eslint no-console: ["error", { allow: ["warn", "error"] }] */
 
 console.log("this will be considered a problem");
 console.warn("this will not be considered a problem");

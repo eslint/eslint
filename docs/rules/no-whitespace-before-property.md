@@ -20,7 +20,7 @@ foo
 The following patterns are considered problems when this rule is turned on:
 
 ```js
-/*eslint no-whitespace-before-property: 2*/
+/*eslint no-whitespace-before-property: "error"*/
 
 foo [bar]
 
@@ -40,7 +40,7 @@ foo
 And the following patterns are not considered problems:
 
 ```js
-/*eslint no-whitespace-before-property: 2*/
+/*eslint no-whitespace-before-property: "error"*/
 
 foo.bar
 
@@ -65,4 +65,3 @@ foo.
 ## When Not To Use It
 
 Turn this rule off if you do not care about allowing whitespace around the dot or before the opening bracket before properties of objects if they are on the same line.
-

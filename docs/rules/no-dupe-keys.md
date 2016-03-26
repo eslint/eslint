@@ -16,7 +16,7 @@ This rule is aimed at preventing possible errors and unexpected behavior that mi
 Examples of **incorrect** code for this rule:
 
 ```js
-/*eslint no-dupe-keys: 2*/
+/*eslint no-dupe-keys: "error"*/
 
 var foo = {
     bar: "baz",
@@ -37,7 +37,7 @@ var foo = {
 Examples of **correct** code for this rule:
 
 ```js
-/*eslint no-dupe-keys: 2*/
+/*eslint no-dupe-keys: "error"*/
 
 var foo = {
     bar: "baz",

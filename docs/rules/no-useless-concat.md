@@ -19,7 +19,7 @@ This rule aims to flag the concatenation of 2 literals when they could be combin
 Examples of **incorrect** code for this rule:
 
 ```js
-/*eslint no-useless-concat: 2*/
+/*eslint no-useless-concat: "error"*/
 /*eslint-env es6*/
 
 // these are the same as "10"
@@ -33,7 +33,7 @@ var a = `1` + `0`;
 Examples of **correct** code for this rule:
 
 ```js
-/*eslint no-useless-concat: 2*/
+/*eslint no-useless-concat: "error"*/
 
 // when a non string is included
 var c = a + b;

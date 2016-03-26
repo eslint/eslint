@@ -24,13 +24,13 @@ In the following example, the first 2 is the code for an error
 and the second 2 is the maximum number of empty lines:
 
 ```json
-"no-multiple-empty-lines": [2, {"max": 2}]
+"no-multiple-empty-lines": ["error", {"max": 2}]
 ```
 
 The following patterns are considered problems:
 
 ```js
-/*eslint no-multiple-empty-lines: [2, {max: 2}]*/
+/*eslint no-multiple-empty-lines: ["error", {max: 2}]*/
 
 
 var foo = 5;
@@ -45,7 +45,7 @@ var bar = 3;
 The following patterns are not considered problems:
 
 ```js
-/*eslint no-multiple-empty-lines: [2, {max: 2}]*/
+/*eslint no-multiple-empty-lines: ["error", {max: 2}]*/
 
 
 var foo = 5;
@@ -59,13 +59,13 @@ var bar = 3;
 ### maxEOF
 
 ```json
-"no-multiple-empty-lines": [2, {"max": 2, "maxEOF": 1}]
+"no-multiple-empty-lines": ["error", {"max": 2, "maxEOF": 1}]
 ```
 
 The following patterns are considered problems:
 
 ```js
-/*eslint no-multiple-empty-lines: [2, {max: 2, maxEOF: 1}]*/
+/*eslint no-multiple-empty-lines: ["error", {max: 2, maxEOF: 1}]*/
 
 
 var foo = 5;
@@ -79,7 +79,7 @@ var bar = 3;
 The following patterns are not considered problems:
 
 ```js
-/*eslint no-multiple-empty-lines: [2, {max: 2, maxEOF: 1}]*/
+/*eslint no-multiple-empty-lines: ["error", {max: 2, maxEOF: 1}]*/
 
 
 var foo = 5;
@@ -92,13 +92,13 @@ var bar = 3;
 ### maxBOF
 
 ```json
-"no-multiple-empty-lines": [2, {"max": 2, "maxBOF": 0}]
+"no-multiple-empty-lines": ["error", {"max": 2, "maxBOF": 0}]
 ```
 
 The following patterns are considered problems:
 
 ```js
-/*eslint no-multiple-empty-lines: [2, {max: 2, maxBOF: 0}]*/
+/*eslint no-multiple-empty-lines: ["error", {max: 2, maxBOF: 0}]*/
 
 
 var foo = 5;
@@ -112,7 +112,7 @@ var bar = 3;
 The following patterns are not considered problems:
 
 ```js
-/*eslint no-multiple-empty-lines: [2, {max: 2, maxBOF: 0}]*/
+/*eslint no-multiple-empty-lines: ["error", {max: 2, maxBOF: 0}]*/
 var foo = 5;
 
 

@@ -14,7 +14,7 @@ This rule takes no arguments.
 The following patterns are considered problems:
 
 ```js
-/*eslint no-inline-comments: 2*/
+/*eslint no-inline-comments: "error"*/
 
 var a = 1; // declaring a to 1
 
@@ -31,7 +31,7 @@ var c = 3; /* A block comment after code */
 The following patterns are not considered problems:
 
 ```js
-/*eslint no-inline-comments: 2*/
+/*eslint no-inline-comments: "error"*/
 
 // This is a comment above a line of code
 var foo = 5;

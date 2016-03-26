@@ -34,7 +34,7 @@ This rule is aimed at avoiding the unnecessary use of `bind()` and as such will 
 The following patterns are considered problems:
 
 ```js
-/*eslint no-extra-bind: 2*/
+/*eslint no-extra-bind: "error"*/
 /*eslint-env es6*/
 
 var x = function () {
@@ -65,7 +65,7 @@ var x = function () {
 The following patterns are not considered problems:
 
 ```js
-/*eslint no-extra-bind: 2*/
+/*eslint no-extra-bind: "error"*/
 
 var x = function () {
     this.foo();

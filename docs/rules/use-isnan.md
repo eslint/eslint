@@ -9,7 +9,7 @@ This rule is aimed at eliminating potential errors as the result of comparing ag
 Examples of **incorrect** code for this rule:
 
 ```js
-/*eslint use-isnan: 2*/
+/*eslint use-isnan: "error"*/
 
 if (foo == NaN) {
     // ...
@@ -23,7 +23,7 @@ if (foo != NaN) {
 Examples of **correct** code for this rule:
 
 ```js
-/*eslint use-isnan: 2*/
+/*eslint use-isnan: "error"*/
 
 if (isNaN(foo)) {
     // ...

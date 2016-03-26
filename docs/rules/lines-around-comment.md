@@ -38,7 +38,7 @@ Inline comments are always excluded from the rule.
 The following would be acceptable:
 
 ```js
-/*eslint lines-around-comment: 2*/
+/*eslint lines-around-comment: "error"*/
 
 var x = 0;
 var y = 10; /* the vertical position */
@@ -74,7 +74,7 @@ Any combination of these rules may be applied at the same time.
 
 ```json
 {
-    "lines-around-comment": [2, { "beforeBlockComment": true, "beforeLineComment": true }]
+    "lines-around-comment": ["error", { "beforeBlockComment": true, "beforeLineComment": true }]
 }
 ```
 
@@ -89,7 +89,7 @@ With both `beforeBlockComment` and `afterBlockComment` set to `true` the followi
 would not warn:
 
 ```js
-/*eslint lines-around-comment: [2, { "beforeBlockComment": true, "afterBlockComment": true }]*/
+/*eslint lines-around-comment: ["error", { "beforeBlockComment": true, "afterBlockComment": true }]*/
 
 var night = "long";
 
@@ -101,7 +101,7 @@ var day = "great"
 This however would provide 2 warnings:
 
 ```js
-/*eslint lines-around-comment: [2, { "beforeBlockComment": true, "afterBlockComment": true }]*/
+/*eslint lines-around-comment: ["error", { "beforeBlockComment": true, "afterBlockComment": true }]*/
 
 var night = "long";
 /* what a great and wonderful day */
@@ -112,7 +112,7 @@ With only `beforeBlockComment` set to `true` the following code
 would not warn:
 
 ```js
-/*eslint lines-around-comment: [2, { "beforeBlockComment": true }]*/
+/*eslint lines-around-comment: ["error", { "beforeBlockComment": true }]*/
 
 var night = "long";
 
@@ -123,7 +123,7 @@ var day = "great"
 But this would cause 1 warning:
 
 ```js
-/*eslint lines-around-comment: [2, { "beforeBlockComment": true }]*/
+/*eslint lines-around-comment: ["error", { "beforeBlockComment": true }]*/
 
 var night = "long";
 /* what a great and wonderful day */
@@ -138,7 +138,7 @@ With both `beforeLineComment` and `afterLineComment` set to `true` the following
 would not warn:
 
 ```js
-/*eslint lines-around-comment: [2, { "beforeLineComment": true, "afterLineComment": true }]*/
+/*eslint lines-around-comment: ["error", { "beforeLineComment": true, "afterLineComment": true }]*/
 
 var night = "long";
 
@@ -151,7 +151,7 @@ With only `beforeLineComment` set to `true` the following code
 would not warn:
 
 ```js
-/*eslint lines-around-comment: [2, { "beforeLineComment": true }]*/
+/*eslint lines-around-comment: ["error", { "beforeLineComment": true }]*/
 
 var night = "long";
 
@@ -167,7 +167,7 @@ With both `beforeLineComment` and `allowBlockStart` set to `true` the following 
 would not warn:
 
 ```js
-/*eslint lines-around-comment: [2, { "beforeLineComment": true, "allowBlockStart": true }]*/
+/*eslint lines-around-comment: ["error", { "beforeLineComment": true, "allowBlockStart": true }]*/
 
 function foo(){
     // what a great and wonderful day
@@ -180,7 +180,7 @@ With both `beforeBlockComment` and `allowBlockStart` set to `true` the following
 would not warn:
 
 ```js
-/*eslint lines-around-comment: [2, { "beforeBlockComment": true, "allowBlockStart": true }]*/
+/*eslint lines-around-comment: ["error", { "beforeBlockComment": true, "allowBlockStart": true }]*/
 
 function foo(){
     /* what a great and wonderful day */
@@ -197,7 +197,7 @@ With both `afterLineComment` and `allowBlockEnd` set to `true` the following cod
 would not warn:
 
 ```js
-/*eslint lines-around-comment: [2, { "afterLineComment": true, "allowBlockEnd": true }]*/
+/*eslint lines-around-comment: ["error", { "afterLineComment": true, "allowBlockEnd": true }]*/
 
 function foo(){
     var day = "great"
@@ -210,7 +210,7 @@ With both `afterBlockComment` and `allowBlockEnd` set to `true` the following co
 would not warn:
 
 ```js
-/*eslint lines-around-comment: [2, { "afterBlockComment": true, "allowBlockEnd": true }]*/
+/*eslint lines-around-comment: ["error", { "afterBlockComment": true, "allowBlockEnd": true }]*/
 
 function foo(){
     var day = "great"
@@ -228,7 +228,7 @@ With both `beforeLineComment` and `allowObjectStart` set to `true` the following
 would not warn:
 
 ```js
-/*eslint lines-around-comment: [2, { "beforeLineComment": true, "allowObjectStart": true }]*/
+/*eslint lines-around-comment: ["error", { "beforeLineComment": true, "allowObjectStart": true }]*/
 
 var foo = {
     // what a great and wonderful day
@@ -250,7 +250,7 @@ With both `beforeBlockComment` and `allowObjectStart` set to `true` the followin
 would not warn:
 
 ```js
-/*eslint lines-around-comment: [2, { "beforeBlockComment": true, "allowObjectStart": true }]*/
+/*eslint lines-around-comment: ["error", { "beforeBlockComment": true, "allowObjectStart": true }]*/
 
 var foo = {
     /* what a great and wonderful day */
@@ -276,7 +276,7 @@ With both `afterLineComment` and `allowObjectEnd` set to `true` the following co
 would not warn:
 
 ```js
-/*eslint lines-around-comment: [2, { "afterLineComment": true, "allowObjectEnd": true }]*/
+/*eslint lines-around-comment: ["error", { "afterLineComment": true, "allowObjectEnd": true }]*/
 
 var foo = {
     day: "great"
@@ -298,7 +298,7 @@ With both `afterBlockComment` and `allowObjectEnd` set to `true` the following c
 would not warn:
 
 ```js
-/*eslint lines-around-comment: [2, { "afterBlockComment": true, "allowObjectEnd": true }]*/
+/*eslint lines-around-comment: ["error", { "afterBlockComment": true, "allowObjectEnd": true }]*/
 
 var foo = {
     day: "great"
@@ -327,7 +327,7 @@ With both `beforeLineComment` and `allowArrayStart` set to `true` the following 
 would not warn:
 
 ```js
-/*eslint lines-around-comment: [2, { "beforeLineComment": true, "allowArrayStart": true }]*/
+/*eslint lines-around-comment: ["error", { "beforeLineComment": true, "allowArrayStart": true }]*/
 
 var day = [
     // what a great and wonderful day
@@ -345,7 +345,7 @@ With both `beforeBlockComment` and `allowArrayStart` set to `true` the following
 would not warn:
 
 ```js
-/*eslint lines-around-comment: [2, { "beforeBlockComment": true, "allowArrayStart": true }]*/
+/*eslint lines-around-comment: ["error", { "beforeBlockComment": true, "allowArrayStart": true }]*/
 
 var day = [
     /* what a great and wonderful day */
@@ -367,7 +367,7 @@ With both `afterLineComment` and `allowArrayEnd` set to `true` the following cod
 would not warn:
 
 ```js
-/*eslint lines-around-comment: [2, { "afterLineComment": true, "allowArrayEnd": true }]*/
+/*eslint lines-around-comment: ["error", { "afterLineComment": true, "allowArrayEnd": true }]*/
 
 var day = [
     "great",
@@ -385,7 +385,7 @@ With both `afterBlockComment` and `allowArrayEnd` set to `true` the following co
 would not warn:
 
 ```js
-/*eslint lines-around-comment: [2, { "afterBlockComment": true, "allowArrayEnd": true }]*/
+/*eslint lines-around-comment: ["error", { "afterBlockComment": true, "allowArrayEnd": true }]*/
 
 var day = [
     "great",

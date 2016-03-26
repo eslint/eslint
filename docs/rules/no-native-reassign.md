@@ -13,7 +13,7 @@ The native objects reported by this rule are the `builtin` variables from [globa
 Examples of **incorrect** code for this rule:
 
 ```js
-/*eslint no-native-reassign: 2*/
+/*eslint no-native-reassign: "error"*/
 
 String = new Object();
 ```
@@ -25,7 +25,7 @@ This rule accepts an `exceptions` option, which can be used to specify a list of
 ```json
 {
     "rules": {
-        "no-native-reassign": [2, {"exceptions": ["Object"]}]
+        "no-native-reassign": ["error", {"exceptions": ["Object"]}]
     }
 }
 ```

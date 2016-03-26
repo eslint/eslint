@@ -23,7 +23,7 @@ This rule aims to eliminate the use of labeled statements in JavaScript. It will
 The following patterns are considered problems:
 
 ```js
-/*eslint no-labels: 2*/
+/*eslint no-labels: "error"*/
 
 label:
     while(true) {
@@ -60,7 +60,7 @@ label:
 The following patterns are not considered problems:
 
 ```js
-/*eslint no-labels: 2*/
+/*eslint no-labels: "error"*/
 
 var f = {
     label: "foo"
@@ -79,7 +79,7 @@ while (true) {
 
 ```json
 {
-    "no-labels": [2, {"allowLoop": false, "allowSwitch": false}]
+    "no-labels": ["error", {"allowLoop": false, "allowSwitch": false}]
 }
 ```
 

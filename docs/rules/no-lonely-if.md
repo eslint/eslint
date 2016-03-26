@@ -29,7 +29,7 @@ This rule warns when an `if` statement's `else` block contains only another `if`
 The following patterns are considered problems:
 
 ```js
-/*eslint no-lonely-if: 2*/
+/*eslint no-lonely-if: "error"*/
 
 if (condition) {
     // ...
@@ -53,7 +53,7 @@ if (condition) {
 The following patterns are not considered problems:
 
 ```js
-/*eslint no-lonely-if: 2*/
+/*eslint no-lonely-if: "error"*/
 
 if (condition) {
     // ...

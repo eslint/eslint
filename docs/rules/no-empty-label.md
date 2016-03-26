@@ -12,7 +12,7 @@ This error occurs when a label is used to mark a statement that is not an iterat
 The following patterns are considered problems:
 
 ```js
-/*eslint no-empty-label: 2*/
+/*eslint no-empty-label: "error"*/
 
 labeled:
 var x = 10;
@@ -21,7 +21,7 @@ var x = 10;
 The following patterns are not considered problems:
 
 ```js
-/*eslint no-empty-label: 2*/
+/*eslint no-empty-label: "error"*/
 
 labeled:
 for (var i=10; i; i--) {

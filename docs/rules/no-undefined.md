@@ -39,7 +39,7 @@ This rule aims to eliminate the use of `undefined`, and as such, generates a war
 Examples of **incorrect** code for this rule:
 
 ```js
-/*eslint no-undefined: 2*/
+/*eslint no-undefined: "error"*/
 
 var foo = undefined;
 
@@ -57,7 +57,7 @@ function foo(undefined) {
 Examples of **correct** code for this rule:
 
 ```js
-/*eslint no-undefined: 2*/
+/*eslint no-undefined: "error"*/
 
 var foo = void 0;
 

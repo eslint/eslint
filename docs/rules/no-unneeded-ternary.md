@@ -40,7 +40,7 @@ This rule enforces a coding style where it disallows conditional expressions tha
 The following patterns are considered problems:
 
 ```js
-/*eslint no-unneeded-ternary: 2*/
+/*eslint no-unneeded-ternary: "error"*/
 
 var a = x === 2 ? true : false;
 
@@ -56,7 +56,7 @@ var a = x ? x : 1;
 The following patterns are not considered problems:
 
 ```js
-/*eslint no-unneeded-ternary: 2*/
+/*eslint no-unneeded-ternary: "error"*/
 
 var a = x === 2 ? "Yes" : "No";
 
