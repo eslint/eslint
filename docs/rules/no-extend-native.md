@@ -43,7 +43,7 @@ This rule accepts an `exceptions` option, which can be used to specify a list of
 ```json
 {
     "rules": {
-        "no-extend-native": [2, {"exceptions": ["Object"]}]
+        "no-extend-native": ["error", {"exceptions": ["Object"]}]
     }
 }
 ```

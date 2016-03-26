@@ -16,13 +16,13 @@ The rule takes one option, a string, which can be:
 ### "always"
 
 ```json
-"arrow-body-style": [2, "always"]
+"arrow-body-style": ["error", "always"]
 ```
 
 When the rule is set to `"always"` the following patterns are considered problems:
 
 ```js
-/*eslint arrow-body-style: [2, "always"]*/
+/*eslint arrow-body-style: ["error", "always"]*/
 /*eslint-env es6*/
 let foo = () => 0;
 ```
@@ -44,7 +44,7 @@ let foo = (retv, name) => {
 When the rule is set to `"as-needed"` the following patterns are considered problems:
 
 ```js
-/*eslint arrow-body-style: [2, "as-needed"]*/
+/*eslint arrow-body-style: ["error", "as-needed"]*/
 /*eslint-env es6*/
 
 let foo = () => {
@@ -55,7 +55,7 @@ let foo = () => {
 The following patterns are not considered problems:
 
 ```js
-/*eslint arrow-body-style: [2, "as-needed"]*/
+/*eslint arrow-body-style: ["error", "as-needed"]*/
 /*eslint-env es6*/
 
 let foo = () => 0;

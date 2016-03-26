@@ -17,7 +17,7 @@ This rule aims to maintain consistency around the spacing inside of template lit
 
 ```json
 {
-    "template-curly-spacing": [2, "never"]
+    "template-curly-spacing": ["error", "never"]
 }
 ```
 
@@ -29,7 +29,7 @@ This rule has one option which has either `"never"` or `"always"` as value.
 The following patterns are considered problems when configured `"never"`:
 
 ```js
-/*eslint template-curly-spacing: 2*/
+/*eslint template-curly-spacing: "error"*/
 
 `hello, ${ people.name}!`;
 `hello, ${people.name }!`;
@@ -40,7 +40,7 @@ The following patterns are considered problems when configured `"never"`:
 The following patterns are considered problems when configured `"always"`:
 
 ```js
-/*eslint template-curly-spacing: [2, "always"]*/
+/*eslint template-curly-spacing: ["error", "always"]*/
 
 `hello, ${ people.name}!`;
 `hello, ${people.name }!`;
@@ -51,7 +51,7 @@ The following patterns are considered problems when configured `"always"`:
 The following patterns are not considered problems when configured `"never"`:
 
 ```js
-/*eslint template-curly-spacing: 2*/
+/*eslint template-curly-spacing: "error"*/
 
 `hello, ${people.name}!`;
 
@@ -63,7 +63,7 @@ The following patterns are not considered problems when configured `"never"`:
 The following patterns are not considered problems when configured `"always"`:
 
 ```js
-/*eslint template-curly-spacing: [2, "always"]*/
+/*eslint template-curly-spacing: ["error", "always"]*/
 
 `hello, ${ people.name }!`;
 

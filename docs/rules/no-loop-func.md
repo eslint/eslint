@@ -34,7 +34,7 @@ This error is raised to highlight a piece of code that may not work as you expec
 Examples of **incorrect** code for this rule:
 
 ```js
-/*eslint no-loop-func: 2*/
+/*eslint no-loop-func: "error"*/
 /*eslint-env es6*/
 
 for (var i=10; i; i--) {
@@ -62,7 +62,7 @@ for (let i=10; i; i--) {
 Examples of **correct** code for this rule:
 
 ```js
-/*eslint no-loop-func: 2*/
+/*eslint no-loop-func: "error"*/
 /*eslint-env es6*/
 
 var a = function() {};

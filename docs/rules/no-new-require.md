@@ -27,7 +27,7 @@ This rule aims to eliminate use of the `new require` expression.
 Examples of **incorrect** code for this rule:
 
 ```js
-/*eslint no-new-require: 2*/
+/*eslint no-new-require: "error"*/
 
 var appHeader = new require('app-header');
 ```
@@ -35,7 +35,7 @@ var appHeader = new require('app-header');
 Examples of **correct** code for this rule:
 
 ```js
-/*eslint no-new-require: 2*/
+/*eslint no-new-require: "error"*/
 
 var AppHeader = require('app-header');
 var appHeader = new AppHeader();

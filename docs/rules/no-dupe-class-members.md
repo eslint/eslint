@@ -22,7 +22,7 @@ This rule is aimed to flag the use of duplicate names in class members.
 The following patterns are considered problems:
 
 ```js
-/*eslint no-dupe-class-members: 2*/
+/*eslint no-dupe-class-members: "error"*/
 /*eslint-env es6*/
 
 class Foo {
@@ -44,7 +44,7 @@ class Foo {
 The following patterns are not considered problems:
 
 ```js
-/*eslint no-dupe-class-members: 2*/
+/*eslint no-dupe-class-members: "error"*/
 /*eslint-env es6*/
 
 class Foo {

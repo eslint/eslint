@@ -11,7 +11,7 @@ This rule will warn when it encounters a reference to an identifier that has not
 Examples of **incorrect** code for this rule:
 
 ```js
-/*eslint no-use-before-define: 2*/
+/*eslint no-use-before-define: "error"*/
 /*eslint-env es6*/
 
 alert(a);
@@ -35,7 +35,7 @@ var b = 1;
 Examples of **correct** code for this rule:
 
 ```js
-/*eslint no-use-before-define: 2*/
+/*eslint no-use-before-define: "error"*/
 /*eslint-env es6*/
 
 var a;
@@ -61,7 +61,7 @@ function g() {
 
 ```json
 {
-    "no-use-before-define": [2, { "functions": true, "classes": true }]
+    "no-use-before-define": ["error", { "functions": true, "classes": true }]
 }
 ```
 
@@ -86,7 +86,7 @@ This rule accepts `"nofunc"` string as a option.
 Examples of **correct** code for the `{ "functions": false }` option:
 
 ```js
-/*eslint no-use-before-define: [2, { "functions": false }]*/
+/*eslint no-use-before-define: ["error", { "functions": false }]*/
 
 f();
 function f() {}
@@ -97,7 +97,7 @@ function f() {}
 Examples of **incorrect** code for the `{ "classes": false }` option:
 
 ```js
-/*eslint no-use-before-define: [2, { "classes": false }]*/
+/*eslint no-use-before-define: ["error", { "classes": false }]*/
 /*eslint-env es6*/
 
 new A();
@@ -108,7 +108,7 @@ class A {
 Examples of **correct** code for the `{ "classes": false }` option:
 
 ```js
-/*eslint no-use-before-define: [2, { "classes": false }]*/
+/*eslint no-use-before-define: ["error", { "classes": false }]*/
 /*eslint-env es6*/
 
 function foo() {

@@ -13,7 +13,7 @@ This rule is aimed at maintaining code consistency and improving code readabilit
 Examples of **incorrect** code for this rule:
 
 ```js
-/*eslint dot-notation: 2*/
+/*eslint dot-notation: "error"*/
 
 var x = foo["bar"];
 ```
@@ -21,7 +21,7 @@ var x = foo["bar"];
 Examples of **correct** code for this rule:
 
 ```js
-/*eslint dot-notation: 2*/
+/*eslint dot-notation: "error"*/
 
 var x = foo.bar;
 
@@ -40,7 +40,7 @@ This rule accepts a single options argument:
 Examples of **correct** code for the `{ "allowKeywords": false }` option:
 
 ```js
-/*eslint dot-notation: [2, { "allowKeywords": false }]*/
+/*eslint dot-notation: ["error", { "allowKeywords": false }]*/
 
 var foo = { "class": "CS 101" }
 var x = foo["class"]; // Property name is a reserved word, square-bracket notation required
@@ -53,8 +53,8 @@ For example, when preparing data to be sent to an external API, it is often requ
 Examples of **correct** code for the sample `{ "allowPattern": "^[a-z]+(_[a-z]+)+$" }` option:
 
 ```js
-/*eslint camelcase: 2*/
-/*eslint dot-notation: [2, { "allowPattern": "^[a-z]+(_[a-z]+)+$" }]*/
+/*eslint camelcase: "error"*/
+/*eslint dot-notation: ["error", { "allowPattern": "^[a-z]+(_[a-z]+)+$" }]*/
 
 var data = {};
 data.foo_bar = 42;

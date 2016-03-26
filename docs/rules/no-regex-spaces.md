@@ -21,7 +21,7 @@ This rule aims to eliminate errors due to multiple spaces inside of a regular ex
 Examples of **incorrect** code for this rule:
 
 ```js
-/*eslint no-regex-spaces: 2*/
+/*eslint no-regex-spaces: "error"*/
 
 var re = /foo   bar/;
 ```
@@ -29,7 +29,7 @@ var re = /foo   bar/;
 Examples of **correct** code for this rule:
 
 ```js
-/*eslint no-regex-spaces: 2*/
+/*eslint no-regex-spaces: "error"*/
 
 var re = /foo {3}bar/;
 

@@ -18,7 +18,7 @@ This rule is aimed at eliminating the type-unsafe equality operators.
 Examples of **incorrect** code for this rule:
 
 ```js
-/* eslint eqeqeq: 2 */
+/*eslint eqeqeq: "error"*/
 
 if (x == 42) { }
 
@@ -40,7 +40,7 @@ The `"smart"` option enforces the use of `===` and `!==` except for these cases:
 Examples of **incorrect** code for the `"smart"` option:
 
 ```js
-/* eslint eqeqeq: [2, "smart"] */
+/*eslint eqeqeq: ["error", "smart"]*/
 
 // comparing two variables requires ===
 a == b
@@ -56,7 +56,7 @@ value == undefined
 Examples of **correct** code for the `"smart"` option:
 
 ```js
-/* eslint eqeqeq: [2, "smart"] */
+/*eslint eqeqeq: ["error", "smart"]*/
 
 typeof foo == 'undefined'
 'hello' != 'world'
@@ -72,7 +72,7 @@ The `"allow-null"` option will enforce `===` and `!==` in your code with one exc
 Examples of **incorrect** code for the `"allow-null"` option:
 
 ```js
-/* eslint eqeqeq: [2, "allow-null"] */
+/*eslint eqeqeq: ["error", "allow-null"]*/
 
 bananas != 1
 typeof foo == 'undefined'
@@ -84,7 +84,7 @@ foo == undefined
 Examples of **correct** code for the `"allow-null"` option:
 
 ```js
-/* eslint eqeqeq: [2, "allow-null"] */
+/*eslint eqeqeq: ["error", "allow-null"]*/
 
 foo == null
 ```

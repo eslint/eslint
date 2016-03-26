@@ -17,7 +17,7 @@ This rule is aimed at eliminating floating decimal points and will warn whenever
 The following patterns are considered problems:
 
 ```js
-/*eslint no-floating-decimal: 2*/
+/*eslint no-floating-decimal: "error"*/
 
 var num = .5;
 var num = 2.;
@@ -27,7 +27,7 @@ var num = -.7;
 The following patterns are not considered problems:
 
 ```js
-/*eslint no-floating-decimal: 2*/
+/*eslint no-floating-decimal: "error"*/
 
 var num = 0.5;
 var num = 2.0;

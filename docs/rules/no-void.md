@@ -51,7 +51,7 @@ This rule aims to eliminate use of void operator.
 Examples of **incorrect** code for this rule:
 
 ```js
-/*eslint no-void: 2*/
+/*eslint no-void: "error"*/
 
 void foo
 

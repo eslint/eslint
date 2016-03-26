@@ -25,7 +25,7 @@ This rule is aimed at ensuring there are spaces around infix operators.
 This rule accepts a single options argument with the following defaults:
 
 ```json
-"space-infix-ops": [2, {"int32Hint": false}]
+"space-infix-ops": ["error", {"int32Hint": false}]
 ```
 
 ### `int32Hint`
@@ -39,7 +39,7 @@ var foo = bar|0; // `foo` is forced to be signed 32 bit integer
 The following patterns are considered problems:
 
 ```js
-/*eslint space-infix-ops: 2*/
+/*eslint space-infix-ops: "error"*/
 /*eslint-env es6*/
 
 a+b
@@ -60,7 +60,7 @@ function foo(a=0) { }
 The following patterns are not considered problems:
 
 ```js
-/*eslint space-infix-ops: 2*/
+/*eslint space-infix-ops: "error"*/
 /*eslint-env es6*/
 
 a + b

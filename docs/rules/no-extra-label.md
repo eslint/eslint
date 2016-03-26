@@ -18,7 +18,7 @@ This rule is aimed at eliminating unnecessary labels.
 The following patterns are considered problems:
 
 ```js
-/*eslint no-extra-label: 2*/
+/*eslint no-extra-label: "error"*/
 
 A: while (a) {
     break A;
@@ -37,7 +37,7 @@ C: switch (a) {
 The following patterns are not considered problems:
 
 ```js
-/*eslint no-extra-label: 2*/
+/*eslint no-extra-label: "error"*/
 
 while (a) {
     break;

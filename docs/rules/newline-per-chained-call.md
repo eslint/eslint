@@ -44,7 +44,7 @@ The rule takes a single option `ignoreChainWithDepth`. The level/depth to be all
 Following patterns are considered problems with default configuration:
 
 ```js
-/*eslint newline-per-chained-call: 2*/
+/*eslint newline-per-chained-call: "error"*/
 
 _.chain({}).map(foo).filter(bar).value();
 
@@ -63,7 +63,7 @@ obj.method().method2().method3();
 Following patterns are not considered problems with default configuration:
 
 ```js
-/*eslint newline-per-chained-call: [2]*/
+/*eslint newline-per-chained-call: "error"*/
 
 _
   .chain({})
@@ -100,7 +100,7 @@ For example, when configuration is like this:
 
 ```js
 {
-    "newline-per-chained-call": [2, {"ignoreChainWithDepth": 3}]
+    "newline-per-chained-call": ["error", {"ignoreChainWithDepth": 3}]
 }
 ```
 

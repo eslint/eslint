@@ -18,7 +18,7 @@ This rule aims to eliminate shadowed variable declarations.
 Examples of **incorrect** code for this rule:
 
 ```js
-/*eslint no-shadow: 2*/
+/*eslint no-shadow: "error"*/
 /*eslint-env es6*/
 
 var a = 3;
@@ -46,7 +46,7 @@ This rule takes one option, an object, with properties `"builtinGlobals"`, `"hoi
 
 ```json
 {
-    "no-shadow": [2, { "builtinGlobals": false, "hoist": "functions", "allow": [] }]
+    "no-shadow": ["error", { "builtinGlobals": false, "hoist": "functions", "allow": [] }]
 }
 ```
 
@@ -58,7 +58,7 @@ If it is `true`, the rule prevents shadowing of built-in global variables: `Obje
 Examples of **incorrect** code for the `{ "builtinGlobals": true }` option:
 
 ```js
-/*eslint no-shadow: [2, { "builtinGlobals": true }]*/
+/*eslint no-shadow: ["error", { "builtinGlobals": true }]*/
 
 function foo() {
     var Object = 0;
@@ -78,7 +78,7 @@ The `hoist` option has three settings:
 Examples of **incorrect** code for the default `{ "hoist": "functions" }` option:
 
 ```js
-/*eslint no-shadow: [2, { "hoist": "functions" }]*/
+/*eslint no-shadow: ["error", { "hoist": "functions" }]*/
 /*eslint-env es6*/
 
 if (true) {
@@ -93,7 +93,7 @@ Although `let b` in the `if` statement is before the *function* declaration in t
 Examples of **correct** code for the default `{ "hoist": "functions" }` option:
 
 ```js
-/*eslint no-shadow: [2, { "hoist": "functions" }]*/
+/*eslint no-shadow: ["error", { "hoist": "functions" }]*/
 /*eslint-env es6*/
 
 if (true) {
@@ -110,7 +110,7 @@ Because `let a` in the `if` statement is before the *variable* declaration in th
 Examples of **incorrect** code for the `{ "hoist": "all" }` option:
 
 ```js
-/*eslint no-shadow: [2, { "hoist": "all" }]*/
+/*eslint no-shadow: ["error", { "hoist": "all" }]*/
 /*eslint-env es6*/
 
 if (true) {
@@ -127,7 +127,7 @@ function b() {}
 Examples of **correct** code for the `{ "hoist": "never" }` option:
 
 ```js
-/*eslint no-shadow: [2, { "hoist": "never" }]*/
+/*eslint no-shadow: ["error", { "hoist": "never" }]*/
 /*eslint-env es6*/
 
 if (true) {
@@ -148,7 +148,7 @@ The `allow` option is an array of identifier names for which shadowing is allowe
 Examples of **correct** code for the `{ "allow": ["done"] }` option:
 
 ```js
-/*eslint no-shadow: [2, { "allow": ["done"] }]*/
+/*eslint no-shadow: ["error", { "allow": ["done"] }]*/
 /*eslint-env es6*/
 
 import async from 'async';

@@ -13,7 +13,7 @@ The `no-ternary` rule aims to disallow the use of ternary operators.
 The following patterns are considered problems:
 
 ```js
-/*eslint no-ternary: 2*/
+/*eslint no-ternary: "error"*/
 
 var foo = isBar ? baz : qux;
 
@@ -27,7 +27,7 @@ function quux() {
 The following patterns are considered okay and could be used alternatively:
 
 ```js
-/*eslint no-ternary: 2*/
+/*eslint no-ternary: "error"*/
 
 var foo;
 

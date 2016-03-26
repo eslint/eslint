@@ -29,7 +29,7 @@ The default `"except-parens"` option disallows assignment expressions unless the
 Examples of **incorrect** code for the default `"except-parens"` option:
 
 ```js
-/*eslint no-cond-assign: 2*/
+/*eslint no-cond-assign: "error"*/
 
 // Unintentional assignment
 var x;
@@ -49,7 +49,7 @@ function setHeight(someNode) {
 Examples of **correct** code for the default `"except-parens"` option:
 
 ```js
-/*eslint no-cond-assign: 2*/
+/*eslint no-cond-assign: "error"*/
 
 // Assignment replaced by comparison
 var x;
@@ -81,7 +81,7 @@ The `"always"` option disallows assignment expressions in the test of a conditio
 Examples of **incorrect** code for the `"always"` option:
 
 ```js
-/*eslint no-cond-assign: [2, "always"]*/
+/*eslint no-cond-assign: ["error", "always"]*/
 
 // Unintentional assignment
 var x;
@@ -117,7 +117,7 @@ function setHeight(someNode) {
 Examples of **correct** code for the `"always"` option:
 
 ```js
-/*eslint no-cond-assign: [2, "always"]*/
+/*eslint no-cond-assign: ["error", "always"]*/
 
 // Assignment replaced by comparison
 var x;

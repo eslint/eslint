@@ -11,7 +11,7 @@ This error is raised to highlight a potentially confusing and potentially pointl
 Examples of **incorrect** code for this rule:
 
 ```js
-/*eslint no-self-compare: 2*/
+/*eslint no-self-compare: "error"*/
 
 var x = 10;
 if (x === x) {

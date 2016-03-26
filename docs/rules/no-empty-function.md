@@ -25,7 +25,7 @@ A function will not be considered a problem if it contains a comment.
 The following patterns are considered problems:
 
 ```js
-/*eslint no-empty-function: 2*/
+/*eslint no-empty-function: "error"*/
 
 function foo() {}
 
@@ -75,7 +75,7 @@ class A {
 The following patterns are not considered problems:
 
 ```js
-/*eslint no-empty-function: 2*/
+/*eslint no-empty-function: "error"*/
 
 function foo() {
     // do nothing.
@@ -166,7 +166,7 @@ class A {
 
 ```json
 {
-    "no-empty-function": [2, {"allow": []}]
+    "no-empty-function": ["error", {"allow": []}]
 }
 ```
 
@@ -185,7 +185,7 @@ This rule has an option to allow empty of specific kind's functions.
 The following patterns are not considered problems when configured with `{"allow": ["functions"]}`:
 
 ```js
-/*eslint no-empty-function: [2, {"allow": ["functions"]}]*/
+/*eslint no-empty-function: ["error", {"allow": ["functions"]}]*/
 
 function foo() {}
 
@@ -199,7 +199,7 @@ var obj = {
 The following patterns are not considered problems when configured with `{"allow": ["arrowFunctions"]}`:
 
 ```js
-/*eslint no-empty-function: [2, {"allow": ["arrowFunctions"]}]*/
+/*eslint no-empty-function: ["error", {"allow": ["arrowFunctions"]}]*/
 
 var foo = () => {};
 ```
@@ -207,7 +207,7 @@ var foo = () => {};
 The following patterns are not considered problems when configured with `{"allow": ["generatorFunctions"]}`:
 
 ```js
-/*eslint no-empty-function: [2, {"allow": ["generatorFunctions"]}]*/
+/*eslint no-empty-function: ["error", {"allow": ["generatorFunctions"]}]*/
 
 function* foo() {}
 

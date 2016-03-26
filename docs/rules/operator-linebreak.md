@@ -27,7 +27,7 @@ The rule takes two options, a string, which can be `"after"`, `"before"` or `"no
 You can set the style in configuration like this:
 
 ```json
-"operator-linebreak": [2, "before", { "overrides": { "?": "after" } }]
+"operator-linebreak": ["error", "before", { "overrides": { "?": "after" } }]
 ```
 
 The default configuration is to enforce line breaks _after_ the operator except for the ternary operator `?` and `:` following that.
@@ -39,7 +39,7 @@ This is the default setting for this rule. This option requires the line break t
 While using this setting, the following patterns are considered problems:
 
 ```js
-/*eslint operator-linebreak: [2, "after"]*/
+/*eslint operator-linebreak: ["error", "after"]*/
 
 foo = 1
 +
@@ -63,7 +63,7 @@ answer = everything
 The following patterns are not considered problems:
 
 ```js
-/*eslint operator-linebreak: [2, "after"]*/
+/*eslint operator-linebreak: ["error", "after"]*/
 
 foo = 1 + 2;
 
@@ -89,7 +89,7 @@ This option requires the line break to be placed before the operator.
 While using this setting, the following patterns are considered problems:
 
 ```js
-/*eslint operator-linebreak: [2, "before"]*/
+/*eslint operator-linebreak: ["error", "before"]*/
 
 foo = 1 +
       2;
@@ -109,7 +109,7 @@ answer = everything ?
 The following patterns are not considered problems:
 
 ```js
-/*eslint operator-linebreak: [2, "before"]*/
+/*eslint operator-linebreak: ["error", "before"]*/
 
 foo = 1 + 2;
 
@@ -135,7 +135,7 @@ This option disallows line breaks on either side of the operator.
 While using this setting, the following patterns are considered problems:
 
 ```js
-/*eslint operator-linebreak: [2, "none"]*/
+/*eslint operator-linebreak: ["error", "none"]*/
 
 foo = 1 +
       2;
@@ -163,7 +163,7 @@ answer = everything ?
 The following patterns are not considered problems:
 
 ```js
-/*eslint operator-linebreak: [2, "none"]*/
+/*eslint operator-linebreak: ["error", "none"]*/
 
 foo = 1 + 2;
 
@@ -180,7 +180,7 @@ answer = everything ? 42 : foo;
 The rule allows you to have even finer-grained control over individual operators by specifying an `overrides` dictionary:
 
 ```json
-"operator-linebreak": [2, "before", { "overrides": { "?": "after", "+=": "none" } }]
+"operator-linebreak": ["error", "before", { "overrides": { "?": "after", "+=": "none" } }]
 ```
 
 This would override the global setting for that specific operator.
@@ -192,7 +192,7 @@ This option is only supported using overrides and ignores line breaks on either 
 While using this setting, the following patterns are not considered problems:
 
 ```js
-/*eslint operator-linebreak: [2, "after", { "overrides": { "?": "ignore", ":": "ignore"} }]*/
+/*eslint operator-linebreak: ["error", "after", { "overrides": { "?": "ignore", ":": "ignore"} }]*/
 
 answer = everything ?
   42

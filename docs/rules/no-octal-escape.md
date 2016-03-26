@@ -13,7 +13,7 @@ The rule is aimed at preventing the use of a deprecated JavaScript feature, the 
 Examples of **incorrect** code for this rule:
 
 ```js
-/*eslint no-octal-escape: 2*/
+/*eslint no-octal-escape: "error"*/
 
 var foo = "Copyright \251";
 ```
@@ -21,7 +21,7 @@ var foo = "Copyright \251";
 Examples of **correct** code for this rule:
 
 ```js
-/*eslint no-octal-escape: 2*/
+/*eslint no-octal-escape: "error"*/
 
 var foo = "Copyright \u00A9";   // unicode
 

@@ -16,14 +16,14 @@ are declared as constants to make their meaning explicit.
 Examples of **incorrect** code for this rule:
 
 ```js
-/*eslint no-magic-numbers: 2*/
+/*eslint no-magic-numbers: "error"*/
 
 var dutyFreePrice = 100,
     finalPrice = dutyFreePrice + (dutyFreePrice * 0.25);
 ```
 
 ```js
-/*eslint no-magic-numbers: 2*/
+/*eslint no-magic-numbers: "error"*/
 
 var data = ['foo', 'bar', 'baz'];
 
@@ -33,7 +33,7 @@ var dataLast = data[2];
 Examples of **correct** code for this rule:
 
 ```js
-/*eslint no-magic-numbers: 2*/
+/*eslint no-magic-numbers: "error"*/
 
 var TAX = 0.25;
 
@@ -51,7 +51,7 @@ If provided, it must be an `Array`.
 Examples of **correct** code for the sample { "ignore": [1] } option:
 
 ```js
-/*eslint no-magic-numbers: [2, { "ignore": [1] }]*/
+/*eslint no-magic-numbers: ["error", { "ignore": [1] }]*/
 
 var data = ['foo', 'bar', 'baz'];
 var dataLast = data.length && data[data.length - 1];
@@ -64,7 +64,7 @@ A boolean to specify if numbers used as array indexes are considered okay. `fals
 Examples of **correct** code for the { "ignoreArrayIndexes": true } option:
 
 ```js
-/*eslint no-magic-numbers: [2, { "ignoreArrayIndexes": true }]*/
+/*eslint no-magic-numbers: ["error", { "ignoreArrayIndexes": true }]*/
 
 var data = ['foo', 'bar', 'baz'];
 var dataLast = data[2];
@@ -77,7 +77,7 @@ A boolean to specify if we should check for the const keyword in variable declar
 Examples of **incorrect** code for the { "enforceConst": true } option:
 
 ```js
-/*eslint no-magic-numbers: [2, { "enforceConst": true }]*/
+/*eslint no-magic-numbers: ["error", { "enforceConst": true }]*/
 
 var TAX = 0.25;
 
@@ -92,7 +92,7 @@ A boolean to specify if we should detect numbers when setting object properties 
 Examples of **incorrect** code for the { "detectObjects": true } option:
 
 ```js
-/*eslint no-magic-numbers: [2, { "detectObjects": true }]*/
+/*eslint no-magic-numbers: ["error", { "detectObjects": true }]*/
 
 var magic = {
   tax: 0.25
@@ -105,7 +105,7 @@ var dutyFreePrice = 100,
 Examples of **correct** code for the { "detectObjects": true } option:
 
 ```js
-/*eslint no-magic-numbers: [2, { "detectObjects": true }]*/
+/*eslint no-magic-numbers: ["error", { "detectObjects": true }]*/
 
 var TAX = 0.25;
 

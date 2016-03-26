@@ -33,7 +33,7 @@ this behaviour, consider using the [block-spacing](block-spacing.md) rule.
 The following patterns are considered errors when configured `"never"`:
 
 ```js
-/*eslint space-before-keywords: [2, "never"]*/
+/*eslint space-before-keywords: ["error", "never"]*/
 
 if (foo) {
     // ...
@@ -52,7 +52,7 @@ try {} catch(e) {}
 The following patterns are not considered errors when configured `"never"`:
 
 ```js
-/*eslint space-before-keywords: [2, "never"]*/
+/*eslint space-before-keywords: ["error", "never"]*/
 
 if (foo) {
     // ...
@@ -68,7 +68,7 @@ try{}catch(e) {}
 The following patterns are considered errors when configured `"always"`:
 
 ```js
-/*eslint space-before-keywords: [2, "always"]*/
+/*eslint space-before-keywords: ["error", "always"]*/
 /*eslint-env es6*/
 
 if (foo) {
@@ -87,7 +87,7 @@ function bar() {
 The following patterns are not considered errors when configured `"always"`:
 
 ```js
-/*eslint space-before-keywords: [2, "always"]*/
+/*eslint space-before-keywords: ["error", "always"]*/
 /*eslint-env es6*/
 
 if (foo) {

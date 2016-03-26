@@ -28,14 +28,14 @@ This rule has two options: `always` and `never`. The default is `always`.
 
 ### "always"
 
-`"operator-assignment": [2, "always"]`
+`"operator-assignment": ["error", "always"]`
 
 This mode enforces use of operator assignment shorthand where possible.
 
 The following are examples of valid patterns:
 
 ```js
-/*eslint operator-assignment: [2, "always"]*/
+/*eslint operator-assignment: ["error", "always"]*/
 
 x = y;
 x += y;
@@ -49,7 +49,7 @@ x = y + x; // `+` is not always commutative (e.g. x = "abc")
 The following patterns are considered problems and should be replaced by their shorthand equivalents:
 
 ```js
-/*eslint operator-assignment: [2, "always"]*/
+/*eslint operator-assignment: ["error", "always"]*/
 
 x = x + y;
 x = y * x;
@@ -59,14 +59,14 @@ x.y = x.y << z;
 
 ### "never"
 
-`"operator-assignment": [2, "never"]`
+`"operator-assignment": ["error", "never"]`
 
 This mode warns on any use of operator assignment shorthand.
 
 The following are examples of valid patterns:
 
 ```js
-/*eslint operator-assignment: [2, "never"]*/
+/*eslint operator-assignment: ["error", "never"]*/
 
 x = x + y;
 x.y = x.y / a.b;
@@ -75,7 +75,7 @@ x.y = x.y / a.b;
 The following patterns are considered problems and should be written out fully without the shorthand assignments:
 
 ```js
-/*eslint operator-assignment: [2, "never"]*/
+/*eslint operator-assignment: ["error", "never"]*/
 
 x *= y;
 x ^= (y + z) / foo();

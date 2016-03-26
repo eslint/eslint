@@ -15,7 +15,7 @@ This rule is aimed at preventing the accidental calling of `Symbol` with the `ne
 The following patterns are considered problems:
 
 ```js
-/*eslint no-new-symbol: 2*/
+/*eslint no-new-symbol: "error"*/
 /*eslint-env es6*/
 
 var foo = new Symbol('foo');
@@ -24,7 +24,7 @@ var foo = new Symbol('foo');
 The following patterns are not considered problems:
 
 ```js
-/*eslint no-new-symbol: 2*/
+/*eslint no-new-symbol: "error"*/
 /*eslint-env es6*/
 
 var foo = Symbol('foo');

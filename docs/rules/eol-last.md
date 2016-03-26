@@ -17,7 +17,7 @@ the end of the file. If you still want this behaviour, consider enabling
 The following patterns are considered problems:
 
 ```js
-/*eslint eol-last: 2*/
+/*eslint eol-last: "error"*/
 
 function doSmth() {
   var foo = 2;
@@ -27,7 +27,7 @@ function doSmth() {
 The following patterns are not considered problems:
 
 ```js
-/*eslint eol-last: 2*/
+/*eslint eol-last: "error"*/
 
 function doSmth() {
   var foo = 2;
