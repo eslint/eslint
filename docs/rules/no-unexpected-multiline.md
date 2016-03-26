@@ -18,7 +18,7 @@ This rule is aimed at ensuring that two unrelated consecutive lines are not acci
 Examples of **incorrect** code for this rule:
 
 ```js
-/*eslint no-unexpected-multiline: 2*/
+/*eslint no-unexpected-multiline: "error"*/
 
 var foo = bar
 (1 || 2).baz();
@@ -37,7 +37,7 @@ x
 Examples of **correct** code for this rule:
 
 ```js
-/*eslint no-unexpected-multiline: 2*/
+/*eslint no-unexpected-multiline: "error"*/
 
 var foo = bar;
 (1 || 2).baz();

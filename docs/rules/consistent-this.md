@@ -24,19 +24,19 @@ This rule designates a variable as the chosen alias for `this`. It then enforces
 This rule takes one option, a string, which is the designated `this` variable. The default is `that`.
 
 ```json
-"consistent-this": [2, "that"]
+"consistent-this": ["error", "that"]
 ```
 
 Additionally, you may configure extra aliases for cases where there are more than one supported alias for `this`.
 
 ```js
-{ "consistent-this": [ 2, "self",  "vm" ] }
+{ "consistent-this": [ "error", "self",  "vm" ] }
 ```
 
 The following patterns are considered problems:
 
 ```js
-/*eslint consistent-this: [2, "that"]*/
+/*eslint consistent-this: ["error", "that"]*/
 
 var that = 42;
 
@@ -50,7 +50,7 @@ self = this;
 The following patterns are not considered problems:
 
 ```js
-/*eslint consistent-this: [2, "that"]*/
+/*eslint consistent-this: ["error", "that"]*/
 
 var that = this;
 
@@ -66,7 +66,7 @@ foo.bar = this;
 A declaration of an alias does not need to assign `this` in the declaration, but it must perform an appropriate assignment in the same scope as the declaration. The following patterns are also considered okay:
 
 ```js
-/*eslint consistent-this: [2, "that"]*/
+/*eslint consistent-this: ["error", "that"]*/
 
 var that;
 that = this;
@@ -79,7 +79,7 @@ that = this;
 But the following pattern is considered a warning:
 
 ```js
-/*eslint consistent-this: [2, "that"]*/
+/*eslint consistent-this: ["error", "that"]*/
 
 var that;
 function f() {

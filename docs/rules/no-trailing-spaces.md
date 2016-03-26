@@ -9,7 +9,7 @@ Sometimes in the course of editing files, you can end up with extra whitespace a
 The following patterns are considered problems:
 
 ```js
-/*eslint no-trailing-spaces: 2*/
+/*eslint no-trailing-spaces: "error"*/
 
 // spaces, tabs and unicode whitespaces
 // are not allowed at the end of lines
@@ -20,7 +20,7 @@ var baz = 5;//••
 The following patterns are not considered problems:
 
 ```js
-/*eslint no-trailing-spaces: 2*/
+/*eslint no-trailing-spaces: "error"*/
 
 var foo = 0;
 
@@ -35,14 +35,14 @@ You can enable this option in your config like this:
 
 ```json
 {
-    "no-trailing-spaces": [2, { "skipBlankLines": true }]
+    "no-trailing-spaces": ["error", { "skipBlankLines": true }]
 }
 ```
 
 With this option enabled, The following patterns are not considered problems:
 
 ```js
-/*eslint no-trailing-spaces: [2, { "skipBlankLines": true }]*/
+/*eslint no-trailing-spaces: ["error", { "skipBlankLines": true }]*/
 
 var foo = 0;
 //••••

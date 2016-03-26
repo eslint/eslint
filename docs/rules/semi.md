@@ -70,13 +70,13 @@ You can set the option in configuration like this:
 By using the default option, semicolons must be used any place where they are valid.
 
 ```json
-semi: [2, "always"]
+semi: ["error", "always"]
 ```
 
 The following patterns are considered problems:
 
 ```js
-/*eslint semi: 2*/
+/*eslint semi: "error"*/
 
 var name = "ESLint"
 
@@ -88,7 +88,7 @@ object.method = function() {
 The following patterns are not considered problems:
 
 ```js
-/*eslint semi: 2*/
+/*eslint semi: "error"*/
 
 var name = "ESLint";
 
@@ -102,13 +102,13 @@ object.method = function() {
 When setting the first option as "always", an additional option can be added to omit the last semicolon in a one-line block, that is, a block in which its braces (and therefore the content of the block) are in the same line:
 
 ```json
-semi: [2, "always", { "omitLastInOneLineBlock": true}]
+semi: ["error", "always", { "omitLastInOneLineBlock": true}]
 ```
 
 The following patterns are considered problems:
 
 ```js
-/*eslint semi: [2, "always", { "omitLastInOneLineBlock": true}] */
+/*eslint semi: ["error", "always", { "omitLastInOneLineBlock": true}] */
 
 if (foo) {
     bar()
@@ -120,7 +120,7 @@ if (foo) { bar(); }
 The following patterns are not considered problems:
 
 ```js
-/*eslint semi: [2, "always", { "omitLastInOneLineBlock": true}] */
+/*eslint semi: ["error", "always", { "omitLastInOneLineBlock": true}] */
 
 if (foo) { bar() }
 
@@ -138,7 +138,7 @@ semi: [2, "never"]
 Then, the following patterns are considered problems:
 
 ```js
-/*eslint semi: [2, "never"]*/
+/*eslint semi: ["error", "never"]*/
 
 var name = "ESLint";
 
@@ -150,7 +150,7 @@ object.method = function() {
 And the following patterns are not considered problems:
 
 ```js
-/*eslint semi: [2, "never"]*/
+/*eslint semi: ["error", "never"]*/
 
 var name = "ESLint"
 
@@ -162,7 +162,7 @@ object.method = function() {
 Even in `"never"` mode, semicolons are still allowed to disambiguate statements beginning with `[`, `(`, `/`, `+`, or `-`:
 
 ```js
-/*eslint semi: [2, "never"]*/
+/*eslint semi: ["error", "never"]*/
 
 var name = "ESLint"
 

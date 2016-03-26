@@ -15,7 +15,7 @@ The `no-eq-null` rule aims reduce potential bug and unwanted behavior by ensurin
 The following patterns are considered problems:
 
 ```js
-/*eslint no-eq-null: 2*/
+/*eslint no-eq-null: "error"*/
 
 if (foo == null) {
   bar();
@@ -29,7 +29,7 @@ while (qux != null) {
 The following patterns are considered okay:
 
 ```js
-/*eslint no-eq-null: 2*/
+/*eslint no-eq-null: "error"*/
 
 if (foo === null) {
   bar();

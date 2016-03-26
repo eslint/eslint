@@ -44,7 +44,7 @@ This rule aims to require `default` case in `switch` statements. You may optiona
 Examples of **incorrect** code for this rule:
 
 ```js
-/*eslint default-case: 2*/
+/*eslint default-case: "error"*/
 
 switch (a) {
     case 1:
@@ -57,7 +57,7 @@ switch (a) {
 Examples of **correct** code for this rule:
 
 ```js
-/*eslint default-case: 2*/
+/*eslint default-case: "error"*/
 
 switch (a) {
     case 1:

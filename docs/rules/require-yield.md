@@ -7,7 +7,7 @@ This rule generates warnings for generator functions that do not have the `yield
 The following patterns are considered problems:
 
 ```js
-/*eslint require-yield: 2*/
+/*eslint require-yield: "error"*/
 /*eslint-env es6*/
 
 function* foo() {
@@ -18,7 +18,7 @@ function* foo() {
 The following patterns are not considered problems:
 
 ```js
-/*eslint require-yield: 2*/
+/*eslint require-yield: "error"*/
 /*eslint-env es6*/
 
 function* foo() {

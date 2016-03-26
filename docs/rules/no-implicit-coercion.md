@@ -58,7 +58,7 @@ Note that operator `+` in `allow` list would allow `+foo` (number coercion) as w
 The following patterns are considered problems:
 
 ```js
-/*eslint no-implicit-coercion: 2*/
+/*eslint no-implicit-coercion: "error"*/
 
 var b = !!foo;
 var b = ~foo.indexOf(".");
@@ -69,7 +69,7 @@ var b = ~foo.indexOf(".");
 The following patterns are not considered problems:
 
 ```js
-/*eslint no-implicit-coercion: 2*/
+/*eslint no-implicit-coercion: "error"*/
 
 var b = Boolean(foo);
 var b = foo.indexOf(".") !== -1;
@@ -82,7 +82,7 @@ var n = ~foo; // This is a just binary negating.
 The following patterns are considered problems:
 
 ```js
-/*eslint no-implicit-coercion: 2*/
+/*eslint no-implicit-coercion: "error"*/
 
 var n = +foo;
 var n = 1 * foo;
@@ -91,7 +91,7 @@ var n = 1 * foo;
 The following patterns are not considered problems:
 
 ```js
-/*eslint no-implicit-coercion: 2*/
+/*eslint no-implicit-coercion: "error"*/
 
 var b = Number(foo);
 var b = parseFloat(foo);
@@ -103,7 +103,7 @@ var b = parseInt(foo, 10);
 The following patterns are considered problems:
 
 ```js
-/*eslint no-implicit-coercion: 2*/
+/*eslint no-implicit-coercion: "error"*/
 
 var n = "" + foo;
 
@@ -113,7 +113,7 @@ foo += "";
 The following patterns are not considered problems:
 
 ```js
-/*eslint no-implicit-coercion: 2*/
+/*eslint no-implicit-coercion: "error"*/
 
 var b = String(foo);
 ```

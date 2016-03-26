@@ -10,7 +10,7 @@ This rule is aimed at discouraging use of `process.env` to avoid global dependen
 Examples of **incorrect** code for this rule:
 
 ```js
-/*eslint no-process-env: 2*/
+/*eslint no-process-env: "error"*/
 
 if(process.env.NODE_ENV === "development") {
     //...
@@ -20,7 +20,7 @@ if(process.env.NODE_ENV === "development") {
 Examples of **correct** code for this rule:
 
 ```js
-/*eslint no-process-env: 2*/
+/*eslint no-process-env: "error"*/
 
 var config = require("./config");
 

@@ -17,7 +17,7 @@ This rule aims to eliminate unnecessary and potentially confusing blocks at the 
 The following patterns are considered problems:
 
 ```js
-/*eslint no-lone-blocks: 2*/
+/*eslint no-lone-blocks: "error"*/
 
 {}
 
@@ -48,7 +48,7 @@ The following patterns are not considered problems:
 
 ```js
 /*eslint-env es6*/
-/*eslint no-lone-blocks: 2*/
+/*eslint no-lone-blocks: "error"*/
 
 while (foo) {
     bar();
@@ -84,7 +84,7 @@ In strict mode, the following will not warn:
 
 ```js
 /*eslint-env es6*/
-/*eslint no-lone-blocks: 2*/
+/*eslint no-lone-blocks: "error"*/
 "use strict";
 
 {

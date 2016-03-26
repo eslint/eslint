@@ -23,7 +23,7 @@ This rule is aimed to flag usage of `Function.prototype.apply()` that can be rep
 The following patterns are considered problems:
 
 ```js
-/*eslint prefer-spread: 2*/
+/*eslint prefer-spread: "error"*/
 
 foo.apply(undefined, args);
 
@@ -35,7 +35,7 @@ obj.foo.apply(obj, args);
 The following patterns are not considered problems:
 
 ```js
-/*eslint prefer-spread: 2*/
+/*eslint prefer-spread: "error"*/
 
 // The `this` binding is different.
 foo.apply(obj, args);
@@ -55,7 +55,7 @@ This rule analyzes code statically to check whether or not the `this` argument i
 So if the `this` argument is computed in a dynamic expression, this rule cannot detect a violation.
 
 ```js
-/*eslint prefer-spread: 2*/
+/*eslint prefer-spread: "error"*/
 
 // This warns.
 a[i++].foo.apply(a[i++], args);

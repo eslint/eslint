@@ -17,7 +17,7 @@ This rule is aimed at preventing errors that may arise from using the `__iterato
 The following patterns are considered problems:
 
 ```js
-/*eslint no-iterator: 2*/
+/*eslint no-iterator: "error"*/
 
 Foo.prototype.__iterator__ = function() {
     return new FooIterator(this);
@@ -32,7 +32,7 @@ foo["__iterator__"] = function () {};
 The following patterns are not considered problems:
 
 ```js
-/*eslint no-iterator: 2*/
+/*eslint no-iterator: "error"*/
 
 var __iterator__ = foo; // Not using the `__iterator__` property.
 ```

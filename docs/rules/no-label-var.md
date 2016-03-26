@@ -7,7 +7,7 @@ This rule aims to create clearer code by disallowing the bad practice of creatin
 Examples of **incorrect** code for this rule:
 
 ```js
-/*eslint no-label-var: 2*/
+/*eslint no-label-var: "error"*/
 
 var x = foo;
 function bar() {
@@ -21,7 +21,7 @@ x:
 Examples of **correct** code for this rule:
 
 ```js
-/*eslint no-label-var: 2*/
+/*eslint no-label-var: "error"*/
 
 // The variable that has the same name as the label is not in scope.
 

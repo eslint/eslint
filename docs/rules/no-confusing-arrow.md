@@ -18,7 +18,7 @@ var x = a <= 1 ? 2 : 3;
 The following patterns are considered warnings:
 
 ```js
-/*eslint no-confusing-arrow: 2*/
+/*eslint no-confusing-arrow: "error"*/
 /*eslint-env es6*/
 
 var x = a => 1 ? 2 : 3;
@@ -29,7 +29,7 @@ var x = (a) => (1 ? 2 : 3);
 The following patterns are not considered warnings:
 
 ```js
-/*eslint no-confusing-arrow: 2*/
+/*eslint no-confusing-arrow: "error"*/
 /*eslint-env es6*/
 
 var x = a => { return 1 ? 2 : 3; };
@@ -43,7 +43,7 @@ This rule accepts a single options argument with the following defaults:
 ```json
 {
     "rules": {
-        "no-confusing-arrow": [2, {"allowParens": false}]
+        "no-confusing-arrow": ["error", {"allowParens": false}]
     }
 }
 ```
@@ -56,7 +56,7 @@ This rule accepts a single options argument with the following defaults:
 When `allowParens` is set to `true` following patterns are no longer considered as warnings:
 
 ```js
-/*eslint no-confusing-arrow: [2, {allowParens: true}]*/
+/*eslint no-confusing-arrow: ["error", {allowParens: true}]*/
 /*eslint-env es6*/
 var x = a => (1 ? 2 : 3);
 var x = (a) => (1 ? 2 : 3);

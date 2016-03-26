@@ -9,7 +9,7 @@ This rule is aimed at eliminating duplicate case labels in switch statements
 Examples of **incorrect** code for this rule:
 
 ```js
-/*eslint no-duplicate-case: 2*/
+/*eslint no-duplicate-case: "error"*/
 
 var a = 1,
     one = 1;
@@ -51,7 +51,7 @@ switch (a) {
 Examples of **correct** code for this rule:
 
 ```js
-/*eslint no-duplicate-case: 2*/
+/*eslint no-duplicate-case: "error"*/
 
 var a = 1,
     one = 1;

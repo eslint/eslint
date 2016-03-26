@@ -25,7 +25,7 @@ This rule aims to disallow multiple whitespace around logical expressions, condi
 Examples of **incorrect** code for this rule:
 
 ```js
-/*eslint no-multi-spaces: 2*/
+/*eslint no-multi-spaces: "error"*/
 
 var a =  1;
 
@@ -41,7 +41,7 @@ a ?  b: c
 Examples of **correct** code for this rule:
 
 ```js
-/*eslint no-multi-spaces: 2*/
+/*eslint no-multi-spaces: "error"*/
 
 var a = 1;
 
@@ -67,8 +67,8 @@ Only the `Property` node type is ignored by default, because for the [key-spacin
 Examples of **correct** code for the default `"exceptions": { "Property": true }` option:
 
 ```js
-/* eslint no-multi-spaces: 2 */
-/* eslint key-spacing: [2, { align: "value" }] */
+/*eslint no-multi-spaces: "error"*/
+/*eslint key-spacing: ["error", { align: "value" }]*/
 
 var obj = {
     first:  "first",
@@ -79,8 +79,8 @@ var obj = {
 Examples of **incorrect** code for the `"exceptions": { "Property": false }` option:
 
 ```js
-/* eslint no-multi-spaces: [2, { exceptions: { "Property": false } }] */
-/* eslint key-spacing: [2, { align: "value" }] */
+/*eslint no-multi-spaces: ["error", { exceptions: { "Property": false } }]*/
+/*eslint key-spacing: ["error", { align: "value" }]*/
 
 var obj = {
     first:  "first",
@@ -91,7 +91,7 @@ var obj = {
 Examples of **correct** code for the `"exceptions": { "BinaryExpression": true }` option:
 
 ```js
-/* eslint no-multi-spaces: [2, { exceptions: { "BinaryExpression": true } }] */
+/*eslint no-multi-spaces: ["error", { exceptions: { "BinaryExpression": true } }]*/
 
 var a = 1  *  2;
 ```
@@ -99,7 +99,7 @@ var a = 1  *  2;
 Examples of **correct** code for the `"exceptions": { "VariableDeclarator": true }` option:
 
 ```js
-/* eslint no-multi-spaces: [2, { exceptions: { "VariableDeclarator": true } }] */
+/*eslint no-multi-spaces: ["error", { exceptions: { "VariableDeclarator": true } }]*/
 
 var someVar      = 'foo';
 var someOtherVar = 'barBaz';
@@ -108,7 +108,7 @@ var someOtherVar = 'barBaz';
 Examples of **correct** code for the `"exceptions": { "ImportDeclaration": true }` option:
 
 ```js
-/* eslint no-multi-spaces: [2, { exceptions: { "ImportDeclaration": true } }] */
+/*eslint no-multi-spaces: ["error", { exceptions: { "ImportDeclaration": true } }]*/
 
 import mod          from 'mod';
 import someOtherMod from 'some-other-mod';

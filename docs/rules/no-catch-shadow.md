@@ -21,7 +21,7 @@ This rule is aimed at preventing unexpected behavior in your program that may ar
 Examples of **incorrect** code for this rule:
 
 ```js
-/*eslint no-catch-shadow: 2*/
+/*eslint no-catch-shadow: "error"*/
 
 var err = "x";
 
@@ -45,7 +45,7 @@ try {
 Examples of **correct** code for this rule:
 
 ```js
-/*eslint no-catch-shadow: 2*/
+/*eslint no-catch-shadow: "error"*/
 
 var err = "x";
 

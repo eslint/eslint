@@ -30,7 +30,7 @@ This rule aims to prevent invalid and incomplete JSDoc comments. It will warn wh
 Examples of **incorrect** code for this rule:
 
 ```js
-/*eslint valid-jsdoc: 2*/
+/*eslint valid-jsdoc: "error"*/
 
 // missing type for @param and missing @returns
 /**                                 // 2 errors
@@ -92,7 +92,7 @@ function foo(a) {
 Examples of **correct** code for this rule:
 
 ```js
-/*eslint valid-jsdoc: 2*/
+/*eslint valid-jsdoc: "error"*/
 
 /**
  * Adds two numbers together.
@@ -140,7 +140,7 @@ class Foo {
 JSDoc offers a lot of tags with overlapping meaning. For example, both `@return` and `@returns` are acceptable for specifying the return value of a function. However, you may want to enforce a certain tag be used instead of others. You can specify your preferences regarding tag substitution by providing a mapping called `prefer` in the rule configuration. For example, to specify that `@returns` should be used instead of `@return`, you can use the following configuration:
 
 ```json
-"valid-jsdoc": [2, {
+"valid-jsdoc": ["error", {
     "prefer": {
         "return": "returns"
     }
@@ -154,7 +154,7 @@ With this configuration, ESLint will warn when it finds `@return` and recommend 
 By default ESLint requires you to document every function with a `@return` tag regardless of whether there is anything returned by the function. If instead you want to enforce that only functions with a `return` statement are documented with a `@return` tag, set the `requireReturn` option to `false`.  When `requireReturn` is `false`, every function documented with a `@return` tag must have a `return` statement, and every function with a `return` statement must have a `@return` tag.
 
 ```json
-"valid-jsdoc": [2, {
+"valid-jsdoc": ["error", {
     "requireReturn": false
 }]
 ```
@@ -164,7 +164,7 @@ By default ESLint requires you to document every function with a `@return` tag r
 By default ESLint requires you to specify a description for each `@param`. You can choose not to require descriptions for parameters by setting `requireParamDescription` to `false`.
 
 ```json
-"valid-jsdoc": [2, {
+"valid-jsdoc": ["error", {
     "requireParamDescription": false
 }]
 ```
@@ -174,7 +174,7 @@ By default ESLint requires you to specify a description for each `@param`. You c
 By default ESLint requires you to specify a description for each `@return`. You can choose not to require descriptions for `@return` by setting `requireReturnDescription` to `false`.
 
 ```json
-"valid-jsdoc": [2, {
+"valid-jsdoc": ["error", {
     "requireReturnDescription": false
 }]
 ```
@@ -184,7 +184,7 @@ By default ESLint requires you to specify a description for each `@return`. You 
 Specify a regular expression to validate jsdoc comment block description against.
 
 ```json
-"valid-jsdoc": [2, {
+"valid-jsdoc": ["error", {
     "matchDescription": "^[A-Z][A-Za-z0-9\\s]*[.]$"
 }]
 ```
@@ -194,7 +194,7 @@ Specify a regular expression to validate jsdoc comment block description against
 By default ESLint requires you to specify `type` for `@return` tag for every documented function.
 
 ```json
-"valid-jsdoc": [2, {
+"valid-jsdoc": ["error", {
     "requireReturnType": false
 }]
 ```
@@ -205,7 +205,7 @@ It will validate all the types from jsdoc with the options setup by the user. In
 In the example below, it will expect the "object" to start with an uppercase and all the "string" type to start with a lowercase.
 
 ```json
-"valid-jsdoc": [2, {
+"valid-jsdoc": ["error", {
     "preferType": {
         "String": "string",
         "object": "Object",
@@ -217,7 +217,7 @@ In the example below, it will expect the "object" to start with an uppercase and
 Examples of **incorrect** code for a sample of `"preferType"` options:
 
 ```js
-/*eslint valid-jsdoc: [2, { "preferType": { "String": "string", "object": "Object", "test": "TesT" } }]*/
+/*eslint valid-jsdoc: ["error", { "preferType": { "String": "string", "object": "Object", "test": "TesT" } }]*/
 
 /**
  * Adds two numbers together.
@@ -251,7 +251,7 @@ function foo(param1) {
 Examples of **correct** code for a sample of `"preferType"` options:
 
 ```js
-/*eslint valid-jsdoc: [2, { "preferType": { "String": "string", "object": "Object", "test": "TesT" } }]*/
+/*eslint valid-jsdoc: ["error", { "preferType": { "String": "string", "object": "Object", "test": "TesT" } }]*/
 
 /**
  * Adds two numbers together.

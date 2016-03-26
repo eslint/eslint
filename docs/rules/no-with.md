@@ -9,7 +9,7 @@ This rule is aimed at eliminating `with` statements.
 Examples of **incorrect** code for this rule:
 
 ```js
-/*eslint no-with: 2*/
+/*eslint no-with: "error"*/
 with (foo) {
     // ...
 }

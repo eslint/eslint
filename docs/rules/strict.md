@@ -50,7 +50,7 @@ This mode forbids any occurrence of a strict mode directive.
 Examples of **incorrect** code for the `"never"` option:
 
 ```js
-/*eslint strict: [2, "never"]*/
+/*eslint strict: ["error", "never"]*/
 
 "use strict";
 
@@ -71,7 +71,7 @@ bar();
 Examples of **correct** code for the `"never"` option:
 
 ```js
-/*eslint strict: [2, "never"]*/
+/*eslint strict: ["error", "never"]*/
 
 function foo() {
     return;
@@ -92,7 +92,7 @@ This mode ensures that all code is in strict mode and that there are no extraneo
 Examples of **incorrect** code for the `"global"` option:
 
 ```js
-/*eslint strict: [2, "global"]*/
+/*eslint strict: ["error", "global"]*/
 
 "use strict";
 "use strict";
@@ -114,7 +114,7 @@ foo();
 Examples of **correct** code for the `"global"` option:
 
 ```js
-/*eslint strict: [2, "global"]*/
+/*eslint strict: ["error", "global"]*/
 
 "use strict";
 
@@ -134,7 +134,7 @@ This mode ensures that all function bodies are strict mode code, while global co
 Examples of **incorrect** code for the `"function"` option:
 
 ```js
-/*eslint strict: [2, "function"]*/
+/*eslint strict: ["error", "function"]*/
 
 "use strict";
 
@@ -155,7 +155,7 @@ foo();
 Examples of **correct** code for the `"function"` option:
 
 ```js
-/*eslint strict: [2, "function"]*/
+/*eslint strict: ["error", "function"]*/
 
 function foo() {
     "use strict";
@@ -183,7 +183,7 @@ This mode ensures that all functions are executed in strict mode. A strict mode 
 Examples of **incorrect** code for an earlier default option which has been removed:
 
 ```js
-// "strict": 2
+// "strict": "error"
 
 function foo() {
     return true;
@@ -193,7 +193,7 @@ function foo() {
 Examples of **correct** code for an earlier default option which has been removed:
 
 ```js
-// "strict": 2
+// "strict": "error"
 
 "use strict";
 
@@ -203,7 +203,7 @@ function foo() {
 ```
 
 ```js
-// "strict": 2
+// "strict": "error"
 
 function foo() {
 
@@ -214,7 +214,7 @@ function foo() {
 ```
 
 ```js
-// "strict": 2
+// "strict": "error"
 
 (function() {
     "use strict";

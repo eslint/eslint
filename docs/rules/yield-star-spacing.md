@@ -17,7 +17,7 @@ The rule takes one option, an object, which has two keys `before` and `after` ha
 The default is `{"before": false, "after": true}`.
 
 ```json
-"yield-star-spacing": [2, {"before": true, "after": false}]
+"yield-star-spacing": ["error", {"before": true, "after": false}]
 ```
 
 The option also has a string shorthand:
@@ -28,13 +28,13 @@ The option also has a string shorthand:
 * `{"before": false, "after": false}` → `"neither"`
 
 ```json
-"yield-star-spacing": [2, "after"]
+"yield-star-spacing": ["error", "after"]
 ```
 
 When using `"after"` this spacing will be enforced:
 
 ```js
-/*eslint yield-star-spacing: [2, "after"]*/
+/*eslint yield-star-spacing: ["error", "after"]*/
 /*eslint-env es6*/
 
 function* generator() {
@@ -45,7 +45,7 @@ function* generator() {
 When using `"before"` this spacing will be enforced:
 
 ```js
-/*eslint yield-star-spacing: [2, "before"]*/
+/*eslint yield-star-spacing: ["error", "before"]*/
 /*eslint-env es6*/
 
 function *generator() {
@@ -56,7 +56,7 @@ function *generator() {
 When using `"both"` this spacing will be enforced:
 
 ```js
-/*eslint yield-star-spacing: [2, "both"]*/
+/*eslint yield-star-spacing: ["error", "both"]*/
 /*eslint-env es6*/
 
 function * generator() {
@@ -67,7 +67,7 @@ function * generator() {
 When using `"neither"` this spacing will be enforced:
 
 ```js
-/*eslint yield-star-spacing: [2, "neither"]*/
+/*eslint yield-star-spacing: ["error", "neither"]*/
 /*eslint-env es6*/
 
 function*generator() {

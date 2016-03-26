@@ -22,7 +22,7 @@ This rule is aimed at eliminating unused labels.
 Examples of **incorrect** code for this rule:
 
 ```js
-/*eslint no-unused-labels: 2*/
+/*eslint no-unused-labels: "error"*/
 
 A: var foo = 0;
 
@@ -39,7 +39,7 @@ for (let i = 0; i < 10; ++i) {
 Examples of **correct** code for this rule:
 
 ```js
-/*eslint no-unused-labels: 2*/
+/*eslint no-unused-labels: "error"*/
 
 A: {
     if (foo()) {

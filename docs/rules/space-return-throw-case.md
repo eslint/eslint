@@ -11,7 +11,7 @@ Require spaces following `return`, `throw`, and `case`.
 The following patterns are considered problems:
 
 ```js
-/*eslint space-return-throw-case: 2*/
+/*eslint space-return-throw-case: "error"*/
 
 throw{a:0}
 
@@ -23,7 +23,7 @@ switch(a){ case'a': break; }
 The following patterns are not considered problems:
 
 ```js
-/*eslint space-return-throw-case: 2*/
+/*eslint space-return-throw-case: "error"*/
 
 throw {a: 0};
 

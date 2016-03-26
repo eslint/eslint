@@ -9,7 +9,7 @@ This rule disallows `var` and named `function` declarations at the top-level scr
 The following patterns are considered problems:
 
 ```js
-/*eslint no-implicit-globals: 2*/
+/*eslint no-implicit-globals: "error"*/
 
 var foo = 1;
 
@@ -19,7 +19,7 @@ function bar() {}
 The following patterns are not considered problems:
 
 ```js
-/*eslint no-implicit-globals: 2*/
+/*eslint no-implicit-globals: "error"*/
 
 // explicitly set on window
 window.foo = 1;

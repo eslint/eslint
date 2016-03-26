@@ -33,7 +33,7 @@ This rule warns below **only** under the strict mode.
 Please note your code in ES2015 Modules/Classes is always the strict mode.
 
 ```js
-/*eslint no-invalid-this: 2*/
+/*eslint no-invalid-this: "error"*/
 /*eslint-env es6*/
 
 this.a = 0;
@@ -83,7 +83,7 @@ foo.forEach(function() {
 The following patterns are not considered problems:
 
 ```js
-/*eslint no-invalid-this: 2*/
+/*eslint no-invalid-this: "error"*/
 /*eslint-env es6*/
 
 function Foo() {

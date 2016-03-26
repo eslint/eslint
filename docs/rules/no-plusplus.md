@@ -41,7 +41,7 @@ This rule, in its default state, does not require any arguments. If you would li
 The following patterns are considered problems:
 
 ```js
-/*eslint no-plusplus: 2*/
+/*eslint no-plusplus: "error"*/
 
 var foo = 0;
 foo++;
@@ -57,7 +57,7 @@ for (i = 0; i < l; i++) {
 The following patterns are not considered problems:
 
 ```js
-/*eslint no-plusplus: 2*/
+/*eslint no-plusplus: "error"*/
 
 var foo = 0;
 foo += 1;
@@ -73,7 +73,7 @@ for (i = 0; i < l; i += 1) {
 The following patterns are not considered problems if `allowForLoopAfterthoughts` is set to true:
 
 ```js
-/*eslint no-plusplus: [2, { allowForLoopAfterthoughts: true }]*/
+/*eslint no-plusplus: ["error", { allowForLoopAfterthoughts: true }]*/
 
 for (i = 0; i < l; i++) {
     return;

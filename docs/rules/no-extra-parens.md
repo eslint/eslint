@@ -23,7 +23,7 @@ The second one is an object for more fine-grained configuration when the first o
 Examples of **incorrect** code for the default `"all"` option:
 
 ```js
-/*eslint no-extra-parens: 2*/
+/*eslint no-extra-parens: "error"*/
 
 a = (b * c);
 
@@ -37,7 +37,7 @@ typeof (a);
 Examples of **correct** code for the default `"all"` option:
 
 ```js
-/*eslint no-extra-parens: 2*/
+/*eslint no-extra-parens: "error"*/
 
 (0).toString();
 
@@ -55,7 +55,7 @@ When setting the first option as `"all"`, an additional option can be added to a
 Examples of **correct** code for the `"all"` and `{ "conditionalAssign": true }` options:
 
 ```js
-/*eslint no-extra-parens: [2, "all", { "conditionalAssign": false }]*/
+/*eslint no-extra-parens: ["error", "all", { "conditionalAssign": false }]*/
 
 while ((foo = bar())) {}
 
@@ -71,7 +71,7 @@ for (;(a = b););
 Examples of **incorrect** code for the `"functions"` option:
 
 ```js
-/*eslint no-extra-parens: [2, "functions"]*/
+/*eslint no-extra-parens: ["error", "functions"]*/
 
 ((function foo() {}))();
 
@@ -81,7 +81,7 @@ var y = (function () {return 1;});
 Examples of **correct** code for the `"functions"` option:
 
 ```js
-/*eslint no-extra-parens: [2, "functions"]*/
+/*eslint no-extra-parens: ["error", "functions"]*/
 
 (0).toString();
 
