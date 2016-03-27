@@ -43,9 +43,6 @@ ruleTester.run("max-len", rule, {
             code: "var foo = module.exports = {}; // really long trailing comment",
             options: [40, 4, {ignoreComments: true}]
         }, {
-            code: "var foo = module.exports = {}; // really long trailing comment",
-            options: [40, 4, {ignoreTrailingComments: true}]
-        }, {
             code: "foo(); \t// strips entire comment *and* trailing whitespace",
             options: [6, 4, {ignoreComments: true}]
         }, {

@@ -57,6 +57,15 @@ do{
 } while (x = -1)
 ```
 
+```js
+/*eslint no-constant-condition: "error"*/
+
+if(typeof x){
+  doSomething();
+}
+```
+
+
 Examples of **correct** code for this rule:
 
 ```js
@@ -80,5 +89,13 @@ do {
 
 for (;;) {
     something();
+}
+```
+
+```js
+/*eslint no-constant-condition: "error"*/
+
+if(typeof x === 'undefined'){
+  doSomething();
 }
 ```

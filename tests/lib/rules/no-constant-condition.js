@@ -31,7 +31,10 @@ ruleTester.run("no-constant-condition", rule, {
         "for(;;);",
         "do{ }while(x)",
         "q > 0 ? 1 : 2;",
-        "while(x += 3) {}"
+        "while(x += 3) {}",
+
+        // typeof #5228
+        "if(typeof x === 'undefined'){}"
     ],
     invalid: [
         { code: "for(;true;);", errors: [{ message: "Unexpected constant condition.", type: "ForStatement"}] },
@@ -50,6 +53,10 @@ ruleTester.run("no-constant-condition", rule, {
         { code: "while(~!0);", errors: [{ message: "Unexpected constant condition.", type: "WhileStatement"}] },
         { code: "while(x = 1);", errors: [{ message: "Unexpected constant condition.", type: "WhileStatement"}] },
         { code: "while(function(){});", errors: [{ message: "Unexpected constant condition.", type: "WhileStatement"}] },
-        { code: "while(() => {});", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "Unexpected constant condition.", type: "WhileStatement"}] }
+        { code: "while(() => {});", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "Unexpected constant condition.", type: "WhileStatement"}] },
+
+        // #5228 , typeof conditions
+        { code: "if(typeof x){}", errors: [{ message: "Unexpected constant condition.", type: "IfStatement"}] },
+        { code: "while(typeof x){}", errors: [{ message: "Unexpected constant condition.", type: "WhileStatement"}] }
     ]
 });
