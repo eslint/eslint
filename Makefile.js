@@ -332,6 +332,7 @@ function getBranches() {
 function lintMarkdown(files) {
     var config = {
             default: true,
+
             // Exclusions for deliberate/widespread violations
             MD001: false, // Header levels should only increment by one level at a time
             MD002: false, // First header should be a h1 header
@@ -1081,6 +1082,7 @@ target.perf = function() {
             "tests/performance/jshint.js",
             PERF_MULTIPLIER,
             function() {
+
                 // Count test target files.
                 var count = glob.sync(
                     process.platform === "win32"

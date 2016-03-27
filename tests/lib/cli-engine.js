@@ -816,6 +816,7 @@ describe("CLIEngine", function() {
         describe("Fix Mode", function() {
 
             it("should return fixed text on multiple files when in fix mode", function() {
+
                 /**
                  * Converts CRLF to LF in output.
                  * This is a workaround for git's autocrlf option on Windows.
@@ -1264,6 +1265,7 @@ describe("CLIEngine", function() {
 
         describe("cache", function() {
             var sandbox;
+
             /**
              * helper method to delete the cache files created during testing
              * @returns {void}
@@ -1273,8 +1275,11 @@ describe("CLIEngine", function() {
                     fs.unlinkSync(path.resolve(".eslintcache"));
                     fs.unlinkSync(path.resolve(".cache/custom-cache"));
                 } catch (ex) {
-                    // we don't care if the file didn't exist
-                    // since our intention was to remove the file
+
+                    /*
+                     * we don't care if the file didn't exist, since our
+                     * intention was to remove the file
+                     */
                 }
             }
 
@@ -1288,6 +1293,7 @@ describe("CLIEngine", function() {
             });
 
             describe("when the cacheFile is a directory or looks like a directory", function() {
+
                 /**
                 * helper method to delete the cache files created during testing
                 * @returns {void}
@@ -1296,8 +1302,11 @@ describe("CLIEngine", function() {
                     try {
                         fs.unlinkSync("./tmp/.cacheFileDir/.cache_hashOfCurrentWorkingDirectory");
                     } catch (ex) {
-                        // we don't care if the file didn't exist
-                        // since we wanted it to be deleted anyway
+
+                        /*
+                         * we don't care if the file didn't exist, since our
+                         * intention was to remove the file
+                         */
                     }
                 }
                 beforeEach(function() {
@@ -1313,6 +1322,7 @@ describe("CLIEngine", function() {
 
                     engine = new CLIEngine({
                         useEslintrc: false,
+
                         // specifying cache true the cache will be created
                         cache: true,
                         cacheFile: "./tmp/.cacheFileDir/",
@@ -1339,6 +1349,7 @@ describe("CLIEngine", function() {
 
                 engine = new CLIEngine({
                     useEslintrc: false,
+
                     // specifying cache true the cache will be created
                     cache: true,
                     cacheLocation: "./tmp/.cacheFileDir/",
@@ -1385,6 +1396,7 @@ describe("CLIEngine", function() {
 
                 engine = new CLIEngine({
                     useEslintrc: false,
+
                     // specifying cache true the cache will be created
                     cache: true,
                     rules: {
@@ -1411,6 +1423,7 @@ describe("CLIEngine", function() {
 
                 engine = new CLIEngine({
                     useEslintrc: false,
+
                     // specifying cache true the cache will be created
                     cache: true,
                     rules: {
@@ -1437,6 +1450,7 @@ describe("CLIEngine", function() {
 
                 engine = new CLIEngine({
                     useEslintrc: false,
+
                     // specifying cache true the cache will be created
                     cache: true,
                     rules: {
@@ -1462,6 +1476,7 @@ describe("CLIEngine", function() {
 
                 engine = new CLIEngine({
                     useEslintrc: false,
+
                     // specifying cache true the cache will be created
                     cache: true,
                     rules: {
@@ -1488,6 +1503,7 @@ describe("CLIEngine", function() {
                 var cacheFile = getFixturePath(".eslintcache");
                 var cliEngineOptions = {
                     useEslintrc: false,
+
                     // specifying cache true the cache will be created
                     cache: true,
                     cacheFile: cacheFile,
@@ -1526,6 +1542,7 @@ describe("CLIEngine", function() {
                 engine = new CLIEngine({
                     cwd: path.join(fixtureDir, ".."),
                     useEslintrc: false,
+
                     // specifying cache true the cache will be created
                     cache: true,
                     cacheFile: cacheFile,
@@ -1562,8 +1579,10 @@ describe("CLIEngine", function() {
 
                     engine = new CLIEngine({
                         useEslintrc: false,
+
                         // specify a custom cache file
                         cacheFile: customCacheFile,
+
                         // specifying cache true the cache will be created
                         cache: true,
                         rules: {
@@ -2012,6 +2031,7 @@ describe("CLIEngine", function() {
             var config = {
                 envs: ["browser"],
                 ignore: true,
+
                 // allowInlineConfig: true is the default
                 rules: {
                     "eol-last": 0,

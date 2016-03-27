@@ -265,6 +265,7 @@ ruleTester.run("valid-jsdoc", rule, {
                 "function foo() {}",
             options: [{requireReturn: false}]
         },
+
         // type validations
         {
             code:
@@ -738,6 +739,7 @@ ruleTester.run("valid-jsdoc", rule, {
                 type: "Block"
             }]
         },
+
         // classes
         {
             code:

@@ -24,7 +24,7 @@ This rule is aimed at discouraging the use of `var` and encouraging the use of `
 The following patterns are considered problems:
 
 ```js
-/*eslint no-var: 2*/
+/*eslint no-var: "error"*/
 
 var x = "y";
 var CONFIG = {};
@@ -33,15 +33,12 @@ var CONFIG = {};
 The following patterns are not considered problems:
 
 ```js
-/*eslint no-var: 2*/
+/*eslint no-var: "error"*/
 /*eslint-env es6*/
 
 let x = "y";
 const CONFIG = {};
 ```
-
-If you intend to use this rule, you must set `blockBindings` to `true` in the `ecmaFeatures` configuration object,
-which will give ESLint the ability to read `let` and `const` variables.
 
 ## When Not To Use It
 

@@ -14,23 +14,24 @@ Although not a syntax error, this format for numbers can make it difficult to di
 
 This rule is aimed at eliminating floating decimal points and will warn whenever a numeric value has a decimal point but is missing a number either before or after it.
 
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule:
 
 ```js
-/*eslint no-floating-decimal: 2*/
+/*eslint no-floating-decimal: "error"*/
 
 var num = .5;
 var num = 2.;
 var num = -.7;
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule:
 
 ```js
-/*eslint no-floating-decimal: 2*/
+/*eslint no-floating-decimal: "error"*/
 
 var num = 0.5;
 var num = 2.0;
+var num = -0.7;
 ```
 
 ## When Not To Use It

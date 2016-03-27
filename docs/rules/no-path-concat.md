@@ -26,10 +26,10 @@ Both `path.join()` and `path.resolve()` are suitable replacements for string con
 
 This rule aims to prevent string concatenation of directory paths in Node.js
 
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule:
 
 ```js
-/*eslint no-path-concat: 2*/
+/*eslint no-path-concat: "error"*/
 
 var fullPath = __dirname + "/foo.js";
 
@@ -37,10 +37,10 @@ var fullPath = __filename + "/foo.js";
 
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule:
 
 ```js
-/*eslint no-path-concat: 2*/
+/*eslint no-path-concat: "error"*/
 
 var fullPath = dirname + "/foo.js";
 ```

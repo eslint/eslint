@@ -6,20 +6,20 @@ In Node.js, most I/O is done through asynchronous methods. However, there are of
 
 This rule is aimed at preventing synchronous methods from being called in Node.js. It looks specifically for the method suffix "`Sync`" (as is the convention with Node.js operations).
 
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule:
 
 ```js
-/*eslint no-sync: 2*/
+/*eslint no-sync: "error"*/
 
 fs.existsSync(somePath);
 
 var contents = fs.readFileSync(somePath).toString();
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule:
 
 ```js
-/*eslint no-sync: 2*/
+/*eslint no-sync: "error"*/
 
 obj.sync();
 

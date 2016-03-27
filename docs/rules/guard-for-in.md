@@ -15,7 +15,7 @@ This rule is aimed at preventing unexpected behavior that could arise from using
 Examples of **incorrect** code for this rule:
 
 ```js
-/*eslint guard-for-in: 2*/
+/*eslint guard-for-in: "error"*/
 
 for (key in foo) {
     doSomething(key);
@@ -25,7 +25,7 @@ for (key in foo) {
 Examples of **correct** code for this rule:
 
 ```js
-/*eslint guard-for-in: 2*/
+/*eslint guard-for-in: "error"*/
 
 for (key in foo) {
     if ({}.hasOwnProperty.call(foo, key)) {

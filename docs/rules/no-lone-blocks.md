@@ -14,10 +14,10 @@ In ES6, code blocks may create a new scope if a block-level binding (`let` and `
 
 This rule aims to eliminate unnecessary and potentially confusing blocks at the top level of a script or within other blocks.
 
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule:
 
 ```js
-/*eslint no-lone-blocks: 2*/
+/*eslint no-lone-blocks: "error"*/
 
 {}
 
@@ -44,11 +44,11 @@ function bar() {
 }
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule with es6 environment:
 
 ```js
+/*eslint no-lone-blocks: "error"*/
 /*eslint-env es6*/
-/*eslint no-lone-blocks: 2*/
 
 while (foo) {
     bar();
@@ -80,11 +80,12 @@ aLabel: {
 }
 ```
 
-In strict mode, with `ecmaFeatures: { blockBindings: true }`, the following will not warn:
+Examples of **correct** code for this rule with es6 environment and strict mode via `"parserOptions": { "sourceType": "module" }` in the ESLint configuration or `"use strict"` directive in the code:
 
 ```js
+/*eslint no-lone-blocks: "error"*/
 /*eslint-env es6*/
-/*eslint no-lone-blocks: 2*/
+
 "use strict";
 
 {

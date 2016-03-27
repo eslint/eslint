@@ -10,7 +10,7 @@ This rule prevents duplicate parameter names in a function.
 Examples of **incorrect** code for this rule:
 
 ```js
-/*eslint no-dupe-args: 2*/
+/*eslint no-dupe-args: "error"*/
 
 function foo(a, b, a) {
     console.log("which a is it?", a);
@@ -20,7 +20,7 @@ function foo(a, b, a) {
 Examples of **correct** code for this rule:
 
 ```js
-/*eslint no-dupe-args: 2*/
+/*eslint no-dupe-args: "error"*/
 
 function foo(a, b, c) {
     console.log(a, b, c);

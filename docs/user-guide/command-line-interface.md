@@ -122,18 +122,22 @@ Examples:
 
 #### `--ext`
 
-This option allows you to specify which file extensions ESLint will use when searching for JavaScript files. By default, it uses `.js` as the only file extension.
+This option allows you to specify which file extensions ESLint will use when searching for JavaScript files in the directories you specify.
+By default, it uses `.js` as the only file extension.
 
 Examples:
 
     # Use only .js2 extension
-    eslint --ext .js2
+    eslint . --ext .js2
 
     # Use both .js and .js2
-    eslint --ext .js --ext .js2
+    eslint . --ext .js --ext .js2
 
     # Also use both .js and .js2
-    eslint --ext .js,.js2
+    eslint . --ext .js,.js2
+
+**Note:** If you use a glob pattern, then `--ext` is ignored
+For example, `eslint lib/* --ext .js` will match all files within the `lib/` directory, regardless of extension.
 
 #### `--global`
 

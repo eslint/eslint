@@ -20,10 +20,10 @@ While convenient in some cases, labels tend to be used only rarely and are frown
 
 This rule aims to eliminate the use of labeled statements in JavaScript. It will warn whenever a labeled statement is encountered and whenever `break` or `continue` are used with a label.
 
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule:
 
 ```js
-/*eslint no-labels: 2*/
+/*eslint no-labels: "error"*/
 
 label:
     while(true) {
@@ -57,10 +57,10 @@ label:
     }
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule:
 
 ```js
-/*eslint no-labels: 2*/
+/*eslint no-labels: "error"*/
 
 var f = {
     label: "foo"
@@ -77,11 +77,7 @@ while (true) {
 
 ## Options
 
-```json
-{
-    "no-labels": [2, {"allowLoop": false, "allowSwitch": false}]
-}
-```
+The options allow labels with loop or switch statements:
 
 * `"allowLoop"` (`boolean`, default is `false`) - If this option was set `true`, this rule ignores labels which are sticking to loop statements.
 * `"allowSwitch"` (`boolean`, default is `false`) - If this option was set `true`, this rule ignores labels which are sticking to switch statements.
@@ -89,29 +85,25 @@ while (true) {
 Actually labeled statements in JavaScript can be used with other than loop and switch statements.
 However, this way is ultra rare, not well-known, so this would be confusing developers.
 
-Those options allow us to use labels only with loop or switch statements.
+### allowLoop
 
-The following patterns are considered problems when configured `{"allowLoop": true, "allowSwitch": true}`:
-
-```js
-label:
-    {
-        break label;
-    }
-
-label:
-    if (a) {
-        break label;
-    }
-```
-
-The following patterns are not considered problems when configured `{"allowLoop": true, "allowSwitch": true}`:
+Examples of **correct** code for the { "allowLoop": true } option:
 
 ```js
+/*eslint no-labels: ["error", { "allowLoop": true }]*/
+
 label:
     while (true) {
         break label;
     }
+```
+
+### allowSwitch
+
+Examples of **correct** code for the { "allowSwitch": true } option:
+
+```js
+/*eslint no-labels: ["error", { "allowSwitch": true }]*/
 
 label:
     switch (a) {

@@ -153,6 +153,7 @@ describe("ConfigFile", function() {
             target.push(path.resolve(PROJECT_PATH, "./node_modules/eslint-config-foo/index.js"));
 
             var configDeps = {
+
                 // Hacky: need to override isFile for each call for testing
                 "resolve": {
                     sync: function(filename, opts) {
@@ -193,6 +194,7 @@ describe("ConfigFile", function() {
             target.push(path.resolve("/whatever/node_modules/eslint-config-foo/index.js"));
 
             var configDeps = {
+
                 // Hacky: need to override isFile for each call for testing
                 "resolve": {
                     sync: function(filename, opts) {
@@ -223,6 +225,7 @@ describe("ConfigFile", function() {
             target.push(path.resolve(PROJECT_PATH, "./node_modules/eslint-config-bar/index.js"));
 
             var configDeps = {
+
                 // Hacky: need to override isFile for each call for testing
                 "resolve": {
                     sync: function(filename, opts) {
@@ -676,6 +679,7 @@ describe("ConfigFile", function() {
 
         beforeEach(function() {
             StubbedConfigFile = proxyquire("../../../lib/config/config-file", {
+
                 // Hacky: need to override isFile for each call for testing
                 "resolve": {
                     sync: function(filename, opts) {
@@ -720,7 +724,11 @@ describe("ConfigFile", function() {
                 [ "eslint-configfoo", getRelativeModulePath("eslint-config-eslint-configfoo", relativePath), relativePath],
                 [ "@foo/eslint-config", getRelativeModulePath("@foo/eslint-config", relativePath), relativePath],
                 [ "@foo/bar", getRelativeModulePath("@foo/eslint-config-bar", relativePath), relativePath],
-                [ "plugin:@foo/bar/baz", getRelativeModulePath("@foo/eslint-plugin-bar", relativePath), relativePath]
+                [ "plugin:@foo/bar/baz", getRelativeModulePath("@foo/eslint-plugin-bar", relativePath), relativePath],
+                [ "eslint-config-foo/bar", path.resolve("./node_modules", "eslint-config-foo/bar", "index.json"), relativePath],
+                [ "eslint-config-foo/bar", path.resolve("./node_modules", "eslint-config-foo", "bar.json"), relativePath],
+                [ "eslint-config-foo/bar", path.resolve("./node_modules", "eslint-config-foo/bar", "index.js"), relativePath],
+                [ "eslint-config-foo/bar", path.resolve("./node_modules", "eslint-config-foo", "bar.js"), relativePath]
             ], function(input, expected, relativeTo) {
                 it("should return " + expected + " when passed " + input, function() {
 

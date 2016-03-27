@@ -12,7 +12,7 @@ This rule is aimed to flag usage of function expressions in an argument list.
 The following patterns are considered problems:
 
 ```js
-/*eslint prefer-arrow-callback: 2*/
+/*eslint prefer-arrow-callback: "error"*/
 
 foo(function(a) { return a; });
 foo(function() { return this.a; }.bind(this));
@@ -21,7 +21,7 @@ foo(function() { return this.a; }.bind(this));
 The following patterns are not considered problems:
 
 ```js
-/*eslint prefer-arrow-callback: 2*/
+/*eslint prefer-arrow-callback: "error"*/
 /*eslint-env es6*/
 
 foo(a => a);

@@ -25,7 +25,7 @@ switch(foo) {
 }
 ```
 
-That works fine when you don't want a fallthrough, but what if the fallthrough is intentional, there is no way to indicate that in the language. It's considered a best practice to always indicate when a fallthrough is intentional using a comment:
+That works fine when you don't want a fallthrough, but what if the fallthrough is intentional, there is no way to indicate that in the language. It's considered a best practice to always indicate when a fallthrough is intentional using a comment which matches the `/falls?\s?through/i` regular expression:
 
 ```js
 switch(foo) {
@@ -62,10 +62,10 @@ In this example, there is no confusion as to the expected behavior. It is clear 
 
 This rule is aimed at eliminating unintentional fallthrough of one case to the other. As such, it flags and fallthrough scenarios that are not marked by a comment.
 
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule:
 
 ```js
-/*eslint no-fallthrough: 2*/
+/*eslint no-fallthrough: "error"*/
 
 switch(foo) {
     case 1:
@@ -76,10 +76,10 @@ switch(foo) {
 }
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule:
 
 ```js
-/*eslint no-fallthrough: 2*/
+/*eslint no-fallthrough: "error"*/
 
 switch(foo) {
     case 1:

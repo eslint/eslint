@@ -15,7 +15,7 @@ This rule is aimed at making functions easier to read and write by capping the n
 The following patterns are considered problems:
 
 ```js
-/*eslint max-params: [2, 3]*/
+/*eslint max-params: ["error", 3]*/
 
 function foo (bar, baz, qux, qxx) {
     doSomething();
@@ -25,7 +25,7 @@ function foo (bar, baz, qux, qxx) {
 The following patterns are not considered problems:
 
 ```js
-/*eslint max-params: [2, 3]*/
+/*eslint max-params: ["error", 3]*/
 
 function foo (bar, baz, qux) {
     doSomething();
@@ -35,13 +35,13 @@ function foo (bar, baz, qux) {
 Optionally, you may specify a `maximum` object property:
 
 ```json
-"max-params": [2, 2]
+"max-params": ["error", 2]
 ```
 
 is equivalent to
 
 ```json
-"max-params": [2, {"maximum": 2}]
+"max-params": ["error", {"maximum": 2}]
 ```
 
 

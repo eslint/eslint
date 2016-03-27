@@ -10,40 +10,31 @@ Blocking the `os` module can be useful if you don't want to allow any operating 
 
 This rule allows you to specify modules that you don't want to use in your application.
 
-To restrict the use of all Node.js core modules (via https://github.com/nodejs/node/tree/master/lib):
-
-```json
-    "no-restricted-modules": [2,
-         "assert","buffer","child_process","cluster","crypto","dgram","dns","domain","events","freelist","fs","http","https","module","net","os","path","punycode","querystring","readline","repl","smalloc","stream","string_decoder","sys","timers","tls","tracing","tty","url","util","vm","zlib"
-    ],
-```
-
 ## Options
 
-The syntax to specify restricted modules looks like this:
+The rule takes one or more strings as options: the names of restricted modules.
+
+For example, to restrict the use of all Node.js core modules (via https://github.com/nodejs/node/tree/master/lib):
 
 ```json
-"no-restricted-modules": [2, <...moduleNames>]
+    "no-restricted-modules": ["error",
+         "assert","buffer","child_process","cluster","crypto","dgram","dns","domain","events","freelist","fs","http","https","module","net","os","path","punycode","querystring","readline","repl","smalloc","stream","string_decoder","sys","timers","tls","tracing","tty","url","util","vm","zlib"
+    ]
 ```
 
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule with sample `"fs", "cluster"` restricted modules:
 
 ```js
-/*eslint no-restricted-modules: [2, "fs"]*/
+/*eslint no-restricted-modules: ["error", "fs", "cluster"]*/
 
 var fs = require('fs');
+var cluster = require(' cluster ');
 ```
 
-```js
-/*eslint no-restricted-modules: [2, "cluster"]*/
-
-var fs = require(' cluster ');
-```
-
-The following patterns are not considered problems:
+Examples of **incorrect** code for this rule with sample `"fs", "cluster"` restricted modules:
 
 ```js
-/*eslint no-restricted-modules: [2, "fs"]*/
+/*eslint no-restricted-modules: ["error", "fs", "cluster"]*/
 
 var crypto = require('crypto');
 ```

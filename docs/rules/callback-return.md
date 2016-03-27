@@ -20,13 +20,16 @@ To prevent calling the callback multiple times it is important to `return` anyti
 ## Rule Details
 
 This rule is aimed at ensuring that callbacks used outside of the main function block are always part-of or immediately
-preceding a `return` statement. This rules decides what is a callback based on the name of the function being called.
-By default the rule treats `cb`, `callback`, and `next` as callbacks.
+preceding a `return` statement. This rule decides what is a callback based on the name of the function being called.
 
-The following patterns are considered problems:
+## Options
+
+The rule takes a single option, which is an array of possible callback names. The default callback names are `callback`, `cb`, `next`.
+
+Examples of **incorrect** code for this rule with the default `["callback", "cb", "next"]` option:
 
 ```js
-/*eslint callback-return: 2*/
+/*eslint callback-return: "error"*/
 
 function foo() {
     if (err) {
@@ -36,10 +39,10 @@ function foo() {
 }
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule with the default `["callback", "cb", "next"]` option:
 
 ```js
-/*eslint callback-return: 2*/
+/*eslint callback-return: "error"*/
 
 function foo() {
     if (err) {
@@ -49,27 +52,21 @@ function foo() {
 }
 ```
 
-## Options
-
-The rule takes a single option, which is an array of possible callback names.
-
-```json
-callback-return: [2, ["callback", "cb", "next"]]
-```
-
 ## Known Limitations
 
-There are several cases of bad behavior that this rule will not catch and even a few cases where
-the rule will warn even though you are handling your callbacks correctly. Most of these issues arise
-in areas where it is difficult to understand the meaning of the code through static analysis.
+Because it is difficult to understand the meaning of a program through static analysis, this rule has limitations:
 
-### Passing the Callback by Reference
+* *false negatives* when this rule reports correct code, but the program calls the callback more than one time (which is incorrect behavior)
+* *false positives* when this rule reports incorrect code, but the program calls the callback only one time (which is correct behavior)
 
-Here is a case where we pass the callback to the `setTimeout` function. Our rule does not detect this pattern, but
-it is likely a mistake.
+### Passing the callback by reference
+
+The static analysis of this rule does not detect that the program calls the callback if it is an argument of a function (for example,  `setTimeout`).
+
+Example of a *false negative* when this rule reports correct code:
 
 ```js
-/*eslint callback-return: 2*/
+/*eslint callback-return: "error"*/
 
 function foo(callback) {
     if (err) {
@@ -79,14 +76,14 @@ function foo(callback) {
 }
 ```
 
-### Triggering the Callback within a Nested Function
+### Triggering the callback within a nested function
 
-If you are calling the callback from within a nested function or an immediately invoked
-function expression, we won't be able to detect that you're calling the callback and so
-we won't warn.
+The static analysis of this rule does not detect that the program calls the callback from within a nested function or an immediately-invoked function expression (IIFE).
+
+Example of a *false negative* when this rule reports correct code:
 
 ```js
-/*eslint callback-return: 2*/
+/*eslint callback-return: "error"*/
 
 function foo(callback) {
     if (err) {
@@ -98,13 +95,14 @@ function foo(callback) {
 }
 ```
 
-### If/Else Statements
+### If/else statements
 
-Here is a case where you're doing the right thing in making sure to only `callback()` once, but because of the
-difficulty in determining what you're doing, this rule does not allow for this pattern.
+The static analysis of this rule does not detect that the program calls the callback only one time in each branch of an `if` statement.
+
+Example of a *false positive* when this rule reports incorrect code:
 
 ```js
-/*eslint callback-return: 2*/
+/*eslint callback-return: "error"*/
 
 function foo(callback) {
     if (err) {

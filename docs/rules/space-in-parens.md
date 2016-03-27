@@ -26,7 +26,7 @@ There are two options for this rule:
 Depending on your coding conventions, you can choose either option by specifying it in your configuration:
 
 ```json
-"space-in-parens": [2, "always"]
+"space-in-parens": ["error", "always"]
 ```
 
 ### "always"
@@ -34,7 +34,7 @@ Depending on your coding conventions, you can choose either option by specifying
 When `"always"` is set, the following patterns are considered problems:
 
 ```js
-/*eslint space-in-parens: [2, "always"]*/
+/*eslint space-in-parens: ["error", "always"]*/
 
 foo( 'bar');
 foo('bar' );
@@ -47,7 +47,7 @@ var foo = (1 + 2) * 3;
 The following patterns are not considered problems:
 
 ```js
-/*eslint space-in-parens: [2, "always"]*/
+/*eslint space-in-parens: ["error", "always"]*/
 
 foo();
 
@@ -62,7 +62,7 @@ var foo = ( 1 + 2 ) * 3;
 When `"never"` is used, the following patterns are considered problems:
 
 ```js
-/*eslint space-in-parens: [2, "never"]*/
+/*eslint space-in-parens: ["error", "never"]*/
 
 foo( 'bar');
 foo('bar' );
@@ -75,7 +75,7 @@ var foo = ( 1 + 2 ) * 3;
 The following patterns are not considered problems:
 
 ```js
-/*eslint space-in-parens: [2, "never"]*/
+/*eslint space-in-parens: ["error", "never"]*/
 
 foo();
 
@@ -91,10 +91,10 @@ An object literal may be used as a third array item to specify exceptions, with 
 
 The following exceptions are available: `["{}", "[]", "()", "empty"]`.
 
-For example, given `"space-in-parens": [2, "always", { "exceptions": ["{}"] }]`, the following patterns are considered problems:
+For example, given `"space-in-parens": ["error", "always", { "exceptions": ["{}"] }]`, the following patterns are considered problems:
 
 ```js
-/*eslint space-in-parens: [2, "always", { "exceptions": ["{}"] }]*/
+/*eslint space-in-parens: ["error", "always", { "exceptions": ["{}"] }]*/
 
 foo( {bar: 'baz'} );
 foo( 1, {bar: 'baz'} );
@@ -103,16 +103,16 @@ foo( 1, {bar: 'baz'} );
 The following patterns are not considered problems:
 
 ```js
-/*eslint space-in-parens: [2, "always", { "exceptions": ["{}"] }]*/
+/*eslint space-in-parens: ["error", "always", { "exceptions": ["{}"] }]*/
 
 foo({bar: 'baz'});
 foo( 1, {bar: 'baz'});
 ```
 
-Or, given `"space-in-parens": [2, "never", { "exceptions": ["{}"] }]`, the following patterns are considered problems:
+Or, given `"space-in-parens": ["error", "never", { "exceptions": ["{}"] }]`, the following patterns are considered problems:
 
 ```js
-/*eslint space-in-parens: [2, "never", { "exceptions": ["{}"] }]*/
+/*eslint space-in-parens: ["error", "never", { "exceptions": ["{}"] }]*/
 
 foo({bar: 'baz'});
 foo(1, {bar: 'baz'});
@@ -121,16 +121,16 @@ foo(1, {bar: 'baz'});
 The following patterns are not considered problems:
 
 ```js
-/*eslint space-in-parens: [2, "never", { "exceptions": ["{}"] }]*/
+/*eslint space-in-parens: ["error", "never", { "exceptions": ["{}"] }]*/
 
 foo( {bar: 'baz'} );
 foo(1, {bar: 'baz'} );
 ```
 
-Given `"space-in-parens": [2, "always", { "exceptions": ["[]"] }]`, the following patterns are considered problems:
+Given `"space-in-parens": ["error", "always", { "exceptions": ["[]"] }]`, the following patterns are considered problems:
 
 ```js
-/*eslint space-in-parens: [2, "always", { "exceptions": ["[]"] }]*/
+/*eslint space-in-parens: ["error", "always", { "exceptions": ["[]"] }]*/
 
 foo( [bar, baz] );
 foo( [bar, baz], 1 );
@@ -139,16 +139,16 @@ foo( [bar, baz], 1 );
 The following patterns are not considered problems:
 
 ```js
-/*eslint space-in-parens: [2, "always", { "exceptions": ["[]"] }]*/
+/*eslint space-in-parens: ["error", "always", { "exceptions": ["[]"] }]*/
 
 foo([bar, baz]);
 foo([bar, baz], 1 );
 ```
 
-Or, given `"space-in-parens": [2, "never", { "exceptions": ["[]"] }]`, the following patterns are considered problems:
+Or, given `"space-in-parens": ["error", "never", { "exceptions": ["[]"] }]`, the following patterns are considered problems:
 
 ```js
-/*eslint space-in-parens: [2, "never", { "exceptions": ["[]"] }]*/
+/*eslint space-in-parens: ["error", "never", { "exceptions": ["[]"] }]*/
 
 foo([bar, baz]);
 foo([bar, baz], 1);
@@ -157,16 +157,16 @@ foo([bar, baz], 1);
 The following patterns are not considered problems:
 
 ```js
-/*eslint space-in-parens: [2, "never", { "exceptions": ["[]"] }]*/
+/*eslint space-in-parens: ["error", "never", { "exceptions": ["[]"] }]*/
 
 foo( [bar, baz] );
 foo( [bar, baz], 1);
 ```
 
-Given `"space-in-parens": [2, "always", { "exceptions": ["()"] }]`, the following patterns are considered problems:
+Given `"space-in-parens": ["error", "always", { "exceptions": ["()"] }]`, the following patterns are considered problems:
 
 ```js
-/*eslint space-in-parens: [2, "always", { "exceptions": ["()"] }]*/
+/*eslint space-in-parens: ["error", "always", { "exceptions": ["()"] }]*/
 
 foo( ( 1 + 2 ) );
 foo( ( 1 + 2 ), 1 );
@@ -175,16 +175,16 @@ foo( ( 1 + 2 ), 1 );
 The following patterns are not considered problems:
 
 ```js
-/*eslint space-in-parens: [2, "always", { "exceptions": ["()"] }]*/
+/*eslint space-in-parens: ["error", "always", { "exceptions": ["()"] }]*/
 
 foo(( 1 + 2 ));
 foo(( 1 + 2 ), 1 );
 ```
 
-Or, given `"space-in-parens": [2, "never", { "exceptions": ["()"] }]`, the following patterns are considered problems:
+Or, given `"space-in-parens": ["error", "never", { "exceptions": ["()"] }]`, the following patterns are considered problems:
 
 ```js
-/*eslint space-in-parens: [2, "never", { "exceptions": ["()"] }]*/
+/*eslint space-in-parens: ["error", "never", { "exceptions": ["()"] }]*/
 
 foo((1 + 2));
 foo((1 + 2), 1);
@@ -193,7 +193,7 @@ foo((1 + 2), 1);
 The following patterns are not considered problems:
 
 ```js
-/*eslint space-in-parens: [2, "never", { "exceptions": ["()"] }]*/
+/*eslint space-in-parens: ["error", "never", { "exceptions": ["()"] }]*/
 
 foo( (1 + 2) );
 foo( (1 + 2), 1);
@@ -201,10 +201,10 @@ foo( (1 + 2), 1);
 
 The `"empty"` exception concerns empty parentheses, and works the same way as the other exceptions, inverting the first option.
 
-For example, given `"space-in-parens": [2, "always", { "exceptions": ["empty"] }]`, the following patterns are considered problems:
+For example, given `"space-in-parens": ["error", "always", { "exceptions": ["empty"] }]`, the following patterns are considered problems:
 
 ```js
-/*eslint space-in-parens: [2, "always", { "exceptions": ["empty"] }]*/
+/*eslint space-in-parens: ["error", "always", { "exceptions": ["empty"] }]*/
 
 foo( );
 ```
@@ -212,15 +212,15 @@ foo( );
 The following patterns are not considered problems:
 
 ```js
-/*eslint space-in-parens: [2, "always", { "exceptions": ["empty"] }]*/
+/*eslint space-in-parens: ["error", "always", { "exceptions": ["empty"] }]*/
 
 foo();
 ```
 
-Or, given `"space-in-parens": [2, "never", { "exceptions": ["empty"] }]`, the following patterns are considered problems:
+Or, given `"space-in-parens": ["error", "never", { "exceptions": ["empty"] }]`, the following patterns are considered problems:
 
 ```js
-/*eslint space-in-parens: [2, "never", { "exceptions": ["empty"] }]*/
+/*eslint space-in-parens: ["error", "never", { "exceptions": ["empty"] }]*/
 
 foo();
 ```
@@ -228,15 +228,15 @@ foo();
 The following patterns are not considered problems:
 
 ```js
-/*eslint space-in-parens: [2, "never", { "exceptions": ["empty"] }]*/
+/*eslint space-in-parens: ["error", "never", { "exceptions": ["empty"] }]*/
 
 foo( );
 ```
 
-You can include multiple entries in the `"exceptions"` array. For example, given `"space-in-parens": [2, "always", { "exceptions": ["{}", "[]"] }]`, the following patterns are considered problems:
+You can include multiple entries in the `"exceptions"` array. For example, given `"space-in-parens": ["error", "always", { "exceptions": ["{}", "[]"] }]`, the following patterns are considered problems:
 
 ```js
-/*eslint space-in-parens: [2, "always", { "exceptions": ["{}", "[]"] }]*/
+/*eslint space-in-parens: ["error", "always", { "exceptions": ["{}", "[]"] }]*/
 
 bar( {bar:'baz'} );
 baz( 1, [1,2] );
@@ -246,7 +246,7 @@ foo( {bar: 'baz'}, [1, 2] );
 The following patterns are not considered problems:
 
 ```js
-/*eslint space-in-parens: [2, "always", { "exceptions": ["{}", "[]"] }]*/
+/*eslint space-in-parens: ["error", "always", { "exceptions": ["{}", "[]"] }]*/
 
 bar({bar:'baz'});
 baz( 1, [1,2]);

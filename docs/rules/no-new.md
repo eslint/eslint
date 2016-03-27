@@ -21,7 +21,7 @@ This rule is aimed at maintaining consistency and convention by disallowing cons
 Examples of **incorrect** code for this rule:
 
 ```js
-/*eslint no-new: 2*/
+/*eslint no-new: "error"*/
 
 new Thing();
 ```
@@ -29,7 +29,7 @@ new Thing();
 Examples of **correct** code for this rule:
 
 ```js
-/*eslint no-new: 2*/
+/*eslint no-new: "error"*/
 
 var thing = new Thing();
 

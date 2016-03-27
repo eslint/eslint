@@ -27,7 +27,7 @@ This rule is aimed at preventing bugs and increasing code clarity by ensuring th
 Examples of **incorrect** code for the default `"all"` option:
 
 ```js
-/*eslint curly: 2*/
+/*eslint curly: "error"*/
 
 if (foo) foo++;
 
@@ -42,7 +42,7 @@ if (foo) {
 Examples of **correct** code for the default `"all"` option:
 
 ```js
-/*eslint curly: 2*/
+/*eslint curly: "error"*/
 
 if (foo) {
     foo++;
@@ -66,7 +66,7 @@ By default, this rule warns whenever `if`, `else`, `for`, `while`, or `do` are u
 Examples of **incorrect** code for the `"multi"` option:
 
 ```js
-/*eslint curly: [2, "multi"]*/
+/*eslint curly: ["error", "multi"]*/
 
 if (foo) {
     foo++;
@@ -89,7 +89,7 @@ for (var i=0; i < items.length; i++) {
 Examples of **correct** code for the `"multi"` option:
 
 ```js
-/*eslint curly: [2, "multi"]*/
+/*eslint curly: ["error", "multi"]*/
 
 if (foo) foo++;
 
@@ -108,7 +108,7 @@ Alternatively, you can relax the rule to allow brace-less single-line `if`, `els
 Examples of **incorrect** code for the `"multi-line"` option:
 
 ```js
-/*eslint curly: [2, "multi-line"]*/
+/*eslint curly: ["error", "multi-line"]*/
 
 if (foo)
   doSomething();
@@ -123,7 +123,7 @@ if (foo) foo(
 Examples of **correct** code for the `"multi-line"` option:
 
 ```js
-/*eslint curly: [2, "multi-line"]*/
+/*eslint curly: ["error", "multi-line"]*/
 
 if (foo) foo++; else doSomething();
 
@@ -156,7 +156,7 @@ You can use another configuration that forces brace-less `if`, `else if`, `else`
 Examples of **incorrect** code for the `"multi-or-nest"` option:
 
 ```js
-/*eslint curly: [2, "multi-or-nest"]*/
+/*eslint curly: ["error", "multi-or-nest"]*/
 
 if (!foo)
     foo = {
@@ -186,7 +186,7 @@ for (var i = 0; foo; i++) {
 Examples of **correct** code for the `"multi-or-nest"` option:
 
 ```js
-/*eslint curly: [2, "multi-or-nest"]*/
+/*eslint curly: ["error", "multi-or-nest"]*/
 
 if (!foo) {
     foo = {
@@ -220,7 +220,7 @@ When using any of the `multi*` options, you can add an option to enforce all bod
 Examples of **incorrect** code for the `"multi", "consistent"` options:
 
 ```js
-/*eslint curly: [2, "multi", "consistent"]*/
+/*eslint curly: ["error", "multi", "consistent"]*/
 
 if (foo) {
     bar();
@@ -251,7 +251,7 @@ if (foo) {
 Examples of **correct** code for the `"multi", "consistent"` options:
 
 ```js
-/*eslint curly: [2, "multi", "consistent"]*/
+/*eslint curly: ["error", "multi", "consistent"]*/
 
 if (foo) {
     bar();

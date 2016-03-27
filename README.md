@@ -8,7 +8,7 @@
 
 # ESLint
 
-[Website](http://eslint.org) | [Configuring](http://eslint.org/docs/user-guide/configuring) | [Rules](http://eslint.org/docs/rules/) | [Contributing](http://eslint.org/docs/developer-guide/contributing) | [Reporting Bugs](http://eslint.org/docs/developer-guide/contributing/reporting-bugs) | [Twitter](https://twitter.com/geteslint) | [Mailing List](https://groups.google.com/group/eslint)
+[Website](http://eslint.org) | [Configuring](http://eslint.org/docs/user-guide/configuring) | [Rules](http://eslint.org/docs/rules/) | [Contributing](http://eslint.org/docs/developer-guide/contributing) | [Reporting Bugs](http://eslint.org/docs/developer-guide/contributing/reporting-bugs) | [Twitter](https://twitter.com/geteslint) | [Mailing List](https://groups.google.com/group/eslint) | [Chat Room](https://gitter.im/eslint/eslint)
 
 ESLint is a tool for identifying and reporting on patterns found in ECMAScript/JavaScript code. In many ways, it is similar to JSLint and JSHint with a few exceptions:
 
@@ -72,6 +72,8 @@ These folks keep the project moving and are resources for help:
 * Ian VanSchooten ([@ianvs](https://github.com/ianvs)) - committer
 * Burak Yiğit Kaya ([@byk](https://github.com/byk)) - committer
 * Alberto Rodríguez ([@alberto](https://github.com/alberto)) - committer
+* Kai Cataldo ([@kaicataldo](https://github.com/kaicataldo)) - committer
+* Michael Ficarra ([@michaelficarra](https://github.com/michaelficarra)) - committer
 
 ## Releases
 
@@ -83,6 +85,7 @@ Before filing an issue, please be sure to read the guidelines for what you're re
 
 * [Bug Report](http://eslint.org/docs/developer-guide/contributing/reporting-bugs)
 * [Propose a New Rule](http://eslint.org/docs/developer-guide/contributing/new-rules)
+* [Proposing a Rule Change](http://eslint.org/docs/developer-guide/contributing/rule-changes)
 * [Request a Change](http://eslint.org/docs/developer-guide/contributing/changes)
 
 ## Frequently Asked Questions
@@ -117,9 +120,14 @@ ESLint has full support for ECMAScript 6. By default, this support is off. You c
 
 Yes, ESLint natively supports parsing JSX syntax (this must be enabled in [configuration](http://eslint.org/docs/user-guide/configuring).). Please note that supporting JSX syntax *is not* the same as supporting React. React applies specific semantics to JSX syntax that ESLint doesn't recognize. We recommend using [eslint-plugin-react](https://www.npmjs.com/package/eslint-plugin-react) if you are using React and want React semantics.
 
-### What about ECMAScript 7/2016 and experimental features?
+### What about experimental features?
 
 ESLint doesn't natively support experimental ECMAScript language features. You can use [babel-eslint](https://github.com/babel/babel-eslint) to use any option available in Babel.
+
+Once a language feature has been adopted into the ECMAScript standard, we will accept
+issues and pull requests related to the new feature, subject to our [contributing
+guidelines](http://eslint.org/docs/developer-guide/contributing). Until then, please use
+the appropriate parser and plugin(s) for your experimental feature.
 
 ### Where to ask for help?
 

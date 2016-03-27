@@ -23,7 +23,7 @@ This rule aims to eliminate sparse arrays that are defined by extra commas.
 Examples of **incorrect** code for this rule:
 
 ```js
-/*eslint no-sparse-arrays: 2*/
+/*eslint no-sparse-arrays: "error"*/
 
 var items = [,];
 var colors = [ "red",, "blue" ];
@@ -32,7 +32,7 @@ var colors = [ "red",, "blue" ];
 Examples of **correct** code for this rule:
 
 ```js
-/*eslint no-sparse-arrays: 2*/
+/*eslint no-sparse-arrays: "error"*/
 
 var items = [];
 var items = new Array(23);

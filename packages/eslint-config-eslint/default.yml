@@ -20,6 +20,12 @@ rules:
     guard-for-in: "error"
     key-spacing: ["error", { beforeColon: false, afterColon: true }]
     keyword-spacing: "error"
+    lines-around-comment: ["error", {
+        beforeBlockComment: true,
+        afterBlockComment: false,
+        beforeLineComment: true,
+        afterLineComment: false
+    }]
     new-cap: "error"
     new-parens: "error"
     no-alert: "error"
@@ -78,6 +84,7 @@ rules:
     semi-spacing: ["error", {before: false, after: true}]
     space-before-blocks: "error"
     space-before-function-paren: ["error", "never"]
+    space-in-parens: "error"
     space-infix-ops: "error"
     space-unary-ops: ["error", {words: true, nonwords: false}]
     spaced-comment: ["error", "always", { exceptions: ["-"]}]

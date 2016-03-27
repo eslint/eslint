@@ -42,7 +42,7 @@ This rule aims to eliminate the use of `String`, `Number`, and `Boolean` with th
 Examples of **incorrect** code for this rule:
 
 ```js
-/*eslint no-new-wrappers: 2*/
+/*eslint no-new-wrappers: "error"*/
 
 var stringObject = new String("Hello world");
 var numberObject = new Number(33);
@@ -56,7 +56,7 @@ var booleanObject = new Boolean;
 Examples of **correct** code for this rule:
 
 ```js
-/*eslint no-new-wrappers: 2*/
+/*eslint no-new-wrappers: "error"*/
 
 var text = String(someValue);
 var num = Number(someValue);

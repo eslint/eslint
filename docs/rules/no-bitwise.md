@@ -13,7 +13,7 @@ This rule is aimed at catching typos that end up as bitwise operators, but are m
 The following patterns are considered problems:
 
 ```js
-/*eslint no-bitwise: 2*/
+/*eslint no-bitwise: "error"*/
 
 var x = y | z;
 
@@ -45,7 +45,7 @@ x >>>= y;
 The following patterns are not considered problems:
 
 ```js
-/*eslint no-bitwise: 2*/
+/*eslint no-bitwise: "error"*/
 
 var x = y || z;
 
@@ -65,7 +65,7 @@ This rule supports the following options:
 `allow`: The list of bitwise operators to be used as exceptions to the rule. For example:
 
 ```js
-/*eslint no-bitwise: [2, { allow: ["~"] }] */
+/*eslint no-bitwise: ["error", { allow: ["~"] }] */
 
 ~[1,2,3].indexOf(1) === -1;
 ```
@@ -73,7 +73,7 @@ This rule supports the following options:
 `int32Hint`: Allows the use of bitwise OR in `|0` pattern for type casting:
 
 ```js
-/*eslint no-bitwise: [2, { int32Hint: true }] */
+/*eslint no-bitwise: ["error", { int32Hint: true }] */
 
 var b = a|0;
 ```

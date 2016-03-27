@@ -24,12 +24,28 @@ Opponents of Yoda conditions point out that tooling has made us better programme
 
 ## Rule Details
 
-This rule takes one argument. If it is `"never"` then comparisons must never be a Yoda condition. If `"always"`, then the literal must always come first. The default is `"never"`.
+This rule aims to enforce consistent style of conditions which compare a variable to a literal value.
 
-The following patterns are considered problems:
+## Options
+
+This rule can take a string option:
+
+* If it is the default `"never"`, then comparisons must never be Yoda conditions.
+* If it is `"always"`, then the literal value must always come first.
+
+The default `"never"` option can have exception options in an object literal:
+
+* If the `"exceptRange"` property is `true`, the rule *allows* yoda conditions in range comparisons which are wrapped directly in parentheses, including the parentheses of an `if` or `while` condition. The default value is `false`. A *range* comparison tests whether a variable is inside or outside the range between two literal values.
+* If the `"onlyEquality"` property is `true`, the rule reports yoda conditions *only* for the equality operators `==` and `===`. The default value is `false`.
+
+The `onlyEquality` option allows a superset of the exceptions which `exceptRange` allows, thus both options are not useful together.
+
+### never
+
+Examples of **incorrect** code for the default `"never"` option:
 
 ```js
-/*eslint yoda: 2*/
+/*eslint yoda: "error"*/
 
 if ("red" === color) {
     // ...
@@ -52,19 +68,10 @@ if (0 <= x && x < 1) {
 }
 ```
 
-```js
-/*eslint yoda: [2, "always"]*/
-
-if (color == "blue") {
-    // ...
-}
-```
-
-
-The following patterns are not considered problems:
+Examples of **correct** code for the default `"never"` option:
 
 ```js
-/*eslint yoda: 2*/
+/*eslint yoda: "error"*/
 
 if (5 & value) {
     // ...
@@ -75,43 +82,12 @@ if (value === "red") {
 }
 ```
 
-```js
-/*eslint yoda: [2, "always"]*/
+### exceptRange
 
-if ("blue" == value) {
-    // ...
-}
-
-if (-1 < str.indexOf(substr)) {
-    // ...
-}
-```
-
-## Options
-
-There are a few options to the rule:
-
-```json
-"yoda": [2, "never", {
-    "exceptRange": false,
-    "onlyEquality": false
-}]
-```
-
-The `onlyEquality` option is a superset of `exceptRange`, thus both options are hardly useful together.
-
-### Range Tests
-
-"Range" comparisons test whether a variable is inside or outside the range between two literals. When configured with the `exceptRange` option, range tests are allowed when the comparison itself is wrapped directly in parentheses, such as those of an `if` or `while` condition.
-
-```json
-"yoda": [2, "never", { "exceptRange": true }]
-```
-
-With the `exceptRange` option enabled, the following patterns become valid:
+Examples of **correct** code for the `"never", { "exceptRange": true }` options:
 
 ```js
-/*eslint yoda: [2, "never", { "exceptRange": true }]*/
+/*eslint yoda: ["error", "never", { "exceptRange": true }]*/
 
 function isReddish(color) {
     return (color.hue < 60 || 300 < color.hue);
@@ -130,17 +106,43 @@ function howLong(arr) {
 }
 ```
 
-### Apply only to equality, but not other operators
+### onlyEquality
 
-Some developers might prefer to only enforce the rule for the equality operators `==` and `===`, and not showing any warnings for any code around other operators. With `onlyEquality` option, these patterns will not be considered problems:
+Examples of **correct** code for the `"never", { "onlyEquality": true }` options:
 
 ```js
-/*eslint yoda: [2, "never", { "onlyEquality": true }]*/
+/*eslint yoda: ["error", "never", { "onlyEquality": true }]*/
 
 if (x < -1 || 9 < x) {
 }
 
 if (x !== 'foo' && 'bar' != x) {
+}
+```
+
+### always
+
+Examples of **incorrect** code for the `"always"` option:
+
+```js
+/*eslint yoda: ["error", "always"]*/
+
+if (color == "blue") {
+    // ...
+}
+```
+
+Examples of **correct** code for the `"always"` option:
+
+```js
+/*eslint yoda: ["error", "always"]*/
+
+if ("blue" == value) {
+    // ...
+}
+
+if (-1 < str.indexOf(substr)) {
+    // ...
 }
 ```
 

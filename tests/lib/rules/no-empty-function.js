@@ -38,6 +38,7 @@ var ALLOW_OPTIONS = Object.freeze([
  * @returns {{valid: object[], invalid: object[]}} The result.
  */
 function toValidInvalid(patterns, item) {
+
     // Valid Patterns
     patterns.valid.push(
         {
@@ -70,6 +71,7 @@ function toValidInvalid(patterns, item) {
             return allow !== item.allow;
         })
         .forEach(function(allow) {
+
             // non related "allow" option has no effect.
             patterns.invalid.push({
                 code: item.code + " // allow: " + allow,

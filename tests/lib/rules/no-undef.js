@@ -53,6 +53,7 @@ ruleTester.run("no-undef", rule, {
         { code: "var a; ({a}) = {};", parserOptions: { ecmaVersion: 6 } },
         { code: "var a; ({b: a}) = {};", parserOptions: { ecmaVersion: 6 } },
         { code: "var obj; [obj.a, obj.b] = [0, 1];", parserOptions: { ecmaVersion: 6 } },
+        { code: "URLSearchParams;", env: { browser: true } },
 
         // Notifications of readonly are removed: https://github.com/eslint/eslint/issues/4504
         { code: "/*global b:false*/ function f() { b = 1; }" },

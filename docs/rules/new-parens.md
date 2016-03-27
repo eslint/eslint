@@ -13,7 +13,7 @@ This rule is aimed at highlighting a lack of convention and increasing code clar
 The following patterns are considered problems:
 
 ```js
-/*eslint new-parens: 2*/
+/*eslint new-parens: "error"*/
 
 var person = new Person;
 ```
@@ -21,7 +21,7 @@ var person = new Person;
 The following patterns are not considered problems:
 
 ```js
-/*eslint new-parens: 2*/
+/*eslint new-parens: "error"*/
 
 var person = new Person();
 ```

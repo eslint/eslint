@@ -177,6 +177,7 @@ ruleTester.run("array-bracket-spacing", rule, {
                 }
             ]
         },
+
         // objectsInArrays
         {
             code: "var foo = [ { 'bar': 'baz' }, 1,  5];",

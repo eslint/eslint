@@ -19,14 +19,14 @@ This rule has a option, its value is `"always"` or `"never"`.
 
 ```json
 {
-  "block-spacing": [2, "always"]
+  "block-spacing": ["error", "always"]
 }
 ```
 
 The following patterns are considered problems:
 
 ```js
-/*eslint block-spacing: 2*/
+/*eslint block-spacing: "error"*/
 function foo() {return true;}
 if (foo) { bar = 0;}
 ```
@@ -34,7 +34,7 @@ if (foo) { bar = 0;}
 The following patterns are not considered problems:
 
 ```js
-/*eslint block-spacing: 2*/
+/*eslint block-spacing: "error"*/
 
 function foo() { return true; }
 if (foo) { bar = 0; }
@@ -44,14 +44,14 @@ if (foo) { bar = 0; }
 
 ```json
 {
-  "block-spacing": [2, "never"]
+  "block-spacing": ["error", "never"]
 }
 ```
 
 The following patterns are considered problems:
 
 ```js
-/*eslint block-spacing: [2, "never"]*/
+/*eslint block-spacing: ["error", "never"]*/
 
 function foo() { return true; }
 if (foo) { bar = 0;}
@@ -60,7 +60,7 @@ if (foo) { bar = 0;}
 The following patterns are not considered problems:
 
 ```js
-/*eslint block-spacing: [2, "never"]*/
+/*eslint block-spacing: ["error", "never"]*/
 
 function foo() {return true;}
 if (foo) {bar = 0;}

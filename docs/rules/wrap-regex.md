@@ -15,7 +15,7 @@ This is used to disambiguate the slash operator and facilitates more readable co
 The following patterns are considered problems:
 
 ```js
-/*eslint wrap-regex: 2*/
+/*eslint wrap-regex: "error"*/
 
 function a() {
     return /foo/.test("bar");
@@ -25,7 +25,7 @@ function a() {
 The following patterns are not considered problems:
 
 ```js
-/*eslint wrap-regex: 2*/
+/*eslint wrap-regex: "error"*/
 
 function a() {
     return (/foo/).test("bar");

@@ -20,8 +20,11 @@ var RuleTester = require("../../../lib/testers/rule-tester");
 var ruleTester = new RuleTester();
 ruleTester.run("no-this-before-super", rule, {
     valid: [
-        // if the class has no extends or `extends null`, just ignores.
-        // those cannot call `super()`.
+
+        /*
+         * if the class has no extends or `extends null`, just ignore.
+         * those classes cannot call `super()`.
+         */
         { code: "class A { }", parserOptions: { ecmaVersion: 6 } },
         { code: "class A { constructor() { } }", parserOptions: { ecmaVersion: 6 } },
         { code: "class A { constructor() { this.b = 0; } }", parserOptions: { ecmaVersion: 6 } },
@@ -76,6 +79,7 @@ ruleTester.run("no-this-before-super", rule, {
         }
     ],
     invalid: [
+
         // disallows all `this`/`super` if `super()` is missing.
         {
             code: "class A extends B { constructor() { this.c = 0; } }",

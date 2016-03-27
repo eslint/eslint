@@ -23,17 +23,17 @@ This rule is aimed at increasing code clarity by discouraging deeply nesting cal
 The default max depth for this rule is 10. You can define the depth as an option by using the second argument in your configuration. For example, this sets the rule as an error (code is 2) with a maximum depth of 3:
 
 ```json
-"max-nested-callbacks": [2, 3]
+"max-nested-callbacks": ["error", 3]
 
 // or you can use an object property
 
-"max-nested-callbacks": [2, {"maximum": 3}]
+"max-nested-callbacks": ["error", {"maximum": 3}]
 ```
 
 The following patterns are considered problems:
 
 ```js
-/*eslint max-nested-callbacks: [2, 3]*/
+/*eslint max-nested-callbacks: ["error", 3]*/
 
 foo(function () {
     bar(function () {
@@ -49,7 +49,7 @@ foo(function () {
 The following patterns are not considered problems:
 
 ```js
-/*eslint max-nested-callbacks: [2, 3]*/
+/*eslint max-nested-callbacks: ["error", 3]*/
 
 foo(handleFoo);
 

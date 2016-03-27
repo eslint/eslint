@@ -23,19 +23,19 @@ By throwing an error in this way, other parts of the application have an opportu
 
 This rule aims to prevent the use of `process.exit()` in Node.js JavaScript. As such, it warns whenever `process.exit()` is found in code.
 
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule:
 
 ```js
-/*eslint no-process-exit: 2*/
+/*eslint no-process-exit: "error"*/
 
 process.exit(1);
 process.exit(0);
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule:
 
 ```js
-/*eslint no-process-exit: 2*/
+/*eslint no-process-exit: "error"*/
 
 Process.exit();
 var exit = process.exit;

@@ -33,19 +33,6 @@ This rule is aimed to flag shorter notations for the type conversion, then sugge
 
 This rule has three main options and one override option to allow some coercions as required.
 
-```js
-{
-    "rules": {
-        "no-implicit-coercion": [2, {
-            "boolean": true,
-            "number": true,
-            "string": true,
-            "allow": [/* "!!", "~", "*", "+" */]
-        }]
-    }
-}
-```
-
 * `"boolean"` (`true` by default) - When this is `true`, this rule warns shorter type conversions for `boolean` type.
 * `"number"` (`true` by default) - When this is `true`, this rule warns shorter type conversions for `number` type.
 * `"string"` (`true` by default) - When this is `true`, this rule warns shorter type conversions for `string` type.
@@ -53,95 +40,80 @@ This rule has three main options and one override option to allow some coercions
 
 Note that operator `+` in `allow` list would allow `+foo` (number coercion) as well as `"" + foo` (string coercion).
 
-### `boolean`
+### boolean
 
-The following patterns are considered problems:
+Examples of **incorrect** code for the default `{ "boolean": true }` option:
 
 ```js
-/*eslint no-implicit-coercion: 2*/
+/*eslint no-implicit-coercion: "error"*/
 
 var b = !!foo;
 var b = ~foo.indexOf(".");
-// only with `indexOf`/`lastIndexOf` method calling.
-
+// bitwise not is incorrect only with `indexOf`/`lastIndexOf` method calling.
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for the default `{ "boolean": true }` option:
 
 ```js
-/*eslint no-implicit-coercion: 2*/
+/*eslint no-implicit-coercion: "error"*/
 
 var b = Boolean(foo);
 var b = foo.indexOf(".") !== -1;
 
-var n = ~foo; // This is a just binary negating.
+var n = ~foo; // This is a just bitwise not.
 ```
 
-### `number`
+### number
 
-The following patterns are considered problems:
+Examples of **incorrect** code for the default `{ "number": true }` option:
 
 ```js
-/*eslint no-implicit-coercion: 2*/
+/*eslint no-implicit-coercion: "error"*/
 
 var n = +foo;
 var n = 1 * foo;
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for the default `{ "number": true }` option:
 
 ```js
-/*eslint no-implicit-coercion: 2*/
+/*eslint no-implicit-coercion: "error"*/
 
-var b = Number(foo);
-var b = parseFloat(foo);
-var b = parseInt(foo, 10);
+var n = Number(foo);
+var n = parseFloat(foo);
+var n = parseInt(foo, 10);
 ```
 
-### `string`
+### string
 
-The following patterns are considered problems:
+Examples of **incorrect** code for the default `{ "string": true }` option:
 
 ```js
-/*eslint no-implicit-coercion: 2*/
+/*eslint no-implicit-coercion: "error"*/
 
-var n = "" + foo;
-
+var s = "" + foo;
 foo += "";
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for the default `{ "string": true }` option:
 
 ```js
-/*eslint no-implicit-coercion: 2*/
+/*eslint no-implicit-coercion: "error"*/
 
-var b = String(foo);
+var s = String(foo);
 ```
 
-### Fine-grained control
+### allow
 
 Using `allow` list, we can override and allow specific operators.
 
-For example, when the configuration is like this:
-
-```json
-{
-    "rules": {
-        "no-implicit-coercion": [2, {
-            "boolean": true,
-            "number": true,
-            "string": true,
-            "allow": ["!!", "~"]
-        }]
-    }
-}
-```
-
-The following patterns are not considered problems:
+Examples of **correct** code for the sample `{ "allow": ["!!", "~"] }` option:
 
 ```js
+/*eslint no-implicit-coercion: [2, { "allow": ["!!", "~"] } ]*/
+
 var b = !!foo;
-var c = ~foo.indexOf(".");
+var b = ~foo.indexOf(".");
 ```
 
 ## When Not To Use It

@@ -27,14 +27,16 @@ And this rule allows `this` keywords in functions below:
 
 Otherwise are considered problems.
 
-The following patterns are considered problems:
+This rule applies **only** in strict mode.
+With `"parserOptions": { "sourceType": "module" }` in the ESLint configuration, your code is in strict mode even without a `"use strict"` directive.
 
-This rule warns below **only** under the strict mode.
-Please note your code in ES2015 Modules/Classes is always the strict mode.
+Examples of **incorrect** code for this rule in strict mode:
 
 ```js
-/*eslint no-invalid-this: 2*/
+/*eslint no-invalid-this: "error"*/
 /*eslint-env es6*/
+
+"use strict";
 
 this.a = 0;
 baz(() => this);
@@ -80,11 +82,13 @@ foo.forEach(function() {
 });
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule in strict mode:
 
 ```js
-/*eslint no-invalid-this: 2*/
+/*eslint no-invalid-this: "error"*/
 /*eslint-env es6*/
+
+"use strict";
 
 function Foo() {
     // OK, this is in a legacy style constructor.

@@ -22,10 +22,11 @@ list.map(() => ({})); // This is an empty object.
 This rule is aimed at eliminating empty functions.
 A function will not be considered a problem if it contains a comment.
 
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule:
 
 ```js
-/*eslint no-empty-function: 2*/
+/*eslint no-empty-function: "error"*/
+/*eslint-env es6*/
 
 function foo() {}
 
@@ -72,10 +73,11 @@ class A {
 }
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule:
 
 ```js
-/*eslint no-empty-function: 2*/
+/*eslint no-empty-function: "error"*/
+/*eslint-env es6*/
 
 function foo() {
     // do nothing.
@@ -164,13 +166,7 @@ class A {
 
 ## Options
 
-```json
-{
-    "no-empty-function": [2, {"allow": []}]
-}
-```
-
-This rule has an option to allow empty of specific kind's functions.
+This rule has an option to allow specific kinds of functions to be empty.
 
 * `allow` (`string[]`) - A list of kind to allow empty functions. List items are some of the following strings. An empty array (`[]`) by default.
     * `"functions"` - Normal functions.
@@ -182,10 +178,12 @@ This rule has an option to allow empty of specific kind's functions.
     * `"setters"` - Setters.
     * `"constructors"` - Class constructors.
 
-The following patterns are not considered problems when configured with `{"allow": ["functions"]}`:
+#### allow: functions
+
+Examples of **correct** code for the `{ "allow": ["functions"] }` option:
 
 ```js
-/*eslint no-empty-function: [2, {"allow": ["functions"]}]*/
+/*eslint no-empty-function: ["error", { "allow": ["functions"] }]*/
 
 function foo() {}
 
@@ -196,18 +194,24 @@ var obj = {
 };
 ```
 
-The following patterns are not considered problems when configured with `{"allow": ["arrowFunctions"]}`:
+#### allow: arrowFunctions
+
+Examples of **correct** code for the `{ "allow": ["arrowFunctions"] }` option:
 
 ```js
-/*eslint no-empty-function: [2, {"allow": ["arrowFunctions"]}]*/
+/*eslint no-empty-function: ["error", { "allow": ["arrowFunctions"] }]*/
+/*eslint-env es6*/
 
 var foo = () => {};
 ```
 
-The following patterns are not considered problems when configured with `{"allow": ["generatorFunctions"]}`:
+#### allow: generatorFunctions
+
+Examples of **correct** code for the `{ "allow": ["generatorFunctions"] }` option:
 
 ```js
-/*eslint no-empty-function: [2, {"allow": ["generatorFunctions"]}]*/
+/*eslint no-empty-function: ["error", { "allow": ["generatorFunctions"] }]*/
+/*eslint-env es6*/
 
 function* foo() {}
 
@@ -218,10 +222,13 @@ var obj = {
 };
 ```
 
-The following patterns are not considered problems when configured with `{"allow": ["methods"]}`:
+#### allow: methods
+
+Examples of **correct** code for the `{ "allow": ["methods"] }` option:
 
 ```js
-/*eslint no-empty-function: [2, {"allow": ["methods"]}]*/
+/*eslint no-empty-function: ["error", { "allow": ["methods"] }]*/
+/*eslint-env es6*/
 
 var obj = {
     foo() {}
@@ -233,10 +240,13 @@ class A {
 }
 ```
 
-The following patterns are not considered problems when configured with `{"allow": ["generatorMethods"]}`:
+#### allow: generatorMethods
+
+Examples of **correct** code for the `{ "allow": ["generatorMethods"] }` option:
 
 ```js
-/*eslint no-empty-function: [2, {"allow": ["generatorMethods"]}]*/
+/*eslint no-empty-function: ["error", { "allow": ["generatorMethods"] }]*/
+/*eslint-env es6*/
 
 var obj = {
     *foo() {}
@@ -248,10 +258,13 @@ class A {
 }
 ```
 
-The following patterns are not considered problems when configured with `{"allow": ["getters"]}`:
+#### allow: getters
+
+Examples of **correct** code for the `{ "allow": ["getters"] }` option:
 
 ```js
-/*eslint no-empty-function: [2, {"allow": ["getters"]}]*/
+/*eslint no-empty-function: ["error", { "allow": ["getters"] }]*/
+/*eslint-env es6*/
 
 var obj = {
     get foo() {}
@@ -263,10 +276,13 @@ class A {
 }
 ```
 
-The following patterns are not considered problems when configured with `{"allow": ["setters"]}`:
+#### allow: setters
+
+Examples of **correct** code for the `{ "allow": ["setters"] }` option:
 
 ```js
-/*eslint no-empty-function: [2, {"allow": ["setters"]}]*/
+/*eslint no-empty-function: ["error", { "allow": ["setters"] }]*/
+/*eslint-env es6*/
 
 var obj = {
     set foo(value) {}
@@ -278,10 +294,13 @@ class A {
 }
 ```
 
-The following patterns are not considered problems when configured with `{"allow": ["constructors"]}`:
+#### allow: constructors
+
+Examples of **correct** code for the `{ "allow": ["constructors"] }` option:
 
 ```js
-/*eslint no-empty-function: [2, {"allow": ["constructors"]}]*/
+/*eslint no-empty-function: ["error", { "allow": ["constructors"] }]*/
+/*eslint-env es6*/
 
 class A {
     constructor() {}

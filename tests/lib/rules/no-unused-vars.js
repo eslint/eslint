@@ -18,6 +18,7 @@ var rule = require("../../../lib/rules/no-unused-vars"),
 
 var ruleTester = new RuleTester();
 ruleTester.defineRule("use-every-a", function(context) {
+
     /**
      * Mark a variable as used
      * @returns {void}
@@ -121,7 +122,28 @@ ruleTester.run("no-unused-vars", rule, {
         { code: "var a; function foo() { var _b; } foo();", options: [ { vars: "local", varsIgnorePattern: "^_" } ] },
         { code: "function foo(_a) { } foo();", options: [ { args: "all", argsIgnorePattern: "^_" } ] },
         { code: "function foo(a, _b) { return a; } foo();", options: [ { args: "after-used", argsIgnorePattern: "^_" } ] },
-        { code: "var [ firstItemIgnored, secondItem ] = items;\nconsole.log(secondItem);", parserOptions: { ecmaVersion: 6 }, options: [ { vars: "all", varsIgnorePattern: "[iI]gnored" } ] }
+        { code: "var [ firstItemIgnored, secondItem ] = items;\nconsole.log(secondItem);", parserOptions: { ecmaVersion: 6 }, options: [ { vars: "all", varsIgnorePattern: "[iI]gnored" } ] },
+
+        // caughtErrors
+        {
+            code: "try{}catch(err){console.error(err);}",
+            options: [{caughtErrors: "all"}]
+        },
+        {
+            code: "try{}catch(err){}",
+            options: [{caughtErrors: "none"}]
+        },
+        {
+            code: "try{}catch(ignoreErr){}",
+            options: [{caughtErrors: "all", caughtErrorsIgnorePattern: "^ignore"}]
+        },
+
+        // caughtErrors with other combinations
+        {
+            code: "try{}catch(err){}",
+            options: [{vars: "all", args: "all"}]
+        }
+
     ],
     invalid: [
         { code: "function foox() { return foox(); }", errors: [{ message: "'foox' is defined but never used", type: "Identifier"}] },
@@ -215,6 +237,7 @@ ruleTester.run("no-unused-vars", rule, {
                 {line: 1, column: 10, message: "'foo' is defined but never used" }
             ]
         },
+
         // non ascii.
         {
             code: "/*global 変数, 数*/\n変数;",
@@ -222,6 +245,7 @@ ruleTester.run("no-unused-vars", rule, {
                 {line: 1, column: 14, message: "'数' is defined but never used" }
             ]
         },
+
         // surrogate pair.
         // TODO: https://github.com/eslint/espree/issues/181
         // {
@@ -262,6 +286,56 @@ ruleTester.run("no-unused-vars", rule, {
             code: "export default (a, b) => { console.log(a); };",
             parserOptions: { sourceType: "module" },
             errors: [{message: "'b' is defined but never used"}]
+        },
+
+        // caughtErrors
+        {
+            code: "try{}catch(err){};",
+            options: [{"caughtErrors": "all"}],
+            errors: [{message: "'err' is defined but never used"}]
+        },
+        {
+            code: "try{}catch(err){};",
+            options: [{"caughtErrors": "all", "caughtErrorsIgnorePattern": "^ignore"}],
+            errors: [{message: "'err' is defined but never used"}]
+        },
+
+        // multiple try catch with one success
+        {
+            code: "try{}catch(ignoreErr){}try{}catch(err){};",
+            options: [{"caughtErrors": "all", "caughtErrorsIgnorePattern": "^ignore"}],
+            errors: [{message: "'err' is defined but never used"}]
+        },
+
+        // multiple try catch both fail
+        {
+            code: "try{}catch(error){}try{}catch(err){};",
+            options: [{"caughtErrors": "all", "caughtErrorsIgnorePattern": "^ignore"}],
+            errors: [
+                {message: "'error' is defined but never used"},
+                {message: "'err' is defined but never used"}
+            ]
+        },
+
+        // caughtErrors with other configs
+        {
+            code: "try{}catch(err){};",
+            options: [{vars: "all", args: "all", caughtErrors: "all"}],
+            errors: [{message: "'err' is defined but never used"}]
+        },
+
+        // no conclict in ignore patterns
+        {
+            code: "try{}catch(err){};",
+            options: [
+                {
+                    vars: "all",
+                    args: "all",
+                    caughtErrors: "all",
+                    argsIgnorePattern: "^er"
+                }
+            ],
+            errors: [{message: "'err' is defined but never used"}]
         }
     ]
 });

@@ -13,7 +13,7 @@ This rule is aimed at highlighting possible typos and unexpected behavior in reg
 Examples of **incorrect** code for this rule:
 
 ```js
-/*eslint no-empty-character-class: 2*/
+/*eslint no-empty-character-class: "error"*/
 
 var foo = /^abc[]/;
 
@@ -25,7 +25,7 @@ bar.match(/^abc[]/);
 Examples of **correct** code for this rule:
 
 ```js
-/*eslint no-empty-character-class: 2*/
+/*eslint no-empty-character-class: "error"*/
 
 var foo = /^abc/;
 

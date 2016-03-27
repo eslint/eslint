@@ -16,7 +16,7 @@ It allows the programmers to silently by-pass this check by using `"quoted"` pro
 The following patterns are considered problems:
 
 ```js
-/*eslint id-length: 2*/     // default is minimum 2-chars ({ min: 2})
+/*eslint id-length: "error"*/     // default is minimum 2-chars ({ min: 2})
 /*eslint-env es6*/
 
 var x = 5;
@@ -63,7 +63,7 @@ export var x = 0;
 The following patterns are not considered problems:
 
 ```js
-/*eslint id-length: 2*/     // default is minimum 2-chars ({ min: 2})
+/*eslint id-length: "error"*/     // default is minimum 2-chars ({ min: 2})
 /*eslint-env es6*/
 
 var num = 5;
@@ -129,13 +129,13 @@ The `id-length` rule has no required options and has 4 optional ones that needs 
 For example, to specify a minimum identifier length of 3, a maximum of 10, ignore property names and add `x` to exception list, use the following configuration:
 
 ```json
-"id-length": [2, {"min": 3, "max": 10, "properties": "never", "exceptions": ["x"]}]
+"id-length": ["error", {"min": 3, "max": 10, "properties": "never", "exceptions": ["x"]}]
 ```
 
 The following patterns will not be considered problems
 
 ```js
-/*eslint id-length: [2, {"properties": "never"}]*/
+/*eslint id-length: ["error", {"properties": "never"}]*/
 /*eslint-env es6*/
 
 var myObj = { a: 1 };

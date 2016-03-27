@@ -73,7 +73,7 @@ You can set the option in configuration like this:
 Examples of **incorrect** code for the default `"functions"` option:
 
 ```js
-/*eslint no-inner-declarations: 2*/
+/*eslint no-inner-declarations: "error"*/
 
 if (test) {
     function doSomething() { }
@@ -89,7 +89,7 @@ function doSomethingElse() {
 Examples of **correct** code for the default `"functions"` option:
 
 ```js
-/*eslint no-inner-declarations: 2*/
+/*eslint no-inner-declarations: "error"*/
 
 function doSomething() { }
 
@@ -112,7 +112,7 @@ if (test) {
 Examples of **incorrect** code for the `"both"` option:
 
 ```js
-/*eslint no-inner-declarations: [2, "both"]*/
+/*eslint no-inner-declarations: ["error", "both"]*/
 
 if (test) {
     var foo = 42;
@@ -128,7 +128,7 @@ function doAnotherThing() {
 Examples of **correct** code for the `"both"` option:
 
 ```js
-/*eslint no-inner-declarations: 2*/
+/*eslint no-inner-declarations: "error"*/
 /*eslint-env es6*/
 
 var bar = 42;

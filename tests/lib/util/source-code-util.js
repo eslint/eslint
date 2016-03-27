@@ -171,6 +171,21 @@ describe("SourceCodeUtil", function() {
             assert.instanceOf(sourceCode[filename], SourceCode);
         });
 
+        it("should obtain the sourceCode of JSX files", function() {
+            var filename = getFixturePath("jsx", "foo.jsx");
+            var options = {
+                cwd: fixtureDir,
+                parserOptions: {
+                    ecmaFeatures: {
+                        jsx: true
+                    }
+                }
+            };
+            var sourceCode = getSourceCodeOfFiles(filename, options);
+            assert.isObject(sourceCode);
+            assert.instanceOf(sourceCode[filename], SourceCode);
+        });
+
         it("should honor .eslintignore files by default", function() {
             var glob = getFixturePath("*.js");
             var unignoredFilename = getFixturePath("foo.js");

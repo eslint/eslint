@@ -11,7 +11,7 @@ This rule is aimed to flag `this`/`super` keywords before `super()` callings.
 The following patterns are considered problems:
 
 ```js
-/*eslint no-this-before-super: 2*/
+/*eslint no-this-before-super: "error"*/
 /*eslint-env es6*/
 
 class A extends B {
@@ -45,7 +45,7 @@ class A extends B {
 The following patterns are not considered problems:
 
 ```js
-/*eslint no-this-before-super: 2*/
+/*eslint no-this-before-super: "error"*/
 /*eslint-env es6*/
 
 class A {

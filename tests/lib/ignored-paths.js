@@ -14,7 +14,8 @@ var assert = require("chai").assert,
     os = require("os"),
     IgnoredPaths = require("../../lib/ignored-paths.js"),
     sinon = require("sinon"),
-    fs = require("fs");
+    fs = require("fs"),
+    includes = require("lodash").includes;
 
 require("shelljs/global");
 
@@ -36,7 +37,21 @@ function getIgnoreRules(ignoredPaths) {
     var ignoreRules = [];
 
     Object.keys(ignoredPaths.ig).forEach(function(key) {
-        ignoreRules = ignoreRules.concat(ignoredPaths.ig[key][ignoreRulesProperty]);
+        var rules = ignoredPaths.ig[key][ignoreRulesProperty];
+        rules.forEach(function(rule) {
+            var ruleOrigins = ignoreRules.map(function(ruleObj) {
+                return ruleObj.origin;
+            });
+
+            /*
+             * Don't include duplicate ignore rules.
+             * (Duplicates occur because we add custom ignore patterns to the
+             * defaults as well, to allow unignoring default ignores)
+             */
+            if (!includes(ruleOrigins, rule.origin)) {
+                ignoreRules = ignoreRules.concat(rule);
+            }
+        });
     });
 
     return ignoreRules;
@@ -244,8 +259,10 @@ describe("IgnoredPaths", function() {
         });
 
         it("should return false for files outside of the cwd (with no ignore file provided)", function() {
+
             // Default ignore patterns should not inadvertantly ignore files in parent directories
             var ignoredPaths = new IgnoredPaths({ ignore: true, cwd: getFixturePath("no-ignore-file") });
+
             assert.isFalse(ignoredPaths.contains(getFixturePath("undef.js")));
         });
 
@@ -339,14 +356,14 @@ describe("IgnoredPaths", function() {
 
     describe("default ignores", function() {
 
-        it("should contain /bower_components/", function() {
+        it("should contain /bower_components/*", function() {
             var ignoredPaths = new IgnoredPaths();
-            assert.include(ignoredPaths.defaultPatterns, "/bower_components/");
+            assert.include(ignoredPaths.defaultPatterns, "/bower_components/*");
         });
 
-        it("should contain /node_modules/", function() {
+        it("should contain /node_modules/*", function() {
             var ignoredPaths = new IgnoredPaths();
-            assert.include(ignoredPaths.defaultPatterns, "/node_modules/");
+            assert.include(ignoredPaths.defaultPatterns, "/node_modules/*");
         });
 
         it("should always apply defaultPatterns if ignore option is true", function() {
@@ -355,10 +372,10 @@ describe("IgnoredPaths", function() {
             assert.isTrue(ignoredPaths.contains(getFixturePath("node_modules/package/file.js")));
         });
 
-        it("should not apply defaultPatterns if ignore option is is false", function() {
+        it("should still apply defaultPatterns if ignore option is is false", function() {
             var ignoredPaths = new IgnoredPaths({ ignore: false, cwd: getFixturePath() });
-            assert.isFalse(ignoredPaths.contains(getFixturePath("bower_components/package/file.js")));
-            assert.isFalse(ignoredPaths.contains(getFixturePath("node_modules/package/file.js")));
+            assert.isTrue(ignoredPaths.contains(getFixturePath("bower_components/package/file.js")));
+            assert.isTrue(ignoredPaths.contains(getFixturePath("node_modules/package/file.js")));
         });
 
         it("should not ignore files in defaultPatterns within a subdirectory", function() {
@@ -367,6 +384,15 @@ describe("IgnoredPaths", function() {
             assert.isFalse(ignoredPaths.contains(getFixturePath("subdir/node_modules/package/file.js")));
         });
 
+        it("should allow subfolders of defaultPatterns to be unignored by ignorePattern", function() {
+            var ignoredPaths = new IgnoredPaths({ ignore: true, cwd: getFixturePath(), ignorePattern: "!/node_modules/package" });
+            assert.isFalse(ignoredPaths.contains(getFixturePath("node_modules", "package", "file.js")));
+        });
+
+        it("should allow subfolders of defaultPatterns to be unignored by ignorePath", function() {
+            var ignoredPaths = new IgnoredPaths({ ignore: true, cwd: getFixturePath(), ignorePath: getFixturePath(".eslintignoreWithUnignoredDefaults") });
+            assert.isFalse(ignoredPaths.contains(getFixturePath("node_modules", "package", "file.js")));
+        });
 
         it("should ignore dotfiles", function() {
             var ignoredPaths = new IgnoredPaths({ ignore: true, cwd: getFixturePath() });

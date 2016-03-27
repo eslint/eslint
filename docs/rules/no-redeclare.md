@@ -9,7 +9,7 @@ This rule is aimed at eliminating variables that have multiple declarations in t
 Examples of **incorrect** code for this rule:
 
 ```js
-/*eslint no-redeclare: 2*/
+/*eslint no-redeclare: "error"*/
 
 var a = 3;
 var a = 10;
@@ -18,7 +18,7 @@ var a = 10;
 Examples of **correct** code for this rule:
 
 ```js
-/*eslint no-redeclare: 2*/
+/*eslint no-redeclare: "error"*/
 
 var a = 3;
 // ...
@@ -35,7 +35,7 @@ If this is `true`, this rule checks with built-in global variables such as `Obje
 Examples of **incorrect** code for the `{ "builtinGlobals": true }` option:
 
 ```js
-/*eslint no-redeclare: [2, { "builtinGlobals": true }]*/
+/*eslint no-redeclare: ["error", { "builtinGlobals": true }]*/
 
 var Object = 0;
 ```
@@ -43,7 +43,7 @@ var Object = 0;
 Examples of **incorrect** code for the `{ "builtinGlobals": true }` option and the `browser` environment:
 
 ```js
-/*eslint no-redeclare: [2, { "builtinGlobals": true }]*/
+/*eslint no-redeclare: ["error", { "builtinGlobals": true }]*/
 /*eslint-env browser*/
 
 var top = 0;
