@@ -368,6 +368,28 @@ ruleTester.run("valid-jsdoc", rule, {
         {
             code:
             "/**\n" +
+            " * Foo\n" +
+            " * @module module-name\n" +
+            " */\n" +
+            "function foo() {}",
+            options: [{
+                "requireReturn": false
+            }]
+        },
+        {
+            code:
+            "/**\n" +
+            " * Foo\n" +
+            " * @alias module:module-name\n" +
+            " */\n" +
+            "function foo() {}",
+            options: [{
+                "requireReturn": false
+            }]
+        },
+        {
+            code:
+            "/**\n" +
             "* Foo\n" +
             "* @param {Array.<string>} hi - desc\n" +
             "* @returns {Array.<string|number>} desc\n" +
