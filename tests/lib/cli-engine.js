@@ -80,6 +80,18 @@ describe("CLIEngine", function() {
         Plugins.testReset();
     });
 
+    describe("new CLIEngine(options)", function() {
+        it("the default value of 'options.cwd' should be the current working directory.", function() {
+            process.chdir(__dirname);
+            try {
+                var engine = new CLIEngine();
+                assert.equal(engine.options.cwd, __dirname);
+            } finally {
+                process.chdir(originalDir);
+            }
+        });
+    });
+
     describe("executeOnText()", function() {
 
         var engine;
