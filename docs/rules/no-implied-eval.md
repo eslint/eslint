@@ -24,7 +24,7 @@ The best practice is to always use a function for the first argument of `setTime
 
 This rule aims to eliminate implied `eval()` through the use of `setTimeout()`, `setInterval()` or `execScript()`. As such, it will warn when either function is used with a string as the first argument.
 
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule:
 
 ```js
 /*eslint no-implied-eval: "error"*/
@@ -40,7 +40,7 @@ window.setTimeout("count = 5", 10);
 window.setInterval("foo = bar", 10);
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule:
 
 ```js
 /*eslint no-implied-eval: "error"*/

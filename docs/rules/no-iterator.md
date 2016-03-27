@@ -14,7 +14,7 @@ You should use ECMAScript 6 iterators and generators instead.
 
 This rule is aimed at preventing errors that may arise from using the `__iterator__` property, which is not implemented in several browsers. As such, it will warn whenever it encounters the `__iterator__` property.
 
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule:
 
 ```js
 /*eslint no-iterator: "error"*/
@@ -29,7 +29,7 @@ foo["__iterator__"] = function () {};
 
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule:
 
 ```js
 /*eslint no-iterator: "error"*/
