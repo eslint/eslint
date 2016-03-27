@@ -33,6 +33,10 @@ ruleTester.run("comma-dangle", rule, {
         "[]",
         "[\n]",
         { code: "var foo = [\n      (bar ? baz : qux),\n    ];", options: ["always-multiline"] },
+        { code: "var foo = [\na, b\n]", options: [ "always-multiline" ] },
+        { code: "var foo = [\na, b\n]", options: [ "only-multiline" ] },
+        { code: "var foo = [\na, b,\nc, d,\n]", options: [ "always-multiline" ] },
+        { code: "var foo = [\na, b,\nc, d,\n]", options: [ "only-multiline" ] },
         { code: "var foo = { bar: 'baz' }", options: ["never"] },
         { code: "var foo = {\nbar: 'baz'\n}", options: ["never"] },
         { code: "var foo = [ 'baz' ]", options: ["never"] },
@@ -60,6 +64,10 @@ ruleTester.run("comma-dangle", rule, {
         { code: "var foo = { bar: 'baz' }", options: [ "only-multiline" ] },
         { code: "var foo = {\nbar: 'baz',\n}", options: [ "always-multiline" ] },
         { code: "var foo = {\nbar: 'baz',\n}", options: [ "only-multiline" ] },
+        { code: "var foo = {\na: 1, b: 2\n}", options: [ "always-multiline" ] },
+        { code: "var foo = {\na: 1, b: 2\n}", options: [ "only-multiline" ] },
+        { code: "var foo = {\na: 1, b: 2,\nc: 3, d: 4,}", options: [ "always-multiline" ] },
+        { code: "var foo = {\na: 1, b: 2,\nc: 3, d: 4,}", options: [ "only-multiline" ] },
         { code: "var foo = [ 'baz' ]", options: [ "always-multiline" ] },
         { code: "var foo = [ 'baz' ]", options: [ "only-multiline" ] },
         { code: "var foo = [\n'baz',\n]", options: [ "always-multiline" ] },
@@ -68,11 +76,11 @@ ruleTester.run("comma-dangle", rule, {
         { code: "var foo = { bar:\n\n'bar' }", options: [ "only-multiline" ] },
         { code: "var foo = {a: 1, b: 2, c: 3, d: 4}", options: [ "always-multiline" ]},
         { code: "var foo = {a: 1, b: 2, c: 3, d: 4}", options: [ "only-multiline" ]},
-        { code: "var foo = {a: 1, b: 2,\n c: 3, d: 4}", options: [ "always-multiline" ]},
-        { code: "var foo = {a: 1, b: 2,\n c: 3, d: 4}", options: [ "only-multiline" ]},
+        { code: "var foo = {a: 1, b: 2,\n c: 3, d: 4,}", options: [ "always-multiline" ]},
+        { code: "var foo = {a: 1, b: 2,\n c: 3, d: 4,}", options: [ "only-multiline" ]},
         { code: "var foo = {x: {\nfoo: 'bar',\n}}", options: [ "always-multiline" ]},
         { code: "var foo = {x: {\nfoo: 'bar',\n}}", options: [ "only-multiline" ]},
-        { code: "var foo = new Map([\n[key, {\na: 1,\nb: 2,\nc: 3,\n}],\n])", options: [ "always-multiline" ]},
+        { code: "var foo = new Map([\n[key, {\na: 1,\nb: 2,\nc: 3,\n},],\n])", options: [ "always-multiline" ]},
         { code: "var foo = new Map([\n[key, {\na: 1,\nb: 2,\nc: 3,\n}],\n])", options: [ "only-multiline" ]},
         { code: "[,,]", options: [ "always" ] },
         { code: "[\n,\n,\n]", options: [ "always" ] },
@@ -567,23 +575,35 @@ ruleTester.run("comma-dangle", rule, {
             ]
         },
         {
-            code: "var foo = {a: 1, b: 2,\nc: 3, d: 4,}",
+            code: "var foo = {\na: 1, b: 2, c: 3, d: 4,\n}",
             options: [ "always-multiline" ],
             errors: [
                 {
                     message: "Unexpected trailing comma.",
                     type: "Property",
                     line: 2,
-                    column: 11
+                    column: 23
                 }
             ]
         },
         {
-            code: "var foo = {a: 1, b: 2,\nc: 3, d: 4,}",
+            code: "var foo = {\na: 1, b: 2, c: 3, d: 4,\n}",
             options: [ "only-multiline" ],
             errors: [
                 {
                     message: "Unexpected trailing comma.",
+                    type: "Property",
+                    line: 2,
+                    column: 23
+                }
+            ]
+        },
+        {
+            code: "var foo = {a: 1, b: 2,\nc: 3, d: 4}",
+            options: [ "always-multiline" ],
+            errors: [
+                {
+                    message: "Missing trailing comma.",
                     type: "Property",
                     line: 2,
                     column: 11
