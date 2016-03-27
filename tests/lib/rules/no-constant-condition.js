@@ -32,7 +32,26 @@ ruleTester.run("no-constant-condition", rule, {
         "for(;;);",
         "do{ }while(x)",
         "q > 0 ? 1 : 2;",
-        "while(x += 3) {}"
+        "while(x += 3) {}",
+
+        // #5228, typeof conditions
+        "if(typeof x === 'undefined'){}",
+        "if(a === 'str' && typeof b){}",
+        "typeof a == typeof b",
+        "typeof 'a'==='string'|| typeof b ==='string'",
+
+        // #5693
+        "if(xyz === 'str1' && abc==='str2'){}",
+        "if(xyz === 'str1' || abc==='str2'){}",
+        "if(xyz === 'str1' || abc==='str2' && pqr === 5){}",
+        "if(typeof abc === 'string' && abc==='str2'){}",
+        "if(false || abc==='str'){}",
+        "if(true && abc==='str'){}",
+        "if(typeof 'str' && abc==='str'){}",
+        "if(abc==='str' || false || def ==='str'){}",
+        "if(true && abc==='str' || def ==='str'){}",
+        "if(true && typeof abc==='string'){}"
+
     ],
     invalid: [
         { code: "for(;true;);", errors: [{ message: "Unexpected constant condition.", type: "ForStatement"}] },
@@ -51,6 +70,22 @@ ruleTester.run("no-constant-condition", rule, {
         { code: "while(~!0);", errors: [{ message: "Unexpected constant condition.", type: "WhileStatement"}] },
         { code: "while(x = 1);", errors: [{ message: "Unexpected constant condition.", type: "WhileStatement"}] },
         { code: "while(function(){});", errors: [{ message: "Unexpected constant condition.", type: "WhileStatement"}] },
-        { code: "while(() => {});", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "Unexpected constant condition.", type: "WhileStatement"}] }
+        { code: "while(() => {});", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "Unexpected constant condition.", type: "WhileStatement"}] },
+
+        // #5228 , typeof conditions
+        { code: "if(typeof x){}", errors: [{ message: "Unexpected constant condition.", type: "IfStatement"}] },
+        { code: "if(typeof 'abc' === 'string'){}", errors: [{ message: "Unexpected constant condition.", type: "IfStatement"}] },
+        { code: "if(a = typeof b){}", errors: [{ message: "Unexpected constant condition.", type: "IfStatement"}] },
+        { code: "if(a, typeof b){}", errors: [{ message: "Unexpected constant condition.", type: "IfStatement"}] },
+        { code: "if(typeof 'a' =='string' || typeof 'b' =='string'){}", errors: [{ message: "Unexpected constant condition.", type: "IfStatement"}] },
+        { code: "while(typeof x){}", errors: [{ message: "Unexpected constant condition.", type: "WhileStatement"}] },
+
+        // #5693
+        { code: "if(false && abc==='str'){}", errors: [{message: "Unexpected constant condition.", type: "IfStatement"}]},
+        { code: "if(true || abc==='str'){}", errors: [{message: "Unexpected constant condition.", type: "IfStatement"}]},
+        { code: "if(abc==='str' || true){}", errors: [{message: "Unexpected constant condition.", type: "IfStatement"}]},
+        { code: "if(abc==='str' || true || def ==='str'){}", errors: [{message: "Unexpected constant condition.", type: "IfStatement"}]},
+        { code: "if(false || true){}", errors: [{message: "Unexpected constant condition.", type: "IfStatement"}]},
+        { code: "if(typeof abc==='str' || true){}", errors: [{message: "Unexpected constant condition.", type: "IfStatement"}]}
     ]
 });
