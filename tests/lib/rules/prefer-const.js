@@ -62,7 +62,15 @@ ruleTester.run("prefer-const", rule, {
             ].join("\n"),
             parserOptions: { ecmaVersion: 6 }
         },
-        { code: "/*exported a*/ let a; function init() { a = foo(); }", parserOptions: { ecmaVersion: 6 } }
+        { code: "/*exported a*/ let a; function init() { a = foo(); }", parserOptions: { ecmaVersion: 6 } },
+
+        // The assignment is located in a different scope.
+        // Those are warned by prefer-smaller-scope.
+        { code: "let x; { x = 0; foo(x); }", parserOptions: { ecmaVersion: 6 } },
+        { code: "(function() { let x; { x = 0; foo(x); } })();", parserOptions: { ecmaVersion: 6 } },
+        { code: "let x; for (const a of [1,2,3]) { x = foo(); bar(x); }", parserOptions: { ecmaVersion: 6 } },
+        { code: "(function() { let x; for (const a of [1,2,3]) { x = foo(); bar(x); } })();", parserOptions: { ecmaVersion: 6 } },
+        { code: "let x; for (x of array) { x; }", parserOptions: { ecmaVersion: 6 } }
     ],
     invalid: [
         {
@@ -141,26 +149,6 @@ ruleTester.run("prefer-const", rule, {
         },
         {
             code: "(function() { let x; x = 1; })();",
-            parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "'x' is never reassigned, use 'const' instead.", type: "Identifier"}]
-        },
-        {
-            code: "let x; { x = 0; foo(x); }",
-            parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "'x' is never reassigned, use 'const' instead.", type: "Identifier"}]
-        },
-        {
-            code: "(function() { let x; { x = 0; foo(x); } })();",
-            parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "'x' is never reassigned, use 'const' instead.", type: "Identifier"}]
-        },
-        {
-            code: "let x; for (const a of [1,2,3]) { x = foo(); bar(x); }",
-            parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "'x' is never reassigned, use 'const' instead.", type: "Identifier"}]
-        },
-        {
-            code: "(function() { let x; for (const a of [1,2,3]) { x = foo(); bar(x); } })();",
             parserOptions: { ecmaVersion: 6 },
             errors: [{ message: "'x' is never reassigned, use 'const' instead.", type: "Identifier"}]
         }

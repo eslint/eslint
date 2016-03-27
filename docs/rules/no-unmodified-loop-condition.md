@@ -32,7 +32,7 @@ The following patterns are considered problems:
 while (node) {
     doSomething(node);
 }
-node = other.
+node = other;
 
 for (var j = 0; j < items.length; ++i) {
     doSomething(items[j]);

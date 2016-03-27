@@ -828,6 +828,28 @@ describe("Config", function() {
                 assert.deepEqual(actual, expected);
             });
 
+            it("should have an empty config if no local config was found and ~/package.json contains no eslintConfig section", function() {
+                var projectPath = getFixturePath("personal-config", "project-without-config"),
+                    homePath = getFixturePath("personal-config", "home-folder-with-packagejson"),
+                    filePath = getFixturePath("personal-config", "project-without-config", "foo.js");
+
+                getCwd.returns(projectPath);
+
+                var StubbedConfig = proxyquire("../../lib/config", { "user-home": homePath });
+
+                var config = new StubbedConfig({ cwd: process.cwd() }),
+                    actual = config.getConfig(filePath),
+                    expected = {
+                        parserOptions: {},
+                        env: {},
+                        globals: {},
+                        parser: void 0,
+                        rules: {}
+                    };
+
+                assert.deepEqual(actual, expected);
+            });
+
             it("should still load the project config if the current working directory is the same as the home folder", function() {
                 var projectPath = getFixturePath("personal-config", "project-with-config"),
                     filePath = getFixturePath("personal-config", "project-with-config", "subfolder", "foo.js");
