@@ -1,3 +1,7 @@
+v2.5.3 - March 28, 2016
+
+* 8749ac5 Build: Disable bundling dependencies (fixes #5687) (Nicholas C. Zakas)
+
 v2.5.2 - March 28, 2016
 
 * 1cc7f8e Docs: Remove mention of minimatch for .eslintignore (Ian VanSchooten)
