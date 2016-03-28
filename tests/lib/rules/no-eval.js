@@ -20,6 +20,7 @@ var rule = require("../../../lib/rules/no-eval"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("no-eval", rule, {
     valid: [
         "Eval(foo)",

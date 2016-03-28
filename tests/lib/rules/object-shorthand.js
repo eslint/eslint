@@ -18,6 +18,7 @@ var rule = require("../../../lib/rules/object-shorthand"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("object-shorthand", rule, {
     valid: [
         { code: "var x = {y() {}}", parserOptions: { ecmaVersion: 6 } },

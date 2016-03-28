@@ -18,6 +18,7 @@ var rule = require("../../../lib/rules/arrow-body-style"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("arrow-body-style", rule, {
     valid: [
         { code: "var foo = () => {};", parserOptions: { ecmaVersion: 6 } },

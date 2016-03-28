@@ -17,6 +17,7 @@ var rule = require("../../../lib/rules/no-new-wrappers"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("no-new-wrappers", rule, {
     valid: [
         "var a = new Object();",

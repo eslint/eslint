@@ -20,6 +20,7 @@ var assert = require("chai").assert,
     npmUtil = require("../../../lib/util/npm-util");
 
 var originalDir = process.cwd();
+
 proxyquire = proxyquire.noPreserveCache();
 
 //------------------------------------------------------------------------------
@@ -50,8 +51,10 @@ describe("configInitializer", function() {
      */
     function getFixturePath() {
         var args = Array.prototype.slice.call(arguments);
+
         args.unshift(fixtureDir);
         var filepath = path.join.apply(path, args);
+
         try {
             filepath = fs.realpathSync(filepath);
             return filepath;
@@ -114,6 +117,7 @@ describe("configInitializer", function() {
 
             it("should create default config", function() {
                 var config = init.processAnswers(answers);
+
                 assert.deepEqual(config.rules.indent, ["error", 2]);
                 assert.deepEqual(config.rules.quotes, ["error", "single"]);
                 assert.deepEqual(config.rules["linebreak-style"], ["error", "unix"]);
@@ -127,12 +131,14 @@ describe("configInitializer", function() {
             it("should disable semi", function() {
                 answers.semi = false;
                 var config = init.processAnswers(answers);
+
                 assert.deepEqual(config.rules.semi, ["error", "never"]);
             });
 
             it("should enable jsx flag", function() {
                 answers.jsx = true;
                 var config = init.processAnswers(answers);
+
                 assert.equal(config.parserOptions.ecmaFeatures.jsx, true);
             });
 
@@ -140,6 +146,7 @@ describe("configInitializer", function() {
                 answers.jsx = true;
                 answers.react = true;
                 var config = init.processAnswers(answers);
+
                 assert.equal(config.parserOptions.ecmaFeatures.jsx, true);
                 assert.equal(config.parserOptions.ecmaFeatures.experimentalObjectRestSpread, true);
                 assert.deepEqual(config.plugins, ["react"]);
@@ -148,22 +155,26 @@ describe("configInitializer", function() {
             it("should not enable es6", function() {
                 answers.es6 = false;
                 var config = init.processAnswers(answers);
+
                 assert.isUndefined(config.env.es6);
             });
 
             it("should extend eslint:recommended", function() {
                 var config = init.processAnswers(answers);
+
                 assert.equal(config.extends, "eslint:recommended");
             });
 
             it("should not use commonjs by default", function() {
                 var config = init.processAnswers(answers);
+
                 assert.isUndefined(config.env.commonjs);
             });
 
             it("should use commonjs when set", function() {
                 answers.commonjs = true;
                 var config = init.processAnswers(answers);
+
                 assert.isTrue(config.env.commonjs);
             });
         });
@@ -171,16 +182,19 @@ describe("configInitializer", function() {
         describe("guide", function() {
             it("should support the google style guide", function() {
                 var config = init.getConfigForStyleGuide("google");
+
                 assert.deepEqual(config, {extends: "google"});
             });
 
             it("should support the airbnb style guide", function() {
                 var config = init.getConfigForStyleGuide("airbnb");
+
                 assert.deepEqual(config, {extends: "airbnb", plugins: ["react"]});
             });
 
             it("should support the standard style guide", function() {
                 var config = init.getConfigForStyleGuide("standard");
+
                 assert.deepEqual(config, {extends: "standard", plugins: ["standard"]});
             });
 
@@ -207,6 +221,7 @@ describe("configInitializer", function() {
                     getFixturePath("lib"),
                     getFixturePath("tests")
                 ].join(" ");
+
                 answers = {
                     source: "auto",
                     patterns: patterns,
@@ -253,6 +268,7 @@ describe("configInitializer", function() {
 
             it("should throw on fatal parsing error", function() {
                 var filename = getFixturePath("parse-error");
+
                 sinon.stub(autoconfig, "extendFromRecommended");
                 answers.patterns = filename;
                 process.chdir(fixtureDir);

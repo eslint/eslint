@@ -18,6 +18,7 @@ var rule = require("../../../lib/rules/no-throw-literal"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("no-throw-literal", rule, {
     valid: [
         "throw new Error();",

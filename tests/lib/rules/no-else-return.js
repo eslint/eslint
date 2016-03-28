@@ -17,6 +17,7 @@ var rule = require("../../../lib/rules/no-else-return"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("no-else-return", rule, {
     valid: [
         "function foo() { if (true) { if (false) { return x; } } else { return y; } }",

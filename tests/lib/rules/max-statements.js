@@ -18,6 +18,7 @@ var rule = require("../../../lib/rules/max-statements"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("max-statements", rule, {
     valid: [
         { code: "var foo = { thing: function() { var bar = 1; var baz = 2; } }", options: [2] },

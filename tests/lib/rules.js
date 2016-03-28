@@ -49,6 +49,7 @@ describe("rules", function() {
     describe("when a rule has been defined", function() {
         it("should be able to retrieve the rule", function() {
             var ruleId = "michaelficarra";
+
             rules.define(ruleId, {});
             assert.ok(rules.get(ruleId));
         });

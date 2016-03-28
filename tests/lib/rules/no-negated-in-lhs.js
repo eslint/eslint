@@ -17,6 +17,7 @@ var rule = require("../../../lib/rules/no-negated-in-lhs"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("no-negated-in-lhs", rule, {
     valid: [
         "a in b",

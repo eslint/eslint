@@ -17,6 +17,7 @@ var rule = require("../../../lib/rules/no-inner-declarations"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("no-inner-declarations", rule, {
 
     // Examples of code that should not trigger the rule

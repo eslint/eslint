@@ -18,6 +18,7 @@ var rule = require("../../../lib/rules/id-match"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("id-match", rule, {
     valid: [
         {

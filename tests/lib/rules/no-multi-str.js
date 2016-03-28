@@ -17,6 +17,7 @@ var rule = require("../../../lib/rules/no-multi-str"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("no-multi-str", rule, {
     valid: [
         "var a = 'Line 1 Line 2';",

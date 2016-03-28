@@ -18,6 +18,7 @@ var rule = require("../../../lib/rules/no-console"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("no-console", rule, {
     valid: [
         "Console.info(foo)",

@@ -22,6 +22,7 @@ var errorsDefault = [{
 }];
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("no-fallthrough", rule, {
     valid: [
         "switch(foo) { case 0: a(); /* falls through */ case 1: b(); }",

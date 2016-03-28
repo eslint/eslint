@@ -16,6 +16,7 @@ var rule = require("../../../lib/rules/no-process-exit"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("no-process-exit", rule, {
 
     valid: [

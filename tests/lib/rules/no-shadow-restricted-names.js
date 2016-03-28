@@ -14,6 +14,7 @@ var rule = require("../../../lib/rules/no-shadow-restricted-names"),
     RuleTester = require("../../../lib/testers/rule-tester");
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("no-shadow-restricted-names", rule, {
     valid: [
         "function foo(bar){ var baz; }",

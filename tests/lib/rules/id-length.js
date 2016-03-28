@@ -18,6 +18,7 @@ var rule = require("../../../lib/rules/id-length"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("id-length", rule, {
     valid: [
         "var xyz;",

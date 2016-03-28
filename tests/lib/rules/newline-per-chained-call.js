@@ -14,6 +14,7 @@ var rule = require("../../../lib/rules/newline-per-chained-call"),
     RuleTester = require("../../../lib/testers/rule-tester");
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("newline-per-chained-call", rule, {
     valid: [{
         code: "_\n.chain({})\n.map(foo)\n.filter(bar)\n.value();"

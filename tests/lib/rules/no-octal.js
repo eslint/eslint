@@ -17,6 +17,7 @@ var rule = require("../../../lib/rules/no-octal"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("no-octal", rule, {
     valid: [
         "var a = 'hello world';",

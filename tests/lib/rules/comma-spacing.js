@@ -18,6 +18,7 @@ var rule = require("../../../lib/rules/comma-spacing"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("comma-spacing", rule, {
     valid: [
         "myfunc(404, true/* bla bla bla */, 'hello');",

@@ -18,6 +18,7 @@ var rule = require("../../../lib/rules/no-negated-condition"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("no-negated-condition", rule, {
 
     // Examples of code that should not trigger the rule

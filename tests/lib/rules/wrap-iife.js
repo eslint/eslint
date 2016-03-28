@@ -19,6 +19,7 @@ var rule = require("../../../lib/rules/wrap-iife"),
 
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("wrap-iife", rule, {
     valid: [
         {

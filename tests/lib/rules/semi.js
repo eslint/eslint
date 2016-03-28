@@ -15,6 +15,7 @@ var rule = require("../../../lib/rules/semi"),
     RuleTester = require("../../../lib/testers/rule-tester");
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("semi", rule, {
     valid: [
         "var x = 5;",

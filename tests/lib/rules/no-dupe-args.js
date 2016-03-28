@@ -18,6 +18,7 @@ var rule = require("../../../lib/rules/no-dupe-args"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("no-dupe-args", rule, {
     valid: [
         "function a(a, b, c){}",

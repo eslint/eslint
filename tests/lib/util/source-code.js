@@ -108,6 +108,7 @@ describe("SourceCode", function() {
 
             var actual = sourceCode.tokensAndComments;
             var expected = [comments[0], tokens[0], tokens[1], comments[1], tokens[2]];
+
             assert.deepEqual(actual, expected);
         });
 
@@ -116,6 +117,7 @@ describe("SourceCode", function() {
 
             beforeEach(function() {
                 var ast = { comments: [], tokens: [], loc: {}, range: [] };
+
                 sourceCode = new SourceCode("\uFEFFconsole.log('hello');", ast);
             });
 
@@ -133,6 +135,7 @@ describe("SourceCode", function() {
 
             beforeEach(function() {
                 var ast = { comments: [], tokens: [], loc: {}, range: [] };
+
                 sourceCode = new SourceCode("console.log('hello');", ast);
             });
 
@@ -155,11 +158,13 @@ describe("SourceCode", function() {
 
             beforeEach(function() {
                 var ast = { comments: [], tokens: [], loc: {}, range: [] };
+
                 sourceCode = new SourceCode(text, ast);
             });
 
             it("to be clear, check the file has UTF-8 BOM.", function() {
                 var buffer = fs.readFileSync(UTF8_FILE);
+
                 assert.equal(buffer[0], 0xEF);
                 assert.equal(buffer[1], 0xBB);
                 assert.equal(buffer[2], 0xBF);
@@ -207,6 +212,7 @@ describe("SourceCode", function() {
             function assertJSDoc(node) {
                 var sourceCode = eslint.getSourceCode();
                 var jsdoc = sourceCode.getJSDocComment(node);
+
                 assert.equal(jsdoc, null);
             }
 
@@ -234,6 +240,7 @@ describe("SourceCode", function() {
             function assertJSDoc(node) {
                 var sourceCode = eslint.getSourceCode();
                 var jsdoc = sourceCode.getJSDocComment(node);
+
                 assert.equal(jsdoc, null);
             }
 
@@ -262,6 +269,7 @@ describe("SourceCode", function() {
                 if (node.params.length === 1) {
                     var sourceCode = eslint.getSourceCode();
                     var jsdoc = sourceCode.getJSDocComment(node);
+
                     assert.equal(jsdoc, null);
                 }
             }
@@ -293,6 +301,7 @@ describe("SourceCode", function() {
             function assertJSDoc(node) {
                 var sourceCode = eslint.getSourceCode();
                 var jsdoc = sourceCode.getJSDocComment(node);
+
                 assert.equal(jsdoc.type, "Block");
                 assert.equal(jsdoc.value, "* Documentation. ");
             }
@@ -320,6 +329,7 @@ describe("SourceCode", function() {
             function assertJSDoc(node) {
                 var sourceCode = eslint.getSourceCode();
                 var jsdoc = sourceCode.getJSDocComment(node);
+
                 assert.equal(jsdoc.type, "Block");
                 assert.equal(jsdoc.value, "* Desc");
             }
@@ -348,6 +358,7 @@ describe("SourceCode", function() {
             function assertJSDoc(node) {
                 var sourceCode = eslint.getSourceCode();
                 var jsdoc = sourceCode.getJSDocComment(node);
+
                 assert.equal(jsdoc.type, "Block");
                 assert.equal(jsdoc.value, "* Desc");
             }
@@ -378,6 +389,7 @@ describe("SourceCode", function() {
             function assertJSDoc(node) {
                 var sourceCode = eslint.getSourceCode();
                 var jsdoc = sourceCode.getJSDocComment(node);
+
                 assert.equal(jsdoc.type, "Block");
                 assert.equal(jsdoc.value, "* Desc");
             }
@@ -409,6 +421,7 @@ describe("SourceCode", function() {
             function assertJSDoc(node) {
                 var sourceCode = eslint.getSourceCode();
                 var jsdoc = sourceCode.getJSDocComment(node);
+
                 assert.isNull(jsdoc);
             }
 
@@ -437,6 +450,7 @@ describe("SourceCode", function() {
             function assertJSDoc(node) {
                 var sourceCode = eslint.getSourceCode();
                 var jsdoc = sourceCode.getJSDocComment(node);
+
                 assert.equal(jsdoc.type, "Block");
                 assert.equal(jsdoc.value, "* Desc");
             }
@@ -468,6 +482,7 @@ describe("SourceCode", function() {
             function assertJSDoc(node) {
                 var sourceCode = eslint.getSourceCode();
                 var jsdoc = sourceCode.getJSDocComment(node);
+
                 assert.equal(jsdoc.type, "Block");
                 assert.equal(jsdoc.value, "* Desc");
             }
@@ -498,6 +513,7 @@ describe("SourceCode", function() {
             function assertJSDoc(node) {
                 var sourceCode = eslint.getSourceCode();
                 var jsdoc = sourceCode.getJSDocComment(node);
+
                 assert.equal(jsdoc.type, "Block");
                 assert.equal(jsdoc.value, "* Desc");
             }
@@ -528,6 +544,7 @@ describe("SourceCode", function() {
             function assertJSDoc(node) {
                 var sourceCode = eslint.getSourceCode();
                 var jsdoc = sourceCode.getJSDocComment(node);
+
                 assert.equal(jsdoc.type, "Block");
                 assert.equal(jsdoc.value, "* Desc");
             }
@@ -556,6 +573,7 @@ describe("SourceCode", function() {
             function assertJSDoc(node) {
                 var sourceCode = eslint.getSourceCode();
                 var jsdoc = sourceCode.getJSDocComment(node);
+
                 assert.equal(jsdoc.type, "Block");
                 assert.equal(jsdoc.value, "* Desc");
             }
@@ -587,6 +605,7 @@ describe("SourceCode", function() {
                 if (!node.id) {
                     var sourceCode = eslint.getSourceCode();
                     var jsdoc = sourceCode.getJSDocComment(node);
+
                     assert.equal(jsdoc.type, "Block");
                     assert.equal(jsdoc.value, "* Desc");
                 }
@@ -619,6 +638,7 @@ describe("SourceCode", function() {
                 if (!node.id) {
                     var sourceCode = eslint.getSourceCode();
                     var jsdoc = sourceCode.getJSDocComment(node);
+
                     assert.isNull(jsdoc);
                 }
             }
@@ -648,6 +668,7 @@ describe("SourceCode", function() {
                 if (!node.id) {
                     var sourceCode = eslint.getSourceCode();
                     var jsdoc = sourceCode.getJSDocComment(node);
+
                     assert.isNull(jsdoc);
                 }
             }
@@ -685,6 +706,7 @@ describe("SourceCode", function() {
                 if (node.id) {
                     var sourceCode = eslint.getSourceCode();
                     var jsdoc = sourceCode.getJSDocComment(node);
+
                     assert.isNull(jsdoc);
                 }
             }
@@ -713,6 +735,7 @@ describe("SourceCode", function() {
             function assertJSDoc(node) {
                 var sourceCode = eslint.getSourceCode();
                 var jsdoc = sourceCode.getJSDocComment(node);
+
                 assert.equal(jsdoc.type, "Block");
                 assert.equal(jsdoc.value, "* Merges two objects together.");
             }
@@ -741,6 +764,7 @@ describe("SourceCode", function() {
             function assertJSDoc(node) {
                 var sourceCode = eslint.getSourceCode();
                 var jsdoc = sourceCode.getJSDocComment(node);
+
                 assert.equal(jsdoc.type, "Block");
                 assert.equal(jsdoc.value, "* Merges two objects together.");
             }
@@ -770,6 +794,7 @@ describe("SourceCode", function() {
             function assertJSDoc(node) {
                 var sourceCode = eslint.getSourceCode();
                 var jsdoc = sourceCode.getJSDocComment(node);
+
                 assert.isNull(jsdoc);
             }
 
@@ -801,6 +826,7 @@ describe("SourceCode", function() {
             function assertJSDoc(node) {
                 var sourceCode = eslint.getSourceCode();
                 var jsdoc = sourceCode.getJSDocComment(node);
+
                 assert.equal(jsdoc.type, "Block");
                 assert.equal(jsdoc.value, "* Merges two objects together.");
             }
@@ -832,6 +858,7 @@ describe("SourceCode", function() {
             function assertJSDoc(node) {
                 var sourceCode = eslint.getSourceCode();
                 var jsdoc = sourceCode.getJSDocComment(node);
+
                 assert.isNull(jsdoc);
             }
 
@@ -858,6 +885,7 @@ describe("SourceCode", function() {
             return function(node) {
                 var sourceCode = eslint.getSourceCode();
                 var comments = sourceCode.getComments(node);
+
                 assert.equal(comments.leading.length, leading);
                 assert.equal(comments.trailing.length, trailing);
             };
@@ -912,6 +940,7 @@ describe("SourceCode", function() {
                 sourceCode = new SourceCode(code, ast);
 
             var lines = sourceCode.getLines();
+
             assert.equal(lines[0], "a;");
             assert.equal(lines[1], "b;");
         });
@@ -922,6 +951,7 @@ describe("SourceCode", function() {
                 sourceCode = new SourceCode(code, ast);
 
             var lines = sourceCode.getLines();
+
             assert.equal(lines[0], "a;");
             assert.equal(lines[1], "b;");
         });
@@ -932,6 +962,7 @@ describe("SourceCode", function() {
                 sourceCode = new SourceCode(code, ast);
 
             var lines = sourceCode.getLines();
+
             assert.equal(lines[0], "a;");
             assert.equal(lines[1], "b;");
         });
@@ -942,6 +973,7 @@ describe("SourceCode", function() {
                 sourceCode = new SourceCode(code, ast);
 
             var lines = sourceCode.getLines();
+
             assert.equal(lines[0], "a;");
             assert.equal(lines[1], "b;");
         });
@@ -952,6 +984,7 @@ describe("SourceCode", function() {
                 sourceCode = new SourceCode(code, ast);
 
             var lines = sourceCode.getLines();
+
             assert.equal(lines[0], "a;");
             assert.equal(lines[1], "b;");
         });
@@ -970,16 +1003,19 @@ describe("SourceCode", function() {
 
         it("should retrieve all text when used without parameters", function() {
             var text = sourceCode.getText();
+
             assert.equal(text, TEST_CODE);
         });
 
         it("should retrieve all text for root node", function() {
             var text = sourceCode.getText(ast);
+
             assert.equal(text, TEST_CODE);
         });
 
         it("should clamp to valid range when retrieving characters before start of source", function() {
             var text = sourceCode.getText(ast, 2, 0);
+
             assert.equal(text, TEST_CODE);
         });
 
@@ -987,6 +1023,7 @@ describe("SourceCode", function() {
 
             var node = ast.body[0].declarations[0].init;
             var text = sourceCode.getText(node);
+
             assert.equal(text, "6 * 7");
         });
 
@@ -994,18 +1031,21 @@ describe("SourceCode", function() {
 
             var node = ast.body[0].declarations[0].init;
             var text = sourceCode.getText(node, 2);
+
             assert.equal(text, "= 6 * 7");
         });
 
         it("should retrieve all text plus one character after for binary expression", function() {
             var node = ast.body[0].declarations[0].init;
             var text = sourceCode.getText(node, 0, 1);
+
             assert.equal(text, "6 * 7;");
         });
 
         it("should retrieve all text plus two characters before and one character after for binary expression", function() {
             var node = ast.body[0].declarations[0].init;
             var text = sourceCode.getText(node, 2, 1);
+
             assert.equal(text, "= 6 * 7;");
         });
 
@@ -1024,27 +1064,32 @@ describe("SourceCode", function() {
 
         it("should retrieve a node starting at the given index", function() {
             var node = sourceCode.getNodeByRangeIndex(4);
+
             assert.equal(node.type, "Identifier");
         });
 
         it("should retrieve a node containing the given index", function() {
             var node = sourceCode.getNodeByRangeIndex(6);
+
             assert.equal(node.type, "Identifier");
         });
 
         it("should retrieve a node that is exactly the given index", function() {
             var node = sourceCode.getNodeByRangeIndex(13);
+
             assert.equal(node.type, "Literal");
             assert.equal(node.value, 6);
         });
 
         it("should retrieve a node ending with the given index", function() {
             var node = sourceCode.getNodeByRangeIndex(9);
+
             assert.equal(node.type, "Identifier");
         });
 
         it("should retrieve the deepest node containing the given index", function() {
             var node = sourceCode.getNodeByRangeIndex(14);
+
             assert.equal(node.type, "BinaryExpression");
             node = sourceCode.getNodeByRangeIndex(3);
             assert.equal(node.type, "VariableDeclaration");
@@ -1052,6 +1097,7 @@ describe("SourceCode", function() {
 
         it("should return null if the index is outside the range of any node", function() {
             var node = sourceCode.getNodeByRangeIndex(-1);
+
             assert.isNull(node);
             node = sourceCode.getNodeByRangeIndex(-99);
             assert.isNull(node);
@@ -1059,12 +1105,14 @@ describe("SourceCode", function() {
 
         it("should attach the node's parent", function() {
             var node = sourceCode.getNodeByRangeIndex(14);
+
             assert.property(node, "parent");
             assert.equal(node.parent.type, "VariableDeclarator");
         });
 
         it("should not modify the node when attaching the parent", function() {
             var node = sourceCode.getNodeByRangeIndex(10);
+
             assert.equal(node.type, "VariableDeclarator");
             node = sourceCode.getNodeByRangeIndex(4);
             assert.equal(node.type, "Identifier");

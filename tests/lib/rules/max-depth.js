@@ -18,6 +18,7 @@ var rule = require("../../../lib/rules/max-depth"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("max-depth", rule, {
     valid: [
         { code: "function foo() { if (true) { if (false) { if (true) { } } } }", options: [3] },

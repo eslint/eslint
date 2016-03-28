@@ -17,6 +17,7 @@ var rule = require("../../../lib/rules/no-debugger"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("no-debugger", rule, {
     valid: [
         "var test = { debugger: 1 }; test.debugger;"

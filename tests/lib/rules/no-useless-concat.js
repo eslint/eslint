@@ -20,6 +20,7 @@ var rule = require("../../../lib/rules/no-useless-concat"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("no-useless-concat", rule, {
 
     valid: [

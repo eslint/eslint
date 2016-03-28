@@ -18,6 +18,7 @@ var rule = require("../../../lib/rules/camelcase"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("camelcase", rule, {
     valid: [
         "firstName = \"Nicholas\"",

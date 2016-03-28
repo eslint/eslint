@@ -53,6 +53,7 @@ function addArrowFunctions(obj) {
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("no-confusing-arrow", rule, {
     valid: [
         { code: "a => { return 1 ? 2 : 3; }" },

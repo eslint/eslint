@@ -14,6 +14,7 @@ var rule = require("../../../lib/rules/quote-props"),
     RuleTester = require("../../../lib/testers/rule-tester");
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("quote-props", rule, {
     valid: [
         "({ '0': 0 })",

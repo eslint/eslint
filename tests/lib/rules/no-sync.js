@@ -17,6 +17,7 @@ var rule = require("../../../lib/rules/no-sync"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("no-sync", rule, {
     valid: [
         "var foo = fs.foo.foo();"

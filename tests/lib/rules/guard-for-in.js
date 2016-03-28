@@ -17,6 +17,7 @@ var rule = require("../../../lib/rules/guard-for-in"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("guard-for-in", rule, {
     valid: [
         "for (var x in o) {}",

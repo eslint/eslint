@@ -159,26 +159,31 @@ describe("Validator", function() {
 
         it("should throw with an array environment", function() {
             var fn = validator.validate.bind(null, { env: [] });
+
             assert.throws(fn, "Environment must not be an array");
         });
 
         it("should throw with a primitive environment", function() {
             var fn = validator.validate.bind(null, { env: 1 });
+
             assert.throws(fn, "Environment must be an object");
         });
 
         it("should catch invalid environments", function() {
             var fn = validator.validate.bind(null, { env: {"browser": true, "invalid": true } });
+
             assert.throws(fn, "Environment key \"invalid\" is unknown\n");
         });
 
         it("should catch disabled invalid environments", function() {
             var fn = validator.validate.bind(null, { env: {"browser": true, "invalid": false } });
+
             assert.throws(fn, "Environment key \"invalid\" is unknown\n");
         });
 
         it("should do nothing with an undefined environment", function() {
             var fn = validator.validate.bind(null, {});
+
             assert.doesNotThrow(fn);
         });
 

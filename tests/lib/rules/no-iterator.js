@@ -17,6 +17,7 @@ var rule = require("../../../lib/rules/no-iterator"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("no-iterator", rule, {
     valid: [
         "var a = test[__iterator__];",

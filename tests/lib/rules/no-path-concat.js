@@ -16,6 +16,7 @@ var rule = require("../../../lib/rules/no-path-concat"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("no-path-concat", rule, {
 
     valid: [

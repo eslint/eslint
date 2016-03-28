@@ -17,6 +17,7 @@ var rule = require("../../../lib/rules/no-extra-semi"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("no-extra-semi", rule, {
     valid: [
         "var x = 5;",

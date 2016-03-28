@@ -19,6 +19,7 @@ var rule = require("../../../lib/rules/no-extra-label"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("no-extra-label", rule, {
     valid: [
         "A: break A;",

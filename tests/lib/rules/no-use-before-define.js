@@ -18,6 +18,7 @@ var rule = require("../../../lib/rules/no-use-before-define"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("no-use-before-define", rule, {
     valid: [
         "var a=10; alert(a);",

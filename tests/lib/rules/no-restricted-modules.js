@@ -17,6 +17,7 @@ var rule = require("../../../lib/rules/no-restricted-modules"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("no-restricted-modules", rule, {
     valid: [
         { code: "require(\"fs\")", options: ["crypto"]},

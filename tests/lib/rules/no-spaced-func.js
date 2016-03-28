@@ -17,6 +17,7 @@ var rule = require("../../../lib/rules/no-spaced-func"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("no-spaced-func", rule, {
     valid: [
         "f();",

@@ -19,6 +19,7 @@ var RuleTester = require("../../../lib/testers/rule-tester");
 
 var ruleTester = new RuleTester();
 var error = {message: "Useless constructor.", type: "MethodDefinition"};
+
 ruleTester.run("no-useless-constructor", rule, {
     valid: [
         {

@@ -20,6 +20,7 @@ var RuleTester = require("../../../lib/testers/rule-tester");
 var errors = [{message: "use the spread operator instead of the '.apply()'.", type: "CallExpression"}];
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("prefer-spread", rule, {
     valid: [
         {code: "foo.apply(obj, args);"},

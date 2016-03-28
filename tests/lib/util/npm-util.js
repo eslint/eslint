@@ -127,6 +127,7 @@ describe("npmUtil", function() {
     describe("installSyncSaveDev()", function() {
         it("should invoke npm to install a single desired package", function() {
             var stub = sinon.stub(shell, "exec");
+
             npmUtil.installSyncSaveDev("desired-package");
             assert(stub.calledOnce);
             assert.equal(stub.firstCall.args[0], "npm i --save-dev desired-package");
@@ -135,6 +136,7 @@ describe("npmUtil", function() {
 
         it("should accept an array of packages to install", function() {
             var stub = sinon.stub(shell, "exec");
+
             npmUtil.installSyncSaveDev(["first-package", "second-package"]);
             assert(stub.calledOnce);
             assert.equal(stub.firstCall.args[0], "npm i --save-dev first-package second-package");
