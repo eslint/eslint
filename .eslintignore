@@ -3,6 +3,7 @@
 /conf/**
 /coverage/**
 /docs/**
+/jsdoc/**
 /templates/**
 /tests/bench/**
 /tests/fixtures/**
