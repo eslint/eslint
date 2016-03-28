@@ -112,13 +112,13 @@ If you are using both JSHint and JSCS on your files, then using just ESLint will
 
 ESLint does both traditional linting (looking for problematic patterns) and style checking (enforcement of conventions). You can use it for both.
 
-### What about ECMAScript 6 support?
-
-ESLint has full support for ECMAScript 6. By default, this support is off. You can enable ECMAScript 6 support through [configuration](http://eslint.org/docs/user-guide/configuring).
-
 ### Does ESLint support JSX?
 
 Yes, ESLint natively supports parsing JSX syntax (this must be enabled in [configuration](http://eslint.org/docs/user-guide/configuring).). Please note that supporting JSX syntax *is not* the same as supporting React. React applies specific semantics to JSX syntax that ESLint doesn't recognize. We recommend using [eslint-plugin-react](https://www.npmjs.com/package/eslint-plugin-react) if you are using React and want React semantics.
+
+### What about ECMAScript 6 support?
+
+ESLint has full support for ECMAScript 6. By default, this support is off. You can enable ECMAScript 6 support through [configuration](http://eslint.org/docs/user-guide/configuring).
 
 ### What about experimental features?
 
