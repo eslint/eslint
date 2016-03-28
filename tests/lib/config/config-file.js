@@ -790,6 +790,25 @@ describe("ConfigFile", function() {
 
     });
 
+    describe("normalizePackageName()", function() {
+
+        leche.withData([
+            [ "foo", "eslint-config-foo" ],
+            [ "eslint-config-foo", "eslint-config-foo" ],
+            [ "@z/foo", "@z/eslint-config-foo" ],
+            [ "@z\\foo", "@z/eslint-config-foo" ],
+            [ "@z\\foo\\bar.js", "@z/eslint-config-foo/bar.js" ],
+            [ "@z/eslint-config", "@z/eslint-config" ],
+            [ "@z/eslint-config-foo", "@z/eslint-config-foo" ]
+        ], function(input, expected) {
+            it("should return " + expected + " when passed " + input, function() {
+                var result = ConfigFile.normalizePackageName(input, "eslint-config");
+                assert.equal(result, expected);
+            });
+        });
+
+    });
+
     describe("write()", function() {
 
         var sandbox,
