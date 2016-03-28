@@ -42,6 +42,18 @@ var colleague = foo.bar.Person();
 var colleague = foo.Person();
 ```
 
+```js
+/*eslint new-cap: [2, {"capIsNewWildcardExceptions": ["foo"]}]*/
+var colleague = foo.Person();
+var colleague = foo.Animal();
+```
+
+```js
+/*eslint new-cap: [2, {"newIsCapWildcardExceptions": ["foo"]}]*/
+var colleague = foo.person();
+var colleague = foo.animal();
+```
+
 ## Options
 
 By default both `newIsCap` and `capIsNew` options are set to `true`.
@@ -75,6 +87,14 @@ Array of uppercase-starting function names that are permitted to be used without
 * `Symbol`
 
 If provided, it must be an `Array`. The default values will continue to be excluded when `capIsNewExceptions` is provided.
+
+### `newIsCapWildcardExceptions`
+
+Array of lowercase library names where all child methods belong to are permitted to be used with `new` operator
+
+### `capIsNewWildcardExceptions`
+
+Array of uppercase-starting library names where all child methods belong to are permitted to be used without the `new` operator
 
 ### `properties`
 
