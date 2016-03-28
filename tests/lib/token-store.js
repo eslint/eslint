@@ -357,6 +357,7 @@ describe("TokenStore", function() {
 
         it("should return null when token doesn't exist", function() {
             var result = store.getTokenByRangeStart(5);
+
             assert.isNull(result);
         });
 

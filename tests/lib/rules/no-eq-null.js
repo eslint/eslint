@@ -17,6 +17,7 @@ var rule = require("../../../lib/rules/no-eq-null"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("no-eq-null", rule, {
     valid: [
         "if (x === null) { }",

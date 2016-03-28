@@ -16,6 +16,7 @@ var rule = require("../../../lib/rules/default-case"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("default-case", rule, {
 
     valid: [

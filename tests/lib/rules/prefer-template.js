@@ -23,6 +23,7 @@ var errors = [{
 }];
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("prefer-template", rule, {
     valid: [
         {code: "'use strict';"},

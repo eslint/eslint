@@ -17,6 +17,7 @@ var rule = require("../../../lib/rules/no-floating-decimal"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("no-floating-decimal", rule, {
     valid: [
         "var x = 2.5;",

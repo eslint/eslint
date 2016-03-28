@@ -19,6 +19,7 @@ var rule = require("../../../lib/rules/func-names"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("func-names", rule, {
     valid: [
         "Foo.prototype.bar = function bar(){};",

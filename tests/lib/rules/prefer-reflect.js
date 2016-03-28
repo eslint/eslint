@@ -16,6 +16,7 @@ var rule = require("../../../lib/rules/prefer-reflect"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("prefer-reflect", rule, {
     valid: [
 

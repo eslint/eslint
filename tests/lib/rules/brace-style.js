@@ -23,6 +23,7 @@ var OPEN_MESSAGE = "Opening curly brace does not appear on the same line as cont
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("brace-style", rule, {
     valid: [
         "function f() {\n" +

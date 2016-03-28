@@ -16,6 +16,7 @@ var rule = require("../../../lib/rules/no-lonely-if"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("no-lonely-if", rule, {
 
     // Examples of code that should not trigger the rule

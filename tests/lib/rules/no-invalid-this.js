@@ -72,6 +72,7 @@ function extractPatterns(patterns, type) {
     var patternsList = patterns.map(function(pattern) {
         return pattern[type].map(function(applyCondition) {
             var thisPattern = lodash.cloneDeep(pattern);
+
             applyCondition(thisPattern);
 
             if (type === "valid") {
@@ -533,6 +534,7 @@ var patterns = [
 ];
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("no-invalid-this", rule, {
     valid: extractPatterns(patterns, "valid"),
     invalid: extractPatterns(patterns, "invalid")

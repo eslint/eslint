@@ -13,6 +13,7 @@ var rule = require("../../../lib/rules/no-regex-spaces"),
     RuleTester = require("../../../lib/testers/rule-tester");
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("no-regex-spaces", rule, {
     valid: [
         "var foo = /bar {3}baz/;",

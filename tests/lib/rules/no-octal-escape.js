@@ -18,6 +18,7 @@ var rule = require("../../../lib/rules/no-octal-escape"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("no-octal-escape", rule, {
     valid: [
         "var foo = \"\\x51\";",

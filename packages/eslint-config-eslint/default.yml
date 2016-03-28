@@ -27,6 +27,7 @@ rules:
         afterLineComment: false
     }]
     new-cap: "error"
+    newline-after-var: "error"
     new-parens: "error"
     no-alert: "error"
     no-array-constructor: "error"
@@ -77,6 +78,7 @@ rules:
     no-use-before-define: "error"
     no-useless-concat: "error"
     no-with: "error"
+    one-var-declaration-per-line: "error"
     quotes: ["error", "double"]
     radix: "error"
     require-jsdoc: "error"

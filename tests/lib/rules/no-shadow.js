@@ -18,6 +18,7 @@ var rule = require("../../../lib/rules/no-shadow"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("no-shadow", rule, {
     valid: [
         "var a=3; function b(x) { a++; return x + a; }; setTimeout(function() { b(a); }, 0);",

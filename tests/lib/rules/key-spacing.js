@@ -14,6 +14,7 @@ var rule = require("../../../lib/rules/key-spacing"),
     RuleTester = require("../../../lib/testers/rule-tester");
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("key-spacing", rule, {
 
     valid: [{

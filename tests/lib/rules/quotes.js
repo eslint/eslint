@@ -15,6 +15,7 @@ var rule = require("../../../lib/rules/quotes"),
     RuleTester = require("../../../lib/testers/rule-tester");
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("quotes", rule, {
     valid: [
         "var foo = \"bar\";",

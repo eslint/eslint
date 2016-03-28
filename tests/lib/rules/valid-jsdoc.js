@@ -17,6 +17,7 @@ var rule = require("../../../lib/rules/valid-jsdoc"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("valid-jsdoc", rule, {
 
     valid: [

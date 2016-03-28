@@ -17,6 +17,7 @@ var rule = require("../../../lib/rules/no-script-url"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("no-script-url", rule, {
     valid: [
         "var a = 'Hello World!';",

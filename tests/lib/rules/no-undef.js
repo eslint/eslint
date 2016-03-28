@@ -17,6 +17,7 @@ var rule = require("../../../lib/rules/no-undef"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("no-undef", rule, {
     valid: [
         "var a = 1, b = 2; a;",

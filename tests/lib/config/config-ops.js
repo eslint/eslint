@@ -89,6 +89,7 @@ describe("ConfigOps", function() {
 
         it("should return empty config if called without any config", function() {
             var config = ConfigOps.createEnvironmentConfig(null);
+
             assert.deepEqual(config, {
                 globals: {},
                 env: {},
@@ -111,6 +112,7 @@ describe("ConfigOps", function() {
             });
 
             var config = StubbedConfigOps.createEnvironmentConfig({ test: true });
+
             assert.deepEqual(config, {
                 globals: {},
                 env: {
@@ -125,6 +127,7 @@ describe("ConfigOps", function() {
 
         it("should create the correct config for Node.js environment", function() {
             var config = ConfigOps.createEnvironmentConfig({ node: true });
+
             assert.deepEqual(config, {
                 env: {
                     node: true
@@ -139,6 +142,7 @@ describe("ConfigOps", function() {
 
         it("should create the correct config for ES6 environment", function() {
             var config = ConfigOps.createEnvironmentConfig({ es6: true });
+
             assert.deepEqual(config, {
                 env: {
                     es6: true
@@ -153,6 +157,7 @@ describe("ConfigOps", function() {
 
         it("should create empty config when no environments are specified", function() {
             var config = ConfigOps.createEnvironmentConfig({});
+
             assert.deepEqual(config, {
                 env: {},
                 parserOptions: {},
@@ -163,6 +168,7 @@ describe("ConfigOps", function() {
 
         it("should create empty config when an unknown environment is specified", function() {
             var config = ConfigOps.createEnvironmentConfig({ foo: true });
+
             assert.deepEqual(config, {
                 env: {
                     foo: true
@@ -430,6 +436,7 @@ describe("ConfigOps", function() {
             var b = {foo: {bar: 1}};
 
             var result = ConfigOps.merge(a, b);
+
             assert(a.foo === void 0);
             assert(b.foo.bar === 1);
             assert(result.foo.bar === 1);
@@ -790,6 +797,7 @@ describe("ConfigOps", function() {
 
             it("should return " + expected + "when passed " + input, function() {
                 var result = ConfigOps.isErrorSeverity(input);
+
                 assert.equal(result, expected);
             });
 

@@ -17,6 +17,7 @@ var rule = require("../../../lib/rules/no-delete-var"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("no-delete-var", rule, {
     valid: [
         "delete x.prop;"

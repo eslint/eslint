@@ -17,6 +17,7 @@ var rule = require("../../../lib/rules/no-extend-native"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("no-extend-native", rule, {
     valid: [
         "x.prototype.p = 0",

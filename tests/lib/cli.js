@@ -77,6 +77,7 @@ describe("cli", function() {
      */
     function getFixturePath() {
         var args = Array.prototype.slice.call(arguments);
+
         args.unshift(fixtureDir);
         return path.join.apply(path, args);
     }
@@ -101,18 +102,21 @@ describe("cli", function() {
         it("should return error when text with incorrect quotes is passed as argument", function() {
             var configFile = getFixturePath("configurations", "quotes-error.json");
             var result = cli.execute("-c " + configFile, "var foo = 'bar';");
+
             assert.equal(result, 1);
         });
 
         it("should return no error when --ext .js2 is specified", function() {
             var filePath = getFixturePath("files");
             var result = cli.execute("--ext .js2 " + filePath);
+
             assert.equal(result, 0);
         });
 
         it("should exit with console error when passed unsupported arguments", function() {
             var filePath = getFixturePath("files");
             var result = cli.execute("--blah --another " + filePath);
+
             assert.equal(result, 1);
         });
 
@@ -319,6 +323,7 @@ describe("cli", function() {
             var ignorePath = getFixturePath(".eslintignore");
             var filePath = getFixturePath(".");
             var exit = cli.execute("--ignore-path " + ignorePath + " " + filePath);
+
             assert.isTrue(log.info.notCalled);
             assert.equal(exit, 0);
         });
@@ -395,6 +400,7 @@ describe("cli", function() {
 
             assert.throws(function() {
                 var exit = cli.execute(code);
+
                 assert.equal(exit, 1);
             }, /Error while loading rule 'custom-rule': Cannot read property/);
         });
@@ -420,6 +426,7 @@ describe("cli", function() {
             var exit = cli.execute(code);
 
             var call = log.info.getCall(0);
+
             assert.isTrue(log.info.calledOnce);
             assert.isTrue(call.args[0].indexOf("String!") > -1);
             assert.isTrue(call.args[0].indexOf("Literal!") > -1);
@@ -457,6 +464,7 @@ describe("cli", function() {
                 getFixturePath("globals-browser.js"),
                 getFixturePath("globals-node.js")
             ];
+
             cli.execute("--no-eslintrc --config ./conf/eslint.json --no-ignore " + files.join(" "));
 
             assert.equal(log.info.args[0][0].split("\n").length, 11);
@@ -684,6 +692,7 @@ describe("cli", function() {
 
             // create a fake CLIEngine to test with
             var fakeCLIEngine = sandbox.mock().withExactArgs(sinon.match({ allowInlineConfig: false }));
+
             fakeCLIEngine.prototype = leche.fake(CLIEngine.prototype);
             sandbox.stub(fakeCLIEngine.prototype, "executeOnFiles").returns({
                 errorCount: 1,
@@ -716,6 +725,7 @@ describe("cli", function() {
 
             // create a fake CLIEngine to test with
             var fakeCLIEngine = sandbox.mock().withExactArgs(sinon.match({ allowInlineConfig: true }));
+
             fakeCLIEngine.prototype = leche.fake(CLIEngine.prototype);
             sandbox.stub(fakeCLIEngine.prototype, "executeOnFiles").returns({
                 errorCount: 0,
@@ -733,6 +743,7 @@ describe("cli", function() {
             });
 
             var exitCode = localCLI.execute(".");
+
             assert.equal(exitCode, 0);
 
         });
@@ -752,6 +763,7 @@ describe("cli", function() {
 
             // create a fake CLIEngine to test with
             var fakeCLIEngine = sandbox.mock().withExactArgs(sinon.match({ fix: true }));
+
             fakeCLIEngine.prototype = leche.fake(CLIEngine.prototype);
             sandbox.stub(fakeCLIEngine.prototype, "executeOnFiles").returns({
                 errorCount: 0,
@@ -769,6 +781,7 @@ describe("cli", function() {
             });
 
             var exitCode = localCLI.execute("--fix .");
+
             assert.equal(exitCode, 0);
 
         });
@@ -792,6 +805,7 @@ describe("cli", function() {
 
             // create a fake CLIEngine to test with
             var fakeCLIEngine = sandbox.mock().withExactArgs(sinon.match({ fix: true }));
+
             fakeCLIEngine.prototype = leche.fake(CLIEngine.prototype);
             sandbox.stub(fakeCLIEngine.prototype, "executeOnFiles").returns(report);
             sandbox.stub(fakeCLIEngine.prototype, "getFormatter").returns(function() {
@@ -805,6 +819,7 @@ describe("cli", function() {
             });
 
             var exitCode = localCLI.execute("--fix .");
+
             assert.equal(exitCode, 1);
 
         });
@@ -828,6 +843,7 @@ describe("cli", function() {
 
             // create a fake CLIEngine to test with
             var fakeCLIEngine = sandbox.mock().withExactArgs(sinon.match({ fix: true }));
+
             fakeCLIEngine.prototype = leche.fake(CLIEngine.prototype);
             sandbox.stub(fakeCLIEngine.prototype, "executeOnFiles").returns(report);
             sandbox.stub(fakeCLIEngine.prototype, "getFormatter").returns(function() {
@@ -842,6 +858,7 @@ describe("cli", function() {
             });
 
             var exitCode = localCLI.execute("--fix --quiet .");
+
             assert.equal(exitCode, 0);
 
         });
@@ -857,6 +874,7 @@ describe("cli", function() {
             });
 
             var exitCode = localCLI.execute("--fix .", "foo = bar;");
+
             assert.equal(exitCode, 1);
         });
 

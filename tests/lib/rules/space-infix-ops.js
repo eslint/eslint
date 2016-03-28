@@ -13,6 +13,7 @@ var rule = require("../../../lib/rules/space-infix-ops"),
     RuleTester = require("../../../lib/testers/rule-tester");
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("space-infix-ops", rule, {
     valid: [
         "a + b",

@@ -31,12 +31,14 @@ describe("formatter:checkstyle", function() {
 
         it("should return a string in the format filename: line x, col y, Error - z for errors", function() {
             var result = formatter(code);
+
             assert.equal(result, "<?xml version=\"1.0\" encoding=\"utf-8\"?><checkstyle version=\"4.3\"><file name=\"foo.js\"><error line=\"5\" column=\"10\" severity=\"error\" message=\"Unexpected foo. (foo)\" source=\"eslint.rules.foo\" /></file></checkstyle>");
         });
 
         it("should return a string in the format filename: line x, col y, Warning - z for warnings", function() {
             code[0].messages[0].severity = 1;
             var result = formatter(code);
+
             assert.equal(result, "<?xml version=\"1.0\" encoding=\"utf-8\"?><checkstyle version=\"4.3\"><file name=\"foo.js\"><error line=\"5\" column=\"10\" severity=\"warning\" message=\"Unexpected foo. (foo)\" source=\"eslint.rules.foo\" /></file></checkstyle>");
         });
     });
@@ -55,6 +57,7 @@ describe("formatter:checkstyle", function() {
 
         it("should return a string in the format filename: line x, col y, Error - z", function() {
             var result = formatter(code);
+
             assert.equal(result, "<?xml version=\"1.0\" encoding=\"utf-8\"?><checkstyle version=\"4.3\"><file name=\"&lt;&gt;&amp;&quot;&apos;.js\"><error line=\"&lt;\" column=\"&gt;\" severity=\"error\" message=\"Unexpected &lt;&gt;&amp;&quot;&apos;. (foo)\" source=\"eslint.rules.foo\" /></file></checkstyle>");
         });
     });
@@ -73,6 +76,7 @@ describe("formatter:checkstyle", function() {
 
         it("should return a string in the format filename: line x, col y, Error - z", function() {
             var result = formatter(code);
+
             assert.equal(result, "<?xml version=\"1.0\" encoding=\"utf-8\"?><checkstyle version=\"4.3\"><file name=\"foo.js\"><error line=\"5\" column=\"10\" severity=\"error\" message=\"Unexpected foo. (foo)\" source=\"eslint.rules.foo\" /></file></checkstyle>");
         });
     });
@@ -97,6 +101,7 @@ describe("formatter:checkstyle", function() {
 
         it("should return a string with multiple entries", function() {
             var result = formatter(code);
+
             assert.equal(result, "<?xml version=\"1.0\" encoding=\"utf-8\"?><checkstyle version=\"4.3\"><file name=\"foo.js\"><error line=\"5\" column=\"10\" severity=\"error\" message=\"Unexpected foo. (foo)\" source=\"eslint.rules.foo\" /><error line=\"6\" column=\"11\" severity=\"warning\" message=\"Unexpected bar. (bar)\" source=\"eslint.rules.bar\" /></file></checkstyle>");
         });
     });
@@ -124,6 +129,7 @@ describe("formatter:checkstyle", function() {
 
         it("should return a string with multiple entries", function() {
             var result = formatter(code);
+
             assert.equal(result, "<?xml version=\"1.0\" encoding=\"utf-8\"?><checkstyle version=\"4.3\"><file name=\"foo.js\"><error line=\"5\" column=\"10\" severity=\"error\" message=\"Unexpected foo. (foo)\" source=\"eslint.rules.foo\" /></file><file name=\"bar.js\"><error line=\"6\" column=\"11\" severity=\"warning\" message=\"Unexpected bar. (bar)\" source=\"eslint.rules.bar\" /></file></checkstyle>");
         });
     });
@@ -141,6 +147,7 @@ describe("formatter:checkstyle", function() {
 
         it("should return a string in the format filename: line x, col y, Error - z for errors", function() {
             var result = formatter(code);
+
             assert.equal(result, "<?xml version=\"1.0\" encoding=\"utf-8\"?><checkstyle version=\"4.3\"><file name=\"foo.js\"><error line=\"5\" column=\"10\" severity=\"error\" message=\"Unexpected foo.\" source=\"\" /></file></checkstyle>");
         });
     });

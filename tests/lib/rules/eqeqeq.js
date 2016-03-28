@@ -19,6 +19,7 @@ var rule = require("../../../lib/rules/eqeqeq"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("eqeqeq", rule, {
     valid: [
         "a === b",

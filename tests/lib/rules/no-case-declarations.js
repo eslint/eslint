@@ -18,6 +18,7 @@ var rule = require("../../../lib/rules/no-case-declarations"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("no-case-declarations", rule, {
     valid: [
         {

@@ -23,6 +23,7 @@ var errors = [{
 }];
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("prefer-arrow-callback", rule, {
     valid: [
         {code: "foo(a => a);", parserOptions: { ecmaVersion: 6 }},

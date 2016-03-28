@@ -17,6 +17,7 @@ var rule = require("../../../lib/rules/no-div-regex"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("no-div-regex", rule, {
     valid: [
         "var f = function() { return /foo/ig.test('bar'); };",

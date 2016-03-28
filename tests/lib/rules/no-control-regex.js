@@ -17,6 +17,7 @@ var rule = require("../../../lib/rules/no-control-regex"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("no-control-regex", rule, {
     valid: [
         "var regex = /x1f/",

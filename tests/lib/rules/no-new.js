@@ -17,6 +17,7 @@ var rule = require("../../../lib/rules/no-new"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("no-new", rule, {
     valid: [
         "var a = new Date()",

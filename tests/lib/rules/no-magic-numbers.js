@@ -19,6 +19,7 @@ var rule = require("../../../lib/rules/no-magic-numbers"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("no-magic-numbers", rule, {
     valid: [
         {

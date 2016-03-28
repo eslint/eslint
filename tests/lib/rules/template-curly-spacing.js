@@ -19,6 +19,7 @@ var rule = require("../../../lib/rules/template-curly-spacing"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("template-curly-spacing", rule, {
     valid: [
         {code: "{ foo }"},

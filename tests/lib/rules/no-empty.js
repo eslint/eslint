@@ -19,6 +19,7 @@ var rule = require("../../../lib/rules/no-empty"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("no-empty", rule, {
     valid: [
         "if (foo) { bar() }",

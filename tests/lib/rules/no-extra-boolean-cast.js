@@ -17,6 +17,7 @@ var rule = require("../../../lib/rules/no-extra-boolean-cast"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("no-extra-boolean-cast", rule, {
 
     valid: [

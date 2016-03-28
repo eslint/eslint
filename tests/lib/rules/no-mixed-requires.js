@@ -17,6 +17,7 @@ var rule = require("../../../lib/rules/no-mixed-requires"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("no-mixed-requires", rule, {
     valid: [
         { code: "var a, b = 42, c = doStuff()", options: [false] },

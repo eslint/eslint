@@ -17,6 +17,7 @@ var rule = require("../../../lib/rules/no-unreachable"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("no-unreachable", rule, {
     valid: [
         "function foo() { function bar() { return 1; } return bar(); }",

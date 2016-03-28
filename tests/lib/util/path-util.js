@@ -75,6 +75,7 @@ describe("pathUtil", function() {
         it("should treat relative file path arguments as being relative to process.cwd", function() {
             var filePath = "file/path.js";
             var basePath = "/absolute/file";
+
             sinon.stub(process, "cwd", function() {
                 return "/absolute/";
             });

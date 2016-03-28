@@ -17,6 +17,7 @@ var rule = require("../../../lib/rules/no-catch-shadow"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("no-catch-shadow", rule, {
     valid: [
         "var foo = 1; try { bar(); } catch(baz) { }",

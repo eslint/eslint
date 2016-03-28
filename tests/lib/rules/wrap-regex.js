@@ -18,6 +18,7 @@ var rule = require("../../../lib/rules/wrap-regex"),
 
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("wrap-regex", rule, {
     valid: [
         "(/foo/).test(bar);",

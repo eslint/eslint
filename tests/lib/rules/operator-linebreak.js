@@ -23,6 +23,7 @@ var BAD_LN_BRK_MSG = "Bad line breaking before and after '%s'.",
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("operator-linebreak", rule, {
 
     valid: [

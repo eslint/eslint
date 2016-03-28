@@ -17,6 +17,7 @@ var rule = require("../../../lib/rules/no-param-reassign"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("no-param-reassign", rule, {
 
     valid: [

@@ -18,6 +18,7 @@ var rule = require("../../../lib/rules/yield-star-spacing"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("yield-star-spacing", rule, {
 
     valid: [

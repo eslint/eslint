@@ -17,6 +17,7 @@ var rule = require("../../../lib/rules/no-array-constructor"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("no-array-constructor", rule, {
     valid: [
         "new Array(x)",

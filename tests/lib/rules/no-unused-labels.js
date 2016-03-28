@@ -19,6 +19,7 @@ var rule = require("../../../lib/rules/no-unused-labels"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("no-unused-labels", rule, {
     valid: [
         "A: break A;",

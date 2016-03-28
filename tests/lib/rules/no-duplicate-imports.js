@@ -19,6 +19,7 @@ var rule = require("../../../lib/rules/no-duplicate-imports"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("no-duplicate-imports", rule, {
     valid: [
         { code: "import os from \"os\";\nimport fs from \"fs\";", parserOptions: { sourceType: "module" } },

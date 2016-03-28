@@ -35,6 +35,7 @@ function createComplexity(complexity) {
 }
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("complexity", rule, {
     valid: [
         { code: "function a(x) {}" },

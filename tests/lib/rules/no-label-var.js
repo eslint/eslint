@@ -17,6 +17,7 @@ var rule = require("../../../lib/rules/no-label-var"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("no-label-var", rule, {
     valid: [
         "function bar() { q: for(;;) { break q; } } function foo () { var q = t; }",

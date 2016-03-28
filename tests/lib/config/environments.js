@@ -56,6 +56,7 @@ describe("Environments", function() {
             Environments.define("foo", env);
 
             var result = Environments.get("foo");
+
             assert.deepEqual(result, env);
         });
     });

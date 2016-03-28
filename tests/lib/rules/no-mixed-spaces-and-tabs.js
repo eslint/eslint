@@ -16,6 +16,7 @@ var rule = require("../../../lib/rules/no-mixed-spaces-and-tabs"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("no-mixed-spaces-and-tabs", rule, {
 
     valid: [

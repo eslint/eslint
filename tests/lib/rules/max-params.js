@@ -18,6 +18,7 @@ var rule = require("../../../lib/rules/max-params"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("max-params", rule, {
     valid: [
         { code: "function test(d, e, f) {}" },

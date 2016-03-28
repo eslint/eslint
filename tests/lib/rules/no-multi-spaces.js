@@ -17,6 +17,7 @@ var rule = require("../../../lib/rules/no-multi-spaces"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("no-multi-spaces", rule, {
 
     valid: [

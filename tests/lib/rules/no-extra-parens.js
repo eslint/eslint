@@ -46,6 +46,7 @@ function invalid(code, type, line, config) {
 }
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("no-extra-parens", rule, {
     valid: [
 

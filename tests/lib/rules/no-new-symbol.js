@@ -20,6 +20,7 @@ var rule = require("../../../lib/rules/no-new-symbol"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("no-new-symbol", rule, {
     valid: [
         {code: "var foo = Symbol('foo');", env: {es6: true} },

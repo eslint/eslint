@@ -17,6 +17,7 @@ var rule = require("../../../lib/rules/no-caller"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("no-caller", rule, {
     valid: [
         "var x = arguments.length",
