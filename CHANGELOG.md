@@ -1,3 +1,16 @@
+v2.5.2 - March 28, 2016
+
+* 1cc7f8e Docs: Remove mention of minimatch for .eslintignore (Ian VanSchooten)
+* 5bd69a9 Docs: Reorder FAQ in README (alberto)
+* 98e6bd9 Fix: Correct default for indentation in `eslint --init` (fixes #5698) (alberto)
+* 679095e Fix: make the default of `options.cwd` in runtime (fixes #5694) (Toru Nagashima)
+* 4f06f2f Docs: Distinguish examples in rules under Best Practices part 2 (Mark Pedrotti)
+* 013a18e Build: Fix bundling script (fixes #5680) (Nicholas C. Zakas)
+* 8c5d954 Docs: Typo fix (István Donkó)
+* 09659d6 Docs: Use string severity (Kenneth Williams)
+* a4ae769 Docs: Manual changelog update for v2.5.1 (Nicholas C. Zakas)
+* c41fab9 Fix: don't use path.extname with undefined value (fixes #5678) (Myles Borins)
+
 v2.5.1 - March 25, 2016
 
 * Build: No functional changes, just republished with a working package.
