@@ -15,6 +15,7 @@ var rule = require("../../../lib/rules/one-var"),
     RuleTester = require("../../../lib/testers/rule-tester");
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("one-var", rule, {
     valid: [
         "function foo() { var bar = true; }",

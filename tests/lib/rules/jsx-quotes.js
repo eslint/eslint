@@ -14,6 +14,7 @@ var rule = require("../../../lib/rules/jsx-quotes"),
     RuleTester = require("../../../lib/testers/rule-tester");
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("jsx-quotes", rule, {
     valid: [
         {

@@ -42,6 +42,7 @@ function expectedErrors(indentType, errors) {
 
     return errors.map(function(err) {
         var chars = err[1] === 1 ? "character" : "characters";
+
         return {
             message: "Expected indentation of " + err[1] + " " + indentType + " " + chars + " but found " + err[2] + ".",
             type: err[3] || "Program",
@@ -51,6 +52,7 @@ function expectedErrors(indentType, errors) {
 }
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("indent", rule, {
     valid: [
         {

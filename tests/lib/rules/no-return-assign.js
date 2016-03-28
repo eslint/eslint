@@ -22,6 +22,7 @@ var error = {
 };
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("no-return-assign", rule, {
     valid: [
         "function x() { var result = a * b; return result; }",

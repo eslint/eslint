@@ -76,15 +76,18 @@ describe("ConfigRule", function() {
                 // Skip first config (severity only)
                 actualConfigs.slice(1).forEach(function(actualConfig) {
                     var actualConfigOption = actualConfig[1]; // severity is first element, option is second
+
                     assert.isObject(actualConfigOption);
                 });
             });
 
             it("should use the object property name from the schema", function() {
                 var propName = "enumProperty";
+
                 assert.equal(actualConfigs.length, 3);
                 actualConfigs.slice(1).forEach(function(actualConfig) {
                     var actualConfigOption = actualConfig[1];
+
                     assert.property(actualConfigOption, propName);
                 });
             });
@@ -92,8 +95,10 @@ describe("ConfigRule", function() {
             it("should have each enum as option object values", function() {
                 var propName = "enumProperty",
                     actualValues = [];
+
                 actualConfigs.slice(1).forEach(function(actualConfig) {
                     var configOption = actualConfig[1];
+
                     actualValues.push(configOption[propName]);
                 });
                 assert.sameMembers(actualValues, ["always", "never"]);
@@ -108,10 +113,12 @@ describe("ConfigRule", function() {
 
             it("should create configs for all properties in each config", function() {
                 var expectedProperties = ["firstEnum", "anotherEnum"];
+
                 assert.equal(actualConfigs.length, 7);
                 actualConfigs.slice(1).forEach(function(actualConfig) {
                     var configOption = actualConfig[1];
                     var actualProperties = Object.keys(configOption);
+
                     assert.sameMembers(actualProperties, expectedProperties);
                 });
             });
@@ -128,6 +135,7 @@ describe("ConfigRule", function() {
                 var actualConfigOptions = actualConfigs.slice(1).map(function(actualConfig) {
                     return actualConfig[1];
                 });
+
                 assert.sameDeepMembers(actualConfigOptions, expectedConfigs);
             });
 
@@ -143,15 +151,18 @@ describe("ConfigRule", function() {
                 assert.equal(actualConfigs.length, 3);
                 actualConfigs.slice(1).forEach(function(actualConfig) {
                     var actualConfigOption = actualConfig[1];
+
                     assert.isObject(actualConfigOption);
                 });
             });
 
             it("should use the object property name from the schema", function() {
                 var propName = "boolProperty";
+
                 assert.equal(actualConfigs.length, 3);
                 actualConfigs.slice(1).forEach(function(actualConfig) {
                     var actualConfigOption = actualConfig[1];
+
                     assert.property(actualConfigOption, propName);
                 });
             });
@@ -159,8 +170,10 @@ describe("ConfigRule", function() {
             it("should include both true and false configs", function() {
                 var propName = "boolProperty",
                     actualValues = [];
+
                 actualConfigs.slice(1).forEach(function(actualConfig) {
                     var configOption = actualConfig[1];
+
                     actualValues.push(configOption[propName]);
                 });
                 assert.sameMembers(actualValues, [true, false]);
@@ -175,10 +188,12 @@ describe("ConfigRule", function() {
 
             it("should create configs for all properties in each config", function() {
                 var expectedProperties = ["firstBool", "anotherBool"];
+
                 assert.equal(actualConfigs.length, 5);
                 actualConfigs.slice(1).forEach(function(config) {
                     var configOption = config[1];
                     var actualProperties = Object.keys(configOption);
+
                     assert.sameMembers(actualProperties, expectedProperties);
                 });
             });
@@ -193,6 +208,7 @@ describe("ConfigRule", function() {
                 var actualConfigOptions = actualConfigs.slice(1).map(function(config) {
                     return config[1];
                 });
+
                 assert.sameDeepMembers(actualConfigOptions, expectedConfigOptions);
             });
         });
@@ -207,6 +223,7 @@ describe("ConfigRule", function() {
                 assert.equal(actualConfigs[1].length, 2);
                 assert.equal(actualConfigs[2].length, 2);
                 var actualOptions = [actualConfigs[1][1], actualConfigs[2][1]];
+
                 assert.sameMembers(actualOptions, ["always", "never"]);
             });
 
@@ -226,6 +243,7 @@ describe("ConfigRule", function() {
 
             it("should create config only for the enum", function() {
                 var expectedConfigs = [2, [2, "always"], [2, "never"]];
+
                 assert.sameDeepMembers(actualConfigs, expectedConfigs);
             });
         });
@@ -261,6 +279,7 @@ describe("ConfigRule", function() {
             var coreRules = loadRules(),
                 expectedRules = Object.keys(coreRules),
                 actualRules = Object.keys(rulesConfig);
+
             assert.sameMembers(actualRules, expectedRules);
         });
 

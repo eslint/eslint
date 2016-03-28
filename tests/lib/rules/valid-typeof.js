@@ -16,6 +16,7 @@ var rule = require("../../../lib/rules/valid-typeof"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("valid-typeof", rule, {
 
     valid: [

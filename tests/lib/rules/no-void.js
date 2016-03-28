@@ -16,6 +16,7 @@ var rule = require("../../../lib/rules/no-void"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("no-void", rule, {
 
     valid: [

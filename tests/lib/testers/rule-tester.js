@@ -429,6 +429,7 @@ describe("RuleTester", function() {
 
         assert.doesNotThrow(function() {
             var spy = sinon.spy(eslint, "verify");
+
             ruleTester.run("no-eval", require("../../fixtures/testers/rule-tester/no-eval"), {
                 valid: [
                     {
@@ -497,6 +498,7 @@ describe("RuleTester", function() {
 
     it("should correctly set the global configuration", function() {
         var config = { global: { test: true } };
+
         RuleTester.setDefaultConfig(config);
         assert(
             RuleTester.getDefaultConfig().global.test,
@@ -506,6 +508,7 @@ describe("RuleTester", function() {
 
     it("should correctly reset the global configuration", function() {
         var config = { global: { test: true } };
+
         RuleTester.setDefaultConfig(config);
         RuleTester.resetDefaultConfig();
         assert.deepEqual(
@@ -538,6 +541,7 @@ describe("RuleTester", function() {
 
     it("should pass-through the global config to the tester then to the to rule", function() {
         var config = { global: { test: true } };
+
         RuleTester.setDefaultConfig(config);
         ruleTester = new RuleTester();
 

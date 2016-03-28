@@ -17,6 +17,7 @@ var rule = require("../../../lib/rules/no-nested-ternary"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("no-nested-ternary", rule, {
     valid: [
         "foo ? doBar() : doBaz();",

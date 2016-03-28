@@ -18,6 +18,7 @@ var rule = require("../../../lib/rules/prefer-const"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("prefer-const", rule, {
     valid: [
         { code: "var x = 0;" },

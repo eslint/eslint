@@ -37,6 +37,7 @@ function destructuringTest(code) {
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("consistent-this", rule, {
     valid: [
         { code: "var foo = 42, that = this" },

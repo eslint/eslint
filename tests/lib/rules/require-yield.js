@@ -20,6 +20,7 @@ var RuleTester = require("../../../lib/testers/rule-tester");
 var errorMessage = "This generator function does not have 'yield'.";
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("require-yield", rule, {
     valid: [
         {

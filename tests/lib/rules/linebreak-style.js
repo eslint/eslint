@@ -22,6 +22,7 @@ var EXPECTED_LF_MSG = "Expected linebreaks to be 'LF' but found 'CRLF'.",
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("linebreak-style", rule, {
 
     valid: [

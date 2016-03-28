@@ -18,6 +18,7 @@ var rule = require("../../../lib/rules/func-style"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("func-style", rule, {
     valid: [
         {

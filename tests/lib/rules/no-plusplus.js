@@ -17,6 +17,7 @@ var rule = require("../../../lib/rules/no-plusplus"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("no-plusplus", rule, {
     valid: [
         "var foo = 0; foo=+1;",

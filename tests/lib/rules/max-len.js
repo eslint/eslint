@@ -16,6 +16,7 @@ var rule = require("../../../lib/rules/max-len"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("max-len", rule, {
     valid: [
         "var x = 5;\nvar x = 2;",

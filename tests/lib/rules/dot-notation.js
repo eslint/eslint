@@ -17,6 +17,7 @@ var rule = require("../../../lib/rules/dot-notation"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("dot-notation", rule, {
     valid: [
         "a.b;",

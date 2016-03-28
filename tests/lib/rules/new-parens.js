@@ -17,6 +17,7 @@ var rule = require("../../../lib/rules/new-parens"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("new-parens", rule, {
     valid: [
         "var a = new Date();",

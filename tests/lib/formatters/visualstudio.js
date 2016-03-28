@@ -27,6 +27,7 @@ describe("formatter:visualstudio", function() {
 
         it("should return nothing", function() {
             var result = formatter(code);
+
             assert.equal(result, "no problems");
         });
     });
@@ -45,12 +46,14 @@ describe("formatter:visualstudio", function() {
 
         it("should return a string in the format filename(x,y): error z for errors", function() {
             var result = formatter(code);
+
             assert.equal(result, "foo.js(5,10): error foo : Unexpected foo.\n\n1 problem");
         });
 
         it("should return a string in the format filename(x,y): warning z for warnings", function() {
             code[0].messages[0].severity = 1;
             var result = formatter(code);
+
             assert.equal(result, "foo.js(5,10): warning foo : Unexpected foo.\n\n1 problem");
         });
     });
@@ -69,6 +72,7 @@ describe("formatter:visualstudio", function() {
 
         it("should return a string in the format filename(x,y): error  z", function() {
             var result = formatter(code);
+
             assert.equal(result, "foo.js(5,10): error foo : Unexpected foo.\n\n1 problem");
         });
     });
@@ -93,6 +97,7 @@ describe("formatter:visualstudio", function() {
 
         it("should return a string with multiple entries", function() {
             var result = formatter(code);
+
             assert.equal(result, "foo.js(5,10): error foo : Unexpected foo.\nfoo.js(6,11): warning bar : Unexpected bar.\n\n2 problems");
         });
     });
@@ -120,6 +125,7 @@ describe("formatter:visualstudio", function() {
 
         it("should return a string with multiple entries", function() {
             var result = formatter(code);
+
             assert.equal(result, "foo.js(5,10): error foo : Unexpected foo.\nbar.js(6,11): warning bar : Unexpected bar.\n\n2 problems");
         });
     });
@@ -135,6 +141,7 @@ describe("formatter:visualstudio", function() {
 
         it("should return a string without line and column", function() {
             var result = formatter(code);
+
             assert.equal(result, "foo.js(0): error : Couldn't find foo.js.\n\n1 problem");
         });
     });

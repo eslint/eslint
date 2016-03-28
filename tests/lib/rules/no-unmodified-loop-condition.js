@@ -15,6 +15,7 @@ var rule = require("../../../lib/rules/no-unmodified-loop-condition"),
     RuleTester = require("../../../lib/testers/rule-tester");
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("no-unmodified-loop-condition", rule, {
     valid: [
         "var foo = 0; while (foo) { ++foo; }",

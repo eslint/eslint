@@ -17,6 +17,7 @@ var rule = require("../../../lib/rules/accessor-pairs"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("accessor-pairs", rule, {
     valid: [
         "var o = { a: 1 };",

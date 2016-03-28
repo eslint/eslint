@@ -23,7 +23,9 @@ var OPENING = "foo(function() {",
  * @private
  */
 function nestFunctions(times) {
-    var openings = "", closings = "";
+    var openings = "",
+        closings = "";
+
     for (var i = 0; i < times; i++) {
         openings += OPENING;
         closings += CLOSING;
@@ -35,6 +37,7 @@ function nestFunctions(times) {
 // Tests
 //------------------------------------------------------------------------------
 var ruleTester = new RuleTester();
+
 ruleTester.run("max-nested-callbacks", rule, {
     valid: [
         { code: "foo(function() { bar(thing, function(data) {}); });", options: [3] },

@@ -19,6 +19,7 @@ var rule = require("../../../lib/rules/generator-star-spacing"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("generator-star-spacing", rule, {
 
     valid: [

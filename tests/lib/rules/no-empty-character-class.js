@@ -17,6 +17,7 @@ var rule = require("../../../lib/rules/no-empty-character-class"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("no-empty-character-class", rule, {
     valid: [
         "var foo = /^abc[a-zA-Z]/;",

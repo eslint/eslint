@@ -13,6 +13,7 @@ var rule = require("../../../lib/rules/no-invalid-regexp"),
     RuleTester = require("../../../lib/testers/rule-tester");
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("no-invalid-regexp", rule, {
     valid: [
         "RegExp('')",

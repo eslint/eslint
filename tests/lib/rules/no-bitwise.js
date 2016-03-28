@@ -17,6 +17,7 @@ var rule = require("../../../lib/rules/no-bitwise"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("no-bitwise", rule, {
     valid: [
         "a + b",

@@ -17,6 +17,7 @@ var rule = require("../../../lib/rules/no-with"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("no-with", rule, {
     valid: [
         "foo.bar()"

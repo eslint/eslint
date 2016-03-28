@@ -94,6 +94,7 @@ describe("Config", function() {
      */
     function getFixturePath() {
         var args = Array.prototype.slice.call(arguments);
+
         args.unshift("config-hierarchy");
         args.unshift(fixtureDir);
         return path.join.apply(path, args);
@@ -260,6 +261,7 @@ describe("Config", function() {
             // If cached this should be called only once
             configHelper.getConfig(configPath);
             var callcount = configHelper.findLocalConfigFiles.callcount;
+
             configHelper.getConfig(configPath);
 
             assert.equal(configHelper.findLocalConfigFiles.callcount, callcount);
@@ -681,6 +683,7 @@ describe("Config", function() {
         it("should gracefully handle empty files", function() {
             var configPath = path.resolve(__dirname, "..", "fixtures", "configurations", "env-node.json"),
                 configHelper = new Config({configFile: configPath, cwd: process.cwd()});
+
             configHelper.getConfig(path.resolve(__dirname, "..", "fixtures", "configurations", "empty", "empty.json"));
         });
 
@@ -690,6 +693,7 @@ describe("Config", function() {
 
             assert.throws(function() {
                 var configHelper = new Config({ useEslintrc: false, configFile: configPath });
+
                 configHelper.getConfig(configPath);
             }, /Referenced from:.*?error\.json/);
         });

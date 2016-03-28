@@ -19,6 +19,7 @@ var rule = require("../../../lib/rules/no-implicit-globals"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("no-implicit-globals", rule, {
     valid: [
         {

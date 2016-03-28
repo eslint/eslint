@@ -17,6 +17,7 @@ var rule = require("../../../lib/rules/curly"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("curly", rule, {
     valid: [
         "if (foo) { bar() }",

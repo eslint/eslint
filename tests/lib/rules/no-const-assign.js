@@ -18,6 +18,7 @@ var RuleTester = require("../../../lib/testers/rule-tester");
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("no-const-assign", rule, {
     valid: [
         {code: "const x = 0; { let x; x = 1; }", parserOptions: { ecmaVersion: 6 }},

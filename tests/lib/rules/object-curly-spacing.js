@@ -18,6 +18,7 @@ var rule = require("../../../lib/rules/object-curly-spacing"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("object-curly-spacing", rule, {
 
     valid: [

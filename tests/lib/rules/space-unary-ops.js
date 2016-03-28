@@ -17,6 +17,7 @@ var rule = require("../../../lib/rules/space-unary-ops"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("space-unary-ops", rule, {
 
     valid: [

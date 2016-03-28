@@ -18,6 +18,7 @@ var RuleTester = require("../../../lib/testers/rule-tester");
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("no-dupe-class-members", rule, {
     valid: [
         {code: "class A { foo() {} bar() {} }", parserOptions: { ecmaVersion: 6 }},

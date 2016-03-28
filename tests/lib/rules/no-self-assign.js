@@ -19,6 +19,7 @@ var rule = require("../../../lib/rules/no-self-assign"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("no-self-assign", rule, {
     valid: [
         "var a = a",

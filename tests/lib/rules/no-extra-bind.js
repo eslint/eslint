@@ -18,6 +18,7 @@ var rule = require("../../../lib/rules/no-extra-bind"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("no-extra-bind", rule, {
     valid: [
         "var a = function(b) { return b }.bind(c, d)",

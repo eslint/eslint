@@ -18,6 +18,7 @@ var rule = require("../../../lib/rules/no-labels"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("no-labels", rule, {
 
     valid: [

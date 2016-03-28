@@ -49,8 +49,10 @@ describe("CLIEngine", function() {
      */
     function getFixturePath() {
         var args = Array.prototype.slice.call(arguments);
+
         args.unshift(fixtureDir);
         var filepath = path.join.apply(path, args);
+
         try {
             filepath = fs.realpathSync(filepath);
             return filepath;
@@ -85,6 +87,7 @@ describe("CLIEngine", function() {
             process.chdir(__dirname);
             try {
                 var engine = new CLIEngine();
+
                 assert.equal(engine.options.cwd, __dirname);
             } finally {
                 process.chdir(originalDir);
@@ -101,6 +104,7 @@ describe("CLIEngine", function() {
             engine = new CLIEngine();
 
             var report = engine.executeOnText("var foo = 'bar';");
+
             assert.equal(report.results.length, 1);
             assert.equal(report.errorCount, 4);
             assert.equal(report.warningCount, 0);
@@ -120,6 +124,7 @@ describe("CLIEngine", function() {
             });
 
             var report = engine.executeOnText("var foo = 'bar';");
+
             assert.equal(report.results.length, 1);
             assert.equal(report.errorCount, 1);
             assert.equal(report.warningCount, 0);
@@ -138,6 +143,7 @@ describe("CLIEngine", function() {
             });
 
             var report = engine.executeOnText("var foo = 'bar';", "test.js");
+
             assert.equal(report.results[0].filePath, getFixturePath("test.js"));
         });
 
@@ -173,6 +179,7 @@ describe("CLIEngine", function() {
             });
 
             var report = engine.executeOnText("var bar = foo;", "fixtures/passing.js");
+
             assert.equal(report.results.length, 1);
             assert.equal(report.results[0].filePath, getFixturePath("passing.js"));
             assert.equal(report.results[0].messages[0].ruleId, "no-undef");
@@ -193,6 +200,7 @@ describe("CLIEngine", function() {
             });
 
             var report = engine.executeOnText("var bar = foo", "passing.js");
+
             assert.deepEqual(report, {
                 "results": [
                     {
@@ -221,6 +229,7 @@ describe("CLIEngine", function() {
             });
 
             var report = engine.executeOnText("var bar = foo", "passing.js");
+
             assert.deepEqual(report, {
                 "results": [
                     {
@@ -259,6 +268,7 @@ describe("CLIEngine", function() {
             });
 
             var report = engine.executeOnFiles(["lib/cli*.js"]);
+
             assert.equal(report.results.length, 2);
             assert.equal(report.results[0].messages.length, 0);
             assert.equal(report.results[1].messages.length, 0);
@@ -272,6 +282,7 @@ describe("CLIEngine", function() {
             });
 
             var report = engine.executeOnFiles(["lib/cli*.js", "lib/cli.?s", "lib/{cli,cli-engine}.js"]);
+
             assert.equal(report.results.length, 2);
             assert.equal(report.results[0].messages.length, 0);
             assert.equal(report.results[1].messages.length, 0);
@@ -285,6 +296,7 @@ describe("CLIEngine", function() {
             });
 
             var report = engine.executeOnFiles(["lib/cli.js"]);
+
             assert.equal(report.results.length, 1);
             assert.equal(report.results[0].messages.length, 0);
         });
@@ -297,6 +309,7 @@ describe("CLIEngine", function() {
             });
 
             var report = engine.executeOnFiles(["lib/cli.js"]);
+
             assert.equal(report.results.length, 1);
             assert.equal(report.results[0].messages.length, 0);
         });
@@ -309,6 +322,7 @@ describe("CLIEngine", function() {
             });
 
             var report = engine.executeOnFiles(["lib/cli.js"]);
+
             assert.lengthOf(report.results, 1);
             assert.lengthOf(report.results[0].messages, 1);
             assert.isTrue(report.results[0].messages[0].fatal);
@@ -322,6 +336,7 @@ describe("CLIEngine", function() {
             });
 
             var report = engine.executeOnFiles([getFixturePath("files/foo.js2")]);
+
             assert.equal(report.results.length, 1);
             assert.equal(report.results[0].messages.length, 0);
         });
@@ -335,6 +350,7 @@ describe("CLIEngine", function() {
             });
 
             var report = engine.executeOnFiles(["fixtures/files/"]);
+
             assert.equal(report.results.length, 2);
             assert.equal(report.results[0].messages.length, 0);
             assert.equal(report.results[1].messages.length, 0);
@@ -349,6 +365,7 @@ describe("CLIEngine", function() {
             });
 
             var report = engine.executeOnFiles(["fixtures/files/*"]);
+
             assert.equal(report.results.length, 2);
             assert.equal(report.results[0].messages.length, 0);
             assert.equal(report.results[1].messages.length, 0);
@@ -361,6 +378,7 @@ describe("CLIEngine", function() {
             });
 
             var report = engine.executeOnFiles(["fixtures/files/node_modules/.bar.js"]);
+
             assert.equal(report.results.length, 0);
         });
 
@@ -371,6 +389,7 @@ describe("CLIEngine", function() {
             });
 
             var report = engine.executeOnFiles(["fixtures/files/.bar.js"]);
+
             assert.equal(report.results.length, 0);
         });
 
@@ -382,6 +401,7 @@ describe("CLIEngine", function() {
             });
 
             var report = engine.executeOnFiles(["fixtures/files/.bar.js"]);
+
             assert.equal(report.results.length, 1);
             assert.equal(report.results[0].messages.length, 0);
         });
@@ -395,6 +415,7 @@ describe("CLIEngine", function() {
             });
 
             var report = engine.executeOnFiles(["fixtures/files/*.?s*"]);
+
             assert.equal(report.results.length, 2);
             assert.equal(report.results[0].messages.length, 0);
             assert.equal(report.results[1].messages.length, 0);
@@ -407,6 +428,7 @@ describe("CLIEngine", function() {
                 configFile: getFixturePath("configurations", "quotes-error.json")
             });
             var report = engine.executeOnFiles([getFixturePath("single-quoted.js")]);
+
             assert.equal(report.results.length, 1);
             assert.equal(report.results[0].messages.length, 1);
             assert.equal(report.errorCount, 1);
@@ -425,6 +447,7 @@ describe("CLIEngine", function() {
             });
 
             var report = engine.executeOnFiles([getFixturePath("formatters")]);
+
             assert.equal(report.results.length, 2);
             assert.equal(report.errorCount, 0);
             assert.equal(report.warningCount, 0);
@@ -444,6 +467,7 @@ describe("CLIEngine", function() {
             });
 
             var report = engine.executeOnFiles(["fixtures/files/foo.js2"]);
+
             assert.equal(report.results.length, 1);
             assert.equal(report.results[0].messages.length, 0);
         });
@@ -456,6 +480,7 @@ describe("CLIEngine", function() {
             });
 
             var report = engine.executeOnFiles([fs.realpathSync(getFixturePath("globals-browser.js"))]);
+
             assert.equal(report.results.length, 1);
             assert.equal(report.results[0].messages.length, 0);
         });
@@ -472,6 +497,7 @@ describe("CLIEngine", function() {
             });
 
             var report = engine.executeOnFiles([fs.realpathSync(getFixturePath("globals-browser.js"))]);
+
             assert.equal(report.results.length, 1);
             assert.equal(report.results[0].messages.length, 0);
         });
@@ -484,6 +510,7 @@ describe("CLIEngine", function() {
             });
 
             var report = engine.executeOnFiles([fs.realpathSync(getFixturePath("globals-node.js"))]);
+
             assert.equal(report.results.length, 1);
             assert.equal(report.results[0].messages.length, 0);
         });
@@ -502,6 +529,7 @@ describe("CLIEngine", function() {
             var passFilePath = fs.realpathSync(getFixturePath("passing.js"));
 
             var report = engine.executeOnFiles([failFilePath]);
+
             assert.equal(report.results.length, 1);
             assert.equal(report.results[0].filePath, failFilePath);
             assert.equal(report.results[0].messages.length, 1);
@@ -522,6 +550,7 @@ describe("CLIEngine", function() {
             });
 
             var report = engine.executeOnFiles([getFixturePath("./")]);
+
             assert.equal(report.results.length, 0);
         });
 
@@ -531,6 +560,7 @@ describe("CLIEngine", function() {
             });
 
             var report = engine.executeOnFiles(["tests/fixtures/"]);
+
             assert.equal(report.results.length, 0);
         });
 
@@ -540,6 +570,7 @@ describe("CLIEngine", function() {
             });
 
             var report = engine.executeOnFiles(["./tests/fixtures/"]);
+
             assert.equal(report.results.length, 0);
         });
 
@@ -555,6 +586,7 @@ describe("CLIEngine", function() {
             });
 
             var report = engine.executeOnFiles(["./fixtures/cli-engine/"]);
+
             assert.equal(report.results.length, 1);
             assert.equal(report.results[0].errorCount, 0);
             assert.equal(report.results[0].warningCount, 0);
@@ -571,6 +603,7 @@ describe("CLIEngine", function() {
             });
 
             var report = engine.executeOnFiles(["./tests/fixtures/cli-engine/"]);
+
             assert.equal(report.results.length, 0);
         });
 
@@ -580,6 +613,7 @@ describe("CLIEngine", function() {
             });
 
             var report = engine.executeOnFiles(["tests/fixtures/*-quoted.js"]);
+
             assert.equal(report.results.length, 0);
         });
 
@@ -591,6 +625,7 @@ describe("CLIEngine", function() {
             var filePath = getFixturePath("passing.js");
 
             var report = engine.executeOnFiles([filePath]);
+
             assert.equal(report.results.length, 1);
             assert.equal(report.errorCount, 0);
             assert.equal(report.warningCount, 1);
@@ -614,6 +649,7 @@ describe("CLIEngine", function() {
             var filePath = fs.realpathSync(getFixturePath("undef.js"));
 
             var report = engine.executeOnFiles([filePath]);
+
             assert.equal(report.results.length, 1);
             assert.equal(report.results[0].filePath, filePath);
             assert.equal(report.results[0].messages[0].ruleId, "no-undef");
@@ -629,6 +665,7 @@ describe("CLIEngine", function() {
             });
 
             var report = engine.executeOnFiles([getFixturePath("shebang.js")]);
+
             assert.equal(report.results.length, 1);
             assert.equal(report.results[0].messages.length, 0);
         });
@@ -641,6 +678,7 @@ describe("CLIEngine", function() {
                 configFile: getFixturePath("rules", "missing-rule.json")
             });
             var report = engine.executeOnFiles([getFixturePath("rules", "test", "test-custom-rule.js")]);
+
             assert.equal(report.results.length, 1);
             assert.equal(report.results[0].messages.length, 1);
             assert.equal(report.results[0].messages[0].ruleId, "missing-rule");
@@ -676,6 +714,7 @@ describe("CLIEngine", function() {
             var filePath = fs.realpathSync(getFixturePath("rules", "test", "test-custom-rule.js"));
 
             var report = engine.executeOnFiles([filePath]);
+
             assert.equal(report.results.length, 1);
             assert.equal(report.results[0].filePath, filePath);
             assert.equal(report.results[0].messages.length, 2);
@@ -685,6 +724,7 @@ describe("CLIEngine", function() {
 
         it("should load custom rule from the provided cwd", function() {
             var cwd = path.resolve(getFixturePath("rules"));
+
             engine = new CLIEngine({
                 ignore: false,
                 cwd: cwd,
@@ -695,6 +735,7 @@ describe("CLIEngine", function() {
             var filePath = fs.realpathSync(getFixturePath("rules", "test", "test-custom-rule.js"));
 
             var report = engine.executeOnFiles([filePath]);
+
             assert.equal(report.results.length, 1);
             assert.equal(report.results[0].filePath, filePath);
             assert.equal(report.results[0].messages.length, 2);
@@ -716,6 +757,7 @@ describe("CLIEngine", function() {
             var filePath = fs.realpathSync(getFixturePath("rules", "test-multi-rulesdirs.js"));
 
             var report = engine.executeOnFiles([filePath]);
+
             assert.equal(report.results.length, 1);
             assert.equal(report.results[0].filePath, filePath);
             assert.equal(report.results[0].messages.length, 2);
@@ -735,6 +777,7 @@ describe("CLIEngine", function() {
             var filePath = fs.realpathSync(getFixturePath("missing-semicolon.js"));
 
             var report = engine.executeOnFiles([filePath]);
+
             assert.equal(report.results.length, 1);
             assert.equal(report.results[0].filePath, filePath);
             assert.equal(report.results[0].messages.length, 0);
@@ -751,6 +794,7 @@ describe("CLIEngine", function() {
             var filePath = fs.realpathSync(getFixturePath("process-exit.js"));
 
             var report = engine.executeOnFiles([filePath]);
+
             assert.equal(report.results.length, 1);
             assert.equal(report.results[0].filePath, filePath);
             assert.equal(report.results[0].messages.length, 0);
@@ -767,6 +811,7 @@ describe("CLIEngine", function() {
             var filePath = fs.realpathSync(getFixturePath("missing-semicolon.js"));
 
             var report = engine.executeOnFiles([filePath]);
+
             assert.equal(report.results.length, 1);
             assert.equal(report.results[0].filePath, filePath);
             assert.equal(report.results[0].messages.length, 0);
@@ -783,6 +828,7 @@ describe("CLIEngine", function() {
             var filePath = fs.realpathSync(getFixturePath("eslintrc", "quotes.js"));
 
             var report = engine.executeOnFiles([filePath]);
+
             assert.equal(report.results.length, 1);
             assert.equal(report.results[0].filePath, filePath);
             assert.equal(report.results[0].messages.length, 0);
@@ -799,6 +845,7 @@ describe("CLIEngine", function() {
             var filePath = fs.realpathSync(getFixturePath("packagejson", "quotes.js"));
 
             var report = engine.executeOnFiles([filePath]);
+
             assert.equal(report.results.length, 1);
             assert.equal(report.results[0].filePath, filePath);
             assert.equal(report.results[0].messages.length, 0);
@@ -854,6 +901,7 @@ describe("CLIEngine", function() {
                 });
 
                 var report = engine.executeOnFiles([path.resolve(fixtureDir, fixtureDir + "/fixmode")]);
+
                 report.results.forEach(convertCRLF);
                 assert.deepEqual(report, {
                     "results": [
@@ -934,6 +982,7 @@ describe("CLIEngine", function() {
                 });
 
                 var report = engine.executeOnFiles([fs.realpathSync(fixtureDir + "/config-hierarchy/broken/console-wrong-quotes.js")]);
+
                 assert.equal(report.results.length, 1);
                 assert.equal(report.results[0].messages.length, 0);
             });
@@ -948,6 +997,7 @@ describe("CLIEngine", function() {
                 });
 
                 var report = engine.executeOnFiles([fs.realpathSync(fixtureDir + "/config-hierarchy/broken/console-wrong-quotes-node.js")]);
+
                 assert.equal(report.results.length, 1);
                 assert.equal(report.results[0].messages.length, 0);
             });
@@ -960,6 +1010,7 @@ describe("CLIEngine", function() {
                 });
 
                 var report = engine.executeOnFiles([fs.realpathSync(fixtureDir + "/config-hierarchy/broken/process-exit.js")]);
+
                 assert.equal(report.results.length, 1);
                 assert.equal(report.results[0].messages.length, 0);
             });
@@ -972,6 +1023,7 @@ describe("CLIEngine", function() {
                 });
 
                 var report = engine.executeOnFiles([fs.realpathSync(fixtureDir + "/config-hierarchy/broken/process-exit.js")]);
+
                 assert.equal(report.results.length, 1);
                 assert.equal(report.results[0].messages.length, 0);
             });
@@ -984,6 +1036,7 @@ describe("CLIEngine", function() {
                 });
 
                 var report = engine.executeOnFiles([fs.realpathSync(fixtureDir + "/config-hierarchy/broken/console-wrong-quotes.js")]);
+
                 assert.equal(report.results.length, 1);
                 assert.equal(report.results[0].messages.length, 1);
                 assert.equal(report.results[0].messages[0].ruleId, "quotes");
@@ -998,6 +1051,7 @@ describe("CLIEngine", function() {
                 });
 
                 var report = engine.executeOnFiles([fs.realpathSync(fixtureDir + "/config-hierarchy/broken/subbroken/console-wrong-quotes.js")]);
+
                 assert.equal(report.results.length, 1);
                 assert.equal(report.results[0].messages.length, 1);
                 assert.equal(report.results[0].messages[0].ruleId, "no-console");
@@ -1012,6 +1066,7 @@ describe("CLIEngine", function() {
                 });
 
                 var report = engine.executeOnFiles([fs.realpathSync(fixtureDir + "/config-hierarchy/broken/subbroken/subsubbroken/console-wrong-quotes.js")]);
+
                 assert.equal(report.results.length, 1);
                 assert.equal(report.results[0].messages.length, 1);
                 assert.equal(report.results[0].messages[0].ruleId, "quotes");
@@ -1026,6 +1081,7 @@ describe("CLIEngine", function() {
                 });
 
                 var report = engine.executeOnFiles([fs.realpathSync(fixtureDir + "/config-hierarchy/packagejson/subdir/wrong-quotes.js")]);
+
                 assert.equal(report.results.length, 1);
                 assert.equal(report.results[0].messages.length, 1);
                 assert.equal(report.results[0].messages[0].ruleId, "quotes");
@@ -1040,6 +1096,7 @@ describe("CLIEngine", function() {
                 });
 
                 var report = engine.executeOnFiles([fs.realpathSync(fixtureDir + "/config-hierarchy/packagejson/subdir/subsubdir/wrong-quotes.js")]);
+
                 assert.equal(report.results.length, 1);
                 assert.equal(report.results[0].messages.length, 0);
             });
@@ -1052,6 +1109,7 @@ describe("CLIEngine", function() {
                 });
 
                 var report = engine.executeOnFiles([fs.realpathSync(fixtureDir + "/config-hierarchy/packagejson/subdir/subsubdir/subsubsubdir/wrong-quotes.js")]);
+
                 assert.equal(report.results.length, 1);
                 assert.equal(report.results[0].messages.length, 1);
                 assert.equal(report.results[0].messages[0].ruleId, "quotes");
@@ -1066,6 +1124,7 @@ describe("CLIEngine", function() {
                 });
 
                 var report = engine.executeOnFiles([fs.realpathSync(fixtureDir + "/config-hierarchy/packagejson/wrong-quotes.js")]);
+
                 assert.equal(report.results.length, 1);
                 assert.equal(report.results[0].messages.length, 1);
                 assert.equal(report.results[0].messages[0].ruleId, "quotes");
@@ -1081,6 +1140,7 @@ describe("CLIEngine", function() {
                 });
 
                 var report = engine.executeOnFiles([fs.realpathSync(fixtureDir + "/config-hierarchy/broken/console-wrong-quotes.js")]);
+
                 assert.equal(report.results.length, 1);
                 assert.equal(report.results[0].messages.length, 2);
                 assert.equal(report.results[0].messages[0].ruleId, "quotes");
@@ -1098,6 +1158,7 @@ describe("CLIEngine", function() {
                 });
 
                 var report = engine.executeOnFiles([fs.realpathSync(fixtureDir + "/config-hierarchy/broken/console-wrong-quotes.js")]);
+
                 assert.equal(report.results.length, 1);
                 assert.equal(report.results[0].messages.length, 0);
             });
@@ -1111,6 +1172,7 @@ describe("CLIEngine", function() {
                 });
 
                 var report = engine.executeOnFiles([fs.realpathSync(fixtureDir + "/config-hierarchy/broken/subbroken/console-wrong-quotes.js")]);
+
                 assert.equal(report.results.length, 1);
                 assert.equal(report.results[0].messages.length, 2);
                 assert.equal(report.results[0].messages[0].ruleId, "no-console");
@@ -1128,6 +1190,7 @@ describe("CLIEngine", function() {
                 });
 
                 var report = engine.executeOnFiles([fs.realpathSync(fixtureDir + "/config-hierarchy/broken/subbroken/console-wrong-quotes.js")]);
+
                 assert.equal(report.results.length, 1);
                 assert.equal(report.results[0].messages.length, 1);
                 assert.equal(report.results[0].messages[0].ruleId, "no-console");
@@ -1143,6 +1206,7 @@ describe("CLIEngine", function() {
                 });
 
                 var report = engine.executeOnFiles([fs.realpathSync(fixtureDir + "/config-hierarchy/broken/console-wrong-quotes.js")]);
+
                 assert.equal(report.results.length, 1);
                 assert.equal(report.results[0].messages.length, 0);
             });
@@ -1159,6 +1223,7 @@ describe("CLIEngine", function() {
                 });
 
                 var report = engine.executeOnFiles([fs.realpathSync(fixtureDir + "/config-hierarchy/broken/console-wrong-quotes.js")]);
+
                 assert.equal(report.results.length, 1);
                 assert.equal(report.results[0].messages.length, 1);
                 assert.equal(report.results[0].messages[0].ruleId, "quotes");
@@ -1177,6 +1242,7 @@ describe("CLIEngine", function() {
                 });
 
                 var report = engine.executeOnFiles([getFixturePath("config-hierarchy/broken/console-wrong-quotes.js")]);
+
                 assert.equal(report.results.length, 1);
                 assert.equal(report.results[0].messages.length, 1);
                 assert.equal(report.results[0].messages[0].ruleId, "quotes");
@@ -1422,6 +1488,7 @@ describe("CLIEngine", function() {
                 var spy = sandbox.spy(fs, "readFileSync");
 
                 var file = getFixturePath("cache/src", "test-file.js");
+
                 file = fs.realpathSync(file);
 
                 var result = engine.executeOnFiles([file]);
@@ -1476,6 +1543,7 @@ describe("CLIEngine", function() {
                 var spy = sandbox.spy(fs, "readFileSync");
 
                 var file = getFixturePath("cache/src", "test-file.js");
+
                 file = fs.realpathSync(file);
 
                 var result = engine.executeOnFiles([file]);
@@ -1532,6 +1600,7 @@ describe("CLIEngine", function() {
                 engine = new CLIEngine(cliEngineOptions);
 
                 var file = getFixturePath("cache/src", "test-file.js");
+
                 file = fs.realpathSync(file);
 
                 engine.executeOnFiles([file]);
@@ -1889,6 +1958,7 @@ describe("CLIEngine", function() {
 
             var report = engine.executeOnText("var foo = 'bar';");
             var errorResults = CLIEngine.getErrorResults(report.results);
+
             assert.lengthOf(errorResults[0].messages, 4);
             assert.equal(errorResults[0].messages[0].ruleId, "strict");
             assert.equal(errorResults[0].messages[0].severity, 2);
@@ -2001,6 +2071,7 @@ describe("CLIEngine", function() {
                 var engine = new CLIEngine();
 
                 var result = engine.resolveFileGlobPatterns([input]);
+
                 assert.equal(result[0], expected);
 
             });

@@ -21,6 +21,7 @@ var MISSING_SPACE_ERROR = "There must be a space inside this paren.",
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("space-in-parens", rule, {
 
     valid: [

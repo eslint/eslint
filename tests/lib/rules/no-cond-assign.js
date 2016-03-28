@@ -18,6 +18,7 @@ var ERROR_MESSAGE = "Expected a conditional expression and instead saw an assign
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("no-cond-assign", rule, {
     valid: [
         "var x = 0; if (x == 0) { var b = 1; }",

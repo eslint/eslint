@@ -132,10 +132,12 @@ function fileType(extension) {
  */
 function generateRulesIndex(basedir) {
     var output = "module.exports = function() {\n";
+
     output += "    var rules = Object.create(null);\n";
 
     find(basedir + "rules/").filter(fileType("js")).forEach(function(filename) {
         var basename = path.basename(filename, ".js");
+
         output += "    rules[\"" + basename + "\"] = require(\"./rules/" + basename + "\");\n";
     });
 
@@ -358,6 +360,7 @@ function lintMarkdown(files) {
         }),
         resultString = result.toString(),
         returnCode = resultString ? 1 : 0;
+
     if (resultString) {
         console.error(resultString);
     }
@@ -372,6 +375,7 @@ function lintMarkdown(files) {
  */
 function hasBranch(branchName) {
     var branches = getBranches();
+
     return branches.indexOf(branchName) !== -1;
 }
 
@@ -409,6 +413,7 @@ function getFormatterResults() {
     return formatterFiles.reduce(function(data, filename) {
         var fileExt = path.extname(filename),
             name = path.basename(filename, fileExt);
+
         if (fileExt === ".js") {
             data.formatterResults[name] = {
                 result: chalk.stripColor(cli.getFormatter(name)(rawMessages.results))
@@ -554,6 +559,7 @@ target.gensite = function(prereleaseVersion) {
     cp("-rf", "docs/*", TEMP_DIR);
 
     var versions = test("-f", "./versions.json") ? JSON.parse(cat("./versions.json")) : {};
+
     if (!versions.added) {
         versions = {
             added: versions,
@@ -624,6 +630,7 @@ target.gensite = function(prereleaseVersion) {
 
     // 10. Copy temorary directory to site's docs folder
     var outputDir = DOCS_DIR;
+
     if (prereleaseVersion) {
         outputDir += "/" + prereleaseVersion;
     }
@@ -701,6 +708,7 @@ target.checkRuleFiles = function() {
         var docFilename = "docs/rules/" + basename + ".md";
 
         var indexLine = new RegExp("\\* \\[" + basename + "\\].*").exec(rulesIndexText);
+
         indexLine = indexLine ? indexLine[0] : "";
 
         /**
@@ -719,6 +727,7 @@ target.checkRuleFiles = function() {
          */
         function isOffInConfig() {
             var rule = eslintConf[basename];
+
             return rule === "off" || (rule && rule[0] === "off");
         }
 
@@ -758,6 +767,7 @@ target.checkRuleFiles = function() {
         function hasIdInTitle(id) {
             var docText = cat(docFilename);
             var idInTitleRegExp = new RegExp("^# (.*?) \\(" + id + "\\)");
+
             return idInTitleRegExp.test(docText);
         }
 
@@ -954,6 +964,7 @@ function createConfigForPerformanceTest() {
         "    es6: true",
         "rules:"
     ];
+
     content.push.apply(
         content,
         ls("lib/rules").map(function(fileName) {
@@ -976,6 +987,7 @@ function createConfigForPerformanceTest() {
  */
 function time(cmd, runs, runNumber, results, cb) {
     var start = process.hrtime();
+
     exec(cmd, { silent: true }, function(code, stdout, stderr) {
         var diff = process.hrtime(start),
             actual = (diff[0] * 1e3 + diff[1] / 1e6); // ms
@@ -1053,6 +1065,7 @@ function loadPerformance() {
     echo("Loading:");
 
     var results = [];
+
     for (var cnt = 0; cnt < 5; cnt++) {
         var loadPerfData = loadPerf({
             checkDependencies: false
@@ -1066,6 +1079,7 @@ function loadPerformance() {
         return a - b;
     });
     var median = results[~~(results.length / 2)];
+
     echo("");
     echo("  Load Performance median:  %dms", median);
     echo("");

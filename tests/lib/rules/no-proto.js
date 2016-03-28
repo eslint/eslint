@@ -17,6 +17,7 @@ var rule = require("../../../lib/rules/no-proto"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("no-proto", rule, {
     valid: [
         "var a = test[__proto__];",

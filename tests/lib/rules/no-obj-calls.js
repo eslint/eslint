@@ -17,6 +17,7 @@ var rule = require("../../../lib/rules/no-obj-calls"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("no-obj-calls", rule, {
     valid: [
         "var x = Math.random();"

@@ -18,6 +18,7 @@ var rule = require("../../../lib/rules/max-statements-per-line"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("max-statements-per-line", rule, {
     valid: [
         { code: "", options: [{ "max": 0 }] },
