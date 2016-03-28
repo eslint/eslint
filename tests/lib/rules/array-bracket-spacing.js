@@ -17,6 +17,7 @@ var rule = require("../../../lib/rules/array-bracket-spacing"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("array-bracket-spacing", rule, {
 
     valid: [

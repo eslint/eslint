@@ -46,6 +46,7 @@ function override(keyword, value) {
         after: value.after === false,
         overrides: {}
     };
+
     retv.overrides[keyword] = value;
 
     return retv;
@@ -124,6 +125,7 @@ function unexpectedBeforeAndAfter(keyword) {
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("keyword-spacing", rule, {
     valid: [
 

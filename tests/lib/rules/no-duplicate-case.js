@@ -18,6 +18,7 @@ var rule = require("../../../lib/rules/no-duplicate-case"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("no-duplicate-case", rule, {
     valid: [
         "var a = 1; switch (a) {case 1: break; case 2: break; default: break;}",

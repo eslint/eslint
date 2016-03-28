@@ -64,6 +64,7 @@ describe("autoconfig", function() {
         it("should set up a registry for rules in a provided rulesConfig", function() {
             var expectedRules = Object.keys(rulesConfig);
             var registry = new autoconfig.Registry(rulesConfig);
+
             assert.equal(Object.keys(registry.rules).length, 3);
             assert.sameMembers(Object.keys(registry.rules), expectedRules);
             assert.isArray(registry.rules.semi);
@@ -76,12 +77,14 @@ describe("autoconfig", function() {
 
         it("should not have any rules if constructed without a config argument", function() {
             var registry = new autoconfig.Registry();
+
             assert.isObject(registry.rules);
             assert.lengthOf(Object.keys(registry.rules), 0);
         });
 
         it("should create registryItems for each rule with the proper keys", function() {
             var registry = new autoconfig.Registry(rulesConfig);
+
             assert.isObject(registry.rules.semi[0]);
             assert.isObject(registry.rules["semi-spacing"][0]);
             assert.isObject(registry.rules.quotes[0]);
@@ -92,6 +95,7 @@ describe("autoconfig", function() {
 
         it("should populate the config property correctly", function() {
             var registry = new autoconfig.Registry(rulesConfig);
+
             assert.equal(registry.rules.quotes[0].config, SEVERITY);
             assert.deepEqual(registry.rules.quotes[1].config, [SEVERITY, "single"]);
             assert.deepEqual(registry.rules.quotes[2].config, [SEVERITY, "double"]);
@@ -103,6 +107,7 @@ describe("autoconfig", function() {
 
         it("should assign the correct specificity", function() {
             var registry = new autoconfig.Registry(rulesConfig);
+
             assert.equal(registry.rules.quotes[0].specificity, 1);
             assert.equal(registry.rules.quotes[1].specificity, 2);
             assert.equal(registry.rules.quotes[6].specificity, 3);
@@ -110,6 +115,7 @@ describe("autoconfig", function() {
 
         it("should initially leave the errorCount as undefined", function() {
             var registry = new autoconfig.Registry(rulesConfig);
+
             assert.isUndefined(registry.rules.quotes[0].errorCount);
             assert.isUndefined(registry.rules.quotes[1].errorCount);
             assert.isUndefined(registry.rules.quotes[6].errorCount);
@@ -119,18 +125,22 @@ describe("autoconfig", function() {
 
             it("should add core rules to registry", function() {
                 var registry = new autoconfig.Registry();
+
                 registry.populateFromCoreRules();
                 var finalRuleCount = Object.keys(registry.rules).length;
+
                 assert(finalRuleCount > 0);
                 assert.include(Object.keys(registry.rules), "eqeqeq");
             });
 
             it("should not add duplicate rules", function() {
                 var registry = new autoconfig.Registry(rulesConfig);
+
                 registry.populateFromCoreRules();
                 var semiCount = Object.keys(registry.rules).filter(function(ruleId) {
                     return ruleId === "semi";
                 }).length;
+
                 assert.equal(semiCount, 1);
             });
         });
@@ -140,6 +150,7 @@ describe("autoconfig", function() {
 
             beforeEach(function() {
                 var registry = new autoconfig.Registry(rulesConfig);
+
                 ruleSets = registry.buildRuleSets();
             });
 
@@ -168,12 +179,14 @@ describe("autoconfig", function() {
             beforeEach(function() {
                 var config = {ignore: false};
                 var sourceCode = sourceCodeUtil.getSourceCodeOfFiles(SOURCE_CODE_FIXTURE_FILENAME, config);
+
                 registry = new autoconfig.Registry(rulesConfig);
                 registry = registry.lintSourceCode(sourceCode, defaultOptions);
             });
 
             it("should populate the errorCount of all registryItems", function() {
                 var expectedRules = ["semi", "semi-spacing", "quotes"];
+
                 assert.sameMembers(Object.keys(registry.rules), expectedRules);
                 expectedRules.forEach(function(ruleId) {
                     assert(registry.rules[ruleId].length > 0);
@@ -197,6 +210,7 @@ describe("autoconfig", function() {
             beforeEach(function() {
                 var config = {ignore: false};
                 var sourceCode = sourceCodeUtil.getSourceCodeOfFiles(SOURCE_CODE_FIXTURE_FILENAME, config);
+
                 registry = new autoconfig.Registry(rulesConfig);
                 registry = registry.lintSourceCode(sourceCode, defaultOptions);
                 registry = registry.stripFailingConfigs();
@@ -225,12 +239,14 @@ describe("autoconfig", function() {
                 var config = {ignore: false};
                 var sourceCode = sourceCodeUtil.getSourceCodeOfFiles(SOURCE_CODE_FIXTURE_FILENAME, config);
                 var registry = new autoconfig.Registry(errorRulesConfig);
+
                 registry = registry.lintSourceCode(sourceCode, defaultOptions);
                 failingRegistry = registry.getFailingRulesRegistry();
             });
 
             it("should return a registry with no registryItems with an errorCount of zero", function() {
                 var failingRules = Object.keys(failingRegistry.rules);
+
                 assert.deepEqual(failingRules, ["no-unused-vars"]);
                 assert.lengthOf(failingRegistry.rules["no-unused-vars"], 1);
                 assert(failingRegistry.rules["no-unused-vars"][0].errorCount > 0);
@@ -244,6 +260,7 @@ describe("autoconfig", function() {
                 var config = {ignore: false};
                 var sourceCode = sourceCodeUtil.getSourceCodeOfFiles(SOURCE_CODE_FIXTURE_FILENAME, config);
                 var registry = new autoconfig.Registry(rulesConfig);
+
                 registry = registry.lintSourceCode(sourceCode, defaultOptions);
                 registry = registry.stripFailingConfigs();
                 createdConfig = registry.createConfig();
@@ -255,6 +272,7 @@ describe("autoconfig", function() {
 
             it("should add rules which have only one registryItem to the config", function() {
                 var configuredRules = Object.keys(createdConfig.rules);
+
                 assert.deepEqual(configuredRules, ["quotes"]);
             });
 
@@ -266,10 +284,13 @@ describe("autoconfig", function() {
                 var config = {ignore: false};
                 var sourceCode = sourceCodeUtil.getSourceCodeOfFiles(SOURCE_CODE_FIXTURE_FILENAME, config);
                 var registry = new autoconfig.Registry(errorRulesConfig);
+
                 registry = registry.lintSourceCode(sourceCode, defaultOptions);
                 var failingRegistry = registry.getFailingRulesRegistry();
+
                 createdConfig = failingRegistry.createConfig();
                 var configuredRules = Object.keys(createdConfig.rules);
+
                 assert.deepEqual(configuredRules, ["no-unused-vars"]);
             });
         });
@@ -285,6 +306,7 @@ describe("autoconfig", function() {
                 var filteredRegistry1 = registry.filterBySpecificity(1);
                 var filteredRegistry2 = registry.filterBySpecificity(2);
                 var filteredRegistry3 = registry.filterBySpecificity(3);
+
                 assert.lengthOf(filteredRegistry1.rules.semi, 1);
                 assert.lengthOf(filteredRegistry1.rules["semi-spacing"], 1);
                 assert.lengthOf(filteredRegistry1.rules.quotes, 1);

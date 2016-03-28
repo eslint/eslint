@@ -16,6 +16,7 @@ var rule = require("../../../lib/rules/consistent-return"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("consistent-return", rule, {
 
     valid: [

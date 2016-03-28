@@ -18,6 +18,7 @@ var rule = require("../../../lib/rules/use-isnan"),
 
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("use-isnan", rule, {
     valid: [
         "var x = NaN;",

@@ -18,6 +18,7 @@ var rule = require("../../../lib/rules/no-func-assign"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("no-func-assign", rule, {
     valid: [
         "function foo() { var foo = bar; }",

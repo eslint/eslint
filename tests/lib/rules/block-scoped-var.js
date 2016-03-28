@@ -18,6 +18,7 @@ var rule = require("../../../lib/rules/block-scoped-var"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("block-scoped-var", rule, {
     valid: [
 

@@ -18,6 +18,7 @@ var rule = require("../../../lib/rules/no-constant-condition"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("no-constant-condition", rule, {
     valid: [
         "if(a);",

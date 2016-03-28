@@ -17,6 +17,7 @@ var rule = require("../../../lib/rules/no-self-compare"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("no-self-compare", rule, {
     valid: [
         "if (x === y) { }",

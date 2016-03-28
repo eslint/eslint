@@ -19,6 +19,7 @@ var rule = require("../../../lib/rules/no-restricted-imports"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("no-restricted-imports", rule, {
     valid: [
         { code: "import os from \"os\";", options: ["osx"], parserOptions: { sourceType: "module" } },

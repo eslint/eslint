@@ -25,6 +25,7 @@ describe("options", function() {
     describe("--help", function() {
         it("should return true for .help when passed", function() {
             var currentOptions = options.parse("--help");
+
             assert.isTrue(currentOptions.help);
         });
     });
@@ -32,6 +33,7 @@ describe("options", function() {
     describe("-h", function() {
         it("should return true for .help when passed", function() {
             var currentOptions = options.parse("-h");
+
             assert.isTrue(currentOptions.help);
         });
     });
@@ -39,6 +41,7 @@ describe("options", function() {
     describe("--config", function() {
         it("should return a string for .config when passed a string", function() {
             var currentOptions = options.parse("--config file");
+
             assert.isString(currentOptions.config);
             assert.equal(currentOptions.config, "file");
         });
@@ -47,6 +50,7 @@ describe("options", function() {
     describe("-c", function() {
         it("should return a string for .config when passed a string", function() {
             var currentOptions = options.parse("-c file");
+
             assert.isString(currentOptions.config);
             assert.equal(currentOptions.config, "file");
         });
@@ -55,12 +59,14 @@ describe("options", function() {
     describe("--ext", function() {
         it("should return an array with one item when passed .jsx", function() {
             var currentOptions = options.parse("--ext .jsx");
+
             assert.isArray(currentOptions.ext);
             assert.equal(currentOptions.ext[0], ".jsx");
         });
 
         it("should return an array with two items when passed .js and .jsx", function() {
             var currentOptions = options.parse("--ext .jsx --ext .js");
+
             assert.isArray(currentOptions.ext);
             assert.equal(currentOptions.ext[0], ".jsx");
             assert.equal(currentOptions.ext[1], ".js");
@@ -68,6 +74,7 @@ describe("options", function() {
 
         it("should return an array with two items when passed .jsx,.js", function() {
             var currentOptions = options.parse("--ext .jsx,.js");
+
             assert.isArray(currentOptions.ext);
             assert.equal(currentOptions.ext[0], ".jsx");
             assert.equal(currentOptions.ext[1], ".js");
@@ -75,6 +82,7 @@ describe("options", function() {
 
         it("should return an array one item when not passed", function() {
             var currentOptions = options.parse("");
+
             assert.isArray(currentOptions.ext);
             assert.equal(currentOptions.ext[0], ".js");
         });
@@ -83,6 +91,7 @@ describe("options", function() {
     describe("--rulesdir", function() {
         it("should return a string for .rulesdir when passed a string", function() {
             var currentOptions = options.parse("--rulesdir /morerules");
+
             assert.isArray(currentOptions.rulesdir);
             assert.equal(currentOptions.rulesdir, "/morerules");
         });
@@ -91,12 +100,14 @@ describe("options", function() {
     describe("--format", function() {
         it("should return a string for .format when passed a string", function() {
             var currentOptions = options.parse("--format compact");
+
             assert.isString(currentOptions.format);
             assert.equal(currentOptions.format, "compact");
         });
 
         it("should return stylish for .format when not passed", function() {
             var currentOptions = options.parse("");
+
             assert.isString(currentOptions.format);
             assert.equal(currentOptions.format, "stylish");
         });
@@ -105,6 +116,7 @@ describe("options", function() {
     describe("-f", function() {
         it("should return a string for .format when passed a string", function() {
             var currentOptions = options.parse("-f compact");
+
             assert.isString(currentOptions.format);
             assert.equal(currentOptions.format, "compact");
         });
@@ -113,6 +125,7 @@ describe("options", function() {
     describe("--version", function() {
         it("should return true for .version when passed", function() {
             var currentOptions = options.parse("--version");
+
             assert.isTrue(currentOptions.version);
         });
     });
@@ -120,6 +133,7 @@ describe("options", function() {
     describe("-v", function() {
         it("should return true for .version when passed", function() {
             var currentOptions = options.parse("-v");
+
             assert.isTrue(currentOptions.version);
         });
     });
@@ -127,6 +141,7 @@ describe("options", function() {
     describe("when asking for help", function() {
         it("should return string of help text when called", function() {
             var helpText = options.generateHelp();
+
             assert.isString(helpText);
         });
     });
@@ -134,6 +149,7 @@ describe("options", function() {
     describe("--no-ignore", function() {
         it("should return false for .ignore when passed", function() {
             var currentOptions = options.parse("--no-ignore");
+
             assert.isFalse(currentOptions.ignore);
         });
     });
@@ -141,6 +157,7 @@ describe("options", function() {
     describe("--ignore-path", function() {
         it("should return a string for .ignorePath when passed", function() {
             var currentOptions = options.parse("--ignore-path .gitignore");
+
             assert.equal(currentOptions.ignorePath, ".gitignore");
         });
     });
@@ -148,6 +165,7 @@ describe("options", function() {
     describe("--ignore-pattern", function() {
         it("should return a string array for .ignorePattern when passed", function() {
             var currentOptions = options.parse("--ignore-pattern *.js");
+
             assert.ok(currentOptions.ignorePattern);
             assert.equal(currentOptions.ignorePattern.length, 1);
             assert.equal(currentOptions.ignorePattern[0], "*.js");
@@ -155,6 +173,7 @@ describe("options", function() {
 
         it("should return a string array for multiple values", function() {
             var currentOptions = options.parse("--ignore-pattern *.js --ignore-pattern *.ts");
+
             assert.ok(currentOptions.ignorePattern);
             assert.equal(currentOptions.ignorePattern.length, 2);
             assert.equal(currentOptions.ignorePattern[0], "*.js");
@@ -163,6 +182,7 @@ describe("options", function() {
 
         it("should return a string array of properly parsed values, when those values include commas", function() {
             var currentOptions = options.parse("--ignore-pattern *.js --ignore-pattern foo-{bar,baz}.js");
+
             assert.ok(currentOptions.ignorePattern);
             assert.equal(currentOptions.ignorePattern.length, 2);
             assert.equal(currentOptions.ignorePattern[0], "*.js");
@@ -173,6 +193,7 @@ describe("options", function() {
     describe("--color", function() {
         it("should return true for .color when passed", function() {
             var currentOptions = options.parse("--color");
+
             assert.isTrue(currentOptions.color);
         });
     });
@@ -180,6 +201,7 @@ describe("options", function() {
     describe("--stdin", function() {
         it("should return true for .stdin when passed", function() {
             var currentOptions = options.parse("--stdin");
+
             assert.isTrue(currentOptions.stdin);
         });
     });
@@ -187,6 +209,7 @@ describe("options", function() {
     describe("--stdin-filename", function() {
         it("should return a string for .stdinFilename when passed", function() {
             var currentOptions = options.parse("--stdin-filename test.js");
+
             assert.equal(currentOptions.stdinFilename, "test.js");
         });
     });
@@ -194,6 +217,7 @@ describe("options", function() {
     describe("--global", function() {
         it("should return an array for a single occurrence", function() {
             var currentOptions = options.parse("--global foo");
+
             assert.isArray(currentOptions.global);
             assert.equal(currentOptions.global.length, 1);
             assert.equal(currentOptions.global[0], "foo");
@@ -201,6 +225,7 @@ describe("options", function() {
 
         it("should split variable names using commas", function() {
             var currentOptions = options.parse("--global foo,bar");
+
             assert.isArray(currentOptions.global);
             assert.equal(currentOptions.global.length, 2);
             assert.equal(currentOptions.global[0], "foo");
@@ -209,6 +234,7 @@ describe("options", function() {
 
         it("should not split on colons", function() {
             var currentOptions = options.parse("--global foo:false,bar:true");
+
             assert.isArray(currentOptions.global);
             assert.equal(currentOptions.global.length, 2);
             assert.equal(currentOptions.global[0], "foo:false");
@@ -217,6 +243,7 @@ describe("options", function() {
 
         it("should concatenate successive occurrences", function() {
             var currentOptions = options.parse("--global foo:true --global bar:false");
+
             assert.isArray(currentOptions.global);
             assert.equal(currentOptions.global.length, 2);
             assert.equal(currentOptions.global[0], "foo:true");
@@ -227,6 +254,7 @@ describe("options", function() {
     describe("--plugin", function() {
         it("should return an array when passed a single occurrence", function() {
             var currentOptions = options.parse("--plugin single");
+
             assert.isArray(currentOptions.plugin);
             assert.equal(currentOptions.plugin.length, 1);
             assert.equal(currentOptions.plugin[0], "single");
@@ -234,6 +262,7 @@ describe("options", function() {
 
         it("should return an array when passed a comma-delimiated string", function() {
             var currentOptions = options.parse("--plugin foo,bar");
+
             assert.isArray(currentOptions.plugin);
             assert.equal(currentOptions.plugin.length, 2);
             assert.equal(currentOptions.plugin[0], "foo");
@@ -242,6 +271,7 @@ describe("options", function() {
 
         it("should return an array when passed multiple times", function() {
             var currentOptions = options.parse("--plugin foo --plugin bar");
+
             assert.isArray(currentOptions.plugin);
             assert.equal(currentOptions.plugin.length, 2);
             assert.equal(currentOptions.plugin[0], "foo");
@@ -252,6 +282,7 @@ describe("options", function() {
     describe("--quiet", function() {
         it("should return true for .quiet when passed", function() {
             var currentOptions = options.parse("--quiet");
+
             assert.isTrue(currentOptions.quiet);
         });
     });
@@ -259,11 +290,13 @@ describe("options", function() {
     describe("--max-warnings", function() {
         it("should return correct value for .maxWarnings when passed", function() {
             var currentOptions = options.parse("--max-warnings 10");
+
             assert.equal(currentOptions.maxWarnings, 10);
         });
 
         it("should return -1 for .maxWarnings when not passed", function() {
             var currentOptions = options.parse("");
+
             assert.equal(currentOptions.maxWarnings, -1);
         });
 
@@ -277,6 +310,7 @@ describe("options", function() {
     describe("--init", function() {
         it("should return true for --init when passed", function() {
             var currentOptions = options.parse("--init");
+
             assert.isTrue(currentOptions.init);
         });
     });
@@ -284,6 +318,7 @@ describe("options", function() {
     describe("--fix", function() {
         it("should return true for --fix when passed", function() {
             var currentOptions = options.parse("--fix");
+
             assert.isTrue(currentOptions.fix);
         });
     });
@@ -291,6 +326,7 @@ describe("options", function() {
     describe("--debug", function() {
         it("should return true for --debug when passed", function() {
             var currentOptions = options.parse("--debug");
+
             assert.isTrue(currentOptions.debug);
         });
     });
@@ -298,11 +334,13 @@ describe("options", function() {
     describe("--inline-config", function() {
         it("should return false when passed --no-inline-config", function() {
             var currentOptions = options.parse("--no-inline-config");
+
             assert.isFalse(currentOptions.inlineConfig);
         });
 
         it("should return true for --inline-config when empty", function() {
             var currentOptions = options.parse("");
+
             assert.isTrue(currentOptions.inlineConfig);
         });
     });
@@ -310,11 +348,13 @@ describe("options", function() {
     describe("--parser", function() {
         it("should return a string for --parser when passed", function() {
             var currentOptions = options.parse("--parser test");
+
             assert.equal(currentOptions.parser, "test");
         });
 
         it("should return a espree if --parser is not passed", function() {
             var currentOptions = options.parse("");
+
             assert.equal(currentOptions.parser, "espree");
         });
     });
@@ -322,6 +362,7 @@ describe("options", function() {
     describe("--print-config", function() {
         it("should return true when passed --print-config", function() {
             var currentOptions = options.parse("--print-config");
+
             assert.isTrue(currentOptions.printConfig);
         });
     });

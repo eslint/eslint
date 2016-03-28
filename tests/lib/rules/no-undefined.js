@@ -19,6 +19,7 @@ var rule = require("../../../lib/rules/no-undefined"),
 var errors = [{ message: "Unexpected use of undefined.", type: "Identifier"}];
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("no-undefined", rule, {
     valid: [
         "void 0",

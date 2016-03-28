@@ -21,6 +21,7 @@ var afterMessage = "Expected line after comment.",
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("lines-around-comment", rule, {
 
     valid: [

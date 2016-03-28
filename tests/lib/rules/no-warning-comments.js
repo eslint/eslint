@@ -17,6 +17,7 @@ var rule = require("../../../lib/rules/no-warning-comments"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("no-warning-comments", rule, {
     valid: [
         { code: "// any comment", options: [{ "terms": ["fixme"] } ] },

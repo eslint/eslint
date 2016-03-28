@@ -58,6 +58,7 @@ var TEST_CODE = "var answer = 6 * 7;",
  */
 function getVariable(scope, name) {
     var variable = null;
+
     scope.variables.some(function(v) {
         if (v.name === name) {
             variable = v;
@@ -106,45 +107,55 @@ describe("eslint", function() {
 
         it("should get proper lines when using \\n as a line break", function() {
             var code = "a;\nb;";
+
             eslint.verify(code, {}, filename, true);
 
             var lines = eslint.getSourceLines();
+
             assert.equal(lines[0], "a;");
             assert.equal(lines[1], "b;");
         });
 
         it("should get proper lines when using \\r\\n as a line break", function() {
             var code = "a;\r\nb;";
+
             eslint.verify(code, {}, filename, true);
 
             var lines = eslint.getSourceLines();
+
             assert.equal(lines[0], "a;");
             assert.equal(lines[1], "b;");
         });
 
         it("should get proper lines when using \\r as a line break", function() {
             var code = "a;\rb;";
+
             eslint.verify(code, {}, filename, true);
 
             var lines = eslint.getSourceLines();
+
             assert.equal(lines[0], "a;");
             assert.equal(lines[1], "b;");
         });
 
         it("should get proper lines when using \\u2028 as a line break", function() {
             var code = "a;\u2028b;";
+
             eslint.verify(code, {}, filename, true);
 
             var lines = eslint.getSourceLines();
+
             assert.equal(lines[0], "a;");
             assert.equal(lines[1], "b;");
         });
 
         it("should get proper lines when using \\u2029 as a line break", function() {
             var code = "a;\u2029b;";
+
             eslint.verify(code, {}, filename, true);
 
             var lines = eslint.getSourceLines();
+
             assert.equal(lines[0], "a;");
             assert.equal(lines[1], "b;");
         });
@@ -160,6 +171,7 @@ describe("eslint", function() {
             eslint.verify(code, {}, filename, true);
 
             var sourceCode = eslint.getSourceCode();
+
             assert.isObject(sourceCode);
             assert.equal(sourceCode.text, code);
             assert.isObject(sourceCode.ast);
@@ -170,6 +182,7 @@ describe("eslint", function() {
             eslint.verify(code, {}, filename);
 
             var sourceCode = eslint.getSourceCode();
+
             assert.isObject(sourceCode);
             assert.equal(sourceCode.text, code);
             assert.isObject(sourceCode.ast);
@@ -188,6 +201,7 @@ describe("eslint", function() {
              */
             function handler() {
                 var source = eslint.getSource();
+
                 assert.equal(source, TEST_CODE);
             }
 
@@ -210,6 +224,7 @@ describe("eslint", function() {
              */
             function handler(node) {
                 var source = eslint.getSource(node);
+
                 assert.equal(source, TEST_CODE);
             }
 
@@ -232,6 +247,7 @@ describe("eslint", function() {
              */
             function handler(node) {
                 var source = eslint.getSource(node, 2, 0);
+
                 assert.equal(source, TEST_CODE);
             }
 
@@ -251,6 +267,7 @@ describe("eslint", function() {
             eslint.reset();
             eslint.on("BinaryExpression", function(node) {
                 var source = eslint.getSource(node);
+
                 assert.equal(source, "6 * 7");
             });
 
@@ -263,6 +280,7 @@ describe("eslint", function() {
             eslint.reset();
             eslint.on("BinaryExpression", function(node) {
                 var source = eslint.getSource(node, 2);
+
                 assert.equal(source, "= 6 * 7");
             });
 
@@ -275,6 +293,7 @@ describe("eslint", function() {
             eslint.reset();
             eslint.on("BinaryExpression", function(node) {
                 var source = eslint.getSource(node, 0, 1);
+
                 assert.equal(source, "6 * 7;");
             });
 
@@ -287,6 +306,7 @@ describe("eslint", function() {
             eslint.reset();
             eslint.on("BinaryExpression", function(node) {
                 var source = eslint.getSource(node, 2, 1);
+
                 assert.equal(source, "= 6 * 7;");
             });
 
@@ -305,6 +325,7 @@ describe("eslint", function() {
             eslint.reset();
             eslint.on("BinaryExpression", function() {
                 var ancestors = eslint.getAncestors();
+
                 assert.equal(ancestors.length, 3);
             });
 
@@ -317,6 +338,7 @@ describe("eslint", function() {
             eslint.reset();
             eslint.on("Program", function() {
                 var ancestors = eslint.getAncestors();
+
                 assert.equal(ancestors.length, 0);
             });
 
@@ -333,6 +355,7 @@ describe("eslint", function() {
             eslint.reset();
             eslint.on("Program", function() {
                 var node = eslint.getNodeByRangeIndex(4);
+
                 assert.equal(node.type, "Identifier");
             });
 
@@ -345,6 +368,7 @@ describe("eslint", function() {
             eslint.reset();
             eslint.on("Program", function() {
                 var node = eslint.getNodeByRangeIndex(6);
+
                 assert.equal(node.type, "Identifier");
             });
 
@@ -357,6 +381,7 @@ describe("eslint", function() {
             eslint.reset();
             eslint.on("Program", function() {
                 var node = eslint.getNodeByRangeIndex(13);
+
                 assert.equal(node.type, "Literal");
                 assert.equal(node.value, 6);
             });
@@ -370,6 +395,7 @@ describe("eslint", function() {
             eslint.reset();
             eslint.on("Program", function() {
                 var node = eslint.getNodeByRangeIndex(9);
+
                 assert.equal(node.type, "Identifier");
             });
 
@@ -382,6 +408,7 @@ describe("eslint", function() {
             eslint.reset();
             eslint.on("Program", function() {
                 var node = eslint.getNodeByRangeIndex(14);
+
                 assert.equal(node.type, "BinaryExpression");
                 node = eslint.getNodeByRangeIndex(3);
                 assert.equal(node.type, "VariableDeclaration");
@@ -396,6 +423,7 @@ describe("eslint", function() {
             eslint.reset();
             eslint.on("Program", function() {
                 var node = eslint.getNodeByRangeIndex(-1);
+
                 assert.isNull(node);
                 node = eslint.getNodeByRangeIndex(-99);
                 assert.isNull(node);
@@ -410,6 +438,7 @@ describe("eslint", function() {
             eslint.reset();
             eslint.on("Program", function() {
                 var node = eslint.getNodeByRangeIndex(14);
+
                 assert.property(node, "parent");
                 assert.equal(node.parent.type, "VariableDeclarator");
             });
@@ -423,6 +452,7 @@ describe("eslint", function() {
             eslint.reset();
             eslint.on("Program", function() {
                 var node = eslint.getNodeByRangeIndex(10);
+
                 assert.equal(node.type, "VariableDeclarator");
                 node = eslint.getNodeByRangeIndex(4);
                 assert.equal(node.type, "Identifier");
@@ -447,6 +477,7 @@ describe("eslint", function() {
             eslint.reset();
             eslint.on("Program", function() {
                 var scope = eslint.getScope();
+
                 assert.equal(scope.type, "global");
             });
 
@@ -459,6 +490,7 @@ describe("eslint", function() {
             eslint.reset();
             eslint.on("FunctionDeclaration", function() {
                 var scope = eslint.getScope();
+
                 assert.equal(scope.type, "function");
             });
 
@@ -471,6 +503,7 @@ describe("eslint", function() {
             eslint.reset();
             eslint.on("LabeledStatement", function() {
                 var scope = eslint.getScope();
+
                 assert.equal(scope.type, "function");
                 assert.equal(scope.block.id.name, "foo");
             });
@@ -484,6 +517,7 @@ describe("eslint", function() {
             eslint.reset();
             eslint.on("ReturnStatement", function() {
                 var scope = eslint.getScope();
+
                 assert.equal(scope.type, "function");
                 assert.equal(scope.block.type, "ArrowFunctionExpression");
             });
@@ -497,6 +531,7 @@ describe("eslint", function() {
             eslint.reset();
             eslint.on("SwitchStatement", function() {
                 var scope = eslint.getScope();
+
                 assert.equal(scope.type, "switch");
                 assert.equal(scope.block.type, "SwitchStatement");
             });
@@ -510,6 +545,7 @@ describe("eslint", function() {
             eslint.reset();
             eslint.on("BlockStatement", function() {
                 var scope = eslint.getScope();
+
                 assert.equal(scope.type, "block");
                 assert.equal(scope.block.type, "BlockStatement");
             });
@@ -523,6 +559,7 @@ describe("eslint", function() {
             eslint.reset();
             eslint.on("BlockStatement", function() {
                 var scope = eslint.getScope();
+
                 assert.equal(scope.type, "block");
                 assert.equal(scope.block.type, "BlockStatement");
             });
@@ -536,6 +573,7 @@ describe("eslint", function() {
             eslint.reset();
             eslint.on("FunctionDeclaration", function() {
                 var scope = eslint.getScope();
+
                 assert.equal(scope.type, "function");
                 assert.equal(scope.block.type, "FunctionDeclaration");
             });
@@ -549,6 +587,7 @@ describe("eslint", function() {
             eslint.reset();
             eslint.on("FunctionExpression", function() {
                 var scope = eslint.getScope();
+
                 assert.equal(scope.type, "function");
                 assert.equal(scope.block.type, "FunctionExpression");
             });
@@ -562,6 +601,7 @@ describe("eslint", function() {
             eslint.reset();
             eslint.on("CatchClause", function() {
                 var scope = eslint.getScope();
+
                 assert.equal(scope.type, "catch");
                 assert.equal(scope.block.type, "CatchClause");
             });
@@ -575,6 +615,7 @@ describe("eslint", function() {
             eslint.reset();
             eslint.on("AssignmentExpression", function() {
                 var scope = eslint.getScope();
+
                 assert.equal(scope.type, "module");
             });
 
@@ -587,6 +628,7 @@ describe("eslint", function() {
             eslint.reset();
             eslint.on("AssignmentExpression", function() {
                 var scope = eslint.getScope();
+
                 assert.equal(scope.type, "function");
             });
 
@@ -684,6 +726,7 @@ describe("eslint", function() {
     describe("report()", function() {
 
         var config;
+
         beforeEach(function() {
             eslint.reset();
             config = { rules: {} };
@@ -695,6 +738,7 @@ describe("eslint", function() {
             });
 
             var messages = eslint.verify("0", config, "", true);
+
             assert.deepEqual(messages[0], {
                 severity: 2,
                 ruleId: "test-rule",
@@ -712,6 +756,7 @@ describe("eslint", function() {
             });
 
             var messages = eslint.verify("0", config, "", true);
+
             assert.deepEqual(messages[0], {
                 severity: 2,
                 ruleId: "test-rule",
@@ -769,6 +814,7 @@ describe("eslint", function() {
             });
 
             var messages = eslint.verify("0", config, "", true);
+
             assert.deepEqual(messages[0], {
                 severity: 2,
                 ruleId: "test-rule",
@@ -786,6 +832,7 @@ describe("eslint", function() {
             });
 
             var messages = eslint.verify("0", config, "", true);
+
             assert.deepEqual(messages[0], {
                 severity: 2,
                 ruleId: "test-rule",
@@ -803,6 +850,7 @@ describe("eslint", function() {
             });
 
             var messages = eslint.verify("0", config, "", true);
+
             assert.deepEqual(messages[0], {
                 severity: 2,
                 ruleId: "test-rule",
@@ -830,6 +878,7 @@ describe("eslint", function() {
             config.rules["test-rule"] = 1;
 
             var messages = eslint.verify("0", config);
+
             assert.equal(messages[0].message, "message yay!");
         });
 
@@ -846,6 +895,7 @@ describe("eslint", function() {
             config.rules["test-rule"] = 1;
 
             var messages = eslint.verify("0", config);
+
             assert.equal(messages[0].message, "message {{code}}");
         });
 
@@ -864,6 +914,7 @@ describe("eslint", function() {
             config.rules["test-rule"] = 1;
 
             var messages = eslint.verify("0", config);
+
             assert.equal(messages[0].message, "message yay!");
         });
 
@@ -880,6 +931,7 @@ describe("eslint", function() {
             config.rules["test-rule"] = 1;
 
             var messages = eslint.verify("0", config);
+
             assert.equal(messages[0].message, "message {{parameter}}");
         });
 
@@ -896,6 +948,7 @@ describe("eslint", function() {
             config.rules["test-rule"] = "warn";
 
             var messages = eslint.verify("0", config);
+
             assert.equal(messages[0].severity, 1);
             assert.equal(messages[0].message, "message {{parameter}}");
         });
@@ -915,6 +968,7 @@ describe("eslint", function() {
             config.rules["test-rule"] = 1;
 
             var messages = eslint.verify("0", config);
+
             assert.equal(messages[0].message, "message yay!");
         });
 
@@ -933,6 +987,7 @@ describe("eslint", function() {
             config.rules["test-rule"] = 1;
 
             var messages = eslint.verify("0", config);
+
             assert.equal(messages[0].message, "message yay!");
         });
 
@@ -951,6 +1006,7 @@ describe("eslint", function() {
             config.rules["test-rule"] = 1;
 
             var messages = eslint.verify("0", config);
+
             assert.equal(messages[0].message, "message yay!");
         });
 
@@ -969,6 +1025,7 @@ describe("eslint", function() {
             config.rules["test-rule"] = 1;
 
             var messages = eslint.verify("0", config);
+
             assert.equal(messages[0].message, "message yay!");
         });
 
@@ -978,6 +1035,7 @@ describe("eslint", function() {
             });
 
             var messages = eslint.verify("0", config, "", true);
+
             assert.deepEqual(messages[0], {
                 severity: 2,
                 ruleId: "test-rule",
@@ -1037,6 +1095,7 @@ describe("eslint", function() {
             });
 
             var config = { rules: {}, settings: { info: "Hello" } };
+
             config.rules[code] = 1;
 
             var messages = eslint.verify("0", config, filename);
@@ -1058,6 +1117,7 @@ describe("eslint", function() {
             });
 
             var config = { rules: {} };
+
             config.rules[code] = 1;
 
             var messages = eslint.verify("0", config, filename);
@@ -1213,6 +1273,7 @@ describe("eslint", function() {
 
             eslint.reset();
             var messages = eslint.verify(code, config, filename, true);
+
             assert.equal(messages.length, 0);
         });
     });
@@ -1254,6 +1315,7 @@ describe("eslint", function() {
 
             eslint.reset();
             var messages = eslint.verify(code, config, filename, true);
+
             eslint.reset();
 
             assert.equal(messages.length, 0);
@@ -1265,6 +1327,7 @@ describe("eslint", function() {
 
             eslint.reset();
             var messages = eslint.verify(code, config, filename, true);
+
             eslint.reset();
 
             assert.equal(messages.length, 0);
@@ -1367,6 +1430,7 @@ describe("eslint", function() {
         it("we should behave nicely when no matching variable is found", function() {
             var code = "/* exported horse */";
             var config = { rules: {} };
+
             eslint.reset();
             eslint.verify(code, config, filename, true);
         });
@@ -1525,7 +1589,8 @@ describe("eslint", function() {
     });
 
     describe("when evaluating empty code", function() {
-        var code = "", config = { rules: {} };
+        var code = "",
+            config = { rules: {} };
 
         it("getSource() should return an empty string", function() {
             eslint.reset();
@@ -1548,6 +1613,7 @@ describe("eslint", function() {
             });
 
             var config = { rules: {} };
+
             config.rules[code] = 1;
 
             var messages = eslint.verify("0", config, filename);
@@ -1565,6 +1631,7 @@ describe("eslint", function() {
             eslint.reset();
             var config = { rules: {} };
             var newRules = {};
+
             code.forEach(function(item) {
                 config.rules[item] = 1;
                 newRules[item] = function(context) {
@@ -1605,6 +1672,7 @@ describe("eslint", function() {
             });
 
             var config = { rules: {} };
+
             config.rules[code] = 1;
 
             var messages = eslint.verify("0", config, filename);
@@ -1623,6 +1691,7 @@ describe("eslint", function() {
             });
 
             var config = { rules: {} };
+
             config.rules[code] = 1;
 
             var messages = eslint.verify("0", config);
@@ -1638,6 +1707,7 @@ describe("eslint", function() {
             var config = { rules: {} };
 
             var messages = eslint.verify(code, config, filename);
+
             assert.equal(messages.length, 1);
             assert.equal(messages[0].ruleId, "no-alert");
             assert.equal(messages[0].message, "Unexpected alert.");
@@ -1651,6 +1721,7 @@ describe("eslint", function() {
 
             eslint.reset();
             var messages = eslint.verify(codeA, config, filename, false);
+
             assert.equal(messages.length, 0);
 
             messages = eslint.verify(codeB, config, filename, false);
@@ -1664,6 +1735,7 @@ describe("eslint", function() {
 
             eslint.reset();
             var messages = eslint.verify(codeA, config, filename, false);
+
             assert.equal(messages.length, 0);
 
             messages = eslint.verify(codeB, config, filename, false);
@@ -1677,6 +1749,7 @@ describe("eslint", function() {
 
             eslint.reset();
             var messages = eslint.verify(codeA, config, filename, false);
+
             assert.equal(messages.length, 0);
 
             messages = eslint.verify(codeB, config, filename, false);
@@ -1690,6 +1763,7 @@ describe("eslint", function() {
 
             eslint.reset();
             var messages = eslint.verify(codeA, config, filename, false);
+
             assert.equal(messages.length, 0);
 
             messages = eslint.verify(codeB, config, filename, false);
@@ -1704,6 +1778,7 @@ describe("eslint", function() {
             var config = { rules: {} };
 
             var fn = eslint.verify.bind(eslint, code, config, filename);
+
             assert.throws(fn, "filename.js line 1:\n\tConfiguration for rule \"no-alert\" is invalid:\n\tSeverity should be one of the following: 0 = off, 1 = warn, 2 = error (you passed 'true').\n");
         });
     });
@@ -1715,6 +1790,7 @@ describe("eslint", function() {
             var config = { rules: { "no-alert": 1 } };
 
             var messages = eslint.verify(code, config, filename);
+
             assert.equal(messages.length, 0);
         });
     });
@@ -1726,6 +1802,7 @@ describe("eslint", function() {
             var config = { rules: {} };
 
             var messages = eslint.verify(code, config, filename);
+
             assert.equal(messages.length, 2);
             assert.equal(messages[0].ruleId, "no-alert");
             assert.equal(messages[0].message, "Unexpected alert.");
@@ -1736,10 +1813,12 @@ describe("eslint", function() {
 
     describe("when evaluating code with comments to enable and disable multiple rules", function() {
         var code = "/*eslint no-alert:1 no-console:0*/ alert('test'); console.log('test');";
+
         it("should report a violation", function() {
             var config = { rules: { "no-console": 1, "no-alert": 0 } };
 
             var messages = eslint.verify(code, config, filename);
+
             assert.equal(messages.length, 1);
             assert.equal(messages[0].ruleId, "no-alert");
             assert.equal(messages[0].message, "Unexpected alert.");
@@ -1765,6 +1844,7 @@ describe("eslint", function() {
 
             eslint.reset();
             var messages = eslint.verify(code, config, filename);
+
             assert.equal(messages.length, 0);
         });
 
@@ -1773,6 +1853,7 @@ describe("eslint", function() {
             var config = { rules: { "test-plugin/test-rule": 1 } };
 
             var messages = eslint.verify(code, config, filename);
+
             assert.equal(messages.length, 0);
         });
 
@@ -1783,6 +1864,7 @@ describe("eslint", function() {
 
             eslint.reset();
             var messages = eslint.verify(codeA, config, filename, false);
+
             assert.equal(messages.length, 0);
 
             messages = eslint.verify(codeB, config, filename, false);
@@ -1833,6 +1915,7 @@ describe("eslint", function() {
             var config = { rules: { "no-alert": 1 } };
 
             var messages = eslint.verify(code, config, filename);
+
             assert.equal(messages.length, 2);
             assert.equal(messages[0].column, 21);
             assert.equal(messages[1].column, 19);
@@ -1853,6 +1936,7 @@ describe("eslint", function() {
             var config = { rules: { "no-alert": 1 } };
 
             var messages = eslint.verify(code, config, filename);
+
             assert.equal(messages.length, 0);
         });
 
@@ -1867,6 +1951,7 @@ describe("eslint", function() {
             var config = { rules: { "no-unused-vars": 1 } };
 
             var messages = eslint.verify(code, config, filename);
+
             assert.equal(messages.length, 0);
         });
 
@@ -1879,6 +1964,7 @@ describe("eslint", function() {
             var config = { rules: { "no-unused-vars": 1 } };
 
             var messages = eslint.verify(code, config, filename);
+
             assert.equal(messages.length, 0);
         });
     });
@@ -1899,6 +1985,7 @@ describe("eslint", function() {
                 };
 
                 var messages = eslint.verify(code, config, filename);
+
                 assert.equal(messages.length, 1);
 
                 assert.equal(messages[0].ruleId, "no-console");
@@ -1918,6 +2005,7 @@ describe("eslint", function() {
                 };
 
                 var messages = eslint.verify(code, config, filename);
+
                 assert.equal(messages.length, 1);
 
                 assert.equal(messages[0].ruleId, "no-alert");
@@ -1935,6 +2023,7 @@ describe("eslint", function() {
                 };
 
                 var messages = eslint.verify(code, config, filename);
+
                 assert.equal(messages.length, 1);
 
                 assert.equal(messages[0].ruleId, "no-alert");
@@ -1953,6 +2042,7 @@ describe("eslint", function() {
                 };
 
                 var messages = eslint.verify(code, config, filename);
+
                 assert.equal(messages.length, 0);
             });
 
@@ -1971,6 +2061,7 @@ describe("eslint", function() {
                 };
 
                 var messages = eslint.verify(code, config, filename);
+
                 assert.equal(messages.length, 0);
             });
         });
@@ -2106,6 +2197,7 @@ describe("eslint", function() {
             var config = { rules: { "no-alert": 1, "no-console": 1 } };
 
             var messages = eslint.verify(code, config, filename);
+
             assert.equal(messages.length, 1);
 
             assert.equal(messages[0].ruleId, "no-console");
@@ -2124,6 +2216,7 @@ describe("eslint", function() {
             var config = { rules: { "no-alert": 1, "no-console": 1 } };
 
             var messages = eslint.verify(code, config, filename);
+
             assert.equal(messages.length, 2);
 
             assert.equal(messages[0].ruleId, "no-alert");
@@ -2144,6 +2237,7 @@ describe("eslint", function() {
             var config = { rules: { "no-alert": 1, "no-console": 1 } };
 
             var messages = eslint.verify(code, config, filename);
+
             assert.equal(messages.length, 1);
 
             assert.equal(messages[0].ruleId, "no-console");
@@ -2163,6 +2257,7 @@ describe("eslint", function() {
             var config = { rules: { "no-alert": 1, "no-console": 1 } };
 
             var messages = eslint.verify(code, config, filename);
+
             assert.equal(messages.length, 1);
 
             assert.equal(messages[0].ruleId, "no-alert");
@@ -2192,6 +2287,7 @@ describe("eslint", function() {
             var config = { rules: { "no-alert": 1, "no-console": 1 } };
 
             var messages = eslint.verify(code, config, filename);
+
             assert.equal(messages.length, 3);
 
             assert.equal(messages[0].ruleId, "no-console");
@@ -2225,6 +2321,7 @@ describe("eslint", function() {
             var config = { rules: { "no-alert": 1, "no-console": 1 } };
 
             var messages = eslint.verify(code, config, filename);
+
             assert.equal(messages.length, 3);
 
             assert.equal(messages[0].ruleId, "no-alert");
@@ -2258,6 +2355,7 @@ describe("eslint", function() {
             var config = { rules: { "no-alert": "warn", "no-console": "warn" } };
 
             var messages = eslint.verify(code, config, filename);
+
             assert.equal(messages.length, 3);
 
             assert.equal(messages[0].ruleId, "no-alert");
@@ -2279,6 +2377,7 @@ describe("eslint", function() {
             var config = { rules: { "no-console": 1, "no-alert": 0 } };
 
             var messages = eslint.verify(code, config, filename);
+
             assert.equal(messages.length, 1);
             assert.equal(messages[0].ruleId, "no-alert");
             assert.equal(messages[0].message, "Unexpected alert.");
@@ -2293,6 +2392,7 @@ describe("eslint", function() {
             var config = { rules: { "quotes": [2, "single"] } };
 
             var messages = eslint.verify(code, config, filename);
+
             assert.equal(messages.length, 1);
             assert.equal(messages[0].ruleId, "quotes");
             assert.equal(messages[0].message, "Strings must use doublequote.");
@@ -2307,6 +2407,7 @@ describe("eslint", function() {
             var config = { rules: { "quotes": [2, "single"] } };
 
             var messages = eslint.verify(code, config, filename);
+
             assert.equal(messages.length, 1);
             assert.equal(messages[0].ruleId, "quotes");
             assert.equal(messages[0].message, "Strings must use doublequote.");
@@ -2321,6 +2422,7 @@ describe("eslint", function() {
             var config = { rules: { "no-alert": 1} };
 
             var messages = eslint.verify(code, config, filename);
+
             assert.equal(messages.length, 2);
 
             /*
@@ -2345,6 +2447,7 @@ describe("eslint", function() {
             var config = { rules: { "no-alert": 1} };
 
             var messages = eslint.verify(code, config, filename);
+
             assert.equal(messages.length, 2);
 
             /*
@@ -2369,6 +2472,7 @@ describe("eslint", function() {
             var config = { rules: { "no-alert": 1} };
 
             var messages = eslint.verify(code, config, filename);
+
             assert.equal(messages.length, 2);
 
             /*
@@ -2403,12 +2507,14 @@ describe("eslint", function() {
 
         it("should not have a comment with the shebang in it", function() {
             var config = { rules: { "no-extra-semi": 1 } };
+
             eslint.reset();
 
             eslint.on("Program", function(node) {
                 assert.equal(node.comments.length, 0);
 
                 var comments = eslint.getComments(node);
+
                 assert.equal(comments.leading.length, 0);
                 assert.equal(comments.trailing.length, 0);
 
@@ -2421,6 +2527,7 @@ describe("eslint", function() {
 
         it("should not fire a LineComment event for a comment with the shebang in it", function() {
             var config = { rules: { "no-extra-semi": 1 } };
+
             eslint.reset();
 
             eslint.on("LineComment", sandbox.mock().never());
@@ -2433,6 +2540,7 @@ describe("eslint", function() {
 
         it("should report a violation with a useful parse error prefix", function() {
             var messages = eslint.verify(code);
+
             assert.equal(messages.length, 1);
             assert.equal(messages[0].severity, 2);
             assert.isNull(messages[0].ruleId);
@@ -2451,6 +2559,7 @@ describe("eslint", function() {
                 "}"
             ];
             var messages = eslint.verify(inValidCode.join("\n"));
+
             assert.equal(messages.length, 1);
             assert.equal(messages[0].severity, 2);
             assert.equal(messages[0].source, inValidCode[1]);
@@ -2533,6 +2642,7 @@ describe("eslint", function() {
             var config = { rules: { "no-undef": 1} };
 
             var messages = eslint.verify(code, config, filename);
+
             assert.equal(messages.length, 1);
         });
 
@@ -2542,6 +2652,7 @@ describe("eslint", function() {
             var config = { rules: { "no-undef": 1} };
 
             var messages = eslint.verify(code, config, filename);
+
             assert.equal(messages.length, 1);
         });
     });
@@ -2553,6 +2664,7 @@ describe("eslint", function() {
             var config = { rules: { "no-undef": 1} };
 
             var messages = eslint.verify(code, config, filename);
+
             assert.equal(messages.length, 1);
             assert.equal(messages[0].ruleId, "no-undef");
             assert.equal(messages[0].nodeType, "Identifier");
@@ -2565,6 +2677,7 @@ describe("eslint", function() {
             var config = { rules: { "no-undef": 1 } };
 
             var messages = eslint.verify(code, config, filename);
+
             assert.equal(messages.length, 0);
         });
 
@@ -2574,6 +2687,7 @@ describe("eslint", function() {
             var config = { rules: { "no-undef": 1} };
 
             var messages = eslint.verify(code, config, filename);
+
             assert.equal(messages.length, 0);
         });
 
@@ -2583,6 +2697,7 @@ describe("eslint", function() {
             var config = { rules: { "no-undef": 1} };
 
             var messages = eslint.verify(code, config, filename);
+
             assert.equal(messages.length, 0);
         });
 
@@ -2592,6 +2707,7 @@ describe("eslint", function() {
             var config = { rules: { "no-undef": 1} };
 
             var messages = eslint.verify(code, config, filename);
+
             assert.equal(messages.length, 0);
         });
 
@@ -2601,6 +2717,7 @@ describe("eslint", function() {
             var config = { rules: { "no-undef": 1} };
 
             var messages = eslint.verify(code, config, filename);
+
             assert.equal(messages.length, 0);
         });
 
@@ -2610,6 +2727,7 @@ describe("eslint", function() {
             var config = { rules: {"no-undef": 1} };
 
             var messages = eslint.verify(code, config, filename);
+
             assert.equal(messages.length, 0);
         });
 
@@ -2619,6 +2737,7 @@ describe("eslint", function() {
             var config = { rules: {} };
 
             var messages = eslint.verify(code, config, filename);
+
             assert.equal(messages.length, 0);
         });
 
@@ -2628,6 +2747,7 @@ describe("eslint", function() {
             var config = { rules: {"no-undef": 1} };
 
             var messages = eslint.verify(code, config, filename);
+
             assert.equal(messages.length, 0);
         });
     });
@@ -2670,9 +2790,11 @@ describe("eslint", function() {
                     "Program": function() {
                         var scope = context.getScope();
                         var comments = context.getAllComments();
+
                         assert.equal(1, comments.length);
 
                         var foo = getVariable(scope, "foo");
+
                         assert.notOk(foo);
 
                         ok = true;
@@ -2758,9 +2880,11 @@ describe("eslint", function() {
                     "Program": function() {
                         var scope = context.getScope();
                         var comments = context.getAllComments();
+
                         assert.equal(1, comments.length);
 
                         var windowVar = getVariable(scope, "window");
+
                         assert.notOk(windowVar.eslintExplicitGlobal);
 
                         ok = true;
@@ -2850,6 +2974,7 @@ describe("eslint", function() {
 
                 eslint.verify("foo;", {}, { filename: "foo.js"});
                 var result = eslint.getFilename();
+
                 assert.equal(result, "foo.js");
             });
 
@@ -2857,6 +2982,7 @@ describe("eslint", function() {
 
                 eslint.verify("foo;", {}, "foo.js");
                 var result = eslint.getFilename();
+
                 assert.equal(result, "foo.js");
             });
 
@@ -2864,6 +2990,7 @@ describe("eslint", function() {
 
                 eslint.verify("foo;", {}, {});
                 var result = eslint.getFilename();
+
                 assert.equal(result, "<input>");
             });
 
@@ -2871,6 +2998,7 @@ describe("eslint", function() {
 
                 eslint.verify("foo;", {});
                 var result = eslint.getFilename();
+
                 assert.equal(result, "<input>");
             });
         });
@@ -2879,6 +3007,7 @@ describe("eslint", function() {
             it("should save the state when saveState is passed as an option", function() {
 
                 var spy = sinon.spy(eslint, "reset");
+
                 eslint.verify("foo;", {}, { saveState: true });
                 assert.equal(spy.callCount, 0);
             });
@@ -2893,6 +3022,7 @@ describe("eslint", function() {
             var config = { rules: { "no-mixed-spaces-and-tabs": 1, "eol-last": 1, "semi": [1, "always"] } };
 
             var messages = eslint.verify(code, config, filename);
+
             assert.equal(messages.length, 3);
             assert.equal(messages[0].line, 1);
             assert.equal(messages[0].column, 6);
@@ -3043,12 +3173,14 @@ describe("eslint", function() {
         it("should not report an error when JSX code contains a spread operator and JSX is enabled", function() {
             var code = "var myDivElement = <div {...this.props} />;";
             var messages = eslint.verify(code, { parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true }}}, "filename");
+
             assert.equal(messages.length, 0);
         });
 
         // TODO: Remove when escope is updated
         it("should not crash due to no-undef mutating escope data", function() {
             var code = "import foo from 'bar';";
+
             eslint.verify(code, {
                 parserOptions: {
                     sourceType: "module"
@@ -3085,11 +3217,13 @@ describe("eslint", function() {
             ].join("\n");
 
             var messages = eslint.verify(code, null, "eslint-env es6");
+
             assert.equal(messages.length, 0);
         });
 
         it("should be able to return in global if there is a comment which has \"eslint-env node\"", function() {
             var messages = eslint.verify("/* eslint-env node */ return;", null, "eslint-env node");
+
             assert.equal(messages.length, 0);
         });
 
@@ -3102,17 +3236,21 @@ describe("eslint", function() {
                     "Program": function() {
                         var scope = context.getScope();
                         var comments = context.getAllComments();
+
                         assert.equal(2, comments.length);
 
                         var foo = getVariable(scope, "foo");
+
                         assert.equal(true, foo.eslintExplicitGlobal);
                         assert.equal(comments[0], foo.eslintExplicitGlobalComment);
 
                         var bar = getVariable(scope, "bar");
+
                         assert.equal(true, bar.eslintExplicitGlobal);
                         assert.equal(comments[1], bar.eslintExplicitGlobalComment);
 
                         var baz = getVariable(scope, "baz");
+
                         assert.equal(true, baz.eslintExplicitGlobal);
                         assert.equal(comments[1], baz.eslintExplicitGlobalComment);
 
@@ -3135,6 +3273,7 @@ describe("eslint", function() {
                 "obj.await",
                 {parserOptions: {ecmaVersion: 6, sourceType: "module"}}
             );
+
             assert(result.length === 0);
         });
     });
@@ -3156,6 +3295,7 @@ describe("eslint", function() {
 
         beforeEach(function() {
             var ok = false;
+
             eslint.defineRules({test: function(context) {
                 return {
                     "Program": function() {
@@ -3318,6 +3458,7 @@ describe("eslint", function() {
                     "MethodDefinition": checkEmpty,
                     "MetaProperty": checkEmpty
                 };
+
                 rule[type] = function(node) {
                     var expectedNames = expectedNamesList.shift();
                     var variables = context.getDeclaredVariables(node);
@@ -3490,18 +3631,21 @@ describe("eslint", function() {
         it("should properly parse import statements when sourceType is module", function() {
             var code = "import foo from 'foo';";
             var messages = eslint.verify(code, { parserOptions: { sourceType: "module" } });
+
             assert.equal(messages.length, 0);
         });
 
         it("should properly parse import all statements when sourceType is module", function() {
             var code = "import * as foo from 'foo';";
             var messages = eslint.verify(code, { parserOptions: { sourceType: "module" } });
+
             assert.equal(messages.length, 0);
         });
 
         it("should properly parse default export statements when sourceType is module", function() {
             var code = "export default function initialize() {}";
             var messages = eslint.verify(code, { parserOptions: { sourceType: "module" } });
+
             assert.equal(messages.length, 0);
         });
 
@@ -3533,6 +3677,7 @@ describe("eslint", function() {
 
             // This `verify()` takes the instance and tests that the instance was not modified.
             var ok = false;
+
             eslint.defineRule("test", function(context) {
                 assert(
                     context.parserOptions.ecmaFeatures.globalReturn,
@@ -3561,12 +3706,14 @@ describe("eslint", function() {
             it("should not report an error when JSX code contains a spread operator and JSX is enabled", function() {
                 var code = "var myDivElement = <div {...this.props} />;";
                 var messages = eslint.verify(code, { parser: "esprima-fb" }, "filename");
+
                 assert.equal(messages.length, 0);
             });
 
             it("should return an error when the custom parser can't be found", function() {
                 var code = "var myDivElement = <div {...this.props} />;";
                 var messages = eslint.verify(code, { parser: "esprima-fbxyz" }, "filename");
+
                 assert.equal(messages.length, 1);
                 assert.equal(messages[0].severity, 2);
                 assert.equal(messages[0].message, "Cannot find module 'esprima-fbxyz'");
@@ -3575,6 +3722,7 @@ describe("eslint", function() {
             it("should strip leading line: prefix from parser error", function() {
                 var parser = path.join(parserFixtures, "line-error.js");
                 var messages = eslint.verify(";", { parser: parser }, "filename");
+
                 assert.equal(messages.length, 1);
                 assert.equal(messages[0].severity, 2);
                 assert.isNull(messages[0].source);
@@ -3584,6 +3732,7 @@ describe("eslint", function() {
             it("should not modify a parser error message without a leading line: prefix", function() {
                 var parser = path.join(parserFixtures, "no-line-error.js");
                 var messages = eslint.verify(";", { parser: parser }, "filename");
+
                 assert.equal(messages.length, 1);
                 assert.equal(messages[0].severity, 2);
                 assert.equal(messages[0].message, errorPrefix + require(parser).expectedError);

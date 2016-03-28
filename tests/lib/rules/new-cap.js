@@ -17,6 +17,7 @@ var rule = require("../../../lib/rules/new-cap"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("new-cap", rule, {
     valid: [
         "var x = new Constructor();",

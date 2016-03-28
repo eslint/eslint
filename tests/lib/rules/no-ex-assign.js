@@ -17,6 +17,7 @@ var rule = require("../../../lib/rules/no-ex-assign"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("no-ex-assign", rule, {
     valid: [
         "try { } catch (e) { three = 2 + 1; }",

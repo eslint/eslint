@@ -17,6 +17,7 @@ var rule = require("../../../lib/rules/no-ternary"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("no-ternary", rule, {
     valid: [
         "\"x ? y\";"

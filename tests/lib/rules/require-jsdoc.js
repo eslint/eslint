@@ -13,6 +13,7 @@ var rule = require("../../../lib/rules/require-jsdoc"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("require-jsdoc", rule, {
     valid: [
         "var array = [1,2,3];\narray.forEach(function() {});",

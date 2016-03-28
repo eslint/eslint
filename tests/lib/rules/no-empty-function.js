@@ -89,6 +89,7 @@ function toValidInvalid(patterns, item) {
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("no-empty-function", rule, [
     {
         code: "function foo() {}",

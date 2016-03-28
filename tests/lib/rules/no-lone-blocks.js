@@ -17,6 +17,7 @@ var rule = require("../../../lib/rules/no-lone-blocks"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("no-lone-blocks", rule, {
     valid: [
         "if (foo) { if (bar) { baz(); } }",

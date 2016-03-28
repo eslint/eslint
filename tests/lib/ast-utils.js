@@ -177,6 +177,7 @@ describe("ast-utils", function() {
              */
             function checker(node) {
                 var variables = eslint.getDeclaredVariables(node);
+
                 assert.lengthOf(astUtils.getModifyingReferences(variables[0].references), 1);
             }
 
@@ -195,6 +196,7 @@ describe("ast-utils", function() {
              */
             function checker(node) {
                 var variables = eslint.getDeclaredVariables(node);
+
                 assert.lengthOf(astUtils.getModifyingReferences(variables[0].references), 1);
             }
 
@@ -212,6 +214,7 @@ describe("ast-utils", function() {
              */
             function checker(node) {
                 var variables = eslint.getDeclaredVariables(node);
+
                 assert.lengthOf(astUtils.getModifyingReferences(variables[0].references), 0);
             }
 
@@ -230,6 +233,7 @@ describe("ast-utils", function() {
              */
             function checker(node) {
                 var variables = eslint.getDeclaredVariables(node);
+
                 assert.lengthOf(astUtils.getModifyingReferences(variables[0].references), 1);
                 assert.lengthOf(astUtils.getModifyingReferences(variables[1].references), 0);
             }
@@ -248,6 +252,7 @@ describe("ast-utils", function() {
              */
             function checker(node) {
                 var variables = eslint.getDeclaredVariables(node);
+
                 assert.lengthOf(astUtils.getModifyingReferences(variables[0].references), 0);
             }
 
@@ -323,6 +328,7 @@ describe("ast-utils", function() {
             range: true,
             loc: true
         };
+
         it("should return false for not parenthesised nodes", function() {
             var code = "condition ? 1 : 2";
             var ast = espree.parse(code, ESPREE_CONFIG);

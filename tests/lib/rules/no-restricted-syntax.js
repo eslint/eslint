@@ -17,6 +17,7 @@ var rule = require("../../../lib/rules/no-restricted-syntax"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("no-restricted-syntax", rule, {
     valid: [
         { code: "doSomething();" },

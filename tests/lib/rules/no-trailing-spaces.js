@@ -17,6 +17,7 @@ var rule = require("../../../lib/rules/no-trailing-spaces"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("no-trailing-spaces", rule, {
 
     valid: [

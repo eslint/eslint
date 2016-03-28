@@ -18,6 +18,7 @@ var rule = require("../../../lib/rules/operator-assignment"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("operator-assignment", rule, {
 
     valid: [

@@ -16,6 +16,7 @@ var rule = require("../../../lib/rules/no-sparse-arrays"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("no-sparse-arrays", rule, {
 
     valid: [

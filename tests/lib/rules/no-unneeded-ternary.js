@@ -17,6 +17,7 @@ var rule = require("../../../lib/rules/no-unneeded-ternary"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("no-unneeded-ternary", rule, {
     valid: [
         "config.newIsCap = config.newIsCap !== false",

@@ -18,6 +18,7 @@ var rule = require("../../../lib/rules/no-unused-expressions"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("no-unused-expressions", rule, {
     valid: [
         "function f(){}",

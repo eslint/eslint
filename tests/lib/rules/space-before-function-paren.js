@@ -17,6 +17,7 @@ var rule = require("../../../lib/rules/space-before-function-paren"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("space-before-function-paren", rule, {
 
     valid: [

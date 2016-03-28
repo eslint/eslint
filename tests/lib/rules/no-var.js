@@ -18,6 +18,7 @@ var rule = require("../../../lib/rules/no-var"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("no-var", rule, {
     valid: [
         {

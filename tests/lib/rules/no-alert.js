@@ -19,6 +19,7 @@ var rule = require("../../../lib/rules/no-alert"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("no-alert", rule, {
     valid: [
         "a[o.k](1)",

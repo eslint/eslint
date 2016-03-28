@@ -16,6 +16,7 @@ var rule = require("../../../lib/rules/yoda"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("yoda", rule, {
     valid: [
 

@@ -17,6 +17,7 @@ var rule = require("../../../lib/rules/computed-property-spacing"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("computed-property-spacing", rule, {
 
     valid: [

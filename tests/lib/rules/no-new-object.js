@@ -17,6 +17,7 @@ var rule = require("../../../lib/rules/no-new-object"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("no-new-object", rule, {
     valid: [
         "var foo = new foo.Object()"

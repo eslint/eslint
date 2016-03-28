@@ -17,6 +17,7 @@ var rule = require("../../../lib/rules/no-new-require"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("no-new-require", rule, {
     valid: [
         "var appHeader = require('app-header')",

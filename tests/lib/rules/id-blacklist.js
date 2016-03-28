@@ -17,6 +17,7 @@ var rule = require("../../../lib/rules/id-blacklist"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("id-blacklist", rule, {
     valid: [
         {

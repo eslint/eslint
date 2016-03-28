@@ -17,6 +17,7 @@ var rule = require("../../../lib/rules/no-native-reassign"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("no-native-reassign", rule, {
     valid: [
         "string = 'hello world';",

@@ -15,6 +15,7 @@ var rule = require("../../../lib/rules/prefer-rest-params"),
     RuleTester = require("../../../lib/testers/rule-tester");
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("prefer-rest-params", rule, {
     valid: [
         "arguments;",

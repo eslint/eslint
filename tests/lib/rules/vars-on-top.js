@@ -19,6 +19,7 @@ var rule = require("../../../lib/rules/vars-on-top"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new EslintTester();
+
 ruleTester.run("vars-on-top", rule, {
 
     valid: [

@@ -16,6 +16,7 @@ var rule = require("../../../lib/rules/eol-last"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("eol-last", rule, {
 
     valid: [

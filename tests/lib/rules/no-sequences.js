@@ -31,6 +31,7 @@ function errors(column) {
 }
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("no-sequences", rule, {
 
     // Examples of code that should not trigger the rule

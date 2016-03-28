@@ -19,6 +19,7 @@ var rule = require("../../../lib/rules/no-restricted-globals"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("no-restricted-globals", rule, {
     valid: [
         { code: "foo" },

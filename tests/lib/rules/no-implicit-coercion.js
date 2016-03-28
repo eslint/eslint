@@ -18,6 +18,7 @@ var RuleTester = require("../../../lib/testers/rule-tester");
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("no-implicit-coercion", rule, {
     valid: [
         {code: "Boolean(foo)"},

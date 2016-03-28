@@ -15,6 +15,7 @@ var rule = require("../../../lib/rules/array-callback-return"),
     RuleTester = require("../../../lib/testers/rule-tester");
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("array-callback-return", rule, {
     valid: [
         "Array.from(x, function() { return true; })",

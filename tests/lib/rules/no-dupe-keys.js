@@ -19,6 +19,7 @@ var rule = require("../../../lib/rules/no-dupe-keys"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("no-dupe-keys", rule, {
     valid: [
         "var foo = { __proto__: 1, two: 2};",

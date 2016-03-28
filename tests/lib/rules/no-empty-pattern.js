@@ -18,6 +18,7 @@ var rule = require("../../../lib/rules/no-empty-pattern"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("no-empty-pattern", rule, {
 
     // Examples of code that should not trigger the rule

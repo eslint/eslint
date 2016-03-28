@@ -17,6 +17,7 @@ var rule = require("../../../lib/rules/no-new-func"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("no-new-func", rule, {
     valid: [
         "var a = new _function(\"b\", \"c\", \"return b+c\");",

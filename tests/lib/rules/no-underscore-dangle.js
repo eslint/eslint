@@ -17,6 +17,7 @@ var rule = require("../../../lib/rules/no-underscore-dangle"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("no-underscore-dangle", rule, {
     valid: [
         "var foo_bar = 1;",

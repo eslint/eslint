@@ -17,6 +17,7 @@ var rule = require("../../../lib/rules/no-process-env"),
 //------------------------------------------------------------------------------
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("no-process-env", rule, {
 
     valid: [
