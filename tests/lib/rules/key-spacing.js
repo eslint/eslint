@@ -499,6 +499,15 @@ ruleTester.run("key-spacing", rule, {
                 mode: "minimum"
             }
         }]
+    },
+
+    // https://github.com/eslint/eslint/issues/5724
+    {
+        code: "({...object})",
+        options: [{
+            align: "colon"
+        }],
+        parserOptions: { ecmaVersion: 6, ecmaFeatures: { experimentalObjectRestSpread: true } }
     }],
 
     invalid: [{
@@ -1038,6 +1047,17 @@ ruleTester.run("key-spacing", rule, {
         errors: [
             { message: "Missing space after key 'aInv'.", line: 2, column: 5, type: "Identifier" },
             { message: "Missing space before value for key 'aInv'.", line: 2, column: 11, type: "Literal" }
+        ]
+    },
+
+    // https://github.com/eslint/eslint/issues/5724
+    {
+        code: "({ a:b, ...object, c : d })",
+        options: [{ "align": "colon" }],
+        parserOptions: { ecmaVersion: 6, ecmaFeatures: { experimentalObjectRestSpread: true } },
+        errors: [
+            { message: "Missing space before value for key 'a'.", line: 1, column: 6, type: "Identifier" },
+            { message: "Extra space after key 'c'.", line: 1, column: 20, type: "Identifier" }
         ]
     }]
 });
