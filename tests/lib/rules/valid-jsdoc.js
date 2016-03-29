@@ -392,6 +392,18 @@ ruleTester.run("valid-jsdoc", rule, {
                     "String": "string"
                 }
             }]
+        },
+        {
+            code: "/**\n* Description\n* @param {string} a bar\n* @returns {string} desc */\nfunction foo(a = 1){}",
+            parserOptions: {
+                ecmaVersion: 6
+            }
+        },
+        {
+            code: "/**\n* Description\n* @param {string} b bar\n* @param {string} a bar\n* @returns {string} desc */\nfunction foo(b, a = 1){}",
+            parserOptions: {
+                ecmaVersion: 6
+            }
         }
     ],
 
@@ -595,6 +607,26 @@ ruleTester.run("valid-jsdoc", rule, {
             code: "/**\n* Foo\n* @returns {string} something \n*/\nfunction foo(p){}",
             errors: [{
                 message: "Missing JSDoc for parameter 'p'.",
+                type: "Block"
+            }]
+        },
+        {
+            code: "/**\n* Foo\n* @returns {string} something \n*/\nvar foo = \nfunction foo(a = 1){}",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                message: "Missing JSDoc for parameter 'a'.",
+                type: "Block"
+            }]
+        },
+        {
+            code: "/**\n* Foo\n* @param {string} a Description \n* @param {string} b Description \n* @returns {string} something \n*/\nvar foo = \nfunction foo(b, a = 1){}",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                message: "Expected JSDoc for 'b' but found 'a'.",
+                type: "Block"
+            },
+            {
+                message: "Expected JSDoc for 'a' but found 'b'.",
                 type: "Block"
             }]
         },
