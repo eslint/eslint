@@ -36,7 +36,7 @@
   "homepage": "http://eslint.org",
   "bugs": "https://github.com/eslint/eslint/issues/",
   "dependencies": {
-    "chalk": "^1.0.0",
+    "chalk": "1.1.1",
     "concat-stream": "^1.4.6",
     "debug": "^2.1.1",
     "doctrine": "^1.2.0",
