@@ -20,8 +20,8 @@ The second argument can be used to configure this rule:
 
 ### max
 
-In the following example, the first 2 is the code for an error
-and the second 2 is the maximum number of empty lines:
+In the following example, the `error` is the severity of the rule, and the
+`max` property is the maximum number of empty lines (2 in this example).
 
 ```json
 "no-multiple-empty-lines": ["error", {"max": 2}]
