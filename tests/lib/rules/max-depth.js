@@ -27,7 +27,7 @@ ruleTester.run("max-depth", rule, {
         { code: "function foo() { if (true) { if (false) { if (true) { } } } }" },
 
         // object property options
-        { code: "function foo() { if (true) { if (false) { if (true) { } } } }", options: [{ "maximum": 3 }] }
+        { code: "function foo() { if (true) { if (false) { if (true) { } } } }", options: [{ "max": 3 }] }
     ],
     invalid: [
         { code: "function foo() { if (true) { if (false) { if (true) { } } } }", options: [2], errors: [{ message: "Blocks are nested too deeply (3).", type: "IfStatement"}] },
@@ -39,6 +39,6 @@ ruleTester.run("max-depth", rule, {
         { code: "function foo() { if (true) { if (false) { if (true) { if (false) { if (true) { } } } } } }", errors: [{ message: "Blocks are nested too deeply (5).", type: "IfStatement"}] },
 
         // object property options
-        { code: "function foo() { if (true) { if (false) { if (true) { } } } }", options: [{ "maximum": 2 }], errors: [{ message: "Blocks are nested too deeply (3).", type: "IfStatement"}] }
+        { code: "function foo() { if (true) { if (false) { if (true) { } } } }", options: [{ "max": 2 }], errors: [{ message: "Blocks are nested too deeply (3).", type: "IfStatement"}] }
     ]
 });
