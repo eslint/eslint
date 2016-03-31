@@ -43,7 +43,9 @@ ruleTester.run("no-useless-escape", rule, {
         "var foo = '\\n';",
         "var foo = 'foo \\r bar';",
         "var foo = '\\v';",
-        "var foo = '\\f';"
+        "var foo = '\\f';",
+        "var foo = '\\\n';",
+        "var foo = '\\\r\n';"
     ],
 
     invalid: [
