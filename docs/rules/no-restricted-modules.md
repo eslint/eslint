@@ -17,9 +17,11 @@ The rule takes one or more strings as options: the names of restricted modules.
 For example, to restrict the use of all Node.js core modules (via https://github.com/nodejs/node/tree/master/lib):
 
 ```json
+{
     "no-restricted-modules": ["error",
-         "assert","buffer","child_process","cluster","crypto","dgram","dns","domain","events","freelist","fs","http","https","module","net","os","path","punycode","querystring","readline","repl","smalloc","stream","string_decoder","sys","timers","tls","tracing","tty","url","util","vm","zlib"
+        "assert","buffer","child_process","cluster","crypto","dgram","dns","domain","events","freelist","fs","http","https","module","net","os","path","punycode","querystring","readline","repl","smalloc","stream","string_decoder","sys","timers","tls","tracing","tty","url","util","vm","zlib"
     ]
+}
 ```
 
 Examples of **incorrect** code for this rule with sample `"fs", "cluster"` restricted modules:
@@ -31,7 +33,7 @@ var fs = require('fs');
 var cluster = require(' cluster ');
 ```
 
-Examples of **incorrect** code for this rule with sample `"fs", "cluster"` restricted modules:
+Examples of **correct** code for this rule with sample `"fs", "cluster"` restricted modules:
 
 ```js
 /*eslint no-restricted-modules: ["error", "fs", "cluster"]*/
