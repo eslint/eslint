@@ -22,39 +22,23 @@ Examples of **incorrect** code for this rule:
 ```js
 /*eslint no-constant-condition: "error"*/
 
-if (true) {
-    doSomething();
+if (false) {
+    doSomethingUnfinished();
 }
-```
-
-```js
-/*eslint no-constant-condition: "error"*/
-
-var result = 0 ? a : b;
-```
-
-```js
-/*eslint no-constant-condition: "error"*/
-
-while (-2) {
-    doSomething();
-}
-```
-
-```js
-/*eslint no-constant-condition: "error"*/
 
 for (;true;) {
-    doSomething();
+    doSomethingForever();
 }
-```
 
-```js
-/*eslint no-constant-condition: "error"*/
+while (-2) {
+    doSomethingForever();
+}
 
 do{
-    something();
-} while (x = -1)
+    doSomethingForever();
+} while (x = -1);
+
+var result = 0 ? a : b;
 ```
 
 Examples of **correct** code for this rule:
@@ -65,20 +49,18 @@ Examples of **correct** code for this rule:
 if (x === 0) {
     doSomething();
 }
-```
-
-```js
-/*eslint no-constant-condition: "error"*/
-
-do {
-    something();
-} while (x)
-```
-
-```js
-/*eslint no-constant-condition: "error"*/
 
 for (;;) {
-    something();
+    doSomethingForever();
 }
+
+while (x) {
+    doSomething();
+}
+
+do{
+    doSomething();
+} while (x);
+
+var result = x !== 0 ? a : b;
 ```

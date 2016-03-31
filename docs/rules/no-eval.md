@@ -30,12 +30,16 @@ foo("var a = 0");
 this.eval("var a = 0");
 ```
 
+Examples of **incorrect** code for this rule with browser environment:
+
 ```js
 /*eslint no-eval: "error"*/
 /*eslint-env browser*/
 
 window.eval("var a = 0");
 ```
+
+Examples of **incorrect** code for this rule with node environment:
 
 ```js
 /*eslint no-eval: "error"*/
