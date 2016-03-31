@@ -1,5 +1,7 @@
 # Disallow multiple spaces (no-multi-spaces)
 
+(fixable) The --fix option on the [command line](../user-guide/command-line-interface#fix) automatically fixes problems reported by this rule.
+
 Multiple spaces in a row that are not used for indentation are typically mistakes. For example:
 
 ```js
@@ -15,8 +17,6 @@ It's hard to tell, but there are two spaces between `foo` and `===`. Multiple sp
 if(foo === "bar") {}
 
 ```
-
-**Fixable:** This rule is automatically fixable using the `--fix` flag on the command line.
 
 ## Rule Details
 
