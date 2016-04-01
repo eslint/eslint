@@ -72,7 +72,18 @@ ruleTester.run("prefer-const", rule, {
         { code: "(function() { let x; { x = 0; foo(x); } })();", parserOptions: { ecmaVersion: 6 } },
         { code: "let x; for (const a of [1,2,3]) { x = foo(); bar(x); }", parserOptions: { ecmaVersion: 6 } },
         { code: "(function() { let x; for (const a of [1,2,3]) { x = foo(); bar(x); } })();", parserOptions: { ecmaVersion: 6 } },
-        { code: "let x; for (x of array) { x; }", parserOptions: { ecmaVersion: 6 } }
+        { code: "let x; for (x of array) { x; }", parserOptions: { ecmaVersion: 6 } },
+
+        {
+            code: "let {a, b} = obj; b = 0;",
+            options: [{destructuring: "all"}],
+            parserOptions: {ecmaVersion: 6}
+        },
+        {
+            code: "let a, b; ({a, b} = obj); b++;",
+            options: [{destructuring: "all"}],
+            parserOptions: {ecmaVersion: 6}
+        }
     ],
     invalid: [
         {
@@ -158,6 +169,52 @@ ruleTester.run("prefer-const", rule, {
             code: "(function() { let x; x = 1; })();",
             parserOptions: { ecmaVersion: 6 },
             errors: [{ message: "'x' is never reassigned, use 'const' instead.", type: "Identifier"}]
+        },
+
+        {
+            code: "let {a = 0, b} = obj; b = 0; foo(a, b);",
+            options: [{destructuring: "any"}],
+            parserOptions: {ecmaVersion: 6},
+            errors: [{ message: "'a' is never reassigned, use 'const' instead.", type: "Identifier"}]
+        },
+        {
+            code: "let a, b; ({a = 0, b} = obj); b = 0; foo(a, b);",
+            options: [{destructuring: "any"}],
+            parserOptions: {ecmaVersion: 6},
+            errors: [{ message: "'a' is never reassigned, use 'const' instead.", type: "Identifier"}]
+        },
+        {
+            code: "let {a = 0, b} = obj; foo(a, b);",
+            options: [{destructuring: "all"}],
+            parserOptions: {ecmaVersion: 6},
+            errors: [
+                { message: "'a' is never reassigned, use 'const' instead.", type: "Identifier"},
+                { message: "'b' is never reassigned, use 'const' instead.", type: "Identifier"}
+            ]
+        },
+        {
+            code: "let a, b; ({a = 0, b} = obj); foo(a, b);",
+            options: [{destructuring: "all"}],
+            parserOptions: {ecmaVersion: 6},
+            errors: [
+                { message: "'a' is never reassigned, use 'const' instead.", type: "Identifier"},
+                { message: "'b' is never reassigned, use 'const' instead.", type: "Identifier"}
+            ]
+        },
+        {
+            code: "let {a = 0, b} = obj, c = a; b = a;",
+            options: [{destructuring: "any"}],
+            parserOptions: {ecmaVersion: 6},
+            errors: [
+                { message: "'a' is never reassigned, use 'const' instead.", type: "Identifier"},
+                { message: "'c' is never reassigned, use 'const' instead.", type: "Identifier"}
+            ]
+        },
+        {
+            code: "let {a = 0, b} = obj, c = a; b = a;",
+            options: [{destructuring: "all"}],
+            parserOptions: {ecmaVersion: 6},
+            errors: [{ message: "'c' is never reassigned, use 'const' instead.", type: "Identifier"}]
         }
     ]
 });

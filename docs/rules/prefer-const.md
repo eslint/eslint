@@ -8,47 +8,69 @@ If a variable is never reassigned, using the `const` declaration is better.
 
 This rule is aimed at flagging variables that are declared using `let` keyword, but never reassigned after the initial assignment.
 
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule:
 
 ```js
 /*eslint prefer-const: "error"*/
 /*eslint-env es6*/
 
+// it's initialized and never reassigned.
 let a = 3;
 console.log(a);
 
+let a;
+a = 0;
+console.log(a);
+
 // `i` is redefined (not reassigned) on each loop step.
-for (let i in [1,2,3]) {
+for (let i in [1, 2, 3]) {
     console.log(i);
 }
 
 // `a` is redefined (not reassigned) on each loop step.
-for (let a of [1,2,3]) {
+for (let a of [1, 2, 3]) {
     console.log(a);
 }
-
-// the initializer is separated.
-let a;
-a = 0;
-console.log(a);
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule:
 
 ```js
 /*eslint prefer-const: "error"*/
 /*eslint-env es6*/
 
-let a; // there is no initialization.
+// using const.
+const a = 0;
+
+// it's never initialized.
+let a;
+console.log(a);
+
+// it's reassigned after initialized.
+let a;
+a = 0;
+a = 1;
+console.log(a);
+
+// it's initialized in a different block from the declaration.
+let a;
+if (true) {
+    a = 0;
+}
+console.log(a);
+
+// it's initialized at a place that we cannot write a variable declaration.
+let a;
+if (true) a = 0;
 console.log(a);
 
 // `i` gets a new binding each iteration
-for (const i in [1,2,3]) {
+for (const i in [1, 2, 3]) {
   console.log(i);
 }
 
 // `a` gets a new binding each iteration
-for (const a of [1,2,3]) {
+for (const a of [1, 2, 3]) {
   console.log(a);
 }
 
@@ -57,16 +79,73 @@ for (let i = 0, end = 10; i < end; ++i) {
     console.log(a);
 }
 
-// the initializer is located at another block.
-let a;
-if (true) {
-    a = 0;
-}
-console.log(a);
-
 // suggest to use `no-var` rule.
 var b = 3;
 console.log(b);
+```
+
+## Options
+
+```json
+{
+    "prefer-const": ["error", {"destructuring": "any"}]
+}
+```
+
+### destructuring
+
+The kind of the way to address variables in destructuring.
+There are 2 values:
+
+* `"any"` (default) - If any variables in destructuring should be `const`, this rule warns for those variables.
+* `"all"` - If all variables in destructuring should be `const`, this rule warns the variables. Otherwise, ignores them.
+
+Examples of **incorrect** code for the default `{"destructuring": "any"}` option:
+
+```js
+/*eslint prefer-const: "error"*/
+/*eslint-env es6*/
+
+let {a, b} = obj;    /*error 'b' is never reassigned, use 'const' instead.*/
+a = a + 1;
+```
+
+Examples of **correct** code for the default `{"destructuring": "any"}` option:
+
+```js
+/*eslint prefer-const: "error"*/
+/*eslint-env es6*/
+
+// using const.
+const {a: a0, b} = obj;
+const a = a0 + 1;
+
+// all variables are reassigned.
+let {a, b} = obj;
+a = a + 1;
+b = b + 1;
+```
+
+Examples of **incorrect** code for the `{"destructuring": "all"}` option:
+
+```js
+/*eslint prefer-const: ["error", {"destructuring": "all"}]*/
+/*eslint-env es6*/
+
+// all of `a` and `b` should be const, so those are warned.
+let {a, b} = obj;    /*error 'a' is never reassigned, use 'const' instead.
+                             'b' is never reassigned, use 'const' instead.*/
+```
+
+Examples of **correct** code for the `{"destructuring": "all"}` option:
+
+```js
+/*eslint prefer-const: ["error", {"destructuring": "all"}]*/
+/*eslint-env es6*/
+
+// 'b' is never reassigned, but all of `a` and `b` should not be const, so those are ignored.
+let {a, b} = obj;
+a = a + 1;
 ```
 
 ## When Not To Use It
