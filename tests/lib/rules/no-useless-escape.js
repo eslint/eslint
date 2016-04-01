@@ -27,6 +27,7 @@ ruleTester.run("no-useless-escape", rule, {
         "var foo = /\\D/",
         "var foo = /\\W/",
         "var foo = /\\w/",
+        "var foo = /\\B/",
         "var foo = /\\\\/g",
         "var foo = /\\w\\$\\*\\./",
         "var foo = /\\^\\+\\./",
@@ -49,13 +50,12 @@ ruleTester.run("no-useless-escape", rule, {
     ],
 
     invalid: [
-        { code: "var foo = /\\B/;", errors: [{ message: "Unnecessary escape character: \\B", type: "Literal"}] },
         { code: "var foo = /\\#/;", errors: [{ message: "Unnecessary escape character: \\#", type: "Literal"}] },
         { code: "var foo = /\\;/;", errors: [{ message: "Unnecessary escape character: \\;", type: "Literal"}] },
         { code: "var foo = \"\\'\";", errors: [{ message: "Unnecessary escape character: \\'", type: "Literal"}] },
-        { code: "var foo = \"\\B\";", errors: [{ message: "Unnecessary escape character: \\B", type: "Literal"}] },
         { code: "var foo = \"\\#/\";", errors: [{ message: "Unnecessary escape character: \\#", type: "Literal"}] },
         { code: "var foo = \"\\a\"", errors: [{ message: "Unnecessary escape character: \\a", type: "Literal"}] },
+        { code: "var foo = \"\\B\";", errors: [{ message: "Unnecessary escape character: \\B", type: "Literal"}] },
         { code: "var foo = \"\\@\";", errors: [{ message: "Unnecessary escape character: \\@", type: "Literal"}] },
         { code: "var foo = \"foo \\a bar\";", errors: [{ message: "Unnecessary escape character: \\a", type: "Literal"}] },
         { code: "var foo = '\\\"';", errors: [{ message: "Unnecessary escape character: \\\"", type: "Literal"}] },
