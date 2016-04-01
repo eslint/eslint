@@ -1,3 +1,26 @@
+v2.6.0 - April 1, 2016
+
+* ce2accd Fix: vars-on-top now accepts exported variables (fixes #5711) (Olmo Kramer)
+* 7aacba7 Update: Deprecate option `maximum` in favor of `max` (fixes #5685) (Vitor Balocco)
+* 5fe6fca Fix: no-useless-escape \B regex escape (fixes #5750) (Onur Temizkan)
+* 9b73ffd Update: `destructuring` option of `prefer-const` rule (fixes #5594) (Toru Nagashima)
+* 8ac9206 Docs: Typo in `sort-imports` (alberto)
+* 12902c5 Fix: valid-jsdoc crash w/ Field & Array Type (fixes #5745) (fixes #5746) (Burak Yigit Kaya)
+* 2c8b65a Docs: Edit examples for a few rules (Mark Pedrotti)
+* d736bc2 Fix: Treat SwitchCase like a block in lines-around-comment (fixes #5718) (Scott O'Hara)
+* 24a61a4 Update: make `no-useless-escape` allowing line breaks (fixes #5689) (Toru Nagashima)
+* 4ecd45e Fix: Ensure proper lookup of config files (fixes #5175, fixes #5468) (Nicholas C. Zakas)
+* 088e26b Fix: Update doctrine to allow hyphens in JSDoc names (fixes #5612) (Kai Cataldo)
+* 692fd5d Upgrade: Old Chalk.JS deprecated method (fixes #5716) (Morris Singer)
+* f59d91d Update: no-param-reassign error msgs (fixes #5705) (Isaac Levy)
+* c1b16cd Fix: Object spread throws error in key-spacing rule. (fixes #5724) (Ziad El Khoury Hanna)
+* 3091613 Docs: Correct explanation about properties (James Monger)
+* cb0f0be Fix: Lint issue with `valid-jsdoc` rule (refs #5188) (Gyandeep Singh)
+* aba1954 Build: Ignore jsdoc folder internally (fixes #5714) (alberto)
+* a35f127 Fix: Lint for eslint project in regards to vars (refs #5188) (Gyandeep Singh)
+* d9ab4f0 Fix: Windows scoped package configs (fixes #5644) (Nicholas C. Zakas)
+* 8d0cd0d Update: Basic valid-jsdoc default parameter support (fixes #5658) (Tom Andrews)
+
 v2.5.3 - March 28, 2016
 
 * 8749ac5 Build: Disable bundling dependencies (fixes #5687) (Nicholas C. Zakas)
