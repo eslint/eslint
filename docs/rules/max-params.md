@@ -32,7 +32,7 @@ function foo (bar, baz, qux) {
 }
 ```
 
-Optionally, you may specify a `maximum` object property:
+Optionally, you may specify a `max` object property:
 
 ```json
 "max-params": ["error", 2]
@@ -41,8 +41,10 @@ Optionally, you may specify a `maximum` object property:
 is equivalent to
 
 ```json
-"max-params": ["error", {"maximum": 2}]
+"max-params": ["error", {"max": 2}]
 ```
+
+**Deprecated:** the object property `maximum` is deprecated. Please use the property `max` instead.
 
 
 ## Related Rules
