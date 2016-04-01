@@ -37,7 +37,11 @@ ruleTester.run("no-constant-condition", rule, {
         "if(typeof x === 'undefined'){}",
         "if(a === 'str' && typeof b){}",
         "typeof a == typeof b",
-        "typeof 'a'==='string'|| typeof b ==='string'",
+        "typeof 'a' === 'string'|| typeof b === 'string'",
+
+        // #5726, void conditions
+        "if (void a || a);",
+        "if (a || void a);",
 
          // #5693
         "if(xyz === 'str1' && abc==='str2'){}",
@@ -69,6 +73,7 @@ ruleTester.run("no-constant-condition", rule, {
         { code: "if(0 < 1);", errors: [{ message: "Unexpected constant condition.", type: "IfStatement"}] },
         { code: "if(0 || 1);", errors: [{ message: "Unexpected constant condition.", type: "IfStatement"}] },
         { code: "if(a, 1);", errors: [{ message: "Unexpected constant condition.", type: "IfStatement"}] },
+
         { code: "while([]);", errors: [{ message: "Unexpected constant condition.", type: "WhileStatement"}] },
         { code: "while(~!0);", errors: [{ message: "Unexpected constant condition.", type: "WhileStatement"}] },
         { code: "while(x = 1);", errors: [{ message: "Unexpected constant condition.", type: "WhileStatement"}] },
@@ -80,8 +85,17 @@ ruleTester.run("no-constant-condition", rule, {
         { code: "if(typeof 'abc' === 'string'){}", errors: [{ message: "Unexpected constant condition.", type: "IfStatement"}] },
         { code: "if(a = typeof b){}", errors: [{ message: "Unexpected constant condition.", type: "IfStatement"}] },
         { code: "if(a, typeof b){}", errors: [{ message: "Unexpected constant condition.", type: "IfStatement"}] },
-        { code: "if(typeof 'a' =='string' || typeof 'b' =='string'){}", errors: [{ message: "Unexpected constant condition.", type: "IfStatement"}] },
+        { code: "if(typeof 'a' == 'string' || typeof 'b' == 'string'){}", errors: [{ message: "Unexpected constant condition.", type: "IfStatement"}] },
         { code: "while(typeof x){}", errors: [{ message: "Unexpected constant condition.", type: "WhileStatement"}] },
+
+        // #5726, void conditions
+        { code: "if(1 || void x);", errors: [{ message: "Unexpected constant condition.", type: "IfStatement"}] },
+        { code: "if(void x);", errors: [{ message: "Unexpected constant condition.", type: "IfStatement"}] },
+        { code: "if(y = void x);", errors: [{ message: "Unexpected constant condition.", type: "IfStatement"}] },
+        { code: "if(x, void x);", errors: [{ message: "Unexpected constant condition.", type: "IfStatement"}] },
+        { code: "if(void x === void y);", errors: [{ message: "Unexpected constant condition.", type: "IfStatement"}] },
+        { code: "if(void x && a);", errors: [{ message: "Unexpected constant condition.", type: "IfStatement"}] },
+        { code: "if(a && void x);", errors: [{ message: "Unexpected constant condition.", type: "IfStatement"}] },
 
         // #5693
          { code: "if(false && abc==='str'){}", errors: [{message: "Unexpected constant condition.", type: "IfStatement"}]},
