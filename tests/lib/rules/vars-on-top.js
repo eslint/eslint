@@ -159,7 +159,40 @@ ruleTester.run("vars-on-top", rule, {
         {code: "import { square, diag } from 'lib'; 'use strict'; var y; function f() { 'use strict'; var x; var y; f(); }", parserOptions: { sourceType: "module" }},
         {code: "import { default as foo } from 'lib'; 'use strict'; var y; function f() { 'use strict'; var x; var y; f(); }", parserOptions: { sourceType: "module" }},
         {code: "import 'src/mylib'; 'use strict'; var y; function f() { 'use strict'; var x; var y; f(); }", parserOptions: { sourceType: "module" }},
-        {code: "import theDefault, { named1, named2 } from 'src/mylib'; 'use strict'; var y; function f() { 'use strict'; var x; var y; f(); }", parserOptions: { sourceType: "module" }}
+        {code: "import theDefault, { named1, named2 } from 'src/mylib'; 'use strict'; var y; function f() { 'use strict'; var x; var y; f(); }", parserOptions: { sourceType: "module" }},
+        {
+            code: [
+                "export var x;",
+                "var y;",
+                "var z;"
+            ].join("\n"),
+            parserOptions: {
+                ecmaVersion: 6,
+                sourceType: "module"
+            }
+        },
+        {
+            code: [
+                "var x;",
+                "export var y;",
+                "var z;"
+            ].join("\n"),
+            parserOptions: {
+                ecmaVersion: 6,
+                sourceType: "module"
+            }
+        },
+        {
+            code: [
+                "var x;",
+                "var y;",
+                "export var z;"
+            ].join("\n"),
+            parserOptions: {
+                ecmaVersion: 6,
+                sourceType: "module"
+            }
+        }
     ],
 
     invalid: [
@@ -402,6 +435,29 @@ ruleTester.run("vars-on-top", rule, {
         },
         {
             code: "function f() { 'use strict'; var x; 'directive';  var y; f(); }",
+            errors: [{message: "All 'var' declarations must be at the top of the function scope.", type: "VariableDeclaration"}]
+        },
+        {
+            code: [
+                "export function f() {}",
+                "var x;"
+            ].join("\n"),
+            parserOptions: {
+                ecmaVersion: 6,
+                sourceType: "module"
+            },
+            errors: [{message: "All 'var' declarations must be at the top of the function scope.", type: "VariableDeclaration"}]
+        },
+        {
+            code: [
+                "var x;",
+                "export function f() {}",
+                "var y;"
+            ].join("\n"),
+            parserOptions: {
+                ecmaVersion: 6,
+                sourceType: "module"
+            },
             errors: [{message: "All 'var' declarations must be at the top of the function scope.", type: "VariableDeclaration"}]
         }
     ]
