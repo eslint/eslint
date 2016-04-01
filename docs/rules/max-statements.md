@@ -23,8 +23,10 @@ There is an additional optional argument to ignore top level functions.
 
 // or you can use an object property to set the maximum
 
-"max-statements": ["error", {"maximum": 10}, {"ignoreTopLevelFunctions": true}]
+"max-statements": ["error", {"max": 10}, {"ignoreTopLevelFunctions": true}]
 ```
+
+**Deprecated:** the object property `maximum` is deprecated. Please use the property `max` instead.
 
 The following patterns are considered problems:
 

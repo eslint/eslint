@@ -50,7 +50,7 @@ function a(x) {
 
 ## Options
 
-Optionally, you may specify a `maximum` object property:
+Optionally, you may specify a `max` object property:
 
 ```json
 "complexity": ["error", 2]
@@ -59,8 +59,10 @@ Optionally, you may specify a `maximum` object property:
 is equivalent to
 
 ```json
-"complexity": ["error", { "maximum": 2 }]
+"complexity": ["error", { "max": 2 }]
 ```
+
+**Deprecated:** the object property `maximum` is deprecated. Please use the property `max` instead.
 
 ## When Not To Use It
 

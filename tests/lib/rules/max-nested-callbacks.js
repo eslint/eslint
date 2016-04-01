@@ -47,7 +47,7 @@ ruleTester.run("max-nested-callbacks", rule, {
         { code: nestFunctions(10)},
 
         // object property options
-        { code: "foo(function() { bar(thing, function(data) {}); });", options: [{ "maximum": 3 }] }
+        { code: "foo(function() { bar(thing, function(data) {}); });", options: [{ "max": 3 }] }
     ],
     invalid: [
         {
@@ -80,7 +80,7 @@ ruleTester.run("max-nested-callbacks", rule, {
         // object property options
         {
             code: "foo(function() { bar(thing, function(data) { baz(function() {}); }); });",
-            options: [{ "maximum": 2 }],
+            options: [{ "max": 2 }],
             errors: [{ message: "Too many nested callbacks (3). Maximum allowed is 2.", type: "FunctionExpression"}]
         }
     ]
