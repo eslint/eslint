@@ -47,7 +47,7 @@ var arr = [ 'foo', 'bar' ];
 var arr = ['foo', 'bar' ];
 var arr = [ ['foo'], 'bar'];
 var arr = [[ 'foo' ], 'bar'];
-var arr = ['foo',
+var arr = [ 'foo',
   'bar'
 ];
 var [ x, y ] = z;
@@ -69,6 +69,9 @@ var arr = [
   'foo',
   'bar',
   'baz'
+];
+var arr = ['foo',
+  'bar'
 ];
 var arr = [
   'foo',
@@ -113,6 +116,12 @@ The following patterns are not considered problems:
 var arr = [];
 var arr = [ 'foo', 'bar', 'baz' ];
 var arr = [ [ 'foo' ], 'bar', 'baz' ];
+var arr = [ 'foo',
+  'bar'
+];
+var arr = [
+  'foo',
+  'bar' ];
 var arr = [
   'foo',
   'bar',
