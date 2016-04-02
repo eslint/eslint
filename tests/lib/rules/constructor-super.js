@@ -25,13 +25,20 @@ ruleTester.run("constructor-super", rule, {
         // non derived classes.
         { code: "class A { }", parserOptions: { ecmaVersion: 6 } },
         { code: "class A { constructor() { } }", parserOptions: { ecmaVersion: 6 } },
+
+        // inherit from non constructors.
+        // those are valid if we don't define the constructor.
         { code: "class A extends null { }", parserOptions: { ecmaVersion: 6 } },
-        { code: "class A extends null { constructor() { } }", parserOptions: { ecmaVersion: 6 } },
 
         // derived classes.
         { code: "class A extends B { }", parserOptions: { ecmaVersion: 6 } },
         { code: "class A extends B { constructor() { super(); } }", parserOptions: { ecmaVersion: 6 } },
         { code: "class A extends B { constructor() { if (true) { super(); } else { super(); } } }", parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends (class B {}) { constructor() { super(); } }", parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends (B = C) { constructor() { super(); } }", parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends (B || C) { constructor() { super(); } }", parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends (a ? B : C) { constructor() { super(); } }", parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends (B, C) { constructor() { super(); } }", parserOptions: { ecmaVersion: 6 } },
 
         // nested.
         { code: "class A { constructor() { class B extends C { constructor() { super(); } } } }", parserOptions: { ecmaVersion: 6 } },
@@ -48,6 +55,11 @@ ruleTester.run("constructor-super", rule, {
         { code: "class A extends B { constructor() { switch (a) { case 0: super(); break; default: super(); } } }", parserOptions: { ecmaVersion: 6 } },
         { code: "class A extends B { constructor() { try {} finally { super(); } } }", parserOptions: { ecmaVersion: 6 } },
         { code: "class A extends B { constructor() { if (a) throw Error(); super(); } }", parserOptions: { ecmaVersion: 6 } },
+
+        // returning value is a substitute of 'super()'.
+        { code: "class A extends B { constructor() { if (true) return a; super(); } }", parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends null { constructor() { return a; } }", parserOptions: { ecmaVersion: 6 } },
+        { code: "class A { constructor() { return a; } }", parserOptions: { ecmaVersion: 6 } },
 
         // https://github.com/eslint/eslint/issues/5261
         { code: "class A extends B { constructor(a) { super(); for (const b of a) { this.a(); } } }", parserOptions: { ecmaVersion: 6 } },
@@ -76,10 +88,27 @@ ruleTester.run("constructor-super", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [{ message: "Unexpected 'super()'.", type: "CallExpression"}]
         },
+
+        // inherit from non constructors.
         {
             code: "class A extends null { constructor() { super(); } }",
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Unexpected 'super()'.", type: "CallExpression"}]
+            errors: [{ message: "Unexpected 'super()' because 'super' is not a constructor.", type: "CallExpression"}]
+        },
+        {
+            code: "class A extends null { constructor() { } }",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{ message: "Expected to call 'super()'.", type: "MethodDefinition"}]
+        },
+        {
+            code: "class A extends 100 { constructor() { super(); } }",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{ message: "Unexpected 'super()' because 'super' is not a constructor.", type: "CallExpression"}]
+        },
+        {
+            code: "class A extends 'test' { constructor() { super(); } }",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{ message: "Unexpected 'super()' because 'super' is not a constructor.", type: "CallExpression"}]
         },
 
         // derived classes.
