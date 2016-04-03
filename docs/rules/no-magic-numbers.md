@@ -70,6 +70,20 @@ var data = ['foo', 'bar', 'baz'];
 var dataLast = data[2];
 ```
 
+### ignoreMinusOneInIndexOf
+
+A boolean to specify if minus one used when comparing to indexOf result is considered okay. `false` by default.
+
+Examples of **correct** code for the { "ignoreMinusOneInIndexOf": true } option:
+
+```js
+/*eslint no-magic-numbers: ["error", { "ignoreMinusOneInIndexOf": true }]*/
+
+var data = ['foo', 'bar', 'baz'];
+var key = 'bar';
+var hasKey = data.indexOf(key) !== -1;
+```
+
 ### enforceConst
 
 A boolean to specify if we should check for the const keyword in variable declaration of numbers. `false` by default.

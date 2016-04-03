@@ -90,6 +90,18 @@ ruleTester.run("no-magic-numbers", rule, {
                     jsx: true
                 }
             }
+        },
+        {
+            code: "var key = 2; var data = [].indexOf(key) === -1;",
+            options: [{
+                ignoreMinusOneInIndexOf: true
+            }]
+        },
+        {
+            code: "var key = 2; var data = [].indexOf(key) !== -1;",
+            options: [{
+                ignoreMinusOneInIndexOf: true
+            }]
         }
     ],
     invalid: [
