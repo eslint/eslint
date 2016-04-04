@@ -52,7 +52,7 @@ Examples of **correct** code for the default `"all"` option:
 
 When setting the first option as `"all"`, an additional option can be added to allow extra parens for assignment in conditional statements.
 
-Examples of **correct** code for the `"all"` and `{ "conditionalAssign": false }` options:
+Examples of **correct** code for the `"all"` and `{ "conditionalAssign": true }` options:
 
 ```js
 /*eslint no-extra-parens: ["error", "all", { "conditionalAssign": false }]*/
@@ -64,18 +64,6 @@ if ((foo = bar())) {}
 do; while ((foo = bar()))
 
 for (;(a = b););
-```
-
-### nestedBinaryExpressions
-
-When setting the first option as `"all"`, an additional option can be added to allow extra parens in nested binary expressions.
-
-Examples of **correct* for the `"all"` and `{ "nestedBinaryExpressions": false }` options:
-
-```js
-x = a || (b && c);
-x = a + (b * c);
-x = (a * b) / c;
 ```
 
 ### functions
@@ -109,6 +97,7 @@ a = (b * c);
 
 typeof (a);
 ```
+
 
 ## Further Reading
 
