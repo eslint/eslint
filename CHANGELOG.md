@@ -1,3 +1,12 @@
+v2.7.0 - April 4, 2016
+
+* 134cb1f Revert "Update: adds nestedBinaryExpressions for no-extra-parens rule (fixes #3065)" (Ilya Volodin)
+* 7e80867 Docs: Update sentence in fixable rules (Mark Pedrotti)
+* 1b6d5a3 Update: adds nestedBinaryExpressions for no-extra-parens (fixes #3065) (Nick Fisher)
+* 4f93c32 Docs: Clarify `array-bracket-spacing` with newlines (fixes #5768) (alberto)
+* 161ddac Fix: remove `console.dir` (fixes #5770) (Toru Nagashima)
+* 0c33f6a Fix: indent rule uses wrong node for class indent level (fixes #5764) (Paul O’Shannessy)
+
 v2.6.0 - April 1, 2016
 
 * ce2accd Fix: vars-on-top now accepts exported variables (fixes #5711) (Olmo Kramer)
