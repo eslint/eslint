@@ -1,8 +1,8 @@
 # Disallow Extra Semicolons (no-extra-semi)
 
-JavaScript will more or less let you put semicolons after any statement without complaining. Typos and misunderstandings about where semicolons are required can lead to extra semicolons that are unnecessary.
+(fixable) The --fix option on the [command line](../user-guide/command-line-interface#fix) automatically fixes problems reported by this rule.
 
-**Fixable:** This rule is automatically fixable using the `--fix` flag on the command line.
+JavaScript will more or less let you put semicolons after any statement without complaining. Typos and misunderstandings about where semicolons are required can lead to extra semicolons that are unnecessary.
 
 ## Rule Details
 

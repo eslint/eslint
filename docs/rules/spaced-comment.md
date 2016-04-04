@@ -1,10 +1,10 @@
 # Requires or disallows a whitespace (space or tab) beginning a comment (spaced-comment)
 
+(fixable) The --fix option on the [command line](../user-guide/command-line-interface#fix) automatically fixes problems reported by this rule.
+
 Some style guides require or disallow a whitespace immediately after the initial `//` or `/*` of a comment.
 Whitespace after the `//` or `/*` makes it easier to read text in comments.
 On the other hand, commenting out code is easier without having to put a whitespace right after the `//` or `/*`.
-
-**Fixable:** This rule is automatically fixable using the `--fix` flag on the command line.
 
 ## Rule Details
 

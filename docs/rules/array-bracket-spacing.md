@@ -1,5 +1,7 @@
 # Disallow or enforce spaces inside of brackets. (array-bracket-spacing)
 
+(fixable) The --fix option on the [command line](../user-guide/command-line-interface#fix) automatically fixes problems reported by this rule.
+
 A number of style guides require or disallow spaces between array brackets. This rule
 applies to both array literals and destructuring assignment (EcmaScript 6) using arrays.
 
@@ -12,8 +14,6 @@ var [ x, y ] = z;
 var arr = ['foo', 'bar'];
 var [x,y] = z;
 ```
-
-**Fixable:** This rule is automatically fixable using the `--fix` flag on the command line.
 
 ## Rule Details
 

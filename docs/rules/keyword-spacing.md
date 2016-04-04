@@ -1,5 +1,7 @@
 # Enforce spacing before and after keywords (keyword-spacing)
 
+(fixable) The --fix option on the [command line](../user-guide/command-line-interface#fix) automatically fixes problems reported by this rule.
+
 Keywords are syntax elements of JavaScript, such as `function` and `if`.
 These identifiers have special meaning to the language and so often appear in a different color in code editors.
 As an important part of the language, style guides often refer to the spacing that should be used around keywords.
@@ -14,8 +16,6 @@ if (foo) {
 ```
 
 Of course, you could also have a style guide that disallows spaces around keywords.
-
-**Fixable:** This rule is automatically fixable using the `--fix` flag on the command line.
 
 ## Rule Details
 

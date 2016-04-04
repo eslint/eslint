@@ -2,9 +2,9 @@
 
 **Replacement notice**: This rule was removed in ESLint v2.0 and replaced by [keyword-spacing](keyword-spacing.md) rule.
 
-Require spaces following `return`, `throw`, and `case`.
+(fixable) The --fix option on the [command line](../user-guide/command-line-interface#fix) automatically fixed problems reported by this rule.
 
-**Fixable:** This rule is automatically fixable using the `--fix` flag on the command line.
+Require spaces following `return`, `throw`, and `case`.
 
 ## Rule Details
 

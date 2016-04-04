@@ -1,5 +1,7 @@
 # Require space before/after arrow function's arrow (arrow-spacing)
 
+(fixable) The --fix option on the [command line](../user-guide/command-line-interface#fix) automatically fixes problems reported by this rule.
+
 This rule normalize style of spacing before/after an arrow function's arrow(`=>`).
 
 ```js
@@ -11,8 +13,6 @@ This rule normalize style of spacing before/after an arrow function's arrow(`=>`
 // { "before": false, "after": false }
 (a)=>{}
 ```
-
-**Fixable:** This rule is automatically fixable using the `--fix` flag on the command line.
 
 ## Rule Details
 
