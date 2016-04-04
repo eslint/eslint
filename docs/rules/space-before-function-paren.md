@@ -26,7 +26,7 @@ This rule aims to enforce consistent spacing before function parentheses and as 
 
 ## Options
 
-This rule takes one argument. If it is `"always"` then all named functions and anonymous functions must have space before function parentheses. If `"never"` then all named functions and anonymous functions must not have space before function parentheses. If you want different spacing for named and anonymous functions you can pass a configuration object as the rule argument to configure those separately (e. g. `{"anonymous": "always", "named": "never"}`).
+This rule takes one argument. If it is `"always"` then all named functions and anonymous functions must have space before function parentheses. If `"never"` then all named functions and anonymous functions must not have space before function parentheses. If you want different spacing for named and anonymous functions you can pass a configuration object as the rule argument to configure those separately (e. g. `{"anonymous": "always", "named": "never"}`). In this case, you can use "ignore" to only set the apply the rule to one type of function (e. g. `{"anonymous": "ignore", "named": "never"}` will warn on spaces for named functions, but will not warn on anonymous functions one way or the other).
 
 The default configuration is `"always"`.
 
@@ -265,6 +265,58 @@ class Foo {
 
 var foo = {
     bar () {
+        // ...
+    }
+};
+```
+
+### `{"anonymous": "ignore", "named": "always"}`
+
+The following patterns are considered problems:
+
+```js
+/*eslint space-before-function-paren: ["error", { "anonymous": "ignore", "named": "always" }]*/
+/*eslint-env es6*/
+
+function foo() {
+    // ...
+}
+```
+
+The following patterns are not considered problems:
+
+```js
+/*eslint space-before-function-paren: ["error", { "anonymous": "ignore", "named": "always" }]*/
+/*eslint-env es6*/
+
+var bar = function() {
+    // ...
+};
+
+var bar = function () {
+    // ...
+};
+
+class Foo {
+    constructor () {
+        // ...
+    }
+}
+
+class Foo {
+    constructor() {
+        // ...
+    }
+}
+
+var foo = {
+    bar () {
+        // ...
+    }
+};
+
+var foo = {
+    bar() {
         // ...
     }
 };

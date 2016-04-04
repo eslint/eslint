@@ -83,6 +83,18 @@ ruleTester.run("space-before-function-paren", rule, {
             code: "class Foo { constructor () {} *method () {} }",
             options: [ { named: "always", anonymous: "never" } ],
             parserOptions: { ecmaVersion: 6 }
+        },
+        { code: "var foo = function() {}",
+          options: [ { named: "always", anonymous: "ignore" } ]
+        },
+        { code: "var foo = function () {}",
+          options: [ { named: "always", anonymous: "ignore" } ]
+        },
+        { code: "var bar = function foo() {}",
+          options: [ { named: "ignore", anonymous: "always" } ]
+        },
+        { code: "var bar = function foo () {}",
+          options: [ { named: "ignore", anonymous: "always" } ]
         }
     ],
 
@@ -392,6 +404,54 @@ ruleTester.run("space-before-function-paren", rule, {
                 "var bar = function() {}",
                 "var obj = { get foo () {}, set foo (val) {}, bar () {} };"
             ].join("\n")
+        },
+        {
+            code: "var foo = function() {}",
+            options: [ { named: "ignore", anonymous: "always" } ],
+            errors: [
+                {
+                    type: "FunctionExpression",
+                    message: "Missing space before function parentheses.",
+                    line: 1,
+                    column: 19
+                }
+            ]
+        },
+        {
+            code: "var foo = function () {}",
+            options: [ { named: "ignore", anonymous: "never" } ],
+            errors: [
+                {
+                    type: "FunctionExpression",
+                    message: "Unexpected space before function parentheses.",
+                    line: 1,
+                    column: 19
+                }
+            ]
+        },
+        {
+            code: "var bar = function foo() {}",
+            options: [ { named: "always", anonymous: "ignore" } ],
+            errors: [
+                {
+                    type: "FunctionExpression",
+                    message: "Missing space before function parentheses.",
+                    line: 1,
+                    column: 23
+                }
+            ]
+        },
+        {
+            code: "var bar = function foo () {}",
+            options: [ { named: "never", anonymous: "ignore" } ],
+            errors: [
+                {
+                    type: "FunctionExpression",
+                    message: "Unexpected space before function parentheses.",
+                    line: 1,
+                    column: 23
+                }
+            ]
         }
     ]
 });
