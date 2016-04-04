@@ -1,5 +1,7 @@
 # Validate Indentation (indent)
 
+(fixable) The --fix option on the [command line](../user-guide/command-line-interface#fix) automatically fixes problems reported by this rule.
+
 This option validates a specific tab width for your code in block statements.
 
 There are several common guidelines which require specific indentation of nested blocks and statements, like:
@@ -17,8 +19,6 @@ This is the most common scenarios recommended in different style guides:
 * Two spaces, not longer and no tabs: Google, npm, Node.js, Idiomatic, Felix
 * Tabs: jQuery
 * Four spaces: Crockford
-
-**Fixable:** This rule is automatically fixable using the `--fix` flag on the command line.
 
 ## Rule Details
 

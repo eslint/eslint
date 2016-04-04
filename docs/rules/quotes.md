@@ -1,5 +1,7 @@
 # Enforce Quote Style (quotes)
 
+(fixable) The --fix option on the [command line](../user-guide/command-line-interface#fix) automatically fixes problems reported by this rule.
+
 JavaScript allows you to define strings in one of three ways: double quotes, single quotes, and backticks (as of ECMAScript 6). For example:
 
 ```js
@@ -17,8 +19,6 @@ Many codebases require strings to be defined in a consistent manner.
 ## Rule Details
 
 This rule is aimed at ensuring consistency of string quotes and as such will report a problem when an inconsistent style is found.
-
-**Fixable:** This rule is automatically fixable using the `--fix` flag on the command line.
 
 The rule configuration takes up to two options:
 

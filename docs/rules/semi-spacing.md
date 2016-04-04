@@ -1,5 +1,7 @@
 # Enforce spacing before and after semicolons (semi-spacing)
 
+(fixable) The --fix option on the [command line](../user-guide/command-line-interface#fix) automatically fixes problems reported by this rule.
+
 JavaScript allows you to place unnecessary spaces before or after a semicolon.
 
 Disallowing or enforcing space around a semicolon can improve the readability of your program.
@@ -9,8 +11,6 @@ var a = "b" ;
 
 var c = "d";var e = "f";
 ```
-
-**Fixable:** This rule is automatically fixable using the `--fix` flag on the command line.
 
 ## Rule Details
 

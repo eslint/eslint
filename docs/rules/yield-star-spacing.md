@@ -1,6 +1,6 @@
 # Enforce spacing around the `*` in `yield*` expressions (yield-star-spacing)
 
-**Fixable:** This rule is automatically fixable using the `--fix` flag on the command line.
+(fixable) The --fix option on the [command line](../user-guide/command-line-interface#fix) automatically fixes problems reported by this rule.
 
 ## Rule Details
 

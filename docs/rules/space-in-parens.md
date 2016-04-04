@@ -1,5 +1,7 @@
 # Disallow or enforce spaces inside of parentheses (space-in-parens)
 
+(fixable) The --fix option on the [command line](../user-guide/command-line-interface#fix) automatically fixes problems reported by this rule.
+
 Some style guides require or disallow spaces inside of parentheses:
 
 ```js
@@ -9,8 +11,6 @@ var x = ( 1 + 2 ) * 3;
 foo('bar');
 var x = (1 + 2) * 3;
 ```
-
-**Fixable:** This rule is automatically fixable using the `--fix` flag on the command line.
 
 ## Rule Details
 
