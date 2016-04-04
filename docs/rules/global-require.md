@@ -67,6 +67,9 @@ require('x');
 var y = require('y');
 var z;
 z = require('z').initialize();
+var my = {
+    func: require('my.func')
+};
 
 // requiring a module and using it in a function is ok
 var fs = require('fs');

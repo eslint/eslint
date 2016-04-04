@@ -31,7 +31,8 @@ var valid = [
     { code: "var logger = require(DEBUG ? 'dev-logger' : 'logger');" },
     { code: "var logger = DEBUG ? require('dev-logger') : require('logger');" },
     { code: "function localScopedRequire(require) { require('y'); }" },
-    { code: "var someFunc = require('./someFunc'); someFunc(function(require) { return('bananas'); });" }
+    { code: "var someFunc = require('./someFunc'); someFunc(function(require) { return('bananas'); });" },
+    { code: "var x = {\n\ty: require('z')\n};" }
 ];
 
 var message = "Unexpected require().";
@@ -59,6 +60,15 @@ var invalid = [
         }]
     },
     {
+        code: "var x; if (y) { x = { z: require('debug') }; }",
+        errors: [{
+            line: 1,
+            column: 26,
+            message: message,
+            type: type
+        }]
+    },
+    {
         code: "var x; if (y) { x = require('debug').baz; }",
         errors: [{
             line: 1,
@@ -77,10 +87,28 @@ var invalid = [
         }]
     },
     {
+        code: "function x() { var z = { y: require('y') }; }",
+        errors: [{
+            line: 1,
+            column: 29,
+            message: message,
+            type: type
+        }]
+    },
+    {
         code: "try { require('x'); } catch (e) { console.log(e); }",
         errors: [{
             line: 1,
             column: 7,
+            message: message,
+            type: type
+        }]
+    },
+    {
+        code: "try { var y = { x: require('x') }; } catch (e) { console.log(e); }",
+        errors: [{
+            line: 1,
+            column: 20,
             message: message,
             type: type
         }]
@@ -112,6 +140,15 @@ var invalid = [
         errors: [{
             line: 1,
             column: 23,
+            message: message,
+            type: type
+        }]
+    },
+    {
+        code: "switch(x) { case '1': var v = { mod: require('1') }; break; }",
+        errors: [{
+            line: 1,
+            column: 38,
             message: message,
             type: type
         }]
