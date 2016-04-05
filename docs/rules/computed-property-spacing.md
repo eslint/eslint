@@ -1,6 +1,6 @@
 # Disallow or enforce spaces inside of computed properties. (computed-property-spacing)
 
-(fixable) The --fix option on the [command line](../user-guide/command-line-interface#fix) automatically fixes problems reported by this rule.
+(fixable) The `--fix` option on the [command line](../user-guide/command-line-interface#fix) automatically fixes problems reported by this rule.
 
 While formatting preferences are very personal, a number of style guides require
 or disallow spaces between computed properties in the following situations:
