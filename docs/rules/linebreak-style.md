@@ -1,6 +1,6 @@
 # Enforce linebreak style (linebreak-style)
 
-(fixable) The --fix option on the [command line](../user-guide/command-line-interface#fix) automatically fixes problems reported by this rule.
+(fixable) The `--fix` option on the [command line](../user-guide/command-line-interface#fix) automatically fixes problems reported by this rule.
 
 When developing with a lot of people all having different editors, VCS applications and operating systems it may occur that
 different line endings are written by either of the mentioned (might especially happen when using the windows and mac versions of SourceTree together).

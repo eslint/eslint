@@ -1,6 +1,6 @@
 # Enforce Usage of Spacing in Template Strings (template-curly-spacing)
 
-(fixable) The --fix option on the [command line](../user-guide/command-line-interface#fix) automatically fixes problems reported by this rule.
+(fixable) The `--fix` option on the [command line](../user-guide/command-line-interface#fix) automatically fixes problems reported by this rule.
 
 We can embed expressions in template strings with using a pair of `${` and `}`.
 This rule can force usage of spacing inside of the curly brace pair according to style guides.
