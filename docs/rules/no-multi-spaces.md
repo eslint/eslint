@@ -1,6 +1,6 @@
 # Disallow multiple spaces (no-multi-spaces)
 
-(fixable) The --fix option on the [command line](../user-guide/command-line-interface#fix) automatically fixes problems reported by this rule.
+(fixable) The `--fix` option on the [command line](../user-guide/command-line-interface#fix) automatically fixes problems reported by this rule.
 
 Multiple spaces in a row that are not used for indentation are typically mistakes. For example:
 
