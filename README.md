@@ -74,6 +74,7 @@ These folks keep the project moving and are resources for help:
 * Alberto Rodríguez ([@alberto](https://github.com/alberto)) - committer
 * Kai Cataldo ([@kaicataldo](https://github.com/kaicataldo)) - committer
 * Michael Ficarra ([@michaelficarra](https://github.com/michaelficarra)) - committer
+* Mark Pedrotti ([@pedrottimark](https://github.com/pedrottimark)) - committer
 
 ## Releases
 
