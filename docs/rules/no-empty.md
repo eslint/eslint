@@ -57,6 +57,37 @@ try {
 
 Since you must always have at least a `catch` or a `finally` block for any `try`, it is common to have empty block statements when execution should continue regardless of error.
 
+## Options
+
+### allowEmptyCatch
+
+Enabling the `allowEmptyCatch` option allows empty catch statements without a comment (but still requires comments in all other empty blocks).
+
+You can enable this option in your config like this:
+
+```json
+{
+    "no-empty": ["error", { "allowEmptyCatch": true }]
+}
+```
+
+Examples of additional **correct** code when the `allowEmptyCatch` option is enabled:
+
+```js
+/* eslint no-empty: ["error", { "allowEmptyCatch": true }] */
+try {
+    doSomething();
+} catch (ex) {}
+
+try {
+    doSomething();
+}
+catch (ex) {}
+finally {
+    /* continue regardless of error */
+}
+```
+
 ## When Not To Use It
 
 If you intentionally use empty block statements then you can disable this rule.
