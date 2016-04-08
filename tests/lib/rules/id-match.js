@@ -22,6 +22,15 @@ var ruleTester = new RuleTester();
 ruleTester.run("id-match", rule, {
     valid: [
         {
+            code: "__foo = \"Matthieu\"",
+            options: [
+                "^[a-z]+$",
+                {
+                    onlyDeclarations: true
+                }
+            ]
+        },
+        {
             code: "firstname = \"Matthieu\"",
             options: ["^[a-z]+$"]
         },
@@ -139,6 +148,21 @@ ruleTester.run("id-match", rule, {
         }
     ],
     invalid: [
+        {
+            code: "var __foo = \"Matthieu\"",
+            options: [
+                "^[a-z]+$",
+                {
+                    onlyDeclarations: true
+                }
+            ],
+            errors: [
+                {
+                    message: "Identifier '__foo' does not match the pattern '^[a-z]+$'.",
+                    type: "Identifier"
+                }
+            ]
+        },
         {
             code: "first_name = \"Matthieu\"",
             options: ["^[a-z]+$"],
