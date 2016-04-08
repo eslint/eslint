@@ -128,6 +128,38 @@ switch(foo) {
 
 Note that the last `case` statement in these examples does not cause a warning because there is nothing to fall through into.
 
+## Options
+
+This rule accepts a single options argument:
+
+* Set the `commentPattern` option to a regular expression string to change the test for intentional fallthrough comment
+
+### commentPattern
+
+Examples of **correct** code for the `{ "commentPattern": "break[\\s\\w]*omitted" }` option:
+
+```js
+/*eslint no-fallback: ["error", { "commentPattern": "break[\\s\\w]*omitted" }]*/
+
+switch(foo) {
+    case 1:
+        doSomething();
+        // break omitted
+
+    case 2:
+        doSomething();
+}
+
+switch(foo) {
+    case 1:
+        doSomething();
+        // caution: break is omitted intentionally
+
+    default:
+        doSomething();
+}
+```
+
 ## When Not To Use It
 
 If you don't want to enforce that each `case` statement should end with a `throw`, `return`, `break`, or comment, then you can safely turn this rule off.

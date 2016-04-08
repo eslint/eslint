@@ -53,7 +53,37 @@ ruleTester.run("no-fallthrough", rule, {
         "switch (foo) { case 0: try { break; } finally {} default: b(); }",
         "switch (foo) { case 0: try {} finally { break; } default: b(); }",
         "switch (foo) { case 0: try { throw 0; } catch (err) { break; } default: b(); }",
-        "switch (foo) { case 0: do { throw 0; } while(a); default: b(); }"
+        "switch (foo) { case 0: do { throw 0; } while(a); default: b(); }",
+        {
+            code: "switch(foo) { case 0: a(); /* no break */ case 1: b(); }",
+            options: [{
+                commentPattern: "no break"
+            }]
+        },
+        {
+            code: "switch(foo) { case 0: a(); /* no break: need to execute b() */ case 1: b(); }",
+            options: [{
+                commentPattern: "no break:\\s?\\w+"
+            }]
+        },
+        {
+            code: "switch(foo) { case 0: a();\n// need to execute b(), so\n// falling through\n case 1: b(); }",
+            options: [{
+                commentPattern: "falling through"
+            }]
+        },
+        {
+            code: "switch(foo) { case 0: a(); /* break omitted */ default:  b(); /* comment */ }",
+            options: [{
+                commentPattern: "break omitted"
+            }]
+        },
+        {
+            code: "switch(foo) { case 0: a(); /* caution: break is omitted intentionally */ case 1: b(); /* break omitted */ default: c(); }",
+            options: [{
+                commentPattern: "break[\\s\\w]+omitted"
+            }]
+        }
     ],
     invalid: [
         {
@@ -78,10 +108,57 @@ ruleTester.run("no-fallthrough", rule, {
                 }
             ]
         },
-        {code: "switch(foo) { case 0: a(); default: b() }", errors: errorsDefault},
-        {code: "switch(foo) { case 0: if (a) { break; } default: b() }", errors: errorsDefault},
-        {code: "switch(foo) { case 0: try { throw 0; } catch (err) {} default: b() }", errors: errorsDefault},
-        {code: "switch(foo) { case 0: while (a) { break; } default: b() }", errors: errorsDefault},
-        {code: "switch(foo) { case 0: do { break; } while (a); default: b() }", errors: errorsDefault}
+        {
+            code: "switch(foo) { case 0: a(); default: b() }",
+            errors: errorsDefault
+        },
+        {
+            code: "switch(foo) { case 0: if (a) { break; } default: b() }",
+            errors: errorsDefault
+        },
+        {
+            code: "switch(foo) { case 0: try { throw 0; } catch (err) {} default: b() }",
+            errors: errorsDefault
+        },
+        {
+            code: "switch(foo) { case 0: while (a) { break; } default: b() }",
+            errors: errorsDefault
+        },
+        {
+            code: "switch(foo) { case 0: do { break; } while (a); default: b() }",
+            errors: errorsDefault
+        },
+        {
+            code: "switch(foo) { case 0: a(); /* falling through */ default: b() }",
+            errors: errorsDefault
+        },
+        {
+            code: "switch(foo) { case 0: a();\n/* no break */\ncase 1: b(); }",
+            options: [{
+                commentPattern: "break omitted"
+            }],
+            errors: [
+                {
+                    message: "Expected a 'break' statement before 'case'.",
+                    type: "SwitchCase",
+                    line: 3,
+                    column: 1
+                }
+            ]
+        },
+        {
+            code: "switch(foo) { case 0: a();\n/* no break */\n/* todo: fix readability */\ndefault: b() }",
+            options: [{
+                commentPattern: "no break"
+            }],
+            errors: [
+                {
+                    message: errorsDefault.message,
+                    type: errorsDefault.type,
+                    line: 4,
+                    column: 1
+                }
+            ]
+        }
     ]
 });
