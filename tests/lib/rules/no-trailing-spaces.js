@@ -62,6 +62,15 @@ ruleTester.run("no-trailing-spaces", rule, {
         {
             code: "\n\tvar c = 4;",
             options: [{ skipBlankLines: true }]
+        },
+        {
+            code: "let str = `${a}\n   \n${b}`;",
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "let str = `${a}\n   \n${b}`;\n   \n   ",
+            parserOptions: { ecmaVersion: 6 },
+            options: [{ skipBlankLines: true }]
         }
     ],
 
@@ -295,7 +304,86 @@ ruleTester.run("no-trailing-spaces", rule, {
             options: [{
                 skipBlankLines: true
             }]
+        },
+        {
+            code: "var a = 'foo';   \nvar b = 'bar';  \n  \n",
+            output: "var a = 'foo';\nvar b = 'bar';\n  \n",
+            errors: [
+                {
+                    message: "Trailing spaces not allowed.",
+                    type: "Program",
+                    line: 1,
+                    column: 15
+                },
+                {
+                    message: "Trailing spaces not allowed.",
+                    type: "Program",
+                    line: 2,
+                    column: 15
+                }
+            ],
+            options: [{
+                skipBlankLines: true
+            }]
+        },
+        {
+            code: "let str = `${a}\n  \n${b}`;  \n",
+            output: "let str = `${a}\n  \n${b}`;\n",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                message: "Trailing spaces not allowed.",
+                type: "Program",
+                line: 3,
+                column: 7
+            }]
+        },
+        {
+            code: "let str = `\n${a}\n  \n${b}`;  \n\t",
+            output: "let str = `\n${a}\n  \n${b}`;\n",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    message: "Trailing spaces not allowed.",
+                    type: "Program",
+                    line: 4,
+                    column: 7
+                },
+                {
+                    message: "Trailing spaces not allowed.",
+                    type: "Program",
+                    line: 5,
+                    column: 1
+                }
+            ]
+        },
+        {
+            code: "let str = `  \n  ${a}\n  \n${b}`;  \n",
+            output: "let str = `  \n  ${a}\n  \n${b}`;\n",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    message: "Trailing spaces not allowed.",
+                    type: "Program",
+                    line: 4,
+                    column: 7
+                }
+            ]
+        },
+        {
+            code: "let str = `${a}\n  \n${b}`;  \n  \n",
+            output: "let str = `${a}\n  \n${b}`;\n  \n",
+            parserOptions: { ecmaVersion: 6 },
+            options: [{
+                skipBlankLines: true
+            }],
+            errors: [
+                {
+                    message: "Trailing spaces not allowed.",
+                    type: "Program",
+                    line: 3,
+                    column: 7
+                }
+            ]
         }
     ]
-
 });
