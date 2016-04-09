@@ -111,6 +111,18 @@ ruleTester.run("no-magic-numbers", rule, {
             ]
         },
         {
+            code: "a = a + 5;",
+            errors: [
+                { message: "No magic number: 5"}
+            ]
+        },
+        {
+            code: "a += 5;",
+            errors: [
+                { message: "No magic number: 5"}
+            ]
+        },
+        {
             code: "var foo = 0 + 1 + -2 + 2;",
             errors: [
                 { message: "No magic number: 0"},
