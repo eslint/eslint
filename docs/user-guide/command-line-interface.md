@@ -18,9 +18,9 @@ or:
 
     eslint lib/**
 
-Please note that when passing a glob as a parameter, it will be expanded by your shell. The results of the expansion can vary depending on your shell, and its configuration. If you want to use node `glob` syntax, you have to quote your parameter, as follows:
+Please note that when passing a glob as a parameter, it will be expanded by your shell. The results of the expansion can vary depending on your shell, and its configuration. If you want to use node `glob` syntax, you have to quote your parameter (using double quotes if you need it to run in Windows), as follows:
 
-    eslint 'lib/**'
+    eslint "lib/**"
 
 ## Options
 
@@ -185,7 +185,7 @@ In case a directory is specified a cache file will be created inside the specifi
 
 Example:
 
-    eslint 'src/**/*.js' --cache --cache-location '/Users/user/.eslintcache/'
+    eslint "src/**/*.js" --cache --cache-location "/Users/user/.eslintcache/"
 
 ### Specifying rules and plugins
 
