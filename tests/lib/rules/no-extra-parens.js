@@ -177,6 +177,11 @@ ruleTester.run("no-extra-parens", rule, {
         // Object literals as arrow function bodies need parentheses
         { code: "x => ({foo: 1})", parserOptions: { ecmaVersion: 6 } },
 
+        // https://github.com/eslint/eslint/issues/5789
+        { code: "a => ({b: c}[d])", parserOptions: { ecmaVersion: 6 } },
+        { code: "a => ({b: c}.d())", parserOptions: { ecmaVersion: 6 } },
+        { code: "a => ({b: c}.d.e)", parserOptions: { ecmaVersion: 6 } },
+
         // "functions" enables reports for function nodes only
         {code: "(0)", options: ["functions"]},
         {code: "a + (b * c)", options: ["functions"]},
