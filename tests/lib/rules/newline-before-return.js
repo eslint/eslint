@@ -78,7 +78,27 @@ ruleTester.run("newline-before-return", rule, {
         "function a() {\nif (b) { //comment\nreturn;\n}\n\nreturn c;\n}",
         "function a() {\nif (b) { return; } //comment\n\nreturn c;\n}",
         "function a() {\nif (b) { return; } /*multi-line\ncomment*/\n\nreturn c;\n}",
-        "function a() {\nif (b) { return; }\n\n/*multi-line\ncomment*/ return c;\n}"
+        "function a() {\nif (b) { return; }\n\n/*multi-line\ncomment*/ return c;\n}",
+        {
+            code: "return;",
+            parserOptions: { ecmaFeatures: { globalReturn: true } }
+        },
+        {
+            code: "var a;\n\nreturn;",
+            parserOptions: { ecmaFeatures: { globalReturn: true } }
+        },
+        {
+            code: "// comment\nreturn;",
+            parserOptions: { ecmaFeatures: { globalReturn: true } }
+        },
+        {
+            code: "/* comment */\nreturn;",
+            parserOptions: { ecmaFeatures: { globalReturn: true } }
+        },
+        {
+            code: "/* multi-line\ncomment */\nreturn;",
+            parserOptions: { ecmaFeatures: { globalReturn: true } }
+        }
     ],
 
     invalid: [
@@ -198,6 +218,34 @@ ruleTester.run("newline-before-return", rule, {
             errors: ["Expected newline before return statement."]
         }, {
             code: "function a() {\nif (b) { return; } /*multi-line\ncomment*/ return c;\n}",
+            errors: ["Expected newline before return statement."]
+        }, {
+            code: "\nreturn;",
+            parserOptions: { ecmaFeatures: { globalReturn: true } },
+            errors: ["Unexpected newline before return statement."]
+        }, {
+            code: "\n\nreturn;",
+            parserOptions: { ecmaFeatures: { globalReturn: true } },
+            errors: ["Unexpected newline before return statement."]
+        }, {
+            code: "\n// comment\nreturn;",
+            parserOptions: { ecmaFeatures: { globalReturn: true } },
+            errors: ["Unexpected newline before return statement."]
+        }, {
+            code: "\n/* comment */\nreturn;",
+            parserOptions: { ecmaFeatures: { globalReturn: true } },
+            errors: ["Unexpected newline before return statement."]
+        }, {
+            code: "\n/* multi-line\ncomment */\nreturn;",
+            parserOptions: { ecmaFeatures: { globalReturn: true } },
+            errors: ["Unexpected newline before return statement."]
+        }, {
+            code: "/* comment */\n\nreturn;",
+            parserOptions: { ecmaFeatures: { globalReturn: true } },
+            errors: ["Unexpected newline before return statement."]
+        }, {
+            code: "var a;\nreturn;",
+            parserOptions: { ecmaFeatures: { globalReturn: true } },
             errors: ["Expected newline before return statement."]
         }
     ]
