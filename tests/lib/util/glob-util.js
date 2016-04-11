@@ -219,6 +219,50 @@ describe("globUtil", function() {
             ]);
         });
 
+        it("should silently ignore default ignored files if not passed explicitly", function() {
+            var directory = getFixturePath("glob-util", "hidden");
+            var patterns = [directory];
+            var result = globUtil.listFilesToProcess(patterns, {
+                cwd: getFixturePath()
+            });
+
+            assert.equal(result.length, 0);
+        });
+
+        it("should ignore and warn for default ignored files when passed explicitly", function() {
+            var filename = getFixturePath("glob-util", "hidden", ".foo.js");
+            var patterns = [filename];
+            var result = globUtil.listFilesToProcess(patterns, {
+                cwd: getFixturePath()
+            });
+
+            assert.equal(result.length, 1);
+            assert.deepEqual(result[0], { filename: filename, ignored: true });
+        });
+
+        it("should silently ignore default ignored files if not passed explicitly even if ignore is false", function() {
+            var directory = getFixturePath("glob-util", "hidden");
+            var patterns = [directory];
+            var result = globUtil.listFilesToProcess(patterns, {
+                cwd: getFixturePath(),
+                ignore: false
+            });
+
+            assert.equal(result.length, 0);
+        });
+
+        it("should not ignore default ignored files when passed explicitly if ignore is false", function() {
+            var filename = getFixturePath("glob-util", "hidden", ".foo.js");
+            var patterns = [filename];
+            var result = globUtil.listFilesToProcess(patterns, {
+                cwd: getFixturePath(),
+                ignore: false
+            });
+
+            assert.equal(result.length, 1);
+            assert.deepEqual(result[0], { filename: filename, ignored: false });
+        });
+
         it("should not return a file which does not exist", function() {
             var patterns = ["tests/fixtures/glob-util/hidden/bar.js"];
             var result = globUtil.listFilesToProcess(patterns);
