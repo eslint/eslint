@@ -8,266 +8,265 @@ Some rules are fixable using the `--fix` command line flag. Those rules are mark
 
 The following rules point out areas where you might have made mistakes.
 
-* [comma-dangle](comma-dangle.md): disallow or enforce trailing commas (recommended)
-* [no-cond-assign](no-cond-assign.md): disallow assignment in conditional expressions (recommended)
-* [no-console](no-console.md): disallow use of `console` (recommended)
-* [no-constant-condition](no-constant-condition.md): disallow use of constant expressions in conditions (recommended)
+* [comma-dangle](comma-dangle.md): require or disallow trailing commas (recommended)
+* [no-cond-assign](no-cond-assign.md): disallow assignment operators in conditional expressions (recommended)
+* [no-console](no-console.md): disallow the use of `console` (recommended)
+* [no-constant-condition](no-constant-condition.md): disallow constant expressions in conditions (recommended)
 * [no-control-regex](no-control-regex.md): disallow control characters in regular expressions (recommended)
-* [no-debugger](no-debugger.md): disallow use of `debugger` (recommended)
-* [no-dupe-args](no-dupe-args.md): disallow duplicate arguments in functions (recommended)
-* [no-dupe-keys](no-dupe-keys.md): disallow duplicate keys when creating object literals (recommended)
-* [no-duplicate-case](no-duplicate-case.md): disallow a duplicate case label. (recommended)
+* [no-debugger](no-debugger.md): disallow the use of `debugger` (recommended)
+* [no-dupe-args](no-dupe-args.md): disallow duplicate arguments in `function` definitions (recommended)
+* [no-dupe-keys](no-dupe-keys.md): disallow duplicate keys in object literals (recommended)
+* [no-duplicate-case](no-duplicate-case.md): disallow duplicate case labels (recommended)
 * [no-empty](no-empty.md): disallow empty block statements (recommended)
-* [no-empty-character-class](no-empty-character-class.md): disallow the use of empty character classes in regular expressions (recommended)
-* [no-ex-assign](no-ex-assign.md): disallow assigning to the exception in a `catch` block (recommended)
-* [no-extra-boolean-cast](no-extra-boolean-cast.md): disallow double-negation boolean casts in a boolean context (recommended)
+* [no-empty-character-class](no-empty-character-class.md): disallow empty character classes in regular expressions (recommended)
+* [no-ex-assign](no-ex-assign.md): disallow reassigning exceptions in `catch` clauses (recommended)
+* [no-extra-boolean-cast](no-extra-boolean-cast.md): disallow unnecessary boolean casts (recommended)
 * [no-extra-parens](no-extra-parens.md): disallow unnecessary parentheses
 * [no-extra-semi](no-extra-semi.md): disallow unnecessary semicolons (recommended) (fixable)
-* [no-func-assign](no-func-assign.md): disallow overwriting functions written as function declarations (recommended)
-* [no-inner-declarations](no-inner-declarations.md): disallow function or variable declarations in nested blocks (recommended)
-* [no-invalid-regexp](no-invalid-regexp.md): disallow invalid regular expression strings in the `RegExp` constructor (recommended)
+* [no-func-assign](no-func-assign.md): disallow reassigning `function` declarations (recommended)
+* [no-inner-declarations](no-inner-declarations.md): disallow `function` or `var` declarations in nested blocks (recommended)
+* [no-invalid-regexp](no-invalid-regexp.md): disallow invalid regular expression strings in `RegExp` constructors (recommended)
 * [no-irregular-whitespace](no-irregular-whitespace.md): disallow irregular whitespace outside of strings and comments (recommended)
-* [no-negated-in-lhs](no-negated-in-lhs.md): disallow negation of the left operand of an `in` expression (recommended)
-* [no-obj-calls](no-obj-calls.md): disallow the use of object properties of the global object (`Math` and `JSON`) as functions (recommended)
-* [no-regex-spaces](no-regex-spaces.md): disallow multiple spaces in a regular expression literal (recommended)
+* [no-negated-in-lhs](no-negated-in-lhs.md): disallow negating the left operand in `in` expressions (recommended)
+* [no-obj-calls](no-obj-calls.md): disallow calling global object properties as functions (recommended)
+* [no-regex-spaces](no-regex-spaces.md): disallow multiple spaces in regular expression literals (recommended)
 * [no-sparse-arrays](no-sparse-arrays.md): disallow sparse arrays (recommended)
-* [no-unexpected-multiline](no-unexpected-multiline.md): disallow code that looks like two expressions but is actually one (recommended)
-* [no-unreachable](no-unreachable.md): disallow unreachable statements after a return, throw, continue, or break statement (recommended)
-* [use-isnan](use-isnan.md): disallow comparisons with the value `NaN` (recommended)
-* [valid-jsdoc](valid-jsdoc.md): ensure JSDoc comments are valid
-* [valid-typeof](valid-typeof.md): ensure results of typeof are compared against a valid string (recommended)
+* [no-unexpected-multiline](no-unexpected-multiline.md): disallow confusing multiline expressions (recommended)
+* [no-unreachable](no-unreachable.md): disallow unreachable code after `return`, `throw`, `continue`, and `break` statements (recommended)
+* [use-isnan](use-isnan.md): require calls to `isNaN()` when checking for `NaN` (recommended)
+* [valid-jsdoc](valid-jsdoc.md): enforce valid JSDoc comments
+* [valid-typeof](valid-typeof.md): enforce comparing `typeof` expressions against valid strings (recommended)
 
 ## Best Practices
 
 These are rules designed to prevent you from making mistakes. They either prescribe a better way of doing something or help you avoid footguns.
 
-* [accessor-pairs](accessor-pairs.md): enforce getter/setter pairs in objects
-* [array-callback-return](array-callback-return.md): enforce return statements in callbacks of array's methods
-* [block-scoped-var](block-scoped-var.md): treat `var` statements as if they were block scoped
-* [complexity](complexity.md): specify the maximum cyclomatic complexity allowed in a program
+* [accessor-pairs](accessor-pairs.md): enforce getter and setter pairs in objects
+* [array-callback-return](array-callback-return.md): enforce `return` statements in callbacks of array methods
+* [block-scoped-var](block-scoped-var.md): enforce the use of variables within the scope they are defined
+* [complexity](complexity.md): enforce a maximum cyclomatic complexity allowed in a program
 * [consistent-return](consistent-return.md): require `return` statements to either always or never specify values
-* [curly](curly.md): specify curly brace conventions for all control statements
-* [default-case](default-case.md): require `default` case in `switch` statements
-* [dot-location](dot-location.md): enforce consistent newlines before or after dots
-* [dot-notation](dot-notation.md): encourage use of dot notation whenever possible
-* [eqeqeq](eqeqeq.md): require use of `===` and `!==`
-* [guard-for-in](guard-for-in.md): ensure `for-in` loops have an `if` statement
-* [no-alert](no-alert.md): disallow use of `alert`, `confirm`, and `prompt`
-* [no-caller](no-caller.md): disallow use of `arguments.caller` or `arguments.callee`
+* [curly](curly.md): enforce consistent brace style for all control statements
+* [default-case](default-case.md): require `default` cases in `switch` statements
+* [dot-location](dot-location.md): enforce consistent newlines before and after dots
+* [dot-notation](dot-notation.md): enforce dot notation whenever possible
+* [eqeqeq](eqeqeq.md): require the use of `===` and `!==`
+* [guard-for-in](guard-for-in.md): require `for-in` loops to include an `if` statement
+* [no-alert](no-alert.md): disallow the use of `alert`, `confirm`, and `prompt`
+* [no-caller](no-caller.md): disallow the use of `arguments.caller` or `arguments.callee`
 * [no-case-declarations](no-case-declarations.md): disallow lexical declarations in case clauses (recommended)
-* [no-div-regex](no-div-regex.md): disallow division operators explicitly at beginning of regular expression
-* [no-else-return](no-else-return.md): disallow `else` after a `return` in an `if`
-* [no-empty-function](no-empty-function.md): disallow use of empty functions
-* [no-empty-pattern](no-empty-pattern.md): disallow use of empty destructuring patterns (recommended)
-* [no-eq-null](no-eq-null.md): disallow comparisons to null without a type-checking operator
-* [no-eval](no-eval.md): disallow use of `eval()`
-* [no-extend-native](no-extend-native.md): disallow adding to native types
-* [no-extra-bind](no-extra-bind.md): disallow unnecessary function binding
+* [no-div-regex](no-div-regex.md): disallow division operators explicitly at the beginning of regular expressions
+* [no-else-return](no-else-return.md): disallow `else` blocks after `return` statements in `if` statements
+* [no-empty-function](no-empty-function.md): disallow empty functions
+* [no-empty-pattern](no-empty-pattern.md): disallow empty destructuring patterns (recommended)
+* [no-eq-null](no-eq-null.md): disallow `null` comparisons without type-checking operators
+* [no-eval](no-eval.md): disallow the use of `eval()`
+* [no-extend-native](no-extend-native.md): disallow extending native types
+* [no-extra-bind](no-extra-bind.md): disallow unnecessary calls to `.bind()`
 * [no-extra-label](no-extra-label.md): disallow unnecessary labels
 * [no-fallthrough](no-fallthrough.md): disallow fallthrough of `case` statements (recommended)
-* [no-floating-decimal](no-floating-decimal.md): disallow the use of leading or trailing decimal points in numeric literals
-* [no-implicit-coercion](no-implicit-coercion.md): disallow the type conversions with shorter notations
-* [no-implicit-globals](no-implicit-globals.md): disallow `var` and named functions in global scope
-* [no-implied-eval](no-implied-eval.md): disallow use of `eval()`-like methods
+* [no-floating-decimal](no-floating-decimal.md): disallow leading or trailing decimal points in numeric literals
+* [no-implicit-coercion](no-implicit-coercion.md): disallow shorthand type conversions
+* [no-implicit-globals](no-implicit-globals.md): disallow `var` and named `function` declarations in the global scope
+* [no-implied-eval](no-implied-eval.md): disallow the use of `eval()`-like methods
 * [no-invalid-this](no-invalid-this.md): disallow `this` keywords outside of classes or class-like objects
-* [no-iterator](no-iterator.md): disallow usage of `__iterator__` property
-* [no-labels](no-labels.md): disallow use of labeled statements
+* [no-iterator](no-iterator.md): disallow the use of the `__iterator__` property
+* [no-labels](no-labels.md): disallow labeled statements
 * [no-lone-blocks](no-lone-blocks.md): disallow unnecessary nested blocks
-* [no-loop-func](no-loop-func.md): disallow creation of functions within loops
-* [no-magic-numbers](no-magic-numbers.md): disallow the use of magic numbers
-* [no-multi-spaces](no-multi-spaces.md): disallow use of multiple spaces (fixable)
-* [no-multi-str](no-multi-str.md): disallow use of multiline strings
-* [no-native-reassign](no-native-reassign.md): disallow reassignments of native objects
-* [no-new](no-new.md): disallow use of the `new` operator when not part of an assignment or comparison
-* [no-new-func](no-new-func.md): disallow use of new operator for `Function` object
-* [no-new-wrappers](no-new-wrappers.md): disallow creating new instances of `String`,`Number`, and `Boolean`
-* [no-octal](no-octal.md): disallow use of octal literals (recommended)
-* [no-octal-escape](no-octal-escape.md): disallow use of octal escape sequences in string literals, such as `var foo = "Copyright \251";`
-* [no-param-reassign](no-param-reassign.md): disallow reassignment of function parameters
-* [no-proto](no-proto.md): disallow usage of `__proto__` property
-* [no-redeclare](no-redeclare.md): disallow declaring the same variable more than once (recommended)
-* [no-return-assign](no-return-assign.md): disallow use of assignment in `return` statement
-* [no-script-url](no-script-url.md): disallow use of `javascript:` urls.
+* [no-loop-func](no-loop-func.md): disallow `function` declarations and expressions inside loop statements
+* [no-magic-numbers](no-magic-numbers.md): disallow magic numbers
+* [no-multi-spaces](no-multi-spaces.md): disallow multiple spaces (fixable)
+* [no-multi-str](no-multi-str.md): disallow multiline strings
+* [no-native-reassign](no-native-reassign.md): disallow reassigning native objects
+* [no-new](no-new.md): disallow `new` operators outside of assignments or comparisons
+* [no-new-func](no-new-func.md): disallow `new` operators with the `Function` object
+* [no-new-wrappers](no-new-wrappers.md): disallow `new` operators with the `String`, `Number`, and `Boolean` objects
+* [no-octal](no-octal.md): disallow octal literals (recommended)
+* [no-octal-escape](no-octal-escape.md): disallow octal escape sequences in string literals
+* [no-param-reassign](no-param-reassign.md): disallow reassigning `function` parameters
+* [no-proto](no-proto.md): disallow the use of the `__proto__` property
+* [no-redeclare](no-redeclare.md): disallow `var` redeclaration (recommended)
+* [no-return-assign](no-return-assign.md): disallow assignment operators in `return` statements
+* [no-script-url](no-script-url.md): disallow `javascript:` urls
 * [no-self-assign](no-self-assign.md): disallow assignments where both sides are exactly the same (recommended)
 * [no-self-compare](no-self-compare.md): disallow comparisons where both sides are exactly the same
-* [no-sequences](no-sequences.md): disallow use of the comma operator
-* [no-throw-literal](no-throw-literal.md): restrict what can be thrown as an exception
-* [no-unmodified-loop-condition](no-unmodified-loop-condition.md): disallow unmodified conditions of loops
-* [no-unused-expressions](no-unused-expressions.md): disallow usage of expressions in statement position
+* [no-sequences](no-sequences.md): disallow comma operators
+* [no-throw-literal](no-throw-literal.md): disallow throwing literals as exceptions
+* [no-unmodified-loop-condition](no-unmodified-loop-condition.md): disallow unmodified loop conditions
+* [no-unused-expressions](no-unused-expressions.md): disallow unused expressions
 * [no-unused-labels](no-unused-labels.md): disallow unused labels (recommended)
-* [no-useless-call](no-useless-call.md): disallow unnecessary `.call()` and `.apply()`
+* [no-useless-call](no-useless-call.md): disallow unnecessary calls to `.call()` and `.apply()`
 * [no-useless-concat](no-useless-concat.md): disallow unnecessary concatenation of literals or template literals
-* [no-useless-escape](no-useless-escape.md): disallow unnecessary usage of escape character
-* [no-void](no-void.md): disallow use of the `void` operator
-* [no-warning-comments](no-warning-comments.md): disallow usage of configurable warning terms in comments: e.g. `TODO` or `FIXME`
-* [no-with](no-with.md): disallow use of the `with` statement
-* [radix](radix.md): require use of the second argument for `parseInt()`
-* [vars-on-top](vars-on-top.md): require declaration of all vars at the top of their containing scope
-* [wrap-iife](wrap-iife.md): require immediate function invocation to be wrapped in parentheses
-* [yoda](yoda.md): require or disallow Yoda conditions
+* [no-useless-escape](no-useless-escape.md): disallow unnecessary escape characters
+* [no-void](no-void.md): disallow `void` operators
+* [no-warning-comments](no-warning-comments.md): disallow specified warning terms in comments
+* [no-with](no-with.md): disallow `with` statements
+* [radix](radix.md): enforce the consistent use of the radix argument when using `parseInt()`
+* [vars-on-top](vars-on-top.md): require `var` declarations be placed at the top of their containing scope
+* [wrap-iife](wrap-iife.md): require parentheses around immediate `function` invocations
+* [yoda](yoda.md): require or disallow "Yoda" conditions
 
 ## Strict Mode
 
 These rules relate to using strict mode and strict mode directives.
 
-* [strict](strict.md): require effective use of strict mode directives
+* [strict](strict.md): require or disallow strict mode directives
 
 ## Variables
 
 These rules have to do with variable declarations.
 
-* [init-declarations](init-declarations.md): enforce or disallow variable initializations at definition
-* [no-catch-shadow](no-catch-shadow.md): disallow the catch clause parameter name being the same as a variable in the outer scope
-* [no-delete-var](no-delete-var.md): disallow deletion of variables (recommended)
+* [init-declarations](init-declarations.md): require or disallow initialization in `var` declarations
+* [no-catch-shadow](no-catch-shadow.md): disallow `catch` clause parameters from shadowing variables in the outer scope
+* [no-delete-var](no-delete-var.md): disallow deleting variables (recommended)
 * [no-label-var](no-label-var.md): disallow labels that share a name with a variable
-* [no-restricted-globals](no-restricted-globals.md): restrict usage of specified global variables
-* [no-shadow](no-shadow.md): disallow declaration of variables already declared in the outer scope
-* [no-shadow-restricted-names](no-shadow-restricted-names.md): disallow shadowing of names such as `arguments`
-* [no-undef](no-undef.md): disallow use of undeclared variables unless mentioned in a `/*global */` block (recommended)
-* [no-undef-init](no-undef-init.md): disallow use of undefined when initializing variables
-* [no-undefined](no-undefined.md): disallow use of `undefined` variable
-* [no-unused-vars](no-unused-vars.md): disallow declaration of variables that are not used in the code (recommended)
-* [no-use-before-define](no-use-before-define.md): disallow use of variables before they are defined
+* [no-restricted-globals](no-restricted-globals.md): disallow specified global variables
+* [no-shadow](no-shadow.md): disallow `var` declarations from shadowing variables in the outer scope
+* [no-shadow-restricted-names](no-shadow-restricted-names.md): disallow identifiers from shadowing restricted names
+* [no-undef](no-undef.md): disallow the use of undeclared variables unless mentioned in `/*global */` comments (recommended)
+* [no-undef-init](no-undef-init.md): disallow initializing variables to `undefined`
+* [no-undefined](no-undefined.md): disallow the use of `undefined` as an identifier
+* [no-unused-vars](no-unused-vars.md): disallow unused variables (recommended)
+* [no-use-before-define](no-use-before-define.md): disallow the use of variables before they are defined
 
 ## Node.js and CommonJS
 
 These rules are specific to JavaScript running on Node.js or using CommonJS in the browser.
 
-* [callback-return](callback-return.md): enforce `return` after a callback
-* [global-require](global-require.md): enforce `require()` on top-level module scope
-* [handle-callback-err](handle-callback-err.md): enforce error handling in callbacks
-* [no-mixed-requires](no-mixed-requires.md): disallow mixing regular variable and require declarations
-* [no-new-require](no-new-require.md): disallow use of `new` operator with the `require` function
+* [callback-return](callback-return.md): require `return` statements after callbacks
+* [global-require](global-require.md): require `require()` calls to be placed at top-level module scope
+* [handle-callback-err](handle-callback-err.md): require error handling in callbacks
+* [no-mixed-requires](no-mixed-requires.md): disallow `require` calls to be mixed with regular `var` declarations
+* [no-new-require](no-new-require.md): disallow `new` operators with calls to `require`
 * [no-path-concat](no-path-concat.md): disallow string concatenation with `__dirname` and `__filename`
-* [no-process-env](no-process-env.md): disallow use of `process.env`
-* [no-process-exit](no-process-exit.md): disallow `process.exit()`
-* [no-restricted-modules](no-restricted-modules.md): restrict usage of specified modules when loaded by `require` function
-* [no-sync](no-sync.md): disallow use of synchronous methods
+* [no-process-env](no-process-env.md): disallow the use of `process.env`
+* [no-process-exit](no-process-exit.md): disallow the use of `process.exit()`
+* [no-restricted-modules](no-restricted-modules.md): disallow specified modules when loaded by `require`
+* [no-sync](no-sync.md): disallow synchronous methods
 
 ## Stylistic Issues
 
 These rules are purely matters of style and are quite subjective.
 
-* [array-bracket-spacing](array-bracket-spacing.md): enforce spacing inside array brackets (fixable)
-* [block-spacing](block-spacing.md): disallow or enforce spaces inside of single line blocks (fixable)
-* [brace-style](brace-style.md): enforce one true brace style
-* [camelcase](camelcase.md): require camel case names
-* [comma-spacing](comma-spacing.md): enforce spacing before and after comma (fixable)
-* [comma-style](comma-style.md): enforce one true comma style
-* [computed-property-spacing](computed-property-spacing.md): require or disallow padding inside computed properties (fixable)
+* [array-bracket-spacing](array-bracket-spacing.md): enforce consistent spacing inside array brackets (fixable)
+* [block-spacing](block-spacing.md): enforce consistent spacing inside single-line blocks (fixable)
+* [brace-style](brace-style.md): enforce consistent brace style for blocks
+* [camelcase](camelcase.md): enforce camelcase naming convention
+* [comma-spacing](comma-spacing.md): enforce consistent spacing before and after commas (fixable)
+* [comma-style](comma-style.md): enforce consistent comma style
+* [computed-property-spacing](computed-property-spacing.md): enforce consistent spacing inside computed property brackets (fixable)
 * [consistent-this](consistent-this.md): enforce consistent naming when capturing the current execution context
-* [eol-last](eol-last.md): enforce newline at the end of file, with no multiple empty lines (fixable)
-* [func-names](func-names.md): require function expressions to have a name
-* [func-style](func-style.md): enforce use of function declarations or expressions
-* [id-blacklist](id-blacklist.md): disallow certain identifiers to prevent them being used
-* [id-length](id-length.md): enforce minimum and maximum identifier lengths (variable names, property names etc.)
-* [id-match](id-match.md): require identifiers to match the provided regular expression
-* [indent](indent.md): specify tab or space width for your code (fixable)
-* [jsx-quotes](jsx-quotes.md): specify whether double or single quotes should be used in JSX attributes (fixable)
-* [key-spacing](key-spacing.md): enforce spacing between keys and values in object literal properties
-* [keyword-spacing](keyword-spacing.md): enforce spacing before and after keywords (fixable)
-* [linebreak-style](linebreak-style.md): enforce linebreak style (fixable)
-* [lines-around-comment](lines-around-comment.md): enforce empty lines around comments
-* [max-depth](max-depth.md): specify the maximum depth that blocks can be nested
-* [max-len](max-len.md): specify the maximum length of a line in your program
-* [max-nested-callbacks](max-nested-callbacks.md): specify the maximum depth callbacks can be nested
-* [max-params](max-params.md): specify the number of parameters that can be used in the function declaration
-* [max-statements](max-statements.md): specify the maximum number of statement allowed in a function
-* [max-statements-per-line](max-statements-per-line.md): specify the maximum number of statements allowed per line
-* [new-cap](new-cap.md): require a capital letter for constructors
-* [new-parens](new-parens.md): disallow the omission of parentheses when invoking a constructor with no arguments
-* [newline-after-var](newline-after-var.md): require or disallow an empty newline after variable declarations
-* [newline-before-return](newline-before-return.md): require newline before `return` statement
-* [newline-per-chained-call](newline-per-chained-call.md): enforce newline after each call when chaining the calls
-* [no-array-constructor](no-array-constructor.md): disallow use of the `Array` constructor
-* [no-bitwise](no-bitwise.md): disallow use of bitwise operators
-* [no-continue](no-continue.md): disallow use of the `continue` statement
-* [no-inline-comments](no-inline-comments.md): disallow comments inline after code
-* [no-lonely-if](no-lonely-if.md): disallow `if` as the only statement in an `else` block
+* [eol-last](eol-last.md): enforce at least one newline at the end of files (fixable)
+* [func-names](func-names.md): enforce named `function` expressions
+* [func-style](func-style.md): enforce the consistent use of either `function` declarations or expressions
+* [id-blacklist](id-blacklist.md): disallow specified identifiers
+* [id-length](id-length.md): enforce minimum and maximum identifier lengths
+* [id-match](id-match.md): require identifiers to match a specified regular expression
+* [indent](indent.md): enforce consistent indentation (fixable)
+* [jsx-quotes](jsx-quotes.md): enforce the consistent use of either double or single quotes in JSX attributes (fixable)
+* [key-spacing](key-spacing.md): enforce consistent spacing between keys and values in object literal properties
+* [keyword-spacing](keyword-spacing.md): enforce consistent spacing before and after keywords (fixable)
+* [linebreak-style](linebreak-style.md): enforce consistent linebreak style (fixable)
+* [lines-around-comment](lines-around-comment.md): require empty lines around comments
+* [max-depth](max-depth.md): enforce a maximum depth that blocks can be nested
+* [max-len](max-len.md): enforce a maximum line length
+* [max-nested-callbacks](max-nested-callbacks.md): enforce a maximum depth that callbacks can be nested
+* [max-params](max-params.md): enforce a maximum number of parameters in `function` definitions
+* [max-statements](max-statements.md): enforce a maximum number of statements allowed in `function` blocks
+* [max-statements-per-line](max-statements-per-line.md): enforce a maximum number of statements allowed per line
+* [new-cap](new-cap.md): require constructor `function` names to begin with a capital letter
+* [new-parens](new-parens.md): require parentheses when invoking a constructor with no arguments
+* [newline-after-var](newline-after-var.md): require or disallow an empty line after `var` declarations
+* [newline-before-return](newline-before-return.md): require an empty line before `return` statements
+* [newline-per-chained-call](newline-per-chained-call.md): require a newline after each call in a method chain
+* [no-array-constructor](no-array-constructor.md): disallow `Array` constructors
+* [no-bitwise](no-bitwise.md): disallow bitwise operators
+* [no-continue](no-continue.md): disallow `continue` statements
+* [no-inline-comments](no-inline-comments.md): disallow inline comments after code
+* [no-lonely-if](no-lonely-if.md): disallow `if` statements as the only statement in `else` blocks
 * [no-mixed-spaces-and-tabs](no-mixed-spaces-and-tabs.md): disallow mixed spaces and tabs for indentation (recommended)
 * [no-multiple-empty-lines](no-multiple-empty-lines.md): disallow multiple empty lines
 * [no-negated-condition](no-negated-condition.md): disallow negated conditions
 * [no-nested-ternary](no-nested-ternary.md): disallow nested ternary expressions
-* [no-new-object](no-new-object.md): disallow the use of the `Object` constructor
-* [no-plusplus](no-plusplus.md): disallow use of unary operators, `++` and `--`
-* [no-restricted-syntax](no-restricted-syntax.md): disallow use of certain syntax in code
-* [no-spaced-func](no-spaced-func.md): disallow space between function identifier and application (fixable)
-* [no-ternary](no-ternary.md): disallow the use of ternary operators
+* [no-new-object](no-new-object.md): disallow `Object` constructors
+* [no-plusplus](no-plusplus.md): disallow the unary operators `++` and `--`
+* [no-restricted-syntax](no-restricted-syntax.md): disallow specified syntax
+* [no-spaced-func](no-spaced-func.md): disallow spacing between `function` identifiers and their applications (fixable)
+* [no-ternary](no-ternary.md): disallow ternary operators
 * [no-trailing-spaces](no-trailing-spaces.md): disallow trailing whitespace at the end of lines (fixable)
 * [no-underscore-dangle](no-underscore-dangle.md): disallow dangling underscores in identifiers
-* [no-unneeded-ternary](no-unneeded-ternary.md): disallow the use of ternary operators when a simpler alternative exists
+* [no-unneeded-ternary](no-unneeded-ternary.md): disallow ternary operators when simpler alternatives exist
 * [no-whitespace-before-property](no-whitespace-before-property.md): disallow whitespace before properties
-* [object-curly-spacing](object-curly-spacing.md): require or disallow padding inside curly braces (fixable)
-* [one-var](one-var.md): require or disallow one variable declaration per function
-* [one-var-declaration-per-line](one-var-declaration-per-line.md): require or disallow an newline around variable declarations
-* [operator-assignment](operator-assignment.md): require assignment operator shorthand where possible or prohibit it entirely
-* [operator-linebreak](operator-linebreak.md): enforce operators to be placed before or after line breaks
-* [padded-blocks](padded-blocks.md): enforce padding within blocks
+* [object-curly-spacing](object-curly-spacing.md): enforce consistent spacing inside braces (fixable)
+* [one-var](one-var.md): enforce variables to be declared either together or separately in functions
+* [one-var-declaration-per-line](one-var-declaration-per-line.md): require or disallow newlines around `var` declarations
+* [operator-assignment](operator-assignment.md): require or disallow assignment operator shorthand where possible
+* [operator-linebreak](operator-linebreak.md): enforce consistent linebreak style for operators
+* [padded-blocks](padded-blocks.md): require or disallow padding within blocks
 * [quote-props](quote-props.md): require quotes around object literal property names
-* [quotes](quotes.md): specify whether backticks, double or single quotes should be used (fixable)
-* [require-jsdoc](require-jsdoc.md): require JSDoc comment
-* [semi](semi.md): require or disallow use of semicolons instead of ASI (fixable)
-* [semi-spacing](semi-spacing.md): enforce spacing before and after semicolons (fixable)
-* [sort-imports](sort-imports.md): enforce sorting import declarations within module
-* [sort-vars](sort-vars.md): enforce sorting variables within the same declaration block
-* [space-before-blocks](space-before-blocks.md): require or disallow a space before blocks (fixable)
-* [space-before-function-paren](space-before-function-paren.md): require or disallow a space before function opening parenthesis (fixable)
-* [space-in-parens](space-in-parens.md): require or disallow spaces inside parentheses (fixable)
-* [space-infix-ops](space-infix-ops.md): require spaces around operators (fixable)
-* [space-unary-ops](space-unary-ops.md): require or disallow spaces before/after unary operators (fixable)
-* [spaced-comment](spaced-comment.md): require or disallow a space immediately following the `//` or `/*` in a comment (fixable)
-* [wrap-regex](wrap-regex.md): require regex literals to be wrapped in parentheses
+* [quotes](quotes.md): enforce the consistent use of either backticks, double, or single quotes (fixable)
+* [require-jsdoc](require-jsdoc.md): require JSDoc comments
+* [semi](semi.md): require or disallow semicolons instead of ASI (fixable)
+* [semi-spacing](semi-spacing.md): enforce consistent spacing before and after semicolons (fixable)
+* [sort-imports](sort-imports.md): enforce sorted import declarations within module
+* [sort-vars](sort-vars.md): require variables within the same declaration block to be sorted
+* [space-before-blocks](space-before-blocks.md): enforce consistent spacing before blocks (fixable)
+* [space-before-function-paren](space-before-function-paren.md): enforce consistent spacing before `function` definition opening parenthesis (fixable)
+* [space-in-parens](space-in-parens.md): enforce consistent spacing inside parentheses (fixable)
+* [space-infix-ops](space-infix-ops.md): require spacing around operators (fixable)
+* [space-unary-ops](space-unary-ops.md): enforce consistent spacing before or after unary operators (fixable)
+* [spaced-comment](spaced-comment.md): enforce consistent spacing after the `//` or `/*` in a comment (fixable)
+* [wrap-regex](wrap-regex.md): require parenthesis around regex literals
 
 ## ECMAScript 6
 
 These rules are only relevant to ES6 environments.
 
-* [arrow-body-style](arrow-body-style.md): require braces in arrow function body
-* [arrow-parens](arrow-parens.md): require parens in arrow function arguments
-* [arrow-spacing](arrow-spacing.md): require space before/after arrow function's arrow (fixable)
-* [constructor-super](constructor-super.md): ensure calling of `super()` in constructors (recommended)
-* [generator-star-spacing](generator-star-spacing.md): enforce spacing around the `*` in generator functions (fixable)
-* [no-class-assign](no-class-assign.md): disallow modifying variables of class declarations (recommended)
+* [arrow-body-style](arrow-body-style.md): require braces around arrow function bodies
+* [arrow-parens](arrow-parens.md): require parentheses around arrow function arguments
+* [arrow-spacing](arrow-spacing.md): enforce consistent spacing before and after the arrow in arrow functions (fixable)
+* [constructor-super](constructor-super.md): require `super()` calls in constructors (recommended)
+* [generator-star-spacing](generator-star-spacing.md): enforce consistent spacing around `*` operators in generator functions (fixable)
+* [no-class-assign](no-class-assign.md): disallow reassigning class members (recommended)
 * [no-confusing-arrow](no-confusing-arrow.md): disallow arrow functions where they could be confused with comparisons
-* [no-const-assign](no-const-assign.md): disallow modifying variables that are declared using `const` (recommended)
-* [no-dupe-class-members](no-dupe-class-members.md): disallow duplicate name in class members (recommended)
+* [no-const-assign](no-const-assign.md): disallow reassigning `const` variables (recommended)
+* [no-dupe-class-members](no-dupe-class-members.md): disallow duplicate class members (recommended)
 * [no-duplicate-imports](no-duplicate-imports.md): disallow duplicate module imports
-* [no-new-symbol](no-new-symbol.md): disallow use of the `new` operator with the `Symbol` object (recommended)
-* [no-restricted-imports](no-restricted-imports.md): restrict usage of specified modules when loaded by `import` declaration
-* [no-this-before-super](no-this-before-super.md): disallow use of `this`/`super` before calling `super()` in constructors (recommended)
-* [no-useless-constructor](no-useless-constructor.md): disallow unnecessary constructor
+* [no-new-symbol](no-new-symbol.md): disallow `new` operators with the `Symbol` object (recommended)
+* [no-restricted-imports](no-restricted-imports.md): disallow specified modules when loaded by `import`
+* [no-this-before-super](no-this-before-super.md): disallow `this`/`super` before calling `super()` in constructors (recommended)
+* [no-useless-constructor](no-useless-constructor.md): disallow unnecessary constructors
 * [no-var](no-var.md): require `let` or `const` instead of `var`
-* [object-shorthand](object-shorthand.md): require method and property shorthand syntax for object literals
-* [prefer-arrow-callback](prefer-arrow-callback.md): suggest using arrow functions as callbacks
-* [prefer-const](prefer-const.md): suggest using `const` declaration for variables that are never reassigned after declared
-* [prefer-reflect](prefer-reflect.md): suggest using Reflect methods where applicable
-* [prefer-rest-params](prefer-rest-params.md): suggest using the rest parameters instead of `arguments`
-* [prefer-spread](prefer-spread.md): suggest using the spread operator instead of `.apply()`
-* [prefer-template](prefer-template.md): suggest using template literals instead of strings concatenation
-* [require-yield](require-yield.md): disallow generator functions that do not have `yield`
-* [template-curly-spacing](template-curly-spacing.md): enforce spacing around embedded expressions of template strings (fixable)
-* [yield-star-spacing](yield-star-spacing.md): enforce spacing around the `*` in `yield*` expressions (fixable)
-
+* [object-shorthand](object-shorthand.md): require or disallow method and property shorthand syntax for object literals
+* [prefer-arrow-callback](prefer-arrow-callback.md): require arrow functions as callbacks
+* [prefer-const](prefer-const.md): require `const` declarations for variables that are never reassigned after declared
+* [prefer-reflect](prefer-reflect.md): require `Reflect` methods where applicable
+* [prefer-rest-params](prefer-rest-params.md): require rest parameters instead of `arguments`
+* [prefer-spread](prefer-spread.md): require spread operators instead of `.apply()`
+* [prefer-template](prefer-template.md): require template literals instead of string concatenation
+* [require-yield](require-yield.md): require generator functions to contain `yield`
+* [template-curly-spacing](template-curly-spacing.md): require or disallow spacing around embedded expressions of template strings (fixable)
+* [yield-star-spacing](yield-star-spacing.md): require or disallow spacing around the `*` in `yield*` expressions (fixable)
 
 ## Removed
 
 These rules existed in a previous version of ESLint but have since been replaced by newer rules.
 
-* [generator-star](generator-star.md): enforce the position of the `*` in generator functions (replaced by [generator-star-spacing](generator-star-spacing.md))
-* [global-strict](global-strict.md): require or disallow the `"use strict"` pragma in the global scope (replaced by [strict](strict.md))
-* [no-arrow-condition](no-arrow-condition.md): disallow arrow functions where a condition is expected (replaced by [no-confusing-arrow](no-confusing-arrow.md) and [no-constant-condition](no-constant-condition.md))
+* [generator-star](generator-star.md): enforce consistent positioning of the `*` in generator functions (replaced by [generator-star-spacing](generator-star-spacing.md))
+* [global-strict](global-strict.md): require or disallow `"use strict"` in the global scope (replaced by [strict](strict.md))
+* [no-arrow-condition](no-arrow-condition.md): disallow arrow functions where conditions are expected (replaced by [no-confusing-arrow](no-confusing-arrow.md) and [no-constant-condition](no-constant-condition.md))
 * [no-comma-dangle](no-comma-dangle.md): disallow trailing commas in object literals (replaced by [comma-dangle](comma-dangle.md))
-* [no-empty-class](no-empty-class.md): disallow the use of empty character classes in regular expressions (replaced by [no-empty-character-class](no-empty-character-class.md))
-* [no-empty-label](no-empty-label.md): disallow use of labels for anything other than loops and switches (replaced by [no-labels](no-labels.md))
-* [no-extra-strict](no-extra-strict.md): disallow unnecessary use of `"use strict";` when already in strict mode (replaced by [strict](strict.md))
-* [no-reserved-keys](no-reserved-keys.md): disallow reserved words being used as object literal keys (replaced by [quote-props](quote-props.md))
-* [no-space-before-semi](no-space-before-semi.md): disallow space before semicolon (replaced by [semi-spacing](semi-spacing.md))
-* [no-wrap-func](no-wrap-func.md): disallow wrapping of non-IIFE statements in parens (replaced by [no-extra-parens](no-extra-parens.md))
-* [space-after-function-name](space-after-function-name.md): require a space after function names (replaced by [space-before-function-paren](space-before-function-paren.md))
-* [space-after-keywords](space-after-keywords.md): require a space after certain keywords (fixable) (replaced by [keyword-spacing](keyword-spacing.md))
-* [space-before-function-parentheses](space-before-function-parentheses.md): require or disallow space before function parentheses (replaced by [space-before-function-paren](space-before-function-paren.md))
-* [space-before-keywords](space-before-keywords.md): require a space before certain keywords (fixable) (replaced by [keyword-spacing](keyword-spacing.md))
-* [space-in-brackets](space-in-brackets.md): require or disallow spaces inside brackets (replaced by [object-curly-spacing](object-curly-spacing.md) and [array-bracket-spacing](array-bracket-spacing.md))
-* [space-return-throw-case](space-return-throw-case.md): require a space after `return`, `throw`, and `case` (fixable) (replaced by [keyword-spacing](keyword-spacing.md))
-* [space-unary-word-ops](space-unary-word-ops.md): require or disallow spaces before/after unary operators (replaced by [space-unary-ops](space-unary-ops.md))
-* [spaced-line-comment](spaced-line-comment.md): require or disallow a space immediately following the `//` in a line comment (replaced by [spaced-comment](spaced-comment.md))
+* [no-empty-class](no-empty-class.md): disallow empty character classes in regular expressions (replaced by [no-empty-character-class](no-empty-character-class.md))
+* [no-empty-label](no-empty-label.md): disallow labels for anything other than loops and switches (replaced by [no-labels](no-labels.md))
+* [no-extra-strict](no-extra-strict.md): disallow `"use strict";` when already in strict mode (replaced by [strict](strict.md))
+* [no-reserved-keys](no-reserved-keys.md): disallow the use of reserved words as object literal keys (replaced by [quote-props](quote-props.md))
+* [no-space-before-semi](no-space-before-semi.md): disallow spacing before semicolons (replaced by [semi-spacing](semi-spacing.md))
+* [no-wrap-func](no-wrap-func.md): disallow parentheses around non-IIFE statements (replaced by [no-extra-parens](no-extra-parens.md))
+* [space-after-function-name](space-after-function-name.md): enforce consistent spacing after `function` names (replaced by [space-before-function-paren](space-before-function-paren.md))
+* [space-after-keywords](space-after-keywords.md): enforce consistent spacing after specified keywords (fixable) (replaced by [keyword-spacing](keyword-spacing.md))
+* [space-before-function-parentheses](space-before-function-parentheses.md): enforce consistent spacing before `function` parentheses (replaced by [space-before-function-paren](space-before-function-paren.md))
+* [space-before-keywords](space-before-keywords.md): enforce consistent spacing before specified keywords (fixable) (replaced by [keyword-spacing](keyword-spacing.md))
+* [space-in-brackets](space-in-brackets.md): enforce consistent spacing inside brackets (replaced by [object-curly-spacing](object-curly-spacing.md) and [array-bracket-spacing](array-bracket-spacing.md))
+* [space-return-throw-case](space-return-throw-case.md): require spacing after `return`, `throw`, and `case` (fixable) (replaced by [keyword-spacing](keyword-spacing.md))
+* [space-unary-word-ops](space-unary-word-ops.md): enforce consistent spacing before and after unary operators (replaced by [space-unary-ops](space-unary-ops.md))
+* [spaced-line-comment](spaced-line-comment.md): enforce consistent spacing after the `//` in line comments (replaced by [spaced-comment](spaced-comment.md))
