@@ -34,7 +34,7 @@ function foo(bar) {
 
 ## Options
 
-This rule takes one option, an object, with a property `"props"`. It is `false` by default. If it is `true` is set, this rule warns modifying of properties of parameters.
+This rule takes one option, an object, with a boolean property `"props"`. It is `false` by default. If it is set to `true`, this rule warns against the modification of parameter properties.
 
 ### props
 
