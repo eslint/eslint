@@ -27,8 +27,8 @@ a = 10;
 
 ## Options
 
-This rule takes one option, an object, with a property `"builtinGlobals"`. `false` by default.
-If this is `true`, this rule checks with built-in global variables such as `Object`, `Array`, `Number`, ...
+This rule takes one optional argument, an object with a boolean property `"builtinGlobals"`. It defaults to `false`.
+If set to `true`, this rule also checks redeclaration of built-in globals, such as `Object`, `Array`, `Number`...
 
 ### builtinGlobals
 
