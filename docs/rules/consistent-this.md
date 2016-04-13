@@ -14,26 +14,18 @@ There are many commonly used aliases for `this` such as `that`, `self` or `me`. 
 
 ## Rule Details
 
-This rule designates a variable as the chosen alias for `this`. It then enforces two things:
+This rule enforces two things about variables with the designated alias names for `this`:
 
-* if a variable with the designated name is declared or assigned to, it *must* explicitly be assigned the current execution context, i.e. `this`
-* if `this` is explicitly assigned to a variable, the name of that variable must be the designated one
+* If a variable with a designated name is declared, it *must* be either initialized (in the declaration) or assigned (in the same scope as the declaration) the value `this`.
+* If a variable is initialized or assigned the value `this`, the name of the variable *must* be a designated alias.
 
 ## Options
 
-This rule takes one option, a string, which is the designated `this` variable. The default is `that`.
+This rule has one or more string options:
 
-```json
-"consistent-this": ["error", "that"]
-```
+* designated alias names for `this` (default `"that"`)
 
-Additionally, you may configure extra aliases for cases where there are more than one supported alias for `this`.
-
-```js
-{ "consistent-this": [ "error", "self",  "vm" ] }
-```
-
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule with the default `"that"` option:
 
 ```js
 /*eslint consistent-this: ["error", "that"]*/
@@ -47,7 +39,7 @@ that = 42;
 self = this;
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule with the default `"that"` option:
 
 ```js
 /*eslint consistent-this: ["error", "that"]*/
@@ -63,7 +55,18 @@ that = this;
 foo.bar = this;
 ```
 
-A declaration of an alias does not need to assign `this` in the declaration, but it must perform an appropriate assignment in the same scope as the declaration. The following patterns are also considered okay:
+Examples of **incorrect** code for this rule with the default `"that"` option, if the variable is not initialized:
+
+```js
+/*eslint consistent-this: ["error", "that"]*/
+
+var that;
+function f() {
+    that = this;
+}
+```
+
+Examples of **correct** code for this rule with the default `"that"` option, if the variable is not initialized:
 
 ```js
 /*eslint consistent-this: ["error", "that"]*/
@@ -74,17 +77,6 @@ that = this;
 var foo, that;
 foo = 42;
 that = this;
-```
-
-But the following pattern is considered a warning:
-
-```js
-/*eslint consistent-this: ["error", "that"]*/
-
-var that;
-function f() {
-    that = this;
-}
 ```
 
 ## When Not To Use It

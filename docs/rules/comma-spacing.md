@@ -11,27 +11,28 @@ var foo = 1 ,bar = 2;
 
 ## Rule Details
 
-This rule aims to enforce spacing around a comma. As such, it warns whenever it sees a missing or unwanted space in commas of variable declaration, object property, function parameter, sequence and array element.
+This rule enforces consistent spacing before and after commas in variable declarations, array literals, object literals, function parameters, and sequences.
 
+This rule does not apply in an `ArrayExpression` or `ArrayPattern` in either of the following cases:
+
+* adjacent null elements
+* an initial null element, to avoid conflicts with the [`array-bracket-spacing`](array-bracket-spacing.md) rule
 
 ## Options
 
-The rule takes one option, an object, which has two keys `before` and `after` having boolean values `true` or `false`. If `before` is `true`, space is enforced before commas and if it's `false`, space is disallowed before commas. If `after` is `true`, space is enforced after commas and if it's `false`, space is disallowed after commas. The default is `{"before": false, "after": true}`.
+This rule has an object option:
 
-```json
-    "comma-spacing": ["error", {"before": false, "after": true}]
-```
+* `"before": false` (default) disallows spaces before commas
+* `"before": true` requires one or more spaces before commas
+* `"after": true` (default) requires one or more spaces after commas
+* `"after": false` disallows spaces after commas
 
-The following examples show two primary usages of this option.
+### after
 
-### `{"before": false, "after": true}`
-
-This is the default option. It enforces spacing after commas and disallows spacing before commas.
-
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule with the default `{ "before": false, "after": true }` options:
 
 ```js
-/*eslint comma-spacing: ["error", {"before": false, "after": true}]*/
+/*eslint comma-spacing: ["error", { "before": false, "after": true }]*/
 
 var foo = 1 ,bar = 2;
 var arr = [1 , 2];
@@ -42,14 +43,15 @@ function foo(a ,b){}
 a ,b
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule with the default `{ "before": false, "after": true }` options:
 
 ```js
-/*eslint comma-spacing: ["error", {"before": false, "after": true}]*/
+/*eslint comma-spacing: ["error", { "before": false, "after": true }]*/
 
 var foo = 1, bar = 2
     , baz = 3;
 var arr = [1, 2];
+var arr = [1,, 3]
 var obj = {"foo": "bar", "baz": "qur"};
 foo(a, b);
 new Foo(a, b);
@@ -57,14 +59,21 @@ function foo(a, b){}
 a, b
 ```
 
-### `{"before": true, "after": false}`
-
-This option enforces spacing before commas and disallows spacing after commas.
-
-The following patterns are considered problems:
+Example of **correct** code for this rule with initial null element for the default `{ "before": false, "after": true }` options:
 
 ```js
-/*eslint comma-spacing: ["error", {"before": true, "after": false}]*/
+/*eslint comma-spacing: ["error", { "before": false, "after": true }]*/
+/*eslint array-bracket-spacing: ["error", "always"]*/
+
+var arr = [ , 2, 3 ]
+```
+
+### before
+
+Examples of **incorrect** code for this rule with the `{ "before": true, "after": false }` options:
+
+```js
+/*eslint comma-spacing: ["error", { "before": true, "after": false }]*/
 
 var foo = 1, bar = 2;
 var arr = [1 , 2];
@@ -74,14 +83,15 @@ function foo(a,b){}
 a, b
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule with the `{ "before": true, "after": false }` options:
 
 ```js
-/*eslint comma-spacing: ["error", {"before": true, "after": false}]*/
+/*eslint comma-spacing: ["error", { "before": true, "after": false }]*/
 
 var foo = 1 ,bar = 2 ,
     baz = true;
 var arr = [1 ,2];
+var arr = [1 ,,3]
 var obj = {"foo": "bar" ,"baz": "qur"};
 foo(a ,b);
 new Foo(a ,b);
@@ -89,18 +99,14 @@ function foo(a ,b){}
 a ,b
 ```
 
-### Handling of `null` elements in `ArrayExpression` or `ArrayPattern`
-
-If you have a `null` element within of an `ArrayExpression` or `ArrayPattern` this rule will not validate the spacing before the respective comma.
-
-The following both examples are valid when the rule is configured with `{"before": false, "after": true}`.
+Examples of **correct** code for this rule with initial null element for the `{ "before": true, "after": false }` options:
 
 ```js
-var items = [, 2, 3 ]
-var items = [ , 2, 3 ]
-```
+/*eslint comma-spacing: ["error", { "before": true, "after": false }]*/
+/*eslint array-bracket-spacing: ["error", "never"]*/
 
-This behavior avoids conflicts with the [`array-bracket-spacing`](array-bracket-spacing.md) rule.
+var arr = [,2 ,3]
+```
 
 ## When Not To Use It
 
