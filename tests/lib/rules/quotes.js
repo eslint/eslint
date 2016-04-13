@@ -24,17 +24,17 @@ ruleTester.run("quotes", rule, {
         { code: "var foo = \"bar\";", options: ["double"] },
         { code: "var foo = 1;", options: ["single"] },
         { code: "var foo = 1;", options: ["double"] },
-        { code: "var foo = \"'\";", options: ["single", "avoid-escape"] },
-        { code: "var foo = '\"';", options: ["double", "avoid-escape"] },
+        { code: "var foo = \"'\";", options: ["single", { avoidEscape: true }] },
+        { code: "var foo = '\"';", options: ["double", { avoidEscape: true }] },
         { code: "var foo = <div>Hello world</div>;", options: ["single"], parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } } },
         { code: "var foo = <div id=\"foo\"></div>;", options: ["single"], parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } } },
         { code: "var foo = <div>Hello world</div>;", options: ["double"], parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } } },
-        { code: "var foo = <div>Hello world</div>;", options: ["double", "avoid-escape"], parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } } },
+        { code: "var foo = <div>Hello world</div>;", options: ["double", { avoidEscape: true }], parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } } },
         { code: "var foo = `bar`;", options: ["backtick"], parserOptions: { ecmaVersion: 6 }},
         { code: "var foo = `bar 'baz'`;", options: ["backtick"], parserOptions: { ecmaVersion: 6 }},
         { code: "var foo = `bar \"baz\"`;", options: ["backtick"], parserOptions: { ecmaVersion: 6 }},
         { code: "var foo = 1;", options: ["backtick"]},
-        { code: "var foo = \"a string containing `backtick` quotes\";", options: ["backtick", "avoid-escape"] },
+        { code: "var foo = \"a string containing `backtick` quotes\";", options: ["backtick", { avoidEscape: true }] },
         { code: "var foo = <div id=\"foo\"></div>;", options: ["backtick"], parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } } },
         { code: "var foo = <div>Hello world</div>;", options: ["backtick"], parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } }},
 
@@ -42,6 +42,11 @@ ruleTester.run("quotes", rule, {
         { code: "var foo = `back\ntick`;", options: ["single"], parserOptions: { ecmaVersion: 6 }},
         { code: "var foo = `back${x}tick`;", options: ["double"], parserOptions: { ecmaVersion: 6 }},
         { code: "var foo = tag`backtick`;", options: ["double"], parserOptions: { ecmaVersion: 6 }},
+
+        // Backticks are also okay if allowTemplateLiterals
+        { code: "var foo = `bar 'foo' baz` + 'bar';", options: ["single", { allowTemplateLiterals: true }], parserOptions: { ecmaVersion: 6 }},
+        { code: "var foo = `bar 'foo' baz` + \"bar\";", options: ["double", { allowTemplateLiterals: true }], parserOptions: { ecmaVersion: 6 }},
+        { code: "var foo = `bar 'foo' baz` + `bar`;", options: ["backtick", { allowTemplateLiterals: true }], parserOptions: { ecmaVersion: 6 }},
 
         // `backtick` should not warn the directive prologues.
         { code: "\"use strict\"; var foo = `backtick`;", options: ["backtick"], parserOptions: { ecmaVersion: 6 }},
@@ -111,19 +116,31 @@ ruleTester.run("quotes", rule, {
         {
             code: "var foo = \"bar\";",
             output: "var foo = 'bar';",
-            options: ["single", "avoid-escape"],
+            options: ["single", { avoidEscape: true }],
             errors: [{ message: "Strings must use singlequote.", type: "Literal" }]
         },
         {
             code: "var foo = 'bar';",
             output: "var foo = \"bar\";",
-            options: ["double", "avoid-escape"],
+            options: ["double", { avoidEscape: true }],
             errors: [{ message: "Strings must use doublequote.", type: "Literal" }]
         },
         {
             code: "var foo = '\\\\';",
             output: "var foo = \"\\\\\";",
-            options: ["double", "avoid-escape"],
+            options: ["double", { avoidEscape: true }],
+            errors: [{ message: "Strings must use doublequote.", type: "Literal" }]
+        },
+        {
+            code: "var foo = \"bar\";",
+            output: "var foo = 'bar';",
+            options: ["single", { allowTemplateLiterals: true }],
+            errors: [{ message: "Strings must use singlequote.", type: "Literal" }]
+        },
+        {
+            code: "var foo = 'bar';",
+            output: "var foo = \"bar\";",
+            options: ["double", { allowTemplateLiterals: true }],
             errors: [{ message: "Strings must use doublequote.", type: "Literal" }]
         },
         {
@@ -147,13 +164,13 @@ ruleTester.run("quotes", rule, {
         {
             code: "var foo = \"bar\";",
             output: "var foo = `bar`;",
-            options: ["backtick", "avoid-escape"],
+            options: ["backtick", { avoidEscape: true }],
             errors: [{ message: "Strings must use backtick.", type: "Literal" }]
         },
         {
             code: "var foo = 'bar';",
             output: "var foo = `bar`;",
-            options: ["backtick", "avoid-escape"],
+            options: ["backtick", { avoidEscape: true }],
             errors: [{ message: "Strings must use backtick.", type: "Literal" }]
         },
 
