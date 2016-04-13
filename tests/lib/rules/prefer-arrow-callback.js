@@ -29,6 +29,7 @@ ruleTester.run("prefer-arrow-callback", rule, {
         {code: "foo(a => a);", parserOptions: { ecmaVersion: 6 }},
         {code: "foo(function*() {});", parserOptions: { ecmaVersion: 6 }},
         {code: "foo(function() { this; });"},
+        {code: "foo(function bar() {});", options: [{ allowNamedFunctions: true }]},
         {code: "foo(function() { (() => this); });", parserOptions: { ecmaVersion: 6 }},
         {code: "foo(function() { this; }.bind(obj));"},
         {code: "foo(function() { this; }.call(this));"},
@@ -44,6 +45,9 @@ ruleTester.run("prefer-arrow-callback", rule, {
         {code: "foo(function bar() { new.target; }.bind(this));", parserOptions: { ecmaVersion: 6 }}
     ],
     invalid: [
+        {code: "foo(function bar() {});", errors: errors},
+        {code: "foo(function() {});", options: [{ allowNamedFunctions: true }], errors: errors},
+        {code: "foo(function bar() {});", options: [{ allowNamedFunctions: false }], errors: errors},
         {code: "foo(function() {});", errors: errors},
         {code: "foo(nativeCb || function() {});", errors: errors},
         {code: "foo(bar ? function() {} : function() {});", errors: [errors[0], errors[0]]},
