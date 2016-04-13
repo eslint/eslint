@@ -1,6 +1,6 @@
 # Require Camelcase (camelcase)
 
-When it comes to naming variables, styleguides generally fall into one of two camps: camelcase (`variableName`) and underscores (`variable_name`). This rule focuses on using the camelcase approach. If your styleguide calls for camelcasing your variable names, then this rule is for you!
+When it comes to naming variables, style guides generally fall into one of two camps: camelcase (`variableName`) and underscores (`variable_name`). This rule focuses on using the camelcase approach. If your style guide calls for camelcasing your variable names, then this rule is for you!
 
 ## Rule Details
 
@@ -8,25 +8,18 @@ This rule looks for any underscores (`_`) located within the source code. It ign
 
 ## Options
 
-This rule accepts a single options argument with the following defaults:
+This rule has an object option:
 
-```json
-{
-    "rules": {
-        "camelcase": ["error", {"properties": "always"}]
-    }
-}
-```
+* `"properties": "always"` (default) enforces camelcase style for property names
+* `"properties": "never"` does not check property names
 
-`Properties` can have the following values:
+### always
 
-1. `always` is the default and checks all property names
-2. `never` does not check property names at all
-
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule with the default `{ "properties": "always" }` option:
 
 ```js
 /*eslint camelcase: "error"*/
+
 var my_favorite_color = "#112C85";
 
 function do_something() {
@@ -42,10 +35,11 @@ var obj = {
 };
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule with the default `{ "properties": "always" }` option:
 
 ```js
 /*eslint camelcase: "error"*/
+
 var myFavoriteColor   = "#112C85";
 var _myFavoriteColor  = "#112C85";
 var myFavoriteColor_  = "#112C85";
@@ -58,6 +52,9 @@ obj.do_something();
 var { category_id: category } = query;
 ```
 
+### never
+
+Examples of **correct** code for this rule with the `{ "properties": "never" }` option:
 
 ```js
 /*eslint camelcase: ["error", {properties: "never"}]*/
