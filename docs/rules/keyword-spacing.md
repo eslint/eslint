@@ -261,7 +261,7 @@ import {foo} from "foo";
 import * as bar from"foo";
 ```
 
-The following patterns are considered not problems when configured `{"before": false, "after": false}`:
+The following patterns are not considered problems when configured `{"before": false, "after": false}`:
 
 ```js
 /*eslint keyword-spacing: ["error", {before: false, after: false}]*/
