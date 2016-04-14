@@ -248,14 +248,13 @@ ruleTester.run("no-unused-vars", rule, {
         },
 
         // surrogate pair.
-        // TODO: https://github.com/eslint/espree/issues/181
-        // {
-        //     code: "/*global 𠮷𩸽, 𠮷*/\n\\u{20BB7}\\u{29E3D};",
-        //     env: {es6: true},
-        //     errors: [
-        //         {line: 1, column: 16, message: "'𠮷' is defined but never used" }
-        //     ]
-        // }
+        {
+            code: "/*global 𠮷𩸽, 𠮷*/\n\\u{20BB7}\\u{29E3D};",
+            env: {es6: true},
+            errors: [
+                {line: 1, column: 16, message: "'𠮷' is defined but never used" }
+            ]
+        },
 
         // https://github.com/eslint/eslint/issues/4047
         {
