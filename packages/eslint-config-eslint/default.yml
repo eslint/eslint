@@ -32,7 +32,7 @@ rules:
     no-alert: "error"
     no-array-constructor: "error"
     no-caller: "error"
-    no-console: 0
+    no-console: "error"
     no-delete-var: "error"
     no-eval: "error"
     no-extend-native: "error"
