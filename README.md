@@ -75,6 +75,11 @@ These folks keep the project moving and are resources for help:
 * Kai Cataldo ([@kaicataldo](https://github.com/kaicataldo)) - committer
 * Michael Ficarra ([@michaelficarra](https://github.com/michaelficarra)) - committer
 * Mark Pedrotti ([@pedrottimark](https://github.com/pedrottimark)) - committer
+* Oleg Gaidarenko ([@markelog](https://github.com/markelog)) - committer
+* Mike Sherov [@mikesherov](https://github.com/mikesherov)) - committer
+* Henry Zhu ([@hzoo](https://github.com/hzoo)) - committer
+* Marat Dulin ([@mdevils](https://github.com/mdevils)) - committer
+* Alexej Yaroshevich ([@zxqfox](https://github.com/zxqfox)) - committer
 
 ## Releases
 
