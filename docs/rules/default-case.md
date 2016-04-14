@@ -80,6 +80,35 @@ switch (a) {
 
 ```
 
+## Options
+
+This rule accepts a single options argument:
+
+* Set the `commentPattern` option to a regular expression string to change the default `^no default$` comment test pattern
+
+### commentPattern
+
+Examples of **correct** code for the `{ "commentPattern": "^skip\\sdefault" }` option:
+
+```js
+/*eslint default-case: ["error", { "commentPattern": "^skip\\sdefault" }]*/
+
+switch(a) {
+    case 1:
+        /* code */
+        break;
+
+    // skip default
+}
+
+switch(a) {
+    case 1:
+        /* code */
+        break;
+
+    // skip default case
+}
+```
 
 ## When Not To Use It
 
