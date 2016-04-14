@@ -85,6 +85,7 @@
         "no-restricted-globals": "off",
         "no-restricted-imports": "off",
         "no-restricted-modules": "off",
+        "no-restricted-properties": "off",
         "no-restricted-syntax": "off",
         "no-return-assign": "off",
         "no-script-url": "off",
