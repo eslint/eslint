@@ -58,7 +58,7 @@ if (a) {
 Examples of **correct** code for this rule with the default options:
 
 ```js
-/*indent: "error"*/
+/*eslint indent: "error"*/
 
 if (a) {
     b=c;
@@ -101,7 +101,7 @@ function foo(d) {
 Examples of **correct** code for this rule with the `"tab"` option:
 
 ```js
-/*indent: ["error", "tab"]*/
+/*eslint indent: ["error", "tab"]*/
 
 if (a) {
 /*tab*/b=c;
