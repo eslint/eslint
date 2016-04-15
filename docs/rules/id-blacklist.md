@@ -1,41 +1,40 @@
-# Blacklist certain identifiers to prevent them being used (id-blacklist)
+# disallow specified identifiers (id-blacklist)
 
 > "There are only two hard things in Computer Science: cache invalidation and naming things." — Phil Karlton
 
-Bad names can lead to hard to decipher code. Using generic names, such as `data` don't infer much about the code and the values it receives. This rule allows you to configure a blacklist of bad identifier names, that you don't want to see in your code.
+Bad names can lead to hard-to-decipher code. Generic names, such as `data`, don't infer much about the code and the values it receives. This rule allows you to configure a blacklist of bad identifier names, that you don't want to see in your code.
 
 ## Rule Details
 
-This rule compares assignments and function definitions to a provided list of identifier names. If the identifier is present in the list, it will return an error.
+This rule disallows specified identifiers in assignments and `function` definitions.
 
 This rule will catch blacklisted identifiers that are:
 
 - variable declarations
 - function declarations
-- object properties
+- object properties assigned to during object creation
 
 It will not catch blacklisted identifiers that are:
 
 - function calls (so you can still use functions you do not have control over)
 - object properties (so you can still use objects you do not have control over)
 
-
 ## Options
 
-This rule needs a a set of identifier names to blacklist, like so:
+The rule takes one or more strings as options: the names of restricted identifiers.
+
+For example, to restrict the use of common generic identifiers:
 
 ```json
 {
-    "rules": {
-        "id-blacklist": ["error", "data", "err", "e", "cb", "callback"]
-    }
+    "id-blacklist": ["error", "data", "err", "e", "cb", "callback"]
 }
 ```
 
-For the rule in this example, the following patterns are considered problems:
+Examples of **incorrect** code for this rule with sample `"data", "callback"` restricted identifiers:
 
 ```js
-/*eslint id-blacklist: ["error", "data", "err", "e", "cb", "callback"] */
+/*eslint id-blacklist: ["error", "data", "callback"] */
 
 var data = {...};
 
@@ -52,10 +51,10 @@ var itemSet = {
 };
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule with sample `"data", "callback"` restricted identifiers:
 
 ```js
-/*eslint id-blacklist: ["error", "data", "err", "e", "cb", "callback"] */
+/*eslint id-blacklist: ["error", "data", "callback"] */
 
 var encodingOptions = {...};
 
@@ -71,11 +70,11 @@ var itemSet = {
     entities: [...]
 };
 
-callback()  // all function calls are ignored
+callback(); // all function calls are ignored
 
-foo.callback() // all function calls are ignored
+foo.callback(); // all function calls are ignored
 
-foo.data // all property names that are not assignments are ignored
+foo.data; // all property names that are not assignments are ignored
 ```
 
 ## When Not To Use It
