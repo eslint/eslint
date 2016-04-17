@@ -74,7 +74,7 @@ Miscellaneous:
   --debug                    Output debugging information
   -h, --help                 Show help
   -v, --version              Outputs the version number
-  --no-inline-config         Prevent comments from changing eslint rules -
+  --no-inline-config         Prevent comments from changing config or rules -
                              default: false
   --print-config             Print the configuration to be used
 ```
