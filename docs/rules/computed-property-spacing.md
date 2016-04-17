@@ -69,7 +69,6 @@ Examples of **incorrect** code for this rule with the `"always"` option:
 obj[foo]
 var x = {[b]: a}
 obj[ foo]
-obj[ foo ]
 obj['foo' ]
 obj[foo[ bar ]]
 var x = {[ b]: a}
