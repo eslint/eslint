@@ -70,7 +70,7 @@ for (;(a = b););
 
 When setting the first option as `"all"`, an additional option can be added to allow extra parens in nested binary expressions.
 
-Examples of **correct* for the `"all"` and `{ "nestedBinaryExpressions": false }` options:
+Examples of **correct** for the `"all"` and `{ "nestedBinaryExpressions": false }` options:
 
 ```js
 x = a || (b && c);
