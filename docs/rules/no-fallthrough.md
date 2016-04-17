@@ -139,7 +139,7 @@ This rule accepts a single options argument:
 Examples of **correct** code for the `{ "commentPattern": "break[\\s\\w]*omitted" }` option:
 
 ```js
-/*eslint no-fallback: ["error", { "commentPattern": "break[\\s\\w]*omitted" }]*/
+/*eslint no-fallthrough: ["error", { "commentPattern": "break[\\s\\w]*omitted" }]*/
 
 switch(foo) {
     case 1:
