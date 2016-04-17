@@ -108,9 +108,9 @@ SomeObject.foo = function() {
 };
 ```
 
-### allowSingleLine
+### allowArrowFunctions
 
-Examples of additional **correct** code for this rule with the `"declaration", { "allowSingleLine": true }` options:
+Examples of additional **correct** code for this rule with the `"declaration", { "allowArrowFunctions": true }` options:
 
 ```js
 /*eslint func-style: ["error", "declaration", { "allowArrowFunctions": true }]*/
