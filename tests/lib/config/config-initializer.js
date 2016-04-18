@@ -183,19 +183,19 @@ describe("configInitializer", function() {
             it("should support the google style guide", function() {
                 var config = init.getConfigForStyleGuide("google");
 
-                assert.deepEqual(config, {extends: "google"});
+                assert.deepEqual(config, {extends: "google", installedESLint: true});
             });
 
             it("should support the airbnb style guide", function() {
                 var config = init.getConfigForStyleGuide("airbnb");
 
-                assert.deepEqual(config, {extends: "airbnb", plugins: ["react"]});
+                assert.deepEqual(config, {extends: "airbnb", installedESLint: true, plugins: ["react"]});
             });
 
             it("should support the standard style guide", function() {
                 var config = init.getConfigForStyleGuide("standard");
 
-                assert.deepEqual(config, {extends: "standard", plugins: ["standard"]});
+                assert.deepEqual(config, {extends: "standard", installedESLint: true, plugins: ["standard"]});
             });
 
             it("should throw when encountering an unsupported style guide", function() {
@@ -207,7 +207,13 @@ describe("configInitializer", function() {
             it("should install required sharable config", function() {
                 init.getConfigForStyleGuide("google");
                 assert(npmInstallStub.calledOnce);
-                assert.deepEqual(npmInstallStub.firstCall.args[0], ["eslint-config-google"]);
+                assert.deepEqual(npmInstallStub.firstCall.args[0][1], "eslint-config-google");
+            });
+
+            it("should install ESLint if not installed locally", function() {
+                init.getConfigForStyleGuide("google");
+                assert(npmInstallStub.calledOnce);
+                assert.deepEqual(npmInstallStub.firstCall.args[0][0], "eslint");
             });
         });
 
