@@ -104,15 +104,19 @@ I do like JSHint. And I like Anton and Rick. Neither of those were deciding fact
 
 That's not really a question, but I got it. I'm not trying to convince you that ESLint is better than JSHint. The only thing I know is that ESLint is better than JSHint for what I'm doing. In the off chance you're doing something similar, it might be better for you. Otherwise, keep using JSHint, I'm certainly not going to tell you to stop using it.
 
-### How does ESLint performance compare to JSHint and JSCS?
+### How does ESLint performance compare to JSHint?
 
 ESLint is slower than JSHint, usually 2-3x slower on a single file. This is because ESLint uses Espree to construct an AST before it can evaluate your code whereas JSHint evaluates your code as it's being parsed. The speed is also based on the number of rules you enable; the more rules you enable, the slower the process.
 
 Despite being slower, we believe that ESLint is fast enough to replace JSHint without causing significant pain.
 
-ESLint is faster than JSCS, as ESLint uses a single-pass traversal for analysis whereas JSCS using a querying model.
+### I heard ESLint is going to replace JSCS?
 
-If you are using both JSHint and JSCS on your files, then using just ESLint will be faster.
+Yes. Since we are solving the same problems, ESLint and JSCS teams have decided to join forces and work together in the development of ESLint instead of competing with each other. You can read more about this in both [ESLint](http://eslint.org/blog/2016/04/welcoming-jscs-to-eslint) and [JSCS](https://medium.com/@markelog/jscs-end-of-the-line-bc9bf0b3fdb2#.u76sx334n) announcements.
+
+### So, should I stop using JSCS and start using ESLint?
+
+Not yet. We are still working to smooth the transition. You can see our progress [here](https://github.com/eslint/eslint/milestones/JSCS%20Compatibility). We’ll announce when all of the changes necessary to support JSCS users in ESLint are complete and will start encouraging JSCS users to switch to ESLint at that time. Meanwhile, we recommend you to upgrade to JSCS 3.0 and provide feedback to the team.
 
 ### Is ESLint just linting or does it also check style?
 
