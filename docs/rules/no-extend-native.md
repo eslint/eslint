@@ -29,7 +29,7 @@ Disallows directly modifying the prototype of builtin objects.
 Examples of **incorrect** code for this rule:
 
 ```js
-/*eslint no-extend-native: 2*/
+/*eslint no-extend-native: "error"*/
 
 Object.prototype.a = "a";
 Object.defineProperty(Array.prototype, "times", { value: 999 });
