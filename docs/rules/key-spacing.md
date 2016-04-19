@@ -12,16 +12,17 @@ This rule enforces consistent spacing between keys and values in object literal 
 
 This rule has an object option:
 
-* `"beforeColon": false` (default) disallows spaces between the key and the colon in object literals
-* `"beforeColon": true` requires at least one space between the key and the colon in object literals
-* `"afterColon": true` (default) requires at least one space between the colon and the value in object literals
-* `"afterColon": false` disallows spaces between the colon and the value in object literals
-* `"mode": strict` (default) enforces exactly one space before or after colons in object literals
-* `"mode": minimum` enforces one or more spaces before or after colons in object literals
-* `"align": "value"` enforces horizontal alignment of values in object literals
+* `"beforeColon": false` (default) disallows spaces between the key and the colon in object literals.
+* `"beforeColon": true` requires at least one space between the key and the colon in object literals.
+* `"afterColon": true` (default) requires at least one space between the colon and the value in object literals.
+* `"afterColon": false` disallows spaces between the colon and the value in object literals.
+* `"mode": strict` (default) enforces exactly one space before or after colons in object literals.
+* `"mode": minimum` enforces one or more spaces before or after colons in object literals.
+* `"align": "value"` enforces horizontal alignment of values in object literals.
 * `"align": "colon"` enforces horizontal alignment of both colons and values in object literals.
-* `"singleLine"` specifies a spacing style for single-line object literals
-* `"multiLine"` specifies a spacing style for multi-line object literals
+* `"align"` with an object value allows for fine-grained spacing when values are being aligned in object literals.
+* `"singleLine"` specifies a spacing style for single-line object literals.
+* `"multiLine"` specifies a spacing style for multi-line object literals.
 
 Please note that you can either use the top-level options or the grouped options (`singleLine` and `multiLine`) but not both.
 
@@ -181,6 +182,122 @@ call({
     foobar: 42,
     bat   : 2 * 2
 });
+```
+
+### align
+
+The `align` option can take additional configuration through the `beforeColon`, `afterColon`, `mode`, and `on` options.
+
+If `align` is defined as an object, but not all of the parameters are provided, undefined parameters will default to the following:
+
+```js
+// Defaults
+align: {
+    "beforeColon": false,
+    "afterColon": true,
+    "on": "colon",
+    "mode": "strict"
+}
+```
+
+Examples of **correct** code for this rule with sample `{ "align": { } }` options:
+
+```js
+/*eslint key-spacing: ["error", {
+    "align": {
+        "beforeColon": true,
+        "afterColon": true,
+        "on": "colon"
+    }
+}]*/
+
+var obj = {
+    "one"   : 1,
+    "seven" : 7
+}
+```
+
+```js
+/*eslint key-spacing: ["error", {
+    "align": {
+        "beforeColon": false,
+        "afterColon": false,
+        "on": "value"
+    }
+}]*/
+
+var obj = {
+    "one":  1,
+    "seven":7
+}
+```
+
+### align and multiLine
+
+The `multiLine` and `align` options can differ, which allows for fine-tuned control over the `key-spacing` of your files.  `align` will **not** inherit from `multiLine` if `align` is configured as an object.
+
+`multiLine` is used any time  an object literal spans multiple lines.  The `align` configuration is used when there is a group of properties in the the same object. For example:
+
+```javascript
+var myObj = {
+  key1: 1, // uses multiLine
+
+  key2: 2, // uses align (when defined)
+  key3: 3, // uses align (when defined)
+
+  key4: 4 // uses multiLine
+}
+
+```
+
+Examples of **incorrect** code for this rule with sample `{ "align": { }, "multiLine": { } }` options:
+
+```js
+/*eslint key-spacing: ["error", {
+    "multiLine": {
+        "beforeColon": false,
+        "afterColon":true
+    },
+    "align": {
+        "beforeColon": true,
+        "afterColon": true,
+        "on": "colon"
+    }
+}]*/
+
+var obj = {
+    "myObjectFunction": function() {
+        // Do something
+    },
+    "one"             : 1,
+    "seven"           : 7
+}
+```
+
+Examples of **correct** code for this rule with sample `{ "align": { }, "multiLine": { } }` options:
+
+```js
+/*eslint key-spacing: ["error", {
+    "multiLine": {
+        "beforeColon": false,
+        "afterColon": true
+
+    },
+    "align": {
+        "beforeColon": true,
+        "afterColon": true,
+        "on": "colon"
+    }
+}]*/
+
+var obj = {
+    "myObjectFunction": function() {
+        // Do something
+        //
+    }, // These are two separate groups, so no alignment between `myObjectFuction` and `one`
+    "one"   : 1,
+    "seven" : 7 // `one` and `seven` are in their own group, and therefore aligned
+}
 ```
 
 ### singleLine and multiLine

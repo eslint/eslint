@@ -507,6 +507,210 @@ ruleTester.run("key-spacing", rule, {
             align: "colon"
         }],
         parserOptions: { ecmaVersion: 6, ecmaFeatures: { experimentalObjectRestSpread: true } }
+    },
+
+    // https://github.com/eslint/eslint/issues/5613
+
+    { // if `align` is an object, but `on` is not declared, `on` defaults to `colon`
+        code: [
+            "({",
+            "    longName: 1,",
+            "    small   : 2,",
+            "    f       : function() {",
+            "    },",
+            "    xs :3",
+            "})"
+        ].join("\n"),
+        options: [{
+            align: {
+                afterColon: true
+            },
+            beforeColon: true,
+            afterColon: false
+        }],
+        parserOptions: { ecmaVersion: 6, ecmaFeatures: { experimentalObjectRestSpread: true } }
+    }, {
+        code: [
+            "({",
+            "    longName: 1,",
+            "    small:    2,",
+            "    f:        function() {",
+            "    },",
+            "    xs :3",
+            "})"
+        ].join("\n"),
+        options: [{
+            align: {
+                on: "value",
+                afterColon: true
+            },
+            beforeColon: true,
+            afterColon: false
+        }],
+        parserOptions: { ecmaVersion: 6, ecmaFeatures: { experimentalObjectRestSpread: true } }
+    }, {
+        code: [
+            "({",
+            "    longName : 1,",
+            "    small :    2,",
+            "    xs :       3",
+            "})"
+        ].join("\n"),
+        options: [{
+            multiLine: {
+                align: {
+                    on: "value",
+                    beforeColon: true,
+                    afterColon: true
+                }
+            }
+        }],
+        parserOptions: { ecmaVersion: 6, ecmaFeatures: { experimentalObjectRestSpread: true } }
+    }, {
+        code: [
+            "({",
+            "    longName :1,",
+            "    small    :2,",
+            "    xs       :3",
+            "})"
+        ].join("\n"),
+        options: [{
+            align: {
+                on: "colon",
+                beforeColon: true,
+                afterColon: false
+            }
+        }],
+        parserOptions: { ecmaVersion: 6, ecmaFeatures: { experimentalObjectRestSpread: true } },
+        errors: []
+    }, {
+        code: [
+            "({",
+            "    longName: 1,",
+            "    small   : 2,",
+            "    xs      :        3",
+            "})"
+        ].join("\n"),
+        options: [{
+            align: {
+                on: "colon",
+                beforeColon: false,
+                afterColon: true,
+                mode: "minimum"
+            }
+        }],
+        parserOptions: { ecmaVersion: 6, ecmaFeatures: { experimentalObjectRestSpread: true } }
+    }, {
+        code: [
+            "({",
+            "    longName: 1,",
+            "    small   : 2,",
+            "    xs      : 3",
+            "})"
+        ].join("\n"),
+        options: [{
+            multiLine: {
+                align: {
+                    on: "colon",
+                    beforeColon: false,
+                    afterColon: true
+                }
+            }
+        }],
+        parserOptions: { ecmaVersion: 6, ecmaFeatures: { experimentalObjectRestSpread: true } }
+    }, {
+        code: [
+            "({",
+            "    func: function() {",
+            "        var test = true;",
+            "    },",
+            "    longName : 1,",
+            "    small    : 2,",
+            "    xs       : 3,",
+            "    func2    : function() {",
+            "        var test2 = true;",
+            "    },",
+            "    internalGroup: {",
+            "        internal : true,",
+            "        ext      : false",
+            "    }",
+            "})"
+        ].join("\n"),
+        options: [{
+            singleLine: {
+                beforeColon: false,
+                afterColon: true
+            },
+            multiLine: {
+                beforeColon: false,
+                afterColon: true
+            },
+            align: {
+                on: "colon",
+                beforeColon: true,
+                afterColon: true
+            }
+        }],
+        parserOptions: { ecmaVersion: 6, ecmaFeatures: { experimentalObjectRestSpread: true } }
+    }, {
+        code: [
+            "({",
+            "    func: function() {",
+            "        var test = true;",
+            "    },",
+            "    longName: 1,",
+            "    small:    2,",
+            "    xs:       3,",
+            "    func2:    function() {",
+            "        var test2 = true;",
+            "    },",
+            "    final: 10",
+            "})"
+        ].join("\n"),
+        options: [{
+            singleLine: {
+                beforeColon: false,
+                afterColon: true
+            },
+            multiLine: {
+                align: {
+                    on: "value",
+                    beforeColon: false,
+                    afterColon: true
+                },
+                beforeColon: false,
+                afterColon: true
+            }
+        }],
+        parserOptions: { ecmaVersion: 6, ecmaFeatures: { experimentalObjectRestSpread: true } }
+    }, {
+        code: [
+            "({",
+            "    f:function() {",
+            "        var test = true;",
+            "    },",
+            "    stateName : 'NY',",
+            "    borough   : 'Brooklyn',",
+            "    zip       : 11201,",
+            "    f2        : function() {",
+            "        var test2 = true;",
+            "    },",
+            "    final:10",
+            "})"
+        ].join("\n"),
+        options: [{
+            multiLine: {
+                align: {
+                    on: "colon",
+                    beforeColon: true,
+                    afterColon: true,
+                    mode: "strict"
+                },
+                beforeColon: false,
+                afterColon: false
+            }
+        }],
+        parserOptions: { ecmaVersion: 6, ecmaFeatures: { experimentalObjectRestSpread: true } }
     }],
 
     invalid: [{
@@ -1285,6 +1489,138 @@ ruleTester.run("key-spacing", rule, {
         errors: [
             { message: "Missing space before value for key 'a'.", line: 1, column: 6, type: "Identifier" },
             { message: "Extra space after key 'c'.", line: 1, column: 20, type: "Identifier" }
+        ]
+    },
+
+    // https://github.com/eslint/eslint/issues/5613
+    {
+        code: [
+            "({",
+            "    longName:1,",
+            "    small    :2,",
+            "    xs      : 3",
+            "})"
+        ].join("\n"),
+        output: [
+            "({",
+            "    longName : 1,",
+            "    small    : 2,",
+            "    xs       : 3",
+            "})"
+        ].join("\n"),
+        options: [{
+            align: {
+                on: "colon",
+                beforeColon: true,
+                afterColon: true,
+                mode: "strict"
+            }
+        }],
+        parserOptions: { ecmaVersion: 6, ecmaFeatures: { experimentalObjectRestSpread: true } },
+        errors: [
+            { message: "Missing space after key \'longName\'.", line: 2, column: 5, type: "Identifier" },
+            { message: "Missing space before value for key \'longName\'.", line: 2, column: 14, type: "Literal" },
+            { message: "Missing space before value for key \'small\'.", line: 3, column: 15, type: "Literal" },
+            { message: "Missing space after key \'xs\'.", line: 4, column: 5, type: "Identifier" }
+        ]
+    }, {
+        code: [
+            "({",
+            "    func:function() {",
+            "        var test = true;",
+            "    },",
+            "    longName: 1,",
+            "    small: 2,",
+            "    xs            : 3,",
+            "    func2    : function() {",
+            "        var test2 = true;",
+            "    },",
+            "    singleLine : 10",
+            "})"
+        ].join("\n"),
+        output: [
+            "({",
+            "    func: function() {",
+            "        var test = true;",
+            "    },",
+            "    longName : 1,",
+            "    small    : 2,",
+            "    xs       : 3,",
+            "    func2    : function() {",
+            "        var test2 = true;",
+            "    },",
+            "    singleLine: 10",
+            "})"
+        ].join("\n"),
+        options: [{
+            multiLine: {
+                beforeColon: false,
+                afterColon: true
+            },
+            align: {
+                on: "colon",
+                beforeColon: true,
+                afterColon: true,
+                mode: "strict"
+            }
+        }],
+        parserOptions: { ecmaVersion: 6, ecmaFeatures: { experimentalObjectRestSpread: true } },
+        errors: [
+            { message: "Missing space before value for key \'func\'.", line: 2, column: 10, type: "FunctionExpression" },
+            { message: "Missing space after key \'longName\'.", line: 5, column: 5, type: "Identifier" },
+            { message: "Missing space after key \'small\'.", line: 6, column: 5, type: "Identifier" },
+            { message: "Extra space after key \'xs\'.", line: 7, column: 5, type: "Identifier" },
+            { message: "Extra space after key \'singleLine\'.", line: 11, column: 5, type: "Identifier" }
+        ]
+    }, {
+        code: [
+            "({",
+            "    func:function() {",
+            "        var test = false;",
+            "    },",
+            "    longName :1,",
+            "    small :2,",
+            "    xs            : 3,",
+            "    func2    : function() {",
+            "        var test2 = true;",
+            "    },",
+            "    singleLine : 10",
+            "})"
+        ].join("\n"),
+        output: [
+            "({",
+            "    func: function() {",
+            "        var test = false;",
+            "    },",
+            "    longName :1,",
+            "    small    :2,",
+            "    xs       :3,",
+            "    func2    :function() {",
+            "        var test2 = true;",
+            "    },",
+            "    singleLine: 10",
+            "})"
+        ].join("\n"),
+        options: [{
+            multiLine: {
+                beforeColon: false,
+                afterColon: true,
+                align: {
+                    on: "colon",
+                    beforeColon: true,
+                    afterColon: false,
+                    mode: "strict"
+                }
+            }
+        }],
+        parserOptions: { ecmaVersion: 6, ecmaFeatures: { experimentalObjectRestSpread: true } },
+        errors: [
+            { message: "Missing space before value for key \'func\'.", line: 2, column: 10, type: "FunctionExpression" },
+            { message: "Missing space after key \'small\'.", line: 6, column: 5, type: "Identifier" },
+            { message: "Extra space after key \'xs\'.", line: 7, column: 5, type: "Identifier" },
+            { message: "Extra space before value for key \'xs\'.", line: 7, column: 21, type: "Literal" },
+            { message: "Extra space before value for key \'func2\'.", line: 8, column: 16, type: "FunctionExpression" },
+            { message: "Extra space after key \'singleLine\'.", line: 11, column: 5, type: "Identifier" }
         ]
     }]
 });
