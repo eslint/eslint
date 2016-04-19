@@ -28,33 +28,6 @@ var TEMPLATE_TEXT = fs.readFileSync(path.resolve(__dirname, "../../templates/pr-
 
 describe("pr-create.md.ejs", function() {
 
-
-    it("should greet the submitter by name", function() {
-        var result = ejs.render(TEMPLATE_TEXT, {
-            payload: {
-                sender: {
-                    login: "nzakas"
-                }
-            },
-            meta: {}
-        });
-
-        assert.ok(result.indexOf("@nzakas") > -1);
-    });
-
-    it("should mention the CLA when one isn't found", function() {
-        var result = ejs.render(TEMPLATE_TEXT, {
-            payload: {
-                sender: {
-                    login: "nzakas"
-                }
-            },
-            meta: { cla: false }
-        });
-
-        assert.ok(result.indexOf("http://eslint.org/cla") > -1);
-    });
-
     it("should say LGTM when there are no problems with the pull request", function() {
         var result = ejs.render(TEMPLATE_TEXT, {
             payload: {
@@ -63,13 +36,13 @@ describe("pr-create.md.ejs", function() {
                 },
                 commits: 1
             },
-            meta: { cla: true }
+            meta: {}
         });
 
         assert.equal(result.trim(), "LGTM");
     });
 
-    it("should mention squashing commits when more than one commit is found", function() {
+    it("should mention squashing commits and welcome user by name when more than one commit is found", function() {
         var result = ejs.render(TEMPLATE_TEXT, {
             payload: {
                 sender: {
@@ -77,9 +50,10 @@ describe("pr-create.md.ejs", function() {
                 },
                 commits: 2
             },
-            meta: { cla: true }
+            meta: {}
         });
 
+        assert.ok(result.indexOf("@nzakas") > -1);
         assert.ok(result.indexOf("squash") > -1);
     });
 

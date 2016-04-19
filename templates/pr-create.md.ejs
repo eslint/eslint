@@ -35,11 +35,6 @@ if (payload.commits > 1) {
     }
 }
 
-// Check for CLA signature
-if (!meta.cla) {
-    problems.push("Please sign our [CLA](http://eslint.org/cla). This is just a way for you to say that you give us permission to use your contribution.")
-}
-
 if (problems.length) { %>
 Thanks for the pull request, @<%= payload.sender.login %>! I took a look to make sure it's ready for merging and found some changes are needed:
 
