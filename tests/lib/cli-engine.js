@@ -915,34 +915,18 @@ describe("CLIEngine", function() {
                             "filePath": fs.realpathSync(path.resolve(fixtureDir, "fixmode/quotes-semi-eqeqeq.js")),
                             "messages": [
                                 {
-                                    "column": 11,
-                                    "fix": {
-                                        "range": [
-                                            10,
-                                            14
-                                        ],
-                                        "text": "\"hi\""
-                                    },
-                                    "line": 1,
-                                    "message": "Strings must use doublequote.",
-                                    "nodeType": "Literal",
-                                    "ruleId": "quotes",
-                                    "severity": 2,
-                                    "source": "var msg = 'hi'"
-                                },
-                                {
                                     "column": 9,
                                     "line": 2,
                                     "message": "Expected '===' and instead saw '=='.",
                                     "nodeType": "BinaryExpression",
                                     "ruleId": "eqeqeq",
                                     "severity": 2,
-                                    "source": "if (msg == 'hi') {"
+                                    "source": "if (msg == \"hi\") {"
                                 }
                             ],
-                            "errorCount": 2,
+                            "errorCount": 1,
                             "warningCount": 0,
-                            "output": "var msg = 'hi';\nif (msg == \"hi\") {\n\n}\n"
+                            "output": "var msg = \"hi\";\nif (msg == \"hi\") {\n\n}\n"
                         },
                         {
                             "filePath": fs.realpathSync(path.resolve(fixtureDir, "fixmode/quotes.js")),
@@ -954,7 +938,7 @@ describe("CLIEngine", function() {
                                     nodeType: "Identifier",
                                     ruleId: "no-undef",
                                     severity: 2,
-                                    source: "var msg = 'hi' + foo;"
+                                    source: "var msg = \"hi\" + foo;"
                                 }
                             ],
                             "errorCount": 1,
@@ -962,7 +946,7 @@ describe("CLIEngine", function() {
                             "output": "var msg = \"hi\" + foo;\n"
                         }
                     ],
-                    "errorCount": 3,
+                    "errorCount": 2,
                     "warningCount": 0
                 });
             });
