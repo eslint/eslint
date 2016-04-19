@@ -46,7 +46,9 @@ ruleTester.run("no-useless-escape", rule, {
         "var foo = '\\v';",
         "var foo = '\\f';",
         "var foo = '\\\n';",
-        "var foo = '\\\r\n';"
+        "var foo = '\\\r\n';",
+        {code: "<foo attr=\"\\d\"/>", parserOptions: {ecmaFeatures: {jsx: true}}},
+        {code: "<foo attr='\\d'></foo>", parserOptions: {ecmaFeatures: {jsx: true}}}
     ],
 
     invalid: [
@@ -69,7 +71,11 @@ ruleTester.run("no-useless-escape", rule, {
                 {line: 1, column: 14, message: "Unnecessary escape character: \\a", type: "Literal"},
                 {line: 1, column: 16, message: "Unnecessary escape character: \\@", type: "Literal"}
             ]
+        },
+        {
+            code: "<foo attr={\"\\d\"}/>",
+            parserOptions: {ecmaFeatures: {jsx: true}},
+            errors: [{ line: 1, column: 13, message: "Unnecessary escape character: \\d", type: "Literal"}]
         }
-
     ]
 });
