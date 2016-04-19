@@ -210,7 +210,6 @@ These rules relate to style guidelines, and are therefore quite subjective:
 * [require-jsdoc](require-jsdoc.md): require JSDoc comments
 * [semi](semi.md): require or disallow semicolons instead of ASI (fixable)
 * [semi-spacing](semi-spacing.md): enforce consistent spacing before and after semicolons (fixable)
-* [sort-imports](sort-imports.md): enforce sorted import declarations within module
 * [sort-vars](sort-vars.md): require variables within the same declaration block to be sorted
 * [space-before-blocks](space-before-blocks.md): enforce consistent spacing before blocks (fixable)
 * [space-before-function-paren](space-before-function-paren.md): enforce consistent spacing before `function` definition opening parenthesis (fixable)
@@ -247,6 +246,7 @@ These rules relate to ES6, also known as ES2015:
 * [prefer-spread](prefer-spread.md): require spread operators instead of `.apply()`
 * [prefer-template](prefer-template.md): require template literals instead of string concatenation
 * [require-yield](require-yield.md): require generator functions to contain `yield`
+* [sort-imports](sort-imports.md): enforce sorted import declarations within modules
 * [template-curly-spacing](template-curly-spacing.md): require or disallow spacing around embedded expressions of template strings (fixable)
 * [yield-star-spacing](yield-star-spacing.md): require or disallow spacing around the `*` in `yield*` expressions (fixable)
 
