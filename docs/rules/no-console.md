@@ -1,4 +1,4 @@
-# Disallow Use of console (no-console)
+# disallow the use of `console` (no-console)
 
 In JavaScript that is designed to be executed in the browser, it's considered a best practice to avoid using methods on `console`. Such messages are considered to be for debugging purposes and therefore not suitable to ship to the client. In general, calls using `console` should be stripped before being pushed to production.
 
@@ -7,18 +7,18 @@ console.log("Made it here.");
 console.error("That shouldn't have happened.");
 ```
 
-
 ## Rule Details
 
-This rule is aimed at eliminating unwanted `console` references from your JavaScript. As such, it warns whenever it sees `console` used as an identifier in code.
+This rule disallows calls to methods of the `console` object.
 
 Examples of **incorrect** code for this rule:
 
 ```js
 /*eslint no-console: "error"*/
 
-console.log("Hello world!");
-console.error("Something bad happened.");
+console.log("Log a debug level message.");
+console.warn("Log a warn level message.");
+console.error("Log an error level message.");
 ```
 
 Examples of **correct** code for this rule:
@@ -32,16 +32,17 @@ Console.log("Hello world!");
 
 ## Options
 
-This rule supports the following options:
+This rule has an object option for exceptions:
 
-`allow`: The list of console operations to be used as exceptions to the rule. For example:
+* `"allow"` has an array of strings which are allowed methods of the `console` object
+
+Examples of additional **correct** code for this rule with a sample `{ "allow": ["warn", "error"] }` option:
 
 ```js
 /*eslint no-console: ["error", { allow: ["warn", "error"] }] */
 
-console.log("this will be considered a problem");
-console.warn("this will not be considered a problem");
-console.error("this will not be considered a problem");
+console.warn("Log a warn level message.");
+console.error("Log an error level message.");
 ```
 
 ## When Not To Use It
