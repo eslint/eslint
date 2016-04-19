@@ -26,7 +26,7 @@ These rules relate to possible syntax or logic errors in JavaScript code:
 * [no-extra-parens](no-extra-parens.md): disallow unnecessary parentheses
 * [no-extra-semi](no-extra-semi.md): disallow unnecessary semicolons (recommended) (fixable)
 * [no-func-assign](no-func-assign.md): disallow reassigning `function` declarations (recommended)
-* [no-inner-declarations](no-inner-declarations.md): disallow `function` or `var` declarations in nested blocks (recommended)
+* [no-inner-declarations](no-inner-declarations.md): disallow variable or `function` declarations in nested blocks (recommended)
 * [no-invalid-regexp](no-invalid-regexp.md): disallow invalid regular expression strings in `RegExp` constructors (recommended)
 * [no-irregular-whitespace](no-irregular-whitespace.md): disallow irregular whitespace outside of strings and comments (recommended)
 * [no-negated-in-lhs](no-negated-in-lhs.md): disallow negating the left operand in `in` expressions (recommended)
@@ -69,7 +69,7 @@ These rules relate to better ways of doing things to help you avoid problems:
 * [no-fallthrough](no-fallthrough.md): disallow fallthrough of `case` statements (recommended)
 * [no-floating-decimal](no-floating-decimal.md): disallow leading or trailing decimal points in numeric literals
 * [no-implicit-coercion](no-implicit-coercion.md): disallow shorthand type conversions
-* [no-implicit-globals](no-implicit-globals.md): disallow `var` and named `function` declarations in the global scope
+* [no-implicit-globals](no-implicit-globals.md): disallow variable and named `function` declarations in the global scope
 * [no-implied-eval](no-implied-eval.md): disallow the use of `eval()`-like methods
 * [no-invalid-this](no-invalid-this.md): disallow `this` keywords outside of classes or class-like objects
 * [no-iterator](no-iterator.md): disallow the use of the `__iterator__` property
@@ -87,7 +87,7 @@ These rules relate to better ways of doing things to help you avoid problems:
 * [no-octal-escape](no-octal-escape.md): disallow octal escape sequences in string literals
 * [no-param-reassign](no-param-reassign.md): disallow reassigning `function` parameters
 * [no-proto](no-proto.md): disallow the use of the `__proto__` property
-* [no-redeclare](no-redeclare.md): disallow `var` redeclaration (recommended)
+* [no-redeclare](no-redeclare.md): disallow variable redeclaration (recommended)
 * [no-return-assign](no-return-assign.md): disallow assignment operators in `return` statements
 * [no-script-url](no-script-url.md): disallow `javascript:` urls
 * [no-self-assign](no-self-assign.md): disallow assignments where both sides are exactly the same (recommended)
@@ -118,12 +118,12 @@ These rules relate to strict mode directives:
 
 These rules relate to variable declarations:
 
-* [init-declarations](init-declarations.md): require or disallow initialization in `var` declarations
+* [init-declarations](init-declarations.md): require or disallow initialization in variable declarations
 * [no-catch-shadow](no-catch-shadow.md): disallow `catch` clause parameters from shadowing variables in the outer scope
 * [no-delete-var](no-delete-var.md): disallow deleting variables (recommended)
 * [no-label-var](no-label-var.md): disallow labels that share a name with a variable
 * [no-restricted-globals](no-restricted-globals.md): disallow specified global variables
-* [no-shadow](no-shadow.md): disallow `var` declarations from shadowing variables in the outer scope
+* [no-shadow](no-shadow.md): disallow variable declarations from shadowing variables in the outer scope
 * [no-shadow-restricted-names](no-shadow-restricted-names.md): disallow identifiers from shadowing restricted names
 * [no-undef](no-undef.md): disallow the use of undeclared variables unless mentioned in `/*global */` comments (recommended)
 * [no-undef-init](no-undef-init.md): disallow initializing variables to `undefined`
@@ -138,7 +138,7 @@ These rules relate to code running in Node.js, or in browsers with CommonJS:
 * [callback-return](callback-return.md): require `return` statements after callbacks
 * [global-require](global-require.md): require `require()` calls to be placed at top-level module scope
 * [handle-callback-err](handle-callback-err.md): require error handling in callbacks
-* [no-mixed-requires](no-mixed-requires.md): disallow `require` calls to be mixed with regular `var` declarations
+* [no-mixed-requires](no-mixed-requires.md): disallow `require` calls to be mixed with regular variable declarations
 * [no-new-require](no-new-require.md): disallow `new` operators with calls to `require`
 * [no-path-concat](no-path-concat.md): disallow string concatenation with `__dirname` and `__filename`
 * [no-process-env](no-process-env.md): disallow the use of `process.env`
@@ -178,7 +178,7 @@ These rules relate to style guidelines, and are therefore quite subjective:
 * [max-statements-per-line](max-statements-per-line.md): enforce a maximum number of statements allowed per line
 * [new-cap](new-cap.md): require constructor `function` names to begin with a capital letter
 * [new-parens](new-parens.md): require parentheses when invoking a constructor with no arguments
-* [newline-after-var](newline-after-var.md): require or disallow an empty line after `var` declarations
+* [newline-after-var](newline-after-var.md): require or disallow an empty line after variable declarations
 * [newline-before-return](newline-before-return.md): require an empty line before `return` statements
 * [newline-per-chained-call](newline-per-chained-call.md): require a newline after each call in a method chain
 * [no-array-constructor](no-array-constructor.md): disallow `Array` constructors
@@ -201,7 +201,7 @@ These rules relate to style guidelines, and are therefore quite subjective:
 * [no-whitespace-before-property](no-whitespace-before-property.md): disallow whitespace before properties
 * [object-curly-spacing](object-curly-spacing.md): enforce consistent spacing inside braces (fixable)
 * [one-var](one-var.md): enforce variables to be declared either together or separately in functions
-* [one-var-declaration-per-line](one-var-declaration-per-line.md): require or disallow newlines around `var` declarations
+* [one-var-declaration-per-line](one-var-declaration-per-line.md): require or disallow newlines around variable declarations
 * [operator-assignment](operator-assignment.md): require or disallow assignment operator shorthand where possible
 * [operator-linebreak](operator-linebreak.md): enforce consistent linebreak style for operators
 * [padded-blocks](padded-blocks.md): require or disallow padding within blocks
