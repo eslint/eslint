@@ -1,11 +1,10 @@
-# Disallow Controls Characters in Regular Expressions (no-control-regex)
+# disallow control characters in regular expressions (no-control-regex)
 
 Control characters are special, invisible characters in the ASCII range 0-31. These characters are rarely used in JavaScript strings so a regular expression containing these characters is most likely a mistake.
 
 ## Rule Details
 
-This rule is aimed at ensuring all regular expressions don't use control characters.
-
+This rule disallows control characters in regular expressions.
 
 Examples of **incorrect** code for this rule:
 
