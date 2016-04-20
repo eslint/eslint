@@ -78,7 +78,10 @@ ruleTester.run("constructor-super", rule, {
                 "}"
             ].join("\n"),
             parserOptions: {ecmaVersion: 6}
-        }
+        },
+
+        // https://github.com/eslint/eslint/issues/5894
+        { code: "class A { constructor() { return; super(); } }", parserOptions: {ecmaVersion: 6} }
     ],
     invalid: [
 
@@ -230,6 +233,13 @@ ruleTester.run("constructor-super", rule, {
                 { message: "Lacked a call of 'super()' in some code paths.", type: "MethodDefinition"},
                 { message: "Unexpected duplicate 'super()'.", type: "CallExpression", column: 48}
             ]
+        },
+
+        // ignores `super()` on unreachable paths.
+        {
+            code: "class A extends B { constructor() { return; super(); } }",
+            parserOptions: {ecmaVersion: 6},
+            errors: [{ message: "Expected to call 'super()'.", type: "MethodDefinition"}]
         }
     ]
 });
