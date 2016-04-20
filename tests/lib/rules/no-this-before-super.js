@@ -77,7 +77,11 @@ ruleTester.run("no-this-before-super", rule, {
                 "}"
             ].join("\n"),
             parserOptions: {ecmaVersion: 6}
-        }
+        },
+
+        // https://github.com/eslint/eslint/issues/5894
+        { code: "class A { constructor() { return; this; } }", parserOptions: {ecmaVersion: 6} },
+        { code: "class A extends B { constructor() { return; this; } }", parserOptions: {ecmaVersion: 6} }
     ],
     invalid: [
 
