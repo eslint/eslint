@@ -1,8 +1,6 @@
 /**
  * @fileoverview Tests for no-self-assign rule.
  * @author Toru Nagashima
- * @copyright 2065 Toru Nagashima. All rights reserved.
- * See LICENSE file in root directory for full license.
  */
 
 "use strict";

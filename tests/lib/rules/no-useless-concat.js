@@ -1,8 +1,6 @@
 /**
  * @fileoverview disallow unncessary concatenation of literals or template literals
  * @author Henry Zhu
- * @copyright 2015 Henry Zhu. All rights reserved.
- * See LICENSE file in root directory for full license.
  */
 "use strict";
 

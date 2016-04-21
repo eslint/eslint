@@ -1,7 +1,6 @@
 /**
  * @fileoverview Tests for no-useless-constructor rule.
  * @author Alberto Rodriguez
- * @copyright 2015 Alberto Rodriguez. All rights reserved.
  */
 
 "use strict";

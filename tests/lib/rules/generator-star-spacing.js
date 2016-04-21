@@ -1,8 +1,6 @@
 /**
  * @fileoverview Tests for generator-star-spacing rule.
  * @author Jamund Ferguson
- * @copyright 2015 Brandon Mills. All rights reserved.
- * @copyright 2014 Jamund Ferguson. All rights reserved.
  */
 
 "use strict";

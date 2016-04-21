@@ -2,8 +2,6 @@
  * @fileoverview Tests for vars-on-top rule.
  * @author Danny Fritz
  * @author Gyandeep Singh
- * @copyright 2014 Danny Fritz. All rights reserved.
- * @copyright 2014 Gyandeep Singh. All rights reserved.
  */
 "use strict";
 

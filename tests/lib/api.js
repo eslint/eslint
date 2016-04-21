@@ -1,8 +1,6 @@
 /**
  * @fileoverview Tests for api.
  * @author Gyandeep Singh
- * @copyright 2015 Gyandeep Singh. All rights reserved.
- * See LICENSE file in root directory for full license.
  */
 
 "use strict";

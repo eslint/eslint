@@ -1,7 +1,6 @@
 /**
-  * @fileoverview Tests for JSON reporter.
+ * @fileoverview Tests for JSON reporter.
  * @author Burak Yigit Kaya aka BYK
- * @copyright 2015 Burak Yigit Kaya. All rights reserved.
  */
 
 "use strict";

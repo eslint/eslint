@@ -1,7 +1,6 @@
 /**
  * @fileoverview Tests for max-params rule.
  * @author Ilya Volodin
- * @copyright 2013 Ilya Volodin. All rights reserved.
  */
 
 "use strict";

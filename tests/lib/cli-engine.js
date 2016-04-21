@@ -1,8 +1,6 @@
 /**
  * @fileoverview Tests for CLIEngine.
  * @author Nicholas C. Zakas
- * @copyright 2014 Nicholas C. Zakas. All rights reserved.
- * See LICENSE in root directory for full license.
  */
 
 "use strict";

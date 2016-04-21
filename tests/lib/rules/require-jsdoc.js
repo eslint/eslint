@@ -1,7 +1,6 @@
 /**
  * @fileoverview Test file for require-jsdoc rule
  * @author Gyandeep Singh
- * @copyright 2015 Gyandeep Singh. All rights reserved.
  */
 "use strict";
 

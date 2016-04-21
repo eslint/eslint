@@ -1,8 +1,6 @@
 /**
  * @fileoverview Tests for no-restricted-imports.
  * @author Guy Ellis
- * @copyright 2015 Guy Ellis. All rights reserved.
- * See LICENSE file in root directory for full license.
  */
 
 "use strict";

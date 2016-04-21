@@ -1,7 +1,6 @@
 /**
  * @fileoverview Tests for max-statements-per-line rule.
  * @author Kenneth Williams
- * @copyright 2016 Kenneth Williams. All rights reserved.
  */
 
 "use strict";

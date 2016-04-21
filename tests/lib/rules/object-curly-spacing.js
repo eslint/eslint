@@ -1,8 +1,6 @@
 /**
  * @fileoverview Disallows or enforces spaces inside of object literals.
  * @author Jamund Ferguson
- * @copyright 2014 Vignesh Anand. All rights reserved.
- * @copyright 2015 Jamund Ferguson. All rights reserved.
  */
 "use strict";
 

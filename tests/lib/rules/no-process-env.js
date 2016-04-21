@@ -1,7 +1,6 @@
 /**
  * @fileoverview Tests for no-process-env rule.
  * @author Vignesh Anand
- * @copyright 2014 Vignesh Anand. All rights reserved.
  */
 "use strict";
 

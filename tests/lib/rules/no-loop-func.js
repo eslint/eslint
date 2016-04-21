@@ -1,7 +1,6 @@
 /**
  * @fileoverview Tests for no-loop-func rule.
  * @author Ilya Volodin
- * @copyright 2013 Ilya Volodin. All rights reserved.
  */
 
 "use strict";

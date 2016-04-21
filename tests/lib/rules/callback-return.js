@@ -1,7 +1,6 @@
 /**
  * @fileoverview Tests for callback return rule.
  * @author Jamund Ferguson
- * @copyright 2015 Jamund Ferguson. All rights reserved.
  */
 "use strict";
 

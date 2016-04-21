@@ -1,7 +1,6 @@
 /**
  * @fileoverview Tests for padded-blocks rule.
  * @author Mathias Schreck <https://github.com/lo1tuma>
- * @copyright 2014 Mathias Schreck. All rights reserved.
  */
 
 "use strict";

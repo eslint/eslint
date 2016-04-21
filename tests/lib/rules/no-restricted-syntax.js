@@ -1,7 +1,6 @@
 /**
  * @fileoverview Tests for `no-restricted-syntax` rule
  * @author Burak Yigit Kaya
- * @copyright 2015 Burak Yigit Kaya. All rights reserved.
  */
 "use strict";
 

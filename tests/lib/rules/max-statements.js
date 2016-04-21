@@ -1,7 +1,6 @@
 /**
  * @fileoverview Tests for max-statements rule.
  * @author Ian Christian Myers
- * @copyright 2013 Ian Christian Myers. All rights reserved.
  */
 
 "use strict";

@@ -1,8 +1,6 @@
 /**
  * @fileoverview Tests for config validator.
  * @author Brandon Mills
- * @copyright 2015 Brandon Mills
- * See LICENSE file in root directory for full license.
  */
 
 "use strict";
