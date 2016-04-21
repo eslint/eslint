@@ -1,7 +1,6 @@
 /**
  * @fileoverview Tests for no-irregular-whitespace rule.
  * @author Jonathan Kingston
- * @copyright 2014 Jonathan Kingston. All rights reserved.
  */
 
 "use strict";

@@ -1,7 +1,6 @@
 /**
  * @fileoverview Tests for block-scoped-var rule
  * @author Matt DuVall <http://www.mattduvall.com>
- * @copyright 2015 Mathieu M-Gosselin. All rights reserved.
  */
 
 "use strict";

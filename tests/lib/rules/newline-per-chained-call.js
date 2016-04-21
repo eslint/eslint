@@ -1,7 +1,6 @@
 /**
  * @fileoverview Tests for newline-per-chained-call rule.
  * @author Rajendra Patil
- * @copyright 2016 Rajendra Patil. All rights reserved.
  */
 
 "use strict";

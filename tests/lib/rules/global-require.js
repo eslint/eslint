@@ -1,7 +1,6 @@
 /**
  * @fileoverview Tests for global-require
  * @author Jamund Ferguson
- * @copyright 2015 Jamund Ferguson. All rights reserved.
  */
 
 "use strict";

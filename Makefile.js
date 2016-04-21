@@ -1,8 +1,6 @@
 /**
  * @fileoverview Build file
  * @author nzakas
- * @copyright jQuery Foundation and other contributors, https://jquery.org/
- * MIT License
  */
 
 /* global cat, cd, cp, echo, exec, exit, find, ls, mkdir, pwd, rm, target, test*/

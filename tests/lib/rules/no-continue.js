@@ -1,7 +1,6 @@
 /**
  * @fileoverview Tests for no-continue rule.
  * @author Borislav Zhivkov
- * @copyright 2015 Borislav Zhivkov. All rights reserved.
  */
 
 "use strict";

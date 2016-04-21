@@ -1,8 +1,6 @@
 /**
  * @fileoverview Tests for no-extra-bind rule
  * @author Bence Dányi <bence@danyi.me>
- * @copyright 2014 Bence Dányi. All rights reserved.
- * See LICENSE in root directory for full license.
  */
 "use strict";
 

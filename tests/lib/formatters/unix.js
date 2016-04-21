@@ -1,7 +1,6 @@
 /**
  * @fileoverview Tests for unix-style formatter.
  * @author oshi-shinobu
- * @copyright 2015 oshi-shinobu. All rights reserved.
  */
 
 "use strict";

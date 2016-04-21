@@ -1,7 +1,6 @@
 /**
  * @fileoverview Tests for prefer-template rule.
  * @author Toru Nagashima
- * @copyright 2015 Toru Nagashima. All rights reserved.
  */
 
 "use strict";

@@ -1,8 +1,6 @@
 /**
  * @fileoverview Rule to disallow whitespace before properties
  * @author Kai Cataldo
- * @copyright 2015 Kai Cataldo. All rights reserved.
- * See LICENSE file in root directory for full license.
  */
 "use strict";
 

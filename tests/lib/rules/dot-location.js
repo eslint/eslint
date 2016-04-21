@@ -1,7 +1,6 @@
 /**
  * @fileoverview Tests for dot-location.
  * @author Greg Cochard
- * @copyright 2015 Greg Cochard
  */
 
 "use strict";

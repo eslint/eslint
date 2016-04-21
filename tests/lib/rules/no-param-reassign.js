@@ -1,7 +1,6 @@
 /**
  * @fileoverview Disallow reassignment of function parameters.
  * @author Nat Burns
- * @copyright 2014 Nat Burns. All rights reserved.
  */
 "use strict";
 

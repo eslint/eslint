@@ -1,8 +1,6 @@
 /**
  * @fileoverview Tests for func-names rule.
  * @author Kyle T. Nunery
- * @copyright 2015 Brandon Mills. All rights reserved.
- * @copyright 2014 Kyle T. Nunery. All rights reserved.
  */
 
 "use strict";

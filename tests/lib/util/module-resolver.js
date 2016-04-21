@@ -1,8 +1,6 @@
 /**
  * @fileoverview Tests for ModuleResolver
  * @author Nicholas C. Zakas
- * @copyright 2016 Nicholas C. Zakas. All rights reserved.
- * See LICENSE in root directory for full license.
  */
 "use strict";
 

@@ -1,8 +1,6 @@
 /**
  * @fileoverview Tests for no-duplicate-imports.
  * @author Simen Bekkhus
- * @copyright 2016 Simen Bekkhus. All rights reserved.
- * See LICENSE file in root directory for full license.
  */
 
 "use strict";

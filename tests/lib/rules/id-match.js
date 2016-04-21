@@ -1,7 +1,6 @@
 /**
  * @fileoverview Rule to flag non-matching identifiers
  * @author Matthieu Larcher
- * @copyright 2015 Matthieu Larcher. All rights reserved.
  */
 
 "use strict";

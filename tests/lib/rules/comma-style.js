@@ -1,7 +1,6 @@
 /**
  * @fileoverview Comma style
  * @author Vignesh Anand aka vegetableman
- * @copyright 2014 Vignesh Anand. All rights reserved.
  */
 "use strict";
 

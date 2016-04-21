@@ -1,8 +1,6 @@
 /**
  * @fileoverview Tests for no-empty rule.
  * @author Nicholas C. Zakas
- * @copyright Nicholas C. Zakas. All rights reserved.
- * @copyright 2015 Dieter Oberkofler. All rights reserved.
  */
 
 "use strict";
