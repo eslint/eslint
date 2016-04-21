@@ -1,7 +1,6 @@
 /**
  * @fileoverview Tests for camelcase rule.
  * @author Nicholas C. Zakas
- * @copyright 2015 Dieter Oberkofler. All rights reserved.
  */
 
 "use strict";

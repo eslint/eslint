@@ -1,7 +1,6 @@
 /**
  * @fileoverview Tests for no-duplicate-case rule.
  * @author Dieter Oberkofler
- * @copyright 2015 Dieter Oberkofler. All rights reserved.
  */
 
 "use strict";

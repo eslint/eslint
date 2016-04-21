@@ -1,7 +1,6 @@
 /**
  * @fileoverview Tests for no-this-before-super rule.
  * @author Toru Nagashima
- * @copyright 2015 Toru Nagashima. All rights reserved.
  */
 
 "use strict";

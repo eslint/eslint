@@ -1,8 +1,6 @@
 /**
  * @fileoverview Tests for cli.
  * @author Ian Christian Myers
- * @copyright 2013 Ian Christian Meyers. All rights reserved.
- * See LICENSE file in root directory for full license.
  */
 
 "use strict";

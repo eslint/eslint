@@ -1,7 +1,6 @@
 /**
  * @fileoverview Tests for options.
  * @author George Zahariev
- * See LICENSE in root directory for full license.
  */
 
 "use strict";

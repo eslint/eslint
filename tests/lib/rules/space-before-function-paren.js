@@ -1,7 +1,6 @@
 /**
  * @fileoverview Tests for space-before-function-paren.
  * @author Mathias Schreck <https://github.com/lo1tuma>
- * @copyright 2015 Mathias Schreck
  */
 "use strict";
 

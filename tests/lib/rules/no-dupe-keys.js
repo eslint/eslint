@@ -1,8 +1,6 @@
 /**
  * @fileoverview Tests for no-dupe-keys rule.
  * @author Ian Christian Myers
- * @copyright 2013 Ian Christian Myers. All rights reserved.
- * @copyright 2013 Nicholas C. Zakas. All rights reserved.
  */
 
 "use strict";

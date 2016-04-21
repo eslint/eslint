@@ -1,8 +1,6 @@
 /**
  * @fileoverview Disallow parenthesesisng higher precedence subexpressions.
  * @author Michael Ficarra
- * @copyright 2014 Michael Ficarra. All rights reserved.
- * See LICENSE file in root directory for full license.
  */
 
 "use strict";

@@ -1,8 +1,6 @@
 /**
  * @fileoverview Tests for comma-dangle rule.
  * @author Ian Christian Myers
- * @copyright 2015 Mathias Schreck
- * @copyright 2013 Ian Christian Myers
  */
 
 "use strict";

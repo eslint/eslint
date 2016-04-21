@@ -1,8 +1,6 @@
 /**
  * @fileoverview Tests for quotes rule.
  * @author Matt DuVall <http://www.mattduvall.com/>, Michael Paulukonis
- * @copyright 2013 Matt DuVall. All rights reserved.
- * See LICENSE file in root directory for full license.
  */
 
 "use strict";

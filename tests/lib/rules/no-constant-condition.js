@@ -1,7 +1,6 @@
 /**
  * @fileoverview Tests for no-constant-condition rule.
  * @author Christian Schulz <http://rndm.de>
- * @copyright 2014 Christian Schulz. All rights reserved.
  */
 
 "use strict";

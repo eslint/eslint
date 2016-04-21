@@ -1,7 +1,6 @@
 /**
  * @fileoverview Tests for strict rule.
  * @author Nicholas C. Zakas
- * @copyright 2013-2014 Nicholas C. Zakas. All rights reserved.
  */
 
 "use strict";

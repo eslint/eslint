@@ -1,7 +1,6 @@
 /**
  * @fileoverview Tests for func-style rule.
  * @author Nicholas C. Zakas
- * @copyright 2013 Nicholas C. Zakas. All rights reserved.
  */
 
 "use strict";

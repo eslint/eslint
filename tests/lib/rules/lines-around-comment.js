@@ -1,8 +1,6 @@
 /**
  * @fileoverview Test enforcement of lines around comments.
  * @author Jamund Ferguson
- * @copyright 2015 Mathieu M-Gosselin. All rights reserved.
- * @copyright 2015 Jamund Ferguson. All rights reserved.
  */
 "use strict";
 

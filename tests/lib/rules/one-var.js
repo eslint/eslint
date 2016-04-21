@@ -1,8 +1,6 @@
 /**
  * @fileoverview Tests for one-var.
  * @author Ian Christian Myers and Michael Paulukonis
- * @copyright 2013 Ian Christian Myers. All rights reserved.
- * @copyright 2013 Michael Paulukonis. All rights reserved.
  */
 
 "use strict";

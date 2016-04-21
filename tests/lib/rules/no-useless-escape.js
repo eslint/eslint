@@ -1,7 +1,6 @@
 /**
  * @fileoverview Look for useless escapes in strings and regexes
  * @author Onur Temizkan
- * @copyright 2016 Onur Temizkan. All rights reserved.
  */
 
 "use strict";

@@ -1,8 +1,6 @@
 /**
  * @fileoverview Tests for no-alert rule.
  * @author Nicholas C. Zakas
- * @copyright 2015 Mathias Schreck
- * @copyright 2013 Nicholas C. Zakas
  */
 
 "use strict";

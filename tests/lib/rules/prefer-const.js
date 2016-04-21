@@ -1,7 +1,6 @@
 /**
  * @fileoverview Tests for prefer-const rule.
  * @author Toru Nagashima
- * @copyright 2015 Toru Nagashima. All rights reserved.
  */
 
 "use strict";

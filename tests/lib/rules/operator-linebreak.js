@@ -1,7 +1,6 @@
 /**
  * @fileoverview Operator linebreak rule tests
  * @author Benoît Zugmeyer
- * @copyright 2015 Benoît Zugmeyer. All rights reserved.
  */
 "use strict";
 

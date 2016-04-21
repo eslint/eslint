@@ -1,8 +1,6 @@
 /**
  * @fileoverview Tests for undefined rule.
  * @author Ilya Volodin
- * @copyright 2013 Ilya Volodin. All rights reserved.
- * See LICENSE in root directory for full license.
  */
 
 "use strict";

@@ -1,7 +1,6 @@
 /**
  * @fileoverview Tests for quote-props rule.
  * @author Mathias Bynens <http://mathiasbynens.be/>
- * @copyright 2015 Tomasz Olędzki. All rights reserved.
  */
 
 "use strict";

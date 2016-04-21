@@ -1,7 +1,6 @@
 /**
  * @fileoverview Tests for semi-spacing.
  * @author Mathias Schreck
- * @copyright 2015 Mathias Schreck
  */
 
 "use strict";

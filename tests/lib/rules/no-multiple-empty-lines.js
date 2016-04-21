@@ -1,7 +1,6 @@
 /**
  * @fileoverview Disallows multiple blank lines.
  * @author Greg Cochard
- * @copyright 2014 Greg Cochard. All rights reserved.
  */
 "use strict";
 

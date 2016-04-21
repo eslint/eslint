@@ -3,8 +3,6 @@
 /**
  * @fileoverview Main CLI that is run via the eslint command.
  * @author Nicholas C. Zakas
- * @copyright jQuery Foundation and other contributors, https://jquery.org/
- * MIT License
  */
 
 "use strict";

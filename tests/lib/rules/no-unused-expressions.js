@@ -1,7 +1,6 @@
 /**
  * @fileoverview Tests for no-unused-expressions rule.
  * @author Michael Ficarra
- * @copyright 2013 Michael Ficarra. All rights reserved.
  */
 
 "use strict";

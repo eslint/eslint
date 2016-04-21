@@ -1,8 +1,6 @@
 /**
  * @fileoverview Tests for no-empty-pattern rule.
  * @author Alberto Rodríguez
- * @copyright 2015 Alberto Rodríguez. All rights reserved.
- * See LICENSE file in root directory for full license.
  */
 "use strict";
 

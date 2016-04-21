@@ -1,8 +1,6 @@
 /**
  * @fileoverview Tests for ESLint Tester
  * @author Nicholas C. Zakas
- * @Copyright 2015 Kevin Partington. All rights reserved.
- * @copyright 2015 Nicholas C. Zakas. All rights reserved.
  */
 "use strict";
 
