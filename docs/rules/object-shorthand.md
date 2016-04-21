@@ -38,7 +38,7 @@ var foo = {
 ## Rule Details
 
 This rule enforces the use of the shorthand syntax. This applies
-to all methods (including generators) defined on object literals and any
+to all methods (including generators) defined in object literals and any
 properties defined where the key name matches name of the assigned variable.
 
 Each of the following properties would warn:
