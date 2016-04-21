@@ -1,4 +1,4 @@
-# Enforce JSX Quote Style (jsx-quotes)
+# enforce the consistent use of either double or single quotes in JSX attributes (jsx-quotes)
 
 (fixable) The `--fix` option on the [command line](../user-guide/command-line-interface#fix) automatically fixes problems reported by this rule.
 
@@ -19,13 +19,18 @@ If you want to have e.g. a double quote within a JSX attribute value, you have t
 
 ## Rule Details
 
-This rule takes one argument.
-If it is `"prefer-double"` then the rule enforces the usage of double quotes for all JSX attribute values which doesn’t contain a double quote.
-If `"prefer-single"` is configured then the rule enforces the usage of single quotes for all JSX attribute values which doesn’t contain a single quote.
+This rule enforces the consistent use of either double or single quotes in JSX attributes.
 
-The default is `"prefer-double"`.
+## Options
 
-The following patterns are considered problems when set to `"prefer-double"`:
+This rule has a string option:
+
+* `"prefer-double"` (default) enforces the use of double quotes for all JSX attribute values that don't contain a double quote.
+* `"prefer-single"` enforces the use of single quotes for all JSX attribute values that don’t contain a single quote.
+
+### prefer-double
+
+Examples of **incorrect** code for this rule with the default `"prefer-double"` option:
 
 ```xml
 /*eslint jsx-quotes: ["error", "prefer-double"]*/
@@ -33,7 +38,7 @@ The following patterns are considered problems when set to `"prefer-double"`:
 <a b='c' />
 ```
 
-The following patterns are not considered problems when set to `"prefer-double"`:
+Examples of **correct** code for this rule with the default `"prefer-double"` option:
 
 ```xml
 /*eslint jsx-quotes: ["error", "prefer-double"]*/
@@ -42,7 +47,9 @@ The following patterns are not considered problems when set to `"prefer-double"`
 <a b='"' />
 ```
 
-The following patterns are considered problems when set to `"prefer-single"`:
+### prefer-single
+
+Examples of **incorrect** code for this rule with the `"prefer-single"` option:
 
 ```xml
 /*eslint jsx-quotes: ["error", "prefer-single"]*/
@@ -50,7 +57,7 @@ The following patterns are considered problems when set to `"prefer-single"`:
 <a b="c" />
 ```
 
-The following patterns are not considered problems when set to `"prefer-single"`:
+Examples of **correct** code for this rule with the `"prefer-single"` option:
 
 ```xml
 /*eslint jsx-quotes: ["error", "prefer-single"]*/
