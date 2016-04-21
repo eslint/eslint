@@ -3175,21 +3175,6 @@ describe("eslint", function() {
             assert.equal(messages.length, 0);
         });
 
-        // TODO: Remove when escope is updated
-        it("should not crash due to no-undef mutating escope data", function() {
-            var code = "import foo from 'bar';";
-
-            eslint.verify(code, {
-                parserOptions: {
-                    sourceType: "module"
-                },
-                rules: {
-                    "no-undef": 2,
-                    "no-unused-vars": 2
-                }
-            }, "filename");
-        });
-
         it("should be able to use es6 features if there is a comment which has \"eslint-env es6\"", function() {
             var code = [
                 "/* eslint-env es6 */",
