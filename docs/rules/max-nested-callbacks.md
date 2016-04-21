@@ -1,4 +1,4 @@
-# Set Maximum Depth of Nested Callbacks (max-nested-callbacks)
+# enforce a maximum depth that callbacks can be nested (max-nested-callbacks)
 
 Many JavaScript libraries use the callback pattern to manage asynchronous operations. A program of any complexity will most likely need to manage several asynchronous operations at various levels of concurrency. A common pitfall that is easy to fall into is nesting callbacks, which makes code more difficult to read the deeper the callbacks are nested.
 
@@ -16,59 +16,55 @@ foo(function () {
 
 ## Rule Details
 
-This rule is aimed at increasing code clarity by discouraging deeply nesting callbacks. As such, it will warn when callbacks are nested deeper than the specified limit.
+This rule enforces a maximum depth that callbacks can be nested to increase code clarity.
 
 ## Options
 
-The default max depth for this rule is 10. You can define the depth as an option by using the second argument in your configuration. For example, this sets the rule as an error (code is 2) with a maximum depth of 3:
+This rule has a number or object option:
 
-```json
-"max-nested-callbacks": ["error", 3]
+* `"max"` (default `10`) enforces a maximum depth that callbacks can be nested
 
-// or you can use an object property
+**Deprecated:** The object property `maximum` is deprecated; please use the object property `max` instead.
 
-"max-nested-callbacks": ["error", {"max": 3}]
-```
+### max
 
-**Deprecated:** the object property `maximum` is deprecated. Please use the property `max` instead.
-
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule with the `{ "max": 3 }` option:
 
 ```js
 /*eslint max-nested-callbacks: ["error", 3]*/
 
-foo(function () {
-    bar(function () {
-        baz(function() {
-            qux(function () {
-
+foo1(function() {
+    foo2(function() {
+        foo3(function() {
+            foo4(function() {
+                // Do something
             });
         });
     });
 });
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule with the `{ "max": 3 }` option:
 
 ```js
 /*eslint max-nested-callbacks: ["error", 3]*/
 
-foo(handleFoo);
+foo1(handleFoo1);
 
-function handleFoo (){
-    bar(handleBar);
+function handleFoo1() {
+    foo2(handleFoo2);
 }
 
-function handleBar() {
-    baz(handleBaz);
+function handleFoo2() {
+    foo3(handleFoo3);
 }
 
-function handleBaz() {
-    qux(handleQux);
+function handleFoo3() {
+    foo4(handleFoo4);
 }
 
-function handleQux() {
-
+function handleFoo4() {
+    foo5();
 }
 ```
 

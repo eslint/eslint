@@ -1,4 +1,4 @@
-# Limit Maximum Number of Statements (max-statements)
+# enforce a maximum number of statements allowed in `function` blocks (max-statements)
 
 The `max-statements` rule allows you to specify the maximum number of statements allowed in a function.
 
@@ -12,40 +12,96 @@ function foo() {
 
 ## Rule Details
 
-This rule allows you to configure the maximum number of statements allowed in a function.  The default is 10.
+This rule enforces a maximum number of statements allowed in function blocks.
 
 ## Options
 
-There is an additional optional argument to ignore top level functions.
+This rule has a number or object option:
 
-```json
-"max-statements": ["error", 10, {"ignoreTopLevelFunctions": true}]
+* `"max"` (default `10`) enforces a maximum number of statements allows in function blocks
 
-// or you can use an object property to set the maximum
+**Deprecated:** The object property `maximum` is deprecated; please use the object property `max` instead.
 
-"max-statements": ["error", {"max": 10}, {"ignoreTopLevelFunctions": true}]
-```
+This rule has an object option:
 
-**Deprecated:** the object property `maximum` is deprecated. Please use the property `max` instead.
+* `"ignoreTopLevelFunctions": true` ignores top-level functions
 
-The following patterns are considered problems:
+### max
+
+Examples of **incorrect** code for this rule with the default `{ "max": 10 }` option:
 
 ```js
-/*eslint max-statements: ["error", 2]*/  // Maximum of 2 statements.
-function foo() {
-  var bar = 1;
-  var baz = 2;
+/*eslint max-statements: ["error", 10]*/
+/*eslint-env es6*/
 
-  var qux = 3; // Too many.
+function foo() {
+  var foo1 = 1;
+  var foo2 = 2;
+  var foo3 = 3;
+  var foo4 = 4;
+  var foo5 = 5;
+  var foo6 = 6;
+  var foo7 = 7;
+  var foo8 = 8;
+  var foo9 = 9;
+  var foo10 = 10;
+
+  var foo11 = 11; // Too many.
 }
+
+let foo = () => {
+  var foo1 = 1;
+  var foo2 = 2;
+  var foo3 = 3;
+  var foo4 = 4;
+  var foo5 = 5;
+  var foo6 = 6;
+  var foo7 = 7;
+  var foo8 = 8;
+  var foo9 = 9;
+  var foo10 = 10;
+
+  var foo11 = 11; // Too many.
+};
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule with the default `{ "max": 10 }` option:
 
 ```js
-/*eslint max-statements: ["error", 2]*/  // Maximum of 2 statements.
+/*eslint max-statements: ["error", 10]*/
+/*eslint-env es6*/
+
 function foo() {
-  var bar = 1;
+  var foo1 = 1;
+  var foo2 = 2;
+  var foo3 = 3;
+  var foo4 = 4;
+  var foo5 = 5;
+  var foo6 = 6;
+  var foo7 = 7;
+  var foo8 = 8;
+  var foo9 = 9;
+  var foo10 = 10;
+  return function () {
+
+    // The number of statements in the inner function does not count toward the
+    // statement maximum.
+
+    return 42;
+  };
+}
+
+let foo = () => {
+  var foo1 = 1;
+  var foo2 = 2;
+  var foo3 = 3;
+  var foo4 = 4;
+  var foo5 = 5;
+  var foo6 = 6;
+  var foo7 = 7;
+  var foo8 = 8;
+  var foo9 = 9;
+  var foo10 = 10;
   return function () {
 
     // The number of statements in the inner function does not count toward the
@@ -56,14 +112,26 @@ function foo() {
 }
 ```
 
+### ignoreTopLevelFunctions
+
+Examples of additional **correct** code for this rule with the `{ "max": 10 }, { "ignoreTopLevelFunctions": true }` options:
+
 ```js
-/*eslint max-statements: ["error", 1, {ignoreTopLevelFunctions: true}]*/  // Maximum of 1 statement.
-(function() {
-  var bar = 1;
-  return function () {
-    return 42;
-  };
-})()
+/*eslint max-statements: ["error", 10, { "ignoreTopLevelFunctions": true }]*/
+
+function foo() {
+  var foo1 = 1;
+  var foo2 = 2;
+  var foo3 = 3;
+  var foo4 = 4;
+  var foo5 = 5;
+  var foo6 = 6;
+  var foo7 = 7;
+  var foo8 = 8;
+  var foo9 = 9;
+  var foo10 = 10;
+  var foo11 = 11;
+}
 ```
 
 ## Related Rules
