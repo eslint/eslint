@@ -1,7 +1,6 @@
 /**
  * @fileoverview Tests for no-console rule.
  * @author Nicholas C. Zakas
- * @copyright 2016 Eric Correia. All rights reserved.
  */
 
 "use strict";

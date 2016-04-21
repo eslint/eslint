@@ -1,8 +1,6 @@
 /**
  * @fileoverview Tests for pr-create.md.ejs
  * @author Nicholas C. Zakas
- * @copyright 2016 Nicholas C. Zakas. All rights reserved.
- * MIT License. See LICENSE in root directory for full license.
  */
 
 "use strict";

@@ -1,9 +1,6 @@
 /**
  * @fileoverview Tests for the no-new-symbol rule
  * @author Alberto Rodríguez
- * @copyright 2016 Alberto Rodríguez. All rights reserved.
- * See LICENSE file in root directory for full license.
-
  */
 
 "use strict";

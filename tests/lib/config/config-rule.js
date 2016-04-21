@@ -1,8 +1,6 @@
 /**
  * @fileoverview Tests for ConfigOps
  * @author Ian VanSchooten
- * @copyright 2016 Ian VanSchooten. All rights reserved.
- * See LICENSE file in root directory for full license.
  */
 
 "use strict";

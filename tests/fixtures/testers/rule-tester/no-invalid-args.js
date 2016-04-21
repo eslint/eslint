@@ -1,7 +1,7 @@
 /**
- ** @fileoverview Test rule to flag invalid args
- ** @author Mathias Schreck
- **/
+ * @fileoverview Test rule to flag invalid args
+ * @author Mathias Schreck
+ */
 
 //------------------------------------------------------------------------------
 // Rule Definition
@@ -20,4 +20,3 @@ module.exports = function(context) {
         }
     };
 };
-

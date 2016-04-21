@@ -1,7 +1,6 @@
 /**
  * @fileoverview Tests for no-case-declarations rule.
  * @author Erik Arvidsson
- * @copyright 2015 Erik Arvidsson. All rights reserved.
  */
 
 "use strict";

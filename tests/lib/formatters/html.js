@@ -1,7 +1,6 @@
 /**
  * @fileoverview Tests for HTML reporter.
  * @author Julian Laval
- * @copyright 2015 Julian Laval. All rights reserved.
  */
 
 "use strict";

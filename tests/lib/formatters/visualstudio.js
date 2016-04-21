@@ -1,8 +1,6 @@
 /**
  * @fileoverview Tests for VisualStudio format.
  * @author Ronald Pijnacker
- * @copyright 2015 Ronald Pijnacker. All rights reserved.
- * See LICENSE file in root directory for full license.
  */
 
 "use strict";

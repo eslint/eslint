@@ -1,7 +1,6 @@
 /**
  * @fileoverview Tests for id-length rule.
  * @author Burak Yigit Kaya
- * @copyright 2015 Mathieu M-Gosselin. All rights reserved.
  */
 
 "use strict";

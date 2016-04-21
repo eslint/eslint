@@ -1,8 +1,6 @@
 /**
  * @fileoverview Tests for no-restricted-globals.
  * @author Benoît Zugmeyer
- * @copyright 2016 Benoît Zugmeyer. All rights reserved.
- * See LICENSE file in root directory for full license.
  */
 
 "use strict";

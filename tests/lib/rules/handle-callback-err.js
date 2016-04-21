@@ -1,7 +1,6 @@
 /**
  * @fileoverview Tests for missing-err rule.
  * @author Jamund Ferguson
- * @copyright 2014 Jamund Ferguson. All rights reserved.
  */
 
 "use strict";
