@@ -35,6 +35,7 @@ These rules relate to possible syntax or logic errors in JavaScript code:
 * [no-sparse-arrays](no-sparse-arrays.md): disallow sparse arrays (recommended)
 * [no-unexpected-multiline](no-unexpected-multiline.md): disallow confusing multiline expressions (recommended)
 * [no-unreachable](no-unreachable.md): disallow unreachable code after `return`, `throw`, `continue`, and `break` statements (recommended)
+* [no-unsafe-finally](no-unsafe-finally.md): disallow control flow statements in `finally` blocks
 * [use-isnan](use-isnan.md): require calls to `isNaN()` when checking for `NaN` (recommended)
 * [valid-jsdoc](valid-jsdoc.md): enforce valid JSDoc comments
 * [valid-typeof](valid-typeof.md): enforce comparing `typeof` expressions against valid strings (recommended)

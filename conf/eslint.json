@@ -109,6 +109,7 @@
         "no-unmodified-loop-condition": "off",
         "no-unneeded-ternary": "off",
         "no-unreachable": "error",
+        "no-unsafe-finally": "off",
         "no-unused-expressions": "off",
         "no-unused-labels": "error",
         "no-unused-vars": "error",
