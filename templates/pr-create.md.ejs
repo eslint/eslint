@@ -1,6 +1,6 @@
 <%
 
-var FLAG_PATTERN = /^(Fix|Update|New|Breaking|Build|Docs|Upgrade):/,
+var FLAG_PATTERN = /^(Breaking|Build|Chore|Docs|Fix|New|Update|Upgrade):/,
     ISSUE_REF_PATTERN = /\((fixes|refs) #\d+.*?\)$/;
 
 function isValidCommitFlag(log) {

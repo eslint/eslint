@@ -71,3 +71,10 @@ function outputList(items) {
 <% outputList(changelog.build); %>
 
 <% } %>
+
+<% if (typeof changelog.chore !== "undefined") { %>
+## Chores
+
+<% outputList(changelog.chore); %>
+
+<% } %>
