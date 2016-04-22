@@ -165,6 +165,98 @@ ruleTester.run("require-jsdoc", rule, {
                     "ClassDeclaration": false
                 }
             }]
+        },
+        {
+            code:
+            "class A {\n" +
+            "    get member() {\n" +
+            "        return this.a;" +
+            "    }\n" +
+            "}",
+            parserOptions: { ecmaVersion: 6 },
+            options: [{
+                "require": {
+                    "MethodDefinition": true
+                },
+                "ignoreGetters": true
+            }]
+        },
+        {
+            code:
+            "class A {\n" +
+            "    /**\n" +
+            "     * Description for setter.\n" +
+            "     * @param {object[]} xs - xs\n" +
+            "     */\n" +
+            "    set member(xs) {\n" +
+            "        this.a = xs;" +
+            "    }\n" +
+            "    get member() {\n" +
+            "        return this.a;" +
+            "    }\n" +
+            "}",
+            parserOptions: { ecmaVersion: 6 },
+            options: [{
+                "require": {
+                    "MethodDefinition": true
+                },
+                "ignoreGetters": true
+            }]
+        },
+        {
+            code:
+            "class A {\n" +
+            "    set member(xs) {\n" +
+            "        this.a = xs;" +
+            "    }\n" +
+            "}",
+            parserOptions: { ecmaVersion: 6 },
+            options: [{
+                "require": {
+                    "MethodDefinition": true
+                },
+                "ignoreSetters": true
+            }]
+        },
+        {
+            code:
+            "class A {\n" +
+            "    /**\n" +
+            "     * Description for getter.\n" +
+            "     */\n" +
+            "    get member() {\n" +
+            "        return this.a;" +
+            "    }\n" +
+            "    set member(xs) {\n" +
+            "        this.a = xs;" +
+            "    }\n" +
+            "}",
+            parserOptions: { ecmaVersion: 6 },
+            options: [{
+                "require": {
+                    "MethodDefinition": true
+                },
+                "ignoreSetters": true
+            }]
+        },
+        {
+            code:
+            "class A {\n" +
+            "    get member() {\n" +
+            "        return this.a;" +
+            "    }\n" +
+            "    set member(xs) {\n" +
+            "        this.a = xs;" +
+            "    }\n" +
+            "}",
+            parserOptions: { ecmaVersion: 6 },
+            options: [{
+                "require": {
+                    "MethodDefinition": true
+                },
+                "ignoreGetters": true,
+                "ignoreSetters": true
+            }]
         }
     ],
 

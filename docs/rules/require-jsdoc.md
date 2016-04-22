@@ -26,7 +26,15 @@ This rule generates warnings for nodes that do not have JSDoc comments when they
 
 ## Options
 
-This rule accepts a `require` object with its properties as
+This rule has an object option:
+
+* `"require"` requires JSDoc comments for the specified nodes
+* `"ignoreGetters": true` ignores getters
+* `"ignoreSetters": true` ignores setters
+
+### require
+
+The `require` object accepts properties as:
 
 * `FunctionDeclaration` (default: `true`)
 * `ClassDeclaration` (default: `false`)
@@ -97,13 +105,53 @@ array.filter(function(item) {
 });
 
 /**
-* It returns 10
+* Test class
 */
 class Test{
     /**
     * returns the date
     */
     getDate(){}
+}
+```
+
+### ignoreGetters
+
+Examples of additional **correct** code for this rule with the `"ignoreGetters": true` option:
+
+```js
+/*eslint "require-jsdoc": ["error", {
+    "require": {
+        "FunctionDeclaration": true,
+        "MethodDefinition": true,
+        "ClassDeclaration": true
+    },
+    "ignoreGetters": true
+}]*/
+/*eslint-env es6*/
+
+class Test {
+    get date() { return this._date; }
+}
+```
+
+### ignoreSetters
+
+Examples of additional **correct** code for this rule with the `"ignoreSetters": true` option:
+
+```js
+/*eslint "require-jsdoc": ["error", {
+    "require": {
+        "FunctionDeclaration": true,
+        "MethodDefinition": true,
+        "ClassDeclaration": true
+    },
+    "ignoreSetters": true
+}]*/
+/*eslint-env es6*/
+
+class Test {
+    set date(dt) { this._data = dt; }
 }
 ```
 
