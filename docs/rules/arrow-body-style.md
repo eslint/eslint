@@ -12,6 +12,7 @@ The rule takes one option, a string, which can be:
 
 * `"always"` enforces braces around the function body
 * `"as-needed"` enforces no braces where they can be omitted (default)
+* `"except-object"` enforces no braces, except when returning object literals
 
 ### "always"
 
@@ -68,5 +69,28 @@ let foo = () => {};
 let foo = () => { /* do nothing */ };
 let foo = () => {
     // do nothing.
+};
+```
+
+### "except-object"
+
+When the rule is set to `"except-object"` the following patterns are considered problems:
+
+```js
+/*eslint arrow-body-style: ["error", "except-object"]*/
+/*eslit-env es6*/
+
+let foo = () => ({ key: 'bar' });
+```
+
+The following patterns are not considered problems:
+
+```js
+
+/*eslint arrow-body-style: ["error", "except-object"]*/
+/*eslit-env es6*/
+
+let foo = () => {
+  return { key: 'bar' };
 };
 ```

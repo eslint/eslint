@@ -30,7 +30,9 @@ ruleTester.run("arrow-body-style", rule, {
         { code: "var foo = () => { b = a };", parserOptions: { ecmaVersion: 6 } },
         { code: "var foo = () => { bar: 1 };", parserOptions: { ecmaVersion: 6 } },
         { code: "var foo = () => { return 0; };", parserOptions: { ecmaVersion: 6 }, options: ["always"] },
-        { code: "var foo = () => { return bar(); };", parserOptions: { ecmaVersion: 6 }, options: ["always"] }
+        { code: "var foo = () => { return bar(); };", parserOptions: { ecmaVersion: 6 }, options: ["always"] },
+        { code: "var foo = () => { return { bar: 1 }; };", parserOptions: { ecmaVersion: 6 }, options: ["except-object"] },
+        { code: "var foo = () => 0;", parserOptions: { ecmaVersion: 6 }, options: ["except-object"] }
     ],
     invalid: [
         {
@@ -61,6 +63,22 @@ ruleTester.run("arrow-body-style", rule, {
             code: "var foo = () => { return bar(); };",
             parserOptions: { ecmaVersion: 6 },
             options: ["as-needed"],
+            errors: [
+                { line: 1, column: 17, type: "ArrowFunctionExpression", message: "Unexpected block statement surrounding arrow body." }
+            ]
+        },
+        {
+            code: "var foo = () => ({ bar: 1 });",
+            parserOptions: { ecmaVersion: 6 },
+            options: ["except-object"],
+            errors: [
+                { line: 1, column: 18, type: "ArrowFunctionExpression", message: "Unexpected object literal returned from blockless arrow body." }
+            ]
+        },
+        {
+            code: "var foo = () => { return 0 };",
+            parserOptions: { ecmaVersion: 6 },
+            options: ["except-object"],
             errors: [
                 { line: 1, column: 17, type: "ArrowFunctionExpression", message: "Unexpected block statement surrounding arrow body." }
             ]
