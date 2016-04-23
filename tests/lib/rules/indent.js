@@ -1123,7 +1123,7 @@ ruleTester.run("indent", rule, {
             code:
             "class Foo\n" +
             "  extends Bar {\n" +
-            "  baz() {}" +
+            "  baz() {}\n" +
             "}",
             parserOptions: { ecmaVersion: 6 },
             options: [2]
@@ -1132,7 +1132,7 @@ ruleTester.run("indent", rule, {
             code:
             "class Foo extends\n" +
             "  Bar {\n" +
-            "  baz() {}" +
+            "  baz() {}\n" +
             "}",
             parserOptions: { ecmaVersion: 6 },
             options: [2]
