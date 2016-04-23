@@ -21,6 +21,10 @@ var ruleTester = new RuleTester();
 ruleTester.run("no-console", rule, {
     valid: [
         "Console.info(foo)",
+        "foo.window.console.info(foo)",
+        "something.console.log(foo)",
+        "function foo() { var console = {log: function() {}}; function test() { console.log(); } }",
+        { code: "(function() { console.info(foo); }());", options: [ { allow: ["info"] } ] },
 
         // single array item
         { code: "console.info(foo)", options: [ { allow: ["info"] } ] },
@@ -32,7 +36,15 @@ ruleTester.run("no-console", rule, {
         { code: "console.info(foo)", options: [ { allow: ["warn", "info"] } ] },
         { code: "console.warn(foo)", options: [ { allow: ["error", "warn"] } ] },
         { code: "console.error(foo)", options: [ { allow: ["log", "error"] } ] },
-        { code: "console.log(foo)", options: [ { allow: ["info", "log", "warn"] } ] }
+        { code: "console.log(foo)", options: [ { allow: ["info", "log", "warn"] } ] },
+
+        // disallowing globals
+        { code: "window.console.info(foo)", options: [ { allow: ["info"], disallowGlobals: ["self"] } ] },
+        { code: "self.console.error(foo)", options: [ { allow: ["error"], disallowGlobals: ["window"] } ] },
+        { code: "window.console.info(foo)", options: [ { allow: ["info"] } ] },
+        { code: "self.console.error(foo)", options: [ { allow: ["error"], disallowGlobals: ["window"] } ] },
+        { code: "this.console.info(foo)", options: [ { allow: ["info"], disallowGlobals: ["self"] } ] },
+        { code: "this.console.warn(foo)", options: [ { allow: ["warn"], disallowGlobals: ["window"] } ] }
     ],
     invalid: [
 
@@ -52,6 +64,14 @@ ruleTester.run("no-console", rule, {
         { code: "console.log(foo)", options: [ { allow: ["warn", "info"] } ], errors: [{ message: "Unexpected console statement.", type: "MemberExpression"}] },
         { code: "console.error(foo)", options: [ { allow: ["warn", "info", "log"] } ], errors: [{ message: "Unexpected console statement.", type: "MemberExpression"}] },
         { code: "console.info(foo)", options: [ { allow: ["warn", "error", "log"] } ], errors: [{ message: "Unexpected console statement.", type: "MemberExpression"}] },
-        { code: "console.warn(foo)", options: [ { allow: ["info", "log"] } ], errors: [{ message: "Unexpected console statement.", type: "MemberExpression"}] }
+        { code: "console.warn(foo)", options: [ { allow: ["info", "log"] } ], errors: [{ message: "Unexpected console statement.", type: "MemberExpression"}] },
+
+        // disallowing globals
+        { code: "window.console.info(foo)", options: [ { allow: ["info"], disallowGlobals: ["window"] } ], errors: [{ message: "Unexpected console statement. 'window' global is not allowed.", type: "MemberExpression"}] },
+        { code: "self.console.error(foo)", options: [ { allow: ["error"], disallowGlobals: ["self"] } ], errors: [{ message: "Unexpected console statement. 'self' global is not allowed.", type: "MemberExpression"}] },
+        { code: "window.console.info(foo)", options: [ { allow: ["error"], disallowGlobals: ["window"] } ], errors: [{ message: "Unexpected console statement. 'window' global is not allowed.", type: "MemberExpression"}] },
+        { code: "this.console.info(foo)", options: [ { allow: ["error"], disallowGlobals: ["this"] } ], errors: [{ message: "Unexpected console statement. 'this' global is not allowed.", type: "MemberExpression"}] },
+        { code: "self.console.warn(foo)", options: [ { allow: ["warn"], disallowGlobals: ["self"] } ], errors: [{ message: "Unexpected console statement. 'self' global is not allowed.", type: "MemberExpression"}] },
+        { code: "this.console.warn(foo)", options: [ { allow: ["warn"], disallowGlobals: ["this"] } ], errors: [{ message: "Unexpected console statement. 'this' global is not allowed.", type: "MemberExpression"}] }
     ]
 });

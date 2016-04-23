@@ -35,6 +35,9 @@ Console.log("Hello world!");
 This rule has an object option for exceptions:
 
 * `"allow"` has an array of strings which are allowed methods of the `console` object
+* `"disallowGlobals"` A list of global objects not to be used in addition to any `console` references.
+
+### allow
 
 Examples of additional **correct** code for this rule with a sample `{ "allow": ["warn", "error"] }` option:
 
@@ -43,6 +46,26 @@ Examples of additional **correct** code for this rule with a sample `{ "allow": 
 
 console.warn("Log a warn level message.");
 console.error("Log an error level message.");
+```
+
+### disallowGlobals
+
+Examples of additional **correct** code for this rule with a sample `{ "allow": ["error"], "disallowGlobals": ["self"] }` option:
+
+```js
+/*eslint no-console: ["error", { allow: ["error"], disallowGlobals: ["window"] }] */
+
+console.error("this will not be considered a problem");
+self.console.error("this will not be considered a problem");
+```
+
+Examples of additional **incorrect** code for this rule with a sample `{ "allow": ["error"], "disallowGlobals": ["self"] }` option:
+
+```js
+/*eslint no-console: ["error", { allow: ["error"], disallowGlobals: ["window"] }] */
+
+window.console.error("this will be considered a problem");
+console.log("this will be considered a problem");
 ```
 
 ## When Not To Use It
