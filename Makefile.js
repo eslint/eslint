@@ -4,7 +4,7 @@
  */
 
 /* global cat, cd, cp, echo, exec, exit, find, ls, mkdir, pwd, rm, target, test*/
-/* eslint no-use-before-define: 0*/
+/* eslint no-use-before-define: "off", no-console: "off" */
 "use strict";
 
 //------------------------------------------------------------------------------

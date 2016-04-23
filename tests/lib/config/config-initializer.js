@@ -219,8 +219,8 @@ describe("configInitializer", function() {
 
         describe("auto", function() {
             var config,
-                origLog,
-                completeSpy = sinon.spy();
+                completeSpy = sinon.spy(),
+                sandbox;
 
             before(function() {
                 var patterns = [
@@ -238,23 +238,23 @@ describe("configInitializer", function() {
                     format: "JSON",
                     commonjs: false
                 };
-                origLog = console.log;
-                console.log = function() {}; // necessary to replace, because of progress bar
+
+                sandbox = sinon.sandbox.create();
+                sandbox.stub(console, "log"); // necessary to replace, because of progress bar
+
                 process.chdir(fixtureDir);
+
                 try {
                     config = init.processAnswers(answers);
                     process.chdir(originalDir);
                 } catch (err) {
 
-                    // if processAnswers crashes, we need to be sure to restore cwd and console.log
-                    console.log = origLog;
+                    // if processAnswers crashes, we need to be sure to restore cwd
                     process.chdir(originalDir);
                     throw err;
+                } finally {
+                    sandbox.restore();  // restore console.log()
                 }
-            });
-
-            beforeEach(function() {
-                console.log = origLog;
             });
 
             it("should create a config", function() {
