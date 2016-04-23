@@ -25,7 +25,7 @@ var assert = require("chai").assert,
  */
 function mockRule(context) {
     return {
-        "Program": function(node) {
+        Program: function(node) {
             context.report(node, "Expected a validation error.");
         }
     };
@@ -33,7 +33,7 @@ function mockRule(context) {
 
 mockRule.schema = [
     {
-        "enum": ["first", "second"]
+        enum: ["first", "second"]
     }
 ];
 
@@ -45,14 +45,14 @@ mockRule.schema = [
  */
 function mockObjectRule(context) {
     return {
-        "Program": function(node) {
+        Program: function(node) {
             context.report(node, "Expected a validation error.");
         }
     };
 }
 
 mockObjectRule.schema = {
-    "enum": ["first", "second"]
+    enum: ["first", "second"]
 };
 
 /**
@@ -63,7 +63,7 @@ mockObjectRule.schema = {
  */
 function mockNoOptionsRule(context) {
     return {
-        "Program": function(node) {
+        Program: function(node) {
             context.report(node, "Expected a validation error.");
         }
     };
@@ -168,13 +168,13 @@ describe("Validator", function() {
         });
 
         it("should catch invalid environments", function() {
-            var fn = validator.validate.bind(null, { env: {"browser": true, "invalid": true } });
+            var fn = validator.validate.bind(null, { env: {browser: true, invalid: true } });
 
             assert.throws(fn, "Environment key \"invalid\" is unknown\n");
         });
 
         it("should catch disabled invalid environments", function() {
-            var fn = validator.validate.bind(null, { env: {"browser": true, "invalid": false } });
+            var fn = validator.validate.bind(null, { env: {browser: true, invalid: false } });
 
             assert.throws(fn, "Environment key \"invalid\" is unknown\n");
         });
@@ -196,7 +196,7 @@ describe("Validator", function() {
         it("should not modify object schema", function() {
             eslint.defineRule("mock-object-rule", mockObjectRule);
             assert.deepEqual(validator.getRuleOptionsSchema("mock-object-rule"), {
-                "enum": ["first", "second"]
+                enum: ["first", "second"]
             });
         });
 

@@ -106,7 +106,7 @@ ruleTester.run("no-multiple-empty-lines", rule, {
         },
         {
             code: "// valid 9\nvar a = 1;\n\n",
-            options: [{ "max": 2, "maxEOF": 1 }]
+            options: [{ max: 2, maxEOF: 1 }]
         },
         {
             code: "// valid 10\nvar a = 5;\n",
@@ -114,7 +114,7 @@ ruleTester.run("no-multiple-empty-lines", rule, {
         },
         {
             code: "\n// valid 11\nvar a = 1;\n",
-            options: [{ "max": 2, "maxBOF": 1 }]
+            options: [{ max: 2, maxBOF: 1 }]
         },
 
         // template strings

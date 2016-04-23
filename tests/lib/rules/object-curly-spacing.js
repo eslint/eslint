@@ -59,18 +59,18 @@ ruleTester.run("object-curly-spacing", rule, {
         { code: "var foo = {};", options: ["always"] },
 
         // always - objectsInObjects
-        { code: "var obj = { 'foo': { 'bar': 1, 'baz': 2 }};", options: ["always", {"objectsInObjects": false}] },
-        { code: "var a = { noop: function () {} };", options: ["always", {"objectsInObjects": false}] },
+        { code: "var obj = { 'foo': { 'bar': 1, 'baz': 2 }};", options: ["always", {objectsInObjects: false}] },
+        { code: "var a = { noop: function () {} };", options: ["always", {objectsInObjects: false}] },
 
         // always - arraysInObjects
-        { code: "var obj = { 'foo': [ 1, 2 ]};", options: ["always", {"arraysInObjects": false}] },
-        { code: "var a = { thingInList: list[0] };", options: ["always", {"arraysInObjects": false}] },
+        { code: "var obj = { 'foo': [ 1, 2 ]};", options: ["always", {arraysInObjects: false}] },
+        { code: "var a = { thingInList: list[0] };", options: ["always", {arraysInObjects: false}] },
 
         // always - arraysInObjects, objectsInObjects
-        { code: "var obj = { 'qux': [ 1, 2 ], 'foo': { 'bar': 1, 'baz': 2 }};", options: ["always", {"arraysInObjects": false, "objectsInObjects": false}] },
+        { code: "var obj = { 'qux': [ 1, 2 ], 'foo': { 'bar': 1, 'baz': 2 }};", options: ["always", {arraysInObjects: false, objectsInObjects: false}] },
 
         // always - arraysInObjects, objectsInObjects (reverse)
-        { code: "var obj = { 'foo': { 'bar': 1, 'baz': 2 }, 'qux': [ 1, 2 ]};", options: ["always", {"arraysInObjects": false, "objectsInObjects": false}] },
+        { code: "var obj = { 'foo': { 'bar': 1, 'baz': 2 }, 'qux': [ 1, 2 ]};", options: ["always", {arraysInObjects: false, objectsInObjects: false}] },
 
         // never
         { code: "var obj = {foo: bar,\nbaz: qux\n};", options: ["never"] },
@@ -120,7 +120,7 @@ ruleTester.run("object-curly-spacing", rule, {
         { code: "var foo = {};", options: ["never"] },
 
         // never - objectsInObjects
-        { code: "var obj = {'foo': {'bar': 1, 'baz': 2} };", options: ["never", {"objectsInObjects": true}]},
+        { code: "var obj = {'foo': {'bar': 1, 'baz': 2} };", options: ["never", {objectsInObjects: true}]},
 
         // https://github.com/eslint/eslint/issues/3658
         // Empty cases.
@@ -346,7 +346,7 @@ ruleTester.run("object-curly-spacing", rule, {
         {
             code: "var obj = { 'foo': [ 1, 2 ] };",
             output: "var obj = { 'foo': [ 1, 2 ]};",
-            options: ["always", {"arraysInObjects": false}],
+            options: ["always", {arraysInObjects: false}],
             errors: [
                 {
                     message: "There should be no space before '}'",
@@ -357,7 +357,7 @@ ruleTester.run("object-curly-spacing", rule, {
         {
             code: "var obj = { 'foo': [ 1, 2 ] , 'bar': [ 'baz', 'qux' ] };",
             output: "var obj = { 'foo': [ 1, 2 ] , 'bar': [ 'baz', 'qux' ]};",
-            options: ["always", {"arraysInObjects": false}],
+            options: ["always", {arraysInObjects: false}],
             errors: [
                 {
                     message: "There should be no space before '}'",
@@ -370,7 +370,7 @@ ruleTester.run("object-curly-spacing", rule, {
         {
             code: "var obj = { 'foo': { 'bar': 1, 'baz': 2 } };",
             output: "var obj = { 'foo': { 'bar': 1, 'baz': 2 }};",
-            options: ["always", {"objectsInObjects": false}],
+            options: ["always", {objectsInObjects: false}],
             errors: [
                 {
                     message: "There should be no space before '}'",
@@ -383,7 +383,7 @@ ruleTester.run("object-curly-spacing", rule, {
         {
             code: "var obj = { 'foo': [ 1, 2 ] , 'bar': { 'baz': 1, 'qux': 2 } };",
             output: "var obj = { 'foo': [ 1, 2 ] , 'bar': { 'baz': 1, 'qux': 2 }};",
-            options: ["always", {"objectsInObjects": false}],
+            options: ["always", {objectsInObjects: false}],
             errors: [
                 {
                     message: "There should be no space before '}'",
@@ -462,7 +462,7 @@ ruleTester.run("object-curly-spacing", rule, {
         {
             code: "var obj = {'foo': {'bar': 1, 'baz': 2}};",
             output: "var obj = {'foo': {'bar': 1, 'baz': 2} };",
-            options: ["never", {"objectsInObjects": true}],
+            options: ["never", {objectsInObjects: true}],
             errors: [
                 {
                     message: "A space is required before '}'",
@@ -475,7 +475,7 @@ ruleTester.run("object-curly-spacing", rule, {
         {
             code: "var obj = {'foo': [1, 2] , 'bar': {'baz': 1, 'qux': 2}};",
             output: "var obj = {'foo': [1, 2] , 'bar': {'baz': 1, 'qux': 2} };",
-            options: ["never", {"objectsInObjects": true}],
+            options: ["never", {objectsInObjects: true}],
             errors: [
                 {
                     message: "A space is required before '}'",
@@ -732,7 +732,7 @@ ruleTester.run("object-curly-spacing", rule, {
         {
             code: "var obj = {'foo': [1, 2]};",
             output: "var obj = {'foo': [1, 2] };",
-            options: ["never", {"arraysInObjects": true}],
+            options: ["never", {arraysInObjects: true}],
             errors: [
                 {
                     message: "A space is required before '}'",
@@ -743,7 +743,7 @@ ruleTester.run("object-curly-spacing", rule, {
         {
             code: "var obj = {'foo': [1, 2] , 'bar': ['baz', 'qux']};",
             output: "var obj = {'foo': [1, 2] , 'bar': ['baz', 'qux'] };",
-            options: ["never", {"arraysInObjects": true}],
+            options: ["never", {arraysInObjects: true}],
             errors: [
                 {
                     message: "A space is required before '}'",

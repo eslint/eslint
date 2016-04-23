@@ -46,20 +46,20 @@ ruleTester.run("require-jsdoc", rule, {
         {
             code: "function myFunction() {}",
             options: [{
-                "require": {
-                    "FunctionDeclaration": false,
-                    "MethodDefinition": true,
-                    "ClassDeclaration": true
+                require: {
+                    FunctionDeclaration: false,
+                    MethodDefinition: true,
+                    ClassDeclaration: true
                 }
             }]
         },
         {
             code: "var myFunction = function() {}",
             options: [{
-                "require": {
-                    "FunctionDeclaration": false,
-                    "MethodDefinition": true,
-                    "ClassDeclaration": true
+                require: {
+                    FunctionDeclaration: false,
+                    MethodDefinition: true,
+                    ClassDeclaration: true
                 }
             }]
         },
@@ -79,9 +79,9 @@ ruleTester.run("require-jsdoc", rule, {
                 "}",
             parserOptions: { ecmaVersion: 6 },
             options: [{
-                "require": {
-                    "MethodDefinition": true,
-                    "ClassDeclaration": true
+                require: {
+                    MethodDefinition: true,
+                    ClassDeclaration: true
                 }
             }]
         },
@@ -101,9 +101,9 @@ ruleTester.run("require-jsdoc", rule, {
             "}",
             parserOptions: { ecmaVersion: 6 },
             options: [{
-                "require": {
-                    "MethodDefinition": true,
-                    "ClassDeclaration": true
+                require: {
+                    MethodDefinition: true,
+                    ClassDeclaration: true
                 }
             }]
         },
@@ -123,9 +123,9 @@ ruleTester.run("require-jsdoc", rule, {
             "}",
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
             options: [{
-                "require": {
-                    "MethodDefinition": true,
-                    "ClassDeclaration": true
+                require: {
+                    MethodDefinition: true,
+                    ClassDeclaration: true
                 }
             }]
         },
@@ -145,9 +145,9 @@ ruleTester.run("require-jsdoc", rule, {
             "}",
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
             options: [{
-                "require": {
-                    "MethodDefinition": true,
-                    "ClassDeclaration": true
+                require: {
+                    MethodDefinition: true,
+                    ClassDeclaration: true
                 }
             }]
         },
@@ -160,9 +160,9 @@ ruleTester.run("require-jsdoc", rule, {
             "}",
             parserOptions: { ecmaVersion: 6 },
             options: [{
-                "require": {
-                    "MethodDefinition": false,
-                    "ClassDeclaration": false
+                require: {
+                    MethodDefinition: false,
+                    ClassDeclaration: false
                 }
             }]
         }
@@ -188,9 +188,9 @@ ruleTester.run("require-jsdoc", rule, {
                 "}",
             parserOptions: { ecmaVersion: 6 },
             options: [{
-                "require": {
-                    "MethodDefinition": true,
-                    "ClassDeclaration": true
+                require: {
+                    MethodDefinition: true,
+                    ClassDeclaration: true
                 }
             }],
             errors: [{
@@ -211,9 +211,9 @@ ruleTester.run("require-jsdoc", rule, {
                 "}",
             parserOptions: { ecmaVersion: 6 },
             options: [{
-                "require": {
-                    "MethodDefinition": true,
-                    "ClassDeclaration": true
+                require: {
+                    MethodDefinition: true,
+                    ClassDeclaration: true
                 }
             }],
             errors: [{
@@ -234,9 +234,9 @@ ruleTester.run("require-jsdoc", rule, {
             "}",
             parserOptions: { ecmaVersion: 6 },
             options: [{
-                "require": {
-                    "MethodDefinition": true,
-                    "ClassDeclaration": true
+                require: {
+                    MethodDefinition: true,
+                    ClassDeclaration: true
                 }
             }],
             errors: [{
@@ -257,9 +257,9 @@ ruleTester.run("require-jsdoc", rule, {
             "}",
             parserOptions: { sourceType: "module" },
             options: [{
-                "require": {
-                    "MethodDefinition": true,
-                    "ClassDeclaration": true
+                require: {
+                    MethodDefinition: true,
+                    ClassDeclaration: true
                 }
             }],
             errors: [{
@@ -280,9 +280,9 @@ ruleTester.run("require-jsdoc", rule, {
             "}",
             parserOptions: { sourceType: "module" },
             options: [{
-                "require": {
-                    "MethodDefinition": true,
-                    "ClassDeclaration": true
+                require: {
+                    MethodDefinition: true,
+                    ClassDeclaration: true
                 }
             }],
             errors: [{

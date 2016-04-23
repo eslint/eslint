@@ -400,7 +400,7 @@ ruleTester.run("one-var", rule, {
         },
         {
             code: "var i = [0], j;",
-            options: [ { "initialized": "never" } ],
+            options: [ { initialized: "never" } ],
             errors: [ {
                 message: "Split initialized 'var' declarations into multiple statements.",
                 type: "VariableDeclaration"
@@ -408,7 +408,7 @@ ruleTester.run("one-var", rule, {
         },
         {
             code: "var i = [0], j;",
-            options: [ { "uninitialized": "never" } ],
+            options: [ { uninitialized: "never" } ],
             errors: [ {
                 message: "Split uninitialized 'var' declarations into multiple statements.",
                 type: "VariableDeclaration"

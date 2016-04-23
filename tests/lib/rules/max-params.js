@@ -26,7 +26,7 @@ ruleTester.run("max-params", rule, {
         { code: "var test = function test(a, b, c) {};", options: [3] },
 
         // object property options
-        { code: "var test = function(a, b, c) {};", options: [{ "max": 3 }] }
+        { code: "var test = function(a, b, c) {};", options: [{ max: 3 }] }
     ],
     invalid: [
         { code: "function test(a, b, c) {}", options: [2], errors: [{ message: "This function has too many parameters (3). Maximum allowed is 2.", type: "FunctionDeclaration"}] },
@@ -37,6 +37,6 @@ ruleTester.run("max-params", rule, {
         { code: "var test = function test(a, b, c) {};", options: [1], errors: [{ message: "This function has too many parameters (3). Maximum allowed is 1.", type: "FunctionExpression"}] },
 
         // object property options
-        { code: "function test(a, b, c) {}", options: [{ "max": 2 }], errors: [{ message: "This function has too many parameters (3). Maximum allowed is 2.", type: "FunctionDeclaration"}] }
+        { code: "function test(a, b, c) {}", options: [{ max: 2 }], errors: [{ message: "This function has too many parameters (3). Maximum allowed is 2.", type: "FunctionDeclaration"}] }
     ]
 });

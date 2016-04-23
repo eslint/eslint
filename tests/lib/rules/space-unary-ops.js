@@ -22,107 +22,107 @@ ruleTester.run("space-unary-ops", rule, {
     valid: [
         {
             code: "++this.a",
-            options: [{ "words": true }]
+            options: [{ words: true }]
         },
         {
             code: "--this.a",
-            options: [{ "words": true }]
+            options: [{ words: true }]
         },
         {
             code: "this.a++",
-            options: [{ "words": true }]
+            options: [{ words: true }]
         },
         {
             code: "this.a--",
-            options: [{ "words": true }]
+            options: [{ words: true }]
         },
         {
             code: "delete foo.bar",
-            options: [{ "words": true }]
+            options: [{ words: true }]
         },
         {
             code: "delete foo[\"bar\"]",
-            options: [{ "words": true }]
+            options: [{ words: true }]
         },
 
         {
             code: "new Foo",
-            options: [{ "words": true }]
+            options: [{ words: true }]
         },
         {
             code: "new Foo()",
-            options: [{ "words": true }]
+            options: [{ words: true }]
         },
         {
             code: "new [foo][0]",
-            options: [{ "words": true }]
+            options: [{ words: true }]
         },
         {
             code: "new[foo][0]",
-            options: [{ "words": false }]
+            options: [{ words: false }]
         },
 
         {
             code: "typeof foo",
-            options: [{ "words": true }]
+            options: [{ words: true }]
         },
         {
             code: "typeof{foo:true}",
-            options: [{ "words": false }]
+            options: [{ words: false }]
         },
         {
             code: "typeof {foo:true}",
-            options: [{ "words": true }]
+            options: [{ words: true }]
         },
         {
             code: "typeof!foo",
-            options: [{ "words": false }]
+            options: [{ words: false }]
         },
 
         {
             code: "void 0",
-            options: [{ "words": true }]
+            options: [{ words: true }]
         },
         {
             code: "(void 0)",
-            options: [{ "words": true }]
+            options: [{ words: true }]
         },
         {
             code: "(void (0))",
-            options: [{ "words": true }]
+            options: [{ words: true }]
         },
         {
             code: "void foo",
-            options: [{ "words": true }]
+            options: [{ words: true }]
         },
 
         {
             code: "-1",
-            options: [{ "nonwords": false }]
+            options: [{ nonwords: false }]
         },
         {
             code: "!foo",
-            options: [{ "nonwords": false }]
+            options: [{ nonwords: false }]
         },
         {
             code: "!!foo",
-            options: [{ "nonwords": false }]
+            options: [{ nonwords: false }]
         },
         {
             code: "foo++",
-            options: [{ "nonwords": false }]
+            options: [{ nonwords: false }]
         },
         {
             code: "foo ++",
-            options: [{ "nonwords": true }]
+            options: [{ nonwords: true }]
         },
         {
             code: "++foo",
-            options: [{ "nonwords": false }]
+            options: [{ nonwords: false }]
         },
         {
             code: "++ foo",
-            options: [{ "nonwords": true }]
+            options: [{ nonwords: true }]
         },
         {
             code: "function *foo () { yield (0) }",
@@ -158,44 +158,44 @@ ruleTester.run("space-unary-ops", rule, {
         },
         {
             code: "foo++",
-            options: [{ "nonwords": true, "overrides": {"++": false} }]
+            options: [{ nonwords: true, overrides: {"++": false} }]
         },
         {
             code: "foo++",
-            options: [{ "nonwords": false, "overrides": {"++": false} }]
+            options: [{ nonwords: false, overrides: {"++": false} }]
         },
         {
             code: "++foo",
-            options: [{ "nonwords": true, "overrides": {"++": false} }]
+            options: [{ nonwords: true, overrides: {"++": false} }]
         },
         {
             code: "++foo",
-            options: [{ "nonwords": false, "overrides": {"++": false} }]
+            options: [{ nonwords: false, overrides: {"++": false} }]
         },
         {
             code: "!foo",
-            options: [{ "nonwords": true, "overrides": {"!": false} }]
+            options: [{ nonwords: true, overrides: {"!": false} }]
         },
         {
             code: "!foo",
-            options: [{ "nonwords": false, "overrides": {"!": false} }]
+            options: [{ nonwords: false, overrides: {"!": false} }]
         },
         {
             code: "new foo",
-            options: [{ "words": true, "overrides": {"new": false} }]
+            options: [{ words: true, overrides: {new: false} }]
         },
         {
             code: "new foo",
-            options: [{ "words": false, "overrides": {"new": false} }]
+            options: [{ words: false, overrides: {new: false} }]
         },
         {
             code: "function *foo () { yield (0) }",
-            options: [{ "words": true, "overrides": {"yield": false} }],
+            options: [{ words: true, overrides: {yield: false} }],
             parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "function *foo () { yield (0) }",
-            options: [{ "words": false, "overrides": {"yield": false} }],
+            options: [{ words: false, overrides: {yield: false} }],
             parserOptions: { ecmaVersion: 6 }
         }
     ],
@@ -204,7 +204,7 @@ ruleTester.run("space-unary-ops", rule, {
         {
             code: "delete(foo.bar)",
             output: "delete (foo.bar)",
-            options: [{ "words": true }],
+            options: [{ words: true }],
             errors: [{
                 message: "Unary word operator 'delete' must be followed by whitespace.",
                 type: "UnaryExpression"
@@ -213,7 +213,7 @@ ruleTester.run("space-unary-ops", rule, {
         {
             code: "delete(foo[\"bar\"]);",
             output: "delete (foo[\"bar\"]);",
-            options: [{ "words": true }],
+            options: [{ words: true }],
             errors: [{
                 message: "Unary word operator 'delete' must be followed by whitespace.",
                 type: "UnaryExpression"
@@ -222,7 +222,7 @@ ruleTester.run("space-unary-ops", rule, {
         {
             code: "new(Foo)",
             output: "new (Foo)",
-            options: [{ "words": true }],
+            options: [{ words: true }],
             errors: [{
                 message: "Unary word operator 'new' must be followed by whitespace.",
                 type: "NewExpression"
@@ -231,7 +231,7 @@ ruleTester.run("space-unary-ops", rule, {
         {
             code: "new(Foo())",
             output: "new (Foo())",
-            options: [{ "words": true }],
+            options: [{ words: true }],
             errors: [{
                 message: "Unary word operator 'new' must be followed by whitespace.",
                 type: "NewExpression"
@@ -241,7 +241,7 @@ ruleTester.run("space-unary-ops", rule, {
         {
             code: "typeof(foo)",
             output: "typeof (foo)",
-            options: [{ "words": true }],
+            options: [{ words: true }],
             errors: [{
                 message: "Unary word operator 'typeof' must be followed by whitespace.",
                 type: "UnaryExpression"
@@ -250,7 +250,7 @@ ruleTester.run("space-unary-ops", rule, {
         {
             code: "typeof{foo:true}",
             output: "typeof {foo:true}",
-            options: [{ "words": true }],
+            options: [{ words: true }],
             errors: [{
                 message: "Unary word operator 'typeof' must be followed by whitespace.",
                 type: "UnaryExpression"
@@ -259,7 +259,7 @@ ruleTester.run("space-unary-ops", rule, {
         {
             code: "typeof {foo:true}",
             output: "typeof{foo:true}",
-            options: [{ "words": false }],
+            options: [{ words: false }],
             errors: [{
                 message: "Unexpected space after unary word operator 'typeof'.",
                 type: "UnaryExpression"
@@ -268,7 +268,7 @@ ruleTester.run("space-unary-ops", rule, {
         {
             code: "typeof!foo",
             output: "typeof !foo",
-            options: [{ "words": true }],
+            options: [{ words: true }],
             errors: [{
                 message: "Unary word operator 'typeof' must be followed by whitespace.",
                 type: "UnaryExpression"
@@ -278,7 +278,7 @@ ruleTester.run("space-unary-ops", rule, {
         {
             code: "void(0);",
             output: "void (0);",
-            options: [{ "words": true }],
+            options: [{ words: true }],
             errors: [{
                 message: "Unary word operator 'void' must be followed by whitespace.",
                 type: "UnaryExpression"
@@ -287,7 +287,7 @@ ruleTester.run("space-unary-ops", rule, {
         {
             code: "void(foo);",
             output: "void (foo);",
-            options: [{ "words": true }],
+            options: [{ words: true }],
             errors: [{
                 message: "Unary word operator 'void' must be followed by whitespace.",
                 type: "UnaryExpression"
@@ -296,7 +296,7 @@ ruleTester.run("space-unary-ops", rule, {
         {
             code: "void{a:0};",
             output: "void {a:0};",
-            options: [{ "words": true }],
+            options: [{ words: true }],
             errors: [{
                 message: "Unary word operator 'void' must be followed by whitespace.",
                 type: "UnaryExpression"
@@ -306,7 +306,7 @@ ruleTester.run("space-unary-ops", rule, {
         {
             code: "! foo",
             output: "!foo",
-            options: [{ "nonwords": false }],
+            options: [{ nonwords: false }],
             errors: [{
                 message: "Unexpected space after unary operator '!'."
             }]
@@ -314,7 +314,7 @@ ruleTester.run("space-unary-ops", rule, {
         {
             code: "!foo",
             output: "! foo",
-            options: [{ "nonwords": true }],
+            options: [{ nonwords: true }],
             errors: [{
                 message: "Unary operator '!' must be followed by whitespace."
             }]
@@ -323,7 +323,7 @@ ruleTester.run("space-unary-ops", rule, {
         {
             code: "!! foo",
             output: "!!foo",
-            options: [{ "nonwords": false }],
+            options: [{ nonwords: false }],
             errors: [{
                 message: "Unexpected space after unary operator '!'.",
                 type: "UnaryExpression",
@@ -334,7 +334,7 @@ ruleTester.run("space-unary-ops", rule, {
         {
             code: "!!foo",
             output: "!! foo",
-            options: [{ "nonwords": true }],
+            options: [{ nonwords: true }],
             errors: [{
                 message: "Unary operator '!' must be followed by whitespace.",
                 type: "UnaryExpression",
@@ -346,7 +346,7 @@ ruleTester.run("space-unary-ops", rule, {
         {
             code: "- 1",
             output: "-1",
-            options: [{ "nonwords": false }],
+            options: [{ nonwords: false }],
             errors: [{
                 message: "Unexpected space after unary operator '-'.",
                 type: "UnaryExpression"
@@ -355,7 +355,7 @@ ruleTester.run("space-unary-ops", rule, {
         {
             code: "-1",
             output: "- 1",
-            options: [{ "nonwords": true }],
+            options: [{ nonwords: true }],
             errors: [{
                 message: "Unary operator '-' must be followed by whitespace.",
                 type: "UnaryExpression"
@@ -365,7 +365,7 @@ ruleTester.run("space-unary-ops", rule, {
         {
             code: "foo++",
             output: "foo ++",
-            options: [{ "nonwords": true }],
+            options: [{ nonwords: true }],
             errors: [{
                 message: "Space is required before unary expressions '++'."
             }]
@@ -373,7 +373,7 @@ ruleTester.run("space-unary-ops", rule, {
         {
             code: "foo ++",
             output: "foo++",
-            options: [{ "nonwords": false }],
+            options: [{ nonwords: false }],
             errors: [{
                 message: "Unexpected space before unary operator '++'."
             }]
@@ -381,7 +381,7 @@ ruleTester.run("space-unary-ops", rule, {
         {
             code: "++ foo",
             output: "++foo",
-            options: [{ "nonwords": false }],
+            options: [{ nonwords: false }],
             errors: [{
                 message: "Unexpected space after unary operator '++'."
             }]
@@ -389,7 +389,7 @@ ruleTester.run("space-unary-ops", rule, {
         {
             code: "++foo",
             output: "++ foo",
-            options: [{ "nonwords": true }],
+            options: [{ nonwords: true }],
             errors: [{
                 message: "Unary operator '++' must be followed by whitespace."
             }]
@@ -419,7 +419,7 @@ ruleTester.run("space-unary-ops", rule, {
         {
             code: "foo++",
             output: "foo ++",
-            options: [{ "nonwords": true, "overrides": {"++": true} }],
+            options: [{ nonwords: true, overrides: {"++": true} }],
             errors: [{
                 message: "Space is required before unary expressions '++'."
             }]
@@ -427,7 +427,7 @@ ruleTester.run("space-unary-ops", rule, {
         {
             code: "foo++",
             output: "foo ++",
-            options: [{ "nonwords": false, "overrides": {"++": true} }],
+            options: [{ nonwords: false, overrides: {"++": true} }],
             errors: [{
                 message: "Space is required before unary expressions '++'."
             }]
@@ -435,7 +435,7 @@ ruleTester.run("space-unary-ops", rule, {
         {
             code: "++foo",
             output: "++ foo",
-            options: [{ "nonwords": true, "overrides": {"++": true} }],
+            options: [{ nonwords: true, overrides: {"++": true} }],
             errors: [{
                 message: "Unary operator '++' must be followed by whitespace."
             }]
@@ -443,7 +443,7 @@ ruleTester.run("space-unary-ops", rule, {
         {
             code: "++foo",
             output: "++ foo",
-            options: [{ "nonwords": false, "overrides": {"++": true} }],
+            options: [{ nonwords: false, overrides: {"++": true} }],
             errors: [{
                 message: "Unary operator '++' must be followed by whitespace."
             }]
@@ -451,7 +451,7 @@ ruleTester.run("space-unary-ops", rule, {
         {
             code: "!foo",
             output: "! foo",
-            options: [{ "nonwords": true, "overrides": {"!": true} }],
+            options: [{ nonwords: true, overrides: {"!": true} }],
             errors: [{
                 message: "Unary operator '!' must be followed by whitespace."
             }]
@@ -459,7 +459,7 @@ ruleTester.run("space-unary-ops", rule, {
         {
             code: "!foo",
             output: "! foo",
-            options: [{ "nonwords": false, "overrides": {"!": true} }],
+            options: [{ nonwords: false, overrides: {"!": true} }],
             errors: [{
                 message: "Unary operator '!' must be followed by whitespace."
             }]
@@ -467,7 +467,7 @@ ruleTester.run("space-unary-ops", rule, {
         {
             code: "new(Foo)",
             output: "new (Foo)",
-            options: [{ "words": true, "overrides": {"new": true} }],
+            options: [{ words: true, overrides: {new: true} }],
             errors: [{
                 message: "Unary word operator 'new' must be followed by whitespace."
             }]
@@ -475,7 +475,7 @@ ruleTester.run("space-unary-ops", rule, {
         {
             code: "new(Foo)",
             output: "new (Foo)",
-            options: [{ "words": false, "overrides": {"new": true} }],
+            options: [{ words: false, overrides: {new: true} }],
             errors: [{
                 message: "Unary word operator 'new' must be followed by whitespace."
             }]
@@ -483,7 +483,7 @@ ruleTester.run("space-unary-ops", rule, {
         {
             code: "function *foo() { yield(0) }",
             output: "function *foo() { yield (0) }",
-            options: [{ "words": true, "overrides": {"yield": true} }],
+            options: [{ words: true, overrides: {yield: true} }],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
                 message: "Unary word operator 'yield' must be followed by whitespace.",
@@ -495,7 +495,7 @@ ruleTester.run("space-unary-ops", rule, {
         {
             code: "function *foo() { yield(0) }",
             output: "function *foo() { yield (0) }",
-            options: [{ "words": false, "overrides": {"yield": true} }],
+            options: [{ words: false, overrides: {yield: true} }],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
                 message: "Unary word operator 'yield' must be followed by whitespace.",

@@ -704,7 +704,7 @@ describe("Config", function() {
                 configHelper = new Config({ useEslintrc: false, configFile: configPath }),
                 expected = {
                     rules: { "no-empty": 1, "comma-dangle": 2, "no-console": 2 },
-                    env: { "browser": false, "node": true, "es6": true }
+                    env: { browser: false, node: true, es6: true }
                 },
                 actual = configHelper.getConfig(configPath);
 
@@ -803,7 +803,7 @@ describe("Config", function() {
                         globals: {},
                         parser: void 0,
                         rules: {
-                            "quotes": [2, "double"]
+                            quotes: [2, "double"]
                         }
                     };
 

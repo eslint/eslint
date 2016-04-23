@@ -176,7 +176,7 @@ ruleTester.run("indent", rule, {
         {
             code:
             "// hi",
-            options: [2, {"VariableDeclarator": 1, "SwitchCase": 1}]
+            options: [2, {VariableDeclarator: 1, SwitchCase: 1}]
         },
         {
             code:
@@ -186,26 +186,26 @@ ruleTester.run("indent", rule, {
             "\n" +
             "  files.concat(fileList)\n" +
             "};\n",
-            options: [2, {"VariableDeclarator": { "var": 2, "let": 2, "const": 3}}]
+            options: [2, {VariableDeclarator: { var: 2, let: 2, const: 3}}]
         },
         {
             code:
                 "  ",
-            options: [2, {"VariableDeclarator": 1, "SwitchCase": 1}]
+            options: [2, {VariableDeclarator: 1, SwitchCase: 1}]
         },
         {
             code:
             "if(data) {\n" +
             "  console.log('hi');\n" +
             "  b = true;};",
-            options: [2, {"VariableDeclarator": 1, "SwitchCase": 1}]
+            options: [2, {VariableDeclarator: 1, SwitchCase: 1}]
         },
         {
             code:
             "foo = () => {\n" +
             "  console.log('hi');\n" +
             "  return true;};",
-            options: [2, {"VariableDeclarator": 1, "SwitchCase": 1}],
+            options: [2, {VariableDeclarator: 1, SwitchCase: 1}],
             parserOptions: { ecmaVersion: 6 }
         },
         {
@@ -213,14 +213,14 @@ ruleTester.run("indent", rule, {
             "function test(data) {\n" +
             "  console.log('hi');\n" +
             "  return true;};",
-            options: [2, {"VariableDeclarator": 1, "SwitchCase": 1}]
+            options: [2, {VariableDeclarator: 1, SwitchCase: 1}]
         },
         {
             code:
             "var test = function(data) {\n" +
             "  console.log('hi');\n" +
             "};",
-            options: [2, {"VariableDeclarator": 1, "SwitchCase": 1}]
+            options: [2, {VariableDeclarator: 1, SwitchCase: 1}]
         },
         {
             code:
@@ -228,14 +228,14 @@ ruleTester.run("indent", rule, {
             "  otherdata.forEach(function(zero) {\n" +
             "    console.log('hi');\n" +
             "  }) });",
-            options: [2, {"VariableDeclarator": 1, "SwitchCase": 1}]
+            options: [2, {VariableDeclarator: 1, SwitchCase: 1}]
         },
         {
             code:
             "a = [\n" +
             "    ,3\n" +
             "]",
-            options: [4, {"VariableDeclarator": 1, "SwitchCase": 1}]
+            options: [4, {VariableDeclarator: 1, SwitchCase: 1}]
         },
         {
             code:
@@ -247,7 +247,7 @@ ruleTester.run("indent", rule, {
             "].forEach(function(method) {\n" +
             "  console.log(method);\n" +
             "});\n",
-            options: [2, {"SwitchCase": 1, "VariableDeclarator": 2}]
+            options: [2, {SwitchCase: 1, VariableDeclarator: 2}]
         },
         {
             code:
@@ -260,7 +260,7 @@ ruleTester.run("indent", rule, {
             "        ]\n" +
             "    }\n" +
             "});",
-            options: [4, {"VariableDeclarator": 1, "SwitchCase": 1}]
+            options: [4, {VariableDeclarator: 1, SwitchCase: 1}]
         },
         {
             code:
@@ -270,7 +270,7 @@ ruleTester.run("indent", rule, {
             "            a: 1\n" +
             "        }\n" +
             "    ];",
-            options: [4, {"VariableDeclarator": 1, "SwitchCase": 1}]
+            options: [4, {VariableDeclarator: 1, SwitchCase: 1}]
         },
         {
             code:
@@ -283,7 +283,7 @@ ruleTester.run("indent", rule, {
             "{\n" +
             "    x: 2\n" +
             "}];",
-            options: [4, {"VariableDeclarator": 1, "SwitchCase": 1}]
+            options: [4, {VariableDeclarator: 1, SwitchCase: 1}]
         },
         {
             code:
@@ -296,7 +296,7 @@ ruleTester.run("indent", rule, {
             "        ].join(',')\n" +
             "    ]\n" +
             "});",
-            options: [4, {"VariableDeclarator": 1, "SwitchCase": 1}]
+            options: [4, {VariableDeclarator: 1, SwitchCase: 1}]
         },
         {
             code:
@@ -309,7 +309,7 @@ ruleTester.run("indent", rule, {
             "    ]\n" +
             "  ]\n" +
             "};",
-            options: [2, {"VariableDeclarator": 1, "SwitchCase": 1}]
+            options: [2, {VariableDeclarator: 1, SwitchCase: 1}]
         },
         {
             code:
@@ -319,7 +319,7 @@ ruleTester.run("indent", rule, {
             "    b: 2\n" +
             "  }\n" +
             ");",
-            options: [2, {"VariableDeclarator": 1, "SwitchCase": 1}]
+            options: [2, {VariableDeclarator: 1, SwitchCase: 1}]
         },
         {
             code:
@@ -327,7 +327,7 @@ ruleTester.run("indent", rule, {
             "    a: 1,\n" +
             "    b: 2\n" +
             "});",
-            options: [4, {"VariableDeclarator": 1, "SwitchCase": 1}]
+            options: [4, {VariableDeclarator: 1, SwitchCase: 1}]
         },
         {
             code:
@@ -340,7 +340,7 @@ ruleTester.run("indent", rule, {
             "      b: 2\n" +
             "    }\n" +
             "  ];",
-            options: [2, {"VariableDeclarator": 1, "SwitchCase": 1}]
+            options: [2, {VariableDeclarator: 1, SwitchCase: 1}]
         },
         {
             code:
@@ -352,7 +352,7 @@ ruleTester.run("indent", rule, {
             "    b: 2\n" +
             "  }\n" +
             "];",
-            options: [2, {"VariableDeclarator": 1, "SwitchCase": 1}]
+            options: [2, {VariableDeclarator: 1, SwitchCase: 1}]
         },
         {
             code:
@@ -363,7 +363,7 @@ ruleTester.run("indent", rule, {
             "      a: 1,\n" +
             "      b: 2\n" +
             "    };",
-            options: [2, {"VariableDeclarator": 2, "SwitchCase": 1}]
+            options: [2, {VariableDeclarator: 2, SwitchCase: 1}]
         },
         {
             code:
@@ -372,7 +372,7 @@ ruleTester.run("indent", rule, {
             "      a: 1,\n" +
             "      b: 2\n" +
             "    };",
-            options: [2, {"VariableDeclarator": 2, "SwitchCase": 1}]
+            options: [2, {VariableDeclarator: 2, SwitchCase: 1}]
         },
         {
             code:
@@ -381,7 +381,7 @@ ruleTester.run("indent", rule, {
             "        b: 2\n" +
             "    }),\n" +
             "    b = 2;",
-            options: [4, {"VariableDeclarator": 1, "SwitchCase": 1}]
+            options: [4, {VariableDeclarator: 1, SwitchCase: 1}]
         },
         {
             code:
@@ -391,7 +391,7 @@ ruleTester.run("indent", rule, {
             "    b: 2\n" +
             "  },\n" +
             "  b = 2;",
-            options: [2, {"VariableDeclarator": 1, "SwitchCase": 1}]
+            options: [2, {VariableDeclarator: 1, SwitchCase: 1}]
         },
         {
             code:
@@ -401,7 +401,7 @@ ruleTester.run("indent", rule, {
             "      b: 2\n" +
             "    },\n" +
             "    b = 2;",
-            options: [2, {"VariableDeclarator": 2, "SwitchCase": 1}]
+            options: [2, {VariableDeclarator: 2, SwitchCase: 1}]
         },
         {
             code:
@@ -410,7 +410,7 @@ ruleTester.run("indent", rule, {
             "      b: 2\n" +
             "    },\n" +
             "    b = 2;",
-            options: [2, {"VariableDeclarator": 2, "SwitchCase": 1}]
+            options: [2, {VariableDeclarator: 2, SwitchCase: 1}]
         },
         {
             code:
@@ -418,7 +418,7 @@ ruleTester.run("indent", rule, {
             "  a: 1,\n" +
             "  b: 2\n" +
             "};",
-            options: [2, {"VariableDeclarator": 2, "SwitchCase": 1}]
+            options: [2, {VariableDeclarator: 2, SwitchCase: 1}]
         },
         {
             code:
@@ -428,14 +428,14 @@ ruleTester.run("indent", rule, {
             "    console.log(val);\n" +
             "  }\n" +
             "}",
-            options: [2, {"VariableDeclarator": 2, "SwitchCase": 1}]
+            options: [2, {VariableDeclarator: 2, SwitchCase: 1}]
         },
         {
             code:
             "for (var val in obj)\n" +
             "  if (true)\n" +
             "    console.log(val);",
-            options: [2, {"VariableDeclarator": 2, "SwitchCase": 1}]
+            options: [2, {VariableDeclarator: 2, SwitchCase: 1}]
         },
         {
             code:
@@ -443,21 +443,21 @@ ruleTester.run("indent", rule, {
             "  if (true)\n" +
             "    if (true)\n" +
             "      console.log(val);",
-            options: [2, {"VariableDeclarator": 2, "SwitchCase": 1}]
+            options: [2, {VariableDeclarator: 2, SwitchCase: 1}]
         },
         {
             code:
             "function hi(){     var a = 1;\n" +
             "  y++;                   x++;\n" +
             "}",
-            options: [2, {"VariableDeclarator": 2, "SwitchCase": 1}]
+            options: [2, {VariableDeclarator: 2, SwitchCase: 1}]
         },
         {
             code:
             "for(;length > index; index++)if(NO_HOLES || index in self){\n" +
             "  x++;\n" +
             "}",
-            options: [2, {"VariableDeclarator": 2, "SwitchCase": 1}]
+            options: [2, {VariableDeclarator: 2, SwitchCase: 1}]
         },
         {
             code:
@@ -468,7 +468,7 @@ ruleTester.run("indent", rule, {
             "    };\n" +
             "  }\n" +
             "}",
-            options: [2, {"VariableDeclarator": 2, "SwitchCase": 1}]
+            options: [2, {VariableDeclarator: 2, SwitchCase: 1}]
         },
         {
             code:
@@ -766,7 +766,7 @@ ruleTester.run("indent", rule, {
                 "    foo: 'bar'\n" +
                 "  }\n" +
                 "];\n",
-            options: [2, {"VariableDeclarator": 2}]
+            options: [2, {VariableDeclarator: 2}]
         },
         {
             code:
@@ -782,7 +782,7 @@ ruleTester.run("indent", rule, {
                 "    foo: 'bar'\n" +
                 "  }\n" +
                 ");\n",
-            options: [2, {"VariableDeclarator": 3}],
+            options: [2, {VariableDeclarator: 3}],
             parserOptions: { ecmaVersion: 6 }
 
         },
@@ -794,7 +794,7 @@ ruleTester.run("indent", rule, {
                 "  b = 2;\n" +
                 "let light = true,\n" +
                 "    shadow = false;",
-            options: [2, { VariableDeclarator: { "const": 3, "let": 2 } }],
+            options: [2, { VariableDeclarator: { const: 3, let: 2 } }],
             parserOptions: { ecmaVersion: 6 }
         },
         {
@@ -820,7 +820,7 @@ ruleTester.run("indent", rule, {
             "      a: 1,\n" +
             "      b: 2\n" +
             "    };\n",
-            options: [2, { VariableDeclarator: { var: 2, const: 3 }, "SwitchCase": 1}],
+            options: [2, { VariableDeclarator: { var: 2, const: 3 }, SwitchCase: 1}],
             parserOptions: { ecmaVersion: 6 }
         },
         {
@@ -911,7 +911,7 @@ ruleTester.run("indent", rule, {
                 "    a = 5,\n" +
                 "    b = 4\n",
             parserOptions: { ecmaVersion: 6 },
-            options: [2, {"VariableDeclarator": { "var": 2, "let": 2, "const": 3}}]
+            options: [2, {VariableDeclarator: { var: 2, let: 2, const: 3}}]
         },
         {
             code:
@@ -924,7 +924,7 @@ ruleTester.run("indent", rule, {
                 "\n" +
                 "if (YO) console.log(TE)",
             parserOptions: { ecmaVersion: 6 },
-            options: [2, {"VariableDeclarator": { "var": 2, "let": 2, "const": 3}}]
+            options: [2, {VariableDeclarator: { var: 2, let: 2, const: 3}}]
         },
         {
             code:
@@ -982,7 +982,7 @@ ruleTester.run("indent", rule, {
             "      a(){}\n" +
             "      get b(){}\n" +
             "    };",
-            options: [2, {"VariableDeclarator": 2, "SwitchCase": 1}],
+            options: [2, {VariableDeclarator: 2, SwitchCase: 1}],
             parserOptions: { ecmaVersion: 6 }
         },
         {
@@ -995,7 +995,7 @@ ruleTester.run("indent", rule, {
             "      get b(){}\n" +
             "    },\n" +
             "    c = 3;",
-            options: [2, {"VariableDeclarator": 2, "SwitchCase": 1}],
+            options: [2, {VariableDeclarator: 2, SwitchCase: 1}],
             parserOptions: { ecmaVersion: 6 }
         },
         {
@@ -1005,7 +1005,7 @@ ruleTester.run("indent", rule, {
             "    a(){}\n" +
             "    get b(){}\n" +
             "}",
-            options: [4, {"VariableDeclarator": 1, "SwitchCase": 1}],
+            options: [4, {VariableDeclarator: 1, SwitchCase: 1}],
             parserOptions: { ecmaVersion: 6 }
         },
         {
@@ -1015,7 +1015,7 @@ ruleTester.run("indent", rule, {
             "    a(){}\n" +
             "    get b(){}\n" +
             "}",
-            options: [4, {"VariableDeclarator": 1, "SwitchCase": 1}],
+            options: [4, {VariableDeclarator: 1, SwitchCase: 1}],
             parserOptions: { ecmaVersion: 6 }
         },
         {
@@ -1050,7 +1050,7 @@ ruleTester.run("indent", rule, {
             "        }\n" +
             "    ]\n" +
             "};\n",
-            options: [4, {"VariableDeclarator": 0, "SwitchCase": 1}]
+            options: [4, {VariableDeclarator: 0, SwitchCase: 1}]
         },
         {
             code:
@@ -1060,7 +1060,7 @@ ruleTester.run("indent", rule, {
             "        name: 'compile'\n" +
             "    }\n" +
             "];\n",
-            options: [4, {"VariableDeclarator": 0, "SwitchCase": 1}]
+            options: [4, {VariableDeclarator: 0, SwitchCase: 1}]
         },
         {
             code:
@@ -1758,7 +1758,7 @@ ruleTester.run("indent", rule, {
             "  if (true)\n" +
             "    if (true)\n" +
             "      console.log(val);",
-            options: [2, {"VariableDeclarator": 2, "SwitchCase": 1}],
+            options: [2, {VariableDeclarator: 2, SwitchCase: 1}],
             errors: expectedErrors([
                 [4, 6, 4, "ExpressionStatement"]
             ])
@@ -1774,7 +1774,7 @@ ruleTester.run("indent", rule, {
             "  a: 1,\n" +
             "  b: 2\n" +
             "}",
-            options: [2, {"VariableDeclarator": 2, "SwitchCase": 1}],
+            options: [2, {VariableDeclarator: 2, SwitchCase: 1}],
             errors: expectedErrors([
                 [2, 2, 4, "Property"],
                 [3, 2, 4, "Property"]
@@ -1791,7 +1791,7 @@ ruleTester.run("indent", rule, {
             "  a,\n" +
             "  b\n" +
             "]",
-            options: [2, {"VariableDeclarator": 2, "SwitchCase": 1}],
+            options: [2, {VariableDeclarator: 2, SwitchCase: 1}],
             errors: expectedErrors([
                 [2, 2, 4, "Identifier"],
                 [3, 2, 4, "Identifier"]
@@ -1808,7 +1808,7 @@ ruleTester.run("indent", rule, {
             "  a,\n" +
             "  b\n" +
             "]",
-            options: [2, {"VariableDeclarator": { let: 2 }, "SwitchCase": 1}],
+            options: [2, {VariableDeclarator: { let: 2 }, SwitchCase: 1}],
             parserOptions: { ecmaVersion: 6 },
             errors: expectedErrors([
                 [2, 2, 4, "Identifier"],
@@ -1876,7 +1876,7 @@ ruleTester.run("indent", rule, {
             "      a: 1,\n" +
             "      b: 2\n" +
             "    };",
-            options: [2, {"VariableDeclarator": 2, "SwitchCase": 1}],
+            options: [2, {VariableDeclarator: 2, SwitchCase: 1}],
             errors: expectedErrors([
                 [4, 4, 5, "ObjectExpression"],
                 [5, 6, 7, "Property"],
@@ -1897,7 +1897,7 @@ ruleTester.run("indent", rule, {
             "      a: 1,\n" +
             "      b: 2\n" +
             "    };",
-            options: [2, {"VariableDeclarator": 2, "SwitchCase": 1}],
+            options: [2, {VariableDeclarator: 2, SwitchCase: 1}],
             errors: expectedErrors([
                 [2, 4, 5, "ObjectExpression"],
                 [3, 6, 7, "Property"],
@@ -1945,7 +1945,7 @@ ruleTester.run("indent", rule, {
             "    a(){}\n" +
             "    get b(){}\n" +
             "}",
-            options: [4, {"VariableDeclarator": 1, "SwitchCase": 1}],
+            options: [4, {VariableDeclarator: 1, SwitchCase: 1}],
             parserOptions: { ecmaVersion: 6 },
             errors: expectedErrors([[2, 4, 2, "MethodDefinition"]])
         },
@@ -1962,7 +1962,7 @@ ruleTester.run("indent", rule, {
             "    a(){}\n" +
             "    get b(){}\n" +
             "};",
-            options: [4, {"VariableDeclarator": 1, "SwitchCase": 1}],
+            options: [4, {VariableDeclarator: 1, SwitchCase: 1}],
             parserOptions: { ecmaVersion: 6 },
             errors: expectedErrors([[2, 4, 2, "MethodDefinition"], [4, 4, 2, "MethodDefinition"]])
         },
@@ -1981,7 +1981,7 @@ ruleTester.run("indent", rule, {
             "      a(){}\n" +
             "      get b(){}\n" +
             "    };",
-            options: [2, {"VariableDeclarator": 2, "SwitchCase": 1}],
+            options: [2, {VariableDeclarator: 2, SwitchCase: 1}],
             parserOptions: { ecmaVersion: 6 },
             errors: expectedErrors([[3, 6, 4, "MethodDefinition"]])
         },

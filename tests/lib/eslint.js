@@ -865,7 +865,7 @@ describe("eslint", function() {
             eslint.reset();
             eslint.defineRule("test-rule", function(context) {
                 return {
-                    "Literal": function(node) {
+                    Literal: function(node) {
                         context.report(node, "message {{parameter name}}", {
                             "parameter name": "yay!"
                         });
@@ -884,7 +884,7 @@ describe("eslint", function() {
             eslint.reset();
             eslint.defineRule("test-rule", function(context) {
                 return {
-                    "Literal": function(node) {
+                    Literal: function(node) {
                         context.report(node, "message {{code}}");
                     }
                 };
@@ -901,7 +901,7 @@ describe("eslint", function() {
             eslint.reset();
             eslint.defineRule("test-rule", function(context) {
                 return {
-                    "Literal": function(node) {
+                    Literal: function(node) {
                         context.report(node, "message {{parameter-name}}", {
                             "parameter-name": "yay!"
                         });
@@ -920,7 +920,7 @@ describe("eslint", function() {
             eslint.reset();
             eslint.defineRule("test-rule", function(context) {
                 return {
-                    "Literal": function(node) {
+                    Literal: function(node) {
                         context.report(node, "message {{parameter}}", {});
                     }
                 };
@@ -937,7 +937,7 @@ describe("eslint", function() {
             eslint.reset();
             eslint.defineRule("test-rule", function(context) {
                 return {
-                    "Literal": function(node) {
+                    Literal: function(node) {
                         context.report(node, "message {{parameter}}", {});
                     }
                 };
@@ -955,7 +955,7 @@ describe("eslint", function() {
             eslint.reset();
             eslint.defineRule("test-rule", function(context) {
                 return {
-                    "Literal": function(node) {
+                    Literal: function(node) {
                         context.report(node, "message {{ parameter}}", {
                             parameter: "yay!"
                         });
@@ -974,7 +974,7 @@ describe("eslint", function() {
             eslint.reset();
             eslint.defineRule("test-rule", function(context) {
                 return {
-                    "Literal": function(node) {
+                    Literal: function(node) {
                         context.report(node, "message {{parameter }}", {
                             parameter: "yay!"
                         });
@@ -993,7 +993,7 @@ describe("eslint", function() {
             eslint.reset();
             eslint.defineRule("test-rule", function(context) {
                 return {
-                    "Literal": function(node) {
+                    Literal: function(node) {
                         context.report(node, "message {{ parameter name }}", {
                             "parameter name": "yay!"
                         });
@@ -1012,7 +1012,7 @@ describe("eslint", function() {
             eslint.reset();
             eslint.defineRule("test-rule", function(context) {
                 return {
-                    "Literal": function(node) {
+                    Literal: function(node) {
                         context.report(node, "message {{ parameter-name }}", {
                             "parameter-name": "yay!"
                         });
@@ -1086,7 +1086,7 @@ describe("eslint", function() {
             eslint.reset();
             eslint.defineRule(code, function(context) {
                 return {
-                    "Literal": function(node) {
+                    Literal: function(node) {
                         context.report(node, context.settings.info);
                     }
                 };
@@ -1106,7 +1106,7 @@ describe("eslint", function() {
             eslint.reset();
             eslint.defineRule(code, function(context) {
                 return {
-                    "Literal": function(node) {
+                    Literal: function(node) {
                         if (Object.getOwnPropertyNames(context.settings).length !== 0) {
                             context.report(node, "Settings should be empty");
                         }
@@ -1604,7 +1604,7 @@ describe("eslint", function() {
             eslint.reset();
             eslint.defineRule(code, function(context) {
                 return {
-                    "Literal": function(node) {
+                    Literal: function(node) {
                         context.report(node, "message");
                     }
                 };
@@ -1634,7 +1634,7 @@ describe("eslint", function() {
                 config.rules[item] = 1;
                 newRules[item] = function(context) {
                     return {
-                        "Literal": function(node) {
+                        Literal: function(node) {
                             context.report(node, "message");
                         }
                     };
@@ -1663,7 +1663,7 @@ describe("eslint", function() {
             eslint.reset();
             eslint.defineRule(code, function(context) {
                 return {
-                    "Literal": function(node) {
+                    Literal: function(node) {
                         context.report(node, context.getFilename());
                     }
                 };
@@ -1682,7 +1682,7 @@ describe("eslint", function() {
             eslint.reset();
             eslint.defineRule(code, function(context) {
                 return {
-                    "Literal": function(node) {
+                    Literal: function(node) {
                         context.report(node, context.getFilename());
                     }
                 };
@@ -1713,7 +1713,7 @@ describe("eslint", function() {
         });
 
         it("rules should not change initial config", function() {
-            var config = { rules: {"strict": 2} };
+            var config = { rules: {strict: 2} };
             var codeA = "/*eslint strict: 0*/ function bar() { return 2; }";
             var codeB = "function foo() { return 1; }";
 
@@ -1727,7 +1727,7 @@ describe("eslint", function() {
         });
 
         it("rules should not change initial config", function() {
-            var config = { rules: {"quotes": [2, "double"]} };
+            var config = { rules: {quotes: [2, "double"]} };
             var codeA = "/*eslint quotes: 0*/ function bar() { return '2'; }";
             var codeB = "function foo() { return '1'; }";
 
@@ -1741,7 +1741,7 @@ describe("eslint", function() {
         });
 
         it("rules should not change initial config", function() {
-            var config = { rules: {"quotes": [2, "double"]} };
+            var config = { rules: {quotes: [2, "double"]} };
             var codeA = "/*eslint quotes: [0, \"single\"]*/ function bar() { return '2'; }";
             var codeB = "function foo() { return '1'; }";
 
@@ -1755,7 +1755,7 @@ describe("eslint", function() {
         });
 
         it("rules should not change initial config", function() {
-            var config = { rules: {"no-unused-vars": [2, {"vars": "all"}]} };
+            var config = { rules: {"no-unused-vars": [2, {vars: "all"}]} };
             var codeA = "/*eslint no-unused-vars: [0, {\"vars\": \"local\"}]*/ var a = 44;";
             var codeB = "var b = 55;";
 
@@ -1828,7 +1828,7 @@ describe("eslint", function() {
 
         eslint.defineRule("test-plugin/test-rule", function(context) {
             return {
-                "Literal": function(node) {
+                Literal: function(node) {
                     if (node.value === "trigger violation") {
                         context.report(node, "Reporting violation.");
                     }
@@ -2052,8 +2052,8 @@ describe("eslint", function() {
                 var config = {
                     rules: {
                         "no-alert": 1,
-                        "quotes": [1, "double"],
-                        "semi": [1, "always"],
+                        quotes: [1, "double"],
+                        semi: [1, "always"],
                         "no-console": 1
                     }
                 };
@@ -2111,7 +2111,7 @@ describe("eslint", function() {
                 var config = {
                     rules: {
                         "no-alert": 1,
-                        "quotes": [1, "single"],
+                        quotes: [1, "single"],
                         "no-console": 1
                     }
                 };
@@ -2149,8 +2149,8 @@ describe("eslint", function() {
                 ].join("\n");
                 var config = {
                     rules: {
-                        "semi": [1, "never"],
-                        "quotes": [1, "single"],
+                        semi: [1, "never"],
+                        quotes: [1, "single"],
                         "no-alert": 1,
                         "no-console": 1
                     }
@@ -2387,7 +2387,7 @@ describe("eslint", function() {
         var code = "/*eslint quotes:[2, \"double\"]*/ alert('test');";
 
         it("should report a violation", function() {
-            var config = { rules: { "quotes": [2, "single"] } };
+            var config = { rules: { quotes: [2, "single"] } };
 
             var messages = eslint.verify(code, config, filename);
 
@@ -2402,7 +2402,7 @@ describe("eslint", function() {
         var code = "/*eslint quotes:[\"error\", \"double\"]*/ alert('test');";
 
         it("should report a violation", function() {
-            var config = { rules: { "quotes": [2, "single"] } };
+            var config = { rules: { quotes: [2, "single"] } };
 
             var messages = eslint.verify(code, config, filename);
 
@@ -2785,7 +2785,7 @@ describe("eslint", function() {
 
             eslint.defineRules({test: function(context) {
                 return {
-                    "Program": function() {
+                    Program: function() {
                         var scope = context.getScope();
                         var comments = context.getAllComments();
 
@@ -2875,7 +2875,7 @@ describe("eslint", function() {
 
             eslint.defineRules({test: function(context) {
                 return {
-                    "Program": function() {
+                    Program: function() {
                         var scope = context.getScope();
                         var comments = context.getAllComments();
 
@@ -3017,7 +3017,7 @@ describe("eslint", function() {
         it("should report warnings in order by line and column when called", function() {
 
             var code = "foo()\n    alert('test')";
-            var config = { rules: { "no-mixed-spaces-and-tabs": 1, "eol-last": 1, "semi": [1, "always"] } };
+            var config = { rules: { "no-mixed-spaces-and-tabs": 1, "eol-last": 1, semi: [1, "always"] } };
 
             var messages = eslint.verify(code, config, filename);
 
@@ -3216,7 +3216,7 @@ describe("eslint", function() {
 
             eslint.defineRules({test: function(context) {
                 return {
-                    "Program": function() {
+                    Program: function() {
                         var scope = context.getScope();
                         var comments = context.getAllComments();
 
@@ -3281,7 +3281,7 @@ describe("eslint", function() {
 
             eslint.defineRules({test: function(context) {
                 return {
-                    "Program": function() {
+                    Program: function() {
                         scope = context.getScope();
                         ok = true;
                     }
@@ -3393,53 +3393,53 @@ describe("eslint", function() {
         function verify(code, type, expectedNamesList) {
             eslint.defineRules({test: function(context) {
                 var rule = {
-                    "Program": checkEmpty,
-                    "EmptyStatement": checkEmpty,
-                    "BlockStatement": checkEmpty,
-                    "ExpressionStatement": checkEmpty,
-                    "LabeledStatement": checkEmpty,
-                    "BreakStatement": checkEmpty,
-                    "ContinueStatement": checkEmpty,
-                    "WithStatement": checkEmpty,
-                    "SwitchStatement": checkEmpty,
-                    "ReturnStatement": checkEmpty,
-                    "ThrowStatement": checkEmpty,
-                    "TryStatement": checkEmpty,
-                    "WhileStatement": checkEmpty,
-                    "DoWhileStatement": checkEmpty,
-                    "ForStatement": checkEmpty,
-                    "ForInStatement": checkEmpty,
-                    "DebuggerStatement": checkEmpty,
-                    "ThisExpression": checkEmpty,
-                    "ArrayExpression": checkEmpty,
-                    "ObjectExpression": checkEmpty,
-                    "Property": checkEmpty,
-                    "SequenceExpression": checkEmpty,
-                    "UnaryExpression": checkEmpty,
-                    "BinaryExpression": checkEmpty,
-                    "AssignmentExpression": checkEmpty,
-                    "UpdateExpression": checkEmpty,
-                    "LogicalExpression": checkEmpty,
-                    "ConditionalExpression": checkEmpty,
-                    "CallExpression": checkEmpty,
-                    "NewExpression": checkEmpty,
-                    "MemberExpression": checkEmpty,
-                    "SwitchCase": checkEmpty,
-                    "Identifier": checkEmpty,
-                    "Literal": checkEmpty,
-                    "ForOfStatement": checkEmpty,
-                    "ArrowFunctionExpression": checkEmpty,
-                    "YieldExpression": checkEmpty,
-                    "TemplateLiteral": checkEmpty,
-                    "TaggedTemplateExpression": checkEmpty,
-                    "TemplateElement": checkEmpty,
-                    "ObjectPattern": checkEmpty,
-                    "ArrayPattern": checkEmpty,
-                    "RestElement": checkEmpty,
-                    "AssignmentPattern": checkEmpty,
-                    "ClassBody": checkEmpty,
-                    "MethodDefinition": checkEmpty,
-                    "MetaProperty": checkEmpty
+                    Program: checkEmpty,
+                    EmptyStatement: checkEmpty,
+                    BlockStatement: checkEmpty,
+                    ExpressionStatement: checkEmpty,
+                    LabeledStatement: checkEmpty,
+                    BreakStatement: checkEmpty,
+                    ContinueStatement: checkEmpty,
+                    WithStatement: checkEmpty,
+                    SwitchStatement: checkEmpty,
+                    ReturnStatement: checkEmpty,
+                    ThrowStatement: checkEmpty,
+                    TryStatement: checkEmpty,
+                    WhileStatement: checkEmpty,
+                    DoWhileStatement: checkEmpty,
+                    ForStatement: checkEmpty,
+                    ForInStatement: checkEmpty,
+                    DebuggerStatement: checkEmpty,
+                    ThisExpression: checkEmpty,
+                    ArrayExpression: checkEmpty,
+                    ObjectExpression: checkEmpty,
+                    Property: checkEmpty,
+                    SequenceExpression: checkEmpty,
+                    UnaryExpression: checkEmpty,
+                    BinaryExpression: checkEmpty,
+                    AssignmentExpression: checkEmpty,
+                    UpdateExpression: checkEmpty,
+                    LogicalExpression: checkEmpty,
+                    ConditionalExpression: checkEmpty,
+                    CallExpression: checkEmpty,
+                    NewExpression: checkEmpty,
+                    MemberExpression: checkEmpty,
+                    SwitchCase: checkEmpty,
+                    Identifier: checkEmpty,
+                    Literal: checkEmpty,
+                    ForOfStatement: checkEmpty,
+                    ArrowFunctionExpression: checkEmpty,
+                    YieldExpression: checkEmpty,
+                    TemplateLiteral: checkEmpty,
+                    TaggedTemplateExpression: checkEmpty,
+                    TemplateElement: checkEmpty,
+                    ObjectPattern: checkEmpty,
+                    ArrayPattern: checkEmpty,
+                    RestElement: checkEmpty,
+                    AssignmentPattern: checkEmpty,
+                    ClassBody: checkEmpty,
+                    MethodDefinition: checkEmpty,
+                    MetaProperty: checkEmpty
                 };
 
                 rule[type] = function(node) {
