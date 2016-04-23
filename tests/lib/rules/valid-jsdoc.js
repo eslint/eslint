@@ -470,6 +470,48 @@ ruleTester.run("valid-jsdoc", rule, {
             parserOptions: {
                 ecmaVersion: 6
             }
+        },
+
+        // abstract
+        {
+            code:
+            "/**\n" +
+            "* Description\n" +
+            "* @abstract\n" +
+            "* @returns {Number} desc\n" +
+            "*/\n" +
+            "function foo(){ throw new Error('Not Implemented'); }",
+            options: [{ requireReturn: false }]
+        },
+        {
+            code:
+            "/**\n" +
+            "* Description\n" +
+            "* @virtual\n" +
+            "* @returns {Number} desc\n" +
+            "*/\n" +
+            "function foo(){ throw new Error('Not Implemented'); }",
+            options: [{ requireReturn: false }]
+        },
+        {
+            code:
+            "/**\n" +
+            "* Description\n" +
+            "* @abstract\n" +
+            "* @returns {Number} desc\n" +
+            "*/\n" +
+            "function foo(){ throw new Error('Not Implemented'); }",
+            options: [{ requireReturn: true }]
+        },
+        {
+            code:
+            "/**\n" +
+            "* Description\n" +
+            "* @abstract\n" +
+            "* @returns {Number} desc\n" +
+            "*/\n" +
+            "function foo(){}",
+            options: [{ requireReturn: true }]
         }
     ],
 
