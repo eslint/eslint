@@ -10,7 +10,7 @@ The `--fix` option on the [command line](../user-guide/command-line-interface#fi
 
 These rules relate to possible syntax or logic errors in JavaScript code:
 
-* [comma-dangle](comma-dangle.md): require or disallow trailing commas (recommended)
+* [comma-dangle](comma-dangle.md): require or disallow trailing commas (recommended) (fixable)
 * [no-cond-assign](no-cond-assign.md): disallow assignment operators in conditional expressions (recommended)
 * [no-console](no-console.md): disallow the use of `console` (recommended)
 * [no-constant-condition](no-constant-condition.md): disallow constant expressions in conditions (recommended)
