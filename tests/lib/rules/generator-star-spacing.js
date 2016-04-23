@@ -270,204 +270,204 @@ ruleTester.run("generator-star-spacing", rule, {
         // {"before": true, "after": false}
         {
             code: "function foo(){}",
-            options: [{"before": true, "after": false}]
+            options: [{before: true, after: false}]
         },
         {
             code: "function *foo(){}",
-            options: [{"before": true, "after": false}],
+            options: [{before: true, after: false}],
             parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "function *foo(arg1, arg2){}",
-            options: [{"before": true, "after": false}],
+            options: [{before: true, after: false}],
             parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "var foo = function *foo(){};",
-            options: [{"before": true, "after": false}],
+            options: [{before: true, after: false}],
             parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "var foo = function *(){};",
-            options: [{"before": true, "after": false}],
+            options: [{before: true, after: false}],
             parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "var foo = { *foo(){} };",
-            options: [{"before": true, "after": false}],
+            options: [{before: true, after: false}],
             parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "var foo = {*foo(){} };",
-            options: [{"before": true, "after": false}],
+            options: [{before: true, after: false}],
             parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "class Foo { *foo(){} }",
-            options: [{"before": true, "after": false}],
+            options: [{before: true, after: false}],
             parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "class Foo {*foo(){} }",
-            options: [{"before": true, "after": false}],
+            options: [{before: true, after: false}],
             parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "class Foo { static *foo(){} }",
-            options: [{"before": true, "after": false}],
+            options: [{before: true, after: false}],
             parserOptions: { ecmaVersion: 6 }
         },
 
         // {"before": false, "after": true}
         {
             code: "function foo(){}",
-            options: [{"before": false, "after": true}]
+            options: [{before: false, after: true}]
         },
         {
             code: "function* foo(){}",
-            options: [{"before": false, "after": true}],
+            options: [{before: false, after: true}],
             parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "function* foo(arg1, arg2){}",
-            options: [{"before": false, "after": true}],
+            options: [{before: false, after: true}],
             parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "var foo = function* foo(){};",
-            options: [{"before": false, "after": true}],
+            options: [{before: false, after: true}],
             parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "var foo = function* (){};",
-            options: [{"before": false, "after": true}],
+            options: [{before: false, after: true}],
             parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "var foo = {* foo(){} };",
-            options: [{"before": false, "after": true}],
+            options: [{before: false, after: true}],
             parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "var foo = { * foo(){} };",
-            options: [{"before": false, "after": true}],
+            options: [{before: false, after: true}],
             parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "class Foo {* foo(){} }",
-            options: [{"before": false, "after": true}],
+            options: [{before: false, after: true}],
             parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "class Foo { * foo(){} }",
-            options: [{"before": false, "after": true}],
+            options: [{before: false, after: true}],
             parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "class Foo { static* foo(){} }",
-            options: [{"before": false, "after": true}],
+            options: [{before: false, after: true}],
             parserOptions: { ecmaVersion: 6 }
         },
 
         // {"before": true, "after": true}
         {
             code: "function foo(){}",
-            options: [{"before": true, "after": true}]
+            options: [{before: true, after: true}]
         },
         {
             code: "function * foo(){}",
-            options: [{"before": true, "after": true}],
+            options: [{before: true, after: true}],
             parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "function * foo(arg1, arg2){}",
-            options: [{"before": true, "after": true}],
+            options: [{before: true, after: true}],
             parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "var foo = function * foo(){};",
-            options: [{"before": true, "after": true}],
+            options: [{before: true, after: true}],
             parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "var foo = function * (){};",
-            options: [{"before": true, "after": true}],
+            options: [{before: true, after: true}],
             parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "var foo = { * foo(){} };",
-            options: [{"before": true, "after": true}],
+            options: [{before: true, after: true}],
             parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "var foo = {* foo(){} };",
-            options: [{"before": true, "after": true}],
+            options: [{before: true, after: true}],
             parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "class Foo { * foo(){} }",
-            options: [{"before": true, "after": true}],
+            options: [{before: true, after: true}],
             parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "class Foo {* foo(){} }",
-            options: [{"before": true, "after": true}],
+            options: [{before: true, after: true}],
             parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "class Foo { static * foo(){} }",
-            options: [{"before": true, "after": true}],
+            options: [{before: true, after: true}],
             parserOptions: { ecmaVersion: 6 }
         },
 
         // {"before": false, "after": false}
         {
             code: "function foo(){}",
-            options: [{"before": false, "after": false}]
+            options: [{before: false, after: false}]
         },
         {
             code: "function*foo(){}",
-            options: [{"before": false, "after": false}],
+            options: [{before: false, after: false}],
             parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "function*foo(arg1, arg2){}",
-            options: [{"before": false, "after": false}],
+            options: [{before: false, after: false}],
             parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "var foo = function*foo(){};",
-            options: [{"before": false, "after": false}],
+            options: [{before: false, after: false}],
             parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "var foo = function*(){};",
-            options: [{"before": false, "after": false}],
+            options: [{before: false, after: false}],
             parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "var foo = {*foo(){} };",
-            options: [{"before": false, "after": false}],
+            options: [{before: false, after: false}],
             parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "var foo = { *foo(){} };",
-            options: [{"before": false, "after": false}],
+            options: [{before: false, after: false}],
             parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "class Foo {*foo(){} }",
-            options: [{"before": false, "after": false}],
+            options: [{before: false, after: false}],
             parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "class Foo { *foo(){} }",
-            options: [{"before": false, "after": false}],
+            options: [{before: false, after: false}],
             parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "class Foo { static*foo(){} }",
-            options: [{"before": false, "after": false}],
+            options: [{before: false, after: false}],
             parserOptions: { ecmaVersion: 6 }
         }
 
@@ -879,7 +879,7 @@ ruleTester.run("generator-star-spacing", rule, {
         {
             code: "function*foo(){}",
             output: "function *foo(){}",
-            options: [{"before": true, "after": false}],
+            options: [{before: true, after: false}],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
                 message: "Missing space before *.",
@@ -889,7 +889,7 @@ ruleTester.run("generator-star-spacing", rule, {
         {
             code: "function* foo(arg1, arg2){}",
             output: "function *foo(arg1, arg2){}",
-            options: [{"before": true, "after": false}],
+            options: [{before: true, after: false}],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
                 message: "Missing space before *.",
@@ -902,7 +902,7 @@ ruleTester.run("generator-star-spacing", rule, {
         {
             code: "var foo = function*foo(){};",
             output: "var foo = function *foo(){};",
-            options: [{"before": true, "after": false}],
+            options: [{before: true, after: false}],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
                 message: "Missing space before *.",
@@ -912,7 +912,7 @@ ruleTester.run("generator-star-spacing", rule, {
         {
             code: "var foo = function* (){};",
             output: "var foo = function *(){};",
-            options: [{"before": true, "after": false}],
+            options: [{before: true, after: false}],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
                 message: "Missing space before *.",
@@ -925,7 +925,7 @@ ruleTester.run("generator-star-spacing", rule, {
         {
             code: "var foo = {* foo(){} };",
             output: "var foo = {*foo(){} };",
-            options: [{"before": true, "after": false}],
+            options: [{before: true, after: false}],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
                 message: "Unexpected space after *.",
@@ -935,7 +935,7 @@ ruleTester.run("generator-star-spacing", rule, {
         {
             code: "class Foo {* foo(){} }",
             output: "class Foo {*foo(){} }",
-            options: [{"before": true, "after": false}],
+            options: [{before: true, after: false}],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
                 message: "Unexpected space after *.",
@@ -947,7 +947,7 @@ ruleTester.run("generator-star-spacing", rule, {
         {
             code: "function*foo(){}",
             output: "function* foo(){}",
-            options: [{"before": false, "after": true}],
+            options: [{before: false, after: true}],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
                 message: "Missing space after *.",
@@ -957,7 +957,7 @@ ruleTester.run("generator-star-spacing", rule, {
         {
             code: "function *foo(arg1, arg2){}",
             output: "function* foo(arg1, arg2){}",
-            options: [{"before": false, "after": true}],
+            options: [{before: false, after: true}],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
                 message: "Unexpected space before *.",
@@ -970,7 +970,7 @@ ruleTester.run("generator-star-spacing", rule, {
         {
             code: "var foo = function *foo(){};",
             output: "var foo = function* foo(){};",
-            options: [{"before": false, "after": true}],
+            options: [{before: false, after: true}],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
                 message: "Unexpected space before *.",
@@ -983,7 +983,7 @@ ruleTester.run("generator-star-spacing", rule, {
         {
             code: "var foo = function *(){};",
             output: "var foo = function* (){};",
-            options: [{"before": false, "after": true}],
+            options: [{before: false, after: true}],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
                 message: "Unexpected space before *.",
@@ -996,7 +996,7 @@ ruleTester.run("generator-star-spacing", rule, {
         {
             code: "var foo = { *foo(){} };",
             output: "var foo = { * foo(){} };",
-            options: [{"before": false, "after": true}],
+            options: [{before: false, after: true}],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
                 message: "Missing space after *.",
@@ -1006,7 +1006,7 @@ ruleTester.run("generator-star-spacing", rule, {
         {
             code: "class Foo { *foo(){} }",
             output: "class Foo { * foo(){} }",
-            options: [{"before": false, "after": true}],
+            options: [{before: false, after: true}],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
                 message: "Missing space after *.",
@@ -1016,7 +1016,7 @@ ruleTester.run("generator-star-spacing", rule, {
         {
             code: "class Foo { static *foo(){} }",
             output: "class Foo { static* foo(){} }",
-            options: [{"before": false, "after": true}],
+            options: [{before: false, after: true}],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
                 message: "Unexpected space before *.",
@@ -1031,7 +1031,7 @@ ruleTester.run("generator-star-spacing", rule, {
         {
             code: "function*foo(){}",
             output: "function * foo(){}",
-            options: [{"before": true, "after": true}],
+            options: [{before: true, after: true}],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
                 message: "Missing space before *.",
@@ -1044,7 +1044,7 @@ ruleTester.run("generator-star-spacing", rule, {
         {
             code: "function*foo(arg1, arg2){}",
             output: "function * foo(arg1, arg2){}",
-            options: [{"before": true, "after": true}],
+            options: [{before: true, after: true}],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
                 message: "Missing space before *.",
@@ -1057,7 +1057,7 @@ ruleTester.run("generator-star-spacing", rule, {
         {
             code: "var foo = function*foo(){};",
             output: "var foo = function * foo(){};",
-            options: [{"before": true, "after": true}],
+            options: [{before: true, after: true}],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
                 message: "Missing space before *.",
@@ -1070,7 +1070,7 @@ ruleTester.run("generator-star-spacing", rule, {
         {
             code: "var foo = function*(){};",
             output: "var foo = function * (){};",
-            options: [{"before": true, "after": true}],
+            options: [{before: true, after: true}],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
                 message: "Missing space before *.",
@@ -1083,7 +1083,7 @@ ruleTester.run("generator-star-spacing", rule, {
         {
             code: "var foo = {*foo(){} };",
             output: "var foo = {* foo(){} };",
-            options: [{"before": true, "after": true}],
+            options: [{before: true, after: true}],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
                 message: "Missing space after *.",
@@ -1093,7 +1093,7 @@ ruleTester.run("generator-star-spacing", rule, {
         {
             code: "class Foo {*foo(){} }",
             output: "class Foo {* foo(){} }",
-            options: [{"before": true, "after": true}],
+            options: [{before: true, after: true}],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
                 message: "Missing space after *.",
@@ -1103,7 +1103,7 @@ ruleTester.run("generator-star-spacing", rule, {
         {
             code: "class Foo { static*foo(){} }",
             output: "class Foo { static * foo(){} }",
-            options: [{"before": true, "after": true}],
+            options: [{before: true, after: true}],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
                 message: "Missing space before *.",
@@ -1118,7 +1118,7 @@ ruleTester.run("generator-star-spacing", rule, {
         {
             code: "function * foo(){}",
             output: "function*foo(){}",
-            options: [{"before": false, "after": false}],
+            options: [{before: false, after: false}],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
                 message: "Unexpected space before *.",
@@ -1131,7 +1131,7 @@ ruleTester.run("generator-star-spacing", rule, {
         {
             code: "function * foo(arg1, arg2){}",
             output: "function*foo(arg1, arg2){}",
-            options: [{"before": false, "after": false}],
+            options: [{before: false, after: false}],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
                 message: "Unexpected space before *.",
@@ -1144,7 +1144,7 @@ ruleTester.run("generator-star-spacing", rule, {
         {
             code: "var foo = function * foo(){};",
             output: "var foo = function*foo(){};",
-            options: [{"before": false, "after": false}],
+            options: [{before: false, after: false}],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
                 message: "Unexpected space before *.",
@@ -1157,7 +1157,7 @@ ruleTester.run("generator-star-spacing", rule, {
         {
             code: "var foo = function * (){};",
             output: "var foo = function*(){};",
-            options: [{"before": false, "after": false}],
+            options: [{before: false, after: false}],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
                 message: "Unexpected space before *.",
@@ -1170,7 +1170,7 @@ ruleTester.run("generator-star-spacing", rule, {
         {
             code: "var foo = { * foo(){} };",
             output: "var foo = { *foo(){} };",
-            options: [{"before": false, "after": false}],
+            options: [{before: false, after: false}],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
                 message: "Unexpected space after *.",
@@ -1180,7 +1180,7 @@ ruleTester.run("generator-star-spacing", rule, {
         {
             code: "class Foo { * foo(){} }",
             output: "class Foo { *foo(){} }",
-            options: [{"before": false, "after": false}],
+            options: [{before: false, after: false}],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
                 message: "Unexpected space after *.",
@@ -1190,7 +1190,7 @@ ruleTester.run("generator-star-spacing", rule, {
         {
             code: "class Foo { static * foo(){} }",
             output: "class Foo { static*foo(){} }",
-            options: [{"before": false, "after": false}],
+            options: [{before: false, after: false}],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
                 message: "Unexpected space before *.",

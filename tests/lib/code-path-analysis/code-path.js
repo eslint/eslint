@@ -28,7 +28,7 @@ function parseCodePaths(code) {
     eslint.reset();
     eslint.defineRule("test", function() {
         return {
-            "onCodePathStart": function(codePath) {
+            onCodePathStart: function(codePath) {
                 retv.push(codePath);
             }
         };

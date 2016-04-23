@@ -69,7 +69,7 @@ describe("CodePathAnalyzer", function() {
             actual = [];
             eslint.defineRule("test", function() {
                 return {
-                    "onCodePathStart": function(codePath) {
+                    onCodePathStart: function(codePath) {
                         actual.push(codePath);
                     }
                 };
@@ -149,14 +149,14 @@ describe("CodePathAnalyzer", function() {
                 var codePath = null;
 
                 return {
-                    "onCodePathStart": function(cp) {
+                    onCodePathStart: function(cp) {
                         codePath = cp;
                     },
-                    "ReturnStatement": function() {
+                    ReturnStatement: function() {
                         assert(codePath.currentSegments.length === 1);
                         assert(codePath.currentSegments[0] instanceof CodePathSegment);
                     },
-                    "ThrowStatement": function() {
+                    ThrowStatement: function() {
                         assert(codePath.currentSegments.length === 1);
                         assert(codePath.currentSegments[0] instanceof CodePathSegment);
                     }
@@ -176,7 +176,7 @@ describe("CodePathAnalyzer", function() {
             actual = [];
             eslint.defineRule("test", function() {
                 return {
-                    "onCodePathSegmentStart": function(segment) {
+                    onCodePathSegmentStart: function(segment) {
                         actual.push(segment);
                     }
                 };
@@ -265,7 +265,7 @@ describe("CodePathAnalyzer", function() {
 
             eslint.defineRule("test", function() {
                 return {
-                    "onCodePathStart": function(cp, node) {
+                    onCodePathStart: function(cp, node) {
                         count += 1;
                         lastCodePathNodeType = node.type;
 
@@ -280,16 +280,16 @@ describe("CodePathAnalyzer", function() {
                             assert(node.type === "ArrowFunctionExpression");
                         }
                     },
-                    "Program": function() {
+                    Program: function() {
                         assert(lastCodePathNodeType === "Program");
                     },
-                    "FunctionDeclaration": function() {
+                    FunctionDeclaration: function() {
                         assert(lastCodePathNodeType === "FunctionDeclaration");
                     },
-                    "FunctionExpression": function() {
+                    FunctionExpression: function() {
                         assert(lastCodePathNodeType === "FunctionExpression");
                     },
-                    "ArrowFunctionExpression": function() {
+                    ArrowFunctionExpression: function() {
                         assert(lastCodePathNodeType === "ArrowFunctionExpression");
                     }
                 };
@@ -310,7 +310,7 @@ describe("CodePathAnalyzer", function() {
 
             eslint.defineRule("test", function() {
                 return {
-                    "onCodePathEnd": function(cp, node) {
+                    onCodePathEnd: function(cp, node) {
                         count += 1;
 
                         assert(cp instanceof CodePath);
@@ -355,7 +355,7 @@ describe("CodePathAnalyzer", function() {
 
             eslint.defineRule("test", function() {
                 return {
-                    "onCodePathSegmentStart": function(segment, node) {
+                    onCodePathSegmentStart: function(segment, node) {
                         count += 1;
                         lastCodePathNodeType = node.type;
 
@@ -370,16 +370,16 @@ describe("CodePathAnalyzer", function() {
                             assert(node.type === "ArrowFunctionExpression");
                         }
                     },
-                    "Program": function() {
+                    Program: function() {
                         assert(lastCodePathNodeType === "Program");
                     },
-                    "FunctionDeclaration": function() {
+                    FunctionDeclaration: function() {
                         assert(lastCodePathNodeType === "FunctionDeclaration");
                     },
-                    "FunctionExpression": function() {
+                    FunctionExpression: function() {
                         assert(lastCodePathNodeType === "FunctionExpression");
                     },
-                    "ArrowFunctionExpression": function() {
+                    ArrowFunctionExpression: function() {
                         assert(lastCodePathNodeType === "ArrowFunctionExpression");
                     }
                 };
@@ -400,7 +400,7 @@ describe("CodePathAnalyzer", function() {
 
             eslint.defineRule("test", function() {
                 return {
-                    "onCodePathSegmentEnd": function(cp, node) {
+                    onCodePathSegmentEnd: function(cp, node) {
                         count += 1;
 
                         assert(cp instanceof CodePathSegment);
@@ -444,7 +444,7 @@ describe("CodePathAnalyzer", function() {
 
             eslint.defineRule("test", function() {
                 return {
-                    "onCodePathSegmentLoop": function(fromSegment, toSegment, node) {
+                    onCodePathSegmentLoop: function(fromSegment, toSegment, node) {
                         count += 1;
                         assert(fromSegment instanceof CodePathSegment);
                         assert(toSegment instanceof CodePathSegment);
@@ -465,7 +465,7 @@ describe("CodePathAnalyzer", function() {
 
             eslint.defineRule("test", function() {
                 return {
-                    "onCodePathSegmentLoop": function(fromSegment, toSegment, node) {
+                    onCodePathSegmentLoop: function(fromSegment, toSegment, node) {
                         count += 1;
                         assert(fromSegment instanceof CodePathSegment);
                         assert(toSegment instanceof CodePathSegment);
@@ -486,7 +486,7 @@ describe("CodePathAnalyzer", function() {
 
             eslint.defineRule("test", function() {
                 return {
-                    "onCodePathSegmentLoop": function(fromSegment, toSegment, node) {
+                    onCodePathSegmentLoop: function(fromSegment, toSegment, node) {
                         count += 1;
                         assert(fromSegment instanceof CodePathSegment);
                         assert(toSegment instanceof CodePathSegment);
@@ -514,7 +514,7 @@ describe("CodePathAnalyzer", function() {
 
             eslint.defineRule("test", function() {
                 return {
-                    "onCodePathSegmentLoop": function(fromSegment, toSegment, node) {
+                    onCodePathSegmentLoop: function(fromSegment, toSegment, node) {
                         count += 1;
                         assert(fromSegment instanceof CodePathSegment);
                         assert(toSegment instanceof CodePathSegment);
@@ -542,7 +542,7 @@ describe("CodePathAnalyzer", function() {
 
             eslint.defineRule("test", function() {
                 return {
-                    "onCodePathSegmentLoop": function(fromSegment, toSegment, node) {
+                    onCodePathSegmentLoop: function(fromSegment, toSegment, node) {
                         count += 1;
                         assert(fromSegment instanceof CodePathSegment);
                         assert(toSegment instanceof CodePathSegment);
@@ -580,7 +580,7 @@ describe("CodePathAnalyzer", function() {
 
                 eslint.defineRule("test", function() {
                     return {
-                        "onCodePathEnd": function(codePath) {
+                        onCodePathEnd: function(codePath) {
                             actual.push(debug.makeDotArrows(codePath));
                         }
                     };

@@ -29,8 +29,8 @@ ruleTester.defineRule("use-every-a", function(context) {
         context.markVariableAsUsed("a");
     }
     return {
-        "VariableDeclaration": useA,
-        "ReturnStatement": useA
+        VariableDeclaration: useA,
+        ReturnStatement: useA
     };
 });
 
@@ -62,12 +62,12 @@ ruleTester.run("no-unused-vars", rule, {
         "try {} catch(e) {}",
         "/*global a */ a;",
         { code: "var a=10; (function() { alert(a); })();", options: [{vars: "all"}] },
-        { code: "function g(bar, baz) { return baz; }; g();", options: [{"vars": "all"}] },
-        { code: "function g(bar, baz) { return baz; }; g();", options: [{"vars": "all", "args": "after-used"}] },
-        { code: "function g(bar, baz) { return bar; }; g();", options: [{"vars": "all", "args": "none"}] },
-        { code: "function g(bar, baz) { return 2; }; g();", options: [{"vars": "all", "args": "none"}] },
-        { code: "function g(bar, baz) { return bar + baz; }; g();", options: [{"vars": "local", "args": "all"}] },
-        { code: "var g = function(bar, baz) { return 2; }; g();", options: [{"vars": "all", "args": "none"}] },
+        { code: "function g(bar, baz) { return baz; }; g();", options: [{vars: "all"}] },
+        { code: "function g(bar, baz) { return baz; }; g();", options: [{vars: "all", args: "after-used"}] },
+        { code: "function g(bar, baz) { return bar; }; g();", options: [{vars: "all", args: "none"}] },
+        { code: "function g(bar, baz) { return 2; }; g();", options: [{vars: "all", args: "none"}] },
+        { code: "function g(bar, baz) { return bar + baz; }; g();", options: [{vars: "local", args: "all"}] },
+        { code: "var g = function(bar, baz) { return 2; }; g();", options: [{vars: "all", args: "none"}] },
         "(function z() { z(); })();",
         { code: " ", globals: {a: true} },
         { code: "var who = \"Paul\";\nmodule.exports = `Hello ${who}!`;", parserOptions: { ecmaVersion: 6 }},
@@ -169,11 +169,11 @@ ruleTester.run("no-unused-vars", rule, {
         { code: "var min = Math.min", options: ["all"], errors: [{ message: "'min' is defined but never used" }] },
         { code: "var min = {min: 1}", options: ["all"], errors: [{ message: "'min' is defined but never used" }] },
         { code: "Foo.bar = function(baz) { return 1; };", options: ["all"], errors: [{ message: "'baz' is defined but never used" }] },
-        { code: "var min = {min: 1}", options: [{"vars": "all"}], errors: [{ message: "'min' is defined but never used" }] },
-        { code: "function gg(baz, bar) { return baz; }; gg();", options: [{"vars": "all"}], errors: [{ message: "'bar' is defined but never used" }] },
-        { code: "(function(foo, baz, bar) { return baz; })();", options: [{"vars": "all", "args": "after-used"}], errors: [{ message: "'bar' is defined but never used" }]},
-        { code: "(function(foo, baz, bar) { return baz; })();", options: [{"vars": "all", "args": "all"}], errors: [{ message: "'foo' is defined but never used" }, { message: "'bar' is defined but never used" }]},
-        { code: "(function z(foo) { var bar = 33; })();", options: [{"vars": "all", "args": "all"}], errors: [{ message: "'foo' is defined but never used" }, { message: "'bar' is defined but never used" }]},
+        { code: "var min = {min: 1}", options: [{vars: "all"}], errors: [{ message: "'min' is defined but never used" }] },
+        { code: "function gg(baz, bar) { return baz; }; gg();", options: [{vars: "all"}], errors: [{ message: "'bar' is defined but never used" }] },
+        { code: "(function(foo, baz, bar) { return baz; })();", options: [{vars: "all", args: "after-used"}], errors: [{ message: "'bar' is defined but never used" }]},
+        { code: "(function(foo, baz, bar) { return baz; })();", options: [{vars: "all", args: "all"}], errors: [{ message: "'foo' is defined but never used" }, { message: "'bar' is defined but never used" }]},
+        { code: "(function z(foo) { var bar = 33; })();", options: [{vars: "all", args: "all"}], errors: [{ message: "'foo' is defined but never used" }, { message: "'bar' is defined but never used" }]},
         { code: "(function z(foo) { z(); })();", options: [{}], errors: [{ message: "'foo' is defined but never used" }]},
         { code: "function f() { var a = 1; return function(){ f(a = 2); }; }", options: [{}], errors: [{ message: "'f' is defined but never used" }, {message: "'a' is defined but never used"}]},
         { code: "import x from \"y\";", parserOptions: { sourceType: "module" }, errors: [{ message: "'x' is defined but never used" }]},
@@ -291,26 +291,26 @@ ruleTester.run("no-unused-vars", rule, {
         // caughtErrors
         {
             code: "try{}catch(err){};",
-            options: [{"caughtErrors": "all"}],
+            options: [{caughtErrors: "all"}],
             errors: [{message: "'err' is defined but never used"}]
         },
         {
             code: "try{}catch(err){};",
-            options: [{"caughtErrors": "all", "caughtErrorsIgnorePattern": "^ignore"}],
+            options: [{caughtErrors: "all", caughtErrorsIgnorePattern: "^ignore"}],
             errors: [{message: "'err' is defined but never used"}]
         },
 
         // multiple try catch with one success
         {
             code: "try{}catch(ignoreErr){}try{}catch(err){};",
-            options: [{"caughtErrors": "all", "caughtErrorsIgnorePattern": "^ignore"}],
+            options: [{caughtErrors: "all", caughtErrorsIgnorePattern: "^ignore"}],
             errors: [{message: "'err' is defined but never used"}]
         },
 
         // multiple try catch both fail
         {
             code: "try{}catch(error){}try{}catch(err){};",
-            options: [{"caughtErrors": "all", "caughtErrorsIgnorePattern": "^ignore"}],
+            options: [{caughtErrors: "all", caughtErrorsIgnorePattern: "^ignore"}],
             errors: [
                 {message: "'error' is defined but never used"},
                 {message: "'err' is defined but never used"}

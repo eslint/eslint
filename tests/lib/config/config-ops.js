@@ -287,16 +287,16 @@ describe("ConfigOps", function() {
         it("should combine configs and override rules options completely", function() {
 
             var config = [
-                { rules: { "no-mixed-requires": [1, { "event": ["evt", "e"] }] } },
-                { rules: { "no-mixed-requires": [1, { "err": ["error", "e"] }] } }
+                { rules: { "no-mixed-requires": [1, { event: ["evt", "e"] }] } },
+                { rules: { "no-mixed-requires": [1, { err: ["error", "e"] }] } }
             ];
 
             var result = ConfigOps.merge(config[0], config[1]);
 
             assert.isArray(result.rules["no-mixed-requires"]);
-            assert.deepEqual(result.rules["no-mixed-requires"][1], {"err": ["error", "e"]});
-            assert.deepEqual(config[0], { rules: { "no-mixed-requires": [1, {"event": ["evt", "e"]}] }});
-            assert.deepEqual(config[1], { rules: { "no-mixed-requires": [1, {"err": ["error", "e"]}] }});
+            assert.deepEqual(result.rules["no-mixed-requires"][1], {err: ["error", "e"]});
+            assert.deepEqual(config[0], { rules: { "no-mixed-requires": [1, {event: ["evt", "e"]}] }});
+            assert.deepEqual(config[1], { rules: { "no-mixed-requires": [1, {err: ["error", "e"]}] }});
         });
 
         it("should combine configs and override rules options without array or object", function() {
@@ -336,11 +336,11 @@ describe("ConfigOps", function() {
             var config = [
                 {
                     rules: {
-                        "no-mixed-requires": [1, { "event": ["evt", "e"] }],
+                        "no-mixed-requires": [1, { event: ["evt", "e"] }],
                         "valid-jsdoc": 1,
-                        "semi": 1,
-                        "quotes": [2, { "exception": ["hi"] }],
-                        "smile": [1, ["hi", "bye"]]
+                        semi: 1,
+                        quotes: [2, { exception: ["hi"] }],
+                        smile: [1, ["hi", "bye"]]
                     },
                     parserOptions: {
                         ecmaFeatures: { blockBindings: true }
@@ -350,10 +350,10 @@ describe("ConfigOps", function() {
                 },
                 {
                     rules: {
-                        "no-mixed-requires": [1, { "err": ["error", "e"] }],
+                        "no-mixed-requires": [1, { err: ["error", "e"] }],
                         "valid-jsdoc": 2,
-                        "test": 1,
-                        "smile": [1, ["xxx", "yyy"]]
+                        test: 1,
+                        smile: [1, ["xxx", "yyy"]]
                     },
                     parserOptions: {
                         ecmaFeatures: { forOf: true }
@@ -367,46 +367,46 @@ describe("ConfigOps", function() {
 
             assert.deepEqual(result, {
                 parserOptions: {
-                    "ecmaFeatures": {
-                        "blockBindings": true,
-                        "forOf": true
+                    ecmaFeatures: {
+                        blockBindings: true,
+                        forOf: true
                     }
                 },
-                "env": {
-                    "browser": false
+                env: {
+                    browser: false
                 },
-                "globals": {
-                    "foo": true
+                globals: {
+                    foo: true
                 },
-                "rules": {
+                rules: {
                     "no-mixed-requires": [1,
                         {
-                            "err": [
+                            err: [
                                 "error",
                                 "e"
                             ]
                         }
                     ],
-                    "quotes": [2,
+                    quotes: [2,
                         {
-                            "exception": [
+                            exception: [
                                 "hi"
                             ]
                         }
                     ],
-                    "semi": 1,
-                    "smile": [1, ["xxx", "yyy"]],
-                    "test": 1,
+                    semi: 1,
+                    smile: [1, ["xxx", "yyy"]],
+                    test: 1,
                     "valid-jsdoc": 2
                 }
             });
             assert.deepEqual(config[0], {
                 rules: {
-                    "no-mixed-requires": [1, { "event": ["evt", "e"] }],
+                    "no-mixed-requires": [1, { event: ["evt", "e"] }],
                     "valid-jsdoc": 1,
-                    "semi": 1,
-                    "quotes": [2, { "exception": ["hi"] }],
-                    "smile": [1, ["hi", "bye"]]
+                    semi: 1,
+                    quotes: [2, { exception: ["hi"] }],
+                    smile: [1, ["hi", "bye"]]
                 },
                 parserOptions: {
                     ecmaFeatures: { blockBindings: true }
@@ -416,10 +416,10 @@ describe("ConfigOps", function() {
             });
             assert.deepEqual(config[1], {
                 rules: {
-                    "no-mixed-requires": [1, { "err": ["error", "e"] }],
+                    "no-mixed-requires": [1, { err: ["error", "e"] }],
                     "valid-jsdoc": 2,
-                    "test": 1,
-                    "smile": [1, ["xxx", "yyy"]]
+                    test: 1,
+                    smile: [1, ["xxx", "yyy"]]
                 },
                 parserOptions: {
                     ecmaFeatures: { forOf: true }

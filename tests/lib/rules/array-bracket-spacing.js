@@ -42,15 +42,15 @@ ruleTester.run("array-bracket-spacing", rule, {
         { code: "var foo = [ function(){} ];", options: ["always", {objectsInArrays: false}] },
 
         // always - arraysInArrays
-        { code: "var arr = [[ 1, 2 ], 2, 3, 4 ];", options: ["always", {"arraysInArrays": false}] },
-        { code: "var arr = [[ 1, 2 ], [[[ 1 ]]], 3, 4 ];", options: ["always", {"arraysInArrays": false}] },
-        { code: "var foo = [ arr[i], arr[j] ];", options: ["always", {"arraysInArrays": false}] },
+        { code: "var arr = [[ 1, 2 ], 2, 3, 4 ];", options: ["always", {arraysInArrays: false}] },
+        { code: "var arr = [[ 1, 2 ], [[[ 1 ]]], 3, 4 ];", options: ["always", {arraysInArrays: false}] },
+        { code: "var foo = [ arr[i], arr[j] ];", options: ["always", {arraysInArrays: false}] },
 
         // always - arraysInArrays, objectsInArrays
-        { code: "var arr = [[ 1, 2 ], 2, 3, { 'foo': 'bar' }];", options: ["always", {"arraysInArrays": false, objectsInArrays: false}] },
+        { code: "var arr = [[ 1, 2 ], 2, 3, { 'foo': 'bar' }];", options: ["always", {arraysInArrays: false, objectsInArrays: false}] },
 
         // always - arraysInArrays, objectsInArrays, singleValue
-        { code: "var arr = [[ 1, 2 ], [2], 3, { 'foo': 'bar' }];", options: ["always", {"arraysInArrays": false, objectsInArrays: false, singleValue: false}] },
+        { code: "var arr = [[ 1, 2 ], [2], 3, { 'foo': 'bar' }];", options: ["always", {arraysInArrays: false, objectsInArrays: false, singleValue: false}] },
 
         // always
         { code: "obj[ foo ]", options: ["always"] },
@@ -81,8 +81,8 @@ ruleTester.run("array-bracket-spacing", rule, {
         { code: "var [ ,x, ] = z", parserOptions: { ecmaVersion: 6 }, options: ["always"] },
         { code: "var [\nx, ...y\n] = z", parserOptions: { ecmaVersion: 6 }, options: ["always"] },
         { code: "var [\nx, ...y ] = z", parserOptions: { ecmaVersion: 6 }, options: ["always"] },
-        { code: "var [[ x, y ], z ] = arr;", parserOptions: { ecmaVersion: 6 }, options: ["always", {"arraysInArrays": false}] },
-        { code: "var [ x, [ y, z ]] = arr;", parserOptions: { ecmaVersion: 6 }, options: ["always", {"arraysInArrays": false}] },
+        { code: "var [[ x, y ], z ] = arr;", parserOptions: { ecmaVersion: 6 }, options: ["always", {arraysInArrays: false}] },
+        { code: "var [ x, [ y, z ]] = arr;", parserOptions: { ecmaVersion: 6 }, options: ["always", {arraysInArrays: false}] },
         { code: "[{ x, y }, z ] = arr;", parserOptions: { ecmaVersion: 6 }, options: ["always", {objectsInArrays: false}] },
         { code: "[ x, { y, z }] = arr;", parserOptions: { ecmaVersion: 6 }, options: ["always", {objectsInArrays: false}] },
 
@@ -115,8 +115,8 @@ ruleTester.run("array-bracket-spacing", rule, {
         { code: "var [,x,] = z", parserOptions: { ecmaVersion: 6 }, options: ["never"] },
         { code: "var [\nx, ...y\n] = z", parserOptions: { ecmaVersion: 6 }, options: ["never"] },
         { code: "var [\nx, ...y] = z", parserOptions: { ecmaVersion: 6 }, options: ["never"] },
-        { code: "var [ [x, y], z] = arr;", parserOptions: { ecmaVersion: 6 }, options: ["never", {"arraysInArrays": true}] },
-        { code: "var [x, [y, z] ] = arr;", parserOptions: { ecmaVersion: 6 }, options: ["never", {"arraysInArrays": true}] },
+        { code: "var [ [x, y], z] = arr;", parserOptions: { ecmaVersion: 6 }, options: ["never", {arraysInArrays: true}] },
+        { code: "var [x, [y, z] ] = arr;", parserOptions: { ecmaVersion: 6 }, options: ["never", {arraysInArrays: true}] },
         { code: "[ { x, y }, z] = arr;", parserOptions: { ecmaVersion: 6 }, options: ["never", {objectsInArrays: true}] },
         { code: "[x, { y, z } ] = arr;", parserOptions: { ecmaVersion: 6 }, options: ["never", {objectsInArrays: true}] },
 
@@ -139,15 +139,15 @@ ruleTester.run("array-bracket-spacing", rule, {
         { code: "var foo = [];", options: ["never", {objectsInArrays: true}] },
 
         // never - arraysInArrays
-        { code: "var arr = [ [1, 2], 2, 3, 4];", options: ["never", {"arraysInArrays": true}] },
-        { code: "var foo = [arr[i], arr[j]];", options: ["never", {"arraysInArrays": true}] },
-        { code: "var foo = [];", options: ["never", {"arraysInArrays": true}] },
+        { code: "var arr = [ [1, 2], 2, 3, 4];", options: ["never", {arraysInArrays: true}] },
+        { code: "var foo = [arr[i], arr[j]];", options: ["never", {arraysInArrays: true}] },
+        { code: "var foo = [];", options: ["never", {arraysInArrays: true}] },
 
         // never - arraysInArrays, singleValue
-        { code: "var arr = [ [1, 2], [ [ [ 1 ] ] ], 3, 4];", options: ["never", {"arraysInArrays": true, singleValue: true}] },
+        { code: "var arr = [ [1, 2], [ [ [ 1 ] ] ], 3, 4];", options: ["never", {arraysInArrays: true, singleValue: true}] },
 
         // never - arraysInArrays, objectsInArrays
-        { code: "var arr = [ [1, 2], 2, 3, {'foo': 'bar'} ];", options: ["never", {"arraysInArrays": true, objectsInArrays: true}] },
+        { code: "var arr = [ [1, 2], 2, 3, {'foo': 'bar'} ];", options: ["never", {arraysInArrays: true, objectsInArrays: true}] },
 
         // should not warn
         { code: "var foo = {};", options: ["never"] },
@@ -294,7 +294,7 @@ ruleTester.run("array-bracket-spacing", rule, {
         {
             code: "var arr = [ [ 1, 2 ], 2, 3, 4 ];",
             output: "var arr = [[ 1, 2 ], 2, 3, 4 ];",
-            options: ["always", {"arraysInArrays": false}],
+            options: ["always", {arraysInArrays: false}],
             errors: [
                 {
                     message: "There should be no space after '['",
@@ -307,7 +307,7 @@ ruleTester.run("array-bracket-spacing", rule, {
         {
             code: "var arr = [ 1, 2, 2, [ 3, 4 ] ];",
             output: "var arr = [ 1, 2, 2, [ 3, 4 ]];",
-            options: ["always", {"arraysInArrays": false}],
+            options: ["always", {arraysInArrays: false}],
             errors: [
                 {
                     message: "There should be no space before ']'",
@@ -320,7 +320,7 @@ ruleTester.run("array-bracket-spacing", rule, {
         {
             code: "var arr = [[ 1, 2 ], 2, [ 3, 4 ] ];",
             output: "var arr = [[ 1, 2 ], 2, [ 3, 4 ]];",
-            options: ["always", {"arraysInArrays": false}],
+            options: ["always", {arraysInArrays: false}],
             errors: [
                 {
                     message: "There should be no space before ']'",
@@ -333,7 +333,7 @@ ruleTester.run("array-bracket-spacing", rule, {
         {
             code: "var arr = [ [ 1, 2 ], 2, [ 3, 4 ]];",
             output: "var arr = [[ 1, 2 ], 2, [ 3, 4 ]];",
-            options: ["always", {"arraysInArrays": false}],
+            options: ["always", {arraysInArrays: false}],
             errors: [
                 {
                     message: "There should be no space after '['",
@@ -346,7 +346,7 @@ ruleTester.run("array-bracket-spacing", rule, {
         {
             code: "var arr = [ [ 1, 2 ], 2, [ 3, 4 ] ];",
             output: "var arr = [[ 1, 2 ], 2, [ 3, 4 ]];",
-            options: ["always", {"arraysInArrays": false}],
+            options: ["always", {arraysInArrays: false}],
             errors: [
                 {
                     message: "There should be no space after '['",
@@ -457,7 +457,7 @@ ruleTester.run("array-bracket-spacing", rule, {
         {
             code: "var [ [ x, y ], z ] = arr;",
             output: "var [[ x, y ], z ] = arr;",
-            options: ["always", {"arraysInArrays": false}],
+            options: ["always", {arraysInArrays: false}],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
                 message: "There should be no space after '['",
@@ -469,7 +469,7 @@ ruleTester.run("array-bracket-spacing", rule, {
         {
             code: "[ { x, y }, z ] = arr;",
             output: "[{ x, y }, z ] = arr;",
-            options: ["always", {"objectsInArrays": false}],
+            options: ["always", {objectsInArrays: false}],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
                 message: "There should be no space after '['",
@@ -481,7 +481,7 @@ ruleTester.run("array-bracket-spacing", rule, {
         {
             code: "[ x, { y, z } ] = arr;",
             output: "[ x, { y, z }] = arr;",
-            options: ["always", {"objectsInArrays": false}],
+            options: ["always", {objectsInArrays: false}],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
                 message: "There should be no space before ']'",
@@ -495,7 +495,7 @@ ruleTester.run("array-bracket-spacing", rule, {
         {
             code: "var arr = [[1, 2], 2, [3, 4]];",
             output: "var arr = [ [1, 2], 2, [3, 4] ];",
-            options: ["never", {"arraysInArrays": true}],
+            options: ["never", {arraysInArrays: true}],
             errors: [
                 {
                     message: "A space is required after '['",
@@ -514,7 +514,7 @@ ruleTester.run("array-bracket-spacing", rule, {
         {
             code: "var arr = [ ];",
             output: "var arr = [];",
-            options: ["never", {"arraysInArrays": true}],
+            options: ["never", {arraysInArrays: true}],
             errors: [
                 {
                     message: "There should be no space after '['",
@@ -529,7 +529,7 @@ ruleTester.run("array-bracket-spacing", rule, {
         {
             code: "var arr = [ ];",
             output: "var arr = [];",
-            options: ["never", {"objectsInArrays": true}],
+            options: ["never", {objectsInArrays: true}],
             errors: [
                 {
                     message: "There should be no space after '['",

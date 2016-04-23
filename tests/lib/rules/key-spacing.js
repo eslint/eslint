@@ -213,7 +213,7 @@ ruleTester.run("key-spacing", rule, {
             "};"
         ].join("\n"),
         parserOptions: { sourceType: "module" },
-        options: [{ "align": "value" }]
+        options: [{ align: "value" }]
     }, {
         code: [
             "var test = {",
@@ -232,7 +232,7 @@ ruleTester.run("key-spacing", rule, {
             "};"
         ].join("\n"),
         parserOptions: { ecmaVersion: 6 },
-        options: [{ "align": "value" }]
+        options: [{ align: "value" }]
     }, {
         code: [
             "var obj = {",
@@ -242,7 +242,7 @@ ruleTester.run("key-spacing", rule, {
             "};"
         ].join("\n"),
         parserOptions: { ecmaVersion: 6 },
-        options: [{ "align": "value" }]
+        options: [{ align: "value" }]
     }, {
         code: [
             "var test = {",
@@ -260,7 +260,7 @@ ruleTester.run("key-spacing", rule, {
             "};"
         ].join("\n"),
         parserOptions: { ecmaVersion: 6 },
-        options: [{ "align": "value" }]
+        options: [{ align: "value" }]
     }, {
         code: [
             "var obj = {",
@@ -270,7 +270,7 @@ ruleTester.run("key-spacing", rule, {
             "};"
         ].join("\n"),
         parserOptions: { ecmaVersion: 6 },
-        options: [{ "align": "value" }]
+        options: [{ align: "value" }]
     }, {
         code: [
             "var obj = {",
@@ -282,7 +282,7 @@ ruleTester.run("key-spacing", rule, {
             "};"
         ].join("\n"),
         parserOptions: { ecmaVersion: 6 },
-        options: [{ "align": "value" }]
+        options: [{ align: "value" }]
     }, {
         code: [
             "var obj = {",
@@ -291,7 +291,7 @@ ruleTester.run("key-spacing", rule, {
             "  , cats: cats",
             "};"
         ].join("\n"),
-        options: [{ "align": "colon" }]
+        options: [{ align: "colon" }]
     }, {
         code: [
             "var obj = { foo : foo",
@@ -299,7 +299,7 @@ ruleTester.run("key-spacing", rule, {
             "          , cats: cats",
             "};"
         ].join("\n"),
-        options: [{ "align": "colon" }]
+        options: [{ align: "colon" }]
     }, {
         code: [
             "var obj = {",
@@ -309,8 +309,8 @@ ruleTester.run("key-spacing", rule, {
             "};"
         ].join("\n"),
         options: [{
-            "align": "value",
-            "beforeColon": true
+            align: "value",
+            beforeColon: true
         }]
     },
 
@@ -432,9 +432,9 @@ ruleTester.run("key-spacing", rule, {
             "})"
         ].join("\n"),
         options: [{
-            "multiLine": {
-                "afterColon": true,
-                "align": "colon"
+            multiLine: {
+                afterColon: true,
+                align: "colon"
             }
         }]
     }, {
@@ -448,14 +448,14 @@ ruleTester.run("key-spacing", rule, {
             "})"
         ].join("\n"),
         options: [{
-            "singleLine": {
-                "afterColon": true,
-                "beforeColon": false
+            singleLine: {
+                afterColon: true,
+                beforeColon: false
             },
-            "multiLine": {
-                "afterColon": true,
-                "beforeColon": true,
-                "align": "colon"
+            multiLine: {
+                afterColon: true,
+                beforeColon: true,
+                align: "colon"
             }
         }]
     }, {
@@ -469,14 +469,14 @@ ruleTester.run("key-spacing", rule, {
             "})"
         ].join("\n"),
         options: [{
-            "multiLine": {
-                "afterColon": true,
-                "beforeColon": true,
-                "align": "colon"
+            multiLine: {
+                afterColon: true,
+                beforeColon: true,
+                align: "colon"
             },
-            "singleLine": {
-                "afterColon": true,
-                "beforeColon": false
+            singleLine: {
+                afterColon: true,
+                beforeColon: false
             }
         }]
     }, {
@@ -746,7 +746,7 @@ ruleTester.run("key-spacing", rule, {
             "};"
         ].join("\n"),
         parserOptions: { ecmaVersion: 6 },
-        options: [{ "align": "value" }],
+        options: [{ align: "value" }],
         errors: [
             { message: "Missing space before value for key 'baz'.", line: 4, column: 10, type: "Literal" }
         ]
@@ -759,7 +759,7 @@ ruleTester.run("key-spacing", rule, {
             "};"
         ].join("\n"),
         parserOptions: { ecmaVersion: 6 },
-        options: [{ "align": "value" }],
+        options: [{ align: "value" }],
         errors: [
             { message: "Extra space before value for key 'foobar'.", line: 2, column: 14, type: "Literal" }
         ]
@@ -772,7 +772,7 @@ ruleTester.run("key-spacing", rule, {
             "};"
         ].join("\n"),
         parserOptions: { ecmaVersion: 6 },
-        options: [{ "align": "value" }],
+        options: [{ align: "value" }],
         errors: [
             { message: "Missing space before value for key 'baz'.", line: 4, column: 10, type: "Literal" }
         ]
@@ -785,7 +785,7 @@ ruleTester.run("key-spacing", rule, {
             "};"
         ].join("\n"),
         parserOptions: { ecmaVersion: 6 },
-        options: [{ "align": "value" }],
+        options: [{ align: "value" }],
         errors: [
             { message: "Extra space before value for key 'foobar'.", line: 2, column: 14, type: "Literal" }
         ]
@@ -800,7 +800,7 @@ ruleTester.run("key-spacing", rule, {
             "};"
         ].join("\n"),
         parserOptions: { ecmaVersion: 6 },
-        options: [{ "align": "value" }],
+        options: [{ align: "value" }],
         errors: [
             { message: "Extra space before value for key 'baz'.", line: 6, column: 13, type: "Literal" }
         ]
@@ -811,7 +811,7 @@ ruleTester.run("key-spacing", rule, {
             "  , cats: cats",
             "};"
         ].join("\n"),
-        options: [{ "align": "colon" }],
+        options: [{ align: "colon" }],
         errors: [
             { message: "Missing space after key 'foo'.", line: 2, column: 5, type: "Identifier" }
         ]
@@ -822,7 +822,7 @@ ruleTester.run("key-spacing", rule, {
             "  , cats:  cats",
             "};"
         ].join("\n"),
-        options: [{ "align": "colon" }],
+        options: [{ align: "colon" }],
         errors: [
             { message: "Extra space before value for key 'cats'.", line: 3, column: 12, type: "Identifier" }
         ]
@@ -832,7 +832,7 @@ ruleTester.run("key-spacing", rule, {
             "          , cats: cats",
             "};"
         ].join("\n"),
-        options: [{ "align": "colon" }],
+        options: [{ align: "colon" }],
         errors: [
             { message: "Missing space after key 'foo'.", line: 1, column: 13, type: "Identifier" }
         ]
@@ -842,7 +842,7 @@ ruleTester.run("key-spacing", rule, {
             "          , cats: cats",
             "};"
         ].join("\n"),
-        options: [{ "align": "colon" }],
+        options: [{ align: "colon" }],
         errors: [
             { message: "Extra space after key 'foo'.", line: 1, column: 13, type: "Identifier" }
         ]
@@ -852,7 +852,7 @@ ruleTester.run("key-spacing", rule, {
             "          , cats: cats",
             "};"
         ].join("\n"),
-        options: [{ "align": "colon" }],
+        options: [{ align: "colon" }],
         errors: [
             { message: "Missing space before value for key 'foo'.", line: 1, column: 18, type: "Identifier" }
         ]
@@ -862,7 +862,7 @@ ruleTester.run("key-spacing", rule, {
             "          , cats: cats",
             "};"
         ].join("\n"),
-        options: [{ "align": "colon" }],
+        options: [{ align: "colon" }],
         errors: [
             { message: "Extra space before value for key 'foo'.", line: 1, column: 20, type: "Identifier" }
         ]
@@ -872,7 +872,7 @@ ruleTester.run("key-spacing", rule, {
             "          , cats:  cats",
             "};"
         ].join("\n"),
-        options: [{ "align": "colon" }],
+        options: [{ align: "colon" }],
         errors: [
             { message: "Extra space before value for key 'cats'.", line: 2, column: 20, type: "Identifier" }
         ]
@@ -895,7 +895,7 @@ ruleTester.run("key-spacing", rule, {
             "    f : 0",
             "})"
         ].join("\n"),
-        options: [{ "align": "colon" }],
+        options: [{ align: "colon" }],
         parserOptions: { ecmaVersion: 6, ecmaFeatures: { experimentalObjectRestSpread: true } },
         errors: [
             { message: "Missing space after key 'a'.", line: 3, column: 5, type: "Identifier" },
@@ -956,15 +956,15 @@ ruleTester.run("key-spacing", rule, {
             "})"
         ].join("\n"),
         options: [{
-            "singleLine": {
-                "afterColon": false,
-                "beforeColon": false
+            singleLine: {
+                afterColon: false,
+                beforeColon: false
             },
-            "multiLine": {
-                "mode": "minimum",
-                "afterColon": true,
-                "beforeColon": true,
-                "align": "value"
+            multiLine: {
+                mode: "minimum",
+                afterColon: true,
+                beforeColon: true,
+                align: "value"
             }
         }],
         errors: [
@@ -981,14 +981,14 @@ ruleTester.run("key-spacing", rule, {
             "})"
         ].join("\n"),
         options: [{
-            "multiLine": {
-                "afterColon": true,
-                "beforeColon": false,
-                "align": "colon"
+            multiLine: {
+                afterColon: true,
+                beforeColon: false,
+                align: "colon"
             },
-            "singleLine": {
-                "afterColon": true,
-                "beforeColon": true
+            singleLine: {
+                afterColon: true,
+                beforeColon: true
             }
         }],
         errors: [
@@ -1038,9 +1038,9 @@ ruleTester.run("key-spacing", rule, {
             "})"
         ].join("\n"),
         options: [{
-            "multiLine": {
-                "afterColon": true,
-                "align": "colon"
+            multiLine: {
+                afterColon: true,
+                align: "colon"
             }
         }],
         errors: [
@@ -1052,7 +1052,7 @@ ruleTester.run("key-spacing", rule, {
     // https://github.com/eslint/eslint/issues/5724
     {
         code: "({ a:b, ...object, c : d })",
-        options: [{ "align": "colon" }],
+        options: [{ align: "colon" }],
         parserOptions: { ecmaVersion: 6, ecmaFeatures: { experimentalObjectRestSpread: true } },
         errors: [
             { message: "Missing space before value for key 'a'.", line: 1, column: 6, type: "Identifier" },

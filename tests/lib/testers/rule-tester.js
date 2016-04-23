@@ -370,7 +370,7 @@ describe("RuleTester", function() {
             ruleTester.run("no-test-settings", require("../../fixtures/testers/rule-tester/no-test-settings"), {
                 valid: [
                     {
-                        code: "var test = 'bar'", settings: { "test": 1 }
+                        code: "var test = 'bar'", settings: { test: 1 }
                     }
                 ],
                 invalid: [
