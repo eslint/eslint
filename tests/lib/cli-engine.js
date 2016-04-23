@@ -1833,13 +1833,15 @@ describe("CLIEngine", function() {
     });
 
     describe("isPathIgnored", function() {
+        var sandbox;
 
         beforeEach(function() {
-            sinon.stub(console, "info").returns(void 0);
+            sandbox = sinon.sandbox.create();
+            sandbox.stub(console, "info").returns(void 0);
         });
 
         afterEach(function() {
-            console.info.restore();
+            sandbox.restore();
         });
 
         it("should check if the given path is ignored", function() {
