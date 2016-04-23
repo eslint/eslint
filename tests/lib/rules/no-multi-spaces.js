@@ -73,7 +73,7 @@ ruleTester.run("no-multi-spaces", rule, {
         "({ a:  b })",
         {
             code: "var  answer = 6 *  7;",
-            options: [{ exceptions: { "VariableDeclaration": true, "BinaryExpression": true } }]
+            options: [{ exceptions: { VariableDeclaration: true, BinaryExpression: true } }]
         }
     ],
 
@@ -350,7 +350,7 @@ ruleTester.run("no-multi-spaces", rule, {
         {
             code: "({ a:   b })",
             output: "({ a: b })",
-            options: [{ exceptions: { "Property": false } }],
+            options: [{ exceptions: { Property: false } }],
             errors: [{
                 message: "Multiple spaces found before 'b'.",
                 type: "Identifier"

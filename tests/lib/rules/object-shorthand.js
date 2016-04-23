@@ -74,10 +74,10 @@ ruleTester.run("object-shorthand", rule, {
         { code: "var x = {a: function(){}, b: {c: d}}", parserOptions: { ecmaVersion: 6 }, options: ["never"] },
 
         // ignoreConstructors
-        { code: "var x = {ConstructorFunction: function(){}, a: b}", parserOptions: { ecmaVersion: 6 }, options: ["always", { "ignoreConstructors": true }] },
-        { code: "var x = {notConstructorFunction(){}, b: c}", parserOptions: { ecmaVersion: 6 }, options: ["always", { "ignoreConstructors": true }] },
-        { code: "var x = {ConstructorFunction: function(){}, a: b}", parserOptions: { ecmaVersion: 6 }, options: ["methods", { "ignoreConstructors": true }] },
-        { code: "var x = {notConstructorFunction(){}, b: c}", parserOptions: { ecmaVersion: 6 }, options: ["methods", { "ignoreConstructors": true }] },
+        { code: "var x = {ConstructorFunction: function(){}, a: b}", parserOptions: { ecmaVersion: 6 }, options: ["always", { ignoreConstructors: true }] },
+        { code: "var x = {notConstructorFunction(){}, b: c}", parserOptions: { ecmaVersion: 6 }, options: ["always", { ignoreConstructors: true }] },
+        { code: "var x = {ConstructorFunction: function(){}, a: b}", parserOptions: { ecmaVersion: 6 }, options: ["methods", { ignoreConstructors: true }] },
+        { code: "var x = {notConstructorFunction(){}, b: c}", parserOptions: { ecmaVersion: 6 }, options: ["methods", { ignoreConstructors: true }] },
         { code: "var x = {ConstructorFunction: function(){}, a: b}", parserOptions: { ecmaVersion: 6 }, options: ["never"] },
         { code: "var x = {notConstructorFunction: function(){}, b: c}", parserOptions: { ecmaVersion: 6 }, options: ["never"] },
 

@@ -80,6 +80,7 @@ rules:
     no-with: "error"
     one-var-declaration-per-line: "error"
     quotes: ["error", "double"]
+    quote-props: ["error", "as-needed"]
     radix: "error"
     require-jsdoc: "error"
     semi: "error"

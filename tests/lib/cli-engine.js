@@ -191,7 +191,7 @@ describe("CLIEngine", function() {
                 useEslintrc: false,
                 fix: true,
                 rules: {
-                    "semi": 2
+                    semi: 2
                 },
                 ignore: false,
                 cwd: getFixturePath()
@@ -200,17 +200,17 @@ describe("CLIEngine", function() {
             var report = engine.executeOnText("var bar = foo", "passing.js");
 
             assert.deepEqual(report, {
-                "results": [
+                results: [
                     {
-                        "filePath": getFixturePath("passing.js"),
-                        "messages": [],
-                        "errorCount": 0,
-                        "warningCount": 0,
-                        "output": "var bar = foo;"
+                        filePath: getFixturePath("passing.js"),
+                        messages: [],
+                        errorCount: 0,
+                        warningCount: 0,
+                        output: "var bar = foo;"
                     }
                 ],
-                "errorCount": 0,
-                "warningCount": 0
+                errorCount: 0,
+                warningCount: 0
             });
         });
 
@@ -229,26 +229,26 @@ describe("CLIEngine", function() {
             var report = engine.executeOnText("var bar = foo", "passing.js");
 
             assert.deepEqual(report, {
-                "results": [
+                results: [
                     {
-                        "filePath": getFixturePath("passing.js"),
-                        "messages": [
+                        filePath: getFixturePath("passing.js"),
+                        messages: [
                             {
-                                "ruleId": "no-undef",
-                                "severity": 2,
-                                "message": "'foo' is not defined.",
-                                "line": 1,
-                                "column": 11,
-                                "nodeType": "Identifier",
-                                "source": "var bar = foo"
+                                ruleId: "no-undef",
+                                severity: 2,
+                                message: "'foo' is not defined.",
+                                line: 1,
+                                column: 11,
+                                nodeType: "Identifier",
+                                source: "var bar = foo"
                             }
                         ],
-                        "errorCount": 1,
-                        "warningCount": 0
+                        errorCount: 1,
+                        warningCount: 0
                     }
                 ],
-                "errorCount": 1,
-                "warningCount": 0
+                errorCount: 1,
+                warningCount: 0
             });
         });
 
@@ -902,33 +902,33 @@ describe("CLIEngine", function() {
 
                 report.results.forEach(convertCRLF);
                 assert.deepEqual(report, {
-                    "results": [
+                    results: [
                         {
-                            "filePath": fs.realpathSync(path.resolve(fixtureDir, "fixmode/ok.js")),
-                            "messages": [],
-                            "errorCount": 0,
-                            "warningCount": 0
+                            filePath: fs.realpathSync(path.resolve(fixtureDir, "fixmode/ok.js")),
+                            messages: [],
+                            errorCount: 0,
+                            warningCount: 0
                         },
                         {
-                            "filePath": fs.realpathSync(path.resolve(fixtureDir, "fixmode/quotes-semi-eqeqeq.js")),
-                            "messages": [
+                            filePath: fs.realpathSync(path.resolve(fixtureDir, "fixmode/quotes-semi-eqeqeq.js")),
+                            messages: [
                                 {
-                                    "column": 9,
-                                    "line": 2,
-                                    "message": "Expected '===' and instead saw '=='.",
-                                    "nodeType": "BinaryExpression",
-                                    "ruleId": "eqeqeq",
-                                    "severity": 2,
-                                    "source": "if (msg == \"hi\") {"
+                                    column: 9,
+                                    line: 2,
+                                    message: "Expected '===' and instead saw '=='.",
+                                    nodeType: "BinaryExpression",
+                                    ruleId: "eqeqeq",
+                                    severity: 2,
+                                    source: "if (msg == \"hi\") {"
                                 }
                             ],
-                            "errorCount": 1,
-                            "warningCount": 0,
-                            "output": "var msg = \"hi\";\nif (msg == \"hi\") {\n\n}\n"
+                            errorCount: 1,
+                            warningCount: 0,
+                            output: "var msg = \"hi\";\nif (msg == \"hi\") {\n\n}\n"
                         },
                         {
-                            "filePath": fs.realpathSync(path.resolve(fixtureDir, "fixmode/quotes.js")),
-                            "messages": [
+                            filePath: fs.realpathSync(path.resolve(fixtureDir, "fixmode/quotes.js")),
+                            messages: [
                                 {
                                     column: 18,
                                     line: 1,
@@ -939,13 +939,13 @@ describe("CLIEngine", function() {
                                     source: "var msg = \"hi\" + foo;"
                                 }
                             ],
-                            "errorCount": 1,
-                            "warningCount": 0,
-                            "output": "var msg = \"hi\" + foo;\n"
+                            errorCount: 1,
+                            warningCount: 0,
+                            output: "var msg = \"hi\" + foo;\n"
                         }
                     ],
-                    "errorCount": 2,
-                    "warningCount": 0
+                    errorCount: 2,
+                    warningCount: 0
                 });
             });
 
@@ -2075,8 +2075,8 @@ describe("CLIEngine", function() {
                     "eol-last": 0,
                     "no-alert": 1,
                     "no-trailing-spaces": 0,
-                    "strict": 0,
-                    "quotes": 0
+                    strict: 0,
+                    quotes: 0
                 }
             };
 
@@ -2102,8 +2102,8 @@ describe("CLIEngine", function() {
                     "eol-last": 0,
                     "no-alert": 1,
                     "no-trailing-spaces": 0,
-                    "strict": 0,
-                    "quotes": 0
+                    strict: 0,
+                    quotes: 0
                 }
             };
 

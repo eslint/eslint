@@ -157,12 +157,12 @@ ruleTester.run("valid-jsdoc", rule, {
         {
             code: "/**\n* Start with caps and end with period.\n* @return {void} */\nfunction foo(){}",
             options: [{
-                "matchDescription": "^[A-Z][A-Za-z0-9\\s]*[.]$"
+                matchDescription: "^[A-Z][A-Za-z0-9\\s]*[.]$"
             }]
         },
         {
             code: "/** Foo \n@return {void} Foo\n */\nfunction foo(){}",
-            options: [{ prefer: { "return": "return" }}]
+            options: [{ prefer: { return: "return" }}]
         },
         {
             code: "/** Foo \n@return Foo\n */\nfunction foo(){}",
@@ -277,8 +277,8 @@ ruleTester.run("valid-jsdoc", rule, {
             "function foo(hi){}",
             options: [{
                 preferType: {
-                    "String": "string",
-                    "Astnode": "ASTNode"
+                    String: "string",
+                    Astnode: "ASTNode"
                 }
             }]
         },
@@ -292,8 +292,8 @@ ruleTester.run("valid-jsdoc", rule, {
             "function foo(hi){}",
             options: [{
                 preferType: {
-                    "String": "string",
-                    "Astnode": "ASTNode"
+                    String: "string",
+                    Astnode: "ASTNode"
                 }
             }]
         },
@@ -307,8 +307,8 @@ ruleTester.run("valid-jsdoc", rule, {
             "function foo(hi){}",
             options: [{
                 preferType: {
-                    "String": "string",
-                    "astnode": "ASTNode"
+                    String: "string",
+                    astnode: "ASTNode"
                 }
             }]
         },
@@ -322,7 +322,7 @@ ruleTester.run("valid-jsdoc", rule, {
             "function foo(hi){}",
             options: [{
                 preferType: {
-                    "test": "Test"
+                    test: "Test"
                 }
             }]
         },
@@ -336,8 +336,8 @@ ruleTester.run("valid-jsdoc", rule, {
             "function foo(hi){}",
             options: [{
                 preferType: {
-                    "String": "string",
-                    "astnode": "ASTNode"
+                    String: "string",
+                    astnode: "ASTNode"
                 }
             }]
         },
@@ -349,7 +349,7 @@ ruleTester.run("valid-jsdoc", rule, {
             " */\n" +
             "function foo() {}",
             options: [{
-                "requireReturn": false
+                requireReturn: false
             }]
         },
         {
@@ -361,7 +361,7 @@ ruleTester.run("valid-jsdoc", rule, {
             " */\n" +
             "function foo() {}",
             options: [{
-                "requireReturn": false
+                requireReturn: false
             }]
         },
         {
@@ -372,7 +372,7 @@ ruleTester.run("valid-jsdoc", rule, {
             " */\n" +
             "function foo() {}",
             options: [{
-                "requireReturn": false
+                requireReturn: false
             }]
         },
         {
@@ -383,7 +383,7 @@ ruleTester.run("valid-jsdoc", rule, {
             " */\n" +
             "function foo() {}",
             options: [{
-                "requireReturn": false
+                requireReturn: false
             }]
         },
         {
@@ -396,7 +396,7 @@ ruleTester.run("valid-jsdoc", rule, {
             "function foo(hi){}",
             options: [{
                 preferType: {
-                    "String": "string"
+                    String: "string"
                 }
             }]
         },
@@ -410,7 +410,7 @@ ruleTester.run("valid-jsdoc", rule, {
             "function foo(hi){}",
             options: [{
                 preferType: {
-                    "String": "string"
+                    String: "string"
                 }
             }]
         },
@@ -424,8 +424,8 @@ ruleTester.run("valid-jsdoc", rule, {
             "function foo(hi){}",
             options: [{
                 preferType: {
-                    "Number": "number",
-                    "String": "string"
+                    Number: "number",
+                    String: "string"
                 }
             }]
         },
@@ -439,8 +439,8 @@ ruleTester.run("valid-jsdoc", rule, {
             "function foo(hi){}",
             options: [{
                 preferType: {
-                    "Number": "number",
-                    "String": "string"
+                    Number: "number",
+                    String: "string"
                 }
             }]
         },
@@ -454,8 +454,8 @@ ruleTester.run("valid-jsdoc", rule, {
             "function foo(hi){}",
             options: [{
                 preferType: {
-                    "Number": "number",
-                    "String": "string"
+                    Number: "number",
+                    String: "string"
                 }
             }]
         },
@@ -534,7 +534,7 @@ ruleTester.run("valid-jsdoc", rule, {
         },
         {
             code: "/** Foo \n@return {void} Foo\n */\nfunction foo(){}",
-            options: [{ prefer: { "return": "returns" }}],
+            options: [{ prefer: { return: "returns" }}],
             errors: [{
                 message: "Use @returns instead.",
                 type: "Block"
@@ -542,7 +542,7 @@ ruleTester.run("valid-jsdoc", rule, {
         },
         {
             code: "/** Foo \n@argument {int} bar baz\n */\nfunction foo(bar){}",
-            options: [{ prefer: { "argument": "arg" }}],
+            options: [{ prefer: { argument: "arg" }}],
             errors: [{
                 message: "Use @arg instead.",
                 type: "Block"
@@ -553,7 +553,7 @@ ruleTester.run("valid-jsdoc", rule, {
         },
         {
             code: "/** Foo \n */\nfunction foo(){}",
-            options: [{ prefer: { "returns": "return" }}],
+            options: [{ prefer: { returns: "return" }}],
             errors: [{
                 message: "Missing JSDoc @return for function.",
                 type: "Block"
@@ -561,7 +561,7 @@ ruleTester.run("valid-jsdoc", rule, {
         },
         {
             code: "/** Foo \n@return {void} Foo\n */\nfoo.bar = () => {}",
-            options: [{ prefer: { "return": "returns" }}],
+            options: [{ prefer: { return: "returns" }}],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
                 message: "Use @returns instead.",
@@ -646,7 +646,7 @@ ruleTester.run("valid-jsdoc", rule, {
             "};",
             options: [{
                 requireReturn: true,
-                "matchDescription": "^[A-Z][A-Za-z0-9\\s]*[.]$"
+                matchDescription: "^[A-Z][A-Za-z0-9\\s]*[.]$"
             }],
             errors: [
                 {
@@ -753,7 +753,7 @@ ruleTester.run("valid-jsdoc", rule, {
         },
         {
             code: "/**\n * Does something. \n* @param {string} a - this is a \n* @return {Array<number>} The result of doing it \n*/\n export function doSomething(a) { }",
-            options: [{"prefer": { "return": "returns" }}],
+            options: [{prefer: { return: "returns" }}],
             parserOptions: { sourceType: "module" },
             errors: [{
                 message: "Use @returns instead.",
@@ -762,7 +762,7 @@ ruleTester.run("valid-jsdoc", rule, {
         },
         {
             code: "/**\n * Does something. \n* @param {string} a - this is a \n* @return {Array<number>} The result of doing it \n*/\n export default function doSomething(a) { }",
-            options: [{"prefer": { "return": "returns" }}],
+            options: [{prefer: { return: "returns" }}],
             parserOptions: { sourceType: "module" },
             errors: [{
                 message: "Use @returns instead.",
@@ -812,7 +812,7 @@ ruleTester.run("valid-jsdoc", rule, {
         {
             code: "/**\n* Start with caps and end with period\n* @return {void} */\nfunction foo(){}",
             options: [{
-                "matchDescription": "^[A-Z][A-Za-z0-9\\s]*[.]$"
+                matchDescription: "^[A-Z][A-Za-z0-9\\s]*[.]$"
             }],
             errors: [{
                 message: "JSDoc description does not satisfy the regex pattern.",
@@ -821,7 +821,7 @@ ruleTester.run("valid-jsdoc", rule, {
         },
         {
             code: "/** Foo \n@return Foo\n */\nfunction foo(){}",
-            options: [{ prefer: { "return": "return" }}],
+            options: [{ prefer: { return: "return" }}],
             errors: [{
                 message: "Missing JSDoc return type.",
                 type: "Block"
@@ -830,7 +830,7 @@ ruleTester.run("valid-jsdoc", rule, {
         {
             code: "/** Foo \n@return sdf\n */\nfunction foo(){}",
             options: [{
-                prefer: { "return": "return" },
+                prefer: { return: "return" },
                 requireReturn: false
             }],
             errors: [{
@@ -856,7 +856,7 @@ ruleTester.run("valid-jsdoc", rule, {
                 "}",
             options: [{
                 requireReturn: false,
-                "matchDescription": "^[A-Z][A-Za-z0-9\\s]*[.]$"
+                matchDescription: "^[A-Z][A-Za-z0-9\\s]*[.]$"
             }],
             errors: [
                 {
@@ -888,7 +888,7 @@ ruleTester.run("valid-jsdoc", rule, {
                 "};",
             options: [{
                 requireReturn: true,
-                "matchDescription": "^[A-Z][A-Za-z0-9\\s]*[.]$"
+                matchDescription: "^[A-Z][A-Za-z0-9\\s]*[.]$"
             }],
             errors: [
                 {
@@ -978,8 +978,8 @@ ruleTester.run("valid-jsdoc", rule, {
             "function foo(hi){}",
             options: [{
                 preferType: {
-                    "String": "string",
-                    "Astnode": "ASTNode"
+                    String: "string",
+                    Astnode: "ASTNode"
                 }
             }],
             errors: [
@@ -1003,8 +1003,8 @@ ruleTester.run("valid-jsdoc", rule, {
             "function foo(hi){}",
             options: [{
                 preferType: {
-                    "String": "string",
-                    "Astnode": "ASTNode"
+                    String: "string",
+                    Astnode: "ASTNode"
                 }
             }],
             errors: [
@@ -1028,7 +1028,7 @@ ruleTester.run("valid-jsdoc", rule, {
             "function foo(hi){}",
             options: [{
                 preferType: {
-                    "test": "Test"
+                    test: "Test"
                 }
             }],
             errors: [
@@ -1048,8 +1048,8 @@ ruleTester.run("valid-jsdoc", rule, {
             "function foo(hi){}",
             options: [{
                 preferType: {
-                    "String": "string",
-                    "astnode": "ASTNode"
+                    String: "string",
+                    astnode: "ASTNode"
                 }
             }],
             errors: [
@@ -1069,8 +1069,8 @@ ruleTester.run("valid-jsdoc", rule, {
             "function foo(hi){}",
             options: [{
                 preferType: {
-                    "Number": "number",
-                    "String": "string"
+                    Number: "number",
+                    String: "string"
                 }
             }],
             errors: [
@@ -1098,8 +1098,8 @@ ruleTester.run("valid-jsdoc", rule, {
             "function foo(hi){}",
             options: [{
                 preferType: {
-                    "Number": "number",
-                    "String": "string"
+                    Number: "number",
+                    String: "string"
                 }
             }],
             errors: [
@@ -1131,9 +1131,9 @@ ruleTester.run("valid-jsdoc", rule, {
             "function foo(hi){}",
             options: [{
                 preferType: {
-                    "Number": "number",
-                    "String": "string",
-                    "object": "Object"
+                    Number: "number",
+                    String: "string",
+                    object: "Object"
                 }
             }],
             errors: [

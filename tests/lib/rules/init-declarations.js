@@ -92,16 +92,16 @@ ruleTester.run("init-declarations", rule, {
         },
         {
             code: "for(var i = 0; i < 1; i++){}",
-            options: ["never", { "ignoreForLoopInit": true }]
+            options: ["never", { ignoreForLoopInit: true }]
         },
         {
             code: "for (var foo in []) {}",
-            options: ["never", { "ignoreForLoopInit": true }]
+            options: ["never", { ignoreForLoopInit: true }]
         },
         {
             code: "for (var foo of []) {}",
             parserOptions: { ecmaVersion: 6 },
-            options: ["never", { "ignoreForLoopInit": true }]
+            options: ["never", { ignoreForLoopInit: true }]
         }
     ],
     invalid: [
