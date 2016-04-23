@@ -113,7 +113,7 @@ The main method you'll use is `context.report()`, which publishes a warning or e
 * `node` - (optional)  the AST node related to the problem. If present and `loc` is not specified, then the starting location of the node is used as the location of the problem.
 * `loc` - (optional) an object specifying the location of the problem. If both `loc` and `node` are specified, then the location is used from `loc` instead of `node`.
     * `line` - the 1-based line number at which the problem occurred.
-    * `col` - the 0-based column number at which the problem occurred.
+    * `column` - the 0-based column number at which the problem occurred.
 * `data` - (optional) placeholder data for `message`.
 * `fix` - (optional) a function that applies a fix to resolve the problem.
 
