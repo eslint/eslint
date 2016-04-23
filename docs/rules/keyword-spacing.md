@@ -1,4 +1,4 @@
-# Enforce spacing before and after keywords (keyword-spacing)
+# enforce consistent spacing before and after keywords (keyword-spacing)
 
 (fixable) The `--fix` option on the [command line](../user-guide/command-line-interface#fix) automatically fixes problems reported by this rule.
 
@@ -19,58 +19,38 @@ Of course, you could also have a style guide that disallows spaces around keywor
 
 ## Rule Details
 
-This rule will enforce consistency of spacing around keywords and keyword-like tokens: `as` (in module declarations), `break`, `case`, `catch`, `class`, `const`, `continue`, `debugger`, `default`, `delete`, `do`, `else`, `export`, `extends`, `finally`, `for`, `from` (in module declarations), `function`, `get` (of getters), `if`, `import`, `in`, `instanceof`, `let`, `new`, `of` (in for-of statements), `return`, `set` (of setters), `static`, `super`, `switch`, `this`, `throw`, `try`, `typeof`, `var`, `void`, `while`, `with`, and `yield`.
+This rule enforces consistent spacing around keywords and keyword-like tokens: `as` (in module declarations), `break`, `case`, `catch`, `class`, `const`, `continue`, `debugger`, `default`, `delete`, `do`, `else`, `export`, `extends`, `finally`, `for`, `from` (in module declarations), `function`, `get` (of getters), `if`, `import`, `in`, `instanceof`, `let`, `new`, `of` (in for-of statements), `return`, `set` (of setters), `static`, `super`, `switch`, `this`, `throw`, `try`, `typeof`, `var`, `void`, `while`, `with`, and `yield`. This rule is designed carefully not to conflict with other spacing rules: it does not apply to spacing where other rules report problems.
 
-The following patterns are considered problems:
+## Options
+
+This rule has an object option:
+
+* `"before": true` (default) requires at least one space before keywords
+* `"before": false` disallows spaces before keywords
+* `"after": true` (default) requires at least one space after keywords
+* `"after": false` disallows spaces after keywords
+* `"overrides"` allows overriding spacing style for specified keywords
+
+### before
+
+Examples of **incorrect** code for this rule with the default `{ "before": true }` option:
 
 ```js
-/*eslint keyword-spacing: "error"*/
-/*eslint-env es6*/
+/*eslint keyword-spacing: ["error", { "before": true }]*/
 
-if(foo){
+if (foo) {
     //...
 }else if (bar) {
     //...
-} else{
+}else {
     //...
 }
-
-try{
-    //...
-}catch(e) {
-    //...
-}
-
-switch (a) {
-    case+1:
-        break;
-}
-
-function foo() {
-    return[0, 1, 2];
-}
-
-for (let[a, b]of[foo, bar, baz]) {
-    //...
-}
-
-let obj = {
-    get[FOO]() {
-        //...
-    },
-    set[FOO](value) {
-        //...
-    }
-};
-
-import{foo}from"foo";
-import*as bar from "foo";
 ```
 
-The following patterns are considered not problems:
+Examples of **correct** code for this rule with the default `{ "before": true }` option:
 
 ```js
-/*eslint keyword-spacing: "error"*/
+/*eslint keyword-spacing: ["error", { "before": true }]*/
 /*eslint-env es6*/
 
 if (foo) {
@@ -81,58 +61,112 @@ if (foo) {
     //...
 }
 
-try {
-    //...
-} catch (e) {
-    //...
-}
-
-switch (a) {
-    case +1:
-        break;
-}
-
-function foo() {
-    return [0, 1, 2];
-}
-
-for (let [a, b] of [foo, bar, baz]) {
-    //...
-}
-
-let obj = {
-    get [FOO]() {
-        //...
-    },
-    set [FOO](value) {
-        //...
-    }
-};
-
-import {foo} from "foo";
-import * as bar from "foo";
-```
-
-This rule is designed carefully to not conflict with other spacing rules.
-Basically this rule ignores usage of spacing at places that other rules are catching.
-So the following patterns are considered not problems.
-
-```js
-/*eslint keyword-spacing: "error"*/
-/*eslint-env es6*/
-
-// not conflict with `array-bracket-spacing`
+// no conflict with `array-bracket-spacing`
 let a = [this];
 let b = [function() {}];
 
-// not conflict with `arrow-spacing`
-let a = () =>this.foo;
+// no conflict with `arrow-spacing`
+let a = ()=> this.foo;
 
-// not conflict with `block-spacing`
+// no conflict with `block-spacing`
 {function foo() {}}
 
-// not conflict with `comma-spacing`
+// no conflict with `comma-spacing`
 let a = [100,this.foo, this.bar];
+
+// not conflict with `computed-property-spacing`
+obj[this.foo] = 0;
+
+// no conflict with `generator-star-spacing`
+function *foo() {}
+
+// no conflict with `key-spacing`
+let obj = {
+    foo:function() {}
+};
+
+// no conflict with `object-curly-spacing`
+let obj = {foo: this};
+
+// no conflict with `semi-spacing`
+let a = this;function foo() {}
+
+// no conflict with `space-in-parens`
+(function () {})();
+
+// no conflict with `space-infix-ops`
+if ("foo"in {foo: 0}) {}
+if (10+this.foo<= this.bar) {}
+
+// no conflict with `jsx-curly-spacing`
+let a = <A foo={this.foo} bar={function(){}} />
+```
+
+Examples of **incorrect** code for this rule with the `{ "before": false }` option:
+
+```js
+/*eslint keyword-spacing: ["error", { "before": false }]*/
+
+if (foo) {
+    //...
+} else if (bar) {
+    //...
+} else {
+    //...
+}
+```
+
+Examples of **correct** code for this rule with the `{ "before": false }` option:
+
+```js
+/*eslint keyword-spacing: ["error", { "before": false }]*/
+
+if (foo) {
+    //...
+}else if (bar) {
+    //...
+}else {
+    //...
+}
+```
+
+### after
+
+Examples of **incorrect** code for this rule with the default `{ "after": true }` option:
+
+```js
+/*eslint keyword-spacing: ["error", { "after": true }]*/
+
+if(foo) {
+    //...
+} else if(bar) {
+    //...
+} else{
+    //...
+}
+```
+
+Examples of **correct** code for this rule with the default `{ "after": true }` option:
+
+```js
+/*eslint keyword-spacing: ["error", { "after": true }]*/
+
+if (foo) {
+    //...
+} else if (bar) {
+    //...
+} else {
+    //...
+}
+
+// not conflict with `array-bracket-spacing`
+let a = [this];
+
+// not conflict with `arrow-spacing`
+let a = ()=> this.foo;
+
+// not conflict with `comma-spacing`
+let a = [100, this.foo, this.bar];
 
 // not conflict with `computed-property-spacing`
 obj[this.foo] = 0;
@@ -159,149 +193,78 @@ let obj = {foo: this};
 let a = this;function foo() {}
 
 // not conflict with `space-before-function-paren`
-// not conflict with `space-in-parens`
-(function() {})();
+function() {}
 
-// not conflict with `space-infix-ops`
+// no conflict with `space-infix-ops`
 if ("foo"in{foo: 0}) {}
-if (10+this.foo <=this.bar) {}
+if (10+this.foo<= this.bar) {}
 
-// not conflict with `space-unary-ops`
+// no conflict with `space-unary-ops`
 function* foo(a) {
     return yield+a;
 }
 
-// not conflict with `yield-star-spacing`
+// no conflict with `yield-star-spacing`
 function* foo(a) {
     return yield* a;
 }
 
-// not conflict with `jsx-curly-spacing`
+// no conflict with `jsx-curly-spacing`
 let a = <A foo={this.foo} bar={function(){}} />
 ```
 
+Examples of **incorrect** code for this rule with the `{ "after": false }` option:
 
-## Options
+```js
+/*eslint keyword-spacing: ["error", { "after": false }]*/
 
-This rule has 3 options.
-
-```json
-{
-    "keyword-spacing": ["error", {"before": true, "after": true, "overrides": {}}]
+if (foo) {
+    //...
+} else if (bar) {
+    //...
+} else {
+    //...
 }
 ```
 
-- `"before"` (`boolean`, default is `true`) -
-  This option specifies usage of spacing before the keywords.
-  If `true` then the keywords must be preceded by at least one space.
-  Otherwise, no spaces will be allowed before the keywords (if possible).
-- `"after"` (`boolean`, default is `true`) -
-  This option specifies usage of spacing after the keywords.
-  If `true` then the keywords must be followed by at least one space.
-  Otherwise, no spaces will be allowed after the keywords (if possible).
-- `"overrides"` (`object`, default is `{}`) -
-  This option specifies overwriting usage of spacing for each keyword.
-  For Example:
-
-  ```json
-  {
-      "keyword-spacing": ["error", {"overrides": {
-          "if": {"after": false},
-          "for": {"after": false},
-          "while": {"after": false}
-      }}]
-  }
-  ```
-
-  In this case, no spaces will be allowed only after `if`, `for`, and `while`.
-
-The following patterns are considered problems when configured `{"before": false, "after": false}`:
+Examples of **correct** code for this rule with the `{ "after": false }` option:
 
 ```js
-/*eslint keyword-spacing: ["error", {before: false, after: false}]*/
-/*eslint-env es6*/
-
-if (foo){
-    //...
-} else if(bar) {
-    //...
-}else {
-    //...
-}
-
-try {
-    //...
-} catch (e) {
-    //...
-}
-
-switch(a) {
-    case +1:
-        break;
-}
-
-function foo() {
-    return [0, 1, 2];
-}
-
-for (let [a, b] of [foo, bar, baz]) {
-    //...
-}
-
-let obj = {
-    get [FOO]() {
-        //...
-    },
-    set [FOO](value) {
-        //...
-    }
-};
-
-import {foo} from "foo";
-import * as bar from"foo";
-```
-
-The following patterns are considered not problems when configured `{"before": false, "after": false}`:
-
-```js
-/*eslint keyword-spacing: ["error", {before: false, after: false}]*/
-/*eslint-env es6*/
+/*eslint keyword-spacing: ["error", { "after": false }]*/
 
 if(foo) {
     //...
-}else if(bar) {
+} else if(bar) {
     //...
-}else{
+} else{
+    //...
+}
+```
+
+### overrides
+
+Examples of **correct** code for this rule with the `{ "overrides": { "if": { "after": false }, "for": { "after": false }, "while": { "after": false } } }` option:
+
+```js
+/*eslint keyword-spacing: ["error", { "overrides": {
+  "if": { "after": false },
+  "for": { "after": false },
+  "while": { "after": false }
+} }]*/
+
+if(foo) {
+    //...
+} else if(bar) {
+    //...
+} else {
     //...
 }
 
-try{
-    //...
-}catch(e) {
-    //...
-}
+for(;;);
 
-switch(a) {
-    case+1:
-        break;
+while(true) {
+  //...
 }
-
-function foo() {
-    return[0, 1, 2];
-}
-
-for(let[a, b]of[foo, bar, baz]) {
-    //...
-}
-
-let obj = {
-    get[FOO]() {
-        //...
-    },
-    set[FOO](value) {
-        //...
-    }
-};
 ```
 
 ## When Not To Use It
