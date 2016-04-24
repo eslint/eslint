@@ -96,7 +96,7 @@ These rules relate to better ways of doing things to help you avoid problems:
 * [no-throw-literal](no-throw-literal.md): disallow throwing literals as exceptions
 * [no-unmodified-loop-condition](no-unmodified-loop-condition.md): disallow unmodified loop conditions
 * [no-unused-expressions](no-unused-expressions.md): disallow unused expressions
-* [no-unused-labels](no-unused-labels.md): disallow unused labels (recommended)
+* [no-unused-labels](no-unused-labels.md): disallow unused labels (recommended) (fixable)
 * [no-useless-call](no-useless-call.md): disallow unnecessary calls to `.call()` and `.apply()`
 * [no-useless-concat](no-useless-concat.md): disallow unnecessary concatenation of literals or template literals
 * [no-useless-escape](no-useless-escape.md): disallow unnecessary escape characters
