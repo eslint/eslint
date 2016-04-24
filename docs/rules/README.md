@@ -65,7 +65,7 @@ These rules relate to better ways of doing things to help you avoid problems:
 * [no-eval](no-eval.md): disallow the use of `eval()`
 * [no-extend-native](no-extend-native.md): disallow extending native types
 * [no-extra-bind](no-extra-bind.md): disallow unnecessary calls to `.bind()`
-* [no-extra-label](no-extra-label.md): disallow unnecessary labels
+* [no-extra-label](no-extra-label.md): disallow unnecessary labels (fixable)
 * [no-fallthrough](no-fallthrough.md): disallow fallthrough of `case` statements (recommended)
 * [no-floating-decimal](no-floating-decimal.md): disallow leading or trailing decimal points in numeric literals
 * [no-implicit-coercion](no-implicit-coercion.md): disallow shorthand type conversions
