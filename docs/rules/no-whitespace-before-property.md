@@ -1,5 +1,7 @@
 # Disallow whitespace before properties (no-whitespace-before-property)
 
+(fixable) The `--fix` option on the [command line](../user-guide/command-line-interface#fix) automatically fixes problems reported by this rule.
+
 JavaScript allows whitespace between objects and their properties. However, inconsistent spacing can make code harder to read and can lead to errors.
 
 ```js

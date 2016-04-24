@@ -198,7 +198,7 @@ These rules relate to style guidelines, and are therefore quite subjective:
 * [no-trailing-spaces](no-trailing-spaces.md): disallow trailing whitespace at the end of lines (fixable)
 * [no-underscore-dangle](no-underscore-dangle.md): disallow dangling underscores in identifiers
 * [no-unneeded-ternary](no-unneeded-ternary.md): disallow ternary operators when simpler alternatives exist
-* [no-whitespace-before-property](no-whitespace-before-property.md): disallow whitespace before properties
+* [no-whitespace-before-property](no-whitespace-before-property.md): disallow whitespace before properties (fixable)
 * [object-curly-spacing](object-curly-spacing.md): enforce consistent spacing inside braces (fixable)
 * [one-var](one-var.md): enforce variables to be declared either together or separately in functions
 * [one-var-declaration-per-line](one-var-declaration-per-line.md): require or disallow newlines around `var` declarations

@@ -104,328 +104,408 @@ ruleTester.run("no-whitespace-before-property", rule, {
     invalid: [
         {
             code: "foo. bar",
+            output: "foo.bar",
             errors: ["Unexpected whitespace before property bar."]
         },
         {
             code: "foo .bar",
+            output: "foo.bar",
             errors: ["Unexpected whitespace before property bar."]
         },
         {
             code: "foo [bar]",
+            output: "foo[bar]",
             errors: ["Unexpected whitespace before property bar."]
         },
         {
             code: "foo [0]",
+            output: "foo[0]",
             errors: ["Unexpected whitespace before property 0."]
         },
         {
             code: "foo ['bar']",
+            output: "foo['bar']",
             errors: ["Unexpected whitespace before property 'bar'."]
         },
         {
             code: "foo. bar. baz",
+            output: "foo.bar.baz",
             errors: ["Unexpected whitespace before property baz.", "Unexpected whitespace before property bar."]
         },
         {
             code: "foo .bar. baz",
+            output: "foo.bar.baz",
             errors: ["Unexpected whitespace before property baz.", "Unexpected whitespace before property bar."]
         },
         {
             code: "foo [bar] [baz]",
+            output: "foo[bar][baz]",
             errors: ["Unexpected whitespace before property baz.", "Unexpected whitespace before property bar."]
         },
         {
             code: "foo [bar][baz]",
+            output: "foo[bar][baz]",
             errors: ["Unexpected whitespace before property bar."]
         },
         {
             code: "foo[bar] [baz]",
+            output: "foo[bar][baz]",
             errors: ["Unexpected whitespace before property baz."]
         },
         {
             code: "foo.bar [baz]",
+            output: "foo.bar[baz]",
             errors: ["Unexpected whitespace before property baz."]
         },
         {
             code: "foo. bar[baz]",
+            output: "foo.bar[baz]",
             errors: ["Unexpected whitespace before property bar."]
         },
         {
             code: "foo[bar]. baz",
+            output: "foo[bar].baz",
             errors: ["Unexpected whitespace before property baz."]
         },
         {
             code: "foo[ bar ] [ baz ]",
+            output: "foo[ bar ][ baz ]",
             errors: ["Unexpected whitespace before property baz."]
         },
         {
             code: "foo [ 0 ][ baz ]",
+            output: "foo[ 0 ][ baz ]",
             errors: ["Unexpected whitespace before property 0."]
         },
         {
             code: "foo[ 0 ] [ 'baz' ]",
+            output: "foo[ 0 ][ 'baz' ]",
             errors: ["Unexpected whitespace before property 'baz'."]
         },
 
         // tabs
         {
             code: "foo\t.bar",
+            output: "foo.bar",
             errors: ["Unexpected whitespace before property bar."]
         },
         {
             code: "foo.\tbar",
+            output: "foo.bar",
             errors: ["Unexpected whitespace before property bar."]
         },
         {
             code: "foo\t.bar()",
+            output: "foo.bar()",
             errors: ["Unexpected whitespace before property bar."]
         },
         {
             code: "foo.\tbar()",
+            output: "foo.bar()",
             errors: ["Unexpected whitespace before property bar."]
         },
         {
             code: "foo\t[bar]",
+            output: "foo[bar]",
             errors: ["Unexpected whitespace before property bar."]
         },
         {
             code: "foo\t[0]",
+            output: "foo[0]",
             errors: ["Unexpected whitespace before property 0."]
         },
         {
             code: "foo\t['bar']",
+            output: "foo['bar']",
             errors: ["Unexpected whitespace before property 'bar'."]
         },
         {
             code: "foo.\tbar.\tbaz",
+            output: "foo.bar.baz",
             errors: ["Unexpected whitespace before property baz.", "Unexpected whitespace before property bar."]
         },
         {
             code: "foo\t.bar.\tbaz",
+            output: "foo.bar.baz",
             errors: ["Unexpected whitespace before property baz.", "Unexpected whitespace before property bar."]
         },
         {
             code: "foo.\tbar().\tbaz()",
+            output: "foo.bar().baz()",
             errors: ["Unexpected whitespace before property baz.", "Unexpected whitespace before property bar."]
         },
         {
             code: "foo\t.bar().\tbaz()",
+            output: "foo.bar().baz()",
             errors: ["Unexpected whitespace before property baz.", "Unexpected whitespace before property bar."]
         },
         {
             code: "foo\t[bar]\t[baz]",
+            output: "foo[bar][baz]",
             errors: ["Unexpected whitespace before property baz.", "Unexpected whitespace before property bar."]
         },
         {
             code: "foo\t[bar][baz]",
+            output: "foo[bar][baz]",
             errors: ["Unexpected whitespace before property bar."]
         },
         {
             code: "foo[bar]\t[baz]",
+            output: "foo[bar][baz]",
             errors: ["Unexpected whitespace before property baz."]
         },
         {
             code: "foo.bar\t[baz]",
+            output: "foo.bar[baz]",
             errors: ["Unexpected whitespace before property baz."]
         },
         {
             code: "foo.\tbar[baz]",
+            output: "foo.bar[baz]",
             errors: ["Unexpected whitespace before property bar."]
         },
         {
             code: "foo[bar].\tbaz",
+            output: "foo[bar].baz",
             errors: ["Unexpected whitespace before property baz."]
         },
 
         // newlines
         {
             code: "foo [bar]\n .baz",
+            output: "foo[bar]\n .baz",
             errors: ["Unexpected whitespace before property bar."]
         },
         {
             code: "foo. bar\n .baz",
+            output: "foo.bar\n .baz",
             errors: ["Unexpected whitespace before property bar."]
         },
         {
             code: "foo .bar\n.baz",
+            output: "foo.bar\n.baz",
             errors: ["Unexpected whitespace before property bar."]
         },
         {
             code: "foo.\n bar. baz",
+            output: "foo.\n bar.baz",
             errors: ["Unexpected whitespace before property baz."]
         },
         {
             code: "foo.\nbar . baz",
+            output: "foo.\nbar.baz",
             errors: ["Unexpected whitespace before property baz."]
         },
         {
             code: "foo. bar()\n .baz()",
+            output: "foo.bar()\n .baz()",
             errors: ["Unexpected whitespace before property bar."]
         },
         {
             code: "foo .bar()\n.baz()",
+            output: "foo.bar()\n.baz()",
             errors: ["Unexpected whitespace before property bar."]
         },
         {
             code: "foo.\n bar(). baz()",
+            output: "foo.\n bar().baz()",
             errors: ["Unexpected whitespace before property baz."]
         },
         {
             code: "foo.\nbar() . baz()",
+            output: "foo.\nbar().baz()",
             errors: ["Unexpected whitespace before property baz."]
         },
         {
             code: "foo\t[bar]\n\t.baz",
+            output: "foo[bar]\n\t.baz",
             errors: ["Unexpected whitespace before property bar."]
         },
         {
             code: "foo.\tbar\n\t.baz",
+            output: "foo.bar\n\t.baz",
             errors: ["Unexpected whitespace before property bar."]
         },
         {
             code: "foo\t.bar\n.baz",
+            output: "foo.bar\n.baz",
             errors: ["Unexpected whitespace before property bar."]
         },
         {
             code: "foo.\n\tbar.\tbaz",
+            output: "foo.\n\tbar.baz",
             errors: ["Unexpected whitespace before property baz."]
         },
         {
             code: "foo.\nbar\t.\tbaz",
+            output: "foo.\nbar.baz",
             errors: ["Unexpected whitespace before property baz."]
         },
         {
             code: "foo.\tbar()\n\t.baz()",
+            output: "foo.bar()\n\t.baz()",
             errors: ["Unexpected whitespace before property bar."]
         },
         {
             code: "foo\t.bar()\n.baz()",
+            output: "foo.bar()\n.baz()",
             errors: ["Unexpected whitespace before property bar."]
         },
         {
             code: "foo.\n\tbar().\tbaz()",
+            output: "foo.\n\tbar().baz()",
             errors: ["Unexpected whitespace before property baz."]
         },
         {
             code: "foo.\nbar()\t.\tbaz()",
+            output: "foo.\nbar().baz()",
             errors: ["Unexpected whitespace before property baz."]
         },
 
         // parens/computed properties
         {
             code: "foo ['bar' + baz]",
+            output: "foo['bar' + baz]",
             errors: ["Unexpected whitespace before property 'bar' + baz."]
         },
         {
             code: "(foo + bar) .baz",
+            output: "(foo + bar).baz",
             errors: ["Unexpected whitespace before property baz."]
         },
         {
             code: "(foo + bar). baz",
+            output: "(foo + bar).baz",
             errors: ["Unexpected whitespace before property baz."]
         },
         {
             code: "(foo + bar) [baz]",
+            output: "(foo + bar)[baz]",
             errors: ["Unexpected whitespace before property baz."]
         },
         {
             code: "(foo ? bar : baz) .qux",
+            output: "(foo ? bar : baz).qux",
             errors: ["Unexpected whitespace before property qux."]
         },
         {
             code: "(foo ? bar : baz). qux",
+            output: "(foo ? bar : baz).qux",
             errors: ["Unexpected whitespace before property qux."]
         },
         {
             code: "(foo ? bar : baz) [qux]",
+            output: "(foo ? bar : baz)[qux]",
             errors: ["Unexpected whitespace before property qux."]
         },
         {
             code: "( foo ? bar : baz ) [0].qux",
+            output: "( foo ? bar : baz )[0].qux",
             errors: ["Unexpected whitespace before property 0."]
         },
         {
             code: "( foo ? bar : baz )[0] .qux",
+            output: "( foo ? bar : baz )[0].qux",
             errors: ["Unexpected whitespace before property qux."]
         },
         {
             code: "( foo ? bar : baz )[0]. qux",
+            output: "( foo ? bar : baz )[0].qux",
             errors: ["Unexpected whitespace before property qux."]
         },
         {
             code: "( foo ? bar : baz ) [0]. qux",
+            output: "( foo ? bar : baz )[0].qux",
             errors: ["Unexpected whitespace before property qux.", "Unexpected whitespace before property 0."]
         },
         {
             code: "foo.bar [('baz')]",
+            output: "foo.bar[('baz')]",
             errors: ["Unexpected whitespace before property 'baz'."]
         },
         {
             code: "foo .bar[('baz')]",
+            output: "foo.bar[('baz')]",
             errors: ["Unexpected whitespace before property bar."]
         },
         {
             code: "foo .bar [('baz')]",
+            output: "foo.bar[('baz')]",
             errors: ["Unexpected whitespace before property 'baz'.", "Unexpected whitespace before property bar."]
         },
         {
             code: "foo [(('baz'))]",
+            output: "foo[(('baz'))]",
             errors: ["Unexpected whitespace before property 'baz'."]
         },
         {
             code: "foo [[baz]]",
+            output: "foo[[baz]]",
             errors: ["Unexpected whitespace before property [baz]."]
         },
         {
             code: "foo [ [ baz ] ]",
+            output: "foo[ [ baz ] ]",
             errors: ["Unexpected whitespace before property [ baz ]."]
         },
         {
             code: "foo [['baz']]",
+            output: "foo[['baz']]",
             errors: ["Unexpected whitespace before property ['baz']."]
         },
         {
             code: "foo [ [ 'baz' ] ]",
+            output: "foo[ [ 'baz' ] ]",
             errors: ["Unexpected whitespace before property [ 'baz' ]."]
         },
         {
             code: "foo[0] [[('baz')]]",
+            output: "foo[0][[('baz')]]",
             errors: ["Unexpected whitespace before property [('baz')]."]
         },
         {
             code: "foo [0][[('baz')]]",
+            output: "foo[0][[('baz')]]",
             errors: ["Unexpected whitespace before property 0."]
         },
         {
             code: "foo [0] [[('baz')]]",
+            output: "foo[0][[('baz')]]",
             errors: ["Unexpected whitespace before property [('baz')].", "Unexpected whitespace before property 0."]
         },
         {
             code: "foo [bar.baz('qux')]",
+            output: "foo[bar.baz('qux')]",
             errors: ["Unexpected whitespace before property bar.baz('qux')."]
         },
         {
             code: "foo[bar .baz('qux')]",
+            output: "foo[bar.baz('qux')]",
             errors: ["Unexpected whitespace before property baz."]
         },
         {
             code: "foo [bar . baz('qux')]",
+            output: "foo[bar.baz('qux')]",
             errors: ["Unexpected whitespace before property bar . baz('qux').", "Unexpected whitespace before property baz."]
         },
         {
             code: "foo [(bar.baz() + 0) + qux]",
+            output: "foo[(bar.baz() + 0) + qux]",
             errors: ["Unexpected whitespace before property (bar.baz() + 0) + qux."]
         },
         {
             code: "foo[(bar. baz() + 0) + qux]",
+            output: "foo[(bar.baz() + 0) + qux]",
             errors: ["Unexpected whitespace before property baz."]
         },
         {
             code: "foo [(bar. baz() + 0) + qux]",
+            output: "foo[(bar.baz() + 0) + qux]",
             errors: ["Unexpected whitespace before property (bar. baz() + 0) + qux.", "Unexpected whitespace before property baz."]
         },
         {
             code: "foo ['bar ' + 1 + ' baz']",
+            output: "foo['bar ' + 1 + ' baz']",
             errors: ["Unexpected whitespace before property 'bar ' + 1 + ' baz'."]
         }
     ]
