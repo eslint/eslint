@@ -131,6 +131,18 @@ class Foo {
         this.num1 = num1;
     }
 }
+
+// @returns allowed without return if used with @abstract
+class Foo {
+    /**
+     * @abstract
+     * @return {Number} num
+     */
+    abstractMethod () {
+        throw new Error('Not implemented');
+    }
+}
+
 ```
 
 ## Options
