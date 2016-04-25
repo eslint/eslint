@@ -106,6 +106,16 @@ ruleTester.run("id-match", rule, {
             options: ["^[a-z$]+([A-Z][a-z]+)*$"]
         },
         {
+            code: "var x = obj._foo;",
+            options: ["^[^_]+$"]
+        },
+        {
+            code: "var obj = {key: no_under}",
+            options: ["^[^_]+$", {
+                properties: true
+            }]
+        },
+        {
             code: "var o = {key: 1}",
             options: ["^[^_]+$", {
                 properties: true
@@ -134,10 +144,6 @@ ruleTester.run("id-match", rule, {
             options: ["^[^_]+$", {
                 properties: false
             }]
-        },
-        {
-            code: "var x = obj._foo;",
-            options: ["^[^_]+$"]
         },
         {
             code: "var x = obj._foo2;",
