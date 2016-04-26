@@ -5,6 +5,7 @@ node_js:
     - iojs
     - "4"
     - "5"
+    - "6"
 sudo: false
 script: "npm test && npm run check-commit && npm run docs"
 after_success:
