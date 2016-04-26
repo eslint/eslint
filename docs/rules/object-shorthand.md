@@ -49,8 +49,9 @@ Each of the following properties would warn:
 /*eslint-env es6*/
 
 var foo = {
-    x: function() {},
-    y: function *() {},
+    w: function() {},
+    x: function *() {},
+    [y]: function() {},
     z: z
 };
 ```
@@ -62,8 +63,9 @@ In that case the expected syntax would have been:
 /*eslint-env es6*/
 
 var foo = {
-    x() {},
-    *y() {},
+    w() {},
+    *x() {},
+    [y]() {},
     z
 };
 ```
