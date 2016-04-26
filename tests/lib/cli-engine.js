@@ -261,10 +261,11 @@ describe("CLIEngine", function() {
             });
 
             var report = engine.executeOnText("var bar = foo;", "node_modules/passing.js");
+            var expectedMsg = "File ignored by default. Use \'--ignore-pattern !node_modules/*\' to override.";
 
             assert.equal(report.results.length, 1);
             assert.equal(report.results[0].filePath, getFixturePath("node_modules/passing.js"));
-            assert.equal(report.results[0].messages[0].message, "File ignored because of a matching ignore pattern. Use --no-ignore to override.");
+            assert.equal(report.results[0].messages[0].message, expectedMsg);
         });
 
     });
@@ -391,11 +392,12 @@ describe("CLIEngine", function() {
             });
 
             var report = engine.executeOnFiles(["node_modules/foo.js"]);
+            var expectedMsg = "File ignored by default. Use \'--ignore-pattern !node_modules/*\' to override.";
 
             assert.equal(report.results.length, 1);
             assert.equal(report.results[0].errorCount, 0);
             assert.equal(report.results[0].warningCount, 1);
-            assert.equal(report.results[0].messages[0].message, "File ignored because of a matching ignore pattern. Use --no-ignore to override.");
+            assert.equal(report.results[0].messages[0].message, expectedMsg);
         });
 
         it("should not check default ignored files without --no-ignore flag", function() {
@@ -433,11 +435,12 @@ describe("CLIEngine", function() {
             });
 
             var report = engine.executeOnFiles(["fixtures/files/.bar.js"]);
+            var expectedMsg = "Hidden file ignored by default.  Use \'--ignore-pattern !.*\' to override.";
 
             assert.equal(report.results.length, 1);
             assert.equal(report.results[0].errorCount, 0);
             assert.equal(report.results[0].warningCount, 1);
-            assert.equal(report.results[0].messages[0].message, "File ignored because of a matching ignore pattern. Use --no-ignore to override.");
+            assert.equal(report.results[0].messages[0].message, expectedMsg);
         });
 
         it("should check .hidden files if they are passed explicitly with --no-ignore flag", function() {
@@ -672,7 +675,8 @@ describe("CLIEngine", function() {
 
         it("should return a warning when an explicitly given file is ignored", function() {
             engine = new CLIEngine({
-                ignorePath: getFixturePath(".eslintignore")
+                ignorePath: getFixturePath(".eslintignore"),
+                cwd: getFixturePath()
             });
 
             var filePath = getFixturePath("passing.js");
