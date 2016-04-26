@@ -190,10 +190,16 @@ describe("options", function() {
     });
 
     describe("--color", function() {
-        it("should return true for .color when passed", function() {
+        it("should return true for .color when passed --color", function() {
             var currentOptions = options.parse("--color");
 
             assert.isTrue(currentOptions.color);
+        });
+
+        it("should return false for .color when passed --no-color", function() {
+            var currentOptions = options.parse("--no-color");
+
+            assert.isFalse(currentOptions.color);
         });
     });
 
