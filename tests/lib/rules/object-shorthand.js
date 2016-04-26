@@ -65,6 +65,10 @@ ruleTester.run("object-shorthand", rule, {
         { code: "var x = {['y']: 'y'}", parserOptions: { ecmaVersion: 6 }, options: ["properties"] },
         { code: "var x = {['y']: y}", parserOptions: { ecmaVersion: 6 }, options: ["properties"] },
 
+        // object literal computed methods
+        { code: "var x = {[y]() {}}", parserOptions: { ecmaVersion: 6 }, options: ["methods"] },
+        { code: "var x = {[y]: function x() {}}", parserOptions: { ecmaVersion: 6 }, options: ["methods"] },
+
         // options
         { code: "var x = {y() {}}", parserOptions: { ecmaVersion: 6 }, options: ["methods"] },
         { code: "var x = {x, y() {}, a:b}", parserOptions: { ecmaVersion: 6 }, options: ["methods"] },
@@ -99,11 +103,14 @@ ruleTester.run("object-shorthand", rule, {
         { code: "doSomething({'x': x})", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "Expected property shorthand.", type: "Property" }] },
         { code: "doSomething({a: 'a', 'x': x})", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "Expected property shorthand.", type: "Property" }] },
         { code: "doSomething({y: function() {}})", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "Expected method shorthand.", type: "Property" }] },
+        { code: "doSomething({[y]: function() {}})", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "Expected method shorthand.", type: "Property" }] },
+        { code: "doSomething({['y']: function() {}})", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "Expected method shorthand.", type: "Property" }] },
 
         // options
         { code: "var x = {y: function() {}}", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "Expected method shorthand.", type: "Property" }], options: ["methods"] },
         { code: "var x = {x, y() {}, z: function() {}}", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "Expected method shorthand.", type: "Property" }], options: ["methods"] },
         { code: "var x = {ConstructorFunction: function(){}, a: b}", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "Expected method shorthand.", type: "Property" }], options: ["methods"] },
+        { code: "var x = {[y]: function() {}}", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "Expected method shorthand.", type: "Property" }], options: ["methods"] },
         { code: "var x = {x: x}", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "Expected property shorthand.", type: "Property" }], options: ["properties"] },
         { code: "var x = {a, b, c(){}, x: x}", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "Expected property shorthand.", type: "Property" }], options: ["properties"] },
         { code: "var x = {y() {}}", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "Expected longform method syntax.", type: "Property" }], options: ["never"] },
