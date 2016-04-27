@@ -446,7 +446,7 @@ describe("CLIEngine", function() {
 
             var report = engine.executeOnFiles([getFixturePath("formatters")]);
 
-            assert.equal(report.results.length, 2);
+            assert.equal(report.results.length, 3);
             assert.equal(report.errorCount, 0);
             assert.equal(report.warningCount, 0);
             assert.equal(report.results[0].messages.length, 0);
@@ -1911,6 +1911,20 @@ describe("CLIEngine", function() {
                 formatter = engine.getFormatter("special");
 
             assert.isNull(formatter);
+        });
+
+        it("should throw if the required formatter exists but has an error", function() {
+            var engine = new CLIEngine(),
+                error = null;
+
+            try {
+                engine.getFormatter(getFixturePath("formatters", "broken.js"));
+            } catch (e) {
+                error = e;
+            }
+
+            assert.instanceOf(error, Error);
+            assert.equal(error.message, "Cannot find module 'this-module-does-not-exist'");
         });
 
         it("should return null when a non-string formatter name is passed", function() {
