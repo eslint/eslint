@@ -12,7 +12,7 @@ Before filing an issue, please be sure to read the guidelines for what you're re
 
 ## Contributing Code
 
-Please sign our [Contributor License Agreement](http://eslint.org/cla) and read over the [Pull Request Guidelines](http://eslint.org/docs/developer-guide/contributing/pull-requests).
+Please sign our [Contributor License Agreement](https://contribute.jquery.org/CLA/) and read over the [Pull Request Guidelines](http://eslint.org/docs/developer-guide/contributing/pull-requests).
 
 ## Full Documentation
 
