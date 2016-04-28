@@ -451,10 +451,13 @@ describe("CLIEngine", function() {
             assert.equal(report.warningCount, 0);
             assert.equal(report.results[0].messages.length, 0);
             assert.equal(report.results[1].messages.length, 0);
+            assert.equal(report.results[2].messages.length, 0);
             assert.equal(report.results[0].errorCount, 0);
             assert.equal(report.results[0].warningCount, 0);
             assert.equal(report.results[1].errorCount, 0);
             assert.equal(report.results[1].warningCount, 0);
+            assert.equal(report.results[2].errorCount, 0);
+            assert.equal(report.results[2].warningCount, 0);
         });
 
         it("should process when file is given by not specifying extensions", function() {
