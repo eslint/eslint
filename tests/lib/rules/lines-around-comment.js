@@ -835,8 +835,6 @@ ruleTester.run("lines-around-comment", rule, {
             options: [{ afterBlockComment: true, beforeBlockComment: true }],
             errors: [
                 { message: beforeMessage, type: "Block", line: 2 },
-                { message: afterMessage, type: "Block", line: 2 },
-                { message: beforeMessage, type: "Block", line: 2 },
                 { message: afterMessage, type: "Block", line: 2 }
             ]
         },
