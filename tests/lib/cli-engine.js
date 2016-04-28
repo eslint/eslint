@@ -158,7 +158,7 @@ describe("CLIEngine", function() {
             assert.equal(report.warningCount, 1);
             assert.equal(report.results[0].filePath, getFixturePath("passing.js"));
             assert.equal(report.results[0].messages[0].severity, 1);
-            assert.equal(report.results[0].messages[0].message, "File ignored because of a matching ignore pattern. Use --no-ignore to override.");
+            assert.equal(report.results[0].messages[0].message, "File ignored because of a matching ignore pattern. Use \"--no-ignore\" to override.");
             assert.isUndefined(report.results[0].messages[0].output);
             assert.equal(report.results[0].errorCount, 0);
             assert.equal(report.results[0].warningCount, 1);
@@ -261,7 +261,7 @@ describe("CLIEngine", function() {
             });
 
             var report = engine.executeOnText("var bar = foo;", "node_modules/passing.js");
-            var expectedMsg = "File ignored by default. Use \'--ignore-pattern !node_modules/*\' to override.";
+            var expectedMsg = "File ignored by default. Use \"--ignore-pattern \'!node_modules/*\'\" to override.";
 
             assert.equal(report.results.length, 1);
             assert.equal(report.results[0].filePath, getFixturePath("node_modules/passing.js"));
@@ -392,7 +392,7 @@ describe("CLIEngine", function() {
             });
 
             var report = engine.executeOnFiles(["node_modules/foo.js"]);
-            var expectedMsg = "File ignored by default. Use \'--ignore-pattern !node_modules/*\' to override.";
+            var expectedMsg = "File ignored by default. Use \"--ignore-pattern \'!node_modules/*\'\" to override.";
 
             assert.equal(report.results.length, 1);
             assert.equal(report.results[0].errorCount, 0);
@@ -435,7 +435,7 @@ describe("CLIEngine", function() {
             });
 
             var report = engine.executeOnFiles(["fixtures/files/.bar.js"]);
-            var expectedMsg = "Hidden file ignored by default.  Use \'--ignore-pattern !.*\' to override.";
+            var expectedMsg = "File ignored by default.  Use a negated ignore pattern (like \"--ignore-pattern \'!<relative/path/to/filename>\'\") to override.";
 
             assert.equal(report.results.length, 1);
             assert.equal(report.results[0].errorCount, 0);
@@ -688,7 +688,7 @@ describe("CLIEngine", function() {
             assert.equal(report.warningCount, 1);
             assert.equal(report.results[0].filePath, filePath);
             assert.equal(report.results[0].messages[0].severity, 1);
-            assert.equal(report.results[0].messages[0].message, "File ignored because of a matching ignore pattern. Use --no-ignore to override.");
+            assert.equal(report.results[0].messages[0].message, "File ignored because of a matching ignore pattern. Use \"--no-ignore\" to override.");
             assert.equal(report.results[0].errorCount, 0);
             assert.equal(report.results[0].warningCount, 1);
         });
