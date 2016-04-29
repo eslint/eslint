@@ -1904,46 +1904,28 @@ describe("CLIEngine", function() {
 
         it("should return null when a customer formatter doesn't exist", function() {
             var engine = new CLIEngine(),
-                formatterPath = getFixturePath("formatters", "doesntexist.js"),
-                error = null;
+                formatterPath = getFixturePath("formatters", "doesntexist.js");
 
-            try {
+            assert.throws(function() {
                 engine.getFormatter(formatterPath);
-            } catch (e) {
-                error = e;
-            }
-
-            assert.instanceOf(error, Error);
-            assert.equal(error.message, "There was a problem loading formatter: " + formatterPath + "\nError: Cannot find module '" + formatterPath + "'");
+            }, "There was a problem loading formatter: " + formatterPath + "\nError: Cannot find module '" + formatterPath + "'");
         });
 
         it("should return null when a built-in formatter doesn't exist", function() {
-            var engine = new CLIEngine(),
-                error = null;
+            var engine = new CLIEngine();
 
-            try {
+            assert.throws(function() {
                 engine.getFormatter("special");
-            } catch (e) {
-                error = e;
-            }
-
-            assert.instanceOf(error, Error);
-            assert.equal(error.message, "There was a problem loading formatter: ./formatters/special\nError: Cannot find module './formatters/special'");
+            }, "There was a problem loading formatter: ./formatters/special\nError: Cannot find module './formatters/special'");
         });
 
         it("should throw if the required formatter exists but has an error", function() {
             var engine = new CLIEngine(),
-                formatterPath = getFixturePath("formatters", "broken.js")
-                error = null;
+                formatterPath = getFixturePath("formatters", "broken.js");
 
-            try {
+            assert.throws(function() {
                 engine.getFormatter(formatterPath);
-            } catch (e) {
-                error = e;
-            }
-
-            assert.instanceOf(error, Error);
-            assert.equal(error.message, "There was a problem loading formatter: " + formatterPath + "\nError: Cannot find module 'this-module-does-not-exist'");
+            }, "There was a problem loading formatter: " + formatterPath + "\nError: Cannot find module 'this-module-does-not-exist'");
         });
 
         it("should return null when a non-string formatter name is passed", function() {
