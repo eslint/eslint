@@ -11,7 +11,7 @@ Examples of **incorrect** code for this rule:
 ```js
 /*eslint no-control-regex: "error"*/
 
-var pattern1 = /\\x1f/;
+var pattern1 = /\x1f/;
 var pattern2 = new RegExp("\x1f");
 ```
 
@@ -20,7 +20,7 @@ Examples of **correct** code for this rule:
 ```js
 /*eslint no-control-regex: "error"*/
 
-var pattern1 = /\\x20/;
+var pattern1 = /\x20/;
 var pattern2 = new RegExp("\x20");
 ```
 
