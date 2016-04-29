@@ -22,6 +22,7 @@ defaultOptions = lodash.assign({}, defaultOptions, {cwd: process.cwd()});
 //------------------------------------------------------------------------------
 
 var SOURCE_CODE_FIXTURE_FILENAME = "./tests/fixtures/autoconfig/source.js";
+var CONFIG_COMMENTS_FILENAME = "./tests/fixtures/autoconfig/source-with-comments.js";
 var SEVERITY = 2;
 
 //------------------------------------------------------------------------------
@@ -199,6 +200,21 @@ describe("autoconfig", function() {
                 assert.equal(registry.rules.semi[0].errorCount, 0);
                 assert.deepEqual(registry.rules.semi[2].config, [SEVERITY, "never"]);
                 assert.equal(registry.rules.semi[2].errorCount, 3);
+            });
+
+            it("should respect inline eslint config comments (and not crash when they make linting errors)", function() {
+                var config = {ignore: false};
+                var sourceCode = sourceCodeUtil.getSourceCodeOfFiles(CONFIG_COMMENTS_FILENAME, config);
+                var expectedRegistry = [
+                    { config: 2, specificity: 1, errorCount: 3 },
+                    { config: [ 2, "always" ], specificity: 2, errorCount: 3 },
+                    { config: [ 2, "never" ], specificity: 2, errorCount: 3 }
+                ];
+
+                registry = new autoconfig.Registry(rulesConfig);
+                registry = registry.lintSourceCode(sourceCode, defaultOptions);
+
+                assert.deepEqual(registry.rules.semi, expectedRegistry);
             });
         });
 
