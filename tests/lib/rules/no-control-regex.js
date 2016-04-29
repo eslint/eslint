@@ -28,6 +28,7 @@ ruleTester.run("no-control-regex", rule, {
         "new (function foo(){})('\\x1f')"
     ],
     invalid: [
+        { code: "var regex = /\x1f/", errors: [{ message: "Unexpected control character in regular expression.", type: "Literal"}] },
         { code: "var regex = /\\\x1f/", errors: [{ message: "Unexpected control character in regular expression.", type: "Literal"}] },
         { code: "var regex = new RegExp('\\x1f')", errors: [{ message: "Unexpected control character in regular expression.", type: "Literal"}] },
         { code: "var regex = RegExp('\\x1f')", errors: [{ message: "Unexpected control character in regular expression.", type: "Literal"}] }
