@@ -57,7 +57,7 @@ foo(function bar() {});
 
 This is a `boolean` option and it is `true` by default. When set to `false`, this option allows the use of `this` without restriction and checks for dynamically assigned `this` values such as when using `Array.prototype.map` with a `context` argument. Normally, the rule will flag the use of `this` whenever a function does not use `bind()` to specify the value of `this` constantly.
 
-Examples of **correct** code for the `{ "allowUnboundThis": false }` option:
+Examples of **incorrect** code for the `{ "allowUnboundThis": false }` option:
 
 ```js
 /*eslint prefer-arrow-callback: ["error", { "allowUnboundThis": false }]*/
