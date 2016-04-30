@@ -106,13 +106,9 @@ Before filing an issue, please be sure to read the guidelines for what you're re
 
 ## Frequently Asked Questions
 
-### Why don't you like JSHint???
+### How is ESLint different from JSHint?
 
-I do like JSHint. And I like Anton and Rick. Neither of those were deciding factors in creating this tool. The fact is that I've had a dire need for a JavaScript tool with pluggable linting rules. I had hoped JSHint would be able to do this, however after chatting with Anton, I found that the planned plugin infrastructure wasn't going to suit my purpose.
-
-### I'm not giving up JSHint for this!
-
-That's not really a question, but I got it. I'm not trying to convince you that ESLint is better than JSHint. The only thing I know is that ESLint is better than JSHint for what I'm doing. In the off chance you're doing something similar, it might be better for you. Otherwise, keep using JSHint, I'm certainly not going to tell you to stop using it.
+The most significant difference is that ESlint has pluggable linting rules. That means you can use the rules it comes with, or you can extend it with rules created by others or by yourself!
 
 ### How does ESLint performance compare to JSHint?
 
