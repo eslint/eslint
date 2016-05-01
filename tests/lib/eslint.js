@@ -2812,7 +2812,8 @@ describe("eslint", function() {
                 return {
                     Program: function() {
                         var scope = context.getScope();
-                        var comments = context.getAllComments();
+                        var sourceCode = context.getSourceCode();
+                        var comments = sourceCode.getAllComments();
 
                         assert.equal(1, comments.length);
 
@@ -2902,7 +2903,8 @@ describe("eslint", function() {
                 return {
                     Program: function() {
                         var scope = context.getScope();
-                        var comments = context.getAllComments();
+                        var sourceCode = context.getSourceCode();
+                        var comments = sourceCode.getAllComments();
 
                         assert.equal(1, comments.length);
 
@@ -3243,7 +3245,8 @@ describe("eslint", function() {
                 return {
                     Program: function() {
                         var scope = context.getScope();
-                        var comments = context.getAllComments();
+                        var sourceCode = context.getSourceCode();
+                        var comments = sourceCode.getAllComments();
 
                         assert.equal(2, comments.length);
 
