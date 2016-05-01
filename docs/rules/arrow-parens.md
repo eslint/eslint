@@ -51,7 +51,9 @@ The rule takes one option, a string, which could be either `"always"` or `"as-ne
 
 You can set the option in configuration like this:
 
-"arrow-parens": [2, "always"]
+```json
+"arrow-parens": ["error", "always"]
+```
 
 ### "always"
 
