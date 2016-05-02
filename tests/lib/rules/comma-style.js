@@ -37,6 +37,10 @@ ruleTester.run("comma-style", rule, {
         {code: "function foo(){var a=[1,\n 2]}"},
         {code: "function foo(){return {'a': 1,\n'b': 2}}"},
         {code: "var foo = \n1, \nbar = \n2;"},
+        {code: "var foo = [\n(bar),\nbaz\n];"},
+        {code: "var foo = [\n(bar\n),\nbaz\n];"},
+        {code: "var foo = [\n(\nbar\n),\nbaz\n];"},
+        {code: "var foo = [\n(bar\n)\n,baz\n];", options: ["first"]},
         {code: "var foo = \n1, \nbar = [1,\n2,\n3]"},
         {code: "var foo = ['apples'\n,'oranges'];", options: ["first"]},
         {code: "var foo = 1, bar = 2;", options: ["first"]},
@@ -226,6 +230,13 @@ ruleTester.run("comma-style", rule, {
             errors: [{
                 message: FIRST_MSG,
                 type: "Property"
+            }]
+        },
+        {
+            code: "var foo = [\n(bar\n)\n,\nbaz\n];",
+            errors: [{
+                message: BAD_LN_BRK_MSG,
+                type: "Identifier"
             }]
         }
     ]
