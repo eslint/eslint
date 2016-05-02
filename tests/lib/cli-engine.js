@@ -158,7 +158,7 @@ describe("CLIEngine", function() {
             assert.equal(report.warningCount, 1);
             assert.equal(report.results[0].filePath, getFixturePath("passing.js"));
             assert.equal(report.results[0].messages[0].severity, 1);
-            assert.equal(report.results[0].messages[0].message, "File ignored because of a matching ignore pattern. Use --no-ignore to override.");
+            assert.equal(report.results[0].messages[0].message, "File ignored because of a matching ignore pattern. Use \"--no-ignore\" to override.");
             assert.isUndefined(report.results[0].messages[0].output);
             assert.equal(report.results[0].errorCount, 0);
             assert.equal(report.results[0].warningCount, 1);
@@ -250,6 +250,22 @@ describe("CLIEngine", function() {
                 errorCount: 1,
                 warningCount: 0
             });
+        });
+
+        // https://github.com/eslint/eslint/issues/5547
+        it("should respect default ignore rules, even with --no-ignore", function() {
+
+            engine = new CLIEngine({
+                cwd: getFixturePath(),
+                ignore: false
+            });
+
+            var report = engine.executeOnText("var bar = foo;", "node_modules/passing.js");
+            var expectedMsg = "File ignored by default. Use \"--ignore-pattern \'!node_modules/*\'\" to override.";
+
+            assert.equal(report.results.length, 1);
+            assert.equal(report.results[0].filePath, getFixturePath("node_modules/passing.js"));
+            assert.equal(report.results[0].messages[0].message, expectedMsg);
         });
 
     });
@@ -369,13 +385,41 @@ describe("CLIEngine", function() {
             assert.equal(report.results[1].messages.length, 0);
         });
 
+        it("should report on all files passed explicitly, even if ignored by default", function() {
+
+            engine = new CLIEngine({
+                cwd: getFixturePath("cli-engine")
+            });
+
+            var report = engine.executeOnFiles(["node_modules/foo.js"]);
+            var expectedMsg = "File ignored by default. Use \"--ignore-pattern \'!node_modules/*\'\" to override.";
+
+            assert.equal(report.results.length, 1);
+            assert.equal(report.results[0].errorCount, 0);
+            assert.equal(report.results[0].warningCount, 1);
+            assert.equal(report.results[0].messages[0].message, expectedMsg);
+        });
+
         it("should not check default ignored files without --no-ignore flag", function() {
 
             engine = new CLIEngine({
-                cwd: path.join(fixtureDir, "..")
+                cwd: getFixturePath("cli-engine")
             });
 
-            var report = engine.executeOnFiles(["fixtures/files/node_modules/.bar.js"]);
+            var report = engine.executeOnFiles(["node_modules"]);
+
+            assert.equal(report.results.length, 0);
+        });
+
+        // https://github.com/eslint/eslint/issues/5547
+        it("should not check node_modules files even with --no-ignore flag", function() {
+
+            engine = new CLIEngine({
+                cwd: getFixturePath("cli-engine"),
+                ignore: false
+            });
+
+            var report = engine.executeOnFiles(["node_modules"]);
 
             assert.equal(report.results.length, 0);
         });
@@ -383,25 +427,39 @@ describe("CLIEngine", function() {
         it("should not check .hidden files if they are passed explicitly without --no-ignore flag", function() {
 
             engine = new CLIEngine({
-                cwd: path.join(fixtureDir, "..")
+                cwd: getFixturePath(".."),
+                useEslintrc: false,
+                rules: {
+                    quotes: [2, "single"]
+                }
             });
 
             var report = engine.executeOnFiles(["fixtures/files/.bar.js"]);
+            var expectedMsg = "File ignored by default.  Use a negated ignore pattern (like \"--ignore-pattern \'!<relative/path/to/filename>\'\") to override.";
 
-            assert.equal(report.results.length, 0);
+            assert.equal(report.results.length, 1);
+            assert.equal(report.results[0].errorCount, 0);
+            assert.equal(report.results[0].warningCount, 1);
+            assert.equal(report.results[0].messages[0].message, expectedMsg);
         });
 
         it("should check .hidden files if they are passed explicitly with --no-ignore flag", function() {
 
             engine = new CLIEngine({
+                cwd: getFixturePath(".."),
                 ignore: false,
-                cwd: path.join(fixtureDir, "..")
+                useEslintrc: false,
+                rules: {
+                    quotes: [2, "single"]
+                }
             });
 
             var report = engine.executeOnFiles(["fixtures/files/.bar.js"]);
 
             assert.equal(report.results.length, 1);
-            assert.equal(report.results[0].messages.length, 0);
+            assert.equal(report.results[0].warningCount, 0);
+            assert.equal(report.results[0].errorCount, 1);
+            assert.equal(report.results[0].messages[0].ruleId, "quotes");
         });
 
         it("should report zero messages when given a pattern with a .js and a .js2 file", function() {
@@ -573,17 +631,17 @@ describe("CLIEngine", function() {
         });
 
         // https://github.com/eslint/eslint/issues/3788
-        it("should ignore one-level down node_modules when ignore file has **/_node_modules in it", function() {
+        it("should ignore one-level down node_modules when ignore file has 'node_modules/' in it", function() {
             engine = new CLIEngine({
-                ignorePath: getFixturePath("cli-engine/.eslintignore"),
+                ignorePath: getFixturePath("cli-engine", "nested_node_modules", ".eslintignore"),
                 useEslintrc: false,
                 rules: {
                     quotes: [2, "double"]
                 },
-                cwd: path.join(fixtureDir, "..")
+                cwd: getFixturePath("cli-engine", "nested_node_modules")
             });
 
-            var report = engine.executeOnFiles(["./fixtures/cli-engine/"]);
+            var report = engine.executeOnFiles(["."]);
 
             assert.equal(report.results.length, 1);
             assert.equal(report.results[0].errorCount, 0);
@@ -617,7 +675,8 @@ describe("CLIEngine", function() {
 
         it("should return a warning when an explicitly given file is ignored", function() {
             engine = new CLIEngine({
-                ignorePath: getFixturePath(".eslintignore")
+                ignorePath: getFixturePath(".eslintignore"),
+                cwd: getFixturePath()
             });
 
             var filePath = getFixturePath("passing.js");
@@ -629,7 +688,7 @@ describe("CLIEngine", function() {
             assert.equal(report.warningCount, 1);
             assert.equal(report.results[0].filePath, filePath);
             assert.equal(report.results[0].messages[0].severity, 1);
-            assert.equal(report.results[0].messages[0].message, "File ignored because of a matching ignore pattern. Use --no-ignore to override.");
+            assert.equal(report.results[0].messages[0].message, "File ignored because of a matching ignore pattern. Use \"--no-ignore\" to override.");
             assert.equal(report.results[0].errorCount, 0);
             assert.equal(report.results[0].warningCount, 1);
         });
@@ -1854,7 +1913,7 @@ describe("CLIEngine", function() {
             assert.isFalse(engine.isPathIgnored("passing.js"));
         });
 
-        it("should always return false if ignoring is disabled", function() {
+        it("should return false if ignoring is disabled", function() {
             var engine = new CLIEngine({
                 ignore: false,
                 ignorePath: getFixturePath(".eslintignore2"),
@@ -1862,7 +1921,16 @@ describe("CLIEngine", function() {
             });
 
             assert.isFalse(engine.isPathIgnored("undef.js"));
-            assert.isFalse(engine.isPathIgnored("passing.js"));
+        });
+
+        // https://github.com/eslint/eslint/issues/5547
+        it("should return true for default ignores even if ignoring is disabled", function() {
+            var engine = new CLIEngine({
+                ignore: false,
+                cwd: getFixturePath("cli-engine")
+            });
+
+            assert.isTrue(engine.isPathIgnored("node_modules/foo.js"));
         });
 
     });
