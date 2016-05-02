@@ -71,6 +71,19 @@ function thing() {
 function thing() {
   return 'test'; /*<NBSP>*/
 }
+
+function thing() {
+  // Description <NBSP>
+}
+
+function thing() {
+  return / <NBSP>regexp/;
+}
+
+/*eslint-env es6*/
+function thing() {
+  return `template  <NBSP>string`;
+}
 ```
 
 Examples of **correct** code for this rule:
@@ -99,14 +112,45 @@ Description<NBSP>: some descriptive text
 
 ## Options
 
-The `no-irregular-whitespace` rule has no required option and has one optional one that needs to be passed in a single options object:
+This rule has an object option for exceptions:
 
-* **skipComments** *(default: `false`)*: whether to ignore irregular whitespace within comments (`true`) or whether to check for them in there, too (`false`).
+* `"skipStrings": true` (default) allows any whitespace characters in string literals
+* `"skipComments": true` allows any whitespace characters in comments
+* `"skipRegExps": true` allows any whitespace characters in regular expression literals
+* `"skipTemplates": true` allows any whitespace characters in template literals
 
-For example, to specify that you want to skip checking for irregular whitespace within comments, use the following configuration:
+### skipComments
 
-```json
-"no-irregular-whitespace": ["error", { "skipComments": true }]
+Examples of additional **correct** code for this rule with the { "skipComments": true } option:
+
+```js
+/*eslint no-irregular-whitespace: ["error", { "skipComments": true }]*/
+function thing() {
+  // Description <NBSP>
+}
+```
+
+### skipRegExps
+
+Examples of additional **correct** code for this rule with the { "skipRegExps": true } option:
+
+```js
+/*eslint no-irregular-whitespace: ["error", { "skipRegExps": true }]*/
+function thing() {
+  return / <NBSP>regexp/;
+}
+```
+
+### skipTemplates
+
+Examples of additional **correct** code for this rule with the { "skipTemplates": true } option:
+
+```js
+/*eslint no-irregular-whitespace: ["error", { "skipTemplates": true }]*/
+/*eslint-env es6*/
+function thing() {
+  return `template  <NBSP>string`;
+}
 ```
 
 ## When Not To Use It
