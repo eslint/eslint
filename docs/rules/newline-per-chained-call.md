@@ -5,15 +5,15 @@ Chained method calls on a single line without line breaks are harder to read. Th
 Let's look at the following perfectly valid (but single line) code.
 
 ```js
-d3.select('body').selectAll('p').data([4, 8, 15, 16, 23, 42 ]).enter().append('p').text(function(d) { return "I'm number " + d + "!"; });
+d3.select("body").selectAll("p").data([4, 8, 15, 16, 23, 42 ]).enter().append("p").text(function(d) { return "I'm number " + d + "!"; });
 ```
 
 However, with appropriate new lines, it becomes easy to read and understand. Look at the same code written below with line breaks after each call.
 
 ```js
 d3
-    .select('body')
-    .selectAll('p')
+    .select("body")
+    .selectAll("p")
     .data([
         4,
         8,
@@ -23,13 +23,30 @@ d3
         42
     ])
     .enter()
-    .append('p')
+    .append("p")
     .text(function (d) {
         return "I'm number " + d + "!";
     });
 ```
 
-This rule reports such code and encourages new lines after each call in the chain as a good practice.
+Another argument in favor of this style is that it improves the clarity of diffs when something in the method chain is changed:
+
+Less clear:
+
+```diff
+-d3.select("body").selectAll("p").style("color", "white");
++d3.select("body").selectAll("p").style("color", "blue");
+```
+
+More clear:
+
+```diff
+d3
+    .select("body")
+    .selectAll("p")
+-    .style("color", "white");
++    .style("color", "blue");
+```
 
 ## Rule Details
 
