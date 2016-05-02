@@ -25,6 +25,7 @@ var ruleTester = new RuleTester();
 
 ruleTester.run("no-return-assign", rule, {
     valid: [
+        "var result = a * b;",
         "function x() { var result = a * b; return result; }",
         "function x() { return (result = a * b); }",
         {
@@ -37,6 +38,10 @@ ruleTester.run("no-return-assign", rule, {
         },
         {
             code: "function x() { var result = a * b; return result; }",
+            options: ["always"]
+        },
+        {
+            code: "function x() { return function y() { result = a * b }; }",
             options: ["always"]
         },
         {
@@ -86,6 +91,11 @@ ruleTester.run("no-return-assign", rule, {
         },
         {
             code: "function x() { return (result = a * b); };",
+            options: ["always"],
+            errors: [error]
+        },
+        {
+            code: "function x() { return result || (result = a * b); };",
             options: ["always"],
             errors: [error]
         }
