@@ -88,7 +88,10 @@ console.log(b);
 
 ```json
 {
-    "prefer-const": ["error", {"destructuring": "any"}]
+    "prefer-const": ["error", {
+        "destructuring": "any",
+        "ignoreReadBeforeAssign": false
+    }]
 }
 ```
 
@@ -148,6 +151,41 @@ let {a, b} = obj;
 a = a + 1;
 ```
 
+### ignoreReadBeforeAssign
+
+This is an option to avoid conflicting with `no-use-before-define` rule (without `"nofunc"` option).
+If `true` is specified, this rule will ignore variables that are read between the declaration and the first assignment.
+Default is `false`.
+
+Examples of **correct** code for the `{"ignoreReadBeforeAssign": true}` option:
+
+```js
+/*eslint prefer-const: ["error", {"ignoreReadBeforeAssign": true}]*/
+/*eslint-env es6*/
+
+let timer;
+function initialize() {
+    if (foo()) {
+        clearInterval(timer);
+    }
+}
+timer = setInterval(initialize, 100);
+```
+
+Examples of **correct** code for the defaut `{"ignoreReadBeforeAssign": false}` option:
+
+```js
+/*eslint prefer-const: ["error", {"ignoreReadBeforeAssign": false}]*/
+/*eslint-env es6*/
+
+const timer = setInterval(initialize, 100);
+function initialize() {
+    if (foo()) {
+        clearInterval(timer);
+    }
+}
+```
+
 ## When Not To Use It
 
 If you don't want to be notified about variables that are never reassigned after initial assignment, you can safely disable this rule.
@@ -155,3 +193,4 @@ If you don't want to be notified about variables that are never reassigned after
 ## Related Rules
 
 * [no-var](no-var.md)
+* [no-use-before-define](no-use-before-define.md)
