@@ -504,15 +504,18 @@ describe("CLIEngine", function() {
 
             var report = engine.executeOnFiles([getFixturePath("formatters")]);
 
-            assert.equal(report.results.length, 2);
+            assert.equal(report.results.length, 3);
             assert.equal(report.errorCount, 0);
             assert.equal(report.warningCount, 0);
             assert.equal(report.results[0].messages.length, 0);
             assert.equal(report.results[1].messages.length, 0);
+            assert.equal(report.results[2].messages.length, 0);
             assert.equal(report.results[0].errorCount, 0);
             assert.equal(report.results[0].warningCount, 0);
             assert.equal(report.results[1].errorCount, 0);
             assert.equal(report.results[1].warningCount, 0);
+            assert.equal(report.results[2].errorCount, 0);
+            assert.equal(report.results[2].warningCount, 0);
         });
 
         it("should process when file is given by not specifying extensions", function() {
@@ -1969,16 +1972,28 @@ describe("CLIEngine", function() {
 
         it("should return null when a customer formatter doesn't exist", function() {
             var engine = new CLIEngine(),
-                formatter = engine.getFormatter(getFixturePath("formatters", "doesntexist.js"));
+                formatterPath = getFixturePath("formatters", "doesntexist.js");
 
-            assert.isNull(formatter);
+            assert.throws(function() {
+                engine.getFormatter(formatterPath);
+            }, "There was a problem loading formatter: " + formatterPath + "\nError: Cannot find module '" + formatterPath + "'");
         });
 
         it("should return null when a built-in formatter doesn't exist", function() {
-            var engine = new CLIEngine(),
-                formatter = engine.getFormatter("special");
+            var engine = new CLIEngine();
 
-            assert.isNull(formatter);
+            assert.throws(function() {
+                engine.getFormatter("special");
+            }, "There was a problem loading formatter: ./formatters/special\nError: Cannot find module './formatters/special'");
+        });
+
+        it("should throw if the required formatter exists but has an error", function() {
+            var engine = new CLIEngine(),
+                formatterPath = getFixturePath("formatters", "broken.js");
+
+            assert.throws(function() {
+                engine.getFormatter(formatterPath);
+            }, "There was a problem loading formatter: " + formatterPath + "\nError: Cannot find module 'this-module-does-not-exist'");
         });
 
         it("should return null when a non-string formatter name is passed", function() {
