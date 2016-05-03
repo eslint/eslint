@@ -1,8 +1,10 @@
-# Disallow Invalid Regular Expressions (no-invalid-regexp)
+# disallow invalid regular expression strings in `RegExp` constructors (no-invalid-regexp)
 
-This rule validates string arguments passed to the `RegExp` constructor.
+An invalid pattern in a regular expression literal is a `SyntaxError` when the code is parsed, but an invalid string in `RegExp` constructors throws a `SyntaxError` only when the code is executed.
 
 ## Rule Details
+
+This rule disallows invalid regular expression strings in `RegExp` constructors.
 
 Examples of **incorrect** code for this rule:
 
@@ -30,25 +32,32 @@ this.RegExp('[')
 
 ## Environments
 
-ECMAScript 6 adds the "u" ([unicode](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-get-regexp.prototype.unicode)) and "y" ([sticky](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-get-regexp.prototype.sticky)) flags. You can enable these to be recognized as valid by setting the ECMAScript version to 6 in your [ESLint configuration](../user-guide/configuring).
+ECMAScript 6 adds the following flag arguments to the `RegExp` constructor:
 
+* `"u"` ([unicode](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-get-regexp.prototype.unicode))
+* `"y"` ([sticky](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-get-regexp.prototype.sticky))
 
-## Options
+You can enable these to be recognized as valid by setting the ECMAScript version to 6 in your [ESLint configuration](../user-guide/configuring).
 
 If you want to allow additional constructor flags for any reason, you can specify them using an `allowConstructorFlags` option in `.eslintrc`. These flags will then be ignored by the rule regardless of the `ecmaVersion` setting.
 
-### `allowConstructorFlags`
+## Options
 
-This takes in an array of flags. With this option, the following patterns aren't considered problems:
+This rule has an object option for exceptions:
+
+* `"allowConstructorFlags"` is an array of flags
+
+### allowConstructorFlags
+
+Examples of **correct** code for this rule with the `{ "allowConstructorFlags": ["u", "y"] }` option:
 
 ```js
-/*eslint no-invalid-regexp: ["error", {"allowConstructorFlags": ["u", "y"]}]*/
+/*eslint no-invalid-regexp: ["error", { "allowConstructorFlags": ["u", "y"] }]*/
 
 new RegExp('.', 'y')
 
 new RegExp('.', 'yu')
 ```
-
 
 ## Further Reading
 

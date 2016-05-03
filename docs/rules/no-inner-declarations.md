@@ -1,4 +1,4 @@
-# Declarations in Program or Function Body (no-inner-declarations)
+# disallow `function` or `var` declarations in nested blocks (no-inner-declarations)
 
 In JavaScript, prior to ES6, a function declaration is only allowed in the first level of a program or the body of another function, though parsers sometimes [erroneously accept them elsewhere](https://code.google.com/p/esprima/issues/detail?id=422). This only applies to function declarations; named or anonymous function expressions can occur anywhere an expression is permitted.
 
@@ -60,17 +60,14 @@ This rule requires that function declarations and, optionally, variable declarat
 
 ## Options
 
-This rule takes a single option to specify whether it should check just function declarations or both function and variable declarations. The default is `"functions"`. Setting it to `"both"` will apply the same rules to both types of declarations.
+This rule has a string option:
 
-You can set the option in configuration like this:
-
-```json
-"no-inner-declarations": [2, "both"]
-```
+* `"functions"` (default) disallows `function` declarations in nested blocks
+* `"both"` disallows `function` and `var` declarations in nested blocks
 
 ### functions
 
-Examples of **incorrect** code for the default `"functions"` option:
+Examples of **incorrect** code for this rule with the default `"functions"` option:
 
 ```js
 /*eslint no-inner-declarations: "error"*/
@@ -86,7 +83,7 @@ function doSomethingElse() {
 }
 ```
 
-Examples of **correct** code for the default `"functions"` option:
+Examples of **correct** code for this rule with the default `"functions"` option:
 
 ```js
 /*eslint no-inner-declarations: "error"*/
@@ -109,7 +106,7 @@ if (test) {
 
 ### both
 
-Examples of **incorrect** code for the `"both"` option:
+Examples of **incorrect** code for this rule with the `"both"` option:
 
 ```js
 /*eslint no-inner-declarations: ["error", "both"]*/
@@ -125,7 +122,7 @@ function doAnotherThing() {
 }
 ```
 
-Examples of **correct** code for the `"both"` option:
+Examples of **correct** code for this rule with the `"both"` option:
 
 ```js
 /*eslint no-inner-declarations: "error"*/
