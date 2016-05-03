@@ -1,12 +1,20 @@
 # Working with Rules
 
-Each ESLint rule has two files: a source file in the `lib/rules` directory and a test file in the `tests/lib/rules` directory. Both files should be named with the rule ID (i.e., `no-eval.js` for rule ID `no-eval`) The basic source code format for a rule is:
+Each rule in ESLint has two files named with its identifier (for example, `no-extra-semi`).
+
+* in the `lib/rules` directory: a source file (for example, `no-extra-semi.js`)
+* in the `tests/lib/rules` directory: a test file (for example, `no-extra-semi.js`)
+
+**Important:** If you submit a **core** rule to the ESLint repository, you **must** follow some conventions explained below.
+
+Here is the basic format of the source file for a rule:
 
 ```js
 /**
- * @fileoverview Rule to flag use of an empty block statement
+ * @fileoverview Rule to disallow unnecessary semicolons
  * @author Nicholas C. Zakas
  */
+
 "use strict";
 
 //------------------------------------------------------------------------------
@@ -15,95 +23,78 @@ Each ESLint rule has two files: a source file in the `lib/rules` directory and a
 
 module.exports = {
     meta: {
-        docs: {},
-        schema: [ /* JSON Schema for rule options goes here */ ],
-        fixable: "whitespace|code"
+        docs: {
+            description: "disallow unnecessary semicolons",
+            category: "Possible Errors",
+            recommended: true
+        },
+        fixable: "code",
+        schema: [] // no options
     },
     create: function(context) {
-
         return {
-            // properties go here
+            // callback functions
         };
     }
 };
 ```
-
-**Important:** Rule submissions will not be accepted unless they are in this format. This limitation only applies when submitting a new rule to core ESLint repository.
-If you are working on a custom rule or plugin, naming conventions and availability of unit tests are up to you.
 
 ## Rule Basics
 
-Each rule have to export a single object with several required properties.
+The source file for a rule exports an object with the following properties.
+
+`meta` (object) contains metadata for the rule:
+
+* `docs` (object) is required for core rules of ESLint:
+
+    * `description` (string) provides the short description of the rule in the [rules index](../rules/)
+    * `category` (string) specifies the heading under which the rule is listed in the [rules index](../rules/)
+    * `recommended` (boolean) is whether the `"extends": "eslint:recommended"` property in a [configuration file](../user-guide/configuring#extending-configuration-files) enables the rule
+
+    In a custom rule or plugin, you can omit `docs` or include any properties that you need in it.
+
+* `fixable` (string) is either `"code"` or `"whitespace"` if the `--fix` option on the [command line](../user-guide/command-line-interface#fix) automatically fixes problems reported by the rule
+
+    **Important:** Without the `fixable` property, ESLint does not [apply fixes](#applying-fixes) even if the rule implements `fix` functions. Omit the `fixable` property if the rule is not fixable.
+
+* `schema` (array) specifies the [options](#options-schemas) so ESLint can prevent invalid [rule configurations](../user-guide/configuring#configuring-rules)
+
+`create` (function) returns an object with methods that ESLint calls to "visit" nodes while traversing the abstract syntax tree (AST as defined by [ESTree](https://github.com/estree/estree)) of JavaScript code:
+
+* if a key is a node type, ESLint calls that **visitor** function while going **down** the tree
+* if a key is a node type plus `:exit`, ESLint calls that **visitor** function while going **up** the tree
+* if a key is an event name, ESLint calls that **handler** function for [code path analysis](./code-path-analysis.md)
+
+A rule can use the current node and its surrounding tree to report or fix problems.
+
+Here are methods for the [array-callback-return](../rules/array-callback-return) rule:
 
 ```js
-module.exports = {
-    meta: {
-        docs: {
-            description: "Short rule description",
-            category: "Best Practices",
-            recommended: false
-        },
-        fixable: "whitespace",
-        schema: []
-    },
-    create: function(context) {
-        return {
-            "Identifier": function(node) {
-                // do something with node
-        }
-    }
+function checkLastSegment (node) {
+    // report problem for function if last code path segment is reachable
 }
-```
 
-`meta` property contains information about rule's metadata, such as documentation and schema. `docs` property can contain the following keys:
-
-* description - Short description of the rule as it shows in the rule's list
-* category - Category that this rule falls under (see [rules list](http://eslint.org/docs/rules/) for details)
-* recommended - Whether this rule is included in `eslint:recommended` configuration
-
-`docs` property is used internally by ESLint and is only required for core rules. If you are creating a plugin, you can put any fields into `docs` or remove it all together.
-
-`fixable` property specifies that this rule can be fixed by running ESLint with `--fix` flag. Can be `whitespace` or `code`. Omit this property if the rule is not fixable
-
-**Note:** Please note that if your rule is fixable, but you didn't specify anything under `fixable` property, ESLint will not allow users to fix their code using your rule.
-
-`create` property should always contain a function that returns an object with the list of AST node types from [ESTree](https://github.com/estree/estree) that you want your rule to listen to.
-
-For example, if your rule wants to know when an identifier is found in the AST, then add a method called "Identifier", such as:
-
-```js
 module.exports = {
     meta: { ... },
     create: function(context) {
-
+        // declare the state of the rule
         return {
-            "Identifier": function(node) {
-                // do something with node
+            ReturnStatement: function(node) {
+                // at a ReturnStatement node while going down
+            },
+            // at a function expression node while going up:
+            "FunctionExpression:exit": checkLastSegment,
+            "ArrowFunctionExpression:exit": checkLastSegment,
+            onCodePathStart: function (codePath, node) {
+                // at the start of analyzing a code path
+            },
+            onCodePathEnd: function(codePath, node) {
+                // at the end of analyzing a code path
             }
         };
     }
 };
 ```
-
-Each method that matches a node in the AST will be passed the corresponding node. You can then evaluate the node and it's surrounding tree to determine whether or not an issue needs reporting.
-
-By default, the method matching a node name is called during the traversal when the node is first encountered, on the way down the AST. You can also specify to visit the node on the other side of the traversal, as it comes back up the tree, by adding `:exit` to the end of the node type, such as:
-
-```js
-module.exports = {
-    meta: { ... },
-    create: function(context) {
-
-        return {
-            "Identifier:exit": function(node) {
-                // do something with node
-            }
-        };
-    }
-};
-```
-
-In this code, `"Identifier:exit"` is called on the way up the AST. This capability allows you to keep track as the traversal enters and exits specific parts of the AST.
 
 ## The Context Object
 
@@ -181,6 +172,8 @@ context.report({
 ```
 
 Here, the `fix()` function is used to insert a semicolon after the node. Note that the fix is not immediately applied and may not be applied at all if there are conflicts with other fixes. If the fix cannot be applied, then the problem message is reported as usual; if the fix can be applied, then the problem message is not reported.
+
+**Important:** Unless the rule [exports](#rule-basics) the `meta.fixable` property, ESLint does not apply fixes even if the rule implements `fix` functions.
 
 The `fixer` object has the following methods:
 
