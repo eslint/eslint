@@ -351,6 +351,7 @@ function lintMarkdown(files) {
             MD026: false, // Trailing punctuation in header
             MD029: false, // Ordered list item prefix
             MD030: false, // Spaces after list markers
+            MD033: false, // Allow inline HTML
             MD034: false, // Bare URL used
             MD040: false, // Fenced code blocks should have a language specified
             MD041: false  // First line in file should be a top level header
@@ -521,12 +522,10 @@ target.gensite = function(prereleaseVersion) {
 
     var docFiles = [
         "/rules/",
-        "/user-guide/command-line-interface.md",
-        "/user-guide/configuring.md",
-        "/developer-guide/code-path-analysis.md",
-        "/developer-guide/nodejs-api.md",
-        "/developer-guide/working-with-plugins.md",
-        "/developer-guide/working-with-rules.md"
+        "/user-guide/",
+        "/maintainer-guide/",
+        "/developer-guide/",
+        "/about/"
     ];
 
     // append version
@@ -572,21 +571,28 @@ target.gensite = function(prereleaseVersion) {
     find(TEMP_DIR).forEach(function(filename) {
         if (test("-f", filename) && path.extname(filename) === ".md") {
 
-            var rulesUrl = "https://github.com/eslint/eslint/tree/master/lib/rules/";
-            var docsUrl = "https://github.com/eslint/eslint/tree/master/docs/rules/";
-
-            var text = cat(filename);
-
-            var baseName = path.basename(filename);
-            var sourceBaseName = path.basename(filename, ".md") + ".js";
-            var sourcePath = path.join("lib/rules", sourceBaseName);
-            var ruleName = path.basename(filename, ".md");
+            var rulesUrl = "https://github.com/eslint/eslint/tree/master/lib/rules/",
+                docsUrl = "https://github.com/eslint/eslint/tree/master/docs/rules/",
+                text = cat(filename),
+                baseName = path.basename(filename),
+                sourceBaseName = path.basename(filename, ".md") + ".js",
+                sourcePath = path.join("lib/rules", sourceBaseName),
+                ruleName = path.basename(filename, ".md"),
+                title;
 
             // 5. Prepend page title and layout variables at the top of rules
             if (path.dirname(filename).indexOf("rules") >= 0) {
                 text = "---\ntitle: " + (ruleName === "README" ? "List of available rules" : "Rule " + ruleName) + "\nlayout: doc\n---\n<!-- Note: No pull requests accepted for this file. See README.md in the root directory for details. -->\n\n" + text;
             } else {
-                text = "---\ntitle: Documentation\nlayout: doc\n---\n<!-- Note: No pull requests accepted for this file. See README.md in the root directory for details. -->\n\n" + text;
+
+                // extract the title from the file itself
+                title = text.match(/#([^#].+)\n/);
+                if (title) {
+                    title = title[1].trim();
+                } else {
+                    title = "Documentation";
+                }
+                text = "---\ntitle: " + title + "\nlayout: doc\n---\n<!-- Note: No pull requests accepted for this file. See README.md in the root directory for details. -->\n\n" + text;
             }
 
             // 6. Remove .md extension for links and change README to empty string
