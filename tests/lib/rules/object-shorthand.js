@@ -37,6 +37,7 @@ ruleTester.run("object-shorthand", rule, {
         { code: "var x = {x: y, y: z, a: b}", parserOptions: { ecmaVersion: 6 }},
         { code: "var x = {x: y, y: z, 'a': b}", parserOptions: { ecmaVersion: 6 }},
         { code: "var x = {x: y, y() {}, z: a}", parserOptions: { ecmaVersion: 6 }},
+        { code: "var x = {[y]: y}", parserOptions: { ecmaVersion: 6 }},
         { code: "doSomething({x: y})", parserOptions: { ecmaVersion: 6 }},
         { code: "doSomething({'x': y})", parserOptions: { ecmaVersion: 6 }},
         { code: "doSomething({x: 'x'})", parserOptions: { ecmaVersion: 6 }},
@@ -68,6 +69,7 @@ ruleTester.run("object-shorthand", rule, {
         // object literal computed methods
         { code: "var x = {[y]() {}}", parserOptions: { ecmaVersion: 6 }, options: ["methods"] },
         { code: "var x = {[y]: function x() {}}", parserOptions: { ecmaVersion: 6 }, options: ["methods"] },
+        { code: "var x = {[y]: y}", parserOptions: { ecmaVersion: 6 }, options: ["methods"] },
 
         // options
         { code: "var x = {y() {}}", parserOptions: { ecmaVersion: 6 }, options: ["methods"] },
