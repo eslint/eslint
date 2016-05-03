@@ -121,6 +121,48 @@ ruleTester.run("no-irregular-whitespace", rule, {
         { code: "/* \u202F */", options: [{ skipComments: true }] },
         { code: "/* \u205f */", options: [{ skipComments: true }] },
         { code: "/* \u3000 */", options: [{ skipComments: true }] },
+        { code: "/\u000B/", options: [{ skipRegExps: true }] },
+        { code: "/\u000C/", options: [{ skipRegExps: true }] },
+        { code: "/\u0085/", options: [{ skipRegExps: true }] },
+        { code: "/\u00A0/", options: [{ skipRegExps: true }] },
+        { code: "/\u180E/", options: [{ skipRegExps: true }] },
+        { code: "/\ufeff/", options: [{ skipRegExps: true }] },
+        { code: "/\u2000/", options: [{ skipRegExps: true }] },
+        { code: "/\u2001/", options: [{ skipRegExps: true }] },
+        { code: "/\u2002/", options: [{ skipRegExps: true }] },
+        { code: "/\u2003/", options: [{ skipRegExps: true }] },
+        { code: "/\u2004/", options: [{ skipRegExps: true }] },
+        { code: "/\u2005/", options: [{ skipRegExps: true }] },
+        { code: "/\u2006/", options: [{ skipRegExps: true }] },
+        { code: "/\u2007/", options: [{ skipRegExps: true }] },
+        { code: "/\u2008/", options: [{ skipRegExps: true }] },
+        { code: "/\u2009/", options: [{ skipRegExps: true }] },
+        { code: "/\u200A/", options: [{ skipRegExps: true }] },
+        { code: "/\u200B/", options: [{ skipRegExps: true }] },
+        { code: "/\u202F/", options: [{ skipRegExps: true }] },
+        { code: "/\u205f/", options: [{ skipRegExps: true }] },
+        { code: "/\u3000/", options: [{ skipRegExps: true }] },
+        { code: "`\u000B`", options: [{ skipTemplates: true }], parserOptions: {ecmaVersion: 6} },
+        { code: "`\u000C`", options: [{ skipTemplates: true }], parserOptions: {ecmaVersion: 6} },
+        { code: "`\u0085`", options: [{ skipTemplates: true }], parserOptions: {ecmaVersion: 6} },
+        { code: "`\u00A0`", options: [{ skipTemplates: true }], parserOptions: {ecmaVersion: 6} },
+        { code: "`\u180E`", options: [{ skipTemplates: true }], parserOptions: {ecmaVersion: 6} },
+        { code: "`\ufeff`", options: [{ skipTemplates: true }], parserOptions: {ecmaVersion: 6} },
+        { code: "`\u2000`", options: [{ skipTemplates: true }], parserOptions: {ecmaVersion: 6} },
+        { code: "`\u2001`", options: [{ skipTemplates: true }], parserOptions: {ecmaVersion: 6} },
+        { code: "`\u2002`", options: [{ skipTemplates: true }], parserOptions: {ecmaVersion: 6} },
+        { code: "`\u2003`", options: [{ skipTemplates: true }], parserOptions: {ecmaVersion: 6} },
+        { code: "`\u2004`", options: [{ skipTemplates: true }], parserOptions: {ecmaVersion: 6} },
+        { code: "`\u2005`", options: [{ skipTemplates: true }], parserOptions: {ecmaVersion: 6} },
+        { code: "`\u2006`", options: [{ skipTemplates: true }], parserOptions: {ecmaVersion: 6} },
+        { code: "`\u2007`", options: [{ skipTemplates: true }], parserOptions: {ecmaVersion: 6} },
+        { code: "`\u2008`", options: [{ skipTemplates: true }], parserOptions: {ecmaVersion: 6} },
+        { code: "`\u2009`", options: [{ skipTemplates: true }], parserOptions: {ecmaVersion: 6} },
+        { code: "`\u200A`", options: [{ skipTemplates: true }], parserOptions: {ecmaVersion: 6} },
+        { code: "`\u200B`", options: [{ skipTemplates: true }], parserOptions: {ecmaVersion: 6} },
+        { code: "`\u202F`", options: [{ skipTemplates: true }], parserOptions: {ecmaVersion: 6} },
+        { code: "`\u205f`", options: [{ skipTemplates: true }], parserOptions: {ecmaVersion: 6} },
+        { code: "`\u3000`", options: [{ skipTemplates: true }], parserOptions: {ecmaVersion: 6} },
 
         // Unicode BOM.
         "\uFEFFconsole.log('hello BOM');"
@@ -426,6 +468,73 @@ ruleTester.run("no-irregular-whitespace", rule, {
         {
             code: "/* \u3000 */",
             errors: expectedCommentErrors
+        },
+        {
+            code: "var any = /\u3000/, other = /\u000B/;",
+            errors: [
+                {
+                    message: "Irregular whitespace not allowed",
+                    type: "Program",
+                    line: 1,
+                    column: 12
+                },
+                {
+                    message: "Irregular whitespace not allowed",
+                    type: "Program",
+                    line: 1,
+                    column: 25
+                }
+            ]
+        },
+        {
+            code: "var any = '\u3000', other = '\u000B';",
+            options: [{ skipStrings: false }],
+            errors: [
+                {
+                    message: "Irregular whitespace not allowed",
+                    type: "Program",
+                    line: 1,
+                    column: 12
+                },
+                {
+                    message: "Irregular whitespace not allowed",
+                    type: "Program",
+                    line: 1,
+                    column: 25
+                }
+            ]
+        },
+        {
+            code: "var any = `\u3000`, other = `\u000B`;",
+            options: [{ skipTemplates: false }],
+            parserOptions: {ecmaVersion: 6},
+            errors: [
+                {
+                    message: "Irregular whitespace not allowed",
+                    type: "Program",
+                    line: 1,
+                    column: 12
+                },
+                {
+                    message: "Irregular whitespace not allowed",
+                    type: "Program",
+                    line: 1,
+                    column: 25
+                }
+            ]
+        },
+        {
+            code: "`something ${\u3000 10} another thing`",
+            options: [{ skipTemplates: true }],
+            parserOptions: {ecmaVersion: 6},
+            errors: [
+                {
+                    message: "Irregular whitespace not allowed",
+                    type: "Program",
+                    line: 1,
+                    column: 14
+                }
+            ]
         }
     ]
 });
