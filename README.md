@@ -55,7 +55,7 @@ After running `eslint --init`, you'll have a `.eslintrc` file in your directory.
 }
 ```
 
-The names `"semi"` and `"quotes"` are the names of [rules](http://eslint.org/docs/rules) in ESLint. The number is the error level of the rule and can be one of the three values:
+The names `"semi"` and `"quotes"` are the names of [rules](http://eslint.org/docs/rules) in ESLint. The first value is the error level of the rule and can be one of these values:
 
 * `"off"` or `0` - turn the rule off
 * `"warn"` or `1` - turn the rule on as a warning (doesn't affect exit code)
