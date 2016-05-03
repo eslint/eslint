@@ -201,6 +201,7 @@ These rules relate to style guidelines, and are therefore quite subjective:
 * [no-unneeded-ternary](no-unneeded-ternary.md): disallow ternary operators when simpler alternatives exist
 * [no-whitespace-before-property](no-whitespace-before-property.md): disallow whitespace before properties (fixable)
 * [object-curly-spacing](object-curly-spacing.md): enforce consistent spacing inside braces (fixable)
+* [object-property-newline](object-property-newline.md): enforce placing object properties on separate lines
 * [one-var](one-var.md): enforce variables to be declared either together or separately in functions
 * [one-var-declaration-per-line](one-var-declaration-per-line.md): require or disallow newlines around `var` declarations
 * [operator-assignment](operator-assignment.md): require or disallow assignment operator shorthand where possible
