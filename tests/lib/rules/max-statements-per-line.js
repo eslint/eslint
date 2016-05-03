@@ -74,6 +74,7 @@ ruleTester.run("max-statements-per-line", rule, {
         { code: "var bar = 1; var baz = 2;", errors: [{ message: "This line has too many statements. Maximum allowed is 1." }] },
         { code: "var bar = 1; var baz = 2;", options: [{ max: 1 }], errors: [{ message: "This line has too many statements. Maximum allowed is 1." }] },
         { code: "if (condition) var bar = 1; if (condition) var baz = 2;", options: [{ max: 1 }], errors: [{ message: "This line has too many statements. Maximum allowed is 1." }] },
+        { code: "if (condition) var bar = 1; else var baz = 1;", options: [{ max: 1 }], errors: [{ message: "This line has too many statements. Maximum allowed is 1." }] },
         { code: "if (condition) { } if (condition) { }", options: [{ max: 1 }], errors: [{ message: "This line has too many statements. Maximum allowed is 1." }] },
         { code: "if (condition) { var bar = 1; } else { }", options: [{ max: 1 }], errors: [{ message: "This line has too many statements. Maximum allowed is 1." }] },
         { code: "if (condition) { } else { var bar = 1; }", options: [{ max: 1 }], errors: [{ message: "This line has too many statements. Maximum allowed is 1." }] },
