@@ -48,7 +48,8 @@ ruleTester.run("no-sequences", rule, {
         "if ((doSomething(), !!test));",
         "switch ((doSomething(), !!test)) {}",
         "while ((doSomething(), !!test));",
-        "with ((doSomething(), val)) {}"
+        "with ((doSomething(), val)) {}",
+        { code: "a => ((doSomething(), a))", env: {es6: true} }
     ],
 
     // Examples of code that should trigger the rule
@@ -59,6 +60,7 @@ ruleTester.run("no-sequences", rule, {
         { code: "if (doSomething(), !!test);", errors: errors(18) },
         { code: "switch (doSomething(), val) {}", errors: errors(22) },
         { code: "while (doSomething(), !!test);", errors: errors(21) },
-        { code: "with (doSomething(), val) {}", errors: errors(20) }
+        { code: "with (doSomething(), val) {}", errors: errors(20) },
+        { code: "a => (doSomething(), a)", env: {es6: true}, errors: errors(20)}
     ]
 });
