@@ -806,6 +806,31 @@ describe("eslint", function() {
             }, /Node must be an object$/);
         });
 
+        it("should throw an error if fix is passed but meta has no `fixable` property", function() {
+            var meta = {
+                docs: {},
+                schema: []
+            };
+
+            eslint.on("Program", function(node) {
+                eslint.report("test-rule", 2, node, "hello world", [], { range: [1, 1], text: "" }, meta);
+            });
+
+            assert.throws(function() {
+                eslint.verify("0", config, "", true);
+            }, /Fixable rules should export a `meta\.fixable` property.$/);
+        });
+
+        it("should not throw an error if fix is passed and no metadata is passed", function() {
+            eslint.on("Program", function(node) {
+                eslint.report("test-rule", 2, node, "hello world", [], { range: [1, 1], text: "" });
+            });
+
+            assert.doesNotThrow(function() {
+                eslint.verify("0", config, "", true);
+            });
+        });
+
         it("should correctly parse a message with object keys as numbers", function() {
             eslint.on("Program", function(node) {
                 eslint.report("test-rule", 2, node, "my message {{name}}{{0}}", {0: "!", name: "testing"});
