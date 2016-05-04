@@ -1,10 +1,11 @@
 # Comma style (comma-style)
 
-Comma Style rule enforces comma styles for a list of things separated by commas. There are two comma styles primarily in JavaScript. The standard one in which commas are placed at the end of the line. And Comma-First, in which, commas are placed at the start of the next line after the list item.
+The Comma Style rule enforces styles for comma-separated lists. There are two comma styles primarily used in JavaScript:
 
-One of the justifications for using Comma-First is that it helps tracking missing and trailing commas.
-In case linting is turned off, missing commas in variable declarations lead to leakage of global variables and trailing commas lead to errors in older versions of IE.
+* The standard style, in which commas are placed at the end of the current line
+* Comma First style, in which commas are placed at the start of the next line
 
+One of the justifications for using Comma First style is that it can help track missing and trailing commas. These are problematic because missing commas in variable declarations can lead to the leakage of global variables and trailing commas can lead to errors in older versions of IE.
 
 ## Rule Details
 
@@ -19,10 +20,10 @@ This rule does not apply in either of the following cases:
 
 This rule has a string option:
 
-* `"last"` (default) requires a comma after and in the same line as an array element, object property, or variable declaration
-* `"first"` requires a comma before and in the same line as an array element, object property, or variable declaration
+* `"last"` (default) requires a comma after and on the same line as an array element, object property, or variable declaration
+* `"first"` requires a comma before and on the same line as an array element, object property, or variable declaration
 
-This rule can have an object option:
+This rule also accepts an additional `exceptions` object:
 
 * `"exceptions"` has properties whose names correspond to node types in the abstract syntax tree (AST) of JavaScript code:
 
@@ -146,12 +147,12 @@ var o = {fst:1,
 
 ## When Not To Use It
 
-If your project will not be using one true comma style, turn this rule off.
+This rule can safely be turned off if your project does not care about enforcing a consistent comma style.
 
 
 ## Further Reading
 
-For the first option in comma-style rule:
+For more information on the Comma First style:
 
 * [A better coding convention for lists and object literals in JavaScript by isaacs](https://gist.github.com/isaacs/357981)
 * [npm coding style guideline](https://docs.npmjs.com/misc/coding-style)
