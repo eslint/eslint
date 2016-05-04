@@ -100,6 +100,37 @@ You can set the option in configuration like this:
 }
 ```
 
+While set to `"always"`, `"methods"`, or `"properties"`, shorthand syntax using string literal keys can be ignored using the optional parameter `"avoidQuotes"`. This will make it so longform syntax is preferred whenever the object key is a string literal. Note: The first parameter must be specified when using this optional parameter.
+
+```json
+{
+    "object-shorthand": ["error", "always", { "avoidQuotes": true }]
+}
+```
+
+Examples of **incorrect** code for this rule with the `"avoidQuotes"` option:
+
+```js
+/*eslint object-shorthand: ["error", "always", { "avoidQuotes": true }]*/
+/*eslint-env es6*/
+
+var foo = {
+    "bar-baz"() {}
+};
+```
+
+Examples of **correct** code for this rule with the `"avoidQuotes"` option:
+
+```js
+/*eslint object-shorthand: ["error", "always", { "avoidQuotes": true }]*/
+/*eslint-env es6*/
+
+var foo = {
+    "bar-baz": function() {},
+    "qux": qux
+};
+```
+
 While set to `"always"` or `"methods"`, constructor functions can be ignored with the optional parameter `"ignoreConstructors"` enabled. Note: The first parameter must be specified when using this optional parameter.
 
 ```json
