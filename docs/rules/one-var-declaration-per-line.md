@@ -3,7 +3,7 @@
 Some developers declare multiple var statements on the same line:
 
 ```js
-var foo, bar, baz = 0;
+var foo, bar, baz;
 ```
 
 Others prefer to declare one var per line.
@@ -11,7 +11,7 @@ Others prefer to declare one var per line.
 ```js
 var foo,
     bar,
-    baz = 0;
+    baz;
 ```
 
 This rule enforces a consistent style across the entire project.
