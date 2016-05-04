@@ -956,7 +956,8 @@ describe("CLIEngine", function() {
                         semi: 2,
                         quotes: [2, "double"],
                         eqeqeq: 2,
-                        "no-undef": 2
+                        "no-undef": 2,
+                        "space-infix-ops": 2
                     }
                 });
 
@@ -965,6 +966,13 @@ describe("CLIEngine", function() {
                 report.results.forEach(convertCRLF);
                 assert.deepEqual(report, {
                     results: [
+                        {
+                            filePath: fs.realpathSync(path.resolve(fixtureDir, "fixmode/multipass.js")),
+                            messages: [],
+                            errorCount: 0,
+                            warningCount: 0,
+                            output: "true ? \"yes\" : \"no\";\n"
+                        },
                         {
                             filePath: fs.realpathSync(path.resolve(fixtureDir, "fixmode/ok.js")),
                             messages: [],
