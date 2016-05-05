@@ -1,21 +1,11 @@
-# Disallow Assignment of the Exception Parameter (no-ex-assign)
+# disallow reassigning exceptions in `catch` clauses (no-ex-assign)
 
-When an error is caught using a `catch` block, it's possible to accidentally (or purposely) overwrite the reference to the error. Such as:
-
-```js
-try {
-    // code
-} catch (e) {
-    e = 10;
-}
-```
-
-This makes it impossible to track the error from that point on.
-
+If a `catch` clause in a `try` statement accidentally (or purposely) assigns another value to the exception parameter, it impossible to refer to the error from that point on.
+Since there is no `arguments` object to offer alternative access to this data, assignment of the parameter is absolutely destructive.
 
 ## Rule Details
 
-This rule's purpose is to enforce convention. Assigning a value to the exception parameter wipes out all the valuable data contained therein and thus should be avoided. Since there is no `arguments` object to offer alternative access to this data, assignment of the parameter is absolutely destructive.
+This rule disallows reassigning exceptions in `catch` clauses.
 
 Examples of **incorrect** code for this rule:
 
@@ -37,7 +27,7 @@ Examples of **correct** code for this rule:
 try {
     // code
 } catch (e) {
-    var foo = 'bar';
+    var foo = 10;
 }
 ```
 

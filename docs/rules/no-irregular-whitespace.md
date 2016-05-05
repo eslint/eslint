@@ -1,4 +1,4 @@
-# No irregular whitespace (no-irregular-whitespace)
+# disallow irregular whitespace (no-irregular-whitespace)
 
 Invalid or irregular whitespace causes issues with ECMAScript 5 parsers and also makes code harder to debug in a similar nature to mixed tabs and spaces.
 
@@ -16,7 +16,7 @@ Known issues these spaces cause:
 
 This rule is aimed at catching invalid whitespace that is not a normal tab and space. Some of these characters may cause issues in modern browsers and others will be a debugging issue to spot.
 
-With this rule enabled the following characters will cause warnings outside of strings and comments:
+This rule disallows the following characters except where the options allow:
 
     \u000B - Line Tabulation (\v) - <VT>
     \u000C - Form Feed (\f) - <FF>
@@ -43,73 +43,6 @@ With this rule enabled the following characters will cause warnings outside of s
     \u205f - Medium Mathematical Space
     \u3000 - Ideographic Space
 
-Examples of **incorrect** code for this rule:
-
-```js
-/*eslint no-irregular-whitespace: "error"*/
-
-function thing() /*<NBSP>*/{
-  return 'test';
-}
-
-function thing( /*<NBSP>*/){
-  return 'test';
-}
-
-function thing /*<NBSP>*/(){
-  return 'test';
-}
-
-function thing᠎/*<MVS>*/(){
-  return 'test';
-}
-
-function thing() {
-  return 'test'; /*<ENSP>*/
-}
-
-function thing() {
-  return 'test'; /*<NBSP>*/
-}
-
-function thing() {
-  // Description <NBSP>
-}
-
-function thing() {
-  return / <NBSP>regexp/;
-}
-
-/*eslint-env es6*/
-function thing() {
-  return `template  <NBSP>string`;
-}
-```
-
-Examples of **correct** code for this rule:
-
-```js
-/*eslint no-irregular-whitespace: "error"*/
-
-function thing() {
-  return ' <NBSP>thing';
-}
-
-function thing() {
-  return '​<ZWSP>thing';
-}
-
-function thing() {
-  return 'th <NBSP>ing';
-}
-
-// Description<NBSP>: some descriptive text
-
-/*
-Description<NBSP>: some descriptive text
-*/
-```
-
 ## Options
 
 This rule has an object option for exceptions:
@@ -119,37 +52,111 @@ This rule has an object option for exceptions:
 * `"skipRegExps": true` allows any whitespace characters in regular expression literals
 * `"skipTemplates": true` allows any whitespace characters in template literals
 
+### skipStrings
+
+Examples of **incorrect** code for this rule with the default `{ "skipStrings": true }` option:
+
+```js
+/*eslint no-irregular-whitespace: "error"*/
+
+function thing() /*<NBSP>*/{
+    return 'test';
+}
+
+function thing( /*<NBSP>*/){
+    return 'test';
+}
+
+function thing /*<NBSP>*/(){
+    return 'test';
+}
+
+function thing᠎/*<MVS>*/(){
+    return 'test';
+}
+
+function thing() {
+    return 'test'; /*<ENSP>*/
+}
+
+function thing() {
+    return 'test'; /*<NBSP>*/
+}
+
+function thing() {
+    // Description <NBSP>: some descriptive text
+}
+
+/*
+Description <NBSP>: some descriptive text
+*/
+
+function thing() {
+    return / <NBSP>regexp/;
+}
+
+/*eslint-env es6*/
+function thing() {
+    return `template <NBSP>string`;
+}
+```
+
+Examples of **correct** code for this rule with the default `{ "skipStrings": true }` option:
+
+```js
+/*eslint no-irregular-whitespace: "error"*/
+
+function thing() {
+    return ' <NBSP>thing';
+}
+
+function thing() {
+    return '​<ZWSP>thing';
+}
+
+function thing() {
+    return 'th <NBSP>ing';
+}
+```
+
 ### skipComments
 
-Examples of additional **correct** code for this rule with the { "skipComments": true } option:
+Examples of additional **correct** code for this rule with the `{ "skipComments": true }` option:
 
 ```js
 /*eslint no-irregular-whitespace: ["error", { "skipComments": true }]*/
+
 function thing() {
-  // Description <NBSP>
+    // Description <NBSP>: some descriptive text
 }
+
+/*
+Description <NBSP>: some descriptive text
+*/
 ```
 
 ### skipRegExps
 
-Examples of additional **correct** code for this rule with the { "skipRegExps": true } option:
+Examples of additional **correct** code for this rule with the `{ "skipRegExps": true }` option:
 
 ```js
 /*eslint no-irregular-whitespace: ["error", { "skipRegExps": true }]*/
+
 function thing() {
-  return / <NBSP>regexp/;
+    return / <NBSP>regexp/;
 }
 ```
 
 ### skipTemplates
 
-Examples of additional **correct** code for this rule with the { "skipTemplates": true } option:
+Examples of additional **correct** code for this rule with the `{ "skipTemplates": true }` option:
 
 ```js
 /*eslint no-irregular-whitespace: ["error", { "skipTemplates": true }]*/
 /*eslint-env es6*/
+
 function thing() {
-  return `template  <NBSP>string`;
+    return `template <NBSP>string`;
 }
 ```
 
