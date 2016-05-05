@@ -1,12 +1,12 @@
-# Disallow Extra Semicolons (no-extra-semi)
+# disallow unnecessary semicolons (no-extra-semi)
 
 (fixable) The `--fix` option on the [command line](../user-guide/command-line-interface#fix) automatically fixes problems reported by this rule.
 
-JavaScript will more or less let you put semicolons after any statement without complaining. Typos and misunderstandings about where semicolons are required can lead to extra semicolons that are unnecessary.
+Typing mistakes and misunderstandings about where semicolons are required can lead to semicolons that are unnecessary. While not technically an error, extra semicolons can cause confusion when reading code.
 
 ## Rule Details
 
-This rule is aimed at eliminating extra unnecessary semicolons. While not technically an error, extra semicolons can be a source of confusion when reading code.
+This rule disallows unnecessary semicolons.
 
 Examples of **incorrect** code for this rule:
 
