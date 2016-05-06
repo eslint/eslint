@@ -82,6 +82,13 @@ ruleTester.run("prefer-const", rule, {
             code: "let a, b; ({a, b} = obj); b++;",
             options: [{destructuring: "all"}],
             parserOptions: {ecmaVersion: 6}
+        },
+
+        // ignoreReadBeforeAssign
+        {
+            code: "let x; function foo() { bar(x); } x = 0;",
+            options: [{ignoreReadBeforeAssign: true}],
+            parserOptions: {ecmaVersion: 6}
         }
     ],
     invalid: [
@@ -157,17 +164,17 @@ ruleTester.run("prefer-const", rule, {
         {
             code: "let x; x = 0;",
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "'x' is never reassigned, use 'const' instead.", type: "Identifier"}]
+            errors: [{ message: "'x' is never reassigned, use 'const' instead.", type: "Identifier", column: 8}]
         },
         {
             code: "switch (a) { case 0: let x; x = 0; }",
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "'x' is never reassigned, use 'const' instead.", type: "Identifier"}]
+            errors: [{ message: "'x' is never reassigned, use 'const' instead.", type: "Identifier", column: 29}]
         },
         {
             code: "(function() { let x; x = 1; })();",
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "'x' is never reassigned, use 'const' instead.", type: "Identifier"}]
+            errors: [{ message: "'x' is never reassigned, use 'const' instead.", type: "Identifier", column: 22}]
         },
 
         {
@@ -214,6 +221,13 @@ ruleTester.run("prefer-const", rule, {
             options: [{destructuring: "all"}],
             parserOptions: {ecmaVersion: 6},
             errors: [{ message: "'c' is never reassigned, use 'const' instead.", type: "Identifier"}]
+        },
+
+        // Warnings are located at declaration if there are reading references before assignments.
+        {
+            code: "let x; function foo() { bar(x); } x = 0;",
+            parserOptions: {ecmaVersion: 6},
+            errors: [{ message: "'x' is never reassigned, use 'const' instead.", type: "Identifier", column: 5}]
         }
     ]
 });
