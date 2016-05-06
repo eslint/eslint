@@ -92,7 +92,7 @@
     "mocha-phantomjs": "4.0.1",
     "npm-license": "^0.3.2",
     "phantomjs-polyfill": "0.0.1",
-    "proxyquire": "^1.0.0",
+    "proxyquire": ">=1.0.0 <1.7.5",
     "semver": "^5.0.3",
     "shelljs-nodecli": "~0.1.0",
     "sinon": "^1.17.2",
