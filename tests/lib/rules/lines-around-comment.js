@@ -799,27 +799,32 @@ ruleTester.run("lines-around-comment", rule, {
         // default rules
         {
             code: "bar()\n/** block block block\n * block \n */\nvar a = 1;",
+            output: "bar()\n\n/** block block block\n * block \n */\nvar a = 1;",
             errors: [{ message: beforeMessage, type: "Block" }]
         },
 
         // line comments
         {
             code: "baz()\n// A line comment with no empty line after\nvar a = 1;",
+            output: "baz()\n// A line comment with no empty line after\n\nvar a = 1;",
             options: [{ afterLineComment: true }],
             errors: [{ message: afterMessage, type: "Line" }]
         },
         {
             code: "baz()\n// A line comment with no empty line after\nvar a = 1;",
+            output: "baz()\n\n// A line comment with no empty line after\nvar a = 1;",
             options: [{ beforeLineComment: true, afterLineComment: false }],
             errors: [{ message: beforeMessage, type: "Line" }]
         },
         {
             code: "// A line comment with no empty line after\nvar a = 1;",
+            output: "// A line comment with no empty line after\n\nvar a = 1;",
             options: [{ beforeLineComment: true, afterLineComment: true }],
             errors: [{ message: afterMessage, type: "Line", line: 1, column: 1 }]
         },
         {
             code: "baz()\n// A line comment with no empty line after\nvar a = 1;",
+            output: "baz()\n\n// A line comment with no empty line after\n\nvar a = 1;",
             options: [{ beforeLineComment: true, afterLineComment: true }],
             errors: [{ message: beforeMessage, type: "Line", line: 2 }, { message: afterMessage, type: "Line", line: 2 }]
         },
@@ -827,11 +832,22 @@ ruleTester.run("lines-around-comment", rule, {
         // block comments
         {
             code: "bar()\n/**\n * block block block\n */\nvar a = 1;",
+            output: "bar()\n\n/**\n * block block block\n */\n\nvar a = 1;",
             options: [{ afterBlockComment: true, beforeBlockComment: true }],
             errors: [{ message: beforeMessage, type: "Block", line: 2 }, { message: afterMessage, type: "Block", line: 2 }]
         },
         {
             code: "bar()\n/* first block comment */ /* second block comment */\nvar a = 1;",
+            output: "bar()\n\n/* first block comment */ /* second block comment */\n\nvar a = 1;",
+            options: [{ afterBlockComment: true, beforeBlockComment: true }],
+            errors: [
+                { message: beforeMessage, type: "Block", line: 2 },
+                { message: afterMessage, type: "Block", line: 2 }
+            ]
+        },
+        {
+            code: "bar()\n/* first block comment */ /* second block\n comment */\nvar a = 1;",
+            output: "bar()\n\n/* first block comment */ /* second block\n comment */\n\nvar a = 1;",
             options: [{ afterBlockComment: true, beforeBlockComment: true }],
             errors: [
                 { message: beforeMessage, type: "Block", line: 2 },
@@ -840,16 +856,19 @@ ruleTester.run("lines-around-comment", rule, {
         },
         {
             code: "bar()\n/**\n * block block block\n */\nvar a = 1;",
+            output: "bar()\n/**\n * block block block\n */\n\nvar a = 1;",
             options: [{ afterBlockComment: true, beforeBlockComment: false }],
             errors: [{ message: afterMessage, type: "Block", line: 2 }]
         },
         {
             code: "bar()\n/**\n * block block block\n */\nvar a = 1;",
+            output: "bar()\n\n/**\n * block block block\n */\nvar a = 1;",
             options: [{ afterBlockComment: false, beforeBlockComment: true }],
             errors: [{ message: beforeMessage, type: "Block", line: 2 }]
         },
         {
             code: "var a,\n// line\nb;",
+            output: "var a,\n\n// line\nb;",
             options: [{
                 beforeLineComment: true,
                 allowBlockStart: true
@@ -858,6 +877,7 @@ ruleTester.run("lines-around-comment", rule, {
         },
         {
             code: "function foo(){\nvar a = 1;\n// line at block start\nvar g = 1;\n}",
+            output: "function foo(){\nvar a = 1;\n\n// line at block start\nvar g = 1;\n}",
             options: [{
                 beforeLineComment: true,
                 allowBlockStart: true
@@ -866,6 +886,7 @@ ruleTester.run("lines-around-comment", rule, {
         },
         {
             code: "var a,\n// line\nb;",
+            output: "var a,\n// line\n\nb;",
             options: [{
                 afterLineComment: true,
                 allowBlockEnd: true
@@ -874,6 +895,7 @@ ruleTester.run("lines-around-comment", rule, {
         },
         {
             code: "function foo(){\nvar a = 1;\n\n// line at block start\nvar g = 1;\n}",
+            output: "function foo(){\nvar a = 1;\n\n// line at block start\n\nvar g = 1;\n}",
             options: [{
                 afterLineComment: true,
                 allowBlockEnd: true
@@ -882,6 +904,7 @@ ruleTester.run("lines-around-comment", rule, {
         },
         {
             code: "switch ('foo'){\ncase 'foo':\n// line at switch case start\nbreak;\n}",
+            output: "switch ('foo'){\ncase 'foo':\n\n// line at switch case start\nbreak;\n}",
             options: [{
                 beforeLineComment: true
             }],
@@ -889,6 +912,7 @@ ruleTester.run("lines-around-comment", rule, {
         },
         {
             code: "switch ('foo'){\ncase 'foo':\nbreak;\n\ndefault:\n// line at switch case start\nbreak;\n}",
+            output: "switch ('foo'){\ncase 'foo':\nbreak;\n\ndefault:\n\n// line at switch case start\nbreak;\n}",
             options: [{
                 beforeLineComment: true
             }],
@@ -896,6 +920,7 @@ ruleTester.run("lines-around-comment", rule, {
         },
         {
             code: "while(true){\n// line at block start and end\n}",
+            output: "while(true){\n// line at block start and end\n\n}",
             options: [{
                 afterLineComment: true,
                 allowBlockStart: true
@@ -904,6 +929,7 @@ ruleTester.run("lines-around-comment", rule, {
         },
         {
             code: "while(true){\n// line at block start and end\n}",
+            output: "while(true){\n\n// line at block start and end\n}",
             options: [{
                 beforeLineComment: true,
                 allowBlockEnd: true
@@ -912,6 +938,7 @@ ruleTester.run("lines-around-comment", rule, {
         },
         {
             code: "switch ('foo'){\ncase 'foo':\nvar g = 1;\n\n// line at switch case end\n}",
+            output: "switch ('foo'){\ncase 'foo':\nvar g = 1;\n\n// line at switch case end\n\n}",
             options: [{
                 afterLineComment: true
             }],
@@ -919,6 +946,7 @@ ruleTester.run("lines-around-comment", rule, {
         },
         {
             code: "switch ('foo'){\ncase 'foo':\nbreak;\n\ndefault:\nvar g = 1;\n\n// line at switch case end\n}",
+            output: "switch ('foo'){\ncase 'foo':\nbreak;\n\ndefault:\nvar g = 1;\n\n// line at switch case end\n\n}",
             options: [{
                 afterLineComment: true
             }],
@@ -929,6 +957,12 @@ ruleTester.run("lines-around-comment", rule, {
         {
             code:
             "var obj = {\n" +
+            "  // line at object start\n" +
+            "  g: 1\n" +
+            "};",
+            output:
+            "var obj = {\n" +
+            "\n" +
             "  // line at object start\n" +
             "  g: 1\n" +
             "};",
@@ -946,6 +980,15 @@ ruleTester.run("lines-around-comment", rule, {
             "    }\n" +
             "  }\n" +
             "}",
+            output:
+            "function hi() {\n" +
+            "  return {\n" +
+            "\n" +
+            "    // hi\n" +
+            "    test: function() {\n" +
+            "    }\n" +
+            "  }\n" +
+            "}",
             options: [{
                 beforeLineComment: true
             }],
@@ -954,6 +997,12 @@ ruleTester.run("lines-around-comment", rule, {
         {
             code:
             "var obj = {\n" +
+            "  /* block comment at object start*/\n" +
+            "  g: 1\n" +
+            "};",
+            output:
+            "var obj = {\n" +
+            "\n" +
             "  /* block comment at object start*/\n" +
             "  g: 1\n" +
             "};",
@@ -973,6 +1022,17 @@ ruleTester.run("lines-around-comment", rule, {
             "    }\n" +
             "  }\n" +
             "}",
+            output:
+            "function hi() {\n" +
+            "  return {\n" +
+            "\n" +
+            "    /**\n" +
+            "    * hi\n" +
+            "    */\n" +
+            "    test: function() {\n" +
+            "    }\n" +
+            "  }\n" +
+            "}",
             options: [{
                 beforeLineComment: true
             }],
@@ -981,6 +1041,12 @@ ruleTester.run("lines-around-comment", rule, {
         {
             code:
             "const {\n" +
+            "  // line at object start\n" +
+            "  g: a\n" +
+            "} = {};",
+            output:
+            "const {\n" +
+            "\n" +
             "  // line at object start\n" +
             "  g: a\n" +
             "} = {};",
@@ -996,6 +1062,12 @@ ruleTester.run("lines-around-comment", rule, {
             "  // line at object start\n" +
             "  g\n" +
             "} = {};",
+            output:
+            "const {\n" +
+            "\n" +
+            "  // line at object start\n" +
+            "  g\n" +
+            "} = {};",
             options: [{
                 beforeLineComment: true
             }],
@@ -1008,6 +1080,12 @@ ruleTester.run("lines-around-comment", rule, {
             "  /* block comment at object-like start*/\n" +
             "  g: a\n" +
             "} = {};",
+            output:
+            "const {\n" +
+            "\n" +
+            "  /* block comment at object-like start*/\n" +
+            "  g: a\n" +
+            "} = {};",
             options: [{
                 beforeBlockComment: true
             }],
@@ -1017,6 +1095,12 @@ ruleTester.run("lines-around-comment", rule, {
         {
             code:
             "const {\n" +
+            "  /* block comment at object-like start*/\n" +
+            "  g\n" +
+            "} = {};",
+            output:
+            "const {\n" +
+            "\n" +
             "  /* block comment at object-like start*/\n" +
             "  g\n" +
             "} = {};",
@@ -1033,6 +1117,12 @@ ruleTester.run("lines-around-comment", rule, {
             "var obj = {\n" +
             "  g: 1\n" +
             "  // line at object end\n" +
+            "};",
+            output:
+            "var obj = {\n" +
+            "  g: 1\n" +
+            "  // line at object end\n" +
+            "\n" +
             "};",
             options: [{
                 afterLineComment: true
@@ -1060,6 +1150,13 @@ ruleTester.run("lines-around-comment", rule, {
             "  \n" +
             "  /* block comment at object end*/\n" +
             "};",
+            output:
+            "var obj = {\n" +
+            "  g: 1\n" +
+            "  \n" +
+            "  /* block comment at object end*/\n" +
+            "\n" +
+            "};",
             options: [{
                 afterBlockComment: true
             }],
@@ -1077,6 +1174,18 @@ ruleTester.run("lines-around-comment", rule, {
             "    */\n" +
             "  }\n" +
             "}",
+            output:
+            "function hi() {\n" +
+            "  return {\n" +
+            "    test: function() {\n" +
+            "    }\n" +
+            "    \n" +
+            "    /**\n" +
+            "    * hi\n" +
+            "    */\n" +
+            "\n" +
+            "  }\n" +
+            "}",
             options: [{
                 afterBlockComment: true
             }],
@@ -1087,6 +1196,12 @@ ruleTester.run("lines-around-comment", rule, {
             "const {\n" +
             "  g: a\n" +
             "  // line at object end\n" +
+            "} = {};",
+            output:
+            "const {\n" +
+            "  g: a\n" +
+            "  // line at object end\n" +
+            "\n" +
             "} = {};",
             options: [{
                 afterLineComment: true
@@ -1100,6 +1215,12 @@ ruleTester.run("lines-around-comment", rule, {
             "  g\n" +
             "  // line at object end\n" +
             "} = {};",
+            output:
+            "const {\n" +
+            "  g\n" +
+            "  // line at object end\n" +
+            "\n" +
+            "} = {};",
             options: [{
                 afterLineComment: true
             }],
@@ -1112,6 +1233,13 @@ ruleTester.run("lines-around-comment", rule, {
             "  g: a\n" +
             "  \n" +
             "  /* block comment at object-like end*/\n" +
+            "} = {};",
+            output:
+            "const {\n" +
+            "  g: a\n" +
+            "  \n" +
+            "  /* block comment at object-like end*/\n" +
+            "\n" +
             "} = {};",
             options: [{
                 afterBlockComment: true
@@ -1125,6 +1253,13 @@ ruleTester.run("lines-around-comment", rule, {
             "  g\n" +
             "  \n" +
             "  /* block comment at object-like end*/\n" +
+            "} = {};",
+            output:
+            "const {\n" +
+            "  g\n" +
+            "  \n" +
+            "  /* block comment at object-like end*/\n" +
+            "\n" +
             "} = {};",
             options: [{
                 afterBlockComment: true
@@ -1140,6 +1275,12 @@ ruleTester.run("lines-around-comment", rule, {
             "  // line at array start\n" +
             "  1\n" +
             "];",
+            output:
+            "var arr = [\n" +
+            "\n" +
+            "  // line at array start\n" +
+            "  1\n" +
+            "];",
             options: [{
                 beforeLineComment: true
             }],
@@ -1148,6 +1289,12 @@ ruleTester.run("lines-around-comment", rule, {
         {
             code:
             "var arr = [\n" +
+            "  /* block comment at array start*/\n" +
+            "  1\n" +
+            "];",
+            output:
+            "var arr = [\n" +
+            "\n" +
             "  /* block comment at array start*/\n" +
             "  1\n" +
             "];",
@@ -1162,6 +1309,12 @@ ruleTester.run("lines-around-comment", rule, {
             "  // line at array start\n" +
             "  a\n" +
             "] = [];",
+            output:
+            "const [\n" +
+            "\n" +
+            "  // line at array start\n" +
+            "  a\n" +
+            "] = [];",
             options: [{
                 beforeLineComment: true
             }],
@@ -1171,6 +1324,12 @@ ruleTester.run("lines-around-comment", rule, {
         {
             code:
             "const [\n" +
+            "  /* block comment at array start*/\n" +
+            "  a\n" +
+            "] = [];",
+            output:
+            "const [\n" +
+            "\n" +
             "  /* block comment at array start*/\n" +
             "  a\n" +
             "] = [];",
@@ -1188,6 +1347,12 @@ ruleTester.run("lines-around-comment", rule, {
             "  1\n" +
             "  // line at array end\n" +
             "];",
+            output:
+            "var arr = [\n" +
+            "  1\n" +
+            "  // line at array end\n" +
+            "\n" +
+            "];",
             options: [{
                 afterLineComment: true
             }],
@@ -1200,6 +1365,13 @@ ruleTester.run("lines-around-comment", rule, {
             "  \n" +
             "  /* block comment at array end*/\n" +
             "];",
+            output:
+            "var arr = [\n" +
+            "  1\n" +
+            "  \n" +
+            "  /* block comment at array end*/\n" +
+            "\n" +
+            "];",
             options: [{
                 afterBlockComment: true
             }],
@@ -1210,6 +1382,12 @@ ruleTester.run("lines-around-comment", rule, {
             "const [\n" +
             "  a\n" +
             "  // line at array end\n" +
+            "] = [];",
+            output:
+            "const [\n" +
+            "  a\n" +
+            "  // line at array end\n" +
+            "\n" +
             "] = [];",
             options: [{
                 afterLineComment: true
@@ -1223,6 +1401,13 @@ ruleTester.run("lines-around-comment", rule, {
             "  a\n" +
             "  \n" +
             "  /* block comment at array end*/\n" +
+            "] = [];",
+            output:
+            "const [\n" +
+            "  a\n" +
+            "  \n" +
+            "  /* block comment at array end*/\n" +
+            "\n" +
             "] = [];",
             options: [{
                 afterBlockComment: true
