@@ -773,9 +773,13 @@ target.checkRuleFiles = function() {
          */
         function hasIdInTitle(id) {
             var docText = cat(docFilename);
-            var idInTitleRegExp = new RegExp("^# (.*?) \\(" + id + "\\)");
+            var idOldAtEndOfTitleRegExp = new RegExp("^# (.*?) \\(" + id + "\\)"); // original format
+            var idNewAtBeginningOfTitleRegExp = new RegExp("^# " + id + ": "); // new format is same as rules index
+            // 1. Added support for new format.
+            // 2. Will remove support for old format after all docs files have new format.
+            // 3. Will remove this check when the main heading is automatically generated from rule metadata.
 
-            return idInTitleRegExp.test(docText);
+            return idNewAtBeginningOfTitleRegExp.test(docText) || idOldAtEndOfTitleRegExp.test(docText);
         }
 
         // check for docs
