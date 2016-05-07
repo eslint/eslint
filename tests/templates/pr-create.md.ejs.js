@@ -92,7 +92,7 @@ describe("pr-create.md.ejs", function() {
                 commits: [
                     {
                         commit: {
-                            message: "Fix: abcdefghijklmnopqrstuvwxyz abcdefghijklmnopqrstuvwxyz abcdefghijklmnopqrstuvwxyz (fixes #124)"
+                            message: "Fix:56789012345678901234567890123456789012345678901234567890(fixes #9012)"
                         }
                     }
                 ]
@@ -100,6 +100,30 @@ describe("pr-create.md.ejs", function() {
         });
 
         assert.ok(result.indexOf("72 characters") > -1);
+        assert.ok(result.indexOf("require an issue") === -1);
+    });
+
+    it("should not mention commit message length when there's a multi-line message with first line not over 72 characters", function() {
+        var result = ejs.render(TEMPLATE_TEXT, {
+            payload: {
+                sender: {
+                    login: "nzakas"
+                },
+                commits: 1
+            },
+            meta: {
+                cla: true,
+                commits: [
+                    {
+                        commit: {
+                            message: "Fix:56789012345678901234567890123456789012345678901234567890(fixes #901)\r\n1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890"
+                        }
+                    }
+                ]
+            }
+        });
+
+        assert.equal(result.trim(), "LGTM");
         assert.ok(result.indexOf("require an issue") === -1);
     });
 
