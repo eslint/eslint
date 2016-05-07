@@ -1,6 +1,6 @@
-# Disallow Unreachable Code (no-unreachable)
+# disallow unreachable code after `return`, `throw`, `continue`, and `break` statements (no-unreachable)
 
-A number of statements unconditionally exit a block of code. Any statements after that will not be executed and may be an error. The presence of unreachable code is usually a sign of a coding error.
+Because the `return`, `throw`, `break`, and `continue` statements unconditionally exit a block of code, any statements after them cannot be executed. Unreachable statements are usually a mistake.
 
 ```js
 function fn() {
@@ -12,7 +12,7 @@ function fn() {
 
 ## Rule Details
 
-This rule is aimed at detecting unreachable code. It produces an error when a statements exist after a `return`, `throw`, `break`, or `continue` statement.
+This rule disallows unreachable code after `return`, `throw`, `continue`, and `break` statements.
 
 Examples of **incorrect** code for this rule:
 
