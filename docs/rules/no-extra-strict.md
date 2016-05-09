@@ -1,6 +1,6 @@
-# Disallow Unnecessary Strict Pragma (no-extra-strict)
+# no-extra-strict: disallow strict mode directives when already in strict mode
 
-**Replacement notice**: This rule was removed in ESLint v1.0 and replaced by the [strict](strict.md) rule. Both `"global"` and `"function"` mode in the strict rule implement this rule's behavior.
+(removed) This rule was **removed** in ESLint v1.0 and **replaced** by the [strict](strict.md) rule. The `"global"` or `"function"` options in the new rule are similar to the removed rule.
 
 The `"use strict";` directive applies to the scope in which it appears and all inner scopes contained within that scope. Therefore, using the `"use strict";` directive in one of these inner scopes is unnecessary.
 
