@@ -201,6 +201,20 @@ ruleTester.run("no-extra-parens", rule, {
         {code: "(a * b) / c", options: ["all", {nestedBinaryExpressions: false}]},
         {code: "a || (b && c)", options: ["all", {nestedBinaryExpressions: false}]},
 
+        // ["all", { returnAssign: false }] enables extra parens around expressions returned by return statements
+        { code: "function a(b) { return b || c; }", options: ["all", { returnAssign: false }] },
+        { code: "function a(b) { return (b = 1); }", options: ["all", { returnAssign: false }] },
+        { code: "function a(b) { return (b = c) || (b = d); }", options: ["all", { returnAssign: false }] },
+        { code: "function a(b) { return c ? (d = b) : (e = b); }", options: ["all", { returnAssign: false }] },
+        { code: "b => b || c;", options: ["all", { returnAssign: false }], parserOptions: { ecmaVersion: 6 } },
+        { code: "b => (b = 1);", options: ["all", { returnAssign: false }], parserOptions: { ecmaVersion: 6 } },
+        { code: "b => (b = c) || (b = d);", options: ["all", { returnAssign: false }], parserOptions: { ecmaVersion: 6 } },
+        { code: "b => c ? (d = b) : (e = b);", options: ["all", { returnAssign: false }], parserOptions: { ecmaVersion: 6 } },
+        { code: "b => { return b || c };", options: ["all", { returnAssign: false }], parserOptions: { ecmaVersion: 6 } },
+        { code: "b => { return (b = 1) };", options: ["all", { returnAssign: false }], parserOptions: { ecmaVersion: 6 } },
+        { code: "b => { return (b = c) || (b = d) };", options: ["all", { returnAssign: false }], parserOptions: { ecmaVersion: 6 } },
+        { code: "b => { return c ? (d = b) : (e = b) };", options: ["all", { returnAssign: false }], parserOptions: { ecmaVersion: 6 } },
+
         // https://github.com/eslint/eslint/issues/3653
         "(function(){}).foo(), 1, 2;",
         "(function(){}).foo++;",
@@ -436,6 +450,139 @@ ruleTester.run("no-extra-parens", rule, {
             "       b",
             "    ));",
             "}"
-        ].join("\n"), "Identifier", null, {parserOptions: { ecmaVersion: 6 }})
+        ].join("\n"), "Identifier", null, {parserOptions: { ecmaVersion: 6 }}),
+
+        // returnAssign option
+        {
+            code: "function a(b) { return (b || c); }",
+            options: ["all", {returnAssign: false}],
+            errors: [
+                {
+                    message: "Gratuitous parentheses around expression.",
+                    type: "LogicalExpression"
+                }
+            ]
+        },
+        {
+            code: "function a(b) { return ((b = c) || (d = e)); }",
+            errors: [
+                {
+                    message: "Gratuitous parentheses around expression.",
+                    type: "LogicalExpression"
+                }
+            ]
+        },
+        {
+            code: "function a(b) { return (b = 1); }",
+            errors: [
+                {
+                    message: "Gratuitous parentheses around expression.",
+                    type: "AssignmentExpression"
+                }
+            ]
+        },
+        {
+            code: "function a(b) { return c ? (d = b) : (e = b); }",
+            errors: [
+                {
+                    message: "Gratuitous parentheses around expression.",
+                    type: "AssignmentExpression"
+                },
+                {
+                    message: "Gratuitous parentheses around expression.",
+                    type: "AssignmentExpression"
+                }
+            ]
+        },
+        {
+            code: "b => (b || c);",
+            options: ["all", {returnAssign: false}],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    message: "Gratuitous parentheses around expression.",
+                    type: "LogicalExpression"
+                }
+            ]
+        },
+        {
+            code: "b => ((b = c) || (d = e));",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    message: "Gratuitous parentheses around expression.",
+                    type: "LogicalExpression"
+                }
+            ]
+        },
+        {
+            code: "b => (b = 1);",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    message: "Gratuitous parentheses around expression.",
+                    type: "AssignmentExpression"
+                }
+            ]
+        },
+        {
+            code: "b => c ? (d = b) : (e = b);",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    message: "Gratuitous parentheses around expression.",
+                    type: "AssignmentExpression"
+                },
+                {
+                    message: "Gratuitous parentheses around expression.",
+                    type: "AssignmentExpression"
+                }
+            ]
+        },
+        {
+            code: "b => { return (b || c); }",
+            options: ["all", {returnAssign: false}],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    message: "Gratuitous parentheses around expression.",
+                    type: "LogicalExpression"
+                }
+            ]
+        },
+        {
+            code: "b => { return ((b = c) || (d = e)) };",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    message: "Gratuitous parentheses around expression.",
+                    type: "LogicalExpression"
+                }
+            ]
+        },
+        {
+            code: "b => { return (b = 1) };",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    message: "Gratuitous parentheses around expression.",
+                    type: "AssignmentExpression"
+                }
+            ]
+        },
+        {
+            code: "b => { return c ? (d = b) : (e = b); }",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    message: "Gratuitous parentheses around expression.",
+                    type: "AssignmentExpression"
+                },
+                {
+                    message: "Gratuitous parentheses around expression.",
+                    type: "AssignmentExpression"
+                }
+            ]
+        }
     ]
 });
