@@ -17,6 +17,8 @@ All of these options give you fine-grained control over how ESLint treats your c
 
 ESLint allows you to specify the JavaScript language options you want to support. By default, ESLint supports only ECMAScript 5 syntax. You can override that setting to enable support for ECMAScript 6 and 7 as well as [JSX](http://facebook.github.io/jsx/) by using parser options.
 
+**Important:** Enabling JSX support only enables support by the parser. You will also want to install and configure the [React Plugin](https://github.com/yannickcr/eslint-plugin-react) otherwise you will get undesired behaviour like the  [no-unused-vars](../rules/no-unused-vars) rule indicating that variables used only in JSX are not used.
+
 Parser options are set in your `.eslintrc.*` file by using the `parserOptions` property. The available options are:
 
 * `ecmaVersion` - set to 3, 5 (default), 6, or 7 to specify the version of ECMAScript you want to use.
@@ -24,7 +26,7 @@ Parser options are set in your `.eslintrc.*` file by using the `parserOptions` p
 * `ecmaFeatures` - an object indicating which additional language features you'd like to use:
     * `globalReturn` - allow `return` statements in the global scope
     * `impliedStrict` - enable global [strict mode](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode) (if `ecmaVersion` is 5 or greater)
-    * `jsx` - enable [JSX](http://facebook.github.io/jsx/)
+    * `jsx` - enable [JSX](http://facebook.github.io/jsx/) 
     * `experimentalObjectRestSpread` - enable support for the experimental [object rest/spread properties](https://github.com/sebmarkbage/ecmascript-rest-spread) (**IMPORTANT:** This is an experimental feature that may change significantly in the future. It's recommended that you do *not* write rules relying on this functionality unless you are willing to incur maintenance cost when it changes.)
 
 Here's an example `.eslintrc.json` file:
