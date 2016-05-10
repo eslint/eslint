@@ -297,6 +297,12 @@ describe("SourceCodeFixer", function() {
                 assert.isTrue(result.fixed);
             });
 
+            it("should apply the same fix when ranges overlap regardless of order", function() {
+                var result1 = SourceCodeFixer.applyFixes(sourceCode, [ REMOVE_MIDDLE, REPLACE_ID]);
+                var result2 = SourceCodeFixer.applyFixes(sourceCode, [ REPLACE_ID, REMOVE_MIDDLE]);
+
+                assert.equal(result1.output, result2.output);
+            });
         });
 
         describe("No Fixes", function() {
@@ -509,6 +515,13 @@ describe("SourceCodeFixer", function() {
                 assert.equal(result.messages[0].message, "nofix");
                 assert.equal(result.messages[1].message, "foo");
                 assert.isTrue(result.fixed);
+            });
+
+            it("should apply the same fix when ranges overlap regardless of order", function() {
+                var result1 = SourceCodeFixer.applyFixes(sourceCode, [ REMOVE_MIDDLE, REPLACE_ID]);
+                var result2 = SourceCodeFixer.applyFixes(sourceCode, [ REPLACE_ID, REMOVE_MIDDLE]);
+
+                assert.equal(result1.output, result2.output);
             });
 
         });
