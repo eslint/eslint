@@ -24,6 +24,18 @@ This rule is aimed at preventing bugs and increasing code clarity by ensuring th
 
 ## Options
 
+This rule has a string option:
+
+* `"all"` (default) Require braces around all `if`, `else`, `for`, `while`, or `do` statements.
+* `"multi"` Require curly braces if the statement body contains multiple statements.
+* `"multi-line"` Require curly braces for statements on multiplte lines.
+* `"multi-or-nest"` Require curly braces if the statement body contains multiple statements or contains nested statements.
+
+This rule has an options object argument:
+
+* `consistent` If set to `true` (default is `false`), it enforces the same braces rules for the bodies of a single `if`, `else if` and `else` chain.
+* `allowExtra` If set to `true` (default is `false`), it relaxes the rule to allow additional braces and only warn about missing braces.
+
 ### all
 
 Examples of **incorrect** code for the default `"all"` option:
@@ -63,8 +75,6 @@ if (foo) {
 
 ### multi
 
-By default, this rule warns whenever `if`, `else`, `for`, `while`, or `do` are used without block statements as their body. However, you can specify that block statements should be used only when there are multiple statements in the block and warn when there is only one statement in the block.
-
 Examples of **incorrect** code for the `"multi"` option:
 
 ```js
@@ -74,8 +84,9 @@ if (foo) {
     foo++;
 }
 
-if (foo) bar();
-else {
+if (foo) {
+    bar();
+} else {
     foo++;
 }
 
@@ -93,19 +104,25 @@ Examples of **correct** code for the `"multi"` option:
 ```js
 /*eslint curly: ["error", "multi"]*/
 
-if (foo) foo++;
+if (foo) {
+    var bat = foo;
+    foo++;
+}
 
-else foo();
+if (foo) bar();
+else
+    foo++;
 
 while (true) {
     doSomething();
     doSomethingElse();
 }
+
+for (var i=0; i < items.length; i++)
+    doSomething();
 ```
 
 ### multi-line
-
-Alternatively, you can relax the rule to allow brace-less single-line `if`, `else if`, `else`, `for`, `while`, or `do`, while still enforcing the use of curly braces for other instances.
 
 Examples of **incorrect** code for the `"multi-line"` option:
 
@@ -130,7 +147,7 @@ Examples of **correct** code for the `"multi-line"` option:
 if (foo) foo++; else doSomething();
 
 if (foo) foo++;
-else if (bar) baz()
+else if (bar) baz();
 else doSomething();
 
 do something();
@@ -152,8 +169,6 @@ while (true) {
 ```
 
 ### multi-or-nest
-
-You can use another configuration that forces brace-less `if`, `else if`, `else`, `for`, `while`, or `do` if their body contains only one single-line statement. And forces braces in all other cases.
 
 Examples of **incorrect** code for the `"multi-or-nest"` option:
 
@@ -216,13 +231,10 @@ for (var i = 0; foo; i++)
 
 ### consistent
 
-When using any of the `multi*` options, you can add an option to enforce all bodies of a `if`,
-`else if` and `else` chain to be with or without braces.
-
-Examples of **incorrect** code for the `"multi", "consistent"` options:
+Examples of **incorrect** code for the `"multi", {consistent: true}` options:
 
 ```js
-/*eslint curly: ["error", "multi", "consistent"]*/
+/*eslint curly: ["error", "multi", {consistent: true}]*/
 
 if (foo) {
     bar();
@@ -244,16 +256,12 @@ if (true)
 else {
     baz();
 }
-
-if (foo) {
-    foo++;
-}
 ```
 
-Examples of **correct** code for the `"multi", "consistent"` options:
+Examples of **correct** code for the `"multi", {consistent: true}` options:
 
 ```js
-/*eslint curly: ["error", "multi", "consistent"]*/
+/*eslint curly: ["error", "multi", {consistent: true}]*/
 
 if (foo) {
     bar();
@@ -276,8 +284,21 @@ if (true)
 else
     baz();
 
+```
+
+### allowExtra
+
+Examples of **correct** code for the `"multi", {allowExtra: true}` options:
+
+```js
+/*eslint curly: ["error", "multi", {allowExtra: true}]*/
+
+if (foo) {
+    bar();
+}
+
 if (foo)
-    foo++;
+    bar();
 
 ```
 
