@@ -1,6 +1,6 @@
-# Newline Per Chained Method Call (newline-per-chained-call)
+# require a newline after each call in a method chain (newline-per-chained-call)
 
-Chained method calls on a single line without line breaks are harder to read. This rule enforces new line after each method call in the chain to make it more readable and easy to maintain.
+Chained method calls on a single line without line breaks are harder to read, so some developers place a newline character after each method call in the chain to make it more readable and easy to maintain.
 
 Let's look at the following perfectly valid (but single line) code.
 
@@ -50,18 +50,20 @@ d3
 
 ## Rule Details
 
-This rule checks and reports the chained calls if there are no new lines after each call or deep member access. Computed property accesses such as `instance[something]` are excluded.
+This rule requires a newline after each call in a method chain or deep member access. Computed property accesses such as `instance[something]` are excluded.
 
 ## Options
 
-The rule takes a single option `ignoreChainWithDepth`. The level/depth to be allowed is configurable through `ignoreChainWithDepth` option. This rule, in its default state, allows 2 levels.
+This rule has an object option:
 
-* `ignoreChainWithDepth` Number of depths to be allowed (Default: `2`).
+* `"ignoreChainWithDepth"` (default: `2`) allows chains up to a specified depth.
 
-Following patterns are considered problems with default configuration:
+### ignoreChainWithDepth
+
+Examples of **incorrect** code for this rule with the default `{ "ignoreChainWithDepth": 2 }` option:
 
 ```js
-/*eslint newline-per-chained-call: "error"*/
+/*eslint newline-per-chained-call: ["error", { "ignoreChainWithDepth": 2 }]*/
 
 _.chain({}).map(foo).filter(bar).value();
 
@@ -77,10 +79,10 @@ _
 obj.method().method2().method3();
 ```
 
-Following patterns are not considered problems with default configuration:
+Examples of **correct** code for this rule with the default `{ "ignoreChainWithDepth": 2 }` option:
 
 ```js
-/*eslint newline-per-chained-call: "error"*/
+/*eslint newline-per-chained-call: ["error", { "ignoreChainWithDepth": 2 }]*/
 
 _
   .chain({})
@@ -109,42 +111,6 @@ obj
   .prop.method()
   .method2()
   .method3().prop;
-```
-
-Change the option `ignoreChainWithDepth` value to allow single line chains of that depth.
-
-For example, when configuration is like this:
-
-```js
-{
-    "newline-per-chained-call": ["error", {"ignoreChainWithDepth": 3}]
-}
-```
-
-Following patterns are not considered problems:
-
-```js
-_.chain({}).map(foo);
-
-// Or
-obj.prop.method();
-
-```
-
-Following patterns are considered problems:
-
-```js
-_.chain({}).map(foo).filter(bar);
-
-// Or
-obj.prop.method().method2().method3();
-
-// Or
-obj
-  .prop
-  .method()
-  .method2().method3();
-
 ```
 
 ## When Not To Use It
