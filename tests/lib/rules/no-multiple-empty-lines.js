@@ -218,8 +218,7 @@ ruleTester.run("no-multiple-empty-lines", rule, {
         },
         {
             code: "\n\n\n\n\n// invalid 16\nvar a = 5;\n",
-            errors: [ getExpectedErrorBOF(4),
-                      getExpectedError(0) ],
+            errors: [ getExpectedErrorBOF(4)],
             options: [ { max: 0, maxBOF: 4 } ]
         },
         {
@@ -235,7 +234,6 @@ ruleTester.run("no-multiple-empty-lines", rule, {
         {
             code: "\n\n\n// invalid 19\nvar a = 5;\n\n",
             errors: [ getExpectedErrorBOF(0),
-                      getExpectedError(2),
                       getExpectedErrorEOF(0) ],
             options: [ { max: 2, maxBOF: 0, maxEOF: 0 } ]
         }
