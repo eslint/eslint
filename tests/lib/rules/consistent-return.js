@@ -113,6 +113,16 @@ ruleTester.run("consistent-return", rule, {
             ]
         },
         {
+            code: "function _foo() { if (a) return true; }",
+            errors: [
+                {
+                    message: "Expected to return a value at the end of this function.",
+                    type: "FunctionDeclaration",
+                    column: 10
+                }
+            ]
+        },
+        {
             code: "f(function foo() { if (a) return true; });",
             errors: [
                 {
