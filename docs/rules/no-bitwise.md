@@ -1,4 +1,4 @@
-# Disallow Bitwise Operators (no-bitwise)
+# disallow bitwise operators (no-bitwise)
 
 The use of bitwise operators in JavaScript is very rare and often `&` or `|` is simply a mistyped `&&` or `||`, which will lead to unexpected behavior.
 
@@ -8,9 +8,9 @@ var x = y | z;
 
 ## Rule Details
 
-This rule is aimed at catching typos that end up as bitwise operators, but are meant to be the much more common `&&`, '||', `<`, `>` operators. As such, it will warn whenever it encounters a bitwise operator:
+This rule disallows bitwise operators.
 
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule:
 
 ```js
 /*eslint no-bitwise: "error"*/
@@ -42,7 +42,7 @@ x >>= y;
 x >>>= y;
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule:
 
 ```js
 /*eslint no-bitwise: "error"*/
@@ -60,20 +60,27 @@ x += y;
 
 ## Options
 
-This rule supports the following options:
+This rule has an object option:
 
-`allow`: The list of bitwise operators to be used as exceptions to the rule. For example:
+* `"allow"`: Allows a list of bitwise operators to be used as exceptions.
+* `"int32Hint"`: Allows the use of bitwise OR in `|0` pattern for type casting.
+
+### allow
+
+Examples of **correct** code for this rule with the `{ "allow": ["~"] }` option:
 
 ```js
-/*eslint no-bitwise: ["error", { allow: ["~"] }] */
+/*eslint no-bitwise: ["error", { "allow": ["~"] }] */
 
 ~[1,2,3].indexOf(1) === -1;
 ```
 
-`int32Hint`: Allows the use of bitwise OR in `|0` pattern for type casting:
+### int32Hint
+
+Examples of **correct** code for this rule with the `{ "int32Hint": true }` option:
 
 ```js
-/*eslint no-bitwise: ["error", { int32Hint: true }] */
+/*eslint no-bitwise: ["error", { "int32Hint": true }] */
 
 var b = a|0;
 ```

@@ -1,6 +1,6 @@
-# Require newline before `return` statement (newline-before-return)
+# require an empty line before `return` statements (newline-before-return)
 
-There is no hardfast rule about whether newlines should precede `return` statements in JavaScript. However, clearly delineating where a function is returning can greatly increase the readability and clarity of the code. For example:
+There is no hardfast rule about whether empty lines should precede `return` statements in JavaScript. However, clearly delineating where a function is returning can greatly increase the readability and clarity of the code. For example:
 
 ```js
 function foo(bar) {
@@ -31,9 +31,9 @@ function foo(bar) {
 
 ## Rule Details
 
-This rule aims to increase code clarity by requiring a blank line before `return` statements, except when the `return` is alone inside a statement group (such as an if statement). In the latter case, the `return` statement does not need to be delineated by virtue of it being alone.
+This rule requires an empty line before `return` statements to increase code clarity, except when the `return` is alone inside a statement group (such as an if statement). In the latter case, the `return` statement does not need to be delineated by virtue of it being alone. Comments are ignored and do not count as empty lines.
 
-When this rule is on, the following patterns are considered problems:
+Examples of **incorrect** code for this rule:
 
 ```js
 /*eslint newline-before-return: "error"*/
@@ -56,9 +56,24 @@ function foo(bar) {
     }
     return bar;
 }
+
+function foo() {
+
+    // comment
+    return;
+}
+
+function foo(bar) {
+    if (!bar) {
+        return;
+    }
+    /* multi-line
+    comment */
+    return bar;
+}
 ```
 
-Conversely, the following patterns are not considered problems:
+Examples of **correct** code for this rule:
 
 ```js
 /*eslint newline-before-return: "error"*/
@@ -90,32 +105,10 @@ function foo(bar) {
 }
 ```
 
-Note: comments are ignored and do not count as blank lines. The following patterns are therefore considered problems:
-
-```js
-/*eslint newline-before-return: "error"*/
-
-function foo() {
-
-    // comment
-    return;
-}
-
-function foo(bar) {
-    if (!bar) {
-        return;
-    }
-    /* multi-line
-    comment */
-    return bar;
-}
-```
-
 ## When Not To Use It
 
 You can safely disable this rule if you do not have any strict conventions about whitespace before `return` statements.
 
-## Further Information
+## Related Rules
 
-When using this rule, consider also enabling [`newline-after-var`](http://eslint.org/docs/rules/newline-after-var).
-
+* [newline-after-var](newline-after-var.md)
