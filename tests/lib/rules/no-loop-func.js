@@ -107,6 +107,15 @@ ruleTester.run("no-loop-func", rule, {
                 "result.__default = 6;"
             ].join("\n"),
             parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: [
+                "while (true) {",
+                "    (function() { a; });",
+                "}",
+                "let a;"
+            ].join("\n"),
+            parserOptions: { ecmaVersion: 6 }
         }
     ],
     invalid: [
