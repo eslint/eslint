@@ -2026,7 +2026,7 @@ describe("CLIEngine", function() {
     });
 
     describe("getErrorResults()", function() {
-        it("should report 4 error message when looking for errors only", function() {
+        it("should report 4 error messages when looking for errors only", function() {
 
             process.chdir(originalDir);
             var engine = new CLIEngine();
@@ -2035,6 +2035,7 @@ describe("CLIEngine", function() {
             var errorResults = CLIEngine.getErrorResults(report.results);
 
             assert.lengthOf(errorResults[0].messages, 4);
+            assert.equal(errorResults[0].errorCount, 4);
             assert.equal(errorResults[0].messages[0].ruleId, "strict");
             assert.equal(errorResults[0].messages[0].severity, 2);
             assert.equal(errorResults[0].messages[1].ruleId, "eol-last");
@@ -2045,7 +2046,18 @@ describe("CLIEngine", function() {
             assert.equal(errorResults[0].messages[3].severity, 2);
         });
 
-        it("should return 0 error messages even when the file has warnings", function() {
+        it("should report a warningCount of 0 when looking for errors only", function() {
+
+            process.chdir(originalDir);
+            var engine = new CLIEngine();
+
+            var report = engine.executeOnText("var foo = 'bar';");
+            var errorResults = CLIEngine.getErrorResults(report.results);
+
+            assert.equal(errorResults[0].warningCount, 0);
+        });
+
+        it("should return 0 error or warning messages even when the file has warnings", function() {
             var engine = new CLIEngine({
                 ignorePath: path.join(fixtureDir, ".eslintignore"),
                 cwd: path.join(fixtureDir, "..")
