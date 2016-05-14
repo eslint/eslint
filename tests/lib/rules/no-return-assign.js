@@ -25,6 +25,12 @@ var ruleTester = new RuleTester();
 
 ruleTester.run("no-return-assign", rule, {
     valid: [
+        {
+            code: "module.exports = {'a': 1};",
+            parserOptions: {
+                sourceType: "module"
+            }
+        },
         "var result = a * b;",
         "function x() { var result = a * b; return result; }",
         "function x() { return (result = a * b); }",
