@@ -1,3 +1,12 @@
+v2.10.1 - May 14, 2016
+
+* 9397135 Fix: `valid-jsdoc` false positive at default parameters (fixes #6097) (#6170) (Toru Nagashima)
+* 2166ad4 Fix: warning & error count in `CLIEngine.getErrorResults` (fixes #6155) (#6157) (alberto)
+* 1e0a652 Fix: ignore empty statements in max-statements-per-line (fixes #6153) (#6156) (alberto)
+* f9ca0d6 Fix: `no-extra-parens` to check for nulls (fixes #6161) (#6164) (Gyandeep Singh)
+* d095ee3 Fix: Parser merge sequence in config (fixes #6158) (#6160) (Gyandeep Singh)
+* f33e49f Fix: `no-return-assign` to check for null tokens (fixes #6159) (#6162) (Gyandeep Singh)
+
 v2.10.0 - May 13, 2016
 
 * 098cd9c Docs: Distinguish examples in rules under Stylistic Issues part 4 (#6136) (Kenneth Williams)
