@@ -356,12 +356,6 @@ describe("options", function() {
 
             assert.equal(currentOptions.parser, "test");
         });
-
-        it("should return a espree if --parser is not passed", function() {
-            var currentOptions = options.parse("");
-
-            assert.equal(currentOptions.parser, "espree");
-        });
     });
 
     describe("--print-config", function() {
