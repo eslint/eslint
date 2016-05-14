@@ -203,6 +203,7 @@ ruleTester.run("no-extra-parens", rule, {
 
         // ["all", { returnAssign: false }] enables extra parens around expressions returned by return statements
         { code: "function a(b) { return b || c; }", options: ["all", { returnAssign: false }] },
+        { code: "function a(b) { return; }", options: ["all", { returnAssign: false }] },
         { code: "function a(b) { return (b = 1); }", options: ["all", { returnAssign: false }] },
         { code: "function a(b) { return (b = c) || (b = d); }", options: ["all", { returnAssign: false }] },
         { code: "function a(b) { return c ? (d = b) : (e = b); }", options: ["all", { returnAssign: false }] },
