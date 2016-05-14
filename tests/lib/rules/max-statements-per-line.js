@@ -24,6 +24,8 @@ ruleTester.run("max-statements-per-line", rule, {
         { code: "{ }", options: [{ max: 1 }] },
         { code: "var bar = 1;" },
         { code: "var bar = 1;", options: [{ max: 1 }] },
+        { code: "var bar = 1;;"},
+        { code: ";(function foo() {\n})()"},
         { code: "if (condition) var bar = 1;", options: [{ max: 1 }] },
         { code: "if (condition) { }", options: [{ max: 1 }] },
         { code: "if (condition) { } else { }", options: [{ max: 1 }] },
@@ -60,13 +62,13 @@ ruleTester.run("max-statements-per-line", rule, {
         { code: "if (condition) { var bar = 1; var baz = 2; }", options: [{ max: 3 }] },
         { code: "if (condition) { var bar = 1; } else { var bar = 1; }", options: [{ max: 3 }] },
         { code: "switch (discriminant) { case 'test1': ; case 'test2': ; }", options: [{ max: 3 }] },
-        { code: "let bar = bar => { ; }, baz = baz => { ; };", options: [{ max: 3 }], parserOptions: { ecmaVersion: 6 } },
-        { code: "function foo({[bar => { ; }]: baz = qux => { ; }}) { }", options: [{ max: 3 }], parserOptions: { ecmaVersion: 6 } },
-        { code: "bar => { ; }, baz => { ; }, qux => { ; };", options: [{ max: 4 }], parserOptions: { ecmaVersion: 6 } },
-        { code: "[bar => { ; }, baz => { ; }, qux => { ; }];", options: [{ max: 4 }], parserOptions: { ecmaVersion: 6 } },
-        { code: "foo(bar => { ; }, baz => { ; }, qux => { ; });", options: [{ max: 4 }], parserOptions: { ecmaVersion: 6 } },
-        { code: "({ bar: bar => { ; }, baz: baz => { ; }, qux: qux => { ; }});", options: [{ max: 4 }], parserOptions: { ecmaVersion: 6 } },
-        { code: "(bar => { ; }) ? (baz => { ; }) : (qux => { ; });", options: [{ max: 4 }], parserOptions: { ecmaVersion: 6 } }
+        { code: "let bar = bar => { a; }, baz = baz => { b; };", options: [{ max: 3 }], parserOptions: { ecmaVersion: 6 } },
+        { code: "function foo({[bar => { a; }]: baz = qux => { b; }}) { }", options: [{ max: 3 }], parserOptions: { ecmaVersion: 6 } },
+        { code: "bar => { a; }, baz => { b; }, qux => { c; };", options: [{ max: 4 }], parserOptions: { ecmaVersion: 6 } },
+        { code: "[bar => { a; }, baz => { b; }, qux => { c; }];", options: [{ max: 4 }], parserOptions: { ecmaVersion: 6 } },
+        { code: "foo(bar => { a; }, baz => { c; }, qux => { c; });", options: [{ max: 4 }], parserOptions: { ecmaVersion: 6 } },
+        { code: "({ bar: bar => { a; }, baz: baz => { c; }, qux: qux => { ; }});", options: [{ max: 4 }], parserOptions: { ecmaVersion: 6 } },
+        { code: "(bar => { a; }) ? (baz => { b; }) : (qux => { c; });", options: [{ max: 4 }], parserOptions: { ecmaVersion: 6 } }
     ],
     invalid: [
         { code: "{ }", options: [{ max: 0 }], errors: [{ message: "This line has too many statements. Maximum allowed is 0." }] },
@@ -102,11 +104,11 @@ ruleTester.run("max-statements-per-line", rule, {
         { code: "if (condition) { var bar = 1; var baz = 2; var qux = 3; }", options: [{ max: 3 }], errors: [{ message: "This line has too many statements. Maximum allowed is 3." }] },
         { code: "if (condition) { var bar = 1; var baz = 2; } else { var bar = 1; var baz = 2; }", options: [{ max: 3 }], errors: [{ message: "This line has too many statements. Maximum allowed is 3." }] },
         { code: "switch (discriminant) { case 'test': var bar = 1; break; default: var bar = 1; break; }", options: [{ max: 3 }], errors: [{ message: "This line has too many statements. Maximum allowed is 3." }] },
-        { code: "let bar = bar => { ; }, baz = baz => { ; }, qux = qux => { ; };", options: [{ max: 3 }], parserOptions: { ecmaVersion: 6 }, errors: [{ message: "This line has too many statements. Maximum allowed is 3." }] },
-        { code: "(bar => { ; }) ? (baz => { ; }) : (qux => { ; });", options: [{ max: 3 }], parserOptions: { ecmaVersion: 6 }, errors: [{ message: "This line has too many statements. Maximum allowed is 3." }] },
-        { code: "bar => { ; }, baz => { ; }, qux => { ; }, quux => { ; };", options: [{ max: 4 }], parserOptions: { ecmaVersion: 6 }, errors: [{ message: "This line has too many statements. Maximum allowed is 4." }] },
-        { code: "[bar => { ; }, baz => { ; }, qux => { ; }, quux => { ; }];", options: [{ max: 4 }], parserOptions: { ecmaVersion: 6 }, errors: [{ message: "This line has too many statements. Maximum allowed is 4." }] },
-        { code: "foo(bar => { ; }, baz => { ; }, qux => { ; }, quux => { ; });", options: [{ max: 4 }], parserOptions: { ecmaVersion: 6 }, errors: [{ message: "This line has too many statements. Maximum allowed is 4." }] },
-        { code: "({ bar: bar => { ; }, baz: baz => { ; }, qux: qux => { ; }, quux: quux => { ; }});", options: [{ max: 4 }], parserOptions: { ecmaVersion: 6 }, errors: [{ message: "This line has too many statements. Maximum allowed is 4." }] }
+        { code: "let bar = bar => { a; }, baz = baz => { b; }, qux = qux => { c; };", options: [{ max: 3 }], parserOptions: { ecmaVersion: 6 }, errors: [{ message: "This line has too many statements. Maximum allowed is 3." }] },
+        { code: "(bar => { a; }) ? (baz => { b; }) : (qux => { c; });", options: [{ max: 3 }], parserOptions: { ecmaVersion: 6 }, errors: [{ message: "This line has too many statements. Maximum allowed is 3." }] },
+        { code: "bar => { a; }, baz => { b; }, qux => { c; }, quux => { d; };", options: [{ max: 4 }], parserOptions: { ecmaVersion: 6 }, errors: [{ message: "This line has too many statements. Maximum allowed is 4." }] },
+        { code: "[bar => { a; }, baz => { b; }, qux => { c; }, quux => { d; }];", options: [{ max: 4 }], parserOptions: { ecmaVersion: 6 }, errors: [{ message: "This line has too many statements. Maximum allowed is 4." }] },
+        { code: "foo(bar => { a; }, baz => { b; }, qux => { c; }, quux => { d; });", options: [{ max: 4 }], parserOptions: { ecmaVersion: 6 }, errors: [{ message: "This line has too many statements. Maximum allowed is 4." }] },
+        { code: "({ bar: bar => { a; }, baz: baz => { b; }, qux: qux => { c; }, quux: quux => { d; }});", options: [{ max: 4 }], parserOptions: { ecmaVersion: 6 }, errors: [{ message: "This line has too many statements. Maximum allowed is 4." }] }
     ]
 });
