@@ -138,7 +138,7 @@
         "comma-dangle": "error",
         "comma-spacing": "off",
         "comma-style": "off",
-        "complexity": ["off", 11],
+        "complexity": ["off"],
         "computed-property-spacing": "off",
         "consistent-return": "off",
         "consistent-this": "off",
