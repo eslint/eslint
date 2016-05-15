@@ -1,10 +1,10 @@
-# Ensures that the results of typeof are compared against a valid string (valid-typeof)
+# enforce comparing `typeof` expressions against valid strings (valid-typeof)
 
-For a vast majority of use-cases, the only valid results of the `typeof` operator will be one of the following: `"undefined"`, `"object"`, `"boolean"`, `"number"`, `"string"`, `"function"` and `"symbol"`. When the result of a `typeof` operation is compared against a string that is not one of these strings, it is usually a typo. This rule ensures that when the result of a `typeof` operation is compared against a string, that string is in the aforementioned set.
+For a vast majority of use cases, the result of the `typeof` operator is one of the following string literals: `"undefined"`, `"object"`, `"boolean"`, `"number"`, `"string"`, `"function"` and `"symbol"`. It is usually a typing mistake to compare the result of a `typeof` operator to other string literals.
 
 ## Rule Details
 
-This rule aims to prevent errors from likely typos by ensuring that when the result of a `typeof` operation is compared against a string, that the string is a valid value.
+This rule enforces comparing `typeof` expressions to valid string literals.
 
 Examples of **incorrect** code for this rule:
 

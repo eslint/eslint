@@ -61,7 +61,7 @@ JavaScript suspends the control flow statements of `try` and `catch` blocks unti
 
 ## Rule Details
 
-This rule disallows `return`, `throw`, `break` and `continue` statements inside `finally` blocks. It allows indirect usages such as in `function` or `class` declarations / expressions etc.
+This rule disallows `return`, `throw`, `break`, and `continue` statements inside `finally` blocks. It allows indirect usages, such as in `function` or `class` definitions.
 
 Examples of **incorrect** code for this rule:
 
