@@ -1149,7 +1149,7 @@ describe("eslint", function() {
         });
     });
 
-    describe("when config has parseOptions", function() {
+    describe("when config has parserOptions", function() {
 
         it("should pass ecmaFeatures to all rules when provided on config", function() {
 
@@ -3704,6 +3704,108 @@ describe("eslint", function() {
 
             assert(ok);
         });
+
+        it("should decorate exception if core rule has uncaught exception", function() {
+            var originalMessage = "Rule action exception";
+
+            eslint.defineRule("test-rule", function() {
+                return {
+                    "VariableDeclaration": function() {
+                        throw new Error(originalMessage);
+                    }
+                };
+            });
+
+            var code = "var x;";
+            var config = { rules: { "test-rule": 1 } };
+
+            try {
+                eslint.verify(code, config, "filename.js");
+                assert.fail();
+            } catch (err) {
+                assert.property(err, "message");
+                assert.strictEqual(err.message, originalMessage);
+                assert.strictEqual(err.messageTemplate, "rule-crashed");
+                assert.ok(err.messageData);
+                assert.strictEqual(err.messageData.errorMessage, originalMessage);
+                assert.strictEqual(err.messageData.ruleName, "test-rule");
+                assert.strictEqual(err.messageData.pluginName, null);
+                assert.strictEqual(err.messageData.fileName, "filename.js");
+                assert.strictEqual(err.messageData.parserPath, "espree");
+                assert.strictEqual(err.messageData.hasDefaultParser, true);
+                assert.property(err.messageData, "eslintVersion");
+                assert.property(err.messageData, "stackTrace");
+            }
+        });
+
+        it("should decorate exception if plugin rule has uncaught exception", function() {
+            var originalMessage = "Rule action exception";
+
+            eslint.defineRule("test-plugin/test-rule", function() {
+                return {
+                    "VariableDeclaration": function() {
+                        throw new Error(originalMessage);
+                    }
+                };
+            });
+
+            var code = "var x;";
+            var config = { rules: { "test-plugin/test-rule": 1 } };
+
+            try {
+                eslint.verify(code, config, "filename.js");
+                assert.fail();
+            } catch (err) {
+                assert.property(err, "message");
+                assert.strictEqual(err.message, originalMessage);
+                assert.strictEqual(err.messageTemplate, "rule-crashed");
+                assert.ok(err.messageData);
+                assert.strictEqual(err.messageData.errorMessage, originalMessage);
+                assert.strictEqual(err.messageData.ruleName, "test-plugin/test-rule");
+                assert.strictEqual(err.messageData.pluginName, "test-plugin");
+                assert.strictEqual(err.messageData.fileName, "filename.js");
+                assert.strictEqual(err.messageData.parserPath, "espree");
+                assert.strictEqual(err.messageData.hasDefaultParser, true);
+                assert.property(err.messageData, "eslintVersion");
+                assert.property(err.messageData, "stackTrace");
+            }
+        });
+
+        // only test in Node.js, not browser
+        if (typeof window === "undefined") {
+            it("should decorate exception if rule crashes with custom parser", function() {
+                var originalMessage = "Rule action exception";
+
+                eslint.defineRule("test-rule", function() {
+                    return {
+                        "VariableDeclaration": function() {
+                            throw new Error(originalMessage);
+                        }
+                    };
+                });
+
+                var code = "var x;";
+                var config = { rules: { "test-rule": 1 }, parser: "esprima-fb" };
+
+                try {
+                    eslint.verify(code, config, "filename.js");
+                    assert.fail();
+                } catch (err) {
+                    assert.property(err, "message");
+                    assert.strictEqual(err.message, originalMessage);
+                    assert.strictEqual(err.messageTemplate, "rule-crashed");
+                    assert.ok(err.messageData);
+                    assert.strictEqual(err.messageData.errorMessage, originalMessage);
+                    assert.strictEqual(err.messageData.ruleName, "test-rule");
+                    assert.strictEqual(err.messageData.pluginName, null);
+                    assert.strictEqual(err.messageData.fileName, "filename.js");
+                    assert.strictEqual(err.messageData.parserPath, "esprima-fb");
+                    assert.strictEqual(err.messageData.hasDefaultParser, false);
+                    assert.property(err.messageData, "eslintVersion");
+                    assert.property(err.messageData, "stackTrace");
+                }
+            });
+        }
     });
 
     // only test in Node.js, not browser
