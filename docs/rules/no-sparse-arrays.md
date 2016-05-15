@@ -1,4 +1,4 @@
-# Disallow Sparse Arrays (no-sparse-arrays)
+# disallow sparse arrays (no-sparse-arrays)
 
 Sparse arrays contain empty slots, most frequently due to multiple commas being used in an array literal, such as:
 
@@ -18,7 +18,7 @@ The confusion around sparse arrays defined in this manner is enough that it's re
 
 ## Rule Details
 
-This rule aims to eliminate sparse arrays that are defined by extra commas.
+This rule disallows sparse array literals which have "holes" where commas are not preceded by elements. It does not apply to a trailing comma following the last element.
 
 Examples of **incorrect** code for this rule:
 
@@ -37,7 +37,7 @@ Examples of **correct** code for this rule:
 var items = [];
 var items = new Array(23);
 
-// trailing comma is okay
+// trailing comma (after the last element) is not a problem
 var colors = [ "red", "blue", ];
 ```
 
