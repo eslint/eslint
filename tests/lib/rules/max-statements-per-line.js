@@ -68,7 +68,17 @@ ruleTester.run("max-statements-per-line", rule, {
         { code: "[bar => { a; }, baz => { b; }, qux => { c; }];", options: [{ max: 4 }], parserOptions: { ecmaVersion: 6 } },
         { code: "foo(bar => { a; }, baz => { c; }, qux => { c; });", options: [{ max: 4 }], parserOptions: { ecmaVersion: 6 } },
         { code: "({ bar: bar => { a; }, baz: baz => { c; }, qux: qux => { ; }});", options: [{ max: 4 }], parserOptions: { ecmaVersion: 6 } },
-        { code: "(bar => { a; }) ? (baz => { b; }) : (qux => { c; });", options: [{ max: 4 }], parserOptions: { ecmaVersion: 6 } }
+        { code: "(bar => { a; }) ? (baz => { b; }) : (qux => { c; });", options: [{ max: 4 }], parserOptions: { ecmaVersion: 6 } },
+        {
+            code: [
+                "const name = 'ESLint'",
+                "",
+                ";(function foo() {",
+                "})()"
+            ].join("\n"),
+            options: [{max: 1}],
+            parserOptions: {ecmaVersion: 6}
+        }
     ],
     invalid: [
         { code: "{ }", options: [{ max: 0 }], errors: [{ message: "This line has too many statements. Maximum allowed is 0." }] },
