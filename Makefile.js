@@ -499,7 +499,7 @@ target.test = function() {
 
     target.browserify();
 
-    lastReturn = nodeCLI.exec("mocha-phantomjs", "-R dot", "tests/tests.htm");
+    lastReturn = nodeCLI.exec("karma", "start karma.conf.js");
     if (lastReturn.code !== 0) {
         errors++;
     }
