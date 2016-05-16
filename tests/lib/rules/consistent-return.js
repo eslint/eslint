@@ -31,6 +31,12 @@ ruleTester.run("consistent-return", rule, {
         "function foo() { function bar() { return true; } return; }",
         "function foo() { function bar() { return; } return false; }",
         "function Foo() { if (!(this instanceof Foo)) return new Foo(); }",
+        { code: "function foo() { if (true) return; else return undefined; }", options: [{ treatUndefinedAsUnspecified: true }] },
+        { code: "function foo() { if (true) return; else return void 0; }", options: [{ treatUndefinedAsUnspecified: true }] },
+        { code: "function foo() { if (true) return undefined; else return; }", options: [{ treatUndefinedAsUnspecified: true }] },
+        { code: "function foo() { if (true) return undefined; else return void 0; }", options: [{ treatUndefinedAsUnspecified: true }] },
+        { code: "function foo() { if (true) return void 0; else return; }", options: [{ treatUndefinedAsUnspecified: true }] },
+        { code: "function foo() { if (true) return void 0; else return undefined; }", options: [{ treatUndefinedAsUnspecified: true }] },
         { code: "var x = () => {  return {}; };", parserOptions: { ecmaVersion: 6 } },
         { code: "if (true) { return 1; } return 0;", parserOptions: { ecmaVersion: 6, ecmaFeatures: { globalReturn: true } } }
     ],
@@ -139,6 +145,50 @@ ruleTester.run("consistent-return", rule, {
                     message: "Expected to return a value at the end of this function.",
                     type: "FunctionExpression",
                     column: 3
+                }
+            ]
+        },
+        {
+            code: "function foo() { if (true) return true; return undefined; }",
+            options: [{ treatUndefinedAsUnspecified: true }],
+            errors: [
+                {
+                    message: "Expected a return value.",
+                    type: "ReturnStatement",
+                    column: 41
+                }
+            ]
+        },
+        {
+            code: "function foo() { if (true) return true; return void 0; }",
+            options: [{ treatUndefinedAsUnspecified: true }],
+            errors: [
+                {
+                    message: "Expected a return value.",
+                    type: "ReturnStatement",
+                    column: 41
+                }
+            ]
+        },
+        {
+            code: "function foo() { if (true) return undefined; return true; }",
+            options: [{ treatUndefinedAsUnspecified: true }],
+            errors: [
+                {
+                    message: "Expected no return value.",
+                    type: "ReturnStatement",
+                    column: 46
+                }
+            ]
+        },
+        {
+            code: "function foo() { if (true) return void 0; return true; }",
+            options: [{ treatUndefinedAsUnspecified: true }],
+            errors: [
+                {
+                    message: "Expected no return value.",
+                    type: "ReturnStatement",
+                    column: 43
                 }
             ]
         },
