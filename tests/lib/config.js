@@ -2,7 +2,7 @@
  * @fileoverview Tests for config object.
  * @author Seth McLaughlin
  */
-
+/* eslint no-undefined: "off" */
 "use strict";
 
 //------------------------------------------------------------------------------
@@ -289,6 +289,13 @@ describe("Config", function() {
             assert.equal(noUndef, 2);
         });
 
+        it("should contain the correct value for parser when a custom parser is specified", function() {
+            var configPath = path.resolve(__dirname, "../fixtures/configurations/parser/.eslintrc.json"),
+                configHelper = new Config({ cwd: process.cwd() }),
+                config = configHelper.getConfig(configPath);
+
+            assert.equal(config.parser, path.resolve(path.dirname(configPath), "./custom.js"));
+        });
 
         // Configuration hierarchy ---------------------------------------------
 
@@ -752,7 +759,7 @@ describe("Config", function() {
                         parserOptions: {},
                         env: {},
                         globals: {},
-                        parser: void 0,
+                        parser: undefined,
                         rules: {
                             "home-folder-rule": 2
                         }
@@ -776,7 +783,7 @@ describe("Config", function() {
                         parserOptions: {},
                         env: {},
                         globals: {},
-                        parser: void 0,
+                        parser: undefined,
                         rules: {
                             "project-level-rule": 2
                         }
@@ -801,7 +808,7 @@ describe("Config", function() {
                         parserOptions: {},
                         env: {},
                         globals: {},
-                        parser: void 0,
+                        parser: undefined,
                         rules: {
                             quotes: [2, "double"]
                         }
@@ -825,7 +832,7 @@ describe("Config", function() {
                         parserOptions: {},
                         env: {},
                         globals: {},
-                        parser: void 0,
+                        parser: undefined,
                         rules: {}
                     };
 
@@ -847,7 +854,7 @@ describe("Config", function() {
                         parserOptions: {},
                         env: {},
                         globals: {},
-                        parser: void 0,
+                        parser: undefined,
                         rules: {}
                     };
 
@@ -868,7 +875,7 @@ describe("Config", function() {
                         parserOptions: {},
                         env: {},
                         globals: {},
-                        parser: void 0,
+                        parser: undefined,
                         rules: {
                             "project-level-rule": 2,
                             "subfolder-level-rule": 2
