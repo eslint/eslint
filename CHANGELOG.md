@@ -1,3 +1,9 @@
+v2.10.2 - May 16, 2016
+
+* bda5de5 Fix: Remove default parser from CLIEngine options (fixes #6182) (#6183) (alberto)
+* e59e5a0 Docs: Describe options in rules under Possible Errors part 3 (#6105) (Mark Pedrotti)
+* 842ab2e Build: Run phantomjs tests using karma (fixes #6128) (#6178) (alberto)
+
 v2.10.1 - May 14, 2016
 
 * 9397135 Fix: `valid-jsdoc` false positive at default parameters (fixes #6097) (#6170) (Toru Nagashima)
