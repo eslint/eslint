@@ -274,6 +274,23 @@ describe("CLIEngine", function() {
 
         var engine;
 
+        it("should use correct parser when custom parser is specified", function() {
+
+            engine = new CLIEngine({
+                cwd: originalDir,
+                ignore: false
+            });
+
+            var filePath = path.resolve(__dirname, "../fixtures/configurations/parser/custom.js");
+            var report = engine.executeOnFiles([filePath]);
+
+            assert.equal(report.results.length, 1);
+            assert.equal(report.results[0].messages.length, 1);
+            assert.equal(report.results[0].messages[0].message, "Parsing error: Boom!");
+
+        });
+
+
         it("should report zero messages when given a config file and a valid file", function() {
 
             engine = new CLIEngine({
