@@ -68,7 +68,25 @@ ruleTester.run("max-statements-per-line", rule, {
         { code: "[bar => { a; }, baz => { b; }, qux => { c; }];", options: [{ max: 4 }], parserOptions: { ecmaVersion: 6 } },
         { code: "foo(bar => { a; }, baz => { c; }, qux => { c; });", options: [{ max: 4 }], parserOptions: { ecmaVersion: 6 } },
         { code: "({ bar: bar => { a; }, baz: baz => { c; }, qux: qux => { ; }});", options: [{ max: 4 }], parserOptions: { ecmaVersion: 6 } },
-        { code: "(bar => { a; }) ? (baz => { b; }) : (qux => { c; });", options: [{ max: 4 }], parserOptions: { ecmaVersion: 6 } }
+        { code: "(bar => { a; }) ? (baz => { b; }) : (qux => { c; });", options: [{ max: 4 }], parserOptions: { ecmaVersion: 6 } },
+        {
+            code: [
+                "const name = 'ESLint'",
+                "",
+                ";(function foo() {",
+                "})()"
+            ].join("\n"),
+            options: [{max: 1}],
+            parserOptions: {ecmaVersion: 6}
+        },
+        {
+            code: [
+                "if (foo > 1)",
+                "    foo--;",
+                "else",
+                "    foo++;"
+            ].join("\n")
+        }
     ],
     invalid: [
         { code: "{ }", options: [{ max: 0 }], errors: [{ message: "This line has too many statements. Maximum allowed is 0." }] },
@@ -109,6 +127,7 @@ ruleTester.run("max-statements-per-line", rule, {
         { code: "bar => { a; }, baz => { b; }, qux => { c; }, quux => { d; };", options: [{ max: 4 }], parserOptions: { ecmaVersion: 6 }, errors: [{ message: "This line has too many statements. Maximum allowed is 4." }] },
         { code: "[bar => { a; }, baz => { b; }, qux => { c; }, quux => { d; }];", options: [{ max: 4 }], parserOptions: { ecmaVersion: 6 }, errors: [{ message: "This line has too many statements. Maximum allowed is 4." }] },
         { code: "foo(bar => { a; }, baz => { b; }, qux => { c; }, quux => { d; });", options: [{ max: 4 }], parserOptions: { ecmaVersion: 6 }, errors: [{ message: "This line has too many statements. Maximum allowed is 4." }] },
-        { code: "({ bar: bar => { a; }, baz: baz => { b; }, qux: qux => { c; }, quux: quux => { d; }});", options: [{ max: 4 }], parserOptions: { ecmaVersion: 6 }, errors: [{ message: "This line has too many statements. Maximum allowed is 4." }] }
+        { code: "({ bar: bar => { a; }, baz: baz => { b; }, qux: qux => { c; }, quux: quux => { d; }});", options: [{ max: 4 }], parserOptions: { ecmaVersion: 6 }, errors: [{ message: "This line has too many statements. Maximum allowed is 4." }] },
+        { code: "a; if (b) { c; d; }\nz;", options: [{ max: 2 }], errors: [{ message: "This line has too many statements. Maximum allowed is 2." }] }
     ]
 });
