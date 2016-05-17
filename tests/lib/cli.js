@@ -635,6 +635,14 @@ describe("cli", function() {
 
             assert.equal(exit, 0);
         });
+
+        it("should exit with no error on ecmaVersion 7 feature with config ecmaVersion 6 and command line ecmaVersion 7", function() {
+            var configPath = getFixturePath("configurations", "es6.json");
+            var filePath = getFixturePath("passing-es7.js");
+            var exit = cli.execute("--no-ignore --config " + configPath + " --parser-options=ecmaVersion:7 " + filePath);
+
+            assert.equal(exit, 0);
+        });
     });
 
     describe("when given the max-warnings flag", function() {

@@ -1,6 +1,6 @@
-# Require or disallow spaces following function names (space-after-function-name)
+# space-after-function-name: enforce consistent spacing after name in function definitions
 
-**Replacement notice**: This rule was removed in ESLint v1.0 and replaced by the [space-before-function-paren](space-before-function-paren.md) rule.
+(removed) This rule was **removed** in ESLint v1.0 and **replaced** by the [space-before-function-paren](space-before-function-paren.md) rule.
 
 Whitespace between a function name and its parameter list is optional.
 

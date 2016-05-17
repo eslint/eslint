@@ -1,6 +1,6 @@
-# Require spaces following `return`, `throw`, and `case` (space-return-throw-case)
+# space-return-throw-case: require spaces after `return`, `throw`, and `case` keywords
 
-**Replacement notice**: This rule was removed in ESLint v2.0 and replaced by [keyword-spacing](keyword-spacing.md) rule.
+(removed) This rule was **removed** in ESLint v2.0 and **replaced** by the [keyword-spacing](keyword-spacing.md) rule.
 
 (fixable) The `--fix` option on the [command line](../user-guide/command-line-interface#fix) automatically fixed problems reported by this rule.
 

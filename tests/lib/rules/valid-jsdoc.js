@@ -512,6 +512,34 @@ ruleTester.run("valid-jsdoc", rule, {
             "*/\n" +
             "function foo(){}",
             options: [{ requireReturn: true }]
+        },
+        {
+            code: [
+                "/**",
+                " * @param {string} a - a.",
+                " * @param {object} [obj] - obj.",
+                " * @param {string} obj.b - b.",
+                " * @param {string} obj.c - c.",
+                " * @returns {void}",
+                " */",
+                "function foo(a, {b, c} = {}) {",
+                "    // empty",
+                "}"
+            ].join("\n"),
+            parserOptions: {ecmaVersion: 6}
+        },
+        {
+            code: [
+                "/**",
+                " * @param {string} a - a.",
+                " * @param {any[]} [list] - list.",
+                " * @returns {void}",
+                " */",
+                "function foo(a, [b, c] = []) {",
+                "    // empty",
+                "}"
+            ].join("\n"),
+            parserOptions: {ecmaVersion: 6}
         }
     ],
 

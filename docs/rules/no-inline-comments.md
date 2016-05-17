@@ -1,17 +1,13 @@
-# Disallows comments after code. Comments must come on their own lines (no-inline-comments)
+# disallow inline comments after code (no-inline-comments)
 
-Some style guides disallow a comments on the same line as code.
-If there are comments immediately following code, it can make it harder to read the code.
+Some style guides disallow comments on the same line as code. Code can become difficult to read if comments immediately follow the code on the same line.
 On the other hand, it is sometimes faster and more obvious to put comments immediately following code.
-
 
 ## Rule Details
 
-This rule will disallow comments on the same line as code.
+This rule disallows comments on the same line as code.
 
-This rule takes no arguments.
-
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule:
 
 ```js
 /*eslint no-inline-comments: "error"*/
@@ -28,7 +24,7 @@ function getRandomNumber(){
 var c = 3; /* A block comment after code */
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule:
 
 ```js
 /*eslint no-inline-comments: "error"*/

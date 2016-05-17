@@ -19,6 +19,7 @@ This rule has a string option:
 This rule has an object option for exceptions to the `"all"` option:
 
 * `"conditionalAssign": false` allows extra parentheses around assignments in conditional test expressions
+* `"returnAssign": false` allows extra parentheses around assignments in `return` statements
 * `"nestedBinaryExpressions": false` allows extra parentheses in nested binary expressions
 
 ### all
@@ -26,7 +27,7 @@ This rule has an object option for exceptions to the `"all"` option:
 Examples of **incorrect** code for this rule with the default `"all"` option:
 
 ```js
-/*eslint no-extra-parens: "error"*/
+/* eslint no-extra-parens: "error" */
 
 a = (b * c);
 
@@ -40,7 +41,7 @@ typeof (a);
 Examples of **correct** code for this rule with the default `"all"` option:
 
 ```js
-/*eslint no-extra-parens: "error"*/
+/* eslint no-extra-parens: "error" */
 
 (0).toString();
 
@@ -56,7 +57,7 @@ Examples of **correct** code for this rule with the default `"all"` option:
 Examples of **correct** code for this rule with the `"all"` and `{ "conditionalAssign": false }` options:
 
 ```js
-/*eslint no-extra-parens: ["error", "all", { "conditionalAssign": false }]*/
+/* eslint no-extra-parens: ["error", "all", { "conditionalAssign": false }] */
 
 while ((foo = bar())) {}
 
@@ -67,12 +68,32 @@ do; while ((foo = bar()))
 for (;(a = b););
 ```
 
+### returnAssign
+
+Examples of **correct** code for this rule with the `"all"` and `{ "returnAssign": false }` options:
+
+```js
+/* eslint no-extra-parens: ["error", "all", { "returnAssign": false }] */
+
+function a(b) {
+  return (b = 1);
+}
+
+function a(b) {
+  return b ? (c = d) : (c = e);
+}
+
+b => (b = 1);
+
+b => b ? (c = d) : (c = e);
+```
+
 ### nestedBinaryExpressions
 
 Examples of **correct** for this rule with the `"all"` and `{ "nestedBinaryExpressions": false }` options:
 
 ```js
-/*eslint no-extra-parens: ["error", "all", { "nestedBinaryExpressions": false }]*/
+/* eslint no-extra-parens: ["error", "all", { "nestedBinaryExpressions": false }] */
 
 x = a || (b && c);
 x = a + (b * c);
@@ -84,7 +105,7 @@ x = (a * b) / c;
 Examples of **incorrect** code for this rule with the `"functions"` option:
 
 ```js
-/*eslint no-extra-parens: ["error", "functions"]*/
+/* eslint no-extra-parens: ["error", "functions"] */
 
 ((function foo() {}))();
 
@@ -94,7 +115,7 @@ var y = (function () {return 1;});
 Examples of **correct** code for this rule with the `"functions"` option:
 
 ```js
-/*eslint no-extra-parens: ["error", "functions"]*/
+/* eslint no-extra-parens: ["error", "functions"] */
 
 (0).toString();
 
@@ -118,3 +139,4 @@ typeof (a);
 ## Related Rules
 
 * [no-cond-assign](no-cond-assign.md)
+* [no-return-assign](no-return-assign.md)
