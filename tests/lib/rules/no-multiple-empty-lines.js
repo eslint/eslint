@@ -137,6 +137,14 @@ ruleTester.run("no-multiple-empty-lines", rule, {
             code: "`\n\n\n\n\n`\n// valid 15\nvar a = 5;",
             options: [ { max: 0, maxBOF: 0 } ],
             parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "\n\n\n\n// valid 16\nvar a = 5;\n",
+            options: [ { max: 0, maxBOF: 4 } ]
+        },
+        {
+            code: "// valid 17\nvar a = 5;\n\n",
+            options: [ { max: 0, maxEOF: 1 } ]
         }
     ],
 
@@ -153,12 +161,12 @@ ruleTester.run("no-multiple-empty-lines", rule, {
         },
         {
             code: "// invalid 3\nvar a = 5;\n\n\n\n",
-            errors: [ getExpectedError(2) ],
+            errors: [ getExpectedErrorEOF(2) ],
             options: [ { max: 2 } ]
         },
         {
             code: "// invalid 4\nvar a = 5;\n \n \n \n",
-            errors: [ getExpectedError(2) ],
+            errors: [ getExpectedErrorEOF(2) ],
             options: [ { max: 2 } ]
         },
         {
@@ -183,7 +191,7 @@ ruleTester.run("no-multiple-empty-lines", rule, {
         },
         {
             code: "// invalid 9\nvar a=5;\n\n\n\n\n",
-            errors: [ getExpectedError(2) ],
+            errors: [ getExpectedErrorEOF(2) ],
             options: [ { max: 2 } ]
         },
         {
