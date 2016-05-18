@@ -62,3 +62,36 @@ do{
 
 var result = x !== 0 ? a : b;
 ```
+
+## Options
+
+### checkLoops
+
+Set to `true` by default. Setting this option to `false` allows constant expressions in loops.
+
+Examples of **correct** code for when `checkLoops` is `false`:
+
+```js
+/*eslint no-constant-condition: ["error", { "checkLoops": false }]*/
+
+while (true) {
+    doSomething();
+    if (condition()) {
+        break;
+    }
+};
+
+for (;true;) {
+    doSomething();
+    if (condition()) {
+        break;
+    }
+};
+
+do {
+    doSomething();
+    if (condition()) {
+        break;
+    }
+} while (true)
+```

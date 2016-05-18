@@ -49,7 +49,12 @@ ruleTester.run("no-constant-condition", rule, {
         "if(typeof 'str' && abc==='str'){}",
         "if(abc==='str' || false || def ==='str'){}",
         "if(true && abc==='str' || def ==='str'){}",
-        "if(true && typeof abc==='string'){}"
+        "if(true && typeof abc==='string'){}",
+
+        // { checkLoops: false }
+        { code: "while(true);", options: [{ checkLoops: false }] },
+        { code: "for(;true;);", options: [{ checkLoops: false }] },
+        { code: "do{}while(true)", options: [{ checkLoops: false }] }
     ],
     invalid: [
         { code: "for(;true;);", errors: [{ message: "Unexpected constant condition.", type: "ForStatement"}] },
