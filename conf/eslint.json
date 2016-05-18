@@ -80,6 +80,7 @@
         "no-process-env": "off",
         "no-process-exit": "off",
         "no-proto": "off",
+        "no-prototype-builtins": "off",
         "no-redeclare": "error",
         "no-regex-spaces": "error",
         "no-restricted-globals": "off",

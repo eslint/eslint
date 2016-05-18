@@ -31,6 +31,7 @@ These rules relate to possible syntax or logic errors in JavaScript code:
 * [no-irregular-whitespace](no-irregular-whitespace.md): disallow irregular whitespace outside of strings and comments (recommended)
 * [no-negated-in-lhs](no-negated-in-lhs.md): disallow negating the left operand in `in` expressions (recommended)
 * [no-obj-calls](no-obj-calls.md): disallow calling global object properties as functions (recommended)
+* [no-prototype-builtins](no-prototype-builtins.md): Disallow use of `Object.prototypes` builtins directly
 * [no-regex-spaces](no-regex-spaces.md): disallow multiple spaces in regular expression literals (recommended)
 * [no-sparse-arrays](no-sparse-arrays.md): disallow sparse arrays (recommended)
 * [no-unexpected-multiline](no-unexpected-multiline.md): disallow confusing multiline expressions (recommended)
