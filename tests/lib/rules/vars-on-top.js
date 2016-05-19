@@ -457,6 +457,40 @@ ruleTester.run("vars-on-top", rule, {
                 sourceType: "module"
             },
             errors: [{message: "All 'var' declarations must be at the top of the function scope.", type: "VariableDeclaration"}]
+        },
+        {
+            code: [
+                "import {foo} from 'foo';",
+                "export {foo};",
+                "var test = 1;"
+            ].join("\n"),
+            parserOptions: {
+                ecmaVersion: 6,
+                sourceType: "module"
+            },
+            errors: [{message: "All 'var' declarations must be at the top of the function scope.", type: "VariableDeclaration"}]
+        },
+        {
+            code: [
+                "export {foo} from 'foo';",
+                "var test = 1;"
+            ].join("\n"),
+            parserOptions: {
+                ecmaVersion: 6,
+                sourceType: "module"
+            },
+            errors: [{message: "All 'var' declarations must be at the top of the function scope.", type: "VariableDeclaration"}]
+        },
+        {
+            code: [
+                "export * from 'foo';",
+                "var test = 1;"
+            ].join("\n"),
+            parserOptions: {
+                ecmaVersion: 6,
+                sourceType: "module"
+            },
+            errors: [{message: "All 'var' declarations must be at the top of the function scope.", type: "VariableDeclaration"}]
         }
     ]
 });
