@@ -39,6 +39,7 @@ ruleTester.run("valid-jsdoc", rule, {
         "/**\n* Description\n* @override */\nfunction foo(arg1, arg2){ return ''; }",
         "/**\n* Description\n* @inheritdoc */\nfunction foo(arg1, arg2){ return ''; }",
         "/**\n* Description\n* @inheritDoc */\nfunction foo(arg1, arg2){ return ''; }",
+        "/**\n* Description\n* @Returns {void} */\nfunction foo(){}",
         {
             code:
                 "call(\n" +
