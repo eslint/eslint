@@ -836,7 +836,7 @@ describe("SourceCode", function() {
             assert.isTrue(spy.calledOnce, "Event handler should be called.");
         });
 
-        it("should not get JSDoc comment for function declaration when the function has blank lines on top", function() {
+        it("should get JSDoc comment for function declaration when the function has blank lines on top", function() {
 
             var code = [
                 "/** Merges two objects together.*/",
@@ -857,7 +857,8 @@ describe("SourceCode", function() {
                 var sourceCode = eslint.getSourceCode();
                 var jsdoc = sourceCode.getJSDocComment(node);
 
-                assert.isNull(jsdoc);
+                assert.equal(jsdoc.type, "Block");
+                assert.equal(jsdoc.value, "* Merges two objects together.");
             }
 
             var spy = sandbox.spy(assertJSDoc);
