@@ -120,6 +120,7 @@
         "no-useless-concat": "off",
         "no-useless-constructor": "off",
         "no-useless-escape": "off",
+        "no-useless-rename": "off",
         "no-void": "off",
         "no-var": "off",
         "no-warning-comments": "off",
