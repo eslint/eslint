@@ -846,6 +846,26 @@ ruleTester.run("comma-dangle", rule, {
             parserOptions: { sourceType: "module" },
             options: ["always-multiline"],
             errors: [{message: "Missing trailing comma.", type: "ExportSpecifier"}]
+        },
+
+        // https://github.com/eslint/eslint/issues/6233
+        {
+            code: "var foo = {a: (1)}",
+            output: "var foo = {a: (1),}",
+            options: ["always"],
+            errors: [{message: "Missing trailing comma.", type: "Property"}]
+        },
+        {
+            code: "var foo = [(1)]",
+            output: "var foo = [(1),]",
+            options: ["always"],
+            errors: [{message: "Missing trailing comma.", type: "Literal"}]
+        },
+        {
+            code: "var foo = [\n1,\n(2)\n]",
+            output: "var foo = [\n1,\n(2),\n]",
+            options: ["always-multiline"],
+            errors: [{message: "Missing trailing comma.", type: "Literal"}]
         }
     ]
 });
