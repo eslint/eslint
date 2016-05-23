@@ -220,6 +220,7 @@ These rules relate to style guidelines, and are therefore quite subjective:
 * [space-infix-ops](space-infix-ops.md): require spacing around operators (fixable)
 * [space-unary-ops](space-unary-ops.md): enforce consistent spacing before or after unary operators (fixable)
 * [spaced-comment](spaced-comment.md): enforce consistent spacing after the `//` or `/*` in a comment (fixable)
+* [unicode-bom](unicode-bom.md): require or disallow the Unicode BOM (fixable)
 * [wrap-regex](wrap-regex.md): require parenthesis around regex literals
 
 ## ECMAScript 6

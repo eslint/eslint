@@ -207,6 +207,7 @@
         "spaced-comment": "off",
         "strict": "off",
         "template-curly-spacing": "off",
+        "unicode-bom": "off",
         "use-isnan": "error",
         "valid-jsdoc": "off",
         "valid-typeof": "error",
