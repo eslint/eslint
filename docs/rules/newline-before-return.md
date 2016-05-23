@@ -38,29 +38,11 @@ Examples of **incorrect** code for this rule:
 ```js
 /*eslint newline-before-return: "error"*/
 
-function foo() {
-
-    return;
-}
-
-function foo(bar) {
-    if (!bar) {
-
-        return;
-    }
-}
-
 function foo(bar) {
     if (!bar) {
         return;
     }
     return bar;
-}
-
-function foo() {
-
-    // comment
-    return;
 }
 
 function foo(bar) {
@@ -79,6 +61,11 @@ Examples of **correct** code for this rule:
 /*eslint newline-before-return: "error"*/
 
 function foo() {
+    return;
+}
+
+function foo() {
+
     return;
 }
 
@@ -102,6 +89,19 @@ function foo(bar) {
     }
 
     return bar;
+}
+
+function foo(bar) {
+    if (!bar) {
+
+        return;
+    }
+}
+
+function foo() {
+
+    // comment
+    return;
 }
 ```
 
