@@ -34,7 +34,10 @@ describe("CLIEngine", function() {
     var examplePluginName = "eslint-plugin-example",
         examplePluginNameWithNamespace = "@eslint/eslint-plugin-example",
         requireStubs = {},
-        examplePlugin = { rules: { "example-rule": require("../fixtures/rules/custom-rule") } },
+        examplePlugin = { rules: {
+            "example-rule": require("../fixtures/rules/custom-rule"),
+            "make-syntax-error": require("../fixtures/rules/make-syntax-error-rule")
+        } },
         CLIEngine,
         examplePreprocessorName = "eslint-plugin-processor",
         originalDir = process.cwd(),
@@ -241,6 +244,81 @@ describe("CLIEngine", function() {
                                 column: 11,
                                 nodeType: "Identifier",
                                 source: "var bar = foo"
+                            }
+                        ],
+                        errorCount: 1,
+                        warningCount: 0
+                    }
+                ],
+                errorCount: 1,
+                warningCount: 0
+            });
+        });
+
+        it("should not delete code if there is a syntax error after trying to autofix.", function() {
+            engine = new CLIEngine({
+                useEslintrc: false,
+                fix: true,
+                rules: {
+                    "example/make-syntax-error": "error"
+                },
+                ignore: false,
+                cwd: getFixturePath()
+            });
+
+            var report = engine.executeOnText("var bar = foo", "test.js");
+
+            assert.deepEqual(report, {
+                results: [
+                    {
+                        filePath: getFixturePath("test.js"),
+                        messages: [
+                            {
+                                ruleId: null,
+                                fatal: true,
+                                severity: 2,
+                                message: "Parsing error: Unexpected token is",
+                                line: 1,
+                                column: 19,
+                                source: "var bar = foothis is a syntax error."
+                            }
+                        ],
+                        errorCount: 1,
+                        warningCount: 0,
+                        output: "var bar = foothis is a syntax error."
+                    }
+                ],
+                errorCount: 1,
+                warningCount: 0
+            });
+        });
+
+        it("should not crash even if there are any syntax error since the first time.", function() {
+            engine = new CLIEngine({
+                useEslintrc: false,
+                fix: true,
+                rules: {
+                    "example/make-syntax-error": "error"
+                },
+                ignore: false,
+                cwd: getFixturePath()
+            });
+
+            var report = engine.executeOnText("var bar =", "test.js");
+
+            assert.deepEqual(report, {
+                results: [
+                    {
+                        filePath: getFixturePath("test.js"),
+                        messages: [
+                            {
+                                ruleId: null,
+                                fatal: true,
+                                severity: 2,
+                                message: "Parsing error: Unexpected token",
+                                line: 1,
+                                column: 10,
+                                source: "var bar ="
                             }
                         ],
                         errorCount: 1,
