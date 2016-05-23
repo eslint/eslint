@@ -50,6 +50,14 @@ When the rule is set to `"as-needed"` the following patterns are considered prob
 let foo = () => {
     return 0;
 };
+let foo = () => {
+    return {
+       bar: {
+            foo: 1,
+            bar: 2,
+        }
+    };
+};
 ```
 
 The following patterns are not considered problems:
@@ -63,6 +71,12 @@ let foo = (retv, name) => {
     retv[name] = true;
     return retv;
 };
+let foo = () => ({
+    bar: {
+        foo: 1,
+        bar: 2,
+    }
+});
 let foo = () => { bar(); };
 let foo = () => {};
 let foo = () => { /* do nothing */ };
