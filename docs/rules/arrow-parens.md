@@ -117,7 +117,7 @@ if ((a) => b) {
 } else {
  console.log('falsey value returned');
 };
-// outputs 'falsey value returned'
+// outputs 'truthy value returned'
 ```
 
 The following is another example of this behavior:
