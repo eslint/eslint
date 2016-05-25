@@ -340,6 +340,12 @@ describe("IgnoredPaths", function() {
             assert.isFalse(ignoredPaths.contains(getFixturePath("unignored.js")));
         });
 
+        it("should return false for ignored file when unignored with ignore pattern", function() {
+            var ignoredPaths = new IgnoredPaths({ ignore: true, ignorePath: getFixturePath(".eslintignore"), ignorePattern: "!sampleignorepattern", cwd: getFixturePath() });
+
+            assert.isFalse(ignoredPaths.contains(getFixturePath("sampleignorepattern")));
+
+        });
     });
 
     describe("initialization with ignorePath containing commented lines", function() {
