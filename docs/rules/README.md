@@ -242,7 +242,7 @@ These rules relate to ES6, also known as ES2015:
 * [no-this-before-super](no-this-before-super.md): disallow `this`/`super` before calling `super()` in constructors (recommended)
 * [no-useless-computed-key](no-useless-computed-key.md): disallow unnecessary computed property keys in object literals
 * [no-useless-constructor](no-useless-constructor.md): disallow unnecessary constructors
-* [no-useless-rename](no-useless-rename.md): disallow renaming import, export, and destructured assignments to the same name
+* [no-useless-rename](no-useless-rename.md): disallow renaming import, export, and destructured assignments to the same name (fixable)
 * [no-var](no-var.md): require `let` or `const` instead of `var`
 * [object-shorthand](object-shorthand.md): require or disallow method and property shorthand syntax for object literals
 * [prefer-arrow-callback](prefer-arrow-callback.md): require arrow functions as callbacks
