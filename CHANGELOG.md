@@ -1,3 +1,27 @@
+v2.11.0 - May 27, 2016
+
+* 77dd2b4 Fix: On --init, print message when package.json is invalid (fixes #6257) (#6261) (Kai Cataldo)
+* 7f60186 Fix: `--ignore-pattern` can't uningnore files (fixes #6127) (#6253) (alberto)
+* fea8fe6 New: no-useless-rename (fixes #6058) (#6249) (Kai Cataldo)
+* b4cff9d Fix: Incorrect object-property-newline behavior (fixes #6207) (#6213) (Rafał Ruciński)
+* 35b4656 Docs: Edit arrow-parens.md to show correct output value (#6245) (Adam Terlson)
+* ee0cd58 Fix: `newline-before-return` shouldn't disallow newlines (fixes #6176) (#6217) (alberto)
+* d4f5526 Fix: `vars-on-top` crashs at export declarations (fixes #6210) (#6220) (Toru Nagashima)
+* 088bda9 New: `unicode-bom` rule to allow or disallow BOM (fixes #5502) (#6230) (Andrew Johnston)
+* 14bfc03 Fix: `comma-dangle` wrong autofix (fixes #6233) (#6235) (Toru Nagashima)
+* cdd65d7 Docs: added examples for arrow-body-style (refs #5498) (#6242) (Tieme van Veen)
+* c10c07f Fix: lost code in autofixing (refs #6233) (#6234) (Toru Nagashima)
+* e6d5b1f Docs: Add rule deprecation section to user guide (fixes #5845) (#6201) (Kai Cataldo)
+* 777941e Upgrade: doctrine to 1.2.2 (fixes #6121) (#6231) (alberto)
+* 74c458d Update: key-spacing rule whitespace fixer (fixes #6167) (#6169) (Ruurd Moelker)
+* 04bd586 New: Disallow use of Object.prototype methods on objects (fixes #2693) (#6107) (Andrew Levine)
+* 53754ec Update: max in `max-statements-per-line` should be >=0 (fixes #6171) (#6172) (alberto)
+* 54d1201 Update: Add treatUndefinedAsUnspecified option (fixes #6026) (#6194) (Kenneth Williams)
+* 18152dd Update: Add checkLoops option to no-constant-condition (fixes #5477) (#6202) (Kai Cataldo)
+* 7644908 Fix: no-multiple-empty-lines BOF and EOF defaults (fixes #6179) (#6180) (Ruurd Moelker)
+* 72335eb Fix: `max-statements-per-line` false positive (fixes #6173, fixes #6153) (#6192) (Toru Nagashima)
+* 9fce04e Fix: `generator-star-spacing` false positive (fixes #6135) (#6168) (Toru Nagashima)
+
 v2.10.2 - May 16, 2016
 
 * bda5de5 Fix: Remove default parser from CLIEngine options (fixes #6182) (#6183) (alberto)
