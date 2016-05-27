@@ -40,21 +40,6 @@ describe("pr-create.md.ejs", function() {
         assert.equal(result.trim(), "LGTM");
     });
 
-    it("should mention squashing commits and welcome user by name when more than one commit is found", function() {
-        var result = ejs.render(TEMPLATE_TEXT, {
-            payload: {
-                sender: {
-                    login: "nzakas"
-                },
-                commits: 2
-            },
-            meta: {}
-        });
-
-        assert.ok(result.indexOf("@nzakas") > -1);
-        assert.ok(result.indexOf("squash") > -1);
-    });
-
     it("should mention commit message format when there's one commit and an invalid commit message is found", function() {
         var result = ejs.render(TEMPLATE_TEXT, {
             payload: {
