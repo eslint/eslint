@@ -12,7 +12,8 @@ var assert = require("chai").assert,
     fs = require("fs"),
     shell = require("shelljs"),
     sinon = require("sinon"),
-    npmUtil = require("../../../lib/util/npm-util");
+    npmUtil = require("../../../lib/util/npm-util"),
+    log = require("../../../lib/logging");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -65,6 +66,27 @@ describe("npmUtil", function() {
 
             fs.existsSync.restore();
             fs.readFileSync.restore();
+        });
+
+        it("should throw with message when parsing invalid package.json", function() {
+            var logInfo = sinon.stub(log, "info");
+
+            sinon.stub(fs, "existsSync", function() {
+                return true;
+            });
+            sinon.stub(fs, "readFileSync", function() {
+                return "{ \"not: \"valid json\" }";
+            });
+
+            var fn = npmUtil.checkDevDeps.bind(null, ["some-package"]);
+
+            assert.throws(fn, "SyntaxError: Unexpected token v");
+            assert(logInfo.calledOnce);
+            assert.equal(logInfo.firstCall.args[0], "Could not read package.json file. Please check that the file contains valid JSON.");
+
+            fs.existsSync.restore();
+            fs.readFileSync.restore();
+            logInfo.restore();
         });
     });
 
@@ -119,6 +141,27 @@ describe("npmUtil", function() {
 
             fs.existsSync.restore();
             fs.readFileSync.restore();
+        });
+
+        it("should throw with message when parsing invalid package.json", function() {
+            var logInfo = sinon.stub(log, "info");
+
+            sinon.stub(fs, "existsSync", function() {
+                return true;
+            });
+            sinon.stub(fs, "readFileSync", function() {
+                return "{ \"not: \"valid json\" }";
+            });
+
+            var fn = npmUtil.checkDevDeps.bind(null, ["some-package"]);
+
+            assert.throws(fn, "SyntaxError: Unexpected token v");
+            assert(logInfo.calledOnce);
+            assert.equal(logInfo.firstCall.args[0], "Could not read package.json file. Please check that the file contains valid JSON.");
+
+            fs.existsSync.restore();
+            fs.readFileSync.restore();
+            logInfo.restore();
         });
     });
 
