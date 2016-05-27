@@ -12,13 +12,24 @@ var assert = require("chai").assert,
     fs = require("fs"),
     shell = require("shelljs"),
     sinon = require("sinon"),
-    npmUtil = require("../../../lib/util/npm-util");
+    npmUtil = require("../../../lib/util/npm-util"),
+    log = require("../../../lib/logging");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
 describe("npmUtil", function() {
+
+    var sandbox;
+
+    beforeEach(function() {
+        sandbox = sinon.sandbox.create();
+    });
+
+    afterEach(function() {
+        sandbox.verifyAndRestore();
+    });
 
     describe("checkDevDeps()", function() {
         var installStatus;
@@ -49,10 +60,10 @@ describe("npmUtil", function() {
         });
 
         it("should handle missing devDependencies key", function() {
-            sinon.stub(fs, "existsSync", function() {
+            sandbox.stub(fs, "existsSync", function() {
                 return true;
             });
-            sinon.stub(fs, "readFileSync", function() {
+            sandbox.stub(fs, "readFileSync", function() {
                 return JSON.stringify({
                     private: true,
                     dependencies: {}
@@ -62,9 +73,23 @@ describe("npmUtil", function() {
             var fn = npmUtil.checkDevDeps.bind(null, ["some-package"]);
 
             assert.doesNotThrow(fn);
+        });
 
-            fs.existsSync.restore();
-            fs.readFileSync.restore();
+        it("should throw with message when parsing invalid package.json", function() {
+            var logInfo = sandbox.stub(log, "info");
+
+            sandbox.stub(fs, "existsSync", function() {
+                return true;
+            });
+            sandbox.stub(fs, "readFileSync", function() {
+                return "{ \"not: \"valid json\" }";
+            });
+
+            var fn = npmUtil.checkDevDeps.bind(null, ["some-package"]);
+
+            assert.throws(fn, "SyntaxError: Unexpected token v");
+            assert(logInfo.calledOnce);
+            assert.equal(logInfo.firstCall.args[0], "Could not read package.json file. Please check that the file contains valid JSON.");
         });
     });
 
@@ -103,10 +128,10 @@ describe("npmUtil", function() {
         });
 
         it("should handle missing dependencies key", function() {
-            sinon.stub(fs, "existsSync", function() {
+            sandbox.stub(fs, "existsSync", function() {
                 return true;
             });
-            sinon.stub(fs, "readFileSync", function() {
+            sandbox.stub(fs, "readFileSync", function() {
                 return JSON.stringify({
                     private: true,
                     devDependencies: {}
@@ -120,11 +145,32 @@ describe("npmUtil", function() {
             fs.existsSync.restore();
             fs.readFileSync.restore();
         });
+
+        it("should throw with message when parsing invalid package.json", function() {
+            var logInfo = sandbox.stub(log, "info");
+
+            sandbox.stub(fs, "existsSync", function() {
+                return true;
+            });
+            sandbox.stub(fs, "readFileSync", function() {
+                return "{ \"not: \"valid json\" }";
+            });
+
+            var fn = npmUtil.checkDevDeps.bind(null, ["some-package"]);
+
+            assert.throws(fn, "SyntaxError: Unexpected token v");
+            assert(logInfo.calledOnce);
+            assert.equal(logInfo.firstCall.args[0], "Could not read package.json file. Please check that the file contains valid JSON.");
+
+            fs.existsSync.restore();
+            fs.readFileSync.restore();
+            logInfo.restore();
+        });
     });
 
     describe("installSyncSaveDev()", function() {
         it("should invoke npm to install a single desired package", function() {
-            var stub = sinon.stub(shell, "exec");
+            var stub = sandbox.stub(shell, "exec");
 
             npmUtil.installSyncSaveDev("desired-package");
             assert(stub.calledOnce);
@@ -133,7 +179,7 @@ describe("npmUtil", function() {
         });
 
         it("should accept an array of packages to install", function() {
-            var stub = sinon.stub(shell, "exec");
+            var stub = sandbox.stub(shell, "exec");
 
             npmUtil.installSyncSaveDev(["first-package", "second-package"]);
             assert(stub.calledOnce);
