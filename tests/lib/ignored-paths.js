@@ -529,4 +529,51 @@ describe("IgnoredPaths", function() {
 
     });
 
+    describe("ignoredFoldersGlobPatterns", function() {
+        it("should return default ignores glob dir patterns when there is no eslintignore file", function() {
+            var ignoredPaths = new IgnoredPaths({ ignore: true, cwd: getFixturePath("no-ignore-file") });
+
+            var expected = ["node_modules/**", "bower_components/**"];
+            var actual = ignoredPaths.ignoredFoldersGlobPatterns();
+
+            assert.sameMembers(actual, expected);
+        });
+
+        it("should return default glob dir patterns when there is an ignore file without unignored defaults", function() {
+            var ignoredPaths = new IgnoredPaths({ ignore: true, ignorePath: getFixturePath(".eslintignore"), cwd: getFixturePath() });
+
+            var expected = ["node_modules/**", "bower_components/**"];
+            var actual = ignoredPaths.ignoredFoldersGlobPatterns();
+
+            assert.sameMembers(actual, expected);
+        });
+
+        it("should not return dirs with unignored defaults in ignore file", function() {
+            var ignoredPaths = new IgnoredPaths({ ignore: true, ignorePath: getFixturePath(".eslintignoreWithUnignoredDefaults"), cwd: getFixturePath() });
+
+            var actual = ignoredPaths.ignoredFoldersGlobPatterns();
+
+            assert.notInclude(actual, "node_modules/**");
+            assert.notInclude(actual, "bower_components/**");
+        });
+
+        it("should return dirs with unignored defaults in ignore file when ignore option is disabled", function() {
+            var ignoredPaths = new IgnoredPaths({ ignore: false, ignorePath: getFixturePath(".eslintignoreWithUnignoredDefaults"), cwd: getFixturePath() });
+
+            var expected = ["node_modules/**", "bower_components/**"];
+            var actual = ignoredPaths.ignoredFoldersGlobPatterns();
+
+            assert.includeMembers(actual, expected);
+        });
+
+        it("should not return dirs unignored by ignorePattern", function() {
+            var ignoredPaths = new IgnoredPaths({ ignore: true, cwd: getFixturePath("no-ignore-file"), ignorePattern: "!/node_modules/package" });
+
+            var actual = ignoredPaths.ignoredFoldersGlobPatterns();
+
+            assert.notInclude(actual, "node_modules/**");
+            assert.include(actual, "bower_components/**");
+        });
+    });
+
 });
