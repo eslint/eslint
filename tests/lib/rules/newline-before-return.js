@@ -75,6 +75,7 @@ ruleTester.run("newline-before-return", rule, {
         "function a() {\nswitch (b) {\ncase 'b':\nreturn;\n}\n}",
         "function a() {\nswitch (b) {\ncase 'b': {\nreturn;\n}\n}\n}",
         "function a() {\n//comment\nreturn b;\n}",
+        "function a() {\n{//dummy\n}\n\nreturn\n}",
         "function a() {\nvar b = {\n//comment\n};\n\nreturn;\n}",
         "function a() {/*multi-line\ncomment*/return b;\n}",
         "function a() {\n/*comment\ncomment*/\n//comment\nreturn b;\n}",
@@ -84,6 +85,9 @@ ruleTester.run("newline-before-return", rule, {
         "function a() {\nif (b) { return; } //comment\n\nreturn c;\n}",
         "function a() {\nif (b) { return; } /*multi-line\ncomment*/\n\nreturn c;\n}",
         "function a() {\nif (b) { return; }\n\n/*multi-line\ncomment*/ return c;\n}",
+        "a=function() {\n{//dummy\n}\n\nreturn\n}",
+        "a=function() {\nif (b) { //comment\nreturn;\n}\n\nreturn c;\n}",
+        "a=function() {\nif (b) { return; } //comment\n\nreturn c;\n}",
         {
             code: "return;",
             parserOptions: { ecmaFeatures: { globalReturn: true } }
