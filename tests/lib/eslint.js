@@ -2515,6 +2515,19 @@ describe("eslint", function() {
         });
     });
 
+    describe("when evaluating code with comments which have colon in its value", function() {
+        var code = "/* eslint max-len: [2, 100, 2, {ignoreUrls: true, ignorePattern: \"data:image\\/|\\s*require\\s*\\(|^\\s*loader\\.lazy|-\\*-\"}] */\nalert('test');";
+
+        it("should not parse errors, should report a violation", function() {
+            var messages = eslint.verify(code, {}, filename);
+
+            assert.equal(messages.length, 1);
+            assert.equal(messages[0].ruleId, "max-len");
+            assert.equal(messages[0].message, "Line 1 exceeds the maximum line length of 100.");
+            assert.include(messages[0].nodeType, "Program");
+        });
+    });
+
     describe("when evaluating a file with a shebang", function() {
         var code = "#!bin/program\n\nvar foo;;";
 
