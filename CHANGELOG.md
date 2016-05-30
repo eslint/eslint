@@ -1,3 +1,11 @@
+v2.11.1 - May 30, 2016
+
+* 64b0d0c Fix: failed to parse `/*eslint` comments by colon (fixes #6224) (#6258) (Toru Nagashima)
+* c8936eb Build: Don't check commit count (fixes #5935) (#6263) (Nicholas C. Zakas)
+* 113c1a8 Fix: `max-statements-per-line` false positive at exports (fixes #6264) (#6268) (Toru Nagashima)
+* 03beb27 Fix: `no-useless-rename` false positives (fixes #6266) (#6267) (alberto)
+* fe89037 Docs: Fix rule name in example (#6279) (Kenneth Williams)
+
 v2.11.0 - May 27, 2016
 
 * 77dd2b4 Fix: On --init, print message when package.json is invalid (fixes #6257) (#6261) (Kai Cataldo)
