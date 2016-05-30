@@ -9,7 +9,7 @@ This rule disallows calling some `Object.prototype` methods directly on object i
 Examples of **incorrect** code for this rule:
 
 ```js
-/*eslint no-prototype-built-ins: "error"*/
+/*eslint no-prototype-builtins: "error"*/
 
 var hasBarProperty = foo.hasOwnProperty("bar");
 
@@ -21,7 +21,7 @@ var barIsEnumerable = foo.propertyIsEnumerable("bar");
 Examples of **correct** code for this rule:
 
 ```js
-/*eslint no-prototype-built-ins: "error"*/
+/*eslint no-prototype-builtins: "error"*/
 
 var hasBarProperty = {}.hasOwnProperty.call(foo, "bar");
 
