@@ -16,9 +16,7 @@ function needsIssueRef(log) {
 var problems = [];
 
 // Check for one commit per pull request
-if (payload.commits > 1) {
-    problems.push("We require one commit per pull request. Please [squash](https://egghead.io/lessons/javascript-how-to-squash-multiple-git-commits) your commits.");
-} else if (meta.commits) {
+if (meta.commits) {
     // get just the first line of the commit message
     var log = meta.commits[0].commit.message.split(/\r?\n/g)[0];
 
