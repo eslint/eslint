@@ -86,6 +86,34 @@ ruleTester.run("max-statements-per-line", rule, {
                 "else",
                 "    foo++;"
             ].join("\n")
+        },
+        {
+            code: "export default foo = 0;",
+            options: [{max: 1}],
+            parserOptions: {ecmaVersion: 6, sourceType: "module"}
+        },
+        {
+            code: [
+                "export default function foo() {",
+                "   console.log('test');",
+                "}"
+            ].join("\n"),
+            options: [{max: 1}],
+            parserOptions: {ecmaVersion: 6, sourceType: "module"}
+        },
+        {
+            code: "export let foo = 0;",
+            options: [{max: 1}],
+            parserOptions: {ecmaVersion: 6, sourceType: "module"}
+        },
+        {
+            code: [
+                "export function foo() {",
+                "   console.log('test');",
+                "}"
+            ].join("\n"),
+            options: [{max: 1}],
+            parserOptions: {ecmaVersion: 6, sourceType: "module"}
         }
     ],
     invalid: [
@@ -128,6 +156,8 @@ ruleTester.run("max-statements-per-line", rule, {
         { code: "[bar => { a; }, baz => { b; }, qux => { c; }, quux => { d; }];", options: [{ max: 4 }], parserOptions: { ecmaVersion: 6 }, errors: [{ message: "This line has too many statements. Maximum allowed is 4." }] },
         { code: "foo(bar => { a; }, baz => { b; }, qux => { c; }, quux => { d; });", options: [{ max: 4 }], parserOptions: { ecmaVersion: 6 }, errors: [{ message: "This line has too many statements. Maximum allowed is 4." }] },
         { code: "({ bar: bar => { a; }, baz: baz => { b; }, qux: qux => { c; }, quux: quux => { d; }});", options: [{ max: 4 }], parserOptions: { ecmaVersion: 6 }, errors: [{ message: "This line has too many statements. Maximum allowed is 4." }] },
-        { code: "a; if (b) { c; d; }\nz;", options: [{ max: 2 }], errors: [{ message: "This line has too many statements. Maximum allowed is 2." }] }
+        { code: "a; if (b) { c; d; }\nz;", options: [{ max: 2 }], errors: [{ message: "This line has too many statements. Maximum allowed is 2." }] },
+        { code: "export default function foo() { console.log('test') }", options: [{ max: 1 }], parserOptions: {ecmaVersion: 6, sourceType: "module"}, errors: [{ message: "This line has too many statements. Maximum allowed is 1." }] },
+        { code: "export function foo() { console.log('test') }", options: [{ max: 1 }], parserOptions: {ecmaVersion: 6, sourceType: "module"}, errors: [{ message: "This line has too many statements. Maximum allowed is 1." }] }
     ]
 });
