@@ -261,6 +261,7 @@ ruleTester.run("no-useless-rename", rule, {
         },
         {
             code: "const {foo: foo, ...stuff} = myObject;",
+            output: "const {foo, ...stuff} = myObject;",
             parserOptions: {
                 ecmaFeatures: { experimentalObjectRestSpread: true },
                 ecmaVersion: 6
@@ -269,6 +270,7 @@ ruleTester.run("no-useless-rename", rule, {
         },
         {
             code: "const {foo: foo, bar: baz, ...stuff} = myObject;",
+            output: "const {foo, bar: baz, ...stuff} = myObject;",
             parserOptions: {
                 ecmaFeatures: { experimentalObjectRestSpread: true },
                 ecmaVersion: 6
@@ -277,6 +279,7 @@ ruleTester.run("no-useless-rename", rule, {
         },
         {
             code: "const {foo: foo, bar: bar, ...stuff} = myObject;",
+            output: "const {foo, bar, ...stuff} = myObject;",
             parserOptions: {
                 ecmaFeatures: { experimentalObjectRestSpread: true },
                 ecmaVersion: 6
