@@ -196,6 +196,7 @@
         "id-blacklist": "off",
         "require-jsdoc": "off",
         "require-yield": "off",
+        "rest-spread-spacing": "off",
         "semi": "off",
         "semi-spacing": "off",
         "sort-vars": "off",
