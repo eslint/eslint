@@ -41,6 +41,7 @@ ruleTester.run("newline-before-return", rule, {
         "function a() {\n while (b) { return; }\n}",
         "function a() {\n while (b) {\nreturn;\n}\n}",
         "function a() {\n while (b) {\nc();\n\nreturn;\n}\n}",
+        "function a() {\nvar c;\nwhile (b) {\n c = d; //comment\n}\n\nreturn c;\n}",
         "function a() {\ndo return;\nwhile (b);\n}",
         "function a() {\ndo \nreturn;\nwhile (b);\n}",
         "function a() {\ndo { return; } while (b);\n}",
@@ -51,6 +52,7 @@ ruleTester.run("newline-before-return", rule, {
         "function a() {\nfor (var b; b < c; b++)\nreturn;\n}",
         "function a() {\nfor (var b; b < c; b++) {\nreturn;\n}\n}",
         "function a() {\nfor (var b; b < c; b++) {\nc();\n\nreturn;\n}\n}",
+        "function a() {\nfor (var b; b < c; b++) {\nif (d) {\nbreak; //comment\n}\n\nreturn;\n}\n}",
         "function a() {\nfor (b in c)\nreturn;\n}",
         "function a() {\nfor (b in c) { return; }\n}",
         "function a() {\nfor (b in c) {\nreturn;\n}\n}",
@@ -75,6 +77,7 @@ ruleTester.run("newline-before-return", rule, {
         "function a() {\nswitch (b) {\ncase 'b':\nreturn;\n}\n}",
         "function a() {\nswitch (b) {\ncase 'b': {\nreturn;\n}\n}\n}",
         "function a() {\n//comment\nreturn b;\n}",
+        "function a() {\n{\n//comment\n}\n\nreturn\n}",
         "function a() {\nvar b = {\n//comment\n};\n\nreturn;\n}",
         "function a() {/*multi-line\ncomment*/return b;\n}",
         "function a() {\n/*comment\ncomment*/\n//comment\nreturn b;\n}",
@@ -167,6 +170,18 @@ ruleTester.run("newline-before-return", rule, {
         {
             code: "var a;\nreturn;",
             parserOptions: { ecmaFeatures: { globalReturn: true } },
+            errors: ["Expected newline before return statement."]
+        },
+        {
+            code: "function a() {\n{\n//comment\n}\nreturn\n}",
+            errors: ["Expected newline before return statement."]
+        },
+        {
+            code: "function a() {\nvar c;\nwhile (b) {\n c = d; //comment\n}\nreturn c;\n}",
+            errors: ["Expected newline before return statement."]
+        },
+        {
+            code: "function a() {\nfor (var b; b < c; b++) {\nif (d) {\nbreak; //comment\n}\nreturn;\n}\n}",
             errors: ["Expected newline before return statement."]
         }
     ]
