@@ -156,7 +156,7 @@ The `CLIEngine` is a constructor, and you can create a new instance by passing i
 * `extensions` - An array of filename extensions that should be checked for code. The default is an array containing just `".js"`. Corresponds to `--ext`.
 * `globals` - An array of global variables to declare (default: empty array). Corresponds to `--global`.
 * `fix` - True indicates that fixes should be applied to the text when possible.
-* `ignore` - False disables use of `.eslintignore` (default: true). Corresponds to `--no-ignore`.
+* `ignore` - False disables use of `.eslintignore`, `ignorePath` and `ignorePattern` (default: true). Corresponds to `--no-ignore`.
 * `ignorePath` - The ignore file to use instead of `.eslintignore` (default: null). Corresponds to `--ignore-path`.
 * `ignorePattern` - Glob patterns for paths to ignore. String or array of strings.
 * `baseConfig` - Set to false to disable use of base config. Could be set to an object to override default base config as well.
