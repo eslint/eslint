@@ -1,13 +1,6 @@
-# Disallow ++ and -- (no-plusplus)
+# disallow the unary operators `++` and `--` (no-plusplus)
 
-The `no-plusplus` rule flags the use of unary operators, `++` and `--`.
-
-```js
-var foo = 0;
-foo++;
-```
-
-The `++` and `--` operators are subject to automatic semicolon insertion. When their use is allowed, introducing whitespace may change semantics of source code. Enabling the rule may prevent this kind of errors.
+Because the unary `++` and `--` operators are subject to automatic semicolon insertion, differences in whitespace can change semantics of source code.
 
 ```js
 var i = 10;
@@ -30,15 +23,9 @@ j
 
 ## Rule Details
 
-This rule is aimed at flagging the use of `++` and `--`. Some believe that the use of these unary operators reduces code quality and clarity. There are some programming languages that completely exclude these operators.
+This rule disallows the unary operators `++` and `--`.
 
-## Options
-
-This rule, in its default state, does not require any arguments. If you would like to enable one or more of the following you may pass an object with the options set as follows:
-
-* `allowForLoopAfterthoughts` set to `true` will allow you to use the unary operators `++` and `--` in the afterthought (final expression) of a `for` loop.
-
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule:
 
 ```js
 /*eslint no-plusplus: "error"*/
@@ -54,7 +41,7 @@ for (i = 0; i < l; i++) {
 }
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule:
 
 ```js
 /*eslint no-plusplus: "error"*/
@@ -70,10 +57,18 @@ for (i = 0; i < l; i += 1) {
 }
 ```
 
-The following patterns are not considered problems if `allowForLoopAfterthoughts` is set to true:
+## Options
+
+This rule has an object option.
+
+* `"allowForLoopAfterthoughts": true` allows unary operators `++` and `--` in the afterthought (final expression) of a `for` loop.
+
+### allowForLoopAfterthoughts
+
+Examples of **correct** code for this rule with the `{ "allowForLoopAfterthoughts": true }` option:
 
 ```js
-/*eslint no-plusplus: ["error", { allowForLoopAfterthoughts: true }]*/
+/*eslint no-plusplus: ["error", { "allowForLoopAfterthoughts": true }]*/
 
 for (i = 0; i < l; i++) {
     return;
