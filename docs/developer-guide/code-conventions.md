@@ -648,13 +648,22 @@ Strict mode should be used in all modules, specified below the file overview com
     // Bad: Strict mode in functions
     function doSomething() {
         "use strict";
-        
+
+        // code
+    }
+
+    // Bad: Strict mode in global scope and redundant strict mode directive in function
+    "use strict";       // This one is good
+
+    function doSomething() {
+        "use strict";   // This one is bad
+
         // code
     }
 
     // Good: Global strict mode
     "use strict";
-    
+
     function doSomething() {
         // no "use strict" here
 
