@@ -1,4 +1,4 @@
-# Disallow Spaces in Function Calls (no-spaced-func)
+# disallow spacing between `function` identifiers and their applications (no-spaced-func)
 
 (fixable) The `--fix` option on the [command line](../user-guide/command-line-interface#fix) automatically fixes problems reported by this rule.
 
@@ -6,13 +6,9 @@ While it's possible to have whitespace between the name of a function and the pa
 
 ## Rule Details
 
-This rule does not allow gaps between the function identifier and application.
+This rule disallows spacing between function identifiers and their applications.
 
-```js
-fn ()
-```
-
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule:
 
 ```js
 /*eslint no-spaced-func: "error"*/
@@ -23,7 +19,7 @@ fn
 ()
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule:
 
 ```js
 /*eslint no-spaced-func: "error"*/
