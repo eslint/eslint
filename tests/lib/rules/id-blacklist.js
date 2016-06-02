@@ -95,6 +95,14 @@ ruleTester.run("id-blacklist", rule, {
         {
             code: "foo.bar",
             options: ["bar"]
+        },
+        {
+            code: "foot",
+            options: ["foo\\d?"]
+        },
+        {
+            code: "foo2bar",
+            options: ["foo\\d+"]
         }
     ],
     invalid: [
@@ -294,6 +302,26 @@ ruleTester.run("id-blacklist", rule, {
             errors: [
                 {
                     message: "Identifier 'baz' is blacklisted",
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "foo",
+            options: ["foo\\d?"],
+            errors: [
+                {
+                    message: "Identifier 'foo' is blacklisted",
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "foo234",
+            options: ["foo\\d+"],
+            errors: [
+                {
+                    message: "Identifier 'foo234' is blacklisted",
                     type: "Identifier"
                 }
             ]

@@ -77,6 +77,24 @@ foo.callback(); // all function calls are ignored
 foo.data; // all property names that are not assignments are ignored
 ```
 
+You can also provide regular expressions in place of static identifier names. Your regular expressions will automatically be assumed to span from the start to the end of the identifier name, so you do not need to explicitly use the `^` or `$` control characters in your expressions.
+
+Examples of **incorrect** code for this rule with sample `"ref\\d*"` restricted identifiers:
+
+```js
+/*eslint id-blacklist: ["ref\\d"] */
+var ref = {...};
+var ref42 = [...];
+```
+
+Examples of **correct** code for this rule with the sample `"ref\\d*"` restricted identifiers:
+
+```js
+/*eslint id-blacklist: ["ref\\d"] */
+var myref = {...};
+var refs = [...];
+```
+
 ## When Not To Use It
 
 You can turn this rule off if you are happy for identifiers to be named freely.
