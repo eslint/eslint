@@ -320,7 +320,7 @@ describe("cli", function() {
 
     describe("when executing with verbose flag", function() {
         var CLIEngineLog = {
-            info: sinon.spy()
+            error: sinon.spy()
         };
 
         var localCLIEngine = proxyquire("../../lib/cli-engine", {
@@ -333,7 +333,7 @@ describe("cli", function() {
         });
 
         afterEach(function() {
-            CLIEngineLog.info.reset();
+            CLIEngineLog.error.reset();
         });
 
         describe("and is run on an unignored file", function() {
@@ -341,9 +341,10 @@ describe("cli", function() {
                 var toBeLintedFilePath = getFixturePath("passing.js");
                 var exit = localCLI.execute("--verbose " + toBeLintedFilePath);
 
-                assert.isTrue(CLIEngineLog.info.calledOnce);
+                assert.isTrue(CLIEngineLog.error.calledOnce);
 
-                var logStatement = CLIEngineLog.info.getCall(0).args[0];
+                var logStatement = CLIEngineLog.error.getCall(0).args[0];
+
                 assert.isTrue(logStatement.indexOf("Linting:") > -1);
                 assert.isTrue(logStatement.indexOf("passing.js") > -1);
                 assert.equal(exit, 0);
@@ -356,9 +357,10 @@ describe("cli", function() {
                 var ignoredFilePath = getFixturePath("syntax-error.js");
                 var exit = localCLI.execute("--verbose --ignore-path " + ignoreConfigPath + " " + ignoredFilePath);
 
-                assert.isTrue(CLIEngineLog.info.calledOnce);
+                assert.isTrue(CLIEngineLog.error.calledOnce);
 
-                var logStatement = CLIEngineLog.info.getCall(0).args[0];
+                var logStatement = CLIEngineLog.error.getCall(0).args[0];
+
                 assert.isTrue(logStatement.indexOf("Ignoring:") > -1);
                 assert.isTrue(logStatement.indexOf("syntax-error.js") > -1);
                 assert.equal(exit, 0);
