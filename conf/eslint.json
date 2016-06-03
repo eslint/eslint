@@ -175,6 +175,7 @@
         "newline-after-var": "off",
         "newline-before-return": "off",
         "newline-per-chained-call": "off",
+        "object-curly-newline": "off",
         "object-curly-spacing": ["off", "never"],
         "object-property-newline": "off",
         "object-shorthand": "off",

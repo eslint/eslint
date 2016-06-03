@@ -201,6 +201,7 @@ These rules relate to style guidelines, and are therefore quite subjective:
 * [no-underscore-dangle](no-underscore-dangle.md): disallow dangling underscores in identifiers
 * [no-unneeded-ternary](no-unneeded-ternary.md): disallow ternary operators when simpler alternatives exist
 * [no-whitespace-before-property](no-whitespace-before-property.md): disallow whitespace before properties (fixable)
+* [object-curly-newline](object-curly-newline.md): enforce consistent line breaks inside braces (fixable)
 * [object-curly-spacing](object-curly-spacing.md): enforce consistent spacing inside braces (fixable)
 * [object-property-newline](object-property-newline.md): enforce placing object properties on separate lines
 * [one-var](one-var.md): enforce variables to be declared either together or separately in functions
