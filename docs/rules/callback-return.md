@@ -24,14 +24,16 @@ preceding a `return` statement. This rule decides what is a callback based on th
 
 ## Options
 
-The rule takes a single option, which is an array of possible callback names. The default callback names are `callback`, `cb`, `next`.
+The rule takes a single option - an array of possible callback names - which may include object methods. The default callback names are `callback`, `cb`, `next`.
+
+### Default callback names
 
 Examples of **incorrect** code for this rule with the default `["callback", "cb", "next"]` option:
 
 ```js
 /*eslint callback-return: "error"*/
 
-function foo() {
+function foo(err, callback) {
     if (err) {
         callback(err);
     }
@@ -44,11 +46,53 @@ Examples of **correct** code for this rule with the default `["callback", "cb", 
 ```js
 /*eslint callback-return: "error"*/
 
-function foo() {
+function foo(err, callback) {
     if (err) {
         return callback(err);
     }
     callback();
+}
+```
+
+### Supplied callback names
+
+Examples of **incorrect** code for this rule with the option `["done", "send.error", "send.success"]`:
+
+```js
+/*eslint callback-return: ["error", ["done", "send.error", "send.success"]]*/
+
+function foo(err, done) {
+    if (err) {
+        done(err);
+    }
+    done();
+}
+
+function bar(err, send) {
+    if (err) {
+        send.error(err);
+    }
+    send.success();
+}
+```
+
+Examples of **correct** code for this rule with the the option `["done", "send.error", "send.success"]`:
+
+```js
+/*eslint callback-return: ["error", ["done", "send.error", "send.success"]]*/
+
+function foo(err, done) {
+    if (err) {
+        return done(err);
+    }
+    done();
+}
+
+function bar(err, send) {
+    if (err) {
+        return send.error(err);
+    }
+    send.success();
 }
 ```
 
@@ -68,7 +112,7 @@ Example of a *false negative* when this rule reports correct code:
 ```js
 /*eslint callback-return: "error"*/
 
-function foo(callback) {
+function foo(err, callback) {
     if (err) {
         setTimeout(callback, 0); // this is bad, but WILL NOT warn
     }
@@ -85,7 +129,7 @@ Example of a *false negative* when this rule reports correct code:
 ```js
 /*eslint callback-return: "error"*/
 
-function foo(callback) {
+function foo(err, callback) {
     if (err) {
         process.nextTick(function() {
             return callback(); // this is bad, but WILL NOT warn
@@ -104,7 +148,7 @@ Example of a *false positive* when this rule reports incorrect code:
 ```js
 /*eslint callback-return: "error"*/
 
-function foo(callback) {
+function foo(err, callback) {
     if (err) {
         callback(err); // this is fine, but WILL warn
     } else {
