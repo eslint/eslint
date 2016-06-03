@@ -301,7 +301,7 @@ More complex formatters could be written by grouping differently the errors and 
 When printing the files a recommended format will be something like this:
 
 ```bash
-file:line:colum
+file:line:column
 ```
 
 Since that allows modern fancy terminals (like [iTerm2](https://www.iterm2.com/) or [Guake](http://guake-project.org/)) to make them link to files that open in your favorite text editor.
