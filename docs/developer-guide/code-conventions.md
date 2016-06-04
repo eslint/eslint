@@ -36,7 +36,7 @@ module.exports = {
 };
 ```
 
-The `@author` field gives you credit for having created the file. There is no need to assert copyright on individual files.
+The `@author` field gives you credit for having created the file.
 
 ## Indentation
 
