@@ -174,6 +174,7 @@ These rules relate to style guidelines, and are therefore quite subjective:
 * [lines-around-comment](lines-around-comment.md): require empty lines around comments
 * [max-depth](max-depth.md): enforce a maximum depth that blocks can be nested
 * [max-len](max-len.md): enforce a maximum line length
+* [max-lines](max-lines.md): enforce a maximum file length
 * [max-nested-callbacks](max-nested-callbacks.md): enforce a maximum depth that callbacks can be nested
 * [max-params](max-params.md): enforce a maximum number of parameters in `function` definitions
 * [max-statements](max-statements.md): enforce a maximum number of statements allowed in `function` blocks
