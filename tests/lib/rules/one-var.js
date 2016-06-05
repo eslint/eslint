@@ -188,6 +188,56 @@ ruleTester.run("one-var", rule, {
             code: "for (let x in foo) {}; for (let y in foo) {}",
             parserOptions: { ecmaVersion: 6 },
             options: [{ uninitialized: "always" }]
+        },
+        {
+            code: "var x; for (var y in foo) {}",
+            parserOptions: { ecmaVersion: 6 },
+            options: [{ initialized: "never", uninitialized: "always" }]
+        },
+        {
+            code: "var x, y; for (y in foo) {}",
+            parserOptions: { ecmaVersion: 6 },
+            options: [{ initialized: "never", uninitialized: "always" }]
+        },
+        {
+            code: "var x, y; for (var z in foo) {}",
+            parserOptions: { ecmaVersion: 6 },
+            options: [{ initialized: "never", uninitialized: "always" }]
+        },
+        {
+            code: "var x; for (var y in foo) {var bar = y; for (var z in bar) {}}",
+            parserOptions: { ecmaVersion: 6 },
+            options: [{ initialized: "never", uninitialized: "always" }]
+        },
+        {
+            code: "var a = 1; var b = 2; var x, y; for (var z in foo) {var baz = z; for (var d in baz) {}}",
+            parserOptions: { ecmaVersion: 6 },
+            options: [{ initialized: "never", uninitialized: "always" }]
+        },
+        {
+            code: "var x; for (var y of foo) {}",
+            parserOptions: { ecmaVersion: 6 },
+            options: [{ initialized: "never", uninitialized: "always" }]
+        },
+        {
+            code: "var x, y; for (y of foo) {}",
+            parserOptions: { ecmaVersion: 6 },
+            options: [{ initialized: "never", uninitialized: "always" }]
+        },
+        {
+            code: "var x, y; for (var z of foo) {}",
+            parserOptions: { ecmaVersion: 6 },
+            options: [{ initialized: "never", uninitialized: "always" }]
+        },
+        {
+            code: "var x; for (var y of foo) {var bar = y; for (var z of bar) {}}",
+            parserOptions: { ecmaVersion: 6 },
+            options: [{ initialized: "never", uninitialized: "always" }]
+        },
+        {
+            code: "var a = 1; var b = 2; var x, y; for (var z of foo) {var baz = z; for (var d of baz) {}}",
+            parserOptions: { ecmaVersion: 6 },
+            options: [{ initialized: "never", uninitialized: "always" }]
         }
     ],
     invalid: [
@@ -482,6 +532,72 @@ ruleTester.run("one-var", rule, {
                 line: 1,
                 column: 10
             } ]
+        },
+        {
+            code: "var x = 1, y = 2; for (var z in foo) {}",
+            parserOptions: { ecmaVersion: 6 },
+            options: [{ initialized: "never", uninitialized: "always" }],
+            errors: [{
+                message: "Split initialized 'var' declarations into multiple statements.",
+                type: "VariableDeclaration",
+                line: 1,
+                column: 1
+            }]
+        },
+        {
+            code: "var x = 1, y = 2; for (var z of foo) {}",
+            parserOptions: { ecmaVersion: 6 },
+            options: [{ initialized: "never", uninitialized: "always" }],
+            errors: [{
+                message: "Split initialized 'var' declarations into multiple statements.",
+                type: "VariableDeclaration",
+                line: 1,
+                column: 1
+            }]
+        },
+        {
+            code: "var x; var y; for (var z in foo) {}",
+            parserOptions: { ecmaVersion: 6 },
+            options: [{ initialized: "never", uninitialized: "always" }],
+            errors: [{
+                message: "Combine this with the previous 'var' statement with uninitialized variables.",
+                type: "VariableDeclaration",
+                line: 1,
+                column: 8
+            }]
+        },
+        {
+            code: "var x; var y; for (var z of foo) {}",
+            parserOptions: { ecmaVersion: 6 },
+            options: [{ initialized: "never", uninitialized: "always" }],
+            errors: [{
+                message: "Combine this with the previous 'var' statement with uninitialized variables.",
+                type: "VariableDeclaration",
+                line: 1,
+                column: 8
+            }]
+        },
+        {
+            code: "var x; for (var y in foo) {var bar = y; var a; for (var z of bar) {}}",
+            parserOptions: { ecmaVersion: 6 },
+            options: [{ initialized: "never", uninitialized: "always" }],
+            errors: [{
+                message: "Combine this with the previous 'var' statement with uninitialized variables.",
+                type: "VariableDeclaration",
+                line: 1,
+                column: 41
+            }]
+        },
+        {
+            code: "var a = 1; var b = 2; var x, y; for (var z of foo) {var c = 3, baz = z; for (var d in baz) {}}",
+            parserOptions: { ecmaVersion: 6 },
+            options: [{ initialized: "never", uninitialized: "always" }],
+            errors: [{
+                message: "Split initialized 'var' declarations into multiple statements.",
+                type: "VariableDeclaration",
+                line: 1,
+                column: 53
+            }]
         }
     ]
 });
