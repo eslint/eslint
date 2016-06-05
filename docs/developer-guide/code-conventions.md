@@ -36,19 +36,7 @@ module.exports = {
 };
 ```
 
-The `@author` field gives you credit for having created the file. The `@copyright` field indicates that you are the copyright holder for the file.
-
-Your submission may touch other parts of the ESLint code that you did not write. In that case, you are welcome to add a copyright notice to the top of the file if you have done any amount of significant work on the file (we leave it up to you to decide what "significant" means - if you aren't sure, just ask). You should never change the `@author` field, but you can add another `@copyright` field on top of the existing ones, such as:
-
-```js
-/**
- * @fileoverview Description of the file
- * @author Author's Name
- * @copyright 2015 Your Name. All rights reserved.
- * @copyright 2014 Author's Name. All rights reserved.
- * See LICENSE file in root directory for full license.
- */
-```
+The `@author` field gives you credit for having created the file.
 
 ## Indentation
 
@@ -655,37 +643,32 @@ Object properties follow the same naming conventions as variables. Object method
 
 ## Strict Mode
 
-Strict mode should be used only inside of functions and never globally.
+Strict mode should be used in all modules, specified below the file overview comment and above everything else:
 
-    // Bad: Global strict mode
+    // Bad: Strict mode in functions
+    function doSomething() {
+        "use strict";
+
+        // code
+    }
+
+    // Bad: Strict mode in global scope and redundant strict mode directive in function
+    "use strict";       // This one is good
+
+    function doSomething() {
+        "use strict";   // This one is bad
+
+        // code
+    }
+
+    // Good: Global strict mode
     "use strict";
 
     function doSomething() {
-        // code
-    }
-
-    // Good
-    function doSomething() {
-        "use strict";
+        // no "use strict" here
 
         // code
     }
-
-If you want strict mode to apply to multiple functions without needing to write `"use strict"` multiple times, use immediate function invocation:
-
-    // Good
-    (function() {
-        "use strict";
-
-        function doSomething() {
-            // code
-        }
-
-        function doSomethingElse() {
-            // code
-        }
-
-    }());
 
 ## Assignments
 
@@ -933,7 +916,7 @@ Blank spaces should be used in the following circumstances:
 * A keyword followed by a parenthesis should be separated by a space.
 * A blank space should appear after commas in argument lists.
 * All binary operators except dot (`.`) should be separated from their operands by spaces. Blank spaces should never separate unary operators such as unary minus, increment (`++`), and decrement (`--`) from their operands.
-* The expressions in a `for` statement should be separated by blank spaces.
+* The expressions in a `for` statement should be separated by blank spaces. Blank spaces should only be used after semicolons, not before.
 
 ## Things to Avoid
 
