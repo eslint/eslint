@@ -203,6 +203,8 @@ function foo() {
 
 When configured with an object as the first option, you can individually control how `var`, `let`, and `const` are handled, or alternatively how `uninitialized` and `initialized` variables are handled (which if used will override `var`, `let`, and `const`).
 
+**Note:** A variable declared in a for-in or for-of loop will not be flagged with the option `{ uninitialized: "always" }`, as this value is determined by the loop.
+
 The following patterns are not considered problems:
 
 ```js
@@ -233,6 +235,16 @@ function foo() {
     var a, b, c;
     var foo = true;
     var bar = false;
+}
+
+let x, y;
+for (let z of foo) {
+    doSomething(z);
+}
+
+let x, y, z;
+for (z of foo) {
+    doSomething(z);
 }
 ```
 
