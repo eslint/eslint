@@ -140,6 +140,11 @@ ruleTester.run("custom-plugin-rule", rule, {
 });
 ```
 
+#### Customizing RuleTester
+
+RuleTester internally uses Mocha's `describe` and `it` methods when available to create tests for each valid and invalid case. If you use another test runner, you can override `RuleTester.describe` and `RuleTester.it` to make RuleTester compatible with it and have proper individual tests and feedback.
+
+
 ## Share Plugins
 
 In order to make your plugin available to the community you have to publish it on npm.
