@@ -60,7 +60,7 @@ In this example, there is no confusion as to the expected behavior. It is clear 
 
 ## Rule Details
 
-This rule is aimed at eliminating unintentional fallthrough of one case to the other. As such, it flags and fallthrough scenarios that are not marked by a comment.
+This rule is aimed at eliminating unintentional fallthrough of one case to the other. As such, it flags any fallthrough scenarios that are not marked by a comment.
 
 Examples of **incorrect** code for this rule:
 
