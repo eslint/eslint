@@ -1,117 +1,102 @@
-# Strict Mode Directives (strict)
+# require or disallow strict mode directives (strict)
 
-A strict mode directive at the beginning of a script or function body enables strict mode semantics.
+A strict mode directive is a `"use strict"` literal at the beginning of a script or function body. It enables strict mode semantics.
 
-When used globally, the entire script, including all contained functions, are strict mode code:
+When a directive occurs in global scope, strict mode applies to the entire script:
 
 ```js
 "use strict";
+
+// strict mode
+
+function foo() {
+    // strict mode
+}
 ```
 
-It is also possible to specify function-level strict mode, such that strict mode applies only to the function in which the directive occurs:
+When a directive occurs at the beginning of a function body, strict mode applies only to that function, including all contained functions:
 
 ```js
 function foo() {
     "use strict";
-    return;
+    // strict mode
 }
 
-var bar = function() {
-    "use strict";
-    return;
+function foo2() {
+    // not strict mode
 };
+
+(function() {
+    "use strict";
+    function bar() {
+        // strict mode
+    }
+}());
 ```
 
-Unlike scripts, ECMAScript modules are always in strict mode. Strict mode directives in ECMAScript modules have no effect.
+In the **CommonJS** module system, a hidden function wraps each module and limits the scope of a "global" strict mode directive.
+
+In **ECMAScript** modules, which always have strict mode semantics, the directives are unnecessary.
 
 ## Rule Details
 
-This rule is aimed at using strict mode directives effectively, and as such, will flag any unexpected uses or omissions of strict mode directives.
+This rule requires or disallows strict mode directives.
+
+This rule disallows strict mode directives, no matter which option is specified, if ESLint configuration specifies either of the following as [parser options](../user-guide/configuring#specifying-parser-options):
+
+* `"sourceType": "module"` that is, files are **ECMAScript** modules
+* `"impliedStrict": true` property in the `ecmaFeatures` object
 
 ## Options
 
-There are four options for this rule:
+This rule has a string option:
 
-* `"safe"` - require `"use strict"` globally when inside a module wrapper and in function scopes everywhere else. This is the default.
-* `"never"` - disallow `"use strict"`.
-* `"global"` - require `"use strict"` in the global scope.
-* `"function"` - require `"use strict"` in function scopes only.
-
-All strict mode directives are flagged as unnecessary if ECMAScript modules or implied strict mode are enabled (see [Specifying Parser Options](../user-guide/configuring#specifying-parser-options)). This behaviour does not depend on the rule options, but can be silenced by disabling this rule.
+* `"safe"` (default) corresponds either of the following options:
+    * `"global"` if ESLint considers a file to be a **CommonJS** module
+    * `"function"` otherwise
+* `"global"` requires one strict mode directive in the global scope (and disallows any other strict mode directives)
+* `"function"` requires one strict mode directive in each top-level function declaration or expression (and disallows any other strict mode directives)
+* `"never"` disallows strict mode directives
 
 ### safe
 
-Node.js and the CommonJS module system wrap modules inside a hidden function wrapper that defines each module's scope. The wrapper makes it safe to concatenate strict mode modules while maintaining their original strict mode directives. When the `node` or `commonjs` environments are enabled or `globalReturn` is enabled in `ecmaFeatures`, ESLint considers code to be inside the module wrapper, and `"safe"` mode corresponds to `"global"` mode and enforces global strict mode directives. Everywhere else, `"safe"` mode corresponds to `"function"` mode and enforces strict mode directives inside top-level functions.
+The `"safe"` option corresponds to the `"global"` option if ESLint considers a file to be a **Node.js** or **CommonJS** module because the configuration specifies either of the following:
 
-### never
+* `node` or `commonjs` [environments](../user-guide/configuring#specifying-environments)
+* `"globalReturn": true` property in the `ecmaFeatures` object of [parser options](../user-guide/configuring#specifying-parser-options)
 
-This mode forbids any occurrence of a strict mode directive.
-
-Examples of **incorrect** code for the `"never"` option:
-
-```js
-/*eslint strict: ["error", "never"]*/
-
-"use strict";
-
-function foo() {
-    "use strict";
-    return;
-}
-
-var bar = function() {
-    "use strict";
-    return;
-};
-
-foo();
-bar();
-```
-
-Examples of **correct** code for the `"never"` option:
-
-```js
-/*eslint strict: ["error", "never"]*/
-
-function foo() {
-    return;
-}
-
-var bar = function() {
-    return;
-};
-
-foo();
-bar();
-```
+Otherwise the `"safe"` option corresponds to the `"function"` option.
 
 ### global
 
-This mode ensures that all code is in strict mode and that there are no extraneous strict mode directives at the top level or in nested functions, which are themselves already strict by virtue of being contained in strict global code. It requires that global code contains exactly one strict mode directive. Strict mode directives inside functions are considered unnecessary. Multiple strict mode directives at any level also trigger warnings.
-
-Examples of **incorrect** code for the `"global"` option:
+Examples of **incorrect** code for this rule with the `"global"` option:
 
 ```js
 /*eslint strict: ["error", "global"]*/
 
-"use strict";
+function foo() {
+}
+```
+
+```js
+/*eslint strict: ["error", "global"]*/
+
+function foo() {
+    "use strict";
+}
+```
+
+```js
+/*eslint strict: ["error", "global"]*/
+
 "use strict";
 
 function foo() {
     "use strict";
-
-    return function() {
-        "use strict";
-        "use strict";
-
-        return;
-    };
 }
-
-foo();
 ```
 
-Examples of **correct** code for the `"global"` option:
+Examples of **correct** code for this rule with the `"global"` option:
 
 ```js
 /*eslint strict: ["error", "global"]*/
@@ -119,19 +104,14 @@ Examples of **correct** code for the `"global"` option:
 "use strict";
 
 function foo() {
-    return function() {
-        return;
-    };
 }
-
-foo();
 ```
 
 ### function
 
-This mode ensures that all function bodies are strict mode code, while global code is not. Particularly if a build step concatenates multiple scripts, a strict mode directive in global code of one script could unintentionally enable strict mode in another script that was not intended to be strict code. It forbids any occurrence of a strict mode directive in global code. It requires exactly one strict mode directive in each function declaration or expression whose parent is global code. Strict mode directives inside nested functions are considered unnecessary. Multiple strict mode directives at any level also trigger warnings.
+This option ensures that all function bodies are strict mode code, while global code is not. Particularly if a build step concatenates multiple scripts, a strict mode directive in global code of one script could unintentionally enable strict mode in another script that was not intended to be strict code.
 
-Examples of **incorrect** code for the `"function"` option:
+Examples of **incorrect** code for this rule with the `"function"` option:
 
 ```js
 /*eslint strict: ["error", "function"]*/
@@ -139,58 +119,98 @@ Examples of **incorrect** code for the `"function"` option:
 "use strict";
 
 function foo() {
-    // Missing strict mode directive
-
-    return function() {
-        "use strict";   // Unnecessary; parent should contain a strict mode directive
-        "use strict";
-
-        return;
-    };
 }
-
-foo();
 ```
 
-Examples of **correct** code for the `"function"` option:
+```js
+/*eslint strict: ["error", "function"]*/
+
+function foo() {
+}
+```
+
+```js
+/*eslint strict: ["error", "function"]*/
+
+(function() {
+    function bar() {
+        "use strict";
+    }
+}());
+```
+
+Examples of **correct** code for this rule with the `"function"` option:
 
 ```js
 /*eslint strict: ["error", "function"]*/
 
 function foo() {
     "use strict";
-
-    return function() {
-        return;
-    };
 }
 
 (function() {
     "use strict";
-
-    return;
+    function bar() {
+    }
 }());
+```
 
-foo();
+### never
+
+Examples of **incorrect** code for this rule with the `"never"` option:
+
+```js
+/*eslint strict: ["error", "never"]*/
+
+"use strict";
+
+function foo() {
+}
+```
+
+```js
+/*eslint strict: ["error", "never"]*/
+
+function foo() {
+    "use strict";
+}
+```
+
+Examples of **correct** code for this rule with the `"never"` option:
+
+```js
+/*eslint strict: ["error", "never"]*/
+
+function foo() {
+}
 ```
 
 ### earlier default (removed)
 
-**Replacement notice**: This mode, previously enabled by turning on the rule without specifying a mode, has been removed in ESLint v1.0. `"function"` mode is most similar to the deprecated behavior.
+(removed) The default option (that is, no string option specified) for this rule was **removed** in ESLint v1.0. The `"function"` option is most similar to the removed option.
 
-This mode ensures that all functions are executed in strict mode. A strict mode directive must be present in global code or in every top-level function declaration or expression. It does not concern itself with unnecessary strict mode directives in nested functions that are already strict, nor with multiple strict mode directives at the same level.
+This option ensures that all functions are executed in strict mode. A strict mode directive must be present in global code or in every top-level function declaration or expression. It does not concern itself with unnecessary strict mode directives in nested functions that are already strict, nor with multiple strict mode directives at the same level.
 
-Examples of **incorrect** code for an earlier default option which has been removed:
+Examples of **incorrect** code for this rule with the earlier default option which has been removed:
 
 ```js
 // "strict": "error"
 
 function foo() {
-    return true;
 }
 ```
 
-Examples of **correct** code for an earlier default option which has been removed:
+```js
+// "strict": "error"
+
+(function() {
+    function bar() {
+        "use strict";
+    }
+}());
+```
+
+Examples of **correct** code for this rule with the earlier default option which has been removed:
 
 ```js
 // "strict": "error"
@@ -198,7 +218,6 @@ Examples of **correct** code for an earlier default option which has been remove
 "use strict";
 
 function foo() {
-    return true;
 }
 ```
 
@@ -206,10 +225,7 @@ function foo() {
 // "strict": "error"
 
 function foo() {
-
     "use strict";
-
-    return true;
 }
 ```
 
@@ -218,8 +234,9 @@ function foo() {
 
 (function() {
     "use strict";
-
-    // other code
+    function bar() {
+        "use strict";
+    }
 }());
 ```
 
