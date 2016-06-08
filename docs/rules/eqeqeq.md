@@ -29,6 +29,44 @@ if (obj.getStuff() != undefined) { }
 
 ## Options
 
+### always
+
+The `"always"` option (default) enforces the use of `===` and `!==` in every situation.
+
+Examples of **incorrect** code for the `"always"` option:
+
+```js
+/*eslint eqeqeq: ["error", "always"]*/
+
+a == b
+foo == true
+bananas != 1
+value == undefined
+typeof foo == 'undefined'
+'hello' != 'world'
+0 == 0
+true == true
+foo == null
+
+```
+
+Examples of **correct** code for the `"always"` option:
+
+```js
+/*eslint eqeqeq: ["error", "always"]*/
+
+a === b
+foo === true
+bananas !== 1
+value === undefined
+typeof foo === 'undefined'
+'hello' !== 'world'
+0 === 0
+true === true
+foo === null
+
+```
+
 ### smart
 
 The `"smart"` option enforces the use of `===` and `!==` except for these cases:
