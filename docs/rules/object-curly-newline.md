@@ -464,7 +464,7 @@ let [k = function() {
 
 ## Compatibility
 
-* **JSCS:** `requirePaddingNewLinesInObjects` and `disallowPaddingNewLinesInObjects`
+* **JSCS**: [requirePaddingNewLinesInObjects](http://jscs.info/rule/requirePaddingNewLinesInObjects) and [disallowPaddingNewLinesInObjects](http://jscs.info/rule/disallowPaddingNewLinesInObjects)
 
 ## When Not To Use It
 

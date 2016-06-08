@@ -79,7 +79,7 @@ You can turn this rule off if you are not concerned with the consistency of newl
 
 ## Compatibility
 
-* **JSCS**: `requireObjectKeysOnNewLine`
+* **JSCS**: [requireObjectKeysOnNewLine](http://jscs.info/rule/requireObjectKeysOnNewLine)
 
 ## Related Rules
 
