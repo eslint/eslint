@@ -186,6 +186,21 @@ describe("ConfigFile", function() {
 
         });
 
+        it("should apply all rules when extends config includes 'eslint:all'", function() {
+
+            var configDeps = {
+                "../util/module-resolver": createStubModuleResolver({})
+            };
+            var StubbedConfigFile = proxyquire("../../../lib/config/config-file", configDeps);
+            var config = StubbedConfigFile.applyExtends({
+                extends: "eslint:all"
+            }, "/whatever");
+
+            assert.equal(config.rules.eqeqeq, "error");
+            assert.equal(config.rules.curly, "error");
+
+        });
+
         it("should throw an error when extends config is not found", function() {
 
             var configDeps = {
