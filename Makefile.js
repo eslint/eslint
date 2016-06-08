@@ -61,7 +61,7 @@ var NODE = "node ", // intentional extra space
 
     // Files
     MAKEFILE = "./Makefile.js",
-    JS_FILES = find("lib/").filter(fileType("js")).join(" "),
+    JS_FILES = find("lib/", "conf/").filter(fileType("js")).join(" "),
     JSON_FILES = find("conf/").filter(fileType("json")),
     MARKDOWN_FILES_ARRAY = find("docs/").concat(ls(".")).filter(fileType("md")),
     TEST_FILES = getTestFilePatterns(),
