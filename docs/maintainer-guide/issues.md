@@ -14,7 +14,7 @@ New issues are filed frequently, and how we respond to those issues directly aff
 There are four primary issue categories:
 
 1. **Bug** - something isn't working the way it's expected to work.
-1. **Enhancement** - a change to something that already exists. For instance, adding a new option to an existing rule.
+1. **Enhancement** - a change to something that already exists. For instance, adding a new option to an existing rule or a bug in a rule where fixing it will result in the rule reporting more problems (in this case, use both "Bug" and "Enhancement").
 1. **Feature** - adding something that doesn't already exist. For example, adding a new rule, new formatter, or new command line flag.
 1. **Question** - an inquiry about how something works that won't result in a code change. We'd prefer if people use the mailing list or chatroom for questions, but sometimes they'll open an issue.
 
