@@ -265,8 +265,8 @@ function foo() {
 
 ## Compatibility
 
-* **JSHint** - This rule maps to the `onevar` JSHint rule, but allows `let` and `const` to be configured separately.
-* **JSCS** - This rule roughly maps to `"disallowMultipleVarDecl"`
+* **JSHint**: This rule maps to the `onevar` JSHint rule, but allows `let` and `const` to be configured separately.
+* **JSCS**: This rule roughly maps to [disallowMultipleVarDecl](http://jscs.info/rule/disallowMultipleVarDecl)
 
 ## Further Reading
 
