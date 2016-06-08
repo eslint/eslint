@@ -106,7 +106,7 @@ let foo = (retv, name) => {
 The following patterns are not considered problems:
 
 ```js
-/*eslint arrow-body-style: ["error", "as-needed"]*/
+/*eslint arrow-body-style: ["error", "never"]*/
 /*eslint-env es6*/
 
 let foo = () => 0;
