@@ -92,13 +92,15 @@ configs: {
     myConfig: {
         env: ["browser"],
         rules: {
-            semi: 2
+            semi: 2,
+            "myPlugin/my-rule": 2,
+            "eslint-plugin-myPlugin/another-rule": 2
         }
     }
 }
 ```
 
-**Note:** Please note that configuration will not automatically attach your rules and you have to specify your plugin name and any rules you want to enable that are part of the plugin. See [Configuring Plugins](../user-guide/configuring#configuring-plugins)
+**Note:** Please note that configuration will not automatically attach your rules and you have to specify your plugin name and any rules you want to enable that are part of the plugin. Any plugin rules must be prefixed with the short or long plugin name. See [Configuring Plugins](../user-guide/configuring#configuring-plugins)
 
 ### Peer Dependency
 
