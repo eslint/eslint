@@ -55,6 +55,7 @@
         "no-lone-blocks": "off",
         "no-lonely-if": "off",
         "no-loop-func": "off",
+        "no-mixed-operators": "off",
         "no-mixed-requires": "off",
         "no-mixed-spaces-and-tabs": "error",
         "linebreak-style": "off",
