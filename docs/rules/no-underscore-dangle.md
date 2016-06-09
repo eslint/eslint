@@ -16,6 +16,17 @@ This rule disallows dangling underscores in identifiers.
 
 Examples of **incorrect** code for this rule:
 
+
+### `allowAfterThis`
+
+```json
+"no-underscore-dangle": ["error", { "allowAfterThis": true }]
+```
+
+This option allows usage of dangled variables as members of `this`.
+
+The following patterns are considered problems:
+
 ```js
 /*eslint no-underscore-dangle: "error"*/
 
@@ -63,6 +74,13 @@ Examples of **correct** code for this rule with the `{ "allowAfterThis": true }`
 
 var a = this.foo_;
 this._bar();
+```
+
+```js
+/*eslint no-underscore-dangle: ["error", { "allowAfterSuper": true }]*/
+
+var a = super.foo_;
+super._bar();
 ```
 
 ## When Not To Use It
