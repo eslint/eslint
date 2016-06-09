@@ -32,6 +32,14 @@ Array of variable names that are permitted to be used with underscore. If provid
 
 This option allows usage of dangled variables as members of `this`.
 
+### `allowAfterSuper`
+
+```json
+"no-underscore-dangle": ["error", { "allowAfterSuper": true }]
+```
+
+Same as the "allowAfterThis" option, but for the ES2015 'super' keyword.
+
 The following patterns are considered problems:
 
 ```js
@@ -66,6 +74,13 @@ foo._bar();
 
 var a = this.foo_;
 this._bar();
+```
+
+```js
+/*eslint no-underscore-dangle: ["error", { "allowAfterSuper": true }]*/
+
+var a = super.foo_;
+super._bar();
 ```
 
 ## When Not To Use It
