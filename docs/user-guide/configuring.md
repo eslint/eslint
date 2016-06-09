@@ -349,12 +349,11 @@ In these configuration files, the rule `plugin1/rule1` comes from the plugin nam
 
 ## Disabling Rules with Inline Comments
 
-To temporarily disable rule warnings in your file use the following format:
+To temporarily disable rule warnings in your file, use block comments in the following format:
 
 ```js
 /* eslint-disable */
 
-// Disables all rules between comments
 alert('foo');
 
 /* eslint-enable */
@@ -365,32 +364,29 @@ You can also disable or enable warnings for specific rules:
 ```js
 /* eslint-disable no-alert, no-console */
 
-// Disables no-alert and no-console warnings between comments
 alert('foo');
 console.log('bar');
 
 /* eslint-enable no-alert, no-console */
 ```
 
-To disable rule warnings in an entire file, put `/* eslint-disable */` at the top of the file:
+To disable rule warnings in an entire file, put a `/* eslint-disable */` block comment at the top of the file:
 
 ```js
 /* eslint-disable */
 
-// Disables all rules for the rest of the file
 alert('foo');
 ```
 
-You can also disable specific rules for an entire file:
+You can also disable or enable specific rules for an entire file:
 
 ```js
 /* eslint-disable no-alert */
 
-// Disables no-alert for the rest of the file
 alert('foo');
 ```
 
-To disable all rules on a specific line:
+To disable all rules on a specific line, use a line comment in one of the following formats:
 
 ```js
 alert('foo'); // eslint-disable-line
@@ -417,7 +413,7 @@ alert('foo'); // eslint-disable-line no-alert, quotes, semi
 alert('foo');
 ```
 
-**Note:** Comments that disable warnings for a portion of a file tell ESLint not to report rule violations for the disabled code. ESLint parses the entire file, so disabled code still needs to be syntactically valid JavaScript.
+**Note:** Comments that disable warnings for a portion of a file tell ESLint not to report rule violations for the disabled code. ESLint still parses the entire file, however, so disabled code still needs to be syntactically valid JavaScript.
 
 ## Adding Shared Settings
 
