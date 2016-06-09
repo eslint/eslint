@@ -140,6 +140,31 @@ ruleTester.run("custom-plugin-rule", rule, {
 });
 ```
 
+#### Customizing RuleTester
+
+To create tests for each valid and invalid case, `RuleTester` internally uses `describe` and `it` methods from the Mocha test framework when it is available. If you use another test framework, you can override `RuleTester.describe` and `RuleTester.it` to make `RuleTester` compatible with it and have proper individual tests and feedback.
+
+Example:
+
+```js
+"use strict";
+
+var RuleTester = require("eslint").RuleTester;
+var test = require("my-test-runner");
+
+RuleTester.describe = function(text, method) {
+    RuleTester.it.title = text;
+    return method.apply(this);
+};
+
+RuleTester.it = function(text, method) {
+    test(RuleTester.it.title + ": " + text, method);
+};
+
+// then use RuleTester as documented
+```
+
+
 ## Share Plugins
 
 In order to make your plugin available to the community you have to publish it on npm.
