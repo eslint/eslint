@@ -550,84 +550,154 @@ The complete configuration hierarchy, from highest precedence to lowest preceden
 
 ## Extending Configuration Files
 
-If you want to extend a specific configuration file, you can use the `extends` property and specify the path to the file. The path can be either relative or absolute.
+A configuration file can extend the set of enabled rules from base configurations.
 
-Configurations can be extended by using:
+The `extends` property value is either:
 
-1. YAML file
-1. JSON file
-1. JS file
-1. Shareable configuration package
+* a string that specifies a configuration
+* an array of strings: each additional configuration extends the preceding configurations
 
-The extended configuration provides base rules, which can be overridden by the configuration that references it. For example:
+ESLint extends configurations recursively so a base configuration can also have an `extends` property.
+
+The `rules` property can do any of the following to extend (or override) the set of rules:
+
+* enable additional rules
+* override default options for rules from base configurations
+* disable rules from base configurations
+
+### Using `"eslint:recommended"`
+
+An `extends` property value `"eslint:recommended"` enables a subset of core rules that report common problems, which have a check mark (recommended) on the [rules page](http://eslint.org/docs/rules/). The recommended subset can change only at major versions of ESLint.
+
+If your configuration extends the recommended rules: after you upgrade to a newer major version of ESLint, review the reported problems before you use the `--fix` option on the [command line](../command-line-interface#fix), so you know if a new fixable recommended rule will make changes to the code.
+
+The `eslint --init` command can create a configuration so you can extend the recommended rules.
+
+Example of a configuration file in JavaScript format:
 
 ```js
-{
-    "extends": "./node_modules/coding-standard/.eslintrc",
-
+module.exports = {
+    "extends": "eslint:recommended",
     "rules": {
-        // Override any settings from the "parent" configuration
-        "eqeqeq": 1
+        // enable additional rules
+        "indent": ["error", 4],
+        "linebreak-style": ["error", "unix"],
+        "quotes": ["error", "double"],
+        "semi": ["error", "always"],
+
+        // override default options for rules from base configurations
+        "comma-dangle": ["error", "always"],
+        "no-cond-assign": ["error", "always"],
+
+        // disable rules from base configurations
+        "no-console": "off",
     }
 }
 ```
 
-Configurations may also be provided as an array, with additional files overriding any properties provided in the previous file. For example:
+### Using a shareable configuration package
 
-```js
+A [sharable configuration](../developer-guide/shareable-configs) is an npm package that exports a configuration object. Make sure the package has been installed to a directory where ESLint can require it.
+
+The `extends` property value can omit the `eslint-config-` prefix of the package name.
+
+The `eslint --init` command can create a configuration so you can extend a popular style guide (for example, `eslint-config-standard`).
+
+Example of a configuration file in YAML format:
+
+```yaml
+extends: standard
+rules:
+  comma-dangle:
+    - error
+    - always
+  no-empty: warn
+```
+
+### Using the configuration from a plugin
+
+A [plugin](../developer-guide/working-with-plugins) is an npm package that usually exports rules. Some plugins also export one or more named [configurations](../developer-guide/working-with-plugins#configs-in-plugins). Make sure the package has been installed to a directory where ESLint can require it.
+
+The `plugins` [property value](#configuring-plugins) can omit the `eslint-plugin-` prefix of the package name.
+
+The `extends` property value can consist of:
+
+* `plugin:`
+* the package name (from which you can omit the prefix, for example, `react`)
+* `/`
+* the configuration name (for example, `recommended`)
+
+Example of a configuration file in JSON format:
+
+```json
+{
+    "plugins": [
+        "react"
+    ],
+    "extends": [
+        "eslint:recommended",
+        "plugin:react/recommended"
+    ],
+    "rules": {
+       "no-set-state": "off"
+    }
+}
+```
+
+### Using a configuration file
+
+The `extends` property value can be an absolute or relative path to a base [configuration file](#using-configuration-files).
+
+ESLint resolves a relative path to a base configuration file relative to the configuration file that uses it **unless** that file is in your home directory or a directory that isn't an ancestor to the directory in which ESLint is installed (either locally or globally). In those cases, ESLint resolves the relative path to the base file relative to the linted **project** directory (typically the current working directory).
+
+Example of a configuration file in JSON format:
+
+```json
 {
     "extends": [
         "./node_modules/coding-standard/eslintDefaults.js",
-        // Override eslintDefaults.js
         "./node_modules/coding-standard/.eslintrc-es6",
-        // Override .eslintrc-es6
-        "./node_modules/coding-standard/.eslintrc-jsx",
+        "./node_modules/coding-standard/.eslintrc-jsx"
     ],
-
     "rules": {
-        // Override any settings from the "parent" configuration
         "eqeqeq": "warn"
     }
 }
 ```
 
-The extended configurations can also contain their own `extends`, resulting in recursive merging of the referenced configurations.
+### Using `"eslint:all"`
 
-You can also extend configurations using shareable configuration packages. To do so, be sure to install the configuration package you want from npm and then use the package name, such as:
+The `extends` property value can be `"eslint:all"` to enable all core rules in the currently installed version of ESLint. The set of core rules can change at any minor or major version of ESLint.
+
+**Important:** This configuration is **not recommended for production use** because it changes with every minor and major version of ESLint. Use at your own risk.
+
+If you configure ESLint to automatically enable new rules when you upgrade, ESLint can report new problems when there are no changes to source code, therefore any newer minor version of ESLint can behave as if it has breaking changes.
+
+You might enable all core rules as a shortcut to explore rules and options while you decide on the configuration for a project, especially if you rarely override options or disable rules. The default options for rules are not endorsements by ESLint (for example, the default option for the `quotes` rule does not mean double quotes are better than single quotes).
+
+If your configuration extends all core rules: after you upgrade to a newer major or minor version of ESLint, review the reported problems before you use the `--fix` option on the [command line](../command-line-interface#fix), so you know if a new fixable rule will make changes to the code.
+
+Example of a configuration file in JavaScript format:
 
 ```js
-{
-    "extends": "eslint-config-myrules",
-
+module.exports = {
+    "extends": "eslint:all",
     "rules": {
-        // Override any settings from the "parent" configuration
-        "eqeqeq": "warn"
+        // override default options
+        "comma-dangle": ["error", "always"],
+        "indent": ["error", 2],
+        "no-cond-assign": ["error", "always"],
+
+        // disable now, but enable in the future
+        "one-var": "off", // ["error", "never"]
+
+        // disable
+        "init-declarations": "off",
+        "no-console": "off",
+        "no-inline-comments": "off",
     }
 }
 ```
-
-In this example, the `eslint-config-myrules` package will be loaded as an object and used as the parent of this configuration.
-
-**Note:** You can omit `eslint-config-` and ESLint will automatically insert it for you, similar to how plugins work. See [Shareable Configs](../developer-guide/shareable-configs) for more information.
-
-ESLint also supports extending configuration from plugins that provide configs:
-
-```js
-{
-    "extends": "plugin:eslint-plugin-myplugin/myConfig",
-
-    "rules": {
-        // Override any settings from the "parent" configuration
-        "eqeqeq": "warn"
-    }
-}
-```
-
-In this example, the `eslint-plugin-myplugin` package contains configuration named `default`.
-
-**Important:** When you are extending from the configuration bundled with plugins, you need to start with `plugin:` prefix as well as specify configuration name after the slash. You may optionally omit the `eslint-plugin-` prefix.
-
-**Note:** For configuration files in your home directory, or in any path that isn't an ancestor to the location of ESLint (either globally or locally), `extends` is resolved from the path of the project using ESLint (typically the current working directory) rather than relative to the file itself.
 
 ## Comments in Configuration Files
 
