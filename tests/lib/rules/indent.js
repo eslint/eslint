@@ -1136,6 +1136,69 @@ ruleTester.run("indent", rule, {
             "}",
             parserOptions: { ecmaVersion: 6 },
             options: [2]
+        },
+        {
+            code:
+            "(function(){\n" +
+            "function foo(x) {\n" +
+            "  return x + 1;\n" +
+            "}\n" +
+            "})();",
+            options: [2, { IndentOuterIIFE: false }]
+        },
+        {
+            code:
+            "(function(x, y){\n" +
+            "function foo(x) {\n" +
+            "  return x + 1;\n" +
+            "}\n" +
+            "})(1, 2);",
+            options: [2, { IndentOuterIIFE: false }]
+        },
+        {
+            code:
+            "(function(){\n" +
+            "function foo(x) {\n" +
+            "  return x + 1;\n" +
+            "}\n" +
+            "}());",
+            options: [2, { IndentOuterIIFE: false }]
+        },
+        {
+            code:
+            "var out = function(){\n" +
+            "  function fooVar(x) {\n" +
+            "    return x + 1;\n" +
+            "  }\n" +
+            "};",
+            options: [2, { IndentOuterIIFE: false }]
+        },
+        {
+            code:
+            "(() => {\n" +
+            "function foo(x) {\n" +
+            "  return x + 1;\n" +
+            "}\n" +
+            "})();",
+            parserOptions: { ecmaVersion: 6 },
+            options: [2, { IndentOuterIIFE: false }]
+        },
+        {
+            code:
+            ";(() => {\n" +
+            "function foo(x) {\n" +
+            "  return x + 1;\n" +
+            "}\n" +
+            "})();",
+            parserOptions: { ecmaVersion: 6 },
+            options: [2, { IndentOuterIIFE: false }]
+        },
+        {
+            code:
+            "if(data) {\n" +
+            "  console.log('hi');\n" +
+            "}",
+            options: [2, { IndentOuterIIFE: false }]
         }
     ],
     invalid: [
