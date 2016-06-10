@@ -85,6 +85,43 @@ ruleTester.run("max-len", rule, {
             options: [40, 4, {ignoreComments: true, ignoreTrailingComments: false}]
         },
 
+        // check indented comment lines - https://github.com/eslint/eslint/issues/6322
+        {
+            code: "function foo() {\n" +
+                  "//this line has 29 characters\n" +
+                  "}",
+            options: [40, 4, { comments: 29 }]
+        }, {
+            code: "function foo() {\n" +
+                  "    //this line has 33 characters\n" +
+                  "}",
+            options: [40, 4, { comments: 33 }]
+        }, {
+            code: "function foo() {\n" +
+                  "/*this line has 29 characters\n" +
+                  "and this one has 21*/\n" +
+                  "}",
+            options: [40, 4, { comments: 29 }]
+        }, {
+            code: "function foo() {\n" +
+                  "    /*this line has 33 characters\n" +
+                  "    and this one has 25*/\n" +
+                  "}",
+            options: [40, 4, { comments: 33 }]
+        }, {
+            code: "function foo() {\n" +
+                  "    var a; /*this line has 40 characters\n" +
+                  "    and this one has 36 characters*/\n" +
+                  "}",
+            options: [40, 4, { comments: 36 }]
+        }, {
+            code: "function foo() {\n" +
+                  "    /*this line has 33 characters\n" +
+                  "    and this one has 43 characters*/ var a;\n" +
+                  "}",
+            options: [43, 4, { comments: 33 }]
+        },
+
         // blank line
         ""
     ],
@@ -245,6 +282,115 @@ ruleTester.run("max-len", rule, {
                     message: "Line 1 exceeds the maximum line length of 40.",
                     type: "Program",
                     line: 1,
+                    column: 1
+                }
+            ]
+        },
+
+        // check indented comment lines - https://github.com/eslint/eslint/issues/6322
+        {
+            code: "function foo() {\n" +
+                  "//this line has 29 characters\n" +
+                  "}",
+            options: [40, 4, { comments: 28 }],
+            errors: [
+                {
+                    message: "Line 2 exceeds the maximum comment line length of 28.",
+                    type: "Program",
+                    line: 2,
+                    column: 1
+                }
+            ]
+        }, {
+            code: "function foo() {\n" +
+                  "    //this line has 33 characters\n" +
+                  "}",
+            options: [40, 4, { comments: 32 }],
+            errors: [
+                {
+                    message: "Line 2 exceeds the maximum comment line length of 32.",
+                    type: "Program",
+                    line: 2,
+                    column: 1
+                }
+            ]
+        }, {
+            code: "function foo() {\n" +
+                  "/*this line has 29 characters\n" +
+                  "and this one has 32 characters*/\n" +
+                  "}",
+            options: [40, 4, { comments: 28 }],
+            errors: [
+                {
+                    message: "Line 2 exceeds the maximum comment line length of 28.",
+                    type: "Program",
+                    line: 2,
+                    column: 1
+                },
+                {
+                    message: "Line 3 exceeds the maximum comment line length of 28.",
+                    type: "Program",
+                    line: 3,
+                    column: 1
+                }
+            ]
+        }, {
+            code: "function foo() {\n" +
+                  "    /*this line has 33 characters\n" +
+                  "    and this one has 36 characters*/\n" +
+                  "}",
+            options: [40, 4, { comments: 32 }],
+            errors: [
+                {
+                    message: "Line 2 exceeds the maximum comment line length of 32.",
+                    type: "Program",
+                    line: 2,
+                    column: 1
+                },
+                {
+                    message: "Line 3 exceeds the maximum comment line length of 32.",
+                    type: "Program",
+                    line: 3,
+                    column: 1
+                }
+            ]
+        }, {
+            code: "function foo() {\n" +
+                  "    var a; /*this line has 40 characters\n" +
+                  "    and this one has 36 characters*/\n" +
+                  "}",
+            options: [39, 4, { comments: 35 }],
+            errors: [
+                {
+                    message: "Line 2 exceeds the maximum line length of 39.",
+                    type: "Program",
+                    line: 2,
+                    column: 1
+                },
+                {
+                    message: "Line 3 exceeds the maximum comment line length of 35.",
+                    type: "Program",
+                    line: 3,
+                    column: 1
+                }
+            ]
+        }, {
+            code: "function foo() {\n" +
+                  "    /*this line has 33 characters\n" +
+                  "    and this one has 43 characters*/ var a;\n" +
+                  "}",
+            options: [42, 4, { comments: 32 }],
+            errors: [
+                {
+                    message: "Line 2 exceeds the maximum comment line length of 32.",
+                    type: "Program",
+                    line: 2,
+                    column: 1
+                },
+                {
+                    message: "Line 3 exceeds the maximum line length of 42.",
+                    type: "Program",
+                    line: 3,
                     column: 1
                 }
             ]
