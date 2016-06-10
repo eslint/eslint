@@ -167,6 +167,7 @@
         "lines-around-comment": "off",
         "max-depth": "off",
         "max-len": "off",
+        "max-lines": "off",
         "max-nested-callbacks": "off",
         "max-params": "off",
         "max-statements": "off",
