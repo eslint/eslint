@@ -104,6 +104,30 @@ Before filing an issue, please be sure to read the guidelines for what you're re
 * [Proposing a Rule Change](http://eslint.org/docs/developer-guide/contributing/rule-changes)
 * [Request a Change](http://eslint.org/docs/developer-guide/contributing/changes)
 
+## Semantic Versioning Policy
+
+ESLint follows [semantic versioning](http://semver.org). However, due to the nature of ESLint as a code quality tool, it's not always clear when a minor or major version bump occurs. To help clarify this for everyone, we've defined the following semantic versioning policy for ESLint:
+
+* Patch release (intended to not break your lint build)
+    * A bug fix in a rule that results in ESLint reporting fewer errors.
+    * A bug fix to the CLI or core (including formatters).
+    * Improvements to documentation.
+    * Non-user-facing changes such as refactoring code, adding, deleting, or modifying tests, and increasing test coverage.
+    * Re-releasing after a failed release (i.e., publishing a release that doesn't work for anyone).
+* Minor release (might break your lint build)
+    * A bug fix in a rule that results in ESLint reporting more errors.
+    * A new rule is created.
+    * A new option to an existing rule is created.
+    * An existing rule is deprecated.
+    * A new CLI capability is created.
+    * New capabilities to the public API are added (new classes, new methods, new arguments to existing methods, etc.).
+    * A new formatter is created.
+* Major release (likely to break your lint build)
+    * `eslint:recommended` is updated.
+    * An existing rule is removed.
+    * An existing formatter is removed.
+    * Part of the public API is removed or changed in an incompatible way.
+
 ## Frequently Asked Questions
 
 ### How is ESLint different from JSHint?
