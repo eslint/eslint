@@ -249,7 +249,7 @@ These rules relate to ES6, also known as ES2015:
 * [no-var](no-var.md): require `let` or `const` instead of `var`
 * [object-shorthand](object-shorthand.md): require or disallow method and property shorthand syntax for object literals (fixable)
 * [prefer-arrow-callback](prefer-arrow-callback.md): require arrow functions as callbacks
-* [prefer-const](prefer-const.md): require `const` declarations for variables that are never reassigned after declared
+* [prefer-const](prefer-const.md): require `const` declarations for variables that are never reassigned after declared (fixable)
 * [prefer-reflect](prefer-reflect.md): require `Reflect` methods where applicable
 * [prefer-rest-params](prefer-rest-params.md): require rest parameters instead of `arguments`
 * [prefer-spread](prefer-spread.md): require spread operators instead of `.apply()`
