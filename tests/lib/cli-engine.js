@@ -1995,6 +1995,25 @@ describe("CLIEngine", function() {
 
         });
 
+
+        it("should return the config when run from within a subdir", function() {
+
+            var engine = new CLIEngine({
+                cwd: getFixturePath("config-hierarchy", "root-true", "parent", "root", "subdir")
+            });
+
+            var configHelper = new Config(engine.options);
+
+            var filePath = getFixturePath("config-hierarchy", "root-true", "parent", "root", ".eslintrc");
+            var config = engine.getConfigForFile("./.eslintrc");
+
+            assert.deepEqual(
+                config,
+                configHelper.getConfig(filePath)
+            );
+
+        });
+
     });
 
     describe("isPathIgnored", function() {

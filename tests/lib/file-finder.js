@@ -55,6 +55,18 @@ describe("FileFinder", function() {
             });
         });
 
+        describe("a relative file present in a parent directory", function() {
+
+            it("should be found, and returned as the first element of an array", function() {
+                finder = new FileFinder(uniqueFileName, subsubdir);
+                actual = finder.findAllInDirectoryAndParents("./subsubsubdir");
+                expected = path.join(fileFinderDir, "subdir", uniqueFileName);
+
+                assert.isArray(actual);
+                assert.equal(actual[0], expected);
+            });
+        });
+
         describe("searching for multiple files", function() {
 
             it("should return only the first specified file", function() {
