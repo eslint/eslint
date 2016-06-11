@@ -168,7 +168,7 @@ These rules relate to style guidelines, and are therefore quite subjective:
 * [id-match](id-match.md): require identifiers to match a specified regular expression
 * [indent](indent.md): enforce consistent indentation (fixable)
 * [jsx-quotes](jsx-quotes.md): enforce the consistent use of either double or single quotes in JSX attributes (fixable)
-* [key-spacing](key-spacing.md): enforce consistent spacing between keys and values in object literal properties
+* [key-spacing](key-spacing.md): enforce consistent spacing between keys and values in object literal properties (fixable)
 * [keyword-spacing](keyword-spacing.md): enforce consistent spacing before and after keywords (fixable)
 * [linebreak-style](linebreak-style.md): enforce consistent linebreak style (fixable)
 * [lines-around-comment](lines-around-comment.md): require empty lines around comments
