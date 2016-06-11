@@ -15,7 +15,7 @@ This rule has a number or object option:
 
 * `"skipBlankLines": true` ignore lines made up purely of whitespace.
 
-* `"skipComment": true` ignore lines containing just comments
+* `"skipComments": true` ignore lines containing just comments
 
 ### code
 
