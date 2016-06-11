@@ -3685,6 +3685,13 @@ describe("eslint", function() {
             eslint.verify("var { a='a' } = {};", { parserOptions: { ecmaVersion: 6 }});
         });
 
+        it("should report syntax error when a keyword exists in object property shorthand", function() {
+            var messages = eslint.verify("let a = {this}", { parserOptions: { ecmaVersion: 6 }});
+
+            assert.equal(messages.length, 1);
+            assert.equal(messages[0].fatal, true);
+        });
+
         it("should not rewrite env setting in core (https://github.com/eslint/eslint/issues/4814)", function() {
 
             // This test focuses on the instance of https://github.com/eslint/eslint/blob/v2.0.0-alpha-2/conf/environments.js#L26-L28
