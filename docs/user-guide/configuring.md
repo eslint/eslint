@@ -227,6 +227,8 @@ And in YAML:
 
 These examples allow `var1` to be overwritten in your code, but disallow it for `var2`.
 
+**Note:** [no-global-assign](../rules/no-global-assign.md) rule warns modifying of variables which are disallowed overwritten.
+
 ## Configuring Plugins
 
 ESLint supports the use of third-party plugins. Before using the plugin you have to install it using npm.
