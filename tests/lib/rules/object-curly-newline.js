@@ -138,6 +138,23 @@ ruleTester.run("object-curly-newline", rule, {
             ].join("\n"),
             options: [{multiline: true}]
         },
+        {
+            code: [
+                "var obj = {",
+                "    // comment",
+                "    a: 1",
+                "};"
+            ].join("\n"),
+            options: [{multiline: true}]
+        },
+        {
+            code: [
+                "var obj = { // comment",
+                "    a: 1",
+                "};"
+            ].join("\n"),
+            options: [{multiline: true}]
+        },
 
         // "minProperties" ----------------------------------------------------------
         {
