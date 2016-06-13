@@ -14,7 +14,7 @@ var rule = require("../../../lib/rules/rest-spread-spacing"),
 
 var ruleTester = new RuleTester();
 
-ruleTester.run("spread-spacing", rule, {
+ruleTester.run("rest-spread-spacing", rule, {
     valid: [
         { code: "fn(...args)", parserOptions: { ecmaVersion: 6 } },
         { code: "fn(...(args))", parserOptions: { ecmaVersion: 6 } },

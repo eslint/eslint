@@ -67,19 +67,19 @@ This rule takes one option: a string with the value of `"never"` or `"always"`. 
 When using the default `"never"` option, whitespace is not allowed between spread operators and their expressions.
 
 ```json
-spread-spacing: ["error"]
+rest-spread-spacing: ["error"]
 ```
 
 or
 
 ```json
-spread-spacing: ["error", "never"]
+rest-spread-spacing: ["error", "never"]
 ```
 
 Examples of **incorrect** code for this rule with `"never"`:
 
 ```js
-/*eslint spread-spacing: ["error", "never"]*/
+/*eslint rest-spread-spacing: ["error", "never"]*/
 
 fn(... args)
 [... arr, 4, 5, 6]
@@ -92,7 +92,7 @@ let n = { x, y, ... z };
 Examples of **correct** code for this rule with `"never"`:
 
 ```js
-/*eslint spread-spacing: ["error", "never"]*/
+/*eslint rest-spread-spacing: ["error", "never"]*/
 
 fn(...args)
 [...arr, 4, 5, 6]
@@ -107,13 +107,13 @@ let n = { x, y, ...z };
 When using the `"always"` option, whitespace is required between spread operators and their expressions.
 
 ```json
-spread-spacing: ["error", "always"]
+rest-spread-spacing: ["error", "always"]
 ```
 
 Examples of **incorrect** code for this rule with `"always"`:
 
 ```js
-/*eslint spread-spacing:["error", "always"]*/
+/*eslint rest-spread-spacing:["error", "always"]*/
 
 fn(...args)
 [...arr, 4, 5, 6]
@@ -126,7 +126,7 @@ let n = { x, y, ...z };
 Examples of **correct** code for this rule with `"always"`:
 
 ```js
-/*eslint spread-spacing: ["error", "always"]*/
+/*eslint rest-spread-spacing: ["error", "always"]*/
 
 fn(... args)
 [... arr, 4, 5, 6]
