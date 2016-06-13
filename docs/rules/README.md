@@ -191,7 +191,7 @@ These rules relate to style guidelines, and are therefore quite subjective:
 * [no-lonely-if](no-lonely-if.md): disallow `if` statements as the only statement in `else` blocks
 * [no-mixed-operators](no-mixed-operators.md): disallow mixes of different operators
 * [no-mixed-spaces-and-tabs](no-mixed-spaces-and-tabs.md): disallow mixed spaces and tabs for indentation (recommended)
-* [no-multiple-empty-lines](no-multiple-empty-lines.md): disallow multiple empty lines
+* [no-multiple-empty-lines](no-multiple-empty-lines.md): disallow multiple empty lines (fixable)
 * [no-negated-condition](no-negated-condition.md): disallow negated conditions
 * [no-nested-ternary](no-nested-ternary.md): disallow nested ternary expressions
 * [no-new-object](no-new-object.md): disallow `Object` constructors
