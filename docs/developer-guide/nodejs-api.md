@@ -155,7 +155,7 @@ The `CLIEngine` is a constructor, and you can create a new instance by passing i
 * `envs` - An array of environments to load (default: empty array). Corresponds to `--env`.
 * `extensions` - An array of filename extensions that should be checked for code. The default is an array containing just `".js"`. Corresponds to `--ext`.
 * `globals` - An array of global variables to declare (default: empty array). Corresponds to `--global`.
-* `fix` - True indicates that fixes should be applied to the text when possible.
+* `fix` - True indicates that fixes should be included with the output report, and that errors and warnings should not be listed if they can be fixed. However, the files on disk will not be changed. To persist changes to disk, call [`outputFixes()`](#outputfixes).
 * `ignore` - False disables use of `.eslintignore`, `ignorePath` and `ignorePattern` (default: true). Corresponds to `--no-ignore`.
 * `ignorePath` - The ignore file to use instead of `.eslintignore` (default: null). Corresponds to `--ignore-path`.
 * `ignorePattern` - Glob patterns for paths to ignore. String or array of strings.
@@ -234,7 +234,7 @@ The return value is an object containing the results of the linting operation. H
 
 The top-level report object has a `results` array containing all linting results for files that had warnings or errors (any files that did not produce a warning or error are omitted). Each file result includes the `filePath`, a `messages` array, `errorCount`, `warningCount`, and optionally `output`. The `messages` array contains the result of calling `linter.verify()` on the given file. The `errorCount` and `warningCount` give the exact number of errors and warnings respectively on the given file. The `output` property gives the source code for the file with as many fixes applied as possible, so you can use that to rewrite the files if necessary. The top-level report object also has `errorCount` and `warningCount` which give the exact number of errors and warnings respectively on all the files.
 
-Once you get a report object, it's up to you to determine how to output the results.
+Once you get a report object, it's up to you to determine how to output the results. Fixes will not be automatically applied to the files, even if you set `fix: true` when constructing the `CLIEngine` instance. To apply fixes to the files, call [`outputFixes`](#outputfixes).
 
 ### resolveFileGlobPatterns()
 
