@@ -79,6 +79,10 @@ ruleTester.run("object-shorthand", rule, {
         { code: "var x = {a: n, c: d, f: g}", parserOptions: { ecmaVersion: 6 }, options: ["never"] },
         { code: "var x = {a: function(){}, b: {c: d}}", parserOptions: { ecmaVersion: 6 }, options: ["never"] },
 
+        // get keys are ok
+        { code: "var x = {get: get}", parserOptions: { ecmaVersion: 6 }, options: ["properties"] },
+        { code: "var x = {'get': get}", parserOptions: { ecmaVersion: 6 }, options: ["properties"] },
+
         // ignoreConstructors
         { code: "var x = {ConstructorFunction: function(){}, a: b}", parserOptions: { ecmaVersion: 6 }, options: ["always", { ignoreConstructors: true }] },
         { code: "var x = {notConstructorFunction(){}, b: c}", parserOptions: { ecmaVersion: 6 }, options: ["always", { ignoreConstructors: true }] },
