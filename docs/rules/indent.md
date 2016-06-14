@@ -72,7 +72,7 @@ This rule has an object option:
 
 * `"SwitchCase"` (default: 0) enforces indentation level for `case` clauses in `switch` statements
 * `"VariableDeclarator"` (default: 1) enforces indentation level for `var` declarators; can also take an object to define separate rules for `var`, `let` and `const` declarations.
-* `"IndentOuterIIFE"` (default: true) when false enforces no indentation level increase for file-level IIFEs.
+* `"outerIIFEBody"` (default: true) when false enforces no indentation level increase for file-level IIFEs.
 
 Level of indentation denotes the multiple of the indent specified. Example:
 
@@ -210,12 +210,12 @@ const a = 1,
       c = 3;
 ```
 
-### IndentOuterIIFE
+### outerIIFEBody
 
-Examples of **incorrect** code for this rule with the options `2, { "IndentOuterIIFE": 0 }`:
+Examples of **incorrect** code for this rule with the options `2, { "outerIIFEBody": 0 }`:
 
 ```js
-/*eslint indent: ["error", 2, { "IndentOuterIIFE": 0 }]*/
+/*eslint indent: ["error", 2, { "outerIIFEBody": 0 }]*/
 
 (function() {
 
@@ -231,10 +231,10 @@ console.log('foo');
 }
 ```
 
-Examples of **correct** code for this rule with the options `2, {"IndentOuterIIFE": 0}`:
+Examples of **correct** code for this rule with the options `2, {"outerIIFEBody": 0}`:
 
 ```js
-/*eslint indent: ["error", 2, { "IndentOuterIIFE": 0 }]*/
+/*eslint indent: ["error", 2, { "outerIIFEBody": 0 }]*/
 
 (function() {
 
