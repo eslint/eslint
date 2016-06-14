@@ -53,46 +53,41 @@ ruleTester.run("newline-per-chained-call", rule, {
     invalid: [{
         code: "_\n.chain({}).map(foo).filter(bar).value();",
         errors: [{
-            message: "Expected line break after `_\\n.chain({}).map(foo)`."
+            message: "Expected line break before `.filter`."
         }, {
-            message: "Expected line break after `_\\n.chain({}).map(foo).filter(bar)`."
+            message: "Expected line break before `.value`."
         }]
     }, {
         code: "_\n.chain({})\n.map(foo)\n.filter(bar).value();",
         errors: [{
-            message: "Expected line break after `_\\n.chain({})\\n.map(foo)\\n.filter(bar)`."
+            message: "Expected line break before `.value`."
         }]
     }, {
         code: "a().b().c().e.d()",
         errors: [{
-            message: "Expected line break after `a().b()`."
-        }]
-    }, {
-        code: "a().b().c().e.d()",
-        errors: [{
-            message: "Expected line break after `a().b()`."
+            message: "Expected line break before `.c`."
         }]
     }, {
         code: "a.b.c().e().d()",
         errors: [{
-            message: "Expected line break after `a.b.c().e()`."
+            message: "Expected line break before `.d`."
         }]
     }, {
         code: "_.chain({}).map(a).value(); ",
         errors: [{
-            message: "Expected line break after `_.chain({}).map(a)`."
+            message: "Expected line break before `.value`."
         }]
     }, {
         code: "var a = m1.m2();\n var b = m1.m2().m3().m4().m5();",
         errors: [{
-            message: "Expected line break after `m1.m2().m3()`."
+            message: "Expected line break before `.m4`."
         }, {
-            message: "Expected line break after `m1.m2().m3().m4()`."
+            message: "Expected line break before `.m5`."
         }]
     }, {
         code: "var a = m1.m2();\n var b = m1.m2().m3()\n.m4().m5();",
         errors: [{
-            message: "Expected line break after `m1.m2().m3()\\n.m4()`."
+            message: "Expected line break before `.m5`."
         }]
     }, {
         code: "var a = m1().m2\n.m3().m4().m5().m6().m7();",
@@ -100,9 +95,55 @@ ruleTester.run("newline-per-chained-call", rule, {
             ignoreChainWithDepth: 3
         }],
         errors: [{
-            message: "Expected line break after `m1().m2\\n.m3().m4().m5()`."
+            message: "Expected line break before `.m6`."
         }, {
-            message: "Expected line break after `m1().m2\\n.m3().m4().m5().m6()`."
+            message: "Expected line break before `.m7`."
+        }]
+    }, {
+        code: [
+            "http.request({",
+            "    // Param",
+            "    // Param",
+            "    // Param",
+            "}).on('response', function(response) {",
+            "    // Do something with response.",
+            "    // Do something with response.",
+            "    // Do something with response.",
+            "    // Do something with response.",
+            "    // Do something with response.",
+            "    // Do something with response.",
+            "    // Do something with response.",
+            "    // Do something with response.",
+            "    // Do something with response.",
+            "    // Do something with response.",
+            "}).on('error', function(error) {",
+            "    // Do something with error.",
+            "    // Do something with error.",
+            "    // Do something with error.",
+            "    // Do something with error.",
+            "    // Do something with error.",
+            "    // Do something with error.",
+            "    // Do something with error.",
+            "    // Do something with error.",
+            "    // Do something with error.",
+            "    // Do something with error.",
+            "}).end();"
+        ].join("\n"),
+        errors: [{
+            message: "Expected line break before `.on`."
+        }, {
+            message: "Expected line break before `.end`."
+        }]
+    }, {
+        code: [
+            "anObject.method1().method2()['method' + n]()[aCondition ?",
+            "    'method3' :",
+            "    'method4']()"
+        ].join("\n"),
+        errors: [{
+            message: "Expected line break before `['method' + n]`."
+        }, {
+            message: "Expected line break before `[aCondition ?`."
         }]
     }]
 
