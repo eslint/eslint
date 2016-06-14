@@ -212,10 +212,10 @@ const a = 1,
 
 ### IndentOuterIIFE
 
-Examples of **incorrect** code for this rule with the options `2, { "IndentOuterIIFE": false }`:
+Examples of **incorrect** code for this rule with the options `2, { "IndentOuterIIFE": 0 }`:
 
 ```js
-/*eslint indent: ["error", 2, { "IndentOuterIIFE": false }]*/
+/*eslint indent: ["error", 2, { "IndentOuterIIFE": 0 }]*/
 
 (function() {
 
@@ -231,10 +231,10 @@ console.log('foo');
 }
 ```
 
-Examples of **correct** code for this rule with the options `2, {"IndentOuterIIFE": false}`:
+Examples of **correct** code for this rule with the options `2, {"IndentOuterIIFE": 0}`:
 
 ```js
-/*eslint indent: ["error", 2, { "IndentOuterIIFE": false }]*/
+/*eslint indent: ["error", 2, { "IndentOuterIIFE": 0 }]*/
 
 (function() {
 

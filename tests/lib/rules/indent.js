@@ -1144,7 +1144,16 @@ ruleTester.run("indent", rule, {
             "  return x + 1;\n" +
             "}\n" +
             "})();",
-            options: [2, { IndentOuterIIFE: false }]
+            options: [2, { IndentOuterIIFE: 0 }]
+        },
+        {
+            code:
+            "(function(){\n" +
+            "  function foo(x) {\n" +
+            "      return x + 1;\n" +
+            "  }\n" +
+            "})();",
+            options: [4, { IndentOuterIIFE: 2 }]
         },
         {
             code:
@@ -1153,7 +1162,7 @@ ruleTester.run("indent", rule, {
             "  return x + 1;\n" +
             "}\n" +
             "})(1, 2);",
-            options: [2, { IndentOuterIIFE: false }]
+            options: [2, { IndentOuterIIFE: 0 }]
         },
         {
             code:
@@ -1162,7 +1171,7 @@ ruleTester.run("indent", rule, {
             "  return x + 1;\n" +
             "}\n" +
             "}());",
-            options: [2, { IndentOuterIIFE: false }]
+            options: [2, { IndentOuterIIFE: 0 }]
         },
         {
             code:
@@ -1171,7 +1180,7 @@ ruleTester.run("indent", rule, {
             "    return x + 1;\n" +
             "  }\n" +
             "};",
-            options: [2, { IndentOuterIIFE: false }]
+            options: [2, { IndentOuterIIFE: 0 }]
         },
         {
             code:
@@ -1181,7 +1190,7 @@ ruleTester.run("indent", rule, {
             "}\n" +
             "})();",
             parserOptions: { ecmaVersion: 6 },
-            options: [2, { IndentOuterIIFE: false }]
+            options: [2, { IndentOuterIIFE: 0 }]
         },
         {
             code:
@@ -1191,14 +1200,14 @@ ruleTester.run("indent", rule, {
             "}\n" +
             "})();",
             parserOptions: { ecmaVersion: 6 },
-            options: [2, { IndentOuterIIFE: false }]
+            options: [2, { IndentOuterIIFE: 0 }]
         },
         {
             code:
             "if(data) {\n" +
             "  console.log('hi');\n" +
             "}",
-            options: [2, { IndentOuterIIFE: false }]
+            options: [2, { IndentOuterIIFE: 0 }]
         }
     ],
     invalid: [
