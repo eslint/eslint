@@ -161,7 +161,7 @@ These rules relate to style guidelines, and are therefore quite subjective:
 * [computed-property-spacing](computed-property-spacing.md): enforce consistent spacing inside computed property brackets (fixable)
 * [consistent-this](consistent-this.md): enforce consistent naming when capturing the current execution context
 * [eol-last](eol-last.md): enforce at least one newline at the end of files (fixable)
-* [func-names](func-names.md): enforce named `function` expressions
+* [func-names](func-names.md): require or disallow named `function` expressions
 * [func-style](func-style.md): enforce the consistent use of either `function` declarations or expressions
 * [id-blacklist](id-blacklist.md): disallow specified identifiers
 * [id-length](id-length.md): enforce minimum and maximum identifier lengths
