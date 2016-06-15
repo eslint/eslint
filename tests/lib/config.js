@@ -512,6 +512,20 @@ describe("Config", function() {
             assertConfigsEqual(actual, expected);
         });
 
+        // Project configuration - root set in second level .eslintrc
+        it("should return project config when called with a relative path from a subdir", function() {
+            var configHelper = new Config({cwd: getFixturePath("root-true", "parent", "root", "subdir")}),
+                dir = ".",
+                expected = {
+                    rules: {
+                        semi: [2, "never"]
+                    }
+                },
+                actual = configHelper.getConfig(dir);
+
+            assertConfigsEqual(actual, expected);
+        });
+
         // Command line configuration - --config with first level .eslintrc
         it("should merge command line config when config file adds to local .eslintrc", function() {
 
