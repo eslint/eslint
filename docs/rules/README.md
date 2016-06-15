@@ -210,7 +210,7 @@ These rules relate to style guidelines, and are therefore quite subjective:
 * [one-var-declaration-per-line](one-var-declaration-per-line.md): require or disallow newlines around `var` declarations
 * [operator-assignment](operator-assignment.md): require or disallow assignment operator shorthand where possible
 * [operator-linebreak](operator-linebreak.md): enforce consistent linebreak style for operators
-* [padded-blocks](padded-blocks.md): require or disallow padding within blocks
+* [padded-blocks](padded-blocks.md): require or disallow padding within blocks (fixable)
 * [quote-props](quote-props.md): require quotes around object literal property names
 * [quotes](quotes.md): enforce the consistent use of either backticks, double, or single quotes (fixable)
 * [require-jsdoc](require-jsdoc.md): require JSDoc comments
