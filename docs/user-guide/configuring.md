@@ -563,9 +563,9 @@ The `rules` property can do any of the following to extend (or override) the set
 
 ### Using `"eslint:recommended"`
 
-An `extends` property value `"eslint:recommended"` enables a subset of core rules that report common problems, which have a check mark (recommended) on the [rules page](http://eslint.org/docs/rules/). The recommended subset can change only at major versions of ESLint.
+An `extends` property value `"eslint:recommended"` enables a subset of core rules that report common problems, which have a check mark (recommended) on the [rules page](../docs/rules/). The recommended subset can change only at major versions of ESLint.
 
-If your configuration extends the recommended rules: after you upgrade to a newer major version of ESLint, review the reported problems before you use the `--fix` option on the [command line](../command-line-interface#fix), so you know if a new fixable recommended rule will make changes to the code.
+If your configuration extends the recommended rules: after you upgrade to a newer major version of ESLint, review the reported problems before you use the `--fix` option on the [command line](./command-line-interface#fix), so you know if a new fixable recommended rule will make changes to the code.
 
 The `eslint --init` command can create a configuration so you can extend the recommended rules.
 
@@ -671,7 +671,7 @@ If you configure ESLint to automatically enable new rules when you upgrade, ESLi
 
 You might enable all core rules as a shortcut to explore rules and options while you decide on the configuration for a project, especially if you rarely override options or disable rules. The default options for rules are not endorsements by ESLint (for example, the default option for the `quotes` rule does not mean double quotes are better than single quotes).
 
-If your configuration extends all core rules: after you upgrade to a newer major or minor version of ESLint, review the reported problems before you use the `--fix` option on the [command line](../command-line-interface#fix), so you know if a new fixable rule will make changes to the code.
+If your configuration extends all core rules: after you upgrade to a newer major or minor version of ESLint, review the reported problems before you use the `--fix` option on the [command line](./command-line-interface#fix), so you know if a new fixable rule will make changes to the code.
 
 Example of a configuration file in JavaScript format:
 
