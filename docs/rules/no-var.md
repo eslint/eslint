@@ -21,7 +21,9 @@ console.log("We have " + count + " people and " + sandwiches.length + " sandwich
 
 This rule is aimed at discouraging the use of `var` and encouraging the use of `const` or `let` instead.
 
-The following patterns are considered problems:
+## Examples
+
+Examples of **incorrect** code for this rule:
 
 ```js
 /*eslint no-var: "error"*/
@@ -30,7 +32,7 @@ var x = "y";
 var CONFIG = {};
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule:
 
 ```js
 /*eslint no-var: "error"*/
