@@ -91,7 +91,7 @@ let foo = () => ({ bar: 0 });
 
 #### requireReturnForObjectLiteral
 
-> This option is only applicable when used in conjunction with the `"as-needed"` option.
+This option is only applicable when used in conjunction with the `"as-needed"` option.
 
 Examples of **incorrect** code for this rule with the `{ "requireReturnForObjectLiteral": true }` option:
 
