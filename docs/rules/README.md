@@ -123,6 +123,7 @@ These rules relate to variable declarations:
 * [init-declarations](init-declarations.md): require or disallow initialization in `var` declarations
 * [no-catch-shadow](no-catch-shadow.md): disallow `catch` clause parameters from shadowing variables in the outer scope
 * [no-delete-var](no-delete-var.md): disallow deleting variables (recommended)
+* [no-global-assign](no-global-assign.md): disallow assignments to readonly global variables
 * [no-label-var](no-label-var.md): disallow labels that share a name with a variable
 * [no-restricted-globals](no-restricted-globals.md): disallow specified global variables
 * [no-shadow](no-shadow.md): disallow `var` declarations from shadowing variables in the outer scope
