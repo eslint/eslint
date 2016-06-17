@@ -1,3 +1,30 @@
+v2.13.0 - June 17, 2016
+
+* cf223dd Fix: add test for a syntax error (fixes #6013) (#6378) (Toru Nagashima)
+* da30cf9 Update: Add fixer for object-shorthand (fixes #6412) (#6418) (Nick Heiner)
+* 2cd90eb Chore: Fix rule meta description inconsistencies (refs #5417) (#6422) (Mark Pedrotti)
+* d798b2c Added quotes around "classes" option key (#6441) (Guy Fraser)
+* 852b6df Docs: Delete empty table of links from Code Path Analysis (#6423) (Mark Pedrotti)
+* 5e9117e Chore: sort rules in eslint.json (fixes #6425) (#6426) (alberto)
+* c2b5277 Docs: Add gitter chat link to Reporting Bugs (#6430) (Mark Pedrotti)
+* 1316db0 Update: Add `never` option for `func-names` (fixes #6059) (#6392) (alberto)
+* 1c123e2 Update: Add autofix for `padded-blocks` (fixes #6320) (#6393) (alberto)
+* 8ec89c8 Fix: `--print-config` return config inside subdir (fixes #6329) (#6385) (alberto)
+* 4f73240 Fix: `object-curly-newline` multiline with comments (fixes #6381) (#6396) (Toru Nagashima)
+* 77697a7 Chore: Fake config hierarchy fixtures (fixes #6206) (#6402) (Gyandeep Singh)
+* 73a9a6d Docs: Fix links in Configuring ESLint (#6421) (Mark Pedrotti)
+* ed84c4c Fix: improve `newline-per-chained-call` message (fixes #6340) (#6360) (Toru Nagashima)
+* 9ea4e44 Docs: Update parser reference to `espree` instead of `esprima` (#6404) (alberto)
+* 7f57467 Docs: Make `fix` param clearer (fixes #6366) (#6367) (Nick Heiner)
+* fb49c7f Fix: nested `extends` with relative path (fixes #6358) (#6359) (Toru Nagashima)
+* 5122f73 Update: no-multiple-empty-lines fixer (fixes #6225) (#6226) (Ruurd Moelker)
+* 0e7ce72 Docs: Fix rest-spread-spacing's name (#6365) (cody)
+* cfdd524 Fix: allow semi as braceless body of statements (fixes #6386) (#6391) (alberto)
+* 6b08cfc Docs: key-spacing fixable documenation notes (fixes #6375) (#6376) (Ruurd Moelker)
+* 4b4be3b Docs: `max-lines` option: fix `skipComments` typo (#6374) (Jordan Harband)
+* 20ab4f6 Docs: Fix wrong link in object-curly-newline (#6373) (Grant Snodgrass)
+* 412ce8d Docs: Fix broken links in no-mixed-operators (#6372) (Grant Snodgrass)
+
 v2.12.0 - June 10, 2016
 
 * 54c30fb Update: Add explicit default option `always` for `eqeqeq` (refs #6144) (#6342) (alberto)
