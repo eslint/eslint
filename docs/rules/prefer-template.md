@@ -16,7 +16,9 @@ var str = `Hello, ${name}!`;
 
 This rule is aimed to flag usage of `+` operators with strings.
 
-The following patterns are considered problems:
+## Examples
+
+Examples of **correct** code for this rule:
 
 ```js
 /*eslint prefer-template: "error"*/
@@ -25,7 +27,7 @@ var str = "Hello, " + name + "!";
 var str = "Time: " + (12 * 60 * 60 * 1000);
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule:
 
 ```js
 /*eslint prefer-template: "error"*/
@@ -47,4 +49,5 @@ In ES2015 (ES6) or later, if you don't want to be notified about string concaten
 
 ## Related Rules
 
+* [no-useless-concat](no-useless-concat.md)
 * [quotes](quotes.md)

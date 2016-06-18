@@ -18,9 +18,11 @@ Math.max(...args);
 
 ## Rule Details
 
-This rule is aimed to flag usage of `Function.prototype.apply()` that can be replaced with the spread operator.
+This rule is aimed to flag usage of `Function.prototype.apply()` in situations where the spread operator could be used instead.
 
-The following patterns are considered problems:
+## Examples
+
+Examples of **incorrect** code for this rule:
 
 ```js
 /*eslint prefer-spread: "error"*/
@@ -32,7 +34,7 @@ foo.apply(null, args);
 obj.foo.apply(obj, args);
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule:
 
 ```js
 /*eslint prefer-spread: "error"*/
@@ -51,8 +53,7 @@ obj.foo.apply(obj, [1, 2, 3]);
 
 Known limitations:
 
-This rule analyzes code statically to check whether or not the `this` argument is changed.
-So if the `this` argument is computed in a dynamic expression, this rule cannot detect a violation.
+This rule analyzes code statically to check whether or not the `this` argument is changed. So, if the `this` argument is computed in a dynamic expression, this rule cannot detect a violation.
 
 ```js
 /*eslint prefer-spread: "error"*/
