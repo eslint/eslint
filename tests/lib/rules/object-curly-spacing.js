@@ -61,6 +61,7 @@ ruleTester.run("object-curly-spacing", rule, {
         // always - objectsInObjects
         { code: "var obj = { 'foo': { 'bar': 1, 'baz': 2 }};", options: ["always", {objectsInObjects: false}] },
         { code: "var a = { noop: function () {} };", options: ["always", {objectsInObjects: false}] },
+        { code: "var { y: { z }} = x", options: ["always", {objectsInObjects: false}], parserOptions: { ecmaVersion: 6 } },
 
         // always - arraysInObjects
         { code: "var obj = { 'foo': [ 1, 2 ]};", options: ["always", {arraysInObjects: false}] },
