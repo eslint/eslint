@@ -1,21 +1,53 @@
 # Disallow Reassignment of Native Objects (no-native-reassign)
 
-Reports an error when they encounter an attempt to assign a value to built-in native object.
+JavaScript environments contain a number of built-in global variables, such as `window` in browsers and `process` in Node.js. In almost all cases, you don't want to assign a value to these global variables as doing so could result in losing access to important functionality. For example, you probably don't want to do this in browser code:
 
 ```js
-String = "hello world";
+window = {};
 ```
+
+While examples such as `window` are obvious, there are often hundreds of built-in global objects provided by JavaScript environments. It can be hard to know if you're assigning to a global variable or not.
 
 ## Rule Details
 
-The native objects reported by this rule are the `builtin` variables from [globals](https://github.com/sindresorhus/globals/).
+ESLint has the capability to configure global variables as read-only.
+
+* [Specifying Environments](../user-guide/configuring#specifying-environments)
+* [Specifying Globals](../user-guide/configuring#specifying-globals)
+
+This rule warns modifications of those read-only global variables.
 
 Examples of **incorrect** code for this rule:
 
 ```js
 /*eslint no-native-reassign: "error"*/
 
-String = new Object();
+Object = null
+undefined = 1
+
+// if `env: {browser: true}`, ...
+window = null
+length = 1
+top = 1
+
+/*globals a:false*/
+a = 1
+```
+
+Examples of **correct** code for this rule:
+
+```js
+/*eslint no-native-reassign: "error"*/
+
+a = 1
+var b = 1
+b = 2
+
+// if `env: {browser: true}`, ...
+onload = function() {}
+
+/*globals c:true*/
+c = 1
 ```
 
 ## Options
