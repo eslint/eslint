@@ -642,12 +642,27 @@ describe("ConfigFile", function() {
             });
         });
 
-        it("should load information from `extends` chain with relative path.", function() {
+        it("should load information from `extends` chain in .eslintrc with relative path.", function() {
             var config = ConfigFile.load(getFixturePath("extends-chain-2/.eslintrc.json"));
 
             assert.deepEqual(config, {
                 env: {},
                 extends: "a",
+                globals: {},
+                parserOptions: {},
+                rules: {
+                    a: 2,       // from node_modules/eslint-config-a/index.js
+                    relative: 2 // from node_modules/eslint-config-a/relative.js
+                }
+            });
+        });
+
+        it("should load information from `extends` chain in non-.eslintrc file with relative path.", function() {
+            var config = ConfigFile.load(getFixturePath("extends-chain-2/relative.eslintrc.json"));
+
+            assert.deepEqual(config, {
+                env: {},
+                extends: "./node_modules/eslint-config-a/index.js",
                 globals: {},
                 parserOptions: {},
                 rules: {
