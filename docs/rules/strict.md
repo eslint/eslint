@@ -38,6 +38,8 @@ In the **CommonJS** module system, a hidden function wraps each module and limit
 
 In **ECMAScript** modules, which always have strict mode semantics, the directives are unnecessary.
 
+Since **ECMAScript 2016**, `"use strict"` directive in a function with non-simple parameter list is a syntax error. This rule disallows such `"use strict"` directives. See also the examples of [function option](#function)
+
 ## Rule Details
 
 This rule requires or disallows strict mode directives.
@@ -139,6 +141,22 @@ function foo() {
 }());
 ```
 
+```js
+/*eslint strict: ["error", "function"]*/
+/*eslint-env es6*/
+
+// Illegal "use strict" directive in function with non-simple parameter list.
+// This is a syntax error since ES2016.
+function foo(a = 1) {
+    "use strict";
+}
+
+// We cannot write "use strict" directive in this function.
+// So we have to wrap this function with a function with "use strict" directive.
+function foo(a = 1) {
+}
+```
+
 Examples of **correct** code for this rule with the `"function"` option:
 
 ```js
@@ -150,8 +168,19 @@ function foo() {
 
 (function() {
     "use strict";
+
     function bar() {
     }
+
+    function baz(a = 1) {
+    }
+}());
+
+var foo = (function() {
+    "use strict";
+
+    return function foo(a = 1) {
+    };
 }());
 ```
 
