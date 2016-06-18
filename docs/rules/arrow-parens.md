@@ -55,9 +55,9 @@ You can set the option in configuration like this:
 "arrow-parens": ["error", "always"]
 ```
 
-### "always"
+### always
 
-When the rule is set to `"always"` the following patterns are considered problems:
+Examples of **incorrect** code for this rule with the default `"always"` option:
 
 ```js
 /*eslint arrow-parens: ["error", "always"]*/
@@ -71,7 +71,7 @@ a.then(foo => a);
 a(foo => { if (true) {}; });
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule with the default `"always"` option:
 
 ```js
 /*eslint arrow-parens: ["error", "always"]*/
@@ -87,7 +87,7 @@ a.then((foo) => { if (true) {}; });
 
 #### If Statements
 
-One benefits of this option is that it prevents the incorrect use of arrow functions in conditionals:
+One of benefits of this option is that it prevents the incorrect use of arrow functions in conditionals:
 
 ```js
 /*eslint-env es6*/
@@ -104,6 +104,7 @@ if (a => b) {
 ```
 
 The contents of the `if` statement is an arrow function, not a comparison.
+
 If the arrow function is intentional, it should be wrapped in parens to remove ambiguity.
 
 ```js
@@ -141,10 +142,9 @@ var a = 1, b = 2, c = 3, d = 4;
 var f = (a) => b ? c: d;
 ```
 
+### as-needed
 
-### "as-needed"
-
-When the rule is set to `"as-needed"` the following patterns are considered problems:
+Examples of **incorrect** code for this rule with the `"as-needed"` option:
 
 ```js
 /*eslint arrow-parens: ["error", "as-needed"]*/
@@ -158,7 +158,7 @@ a.then((foo) => a);
 a((foo) => { if (true) {}; });
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule with the `"as-needed"` option:
 
 ```js
 /*eslint arrow-parens: ["error", "as-needed"]*/
