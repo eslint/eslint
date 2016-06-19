@@ -149,6 +149,10 @@ ruleTester.run("no-multiple-empty-lines", rule, {
         {
             code: "// valid 17\nvar a = 5;\n\n",
             options: [ { max: 0, maxEOF: 1 } ]
+        },
+        {
+            code: "var a = 5;",
+            options: [ { max: 1 } ]
         }
     ],
 
