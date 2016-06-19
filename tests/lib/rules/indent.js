@@ -2118,6 +2118,34 @@ ruleTester.run("indent", rule, {
             "}\n",
             options: [4],
             errors: expectedErrors([[4, 4, 2, "Keyword"]])
+        },
+        {
+            code:
+            "(function(){\n" +
+            "  function foo(x) {\n" +
+            "    return x + 1;\n" +
+            "  }\n" +
+            "})();",
+            options: [2, { outerIIFEBody: 0 }],
+            errors: expectedErrors([[2, 0, 2, "FunctionDeclaration"]])
+        },
+        {
+            code:
+            "(function(){\n" +
+            "    function foo(x) {\n" +
+            "        return x + 1;\n" +
+            "    }\n" +
+            "})();",
+            options: [4, { outerIIFEBody: 2 }],
+            errors: expectedErrors([[2, 2, 4, "FunctionDeclaration"]])
+        },
+        {
+            code:
+            "if(data) {\n" +
+            "console.log('hi');\n" +
+            "}",
+            options: [2, { outerIIFEBody: 0 }],
+            errors: expectedErrors([[2, 2, 0, "ExpressionStatement"]])
         }
     ]
 });
