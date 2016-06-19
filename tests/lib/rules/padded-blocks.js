@@ -307,7 +307,7 @@ ruleTester.run("padded-blocks", rule, {
         },
         {
             code: "{\n\n\n  a();\n\n\n}",
-            output: "{\na();\n}",
+            output: "{\n  a();\n}",
             options: ["never"],
             errors: [
                 {
@@ -332,8 +332,30 @@ ruleTester.run("padded-blocks", rule, {
             ]
         },
         {
+            code: "{\n\n\ta();\n}",
+            output: "{\n\ta();\n}",
+            options: ["never"],
+            errors: [
+                {
+                    message: NEVER_MESSAGE,
+                    line: 1
+                }
+            ]
+        },
+        {
             code: "{\na();\n\n}",
             output: "{\na();\n}",
+            options: ["never"],
+            errors: [
+                {
+                    message: NEVER_MESSAGE,
+                    line: 4
+                }
+            ]
+        },
+        {
+            code: "  {\n    a();\n\n  }",
+            output: "  {\n    a();\n  }",
             options: ["never"],
             errors: [
                 {
@@ -392,7 +414,7 @@ ruleTester.run("padded-blocks", rule, {
         },
         {
             code: "switch (a) {\ncase 0: foo();\n\n  }",
-            output: "switch (a) {\ncase 0: foo();\n}",
+            output: "switch (a) {\ncase 0: foo();\n  }",
             options: [{switches: "never"}],
             errors: [
                 {
