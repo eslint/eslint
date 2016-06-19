@@ -37,7 +37,7 @@ let foo = (bar, baz, qux, qxx) => {
 };
 ```
 
-Examples of **correct** code for this rule with the default `{ "max": 4 }` option:
+Examples of **correct** code for this rule with the default `{ "max": 3 }` option:
 
 ```js
 /*eslint max-params: ["error", 3]*/
