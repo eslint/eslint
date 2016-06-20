@@ -61,19 +61,27 @@ This rule is aimed at ensuring consistent use of semicolons. You can decide whet
 
 ## Options
 
-The rule takes one or two options. The first one is a string, which could be `"always"` or `"never"`. The default is `"always"`. The second one is an object for more fine-grained configuration when the first option is `"always"`.
-
-You can set the option in configuration like this:
-
-### "always"
-
-By using the default option, semicolons must be used any place where they are valid.
+The rule takes one or two options. The first one is a string, which could be `"always"` or `"never"`. The default is `"always"`.
 
 ```json
-semi: ["error", "always"]
+semi: [ "error", "always" ]
 ```
 
-The following patterns are considered problems:
+> Note: In `"never"` mode, semicolons are still allowed to disambiguate statements beginning with `[`, `(`, `/`, `+`, or `-`.
+
+The second one is an object for more fine-grained configuration when the first option is `"always"`. Currently it has one option:
+
+```json
+{ "omitLastInOneLineBlock": true }
+```
+
+When setting the first option as "always", an additional option can be added to omit the last semicolon in a one-line block, that is, a block in which its braces (and therefore the content of the block) are in the same line.
+
+## Examples
+
+### always
+
+Examples of **incorrect** code for this rule with the default `"always"` option:
 
 ```js
 /*eslint semi: "error"*/
@@ -85,7 +93,7 @@ object.method = function() {
 }
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule with the default `"always"` option:
 
 ```js
 /*eslint semi: "error"*/
@@ -97,15 +105,11 @@ object.method = function() {
 };
 ```
 
-#### Fine-grained control
+#### omitLastInOneLineBlock
 
-When setting the first option as "always", an additional option can be added to omit the last semicolon in a one-line block, that is, a block in which its braces (and therefore the content of the block) are in the same line:
+> The `"omitLastInOneLineBlock"` option is only takes effect when using the `"always"` option.
 
-```json
-semi: ["error", "always", { "omitLastInOneLineBlock": true}]
-```
-
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule with the `{ "omitLastInOneLineBlock": true}` option:
 
 ```js
 /*eslint semi: ["error", "always", { "omitLastInOneLineBlock": true}] */
@@ -117,7 +121,7 @@ if (foo) {
 if (foo) { bar(); }
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule with the `{ "omitLastInOneLineBlock": true}` option:
 
 ```js
 /*eslint semi: ["error", "always", { "omitLastInOneLineBlock": true}] */
@@ -127,15 +131,9 @@ if (foo) { bar() }
 if (foo) { bar(); baz() }
 ```
 
-### "never"
+### never
 
-If you want to enforce that semicolons are never used, switch the configuration to:
-
-```json
-semi: [2, "never"]
-```
-
-Then, the following patterns are considered problems:
+Examples of **incorrect** code for this rule with the `"never"` option:
 
 ```js
 /*eslint semi: ["error", "never"]*/
@@ -147,7 +145,7 @@ object.method = function() {
 };
 ```
 
-And the following patterns are not considered problems:
+Examples of **correct** code for this rule with the `"never"` option:
 
 ```js
 /*eslint semi: ["error", "never"]*/
@@ -159,7 +157,11 @@ object.method = function() {
 }
 ```
 
-Even in `"never"` mode, semicolons are still allowed to disambiguate statements beginning with `[`, `(`, `/`, `+`, or `-`:
+#### disambiguation
+
+Even in `"never"` mode, semicolons are still allowed to disambiguate statements beginning with `[`, `(`, `/`, `+`, or `-`.
+
+Examples of **correct** code for this rule with the `"never"` option in scenarios where semicolons are required for disambiguation:
 
 ```js
 /*eslint semi: ["error", "never"]*/
