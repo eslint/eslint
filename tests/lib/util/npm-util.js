@@ -13,7 +13,8 @@ var assert = require("chai").assert,
     shell = require("shelljs"),
     sinon = require("sinon"),
     npmUtil = require("../../../lib/util/npm-util"),
-    log = require("../../../lib/logging");
+    log = require("../../../lib/logging"),
+    mockFs = require("mock-fs");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -165,6 +166,25 @@ describe("npmUtil", function() {
             fs.existsSync.restore();
             fs.readFileSync.restore();
             logInfo.restore();
+        });
+    });
+
+    describe("checkPackageJson()", function() {
+        after(function() {
+            mockFs.restore();
+        });
+
+        it("should return true if package.json exists", function() {
+            mockFs({
+                "package.json": "{ \"file\": \"contents\" }"
+            });
+
+            assert.equal(npmUtil.checkPackageJson(), true);
+        });
+
+        it("should return false if package.json does not exist", function() {
+            mockFs({});
+            assert.equal(npmUtil.checkPackageJson(), false);
         });
     });
 
