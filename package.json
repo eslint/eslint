@@ -27,7 +27,8 @@
     "bin",
     "conf",
     "lib",
-    "messages"
+    "messages",
+    "docs/rules"
   ],
   "repository": {
     "type": "git",
