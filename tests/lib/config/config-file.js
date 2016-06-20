@@ -17,6 +17,7 @@ var assert = require("chai").assert,
     yaml = require("js-yaml"),
     userHome = require("user-home"),
     proxyquire = require("proxyquire"),
+    shell = require("shelljs"),
     environments = require("../../../conf/environments"),
     ConfigFile = require("../../../lib/config/config-file");
 
@@ -654,6 +655,78 @@ describe("ConfigFile", function() {
                     a: 2,       // from node_modules/eslint-config-a/index.js
                     relative: 2 // from node_modules/eslint-config-a/relative.js
                 }
+            });
+        });
+
+        it("should load information from `extends` chain in .eslintrc with relative path.", function() {
+            var config = ConfigFile.load(getFixturePath("extends-chain-2/relative.eslintrc.json"));
+
+            assert.deepEqual(config, {
+                env: {},
+                extends: "./node_modules/eslint-config-a/index.js",
+                globals: {},
+                parserOptions: {},
+                rules: {
+                    a: 2,       // from node_modules/eslint-config-a/index.js
+                    relative: 2 // from node_modules/eslint-config-a/relative.js
+                }
+            });
+        });
+
+        it("should load information from `parser` in .eslintrc with relative path.", function() {
+            var config = ConfigFile.load(getFixturePath("extends-chain-2/parser.eslintrc.json"));
+            var parserPath = getFixturePath("extends-chain-2/parser.js");
+
+            assert.deepEqual(config, {
+                env: {},
+                globals: {},
+                parser: parserPath,
+                parserOptions: {},
+                rules: {}
+            });
+        });
+
+        describe("even if it's in another directory,", function() {
+            var fixturePath = "";
+
+            before(function() {
+                var tempDir = temp.mkdirSync("eslint-test-chain");
+                var chain2 = getFixturePath("extends-chain-2");
+
+                fixturePath = path.join(tempDir, "extends-chain-2");
+                shell.cp("-r", chain2, fixturePath);
+            });
+
+            after(function() {
+                temp.cleanupSync();
+            });
+
+            it("should load information from `extends` chain in .eslintrc with relative path.", function() {
+                var config = ConfigFile.load(path.join(fixturePath, "relative.eslintrc.json"));
+
+                assert.deepEqual(config, {
+                    env: {},
+                    extends: "./node_modules/eslint-config-a/index.js",
+                    globals: {},
+                    parserOptions: {},
+                    rules: {
+                        a: 2,       // from node_modules/eslint-config-a/index.js
+                        relative: 2 // from node_modules/eslint-config-a/relative.js
+                    }
+                });
+            });
+
+            it("should load information from `parser` in .eslintrc with relative path.", function() {
+                var config = ConfigFile.load(path.join(fixturePath, "parser.eslintrc.json"));
+                var parserPath = path.join(fixturePath, "parser.js");
+
+                assert.deepEqual(config, {
+                    env: {},
+                    globals: {},
+                    parser: parserPath,
+                    parserOptions: {},
+                    rules: {}
+                });
             });
         });
 
