@@ -1,3 +1,10 @@
+v2.13.1 - June 20, 2016
+
+* 434de7f Fix: wrong baseDir (fixes #6450) (#6457) (Toru Nagashima)
+* 3c9ce09 Fix: Keep indentation when fixing `padded-blocks` "never" (fixes #6454) (#6456) (Ed Lee)
+* a9d4cb2 Docs: Fix typo in max-params examples (#6471) (J. William Ashton)
+* 1e185b9 Fix: no-multiple-empty-lines errors when no line breaks (fixes #6449) (#6451) (strawbrary)
+
 v2.13.0 - June 17, 2016
 
 * cf223dd Fix: add test for a syntax error (fixes #6013) (#6378) (Toru Nagashima)
