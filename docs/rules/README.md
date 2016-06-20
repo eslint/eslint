@@ -247,7 +247,7 @@ These rules relate to ES6, also known as ES2015:
 * [no-useless-constructor](no-useless-constructor.md): disallow unnecessary constructors
 * [no-useless-rename](no-useless-rename.md): disallow renaming import, export, and destructured assignments to the same name (fixable)
 * [no-var](no-var.md): require `let` or `const` instead of `var`
-* [object-shorthand](object-shorthand.md): require or disallow method and property shorthand syntax for object literals
+* [object-shorthand](object-shorthand.md): require or disallow method and property shorthand syntax for object literals (fixable)
 * [prefer-arrow-callback](prefer-arrow-callback.md): require arrow functions as callbacks
 * [prefer-const](prefer-const.md): require `const` declarations for variables that are never reassigned after declared
 * [prefer-reflect](prefer-reflect.md): require `Reflect` methods where applicable
