@@ -57,7 +57,7 @@ var NODE = "node ", // intentional extra space
 
     // Utilities - intentional extra space at the end of each string
     MOCHA = NODE_MODULES + "mocha/bin/_mocha ",
-    ESLINT = NODE + " bin/eslint.js ",
+    ESLINT = NODE + " bin/eslint.js --rulesdir lib/internal-rules/ ",
 
     // Files
     MAKEFILE = "./Makefile.js",
