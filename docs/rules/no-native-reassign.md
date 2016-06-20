@@ -10,12 +10,12 @@ While examples such as `window` are obvious, there are often hundreds of built-i
 
 ## Rule Details
 
+This rule disallows modifications to read-only global variables.
+
 ESLint has the capability to configure global variables as read-only.
 
 * [Specifying Environments](../user-guide/configuring#specifying-environments)
 * [Specifying Globals](../user-guide/configuring#specifying-globals)
-
-This rule warns modifications of those read-only global variables.
 
 Examples of **incorrect** code for this rule:
 
@@ -24,13 +24,21 @@ Examples of **incorrect** code for this rule:
 
 Object = null
 undefined = 1
+```
 
-// if `env: {browser: true}`, ...
-window = null
+```js
+/*eslint no-native-reassign: "error"*/
+/*eslint-env browser*/
+
+window = {}
 length = 1
 top = 1
+```
 
+```js
+/*eslint no-native-reassign: "error"*/
 /*globals a:false*/
+
 a = 1
 ```
 
@@ -42,12 +50,20 @@ Examples of **correct** code for this rule:
 a = 1
 var b = 1
 b = 2
+```
 
-// if `env: {browser: true}`, ...
+```js
+/*eslint no-native-reassign: "error"*/
+/*eslint-env browser*/
+
 onload = function() {}
+```
 
-/*globals c:true*/
-c = 1
+```js
+/*eslint no-native-reassign: "error"*/
+/*globals a:true*/
+
+a = 1
 ```
 
 ## Options
