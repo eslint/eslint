@@ -310,6 +310,8 @@ var report = cli.executeOnText("var foo = 'bar';", "foo.js");
 
 The `report` returned from `executeOnText()` is in the same format as from `executeOnFiles()`, but there is only ever one result in `report.results`.
 
+If a filename in the optional second parameter matches a file that is configured to be ignored, then this function returns no errors or warnings. To return a warning instead, call the method with true as the optional third parameter.
+
 ### addPlugin()
 
 Loads a plugin from configuration object with specified name. Name can include plugin prefix ("eslint-plugin-")
