@@ -148,13 +148,13 @@ describe("CLIEngine", function() {
             assert.equal(report.results[0].filePath, getFixturePath("test.js"));
         });
 
-        it("should return a warning when given a filename by --stdin-filename in excluded files list", function() {
+        it("should return a warning when given a filename by --stdin-filename in excluded files list if warnIgnored is set", function() {
             engine = new CLIEngine({
                 ignorePath: getFixturePath(".eslintignore"),
                 cwd: getFixturePath("..")
             });
 
-            var report = engine.executeOnText("var bar = foo;", "fixtures/passing.js");
+            var report = engine.executeOnText("var bar = foo;", "fixtures/passing.js", true);
 
             assert.equal(report.results.length, 1);
             assert.equal(report.errorCount, 0);
@@ -165,6 +165,19 @@ describe("CLIEngine", function() {
             assert.isUndefined(report.results[0].messages[0].output);
             assert.equal(report.results[0].errorCount, 0);
             assert.equal(report.results[0].warningCount, 1);
+        });
+
+        it("should suppress excluded file warnings by default", function() {
+            engine = new CLIEngine({
+                ignorePath: getFixturePath(".eslintignore"),
+                cwd: getFixturePath("..")
+            });
+
+            var report = engine.executeOnText("var bar = foo;", "fixtures/passing.js");
+
+            assert.equal(report.results.length, 1);
+            assert.equal(report.results[0].errorCount, 0);
+            assert.equal(report.results[0].warningCount, 0);
         });
 
         it("should return a message when given a filename by --stdin-filename in excluded files list and ignore is off", function() {
@@ -338,7 +351,7 @@ describe("CLIEngine", function() {
                 ignore: false
             });
 
-            var report = engine.executeOnText("var bar = foo;", "node_modules/passing.js");
+            var report = engine.executeOnText("var bar = foo;", "node_modules/passing.js", true);
             var expectedMsg = "File ignored by default. Use \"--ignore-pattern \'!node_modules/*\'\" to override.";
 
             assert.equal(report.results.length, 1);
@@ -2177,7 +2190,7 @@ describe("CLIEngine", function() {
                 cwd: path.join(fixtureDir, "..")
             });
 
-            var report = engine.executeOnText("var bar = foo;", "fixtures/passing.js");
+            var report = engine.executeOnText("var bar = foo;", "fixtures/passing.js", true);
             var errorReport = CLIEngine.getErrorResults(report.results);
 
             assert.lengthOf(errorReport, 0);

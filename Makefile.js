@@ -410,7 +410,7 @@ function getFormatterResults() {
             "    }",
             "};"
         ].join("\n"),
-        rawMessages = cli.executeOnText(codeString, "fullOfProblems.js");
+        rawMessages = cli.executeOnText(codeString, "fullOfProblems.js", true);
 
     return formatterFiles.reduce(function(data, filename) {
         var fileExt = path.extname(filename),
