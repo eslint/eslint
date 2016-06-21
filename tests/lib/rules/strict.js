@@ -67,6 +67,11 @@ ruleTester.run("strict", rule, {
             parserOptions: { ecmaVersion: 6 },
             options: ["function"]
         },
+        {
+            code: "(function() { 'use strict'; function foo(a = 0) { } }())",
+            parserOptions: {ecmaVersion: 6},
+            options: ["function"]
+        },
 
 
         // "safe" mode corresponds to "global" if ecmaFeatures.globalReturn is true, otherwise "function"
@@ -433,6 +438,80 @@ ruleTester.run("strict", rule, {
                 { message: "'use strict' is unnecessary inside of modules.", type: "ExpressionStatement" },
                 { message: "'use strict' is unnecessary inside of modules.", type: "ExpressionStatement" }
             ]
+        },
+
+        // Reports deprecated syntax: https://github.com/eslint/eslint/issues/6405
+        {
+            code: "function foo(a = 0) { 'use strict' }",
+            parserOptions: {ecmaVersion: 6},
+            options: [],
+            errors: ["'use strict' directive inside a function with non-simple parameter list throws a syntax error since ES2016."]
+        },
+        {
+            code: "(function() { 'use strict'; function foo(a = 0) { 'use strict' } }())",
+            parserOptions: {ecmaVersion: 6},
+            options: [],
+            errors: ["'use strict' directive inside a function with non-simple parameter list throws a syntax error since ES2016."]
+        },
+        {
+            code: "function foo(a = 0) { 'use strict' }",
+            parserOptions: {ecmaVersion: 6, ecmaFeatures: {globalReturn: true}},
+            options: [],
+            errors: [
+                "Use the global form of 'use strict'.",
+                "'use strict' directive inside a function with non-simple parameter list throws a syntax error since ES2016."
+            ]
+        },
+        {
+            code: "'use strict'; function foo(a = 0) { 'use strict' }",
+            parserOptions: {ecmaVersion: 6, ecmaFeatures: {globalReturn: true}},
+            options: [],
+            errors: ["'use strict' directive inside a function with non-simple parameter list throws a syntax error since ES2016."]
+        },
+        {
+            code: "function foo(a = 0) { 'use strict' }",
+            parserOptions: {ecmaVersion: 6},
+            options: ["never"],
+            errors: ["'use strict' directive inside a function with non-simple parameter list throws a syntax error since ES2016."]
+        },
+        {
+            code: "function foo(a = 0) { 'use strict' }",
+            parserOptions: {ecmaVersion: 6},
+            options: ["global"],
+            errors: [
+                "Use the global form of 'use strict'.",
+                "'use strict' directive inside a function with non-simple parameter list throws a syntax error since ES2016."
+            ]
+        },
+        {
+            code: "'use strict'; function foo(a = 0) { 'use strict' }",
+            parserOptions: {ecmaVersion: 6},
+            options: ["global"],
+            errors: ["'use strict' directive inside a function with non-simple parameter list throws a syntax error since ES2016."]
+        },
+        {
+            code: "function foo(a = 0) { 'use strict' }",
+            parserOptions: {ecmaVersion: 6},
+            options: ["function"],
+            errors: ["'use strict' directive inside a function with non-simple parameter list throws a syntax error since ES2016."]
+        },
+        {
+            code: "(function() { 'use strict'; function foo(a = 0) { 'use strict' } }())",
+            parserOptions: {ecmaVersion: 6},
+            options: ["function"],
+            errors: ["'use strict' directive inside a function with non-simple parameter list throws a syntax error since ES2016."]
+        },
+        {
+            code: "function foo(a = 0) { }",
+            parserOptions: {ecmaVersion: 6},
+            options: ["function"],
+            errors: ["Wrap this function in a function with 'use strict' directive."]
+        },
+        {
+            code: "(function() { function foo(a = 0) { } }())",
+            parserOptions: {ecmaVersion: 6},
+            options: ["function"],
+            errors: ["Use the function form of 'use strict'."]
         }
 
     ]
