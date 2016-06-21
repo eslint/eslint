@@ -34,10 +34,10 @@ This rule accepts an object with its properties as
 * `ignoreCase` (default: `false`)
 * `ignoreMemberSort` (default: `false`)
 * `memberSyntaxSortOrder` (default: `["none", "all", "multiple", "single"]`); all 4 items must be present in the array, but you can change the order:
-  * `none` = import module without exported bindings.
-  * `all` = import all members provided by exported bindings.
-  * `multiple` = import multiple members.
-  * `single` = import single member.
+    * `none` = import module without exported bindings.
+    * `all` = import all members provided by exported bindings.
+    * `multiple` = import multiple members.
+    * `single` = import single member.
 
 Default option settings are:
 
