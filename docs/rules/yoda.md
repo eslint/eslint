@@ -8,7 +8,7 @@ if ("red" === color) {
 }
 ```
 
-This is called a Yoda condition because it reads as, "red is the color", similar to the way the Star Wars character Yoda speaks. Compare to the other way of arranging the operands:
+This is called a Yoda condition because it reads as, "red the color is", similar to the way the Star Wars character Yoda speaks. Compare to the other way of arranging the operands:
 
 ```js
 if (color === "red") {
