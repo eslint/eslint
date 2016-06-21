@@ -252,6 +252,7 @@ Examples of **correct** code for this rule when used without exceptions:
 
 Reflect.getOwnPropertyNames({})
 ```
+
 Examples of **correct** code for this rule with the `{ "exceptions": ["getOwnPropertyNames"] }` option:
 
 ```js
@@ -280,6 +281,7 @@ Examples of **correct** code for this rule when used without exceptions:
 
 Reflect.preventExtensions({})
 ```
+
 Examples of **correct** code for this rule with the `{ "exceptions": ["preventExtensions"] }` option:
 
 ```js
