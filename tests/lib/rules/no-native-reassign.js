@@ -25,34 +25,37 @@ ruleTester.run("no-native-reassign", rule, {
         { code: "Object = 0;", options: [{exceptions: ["Object"]}] },
         { code: "top = 0;" },
         { code: "onload = 0;", env: {browser: true} },
-        { code: "require = 0;" }
+        { code: "require = 0;" },
+        { code: "a = 1", globals: {a: true}},
+        "/*global a:true*/ a = 1"
     ],
     invalid: [
-        { code: "String = 'hello world';", errors: [{ message: "String is a read-only native object.", type: "Identifier"}] },
+        { code: "String = 'hello world';", errors: [{ message: "Read-only global 'String' should not be modified.", type: "Identifier"}] },
+        { code: "String++;", errors: [{ message: "Read-only global 'String' should not be modified.", type: "Identifier"}] },
         {
             code: "({Object = 0, String = 0} = {});",
             parserOptions: { ecmaVersion: 6 },
             errors: [
-                {message: "Object is a read-only native object.", type: "Identifier"},
-                {message: "String is a read-only native object.", type: "Identifier"}
+                {message: "Read-only global 'Object' should not be modified.", type: "Identifier"},
+                {message: "Read-only global 'String' should not be modified.", type: "Identifier"}
             ]
         },
         {
             code: "top = 0;",
             env: {browser: true},
-            errors: [{ message: "top is a read-only native object.", type: "Identifier"}]
+            errors: [{ message: "Read-only global 'top' should not be modified.", type: "Identifier"}]
         },
         {
             code: "require = 0;",
             env: {node: true},
-            errors: [{ message: "require is a read-only native object.", type: "Identifier"}]
+            errors: [{ message: "Read-only global 'require' should not be modified.", type: "Identifier"}]
         },
 
         // Notifications of readonly are moved from no-undef: https://github.com/eslint/eslint/issues/4504
-        { code: "/*global b:false*/ function f() { b = 1; }", errors: [{ message: "b is a read-only native object.", type: "Identifier"}] },
-        { code: "function f() { b = 1; }", global: { b: false }, errors: [{ message: "b is a read-only native object.", type: "Identifier"}] },
-        { code: "/*global b:false*/ function f() { b++; }", errors: [{ message: "b is a read-only native object.", type: "Identifier"}] },
-        { code: "/*global b*/ b = 1;", errors: [{ message: "b is a read-only native object.", type: "Identifier"}] },
-        { code: "Array = 1;", errors: [{ message: "Array is a read-only native object.", type: "Identifier"}] }
+        { code: "/*global b:false*/ function f() { b = 1; }", errors: [{ message: "Read-only global 'b' should not be modified.", type: "Identifier"}] },
+        { code: "function f() { b = 1; }", global: { b: false }, errors: [{ message: "Read-only global 'b' should not be modified.", type: "Identifier"}] },
+        { code: "/*global b:false*/ function f() { b++; }", errors: [{ message: "Read-only global 'b' should not be modified.", type: "Identifier"}] },
+        { code: "/*global b*/ b = 1;", errors: [{ message: "Read-only global 'b' should not be modified.", type: "Identifier"}] },
+        { code: "Array = 1;", errors: [{ message: "Read-only global 'Array' should not be modified.", type: "Identifier"}] }
     ]
 });

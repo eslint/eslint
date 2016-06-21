@@ -81,7 +81,7 @@ These rules relate to better ways of doing things to help you avoid problems:
 * [no-magic-numbers](no-magic-numbers.md): disallow magic numbers
 * [no-multi-spaces](no-multi-spaces.md): disallow multiple spaces (fixable)
 * [no-multi-str](no-multi-str.md): disallow multiline strings
-* [no-native-reassign](no-native-reassign.md): disallow reassigning native objects
+* [no-native-reassign](no-native-reassign.md): disallow assignments to native objects or read-only global variables
 * [no-new](no-new.md): disallow `new` operators outside of assignments or comparisons
 * [no-new-func](no-new-func.md): disallow `new` operators with the `Function` object
 * [no-new-wrappers](no-new-wrappers.md): disallow `new` operators with the `String`, `Number`, and `Boolean` objects
