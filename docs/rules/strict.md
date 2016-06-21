@@ -38,8 +38,6 @@ In the **CommonJS** module system, a hidden function wraps each module and limit
 
 In **ECMAScript** modules, which always have strict mode semantics, the directives are unnecessary.
 
-Since **ECMAScript 2016**, `"use strict"` directive in a function with non-simple parameter list is a syntax error. This rule disallows such `"use strict"` directives. See also the examples of [function option](#function)
-
 ## Rule Details
 
 This rule requires or disallows strict mode directives.
@@ -48,6 +46,8 @@ This rule disallows strict mode directives, no matter which option is specified,
 
 * `"sourceType": "module"` that is, files are **ECMAScript** modules
 * `"impliedStrict": true` property in the `ecmaFeatures` object
+
+This rule disallows strict mode directives, no matter which option is specified, in functions with non-simple parameter lists (for example, parameter lists with default parameter values) because that is a syntax error in **ECMAScript 2016** and later. See the examples of the [function](#function) option.
 
 ## Options
 
@@ -129,10 +129,6 @@ function foo() {
 
 function foo() {
 }
-```
-
-```js
-/*eslint strict: ["error", "function"]*/
 
 (function() {
     function bar() {
