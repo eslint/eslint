@@ -136,6 +136,9 @@ ruleTester.run("object-shorthand", rule, {
         { code: "var x = {notConstructorFunction(){}, b: c}", output: "var x = {notConstructorFunction: function(){}, b: c}", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "Expected longform method syntax.", type: "Property" }], options: ["never"] },
 
         // // avoidQuotes
+        { code: "var x = {a: a}", output: "var x = {a}", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "Expected property shorthand.", type: "Property" }], options: ["always", {avoidQuotes: true}] },
+        { code: "var x = {a: function(){}}", output: "var x = {a(){}}", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "Expected method shorthand.", type: "Property" }], options: ["methods", {avoidQuotes: true}] },
+        { code: "var x = {[a]: function(){}}", output: "var x = {[a](){}}", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "Expected method shorthand.", type: "Property" }], options: ["methods", {avoidQuotes: true}] },
         { code: "var x = {'a'(){}}", output: "var x = {'a': function(){}}", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "Expected longform method syntax for string literal keys.", type: "Property" }], options: ["always", {avoidQuotes: true}] },
         { code: "var x = {['a'](){}}", output: "var x = {['a']: function(){}}", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "Expected longform method syntax for string literal keys.", type: "Property" }], options: ["methods", {avoidQuotes: true}] }
     ]
