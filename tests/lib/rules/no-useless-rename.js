@@ -146,6 +146,12 @@ ruleTester.run("no-useless-rename", rule, {
             errors: ["Destructuring assignment foo unnecessarily renamed."]
         },
         {
+            code: "let {a, foo: foo} = obj;",
+            output: "let {a, foo} = obj;",
+            parserOptions: { ecmaVersion: 6 },
+            errors: ["Destructuring assignment foo unnecessarily renamed."]
+        },
+        {
             code: "let {foo: foo, bar: baz} = obj;",
             output: "let {foo, bar: baz} = obj;",
             parserOptions: { ecmaVersion: 6 },
