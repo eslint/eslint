@@ -44,6 +44,8 @@ To keep a sense of consistency when using generators this rule enforces a single
 
 This rule aims to enforce spacing around the `*` of generator functions.
 
+## Options
+
 The rule takes one option, an object, which has two keys `before` and `after` having boolean values `true` or `false`.
 
 * `before` enforces spacing between the `*` and the `function` keyword.
@@ -71,7 +73,11 @@ And the option has shorthand as a string keyword:
 "generator-star-spacing": ["error", "after"]
 ```
 
-When using `{"before": true, "after": false}` this placement will be enforced:
+## Examples
+
+### before
+
+Examples of **correct** code for this rule with the `"before"` option:
 
 ```js
 /*eslint generator-star-spacing: ["error", {"before": true, "after": false}]*/
@@ -84,7 +90,9 @@ var anonymous = function *() {};
 var shorthand = { *generator() {} };
 ```
 
-When using `{"before": false, "after": true}` this placement will be enforced:
+### after
+
+Examples of **correct** code for this rule with the `"after"` option:
 
 ```js
 /*eslint generator-star-spacing: ["error", {"before": false, "after": true}]*/
@@ -97,7 +105,9 @@ var anonymous = function* () {};
 var shorthand = { * generator() {} };
 ```
 
-When using `{"before": true, "after": true}` this placement will be enforced:
+### both
+
+Examples of **correct** code for this rule with the `"both"` option:
 
 ```js
 /*eslint generator-star-spacing: ["error", {"before": true, "after": true}]*/
@@ -110,7 +120,9 @@ var anonymous = function * () {};
 var shorthand = { * generator() {} };
 ```
 
-When using `{"before": false, "after": false}` this placement will be enforced:
+### neither
+
+Examples of **correct** code for this rule with the `"neither"` option:
 
 ```js
 /*eslint generator-star-spacing: ["error", {"before": false, "after": false}]*/
