@@ -8,7 +8,7 @@ if ("red" === color) {
 }
 ```
 
-This is called a Yoda condition because it reads as, "red is the color", similar to the way the Star Wars character Yoda speaks. Compare to the other way of arranging the operands:
+This is called a Yoda condition because it reads as, "if red equals the color", similar to the way the Star Wars character Yoda speaks. Compare to the other way of arranging the operands:
 
 ```js
 if (color === "red") {
@@ -16,7 +16,7 @@ if (color === "red") {
 }
 ```
 
-This typically reads, "color is red", which is arguably a more natural way to describe the comparison.
+This typically reads, "if the color equals red", which is arguably a more natural way to describe the comparison.
 
 Proponents of Yoda conditions highlight that it is impossible to mistakenly use `=` instead of `==` because you cannot assign to a literal value. Doing so will cause a syntax error and you will be informed of the mistake early on. This practice was therefore very common in early programming where tools were not yet available.
 
