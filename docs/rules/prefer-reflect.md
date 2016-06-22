@@ -31,7 +31,7 @@ These can be combined as much as you like. To make all methods exceptions (there
 
 ### Reflect.apply
 
-> Deprecates `Function.prototype.apply()` and `Function.prototype.call()`
+Deprecates `Function.prototype.apply()` and `Function.prototype.call()`
 
 Examples of **incorrect** code for this rule when used without exceptions:
 
@@ -90,7 +90,7 @@ obj.foo.call(other, arg);
 
 ### Reflect.defineProperty
 
-> Deprecates `Object.defineProperty()`
+Deprecates `Object.defineProperty()`
 
 Examples of **incorrect** code for this rule when used without exceptions:
 
@@ -119,7 +119,7 @@ Reflect.defineProperty({}, 'foo', {value: 1})
 
 ### Reflect.getOwnPropertyDescriptor
 
-> Deprecates `Object.getOwnPropertyDescriptor()`
+Deprecates `Object.getOwnPropertyDescriptor()`
 
 Examples of **incorrect** code for this rule when used without exceptions:
 
@@ -148,7 +148,7 @@ Reflect.getOwnPropertyDescriptor({}, 'foo')
 
 ### Reflect.getPrototypeOf
 
-> Deprecates `Object.getPrototypeOf()`
+Deprecates `Object.getPrototypeOf()`
 
 Examples of **incorrect** code for this rule when used without exceptions:
 
@@ -177,7 +177,7 @@ Reflect.getPrototypeOf({}, 'foo')
 
 ### Reflect.setPrototypeOf
 
-> Deprecates `Object.setPrototypeOf()`
+Deprecates `Object.setPrototypeOf()`
 
 Examples of **incorrect** code for this rule when used without exceptions:
 
@@ -206,7 +206,7 @@ Reflect.setPrototypeOf({}, Object.prototype)
 
 ### Reflect.isExtensible
 
-> Deprecates `Object.isExtensible`
+Deprecates `Object.isExtensible`
 
 Examples of **incorrect** code for this rule when used without exceptions:
 
@@ -235,7 +235,7 @@ Reflect.isExtensible({})
 
 ### Reflect.getOwnPropertyNames
 
-> Deprecates `Object.getOwnPropertyNames()`
+Deprecates `Object.getOwnPropertyNames()`
 
 Examples of **incorrect** code for this rule when used without exceptions:
 
@@ -264,7 +264,7 @@ Reflect.getOwnPropertyNames({})
 
 ### Reflect.preventExtensions
 
-> Deprecates `Object.preventExtensions()`
+Deprecates `Object.preventExtensions()`
 
 Examples of **incorrect** code for this rule when used without exceptions:
 
@@ -293,7 +293,7 @@ Reflect.preventExtensions({})
 
 ### Reflect.deleteProperty
 
-> Deprecates the `delete` keyword
+Deprecates the `delete` keyword
 
 Examples of **incorrect** code for this rule when used without exceptions:
 
@@ -312,7 +312,7 @@ delete bar; // deleting variable
 Reflect.deleteProperty(foo, 'bar');
 ```
 
-> Note: For a rule preventing deletion of variables, see [no-delete-var instead](no-delete-var.md)
+Note: For a rule preventing deletion of variables, see [no-delete-var instead](no-delete-var.md)
 
 Examples of **correct** code for this rule with the `{ "exceptions": ["delete"] }` option:
 
