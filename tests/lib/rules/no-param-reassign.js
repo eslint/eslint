@@ -30,7 +30,11 @@ ruleTester.run("no-param-reassign", rule, {
         { code: "function foo(a) { [a.b] = []; }", parserOptions: { ecmaVersion: 6 } },
         { code: "function foo(a) { bar(a.b).c = 0; }", options: [{ props: true }] },
         { code: "function foo(a) { data[a.b] = 0; }", options: [{ props: true }] },
-        { code: "function foo(a) { +a.b; }", options: [{ props: true }] }
+        { code: "function foo(a) { +a.b; }", options: [{ props: true }] },
+        { code: "function foo($scope) { $scope.valid = true; }", options: [{ignorePropertiesFor: ["$scope"]}] },
+        { code: "function foo($scope) { $scope.valid = true; }", options: [{props: false, ignorePropertiesFor: ["$scope"]}] },
+        { code: "function foo($scope) { $scope.valid = true; }", options: [{props: true, ignorePropertiesFor: ["$scope"]}] },
+        { code: "function foo($scope) { $scope.valid = true; }", options: [{props: false}] }
     ],
 
     invalid: [
@@ -71,6 +75,26 @@ ruleTester.run("no-param-reassign", rule, {
             parserOptions: { ecmaVersion: 6 },
             options: [{ props: true }],
             errors: [{ message: "Assignment to property of function parameter 'bar'." }]
+        },
+        {
+            code: "function foo($scope) { $scope = true; }",
+            options: [{ignorePropertiesFor: ["$scope"]}],
+            errors: [{ message: "Assignment to function parameter '$scope'." }]
+        },
+        {
+            code: "function foo($scope) { $scope = true; }",
+            options: [{props: false, ignorePropertiesFor: ["$scope"]}],
+            errors: [{ message: "Assignment to function parameter '$scope'." }]
+        },
+        {
+            code: "function foo($scope) { $scope = true; }",
+            options: [{props: true, ignorePropertiesFor: ["$scope"]}],
+            errors: [{ message: "Assignment to function parameter '$scope'." }]
+        },
+        {
+            code: "function foo($scope) { $scope.invalid = true; }",
+            options: [{props: true}],
+            errors: [{ message: "Assignment to property of function parameter '$scope'." }]
         }
     ]
 });
