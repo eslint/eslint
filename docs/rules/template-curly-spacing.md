@@ -3,7 +3,8 @@
 (fixable) The `--fix` option on the [command line](../user-guide/command-line-interface#fix) automatically fixes problems reported by this rule.
 
 We can embed expressions in template strings with using a pair of `${` and `}`.
-This rule can force usage of spacing inside of the curly brace pair according to style guides.
+
+This rule can force usage of spacing _within_ the curly brace pair according to style guides.
 
 ```js
 let hello = `hello, ${people.name}!`;
@@ -26,7 +27,11 @@ This rule has one option which has either `"never"` or `"always"` as value.
 * `"never"` (by default) - Disallows spaces inside of the curly brace pair.
 * `"always"` - Requires one or more spaces inside of the curly brace pair.
 
-The following patterns are considered problems when configured `"never"`:
+## Examples
+
+### never
+
+Examples of **incorrect** code for this rule with the default `"never"` option:
 
 ```js
 /*eslint template-curly-spacing: "error"*/
@@ -37,18 +42,7 @@ The following patterns are considered problems when configured `"never"`:
 `hello, ${ people.name }!`;
 ```
 
-The following patterns are considered problems when configured `"always"`:
-
-```js
-/*eslint template-curly-spacing: ["error", "always"]*/
-
-`hello, ${ people.name}!`;
-`hello, ${people.name }!`;
-
-`hello, ${people.name}!`;
-```
-
-The following patterns are not considered problems when configured `"never"`:
+Examples of **correct** code for this rule with the default `"never"` option:
 
 ```js
 /*eslint template-curly-spacing: "error"*/
@@ -60,7 +54,20 @@ The following patterns are not considered problems when configured `"never"`:
 }!`;
 ```
 
-The following patterns are not considered problems when configured `"always"`:
+### always
+
+Examples of **incorrect** code for this rule with the `"always"` option:
+
+```js
+/*eslint template-curly-spacing: ["error", "always"]*/
+
+`hello, ${ people.name}!`;
+`hello, ${people.name }!`;
+
+`hello, ${people.name}!`;
+```
+
+Examples of **correct** code for this rule with the `"always"` option:
 
 ```js
 /*eslint template-curly-spacing: ["error", "always"]*/

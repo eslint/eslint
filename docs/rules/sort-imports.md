@@ -27,15 +27,35 @@ When declaring multiple imports, a sorted list of import declarations make it ea
 
 This rule checks all import declarations and verifies that all imports are first sorted by the used member syntax and then alphabetically by the first member or alias name.
 
-The sort order of import declarations based on the member syntax can be configured via the `memberSyntaxSortOrder` option.
-The default member syntax sort order is:
+## Options
 
-- `none` - import module without exported bindings.
-- `all` - import all members provided by exported bindings.
-- `multiple` - import multiple members.
-- `single` - import single member.
+This rule accepts an object with its properties as
 
-The following example shows correct sorted import declarations:
+* `ignoreCase` (default: `false`)
+* `ignoreMemberSort` (default: `false`)
+* `memberSyntaxSortOrder` (default: `["none", "all", "multiple", "single"]`); all 4 items must be present in the array, but you can change the order:
+    * `none` = import module without exported bindings.
+    * `all` = import all members provided by exported bindings.
+    * `multiple` = import multiple members.
+    * `single` = import single member.
+
+Default option settings are:
+
+```json
+{
+    "sort-imports": ["error", {
+        "ignoreCase": false,
+        "ignoreMemberSort": false,
+        "memberSyntaxSortOrder": ["none", "all", "multiple", "single"]
+    }]
+}
+```
+
+## Examples
+
+### Default settings
+
+Examples of **correct** code for this rule when using default options:
 
 ```js
 /*eslint sort-imports: "error"*/
@@ -46,9 +66,23 @@ import {alpha, beta} from 'alpha.js';
 import {delta, gamma} from 'delta.js';
 import a from 'baz.js';
 import b from 'qux.js';
+
+/*eslint sort-imports: "error"*/
+import a from 'foo.js';
+import b from 'bar.js';
+import c from 'baz.js';
+
+/*eslint sort-imports: "error"*/
+import 'foo.js'
+import * from 'bar.js';
+import {a, b} from 'baz.js';
+import c from 'qux.js';
+
+/*eslint sort-imports: "error"*/
+import {a, b, c} from 'foo.js'
 ```
 
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule when using default options:
 
 ```js
 /*eslint sort-imports: "error"*/
@@ -75,50 +109,11 @@ import * as b from 'bar.js';
 import {b, a, c} from 'foo.js'
 ```
 
-The following patterns are not considered problems:
-
-```js
-/*eslint sort-imports: "error"*/
-import a from 'foo.js';
-import b from 'bar.js';
-import c from 'baz.js';
-
-/*eslint sort-imports: "error"*/
-import 'foo.js'
-import * from 'bar.js';
-import {a, b} from 'baz.js';
-import c from 'qux.js';
-
-/*eslint sort-imports: "error"*/
-import {a, b, c} from 'foo.js'
-```
-
-
-## Options
-
-This rule accepts an object with its properties as
-
-- `ignoreCase` (default: `false`)
-- `ignoreMemberSort` (default: `false`)
-- `memberSyntaxSortOrder` (default: `["none", "all", "multiple", "single"]`)
-
-Default option settings are
-
-```json
-{
-    "sort-imports": ["error", {
-        "ignoreCase": false,
-        "ignoreMemberSort": false,
-        "memberSyntaxSortOrder": ["none", "all", "multiple", "single"]
-    }]
-}
-```
-
 ### `ignoreCase`
 
 When `true` the rule ignores the case-sensitivity of the imports local name.
 
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule with the `{ "ignoreCase": true }` option:
 
 ```js
 /*eslint sort-imports: ["error", { "ignoreCase": true }]*/
@@ -127,7 +122,7 @@ import B from 'foo.js';
 import a from 'bar.js';
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule with the `{ "ignoreCase": true }` option:
 
 ```js
 /*eslint sort-imports: ["error", { "ignoreCase": true }]*/
@@ -143,14 +138,14 @@ Default is `false`.
 
 Ignores the member sorting within a `multiple` member import declaration.
 
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule with the default `{ "ignoreMemberSort": false }` option:
 
 ```js
-/*eslint sort-imports: "error"*/
+/*eslint sort-imports: ["error", { "ignoreMemberSort": false }]*/
 import {b, a, c} from 'foo.js'
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule with the `{ "ignoreMemberSort": true }` option:
 
 ```js
 /*eslint sort-imports: ["error", { "ignoreMemberSort": true }]*/
@@ -161,16 +156,16 @@ Default is `false`.
 
 ### `memberSyntaxSortOrder`
 
-The member syntax sort order can be configured with this option. There are four different styles and the default member syntax sort order is:
+There are four different styles and the default member syntax sort order is:
 
-- `none` - import module without exported bindings.
-- `all` - import all members provided by exported bindings.
-- `multiple` - import multiple members.
-- `single` - import single member.
+* `none` - import module without exported bindings.
+* `all` - import all members provided by exported bindings.
+* `multiple` - import multiple members.
+* `single` - import single member.
 
-Use this option if you want a different sort order. Every style must be defined in the sort order (There shall be four items in the array).
+All four options must be specified in the array, but you can customise their order.
 
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule with the default `{ "memberSyntaxSortOrder": ["none", "all", "multiple", "single"] }` option:
 
 ```js
 /*eslint sort-imports: "error"*/
@@ -178,14 +173,18 @@ import a from 'foo.js';
 import * as b from 'bar.js';
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule with the `{ "memberSyntaxSortOrder": ['single', 'all', 'multiple', 'none'] }` option:
 
 ```js
 /*eslint sort-imports: ["error", { "memberSyntaxSortOrder": ['single', 'all', 'multiple', 'none'] }]*/
 
 import a from 'foo.js';
 import * as b from 'bar.js';
+```
 
+Examples of **correct** code for this rule with the `{ "memberSyntaxSortOrder": ['all', 'single', 'multiple', 'none'] }` option:
+
+```
 /*eslint sort-imports: ["error", { "memberSyntaxSortOrder": ['all', 'single', 'multiple', 'none'] }]*/
 
 import * as foo from 'foo.js';
