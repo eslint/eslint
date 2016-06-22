@@ -12,7 +12,9 @@ This throws a `TypeError` exception.
 
 This rule is aimed at preventing the accidental calling of `Symbol` with the `new` operator.
 
-The following patterns are considered problems:
+## Examples
+
+Examples of **incorrect** code for this rule:
 
 ```js
 /*eslint no-new-symbol: "error"*/
@@ -21,7 +23,7 @@ The following patterns are considered problems:
 var foo = new Symbol('foo');
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule:
 
 ```js
 /*eslint no-new-symbol: "error"*/
