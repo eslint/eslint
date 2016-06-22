@@ -19,7 +19,9 @@ class A extends B {
 
 This rule flags class constructors that can be safely removed without changing how the class works.
 
-The following patterns are considered problems:
+## Examples
+
+Examples of **incorrect** code for this rule:
 
 ```js
 /*eslint no-useless-constructor: "error"*/
@@ -37,7 +39,7 @@ class A extends B {
 }
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule:
 
 ```js
 /*eslint no-useless-constructor: "error"*/

@@ -16,6 +16,8 @@ var foo = {"a": "b"};
 
 This rule disallows unnecessary usage of computed property keys.
 
+## Examples
+
 Examples of **incorrect** code for this rule:
 
 ```js

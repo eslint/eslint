@@ -19,7 +19,9 @@ foo.bar(); // goodbye
 
 This rule is aimed to flag the use of duplicate names in class members.
 
-The following patterns are considered problems:
+## Examples
+
+Examples of **incorrect** code for this rule:
 
 ```js
 /*eslint no-dupe-class-members: "error"*/
@@ -41,7 +43,7 @@ class Foo {
 }
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule:
 
 ```js
 /*eslint no-dupe-class-members: "error"*/

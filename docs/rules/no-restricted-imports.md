@@ -28,7 +28,9 @@ To restrict the use of all Node.js core imports (via https://github.com/nodejs/n
     ],
 ```
 
-The following patterns are considered problems:
+## Examples
+
+Examples of **incorrect** code for this rule:
 
 ```js
 /*eslint no-restricted-imports: ["error", "fs"]*/
@@ -42,7 +44,7 @@ import fs from 'fs';
 import cluster from ' cluster ';
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule:
 
 ```js
 /*eslint no-restricted-imports: ["error", "fs"]*/
