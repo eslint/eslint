@@ -6,7 +6,7 @@ Some styleguides require or disallow spaces before or after unary operators. Thi
 
 ## Rule Details
 
-This rule enforces consistency regarding the spaces after `words` unary operators and after/before `nonwords` unary operators.
+This rule enforces consistency regarding the spaces after `words` unary operators and after/before `non-words` unary operators.
 
 Examples of unary `words` operators:
 
@@ -27,7 +27,7 @@ typeof {} // object
 void 0 // undefined
 ```
 
-Examples of unary `nonwords` operators:
+Examples of unary `non-words` operators:
 
 ```js
 if ([1,2,3].indexOf(1) !== -1) {};
@@ -43,25 +43,27 @@ This rule has three options:
 
 * `words` - applies to unary word operators such as: `new`, `delete`, `typeof`, `void`, `yield`
 * `nonwords` - applies to unary operators such as: `-`, `+`, `--`, `++`, `!`, `!!`
-* `overrides` - specifies overwriting usage of spacing for each
-  operator, word or non word. This is empty by default, but can be used
-  to enforce or disallow spacing around operators. For example:
+* `overrides` - specifies overwriting usage of spacing for each operator, word or non-word. This is empty by default, but can be used to enforce or disallow spacing around operators. For example:
 
 ```js
-    "space-unary-ops": [
-        2, {
-          "words": true,
-          "nonwords": false,
-          "overrides": {
-            "new": false,
-            "++": true
-          }
-    }]
+"space-unary-ops": [
+    2, {
+      "words": true,
+      "nonwords": false,
+      "overrides": {
+        "new": false,
+        "++": true
+      }
+}]
 ```
 
 In this case, spacing will be disallowed after a `new` operator and required before/after a `++` operator.
 
-Given the default values `words`: `true`, `nonwords`: `false`, the following patterns are considered problems:
+## Examples
+
+### defaults
+
+Examples of **incorrect** code for this rule with the default `{ "words": true, "nonwords": false }` options:
 
 ```js
 /*eslint space-unary-ops: "error"*/
@@ -92,30 +94,25 @@ function *foo() {
 }
 ```
 
-Given the default values `words`: `true`, `nonwords`: `false`, the following patterns are not considered problems:
+Examples of **correct** code for this rule with the default `{ "words": true, "nonwords": false }` options:
 
 ```js
 /*eslint space-unary-ops: "error"*/
 
-// Word unary operator "delete" is followed by a whitespace.
+// Word unary operators followed by a whitespace.
 delete foo.bar;
 
-// Word unary operator "new" is followed by a whitespace.
 new Foo;
 
-// Word unary operator "void" is followed by a whitespace.
 void 0;
 
-// Unary operator "++" is not followed by whitespace.
+// Non-word unary operators not followed by whitespace.
 ++foo;
 
-// Unary operator "--" is not preceded by whitespace.
 foo--;
 
-// Unary operator "-" is not followed by whitespace.
 -foo;
 
-// Unary operator "+" is not followed by whitespace.
 +"3";
 ```
 

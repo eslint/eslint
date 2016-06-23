@@ -5,13 +5,9 @@
 When formatting a function, whitespace is allowed between the function name or `function` keyword and the opening paren. Named functions also require a space between the `function` keyword and the function name, but anonymous functions require no whitespace. For example:
 
 ```js
-function withoutSpace(x) {
-    // ...
-}
+function withoutSpace(x) {};
 
-function withSpace (x) {
-    // ...
-}
+function withSpace (x) {};
 
 var anonymousWithoutSpace = function() {};
 
@@ -26,303 +22,224 @@ This rule aims to enforce consistent spacing before function parentheses and as 
 
 ## Options
 
-This rule takes one argument. If it is `"always"` then all named functions and anonymous functions must have space before function parentheses. If `"never"` then all named functions and anonymous functions must not have space before function parentheses. If you want different spacing for named and anonymous functions you can pass a configuration object as the rule argument to configure those separately (e. g. `{"anonymous": "always", "named": "never"}`). In this case, you can use "ignore" to only apply the rule to one type of function (e. g. `{"anonymous": "ignore", "named": "never"}` will warn on spaces for named functions, but will not warn on anonymous functions one way or the other).
+This rule can have either a simple string argument or an object literal (if more granular control is required).
+
+The string argument can either be:
+
+* `"always"` _(default)_ - all functions, named and anonymous, must have space before function parentheses.
+* `"never"` - all functions, named and anonymous, must not have space before function parentheses.
+
+If you want different spacing for named and anonymous functions you can pass a configuration object as the rule argument to configure those separately (e. g. `{"anonymous": "always", "named": "never"}`). In this case, you can use `"ignore"` to only apply the rule to one type of function (e. g. `{"anonymous": "ignore", "named": "never"}` will warn on spaces for named functions, but will not warn on anonymous functions one way or the other).
 
 The default configuration is `"always"`.
 
-### "always"
+## Examples
 
-The following patterns are considered problems:
+### always
+
+Examples of **incorrect** code for this rule with the default `"always"` option:
 
 ```js
 /*eslint space-before-function-paren: "error"*/
 /*eslint-env es6*/
 
-function foo() {
-    // ...
-}
+function foo() {};
 
-var bar = function() {
-    // ...
-};
+var bar = function() {};
 
-var bar = function foo() {
-    // ...
-};
+var bar = function foo() {};
 
 class Foo {
-    constructor() {
-        // ...
-    }
+    constructor() {}
 }
 
 var foo = {
-    bar() {
-        // ...
-    }
+    bar() {}
 };
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule with the default `"always"` option:
 
 ```js
 /*eslint space-before-function-paren: "error"*/
 /*eslint-env es6*/
 
-function foo () {
-    // ...
-}
+function foo () {};
 
-var bar = function () {
-    // ...
-};
+var bar = function () {};
 
-var bar = function foo () {
-    // ...
-};
+var bar = function foo () {};
 
 class Foo {
-    constructor () {
-        // ...
-    }
+    constructor () {}
 }
 
 var foo = {
-    bar () {
-        // ...
-    }
+    bar () {}
 };
 ```
 
 ### "never"
 
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule with the `"never"` option:
 
 ```js
 /*eslint space-before-function-paren: ["error", "never"]*/
 /*eslint-env es6*/
 
-function foo () {
-    // ...
-}
+function foo () {};
 
-var bar = function () {
-    // ...
-};
+var bar = function () {};
 
-var bar = function foo () {
-    // ...
-};
+var bar = function foo () {};
 
 class Foo {
-    constructor () {
-        // ...
-    }
+    constructor () {}
 }
 
 var foo = {
-    bar () {
-        // ...
-    }
+    bar () {}
 };
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule with the `"never"` option:
 
 ```js
 /*eslint space-before-function-paren: ["error", "never"]*/
 /*eslint-env es6*/
 
-function foo() {
-    // ...
-}
+function foo() {};
 
-var bar = function() {
-    // ...
-};
+var bar = function() {};
 
-var bar = function foo() {
-    // ...
-};
+var bar = function foo() {};
 
 class Foo {
-    constructor() {
-        // ...
-    }
+    constructor() {}
 }
 
 var foo = {
-    bar() {
-        // ...
-    }
+    bar() {}
 };
 ```
 
-### `{"anonymous": "always", "named": "never"}`
+### anonymous: always, named: never
 
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule with the `{"anonymous": "always", "named": "never"}` option:
 
 ```js
 /*eslint space-before-function-paren: ["error", { "anonymous": "always", "named": "never" }]*/
 /*eslint-env es6*/
 
-function foo () {
-    // ...
-}
+function foo () {};
 
-var bar = function() {
-    // ...
-};
+var bar = function() {};
 
 class Foo {
-    constructor () {
-        // ...
-    }
+    constructor () {}
 }
 
 var foo = {
-    bar () {
-        // ...
-    }
+    bar () {}
 };
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule with the `{"anonymous": "always", "named": "never"}` option:
 
 ```js
 /*eslint space-before-function-paren: ["error", { "anonymous": "always", "named": "never" }]*/
 /*eslint-env es6*/
 
-function foo() {
-    // ...
-}
+function foo() {};
 
-var bar = function () {
-    // ...
-};
+var bar = function () {};
 
 class Foo {
-    constructor() {
-        // ...
-    }
+    constructor() {}
 }
 
 var foo = {
-    bar() {
-        // ...
-    }
+    bar() {}
 };
 ```
 
-### `{"anonymous": "never", "named": "always"}`
+### anonymous: never, named: always
 
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule with the `{"anonymous": "never", "named": "always"}` option:
 
 ```js
 /*eslint space-before-function-paren: ["error", { "anonymous": "never", "named": "always" }]*/
 /*eslint-env es6*/
 
-function foo() {
-    // ...
-}
+function foo() {};
 
-var bar = function () {
-    // ...
-};
+var bar = function () {};
 
 class Foo {
-    constructor() {
-        // ...
-    }
+    constructor() {}
 }
 
 var foo = {
-    bar() {
-        // ...
-    }
+    bar() {}
 };
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule with the `{"anonymous": "never", "named": "always"}` option:
 
 ```js
 /*eslint space-before-function-paren: ["error", { "anonymous": "never", "named": "always" }]*/
 /*eslint-env es6*/
 
-function foo () {
-    // ...
-}
+function foo () {};
 
-var bar = function() {
-    // ...
-};
+var bar = function() {};
 
 class Foo {
-    constructor () {
-        // ...
-    }
+    constructor () {}
 }
 
 var foo = {
-    bar () {
-        // ...
-    }
+    bar () {}
 };
 ```
 
-### `{"anonymous": "ignore", "named": "always"}`
+### anonymous: ignore, named: always
 
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule with the `{"anonymous": "ignore", "named": "always"}` option:
 
 ```js
 /*eslint space-before-function-paren: ["error", { "anonymous": "ignore", "named": "always" }]*/
 /*eslint-env es6*/
 
-function foo() {
-    // ...
-}
+function foo() {};
 
 class Foo {
-    constructor() {
-        // ...
-    }
+    constructor() {}
 }
 
 var foo = {
-    bar() {
-        // ...
-    }
+    bar() {}
 };
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule with the `{"anonymous": "ignore", "named": "always"}` option:
 
 ```js
 /*eslint space-before-function-paren: ["error", { "anonymous": "ignore", "named": "always" }]*/
 /*eslint-env es6*/
 
-var bar = function() {
-    // ...
-};
+var bar = function() {};
 
-var bar = function () {
-    // ...
-};
+var bar = function () {};
 
-function foo () {
-    // ...
-}
+function foo () {};
 
 class Foo {
-    constructor () {
-        // ...
-    }
+    constructor () {}
 }
 
 var foo = {
-    bar () {
-        // ...
-    }
+    bar () {}
 };
 ```
 
