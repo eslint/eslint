@@ -6,10 +6,9 @@ Some people consider large files a code smell. Large files tend to do a lot of t
 
 This rule enforces a maximum number of lines per file, in order to aid in maintainability and reduce complexity.
 
-
 ## Options
 
-This rule has a number or object option:
+This rule takes either a number (the value for `"max"`) _or_ an object option:
 
 * `"max"` (default `300`) enforces a maximum number of lines in a file
 
@@ -17,26 +16,28 @@ This rule has a number or object option:
 
 * `"skipComments": true` ignore lines containing just comments
 
-### code
+## Examples
+
+### max
 
 Examples of **incorrect** code for this rule with a max value of `2`:
 
 ```js
-/*eslint max-lines: ["error", 2]*/
+/* eslint "max-lines": ["error", 2] */
 var a,
     b,
     c;
 ```
 
 ```js
-/*eslint max-lines: ["error", 2]*/
+/* eslint "max-lines": ["error", 2] */
 
 var a,
     b,c;
 ```
 
 ```js
-/*eslint max-lines: ["error", 2]*/
+/* eslint "max-lines": ["error", { "max": 2 }] */
 // a comment
 var a,
     b,c;
@@ -45,19 +46,19 @@ var a,
 Examples of **correct** code for this rule with a max value of `2`:
 
 ```js
-/*eslint max-lines: ["error", 2]*/
+/* eslint "max-lines": ["error", 2] */
 var a,
     b, c;
 ```
 
 ```js
-/*eslint max-lines: ["error", 2]*/
+/* eslint "max-lines": ["error", 2] */
 
 var a, b, c;
 ```
 
 ```js
-/*eslint max-lines: ["error", 2]*/
+/* eslint "max-lines": ["error", { "max": 2 }] */
 // a comment
 var a, b, c;
 ```
@@ -67,7 +68,7 @@ var a, b, c;
 Examples of **incorrect** code for this rule with the `{ "skipBlankLines": true }` option:
 
 ```js
-/*eslint max-lines: ["error", 2, {"skipBlankLines": true}]*/
+/* eslint "max-lines": ["error", { "max": 2, "skipBlankLines": true }] */
 
 var a,
     b,
@@ -77,7 +78,7 @@ var a,
 Examples of **correct** code for this rule with the `{ "skipBlankLines": true }` option:
 
 ```js
-/*eslint max-lines: ["error", 2, {"skipBlankLines": true}]*/
+/* eslint "max-lines": ["error", { "max": 2, "skipBlankLines": true }] */
 
 var a,
     b, c;
@@ -88,7 +89,7 @@ var a,
 Examples of **incorrect** code for this rule with the `{ "skipComments": true }` option:
 
 ```js
-/*eslint max-lines: ["error", 2, {"skipComments": true}]*/
+/* eslint "max-lines": ["error", { "max": 2, "skipComments": true }] */
 // a comment
 var a,
     b,
@@ -98,7 +99,7 @@ var a,
 Examples of **correct** code for this rule with the `{ "skipComments": true }` option:
 
 ```js
-/*eslint max-lines: ["error", 2, {"skipComments": true}]*/
+/* eslint "max-lines": ["error", { "max": 2, "skipComments": true }] */
 // a comment
 var a,
     b, c;
