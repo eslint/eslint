@@ -940,6 +940,46 @@ describe("Config", function() {
                 }, "No ESLint configuration found");
             });
 
+            it("should not throw an error if no local config and no personal config was found but useEslintrc is false", function() {
+                var projectPath = getFakeFixturePath("personal-config", "project-without-config"),
+                    homePath = getFakeFixturePath("personal-config", "folder-does-not-exist"),
+                    filePath = getFakeFixturePath("personal-config", "project-without-config", "foo.js");
+
+                var StubbedConfig = proxyquire("../../lib/config", { "user-home": homePath });
+
+                mockPersonalConfigFileSystem();
+                mockCWDResponse(projectPath);
+
+                var config = new StubbedConfig({
+                    cwd: process.cwd(),
+                    useEslintrc: false
+                });
+
+                assert.doesNotThrow(function() {
+                    config.getConfig(filePath);
+                }, "No ESLint configuration found");
+            });
+
+            it("should not throw an error if no local config and no personal config was found but rules are specified", function() {
+                var projectPath = getFakeFixturePath("personal-config", "project-without-config"),
+                    homePath = getFakeFixturePath("personal-config", "folder-does-not-exist"),
+                    filePath = getFakeFixturePath("personal-config", "project-without-config", "foo.js");
+
+                var StubbedConfig = proxyquire("../../lib/config", { "user-home": homePath });
+
+                mockPersonalConfigFileSystem();
+                mockCWDResponse(projectPath);
+
+                var config = new StubbedConfig({
+                    cwd: process.cwd(),
+                    rules: { quotes: [2, "single"] }
+                });
+
+                assert.doesNotThrow(function() {
+                    config.getConfig(filePath);
+                }, "No ESLint configuration found");
+            });
+
             it("should still load the project config if the current working directory is the same as the home folder", function() {
                 var projectPath = getFakeFixturePath("personal-config", "project-with-config"),
                     filePath = getFakeFixturePath("personal-config", "project-with-config", "subfolder", "foo.js");
