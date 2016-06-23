@@ -49,6 +49,7 @@ Examples of **incorrect** code for this rule with the default `"double"` option:
 var single = 'single';
 var unescaped = 'a string containing "double" quotes';
 ```
+
 Examples of **correct** code for this rule with the default `"double"` option:
 
 ```js
