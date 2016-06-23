@@ -251,13 +251,15 @@ describe("Config", function() {
             assert.equal(config.rules["no-new"], 1);
         });
 
-        it("should return a default config when an invalid path is given", function() {
+        it("should throw an error when an invalid path is given", function() {
             var configPath = path.resolve(__dirname, "..", "fixtures", "configurations", "foobaz", ".eslintrc");
             var configHelper = new Config({cwd: process.cwd()});
 
             sandbox.stub(fs, "readdirSync").throws(new Error());
 
-            assert.isObject(configHelper.getConfig(configPath));
+            assert.throws(function() {
+                configHelper.getConfig(configPath);
+            }, "No ESLint configuration found.");
         });
 
         it("should throw error when a configuration file doesn't exist", function() {
@@ -904,7 +906,7 @@ describe("Config", function() {
                 assert.deepEqual(actual, expected);
             });
 
-            it("should have an empty config if no local config and no personal config was found", function() {
+            it("should throw an error if no local config and no personal config was found", function() {
                 var projectPath = getFakeFixturePath("personal-config", "project-without-config"),
                     homePath = getFakeFixturePath("personal-config", "folder-does-not-exist"),
                     filePath = getFakeFixturePath("personal-config", "project-without-config", "foo.js");
@@ -914,20 +916,14 @@ describe("Config", function() {
                 mockPersonalConfigFileSystem();
                 mockCWDResponse(projectPath);
 
-                var config = new StubbedConfig({ cwd: process.cwd() }),
-                    actual = config.getConfig(filePath),
-                    expected = {
-                        parserOptions: {},
-                        env: {},
-                        globals: {},
-                        parser: undefined,
-                        rules: {}
-                    };
+                var config = new StubbedConfig({ cwd: process.cwd() });
 
-                assert.deepEqual(actual, expected);
+                assert.throws(function() {
+                    config.getConfig(filePath);
+                }, "No ESLint configuration found");
             });
 
-            it("should have an empty config if no local config was found and ~/package.json contains no eslintConfig section", function() {
+            it("should throw an error if no local config was found and ~/package.json contains no eslintConfig section", function() {
                 var projectPath = getFakeFixturePath("personal-config", "project-without-config"),
                     homePath = getFakeFixturePath("personal-config", "home-folder-with-packagejson"),
                     filePath = getFakeFixturePath("personal-config", "project-without-config", "foo.js");
@@ -937,17 +933,11 @@ describe("Config", function() {
                 mockPersonalConfigFileSystem();
                 mockCWDResponse(projectPath);
 
-                var config = new StubbedConfig({ cwd: process.cwd() }),
-                    actual = config.getConfig(filePath),
-                    expected = {
-                        parserOptions: {},
-                        env: {},
-                        globals: {},
-                        parser: undefined,
-                        rules: {}
-                    };
+                var configHelper = new StubbedConfig({ cwd: process.cwd() });
 
-                assert.deepEqual(actual, expected);
+                assert.throws(function() {
+                    configHelper.getConfig(filePath);
+                }, "No ESLint configuration found");
             });
 
             it("should still load the project config if the current working directory is the same as the home folder", function() {
