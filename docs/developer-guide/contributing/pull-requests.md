@@ -21,9 +21,8 @@ The process of submitting a pull request is fairly straightforward and generally
 2. [Make your changes](#step2)
 3. [Rebase onto upstream](#step3)
 4. [Run the tests](#step4)
-5. [Squash your commits](#step5)
-6. [Double check your submission](#step6)
-7. [Submit the pull request](#step7)
+6. [Double check your submission](#step5)
+7. [Submit the pull request](#step6)
 
 Details about each step are found below.
 
@@ -100,11 +99,7 @@ After rebasing, be sure to run all of the tests once again to make sure nothing 
 npm test
 ```
 
-### Step 5: Squash your commits<a name="step5"></a>
-
-ESLint requires just one commit per pull request. If you have used multiple commits, be sure to [squash](http://gitready.com/advanced/2009/02/10/squashing-commits-with-rebase.html) your commits.
-
-### Step 6: Double check your submission<a name="step6"></a>
+### Step 6: Double check your submission<a name="step5"></a>
 
 With your code ready to go, this is a good time to double-check your submission to make sure it follows our conventions. Here are the things to check:
 
@@ -120,7 +115,7 @@ With your code ready to go, this is a good time to double-check your submission 
 * Only *one commit* is allowed per pull request. If you have multiple commits, you'll be asked to squash them.
 * Follow the [Code Conventions](../code-conventions.html).
 
-### Step 7: Send the pull request<a name="step7"></a>
+### Step 7: Send the pull request<a name="step6"></a>
 
 Now you're ready to send the pull request. Go to your ESLint fork and then follow the [GitHub documentation](https://help.github.com/articles/creating-a-pull-request) on how to send a pull request.
 
@@ -160,7 +155,7 @@ This snippets adds all your new changes, then amends the previous commit with th
 
 ### Rebasing
 
-If your code is out-of-date, we might ask you to rebase. That means we want you to apply your changes on top of the latest upstream code. You can do so via:
+If your code is out-of-date, we might ask you to rebase. That means we want you to apply your changes on top of the latest upstream code. Make sure you have set up a [development environment](../development-environment) and then you can rebase using these commands:
 
 ```
 $ git fetch upstream
@@ -168,14 +163,6 @@ $ git rebase upstream/master
 ```
 
 You might find that there are merge conflicts when you attempt to rebase. Please [resolve the conflicts](https://help.github.com/articles/resolving-merge-conflicts-after-a-git-rebase/) and then do a forced push to your branch:
-
-```
-$ git push origin issue1234 -f
-```
-
-### Squashing
-
-If you have more than one commit on your pull request, we'll ask you to [squash your commits](http://gitready.com/advanced/2009/02/10/squashing-commits-with-rebase.html). Once your commits are squashed, you can do a forced push to update your branch:
 
 ```
 $ git push origin issue1234 -f
