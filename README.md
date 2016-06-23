@@ -70,26 +70,36 @@ The three error levels allow you fine-grained control over how ESLint applies ru
 
 ## Team
 
-These folks keep the project moving and are resources for help:
+These folks keep the project moving and are resources for help.
 
-* Nicholas C. Zakas ([@nzakas](https://github.com/nzakas)) - project lead
-* Ilya Volodin ([@ilyavolodin](https://github.com/ilyavolodin)) - reviewer
-* Brandon Mills ([@btmills](https://github.com/btmills)) - reviewer
-* Gyandeep Singh ([@gyandeeps](https://github.com/gyandeeps)) - reviewer
-* Toru Nagashima ([@mysticatea](https://github.com/mysticatea)) - reviewer
-* Alberto Rodríguez ([@alberto](https://github.com/alberto)) - reviewer
-* Mathias Schreck ([@lo1tuma](https://github.com/lo1tuma)) - committer
-* Jamund Ferguson ([@xjamundx](https://github.com/xjamundx)) - committer
-* Ian VanSchooten ([@ianvs](https://github.com/ianvs)) - committer
-* Burak Yiğit Kaya ([@byk](https://github.com/byk)) - committer
-* Kai Cataldo ([@kaicataldo](https://github.com/kaicataldo)) - committer
-* Michael Ficarra ([@michaelficarra](https://github.com/michaelficarra)) - committer
-* Mark Pedrotti ([@pedrottimark](https://github.com/pedrottimark)) - committer
-* Oleg Gaidarenko ([@markelog](https://github.com/markelog)) - committer
-* Mike Sherov [@mikesherov](https://github.com/mikesherov)) - committer
-* Henry Zhu ([@hzoo](https://github.com/hzoo)) - committer
-* Marat Dulin ([@mdevils](https://github.com/mdevils)) - committer
-* Alexej Yaroshevich ([@zxqfox](https://github.com/zxqfox)) - committer
+### Technical Steering Committee (TSC)
+
+* Nicholas C. Zakas ([@nzakas](https://github.com/nzakas))
+* Ilya Volodin ([@ilyavolodin](https://github.com/ilyavolodin))
+* Brandon Mills ([@btmills](https://github.com/btmills))
+* Gyandeep Singh ([@gyandeeps](https://github.com/gyandeeps))
+* Toru Nagashima ([@mysticatea](https://github.com/mysticatea))
+* Alberto Rodríguez ([@alberto](https://github.com/alberto))
+
+### Development Team
+
+* Mathias Schreck ([@lo1tuma](https://github.com/lo1tuma))
+* Jamund Ferguson ([@xjamundx](https://github.com/xjamundx))
+* Ian VanSchooten ([@ianvs](https://github.com/ianvs))
+* Burak Yiğit Kaya ([@byk](https://github.com/byk))
+* Kai Cataldo ([@kaicataldo](https://github.com/kaicataldo))
+* Michael Ficarra ([@michaelficarra](https://github.com/michaelficarra))
+* Mark Pedrotti ([@pedrottimark](https://github.com/pedrottimark))
+* Oleg Gaidarenko ([@markelog](https://github.com/markelog))
+* Mike Sherov [@mikesherov](https://github.com/mikesherov))
+* Henry Zhu ([@hzoo](https://github.com/hzoo))
+* Marat Dulin ([@mdevils](https://github.com/mdevils))
+* Alexej Yaroshevich ([@zxqfox](https://github.com/zxqfox))
+
+### Issues Team
+
+* Kevin Partington ([@platinumazure](https://github.com/platinumazure))
+* Vitor Balocco ([@vitorbal](https://github.com/vitorbal))
 
 ## Releases
 

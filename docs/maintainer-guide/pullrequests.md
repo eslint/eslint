@@ -25,13 +25,13 @@ Once the bot checks have been satisfied, you check the following:
     * Are there tests that verify the change? If not, please ask for them.
     * Is documentation needed for the change? If yes, please let the submitter know.
 1. Are there any automated testing errors? If yes, please ask the submitter to check on them.
-1. If you've reviewed the pull request and there are no outstanding issues, leave a comment "LGTM" to indicate your approval. If you're a reviewer and would like someone else to verify the change, comment "LGTM but would like someone else to verify."
+1. If you've reviewed the pull request and there are no outstanding issues, leave a comment "LGTM" to indicate your approval. If you would like someone else to verify the change, comment "LGTM but would like someone else to verify."
 
 **Note:** If you are a team member and you've left a comment on the pull request, please follow up to verify that your comments have been addressed.
 
 ## Who Can Merge a Pull Request
 
-Reviewers and committers may merge pull requests, depending on the contents of the pull request.
+TSC members and committers may merge pull requests, depending on the contents of the pull request.
 
 Committers may merge a pull request if it is a non-breaking change and is:
 
@@ -40,7 +40,7 @@ Committers may merge a pull request if it is a non-breaking change and is:
 1. A dependency upgrade
 1. Related to the build system
 
-Reviewers may merge all pull requests, including those that committers may merge.
+TSC members may merge all pull requests, including those that committers may merge.
 
 ## When to Merge a Pull Request
 
