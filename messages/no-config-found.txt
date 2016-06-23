@@ -1,21 +1,7 @@
-We couldn't find a valid configuration file for this linting run.
-
-This is the directory we were trying to lint: <%= directory %>
-
-<% if (filesExamined && filesExamined.length) { %>These are the configuration files we examined:
-
-<% filesExamined.forEach(function(file) { %>- <%= file %>
-<% }); %>
-None of these configuration files resulted in a valid configuration. Please
-check each file and look for a potential JSON/YAML syntax error. For JavaScript
-configuration files, please make sure that their configuration is exported by
-assigning to module.exports. Alternatively, you can create a new configuration
-file by running this command from your project root:
+ESLint couldn't find a configuration file. To set up a configuration file for this project, please run:
 
     eslint --init
-<% } else { %>No potential configuration files were found. If you have not created a
-configuration file, run this command from your project root to get started:
 
-    eslint --init
-<% } %>
-If you still can't figure out the problem, please stop by https://gitter.im/eslint/eslint to chat with the team.
+We looked for configuration files in <%= directory =%> and its ancestors.
+
+If you think you already have a configuration file or if you need more help, please stop by the ESLint chat room: https://gitter.im/eslint/eslint
