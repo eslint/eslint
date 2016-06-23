@@ -10,7 +10,7 @@ The `--fix` option on the [command line](../user-guide/command-line-interface#fi
 
 These rules relate to possible syntax or logic errors in JavaScript code:
 
-* [comma-dangle](comma-dangle.md): require or disallow trailing commas (recommended) (fixable)
+* [comma-dangle](comma-dangle.md): require or disallow trailing commas (fixable)
 * [no-cond-assign](no-cond-assign.md): disallow assignment operators in conditional expressions (recommended)
 * [no-console](no-console.md): disallow the use of `console` (recommended)
 * [no-constant-condition](no-constant-condition.md): disallow constant expressions in conditions (recommended)
@@ -36,7 +36,7 @@ These rules relate to possible syntax or logic errors in JavaScript code:
 * [no-sparse-arrays](no-sparse-arrays.md): disallow sparse arrays (recommended)
 * [no-unexpected-multiline](no-unexpected-multiline.md): disallow confusing multiline expressions (recommended)
 * [no-unreachable](no-unreachable.md): disallow unreachable code after `return`, `throw`, `continue`, and `break` statements (recommended)
-* [no-unsafe-finally](no-unsafe-finally.md): disallow control flow statements in `finally` blocks
+* [no-unsafe-finally](no-unsafe-finally.md): disallow control flow statements in `finally` blocks (recommended)
 * [use-isnan](use-isnan.md): require calls to `isNaN()` when checking for `NaN` (recommended)
 * [valid-jsdoc](valid-jsdoc.md): enforce valid JSDoc comments
 * [valid-typeof](valid-typeof.md): enforce comparing `typeof` expressions against valid strings (recommended)
@@ -81,7 +81,7 @@ These rules relate to better ways of doing things to help you avoid problems:
 * [no-magic-numbers](no-magic-numbers.md): disallow magic numbers
 * [no-multi-spaces](no-multi-spaces.md): disallow multiple spaces (fixable)
 * [no-multi-str](no-multi-str.md): disallow multiline strings
-* [no-native-reassign](no-native-reassign.md): disallow assignments to native objects or read-only global variables
+* [no-native-reassign](no-native-reassign.md): disallow assignments to native objects or read-only global variables (recommended)
 * [no-new](no-new.md): disallow `new` operators outside of assignments or comparisons
 * [no-new-func](no-new-func.md): disallow `new` operators with the `Function` object
 * [no-new-wrappers](no-new-wrappers.md): disallow `new` operators with the `String`, `Number`, and `Boolean` objects
