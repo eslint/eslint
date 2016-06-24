@@ -4,9 +4,9 @@
 
 ## Rule Details
 
-This rule enforces spacing around the `*` in `yield*` statements.
+Enforce a spacing policy for the `*` in `yield*` statements.
 
-It does not affect `*` spacing in `function*` declarations.
+Does not affect `function*` declarations.
 
 To use this rule you either need to [use the `es6` environment](../user-guide/configuring.md#specifying-environments) or
 [set `ecmaVersion` to `6` in `parserOptions`](../user-guide/configuring.md#specifying-parser-options).
@@ -19,16 +19,16 @@ yield-star-spacing: [ <level>, <behavior> ]
 yield-star-spacing: [ <level>, { <option>: <val>, ... } ]
 ```
 
-* __<level>:__
-    * **`"off"`** _(default)_ - ignore violations
-    * `"warn"` - violations generate warnings
-    * `"error"` - violations generate errors (exit code `1`)
-* __<behavior>:__ _shortform - settings string_
+* __level:__ (Number|String)
+    * `0` or **`"off"`** _(default)_ - ignore violations
+    * `1` or `"warn"` - violations generate warnings
+    * `2` or `"error"` - violations generate errors (exit code `1`)
+* __behavior:__  (String)
     * [**`"after"`**](#after) _(default)_ ⟶ `{"before": false, "after": true}`
     * [`"before"`](#before) ⟶ `{"before": true, "after": false}`
     * [`"both"`](#both) ⟶ `{"before": true, "after": true}`
     * [`"neither"`](#neither) ⟶ `{"before": false, "after": false}`
-* __<option>:__ _longform - settings object_
+* __option:__ (Object)
     * `"before"` - spacing between `yeild` and `*`? `true` or `false` _(default)_
     * `"after"` - spacing between `*` and expression? `true` _(default)_ or `false`
 
@@ -99,4 +99,4 @@ If your project will not be using generators or you are not concerned with spaci
 ## Further Reading
 
 * [Understanding ES6: Generators](https://leanpub.com/understandinges6/read/#leanpub-auto-generators)
-* [yield* operator)](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Operators/yield*)
+* [yield* operator](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Operators/yield*)
