@@ -93,3 +93,4 @@ If your project will not be using generators or you are not concerned with spaci
 ## Further Reading
 
 * [Understanding ES6: Generators](https://leanpub.com/understandinges6/read/#leanpub-auto-generators)
+* [yield* operator)](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Operators/yield*)
