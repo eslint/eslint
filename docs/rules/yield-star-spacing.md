@@ -86,6 +86,10 @@ function*generator() {
 }
 ```
 
+## Related Rules
+
+* [generator-star-spacing](generator-star-spacing) - Enforce spacing around the * in generator functions
+
 ## When Not To Use It
 
 If your project will not be using generators or you are not concerned with spacing consistency, you do not need this rule.
