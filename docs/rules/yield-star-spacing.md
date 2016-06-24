@@ -6,6 +6,8 @@
 
 This rule enforces spacing around the `*` in `yield*` expressions.
 
+It does not affect `*` spacing in `function*` declarations.
+
 To use this rule you either need to [use the `es6` environment](../user-guide/configuring.md#specifying-environments) or
 [set `ecmaVersion` to `6` in `parserOptions`](../user-guide/configuring.md#specifying-parser-options).
 
@@ -55,7 +57,7 @@ Examples of **correct** code for this rule with the `"before"` option:
 /*eslint yield-star-spacing: ["error", "before"]*/
 /*eslint-env es6*/
 
-function *generator() {
+function* generator() {
   yield *other();
 }
 ```
@@ -68,7 +70,7 @@ Examples of **correct** code for this rule with the `"both"` option:
 /*eslint yield-star-spacing: ["error", "both"]*/
 /*eslint-env es6*/
 
-function * generator() {
+function* generator() {
   yield * other();
 }
 ```
@@ -81,7 +83,7 @@ Examples of **correct** code for this rule with the `"neither"` option:
 /*eslint yield-star-spacing: ["error", "neither"]*/
 /*eslint-env es6*/
 
-function*generator() {
+function* generator() {
   yield*other();
 }
 ```
