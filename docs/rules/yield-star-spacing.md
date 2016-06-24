@@ -1,10 +1,10 @@
-# Enforce spacing around the `*` in `yield*` expressions (yield-star-spacing)
+# Enforce spacing around the `*` in `yield*` statements (yield-star-spacing)
 
 (fixable) The `--fix` option on the [command line](../user-guide/command-line-interface#fix) automatically fixes problems reported by this rule.
 
 ## Rule Details
 
-This rule enforces spacing around the `*` in `yield*` expressions.
+This rule enforces spacing around the `*` in `yield*` statements.
 
 It does not affect `*` spacing in `function*` declarations.
 
