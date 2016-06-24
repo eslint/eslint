@@ -11,30 +11,26 @@ To use this rule you either need to [use the `es6` environment](../user-guide/co
 
 ## Options
 
-The rule takes one option, an object, which has two keys `before` and `after` having boolean values `true` or `false`.
+```
+yield-star-spacing: [ <level>, <behavior> ]
 
-* `before` enforces spacing between the `yield` and the `*`.
-  If `true`, a space is required, otherwise spaces are disallowed.
-
-* `after` enforces spacing between the `*` and the argument.
-  If it is `true`, a space is required, otherwise spaces are disallowed.
-
-The default is `{"before": false, "after": true}`.
-
-```json
-"yield-star-spacing": ["error", {"before": true, "after": false}]
+yield-star-spacing: [ <level>, { <option>: <val>, ... } ]
 ```
 
-The option also has a string shorthand:
+* __<level>:__
+    * **`"off"`** _(default)_ - ignore violations
+    * `"warn"` - violations generate warnings
+    * `"error"` - violations generate errors (exit code `1`)
+* __<behavior>:__ _shortform - settings string_
+    * [**`"after"`**](#after) _(default)_ ⟶ `{"before": false, "after": true}`
+    * [`"before"`](#before) ⟶ `{"before": true, "after": false}`
+    * [`"both"`](#both) ⟶ `{"before": true, "after": true}`
+    * [`"neither"`](#neither) ⟶ `{"before": false, "after": false}`
+* __<option>:__ _longform - settings object_
+    * `"before"` - spacing between `yeild` and `*`? `true` or `false` _(default)_
+    * `"after"` - spacing between `*` and expression? `true` _(default)_ or `false`
 
-* `{"before": false, "after": true}` → `"after"`
-* `{"before": true, "after": false}` → `"before"`
-* `{"before": true, "after": true}` → `"both"`
-* `{"before": false, "after": false}` → `"neither"`
-
-```json
-"yield-star-spacing": ["error", "after"]
-```
+See [Configuring Rules](../user-guide/configuring#configuring-rules) for more details.
 
 ## Examples
 
