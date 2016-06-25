@@ -231,7 +231,7 @@ These rules relate to style guidelines, and are therefore quite subjective:
 These rules relate to ES6, also known as ES2015:
 
 * [arrow-body-style](arrow-body-style.md): require braces around arrow function bodies
-* [arrow-parens](arrow-parens.md): require parentheses around arrow function arguments
+* [arrow-parens](arrow-parens.md): require parentheses around arrow function arguments (fixable)
 * [arrow-spacing](arrow-spacing.md): enforce consistent spacing before and after the arrow in arrow functions (fixable)
 * [constructor-super](constructor-super.md): require `super()` calls in constructors (recommended)
 * [generator-star-spacing](generator-star-spacing.md): enforce consistent spacing around `*` operators in generator functions (fixable)
