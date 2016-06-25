@@ -103,6 +103,17 @@ describe("Config", function() {
         return path.join.apply(path, args);
     }
 
+    /**
+     * Mocks the current CWD path
+     * @param {string} fakeCWDPath - fake CWD path
+     * @returns {undefined}
+     * @private
+     */
+    function mockCWDResponse(fakeCWDPath) {
+        sandbox.stub(process, "cwd")
+            .returns(fakeCWDPath);
+    }
+
     // copy into clean area so as not to get "infected" by this project's .eslintrc files
     before(function() {
         fixtureDir = os.tmpdir() + "/eslint/fixtures";
@@ -782,7 +793,6 @@ describe("Config", function() {
         });
 
         describe("personal config file within home directory", function() {
-            var getCwd;
 
             /**
              * Returns the path inside of the fixture directory.
@@ -814,19 +824,7 @@ describe("Config", function() {
                 });
             }
 
-            /**
-             * Mocks the current CWD path
-             * @param {string} fakeCWDPath - fake CWD path
-             * @returns {undefined}
-             * @private
-             */
-            function mockCWDResponse(fakeCWDPath) {
-                getCwd = sinon.stub(process, "cwd");
-                getCwd.returns(fakeCWDPath);
-            }
-
             afterEach(function() {
-                getCwd.restore();
                 mockFs.restore();
             });
 
@@ -906,6 +904,68 @@ describe("Config", function() {
                 assert.deepEqual(actual, expected);
             });
 
+            it("should still load the project config if the current working directory is the same as the home folder", function() {
+                var projectPath = getFakeFixturePath("personal-config", "project-with-config"),
+                    filePath = getFakeFixturePath("personal-config", "project-with-config", "subfolder", "foo.js");
+
+                var StubbedConfig = proxyquire("../../lib/config", { "user-home": projectPath });
+
+                mockPersonalConfigFileSystem();
+                mockCWDResponse(projectPath);
+
+                var config = new StubbedConfig({ cwd: process.cwd() }),
+                    actual = config.getConfig(filePath),
+                    expected = {
+                        parserOptions: {},
+                        env: {},
+                        globals: {},
+                        parser: undefined,
+                        rules: {
+                            "project-level-rule": 2,
+                            "subfolder-level-rule": 2
+                        }
+                    };
+
+                assert.deepEqual(actual, expected);
+            });
+        });
+
+        describe("when no local or personal config is found", function() {
+
+            /**
+             * Returns the path inside of the fixture directory.
+             * @returns {string} The path inside the fixture directory.
+             * @private
+             */
+            function getFakeFixturePath() {
+                var args = Array.prototype.slice.call(arguments);
+
+                args.unshift("config-hierarchy");
+                args.unshift("fixtures");
+                args.unshift("eslint");
+                args.unshift(process.cwd());
+                return path.join.apply(path, args);
+            }
+
+            /**
+             * Mocks the file system for personal-config files
+             * @returns {undefined}
+             * @private
+             */
+            function mockPersonalConfigFileSystem() {
+                mockFs({
+                    eslint: {
+                        fixtures: {
+                            "config-hierarchy": DIRECTORY_CONFIG_HIERARCHY
+                        }
+                    }
+                });
+            }
+
+            afterEach(function() {
+                mockFs.restore();
+            });
+
             it("should throw an error if no local config and no personal config was found", function() {
                 var projectPath = getFakeFixturePath("personal-config", "project-without-config"),
                     homePath = getFakeFixturePath("personal-config", "folder-does-not-exist"),
@@ -978,31 +1038,6 @@ describe("Config", function() {
                 assert.doesNotThrow(function() {
                     config.getConfig(filePath);
                 }, "No ESLint configuration found");
-            });
-
-            it("should still load the project config if the current working directory is the same as the home folder", function() {
-                var projectPath = getFakeFixturePath("personal-config", "project-with-config"),
-                    filePath = getFakeFixturePath("personal-config", "project-with-config", "subfolder", "foo.js");
-
-                var StubbedConfig = proxyquire("../../lib/config", { "user-home": projectPath });
-
-                mockPersonalConfigFileSystem();
-                mockCWDResponse(projectPath);
-
-                var config = new StubbedConfig({ cwd: process.cwd() }),
-                    actual = config.getConfig(filePath),
-                    expected = {
-                        parserOptions: {},
-                        env: {},
-                        globals: {},
-                        parser: undefined,
-                        rules: {
-                            "project-level-rule": 2,
-                            "subfolder-level-rule": 2
-                        }
-                    };
-
-                assert.deepEqual(actual, expected);
             });
         });
     });
