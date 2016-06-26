@@ -352,6 +352,8 @@ ruleTester.run("no-unused-vars", rule, {
         {code: "var a = 0; a++;", errors: [{message: "'a' is defined but never used"}]},
         {code: "function foo(a) { a = a + 1 } foo();", errors: [{message: "'a' is defined but never used"}]},
         {code: "function foo(a) { a += a + 1 } foo();", errors: [{message: "'a' is defined but never used"}]},
-        {code: "function foo(a) { a++ } foo();", errors: [{message: "'a' is defined but never used"}]}
+        {code: "function foo(a) { a++ } foo();", errors: [{message: "'a' is defined but never used"}]},
+        {code: "var a = 3; a = a * 5 + 6;", errors: [{message: "'a' is defined but never used"}]},
+        {code: "var a = 2, b = 4; a = a * 2 + b;", errors: [{message: "'a' is defined but never used"}]}
     ]
 });
