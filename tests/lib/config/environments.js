@@ -9,15 +9,8 @@
 //------------------------------------------------------------------------------
 
 var assert = require("chai").assert,
-    proxyquire = require("proxyquire"),
     envs = require("../../../conf/environments"),
     Environments = require("../../../lib/config/environments");
-
-//------------------------------------------------------------------------------
-// Helpers
-//------------------------------------------------------------------------------
-
-proxyquire = proxyquire.noCallThru().noPreserveCache();
 
 //------------------------------------------------------------------------------
 // Tests
