@@ -56,17 +56,15 @@ The steps for triaging an issue are:
 
 **Note:** Don't add an "accepted" label to an issue unless it's a bug that you've been able to reproduce and verify (you're sure it's a bug), a new rule that you're championing, or a rule change that you're championing. The "accepted" label will be added to other issues by a project lead if it's appropriate for the roadmap.
 
-## Evaluating Core Features and Enhancements (Project Leads Only)
+## Evaluating Core Features and Enhancements (TSC members only)
 
-If you're a project lead, then you'll need to evaluate incoming requests for inclusion in the formal roadmap. You should label an issue as "accepted" when all of the following are true:
+Changes to the core (including CLI changes) that would result in a minor or major version release must be approved by the TSC by standard TSC motion. Add the label "tsc agenda" to the issue and it will be discussed at the next TSC meeting. In general, requests should meet the following criteria to be considered:
 
 1. The feature or enhancement is in scope for the project and should be added to the roadmap
-1. You are committed to including the change within the next year
-1. You are reasonably certain of who will do the work
+1. Someone is committed to including the change within the next year
+1. There is reasonable certainty about who will do the work
 
 When a suggestion is too ambitious or would take too much time to complete, it's better not to accept the proposal. Stick to small, incremental changes and lay out a roadmap of where you'd like the project to go eventually. Don't let the project get bogged down in big features that will take a long time to complete.
-
-**Help Wanted:** If there's an issue you'd like to see completed, but don't believe it's something the project team should address, add the "help wanted" label. The "help wanted" label indicates that while the project team won't be implementing the suggestion, a pull request will be accepted.
 
 **Breaking Changes:** Be on the lookout for changes that would be breaking. Issues that represent breaking changes should be labeled as "breaking".
 
@@ -84,4 +82,4 @@ In general, it's better to close issues sooner rather than later. It gives peopl
 
 ## Consensus
 
-Consensus is reached on issues when there are at least three team members who believe the change is a good idea and no one who believes the change is a bad idea. If consensus cannot be reached, then a consensus among reviewers must be achieved where no one believes it is a bad idea. If consensus among reviewers cannot be achieved, the reviewers will vote and majority wins.
+Consensus is reached on issues when there are at least three team members who believe the change is a good idea and no one who believes the change is a bad idea. If consensus cannot be reached, then add the "tsc agenda" label to the issue and the TSC will resolve the conflict.
