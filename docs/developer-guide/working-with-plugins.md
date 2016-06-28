@@ -13,8 +13,10 @@ Plugins can expose additional rules for use in ESLint. To do so, the plugin must
 ```js
 module.exports = {
     rules: {
-        "dollar-sign": function (context) {
-            // rule implementation ...
+        "dollar-sign": {
+            create: function (context) {
+                // rule implementation ...
+            }
         }
     }
 };
