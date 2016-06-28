@@ -2,6 +2,10 @@ root: true
 
 env:
     node: true
+    es6: true
+
+parserOptions:
+    ecmaVersion: 6
 
 extends:
     "./packages/eslint-config-eslint/default.yml"
