@@ -143,8 +143,15 @@ ruleTester.run("no-unused-vars", rule, {
         {
             code: "try{}catch(err){}",
             options: [{vars: "all", args: "all"}]
-        }
+        },
 
+        // https://github.com/eslint/eslint/issues/6348
+        {code: "var a = 0, b; b = a = a + 1; foo(b);"},
+        {code: "var a = 0, b; b = a += a + 1; foo(b);"},
+        {code: "var a = 0, b; b = a++; foo(b);"},
+        {code: "function foo(a) { var b = a = a + 1; bar(b) } foo();"},
+        {code: "function foo(a) { var b = a += a + 1; bar(b) } foo();"},
+        {code: "function foo(a) { var b = a++; bar(b) } foo();"}
     ],
     invalid: [
         { code: "function foox() { return foox(); }", errors: [{ message: "'foox' is defined but never used", type: "Identifier"}] },
@@ -336,6 +343,17 @@ ruleTester.run("no-unused-vars", rule, {
                 }
             ],
             errors: [{message: "'err' is defined but never used"}]
-        }
+        },
+
+        // Ignore reads for modifications to itself: https://github.com/eslint/eslint/issues/6348
+        {code: "var a = 0; a = a + 1;", errors: [{message: "'a' is defined but never used"}]},
+        {code: "var a = 0; a = a + a;", errors: [{message: "'a' is defined but never used"}]},
+        {code: "var a = 0; a += a + 1;", errors: [{message: "'a' is defined but never used"}]},
+        {code: "var a = 0; a++;", errors: [{message: "'a' is defined but never used"}]},
+        {code: "function foo(a) { a = a + 1 } foo();", errors: [{message: "'a' is defined but never used"}]},
+        {code: "function foo(a) { a += a + 1 } foo();", errors: [{message: "'a' is defined but never used"}]},
+        {code: "function foo(a) { a++ } foo();", errors: [{message: "'a' is defined but never used"}]},
+        {code: "var a = 3; a = a * 5 + 6;", errors: [{message: "'a' is defined but never used"}]},
+        {code: "var a = 2, b = 4; a = a * 2 + b;", errors: [{message: "'a' is defined but never used"}]}
     ]
 });

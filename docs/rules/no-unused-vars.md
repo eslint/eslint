@@ -20,13 +20,18 @@ Examples of **incorrect** code for this rule:
 /*eslint no-unused-vars: "error"*/
 /*global some_unused_var*/
 
-//It checks variables you have defined as global
+// It checks variables you have defined as global
 some_unused_var = 42;
 
 var x;
 
+// Write-only variables are not considered as used.
 var y = 10;
 y = 5;
+
+// A read for a modification of itself is not considered as used.
+var z = 0;
+z = z + 1;
 
 // By default, unused arguments cause warnings.
 (function(foo) {
