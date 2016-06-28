@@ -1774,6 +1774,7 @@ describe("CLIEngine", function() {
 
                 assert.isFalse(fs.existsSync(cacheFile), "the cache for eslint was deleted since last run did not used the cache");
             });
+
             it("should not store in the cache a file that failed the test", function() {
 
                 var cacheFile = getFixturePath(".eslintcache");
@@ -1810,6 +1811,95 @@ describe("CLIEngine", function() {
                 var cachedResult = engine.executeOnFiles([badFile, goodFile]);
 
                 assert.deepEqual(result, cachedResult, "result is the same with or without cache");
+            });
+
+            it("should not delete cache when executing on text", function() {
+                var cacheFile = getFixturePath(".eslintcache");
+
+                engine = new CLIEngine({
+                    cwd: path.join(fixtureDir, ".."),
+                    useEslintrc: false,
+                    cacheFile: cacheFile,
+                    rules: {
+                        "no-console": 0,
+                        "no-unused-vars": 2
+                    },
+                    extensions: ["js"]
+                });
+
+                assert.isTrue(fs.existsSync(cacheFile), "the cache for eslint exists");
+
+                engine.executeOnText("var foo = 'bar';");
+
+                assert.isTrue(fs.existsSync(cacheFile), "the cache for eslint still exists");
+            });
+
+            it("should not delete cache when executing on text with a provided filename", function() {
+                var cacheFile = getFixturePath(".eslintcache");
+
+                engine = new CLIEngine({
+                    cwd: path.join(fixtureDir, ".."),
+                    useEslintrc: false,
+                    cacheFile: cacheFile,
+                    rules: {
+                        "no-console": 0,
+                        "no-unused-vars": 2
+                    },
+                    extensions: ["js"]
+                });
+
+                assert.isTrue(fs.existsSync(cacheFile), "the cache for eslint exists");
+
+                engine.executeOnText("var bar = foo;", "fixtures/passing.js");
+
+                assert.isTrue(fs.existsSync(cacheFile), "the cache for eslint still exists");
+            });
+
+            it("should not delete cache when executing on files with --cache flag", function() {
+                var cacheFile = getFixturePath(".eslintcache");
+
+                engine = new CLIEngine({
+                    cwd: path.join(fixtureDir, ".."),
+                    useEslintrc: false,
+                    cache: true,
+                    cacheFile: cacheFile,
+                    rules: {
+                        "no-console": 0,
+                        "no-unused-vars": 2
+                    },
+                    extensions: ["js"]
+                });
+
+                var file = getFixturePath("cli-engine", "console.js");
+
+                assert.isTrue(fs.existsSync(cacheFile), "the cache for eslint exists");
+
+                engine.executeOnFiles([file]);
+
+                assert.isTrue(fs.existsSync(cacheFile), "the cache for eslint still exists");
+            });
+
+            it("should delete cache when executing on files without --cache flag", function() {
+                var cacheFile = getFixturePath(".eslintcache");
+
+                engine = new CLIEngine({
+                    cwd: path.join(fixtureDir, ".."),
+                    useEslintrc: false,
+                    cacheFile: cacheFile,
+                    rules: {
+                        "no-console": 0,
+                        "no-unused-vars": 2
+                    },
+                    extensions: ["js"]
+                });
+
+                var file = getFixturePath("cli-engine", "console.js");
+
+                assert.isTrue(fs.existsSync(cacheFile), "the cache for eslint exists");
+
+                engine.executeOnFiles([file]);
+
+                assert.isFalse(fs.existsSync(cacheFile), "the cache for eslint has been deleted");
             });
 
             describe("cacheFile", function() {
