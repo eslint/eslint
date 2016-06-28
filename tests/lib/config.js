@@ -106,7 +106,7 @@ describe("Config", function() {
     /**
      * Mocks the current CWD path
      * @param {string} fakeCWDPath - fake CWD path
-     * @returns {undefined}
+     * @returns {void}
      * @private
      */
     function mockCWDResponse(fakeCWDPath) {
