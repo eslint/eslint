@@ -49,13 +49,16 @@ a => {}
 
 ## Options
 
-The rule takes one option, a string, which could be either `"always"` or `"as-needed"`. The default is `"always"`.
+This rule has a string option and an object one.
 
-You can set the option in configuration like this:
+String options are:
 
-```json
-"arrow-parens": ["error", "always"]
-```
+* `"always"` (default) requires parens around arguments in all cases.
+* `"as-needed"` allows omitting parens when there is only one argument.
+
+Object properties for variants of the `"as-needed"` option:
+
+* `"requireForBlockBody": true` modifies the as-needed rule in order to require parens if the function body is in an intructions block (surrounded by braces).
 
 ### always
 
@@ -177,3 +180,46 @@ a.then(foo => { if (true) {}; });
 ([a, b]) => a;
 ({a, b}) => a;
 ```
+
+### requireForBlockBody
+
+Examples of **incorrect** code for the `{ "requireForBlockBody": true }` option:
+
+```js
+/*eslint arrow-parens: [2, "as-needed", { "requireForBlockBody": true }]*/
+/*eslint-env es6*/
+
+(a) => a;
+a => {};
+a => {'\n'};
+a.map((x) => x * x);
+a.map(x => {
+  return x * x;
+});
+a.then(foo => {});
+```
+
+Examples of **correct** code for the `{ "requireForBlockBody": true }` option:
+
+```js
+/*eslint arrow-parens: [2, "as-needed", { "requireForBlockBody": true }]*/
+/*eslint-env es6*/
+
+(a) => {};
+(a) => {'\n'};
+a => ({});
+() => {};
+a => a;
+a.then((foo) => {});
+a.then((foo) => { if (true) {}; });
+a((foo) => { if (true) {}; });
+(a, b, c) => a;
+(a = 10) => a;
+([a, b]) => a;
+({a, b}) => a;
+```
+
+## Further Reading
+
+* The `"as-needed", { "requireForBlockBody": true }` rule is directly inspired by the Airbnb
+ [JS Style Guide](https://github.com/airbnb/javascript#arrows--one-arg-parens).
