@@ -21,43 +21,18 @@ Here is the basic format of the source file for a rule:
 // Rule Definition
 //------------------------------------------------------------------------------
 
-module.exports = {
-    meta: {
-        docs: {
-            description: "disallow unnecessary semicolons",
-            category: "Possible Errors",
-            recommended: true
-        },
-        fixable: "code",
-        schema: [] // no options
-    },
-    create: function(context) {
-        return {
-            // callback functions
-        };
-    }
+module.exports = function(context) {
+    return {
+        // callback functions
+    };
 };
+
+module.exports.schema = []; // no options
 ```
 
 ## Rule Basics
 
-The source file for a rule exports an object with the following properties.
-
-`meta` (object) contains metadata for the rule:
-
-* `docs` (object) is required for core rules of ESLint:
-
-    * `description` (string) provides the short description of the rule in the [rules index](../rules/)
-    * `category` (string) specifies the heading under which the rule is listed in the [rules index](../rules/)
-    * `recommended` (boolean) is whether the `"extends": "eslint:recommended"` property in a [configuration file](../user-guide/configuring#extending-configuration-files) enables the rule
-
-    In a custom rule or plugin, you can omit `docs` or include any properties that you need in it.
-
-* `fixable` (string) is either `"code"` or `"whitespace"` if the `--fix` option on the [command line](../user-guide/command-line-interface#fix) automatically fixes problems reported by the rule
-
-    **Important:** Without the `fixable` property, ESLint does not [apply fixes](#applying-fixes) even if the rule implements `fix` functions. Omit the `fixable` property if the rule is not fixable.
-
-* `schema` (array) specifies the [options](#options-schemas) so ESLint can prevent invalid [rule configurations](../user-guide/configuring#configuring-rules)
+`schema` (array) specifies the [options](#options-schemas) so ESLint can prevent invalid [rule configurations](../user-guide/configuring#configuring-rules)
 
 `create` (function) returns an object with methods that ESLint calls to "visit" nodes while traversing the abstract syntax tree (AST as defined by [ESTree](https://github.com/estree/estree)) of JavaScript code:
 
@@ -74,25 +49,22 @@ function checkLastSegment (node) {
     // report problem for function if last code path segment is reachable
 }
 
-module.exports = {
-    meta: { ... },
-    create: function(context) {
-        // declare the state of the rule
-        return {
-            ReturnStatement: function(node) {
-                // at a ReturnStatement node while going down
-            },
-            // at a function expression node while going up:
-            "FunctionExpression:exit": checkLastSegment,
-            "ArrowFunctionExpression:exit": checkLastSegment,
-            onCodePathStart: function (codePath, node) {
-                // at the start of analyzing a code path
-            },
-            onCodePathEnd: function(codePath, node) {
-                // at the end of analyzing a code path
-            }
-        };
-    }
+module.exports = function(context) {
+    // declare the state of the rule
+    return {
+        ReturnStatement: function(node) {
+            // at a ReturnStatement node while going down
+        },
+        // at a function expression node while going up:
+        "FunctionExpression:exit": checkLastSegment,
+        "ArrowFunctionExpression:exit": checkLastSegment,
+        onCodePathStart: function (codePath, node) {
+            // at the start of analyzing a code path
+        },
+        onCodePathEnd: function(codePath, node) {
+            // at the end of analyzing a code path
+        }
+    };
 };
 ```
 
@@ -115,6 +87,27 @@ Additionally, the `context` object has the following methods:
 * `getSourceCode()` - returns a `SourceCode` object that you can use to work with the source that was passed to ESLint
 * `markVariableAsUsed(name)` - marks the named variable in scope as used. This affects the [no-unused-vars](../rules/no-unused-vars.md) rule.
 * `report(descriptor)` - reports a problem in the code.
+
+**Deprecated:** The following methods on the `context` object are deprecated. Please use the corresponding methods on `SourceCode` instead:
+
+* `getAllComments()` - returns an array of all comments in the source. Use `sourceCode.getAllComments()` instead.
+* `getComments(node)` - returns the leading and trailing comments arrays for the given node. Use `sourceCode.getComments(node)` instead.
+* `getFirstToken(node)` - returns the first token representing the given node. Use `sourceCode.getFirstToken(node)` instead.
+* `getFirstTokens(node, count)` - returns the first `count` tokens representing the given node. Use `sourceCode.getFirstTokens(node, count)` instead.
+* `getJSDocComment(node)` - returns the JSDoc comment for a given node or `null` if there is none. Use `sourceCode.getJSDocComment(node)` instead.
+* `getLastToken(node)` - returns the last token representing the given node.  Use `sourceCode.getLastToken(node)` instead.
+* `getLastTokens(node, count)` - returns the last `count` tokens representing the given node. Use `sourceCode.getLastTokens(node, count)` instead.
+* `getNodeByRangeIndex(index)` - returns the deepest node in the AST containing the given source index. Use `sourceCode.getNodeByRangeIndex(index)` instead.
+* `getSource(node)` - returns the source code for the given node. Omit `node` to get the whole source. Use `sourceCode.getText(node)` instead.
+* `getSourceLines()` - returns the entire source code split into an array of string lines. Use `sourceCode.lines` instead.
+* `getTokenAfter(nodeOrToken)` - returns the first token after the given node or token. Use `sourceCode.getTokenAfter(nodeOrToken)` instead.
+* `getTokenBefore(nodeOrToken)` - returns the first token before the given node or token. Use `sourceCode.getTokenBefore(nodeOrToken)` instead.
+* `getTokenByRangeStart(index)` - returns the token whose range starts at the given index in the source. Use `sourceCode.getTokenByRangeStart(index)` instead.
+* `getTokens(node)` - returns all tokens for the given node. Use `sourceCode.getTokens(node)` instead.
+* `getTokensAfter(nodeOrToken, count)` - returns `count` tokens after the given node or token. Use `sourceCode.getTokensAfter(nodeOrToken, count)` instead.
+* `getTokensBefore(nodeOrToken, count)` - returns `count` tokens before the given node or token. Use `sourceCode.getTokensBefore(nodeOrToken, count)` instead.
+* `getTokensBetween(node1, node2)` - returns the tokens between two nodes. Use `sourceCode.getTokensBetween(node1, node2)` instead.
+* `report(node, [location], message)` - reports a problem in the code.
 
 ### context.report()
 
@@ -144,6 +137,7 @@ The node contains all of the information necessary to figure out the line and co
 You can also use placeholders in the message and provide `data`:
 
 ```js
+{% raw %}
 context.report({
     node: node,
     message: "Unexpected identifier: {{ identifier }}",
@@ -151,6 +145,7 @@ context.report({
         identifier: node.name
     }
 });
+{% endraw %}
 ```
 
 Note that leading and trailing whitespace is optional in message parameters.
@@ -172,8 +167,6 @@ context.report({
 ```
 
 Here, the `fix()` function is used to insert a semicolon after the node. Note that the fix is not immediately applied and may not be applied at all if there are conflicts with other fixes. If the fix cannot be applied, then the problem message is reported as usual; if the fix can be applied, then the problem message is not reported.
-
-**Important:** Unless the rule [exports](#rule-basics) the `meta.fixable` property, ESLint does not apply fixes even if the rule implements `fix` functions.
 
 The `fixer` object has the following methods:
 
@@ -205,13 +198,12 @@ Some rules require options in order to function correctly. These options appear 
 The `quotes` rule in this example has one option, `"double"` (the `2` is the error level). You can retrieve the options for a rule by using `context.options`, which is an array containing every configured option for the rule. In this case, `context.options[0]` would contain `"double"`:
 
 ```js
-module.exports = {
-    create: function(context) {
-        var isDouble = (context.options[0] === "double");
+module.exports = function(context) {
 
-        // ...
-    }
-};
+    var isDouble = (context.options[0] === "double");
+
+    // ...
+}
 ```
 
 Since `context.options` is just an array, you can use it to determine how many options have been passed as well as retrieving the actual options themselves. Keep in mind that the error level is not part of `context.options`, as the error level cannot be known or modified from inside a rule.
@@ -223,13 +215,12 @@ When using options, make sure that your rule has some logic defaults in case the
 The `SourceCode` object is the main object for getting more information about the source code being linted. You can retrieve the `SourceCode` object at any time by using the `getSourceCode()` method:
 
 ```js
-module.exports = {
-    create: function(context) {
-        var sourceCode = context.getSourceCode();
+module.exports = function(context) {
 
-        // ...
-    }
-};
+    var sourceCode = context.getSourceCode();
+
+    // ...
+}
 ```
 
 Once you have an instance of `SourceCode`, you can use the methods on it to work with the code:
@@ -271,24 +262,20 @@ However, to simplify schema creation, rules may also export an array of schemas 
 
 ```js
 // "yoda": [2, "never", { "exceptRange": true }]
-module.exports = {
-    meta: {
-        schema: [
-            {
-                "enum": ["always", "never"]
-            },
-            {
-                "type": "object",
-                "properties": {
-                    "exceptRange": {
-                        "type": "boolean"
-                    }
-                },
-                "additionalProperties": false
-            }
-        ];
+module.exports.schema = [
+    {
+        "enum": ["always", "never"]
     },
-};
+    {
+        "type": "object",
+        "properties": {
+            "exceptRange": {
+                "type": "boolean"
+            }
+        },
+        "additionalProperties": false
+    }
+];
 ```
 
 In the preceding example, the error level is assumed to be the first argument. It is followed by the first optional argument, a string which may be either `"always"` or `"never"`. The final optional argument is an object, which may have a Boolean property named `exceptRange`.
