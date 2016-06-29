@@ -565,7 +565,7 @@ The `rules` property can do any of the following to extend (or override) the set
 
 ### Using `"eslint:recommended"`
 
-An `extends` property value `"eslint:recommended"` enables a subset of core rules that report common problems, which have a check mark (recommended) on the [rules page](../docs/rules/). The recommended subset can change only at major versions of ESLint.
+An `extends` property value `"eslint:recommended"` enables a subset of core rules that report common problems, which have a check mark (recommended) on the [rules page](../rules/). The recommended subset can change only at major versions of ESLint.
 
 If your configuration extends the recommended rules: after you upgrade to a newer major version of ESLint, review the reported problems before you use the `--fix` option on the [command line](./command-line-interface#fix), so you know if a new fixable recommended rule will make changes to the code.
 
