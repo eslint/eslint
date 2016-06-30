@@ -1,4 +1,4 @@
-# require or disallow line breaks inside braces (object-curly-newline)
+# enforce consistent line breaks inside braces (object-curly-newline)
 
 (fixable) The `--fix` option on the [command line](../user-guide/command-line-interface#fix) automatically fixes problems reported by this rule.
 
@@ -6,41 +6,33 @@ A number of style guides require or disallow line breaks inside of object braces
 
 ## Rule Details
 
-This rule enforces consistent line breaks inside braces.
-This rule is applied to both object literals and destructuring assignments.
+This rule enforces consistent line breaks inside braces of object literals or destructuring assignments.
 
 ## Options
 
-```json
-{
-    "object-curly-newline": ["error", {"multiline": true}]
-}
-```
+This rule has either a string option:
 
-This rule has options of 4 kinds:
+* `"always"` requires line breaks inside braces
+* `"never"` disallows line breaks inside braces
 
-* `"always"` - requires line breaks always.
-* `"never"` - disallows line breaks.
-* `{multiline: true}` (default) - requires line breaks if there are line breaks inside properties or between properties. Otherwise, disallows line breaks.
-* `{minProperties: <integer>}` - requires line breaks if the number of properties is more than the given integer. Otherwise, disallows line breaks.
+Or an object option:
 
-`multiline` and `minProperties` can be combined.
+* `"multiline": true` (default) requires line breaks if there are line breaks inside properties or between properties
+* `"minProperties"` requires line breaks if the number of properties is more than the given integer
 
-* `{multiline: true, minProperties: <integer>}` - requires line breaks if there are line breaks inside properties or between properties, or if the number of properties is more than the given integer. Otherwise, disallows line breaks.
-
-Also, we can separate configuration for each object literal and destructuring assignment:
+You can specify different options for object literals and destructuring assignments:
 
 ```json
 {
     "object-curly-newline": ["error", {
         "ObjectExpression": "always",
-        "ObjectPattern": {"multiline": true}
+        "ObjectPattern": { "multiline": true }
     }]
 }
 ```
 
-* `"ObjectExpression"` - configuration for object literals.
-* `"ObjectPattern"` - configuration for object patterns of destructuring assignments.
+* `"ObjectExpression"` configuration for object literals
+* `"ObjectPattern"` configuration for object patterns of destructuring assignments
 
 ### always
 
@@ -184,10 +176,10 @@ let {k = function() {
 
 ### multiline
 
-Examples of **incorrect** code for this rule with the default `{"multiline": true}` option:
+Examples of **incorrect** code for this rule with the default `{ "multiline": true }` option:
 
 ```js
-/*eslint object-curly-newline: ["error", {"multiline": true}]*/
+/*eslint object-curly-newline: ["error", { "multiline": true }]*/
 /*eslint-env es6*/
 
 let a = {
@@ -219,10 +211,10 @@ let {k = function() {
 }} = obj;
 ```
 
-Examples of **correct** code for this rule with the default `{"multiline": true}` option:
+Examples of **correct** code for this rule with the default `{ "multiline": true }` option:
 
 ```js
-/*eslint object-curly-newline: ["error", {"multiline": true}]*/
+/*eslint object-curly-newline: ["error", { "multiline": true }]*/
 /*eslint-env es6*/
 
 let a = {};
@@ -254,10 +246,10 @@ let {
 
 ### minProperties
 
-Examples of **incorrect** code for this rule with the `{"minProperties": 2}` option:
+Examples of **incorrect** code for this rule with the `{ "minProperties": 2 }` option:
 
 ```js
-/*eslint object-curly-newline: ["error", {"minProperties": 2}]*/
+/*eslint object-curly-newline: ["error", { "minProperties": 2 }]*/
 /*eslint-env es6*/
 
 let a = {
@@ -289,10 +281,10 @@ let {
 } = obj;
 ```
 
-Examples of **correct** code for this rule with the `{"minProperties": 2}` option:
+Examples of **correct** code for this rule with the `{ "minProperties": 2 }` option:
 
 ```js
-/*eslint object-curly-newline: ["error", {"minProperties": 2}]*/
+/*eslint object-curly-newline: ["error", { "minProperties": 2 }]*/
 /*eslint-env es6*/
 
 let a = {};
@@ -322,82 +314,12 @@ let {k = function() {
 }} = obj;
 ```
 
-### multiline and minProperties
+### ObjectExpression and ObjectPattern
 
-Examples of **incorrect** code for this rule with the `{"multiline": true, "minProperties": 2}` option:
-
-```js
-/*eslint object-curly-newline: ["error", {"multiline": true, "minProperties": 2}]*/
-/*eslint-env es6*/
-
-let a = {
-};
-let b = {
-    foo: 1
-};
-let c = {foo: 1, bar: 2};
-let d = {foo: 1,
-    bar: 2};
-let e = {foo: function() {
-    dosomething();
-}};
-
-let {
-} = obj;
-let {
-    f
-} = obj;
-let {g, h} = obj;
-let {i,
-    j} = obj;
-let {k = function() {
-    dosomething();
-}} = obj;
-```
-
-Examples of **correct** code for this rule with the `{"multiline": true, "minProperties": 2}` option:
+Examples of **incorrect** code for this rule with the `{ "ObjectExpression": "always", "ObjectPattern": "never" }` options:
 
 ```js
-/*eslint object-curly-newline: ["error", {"multiline": true, "minProperties": 2}]*/
-/*eslint-env es6*/
-
-let a = {};
-let b = {foo: 1};
-let c = {
-    foo: 1, bar: 2
-};
-let d = {
-    foo: 1,
-    bar: 2
-};
-let e = {
-    foo: function() {
-        dosomething();
-    }
-};
-
-let {} = obj;
-let {f} = obj;
-let {
-    g, h
-} = obj;
-let {
-    i,
-    j
-} = obj;
-let {
-    k = function() {
-        dosomething();
-    }
-} = obj;
-```
-
-### separating configuration
-
-Examples of **incorrect** code for this rule with the `{"ObjectExpression": "always", "ObjectPattern": "never"}` option:
-
-```js
-/*eslint object-curly-newline: ["error", {"ObjectExpression": "always", "ObjectPattern": "never"}]*/
+/*eslint object-curly-newline: ["error", { "ObjectExpression": "always", "ObjectPattern": "never" }]*/
 /*eslint-env es6*/
 
 let a = {};
@@ -428,10 +350,10 @@ let {
 } = obj;
 ```
 
-Examples of **correct** code for this rule with the `{"ObjectExpression": "always", "ObjectPattern": "never"}` option:
+Examples of **correct** code for this rule with the `{ "ObjectExpression": "always", "ObjectPattern": "never" }` options:
 
 ```js
-/*eslint object-curly-newline: ["error", {"ObjectExpression": "always", "ObjectPattern": "never"}]*/
+/*eslint object-curly-newline: ["error", { "ObjectExpression": "always", "ObjectPattern": "never" }]*/
 /*eslint-env es6*/
 
 let a = [

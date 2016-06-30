@@ -1,4 +1,4 @@
-# Disallow Dangling Underscores in Identifiers (no-underscore-dangle)
+# disallow dangling underscores in identifiers (no-underscore-dangle)
 
 As far as naming conventions for identifiers go, dangling underscores may be the most polarizing in JavaScript. Dangling underscores are underscores at either the beginning or end of an identifier, such as:
 
@@ -12,27 +12,9 @@ Whether or not you choose to allow dangling underscores in identifiers is purely
 
 ## Rule Details
 
-This rule aims to eliminate the use of dangling underscores in identifiers.
+This rule disallows dangling underscores in identifiers.
 
-## Options
-
-### `allow`
-
-```json
-"no-underscore-dangle": ["error", { "allow": [] }]
-```
-
-Array of variable names that are permitted to be used with underscore. If provided, it must be an `Array`.
-
-### `allowAfterThis`
-
-```json
-"no-underscore-dangle": ["error", { "allowAfterThis": true }]
-```
-
-This option allows usage of dangled variables as members of `this`.
-
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule:
 
 ```js
 /*eslint no-underscore-dangle: "error"*/
@@ -42,7 +24,7 @@ var __proto__ = {};
 foo._bar();
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule:
 
 ```js
 /*eslint no-underscore-dangle: "error"*/
@@ -53,6 +35,17 @@ obj.__proto__ = {};
 var file = __filename;
 ```
 
+## Options
+
+This rule has an object option:
+
+* `"allow"` allows specified identifiers to have dangling underscores
+* `"allowAfterThis": false` (default) disallows dangling underscores in members of the `this` object
+* `"afterAfterThis": true` allows dangling underscores in members of the `this` object
+
+### allow
+
+Examples of additional **correct** code for this rule with the `{ "allow": ["foo_", "_bar"] }` option:
 
 ```js
 /*eslint no-underscore-dangle: ["error", { "allow": ["foo_", "_bar"] }]*/
@@ -60,6 +53,10 @@ var file = __filename;
 var foo_;
 foo._bar();
 ```
+
+### allowAfterThis
+
+Examples of **correct** code for this rule with the `{ "allowAfterThis": true }` option:
 
 ```js
 /*eslint no-underscore-dangle: ["error", { "allowAfterThis": true }]*/
