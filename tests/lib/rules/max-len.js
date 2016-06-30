@@ -394,6 +394,21 @@ ruleTester.run("max-len", rule, {
                     column: 1
                 }
             ]
+        },
+
+        // check comments with the same length as non-comments - https://github.com/eslint/eslint/issues/6564
+        {
+            code: "// This commented line has precisely 51 characters.\n" +
+                  "var x = 'This line also has exactly 51 characters';",
+            options: [20, { ignoreComments: true }],
+            errors: [
+                {
+                    message: "Line 2 exceeds the maximum line length of 20.",
+                    type: "Program",
+                    line: 2,
+                    column: 1
+                }
+            ]
         }
     ]
 });
