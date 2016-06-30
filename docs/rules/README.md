@@ -196,6 +196,7 @@ These rules relate to style guidelines, and are therefore quite subjective:
 * [no-nested-ternary](no-nested-ternary.md): disallow nested ternary expressions
 * [no-new-object](no-new-object.md): disallow `Object` constructors
 * [no-plusplus](no-plusplus.md): disallow the unary operators `++` and `--`
+* [no-restricted-properties](no-restricted-properties.md) - disallow use of specified object properties
 * [no-restricted-syntax](no-restricted-syntax.md): disallow specified syntax
 * [no-spaced-func](no-spaced-func.md): disallow spacing between `function` identifiers and their applications (fixable)
 * [no-ternary](no-ternary.md): disallow ternary operators
