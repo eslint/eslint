@@ -5,9 +5,24 @@ When declaring multiple variables within the same block, some developers prefer 
 ## Rule Details
 
 This rule checks all variable declaration blocks and verifies that all variables are sorted alphabetically.
+
+## Options
+
+This rule, when enabled, always enforces sorted variables (there is no `"always"` or `"never"` option unlike most other rules).
+
+There is, however, an option to toggle case sensitivity:
+
+```
+"sort-vars": [ "error", { "ignoreCase": true }]
+```
+
 The default configuration of the rule is case-sensitive.
 
-The following patterns are considered problems:
+## Examples
+
+### default options
+
+Examples of **incorrect** code for this rule with the default options:
 
 ```js
 /*eslint sort-vars: "error"*/
@@ -19,7 +34,7 @@ var a, B, c;
 var a, A;
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule with the default options:
 
 ```js
 /*eslint sort-vars: "error"*/
@@ -31,36 +46,12 @@ var _b = 20;
 
 var A, a;
 
-var B, a, c;
+var B, a, c; // uppercase before lowercase
 ```
 
-Alphabetical list is maintained starting from the first variable and excluding any that are considered problems. So the following code will produce two problems:
+### ignoreCase: true
 
-```js
-/*eslint sort-vars: "error"*/
-
-var c, d, a, b;
-```
-
-But this one, will only produce one:
-
-```js
-/*eslint sort-vars: "error"*/
-
-var c, d, a, e;
-```
-
-## Options
-
-```
-"sort-vars": [<enabled>, { "ignoreCase": <boolean> }]
-```
-
-### `ignoreCase`
-
-When `true` the rule ignores the case-sensitivity of the variables order.
-
-The following patterns are not considered problems:
+Examples of **correct** code for this rule with the `{ "ignoreCase": true }`:
 
 ```js
 /*eslint sort-vars: ["error", { "ignoreCase": true }]*/
@@ -68,6 +59,28 @@ The following patterns are not considered problems:
 var a, A;
 
 var a, B, c;
+```
+
+## Notes
+
+If a variable is not in alphabetical order it will be flagged without altering the expected order for the next variable.
+
+For example, the following list will generate two errors:
+
+```js
+/*eslint sort-vars: "error"*/
+
+var c, d, a, b;
+//        ^  ^ errors at `a` and `b`
+```
+
+While this list will only produce one:
+
+```js
+/*eslint sort-vars: "error"*/
+
+var c, d, a, e;
+//        ^ error at `a`
 ```
 
 ## When Not To Use It

@@ -46,7 +46,9 @@ Default option settings are
 }
 ```
 
-The following patterns are considered problems:
+## Examples
+
+Examples of **incorrect** code for this rule if all options are set to `true`:
 
 ```js
 /*eslint "require-jsdoc": ["error", {
@@ -66,7 +68,7 @@ class Test{
 }
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule if all options are set to `true`:
 
 ```js
 /*eslint "require-jsdoc": ["error", {
