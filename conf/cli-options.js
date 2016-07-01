@@ -25,5 +25,6 @@ module.exports = {
     cacheLocation: "",
     cacheFile: ".eslintcache",
     fix: false,
-    allowInlineConfig: true
+    allowInlineConfig: true,
+    checkUnneededDisable: false
 };
