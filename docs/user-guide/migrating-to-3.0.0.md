@@ -37,6 +37,7 @@ In 3.0.0, the following rules were added to `"eslint:recommended"`:
 
 * [`no-unsafe-finally`](http://eslint.org/docs/rules/no-unsafe-finally) helps catch `finally` clauses that may not behave as you think.
 * [`no-native-reassign`](http://eslint.org/docs/rules/no-native-reassign) was previously part of `no-undef`, but was split out because it didn't make sense as part of another rule. The `no-native-reassign` rule warns whenever you try to overwrite a read-only global variable.
+* [`require-yield`](http://eslint.org/docs/rules/require-yield) helps to identify generator functions that do not have the `yield` keyword.
 
 The following rules were removed from `"eslint:recommended"`:
 
@@ -55,7 +56,8 @@ The following rules were modified:
         "no-unsafe-finally": "off",
         "no-native-reassign": "off",
         "complexity": ["off", 11],
-        "comma-dangle": "error"
+        "comma-dangle": "error",
+        "require-yield": "error"
     }
 }
 ```

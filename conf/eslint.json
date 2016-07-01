@@ -198,7 +198,7 @@
         "quotes": "off",
         "radix": "off",
         "require-jsdoc": "off",
-        "require-yield": "off",
+        "require-yield": "error",
         "rest-spread-spacing": "off",
         "semi": "off",
         "semi-spacing": "off",
