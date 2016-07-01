@@ -71,7 +71,7 @@ rules:
     no-undef: "error"
     no-undef-init: "error"
     no-undefined: "error"
-    no-underscore-dangle: ["error", {allowAfterThis: true}]
+    no-underscore-dangle: ["error", {allowAfterThis: true, allowAfterSuper: true}]
     no-unmodified-loop-condition: "error"
     no-unused-expressions: "error"
     no-unused-vars: ["error", {vars: "all", args: "after-used"}]
