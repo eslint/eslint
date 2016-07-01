@@ -58,7 +58,7 @@ You can also define separate exceptions and markers for block and line comments:
 
 ### always
 
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule with the default `"always"` option:
 
 ```js
 /*eslint spaced-comment: ["error", "always"]*/
@@ -68,7 +68,7 @@ The following patterns are considered problems:
 /*This is a comment with no whitespace at the beginning */
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule with the default `"always"` option:
 
 ```js
 /* eslint spaced-comment: ["error", "always"] */
@@ -96,7 +96,7 @@ This comment has a newline
 
 ### never
 
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule with the `"never"` option:
 
 ```js
 /*eslint spaced-comment: ["error", "never"]*/
@@ -108,7 +108,7 @@ The following patterns are considered problems:
 /* \nThis is a comment with a whitespace at the beginning */
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule with the `"never"` option:
 
 ```js
 /*eslint spaced-comment: ["error", "never"]*/
@@ -126,7 +126,7 @@ The following patterns are not considered problems:
 
 ### exceptions
 
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule when using various custom exceptions:
 
 ```js
 /* eslint spaced-comment: ["error", "always", { "block": { "exceptions": ["-"] } }] */
@@ -134,25 +134,22 @@ The following patterns are considered problems:
 //--------------
 // Comment block
 //--------------
-```
 
-```js
+
 /* eslint spaced-comment: ["error", "always", { "exceptions": ["-", "+"] }] */
 
 //------++++++++
 // Comment block
 //------++++++++
-```
 
-```js
+
 /* eslint spaced-comment: ["error", "always", { "exceptions": ["-", "+"] }] */
 
 /*------++++++++*/
 /* Comment block */
 /*------++++++++*/
-```
 
-```js
+
 /* eslint spaced-comment: ["error", "always", { "line": { "exceptions": ["-+"] } }] */
 
 /*-+-+-+-+-+-+-+*/
@@ -160,7 +157,7 @@ The following patterns are considered problems:
 /*-+-+-+-+-+-+-+*/
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule when using various custom exceptions:
 
 ```js
 /* eslint spaced-comment: ["error", "always", { "exceptions": ["-"] }] */
@@ -168,25 +165,22 @@ The following patterns are not considered problems:
 //--------------
 // Comment block
 //--------------
-```
 
-```js
+
 /* eslint spaced-comment: ["error", "always", { "line": { "exceptions": ["-"] } }] */
 
 //--------------
 // Comment block
 //--------------
-```
 
-```js
+
 /* eslint spaced-comment: ["error", "always", { "exceptions": ["*"] }] */
 
 /****************
  * Comment block
  ****************/
-```
 
-```js
+
 /* eslint spaced-comment: ["error", "always", { "exceptions": ["-+"] }] */
 
 //-+-+-+-+-+-+-+
@@ -196,9 +190,8 @@ The following patterns are not considered problems:
 /*-+-+-+-+-+-+-+*/
 // Comment block
 /*-+-+-+-+-+-+-+*/
-```
 
-```js
+
 /* eslint spaced-comment: ["error", "always", { "block": { "exceptions": ["-+"] } }] */
 
 /*-+-+-+-+-+-+-+*/
@@ -208,7 +201,7 @@ The following patterns are not considered problems:
 
 ### markers
 
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule if `"markers"` is set as `"/"`:
 
 ```js
 /* eslint spaced-comment: ["error", "always", { "markers": ["/"] }] */
@@ -216,25 +209,23 @@ The following patterns are considered problems:
 ///This is a comment with a marker but without whitespace
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule when using various custom markers:
 
 ```js
 /* eslint spaced-comment: ["error", "always", { "markers": ["/"] }] */
 
 /// This is a comment with a marker
-```
 
-```js
-/*eslint spaced-comment: ["error", "never", { "markers": ["!<"] }]*/
+
+/* eslint spaced-comment: ["error", "never", { "markers": ["!<"] }]*/
 
 //!<This is a line comment with a marker
 
 /*!<this is a block comment with a marker
 subsequent lines are ignored
 */
-```
 
-```js
+
 /* eslint spaced-comment: ["error", "always", { "markers": ["global"] }] */
 
 /*global ABC*/
