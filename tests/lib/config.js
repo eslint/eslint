@@ -264,7 +264,11 @@ describe("Config", function() {
 
         it("should throw an error when an invalid path is given", function() {
             var configPath = path.resolve(__dirname, "..", "fixtures", "configurations", "foobaz", ".eslintrc");
-            var configHelper = new Config({cwd: process.cwd()});
+            var homePath = "does-not-exist";
+
+            var StubbedConfig = proxyquire("../../lib/config", { "user-home": homePath });
+
+            var configHelper = new StubbedConfig({cwd: process.cwd()});
 
             sandbox.stub(fs, "readdirSync").throws(new Error());
 
