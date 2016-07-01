@@ -254,7 +254,7 @@ These rules relate to ES6, also known as ES2015:
 * [prefer-rest-params](prefer-rest-params.md): require rest parameters instead of `arguments`
 * [prefer-spread](prefer-spread.md): require spread operators instead of `.apply()`
 * [prefer-template](prefer-template.md): require template literals instead of string concatenation
-* [require-yield](require-yield.md): require generator functions to contain `yield`
+* [require-yield](require-yield.md): require generator functions to contain `yield` (recommended)
 * [rest-spread-spacing](rest-spread-spacing.md): enforce spacing between rest and spread operators and their expressions (fixable)
 * [sort-imports](sort-imports.md): enforce sorted import declarations within modules
 * [template-curly-spacing](template-curly-spacing.md): require or disallow spacing around embedded expressions of template strings (fixable)
