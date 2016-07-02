@@ -1,4 +1,4 @@
-# Disallow whitespace before properties (no-whitespace-before-property)
+# disallow whitespace before properties (no-whitespace-before-property)
 
 (fixable) The `--fix` option on the [command line](../user-guide/command-line-interface#fix) automatically fixes problems reported by this rule.
 
@@ -10,7 +10,7 @@ foo. bar .baz . quz
 
 ## Rule Details
 
-This rule alerts for whitespace around the dot or before the opening bracket before properties of objects if they are on the same line. It does not alert for whitespace when the object and property are on separate lines, as it is common to add newlines to longer chains of properties:
+This rule disallows whitespace around the dot or before the opening bracket before properties of objects if they are on the same line. This rule allows whitespace when the object and property are on separate lines, as it is common to add newlines to longer chains of properties:
 
 ```js
 foo
@@ -19,7 +19,7 @@ foo
   .qux()
 ```
 
-The following patterns are considered problems when this rule is turned on:
+Examples of **incorrect** code for this rule:
 
 ```js
 /*eslint no-whitespace-before-property: "error"*/
@@ -39,7 +39,7 @@ foo
   .bar(). baz()
 ```
 
-And the following patterns are not considered problems:
+Examples of **correct** code for this rule:
 
 ```js
 /*eslint no-whitespace-before-property: "error"*/
