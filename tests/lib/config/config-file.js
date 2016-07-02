@@ -760,6 +760,46 @@ describe("ConfigFile", function() {
             });
         });
 
+        describe("even if config files have Unicode BOM,", function() {
+            it("should read the JSON config file correctly.", function() {
+                var config = ConfigFile.load(getFixturePath("bom/.eslintrc.json"));
+
+                assert.deepEqual(config, {
+                    env: {},
+                    globals: {},
+                    parserOptions: {},
+                    rules: {
+                        semi: "error"
+                    }
+                });
+            });
+
+            it("should read the YAML config file correctly.", function() {
+                var config = ConfigFile.load(getFixturePath("bom/.eslintrc.yaml"));
+
+                assert.deepEqual(config, {
+                    env: {},
+                    globals: {},
+                    parserOptions: {},
+                    rules: {
+                        semi: "error"
+                    }
+                });
+            });
+
+            it("should read the config in package.json correctly.", function() {
+                var config = ConfigFile.load(getFixturePath("bom/package.json"));
+
+                assert.deepEqual(config, {
+                    env: {},
+                    globals: {},
+                    parserOptions: {},
+                    rules: {
+                        semi: "error"
+                    }
+                });
+            });
+        });
     });
 
     describe("resolve()", function() {
