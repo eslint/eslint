@@ -151,7 +151,23 @@ ruleTester.run("no-unused-vars", rule, {
         {code: "var a = 0, b; b = a++; foo(b);"},
         {code: "function foo(a) { var b = a = a + 1; bar(b) } foo();"},
         {code: "function foo(a) { var b = a += a + 1; bar(b) } foo();"},
-        {code: "function foo(a) { var b = a++; bar(b) } foo();"}
+        {code: "function foo(a) { var b = a++; bar(b) } foo();"},
+
+        // https://github.com/eslint/eslint/issues/6576
+        {
+            code: [
+                "var unregisterFooWatcher;",
+                "// ...",
+                "unregisterFooWatcher = $scope.$watch( \"foo\", function() {",
+                "    // ...some code..",
+                "    unregisterFooWatcher();",
+                "});"
+            ].join("\n")
+        },
+        {code: "function foo(cb) { cb = function() { function something(a) { cb(1 + a); } register(something); }(); } foo();"},
+        {code: "function* foo(cb) { cb = yield function(a) { cb(1 + a); }; } foo();", parserOptions: {ecmaVersion: 6}},
+        {code: "function foo(cb) { cb = tag`hello${function(a) { cb(1 + a); }}`; } foo();", parserOptions: {ecmaVersion: 6}},
+        {code: "function foo(cb) { var b; cb = b = function(a) { cb(1 + a); }; b(); } foo();"}
     ],
     invalid: [
         { code: "function foox() { return foox(); }", errors: [{ message: "'foox' is defined but never used", type: "Identifier"}] },
@@ -354,6 +370,24 @@ ruleTester.run("no-unused-vars", rule, {
         {code: "function foo(a) { a += a + 1 } foo();", errors: [{message: "'a' is defined but never used"}]},
         {code: "function foo(a) { a++ } foo();", errors: [{message: "'a' is defined but never used"}]},
         {code: "var a = 3; a = a * 5 + 6;", errors: [{message: "'a' is defined but never used"}]},
-        {code: "var a = 2, b = 4; a = a * 2 + b;", errors: [{message: "'a' is defined but never used"}]}
+        {code: "var a = 2, b = 4; a = a * 2 + b;", errors: [{message: "'a' is defined but never used"}]},
+
+        // https://github.com/eslint/eslint/issues/6576 (For coverage)
+        {
+            code: "function foo(cb) { cb = function(a) { cb(1 + a); }; bar(not_cb); } foo();",
+            errors: [{message: "'cb' is defined but never used"}]
+        },
+        {
+            code: "function foo(cb) { cb = function(a) { return cb(1 + a); }(); } foo();",
+            errors: [{message: "'cb' is defined but never used"}]
+        },
+        {
+            code: "function foo(cb) { cb = (function(a) { cb(1 + a); }, cb); } foo();",
+            errors: [{message: "'cb' is defined but never used"}]
+        },
+        {
+            code: "function foo(cb) { cb = (0, function(a) { cb(1 + a); }); } foo();",
+            errors: [{message: "'cb' is defined but never used"}]
+        }
     ]
 });
