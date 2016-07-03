@@ -164,6 +164,24 @@ ruleTester.run("no-unused-vars", rule, {
                 "});"
             ].join("\n")
         },
+        {
+            code: [
+                "var ref;",
+                "ref = setInterval(",
+                "    function(){",
+                "        clearInterval(ref);",
+                "    }, 10);",
+            ].join("\n")
+        },
+        {
+            code: [
+                "var _timer;",
+                "function f() {",
+                "    _timer = setTimeout(function () {}, _timer ? 100 : 0);",
+                "}",
+                "f();",
+            ].join("\n")
+        },
         {code: "function foo(cb) { cb = function() { function something(a) { cb(1 + a); } register(something); }(); } foo();"},
         {code: "function* foo(cb) { cb = yield function(a) { cb(1 + a); }; } foo();", parserOptions: {ecmaVersion: 6}},
         {code: "function foo(cb) { cb = tag`hello${function(a) { cb(1 + a); }}`; } foo();", parserOptions: {ecmaVersion: 6}},
