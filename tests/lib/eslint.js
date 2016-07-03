@@ -1893,6 +1893,21 @@ describe("eslint", function() {
             messages = eslint.verify(codeB, config, filename, false);
             assert.equal(messages.length, 1);
         });
+
+        it("should report the docURI provided by plugin", function() {
+            var config = {
+                rules: {"test-plugin/test-rule": 2},
+                getDocURI: function(ruleName) {
+                    return "http://path.to/docs/" + ruleName;
+                }
+            };
+            var code = "var a = \"trigger violation\";";
+
+            eslint.reset();
+            var messages = eslint.verify(code, config, filename, false);
+
+            assert.equal(messages[0].docURI, "http://path.to/docs/test-plugin/test-rule");
+        });
     });
 
     describe("when evaluating code with comments to enable and disable all reporting", function() {

@@ -105,7 +105,8 @@ The `verify()` method returns an array of objects containing information about t
     fix: {
         range: [1, 15],
         text: ";"
-    }
+    },
+    docURI: "http://eslint.org/docs/rules/semi"
 }
 ```
 
@@ -120,6 +121,7 @@ The information available for each linting message is:
 * `severity` - either 1 or 2, depending on your configuration.
 * `source` - the line of code where the problem is (or empty string if it can't be found).
 * `fix` - an object describing the fix for the problem (this property is omitted if no fix is available).
+* `docURI` - where to find documentation for the rule (this property is omitted if the rule comes from a plugin that does not provide a URI via [getURI()](http://eslint.org/docs/developer-guide/working-with-plugins#rules-in-plugins))
 
 You can also get an instance of the `SourceCode` object used inside of `linter` by using the `getSourceCode()` method:
 
