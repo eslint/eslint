@@ -72,7 +72,7 @@ This rule has an object option:
 
 * `"SwitchCase"` (default: 0) enforces indentation level for `case` clauses in `switch` statements
 * `"VariableDeclarator"` (default: 1) enforces indentation level for `var` declarators; can also take an object to define separate rules for `var`, `let` and `const` declarations.
-* `"outerIIFEBody"` (default: true) when false enforces no indentation level increase for file-level IIFEs.
+* `"outerIIFEBody"` (default: 1) enforces indentation level for file-level IIFEs.
 
 Level of indentation denotes the multiple of the indent specified. Example:
 
