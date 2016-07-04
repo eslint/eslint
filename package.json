@@ -59,7 +59,6 @@
     "lodash": "^4.0.0",
     "mkdirp": "^0.5.0",
     "optionator": "^0.8.1",
-    "path-is-absolute": "^1.0.0",
     "path-is-inside": "^1.0.1",
     "pluralize": "^1.2.1",
     "progress": "^1.1.8",
