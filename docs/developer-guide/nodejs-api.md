@@ -105,6 +105,16 @@ The `verify()` method returns an array of objects containing information about t
     fix: {
         range: [1, 15],
         text: ";"
+    },
+    meta: {
+        docs: {
+            description: "disallow unnecessary semicolons",
+            category: "Possible Errors",
+            recommended: true,
+            uri: "http://eslint.org/docs/rules/semi"
+        },
+        fixable: "code",
+        schema: [] // no options
     }
 }
 ```
@@ -120,6 +130,7 @@ The information available for each linting message is:
 * `severity` - either 1 or 2, depending on your configuration.
 * `source` - the line of code where the problem is (or empty string if it can't be found).
 * `fix` - an object describing the fix for the problem (this property is omitted if no fix is available).
+* `meta` - metadata from the rule definition
 
 You can also get an instance of the `SourceCode` object used inside of `linter` by using the `getSourceCode()` method:
 
