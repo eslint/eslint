@@ -21,8 +21,9 @@ The process of submitting a pull request is fairly straightforward and generally
 2. [Make your changes](#step2)
 3. [Rebase onto upstream](#step3)
 4. [Run the tests](#step4)
-6. [Double check your submission](#step5)
-7. [Submit the pull request](#step6)
+5. [Double check your submission](#step5)
+6. [Push your changes](#step6)
+7. [Submit the pull request](#step7)
 
 Details about each step are found below.
 
@@ -99,7 +100,9 @@ After rebasing, be sure to run all of the tests once again to make sure nothing 
 npm test
 ```
 
-### Step 6: Double check your submission<a name="step5"></a>
+If there are any failing tests, update your code until all tests pass.
+
+### Step 5: Double check your submission<a name="step5"></a>
 
 With your code ready to go, this is a good time to double-check your submission to make sure it follows our conventions. Here are the things to check:
 
@@ -112,10 +115,23 @@ With your code ready to go, this is a good time to double-check your submission 
 * Make separate pull requests for unrelated changes. Large pull requests with multiple unrelated changes may be closed without merging.
 * All changes must be accompanied by tests, even if the feature you're working on previously had no tests.
 * All user-facing changes must be accompanied by appropriate documentation.
-* Only *one commit* is allowed per pull request. If you have multiple commits, you'll be asked to squash them.
 * Follow the [Code Conventions](../code-conventions.html).
 
-### Step 7: Send the pull request<a name="step6"></a>
+### Step 6: Push your changes<a name="step6"></a>
+
+Next, push your changes to your clone:
+
+```
+git push origin issue1234
+```
+
+If you are unable to push because some references are old, do a forced push instead:
+
+```
+git push -f origin issue1234
+```
+
+### Step 7: Send the pull request<a name="step7"></a>
 
 Now you're ready to send the pull request. Go to your ESLint fork and then follow the [GitHub documentation](https://help.github.com/articles/creating-a-pull-request) on how to send a pull request.
 
