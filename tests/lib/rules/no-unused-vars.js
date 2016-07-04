@@ -125,6 +125,20 @@ ruleTester.run("no-unused-vars", rule, {
         { code: "function foo(a, _b) { return a; } foo();", options: [ { args: "after-used", argsIgnorePattern: "^_" } ] },
         { code: "var [ firstItemIgnored, secondItem ] = items;\nconsole.log(secondItem);", parserOptions: { ecmaVersion: 6 }, options: [ { vars: "all", varsIgnorePattern: "[iI]gnored" } ] },
 
+        // for-in loops (see #2342)
+        "(function(obj) { var name; for ( name in obj ) return; })({});",
+        "(function(obj) { var name; for ( name in obj ) { return; } })({});",
+        "(function(obj) { for ( var name in obj ) { return true } })({})",
+        "(function(obj) { for ( var name in obj ) return true })({})",
+
+        { code: "(function(obj) { let name; for ( name in obj ) return; })({});", parserOptions: { ecmaVersion: 6 }},
+        { code: "(function(obj) { let name; for ( name in obj ) { return; } })({});", parserOptions: { ecmaVersion: 6 }},
+        { code: "(function(obj) { for ( let name in obj ) { return true } })({})", parserOptions: { ecmaVersion: 6 }},
+        { code: "(function(obj) { for ( let name in obj ) return true })({})", parserOptions: { ecmaVersion: 6 }},
+
+        { code: "(function(obj) { for ( const name in obj ) { return true } })({})", parserOptions: { ecmaVersion: 6 }},
+        { code: "(function(obj) { for ( const name in obj ) return true })({})", parserOptions: { ecmaVersion: 6 }},
+
         // caughtErrors
         {
             code: "try{}catch(err){console.error(err);}",
@@ -197,6 +211,11 @@ ruleTester.run("no-unused-vars", rule, {
         { code: "function foo(a, _b) { } foo();", options: [ { args: "all", argsIgnorePattern: "^_" } ], errors: [{ message: "'a' is defined but never used", line: 1, column: 14 }] },
         { code: "function foo(a, _b, c) { return a; } foo();", options: [ { args: "after-used", argsIgnorePattern: "^_" } ], errors: [{ message: "'c' is defined but never used", line: 1, column: 21 }] },
         { code: "var [ firstItemIgnored, secondItem ] = items;", parserOptions: { ecmaVersion: 6 }, options: [ { vars: "all", varsIgnorePattern: "[iI]gnored" } ], errors: [{ message: "'secondItem' is defined but never used", line: 1, column: 25 }] },
+
+        // for-in loops (see #2342)
+        { code: "(function(obj) { var name; for ( name in obj ) { i(); return; } })({});", errors: [{ message: "'name' is defined but never used", line: 1, column: 22 }] },
+        { code: "(function(obj) { var name; for ( name in obj ) { } })({});", errors: [{ message: "'name' is defined but never used", line: 1, column: 22 }] },
+        { code: "(function(obj) { for ( var name in obj ) { } })({});", errors: [{ message: "'name' is defined but never used", line: 1, column: 28 }] },
 
         // https://github.com/eslint/eslint/issues/3617
         {
