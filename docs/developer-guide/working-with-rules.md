@@ -28,7 +28,8 @@ module.exports = {
         docs: {
             description: "disallow unnecessary semicolons",
             category: "Possible Errors",
-            recommended: true
+            recommended: true,
+            uri: "http://eslint.org/docs/rules/semi"
         },
         fixable: "code",
         schema: [] // no options
@@ -52,6 +53,7 @@ The source file for a rule exports an object with the following properties.
     * `description` (string) provides the short description of the rule in the [rules index](../rules/)
     * `category` (string) specifies the heading under which the rule is listed in the [rules index](../rules/)
     * `recommended` (boolean) is whether the `"extends": "eslint:recommended"` property in a [configuration file](../user-guide/configuring#extending-configuration-files) enables the rule
+    * `uri` (string) URI pointing to the documentation for the rule
 
     In a custom rule or plugin, you can omit `docs` or include any properties that you need in it.
 

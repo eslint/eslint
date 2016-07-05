@@ -1723,6 +1723,39 @@ describe("eslint", function() {
         });
     });
 
+    describe("When a URI is provided for the rule documentation", function() {
+        var RULE_URI = "http://path.to/docs/rules/test-doc-rule";
+
+        eslint.defineRule("test-plugin/test-doc-rule", {
+            meta: {
+                docs: {
+                    uri: RULE_URI
+                }
+            },
+            create: function(context) {
+                return {
+                    Literal: function(node) {
+                        if (node.value === "trigger violation") {
+                            context.report(node, "Reporting violation.");
+                        }
+                    }
+                };
+            }
+        });
+
+        it("should report the URI", function() {
+            var config = {
+                rules: {"test-plugin/test-doc-rule": 2}
+            };
+            var code = "var a = \"trigger violation\";";
+
+            eslint.reset();
+            var messages = eslint.verify(code, config, filename, false);
+
+            assert.equal(messages[0].meta.docs.uri, RULE_URI);
+        });
+    });
+
     describe("when evaluating code with comments to enable rules", function() {
 
         it("should report a violation", function() {

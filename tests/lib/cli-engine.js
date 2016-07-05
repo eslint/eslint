@@ -256,7 +256,25 @@ describe("CLIEngine", function() {
                                 line: 1,
                                 column: 11,
                                 nodeType: "Identifier",
-                                source: "var bar = foo"
+                                source: "var bar = foo",
+                                meta: {
+                                    docs: {
+                                        category: "Variables",
+                                        description: "disallow the use of undeclared variables unless mentioned in `/*global */` comments",
+                                        recommended: true
+                                    },
+                                    schema: [
+                                        {
+                                            additionalProperties: false,
+                                            properties: {
+                                                typeof: {
+                                                    type: "boolean"
+                                                }
+                                            },
+                                            type: "object"
+                                        }
+                                    ]
+                                }
                             }
                         ],
                         errorCount: 1,
@@ -1042,6 +1060,7 @@ describe("CLIEngine", function() {
 
         describe("Fix Mode", function() {
 
+
             it("should return fixed text on multiple files when in fix mode", function() {
 
                 /**
@@ -1097,7 +1116,23 @@ describe("CLIEngine", function() {
                                     nodeType: "BinaryExpression",
                                     ruleId: "eqeqeq",
                                     severity: 2,
-                                    source: "if (msg == \"hi\") {"
+                                    source: "if (msg == \"hi\") {",
+                                    meta: {
+                                        docs: {
+                                            category: "Best Practices",
+                                            description: "require the use of `===` and `!==`",
+                                            recommended: false
+                                        },
+                                        schema: [
+                                            {
+                                                enum: [
+                                                    "always",
+                                                    "smart",
+                                                    "allow-null"
+                                                ]
+                                            }
+                                        ]
+                                    }
                                 }
                             ],
                             errorCount: 1,
@@ -1114,7 +1149,25 @@ describe("CLIEngine", function() {
                                     nodeType: "Identifier",
                                     ruleId: "no-undef",
                                     severity: 2,
-                                    source: "var msg = \"hi\" + foo;"
+                                    source: "var msg = \"hi\" + foo;",
+                                    meta: {
+                                        docs: {
+                                            category: "Variables",
+                                            description: "disallow the use of undeclared variables unless mentioned in `/*global */` comments",
+                                            recommended: true
+                                        },
+                                        schema: [
+                                            {
+                                                additionalProperties: false,
+                                                properties: {
+                                                    typeof: {
+                                                        type: "boolean"
+                                                    }
+                                                },
+                                                type: "object"
+                                            }
+                                        ]
+                                    }
                                 }
                             ],
                             errorCount: 1,
