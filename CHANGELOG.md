@@ -1,3 +1,18 @@
+v3.0.1 - July 5, 2016
+
+* 27700cf Fix: `no-unused-vars` false positive around callback (fixes #6576) (#6579) (Toru Nagashima)
+* 124d8a3 Docs: Pull request template (#6568) (Nicholas C. Zakas)
+* e9a2ed9 Docs: Fix rules\id-length exceptions typos (fixes #6397) (#6593) (GramParallelo)
+* a2cfa1b Fix: Make outerIIFEBody work correctly (fixes #6585) (#6596) (Nicholas C. Zakas)
+* 9c451a2 Docs: Use string severity in example (#6601) (Kenneth Williams)
+* 8308c0b Chore: remove path-is-absolute in favor of the built-in (fixes #6598) (#6600) (shinnn)
+* 7a63717 Docs: Add missing pull request step (fixes #6595) (#6597) (Nicholas C. Zakas)
+* de3ed84 Fix: make `no-unused-vars` ignore for-in (fixes #2342) (#6126) (Oleg Gaidarenko)
+* 6ef2cbe Fix: strip Unicode BOM of config files (fixes #6556) (#6580) (Toru Nagashima)
+* ee7fcfa Docs: Correct type of `outerIIFEBody` in `indent` (fixes #6581) (#6584) (alberto)
+* 25fc7b7 Fix: false negative of `max-len` (fixes #6564) (#6565) (not-an-aardvark)
+* f6b8452 Docs: Distinguish examples in rules under Stylistic Issues part 6 (#6567) (Kenneth Williams)
+
 v3.0.0 - July 1, 2016
 
 * 66de9d8 Docs: Update installation instructions on README (#6569) (Nicholas C. Zakas)
