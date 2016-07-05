@@ -24,6 +24,21 @@ module.exports = {
 
 To use the rule in ESLint, you would use the unprefixed plugin name, followed by a slash, followed by the rule name. So if this plugin were named `eslint-plugin-myplugin`, then in your configuration you'd refer to the rule by the name `myplugin/dollar-sign`. Example: `"rules": {"myplugin/dollar-sign": 2}`.
 
+#### Linking to Rule Documentation
+
+If your plugin has rules, you can tell ESLint where to find the documentation for those rules. The
+URI will be passed on via the API so that editors and other clients can take advantage of it.
+
+To specify where the documentation will be found, include a getDocURI function.
+
+```js
+module.exports = {
+    getDocURI: function(ruleName) {
+        return "http://path.to/docs/" + ruleName;
+    }
+};
+```
+
 ### Environments in Plugins
 
 Plugins can expose additional environments for use in ESLint. To do so, the plugin must export an `environments` object. The keys of the `environments` object are the names of the different environments provided and the values are the environment settings. For example:
@@ -103,6 +118,8 @@ configs: {
 ```
 
 **Note:** Please note that configuration will not automatically attach your rules and you have to specify your plugin name and any rules you want to enable that are part of the plugin. Any plugin rules must be prefixed with the short or long plugin name. See [Configuring Plugins](../user-guide/configuring#configuring-plugins)
+
+
 
 ### Peer Dependency
 
