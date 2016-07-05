@@ -240,10 +240,10 @@ var myObj = { a: 1 };
 
 ### exceptions
 
-Examples of additional **correct** code for this rule with the `{ "exceptions": "x" }` option:
+Examples of additional **correct** code for this rule with the `{ "exceptions": ["x"] }` option:
 
 ```js
-/*eslint id-length: ["error", { "max": "10" }]*/
+/*eslint id-length: ["error", { "exceptions": ["x"] }]*/
 /*eslint-env es6*/
 
 var x = 5;
