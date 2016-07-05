@@ -1139,6 +1139,14 @@ ruleTester.run("indent", rule, {
         },
         {
             code:
+            "fs.readdirSync(path.join(__dirname, '../rules')).forEach(name => {\n" +
+            "  files[name] = foo;\n" +
+            "});",
+            options: [2, { outerIIFEBody: 0 }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code:
             "(function(){\n" +
             "function foo(x) {\n" +
             "  return x + 1;\n" +
@@ -1149,9 +1157,9 @@ ruleTester.run("indent", rule, {
         {
             code:
             "(function(){\n" +
-            "  function foo(x) {\n" +
-            "      return x + 1;\n" +
-            "  }\n" +
+            "        function foo(x) {\n" +
+            "            return x + 1;\n" +
+            "        }\n" +
             "})();",
             options: [4, { outerIIFEBody: 2 }]
         },
@@ -2137,7 +2145,7 @@ ruleTester.run("indent", rule, {
             "    }\n" +
             "})();",
             options: [4, { outerIIFEBody: 2 }],
-            errors: expectedErrors([[2, 2, 4, "FunctionDeclaration"]])
+            errors: expectedErrors([[2, 8, 4, "FunctionDeclaration"]])
         },
         {
             code:
