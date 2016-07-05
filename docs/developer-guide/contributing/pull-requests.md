@@ -8,7 +8,7 @@ If you'd like to work on a pull request and you've never submitted code before, 
 
 1. Sign our [Contributor License Agreement](https://contribute.jquery.org/cla).
 1. Set up a [development environment](../development-environment).
-1. Ensure there's an issue that describes what you're doing. You can create a new issue or just indicate you're [working on an existing issue](working-on-issues).
+1. Ensure there's an issue that describes what you're doing and the issue has been accepted. You can create a new issue or just indicate you're [working on an existing issue](working-on-issues).
     * Exception: documentation-only changes do not require an issue.
 
 After that, you're ready to start working on code.
