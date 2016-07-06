@@ -119,7 +119,7 @@ describe("RuleTester", function() {
                     { code: "var foo = bar;", errors: [{ message: "Bad error message." }] }
                 ]
             });
-        }, /Error message should be /);
+        }, /Bad var\..*==.*Bad error message/);
     });
 
     it("should throw an error when the error is neither an object nor a string", function() {
@@ -149,7 +149,7 @@ describe("RuleTester", function() {
                     { code: "var foo = bar;", errors: ["Bad error message."] }
                 ]
             });
-        }, /Error message should be /);
+        }, /Bad var\..*==.*Bad error message/);
     });
 
     it("should not throw an error when the error is a string and it matches error message", function() {
