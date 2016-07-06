@@ -179,7 +179,6 @@ If you do not want to enforce semicolon usage (or omission) in any particular wa
 
 * [An Open Letter to JavaScript Leaders Regarding Semicolons](http://blog.izs.me/post/2353458699/an-open-letter-to-javascript-leaders-regarding)
 * [JavaScript Semicolon Insertion](http://inimino.org/~inimino/blog/javascript_semicolons)
-* [Understanding Automatic Semicolon Insertion in JavaScript](http://jamesallardice.com/understanding-automatic-semi-colon-insertion-in-javascript/)
 
 ## Related Rules
 
