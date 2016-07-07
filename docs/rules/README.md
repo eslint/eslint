@@ -179,6 +179,7 @@ These rules relate to style guidelines, and are therefore quite subjective:
 * [max-params](max-params.md): enforce a maximum number of parameters in `function` definitions
 * [max-statements](max-statements.md): enforce a maximum number of statements allowed in `function` blocks
 * [max-statements-per-line](max-statements-per-line.md): enforce a maximum number of statements allowed per line
+* [multiline-ternary](multiline-ternary.md): enforce newlines between operands of ternary expressions
 * [new-cap](new-cap.md): require constructor `function` names to begin with a capital letter
 * [new-parens](new-parens.md): require parentheses when invoking a constructor with no arguments
 * [newline-after-var](newline-after-var.md): require or disallow an empty line after `var` declarations
