@@ -13,9 +13,8 @@ With ESLint v3.0.0, we are dropping support for Node.js versions prior to 4. Nod
 ESLint v3.0.0 now requires that you use a configuration to run. A configuration can be any of the following:
 
 1. A `.eslintrc.js`, `.eslintrc.json`, `.eslintrc.yml`, `.eslintrc.yaml`, or `.eslintrc` file either in your project or home directory.
-2. Configuration options passed on the command line using `--rule`
-3. A configuration file passed on the command line using `-c`.
-4. A configuration passed to `CLIEngine` with the `useSpecificConfig` option.
+2. Configuration options passed on the command line using `--rule` (or to CLIEngine using `rules`).
+3. A configuration file passed on the command line using `-c` (or to CLIEngine using `configFile`).
 
 If ESLint can't find a configuration, then it will throw an error and ask you to provide one.
 
