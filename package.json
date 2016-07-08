@@ -94,7 +94,7 @@
     "load-perf": "^0.2.0",
     "markdownlint": "^0.1.0",
     "mocha": "^2.4.5",
-    "mock-fs": "^3.9.0",
+    "mock-fs": "^3.10.0",
     "npm-license": "^0.3.2",
     "phantomjs-prebuilt": "^2.1.7",
     "proxyquire": ">=1.0.0 <1.7.5",
