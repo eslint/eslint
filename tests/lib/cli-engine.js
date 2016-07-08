@@ -148,7 +148,7 @@ describe("CLIEngine", function() {
             assert.equal(report.results[0].filePath, getFixturePath("test.js"));
         });
 
-        it("should return a warning when given a filename by --stdin-filename in excluded files list if warnIgnored is set", function() {
+        it("should return a warning when given a filename by --stdin-filename in excluded files list if warnIgnored is true", function() {
             engine = new CLIEngine({
                 ignorePath: getFixturePath(".eslintignore"),
                 cwd: getFixturePath("..")
@@ -167,6 +167,19 @@ describe("CLIEngine", function() {
             assert.equal(report.results[0].warningCount, 1);
         });
 
+        it("should not return a warning when given a filename by --stdin-filename in excluded files list if warnIgnored is false", function() {
+            engine = new CLIEngine({
+                ignorePath: getFixturePath(".eslintignore"),
+                cwd: getFixturePath("..")
+            });
+
+            // intentional parsing error
+            var report = engine.executeOnText("va r bar = foo;", "fixtures/passing.js", false);
+
+            // should not report anything because the file is ignored
+            assert.equal(report.results.length, 0);
+        });
+
         it("should suppress excluded file warnings by default", function() {
             engine = new CLIEngine({
                 ignorePath: getFixturePath(".eslintignore"),
@@ -175,9 +188,8 @@ describe("CLIEngine", function() {
 
             var report = engine.executeOnText("var bar = foo;", "fixtures/passing.js");
 
-            assert.equal(report.results.length, 1);
-            assert.equal(report.results[0].errorCount, 0);
-            assert.equal(report.results[0].warningCount, 0);
+            // should not report anything because there are no errors
+            assert.equal(report.results.length, 0);
         });
 
         it("should return a message when given a filename by --stdin-filename in excluded files list and ignore is off", function() {
