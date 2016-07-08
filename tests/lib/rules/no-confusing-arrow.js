@@ -18,8 +18,8 @@ var rule = require("../../../lib/rules/no-confusing-arrow"),
 
 /**
  * Extends a rule object to include support for arrow functions
- * @param {object} obj - rule object
- * @returns {object} object extend to include ES6 features
+ * @param {Object} obj - rule object
+ * @returns {Object} object extend to include ES6 features
  */
 function addArrowFunctions(obj) {
     obj.parserOptions = { ecmaVersion: 6 };

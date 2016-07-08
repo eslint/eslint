@@ -18,7 +18,7 @@ var rule = require("../../../lib/rules/no-sequences"),
 /**
  * Create error message object for failure cases
  * @param {int} column column of the error
- * @returns {object} returns the error messages collection
+ * @returns {Object} returns the error messages collection
  * @private
  */
 function errors(column) {

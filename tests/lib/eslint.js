@@ -13,8 +13,8 @@
 /**
  * To make sure this works in both browsers and Node.js
  * @param {string} name Name of the module to require
- * @param {object} windowName name of the window
- * @returns {object} Required object
+ * @param {Object} windowName name of the window
+ * @returns {Object} Required object
  * @private
  */
 function compatRequire(name, windowName) {
@@ -49,7 +49,7 @@ var TEST_CODE = "var answer = 6 * 7;",
 
 /**
  * Get variables in the current escope
- * @param {object} scope current scope
+ * @param {Object} scope current scope
  * @param {string} name name of the variable to look for
  * @returns {ASTNode} The variable object
  * @private
