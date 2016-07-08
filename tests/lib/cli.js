@@ -42,7 +42,7 @@ describe("cli", function() {
     /**
      * Verify that CLIEngine receives correct opts via cli.execute().
      * @param {string} cmd CLI command.
-     * @param {object} opts Options hash that should match that received by CLIEngine.
+     * @param {Object} opts Options hash that should match that received by CLIEngine.
      * @returns {void}
      */
     function verifyCLIEngineOpts(cmd, opts) {

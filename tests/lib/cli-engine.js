@@ -1047,7 +1047,7 @@ describe("CLIEngine", function() {
                 /**
                  * Converts CRLF to LF in output.
                  * This is a workaround for git's autocrlf option on Windows.
-                 * @param {object} result - A result object to convert.
+                 * @param {Object} result - A result object to convert.
                  * @returns {void}
                  */
                 function convertCRLF(result) {

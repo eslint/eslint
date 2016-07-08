@@ -32,8 +32,8 @@ var SOURCE_CODE = "var answer = a * b\n    call();\n",
 
 /**
  * Checks the values of tokens against an array of expected values.
- * @param {[Token]} tokens Tokens returned from the API.
- * @param {[String]} expected Expected token values
+ * @param {Token[]} tokens Tokens returned from the API.
+ * @param {string[]} expected Expected token values
  * @returns {void}
  */
 function check(tokens, expected) {

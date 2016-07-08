@@ -92,7 +92,16 @@ rules:
     space-unary-ops: ["error", {words: true, nonwords: false}]
     spaced-comment: ["error", "always", { exceptions: ["-"]}]
     strict: ["error", "global"]
-    valid-jsdoc: ["error", { prefer: { "return": "returns"}}]
+    valid-jsdoc: ["error", {
+        prefer: { "return": "returns"},
+        preferType: {
+            "String": "string",
+            "Number": "number",
+            "Boolean": "boolean",
+            "object": "Object",
+            "function": "Function"
+        }
+    }]
     wrap-iife: "error"
     yoda: ["error", "never"]
 

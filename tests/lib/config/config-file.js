@@ -61,7 +61,7 @@ function readJSModule(code) {
 
 /**
  * Helper function to write configs to temp file.
- * @param {object} config Config to write out to temp file.
+ * @param {Object} config Config to write out to temp file.
  * @param {string} filename Name of file to write in temp dir.
  * @param {string} existingTmpDir Optional dir path if temp file exists.
  * @returns {string} Full path to the temp file.
@@ -78,7 +78,7 @@ function writeTempConfigFile(config, filename, existingTmpDir) {
 
 /**
  * Helper function to write JS configs to temp file.
- * @param {object} config Config to write out to temp file.
+ * @param {Object} config Config to write out to temp file.
  * @param {string} filename Name of file to write in temp dir.
  * @param {string} existingTmpDir Optional dir path if temp file exists.
  * @returns {string} Full path to the temp file.

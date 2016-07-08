@@ -42,9 +42,9 @@ function parseCodePaths(code) {
  * Traverses a given code path then returns the order of traversing.
  *
  * @param {CodePath} codePath - A code path to traverse.
- * @param {object|undefined} options - Omittable. The option object of
+ * @param {Object|undefined} [options] - The option object of
  *      `codePath.traverseSegments()` method.
- * @param {function|undefined} callback - Omittable. The callback function of
+ * @param {Function|undefined} [callback] - The callback function of
  *      `codePath.traverseSegments()` method.
  * @returns {string[]} The list of segment's ids in the order traversed.
  */

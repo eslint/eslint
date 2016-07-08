@@ -35,8 +35,8 @@ var NEITHER = {before: false, after: false};
  *     }
  *
  * @param {string} keyword - A keyword to be overriden.
- * @param {object} value - A value to override.
- * @returns {object} An option object to test an "overrides" option.
+ * @param {Object} value - A value to override.
+ * @returns {Object} An option object to test an "overrides" option.
  */
 function override(keyword, value) {
     var retv = {

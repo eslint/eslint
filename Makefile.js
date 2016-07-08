@@ -329,7 +329,7 @@ function getBranches() {
 /**
  * Lints Markdown files.
  * @param {array} files Array of file names to lint.
- * @returns {object} exec-style exit code object.
+ * @returns {Object} exec-style exit code object.
  * @private
  */
 function lintMarkdown(files) {
@@ -837,7 +837,7 @@ target.checkLicenses = function() {
 
     /**
      * Check if a dependency is eligible to be used by us
-     * @param {object} dependency dependency to check
+     * @param {Object} dependency dependency to check
      * @returns {boolean} true if we have permission
      * @private
      */
@@ -950,7 +950,7 @@ target.checkGitCommit = function() {
 /**
  * Downloads a repository which has many js files to test performance with multi files.
  * Here, it's eslint@1.10.3 (450 files)
- * @param {function} cb - A callback function.
+ * @param {Function} cb - A callback function.
  * @returns {void}
  */
 function downloadMultifilesTestTarget(cb) {
@@ -993,7 +993,7 @@ function createConfigForPerformanceTest() {
  * @param {int} runs Total number of runs to do
  * @param {int} runNumber Current run number
  * @param {int[]} results Collection results from each run
- * @param {function} cb Function to call when everything is done
+ * @param {Function} cb Function to call when everything is done
  * @returns {int[]} calls the cb with all the results
  * @private
  */
@@ -1033,7 +1033,7 @@ function time(cmd, runs, runNumber, results, cb) {
  * @param {string} title - A title.
  * @param {string} targets - Test targets.
  * @param {number} multiplier - A multiplier for limitation.
- * @param {function} cb - A callback function.
+ * @param {Function} cb - A callback function.
  * @returns {void}
  */
 function runPerformanceTest(title, targets, multiplier, cb) {

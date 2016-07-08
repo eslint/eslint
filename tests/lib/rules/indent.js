@@ -25,7 +25,7 @@ var fixedFixture = fs.readFileSync(path.join(__dirname, "../../fixtures/rules/in
  * Create error message object for failure cases
  * @param {string} indentType indent type of string or tab
  * @param {array} errors error info
- * @returns {object} returns the error messages collection
+ * @returns {Object} returns the error messages collection
  * @private
  */
 function expectedErrors(indentType, errors) {
