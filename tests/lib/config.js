@@ -1043,6 +1043,26 @@ describe("Config", function() {
                     config.getConfig(filePath);
                 }, "No ESLint configuration found");
             });
+
+            it("should not throw an error if no local config and no personal config was found but baseConfig is specified", function() {
+                var projectPath = getFakeFixturePath("personal-config", "project-without-config"),
+                    homePath = getFakeFixturePath("personal-config", "folder-does-not-exist"),
+                    filePath = getFakeFixturePath("personal-config", "project-without-config", "foo.js");
+
+                var StubbedConfig = proxyquire("../../lib/config", { "user-home": homePath });
+
+                mockPersonalConfigFileSystem();
+                mockCWDResponse(projectPath);
+
+                var config = new StubbedConfig({
+                    cwd: process.cwd(),
+                    baseConfig: {}
+                });
+
+                assert.doesNotThrow(function() {
+                    config.getConfig(filePath);
+                }, "No ESLint configuration found");
+            });
         });
     });
 
