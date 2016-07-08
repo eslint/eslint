@@ -520,8 +520,8 @@ describe("RuleTester", function() {
 
         /**
          * Set the default config for the rules tester
-         * @param {object} config configuration object
-         * @returns {function} Function to be executed
+         * @param {Object} config configuration object
+         * @returns {Function} Function to be executed
          * @private
          */
         function setConfig(config) {

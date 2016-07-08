@@ -29,7 +29,7 @@ function NORMAL() {
 /**
  * A constant value for strict mode environment.
  * This modifies pattern object to make strict mode.
- * @param {object} pattern - A pattern object to modify.
+ * @param {Object} pattern - A pattern object to modify.
  * @returns {void}
  */
 function USE_STRICT(pattern) {
@@ -39,7 +39,7 @@ function USE_STRICT(pattern) {
 /**
  * A constant value for implied strict mode.
  * This modifies pattern object to impose strict mode.
- * @param {object} pattern - A pattern object to modify.
+ * @param {Object} pattern - A pattern object to modify.
  * @returns {void}
  */
 function IMPLIED_STRICT(pattern) {
@@ -51,7 +51,7 @@ function IMPLIED_STRICT(pattern) {
 /**
  * A constant value for modules environment.
  * This modifies pattern object to make modules.
- * @param {object} pattern - A pattern object to modify.
+ * @param {Object} pattern - A pattern object to modify.
  * @returns {void}
  */
 function MODULES(pattern) {
@@ -61,9 +61,9 @@ function MODULES(pattern) {
 
 /**
  * Extracts patterns each condition for a specified type. The type is `valid` or `invalid`.
- * @param {object[]} patterns - Original patterns.
+ * @param {Object[]} patterns - Original patterns.
  * @param {string} type - One of `"valid"` or `"invalid"`.
- * @returns {object[]} Test patterns.
+ * @returns {Object[]} Test patterns.
  */
 function extractPatterns(patterns, type) {
 

@@ -19,8 +19,8 @@ var assert = require("chai").assert,
 
 /**
  * Fake a rule object
- * @param {object} context context passed to the rules by eslint
- * @returns {object} mocked rule listeners
+ * @param {Object} context context passed to the rules by eslint
+ * @returns {Object} mocked rule listeners
  * @private
  */
 function mockRule(context) {
@@ -39,8 +39,8 @@ mockRule.schema = [
 
 /**
  * Fake a rule object
- * @param {object} context context passed to the rules by eslint
- * @returns {object} mocked rule listeners
+ * @param {Object} context context passed to the rules by eslint
+ * @returns {Object} mocked rule listeners
  * @private
  */
 function mockObjectRule(context) {
@@ -57,8 +57,8 @@ mockObjectRule.schema = {
 
 /**
  * Fake a rule with no options
- * @param {object} context context passed to the rules by eslint
- * @returns {object} mocked rule listeners
+ * @param {Object} context context passed to the rules by eslint
+ * @returns {Object} mocked rule listeners
  * @private
  */
 function mockNoOptionsRule(context) {

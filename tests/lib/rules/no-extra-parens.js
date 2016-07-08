@@ -17,8 +17,8 @@ var rule = require("../../../lib/rules/no-extra-parens"),
  * @param {string} code source code
  * @param {string} type node type
  * @param {int} line line number
- * @param {object} config rule configuration
- * @returns {object} result object
+ * @param {Object} config rule configuration
+ * @returns {Object} result object
  * @private
  */
 function invalid(code, type, line, config) {
