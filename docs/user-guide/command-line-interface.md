@@ -99,7 +99,7 @@ Example:
 
 This example uses the configuration file at `~/my-eslint.json`.
 
-It also accepts a module ID of [sharable config](../developer-guide/shareable-configs).
+It also accepts a module ID of a [sharable config](../developer-guide/shareable-configs).
 
 Example:
 
@@ -117,7 +117,7 @@ Example:
 
 #### `--env`
 
-This option enables specific environments. Details about the global variables defined by each environment are available on the [configuration](configuring) documentation. This flag only enables environments; it does not disable environments set in other configuration files. To specify multiple environments, separate them using commas, or use the flag multiple times.
+This option enables specific environments. Details about the global variables defined by each environment are available on the [configuration](configuring) documentation. This option only enables environments; it does not disable environments set in other configuration files. To specify multiple environments, separate them using commas, or use the option multiple times.
 
 Examples:
 
@@ -145,7 +145,7 @@ For example, `eslint lib/* --ext .js` will match all files within the `lib/` dir
 
 #### `--global`
 
-This option defines global variables so that they will not be flagged as undefined by the `no-undef` rule. Global variables are read-only by default, but appending `:true` to a variable's name makes it writable. To define multiple variables, separate them using commas, or use the flag multiple times.
+This option defines global variables so that they will not be flagged as undefined by the `no-undef` rule. Any specified global variables are assumed to be read-only by default, but appending `:true` to a variable's name ensures that `no-undef` will also allow writes. To specify multiple global variables, separate them using commas, or use the option multiple times.
 
 Examples:
 
@@ -158,7 +158,7 @@ This option allows you to specify a parser to be used by eslint. By default, `es
 
 #### `--parser-options`
 
-This option allows you to specify parser options to be used by eslint.
+This option allows you to specify parser options to be used by eslint. Note that the available parser options are determined by the parser being used.
 
 Examples:
 
@@ -177,11 +177,11 @@ Path to the cache file. If none specified `.eslintcache` will be used. The file 
 
 #### `--cache-location`
 
-Path to the cache location. Can be a file or a directory. If none specified `.eslintcache` will be used. The file will be created in the directory where the `eslint` command is executed.
+Path to the cache location. Can be a file or a directory. If no location is specified, `.eslintcache` will be used. In that case, the file will be created in the directory where the `eslint` command is executed.
 
-In case a directory is specified a cache file will be created inside the specified folder. The name of the file will be based on the hash of the current working directory (CWD). e.g.: `.cache_hashOfCWD`
+If a directory is specified, a cache file will be created inside the specified folder. The name of the file will be based on the hash of the current working directory (CWD). e.g.: `.cache_hashOfCWD`
 
-**Important note:** If the directory for the cache does not exist make sure you add a trailing `/` on *nix systems or `\` in windows. Otherwise the path will be assumed to be a file.
+**Important note:** If the directory for the cache does not exist make sure you add a trailing `/` on \*nix systems or `\` in windows. Otherwise the path will be assumed to be a file.
 
 Example:
 
@@ -191,20 +191,23 @@ Example:
 
 #### `--rulesdir`
 
-This option allows you to specify a second directory from which to load rules files. This allows you to dynamically load new rules at run time. This is useful when you have custom rules that aren't suitable for being bundled with ESLint.
+This option allows you to specify another directory from which to load rules files. This allows you to dynamically load new rules at run time. This is useful when you have custom rules that aren't suitable for being bundled with ESLint.
 
 Example:
 
     eslint --rulesdir my-rules/ file.js
 
-The rules in your custom rules directory must follow the same format as bundled rules to work properly. You can also specify multiple locations for custom rules by including multiple `--rulesdir` flags:
+The rules in your custom rules directory must follow the same format as bundled rules to work properly. You can also specify multiple locations for custom rules by including multiple `--rulesdir` options:
 
     eslint --rulesdir my-rules/ --rulesdir my-other-rules/ file.js
+
+Note that, as with core rules and plugin rules, you still need to enable the rules in configuration or via the `--rule` CLI option in order to actually run those rules during linting. Specifying a rules directory with `--rulesdir` does not automatically enable the rules within that directory.
 
 #### `--plugin`
 
 This option specifies a plugin to load. You can omit the prefix `eslint-plugin-` from the plugin name.
-Before using the plugin you have to install it using npm.
+
+Before using the plugin, you have to install it using npm.
 
 Examples:
 
@@ -213,9 +216,9 @@ Examples:
 
 #### `--rule`
 
-This option specifies rules to be used. These rules will be merged with any rules specified with configuration files. (You can use `--no-eslintrc` to change that behavior.) To define multiple rules, separate them using commas, or use the flag multiple times. The [levn](https://github.com/gkz/levn#levn--) format is used for specifying the rules.
+This option specifies rules to be used. These rules will be merged with any rules specified with configuration files. (You can use `--no-eslintrc` to change that behavior.) To define multiple rules, separate them using commas, or use the option multiple times. The [levn](https://github.com/gkz/levn#levn--) format is used for specifying the rules.
 
-If the rule is defined within a plugin you have to prefix the rule ID with the plugin name and a `/`.
+If the rule is defined within a plugin, you have to prefix the rule ID with the plugin name and a `/`.
 
 Examples:
 
@@ -232,6 +235,7 @@ This option allows you to specify the file to use as your `.eslintignore`. By de
 Example:
 
     eslint --ignore-path tmp/.eslintignore file.js
+    eslint --ignore-path .gitignore file.js
 
 #### `--no-ignore`
 
@@ -243,7 +247,7 @@ Example:
 
 #### `--ignore-pattern`
 
-This option allows you to specify patterns of files to ignore (in addition to those in `.eslintignore`). You can repeat the option to provide multiple patterns. The supported syntax is the same as in the `.eslintignore` file.
+This option allows you to specify patterns of files to ignore (in addition to those in `.eslintignore`). You can repeat the option to provide multiple patterns. The supported syntax is the same as in the `.eslintignore` file. You should quote your patterns in order to avoid shell interpretation of glob patterns.
 
 Example:
 
@@ -254,9 +258,9 @@ Example:
 
 #### `--stdin`
 
-This option tells ESLint to read and lint source code from STDIN instead files. You can use this to pipe code to ESLint.
+This option tells ESLint to read and lint source code from STDIN instead of from files. You can use this to pipe code to ESLint.
 
-Example
+Example:
 
     cat myfile.js | eslint --stdin
 
@@ -272,7 +276,7 @@ Example
 
 #### `--quiet`
 
-This option allows you to disable reporting on warnings. If you enable this option only errors are reported by ESLint.
+This option allows you to disable reporting on warnings. If you enable this option, only errors are reported by ESLint.
 
 Example:
 
@@ -282,7 +286,7 @@ Example:
 
 This option allows you to specify a warning threshold, which can be used to force ESLint to exit with an error status if there are too many warning-level rule violations in your project.
 
-Normally, if ESLint runs and finds no errors (only warnings), it will exit with a success exit status. However, if this option is specified and the total warning count is greater than the specified threshold, ESLint will exit with an error status. Specifying a threshold of `-1` or omitting this option will prevent this behavior.
+Normally, if ESLint runs and finds no errors (only warnings), it will exit with a success exit status. However, if `--max-warnings` is specified and the total warning count is greater than the specified threshold, ESLint will exit with an error status. Specifying a threshold of `-1` or omitting this option will prevent this behavior.
 
 Example:
 
@@ -345,11 +349,13 @@ Examples:
 
 #### `--init`
 
-This option will start config initialization wizard. It's designed to help new users quickly create .eslintrc file by answering a few questions. File will be created in current directory.
+This option will start config initialization wizard. It's designed to help new users quickly create .eslintrc file by answering a few questions, choosing a popular style guide, or inspecting your source files and attempting to automatically generate a suitable configuration.
+
+The resulting configuration file will be created in the current directory.
 
 #### `--fix`
 
-This option instructs ESLint to try to fix as many issues as possible. The fixes are made to the actual files themselves and only the remaining unfixed issues are output. Not all problems are fixable using this flag, and the flag does not work in these situations:
+This option instructs ESLint to try to fix as many issues as possible. The fixes are made to the actual files themselves and only the remaining unfixed issues are output. Not all problems are fixable using this option, and the option does not work in these situations:
 
 1. This option throws an error when code is piped to ESLint.
 1. This option has no effect on code that uses processors.
@@ -360,15 +366,11 @@ This option outputs debugging information to the console. This information is us
 
 #### `-h`, `--help`
 
-This option outputs the help menu, displaying all of the available options. All other flags are ignored when this is present.
+This option outputs the help menu, displaying all of the available options. All other options are ignored when this is present.
 
 #### `-v`, `--version`
 
-This option outputs the current ESLint version onto the console. All other options are ignored when present.
-
-Example:
-
-    eslint -v
+This option outputs the current ESLint version onto the console. All other options are ignored when this is present.
 
 #### `--no-inline-config`
 
