@@ -119,6 +119,8 @@ The information available for each linting message is:
 * `ruleId` - the ID of the rule that triggered the messages (or null if `fatal` is true).
 * `severity` - either 1 or 2, depending on your configuration.
 * `source` - the line of code where the problem is (or empty string if it can't be found).
+* `endColumn` - the end column of the range on which the error occurred (this property is omitted if it's not range).
+* `endLine` - the end line of the range on which the error occurred (this property is omitted if it's not range).
 * `fix` - an object describing the fix for the problem (this property is omitted if no fix is available).
 
 You can also get an instance of the `SourceCode` object used inside of `linter` by using the `getSourceCode()` method:

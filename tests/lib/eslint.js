@@ -1071,6 +1071,56 @@ describe("eslint", function() {
             });
         });
 
+        it("should not have 'endLine' and 'endColumn' when there is not 'loc' property.", function() {
+            eslint.on("Program", function(node) {
+                eslint.report(
+                    "test-rule",
+                    2,
+                    node,
+                    "test"
+                );
+            });
+
+            var messages = eslint.verify("0", config, "", true);
+
+            assert.strictEqual(messages[0].endLine, void 0);
+            assert.strictEqual(messages[0].endColumn, void 0);
+        });
+
+        it("should have 'endLine' and 'endColumn' when 'loc' property has 'end' property.", function() {
+            eslint.on("Program", function(node) {
+                eslint.report(
+                    "test-rule",
+                    2,
+                    node,
+                    node.loc,
+                    "test"
+                );
+            });
+
+            var messages = eslint.verify("0", config, "", true);
+
+            assert.strictEqual(messages[0].endLine, 1);
+            assert.strictEqual(messages[0].endColumn, 2);
+        });
+
+        it("should not have 'endLine' and 'endColumn' when 'loc' property doe not have 'end' property.", function() {
+            eslint.on("Program", function(node) {
+                eslint.report(
+                    "test-rule",
+                    2,
+                    node,
+                    node.loc.start,
+                    "test"
+                );
+            });
+
+            var messages = eslint.verify("0", config, "", true);
+
+            assert.strictEqual(messages[0].endLine, void 0);
+            assert.strictEqual(messages[0].endColumn, void 0);
+        });
+
     });
 
     describe("when evaluating code", function() {
