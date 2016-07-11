@@ -438,6 +438,19 @@ ruleTester.run("no-unused-vars", rule, {
         {
             code: "function foo(cb) { cb = (0, function(a) { cb(1 + a); }); } foo();",
             errors: [{message: "'cb' is defined but never used"}]
+        },
+
+        // https://github.com/eslint/eslint/issues/6646
+        {
+            code: [
+                "while (a) {",
+                "    function foo(b) {",
+                "        b = b + 1;",
+                "    }",
+                "    foo()",
+                "}"
+            ].join("\n"),
+            errors: [{message: "'b' is defined but never used"}]
         }
     ]
 });
