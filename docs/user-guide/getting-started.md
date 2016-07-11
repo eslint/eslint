@@ -53,7 +53,7 @@ Your `.eslintrc` configuration file will also include the line:
     "extends": "eslint:recommended"
 ```
 
-Because of this this line, all of the rules marked "(recommended)" on the [rules page](http://eslint.org/docs/rules) will be turned on.  Alternatively, you can use configurations that others have created by searching for "eslint-config" on [npmjs.com](https://www.npmjs.com/search?q=eslint-config).  ESLint will not lint your code unless you extend from a shared configuration or explicitly turn rules on in your configuration.
+Because of this line, all of the rules marked "(recommended)" on the [rules page](http://eslint.org/docs/rules) will be turned on.  Alternatively, you can use configurations that others have created by searching for "eslint-config" on [npmjs.com](https://www.npmjs.com/search?q=eslint-config).  ESLint will not lint your code unless you extend from a shared configuration or explicitly turn rules on in your configuration.
 
 ---
 
