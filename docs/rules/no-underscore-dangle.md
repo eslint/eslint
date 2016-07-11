@@ -16,25 +16,6 @@ This rule disallows dangling underscores in identifiers.
 
 Examples of **incorrect** code for this rule:
 
-
-### `allowAfterThis`
-
-```json
-"no-underscore-dangle": ["error", { "allowAfterThis": true }]
-```
-
-This option allows usage of dangled variables as members of `this`.
-
-### `allowAfterSuper`
-
-```json
-"no-underscore-dangle": ["error", { "allowAfterSuper": true }]
-```
-
-Same as the "allowAfterThis" option, but for the ES2015 'super' keyword.
-
-The following patterns are considered problems:
-
 ```js
 /*eslint no-underscore-dangle: "error"*/
 
@@ -60,7 +41,7 @@ This rule has an object option:
 
 * `"allow"` allows specified identifiers to have dangling underscores
 * `"allowAfterThis": false` (default) disallows dangling underscores in members of the `this` object
-* `"afterAfterThis": true` allows dangling underscores in members of the `this` object
+* `"allowAfterSuper": false` (default) disallows dangling underscores in members of the `super` object
 
 ### allow
 
@@ -83,6 +64,10 @@ Examples of **correct** code for this rule with the `{ "allowAfterThis": true }`
 var a = this.foo_;
 this._bar();
 ```
+
+### allowAfterSuper
+
+Examples of **correct** code for this rule with the `{ "allowAfterSuper": true }` option:
 
 ```js
 /*eslint no-underscore-dangle: ["error", { "allowAfterSuper": true }]*/
