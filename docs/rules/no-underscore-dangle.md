@@ -25,6 +25,14 @@ Examples of **incorrect** code for this rule:
 
 This option allows usage of dangled variables as members of `this`.
 
+### `allowAfterSuper`
+
+```json
+"no-underscore-dangle": ["error", { "allowAfterSuper": true }]
+```
+
+Same as the "allowAfterThis" option, but for the ES2015 'super' keyword.
+
 The following patterns are considered problems:
 
 ```js
