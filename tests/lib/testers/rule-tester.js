@@ -253,6 +253,32 @@ describe("RuleTester", function() {
         }, /Error column should be 0/);
     });
 
+    it("should throw an error if invalid code specifies wrong endLine", function() {
+        assert.throws(function() {
+            ruleTester.run("no-var", require("../../fixtures/testers/rule-tester/no-var"), {
+                valid: [
+                    "bar = baz;"
+                ],
+                invalid: [
+                    { code: "var foo = bar;", output: "foo = bar", errors: [{ message: "Bad var.", type: "VariableDeclaration", endLine: 10}] }
+                ]
+            });
+        }, "Error endLine should be 10");
+    });
+
+    it("should throw an error if invalid code specifies wrong endColumn", function() {
+        assert.throws(function() {
+            ruleTester.run("no-var", require("../../fixtures/testers/rule-tester/no-var"), {
+                valid: [
+                    "bar = baz;"
+                ],
+                invalid: [
+                    { code: "var foo = bar;", output: "foo = bar", errors: [{ message: "Bad var.", type: "VariableDeclaration", endColumn: 10}] }
+                ]
+            });
+        }, "Error endColumn should be 10");
+    });
+
     it("should throw an error if invalid code has the wrong number of errors", function() {
 
         assert.throws(function() {
