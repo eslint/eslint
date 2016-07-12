@@ -195,7 +195,7 @@ describe("configInitializer", function() {
             it("should support the standard style guide", function() {
                 var config = init.getConfigForStyleGuide("standard");
 
-                assert.deepEqual(config, {extends: "standard", installedESLint: true, plugins: ["standard"]});
+                assert.deepEqual(config, {extends: "standard", installedESLint: true, plugins: ["standard", "promise"]});
             });
 
             it("should throw when encountering an unsupported style guide", function() {
