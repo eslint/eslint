@@ -25,7 +25,8 @@ var lodash = require("lodash"),
     path = require("path"),
     semver = require("semver"),
     ejs = require("ejs"),
-    loadPerf = require("load-perf");
+    loadPerf = require("load-perf"),
+    yaml = require("js-yaml");
 
 //------------------------------------------------------------------------------
 // Settings
@@ -193,6 +194,40 @@ function generateFormatterExamples(formatterInfo, prereleaseVersion) {
 
     output.to(filename);
     formatterInfo.formatterResults.html.result.to(htmlFilename);
+}
+
+/**
+ * Generate a doc page that lists all of the rules and links to them
+ * @param {string} basedir The directory in which to look for code.
+ * @returns {void}
+ */
+function generateRuleIndexPage(basedir) {
+    var outputFile = "../eslint.github.io/_data/rules.yml",
+        categoryList = "conf/category-list.json",
+        categoriesData = JSON.parse(cat(path.resolve(categoryList)));
+
+    find(path.join(basedir, "/lib/rules/")).filter(fileType("js")).forEach(function(filename) {
+        var rule = require(filename);
+
+        var basename = path.basename(filename, ".js"),
+            output = {
+                name: basename,
+                description: rule.meta.docs.description,
+                recommended: rule.meta.docs.recommended || false,
+                fixable: !!rule.meta.fixable
+            },
+            category = lodash.find(categoriesData.categories, {name: rule.meta.docs.category});
+
+        if (!category.rules) {
+            category.rules = [];
+        }
+
+        category.rules.push(output);
+    });
+
+    var output = yaml.safeDump(categoriesData, {sortKeys: true});
+
+    output.to(outputFile);
 }
 
 /**
@@ -582,7 +617,7 @@ target.gensite = function(prereleaseVersion) {
 
             // 5. Prepend page title and layout variables at the top of rules
             if (path.dirname(filename).indexOf("rules") >= 0) {
-                text = "---\ntitle: " + (ruleName === "README" ? "List of available rules" : "Rule " + ruleName) + "\nlayout: doc\n---\n<!-- Note: No pull requests accepted for this file. See README.md in the root directory for details. -->\n\n" + text;
+                text = "---\ntitle: Rule " + ruleName + "\nlayout: doc\n---\n<!-- Note: No pull requests accepted for this file. See README.md in the root directory for details. -->\n\n" + text;
             } else {
 
                 // extract the title from the file itself
@@ -604,7 +639,7 @@ target.gensite = function(prereleaseVersion) {
             }
 
             // 8. Append first version of ESLint rule was added at.
-            if (filename.indexOf("rules/") !== -1 && baseName !== "README.md") {
+            if (filename.indexOf("rules/") !== -1) {
                 var added, removed;
 
                 if (!versions.added[baseName]) {
@@ -628,9 +663,6 @@ target.gensite = function(prereleaseVersion) {
                 }
                 text += "* [Documentation source](" + docsUrl + baseName + ")\n";
             }
-
-            // 9. Update content of the file with changes
-            text.to(filename.replace("README.md", "index.md"));
         }
     });
     JSON.stringify(versions).to("./versions.json");
@@ -643,16 +675,19 @@ target.gensite = function(prereleaseVersion) {
     }
     cp("-rf", TEMP_DIR + "*", outputDir);
 
-    // 11. Delete temporary directory
+    // 11. Generate rule listing page
+    generateRuleIndexPage(process.cwd());
+
+    // 12. Delete temporary directory
     rm("-r", TEMP_DIR);
 
-    // 12. Update demos, but only for non-prereleases
+    // 13. Update demos, but only for non-prereleases
     if (!prereleaseVersion) {
         cp("-f", "build/eslint.js", SITE_DIR + "js/app/eslint.js");
         cp("-f", "conf/eslint.json", SITE_DIR + "js/app/eslint.json");
     }
 
-    // 13. Create Example Formatter Output Page
+    // 14. Create Example Formatter Output Page
     generateFormatterExamples(getFormatterResults(), prereleaseVersion);
 };
 
@@ -707,16 +742,11 @@ target.checkRuleFiles = function() {
     var eslintConf = require("./conf/eslint.json").rules;
 
     var ruleFiles = find("lib/rules/").filter(fileType("js")),
-        rulesIndexText = cat("docs/rules/README.md"),
         errors = 0;
 
     ruleFiles.forEach(function(filename) {
         var basename = path.basename(filename, ".js");
         var docFilename = "docs/rules/" + basename + ".md";
-
-        var indexLine = new RegExp("\\* \\[" + basename + "\\].*").exec(rulesIndexText);
-
-        indexLine = indexLine ? indexLine[0] : "";
 
         /**
          * Check if basename is present in eslint conf
@@ -725,44 +755,6 @@ target.checkRuleFiles = function() {
          */
         function isInConfig() {
             return eslintConf.hasOwnProperty(basename);
-        }
-
-        /**
-         * Check if rule is off in eslint conf
-         * @returns {boolean} true if off
-         * @private
-         */
-        function isOffInConfig() {
-            var rule = eslintConf[basename];
-
-            return rule === "off" || (rule && rule[0] === "off");
-        }
-
-        /**
-         * Check if rule is on in eslint conf
-         * @returns {boolean} true if on
-         * @private
-         */
-        function isOnInConfig() {
-            return !isOffInConfig();
-        }
-
-        /**
-         * Check if rule is not recommended by eslint
-         * @returns {boolean} true if not recommended
-         * @private
-         */
-        function isNotRecommended() {
-            return indexLine.indexOf("(recommended)") === -1;
-        }
-
-        /**
-         * Check if rule is recommended by eslint
-         * @returns {boolean} true if recommended
-         * @private
-         */
-        function isRecommended() {
-            return !isNotRecommended();
         }
 
         /**
@@ -788,12 +780,6 @@ target.checkRuleFiles = function() {
             errors++;
         } else {
 
-            // check for entry in docs index
-            if (rulesIndexText.indexOf("(" + basename + ".md)") === -1) {
-                console.error("Missing link to documentation for rule %s in index", basename);
-                errors++;
-            }
-
             // check for proper doc format
             if (!hasIdInTitle(basename)) {
                 console.error("Missing id in the doc page's title of rule %s", basename);
@@ -804,18 +790,6 @@ target.checkRuleFiles = function() {
         // check for default configuration
         if (!isInConfig()) {
             console.error("Missing default setting for %s in eslint.json", basename);
-            errors++;
-        }
-
-        // check that rule is not recommended in docs but off in default config
-        if (isRecommended() && isOffInConfig()) {
-            console.error("Rule documentation says that %s is recommended, but it is disabled in eslint.json.", basename);
-            errors++;
-        }
-
-        //  check that rule is not on in default config but not recommended
-        if (isOnInConfig("default") && isNotRecommended("default")) {
-            console.error("Missing '(recommended)' for rule %s in index", basename);
             errors++;
         }
 
