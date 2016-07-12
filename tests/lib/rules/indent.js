@@ -1183,12 +1183,86 @@ ruleTester.run("indent", rule, {
         },
         {
             code:
+            "!function(){\n" +
+            "function foo(x) {\n" +
+            "  return x + 1;\n" +
+            "}\n" +
+            "}();",
+            options: [2, { outerIIFEBody: 0 }]
+        },
+        {
+            code:
+            "!function(){\n" +
+            "\t\t\tfunction foo(x) {\n" +
+            "\t\t\t\treturn x + 1;\n" +
+            "\t\t\t}\n" +
+            "}();",
+            options: ["tab", { outerIIFEBody: 3 }]
+        },
+        {
+            code:
             "var out = function(){\n" +
             "  function fooVar(x) {\n" +
             "    return x + 1;\n" +
             "  }\n" +
             "};",
             options: [2, { outerIIFEBody: 0 }]
+        },
+        {
+            code:
+            "var ns = function(){\n" +
+            "function fooVar(x) {\n" +
+            "  return x + 1;\n" +
+            "}\n" +
+            "}();",
+            options: [2, { outerIIFEBody: 0 }]
+        },
+        {
+            code:
+            "ns = function(){\n" +
+            "function fooVar(x) {\n" +
+            "  return x + 1;\n" +
+            "}\n" +
+            "}();",
+            options: [2, { outerIIFEBody: 0 }]
+        },
+        {
+            code:
+            "var ns = (function(){\n" +
+            "function fooVar(x) {\n" +
+            "  return x + 1;\n" +
+            "}\n" +
+            "}(x));",
+            options: [2, { outerIIFEBody: 0 }]
+        },
+        {
+            code:
+            "var ns = (function(){\n" +
+            "        function fooVar(x) {\n" +
+            "            return x + 1;\n" +
+            "        }\n" +
+            "}(x));",
+            options: [4, { outerIIFEBody: 2 }]
+        },
+        {
+            code:
+            "var obj = {\n" +
+            "  foo: function() {\n" +
+            "    return true;\n" +
+            "  }\n" +
+            "};",
+            options: [2, { outerIIFEBody: 0 }]
+        },
+        {
+            code:
+            "while (\n" +
+            "  function() {\n" +
+            "    return true;\n" +
+            "  }()) {\n" +
+            "\n" +
+            "  x = x + 1;\n" +
+            "};",
+            options: [2, { outerIIFEBody: 20 }]
         },
         {
             code:
@@ -1199,6 +1273,12 @@ ruleTester.run("indent", rule, {
             "})();",
             parserOptions: { ecmaVersion: 6 },
             options: [2, { outerIIFEBody: 0 }]
+        },
+        {
+            code:
+            "function foo() {\n" +
+            "}",
+            options: ["tab", { outerIIFEBody: 0 }]
         },
         {
             code:
@@ -2154,6 +2234,52 @@ ruleTester.run("indent", rule, {
             "}",
             options: [2, { outerIIFEBody: 0 }],
             errors: expectedErrors([[2, 2, 0, "ExpressionStatement"]])
+        },
+        {
+            code:
+            "var ns = function(){\n" +
+            "    function fooVar(x) {\n" +
+            "        return x + 1;\n" +
+            "    }\n" +
+            "}(x);",
+            options: [4, { outerIIFEBody: 2 }],
+            errors: expectedErrors([[2, 8, 4, "FunctionDeclaration"]])
+        },
+        {
+            code:
+            "var obj = {\n" +
+            "  foo: function() {\n" +
+            "  return true;\n" +
+            "  }()\n" +
+            "};\n",
+            options: [2, { outerIIFEBody: 0 }],
+            errors: expectedErrors([[3, 4, 2, "ReturnStatement"]])
+        },
+        {
+            code:
+            "typeof function() {\n" +
+            "    function fooVar(x) {\n" +
+            "      return x + 1;\n" +
+            "    }\n" +
+            "}();",
+            options: [2, { outerIIFEBody: 2 }],
+            errors: expectedErrors([[2, 2, 4, "FunctionDeclaration"]])
+        },
+        {
+            code:
+            "{\n" +
+            "\t!function(x) {\n" +
+            "\t\t\t\treturn x + 1;\n" +
+            "\t}()\n" +
+            "};",
+            output:
+            "{\n" +
+            "\t!function(x) {\n" +
+            "\t\treturn x + 1;\n" +
+            "\t}()\n" +
+            "};",
+            options: ["tab", { outerIIFEBody: 3 }],
+            errors: expectedErrors("tab", [[3, 2, 4, "ReturnStatement"]])
         }
     ]
 });
