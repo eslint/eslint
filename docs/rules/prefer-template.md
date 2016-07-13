@@ -18,7 +18,7 @@ This rule is aimed to flag usage of `+` operators with strings.
 
 ## Examples
 
-Examples of **correct** code for this rule:
+Examples of **incorrect** code for this rule:
 
 ```js
 /*eslint prefer-template: "error"*/
