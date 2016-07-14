@@ -121,7 +121,7 @@ describe("formatter:jslint-xml", function() {
         var code = [{
             filePath: "foo.js",
             messages: [{
-                message: "Unexpected <&\"'> foo.",
+                message: "Unexpected <&\"'>\b\t\n\f\r牛逼 foo.",
                 severity: 2,
                 line: 5,
                 column: 10,
@@ -133,7 +133,7 @@ describe("formatter:jslint-xml", function() {
         it("should return a string in JSLint XML format with 1 issue in 1 file", function() {
             var result = formatter(code);
 
-            assert.equal(result, "<?xml version=\"1.0\" encoding=\"utf-8\"?><jslint><file name=\"foo.js\"><issue line=\"5\" char=\"10\" evidence=\"foo\" reason=\"Unexpected &lt;&amp;&quot;&#39;&gt; foo. (foo)\" /></file></jslint>");
+            assert.equal(result, "<?xml version=\"1.0\" encoding=\"utf-8\"?><jslint><file name=\"foo.js\"><issue line=\"5\" char=\"10\" evidence=\"foo\" reason=\"Unexpected &lt;&amp;&quot;&apos;&gt;&#8;&#9;&#10;&#12;&#13;&#29275;&#36924; foo. (foo)\" /></file></jslint>");
         });
     });
 

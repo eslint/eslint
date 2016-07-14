@@ -48,7 +48,7 @@ describe("formatter:checkstyle", function() {
             filePath: "<>&\"'.js",
             messages: [{
                 fatal: true,
-                message: "Unexpected <>&\"'.",
+                message: "Unexpected <>&\"'\b\t\n\f\r牛逼.",
                 line: "<",
                 column: ">",
                 ruleId: "foo"
@@ -58,7 +58,7 @@ describe("formatter:checkstyle", function() {
         it("should return a string in the format filename: line x, col y, Error - z", function() {
             var result = formatter(code);
 
-            assert.equal(result, "<?xml version=\"1.0\" encoding=\"utf-8\"?><checkstyle version=\"4.3\"><file name=\"&lt;&gt;&amp;&quot;&apos;.js\"><error line=\"&lt;\" column=\"&gt;\" severity=\"error\" message=\"Unexpected &lt;&gt;&amp;&quot;&apos;. (foo)\" source=\"eslint.rules.foo\" /></file></checkstyle>");
+            assert.equal(result, "<?xml version=\"1.0\" encoding=\"utf-8\"?><checkstyle version=\"4.3\"><file name=\"&lt;&gt;&amp;&quot;&apos;.js\"><error line=\"&lt;\" column=\"&gt;\" severity=\"error\" message=\"Unexpected &lt;&gt;&amp;&quot;&apos;&#8;&#9;&#10;&#12;&#13;&#29275;&#36924;. (foo)\" source=\"eslint.rules.foo\" /></file></checkstyle>");
         });
     });
 
