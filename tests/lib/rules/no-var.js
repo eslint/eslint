@@ -65,7 +65,7 @@ ruleTester.run("no-var", rule, {
             ]
         },
 
-        // Not fix if it's redeclared or it's used from outside of the scope.
+        // Not fix if it's redeclared or it's used from outside of the scope or it's declared on a case chunk.
         {
             code: "var a, b, c; var a;",
             output: "var a, b, c; var a;",
@@ -110,6 +110,13 @@ ruleTester.run("no-var", rule, {
             errors: [
                 "Unexpected var, use let or const instead."
             ]
-        }
+        },
+        {
+            code: "switch (a) { case 0: var b = 1 }",
+            output: "switch (a) { case 0: var b = 1 }",
+            errors: [
+                "Unexpected var, use let or const instead."
+            ]
+        },
     ]
 });
