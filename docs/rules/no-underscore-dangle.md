@@ -41,7 +41,7 @@ This rule has an object option:
 
 * `"allow"` allows specified identifiers to have dangling underscores
 * `"allowAfterThis": false` (default) disallows dangling underscores in members of the `this` object
-* `"afterAfterThis": true` allows dangling underscores in members of the `this` object
+* `"allowAfterThis": true` allows dangling underscores in members of the `this` object
 
 ### allow
 
