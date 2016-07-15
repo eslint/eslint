@@ -161,6 +161,7 @@ This rule has an object option:
 * `"matchDescription"` specifies (as a string) a regular expression to match the description in each JSDoc comment (for example, `".+"` requires a description; this option does not apply to descriptions in parameter or return tags)
 * `"requireParamDescription": false` allows missing description in parameter tags
 * `"requireReturnDescription": false` allows missing description in return tags
+* `"allowChainable": false` allows @return tag to be omitted when @chainable specified
 
 ### prefer
 
@@ -354,6 +355,22 @@ Example of additional **correct** code for this rule with the `"requireReturnDes
  */
 function add(num1, num2) {
     return num1 + num2;
+}
+```
+
+### allowChainable
+
+Example of additional **correct** code for this rule with the `"allowChainable": true` option:
+
+```js
+/*eslint valid-jsdoc: ["error", { "allowChainable": true }]*/
+
+/**
+ * Renders this view ...
+ * @chainable
+ */
+function render() {
+    return this;
 }
 ```
 
