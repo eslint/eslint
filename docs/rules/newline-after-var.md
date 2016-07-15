@@ -87,7 +87,7 @@ console.log(greet, name);
 
 ### never
 
-Examples of **incorrect** code for this rule with the default `"never"` option:
+Examples of **incorrect** code for this rule with the `"never"` option:
 
 ```js
 /*eslint newline-after-var: ["error", "never"]*/

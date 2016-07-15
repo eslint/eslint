@@ -76,8 +76,8 @@ If you want to allow the use of `undefined` in your code, then you can safely tu
 
 ## Further Reading
 
-* [undefined - JavaScript | MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined)
-* [Understanding JavaScript’s ‘undefined’ | JavaScript, JavaScript...](http://javascriptweblog.wordpress.com/2010/08/16/understanding-undefined-and-preventing-referenceerrors/)
+* [undefined - JavaScript \| MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined)
+* [Understanding JavaScript’s ‘undefined’ \| JavaScript, JavaScript...](http://javascriptweblog.wordpress.com/2010/08/16/understanding-undefined-and-preventing-referenceerrors/)
 * [ECMA262 edition 5.1 &sect;15.1.1.3: undefined](https://es5.github.io/#x15.1.1.3)
 
 ## Related Rules
