@@ -87,7 +87,7 @@ However, this way is ultra rare, not well-known, so this would be confusing deve
 
 ### allowLoop
 
-Examples of **correct** code for the { "allowLoop": true } option:
+Examples of **correct** code for the `{ "allowLoop": true }` option:
 
 ```js
 /*eslint no-labels: ["error", { "allowLoop": true }]*/
@@ -100,7 +100,7 @@ label:
 
 ### allowSwitch
 
-Examples of **correct** code for the { "allowSwitch": true } option:
+Examples of **correct** code for the `{ "allowSwitch": true }` option:
 
 ```js
 /*eslint no-labels: ["error", { "allowSwitch": true }]*/

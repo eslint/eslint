@@ -206,11 +206,11 @@ Some rules require options in order to function correctly. These options appear 
 
 ```json
 {
-    "quotes": [2, "double"]
+    "quotes": ["error", "double"]
 }
 ```
 
-The `quotes` rule in this example has one option, `"double"` (the `2` is the error level). You can retrieve the options for a rule by using `context.options`, which is an array containing every configured option for the rule. In this case, `context.options[0]` would contain `"double"`:
+The `quotes` rule in this example has one option, `"double"` (the `error` is the error level). You can retrieve the options for a rule by using `context.options`, which is an array containing every configured option for the rule. In this case, `context.options[0]` would contain `"double"`:
 
 ```js
 module.exports = {
