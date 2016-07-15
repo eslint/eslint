@@ -345,4 +345,80 @@ describe("ast-utils", function() {
             assert.isTrue(astUtils.isParenthesised(sourceCode, ast.body[0].expression));
         });
     });
+
+    describe("isFunction", function() {
+        it("should return true for FunctionDeclaration", function() {
+            var ast = espree.parse("function a() {}");
+            var node = ast.body[0];
+
+            assert(astUtils.isFunction(node));
+        });
+
+        it("should return true for FunctionExpression", function() {
+            var ast = espree.parse("(function a() {})");
+            var node = ast.body[0].expression;
+
+            assert(astUtils.isFunction(node));
+        });
+
+        it("should return true for AllowFunctionExpression", function() {
+            var ast = espree.parse("(() => {})", {ecmaVersion: 6});
+            var node = ast.body[0].expression;
+
+            assert(astUtils.isFunction(node));
+        });
+
+        it("should return false for Program, VariableDeclaration, BlockStatement", function() {
+            var ast = espree.parse("var a; { }");
+
+            assert(!astUtils.isFunction(ast));
+            assert(!astUtils.isFunction(ast.body[0]));
+            assert(!astUtils.isFunction(ast.body[1]));
+        });
+    });
+
+    describe("isLoop", function() {
+        it("should return true for DoWhileStatement", function() {
+            var ast = espree.parse("do {} while (a)");
+            var node = ast.body[0];
+
+            assert(astUtils.isLoop(node));
+        });
+
+        it("should return true for ForInStatement", function() {
+            var ast = espree.parse("for (var k in obj) {}");
+            var node = ast.body[0];
+
+            assert(astUtils.isLoop(node));
+        });
+
+        it("should return true for ForOfStatement", function() {
+            var ast = espree.parse("for (var x of list) {}", {ecmaVersion: 6});
+            var node = ast.body[0];
+
+            assert(astUtils.isLoop(node));
+        });
+
+        it("should return true for ForStatement", function() {
+            var ast = espree.parse("for (var i = 0; i < 10; ++i) {}");
+            var node = ast.body[0];
+
+            assert(astUtils.isLoop(node));
+        });
+
+        it("should return true for WhileStatement", function() {
+            var ast = espree.parse("while (a) {}");
+            var node = ast.body[0];
+
+            assert(astUtils.isLoop(node));
+        });
+
+        it("should return false for Program, VariableDeclaration, BlockStatement", function() {
+            var ast = espree.parse("var a; { }");
+
+            assert(!astUtils.isLoop(ast));
+            assert(!astUtils.isLoop(ast.body[0]));
+            assert(!astUtils.isLoop(ast.body[1]));
+        });
+    });
 });
