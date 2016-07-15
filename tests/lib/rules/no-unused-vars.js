@@ -199,7 +199,20 @@ ruleTester.run("no-unused-vars", rule, {
         {code: "function foo(cb) { cb = function() { function something(a) { cb(1 + a); } register(something); }(); } foo();"},
         {code: "function* foo(cb) { cb = yield function(a) { cb(1 + a); }; } foo();", parserOptions: {ecmaVersion: 6}},
         {code: "function foo(cb) { cb = tag`hello${function(a) { cb(1 + a); }}`; } foo();", parserOptions: {ecmaVersion: 6}},
-        {code: "function foo(cb) { var b; cb = b = function(a) { cb(1 + a); }; b(); } foo();"}
+        {code: "function foo(cb) { var b; cb = b = function(a) { cb(1 + a); }; b(); } foo();"},
+
+        // https://github.com/eslint/eslint/issues/6646
+        {
+            code: [
+                "function someFunction() {",
+                "    var a = 0, i;",
+                "    for (i = 0; i < 2; i++) {",
+                "        a = myFunction(a);",
+                "    }",
+                "}",
+                "someFunction();"
+            ].join("\n")
+        }
     ],
     invalid: [
         { code: "function foox() { return foox(); }", errors: [{ message: "'foox' is defined but never used", type: "Identifier"}] },
@@ -425,6 +438,19 @@ ruleTester.run("no-unused-vars", rule, {
         {
             code: "function foo(cb) { cb = (0, function(a) { cb(1 + a); }); } foo();",
             errors: [{message: "'cb' is defined but never used"}]
+        },
+
+        // https://github.com/eslint/eslint/issues/6646
+        {
+            code: [
+                "while (a) {",
+                "    function foo(b) {",
+                "        b = b + 1;",
+                "    }",
+                "    foo()",
+                "}"
+            ].join("\n"),
+            errors: [{message: "'b' is defined but never used"}]
         }
     ]
 });
