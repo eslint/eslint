@@ -1,3 +1,33 @@
+v3.1.0 - July 15, 2016
+
+* e8f8c6c Fix: incorrect exitCode when eslint is called with --stdin (fixes #6677) (#6682) (Steven Humphrey)
+* 38639bf Update: make `no-var` fixable (fixes #6639) (#6644) (Toru Nagashima)
+* dfc20e9 Fix: `no-unused-vars` false positive in loop (fixes #6646) (#6649) (Toru Nagashima)
+* 2ba75d5 Update: relax outerIIFEBody definition (fixes #6613) (#6653) (Stephen E. Baker)
+* 421e4bf Chore: combine multiple RegEx replaces with one (fixes #6669) (#6661) (Sakthipriyan Vairamani)
+* 089ee2c Docs: fix typos,wrong path,backticks (#6663) (molee1905)
+* ef827d2 Docs: Add another pre-commit hook to integrations (#6666) (David Alan Hjelle)
+* a343b3c Docs: Fix option typo in no-underscore-dangle (Fixes #6674) (#6675) (Luke Page)
+* 5985eb2 Chore: add internal rule that validates meta property (fixes #6383) (#6608) (Vitor Balocco)
+* 4adb15f Update: Add `balanced` option to `spaced-comment` (fixes #4133) (#6575) (Annie Zhang)
+* 1b13c25 Docs: fix incorrect example being mark as correct (#6660) (David Björklund)
+* a8b4e40 Fix: Install required eslint plugin for "standard" guide (fixes #6656) (#6657) (Feross Aboukhadijeh)
+* 720686b New: `endLine` and `endColumn` of the lint result. (refs #3307) (#6640) (Toru Nagashima)
+* 54faa46 Docs: Small tweaks to CLI documentation (fixes #6627) (#6642) (Kevin Partington)
+* e108850 Docs: Added examples and structure to `padded-blocks` (fixes #6628) (#6643) (alberto)
+* 350e1c0 Docs: Typo (#6650) (Peter Rood)
+* b837c92 Docs: Correct a term in max-len.md (fixes #6637) (#6641) (Vse Mozhet Byt)
+* baeb313 Fix: Warning behavior for executeOnText (fixes #6611) (#6632) (Nicholas C. Zakas)
+* e6004be Chore: Enable preferType in valid-jsdoc (refs #5188) (#6634) (Nicholas C. Zakas)
+* ca323cf Fix: Use default assertion messages (fixes #6532) (#6615) (Dmitrii Abramov)
+* 2bdf22c Fix: Do not throw exception if baseConfig is provided (fixes #6605) (#6625) (Kevin Partington)
+* e42cacb Upgrade: mock-fs to 3.10, fixes for Node 6.3 (fixes #6621) (#6624) (Tim Schaub)
+* 8a263ae New: multiline-ternary rule (fixes #6066) (#6590) (Kai Cataldo)
+* e951303 Update: Adding new `key-spacing` option (fixes #5613) (#5907) (Kyle Mendes)
+* 10c3e91 Docs: Remove reference from 3.0.0 migration guide (refs #6605) (#6618) (Kevin Partington)
+* 5010694 Docs: Removed non-existing resource (#6609) (Moritz Kröger)
+* 6d40d85 Docs: Note that PR requires ACCEPTED issue (refs #6568) (#6604) (Patrick McElhaney)
+
 v3.0.1 - July 5, 2016
 
 * 27700cf Fix: `no-unused-vars` false positive around callback (fixes #6576) (#6579) (Toru Nagashima)
