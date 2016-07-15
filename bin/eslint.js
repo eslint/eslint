@@ -11,8 +11,7 @@
 // Helpers
 //------------------------------------------------------------------------------
 
-var exitCode = 0,
-    useStdIn = (process.argv.indexOf("--stdin") > -1),
+var useStdIn = (process.argv.indexOf("--stdin") > -1),
     init = (process.argv.indexOf("--init") > -1),
     debug = (process.argv.indexOf("--debug") > -1);
 
@@ -55,26 +54,24 @@ process.on("uncaughtException", function(err){
 if (useStdIn) {
     process.stdin.pipe(concat({ encoding: "string" }, function(text) {
         try {
-            exitCode = cli.execute(process.argv, text);
+            process.exitCode = cli.execute(process.argv, text);
         } catch (ex) {
             console.error(ex.message);
             console.error(ex.stack);
-            exitCode = 1;
+            process.exitCode = 1;
         }
     }));
 } else if (init) {
     var configInit = require("../lib/config/config-initializer");
     configInit.initializeConfig(function(err) {
         if (err) {
-            exitCode = 1;
+            process.exitCode = 1;
             console.error(err.message);
             console.error(err.stack);
         } else {
-            exitCode = 0;
+            process.exitCode = 0;
         }
     });
 } else {
-    exitCode = cli.execute(process.argv);
+    process.exitCode = cli.execute(process.argv);
 }
-
-process.exitCode = exitCode;
