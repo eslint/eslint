@@ -134,7 +134,7 @@ describe("formatter:junit", function() {
         var code = [{
             filePath: "foo.js",
             messages: [{
-                message: "Unexpected <foo></foo>.",
+                message: "Unexpected <foo></foo>\b\t\n\f\r牛逼.",
                 severity: 1,
                 line: 5,
                 column: 10,
@@ -145,7 +145,7 @@ describe("formatter:junit", function() {
         it("should make them go away", function() {
             var result = formatter(code);
 
-            assert.equal(result.replace(/\n/g, ""), "<?xml version=\"1.0\" encoding=\"utf-8\"?><testsuites><testsuite package=\"org.eslint\" time=\"0\" tests=\"1\" errors=\"1\" name=\"foo.js\"><testcase time=\"0\" name=\"org.eslint.foo\"><failure message=\"Unexpected &lt;foo&gt;&lt;/foo&gt;.\"><![CDATA[line 5, col 10, Warning - Unexpected &lt;foo&gt;&lt;/foo&gt;. (foo)]]></failure></testcase></testsuite></testsuites>");
+            assert.equal(result.replace(/\n/g, ""), "<?xml version=\"1.0\" encoding=\"utf-8\"?><testsuites><testsuite package=\"org.eslint\" time=\"0\" tests=\"1\" errors=\"1\" name=\"foo.js\"><testcase time=\"0\" name=\"org.eslint.foo\"><failure message=\"Unexpected &lt;foo&gt;&lt;/foo&gt;&#8;&#9;&#10;&#12;&#13;&#29275;&#36924;.\"><![CDATA[line 5, col 10, Warning - Unexpected &lt;foo&gt;&lt;/foo&gt;&#8;&#9;&#10;&#12;&#13;&#29275;&#36924;. (foo)]]></failure></testcase></testsuite></testsuites>");
         });
     });
 
