@@ -51,6 +51,10 @@ ruleTester.run("func-names", rule, {
             options: ["never"]
         },
         {
+            code: "var a = function foo() { foo(); };",
+            options: ["never"]
+        },
+        {
             code: "var foo = {bar: function() {}};",
             options: ["never"]
         },
