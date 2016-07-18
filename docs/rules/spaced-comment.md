@@ -76,7 +76,7 @@ The following patterns are considered problems:
 ```
 
 ```js
-/* eslint spaced-comment: ["error", "always", { "block": "balanced": true }] */
+/* eslint spaced-comment: ["error", "always", { "block": { "balanced": true } }] */
 /* This is a comment with whitespace at the beginning but not the end*/
 ```
 
@@ -121,7 +121,7 @@ The following patterns are considered problems:
 ```
 
 ```js
-/*eslint spaced-comment: ["error", "never", { "block": "balanced": true }]*/
+/*eslint spaced-comment: ["error", "never", { "block": { "balanced": true } }]*/
 /*This is a comment with whitespace at the end */
 ```
 
@@ -234,12 +234,12 @@ The following patterns are considered problems:
 ```
 
 ```js
-/*eslint spaced-comment: ["error", "always", { "block": "markers": ["!"], "balanced": true }]*/
+/*eslint spaced-comment: ["error", "always", { "block": { "markers": ["!"], "balanced": true } }]*/
 /*! This is a comment with a marker but without whitespace at the end*/
 ```
 
 ```js
-/*eslint spaced-comment: ["error", "never", { "block": "markers": ["!"], "balanced": true }]*/
+/*eslint spaced-comment: ["error", "never", { "block": { "markers": ["!"], "balanced": true } }]*/
 /*!This is a comment with a marker but with whitespace at the end */
 ```
 
