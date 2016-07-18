@@ -18,7 +18,9 @@ var fs = require("fs"),
 
 var ruleFiles = fs.readdirSync(path.resolve(__dirname, "../lib/rules"));
 var enabledRules = ruleFiles.reduce(function(result, filename) {
-    result[path.basename(filename, ".js")] = "error";
+    if (path.extname(filename) === ".js") {
+        result[path.basename(filename, ".js")] = "error";
+    }
     return result;
 }, {});
 
