@@ -38,7 +38,7 @@ foo > bar ?
 Examples of **correct** code for this rule:
 
 ```js
-/*eslint newline-before-return: "error"*/
+/*eslint multiline-ternary: "error"*/
 
 foo > bar ?
     value1 :
@@ -61,4 +61,4 @@ You can safely disable this rule if you do not have any strict conventions about
 
 ## Compatibility
 
-* **JSCS**: [requireMultiLineTernary](http://http://jscs.info/rule/requireMultiLineTernary)
+* **JSCS**: [requireMultiLineTernary](http://jscs.info/rule/requireMultiLineTernary)
