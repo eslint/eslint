@@ -1,3 +1,12 @@
+v3.1.1 - July 18, 2016
+
+* 565e584 Fix: `eslint:all` causes regression in 3.1.0 (fixes #6687) (#6696) (alberto)
+* cb90359 Fix: Allow named recursive functions (fixes #6616) (#6667) (alberto)
+* 3f206dd Fix: `balanced` false positive in `spaced-comment` (fixes #6689) (#6692) (Grant Snodgrass)
+* 57f1676 Docs: Add missing brackets from code examples (#6700) (Plusb Preco)
+* 124f066 Chore: Remove fixable key from multiline-ternary metadata (fixes #6683) (#6688) (Kai Cataldo)
+* 9f96086 Fix: Escape control characters in XML. (fixes #6673) (#6672) (George Chung)
+
 v3.1.0 - July 15, 2016
 
 * e8f8c6c Fix: incorrect exitCode when eslint is called with --stdin (fixes #6677) (#6682) (Steven Humphrey)
