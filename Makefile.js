@@ -567,71 +567,362 @@ target.gensite = function(prereleaseVersion) {
         };
     }
 
+    // Map from rule id to exported meta object
+    var metaRules = find("lib/rules").filter(function(filename) {
+        return test("-f", filename) && fileType("js")(filename);
+    }).reduce(function(object, filename) {
+        object[path.basename(filename, ".js")] = require("./" + filename).meta;
+        return object;
+    }, {});
+
     // 4. Loop through all files in temporary directory
-    find(TEMP_DIR).forEach(function(filename) {
-        if (test("-f", filename) && path.extname(filename) === ".md") {
+    // 5. Prepend page title and layout variables at the top of rules
+    // 6. Remove .md extension for links and change README to empty string
+    // 7. Check if there's a trailing white line at the end of the file, if there isn't one, add it
+    // 8. Append first version of ESLint rule was added at.
+    find(TEMP_DIR).filter(function(filename) {
+        return test("-f", filename) && fileType("md")(filename);
+    }).forEach(function(filename) {
+        var rulesUrl = "https://github.com/eslint/eslint/tree/master/lib/rules/",
+            docsUrl = "https://github.com/eslint/eslint/tree/master/docs/rules/",
+            linesDoc = cat(filename).replace(/\.md(.*?\))/g, ")").replace("README.html", "").trim().split("\n"),
+            docBaseName = path.basename(filename),
+            sourceBaseName = path.basename(filename, ".md") + ".js",
+            sourcePath = path.join("lib/rules", sourceBaseName);
 
-            var rulesUrl = "https://github.com/eslint/eslint/tree/master/lib/rules/",
-                docsUrl = "https://github.com/eslint/eslint/tree/master/docs/rules/",
-                text = cat(filename),
-                baseName = path.basename(filename),
-                sourceBaseName = path.basename(filename, ".md") + ".js",
-                sourcePath = path.join("lib/rules", sourceBaseName),
-                ruleName = path.basename(filename, ".md"),
-                title;
+        // Regular expressions to match lines of markdown
+        var regexpH1 = /^# (.+)/;
+        var regexpH2 = /^## (.+)/;
+        var regexpItem = /^(\* )/;
+        var regexpRecommended = /^\(recommended\) /;
+        var regexpFixable = /^\(fixable\) /;
 
-            // 5. Prepend page title and layout variables at the top of rules
-            if (path.dirname(filename).indexOf("rules") >= 0) {
-                text = "---\ntitle: " + (ruleName === "README" ? "List of available rules" : "Rule " + ruleName) + "\nlayout: doc\n---\n<!-- Note: No pull requests accepted for this file. See README.md in the root directory for details. -->\n\n" + text;
-            } else {
+        // Helpers
 
-                // extract the title from the file itself
-                title = text.match(/#([^#].+)\n/);
-                if (title) {
-                    title = title[1].trim();
-                } else {
-                    title = "Documentation";
-                }
-                text = "---\ntitle: " + title + "\nlayout: doc\n---\n<!-- Note: No pull requests accepted for this file. See README.md in the root directory for details. -->\n\n" + text;
-            }
-
-            // 6. Remove .md extension for links and change README to empty string
-            text = text.replace(/\.md(.*?\))/g, ")").replace("README.html", "");
-
-            // 7. Check if there's a trailing white line at the end of the file, if there isn't one, add it
-            if (!/\n$/.test(text)) {
-                text = text + "\n";
-            }
-
-            // 8. Append first version of ESLint rule was added at.
-            if (filename.indexOf("rules/") !== -1 && baseName !== "README.md") {
-                var added, removed;
-
-                if (!versions.added[baseName]) {
-                    versions.added[baseName] = getFirstVersionOfFile(sourcePath);
-                }
-                added = versions.added[baseName];
-
-                if (!versions.removed[baseName] && !fs.existsSync(sourcePath)) {
-                    versions.removed[baseName] = getFirstVersionOfDeletion(sourcePath);
-                }
-                removed = versions.removed[baseName];
-
-                text += "\n## Version\n\n";
-                text += removed
-                    ? "This rule was introduced in ESLint " + added + " and removed in " + removed + ".\n"
-                    : "This rule was introduced in ESLint " + added + ".\n";
-
-                text += "\n## Resources\n\n";
-                if (!removed) {
-                    text += "* [Rule source](" + rulesUrl + sourceBaseName + ")\n";
-                }
-                text += "* [Documentation source](" + docsUrl + baseName + ")\n";
-            }
-
-            // 9. Update content of the file with changes
-            text.to(filename.replace("README.md", "index.md"));
+        /**
+         * Link to a rule doc from another doc in the same directory.
+         * @param {string} id Rule identifier.
+         * @returns {string} Link in markdown.
+         */
+        function linkRule(id) {
+            return "[" + id + "](" + id + ")";
         }
+
+        /**
+         * Index of the first line matched by a regular expression.
+         * Similar to indexOf.
+         * @param {string[]} lines Lines of markdown.
+         * @param {RegExp} regexp Matches a line.
+         * @param {number} [indexStart] Index to start from.
+         * @returns {number} Index of the first line matched; otherwise -1.
+         */
+        function indexAt(lines, regexp, indexStart) {
+            var length = lines.length;
+            var index = indexStart || 0;
+
+            while (index < length) {
+                if (regexp.test(lines[index])) {
+                    return index;
+                }
+                index += 1;
+            }
+
+            return -1;
+        }
+
+        /**
+         * Index after any lines that match one or more regular expressions.
+         * To skip automatically generated content that is already in the input.
+         * Assume that an empty line separates the lines that match.
+         * None of the patterns are required to match a line.
+         * @param {string[]} lines Lines of markdown.
+         * @param {RegExp[]} regexps Match lines.
+         * @param {number} [indexStart] Index to start from.
+         * @returns {number} Index after the last line matched.
+         */
+        function indexAfter(lines, regexps, indexStart) {
+            var length = lines.length;
+
+            return regexps.reduce(function(index, regexp, i) {
+                if (i === 0) {
+
+                    // The first line matches the first regexp.
+                    if (index < length && regexp.test(lines[index])) {
+                        return index + 1;
+                    }
+                } else {
+
+                    // The current line is empty and the next line matches the current regexp.
+                    if (index + 1 < length && lines[index] === "" && regexp.test(lines[index + 1])) {
+                        return index + 2;
+                    }
+                }
+                return index;
+            }, indexStart || 0);
+        }
+
+        /**
+         * Lines of Jekyll front matter prepended to a doc.
+         * @param {Object} props Properties (for example, title, layout).
+         * @returns {string[]} Lines of markdown.
+         */
+        function linesFrontMatter(props) {
+            return [].concat(
+                "---",
+                Object.keys(props).map(function(key) {
+                    return key + ": " + props[key];
+                }),
+                "---",
+                "<!-- Note: No pull requests accepted for this file. See README.md in the root directory for details. -->",
+                "" // empty line
+            );
+        }
+
+        /**
+         * Lines for kramdown to generate a table of contents.
+         * Precedes the first paragraph of edited content.
+         * @param {boolean} hasTOC The doc needs to have a TOC.
+         * @returns {string[]} Lines of markdown.
+         */
+        function linesTOC(hasTOC) {
+            if (hasTOC) {
+                return [
+                    "", // empty line
+                    "* placeholder for table of contents", // ul
+                    "{:toc}"
+                ];
+            }
+            return [];
+        }
+
+        /**
+         * Lines for a recommended rule.
+         * @param {boolean} recommended The rule is recommended.
+         * @param {boolean} removed The rule has been removed.
+         * @returns {string[]} Lines of markdown.
+         */
+        function linesRecommended(recommended, removed) {
+            if (recommended && !removed) {
+                return [
+                    "", // empty line
+                    "(recommended) The `\"extends\": \"eslint:recommended\"` property in a [configuration file](../user-guide/configuring#extending-configuration-files) enables this rule."
+                ];
+            }
+            return [];
+        }
+
+        /**
+         * Lines for a fixable rule.
+         * @param {boolean} fixable The rule is fixable.
+         * @param {boolean} removed The rule has been removed.
+         * @returns {string[]} Lines of markdown.
+         */
+        function linesFixable(fixable, removed) {
+            if (fixable) {
+                return [
+                    "", // empty line
+                    "(fixable) The `--fix` option on the [command line](../user-guide/command-line-interface#fix) automatically " +
+                        (removed ? "fixed" : "fixes") +
+                        " problems reported by this rule."
+                ];
+            }
+            return [];
+        }
+
+        /**
+         * Lines of active rules in a category for the rules index.
+         * @param {string} category The section heading.
+         * @returns {string[]} Lines of markdown.
+         */
+        function linesActiveRules(category) {
+            return Object.keys(metaRules)
+                .filter(function(id) {
+                    return metaRules[id].docs.category === category;
+                })
+                .sort()
+                .map(function(id) {
+                    var meta = metaRules[id];
+                    var docs = meta.docs;
+
+                    return "|" + (docs.recommended ? "(recommended)" : "") +
+                        "|" + (meta.fixable ? "(fixable)" : "") +
+                        "|" + linkRule(id) +
+                        "|" + docs.description;
+                });
+        }
+
+        /**
+         * Lines for the rules index.
+         * @param {string[]} lines Lines of markdown input.
+         * @returns {string[]} Lines of markdown output.
+         */
+        function linesRulesIndex(lines) {
+            var index,
+                category,
+                linesTable;
+
+            // Delete this filter after list items have been deleted from the README.md file.
+            // Keep a line if neither of the following is true:
+            // It is a list item.
+            // It is empty and the next line is a list item.
+            lines = lines.filter(function(line, i) {
+                return !(regexpItem.test(line) || (line === "" && i + 1 < lines.length && regexpItem.test(lines[i + 1])));
+            });
+
+            index = indexAt(lines, regexpH2);
+            while (index !== -1) {
+                category = regexpH2.exec(lines[index])[1];
+                index = indexAt(lines, regexpH2, index + 1);
+
+                // Will also insert rows for removed rules after we decide on meta data structure.
+                if (category !== "Removed") {
+                    linesTable = linesActiveRules(category);
+                    if (index === -1) {
+                        lines = lines.concat(
+                            "", // empty line
+                            linesTable
+                        );
+                    } else {
+                        lines = [].concat(
+                            lines.slice(0, index),
+                            linesTable,
+                            "", // empty line
+                            lines.slice(index)
+                        );
+                        index += (linesTable.length + 1);
+                    }
+                }
+            }
+
+            return [].concat(
+                linesFrontMatter({
+                    title: "Rules",
+                    layout: "rules"
+                }),
+                lines
+            );
+        }
+
+        /**
+         * Lines for a removed rule doc.
+         * We need to decide on meta data structure for removed rules!
+         * @param {string[]} lines Lines of markdown input.
+         * @returns {string[]} Lines of markdown output.
+         */
+        function linesRemovedRule(lines) {
+            return lines;
+        }
+
+        /**
+         * Lines for an active rule doc.
+         * @param {string[]} lines Lines of markdown input.
+         * @param {string} id Rule identifier.
+         * @returns {string[]} Lines of markdown output.
+         */
+        function linesActiveRule(lines, id) {
+            var meta = metaRules[id],
+                docs = meta.docs;
+
+            return [].concat(
+                "# " + id + ": " + docs.description,
+                linesRecommended(docs.recommended, false),
+                linesFixable(meta.fixable, false),
+                lines.slice(indexAfter(lines, [regexpH1, regexpRecommended, regexpFixable]))
+            );
+        }
+
+        /**
+         * Lines appended to a rule doc.
+         * @param {string} id Rule identifier.
+         * @param {string} added Version in which the rule was added.
+         * @param {string} [removed] Version in which the rule was removed.
+         * @returns {string[]} Lines of markdown.
+         */
+        function linesRuleVersionResources(id, added, removed) {
+            return [
+                "", // empty line
+                "## Version",
+                "", // empty line
+                "This rule was introduced in ESLint " + added + (removed
+                    ? " and removed in " + removed + "."
+                    : "."),
+                "", // empty line
+                "## Resources",
+                "" // empty line
+            ].concat(
+                removed ? [] : ["* [Rule source](" + rulesUrl + id + ".js)"],
+                "* [Documentation source](" + docsUrl + id + ".md)"
+            );
+        }
+
+        /**
+         * Lines for a rule doc.
+         * @param {string[]} lines Lines of markdown input.
+         * @param {string} id Rule identifier.
+         * @param {string} added Version in which the rule was added.
+         * @param {string} [removed] Version in which the rule was removed.
+         * @returns {string[]} Lines of markdown output.
+         */
+        function linesRuleDoc(lines, id, added, removed) {
+            return [].concat(
+                linesFrontMatter({
+                    title: "Rule " + id,
+                    layout: "rule"
+                }),
+                removed
+                    ? linesRemovedRule(lines, id, removed)
+                    : linesActiveRule(lines, id),
+                linesRuleVersionResources(id, added, removed)
+            );
+        }
+
+        /**
+         * Lines for any doc that is not in the rules directory.
+         * @param {string[]} lines Lines of markdown input.
+         * @returns {string[]} Lines of markdown output.
+         */
+        function linesOtherDoc(lines) {
+            var match = lines[0].match(regexpH1),
+                title = match ? match[1].trim() : "Documentation",
+                indexAfterH1 = indexAfter(lines, [regexpH1]),
+                countH2 = lines.reduce(function(count, line) {
+                    return count + (regexpH2.test(line) ? 1 : 0);
+                }, 0);
+
+            return [].concat(
+                linesFrontMatter({
+                    title: title,
+                    layout: "doc"
+                }),
+                lines.slice(0, indexAfterH1),
+                linesTOC(countH2 > 1),
+                lines.slice(indexAfterH1)
+            );
+        }
+
+        // Task
+
+        if (path.basename(path.dirname(filename)) === "rules") {
+            if (docBaseName === "README.md") {
+                linesDoc = linesRulesIndex(linesDoc);
+            } else {
+                if (!versions.added[docBaseName]) {
+                    versions.added[docBaseName] = getFirstVersionOfFile(sourcePath);
+                }
+                if (!versions.removed[docBaseName] && !fs.existsSync(sourcePath)) {
+                    versions.removed[docBaseName] = getFirstVersionOfDeletion(sourcePath);
+                }
+                linesDoc = linesRuleDoc(linesDoc,
+                    path.basename(filename, ".md"), // identifier
+                    versions.added[docBaseName],
+                    versions.removed[docBaseName]);
+            }
+        } else {
+            linesDoc = linesOtherDoc(linesDoc);
+        }
+
+        // 9. Update content of the file with changes
+        (linesDoc.join("\n") + "\n").to(filename.replace("README.md", "index.md"));
     });
     JSON.stringify(versions).to("./versions.json");
 
