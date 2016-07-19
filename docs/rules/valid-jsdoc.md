@@ -31,6 +31,8 @@ This rule enforces valid and consistent JSDoc comments. It reports any of the fo
 
 This rule does not report missing JSDoc comments for classes, functions, or methods.
 
+**Note:** This rule does not support all of the Google Closure documentation tool's use cases. As such, some code such as `(/**number*/ n => n * 2);` will be flagged as missing appropriate function JSDoc comments even though `/**number*/` is intended to be a type hint and not a documentation block for the function. We don't recommend using this rule if you use type hints in this way.
+
 Examples of **incorrect** code for this rule:
 
 ```js
