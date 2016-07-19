@@ -70,16 +70,29 @@ When a suggestion is too ambitious or would take too much time to complete, it's
 
 ## When to Close an Issue
 
-Any team member may close an issue if any of the following is true:
+All team members are allowed to close issues depending on how the issue has been resolved.
 
-1. The issue is a duplicate of an existing issue
-1. The issue is just a question and has been answered
-1. The issue has been open for a year or more with no sign of progress
-1. No one has committed to working on the issue for the roadmap within 30 days of being labeled "accepted"
-1. The request is outside the scope of the project
+Team members may close an issue immediately if:
 
-In general, it's better to close issues sooner rather than later. It gives people better feedback about the issue affects the project roadmap.
+1. The issue is a duplicate of an existing issue.
+1. The issue is just a question and has been answered.
+
+Otherwise, team members should observe a waiting period before closing an issue:
+
+* Wait **2 days** if the issue was opened Monday through Friday.
+* Wait **3 days** if the issue was opened on Saturday or Sunday.
+
+The waiting period ensures that other team members have a chance to review the issue before it is closed.
 
 ## Consensus
 
-Consensus is reached on issues when there are at least three team members who believe the change is a good idea and no one who believes the change is a bad idea. If consensus cannot be reached, then add the "tsc agenda" label to the issue and the TSC will resolve the conflict.
+Consensus is reached on issues when there are at least three team members who believe the change is a good idea and no one who believes the change is a bad idea.
+
+## When to Send to TSC
+
+If consensus cannot be reached on an issue, or an issue's progress has been stalled and it's not clear if the issue should be closed, then you can refer the issue to the TSC for resolution. To do so, add the "tsc agenda" label to the issue and add a comment including the following information:
+
+1. A one-paragraph summary of the discussion to this point.
+2. The question you would like the TSC to answer.
+
+The issue will be discussed at the next TSC meeting and the resolution will be posted back to the issue.
