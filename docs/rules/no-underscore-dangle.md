@@ -41,7 +41,7 @@ This rule has an object option:
 
 * `"allow"` allows specified identifiers to have dangling underscores
 * `"allowAfterThis": false` (default) disallows dangling underscores in members of the `this` object
-* `"allowAfterThis": true` allows dangling underscores in members of the `this` object
+* `"allowAfterSuper": false` (default) disallows dangling underscores in members of the `super` object
 
 ### allow
 
@@ -63,6 +63,17 @@ Examples of **correct** code for this rule with the `{ "allowAfterThis": true }`
 
 var a = this.foo_;
 this._bar();
+```
+
+### allowAfterSuper
+
+Examples of **correct** code for this rule with the `{ "allowAfterSuper": true }` option:
+
+```js
+/*eslint no-underscore-dangle: ["error", { "allowAfterSuper": true }]*/
+
+var a = super.foo_;
+super._bar();
 ```
 
 ## When Not To Use It
