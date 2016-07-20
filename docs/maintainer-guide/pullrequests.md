@@ -52,6 +52,20 @@ We use the "Merge" button to merge requests into the repository. Before merging 
 
 Be sure to say thank you to the submitter before merging, especially if they put a lot of work into the pull request.
 
+Team members may merge a pull request immediately if it:
+
+1. Makes a small documentation change
+1. Is a chore
+1. Fixes a block of other work on the repo (build-related, test-related, dependency-related, etc.)
+1. Is an important fix to get into a patch release
+
+Otherwise, team members should observe a waiting period before merging a pull request:
+
+* Wait **2 days** if the pull request was opened Monday through Friday.
+* Wait **3 days** if the pull request was opened on Saturday or Sunday.
+
+The waiting period ensures that other team members have a chance to review the pull request before it is merged.
+
 **Note:** You should not merge your own pull request unless you're received feedback from at least one other team member.
 
 ## When to Close a Pull Request
