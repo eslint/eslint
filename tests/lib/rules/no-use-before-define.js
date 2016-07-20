@@ -33,6 +33,8 @@ ruleTester.run("no-use-before-define", rule, {
         { code: "var [a = 0, b = a] = {};", parserOptions: { ecmaVersion: 6 } },
         "function foo() { foo(); }",
         "var foo = function() { foo(); };",
+        { code: "var a; for (a in a) {}" },
+        { code: "var a; for (a of a) {}", parserOptions: { ecmaVersion: 6 } },
 
         // Block-level bindings
         { code: "\"use strict\"; a(); { function a() {} }", parserOptions: { ecmaVersion: 6 } },
@@ -87,6 +89,8 @@ ruleTester.run("no-use-before-define", rule, {
         { code: "var {b = a, a} = {};", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "'a' was used before it was defined", type: "Identifier"}] },
         { code: "var [b = a, a] = {};", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "'a' was used before it was defined", type: "Identifier"}] },
         { code: "var {a = 0} = a;", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "'a' was used before it was defined", type: "Identifier"}] },
-        { code: "var [a = 0] = a;", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "'a' was used before it was defined", type: "Identifier"}] }
+        { code: "var [a = 0] = a;", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "'a' was used before it was defined", type: "Identifier"}] },
+        { code: "for (var a in a) {}", errors: [{ message: "'a' was used before it was defined", type: "Identifier"}] },
+        { code: "for (var a of a) {}", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "'a' was used before it was defined", type: "Identifier"}] },
     ]
 });
