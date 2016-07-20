@@ -135,8 +135,8 @@ switch (a) {
 }
 
 a.b('hi')
-   .c(a.b()) // NO ERROR: DON'T VALIDATE MULTILINE STATEMENTS
-   .d(); // NO ERROR: DON'T VALIDATE MULTILINE STATEMENTS
+   .c(a.b()) // <-
+   .d(); // <-
 
 if ( a ) {
   if ( b ) {
