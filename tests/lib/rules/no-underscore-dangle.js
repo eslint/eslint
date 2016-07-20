@@ -42,6 +42,7 @@ ruleTester.run("no-underscore-dangle", rule, {
         { code: "var __proto__ = 1;", errors: [{ message: "Unexpected dangling '_' in '__proto__'.", type: "VariableDeclarator"}] },
         { code: "foo._bar;", errors: [{ message: "Unexpected dangling '_' in '_bar'.", type: "MemberExpression"}] },
         { code: "this._prop;", errors: [{ message: "Unexpected dangling '_' in '_prop'.", type: "MemberExpression"}] },
-        { code: "class foo { constructor() { super._prop; } }", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "Unexpected dangling '_' in '_prop'.", type: "MemberExpression"}] }
+        { code: "class foo { constructor() { super._prop; } }", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "Unexpected dangling '_' in '_prop'.", type: "MemberExpression"}] },
+		{ code: "class foo { constructor() { this._prop; } }", options: [{allowAfterSuper: true}], parserOptions: { ecmaVersion: 6 }, errors: [{ message: "Unexpected dangling '_' in '_prop'.", type: "MemberExpression"}] }
     ]
 });
