@@ -126,9 +126,6 @@ These folks keep the project moving and are resources for help.
 * Henry Zhu ([@hzoo](https://github.com/hzoo))
 * Marat Dulin ([@mdevils](https://github.com/mdevils))
 * Alexej Yaroshevich ([@zxqfox](https://github.com/zxqfox))
-
-### Issues Team
-
 * Kevin Partington ([@platinumazure](https://github.com/platinumazure))
 * Vitor Balocco ([@vitorbal](https://github.com/vitorbal))
 
