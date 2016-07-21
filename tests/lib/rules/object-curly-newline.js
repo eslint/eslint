@@ -260,8 +260,8 @@ ruleTester.run("object-curly-newline", rule, {
             ].join("\n"),
             options: ["always"],
             errors: [
-                {line: 1, column: 9, message: "Expected a line break after this open brace."},
-                {line: 1, column: 10, message: "Expected a line break before this close brace."}
+                {line: 1, column: 9, message: "Expected a line break after this opening brace."},
+                {line: 1, column: 10, message: "Expected a line break before this closing brace."}
             ]
         },
         {
@@ -275,8 +275,8 @@ ruleTester.run("object-curly-newline", rule, {
             ].join("\n"),
             options: ["always"],
             errors: [
-                {line: 1, column: 9, message: "Expected a line break after this open brace."},
-                {line: 1, column: 14, message: "Expected a line break before this close brace."}
+                {line: 1, column: 9, message: "Expected a line break after this opening brace."},
+                {line: 1, column: 14, message: "Expected a line break before this closing brace."}
             ]
         },
         {
@@ -290,8 +290,8 @@ ruleTester.run("object-curly-newline", rule, {
             ].join("\n"),
             options: ["always"],
             errors: [
-                {line: 1, column: 9, message: "Expected a line break after this open brace."},
-                {line: 1, column: 20, message: "Expected a line break before this close brace."}
+                {line: 1, column: 9, message: "Expected a line break after this opening brace."},
+                {line: 1, column: 20, message: "Expected a line break before this closing brace."}
             ]
         },
         {
@@ -307,8 +307,8 @@ ruleTester.run("object-curly-newline", rule, {
             ].join("\n"),
             options: ["always"],
             errors: [
-                {line: 1, column: 9, message: "Expected a line break after this open brace."},
-                {line: 2, column: 9, message: "Expected a line break before this close brace."}
+                {line: 1, column: 9, message: "Expected a line break after this opening brace."},
+                {line: 2, column: 9, message: "Expected a line break before this closing brace."}
             ]
         },
         {
@@ -326,8 +326,8 @@ ruleTester.run("object-curly-newline", rule, {
             ].join("\n"),
             options: ["always"],
             errors: [
-                {line: 1, column: 9, message: "Expected a line break after this open brace."},
-                {line: 3, column: 2, message: "Expected a line break before this close brace."}
+                {line: 1, column: 9, message: "Expected a line break after this opening brace."},
+                {line: 3, column: 2, message: "Expected a line break before this closing brace."}
             ]
         },
 
@@ -342,8 +342,8 @@ ruleTester.run("object-curly-newline", rule, {
             ].join("\n"),
             options: ["never"],
             errors: [
-                {line: 1, column: 9, message: "Unexpected a line break after this open brace."},
-                {line: 2, column: 1, message: "Unexpected a line break before this close brace."}
+                {line: 1, column: 9, message: "Unexpected line break after this opening brace."},
+                {line: 2, column: 1, message: "Unexpected line break before this closing brace."}
             ]
         },
         {
@@ -357,8 +357,8 @@ ruleTester.run("object-curly-newline", rule, {
             ].join("\n"),
             options: ["never"],
             errors: [
-                {line: 1, column: 9, message: "Unexpected a line break after this open brace."},
-                {line: 3, column: 1, message: "Unexpected a line break before this close brace."}
+                {line: 1, column: 9, message: "Unexpected line break after this opening brace."},
+                {line: 3, column: 1, message: "Unexpected line break before this closing brace."}
             ]
         },
         {
@@ -372,8 +372,8 @@ ruleTester.run("object-curly-newline", rule, {
             ].join("\n"),
             options: ["never"],
             errors: [
-                {line: 1, column: 9, message: "Unexpected a line break after this open brace."},
-                {line: 3, column: 1, message: "Unexpected a line break before this close brace."}
+                {line: 1, column: 9, message: "Unexpected line break after this opening brace."},
+                {line: 3, column: 1, message: "Unexpected line break before this closing brace."}
             ]
         },
         {
@@ -389,8 +389,8 @@ ruleTester.run("object-curly-newline", rule, {
             ].join("\n"),
             options: ["never"],
             errors: [
-                {line: 1, column: 9, message: "Unexpected a line break after this open brace."},
-                {line: 4, column: 1, message: "Unexpected a line break before this close brace."}
+                {line: 1, column: 9, message: "Unexpected line break after this opening brace."},
+                {line: 4, column: 1, message: "Unexpected line break before this closing brace."}
             ]
         },
         {
@@ -408,8 +408,8 @@ ruleTester.run("object-curly-newline", rule, {
             ].join("\n"),
             options: ["never"],
             errors: [
-                {line: 1, column: 9, message: "Unexpected a line break after this open brace."},
-                {line: 5, column: 1, message: "Unexpected a line break before this close brace."}
+                {line: 1, column: 9, message: "Unexpected line break after this opening brace."},
+                {line: 5, column: 1, message: "Unexpected line break before this closing brace."}
             ]
         },
 
@@ -424,8 +424,8 @@ ruleTester.run("object-curly-newline", rule, {
             ].join("\n"),
             options: [{multiline: true}],
             errors: [
-                {line: 1, column: 9, message: "Unexpected a line break after this open brace."},
-                {line: 2, column: 1, message: "Unexpected a line break before this close brace."}
+                {line: 1, column: 9, message: "Unexpected line break after this opening brace."},
+                {line: 2, column: 1, message: "Unexpected line break before this closing brace."}
             ]
         },
         {
@@ -439,8 +439,8 @@ ruleTester.run("object-curly-newline", rule, {
             ].join("\n"),
             options: [{multiline: true}],
             errors: [
-                {line: 1, column: 9, message: "Unexpected a line break after this open brace."},
-                {line: 3, column: 1, message: "Unexpected a line break before this close brace."}
+                {line: 1, column: 9, message: "Unexpected line break after this opening brace."},
+                {line: 3, column: 1, message: "Unexpected line break before this closing brace."}
             ]
         },
         {
@@ -454,8 +454,8 @@ ruleTester.run("object-curly-newline", rule, {
             ].join("\n"),
             options: [{multiline: true}],
             errors: [
-                {line: 1, column: 9, message: "Unexpected a line break after this open brace."},
-                {line: 3, column: 1, message: "Unexpected a line break before this close brace."}
+                {line: 1, column: 9, message: "Unexpected line break after this opening brace."},
+                {line: 3, column: 1, message: "Unexpected line break before this closing brace."}
             ]
         },
         {
@@ -471,8 +471,8 @@ ruleTester.run("object-curly-newline", rule, {
             ].join("\n"),
             options: [{multiline: true}],
             errors: [
-                {line: 1, column: 9, message: "Expected a line break after this open brace."},
-                {line: 2, column: 9, message: "Expected a line break before this close brace."}
+                {line: 1, column: 9, message: "Expected a line break after this opening brace."},
+                {line: 2, column: 9, message: "Expected a line break before this closing brace."}
             ]
         },
         {
@@ -490,8 +490,8 @@ ruleTester.run("object-curly-newline", rule, {
             ].join("\n"),
             options: [{multiline: true}],
             errors: [
-                {line: 1, column: 9, message: "Expected a line break after this open brace."},
-                {line: 3, column: 2, message: "Expected a line break before this close brace."}
+                {line: 1, column: 9, message: "Expected a line break after this opening brace."},
+                {line: 3, column: 2, message: "Expected a line break before this closing brace."}
             ]
         },
 
@@ -506,8 +506,8 @@ ruleTester.run("object-curly-newline", rule, {
             ].join("\n"),
             options: [{minProperties: 2}],
             errors: [
-                {line: 1, column: 9, message: "Unexpected a line break after this open brace."},
-                {line: 2, column: 1, message: "Unexpected a line break before this close brace."}
+                {line: 1, column: 9, message: "Unexpected line break after this opening brace."},
+                {line: 2, column: 1, message: "Unexpected line break before this closing brace."}
             ]
         },
         {
@@ -521,8 +521,8 @@ ruleTester.run("object-curly-newline", rule, {
             ].join("\n"),
             options: [{minProperties: 2}],
             errors: [
-                {line: 1, column: 9, message: "Unexpected a line break after this open brace."},
-                {line: 3, column: 1, message: "Unexpected a line break before this close brace."}
+                {line: 1, column: 9, message: "Unexpected line break after this opening brace."},
+                {line: 3, column: 1, message: "Unexpected line break before this closing brace."}
             ]
         },
         {
@@ -536,8 +536,8 @@ ruleTester.run("object-curly-newline", rule, {
             ].join("\n"),
             options: [{minProperties: 2}],
             errors: [
-                {line: 1, column: 9, message: "Expected a line break after this open brace."},
-                {line: 1, column: 20, message: "Expected a line break before this close brace."}
+                {line: 1, column: 9, message: "Expected a line break after this opening brace."},
+                {line: 1, column: 20, message: "Expected a line break before this closing brace."}
             ]
         },
         {
@@ -553,8 +553,8 @@ ruleTester.run("object-curly-newline", rule, {
             ].join("\n"),
             options: [{minProperties: 2}],
             errors: [
-                {line: 1, column: 9, message: "Expected a line break after this open brace."},
-                {line: 2, column: 9, message: "Expected a line break before this close brace."}
+                {line: 1, column: 9, message: "Expected a line break after this opening brace."},
+                {line: 2, column: 9, message: "Expected a line break before this closing brace."}
             ]
         },
         {
@@ -572,8 +572,8 @@ ruleTester.run("object-curly-newline", rule, {
             ].join("\n"),
             options: [{minProperties: 2}],
             errors: [
-                {line: 1, column: 9, message: "Unexpected a line break after this open brace."},
-                {line: 5, column: 1, message: "Unexpected a line break before this close brace."}
+                {line: 1, column: 9, message: "Unexpected line break after this opening brace."},
+                {line: 5, column: 1, message: "Unexpected line break before this closing brace."}
             ]
         },
 
@@ -588,8 +588,8 @@ ruleTester.run("object-curly-newline", rule, {
             ].join("\n"),
             options: [{multiline: true, minProperties: 2}],
             errors: [
-                {line: 1, column: 9, message: "Unexpected a line break after this open brace."},
-                {line: 2, column: 1, message: "Unexpected a line break before this close brace."}
+                {line: 1, column: 9, message: "Unexpected line break after this opening brace."},
+                {line: 2, column: 1, message: "Unexpected line break before this closing brace."}
             ]
         },
         {
@@ -603,8 +603,8 @@ ruleTester.run("object-curly-newline", rule, {
             ].join("\n"),
             options: [{multiline: true, minProperties: 2}],
             errors: [
-                {line: 1, column: 9, message: "Unexpected a line break after this open brace."},
-                {line: 3, column: 1, message: "Unexpected a line break before this close brace."}
+                {line: 1, column: 9, message: "Unexpected line break after this opening brace."},
+                {line: 3, column: 1, message: "Unexpected line break before this closing brace."}
             ]
         },
         {
@@ -618,8 +618,8 @@ ruleTester.run("object-curly-newline", rule, {
             ].join("\n"),
             options: [{multiline: true, minProperties: 2}],
             errors: [
-                {line: 1, column: 9, message: "Expected a line break after this open brace."},
-                {line: 1, column: 20, message: "Expected a line break before this close brace."}
+                {line: 1, column: 9, message: "Expected a line break after this opening brace."},
+                {line: 1, column: 20, message: "Expected a line break before this closing brace."}
             ]
         },
         {
@@ -635,8 +635,8 @@ ruleTester.run("object-curly-newline", rule, {
             ].join("\n"),
             options: [{multiline: true, minProperties: 2}],
             errors: [
-                {line: 1, column: 9, message: "Expected a line break after this open brace."},
-                {line: 2, column: 9, message: "Expected a line break before this close brace."}
+                {line: 1, column: 9, message: "Expected a line break after this opening brace."},
+                {line: 2, column: 9, message: "Expected a line break before this closing brace."}
             ]
         },
         {
@@ -654,8 +654,8 @@ ruleTester.run("object-curly-newline", rule, {
             ].join("\n"),
             options: [{multiline: true, minProperties: 2}],
             errors: [
-                {line: 1, column: 9, message: "Expected a line break after this open brace."},
-                {line: 3, column: 2, message: "Expected a line break before this close brace."}
+                {line: 1, column: 9, message: "Expected a line break after this opening brace."},
+                {line: 3, column: 2, message: "Expected a line break before this closing brace."}
             ]
         },
 
@@ -674,10 +674,10 @@ ruleTester.run("object-curly-newline", rule, {
             options: [{ObjectExpression: "always", ObjectPattern: "never"}],
             parserOptions: {ecmaVersion: 6},
             errors: [
-                {line: 1, column: 5, message: "Unexpected a line break after this open brace."},
-                {line: 3, column: 1, message: "Unexpected a line break before this close brace."},
-                {line: 3, column: 5, message: "Expected a line break after this open brace."},
-                {line: 3, column: 16, message: "Expected a line break before this close brace."}
+                {line: 1, column: 5, message: "Unexpected line break after this opening brace."},
+                {line: 3, column: 1, message: "Unexpected line break before this closing brace."},
+                {line: 3, column: 5, message: "Expected a line break after this opening brace."},
+                {line: 3, column: 16, message: "Expected a line break before this closing brace."}
             ]
         }
     ]
