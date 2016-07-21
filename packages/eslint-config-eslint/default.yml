@@ -44,6 +44,7 @@ rules:
     no-extra-bind: "error"
     no-fallthrough: "error"
     no-floating-decimal: "error"
+    no-global-assign: "error"
     no-implied-eval: "error"
     no-invalid-this: "error"
     no-iterator: "error"
@@ -54,7 +55,7 @@ rules:
     no-mixed-spaces-and-tabs: ["error", false]
     no-multi-spaces: "error"
     no-multi-str: "error"
-    no-native-reassign: "error"
+    no-native-reassign: "off"
     no-nested-ternary: "error"
     no-new: "error"
     no-new-func: "error"

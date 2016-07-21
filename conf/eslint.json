@@ -41,6 +41,7 @@
         "no-fallthrough": "error",
         "no-floating-decimal": "off",
         "no-func-assign": "error",
+        "no-global-assign": "off",
         "no-implicit-coercion": "off",
         "no-implicit-globals": "off",
         "no-implied-eval": "off",

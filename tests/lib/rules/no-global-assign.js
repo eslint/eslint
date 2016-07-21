@@ -1,7 +1,6 @@
 /**
- * @fileoverview Tests for no-native-reassign rule.
+ * @fileoverview Tests for no-global-assign rule.
  * @author Ilya Volodin
- * @deprecated in ESLint v3.3.0
  */
 
 "use strict";
@@ -10,7 +9,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-let rule = require("../../../lib/rules/no-native-reassign"),
+let rule = require("../../../lib/rules/no-global-assign"),
     RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
@@ -19,7 +18,7 @@ let rule = require("../../../lib/rules/no-native-reassign"),
 
 let ruleTester = new RuleTester();
 
-ruleTester.run("no-native-reassign", rule, {
+ruleTester.run("no-global-assign", rule, {
     valid: [
         "string = 'hello world';",
         "var string;",
