@@ -62,6 +62,129 @@ ruleTester.run("no-unreachable", rule, {
         { code: "function foo() { var x = 1; do { return; } while (x); x = 2; }", errors: [{ message: "Unreachable code.", type: "ExpressionStatement"}] },
         { code: "function foo() { var x = 1; while (x) { if (x) break; else continue; x = 2; } }", errors: [{ message: "Unreachable code.", type: "ExpressionStatement"}] },
         { code: "function foo() { var x = 1; for (;;) { if (x) continue; } x = 2; }", errors: [{ message: "Unreachable code.", type: "ExpressionStatement"}] },
-        { code: "function foo() { var x = 1; while (true) { } x = 2; }", errors: [{ message: "Unreachable code.", type: "ExpressionStatement"}] }
+        { code: "function foo() { var x = 1; while (true) { } x = 2; }", errors: [{ message: "Unreachable code.", type: "ExpressionStatement"}] },
+
+        // Merge the warnings of continuous unreachable nodes.
+        {
+            code: `
+                function foo() {
+                    return;
+
+                    a();  // ← ERROR: Unreachable code. (no-unreachable)
+
+                    b()   // ↑ ';' token is included in the unreachable code, so this statement will be merged.
+                    // comment
+                    c();  // ↑ ')' token is included in the unreachable code, so this statement will be merged.
+                }
+            `,
+            errors: [
+                {
+                    message: "Unreachable code.",
+                    type: "ExpressionStatement",
+                    line: 5,
+                    column: 21,
+                    endLine: 9,
+                    endColumn: 25
+                }
+            ]
+        },
+        {
+            code: `
+                function foo() {
+                    return;
+
+                    a();
+
+                    if (b()) {
+                        c()
+                    } else {
+                        d()
+                    }
+                }
+            `,
+            errors: [
+                {
+                    message: "Unreachable code.",
+                    type: "ExpressionStatement",
+                    line: 5,
+                    column: 21,
+                    endLine: 11,
+                    endColumn: 22
+                }
+            ]
+        },
+        {
+            code: `
+                function foo() {
+                    if (a) {
+                        return
+                        b();
+                        c();
+                    } else {
+                        throw err
+                        d();
+                    }
+                }
+            `,
+            errors: [
+                {
+                    message: "Unreachable code.",
+                    type: "ExpressionStatement",
+                    line: 5,
+                    column: 25,
+                    endLine: 6,
+                    endColumn: 29
+                },
+                {
+                    message: "Unreachable code.",
+                    type: "ExpressionStatement",
+                    line: 9,
+                    column: 25,
+                    endLine: 9,
+                    endColumn: 29
+                }
+            ]
+        },
+        {
+            code: `
+                function foo() {
+                    if (a) {
+                        return
+                        b();
+                        c();
+                    } else {
+                        throw err
+                        d();
+                    }
+                    e();
+                }
+            `,
+            errors: [
+                {
+                    message: "Unreachable code.",
+                    type: "ExpressionStatement",
+                    line: 5,
+                    column: 25,
+                    endLine: 6,
+                    endColumn: 29
+                },
+                {
+                    message: "Unreachable code.",
+                    type: "ExpressionStatement",
+                    line: 9,
+                    column: 25,
+                    endLine: 9,
+                    endColumn: 29
+                },
+                {
+                    message: "Unreachable code.",
+                    type: "ExpressionStatement",
+                    line: 11,
+                    column: 21,
+                    endLine: 11,
+                    endColumn: 25
+                }
+            ]
+        }
     ]
 });
