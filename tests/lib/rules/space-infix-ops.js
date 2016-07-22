@@ -9,7 +9,8 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var rule = require("../../../lib/rules/space-infix-ops"),
+var path = require("path"),
+    rule = require("../../../lib/rules/space-infix-ops"),
     RuleTester = require("../../../lib/testers/rule-tester");
 
 var ruleTester = new RuleTester();
@@ -29,6 +30,7 @@ ruleTester.run("space-infix-ops", rule, {
         { code: "const my_object = {key: 'value'};", parserOptions: { ecmaVersion: 6 } },
         { code: "var {a = 0} = bar;", parserOptions: { ecmaVersion: 6 } },
         { code: "function foo(a = 0) { }", parserOptions: { ecmaVersion: 6 } },
+        { code: "function foo(a: number = 0) { }", parser: path.resolve(__dirname, "../../fixtures/parsers/flow-stub-parser.js"), parserOptions: { ecmaVersion: 6 } },
         { code: "a ** b", parserOptions: { ecmaVersion: 7 } },
         { code: "a|0", options: [{ int32Hint: true }] },
         { code: "a |0", options: [{ int32Hint: true }] }
