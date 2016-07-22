@@ -147,6 +147,26 @@ ruleTester.run("sort-imports", rule, {
             parserOptions: parserOptions
         },
 
+        // https://github.com/eslint/eslint/issues/6736
+        {
+            code:
+                "import foo from 'bar.js';\n" +
+                "import {a} from 'foo.js';",
+            parserOptions: parserOptions,
+            options: [{
+                memberSyntaxSortOrder: [ "none", "single", "all", "multiple" ]
+            }]
+        },
+        {
+            code:
+                "import foo from 'bar.js';\n" +
+                "import {a,b} from 'foo.js';",
+            parserOptions: parserOptions,
+            options: [{
+                memberSyntaxSortOrder: [ "none", "single", "all", "multiple" ]
+            }]
+        },
+
         // https://github.com/eslint/eslint/issues/5130
         {
             code:
