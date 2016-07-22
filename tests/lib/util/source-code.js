@@ -1199,7 +1199,7 @@ describe("SourceCode", function() {
                 });
 
             assert.equal(messages.length, 1);
-            assert.equal(messages[0].message, "'foo' is defined but never used");
+            assert.equal(messages[0].message, "'foo' is defined but never used.");
         });
     });
 });
