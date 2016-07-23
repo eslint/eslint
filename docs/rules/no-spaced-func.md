@@ -1,5 +1,7 @@
 # disallow spacing between `function` identifiers and their applications (no-spaced-func)
 
+This rule was **deprecated** in ESLint v3.3.0 and replaced by the [func-call-spacing](func-call-spacing.md) rule.
+
 (fixable) The `--fix` option on the [command line](../user-guide/command-line-interface#fix) automatically fixes problems reported by this rule.
 
 While it's possible to have whitespace between the name of a function and the parentheses that execute it, such patterns tend to look more like errors.

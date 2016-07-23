@@ -19,6 +19,7 @@ rules:
     dot-notation: ["error", { allowKeywords: true }]
     eol-last: "error"
     eqeqeq: "error"
+    func-call-spacing: "error"
     func-style: ["error", "declaration"]
     generator-star-spacing: "error"
     guard-for-in: "error"
@@ -72,7 +73,6 @@ rules:
     no-sequences: "error"
     no-shadow: "error"
     no-shadow-restricted-names: "error"
-    no-spaced-func: "error"
     no-tabs: "error"
     no-trailing-spaces: "error"
     no-undef: "error"
