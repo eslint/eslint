@@ -3,6 +3,9 @@ extends:
 
 rules:
     array-callback-return: "error"
+    arrow-body-style: ["error", "as-needed"]
+    arrow-parens: ["error", "as-needed"]
+    arrow-spacing: "error"
     indent: ["error", 4, {SwitchCase: 1}]
     block-spacing: "error"
     brace-style: ["error", "1tbs"]
@@ -17,6 +20,7 @@ rules:
     eol-last: "error"
     eqeqeq: "error"
     func-style: ["error", "declaration"]
+    generator-star-spacing: "error"
     guard-for-in: "error"
     key-spacing: ["error", { beforeColon: false, afterColon: true }]
     keyword-spacing: "error"
@@ -32,6 +36,7 @@ rules:
     no-alert: "error"
     no-array-constructor: "error"
     no-caller: "error"
+    no-confusing-arrow: "error"
     no-console: "error"
     no-delete-var: "error"
     no-eval: "error"
@@ -76,7 +81,9 @@ rules:
     no-unused-expressions: "error"
     no-unused-vars: ["error", {vars: "all", args: "after-used"}]
     no-use-before-define: "error"
+    no-useless-computed-key: "error"
     no-useless-concat: "error"
+    no-useless-constructor: "error"
     no-with: "error"
     one-var-declaration-per-line: "error"
     quotes: ["error", "double"]
@@ -92,6 +99,7 @@ rules:
     space-unary-ops: ["error", {words: true, nonwords: false}]
     spaced-comment: ["error", "always", { exceptions: ["-"]}]
     strict: ["error", "global"]
+    template-curly-spacing: ["error", "never"]
     valid-jsdoc: ["error", {
         prefer: { "return": "returns"},
         preferType: {
@@ -103,6 +111,7 @@ rules:
         }
     }]
     wrap-iife: "error"
+    yield-star-spacing: "error"
     yoda: ["error", "never"]
 
     # Previously on by default in node environment
