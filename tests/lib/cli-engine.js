@@ -2010,7 +2010,7 @@ describe("CLIEngine", function() {
 
                 var report = engine.executeOnFiles([getFixturePath("processors", "test", "test-processor.txt")]);
 
-                assert.equal(report.results[0].messages[0].message, "'b' is defined but never used");
+                assert.equal(report.results[0].messages[0].message, "'b' is defined but never used.");
                 assert.equal(report.results[0].messages[0].ruleId, "post-processed");
             });
             it("should run processors when calling executeOnFiles with config file that specifies preloaded processor", function() {
@@ -2041,7 +2041,7 @@ describe("CLIEngine", function() {
 
                 var report = engine.executeOnFiles([getFixturePath("processors", "test", "test-processor.txt")]);
 
-                assert.equal(report.results[0].messages[0].message, "'b' is defined but never used");
+                assert.equal(report.results[0].messages[0].message, "'b' is defined but never used.");
                 assert.equal(report.results[0].messages[0].ruleId, "post-processed");
             });
             it("should run processors when calling executeOnText with config file that specifies a processor", function() {
@@ -2054,7 +2054,7 @@ describe("CLIEngine", function() {
 
                 var report = engine.executeOnText("function a() {console.log(\"Test\");}", "tests/fixtures/processors/test/test-processor.txt");
 
-                assert.equal(report.results[0].messages[0].message, "'b' is defined but never used");
+                assert.equal(report.results[0].messages[0].message, "'b' is defined but never used.");
                 assert.equal(report.results[0].messages[0].ruleId, "post-processed");
             });
             it("should run processors when calling executeOnText with config file that specifies preloaded processor", function() {
@@ -2085,7 +2085,7 @@ describe("CLIEngine", function() {
 
                 var report = engine.executeOnText("function a() {console.log(\"Test\");}", "tests/fixtures/processors/test/test-processor.txt");
 
-                assert.equal(report.results[0].messages[0].message, "'b' is defined but never used");
+                assert.equal(report.results[0].messages[0].message, "'b' is defined but never used.");
                 assert.equal(report.results[0].messages[0].ruleId, "post-processed");
             });
         });

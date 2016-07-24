@@ -215,68 +215,68 @@ ruleTester.run("no-unused-vars", rule, {
         }
     ],
     invalid: [
-        { code: "function foox() { return foox(); }", errors: [{ message: "'foox' is defined but never used", type: "Identifier"}] },
-        { code: "(function() { function foox() { if (true) { return foox(); } } }())", errors: [{ message: "'foox' is defined but never used", type: "Identifier"}] },
-        { code: "var a=10", errors: [{ message: "'a' is defined but never used", type: "Identifier"}] },
-        { code: "function f() { var a = 1; return function(){ f(a *= 2); }; }", errors: [{message: "'f' is defined but never used", type: "Identifier"}]},
-        { code: "function f() { var a = 1; return function(){ f(++a); }; }", errors: [{message: "'f' is defined but never used", type: "Identifier"}]},
-        { code: "/*global a */", errors: [{ message: "'a' is defined but never used", type: "Program"}] },
-        { code: "function foo(first, second) {\ndoStuff(function() {\nconsole.log(second);});};", errors: [{ message: "'foo' is defined but never used", type: "Identifier"}] },
-        { code: "var a=10;", options: ["all"], errors: [{ message: "'a' is defined but never used", type: "Identifier"}] },
-        { code: "var a=10; a=20;", options: ["all"], errors: [{ message: "'a' is defined but never used", type: "Identifier"}] },
-        { code: "var a=10; (function() { var a = 1; alert(a); })();", options: ["all"], errors: [{ message: "'a' is defined but never used", type: "Identifier"}] },
-        { code: "var a=10, b=0, c=null; alert(a+b)", options: ["all"], errors: [{ message: "'c' is defined but never used", type: "Identifier"}] },
-        { code: "var a=10, b=0, c=null; setTimeout(function() { var b=2; alert(a+b+c); }, 0);", options: ["all"], errors: [{ message: "'b' is defined but never used", type: "Identifier"}] },
-        { code: "var a=10, b=0, c=null; setTimeout(function() { var b=2; var c=2; alert(a+b+c); }, 0);", options: ["all"], errors: [{ message: "'b' is defined but never used", type: "Identifier"}, { message: "'c' is defined but never used", type: "Identifier"}] },
-        { code: "function f(){var a=[];return a.map(function(){});}", options: ["all"], errors: [{ message: "'f' is defined but never used", type: "Identifier"}] },
-        { code: "function f(){var a=[];return a.map(function g(){});}", options: ["all"], errors: [{ message: "'f' is defined but never used", type: "Identifier"}] },
-        { code: "function foo() {function foo(x) {\nreturn x; }; return function() {return foo; }; }", errors: [{message: "'foo' is defined but never used", line: 1, type: "Identifier"}]},
+        { code: "function foox() { return foox(); }", errors: [{ message: "'foox' is defined but never used.", type: "Identifier"}] },
+        { code: "(function() { function foox() { if (true) { return foox(); } } }())", errors: [{ message: "'foox' is defined but never used.", type: "Identifier"}] },
+        { code: "var a=10", errors: [{ message: "'a' is defined but never used.", type: "Identifier"}] },
+        { code: "function f() { var a = 1; return function(){ f(a *= 2); }; }", errors: [{message: "'f' is defined but never used.", type: "Identifier"}]},
+        { code: "function f() { var a = 1; return function(){ f(++a); }; }", errors: [{message: "'f' is defined but never used.", type: "Identifier"}]},
+        { code: "/*global a */", errors: [{ message: "'a' is defined but never used.", type: "Program"}] },
+        { code: "function foo(first, second) {\ndoStuff(function() {\nconsole.log(second);});};", errors: [{ message: "'foo' is defined but never used.", type: "Identifier"}] },
+        { code: "var a=10;", options: ["all"], errors: [{ message: "'a' is defined but never used.", type: "Identifier"}] },
+        { code: "var a=10; a=20;", options: ["all"], errors: [{ message: "'a' is defined but never used.", type: "Identifier"}] },
+        { code: "var a=10; (function() { var a = 1; alert(a); })();", options: ["all"], errors: [{ message: "'a' is defined but never used.", type: "Identifier"}] },
+        { code: "var a=10, b=0, c=null; alert(a+b)", options: ["all"], errors: [{ message: "'c' is defined but never used.", type: "Identifier"}] },
+        { code: "var a=10, b=0, c=null; setTimeout(function() { var b=2; alert(a+b+c); }, 0);", options: ["all"], errors: [{ message: "'b' is defined but never used.", type: "Identifier"}] },
+        { code: "var a=10, b=0, c=null; setTimeout(function() { var b=2; var c=2; alert(a+b+c); }, 0);", options: ["all"], errors: [{ message: "'b' is defined but never used.", type: "Identifier"}, { message: "'c' is defined but never used.", type: "Identifier"}] },
+        { code: "function f(){var a=[];return a.map(function(){});}", options: ["all"], errors: [{ message: "'f' is defined but never used.", type: "Identifier"}] },
+        { code: "function f(){var a=[];return a.map(function g(){});}", options: ["all"], errors: [{ message: "'f' is defined but never used.", type: "Identifier"}] },
+        { code: "function foo() {function foo(x) {\nreturn x; }; return function() {return foo; }; }", errors: [{message: "'foo' is defined but never used.", line: 1, type: "Identifier"}]},
         { code: "function f(){var x;function a(){x=42;}function b(){alert(x);}}", options: ["all"], errors: 3 },
-        { code: "function f(a) {}; f();", options: ["all"], errors: [{ message: "'a' is defined but never used", type: "Identifier"}] },
-        { code: "function a(x, y, z){ return y; }; a();", options: ["all"], errors: [{ message: "'z' is defined but never used", type: "Identifier"}] },
-        { code: "var min = Math.min", options: ["all"], errors: [{ message: "'min' is defined but never used" }] },
-        { code: "var min = {min: 1}", options: ["all"], errors: [{ message: "'min' is defined but never used" }] },
-        { code: "Foo.bar = function(baz) { return 1; };", options: ["all"], errors: [{ message: "'baz' is defined but never used" }] },
-        { code: "var min = {min: 1}", options: [{vars: "all"}], errors: [{ message: "'min' is defined but never used" }] },
-        { code: "function gg(baz, bar) { return baz; }; gg();", options: [{vars: "all"}], errors: [{ message: "'bar' is defined but never used" }] },
-        { code: "(function(foo, baz, bar) { return baz; })();", options: [{vars: "all", args: "after-used"}], errors: [{ message: "'bar' is defined but never used" }]},
-        { code: "(function(foo, baz, bar) { return baz; })();", options: [{vars: "all", args: "all"}], errors: [{ message: "'foo' is defined but never used" }, { message: "'bar' is defined but never used" }]},
-        { code: "(function z(foo) { var bar = 33; })();", options: [{vars: "all", args: "all"}], errors: [{ message: "'foo' is defined but never used" }, { message: "'bar' is defined but never used" }]},
-        { code: "(function z(foo) { z(); })();", options: [{}], errors: [{ message: "'foo' is defined but never used" }]},
-        { code: "function f() { var a = 1; return function(){ f(a = 2); }; }", options: [{}], errors: [{ message: "'f' is defined but never used" }, {message: "'a' is defined but never used"}]},
-        { code: "import x from \"y\";", parserOptions: { sourceType: "module" }, errors: [{ message: "'x' is defined but never used" }]},
-        { code: "export function fn2({ x, y }) {\n console.log(x); \n};", parserOptions: { sourceType: "module" }, errors: [{ message: "'y' is defined but never used" }]},
-        { code: "export function fn2( x, y ) {\n console.log(x); \n};", parserOptions: { sourceType: "module" }, errors: [{ message: "'y' is defined but never used" }]},
+        { code: "function f(a) {}; f();", options: ["all"], errors: [{ message: "'a' is defined but never used.", type: "Identifier"}] },
+        { code: "function a(x, y, z){ return y; }; a();", options: ["all"], errors: [{ message: "'z' is defined but never used.", type: "Identifier"}] },
+        { code: "var min = Math.min", options: ["all"], errors: [{ message: "'min' is defined but never used." }] },
+        { code: "var min = {min: 1}", options: ["all"], errors: [{ message: "'min' is defined but never used." }] },
+        { code: "Foo.bar = function(baz) { return 1; };", options: ["all"], errors: [{ message: "'baz' is defined but never used." }] },
+        { code: "var min = {min: 1}", options: [{vars: "all"}], errors: [{ message: "'min' is defined but never used." }] },
+        { code: "function gg(baz, bar) { return baz; }; gg();", options: [{vars: "all"}], errors: [{ message: "'bar' is defined but never used." }] },
+        { code: "(function(foo, baz, bar) { return baz; })();", options: [{vars: "all", args: "after-used"}], errors: [{ message: "'bar' is defined but never used." }]},
+        { code: "(function(foo, baz, bar) { return baz; })();", options: [{vars: "all", args: "all"}], errors: [{ message: "'foo' is defined but never used." }, { message: "'bar' is defined but never used." }]},
+        { code: "(function z(foo) { var bar = 33; })();", options: [{vars: "all", args: "all"}], errors: [{ message: "'foo' is defined but never used." }, { message: "'bar' is defined but never used." }]},
+        { code: "(function z(foo) { z(); })();", options: [{}], errors: [{ message: "'foo' is defined but never used." }]},
+        { code: "function f() { var a = 1; return function(){ f(a = 2); }; }", options: [{}], errors: [{ message: "'f' is defined but never used." }, {message: "'a' is defined but never used."}]},
+        { code: "import x from \"y\";", parserOptions: { sourceType: "module" }, errors: [{ message: "'x' is defined but never used." }]},
+        { code: "export function fn2({ x, y }) {\n console.log(x); \n};", parserOptions: { sourceType: "module" }, errors: [{ message: "'y' is defined but never used." }]},
+        { code: "export function fn2( x, y ) {\n console.log(x); \n};", parserOptions: { sourceType: "module" }, errors: [{ message: "'y' is defined but never used." }]},
 
         // exported
-        { code: "/*exported max*/ var max = 1, min = {min: 1}", errors: [{ message: "'min' is defined but never used" }] },
-        { code: "/*exported x*/ var { x, y } = z", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "'y' is defined but never used" }] },
+        { code: "/*exported max*/ var max = 1, min = {min: 1}", errors: [{ message: "'min' is defined but never used." }] },
+        { code: "/*exported x*/ var { x, y } = z", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "'y' is defined but never used." }] },
 
         // ignore pattern
-        { code: "var _a; var b;", options: [ { vars: "all", varsIgnorePattern: "^_" } ], errors: [{ message: "'b' is defined but never used", line: 1, column: 13 }] },
-        { code: "var a; function foo() { var _b; var c_; } foo();", options: [ { vars: "local", varsIgnorePattern: "^_" } ], errors: [{ message: "'c_' is defined but never used", line: 1, column: 37 }] },
-        { code: "function foo(a, _b) { } foo();", options: [ { args: "all", argsIgnorePattern: "^_" } ], errors: [{ message: "'a' is defined but never used", line: 1, column: 14 }] },
-        { code: "function foo(a, _b, c) { return a; } foo();", options: [ { args: "after-used", argsIgnorePattern: "^_" } ], errors: [{ message: "'c' is defined but never used", line: 1, column: 21 }] },
-        { code: "var [ firstItemIgnored, secondItem ] = items;", parserOptions: { ecmaVersion: 6 }, options: [ { vars: "all", varsIgnorePattern: "[iI]gnored" } ], errors: [{ message: "'secondItem' is defined but never used", line: 1, column: 25 }] },
+        { code: "var _a; var b;", options: [ { vars: "all", varsIgnorePattern: "^_" } ], errors: [{ message: "'b' is defined but never used.", line: 1, column: 13 }] },
+        { code: "var a; function foo() { var _b; var c_; } foo();", options: [ { vars: "local", varsIgnorePattern: "^_" } ], errors: [{ message: "'c_' is defined but never used.", line: 1, column: 37 }] },
+        { code: "function foo(a, _b) { } foo();", options: [ { args: "all", argsIgnorePattern: "^_" } ], errors: [{ message: "'a' is defined but never used.", line: 1, column: 14 }] },
+        { code: "function foo(a, _b, c) { return a; } foo();", options: [ { args: "after-used", argsIgnorePattern: "^_" } ], errors: [{ message: "'c' is defined but never used.", line: 1, column: 21 }] },
+        { code: "var [ firstItemIgnored, secondItem ] = items;", parserOptions: { ecmaVersion: 6 }, options: [ { vars: "all", varsIgnorePattern: "[iI]gnored" } ], errors: [{ message: "'secondItem' is defined but never used.", line: 1, column: 25 }] },
 
         // for-in loops (see #2342)
-        { code: "(function(obj) { var name; for ( name in obj ) { i(); return; } })({});", errors: [{ message: "'name' is defined but never used", line: 1, column: 22 }] },
-        { code: "(function(obj) { var name; for ( name in obj ) { } })({});", errors: [{ message: "'name' is defined but never used", line: 1, column: 22 }] },
-        { code: "(function(obj) { for ( var name in obj ) { } })({});", errors: [{ message: "'name' is defined but never used", line: 1, column: 28 }] },
+        { code: "(function(obj) { var name; for ( name in obj ) { i(); return; } })({});", errors: [{ message: "'name' is defined but never used.", line: 1, column: 22 }] },
+        { code: "(function(obj) { var name; for ( name in obj ) { } })({});", errors: [{ message: "'name' is defined but never used.", line: 1, column: 22 }] },
+        { code: "(function(obj) { for ( var name in obj ) { } })({});", errors: [{ message: "'name' is defined but never used.", line: 1, column: 28 }] },
 
         // https://github.com/eslint/eslint/issues/3617
         {
             code: "\n/* global foobar, foo, bar */\nfoobar;",
             errors: [
-                {line: 2, column: 19, message: "'foo' is defined but never used" },
-                {line: 2, column: 24, message: "'bar' is defined but never used" }
+                {line: 2, column: 19, message: "'foo' is defined but never used." },
+                {line: 2, column: 24, message: "'bar' is defined but never used." }
             ]
         },
         {
             code: "\n/* global foobar,\n   foo,\n   bar\n */\nfoobar;",
             errors: [
-                {line: 3, column: 4, message: "'foo' is defined but never used" },
-                {line: 4, column: 4, message: "'bar' is defined but never used" }
+                {line: 3, column: 4, message: "'foo' is defined but never used." },
+                {line: 4, column: 4, message: "'bar' is defined but never used." }
             ]
         },
 
@@ -284,31 +284,31 @@ ruleTester.run("no-unused-vars", rule, {
         {
             code: "/* global a$fooz,$foo */\na$fooz;",
             errors: [
-                {line: 1, column: 18, message: "'$foo' is defined but never used" }
+                {line: 1, column: 18, message: "'$foo' is defined but never used." }
             ]
         },
         {
             code: "/* globals a$fooz, $ */\na$fooz;",
             errors: [
-                {line: 1, column: 20, message: "'$' is defined but never used" }
+                {line: 1, column: 20, message: "'$' is defined but never used." }
             ]
         },
         {
             code: "/*globals $foo*/",
             errors: [
-                {line: 1, column: 11, message: "'$foo' is defined but never used" }
+                {line: 1, column: 11, message: "'$foo' is defined but never used." }
             ]
         },
         {
             code: "/* global global*/",
             errors: [
-                {line: 1, column: 11, message: "'global' is defined but never used" }
+                {line: 1, column: 11, message: "'global' is defined but never used." }
             ]
         },
         {
             code: "/*global foo:true*/",
             errors: [
-                {line: 1, column: 10, message: "'foo' is defined but never used" }
+                {line: 1, column: 10, message: "'foo' is defined but never used." }
             ]
         },
 
@@ -316,7 +316,7 @@ ruleTester.run("no-unused-vars", rule, {
         {
             code: "/*global 変数, 数*/\n変数;",
             errors: [
-                {line: 1, column: 14, message: "'数' is defined but never used" }
+                {line: 1, column: 14, message: "'数' is defined but never used." }
             ]
         },
 
@@ -325,7 +325,7 @@ ruleTester.run("no-unused-vars", rule, {
             code: "/*global 𠮷𩸽, 𠮷*/\n\\u{20BB7}\\u{29E3D};",
             env: {es6: true},
             errors: [
-                {line: 1, column: 16, message: "'𠮷' is defined but never used" }
+                {line: 1, column: 16, message: "'𠮷' is defined but never used." }
             ]
         },
 
@@ -333,51 +333,51 @@ ruleTester.run("no-unused-vars", rule, {
         {
             code: "export default function(a) {}",
             parserOptions: { sourceType: "module" },
-            errors: [{message: "'a' is defined but never used"}]
+            errors: [{message: "'a' is defined but never used."}]
         },
         {
             code: "export default function(a, b) { console.log(a); }",
             parserOptions: { sourceType: "module" },
-            errors: [{message: "'b' is defined but never used"}]
+            errors: [{message: "'b' is defined but never used."}]
         },
         {
             code: "export default (function(a) {});",
             parserOptions: { sourceType: "module" },
-            errors: [{message: "'a' is defined but never used"}]
+            errors: [{message: "'a' is defined but never used."}]
         },
         {
             code: "export default (function(a, b) { console.log(a); });",
             parserOptions: { sourceType: "module" },
-            errors: [{message: "'b' is defined but never used"}]
+            errors: [{message: "'b' is defined but never used."}]
         },
         {
             code: "export default (a) => {};",
             parserOptions: { sourceType: "module" },
-            errors: [{message: "'a' is defined but never used"}]
+            errors: [{message: "'a' is defined but never used."}]
         },
         {
             code: "export default (a, b) => { console.log(a); };",
             parserOptions: { sourceType: "module" },
-            errors: [{message: "'b' is defined but never used"}]
+            errors: [{message: "'b' is defined but never used."}]
         },
 
         // caughtErrors
         {
             code: "try{}catch(err){};",
             options: [{caughtErrors: "all"}],
-            errors: [{message: "'err' is defined but never used"}]
+            errors: [{message: "'err' is defined but never used."}]
         },
         {
             code: "try{}catch(err){};",
             options: [{caughtErrors: "all", caughtErrorsIgnorePattern: "^ignore"}],
-            errors: [{message: "'err' is defined but never used"}]
+            errors: [{message: "'err' is defined but never used."}]
         },
 
         // multiple try catch with one success
         {
             code: "try{}catch(ignoreErr){}try{}catch(err){};",
             options: [{caughtErrors: "all", caughtErrorsIgnorePattern: "^ignore"}],
-            errors: [{message: "'err' is defined but never used"}]
+            errors: [{message: "'err' is defined but never used."}]
         },
 
         // multiple try catch both fail
@@ -385,8 +385,8 @@ ruleTester.run("no-unused-vars", rule, {
             code: "try{}catch(error){}try{}catch(err){};",
             options: [{caughtErrors: "all", caughtErrorsIgnorePattern: "^ignore"}],
             errors: [
-                {message: "'error' is defined but never used"},
-                {message: "'err' is defined but never used"}
+                {message: "'error' is defined but never used."},
+                {message: "'err' is defined but never used."}
             ]
         },
 
@@ -394,7 +394,7 @@ ruleTester.run("no-unused-vars", rule, {
         {
             code: "try{}catch(err){};",
             options: [{vars: "all", args: "all", caughtErrors: "all"}],
-            errors: [{message: "'err' is defined but never used"}]
+            errors: [{message: "'err' is defined but never used."}]
         },
 
         // no conclict in ignore patterns
@@ -408,36 +408,36 @@ ruleTester.run("no-unused-vars", rule, {
                     argsIgnorePattern: "^er"
                 }
             ],
-            errors: [{message: "'err' is defined but never used"}]
+            errors: [{message: "'err' is defined but never used."}]
         },
 
         // Ignore reads for modifications to itself: https://github.com/eslint/eslint/issues/6348
-        {code: "var a = 0; a = a + 1;", errors: [{message: "'a' is defined but never used"}]},
-        {code: "var a = 0; a = a + a;", errors: [{message: "'a' is defined but never used"}]},
-        {code: "var a = 0; a += a + 1;", errors: [{message: "'a' is defined but never used"}]},
-        {code: "var a = 0; a++;", errors: [{message: "'a' is defined but never used"}]},
-        {code: "function foo(a) { a = a + 1 } foo();", errors: [{message: "'a' is defined but never used"}]},
-        {code: "function foo(a) { a += a + 1 } foo();", errors: [{message: "'a' is defined but never used"}]},
-        {code: "function foo(a) { a++ } foo();", errors: [{message: "'a' is defined but never used"}]},
-        {code: "var a = 3; a = a * 5 + 6;", errors: [{message: "'a' is defined but never used"}]},
-        {code: "var a = 2, b = 4; a = a * 2 + b;", errors: [{message: "'a' is defined but never used"}]},
+        {code: "var a = 0; a = a + 1;", errors: [{message: "'a' is defined but never used."}]},
+        {code: "var a = 0; a = a + a;", errors: [{message: "'a' is defined but never used."}]},
+        {code: "var a = 0; a += a + 1;", errors: [{message: "'a' is defined but never used."}]},
+        {code: "var a = 0; a++;", errors: [{message: "'a' is defined but never used."}]},
+        {code: "function foo(a) { a = a + 1 } foo();", errors: [{message: "'a' is defined but never used."}]},
+        {code: "function foo(a) { a += a + 1 } foo();", errors: [{message: "'a' is defined but never used."}]},
+        {code: "function foo(a) { a++ } foo();", errors: [{message: "'a' is defined but never used."}]},
+        {code: "var a = 3; a = a * 5 + 6;", errors: [{message: "'a' is defined but never used."}]},
+        {code: "var a = 2, b = 4; a = a * 2 + b;", errors: [{message: "'a' is defined but never used."}]},
 
         // https://github.com/eslint/eslint/issues/6576 (For coverage)
         {
             code: "function foo(cb) { cb = function(a) { cb(1 + a); }; bar(not_cb); } foo();",
-            errors: [{message: "'cb' is defined but never used"}]
+            errors: [{message: "'cb' is defined but never used."}]
         },
         {
             code: "function foo(cb) { cb = function(a) { return cb(1 + a); }(); } foo();",
-            errors: [{message: "'cb' is defined but never used"}]
+            errors: [{message: "'cb' is defined but never used."}]
         },
         {
             code: "function foo(cb) { cb = (function(a) { cb(1 + a); }, cb); } foo();",
-            errors: [{message: "'cb' is defined but never used"}]
+            errors: [{message: "'cb' is defined but never used."}]
         },
         {
             code: "function foo(cb) { cb = (0, function(a) { cb(1 + a); }); } foo();",
-            errors: [{message: "'cb' is defined but never used"}]
+            errors: [{message: "'cb' is defined but never used."}]
         },
 
         // https://github.com/eslint/eslint/issues/6646
@@ -450,7 +450,7 @@ ruleTester.run("no-unused-vars", rule, {
                 "    foo()",
                 "}"
             ].join("\n"),
-            errors: [{message: "'b' is defined but never used"}]
+            errors: [{message: "'b' is defined but never used."}]
         }
     ]
 });
