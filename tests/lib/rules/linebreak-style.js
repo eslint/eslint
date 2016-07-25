@@ -8,17 +8,17 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var rule = require("../../../lib/rules/linebreak-style"),
+let rule = require("../../../lib/rules/linebreak-style"),
     RuleTester = require("../../../lib/testers/rule-tester");
 
-var EXPECTED_LF_MSG = "Expected linebreaks to be 'LF' but found 'CRLF'.",
+let EXPECTED_LF_MSG = "Expected linebreaks to be 'LF' but found 'CRLF'.",
     EXPECTED_CRLF_MSG = "Expected linebreaks to be 'CRLF' but found 'LF'.";
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-var ruleTester = new RuleTester();
+let ruleTester = new RuleTester();
 
 ruleTester.run("linebreak-style", rule, {
 

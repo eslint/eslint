@@ -9,7 +9,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var assert = require("chai").assert,
+let assert = require("chai").assert,
     espree = require("espree"),
     TokenStore = require("../../lib/token-store");
 
@@ -17,7 +17,7 @@ var assert = require("chai").assert,
 // Constants
 //------------------------------------------------------------------------------
 
-var SOURCE_CODE = "var answer = a * b\n    call();\n",
+let SOURCE_CODE = "var answer = a * b\n    call();\n",
     AST = espree.parse(SOURCE_CODE, { loc: true, range: true, tokens: true }),
     TOKENS = AST.tokens,
     Program = AST,
@@ -37,7 +37,7 @@ var SOURCE_CODE = "var answer = a * b\n    call();\n",
  * @returns {void}
  */
 function check(tokens, expected) {
-    var length = tokens.length,
+    let length = tokens.length,
         i;
 
     assert.equal(length, expected.length);
@@ -51,7 +51,7 @@ function check(tokens, expected) {
 //------------------------------------------------------------------------------
 
 describe("TokenStore", function() {
-    var store = new TokenStore(TOKENS);
+    let store = new TokenStore(TOKENS);
 
     describe("when calling getTokens", function() {
 
@@ -347,14 +347,14 @@ describe("TokenStore", function() {
     describe("when calling getTokenByRangeStart", function() {
 
         it("should return identifier token", function() {
-            var result = store.getTokenByRangeStart(4);
+            let result = store.getTokenByRangeStart(4);
 
             assert.equal(result.type, "Identifier");
             assert.equal(result.value, "answer");
         });
 
         it("should return null when token doesn't exist", function() {
-            var result = store.getTokenByRangeStart(5);
+            let result = store.getTokenByRangeStart(5);
 
             assert.isNull(result);
         });

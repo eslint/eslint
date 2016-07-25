@@ -9,7 +9,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var sinon = require("sinon"),
+let sinon = require("sinon"),
     leche = require("leche"),
     realESLint = require("../../lib/eslint"),
     RuleContext = require("../../lib/rule-context");
@@ -19,10 +19,10 @@ var sinon = require("sinon"),
 //------------------------------------------------------------------------------
 
 describe("RuleContext", function() {
-    var sandbox = sinon.sandbox.create();
+    let sandbox = sinon.sandbox.create();
 
     describe("report()", function() {
-        var ruleContext, eslint;
+        let ruleContext, eslint;
 
         beforeEach(function() {
             eslint = leche.fake(realESLint);
@@ -31,12 +31,12 @@ describe("RuleContext", function() {
 
         describe("old-style call with location", function() {
             it("should call eslint.report() with rule ID and severity prepended", function() {
-                var node = {},
+                let node = {},
                     location = {},
                     message = "Message",
                     messageOpts = {};
 
-                var mockESLint = sandbox.mock(eslint);
+                let mockESLint = sandbox.mock(eslint);
 
                 mockESLint.expects("report")
                     .once()
@@ -50,11 +50,11 @@ describe("RuleContext", function() {
 
         describe("old-style call without location", function() {
             it("should call eslint.report() with rule ID and severity prepended", function() {
-                var node = {},
+                let node = {},
                     message = "Message",
                     messageOpts = {};
 
-                var mockESLint = sandbox.mock(eslint);
+                let mockESLint = sandbox.mock(eslint);
 
                 mockESLint.expects("report")
                     .once()
@@ -68,14 +68,14 @@ describe("RuleContext", function() {
 
         describe("new-style call with all options", function() {
             it("should call eslint.report() with rule ID and severity prepended and all new-style options", function() {
-                var node = {},
+                let node = {},
                     location = {},
                     message = "Message",
                     messageOpts = {},
                     fixerObj = {},
                     fix = sandbox.mock().returns(fixerObj).once();
 
-                var mockESLint = sandbox.mock(eslint);
+                let mockESLint = sandbox.mock(eslint);
 
                 mockESLint.expects("report")
                     .once()

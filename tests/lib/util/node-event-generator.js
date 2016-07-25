@@ -8,7 +8,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var assert = require("assert"),
+let assert = require("assert"),
     EventEmitter = require("events").EventEmitter,
     sinon = require("sinon"),
     EventGeneratorTester = require("../../../lib/testers/event-generator-tester"),
@@ -23,7 +23,7 @@ describe("NodeEventGenerator", function() {
         new NodeEventGenerator(new EventEmitter())
     );
 
-    var emitter, generator;
+    let emitter, generator;
 
     beforeEach(function() {
         emitter = new EventEmitter();
@@ -32,7 +32,7 @@ describe("NodeEventGenerator", function() {
     });
 
     it("should generate events for entering AST node.", function() {
-        var dummyNode = {type: "Foo", value: 1};
+        let dummyNode = {type: "Foo", value: 1};
 
         generator.enterNode(dummyNode);
 
@@ -41,7 +41,7 @@ describe("NodeEventGenerator", function() {
     });
 
     it("should generate events for exitting AST node.", function() {
-        var dummyNode = {type: "Foo", value: 1};
+        let dummyNode = {type: "Foo", value: 1};
 
         generator.leaveNode(dummyNode);
 

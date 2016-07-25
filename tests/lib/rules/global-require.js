@@ -9,15 +9,15 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var rule = require("../../../lib/rules/global-require"),
+let rule = require("../../../lib/rules/global-require"),
     RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
-var ruleTester = new RuleTester();
+let ruleTester = new RuleTester();
 
-var valid = [
+let valid = [
     { code: "var x = require('y');" },
     { code: "if (x) { x.require('y'); }" },
     { code: "var x;\nx = require('y');" },
@@ -33,10 +33,10 @@ var valid = [
     { code: "var someFunc = require('./someFunc'); someFunc(function(require) { return('bananas'); });" }
 ];
 
-var message = "Unexpected require().";
-var type = "CallExpression";
+let message = "Unexpected require().";
+let type = "CallExpression";
 
-var invalid = [
+let invalid = [
 
     // block statements
     {

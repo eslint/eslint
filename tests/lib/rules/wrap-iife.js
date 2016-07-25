@@ -9,7 +9,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var rule = require("../../../lib/rules/wrap-iife"),
+let rule = require("../../../lib/rules/wrap-iife"),
     RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
@@ -17,7 +17,7 @@ var rule = require("../../../lib/rules/wrap-iife"),
 //------------------------------------------------------------------------------
 
 
-var ruleTester = new RuleTester();
+let ruleTester = new RuleTester();
 
 ruleTester.run("wrap-iife", rule, {
     valid: [

@@ -13,7 +13,7 @@
 
 require("shelljs/make");
 
-var lodash = require("lodash"),
+let lodash = require("lodash"),
     checker = require("npm-license"),
     ReleaseOps = require("eslint-release"),
     dateformat = require("dateformat"),
@@ -38,9 +38,9 @@ var lodash = require("lodash"),
  * multiple different VM types. So I'm fudging this for now in the hopes that it
  * at least provides some sort of useful signal.
  */
-var PERF_MULTIPLIER = 13e6;
+let PERF_MULTIPLIER = 13e6;
 
-var OPEN_SOURCE_LICENSES = [
+let OPEN_SOURCE_LICENSES = [
     /MIT/, /BSD/, /Apache/, /ISC/, /WTF/, /Public Domain/
 ];
 
@@ -48,7 +48,7 @@ var OPEN_SOURCE_LICENSES = [
 // Data
 //------------------------------------------------------------------------------
 
-var NODE = "node ", // intentional extra space
+let NODE = "node ", // intentional extra space
     NODE_MODULES = "./node_modules/",
     TEMP_DIR = "./tmp/",
     BUILD_DIR = "./build/",
@@ -87,7 +87,7 @@ var NODE = "node ", // intentional extra space
  * @private
  */
 function getTestFilePatterns() {
-    var testLibPath = "tests/lib/",
+    let testLibPath = "tests/lib/",
         testTemplatesPath = "tests/templates/";
 
     return ls(testLibPath).filter(function(pathToCheck) {
@@ -107,7 +107,7 @@ function getTestFilePatterns() {
  * @returns {undefined}
  */
 function validateJsonFile(filePath) {
-    var contents;
+    let contents;
 
     contents = fs.readFileSync(filePath, "utf8");
 
@@ -133,12 +133,12 @@ function fileType(extension) {
  * @returns {void}
  */
 function generateRulesIndex(basedir) {
-    var output = "module.exports = function() {\n";
+    let output = "module.exports = function() {\n";
 
     output += "    var rules = Object.create(null);\n";
 
     find(basedir + "rules/").filter(fileType("js")).forEach(function(filename) {
-        var basename = path.basename(filename, ".js");
+        let basename = path.basename(filename, ".js");
 
         output += "    rules[\"" + basename + "\"] = require(\"./rules/" + basename + "\");\n";
     });
@@ -163,7 +163,7 @@ function execSilent(cmd) {
  * @private
  */
 function generateBlogPost(releaseInfo) {
-    var output = ejs.render(cat("./templates/blogpost.md.ejs"), releaseInfo),
+    let output = ejs.render(cat("./templates/blogpost.md.ejs"), releaseInfo),
         now = new Date(),
         month = now.getMonth() + 1,
         day = now.getDate(),
@@ -183,7 +183,7 @@ function generateBlogPost(releaseInfo) {
  * @returns {void}
  */
 function generateFormatterExamples(formatterInfo, prereleaseVersion) {
-    var output = ejs.render(cat("./templates/formatter-examples.md.ejs"), formatterInfo),
+    let output = ejs.render(cat("./templates/formatter-examples.md.ejs"), formatterInfo),
         filename = "../eslint.github.io/docs/user-guide/formatters/index.md",
         htmlFilename = "../eslint.github.io/docs/user-guide/formatters/html-formatter-example.html";
 
@@ -202,14 +202,14 @@ function generateFormatterExamples(formatterInfo, prereleaseVersion) {
  * @returns {void}
  */
 function generateRuleIndexPage(basedir) {
-    var outputFile = "../eslint.github.io/_data/rules.yml",
+    let outputFile = "../eslint.github.io/_data/rules.yml",
         categoryList = "conf/category-list.json",
         categoriesData = JSON.parse(cat(path.resolve(categoryList)));
 
     find(path.join(basedir, "/lib/rules/")).filter(fileType("js")).forEach(function(filename) {
-        var rule = require(filename);
+        let rule = require(filename);
 
-        var basename = path.basename(filename, ".js"),
+        let basename = path.basename(filename, ".js"),
             output = {
                 name: basename,
                 description: rule.meta.docs.description,
@@ -225,7 +225,7 @@ function generateRuleIndexPage(basedir) {
         category.rules.push(output);
     });
 
-    var output = yaml.safeDump(categoriesData, {sortKeys: true});
+    let output = yaml.safeDump(categoriesData, {sortKeys: true});
 
     output.to(outputFile);
 }
@@ -236,7 +236,7 @@ function generateRuleIndexPage(basedir) {
  */
 function release() {
 
-    var releaseInfo = ReleaseOps.release();
+    let releaseInfo = ReleaseOps.release();
 
     echo("Generating site");
     target.gensite();
@@ -253,7 +253,7 @@ function release() {
  */
 function prerelease(prereleaseId) {
 
-    var releaseInfo = ReleaseOps.release(prereleaseId);
+    let releaseInfo = ReleaseOps.release(prereleaseId);
 
     echo("Generating site");
 
@@ -279,7 +279,7 @@ function splitCommandResultToLines(result) {
  * @returns {string} The commit sha.
  */
 function getFirstCommitOfFile(filePath) {
-    var commits = execSilent("git rev-list HEAD -- " + filePath);
+    let commits = execSilent("git rev-list HEAD -- " + filePath);
 
     commits = splitCommandResultToLines(commits);
     return commits[commits.length - 1].trim();
@@ -291,7 +291,7 @@ function getFirstCommitOfFile(filePath) {
  * @returns {string} The tag name.
  */
 function getTagOfFirstOccurrence(filePath) {
-    var firstCommit = getFirstCommitOfFile(filePath),
+    let firstCommit = getFirstCommitOfFile(filePath),
         tags = execSilent("git tag --contains " + firstCommit);
 
     tags = splitCommandResultToLines(tags);
@@ -319,7 +319,7 @@ function getFirstVersionOfFile(filePath) {
  * @returns {string} The commit sha.
  */
 function getCommitDeletingFile(filePath) {
-    var commits = execSilent("git rev-list HEAD -- " + filePath);
+    let commits = execSilent("git rev-list HEAD -- " + filePath);
 
     return splitCommandResultToLines(commits)[0];
 }
@@ -330,7 +330,7 @@ function getCommitDeletingFile(filePath) {
  * @returns {string} The version number.
  */
 function getFirstVersionOfDeletion(filePath) {
-    var deletionCommit = getCommitDeletingFile(filePath),
+    let deletionCommit = getCommitDeletingFile(filePath),
         tags = execSilent("git tag --contains " + deletionCommit);
 
     return splitCommandResultToLines(tags)
@@ -350,11 +350,11 @@ function getFirstVersionOfDeletion(filePath) {
  * @private
  */
 function getBranches() {
-    var branchesRaw = splitCommandResultToLines(execSilent("git branch --list")),
+    let branchesRaw = splitCommandResultToLines(execSilent("git branch --list")),
         branches = [],
         branchName;
 
-    for (var i = 0; i < branchesRaw.length; i++) {
+    for (let i = 0; i < branchesRaw.length; i++) {
         branchName = branchesRaw[i].replace(/^\*(.*)/, "$1").trim();
         branches.push(branchName);
     }
@@ -368,7 +368,7 @@ function getBranches() {
  * @private
  */
 function lintMarkdown(files) {
-    var config = {
+    let config = {
             default: true,
 
             // Exclusions for deliberate/widespread violations
@@ -411,7 +411,7 @@ function lintMarkdown(files) {
  * @private
  */
 function hasBranch(branchName) {
-    var branches = getBranches();
+    let branches = getBranches();
 
     return branches.indexOf(branchName) !== -1;
 }
@@ -421,10 +421,10 @@ function hasBranch(branchName) {
  * @returns {Object} Output from each formatter
  */
 function getFormatterResults() {
-    var CLIEngine = require("./lib/cli-engine"),
+    let CLIEngine = require("./lib/cli-engine"),
         chalk = require("chalk");
 
-    var formatterFiles = fs.readdirSync("./lib/formatters/"),
+    let formatterFiles = fs.readdirSync("./lib/formatters/"),
         cli = new CLIEngine({
             useEslintrc: false,
             baseConfig: { extends: "eslint:recommended" },
@@ -448,7 +448,7 @@ function getFormatterResults() {
         rawMessages = cli.executeOnText(codeString, "fullOfProblems.js", true);
 
     return formatterFiles.reduce(function(data, filename) {
-        var fileExt = path.extname(filename),
+        let fileExt = path.extname(filename),
             name = path.basename(filename, fileExt);
 
         if (fileExt === ".js") {
@@ -469,7 +469,7 @@ target.all = function() {
 };
 
 target.lint = function() {
-    var errors = 0,
+    let errors = 0,
         makeFileCache = " ",
         jsCache = " ",
         testCache = " ",
@@ -517,7 +517,7 @@ target.lint = function() {
 target.test = function() {
     target.lint();
     target.checkRuleFiles();
-    var errors = 0,
+    let errors = 0,
         lastReturn;
 
     // exec(ISTANBUL + " cover " + MOCHA + "-- -c " + TEST_FILES);
@@ -555,7 +555,7 @@ target.docs = function() {
 target.gensite = function(prereleaseVersion) {
     echo("Generating eslint.org");
 
-    var docFiles = [
+    let docFiles = [
         "/rules/",
         "/user-guide/",
         "/maintainer-guide/",
@@ -577,7 +577,7 @@ target.gensite = function(prereleaseVersion) {
 
     // 2. remove old files from the site
     docFiles.forEach(function(filePath) {
-        var fullPath = path.join(DOCS_DIR, filePath),
+        let fullPath = path.join(DOCS_DIR, filePath),
             htmlFullPath = fullPath.replace(".md", ".html");
 
         if (test("-f", fullPath)) {
@@ -593,7 +593,7 @@ target.gensite = function(prereleaseVersion) {
     // 3. Copy docs folder to a temporary directory
     cp("-rf", "docs/*", TEMP_DIR);
 
-    var versions = test("-f", "./versions.json") ? JSON.parse(cat("./versions.json")) : {};
+    let versions = test("-f", "./versions.json") ? JSON.parse(cat("./versions.json")) : {};
 
     if (!versions.added) {
         versions = {
@@ -606,7 +606,7 @@ target.gensite = function(prereleaseVersion) {
     find(TEMP_DIR).forEach(function(filename) {
         if (test("-f", filename) && path.extname(filename) === ".md") {
 
-            var rulesUrl = "https://github.com/eslint/eslint/tree/master/lib/rules/",
+            let rulesUrl = "https://github.com/eslint/eslint/tree/master/lib/rules/",
                 docsUrl = "https://github.com/eslint/eslint/tree/master/docs/rules/",
                 text = cat(filename),
                 baseName = path.basename(filename),
@@ -640,7 +640,7 @@ target.gensite = function(prereleaseVersion) {
 
             // 8. Append first version of ESLint rule was added at.
             if (filename.indexOf("rules/") !== -1) {
-                var added, removed;
+                let added, removed;
 
                 if (!versions.added[baseName]) {
                     versions.added[baseName] = getFirstVersionOfFile(sourcePath);
@@ -668,7 +668,7 @@ target.gensite = function(prereleaseVersion) {
     JSON.stringify(versions).to("./versions.json");
 
     // 10. Copy temorary directory to site's docs folder
-    var outputDir = DOCS_DIR;
+    let outputDir = DOCS_DIR;
 
     if (prereleaseVersion) {
         outputDir += "/" + prereleaseVersion;
@@ -692,7 +692,7 @@ target.gensite = function(prereleaseVersion) {
 };
 
 target.publishsite = function() {
-    var currentDir = pwd();
+    let currentDir = pwd();
 
     cd(SITE_DIR);
     exec("git add -A .");
@@ -739,14 +739,14 @@ target.checkRuleFiles = function() {
 
     echo("Validating rules");
 
-    var eslintConf = require("./conf/eslint.json").rules;
+    let eslintConf = require("./conf/eslint.json").rules;
 
-    var ruleFiles = find("lib/rules/").filter(fileType("js")),
+    let ruleFiles = find("lib/rules/").filter(fileType("js")),
         errors = 0;
 
     ruleFiles.forEach(function(filename) {
-        var basename = path.basename(filename, ".js");
-        var docFilename = "docs/rules/" + basename + ".md";
+        let basename = path.basename(filename, ".js");
+        let docFilename = "docs/rules/" + basename + ".md";
 
         /**
          * Check if basename is present in eslint conf
@@ -764,9 +764,9 @@ target.checkRuleFiles = function() {
          * @private
          */
         function hasIdInTitle(id) {
-            var docText = cat(docFilename);
-            var idOldAtEndOfTitleRegExp = new RegExp("^# (.*?) \\(" + id + "\\)"); // original format
-            var idNewAtBeginningOfTitleRegExp = new RegExp("^# " + id + ": "); // new format is same as rules index
+            let docText = cat(docFilename);
+            let idOldAtEndOfTitleRegExp = new RegExp("^# (.*?) \\(" + id + "\\)"); // original format
+            let idNewAtBeginningOfTitleRegExp = new RegExp("^# " + id + ": "); // new format is same as rules index
             // 1. Added support for new format.
             // 2. Will remove support for old format after all docs files have new format.
             // 3. Will remove this check when the main heading is automatically generated from rule metadata.
@@ -816,7 +816,7 @@ target.checkLicenses = function() {
      * @private
      */
     function isPermissible(dependency) {
-        var licenses = dependency.licenses;
+        let licenses = dependency.licenses;
 
         if (Array.isArray(licenses)) {
             return licenses.some(function(license) {
@@ -837,7 +837,7 @@ target.checkLicenses = function() {
     checker.init({
         start: __dirname
     }, function(deps) {
-        var impermissible = Object.keys(deps).map(function(dependency) {
+        let impermissible = Object.keys(deps).map(function(dependency) {
             return {
                 name: dependency,
                 licenses: deps[dependency].licenses
@@ -859,7 +859,7 @@ target.checkLicenses = function() {
 };
 
 target.checkGitCommit = function() {
-    var commitMsgs,
+    let commitMsgs,
         failed;
 
     if (hasBranch("master")) {
@@ -943,7 +943,7 @@ function downloadMultifilesTestTarget(cb) {
  * @returns {void}
  */
 function createConfigForPerformanceTest() {
-    var content = [
+    let content = [
         "root: true",
         "env:",
         "    node: true",
@@ -972,10 +972,10 @@ function createConfigForPerformanceTest() {
  * @private
  */
 function time(cmd, runs, runNumber, results, cb) {
-    var start = process.hrtime();
+    let start = process.hrtime();
 
     exec(cmd, { silent: true }, function(code, stdout, stderr) {
-        var diff = process.hrtime(start),
+        let diff = process.hrtime(start),
             actual = (diff[0] * 1e3 + diff[1] / 1e6); // ms
 
         if (code) {
@@ -1011,7 +1011,7 @@ function time(cmd, runs, runNumber, results, cb) {
  * @returns {void}
  */
 function runPerformanceTest(title, targets, multiplier, cb) {
-    var cpuSpeed = os.cpus()[0].speed,
+    let cpuSpeed = os.cpus()[0].speed,
         max = multiplier / cpuSpeed,
         cmd = ESLINT + "--config \"" + PERF_ESLINTRC + "\" --no-eslintrc --no-ignore " + targets;
 
@@ -1028,7 +1028,7 @@ function runPerformanceTest(title, targets, multiplier, cb) {
             return a - b;
         });
 
-        var median = results[~~(results.length / 2)];
+        let median = results[~~(results.length / 2)];
 
         echo("");
         if (median > max) {
@@ -1050,10 +1050,10 @@ function loadPerformance() {
     echo("");
     echo("Loading:");
 
-    var results = [];
+    let results = [];
 
-    for (var cnt = 0; cnt < 5; cnt++) {
-        var loadPerfData = loadPerf({
+    for (let cnt = 0; cnt < 5; cnt++) {
+        let loadPerfData = loadPerf({
             checkDependencies: false
         });
 
@@ -1064,7 +1064,7 @@ function loadPerformance() {
     results.sort(function(a, b) {
         return a - b;
     });
-    var median = results[~~(results.length / 2)];
+    let median = results[~~(results.length / 2)];
 
     echo("");
     echo("  Load Performance median:  %dms", median);
@@ -1084,7 +1084,7 @@ target.perf = function() {
             function() {
 
                 // Count test target files.
-                var count = glob.sync(
+                let count = glob.sync(
                     process.platform === "win32"
                         ? PERF_MULTIFILES_TARGETS.slice(2).replace("\\", "/")
                         : PERF_MULTIFILES_TARGETS

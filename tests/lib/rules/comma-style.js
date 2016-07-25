@@ -8,10 +8,10 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var rule = require("../../../lib/rules/comma-style"),
+let rule = require("../../../lib/rules/comma-style"),
     RuleTester = require("../../../lib/testers/rule-tester");
 
-var BAD_LN_BRK_MSG = "Bad line breaking before and after ','.",
+let BAD_LN_BRK_MSG = "Bad line breaking before and after ','.",
     FIRST_MSG = "',' should be placed first.",
     LAST_MSG = "',' should be placed last.";
 
@@ -19,7 +19,7 @@ var BAD_LN_BRK_MSG = "Bad line breaking before and after ','.",
 // Tests
 //------------------------------------------------------------------------------
 
-var ruleTester = new RuleTester();
+let ruleTester = new RuleTester();
 
 ruleTester.run("comma-style", rule, {
 

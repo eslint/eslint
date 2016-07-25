@@ -9,14 +9,14 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var rule = require("../../../lib/rules/block-spacing");
-var RuleTester = require("../../../lib/testers/rule-tester");
+let rule = require("../../../lib/rules/block-spacing");
+let RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-var ruleTester = new RuleTester();
+let ruleTester = new RuleTester();
 
 ruleTester.run("block-spacing", rule, {
     valid: [

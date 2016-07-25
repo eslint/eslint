@@ -88,6 +88,7 @@
     "istanbul": "^0.4.0",
     "jsdoc": "^3.3.0-beta1",
     "karma": "^0.13.22",
+    "karma-babel-preprocessor": "^6.0.1",
     "karma-mocha": "^1.0.1",
     "karma-mocha-reporter": "^2.0.3",
     "karma-phantomjs-launcher": "^1.0.0",

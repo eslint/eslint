@@ -9,17 +9,17 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var rule = require("../../../lib/rules/indent"),
+let rule = require("../../../lib/rules/indent"),
     RuleTester = require("../../../lib/testers/rule-tester");
-var fs = require("fs");
-var path = require("path");
+let fs = require("fs");
+let path = require("path");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-var fixture = fs.readFileSync(path.join(__dirname, "../../fixtures/rules/indent/indent-invalid-fixture-1.js"), "utf8");
-var fixedFixture = fs.readFileSync(path.join(__dirname, "../../fixtures/rules/indent/indent-valid-fixture-1.js"), "utf8");
+let fixture = fs.readFileSync(path.join(__dirname, "../../fixtures/rules/indent/indent-invalid-fixture-1.js"), "utf8");
+let fixedFixture = fs.readFileSync(path.join(__dirname, "../../fixtures/rules/indent/indent-valid-fixture-1.js"), "utf8");
 
 /**
  * Create error message object for failure cases
@@ -39,7 +39,7 @@ function expectedErrors(indentType, errors) {
     }
 
     return errors.map(function(err) {
-        var chars = err[1] === 1 ? "character" : "characters";
+        let chars = err[1] === 1 ? "character" : "characters";
 
         return {
             message: "Expected indentation of " + err[1] + " " + indentType + " " + chars + " but found " + err[2] + ".",
@@ -49,7 +49,7 @@ function expectedErrors(indentType, errors) {
     });
 }
 
-var ruleTester = new RuleTester();
+let ruleTester = new RuleTester();
 
 ruleTester.run("indent", rule, {
     valid: [

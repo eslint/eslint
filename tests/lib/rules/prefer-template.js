@@ -9,19 +9,19 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var rule = require("../../../lib/rules/prefer-template");
-var RuleTester = require("../../../lib/testers/rule-tester");
+let rule = require("../../../lib/rules/prefer-template");
+let RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-var errors = [{
+let errors = [{
     message: "Unexpected string concatenation.",
     type: "BinaryExpression"
 }];
 
-var ruleTester = new RuleTester();
+let ruleTester = new RuleTester();
 
 ruleTester.run("prefer-template", rule, {
     valid: [

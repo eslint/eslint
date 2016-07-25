@@ -8,7 +8,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var assert = require("chai").assert,
+let assert = require("chai").assert,
     fs = require("fs"),
     shell = require("shelljs"),
     sinon = require("sinon"),
@@ -22,7 +22,7 @@ var assert = require("chai").assert,
 
 describe("npmUtil", function() {
 
-    var sandbox;
+    let sandbox;
 
     beforeEach(function() {
         sandbox = sinon.sandbox.create();
@@ -33,7 +33,7 @@ describe("npmUtil", function() {
     });
 
     describe("checkDevDeps()", function() {
-        var installStatus;
+        let installStatus;
 
         before(function() {
             installStatus = npmUtil.checkDevDeps(["debug", "mocha", "notarealpackage", "jshint"]);
@@ -71,13 +71,13 @@ describe("npmUtil", function() {
                 });
             });
 
-            var fn = npmUtil.checkDevDeps.bind(null, ["some-package"]);
+            let fn = npmUtil.checkDevDeps.bind(null, ["some-package"]);
 
             assert.doesNotThrow(fn);
         });
 
         it("should throw with message when parsing invalid package.json", function() {
-            var logInfo = sandbox.stub(log, "info");
+            let logInfo = sandbox.stub(log, "info");
 
             sandbox.stub(fs, "existsSync", function() {
                 return true;
@@ -86,7 +86,7 @@ describe("npmUtil", function() {
                 return "{ \"not: \"valid json\" }";
             });
 
-            var fn = npmUtil.checkDevDeps.bind(null, ["some-package"]);
+            let fn = npmUtil.checkDevDeps.bind(null, ["some-package"]);
 
             assert.throws(fn, "SyntaxError: Unexpected token v");
             assert(logInfo.calledOnce);
@@ -95,7 +95,7 @@ describe("npmUtil", function() {
     });
 
     describe("checkDeps()", function() {
-        var installStatus;
+        let installStatus;
 
         before(function() {
             installStatus = npmUtil.checkDeps(["debug", "mocha", "notarealpackage", "jshint"]);
@@ -139,7 +139,7 @@ describe("npmUtil", function() {
                 });
             });
 
-            var fn = npmUtil.checkDeps.bind(null, ["some-package"]);
+            let fn = npmUtil.checkDeps.bind(null, ["some-package"]);
 
             assert.doesNotThrow(fn);
 
@@ -148,7 +148,7 @@ describe("npmUtil", function() {
         });
 
         it("should throw with message when parsing invalid package.json", function() {
-            var logInfo = sandbox.stub(log, "info");
+            let logInfo = sandbox.stub(log, "info");
 
             sandbox.stub(fs, "existsSync", function() {
                 return true;
@@ -157,7 +157,7 @@ describe("npmUtil", function() {
                 return "{ \"not: \"valid json\" }";
             });
 
-            var fn = npmUtil.checkDevDeps.bind(null, ["some-package"]);
+            let fn = npmUtil.checkDevDeps.bind(null, ["some-package"]);
 
             assert.throws(fn, "SyntaxError: Unexpected token v");
             assert(logInfo.calledOnce);
@@ -190,7 +190,7 @@ describe("npmUtil", function() {
 
     describe("installSyncSaveDev()", function() {
         it("should invoke npm to install a single desired package", function() {
-            var stub = sandbox.stub(shell, "exec");
+            let stub = sandbox.stub(shell, "exec");
 
             npmUtil.installSyncSaveDev("desired-package");
             assert(stub.calledOnce);
@@ -199,7 +199,7 @@ describe("npmUtil", function() {
         });
 
         it("should accept an array of packages to install", function() {
-            var stub = sandbox.stub(shell, "exec");
+            let stub = sandbox.stub(shell, "exec");
 
             npmUtil.installSyncSaveDev(["first-package", "second-package"]);
             assert(stub.calledOnce);

@@ -9,10 +9,10 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var rule = require("../../../lib/rules/newline-per-chained-call"),
+let rule = require("../../../lib/rules/newline-per-chained-call"),
     RuleTester = require("../../../lib/testers/rule-tester");
 
-var ruleTester = new RuleTester();
+let ruleTester = new RuleTester();
 
 ruleTester.run("newline-per-chained-call", rule, {
     valid: [{

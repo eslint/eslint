@@ -5,7 +5,7 @@
 
 "use strict";
 
-var assert = require("chai").assert,
+let assert = require("chai").assert,
     api = require("../../lib/api");
 
 describe("api", function() {

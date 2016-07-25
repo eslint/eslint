@@ -9,14 +9,14 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var rule = require("../../../lib/rules/sort-vars"),
+let rule = require("../../../lib/rules/sort-vars"),
     RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-var ruleTester = new RuleTester(),
+let ruleTester = new RuleTester(),
     expectedError = {
         message: "Variables within the same declaration block should be sorted alphabetically",
         type: "VariableDeclarator"
