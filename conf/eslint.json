@@ -207,6 +207,7 @@
         "rest-spread-spacing": "off",
         "semi": "off",
         "semi-spacing": "off",
+        "sort-keys": "off",
         "sort-imports": "off",
         "sort-vars": "off",
         "space-before-blocks": "off",
