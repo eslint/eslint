@@ -113,7 +113,7 @@ Environments can be specified inside of a file, in configuration files or using 
 To specify environments using a comment inside of your JavaScript file, use the following format:
 
 ```js
-/*eslint-env node, mocha */
+/* eslint-env node, mocha */
 ```
 
 This enables Node.js and Mocha environments.
