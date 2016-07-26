@@ -99,6 +99,7 @@
         "no-spaced-func": "off",
         "no-sparse-arrays": "error",
         "no-sync": "off",
+        "no-tabs": "off",
         "no-ternary": "off",
         "no-trailing-spaces": "off",
         "no-this-before-super": "error",
