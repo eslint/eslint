@@ -6,7 +6,7 @@ This guide is intended for those who wish to use ESLint as an end-user. If you'r
 
 Want to skip ahead and just start using ESLint? This section gives a high-level overview of installation, setup, and configuration options.
 
-## [Rules](rules)
+## [Rules](../rules)
 
 ESLint has a lot of rules that you can configure to fine-tune it to your project. This section is an exhaustive list of every rule and link to each rule's documentation.
 
