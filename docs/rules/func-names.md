@@ -19,11 +19,12 @@ This rule has a string option:
 * `"always"` (default) requires function expressions to have a name
 * `"never"` disallows named function expressions, except in recursive functions, where a name is needed
 
+### always
 
 Examples of **incorrect** code for this rule with the default `"always"` option:
 
 ```js
-/*eslint func-names: "error"*/
+/*eslint func-names: ["error", "always"]*/
 
 Foo.prototype.bar = function() {};
 
@@ -35,7 +36,7 @@ Foo.prototype.bar = function() {};
 Examples of **correct** code for this rule with the default `"always"` option:
 
 ```js
-/*eslint func-names: "error"*/
+/*eslint func-names: ["error", "always"]*/
 
 Foo.prototype.bar = function bar() {};
 
@@ -44,10 +45,12 @@ Foo.prototype.bar = function bar() {};
 }())
 ```
 
+### never
+
 Examples of **incorrect** code for this rule with the `"never"` option:
 
 ```js
-/*eslint func-names: "error"*/
+/*eslint func-names: ["error", "never"]*/
 
 Foo.prototype.bar = function bar() {};
 
@@ -59,7 +62,7 @@ Foo.prototype.bar = function bar() {};
 Examples of **correct** code for this rule with the `"never"` option:
 
 ```js
-/*eslint func-names: "error"*/
+/*eslint func-names: ["error", "never"]*/
 
 Foo.prototype.bar = function() {};
 
