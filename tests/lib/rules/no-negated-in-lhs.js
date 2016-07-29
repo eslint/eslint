@@ -1,6 +1,7 @@
 /**
  * @fileoverview Tests for the no-negated-in-lhs rule
  * @author Michael Ficarra
+ * @deprecated in ESLint v3.3.0
  */
 
 "use strict";
