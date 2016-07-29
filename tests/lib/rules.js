@@ -9,7 +9,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var assert = require("chai").assert,
+let assert = require("chai").assert,
     rules = require("../../lib/rules");
 
 //------------------------------------------------------------------------------
@@ -27,7 +27,7 @@ describe("rules", function() {
     });
 
     describe("when given an invalid rules directory", function() {
-        var code = "invaliddir";
+        let code = "invaliddir";
 
         it("should log an error and exit", function() {
             assert.throws(function() {
@@ -37,7 +37,7 @@ describe("rules", function() {
     });
 
     describe("when given a valid rules directory", function() {
-        var code = "tests/fixtures/rules";
+        let code = "tests/fixtures/rules";
 
         it("should load rules and not log an error or exit", function() {
             assert.equal(typeof rules.get("fixture-rule"), "undefined");
@@ -48,7 +48,7 @@ describe("rules", function() {
 
     describe("when a rule has been defined", function() {
         it("should be able to retrieve the rule", function() {
-            var ruleId = "michaelficarra";
+            let ruleId = "michaelficarra";
 
             rules.define(ruleId, {});
             assert.ok(rules.get(ruleId));
@@ -56,7 +56,7 @@ describe("rules", function() {
     });
 
     describe("when importing plugin rules", function() {
-        var customPlugin = {
+        let customPlugin = {
                 rules: {
                     "custom-rule": function() { }
                 }

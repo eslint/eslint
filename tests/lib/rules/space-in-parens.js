@@ -8,17 +8,17 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var rule = require("../../../lib/rules/space-in-parens"),
+let rule = require("../../../lib/rules/space-in-parens"),
     RuleTester = require("../../../lib/testers/rule-tester");
 
-var MISSING_SPACE_ERROR = "There must be a space inside this paren.",
+let MISSING_SPACE_ERROR = "There must be a space inside this paren.",
     REJECTED_SPACE_ERROR = "There should be no spaces inside this paren.";
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-var ruleTester = new RuleTester();
+let ruleTester = new RuleTester();
 
 ruleTester.run("space-in-parens", rule, {
 

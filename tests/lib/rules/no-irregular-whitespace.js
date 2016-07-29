@@ -9,20 +9,20 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var rule = require("../../../lib/rules/no-irregular-whitespace"),
+let rule = require("../../../lib/rules/no-irregular-whitespace"),
     RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-var ruleTester = new RuleTester();
+let ruleTester = new RuleTester();
 
-var expectedErrors = [{
+let expectedErrors = [{
     message: "Irregular whitespace not allowed",
     type: "Program"
 }];
-var expectedCommentErrors = [{
+let expectedCommentErrors = [{
     message: "Irregular whitespace not allowed",
     type: "Program",
     line: 1,

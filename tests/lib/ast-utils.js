@@ -9,7 +9,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var assert = require("chai").assert,
+let assert = require("chai").assert,
     sinon = require("sinon"),
     espree = require("espree"),
     astUtils = require("../../lib/ast-utils"),
@@ -21,7 +21,7 @@ var assert = require("chai").assert,
 //------------------------------------------------------------------------------
 
 describe("ast-utils", function() {
-    var filename = "filename.js",
+    let filename = "filename.js",
         sandbox;
 
     beforeEach(function() {
@@ -176,7 +176,7 @@ describe("ast-utils", function() {
              * @returns {void}
              */
             function checker(node) {
-                var variables = eslint.getDeclaredVariables(node);
+                let variables = eslint.getDeclaredVariables(node);
 
                 assert.lengthOf(astUtils.getModifyingReferences(variables[0].references), 1);
             }
@@ -195,7 +195,7 @@ describe("ast-utils", function() {
              * @returns {void}
              */
             function checker(node) {
-                var variables = eslint.getDeclaredVariables(node);
+                let variables = eslint.getDeclaredVariables(node);
 
                 assert.lengthOf(astUtils.getModifyingReferences(variables[0].references), 1);
             }
@@ -213,7 +213,7 @@ describe("ast-utils", function() {
              * @returns {void}
              */
             function checker(node) {
-                var variables = eslint.getDeclaredVariables(node);
+                let variables = eslint.getDeclaredVariables(node);
 
                 assert.lengthOf(astUtils.getModifyingReferences(variables[0].references), 0);
             }
@@ -232,7 +232,7 @@ describe("ast-utils", function() {
              * @returns {void}
              */
             function checker(node) {
-                var variables = eslint.getDeclaredVariables(node);
+                let variables = eslint.getDeclaredVariables(node);
 
                 assert.lengthOf(astUtils.getModifyingReferences(variables[0].references), 1);
                 assert.lengthOf(astUtils.getModifyingReferences(variables[1].references), 0);
@@ -251,7 +251,7 @@ describe("ast-utils", function() {
              * @returns {void}
              */
             function checker(node) {
-                var variables = eslint.getDeclaredVariables(node);
+                let variables = eslint.getDeclaredVariables(node);
 
                 assert.lengthOf(astUtils.getModifyingReferences(variables[0].references), 0);
             }
@@ -321,7 +321,7 @@ describe("ast-utils", function() {
     });
 
     describe("isParenthesised", function() {
-        var ESPREE_CONFIG = {
+        let ESPREE_CONFIG = {
             ecmaVersion: 6,
             comment: true,
             tokens: true,
@@ -330,17 +330,17 @@ describe("ast-utils", function() {
         };
 
         it("should return false for not parenthesised nodes", function() {
-            var code = "condition ? 1 : 2";
-            var ast = espree.parse(code, ESPREE_CONFIG);
-            var sourceCode = new SourceCode(code, ast);
+            let code = "condition ? 1 : 2";
+            let ast = espree.parse(code, ESPREE_CONFIG);
+            let sourceCode = new SourceCode(code, ast);
 
             assert.isFalse(astUtils.isParenthesised(sourceCode, ast.body[0].expression));
         });
 
         it("should return true for not parenthesised nodes", function() {
-            var code = "(condition ? 1 : 2)";
-            var ast = espree.parse(code, ESPREE_CONFIG);
-            var sourceCode = new SourceCode(code, ast);
+            let code = "(condition ? 1 : 2)";
+            let ast = espree.parse(code, ESPREE_CONFIG);
+            let sourceCode = new SourceCode(code, ast);
 
             assert.isTrue(astUtils.isParenthesised(sourceCode, ast.body[0].expression));
         });
@@ -348,28 +348,28 @@ describe("ast-utils", function() {
 
     describe("isFunction", function() {
         it("should return true for FunctionDeclaration", function() {
-            var ast = espree.parse("function a() {}");
-            var node = ast.body[0];
+            let ast = espree.parse("function a() {}");
+            let node = ast.body[0];
 
             assert(astUtils.isFunction(node));
         });
 
         it("should return true for FunctionExpression", function() {
-            var ast = espree.parse("(function a() {})");
-            var node = ast.body[0].expression;
+            let ast = espree.parse("(function a() {})");
+            let node = ast.body[0].expression;
 
             assert(astUtils.isFunction(node));
         });
 
         it("should return true for AllowFunctionExpression", function() {
-            var ast = espree.parse("(() => {})", {ecmaVersion: 6});
-            var node = ast.body[0].expression;
+            let ast = espree.parse("(() => {})", {ecmaVersion: 6});
+            let node = ast.body[0].expression;
 
             assert(astUtils.isFunction(node));
         });
 
         it("should return false for Program, VariableDeclaration, BlockStatement", function() {
-            var ast = espree.parse("var a; { }");
+            let ast = espree.parse("var a; { }");
 
             assert(!astUtils.isFunction(ast));
             assert(!astUtils.isFunction(ast.body[0]));
@@ -379,42 +379,42 @@ describe("ast-utils", function() {
 
     describe("isLoop", function() {
         it("should return true for DoWhileStatement", function() {
-            var ast = espree.parse("do {} while (a)");
-            var node = ast.body[0];
+            let ast = espree.parse("do {} while (a)");
+            let node = ast.body[0];
 
             assert(astUtils.isLoop(node));
         });
 
         it("should return true for ForInStatement", function() {
-            var ast = espree.parse("for (var k in obj) {}");
-            var node = ast.body[0];
+            let ast = espree.parse("for (var k in obj) {}");
+            let node = ast.body[0];
 
             assert(astUtils.isLoop(node));
         });
 
         it("should return true for ForOfStatement", function() {
-            var ast = espree.parse("for (var x of list) {}", {ecmaVersion: 6});
-            var node = ast.body[0];
+            let ast = espree.parse("for (var x of list) {}", {ecmaVersion: 6});
+            let node = ast.body[0];
 
             assert(astUtils.isLoop(node));
         });
 
         it("should return true for ForStatement", function() {
-            var ast = espree.parse("for (var i = 0; i < 10; ++i) {}");
-            var node = ast.body[0];
+            let ast = espree.parse("for (var i = 0; i < 10; ++i) {}");
+            let node = ast.body[0];
 
             assert(astUtils.isLoop(node));
         });
 
         it("should return true for WhileStatement", function() {
-            var ast = espree.parse("while (a) {}");
-            var node = ast.body[0];
+            let ast = espree.parse("while (a) {}");
+            let node = ast.body[0];
 
             assert(astUtils.isLoop(node));
         });
 
         it("should return false for Program, VariableDeclaration, BlockStatement", function() {
-            var ast = espree.parse("var a; { }");
+            let ast = espree.parse("var a; { }");
 
             assert(!astUtils.isLoop(ast));
             assert(!astUtils.isLoop(ast.body[0]));

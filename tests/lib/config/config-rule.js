@@ -9,7 +9,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var assert = require("chai").assert,
+let assert = require("chai").assert,
     ConfigRule = require("../../../lib/config/config-rule"),
     loadRules = require("../../../lib/load-rules"),
     schema = require("../../fixtures/config-rule/schemas");
@@ -18,12 +18,12 @@ var assert = require("chai").assert,
 // Tests
 //------------------------------------------------------------------------------
 
-var SEVERITY = 2;
+let SEVERITY = 2;
 
 describe("ConfigRule", function() {
 
     describe("generateConfigsFromSchema()", function() {
-        var actualConfigs;
+        let actualConfigs;
 
         it("should create a config with only severity for an empty schema", function() {
             actualConfigs = ConfigRule.generateConfigsFromSchema([]);
@@ -73,29 +73,29 @@ describe("ConfigRule", function() {
 
                 // Skip first config (severity only)
                 actualConfigs.slice(1).forEach(function(actualConfig) {
-                    var actualConfigOption = actualConfig[1]; // severity is first element, option is second
+                    let actualConfigOption = actualConfig[1]; // severity is first element, option is second
 
                     assert.isObject(actualConfigOption);
                 });
             });
 
             it("should use the object property name from the schema", function() {
-                var propName = "enumProperty";
+                let propName = "enumProperty";
 
                 assert.equal(actualConfigs.length, 3);
                 actualConfigs.slice(1).forEach(function(actualConfig) {
-                    var actualConfigOption = actualConfig[1];
+                    let actualConfigOption = actualConfig[1];
 
                     assert.property(actualConfigOption, propName);
                 });
             });
 
             it("should have each enum as option object values", function() {
-                var propName = "enumProperty",
+                let propName = "enumProperty",
                     actualValues = [];
 
                 actualConfigs.slice(1).forEach(function(actualConfig) {
-                    var configOption = actualConfig[1];
+                    let configOption = actualConfig[1];
 
                     actualValues.push(configOption[propName]);
                 });
@@ -110,19 +110,19 @@ describe("ConfigRule", function() {
             });
 
             it("should create configs for all properties in each config", function() {
-                var expectedProperties = ["firstEnum", "anotherEnum"];
+                let expectedProperties = ["firstEnum", "anotherEnum"];
 
                 assert.equal(actualConfigs.length, 7);
                 actualConfigs.slice(1).forEach(function(actualConfig) {
-                    var configOption = actualConfig[1];
-                    var actualProperties = Object.keys(configOption);
+                    let configOption = actualConfig[1];
+                    let actualProperties = Object.keys(configOption);
 
                     assert.sameMembers(actualProperties, expectedProperties);
                 });
             });
 
             it("should create configs for every possible combination", function() {
-                var expectedConfigs = [
+                let expectedConfigs = [
                     { firstEnum: "always", anotherEnum: "var" },
                     { firstEnum: "always", anotherEnum: "let" },
                     { firstEnum: "always", anotherEnum: "const" },
@@ -130,7 +130,7 @@ describe("ConfigRule", function() {
                     { firstEnum: "never", anotherEnum: "let" },
                     { firstEnum: "never", anotherEnum: "const" }
                 ];
-                var actualConfigOptions = actualConfigs.slice(1).map(function(actualConfig) {
+                let actualConfigOptions = actualConfigs.slice(1).map(function(actualConfig) {
                     return actualConfig[1];
                 });
 
@@ -148,29 +148,29 @@ describe("ConfigRule", function() {
             it("should return configs with option objects", function() {
                 assert.equal(actualConfigs.length, 3);
                 actualConfigs.slice(1).forEach(function(actualConfig) {
-                    var actualConfigOption = actualConfig[1];
+                    let actualConfigOption = actualConfig[1];
 
                     assert.isObject(actualConfigOption);
                 });
             });
 
             it("should use the object property name from the schema", function() {
-                var propName = "boolProperty";
+                let propName = "boolProperty";
 
                 assert.equal(actualConfigs.length, 3);
                 actualConfigs.slice(1).forEach(function(actualConfig) {
-                    var actualConfigOption = actualConfig[1];
+                    let actualConfigOption = actualConfig[1];
 
                     assert.property(actualConfigOption, propName);
                 });
             });
 
             it("should include both true and false configs", function() {
-                var propName = "boolProperty",
+                let propName = "boolProperty",
                     actualValues = [];
 
                 actualConfigs.slice(1).forEach(function(actualConfig) {
-                    var configOption = actualConfig[1];
+                    let configOption = actualConfig[1];
 
                     actualValues.push(configOption[propName]);
                 });
@@ -185,25 +185,25 @@ describe("ConfigRule", function() {
             });
 
             it("should create configs for all properties in each config", function() {
-                var expectedProperties = ["firstBool", "anotherBool"];
+                let expectedProperties = ["firstBool", "anotherBool"];
 
                 assert.equal(actualConfigs.length, 5);
                 actualConfigs.slice(1).forEach(function(config) {
-                    var configOption = config[1];
-                    var actualProperties = Object.keys(configOption);
+                    let configOption = config[1];
+                    let actualProperties = Object.keys(configOption);
 
                     assert.sameMembers(actualProperties, expectedProperties);
                 });
             });
 
             it("should create configs for every possible combination", function() {
-                var expectedConfigOptions = [
+                let expectedConfigOptions = [
                     { firstBool: true, anotherBool: true },
                     { firstBool: true, anotherBool: false },
                     { firstBool: false, anotherBool: true },
                     { firstBool: false, anotherBool: false }
                 ];
-                var actualConfigOptions = actualConfigs.slice(1).map(function(config) {
+                let actualConfigOptions = actualConfigs.slice(1).map(function(config) {
                     return config[1];
                 });
 
@@ -220,7 +220,7 @@ describe("ConfigRule", function() {
             it("should create configs with only the enum values", function() {
                 assert.equal(actualConfigs[1].length, 2);
                 assert.equal(actualConfigs[2].length, 2);
-                var actualOptions = [actualConfigs[1][1], actualConfigs[2][1]];
+                let actualOptions = [actualConfigs[1][1], actualConfigs[2][1]];
 
                 assert.sameMembers(actualOptions, ["always", "never"]);
             });
@@ -240,7 +240,7 @@ describe("ConfigRule", function() {
             });
 
             it("should create config only for the enum", function() {
-                var expectedConfigs = [2, [2, "always"], [2, "never"]];
+                let expectedConfigs = [2, [2, "always"], [2, "never"]];
 
                 assert.sameDeepMembers(actualConfigs, expectedConfigs);
             });
@@ -271,10 +271,10 @@ describe("ConfigRule", function() {
 
     describe("createCoreRuleConfigs()", function() {
 
-        var rulesConfig = ConfigRule.createCoreRuleConfigs();
+        let rulesConfig = ConfigRule.createCoreRuleConfigs();
 
         it("should create a rulesConfig containing all core rules", function() {
-            var coreRules = loadRules(),
+            let coreRules = loadRules(),
                 expectedRules = Object.keys(coreRules),
                 actualRules = Object.keys(rulesConfig);
 

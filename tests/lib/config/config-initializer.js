@@ -9,7 +9,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var assert = require("chai").assert,
+let assert = require("chai").assert,
     fs = require("fs"),
     path = require("path"),
     os = require("os"),
@@ -19,7 +19,7 @@ var assert = require("chai").assert,
     autoconfig = require("../../../lib/config/autoconfig"),
     npmUtil = require("../../../lib/util/npm-util");
 
-var originalDir = process.cwd();
+let originalDir = process.cwd();
 
 proxyquire = proxyquire.noPreserveCache();
 
@@ -27,20 +27,20 @@ proxyquire = proxyquire.noPreserveCache();
 // Tests
 //------------------------------------------------------------------------------
 
-var answers = {};
+let answers = {};
 
 describe("configInitializer", function() {
 
-    var fixtureDir,
+    let fixtureDir,
         npmCheckStub,
         npmInstallStub,
         init;
 
-    var log = {
+    let log = {
         info: sinon.spy(),
         error: sinon.spy()
     };
-    var requireStubs = {
+    let requireStubs = {
         "../logging": log
     };
 
@@ -50,10 +50,10 @@ describe("configInitializer", function() {
      * @private
      */
     function getFixturePath() {
-        var args = Array.prototype.slice.call(arguments);
+        let args = Array.prototype.slice.call(arguments);
 
         args.unshift(fixtureDir);
-        var filepath = path.join.apply(path, args);
+        let filepath = path.join.apply(path, args);
 
         try {
             filepath = fs.realpathSync(filepath);
@@ -116,7 +116,7 @@ describe("configInitializer", function() {
             });
 
             it("should create default config", function() {
-                var config = init.processAnswers(answers);
+                let config = init.processAnswers(answers);
 
                 assert.deepEqual(config.rules.indent, ["error", 2]);
                 assert.deepEqual(config.rules.quotes, ["error", "single"]);
@@ -130,14 +130,14 @@ describe("configInitializer", function() {
 
             it("should disable semi", function() {
                 answers.semi = false;
-                var config = init.processAnswers(answers);
+                let config = init.processAnswers(answers);
 
                 assert.deepEqual(config.rules.semi, ["error", "never"]);
             });
 
             it("should enable jsx flag", function() {
                 answers.jsx = true;
-                var config = init.processAnswers(answers);
+                let config = init.processAnswers(answers);
 
                 assert.equal(config.parserOptions.ecmaFeatures.jsx, true);
             });
@@ -145,7 +145,7 @@ describe("configInitializer", function() {
             it("should enable react plugin", function() {
                 answers.jsx = true;
                 answers.react = true;
-                var config = init.processAnswers(answers);
+                let config = init.processAnswers(answers);
 
                 assert.equal(config.parserOptions.ecmaFeatures.jsx, true);
                 assert.equal(config.parserOptions.ecmaFeatures.experimentalObjectRestSpread, true);
@@ -154,26 +154,26 @@ describe("configInitializer", function() {
 
             it("should not enable es6", function() {
                 answers.es6 = false;
-                var config = init.processAnswers(answers);
+                let config = init.processAnswers(answers);
 
                 assert.isUndefined(config.env.es6);
             });
 
             it("should extend eslint:recommended", function() {
-                var config = init.processAnswers(answers);
+                let config = init.processAnswers(answers);
 
                 assert.equal(config.extends, "eslint:recommended");
             });
 
             it("should not use commonjs by default", function() {
-                var config = init.processAnswers(answers);
+                let config = init.processAnswers(answers);
 
                 assert.isUndefined(config.env.commonjs);
             });
 
             it("should use commonjs when set", function() {
                 answers.commonjs = true;
-                var config = init.processAnswers(answers);
+                let config = init.processAnswers(answers);
 
                 assert.isTrue(config.env.commonjs);
             });
@@ -181,19 +181,19 @@ describe("configInitializer", function() {
 
         describe("guide", function() {
             it("should support the google style guide", function() {
-                var config = init.getConfigForStyleGuide("google");
+                let config = init.getConfigForStyleGuide("google");
 
                 assert.deepEqual(config, {extends: "google", installedESLint: true});
             });
 
             it("should support the airbnb style guide", function() {
-                var config = init.getConfigForStyleGuide("airbnb");
+                let config = init.getConfigForStyleGuide("airbnb");
 
                 assert.deepEqual(config, {extends: "airbnb", installedESLint: true, plugins: ["react"]});
             });
 
             it("should support the standard style guide", function() {
-                var config = init.getConfigForStyleGuide("standard");
+                let config = init.getConfigForStyleGuide("standard");
 
                 assert.deepEqual(config, {extends: "standard", installedESLint: true, plugins: ["standard", "promise"]});
             });
@@ -218,12 +218,12 @@ describe("configInitializer", function() {
         });
 
         describe("auto", function() {
-            var config,
+            let config,
                 completeSpy = sinon.spy(),
                 sandbox;
 
             before(function() {
-                var patterns = [
+                let patterns = [
                     getFixturePath("lib"),
                     getFixturePath("tests")
                 ].join(" ");
@@ -273,7 +273,7 @@ describe("configInitializer", function() {
             });
 
             it("should throw on fatal parsing error", function() {
-                var filename = getFixturePath("parse-error");
+                let filename = getFixturePath("parse-error");
 
                 sinon.stub(autoconfig, "extendFromRecommended");
                 answers.patterns = filename;

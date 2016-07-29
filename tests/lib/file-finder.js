@@ -9,7 +9,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var assert = require("chai").assert,
+let assert = require("chai").assert,
     path = require("path"),
     FileFinder = require("../../lib/file-finder.js");
 
@@ -18,7 +18,7 @@ var assert = require("chai").assert,
 //------------------------------------------------------------------------------
 
 describe("FileFinder", function() {
-    var fixtureDir = path.resolve(__dirname, "..", "fixtures"),
+    let fixtureDir = path.resolve(__dirname, "..", "fixtures"),
         fileFinderDir = path.join(fixtureDir, "file-finder"),
         subdir = path.join(fileFinderDir, "subdir"),
         subsubdir = path.join(subdir, "subsubdir"),
@@ -27,7 +27,7 @@ describe("FileFinder", function() {
         uniqueFileName = "xvgRHtyH56756764535jkJ6jthty65tyhteHTEY";
 
     describe("findAllInDirectoryAndParents()", function() {
-        var actual,
+        let actual,
             expected,
             finder;
 
@@ -70,7 +70,7 @@ describe("FileFinder", function() {
         describe("searching for multiple files", function() {
 
             it("should return only the first specified file", function() {
-                var firstExpected = path.join(fileFinderDir, "subdir", "empty"),
+                let firstExpected = path.join(fileFinderDir, "subdir", "empty"),
                     secondExpected = path.join(fileFinderDir, "empty");
 
                 finder = new FileFinder(["empty", uniqueFileName], process.cwd());
@@ -82,7 +82,7 @@ describe("FileFinder", function() {
             });
 
             it("should return the second file when the first is missing", function() {
-                var firstExpected = path.join(fileFinderDir, "subdir", uniqueFileName),
+                let firstExpected = path.join(fileFinderDir, "subdir", uniqueFileName),
                     secondExpected = path.join(fileFinderDir, uniqueFileName);
 
                 finder = new FileFinder(["notreal", uniqueFileName], process.cwd());
@@ -94,7 +94,7 @@ describe("FileFinder", function() {
             });
 
             it("should return multiple files when the first is missing and more than one filename is requested", function() {
-                var firstExpected = path.join(fileFinderDir, "subdir", uniqueFileName),
+                let firstExpected = path.join(fileFinderDir, "subdir", uniqueFileName),
                     secondExpected = path.join(fileFinderDir, uniqueFileName);
 
                 finder = new FileFinder(["notreal", uniqueFileName, "empty2"], process.cwd());
@@ -108,7 +108,7 @@ describe("FileFinder", function() {
         });
 
         describe("two files present with the same name in parent directories", function() {
-            var firstExpected = path.join(fileFinderDir, "subdir", uniqueFileName),
+            let firstExpected = path.join(fileFinderDir, "subdir", uniqueFileName),
                 secondExpected = path.join(fileFinderDir, uniqueFileName);
 
             before(function() {

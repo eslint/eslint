@@ -9,15 +9,15 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var rule = require("../../../lib/rules/no-useless-constructor");
-var RuleTester = require("../../../lib/testers/rule-tester");
+let rule = require("../../../lib/rules/no-useless-constructor");
+let RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-var ruleTester = new RuleTester();
-var error = {message: "Useless constructor.", type: "MethodDefinition"};
+let ruleTester = new RuleTester();
+let error = {message: "Useless constructor.", type: "MethodDefinition"};
 
 ruleTester.run("no-useless-constructor", rule, {
     valid: [

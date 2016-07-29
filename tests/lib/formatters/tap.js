@@ -9,7 +9,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var assert = require("chai").assert,
+let assert = require("chai").assert,
     formatter = require("../../../lib/formatters/tap");
 
 //------------------------------------------------------------------------------
@@ -18,20 +18,20 @@ var assert = require("chai").assert,
 
 describe("formatter:tap", function() {
     describe("when passed no messages", function() {
-        var code = [{
+        let code = [{
             filePath: "foo.js",
             messages: []
         }];
 
         it("should return nothing", function() {
-            var result = formatter(code);
+            let result = formatter(code);
 
             assert.equal(result, "TAP version 13\n1..1\nok 1 - foo.js\n");
         });
     });
 
     describe("when passed a single message", function() {
-        var code = [{
+        let code = [{
             filePath: "foo.js",
             messages: [{
                 message: "Unexpected foo.",
@@ -43,14 +43,14 @@ describe("formatter:tap", function() {
         }];
 
         it("should return a string with YAML severity, line and column", function() {
-            var result = formatter(code);
+            let result = formatter(code);
 
             assert.equal(result, "TAP version 13\n1..1\nnot ok 1 - foo.js\n  ---\n  message: Unexpected foo.\n  severity: error\n  data:\n    line: 5\n    column: 10\n    ruleId: foo\n  ...\n");
         });
 
         it("should return a string with line: x, column: y, severity: warning for warnings", function() {
             code[0].messages[0].severity = 1;
-            var result = formatter(code);
+            let result = formatter(code);
 
             assert.include(result, "line: 5");
             assert.include(result, "column: 10");
@@ -61,7 +61,7 @@ describe("formatter:tap", function() {
     });
 
     describe("when passed a fatal error message", function() {
-        var code = [{
+        let code = [{
             filePath: "foo.js",
             messages: [{
                 fatal: true,
@@ -73,7 +73,7 @@ describe("formatter:tap", function() {
         }];
 
         it("should return a an error string", function() {
-            var result = formatter(code);
+            let result = formatter(code);
 
             assert.include(result, "not ok");
             assert.include(result, "error");
@@ -81,7 +81,7 @@ describe("formatter:tap", function() {
     });
 
     describe("when passed multiple messages", function() {
-        var code = [{
+        let code = [{
             filePath: "foo.js",
             messages: [{
                 message: "Unexpected foo.",
@@ -105,7 +105,7 @@ describe("formatter:tap", function() {
         }];
 
         it("should return a string with multiple entries", function() {
-            var result = formatter(code);
+            let result = formatter(code);
 
             assert.include(result, "not ok");
             assert.include(result, "messages");
@@ -122,7 +122,7 @@ describe("formatter:tap", function() {
     });
 
     describe("when passed multiple files with 1 message each", function() {
-        var code = [{
+        let code = [{
             filePath: "foo.js",
             messages: [{
                 message: "Unexpected foo.",
@@ -143,7 +143,7 @@ describe("formatter:tap", function() {
         }];
 
         it("should return a string with multiple entries", function() {
-            var result = formatter(code);
+            let result = formatter(code);
 
             assert.include(result, "not ok 1");
             assert.include(result, "not ok 2");
@@ -151,7 +151,7 @@ describe("formatter:tap", function() {
     });
 
     describe("when passed one file not found message", function() {
-        var code = [{
+        let code = [{
             filePath: "foo.js",
             messages: [{
                 fatal: true,
@@ -160,7 +160,7 @@ describe("formatter:tap", function() {
         }];
 
         it("should return a string without line and column", function() {
-            var result = formatter(code);
+            let result = formatter(code);
 
             assert.include(result, "line: 0");
             assert.include(result, "column: 0");

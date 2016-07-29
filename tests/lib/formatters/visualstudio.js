@@ -9,7 +9,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var assert = require("chai").assert,
+let assert = require("chai").assert,
     formatter = require("../../../lib/formatters/visualstudio");
 
 //------------------------------------------------------------------------------
@@ -18,20 +18,20 @@ var assert = require("chai").assert,
 
 describe("formatter:visualstudio", function() {
     describe("when passed no messages", function() {
-        var code = [{
+        let code = [{
             filePath: "foo.js",
             messages: []
         }];
 
         it("should return nothing", function() {
-            var result = formatter(code);
+            let result = formatter(code);
 
             assert.equal(result, "no problems");
         });
     });
 
     describe("when passed a single message", function() {
-        var code = [{
+        let code = [{
             filePath: "foo.js",
             messages: [{
                 message: "Unexpected foo.",
@@ -43,21 +43,21 @@ describe("formatter:visualstudio", function() {
         }];
 
         it("should return a string in the format filename(x,y): error z for errors", function() {
-            var result = formatter(code);
+            let result = formatter(code);
 
             assert.equal(result, "foo.js(5,10): error foo : Unexpected foo.\n\n1 problem");
         });
 
         it("should return a string in the format filename(x,y): warning z for warnings", function() {
             code[0].messages[0].severity = 1;
-            var result = formatter(code);
+            let result = formatter(code);
 
             assert.equal(result, "foo.js(5,10): warning foo : Unexpected foo.\n\n1 problem");
         });
     });
 
     describe("when passed a fatal error message", function() {
-        var code = [{
+        let code = [{
             filePath: "foo.js",
             messages: [{
                 fatal: true,
@@ -69,14 +69,14 @@ describe("formatter:visualstudio", function() {
         }];
 
         it("should return a string in the format filename(x,y): error  z", function() {
-            var result = formatter(code);
+            let result = formatter(code);
 
             assert.equal(result, "foo.js(5,10): error foo : Unexpected foo.\n\n1 problem");
         });
     });
 
     describe("when passed multiple messages", function() {
-        var code = [{
+        let code = [{
             filePath: "foo.js",
             messages: [{
                 message: "Unexpected foo.",
@@ -94,14 +94,14 @@ describe("formatter:visualstudio", function() {
         }];
 
         it("should return a string with multiple entries", function() {
-            var result = formatter(code);
+            let result = formatter(code);
 
             assert.equal(result, "foo.js(5,10): error foo : Unexpected foo.\nfoo.js(6,11): warning bar : Unexpected bar.\n\n2 problems");
         });
     });
 
     describe("when passed multiple files with 1 message each", function() {
-        var code = [{
+        let code = [{
             filePath: "foo.js",
             messages: [{
                 message: "Unexpected foo.",
@@ -122,14 +122,14 @@ describe("formatter:visualstudio", function() {
         }];
 
         it("should return a string with multiple entries", function() {
-            var result = formatter(code);
+            let result = formatter(code);
 
             assert.equal(result, "foo.js(5,10): error foo : Unexpected foo.\nbar.js(6,11): warning bar : Unexpected bar.\n\n2 problems");
         });
     });
 
     describe("when passed one file not found message", function() {
-        var code = [{
+        let code = [{
             filePath: "foo.js",
             messages: [{
                 fatal: true,
@@ -138,7 +138,7 @@ describe("formatter:visualstudio", function() {
         }];
 
         it("should return a string without line and column", function() {
-            var result = formatter(code);
+            let result = formatter(code);
 
             assert.equal(result, "foo.js(0): error : Couldn't find foo.js.\n\n1 problem");
         });

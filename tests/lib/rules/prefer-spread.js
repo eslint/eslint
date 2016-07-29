@@ -9,16 +9,16 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var rule = require("../../../lib/rules/prefer-spread");
-var RuleTester = require("../../../lib/testers/rule-tester");
+let rule = require("../../../lib/rules/prefer-spread");
+let RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-var errors = [{message: "use the spread operator instead of the '.apply()'.", type: "CallExpression"}];
+let errors = [{message: "use the spread operator instead of the '.apply()'.", type: "CallExpression"}];
 
-var ruleTester = new RuleTester();
+let ruleTester = new RuleTester();
 
 ruleTester.run("prefer-spread", rule, {
     valid: [

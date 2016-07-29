@@ -8,7 +8,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var assert = require("chai").assert,
+let assert = require("chai").assert,
     Plugins = require("../../../lib/config/plugins"),
     proxyquire = require("proxyquire");
 
@@ -33,7 +33,7 @@ describe("Plugins", function() {
 
     describe("load()", function() {
 
-        var StubbedPlugins,
+        let StubbedPlugins,
             Rules,
             Environments,
             plugin;
@@ -97,7 +97,7 @@ describe("Plugins", function() {
 
     describe("loadAll()", function() {
 
-        var StubbedPlugins,
+        let StubbedPlugins,
             Rules,
             Environments,
             plugin1,
@@ -154,13 +154,13 @@ describe("Plugins", function() {
 
     describe("removePrefix()", function() {
         it("should remove common prefix when passed a plugin name  with a prefix", function() {
-            var pluginName = Plugins.removePrefix("eslint-plugin-test");
+            let pluginName = Plugins.removePrefix("eslint-plugin-test");
 
             assert.equal(pluginName, "test");
         });
 
         it("should not modify plugin name when passed a plugin name without a prefix", function() {
-            var pluginName = Plugins.removePrefix("test");
+            let pluginName = Plugins.removePrefix("test");
 
             assert.equal(pluginName, "test");
         });
@@ -168,7 +168,7 @@ describe("Plugins", function() {
 
     describe("getNamespace()", function() {
         it("should remove namepace when passed with namepace", function() {
-            var namespace = Plugins.getNamespace("@namepace/eslint-plugin-test");
+            let namespace = Plugins.getNamespace("@namepace/eslint-plugin-test");
 
             assert.equal(namespace, "@namepace/");
         });
@@ -176,7 +176,7 @@ describe("Plugins", function() {
 
     describe("removeNamespace()", function() {
         it("should remove namepace when passed with namepace", function() {
-            var namespace = Plugins.removeNamespace("@namepace/eslint-plugin-test");
+            let namespace = Plugins.removeNamespace("@namepace/eslint-plugin-test");
 
             assert.equal(namespace, "eslint-plugin-test");
         });

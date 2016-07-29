@@ -86,6 +86,7 @@ rules:
     no-useless-concat: "error"
     no-useless-constructor: "error"
     no-with: "error"
+    no-var: "error"
     one-var-declaration-per-line: "error"
     quotes: ["error", "double"]
     quote-props: ["error", "as-needed"]
