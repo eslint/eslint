@@ -57,7 +57,7 @@ ruleTester.run("rest-spread-spacing", rule, {
             errors: [{
                 line: 1,
                 column: 7,
-                message: "Unexpected whitespace after spread operator",
+                message: "Unexpected whitespace after spread operator.",
                 type: "SpreadElement"
             }]
         },
@@ -68,7 +68,7 @@ ruleTester.run("rest-spread-spacing", rule, {
             errors: [{
                 line: 1,
                 column: 7,
-                message: "Unexpected whitespace after spread operator",
+                message: "Unexpected whitespace after spread operator.",
                 type: "SpreadElement"
             }]
         },
@@ -79,7 +79,7 @@ ruleTester.run("rest-spread-spacing", rule, {
             errors: [{
                 line: 1,
                 column: 7,
-                message: "Unexpected whitespace after spread operator",
+                message: "Unexpected whitespace after spread operator.",
                 type: "SpreadElement"
             }]
         },
@@ -91,7 +91,7 @@ ruleTester.run("rest-spread-spacing", rule, {
             errors: [{
                 line: 1,
                 column: 7,
-                message: "Unexpected whitespace after spread operator",
+                message: "Unexpected whitespace after spread operator.",
                 type: "SpreadElement"
             }]
         },
@@ -103,7 +103,7 @@ ruleTester.run("rest-spread-spacing", rule, {
             errors: [{
                 line: 1,
                 column: 7,
-                message: "Unexpected whitespace after spread operator",
+                message: "Unexpected whitespace after spread operator.",
                 type: "SpreadElement"
             }]
         },
@@ -115,7 +115,7 @@ ruleTester.run("rest-spread-spacing", rule, {
             errors: [{
                 line: 1,
                 column: 7,
-                message: "Unexpected whitespace after spread operator",
+                message: "Unexpected whitespace after spread operator.",
                 type: "SpreadElement"
             }]
         },
@@ -127,7 +127,7 @@ ruleTester.run("rest-spread-spacing", rule, {
             errors: [{
                 line: 1,
                 column: 7,
-                message: "Expected whitespace after spread operator",
+                message: "Expected whitespace after spread operator.",
                 type: "SpreadElement"
             }]
         },
@@ -138,7 +138,7 @@ ruleTester.run("rest-spread-spacing", rule, {
             errors: [{
                 line: 1,
                 column: 7,
-                message: "Unexpected whitespace after spread operator",
+                message: "Unexpected whitespace after spread operator.",
                 type: "SpreadElement"
             }]
         },
@@ -149,7 +149,7 @@ ruleTester.run("rest-spread-spacing", rule, {
             errors: [{
                 line: 1,
                 column: 7,
-                message: "Unexpected whitespace after spread operator",
+                message: "Unexpected whitespace after spread operator.",
                 type: "SpreadElement"
             }]
         },
@@ -161,7 +161,7 @@ ruleTester.run("rest-spread-spacing", rule, {
             errors: [{
                 line: 1,
                 column: 7,
-                message: "Expected whitespace after spread operator",
+                message: "Expected whitespace after spread operator.",
                 type: "SpreadElement"
             }]
         },
@@ -173,7 +173,7 @@ ruleTester.run("rest-spread-spacing", rule, {
             errors: [{
                 line: 1,
                 column: 7,
-                message: "Expected whitespace after spread operator",
+                message: "Expected whitespace after spread operator.",
                 type: "SpreadElement"
             }]
         },
@@ -184,7 +184,7 @@ ruleTester.run("rest-spread-spacing", rule, {
             errors: [{
                 line: 1,
                 column: 5,
-                message: "Unexpected whitespace after spread operator",
+                message: "Unexpected whitespace after spread operator.",
                 type: "SpreadElement"
             }]
         },
@@ -195,7 +195,7 @@ ruleTester.run("rest-spread-spacing", rule, {
             errors: [{
                 line: 1,
                 column: 5,
-                message: "Unexpected whitespace after spread operator",
+                message: "Unexpected whitespace after spread operator.",
                 type: "SpreadElement"
             }]
         },
@@ -206,7 +206,7 @@ ruleTester.run("rest-spread-spacing", rule, {
             errors: [{
                 line: 1,
                 column: 5,
-                message: "Unexpected whitespace after spread operator",
+                message: "Unexpected whitespace after spread operator.",
                 type: "SpreadElement"
             }]
         },
@@ -218,7 +218,7 @@ ruleTester.run("rest-spread-spacing", rule, {
             errors: [{
                 line: 1,
                 column: 5,
-                message: "Unexpected whitespace after spread operator",
+                message: "Unexpected whitespace after spread operator.",
                 type: "SpreadElement"
             }]
         },
@@ -230,7 +230,7 @@ ruleTester.run("rest-spread-spacing", rule, {
             errors: [{
                 line: 1,
                 column: 5,
-                message: "Unexpected whitespace after spread operator",
+                message: "Unexpected whitespace after spread operator.",
                 type: "SpreadElement"
             }]
         },
@@ -242,7 +242,7 @@ ruleTester.run("rest-spread-spacing", rule, {
             errors: [{
                 line: 1,
                 column: 5,
-                message: "Unexpected whitespace after spread operator",
+                message: "Unexpected whitespace after spread operator.",
                 type: "SpreadElement"
             }]
         },
@@ -254,7 +254,7 @@ ruleTester.run("rest-spread-spacing", rule, {
             errors: [{
                 line: 1,
                 column: 5,
-                message: "Expected whitespace after spread operator",
+                message: "Expected whitespace after spread operator.",
                 type: "SpreadElement"
             }]
         },
@@ -265,7 +265,7 @@ ruleTester.run("rest-spread-spacing", rule, {
             errors: [{
                 line: 1,
                 column: 5,
-                message: "Unexpected whitespace after spread operator",
+                message: "Unexpected whitespace after spread operator.",
                 type: "SpreadElement"
             }]
         },
@@ -276,7 +276,7 @@ ruleTester.run("rest-spread-spacing", rule, {
             errors: [{
                 line: 1,
                 column: 5,
-                message: "Unexpected whitespace after spread operator",
+                message: "Unexpected whitespace after spread operator.",
                 type: "SpreadElement"
             }]
         },
@@ -288,7 +288,7 @@ ruleTester.run("rest-spread-spacing", rule, {
             errors: [{
                 line: 1,
                 column: 5,
-                message: "Expected whitespace after spread operator",
+                message: "Expected whitespace after spread operator.",
                 type: "SpreadElement"
             }]
         },
@@ -300,7 +300,7 @@ ruleTester.run("rest-spread-spacing", rule, {
             errors: [{
                 line: 1,
                 column: 5,
-                message: "Expected whitespace after spread operator",
+                message: "Expected whitespace after spread operator.",
                 type: "SpreadElement"
             }]
         },
@@ -311,7 +311,7 @@ ruleTester.run("rest-spread-spacing", rule, {
             errors: [{
                 line: 1,
                 column: 15,
-                message: "Unexpected whitespace after rest operator",
+                message: "Unexpected whitespace after rest operator.",
                 type: "RestElement"
             }]
         },
@@ -322,7 +322,7 @@ ruleTester.run("rest-spread-spacing", rule, {
             errors: [{
                 line: 1,
                 column: 15,
-                message: "Unexpected whitespace after rest operator",
+                message: "Unexpected whitespace after rest operator.",
                 type: "RestElement"
             }]
         },
@@ -333,7 +333,7 @@ ruleTester.run("rest-spread-spacing", rule, {
             errors: [{
                 line: 1,
                 column: 15,
-                message: "Unexpected whitespace after rest operator",
+                message: "Unexpected whitespace after rest operator.",
                 type: "RestElement"
             }]
         },
@@ -345,7 +345,7 @@ ruleTester.run("rest-spread-spacing", rule, {
             errors: [{
                 line: 1,
                 column: 15,
-                message: "Unexpected whitespace after rest operator",
+                message: "Unexpected whitespace after rest operator.",
                 type: "RestElement"
             }]
         },
@@ -357,7 +357,7 @@ ruleTester.run("rest-spread-spacing", rule, {
             errors: [{
                 line: 1,
                 column: 15,
-                message: "Unexpected whitespace after rest operator",
+                message: "Unexpected whitespace after rest operator.",
                 type: "RestElement"
             }]
         },
@@ -369,7 +369,7 @@ ruleTester.run("rest-spread-spacing", rule, {
             errors: [{
                 line: 1,
                 column: 15,
-                message: "Unexpected whitespace after rest operator",
+                message: "Unexpected whitespace after rest operator.",
                 type: "RestElement"
             }]
         },
@@ -381,7 +381,7 @@ ruleTester.run("rest-spread-spacing", rule, {
             errors: [{
                 line: 1,
                 column: 15,
-                message: "Expected whitespace after rest operator",
+                message: "Expected whitespace after rest operator.",
                 type: "RestElement"
             }]
         },
@@ -392,7 +392,7 @@ ruleTester.run("rest-spread-spacing", rule, {
             errors: [{
                 line: 1,
                 column: 20,
-                message: "Unexpected whitespace after spread property operator",
+                message: "Unexpected whitespace after spread property operator.",
                 type: "ExperimentalSpreadProperty"
             }]
         },
@@ -403,7 +403,7 @@ ruleTester.run("rest-spread-spacing", rule, {
             errors: [{
                 line: 1,
                 column: 20,
-                message: "Unexpected whitespace after spread property operator",
+                message: "Unexpected whitespace after spread property operator.",
                 type: "ExperimentalSpreadProperty"
             }]
         },
@@ -414,7 +414,7 @@ ruleTester.run("rest-spread-spacing", rule, {
             errors: [{
                 line: 1,
                 column: 20,
-                message: "Unexpected whitespace after spread property operator",
+                message: "Unexpected whitespace after spread property operator.",
                 type: "ExperimentalSpreadProperty"
             }]
         },
@@ -426,7 +426,7 @@ ruleTester.run("rest-spread-spacing", rule, {
             errors: [{
                 line: 1,
                 column: 20,
-                message: "Unexpected whitespace after spread property operator",
+                message: "Unexpected whitespace after spread property operator.",
                 type: "ExperimentalSpreadProperty"
             }]
         },
@@ -438,7 +438,7 @@ ruleTester.run("rest-spread-spacing", rule, {
             errors: [{
                 line: 1,
                 column: 20,
-                message: "Unexpected whitespace after spread property operator",
+                message: "Unexpected whitespace after spread property operator.",
                 type: "ExperimentalSpreadProperty"
             }]
         },
@@ -450,7 +450,7 @@ ruleTester.run("rest-spread-spacing", rule, {
             errors: [{
                 line: 1,
                 column: 20,
-                message: "Unexpected whitespace after spread property operator",
+                message: "Unexpected whitespace after spread property operator.",
                 type: "ExperimentalSpreadProperty"
             }]
         },
@@ -462,7 +462,7 @@ ruleTester.run("rest-spread-spacing", rule, {
             errors: [{
                 line: 1,
                 column: 20,
-                message: "Expected whitespace after spread property operator",
+                message: "Expected whitespace after spread property operator.",
                 type: "ExperimentalSpreadProperty"
             }]
         },
@@ -474,7 +474,7 @@ ruleTester.run("rest-spread-spacing", rule, {
             errors: [{
                 line: 1,
                 column: 20,
-                message: "Unexpected whitespace after spread property operator",
+                message: "Unexpected whitespace after spread property operator.",
                 type: "ExperimentalSpreadProperty"
             }]
         },
@@ -486,7 +486,7 @@ ruleTester.run("rest-spread-spacing", rule, {
             errors: [{
                 line: 1,
                 column: 20,
-                message: "Unexpected whitespace after spread property operator",
+                message: "Unexpected whitespace after spread property operator.",
                 type: "ExperimentalSpreadProperty"
             }]
         },
@@ -498,7 +498,7 @@ ruleTester.run("rest-spread-spacing", rule, {
             errors: [{
                 line: 1,
                 column: 20,
-                message: "Expected whitespace after spread property operator",
+                message: "Expected whitespace after spread property operator.",
                 type: "ExperimentalSpreadProperty"
             }]
         },
@@ -510,7 +510,7 @@ ruleTester.run("rest-spread-spacing", rule, {
             errors: [{
                 line: 1,
                 column: 20,
-                message: "Expected whitespace after spread property operator",
+                message: "Expected whitespace after spread property operator.",
                 type: "ExperimentalSpreadProperty"
             }]
         },
@@ -521,7 +521,7 @@ ruleTester.run("rest-spread-spacing", rule, {
             errors: [{
                 line: 1,
                 column: 16,
-                message: "Unexpected whitespace after rest property operator",
+                message: "Unexpected whitespace after rest property operator.",
                 type: "ExperimentalRestProperty"
             }]
         },
@@ -532,7 +532,7 @@ ruleTester.run("rest-spread-spacing", rule, {
             errors: [{
                 line: 1,
                 column: 16,
-                message: "Unexpected whitespace after rest property operator",
+                message: "Unexpected whitespace after rest property operator.",
                 type: "ExperimentalRestProperty"
             }]
         },
@@ -543,7 +543,7 @@ ruleTester.run("rest-spread-spacing", rule, {
             errors: [{
                 line: 1,
                 column: 16,
-                message: "Unexpected whitespace after rest property operator",
+                message: "Unexpected whitespace after rest property operator.",
                 type: "ExperimentalRestProperty"
             }]
         },
@@ -555,7 +555,7 @@ ruleTester.run("rest-spread-spacing", rule, {
             errors: [{
                 line: 1,
                 column: 16,
-                message: "Unexpected whitespace after rest property operator",
+                message: "Unexpected whitespace after rest property operator.",
                 type: "ExperimentalRestProperty"
             }]
         },
@@ -567,7 +567,7 @@ ruleTester.run("rest-spread-spacing", rule, {
             errors: [{
                 line: 1,
                 column: 16,
-                message: "Unexpected whitespace after rest property operator",
+                message: "Unexpected whitespace after rest property operator.",
                 type: "ExperimentalRestProperty"
             }]
         },
@@ -579,7 +579,7 @@ ruleTester.run("rest-spread-spacing", rule, {
             errors: [{
                 line: 1,
                 column: 16,
-                message: "Unexpected whitespace after rest property operator",
+                message: "Unexpected whitespace after rest property operator.",
                 type: "ExperimentalRestProperty"
             }]
         },
@@ -591,7 +591,7 @@ ruleTester.run("rest-spread-spacing", rule, {
             errors: [{
                 line: 1,
                 column: 16,
-                message: "Expected whitespace after rest property operator",
+                message: "Expected whitespace after rest property operator.",
                 type: "ExperimentalRestProperty"
             }]
         }

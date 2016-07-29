@@ -24,6 +24,6 @@ ruleTester.run("new-parens", rule, {
         "var a = new Date(function() {});"
     ],
     invalid: [
-        { code: "var a = new Date;", errors: [{ message: "Missing '()' invoking a constructor", type: "NewExpression"}] }
+        { code: "var a = new Date;", errors: [{ message: "Missing '()' invoking a constructor.", type: "NewExpression"}] }
     ]
 });

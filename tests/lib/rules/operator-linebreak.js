@@ -15,7 +15,7 @@ let rule = require("../../../lib/rules/operator-linebreak"),
 let BAD_LN_BRK_MSG = "Bad line breaking before and after '%s'.",
     BEFORE_MSG = "'%s' should be placed at the beginning of the line.",
     AFTER_MSG = "'%s' should be placed at the end of the line.",
-    NONE_MSG = "There should be no line break before or after '%s'";
+    NONE_MSG = "There should be no line break before or after '%s'.";
 
 //------------------------------------------------------------------------------
 // Tests

@@ -25,7 +25,7 @@ let ruleTester = new RuleTester();
  * @returns {string} error message
  */
 function errorMessage(lines) {
-    return "File must be at most " + lines + " lines long";
+    return "File must be at most " + lines + " lines long.";
 }
 
 ruleTester.run("max-lines", rule, {

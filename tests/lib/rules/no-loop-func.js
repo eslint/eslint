@@ -17,7 +17,7 @@ let rule = require("../../../lib/rules/no-loop-func"),
 //------------------------------------------------------------------------------
 
 let ruleTester = new RuleTester(),
-    expectedErrorMessage = "Don't make functions within a loop";
+    expectedErrorMessage = "Don't make functions within a loop.";
 
 ruleTester.run("no-loop-func", rule, {
     valid: [
