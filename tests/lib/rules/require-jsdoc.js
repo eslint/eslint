@@ -4,14 +4,14 @@
  */
 "use strict";
 
-var rule = require("../../../lib/rules/require-jsdoc"),
+let rule = require("../../../lib/rules/require-jsdoc"),
     RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-var ruleTester = new RuleTester();
+let ruleTester = new RuleTester();
 
 ruleTester.run("require-jsdoc", rule, {
     valid: [

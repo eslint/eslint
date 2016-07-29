@@ -9,7 +9,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var assert = require("assert"),
+let assert = require("assert"),
     EventEmitter = require("events").EventEmitter,
     fs = require("fs"),
     path = require("path"),
@@ -25,8 +25,8 @@ var assert = require("assert"),
 // Helpers
 //------------------------------------------------------------------------------
 
-var expectedPattern = /\/\*expected\s+((?:.|[\r\n])+?)\s*\*\//g;
-var lineEndingPattern = /\r?\n/g;
+let expectedPattern = /\/\*expected\s+((?:.|[\r\n])+?)\s*\*\//g;
+let lineEndingPattern = /\r?\n/g;
 
 /**
  * Extracts the content of `/*expected` comments from a given source code.
@@ -38,8 +38,8 @@ var lineEndingPattern = /\r?\n/g;
 function getExpectedDotArrows(source) {
     expectedPattern.lastIndex = 0;
 
-    var retv = [];
-    var m;
+    let retv = [];
+    let m;
 
     while ((m = expectedPattern.exec(source)) !== null) {
         retv.push(m[1].replace(lineEndingPattern, "\n"));
@@ -63,7 +63,7 @@ describe("CodePathAnalyzer", function() {
     );
 
     describe("interface of code paths", function() {
-        var actual = [];
+        let actual = [];
 
         beforeEach(function() {
             actual = [];
@@ -146,7 +146,7 @@ describe("CodePathAnalyzer", function() {
 
             // there is the current segment in progress.
             eslint.defineRule("test", function() {
-                var codePath = null;
+                let codePath = null;
 
                 return {
                     onCodePathStart: function(cp) {
@@ -170,7 +170,7 @@ describe("CodePathAnalyzer", function() {
     });
 
     describe("interface of code path segments", function() {
-        var actual = [];
+        let actual = [];
 
         beforeEach(function() {
             actual = [];
@@ -260,8 +260,8 @@ describe("CodePathAnalyzer", function() {
 
     describe("onCodePathStart", function() {
         it("should be fired at the head of programs/functions", function() {
-            var count = 0;
-            var lastCodePathNodeType = null;
+            let count = 0;
+            let lastCodePathNodeType = null;
 
             eslint.defineRule("test", function() {
                 return {
@@ -305,8 +305,8 @@ describe("CodePathAnalyzer", function() {
 
     describe("onCodePathEnd", function() {
         it("should be fired at the end of programs/functions", function() {
-            var count = 0;
-            var lastNodeType = null;
+            let count = 0;
+            let lastNodeType = null;
 
             eslint.defineRule("test", function() {
                 return {
@@ -350,8 +350,8 @@ describe("CodePathAnalyzer", function() {
 
     describe("onCodePathSegmentStart", function() {
         it("should be fired at the head of programs/functions for the initial segment", function() {
-            var count = 0;
-            var lastCodePathNodeType = null;
+            let count = 0;
+            let lastCodePathNodeType = null;
 
             eslint.defineRule("test", function() {
                 return {
@@ -395,8 +395,8 @@ describe("CodePathAnalyzer", function() {
 
     describe("onCodePathSegmentEnd", function() {
         it("should be fired at the end of programs/functions for the final segment", function() {
-            var count = 0;
-            var lastNodeType = null;
+            let count = 0;
+            let lastNodeType = null;
 
             eslint.defineRule("test", function() {
                 return {
@@ -440,7 +440,7 @@ describe("CodePathAnalyzer", function() {
 
     describe("onCodePathSegmentLoop", function() {
         it("should be fired in `while` loops", function() {
-            var count = 0;
+            let count = 0;
 
             eslint.defineRule("test", function() {
                 return {
@@ -461,7 +461,7 @@ describe("CodePathAnalyzer", function() {
         });
 
         it("should be fired in `do-while` loops", function() {
-            var count = 0;
+            let count = 0;
 
             eslint.defineRule("test", function() {
                 return {
@@ -482,7 +482,7 @@ describe("CodePathAnalyzer", function() {
         });
 
         it("should be fired in `for` loops", function() {
-            var count = 0;
+            let count = 0;
 
             eslint.defineRule("test", function() {
                 return {
@@ -510,7 +510,7 @@ describe("CodePathAnalyzer", function() {
         });
 
         it("should be fired in `for-in` loops", function() {
-            var count = 0;
+            let count = 0;
 
             eslint.defineRule("test", function() {
                 return {
@@ -538,7 +538,7 @@ describe("CodePathAnalyzer", function() {
         });
 
         it("should be fired in `for-of` loops", function() {
-            var count = 0;
+            let count = 0;
 
             eslint.defineRule("test", function() {
                 return {
@@ -567,14 +567,14 @@ describe("CodePathAnalyzer", function() {
     });
 
     describe("completed code paths are correct", function() {
-        var testDataDir = path.join(__dirname, "../../fixtures/code-path-analysis/");
-        var testDataFiles = fs.readdirSync(testDataDir);
+        let testDataDir = path.join(__dirname, "../../fixtures/code-path-analysis/");
+        let testDataFiles = fs.readdirSync(testDataDir);
 
         testDataFiles.forEach(function(file) {
             it(file, function() {
-                var source = fs.readFileSync(path.join(testDataDir, file), {encoding: "utf8"});
-                var expected = getExpectedDotArrows(source);
-                var actual = [];
+                let source = fs.readFileSync(path.join(testDataDir, file), {encoding: "utf8"});
+                let expected = getExpectedDotArrows(source);
+                let actual = [];
 
                 assert(expected.length > 0, "/*expected */ comments not found.");
 
@@ -585,12 +585,12 @@ describe("CodePathAnalyzer", function() {
                         }
                     };
                 });
-                var messages = eslint.verify(source, {rules: {test: 2}, env: {es6: true}});
+                let messages = eslint.verify(source, {rules: {test: 2}, env: {es6: true}});
 
                 assert.equal(messages.length, 0);
                 assert.equal(actual.length, expected.length, "a count of code paths is wrong.");
 
-                for (var i = 0; i < actual.length; ++i) {
+                for (let i = 0; i < actual.length; ++i) {
                     assert.equal(actual[i], expected[i]);
                 }
             });

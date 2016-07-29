@@ -9,19 +9,19 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var rule = require("../../../lib/rules/no-fallthrough"),
+let rule = require("../../../lib/rules/no-fallthrough"),
     RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-var errorsDefault = [{
+let errorsDefault = [{
     message: "Expected a 'break' statement before 'default'.",
     type: "SwitchCase"
 }];
 
-var ruleTester = new RuleTester();
+let ruleTester = new RuleTester();
 
 ruleTester.run("no-fallthrough", rule, {
     valid: [

@@ -9,15 +9,15 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var rule = require("../../../lib/rules/arrow-parens"),
+let rule = require("../../../lib/rules/arrow-parens"),
     RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
-var ruleTester = new RuleTester();
+let ruleTester = new RuleTester();
 
-var valid = [
+let valid = [
     { code: "() => {}", parserOptions: { ecmaVersion: 6 } },
     { code: "(a) => {}", parserOptions: { ecmaVersion: 6 } },
     { code: "(a) => a", parserOptions: { ecmaVersion: 6 } },
@@ -37,11 +37,11 @@ var valid = [
 
 ];
 
-var message = "Expected parentheses around arrow function argument.";
-var asNeededMessage = "Unexpected parentheses around single function argument";
-var type = "ArrowFunctionExpression";
+let message = "Expected parentheses around arrow function argument.";
+let asNeededMessage = "Unexpected parentheses around single function argument";
+let type = "ArrowFunctionExpression";
 
-var invalid = [
+let invalid = [
     {
         code: "a => {}",
         output: "(a) => {}",

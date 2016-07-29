@@ -9,14 +9,14 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var rule = require("../../../lib/rules/padded-blocks"),
+let rule = require("../../../lib/rules/padded-blocks"),
     RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-var ruleTester = new RuleTester(),
+let ruleTester = new RuleTester(),
     ALWAYS_MESSAGE = "Block must be padded by blank lines.",
     NEVER_MESSAGE = "Block must not be padded by blank lines.";
 

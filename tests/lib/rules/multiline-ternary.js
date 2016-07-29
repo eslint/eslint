@@ -9,16 +9,16 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var rule = require("../../../lib/rules/multiline-ternary");
-var RuleTester = require("../../../lib/testers/rule-tester");
+let rule = require("../../../lib/rules/multiline-ternary");
+let RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-var ruleTester = new RuleTester();
-var testConsMsg = "Expected newline between test and consequent of ternary expression.";
-var consAltMsg = "Expected newline between consequent and alternate of ternary expression.";
+let ruleTester = new RuleTester();
+let testConsMsg = "Expected newline between test and consequent of ternary expression.";
+let consAltMsg = "Expected newline between consequent and alternate of ternary expression.";
 
 ruleTester.run("multiline-ternary", rule, {
     valid: [

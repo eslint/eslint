@@ -8,14 +8,14 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var rule = require("../../../lib/rules/no-multiple-empty-lines"),
+let rule = require("../../../lib/rules/no-multiple-empty-lines"),
     RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-var ruleTester = new RuleTester();
+let ruleTester = new RuleTester();
 
 /**
  * Creates the expected error message object for the specified number of lines
@@ -24,7 +24,7 @@ var ruleTester = new RuleTester();
  * @private
  */
 function getExpectedError(lines) {
-    var message = lines === 1
+    let message = lines === 1
         ? "More than 1 blank line not allowed."
         : "More than " + lines + " blank lines not allowed.";
 

@@ -9,7 +9,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var rule = require("../../../lib/rules/use-isnan"),
+let rule = require("../../../lib/rules/use-isnan"),
     RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
@@ -17,7 +17,7 @@ var rule = require("../../../lib/rules/use-isnan"),
 //------------------------------------------------------------------------------
 
 
-var ruleTester = new RuleTester();
+let ruleTester = new RuleTester();
 
 ruleTester.run("use-isnan", rule, {
     valid: [

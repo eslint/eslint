@@ -10,7 +10,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var sinon = require("sinon"),
+let sinon = require("sinon"),
     eslint = require("../../../lib/eslint"),
     RuleTester = require("../../../lib/testers/rule-tester"),
     assert = require("chai").assert;
@@ -44,7 +44,7 @@ RuleTester.it = function(text, method) {
 
 describe("RuleTester", function() {
 
-    var ruleTester;
+    let ruleTester;
 
     beforeEach(function() {
         RuleTester.resetDefaultConfig();
@@ -223,7 +223,7 @@ describe("RuleTester", function() {
     });
 
     it("should throw an error if invalid code specifies wrong column", function() {
-        var wrongColumn = 10,
+        let wrongColumn = 10,
             expectedErrorMessage = "Error column should be 1";
 
         assert.throws(function() {
@@ -452,7 +452,7 @@ describe("RuleTester", function() {
     it("should pass-through the parser to the rule", function() {
 
         assert.doesNotThrow(function() {
-            var spy = sinon.spy(eslint, "verify");
+            let spy = sinon.spy(eslint, "verify");
 
             ruleTester.run("no-eval", require("../../fixtures/testers/rule-tester/no-eval"), {
                 valid: [
@@ -521,7 +521,7 @@ describe("RuleTester", function() {
     });
 
     it("should correctly set the global configuration", function() {
-        var config = { global: { test: true } };
+        let config = { global: { test: true } };
 
         RuleTester.setDefaultConfig(config);
         assert(
@@ -531,7 +531,7 @@ describe("RuleTester", function() {
     });
 
     it("should correctly reset the global configuration", function() {
-        var config = { global: { test: true } };
+        let config = { global: { test: true } };
 
         RuleTester.setDefaultConfig(config);
         RuleTester.resetDefaultConfig();
@@ -564,7 +564,7 @@ describe("RuleTester", function() {
     });
 
     it("should pass-through the global config to the tester then to the to rule", function() {
-        var config = { global: { test: true } };
+        let config = { global: { test: true } };
 
         RuleTester.setDefaultConfig(config);
         ruleTester = new RuleTester();

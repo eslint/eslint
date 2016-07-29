@@ -8,7 +8,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var assert,
+let assert,
     formatter;
 
 assert = require("chai").assert;
@@ -20,7 +20,7 @@ formatter = require("../../../lib/formatters/table");
 
 describe("formatter:table", function() {
     describe("when passed no messages", function() {
-        var code;
+        let code;
 
         code = [
             {
@@ -32,7 +32,7 @@ describe("formatter:table", function() {
         ];
 
         it("should return a table of error and warning count with no messages", function() {
-            var expectedOutput,
+            let expectedOutput,
                 result;
 
             expectedOutput = [
@@ -55,7 +55,7 @@ describe("formatter:table", function() {
 
     describe("when passed a single message", function() {
         it("should return a string in the correct format for errors", function() {
-            var expectedOutput,
+            let expectedOutput,
                 code,
                 result;
 
@@ -100,7 +100,7 @@ describe("formatter:table", function() {
         });
 
         it("should return a string in the correct format for warnings", function() {
-            var expectedOutput,
+            let expectedOutput,
                 code,
                 result;
 
@@ -146,7 +146,7 @@ describe("formatter:table", function() {
 
     describe("when passed a fatal error message", function() {
         it("should return a string in the correct format", function() {
-            var code,
+            let code,
                 expectedOutput,
                 result;
 
@@ -193,7 +193,7 @@ describe("formatter:table", function() {
 
     describe("when passed multiple messages", function() {
         it("should return a string with multiple entries", function() {
-            var code,
+            let code,
                 expectedOutput,
                 result;
 
@@ -248,7 +248,7 @@ describe("formatter:table", function() {
 
     describe("when passed multiple files with 1 message each", function() {
         it("should return a string with multiple entries", function() {
-            var code,
+            let code,
                 expectedOutput,
                 result;
 
@@ -314,7 +314,7 @@ describe("formatter:table", function() {
 
     describe("when passed one file not found message", function() {
         it("should return a string without line and column (0, 0)", function() {
-            var code,
+            let code,
                 expectedOutput,
                 result;
 

@@ -8,7 +8,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var assert = require("chai").assert,
+let assert = require("chai").assert,
     envs = require("../../../conf/environments"),
     Environments = require("../../../lib/config/environments");
 
@@ -42,11 +42,11 @@ describe("Environments", function() {
         });
 
         it("should add an environment with the given name", function() {
-            var env = { globals: { foo: true }};
+            let env = { globals: { foo: true }};
 
             Environments.define("foo", env);
 
-            var result = Environments.get("foo");
+            let result = Environments.get("foo");
 
             assert.deepEqual(result, env);
         });
@@ -59,7 +59,7 @@ describe("Environments", function() {
         });
 
         it("should import all environments from a plugin object", function() {
-            var plugin = {
+            let plugin = {
                 environments: {
                     foo: {
                         globals: { foo: true }
@@ -72,7 +72,7 @@ describe("Environments", function() {
 
             Environments.importPlugin(plugin, "plugin");
 
-            var fooEnv = Environments.get("plugin/foo"),
+            let fooEnv = Environments.get("plugin/foo"),
                 barEnv = Environments.get("plugin/bar");
 
             assert.deepEqual(fooEnv, plugin.environments.foo);

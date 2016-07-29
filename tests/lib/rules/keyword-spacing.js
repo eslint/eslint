@@ -9,15 +9,15 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var rule = require("../../../lib/rules/keyword-spacing"),
+let rule = require("../../../lib/rules/keyword-spacing"),
     RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
 // Helpers
 //------------------------------------------------------------------------------
 
-var BOTH = {before: true, after: true};
-var NEITHER = {before: false, after: false};
+let BOTH = {before: true, after: true};
+let NEITHER = {before: false, after: false};
 
 /**
  * Creates an option object to test an "overrides" option.
@@ -39,7 +39,7 @@ var NEITHER = {before: false, after: false};
  * @returns {Object} An option object to test an "overrides" option.
  */
 function override(keyword, value) {
-    var retv = {
+    let retv = {
         before: value.before === false,
         after: value.after === false,
         overrides: {}
@@ -122,7 +122,7 @@ function unexpectedBeforeAndAfter(keyword) {
 // Tests
 //------------------------------------------------------------------------------
 
-var ruleTester = new RuleTester();
+let ruleTester = new RuleTester();
 
 ruleTester.run("keyword-spacing", rule, {
     valid: [

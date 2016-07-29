@@ -9,14 +9,14 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var rule = require("../../../lib/rules/no-implied-eval"),
+let rule = require("../../../lib/rules/no-implied-eval"),
     RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-var ruleTester = new RuleTester(),
+let ruleTester = new RuleTester(),
     expectedErrorMessage = "Implied eval. Consider passing a function instead of a string.",
     expectedError = { message: expectedErrorMessage, type: "CallExpression" };
 
