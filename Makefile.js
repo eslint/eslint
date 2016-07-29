@@ -663,11 +663,14 @@ target.gensite = function(prereleaseVersion) {
                 }
                 text += "* [Documentation source](" + docsUrl + baseName + ")\n";
             }
+
+            // 9. Update content of the file with changes
+            text.to(filename.replace("README.md", "index.md"));
         }
     });
     JSON.stringify(versions).to("./versions.json");
 
-    // 10. Copy temorary directory to site's docs folder
+    // 10. Copy temporary directory to site's docs folder
     let outputDir = DOCS_DIR;
 
     if (prereleaseVersion) {
