@@ -16,7 +16,7 @@ The common case of using `void` operator is to get a "pure" `undefined` value as
     return undefined;
 })();
 
-// will throw TypeError is ES5+
+// will throw TypeError in ES5+
 (function(){
     'use strict';
     undefined = 1;
@@ -30,7 +30,7 @@ foo = void 0;
 foo = undefined;
 ```
 
-When used with IIFE (immediately-invoked function expression) `void` can be used to force the function keyword to be treated as an expression instead of a declaration:
+When used with IIFE (immediately-invoked function expression), `void` can be used to force the function keyword to be treated as an expression instead of a declaration:
 
 ```js
 var foo = 1;
@@ -42,7 +42,7 @@ void function(){ foo = 1; }() // will assign foo a value of 1
 function(){ foo = 1; }() // will throw SyntaxError
 ```
 
-Some code styles prohibit `void` operator marking it as non-obvious and hard to read.
+Some code styles prohibit `void` operator, marking it as non-obvious and hard to read.
 
 ## Rule Details
 
