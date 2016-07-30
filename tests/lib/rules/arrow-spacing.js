@@ -9,16 +9,16 @@
 //------------------------------------------------------------------------------
 //
 
-let rule = require("../../../lib/rules/arrow-spacing"),
+const rule = require("../../../lib/rules/arrow-spacing"),
     RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-let ruleTester = new RuleTester();
+const ruleTester = new RuleTester();
 
-let valid = [
+const valid = [
     {
         parserOptions: { ecmaVersion: 6 },
         code: "a => a",
@@ -109,7 +109,7 @@ let valid = [
 ];
 
 
-let invalid = [
+const invalid = [
     {
         code: "a=>a",
         output: "a => a",

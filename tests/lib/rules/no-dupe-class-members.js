@@ -9,14 +9,14 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-let rule = require("../../../lib/rules/no-dupe-class-members");
-let RuleTester = require("../../../lib/testers/rule-tester");
+const rule = require("../../../lib/rules/no-dupe-class-members");
+const RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-let ruleTester = new RuleTester();
+const ruleTester = new RuleTester();
 
 ruleTester.run("no-dupe-class-members", rule, {
     valid: [

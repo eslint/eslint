@@ -9,10 +9,10 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-let rule = require("../../../lib/rules/max-nested-callbacks"),
+const rule = require("../../../lib/rules/max-nested-callbacks"),
     RuleTester = require("../../../lib/testers/rule-tester");
 
-let OPENING = "foo(function() {",
+const OPENING = "foo(function() {",
     CLOSING = "});";
 
 /**
@@ -35,7 +35,7 @@ function nestFunctions(times) {
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
-let ruleTester = new RuleTester();
+const ruleTester = new RuleTester();
 
 ruleTester.run("max-nested-callbacks", rule, {
     valid: [

@@ -9,15 +9,15 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-let rule = require("../../../lib/rules/no-cond-assign"),
+const rule = require("../../../lib/rules/no-cond-assign"),
     RuleTester = require("../../../lib/testers/rule-tester");
-let ERROR_MESSAGE = "Expected a conditional expression and instead saw an assignment.";
+const ERROR_MESSAGE = "Expected a conditional expression and instead saw an assignment.";
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-let ruleTester = new RuleTester();
+const ruleTester = new RuleTester();
 
 ruleTester.run("no-cond-assign", rule, {
     valid: [

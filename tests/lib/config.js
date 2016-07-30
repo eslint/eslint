@@ -9,20 +9,20 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-let assert = require("chai").assert,
+const assert = require("chai").assert,
     path = require("path"),
     fs = require("fs"),
     os = require("os"),
     Config = require("../../lib/config"),
     environments = require("../../conf/environments"),
     sinon = require("sinon"),
-    proxyquire = require("proxyquire"),
     mockFs = require("mock-fs");
 
-let DIRECTORY_CONFIG_HIERARCHY = require("../fixtures/config-hierarchy/file-structure.json");
+const DIRECTORY_CONFIG_HIERARCHY = require("../fixtures/config-hierarchy/file-structure.json");
 
 require("shelljs/global");
-proxyquire = proxyquire.noCallThru().noPreserveCache();
+
+const proxyquire = require("proxyquire").noCallThru().noPreserveCache();
 
 /* global mkdir, rm, cp */
 
@@ -37,10 +37,10 @@ proxyquire = proxyquire.noCallThru().noPreserveCache();
 function createStubbedConfigWithPlugins(plugins) {
 
     // stub out plugins
-    let StubbedPlugins = proxyquire("../../lib/config/plugins", plugins);
+    const StubbedPlugins = proxyquire("../../lib/config/plugins", plugins);
 
     // stub out config file to use stubbed plugins
-    let StubbedConfigFile = proxyquire("../../lib/config/config-file", {
+    const StubbedConfigFile = proxyquire("../../lib/config/config-file", {
         "./plugins": StubbedPlugins
     });
 
@@ -96,7 +96,7 @@ describe("Config", function() {
      * @private
      */
     function getFixturePath() {
-        let args = Array.prototype.slice.call(arguments);
+        const args = Array.prototype.slice.call(arguments);
 
         args.unshift("config-hierarchy");
         args.unshift(fixtureDir);
@@ -137,7 +137,7 @@ describe("Config", function() {
 
         // https://github.com/eslint/eslint/issues/2380
         it("should not modify baseConfig when format is specified", function() {
-            let customBaseConfig = { foo: "bar" },
+            const customBaseConfig = { foo: "bar" },
                 configHelper = new Config({ baseConfig: customBaseConfig, format: "foo" });
 
             // at one point, customBaseConfig.format would end up equal to "foo"...that's bad
@@ -154,7 +154,7 @@ describe("Config", function() {
          * @private
          */
         function getFakeFixturePath() {
-            let args = Array.prototype.slice.call(arguments);
+            const args = Array.prototype.slice.call(arguments);
 
             args.unshift("config-hierarchy");
             args.unshift("fixtures");
@@ -178,7 +178,7 @@ describe("Config", function() {
         });
 
         it("should return the path when an .eslintrc file is found", function() {
-            let configHelper = new Config(),
+            const configHelper = new Config(),
                 expected = getFakeFixturePath("broken", ".eslintrc"),
                 actual = configHelper.findLocalConfigFiles(getFakeFixturePath("broken"))[0];
 
@@ -186,7 +186,7 @@ describe("Config", function() {
         });
 
         it("should return an empty array when an .eslintrc file is not found", function() {
-            let configHelper = new Config(),
+            const configHelper = new Config(),
                 actual = configHelper.findLocalConfigFiles(getFakeFixturePath());
 
             assert.isArray(actual);
@@ -194,7 +194,7 @@ describe("Config", function() {
         });
 
         it("should return package.json only when no other config files are found", function() {
-            let configHelper = new Config(),
+            const configHelper = new Config(),
                 expected0 = getFakeFixturePath("packagejson", "subdir", "package.json"),
                 expected1 = getFakeFixturePath("packagejson", ".eslintrc"),
                 actual = configHelper.findLocalConfigFiles(getFakeFixturePath("packagejson", "subdir"));
@@ -206,7 +206,7 @@ describe("Config", function() {
         });
 
         it("should return the only one config file even if there are multiple found", function() {
-            let configHelper = new Config(),
+            const configHelper = new Config(),
                 expected = getFakeFixturePath("broken", ".eslintrc"),
 
                 // The first element of the array is the .eslintrc in the same directory.
@@ -217,7 +217,7 @@ describe("Config", function() {
         });
 
         it("should return all possible files when multiple are found", function() {
-            let configHelper = new Config(),
+            const configHelper = new Config(),
                 expected = [
                     getFakeFixturePath("fileexts/subdir/subsubdir/", ".eslintrc.json"),
                     getFakeFixturePath("fileexts/subdir/", ".eslintrc.yml"),
@@ -230,7 +230,7 @@ describe("Config", function() {
         });
 
         it("should return an empty array when a package.json file is not found", function() {
-            let configHelper = new Config(),
+            const configHelper = new Config(),
                 actual = configHelper.findLocalConfigFiles(getFakeFixturePath());
 
             assert.isArray(actual);
@@ -241,7 +241,7 @@ describe("Config", function() {
     describe("getConfig()", function() {
 
         it("should return the project config when called in current working directory", function() {
-            let configHelper = new Config({cwd: process.cwd()}),
+            const configHelper = new Config({cwd: process.cwd()}),
                 actual = configHelper.getConfig();
 
             assert.equal(actual.rules.strict[1], "global");
@@ -249,11 +249,11 @@ describe("Config", function() {
 
         it("should not retain configs from previous directories when called multiple times", function() {
 
-            let firstpath = path.resolve(__dirname, "..", "fixtures", "configurations", "single-quotes", "subdir", ".eslintrc");
-            let secondpath = path.resolve(__dirname, "..", "fixtures", "configurations", "single-quotes", ".eslintrc");
+            const firstpath = path.resolve(__dirname, "..", "fixtures", "configurations", "single-quotes", "subdir", ".eslintrc");
+            const secondpath = path.resolve(__dirname, "..", "fixtures", "configurations", "single-quotes", ".eslintrc");
 
-            let configHelper = new Config({cwd: process.cwd()}),
-                config;
+            const configHelper = new Config({cwd: process.cwd()});
+            let config;
 
             config = configHelper.getConfig(firstpath);
             assert.equal(config.rules["no-new"], 0);
@@ -263,12 +263,12 @@ describe("Config", function() {
         });
 
         it("should throw an error when an invalid path is given", function() {
-            let configPath = path.resolve(__dirname, "..", "fixtures", "configurations", "foobaz", ".eslintrc");
-            let homePath = "does-not-exist";
+            const configPath = path.resolve(__dirname, "..", "fixtures", "configurations", "foobaz", ".eslintrc");
+            const homePath = "does-not-exist";
 
-            let StubbedConfig = proxyquire("../../lib/config", { "user-home": homePath });
+            const StubbedConfig = proxyquire("../../lib/config", { "user-home": homePath });
 
-            let configHelper = new StubbedConfig({cwd: process.cwd()});
+            const configHelper = new StubbedConfig({cwd: process.cwd()});
 
             sandbox.stub(fs, "readdirSync").throws(new Error());
 
@@ -278,8 +278,8 @@ describe("Config", function() {
         });
 
         it("should throw error when a configuration file doesn't exist", function() {
-            let configPath = path.resolve(__dirname, "..", "fixtures", "configurations", ".eslintrc");
-            let configHelper = new Config({cwd: process.cwd()});
+            const configPath = path.resolve(__dirname, "..", "fixtures", "configurations", ".eslintrc");
+            const configHelper = new Config({cwd: process.cwd()});
 
             sandbox.stub(fs, "readFileSync").throws(new Error());
 
@@ -290,8 +290,8 @@ describe("Config", function() {
         });
 
         it("should throw error when a configuration file is not require-able", function() {
-            let configPath = ".eslintrc";
-            let configHelper = new Config({cwd: process.cwd()});
+            const configPath = ".eslintrc";
+            const configHelper = new Config({cwd: process.cwd()});
 
             sandbox.stub(fs, "readFileSync").throws(new Error());
 
@@ -302,14 +302,14 @@ describe("Config", function() {
         });
 
         it("should cache config when the same directory is passed twice", function() {
-            let configPath = path.resolve(__dirname, "..", "fixtures", "configurations", "single-quotes", ".eslintrc");
-            let configHelper = new Config({cwd: process.cwd()});
+            const configPath = path.resolve(__dirname, "..", "fixtures", "configurations", "single-quotes", ".eslintrc");
+            const configHelper = new Config({cwd: process.cwd()});
 
             sandbox.spy(configHelper, "findLocalConfigFiles");
 
             // If cached this should be called only once
             configHelper.getConfig(configPath);
-            let callcount = configHelper.findLocalConfigFiles.callcount;
+            const callcount = configHelper.findLocalConfigFiles.callcount;
 
             configHelper.getConfig(configPath);
 
@@ -318,7 +318,7 @@ describe("Config", function() {
 
         // make sure JS-style comments don't throw an error
         it("should load the config file when there are JS-style comments in the text", function() {
-            let configPath = path.resolve(__dirname, "..", "fixtures", "configurations", "comments.json"),
+            const configPath = path.resolve(__dirname, "..", "fixtures", "configurations", "comments.json"),
                 configHelper = new Config({configFile: configPath}),
                 semi = configHelper.useSpecificConfig.rules.semi,
                 strict = configHelper.useSpecificConfig.rules.strict;
@@ -329,7 +329,7 @@ describe("Config", function() {
 
         // make sure YAML files work correctly
         it("should load the config file when a YAML file is used", function() {
-            let configPath = path.resolve(__dirname, "..", "fixtures", "configurations", "env-browser.yaml"),
+            const configPath = path.resolve(__dirname, "..", "fixtures", "configurations", "env-browser.yaml"),
                 configHelper = new Config({configFile: configPath}),
                 noAlert = configHelper.useSpecificConfig.rules["no-alert"],
                 noUndef = configHelper.useSpecificConfig.rules["no-undef"];
@@ -339,7 +339,7 @@ describe("Config", function() {
         });
 
         it("should contain the correct value for parser when a custom parser is specified", function() {
-            let configPath = path.resolve(__dirname, "../fixtures/configurations/parser/.eslintrc.json"),
+            const configPath = path.resolve(__dirname, "../fixtures/configurations/parser/.eslintrc.json"),
                 configHelper = new Config({ cwd: process.cwd() }),
                 config = configHelper.getConfig(configPath);
 
@@ -350,7 +350,7 @@ describe("Config", function() {
 
         // https://github.com/eslint/eslint/issues/3915
         it("should correctly merge environment settings", function() {
-            let configHelper = new Config({ useEslintrc: true, cwd: process.cwd() }),
+            const configHelper = new Config({ useEslintrc: true, cwd: process.cwd() }),
                 file = getFixturePath("envs", "sub", "foo.js"),
                 expected = {
                     rules: {},
@@ -371,7 +371,7 @@ describe("Config", function() {
         // Default configuration - blank
         it("should return a blank config when using no .eslintrc", function() {
 
-            let configHelper = new Config({ useEslintrc: false }),
+            const configHelper = new Config({ useEslintrc: false }),
                 file = getFixturePath("broken", "console-wrong-quotes.js"),
                 expected = {
                     rules: {},
@@ -384,7 +384,7 @@ describe("Config", function() {
         });
 
         it("should return a blank config when baseConfig is set to false and no .eslintrc", function() {
-            let configHelper = new Config({ baseConfig: false, useEslintrc: false }),
+            const configHelper = new Config({ baseConfig: false, useEslintrc: false }),
                 file = getFixturePath("broken", "console-wrong-quotes.js"),
                 expected = {
                     rules: {},
@@ -399,7 +399,7 @@ describe("Config", function() {
         // No default configuration
         it("should return an empty config when not using .eslintrc", function() {
 
-            let configHelper = new Config({ useEslintrc: false }),
+            const configHelper = new Config({ useEslintrc: false }),
                 file = getFixturePath("broken", "console-wrong-quotes.js"),
                 actual = configHelper.getConfig(file);
 
@@ -409,7 +409,7 @@ describe("Config", function() {
         it("should return a modified config when baseConfig is set to an object and no .eslintrc", function() {
 
 
-            let configHelper = new Config({
+            const configHelper = new Config({
                     baseConfig: {
                         env: {
                             node: true
@@ -435,9 +435,9 @@ describe("Config", function() {
         });
 
         it("should return a modified config without plugin rules enabled when baseConfig is set to an object with plugin and no .eslintrc", function() {
-            let customRule = require("../fixtures/rules/custom-rule");
-            let examplePluginName = "eslint-plugin-example";
-            let requireStubs = {};
+            const customRule = require("../fixtures/rules/custom-rule");
+            const examplePluginName = "eslint-plugin-example";
+            const requireStubs = {};
 
             requireStubs[examplePluginName] = {
                 rules: { "example-rule": customRule },
@@ -446,8 +446,8 @@ describe("Config", function() {
                 rulesConfig: { "example-rule": 1 }
             };
 
-            let StubbedConfig = proxyquire("../../lib/config", requireStubs);
-            let configHelper = new StubbedConfig({
+            const StubbedConfig = proxyquire("../../lib/config", requireStubs);
+            const configHelper = new StubbedConfig({
                     baseConfig: {
                         env: {
                             node: true
@@ -476,7 +476,7 @@ describe("Config", function() {
         // Project configuration - second level .eslintrc
         it("should merge configs when local .eslintrc overrides parent .eslintrc", function() {
 
-            let configHelper = new Config({cwd: process.cwd()}),
+            const configHelper = new Config({cwd: process.cwd()}),
                 file = getFixturePath("broken", "subbroken", "console-wrong-quotes.js"),
                 expected = {
                     env: {
@@ -497,7 +497,7 @@ describe("Config", function() {
         // Project configuration - third level .eslintrc
         it("should merge configs when local .eslintrc overrides parent and grandparent .eslintrc", function() {
 
-            let configHelper = new Config({cwd: process.cwd()}),
+            const configHelper = new Config({cwd: process.cwd()}),
                 file = getFixturePath("broken", "subbroken", "subsubbroken", "console-wrong-quotes.js"),
                 expected = {
                     env: {
@@ -517,7 +517,7 @@ describe("Config", function() {
 
         // Project configuration - root set in second level .eslintrc
         it("should not return configurations in parents of config with root:true", function() {
-            let configHelper = new Config({cwd: process.cwd()}),
+            const configHelper = new Config({cwd: process.cwd()}),
                 file = getFixturePath("root-true", "parent", "root", "wrong-semi.js"),
                 expected = {
                     rules: {
@@ -531,7 +531,7 @@ describe("Config", function() {
 
         // Project configuration - root set in second level .eslintrc
         it("should return project config when called with a relative path from a subdir", function() {
-            let configHelper = new Config({cwd: getFixturePath("root-true", "parent", "root", "subdir")}),
+            const configHelper = new Config({cwd: getFixturePath("root-true", "parent", "root", "subdir")}),
                 dir = ".",
                 expected = {
                     rules: {
@@ -546,7 +546,7 @@ describe("Config", function() {
         // Command line configuration - --config with first level .eslintrc
         it("should merge command line config when config file adds to local .eslintrc", function() {
 
-            let configHelper = new Config({
+            const configHelper = new Config({
                     configFile: getFixturePath("broken", "add-conf.yaml"),
                     cwd: process.cwd()
                 }),
@@ -570,7 +570,7 @@ describe("Config", function() {
         // Command line configuration - --config with first level .eslintrc
         it("should merge command line config when config file overrides local .eslintrc", function() {
 
-            let configHelper = new Config({
+            const configHelper = new Config({
                     configFile: getFixturePath("broken", "override-conf.yaml"),
                     cwd: process.cwd()
                 }),
@@ -593,7 +593,7 @@ describe("Config", function() {
         // Command line configuration - --config with second level .eslintrc
         it("should merge command line config when config file adds to local and parent .eslintrc", function() {
 
-            let configHelper = new Config({
+            const configHelper = new Config({
                     configFile: getFixturePath("broken", "add-conf.yaml"),
                     cwd: process.cwd()
                 }),
@@ -618,7 +618,7 @@ describe("Config", function() {
         // Command line configuration - --config with second level .eslintrc
         it("should merge command line config when config file overrides local and parent .eslintrc", function() {
 
-            let configHelper = new Config({
+            const configHelper = new Config({
                     configFile: getFixturePath("broken", "override-conf.yaml"),
                     cwd: process.cwd()
                 }),
@@ -642,7 +642,7 @@ describe("Config", function() {
         // Command line configuration - --rule with --config and first level .eslintrc
         it("should merge command line config and rule when rule and config file overrides local .eslintrc", function() {
 
-            let configHelper = new Config({
+            const configHelper = new Config({
                     configFile: getFixturePath("broken", "override-conf.yaml"),
                     rules: {
                         quotes: [1, "double"]
@@ -669,12 +669,12 @@ describe("Config", function() {
         it("should merge command line plugin with local .eslintrc", function() {
 
             // stub out Config to use stub config file
-            let StubbedConfig = createStubbedConfigWithPlugins({
+            const StubbedConfig = createStubbedConfigWithPlugins({
                 "eslint-plugin-example": {},
                 "eslint-plugin-another-plugin": {}
             });
 
-            let configHelper = new StubbedConfig({
+            const configHelper = new StubbedConfig({
                     plugins: [ "another-plugin" ],
                     cwd: process.cwd()
                 }),
@@ -693,7 +693,7 @@ describe("Config", function() {
 
         it("should merge multiple different config file formats", function() {
 
-            let configHelper = new Config({cwd: process.cwd()}),
+            const configHelper = new Config({cwd: process.cwd()}),
                 file = getFixturePath("fileexts/subdir/subsubdir/foo.js"),
                 expected = {
                     env: {
@@ -712,38 +712,32 @@ describe("Config", function() {
 
 
         it("should load user config globals", function() {
-            let expected,
-                actual,
-                configPath = path.resolve(__dirname, "..", "fixtures", "globals", "conf.yaml"),
+            const configPath = path.resolve(__dirname, "..", "fixtures", "globals", "conf.yaml"),
                 configHelper = new Config({ configFile: configPath, useEslintrc: false });
 
-            expected = {
+            const expected = {
                 globals: {
                     foo: true
                 }
             };
 
-            actual = configHelper.getConfig(configPath);
+            const actual = configHelper.getConfig(configPath);
 
             assertConfigsEqual(actual, expected);
         });
 
         it("should not load disabled environments", function() {
-            let config, configPath, configHelper;
+            const configPath = path.resolve(__dirname, "..", "fixtures", "environments", "disable.yaml");
 
-            configPath = path.resolve(__dirname, "..", "fixtures", "environments", "disable.yaml");
+            const configHelper = new Config({ configFile: configPath, useEslintrc: false });
 
-            configHelper = new Config({ configFile: configPath, useEslintrc: false });
-
-            config = configHelper.getConfig(configPath);
+            const config = configHelper.getConfig(configPath);
 
             assert.isUndefined(config.globals.window);
         });
 
         it("should error on fake environments", function() {
-            let configPath;
-
-            configPath = path.resolve(__dirname, "..", "fixtures", "environments", "fake.yaml");
+            const configPath = path.resolve(__dirname, "..", "fixtures", "environments", "fake.yaml");
 
             assert.throw(function() {
                 new Config({ configFile: configPath, useEslintrc: false, cwd: process.cwd() }); // eslint-disable-line no-new
@@ -751,7 +745,7 @@ describe("Config", function() {
         });
 
         it("should gracefully handle empty files", function() {
-            let configPath = path.resolve(__dirname, "..", "fixtures", "configurations", "env-node.json"),
+            const configPath = path.resolve(__dirname, "..", "fixtures", "configurations", "env-node.json"),
                 configHelper = new Config({configFile: configPath, cwd: process.cwd()});
 
             configHelper.getConfig(path.resolve(__dirname, "..", "fixtures", "configurations", "empty", "empty.json"));
@@ -759,10 +753,10 @@ describe("Config", function() {
 
         // Meaningful stack-traces
         it("should include references to where an `extends` configuration was loaded from", function() {
-            let configPath = path.resolve(__dirname, "..", "fixtures", "config-extends", "error.json");
+            const configPath = path.resolve(__dirname, "..", "fixtures", "config-extends", "error.json");
 
             assert.throws(function() {
-                let configHelper = new Config({ useEslintrc: false, configFile: configPath });
+                const configHelper = new Config({ useEslintrc: false, configFile: configPath });
 
                 configHelper.getConfig(configPath);
             }, /Referenced from:.*?error\.json/);
@@ -770,7 +764,7 @@ describe("Config", function() {
 
         // Keep order with the last array element taking highest precedence
         it("should make the last element in an array take the highest precedence", function() {
-            let configPath = path.resolve(__dirname, "..", "fixtures", "config-extends", "array", ".eslintrc"),
+            const configPath = path.resolve(__dirname, "..", "fixtures", "config-extends", "array", ".eslintrc"),
                 configHelper = new Config({ useEslintrc: false, configFile: configPath }),
                 expected = {
                     rules: { "no-empty": 1, "comma-dangle": 2, "no-console": 2 },
@@ -783,14 +777,14 @@ describe("Config", function() {
 
         describe("with env in a child configuration file", function() {
             it("should overwrite parserOptions of the parent with env of the child", function() {
-                let config = new Config({ cwd: process.cwd() });
-                let targetPath = getFixturePath("overwrite-ecmaFeatures", "child", "foo.js");
-                let expected = {
+                const config = new Config({ cwd: process.cwd() });
+                const targetPath = getFixturePath("overwrite-ecmaFeatures", "child", "foo.js");
+                const expected = {
                     rules: {},
                     env: {commonjs: true},
                     parserOptions: {ecmaFeatures: {globalReturn: true}}
                 };
-                let actual = config.getConfig(targetPath);
+                const actual = config.getConfig(targetPath);
 
                 assertConfigsEqual(actual, expected);
             });
@@ -804,7 +798,7 @@ describe("Config", function() {
              * @private
              */
             function getFakeFixturePath() {
-                let args = Array.prototype.slice.call(arguments);
+                const args = Array.prototype.slice.call(arguments);
 
                 args.unshift("config-hierarchy");
                 args.unshift("fixtures");
@@ -833,16 +827,16 @@ describe("Config", function() {
             });
 
             it("should load the personal config if no local config was found", function() {
-                let projectPath = getFakeFixturePath("personal-config", "project-without-config"),
+                const projectPath = getFakeFixturePath("personal-config", "project-without-config"),
                     homePath = getFakeFixturePath("personal-config", "home-folder"),
                     filePath = getFakeFixturePath("personal-config", "project-without-config", "foo.js");
 
-                let StubbedConfig = proxyquire("../../lib/config", { "user-home": homePath });
+                const StubbedConfig = proxyquire("../../lib/config", { "user-home": homePath });
 
                 mockPersonalConfigFileSystem();
                 mockCWDResponse(projectPath);
 
-                let config = new StubbedConfig({ cwd: process.cwd() }),
+                const config = new StubbedConfig({ cwd: process.cwd() }),
                     actual = config.getConfig(filePath),
                     expected = {
                         parserOptions: {},
@@ -858,16 +852,16 @@ describe("Config", function() {
             });
 
             it("should ignore the personal config if a local config was found", function() {
-                let projectPath = getFakeFixturePath("personal-config", "home-folder", "project"),
+                const projectPath = getFakeFixturePath("personal-config", "home-folder", "project"),
                     homePath = getFakeFixturePath("personal-config", "home-folder"),
                     filePath = getFakeFixturePath("personal-config", "home-folder", "project", "foo.js");
 
-                let StubbedConfig = proxyquire("../../lib/config", { "user-home": homePath });
+                const StubbedConfig = proxyquire("../../lib/config", { "user-home": homePath });
 
                 mockPersonalConfigFileSystem();
                 mockCWDResponse(projectPath);
 
-                let config = new StubbedConfig({ cwd: process.cwd() }),
+                const config = new StubbedConfig({ cwd: process.cwd() }),
                     actual = config.getConfig(filePath),
                     expected = {
                         parserOptions: {},
@@ -883,17 +877,17 @@ describe("Config", function() {
             });
 
             it("should ignore the personal config if config is passed through cli", function() {
-                let configPath = getFakeFixturePath("quotes-error.json");
-                let projectPath = getFakeFixturePath("personal-config", "project-without-config"),
+                const configPath = getFakeFixturePath("quotes-error.json");
+                const projectPath = getFakeFixturePath("personal-config", "project-without-config"),
                     homePath = getFakeFixturePath("personal-config", "home-folder"),
                     filePath = getFakeFixturePath("personal-config", "project-without-config", "foo.js");
 
-                let StubbedConfig = proxyquire("../../lib/config", { "user-home": homePath });
+                const StubbedConfig = proxyquire("../../lib/config", { "user-home": homePath });
 
                 mockPersonalConfigFileSystem();
                 mockCWDResponse(projectPath);
 
-                let config = new StubbedConfig({ configFile: configPath, cwd: process.cwd() }),
+                const config = new StubbedConfig({ configFile: configPath, cwd: process.cwd() }),
                     actual = config.getConfig(filePath),
                     expected = {
                         parserOptions: {},
@@ -909,15 +903,15 @@ describe("Config", function() {
             });
 
             it("should still load the project config if the current working directory is the same as the home folder", function() {
-                let projectPath = getFakeFixturePath("personal-config", "project-with-config"),
+                const projectPath = getFakeFixturePath("personal-config", "project-with-config"),
                     filePath = getFakeFixturePath("personal-config", "project-with-config", "subfolder", "foo.js");
 
-                let StubbedConfig = proxyquire("../../lib/config", { "user-home": projectPath });
+                const StubbedConfig = proxyquire("../../lib/config", { "user-home": projectPath });
 
                 mockPersonalConfigFileSystem();
                 mockCWDResponse(projectPath);
 
-                let config = new StubbedConfig({ cwd: process.cwd() }),
+                const config = new StubbedConfig({ cwd: process.cwd() }),
                     actual = config.getConfig(filePath),
                     expected = {
                         parserOptions: {},
@@ -942,7 +936,7 @@ describe("Config", function() {
              * @private
              */
             function getFakeFixturePath() {
-                let args = Array.prototype.slice.call(arguments);
+                const args = Array.prototype.slice.call(arguments);
 
                 args.unshift("config-hierarchy");
                 args.unshift("fixtures");
@@ -971,16 +965,16 @@ describe("Config", function() {
             });
 
             it("should throw an error if no local config and no personal config was found", function() {
-                let projectPath = getFakeFixturePath("personal-config", "project-without-config"),
+                const projectPath = getFakeFixturePath("personal-config", "project-without-config"),
                     homePath = getFakeFixturePath("personal-config", "folder-does-not-exist"),
                     filePath = getFakeFixturePath("personal-config", "project-without-config", "foo.js");
 
-                let StubbedConfig = proxyquire("../../lib/config", { "user-home": homePath });
+                const StubbedConfig = proxyquire("../../lib/config", { "user-home": homePath });
 
                 mockPersonalConfigFileSystem();
                 mockCWDResponse(projectPath);
 
-                let config = new StubbedConfig({ cwd: process.cwd() });
+                const config = new StubbedConfig({ cwd: process.cwd() });
 
                 assert.throws(function() {
                     config.getConfig(filePath);
@@ -988,16 +982,16 @@ describe("Config", function() {
             });
 
             it("should throw an error if no local config was found and ~/package.json contains no eslintConfig section", function() {
-                let projectPath = getFakeFixturePath("personal-config", "project-without-config"),
+                const projectPath = getFakeFixturePath("personal-config", "project-without-config"),
                     homePath = getFakeFixturePath("personal-config", "home-folder-with-packagejson"),
                     filePath = getFakeFixturePath("personal-config", "project-without-config", "foo.js");
 
-                let StubbedConfig = proxyquire("../../lib/config", { "user-home": homePath });
+                const StubbedConfig = proxyquire("../../lib/config", { "user-home": homePath });
 
                 mockPersonalConfigFileSystem();
                 mockCWDResponse(projectPath);
 
-                let configHelper = new StubbedConfig({ cwd: process.cwd() });
+                const configHelper = new StubbedConfig({ cwd: process.cwd() });
 
                 assert.throws(function() {
                     configHelper.getConfig(filePath);
@@ -1005,16 +999,16 @@ describe("Config", function() {
             });
 
             it("should not throw an error if no local config and no personal config was found but useEslintrc is false", function() {
-                let projectPath = getFakeFixturePath("personal-config", "project-without-config"),
+                const projectPath = getFakeFixturePath("personal-config", "project-without-config"),
                     homePath = getFakeFixturePath("personal-config", "folder-does-not-exist"),
                     filePath = getFakeFixturePath("personal-config", "project-without-config", "foo.js");
 
-                let StubbedConfig = proxyquire("../../lib/config", { "user-home": homePath });
+                const StubbedConfig = proxyquire("../../lib/config", { "user-home": homePath });
 
                 mockPersonalConfigFileSystem();
                 mockCWDResponse(projectPath);
 
-                let config = new StubbedConfig({
+                const config = new StubbedConfig({
                     cwd: process.cwd(),
                     useEslintrc: false
                 });
@@ -1025,16 +1019,16 @@ describe("Config", function() {
             });
 
             it("should not throw an error if no local config and no personal config was found but rules are specified", function() {
-                let projectPath = getFakeFixturePath("personal-config", "project-without-config"),
+                const projectPath = getFakeFixturePath("personal-config", "project-without-config"),
                     homePath = getFakeFixturePath("personal-config", "folder-does-not-exist"),
                     filePath = getFakeFixturePath("personal-config", "project-without-config", "foo.js");
 
-                let StubbedConfig = proxyquire("../../lib/config", { "user-home": homePath });
+                const StubbedConfig = proxyquire("../../lib/config", { "user-home": homePath });
 
                 mockPersonalConfigFileSystem();
                 mockCWDResponse(projectPath);
 
-                let config = new StubbedConfig({
+                const config = new StubbedConfig({
                     cwd: process.cwd(),
                     rules: { quotes: [2, "single"] }
                 });
@@ -1045,16 +1039,16 @@ describe("Config", function() {
             });
 
             it("should not throw an error if no local config and no personal config was found but baseConfig is specified", function() {
-                let projectPath = getFakeFixturePath("personal-config", "project-without-config"),
+                const projectPath = getFakeFixturePath("personal-config", "project-without-config"),
                     homePath = getFakeFixturePath("personal-config", "folder-does-not-exist"),
                     filePath = getFakeFixturePath("personal-config", "project-without-config", "foo.js");
 
-                let StubbedConfig = proxyquire("../../lib/config", { "user-home": homePath });
+                const StubbedConfig = proxyquire("../../lib/config", { "user-home": homePath });
 
                 mockPersonalConfigFileSystem();
                 mockCWDResponse(projectPath);
 
-                let config = new StubbedConfig({
+                const config = new StubbedConfig({
                     cwd: process.cwd(),
                     baseConfig: {}
                 });
@@ -1069,13 +1063,13 @@ describe("Config", function() {
     describe("Plugin Environments", function() {
         it("should load environments from plugin", function() {
 
-            let StubbedConfig = createStubbedConfigWithPlugins({
+            const StubbedConfig = createStubbedConfigWithPlugins({
                 "eslint-plugin-test": {
                     environments: { example: { globals: { test: false } } }
                 }
             });
 
-            let configPath = path.resolve(__dirname, "..", "fixtures", "environments", "plugin.yaml"),
+            const configPath = path.resolve(__dirname, "..", "fixtures", "environments", "plugin.yaml"),
                 configHelper = new StubbedConfig({
                     reset: true, configFile: configPath, useEslintrc: false
                 }),

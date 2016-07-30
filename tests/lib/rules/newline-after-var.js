@@ -9,7 +9,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-let rule = require("../../../lib/rules/newline-after-var"),
+const rule = require("../../../lib/rules/newline-after-var"),
     RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
@@ -17,7 +17,7 @@ let rule = require("../../../lib/rules/newline-after-var"),
 //------------------------------------------------------------------------------
 
 // Valid for both "Always" and "Never"
-let NO_VAR = "console.log(greet);",
+const NO_VAR = "console.log(greet);",
     ONLY_VAR = "var greet = 'hello';",
     FOR_LOOP_WITH_LET = "for(let a = 1; a < 1; a++){\n break;\n}",
     FOR_LOOP_WITH_VAR = "for(var a = 1; a < 1; a++){\n break;\n}",
@@ -37,7 +37,7 @@ let NO_VAR = "console.log(greet);",
 
 
 // Valid for "Always"
-let ONE_BLANK = "var greet = 'hello';\n\nconsole.log(greet);",
+const ONE_BLANK = "var greet = 'hello';\n\nconsole.log(greet);",
     TWO_BLANKS = "var greet = 'hello';\n\n\nconsole.log(greet);",
     THREE_BLANKS = "var greet = 'hello';\n\n\n\nconsole.log(greet);",
     ONE_BLANK_WITH_TRAILING_WS = "var greet = 'hello';    \n\nconsole.log(greet);",
@@ -60,7 +60,7 @@ let ONE_BLANK = "var greet = 'hello';\n\nconsole.log(greet);",
 
 
 // Valid for "Never"
-let NO_BREAK = "var greet = 'hello'; console.log(greet);",
+const NO_BREAK = "var greet = 'hello'; console.log(greet);",
     NO_BLANK = "var greet = 'hello';\nconsole.log(greet);",
     NO_BLANK_WITH_TRAILING_WS = "var greet = 'hello';    \nconsole.log(greet);",
     NO_BLANK_WITH_INLINE_COMMENT = "var greet = 'hello'; // inline comment\nconsole.log(greet);",
@@ -85,12 +85,12 @@ let NO_BREAK = "var greet = 'hello'; console.log(greet);",
     NOT_END_OF_ARROW_FUNCTION = "() => {\nvar greet = 'hello';\nconsole.log(greet);\n}",
     NO_BLANK_BEFORE_CASE = "switch(a) {\ncase 0:\nvar foo;\ncase 1:}";
 
-let ALWAYS_ERROR = {
+const ALWAYS_ERROR = {
     message: "Expected blank line after variable declarations.",
     type: "VariableDeclaration"
 };
 
-let NEVER_ERROR = {
+const NEVER_ERROR = {
     message: "Unexpected blank line after variable declarations.",
     type: "VariableDeclaration"
 };
@@ -99,7 +99,7 @@ let NEVER_ERROR = {
 // Tests
 //------------------------------------------------------------------------------
 
-let ruleTester = new RuleTester();
+const ruleTester = new RuleTester();
 
 ruleTester.run("newline-after-var", rule, {
     valid: [

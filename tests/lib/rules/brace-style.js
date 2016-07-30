@@ -9,9 +9,9 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-let rule = require("../../../lib/rules/brace-style"),
+const rule = require("../../../lib/rules/brace-style"),
     RuleTester = require("../../../lib/testers/rule-tester");
-let OPEN_MESSAGE = "Opening curly brace does not appear on the same line as controlling statement.",
+const OPEN_MESSAGE = "Opening curly brace does not appear on the same line as controlling statement.",
     OPEN_MESSAGE_ALLMAN = "Opening curly brace appears on the same line as controlling statement.",
     BODY_MESSAGE = "Statement inside of curly braces should be on next line.",
     CLOSE_MESSAGE = "Closing curly brace does not appear on the same line as the subsequent block.",
@@ -22,7 +22,7 @@ let OPEN_MESSAGE = "Opening curly brace does not appear on the same line as cont
 // Tests
 //------------------------------------------------------------------------------
 
-let ruleTester = new RuleTester();
+const ruleTester = new RuleTester();
 
 ruleTester.run("brace-style", rule, {
     valid: [

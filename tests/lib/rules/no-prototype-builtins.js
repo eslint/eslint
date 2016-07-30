@@ -9,15 +9,15 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-let rule = require("../../../lib/rules/no-prototype-builtins"),
+const rule = require("../../../lib/rules/no-prototype-builtins"),
     RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
-let ruleTester = new RuleTester();
+const ruleTester = new RuleTester();
 
-let valid = [
+const valid = [
     { code: "Object.prototype.hasOwnProperty.call(foo, 'bar')" },
     { code: "Object.prototype.isPrototypeOf.call(foo, 'bar')" },
     { code: "Object.prototype.propertyIsEnumerable.call(foo, 'bar')" },
@@ -35,7 +35,7 @@ let valid = [
     { code: "({}.propertyIsEnumerable.apply(foo, ['bar']))" }
 ];
 
-let invalid = [
+const invalid = [
     {
         code: "foo.hasOwnProperty('bar')",
         errors: [{

@@ -4,10 +4,10 @@
  */
 "use strict";
 
-let rule = require("../../../lib/rules/spaced-comment"),
+const rule = require("../../../lib/rules/spaced-comment"),
     RuleTester = require("../../../lib/testers/rule-tester");
 
-let ruleTester = new RuleTester(),
+const ruleTester = new RuleTester(),
     validShebangProgram = "#!/path/to/node\nvar a = 3;",
     invalidShebangProgram = "#!/path/to/node\n#!/second/shebang\nvar a = 3;";
 

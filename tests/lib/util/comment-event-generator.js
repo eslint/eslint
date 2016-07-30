@@ -8,7 +8,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-let assert = require("assert"),
+const assert = require("assert"),
     EventEmitter = require("events").EventEmitter,
     sinon = require("sinon"),
     espree = require("espree"),
@@ -28,18 +28,18 @@ describe("NodeEventGenerator", function() {
     );
 
     it("should generate comment events without duplicate.", function() {
-        let emitter = new EventEmitter();
+        const emitter = new EventEmitter();
         let generator = new NodeEventGenerator(emitter);
-        let code = "//foo\nvar zzz /*aaa*/ = 777;\n//bar";
-        let ast = espree.parse(code, {
+        const code = "//foo\nvar zzz /*aaa*/ = 777;\n//bar";
+        const ast = espree.parse(code, {
             range: true,
             loc: true,
             comments: true,
             attachComment: true,
             tokens: true
         });
-        let sourceCode = new SourceCode(code, ast);
-        let expected = [
+        const sourceCode = new SourceCode(code, ast);
+        const expected = [
 
             ["Program", ast],
             ["LineComment", ast.comments[0]], // foo

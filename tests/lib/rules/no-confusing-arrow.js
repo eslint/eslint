@@ -9,7 +9,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-let rule = require("../../../lib/rules/no-confusing-arrow"),
+const rule = require("../../../lib/rules/no-confusing-arrow"),
     RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
@@ -30,7 +30,7 @@ function addArrowFunctions(obj) {
 // Tests
 //------------------------------------------------------------------------------
 
-let ruleTester = new RuleTester();
+const ruleTester = new RuleTester();
 
 ruleTester.run("no-confusing-arrow", rule, {
     valid: [

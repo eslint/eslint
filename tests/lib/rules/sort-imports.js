@@ -9,14 +9,14 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-let rule = require("../../../lib/rules/sort-imports"),
+const rule = require("../../../lib/rules/sort-imports"),
     RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-let ruleTester = new RuleTester(),
+const ruleTester = new RuleTester(),
     parserOptions = {
         ecmaVersion: 6,
         sourceType: "module"

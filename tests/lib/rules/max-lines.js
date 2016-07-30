@@ -8,7 +8,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-let rule = require("../../../lib/rules/max-lines"),
+const rule = require("../../../lib/rules/max-lines"),
 
     RuleTester = require("../../../lib/testers/rule-tester");
 
@@ -17,7 +17,7 @@ let rule = require("../../../lib/rules/max-lines"),
 // Tests
 //------------------------------------------------------------------------------
 
-let ruleTester = new RuleTester();
+const ruleTester = new RuleTester();
 
 /**
  * Returns the error message with the specified max number of lines

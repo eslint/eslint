@@ -9,7 +9,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-let assert = require("chai").assert,
+const assert = require("chai").assert,
     path = require("path"),
     os = require("os"),
     IgnoredPaths = require("../../lib/ignored-paths.js"),
@@ -33,14 +33,14 @@ let fixtureDir;
  * @returns {string[]} raw ignore rules
  */
 function getIgnoreRules(ignoredPaths) {
-    let ignoreRulesProperty = "_rules";
+    const ignoreRulesProperty = "_rules";
     let ignoreRules = [];
 
     Object.keys(ignoredPaths.ig).forEach(function(key) {
-        let rules = ignoredPaths.ig[key][ignoreRulesProperty];
+        const rules = ignoredPaths.ig[key][ignoreRulesProperty];
 
         rules.forEach(function(rule) {
-            let ruleOrigins = ignoreRules.map(function(ruleObj) {
+            const ruleOrigins = ignoreRules.map(function(ruleObj) {
                 return ruleObj.origin;
             });
 
@@ -73,7 +73,7 @@ function getIgnoreFiles(ignoredPaths) {
  * @returns {string[]}              Ignore patterns
  */
 function getIgnorePatterns(ignoredPaths) {
-    let ignoreRules = getIgnoreRules(ignoredPaths);
+    const ignoreRules = getIgnoreRules(ignoredPaths);
 
     return ignoreRules.map(function(rule) {
         return rule.origin;
@@ -100,7 +100,7 @@ function countDefaultPatterns(ignoredPaths) {
  * @private
  */
 function getFixturePath() {
-    let args = Array.prototype.slice.call(arguments);
+    const args = Array.prototype.slice.call(arguments);
 
     args.unshift(fs.realpathSync(fixtureDir));
     return path.join.apply(path, args);
@@ -126,9 +126,9 @@ describe("IgnoredPaths", function() {
     describe("initialization", function() {
 
         it("should load .eslintignore from cwd when explicitly passed", function() {
-            let expectedIgnoreFile = getFixturePath(".eslintignore");
-            let ignoredPaths = new IgnoredPaths({ ignore: true, cwd: getFixturePath() });
-            let ignorePatterns = getIgnorePatterns(ignoredPaths);
+            const expectedIgnoreFile = getFixturePath(".eslintignore");
+            const ignoredPaths = new IgnoredPaths({ ignore: true, cwd: getFixturePath() });
+            const ignorePatterns = getIgnorePatterns(ignoredPaths);
 
             assert.isNotNull(ignoredPaths.baseDir);
             assert.equal(getIgnoreFiles(ignoredPaths), expectedIgnoreFile);
@@ -136,29 +136,29 @@ describe("IgnoredPaths", function() {
         });
 
         it("should set baseDir to cwd when no ignore file was loaded", function() {
-            let ignoredPaths = new IgnoredPaths({ cwd: getFixturePath("no-ignore-file") });
+            const ignoredPaths = new IgnoredPaths({ cwd: getFixturePath("no-ignore-file") });
 
             assert.equal(ignoredPaths.baseDir, getFixturePath("no-ignore-file"));
         });
 
         it("should not travel to parent directories to find .eslintignore when it's missing and cwd is provided", function() {
-            let ignoredPaths = new IgnoredPaths({ ignore: true, cwd: getFixturePath("configurations") });
+            const ignoredPaths = new IgnoredPaths({ ignore: true, cwd: getFixturePath("configurations") });
 
             assert.lengthOf(getIgnoreRules(ignoredPaths), 4);
             assert.lengthOf(getIgnoreFiles(ignoredPaths), 0);
         });
 
         it("should load empty array with ignorePath set to false", function() {
-            let ignoredPaths = new IgnoredPaths({ ignore: true, ignorePath: false, cwd: getFixturePath("no-ignore-file") });
+            const ignoredPaths = new IgnoredPaths({ ignore: true, ignorePath: false, cwd: getFixturePath("no-ignore-file") });
 
             assert.isArray(getIgnoreRules(ignoredPaths));
             assert.lengthOf(getIgnoreRules(ignoredPaths), countDefaultPatterns(ignoredPaths));
         });
 
         it("should accept an array for options.ignorePattern", function() {
-            let ignorePattern = ["a", "b"];
+            const ignorePattern = ["a", "b"];
 
-            let ignoredPaths = new IgnoredPaths({
+            const ignoredPaths = new IgnoredPaths({
                 ignorePattern: ignorePattern
             });
 
@@ -173,7 +173,7 @@ describe("IgnoredPaths", function() {
     describe("initialization with ignorePattern", function() {
 
         it("should ignore a normal pattern", function() {
-            let ignoredPaths = new IgnoredPaths({ ignore: true, ignorePattern: "ignore-me.txt", cwd: getFixturePath("ignore-pattern") });
+            const ignoredPaths = new IgnoredPaths({ ignore: true, ignorePattern: "ignore-me.txt", cwd: getFixturePath("ignore-pattern") });
 
             assert.isTrue(ignoredPaths.contains(getFixturePath("ignore-pattern", "ignore-me.txt")));
         });
@@ -189,7 +189,7 @@ describe("IgnoredPaths", function() {
         });
 
         it("should set baseDir to directory containing ignorePath if provided", function() {
-            let ignoredPaths = new IgnoredPaths({ ignore: true, ignorePath: ignoreFilePath, cwd: getFixturePath() });
+            const ignoredPaths = new IgnoredPaths({ ignore: true, ignorePath: ignoreFilePath, cwd: getFixturePath() });
 
             assert.equal(ignoredPaths.baseDir, path.dirname(ignoreFilePath));
         });
@@ -205,19 +205,19 @@ describe("IgnoredPaths", function() {
         });
 
         it("should work when cwd is a parent directory", function() {
-            let ignoredPaths = new IgnoredPaths({ ignore: true, ignorePath: ignoreFilePath, cwd: getFixturePath() });
+            const ignoredPaths = new IgnoredPaths({ ignore: true, ignorePath: ignoreFilePath, cwd: getFixturePath() });
 
             assert.notEqual(getIgnoreRules(ignoredPaths).length, countDefaultPatterns(ignoredPaths));
         });
 
         it("should work when the file is in the cwd", function() {
-            let ignoredPaths = new IgnoredPaths({ ignore: true, ignorePath: ignoreFilePath, cwd: getFixturePath("custom-name") });
+            const ignoredPaths = new IgnoredPaths({ ignore: true, ignorePath: ignoreFilePath, cwd: getFixturePath("custom-name") });
 
             assert.notEqual(getIgnoreRules(ignoredPaths).length, countDefaultPatterns(ignoredPaths));
         });
 
         it("should work when cwd is a subdirectory", function() {
-            let ignoredPaths = new IgnoredPaths({ ignore: true, ignorePath: ignoreFilePath, cwd: getFixturePath("custom-name", "subdirectory") });
+            const ignoredPaths = new IgnoredPaths({ ignore: true, ignorePath: ignoreFilePath, cwd: getFixturePath("custom-name", "subdirectory") });
 
             assert.notEqual(getIgnoreRules(ignoredPaths).length, countDefaultPatterns(ignoredPaths));
         });
@@ -227,7 +227,7 @@ describe("IgnoredPaths", function() {
     describe("initialization without ignorePath", function() {
 
         it("should not load an ignore file if none is in cwd", function() {
-            let ignoredPaths = new IgnoredPaths({ ignore: true, cwd: getFixturePath("no-ignore-file") });
+            const ignoredPaths = new IgnoredPaths({ ignore: true, cwd: getFixturePath("no-ignore-file") });
 
             assert.lengthOf(getIgnoreFiles(ignoredPaths), 0);
             assert.lengthOf(getIgnoreRules(ignoredPaths), countDefaultPatterns(ignoredPaths));
@@ -245,7 +245,7 @@ describe("IgnoredPaths", function() {
 
         it("should throw error", function() {
             assert.throws(function() {
-                let ignoredPaths = new IgnoredPaths({ ignore: true, ignorePath: invalidFilepath, cwd: getFixturePath() });
+                const ignoredPaths = new IgnoredPaths({ ignore: true, ignorePath: invalidFilepath, cwd: getFixturePath() });
 
                 assert.ok(ignoredPaths);
             }, "Cannot read ignore file");
@@ -256,13 +256,13 @@ describe("IgnoredPaths", function() {
     describe("contains", function() {
 
         it("should throw if initialized with invalid options", function() {
-            let ignoredPaths = new IgnoredPaths(null);
+            const ignoredPaths = new IgnoredPaths(null);
 
             assert.throw(ignoredPaths.contains, Error);
         });
 
         it("should not throw if given a relative filename", function() {
-            let ignoredPaths = new IgnoredPaths({ ignore: true, ignorePattern: "undef.js", cwd: getFixturePath() });
+            const ignoredPaths = new IgnoredPaths({ ignore: true, ignorePattern: "undef.js", cwd: getFixturePath() });
 
             assert.doesNotThrow(function() {
                 ignoredPaths.contains("undef.js");
@@ -270,7 +270,7 @@ describe("IgnoredPaths", function() {
         });
 
         it("should return true for files which match an ignorePattern even if they do not exist on the filesystem", function() {
-            let ignoredPaths = new IgnoredPaths({ ignore: true, ignorePattern: "not-a-file", cwd: getFixturePath() });
+            const ignoredPaths = new IgnoredPaths({ ignore: true, ignorePattern: "not-a-file", cwd: getFixturePath() });
 
             assert.isTrue(ignoredPaths.contains(getFixturePath("not-a-file")));
         });
@@ -278,43 +278,43 @@ describe("IgnoredPaths", function() {
         it("should return false for files outside of the cwd (with no ignore file provided)", function() {
 
             // Default ignore patterns should not inadvertantly ignore files in parent directories
-            let ignoredPaths = new IgnoredPaths({ ignore: true, cwd: getFixturePath("no-ignore-file") });
+            const ignoredPaths = new IgnoredPaths({ ignore: true, cwd: getFixturePath("no-ignore-file") });
 
             assert.isFalse(ignoredPaths.contains(getFixturePath("undef.js")));
         });
 
         it("should return false for files outside of ignorePath's directory", function() {
-            let ignoredPaths = new IgnoredPaths({ ignore: true, ignorePath: getFixturePath("custom-name", "ignore-file"), cwd: getFixturePath() });
+            const ignoredPaths = new IgnoredPaths({ ignore: true, ignorePath: getFixturePath("custom-name", "ignore-file"), cwd: getFixturePath() });
 
             assert.isFalse(ignoredPaths.contains(getFixturePath("undef.js")));
         });
 
         it("should return true for file matching an ignore pattern exactly", function() {
-            let ignoredPaths = new IgnoredPaths({ ignore: true, ignorePattern: "undef.js", cwd: getFixturePath() });
+            const ignoredPaths = new IgnoredPaths({ ignore: true, ignorePattern: "undef.js", cwd: getFixturePath() });
 
             assert.isTrue(ignoredPaths.contains(getFixturePath("undef.js")));
         });
 
         it("should return false for file matching an invalid ignore pattern with leading './'", function() {
-            let ignoredPaths = new IgnoredPaths({ ignore: true, ignorePattern: "./undef.js", cwd: getFixturePath() });
+            const ignoredPaths = new IgnoredPaths({ ignore: true, ignorePattern: "./undef.js", cwd: getFixturePath() });
 
             assert.isFalse(ignoredPaths.contains(getFixturePath("undef.js")));
         });
 
         it("should return false for file in subfolder of cwd matching an ignore pattern with leading '/'", function() {
-            let ignoredPaths = new IgnoredPaths({ ignore: true, ignorePattern: "/undef.js", cwd: getFixturePath() });
+            const ignoredPaths = new IgnoredPaths({ ignore: true, ignorePattern: "/undef.js", cwd: getFixturePath() });
 
             assert.isFalse(ignoredPaths.contains(getFixturePath("subdir", "undef.js")));
         });
 
         it("should return true for file matching a child of an ignore pattern", function() {
-            let ignoredPaths = new IgnoredPaths({ ignore: true, ignorePattern: "ignore-pattern", cwd: getFixturePath() });
+            const ignoredPaths = new IgnoredPaths({ ignore: true, ignorePattern: "ignore-pattern", cwd: getFixturePath() });
 
             assert.isTrue(ignoredPaths.contains(getFixturePath("ignore-pattern", "ignore-me.txt")));
         });
 
         it("should return true for file matching a grandchild of an ignore pattern", function() {
-            let ignoredPaths = new IgnoredPaths({ ignore: true, ignorePattern: "ignore-pattern", cwd: getFixturePath() });
+            const ignoredPaths = new IgnoredPaths({ ignore: true, ignorePattern: "ignore-pattern", cwd: getFixturePath() });
 
             assert.isTrue(ignoredPaths.contains(getFixturePath("ignore-pattern", "subdir", "ignore-me.txt")));
         });
@@ -326,7 +326,7 @@ describe("IgnoredPaths", function() {
             sinon.stub(fs, "statSync")
                 .withArgs("subdir")
                 .returns();
-            let ignoredPaths = new IgnoredPaths({ ignore: true, ignorePath: ".eslintignore", cwd: getFixturePath() });
+            const ignoredPaths = new IgnoredPaths({ ignore: true, ignorePath: ".eslintignore", cwd: getFixturePath() });
 
             assert.isTrue(ignoredPaths.contains(getFixturePath("subdir/undef.js")));
 
@@ -335,13 +335,13 @@ describe("IgnoredPaths", function() {
         });
 
         it("should return false for file not matching any ignore pattern", function() {
-            let ignoredPaths = new IgnoredPaths({ ignore: true, ignorePattern: "failing.js", cwd: getFixturePath() });
+            const ignoredPaths = new IgnoredPaths({ ignore: true, ignorePattern: "failing.js", cwd: getFixturePath() });
 
             assert.isFalse(ignoredPaths.contains(getFixturePath("unignored.js")));
         });
 
         it("should return false for ignored file when unignored with ignore pattern", function() {
-            let ignoredPaths = new IgnoredPaths({ ignore: true, ignorePath: getFixturePath(".eslintignore"), ignorePattern: "!sampleignorepattern", cwd: getFixturePath() });
+            const ignoredPaths = new IgnoredPaths({ ignore: true, ignorePath: getFixturePath(".eslintignore"), ignorePattern: "!sampleignorepattern", cwd: getFixturePath() });
 
             assert.isFalse(ignoredPaths.contains(getFixturePath("sampleignorepattern")));
 
@@ -357,8 +357,8 @@ describe("IgnoredPaths", function() {
         });
 
         it("should not include comments in ignore rules", function() {
-            let ignoredPaths = new IgnoredPaths({ ignore: true, ignorePath: ignoreFilePath, cwd: getFixturePath() });
-            let ignorePatterns = getIgnorePatterns(ignoredPaths);
+            const ignoredPaths = new IgnoredPaths({ ignore: true, ignorePath: ignoreFilePath, cwd: getFixturePath() });
+            const ignorePatterns = getIgnorePatterns(ignoredPaths);
 
             assert.equal(getIgnoreRules(ignoredPaths).length, countDefaultPatterns(ignoredPaths) + 1);
             assert.include(ignorePatterns, "this_one_not");
@@ -374,13 +374,13 @@ describe("IgnoredPaths", function() {
         });
 
         it("should ignore a non-negated pattern", function() {
-            let ignoredPaths = new IgnoredPaths({ ignore: true, ignorePath: ignoreFilePath, cwd: getFixturePath() });
+            const ignoredPaths = new IgnoredPaths({ ignore: true, ignorePath: ignoreFilePath, cwd: getFixturePath() });
 
             assert.isTrue(ignoredPaths.contains(getFixturePath("negation", "ignore.js")));
         });
 
         it("should not ignore a negated pattern", function() {
-            let ignoredPaths = new IgnoredPaths({ ignore: true, ignorePath: ignoreFilePath, cwd: getFixturePath() });
+            const ignoredPaths = new IgnoredPaths({ ignore: true, ignorePath: ignoreFilePath, cwd: getFixturePath() });
 
             assert.isFalse(ignoredPaths.contains(getFixturePath("negation", "unignore.js")));
         });
@@ -390,93 +390,93 @@ describe("IgnoredPaths", function() {
     describe("default ignores", function() {
 
         it("should contain /bower_components/*", function() {
-            let ignoredPaths = new IgnoredPaths();
+            const ignoredPaths = new IgnoredPaths();
 
             assert.include(ignoredPaths.defaultPatterns, "/bower_components/*");
         });
 
         it("should contain /node_modules/*", function() {
-            let ignoredPaths = new IgnoredPaths();
+            const ignoredPaths = new IgnoredPaths();
 
             assert.include(ignoredPaths.defaultPatterns, "/node_modules/*");
         });
 
         it("should always apply defaultPatterns if ignore option is true", function() {
-            let ignoredPaths = new IgnoredPaths({ ignore: true, cwd: getFixturePath() });
+            const ignoredPaths = new IgnoredPaths({ ignore: true, cwd: getFixturePath() });
 
             assert.isTrue(ignoredPaths.contains(getFixturePath("bower_components/package/file.js")));
             assert.isTrue(ignoredPaths.contains(getFixturePath("node_modules/package/file.js")));
         });
 
         it("should still apply defaultPatterns if ignore option is is false", function() {
-            let ignoredPaths = new IgnoredPaths({ ignore: false, cwd: getFixturePath() });
+            const ignoredPaths = new IgnoredPaths({ ignore: false, cwd: getFixturePath() });
 
             assert.isTrue(ignoredPaths.contains(getFixturePath("bower_components/package/file.js")));
             assert.isTrue(ignoredPaths.contains(getFixturePath("node_modules/package/file.js")));
         });
 
         it("should not ignore files in defaultPatterns within a subdirectory", function() {
-            let ignoredPaths = new IgnoredPaths({ ignore: true, cwd: getFixturePath() });
+            const ignoredPaths = new IgnoredPaths({ ignore: true, cwd: getFixturePath() });
 
             assert.isFalse(ignoredPaths.contains(getFixturePath("subdir/bower_components/package/file.js")));
             assert.isFalse(ignoredPaths.contains(getFixturePath("subdir/node_modules/package/file.js")));
         });
 
         it("should allow subfolders of defaultPatterns to be unignored by ignorePattern", function() {
-            let ignoredPaths = new IgnoredPaths({ ignore: true, cwd: getFixturePath(), ignorePattern: "!/node_modules/package" });
+            const ignoredPaths = new IgnoredPaths({ ignore: true, cwd: getFixturePath(), ignorePattern: "!/node_modules/package" });
 
             assert.isFalse(ignoredPaths.contains(getFixturePath("node_modules", "package", "file.js")));
         });
 
         it("should allow subfolders of defaultPatterns to be unignored by ignorePath", function() {
-            let ignoredPaths = new IgnoredPaths({ ignore: true, cwd: getFixturePath(), ignorePath: getFixturePath(".eslintignoreWithUnignoredDefaults") });
+            const ignoredPaths = new IgnoredPaths({ ignore: true, cwd: getFixturePath(), ignorePath: getFixturePath(".eslintignoreWithUnignoredDefaults") });
 
             assert.isFalse(ignoredPaths.contains(getFixturePath("node_modules", "package", "file.js")));
         });
 
         it("should ignore dotfiles", function() {
-            let ignoredPaths = new IgnoredPaths({ ignore: true, cwd: getFixturePath() });
+            const ignoredPaths = new IgnoredPaths({ ignore: true, cwd: getFixturePath() });
 
             assert.isTrue(ignoredPaths.contains(getFixturePath(".foo")));
             assert.isTrue(ignoredPaths.contains(getFixturePath("foo/.bar")));
         });
 
         it("should ignore directories beginning with a dot", function() {
-            let ignoredPaths = new IgnoredPaths({ ignore: true, cwd: getFixturePath() });
+            const ignoredPaths = new IgnoredPaths({ ignore: true, cwd: getFixturePath() });
 
             assert.isTrue(ignoredPaths.contains(getFixturePath(".foo/bar")));
             assert.isTrue(ignoredPaths.contains(getFixturePath("foo/.bar/baz")));
         });
 
         it("should still ignore dotfiles when ignore option disabled", function() {
-            let ignoredPaths = new IgnoredPaths({ ignore: false, cwd: getFixturePath() });
+            const ignoredPaths = new IgnoredPaths({ ignore: false, cwd: getFixturePath() });
 
             assert.isTrue(ignoredPaths.contains(getFixturePath(".foo")));
             assert.isTrue(ignoredPaths.contains(getFixturePath("foo/.bar")));
         });
 
         it("should still ignore directories beginning with a dot when ignore option disabled", function() {
-            let ignoredPaths = new IgnoredPaths({ ignore: false, cwd: getFixturePath() });
+            const ignoredPaths = new IgnoredPaths({ ignore: false, cwd: getFixturePath() });
 
             assert.isTrue(ignoredPaths.contains(getFixturePath(".foo/bar")));
             assert.isTrue(ignoredPaths.contains(getFixturePath("foo/.bar/baz")));
         });
 
         it("should not ignore absolute paths containing '..'", function() {
-            let ignoredPaths = new IgnoredPaths({ ignore: true, cwd: getFixturePath() });
+            const ignoredPaths = new IgnoredPaths({ ignore: true, cwd: getFixturePath() });
 
             assert.isFalse(ignoredPaths.contains(getFixturePath("foo") + "/../unignored.js"));
         });
 
         it("should ignore /node_modules/ at top level relative to .eslintignore when loaded", function() {
-            let ignoredPaths = new IgnoredPaths({ ignore: true, ignorePath: getFixturePath(".eslintignore"), cwd: getFixturePath() });
+            const ignoredPaths = new IgnoredPaths({ ignore: true, ignorePath: getFixturePath(".eslintignore"), cwd: getFixturePath() });
 
             assert.isTrue(ignoredPaths.contains(getFixturePath("node_modules", "existing.js")));
             assert.isFalse(ignoredPaths.contains(getFixturePath("foo", "node_modules", "existing.js")));
         });
 
         it("should ignore /node_modules/ at top level relative to cwd without an .eslintignore", function() {
-            let ignoredPaths = new IgnoredPaths({ ignore: true, cwd: getFixturePath("no-ignore-file") });
+            const ignoredPaths = new IgnoredPaths({ ignore: true, cwd: getFixturePath("no-ignore-file") });
 
             assert.isTrue(ignoredPaths.contains(getFixturePath("no-ignore-file", "node_modules", "existing.js")));
             assert.isFalse(ignoredPaths.contains(getFixturePath("no-ignore-file", "foo", "node_modules", "existing.js")));
@@ -487,7 +487,7 @@ describe("IgnoredPaths", function() {
     describe("two globstar '**' ignore pattern", function() {
 
         it("should ignore files in nested directories", function() {
-            let ignoredPaths = new IgnoredPaths({ ignore: true, ignorePattern: "**/*.js", cwd: getFixturePath() });
+            const ignoredPaths = new IgnoredPaths({ ignore: true, ignorePattern: "**/*.js", cwd: getFixturePath() });
 
             assert.isTrue(ignoredPaths instanceof IgnoredPaths);
             assert.isTrue(ignoredPaths.contains(getFixturePath("foo.js")));
@@ -502,26 +502,26 @@ describe("IgnoredPaths", function() {
     describe("dotfiles option", function() {
 
         it("should add at least one pattern when false", function() {
-            let ignoredPaths = new IgnoredPaths({ ignore: true, dotfiles: false, cwd: getFixturePath("no-ignore-file") });
+            const ignoredPaths = new IgnoredPaths({ ignore: true, dotfiles: false, cwd: getFixturePath("no-ignore-file") });
 
             assert(getIgnoreRules(ignoredPaths).length > ignoredPaths.defaultPatterns.length);
         });
 
         it("should add no patterns when true", function() {
-            let ignoredPaths = new IgnoredPaths({ ignore: true, dotfiles: true, cwd: getFixturePath("no-ignore-file") });
+            const ignoredPaths = new IgnoredPaths({ ignore: true, dotfiles: true, cwd: getFixturePath("no-ignore-file") });
 
             assert.lengthOf(getIgnoreRules(ignoredPaths), ignoredPaths.defaultPatterns.length);
         });
 
         it("should not ignore dotfiles when true", function() {
-            let ignoredPaths = new IgnoredPaths({ ignore: true, dotfiles: true, cwd: getFixturePath() });
+            const ignoredPaths = new IgnoredPaths({ ignore: true, dotfiles: true, cwd: getFixturePath() });
 
             assert.isFalse(ignoredPaths.contains(getFixturePath(".foo")));
             assert.isFalse(ignoredPaths.contains(getFixturePath("foo/.bar")));
         });
 
         it("should not ignore directories beginning with a dot when true", function() {
-            let ignoredPaths = new IgnoredPaths({ ignore: true, dotfiles: true, cwd: getFixturePath() });
+            const ignoredPaths = new IgnoredPaths({ ignore: true, dotfiles: true, cwd: getFixturePath() });
 
             assert.isFalse(ignoredPaths.contains(getFixturePath(".foo/bar")));
             assert.isFalse(ignoredPaths.contains(getFixturePath("foo/.bar/baz")));
@@ -531,45 +531,45 @@ describe("IgnoredPaths", function() {
 
     describe("getIgnoredFoldersGlobPatterns", function() {
         it("should return default ignores glob dir patterns when there is no eslintignore file", function() {
-            let ignoredPaths = new IgnoredPaths({ ignore: true, cwd: getFixturePath("no-ignore-file") });
+            const ignoredPaths = new IgnoredPaths({ ignore: true, cwd: getFixturePath("no-ignore-file") });
 
-            let expected = ["node_modules/**", "bower_components/**"];
-            let actual = ignoredPaths.getIgnoredFoldersGlobPatterns();
+            const expected = ["node_modules/**", "bower_components/**"];
+            const actual = ignoredPaths.getIgnoredFoldersGlobPatterns();
 
             assert.sameMembers(actual, expected);
         });
 
         it("should return default glob dir patterns when there is an ignore file without unignored defaults", function() {
-            let ignoredPaths = new IgnoredPaths({ ignore: true, ignorePath: getFixturePath(".eslintignore"), cwd: getFixturePath() });
+            const ignoredPaths = new IgnoredPaths({ ignore: true, ignorePath: getFixturePath(".eslintignore"), cwd: getFixturePath() });
 
-            let expected = ["node_modules/**", "bower_components/**"];
-            let actual = ignoredPaths.getIgnoredFoldersGlobPatterns();
+            const expected = ["node_modules/**", "bower_components/**"];
+            const actual = ignoredPaths.getIgnoredFoldersGlobPatterns();
 
             assert.sameMembers(actual, expected);
         });
 
         it("should not return dirs with unignored defaults in ignore file", function() {
-            let ignoredPaths = new IgnoredPaths({ ignore: true, ignorePath: getFixturePath(".eslintignoreWithUnignoredDefaults"), cwd: getFixturePath() });
+            const ignoredPaths = new IgnoredPaths({ ignore: true, ignorePath: getFixturePath(".eslintignoreWithUnignoredDefaults"), cwd: getFixturePath() });
 
-            let actual = ignoredPaths.getIgnoredFoldersGlobPatterns();
+            const actual = ignoredPaths.getIgnoredFoldersGlobPatterns();
 
             assert.notInclude(actual, "node_modules/**");
             assert.notInclude(actual, "bower_components/**");
         });
 
         it("should return dirs with unignored defaults in ignore file when ignore option is disabled", function() {
-            let ignoredPaths = new IgnoredPaths({ ignore: false, ignorePath: getFixturePath(".eslintignoreWithUnignoredDefaults"), cwd: getFixturePath() });
+            const ignoredPaths = new IgnoredPaths({ ignore: false, ignorePath: getFixturePath(".eslintignoreWithUnignoredDefaults"), cwd: getFixturePath() });
 
-            let expected = ["node_modules/**", "bower_components/**"];
-            let actual = ignoredPaths.getIgnoredFoldersGlobPatterns();
+            const expected = ["node_modules/**", "bower_components/**"];
+            const actual = ignoredPaths.getIgnoredFoldersGlobPatterns();
 
             assert.includeMembers(actual, expected);
         });
 
         it("should not return dirs unignored by ignorePattern", function() {
-            let ignoredPaths = new IgnoredPaths({ ignore: true, cwd: getFixturePath("no-ignore-file"), ignorePattern: "!/node_modules/package" });
+            const ignoredPaths = new IgnoredPaths({ ignore: true, cwd: getFixturePath("no-ignore-file"), ignorePattern: "!/node_modules/package" });
 
-            let actual = ignoredPaths.getIgnoredFoldersGlobPatterns();
+            const actual = ignoredPaths.getIgnoredFoldersGlobPatterns();
 
             assert.notInclude(actual, "node_modules/**");
             assert.include(actual, "bower_components/**");
