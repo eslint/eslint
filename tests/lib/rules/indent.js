@@ -1389,6 +1389,12 @@ ruleTester.run("indent", rule, {
             "    .by" +
             " .default();",
             options: [4]
+        },
+        {
+            code:
+            "foo = bar.baz()\n" +
+            "        .bip();",
+            options: [4, {MemberExpression: 1}]
         }
     ],
     invalid: [
