@@ -65,6 +65,18 @@ ruleTester.run("camelcase", rule, {
             code: "var { category_id: category } = query;",
             parserOptions: { ecmaVersion: 6 },
             options: [{properties: "never"}]
+        },
+        {
+            code: "import { camelCased } from \"external module\";",
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
+        },
+        {
+            code: "import { no_camelcased as camelCased } from \"external-module\";",
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
+        },
+        {
+            code: "import { no_camelcased as camelCased, anoterCamelCased } from \"external-module\";",
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
         }
     ],
     invalid: [
@@ -204,6 +216,96 @@ ruleTester.run("camelcase", rule, {
             errors: [
                 {
                     message: "Identifier 'category_id' is not in camel case.",
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "import no_camelcased from \"external-module\";",
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [
+                {
+                    message: "Identifier 'no_camelcased' is not in camel case.",
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "import * as no_camelcased from \"external-module\";",
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [
+                {
+                    message: "Identifier 'no_camelcased' is not in camel case.",
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "import { no_camelcased } from \"external-module\";",
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [
+                {
+                    message: "Identifier 'no_camelcased' is not in camel case.",
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "import { no_camelcased as no_camel_cased } from \"external module\";",
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [
+                {
+                    message: "Identifier 'no_camel_cased' is not in camel case.",
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "import { camelCased as no_camel_cased } from \"external module\";",
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [
+                {
+                    message: "Identifier 'no_camel_cased' is not in camel case.",
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "import { camelCased, no_camelcased } from \"external-module\";",
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [
+                {
+                    message: "Identifier 'no_camelcased' is not in camel case.",
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "import { no_camelcased as camelCased, another_no_camelcased } from \"external-module\";",
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [
+                {
+                    message: "Identifier 'another_no_camelcased' is not in camel case.",
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "import camelCased, { no_camelcased } from \"external-module\";",
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [
+                {
+                    message: "Identifier 'no_camelcased' is not in camel case.",
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "import no_camelcased, { another_no_camelcased as camelCased } from \"external-module\";",
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [
+                {
+                    message: "Identifier 'no_camelcased' is not in camel case.",
                     type: "Identifier"
                 }
             ]
