@@ -33,11 +33,11 @@ ruleTester.run("no-invalid-regexp", rule, {
         { code: "new RegExp('\/', 'yu')", parserOptions: { ecmaVersion: 6 }}
     ],
     invalid: [
-        { code: "RegExp('[');", errors: [{ message: "Invalid regular expression: /[/: Unterminated character class", type: "CallExpression" }] },
-        { code: "RegExp('.', 'y');", errors: [{ message: "Invalid flags supplied to RegExp constructor 'y'", type: "CallExpression" }] },
-        { code: "RegExp('.', 'u');", errors: [{ message: "Invalid flags supplied to RegExp constructor 'u'", type: "CallExpression" }] },
-        { code: "RegExp('.', 'yu');", errors: [{ message: "Invalid flags supplied to RegExp constructor 'yu'", type: "CallExpression" }] },
-        { code: "RegExp('.', 'z');", errors: [{ message: "Invalid flags supplied to RegExp constructor 'z'", type: "CallExpression" }] },
-        { code: "new RegExp(')');", errors: [{ message: "Invalid regular expression: /)/: Unmatched ')'", type: "NewExpression" }] }
+        { code: "RegExp('[');", errors: [{ message: "Invalid regular expression: /[/: Unterminated character class.", type: "CallExpression" }] },
+        { code: "RegExp('.', 'y');", errors: [{ message: "Invalid flags supplied to RegExp constructor 'y'.", type: "CallExpression" }] },
+        { code: "RegExp('.', 'u');", errors: [{ message: "Invalid flags supplied to RegExp constructor 'u'.", type: "CallExpression" }] },
+        { code: "RegExp('.', 'yu');", errors: [{ message: "Invalid flags supplied to RegExp constructor 'yu'.", type: "CallExpression" }] },
+        { code: "RegExp('.', 'z');", errors: [{ message: "Invalid flags supplied to RegExp constructor 'z'.", type: "CallExpression" }] },
+        { code: "new RegExp(')');", errors: [{ message: "Invalid regular expression: /)/: Unmatched ')'.", type: "NewExpression" }] }
     ]
 });

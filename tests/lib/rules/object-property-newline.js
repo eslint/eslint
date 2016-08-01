@@ -66,13 +66,13 @@ ruleTester.run("object-property-newline", rule, {
             code: "var obj = { k1: 'val1', k2: 'val2', k3: 'val3' };",
             errors: [
                 {
-                    message: "Object properties must go on a new line",
+                    message: "Object properties must go on a new line.",
                     type: "ObjectExpression",
                     line: 1,
                     column: 25
                 },
                 {
-                    message: "Object properties must go on a new line",
+                    message: "Object properties must go on a new line.",
                     type: "ObjectExpression",
                     line: 1,
                     column: 37
@@ -83,7 +83,7 @@ ruleTester.run("object-property-newline", rule, {
             code: "var obj = {\nk1: 'val1', k2: 'val2'\n};",
             errors: [
                 {
-                    message: "Object properties must go on a new line",
+                    message: "Object properties must go on a new line.",
                     type: "ObjectExpression",
                     line: 2,
                     column: 13
@@ -94,13 +94,13 @@ ruleTester.run("object-property-newline", rule, {
             code: "var obj = {\nk1: 'val1', k2: 'val2',\nk3: 'val3', k4: 'val4'\n};",
             errors: [
                 {
-                    message: "Object properties must go on a new line",
+                    message: "Object properties must go on a new line.",
                     type: "ObjectExpression",
                     line: 2,
                     column: 13
                 },
                 {
-                    message: "Object properties must go on a new line",
+                    message: "Object properties must go on a new line.",
                     type: "ObjectExpression",
                     line: 3,
                     column: 13
@@ -112,7 +112,7 @@ ruleTester.run("object-property-newline", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: "Object properties must go on a new line",
+                    message: "Object properties must go on a new line.",
                     type: "ObjectExpression",
                     line: 1,
                     column: 25
@@ -124,7 +124,7 @@ ruleTester.run("object-property-newline", rule, {
             parserOptions: { ecmaVersion: 6, ecmaFeatures: { experimentalObjectRestSpread: true } },
             errors: [
                 {
-                    message: "Object properties must go on a new line",
+                    message: "Object properties must go on a new line.",
                     type: "ObjectExpression",
                     line: 1,
                     column: 25
@@ -136,7 +136,7 @@ ruleTester.run("object-property-newline", rule, {
             parserOptions: { ecmaVersion: 6, ecmaFeatures: { experimentalObjectRestSpread: true } },
             errors: [
                 {
-                    message: "Object properties must go on a new line",
+                    message: "Object properties must go on a new line.",
                     type: "ObjectExpression",
                     line: 2,
                     column: 13
@@ -147,7 +147,7 @@ ruleTester.run("object-property-newline", rule, {
             code: "foo({ k1: 'val1', k2: 'val2' });",
             errors: [
                 {
-                    message: "Object properties must go on a new line",
+                    message: "Object properties must go on a new line.",
                     type: "ObjectExpression",
                     line: 1,
                     column: 19
@@ -158,7 +158,7 @@ ruleTester.run("object-property-newline", rule, {
             code: "foo({\nk1: 'val1', k2: 'val2'\n});",
             errors: [
                 {
-                    message: "Object properties must go on a new line",
+                    message: "Object properties must go on a new line.",
                     type: "ObjectExpression",
                     line: 2,
                     column: 13
@@ -170,7 +170,7 @@ ruleTester.run("object-property-newline", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: "Object properties must go on a new line",
+                    message: "Object properties must go on a new line.",
                     type: "ObjectExpression",
                     line: 1,
                     column: 10
@@ -182,7 +182,7 @@ ruleTester.run("object-property-newline", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: "Object properties must go on a new line",
+                    message: "Object properties must go on a new line.",
                     type: "ObjectExpression",
                     line: 2,
                     column: 4
@@ -194,7 +194,7 @@ ruleTester.run("object-property-newline", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: "Object properties must go on a new line",
+                    message: "Object properties must go on a new line.",
                     type: "ObjectExpression",
                     line: 2,
                     column: 11
@@ -206,7 +206,7 @@ ruleTester.run("object-property-newline", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: "Object properties must go on a new line",
+                    message: "Object properties must go on a new line.",
                     type: "ObjectExpression",
                     line: 2,
                     column: 15
@@ -218,7 +218,7 @@ ruleTester.run("object-property-newline", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: "Object properties must go on a new line",
+                    message: "Object properties must go on a new line.",
                     type: "ObjectExpression",
                     line: 1,
                     column: 19
@@ -230,7 +230,7 @@ ruleTester.run("object-property-newline", rule, {
             parserOptions: { ecmaVersion: 6, ecmaFeatures: { experimentalObjectRestSpread: true } },
             errors: [
                 {
-                    message: "Object properties must go on a new line",
+                    message: "Object properties must go on a new line.",
                     type: "ObjectExpression",
                     line: 1,
                     column: 19
@@ -242,7 +242,7 @@ ruleTester.run("object-property-newline", rule, {
             parserOptions: { ecmaVersion: 6, ecmaFeatures: { experimentalObjectRestSpread: true } },
             errors: [
                 {
-                    message: "Object properties must go on a new line",
+                    message: "Object properties must go on a new line.",
                     type: "ObjectExpression",
                     line: 2,
                     column: 13
@@ -253,7 +253,7 @@ ruleTester.run("object-property-newline", rule, {
             code: "var obj = {\na: {\nb: 1,\nc: 2\n}, d: 2\n};",
             errors: [
                 {
-                    message: "Object properties must go on a new line",
+                    message: "Object properties must go on a new line.",
                     type: "ObjectExpression",
                     line: 5,
                     column: 4
@@ -267,7 +267,7 @@ ruleTester.run("object-property-newline", rule, {
             options: [{ allowMultiplePropertiesPerLine: true }],
             errors: [
                 {
-                    message: "Object properties must go on a new line if they aren't all on the same line",
+                    message: "Object properties must go on a new line if they aren't all on the same line.",
                     type: "ObjectExpression",
                     line: 3,
                     column: 13
@@ -280,7 +280,7 @@ ruleTester.run("object-property-newline", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: "Object properties must go on a new line if they aren't all on the same line",
+                    message: "Object properties must go on a new line if they aren't all on the same line.",
                     type: "ObjectExpression",
                     line: 2,
                     column: 14
@@ -293,7 +293,7 @@ ruleTester.run("object-property-newline", rule, {
             parserOptions: { ecmaVersion: 6, ecmaFeatures: { experimentalObjectRestSpread: true } },
             errors: [
                 {
-                    message: "Object properties must go on a new line if they aren't all on the same line",
+                    message: "Object properties must go on a new line if they aren't all on the same line.",
                     type: "ObjectExpression",
                     line: 3,
                     column: 13
@@ -306,7 +306,7 @@ ruleTester.run("object-property-newline", rule, {
             parserOptions: { ecmaVersion: 6, ecmaFeatures: { experimentalObjectRestSpread: true } },
             errors: [
                 {
-                    message: "Object properties must go on a new line if they aren't all on the same line",
+                    message: "Object properties must go on a new line if they aren't all on the same line.",
                     type: "ObjectExpression",
                     line: 3,
                     column: 13
@@ -319,7 +319,7 @@ ruleTester.run("object-property-newline", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: "Object properties must go on a new line if they aren't all on the same line",
+                    message: "Object properties must go on a new line if they aren't all on the same line.",
                     type: "ObjectExpression",
                     line: 2,
                     column: 14
@@ -332,7 +332,7 @@ ruleTester.run("object-property-newline", rule, {
             parserOptions: { ecmaVersion: 6, ecmaFeatures: { experimentalObjectRestSpread: true } },
             errors: [
                 {
-                    message: "Object properties must go on a new line if they aren't all on the same line",
+                    message: "Object properties must go on a new line if they aren't all on the same line.",
                     type: "ObjectExpression",
                     line: 3,
                     column: 13
@@ -345,7 +345,7 @@ ruleTester.run("object-property-newline", rule, {
             parserOptions: { ecmaVersion: 6, ecmaFeatures: { experimentalObjectRestSpread: true } },
             errors: [
                 {
-                    message: "Object properties must go on a new line if they aren't all on the same line",
+                    message: "Object properties must go on a new line if they aren't all on the same line.",
                     type: "ObjectExpression",
                     line: 3,
                     column: 13

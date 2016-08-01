@@ -47,7 +47,7 @@ ruleTester.run("accessor-pairs", rule, {
         {
             code: "var o = {\n set a(value) {\n val = value; \n} \n};",
             errors: [{
-                message: "Getter is not present"
+                message: "Getter is not present."
             }]
         },
         {
@@ -56,38 +56,38 @@ ruleTester.run("accessor-pairs", rule, {
                 getWithoutSet: true
             }],
             errors: [{
-                message: "Setter is not present"
+                message: "Setter is not present."
             }]
         },
         {
             code: "var o = {d: 1};\n Object.defineProperty(o, 'c', \n{set: function(value) {\n val = value; \n} \n});",
             errors: [{
-                message: "Getter is not present"
+                message: "Getter is not present."
             }]
         },
         {
             code: "Reflect.defineProperty(obj, 'foo', {set: function(value) {}});",
             errors: [{
-                message: "Getter is not present"
+                message: "Getter is not present."
             }]
         },
         {
             code: "Object.defineProperties(obj, {foo: {set: function(value) {}}});",
             errors: [{
-                message: "Getter is not present"
+                message: "Getter is not present."
             }]
         },
         {
             code: "Object.create(null, {foo: {set: function(value) {}}});",
             errors: [{
-                message: "Getter is not present"
+                message: "Getter is not present."
             }]
         },
         {
             code: "var expr = 'foo';  var o = { set [expr](value) { val = value; } };",
             parserOptions: { ecmaVersion: 6 },
             errors: [{
-                message: "Getter is not present"
+                message: "Getter is not present."
             }]
         }
     ]

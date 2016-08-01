@@ -84,7 +84,7 @@ ruleTester.run("computed-property-spacing", rule, {
             options: ["always"],
             errors: [
                 {
-                    message: "A space is required before ']'",
+                    message: "A space is required before ']'.",
                     type: "MemberExpression",
                     column: 17,
                     line: 1
@@ -97,7 +97,7 @@ ruleTester.run("computed-property-spacing", rule, {
             options: ["always"],
             errors: [
                 {
-                    message: "A space is required after '['",
+                    message: "A space is required after '['.",
                     type: "MemberExpression",
                     column: 14,
                     line: 1
@@ -110,7 +110,7 @@ ruleTester.run("computed-property-spacing", rule, {
             options: ["never"],
             errors: [
                 {
-                    message: "There should be no space after '['",
+                    message: "There should be no space after '['.",
                     type: "MemberExpression",
                     column: 14,
                     line: 1
@@ -123,7 +123,7 @@ ruleTester.run("computed-property-spacing", rule, {
             options: ["never"],
             errors: [
                 {
-                    message: "There should be no space before ']'",
+                    message: "There should be no space before ']'.",
                     type: "MemberExpression"
                 }
             ]
@@ -134,7 +134,7 @@ ruleTester.run("computed-property-spacing", rule, {
             options: ["always"],
             errors: [
                 {
-                    message: "A space is required before ']'",
+                    message: "A space is required before ']'.",
                     type: "MemberExpression",
                     column: 17,
                     line: 1
@@ -147,7 +147,7 @@ ruleTester.run("computed-property-spacing", rule, {
             options: ["always"],
             errors: [
                 {
-                    message: "A space is required after '['",
+                    message: "A space is required after '['.",
                     type: "MemberExpression",
                     column: 14,
                     line: 1
@@ -160,13 +160,13 @@ ruleTester.run("computed-property-spacing", rule, {
             options: ["never"],
             errors: [
                 {
-                    message: "There should be no space after '['",
+                    message: "There should be no space after '['.",
                     type: "MemberExpression",
                     column: 4,
                     line: 1
                 },
                 {
-                    message: "There should be no space before ']'",
+                    message: "There should be no space before ']'.",
                     type: "MemberExpression",
                     column: 10,
                     line: 1
@@ -179,7 +179,7 @@ ruleTester.run("computed-property-spacing", rule, {
             options: ["never"],
             errors: [
                 {
-                    message: "There should be no space before ']'",
+                    message: "There should be no space before ']'.",
                     type: "MemberExpression",
                     column: 9,
                     line: 1
@@ -192,7 +192,7 @@ ruleTester.run("computed-property-spacing", rule, {
             options: ["never"],
             errors: [
                 {
-                    message: "There should be no space after '['",
+                    message: "There should be no space after '['.",
                     type: "MemberExpression",
                     column: 4,
                     line: 1
@@ -205,13 +205,13 @@ ruleTester.run("computed-property-spacing", rule, {
             options: ["always"],
             errors: [
                 {
-                    message: "A space is required after '['",
+                    message: "A space is required after '['.",
                     type: "MemberExpression",
                     column: 14,
                     line: 1
                 },
                 {
-                    message: "A space is required before ']'",
+                    message: "A space is required before ']'.",
                     type: "MemberExpression",
                     column: 16,
                     line: 1
@@ -227,13 +227,13 @@ ruleTester.run("computed-property-spacing", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: "A space is required after '['",
+                    message: "A space is required after '['.",
                     type: "Property",
                     column: 10,
                     line: 1
                 },
                 {
-                    message: "A space is required before ']'",
+                    message: "A space is required before ']'.",
                     type: "Property",
                     column: 12,
                     line: 1
@@ -247,7 +247,7 @@ ruleTester.run("computed-property-spacing", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: "A space is required after '['",
+                    message: "A space is required after '['.",
                     type: "Property",
                     column: 10,
                     line: 1
@@ -261,7 +261,7 @@ ruleTester.run("computed-property-spacing", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: "A space is required before ']'",
+                    message: "A space is required before ']'.",
                     type: "Property",
                     column: 13,
                     line: 1
@@ -277,13 +277,13 @@ ruleTester.run("computed-property-spacing", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: "There should be no space after '['",
+                    message: "There should be no space after '['.",
                     type: "Property",
                     column: 10,
                     line: 1
                 },
                 {
-                    message: "There should be no space before ']'",
+                    message: "There should be no space before ']'.",
                     type: "Property",
                     column: 14,
                     line: 1
@@ -297,7 +297,7 @@ ruleTester.run("computed-property-spacing", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: "There should be no space before ']'",
+                    message: "There should be no space before ']'.",
                     type: "Property",
                     column: 13,
                     line: 1
@@ -311,7 +311,7 @@ ruleTester.run("computed-property-spacing", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: "There should be no space after '['",
+                    message: "There should be no space after '['.",
                     type: "Property",
                     column: 10,
                     line: 1
@@ -325,7 +325,7 @@ ruleTester.run("computed-property-spacing", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: "There should be no space after '['",
+                    message: "There should be no space after '['.",
                     type: "Property",
                     column: 10,
                     line: 1
