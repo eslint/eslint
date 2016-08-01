@@ -1376,6 +1376,18 @@ ruleTester.run("indent", rule, {
             "    .foo\n" +
             "    .bar",
             options: [2, {MemberExpression: 2}]
+        },
+        {
+            code:
+            "var foo = bar.baz()\n" +
+            "            .bip();",
+            options: [4, {MemberExpression: 1}]
+        },
+        {
+            code:
+            "foo = bar.baz()\n" +
+            "        .bip();",
+            options: [4, {MemberExpression: 1}]
         }
     ],
     invalid: [
