@@ -23,7 +23,7 @@ let rule = require("../../../lib/rules/consistent-this"),
  */
 function destructuringTest(code) {
     return {
-        code: code,
+        code,
         options: ["self"],
         env: { es6: true },
         parserOptions: { ecmaVersion: 6 }

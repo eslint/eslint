@@ -44,8 +44,8 @@ let invalid = [
         errors: [{
             line: 2,
             column: 2,
-            message: message,
-            type: type
+            message,
+            type
         }]
     },
     {
@@ -53,8 +53,8 @@ let invalid = [
         errors: [{
             line: 1,
             column: 21,
-            message: message,
-            type: type
+            message,
+            type
         }]
     },
     {
@@ -62,8 +62,8 @@ let invalid = [
         errors: [{
             line: 1,
             column: 21,
-            message: message,
-            type: type
+            message,
+            type
         }]
     },
     {
@@ -71,8 +71,8 @@ let invalid = [
         errors: [{
             line: 1,
             column: 16,
-            message: message,
-            type: type
+            message,
+            type
         }]
     },
     {
@@ -80,8 +80,8 @@ let invalid = [
         errors: [{
             line: 1,
             column: 7,
-            message: message,
-            type: type
+            message,
+            type
         }]
     },
 
@@ -92,8 +92,8 @@ let invalid = [
         errors: [{
             line: 1,
             column: 22,
-            message: message,
-            type: type
+            message,
+            type
         }]
     },
     {
@@ -102,8 +102,8 @@ let invalid = [
         errors: [{
             line: 1,
             column: 15,
-            message: message,
-            type: type
+            message,
+            type
         }]
     },
     {
@@ -111,13 +111,13 @@ let invalid = [
         errors: [{
             line: 1,
             column: 23,
-            message: message,
-            type: type
+            message,
+            type
         }]
     }
 ];
 
 ruleTester.run("global-require", rule, {
-    valid: valid,
-    invalid: invalid
+    valid,
+    invalid
 });

@@ -83,6 +83,6 @@ let invalid = [
 ];
 
 ruleTester.run("no-prototype-builtins", rule, {
-    valid: valid,
-    invalid: invalid
+    valid,
+    invalid
 });

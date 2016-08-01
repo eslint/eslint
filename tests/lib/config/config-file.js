@@ -161,7 +161,7 @@ describe("ConfigFile", function() {
 
                 // Hacky: need to override isFile for each call for testing
                 "../util/module-resolver": createStubModuleResolver({ "eslint-config-foo": resolvedPath }),
-                "require-uncached": function(filename) {
+                "require-uncached"(filename) {
                     return configDeps[filename];
                 }
             };
@@ -232,7 +232,7 @@ describe("ConfigFile", function() {
                     "eslint-config-foo": resolvedPaths[0],
                     "eslint-config-bar": resolvedPaths[1]
                 }),
-                "require-uncached": function(filename) {
+                "require-uncached"(filename) {
                     return configDeps[filename];
                 }
             };

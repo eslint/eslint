@@ -82,11 +82,11 @@ describe("RuleContext", function() {
                     .withArgs("fake-rule", 2, node, location, message, messageOpts, fixerObj);
 
                 ruleContext.report({
-                    node: node,
+                    node,
                     loc: location,
-                    message: message,
+                    message,
                     data: messageOpts,
-                    fix: fix
+                    fix
                 });
 
                 fix.verify();

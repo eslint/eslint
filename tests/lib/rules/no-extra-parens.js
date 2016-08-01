@@ -25,12 +25,12 @@ function invalid(code, type, line, config) {
     config = config || {};
 
     let result = {
-        code: code,
+        code,
         parserOptions: config.parserOptions || {},
         errors: [
             {
                 message: "Gratuitous parentheses around expression.",
-                type: type
+                type
             }
         ],
         options: config.options || []

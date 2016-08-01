@@ -25,7 +25,7 @@ let assert = require("chai").assert,
  */
 function mockRule(context) {
     return {
-        Program: function(node) {
+        Program(node) {
             context.report(node, "Expected a validation error.");
         }
     };
@@ -45,7 +45,7 @@ mockRule.schema = [
  */
 function mockObjectRule(context) {
     return {
-        Program: function(node) {
+        Program(node) {
             context.report(node, "Expected a validation error.");
         }
     };
@@ -63,7 +63,7 @@ mockObjectRule.schema = {
  */
 function mockNoOptionsRule(context) {
     return {
-        Program: function(node) {
+        Program(node) {
             context.report(node, "Expected a validation error.");
         }
     };

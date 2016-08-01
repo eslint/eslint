@@ -44,19 +44,19 @@ ruleTester.run("prefer-arrow-callback", rule, {
         {code: "foo(function bar() { new.target; }.bind(this));", parserOptions: { ecmaVersion: 6 }}
     ],
     invalid: [
-        {code: "foo(function bar() {});", errors: errors},
-        {code: "foo(function() {});", options: [{ allowNamedFunctions: true }], errors: errors},
-        {code: "foo(function bar() {});", options: [{ allowNamedFunctions: false }], errors: errors},
-        {code: "foo(function() {});", errors: errors},
-        {code: "foo(nativeCb || function() {});", errors: errors},
+        {code: "foo(function bar() {});", errors},
+        {code: "foo(function() {});", options: [{ allowNamedFunctions: true }], errors},
+        {code: "foo(function bar() {});", options: [{ allowNamedFunctions: false }], errors},
+        {code: "foo(function() {});", errors},
+        {code: "foo(nativeCb || function() {});", errors},
         {code: "foo(bar ? function() {} : function() {});", errors: [errors[0], errors[0]]},
-        {code: "foo(function() { (function() { this; }); });", errors: errors},
-        {code: "foo(function() { this; }.bind(this));", errors: errors},
-        {code: "foo(function() { (() => this); }.bind(this));", parserOptions: { ecmaVersion: 6 }, errors: errors},
-        {code: "foo(function bar(a) { a; });", errors: errors},
-        {code: "foo(function(a) { a; });", errors: errors},
-        {code: "foo(function(arguments) { arguments; });", errors: errors},
-        {code: "foo(function() { this; });", options: [{ allowUnboundThis: false }], errors: errors},
-        {code: "foo(function() { (() => this); });", parserOptions: { ecmaVersion: 6 }, options: [{ allowUnboundThis: false }], errors: errors}
+        {code: "foo(function() { (function() { this; }); });", errors},
+        {code: "foo(function() { this; }.bind(this));", errors},
+        {code: "foo(function() { (() => this); }.bind(this));", parserOptions: { ecmaVersion: 6 }, errors},
+        {code: "foo(function bar(a) { a; });", errors},
+        {code: "foo(function(a) { a; });", errors},
+        {code: "foo(function(arguments) { arguments; });", errors},
+        {code: "foo(function() { this; });", options: [{ allowUnboundThis: false }], errors},
+        {code: "foo(function() { (() => this); });", parserOptions: { ecmaVersion: 6 }, options: [{ allowUnboundThis: false }], errors}
     ]
 });
