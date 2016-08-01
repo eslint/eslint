@@ -38,7 +38,7 @@ let valid = [
 ];
 
 let message = "Expected parentheses around arrow function argument.";
-let asNeededMessage = "Unexpected parentheses around single function argument";
+let asNeededMessage = "Unexpected parentheses around single function argument.";
 let type = "ArrowFunctionExpression";
 
 let invalid = [

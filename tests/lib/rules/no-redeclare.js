@@ -38,37 +38,37 @@ ruleTester.run("no-redeclare", rule, {
         { code: "var top = 0;", options: [{builtinGlobals: true}], env: {browser: true}, parserOptions: { sourceType: "module" } }
     ],
     invalid: [
-        { code: "var a = 3; var a = 10;", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "'a' is already defined", type: "Identifier"}] },
-        { code: "switch(foo) { case a: let b = 3;\ncase b: let b = 4}", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "'b' is already defined", type: "Identifier"}] },
-        { code: "var a = 3; var a = 10;", errors: [{ message: "'a' is already defined", type: "Identifier"}] },
-        { code: "var a = {}; var a = [];", errors: [{ message: "'a' is already defined", type: "Identifier"}] },
-        { code: "var a; function a() {}", errors: [{ message: "'a' is already defined", type: "Identifier" }] },
-        { code: "function a() {} function a() {}", errors: [{ message: "'a' is already defined", type: "Identifier" }] },
-        { code: "var a = function() { }; var a = function() { }", errors: [{ message: "'a' is already defined", type: "Identifier"}] },
-        { code: "var a = function() { }; var a = new Date();", errors: [{ message: "'a' is already defined", type: "Identifier"}] },
-        { code: "var a = 3; var a = 10; var a = 15;", errors: [{ message: "'a' is already defined", type: "Identifier"}, { message: "'a' is already defined", type: "Identifier"}] },
-        { code: "var a; var a;", parserOptions: { sourceType: "module" }, errors: [{ message: "'a' is already defined", type: "Identifier"}] },
-        { code: "export var a; export var a;", parserOptions: { sourceType: "module" }, errors: [{ message: "'a' is already defined", type: "Identifier"}] },
-        { code: "export class A {} export class A {}", parserOptions: { sourceType: "module" }, errors: [{ message: "'A' is already defined", type: "Identifier"}] },
-        { code: "export var a; var a;", parserOptions: { sourceType: "module" }, errors: [{ message: "'a' is already defined", type: "Identifier"}] },
+        { code: "var a = 3; var a = 10;", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "'a' is already defined.", type: "Identifier"}] },
+        { code: "switch(foo) { case a: let b = 3;\ncase b: let b = 4}", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "'b' is already defined.", type: "Identifier"}] },
+        { code: "var a = 3; var a = 10;", errors: [{ message: "'a' is already defined.", type: "Identifier"}] },
+        { code: "var a = {}; var a = [];", errors: [{ message: "'a' is already defined.", type: "Identifier"}] },
+        { code: "var a; function a() {}", errors: [{ message: "'a' is already defined.", type: "Identifier" }] },
+        { code: "function a() {} function a() {}", errors: [{ message: "'a' is already defined.", type: "Identifier" }] },
+        { code: "var a = function() { }; var a = function() { }", errors: [{ message: "'a' is already defined.", type: "Identifier"}] },
+        { code: "var a = function() { }; var a = new Date();", errors: [{ message: "'a' is already defined.", type: "Identifier"}] },
+        { code: "var a = 3; var a = 10; var a = 15;", errors: [{ message: "'a' is already defined.", type: "Identifier"}, { message: "'a' is already defined.", type: "Identifier"}] },
+        { code: "var a; var a;", parserOptions: { sourceType: "module" }, errors: [{ message: "'a' is already defined.", type: "Identifier"}] },
+        { code: "export var a; export var a;", parserOptions: { sourceType: "module" }, errors: [{ message: "'a' is already defined.", type: "Identifier"}] },
+        { code: "export class A {} export class A {}", parserOptions: { sourceType: "module" }, errors: [{ message: "'A' is already defined.", type: "Identifier"}] },
+        { code: "export var a; var a;", parserOptions: { sourceType: "module" }, errors: [{ message: "'a' is already defined.", type: "Identifier"}] },
         {
             code: "var Object = 0;",
             options: [{builtinGlobals: true}],
-            errors: [{ message: "'Object' is already defined", type: "Identifier"}]
+            errors: [{ message: "'Object' is already defined.", type: "Identifier"}]
         },
         {
             code: "var top = 0;",
             options: [{builtinGlobals: true}],
             env: {browser: true},
-            errors: [{ message: "'top' is already defined", type: "Identifier"}]
+            errors: [{ message: "'top' is already defined.", type: "Identifier"}]
         },
         {
             code: "var a; var {a = 0, b: Object = 0} = {};",
             options: [{builtinGlobals: true}],
             parserOptions: { ecmaVersion: 6 },
             errors: [
-                { message: "'a' is already defined", type: "Identifier"},
-                { message: "'Object' is already defined", type: "Identifier"}
+                { message: "'a' is already defined.", type: "Identifier"},
+                { message: "'Object' is already defined.", type: "Identifier"}
             ]
         },
         {
@@ -76,7 +76,7 @@ ruleTester.run("no-redeclare", rule, {
             options: [{builtinGlobals: true}],
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
-                { message: "'a' is already defined", type: "Identifier"}
+                { message: "'a' is already defined.", type: "Identifier"}
             ]
         },
         {
@@ -84,7 +84,7 @@ ruleTester.run("no-redeclare", rule, {
             options: [{builtinGlobals: true}],
             parserOptions: { ecmaVersion: 6, ecmaFeatures: { globalReturn: true } },
             errors: [
-                { message: "'a' is already defined", type: "Identifier"}
+                { message: "'a' is already defined.", type: "Identifier"}
             ]
         },
         {
@@ -92,7 +92,7 @@ ruleTester.run("no-redeclare", rule, {
             options: [{builtinGlobals: false}],
             parserOptions: { ecmaVersion: 6 },
             errors: [
-                { message: "'a' is already defined", type: "Identifier"}
+                { message: "'a' is already defined.", type: "Identifier"}
             ]
         },
 
@@ -101,7 +101,7 @@ ruleTester.run("no-redeclare", rule, {
             code: "/*global b:false*/ var b = 1;",
             options: [{builtinGlobals: true}],
             errors: [
-                { message: "'b' is already defined", type: "Identifier"}
+                { message: "'b' is already defined.", type: "Identifier"}
             ]
         }
     ]

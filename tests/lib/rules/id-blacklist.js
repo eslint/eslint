@@ -103,7 +103,7 @@ ruleTester.run("id-blacklist", rule, {
             options: ["foo"],
             errors: [
                 {
-                    message: "Identifier 'foo' is blacklisted",
+                    message: "Identifier 'foo' is blacklisted.",
                     type: "Identifier"
                 }
             ]
@@ -113,7 +113,7 @@ ruleTester.run("id-blacklist", rule, {
             options: ["bar"],
             errors: [
                 {
-                    message: "Identifier 'bar' is blacklisted",
+                    message: "Identifier 'bar' is blacklisted.",
                     type: "Identifier"
                 }
             ]
@@ -123,7 +123,7 @@ ruleTester.run("id-blacklist", rule, {
             options: ["f", "fo", "foo", "bar"],
             errors: [
                 {
-                    message: "Identifier 'foo' is blacklisted",
+                    message: "Identifier 'foo' is blacklisted.",
                     type: "Identifier"
                 }
             ]
@@ -133,7 +133,7 @@ ruleTester.run("id-blacklist", rule, {
             options: ["f", "fo", "foo", "bar"],
             errors: [
                 {
-                    message: "Identifier 'foo' is blacklisted",
+                    message: "Identifier 'foo' is blacklisted.",
                     type: "Identifier"
                 }
             ]
@@ -143,7 +143,7 @@ ruleTester.run("id-blacklist", rule, {
             options: ["f", "fo", "foo", "b", "ba", "baz"],
             errors: [
                 {
-                    message: "Identifier 'foo' is blacklisted",
+                    message: "Identifier 'foo' is blacklisted.",
                     type: "Identifier"
                 }
             ]
@@ -153,7 +153,7 @@ ruleTester.run("id-blacklist", rule, {
             options: ["f", "fo", "foo", "b", "ba", "barr", "bazz"],
             errors: [
                 {
-                    message: "Identifier 'foo' is blacklisted",
+                    message: "Identifier 'foo' is blacklisted.",
                     type: "Identifier"
                 }
             ]
@@ -163,7 +163,7 @@ ruleTester.run("id-blacklist", rule, {
             options: ["f", "fo", "fooo", "b", "ba", "bar", "bazz"],
             errors: [
                 {
-                    message: "Identifier 'bar' is blacklisted",
+                    message: "Identifier 'bar' is blacklisted.",
                     type: "Identifier"
                 }
             ]
@@ -173,7 +173,7 @@ ruleTester.run("id-blacklist", rule, {
             options: ["f", "fo", "foo", "b", "ba", "barr", "bazz", "bingg"],
             errors: [
                 {
-                    message: "Identifier 'foo' is blacklisted",
+                    message: "Identifier 'foo' is blacklisted.",
                     type: "Identifier"
                 }
             ]
@@ -183,7 +183,7 @@ ruleTester.run("id-blacklist", rule, {
             options: ["obj"],
             errors: [
                 {
-                    message: "Identifier 'obj' is blacklisted",
+                    message: "Identifier 'obj' is blacklisted.",
                     type: "Identifier"
                 }
             ]
@@ -193,7 +193,7 @@ ruleTester.run("id-blacklist", rule, {
             options: ["key"],
             errors: [
                 {
-                    message: "Identifier 'key' is blacklisted",
+                    message: "Identifier 'key' is blacklisted.",
                     type: "Identifier"
                 }
             ]
@@ -203,7 +203,7 @@ ruleTester.run("id-blacklist", rule, {
             options: ["foo"],
             errors: [
                 {
-                    message: "Identifier 'foo' is blacklisted",
+                    message: "Identifier 'foo' is blacklisted.",
                     type: "Identifier"
                 }
             ]
@@ -213,7 +213,7 @@ ruleTester.run("id-blacklist", rule, {
             options: ["arr"],
             errors: [
                 {
-                    message: "Identifier 'arr' is blacklisted",
+                    message: "Identifier 'arr' is blacklisted.",
                     type: "Identifier"
                 }
             ]
@@ -223,7 +223,7 @@ ruleTester.run("id-blacklist", rule, {
             options: ["foo"],
             errors: [
                 {
-                    message: "Identifier 'foo' is blacklisted",
+                    message: "Identifier 'foo' is blacklisted.",
                     type: "Identifier"
                 }
             ]
@@ -233,7 +233,7 @@ ruleTester.run("id-blacklist", rule, {
             options: ["f", "fo", "foo", "b", "ba", "barr", "bazz", "bingg"],
             errors: [
                 {
-                    message: "Identifier 'foo' is blacklisted",
+                    message: "Identifier 'foo' is blacklisted.",
                     type: "Identifier"
                 }
             ]
@@ -243,7 +243,7 @@ ruleTester.run("id-blacklist", rule, {
             options: ["f", "fo", "foo", "b", "ba", "barr", "bazz", "bingg"],
             errors: [
                 {
-                    message: "Identifier 'foo' is blacklisted",
+                    message: "Identifier 'foo' is blacklisted.",
                     type: "Identifier"
                 }
             ]
@@ -253,7 +253,7 @@ ruleTester.run("id-blacklist", rule, {
             options: ["f", "fo", "fooo", "b", "ba", "bar", "bazz", "bingg"],
             errors: [
                 {
-                    message: "Identifier 'bar' is blacklisted",
+                    message: "Identifier 'bar' is blacklisted.",
                     type: "Identifier"
                 }
             ]
@@ -263,7 +263,7 @@ ruleTester.run("id-blacklist", rule, {
             options: ["array", "date", "myDate", "myarray", "new", "var"],
             errors: [
                 {
-                    message: "Identifier 'myDate' is blacklisted",
+                    message: "Identifier 'myDate' is blacklisted.",
                     type: "Identifier"
                 }
             ]
@@ -273,7 +273,7 @@ ruleTester.run("id-blacklist", rule, {
             options: ["array", "date", "mydate", "myArray", "new", "var"],
             errors: [
                 {
-                    message: "Identifier 'myArray' is blacklisted",
+                    message: "Identifier 'myArray' is blacklisted.",
                     type: "Identifier"
                 }
             ]
@@ -283,7 +283,7 @@ ruleTester.run("id-blacklist", rule, {
             options: ["bar"],
             errors: [
                 {
-                    message: "Identifier 'bar' is blacklisted",
+                    message: "Identifier 'bar' is blacklisted.",
                     type: "Identifier"
                 }
             ]
@@ -293,7 +293,7 @@ ruleTester.run("id-blacklist", rule, {
             options: ["bar", "baz"],
             errors: [
                 {
-                    message: "Identifier 'baz' is blacklisted",
+                    message: "Identifier 'baz' is blacklisted.",
                     type: "Identifier"
                 }
             ]
