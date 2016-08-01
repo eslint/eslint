@@ -1,3 +1,14 @@
+v3.2.1 - August 1, 2016
+
+* 584577a Build: Pin file-entry-cache to avoid licence issue (refs #6816) (#6818) (alberto)
+* 38d0d23 Docs: clarify minor releases and suggest using `~ to version (#6804) (Henry Zhu)
+* 4ca809e Fix: Normalizes messages so all end with a period (fixes #6762) (#6807) (Patrick McElhaney)
+* c7488ac Fix: Make MemberExpression option opt-in (fixes #6797) (#6798) (Rich Trott)
+* 715e8fa Docs: Update issue closing policy (fixes #6765) (#6808) (Nicholas C. Zakas)
+* 288f7bf Build: Fix site generation (fixes #6791) (#6793) (Nicholas C. Zakas)
+* 261a9f3 Docs: Update JSCS status in README (#6802) (alberto)
+* 5ae0887 Docs: Update no-void.md (#6799) (Daniel Hritzkiv)
+
 v3.2.0 - July 29, 2016
 
 * 2438ee2 Upgrade: Update markdownlint dependency to 0.2.0 (fixes #6781) (#6782) (David Anson)
