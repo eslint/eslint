@@ -1,3 +1,8 @@
+v3.2.2 - August 1, 2016
+
+* 510ce4b Upgrade: file-entry-cache@^1.3.1 (fixes #6816, refs #6780) (#6819) (alberto)
+* 46b14cd Fix: ignore MemberExpression in VariableDeclarators (fixes #6795) (#6815) (Nicholas C. Zakas)
+
 v3.2.1 - August 1, 2016
 
 * 584577a Build: Pin file-entry-cache to avoid licence issue (refs #6816) (#6818) (alberto)
