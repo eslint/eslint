@@ -166,6 +166,8 @@ ESLint follows [semantic versioning](http://semver.org). However, due to the nat
     * An existing formatter is removed.
     * Part of the public API is removed or changed in an incompatible way.
 
+According to our policy, any minor update may report more errors than the previous release (ex: from a bug fix). As such, we recommend using the tilde (`~`) in `package.json` e.g. `"eslint": "~3.1.0"` to guarantee the results of your builds.
+
 ## Frequently Asked Questions
 
 ### How is ESLint different from JSHint?
