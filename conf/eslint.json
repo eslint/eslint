@@ -218,6 +218,7 @@
         "space-unary-ops": "off",
         "spaced-comment": "off",
         "strict": "off",
+        "symbol-description": "off",
         "template-curly-spacing": "off",
         "unicode-bom": "off",
         "use-isnan": "error",
