@@ -227,7 +227,7 @@ And in YAML:
 
 These examples allow `var1` to be overwritten in your code, but disallow it for `var2`.
 
-**Note:** Enable the [no-native-reassign](../rules/no-native-reassign.md) rule to disallow modifications to read-only global variables in your code.
+**Note:** Enable the [no-global-assign](../rules/no-global-assign.md) rule to disallow modifications to read-only global variables in your code.
 
 ## Configuring Plugins
 
