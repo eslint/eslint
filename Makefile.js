@@ -208,21 +208,28 @@ function generateRuleIndexPage(basedir) {
 
     find(path.join(basedir, "/lib/rules/")).filter(fileType("js")).forEach(function(filename) {
         let rule = require(filename);
+        let basename = path.basename(filename, ".js");
 
-        let basename = path.basename(filename, ".js"),
-            output = {
+        if (rule.meta.deprecated) {
+            categoriesData.deprecated.rules.push({
                 name: basename,
-                description: rule.meta.docs.description,
-                recommended: rule.meta.docs.recommended || false,
-                fixable: !!rule.meta.fixable
-            },
-            category = lodash.find(categoriesData.categories, {name: rule.meta.docs.category});
+                replacedBy: rule.meta.docs.replacedBy
+            });
+        } else {
+            let output = {
+                    name: basename,
+                    description: rule.meta.docs.description,
+                    recommended: rule.meta.docs.recommended || false,
+                    fixable: !!rule.meta.fixable
+                },
+                category = lodash.find(categoriesData.categories, {name: rule.meta.docs.category});
 
-        if (!category.rules) {
-            category.rules = [];
+            if (!category.rules) {
+                category.rules = [];
+            }
+
+            category.rules.push(output);
         }
-
-        category.rules.push(output);
     });
 
     let output = yaml.safeDump(categoriesData, {sortKeys: true});
