@@ -72,17 +72,19 @@ When a suggestion is too ambitious or would take too much time to complete, it's
 
 All team members are allowed to close issues depending on how the issue has been resolved.
 
-Team members may close an issue immediately if:
+Team members may close an issue **immediately** if:
 
 1. The issue is a duplicate of an existing issue.
 1. The issue is just a question and has been answered.
 
-Otherwise, team members should observe a waiting period before closing an issue:
+Team members may close an issue where the consensus is to not accept the issue after a waiting period:
 
 * Wait **2 days** if the issue was opened Monday through Friday.
 * Wait **3 days** if the issue was opened on Saturday or Sunday.
 
 The waiting period ensures that other team members have a chance to review the issue before it is closed.
+
+Team members may close any **unaccepted** issue after it has been open for 21 days. These issues do not have enough support to move forward.
 
 ## Consensus
 
