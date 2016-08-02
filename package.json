@@ -100,7 +100,7 @@
     "mock-fs": "^3.10.0",
     "npm-license": "^0.3.2",
     "phantomjs-prebuilt": "^2.1.7",
-    "proxyquire": ">=1.0.0 <1.7.5",
+    "proxyquire": "^1.7.10",
     "semver": "^5.0.3",
     "shelljs-nodecli": "~0.1.0",
     "sinon": "^1.17.2",
