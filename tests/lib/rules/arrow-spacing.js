@@ -332,6 +332,6 @@ let invalid = [
 ];
 
 ruleTester.run("arrow-spacing", rule, {
-    valid: valid,
-    invalid: invalid
+    valid,
+    invalid
 });

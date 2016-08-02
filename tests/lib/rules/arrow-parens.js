@@ -49,8 +49,8 @@ let invalid = [
         errors: [{
             line: 1,
             column: 1,
-            message: message,
-            type: type
+            message,
+            type
         }]
     },
     {
@@ -60,8 +60,8 @@ let invalid = [
         errors: [{
             line: 1,
             column: 1,
-            message: message,
-            type: type
+            message,
+            type
         }]
     },
     {
@@ -71,8 +71,8 @@ let invalid = [
         errors: [{
             line: 1,
             column: 1,
-            message: message,
-            type: type
+            message,
+            type
         }]
     },
     {
@@ -82,8 +82,8 @@ let invalid = [
         errors: [{
             line: 1,
             column: 8,
-            message: message,
-            type: type
+            message,
+            type
         }]
     },
     {
@@ -93,8 +93,8 @@ let invalid = [
         errors: [{
             line: 1,
             column: 8,
-            message: message,
-            type: type
+            message,
+            type
         }]
     },
     {
@@ -104,8 +104,8 @@ let invalid = [
         errors: [{
             line: 1,
             column: 3,
-            message: message,
-            type: type
+            message,
+            type
         }]
     },
 
@@ -119,7 +119,7 @@ let invalid = [
             line: 1,
             column: 1,
             message: asNeededMessage,
-            type: type
+            type
         }]
     },
     {
@@ -131,13 +131,13 @@ let invalid = [
             line: 1,
             column: 1,
             message: asNeededMessage,
-            type: type
+            type
         }]
     }
 
 ];
 
 ruleTester.run("arrow-parens", rule, {
-    valid: valid,
-    invalid: invalid
+    valid,
+    invalid
 });

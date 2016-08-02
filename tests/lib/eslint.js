@@ -890,7 +890,7 @@ describe("eslint", function() {
             eslint.reset();
             eslint.defineRule("test-rule", function(context) {
                 return {
-                    Literal: function(node) {
+                    Literal(node) {
                         context.report(node, "message {{parameter name}}", {
                             "parameter name": "yay!"
                         });
@@ -909,7 +909,7 @@ describe("eslint", function() {
             eslint.reset();
             eslint.defineRule("test-rule", function(context) {
                 return {
-                    Literal: function(node) {
+                    Literal(node) {
                         context.report(node, "message {{code}}");
                     }
                 };
@@ -926,7 +926,7 @@ describe("eslint", function() {
             eslint.reset();
             eslint.defineRule("test-rule", function(context) {
                 return {
-                    Literal: function(node) {
+                    Literal(node) {
                         context.report(node, "message {{parameter-name}}", {
                             "parameter-name": "yay!"
                         });
@@ -945,7 +945,7 @@ describe("eslint", function() {
             eslint.reset();
             eslint.defineRule("test-rule", function(context) {
                 return {
-                    Literal: function(node) {
+                    Literal(node) {
                         context.report(node, "message {{parameter}}", {});
                     }
                 };
@@ -962,7 +962,7 @@ describe("eslint", function() {
             eslint.reset();
             eslint.defineRule("test-rule", function(context) {
                 return {
-                    Literal: function(node) {
+                    Literal(node) {
                         context.report(node, "message {{parameter}}", {});
                     }
                 };
@@ -980,7 +980,7 @@ describe("eslint", function() {
             eslint.reset();
             eslint.defineRule("test-rule", function(context) {
                 return {
-                    Literal: function(node) {
+                    Literal(node) {
                         context.report(node, "message {{ parameter}}", {
                             parameter: "yay!"
                         });
@@ -999,7 +999,7 @@ describe("eslint", function() {
             eslint.reset();
             eslint.defineRule("test-rule", function(context) {
                 return {
-                    Literal: function(node) {
+                    Literal(node) {
                         context.report(node, "message {{parameter }}", {
                             parameter: "yay!"
                         });
@@ -1018,7 +1018,7 @@ describe("eslint", function() {
             eslint.reset();
             eslint.defineRule("test-rule", function(context) {
                 return {
-                    Literal: function(node) {
+                    Literal(node) {
                         context.report(node, "message {{ parameter name }}", {
                             "parameter name": "yay!"
                         });
@@ -1037,7 +1037,7 @@ describe("eslint", function() {
             eslint.reset();
             eslint.defineRule("test-rule", function(context) {
                 return {
-                    Literal: function(node) {
+                    Literal(node) {
                         context.report(node, "message {{ parameter-name }}", {
                             "parameter-name": "yay!"
                         });
@@ -1161,7 +1161,7 @@ describe("eslint", function() {
             eslint.reset();
             eslint.defineRule(code, function(context) {
                 return {
-                    Literal: function(node) {
+                    Literal(node) {
                         context.report(node, context.settings.info);
                     }
                 };
@@ -1181,7 +1181,7 @@ describe("eslint", function() {
             eslint.reset();
             eslint.defineRule(code, function(context) {
                 return {
-                    Literal: function(node) {
+                    Literal(node) {
                         if (Object.getOwnPropertyNames(context.settings).length !== 0) {
                             context.report(node, "Settings should be empty");
                         }
@@ -1212,10 +1212,10 @@ describe("eslint", function() {
 
             eslint.reset();
             eslint.defineRule("test-rule", sandbox.mock().withArgs(
-                sinon.match({parserOptions: parserOptions})
+                sinon.match({parserOptions})
             ).returns({}));
 
-            let config = { rules: { "test-rule": 2 }, parserOptions: parserOptions };
+            let config = { rules: { "test-rule": 2 }, parserOptions };
 
             eslint.verify("0", config, filename);
         });
@@ -1226,7 +1226,7 @@ describe("eslint", function() {
 
             eslint.reset();
             eslint.defineRule("test-rule", sandbox.mock().withArgs(
-                sinon.match({parserOptions: parserOptions})
+                sinon.match({parserOptions})
             ).returns({}));
 
             let config = { rules: { "test-rule": 2 } };
@@ -1679,7 +1679,7 @@ describe("eslint", function() {
             eslint.reset();
             eslint.defineRule(code, function(context) {
                 return {
-                    Literal: function(node) {
+                    Literal(node) {
                         context.report(node, "message");
                     }
                 };
@@ -1709,7 +1709,7 @@ describe("eslint", function() {
                 config.rules[item] = 1;
                 newRules[item] = function(context) {
                     return {
-                        Literal: function(node) {
+                        Literal(node) {
                             context.report(node, "message");
                         }
                     };
@@ -1738,7 +1738,7 @@ describe("eslint", function() {
             eslint.reset();
             eslint.defineRule(code, function(context) {
                 return {
-                    Literal: function(node) {
+                    Literal(node) {
                         context.report(node, context.getFilename());
                     }
                 };
@@ -1757,7 +1757,7 @@ describe("eslint", function() {
             eslint.reset();
             eslint.defineRule(code, function(context) {
                 return {
-                    Literal: function(node) {
+                    Literal(node) {
                         context.report(node, context.getFilename());
                     }
                 };
@@ -1903,7 +1903,7 @@ describe("eslint", function() {
 
         eslint.defineRule("test-plugin/test-rule", function(context) {
             return {
-                Literal: function(node) {
+                Literal(node) {
                     if (node.value === "trigger violation") {
                         context.report(node, "Reporting violation.");
                     }
@@ -2851,7 +2851,7 @@ describe("eslint", function() {
             };
 
             let messages = eslint.verify(code, config, {
-                filename: filename,
+                filename,
                 allowInlineConfig: false
             });
 
@@ -2871,9 +2871,9 @@ describe("eslint", function() {
             };
             let ok = false;
 
-            eslint.defineRules({test: function(context) {
+            eslint.defineRules({test(context) {
                 return {
-                    Program: function() {
+                    Program() {
                         let scope = context.getScope();
                         let sourceCode = context.getSourceCode();
                         let comments = sourceCode.getAllComments();
@@ -2905,7 +2905,7 @@ describe("eslint", function() {
             };
 
             let messages = eslint.verify(code, config, {
-                filename: filename,
+                filename,
                 allowInlineConfig: false
             });
 
@@ -2925,7 +2925,7 @@ describe("eslint", function() {
             };
 
             let messages = eslint.verify(code, config, {
-                filename: filename,
+                filename,
                 allowInlineConfig: false
             });
 
@@ -2943,7 +2943,7 @@ describe("eslint", function() {
             };
 
             let messages = eslint.verify(code, config, {
-                filename: filename,
+                filename,
                 allowInlineConfig: false
             });
 
@@ -2962,9 +2962,9 @@ describe("eslint", function() {
             };
             let ok = false;
 
-            eslint.defineRules({test: function(context) {
+            eslint.defineRules({test(context) {
                 return {
-                    Program: function() {
+                    Program() {
                         let scope = context.getScope();
                         let sourceCode = context.getSourceCode();
                         let comments = sourceCode.getAllComments();
@@ -2998,7 +2998,7 @@ describe("eslint", function() {
             };
 
             let messages = eslint.verify(code, config, {
-                filename: filename,
+                filename,
                 allowInlineConfig: true
             });
 
@@ -3304,9 +3304,9 @@ describe("eslint", function() {
             let code = "/* global foo */\n/* global bar, baz */";
             let ok = false;
 
-            eslint.defineRules({test: function(context) {
+            eslint.defineRules({test(context) {
                 return {
-                    Program: function() {
+                    Program() {
                         let scope = context.getScope();
                         let sourceCode = context.getSourceCode();
                         let comments = sourceCode.getAllComments();
@@ -3370,9 +3370,9 @@ describe("eslint", function() {
         beforeEach(function() {
             let ok = false;
 
-            eslint.defineRules({test: function(context) {
+            eslint.defineRules({test(context) {
                 return {
-                    Program: function() {
+                    Program() {
                         scope = context.getScope();
                         ok = true;
                     }
@@ -3482,7 +3482,7 @@ describe("eslint", function() {
          * @returns {void}
          */
         function verify(code, type, expectedNamesList) {
-            eslint.defineRules({test: function(context) {
+            eslint.defineRules({test(context) {
                 let rule = {
                     Program: checkEmpty,
                     EmptyStatement: checkEmpty,
@@ -3802,7 +3802,7 @@ describe("eslint", function() {
 
             it("should strip leading line: prefix from parser error", function() {
                 let parser = path.join(parserFixtures, "line-error.js");
-                let messages = eslint.verify(";", { parser: parser }, "filename");
+                let messages = eslint.verify(";", { parser }, "filename");
 
                 assert.equal(messages.length, 1);
                 assert.equal(messages[0].severity, 2);
@@ -3812,7 +3812,7 @@ describe("eslint", function() {
 
             it("should not modify a parser error message without a leading line: prefix", function() {
                 let parser = path.join(parserFixtures, "no-line-error.js");
-                let messages = eslint.verify(";", { parser: parser }, "filename");
+                let messages = eslint.verify(";", { parser }, "filename");
 
                 assert.equal(messages.length, 1);
                 assert.equal(messages[0].severity, 2);

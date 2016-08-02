@@ -909,7 +909,7 @@ describe("CLIEngine", function() {
 
             engine = new CLIEngine({
                 ignore: false,
-                cwd: cwd,
+                cwd,
                 rulePaths: ["./"],
                 configFile: "eslint.json"
             });
@@ -1628,7 +1628,7 @@ describe("CLIEngine", function() {
                 engine = new CLIEngine({
                     useEslintrc: false,
                     cache: true,
-                    cwd: cwd,
+                    cwd,
                     rules: {
                         "no-console": 0
                     },
@@ -1760,7 +1760,7 @@ describe("CLIEngine", function() {
 
                     // specifying cache true the cache will be created
                     cache: true,
-                    cacheFile: cacheFile,
+                    cacheFile,
                     rules: {
                         "no-console": 0,
                         "no-unused-vars": 2
@@ -1801,7 +1801,7 @@ describe("CLIEngine", function() {
 
                     // specifying cache true the cache will be created
                     cache: true,
-                    cacheFile: cacheFile,
+                    cacheFile,
                     rules: {
                         "no-console": 0,
                         "no-unused-vars": 2
@@ -1833,7 +1833,7 @@ describe("CLIEngine", function() {
                 engine = new CLIEngine({
                     cwd: path.join(fixtureDir, ".."),
                     useEslintrc: false,
-                    cacheFile: cacheFile,
+                    cacheFile,
                     rules: {
                         "no-console": 0,
                         "no-unused-vars": 2
@@ -1854,7 +1854,7 @@ describe("CLIEngine", function() {
                 engine = new CLIEngine({
                     cwd: path.join(fixtureDir, ".."),
                     useEslintrc: false,
-                    cacheFile: cacheFile,
+                    cacheFile,
                     rules: {
                         "no-console": 0,
                         "no-unused-vars": 2
@@ -1876,7 +1876,7 @@ describe("CLIEngine", function() {
                     cwd: path.join(fixtureDir, ".."),
                     useEslintrc: false,
                     cache: true,
-                    cacheFile: cacheFile,
+                    cacheFile,
                     rules: {
                         "no-console": 0,
                         "no-unused-vars": 2
@@ -1899,7 +1899,7 @@ describe("CLIEngine", function() {
                 engine = new CLIEngine({
                     cwd: path.join(fixtureDir, ".."),
                     useEslintrc: false,
-                    cacheFile: cacheFile,
+                    cacheFile,
                     rules: {
                         "no-console": 0,
                         "no-unused-vars": 2
@@ -1987,10 +1987,10 @@ describe("CLIEngine", function() {
                 engine.addPlugin("test-processor", {
                     processors: {
                         ".txt": {
-                            preprocess: function(text) {
+                            preprocess(text) {
                                 return [text];
                             },
-                            postprocess: function(messages) {
+                            postprocess(messages) {
                                 return messages[0];
                             }
                         }
@@ -2030,10 +2030,10 @@ describe("CLIEngine", function() {
                 engine.addPlugin("test-processor", {
                     processors: {
                         ".txt": {
-                            preprocess: function(text) {
+                            preprocess(text) {
                                 return [text.replace("a()", "b()")];
                             },
-                            postprocess: function(messages) {
+                            postprocess(messages) {
                                 messages[0][0].ruleId = "post-processed";
                                 return messages[0];
                             }
@@ -2074,10 +2074,10 @@ describe("CLIEngine", function() {
                 engine.addPlugin("test-processor", {
                     processors: {
                         ".txt": {
-                            preprocess: function(text) {
+                            preprocess(text) {
                                 return [text.replace("a()", "b()")];
                             },
-                            postprocess: function(messages) {
+                            postprocess(messages) {
                                 messages[0][0].ruleId = "post-processed";
                                 return messages[0];
                             }

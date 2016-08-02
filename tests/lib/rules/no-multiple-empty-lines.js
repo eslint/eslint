@@ -29,7 +29,7 @@ function getExpectedError(lines) {
         : "More than " + lines + " blank lines not allowed.";
 
     return {
-        message: message,
+        message,
         type: "Program"
     };
 }

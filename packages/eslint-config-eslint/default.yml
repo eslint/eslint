@@ -88,6 +88,7 @@ rules:
     no-useless-constructor: "error"
     no-with: "error"
     no-var: "error"
+    object-shorthand: "error"
     one-var-declaration-per-line: "error"
     quotes: ["error", "double"]
     quote-props: ["error", "as-needed"]

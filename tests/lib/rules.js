@@ -58,7 +58,7 @@ describe("rules", function() {
     describe("when importing plugin rules", function() {
         let customPlugin = {
                 rules: {
-                    "custom-rule": function() { }
+                    "custom-rule"() { }
                 }
             },
             pluginName = "custom-plugin";
