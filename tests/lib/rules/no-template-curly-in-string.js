@@ -8,7 +8,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var rule = require("../../../lib/rules/no-template-curly-in-string"),
+const rule = require("../../../lib/rules/no-template-curly-in-string"),
     RuleTester = require("../../../lib/testers/rule-tester");
 
 
@@ -16,10 +16,10 @@ var rule = require("../../../lib/rules/no-template-curly-in-string"),
 // Tests
 //------------------------------------------------------------------------------
 
-var ruleTester = new RuleTester();
+const ruleTester = new RuleTester();
 
-var message = "Unexpected template string expression.";
-var parserOptions = { ecmaVersion: 6 };
+const message = "Unexpected template string expression.";
+const parserOptions = { ecmaVersion: 6 };
 
 ruleTester.run("no-template-curly-in-string", rule, {
     valid: [
