@@ -6,21 +6,53 @@ ESLint is a tool for identifying and reporting on patterns found in ECMAScript/J
 * ESLint uses an AST to evaluate patterns in code.
 * ESLint is completely pluggable, every single rule is a plugin and you can add more at runtime.
 
-## Installation
+## Installation and Usage
 
-You can install ESLint using npm:
+There are two ways to install ESLint: globally and locally.
 
-    npm install -g eslint
+### Local Installation and Usage
 
-## Usage
+If you want to include ESLint as part of your project's build system, we recommend installing it locally. You can do so using npm:
 
-If it's your first time using ESLint, you should set up a config file using `--init`:
+```
+$ npm install eslint --save-dev
+```
 
-    eslint --init
+You should then setup a configuration file:
 
-After that, you can run ESLint on any JavaScript file:
+```
+$ ./node_modules/.bin/eslint --init
+```
 
-    eslint test.js test2.js
+After that, you can run ESLint on any file or directory like this:
+
+```
+$ ./node_modules/.bin/eslint yourfile.js
+```
+
+Any plugins or shareable configs that you use must also be installed locally to work with a locally-installed ESLint.
+
+### Global Installation and Usage
+
+If you want to make ESLint available to tools that run across all of your projects, we recommend installing ESLint globally. You can do so using npm:
+
+```
+$ npm install -g eslint
+```
+
+You should then setup a configuration file:
+
+```
+$ eslint --init
+```
+
+After that, you can run ESLint on any file or directory like this:
+
+```
+$ eslint yourfile.js
+```
+
+Any plugins or shareable configs that you use must also be installed globally to work with a globally-installed ESLint.
 
 **Note:** `eslint --init` is intended for setting up and configuring ESLint on a per-project basis and will perform a local installation of ESLint and its plugins in the directory in which it is run. If you prefer using a global installation of ESLint, any plugins used in your configuration must also be installed globally.
 
@@ -28,7 +60,7 @@ After that, you can run ESLint on any JavaScript file:
 
 **Note:** If you are coming from a version before 1.0.0 please see the [migration guide](http://eslint.org/docs/user-guide/migrating-to-1.0.0).
 
-After running `eslint --init`, you'll have a `.eslintrc.*` file in your directory. In it, you'll see some rules configured like this:
+After running `eslint --init`, you'll have a `.eslintrc` file in your directory. In it, you'll see some rules configured like this:
 
 ```json
 {
@@ -39,7 +71,7 @@ After running `eslint --init`, you'll have a `.eslintrc.*` file in your director
 }
 ```
 
-The names `"semi"` and `"quotes"` are the names of [rules](http://eslint.org/docs/rules) in ESLint. The number is the error level of the rule and can be one of the following values:
+The names `"semi"` and `"quotes"` are the names of [rules](http://eslint.org/docs/rules) in ESLint. The first value is the error level of the rule and can be one of these values:
 
 * `"off"` or `0` - turn the rule off
 * `"warn"` or `1` - turn the rule on as a warning (doesn't affect exit code)
