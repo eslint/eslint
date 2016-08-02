@@ -223,7 +223,7 @@
         "vars-on-top": "off",
         "wrap-iife": "off",
         "wrap-regex": "off",
-        "wrong-quotes-for-template-string": "off",
+        "no-template-curly-in-string": "off",
         "yield-star-spacing": "off",
         "yoda": "off"
     }

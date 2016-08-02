@@ -1,4 +1,4 @@
-# Warn when using template string syntax in regular strings (wrong-quotes-for-template-string)
+# Warn when using template string syntax in regular strings (no-template-curly-in-string)
 
 ECMAScript 6 allows programmers to create strings containing variable or expressions using template literals, instead of string concatenation, by writing expressions like `${variable}` between two backtick quotes (\`). It can be easy to use the wrong quotes when wanting to use template literals, and end up with the literal value `"${variable}"` instead of a string containing the value of the injected expressions.
 
@@ -12,7 +12,7 @@ This rule aims to warn programmers of a potential quotes mismatch. It will warn 
 Examples of **incorrect** code for this rule:
 
 ```js
-/*eslint wrong-quotes-for-template-string: "error"*/
+/*eslint no-template-curly-in-string: "error"*/
 "Hello ${name}!";
 'Hello ${name}!';
 "Time: ${12 * 60 * 60 * 1000}";
@@ -21,7 +21,7 @@ Examples of **incorrect** code for this rule:
 Examples of **correct** code for this rule:
 
 ```js
-/*eslint wrong-quotes-for-template-string: "error"*/
+/*eslint no-template-curly-in-string: "error"*/
 `Hello ${name}!`;
 `Time: ${12 * 60 * 60 * 1000}`;
 

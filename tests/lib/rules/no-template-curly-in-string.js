@@ -8,7 +8,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var rule = require("../../../lib/rules/wrong-quotes-for-template-string"),
+var rule = require("../../../lib/rules/no-template-curly-in-string"),
     RuleTester = require("../../../lib/testers/rule-tester");
 
 
@@ -21,7 +21,7 @@ var ruleTester = new RuleTester();
 var message = "Possible use of template string inside a regular string.";
 var parserOptions = { ecmaVersion: 6 };
 
-ruleTester.run("wrong-quotes-for-template-string", rule, {
+ruleTester.run("no-template-curly-in-string", rule, {
     valid: [
         { code: "`Hello, ${name}`;", parserOptions },
         { code: "templateFunction`Hello, ${name}`;", parserOptions },
