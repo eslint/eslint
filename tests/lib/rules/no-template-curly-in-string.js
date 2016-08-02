@@ -18,7 +18,7 @@ var rule = require("../../../lib/rules/no-template-curly-in-string"),
 
 var ruleTester = new RuleTester();
 
-var message = "Possible use of template string inside a regular string.";
+var message = "Unexpected template string expression.";
 var parserOptions = { ecmaVersion: 6 };
 
 ruleTester.run("no-template-curly-in-string", rule, {
