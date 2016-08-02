@@ -114,6 +114,7 @@
         "no-unneeded-ternary": "off",
         "no-unreachable": "error",
         "no-unsafe-finally": "error",
+        "no-unsafe-negation": "off",
         "no-unused-expressions": "off",
         "no-unused-labels": "error",
         "no-unused-vars": "error",
