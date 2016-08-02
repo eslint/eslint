@@ -9,7 +9,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-let rule = require("../../../lib/rules/wrap-regex"),
+const rule = require("../../../lib/rules/wrap-regex"),
     RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
@@ -17,7 +17,7 @@ let rule = require("../../../lib/rules/wrap-regex"),
 //------------------------------------------------------------------------------
 
 
-let ruleTester = new RuleTester();
+const ruleTester = new RuleTester();
 
 ruleTester.run("wrap-regex", rule, {
     valid: [

@@ -9,7 +9,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-let assert = require("assert"),
+const assert = require("assert"),
     EventEmitter = require("events").EventEmitter,
     fs = require("fs"),
     path = require("path"),
@@ -25,8 +25,8 @@ let assert = require("assert"),
 // Helpers
 //------------------------------------------------------------------------------
 
-let expectedPattern = /\/\*expected\s+((?:.|[\r\n])+?)\s*\*\//g;
-let lineEndingPattern = /\r?\n/g;
+const expectedPattern = /\/\*expected\s+((?:.|[\r\n])+?)\s*\*\//g;
+const lineEndingPattern = /\r?\n/g;
 
 /**
  * Extracts the content of `/*expected` comments from a given source code.
@@ -38,7 +38,7 @@ let lineEndingPattern = /\r?\n/g;
 function getExpectedDotArrows(source) {
     expectedPattern.lastIndex = 0;
 
-    let retv = [];
+    const retv = [];
     let m;
 
     while ((m = expectedPattern.exec(source)) !== null) {
@@ -567,14 +567,14 @@ describe("CodePathAnalyzer", function() {
     });
 
     describe("completed code paths are correct", function() {
-        let testDataDir = path.join(__dirname, "../../fixtures/code-path-analysis/");
-        let testDataFiles = fs.readdirSync(testDataDir);
+        const testDataDir = path.join(__dirname, "../../fixtures/code-path-analysis/");
+        const testDataFiles = fs.readdirSync(testDataDir);
 
         testDataFiles.forEach(function(file) {
             it(file, function() {
-                let source = fs.readFileSync(path.join(testDataDir, file), {encoding: "utf8"});
-                let expected = getExpectedDotArrows(source);
-                let actual = [];
+                const source = fs.readFileSync(path.join(testDataDir, file), {encoding: "utf8"});
+                const expected = getExpectedDotArrows(source);
+                const actual = [];
 
                 assert(expected.length > 0, "/*expected */ comments not found.");
 
@@ -585,7 +585,7 @@ describe("CodePathAnalyzer", function() {
                         }
                     };
                 });
-                let messages = eslint.verify(source, {rules: {test: 2}, env: {es6: true}});
+                const messages = eslint.verify(source, {rules: {test: 2}, env: {es6: true}});
 
                 assert.equal(messages.length, 0);
                 assert.equal(actual.length, expected.length, "a count of code paths is wrong.");

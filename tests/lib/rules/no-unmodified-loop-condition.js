@@ -9,10 +9,10 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-let rule = require("../../../lib/rules/no-unmodified-loop-condition"),
+const rule = require("../../../lib/rules/no-unmodified-loop-condition"),
     RuleTester = require("../../../lib/testers/rule-tester");
 
-let ruleTester = new RuleTester();
+const ruleTester = new RuleTester();
 
 ruleTester.run("no-unmodified-loop-condition", rule, {
     valid: [

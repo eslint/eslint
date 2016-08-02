@@ -9,7 +9,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-let rule = require("../../../lib/rules/one-var-declaration-per-line"),
+const rule = require("../../../lib/rules/one-var-declaration-per-line"),
     RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
@@ -37,7 +37,7 @@ function errorAt(line, column) {
 // Tests
 //------------------------------------------------------------------------------
 
-let ruleTester = new RuleTester();
+const ruleTester = new RuleTester();
 
 ruleTester.run("one-var-declaration-per-line", rule, {
     valid: [

@@ -9,10 +9,10 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-let rule = require("../../../lib/rules/rest-spread-spacing"),
+const rule = require("../../../lib/rules/rest-spread-spacing"),
     RuleTester = require("../../../lib/testers/rule-tester");
 
-let ruleTester = new RuleTester();
+const ruleTester = new RuleTester();
 
 ruleTester.run("rest-spread-spacing", rule, {
     valid: [

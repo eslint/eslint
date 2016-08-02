@@ -9,10 +9,10 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-let rule = require("../../../lib/rules/no-shadow-restricted-names"),
+const rule = require("../../../lib/rules/no-shadow-restricted-names"),
     RuleTester = require("../../../lib/testers/rule-tester");
 
-let ruleTester = new RuleTester();
+const ruleTester = new RuleTester();
 
 ruleTester.run("no-shadow-restricted-names", rule, {
     valid: [

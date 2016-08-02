@@ -9,9 +9,9 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-let lodash = require("lodash");
-let rule = require("../../../lib/rules/no-invalid-this");
-let RuleTester = require("../../../lib/testers/rule-tester");
+const lodash = require("lodash");
+const rule = require("../../../lib/rules/no-invalid-this");
+const RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
 // Helpers
@@ -68,9 +68,9 @@ function MODULES(pattern) {
 function extractPatterns(patterns, type) {
 
     // Clone and apply the pattern environment.
-    let patternsList = patterns.map(function(pattern) {
+    const patternsList = patterns.map(function(pattern) {
         return pattern[type].map(function(applyCondition) {
-            let thisPattern = lodash.cloneDeep(pattern);
+            const thisPattern = lodash.cloneDeep(pattern);
 
             applyCondition(thisPattern);
 
@@ -93,12 +93,12 @@ function extractPatterns(patterns, type) {
 // Tests
 //------------------------------------------------------------------------------
 
-let errors = [
+const errors = [
     {message: "Unexpected 'this'.", type: "ThisExpression"},
     {message: "Unexpected 'this'.", type: "ThisExpression"}
 ];
 
-let patterns = [
+const patterns = [
 
     // Global.
     {
@@ -532,7 +532,7 @@ let patterns = [
     }
 ];
 
-let ruleTester = new RuleTester();
+const ruleTester = new RuleTester();
 
 ruleTester.run("no-invalid-this", rule, {
     valid: extractPatterns(patterns, "valid"),

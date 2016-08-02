@@ -9,14 +9,14 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-let rule = require("../../../lib/rules/no-empty-function"),
+const rule = require("../../../lib/rules/no-empty-function"),
     RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
 // Helpers
 //------------------------------------------------------------------------------
 
-let ALLOW_OPTIONS = Object.freeze([
+const ALLOW_OPTIONS = Object.freeze([
     "functions",
     "arrowFunctions",
     "generatorFunctions",
@@ -86,7 +86,7 @@ function toValidInvalid(patterns, item) {
 // Tests
 //------------------------------------------------------------------------------
 
-let ruleTester = new RuleTester();
+const ruleTester = new RuleTester();
 
 ruleTester.run("no-empty-function", rule, [
     {

@@ -9,7 +9,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-let sinon = require("sinon"),
+const sinon = require("sinon"),
     leche = require("leche"),
     realESLint = require("../../lib/eslint"),
     RuleContext = require("../../lib/rule-context");
@@ -19,7 +19,7 @@ let sinon = require("sinon"),
 //------------------------------------------------------------------------------
 
 describe("RuleContext", function() {
-    let sandbox = sinon.sandbox.create();
+    const sandbox = sinon.sandbox.create();
 
     describe("report()", function() {
         let ruleContext, eslint;
@@ -31,12 +31,12 @@ describe("RuleContext", function() {
 
         describe("old-style call with location", function() {
             it("should call eslint.report() with rule ID and severity prepended", function() {
-                let node = {},
+                const node = {},
                     location = {},
                     message = "Message",
                     messageOpts = {};
 
-                let mockESLint = sandbox.mock(eslint);
+                const mockESLint = sandbox.mock(eslint);
 
                 mockESLint.expects("report")
                     .once()
@@ -50,11 +50,11 @@ describe("RuleContext", function() {
 
         describe("old-style call without location", function() {
             it("should call eslint.report() with rule ID and severity prepended", function() {
-                let node = {},
+                const node = {},
                     message = "Message",
                     messageOpts = {};
 
-                let mockESLint = sandbox.mock(eslint);
+                const mockESLint = sandbox.mock(eslint);
 
                 mockESLint.expects("report")
                     .once()
@@ -68,14 +68,14 @@ describe("RuleContext", function() {
 
         describe("new-style call with all options", function() {
             it("should call eslint.report() with rule ID and severity prepended and all new-style options", function() {
-                let node = {},
+                const node = {},
                     location = {},
                     message = "Message",
                     messageOpts = {},
                     fixerObj = {},
                     fix = sandbox.mock().returns(fixerObj).once();
 
-                let mockESLint = sandbox.mock(eslint);
+                const mockESLint = sandbox.mock(eslint);
 
                 mockESLint.expects("report")
                     .once()

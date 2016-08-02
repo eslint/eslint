@@ -9,27 +9,27 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-let lodash = require("lodash"),
+const lodash = require("lodash"),
     assert = require("chai").assert,
     autoconfig = require("../../../lib/config/autoconfig"),
     sourceCodeUtil = require("../../../lib/util/source-code-util"),
-    defaultOptions = require("../../../conf/cli-options");
+    baseDefaultOptions = require("../../../conf/cli-options");
 
-defaultOptions = lodash.assign({}, defaultOptions, {cwd: process.cwd()});
+const defaultOptions = lodash.assign({}, baseDefaultOptions, {cwd: process.cwd()});
 
 //------------------------------------------------------------------------------
 // Data
 //------------------------------------------------------------------------------
 
-let SOURCE_CODE_FIXTURE_FILENAME = "./tests/fixtures/autoconfig/source.js";
-let CONFIG_COMMENTS_FILENAME = "./tests/fixtures/autoconfig/source-with-comments.js";
-let SEVERITY = 2;
+const SOURCE_CODE_FIXTURE_FILENAME = "./tests/fixtures/autoconfig/source.js";
+const CONFIG_COMMENTS_FILENAME = "./tests/fixtures/autoconfig/source-with-comments.js";
+const SEVERITY = 2;
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-let rulesConfig = {
+const rulesConfig = {
     semi: [ SEVERITY, [SEVERITY, "always"], [SEVERITY, "never"] ],
     "semi-spacing": [ SEVERITY,
         [ SEVERITY, { before: true, after: true } ],
@@ -46,7 +46,7 @@ let rulesConfig = {
         [ SEVERITY, "backtick", "avoid-escape" ] ]
 };
 
-let errorRulesConfig = {
+const errorRulesConfig = {
     "no-unused-vars": [ SEVERITY ],
     "semi-spacing": [ SEVERITY,
         [ SEVERITY, { before: true, after: true } ],
@@ -61,8 +61,8 @@ describe("autoconfig", function() {
     describe("Registry", function() {
 
         it("should set up a registry for rules in a provided rulesConfig", function() {
-            let expectedRules = Object.keys(rulesConfig);
-            let registry = new autoconfig.Registry(rulesConfig);
+            const expectedRules = Object.keys(rulesConfig);
+            const registry = new autoconfig.Registry(rulesConfig);
 
             assert.equal(Object.keys(registry.rules).length, 3);
             assert.sameMembers(Object.keys(registry.rules), expectedRules);
@@ -75,14 +75,14 @@ describe("autoconfig", function() {
         });
 
         it("should not have any rules if constructed without a config argument", function() {
-            let registry = new autoconfig.Registry();
+            const registry = new autoconfig.Registry();
 
             assert.isObject(registry.rules);
             assert.lengthOf(Object.keys(registry.rules), 0);
         });
 
         it("should create registryItems for each rule with the proper keys", function() {
-            let registry = new autoconfig.Registry(rulesConfig);
+            const registry = new autoconfig.Registry(rulesConfig);
 
             assert.isObject(registry.rules.semi[0]);
             assert.isObject(registry.rules["semi-spacing"][0]);
@@ -93,7 +93,7 @@ describe("autoconfig", function() {
         });
 
         it("should populate the config property correctly", function() {
-            let registry = new autoconfig.Registry(rulesConfig);
+            const registry = new autoconfig.Registry(rulesConfig);
 
             assert.equal(registry.rules.quotes[0].config, SEVERITY);
             assert.deepEqual(registry.rules.quotes[1].config, [SEVERITY, "single"]);
@@ -105,7 +105,7 @@ describe("autoconfig", function() {
         });
 
         it("should assign the correct specificity", function() {
-            let registry = new autoconfig.Registry(rulesConfig);
+            const registry = new autoconfig.Registry(rulesConfig);
 
             assert.equal(registry.rules.quotes[0].specificity, 1);
             assert.equal(registry.rules.quotes[1].specificity, 2);
@@ -113,7 +113,7 @@ describe("autoconfig", function() {
         });
 
         it("should initially leave the errorCount as undefined", function() {
-            let registry = new autoconfig.Registry(rulesConfig);
+            const registry = new autoconfig.Registry(rulesConfig);
 
             assert.isUndefined(registry.rules.quotes[0].errorCount);
             assert.isUndefined(registry.rules.quotes[1].errorCount);
@@ -123,20 +123,20 @@ describe("autoconfig", function() {
         describe("populateFromCoreRules()", function() {
 
             it("should add core rules to registry", function() {
-                let registry = new autoconfig.Registry();
+                const registry = new autoconfig.Registry();
 
                 registry.populateFromCoreRules();
-                let finalRuleCount = Object.keys(registry.rules).length;
+                const finalRuleCount = Object.keys(registry.rules).length;
 
                 assert(finalRuleCount > 0);
                 assert.include(Object.keys(registry.rules), "eqeqeq");
             });
 
             it("should not add duplicate rules", function() {
-                let registry = new autoconfig.Registry(rulesConfig);
+                const registry = new autoconfig.Registry(rulesConfig);
 
                 registry.populateFromCoreRules();
-                let semiCount = Object.keys(registry.rules).filter(function(ruleId) {
+                const semiCount = Object.keys(registry.rules).filter(function(ruleId) {
                     return ruleId === "semi";
                 }).length;
 
@@ -148,7 +148,7 @@ describe("autoconfig", function() {
             let ruleSets;
 
             beforeEach(function() {
-                let registry = new autoconfig.Registry(rulesConfig);
+                const registry = new autoconfig.Registry(rulesConfig);
 
                 ruleSets = registry.buildRuleSets();
             });
@@ -176,15 +176,15 @@ describe("autoconfig", function() {
             let registry;
 
             beforeEach(function() {
-                let config = {ignore: false};
-                let sourceCode = sourceCodeUtil.getSourceCodeOfFiles(SOURCE_CODE_FIXTURE_FILENAME, config);
+                const config = {ignore: false};
+                const sourceCode = sourceCodeUtil.getSourceCodeOfFiles(SOURCE_CODE_FIXTURE_FILENAME, config);
 
                 registry = new autoconfig.Registry(rulesConfig);
                 registry = registry.lintSourceCode(sourceCode, defaultOptions);
             });
 
             it("should populate the errorCount of all registryItems", function() {
-                let expectedRules = ["semi", "semi-spacing", "quotes"];
+                const expectedRules = ["semi", "semi-spacing", "quotes"];
 
                 assert.sameMembers(Object.keys(registry.rules), expectedRules);
                 expectedRules.forEach(function(ruleId) {
@@ -203,9 +203,9 @@ describe("autoconfig", function() {
             });
 
             it("should respect inline eslint config comments (and not crash when they make linting errors)", function() {
-                let config = {ignore: false};
-                let sourceCode = sourceCodeUtil.getSourceCodeOfFiles(CONFIG_COMMENTS_FILENAME, config);
-                let expectedRegistry = [
+                const config = {ignore: false};
+                const sourceCode = sourceCodeUtil.getSourceCodeOfFiles(CONFIG_COMMENTS_FILENAME, config);
+                const expectedRegistry = [
                     { config: 2, specificity: 1, errorCount: 3 },
                     { config: [ 2, "always" ], specificity: 2, errorCount: 3 },
                     { config: [ 2, "never" ], specificity: 2, errorCount: 3 }
@@ -222,8 +222,8 @@ describe("autoconfig", function() {
             let registry;
 
             beforeEach(function() {
-                let config = {ignore: false};
-                let sourceCode = sourceCodeUtil.getSourceCodeOfFiles(SOURCE_CODE_FIXTURE_FILENAME, config);
+                const config = {ignore: false};
+                const sourceCode = sourceCodeUtil.getSourceCodeOfFiles(SOURCE_CODE_FIXTURE_FILENAME, config);
 
                 registry = new autoconfig.Registry(rulesConfig);
                 registry = registry.lintSourceCode(sourceCode, defaultOptions);
@@ -250,8 +250,8 @@ describe("autoconfig", function() {
             let failingRegistry;
 
             beforeEach(function() {
-                let config = {ignore: false};
-                let sourceCode = sourceCodeUtil.getSourceCodeOfFiles(SOURCE_CODE_FIXTURE_FILENAME, config);
+                const config = {ignore: false};
+                const sourceCode = sourceCodeUtil.getSourceCodeOfFiles(SOURCE_CODE_FIXTURE_FILENAME, config);
                 let registry = new autoconfig.Registry(errorRulesConfig);
 
                 registry = registry.lintSourceCode(sourceCode, defaultOptions);
@@ -259,7 +259,7 @@ describe("autoconfig", function() {
             });
 
             it("should return a registry with no registryItems with an errorCount of zero", function() {
-                let failingRules = Object.keys(failingRegistry.rules);
+                const failingRules = Object.keys(failingRegistry.rules);
 
                 assert.deepEqual(failingRules, ["no-unused-vars"]);
                 assert.lengthOf(failingRegistry.rules["no-unused-vars"], 1);
@@ -271,8 +271,8 @@ describe("autoconfig", function() {
             let createdConfig;
 
             beforeEach(function() {
-                let config = {ignore: false};
-                let sourceCode = sourceCodeUtil.getSourceCodeOfFiles(SOURCE_CODE_FIXTURE_FILENAME, config);
+                const config = {ignore: false};
+                const sourceCode = sourceCodeUtil.getSourceCodeOfFiles(SOURCE_CODE_FIXTURE_FILENAME, config);
                 let registry = new autoconfig.Registry(rulesConfig);
 
                 registry = registry.lintSourceCode(sourceCode, defaultOptions);
@@ -285,7 +285,7 @@ describe("autoconfig", function() {
             });
 
             it("should add rules which have only one registryItem to the config", function() {
-                let configuredRules = Object.keys(createdConfig.rules);
+                const configuredRules = Object.keys(createdConfig.rules);
 
                 assert.deepEqual(configuredRules, ["quotes"]);
             });
@@ -295,15 +295,15 @@ describe("autoconfig", function() {
             });
 
             it("should not care how many errors the config has", function() {
-                let config = {ignore: false};
-                let sourceCode = sourceCodeUtil.getSourceCodeOfFiles(SOURCE_CODE_FIXTURE_FILENAME, config);
+                const config = {ignore: false};
+                const sourceCode = sourceCodeUtil.getSourceCodeOfFiles(SOURCE_CODE_FIXTURE_FILENAME, config);
                 let registry = new autoconfig.Registry(errorRulesConfig);
 
                 registry = registry.lintSourceCode(sourceCode, defaultOptions);
-                let failingRegistry = registry.getFailingRulesRegistry();
+                const failingRegistry = registry.getFailingRulesRegistry();
 
                 createdConfig = failingRegistry.createConfig();
-                let configuredRules = Object.keys(createdConfig.rules);
+                const configuredRules = Object.keys(createdConfig.rules);
 
                 assert.deepEqual(configuredRules, ["no-unused-vars"]);
             });
@@ -317,9 +317,9 @@ describe("autoconfig", function() {
             });
 
             it("should return a registry where all configs have a desired specificity", function() {
-                let filteredRegistry1 = registry.filterBySpecificity(1);
-                let filteredRegistry2 = registry.filterBySpecificity(2);
-                let filteredRegistry3 = registry.filterBySpecificity(3);
+                const filteredRegistry1 = registry.filterBySpecificity(1);
+                const filteredRegistry2 = registry.filterBySpecificity(2);
+                const filteredRegistry3 = registry.filterBySpecificity(3);
 
                 assert.lengthOf(filteredRegistry1.rules.semi, 1);
                 assert.lengthOf(filteredRegistry1.rules["semi-spacing"], 1);

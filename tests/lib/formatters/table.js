@@ -8,11 +8,8 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-let assert,
-    formatter;
-
-assert = require("chai").assert;
-formatter = require("../../../lib/formatters/table");
+const assert = require("chai").assert,
+    formatter = require("../../../lib/formatters/table");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -20,9 +17,7 @@ formatter = require("../../../lib/formatters/table");
 
 describe("formatter:table", function() {
     describe("when passed no messages", function() {
-        let code;
-
-        code = [
+        const code = [
             {
                 filePath: "foo.js",
                 messages: [],
@@ -32,10 +27,7 @@ describe("formatter:table", function() {
         ];
 
         it("should return a table of error and warning count with no messages", function() {
-            let expectedOutput,
-                result;
-
-            expectedOutput = [
+            const expectedOutput = [
                 "",
                 "╔════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗",
                 "║ 0 Errors                                                                                                       ║",
@@ -43,11 +35,9 @@ describe("formatter:table", function() {
                 "║ 0 Warnings                                                                                                     ║",
                 "╚════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝",
                 ""
-            ];
+            ].join("\n");
 
-            expectedOutput = expectedOutput.join("\n");
-
-            result = formatter(code);
+            const result = formatter(code);
 
             assert.equal(result, expectedOutput);
         });
@@ -55,11 +45,7 @@ describe("formatter:table", function() {
 
     describe("when passed a single message", function() {
         it("should return a string in the correct format for errors", function() {
-            let expectedOutput,
-                code,
-                result;
-
-            code = [
+            const code = [
                 {
                     filePath: "foo.js",
                     messages: [
@@ -76,7 +62,7 @@ describe("formatter:table", function() {
                 }
             ];
 
-            expectedOutput = [
+            const expectedOutput = [
                 "",
                 "foo.js",
                 "",
@@ -90,21 +76,15 @@ describe("formatter:table", function() {
                 "║ 0 Warnings                                                                                                     ║",
                 "╚════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝",
                 ""
-            ];
+            ].join("\n");
 
-            expectedOutput = expectedOutput.join("\n");
-
-            result = formatter(code);
+            const result = formatter(code);
 
             assert.equal(result, expectedOutput);
         });
 
         it("should return a string in the correct format for warnings", function() {
-            let expectedOutput,
-                code,
-                result;
-
-            code = [
+            const code = [
                 {
                     filePath: "foo.js",
                     messages: [
@@ -121,7 +101,7 @@ describe("formatter:table", function() {
                 }
             ];
 
-            expectedOutput = [
+            const expectedOutput = [
                 "",
                 "foo.js",
                 "",
@@ -135,22 +115,17 @@ describe("formatter:table", function() {
                 "║ 1 Warning                                                                                                      ║",
                 "╚════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝",
                 ""
-            ];
+            ].join("\n");
 
-            expectedOutput = expectedOutput.join("\n");
+            const result = formatter(code);
 
-            result = formatter(code);
             assert.equal(result, expectedOutput);
         });
     });
 
     describe("when passed a fatal error message", function() {
         it("should return a string in the correct format", function() {
-            let code,
-                expectedOutput,
-                result;
-
-            code = [
+            const code = [
                 {
                     filePath: "foo.js",
                     messages: [
@@ -167,7 +142,7 @@ describe("formatter:table", function() {
                 }
             ];
 
-            expectedOutput = [
+            const expectedOutput = [
                 "",
                 "foo.js",
                 "",
@@ -181,11 +156,9 @@ describe("formatter:table", function() {
                 "║ 0 Warnings                                                                                                     ║",
                 "╚════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝",
                 ""
-            ];
+            ].join("\n");
 
-            expectedOutput = expectedOutput.join("\n");
-
-            result = formatter(code);
+            const result = formatter(code);
 
             assert.equal(result, expectedOutput);
         });
@@ -193,11 +166,7 @@ describe("formatter:table", function() {
 
     describe("when passed multiple messages", function() {
         it("should return a string with multiple entries", function() {
-            let code,
-                expectedOutput,
-                result;
-
-            code = [
+            const code = [
                 {
                     filePath: "foo.js",
                     messages: [
@@ -221,7 +190,7 @@ describe("formatter:table", function() {
                 }
             ];
 
-            expectedOutput = [
+            const expectedOutput = [
                 "",
                 "foo.js",
                 "",
@@ -236,11 +205,9 @@ describe("formatter:table", function() {
                 "║ 1 Warning                                                                                                      ║",
                 "╚════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝",
                 ""
-            ];
+            ].join("\n");
 
-            expectedOutput = expectedOutput.join("\n");
-
-            result = formatter(code);
+            const result = formatter(code);
 
             assert.equal(result, expectedOutput);
         });
@@ -248,11 +215,7 @@ describe("formatter:table", function() {
 
     describe("when passed multiple files with 1 message each", function() {
         it("should return a string with multiple entries", function() {
-            let code,
-                expectedOutput,
-                result;
-
-            code = [
+            const code = [
                 {
                     filePath: "foo.js",
                     messages: [
@@ -282,7 +245,7 @@ describe("formatter:table", function() {
                 }
             ];
 
-            expectedOutput = [
+            const expectedOutput = [
                 "",
                 "foo.js",
                 "",
@@ -302,11 +265,9 @@ describe("formatter:table", function() {
                 "║ 1 Warning                                                                                                      ║",
                 "╚════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝",
                 ""
-            ];
+            ].join("\n");
 
-            expectedOutput = expectedOutput.join("\n");
-
-            result = formatter(code);
+            const result = formatter(code);
 
             assert.equal(result, expectedOutput);
         });
@@ -314,11 +275,7 @@ describe("formatter:table", function() {
 
     describe("when passed one file not found message", function() {
         it("should return a string without line and column (0, 0)", function() {
-            let code,
-                expectedOutput,
-                result;
-
-            code = [
+            const code = [
                 {
                     filePath: "foo.js",
                     messages: [
@@ -332,7 +289,7 @@ describe("formatter:table", function() {
                 }
             ];
 
-            expectedOutput = [
+            const expectedOutput = [
                 "",
                 "foo.js",
                 "",
@@ -346,11 +303,9 @@ describe("formatter:table", function() {
                 "║ 0 Warnings                                                                                                     ║",
                 "╚════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝",
                 ""
-            ];
+            ].join("\n");
 
-            expectedOutput = expectedOutput.join("\n");
-
-            result = formatter(code);
+            const result = formatter(code);
 
             assert.equal(result, expectedOutput);
         });

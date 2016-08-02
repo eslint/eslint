@@ -9,7 +9,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-let rule = require("../../../lib/rules/complexity"),
+const rule = require("../../../lib/rules/complexity"),
     RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
@@ -34,7 +34,7 @@ function createComplexity(complexity) {
     return funcString;
 }
 
-let ruleTester = new RuleTester();
+const ruleTester = new RuleTester();
 
 ruleTester.run("complexity", rule, {
     valid: [

@@ -89,6 +89,7 @@ rules:
     no-with: "error"
     no-var: "error"
     one-var-declaration-per-line: "error"
+    prefer-const: "error"
     quotes: ["error", "double"]
     quote-props: ["error", "as-needed"]
     radix: "error"

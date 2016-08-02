@@ -9,7 +9,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-let assert = require("assert"),
+const assert = require("assert"),
     eslint = require("../../../lib/eslint");
 
 //------------------------------------------------------------------------------
@@ -23,7 +23,7 @@ let assert = require("assert"),
  * @returns {CodePath[]} A list of created code paths.
  */
 function parseCodePaths(code) {
-    let retv = [];
+    const retv = [];
 
     eslint.reset();
     eslint.defineRule("test", function() {
@@ -49,7 +49,7 @@ function parseCodePaths(code) {
  * @returns {string[]} The list of segment's ids in the order traversed.
  */
 function getOrderOfTraversing(codePath, options, callback) {
-    let retv = [];
+    const retv = [];
 
     codePath.traverseSegments(options, function(segment, controller) {
         retv.push(segment.id);
@@ -70,8 +70,8 @@ describe("CodePathAnalyzer", function() {
     describe(".traverseSegments()", function() {
         describe("should traverse segments from the first to the end:", function() {
             it("simple", function() {
-                let codePath = parseCodePaths("foo(); bar(); baz();")[0];
-                let order = getOrderOfTraversing(codePath);
+                const codePath = parseCodePaths("foo(); bar(); baz();")[0];
+                const order = getOrderOfTraversing(codePath);
 
                 assert.deepEqual(order, ["s1_1"]);
 
@@ -87,8 +87,8 @@ describe("CodePathAnalyzer", function() {
             });
 
             it("if", function() {
-                let codePath = parseCodePaths("if (a) foo(); else bar(); baz();")[0];
-                let order = getOrderOfTraversing(codePath);
+                const codePath = parseCodePaths("if (a) foo(); else bar(); baz();")[0];
+                const order = getOrderOfTraversing(codePath);
 
                 assert.deepEqual(order, ["s1_1", "s1_2", "s1_3", "s1_4"]);
 
@@ -108,8 +108,8 @@ describe("CodePathAnalyzer", function() {
             });
 
             it("switch", function() {
-                let codePath = parseCodePaths("switch (a) { case 0: foo(); break; case 1: bar(); } baz();")[0];
-                let order = getOrderOfTraversing(codePath);
+                const codePath = parseCodePaths("switch (a) { case 0: foo(); break; case 1: bar(); } baz();")[0];
+                const order = getOrderOfTraversing(codePath);
 
                 assert.deepEqual(order, ["s1_1", "s1_2", "s1_4", "s1_5", "s1_6"]);
 
@@ -133,8 +133,8 @@ describe("CodePathAnalyzer", function() {
             });
 
             it("while", function() {
-                let codePath = parseCodePaths("while (a) foo(); bar();")[0];
-                let order = getOrderOfTraversing(codePath);
+                const codePath = parseCodePaths("while (a) foo(); bar();")[0];
+                const order = getOrderOfTraversing(codePath);
 
                 assert.deepEqual(order, ["s1_1", "s1_2", "s1_3", "s1_4"]);
 
@@ -153,8 +153,8 @@ describe("CodePathAnalyzer", function() {
             });
 
             it("for", function() {
-                let codePath = parseCodePaths("for (var i = 0; i < 10; ++i) foo(i); bar();")[0];
-                let order = getOrderOfTraversing(codePath);
+                const codePath = parseCodePaths("for (var i = 0; i < 10; ++i) foo(i); bar();")[0];
+                const order = getOrderOfTraversing(codePath);
 
                 assert.deepEqual(order, ["s1_1", "s1_2", "s1_3", "s1_4", "s1_5"]);
 
@@ -174,8 +174,8 @@ describe("CodePathAnalyzer", function() {
             });
 
             it("for-in", function() {
-                let codePath = parseCodePaths("for (var key in obj) foo(key); bar();")[0];
-                let order = getOrderOfTraversing(codePath);
+                const codePath = parseCodePaths("for (var key in obj) foo(key); bar();")[0];
+                const order = getOrderOfTraversing(codePath);
 
                 assert.deepEqual(order, ["s1_1", "s1_3", "s1_2", "s1_4", "s1_5"]);
 
@@ -197,8 +197,8 @@ describe("CodePathAnalyzer", function() {
             });
 
             it("try-catch", function() {
-                let codePath = parseCodePaths("try { foo(); } catch (e) { bar(); } baz();")[0];
-                let order = getOrderOfTraversing(codePath);
+                const codePath = parseCodePaths("try { foo(); } catch (e) { bar(); } baz();")[0];
+                const order = getOrderOfTraversing(codePath);
 
                 assert.deepEqual(order, ["s1_1", "s1_2", "s1_3", "s1_4"]);
 
@@ -220,8 +220,8 @@ describe("CodePathAnalyzer", function() {
         });
 
         it("should traverse segments from `options.first` to `options.last`.", function() {
-            let codePath = parseCodePaths("if (a) { if (b) { foo(); } bar(); } else { out1(); } out2();")[0];
-            let order = getOrderOfTraversing(codePath, {
+            const codePath = parseCodePaths("if (a) { if (b) { foo(); } bar(); } else { out1(); } out2();")[0];
+            const order = getOrderOfTraversing(codePath, {
                 first: codePath.initialSegment.nextSegments[0],
                 last: codePath.initialSegment.nextSegments[0].nextSegments[1]
             });
@@ -248,8 +248,8 @@ describe("CodePathAnalyzer", function() {
         });
 
         it("should stop immediately when 'controller.break()' was called.", function() {
-            let codePath = parseCodePaths("if (a) { if (b) { foo(); } bar(); } else { out1(); } out2();")[0];
-            let order = getOrderOfTraversing(codePath, null, function(segment, controller) {
+            const codePath = parseCodePaths("if (a) { if (b) { foo(); } bar(); } else { out1(); } out2();")[0];
+            const order = getOrderOfTraversing(codePath, null, function(segment, controller) {
                 if (segment.id === "s1_2") {
                     controller.break();
                 }
@@ -277,8 +277,8 @@ describe("CodePathAnalyzer", function() {
         });
 
         it("should skip the current branch when 'controller.skip()' was called.", function() {
-            let codePath = parseCodePaths("if (a) { if (b) { foo(); } bar(); } else { out1(); } out2();")[0];
-            let order = getOrderOfTraversing(codePath, null, function(segment, controller) {
+            const codePath = parseCodePaths("if (a) { if (b) { foo(); } bar(); } else { out1(); } out2();")[0];
+            const order = getOrderOfTraversing(codePath, null, function(segment, controller) {
                 if (segment.id === "s1_2") {
                     controller.skip();
                 }

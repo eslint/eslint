@@ -8,17 +8,17 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-let rule = require("../../../lib/rules/lines-around-comment"),
+const rule = require("../../../lib/rules/lines-around-comment"),
     RuleTester = require("../../../lib/testers/rule-tester");
 
-let afterMessage = "Expected line after comment.",
+const afterMessage = "Expected line after comment.",
     beforeMessage = "Expected line before comment.";
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-let ruleTester = new RuleTester();
+const ruleTester = new RuleTester();
 
 ruleTester.run("lines-around-comment", rule, {
 

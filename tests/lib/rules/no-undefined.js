@@ -9,16 +9,16 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-let rule = require("../../../lib/rules/no-undefined"),
+const rule = require("../../../lib/rules/no-undefined"),
     RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-let errors = [{ message: "Unexpected use of undefined.", type: "Identifier"}];
+const errors = [{ message: "Unexpected use of undefined.", type: "Identifier"}];
 
-let ruleTester = new RuleTester();
+const ruleTester = new RuleTester();
 
 ruleTester.run("no-undefined", rule, {
     valid: [

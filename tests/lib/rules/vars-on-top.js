@@ -9,14 +9,14 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-let rule = require("../../../lib/rules/vars-on-top"),
+const rule = require("../../../lib/rules/vars-on-top"),
     EslintTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-let ruleTester = new EslintTester();
+const ruleTester = new EslintTester();
 
 ruleTester.run("vars-on-top", rule, {
 

@@ -9,16 +9,16 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-let rule = require("../../../lib/rules/require-yield");
-let RuleTester = require("../../../lib/testers/rule-tester");
+const rule = require("../../../lib/rules/require-yield");
+const RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-let errorMessage = "This generator function does not have 'yield'.";
+const errorMessage = "This generator function does not have 'yield'.";
 
-let ruleTester = new RuleTester();
+const ruleTester = new RuleTester();
 
 ruleTester.run("require-yield", rule, {
     valid: [
