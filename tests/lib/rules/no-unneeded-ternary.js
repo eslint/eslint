@@ -9,14 +9,14 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-let rule = require("../../../lib/rules/no-unneeded-ternary"),
+const rule = require("../../../lib/rules/no-unneeded-ternary"),
     RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-let ruleTester = new RuleTester();
+const ruleTester = new RuleTester();
 
 ruleTester.run("no-unneeded-ternary", rule, {
     valid: [

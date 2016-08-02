@@ -8,11 +8,11 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-let util = require("util");
-let rule = require("../../../lib/rules/operator-linebreak"),
+const util = require("util");
+const rule = require("../../../lib/rules/operator-linebreak"),
     RuleTester = require("../../../lib/testers/rule-tester");
 
-let BAD_LN_BRK_MSG = "Bad line breaking before and after '%s'.",
+const BAD_LN_BRK_MSG = "Bad line breaking before and after '%s'.",
     BEFORE_MSG = "'%s' should be placed at the beginning of the line.",
     AFTER_MSG = "'%s' should be placed at the end of the line.",
     NONE_MSG = "There should be no line break before or after '%s'.";
@@ -21,7 +21,7 @@ let BAD_LN_BRK_MSG = "Bad line breaking before and after '%s'.",
 // Tests
 //------------------------------------------------------------------------------
 
-let ruleTester = new RuleTester();
+const ruleTester = new RuleTester();
 
 ruleTester.run("operator-linebreak", rule, {
 

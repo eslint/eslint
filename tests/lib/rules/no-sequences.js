@@ -8,7 +8,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-let rule = require("../../../lib/rules/no-sequences"),
+const rule = require("../../../lib/rules/no-sequences"),
     RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
@@ -30,7 +30,7 @@ function errors(column) {
     }];
 }
 
-let ruleTester = new RuleTester();
+const ruleTester = new RuleTester();
 
 ruleTester.run("no-sequences", rule, {
 

@@ -9,7 +9,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-let assert = require("chai").assert,
+const assert = require("chai").assert,
     fs = require("fs"),
     path = require("path"),
     ejs = require("ejs");
@@ -18,7 +18,7 @@ let assert = require("chai").assert,
 // Data
 //------------------------------------------------------------------------------
 
-let TEMPLATE_TEXT = fs.readFileSync(path.resolve(__dirname, "../../templates/pr-create.md.ejs"), "utf8");
+const TEMPLATE_TEXT = fs.readFileSync(path.resolve(__dirname, "../../templates/pr-create.md.ejs"), "utf8");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -27,7 +27,7 @@ let TEMPLATE_TEXT = fs.readFileSync(path.resolve(__dirname, "../../templates/pr-
 describe("pr-create.md.ejs", function() {
 
     it("should say LGTM when there are no problems with the pull request", function() {
-        let result = ejs.render(TEMPLATE_TEXT, {
+        const result = ejs.render(TEMPLATE_TEXT, {
             payload: {
                 sender: {
                     login: "nzakas"
@@ -41,7 +41,7 @@ describe("pr-create.md.ejs", function() {
     });
 
     it("should mention commit message format when there's one commit and an invalid commit message is found", function() {
-        let result = ejs.render(TEMPLATE_TEXT, {
+        const result = ejs.render(TEMPLATE_TEXT, {
             payload: {
                 sender: {
                     login: "nzakas"
@@ -65,7 +65,7 @@ describe("pr-create.md.ejs", function() {
     });
 
     it("should mention commit message length when there's a message longer than 72 characters", function() {
-        let result = ejs.render(TEMPLATE_TEXT, {
+        const result = ejs.render(TEMPLATE_TEXT, {
             payload: {
                 sender: {
                     login: "nzakas"
@@ -89,7 +89,7 @@ describe("pr-create.md.ejs", function() {
     });
 
     it("should not mention commit message length when there's a multi-line message with first line not over 72 characters", function() {
-        let result = ejs.render(TEMPLATE_TEXT, {
+        const result = ejs.render(TEMPLATE_TEXT, {
             payload: {
                 sender: {
                     login: "nzakas"
@@ -113,7 +113,7 @@ describe("pr-create.md.ejs", function() {
     });
 
     it("should not mention missing issue when there's one documentation commit", function() {
-        let result = ejs.render(TEMPLATE_TEXT, {
+        const result = ejs.render(TEMPLATE_TEXT, {
             payload: {
                 sender: {
                     login: "nzakas"
@@ -138,7 +138,7 @@ describe("pr-create.md.ejs", function() {
 
     ["Breaking", "Build", "Chore", "Docs", "Fix", "New", "Update", "Upgrade"].forEach(function(type) {
         it("should not mention missing issue or length check when there's one " + type + " commit", function() {
-            let result = ejs.render(TEMPLATE_TEXT, {
+            const result = ejs.render(TEMPLATE_TEXT, {
                 payload: {
                     sender: {
                         login: "nzakas"
@@ -163,7 +163,7 @@ describe("pr-create.md.ejs", function() {
     });
 
     it("should mention missing issue when there's a missing closing paren", function() {
-        let result = ejs.render(TEMPLATE_TEXT, {
+        const result = ejs.render(TEMPLATE_TEXT, {
             payload: {
                 sender: {
                     login: "nzakas"

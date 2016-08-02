@@ -9,10 +9,10 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-let rule = require("../../../lib/rules/strict"),
+const rule = require("../../../lib/rules/strict"),
     RuleTester = require("../../../lib/testers/rule-tester");
 
-let ruleTester = new RuleTester();
+const ruleTester = new RuleTester();
 
 ruleTester.run("strict", rule, {
     valid: [

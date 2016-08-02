@@ -9,19 +9,17 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-let assert = require("chai").assert,
+const assert = require("chai").assert,
     fs = require("fs"),
     path = require("path"),
     os = require("os"),
     sinon = require("sinon"),
     sh = require("shelljs"),
-    proxyquire = require("proxyquire"),
     autoconfig = require("../../../lib/config/autoconfig"),
     npmUtil = require("../../../lib/util/npm-util");
 
-let originalDir = process.cwd();
-
-proxyquire = proxyquire.noPreserveCache();
+const originalDir = process.cwd();
+const proxyquire = require("proxyquire").noPreserveCache();
 
 //------------------------------------------------------------------------------
 // Tests
@@ -36,11 +34,11 @@ describe("configInitializer", function() {
         npmInstallStub,
         init;
 
-    let log = {
+    const log = {
         info: sinon.spy(),
         error: sinon.spy()
     };
-    let requireStubs = {
+    const requireStubs = {
         "../logging": log
     };
 
@@ -50,7 +48,7 @@ describe("configInitializer", function() {
      * @private
      */
     function getFixturePath() {
-        let args = Array.prototype.slice.call(arguments);
+        const args = Array.prototype.slice.call(arguments);
 
         args.unshift(fixtureDir);
         let filepath = path.join.apply(path, args);
@@ -116,7 +114,7 @@ describe("configInitializer", function() {
             });
 
             it("should create default config", function() {
-                let config = init.processAnswers(answers);
+                const config = init.processAnswers(answers);
 
                 assert.deepEqual(config.rules.indent, ["error", 2]);
                 assert.deepEqual(config.rules.quotes, ["error", "single"]);
@@ -130,14 +128,14 @@ describe("configInitializer", function() {
 
             it("should disable semi", function() {
                 answers.semi = false;
-                let config = init.processAnswers(answers);
+                const config = init.processAnswers(answers);
 
                 assert.deepEqual(config.rules.semi, ["error", "never"]);
             });
 
             it("should enable jsx flag", function() {
                 answers.jsx = true;
-                let config = init.processAnswers(answers);
+                const config = init.processAnswers(answers);
 
                 assert.equal(config.parserOptions.ecmaFeatures.jsx, true);
             });
@@ -145,7 +143,7 @@ describe("configInitializer", function() {
             it("should enable react plugin", function() {
                 answers.jsx = true;
                 answers.react = true;
-                let config = init.processAnswers(answers);
+                const config = init.processAnswers(answers);
 
                 assert.equal(config.parserOptions.ecmaFeatures.jsx, true);
                 assert.equal(config.parserOptions.ecmaFeatures.experimentalObjectRestSpread, true);
@@ -154,26 +152,26 @@ describe("configInitializer", function() {
 
             it("should not enable es6", function() {
                 answers.es6 = false;
-                let config = init.processAnswers(answers);
+                const config = init.processAnswers(answers);
 
                 assert.isUndefined(config.env.es6);
             });
 
             it("should extend eslint:recommended", function() {
-                let config = init.processAnswers(answers);
+                const config = init.processAnswers(answers);
 
                 assert.equal(config.extends, "eslint:recommended");
             });
 
             it("should not use commonjs by default", function() {
-                let config = init.processAnswers(answers);
+                const config = init.processAnswers(answers);
 
                 assert.isUndefined(config.env.commonjs);
             });
 
             it("should use commonjs when set", function() {
                 answers.commonjs = true;
-                let config = init.processAnswers(answers);
+                const config = init.processAnswers(answers);
 
                 assert.isTrue(config.env.commonjs);
             });
@@ -181,19 +179,19 @@ describe("configInitializer", function() {
 
         describe("guide", function() {
             it("should support the google style guide", function() {
-                let config = init.getConfigForStyleGuide("google");
+                const config = init.getConfigForStyleGuide("google");
 
                 assert.deepEqual(config, {extends: "google", installedESLint: true});
             });
 
             it("should support the airbnb style guide", function() {
-                let config = init.getConfigForStyleGuide("airbnb");
+                const config = init.getConfigForStyleGuide("airbnb");
 
                 assert.deepEqual(config, {extends: "airbnb", installedESLint: true, plugins: ["react"]});
             });
 
             it("should support the standard style guide", function() {
-                let config = init.getConfigForStyleGuide("standard");
+                const config = init.getConfigForStyleGuide("standard");
 
                 assert.deepEqual(config, {extends: "standard", installedESLint: true, plugins: ["standard", "promise"]});
             });
@@ -218,12 +216,11 @@ describe("configInitializer", function() {
         });
 
         describe("auto", function() {
-            let config,
-                completeSpy = sinon.spy(),
-                sandbox;
+            const completeSpy = sinon.spy();
+            let config;
 
             before(function() {
-                let patterns = [
+                const patterns = [
                     getFixturePath("lib"),
                     getFixturePath("tests")
                 ].join(" ");
@@ -239,7 +236,8 @@ describe("configInitializer", function() {
                     commonjs: false
                 };
 
-                sandbox = sinon.sandbox.create();
+                const sandbox = sinon.sandbox.create();
+
                 sandbox.stub(console, "log"); // necessary to replace, because of progress bar
 
                 process.chdir(fixtureDir);
@@ -273,7 +271,7 @@ describe("configInitializer", function() {
             });
 
             it("should throw on fatal parsing error", function() {
-                let filename = getFixturePath("parse-error");
+                const filename = getFixturePath("parse-error");
 
                 sinon.stub(autoconfig, "extendFromRecommended");
                 answers.patterns = filename;

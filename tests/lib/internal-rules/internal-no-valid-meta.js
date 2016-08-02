@@ -9,14 +9,14 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-let rule = require("../../../lib/internal-rules/internal-no-invalid-meta"),
+const rule = require("../../../lib/internal-rules/internal-no-invalid-meta"),
     RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-let ruleTester = new RuleTester();
+const ruleTester = new RuleTester();
 
 ruleTester.run("internal-no-invalid-meta", rule, {
     valid: [

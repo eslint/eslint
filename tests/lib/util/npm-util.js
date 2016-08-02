@@ -8,7 +8,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-let assert = require("chai").assert,
+const assert = require("chai").assert,
     fs = require("fs"),
     shell = require("shelljs"),
     sinon = require("sinon"),
@@ -71,13 +71,13 @@ describe("npmUtil", function() {
                 });
             });
 
-            let fn = npmUtil.checkDevDeps.bind(null, ["some-package"]);
+            const fn = npmUtil.checkDevDeps.bind(null, ["some-package"]);
 
             assert.doesNotThrow(fn);
         });
 
         it("should throw with message when parsing invalid package.json", function() {
-            let logInfo = sandbox.stub(log, "info");
+            const logInfo = sandbox.stub(log, "info");
 
             sandbox.stub(fs, "existsSync", function() {
                 return true;
@@ -86,7 +86,7 @@ describe("npmUtil", function() {
                 return "{ \"not: \"valid json\" }";
             });
 
-            let fn = npmUtil.checkDevDeps.bind(null, ["some-package"]);
+            const fn = npmUtil.checkDevDeps.bind(null, ["some-package"]);
 
             assert.throws(fn, "SyntaxError: Unexpected token v");
             assert(logInfo.calledOnce);
@@ -139,7 +139,7 @@ describe("npmUtil", function() {
                 });
             });
 
-            let fn = npmUtil.checkDeps.bind(null, ["some-package"]);
+            const fn = npmUtil.checkDeps.bind(null, ["some-package"]);
 
             assert.doesNotThrow(fn);
 
@@ -148,7 +148,7 @@ describe("npmUtil", function() {
         });
 
         it("should throw with message when parsing invalid package.json", function() {
-            let logInfo = sandbox.stub(log, "info");
+            const logInfo = sandbox.stub(log, "info");
 
             sandbox.stub(fs, "existsSync", function() {
                 return true;
@@ -157,7 +157,7 @@ describe("npmUtil", function() {
                 return "{ \"not: \"valid json\" }";
             });
 
-            let fn = npmUtil.checkDevDeps.bind(null, ["some-package"]);
+            const fn = npmUtil.checkDevDeps.bind(null, ["some-package"]);
 
             assert.throws(fn, "SyntaxError: Unexpected token v");
             assert(logInfo.calledOnce);
@@ -190,7 +190,7 @@ describe("npmUtil", function() {
 
     describe("installSyncSaveDev()", function() {
         it("should invoke npm to install a single desired package", function() {
-            let stub = sandbox.stub(shell, "exec");
+            const stub = sandbox.stub(shell, "exec");
 
             npmUtil.installSyncSaveDev("desired-package");
             assert(stub.calledOnce);
@@ -199,7 +199,7 @@ describe("npmUtil", function() {
         });
 
         it("should accept an array of packages to install", function() {
-            let stub = sandbox.stub(shell, "exec");
+            const stub = sandbox.stub(shell, "exec");
 
             npmUtil.installSyncSaveDev(["first-package", "second-package"]);
             assert(stub.calledOnce);

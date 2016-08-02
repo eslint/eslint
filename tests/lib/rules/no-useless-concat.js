@@ -8,7 +8,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-let rule = require("../../../lib/rules/no-useless-concat"),
+const rule = require("../../../lib/rules/no-useless-concat"),
 
     RuleTester = require("../../../lib/testers/rule-tester");
 
@@ -17,7 +17,7 @@ let rule = require("../../../lib/rules/no-useless-concat"),
 // Tests
 //------------------------------------------------------------------------------
 
-let ruleTester = new RuleTester();
+const ruleTester = new RuleTester();
 
 ruleTester.run("no-useless-concat", rule, {
 

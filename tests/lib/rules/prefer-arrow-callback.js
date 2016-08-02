@@ -9,19 +9,19 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-let rule = require("../../../lib/rules/prefer-arrow-callback");
-let RuleTester = require("../../../lib/testers/rule-tester");
+const rule = require("../../../lib/rules/prefer-arrow-callback");
+const RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-let errors = [{
+const errors = [{
     message: "Unexpected function expression.",
     type: "FunctionExpression"
 }];
 
-let ruleTester = new RuleTester();
+const ruleTester = new RuleTester();
 
 ruleTester.run("prefer-arrow-callback", rule, {
     valid: [

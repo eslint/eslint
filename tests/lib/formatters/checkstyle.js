@@ -9,7 +9,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-let assert = require("chai").assert,
+const assert = require("chai").assert,
     formatter = require("../../../lib/formatters/checkstyle");
 
 //------------------------------------------------------------------------------
@@ -18,7 +18,7 @@ let assert = require("chai").assert,
 
 describe("formatter:checkstyle", function() {
     describe("when passed a single message", function() {
-        let code = [{
+        const code = [{
             filePath: "foo.js",
             messages: [{
                 message: "Unexpected foo.",
@@ -30,21 +30,21 @@ describe("formatter:checkstyle", function() {
         }];
 
         it("should return a string in the format filename: line x, col y, Error - z for errors", function() {
-            let result = formatter(code);
+            const result = formatter(code);
 
             assert.equal(result, "<?xml version=\"1.0\" encoding=\"utf-8\"?><checkstyle version=\"4.3\"><file name=\"foo.js\"><error line=\"5\" column=\"10\" severity=\"error\" message=\"Unexpected foo. (foo)\" source=\"eslint.rules.foo\" /></file></checkstyle>");
         });
 
         it("should return a string in the format filename: line x, col y, Warning - z for warnings", function() {
             code[0].messages[0].severity = 1;
-            let result = formatter(code);
+            const result = formatter(code);
 
             assert.equal(result, "<?xml version=\"1.0\" encoding=\"utf-8\"?><checkstyle version=\"4.3\"><file name=\"foo.js\"><error line=\"5\" column=\"10\" severity=\"warning\" message=\"Unexpected foo. (foo)\" source=\"eslint.rules.foo\" /></file></checkstyle>");
         });
     });
 
     describe("when passed a message with XML control characters", function() {
-        let code = [{
+        const code = [{
             filePath: "<>&\"'.js",
             messages: [{
                 fatal: true,
@@ -56,14 +56,14 @@ describe("formatter:checkstyle", function() {
         }];
 
         it("should return a string in the format filename: line x, col y, Error - z", function() {
-            let result = formatter(code);
+            const result = formatter(code);
 
             assert.equal(result, "<?xml version=\"1.0\" encoding=\"utf-8\"?><checkstyle version=\"4.3\"><file name=\"&lt;&gt;&amp;&quot;&apos;.js\"><error line=\"&lt;\" column=\"&gt;\" severity=\"error\" message=\"Unexpected &lt;&gt;&amp;&quot;&apos;&#8;&#9;&#10;&#12;&#13;&#29275;&#36924;. (foo)\" source=\"eslint.rules.foo\" /></file></checkstyle>");
         });
     });
 
     describe("when passed a fatal error message", function() {
-        let code = [{
+        const code = [{
             filePath: "foo.js",
             messages: [{
                 fatal: true,
@@ -75,14 +75,14 @@ describe("formatter:checkstyle", function() {
         }];
 
         it("should return a string in the format filename: line x, col y, Error - z", function() {
-            let result = formatter(code);
+            const result = formatter(code);
 
             assert.equal(result, "<?xml version=\"1.0\" encoding=\"utf-8\"?><checkstyle version=\"4.3\"><file name=\"foo.js\"><error line=\"5\" column=\"10\" severity=\"error\" message=\"Unexpected foo. (foo)\" source=\"eslint.rules.foo\" /></file></checkstyle>");
         });
     });
 
     describe("when passed multiple messages", function() {
-        let code = [{
+        const code = [{
             filePath: "foo.js",
             messages: [{
                 message: "Unexpected foo.",
@@ -100,14 +100,14 @@ describe("formatter:checkstyle", function() {
         }];
 
         it("should return a string with multiple entries", function() {
-            let result = formatter(code);
+            const result = formatter(code);
 
             assert.equal(result, "<?xml version=\"1.0\" encoding=\"utf-8\"?><checkstyle version=\"4.3\"><file name=\"foo.js\"><error line=\"5\" column=\"10\" severity=\"error\" message=\"Unexpected foo. (foo)\" source=\"eslint.rules.foo\" /><error line=\"6\" column=\"11\" severity=\"warning\" message=\"Unexpected bar. (bar)\" source=\"eslint.rules.bar\" /></file></checkstyle>");
         });
     });
 
     describe("when passed multiple files with 1 message each", function() {
-        let code = [{
+        const code = [{
             filePath: "foo.js",
             messages: [{
                 message: "Unexpected foo.",
@@ -128,14 +128,14 @@ describe("formatter:checkstyle", function() {
         }];
 
         it("should return a string with multiple entries", function() {
-            let result = formatter(code);
+            const result = formatter(code);
 
             assert.equal(result, "<?xml version=\"1.0\" encoding=\"utf-8\"?><checkstyle version=\"4.3\"><file name=\"foo.js\"><error line=\"5\" column=\"10\" severity=\"error\" message=\"Unexpected foo. (foo)\" source=\"eslint.rules.foo\" /></file><file name=\"bar.js\"><error line=\"6\" column=\"11\" severity=\"warning\" message=\"Unexpected bar. (bar)\" source=\"eslint.rules.bar\" /></file></checkstyle>");
         });
     });
 
     describe("when passing single message without rule id", function() {
-        let code = [{
+        const code = [{
             filePath: "foo.js",
             messages: [{
                 message: "Unexpected foo.",
@@ -146,7 +146,7 @@ describe("formatter:checkstyle", function() {
         }];
 
         it("should return a string in the format filename: line x, col y, Error - z for errors", function() {
-            let result = formatter(code);
+            const result = formatter(code);
 
             assert.equal(result, "<?xml version=\"1.0\" encoding=\"utf-8\"?><checkstyle version=\"4.3\"><file name=\"foo.js\"><error line=\"5\" column=\"10\" severity=\"error\" message=\"Unexpected foo.\" source=\"\" /></file></checkstyle>");
         });

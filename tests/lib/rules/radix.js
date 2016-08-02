@@ -9,10 +9,10 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-let rule = require("../../../lib/rules/radix"),
+const rule = require("../../../lib/rules/radix"),
     RuleTester = require("../../../lib/testers/rule-tester");
 
-let ruleTester = new RuleTester();
+const ruleTester = new RuleTester();
 
 ruleTester.run("radix", rule, {
 

@@ -9,7 +9,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-let assert = require("chai").assert,
+const assert = require("chai").assert,
     espree = require("espree"),
     TokenStore = require("../../lib/token-store");
 
@@ -17,7 +17,7 @@ let assert = require("chai").assert,
 // Constants
 //------------------------------------------------------------------------------
 
-let SOURCE_CODE = "var answer = a * b\n    call();\n",
+const SOURCE_CODE = "var answer = a * b\n    call();\n",
     AST = espree.parse(SOURCE_CODE, { loc: true, range: true, tokens: true }),
     TOKENS = AST.tokens,
     Program = AST,
@@ -37,11 +37,10 @@ let SOURCE_CODE = "var answer = a * b\n    call();\n",
  * @returns {void}
  */
 function check(tokens, expected) {
-    let length = tokens.length,
-        i;
+    const length = tokens.length;
 
     assert.equal(length, expected.length);
-    for (i = 0; i < length; i++) {
+    for (let i = 0; i < length; i++) {
         assert.equal(tokens[i].value, expected[i]);
     }
 }
@@ -51,7 +50,7 @@ function check(tokens, expected) {
 //------------------------------------------------------------------------------
 
 describe("TokenStore", function() {
-    let store = new TokenStore(TOKENS);
+    const store = new TokenStore(TOKENS);
 
     describe("when calling getTokens", function() {
 
@@ -347,14 +346,14 @@ describe("TokenStore", function() {
     describe("when calling getTokenByRangeStart", function() {
 
         it("should return identifier token", function() {
-            let result = store.getTokenByRangeStart(4);
+            const result = store.getTokenByRangeStart(4);
 
             assert.equal(result.type, "Identifier");
             assert.equal(result.value, "answer");
         });
 
         it("should return null when token doesn't exist", function() {
-            let result = store.getTokenByRangeStart(5);
+            const result = store.getTokenByRangeStart(5);
 
             assert.isNull(result);
         });

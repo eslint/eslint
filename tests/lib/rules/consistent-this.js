@@ -8,7 +8,7 @@
 //------------------------------------------------------------------------------
 // Requirements
 //------------------------------------------------------------------------------
-let rule = require("../../../lib/rules/consistent-this"),
+const rule = require("../../../lib/rules/consistent-this"),
     RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
@@ -34,7 +34,7 @@ function destructuringTest(code) {
 // Tests
 //------------------------------------------------------------------------------
 
-let ruleTester = new RuleTester();
+const ruleTester = new RuleTester();
 
 ruleTester.run("consistent-this", rule, {
     valid: [

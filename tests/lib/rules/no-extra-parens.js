@@ -9,7 +9,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-let rule = require("../../../lib/rules/no-extra-parens"),
+const rule = require("../../../lib/rules/no-extra-parens"),
     RuleTester = require("../../../lib/testers/rule-tester");
 
 /**
@@ -24,7 +24,7 @@ let rule = require("../../../lib/rules/no-extra-parens"),
 function invalid(code, type, line, config) {
     config = config || {};
 
-    let result = {
+    const result = {
         code: code,
         parserOptions: config.parserOptions || {},
         errors: [
@@ -43,7 +43,7 @@ function invalid(code, type, line, config) {
     return result;
 }
 
-let ruleTester = new RuleTester();
+const ruleTester = new RuleTester();
 
 ruleTester.run("no-extra-parens", rule, {
     valid: [

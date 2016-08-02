@@ -9,11 +9,11 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-let path = require("path"),
+const path = require("path"),
     rule = require("../../../lib/rules/space-infix-ops"),
     RuleTester = require("../../../lib/testers/rule-tester");
 
-let ruleTester = new RuleTester();
+const ruleTester = new RuleTester();
 
 ruleTester.run("space-infix-ops", rule, {
     valid: [

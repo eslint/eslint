@@ -8,14 +8,14 @@
 //------------------------------------------------------------------------------
 // Requirements
 //------------------------------------------------------------------------------
-let rule = require("../../../lib/rules/prefer-reflect"),
+const rule = require("../../../lib/rules/prefer-reflect"),
     RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-let ruleTester = new RuleTester();
+const ruleTester = new RuleTester();
 
 ruleTester.run("prefer-reflect", rule, {
     valid: [

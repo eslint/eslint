@@ -9,10 +9,10 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-let rule = require("../../../lib/rules/no-invalid-regexp"),
+const rule = require("../../../lib/rules/no-invalid-regexp"),
     RuleTester = require("../../../lib/testers/rule-tester");
 
-let ruleTester = new RuleTester();
+const ruleTester = new RuleTester();
 
 ruleTester.run("no-invalid-regexp", rule, {
     valid: [

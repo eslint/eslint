@@ -9,14 +9,14 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-let rule = require("../../../lib/rules/space-before-blocks"),
+const rule = require("../../../lib/rules/space-before-blocks"),
     RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-let ruleTester = new RuleTester(),
+const ruleTester = new RuleTester(),
     neverArgs = ["never"],
     functionsOnlyArgs = [ { functions: "always", keywords: "never", classes: "never" } ],
     keywordOnlyArgs = [ { functions: "never", keywords: "always", classes: "never" } ],

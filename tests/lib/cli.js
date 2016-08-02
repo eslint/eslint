@@ -12,17 +12,16 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-let assert = require("chai").assert,
+const assert = require("chai").assert,
     CLIEngine = require("../../lib/cli-engine"),
     path = require("path"),
     sinon = require("sinon"),
     leche = require("leche"),
     fs = require("fs"),
     os = require("os"),
-    sh = require("shelljs"),
-    proxyquire = require("proxyquire");
+    sh = require("shelljs");
 
-proxyquire = proxyquire.noCallThru().noPreserveCache();
+const proxyquire = require("proxyquire").noCallThru().noPreserveCache();
 
 //------------------------------------------------------------------------------
 // Tests
@@ -31,11 +30,11 @@ proxyquire = proxyquire.noCallThru().noPreserveCache();
 describe("cli", function() {
 
     let fixtureDir;
-    let log = {
+    const log = {
         info: sinon.spy(),
         error: sinon.spy()
     };
-    let cli = proxyquire("../../lib/cli", {
+    const cli = proxyquire("../../lib/cli", {
         "./logging": log
     });
 
@@ -46,18 +45,16 @@ describe("cli", function() {
      * @returns {void}
      */
     function verifyCLIEngineOpts(cmd, opts) {
-        let sandbox = sinon.sandbox.create(),
-            localCLI,
-            fakeCLIEngine;
+        const sandbox = sinon.sandbox.create();
 
         // create a fake CLIEngine to test with
-        fakeCLIEngine = sandbox.mock().withExactArgs(sinon.match(opts));
+        const fakeCLIEngine = sandbox.mock().withExactArgs(sinon.match(opts));
 
         fakeCLIEngine.prototype = leche.fake(CLIEngine.prototype);
         sandbox.stub(fakeCLIEngine.prototype, "executeOnFiles").returns({});
         sandbox.stub(fakeCLIEngine.prototype, "getFormatter").returns(sinon.spy());
 
-        localCLI = proxyquire("../../lib/cli", {
+        const localCLI = proxyquire("../../lib/cli", {
             "./cli-engine": fakeCLIEngine,
             "./logging": log
         });
@@ -74,7 +71,7 @@ describe("cli", function() {
      * @private
      */
     function getFixturePath() {
-        let args = Array.prototype.slice.call(arguments);
+        const args = Array.prototype.slice.call(arguments);
 
         args.unshift(fixtureDir);
         return path.join.apply(path, args);
@@ -98,22 +95,22 @@ describe("cli", function() {
 
     describe("execute()", function() {
         it("should return error when text with incorrect quotes is passed as argument", function() {
-            let configFile = getFixturePath("configurations", "quotes-error.json");
-            let result = cli.execute("-c " + configFile, "var foo = 'bar';");
+            const configFile = getFixturePath("configurations", "quotes-error.json");
+            const result = cli.execute("-c " + configFile, "var foo = 'bar';");
 
             assert.equal(result, 1);
         });
 
         it("should return no error when --ext .js2 is specified", function() {
-            let filePath = getFixturePath("files");
-            let result = cli.execute("--ext .js2 " + filePath);
+            const filePath = getFixturePath("files");
+            const result = cli.execute("--ext .js2 " + filePath);
 
             assert.equal(result, 0);
         });
 
         it("should exit with console error when passed unsupported arguments", function() {
-            let filePath = getFixturePath("files");
-            let result = cli.execute("--blah --another " + filePath);
+            const filePath = getFixturePath("files");
+            const result = cli.execute("--blah --another " + filePath);
 
             assert.equal(result, 1);
         });
@@ -122,8 +119,8 @@ describe("cli", function() {
 
     describe("when given a config file", function() {
         it("should load the specified config file", function() {
-            let configPath = getFixturePath(".eslintrc");
-            let filePath = getFixturePath("passing.js");
+            const configPath = getFixturePath(".eslintrc");
+            const filePath = getFixturePath("passing.js");
 
             assert.doesNotThrow(function() {
                 cli.execute("--config " + configPath + " " + filePath);
@@ -132,7 +129,7 @@ describe("cli", function() {
     });
 
     describe("when there is a local config file", function() {
-        let code = "lib/cli.js";
+        const code = "lib/cli.js";
 
         it("should load the local config file", function() {
 
@@ -151,11 +148,11 @@ describe("cli", function() {
 
     describe("when given a config with rules with options and severity level set to error", function() {
         it("should exit with an error status (1)", function() {
-            let configPath = getFixturePath("configurations", "quotes-error.json");
-            let filePath = getFixturePath("single-quoted.js");
-            let code = "--no-ignore --config " + configPath + " " + filePath;
+            const configPath = getFixturePath("configurations", "quotes-error.json");
+            const filePath = getFixturePath("single-quoted.js");
+            const code = "--no-ignore --config " + configPath + " " + filePath;
 
-            let exitStatus = cli.execute(code);
+            const exitStatus = cli.execute(code);
 
             assert.equal(exitStatus, 1);
         });
@@ -163,9 +160,9 @@ describe("cli", function() {
 
     describe("when given a config file and a directory of files", function() {
         it("should load and execute without error", function() {
-            let configPath = getFixturePath("configurations", "semi-error.json");
-            let filePath = getFixturePath("formatters");
-            let code = "--config " + configPath + " " + filePath;
+            const configPath = getFixturePath("configurations", "semi-error.json");
+            const filePath = getFixturePath("formatters");
+            const code = "--config " + configPath + " " + filePath;
 
             let exitStatus;
 
@@ -179,11 +176,11 @@ describe("cli", function() {
 
     describe("when given a config with environment set to browser", function() {
         it("should execute without any errors", function() {
-            let configPath = getFixturePath("configurations", "env-browser.json");
-            let filePath = getFixturePath("globals-browser.js");
-            let code = "--config " + configPath + " " + filePath;
+            const configPath = getFixturePath("configurations", "env-browser.json");
+            const filePath = getFixturePath("globals-browser.js");
+            const code = "--config " + configPath + " " + filePath;
 
-            let exit = cli.execute(code);
+            const exit = cli.execute(code);
 
             assert.equal(exit, 0);
         });
@@ -191,11 +188,11 @@ describe("cli", function() {
 
     describe("when given a config with environment set to Node.js", function() {
         it("should execute without any errors", function() {
-            let configPath = getFixturePath("configurations", "env-node.json");
-            let filePath = getFixturePath("globals-node.js");
-            let code = "--config " + configPath + " " + filePath;
+            const configPath = getFixturePath("configurations", "env-node.json");
+            const filePath = getFixturePath("globals-node.js");
+            const code = "--config " + configPath + " " + filePath;
 
-            let exit = cli.execute(code);
+            const exit = cli.execute(code);
 
             assert.equal(exit, 0);
         });
@@ -203,11 +200,11 @@ describe("cli", function() {
 
     describe("when given a config with environment set to Nashorn", function() {
         it("should execute without any errors", function() {
-            let configPath = getFixturePath("configurations", "env-nashorn.json");
-            let filePath = getFixturePath("globals-nashorn.js");
-            let code = "--config " + configPath + " " + filePath;
+            const configPath = getFixturePath("configurations", "env-nashorn.json");
+            const filePath = getFixturePath("globals-nashorn.js");
+            const code = "--config " + configPath + " " + filePath;
 
-            let exit = cli.execute(code);
+            const exit = cli.execute(code);
 
             assert.equal(exit, 0);
         });
@@ -215,11 +212,11 @@ describe("cli", function() {
 
     describe("when given a config with environment set to WebExtensions", function() {
         it("should execute without any errors", function() {
-            let configPath = getFixturePath("configurations", "env-webextensions.json");
-            let filePath = getFixturePath("globals-webextensions.js");
-            let code = "--config " + configPath + " " + filePath;
+            const configPath = getFixturePath("configurations", "env-webextensions.json");
+            const filePath = getFixturePath("globals-webextensions.js");
+            const code = "--config " + configPath + " " + filePath;
 
-            let exit = cli.execute(code);
+            const exit = cli.execute(code);
 
             assert.equal(exit, 0);
         });
@@ -227,8 +224,8 @@ describe("cli", function() {
 
     describe("when given a valid built-in formatter name", function() {
         it("should execute without any errors", function() {
-            let filePath = getFixturePath("passing.js");
-            let exit = cli.execute("-f checkstyle " + filePath);
+            const filePath = getFixturePath("passing.js");
+            const exit = cli.execute("-f checkstyle " + filePath);
 
             assert.equal(exit, 0);
         });
@@ -236,8 +233,8 @@ describe("cli", function() {
 
     describe("when given an invalid built-in formatter name", function() {
         it("should execute with error", function() {
-            let filePath = getFixturePath("passing.js");
-            let exit = cli.execute("-f fakeformatter " + filePath);
+            const filePath = getFixturePath("passing.js");
+            const exit = cli.execute("-f fakeformatter " + filePath);
 
             assert.equal(exit, 1);
         });
@@ -245,9 +242,9 @@ describe("cli", function() {
 
     describe("when given a valid formatter path", function() {
         it("should execute without any errors", function() {
-            let formatterPath = getFixturePath("formatters", "simple.js");
-            let filePath = getFixturePath("passing.js");
-            let exit = cli.execute("-f " + formatterPath + " " + filePath);
+            const formatterPath = getFixturePath("formatters", "simple.js");
+            const filePath = getFixturePath("passing.js");
+            const exit = cli.execute("-f " + formatterPath + " " + filePath);
 
             assert.equal(exit, 0);
         });
@@ -255,9 +252,9 @@ describe("cli", function() {
 
     describe("when given an invalid formatter path", function() {
         it("should execute with error", function() {
-            let formatterPath = getFixturePath("formatters", "file-does-not-exist.js");
-            let filePath = getFixturePath("passing.js");
-            let exit = cli.execute("-f " + formatterPath + " " + filePath);
+            const formatterPath = getFixturePath("formatters", "file-does-not-exist.js");
+            const filePath = getFixturePath("passing.js");
+            const exit = cli.execute("-f " + formatterPath + " " + filePath);
 
             assert.equal(exit, 1);
         });
@@ -265,10 +262,10 @@ describe("cli", function() {
 
     describe("when executing a file with a lint error", function() {
         it("should exit with error", function() {
-            let filePath = getFixturePath("undef.js");
-            let code = "--no-ignore --config --rule no-undef:2 " + filePath;
+            const filePath = getFixturePath("undef.js");
+            const code = "--no-ignore --config --rule no-undef:2 " + filePath;
 
-            let exit = cli.execute(code);
+            const exit = cli.execute(code);
 
             assert.equal(exit, 1);
         });
@@ -276,8 +273,8 @@ describe("cli", function() {
 
     describe("when executing a file with a syntax error", function() {
         it("should exit with error", function() {
-            let filePath = getFixturePath("syntax-error.js");
-            let exit = cli.execute("--no-ignore " + filePath);
+            const filePath = getFixturePath("syntax-error.js");
+            const exit = cli.execute("--no-ignore " + filePath);
 
             assert.equal(exit, 1);
         });
@@ -285,8 +282,8 @@ describe("cli", function() {
 
     describe("when calling execute more than once", function() {
         it("should not print the results from previous execution", function() {
-            let filePath = getFixturePath("missing-semicolon.js");
-            let passingPath = getFixturePath("passing.js");
+            const filePath = getFixturePath("missing-semicolon.js");
+            const passingPath = getFixturePath("passing.js");
 
             cli.execute("--no-ignore --rule semi:2 " + filePath);
 
@@ -318,9 +315,9 @@ describe("cli", function() {
 
     describe("when given a directory with eslint excluded files in the directory", function() {
         it("should not process any files", function() {
-            let ignorePath = getFixturePath(".eslintignore");
-            let filePath = getFixturePath(".");
-            let exit = cli.execute("--ignore-path " + ignorePath + " " + filePath);
+            const ignorePath = getFixturePath(".eslintignore");
+            const filePath = getFixturePath(".");
+            const exit = cli.execute("--ignore-path " + ignorePath + " " + filePath);
 
             assert.isTrue(log.info.notCalled);
             assert.equal(exit, 0);
@@ -330,9 +327,9 @@ describe("cli", function() {
     describe("when given a file in excluded files list", function() {
 
         it("should not process the file", function() {
-            let ignorePath = getFixturePath(".eslintignore");
-            let filePath = getFixturePath("passing.js");
-            let exit = cli.execute("--ignore-path " + ignorePath + " " + filePath);
+            const ignorePath = getFixturePath(".eslintignore");
+            const filePath = getFixturePath("passing.js");
+            const exit = cli.execute("--ignore-path " + ignorePath + " " + filePath);
 
             // a warning about the ignored file
             assert.isTrue(log.info.called);
@@ -340,9 +337,9 @@ describe("cli", function() {
         });
 
         it("should process the file when forced", function() {
-            let ignorePath = getFixturePath(".eslintignore");
-            let filePath = getFixturePath("passing.js");
-            let exit = cli.execute("--ignore-path " + ignorePath + " --no-ignore " + filePath);
+            const ignorePath = getFixturePath(".eslintignore");
+            const filePath = getFixturePath("passing.js");
+            const exit = cli.execute("--ignore-path " + ignorePath + " --no-ignore " + filePath);
 
             // no warnings
             assert.isFalse(log.info.called);
@@ -352,9 +349,9 @@ describe("cli", function() {
 
     describe("when given a pattern to ignore", function() {
         it("should not process any files", function() {
-            let ignoredFile = getFixturePath("cli/syntax-error.js");
-            let filePath = getFixturePath("cli/passing.js");
-            let exit = cli.execute("--ignore-pattern cli/ " + ignoredFile + " " + filePath);
+            const ignoredFile = getFixturePath("cli/syntax-error.js");
+            const filePath = getFixturePath("cli/passing.js");
+            const exit = cli.execute("--ignore-pattern cli/ " + ignoredFile + " " + filePath);
 
             // warnings about the ignored files
             assert.isTrue(log.info.called);
@@ -364,13 +361,13 @@ describe("cli", function() {
 
     describe("when given patterns to ignore", function() {
         it("should not process any matching files", function() {
-            let ignorePaths = ["a", "b"];
+            const ignorePaths = ["a", "b"];
 
-            let cmd = ignorePaths.map(function(ignorePath) {
+            const cmd = ignorePaths.map(function(ignorePath) {
                 return "--ignore-pattern " + ignorePath;
             }).concat(".").join(" ");
 
-            let opts = {
+            const opts = {
                 ignorePattern: ignorePaths
             };
 
@@ -381,8 +378,8 @@ describe("cli", function() {
     describe("when executing a file with a shebang", function() {
 
         it("should execute without error", function() {
-            let filePath = getFixturePath("shebang.js");
-            let exit = cli.execute("--no-ignore " + filePath);
+            const filePath = getFixturePath("shebang.js");
+            const exit = cli.execute("--no-ignore " + filePath);
 
             assert.equal(exit, 0);
         });
@@ -391,23 +388,23 @@ describe("cli", function() {
     describe("when loading a custom rule", function() {
 
         it("should return an error when rule isn't found", function() {
-            let rulesPath = getFixturePath("rules", "wrong");
-            let configPath = getFixturePath("rules", "eslint.json");
-            let filePath = getFixturePath("rules", "test", "test-custom-rule.js");
-            let code = "--rulesdir " + rulesPath + " --config " + configPath + " --no-ignore " + filePath;
+            const rulesPath = getFixturePath("rules", "wrong");
+            const configPath = getFixturePath("rules", "eslint.json");
+            const filePath = getFixturePath("rules", "test", "test-custom-rule.js");
+            const code = "--rulesdir " + rulesPath + " --config " + configPath + " --no-ignore " + filePath;
 
             assert.throws(function() {
-                let exit = cli.execute(code);
+                const exit = cli.execute(code);
 
                 assert.equal(exit, 1);
             }, /Error while loading rule 'custom-rule': Cannot read property/);
         });
 
         it("should return a warning when rule is matched", function() {
-            let rulesPath = getFixturePath("rules");
-            let configPath = getFixturePath("rules", "eslint.json");
-            let filePath = getFixturePath("rules", "test", "test-custom-rule.js");
-            let code = "--rulesdir " + rulesPath + " --config " + configPath + " --no-ignore " + filePath;
+            const rulesPath = getFixturePath("rules");
+            const configPath = getFixturePath("rules", "eslint.json");
+            const filePath = getFixturePath("rules", "test", "test-custom-rule.js");
+            const code = "--rulesdir " + rulesPath + " --config " + configPath + " --no-ignore " + filePath;
 
             cli.execute(code);
 
@@ -416,14 +413,14 @@ describe("cli", function() {
         });
 
         it("should return warnings from multiple rules in different directories", function() {
-            let rulesPath = getFixturePath("rules", "dir1");
-            let rulesPath2 = getFixturePath("rules", "dir2");
-            let configPath = getFixturePath("rules", "multi-rulesdirs.json");
-            let filePath = getFixturePath("rules", "test-multi-rulesdirs.js");
-            let code = "--rulesdir " + rulesPath + " --rulesdir " + rulesPath2 + " --config " + configPath + " --no-ignore " + filePath;
-            let exit = cli.execute(code);
+            const rulesPath = getFixturePath("rules", "dir1");
+            const rulesPath2 = getFixturePath("rules", "dir2");
+            const configPath = getFixturePath("rules", "multi-rulesdirs.json");
+            const filePath = getFixturePath("rules", "test-multi-rulesdirs.js");
+            const code = "--rulesdir " + rulesPath + " --rulesdir " + rulesPath2 + " --config " + configPath + " --no-ignore " + filePath;
+            const exit = cli.execute(code);
 
-            let call = log.info.getCall(0);
+            const call = log.info.getCall(0);
 
             assert.isTrue(log.info.calledOnce);
             assert.isTrue(call.args[0].indexOf("String!") > -1);
@@ -438,8 +435,8 @@ describe("cli", function() {
 
     describe("when executing with no-eslintrc flag", function() {
         it("should ignore a local config file", function() {
-            let filePath = getFixturePath("eslintrc", "quotes.js");
-            let exit = cli.execute("--no-eslintrc --no-ignore " + filePath);
+            const filePath = getFixturePath("eslintrc", "quotes.js");
+            const exit = cli.execute("--no-eslintrc --no-ignore " + filePath);
 
             assert.isTrue(log.info.notCalled);
             assert.equal(exit, 0);
@@ -448,8 +445,8 @@ describe("cli", function() {
 
     describe("when executing without no-eslintrc flag", function() {
         it("should load a local config file", function() {
-            let filePath = getFixturePath("eslintrc", "quotes.js");
-            let exit = cli.execute("--no-ignore " + filePath);
+            const filePath = getFixturePath("eslintrc", "quotes.js");
+            const exit = cli.execute("--no-ignore " + filePath);
 
             assert.isTrue(log.info.calledOnce);
             assert.equal(exit, 1);
@@ -458,7 +455,7 @@ describe("cli", function() {
 
     describe("when executing without env flag", function() {
         it("should not define environment-specific globals", function() {
-            let files = [
+            const files = [
                 getFixturePath("globals-browser.js"),
                 getFixturePath("globals-node.js")
             ];
@@ -471,24 +468,24 @@ describe("cli", function() {
 
     describe("when executing with global flag", function() {
         it("should default defined variables to read-only", function() {
-            let filePath = getFixturePath("undef.js");
-            let exit = cli.execute("--global baz,bat --no-ignore --rule no-global-assign:2 " + filePath);
+            const filePath = getFixturePath("undef.js");
+            const exit = cli.execute("--global baz,bat --no-ignore --rule no-global-assign:2 " + filePath);
 
             assert.isTrue(log.info.calledOnce);
             assert.equal(exit, 1);
         });
 
         it("should allow defining writable global variables", function() {
-            let filePath = getFixturePath("undef.js");
-            let exit = cli.execute("--global baz:false,bat:true --no-ignore " + filePath);
+            const filePath = getFixturePath("undef.js");
+            const exit = cli.execute("--global baz:false,bat:true --no-ignore " + filePath);
 
             assert.isTrue(log.info.notCalled);
             assert.equal(exit, 0);
         });
 
         it("should allow defining variables with multiple flags", function() {
-            let filePath = getFixturePath("undef.js");
-            let exit = cli.execute("--global baz --global bat:true --no-ignore " + filePath);
+            const filePath = getFixturePath("undef.js");
+            const exit = cli.execute("--global baz --global bat:true --no-ignore " + filePath);
 
             assert.isTrue(log.info.notCalled);
             assert.equal(exit, 0);
@@ -497,12 +494,9 @@ describe("cli", function() {
 
     describe("when supplied with rule flag and severity level set to error", function() {
         it("should exit with an error status (2)", function() {
-            let filePath = getFixturePath("single-quoted.js");
-            let code = "--no-ignore --rule 'quotes: [2, double]' " + filePath;
-
-            let exitStatus;
-
-            exitStatus = cli.execute(code);
+            const filePath = getFixturePath("single-quoted.js");
+            const code = "--no-ignore --rule 'quotes: [2, double]' " + filePath;
+            const exitStatus = cli.execute(code);
 
             assert.equal(exitStatus, 1);
         });
@@ -511,22 +505,22 @@ describe("cli", function() {
     describe("when the quiet option is enabled", function() {
 
         it("should only print error", function() {
-            let filePath = getFixturePath("single-quoted.js");
-            let cliArgs = "--no-ignore --quiet  -f compact --rule 'quotes: [2, double]' --rule 'no-unused-vars: 1' " + filePath,
-                formattedOutput;
+            const filePath = getFixturePath("single-quoted.js");
+            const cliArgs = "--no-ignore --quiet  -f compact --rule 'quotes: [2, double]' --rule 'no-unused-vars: 1' " + filePath;
 
             cli.execute(cliArgs);
 
             sinon.assert.calledOnce(log.info);
 
-            formattedOutput = log.info.firstCall.args[0];
+            const formattedOutput = log.info.firstCall.args[0];
+
             assert.include(formattedOutput, "Error");
             assert.notInclude(formattedOutput, "Warning");
         });
 
         it("should print nothing if there are no errors", function() {
-            let filePath = getFixturePath("single-quoted.js");
-            let cliArgs = "--quiet  -f compact --rule 'quotes: [1, double]' --rule 'no-unused-vars: 1' " + filePath;
+            const filePath = getFixturePath("single-quoted.js");
+            const cliArgs = "--quiet  -f compact --rule 'quotes: [1, double]' --rule 'no-unused-vars: 1' " + filePath;
 
             cli.execute(cliArgs);
 
@@ -541,8 +535,8 @@ describe("cli", function() {
         });
 
         it("should write the file and create dirs if they don't exist", function() {
-            let filePath = getFixturePath("single-quoted.js");
-            let code = "--no-ignore --rule 'quotes: [1, double]' --o tests/output/eslint-output.txt " + filePath;
+            const filePath = getFixturePath("single-quoted.js");
+            const code = "--no-ignore --rule 'quotes: [1, double]' --o tests/output/eslint-output.txt " + filePath;
 
             cli.execute(code);
 
@@ -551,13 +545,12 @@ describe("cli", function() {
         });
 
         it("should return an error if the path is a directory", function() {
-            let filePath = getFixturePath("single-quoted.js");
-            let code = "--no-ignore --rule 'quotes: [1, double]' --o tests/output " + filePath;
-            let exit;
+            const filePath = getFixturePath("single-quoted.js");
+            const code = "--no-ignore --rule 'quotes: [1, double]' --o tests/output " + filePath;
 
             fs.mkdirSync("tests/output");
 
-            exit = cli.execute(code);
+            const exit = cli.execute(code);
 
             assert.equal(exit, 1);
             assert.isTrue(log.info.notCalled);
@@ -565,13 +558,12 @@ describe("cli", function() {
         });
 
         it("should return an error if the path could not be written to", function() {
-            let filePath = getFixturePath("single-quoted.js");
-            let code = "--no-ignore --rule 'quotes: [1, double]' --o tests/output/eslint-output.txt " + filePath;
-            let exit;
+            const filePath = getFixturePath("single-quoted.js");
+            const code = "--no-ignore --rule 'quotes: [1, double]' --o tests/output/eslint-output.txt " + filePath;
 
             fs.writeFileSync("tests/output", "foo");
 
-            exit = cli.execute(code);
+            const exit = cli.execute(code);
 
             assert.equal(exit, 1);
             assert.isTrue(log.info.notCalled);
@@ -582,7 +574,7 @@ describe("cli", function() {
     describe("when supplied with a plugin", function() {
 
         it("should pass plugins to CLIEngine", function() {
-            let examplePluginName = "eslint-plugin-example";
+            const examplePluginName = "eslint-plugin-example";
 
             verifyCLIEngineOpts("--no-ignore --plugin " + examplePluginName + " foo.js", {
                 plugins: [examplePluginName]
@@ -593,15 +585,15 @@ describe("cli", function() {
 
     describe("when given an parser name", function() {
         it("should exit with error if parser is invalid", function() {
-            let filePath = getFixturePath("passing.js");
-            let exit = cli.execute("--no-ignore --parser test111 " + filePath);
+            const filePath = getFixturePath("passing.js");
+            const exit = cli.execute("--no-ignore --parser test111 " + filePath);
 
             assert.equal(exit, 1);
         });
 
         it("should exit with no error if parser is valid", function() {
-            let filePath = getFixturePath("passing.js");
-            let exit = cli.execute("--no-ignore --parser espree " + filePath);
+            const filePath = getFixturePath("passing.js");
+            const exit = cli.execute("--no-ignore --parser espree " + filePath);
 
             assert.equal(exit, 0);
         });
@@ -609,37 +601,37 @@ describe("cli", function() {
 
     describe("when given parser options", function() {
         it("should exit with error if parser options are invalid", function() {
-            let filePath = getFixturePath("passing.js");
-            let exit = cli.execute("--no-ignore --parser-options test111 " + filePath);
+            const filePath = getFixturePath("passing.js");
+            const exit = cli.execute("--no-ignore --parser-options test111 " + filePath);
 
             assert.equal(exit, 1);
         });
 
         it("should exit with no error if parser is valid", function() {
-            let filePath = getFixturePath("passing.js");
-            let exit = cli.execute("--no-ignore --parser-options=ecmaVersion:6 " + filePath);
+            const filePath = getFixturePath("passing.js");
+            const exit = cli.execute("--no-ignore --parser-options=ecmaVersion:6 " + filePath);
 
             assert.equal(exit, 0);
         });
 
         it("should exit with an error on ecmaVersion 7 feature in ecmaVersion 6", function() {
-            let filePath = getFixturePath("passing-es7.js");
-            let exit = cli.execute("--no-ignore --parser-options=ecmaVersion:6 " + filePath);
+            const filePath = getFixturePath("passing-es7.js");
+            const exit = cli.execute("--no-ignore --parser-options=ecmaVersion:6 " + filePath);
 
             assert.equal(exit, 1);
         });
 
         it("should exit with no error on ecmaVersion 7 feature in ecmaVersion 7", function() {
-            let filePath = getFixturePath("passing-es7.js");
-            let exit = cli.execute("--no-ignore --parser-options=ecmaVersion:7 " + filePath);
+            const filePath = getFixturePath("passing-es7.js");
+            const exit = cli.execute("--no-ignore --parser-options=ecmaVersion:7 " + filePath);
 
             assert.equal(exit, 0);
         });
 
         it("should exit with no error on ecmaVersion 7 feature with config ecmaVersion 6 and command line ecmaVersion 7", function() {
-            let configPath = getFixturePath("configurations", "es6.json");
-            let filePath = getFixturePath("passing-es7.js");
-            let exit = cli.execute("--no-ignore --config " + configPath + " --parser-options=ecmaVersion:7 " + filePath);
+            const configPath = getFixturePath("configurations", "es6.json");
+            const filePath = getFixturePath("passing-es7.js");
+            const exit = cli.execute("--no-ignore --config " + configPath + " --parser-options=ecmaVersion:7 " + filePath);
 
             assert.equal(exit, 0);
         });
@@ -647,19 +639,15 @@ describe("cli", function() {
 
     describe("when given the max-warnings flag", function() {
         it("should not change exit code if warning count under threshold", function() {
-            let filePath = getFixturePath("max-warnings"),
-                exitCode;
-
-            exitCode = cli.execute("--no-ignore --max-warnings 10 " + filePath);
+            const filePath = getFixturePath("max-warnings");
+            const exitCode = cli.execute("--no-ignore --max-warnings 10 " + filePath);
 
             assert.equal(exitCode, 0);
         });
 
         it("should exit with exit code 1 if warning count exceeds threshold", function() {
-            let filePath = getFixturePath("max-warnings"),
-                exitCode;
-
-            exitCode = cli.execute("--no-ignore --max-warnings 5 " + filePath);
+            const filePath = getFixturePath("max-warnings");
+            const exitCode = cli.execute("--no-ignore --max-warnings 5 " + filePath);
 
             assert.equal(exitCode, 1);
             assert.ok(log.error.calledOnce);
@@ -667,19 +655,15 @@ describe("cli", function() {
         });
 
         it("should not change exit code if warning count equals threshold", function() {
-            let filePath = getFixturePath("max-warnings"),
-                exitCode;
-
-            exitCode = cli.execute("--no-ignore --max-warnings 6 " + filePath);
+            const filePath = getFixturePath("max-warnings");
+            const exitCode = cli.execute("--no-ignore --max-warnings 6 " + filePath);
 
             assert.equal(exitCode, 0);
         });
 
         it("should not change exit code if flag is not specified and there are warnings", function() {
-            let filePath = getFixturePath("max-warnings"),
-                exitCode;
-
-            exitCode = cli.execute(filePath);
+            const filePath = getFixturePath("max-warnings");
+            const exitCode = cli.execute(filePath);
 
             assert.equal(exitCode, 0);
         });
@@ -687,8 +671,8 @@ describe("cli", function() {
 
     describe("when passed --no-inline-config", function() {
 
-        let sandbox = sinon.sandbox.create(),
-            localCLI;
+        const sandbox = sinon.sandbox.create();
+        let localCLI;
 
         afterEach(function() {
             sandbox.verifyAndRestore();
@@ -697,7 +681,7 @@ describe("cli", function() {
         it("should pass allowInlineConfig:true to CLIEngine when --no-inline-config is used", function() {
 
             // create a fake CLIEngine to test with
-            let fakeCLIEngine = sandbox.mock().withExactArgs(sinon.match({ allowInlineConfig: false }));
+            const fakeCLIEngine = sandbox.mock().withExactArgs(sinon.match({ allowInlineConfig: false }));
 
             fakeCLIEngine.prototype = leche.fake(CLIEngine.prototype);
             sandbox.stub(fakeCLIEngine.prototype, "executeOnFiles").returns({
@@ -730,7 +714,7 @@ describe("cli", function() {
         it("should not error and allowInlineConfig should be true by default", function() {
 
             // create a fake CLIEngine to test with
-            let fakeCLIEngine = sandbox.mock().withExactArgs(sinon.match({ allowInlineConfig: true }));
+            const fakeCLIEngine = sandbox.mock().withExactArgs(sinon.match({ allowInlineConfig: true }));
 
             fakeCLIEngine.prototype = leche.fake(CLIEngine.prototype);
             sandbox.stub(fakeCLIEngine.prototype, "executeOnFiles").returns({
@@ -748,7 +732,7 @@ describe("cli", function() {
                 "./logging": log
             });
 
-            let exitCode = localCLI.execute(".");
+            const exitCode = localCLI.execute(".");
 
             assert.equal(exitCode, 0);
 
@@ -758,8 +742,8 @@ describe("cli", function() {
 
     describe("when passed --fix", function() {
 
-        let sandbox = sinon.sandbox.create(),
-            localCLI;
+        const sandbox = sinon.sandbox.create();
+        let localCLI;
 
         afterEach(function() {
             sandbox.verifyAndRestore();
@@ -768,7 +752,7 @@ describe("cli", function() {
         it("should pass fix:true to CLIEngine when executing on files", function() {
 
             // create a fake CLIEngine to test with
-            let fakeCLIEngine = sandbox.mock().withExactArgs(sinon.match({ fix: true }));
+            const fakeCLIEngine = sandbox.mock().withExactArgs(sinon.match({ fix: true }));
 
             fakeCLIEngine.prototype = leche.fake(CLIEngine.prototype);
             sandbox.stub(fakeCLIEngine.prototype, "executeOnFiles").returns({
@@ -786,7 +770,7 @@ describe("cli", function() {
                 "./logging": log
             });
 
-            let exitCode = localCLI.execute("--fix .");
+            const exitCode = localCLI.execute("--fix .");
 
             assert.equal(exitCode, 0);
 
@@ -794,7 +778,7 @@ describe("cli", function() {
 
         it("should rewrite files when in fix mode", function() {
 
-            let report = {
+            const report = {
                 errorCount: 1,
                 warningCount: 0,
                 results: [{
@@ -810,7 +794,7 @@ describe("cli", function() {
             };
 
             // create a fake CLIEngine to test with
-            let fakeCLIEngine = sandbox.mock().withExactArgs(sinon.match({ fix: true }));
+            const fakeCLIEngine = sandbox.mock().withExactArgs(sinon.match({ fix: true }));
 
             fakeCLIEngine.prototype = leche.fake(CLIEngine.prototype);
             sandbox.stub(fakeCLIEngine.prototype, "executeOnFiles").returns(report);
@@ -824,7 +808,7 @@ describe("cli", function() {
                 "./logging": log
             });
 
-            let exitCode = localCLI.execute("--fix .");
+            const exitCode = localCLI.execute("--fix .");
 
             assert.equal(exitCode, 1);
 
@@ -832,7 +816,7 @@ describe("cli", function() {
 
         it("should rewrite files when in fix mode and quiet mode", function() {
 
-            let report = {
+            const report = {
                 errorCount: 0,
                 warningCount: 1,
                 results: [{
@@ -848,7 +832,7 @@ describe("cli", function() {
             };
 
             // create a fake CLIEngine to test with
-            let fakeCLIEngine = sandbox.mock().withExactArgs(sinon.match({ fix: true }));
+            const fakeCLIEngine = sandbox.mock().withExactArgs(sinon.match({ fix: true }));
 
             fakeCLIEngine.prototype = leche.fake(CLIEngine.prototype);
             sandbox.stub(fakeCLIEngine.prototype, "executeOnFiles").returns(report);
@@ -863,7 +847,7 @@ describe("cli", function() {
                 "./logging": log
             });
 
-            let exitCode = localCLI.execute("--fix --quiet .");
+            const exitCode = localCLI.execute("--fix --quiet .");
 
             assert.equal(exitCode, 0);
 
@@ -872,14 +856,14 @@ describe("cli", function() {
         it("should not call CLIEngine and return 1 when executing on text", function() {
 
             // create a fake CLIEngine to test with
-            let fakeCLIEngine = sandbox.mock().never();
+            const fakeCLIEngine = sandbox.mock().never();
 
             localCLI = proxyquire("../../lib/cli", {
                 "./cli-engine": fakeCLIEngine,
                 "./logging": log
             });
 
-            let exitCode = localCLI.execute("--fix .", "foo = bar;");
+            const exitCode = localCLI.execute("--fix .", "foo = bar;");
 
             assert.equal(exitCode, 1);
         });
@@ -888,19 +872,19 @@ describe("cli", function() {
 
     describe("when passing --print-config", function() {
         it("should print out the configuration", function() {
-            let filePath = getFixturePath("files");
+            const filePath = getFixturePath("files");
 
-            let exitCode = cli.execute("--print-config " + filePath);
+            const exitCode = cli.execute("--print-config " + filePath);
 
             assert.isTrue(log.info.calledOnce);
             assert.equal(exitCode, 0);
         });
 
         it("should require a single positional file argument", function() {
-            let filePath1 = getFixturePath("files", "bar.js");
-            let filePath2 = getFixturePath("files", "foo.js");
+            const filePath1 = getFixturePath("files", "bar.js");
+            const filePath2 = getFixturePath("files", "foo.js");
 
-            let exitCode = cli.execute("--print-config " + filePath1 + " " + filePath2);
+            const exitCode = cli.execute("--print-config " + filePath1 + " " + filePath2);
 
             assert.isTrue(log.info.notCalled);
             assert.isTrue(log.error.calledOnce);
@@ -908,7 +892,7 @@ describe("cli", function() {
         });
 
         it("should error out when executing on text", function() {
-            let exitCode = cli.execute("--print-config", "foo = bar;");
+            const exitCode = cli.execute("--print-config", "foo = bar;");
 
             assert.isTrue(log.info.notCalled);
             assert.isTrue(log.error.calledOnce);

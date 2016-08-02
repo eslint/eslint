@@ -9,10 +9,10 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-let rule = require("../../../lib/rules/quote-props"),
+const rule = require("../../../lib/rules/quote-props"),
     RuleTester = require("../../../lib/testers/rule-tester");
 
-let ruleTester = new RuleTester();
+const ruleTester = new RuleTester();
 
 ruleTester.run("quote-props", rule, {
     valid: [

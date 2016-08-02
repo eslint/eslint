@@ -9,18 +9,18 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-let rule = require("../../../lib/rules/handle-callback-err"),
+const rule = require("../../../lib/rules/handle-callback-err"),
     RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-let ruleTester = new RuleTester();
+const ruleTester = new RuleTester();
 
-let expectedErrorMessage = "Expected error to be handled.";
-let expectedFunctionDeclarationError = { message: expectedErrorMessage, type: "FunctionDeclaration" };
-let expectedFunctionExpressionError = { message: expectedErrorMessage, type: "FunctionExpression" };
+const expectedErrorMessage = "Expected error to be handled.";
+const expectedFunctionDeclarationError = { message: expectedErrorMessage, type: "FunctionDeclaration" };
+const expectedFunctionExpressionError = { message: expectedErrorMessage, type: "FunctionExpression" };
 
 ruleTester.run("handle-callback-err", rule, {
     valid: [

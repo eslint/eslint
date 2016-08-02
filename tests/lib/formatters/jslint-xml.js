@@ -9,7 +9,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-let assert = require("chai").assert,
+const assert = require("chai").assert,
     formatter = require("../../../lib/formatters/jslint-xml");
 
 //------------------------------------------------------------------------------
@@ -19,7 +19,7 @@ let assert = require("chai").assert,
 describe("formatter:jslint-xml", function() {
     describe("when passed a single message", function() {
 
-        let code = [{
+        const code = [{
             filePath: "foo.js",
             messages: [{
                 message: "Unexpected foo.",
@@ -32,7 +32,7 @@ describe("formatter:jslint-xml", function() {
         }];
 
         it("should return a string in JSLint XML format with 1 issue in 1 file", function() {
-            let result = formatter(code);
+            const result = formatter(code);
 
             assert.equal(result, "<?xml version=\"1.0\" encoding=\"utf-8\"?><jslint><file name=\"foo.js\"><issue line=\"5\" char=\"10\" evidence=\"foo\" reason=\"Unexpected foo. (foo)\" /></file></jslint>");
         });
@@ -40,7 +40,7 @@ describe("formatter:jslint-xml", function() {
 
     describe("when passed a fatal error message", function() {
 
-        let code = [{
+        const code = [{
             filePath: "foo.js",
             messages: [{
                 fatal: true,
@@ -53,14 +53,14 @@ describe("formatter:jslint-xml", function() {
         }];
 
         it("should return a string in JSLint XML format with 1 issue in 1 file", function() {
-            let result = formatter(code);
+            const result = formatter(code);
 
             assert.equal(result, "<?xml version=\"1.0\" encoding=\"utf-8\"?><jslint><file name=\"foo.js\"><issue line=\"5\" char=\"10\" evidence=\"foo\" reason=\"Unexpected foo. (foo)\" /></file></jslint>");
         });
     });
 
     describe("when passed multiple messages", function() {
-        let code = [{
+        const code = [{
             filePath: "foo.js",
             messages: [{
                 message: "Unexpected foo.",
@@ -80,14 +80,14 @@ describe("formatter:jslint-xml", function() {
         }];
 
         it("should return a string in JSLint XML format with 2 issues in 1 file", function() {
-            let result = formatter(code);
+            const result = formatter(code);
 
             assert.equal(result, "<?xml version=\"1.0\" encoding=\"utf-8\"?><jslint><file name=\"foo.js\"><issue line=\"5\" char=\"10\" evidence=\"foo\" reason=\"Unexpected foo. (foo)\" /><issue line=\"6\" char=\"11\" evidence=\"bar\" reason=\"Unexpected bar. (bar)\" /></file></jslint>");
         });
     });
 
     describe("when passed multiple files with 1 message each", function() {
-        let code = [{
+        const code = [{
             filePath: "foo.js",
             messages: [{
                 message: "Unexpected foo.",
@@ -110,7 +110,7 @@ describe("formatter:jslint-xml", function() {
         }];
 
         it("should return a string in JSLint XML format with 2 issues in 2 files", function() {
-            let result = formatter(code);
+            const result = formatter(code);
 
             assert.equal(result, "<?xml version=\"1.0\" encoding=\"utf-8\"?><jslint><file name=\"foo.js\"><issue line=\"5\" char=\"10\" evidence=\"foo\" reason=\"Unexpected foo. (foo)\" /></file><file name=\"bar.js\"><issue line=\"6\" char=\"11\" evidence=\"bar\" reason=\"Unexpected bar. (bar)\" /></file></jslint>");
         });
@@ -118,7 +118,7 @@ describe("formatter:jslint-xml", function() {
 
     describe("when passing a single message with illegal characters", function() {
 
-        let code = [{
+        const code = [{
             filePath: "foo.js",
             messages: [{
                 message: "Unexpected <&\"'>\b\t\n\f\r牛逼 foo.",
@@ -131,7 +131,7 @@ describe("formatter:jslint-xml", function() {
         }];
 
         it("should return a string in JSLint XML format with 1 issue in 1 file", function() {
-            let result = formatter(code);
+            const result = formatter(code);
 
             assert.equal(result, "<?xml version=\"1.0\" encoding=\"utf-8\"?><jslint><file name=\"foo.js\"><issue line=\"5\" char=\"10\" evidence=\"foo\" reason=\"Unexpected &lt;&amp;&quot;&apos;&gt;&#8;&#9;&#10;&#12;&#13;&#29275;&#36924; foo. (foo)\" /></file></jslint>");
         });
@@ -139,7 +139,7 @@ describe("formatter:jslint-xml", function() {
 
     describe("when passing a single message with no source", function() {
 
-        let code = [{
+        const code = [{
             filePath: "foo.js",
             messages: [{
                 message: "Unexpected foo.",
@@ -151,14 +151,14 @@ describe("formatter:jslint-xml", function() {
         }];
 
         it("should return a string in JSLint XML format with 1 issue in 1 file", function() {
-            let result = formatter(code);
+            const result = formatter(code);
 
             assert.equal(result, "<?xml version=\"1.0\" encoding=\"utf-8\"?><jslint><file name=\"foo.js\"><issue line=\"5\" char=\"10\" evidence=\"\" reason=\"Unexpected foo. (foo)\" /></file></jslint>");
         });
     });
 
     describe("when passing a single message without rule id", function() {
-        let code = [{
+        const code = [{
             filePath: "foo.js",
             messages: [{
                 severity: 2,
@@ -168,7 +168,7 @@ describe("formatter:jslint-xml", function() {
         }];
 
         it("should return a string in JSLint XML format with 1 issue in 1 file", function() {
-            let result = formatter(code);
+            const result = formatter(code);
 
             assert.equal(result, "<?xml version=\"1.0\" encoding=\"utf-8\"?><jslint><file name=\"foo.js\"><issue line=\"5\" char=\"10\" evidence=\"\" reason=\"\" /></file></jslint>");
         });
