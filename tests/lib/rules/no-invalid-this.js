@@ -529,7 +529,61 @@ const patterns = [
         parserOptions: { ecmaVersion: 6 },
         valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
         invalid: []
-    }
+    },
+
+    // https://github.com/eslint/eslint/issues/6824
+    {
+        code: "var Ctor = function() { console.log(this); z(x => console.log(x, this)); }",
+        parserOptions: { ecmaVersion: 6 },
+        valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
+        invalid: []
+    },
+    {
+        code: "var func = function() { console.log(this); z(x => console.log(x, this)); }",
+        parserOptions: { ecmaVersion: 6 },
+        errors: errors,
+        valid: [NORMAL],
+        invalid: [USE_STRICT, IMPLIED_STRICT, MODULES]
+    },
+    {
+        code: "Ctor = function() { console.log(this); z(x => console.log(x, this)); }",
+        parserOptions: { ecmaVersion: 6 },
+        valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
+        invalid: []
+    },
+    {
+        code: "func = function() { console.log(this); z(x => console.log(x, this)); }",
+        parserOptions: { ecmaVersion: 6 },
+        errors: errors,
+        valid: [NORMAL],
+        invalid: [USE_STRICT, IMPLIED_STRICT, MODULES]
+    },
+    {
+        code: "function foo(Ctor = function() { console.log(this); z(x => console.log(x, this)); }) {}",
+        parserOptions: { ecmaVersion: 6 },
+        valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
+        invalid: []
+    },
+    {
+        code: "function foo(func = function() { console.log(this); z(x => console.log(x, this)); }) {}",
+        parserOptions: { ecmaVersion: 6 },
+        errors: errors,
+        valid: [NORMAL],
+        invalid: [USE_STRICT, IMPLIED_STRICT, MODULES]
+    },
+    {
+        code: "[obj.method = function() { console.log(this); z(x => console.log(x, this)); }] = a",
+        parserOptions: { ecmaVersion: 6 },
+        valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
+        invalid: []
+    },
+    {
+        code: "[func = function() { console.log(this); z(x => console.log(x, this)); }] = a",
+        parserOptions: { ecmaVersion: 6 },
+        errors: errors,
+        valid: [NORMAL],
+        invalid: [USE_STRICT, IMPLIED_STRICT, MODULES]
+    },
 ];
 
 const ruleTester = new RuleTester();

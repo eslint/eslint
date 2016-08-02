@@ -11,12 +11,13 @@ Basically this rule checks whether or not a function which are containing `this`
 This rule judges from following conditions whether or not the function is a constructor:
 
 * The name of the function starts with uppercase.
+* The function is assigned to a variable which starts with an uppercase letter.
 * The function is a constructor of ES2015 Classes.
 
 This rule judges from following conditions whether or not the function is a method:
 
 * The function is on an object literal.
-* The function assigns to a property.
+* The function is assigned to a property.
 * The function is a method/getter/setter of ES2015 Classes. (excepts static methods)
 
 And this rule allows `this` keywords in functions below:
