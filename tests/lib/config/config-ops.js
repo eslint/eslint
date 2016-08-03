@@ -9,7 +9,6 @@
 //------------------------------------------------------------------------------
 
 const assert = require("chai").assert,
-    lodash = require("lodash"),
     leche = require("leche"),
     environments = require("../../../conf/environments"),
     ConfigOps = require("../../../lib/config/config-ops");
@@ -77,7 +76,7 @@ describe("ConfigOps", function() {
                     ecmaVersion: 6,
                     ecmaFeatures: environments.node.parserOptions.ecmaFeatures
                 },
-                globals: lodash.assign({}, environments.node.globals, environments.es6.globals)
+                globals: Object.assign({}, environments.node.globals, environments.es6.globals)
             });
         });
     });
