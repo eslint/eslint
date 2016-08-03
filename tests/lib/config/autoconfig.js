@@ -9,13 +9,12 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-const lodash = require("lodash"),
-    assert = require("chai").assert,
+const assert = require("chai").assert,
     autoconfig = require("../../../lib/config/autoconfig"),
     sourceCodeUtil = require("../../../lib/util/source-code-util"),
     baseDefaultOptions = require("../../../conf/cli-options");
 
-const defaultOptions = lodash.assign({}, baseDefaultOptions, {cwd: process.cwd()});
+const defaultOptions = Object.assign({}, baseDefaultOptions, {cwd: process.cwd()});
 
 //------------------------------------------------------------------------------
 // Data
