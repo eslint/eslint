@@ -1,11 +1,11 @@
-# Warn when using template string syntax in regular strings (no-template-curly-in-string)
+# Disallow template literal placeholder syntax in regular strings (no-template-curly-in-string)
 
-ECMAScript 6 allows programmers to create strings containing variable or expressions using template literals, instead of string concatenation, by writing expressions like `${variable}` between two backtick quotes (\`). It can be easy to use the wrong quotes when wanting to use template literals, and end up with the literal value `"${variable}"` instead of a string containing the value of the injected expressions.
+ECMAScript 6 allows programmers to create strings containing variable or expressions using template literals, instead of string concatenation, by writing expressions like `${variable}` between two backtick quotes (\`). It can be easy to use the wrong quotes when wanting to use template literals, by writing `"${variable}"`, and end up with the literal value `"${variable}"` instead of a string containing the value of the injected expressions.
 
 
 ## Rule Details
 
-This rule aims to warn programmers of a potential quotes mismatch. It will warn when it finds a string containing the template literal place holder (`${something}`) that uses either `\"` or `\'` for the quotes.
+This rule aims to warn when a regular string contains what looks like a template literal placeholder. It will warn when it finds a string containing the template literal place holder (`${something}`) that uses either `\"` or `\'` for the quotes.
 
 ## Examples
 
