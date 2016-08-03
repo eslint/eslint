@@ -18,6 +18,8 @@ const rule = require("../../../lib/rules/arrow-parens"),
 const ruleTester = new RuleTester();
 
 const valid = [
+
+    // "always" (by default)
     { code: "() => {}", parserOptions: { ecmaVersion: 6 } },
     { code: "(a) => {}", parserOptions: { ecmaVersion: 6 } },
     { code: "(a) => a", parserOptions: { ecmaVersion: 6 } },
@@ -25,7 +27,15 @@ const valid = [
     { code: "a.then((foo) => {});", parserOptions: { ecmaVersion: 6 } },
     { code: "a.then((foo) => { if (true) {}; });", parserOptions: { ecmaVersion: 6 } },
 
-    // as-needed
+    // "always" (explicit)
+    { code: "() => {}", options: ["always"], parserOptions: { ecmaVersion: 6 } },
+    { code: "(a) => {}", options: ["always"], parserOptions: { ecmaVersion: 6 } },
+    { code: "(a) => a", options: ["always"], parserOptions: { ecmaVersion: 6 } },
+    { code: "(a) => {\n}", options: ["always"], parserOptions: { ecmaVersion: 6 } },
+    { code: "a.then((foo) => {});", options: ["always"], parserOptions: { ecmaVersion: 6 } },
+    { code: "a.then((foo) => { if (true) {}; });", options: ["always"], parserOptions: { ecmaVersion: 6 } },
+
+    // "as-needed"
     { code: "() => {}", options: ["as-needed"], parserOptions: { ecmaVersion: 6 } },
     { code: "a => {}", options: ["as-needed"], parserOptions: { ecmaVersion: 6 } },
     { code: "a => a", options: ["as-needed"], parserOptions: { ecmaVersion: 6 } },
@@ -33,15 +43,31 @@ const valid = [
     { code: "({ a, b }) => {}", options: ["as-needed"], parserOptions: { ecmaVersion: 6 } },
     { code: "(a = 10) => {}", options: ["as-needed"], parserOptions: { ecmaVersion: 6 } },
     { code: "(...a) => a[0]", options: ["as-needed"], parserOptions: { ecmaVersion: 6 } },
-    { code: "(a, b) => {}", options: ["as-needed"], parserOptions: { ecmaVersion: 6 } }
+    { code: "(a, b) => {}", options: ["as-needed"], parserOptions: { ecmaVersion: 6 } },
+
+    // "as-needed", { "requireForBlockBody": true }
+    { code: "() => {}", options: ["as-needed", {requireForBlockBody: true}], parserOptions: { ecmaVersion: 6 } },
+    { code: "a => a", options: ["as-needed", {requireForBlockBody: true}], parserOptions: { ecmaVersion: 6 } },
+    { code: "([a, b]) => {}", options: ["as-needed", {requireForBlockBody: true}], parserOptions: { ecmaVersion: 6 } },
+    { code: "([a, b]) => a", options: ["as-needed", {requireForBlockBody: true}], parserOptions: { ecmaVersion: 6 } },
+    { code: "({ a, b }) => {}", options: ["as-needed", {requireForBlockBody: true}], parserOptions: { ecmaVersion: 6 } },
+    { code: "({ a, b }) => a + b", options: ["as-needed", {requireForBlockBody: true}], parserOptions: { ecmaVersion: 6 } },
+    { code: "(a = 10) => {}", options: ["as-needed", {requireForBlockBody: true}], parserOptions: { ecmaVersion: 6 } },
+    { code: "(...a) => a[0]", options: ["as-needed", {requireForBlockBody: true}], parserOptions: { ecmaVersion: 6 } },
+    { code: "(a, b) => {}", options: ["as-needed", {requireForBlockBody: true}], parserOptions: { ecmaVersion: 6 } },
+    { code: "a => ({})", options: ["as-needed", {requireForBlockBody: true}], parserOptions: { ecmaVersion: 6 } }
 
 ];
 
 const message = "Expected parentheses around arrow function argument.";
 const asNeededMessage = "Unexpected parentheses around single function argument.";
+const requireForBlockBodyMessage = "Unexpected parentheses around single function argument having a body with no curly braces";
+const requireForBlockBodyNoParensMessage = "Expected parentheses around arrow function argument having a body with curly braces.";
 const type = "ArrowFunctionExpression";
 
 const invalid = [
+
+    // "always" (by default)
     {
         code: "a => {}",
         output: "(a) => {}",
@@ -109,7 +135,7 @@ const invalid = [
         }]
     },
 
-    // as-needed
+    // "as-needed"
     {
         code: "(a) => a",
         output: "a => a",
@@ -122,19 +148,32 @@ const invalid = [
             type: type
         }]
     },
+
+    // "as-needed", { "requireForBlockBody": true }
     {
-        code: "(b) => b",
-        output: "b => b",
-        options: ["as-needed"],
+        code: "a => {}",
+        output: "(a) => {}",
+        options: ["as-needed", {requireForBlockBody: true}],
         parserOptions: { ecmaVersion: 6 },
         errors: [{
             line: 1,
             column: 1,
-            message: asNeededMessage,
+            message: requireForBlockBodyNoParensMessage,
+            type: type
+        }]
+    },
+    {
+        code: "(a) => a",
+        output: "a => a",
+        options: ["as-needed", {requireForBlockBody: true}],
+        parserOptions: { ecmaVersion: 6 },
+        errors: [{
+            line: 1,
+            column: 1,
+            message: requireForBlockBodyMessage,
             type: type
         }]
     }
-
 ];
 
 ruleTester.run("arrow-parens", rule, {
