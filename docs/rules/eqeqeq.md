@@ -31,7 +31,7 @@ if (obj.getStuff() != undefined) { }
 
 ### always
 
-The `"always"` option (default) enforces the use of `===` and `!==` in every situation.
+The `"always"` option (default) enforces the use of `===` and `!==` in every situation (except when you opt-in to more specific handling of `null` [see below]).
 
 Examples of **incorrect** code for the `"always"` option:
 
@@ -66,6 +66,13 @@ true === true
 foo === null
 
 ```
+
+This rule optionally takes a second argument, which should be an object with the following supported properties:
+
+* `"null"`: Customize how this rule treats `null` literals. Possible values:
+    * `always` (default) - Always use === or !==.
+    * `never` - Never use === or !== with `null`.
+    * `ignore` - Do not apply this rule to `null`.
 
 ### smart
 
@@ -105,26 +112,10 @@ foo == null
 
 ### allow-null
 
-The `"allow-null"` option will enforce `===` and `!==` in your code with one exception - it permits comparing to `null` to check for `null` or `undefined` in a single expression.
-
-Examples of **incorrect** code for the `"allow-null"` option:
+**Deprecated:** Instead of using this option use "always" and pass a "null" option property with value "ignore". This will tell eslint to always enforce strict equality except when comparing with the `null` literal.
 
 ```js
-/*eslint eqeqeq: ["error", "allow-null"]*/
-
-bananas != 1
-typeof foo == 'undefined'
-'hello' != 'world'
-0 == 0
-foo == undefined
-```
-
-Examples of **correct** code for the `"allow-null"` option:
-
-```js
-/*eslint eqeqeq: ["error", "allow-null"]*/
-
-foo == null
+["error", "always", {"null": "ignore"}]
 ```
 
 ## When Not To Use It
