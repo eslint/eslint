@@ -187,7 +187,7 @@ describe("configInitializer", function() {
             it("should support the airbnb style guide", function() {
                 const config = init.getConfigForStyleGuide("airbnb");
 
-                assert.deepEqual(config, {extends: "airbnb", installedESLint: true, plugins: ["react"]});
+                assert.deepEqual(config, {extends: "airbnb", installedESLint: true, plugins: ["react", "jsx-a11y", "import"]});
             });
 
             it("should support the standard style guide", function() {
