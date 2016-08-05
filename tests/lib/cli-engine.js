@@ -523,6 +523,22 @@ describe("CLIEngine", function() {
             assert.equal(report.results[0].messages[0].message, expectedMsg);
         });
 
+        it("should report on globs with explicit inclusion of dotfiles, even though ignored by default", function() {
+
+            engine = new CLIEngine({
+                cwd: getFixturePath("cli-engine"),
+                rules: {
+                    quotes: [2, "single"]
+                }
+            });
+
+            const report = engine.executeOnFiles(["hidden/.hiddenfolder/*.js"]);
+
+            assert.equal(report.results.length, 1);
+            assert.equal(report.results[0].errorCount, 1);
+            assert.equal(report.results[0].warningCount, 0);
+        });
+
         it("should not check default ignored files without --no-ignore flag", function() {
 
             engine = new CLIEngine({
@@ -578,6 +594,26 @@ describe("CLIEngine", function() {
             });
 
             const report = engine.executeOnFiles(["fixtures/files/.bar.js"]);
+
+            assert.equal(report.results.length, 1);
+            assert.equal(report.results[0].warningCount, 0);
+            assert.equal(report.results[0].errorCount, 1);
+            assert.equal(report.results[0].messages[0].ruleId, "quotes");
+        });
+
+        it("should check .hidden files if they are unignored with an --ignore-pattern", function() {
+
+            engine = new CLIEngine({
+                cwd: getFixturePath("cli-engine"),
+                ignore: true,
+                useEslintrc: false,
+                ignorePattern: "!.hidden*",
+                rules: {
+                    quotes: [2, "single"]
+                }
+            });
+
+            const report = engine.executeOnFiles(["hidden/"]);
 
             assert.equal(report.results.length, 1);
             assert.equal(report.results[0].warningCount, 0);

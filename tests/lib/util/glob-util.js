@@ -199,7 +199,9 @@ describe("globUtil", function() {
 
         it("should not return hidden files for standard glob patterns", function() {
             const patterns = [getFixturePath("glob-util", "hidden", "**/*.js")];
-            const result = globUtil.listFilesToProcess(patterns);
+            const result = globUtil.listFilesToProcess(patterns, {
+                cwd: getFixturePath()
+            });
 
             assert.equal(result.length, 0);
         });
@@ -207,8 +209,7 @@ describe("globUtil", function() {
         it("should return hidden files if included in glob pattern", function() {
             const patterns = [getFixturePath("glob-util", "hidden", "**/.*.js")];
             const result = globUtil.listFilesToProcess(patterns, {
-                cwd: getFixturePath(),
-                dotfiles: true
+                cwd: getFixturePath()
             });
 
             const file1 = getFixturePath("glob-util", "hidden", ".foo.js");
