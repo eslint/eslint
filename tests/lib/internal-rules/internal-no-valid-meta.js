@@ -98,6 +98,20 @@ ruleTester.run("internal-no-invalid-meta", rule, {
     invalid: [
         {
             code: [
+                "module.exports = function(context) {",
+                "    return {",
+                "        Program: function(node) {}",
+                "    };",
+                "};"
+            ].join("\n"),
+            errors: [{
+                message: "Rule does not export an Object. Make sure the rule follows the new rule format.",
+                line: 1,
+                column: 18
+            }]
+        },
+        {
+            code: [
                 "module.exports = {",
                 "    create: function(context) {",
                 "        return {",
