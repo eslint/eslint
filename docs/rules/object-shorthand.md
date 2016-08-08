@@ -93,6 +93,8 @@ The rule takes an option which specifies when it should be applied. It can be se
 * `"methods"` ensures the method shorthand is used (also applies to generators).
 * `"properties` ensures the property shorthand is used (where the key and variable name match).
 * `"never"` ensures that no property or method shorthand is used in any object literal.
+* `"consistent"` ensures that either all shorthand or all longform will be used in an object literal.
+* `"consistent-as-needed"` ensures that either all shorthand or all longform will be used in an object literal, but ensures all shorthand whenever possible.
 
 You can set the option in configuration like this:
 
@@ -149,6 +151,47 @@ The following will *not* warn when `"ignoreConstructors"` is enabled:
 
 var foo = {
     ConstructorFunction: function() {}
+};
+```
+
+When set to `"consistent"` the following will warn:
+
+```js
+/*eslint object-shorthand: [2, "consistent"]*/
+/*eslint-env es6*/
+
+var foo = {
+    a,
+    b: "foo",
+};
+```
+
+The following will *not* warn:
+
+```js
+/*eslint object-shorthand: [2, "consistent"]*/
+/*eslint-env es6*/
+
+var foo = {
+    a: a,
+    b: "foo"
+};
+
+var bar = {
+    a,
+    b,
+};
+```
+
+When set to `"consistent-as-needed"`, which is very similar to `"consistent"`, the following will warn:
+
+```js
+/*eslint object-shorthand: [2, "consistent-as-needed"]*/
+/*eslint-env es6*/
+
+var foo = {
+    a: a,
+    b: b,
 };
 ```
 

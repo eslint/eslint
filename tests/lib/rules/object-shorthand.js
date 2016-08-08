@@ -93,7 +93,17 @@ ruleTester.run("object-shorthand", rule, {
         { code: "var x = {'y': y}", parserOptions: { ecmaVersion: 6 }, options: ["properties", {avoidQuotes: true}] },
 
         // ignore object shorthand
-        { code: "let {a, b} = o;", parserOptions: { ecmaVersion: 6 }, options: ["never"] }
+        { code: "let {a, b} = o;", parserOptions: { ecmaVersion: 6 }, options: ["never"] },
+
+        // consistent
+        { code: "var x = {a: a, b: b}", parserOptions: { ecmaVersion: 6}, options: ["consistent"] },
+        { code: "var x = {a: b, c: d, f: g}", parserOptions: { ecmaVersion: 6}, options: ["consistent"] },
+        { code: "var x = {a, b}", parserOptions: { ecmaVersion: 6}, options: ["consistent"] },
+        { code: "var x = {a, b, get test() { return 1; }}", parserOptions: { ecmaVersion: 6}, options: ["consistent"] },
+
+        // consistent-as-needed
+        { code: "var x = {a, b}", parserOptions: { ecmaVersion: 6}, options: ["consistent-as-needed"] },
+        { code: "var x = {a, b, get test(){return 1;}}", parserOptions: { ecmaVersion: 6}, options: ["consistent-as-needed"] }
     ],
     invalid: [
         { code: "var x = {x: x}", output: "var x = {x}", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "Expected property shorthand.", type: "Property" }] },
@@ -135,11 +145,19 @@ ruleTester.run("object-shorthand", rule, {
         { code: "var x = {ConstructorFunction(){}, a: b}", output: "var x = {ConstructorFunction: function(){}, a: b}", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "Expected longform method syntax.", type: "Property" }], options: ["never"] },
         { code: "var x = {notConstructorFunction(){}, b: c}", output: "var x = {notConstructorFunction: function(){}, b: c}", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "Expected longform method syntax.", type: "Property" }], options: ["never"] },
 
-        // // avoidQuotes
+        // avoidQuotes
         { code: "var x = {a: a}", output: "var x = {a}", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "Expected property shorthand.", type: "Property" }], options: ["always", {avoidQuotes: true}] },
         { code: "var x = {a: function(){}}", output: "var x = {a(){}}", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "Expected method shorthand.", type: "Property" }], options: ["methods", {avoidQuotes: true}] },
         { code: "var x = {[a]: function(){}}", output: "var x = {[a](){}}", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "Expected method shorthand.", type: "Property" }], options: ["methods", {avoidQuotes: true}] },
         { code: "var x = {'a'(){}}", output: "var x = {'a': function(){}}", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "Expected longform method syntax for string literal keys.", type: "Property" }], options: ["always", {avoidQuotes: true}] },
-        { code: "var x = {['a'](){}}", output: "var x = {['a']: function(){}}", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "Expected longform method syntax for string literal keys.", type: "Property" }], options: ["methods", {avoidQuotes: true}] }
+        { code: "var x = {['a'](){}}", output: "var x = {['a']: function(){}}", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "Expected longform method syntax for string literal keys.", type: "Property" }], options: ["methods", {avoidQuotes: true}] },
+
+        // consistent
+        { code: "var x = {a: a, b}", parserOptions: { ecmaVersion: 6}, errors: [{ message: "Unexpected mix of shorthand and non-shorthand properties.", type: "" }], options: ["consistent"] },
+        { code: "var x = {b, c: d, f: g}", parserOptions: { ecmaVersion: 6}, errors: [{ message: "Unexpected mix of shorthand and non-shorthand properties.", type: "" }], options: ["consistent"] },
+
+        // consistent-as-needed
+        { code: "var x = {a: a, b: b}", parserOptions: { ecmaVersion: 6}, errors: [{ message: "Expected shorthand for all properties.", type: "" }], options: ["consistent-as-needed"] },
+        { code: "var x = {a, z: function z(){}}", parserOptions: { ecmaVersion: 6}, errors: [{ message: "Unexpected mix of shorthand and non-shorthand properties.", type: "" }], options: ["consistent-as-needed"] }
     ]
 });
