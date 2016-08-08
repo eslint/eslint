@@ -13,6 +13,7 @@ const assert = require("chai").assert,
     path = require("path"),
     sinon = require("sinon"),
     leche = require("leche"),
+    shell = require("shelljs"),
     Config = require("../../lib/config"),
     Plugins = require("../../lib/config/plugins"),
     fs = require("fs"),
@@ -1570,7 +1571,7 @@ describe("CLIEngine", function() {
                 });
 
                 it("should create the cache file inside the provided directory", function() {
-                    assert.isFalse(fs.existsSync(path.resolve("./tmp/.cacheFileDir/.cache_hashOfCurrentWorkingDirectory")), "the cache for eslint does not exist");
+                    assert.isFalse(shell.test("-d", path.resolve("./tmp/.cacheFileDir/.cache_hashOfCurrentWorkingDirectory")), "the cache for eslint does not exist");
 
                     engine = new CLIEngine({
                         useEslintrc: false,
@@ -1590,14 +1591,14 @@ describe("CLIEngine", function() {
 
                     engine.executeOnFiles([file]);
 
-                    assert.isTrue(fs.existsSync(path.resolve("./tmp/.cacheFileDir/.cache_" + hash(process.cwd()))), "the cache for eslint was created");
+                    assert.isTrue(shell.test("-f", path.resolve("./tmp/.cacheFileDir/.cache_" + hash(process.cwd()))), "the cache for eslint was created");
 
                     sandbox.restore();
                 });
             });
 
             it("should create the cache file inside the provided directory using the cacheLocation option", function() {
-                assert.isFalse(fs.existsSync(path.resolve("./tmp/.cacheFileDir/.cache_hashOfCurrentWorkingDirectory")), "the cache for eslint does not exist");
+                assert.isFalse(shell.test("-d", path.resolve("./tmp/.cacheFileDir/.cache_hashOfCurrentWorkingDirectory")), "the cache for eslint does not exist");
 
                 engine = new CLIEngine({
                     useEslintrc: false,
@@ -1617,7 +1618,7 @@ describe("CLIEngine", function() {
 
                 engine.executeOnFiles([file]);
 
-                assert.isTrue(fs.existsSync(path.resolve("./tmp/.cacheFileDir/.cache_" + hash(process.cwd()))), "the cache for eslint was created");
+                assert.isTrue(shell.test("-f", path.resolve("./tmp/.cacheFileDir/.cache_" + hash(process.cwd()))), "the cache for eslint was created");
 
                 sandbox.restore();
             });
@@ -1640,11 +1641,11 @@ describe("CLIEngine", function() {
 
                 engine.executeOnFiles([file]);
 
-                assert.isTrue(fs.existsSync(path.resolve(cwd, ".eslintcache")), "the cache for eslint was created at provided cwd");
+                assert.isTrue(shell.test("-f", path.resolve(cwd, ".eslintcache")), "the cache for eslint was created at provided cwd");
             });
 
             it("should invalidate the cache if the configuration changed between executions", function() {
-                assert.isFalse(fs.existsSync(path.resolve(".eslintcache")), "the cache for eslint does not exist");
+                assert.isFalse(shell.test("-f", path.resolve(".eslintcache")), "the cache for eslint does not exist");
 
                 engine = new CLIEngine({
                     useEslintrc: false,
@@ -1669,7 +1670,7 @@ describe("CLIEngine", function() {
 
                 assert.equal(result.errorCount + result.warningCount, 0, "the file passed without errors or warnings");
                 assert.equal(spy.getCall(0).args[0], file, "the module read the file because is considered changed");
-                assert.isTrue(fs.existsSync(path.resolve(".eslintcache")), "the cache for eslint was created");
+                assert.isTrue(shell.test("-f", path.resolve(".eslintcache")), "the cache for eslint was created");
 
                 // destroy the spy
                 sandbox.restore();
@@ -1694,12 +1695,12 @@ describe("CLIEngine", function() {
 
                 assert.equal(spy.getCall(0).args[0], file, "the module read the file because is considered changed because the config changed");
                 assert.equal(cachedResult.errorCount, 1, "since configuration changed the cache was not used an one error was reported");
-                assert.isTrue(fs.existsSync(path.resolve(".eslintcache")), "the cache for eslint was created");
+                assert.isTrue(shell.test("-f", path.resolve(".eslintcache")), "the cache for eslint was created");
             });
 
             it("should remember the files from a previous run and do not operate on them if not changed", function() {
 
-                assert.isFalse(fs.existsSync(path.resolve(".eslintcache")), "the cache for eslint does not exist");
+                assert.isFalse(shell.test("-f", path.resolve(".eslintcache")), "the cache for eslint does not exist");
 
                 engine = new CLIEngine({
                     useEslintrc: false,
@@ -1723,7 +1724,7 @@ describe("CLIEngine", function() {
                 const result = engine.executeOnFiles([file]);
 
                 assert.equal(spy.getCall(0).args[0], file, "the module read the file because is considered changed");
-                assert.isTrue(fs.existsSync(path.resolve(".eslintcache")), "the cache for eslint was created");
+                assert.isTrue(shell.test("-f", path.resolve(".eslintcache")), "the cache for eslint was created");
 
                 // destroy the spy
                 sandbox.restore();
@@ -1769,7 +1770,7 @@ describe("CLIEngine", function() {
                     cwd: path.join(fixtureDir, "..")
                 };
 
-                assert.isFalse(fs.existsSync(cacheFile), "the cache for eslint does not exist");
+                assert.isFalse(shell.test("-f", cacheFile), "the cache for eslint does not exist");
 
                 engine = new CLIEngine(cliEngineOptions);
 
@@ -1779,21 +1780,21 @@ describe("CLIEngine", function() {
 
                 engine.executeOnFiles([file]);
 
-                assert.isTrue(fs.existsSync(cacheFile), "the cache for eslint was created");
+                assert.isTrue(shell.test("-f", cacheFile), "the cache for eslint was created");
 
                 cliEngineOptions.cache = false;
                 engine = new CLIEngine(cliEngineOptions);
 
                 engine.executeOnFiles([file]);
 
-                assert.isFalse(fs.existsSync(cacheFile), "the cache for eslint was deleted since last run did not used the cache");
+                assert.isFalse(shell.test("-f", cacheFile), "the cache for eslint was deleted since last run did not used the cache");
             });
 
             it("should not store in the cache a file that failed the test", function() {
 
                 const cacheFile = getFixturePath(".eslintcache");
 
-                assert.isFalse(fs.existsSync(cacheFile), "the cache for eslint does not exist");
+                assert.isFalse(shell.test("-f", cacheFile), "the cache for eslint does not exist");
 
                 engine = new CLIEngine({
                     cwd: path.join(fixtureDir, ".."),
@@ -1814,7 +1815,7 @@ describe("CLIEngine", function() {
 
                 const result = engine.executeOnFiles([badFile, goodFile]);
 
-                assert.isTrue(fs.existsSync(cacheFile), "the cache for eslint was created");
+                assert.isTrue(shell.test("-f", cacheFile), "the cache for eslint was created");
 
                 const cache = JSON.parse(fs.readFileSync(cacheFile));
 
@@ -1841,11 +1842,11 @@ describe("CLIEngine", function() {
                     extensions: ["js"]
                 });
 
-                assert.isTrue(fs.existsSync(cacheFile), "the cache for eslint exists");
+                assert.isTrue(shell.test("-f", cacheFile), "the cache for eslint exists");
 
                 engine.executeOnText("var foo = 'bar';");
 
-                assert.isTrue(fs.existsSync(cacheFile), "the cache for eslint still exists");
+                assert.isTrue(shell.test("-f", cacheFile), "the cache for eslint still exists");
             });
 
             it("should not delete cache when executing on text with a provided filename", function() {
@@ -1862,11 +1863,11 @@ describe("CLIEngine", function() {
                     extensions: ["js"]
                 });
 
-                assert.isTrue(fs.existsSync(cacheFile), "the cache for eslint exists");
+                assert.isTrue(shell.test("-f", cacheFile), "the cache for eslint exists");
 
                 engine.executeOnText("var bar = foo;", "fixtures/passing.js");
 
-                assert.isTrue(fs.existsSync(cacheFile), "the cache for eslint still exists");
+                assert.isTrue(shell.test("-f", cacheFile), "the cache for eslint still exists");
             });
 
             it("should not delete cache when executing on files with --cache flag", function() {
@@ -1886,11 +1887,11 @@ describe("CLIEngine", function() {
 
                 const file = getFixturePath("cli-engine", "console.js");
 
-                assert.isTrue(fs.existsSync(cacheFile), "the cache for eslint exists");
+                assert.isTrue(shell.test("-f", cacheFile), "the cache for eslint exists");
 
                 engine.executeOnFiles([file]);
 
-                assert.isTrue(fs.existsSync(cacheFile), "the cache for eslint still exists");
+                assert.isTrue(shell.test("-f", cacheFile), "the cache for eslint still exists");
             });
 
             it("should delete cache when executing on files without --cache flag", function() {
@@ -1909,18 +1910,18 @@ describe("CLIEngine", function() {
 
                 const file = getFixturePath("cli-engine", "console.js");
 
-                assert.isTrue(fs.existsSync(cacheFile), "the cache for eslint exists");
+                assert.isTrue(shell.test("-f", cacheFile), "the cache for eslint exists");
 
                 engine.executeOnFiles([file]);
 
-                assert.isFalse(fs.existsSync(cacheFile), "the cache for eslint has been deleted");
+                assert.isFalse(shell.test("-f", cacheFile), "the cache for eslint has been deleted");
             });
 
             describe("cacheFile", function() {
                 it("should use the specified cache file", function() {
                     const customCacheFile = path.resolve(".cache/custom-cache");
 
-                    assert.isFalse(fs.existsSync(customCacheFile), "the cache for eslint does not exist");
+                    assert.isFalse(shell.test("-f", customCacheFile), "the cache for eslint does not exist");
 
                     engine = new CLIEngine({
                         useEslintrc: false,
@@ -1943,7 +1944,7 @@ describe("CLIEngine", function() {
 
                     const result = engine.executeOnFiles([badFile, goodFile]);
 
-                    assert.isTrue(fs.existsSync(customCacheFile), "the cache for eslint was created");
+                    assert.isTrue(shell.test("-f", customCacheFile), "the cache for eslint was created");
 
                     const cache = JSON.parse(fs.readFileSync(customCacheFile));
 
