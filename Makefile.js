@@ -62,7 +62,7 @@ const NODE = "node ", // intentional extra space
 
     // Files
     MAKEFILE = "./Makefile.js",
-    JS_FILES = find("lib/", "conf/").filter(fileType("js")).join(" "),
+    JS_FILES = "lib/**/*.js conf/**/*.js",
     JSON_FILES = find("conf/").filter(fileType("json")),
     MARKDOWN_FILES_ARRAY = find("docs/").concat(ls(".")).filter(fileType("md")),
     TEST_FILES = getTestFilePatterns(),
