@@ -154,6 +154,7 @@
         "dot-notation": "off",
         "eol-last": "off",
         "eqeqeq": "off",
+        "func-call-spacing": "off",
         "func-names": "off",
         "func-style": "off",
         "generator-star-spacing": "off",

@@ -1,6 +1,7 @@
 /**
  * @fileoverview Tests for no-spaced-func rule.
  * @author Matt DuVall <http://www.mattduvall.com>
+ * @deprecated in ESLint v3.3.0
  */
 
 "use strict";
