@@ -224,7 +224,24 @@ ruleTester.run("newline-after-var", rule, {
 
         // should handle one/no blank before case.
         { code: ONE_BLANK_BEFORE_CASE, options: ["always"] },
-        { code: NO_BLANK_BEFORE_CASE, options: ["never"] }
+        { code: NO_BLANK_BEFORE_CASE, options: ["never"] },
+
+        // https://github.com/eslint/eslint/issues/6834
+        {
+            code: `
+                var a = 1
+
+                ;(b || c).doSomething()
+            `,
+            options: ["always"]
+        },
+        {
+            code: `
+                var a = 1
+                ;(b || c).doSomething()
+            `,
+            options: ["never"]
+        },
     ],
 
     invalid: [
@@ -268,6 +285,25 @@ ruleTester.run("newline-after-var", rule, {
         { code: MULTI_LINE_NEXT_LINE_COMMENT, options: ["always"], errors: [ALWAYS_ERROR] },
         { code: MULTI_LINE_NEXT_LINE_BLOCK_COMMENT, options: ["always"], errors: [ALWAYS_ERROR] },
         { code: NEXT_LINE_TWO_COMMENTS_NO_BLANK, options: ["always"], errors: [ALWAYS_ERROR] },
-        { code: NEXT_LINE_COMMENT_BLOCK_COMMENT_NO_BLANK, options: ["always"], errors: [ALWAYS_ERROR] }
+        { code: NEXT_LINE_COMMENT_BLOCK_COMMENT_NO_BLANK, options: ["always"], errors: [ALWAYS_ERROR] },
+
+        // https://github.com/eslint/eslint/issues/6834
+        {
+            code: `
+                var a = 1
+                ;(b || c).doSomething()
+            `,
+            options: ["always"],
+            errors: [ALWAYS_ERROR]
+        },
+        {
+            code: `
+                var a = 1
+
+                ;(b || c).doSomething()
+            `,
+            options: ["never"],
+            errors: [NEVER_ERROR]
+        },
     ]
 });
