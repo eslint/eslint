@@ -819,7 +819,7 @@ ruleTester.run("keyword-spacing", rule, {
         {code: "class A { a() { ({a:super }) } }", parserOptions: {ecmaVersion: 6}},
         {code: "class A { a() { ({a: super }) } }", options: [NEITHER], parserOptions: {ecmaVersion: 6}},
 
-        // not conflict with `no-spaced-func`
+        // not conflict with `func-call-spacing`
         {code: "class A { constructor() { super(); } }", parserOptions: {ecmaVersion: 6}},
         {code: "class A { constructor() { super (); } }", options: [NEITHER], parserOptions: {ecmaVersion: 6}},
 
