@@ -61,7 +61,7 @@ describe("npmUtil", function() {
         });
 
         it("should handle missing devDependencies key", function() {
-            sandbox.stub(fs, "existsSync", function() {
+            sandbox.stub(shell, "test", function() {
                 return true;
             });
             sandbox.stub(fs, "readFileSync", function() {
@@ -79,7 +79,7 @@ describe("npmUtil", function() {
         it("should throw with message when parsing invalid package.json", function() {
             const logInfo = sandbox.stub(log, "info");
 
-            sandbox.stub(fs, "existsSync", function() {
+            sandbox.stub(shell, "test", function() {
                 return true;
             });
             sandbox.stub(fs, "readFileSync", function() {
@@ -129,7 +129,7 @@ describe("npmUtil", function() {
         });
 
         it("should handle missing dependencies key", function() {
-            sandbox.stub(fs, "existsSync", function() {
+            sandbox.stub(shell, "test", function() {
                 return true;
             });
             sandbox.stub(fs, "readFileSync", function() {
@@ -143,14 +143,14 @@ describe("npmUtil", function() {
 
             assert.doesNotThrow(fn);
 
-            fs.existsSync.restore();
+            shell.test.restore();
             fs.readFileSync.restore();
         });
 
         it("should throw with message when parsing invalid package.json", function() {
             const logInfo = sandbox.stub(log, "info");
 
-            sandbox.stub(fs, "existsSync", function() {
+            sandbox.stub(shell, "test", function() {
                 return true;
             });
             sandbox.stub(fs, "readFileSync", function() {
@@ -163,7 +163,7 @@ describe("npmUtil", function() {
             assert(logInfo.calledOnce);
             assert.equal(logInfo.firstCall.args[0], "Could not read package.json file. Please check that the file contains valid JSON.");
 
-            fs.existsSync.restore();
+            shell.test.restore();
             fs.readFileSync.restore();
             logInfo.restore();
         });

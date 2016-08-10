@@ -1,11 +1,7 @@
 root: true
 
-env:
-    node: true
-    es6: true
-
-parserOptions:
-    ecmaVersion: 6
-
+plugins:
+    - node
 extends:
-    "./packages/eslint-config-eslint/default.yml"
+    - "./packages/eslint-config-eslint/default.yml"
+    - "plugin:node/recommended"
