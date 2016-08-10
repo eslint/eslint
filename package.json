@@ -62,6 +62,7 @@
     "pluralize": "^1.2.1",
     "progress": "^1.1.8",
     "require-uncached": "^1.0.2",
+    "resolve": "^1.1.7",
     "shelljs": "^0.6.0",
     "strip-bom": "^3.0.0",
     "strip-json-comments": "~1.0.1",
