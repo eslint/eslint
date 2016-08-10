@@ -650,7 +650,7 @@ target.gensite = function(prereleaseVersion) {
                 }
                 const added = versions.added[baseName];
 
-                if (!versions.removed[baseName] && !fs.existsSync(sourcePath)) {
+                if (!versions.removed[baseName] && !test("-f", sourcePath)) {
                     versions.removed[baseName] = getFirstVersionOfDeletion(sourcePath);
                 }
                 const removed = versions.removed[baseName];
