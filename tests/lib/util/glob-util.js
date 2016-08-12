@@ -237,7 +237,7 @@ describe("globUtil", function() {
             });
 
             assert.equal(result.length, 1);
-            assert.deepEqual(result[0], { filename: filename, ignored: true });
+            assert.deepEqual(result[0], { filename, ignored: true });
         });
 
         it("should silently ignore default ignored files if not passed explicitly even if ignore is false", function() {
@@ -260,7 +260,7 @@ describe("globUtil", function() {
             });
 
             assert.equal(result.length, 1);
-            assert.deepEqual(result[0], { filename: filename, ignored: false });
+            assert.deepEqual(result[0], { filename, ignored: false });
         });
 
         it("should not return a file which does not exist", function() {
@@ -328,7 +328,7 @@ describe("globUtil", function() {
 
             assert.equal(result.length, 1);
             assert.deepEqual(result, [
-                {filename: filename, ignored: true}
+                {filename, ignored: true}
             ]);
         });
 

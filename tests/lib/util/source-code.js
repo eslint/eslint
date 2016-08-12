@@ -102,7 +102,7 @@ describe("SourceCode", function() {
                 { range: [8, 10] },
                 { range: [12, 20] }
             ];
-            const sourceCode = new SourceCode("", { comments: comments, tokens: tokens, loc: {}, range: [] });
+            const sourceCode = new SourceCode("", { comments, tokens, loc: {}, range: [] });
 
             const actual = sourceCode.tokensAndComments;
             const expected = [comments[0], tokens[0], tokens[1], comments[1], tokens[2]];

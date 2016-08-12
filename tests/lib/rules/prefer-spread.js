@@ -41,13 +41,13 @@ ruleTester.run("prefer-spread", rule, {
         {code: "obj.foo.apply();"}
     ],
     invalid: [
-        {code: "foo.apply(undefined, args);", errors: errors},
-        {code: "foo.apply(void 0, args);", errors: errors},
-        {code: "foo.apply(null, args);", errors: errors},
-        {code: "obj.foo.apply(obj, args);", errors: errors},
-        {code: "a.b.c.foo.apply(a.b.c, args);", errors: errors},
-        {code: "a.b(x, y).c.foo.apply(a.b(x, y).c, args);", errors: errors},
-        {code: "[].concat.apply([ ], args);", errors: errors},
-        {code: "[].concat.apply([\n/*empty*/\n], args);", errors: errors}
+        {code: "foo.apply(undefined, args);", errors},
+        {code: "foo.apply(void 0, args);", errors},
+        {code: "foo.apply(null, args);", errors},
+        {code: "obj.foo.apply(obj, args);", errors},
+        {code: "a.b.c.foo.apply(a.b.c, args);", errors},
+        {code: "a.b(x, y).c.foo.apply(a.b(x, y).c, args);", errors},
+        {code: "[].concat.apply([ ], args);", errors},
+        {code: "[].concat.apply([\n/*empty*/\n], args);", errors}
     ]
 });
