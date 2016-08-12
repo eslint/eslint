@@ -37,13 +37,13 @@ ruleTester.run("prefer-template", rule, {
         {code: "var foo = `foo` +\n    `bar` +\n    \"hoge\";", parserOptions: { ecmaVersion: 6 }}
     ],
     invalid: [
-        {code: "var foo = 'hello, ' + name + '!';", errors: errors},
-        {code: "var foo = bar + 'baz';", errors: errors},
-        {code: "var foo = bar + `baz`;", parserOptions: { ecmaVersion: 6 }, errors: errors},
-        {code: "var foo = +100 + 'yen';", errors: errors},
-        {code: "var foo = 'bar' + baz;", errors: errors},
-        {code: "var foo = '￥' + (n * 1000) + '-'", errors: errors},
+        {code: "var foo = 'hello, ' + name + '!';", errors},
+        {code: "var foo = bar + 'baz';", errors},
+        {code: "var foo = bar + `baz`;", parserOptions: { ecmaVersion: 6 }, errors},
+        {code: "var foo = +100 + 'yen';", errors},
+        {code: "var foo = 'bar' + baz;", errors},
+        {code: "var foo = '￥' + (n * 1000) + '-'", errors},
         {code: "var foo = 'aaa' + aaa; var bar = 'bbb' + bbb;", errors: [errors[0], errors[0]]},
-        {code: "var string = (number + 1) + 'px';", errors: errors}
+        {code: "var string = (number + 1) + 'px';", errors}
     ]
 });

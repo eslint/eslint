@@ -159,7 +159,7 @@ describe("IgnoredPaths", function() {
             const ignorePattern = ["a", "b"];
 
             const ignoredPaths = new IgnoredPaths({
-                ignorePattern: ignorePattern
+                ignorePattern
             });
 
             assert.ok(ignorePattern.every(function(pattern) {

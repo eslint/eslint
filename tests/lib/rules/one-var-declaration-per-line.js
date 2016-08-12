@@ -27,8 +27,8 @@ function errorAt(line, column) {
     return {
         message: "Expected variable declaration to be on a new line.",
         type: "VariableDeclaration",
-        line: line,
-        column: column
+        line,
+        column
     };
 }
 

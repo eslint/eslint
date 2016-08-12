@@ -227,7 +227,7 @@ describe("configInitializer", function() {
 
                 answers = {
                     source: "auto",
-                    patterns: patterns,
+                    patterns,
                     es6: false,
                     env: ["browser"],
                     jsx: false,

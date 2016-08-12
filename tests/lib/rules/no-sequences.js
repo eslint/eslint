@@ -26,7 +26,7 @@ function errors(column) {
         message: "Unexpected use of comma operator.",
         type: "SequenceExpression",
         line: 1,
-        column: column
+        column
     }];
 }
 
