@@ -237,11 +237,12 @@ function generateRuleIndexPage(basedir) {
 
 /**
  * Creates a release version tag and pushes to origin.
+ * @param {boolean} [ciRelease] Set to true to indicate this is a CI release.
  * @returns {void}
  */
-function release() {
+function release(ciRelease) {
 
-    const releaseInfo = ReleaseOps.release();
+    const releaseInfo = ReleaseOps.release(null, ciRelease);
 
     echo("Generating site");
     target.gensite();
@@ -1109,6 +1110,10 @@ target.perf = function() {
 
 target.release = function() {
     release();
+};
+
+target.ciRelease = function() {
+    release(true);
 };
 
 target.prerelease = function(args) {
