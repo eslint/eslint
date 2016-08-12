@@ -40,7 +40,9 @@ This rule has an object option:
 * `"capIsNew": true` (default) requires all uppercase-started functions to be called with `new` operators.
 * `"capIsNew": false` allows uppercase-started functions to be called without `new` operators.
 * `"newIsCapExceptions"` allows specified lowercase-started function names to be called with the `new` operator.
+* `"newIsCapExceptionPattern"` allows any lowercase-started function names that match the specified regex pattern to be called with the `new` operator.
 * `"capIsNewExceptions"` allows specified uppercase-started function names to be called without the `new` operator.
+* `"capIsNewExceptionPattern"` allows any uppercase-started function names that match the specified regex pattern to be called without the `new` operator.
 * `"properties": true` (default) enables checks on object properties
 * `"properties": false` disables checks on object properties
 
@@ -108,6 +110,17 @@ var events = require('events');
 var emitter = new events();
 ```
 
+### newIsCapExceptionPattern
+
+Examples of additional **correct** code for this rule with the `{ "newIsCapExceptionPattern": "^person\.." }` option:
+
+```js
+/*eslint new-cap: ["error", { "newIsCapExceptionPattern": "^person\.." }]*/
+
+var friend = new person.acquaintance();
+var bestFriend = new person.friend();
+```
+
 ### capIsNewExceptions
 
 Examples of additional **correct** code for this rule with the `{ "capIsNewExceptions": ["Person"] }` option:
@@ -118,6 +131,17 @@ Examples of additional **correct** code for this rule with the `{ "capIsNewExcep
 function foo(arg) {
     return Person(arg);
 }
+```
+
+### capIsNewExceptionPattern
+
+Examples of additional **correct** code for this rule with the `{ "capIsNewExceptionPattern": "^Person\.." }` option:
+
+```js
+/*eslint new-cap: ["error", { "capIsNewExceptionPattern": "^Person\.." }]*/
+
+var friend = person.Acquaintance();
+var bestFriend = person.Friend();
 ```
 
 ### properties
