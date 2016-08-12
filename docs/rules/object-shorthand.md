@@ -86,10 +86,9 @@ var foo = {
 
 ## Options
 
-The rule takes an option which specifies when it should be applied. It can be set to
-"always", "properties", "methods", or "never". The default is "always".
+The rule takes an option which specifies when it should be applied. It can be set to one of the following values:
 
-* `"always"` expects that the shorthand will be used whenever possible.
+* `"always"` (default) expects that the shorthand will be used whenever possible.
 * `"methods"` ensures the method shorthand is used (also applies to generators).
 * `"properties` ensures the property shorthand is used (where the key and variable name match).
 * `"never"` ensures that no property or method shorthand is used in any object literal.
