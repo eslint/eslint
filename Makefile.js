@@ -398,8 +398,8 @@ function lintMarkdown(files) {
             MD041: false  // First line in file should be a top level header
         },
         result = markdownlint.sync({
-            files: files,
-            config: config
+            files,
+            config
         }),
         resultString = result.toString(),
         returnCode = resultString ? 1 : 0;

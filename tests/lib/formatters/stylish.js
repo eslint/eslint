@@ -18,13 +18,13 @@ const assert = require("chai").assert,
 // for Sinon to work.
 const chalkStub = Object.create(chalk, {
     yellow: {
-        value: function(str) {
+        value(str) {
             return chalk.yellow(str);
         },
         writable: true
     },
     red: {
-        value: function(str) {
+        value(str) {
             return chalk.red(str);
         },
         writable: true

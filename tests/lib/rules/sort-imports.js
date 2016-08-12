@@ -34,31 +34,31 @@ ruleTester.run("sort-imports", rule, {
                 "import a from 'foo.js';\n" +
                 "import b from 'bar.js';\n" +
                 "import c from 'baz.js';\n",
-            parserOptions: parserOptions
+            parserOptions
         },
         {
             code:
                 "import * as B from 'foo.js';\n" +
                 "import A from 'bar.js';",
-            parserOptions: parserOptions
+            parserOptions
         },
         {
             code:
                 "import * as B from 'foo.js';\n" +
                 "import {a, b} from 'bar.js';",
-            parserOptions: parserOptions
+            parserOptions
         },
         {
             code:
                 "import {b, c} from 'bar.js';\n" +
                 "import A from 'foo.js';",
-            parserOptions: parserOptions
+            parserOptions
         },
         {
             code:
                 "import A from 'bar.js';\n" +
                 "import {b, c} from 'foo.js';",
-            parserOptions: parserOptions,
+            parserOptions,
             options: [{
                 memberSyntaxSortOrder: [ "single", "multiple", "none", "all" ]
             }]
@@ -67,84 +67,84 @@ ruleTester.run("sort-imports", rule, {
             code:
                 "import {a, b} from 'bar.js';\n" +
                 "import {b, c} from 'foo.js';",
-            parserOptions: parserOptions
+            parserOptions
         },
         {
             code:
                 "import A from 'foo.js';\n" +
                 "import B from 'bar.js';",
-            parserOptions: parserOptions
+            parserOptions
         },
         {
             code:
                 "import A from 'foo.js';\n" +
                 "import a from 'bar.js';",
-            parserOptions: parserOptions
+            parserOptions
         },
         {
             code:
                 "import a, * as b from 'foo.js';\n" +
                 "import b from 'bar.js';",
-            parserOptions: parserOptions
+            parserOptions
         },
         {
             code:
                 "import 'foo.js';\n" +
                 " import a from 'bar.js';",
-            parserOptions: parserOptions
+            parserOptions
         },
         {
             code:
                 "import B from 'foo.js';\n" +
                 "import a from 'bar.js';",
-            parserOptions: parserOptions
+            parserOptions
         },
         {
             code:
                 "import a from 'foo.js';\n" +
                 "import B from 'bar.js';",
-            parserOptions: parserOptions,
+            parserOptions,
             options: ignoreCaseArgs
         },
         {
             code: "import {a, b, c, d} from 'foo.js';",
-            parserOptions: parserOptions
+            parserOptions
         },
         {
             code: "import {b, A, C, d} from 'foo.js';",
-            parserOptions: parserOptions,
+            parserOptions,
             options: [{
                 ignoreMemberSort: true
             }]
         },
         {
             code: "import {B, a, C, d} from 'foo.js';",
-            parserOptions: parserOptions,
+            parserOptions,
             options: [{
                 ignoreMemberSort: true
             }]
         },
         {
             code: "import {a, B, c, D} from 'foo.js';",
-            parserOptions: parserOptions,
+            parserOptions,
             options: ignoreCaseArgs
         },
         {
             code: "import a, * as b from 'foo.js';",
-            parserOptions: parserOptions
+            parserOptions
         },
         {
             code:
                 "import * as a from 'foo.js';\n" +
                 "\n" +
                 "import b from 'bar.js';",
-            parserOptions: parserOptions
+            parserOptions
         },
         {
             code:
                 "import * as bar from 'bar.js';\n" +
                 "import * as foo from 'foo.js';",
-            parserOptions: parserOptions
+            parserOptions
         },
 
         // https://github.com/eslint/eslint/issues/5130
@@ -152,14 +152,14 @@ ruleTester.run("sort-imports", rule, {
             code:
                 "import 'foo';\n" +
                 "import bar from 'bar';",
-            parserOptions: parserOptions,
+            parserOptions,
             options: ignoreCaseArgs
         },
 
         // https://github.com/eslint/eslint/issues/5305
         {
             code: "import React, {Component} from 'react';",
-            parserOptions: parserOptions
+            parserOptions
         }
     ],
     invalid: [
@@ -167,35 +167,35 @@ ruleTester.run("sort-imports", rule, {
             code:
                 "import a from 'foo.js';\n" +
                 "import A from 'bar.js';",
-            parserOptions: parserOptions,
+            parserOptions,
             errors: [expectedError]
         },
         {
             code:
                 "import b from 'foo.js';\n" +
                 "import a from 'bar.js';",
-            parserOptions: parserOptions,
+            parserOptions,
             errors: [expectedError]
         },
         {
             code:
                 "import {b, c} from 'foo.js';\n" +
                 "import {a, b} from 'bar.js';",
-            parserOptions: parserOptions,
+            parserOptions,
             errors: [expectedError]
         },
         {
             code:
                 "import * as foo from 'foo.js';\n" +
                 "import * as bar from 'bar.js';",
-            parserOptions: parserOptions,
+            parserOptions,
             errors: [expectedError]
         },
         {
             code:
                 "import a from 'foo.js';\n" +
                 "import {b, c} from 'bar.js';",
-            parserOptions: parserOptions,
+            parserOptions,
             errors: [{
                 message: "Expected 'multiple' syntax before 'single' syntax.",
                 type: "ImportDeclaration"
@@ -205,7 +205,7 @@ ruleTester.run("sort-imports", rule, {
             code:
                 "import a from 'foo.js';\n" +
                 "import * as b from 'bar.js';",
-            parserOptions: parserOptions,
+            parserOptions,
             errors: [{
                 message: "Expected 'all' syntax before 'single' syntax.",
                 type: "ImportDeclaration"
@@ -215,7 +215,7 @@ ruleTester.run("sort-imports", rule, {
             code:
                 "import a from 'foo.js';\n" +
                 "import 'bar.js';",
-            parserOptions: parserOptions,
+            parserOptions,
             errors: [{
                 message: "Expected 'none' syntax before 'single' syntax.",
                 type: "ImportDeclaration"
@@ -225,7 +225,7 @@ ruleTester.run("sort-imports", rule, {
             code:
                 "import b from 'bar.js';\n" +
                 "import * as a from 'foo.js';",
-            parserOptions: parserOptions,
+            parserOptions,
             options: [{
                 memberSyntaxSortOrder: [ "all", "single", "multiple", "none" ]
             }],
@@ -236,7 +236,7 @@ ruleTester.run("sort-imports", rule, {
         },
         {
             code: "import {b, a, d, c} from 'foo.js';",
-            parserOptions: parserOptions,
+            parserOptions,
             errors: [{
                 message: "Member 'a' of the import declaration should be sorted alphabetically.",
                 type: "ImportSpecifier"
@@ -247,7 +247,7 @@ ruleTester.run("sort-imports", rule, {
         },
         {
             code: "import {a, B, c, D} from 'foo.js';",
-            parserOptions: parserOptions,
+            parserOptions,
             errors: [{
                 message: "Member 'B' of the import declaration should be sorted alphabetically.",
                 type: "ImportSpecifier"

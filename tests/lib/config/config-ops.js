@@ -97,7 +97,7 @@ describe("ConfigOps", function() {
         it("should return correct config for env with no globals", function() {
             const StubbedConfigOps = proxyquire("../../../lib/config/config-ops", {
                 "./environments": {
-                    get: function() {
+                    get() {
                         return {
                             parserOptions: {
                                 sourceType: "module"

@@ -63,10 +63,10 @@ describe("NodeEventGenerator", function() {
         generator = new CommentEventGenerator(generator, sourceCode);
 
         estraverse.traverse(ast, {
-            enter: function(node) {
+            enter(node) {
                 generator.enterNode(node);
             },
-            leave: function(node) {
+            leave(node) {
                 generator.leaveNode(node);
             }
         });
