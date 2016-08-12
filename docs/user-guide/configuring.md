@@ -42,6 +42,9 @@ Here's an example `.eslintrc.json` file:
     },
     "rules": {
         "semi": 2
+    },
+    "env": {
+        "es6": true
     }
 }
 ```
