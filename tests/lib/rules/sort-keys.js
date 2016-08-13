@@ -33,8 +33,11 @@ ruleTester.run("sort-keys", rule, {
         // ignore non-simple computed properties.
         {code: "var obj = {a:1, b:3, [a + b]: -1, c:2}", options: [], parserOptions: {ecmaVersion: 6}},
 
-        // ignore spred properties.
+        // ignore spread properties.
         {code: "var obj = {a:1, ...z, b:1}", options: [], parserOptions: {ecmaVersion: 6, ecmaFeatures: {experimentalObjectRestSpread: true}}},
+
+        // ignore destructuring patterns.
+        {code: "let {a, b} = {}", options: [], parserOptions: {ecmaVersion: 6}},
 
         // nested
         {code: "var obj = {a:1, b:{x:1, y:1}, c:1}", options: []},
