@@ -365,4 +365,12 @@ describe("options", function() {
             assert.isTrue(currentOptions.printConfig);
         });
     });
+
+    describe("--exit-zero-even-if-errors", function() {
+        it("should return true when passed --exit-zero-even-if-errors", function() {
+            const currentOptions = options.parse("--exit-zero-even-if-errors");
+
+            assert.isTrue(currentOptions.exitZeroEvenIfErrors);
+        });
+    });
 });
