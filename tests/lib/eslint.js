@@ -3052,7 +3052,6 @@ describe("eslint", function() {
     });
 
     describe("verify()", function() {
-
         describe("filenames", function() {
             it("should allow filename to be passed on options object", function() {
 
@@ -3095,10 +3094,7 @@ describe("eslint", function() {
                 eslint.verify("foo;", {}, { saveState: true });
                 assert.equal(spy.callCount, 0);
             });
-
-
         });
-
 
         it("should report warnings in order by line and column when called", function() {
 
@@ -3116,15 +3112,60 @@ describe("eslint", function() {
             assert.equal(messages[2].column, 18);
         });
 
-        it("should properly parse let declaration when passed ecmaVersion", function() {
+        describe("ecmaVersion", function() {
+            describe("it should properly parse let declaration when", function() {
+                it("the ECMAScript version number is 6", function() {
+                    const messages = eslint.verify("let x = 5;", {
+                        parserOptions: {
+                            ecmaVersion: 6
+                        }
+                    });
 
-            const messages = eslint.verify("let x = 5;", {
-                parserOptions: {
-                    ecmaVersion: 6
-                }
-            }, filename);
+                    assert.equal(messages.length, 0);
+                });
 
-            assert.equal(messages.length, 0);
+                it("the ECMAScript version number is 2015", function() {
+                    const messages = eslint.verify("let x = 5;", {
+                        parserOptions: {
+                            ecmaVersion: 2015
+                        }
+                    });
+
+                    assert.equal(messages.length, 0);
+                });
+            });
+
+            it("should fail to parse exponentiation operator when the ECMAScript version number is 2015", function() {
+                const messages = eslint.verify("x ** y;", {
+                    parserOptions: {
+                        ecmaVersion: 2015
+                    }
+                });
+
+                assert.equal(messages.length, 1);
+            });
+
+            describe("should properly parse exponentiation operator when", function() {
+                it("the ECMAScript version number is 7", function() {
+                    const messages = eslint.verify("x ** y;", {
+                        parserOptions: {
+                            ecmaVersion: 7
+                        }
+                    });
+
+                    assert.equal(messages.length, 0);
+                });
+
+                it("the ECMAScript version number is 2016", function() {
+                    const messages = eslint.verify("x ** y;", {
+                        parserOptions: {
+                            ecmaVersion: 2016
+                        }
+                    });
+
+                    assert.equal(messages.length, 0);
+                });
+            });
         });
 
         it("should properly parse object spread when passed ecmaFeatures", function() {
