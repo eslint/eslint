@@ -128,6 +128,20 @@ describe("cli", function() {
         });
     });
 
+    describe("when passed --exit-zero-even-if-errors", function() {
+        it("should have a status code of 0 even if there are checks that produce errors", function() {
+            const exitCode = cli.execute("--exit-zero-even-if-errors", "foo = bar;");
+
+            assert.equal(exitCode, 0);
+        });
+
+        it("should not have a status code of 0 if there are internal problems", function() {
+            const exitCode = cli.execute("--exit-zero-even-if-errors --print-config", "foo = bar;");
+
+            assert.equal(exitCode, 1);
+        });
+    });
+
     describe("when there is a local config file", function() {
         const code = "lib/cli.js";
 
