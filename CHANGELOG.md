@@ -1,3 +1,12 @@
+v3.3.1 - August 15, 2016
+
+* a2f06be Build: optimize rule page title for small browser tabs (fixes #6888) (#6904) (Vitor Balocco)
+* 02a00d6 Docs: clarify rule details for no-template-curly-in-string (#6900) (not-an-aardvark)
+* b9b3446 Fix: sort-keys ignores destructuring patterns (fixes #6896) (#6899) (Kai Cataldo)
+* 3fe3a4f Docs: Update options in `object-shorthand` (#6898) (Grant Snodgrass)
+* cd09c96 Chore: Use object-shorthand batch 2 (refs #6407) (#6897) (Kai Cataldo)
+* 2841008 Chore: Use object-shorthand batch 1 (refs #6407) (#6893) (Kai Cataldo)
+
 v3.3.0 - August 12, 2016
 
 * 683ac56 Build: Add CI release scripts (fixes #6884) (#6885) (Nicholas C. Zakas)
