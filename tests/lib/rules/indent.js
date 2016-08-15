@@ -1395,6 +1395,12 @@ ruleTester.run("indent", rule, {
             "foo = bar.baz()\n" +
             "        .bip();",
             options: [4, {MemberExpression: 1}]
+        },
+        {
+            code:
+            "var foo = 'bar' +\n" +
+            "  'baz';",
+            options: [2, { BinaryExpression: 1 }]
         }
     ],
     invalid: [
@@ -2435,6 +2441,48 @@ ruleTester.run("indent", rule, {
             "    .bar",
             options: [2, { MemberExpression: 2 }],
             errors: expectedErrors([[2, 4, 2, "Punctuator"], [3, 4, 2, "Punctuator"]])
+        },
+        {
+            code:
+            "var foo =\n" +
+            "'baz';",
+            output:
+            "var foo =\n" +
+            "  'baz';",
+            options: [2, { BinaryExpression: 1 }],
+            errors: expectedErrors([2, 2, 0, "Literal"])
+        },
+        {
+            code:
+            "var foo = 'bar' +\n" +
+            "'baz';",
+            output:
+            "var foo = 'bar' +\n" +
+            "  'baz';",
+            options: [2, { BinaryExpression: 1 }],
+            errors: expectedErrors([2, 2, 0, "Literal"])
+        },
+        {
+            code:
+            "var foo = 'bar' +\n" +
+            "    'baz' +\n" +
+            "    'bip';",
+            output:
+            "var foo = 'bar' +\n" +
+            "  'baz' +\n" +
+            "  'bip';",
+            options: [2, { BinaryExpression: 1 }],
+            errors: expectedErrors([[2, 2, 4, "Literal"], [3, 2, 4, "Literal"]])
+        },
+        {
+            code:
+            "var foo = 'bar'\n" +
+            "+ 'baz';",
+            output:
+            "var foo = 'bar'\n" +
+            "  + 'baz';",
+            options: [2, { BinaryExpression: 1 }],
+            errors: expectedErrors([2, 2, 0, "Punctuator"])
         }
     ]
 });

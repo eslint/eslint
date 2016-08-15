@@ -74,6 +74,7 @@ This rule has an object option:
 * `"VariableDeclarator"` (default: 1) enforces indentation level for `var` declarators; can also take an object to define separate rules for `var`, `let` and `const` declarations.
 * `"outerIIFEBody"` (default: 1) enforces indentation level for file-level IIFEs.
 * `"MemberExpression"` (off by default) enforces indentation level for multi-line property chains (except in variable declarations and assignments)
+* `"BinaryExpression"` (off by default) enforces indentation level for multi-line continuations (currently only in variable declarations)
 
 Level of indentation denotes the multiple of the indent specified. Example:
 
@@ -87,6 +88,9 @@ Level of indentation denotes the multiple of the indent specified. Example:
 * Indent of 2 spaces with `MemberExpression` set to `0` will indent the multi-line property chains with 0 spaces.
 * Indent of 2 spaces with `MemberExpression` set to `1` will indent the multi-line property chains with 2 spaces.
 * Indent of 2 spaces with `MemberExpression` set to `2` will indent the multi-line property chains with 4 spaces.
+* Indent of 2 spaces with `BinaryExpression` set to `0` will indent the multi-line continuations with 0 spaces.
+* Indent of 2 spaces with `BinaryExpression` set to `1` will indent the multi-line continuations with 2 spaces.
+* Indent of 2 spaces with `BinaryExpression` set to `2` will indent the multi-line continuations with 4 spaces.
 
 ### tab
 
@@ -278,6 +282,30 @@ foo
 // Any indentation is permitted in variable declarations and assignments.
 var bip = aardvark.badger
                   .coyote;
+```
+
+### BinaryExpression
+
+Examples of **incorrect** code for this rule with the `2, { "BinaryExpression": 1 }` options:
+
+```js
+/*eslint indent: ["error", 2, { "BinaryExpression": 1 }]*/
+
+var foo = 'bar' +
+'baz';
+```
+
+Examples of **correct** code for this rule with the `2, { "BinaryExpression": 1 }` option:
+
+```js
+/*eslint indent: ["error", 2, { "BinaryExpression": 1 }]*/
+
+var foo = 'bar' +
+  'baz';
+
+// Any indentation is permitted outside of variable declarations.
+bip = 'bim' +
+'bee';
 ```
 
 ## Compatibility
