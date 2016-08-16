@@ -1520,13 +1520,14 @@ describe("CLIEngine", function() {
             let sandbox;
 
             /**
-             * helper method to delete the cache files created during testing
+             * helper method to delete a file without caring about exceptions
+             *
+             * @param {string} filePath The file path
              * @returns {void}
              */
-            function delCache() {
+            function doDelete(filePath) {
                 try {
-                    fs.unlinkSync(path.resolve(".eslintcache"));
-                    fs.unlinkSync(path.resolve(".cache/custom-cache"));
+                    fs.unlinkSync(filePath);
                 } catch (ex) {
 
                     /*
@@ -1536,13 +1537,23 @@ describe("CLIEngine", function() {
                 }
             }
 
+            /**
+             * helper method to delete the cache files created during testing
+             * @returns {void}
+             */
+            function deleteCache() {
+                doDelete(path.resolve(".eslintcache"));
+                doDelete(path.resolve(".cache/custom-cache"));
+            }
+
             beforeEach(function() {
-                delCache();
+                deleteCache();
                 sandbox = sinon.sandbox.create();
             });
+
             afterEach(function() {
                 sandbox.restore();
-                delCache();
+                deleteCache();
             });
 
             describe("when the cacheFile is a directory or looks like a directory", function() {
@@ -1551,7 +1562,7 @@ describe("CLIEngine", function() {
                 * helper method to delete the cache files created during testing
                 * @returns {void}
                 */
-                function delCacheDir() {
+                function deleteCacheDir() {
                     try {
                         fs.unlinkSync("./tmp/.cacheFileDir/.cache_hashOfCurrentWorkingDirectory");
                     } catch (ex) {
@@ -1563,11 +1574,11 @@ describe("CLIEngine", function() {
                     }
                 }
                 beforeEach(function() {
-                    delCacheDir();
+                    deleteCacheDir();
                 });
 
                 afterEach(function() {
-                    delCacheDir();
+                    deleteCacheDir();
                 });
 
                 it("should create the cache file inside the provided directory", function() {
@@ -1826,6 +1837,88 @@ describe("CLIEngine", function() {
                 const cachedResult = engine.executeOnFiles([badFile, goodFile]);
 
                 assert.deepEqual(result, cachedResult, "result is the same with or without cache");
+            });
+
+            it("should not contain in the cache a file that was deleted", function() {
+
+                const cacheFile = getFixturePath(".eslintcache");
+
+                doDelete(cacheFile);
+
+                engine = new CLIEngine({
+                    cwd: path.join(fixtureDir, ".."),
+                    useEslintrc: false,
+
+                    // specifying cache true the cache will be created
+                    cache: true,
+                    cacheFile,
+                    rules: {
+                        "no-console": 0,
+                        "no-unused-vars": 2
+                    },
+                    extensions: ["js"]
+                });
+
+                const badFile = fs.realpathSync(getFixturePath("cache/src", "fail-file.js"));
+                const goodFile = fs.realpathSync(getFixturePath("cache/src", "test-file.js"));
+                const toBeDeletedFile = fs.realpathSync(getFixturePath("cache/src", "file-to-delete.js"));
+
+                engine.executeOnFiles([badFile, goodFile, toBeDeletedFile]);
+
+                let cache = JSON.parse(fs.readFileSync(cacheFile));
+
+                assert.isTrue(typeof cache[toBeDeletedFile] === "object", "the entry for the file to be deleted is in the cache");
+
+                // delete the file from the file system
+                fs.unlinkSync(toBeDeletedFile);
+
+                // file-entry-cache@2.0.0 will remove from the cache deleted files
+                // even when they were not part of the array of files to be analyzed
+                engine.executeOnFiles([badFile, goodFile]);
+
+                cache = JSON.parse(fs.readFileSync(cacheFile));
+
+                assert.isTrue(typeof cache[toBeDeletedFile] === "undefined", "the entry for the file to be deleted is not in the cache");
+            });
+
+            it("should contain files that were not visited in the cache provided they still exist", function() {
+
+                const cacheFile = getFixturePath(".eslintcache");
+
+                doDelete(cacheFile);
+
+                engine = new CLIEngine({
+                    cwd: path.join(fixtureDir, ".."),
+                    useEslintrc: false,
+
+                    // specifying cache true the cache will be created
+                    cache: true,
+                    cacheFile,
+                    rules: {
+                        "no-console": 0,
+                        "no-unused-vars": 2
+                    },
+                    extensions: ["js"]
+                });
+
+                const badFile = fs.realpathSync(getFixturePath("cache/src", "fail-file.js"));
+                const goodFile = fs.realpathSync(getFixturePath("cache/src", "test-file.js"));
+                const testFile2 = fs.realpathSync(getFixturePath("cache/src", "test-file2.js"));
+
+                engine.executeOnFiles([badFile, goodFile, testFile2]);
+
+                let cache = JSON.parse(fs.readFileSync(cacheFile));
+
+                assert.isTrue(typeof cache[testFile2] === "object", "the entry for the test-file2 is in the cache");
+
+                // we pass a different set of files minus test-file2
+                // previous version of file-entry-cache would remove the non visited
+                // entries. 2.0.0 version will keep them unless they don't exist
+                engine.executeOnFiles([badFile, goodFile]);
+
+                cache = JSON.parse(fs.readFileSync(cacheFile));
+
+                assert.isTrue(typeof cache[testFile2] === "object", "the entry for the test-file2 is in the cache");
             });
 
             it("should not delete cache when executing on text", function() {
