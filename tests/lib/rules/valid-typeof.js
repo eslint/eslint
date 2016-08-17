@@ -43,7 +43,19 @@ ruleTester.run("valid-typeof", rule, {
         "typeof(foo) !== 'string'",
         "typeof(foo) == 'string'",
         "typeof(foo) != 'string'",
-        "var oddUse = typeof foo + 'thing'"
+        "var oddUse = typeof foo + 'thing'",
+        {
+            code: "typeof foo === 'number'",
+            options: [{ requireStringLiterals: true }],
+        },
+        {
+            code: "typeof foo === \"number\"",
+            options: [{ requireStringLiterals: true }]
+        },
+        {
+            code: "var baz = typeof foo + 'thing'",
+            options: [{ requireStringLiterals: true }]
+        }
     ],
 
     invalid: [
@@ -94,6 +106,31 @@ ruleTester.run("valid-typeof", rule, {
         {
             code: "if (typeof bar == 'umdefined') {}",
             errors: [{ message: "Invalid typeof comparison value.", type: "Literal" }]
+        },
+        {
+            code: "typeof foo == 'invalid string'",
+            options: [{ requireStringLiterals: true }],
+            errors: [{ message: "Invalid typeof comparison value.", type: "Literal" }]
+        },
+        {
+            code: "typeof foo == Object",
+            options: [{ requireStringLiterals: true }],
+            errors: [{ message: "Typeof comparisons should be to string literals.", type: "Identifier" }]
+        },
+        {
+            code: "typeof foo === undefined",
+            options: [{ requireStringLiterals: true }],
+            errors: [{ message: "Typeof comparisons should be to string literals.", type: "Identifier" }]
+        },
+        {
+            code: "undefined === typeof foo",
+            options: [{ requireStringLiterals: true }],
+            errors: [{ message: "Typeof comparisons should be to string literals.", type: "Identifier" }]
+        },
+        {
+            code: "undefined == typeof foo",
+            options: [{ requireStringLiterals: true }],
+            errors: [{ message: "Typeof comparisons should be to string literals.", type: "Identifier" }]
         }
     ]
 });
