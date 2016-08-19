@@ -64,7 +64,7 @@ describe("rules", function() {
             pluginName = "custom-plugin";
 
         it("should define all plugin rules with a qualified rule id", function() {
-            rules.import(customPlugin.rules, pluginName);
+            rules.importPlugin(customPlugin, pluginName);
 
             assert.isDefined(rules.get("custom-plugin/custom-rule"));
             assert.equal(rules.get("custom-plugin/custom-rule"), customPlugin.rules["custom-rule"]);
