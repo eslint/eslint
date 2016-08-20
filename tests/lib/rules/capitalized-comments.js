@@ -47,6 +47,16 @@ ruleTester.run("capitalized-comments", rule, {
         "/*\n123 */",
         "/*123\nsecond line need not be uppercase */",
 
+        // No options: eslint/istanbul/jshint/jscs are okay
+        "// eslint semi:off",
+        "// istanbul ignore next",
+        "// jshint asi:true",
+        "// jscs: enable",
+        "/* eslint semi:off */",
+        "/* istanbul ignore next */",
+        "/* jshint asi:true */",
+        "/* jscs: enable */",
+
         // Using "always" string option
         { code: "//Uppercase", options: ["always"] },
         { code: "// Uppercase", options: ["always"] },
@@ -70,6 +80,16 @@ ruleTester.run("capitalized-comments", rule, {
             code: "/*123\nsecond line need not be uppercase */",
             options: ["always"]
         },
+
+        // Using "always" string option: eslint/istanbul/jshint/jscs are okay
+        { code: "// eslint semi:off", options: ["always"] },
+        { code: "// istanbul ignore next", options: ["always"] },
+        { code: "// jshint asi:true", options: ["always"] },
+        { code: "// jscs: enable", options: ["always"] },
+        { code: "/* eslint semi:off */", options: ["always"] },
+        { code: "/* istanbul ignore next */", options: ["always"] },
+        { code: "/* jshint asi:true */", options: ["always"] },
+        { code: "/* jscs: enable */", options: ["always"] },
 
         // Using "never" string option
         { code: "//lowercase", options: ["never"] },
@@ -157,6 +177,80 @@ ruleTester.run("capitalized-comments", rule, {
         },
         {
             code: "/* lowercase\nSecond line need not be lowercase */",
+            errors: [{
+                message: ALWAYS_MESSAGE,
+                line: 1,
+                column: 1
+            }]
+        },
+
+        // Using "always" string option
+        {
+            code: "//lowercase",
+            options: ["always"],
+            errors: [{
+                message: ALWAYS_MESSAGE,
+                line: 1,
+                column: 1
+            }]
+        },
+        {
+            code: "// lowercase",
+            options: ["always"],
+            errors: [{
+                message: ALWAYS_MESSAGE,
+                line: 1,
+                column: 1
+            }]
+        },
+        {
+            code: "/*lowercase */",
+            options: ["always"],
+            errors: [{
+                message: ALWAYS_MESSAGE,
+                line: 1,
+                column: 1
+            }]
+        },
+        {
+            code: "/* lowercase */",
+            options: ["always"],
+            errors: [{
+                message: ALWAYS_MESSAGE,
+                line: 1,
+                column: 1
+            }]
+        },
+        {
+            code: "/*\nlowercase */",
+            options: ["always"],
+            errors: [{
+                message: ALWAYS_MESSAGE,
+                line: 1,
+                column: 1
+            }]
+        },
+        {
+            code: "//\xFCber",
+            options: ["always"],
+            errors: [{
+                message: ALWAYS_MESSAGE,
+                line: 1,
+                column: 1
+            }]
+        },
+        {
+            code: "//\u03C0",
+            options: ["always"],
+            errors: [{
+                message: ALWAYS_MESSAGE,
+                line: 1,
+                column: 1
+            }]
+        },
+        {
+            code: "/* lowercase\nSecond line need not be lowercase */",
+            options: ["always"],
             errors: [{
                 message: ALWAYS_MESSAGE,
                 line: 1,
