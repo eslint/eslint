@@ -54,6 +54,14 @@ describe("Plugins", function() {
             assert.equal(StubbedPlugins.get("example"), plugin);
         });
 
+        it("should load a plugin when using custom load", function() {
+            StubbedPlugins.load({name: "example", load(fullName) {
+                assert.equal(fullName, "eslint-plugin-example");
+                return plugin;
+            }});
+            assert.equal(StubbedPlugins.get("example"), plugin);
+        });
+
         it("should register environments when plugin has environments", function() {
             plugin.environments = {
                 foo: {
@@ -85,6 +93,25 @@ describe("Plugins", function() {
         it("should throw an error when a plugin doesn't exist", function() {
             assert.throws(function() {
                 StubbedPlugins.load("nonexistentplugin");
+            }, /Failed to load plugin/);
+        });
+
+        it("should throw an error when on a malformed plugin definition", function() {
+            assert.throws(function() {
+                StubbedPlugins.load({});
+            }, /Failed to load plugin/);
+            assert.throws(function() {
+                StubbedPlugins.load({
+                    name() {
+                        return "example";
+                    }
+                });
+            }, /Failed to load plugin/);
+            assert.throws(function() {
+                StubbedPlugins.load({ name: "example" });
+            }, /Failed to load plugin/);
+            assert.throws(function() {
+                StubbedPlugins.load({ name: "example", load: "require" });
             }, /Failed to load plugin/);
         });
 
