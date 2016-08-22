@@ -544,7 +544,7 @@ describe("IgnoredPaths", function() {
 
         it("should ignore default folders when there is no eslintignore file", function() {
             const cwd = getFixturePath("no-ignore-file");
-            const ignoredPaths = new IgnoredPaths({ ignore: true, cwd: cwd });
+            const ignoredPaths = new IgnoredPaths({ ignore: true, cwd });
 
             const shouldIgnore = ignoredPaths.getIgnoredFoldersGlobChecker();
             const resolve = createResolve(cwd);
@@ -558,7 +558,7 @@ describe("IgnoredPaths", function() {
 
         it("should ignore default folders there is an ignore file without unignored defaults", function() {
             const cwd = getFixturePath();
-            const ignoredPaths = new IgnoredPaths({ ignore: true, ignorePath: getFixturePath(".eslintignore"), cwd: cwd });
+            const ignoredPaths = new IgnoredPaths({ ignore: true, ignorePath: getFixturePath(".eslintignore"), cwd });
 
             const shouldIgnore = ignoredPaths.getIgnoredFoldersGlobChecker();
             const resolve = createResolve(cwd);
@@ -572,7 +572,7 @@ describe("IgnoredPaths", function() {
 
         it("should not ignore things which are re-included in ignore file", function() {
             const cwd = getFixturePath();
-            const ignoredPaths = new IgnoredPaths({ ignore: true, ignorePath: getFixturePath(".eslintignoreWithUnignoredDefaults"), cwd: cwd });
+            const ignoredPaths = new IgnoredPaths({ ignore: true, ignorePath: getFixturePath(".eslintignoreWithUnignoredDefaults"), cwd });
 
             const shouldIgnore = ignoredPaths.getIgnoredFoldersGlobChecker();
             const resolve = createResolve(cwd);
@@ -588,7 +588,7 @@ describe("IgnoredPaths", function() {
 
         it("should ignore files which we try to re-include in ignore file when ignore option is disabled", function() {
             const cwd = getFixturePath();
-            const ignoredPaths = new IgnoredPaths({ ignore: false, ignorePath: getFixturePath(".eslintignoreWithUnignoredDefaults"), cwd: cwd });
+            const ignoredPaths = new IgnoredPaths({ ignore: false, ignorePath: getFixturePath(".eslintignoreWithUnignoredDefaults"), cwd });
 
             const shouldIgnore = ignoredPaths.getIgnoredFoldersGlobChecker();
             const resolve = createResolve(cwd);
@@ -604,7 +604,7 @@ describe("IgnoredPaths", function() {
 
         it("should not ignore dirs which are re-included by ignorePattern", function() {
             const cwd = getFixturePath("no-ignore-file");
-            const ignoredPaths = new IgnoredPaths({ ignore: true, cwd: cwd, ignorePattern: "!/node_modules/package" });
+            const ignoredPaths = new IgnoredPaths({ ignore: true, cwd, ignorePattern: "!/node_modules/package" });
 
             const shouldIgnore = ignoredPaths.getIgnoredFoldersGlobChecker();
             const resolve = createResolve(cwd);
