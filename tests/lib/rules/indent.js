@@ -1395,6 +1395,17 @@ ruleTester.run("indent", rule, {
             "foo = bar.baz()\n" +
             "        .bip();",
             options: [4, {MemberExpression: 1}]
+        },
+        {
+            code:
+            "if (foo) {\n" +
+            "  bar();\n" +
+            "} else if (baz) {\n" +
+            "  foobar();\n" +
+            "} else if (qux) {\n" +
+            "  qux();\n" +
+            "}",
+            options: [2]
         }
     ],
     invalid: [
@@ -2435,6 +2446,79 @@ ruleTester.run("indent", rule, {
             "    .bar",
             options: [2, { MemberExpression: 2 }],
             errors: expectedErrors([[2, 4, 2, "Punctuator"], [3, 4, 2, "Punctuator"]])
+        },
+        {
+
+            // Indentation with multiple else statements: https://github.com/eslint/eslint/issues/6956
+
+            code:
+            "if (foo) bar();\n" +
+            "else if (baz) foobar();\n" +
+            "  else if (qux) qux();",
+            output:
+            "if (foo) bar();\n" +
+            "else if (baz) foobar();\n" +
+            "else if (qux) qux();",
+            options: [2],
+            errors: expectedErrors([3, 0, 2, "Keyword"])
+        },
+        {
+            code:
+            "if (foo) bar();\n" +
+            "else if (baz) foobar();\n" +
+            "  else qux();",
+            output:
+            "if (foo) bar();\n" +
+            "else if (baz) foobar();\n" +
+            "else qux();",
+            options: [2],
+            errors: expectedErrors([3, 0, 2, "Keyword"])
+        },
+        {
+            code:
+            "foo();\n" +
+            "  if (baz) foobar();\n" +
+            "  else qux();",
+            output:
+            "foo();\n" +
+            "if (baz) foobar();\n" +
+            "else qux();",
+            options: [2],
+            errors: expectedErrors([[2, 0, 2, "IfStatement"], [3, 0, 2, "Keyword"]])
+        },
+        {
+            code:
+            "if (foo) bar();\n" +
+            "else if (baz) foobar();\n" +
+            "     else if (bip) {\n" +
+            "       qux();\n" +
+            "     }",
+            output:
+            "if (foo) bar();\n" +
+            "else if (baz) foobar();\n" +
+            "else if (bip) {\n" +
+            "       qux();\n" + // (fixed on the next pass)
+            "     }",
+            options: [2],
+            errors: expectedErrors([3, 0, 5, "Keyword"])
+        },
+        {
+            code:
+            "if (foo) bar();\n" +
+            "else if (baz) {\n" +
+            "    foobar();\n" +
+            "     } else if (boop) {\n" +
+            "       qux();\n" +
+            "     }",
+            output:
+            "if (foo) bar();\n" +
+            "else if (baz) {\n" +
+            "  foobar();\n" +
+            "} else if (boop) {\n" +
+            "       qux();\n" + // (fixed on the next pass)
+            "     }",
+            options: [2],
+            errors: expectedErrors([[3, 2, 4, "ExpressionStatement"], [4, 0, 5, "BlockStatement"]])
         }
     ]
 });
