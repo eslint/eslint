@@ -8,7 +8,8 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-const rule = require("../../../lib/rules/object-curly-spacing"),
+const resolvePath = require("path").resolve,
+    rule = require("../../../lib/rules/object-curly-spacing"),
     RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
@@ -138,7 +139,14 @@ ruleTester.run("object-curly-spacing", rule, {
         { code: "var {a: []} = foo;", options: ["never"], parserOptions: { ecmaVersion: 6 }},
         { code: "import {} from 'foo';", options: ["never"], parserOptions: { sourceType: "module" }},
         { code: "export {} from 'foo';", options: ["never"], parserOptions: { sourceType: "module" }},
-        { code: "export {};", options: ["never"], parserOptions: { sourceType: "module" }}
+        { code: "export {};", options: ["never"], parserOptions: { sourceType: "module" }},
+
+        // https://github.com/eslint/eslint/issues/6940
+        {
+            code: "function foo ({a, b}: Props) {\n}",
+            parser: resolvePath(__dirname, "../../fixtures/parsers/object-curly-spacing/flow-stub-parser-never-valid"),
+            options: ["never"]
+        }
     ],
 
     invalid: [
@@ -749,6 +757,20 @@ ruleTester.run("object-curly-spacing", rule, {
                 {
                     message: "A space is required before '}'.",
                     type: "ObjectExpression"
+                }
+            ]
+        },
+
+        // https://github.com/eslint/eslint/issues/6940
+        {
+            code: "function foo ({a, b }: Props) {\n}",
+            output: "function foo ({a, b}: Props) {\n}",
+            parser: resolvePath(__dirname, "../../fixtures/parsers/object-curly-spacing/flow-stub-parser-never-invalid"),
+            options: ["never"],
+            errors: [
+                {
+                    message: "There should be no space before '}'.",
+                    type: "ObjectPattern"
                 }
             ]
         }
