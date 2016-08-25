@@ -1268,6 +1268,41 @@ describe("eslint", function() {
 
                 eslint.verify("0", config, filename);
             });
+
+            it("should use parseForESLint() in custom parser when custom parser is specified", function() {
+
+                const alternateParser = path.resolve(__dirname, "../fixtures/parsers/enhanced-parser.js");
+
+                eslint.reset();
+
+                const config = { rules: {}, parser: alternateParser };
+                const messages = eslint.verify("0", config, filename);
+
+                assert.equal(messages.length, 0);
+            });
+
+            it("should expose parser services when using parseForESLint() and services are specified", function() {
+
+                const alternateParser = path.resolve(__dirname, "../fixtures/parsers/enhanced-parser.js");
+
+                eslint.reset();
+                eslint.defineRule("test-service-rule", function(context) {
+                    return {
+                        Literal(node) {
+                            context.report({
+                                node,
+                                message: context.parserServices.test.getMessage()
+                            });
+                        }
+                    };
+                });
+
+                const config = { rules: { "test-service-rule": 2 }, parser: alternateParser };
+                const messages = eslint.verify("0", config, filename);
+
+                assert.equal(messages.length, 1);
+                assert.equal(messages[0].message, "Hi!");
+            });
         }
 
         it("should pass parser as parserPath to all rules when default parser is used", function() {
