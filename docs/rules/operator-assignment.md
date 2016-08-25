@@ -1,4 +1,4 @@
-# Operator Assignment Shorthand (operator-assignment)
+# require or disallow assignment operator shorthand where possible (operator-assignment)
 
 JavaScript provides shorthand operators that combine variable assignment and some simple mathematical operations. For example, `x = x + 4` can be shortened to `x += 4`. The supported shorthand forms are as follows:
 
@@ -20,19 +20,29 @@ JavaScript provides shorthand operators that combine variable assignment and som
 
 ## Rule Details
 
-This rule enforces use of the shorthand assignment operators by requiring them where possible or prohibiting them entirely.
+This rule requires or disallows assignment operator shorthand where possible.
 
 ## Options
 
-This rule has two options: `always` and `never`. The default is `always`.
+This rule has a single string option:
 
-### "always"
+* `"always"` (default)  requires assignment operator shorthand where possible
+* `"never"` disallows assignment operator shorthand
 
-`"operator-assignment": ["error", "always"]`
+### always
 
-This mode enforces use of operator assignment shorthand where possible.
+Examples of **incorrect** code for this rule with the default `"always"` option:
 
-The following are examples of valid patterns:
+```js
+/*eslint operator-assignment: ["error", "always"]*/
+
+x = x + y;
+x = y * x;
+x[0] = x[0] / y;
+x.y = x.y << z;
+```
+
+Examples of **correct** code for this rule with the default `"always"` option:
 
 ```js
 /*eslint operator-assignment: ["error", "always"]*/
@@ -46,39 +56,24 @@ x[foo()] = x[foo()] % 2;
 x = y + x; // `+` is not always commutative (e.g. x = "abc")
 ```
 
-The following patterns are considered problems and should be replaced by their shorthand equivalents:
+### never
 
-```js
-/*eslint operator-assignment: ["error", "always"]*/
-
-x = x + y;
-x = y * x;
-x[0] = x[0] / y;
-x.y = x.y << z;
-```
-
-### "never"
-
-`"operator-assignment": ["error", "never"]`
-
-This mode warns on any use of operator assignment shorthand.
-
-The following are examples of valid patterns:
-
-```js
-/*eslint operator-assignment: ["error", "never"]*/
-
-x = x + y;
-x.y = x.y / a.b;
-```
-
-The following patterns are considered problems and should be written out fully without the shorthand assignments:
+Examples of **incorrect** code for this rule with the `"never"` option:
 
 ```js
 /*eslint operator-assignment: ["error", "never"]*/
 
 x *= y;
 x ^= (y + z) / foo();
+```
+
+Examples of **correct** code for this rule with the `"never"` option:
+
+```js
+/*eslint operator-assignment: ["error", "never"]*/
+
+x = x + y;
+x.y = x.y / a.b;
 ```
 
 ## When Not To Use It

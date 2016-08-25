@@ -1,4 +1,4 @@
-# Enforce or Disallow Semicolons (semi)
+# require or disallow semicolons instead of ASI (semi)
 
 (fixable) The `--fix` option on the [command line](../user-guide/command-line-interface#fix) automatically fixes problems reported by this rule.
 
@@ -57,26 +57,27 @@ Although ASI allows for more freedom over your coding style, it can also make yo
 
 ## Rule Details
 
-This rule is aimed at ensuring consistent use of semicolons. You can decide whether or not to require semicolons at the end of statements.
+This rule enforces consistent use of semicolons.
 
 ## Options
 
-The rule takes one or two options. The first one is a string, which could be `"always"` or `"never"`. The default is `"always"`. The second one is an object for more fine-grained configuration when the first option is `"always"`.
+This rule has two options, a string option and an object option.
 
-You can set the option in configuration like this:
+String option:
 
-### "always"
+* `"always"` (default) requires semicolons at the end of statements
+* `"never"` disallows semicolons as the end of statements (except to disambiguate statements beginning with `[`, `(`, `/`, `+`, or `-`)
 
-By using the default option, semicolons must be used any place where they are valid.
+Object option:
 
-```json
-semi: ["error", "always"]
-```
+* `"omitLastInOneLineBlock": true` ignores the last semicolon in a block in which its braces (and therefore the content of the block) are in the same line
 
-The following patterns are considered problems:
+### always
+
+Examples of **incorrect** code for this rule with the default `"always"` option:
 
 ```js
-/*eslint semi: "error"*/
+/*eslint semi: ["error", "always"]*/
 
 var name = "ESLint"
 
@@ -85,7 +86,7 @@ object.method = function() {
 }
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule with the default `"always"` option:
 
 ```js
 /*eslint semi: "error"*/
@@ -97,27 +98,41 @@ object.method = function() {
 };
 ```
 
-#### Fine-grained control
+### never
 
-When setting the first option as "always", an additional option can be added to omit the last semicolon in a one-line block, that is, a block in which its braces (and therefore the content of the block) are in the same line:
-
-```json
-semi: ["error", "always", { "omitLastInOneLineBlock": true}]
-```
-
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule with the `"never"` option:
 
 ```js
-/*eslint semi: ["error", "always", { "omitLastInOneLineBlock": true}] */
+/*eslint semi: ["error", "never"]*/
 
-if (foo) {
-    bar()
-}
+var name = "ESLint";
 
-if (foo) { bar(); }
+object.method = function() {
+    // ...
+};
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule with the `"never"` option:
+
+```js
+/*eslint semi: ["error", "never"]*/
+
+var name = "ESLint"
+
+object.method = function() {
+    // ...
+}
+
+var name = "ESLint"
+
+;(function() {
+    // ...
+})()
+```
+
+#### omitLastInOneLineBlock
+
+Examples of additional **incorrect** code for this rule with the `"always", { "omitLastInOneLineBlock": true }` options:
 
 ```js
 /*eslint semi: ["error", "always", { "omitLastInOneLineBlock": true}] */
@@ -125,50 +140,6 @@ The following patterns are not considered problems:
 if (foo) { bar() }
 
 if (foo) { bar(); baz() }
-```
-
-### "never"
-
-If you want to enforce that semicolons are never used, switch the configuration to:
-
-```json
-semi: [2, "never"]
-```
-
-Then, the following patterns are considered problems:
-
-```js
-/*eslint semi: ["error", "never"]*/
-
-var name = "ESLint";
-
-object.method = function() {
-    // ...
-};
-```
-
-And the following patterns are not considered problems:
-
-```js
-/*eslint semi: ["error", "never"]*/
-
-var name = "ESLint"
-
-object.method = function() {
-    // ...
-}
-```
-
-Even in `"never"` mode, semicolons are still allowed to disambiguate statements beginning with `[`, `(`, `/`, `+`, or `-`:
-
-```js
-/*eslint semi: ["error", "never"]*/
-
-var name = "ESLint"
-
-;(function() {
-    // ...
-})()
 ```
 
 ## When Not To Use It

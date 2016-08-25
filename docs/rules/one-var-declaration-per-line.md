@@ -1,4 +1,4 @@
-# Require or disallow an newline around variable declarations (one-var-declaration-per-line)
+# require or disallow newlines around `var` declarations (one-var-declaration-per-line)
 
 Some developers declare multiple var statements on the same line:
 
@@ -14,20 +14,51 @@ var foo,
     baz;
 ```
 
-This rule enforces a consistent style across the entire project.
+Keeping to one of these styles across a project's codebase can help with maintaining code consistency.
 
 ## Rule Details
 
-This rule enforces a consistent coding style where newlines are required or disallowed after each var declaration or just when there is a variable initialization. It ignores var declarations inside for loop conditionals.
+This rule enforces a consistent newlines around variable declarations. This rule ignores variable declarations inside `for` loop conditionals.
 
 ## Options
 
-This rule takes one option, a string, which can be:
+This rule has a single string option:
 
-* `"always"` enforces a newline around each variable declaration
-* `"initializations"` enforces a newline around each variable initialization (default)
+* `"initializations"` (default) enforces a newline around variable initializations
+* `"always"` enforces a newline around variable declarations
 
-The following patterns are considered problems when set to `"always"`:
+### initializations
+
+Examples of **incorrect** code for this rule with the default `"initializations"` option:
+
+```js
+/*eslint one-var-declaration-per-line: ["error", "initializations"]*/
+/*eslint-env es6*/
+
+var a, b, c = 0;
+
+let a,
+    b = 0, c;
+```
+
+Examples of **correct** code for this rule with the default `"initializations"` option:
+
+```js
+/*eslint one-var-declaration-per-line: ["error", "initializations"]*/
+/*eslint-env es6*/
+
+var a, b;
+
+let a,
+    b;
+
+let a,
+    b = 0;
+```
+
+### always
+
+Examples of **incorrect** code for this rule with the `"always"` option:
 
 ```js
 /*eslint one-var-declaration-per-line: ["error", "always"]*/
@@ -40,40 +71,13 @@ let a, b = 0;
 const a = 0, b = 0;
 ```
 
-The following patterns are not considered problems when set to `"always"`:
+Examples of **correct** code for this rule with the `"always"` option:
 
 ```js
 /*eslint one-var-declaration-per-line: ["error", "always"]*/
 /*eslint-env es6*/
 
 var a,
-    b;
-
-let a,
-    b = 0;
-```
-
-The following patterns are considered problems when set to `"initializations"`:
-
-```js
-/*eslint one-var-declaration-per-line: ["error", "initializations"]*/
-/*eslint-env es6*/
-
-var a, b, c = 0;
-
-let a,
-    b = 0, c;
-```
-
-The following patterns are not considered problems when set to `"initializations"`:
-
-```js
-/*eslint one-var-declaration-per-line: ["error", "initializations"]*/
-/*eslint-env es6*/
-
-var a, b;
-
-let a,
     b;
 
 let a,
