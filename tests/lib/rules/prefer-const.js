@@ -18,6 +18,12 @@ const rule = require("../../../lib/rules/prefer-const"),
 
 const ruleTester = new RuleTester();
 
+ruleTester.defineRule("use-x", context => ({
+    VariableDeclaration() {
+        context.markVariableAsUsed("x");
+    }
+}));
+
 ruleTester.run("prefer-const", rule, {
     valid: [
         { code: "var x = 0;" },
@@ -63,6 +69,7 @@ ruleTester.run("prefer-const", rule, {
             parserOptions: { ecmaVersion: 6 }
         },
         { code: "/*exported a*/ let a; function init() { a = foo(); }", parserOptions: { ecmaVersion: 6 } },
+        { code: "/*exported a*/ let a = 1", parserOptions: { ecmaVersion: 6 } },
         { code: "let a; if (true) a = 0; foo(a);", parserOptions: { ecmaVersion: 6 } },
 
         // The assignment is located in a different scope.
@@ -89,7 +96,9 @@ ruleTester.run("prefer-const", rule, {
             code: "let x; function foo() { bar(x); } x = 0;",
             options: [{ignoreReadBeforeAssign: true}],
             parserOptions: {ecmaVersion: 6}
-        }
+        },
+
+
     ],
     invalid: [
         {
@@ -336,6 +345,20 @@ ruleTester.run("prefer-const", rule, {
             output: "let x; function foo() { bar(x); } x = 0;",
             parserOptions: {ecmaVersion: 6},
             errors: [{ message: "'x' is never reassigned. Use 'const' instead.", type: "Identifier", column: 5}]
-        }
+        },
+
+        // https://github.com/eslint/eslint/issues/5837
+        {
+            code: "/*eslint use-x:error*/ let x = 1",
+            output: "/*eslint use-x:error*/ const x = 1",
+            parserOptions: {ecmaVersion: 6, ecmaFeatures: {globalReturn: true}},
+            errors: [{ message: "'x' is never reassigned. Use 'const' instead.", type: "Identifier"}]
+        },
+        {
+            code: "/*eslint use-x:error*/ { let x = 1 }",
+            output: "/*eslint use-x:error*/ { const x = 1 }",
+            parserOptions: {ecmaVersion: 6},
+            errors: [{ message: "'x' is never reassigned. Use 'const' instead.", type: "Identifier"}]
+        },
     ]
 });
