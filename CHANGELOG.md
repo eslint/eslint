@@ -1,3 +1,28 @@
+v3.4.0 - August 26, 2016
+
+* c210510 Update: add fixer for no-extra-parens (fixes #6944) (#6950) (not-an-aardvark)
+* ca3d448 Fix: `prefer-const` false negative about `eslintUsed` (fixes #5837) (#6971) (Toru Nagashima)
+* 1153955 Docs: Draft of JSCS migration guide (refs #5859) (#6942) (Nicholas C. Zakas)
+* 3e522be Fix: false negative of `indent` with `else if` statements (fixes #6956) (#6965) (not-an-aardvark)
+* 2dfb290 Docs: Distinguish examples in rules under Stylistic Issues part 7 (#6760) (Kenneth Williams)
+* 3c710c9 Fix: rename "AirBnB" => "Airbnb" init choice (fixes #6969) (Harrison Shoff)
+* 7660b39 Fix: `object-curly-spacing` for type annotations (fixes #6940) (#6945) (Toru Nagashima)
+* 21ab784 New: do not remove non visited files from cache. (fixes #6780) (#6921) (Roy Riojas)
+* 3a1763c Fix: enable `@scope/plugin/ruleId`-style specifier (refs #6362) (#6939) (Toru Nagashima)
+* d6fd064 Update: Add never option to multiline-ternary (fixes #6751) (#6905) (Kai Cataldo)
+* 0d268f1 New: `symbol-description` rule (fixes #6778) (#6825) (Jarek Rencz)
+* a063d4e Fix: no-cond-assign within a function expression (fixes #6908) (#6909) (Patrick McElhaney)
+* 16db93a Build: Tag docs, publish release notes (fixes #6892) (#6934) (Nicholas C. Zakas)
+* 0cf1d55 Chore: Fix object-shorthand errors (fixes #6958) (#6959) (Kai Cataldo)
+* 8851ddd Fix: Improve pref of globbing by inheriting glob.GlobSync (fixes #6710) (#6783) (Kael Zhang)
+* cf2242c Update: `requireStringLiterals` option for `valid-typeof` (fixes #6698) (#6923) (not-an-aardvark)
+* 8561389 Fix: `no-trailing-spaces` wrong fixing (fixes #6933) (#6937) (Toru Nagashima)
+* 6a92be5 Docs: Update semantic versioning policy (#6935) (alberto)
+* a5189a6 New: `class-methods-use-this` rule (fixes #5139) (#6881) (Gyandeep Singh)
+* 1563808 Update: add support for ecmaVersion 20xx (fixes #6750) (#6907) (Kai Cataldo)
+* d8b770c Docs: Change rule descriptions for consistent casing (#6915) (Brandon Mills)
+* c676322 Chore: Use object-shorthand batch 3 (refs #6407) (#6914) (Kai Cataldo)
+
 v3.3.1 - August 15, 2016
 
 * a2f06be Build: optimize rule page title for small browser tabs (fixes #6888) (#6904) (Vitor Balocco)
