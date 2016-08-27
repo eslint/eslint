@@ -92,30 +92,35 @@ ruleTester.run("strict", rule, {
         // "never" mode
         {
             code: "\"use strict\"; foo();",
+            output: " foo();",
             options: ["never"],
             errors: [
                 { message: "Strict mode is not permitted.", type: "ExpressionStatement" }
             ]
         }, {
             code: "function foo() { 'use strict'; return; }",
+            output: "function foo() {  return; }",
             options: ["never"],
             errors: [
                 { message: "Strict mode is not permitted.", type: "ExpressionStatement" }
             ]
         }, {
             code: "var foo = function() { 'use strict'; return; };",
+            output: "var foo = function() {  return; };",
             options: ["never"],
             errors: [
                 { message: "Strict mode is not permitted.", type: "ExpressionStatement" }
             ]
         }, {
             code: "function foo() { return function() { 'use strict'; return; }; }",
+            output: "function foo() { return function() {  return; }; }",
             options: ["never"],
             errors: [
                 { message: "Strict mode is not permitted.", type: "ExpressionStatement" }
             ]
         }, {
             code: "'use strict'; function foo() { \"use strict\"; return; }",
+            output: " function foo() {  return; }",
             options: ["never"],
             errors: [
                 { message: "Strict mode is not permitted.", type: "ExpressionStatement" },
@@ -123,6 +128,7 @@ ruleTester.run("strict", rule, {
             ]
         }, {
             code: "\"use strict\"; foo();",
+            output: " foo();",
             options: ["never"],
             parserOptions: { sourceType: "module" },
             errors: [
@@ -130,6 +136,7 @@ ruleTester.run("strict", rule, {
             ]
         }, {
             code: "'use strict'; function foo() { 'use strict'; return; }",
+            output: " function foo() {  return; }",
             options: ["never"],
             parserOptions: { ecmaFeatures: { impliedStrict: true } },
             errors: [
@@ -138,6 +145,7 @@ ruleTester.run("strict", rule, {
             ]
         }, {
             code: "'use strict'; function foo() { 'use strict'; return; }",
+            output: " function foo() {  return; }",
             options: ["never"],
             parserOptions: { sourceType: "module", ecmaFeatures: { impliedStrict: true } },
             errors: [
