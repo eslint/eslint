@@ -9,7 +9,7 @@ This rule restricts the use of parentheses to only where they are necessary.
 This rule always ignores extra parentheses around the following:
 
 * RegExp literals such as `(/abc/).test(var)` to avoid conflicts with the [wrap-regex](wrap-regex.md) rule
-* immediately-invokes function expressions (also known as IIFEs) such as `var x = (function () {})();` and `((function foo() {return 1;})())` to avoid conflicts with the [wrap-iife](wrap-iife.md) rule
+* immediately-invoked function expressions (also known as IIFEs) such as `var x = (function () {})();` and `((function foo() {return 1;})())` to avoid conflicts with the [wrap-iife](wrap-iife.md) rule
 
 ## Options
 
