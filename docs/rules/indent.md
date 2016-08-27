@@ -82,8 +82,9 @@ Level of indentation denotes the multiple of the indent specified. Example:
 * Indent of 2 spaces with `VariableDeclarator` set to `{"var": 2, "let": 2, "const": 3}` will indent the multi-line variable declarations with 4 spaces for `var` and `let`, 6 spaces for `const` statements.
 * Indent of tab with `VariableDeclarator` set to `2` will indent the multi-line variable declarations with 2 tabs.
 * Indent of 2 spaces with `SwitchCase` set to `0` will not indent `case` clauses with respect to `switch` statements.
+* Indent of 2 spaces with `SwitchCase` set to `1` will indent `case` clauses with 2 spaces with respect to `switch` statements.
 * Indent of 2 spaces with `SwitchCase` set to `2` will indent `case` clauses with 4 spaces with respect to `switch` statements.
-* Indent of tabs with `SwitchCase` set to `2` will indent `case` clauses with 2 tabs with respect to `switch` statements.
+* Indent of tab with `SwitchCase` set to `2` will indent `case` clauses with 2 tabs with respect to `switch` statements.
 * Indent of 2 spaces with `MemberExpression` set to `0` will indent the multi-line property chains with 0 spaces.
 * Indent of 2 spaces with `MemberExpression` set to `1` will indent the multi-line property chains with 2 spaces.
 * Indent of 2 spaces with `MemberExpression` set to `2` will indent the multi-line property chains with 4 spaces.
