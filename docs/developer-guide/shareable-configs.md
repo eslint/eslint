@@ -26,6 +26,14 @@ Since `index.js` is just JavaScript, you can optionally read these settings for 
 
 Once your shareable config is ready, you can [publish to npm](https://docs.npmjs.com/getting-started/publishing-npm-packages) to share with others. We recommend using the `eslint` and `eslintconfig` keywords so others can easily find your module.
 
+You should declare your dependency on eslint in `package.json` using the [peerDependencies](https://docs.npmjs.com/files/package.json#peerdependencies) field. The recommended way to declare a dependency for future proof compatibility is with the ">=" range syntax, using the lowest required eslint version. For example:
+
+```
+peerDependencies: {
+    "eslint": ">= 3"
+}
+```
+
 You can also test your shareable config on your computer before publishing by linking your module globally. Type:
 
 ```bash
