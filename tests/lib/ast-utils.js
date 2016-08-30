@@ -566,4 +566,84 @@ describe("ast-utils", function() {
             assert.strictEqual(astUtils.getStaticPropertyName(null), null);
         });
     });
+
+    describe("getDirectivePrologue", function() {
+        it("should return empty array if node is not a Program, FunctionDeclaration, FunctionExpression, or ArrowFunctionExpression", function() {
+            const ast = espree.parse("if (a) { b(); }");
+            const node = ast.body[0];
+
+            assert.deepEqual(astUtils.getDirectivePrologue(node), []);
+        });
+
+        it("should return empty array if node is a braceless ArrowFunctionExpression node", function() {
+            const ast = espree.parse("var foo = () => 'use strict';", { ecmaVersion: 6 });
+            const node = ast.body[0].declarations[0].init;
+
+            assert.deepEqual(astUtils.getDirectivePrologue(node), []);
+        });
+
+        it("should return empty array if there are no directives in Program body", function() {
+            const ast = espree.parse("var foo;");
+            const node = ast;
+
+            assert.deepEqual(astUtils.getDirectivePrologue(node), []);
+        });
+
+        it("should return empty array if there are no directives in FunctionDeclaration body", function() {
+            const ast = espree.parse("function foo() { return bar; }");
+            const node = ast.body[0];
+
+            assert.deepEqual(astUtils.getDirectivePrologue(node), []);
+        });
+
+        it("should return empty array if there are no directives in FunctionExpression body", function() {
+            const ast = espree.parse("var foo = function() { return bar; }");
+            const node = ast.body[0].declarations[0].init;
+
+            assert.deepEqual(astUtils.getDirectivePrologue(node), []);
+        });
+
+        it("should return empty array if there are no directives in ArrowFunctionExpression body", function() {
+            const ast = espree.parse("var foo = () => { return bar; };", { ecmaVersion: 6 });
+            const node = ast.body[0].declarations[0].init;
+
+            assert.deepEqual(astUtils.getDirectivePrologue(node), []);
+        });
+
+        it("should return directives in Program body", function() {
+            const ast = espree.parse("'use strict'; 'use asm'; var foo;");
+            const result = astUtils.getDirectivePrologue(ast);
+
+            assert.equal(result.length, 2);
+            assert.equal(result[0].expression.value, "use strict");
+            assert.equal(result[1].expression.value, "use asm");
+        });
+
+        it("should return directives in FunctionDeclaration body", function() {
+            const ast = espree.parse("function foo() { 'use strict'; 'use asm'; return bar; }");
+            const result = astUtils.getDirectivePrologue(ast.body[0]);
+
+            assert.equal(result.length, 2);
+            assert.equal(result[0].expression.value, "use strict");
+            assert.equal(result[1].expression.value, "use asm");
+        });
+
+        it("should return directives in FunctionExpression body", function() {
+            const ast = espree.parse("var foo = function() { 'use strict'; 'use asm'; return bar; }");
+            const result = astUtils.getDirectivePrologue(ast.body[0].declarations[0].init);
+
+            assert.equal(result.length, 2);
+            assert.equal(result[0].expression.value, "use strict");
+            assert.equal(result[1].expression.value, "use asm");
+        });
+
+        it("should return directives in ArrowFunctionExpression body", function() {
+            const ast = espree.parse("var foo = () => { 'use strict'; 'use asm'; return bar; };", { ecmaVersion: 6 });
+            const result = astUtils.getDirectivePrologue(ast.body[0].declarations[0].init);
+
+            assert.equal(result.length, 2);
+            assert.equal(result[0].expression.value, "use strict");
+            assert.equal(result[1].expression.value, "use asm");
+        });
+    });
 });
