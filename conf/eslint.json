@@ -172,6 +172,7 @@
         "keyword-spacing": "off",
         "linebreak-style": "off",
         "lines-around-comment": "off",
+        "lines-around-directive": "off",
         "max-depth": "off",
         "max-len": "off",
         "max-lines": "off",
