@@ -711,6 +711,56 @@ ruleTester.run("key-spacing", rule, {
             }
         }],
         parserOptions: { ecmaVersion: 6, ecmaFeatures: { experimentalObjectRestSpread: true } }
+    }, {
+        code: [
+            "var obj = {",
+            "    key1: 1,",
+            "",
+            "    key2:    2,",
+            "    key3:    3,",
+            "",
+            "    key4: 4",
+            "}"
+        ].join("\n"),
+        options: [{
+            multiLine: {
+                beforeColon: false,
+                afterColon: true,
+                mode: "strict",
+                align: {
+                    beforeColon: false,
+                    afterColon: true,
+                    on: "colon",
+                    mode: "minimum"
+                }
+            }
+        }],
+        parserOptions: { ecmaVersion: 6, ecmaFeatures: { experimentalObjectRestSpread: true } }
+    }, {
+        code: [
+            "var obj = {",
+            "    key1: 1,",
+            "",
+            "    key2:    2,",
+            "    key3:    3,",
+            "",
+            "    key4: 4",
+            "}"
+        ].join("\n"),
+        options: [{
+            multiLine: {
+                beforeColon: false,
+                afterColon: true,
+                mode: "strict"
+            },
+            align: {
+                beforeColon: false,
+                afterColon: true,
+                on: "colon",
+                mode: "minimum"
+            }
+        }],
+        parserOptions: { ecmaVersion: 6, ecmaFeatures: { experimentalObjectRestSpread: true } }
     }],
 
     invalid: [{
@@ -1621,6 +1671,62 @@ ruleTester.run("key-spacing", rule, {
             { message: "Extra space before value for key \'xs\'.", line: 7, column: 21, type: "Literal" },
             { message: "Extra space before value for key \'func2\'.", line: 8, column: 16, type: "FunctionExpression" },
             { message: "Extra space after key \'singleLine\'.", line: 11, column: 5, type: "Identifier" }
+        ]
+    }, {
+        code: [
+            "var obj = {",
+            "    key1: 1,",
+            "",
+            "    key2:    2,",
+            "    key3:    3,",
+            "",
+            "    key4: 4",
+            "}"
+        ].join("\n"),
+        options: [{
+            multiLine: {
+                beforeColon: false,
+                afterColon: true,
+                mode: "strict",
+                align: {
+                    beforeColon: false,
+                    afterColon: true,
+                    on: "colon",
+                }
+            }
+        }],
+        parserOptions: { ecmaVersion: 6, ecmaFeatures: { experimentalObjectRestSpread: true } },
+        errors: [
+            { message: "Extra space before value for key \'key2\'.", line: 4, column: 14, type: "Literal" },
+            { message: "Extra space before value for key \'key3\'.", line: 5, column: 14, type: "Literal" }
+        ]
+    }, {
+        code: [
+            "var obj = {",
+            "    key1: 1,",
+            "",
+            "    key2:    2,",
+            "    key3:    3,",
+            "",
+            "    key4: 4",
+            "}"
+        ].join("\n"),
+        options: [{
+            multiLine: {
+                beforeColon: false,
+                afterColon: true,
+                mode: "strict"
+            },
+            align: {
+                beforeColon: false,
+                afterColon: true,
+                on: "colon",
+            }
+        }],
+        parserOptions: { ecmaVersion: 6, ecmaFeatures: { experimentalObjectRestSpread: true } },
+        errors: [
+            { message: "Extra space before value for key \'key2\'.", line: 4, column: 14, type: "Literal" },
+            { message: "Extra space before value for key \'key3\'.", line: 5, column: 14, type: "Literal" }
         ]
     }]
 });
