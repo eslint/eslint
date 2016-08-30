@@ -29,7 +29,7 @@ function isTruthy(x) {
 
 ## When Not To Use It
 
-If your code is still very much in development and don't want to worry about stripping about `debugger` statements, then turn this rule off. You'll generally want to turn it back on when testing code prior to deployment.
+If your code is still very much in development and don't want to worry about stripping `debugger` statements, then turn this rule off. You'll generally want to turn it back on when testing code prior to deployment.
 
 ## Further Reading
 
