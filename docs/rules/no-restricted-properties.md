@@ -1,10 +1,10 @@
-# Disallow certain object properties (no-restricted-properties)
+# disallow certain object properties (no-restricted-properties)
 
-Certain properties on objects may be disallowed in a codebase. This is useful for deprecating an API or restricting usage of a module's methods. This rule looks for accessing a given property key on a given object name, either when reading the property's value or invoking it as a function. You may specify an optional message to indicate an alternative API or a reason for the restriction.
+Certain properties on objects may be disallowed in a codebase. This is useful for deprecating an API or restricting usage of a module's methods. For example, you may want to disallow using `describe.only` when using Mocha or telling people to use `Object.assign` instead of `_.extend`.
+
 
 ## Rule Details
-
-This rule is aimed at disallowing certain object properties from your code.
+This rule looks for accessing a given property key on a given object name, either when reading the property's value or invoking it as a function. You may specify an optional message to indicate an alternative API or a reason for the restriction.
 
 ### Options
 
@@ -38,7 +38,7 @@ Multiple object/property values can be disallowed, and you can specify an option
 }
 ```
 
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule:
 
 ```js
 /* eslint no-restricted-properties: [2, {
@@ -51,7 +51,7 @@ var example = disallowedObjectName.disallowedPropertyName; /*error Disallowed ob
 disallowedObjectName.disallowedPropertyName(); /*error Disallowed object property: disallowedObjectName.disallowedPropertyName.*/
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule:
 
 ```js
 /* eslint no-restricted-properties: [2, {

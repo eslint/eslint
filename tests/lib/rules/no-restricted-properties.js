@@ -1,7 +1,6 @@
 /**
  * @fileoverview Tests for no-restricted-properties rule.
- * @author Will Klein
- * @copyright 2016 Will Klein. All rights reserved.
+ * @author Will Klein & Eli White
  */
 
 "use strict";
