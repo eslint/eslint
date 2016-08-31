@@ -3821,6 +3821,16 @@ describe("eslint", function() {
             const parserFixtures = path.join(__dirname, "../fixtures/parsers"),
                 errorPrefix = "Parsing error: ";
 
+            it("should have file path passed to it", function() {
+                const code = "/* this is code */";
+                const parser = path.join(parserFixtures, "stub-parser.js");
+                const parseSpy = sinon.spy(require(parser), "parse");
+
+                eslint.verify(code, { parser }, filename, true);
+
+                sinon.assert.calledWithMatch(parseSpy, "", { filePath: filename });
+            });
+
             it("should not report an error when JSX code contains a spread operator and JSX is enabled", function() {
                 const code = "var myDivElement = <div {...this.props} />;";
                 const messages = eslint.verify(code, { parser: "esprima-fb" }, "filename");
