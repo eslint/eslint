@@ -85,6 +85,12 @@ ruleTester.run("no-fallthrough", rule, {
             options: [{
                 commentPattern: "break[\\s\\w]+omitted"
             }]
+        },
+        {
+            code: "switch(foo) { case 0:\n// We also need to handle 1\n case 1: b(); }",
+            options: [{
+                allowCommentBody: true
+            }]
         }
     ],
     invalid: [
@@ -166,6 +172,20 @@ ruleTester.run("no-fallthrough", rule, {
                     message: errorsDefault.message,
                     type: errorsDefault.type,
                     line: 4,
+                    column: 1
+                }
+            ]
+        },
+        {
+            code: "switch(foo) { case 0: a();\n // We also need to handle 1.\ncase 1: b(); }",
+            options: [{
+                allowCommentBody: true
+            }],
+            errors: [
+                {
+                    message: "Expected a 'break' statement before 'case'.",
+                    type: "SwitchCase",
+                    line: 3,
                     column: 1
                 }
             ]

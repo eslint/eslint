@@ -117,6 +117,14 @@ switch(foo) {
 }
 
 switch(foo) {
+    // We need to handle 1.
+    case 1:
+    // We also need to handle 2.
+    case 2:
+        doSomething();
+}
+
+switch(foo) {
     case 1:
         doSomething();
         // falls through
@@ -130,9 +138,10 @@ Note that the last `case` statement in these examples does not cause a warning b
 
 ## Options
 
-This rule accepts a single options argument:
+This rule accepts two options arguments:
 
 * Set the `commentPattern` option to a regular expression string to change the test for intentional fallthrough comment
+* Set the `allowCommentBody` to allow comments between multiple immediately falling-through cases
 
 ### commentPattern
 
@@ -156,6 +165,28 @@ switch(foo) {
         // caution: break is omitted intentionally
 
     default:
+        doSomething();
+}
+```
+
+### allowCommentBody
+
+Multiple cases with a single body are always allowed but placing comments between the cases is only allowed when this option is set to `true`.
+
+```js
+/*eslint no-fallthrough: ["error", { "allowCommentBody": true }]*/
+
+switch(foo) {
+    case 1:
+    case 2:
+        doSomething();
+}
+
+switch(foo) {
+    // We need to handle 1.
+    case 1:
+    // We also need to handle 2.
+    case 2:
         doSomething();
 }
 ```
