@@ -1,0 +1,6 @@
+{
+    "env": {
+        "mocha": true
+    },
+    "includes": ["*.spec.js", "**/*.spec.js"]
+}

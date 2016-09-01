@@ -1,0 +1,6 @@
+{
+    "rules": {
+        "quotes": [ 1, "double" ]
+    },
+    "includes": ["*.legacy.js", "**/*.legacy.js"]
+}
