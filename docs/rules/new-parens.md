@@ -16,6 +16,7 @@ Examples of **incorrect** code for this rule:
 /*eslint new-parens: "error"*/
 
 var person = new Person;
+var person = new (Person);
 ```
 
 Examples of **correct** code for this rule:
@@ -24,4 +25,5 @@ Examples of **correct** code for this rule:
 /*eslint new-parens: "error"*/
 
 var person = new Person();
+var person = new (Person)();
 ```
