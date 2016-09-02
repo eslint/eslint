@@ -20,11 +20,14 @@ const ruleTester = new RuleTester(),
     neverArgs = ["never"],
     functionsOnlyArgs = [ { functions: "always", keywords: "never", classes: "never" } ],
     keywordOnlyArgs = [ { functions: "never", keywords: "always", classes: "never" } ],
-    classesOnlyArgs = [ { functions: "never", keywords: "never", classes: "always" }],
+    classesOnlyArgs = [ { functions: "never", keywords: "never", classes: "always" } ],
+    alwaysArgsOneSpace = [ { disallowMultipleSpaces: true } ],
     expectedSpacingErrorMessage = "Missing space before opening brace.",
     expectedSpacingError = { message: expectedSpacingErrorMessage },
     expectedNoSpacingErrorMessage = "Unexpected space before opening brace.",
-    expectedNoSpacingError = { message: "Unexpected space before opening brace."};
+    expectedNoSpacingError = { message: "Unexpected space before opening brace."},
+    expectedOneSpaceErrorMessage = "More than one space before opening brace.",
+    expectedOneSpaceError = { message: expectedOneSpaceErrorMessage };
 
 ruleTester.run("space-before-blocks", rule, {
     valid: [
@@ -140,7 +143,10 @@ ruleTester.run("space-before-blocks", rule, {
         {code: "if(a) {}else{}"},
         {code: "if(a){}else {}", options: neverArgs},
         {code: "try {}catch(a){}", options: functionsOnlyArgs},
-        {code: "export default class{}", options: classesOnlyArgs, parserOptions: { sourceType: "module" }}
+        {code: "export default class{}", options: classesOnlyArgs, parserOptions: { sourceType: "module" }},
+
+        // https://github.com/eslint/eslint/issues/7023
+        {code: "function a() {}", options: alwaysArgsOneSpace}
     ],
     invalid: [
         {
@@ -427,6 +433,18 @@ ruleTester.run("space-before-blocks", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [ expectedNoSpacingError ],
             output: "class test{}"
+        },
+
+        // https://github.com/eslint/eslint/issues/7023
+        {
+            code: "function a()    {}",
+            options: alwaysArgsOneSpace,
+            errors: [ expectedOneSpaceError ]
+        },
+        {
+            code: "function a(){}",
+            options: alwaysArgsOneSpace,
+            errors: [ expectedSpacingError ]
         }
     ]
 });
