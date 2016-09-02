@@ -52,6 +52,12 @@ ruleTester.run("no-restricted-properties", rule, {
                 message: "Please use someObject.allowedProperty instead."
             }]
         }, {
+            code: "anotherObject['disallowedProperty']()",
+            options: [{
+                object: "someObject",
+                property: "disallowedProperty"
+            }]
+        }, {
             code: "obj.toString",
             options: [{
                 object: "obj",
