@@ -54,6 +54,24 @@ ruleTester.run("eol-last", rule, {
             options: ["windows"],
             errors: [{ message: "Newline required at end of file but not found.", type: "Program" }],
             output: "var a = 123;\r\n   \r\n"
+        },
+        {
+            code: "var a = 123;\n",
+            options: ["none"],
+            errors: [{ message: "Newline not allowed at end of file.", type: "Program" }],
+            output: "var a = 123;"
+        },
+        {
+            code: "var a = 123;\r\n",
+            options: ["none"],
+            errors: [{ message: "Newline not allowed at end of file.", type: "Program" }],
+            output: "var a = 123;"
+        },
+        {
+            code: "var a = 123;\r\n\r\n",
+            options: ["none"],
+            errors: [{ message: "Newline not allowed at end of file.", type: "Program" }],
+            output: "var a = 123;"
         }
     ]
 });

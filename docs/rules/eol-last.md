@@ -8,7 +8,8 @@ as output files to the terminal without interfering with shell prompts.
 
 ## Rule Details
 
-This rule requires at least one newline at the end of non-empty files.
+This rule enforces at least one newline (or absence thereof) at the end
+of non-empty files.
 
 Prior to v0.16.0 this rule also enforced that there was only a single line at
 the end of the file. If you still want this behaviour, consider enabling
@@ -32,8 +33,7 @@ Examples of **correct** code for this rule:
 
 function doSmth() {
   var foo = 2;
-}
-
+}\n
 ```
 
 ## Options
@@ -42,3 +42,4 @@ This rule has a string option:
 
 * `"unix"` (default) enforces line feed (LF) as newline
 * `"windows"` enforces carriage return line feed (CRLF) as newline
+* `"none"` enforces that the last line ends with neither LF nor CRLF as newline
