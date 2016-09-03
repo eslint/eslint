@@ -85,6 +85,21 @@ describe("Plugins", function() {
             assert.deepEqual(Rules.get("example/qux"), plugin.rules.qux);
         });
 
+        it("should throw an error when a plugin has whitespace", function() {
+            assert.throws(function() {
+                StubbedPlugins.load("whitespace ");
+            }, /Whitespace found in plugin name 'whitespace '/);
+            assert.throws(function() {
+                StubbedPlugins.load("whitespace\t");
+            }, /Whitespace found in plugin name/);
+            assert.throws(function() {
+                StubbedPlugins.load("whitespace\n");
+            }, /Whitespace found in plugin name/);
+            assert.throws(function() {
+                StubbedPlugins.load("whitespace\r");
+            }, /Whitespace found in plugin name/);
+        });
+
         it("should throw an error when a plugin doesn't exist", function() {
             assert.throws(function() {
                 StubbedPlugins.load("nonexistentplugin");
