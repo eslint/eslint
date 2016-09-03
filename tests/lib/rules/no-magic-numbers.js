@@ -56,9 +56,6 @@ ruleTester.run("no-magic-numbers", rule, {
             }]
         },
         {
-            code: "var min, max, mean; min = 1; max = 10; mean = 4;"
-        },
-        {
             code: "var foo = { bar:10 }"
         },
         {
@@ -232,6 +229,15 @@ ruleTester.run("no-magic-numbers", rule, {
                 { message: "No magic number: 1.", line: 1 },
                 { message: "No magic number: 2.", line: 1 },
                 { message: "No magic number: 3.", line: 1 }
+            ]
+        },
+        {
+            code: "var min, max, mean; min = 1; max = 10; mean = 4;",
+            options: [{}],
+            errors: [
+                {message: "No magic number: 1.", line: 1},
+                {message: "No magic number: 10.", line: 1},
+                {message: "No magic number: 4.", line: 1}
             ]
         }
     ]
