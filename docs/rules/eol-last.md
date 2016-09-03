@@ -1,4 +1,4 @@
-# Require file to end with single newline (eol-last)
+# Require or disallow file to end with single newline (eol-last)
 
 (fixable) The `--fix` option on the [command line](../user-guide/command-line-interface#fix) automatically fixes problems reported by this rule.
 
@@ -42,4 +42,4 @@ This rule has a string option:
 
 * `"unix"` (default) enforces line feed (LF) as newline
 * `"windows"` enforces carriage return line feed (CRLF) as newline
-* `"none"` enforces that the last line ends with neither LF nor CRLF as newline
+* `"none"` enforces that the last line does not end with a newline
