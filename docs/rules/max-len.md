@@ -23,6 +23,8 @@ This rule has a number or object option:
 * `"ignoreComments": true` ignores all trailing comments and comments on their own line
 * `"ignoreTrailingComments": true` ignores only trailing comments
 * `"ignoreUrls": true` ignores lines that contain a URL
+* `"ignoreStrings": true` ignores lines that contain a double-quoted or single-quoted string
+* `"ignoreTemplateLiterals": true` ignores lines that contain a template literal
 
 ### code
 
@@ -109,6 +111,26 @@ Examples of **correct** code for this rule with the `{ "ignoreUrls": true }` opt
 /*eslint max-len: ["error", { "ignoreUrls": true }]*/
 
 var url = 'https://www.example.com/really/really/really/really/really/really/really/long';
+```
+
+### ignoreStrings
+
+Examples of **correct** code for this rule with the `{ "ignoreStrings": true }` option:
+
+```js
+/*eslint max-len: ["error", { "ignoreStrings": true }]*/
+
+var longString = 'this is a really really really really really long string!';
+```
+
+### ignoreTemplateLiterals
+
+Examples of **correct** code for this rule with the `{ "ignoreTemplateLiterals": true }` option:
+
+```js
+/*eslint max-len: ["error", { "ignoreTemplateLiterals": true }]*/
+
+var longTemplateLiteral = `this is a really really really really really long template literal!`;
 ```
 
 ### ignorePattern
