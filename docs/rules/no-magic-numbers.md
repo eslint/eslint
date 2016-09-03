@@ -30,6 +30,14 @@ var data = ['foo', 'bar', 'baz'];
 var dataLast = data[2];
 ```
 
+```js
+/*eslint no-magic-numbers: "error"*/
+
+var SECONDS;
+
+SECONDS = 60;
+```
+
 Examples of **correct** code for this rule:
 
 ```js
