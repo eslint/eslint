@@ -29,7 +29,11 @@ ruleTester.run("eol-last", rule, {
         "\r\n",
         "var a = 123;\r\n",
         "var a = 123;\r\n\r\n",
-        "var a = 123;\r\n   \r\n"
+        "var a = 123;\r\n   \r\n",
+
+        { code: "var a = 123;", options: ["none"] },
+        { code: "var a = 123;\nvar b = 456;", options: ["none"] },
+        { code: "var a = 123;\r\nvar b = 456;", options: ["none"] }
     ],
 
     invalid: [
@@ -72,6 +76,18 @@ ruleTester.run("eol-last", rule, {
             options: ["none"],
             errors: [{ message: "Newline not allowed at end of file.", type: "Program" }],
             output: "var a = 123;"
+        },
+        {
+            code: "var a = 123;\nvar b = 456;\n",
+            options: ["none"],
+            errors: [{ message: "Newline not allowed at end of file.", type: "Program" }],
+            output: "var a = 123;\nvar b = 456;"
+        },
+        {
+            code: "var a = 123;\r\nvar b = 456;\r\n",
+            options: ["none"],
+            errors: [{ message: "Newline not allowed at end of file.", type: "Program" }],
+            output: "var a = 123;\r\nvar b = 456;"
         }
     ]
 });
