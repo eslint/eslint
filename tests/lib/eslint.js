@@ -937,6 +937,25 @@ describe("eslint", function() {
             assert.equal(messages[0].message, "message yay!");
         });
 
+        it("should allow template parameter wrapped in braces", function() {
+            eslint.reset();
+            eslint.defineRule("test-rule", function(context) {
+                return {
+                    Literal(node) {
+                        context.report(node, "message {{{param}}}", {
+                            param: "yay!"
+                        });
+                    }
+                };
+            });
+
+            config.rules["test-rule"] = 1;
+
+            const messages = eslint.verify("0", config);
+
+            assert.equal(messages[0].message, "message {yay!}");
+        });
+
         it("should ignore template parameter with no specified value", function() {
             eslint.reset();
             eslint.defineRule("test-rule", function(context) {
