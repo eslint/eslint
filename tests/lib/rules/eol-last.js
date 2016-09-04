@@ -206,16 +206,16 @@ ruleTester.run("eol-last", rule, {
             output: "var a = 123;"
         },
         {
-            code: "var a = 123;\nvar a = 456;\n",
+            code: "var a = 123;\nvar b = 456;\n",
             options: ["never"],
             errors: [{ message: "Newline not allowed at end of file.", type: "Program" }],
-            output: "var a = 123;\nvar a = 456;"
+            output: "var a = 123;\nvar b = 456;"
         },
         {
-            code: "var a = 123;\r\nvar a = 456;\r\n",
+            code: "var a = 123;\r\nvar b = 456;\r\n",
             options: ["never"],
             errors: [{ message: "Newline not allowed at end of file.", type: "Program" }],
-            output: "var a = 123;\r\nvar a = 456;"
+            output: "var a = 123;\r\nvar b = 456;"
         }
     ]
 });
