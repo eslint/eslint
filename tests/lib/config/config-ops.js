@@ -785,7 +785,7 @@ describe("ConfigOps", function() {
             [[2, "baz"], true]
         ], function(input, expected) {
 
-            it("should return " + expected + "when passed " + input, function() {
+            it(`should return ${expected}when passed ${input}`, function() {
                 const result = ConfigOps.isErrorSeverity(input);
 
                 assert.equal(result, expected);
