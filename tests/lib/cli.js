@@ -79,7 +79,7 @@ describe("cli", function() {
 
     // copy into clean area so as not to get "infected" by this project's .eslintrc files
     before(function() {
-        fixtureDir = os.tmpdir() + "/eslint/fixtures";
+        fixtureDir = `${os.tmpdir()}/eslint/fixtures`;
         sh.mkdir("-p", fixtureDir);
         sh.cp("-r", "./tests/fixtures/.", fixtureDir);
     });
@@ -96,21 +96,21 @@ describe("cli", function() {
     describe("execute()", function() {
         it("should return error when text with incorrect quotes is passed as argument", function() {
             const configFile = getFixturePath("configurations", "quotes-error.json");
-            const result = cli.execute("-c " + configFile, "var foo = 'bar';");
+            const result = cli.execute(`-c ${configFile}`, "var foo = 'bar';");
 
             assert.equal(result, 1);
         });
 
         it("should return no error when --ext .js2 is specified", function() {
             const filePath = getFixturePath("files");
-            const result = cli.execute("--ext .js2 " + filePath);
+            const result = cli.execute(`--ext .js2 ${filePath}`);
 
             assert.equal(result, 0);
         });
 
         it("should exit with console error when passed unsupported arguments", function() {
             const filePath = getFixturePath("files");
-            const result = cli.execute("--blah --another " + filePath);
+            const result = cli.execute(`--blah --another ${filePath}`);
 
             assert.equal(result, 1);
         });
@@ -123,7 +123,7 @@ describe("cli", function() {
             const filePath = getFixturePath("passing.js");
 
             assert.doesNotThrow(function() {
-                cli.execute("--config " + configPath + " " + filePath);
+                cli.execute(`--config ${configPath} ${filePath}`);
             });
         });
     });
@@ -150,7 +150,7 @@ describe("cli", function() {
         it("should exit with an error status (1)", function() {
             const configPath = getFixturePath("configurations", "quotes-error.json");
             const filePath = getFixturePath("single-quoted.js");
-            const code = "--no-ignore --config " + configPath + " " + filePath;
+            const code = `--no-ignore --config ${configPath} ${filePath}`;
 
             const exitStatus = cli.execute(code);
 
@@ -162,7 +162,7 @@ describe("cli", function() {
         it("should load and execute without error", function() {
             const configPath = getFixturePath("configurations", "semi-error.json");
             const filePath = getFixturePath("formatters");
-            const code = "--config " + configPath + " " + filePath;
+            const code = `--config ${configPath} ${filePath}`;
 
             let exitStatus;
 
@@ -178,7 +178,7 @@ describe("cli", function() {
         it("should execute without any errors", function() {
             const configPath = getFixturePath("configurations", "env-browser.json");
             const filePath = getFixturePath("globals-browser.js");
-            const code = "--config " + configPath + " " + filePath;
+            const code = `--config ${configPath} ${filePath}`;
 
             const exit = cli.execute(code);
 
@@ -190,7 +190,7 @@ describe("cli", function() {
         it("should execute without any errors", function() {
             const configPath = getFixturePath("configurations", "env-node.json");
             const filePath = getFixturePath("globals-node.js");
-            const code = "--config " + configPath + " " + filePath;
+            const code = `--config ${configPath} ${filePath}`;
 
             const exit = cli.execute(code);
 
@@ -202,7 +202,7 @@ describe("cli", function() {
         it("should execute without any errors", function() {
             const configPath = getFixturePath("configurations", "env-nashorn.json");
             const filePath = getFixturePath("globals-nashorn.js");
-            const code = "--config " + configPath + " " + filePath;
+            const code = `--config ${configPath} ${filePath}`;
 
             const exit = cli.execute(code);
 
@@ -214,7 +214,7 @@ describe("cli", function() {
         it("should execute without any errors", function() {
             const configPath = getFixturePath("configurations", "env-webextensions.json");
             const filePath = getFixturePath("globals-webextensions.js");
-            const code = "--config " + configPath + " " + filePath;
+            const code = `--config ${configPath} ${filePath}`;
 
             const exit = cli.execute(code);
 
@@ -225,7 +225,7 @@ describe("cli", function() {
     describe("when given a valid built-in formatter name", function() {
         it("should execute without any errors", function() {
             const filePath = getFixturePath("passing.js");
-            const exit = cli.execute("-f checkstyle " + filePath);
+            const exit = cli.execute(`-f checkstyle ${filePath}`);
 
             assert.equal(exit, 0);
         });
@@ -234,7 +234,7 @@ describe("cli", function() {
     describe("when given an invalid built-in formatter name", function() {
         it("should execute with error", function() {
             const filePath = getFixturePath("passing.js");
-            const exit = cli.execute("-f fakeformatter " + filePath);
+            const exit = cli.execute(`-f fakeformatter ${filePath}`);
 
             assert.equal(exit, 1);
         });
@@ -244,7 +244,7 @@ describe("cli", function() {
         it("should execute without any errors", function() {
             const formatterPath = getFixturePath("formatters", "simple.js");
             const filePath = getFixturePath("passing.js");
-            const exit = cli.execute("-f " + formatterPath + " " + filePath);
+            const exit = cli.execute(`-f ${formatterPath} ${filePath}`);
 
             assert.equal(exit, 0);
         });
@@ -254,7 +254,7 @@ describe("cli", function() {
         it("should execute with error", function() {
             const formatterPath = getFixturePath("formatters", "file-does-not-exist.js");
             const filePath = getFixturePath("passing.js");
-            const exit = cli.execute("-f " + formatterPath + " " + filePath);
+            const exit = cli.execute(`-f ${formatterPath} ${filePath}`);
 
             assert.equal(exit, 1);
         });
@@ -263,7 +263,7 @@ describe("cli", function() {
     describe("when executing a file with a lint error", function() {
         it("should exit with error", function() {
             const filePath = getFixturePath("undef.js");
-            const code = "--no-ignore --config --rule no-undef:2 " + filePath;
+            const code = `--no-ignore --config --rule no-undef:2 ${filePath}`;
 
             const exit = cli.execute(code);
 
@@ -274,7 +274,7 @@ describe("cli", function() {
     describe("when executing a file with a syntax error", function() {
         it("should exit with error", function() {
             const filePath = getFixturePath("syntax-error.js");
-            const exit = cli.execute("--no-ignore " + filePath);
+            const exit = cli.execute(`--no-ignore ${filePath}`);
 
             assert.equal(exit, 1);
         });
@@ -285,13 +285,13 @@ describe("cli", function() {
             const filePath = getFixturePath("missing-semicolon.js");
             const passingPath = getFixturePath("passing.js");
 
-            cli.execute("--no-ignore --rule semi:2 " + filePath);
+            cli.execute(`--no-ignore --rule semi:2 ${filePath}`);
 
             assert.isTrue(log.info.called, "Log should have been called.");
 
             log.info.reset();
 
-            cli.execute("--no-ignore --rule semi:2 " + passingPath);
+            cli.execute(`--no-ignore --rule semi:2 ${passingPath}`);
             assert.isTrue(log.info.notCalled);
 
         });
@@ -317,7 +317,7 @@ describe("cli", function() {
         it("should not process any files", function() {
             const ignorePath = getFixturePath(".eslintignore");
             const filePath = getFixturePath(".");
-            const exit = cli.execute("--ignore-path " + ignorePath + " " + filePath);
+            const exit = cli.execute(`--ignore-path ${ignorePath} ${filePath}`);
 
             assert.isTrue(log.info.notCalled);
             assert.equal(exit, 0);
@@ -329,7 +329,7 @@ describe("cli", function() {
         it("should not process the file", function() {
             const ignorePath = getFixturePath(".eslintignore");
             const filePath = getFixturePath("passing.js");
-            const exit = cli.execute("--ignore-path " + ignorePath + " " + filePath);
+            const exit = cli.execute(`--ignore-path ${ignorePath} ${filePath}`);
 
             // a warning about the ignored file
             assert.isTrue(log.info.called);
@@ -339,7 +339,7 @@ describe("cli", function() {
         it("should process the file when forced", function() {
             const ignorePath = getFixturePath(".eslintignore");
             const filePath = getFixturePath("passing.js");
-            const exit = cli.execute("--ignore-path " + ignorePath + " --no-ignore " + filePath);
+            const exit = cli.execute(`--ignore-path ${ignorePath} --no-ignore ${filePath}`);
 
             // no warnings
             assert.isFalse(log.info.called);
@@ -351,7 +351,7 @@ describe("cli", function() {
         it("should not process any files", function() {
             const ignoredFile = getFixturePath("cli/syntax-error.js");
             const filePath = getFixturePath("cli/passing.js");
-            const exit = cli.execute("--ignore-pattern cli/ " + ignoredFile + " " + filePath);
+            const exit = cli.execute(`--ignore-pattern cli/ ${ignoredFile} ${filePath}`);
 
             // warnings about the ignored files
             assert.isTrue(log.info.called);
@@ -364,7 +364,7 @@ describe("cli", function() {
             const ignorePaths = ["a", "b"];
 
             const cmd = ignorePaths.map(function(ignorePath) {
-                return "--ignore-pattern " + ignorePath;
+                return `--ignore-pattern ${ignorePath}`;
             }).concat(".").join(" ");
 
             const opts = {
@@ -379,7 +379,7 @@ describe("cli", function() {
 
         it("should execute without error", function() {
             const filePath = getFixturePath("shebang.js");
-            const exit = cli.execute("--no-ignore " + filePath);
+            const exit = cli.execute(`--no-ignore ${filePath}`);
 
             assert.equal(exit, 0);
         });
@@ -391,7 +391,7 @@ describe("cli", function() {
             const rulesPath = getFixturePath("rules", "wrong");
             const configPath = getFixturePath("rules", "eslint.json");
             const filePath = getFixturePath("rules", "test", "test-custom-rule.js");
-            const code = "--rulesdir " + rulesPath + " --config " + configPath + " --no-ignore " + filePath;
+            const code = `--rulesdir ${rulesPath} --config ${configPath} --no-ignore ${filePath}`;
 
             assert.throws(function() {
                 const exit = cli.execute(code);
@@ -404,7 +404,7 @@ describe("cli", function() {
             const rulesPath = getFixturePath("rules");
             const configPath = getFixturePath("rules", "eslint.json");
             const filePath = getFixturePath("rules", "test", "test-custom-rule.js");
-            const code = "--rulesdir " + rulesPath + " --config " + configPath + " --no-ignore " + filePath;
+            const code = `--rulesdir ${rulesPath} --config ${configPath} --no-ignore ${filePath}`;
 
             cli.execute(code);
 
@@ -417,7 +417,7 @@ describe("cli", function() {
             const rulesPath2 = getFixturePath("rules", "dir2");
             const configPath = getFixturePath("rules", "multi-rulesdirs.json");
             const filePath = getFixturePath("rules", "test-multi-rulesdirs.js");
-            const code = "--rulesdir " + rulesPath + " --rulesdir " + rulesPath2 + " --config " + configPath + " --no-ignore " + filePath;
+            const code = `--rulesdir ${rulesPath} --rulesdir ${rulesPath2} --config ${configPath} --no-ignore ${filePath}`;
             const exit = cli.execute(code);
 
             const call = log.info.getCall(0);
@@ -436,7 +436,7 @@ describe("cli", function() {
     describe("when executing with no-eslintrc flag", function() {
         it("should ignore a local config file", function() {
             const filePath = getFixturePath("eslintrc", "quotes.js");
-            const exit = cli.execute("--no-eslintrc --no-ignore " + filePath);
+            const exit = cli.execute(`--no-eslintrc --no-ignore ${filePath}`);
 
             assert.isTrue(log.info.notCalled);
             assert.equal(exit, 0);
@@ -446,7 +446,7 @@ describe("cli", function() {
     describe("when executing without no-eslintrc flag", function() {
         it("should load a local config file", function() {
             const filePath = getFixturePath("eslintrc", "quotes.js");
-            const exit = cli.execute("--no-ignore " + filePath);
+            const exit = cli.execute(`--no-ignore ${filePath}`);
 
             assert.isTrue(log.info.calledOnce);
             assert.equal(exit, 1);
@@ -460,7 +460,7 @@ describe("cli", function() {
                 getFixturePath("globals-node.js")
             ];
 
-            cli.execute("--no-eslintrc --config ./conf/eslint.json --no-ignore " + files.join(" "));
+            cli.execute(`--no-eslintrc --config ./conf/eslint.json --no-ignore ${files.join(" ")}`);
 
             assert.equal(log.info.args[0][0].split("\n").length, 11);
         });
@@ -469,7 +469,7 @@ describe("cli", function() {
     describe("when executing with global flag", function() {
         it("should default defined variables to read-only", function() {
             const filePath = getFixturePath("undef.js");
-            const exit = cli.execute("--global baz,bat --no-ignore --rule no-global-assign:2 " + filePath);
+            const exit = cli.execute(`--global baz,bat --no-ignore --rule no-global-assign:2 ${filePath}`);
 
             assert.isTrue(log.info.calledOnce);
             assert.equal(exit, 1);
@@ -477,7 +477,7 @@ describe("cli", function() {
 
         it("should allow defining writable global variables", function() {
             const filePath = getFixturePath("undef.js");
-            const exit = cli.execute("--global baz:false,bat:true --no-ignore " + filePath);
+            const exit = cli.execute(`--global baz:false,bat:true --no-ignore ${filePath}`);
 
             assert.isTrue(log.info.notCalled);
             assert.equal(exit, 0);
@@ -485,7 +485,7 @@ describe("cli", function() {
 
         it("should allow defining variables with multiple flags", function() {
             const filePath = getFixturePath("undef.js");
-            const exit = cli.execute("--global baz --global bat:true --no-ignore " + filePath);
+            const exit = cli.execute(`--global baz --global bat:true --no-ignore ${filePath}`);
 
             assert.isTrue(log.info.notCalled);
             assert.equal(exit, 0);
@@ -495,7 +495,7 @@ describe("cli", function() {
     describe("when supplied with rule flag and severity level set to error", function() {
         it("should exit with an error status (2)", function() {
             const filePath = getFixturePath("single-quoted.js");
-            const code = "--no-ignore --rule 'quotes: [2, double]' " + filePath;
+            const code = `--no-ignore --rule 'quotes: [2, double]' ${filePath}`;
             const exitStatus = cli.execute(code);
 
             assert.equal(exitStatus, 1);
@@ -506,7 +506,7 @@ describe("cli", function() {
 
         it("should only print error", function() {
             const filePath = getFixturePath("single-quoted.js");
-            const cliArgs = "--no-ignore --quiet  -f compact --rule 'quotes: [2, double]' --rule 'no-unused-vars: 1' " + filePath;
+            const cliArgs = `--no-ignore --quiet  -f compact --rule 'quotes: [2, double]' --rule 'no-unused-vars: 1' ${filePath}`;
 
             cli.execute(cliArgs);
 
@@ -520,7 +520,7 @@ describe("cli", function() {
 
         it("should print nothing if there are no errors", function() {
             const filePath = getFixturePath("single-quoted.js");
-            const cliArgs = "--quiet  -f compact --rule 'quotes: [1, double]' --rule 'no-unused-vars: 1' " + filePath;
+            const cliArgs = `--quiet  -f compact --rule 'quotes: [1, double]' --rule 'no-unused-vars: 1' ${filePath}`;
 
             cli.execute(cliArgs);
 
@@ -536,7 +536,7 @@ describe("cli", function() {
 
         it("should write the file and create dirs if they don't exist", function() {
             const filePath = getFixturePath("single-quoted.js");
-            const code = "--no-ignore --rule 'quotes: [1, double]' --o tests/output/eslint-output.txt " + filePath;
+            const code = `--no-ignore --rule 'quotes: [1, double]' --o tests/output/eslint-output.txt ${filePath}`;
 
             cli.execute(code);
 
@@ -546,7 +546,7 @@ describe("cli", function() {
 
         it("should return an error if the path is a directory", function() {
             const filePath = getFixturePath("single-quoted.js");
-            const code = "--no-ignore --rule 'quotes: [1, double]' --o tests/output " + filePath;
+            const code = `--no-ignore --rule 'quotes: [1, double]' --o tests/output ${filePath}`;
 
             fs.mkdirSync("tests/output");
 
@@ -559,7 +559,7 @@ describe("cli", function() {
 
         it("should return an error if the path could not be written to", function() {
             const filePath = getFixturePath("single-quoted.js");
-            const code = "--no-ignore --rule 'quotes: [1, double]' --o tests/output/eslint-output.txt " + filePath;
+            const code = `--no-ignore --rule 'quotes: [1, double]' --o tests/output/eslint-output.txt ${filePath}`;
 
             fs.writeFileSync("tests/output", "foo");
 
@@ -576,7 +576,7 @@ describe("cli", function() {
         it("should pass plugins to CLIEngine", function() {
             const examplePluginName = "eslint-plugin-example";
 
-            verifyCLIEngineOpts("--no-ignore --plugin " + examplePluginName + " foo.js", {
+            verifyCLIEngineOpts(`--no-ignore --plugin ${examplePluginName} foo.js`, {
                 plugins: [examplePluginName]
             });
         });
@@ -586,14 +586,14 @@ describe("cli", function() {
     describe("when given an parser name", function() {
         it("should exit with error if parser is invalid", function() {
             const filePath = getFixturePath("passing.js");
-            const exit = cli.execute("--no-ignore --parser test111 " + filePath);
+            const exit = cli.execute(`--no-ignore --parser test111 ${filePath}`);
 
             assert.equal(exit, 1);
         });
 
         it("should exit with no error if parser is valid", function() {
             const filePath = getFixturePath("passing.js");
-            const exit = cli.execute("--no-ignore --parser espree " + filePath);
+            const exit = cli.execute(`--no-ignore --parser espree ${filePath}`);
 
             assert.equal(exit, 0);
         });
@@ -602,28 +602,28 @@ describe("cli", function() {
     describe("when given parser options", function() {
         it("should exit with error if parser options are invalid", function() {
             const filePath = getFixturePath("passing.js");
-            const exit = cli.execute("--no-ignore --parser-options test111 " + filePath);
+            const exit = cli.execute(`--no-ignore --parser-options test111 ${filePath}`);
 
             assert.equal(exit, 1);
         });
 
         it("should exit with no error if parser is valid", function() {
             const filePath = getFixturePath("passing.js");
-            const exit = cli.execute("--no-ignore --parser-options=ecmaVersion:6 " + filePath);
+            const exit = cli.execute(`--no-ignore --parser-options=ecmaVersion:6 ${filePath}`);
 
             assert.equal(exit, 0);
         });
 
         it("should exit with an error on ecmaVersion 7 feature in ecmaVersion 6", function() {
             const filePath = getFixturePath("passing-es7.js");
-            const exit = cli.execute("--no-ignore --parser-options=ecmaVersion:6 " + filePath);
+            const exit = cli.execute(`--no-ignore --parser-options=ecmaVersion:6 ${filePath}`);
 
             assert.equal(exit, 1);
         });
 
         it("should exit with no error on ecmaVersion 7 feature in ecmaVersion 7", function() {
             const filePath = getFixturePath("passing-es7.js");
-            const exit = cli.execute("--no-ignore --parser-options=ecmaVersion:7 " + filePath);
+            const exit = cli.execute(`--no-ignore --parser-options=ecmaVersion:7 ${filePath}`);
 
             assert.equal(exit, 0);
         });
@@ -631,7 +631,7 @@ describe("cli", function() {
         it("should exit with no error on ecmaVersion 7 feature with config ecmaVersion 6 and command line ecmaVersion 7", function() {
             const configPath = getFixturePath("configurations", "es6.json");
             const filePath = getFixturePath("passing-es7.js");
-            const exit = cli.execute("--no-ignore --config " + configPath + " --parser-options=ecmaVersion:7 " + filePath);
+            const exit = cli.execute(`--no-ignore --config ${configPath} --parser-options=ecmaVersion:7 ${filePath}`);
 
             assert.equal(exit, 0);
         });
@@ -640,14 +640,14 @@ describe("cli", function() {
     describe("when given the max-warnings flag", function() {
         it("should not change exit code if warning count under threshold", function() {
             const filePath = getFixturePath("max-warnings");
-            const exitCode = cli.execute("--no-ignore --max-warnings 10 " + filePath);
+            const exitCode = cli.execute(`--no-ignore --max-warnings 10 ${filePath}`);
 
             assert.equal(exitCode, 0);
         });
 
         it("should exit with exit code 1 if warning count exceeds threshold", function() {
             const filePath = getFixturePath("max-warnings");
-            const exitCode = cli.execute("--no-ignore --max-warnings 5 " + filePath);
+            const exitCode = cli.execute(`--no-ignore --max-warnings 5 ${filePath}`);
 
             assert.equal(exitCode, 1);
             assert.ok(log.error.calledOnce);
@@ -656,7 +656,7 @@ describe("cli", function() {
 
         it("should not change exit code if warning count equals threshold", function() {
             const filePath = getFixturePath("max-warnings");
-            const exitCode = cli.execute("--no-ignore --max-warnings 6 " + filePath);
+            const exitCode = cli.execute(`--no-ignore --max-warnings 6 ${filePath}`);
 
             assert.equal(exitCode, 0);
         });
@@ -874,7 +874,7 @@ describe("cli", function() {
         it("should print out the configuration", function() {
             const filePath = getFixturePath("files");
 
-            const exitCode = cli.execute("--print-config " + filePath);
+            const exitCode = cli.execute(`--print-config ${filePath}`);
 
             assert.isTrue(log.info.calledOnce);
             assert.equal(exitCode, 0);
@@ -884,7 +884,7 @@ describe("cli", function() {
             const filePath1 = getFixturePath("files", "bar.js");
             const filePath2 = getFixturePath("files", "foo.js");
 
-            const exitCode = cli.execute("--print-config " + filePath1 + " " + filePath2);
+            const exitCode = cli.execute(`--print-config ${filePath1} ${filePath2}`);
 
             assert.isTrue(log.info.notCalled);
             assert.isTrue(log.error.calledOnce);

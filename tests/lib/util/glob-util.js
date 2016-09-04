@@ -40,7 +40,7 @@ function getFixturePath() {
 describe("globUtil", function() {
 
     before(function() {
-        fixtureDir = os.tmpdir() + "/eslint/tests/fixtures/";
+        fixtureDir = `${os.tmpdir()}/eslint/tests/fixtures/`;
         sh.mkdir("-p", fixtureDir);
         sh.cp("-r", "./tests/fixtures/", fixtureDir);
     });
@@ -67,7 +67,7 @@ describe("globUtil", function() {
                 cwd: getFixturePath("glob-util")
             };
             const result = globUtil.resolveFileGlobPatterns(patterns, opts);
-            const expected = [getFixturePath("glob-util", "one-js-file").replace(/\\/g, "/") + "/**/*.js"];
+            const expected = [`${getFixturePath("glob-util", "one-js-file").replace(/\\/g, "/")}/**/*.js`];
 
             assert.deepEqual(result, expected);
         });
