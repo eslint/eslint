@@ -43,7 +43,9 @@ This rule has a string option:
 * `"always"` (default) enforces that files end with a newline
 * `"never"` enforces that files do not end with a newline
 
+**Deprecated:** The string options `"windows"` and `"unix"` are deprecated. Please use the `style` property in the object option instead.
+
 This rule has an object option to adjust the behavior of the `"always"` option:
 
-* `"unix"` (default) enforces line feed (LF) as newline
-* `"windows"` enforces carriage return line feed (CRLF) as newline
+* `"style": "unix"` (default) enforces a line feed (LF) as newline
+* `"style": "windows"` enforces a carriage return line feed (CRLF) as newline
