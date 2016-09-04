@@ -111,6 +111,11 @@ ruleTester.run("newline-before-return", rule, {
 
     invalid: [
         {
+            code: "function a() {\nvar b; return;\n}",
+            errors: ["Expected newline before return statement."],
+            output: "function a() {\nvar b; \nreturn;\n}"
+        },
+        {
             code: "function a() {\nvar b;\nreturn;\n}",
             errors: ["Expected newline before return statement."],
             output: "function a() {\nvar b;\n\nreturn;\n}"
@@ -174,7 +179,7 @@ ruleTester.run("newline-before-return", rule, {
         {
             code: "function a() {\nif (b) { return; } /*multi-line\ncomment*/ return c;\n}",
             errors: ["Expected newline before return statement."],
-            output: "function a() {\nif (b) { return; } /*multi-line\ncomment*/ \nreturn c;\n}"
+            output: "function a() {\nif (b) { return; } /*multi-line\ncomment*/ return c;\n}"
         },
         {
             code: "var a;\nreturn;",
@@ -196,6 +201,59 @@ ruleTester.run("newline-before-return", rule, {
             code: "function a() {\nfor (var b; b < c; b++) {\nif (d) {\nbreak; //comment\n}\nreturn;\n}\n}",
             errors: ["Expected newline before return statement."],
             output: "function a() {\nfor (var b; b < c; b++) {\nif (d) {\nbreak; //comment\n}\n\nreturn;\n}\n}"
+        },
+
+        // Testing edge cases of the fixer when the `return` statement has leading comments.
+        // https://github.com/eslint/eslint/issues/5958
+        {
+            code: "function a() {\nvar b; /*multi-line\ncomment*/\nreturn c;\n}",
+            errors: ["Expected newline before return statement."],
+            output: "function a() {\nvar b; /*multi-line\ncomment*/\nreturn c;\n}"
+        },
+        {
+            code: "function a() {\nvar b;\n/*multi-line\ncomment*/ return c;\n}",
+            errors: ["Expected newline before return statement."],
+            output: "function a() {\nvar b;\n/*multi-line\ncomment*/ return c;\n}"
+        },
+        {
+            code: "function a() {\nvar b; /*multi-line\ncomment*/ return c;\n}",
+            errors: ["Expected newline before return statement."],
+            output: "function a() {\nvar b; /*multi-line\ncomment*/ return c;\n}"
+        },
+        {
+            code: "function a() {\nvar b;\n//comment\nreturn;\n}",
+            errors: ["Expected newline before return statement."],
+            output: "function a() {\nvar b;\n//comment\nreturn;\n}"
+        },
+        {
+            code: "function a() {\nvar b; //comment\nreturn;\n}",
+            errors: ["Expected newline before return statement."],
+            output: "function a() {\nvar b; //comment\n\nreturn;\n}"
+        },
+        {
+            code: "function a() {\nvar b;\n/* comment */ return;\n}",
+            errors: ["Expected newline before return statement."],
+            output: "function a() {\nvar b;\n/* comment */ return;\n}"
+        },
+        {
+            code: "function a() {\nvar b;\n//comment\n/* comment */ return;\n}",
+            errors: ["Expected newline before return statement."],
+            output: "function a() {\nvar b;\n//comment\n/* comment */ return;\n}"
+        },
+        {
+            code: "function a() {\nvar b; /* comment */ return;\n}",
+            errors: ["Expected newline before return statement."],
+            output: "function a() {\nvar b; /* comment */ return;\n}"
+        },
+        {
+            code: "function a() {\nvar b; /* comment */\nreturn;\n}",
+            errors: ["Expected newline before return statement."],
+            output: "function a() {\nvar b; /* comment */\n\nreturn;\n}"
+        },
+        {
+            code: "function a() {\nvar b;\nreturn; //comment\n}",
+            errors: ["Expected newline before return statement."],
+            output: "function a() {\nvar b;\n\nreturn; //comment\n}"
         }
     ]
 });
