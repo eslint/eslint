@@ -113,7 +113,7 @@ ruleTester.run("newline-before-return", rule, {
         {
             code: "function a() {\nvar b; return;\n}",
             errors: ["Expected newline before return statement."],
-            output: "function a() {\nvar b; \nreturn;\n}"
+            output: "function a() {\nvar b; \n\nreturn;\n}"
         },
         {
             code: "function a() {\nvar b;\nreturn;\n}",
@@ -124,6 +124,11 @@ ruleTester.run("newline-before-return", rule, {
             code: "function a() {\nif (b) return b;\nelse if (c) return c;\nelse {\ne();\nreturn d;\n}\n}",
             errors: ["Expected newline before return statement."],
             output: "function a() {\nif (b) return b;\nelse if (c) return c;\nelse {\ne();\n\nreturn d;\n}\n}"
+        },
+        {
+            code: "function a() {\nif (b) return b;\nelse if (c) return c;\nelse {\ne(); return d;\n}\n}",
+            errors: ["Expected newline before return statement."],
+            output: "function a() {\nif (b) return b;\nelse if (c) return c;\nelse {\ne(); \n\nreturn d;\n}\n}"
         },
         {
             code: "function a() {\n while (b) {\nc();\nreturn;\n}\n}",
@@ -188,9 +193,20 @@ ruleTester.run("newline-before-return", rule, {
             output: "var a;\n\nreturn;"
         },
         {
+            code: "var a; return;",
+            parserOptions: { ecmaFeatures: { globalReturn: true } },
+            errors: ["Expected newline before return statement."],
+            output: "var a; \n\nreturn;"
+        },
+        {
             code: "function a() {\n{\n//comment\n}\nreturn\n}",
             errors: ["Expected newline before return statement."],
             output: "function a() {\n{\n//comment\n}\n\nreturn\n}"
+        },
+        {
+            code: "function a() {\n{\n//comment\n} return\n}",
+            errors: ["Expected newline before return statement."],
+            output: "function a() {\n{\n//comment\n} \n\nreturn\n}"
         },
         {
             code: "function a() {\nvar c;\nwhile (b) {\n c = d; //comment\n}\nreturn c;\n}",
@@ -254,6 +270,11 @@ ruleTester.run("newline-before-return", rule, {
             code: "function a() {\nvar b;\nreturn; //comment\n}",
             errors: ["Expected newline before return statement."],
             output: "function a() {\nvar b;\n\nreturn; //comment\n}"
+        },
+        {
+            code: "function a() {\nvar b; return; //comment\n}",
+            errors: ["Expected newline before return statement."],
+            output: "function a() {\nvar b; \n\nreturn; //comment\n}"
         }
     ]
 });
