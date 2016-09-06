@@ -74,6 +74,12 @@ This rule has an object option:
 * `"VariableDeclarator"` (default: 1) enforces indentation level for `var` declarators; can also take an object to define separate rules for `var`, `let` and `const` declarations.
 * `"outerIIFEBody"` (default: 1) enforces indentation level for file-level IIFEs.
 * `"MemberExpression"` (off by default) enforces indentation level for multi-line property chains (except in variable declarations and assignments)
+* `"FunctionDeclaration"` takes an object to define rules for function declarations.
+    * `parameters` (off by default) enforces indentation level for parameters in a function declaration. This can either be a number indicating indentation level, or the string `"first"` indicating that all parameters of the declaration must be aligned with the first parameter.
+    * `body` (default: 1) enforces indentation level for the body of a function declaration.
+* `"FunctionExpression"` takes an object to define rules for function expressions.
+    * `parameters` (off by default) enforces indentation level for parameters in a function expression. This can either be a number indicating indentation level, or the string `"first"` indicating that all parameters of the expression must be aligned with the first parameter.
+    * `body` (default: 1) enforces indentation level for the body of a function expression.
 
 Level of indentation denotes the multiple of the indent specified. Example:
 
@@ -279,6 +285,102 @@ foo
 // Any indentation is permitted in variable declarations and assignments.
 var bip = aardvark.badger
                   .coyote;
+```
+
+### FunctionDeclaration
+
+Examples of **incorrect** code for this rule with the `2, { "FunctionDeclaration": {"body": 1, "parameters": 2} }` option:
+
+```js
+/*eslint indent: ["error", 2, { "FunctionDeclaration": {"body": 1, "parameters": 2} }]*/
+
+function foo(bar,
+  baz,
+  qux) {
+    qux();
+}
+```
+
+Examples of **correct** code for this rule with the `2, { "FunctionDeclaration": {"body": 1, "parameters": 2} }` option:
+
+```js
+/*eslint indent: ["error", 2, { "FunctionDeclaration": {"body": 1, "parameters": 2} }]*/
+
+function foo(bar,
+    baz,
+    qux) {
+  qux();
+}
+```
+
+Examples of **incorrect** code for this rule with the `2, { "FunctionDeclaration": {"parameters": "first"} }` option:
+
+```js
+/*eslint indent: ["error", 2, {"FunctionDeclaration": {"parameters": "first"}}]*/
+
+function foo(bar, baz,
+  qux, boop) {
+  qux();
+}
+```
+
+Examples of **correct** code for this rule with the `2, { "FunctionDeclaration": {"parameters": "first"} }` option:
+
+```js
+/*eslint indent: ["error", 2, {"FunctionDeclaration": {"parameters": "first"}}]*/
+
+function foo(bar, baz,
+             qux, boop) {
+  qux();
+}
+```
+
+### FunctionExpression
+
+Examples of **incorrect** code for this rule with the `2, { "FunctionExpression": {"body": 1, "parameters": 2} }` option:
+
+```js
+/*eslint indent: ["error", 2, { "FunctionExpression": {"body": 1, "parameters": 2} }]*/
+
+var foo = function(bar,
+  baz,
+  qux) {
+    qux();
+}
+```
+
+Examples of **correct** code for this rule with the `2, { "FunctionExpression": {"body": 1, "parameters": 2} }` option:
+
+```js
+/*eslint indent: ["error", 2, { "FunctionExpression": {"body": 1, "parameters": 2} }]*/
+
+var foo = function(bar,
+    baz,
+    qux) {
+  qux();
+}
+```
+
+Examples of **incorrect** code for this rule with the `2, { "FunctionExpression": {"parameters": "first"} }` option:
+
+```js
+/*eslint indent: ["error", 2, {"FunctionExpression": {"parameters": "first"}}]*/
+
+var foo = function(bar, baz,
+  qux, boop) {
+  qux();
+}
+```
+
+Examples of **correct** code for this rule with the `2, { "FunctionExpression": {"parameters": "first"} }` option:
+
+```js
+/*eslint indent: ["error", 2, {"FunctionExpression": {"parameters": "first"}}]*/
+
+var foo = function(bar, baz,
+                   qux, boop) {
+  qux();
+}
 ```
 
 ## Compatibility
