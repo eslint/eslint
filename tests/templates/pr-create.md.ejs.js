@@ -61,7 +61,6 @@ describe("pr-create.md.ejs", function() {
         });
 
         assert.ok(result.indexOf("begin with a tag") > -1);
-        assert.ok(result.indexOf("require an issue") > -1);
     });
 
     it("should mention commit message length when there's a message longer than 72 characters", function() {
@@ -85,7 +84,6 @@ describe("pr-create.md.ejs", function() {
         });
 
         assert.ok(result.indexOf("72 characters") > -1);
-        assert.ok(result.indexOf("require an issue") === -1);
     });
 
     it("should not mention commit message length when there's a multi-line message with first line not over 72 characters", function() {
@@ -109,7 +107,6 @@ describe("pr-create.md.ejs", function() {
         });
 
         assert.equal(result.trim(), "LGTM");
-        assert.ok(result.indexOf("require an issue") === -1);
     });
 
     it("should not mention missing issue when there's one documentation commit", function() {
@@ -133,7 +130,6 @@ describe("pr-create.md.ejs", function() {
         });
 
         assert.equal(result.trim(), "LGTM");
-        assert.ok(result.indexOf("require an issue") === -1);
     });
 
     ["Breaking", "Build", "Chore", "Docs", "Fix", "New", "Update", "Upgrade"].forEach(function(type) {
@@ -158,31 +154,7 @@ describe("pr-create.md.ejs", function() {
             });
 
             assert.equal(result.trim(), "LGTM");
-            assert.ok(result.indexOf("require an issue") === -1);
         });
-    });
-
-    it("should mention missing issue when there's a missing closing paren", function() {
-        const result = ejs.render(TEMPLATE_TEXT, {
-            payload: {
-                sender: {
-                    login: "nzakas"
-                },
-                commits: 1
-            },
-            meta: {
-                cla: true,
-                commits: [
-                    {
-                        commit: {
-                            message: "Fix: Foo bar (fixes #1234"
-                        }
-                    }
-                ]
-            }
-        });
-
-        assert.ok(result.indexOf("require an issue") > -1);
     });
 
 });

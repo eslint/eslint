@@ -8,8 +8,7 @@ If you'd like to work on a pull request and you've never submitted code before, 
 
 1. Sign our [Contributor License Agreement](https://contribute.jquery.org/cla).
 1. Set up a [development environment](../development-environment).
-1. Ensure there's an issue that describes what you're doing and the issue has been accepted. You can create a new issue or just indicate you're [working on an existing issue](working-on-issues).
-    * Exception: documentation-only changes do not require an issue.
+1. If you want to implement a breaking change or a change to the core, ensure there's an issue that describes what you're doing and the issue has been accepted. You can create a new issue or just indicate you're [working on an existing issue](working-on-issues). Bug fixes, documentation changes, and other pull requests do not require an issue.
 
 After that, you're ready to start working on code.
 
@@ -71,7 +70,7 @@ The `Tag` is one of the following:
 
 Use the [labels of the issue you are working on](working-on-issues#issue-labels) to determine the best tag.
 
-The message summary should be a one-sentence description of the change, and it must be 72 characters in length or shorter. The issue number should be mentioned at the end. If the commit doesn't completely fix the issue, then use `(refs #1234)` instead of `(fixes #1234)`.
+The message summary should be a one-sentence description of the change, and it must be 72 characters in length or shorter. If the pull request addresses an issue, then the issue number should be mentioned at the end. If the commit doesn't completely fix the issue, then use `(refs #1234)` instead of `(fixes #1234)`.
 
 Here are some good commit message summary examples:
 

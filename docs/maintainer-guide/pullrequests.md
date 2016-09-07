@@ -12,7 +12,6 @@ When a pull request is opened, the bot will check the following:
 
 1. Has the submitter signed a CLA?
 1. Is the commit message summary in the correct format? Double-check that the tag ("Fix:", "New:", etc.) is correct based on the issue. Documentation-only pull requests do not require an issue.
-1. Is there only one commit in the pull request?
 1. Does the commit summary reference an issue?
 1. Is the commit summary too long?
 
