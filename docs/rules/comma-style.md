@@ -1,5 +1,7 @@
 # Comma style (comma-style)
 
+(fixable) The `--fix` option on the [command line](../user-guide/command-line-interface#fix) automatically fixes problems reported by this rule.
+
 The Comma Style rule enforces styles for comma-separated lists. There are two comma styles primarily used in JavaScript:
 
 * The standard style, in which commas are placed at the end of the current line
