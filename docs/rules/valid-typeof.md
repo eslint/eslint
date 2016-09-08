@@ -10,7 +10,7 @@ This rule enforces comparing `typeof` expressions to valid string literals.
 
 This rule has an object option:
 
-* `"requireStringLiterals": true` requires `typeof` expressions to only be compared to string literals, and disallows comparisons to any other value.
+* `"requireStringLiterals": true` requires `typeof` expressions to only be compared to string literals or other `typeof` expressions, and disallows comparisons to any other value.
 
 Examples of **incorrect** code for this rule:
 
@@ -43,7 +43,6 @@ typeof baz === "strnig"
 typeof qux === "some invalid type"
 typeof baz === anotherVariable
 typeof foo == 5
-typeof bar === typeof qux
 ```
 
 Examples of **correct** code with the `{ "requireStringLiterals": true }` option:
@@ -52,6 +51,7 @@ Examples of **correct** code with the `{ "requireStringLiterals": true }` option
 typeof foo === "undefined"
 typeof bar == "object"
 typeof baz === "string"
+typeof bar === typeof qux
 ```
 
 ## When Not To Use It
