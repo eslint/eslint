@@ -20,7 +20,6 @@ const ruleTester = new RuleTester();
 
 ruleTester.run("max-statements-per-line", rule, {
     valid: [
-        { code: "", options: [{ max: 0 }] },
         { code: "{ }", options: [{ max: 1 }] },
         { code: "var bar = 1;" },
         { code: "var bar = 1;", options: [{ max: 1 }] },
@@ -117,8 +116,8 @@ ruleTester.run("max-statements-per-line", rule, {
         }
     ],
     invalid: [
-        { code: "{ }", options: [{ max: 0 }], errors: [{ message: "This line has 0 statements. Maximum allowed is 0." }] },
-        { code: "var bar = 1;", options: [{ max: 0 }], errors: [{ message: "This line has 1 statement. Maximum allowed is 0." }] },
+        { code: "var foo; var bar;", options: [{ max: 1 }], errors: [{ message: "This line has 2 statements. Maximum allowed is 1." }] },
+        { code: "var bar = 1; var foo = 3;", options: [{ max: 1 }], errors: [{ message: "This line has 2 statements. Maximum allowed is 1." }] },
         { code: "var bar = 1; var baz = 2;", errors: [{ message: "This line has 2 statements. Maximum allowed is 1." }] },
         { code: "var bar = 1; var baz = 2;", options: [{ max: 1 }], errors: [{ message: "This line has 2 statements. Maximum allowed is 1." }] },
         { code: "if (condition) var bar = 1; if (condition) var baz = 2;", options: [{ max: 1 }], errors: [{ message: "This line has 2 statements. Maximum allowed is 1." }] },
