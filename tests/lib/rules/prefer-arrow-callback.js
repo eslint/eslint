@@ -41,22 +41,139 @@ ruleTester.run("prefer-arrow-callback", rule, {
         {code: "foo(function bar() { super.a; });", parserOptions: { ecmaVersion: 6 }},
         {code: "foo(function bar() { super.a; }.bind(this));", parserOptions: { ecmaVersion: 6 }},
         {code: "foo(function bar() { new.target; });", parserOptions: { ecmaVersion: 6 }},
-        {code: "foo(function bar() { new.target; }.bind(this));", parserOptions: { ecmaVersion: 6 }}
+        {code: "foo(function bar() { new.target; }.bind(this));", parserOptions: { ecmaVersion: 6 }},
+        {code: "foo(function bar() { this; }.bind(this, somethingElse));"}
     ],
     invalid: [
-        {code: "foo(function bar() {});", errors},
-        {code: "foo(function() {});", options: [{ allowNamedFunctions: true }], errors},
-        {code: "foo(function bar() {});", options: [{ allowNamedFunctions: false }], errors},
-        {code: "foo(function() {});", errors},
-        {code: "foo(nativeCb || function() {});", errors},
-        {code: "foo(bar ? function() {} : function() {});", errors: [errors[0], errors[0]]},
-        {code: "foo(function() { (function() { this; }); });", errors},
-        {code: "foo(function() { this; }.bind(this));", errors},
-        {code: "foo(function() { (() => this); }.bind(this));", parserOptions: { ecmaVersion: 6 }, errors},
-        {code: "foo(function bar(a) { a; });", errors},
-        {code: "foo(function(a) { a; });", errors},
-        {code: "foo(function(arguments) { arguments; });", errors},
-        {code: "foo(function() { this; });", options: [{ allowUnboundThis: false }], errors},
-        {code: "foo(function() { (() => this); });", parserOptions: { ecmaVersion: 6 }, options: [{ allowUnboundThis: false }], errors}
+        {
+            code: "foo(function bar() {});",
+            parserOptions: { ecmaVersion: 6 },
+            errors,
+            output: "foo(() => {});"
+        },
+        {
+            code: "foo(function() {});",
+            parserOptions: { ecmaVersion: 6 },
+            options: [{ allowNamedFunctions: true }],
+            errors,
+            output: "foo(() => {});"
+        },
+        {
+            code: "foo(function bar() {});",
+            parserOptions: { ecmaVersion: 6 },
+            options: [{ allowNamedFunctions: false }],
+            errors,
+            output: "foo(() => {});"
+        },
+        {
+            code: "foo(function() {});",
+            parserOptions: { ecmaVersion: 6 },
+            errors,
+            output: "foo(() => {});"
+        },
+        {
+            code: "foo(nativeCb || function() {});",
+            parserOptions: { ecmaVersion: 6 },
+            errors,
+            output: "foo(nativeCb || () => {});"
+        },
+        {
+            code: "foo(bar ? function() {} : function() {});",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [errors[0], errors[0]],
+            output: "foo(bar ? () => {} : () => {});"
+        },
+        {
+            code: "foo(function() { (function() { this; }); });",
+            parserOptions: { ecmaVersion: 6 },
+            errors,
+            output: "foo(() => { (function() { this; }); });"
+        },
+        {
+            code: "foo(function() { this; }.bind(this));",
+            parserOptions: { ecmaVersion: 6 },
+            errors,
+            output: "foo(() => { this; });"
+        },
+        {
+            code: "foo(function() { (() => this); }.bind(this));",
+            parserOptions: { ecmaVersion: 6 },
+            errors,
+            output: "foo(() => { (() => this); });"
+        },
+        {
+            code: "foo(function bar(a) { a; });",
+            parserOptions: { ecmaVersion: 6 },
+            errors,
+            output: "foo((a) => { a; });"
+        },
+        {
+            code: "foo(function(a) { a; });",
+            parserOptions: { ecmaVersion: 6 },
+            errors,
+            output: "foo((a) => { a; });"
+        },
+        {
+            code: "foo(function(arguments) { arguments; });",
+            parserOptions: { ecmaVersion: 6 },
+            errors,
+            output: "foo((arguments) => { arguments; });"
+        },
+        {
+            code: "foo(function() { this; });",
+            parserOptions: { ecmaVersion: 6 },
+            options: [{ allowUnboundThis: false }],
+            errors,
+            output: "foo(function() { this; });" // No fix applied
+        },
+        {
+            code: "foo(function() { (() => this); });",
+            parserOptions: { ecmaVersion: 6 },
+            options: [{ allowUnboundThis: false }],
+            errors,
+            output: "foo(function() { (() => this); });" // No fix applied
+        },
+        {
+            code: "qux(function(foo, bar, baz) { return foo * 2; })",
+            parserOptions: { ecmaVersion: 6 },
+            errors,
+            output: "qux((foo, bar, baz) => { return foo * 2; })"
+        },
+        {
+            code: "qux(function(foo, bar, baz) { return foo * bar; }.bind(this))",
+            parserOptions: { ecmaVersion: 6 },
+            errors,
+            output: "qux((foo, bar, baz) => { return foo * bar; })"
+        },
+        {
+            code: "qux(function(foo, bar, baz) { return foo * this.qux; }.bind(this))",
+            parserOptions: { ecmaVersion: 6 },
+            errors,
+            output: "qux((foo, bar, baz) => { return foo * this.qux; })"
+        },
+        {
+            code: "qux(function(foo = 1, [bar = 2] = [], {qux: baz = 3} = {foo: 'bar'}) { return foo + bar; });",
+            parserOptions: { ecmaVersion: 6 },
+            errors,
+            output: "qux((foo = 1, [bar = 2] = [], {qux: baz = 3} = {foo: 'bar'}) => { return foo + bar; });"
+        },
+        {
+            code: "qux(function(baz, baz) { })",
+            parserOptions: { ecmaVersion: 6 },
+            errors,
+            output: "qux(function(baz, baz) { })" // Duplicate parameter names are a SyntaxError in arrow functions
+        },
+        {
+            code: "qux(function( /* no params */ ) { })",
+            parserOptions: { ecmaVersion: 6 },
+            errors,
+            output: "qux(( /* no params */ ) => { })"
+        },
+        {
+            code: "qux(function( /* a */ foo /* b */ , /* c */ bar /* d */ , /* e */ baz /* f */ ) { return foo; })",
+            parserOptions: { ecmaVersion: 6 },
+            errors,
+            output: "qux(( /* a */ foo /* b */ , /* c */ bar /* d */ , /* e */ baz /* f */ ) => { return foo; })"
+        }
     ]
 });
