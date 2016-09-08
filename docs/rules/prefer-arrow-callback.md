@@ -1,5 +1,7 @@
 # Suggest using arrow functions as callbacks. (prefer-arrow-callback)
 
+(fixable) The `--fix` option on the [command line](../user-guide/command-line-interface#fix) automatically fixes problems reported by this rule.
+
 Arrow functions are suited to callbacks, because:
 
 - `this` keywords in arrow functions bind to the upper scope's.
