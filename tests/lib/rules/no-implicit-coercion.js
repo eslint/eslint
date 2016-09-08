@@ -75,7 +75,13 @@ ruleTester.run("no-implicit-coercion", rule, {
         {code: "var a = ~foo", options: [{boolean: true}]},
         {code: "var a = 1 * foo", options: [{boolean: true, allow: ["*"]}]},
         {code: "var a = +foo", options: [{boolean: true, allow: ["+"]}]},
-        {code: "var a = \"\" + foo", options: [{boolean: true, string: true, allow: ["+"]}]}
+        {code: "var a = \"\" + foo", options: [{boolean: true, string: true, allow: ["+"]}]},
+
+        // https://github.com/eslint/eslint/issues/7057
+        {code: "'' + 'foo'"},
+        {code: "'foo' + ''"},
+        {code: "foo += 'bar'"},
+        {code: "+42"}
     ],
     invalid: [
         {
