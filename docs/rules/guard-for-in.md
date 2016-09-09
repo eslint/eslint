@@ -8,6 +8,8 @@ for (key in foo) {
 }
 ```
 
+Note that simply checking `foo.hasOwnProperty(key)` is likely to cause an error in some cases; see [no-prototype-builtins](no-prototype-builtins.md).
+
 ## Rule Details
 
 This rule is aimed at preventing unexpected behavior that could arise from using a `for in` loop without filtering the results in the loop. As such, it will warn when `for in` loops do not filter their results with an `if` statement.
@@ -33,6 +35,10 @@ for (key in foo) {
     }
 }
 ```
+
+## Related Rules
+
+* [no-prototype-builtins](no-prototype-builtins.md)
 
 ## Further Reading
 
