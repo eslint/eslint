@@ -328,7 +328,31 @@ const invalid = [
         errors: [
             { column: 1, line: 2, type: "Punctuator" }
         ]
-    }
+    },
+
+    // https://github.com/eslint/eslint/issues/7079
+    {
+        code: "(a = ()=>0)=>1",
+        output: "(a = () => 0) => 1",
+        parserOptions: { ecmaVersion: 6 },
+        errors: [
+            { column: 7, line: 1, message: "Missing space before =>." },
+            { column: 10, line: 1, message: "Missing space after =>." },
+            { column: 11, line: 1, message: "Missing space before =>." },
+            { column: 14, line: 1, message: "Missing space after =>." },
+        ],
+    },
+    {
+        code: "(a = ()=>0)=>(1)",
+        output: "(a = () => 0) => (1)",
+        parserOptions: { ecmaVersion: 6 },
+        errors: [
+            { column: 7, line: 1, message: "Missing space before =>." },
+            { column: 10, line: 1, message: "Missing space after =>." },
+            { column: 11, line: 1, message: "Missing space before =>." },
+            { column: 14, line: 1, message: "Missing space after =>." },
+        ],
+    },
 ];
 
 ruleTester.run("arrow-spacing", rule, {
