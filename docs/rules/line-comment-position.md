@@ -51,10 +51,10 @@ Examples of **correct** code for the `{ "position": "beside" }` option:
 ```
 
 
-Examples of **incorrect** code for the `{ "position": "above" }` option:
+Examples of **incorrect** code for the `{ "position": "beside" }` option:
 
 ```js
-/*eslint line-comment-position: ["error", { "position": "above" }]*/
+/*eslint line-comment-position: ["error", { "position": "beside" }]*/
 // invalid comment
 1 + 1;
 ```
