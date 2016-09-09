@@ -30,7 +30,8 @@ function getExpectedError(lines) {
 
     return {
         message,
-        type: "Program"
+        type: "Program",
+        column: 1
     };
 }
 
@@ -47,7 +48,8 @@ function getExpectedErrorEOF(lines) {
 
     return {
         message: "Too many blank lines at the end of file. Max of " + lines + " allowed.",
-        type: "Program"
+        type: "Program",
+        column: 1
     };
 }
 
@@ -64,7 +66,8 @@ function getExpectedErrorBOF(lines) {
 
     return {
         message: "Too many blank lines at the beginning of file. Max of " + lines + " allowed.",
-        type: "Program"
+        type: "Program",
+        column: 1
     };
 }
 
