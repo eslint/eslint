@@ -1,4 +1,4 @@
-# Require or disallow file to end with single newline (eol-last)
+# require or disallow newline at the end of files (eol-last)
 
 (fixable) The `--fix` option on the [command line](../user-guide/command-line-interface#fix) automatically fixes problems reported by this rule.
 
