@@ -1,5 +1,7 @@
 # require quotes around object literal property names (quote-props)
 
+(fixable) The `--fix` option on the [command line](../user-guide/command-line-interface#fix) automatically fixes problems reported by this rule.
+
 Object literal property names can be defined in two ways: using literals or using strings. For example, these two objects are equivalent:
 
 ```js
