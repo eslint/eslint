@@ -40,12 +40,9 @@ function doSmth() {
 
 This rule has a string option:
 
-* `"always"` (default) enforces that files end with a newline
+* `"always"` (default) enforces that files end with a newline (LF)
 * `"never"` enforces that files do not end with a newline
+* `"unix"` (deprecated) is identical to "always"
+* `"windows"` (deprecated) is identical to "always", but will use a CRLF character when autofixing
 
-**Deprecated:** The string options `"windows"` and `"unix"` are deprecated. Please use the `style` property in the object option instead.
-
-This rule has an object option to adjust the behavior of the `"always"` option:
-
-* `"style": "unix"` (default) enforces a line feed (LF) as newline
-* `"style": "windows"` enforces a carriage return line feed (CRLF) as newline
+**Deprecated:** The options `"unix"` and `"windows"` are deprecated. If you need to enforce a specific linebreak style, use this rule in conjunction with `linebreak-style`.
