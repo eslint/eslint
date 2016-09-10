@@ -277,7 +277,13 @@ ruleTester.run("no-extra-parens", rule, {
                 "}"
             ].join("\n"),
             parserOptions: { ecmaVersion: 6 }
-        }
+        },
+
+        // async/await
+        { code: "async function a() { await (a + b) }", parserOptions: { ecmaVersion: 8 } },
+        { code: "async function a() { await (a + await b) }", parserOptions: { ecmaVersion: 8 } },
+        { code: "async function a() { (await a)() }", parserOptions: { ecmaVersion: 8 } },
+        { code: "async function a() { new (await a) }", parserOptions: { ecmaVersion: 8 } },
     ],
 
     invalid: [
@@ -662,6 +668,27 @@ ruleTester.run("no-extra-parens", rule, {
                 }
             ],
             output: "b => { return c ? d = b : e = b; }"
-        }
+        },
+
+        // async/await
+        {
+            code: "async function a() { (await a) + (await b); }",
+            parserOptions: { ecmaVersion: 8 },
+            errors: [
+                {
+                    message: "Gratuitous parentheses around expression.",
+                    type: "AwaitExpression"
+                },
+                {
+                    message: "Gratuitous parentheses around expression.",
+                    type: "AwaitExpression"
+                },
+            ],
+            output: "async function a() { await a + await b; }"
+        },
+        invalid("async function a() { await (a); }", "async function a() { await a; }", "Identifier", null, {parserOptions: { ecmaVersion: 8 }}),
+        invalid("async function a() { await (a()); }", "async function a() { await a(); }", "CallExpression", null, {parserOptions: { ecmaVersion: 8 }}),
+        invalid("async function a() { await (+a); }", "async function a() { await +a; }", "UnaryExpression", null, {parserOptions: { ecmaVersion: 8 }}),
+        invalid("async function a() { +(await a); }", "async function a() { +await a; }", "AwaitExpression", null, {parserOptions: { ecmaVersion: 8 }}),
     ]
 });
