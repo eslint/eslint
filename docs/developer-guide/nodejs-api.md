@@ -51,7 +51,7 @@ var codeLines = SourceCode.splitLines(code);
 
 ## linter
 
-The `linter` object does the actual evaluation of the JavaScript code. It doesn't do any filesystem operations, it simply parses and reports on the code. You can retrieve `linter` like this:
+The `linter` object does the actual evaluation of the JavaScript code. It doesn't do any filesystem operations, it simply parses and reports on the code. In particular, the `linter` object does not process configuration objects or files. You can retrieve `linter` like this:
 
 ```js
 var linter = require("eslint").linter;
@@ -60,7 +60,8 @@ var linter = require("eslint").linter;
 The most important method on `linter` is `verify()`, which initiates linting of the given text. This method accepts four arguments:
 
 * `code` - the source code to lint (a string or instance of `SourceCode`).
-* `config` - a configuration object that is equivalent to an eslintrc file.
+* `config` - a configuration object that has been processed and normalized by CLIEngine using eslintrc files and/or other configuration arguments.
+    * **Note**: If you want to lint text and have your configuration be read and processed, use CLIEngine's [`executeOnFiles`](#executeonfiles) or [`executeOnText`](#executeontext) instead.
 * `optionsOrFilename` - (optional) Additional options for this run or a string representing the filename to associate with the code being linted.
     * `filename` - (optional) the filename to associate with the source code.
     * `saveState` - (optional) see below. This will override any value passed as the fourth argument if an options object is used here instead of the filename.
