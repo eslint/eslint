@@ -72,7 +72,6 @@ const NODE = "node ", // intentional extra space
 
     // Regex
     TAG_REGEX = /^(?:Breaking|Build|Chore|Docs|Fix|New|Update|Upgrade):/,
-    ISSUE_REGEX = /\((?:fixes|refs) #\d+(?:.*(?:fixes|refs) #\d+)*\)$/,
 
     // Settings
     MOCHA_TIMEOUT = 10000;
@@ -920,18 +919,6 @@ target.checkGitCommit = function() {
                 "    'Chore:'",
                 "   Please refer to the contribution guidelines for more details."].join("\n"));
             failed = true;
-        }
-
-        // Check for an issue reference at end (unless it's a documentation commit)
-        if (!/^Docs:/.test(commitMsgs[0])) {
-            if (!ISSUE_REGEX.test(commitMsgs[0])) {
-                echo([" - Commit summary must end with with one of:",
-                    "    '(fixes #1234)'",
-                    "    '(refs #1234)'",
-                    "   Where '1234' is the issue being addressed.",
-                    "   Please refer to the contribution guidelines for more details."].join("\n"));
-                failed = true;
-            }
         }
     }
 
