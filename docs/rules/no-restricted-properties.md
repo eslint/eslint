@@ -14,10 +14,10 @@ This rule takes a list of objects, where the object name and property names are 
 ```json
 {
     "rules": {
-        "no-restricted-properties": [2, [{
+        "no-restricted-properties": [2, {
             "object": "disallowedObjectName",
             "property": "disallowedPropertyName"
-        }]]
+        }]
     }
 }
 ```
@@ -27,14 +27,14 @@ Multiple object/property values can be disallowed, and you can specify an option
 ```json
 {
     "rules": {
-        "no-restricted-properties": [2, [{
+        "no-restricted-properties": [2, {
             "object": "disallowedObjectName",
             "property": "disallowedPropertyName"
         }, {
             "object": "disallowedObjectName",
             "property": "anotherDisallowedPropertyName",
             "message": "Please use allowedObjectName.allowedPropertyName."
-        }]]
+        }]
     }
 }
 ```
