@@ -54,11 +54,11 @@ The steps for triaging an issue are:
     * **Duplicates:** if you can verify the issue is a duplicate, add a comment mentioning the duplicate issue (such as, "Duplicate of #1234") and close the issue.
 1. Regardless of the above, always leave a comment. Don't just add labels, engage with the person who opened the issue by asking a question (request more information if necessary) or stating your opinion of the issue. If it's a verified bug, ask if the user would like to submit a pull request.
 
-**Note:** "Beginner" issues are intended to help new contributors feel welcome and empowered to make a contribution to ESLint. To ensure that new contributors are given a chance work on these issues, issues labeled "beginner" must be open for 30 days *from the day the issue was labeled* before a team member is permitted to work on them.
+**Note:** "Beginner" issues are intended to help new contributors feel welcome and empowered to make a contribution to ESLint. To ensure that new contributors are given a chance to work on these issues, issues labeled "beginner" must be open for 30 days *from the day the issue was labeled* before a team member is permitted to work on them.
 
 ## Championing Issues
 
-New Rules and rule changes require a champion. As champion, it's your job to:
+New rules and rule changes require a champion. As champion, it's your job to:
 
 * Gain [consensus](#consensus) from the ESLint team on inclusion
 * Guide the rule creation process until it's complete (so only champion a rule that you have time to implement or help another contributor implement)
