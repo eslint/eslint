@@ -233,9 +233,11 @@ Object.isExtensible({})
 Reflect.isExtensible({})
 ```
 
-### Reflect.getOwnPropertyNames
+### Reflect.ownKeys
 
 Deprecates `Object.getOwnPropertyNames()`
+
+**Note:** Reflect.ownKeys does not function in exactly the same manner as Object.getOwnPropertyNames. It includes both the object's own property names, as well as any Symbol properties. There is no exact equivalent to Object.getOwnPropertyNames (Reflect.getOwnPropertyNames is not a part of the ES6 specification).
 
 Examples of **incorrect** code for this rule when used without exceptions:
 
@@ -250,7 +252,7 @@ Examples of **correct** code for this rule when used without exceptions:
 ```js
 /*eslint prefer-reflect: "error"*/
 
-Reflect.getOwnPropertyNames({})
+Reflect.ownKeys({})
 ```
 
 Examples of **correct** code for this rule with the `{ "exceptions": ["getOwnPropertyNames"] }` option:
@@ -259,7 +261,7 @@ Examples of **correct** code for this rule with the `{ "exceptions": ["getOwnPro
 /*eslint prefer-reflect: ["error", { "exceptions": ["getOwnPropertyNames"] }]*/
 
 Object.getOwnPropertyNames({})
-Reflect.getOwnPropertyNames({})
+Reflect.ownKeys({})
 ```
 
 ### Reflect.preventExtensions
