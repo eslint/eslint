@@ -55,6 +55,10 @@ ruleTester.run("valid-typeof", rule, {
         {
             code: "var baz = typeof foo + 'thing'",
             options: [{ requireStringLiterals: true }]
+        },
+        {
+            code: "typeof foo === typeof bar",
+            options: [{ requireStringLiterals: true }]
         }
     ],
 
