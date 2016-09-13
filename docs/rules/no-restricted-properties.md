@@ -39,6 +39,32 @@ Multiple object/property values can be disallowed, and you can specify an option
 }
 ```
 
+If the object name is omitted, the property is disallowed for all objects:
+
+```json
+{
+    "rules": {
+        "no-restricted-properties": [2, {
+            "property": "__defineGetter__",
+            "message": "Please use Object.defineProperty instead."
+        }]
+    }
+}
+```
+
+If the property name is omitted, accessing any property of the given object is disallowed:
+
+```json
+{
+    "rules": {
+        "no-restricted-properties": [2, {
+            "object": "require",
+            "message": "Please call require() directly."
+        }]
+    }
+}
+```
+
 Examples of **incorrect** code for this rule:
 
 ```js
@@ -52,6 +78,22 @@ var example = disallowedObjectName.disallowedPropertyName; /*error Disallowed ob
 disallowedObjectName.disallowedPropertyName(); /*error Disallowed object property: disallowedObjectName.disallowedPropertyName.*/
 ```
 
+```js
+/* eslint no-restricted-properties: [2, {
+    "property": "__defineGetter__"
+}] */
+
+foo.__defineGetter__(bar, baz);
+```
+
+```js
+/* eslint no-restricted-properties: [2, {
+    "object": "require"
+}] */
+
+require.resolve('foo');
+```
+
 Examples of **correct** code for this rule:
 
 ```js
@@ -63,6 +105,14 @@ Examples of **correct** code for this rule:
 var example = disallowedObjectName.somePropertyName;
 
 allowedObjectName.disallowedPropertyName();
+```
+
+```js
+/* eslint no-restricted-properties: [2, {
+    "object": "require"
+}] */
+
+require('foo');
 ```
 
 ## When Not To Use It
