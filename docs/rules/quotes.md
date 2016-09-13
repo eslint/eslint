@@ -134,8 +134,8 @@ Examples of additional **correct** code for this rule with the `"double", { "all
 ```js
 /*eslint quotes: ["error", "double", { "allowTemplateLiterals": true }]*/
 
-var single = 'single';
-var single = `single`;
+var double = "double";
+var double = `double`;
 ```
 
 Examples of additional **correct** code for this rule with the `"single", { "allowTemplateLiterals": true }` options:
@@ -143,8 +143,8 @@ Examples of additional **correct** code for this rule with the `"single", { "all
 ```js
 /*eslint quotes: ["error", "single", { "allowTemplateLiterals": true }]*/
 
-var double = "double";
-var double = `double`;
+var single = 'single';
+var single = `single`;
 ```
 
 ## When Not To Use It
