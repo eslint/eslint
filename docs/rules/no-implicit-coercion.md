@@ -13,7 +13,7 @@ var b = ~foo.indexOf(".");
 var n = +foo;
 var n = 1 * foo;
 var s = "" + foo;
-foo += "";
+foo += ``;
 ```
 
 Those can be replaced with the following code:
@@ -94,7 +94,9 @@ Examples of **incorrect** code for the default `{ "string": true }` option:
 /*eslint no-implicit-coercion: "error"*/
 
 var s = "" + foo;
+var s = `` + foo;
 foo += "";
+foo += ``;
 ```
 
 Examples of **correct** code for the default `{ "string": true }` option:
@@ -103,6 +105,7 @@ Examples of **correct** code for the default `{ "string": true }` option:
 /*eslint no-implicit-coercion: "error"*/
 
 var s = String(foo);
+foo = String(foo);
 ```
 
 ### allow
