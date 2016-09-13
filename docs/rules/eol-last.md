@@ -1,4 +1,4 @@
-# Require file to end with single newline (eol-last)
+# require or disallow newline at the end of files (eol-last)
 
 (fixable) The `--fix` option on the [command line](../user-guide/command-line-interface#fix) automatically fixes problems reported by this rule.
 
@@ -8,7 +8,8 @@ as output files to the terminal without interfering with shell prompts.
 
 ## Rule Details
 
-This rule requires at least one newline at the end of non-empty files.
+This rule enforces at least one newline (or absence thereof) at the end
+of non-empty files.
 
 Prior to v0.16.0 this rule also enforced that there was only a single line at
 the end of the file. If you still want this behaviour, consider enabling
@@ -32,13 +33,16 @@ Examples of **correct** code for this rule:
 
 function doSmth() {
   var foo = 2;
-}
-
+}\n
 ```
 
 ## Options
 
 This rule has a string option:
 
-* `"unix"` (default) enforces line feed (LF) as newline
-* `"windows"` enforces carriage return line feed (CRLF) as newline
+* `"always"` (default) enforces that files end with a newline (LF)
+* `"never"` enforces that files do not end with a newline
+* `"unix"` (deprecated) is identical to "always"
+* `"windows"` (deprecated) is identical to "always", but will use a CRLF character when autofixing
+
+**Deprecated:** The options `"unix"` and `"windows"` are deprecated. If you need to enforce a specific linebreak style, use this rule in conjunction with `linebreak-style`.
