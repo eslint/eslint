@@ -127,6 +127,60 @@ ruleTester.run("indent", rule, {
         },
         {
             code:
+            "var x = 0 &&\n" +
+            "    {\n" +
+            "        a: 1,\n" +
+            "        b: 2\n" +
+            "    };",
+            options: [4]
+        },
+        {
+            code:
+            "var x = 0 &&\n" +
+            "\t{\n" +
+            "\t\ta: 1,\n" +
+            "\t\tb: 2\n" +
+            "\t};",
+            options: ["tab"]
+        },
+        {
+            code:
+            "var x = 0 &&\n" +
+            "    {\n" +
+            "        a: 1,\n" +
+            "        b: 2\n" +
+            "    }||\n" +
+            "    {\n" +
+            "        c: 3,\n" +
+            "        d: 4\n" +
+            "    };",
+            options: [4]
+        },
+        {
+            code:
+            "var x = 0 && 1;",
+            options: [4]
+        },
+        {
+            code:
+            "var x = 0 && { a: 1, b: 2 };",
+            options: [4]
+        },
+        {
+            code:
+            "var x = 0 &&\n" +
+            "    (\n" +
+            "        1\n" +
+            "    );",
+            options: [4]
+        },
+        {
+            code:
+            "var x = 0 && { a: 1, b: 2 };",
+            options: [4]
+        },
+        {
+            code:
             "require('http').request({hostname: 'localhost',\n" +
             "                         port: 80}, function(res) {\n" +
             "  res.end();\n" +
@@ -1669,6 +1723,22 @@ ruleTester.run("indent", rule, {
                 "}",
             options: [4, {SwitchCase: 1}],
             errors: expectedErrors([[4, 8, 4, "BreakStatement"], [7, 8, 4, "BreakStatement"]])
+        },
+        {
+            code:
+            "var x = 0 &&\n" +
+            "    {\n" +
+            "       a: 1,\n" +
+            "          b: 2\n" +
+            "    };",
+            output:
+            "var x = 0 &&\n" +
+            "    {\n" +
+            "        a: 1,\n" +
+            "        b: 2\n" +
+            "    };",
+            options: [4],
+            errors: expectedErrors([[3, 8, 7, "Property"], [4, 8, 10, "Property"]])
         },
         {
             code:
