@@ -101,12 +101,21 @@ ruleTester.run("max-len", rule, {
             options: [29, 4, { ignoreStrings: true }]
         },
         {
+            code: "var str = \"this is a very long string\\\nwith continuation\\\nand with another very very long continuation\\\nand ending\";",
+            options: [29, 4, { ignoreStrings: true }]
+        },
+        {
             code: "var foo = veryLongIdentifier;\nvar bar = `this is a very long string`;",
             options: [29, 4, { ignoreTemplateLiterals: true }],
             parserOptions
         },
         {
             code: "var foo = veryLongIdentifier;\nvar bar = `this is a very long string\nand this is another line that is very long`;",
+            options: [29, 4, { ignoreTemplateLiterals: true }],
+            parserOptions
+        },
+        {
+            code: "var foo = veryLongIdentifier;\nvar bar = `this is a very long string\nand this is another line that is very long\nand here is another\n and another!`;",
             options: [29, 4, { ignoreTemplateLiterals: true }],
             parserOptions
         },
