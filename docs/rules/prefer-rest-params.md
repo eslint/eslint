@@ -43,6 +43,11 @@ function foo() {
     var arguments = 0;
     console.log(arguments); // This is a local variable.
 }
+
+// arguments can still be spread
+constructor() {
+  super(...arguments)
+}
 ```
 
 ## When Not To Use It
