@@ -92,6 +92,12 @@ ruleTester.run("eol-last", rule, {
             errors: [{ message: "Newline not allowed at end of file.", type: "Program" }],
             output: "var a = 123;\r\nvar b = 456;"
         },
+        {
+            code: "var a = 123;\n\n",
+            options: ["never"],
+            errors: [{ message: "Newline not allowed at end of file.", type: "Program" }],
+            output: "var a = 123;"
+        },
 
         // Deprecated: `"unix"` parameter
         {
