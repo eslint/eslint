@@ -63,6 +63,8 @@ ruleTester.run("no-implicit-coercion", rule, {
         {code: "1234*1*parseInt(foo)*bar"},
         {code: "0 + foo"},
         {code: "~foo.bar()"},
+        {code: "foo + 'bar'" },
+        {code: "foo + `${bar}`", parserOptions: { ecmaVersion: 6 } },
 
         {code: "!!foo", options: [{boolean: false}]},
         {code: "~foo.indexOf(1)", options: [{boolean: false}]},
@@ -79,8 +81,13 @@ ruleTester.run("no-implicit-coercion", rule, {
 
         // https://github.com/eslint/eslint/issues/7057
         {code: "'' + 'foo'"},
+        {code: "`` + 'foo'", parserOptions: { ecmaVersion: 6 } },
+        {code: "'' + `${foo}`", parserOptions: { ecmaVersion: 6 } },
         {code: "'foo' + ''"},
+        {code: "'foo' + ``", parserOptions: { ecmaVersion: 6 } },
+        {code: "`${foo}` + ''", parserOptions: { ecmaVersion: 6 } },
         {code: "foo += 'bar'"},
+        {code: "foo += `${bar}`", parserOptions: { ecmaVersion: 6 } },
         {code: "+42"}
     ],
     invalid: [
@@ -135,7 +142,19 @@ ruleTester.run("no-implicit-coercion", rule, {
             output: "String(foo)"
         },
         {
+            code: "``+foo",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{message: "use `String(foo)` instead.", type: "BinaryExpression"}],
+            output: "String(foo)"
+        },
+        {
             code: "foo+\"\"",
+            errors: [{message: "use `String(foo)` instead.", type: "BinaryExpression"}],
+            output: "String(foo)"
+        },
+        {
+            code: "foo+``",
+            parserOptions: { ecmaVersion: 6 },
             errors: [{message: "use `String(foo)` instead.", type: "BinaryExpression"}],
             output: "String(foo)"
         },
@@ -145,7 +164,30 @@ ruleTester.run("no-implicit-coercion", rule, {
             output: "String(foo.bar)"
         },
         {
+            code: "``+foo.bar",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{message: "use `String(foo.bar)` instead.", type: "BinaryExpression"}],
+            output: "String(foo.bar)"
+        },
+        {
+            code: "foo.bar+\"\"",
+            errors: [{message: "use `String(foo.bar)` instead.", type: "BinaryExpression"}],
+            output: "String(foo.bar)"
+        },
+        {
+            code: "foo.bar+``",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{message: "use `String(foo.bar)` instead.", type: "BinaryExpression"}],
+            output: "String(foo.bar)"
+        },
+        {
             code: "foo += \"\"",
+            errors: [{message: "use `foo = String(foo)` instead.", type: "AssignmentExpression"}],
+            output: "foo = String(foo)"
+        },
+        {
+            code: "foo += ``",
+            parserOptions: { ecmaVersion: 6 },
             errors: [{message: "use `foo = String(foo)` instead.", type: "AssignmentExpression"}],
             output: "foo = String(foo)"
         },
@@ -171,6 +213,12 @@ ruleTester.run("no-implicit-coercion", rule, {
         },
         {
             code: "var a = \"\" + foo", options: [{boolean: true, allow: ["*"]}],
+            errors: [{message: "use `String(foo)` instead.", type: "BinaryExpression"}],
+            output: "var a = String(foo)"
+        },
+        {
+            code: "var a = `` + foo", options: [{boolean: true, allow: ["*"]}],
+            parserOptions: { ecmaVersion: 6 },
             errors: [{message: "use `String(foo)` instead.", type: "BinaryExpression"}],
             output: "var a = String(foo)"
         }
