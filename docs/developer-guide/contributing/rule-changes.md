@@ -4,12 +4,7 @@ Occasionally, a core ESLint rule needs to be changed. This is not necessarily a 
 
 ## Proposing a Rule Change
 
-If you want to propose a rule change, [create an issue](https://github.com/eslint/eslint/issues/new?body=**What%20version%20of%20ESLint%20are%20you%20using%3F**%0A%0A**What%20rule%20do%20you%20want%20to%20change%3F**%0A%0A**What%20code%20should%20be%20flagged%20as%20incorrect%20with%20this%20change%3F**%0A%0A**What%20happens%20when%20the%20rule%20is%20applied%20to%20this%20code%20now%3F**%0A%0A%0A) and be sure to include:
-
-1. The version of ESLint you are using
-2. The rule you want to change
-3. The code you want to be flagged as incorrect
-4. What happens when the rule is applied to the code without your change
+To propose a change to an existing rule, [create a new issue](https://github.com/eslint/eslint/issues/new) or a [pull request](/docs/developer-guide/contributing/pull-requests) on GitHub. Be sure to copy the questions from the [rule change proposal template](https://github.com/eslint/eslint/blob/master/templates/rule-change-proposal.md).
 
 We need all of this information in order to determine whether or not the change is a good candidate for inclusion.
 

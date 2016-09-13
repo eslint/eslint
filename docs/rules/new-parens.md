@@ -1,5 +1,7 @@
 # require parentheses when invoking a constructor with no arguments (new-parens)
 
+(fixable) The `--fix` option on the [command line](../user-guide/command-line-interface#fix) automatically fixes problems reported by this rule.
+
 JavaScript allows the omission of parentheses when invoking a function via the `new` keyword and the constructor has no arguments. However, some coders believe that omitting the parentheses is inconsistent with the rest of the language and thus makes code less clear.
 
 ```js
@@ -16,6 +18,7 @@ Examples of **incorrect** code for this rule:
 /*eslint new-parens: "error"*/
 
 var person = new Person;
+var person = new (Person);
 ```
 
 Examples of **correct** code for this rule:
@@ -24,4 +27,5 @@ Examples of **correct** code for this rule:
 /*eslint new-parens: "error"*/
 
 var person = new Person();
+var person = new (Person)();
 ```

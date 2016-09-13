@@ -32,7 +32,10 @@ ruleTester.run("no-console", rule, {
         { code: "console.info(foo)", options: [ { allow: ["warn", "info"] } ] },
         { code: "console.warn(foo)", options: [ { allow: ["error", "warn"] } ] },
         { code: "console.error(foo)", options: [ { allow: ["log", "error"] } ] },
-        { code: "console.log(foo)", options: [ { allow: ["info", "log", "warn"] } ] }
+        { code: "console.log(foo)", options: [ { allow: ["info", "log", "warn"] } ] },
+
+        // https://github.com/eslint/eslint/issues/7010
+        "var console = require('myconsole'); console.log(foo)",
     ],
     invalid: [
 
@@ -52,6 +55,9 @@ ruleTester.run("no-console", rule, {
         { code: "console.log(foo)", options: [ { allow: ["warn", "info"] } ], errors: [{ message: "Unexpected console statement.", type: "MemberExpression"}] },
         { code: "console.error(foo)", options: [ { allow: ["warn", "info", "log"] } ], errors: [{ message: "Unexpected console statement.", type: "MemberExpression"}] },
         { code: "console.info(foo)", options: [ { allow: ["warn", "error", "log"] } ], errors: [{ message: "Unexpected console statement.", type: "MemberExpression"}] },
-        { code: "console.warn(foo)", options: [ { allow: ["info", "log"] } ], errors: [{ message: "Unexpected console statement.", type: "MemberExpression"}] }
+        { code: "console.warn(foo)", options: [ { allow: ["info", "log"] } ], errors: [{ message: "Unexpected console statement.", type: "MemberExpression"}] },
+
+        // In case that implicit global variable of 'console' exists
+        { code: "console.log(foo)", env: {node: true}, errors: [{ message: "Unexpected console statement.", type: "MemberExpression"}] },
     ]
 });

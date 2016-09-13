@@ -51,3 +51,7 @@
 * [React](https://github.com/yannickcr/eslint-plugin-react)
 
 … and many more published on npm with the [eslintplugin](https://www.npmjs.com/browse/keyword/eslintplugin) keyword.
+
+## Other Integration Lists
+
+You can find a curated list of other popular integrations for ESLint in the [awesome-eslint](https://github.com/dustinspecker/awesome-eslint) GitHub repository.

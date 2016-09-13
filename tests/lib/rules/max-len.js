@@ -15,6 +15,8 @@ const rule = require("../../../lib/rules/max-len"),
 // Tests
 //------------------------------------------------------------------------------
 
+const parserOptions = { ecmaVersion: 6 };
+
 const ruleTester = new RuleTester();
 
 ruleTester.run("max-len", rule, {
@@ -83,6 +85,30 @@ ruleTester.run("max-len", rule, {
         }, {
             code: "var foo = module.exports = {}; // really long trailing comment",
             options: [40, 4, {ignoreComments: true, ignoreTrailingComments: false}]
+        },
+
+        // ignoreStrings and ignoreTemplateLiterals options
+        {
+            code: "var foo = veryLongIdentifier;\nvar bar = 'this is a very long string';",
+            options: [29, 4, { ignoreStrings: true }]
+        },
+        {
+            code: "var foo = veryLongIdentifier;\nvar bar = \"this is a very long string\";",
+            options: [29, 4, { ignoreStrings: true }]
+        },
+        {
+            code: "var str = \"this is a very long string\\\nwith continuation\";",
+            options: [29, 4, { ignoreStrings: true }]
+        },
+        {
+            code: "var foo = veryLongIdentifier;\nvar bar = `this is a very long string`;",
+            options: [29, 4, { ignoreTemplateLiterals: true }],
+            parserOptions
+        },
+        {
+            code: "var foo = veryLongIdentifier;\nvar bar = `this is a very long string\nand this is another line that is very long`;",
+            options: [29, 4, { ignoreTemplateLiterals: true }],
+            parserOptions
         },
 
         // check indented comment lines - https://github.com/eslint/eslint/issues/6322
@@ -406,6 +432,64 @@ ruleTester.run("max-len", rule, {
                     message: "Line 2 exceeds the maximum line length of 20.",
                     type: "Program",
                     line: 2,
+                    column: 1
+                }
+            ]
+        },
+
+        // ignoreStrings and ignoreTemplateLiterals options
+        {
+            code: "var foo = veryLongIdentifier;\nvar bar = 'this is a very long string';",
+            options: [29, { ignoreStrings: false, ignoreTemplateLiterals: true }],
+            errors: [
+                {
+                    message: "Line 2 exceeds the maximum line length of 29.",
+                    type: "Program",
+                    line: 2,
+                    column: 1
+                }
+            ]
+        },
+        {
+            code: "var foo = veryLongIdentifier;\nvar bar = \"this is a very long string\";",
+            options: [29, { ignoreStrings: false, ignoreTemplateLiterals: true }],
+            errors: [
+                {
+                    message: "Line 2 exceeds the maximum line length of 29.",
+                    type: "Program",
+                    line: 2,
+                    column: 1
+                }
+            ]
+        },
+        {
+            code: "var foo = veryLongIdentifier;\nvar bar = `this is a very long string`;",
+            options: [29, { ignoreStrings: false, ignoreTemplateLiterals: false }],
+            parserOptions,
+            errors: [
+                {
+                    message: "Line 2 exceeds the maximum line length of 29.",
+                    type: "Program",
+                    line: 2,
+                    column: 1
+                }
+            ]
+        },
+        {
+            code: "var foo = veryLongIdentifier;\nvar bar = `this is a very long string\nand this is another line that is very long`;",
+            options: [29, { ignoreStrings: false, ignoreTemplateLiterals: false }],
+            parserOptions,
+            errors: [
+                {
+                    message: "Line 2 exceeds the maximum line length of 29.",
+                    type: "Program",
+                    line: 2,
+                    column: 1
+                },
+                {
+                    message: "Line 3 exceeds the maximum line length of 29.",
+                    type: "Program",
+                    line: 3,
                     column: 1
                 }
             ]

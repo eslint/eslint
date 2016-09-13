@@ -937,6 +937,25 @@ describe("eslint", function() {
             assert.equal(messages[0].message, "message yay!");
         });
 
+        it("should allow template parameter wrapped in braces", function() {
+            eslint.reset();
+            eslint.defineRule("test-rule", function(context) {
+                return {
+                    Literal(node) {
+                        context.report(node, "message {{{param}}}", {
+                            param: "yay!"
+                        });
+                    }
+                };
+            });
+
+            config.rules["test-rule"] = 1;
+
+            const messages = eslint.verify("0", config);
+
+            assert.equal(messages[0].message, "message {yay!}");
+        });
+
         it("should ignore template parameter with no specified value", function() {
             eslint.reset();
             eslint.defineRule("test-rule", function(context) {
@@ -3820,6 +3839,16 @@ describe("eslint", function() {
 
             const parserFixtures = path.join(__dirname, "../fixtures/parsers"),
                 errorPrefix = "Parsing error: ";
+
+            it("should have file path passed to it", function() {
+                const code = "/* this is code */";
+                const parser = path.join(parserFixtures, "stub-parser.js");
+                const parseSpy = sinon.spy(require(parser), "parse");
+
+                eslint.verify(code, { parser }, filename, true);
+
+                sinon.assert.calledWithMatch(parseSpy, "", { filePath: filename });
+            });
 
             it("should not report an error when JSX code contains a spread operator and JSX is enabled", function() {
                 const code = "var myDivElement = <div {...this.props} />;";
