@@ -76,7 +76,7 @@ rules:
     no-shadow-restricted-names: "error"
     no-tabs: "error"
     no-trailing-spaces: "error"
-    no-undef: "error"
+    no-undef: ["error", {typeof: true}]
     no-undef-init: "error"
     no-undefined: "error"
     no-underscore-dangle: ["error", {allowAfterThis: true}]
