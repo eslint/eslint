@@ -27,7 +27,7 @@ The default is `"always"`.
 
 ### "always"
 
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule with the "always" option:
 
 ```js
 /*eslint space-before-blocks: "error"*/
@@ -49,7 +49,7 @@ class Foo{
 }
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule with the "always" option:
 
 ```js
 /*eslint space-before-blocks: "error"*/
@@ -76,7 +76,7 @@ try {} catch(a) {}
 
 ### "never"
 
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule with the "never" option:
 
 ```js
 /*eslint space-before-blocks: ["error", "never"]*/
@@ -94,7 +94,7 @@ for (;;) {
 try {} catch(a) {}
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule with the "never" option:
 
 ```js
 /*eslint space-before-blocks: ["error", "never"]*/
@@ -116,7 +116,7 @@ class Foo{
 }
 ```
 
-The following patterns are considered problems when configured `{ "functions": "never", "keywords": "always", "classes": "never" }`:
+Examples of **incorrect** code for this rule when configured `{ "functions": "never", "keywords": "always", "classes": "never" }`:
 
 ```js
 /*eslint space-before-blocks: ["error", { "functions": "never", "keywords": "always", "classes": "never" }]*/
@@ -131,8 +131,7 @@ class Foo{
 }
 ```
 
-
-The following patterns are not considered problems when configured `{ "functions": "never", "keywords": "always", "classes": "never" }`:
+Examples of **correct** code for this rule when configured `{ "functions": "never", "keywords": "always", "classes": "never" }`:
 
 ```js
 /*eslint space-before-blocks: ["error", { "functions": "never", "keywords": "always", "classes": "never" }]*/
@@ -151,7 +150,7 @@ class Foo {
 }
 ```
 
-The following patterns are considered problems when configured `{ "functions": "always", "keywords": "never", "classes": "never" }`:
+Examples of **incorrect** code for this rule when configured `{ "functions": "always", "keywords": "never", "classes": "never" }`:
 
 ```js
 /*eslint space-before-blocks: ["error", { "functions": "always", "keywords": "never", "classes": "never" }]*/
@@ -166,8 +165,7 @@ class Foo {
 }
 ```
 
-
-The following patterns are not considered problems when configured `{ "functions": "always", "keywords": "never", "classes": "never" }`:
+Examples of **correct** code for this rule when configured `{ "functions": "always", "keywords": "never", "classes": "never" }`:
 
 ```js
 /*eslint space-before-blocks: ["error", { "functions": "always", "keywords": "never", "classes": "never" }]*/
@@ -184,7 +182,7 @@ class Foo{
 }
 ```
 
-The following patterns are considered problems when configured `{ "functions": "never", "keywords": "never", "classes": "always" }`:
+Examples of **incorrect** code for this rule when configured `{ "functions": "never", "keywords": "never", "classes": "always" }`:
 
 ```js
 /*eslint space-before-blocks: ["error", { "functions": "never", "keywords": "never", "classes": "always" }]*/
@@ -195,8 +193,7 @@ class Foo{
 }
 ```
 
-
-The following patterns are not considered problems when configured `{ "functions": "never", "keywords": "never", "classes": "always" }`:
+Examples of **correct** code for this rule when configured `{ "functions": "never", "keywords": "never", "classes": "always" }`:
 
 ```js
 /*eslint space-before-blocks: ["error", { "functions": "never", "keywords": "never", "classes": "always" }]*/
