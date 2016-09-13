@@ -42,6 +42,10 @@ ruleTester.run("line-comment-position", rule, {
             options: [{position: "above", ignorePattern: "linter" } ]
         },
         {
+            code: "// Meep\nconsole.log('Meep');",
+            options: ["above"]
+        },
+        {
             code: "1 + 1; // valid comment",
             options: ["beside"]
         },
