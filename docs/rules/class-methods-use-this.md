@@ -83,3 +83,35 @@ class A {
     }
 }
 ```
+
+## Options
+
+### Exceptions
+
+```
+"class-methods-use-this": [<enabled>, { "exceptions": [<...exceptions>] }]
+```
+
+The `exceptions` option allows you to pass an array of method names for which you would like to ignore warnings.
+
+Examples of **incorrect** code for this rule when used without exceptions:
+
+```js
+/*eslint class-methods-use-this: "error"*/
+
+class A {
+    foo() {
+    }
+}
+```
+
+Examples of **correct** code for this rule when used with exceptions:
+
+```js
+/*eslint class-methods-use-this: ["error", { "exceptions": ["foo"] }] */
+
+class A {
+    foo() {
+    }
+}
+```
