@@ -205,6 +205,35 @@ ruleTester.run("quotes", rule, {
                 { message: "Strings must use backtick.", type: "Literal" },
                 { message: "Strings must use backtick.", type: "Literal" }
             ]
-        }
+        },
+
+        // https://github.com/eslint/eslint/issues/7084
+        {
+            code: "<div blah={\"blah\"} />",
+            output: "<div blah={'blah'} />",
+            options: ["single"],
+            parserOptions: { ecmaFeatures: {jsx: true} },
+            errors: [
+                { message: "Strings must use singlequote.", type: "Literal" },
+            ],
+        },
+        {
+            code: "<div blah={'blah'} />",
+            output: "<div blah={\"blah\"} />",
+            options: ["double"],
+            parserOptions: { ecmaFeatures: {jsx: true} },
+            errors: [
+                { message: "Strings must use doublequote.", type: "Literal" },
+            ],
+        },
+        {
+            code: "<div blah={'blah'} />",
+            output: "<div blah={`blah`} />",
+            options: ["backtick"],
+            parserOptions: { ecmaFeatures: {jsx: true} },
+            errors: [
+                { message: "Strings must use backtick.", type: "Literal" },
+            ],
+        },
     ]
 });
