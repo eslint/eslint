@@ -1,4 +1,4 @@
-# enforce a maximum number of statements allowed in `function` blocks (max-statements)
+# enforce a maximum number of statements allowed in function blocks (max-statements)
 
 The `max-statements` rule allows you to specify the maximum number of statements allowed in a function.
 
