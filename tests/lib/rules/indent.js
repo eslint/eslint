@@ -22,7 +22,7 @@ const fixture = fs.readFileSync(path.join(__dirname, "../../fixtures/rules/inden
 const fixedFixture = fs.readFileSync(path.join(__dirname, "../../fixtures/rules/indent/indent-valid-fixture-1.js"), "utf8");
 
 /**
- * Create error message object for failure cases
+ * Create error message object for failure cases with a single 'found' indentation type
  * @param {string} indentType indent type of string or tab
  * @param {array} errors error info
  * @returns {Object} returns the error messages collection
@@ -39,13 +39,16 @@ function expectedErrors(indentType, errors) {
     }
 
     return errors.map(function(err) {
-        const chars = err[1] === 1 ? "character" : "characters";
+        let message;
 
-        return {
-            message: "Expected indentation of " + err[1] + " " + indentType + " " + chars + " but found " + err[2] + ".",
-            type: err[3] || "Program",
-            line: err[0]
-        };
+        if (typeof err[1] === "string" && typeof err[2] === "string") {
+            message = `Expected indentation of ${err[1]} but found ${err[2]}.`;
+        } else {
+            const chars = indentType + (err[1] === 1 ? "" : "s");
+
+            message = `Expected indentation of ${err[1]} ${chars} but found ${err[2]}.`;
+        }
+        return {message, type: err[3], line: err[0]};
     });
 }
 
@@ -2833,6 +2836,60 @@ ruleTester.run("indent", rule, {
             "}",
             options: [2, {FunctionExpression: {parameters: "first", body: 3}}],
             errors: expectedErrors([[3, 0, 4, "Identifier"], [4, 6, 2, "ExpressionStatement"]])
+        },
+        {
+            code:
+            "var foo = bar;\n" +
+            "  \t  \t  \t  var baz = qux;",
+            output:
+            "var foo = bar;\n" +
+            "var baz = qux;",
+            options: [2],
+            errors: expectedErrors([2, "0 spaces", "8 spaces and 3 tabs", "VariableDeclaration"])
+        },
+        {
+            code:
+            "function foo() {\n" +
+            "  bar();\n" +
+            "  \tbaz();\n" +
+            "\t   \t\t\t  \t\t\t  \t   \tqux();\n" +
+            "}",
+            output:
+            "function foo() {\n" +
+            "  bar();\n" +
+            "  baz();\n" +
+            "  qux();\n" +
+            "}",
+            options: [2],
+            errors: expectedErrors([[3, "2 spaces", "2 spaces and 1 tab", "ExpressionStatement"], [4, "2 spaces", "10 spaces and 9 tabs", "ExpressionStatement"]])
+        },
+        {
+            code:
+            "function foo() {\n" +
+            "\tbar();\n" +
+            "\t  baz();\n" +
+            "  \t\t \t     \t   \t  \t\t\t qux();\n" +
+            "}",
+            output:
+            "function foo() {\n" +
+            "\tbar();\n" +
+            "\tbaz();\n" +
+            "\tqux();\n" +
+            "}",
+            options: ["tab"],
+            errors: expectedErrors("tab", [[3, "1 tab", "2 spaces and 1 tab", "ExpressionStatement"], [4, "1 tab", "14 spaces and 8 tabs", "ExpressionStatement"]])
+        },
+        {
+            code:
+            "function foo() {\n" +
+            "  bar();\n" +
+            "\t\t}",
+            output:
+            "function foo() {\n" +
+            "  bar();\n" +
+            "}",
+            options: [2],
+            errors: expectedErrors([[3, "0 spaces", "2 tabs", "BlockStatement"]])
         }
     ]
 });
