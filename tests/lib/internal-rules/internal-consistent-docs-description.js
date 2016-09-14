@@ -119,6 +119,66 @@ ruleTester.run("internal-consistent-docs-description", rule, {
                 line: 4,
                 column: 26
             }]
-        }
+        },
+        {
+            code: [
+                "module.exports = {",
+                "    meta: {",
+                "        docs: {",
+                "            description: 'Require stuff'",
+                "        }",
+                "    },",
+
+                "    create: function(context) {",
+                "        return {};",
+                "    }",
+                "};"
+            ].join("\n"),
+            errors: [{
+                message: "`meta.docs.description` should start with one of the following words: enforce, require, disallow. Started with \"Require\" instead.",
+                line: 4,
+                column: 26
+            }]
+        },
+        {
+            code: [
+                "module.exports = {",
+                "    meta: {",
+                "        docs: {",
+                "            description: 'Enforce stuff'",
+                "        }",
+                "    },",
+
+                "    create: function(context) {",
+                "        return {};",
+                "    }",
+                "};"
+            ].join("\n"),
+            errors: [{
+                message: "`meta.docs.description` should start with one of the following words: enforce, require, disallow. Started with \"Enforce\" instead.",
+                line: 4,
+                column: 26
+            }]
+        },
+        {
+            code: [
+                "module.exports = {",
+                "    meta: {",
+                "        docs: {",
+                "            description: 'Disallow stuff'",
+                "        }",
+                "    },",
+
+                "    create: function(context) {",
+                "        return {};",
+                "    }",
+                "};"
+            ].join("\n"),
+            errors: [{
+                message: "`meta.docs.description` should start with one of the following words: enforce, require, disallow. Started with \"Disallow\" instead.",
+                line: 4,
+                column: 26
+            }]
+        },
     ]
 });
