@@ -118,6 +118,39 @@ Object.defineProperty({}, 'foo', {value: 1})
 Reflect.defineProperty({}, 'foo', {value: 1})
 ```
 
+### Reflect.deleteProperty
+
+Deprecates the `delete` keyword
+
+Examples of **incorrect** code for this rule when used without exceptions:
+
+```js
+/*eslint prefer-reflect: "error"*/
+
+delete foo.bar; // deleting object property
+```
+
+Examples of **correct** code for this rule when used without exceptions:
+
+```js
+/*eslint prefer-reflect: "error"*/
+
+delete bar; // deleting variable
+Reflect.deleteProperty(foo, 'bar');
+```
+
+Note: For a rule preventing deletion of variables, see [no-delete-var instead](no-delete-var.md)
+
+Examples of **correct** code for this rule with the `{ "exceptions": ["delete"] }` option:
+
+```js
+/*eslint prefer-reflect: ["error", { "exceptions": ["delete"] }]*/
+
+delete bar
+delete foo.bar
+Reflect.deleteProperty(foo, 'bar');
+```
+
 ### Reflect.getOwnPropertyDescriptor
 
 Deprecates `Object.getOwnPropertyDescriptor()`
@@ -174,35 +207,6 @@ Examples of **correct** code for this rule with the `{ "exceptions": ["getProtot
 
 Object.getPrototypeOf({}, 'foo')
 Reflect.getPrototypeOf({}, 'foo')
-```
-
-### Reflect.setPrototypeOf
-
-Deprecates `Object.setPrototypeOf()`
-
-Examples of **incorrect** code for this rule when used without exceptions:
-
-```js
-/*eslint prefer-reflect: "error"*/
-
-Object.setPrototypeOf({}, Object.prototype)
-```
-
-Examples of **correct** code for this rule when used without exceptions:
-
-```js
-/*eslint prefer-reflect: "error"*/
-
-Reflect.setPrototypeOf({}, Object.prototype)
-```
-
-Examples of **correct** code for this rule with the `{ "exceptions": ["setPrototypeOf"] }` option:
-
-```js
-/*eslint prefer-reflect: ["error", { "exceptions": ["setPrototypeOf"] }]*/
-
-Object.setPrototypeOf({}, Object.prototype)
-Reflect.setPrototypeOf({}, Object.prototype)
 ```
 
 ### Reflect.isExtensible
@@ -295,16 +299,16 @@ Object.preventExtensions({})
 Reflect.preventExtensions({})
 ```
 
-### Reflect.deleteProperty
+### Reflect.setPrototypeOf
 
-Deprecates the `delete` keyword
+Deprecates `Object.setPrototypeOf()`
 
 Examples of **incorrect** code for this rule when used without exceptions:
 
 ```js
 /*eslint prefer-reflect: "error"*/
 
-delete foo.bar; // deleting object property
+Object.setPrototypeOf({}, Object.prototype)
 ```
 
 Examples of **correct** code for this rule when used without exceptions:
@@ -312,20 +316,16 @@ Examples of **correct** code for this rule when used without exceptions:
 ```js
 /*eslint prefer-reflect: "error"*/
 
-delete bar; // deleting variable
-Reflect.deleteProperty(foo, 'bar');
+Reflect.setPrototypeOf({}, Object.prototype)
 ```
 
-Note: For a rule preventing deletion of variables, see [no-delete-var instead](no-delete-var.md)
-
-Examples of **correct** code for this rule with the `{ "exceptions": ["delete"] }` option:
+Examples of **correct** code for this rule with the `{ "exceptions": ["setPrototypeOf"] }` option:
 
 ```js
-/*eslint prefer-reflect: ["error", { "exceptions": ["delete"] }]*/
+/*eslint prefer-reflect: ["error", { "exceptions": ["setPrototypeOf"] }]*/
 
-delete bar
-delete foo.bar
-Reflect.deleteProperty(foo, 'bar');
+Object.setPrototypeOf({}, Object.prototype)
+Reflect.setPrototypeOf({}, Object.prototype)
 ```
 
 ## When Not To Use It
