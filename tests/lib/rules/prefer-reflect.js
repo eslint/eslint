@@ -51,17 +51,19 @@ ruleTester.run("prefer-reflect", rule, {
         { code: "Reflect.isExtensible({});", options: [{ exceptions: ["isExtensible"] }] },
         { code: "Object.isExtensible({});", options: [{ exceptions: ["isExtensible"] }] },
 
-        // Reflect.getOwnPropertyNames
-        { code: "Reflect.getOwnPropertyNames({});" },
-        { code: "Reflect.getOwnPropertyNames({});", options: [{ exceptions: ["getOwnPropertyNames"] }] },
+        // Reflect.ownKeys
+        { code: "Reflect.ownKeys({});" },
+        { code: "Reflect.ownKeys({});", options: [{ exceptions: ["getOwnPropertyNames"] }] },
         { code: "Object.getOwnPropertyNames({});", options: [{ exceptions: ["getOwnPropertyNames"] }] },
+        { code: "Reflect.ownKeys({});", options: [{ exceptions: ["getOwnPropertySymbols"] }] },
+        { code: "Object.getOwnPropertySymbols({});", options: [{ exceptions: ["getOwnPropertySymbols"] }] },
 
-        // Reflect.getOwnPropertyNames
+        // Reflect.preventExtensions
         { code: "Reflect.preventExtensions({});" },
         { code: "Reflect.preventExtensions({});", options: [{ exceptions: ["preventExtensions"] }] },
         { code: "Object.preventExtensions({});", options: [{ exceptions: ["preventExtensions"] }] },
 
-        // Reflect.getOwnPropertyNames
+        // Reflect.deleteProperty
         { code: "Reflect.deleteProperty({}, 'foo');" },
         { code: "Reflect.deleteProperty({}, 'foo');", options: [{ exceptions: ["delete"] }] },
         { code: "delete foo;" },
@@ -206,7 +208,7 @@ ruleTester.run("prefer-reflect", rule, {
             code: "Object.getOwnPropertyNames({})",
             errors: [
                 {
-                    message: "Avoid using Object.getOwnPropertyNames, instead use Reflect.getOwnPropertyNames.",
+                    message: "Avoid using Object.getOwnPropertyNames, instead use Reflect.ownKeys.",
                     type: "CallExpression"
                 }
             ]
@@ -216,7 +218,26 @@ ruleTester.run("prefer-reflect", rule, {
             options: [{ exceptions: ["apply"] }],
             errors: [
                 {
-                    message: "Avoid using Object.getOwnPropertyNames, instead use Reflect.getOwnPropertyNames.",
+                    message: "Avoid using Object.getOwnPropertyNames, instead use Reflect.ownKeys.",
+                    type: "CallExpression"
+                }
+            ]
+        },
+        {
+            code: "Object.getOwnPropertySymbols({})",
+            errors: [
+                {
+                    message: "Avoid using Object.getOwnPropertySymbols, instead use Reflect.ownKeys.",
+                    type: "CallExpression"
+                }
+            ]
+        },
+        {
+            code: "Object.getOwnPropertySymbols({})",
+            options: [{ exceptions: ["apply"] }],
+            errors: [
+                {
+                    message: "Avoid using Object.getOwnPropertySymbols, instead use Reflect.ownKeys.",
                     type: "CallExpression"
                 }
             ]
