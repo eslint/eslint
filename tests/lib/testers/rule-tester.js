@@ -636,4 +636,35 @@ describe("RuleTester", function() {
             });
         }, "Rule should not modify AST.");
     });
+
+    it("should throw an error if no test scenarios given", function() {
+        assert.throws(function() {
+            ruleTester.run("foo", require("../../fixtures/testers/rule-tester/modify-ast-at-last"));
+        }, "Test Scenarios for rule foo : Could not find test scenario object");
+    });
+
+    it("should throw an error if no valid test scenario object given", function() {
+        assert.throws(function() {
+            ruleTester.run("foo", require("../../fixtures/testers/rule-tester/modify-ast-at-last"), []);
+        }, "Test Scenarios for rule foo is invalid:\nCould not find any valid test scenarios\nCould not find any invalid test scenarios");
+        assert.throws(function() {
+            ruleTester.run("foo", require("../../fixtures/testers/rule-tester/modify-ast-at-last"), "");
+        }, "Test Scenarios for rule foo : Could not find test scenario object");
+        assert.throws(function() {
+            ruleTester.run("foo", require("../../fixtures/testers/rule-tester/modify-ast-at-last"), 2);
+        }, "Test Scenarios for rule foo is invalid:\nCould not find any valid test scenarios\nCould not find any invalid test scenarios");
+        assert.throws(function() {
+            ruleTester.run("foo", require("../../fixtures/testers/rule-tester/modify-ast-at-last"), {});
+        }, "Test Scenarios for rule foo is invalid:\nCould not find any valid test scenarios\nCould not find any invalid test scenarios");
+        assert.throws(function() {
+            ruleTester.run("foo", require("../../fixtures/testers/rule-tester/modify-ast-at-last"), {
+                valid: []
+            });
+        }, "Test Scenarios for rule foo is invalid:\nCould not find any invalid test scenarios");
+        assert.throws(function() {
+            ruleTester.run("foo", require("../../fixtures/testers/rule-tester/modify-ast-at-last"), {
+                invalid: []
+            });
+        }, "Test Scenarios for rule foo is invalid:\nCould not find any valid test scenarios");
+    });
 });
