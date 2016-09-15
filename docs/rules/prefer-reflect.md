@@ -8,6 +8,7 @@ The ES6 Reflect API comes with a handful of methods which somewhat deprecate met
 * [`Reflect.getPrototypeOf`](http://www.ecma-international.org/ecma-262/6.0/index.html#sec-reflect.getprototypeof) effectively deprecates [`Object.getPrototypeOf`](http://www.ecma-international.org/ecma-262/6.0/index.html#sec-object.getprototypeof)
 * [`Reflect.setPrototypeOf`](http://www.ecma-international.org/ecma-262/6.0/index.html#sec-reflect.setprototypeof) effectively deprecates [`Object.setPrototypeOf`](http://www.ecma-international.org/ecma-262/6.0/index.html#sec-object.setprototypeof)
 * [`Reflect.preventExtensions`](http://www.ecma-international.org/ecma-262/6.0/index.html#sec-reflect.preventextensions)  effectively deprecates [`Object.preventExtensions`](http://www.ecma-international.org/ecma-262/6.0/index.html#sec-object.preventextensions)
+* [`Reflect.ownKeys`](http://www.ecma-international.org/ecma-262/6.0/index.html#sec-reflect.ownkeys) effectively deprecates [`Object.getOwnPropertyNames`](http://www.ecma-international.org/ecma-262/6.0/index.html#sec-object.getownpropertynames) and [`Object.getOwnPropertySymbols`](http://www.ecma-international.org/ecma-262/6.0/index.html#sec-object.getownpropertysymbols)
 
 The prefer-reflect rule will flag usage of any older method, suggesting to instead use the newer Reflect version.
 
@@ -235,9 +236,9 @@ Reflect.isExtensible({})
 
 ### Reflect.ownKeys
 
-Deprecates `Object.getOwnPropertyNames()`
+Deprecates `Object.getOwnPropertyNames()` and `Object.getOwnPropertySymbols`
 
-**Note:** Reflect.ownKeys does not function in exactly the same manner as Object.getOwnPropertyNames. It includes both the object's own property names, as well as any Symbol properties. There is no exact equivalent to Object.getOwnPropertyNames (Reflect.getOwnPropertyNames is not a part of the ES6 specification).
+**Note:** Reflect.ownKeys includes both the object's own property names and Symbol properties. There is no exact equivalent to Object.getOwnPropertyNames and Object.getOwnPropertySymbols in the Reflect API. (Reflect.getOwnPropertyNames and Reflect.getOwnPropertySymbols are not part of the ES6 specification.)
 
 Examples of **incorrect** code for this rule when used without exceptions:
 
@@ -245,6 +246,7 @@ Examples of **incorrect** code for this rule when used without exceptions:
 /*eslint prefer-reflect: "error"*/
 
 Object.getOwnPropertyNames({})
+Object.getOwnPropertySymbols({})
 ```
 
 Examples of **correct** code for this rule when used without exceptions:
