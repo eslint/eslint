@@ -59,6 +59,20 @@ ruleTester.run("valid-typeof", rule, {
         {
             code: "typeof foo === typeof bar",
             options: [{ requireStringLiterals: true }]
+        },
+        {
+            code: "typeof foo === `string`",
+            options: [{ requireStringLiterals: true }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "`object` === typeof foo",
+            options: [{ requireStringLiterals: true }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "typeof foo === `str${somethingElse}`",
+            parserOptions: { ecmaVersion: 6 }
         }
     ],
 
@@ -112,6 +126,11 @@ ruleTester.run("valid-typeof", rule, {
             errors: [{ message: "Invalid typeof comparison value.", type: "Literal" }]
         },
         {
+            code: "if (typeof bar === `umdefined`) {}",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{ message: "Invalid typeof comparison value.", type: "TemplateLiteral" }],
+        },
+        {
             code: "typeof foo == 'invalid string'",
             options: [{ requireStringLiterals: true }],
             errors: [{ message: "Invalid typeof comparison value.", type: "Literal" }]
@@ -135,6 +154,18 @@ ruleTester.run("valid-typeof", rule, {
             code: "undefined == typeof foo",
             options: [{ requireStringLiterals: true }],
             errors: [{ message: "Typeof comparisons should be to string literals.", type: "Identifier" }]
+        },
+        {
+            code: "typeof foo === `undefined${foo}`",
+            options: [{ requireStringLiterals: true }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{ message: "Typeof comparisons should be to string literals.", type: "TemplateLiteral" }]
+        },
+        {
+            code: "typeof foo === `${string}`",
+            options: [{ requireStringLiterals: true }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{ message: "Typeof comparisons should be to string literals.", type: "TemplateLiteral" }]
         }
     ]
 });
