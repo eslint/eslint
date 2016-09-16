@@ -48,8 +48,6 @@ ruleTester.run("no-redeclare", rule, {
         { code: "var a = function() { }; var a = new Date();", errors: [{ message: "'a' is already defined.", type: "Identifier"}] },
         { code: "var a = 3; var a = 10; var a = 15;", errors: [{ message: "'a' is already defined.", type: "Identifier"}, { message: "'a' is already defined.", type: "Identifier"}] },
         { code: "var a; var a;", parserOptions: { sourceType: "module" }, errors: [{ message: "'a' is already defined.", type: "Identifier"}] },
-        { code: "export var a; export var a;", parserOptions: { sourceType: "module" }, errors: [{ message: "'a' is already defined.", type: "Identifier"}] },
-        { code: "export class A {} export class A {}", parserOptions: { sourceType: "module" }, errors: [{ message: "'A' is already defined.", type: "Identifier"}] },
         { code: "export var a; var a;", parserOptions: { sourceType: "module" }, errors: [{ message: "'a' is already defined.", type: "Identifier"}] },
         {
             code: "var Object = 0;",
