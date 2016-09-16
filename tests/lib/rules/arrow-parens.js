@@ -26,6 +26,7 @@ const valid = [
     { code: "(a) => {\n}", parserOptions: { ecmaVersion: 6 } },
     { code: "a.then((foo) => {});", parserOptions: { ecmaVersion: 6 } },
     { code: "a.then((foo) => { if (true) {}; });", parserOptions: { ecmaVersion: 6 } },
+    { code: "a.then(async (foo) => { if (true) {}; });", parserOptions: { ecmaVersion: 8 } },
 
     // "always" (explicit)
     { code: "() => {}", options: ["always"], parserOptions: { ecmaVersion: 6 } },
@@ -34,6 +35,7 @@ const valid = [
     { code: "(a) => {\n}", options: ["always"], parserOptions: { ecmaVersion: 6 } },
     { code: "a.then((foo) => {});", options: ["always"], parserOptions: { ecmaVersion: 6 } },
     { code: "a.then((foo) => { if (true) {}; });", options: ["always"], parserOptions: { ecmaVersion: 6 } },
+    { code: "a.then(async (foo) => { if (true) {}; });", options: ["always"], parserOptions: { ecmaVersion: 8 } },
 
     // "as-needed"
     { code: "() => {}", options: ["as-needed"], parserOptions: { ecmaVersion: 6 } },
@@ -44,6 +46,8 @@ const valid = [
     { code: "(a = 10) => {}", options: ["as-needed"], parserOptions: { ecmaVersion: 6 } },
     { code: "(...a) => a[0]", options: ["as-needed"], parserOptions: { ecmaVersion: 6 } },
     { code: "(a, b) => {}", options: ["as-needed"], parserOptions: { ecmaVersion: 6 } },
+    { code: "async ([a, b]) => {}", options: ["as-needed"], parserOptions: { ecmaVersion: 8 } },
+    { code: "async (a, b) => {}", options: ["as-needed"], parserOptions: { ecmaVersion: 8 } },
 
     // "as-needed", { "requireForBlockBody": true }
     { code: "() => {}", options: ["as-needed", {requireForBlockBody: true}], parserOptions: { ecmaVersion: 6 } },
@@ -55,8 +59,9 @@ const valid = [
     { code: "(a = 10) => {}", options: ["as-needed", {requireForBlockBody: true}], parserOptions: { ecmaVersion: 6 } },
     { code: "(...a) => a[0]", options: ["as-needed", {requireForBlockBody: true}], parserOptions: { ecmaVersion: 6 } },
     { code: "(a, b) => {}", options: ["as-needed", {requireForBlockBody: true}], parserOptions: { ecmaVersion: 6 } },
-    { code: "a => ({})", options: ["as-needed", {requireForBlockBody: true}], parserOptions: { ecmaVersion: 6 } }
-
+    { code: "a => ({})", options: ["as-needed", {requireForBlockBody: true}], parserOptions: { ecmaVersion: 6 } },
+    { code: "async a => ({})", options: ["as-needed", {requireForBlockBody: true}], parserOptions: { ecmaVersion: 8 } },
+    { code: "async a => a", options: ["as-needed", {requireForBlockBody: true}], parserOptions: { ecmaVersion: 8 } }
 ];
 
 const message = "Expected parentheses around arrow function argument.";
@@ -134,6 +139,17 @@ const invalid = [
             type
         }]
     },
+    {
+        code: "a(async foo => { if (true) {}; });",
+        output: "a(async (foo) => { if (true) {}; });",
+        parserOptions: { ecmaVersion: 8 },
+        errors: [{
+            line: 1,
+            column: 3,
+            message,
+            type
+        }]
+    },
 
     // "as-needed"
     {
@@ -141,6 +157,18 @@ const invalid = [
         output: "a => a",
         options: ["as-needed"],
         parserOptions: { ecmaVersion: 6 },
+        errors: [{
+            line: 1,
+            column: 1,
+            message: asNeededMessage,
+            type
+        }]
+    },
+    {
+        code: "async (a) => a",
+        output: "async a => a",
+        options: ["as-needed"],
+        parserOptions: { ecmaVersion: 8 },
         errors: [{
             line: 1,
             column: 1,
@@ -167,6 +195,30 @@ const invalid = [
         output: "a => a",
         options: ["as-needed", {requireForBlockBody: true}],
         parserOptions: { ecmaVersion: 6 },
+        errors: [{
+            line: 1,
+            column: 1,
+            message: requireForBlockBodyMessage,
+            type
+        }]
+    },
+    {
+        code: "async a => {}",
+        output: "async (a) => {}",
+        options: ["as-needed", {requireForBlockBody: true}],
+        parserOptions: { ecmaVersion: 8 },
+        errors: [{
+            line: 1,
+            column: 1,
+            message: requireForBlockBodyNoParensMessage,
+            type
+        }]
+    },
+    {
+        code: "async (a) => a",
+        output: "async a => a",
+        options: ["as-needed", {requireForBlockBody: true}],
+        parserOptions: { ecmaVersion: 8 },
         errors: [{
             line: 1,
             column: 1,
