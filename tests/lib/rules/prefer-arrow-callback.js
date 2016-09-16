@@ -174,6 +174,18 @@ ruleTester.run("prefer-arrow-callback", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors,
             output: "qux(( /* a */ foo /* b */ , /* c */ bar /* d */ , /* e */ baz /* f */ ) => { return foo; })"
+        },
+        {
+            code: "qux(async function (foo = 1, bar = 2, baz = 3) { return baz; })",
+            output: "qux(async (foo = 1, bar = 2, baz = 3) => { return baz; })",
+            parserOptions: { ecmaVersion: 8 },
+            errors
+        },
+        {
+            code: "qux(async function (foo = 1, bar = 2, baz = 3) { return this; }.bind(this))",
+            output: "qux(async (foo = 1, bar = 2, baz = 3) => { return this; })",
+            parserOptions: { ecmaVersion: 8 },
+            errors,
         }
     ]
 });
