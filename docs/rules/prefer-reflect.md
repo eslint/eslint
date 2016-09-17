@@ -6,8 +6,9 @@ The ES6 Reflect API comes with a handful of methods which somewhat deprecate met
 * [`Reflect.deleteProperty`](http://www.ecma-international.org/ecma-262/6.0/index.html#sec-reflect.deleteproperty) effectively deprecates the [`delete` keyword](http://www.ecma-international.org/ecma-262/6.0/index.html#sec-delete-operator-runtime-semantics-evaluation)
 * [`Reflect.getOwnPropertyDescriptor`](http://www.ecma-international.org/ecma-262/6.0/index.html#sec-reflect.getownpropertydescriptor) effectively deprecates [`Object.getOwnPropertyDescriptor`](http://www.ecma-international.org/ecma-262/6.0/index.html#sec-object.getownpropertydescriptor)
 * [`Reflect.getPrototypeOf`](http://www.ecma-international.org/ecma-262/6.0/index.html#sec-reflect.getprototypeof) effectively deprecates [`Object.getPrototypeOf`](http://www.ecma-international.org/ecma-262/6.0/index.html#sec-object.getprototypeof)
-* [`Reflect.setPrototypeOf`](http://www.ecma-international.org/ecma-262/6.0/index.html#sec-reflect.setprototypeof) effectively deprecates [`Object.setPrototypeOf`](http://www.ecma-international.org/ecma-262/6.0/index.html#sec-object.setprototypeof)
+* [`Reflect.ownKeys`](http://www.ecma-international.org/ecma-262/6.0/index.html#sec-reflect.ownkeys) effectively deprecates [`Object.getOwnPropertyNames`](http://www.ecma-international.org/ecma-262/6.0/index.html#sec-object.getownpropertynames) and [`Object.getOwnPropertySymbols`](http://www.ecma-international.org/ecma-262/6.0/index.html#sec-object.getownpropertysymbols)
 * [`Reflect.preventExtensions`](http://www.ecma-international.org/ecma-262/6.0/index.html#sec-reflect.preventextensions)  effectively deprecates [`Object.preventExtensions`](http://www.ecma-international.org/ecma-262/6.0/index.html#sec-object.preventextensions)
+* [`Reflect.setPrototypeOf`](http://www.ecma-international.org/ecma-262/6.0/index.html#sec-reflect.setprototypeof) effectively deprecates [`Object.setPrototypeOf`](http://www.ecma-international.org/ecma-262/6.0/index.html#sec-object.setprototypeof)
 
 The prefer-reflect rule will flag usage of any older method, suggesting to instead use the newer Reflect version.
 
@@ -117,6 +118,39 @@ Object.defineProperty({}, 'foo', {value: 1})
 Reflect.defineProperty({}, 'foo', {value: 1})
 ```
 
+### Reflect.deleteProperty
+
+Deprecates the `delete` keyword
+
+Examples of **incorrect** code for this rule when used without exceptions:
+
+```js
+/*eslint prefer-reflect: "error"*/
+
+delete foo.bar; // deleting object property
+```
+
+Examples of **correct** code for this rule when used without exceptions:
+
+```js
+/*eslint prefer-reflect: "error"*/
+
+delete bar; // deleting variable
+Reflect.deleteProperty(foo, 'bar');
+```
+
+Note: For a rule preventing deletion of variables, see [no-delete-var instead](no-delete-var.md)
+
+Examples of **correct** code for this rule with the `{ "exceptions": ["delete"] }` option:
+
+```js
+/*eslint prefer-reflect: ["error", { "exceptions": ["delete"] }]*/
+
+delete bar
+delete foo.bar
+Reflect.deleteProperty(foo, 'bar');
+```
+
 ### Reflect.getOwnPropertyDescriptor
 
 Deprecates `Object.getOwnPropertyDescriptor()`
@@ -175,35 +209,6 @@ Object.getPrototypeOf({}, 'foo')
 Reflect.getPrototypeOf({}, 'foo')
 ```
 
-### Reflect.setPrototypeOf
-
-Deprecates `Object.setPrototypeOf()`
-
-Examples of **incorrect** code for this rule when used without exceptions:
-
-```js
-/*eslint prefer-reflect: "error"*/
-
-Object.setPrototypeOf({}, Object.prototype)
-```
-
-Examples of **correct** code for this rule when used without exceptions:
-
-```js
-/*eslint prefer-reflect: "error"*/
-
-Reflect.setPrototypeOf({}, Object.prototype)
-```
-
-Examples of **correct** code for this rule with the `{ "exceptions": ["setPrototypeOf"] }` option:
-
-```js
-/*eslint prefer-reflect: ["error", { "exceptions": ["setPrototypeOf"] }]*/
-
-Object.setPrototypeOf({}, Object.prototype)
-Reflect.setPrototypeOf({}, Object.prototype)
-```
-
 ### Reflect.isExtensible
 
 Deprecates `Object.isExtensible`
@@ -233,9 +238,11 @@ Object.isExtensible({})
 Reflect.isExtensible({})
 ```
 
-### Reflect.getOwnPropertyNames
+### Reflect.ownKeys
 
-Deprecates `Object.getOwnPropertyNames()`
+Deprecates `Object.getOwnPropertyNames()` and `Object.getOwnPropertySymbols`
+
+**Note:** Reflect.ownKeys includes both the object's own property names and Symbol properties. There is no exact equivalent to Object.getOwnPropertyNames and Object.getOwnPropertySymbols in the Reflect API. (Reflect.getOwnPropertyNames and Reflect.getOwnPropertySymbols are not part of the ES6 specification.)
 
 Examples of **incorrect** code for this rule when used without exceptions:
 
@@ -243,6 +250,7 @@ Examples of **incorrect** code for this rule when used without exceptions:
 /*eslint prefer-reflect: "error"*/
 
 Object.getOwnPropertyNames({})
+Object.getOwnPropertySymbols({})
 ```
 
 Examples of **correct** code for this rule when used without exceptions:
@@ -250,7 +258,7 @@ Examples of **correct** code for this rule when used without exceptions:
 ```js
 /*eslint prefer-reflect: "error"*/
 
-Reflect.getOwnPropertyNames({})
+Reflect.ownKeys({})
 ```
 
 Examples of **correct** code for this rule with the `{ "exceptions": ["getOwnPropertyNames"] }` option:
@@ -259,7 +267,7 @@ Examples of **correct** code for this rule with the `{ "exceptions": ["getOwnPro
 /*eslint prefer-reflect: ["error", { "exceptions": ["getOwnPropertyNames"] }]*/
 
 Object.getOwnPropertyNames({})
-Reflect.getOwnPropertyNames({})
+Reflect.ownKeys({})
 ```
 
 ### Reflect.preventExtensions
@@ -291,16 +299,16 @@ Object.preventExtensions({})
 Reflect.preventExtensions({})
 ```
 
-### Reflect.deleteProperty
+### Reflect.setPrototypeOf
 
-Deprecates the `delete` keyword
+Deprecates `Object.setPrototypeOf()`
 
 Examples of **incorrect** code for this rule when used without exceptions:
 
 ```js
 /*eslint prefer-reflect: "error"*/
 
-delete foo.bar; // deleting object property
+Object.setPrototypeOf({}, Object.prototype)
 ```
 
 Examples of **correct** code for this rule when used without exceptions:
@@ -308,20 +316,16 @@ Examples of **correct** code for this rule when used without exceptions:
 ```js
 /*eslint prefer-reflect: "error"*/
 
-delete bar; // deleting variable
-Reflect.deleteProperty(foo, 'bar');
+Reflect.setPrototypeOf({}, Object.prototype)
 ```
 
-Note: For a rule preventing deletion of variables, see [no-delete-var instead](no-delete-var.md)
-
-Examples of **correct** code for this rule with the `{ "exceptions": ["delete"] }` option:
+Examples of **correct** code for this rule with the `{ "exceptions": ["setPrototypeOf"] }` option:
 
 ```js
-/*eslint prefer-reflect: ["error", { "exceptions": ["delete"] }]*/
+/*eslint prefer-reflect: ["error", { "exceptions": ["setPrototypeOf"] }]*/
 
-delete bar
-delete foo.bar
-Reflect.deleteProperty(foo, 'bar');
+Object.setPrototypeOf({}, Object.prototype)
+Reflect.setPrototypeOf({}, Object.prototype)
 ```
 
 ## When Not To Use It
