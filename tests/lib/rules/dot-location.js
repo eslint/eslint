@@ -42,18 +42,45 @@ ruleTester.run("dot-location", rule, {
     invalid: [
         {
             code: "obj\n.property",
+            output: "obj.\nproperty",
             options: [ "object" ],
             errors: [ { message: "Expected dot to be on same line as object.", type: "MemberExpression", line: 2, column: 1 } ]
         },
         {
             code: "obj.\nproperty",
+            output: "obj\n.property",
             options: [ "property" ],
             errors: [ { message: "Expected dot to be on same line as property.", type: "MemberExpression", line: 1, column: 4 } ]
         },
         {
             code: "(obj).\nproperty",
+            output: "(obj)\n.property",
             options: [ "property" ],
             errors: [ { message: "Expected dot to be on same line as property.", type: "MemberExpression", line: 1, column: 6 } ]
+        },
+        {
+            code: "5\n.toExponential()",
+            output: "5 .\ntoExponential()",
+            options: [ "object" ],
+            errors: [ { message: "Expected dot to be on same line as object.", type: "MemberExpression", line: 2, column: 1 } ]
+        },
+        {
+            code: "-5\n.toExponential()",
+            output: "-5 .\ntoExponential()",
+            options: [ "object" ],
+            errors: [ { message: "Expected dot to be on same line as object.", type: "MemberExpression", line: 2, column: 1 } ]
+        },
+        {
+            code: "foo /* a */ . /* b */ \n /* c */ bar",
+            output: "foo /* a */  /* b */ \n /* c */ .bar",
+            options: [ "property" ],
+            errors: [ { message: "Expected dot to be on same line as property.", type: "MemberExpression", line: 1, column: 13 } ]
+        },
+        {
+            code: "foo /* a */ \n /* b */ . /* c */ bar",
+            output: "foo. /* a */ \n /* b */  /* c */ bar",
+            options: [ "object" ],
+            errors: [ { message: "Expected dot to be on same line as object.", type: "MemberExpression", line: 2, column: 10 } ]
         }
     ]
 });
