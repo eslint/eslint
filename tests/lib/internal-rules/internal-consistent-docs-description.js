@@ -180,5 +180,85 @@ ruleTester.run("internal-consistent-docs-description", rule, {
                 column: 26
             }]
         },
+        {
+            code: [
+                "module.exports = {",
+                "    meta: {",
+                "        docs: {",
+                "            description: ' disallow (whitespace in the beginning)'",
+                "        }",
+                "    },",
+
+                "    create: function(context) {",
+                "        return {};",
+                "    }",
+                "};"
+            ].join("\n"),
+            errors: [{
+                message: "`meta.docs.description` should start with one of the following words: enforce, require, disallow. Started with \" disallow\" instead.",
+                line: 4,
+                column: 26
+            }]
+        },
+        {
+            code: [
+                "module.exports = {",
+                "    meta: {",
+                "        docs: {",
+                "            description: '    disallow (whitespace in the beginning)'",
+                "        }",
+                "    },",
+
+                "    create: function(context) {",
+                "        return {};",
+                "    }",
+                "};"
+            ].join("\n"),
+            errors: [{
+                message: "`meta.docs.description` should start with one of the following words: enforce, require, disallow. Started with \"    disallow\" instead.",
+                line: 4,
+                column: 26
+            }]
+        },
+        {
+            code: [
+                "module.exports = {",
+                "    meta: {",
+                "        docs: {",
+                "            description: ''",
+                "        }",
+                "    },",
+
+                "    create: function(context) {",
+                "        return {};",
+                "    }",
+                "};"
+            ].join("\n"),
+            errors: [{
+                message: "`meta.docs.description` should start with one of the following words: enforce, require, disallow. Started with \"\" instead.",
+                line: 4,
+                column: 26
+            }]
+        },
+        {
+            code: [
+                "module.exports = {",
+                "    meta: {",
+                "        docs: {",
+                "            description: '  '",
+                "        }",
+                "    },",
+
+                "    create: function(context) {",
+                "        return {};",
+                "    }",
+                "};"
+            ].join("\n"),
+            errors: [{
+                message: "`meta.docs.description` should start with one of the following words: enforce, require, disallow. Started with \"  \" instead.",
+                line: 4,
+                column: 26
+            }]
+        }
     ]
 });
