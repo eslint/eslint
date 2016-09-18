@@ -113,9 +113,9 @@ describe("CLIEngine", function() {
             assert.equal(report.results[0].messages.length, 5);
             assert.equal(report.results[0].messages[0].ruleId, "strict");
             assert.equal(report.results[0].messages[1].ruleId, "no-var");
-            assert.equal(report.results[0].messages[2].ruleId, "eol-last");
-            assert.equal(report.results[0].messages[3].ruleId, "no-unused-vars");
-            assert.equal(report.results[0].messages[4].ruleId, "quotes");
+            assert.equal(report.results[0].messages[2].ruleId, "no-unused-vars");
+            assert.equal(report.results[0].messages[3].ruleId, "quotes");
+            assert.equal(report.results[0].messages[4].ruleId, "eol-last");
         });
 
         it("should report one message when using specific config file", function() {
@@ -2401,11 +2401,11 @@ describe("CLIEngine", function() {
             assert.equal(errorResults[0].messages[0].severity, 2);
             assert.equal(errorResults[0].messages[1].ruleId, "no-var");
             assert.equal(errorResults[0].messages[1].severity, 2);
-            assert.equal(errorResults[0].messages[2].ruleId, "eol-last");
+            assert.equal(errorResults[0].messages[2].ruleId, "no-unused-vars");
             assert.equal(errorResults[0].messages[2].severity, 2);
-            assert.equal(errorResults[0].messages[3].ruleId, "no-unused-vars");
+            assert.equal(errorResults[0].messages[3].ruleId, "quotes");
             assert.equal(errorResults[0].messages[3].severity, 2);
-            assert.equal(errorResults[0].messages[4].ruleId, "quotes");
+            assert.equal(errorResults[0].messages[4].ruleId, "eol-last");
             assert.equal(errorResults[0].messages[4].severity, 2);
         });
 
