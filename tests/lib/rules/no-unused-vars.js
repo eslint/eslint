@@ -212,7 +212,19 @@ ruleTester.run("no-unused-vars", rule, {
                 "}",
                 "someFunction();"
             ].join("\n")
-        }
+        },
+
+        // https://github.com/eslint/eslint/issues/7124
+        {
+            code: "(function(a, b, {c, d}) { d })",
+            options: [{argsIgnorePattern: "c"}],
+            parserOptions: {ecmaVersion: 6}
+        },
+        {
+            code: "(function(a, b, {c, d}) { c })",
+            options: [{argsIgnorePattern: "d"}],
+            parserOptions: {ecmaVersion: 6}
+        },
     ],
     invalid: [
         { code: "function foox() { return foox(); }", errors: [{ message: "'foox' is defined but never used.", type: "Identifier"}] },
@@ -451,6 +463,31 @@ ruleTester.run("no-unused-vars", rule, {
                 "}"
             ].join("\n"),
             errors: [{message: "'b' is defined but never used."}]
-        }
+        },
+
+        // https://github.com/eslint/eslint/issues/7124
+        {
+            code: "(function(a, b, c) {})",
+            options: [{argsIgnorePattern: "c"}],
+            errors: [{message: "'b' is defined but never used."}]
+        },
+        {
+            code: "(function(a, b, {c, d}) {})",
+            options: [{argsIgnorePattern: "[cd]"}],
+            parserOptions: {ecmaVersion: 6},
+            errors: [{message: "'b' is defined but never used."}]
+        },
+        {
+            code: "(function(a, b, {c, d}) {})",
+            options: [{argsIgnorePattern: "c"}],
+            parserOptions: {ecmaVersion: 6},
+            errors: [{message: "'d' is defined but never used."}]
+        },
+        {
+            code: "(function(a, b, {c, d}) {})",
+            options: [{argsIgnorePattern: "d"}],
+            parserOptions: {ecmaVersion: 6},
+            errors: [{message: "'c' is defined but never used."}]
+        },
     ]
 });
