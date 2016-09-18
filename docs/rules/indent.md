@@ -80,6 +80,8 @@ This rule has an object option:
 * `"FunctionExpression"` takes an object to define rules for function expressions.
     * `parameters` (off by default) enforces indentation level for parameters in a function expression. This can either be a number indicating indentation level, or the string `"first"` indicating that all parameters of the expression must be aligned with the first parameter.
     * `body` (default: 1) enforces indentation level for the body of a function expression.
+* `"CallExpression"` takes an object to define rules for function call expressions.
+    * `arguments` (off by default) enforces indentation level for arguments in a call expression. This can either be a number indicating indentation level, or the string `"first"` indicating that all arguments of the expression must be aligned with the first argument.
 
 Level of indentation denotes the multiple of the indent specified. Example:
 
@@ -384,6 +386,48 @@ var foo = function(bar, baz,
                    qux, boop) {
   qux();
 }
+```
+
+### CallExpression
+
+Examples of **incorrect** code for this rule with the `2, { "CallExpression": {"arguments": 1} }` option:
+
+```js
+/*eslint indent: ["error", 2, { "CallExpression": {"arguments": 1} }]*/
+
+foo(bar,
+    baz,
+      qux
+);
+```
+
+Examples of **correct** code for this rule with the `2, { "CallExpression": {"arguments": 1} }` option:
+
+```js
+/*eslint indent: ["error", 2, { "CallExpression": {"arguments": 1} }]*/
+
+foo(bar,
+  baz,
+  qux
+);
+```
+
+Examples of **incorrect** code for this rule with the `2, { "CallExpression": {"arguments": "first"} }` option:
+
+```js
+/*eslint indent: ["error", 2, {"CallExpression": {"arguments": "first"}}]*/
+
+foo(bar, baz,
+  baz, boop, beep);
+```
+
+Examples of **correct** code for this rule with the `2, { "CallExpression": {"arguments": "first"} }` option:
+
+```js
+/*eslint indent: ["error", 2, {"CallExpression": {"arguments": "first"}}]*/
+
+foo(bar, baz,
+    baz, boop, beep);
 ```
 
 ## Compatibility
