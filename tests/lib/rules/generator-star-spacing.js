@@ -517,8 +517,33 @@ ruleTester.run("generator-star-spacing", rule, {
             code: "class Foo { static*foo(){} }",
             options: [{before: false, after: false}],
             parserOptions: { ecmaVersion: 6 }
-        }
+        },
 
+        // https://github.com/eslint/eslint/issues/7101#issuecomment-246080531
+        {
+            code: "async function foo() { }",
+            parserOptions: { ecmaVersion: 8 }
+        },
+        {
+            code: "(async function() { })",
+            parserOptions: { ecmaVersion: 8 }
+        },
+        {
+            code: "async () => { }",
+            parserOptions: { ecmaVersion: 8 }
+        },
+        {
+            code: "({async foo() { }})",
+            parserOptions: { ecmaVersion: 8 }
+        },
+        {
+            code: "class A {async foo() { }}",
+            parserOptions: { ecmaVersion: 8 }
+        },
+        {
+            code: "(class {async foo() { }})",
+            parserOptions: { ecmaVersion: 8 }
+        },
     ],
 
     invalid: [
