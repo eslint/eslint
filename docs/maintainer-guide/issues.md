@@ -48,13 +48,22 @@ The steps for triaging an issue are:
 1. Next steps:
     * **Questions:** answer the question and close the issue when the conversation is over.
     * **Bugs:** if you can verify the bug, add the "accepted" label and ask if they would like to submit a pull request.
-    * **New Rules:** if you are willing to champion the rule (meaning you believe it should be included in ESLint core and you will take ownership of the process for including it), add a comment saying you will champion the issue and follow the [guidelines](#championing-issues) below.
-    * **Rule Changes:** if you are willing to champion the change and it would not be a breaking change (requiring a major version increment), add a comment saying that you will champion the issue and follow the [guidelines](#championing-issues) below.
+    * **New Rules:** if you are willing to champion the rule (meaning you believe it should be included in ESLint core and you will take ownership of the process for including it), add a comment saying you will champion the issue, assign the issue to yourself, and follow the [guidelines](#championing-issues) below.
+    * **Rule Changes:** if you are willing to champion the change and it would not be a breaking change (requiring a major version increment), add a comment saying that you will champion the issue, assign the issue to yourself, and follow the [guidelines](#championing-issues) below.
     * **Breaking Changes:** if you suspect or can verify that a change would be breaking, label it as "Breaking".
     * **Duplicates:** if you can verify the issue is a duplicate, add a comment mentioning the duplicate issue (such as, "Duplicate of #1234") and close the issue.
 1. Regardless of the above, always leave a comment. Don't just add labels, engage with the person who opened the issue by asking a question (request more information if necessary) or stating your opinion of the issue. If it's a verified bug, ask if the user would like to submit a pull request.
 
 **Note:** "Beginner" issues are intended to help new contributors feel welcome and empowered to make a contribution to ESLint. To ensure that new contributors are given a chance to work on these issues, issues labeled "beginner" must be open for 30 days *from the day the issue was labeled* before a team member is permitted to work on them.
+
+## Accepting Issues
+
+Issues may be labeled as "accepted" when the issue is:
+
+* A bug that you've been able to reproduce and verify (i.e. you're sure it's a bug)
+* A new rule or rule change that you're championing and [consensus](#consensus) has been reached for its inclusion in the project
+
+The "accepted" label will be added to other issues by a TSC member if it's appropriate for the roadmap.
 
 ## Championing Issues
 
@@ -65,18 +74,22 @@ New rules and rule changes require a champion. As champion, it's your job to:
 
 Once consensus has been reached on inclusion, add the "accepted" and, optionally, "help wanted" and "beginner" labels, as necessary.
 
-## Accepting Issues
+## Consensus
 
-Issues may be labeled as "accepted" when the issue is:
+Consensus is reached on issues when there are at least three team members who believe the change is a good idea and no one who believes the change is a bad idea. In order to indicate your support for an issue, leave a +1 reaction (thumbs up) on the original issue description in addition to any comments you might have.
 
-* A bug that you've been able to reproduce and verify (i.e. you're sure it's a bug)
-* A new rule or rule change that you're championing and consensus has been reached for its inclusion in the project
+## When to Send to TSC
 
-The "accepted" label will be added to other issues by a TSC member if it's appropriate for the roadmap.
+If consensus cannot be reached on an issue, or an issue's progress has been stalled and it's not clear if the issue should be closed, then you can refer the issue to the TSC for resolution. To do so, add the "tsc agenda" label to the issue and add a comment including the following information:
+
+1. A one-paragraph summary of the discussion to this point.
+2. The question you would like the TSC to answer.
+
+The issue will be discussed at the next TSC meeting and the resolution will be posted back to the issue.
 
 ## Evaluating Core Features and Enhancements (TSC members only)
 
-Changes to the core (including CLI changes) that would result in a minor or major version release must be approved by the TSC by standard TSC motion. Add the label "tsc agenda" to the issue and it will be discussed at the next TSC meeting. In general, requests should meet the following criteria to be considered:
+In addition to the above, changes to the core (including CLI changes) that would result in a minor or major version release must be approved by the TSC by standard TSC motion. Add the label "tsc agenda" to the issue and it will be discussed at the next TSC meeting. In general, requests should meet the following criteria to be considered:
 
 1. The feature or enhancement is in scope for the project and should be added to the roadmap
 1. Someone is committed to including the change within the next year
@@ -106,15 +119,3 @@ In an effort to keep the issues backlog manageable, team members may also close 
 * **Accepted**: Close after 90 days if no one from the team or the community is willing to step forward and own the work to complete to it.
 * **Help wanted:** Close after 90 days if it has not been completed.
 
-## Consensus
-
-Consensus is reached on issues when there are at least three team members who believe the change is a good idea and no one who believes the change is a bad idea.
-
-## When to Send to TSC
-
-If consensus cannot be reached on an issue, or an issue's progress has been stalled and it's not clear if the issue should be closed, then you can refer the issue to the TSC for resolution. To do so, add the "tsc agenda" label to the issue and add a comment including the following information:
-
-1. A one-paragraph summary of the discussion to this point.
-2. The question you would like the TSC to answer.
-
-The issue will be discussed at the next TSC meeting and the resolution will be posted back to the issue.
