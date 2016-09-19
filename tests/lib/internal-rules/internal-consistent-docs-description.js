@@ -105,26 +105,6 @@ ruleTester.run("internal-consistent-docs-description", rule, {
                 "module.exports = {",
                 "    meta: {",
                 "        docs: {",
-                "            description: ''",
-                "        }",
-                "    },",
-
-                "    create: function(context) {",
-                "        return {};",
-                "    }",
-                "};"
-            ].join("\n"),
-            errors: [{
-                message: "`meta.docs.description` should start with one of the following words: enforce, require, disallow. Started with \"\" instead.",
-                line: 4,
-                column: 26
-            }]
-        },
-        {
-            code: [
-                "module.exports = {",
-                "    meta: {",
-                "        docs: {",
                 "            description: 'Require stuff'",
                 "        }",
                 "    },",
@@ -195,7 +175,7 @@ ruleTester.run("internal-consistent-docs-description", rule, {
                 "};"
             ].join("\n"),
             errors: [{
-                message: "`meta.docs.description` should start with one of the following words: enforce, require, disallow. Started with \" disallow\" instead.",
+                message: "`meta.docs.description` should not start with whitespaces.",
                 line: 4,
                 column: 26
             }]
@@ -205,7 +185,7 @@ ruleTester.run("internal-consistent-docs-description", rule, {
                 "module.exports = {",
                 "    meta: {",
                 "        docs: {",
-                "            description: '    disallow (whitespace in the beginning)'",
+                "            description: '    disallow (whitespaces in the beginning)'",
                 "        }",
                 "    },",
 
@@ -215,27 +195,7 @@ ruleTester.run("internal-consistent-docs-description", rule, {
                 "};"
             ].join("\n"),
             errors: [{
-                message: "`meta.docs.description` should start with one of the following words: enforce, require, disallow. Started with \"    disallow\" instead.",
-                line: 4,
-                column: 26
-            }]
-        },
-        {
-            code: [
-                "module.exports = {",
-                "    meta: {",
-                "        docs: {",
-                "            description: ''",
-                "        }",
-                "    },",
-
-                "    create: function(context) {",
-                "        return {};",
-                "    }",
-                "};"
-            ].join("\n"),
-            errors: [{
-                message: "`meta.docs.description` should start with one of the following words: enforce, require, disallow. Started with \"\" instead.",
+                message: "`meta.docs.description` should not start with whitespaces.",
                 line: 4,
                 column: 26
             }]
@@ -255,7 +215,47 @@ ruleTester.run("internal-consistent-docs-description", rule, {
                 "};"
             ].join("\n"),
             errors: [{
-                message: "`meta.docs.description` should start with one of the following words: enforce, require, disallow. Started with \"  \" instead.",
+                message: "`meta.docs.description` should not start with whitespaces.",
+                line: 4,
+                column: 26
+            }]
+        },
+        {
+            code: [
+                "module.exports = {",
+                "    meta: {",
+                "        docs: {",
+                "            description: ''",
+                "        }",
+                "    },",
+
+                "    create: function(context) {",
+                "        return {};",
+                "    }",
+                "};"
+            ].join("\n"),
+            errors: [{
+                message: "`meta.docs.description` should not be empty.",
+                line: 4,
+                column: 26
+            }]
+        },
+        {
+            code: [
+                "module.exports = {",
+                "    meta: {",
+                "        docs: {",
+                "            description: true",
+                "        }",
+                "    },",
+
+                "    create: function(context) {",
+                "        return {};",
+                "    }",
+                "};"
+            ].join("\n"),
+            errors: [{
+                message: "`meta.docs.description` should be a string.",
                 line: 4,
                 column: 26
             }]
