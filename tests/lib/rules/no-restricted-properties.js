@@ -95,6 +95,74 @@ ruleTester.run("no-restricted-properties", rule, {
             options: [{
                 object: "foo"
             }]
+        }, {
+            code: "let bar = foo;",
+            options: [{ object: "foo", property: "bar" }],
+            parserOptions: { ecmaVersion: 6 },
+        }, {
+            code: "let {baz: bar} = foo;",
+            options: [{ object: "foo", property: "bar" }],
+            parserOptions: { ecmaVersion: 6 }
+        }, {
+            code: "let {unrelated} = foo;",
+            options: [{ object: "foo", property: "bar" }],
+            parserOptions: { ecmaVersion: 6 }
+        }, {
+            code: "let {baz: {bar: qux}} = foo;", property: "bar",
+            options: [{ object: "foo", property: "bar" }],
+            parserOptions: { ecmaVersion: 6 }
+        }, {
+            code: "let {bar} = foo.baz;",
+            options: [{ object: "foo", property: "bar" }],
+            parserOptions: { ecmaVersion: 6 }
+        }, {
+            code: "let {baz: bar} = foo;",
+            options: [{ property: "bar" }],
+            parserOptions: { ecmaVersion: 6 }
+        }, {
+            code: "let baz; ({baz: bar} = foo)",
+            options: [{ object: "foo", property: "bar" }],
+            parserOptions: { ecmaVersion: 6 }
+        }, {
+            code: "let bar;",
+            options: [{ object: "foo", property: "bar" }],
+            parserOptions: { ecmaVersion: 6 }
+        }, {
+            code: "let bar; ([bar = 5] = foo);",
+            options: [{ object: "foo", property: "1" }],
+            parserOptions: { ecmaVersion: 6 }
+        }, {
+            code: "function qux({baz: bar} = foo) {}",
+            options: [{ object: "foo", property: "bar" }],
+            parserOptions: { ecmaVersion: 6 }
+        }, {
+            code: "let [bar, baz] = foo;",
+            options: [{ object: "foo", property: "1" }],
+            parserOptions: { ecmaVersion: 6 }
+        }, {
+            code: "let [, bar] = foo;",
+            options: [{ object: "foo", property: "0" }],
+            parserOptions: { ecmaVersion: 6 }
+        }, {
+            code: "let [, bar = 5] = foo;",
+            options: [{ object: "foo", property: "1" }],
+            parserOptions: { ecmaVersion: 6 }
+        }, {
+            code: "let bar; ([bar = 5] = foo);",
+            options: [{ object: "foo", property: "0" }],
+            parserOptions: { ecmaVersion: 6 }
+        }, {
+            code: "function qux([bar] = foo) {}",
+            options: [{ object: "foo", property: "0" }],
+            parserOptions: { ecmaVersion: 6 }
+        }, {
+            code: "function qux([, bar] = foo) {}",
+            options: [{ object: "foo", property: "0" }],
+            parserOptions: { ecmaVersion: 6 }
+        }, {
+            code: "function qux([, bar] = foo) {}",
+            options: [{ object: "foo", property: "1" }],
+            parserOptions: { ecmaVersion: 6 }
         }
     ],
 
@@ -199,6 +267,66 @@ ruleTester.run("no-restricted-properties", rule, {
                 message: "'require.resolve' is restricted from being used.",
                 type: "MemberExpression"
             }]
+        }, {
+            code: "let {bar} = foo;",
+            options: [{ object: "foo", property: "bar" }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{ message: "'foo.bar' is restricted from being used.", type: "ObjectPattern" }]
+        }, {
+            code: "let {bar: baz} = foo;",
+            options: [{ object: "foo", property: "bar" }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{ message: "'foo.bar' is restricted from being used.", type: "ObjectPattern" }]
+        }, {
+            code: "let {'bar': baz} = foo;",
+            options: [{ object: "foo", property: "bar" }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{ message: "'foo.bar' is restricted from being used.", type: "ObjectPattern" }]
+        }, {
+            code: "let {bar: {baz: qux}} = foo;",
+            options: [{ object: "foo", property: "bar" }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{ message: "'foo.bar' is restricted from being used.", type: "ObjectPattern" }]
+        }, {
+            code: "let {bar} = foo;",
+            options: [{ object: "foo" }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{ message: "'foo.bar' is restricted from being used.", type: "ObjectPattern" }]
+        }, {
+            code: "let {bar: baz} = foo;",
+            options: [{ object: "foo" }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{ message: "'foo.bar' is restricted from being used.", type: "ObjectPattern" }]
+        }, {
+            code: "let {bar} = foo;",
+            options: [{ property: "bar" }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{ message: "'bar' is restricted from being used.", type: "ObjectPattern" }]
+        }, {
+            code: "let bar; ({bar} = foo);",
+            options: [{ object: "foo", property: "bar" }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{ message: "'foo.bar' is restricted from being used.", type: "ObjectPattern" }]
+        }, {
+            code: "let bar; ({bar: baz = 1} = foo);",
+            options: [{ object: "foo", property: "bar" }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{ message: "'foo.bar' is restricted from being used.", type: "ObjectPattern" }]
+        }, {
+            code: "function qux({bar} = foo) {}",
+            options: [{ object: "foo", property: "bar" }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{ message: "'foo.bar' is restricted from being used.", type: "ObjectPattern" }]
+        }, {
+            code: "function qux({bar: baz} = foo) {}",
+            options: [{ object: "foo", property: "bar" }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{ message: "'foo.bar' is restricted from being used.", type: "ObjectPattern" }]
+        }, {
+            code: "var {['foo']: qux, bar} = baz",
+            options: [{ object: "baz", property: "foo" }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{ message: "'baz.foo' is restricted from being used.", type: "ObjectPattern" }]
         }
     ]
 });
