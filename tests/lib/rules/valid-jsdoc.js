@@ -317,6 +317,21 @@ ruleTester.run("valid-jsdoc", rule, {
             code:
             "/**\n" +
             "* Foo\n" +
+            "* @param {{String:foo}} hi - desc\n" +
+            "* @returns {ASTNode} returns a node\n" +
+            "*/\n" +
+            "function foo(hi){}",
+            options: [{
+                preferType: {
+                    String: "string",
+                    astnode: "ASTNode"
+                }
+            }]
+        },
+        {
+            code:
+            "/**\n" +
+            "* Foo\n" +
             "* @param {String|number|Test} hi - desc\n" +
             "* @returns {Astnode} returns a node\n" +
             "*/\n" +
@@ -541,6 +556,56 @@ ruleTester.run("valid-jsdoc", rule, {
                 "}"
             ].join("\n"),
             parserOptions: {ecmaVersion: 6}
+        },
+
+        // https://github.com/eslint/eslint/issues/7184
+        {
+            code:
+            "/**\n" +
+            "* Foo\n" +
+            "* @param {{foo}} hi - desc\n" +
+            "* @returns {ASTNode} returns a node\n" +
+            "*/\n" +
+            "function foo(hi){}"
+        },
+        {
+            code:
+            "/**\n" +
+            "* Foo\n" +
+            "* @param {{foo:String, bar, baz:Array}} hi - desc\n" +
+            "* @returns {ASTNode} returns a node\n" +
+            "*/\n" +
+            "function foo(hi){}"
+        },
+        {
+            code:
+            "/**\n" +
+            "* Foo\n" +
+            "* @param {{String}} hi - desc\n" +
+            "* @returns {ASTNode} returns a node\n" +
+            "*/\n" +
+            "function foo(hi){}",
+            options: [{
+                preferType: {
+                    String: "string",
+                    astnode: "ASTNode"
+                }
+            }]
+        },
+        {
+            code:
+            "/**\n" +
+            "* Foo\n" +
+            "* @param {{foo:string, astnode:Object, bar}} hi - desc\n" +
+            "* @returns {ASTNode} returns a node\n" +
+            "*/\n" +
+            "function foo(hi){}",
+            options: [{
+                preferType: {
+                    String: "string",
+                    astnode: "ASTNode"
+                }
+            }]
         }
     ],
 
@@ -1226,6 +1291,29 @@ ruleTester.run("valid-jsdoc", rule, {
                 },
                 {
                     message: "Use 'Object' instead of 'object'.",
+                    type: "Block"
+                }
+            ]
+        },
+
+        // https://github.com/eslint/eslint/issues/7184
+        {
+            code:
+            "/**\n" +
+            "* Foo\n" +
+            "* @param {{foo:String, astnode:Object, bar}} hi - desc\n" +
+            "* @returns {ASTnode} returns a node\n" +
+            "*/\n" +
+            "function foo(hi){}",
+            options: [{
+                preferType: {
+                    String: "string",
+                    astnode: "ASTNode"
+                }
+            }],
+            errors: [
+                {
+                    message: "Use 'string' instead of 'String'.",
                     type: "Block"
                 }
             ]
