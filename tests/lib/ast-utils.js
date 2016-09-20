@@ -646,4 +646,24 @@ describe("ast-utils", function() {
             assert.equal(result[1].expression.value, "use asm");
         });
     });
+
+    describe("isDecimalInteger", function() {
+        const expectedResults = {
+            5: true,
+            0: true,
+            "5.": false,
+            "5.0": false,
+            "05": false,
+            "0x5": false,
+            "5e0": false,
+            "5e-0": false,
+            "'5'": false
+        };
+
+        Object.keys(expectedResults).forEach(key => {
+            it(`should return ${expectedResults[key]} for ${key}`, function() {
+                assert.strictEqual(astUtils.isDecimalInteger(espree.parse(key).body[0].expression), expectedResults[key]);
+            });
+        });
+    });
 });
