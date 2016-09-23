@@ -33,20 +33,22 @@ This rule aims to enforce consistent spacing before function parentheses and as 
     "space-before-function-paren": ["error", {
         "anonymous": "always",
         "named": "always",
-        "asyncArrow": "always"
+        "asyncArrow": "ignore"
     }],
 }
 ```
 
 * `always` (default) requires a space followed by the `(` of arguments.
 * `never` disallows any space followed by the `(` of arguments.
-* `ignore` do nothing. This is used in separated settings.
+* `ignore` does nothing. This is used in separated settings.
 
 It can separate setting for each kind of functions by object style options:
 
 * `anonymous` is for anonymous function expressions (e.g. `function () {}`).
 * `named` is for named function expressions (e.g. `function foo () {}`).
 * `asyncArrow` is for async arrow function expressions (e.g. `async () => {}`).
+  `asyncArrow` is ignored by default for backward compatibility.
+  If you want to warn async arrow function expressions, please use this separated setting.
 
 ### "always"
 
@@ -110,6 +112,10 @@ var foo = {
         // ...
     }
 };
+
+// async arrow function expressions are ignored by default.
+var foo = async () => 1
+var foo = async() => 1
 ```
 
 ### "never"
@@ -174,6 +180,10 @@ var foo = {
         // ...
     }
 };
+
+// async arrow function expressions are ignored by default.
+var foo = async () => 1
+var foo = async() => 1
 ```
 
 ### `{"anonymous": "always", "named": "never", "asyncArrow": "always"}`

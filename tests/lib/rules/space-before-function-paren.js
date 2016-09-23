@@ -99,13 +99,20 @@ ruleTester.run("space-before-function-paren", rule, {
         // Async arrow functions
         { code: "() => 1", parserOptions: {ecmaVersion: 6} },
         { code: "async a => a", parserOptions: {ecmaVersion: 8} },
-        { code: "async () => 1", parserOptions: {ecmaVersion: 8} },
-        { code: "async () => 1", options: ["always"], parserOptions: {ecmaVersion: 8} },
-        { code: "async() => 1", options: ["never"], parserOptions: {ecmaVersion: 8} },
+        { code: "async a => a", options: [{asyncArrow: "always"}], parserOptions: {ecmaVersion: 8} },
+        { code: "async a => a", options: [{asyncArrow: "never"}], parserOptions: {ecmaVersion: 8} },
         { code: "async () => 1", options: [{asyncArrow: "always"}], parserOptions: {ecmaVersion: 8} },
         { code: "async() => 1", options: [{asyncArrow: "never"}], parserOptions: {ecmaVersion: 8} },
         { code: "async () => 1", options: [{asyncArrow: "ignore"}], parserOptions: {ecmaVersion: 8} },
         { code: "async() => 1", options: [{asyncArrow: "ignore"}], parserOptions: {ecmaVersion: 8} },
+
+        // ignore by default for now.
+        { code: "async () => 1", parserOptions: {ecmaVersion: 8} },
+        { code: "async() => 1", parserOptions: {ecmaVersion: 8} },
+        { code: "async () => 1", options: ["always"], parserOptions: {ecmaVersion: 8} },
+        { code: "async() => 1", options: ["always"], parserOptions: {ecmaVersion: 8} },
+        { code: "async () => 1", options: ["never"], parserOptions: {ecmaVersion: 8} },
+        { code: "async() => 1", options: ["never"], parserOptions: {ecmaVersion: 8} },
     ],
 
     invalid: [
@@ -469,26 +476,6 @@ ruleTester.run("space-before-function-paren", rule, {
         },
 
         // Async arrow functions
-        {
-            code: "async() => 1",
-            output: "async () => 1",
-            parserOptions: {ecmaVersion: 8},
-            errors: ["Missing space before function parentheses."]
-        },
-        {
-            code: "async() => 1",
-            output: "async () => 1",
-            options: ["always"],
-            parserOptions: {ecmaVersion: 8},
-            errors: ["Missing space before function parentheses."]
-        },
-        {
-            code: "async () => 1",
-            output: "async() => 1",
-            options: ["never"],
-            parserOptions: {ecmaVersion: 8},
-            errors: ["Unexpected space before function parentheses."]
-        },
         {
             code: "async() => 1",
             output: "async () => 1",
