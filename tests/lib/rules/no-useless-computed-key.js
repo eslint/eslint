@@ -81,6 +81,20 @@ ruleTester.run("no-useless-computed-key", rule, {
             errors: [{
                 message: "Unnecessarily computed property ['x'] found.", type: "Property"
             }]
+        }, {
+            code: "({ *['x']() {} })",
+            output: "({ *'x'() {} })",
+            env: {es6: true},
+            errors: [{
+                message: "Unnecessarily computed property ['x'] found.", type: "Property"
+            }]
+        }, {
+            code: "({ async ['x']() {} })",
+            output: "({ async 'x'() {} })",
+            parserOptions: { ecmaVersion: 8 },
+            errors: [{
+                message: "Unnecessarily computed property ['x'] found.", type: "Property"
+            }]
         }
     ]
 });
