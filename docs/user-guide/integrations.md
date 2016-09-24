@@ -26,6 +26,7 @@
 * Ember-cli: [ember-cli-eslint](https://www.npmjs.com/package/ember-cli-eslint)
 * Sails.js: [sails-hook-eslint](https://www.npmjs.com/package/sails-hook-eslint)
 * Start: [start-eslint](https://www.npmjs.com/package/start-eslint)
+* Brunch: [eslint-brunch](https://www.npmjs.com/package/eslint-brunch)
 
 ## Command Line Tools
 
