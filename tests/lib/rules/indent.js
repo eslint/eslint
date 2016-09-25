@@ -161,6 +161,23 @@ ruleTester.run("indent", rule, {
         },
         {
             code:
+            "var x = [\n" +
+            "    'a',\n" +
+            "    'b',\n" +
+            "    'c'\n" +
+            "];",
+            options: [4]
+        },
+        {
+            code:
+            "var x = ['a',\n" +
+            "    'b',\n" +
+            "    'c',\n" +
+            "];",
+            options: [4]
+        },
+        {
+            code:
             "var x = 0 && 1;",
             options: [4]
         },
@@ -185,7 +202,7 @@ ruleTester.run("indent", rule, {
         {
             code:
             "require('http').request({hostname: 'localhost',\n" +
-            "                         port: 80}, function(res) {\n" +
+            "  port: 80}, function(res) {\n" +
             "  res.end();\n" +
             "});\n",
             options: [2]
@@ -617,19 +634,13 @@ ruleTester.run("indent", rule, {
             "while (1 < 2) console.log('hi');",
             options: [2]
         },
+
         {
             code:
-            "[a, b, \nc].forEach((index) => {\n" +
-            "    index;\n" +
-            "});\n",
-            options: [4],
-            parserOptions: { ecmaVersion: 6 }
-        },
-        {
-            code:
-            "[a, b, \nc].forEach(function(index){\n" +
-            "    return index;\n" +
-            "});\n",
+            "[a, b,\n" +
+            "    c].forEach((index) => {\n" +
+            "        index;\n" +
+            "    });\n",
             options: [4],
             parserOptions: { ecmaVersion: 6 }
         },
@@ -1615,6 +1626,20 @@ ruleTester.run("indent", rule, {
         },
         {
             code:
+            "require('http').request({hostname: 'localhost',\n" +
+            "                  port: 80}, function(res) {\n" +
+            "  res.end();\n" +
+            "});\n",
+            output:
+            "require('http').request({hostname: 'localhost',\n" +
+            "  port: 80}, function(res) {\n" +
+            "  res.end();\n" +
+            "});\n",
+            options: [2],
+            errors: expectedErrors([[2, 2, 18, "Property"]])
+        },
+        {
+            code:
                 "if (array.some(function(){\n" +
                 "  return true;\n" +
                 "})) {\n" +
@@ -2052,12 +2077,14 @@ ruleTester.run("indent", rule, {
             "  index;\n" +
             "});\n",
             output:
-            "[a, b, \nc].forEach((index) => {\n" +
+            "[a, b, \n" +
+            "    c].forEach((index) => {\n" +
             "    index;\n" +
             "});\n",
             options: [4],
             parserOptions: { ecmaVersion: 6 },
             errors: expectedErrors([
+                [2, 4, 0, "Identifier"],
                 [3, 4, 2, "ExpressionStatement"]
             ])
         },
@@ -2067,14 +2094,30 @@ ruleTester.run("indent", rule, {
             "  return index;\n" +
             "});\n",
             output:
-            "[a, b, \nc].forEach(function(index){\n" +
+            "[a, b, \n" +
+            "    c].forEach(function(index){\n" +
             "    return index;\n" +
             "});\n",
             options: [4],
             parserOptions: { ecmaVersion: 6 },
             errors: expectedErrors([
+                [2, 4, 0, "Identifier"],
                 [3, 4, 2, "ReturnStatement"]
             ])
+        },
+        {
+            code:
+            "[a, b, \nc].forEach(function(index){\n" +
+            "    return index;\n" +
+            "});\n",
+            output:
+            "[a, b, \n" +
+            "    c].forEach(function(index){\n" +
+            "    return index;\n" +
+            "});\n",
+            options: [4],
+            parserOptions: { ecmaVersion: 6 },
+            errors: expectedErrors([[2, 4, 0, "Identifier"]])
         },
         {
             code:
@@ -2104,6 +2147,86 @@ ruleTester.run("indent", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: expectedErrors([
                 [2, 4, 2, "ReturnStatement"]
+            ])
+        },
+        {
+            code:
+            "var x = ['a',\n" +
+            "         'b',\n" +
+            "         'c'\n" +
+            "];",
+            output:
+            "var x = ['a',\n" +
+            "    'b',\n" +
+            "    'c'\n" +
+            "];",
+            options: [4],
+            errors: expectedErrors([
+                [2, 4, 9, "Literal"],
+                [3, 4, 9, "Literal"]
+            ])
+        },
+        {
+            code:
+            "var x = [\n" +
+            "         'a',\n" +
+            "         'b',\n" +
+            "         'c'\n" +
+            "];",
+            output:
+            "var x = [\n" +
+            "    'a',\n" +
+            "    'b',\n" +
+            "    'c'\n" +
+            "];",
+            options: [4],
+            errors: expectedErrors([
+                [2, 4, 9, "Literal"],
+                [3, 4, 9, "Literal"],
+                [4, 4, 9, "Literal"]
+            ])
+        },
+        {
+            code:
+            "var x = [\n" +
+            "         'a',\n" +
+            "         'b',\n" +
+            "         'c',\n" +
+            "'d'];",
+            output:
+            "var x = [\n" +
+            "    'a',\n" +
+            "    'b',\n" +
+            "    'c',\n" +
+            "    'd'];",
+            options: [4],
+            errors: expectedErrors([
+                [2, 4, 9, "Literal"],
+                [3, 4, 9, "Literal"],
+                [4, 4, 9, "Literal"],
+                [5, 4, 0, "Literal"]
+            ])
+        },
+        {
+            code:
+            "var x = [\n" +
+            "         'a',\n" +
+            "         'b',\n" +
+            "         'c'\n" +
+            "  ];",
+            output:
+            "var x = [\n" +
+            "    'a',\n" +
+            "    'b',\n" +
+            "    'c'\n" +
+            "];",
+            options: [4],
+            parserOptions: { ecmaVersion: 6 },
+            errors: expectedErrors([
+                [2, 4, 9, "Literal"],
+                [3, 4, 9, "Literal"],
+                [4, 4, 9, "Literal"],
+                [5, 0, 2, "ArrayExpression"]
             ])
         },
         {
