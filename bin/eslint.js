@@ -34,7 +34,7 @@ var concat = require("concat-stream"),
 // Execution
 //------------------------------------------------------------------------------
 
-process.on("uncaughtException", function(err){
+process.on("uncaughtException", function(err) {
     // lazy load
     var lodash = require("lodash");
 
