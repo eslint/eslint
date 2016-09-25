@@ -16,6 +16,7 @@ const rule = require("../../../lib/rules/no-extra-bind"),
 //------------------------------------------------------------------------------
 
 const ruleTester = new RuleTester();
+const errors = [{ message: "The function binding is unnecessary.", type: "CallExpression"}];
 
 ruleTester.run("no-extra-bind", rule, {
     valid: [
@@ -31,13 +32,47 @@ ruleTester.run("no-extra-bind", rule, {
         { code: "var a = function() { return () => this; }.bind(b)", parserOptions: { ecmaVersion: 6 } }
     ],
     invalid: [
-        { code: "var a = function() { return 1; }.bind(b)", errors: [{ message: "The function binding is unnecessary.", type: "CallExpression"}] },
-        { code: "var a = function() { return 1; }['bind'](b)", errors: [{ message: "The function binding is unnecessary.", type: "CallExpression"}] },
-        { code: "var a = function() { return 1; }[`bind`](b)", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "The function binding is unnecessary.", type: "CallExpression"}] },
-        { code: "var a = (() => { return 1; }).bind(b)", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "The function binding is unnecessary.", type: "CallExpression"}] },
-        { code: "var a = (() => { return this; }).bind(b)", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "The function binding is unnecessary.", type: "CallExpression"}] },
-        { code: "var a = function() { (function(){ this.c }) }.bind(b)", errors: [{ message: "The function binding is unnecessary.", type: "CallExpression"}] },
-        { code: "var a = function() { function c(){ this.d } }.bind(b)", errors: [{ message: "The function binding is unnecessary.", type: "CallExpression"}] },
-        { code: "var a = function() { (function(){ (function(){ this.d }.bind(c)) }) }.bind(b)", errors: [{ message: "The function binding is unnecessary.", type: "CallExpression", column: 71}] }
+        {
+            code: "var a = function() { return 1; }.bind(b)",
+            output: "var a = function() { return 1; }",
+            errors
+        },
+        {
+            code: "var a = function() { return 1; }['bind'](b)",
+            output: "var a = function() { return 1; }",
+            errors
+        },
+        {
+            code: "var a = function() { return 1; }[`bind`](b)",
+            output: "var a = function() { return 1; }",
+            parserOptions: { ecmaVersion: 6 },
+            errors
+        },
+        {
+            code: "var a = (() => { return 1; }).bind(b)",
+            output: "var a = (() => { return 1; })",
+            parserOptions: { ecmaVersion: 6 },
+            errors
+        },
+        {
+            code: "var a = (() => { return this; }).bind(b)",
+            output: "var a = (() => { return this; })",
+            parserOptions: { ecmaVersion: 6 },
+            errors
+        },
+        {
+            code: "var a = function() { (function(){ this.c }) }.bind(b)",
+            output: "var a = function() { (function(){ this.c }) }",
+            errors
+        },
+        {
+            code: "var a = function() { function c(){ this.d } }.bind(b)",
+            output: "var a = function() { function c(){ this.d } }",
+            errors
+        },
+        {
+            code: "var a = function() { (function(){ (function(){ this.d }.bind(c)) }) }.bind(b)",
+            output: "var a = function() { (function(){ (function(){ this.d }.bind(c)) }) }",
+            errors: [{ message: "The function binding is unnecessary.", type: "CallExpression", column: 71}] }
     ]
 });
