@@ -5,13 +5,15 @@
  * @author Nicholas C. Zakas
  */
 
+/* eslint no-console:off, no-process-exit:off */
+
 "use strict";
 
 //------------------------------------------------------------------------------
 // Helpers
 //------------------------------------------------------------------------------
 
-var useStdIn = (process.argv.indexOf("--stdin") > -1),
+const useStdIn = (process.argv.indexOf("--stdin") > -1),
     init = (process.argv.indexOf("--init") > -1),
     debug = (process.argv.indexOf("--debug") > -1);
 
@@ -25,7 +27,7 @@ if (debug) {
 //------------------------------------------------------------------------------
 
 // now we can safely include the other modules that use debug
-var concat = require("concat-stream"),
+const concat = require("concat-stream"),
     cli = require("../lib/cli"),
     path = require("path"),
     fs = require("fs");
@@ -34,12 +36,13 @@ var concat = require("concat-stream"),
 // Execution
 //------------------------------------------------------------------------------
 
-process.on("uncaughtException", function(err){
+process.on("uncaughtException", function(err) {
+
     // lazy load
-    var lodash = require("lodash");
+    const lodash = require("lodash");
 
     if (typeof err.messageTemplate === "string" && err.messageTemplate.length > 0) {
-        var template = lodash.template(fs.readFileSync(path.resolve(__dirname, "../messages/" + err.messageTemplate + ".txt"), "utf-8"));
+        const template = lodash.template(fs.readFileSync(path.resolve(__dirname, "../messages/" + err.messageTemplate + ".txt"), "utf-8"));
 
         console.log("\nOops! Something went wrong! :(");
         console.log("\n" + template(err.messageData || {}));
@@ -62,7 +65,8 @@ if (useStdIn) {
         }
     }));
 } else if (init) {
-    var configInit = require("../lib/config/config-initializer");
+    const configInit = require("../lib/config/config-initializer");
+
     configInit.initializeConfig(function(err) {
         if (err) {
             process.exitCode = 1;
