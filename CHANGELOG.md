@@ -1,3 +1,14 @@
+v3.6.1 - September 26, 2016
+
+* b467436 Upgrade: Upgrade Espree to 3.3.1 (#7253) (Ilya Volodin)
+* 299a563 Build: Do not strip .md extension from absolute URLs (#7222) (Kai Cataldo)
+* 27042d2 Chore: removed unused code related to scopeMap (#7218) (Yang Su)
+* d154204 Chore: Lint bin/eslint.js (#7243) (Kevin Partington)
+* 87625fa Docs: Improve eol-last examples in docs (#7227) (Chainarong Tangsurakit)
+* de8eaa4 Docs: `class-methods-use-this`: fix option name (#7224) (Jordan Harband)
+* 2355f8d Docs: Add Brunch plugin to integrations (#7225) (Aleksey Shvayka)
+* a5817ae Docs: Default option from `operator-linebreak` is `after`and not always (#7228) (Konstantin Pschera)
+
 v3.6.0 - September 23, 2016
 
 * 1b05d9c Update: add fixer for `strict` (fixes #6668) (#7198) (Teddy Katz)
