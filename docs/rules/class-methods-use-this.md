@@ -89,12 +89,12 @@ class A {
 ### Exceptions
 
 ```
-"class-methods-use-this": [<enabled>, { "exceptions": [<...exceptions>] }]
+"class-methods-use-this": [<enabled>, { "exceptMethods": [<...exceptions>] }]
 ```
 
-The `exceptions` option allows you to pass an array of method names for which you would like to ignore warnings.
+The `exceptMethods` option allows you to pass an array of method names for which you would like to ignore warnings.
 
-Examples of **incorrect** code for this rule when used without exceptions:
+Examples of **incorrect** code for this rule when used without exceptMethods:
 
 ```js
 /*eslint class-methods-use-this: "error"*/
@@ -105,10 +105,10 @@ class A {
 }
 ```
 
-Examples of **correct** code for this rule when used with exceptions:
+Examples of **correct** code for this rule when used with exceptMethods:
 
 ```js
-/*eslint class-methods-use-this: ["error", { "exceptions": ["foo"] }] */
+/*eslint class-methods-use-this: ["error", { "exceptMethods": ["foo"] }] */
 
 class A {
     foo() {
