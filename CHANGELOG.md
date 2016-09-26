@@ -31,7 +31,7 @@ v3.6.0 - September 23, 2016
 * a876673 Update: no-implicit-coercion checks TemplateLiterals (fixes #7062) (#7121) (Kai Cataldo)
 * 8db4f0c Chore: Enable `typeof` check for `no-undef` rule in eslint-config-eslint (#7103) (Teddy Katz)
 * 7e8316f Docs: Update release process (#7127) (Nicholas C. Zakas)
-* 22edd8a Update: `class-methods-use-this`: `exceptions` option (fixes #7085) (#7120) (Jordan Harband)
+* 22edd8a Update: `class-methods-use-this`: `exceptMethods` option (fixes #7085) (#7120) (Jordan Harband)
 * afd132a Fix: line-comment-position "above" string option now works (fixes #7100) (#7102) (Kevin Partington)
 * 1738b2e Chore: fix name of internal-no-invalid-meta test file (#7142) (Vitor Balocco)
 * ac0bb62 Docs: Fixes examples for allowTemplateLiterals (fixes #7115) (#7135) (Zoe Ingram)
