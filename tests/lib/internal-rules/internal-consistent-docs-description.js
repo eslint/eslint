@@ -21,7 +21,7 @@ const ruleTester = new RuleTester();
 ruleTester.run("internal-consistent-docs-description", rule, {
     valid: [
 
-        // wrong exports format: "internal-no-valid-meta" reports this already
+        // wrong exports format: "internal-no-invalid-meta" reports this already
         [
             "module.exports = function(context) {",
             "    return {",
@@ -30,7 +30,7 @@ ruleTester.run("internal-consistent-docs-description", rule, {
             "};"
         ].join("\n"),
 
-        // missing `meta.docs.description` property: "internal-no-valid-meta" reports this already
+        // missing `meta.docs.description` property: "internal-no-invalid-meta" reports this already
         [
             "module.exports = {",
             "    meta: {},",
@@ -175,7 +175,7 @@ ruleTester.run("internal-consistent-docs-description", rule, {
                 "};"
             ].join("\n"),
             errors: [{
-                message: "`meta.docs.description` should not start with whitespaces.",
+                message: "`meta.docs.description` should not start with whitespace.",
                 line: 4,
                 column: 26
             }]
@@ -195,7 +195,7 @@ ruleTester.run("internal-consistent-docs-description", rule, {
                 "};"
             ].join("\n"),
             errors: [{
-                message: "`meta.docs.description` should not start with whitespaces.",
+                message: "`meta.docs.description` should not start with whitespace.",
                 line: 4,
                 column: 26
             }]
@@ -215,7 +215,7 @@ ruleTester.run("internal-consistent-docs-description", rule, {
                 "};"
             ].join("\n"),
             errors: [{
-                message: "`meta.docs.description` should not start with whitespaces.",
+                message: "`meta.docs.description` should not start with whitespace.",
                 line: 4,
                 column: 26
             }]
