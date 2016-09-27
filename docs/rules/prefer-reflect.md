@@ -54,12 +54,12 @@ Examples of **correct** code for this rule when used without exceptions:
 ```js
 /*eslint prefer-reflect: "error"*/
 
-Reflect.apply(undefined, args);
-Reflect.apply(null, args);
+Reflect.apply(foo, undefined, args);
+Reflect.apply(foo, null, args);
 Reflect.apply(obj.foo, obj, args);
 Reflect.apply(obj.foo, other, args);
-Reflect.apply(undefined, [arg]);
-Reflect.apply(null, [arg]);
+Reflect.apply(foo, undefined, [arg]);
+Reflect.apply(foo, null, [arg]);
 Reflect.apply(obj.foo, obj, [arg]);
 Reflect.apply(obj.foo, other, [arg]);
 ```
