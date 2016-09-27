@@ -90,7 +90,7 @@ The rule takes an option which specifies when it should be applied. It can be se
 
 * `"always"` (default) expects that the shorthand will be used whenever possible.
 * `"methods"` ensures the method shorthand is used (also applies to generators).
-* `"properties` ensures the property shorthand is used (where the key and variable name match).
+* `"properties"` ensures the property shorthand is used (where the key and variable name match).
 * `"never"` ensures that no property or method shorthand is used in any object literal.
 * `"consistent"` ensures that either all shorthand or all longform will be used in an object literal.
 * `"consistent-as-needed"` ensures that either all shorthand or all longform will be used in an object literal, but ensures all shorthand whenever possible.
