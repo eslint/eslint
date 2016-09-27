@@ -18,7 +18,24 @@ Note that leaving sections blank will make it difficult for us to troubleshoot a
 
 **Please show your full configuration:**
 
+<!-- Paste your configuration below: -->
+```
+
+
+
+
+```
+
 **What did you do? Please include the actual source code causing the issue.**
+
+<!-- Paste the source code below: -->
+```js
+
+
+
+
+
+```
 
 **What did you expect to happen?**
 
