@@ -284,6 +284,14 @@ ruleTester.run("no-extra-parens", rule, {
         { code: "async function a() { await (a + await b) }", parserOptions: { ecmaVersion: 8 } },
         { code: "async function a() { (await a)() }", parserOptions: { ecmaVersion: 8 } },
         { code: "async function a() { new (await a) }", parserOptions: { ecmaVersion: 8 } },
+        { code: "(foo instanceof bar) instanceof baz", options: ["all", { nestedBinaryExpressions: false }] },
+        { code: "(foo in bar) in baz", options: ["all", { nestedBinaryExpressions: false }] },
+        { code: "(foo + bar) + baz", options: ["all", { nestedBinaryExpressions: false }] },
+        { code: "(foo && bar) && baz", options: ["all", { nestedBinaryExpressions: false }] },
+        { code: "foo instanceof (bar instanceof baz)", options: ["all", { nestedBinaryExpressions: false }] },
+        { code: "foo in (bar in baz)", options: ["all", { nestedBinaryExpressions: false }] },
+        { code: "foo + (bar + baz)", options: ["all", { nestedBinaryExpressions: false }] },
+        { code: "foo && (bar && baz)", options: ["all", { nestedBinaryExpressions: false }] },
     ],
 
     invalid: [
@@ -690,5 +698,13 @@ ruleTester.run("no-extra-parens", rule, {
         invalid("async function a() { await (a()); }", "async function a() { await a(); }", "CallExpression", null, {parserOptions: { ecmaVersion: 8 }}),
         invalid("async function a() { await (+a); }", "async function a() { await +a; }", "UnaryExpression", null, {parserOptions: { ecmaVersion: 8 }}),
         invalid("async function a() { +(await a); }", "async function a() { +await a; }", "AwaitExpression", null, {parserOptions: { ecmaVersion: 8 }}),
+        invalid("(foo) instanceof bar", "foo instanceof bar", "Identifier", 1, {options: ["all", {nestedBinaryExpressions: false}]}),
+        invalid("(foo) in bar", "foo in bar", "Identifier", 1, {options: ["all", {nestedBinaryExpressions: false}]}),
+        invalid("(foo) + bar", "foo + bar", "Identifier", 1, {options: ["all", {nestedBinaryExpressions: false}]}),
+        invalid("(foo) && bar", "foo && bar", "Identifier", 1, {options: ["all", {nestedBinaryExpressions: false}]}),
+        invalid("foo instanceof (bar)", "foo instanceof bar", "Identifier", 1, {options: ["all", {nestedBinaryExpressions: false}]}),
+        invalid("foo in (bar)", "foo in bar", "Identifier", 1, {options: ["all", {nestedBinaryExpressions: false}]}),
+        invalid("foo + (bar)", "foo + bar", "Identifier", 1, {options: ["all", {nestedBinaryExpressions: false}]}),
+        invalid("foo && (bar)", "foo && bar", "Identifier", 1, {options: ["all", {nestedBinaryExpressions: false}]})
     ]
 });
