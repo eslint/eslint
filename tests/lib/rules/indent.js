@@ -1551,7 +1551,23 @@ ruleTester.run("indent", rule, {
             "      bar();\n" +
             "}",
             options: [2, {FunctionExpression: {parameters: "first", body: 3}}] // FIXME: make sure this is correct
-        }
+        },
+        {
+            code:
+            "function foo() {\n" +
+            "  bar();\n" +
+            "  \tbaz();\n" +
+            "\t   \t\t\t  \t\t\t  \t   \tqux();\n" +
+            "}",
+            options: [2]
+        },
+        {
+            code:
+            "function foo() {\n" +
+            "  bar();\n" +
+            "   \t\t}",
+            options: [2]
+        },
     ],
     invalid: [
         {
@@ -2840,35 +2856,19 @@ ruleTester.run("indent", rule, {
         {
             code:
             "var foo = bar;\n" +
-            "  \t  \t  \t  var baz = qux;",
+            "\t\t\tvar baz = qux;",
             output:
             "var foo = bar;\n" +
             "var baz = qux;",
             options: [2],
-            errors: expectedErrors([2, "0 spaces", "8 spaces and 3 tabs", "VariableDeclaration"])
-        },
-        {
-            code:
-            "function foo() {\n" +
-            "  bar();\n" +
-            "  \tbaz();\n" +
-            "\t   \t\t\t  \t\t\t  \t   \tqux();\n" +
-            "}",
-            output:
-            "function foo() {\n" +
-            "  bar();\n" +
-            "  baz();\n" +
-            "  qux();\n" +
-            "}",
-            options: [2],
-            errors: expectedErrors([[3, "2 spaces", "2 spaces and 1 tab", "ExpressionStatement"], [4, "2 spaces", "10 spaces and 9 tabs", "ExpressionStatement"]])
+            errors: expectedErrors([2, "0 spaces", "3 tabs", "VariableDeclaration"])
         },
         {
             code:
             "function foo() {\n" +
             "\tbar();\n" +
-            "\t  baz();\n" +
-            "  \t\t \t     \t   \t  \t\t\t qux();\n" +
+            "  baz();\n" +
+            "              qux();\n" +
             "}",
             output:
             "function foo() {\n" +
@@ -2877,19 +2877,7 @@ ruleTester.run("indent", rule, {
             "\tqux();\n" +
             "}",
             options: ["tab"],
-            errors: expectedErrors("tab", [[3, "1 tab", "2 spaces and 1 tab", "ExpressionStatement"], [4, "1 tab", "14 spaces and 8 tabs", "ExpressionStatement"]])
-        },
-        {
-            code:
-            "function foo() {\n" +
-            "  bar();\n" +
-            "\t\t}",
-            output:
-            "function foo() {\n" +
-            "  bar();\n" +
-            "}",
-            options: [2],
-            errors: expectedErrors([[3, "0 spaces", "2 tabs", "BlockStatement"]])
+            errors: expectedErrors("tab", [[3, "1 tab", "2 spaces", "ExpressionStatement"], [4, "1 tab", "14 spaces", "ExpressionStatement"]])
         }
     ]
 });
