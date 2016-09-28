@@ -38,15 +38,15 @@ Examples of **incorrect** code for this rule when used without exceptions:
 ```js
 /*eslint prefer-reflect: "error"*/
 
-foo.apply(undefined, args);
-foo.apply(null, args);
-obj.foo.apply(obj, args);
-obj.foo.apply(other, args);
+myFunction.apply(undefined, args);
+myFunction.apply(null, args);
+obj.myMethod.apply(obj, args);
+obj.myMethod.apply(other, args);
 
-foo.call(undefined, arg);
-foo.call(null, arg);
-obj.foo.call(obj, arg);
-obj.foo.call(other, arg);
+myFunction.call(undefined, arg);
+myFunction.call(null, arg);
+obj.myMethod.call(obj, arg);
+obj.myMethod.call(other, arg);
 ```
 
 Examples of **correct** code for this rule when used without exceptions:
@@ -54,14 +54,14 @@ Examples of **correct** code for this rule when used without exceptions:
 ```js
 /*eslint prefer-reflect: "error"*/
 
-Reflect.apply(undefined, args);
-Reflect.apply(null, args);
-Reflect.apply(obj.foo, obj, args);
-Reflect.apply(obj.foo, other, args);
-Reflect.apply(undefined, [arg]);
-Reflect.apply(null, [arg]);
-Reflect.apply(obj.foo, obj, [arg]);
-Reflect.apply(obj.foo, other, [arg]);
+Reflect.apply(myFunction, undefined, args);
+Reflect.apply(myFunction, null, args);
+Reflect.apply(obj.myMethod, obj, args);
+Reflect.apply(obj.myMethod, other, args);
+Reflect.apply(myFunction, undefined, [arg]);
+Reflect.apply(myFunction, null, [arg]);
+Reflect.apply(obj.myMethod, obj, [arg]);
+Reflect.apply(obj.myMethod, other, [arg]);
 ```
 
 Examples of **correct** code for this rule with the `{ "exceptions": ["apply"] }` option:
@@ -70,10 +70,10 @@ Examples of **correct** code for this rule with the `{ "exceptions": ["apply"] }
 /*eslint prefer-reflect: ["error", { "exceptions": ["apply"] }]*/
 
 // in addition to Reflect.apply(...):
-foo.apply(undefined, args);
-foo.apply(null, args);
-obj.foo.apply(obj, args);
-obj.foo.apply(other, args);
+myFunction.apply(undefined, args);
+myFunction.apply(null, args);
+obj.myMethod.apply(obj, args);
+obj.myMethod.apply(other, args);
 ```
 
 Examples of **correct** code for this rule with the `{ "exceptions": ["call"] }` option:
@@ -82,10 +82,10 @@ Examples of **correct** code for this rule with the `{ "exceptions": ["call"] }`
 /*eslint prefer-reflect: ["error", { "exceptions": ["call"] }]*/
 
 // in addition to Reflect.apply(...):
-foo.call(undefined, arg);
-foo.call(null, arg);
-obj.foo.call(obj, arg);
-obj.foo.call(other, arg);
+myFunction.call(undefined, arg);
+myFunction.call(null, arg);
+obj.myMethod.call(obj, arg);
+obj.myMethod.call(other, arg);
 ```
 
 ### Reflect.defineProperty
