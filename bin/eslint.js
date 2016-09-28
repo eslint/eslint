@@ -56,13 +56,7 @@ process.on("uncaughtException", function(err) {
 
 if (useStdIn) {
     process.stdin.pipe(concat({ encoding: "string" }, function(text) {
-        try {
-            process.exitCode = cli.execute(process.argv, text);
-        } catch (ex) {
-            console.error(ex.message);
-            console.error(ex.stack);
-            process.exitCode = 1;
-        }
+        process.exitCode = cli.execute(process.argv, text);
     }));
 } else if (init) {
     const configInit = require("../lib/config/config-initializer");
