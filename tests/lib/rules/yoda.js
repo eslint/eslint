@@ -79,6 +79,7 @@ ruleTester.run("yoda", rule, {
 
         {
             code: "if (\"red\" == value) {}",
+            output: "if (value == \"red\") {}",
             options: ["never"],
             errors: [
                 {
@@ -89,6 +90,7 @@ ruleTester.run("yoda", rule, {
         },
         {
             code: "if (true === value) {}",
+            output: "if (value === true) {}",
             options: ["never"],
             errors: [
                 {
@@ -99,6 +101,7 @@ ruleTester.run("yoda", rule, {
         },
         {
             code: "if (5 != value) {}",
+            output: "if (value != 5) {}",
             options: ["never"],
             errors: [
                 {
@@ -109,6 +112,7 @@ ruleTester.run("yoda", rule, {
         },
         {
             code: "if (null !== value) {}",
+            output: "if (value !== null) {}",
             options: ["never"],
             errors: [
                 {
@@ -119,6 +123,7 @@ ruleTester.run("yoda", rule, {
         },
         {
             code: "if (\"red\" <= value) {}",
+            output: "if (value >= \"red\") {}",
             options: ["never"],
             errors: [
                 {
@@ -129,6 +134,7 @@ ruleTester.run("yoda", rule, {
         },
         {
             code: "if (true >= value) {}",
+            output: "if (value <= true) {}",
             options: ["never"],
             errors: [
                 {
@@ -139,6 +145,7 @@ ruleTester.run("yoda", rule, {
         },
         {
             code: "var foo = (5 < value) ? true : false",
+            output: "var foo = (value > 5) ? true : false",
             options: ["never"],
             errors: [
                 {
@@ -149,6 +156,7 @@ ruleTester.run("yoda", rule, {
         },
         {
             code: "function foo() { return (null > value); }",
+            output: "function foo() { return (value < null); }",
             options: ["never"],
             errors: [
                 {
@@ -159,6 +167,7 @@ ruleTester.run("yoda", rule, {
         },
         {
             code: "if (-1 < str.indexOf(substr)) {}",
+            output: "if (str.indexOf(substr) > -1) {}",
             options: ["never"],
             errors: [
                 {
@@ -169,6 +178,7 @@ ruleTester.run("yoda", rule, {
         },
         {
             code: "if (value == \"red\") {}",
+            output: "if (\"red\" == value) {}",
             options: ["always"],
             errors: [
                 {
@@ -179,6 +189,7 @@ ruleTester.run("yoda", rule, {
         },
         {
             code: "if (value === true) {}",
+            output: "if (true === value) {}",
             options: ["always"],
             errors: [
                 {
@@ -189,6 +200,7 @@ ruleTester.run("yoda", rule, {
         },
         {
             code: "if (a < 0 && 0 <= b && b < 1) {}",
+            output: "if (a < 0 && b >= 0 && b < 1) {}",
             options: ["never", { exceptRange: true }],
             errors: [
                 {
@@ -199,6 +211,7 @@ ruleTester.run("yoda", rule, {
         },
         {
             code: "if (0 <= a && a < 1 && b < 1) {}",
+            output: "if (a >= 0 && a < 1 && b < 1) {}",
             options: ["never", { exceptRange: true }],
             errors: [
                 {
@@ -209,6 +222,7 @@ ruleTester.run("yoda", rule, {
         },
         {
             code: "if (1 < a && a < 0) {}",
+            output: "if (a > 1 && a < 0) {}",
             options: ["never", { exceptRange: true }],
             errors: [
                 {
@@ -219,6 +233,7 @@ ruleTester.run("yoda", rule, {
         },
         {
             code: "0 < a && a < 1",
+            output: "a > 0 && a < 1",
             options: ["never", { exceptRange: true }],
             errors: [
                 {
@@ -229,6 +244,7 @@ ruleTester.run("yoda", rule, {
         },
         {
             code: "var a = b < 0 || 1 <= b;",
+            output: "var a = b < 0 || b >= 1;",
             options: ["never", { exceptRange: true }],
             errors: [
                 {
@@ -239,6 +255,7 @@ ruleTester.run("yoda", rule, {
         },
         {
             code: "if (0 <= x && x < -1) {}",
+            output: "if (x >= 0 && x < -1) {}",
             options: ["never", { exceptRange: true }],
             errors: [
                 {
@@ -249,6 +266,7 @@ ruleTester.run("yoda", rule, {
         },
         {
             code: "var a = (b < 0 && 0 <= b);",
+            output: "var a = (0 > b && 0 <= b);",
             options: ["always", { exceptRange: true }],
             errors: [
                 {
@@ -259,6 +277,7 @@ ruleTester.run("yoda", rule, {
         },
         {
             code: "if (0 <= a[b] && a['b'] < 1) {}",
+            output: "if (a[b] >= 0 && a['b'] < 1) {}",
             options: ["never", { exceptRange: true }],
             errors: [
                 {
@@ -269,6 +288,7 @@ ruleTester.run("yoda", rule, {
         },
         {
             code: "if (0 <= a[b()] && a[b()] < 1) {}",
+            output: "if (a[b()] >= 0 && a[b()] < 1) {}",
             options: ["never", { exceptRange: true }],
             errors: [
                 {
@@ -279,6 +299,7 @@ ruleTester.run("yoda", rule, {
         },
         {
             code: "if (3 == a) {}",
+            output: "if (a == 3) {}",
             options: ["never", { onlyEquality: true }],
             errors: [
                 {
@@ -289,6 +310,7 @@ ruleTester.run("yoda", rule, {
         },
         {
             code: "foo(3 === a);",
+            output: "foo(a === 3);",
             options: ["never", { onlyEquality: true }],
             errors: [
                 {
@@ -299,6 +321,7 @@ ruleTester.run("yoda", rule, {
         },
         {
             code: "foo(a === 3);",
+            output: "foo(3 === a);",
             options: ["always", { onlyEquality: true }],
             errors: [
                 {
@@ -309,13 +332,57 @@ ruleTester.run("yoda", rule, {
         },
         {
             code: "if (0 <= x && x < 1) {}",
+            output: "if (x >= 0 && x < 1) {}",
             errors: [
                 {
                     message: "Expected literal to be on the right side of <=.",
                     type: "BinaryExpression"
                 }
             ]
+        },
+        {
+            code: "if ( /* a */ 0 /* b */ < /* c */ foo /* d */ ) {}",
+            output: "if ( /* a */ foo /* b */ > /* c */ 0 /* d */ ) {}",
+            options: ["never"],
+            errors: [
+                {
+                    message: "Expected literal to be on the right side of <.",
+                    type: "BinaryExpression"
+                }
+            ]
+        },
+        {
+            code: "if ( /* a */ foo /* b */ > /* c */ 0 /* d */ ) {}",
+            output: "if ( /* a */ 0 /* b */ < /* c */ foo /* d */ ) {}",
+            options: ["always"],
+            errors: [
+                {
+                    message: "Expected literal to be on the left side of >.",
+                    type: "BinaryExpression"
+                }
+            ]
+        },
+        {
+            code: "if (foo()===1) {}",
+            output: "if (1===foo()) {}",
+            options: ["always"],
+            errors: [
+                {
+                    message: "Expected literal to be on the left side of ===.",
+                    type: "BinaryExpression"
+                }
+            ]
+        },
+        {
+            code: "if (foo()     === 1) {}",
+            output: "if (1     === foo()) {}",
+            options: ["always"],
+            errors: [
+                {
+                    message: "Expected literal to be on the left side of ===.",
+                    type: "BinaryExpression"
+                }
+            ]
         }
-
     ]
 });
