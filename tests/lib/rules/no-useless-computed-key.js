@@ -27,31 +27,71 @@ ruleTester.run("no-useless-computed-key", rule, {
     invalid: [
         {
             code: "({ ['0']: 0 })",
+            output: "({ '0': 0 })",
             env: {es6: true},
             errors: [{
                 message: "Unnecessarily computed property ['0'] found.", type: "Property"
             }]
         }, {
             code: "({ ['0+1,234']: 0 })",
+            output: "({ '0+1,234': 0 })",
             env: {es6: true},
             errors: [{
                 message: "Unnecessarily computed property ['0+1,234'] found.", type: "Property"
             }]
         }, {
             code: "({ [0]: 0 })",
+            output: "({ 0: 0 })",
             env: {es6: true},
             errors: [{
                 message: "Unnecessarily computed property [0] found.", type: "Property"
             }]
         }, {
             code: "({ ['x']: 0 })",
+            output: "({ 'x': 0 })",
             env: {es6: true},
             errors: [{
                 message: "Unnecessarily computed property ['x'] found.", type: "Property"
             }]
         }, {
             code: "({ ['x']() {} })",
+            output: "({ 'x'() {} })",
             env: {es6: true},
+            errors: [{
+                message: "Unnecessarily computed property ['x'] found.", type: "Property"
+            }]
+        }, {
+            code: "({ [/* this comment prevents a fix */ 'x']: 0 })",
+            output: "({ [/* this comment prevents a fix */ 'x']: 0 })",
+            env: {es6: true},
+            errors: [{
+                message: "Unnecessarily computed property ['x'] found.", type: "Property"
+            }]
+        }, {
+            code: "({ ['x' /* this comment also prevents a fix */]: 0 })",
+            output: "({ ['x' /* this comment also prevents a fix */]: 0 })",
+            env: {es6: true},
+            errors: [{
+                message: "Unnecessarily computed property ['x'] found.", type: "Property"
+            }]
+        }, {
+            code: "({ [('x')]: 0 })",
+            output: "({ 'x': 0 })",
+            env: {es6: true},
+            errors: [{
+                message: "Unnecessarily computed property ['x'] found.", type: "Property"
+            }]
+        }, {
+            code: "({ *['x']() {} })",
+            output: "({ *'x'() {} })",
+            env: {es6: true},
+            errors: [{
+                message: "Unnecessarily computed property ['x'] found.", type: "Property"
+            }]
+        }, {
+            code: "({ async ['x']() {} })",
+            output: "({ async 'x'() {} })",
+            parserOptions: { ecmaVersion: 8 },
             errors: [{
                 message: "Unnecessarily computed property ['x'] found.", type: "Property"
             }]
