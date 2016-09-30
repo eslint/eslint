@@ -1,3 +1,26 @@
+v3.7.0 - September 30, 2016
+
+* 2fee8ad Fix: object-shorthand's consistent-as-needed option (issue #7214) (#7215) (Naomi Jacobs)
+* c05a19c Update: add fixer for `prefer-numeric-literals` (#7205) (Teddy Katz)
+* 2f171f3 Update: add fixer for `no-undef-init` (#7210) (Teddy Katz)
+* 876d747 Docs: Steps for adding new committers/TSCers (#7221) (Nicholas C. Zakas)
+* dffb4fa Fix: `no-unused-vars` false positive (fixes #7250) (#7258) (Toru Nagashima)
+* 4448cec Docs: Adding missing ES8 reference to configuring (#7271) (Kevin Partington)
+* 332d213 Update: Ensure `indent` handles nested functions correctly (fixes #7249) (#7265) (Teddy Katz)
+* c36d842 Update: add fixer for `no-useless-computed-key` (#7207) (Teddy Katz)
+* 18376cf Update: add fixer for `lines-around-directive` (#7217) (Teddy Katz)
+* f8e8fab Update: add fixer for `wrap-iife` (#7196) (Teddy Katz)
+* 558b444 Docs: Add @not-an-aardvark to development team (#7279) (Ilya Volodin)
+* cd1dc57 Update: Add a fixer for `dot-location` (#7186) (Teddy Katz)
+* 89787b2 Update: for `yoda`, add a fixer (#7199) (Teddy Katz)
+* 742ae67 Fix: avoid indent and no-mixed-spaces-and-tabs conflicts (fixes #7248) (#7266) (Teddy Katz)
+* 85b8714 Fix: Use error templates even when reading from stdin (fixes #7213) (#7223) (Teddy Katz)
+* 66adac1 Docs: correction in prefer-reflect docs (fixes #7069) (#7150) (Scott Stern)
+* e3f95de Update: Fix `no-extra-parens` false negative (fixes #7229) (#7231) (Teddy Katz)
+* 2909c19 Docs: Fix typo in object-shorthand docs (#7267) (Brian Donovan)
+* 7bb800d Chore: add internal rule to enforce meta.docs conventions (fixes #6954) (#7155) (Vitor Balocco)
+* 722c68c Docs: add code fences to the issue template (#7254) (Teddy Katz)
+
 v3.6.1 - September 26, 2016
 
 * b467436 Upgrade: Upgrade Espree to 3.3.1 (#7253) (Ilya Volodin)
