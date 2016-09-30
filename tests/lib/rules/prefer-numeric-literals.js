@@ -32,16 +32,39 @@ ruleTester.run("prefer-numeric-literals", rule, {
     invalid: [
         {
             code: "parseInt(\"111110111\", 2) === 503;",
+            output: "0b111110111 === 503;",
             parserOptions: { ecmaVersion: 6 },
             errors: [{ message: "Use binary literals instead of parseInt()." }]
         }, {
             code: "parseInt(\"767\", 8) === 503;",
+            output: "0o767 === 503;",
             parserOptions: { ecmaVersion: 6 },
             errors: [{ message: "Use octal literals instead of parseInt()." }]
         }, {
             code: "parseInt(\"1F7\", 16) === 255;",
+            output: "0x1F7 === 255;",
             parserOptions: { ecmaVersion: 6 },
             errors: [{ message: "Use hexadecimal literals instead of parseInt()." }]
+        }, {
+            code: "parseInt('7999', 8);",
+            output: "parseInt('7999', 8);", // not fixed, unexpected 9 in parseInt string
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{ message: "Use octal literals instead of parseInt()." }]
+        }, {
+            code: "parseInt('1234', 2);",
+            output: "parseInt('1234', 2);", // not fixed, invalid binary string
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{ message: "Use binary literals instead of parseInt()." }]
+        }, {
+            code: "parseInt('1234.5', 8);",
+            output: "parseInt('1234.5', 8);", // not fixed, this isn't an integer
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{ message: "Use octal literals instead of parseInt()." }]
+        }, {
+            code: "parseInt('1️⃣3️⃣3️⃣7️⃣', 16);",
+            output: "parseInt('1️⃣3️⃣3️⃣7️⃣', 16);", // not fixed, javascript doesn't support emoji literals
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{ message: "Use hexadecimal literals instead of parseInt()."}]
         }
     ]
 });
