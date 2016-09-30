@@ -664,16 +664,19 @@ ruleTester.run("lines-around-directive", rule, {
         // single directive
         {
             code: "'use strict';\nvar foo;",
+            output: "'use strict';\n\nvar foo;",
             options: ["always"],
             errors: ["Expected newline after \"use strict\" directive."]
         },
         {
             code: "'use strict';\n//comment\nvar foo;",
+            output: "'use strict';\n\n//comment\nvar foo;",
             options: ["always"],
             errors: ["Expected newline after \"use strict\" directive."]
         },
         {
             code: "'use strict';\n/*\nmultiline comment\n*/\nvar foo;",
+            output: "'use strict';\n\n/*\nmultiline comment\n*/\nvar foo;",
             options: ["always"],
             errors: ["Expected newline after \"use strict\" directive."]
         },
@@ -681,16 +684,19 @@ ruleTester.run("lines-around-directive", rule, {
         // multiple directives
         {
             code: "'use strict';\n'use asm';\nvar foo;",
+            output: "'use strict';\n'use asm';\n\nvar foo;",
             options: ["always"],
             errors: ["Expected newline after \"use asm\" directive."]
         },
         {
             code: "'use strict';\n'use asm';\n//comment\nvar foo;",
+            output: "'use strict';\n'use asm';\n\n//comment\nvar foo;",
             options: ["always"],
             errors: ["Expected newline after \"use asm\" directive."]
         },
         {
             code: "'use strict';\n'use asm';\n/*\nmultiline comment\n*/\nvar foo;",
+            output: "'use strict';\n'use asm';\n\n/*\nmultiline comment\n*/\nvar foo;",
             options: ["always"],
             errors: ["Expected newline after \"use asm\" directive."]
         },
@@ -699,6 +705,7 @@ ruleTester.run("lines-around-directive", rule, {
         // single directive
         {
             code: "#!/usr/bin/env node\n'use strict';\nvar foo;",
+            output: "#!/usr/bin/env node\n\n'use strict';\n\nvar foo;",
             options: ["always"],
             errors: [
                 "Expected newline before \"use strict\" directive.",
@@ -707,6 +714,7 @@ ruleTester.run("lines-around-directive", rule, {
         },
         {
             code: "#!/usr/bin/env node\n//comment\n'use strict';\nvar foo;",
+            output: "#!/usr/bin/env node\n//comment\n\n'use strict';\n\nvar foo;",
             options: ["always"],
             errors: [
                 "Expected newline before \"use strict\" directive.",
@@ -715,6 +723,7 @@ ruleTester.run("lines-around-directive", rule, {
         },
         {
             code: "//comment\n'use strict';\nvar foo;",
+            output: "//comment\n\n'use strict';\n\nvar foo;",
             options: ["always"],
             errors: [
                 "Expected newline before \"use strict\" directive.",
@@ -723,6 +732,7 @@ ruleTester.run("lines-around-directive", rule, {
         },
         {
             code: "/*\nmultiline comment\n*/\n'use strict';\nvar foo;",
+            output: "/*\nmultiline comment\n*/\n\n'use strict';\n\nvar foo;",
             options: ["always"],
             errors: [
                 "Expected newline before \"use strict\" directive.",
@@ -733,6 +743,7 @@ ruleTester.run("lines-around-directive", rule, {
         // multiple directives
         {
             code: "#!/usr/bin/env node\n'use strict';\n'use asm';\nvar foo;",
+            output: "#!/usr/bin/env node\n\n'use strict';\n'use asm';\n\nvar foo;",
             options: ["always"],
             errors: [
                 "Expected newline before \"use strict\" directive.",
@@ -741,6 +752,7 @@ ruleTester.run("lines-around-directive", rule, {
         },
         {
             code: "#!/usr/bin/env node\n//comment\n'use strict';\n'use asm';\nvar foo;",
+            output: "#!/usr/bin/env node\n//comment\n\n'use strict';\n'use asm';\n\nvar foo;",
             options: ["always"],
             errors: [
                 "Expected newline before \"use strict\" directive.",
@@ -749,6 +761,7 @@ ruleTester.run("lines-around-directive", rule, {
         },
         {
             code: "//comment\n'use strict';\n'use asm';\nvar foo;",
+            output: "//comment\n\n'use strict';\n'use asm';\n\nvar foo;",
             options: ["always"],
             errors: [
                 "Expected newline before \"use strict\" directive.",
@@ -757,6 +770,7 @@ ruleTester.run("lines-around-directive", rule, {
         },
         {
             code: "/*\nmultiline comment\n*/\n'use strict';\n'use asm';\nvar foo;",
+            output: "/*\nmultiline comment\n*/\n\n'use strict';\n'use asm';\n\nvar foo;",
             options: ["always"],
             errors: [
                 "Expected newline before \"use strict\" directive.",
@@ -768,11 +782,13 @@ ruleTester.run("lines-around-directive", rule, {
         // single directive
         {
             code: "function foo() {\n'use strict';\nvar bar;\n}",
+            output: "function foo() {\n'use strict';\n\nvar bar;\n}",
             options: ["always"],
             errors: ["Expected newline after \"use strict\" directive."]
         },
         {
             code: "() => {\n'use strict';\nvar foo;\n}",
+            output: "() => {\n'use strict';\n\nvar foo;\n}",
             parserOptions: { ecmaVersion: 6 },
             options: ["always"],
             errors: ["Expected newline after \"use strict\" directive."]
@@ -781,11 +797,13 @@ ruleTester.run("lines-around-directive", rule, {
         // multiple directives
         {
             code: "function foo() {\n'use strict';\n'use asm';\nvar bar;\n}",
+            output: "function foo() {\n'use strict';\n'use asm';\n\nvar bar;\n}",
             options: ["always"],
             errors: ["Expected newline after \"use asm\" directive."]
         },
         {
             code: "() => {\n'use strict';\n'use asm';\nvar foo;\n}",
+            output: "() => {\n'use strict';\n'use asm';\n\nvar foo;\n}",
             parserOptions: { ecmaVersion: 6 },
             options: ["always"],
             errors: ["Expected newline after \"use asm\" directive."]
@@ -795,6 +813,7 @@ ruleTester.run("lines-around-directive", rule, {
         // single directive
         {
             code: "function foo() {\n//comment\n'use strict';\nvar bar;\n}",
+            output: "function foo() {\n//comment\n\n'use strict';\n\nvar bar;\n}",
             options: ["always"],
             errors: [
                 "Expected newline before \"use strict\" directive.",
@@ -803,6 +822,7 @@ ruleTester.run("lines-around-directive", rule, {
         },
         {
             code: "function foo() {\n/*\nmultiline comment\n*/\n'use strict';\nvar bar;\n}",
+            output: "function foo() {\n/*\nmultiline comment\n*/\n\n'use strict';\n\nvar bar;\n}",
             options: ["always"],
             errors: [
                 "Expected newline before \"use strict\" directive.",
@@ -811,6 +831,7 @@ ruleTester.run("lines-around-directive", rule, {
         },
         {
             code: "() => {\n//comment\n'use strict';\nvar foo;\n}",
+            output: "() => {\n//comment\n\n'use strict';\n\nvar foo;\n}",
             parserOptions: { ecmaVersion: 6 },
             options: ["always"],
             errors: [
@@ -820,6 +841,7 @@ ruleTester.run("lines-around-directive", rule, {
         },
         {
             code: "() => {\n/*\nmultiline comment\n*/\n'use strict';\nvar foo;\n}",
+            output: "() => {\n/*\nmultiline comment\n*/\n\n'use strict';\n\nvar foo;\n}",
             parserOptions: { ecmaVersion: 6 },
             options: ["always"],
             errors: [
@@ -831,6 +853,7 @@ ruleTester.run("lines-around-directive", rule, {
         // multiple directives
         {
             code: "function foo() {\n//comment\n'use strict';\n'use asm';\nvar bar;\n}",
+            output: "function foo() {\n//comment\n\n'use strict';\n'use asm';\n\nvar bar;\n}",
             options: ["always"],
             errors: [
                 "Expected newline before \"use strict\" directive.",
@@ -839,6 +862,7 @@ ruleTester.run("lines-around-directive", rule, {
         },
         {
             code: "function foo() {\n/*\nmultiline comment\n*/\n'use strict';\n'use asm';\nvar bar;\n}",
+            output: "function foo() {\n/*\nmultiline comment\n*/\n\n'use strict';\n'use asm';\n\nvar bar;\n}",
             options: ["always"],
             errors: [
                 "Expected newline before \"use strict\" directive.",
@@ -847,6 +871,7 @@ ruleTester.run("lines-around-directive", rule, {
         },
         {
             code: "() => {\n//comment\n'use strict';\n'use asm';\nvar foo;\n}",
+            output: "() => {\n//comment\n\n'use strict';\n'use asm';\n\nvar foo;\n}",
             parserOptions: { ecmaVersion: 6 },
             options: ["always"],
             errors: [
@@ -856,6 +881,7 @@ ruleTester.run("lines-around-directive", rule, {
         },
         {
             code: "() => {\n/*\nmultiline comment\n*/\n'use strict';\n'use asm';\nvar foo;\n}",
+            output: "() => {\n/*\nmultiline comment\n*/\n\n'use strict';\n'use asm';\n\nvar foo;\n}",
             parserOptions: { ecmaVersion: 6 },
             options: ["always"],
             errors: [
@@ -869,16 +895,19 @@ ruleTester.run("lines-around-directive", rule, {
         // single directive
         {
             code: "'use strict';\n\nvar foo;",
+            output: "'use strict';\nvar foo;",
             options: ["never"],
             errors: ["Unexpected newline after \"use strict\" directive."]
         },
         {
             code: "'use strict';\n\n//comment\nvar foo;",
+            output: "'use strict';\n//comment\nvar foo;",
             options: ["never"],
             errors: ["Unexpected newline after \"use strict\" directive."]
         },
         {
             code: "'use strict';\n\n/*\nmultiline comment\n*/\nvar foo;",
+            output: "'use strict';\n/*\nmultiline comment\n*/\nvar foo;",
             options: ["never"],
             errors: ["Unexpected newline after \"use strict\" directive."]
         },
@@ -886,16 +915,19 @@ ruleTester.run("lines-around-directive", rule, {
         // multiple directives
         {
             code: "'use strict';\n'use asm';\n\nvar foo;",
+            output: "'use strict';\n'use asm';\nvar foo;",
             options: ["never"],
             errors: ["Unexpected newline after \"use asm\" directive."]
         },
         {
             code: "'use strict';\n'use asm';\n\n//comment\nvar foo;",
+            output: "'use strict';\n'use asm';\n//comment\nvar foo;",
             options: ["never"],
             errors: ["Unexpected newline after \"use asm\" directive."]
         },
         {
             code: "'use strict';\n'use asm';\n\n/*\nmultiline comment\n*/\nvar foo;",
+            output: "'use strict';\n'use asm';\n/*\nmultiline comment\n*/\nvar foo;",
             options: ["never"],
             errors: ["Unexpected newline after \"use asm\" directive."]
         },
@@ -904,6 +936,7 @@ ruleTester.run("lines-around-directive", rule, {
         // single directive
         {
             code: "#!/usr/bin/env node\n\n'use strict';\n\nvar foo;",
+            output: "#!/usr/bin/env node\n'use strict';\nvar foo;",
             options: ["never"],
             errors: [
                 "Unexpected newline before \"use strict\" directive.",
@@ -912,6 +945,7 @@ ruleTester.run("lines-around-directive", rule, {
         },
         {
             code: "#!/usr/bin/env node\n//comment\n\n'use strict';\n\nvar foo;",
+            output: "#!/usr/bin/env node\n//comment\n'use strict';\nvar foo;",
             options: ["never"],
             errors: [
                 "Unexpected newline before \"use strict\" directive.",
@@ -920,6 +954,7 @@ ruleTester.run("lines-around-directive", rule, {
         },
         {
             code: "//comment\n\n'use strict';\n\nvar foo;",
+            output: "//comment\n'use strict';\nvar foo;",
             options: ["never"],
             errors: [
                 "Unexpected newline before \"use strict\" directive.",
@@ -928,6 +963,7 @@ ruleTester.run("lines-around-directive", rule, {
         },
         {
             code: "/*\nmultiline comment\n*/\n\n'use strict';\n\nvar foo;",
+            output: "/*\nmultiline comment\n*/\n'use strict';\nvar foo;",
             options: ["never"],
             errors: [
                 "Unexpected newline before \"use strict\" directive.",
@@ -938,6 +974,7 @@ ruleTester.run("lines-around-directive", rule, {
         // multiple directives
         {
             code: "#!/usr/bin/env node\n\n'use strict';\n'use asm';\n\nvar foo;",
+            output: "#!/usr/bin/env node\n'use strict';\n'use asm';\nvar foo;",
             options: ["never"],
             errors: [
                 "Unexpected newline before \"use strict\" directive.",
@@ -946,6 +983,7 @@ ruleTester.run("lines-around-directive", rule, {
         },
         {
             code: "#!/usr/bin/env node\n//comment\n\n'use strict';\n'use asm';\n\nvar foo;",
+            output: "#!/usr/bin/env node\n//comment\n'use strict';\n'use asm';\nvar foo;",
             options: ["never"],
             errors: [
                 "Unexpected newline before \"use strict\" directive.",
@@ -954,6 +992,7 @@ ruleTester.run("lines-around-directive", rule, {
         },
         {
             code: "//comment\n\n'use strict';\n'use asm';\n\nvar foo;",
+            output: "//comment\n'use strict';\n'use asm';\nvar foo;",
             options: ["never"],
             errors: [
                 "Unexpected newline before \"use strict\" directive.",
@@ -962,6 +1001,7 @@ ruleTester.run("lines-around-directive", rule, {
         },
         {
             code: "/*\nmultiline comment\n*/\n\n'use strict';\n'use asm';\n\nvar foo;",
+            output: "/*\nmultiline comment\n*/\n'use strict';\n'use asm';\nvar foo;",
             options: ["never"],
             errors: [
                 "Unexpected newline before \"use strict\" directive.",
@@ -973,11 +1013,13 @@ ruleTester.run("lines-around-directive", rule, {
         // single directive
         {
             code: "function foo() {\n'use strict';\n\nvar bar;\n}",
+            output: "function foo() {\n'use strict';\nvar bar;\n}",
             options: ["never"],
             errors: ["Unexpected newline after \"use strict\" directive."]
         },
         {
             code: "() => {\n'use strict';\n\nvar foo;\n}",
+            output: "() => {\n'use strict';\nvar foo;\n}",
             parserOptions: { ecmaVersion: 6 },
             options: ["never"],
             errors: ["Unexpected newline after \"use strict\" directive."]
@@ -986,11 +1028,13 @@ ruleTester.run("lines-around-directive", rule, {
         // multiple directives
         {
             code: "function foo() {\n'use strict';\n'use asm';\n\nvar bar;\n}",
+            output: "function foo() {\n'use strict';\n'use asm';\nvar bar;\n}",
             options: ["never"],
             errors: ["Unexpected newline after \"use asm\" directive."]
         },
         {
             code: "() => {\n'use strict';\n'use asm';\n\nvar foo;\n}",
+            output: "() => {\n'use strict';\n'use asm';\nvar foo;\n}",
             parserOptions: { ecmaVersion: 6 },
             options: ["never"],
             errors: ["Unexpected newline after \"use asm\" directive."]
@@ -1000,6 +1044,7 @@ ruleTester.run("lines-around-directive", rule, {
         // single directive
         {
             code: "function foo() {\n//comment\n\n'use strict';\n\nvar bar;\n}",
+            output: "function foo() {\n//comment\n'use strict';\nvar bar;\n}",
             options: ["never"],
             errors: [
                 "Unexpected newline before \"use strict\" directive.",
@@ -1008,6 +1053,7 @@ ruleTester.run("lines-around-directive", rule, {
         },
         {
             code: "function foo() {\n/*\nmultiline comment\n*/\n\n'use strict';\n\nvar bar;\n}",
+            output: "function foo() {\n/*\nmultiline comment\n*/\n'use strict';\nvar bar;\n}",
             options: ["never"],
             errors: [
                 "Unexpected newline before \"use strict\" directive.",
@@ -1016,6 +1062,7 @@ ruleTester.run("lines-around-directive", rule, {
         },
         {
             code: "() => {\n//comment\n\n'use strict';\n\nvar foo;\n}",
+            output: "() => {\n//comment\n'use strict';\nvar foo;\n}",
             parserOptions: { ecmaVersion: 6 },
             options: ["never"],
             errors: [
@@ -1025,6 +1072,7 @@ ruleTester.run("lines-around-directive", rule, {
         },
         {
             code: "() => {\n/*\nmultiline comment\n*/\n\n'use strict';\n\nvar foo;\n}",
+            output: "() => {\n/*\nmultiline comment\n*/\n'use strict';\nvar foo;\n}",
             parserOptions: { ecmaVersion: 6 },
             options: ["never"],
             errors: [
@@ -1036,6 +1084,7 @@ ruleTester.run("lines-around-directive", rule, {
         // multiple directives
         {
             code: "function foo() {\n//comment\n\n'use strict';\n'use asm';\n\nvar bar;\n}",
+            output: "function foo() {\n//comment\n'use strict';\n'use asm';\nvar bar;\n}",
             options: ["never"],
             errors: [
                 "Unexpected newline before \"use strict\" directive.",
@@ -1044,6 +1093,7 @@ ruleTester.run("lines-around-directive", rule, {
         },
         {
             code: "function foo() {\n/*\nmultiline comment\n*/\n\n'use strict';\n'use asm';\n\nvar bar;\n}",
+            output: "function foo() {\n/*\nmultiline comment\n*/\n'use strict';\n'use asm';\nvar bar;\n}",
             options: ["never"],
             errors: [
                 "Unexpected newline before \"use strict\" directive.",
@@ -1052,6 +1102,7 @@ ruleTester.run("lines-around-directive", rule, {
         },
         {
             code: "() => {\n//comment\n\n'use strict';\n'use asm';\n\nvar foo;\n}",
+            output: "() => {\n//comment\n'use strict';\n'use asm';\nvar foo;\n}",
             parserOptions: { ecmaVersion: 6 },
             options: ["never"],
             errors: [
@@ -1061,6 +1112,7 @@ ruleTester.run("lines-around-directive", rule, {
         },
         {
             code: "() => {\n/*\nmultiline comment\n*/\n\n'use strict';\n'use asm';\n\nvar foo;\n}",
+            output: "() => {\n/*\nmultiline comment\n*/\n'use strict';\n'use asm';\nvar foo;\n}",
             parserOptions: { ecmaVersion: 6 },
             options: ["never"],
             errors: [
@@ -1075,16 +1127,19 @@ ruleTester.run("lines-around-directive", rule, {
         // single directive
         {
             code: "'use strict';\nvar foo;",
+            output: "'use strict';\n\nvar foo;",
             options: [{ before: "never", after: "always" }],
             errors: ["Expected newline after \"use strict\" directive."]
         },
         {
             code: "'use strict';\n//comment\nvar foo;",
+            output: "'use strict';\n\n//comment\nvar foo;",
             options: [{ before: "never", after: "always" }],
             errors: ["Expected newline after \"use strict\" directive."]
         },
         {
             code: "'use strict';\n/*\nmultiline comment\n*/\nvar foo;",
+            output: "'use strict';\n\n/*\nmultiline comment\n*/\nvar foo;",
             options: [{ before: "never", after: "always" }],
             errors: ["Expected newline after \"use strict\" directive."]
         },
@@ -1092,16 +1147,19 @@ ruleTester.run("lines-around-directive", rule, {
         // multiple directives
         {
             code: "'use strict';\n'use asm';\nvar foo;",
+            output: "'use strict';\n'use asm';\n\nvar foo;",
             options: [{ before: "never", after: "always" }],
             errors: ["Expected newline after \"use asm\" directive."]
         },
         {
             code: "'use strict';\n'use asm';\n//comment\nvar foo;",
+            output: "'use strict';\n'use asm';\n\n//comment\nvar foo;",
             options: [{ before: "never", after: "always" }],
             errors: ["Expected newline after \"use asm\" directive."]
         },
         {
             code: "'use strict';\n'use asm';\n/*\nmultiline comment\n*/\nvar foo;",
+            output: "'use strict';\n'use asm';\n\n/*\nmultiline comment\n*/\nvar foo;",
             options: [{ before: "never", after: "always" }],
             errors: ["Expected newline after \"use asm\" directive."]
         },
@@ -1110,6 +1168,7 @@ ruleTester.run("lines-around-directive", rule, {
         // single directive
         {
             code: "#!/usr/bin/env node\n\n'use strict';\nvar foo;",
+            output: "#!/usr/bin/env node\n'use strict';\n\nvar foo;",
             options: [{ before: "never", after: "always" }],
             errors: [
                 "Unexpected newline before \"use strict\" directive.",
@@ -1118,6 +1177,7 @@ ruleTester.run("lines-around-directive", rule, {
         },
         {
             code: "//comment\n\n'use strict';\nvar foo;",
+            output: "//comment\n'use strict';\n\nvar foo;",
             options: [{ before: "never", after: "always" }],
             errors: [
                 "Unexpected newline before \"use strict\" directive.",
@@ -1126,6 +1186,7 @@ ruleTester.run("lines-around-directive", rule, {
         },
         {
             code: "/*\nmultiline comment\n*/\n\n'use strict';\nvar foo;",
+            output: "/*\nmultiline comment\n*/\n'use strict';\n\nvar foo;",
             options: [{ before: "never", after: "always" }],
             errors: [
                 "Unexpected newline before \"use strict\" directive.",
@@ -1136,6 +1197,7 @@ ruleTester.run("lines-around-directive", rule, {
         // multiple directives
         {
             code: "#!/usr/bin/env node\n\n'use strict';\n'use asm';\nvar foo;",
+            output: "#!/usr/bin/env node\n'use strict';\n'use asm';\n\nvar foo;",
             options: [{ before: "never", after: "always" }],
             errors: [
                 "Unexpected newline before \"use strict\" directive.",
@@ -1144,6 +1206,7 @@ ruleTester.run("lines-around-directive", rule, {
         },
         {
             code: "//comment\n\n'use strict';\n'use asm';\nvar foo;",
+            output: "//comment\n'use strict';\n'use asm';\n\nvar foo;",
             options: [{ before: "never", after: "always" }],
             errors: [
                 "Unexpected newline before \"use strict\" directive.",
@@ -1152,6 +1215,7 @@ ruleTester.run("lines-around-directive", rule, {
         },
         {
             code: "/*\nmultiline comment\n*/\n\n'use strict';\n'use asm';\nvar foo;",
+            output: "/*\nmultiline comment\n*/\n'use strict';\n'use asm';\n\nvar foo;",
             options: [{ before: "never", after: "always" }],
             errors: [
                 "Unexpected newline before \"use strict\" directive.",
@@ -1163,22 +1227,26 @@ ruleTester.run("lines-around-directive", rule, {
         // single directive
         {
             code: "function foo() {\n'use strict';\nvar bar;\n}",
+            output: "function foo() {\n'use strict';\n\nvar bar;\n}",
             options: [{ before: "never", after: "always" }],
             errors: ["Expected newline after \"use strict\" directive."]
         },
         {
             code: "function foo() {\n\n'use strict';\nvar bar;\n}",
+            output: "function foo() {\n\n'use strict';\n\nvar bar;\n}",
             options: [{ before: "never", after: "always" }],
             errors: ["Expected newline after \"use strict\" directive."]
         },
         {
             code: "() => {\n'use strict';\nvar foo;\n}",
+            output: "() => {\n'use strict';\n\nvar foo;\n}",
             parserOptions: { ecmaVersion: 6 },
             options: [{ before: "never", after: "always" }],
             errors: ["Expected newline after \"use strict\" directive."]
         },
         {
             code: "() => {\n\n'use strict';\nvar foo;\n}",
+            output: "() => {\n\n'use strict';\n\nvar foo;\n}",
             parserOptions: { ecmaVersion: 6 },
             options: [{ before: "never", after: "always" }],
             errors: ["Expected newline after \"use strict\" directive."]
@@ -1187,22 +1255,26 @@ ruleTester.run("lines-around-directive", rule, {
         // multiple directives
         {
             code: "function foo() {\n'use strict';\n'use asm';\nvar bar;\n}",
+            output: "function foo() {\n'use strict';\n'use asm';\n\nvar bar;\n}",
             options: [{ before: "never", after: "always" }],
             errors: ["Expected newline after \"use asm\" directive."]
         },
         {
             code: "function foo() {\n\n'use strict';\n'use asm';\nvar bar;\n}",
+            output: "function foo() {\n\n'use strict';\n'use asm';\n\nvar bar;\n}",
             options: [{ before: "never", after: "always" }],
             errors: ["Expected newline after \"use asm\" directive."]
         },
         {
             code: "() => {\n'use strict';\n'use asm';\nvar foo;\n}",
+            output: "() => {\n'use strict';\n'use asm';\n\nvar foo;\n}",
             parserOptions: { ecmaVersion: 6 },
             options: [{ before: "never", after: "always" }],
             errors: ["Expected newline after \"use asm\" directive."]
         },
         {
             code: "() => {\n\n'use strict';\n'use asm';\nvar foo;\n}",
+            output: "() => {\n\n'use strict';\n'use asm';\n\nvar foo;\n}",
             parserOptions: { ecmaVersion: 6 },
             options: [{ before: "never", after: "always" }],
             errors: ["Expected newline after \"use asm\" directive."]
@@ -1212,6 +1284,7 @@ ruleTester.run("lines-around-directive", rule, {
         // single directive
         {
             code: "function foo() {\n//comment\n\n'use strict';\nvar bar;\n}",
+            output: "function foo() {\n//comment\n'use strict';\n\nvar bar;\n}",
             options: [{ before: "never", after: "always" }],
             errors: [
                 "Unexpected newline before \"use strict\" directive.",
@@ -1220,6 +1293,7 @@ ruleTester.run("lines-around-directive", rule, {
         },
         {
             code: "function foo() {\n/*\nmultiline comment\n*/\n\n'use strict';\nvar bar;\n}",
+            output: "function foo() {\n/*\nmultiline comment\n*/\n'use strict';\n\nvar bar;\n}",
             options: [{ before: "never", after: "always" }],
             errors: [
                 "Unexpected newline before \"use strict\" directive.",
@@ -1228,6 +1302,7 @@ ruleTester.run("lines-around-directive", rule, {
         },
         {
             code: "() => {\n//comment\n\n'use strict';\nvar foo;\n}",
+            output: "() => {\n//comment\n'use strict';\n\nvar foo;\n}",
             parserOptions: { ecmaVersion: 6 },
             options: [{ before: "never", after: "always" }],
             errors: [
@@ -1237,6 +1312,7 @@ ruleTester.run("lines-around-directive", rule, {
         },
         {
             code: "() => {\n/*\nmultiline comment\n*/\n\n'use strict';\nvar foo;\n}",
+            output: "() => {\n/*\nmultiline comment\n*/\n'use strict';\n\nvar foo;\n}",
             parserOptions: { ecmaVersion: 6 },
             options: [{ before: "never", after: "always" }],
             errors: [
@@ -1248,6 +1324,7 @@ ruleTester.run("lines-around-directive", rule, {
         // multiple directives
         {
             code: "function foo() {\n//comment\n\n'use strict';\n'use asm';\nvar bar;\n}",
+            output: "function foo() {\n//comment\n'use strict';\n'use asm';\n\nvar bar;\n}",
             options: [{ before: "never", after: "always" }],
             errors: [
                 "Unexpected newline before \"use strict\" directive.",
@@ -1256,6 +1333,7 @@ ruleTester.run("lines-around-directive", rule, {
         },
         {
             code: "function foo() {\n/*\nmultiline comment\n*/\n\n'use strict';\n'use asm';\nvar bar;\n}",
+            output: "function foo() {\n/*\nmultiline comment\n*/\n'use strict';\n'use asm';\n\nvar bar;\n}",
             options: [{ before: "never", after: "always" }],
             errors: [
                 "Unexpected newline before \"use strict\" directive.",
@@ -1264,6 +1342,7 @@ ruleTester.run("lines-around-directive", rule, {
         },
         {
             code: "() => {\n//comment\n\n'use strict';\n'use asm';\nvar foo;\n}",
+            output: "() => {\n//comment\n'use strict';\n'use asm';\n\nvar foo;\n}",
             parserOptions: { ecmaVersion: 6 },
             options: [{ before: "never", after: "always" }],
             errors: [
@@ -1273,6 +1352,7 @@ ruleTester.run("lines-around-directive", rule, {
         },
         {
             code: "() => {\n/*\nmultiline comment\n*/\n\n'use strict';\n'use asm';\nvar foo;\n}",
+            output: "() => {\n/*\nmultiline comment\n*/\n'use strict';\n'use asm';\n\nvar foo;\n}",
             parserOptions: { ecmaVersion: 6 },
             options: [{ before: "never", after: "always" }],
             errors: [
@@ -1286,16 +1366,19 @@ ruleTester.run("lines-around-directive", rule, {
         // single directive
         {
             code: "'use strict';\n\nvar foo;",
+            output: "'use strict';\nvar foo;",
             options: [{ before: "always", after: "never" }],
             errors: ["Unexpected newline after \"use strict\" directive."]
         },
         {
             code: "'use strict';\n\n//comment\nvar foo;",
+            output: "'use strict';\n//comment\nvar foo;",
             options: [{ before: "always", after: "never" }],
             errors: ["Unexpected newline after \"use strict\" directive."]
         },
         {
             code: "'use strict';\n\n/*\nmultiline comment\n*/\nvar foo;",
+            output: "'use strict';\n/*\nmultiline comment\n*/\nvar foo;",
             options: [{ before: "always", after: "never" }],
             errors: ["Unexpected newline after \"use strict\" directive."]
         },
@@ -1303,16 +1386,19 @@ ruleTester.run("lines-around-directive", rule, {
         // multiple directives
         {
             code: "'use strict';\n'use asm';\n\nvar foo;",
+            output: "'use strict';\n'use asm';\nvar foo;",
             options: [{ before: "always", after: "never" }],
             errors: ["Unexpected newline after \"use asm\" directive."]
         },
         {
             code: "'use strict';\n'use asm';\n\n//comment\nvar foo;",
+            output: "'use strict';\n'use asm';\n//comment\nvar foo;",
             options: [{ before: "always", after: "never" }],
             errors: ["Unexpected newline after \"use asm\" directive."]
         },
         {
             code: "'use strict';\n'use asm';\n\n/*\nmultiline comment\n*/\nvar foo;",
+            output: "'use strict';\n'use asm';\n/*\nmultiline comment\n*/\nvar foo;",
             options: [{ before: "always", after: "never" }],
             errors: ["Unexpected newline after \"use asm\" directive."]
         },
@@ -1321,6 +1407,7 @@ ruleTester.run("lines-around-directive", rule, {
         // single directive
         {
             code: "#!/usr/bin/env node\n'use strict';\n\nvar foo;",
+            output: "#!/usr/bin/env node\n\n'use strict';\nvar foo;",
             options: [{ before: "always", after: "never" }],
             errors: [
                 "Expected newline before \"use strict\" directive.",
@@ -1329,6 +1416,7 @@ ruleTester.run("lines-around-directive", rule, {
         },
         {
             code: "//comment\n'use strict';\n\nvar foo;",
+            output: "//comment\n\n'use strict';\nvar foo;",
             options: [{ before: "always", after: "never" }],
             errors: [
                 "Expected newline before \"use strict\" directive.",
@@ -1337,6 +1425,7 @@ ruleTester.run("lines-around-directive", rule, {
         },
         {
             code: "/*\nmultiline comment\n*/\n'use strict';\n\nvar foo;",
+            output: "/*\nmultiline comment\n*/\n\n'use strict';\nvar foo;",
             options: [{ before: "always", after: "never" }],
             errors: [
                 "Expected newline before \"use strict\" directive.",
@@ -1347,6 +1436,7 @@ ruleTester.run("lines-around-directive", rule, {
         // multiple directives
         {
             code: "#!/usr/bin/env node\n'use strict';\n'use asm';\n\nvar foo;",
+            output: "#!/usr/bin/env node\n\n'use strict';\n'use asm';\nvar foo;",
             options: [{ before: "always", after: "never" }],
             errors: [
                 "Expected newline before \"use strict\" directive.",
@@ -1355,6 +1445,7 @@ ruleTester.run("lines-around-directive", rule, {
         },
         {
             code: "//comment\n'use strict';\n'use asm';\n\nvar foo;",
+            output: "//comment\n\n'use strict';\n'use asm';\nvar foo;",
             options: [{ before: "always", after: "never" }],
             errors: [
                 "Expected newline before \"use strict\" directive.",
@@ -1363,6 +1454,7 @@ ruleTester.run("lines-around-directive", rule, {
         },
         {
             code: "/*\nmultiline comment\n*/\n'use strict';\n'use asm';\n\nvar foo;",
+            output: "/*\nmultiline comment\n*/\n\n'use strict';\n'use asm';\nvar foo;",
             options: [{ before: "always", after: "never" }],
             errors: [
                 "Expected newline before \"use strict\" directive.",
@@ -1374,22 +1466,26 @@ ruleTester.run("lines-around-directive", rule, {
         // single directive
         {
             code: "function foo() {\n'use strict';\n\nvar bar;\n}",
+            output: "function foo() {\n'use strict';\nvar bar;\n}",
             options: [{ before: "always", after: "never" }],
             errors: ["Unexpected newline after \"use strict\" directive."]
         },
         {
             code: "function foo() {\n\n'use strict';\n\nvar bar;\n}",
+            output: "function foo() {\n\n'use strict';\nvar bar;\n}",
             options: [{ before: "always", after: "never" }],
             errors: ["Unexpected newline after \"use strict\" directive."]
         },
         {
             code: "() => {\n'use strict';\n\nvar foo;\n}",
+            output: "() => {\n'use strict';\nvar foo;\n}",
             parserOptions: { ecmaVersion: 6 },
             options: [{ before: "always", after: "never" }],
             errors: ["Unexpected newline after \"use strict\" directive."]
         },
         {
             code: "() => {\n\n'use strict';\n\nvar foo;\n}",
+            output: "() => {\n\n'use strict';\nvar foo;\n}",
             parserOptions: { ecmaVersion: 6 },
             options: [{ before: "always", after: "never" }],
             errors: ["Unexpected newline after \"use strict\" directive."]
@@ -1398,22 +1494,26 @@ ruleTester.run("lines-around-directive", rule, {
         // multiple directives
         {
             code: "function foo() {\n'use strict';\n'use asm';\n\nvar bar;\n}",
+            output: "function foo() {\n'use strict';\n'use asm';\nvar bar;\n}",
             options: [{ before: "always", after: "never" }],
             errors: ["Unexpected newline after \"use asm\" directive."]
         },
         {
             code: "function foo() {\n\n'use strict';\n'use asm';\n\nvar bar;\n}",
+            output: "function foo() {\n\n'use strict';\n'use asm';\nvar bar;\n}",
             options: [{ before: "always", after: "never" }],
             errors: ["Unexpected newline after \"use asm\" directive."]
         },
         {
             code: "() => {\n'use strict';\n'use asm';\n\nvar foo;\n}",
+            output: "() => {\n'use strict';\n'use asm';\nvar foo;\n}",
             parserOptions: { ecmaVersion: 6 },
             options: [{ before: "always", after: "never" }],
             errors: ["Unexpected newline after \"use asm\" directive."]
         },
         {
             code: "() => {\n\n'use strict';\n'use asm';\n\nvar foo;\n}",
+            output: "() => {\n\n'use strict';\n'use asm';\nvar foo;\n}",
             parserOptions: { ecmaVersion: 6 },
             options: [{ before: "always", after: "never" }],
             errors: ["Unexpected newline after \"use asm\" directive."]
@@ -1423,6 +1523,7 @@ ruleTester.run("lines-around-directive", rule, {
         // single directive
         {
             code: "function foo() {\n//comment\n'use strict';\n\nvar bar;\n}",
+            output: "function foo() {\n//comment\n\n'use strict';\nvar bar;\n}",
             options: [{ before: "always", after: "never" }],
             errors: [
                 "Expected newline before \"use strict\" directive.",
@@ -1431,6 +1532,7 @@ ruleTester.run("lines-around-directive", rule, {
         },
         {
             code: "function foo() {\n/*\nmultiline comment\n*/\n'use strict';\n\nvar bar;\n}",
+            output: "function foo() {\n/*\nmultiline comment\n*/\n\n'use strict';\nvar bar;\n}",
             options: [{ before: "always", after: "never" }],
             errors: [
                 "Expected newline before \"use strict\" directive.",
@@ -1439,6 +1541,7 @@ ruleTester.run("lines-around-directive", rule, {
         },
         {
             code: "() => {\n//comment\n'use strict';\n\nvar foo;\n}",
+            output: "() => {\n//comment\n\n'use strict';\nvar foo;\n}",
             parserOptions: { ecmaVersion: 6 },
             options: [{ before: "always", after: "never" }],
             errors: [
@@ -1448,6 +1551,7 @@ ruleTester.run("lines-around-directive", rule, {
         },
         {
             code: "() => {\n/*\nmultiline comment\n*/\n'use strict';\n\nvar foo;\n}",
+            output: "() => {\n/*\nmultiline comment\n*/\n\n'use strict';\nvar foo;\n}",
             parserOptions: { ecmaVersion: 6 },
             options: [{ before: "always", after: "never" }],
             errors: [
@@ -1459,6 +1563,7 @@ ruleTester.run("lines-around-directive", rule, {
         // multiple directives
         {
             code: "function foo() {\n//comment\n'use strict';\n'use asm';\n\nvar bar;\n}",
+            output: "function foo() {\n//comment\n\n'use strict';\n'use asm';\nvar bar;\n}",
             options: [{ before: "always", after: "never" }],
             errors: [
                 "Expected newline before \"use strict\" directive.",
@@ -1467,6 +1572,7 @@ ruleTester.run("lines-around-directive", rule, {
         },
         {
             code: "function foo() {\n/*\nmultiline comment\n*/\n'use strict';\n'use asm';\n\nvar bar;\n}",
+            output: "function foo() {\n/*\nmultiline comment\n*/\n\n'use strict';\n'use asm';\nvar bar;\n}",
             options: [{ before: "always", after: "never" }],
             errors: [
                 "Expected newline before \"use strict\" directive.",
@@ -1475,6 +1581,7 @@ ruleTester.run("lines-around-directive", rule, {
         },
         {
             code: "() => {\n//comment\n'use strict';\n'use asm';\n\nvar foo;\n}",
+            output: "() => {\n//comment\n\n'use strict';\n'use asm';\nvar foo;\n}",
             parserOptions: { ecmaVersion: 6 },
             options: [{ before: "always", after: "never" }],
             errors: [
@@ -1484,6 +1591,7 @@ ruleTester.run("lines-around-directive", rule, {
         },
         {
             code: "() => {\n/*\nmultiline comment\n*/\n'use strict';\n'use asm';\n\nvar foo;\n}",
+            output: "() => {\n/*\nmultiline comment\n*/\n\n'use strict';\n'use asm';\nvar foo;\n}",
             parserOptions: { ecmaVersion: 6 },
             options: [{ before: "always", after: "never" }],
             errors: [
