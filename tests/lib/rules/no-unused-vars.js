@@ -225,6 +225,17 @@ ruleTester.run("no-unused-vars", rule, {
             options: [{argsIgnorePattern: "d"}],
             parserOptions: {ecmaVersion: 6}
         },
+
+        // https://github.com/eslint/eslint/issues/7250
+        {
+            code: "(function(a, b, c) { c })",
+            options: [{argsIgnorePattern: "c"}],
+        },
+        {
+            code: "(function(a, b, {c, d}) { c })",
+            options: [{argsIgnorePattern: "[cd]"}],
+            parserOptions: {ecmaVersion: 6},
+        },
     ],
     invalid: [
         { code: "function foox() { return foox(); }", errors: [{ message: "'foox' is defined but never used.", type: "Identifier"}] },
