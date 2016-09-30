@@ -1564,10 +1564,39 @@ ruleTester.run("indent", rule, {
         {
             code:
             "function foo() {\n" +
+            "  function bar() {\n" +
+            "    baz();\n" +
+            "  }\n" +
+            "}",
+            options: [2, {FunctionDeclaration: {body: 1}}]
+        },
+        {
+            code:
+            "function foo() {\n" +
             "  bar();\n" +
             "   \t\t}",
             options: [2]
         },
+        {
+            code:
+            "function foo() {\n" +
+            "  function bar(baz,\n" +
+            "      qux) {\n" +
+            "    foobar();\n" +
+            "  }\n" +
+            "}",
+            options: [2, {FunctionDeclaration: {body: 1, parameters: 2}}]
+        },
+        {
+            code:
+            "function foo() {\n" +
+            "  var bar = function(baz,\n" +
+            "        qux) {\n" +
+            "    foobar();\n" +
+            "  };\n" +
+            "}",
+            options: [2, {FunctionExpression: {parameters: 3}}]
+        }
     ],
     invalid: [
         {
@@ -2878,6 +2907,70 @@ ruleTester.run("indent", rule, {
             "}",
             options: ["tab"],
             errors: expectedErrors("tab", [[3, "1 tab", "2 spaces", "ExpressionStatement"], [4, "1 tab", "14 spaces", "ExpressionStatement"]])
+        },
+        {
+            code:
+            "function foo() {\n" +
+            "  bar();\n" +
+            "\t\t}",
+            output:
+            "function foo() {\n" +
+            "  bar();\n" +
+            "}",
+            options: [2],
+            errors: expectedErrors([[3, "0 spaces", "2 tabs", "BlockStatement"]])
+        },
+        {
+            code:
+            "function foo() {\n" +
+            "  function bar() {\n" +
+            "        baz();\n" +
+            "  }\n" +
+            "}",
+            output:
+            "function foo() {\n" +
+            "  function bar() {\n" +
+            "    baz();\n" +
+            "  }\n" +
+            "}",
+            options: [2, {FunctionDeclaration: {body: 1}}],
+            errors: expectedErrors([3, 4, 8, "ExpressionStatement"])
+        },
+        {
+            code:
+            "function foo() {\n" +
+            "  function bar(baz,\n" +
+            "    qux) {\n" +
+            "    foobar();\n" +
+            "  }\n" +
+            "}",
+            output:
+            "function foo() {\n" +
+            "  function bar(baz,\n" +
+            "      qux) {\n" +
+            "    foobar();\n" +
+            "  }\n" +
+            "}",
+            options: [2, {FunctionDeclaration: {body: 1, parameters: 2}}],
+            errors: expectedErrors([3, 6, 4, "Identifier"])
+        },
+        {
+            code:
+            "function foo() {\n" +
+            "  var bar = function(baz,\n" +
+            "          qux) {\n" +
+            "    foobar();\n" +
+            "  };\n" +
+            "}",
+            output:
+            "function foo() {\n" +
+            "  var bar = function(baz,\n" +
+            "        qux) {\n" +
+            "    foobar();\n" +
+            "  };\n" +
+            "}",
+            options: [2, {FunctionExpression: {parameters: 3}}],
+            errors: expectedErrors([3, 8, 10, "Identifier"])
         }
     ]
 });
