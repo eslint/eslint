@@ -43,6 +43,15 @@ It is important to recognize that committership is a privilege, not a right. Tha
 
 A Committer who shows an above-average level of contribution to the project, particularly with respect to its strategic direction and long-term health, may be nominated to become a TSC member, described below.
 
+#### Process for Adding Committers
+
+1. Add the GitHub user to the "ESLint Team" team
+2. Send welcome email with link to maintainer guide
+3. Add committer email to the ESLint team mailing list
+4. Add committer to the README
+5. Invite to Gitter team chatroom
+6. Tweet congratulations to the new committer from the ESLint Twitter account
+
 ### Technical Steering Committee (TSC)
 
 The ESLint project is jointly governed by a Technical Steering Committee (TSC) which is responsible for high-level guidance of the project.
@@ -64,7 +73,6 @@ Changes to TSC membership should be posted in the agenda, and may be suggested a
 
 No more than 1/3 of the TSC members may be affiliated with the same employer. If removal or resignation of a TSC member, or a change of employment by a TSC member, creates a situation where more than 1/3 of the TSC membership shares an employer, then the situation must be immediately remedied by the resignation or removal of one or more TSC members affiliated with the over-represented employer(s).
 
-
 TSC members have additional responsibilities over and above those of a Committer. These responsibilities ensure the smooth running of the project. TSC members are expected to review code contributions, approve changes to this document, manage the copyrights within the project outputs, and attend regular TSC meetings.
 
 TSC members fulfill all requirements of Committers, and also:
@@ -80,6 +88,17 @@ To become a TSC member:
 * Have submitted a minimum of 50 qualifying pull requests.
 
 A Committer is invited to become a TSC member by existing TSC members. A nomination will result in discussion and then a decision by the TSC.
+
+#### Process for Adding TSC Members
+
+1. Add the GitHub user to the "ESLint TSC" team
+2. Set the GitHub user to be have the "Owner" role for the ESLint organization
+3. Send welcome email with link to maintainer guide
+4. Add TSC member to the README
+5. Invite to Gitter TSC chatroom
+6. Make TSC member an admin on the ESLint team mailing list
+7. Add TSC member as an admin to ESLint Twitter Account on Tweetdeck
+8. Tweet congratulations to the new TSC member from the ESLint Twitter account
 
 #### TSC Meetings
 
