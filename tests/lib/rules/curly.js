@@ -338,7 +338,7 @@ ruleTester.run("curly", rule, {
         },
         {
             code: "if (a) { if (b) console.log(1); else console.log(2) } else console.log(3)",
-            output: "if (a)  if (b) console.log(1); else console.log(2);  else console.log(3)",
+            output: "if (a) { if (b) console.log(1); else console.log(2) } else console.log(3)",
             options: ["multi"],
             errors: [
                 {
@@ -692,7 +692,7 @@ ruleTester.run("curly", rule, {
         },
         {
             code: "if (foo) {bar()} baz()",
-            output: "if (foo) bar(); baz()",
+            output: "if (foo) {bar()} baz()",
             options: ["multi"],
             errors: [
                 {
@@ -702,7 +702,7 @@ ruleTester.run("curly", rule, {
             ]
         },
         {
-            code: "do {foo()} while (bar)",
+            code: "do {foo();} while (bar)",
             output: "do foo(); while (bar)",
             options: ["multi"],
             errors: [
@@ -713,10 +713,10 @@ ruleTester.run("curly", rule, {
             ]
         },
 
-        // Semicolon insertion when removing curly braces
+        // Don't remove curly braces if it would cause issues due to ASI.
         {
             code: "if (foo) { bar }\n++baz;",
-            output: "if (foo)  bar; \n++baz;",
+            output: "if (foo) { bar }\n++baz;",
             options: ["multi"],
             errors: [{ message: "Unnecessary { after 'if' condition.", type: "IfStatement"}]
         },
@@ -728,25 +728,25 @@ ruleTester.run("curly", rule, {
         },
         {
             code: "if (foo) { bar++ }\nbaz;",
-            output: "if (foo)  bar++; \nbaz;",
+            output: "if (foo) { bar++ }\nbaz;",
             options: ["multi"],
             errors: [{ message: "Unnecessary { after 'if' condition.", type: "IfStatement"}]
         },
         {
             code: "if (foo) { bar }\n[1, 2, 3].map(foo);",
-            output: "if (foo)  bar; \n[1, 2, 3].map(foo);",
+            output: "if (foo) { bar }\n[1, 2, 3].map(foo);",
             options: ["multi"],
             errors: [{ message: "Unnecessary { after 'if' condition.", type: "IfStatement"}]
         },
         {
             code: "if (foo) { bar }\n(1).toString();",
-            output: "if (foo)  bar; \n(1).toString();",
+            output: "if (foo) { bar }\n(1).toString();",
             options: ["multi"],
             errors: [{ message: "Unnecessary { after 'if' condition.", type: "IfStatement"}]
         },
         {
             code: "if (foo) { bar }\n/regex/.test('foo');",
-            output: "if (foo)  bar; \n/regex/.test('foo');",
+            output: "if (foo) { bar }\n/regex/.test('foo');",
             options: ["multi"],
             parserOptions: { ecmaVersion: 6 },
             errors: [{ message: "Unnecessary { after 'if' condition.", type: "IfStatement"}]
@@ -777,20 +777,20 @@ ruleTester.run("curly", rule, {
         },
         {
             code: "if (foo) { var foo = () => {} } else {}",
-            output: "if (foo)  var foo = () => {};  else {}",
+            output: "if (foo) { var foo = () => {} } else {}",
             options: ["multi"],
             parserOptions: { ecmaVersion: 6 },
             errors: [{ message: "Unnecessary { after 'if' condition.", type: "IfStatement" }]
         },
         {
             code: "if (foo) { var foo = function() {} } else {}",
-            output: "if (foo)  var foo = function() {};  else {}",
+            output: "if (foo) { var foo = function() {} } else {}",
             options: ["multi"],
             errors: [{ message: "Unnecessary { after 'if' condition.", type: "IfStatement" }]
         },
         {
             code: "if (foo) { var foo = function*() {} } else {}",
-            output: "if (foo)  var foo = function*() {};  else {}",
+            output: "if (foo) { var foo = function*() {} } else {}",
             options: ["multi"],
             parserOptions: { ecmaVersion: 6 },
             errors: [{ message: "Unnecessary { after 'if' condition.", type: "IfStatement" }]
