@@ -103,7 +103,13 @@ ruleTester.run("object-shorthand", rule, {
 
         // consistent-as-needed
         { code: "var x = {a, b}", parserOptions: { ecmaVersion: 6}, options: ["consistent-as-needed"] },
-        { code: "var x = {a, b, get test(){return 1;}}", parserOptions: { ecmaVersion: 6}, options: ["consistent-as-needed"] }
+        { code: "var x = {a, b, get test(){return 1;}}", parserOptions: { ecmaVersion: 6}, options: ["consistent-as-needed"] },
+        { code: "var x = {0: 'foo'}", parserOptions: { ecmaVersion: 6}, options: ["consistent-as-needed"] },
+        { code: "var x = {'key': 'baz'}", parserOptions: { ecmaVersion: 6}, options: ["consistent-as-needed"] },
+        { code: "var x = {foo: 'foo'}", parserOptions: { ecmaVersion: 6}, options: ["consistent-as-needed"] },
+        { code: "var x = {[foo]: foo}", parserOptions: { ecmaVersion: 6}, options: ["consistent-as-needed"] },
+        { code: "var x = {foo: function foo() {}}", parserOptions: { ecmaVersion: 6}, options: ["consistent-as-needed"] },
+        { code: "var x = {[foo]: 'foo'}", parserOptions: { ecmaVersion: 6}, options: ["consistent-as-needed"] }
     ],
     invalid: [
         { code: "var x = {x: x}", output: "var x = {x}", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "Expected property shorthand.", type: "Property" }] },
@@ -158,6 +164,7 @@ ruleTester.run("object-shorthand", rule, {
 
         // consistent-as-needed
         { code: "var x = {a: a, b: b}", parserOptions: { ecmaVersion: 6}, errors: [{ message: "Expected shorthand for all properties.", type: "" }], options: ["consistent-as-needed"] },
-        { code: "var x = {a, z: function z(){}}", parserOptions: { ecmaVersion: 6}, errors: [{ message: "Unexpected mix of shorthand and non-shorthand properties.", type: "" }], options: ["consistent-as-needed"] }
+        { code: "var x = {a, z: function z(){}}", parserOptions: { ecmaVersion: 6}, errors: [{ message: "Unexpected mix of shorthand and non-shorthand properties.", type: "" }], options: ["consistent-as-needed"] },
+        { code: "var x = {foo: function() {}}", parserOptions: { ecmaVersion: 6}, errors: [{ message: "Expected shorthand for all properties.", type: "" }], options: ["consistent-as-needed"] },
     ]
 });
