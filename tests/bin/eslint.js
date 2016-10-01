@@ -101,12 +101,17 @@ describe("bin/eslint.js", () => {
 
     });
 
+    describe("running on files", () => {
+        it("has exit code 0 if no linting errors occur", () => assertExitCode(runESLint(["bin/eslint.js"]), 0));
+        it("has exit code 0 if a linting warning is reported", () => assertExitCode(runESLint(["bin/eslint.js", "--env", "es6", "--no-eslintrc", "--rule", "semi: [1, never]"]), 0));
+        it("has exit code 1 if a linting error is reported", () => assertExitCode(runESLint(["bin/eslint.js", "--env", "es6", "--no-eslintrc", "--rule", "semi: [2, never]"]), 1));
+        it("has exit code 1 if a syntax error is thrown", () => assertExitCode(runESLint(["README.md"]), 1));
+    });
+
     afterEach(() => {
 
         // Clean up all the processes after every test.
         forkedProcesses.forEach(child => child.kill());
         forkedProcesses.clear();
     });
-
-    // TODO (not-an-aardvark): Add tests for non-stdin functionality
 });
