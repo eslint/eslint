@@ -26,6 +26,8 @@ This rule aims to enforce consistent spacing before function parentheses and as 
 
 ## Options
 
+This rule has a string option or an object option:
+
 ```js
 {
     "space-before-function-paren": ["error", "always"],
@@ -40,15 +42,17 @@ This rule aims to enforce consistent spacing before function parentheses and as 
 
 * `always` (default) requires a space followed by the `(` of arguments.
 * `never` disallows any space followed by the `(` of arguments.
-* `ignore` does nothing. This is used in separated settings.
 
-It can separate setting for each kind of functions by object style options:
+The string option does not check async arrow function expressions for backward compatibility.
+
+You can also use a separate option for each type of function.
+Each of the following options can be set to `"always"`, `"never"`, or `"ignore"`.
+Default is `"always"` basically.
 
 * `anonymous` is for anonymous function expressions (e.g. `function () {}`).
 * `named` is for named function expressions (e.g. `function foo () {}`).
 * `asyncArrow` is for async arrow function expressions (e.g. `async () => {}`).
-  `asyncArrow` is ignored by default for backward compatibility.
-  If you want to warn async arrow function expressions, please use this separated setting.
+  `asyncArrow` is set to `"ignore"` by default for backwards compatibility.
 
 ### "always"
 
