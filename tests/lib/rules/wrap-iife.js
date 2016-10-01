@@ -44,6 +44,22 @@ ruleTester.run("wrap-iife", rule, {
         {
             code: "(function a(){ })();",
             options: ["inside"]
+        },
+        {
+            code: "window.bar = (function() { return 3; }.call(this, arg1));",
+            options: ["outside", { functionPrototypeMethods: true }]
+        },
+        {
+            code: "window.bar = (function() { return 3; }).call(this, arg1);",
+            options: ["inside", { functionPrototypeMethods: true }]
+        },
+        {
+            code: "window.bar = function() { return 3; }.call(this, arg1);",
+            options: ["inside"]
+        },
+        {
+            code: "window.bar = function() { return 3; }.call(this, arg1);",
+            options: ["inside", { functionPrototypeMethods: false }]
         }
     ],
     invalid: [
@@ -92,6 +108,16 @@ ruleTester.run("wrap-iife", rule, {
             output: "( /* a */ function /* b */ foo /* c */ ( /* d */ bar /* e */ ) /* f */ { /* g */ return; /* h */ } /* i */  /* j */ ( /* k */ baz /* l */)) /* m */ ;",
             options: ["outside"],
             errors: [{ message: "Move the invocation into the parens that contain the function.", type: "CallExpression" }]
+        },
+        {
+            code: "window.bar = (function() { return 3; }.call(this, arg1));",
+            output: "window.bar = (function() { return 3; }).call(this, arg1);",
+            options: ["inside", { functionPrototypeMethods: true }]
+        },
+        {
+            code: "window.bar = (function() { return 3; }).call(this, arg1);",
+            output: "window.bar = (function() { return 3; }.call(this, arg1));",
+            options: ["outside", { functionPrototypeMethods: true }]
         }
     ]
 });
