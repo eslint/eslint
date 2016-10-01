@@ -18,11 +18,17 @@ This rule requires all immediately-invoked function expressions to be wrapped in
 
 ## Options
 
-The rule takes one option which can enforce a consistent wrapping style:
+This rule has two options, a string option and an object option.
+
+String option:
 
 * `"outside"` enforces always wrapping the *call* expression. The default is `"outside"`.
 * `"inside"` enforces always wrapping the *function* expression.
 * `"any"` enforces always wrapping, but allows either style.
+
+Object option:
+
+* `"functionPrototypeMethods": true` enforces always wrapping `.call` and `.apply` uses consistently with the string option. The default is `false`
 
 ### outside
 
@@ -79,4 +85,26 @@ Examples of **correct** code for the `"any"` option:
 
 var x = (function () { return { y: 1 };}()); // wrapped call expression
 var x = (function () { return { y: 1 };})(); // wrapped function expression
+```
+
+### functionPrototypeMethods
+
+Examples of **incorrect** code for this rule with the `"inside", { "functionPrototypeMethods": true }` options:
+
+```js
+/* eslint wrap-iife: [2, "inside", { functionPrototypeMethods: true }] */
+
+function(){ foo(); }()
+(function(){ foo(); }())
+function(){ foo(); }.call(bar)
+(function(){ foo(); }.call(bar))
+```
+
+Examples of **correct** code for this rule with the `"inside", { "functionPrototypeMethods": true }` options:
+
+```js
+/* eslint wrap-iife: [2, "inside", { functionPrototypeMethods: true }] */
+
+(function(){ foo(); })()
+(function(){ foo(); }).call(bar)
 ```
