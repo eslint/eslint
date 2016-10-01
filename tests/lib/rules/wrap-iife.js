@@ -46,6 +46,10 @@ ruleTester.run("wrap-iife", rule, {
             options: ["inside"]
         },
         {
+            code: "foo.bar();",
+            options: ["any"]
+        },
+        {
             code: "window.bar = (function() { return 3; }.call(this, arg1));",
             options: ["outside", { functionPrototypeMethods: true }]
         },
@@ -110,14 +114,28 @@ ruleTester.run("wrap-iife", rule, {
             errors: [{ message: "Move the invocation into the parens that contain the function.", type: "CallExpression" }]
         },
         {
+            code: "window.bar = function() { return 3; }.call(this, arg1);",
+            output: "window.bar = (function() { return 3; }).call(this, arg1);",
+            options: ["inside", { functionPrototypeMethods: true }],
+            errors: [{ message: "Wrap an immediate function invocation in parentheses.", type: "CallExpression" }]
+        },
+        {
+            code: "window.bar = function() { return 3; }.call(this, arg1);",
+            output: "window.bar = (function() { return 3; }.call(this, arg1));",
+            options: ["outside", { functionPrototypeMethods: true }],
+            errors: [{ message: "Wrap an immediate function invocation in parentheses.", type: "CallExpression" }]
+        },
+        {
             code: "window.bar = (function() { return 3; }.call(this, arg1));",
             output: "window.bar = (function() { return 3; }).call(this, arg1);",
-            options: ["inside", { functionPrototypeMethods: true }]
+            options: ["inside", { functionPrototypeMethods: true }],
+            errors: [{ message: "Wrap only the function expression in parens.", type: "CallExpression" }]
         },
         {
             code: "window.bar = (function() { return 3; }).call(this, arg1);",
             output: "window.bar = (function() { return 3; }.call(this, arg1));",
-            options: ["outside", { functionPrototypeMethods: true }]
+            options: ["outside", { functionPrototypeMethods: true }],
+            errors: [{ message: "Move the invocation into the parens that contain the function.", type: "CallExpression" }]
         }
     ]
 });
