@@ -1,9 +1,9 @@
 **What is the purpose of this pull request? (put an "X" next to item)**
 
 [ ] Documentation update
-[ ] Bug fix ([template](https://github.com/eslint/eslint/blob/master/templates/bug-report.md))
-[ ] New rule ([template](https://github.com/eslint/eslint/blob/master/templates/rule-proposal.md))
-[ ] Changes an existing rule ([template](https://github.com/eslint/eslint/blob/master/templates/rule-change-proposal.md))
+[ ] Bug fix ([template](https://raw.githubusercontent.com/eslint/eslint/master/templates/bug-report.md))
+[ ] New rule ([template](https://raw.githubusercontent.com/eslint/eslint/master/templates/rule-proposal.md))
+[ ] Changes an existing rule ([template](https://raw.githubusercontent.com/eslint/eslint/master/templates/rule-change-proposal.md))
 [ ] Add autofixing to a rule
 [ ] Add a CLI option
 [ ] Add something to the core
