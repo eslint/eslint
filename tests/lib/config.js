@@ -1058,6 +1058,83 @@ describe("Config", function() {
                 }, "No ESLint configuration found");
             });
         });
+
+        describe("when using `includes` and `excludes` options", function() {
+            it("should handle a matching config with root:true", function() {
+                const projectPath = getFixturePath("include-exclude"),
+                    filePath = getFixturePath("includes-excludes", "subdir2", "bar.spec.js");
+
+                const StubbedConfig = proxyquire("../../lib/config", { "user-home": projectPath });
+
+                mockCWDResponse(projectPath);
+                const config = new StubbedConfig({
+                        cwd: process.cwd()
+                    }),
+                    actual = config.getConfig(filePath),
+                    expected = {
+                        env: {
+                            commonjs: true
+                        }
+                    };
+
+                assertConfigsEqual(actual, expected);
+            });
+
+            it("should ignore a non-matching config", function() {
+                const config = new Config({
+                        cwd: getFixturePath("includes-excludes")
+                    }),
+                    filePath = getFixturePath("includes-excludes", "subdir2", "foo.spec.js"),
+                    actual = config.getConfig(filePath),
+                    expected = {
+                        env: {
+                            browser: true
+                        },
+                        rules: {
+                            quotes: [ 2, "single" ]
+                        }
+                    };
+
+                assertConfigsEqual(actual, expected);
+            });
+
+            it("should merge matching configs", function() {
+                const config = new Config({
+                        cwd: getFixturePath("includes-excludes")
+                    }),
+                    filePath = getFixturePath("includes-excludes", "subdir1", "foo.spec.js"),
+                    actual = config.getConfig(filePath),
+                    expected = {
+                        env: {
+                            mocha: true,
+                            browser: true
+                        },
+                        rules: {
+                            quotes: [ 2, "single" ]
+                        }
+                    };
+
+                assertConfigsEqual(actual, expected);
+            });
+
+            it("should merge configs that match and skip those that don't when cascading", function() {
+                const config = new Config({
+                        cwd: getFixturePath("includes-excludes")
+                    }),
+                    filePath = getFixturePath("includes-excludes", "subdir1", "subdir1subdir", "baz.legacy.js"),
+                    actual = config.getConfig(filePath),
+                    expected = {
+                        env: {
+                            browser: true
+                        },
+                        rules: {
+                            quotes: [ 1, "double" ]
+                        }
+                    };
+
+                assertConfigsEqual(actual, expected);
+            });
+        });
     });
 
     describe("Plugin Environments", function() {

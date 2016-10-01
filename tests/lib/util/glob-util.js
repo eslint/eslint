@@ -355,4 +355,72 @@ describe("globUtil", function() {
             assert.includeDeepMembers(result, [{filename: unignoredFilename, ignored: false}]);
         });
     });
+
+    describe("matchPath()", function() {
+
+        it("should return true with a single file matching pattern", function() {
+            const file1 = getFixturePath("glob-util", "one-js-file", "baz.js");
+            const pattern = "**/*.js";
+            const result = globUtil.matchPath(file1, pattern);
+
+            assert.equal(result, true, "Expected \"" + file1 + "\" to match glob pattern \"" + pattern + "\"");
+        });
+
+        it("should return true with a single directory matching pattern", function() {
+            const file1 = getFixturePath("glob-util", "one-js-file", "baz.js");
+            const pattern = "**/one-js-file/**";
+            const result = globUtil.matchPath(file1, pattern);
+
+            assert.equal(result, true, "Expected \"" + file1 + "\" to match glob pattern \"" + pattern + "\"");
+        });
+
+        it("should return true with multiple patterns, one matching", function() {
+            const file1 = getFixturePath("glob-util", "one-js-file", "baz.js");
+            const patterns = ["**/*.js", "*.txt"];
+            const result = globUtil.matchPath(file1, patterns);
+
+            assert.equal(result, true, "Expected \"" + file1 + "\" to match glob patterns \"" + patterns.join("\", \"") + "\"");
+        });
+
+        it("should return true with multiple matching patterns", function() {
+            const file1 = getFixturePath("glob-util", "one-js-file", "baz.js");
+            const patterns = ["**/*.js", "one-js-file/**"];
+            const result = globUtil.matchPath(file1, patterns);
+
+            assert.equal(result, true, "Expected \"" + file1 + "\" to match glob patterns \"" + patterns.join("\", \"") + "\"");
+        });
+
+        it("should return true with a matching detailed path", function() {
+            const file1 = getFixturePath("glob-util", "one-js-file", "baz.js");
+            const pattern = "**/glob-util/one-js-file/**/*.js";
+            const result = globUtil.matchPath(file1, pattern);
+
+            assert.equal(result, true, "Expected \"" + file1 + "\" to match glob pattern \"" + pattern + "\"");
+        });
+
+        it("should return false with a non-matching detailed path", function() {
+            const file1 = getFixturePath("glob-util", "one-js-file", "baz.js");
+            const pattern = "**/glob-util-xxxx/one-js-file/**/*.js";
+            const result = globUtil.matchPath(file1, pattern);
+
+            assert.equal(result, false, "Expected \"" + file1 + "\" to not match glob pattern \"" + pattern + "\"");
+        });
+
+        it("should return false with a single non-matching pattern", function() {
+            const file1 = getFixturePath("glob-util", "one-js-file", "baz.js");
+            const pattern = "**/*.txt";
+            const result = globUtil.matchPath(file1, pattern);
+
+            assert.equal(result, false, "Expected \"" + file1 + "\" to not match glob pattern \"" + pattern + "\"");
+        });
+
+        it("should return false with multple non-matching patterns", function() {
+            const file1 = getFixturePath("glob-util", "one-js-file", "baz.js");
+            const patterns = ["**/*.txt", "*.foo"];
+            const result = globUtil.matchPath(file1, patterns);
+
+            assert.equal(result, false, "Expected \"" + file1 + "\" to not match glob patterns \"" + patterns.join("\", \"") + "\"");
+        });
+
+    });
 });

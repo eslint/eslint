@@ -1,0 +1,8 @@
+{
+    root: true,
+    "env": {
+        "commonjs": true
+    },
+    "excludes": "foo.spec.js",
+    "includes": "*.spec.js"
+}

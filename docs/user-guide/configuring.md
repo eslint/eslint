@@ -552,6 +552,25 @@ The complete configuration hierarchy, from highest precedence to lowest preceden
     1. Continue searching for `.eslintrc` and `package.json` files in ancestor directories (parent has highest precedence, then grandparent, etc.), up to and including the root directory or until a config with `"root": true` is found.
     1. In the absence of any configuration from (1) thru (3), fall back to a personal default configuration in  `~/.eslintrc`.
 
+## Applying configurations to specific files
+
+You can tell ESLint to apply a specific configuration only to certain files by using [glob patterns](https://www.npmjs.com/package/minimatch) with the `includes` and `excludes` settings. These may be a specified as a single glob pattern, or an array of glob patterns for files to be matched against.
+
+Project-level configurations will be matched relative to the directory where the configuration file is located, while personal configuration files will be matched relative to the current working directory.
+
+For example:
+
+```js
+{
+    "includes": ["*.js", "**/*.js"],
+    "excludes": "**/*.spec.js",
+}
+```
+
+If a configuration specifies the `includes` option, only files which match the pattern or patterns specified will be considered. Files that match any `excludes` patterns will be excluded from this configuration. You may specify both options to, for example, include a large range of files, but exclude a specific subset of those.
+
+These settings will not prevent specific files from being linted altogether. It will only determine which configurations will be applied to files matching those patterns. Configurations will still continue to cascade in the normal manner.
+
 ## Extending Configuration Files
 
 A configuration file can extend the set of enabled rules from base configurations.

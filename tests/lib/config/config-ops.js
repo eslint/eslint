@@ -479,6 +479,114 @@ describe("ConfigOps", function() {
 
     });
 
+    describe("isExcludedByPatternMatch()", function() {
+        it("should return true when a file matches the excludes pattern", function() {
+            const config = {
+                excludes: "**/*.js"
+            };
+            const filePath = "/a/test/path/for/a/file.js";
+            const relativeTo = "/a/test/";
+            const result = ConfigOps.isExcludedByPatternMatch(config, filePath, relativeTo);
+
+            assert.equal(result, true);
+        });
+
+        it("should return false when a file does not match the excludes pattern", function() {
+            const config = {
+                excludes: "**/*.md"
+            };
+            const filePath = "/a/test/path/for/a/file.js";
+            const relativeTo = "/a/test/";
+            const result = ConfigOps.isExcludedByPatternMatch(config, filePath, relativeTo);
+
+            assert.equal(result, false);
+        });
+
+        it("should return false when a file does not match the excludes pattern due to relative path", function() {
+            const config = {
+                excludes: "**/*.md"
+            };
+            const filePath = "/a/test/path/for/a/file.js";
+            const relativeTo = "/a/test/path/for/a/";
+            const result = ConfigOps.isExcludedByPatternMatch(config, filePath, relativeTo);
+
+            assert.equal(result, false);
+        });
+
+        it("should return true when a file matches any excludes pattern", function() {
+            const config = {
+                excludes: ["**/*.md", "**/*.js"]
+            };
+            const filePath = "/a/test/path/for/a/file.js";
+            const result = ConfigOps.isExcludedByPatternMatch(config, filePath);
+
+            assert.equal(result, true);
+        });
+
+        it("should return false when a file does not match any excludes pattern", function() {
+            const config = {
+                excludes: ["**/*.md", "**/*.txt"]
+            };
+            const filePath = "/a/test/path/for/a/file.js";
+            const result = ConfigOps.isExcludedByPatternMatch(config, filePath);
+
+            assert.equal(result, false);
+        });
+
+        it("should return false when a file matches the includes pattern", function() {
+            const config = {
+                includes: "**/*.js"
+            };
+            const filePath = "/a/test/path/for/a/file.js";
+            const result = ConfigOps.isExcludedByPatternMatch(config, filePath);
+
+            assert.equal(result, false);
+        });
+
+        it("should return true when a file does not match the includes pattern", function() {
+            const config = {
+                includes: "**/*.md"
+            };
+            const filePath = "/a/test/path/for/a/file.js";
+            const result = ConfigOps.isExcludedByPatternMatch(config, filePath);
+
+            assert.equal(result, true);
+        });
+
+        it("should return true when a file matches an includes AND excludes pattern", function() {
+            const config = {
+                includes: "**/*.js",
+                excludes: "**/*.spec.js"
+            };
+            const filePath = "/a/test/path/for/a/file.spec.js";
+            const result = ConfigOps.isExcludedByPatternMatch(config, filePath);
+
+            assert.equal(result, true);
+        });
+
+        it("should return false when a file matches an includes pattern but not an excludes pattern", function() {
+            const config = {
+                includes: "**/*.js",
+                excludes: "**/*.spec.js"
+            };
+            const filePath = "/a/test/path/for/a/file.js";
+            const result = ConfigOps.isExcludedByPatternMatch(config, filePath);
+
+            assert.equal(result, false);
+        });
+
+        it("should return true when a file matches an excludes pattern but not an includes pattern", function() {
+            const config = {
+                includes: "**/*.js",
+                excludes: "**/*.md"
+            };
+            const filePath = "/a/test/path/for/a/file.md";
+            const result = ConfigOps.isExcludedByPatternMatch(config, filePath);
+
+            assert.equal(result, true);
+        });
+    });
+
     describe("normalize()", function() {
         it("should convert error rule setting to 2 when rule has just a severity", function() {
             const config = {
