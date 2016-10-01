@@ -38,6 +38,14 @@ ruleTester.run("wrap-iife", rule, {
             options: ["any"]
         },
         {
+            code: "(function(){ }())",
+            options: ["any"]
+        },
+        {
+            code: "(function(){ })()",
+            options: ["any"]
+        },
+        {
             code: "(function a(){ }());",
             options: ["outside"]
         },
@@ -50,11 +58,23 @@ ruleTester.run("wrap-iife", rule, {
             options: ["any"]
         },
         {
+            code: "var a = function(){return 1;};",
+            options: ["any"]
+        },
+        {
             code: "window.bar = (function() { return 3; }.call(this, arg1));",
             options: ["outside", { functionPrototypeMethods: true }]
         },
         {
             code: "window.bar = (function() { return 3; }).call(this, arg1);",
+            options: ["inside", { functionPrototypeMethods: true }]
+        },
+        {
+            code: "window.bar = (function() { return 3; }.apply(this, arg1));",
+            options: ["outside", { functionPrototypeMethods: true }]
+        },
+        {
+            code: "window.bar = (function() { return 3; }).apply(this, arg1);",
             options: ["inside", { functionPrototypeMethods: true }]
         },
         {
@@ -64,6 +84,14 @@ ruleTester.run("wrap-iife", rule, {
         {
             code: "window.bar = function() { return 3; }.call(this, arg1);",
             options: ["inside", { functionPrototypeMethods: false }]
+        },
+        {
+            code: "var a = function(){return 1;}.bind(this);",
+            options: ["inside", { functionPrototypeMethods: true }]
+        },
+        {
+            code: "var a = function(){return 1;}.bind(this).apply(that);",
+            options: ["inside", { functionPrototypeMethods: true }]
         }
     ],
     invalid: [
@@ -112,6 +140,18 @@ ruleTester.run("wrap-iife", rule, {
             output: "( /* a */ function /* b */ foo /* c */ ( /* d */ bar /* e */ ) /* f */ { /* g */ return; /* h */ } /* i */  /* j */ ( /* k */ baz /* l */)) /* m */ ;",
             options: ["outside"],
             errors: [{ message: "Move the invocation into the parens that contain the function.", type: "CallExpression" }]
+        },
+        {
+            code: "+function(){return 1;}()",
+            output: "+(function(){return 1;}())",
+            options: ["outside"],
+            errors: [{ message: "Wrap an immediate function invocation in parentheses.", type: "CallExpression"}]
+        },
+        {
+            code: "+function(){return 1;}()",
+            output: "+(function(){return 1;})()",
+            options: ["inside"],
+            errors: [{ message: "Wrap an immediate function invocation in parentheses.", type: "CallExpression"}]
         },
         {
             code: "window.bar = function() { return 3; }.call(this, arg1);",
