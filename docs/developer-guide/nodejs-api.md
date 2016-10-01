@@ -240,7 +240,15 @@ The return value is an object containing the results of the linting operation. H
 }
 ```
 
-The top-level report object has a `results` array containing all linting results for files that had warnings or errors (any files that did not produce a warning or error are omitted). Each file result includes the `filePath`, a `messages` array, `errorCount`, `warningCount`, and optionally `output`. The `messages` array contains the result of calling `linter.verify()` on the given file. The `errorCount` and `warningCount` give the exact number of errors and warnings respectively on the given file. The `output` property gives the source code for the file with as many fixes applied as possible, so you can use that to rewrite the files if necessary. The top-level report object also has `errorCount` and `warningCount` which give the exact number of errors and warnings respectively on all the files.
+The top-level report object has a `results` array containing all linting results for files that had warnings or errors (any files that did not produce a warning or error are omitted). Each file result includes:
+
+* `filePath` - Path to the given file.
+* `messages` - Array containing the result of calling `linter.verify()` on the given file.
+* `errorCount` and `warningCount` - The exact number of errors and warnings respectively on the given file.
+* `source` - The source code for the given file. This property is omitted if this file has no errors/warnings or if the `output` property is present.
+* `output` - The source code for the given file with as many fixes applied as possible, so you can use that to rewrite the files if necessary. This property is omitted if no fix is available.
+
+The top-level report object also has `errorCount` and `warningCount` which give the exact number of errors and warnings respectively on all the files.
 
 Once you get a report object, it's up to you to determine how to output the results. Fixes will not be automatically applied to the files, even if you set `fix: true` when constructing the `CLIEngine` instance. To apply fixes to the files, call [`outputFixes`](#outputfixes).
 
