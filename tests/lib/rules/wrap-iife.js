@@ -86,6 +86,18 @@ ruleTester.run("wrap-iife", rule, {
             options: ["inside", { functionPrototypeMethods: false }]
         },
         {
+            code: "window.bar = function() { return 3; }[call](this, arg1);",
+            options: ["inside", { functionPrototypeMethods: true }]
+        },
+        {
+            code: "window.bar = function() { return 3; }[apply](this, arg1);",
+            options: ["inside", { functionPrototypeMethods: true }]
+        },
+        {
+            code: "window.bar = function() { return 3; }[foo](this, arg1);",
+            options: ["inside", { functionPrototypeMethods: true }]
+        },
+        {
             code: "var a = function(){return 1;}.bind(this);",
             options: ["inside", { functionPrototypeMethods: true }]
         },
@@ -156,6 +168,12 @@ ruleTester.run("wrap-iife", rule, {
         {
             code: "window.bar = function() { return 3; }.call(this, arg1);",
             output: "window.bar = (function() { return 3; }).call(this, arg1);",
+            options: ["inside", { functionPrototypeMethods: true }],
+            errors: [{ message: "Wrap an immediate function invocation in parentheses.", type: "CallExpression" }]
+        },
+        {
+            code: "window.bar = function() { return 3; }['call'](this, arg1);",
+            output: "window.bar = (function() { return 3; })['call'](this, arg1);",
             options: ["inside", { functionPrototypeMethods: true }],
             errors: [{ message: "Wrap an immediate function invocation in parentheses.", type: "CallExpression" }]
         },
