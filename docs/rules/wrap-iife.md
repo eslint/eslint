@@ -94,10 +94,10 @@ Examples of **incorrect** code for this rule with the `"inside", { "functionProt
 ```js
 /* eslint wrap-iife: [2, "inside", { functionPrototypeMethods: true }] */
 
-function(){ foo(); }()
-(function(){ foo(); }())
-function(){ foo(); }.call(bar)
-(function(){ foo(); }.call(bar))
+var x = function(){ foo(); }()
+var x = (function(){ foo(); }())
+var x = function(){ foo(); }.call(bar)
+var x = (function(){ foo(); }.call(bar))
 ```
 
 Examples of **correct** code for this rule with the `"inside", { "functionPrototypeMethods": true }` options:
@@ -105,6 +105,6 @@ Examples of **correct** code for this rule with the `"inside", { "functionProtot
 ```js
 /* eslint wrap-iife: [2, "inside", { functionPrototypeMethods: true }] */
 
-(function(){ foo(); })()
-(function(){ foo(); }).call(bar)
+var x = (function(){ foo(); })()
+var x = (function(){ foo(); }).call(bar)
 ```
