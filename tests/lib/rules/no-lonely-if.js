@@ -62,7 +62,7 @@ ruleTester.run("no-lonely-if", rule, {
             output:
             "if (a) {\n" +
             "  foo();\n" +
-            "} else if (b) /* comment */ {\n" +
+            "} else /* comment */ if (b) {\n" +
             "    bar();\n" +
             "  }",
             errors
@@ -124,7 +124,115 @@ ruleTester.run("no-lonely-if", rule, {
         },
         {
             code: "if (foo) {} else { if (bar) baz(); }",
-            output: "if (foo) {} else if (bar) {baz();}",
+            output: "if (foo) {} else if (bar) baz();",
+            errors
+        },
+        {
+
+            // Not fixed; removing the braces would cause a SyntaxError.
+            code: "if (foo) {} else { if (bar) baz() } qux();",
+            output: "if (foo) {} else { if (bar) baz() } qux();",
+            errors
+        },
+        {
+
+            // This is fixed because there is a semicolon after baz().
+            code: "if (foo) {} else { if (bar) baz(); } qux();",
+            output: "if (foo) {} else if (bar) baz(); qux();",
+            errors
+        },
+        {
+
+            // Not fixed; removing the braces would change the semantics due to ASI.
+            code:
+            "if (foo) {\n" +
+            "} else {\n" +
+            "  if (bar) baz()\n" +
+            "}\n" +
+            "[1, 2, 3].forEach(foo);",
+            output:
+            "if (foo) {\n" +
+            "} else {\n" +
+            "  if (bar) baz()\n" +
+            "}\n" +
+            "[1, 2, 3].forEach(foo);",
+            errors
+        },
+        {
+
+            // Not fixed; removing the braces would change the semantics due to ASI.
+            code:
+            "if (foo) {\n" +
+            "} else {\n" +
+            "  if (bar) baz++\n" +
+            "}\n" +
+            "foo;",
+            output:
+            "if (foo) {\n" +
+            "} else {\n" +
+            "  if (bar) baz++\n" +
+            "}\n" +
+            "foo;",
+            errors
+        },
+        {
+
+            // This is fixed because there is a semicolon after baz++
+            code:
+            "if (foo) {\n" +
+            "} else {\n" +
+            "  if (bar) baz++;\n" +
+            "}\n" +
+            "foo;",
+            output:
+            "if (foo) {\n" +
+            "} else if (bar) baz++;\n" +
+            "foo;",
+            errors
+        },
+        {
+
+            // Not fixed; bar() would be interpreted as a template literal tag
+            code:
+            "if (a) {\n" +
+            "  foo();\n" +
+            "} else {\n" +
+            "  if (b) bar()\n" +
+            "}\n" +
+            "`template literal`;",
+            output:
+            "if (a) {\n" +
+            "  foo();\n" +
+            "} else {\n" +
+            "  if (b) bar()\n" +
+            "}\n" +
+            "`template literal`;",
+            parserOptions: { ecmaVersion: 6 },
+            errors
+        },
+        {
+            code:
+            "if (a) {\n" +
+            "  foo();\n" +
+            "} else {\n" +
+            "  if (b) {\n" +
+            "    bar();\n" +
+            "  } else if (c) {\n" +
+            "    baz();\n" +
+            "  } else {\n" +
+            "    qux();\n" +
+            "  }\n" +
+            "}",
+            output:
+            "if (a) {\n" +
+            "  foo();\n" +
+            "} else if (b) {\n" +
+            "    bar();\n" +
+            "  } else if (c) {\n" +
+            "    baz();\n" +
+            "  } else {\n" +
+            "    qux();\n" +
+            "  }",
             errors
         }
     ]
