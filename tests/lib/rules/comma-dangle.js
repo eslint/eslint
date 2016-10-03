@@ -477,6 +477,83 @@ ruleTester.run("comma-dangle", rule, {
             ]
         },
         {
+            code:
+            "var foo = [\n" +
+            "  bar,\n" +
+            "  (\n" +
+            "    baz\n" +
+            "  )\n" +
+            "];",
+            output:
+            "var foo = [\n" +
+            "  bar,\n" +
+            "  (\n" +
+            "    baz\n" +
+            "  ),\n" +
+            "];",
+            options: [ "always" ],
+            errors: [
+                {
+                    message: "Missing trailing comma.",
+                    type: "Identifier",
+                    line: 5,
+                    column: 4
+                }
+            ]
+        },
+        {
+            code:
+            "var foo = {\n" +
+            "  foo: 'bar',\n" +
+            "  baz: (\n" +
+            "    qux\n" +
+            "  )\n" +
+            "};",
+            output:
+            "var foo = {\n" +
+            "  foo: 'bar',\n" +
+            "  baz: (\n" +
+            "    qux\n" +
+            "  ),\n" +
+            "};",
+            options: [ "always" ],
+            errors: [
+                {
+                    message: "Missing trailing comma.",
+                    type: "Property",
+                    line: 5,
+                    column: 4
+                }
+            ]
+        },
+        {
+
+            // https://github.com/eslint/eslint/issues/7291
+            code:
+            "var foo = [\n" +
+            "  (bar\n" +
+            "    ? baz\n" +
+            "    : qux\n" +
+            "  )\n" +
+            "];",
+            output:
+            "var foo = [\n" +
+            "  (bar\n" +
+            "    ? baz\n" +
+            "    : qux\n" +
+            "  ),\n" +
+            "];",
+            options: [ "always" ],
+            errors: [
+                {
+                    message: "Missing trailing comma.",
+                    type: "ConditionalExpression",
+                    line: 5,
+                    column: 4
+                }
+            ]
+        },
+        {
             code: "var foo = { bar: 'baz', }",
             output: "var foo = { bar: 'baz' }",
             options: [ "always-multiline" ],
