@@ -28,7 +28,7 @@ String option:
 
 Object option:
 
-* `"functionPrototypeMethods": true` enforces always wrapping `.call` and `.apply` uses consistently with the string option. The default is `false`
+* `"functionPrototypeMethods": true` additionally enforces wrapping function expressions invoked using `.call` and `.apply`. The default is `false`.
 
 ### outside
 
