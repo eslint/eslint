@@ -1,3 +1,10 @@
+v3.7.1 - October 3, 2016
+
+* 3dcae13 Fix: Use the correct location for `comma-dangle` errors (fixes #7291) (#7292) (Teddy Katz)
+* cb7ba6d Fix: no-implicit-coercion should not fix ~. (fixes #7272) (#7289) (Eli White)
+* ce590e2 Chore: Add additional tests for bin/eslint.js (#7290) (Teddy Katz)
+* 8ec82ee Docs: change links of templates to raw data (#7288) (Toru Nagashima)
+
 v3.7.0 - September 30, 2016
 
 * 2fee8ad Fix: object-shorthand's consistent-as-needed option (issue #7214) (#7215) (Naomi Jacobs)
