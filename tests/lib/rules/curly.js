@@ -752,6 +752,12 @@ ruleTester.run("curly", rule, {
             errors: [{ message: "Unnecessary { after 'if' condition.", type: "IfStatement"}]
         },
         {
+            code: "if (foo) { bar }\nBaz();",
+            output: "if (foo)  bar \nBaz();",
+            options: ["multi"],
+            errors: [{ message: "Unnecessary { after 'if' condition.", type: "IfStatement"}]
+        },
+        {
             code:
             "if (a) {\n" +
             "  while (b) {\n" +
