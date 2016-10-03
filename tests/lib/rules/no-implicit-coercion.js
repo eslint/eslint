@@ -104,12 +104,12 @@ ruleTester.run("no-implicit-coercion", rule, {
         {
             code: "~foo.indexOf(1)",
             errors: [{message: "use `foo.indexOf(1) !== -1` instead.", type: "UnaryExpression"}],
-            output: "foo.indexOf(1) !== -1"
+            output: "~foo.indexOf(1)"
         },
         {
             code: "~foo.bar.indexOf(2)",
             errors: [{message: "use `foo.bar.indexOf(2) !== -1` instead.", type: "UnaryExpression"}],
-            output: "foo.bar.indexOf(2) !== -1"
+            output: "~foo.bar.indexOf(2)"
         },
         {
             code: "+foo",
@@ -199,7 +199,7 @@ ruleTester.run("no-implicit-coercion", rule, {
         {
             code: "var a = ~foo.indexOf(1)", options: [{boolean: true, allow: ["!!"]}],
             errors: [{message: "use `foo.indexOf(1) !== -1` instead.", type: "UnaryExpression"}],
-            output: "var a = foo.indexOf(1) !== -1"
+            output: "var a = ~foo.indexOf(1)"
         },
         {
             code: "var a = 1 * foo", options: [{boolean: true, allow: ["+"]}],
