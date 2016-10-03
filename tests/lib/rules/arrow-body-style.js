@@ -200,6 +200,51 @@ ruleTester.run("arrow-body-style", rule, {
             ]
         },
         {
+
+            // Not fixed; fixing would cause ASI issues.
+            code:
+            "var foo = () => { return bar }\n" +
+            "[1, 2, 3].map(foo)",
+            output:
+            "var foo = () => { return bar }\n" +
+            "[1, 2, 3].map(foo)",
+            parserOptions: { ecmaVersion: 6 },
+            options: ["never"],
+            errors: [
+                { line: 1, column: 17, type: "ArrowFunctionExpression", message: "Unexpected block statement surrounding arrow body." }
+            ]
+        },
+        {
+
+            // Not fixed; fixing would cause ASI issues.
+            code:
+            "var foo = () => { return bar }\n" +
+            "(1).toString();",
+            output:
+            "var foo = () => { return bar }\n" +
+            "(1).toString();",
+            parserOptions: { ecmaVersion: 6 },
+            options: ["never"],
+            errors: [
+                { line: 1, column: 17, type: "ArrowFunctionExpression", message: "Unexpected block statement surrounding arrow body." }
+            ]
+        },
+        {
+
+            // Fixing here is ok because the arrow function has a semicolon afterwards.
+            code:
+            "var foo = () => { return bar };\n" +
+            "[1, 2, 3].map(foo)",
+            output:
+            "var foo = () =>   bar ;\n" +
+            "[1, 2, 3].map(foo)",
+            parserOptions: { ecmaVersion: 6 },
+            options: ["never"],
+            errors: [
+                { line: 1, column: 17, type: "ArrowFunctionExpression", message: "Unexpected block statement surrounding arrow body." }
+            ]
+        },
+        {
             code: "var foo = /* a */ ( /* b */ ) /* c */ => /* d */ { /* e */ return /* f */ 5 /* g */ ; /* h */ } /* i */ ;",
             output: "var foo = /* a */ ( /* b */ ) /* c */ => /* d */  /* e */  /* f */ 5 /* g */  /* h */  /* i */ ;",
             parserOptions: { ecmaVersion: 6 },
