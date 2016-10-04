@@ -109,7 +109,8 @@ ruleTester.run("object-shorthand", rule, {
         { code: "var x = {foo: 'foo'}", parserOptions: { ecmaVersion: 6}, options: ["consistent-as-needed"] },
         { code: "var x = {[foo]: foo}", parserOptions: { ecmaVersion: 6}, options: ["consistent-as-needed"] },
         { code: "var x = {foo: function foo() {}}", parserOptions: { ecmaVersion: 6}, options: ["consistent-as-needed"] },
-        { code: "var x = {[foo]: 'foo'}", parserOptions: { ecmaVersion: 6}, options: ["consistent-as-needed"] }
+        { code: "var x = {[foo]: 'foo'}", parserOptions: { ecmaVersion: 6}, options: ["consistent-as-needed"] },
+        { code: "var foo = {...bar}", parserOptions: { ecmaVersion: 6, ecmaFeatures: { experimentalObjectRestSpread: true } }, options: ["consistent-as-needed"] }
     ],
     invalid: [
         { code: "var x = {x: x}", output: "var x = {x}", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "Expected property shorthand.", type: "Property" }] },
