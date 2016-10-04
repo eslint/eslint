@@ -116,6 +116,13 @@ ruleTester.run("comma-dangle", rule, {
             options: ["always"]
         },
 
+        // https://github.com/eslint/eslint/issues/7297
+        {
+            code: "var {foo, ...bar} = baz",
+            parserOptions: { ecmaVersion: 8, ecmaFeatures: { experimentalObjectRestSpread: true } },
+            options: ["always"]
+        },
+
         // https://github.com/eslint/eslint/issues/3794
         {
             code: "import {foo,} from 'foo';",
