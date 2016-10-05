@@ -286,6 +286,22 @@ ruleTester.run("no-multiple-empty-lines", rule, {
             output: "// invalid 21\n// unix line endings\nvar a = 5;\nvar b = 3;\n\n",
             errors: [ getExpectedErrorEOF(1) ],
             options: [ { max: 1 } ]
+        },
+        {
+            code:
+            "'foo';\n" +
+            "\n" +
+            "\n" +
+            "`bar`;\n" +
+            "`baz`;",
+            output:
+            "'foo';\n" +
+            "\n" +
+            "`bar`;\n" +
+            "`baz`;",
+            errors: [ getExpectedError(1) ],
+            options: [ { max: 1 } ],
+            parserOptions: { ecmaVersion: 6 }
         }
     ]
 });
