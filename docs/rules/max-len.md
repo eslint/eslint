@@ -8,7 +8,7 @@ var foo = { "bar": "This is a bar.", "baz": { "qux": "This is a qux" }, "difficu
 
 ## Rule Details
 
-This rule enforces a maximum line length to increase code readability and maintainability. The length of a line is defined as the number of unicode characters in the line. (Some unicode characters are composed of more than one code unit.)
+This rule enforces a maximum line length to increase code readability and maintainability. The length of a line is defined as the number of unicode characters in the line.
 
 ## Options
 
