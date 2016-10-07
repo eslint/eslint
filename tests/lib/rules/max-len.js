@@ -158,7 +158,13 @@ ruleTester.run("max-len", rule, {
         },
 
         // blank line
-        ""
+        "",
+
+        // Multi-code-point unicode glyphs
+        {
+            code: "'🙂😀😆😎😊😜😉👍'",
+            options: [10]
+        }
     ],
 
     invalid: [
@@ -499,6 +505,20 @@ ruleTester.run("max-len", rule, {
                     message: "Line 3 exceeds the maximum line length of 29.",
                     type: "Program",
                     line: 3,
+                    column: 1
+                }
+            ]
+        },
+
+        // Multi-code-point unicode glyphs
+        {
+            code: "'🙁😁😟☹️😣😖😩😱👎'",
+            options: [10],
+            errors: [
+                {
+                    message: "Line 1 exceeds the maximum line length of 10.",
+                    type: "Program",
+                    line: 1,
                     column: 1
                 }
             ]
