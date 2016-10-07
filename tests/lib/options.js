@@ -359,10 +359,10 @@ describe("options", function() {
     });
 
     describe("--print-config", function() {
-        it("should return true when passed --print-config", function() {
-            const currentOptions = options.parse("--print-config");
+        it("should return file path when passed --print-config", function() {
+            const currentOptions = options.parse("--print-config file.js");
 
-            assert.isTrue(currentOptions.printConfig);
+            assert.strictEqual(currentOptions.printConfig, "file.js");
         });
     });
 });
