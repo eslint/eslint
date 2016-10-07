@@ -94,12 +94,17 @@ ruleTester.run("object-shorthand", rule, {
 
         // ignore object shorthand
         { code: "let {a, b} = o;", parserOptions: { ecmaVersion: 6 }, options: ["never"] },
+        { code: "var x = {foo: foo, bar: bar, ...baz}", parserOptions: { ecmaVersion: 6, ecmaFeatures: { experimentalObjectRestSpread: true } }, options: ["never"] },
 
         // consistent
         { code: "var x = {a: a, b: b}", parserOptions: { ecmaVersion: 6}, options: ["consistent"] },
         { code: "var x = {a: b, c: d, f: g}", parserOptions: { ecmaVersion: 6}, options: ["consistent"] },
         { code: "var x = {a, b}", parserOptions: { ecmaVersion: 6}, options: ["consistent"] },
         { code: "var x = {a, b, get test() { return 1; }}", parserOptions: { ecmaVersion: 6}, options: ["consistent"] },
+        { code: "var x = {...bar}", parserOptions: { ecmaVersion: 6, ecmaFeatures: { experimentalObjectRestSpread: true } }, options: ["consistent-as-needed"] },
+        { code: "var x = {foo, bar, ...baz}", parserOptions: { ecmaVersion: 6, ecmaFeatures: { experimentalObjectRestSpread: true } }, options: ["consistent"] },
+        { code: "var x = {bar: baz, ...qux}", parserOptions: { ecmaVersion: 6, ecmaFeatures: { experimentalObjectRestSpread: true } }, options: ["consistent"] },
+        { code: "var x = {...foo, bar: bar, baz: baz}", parserOptions: { ecmaVersion: 6, ecmaFeatures: { experimentalObjectRestSpread: true } }, options: ["consistent"] },
 
         // consistent-as-needed
         { code: "var x = {a, b}", parserOptions: { ecmaVersion: 6}, options: ["consistent-as-needed"] },
@@ -109,7 +114,11 @@ ruleTester.run("object-shorthand", rule, {
         { code: "var x = {foo: 'foo'}", parserOptions: { ecmaVersion: 6}, options: ["consistent-as-needed"] },
         { code: "var x = {[foo]: foo}", parserOptions: { ecmaVersion: 6}, options: ["consistent-as-needed"] },
         { code: "var x = {foo: function foo() {}}", parserOptions: { ecmaVersion: 6}, options: ["consistent-as-needed"] },
-        { code: "var x = {[foo]: 'foo'}", parserOptions: { ecmaVersion: 6}, options: ["consistent-as-needed"] }
+        { code: "var x = {[foo]: 'foo'}", parserOptions: { ecmaVersion: 6}, options: ["consistent-as-needed"] },
+        { code: "var x = {...bar}", parserOptions: { ecmaVersion: 6, ecmaFeatures: { experimentalObjectRestSpread: true } }, options: ["consistent-as-needed"] },
+        { code: "var x = {bar, ...baz}", parserOptions: { ecmaVersion: 6, ecmaFeatures: { experimentalObjectRestSpread: true } }, options: ["consistent-as-needed"] },
+        { code: "var x = {bar: baz, ...qux}", parserOptions: { ecmaVersion: 6, ecmaFeatures: { experimentalObjectRestSpread: true } }, options: ["consistent-as-needed"] },
+        { code: "var x = {...foo, bar, baz}", parserOptions: { ecmaVersion: 6, ecmaFeatures: { experimentalObjectRestSpread: true } }, options: ["consistent-as-needed"] },
     ],
     invalid: [
         { code: "var x = {x: x}", output: "var x = {x}", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "Expected property shorthand.", type: "Property" }] },
@@ -150,6 +159,8 @@ ruleTester.run("object-shorthand", rule, {
         { code: "var x = {y: {x}}", output: "var x = {y: {x: x}}", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "Expected longform property syntax.", type: "Property" }], options: ["never"]},
         { code: "var x = {ConstructorFunction(){}, a: b}", output: "var x = {ConstructorFunction: function(){}, a: b}", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "Expected longform method syntax.", type: "Property" }], options: ["never"] },
         { code: "var x = {notConstructorFunction(){}, b: c}", output: "var x = {notConstructorFunction: function(){}, b: c}", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "Expected longform method syntax.", type: "Property" }], options: ["never"] },
+        { code: "var x = {foo: foo, bar: baz, ...qux}", output: "var x = {foo, bar: baz, ...qux}", parserOptions: { ecmaVersion: 6, ecmaFeatures: { experimentalObjectRestSpread: true } }, errors: [{ message: "Expected property shorthand.", type: "" }], options: ["always"] },
+        { code: "var x = {foo, bar: baz, ...qux}", output: "var x = {foo: foo, bar: baz, ...qux}", parserOptions: { ecmaVersion: 6, ecmaFeatures: { experimentalObjectRestSpread: true } }, errors: [{ message: "Expected longform property syntax.", type: "" }], options: ["never"] },
 
         // avoidQuotes
         { code: "var x = {a: a}", output: "var x = {a}", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "Expected property shorthand.", type: "Property" }], options: ["always", {avoidQuotes: true}] },
@@ -161,10 +172,13 @@ ruleTester.run("object-shorthand", rule, {
         // consistent
         { code: "var x = {a: a, b}", parserOptions: { ecmaVersion: 6}, errors: [{ message: "Unexpected mix of shorthand and non-shorthand properties.", type: "" }], options: ["consistent"] },
         { code: "var x = {b, c: d, f: g}", parserOptions: { ecmaVersion: 6}, errors: [{ message: "Unexpected mix of shorthand and non-shorthand properties.", type: "" }], options: ["consistent"] },
+        { code: "var x = {foo, bar: baz, ...qux}", parserOptions: { ecmaVersion: 6, ecmaFeatures: { experimentalObjectRestSpread: true } }, errors: [{ message: "Unexpected mix of shorthand and non-shorthand properties.", type: "" }], options: ["consistent"] },
 
         // consistent-as-needed
         { code: "var x = {a: a, b: b}", parserOptions: { ecmaVersion: 6}, errors: [{ message: "Expected shorthand for all properties.", type: "" }], options: ["consistent-as-needed"] },
         { code: "var x = {a, z: function z(){}}", parserOptions: { ecmaVersion: 6}, errors: [{ message: "Unexpected mix of shorthand and non-shorthand properties.", type: "" }], options: ["consistent-as-needed"] },
         { code: "var x = {foo: function() {}}", parserOptions: { ecmaVersion: 6}, errors: [{ message: "Expected shorthand for all properties.", type: "" }], options: ["consistent-as-needed"] },
+        { code: "var x = {a: a, b: b, ...baz}", parserOptions: { ecmaVersion: 6, ecmaFeatures: { experimentalObjectRestSpread: true } }, errors: [{ message: "Expected shorthand for all properties.", type: "" }], options: ["consistent-as-needed"] },
+        { code: "var x = {foo, bar: bar, ...qux}", parserOptions: { ecmaVersion: 6, ecmaFeatures: { experimentalObjectRestSpread: true } }, errors: [{ message: "Unexpected mix of shorthand and non-shorthand properties.", type: "" }], options: ["consistent-as-needed"] }
     ]
 });
