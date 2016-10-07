@@ -880,7 +880,7 @@ describe("cli", function() {
             assert.equal(exitCode, 0);
         });
 
-        it("should require a single positional file argument", function() {
+        it("should error if any positional file arguments are passed", function() {
             const filePath1 = getFixturePath("files", "bar.js");
             const filePath2 = getFixturePath("files", "foo.js");
 
