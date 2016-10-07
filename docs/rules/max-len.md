@@ -8,9 +8,7 @@ var foo = { "bar": "This is a bar.", "baz": { "qux": "This is a qux" }, "difficu
 
 ## Rule Details
 
-This rule enforces a maximum line length to increase code readability and maintainability.
-
-**Note:** This rule calculates the length of a line via code units, not characters. That means if you use a double-byte character in your code, it will count as 2 code units instead of 1, and 2 will be used to calculate line length. This is a technical limitation of JavaScript that is made easier with ES2015, and we will look to update this when ES2015 is available in Node.js.
+This rule enforces a maximum line length to increase code readability and maintainability. The length of a line is defined as the number of Unicode characters in the line.
 
 ## Options
 
