@@ -1,5 +1,7 @@
 # Suggest using the spread operator instead of `.apply()`. (prefer-spread)
 
+(fixable) The `--fix` option on the [command line](../user-guide/command-line-interface#fix) automatically fixes problems reported by this rule.
+
 Before ES2015, one must use `Function.prototype.apply()` to call variadic functions.
 
 ```js
