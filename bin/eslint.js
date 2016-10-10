@@ -42,10 +42,10 @@ process.on("uncaughtException", function(err) {
     const lodash = require("lodash");
 
     if (typeof err.messageTemplate === "string" && err.messageTemplate.length > 0) {
-        const template = lodash.template(fs.readFileSync(path.resolve(__dirname, "../messages/" + err.messageTemplate + ".txt"), "utf-8"));
+        const template = lodash.template(fs.readFileSync(path.resolve(__dirname, `../messages/${err.messageTemplate}.txt`), "utf-8"));
 
         console.log("\nOops! Something went wrong! :(");
-        console.log("\n" + template(err.messageData || {}));
+        console.log(`\n${template(err.messageData || {})}`);
     } else {
         console.log(err.message);
         console.log(err.stack);
