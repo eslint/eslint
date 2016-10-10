@@ -302,6 +302,13 @@ ruleTester.run("no-multiple-empty-lines", rule, {
             errors: [ getExpectedError(1) ],
             options: [ { max: 1 } ],
             parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "`template ${foo\n\n\n} literal`;",
+            output: "`template ${foo\n\n} literal`;",
+            errors: [ getExpectedError(1) ],
+            options: [ { max: 1 } ],
+            parserOptions: { ecmaVersion: 6 }
         }
     ]
 });
