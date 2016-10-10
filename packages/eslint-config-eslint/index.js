@@ -22,8 +22,8 @@ var filePath = path.resolve(__dirname, "./default.yml"),
 try {
     config = yaml.safeLoad(fs.readFileSync(filePath, "utf8")) || {};
 } catch (e) {
-    console.error("Error reading YAML file: " + filePath);
-    e.message = "Cannot read config file: " + filePath + "\nError: " + e.message;
+    console.error(`Error reading YAML file: ${filePath}`);
+    e.message = `Cannot read config file: ${filePath}\nError: ${e.message}`;
     throw e;
 }
 
