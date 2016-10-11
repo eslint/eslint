@@ -383,6 +383,63 @@ ruleTester.run("yoda", rule, {
                     type: "BinaryExpression"
                 }
             ]
+        },
+
+        // https://github.com/eslint/eslint/issues/7326
+        {
+            code: "while (0 === (a));",
+            output: "while ((a) === 0);",
+            options: ["never"],
+            errors: [
+                {
+                    message: "Expected literal to be on the right side of ===.",
+                    type: "BinaryExpression"
+                }
+            ]
+        },
+        {
+            code: "while (0 === (a = b));",
+            output: "while ((a = b) === 0);",
+            options: ["never"],
+            errors: [
+                {
+                    message: "Expected literal to be on the right side of ===.",
+                    type: "BinaryExpression"
+                }
+            ]
+        },
+        {
+            code: "while ((a) === 0);",
+            output: "while (0 === (a));",
+            options: ["always"],
+            errors: [
+                {
+                    message: "Expected literal to be on the left side of ===.",
+                    type: "BinaryExpression"
+                }
+            ]
+        },
+        {
+            code: "while ((a = b) === 0);",
+            output: "while (0 === (a = b));",
+            options: ["always"],
+            errors: [
+                {
+                    message: "Expected literal to be on the left side of ===.",
+                    type: "BinaryExpression"
+                }
+            ]
+        },
+        {
+            code: "if (((((((((((foo)))))))))) === ((((((5)))))));",
+            output: "if (((((((5)))))) === ((((((((((foo)))))))))));",
+            options: ["always"],
+            errors: [
+                {
+                    message: "Expected literal to be on the left side of ===.",
+                    type: "BinaryExpression"
+                }
+            ]
         }
     ]
 });
