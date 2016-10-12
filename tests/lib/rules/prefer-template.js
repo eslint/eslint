@@ -184,6 +184,36 @@ ruleTester.run("prefer-template", rule, {
             output: "var foo = `${bar  }baz` + `qux${  boop}`;",
             parserOptions: { ecmaVersion: 6 },
             errors
+        },
+        {
+            code: "foo + 'unescapes an escaped single quote in a single-quoted string: \\''",
+            output: "`${foo  }unescapes an escaped single quote in a single-quoted string: '`",
+            parserOptions: { ecmaVersion: 6 },
+            errors
+        },
+        {
+            code: "foo + \"unescapes an escaped double quote in a double-quoted string: \\\"\"",
+            output: "`${foo  }unescapes an escaped double quote in a double-quoted string: \"`",
+            parserOptions: { ecmaVersion: 6 },
+            errors
+        },
+        {
+            code: "foo + 'does not unescape an escaped double quote in a single-quoted string: \\\"'",
+            output: "`${foo  }does not unescape an escaped double quote in a single-quoted string: \\\"`",
+            parserOptions: { ecmaVersion: 6 },
+            errors
+        },
+        {
+            code: "foo + \"does not unescape an escaped single quote in a double-quoted string: \\'\"",
+            output: "`${foo  }does not unescape an escaped single quote in a double-quoted string: \\'`",
+            parserOptions: { ecmaVersion: 6 },
+            errors
+        },
+        {
+            code: "foo + 'handles unicode escapes correctly: \\x27'", // "\x27" === "'"
+            output: "`${foo  }handles unicode escapes correctly: \\x27`",
+            parserOptions: { ecmaVersion: 6 },
+            errors
         }
     ]
 });
