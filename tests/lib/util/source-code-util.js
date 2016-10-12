@@ -15,7 +15,7 @@ const path = require("path"),
     assert = require("chai").assert,
     sinon = require("sinon"),
     sh = require("shelljs"),
-    globUtil = require("../../../lib/util/glob-util"),
+    globUtil = require("@simenb/eslint-file-util/lib/util/glob-util"),
     SourceCode = require("../../../lib/util/source-code");
 
 const proxyquire = require("proxyquire").noCallThru().noPreserveCache();
