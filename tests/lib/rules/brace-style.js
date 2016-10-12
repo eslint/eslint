@@ -93,100 +93,371 @@ ruleTester.run("brace-style", rule, {
     ],
 
     invalid: [
-        { code: "if (f) {\nbar;\n}\nelse\nbaz;", errors: [{ message: CLOSE_MESSAGE, type: "ExpressionStatement"}] },
-        { code: "var foo = () => { return; }", parserOptions: { ecmaVersion: 6 }, errors: [{ message: BODY_MESSAGE, type: "ReturnStatement"}, { message: CLOSE_MESSAGE_SINGLE, type: "ReturnStatement"}] },
-        { code: "function foo() { return; }", errors: [{ message: BODY_MESSAGE, type: "ReturnStatement"}, { message: CLOSE_MESSAGE_SINGLE, type: "ReturnStatement"}] },
-        { code: "function foo() \n { \n return; }", errors: [{ message: OPEN_MESSAGE, type: "FunctionDeclaration"}, { message: CLOSE_MESSAGE_SINGLE, type: "ReturnStatement"}] },
-        { code: "!function foo() \n { \n return; }", errors: [{ message: OPEN_MESSAGE, type: "FunctionExpression"}, { message: CLOSE_MESSAGE_SINGLE, type: "ReturnStatement"}] },
-        { code: "if (foo) \n { \n bar(); }", errors: [{ message: OPEN_MESSAGE, type: "IfStatement"}, { message: CLOSE_MESSAGE_SINGLE, type: "ExpressionStatement"}] },
-        { code: "if (a) { \nb();\n } else \n { c(); }", errors: [{ message: OPEN_MESSAGE, type: "IfStatement"}, { message: BODY_MESSAGE, type: "ExpressionStatement"}, { message: CLOSE_MESSAGE_SINGLE, type: "ExpressionStatement"}] },
-        { code: "while (foo) \n { \n bar(); }", errors: [{ message: OPEN_MESSAGE, type: "WhileStatement"}, { message: CLOSE_MESSAGE_SINGLE, type: "ExpressionStatement"}] },
-        { code: "for (;;) \n { \n bar(); }", errors: [{ message: OPEN_MESSAGE, type: "ForStatement"}, { message: CLOSE_MESSAGE_SINGLE, type: "ExpressionStatement"}] },
-        { code: "with (foo) \n { \n bar(); }", errors: [{ message: OPEN_MESSAGE, type: "WithStatement"}, { message: CLOSE_MESSAGE_SINGLE, type: "ExpressionStatement"}] },
-        { code: "switch (foo) \n { \n case \"bar\": break; }", errors: [{ message: OPEN_MESSAGE, type: "SwitchStatement"}] },
-        { code: "switch (foo) \n { }", errors: [{ message: OPEN_MESSAGE, type: "SwitchStatement"}] },
-        { code: "try \n { \n bar(); \n } catch (e) {}", errors: [{ message: OPEN_MESSAGE, type: "TryStatement"}] },
-        { code: "try { \n bar(); \n } catch (e) \n {}", errors: [{ message: OPEN_MESSAGE, type: "CatchClause"}] },
-        { code: "do \n { \n bar(); \n} while (true)", errors: [{ message: OPEN_MESSAGE, type: "DoWhileStatement"}] },
-        { code: "for (foo in bar) \n { \n baz(); \n }", errors: [{ message: OPEN_MESSAGE, type: "ForInStatement"}] },
-        { code: "for (foo of bar) \n { \n baz(); \n }", parserOptions: { ecmaVersion: 6 }, errors: [{ message: OPEN_MESSAGE, type: "ForOfStatement"}] },
-        { code: "try { \n bar(); \n }\ncatch (e) {\n}", errors: [{ message: CLOSE_MESSAGE, type: "CatchClause"}] },
-        { code: "try { \n bar(); \n } catch (e) {\n}\n finally {\n}", errors: [{ message: CLOSE_MESSAGE, type: "BlockStatement"}] },
-        { code: "if (a) { \nb();\n } \n else { \nc();\n }", errors: [{ message: CLOSE_MESSAGE, type: "BlockStatement" }]},
-        { code: "try { \n bar(); \n }\ncatch (e) {\n} finally {\n}", options: ["stroustrup"], errors: [{ message: CLOSE_MESSAGE_STROUSTRUP_ALLMAN, type: "BlockStatement"}] },
-        { code: "try { \n bar(); \n } catch (e) {\n}\n finally {\n}", options: ["stroustrup"], errors: [{ message: CLOSE_MESSAGE_STROUSTRUP_ALLMAN, type: "CatchClause"}] },
-        { code: "if (a) { \nb();\n } else { \nc();\n }", options: ["stroustrup"], errors: [{ message: CLOSE_MESSAGE_STROUSTRUP_ALLMAN, type: "BlockStatement" }]},
-        { code: "if (foo) {\nbaz();\n} else if (bar) {\nbaz();\n}\nelse {\nqux();\n}", options: ["stroustrup"], errors: [{ message: CLOSE_MESSAGE_STROUSTRUP_ALLMAN, type: "IfStatement" }] },
-        { code: "if (foo) {\npoop();\n} \nelse if (bar) {\nbaz();\n} else if (thing) {\nboom();\n}\nelse {\nqux();\n}", options: ["stroustrup"], errors: [{ message: CLOSE_MESSAGE_STROUSTRUP_ALLMAN, type: "IfStatement" }] },
-
-        { code: "try { \n bar(); \n }\n catch (e) {\n}\n finally {\n}", options: ["allman"], errors: [
-            { message: OPEN_MESSAGE_ALLMAN, type: "TryStatement", line: 1},
-            { message: OPEN_MESSAGE_ALLMAN, type: "TryStatement", line: 1},
-            { message: OPEN_MESSAGE_ALLMAN, type: "CatchClause", line: 4}
-        ] },
-        { code: "switch(x) { case 1: \nbar(); }\n ", options: ["allman"], errors: [
-            { message: OPEN_MESSAGE_ALLMAN, type: "SwitchStatement", line: 1}
-        ] },
-        { code: "if (a) { \nb();\n } else { \nc();\n }", options: ["allman"], errors: [
-            { message: OPEN_MESSAGE_ALLMAN, type: "IfStatement" },
-            { message: OPEN_MESSAGE_ALLMAN, type: "IfStatement" },
-            { message: CLOSE_MESSAGE_STROUSTRUP_ALLMAN, type: "BlockStatement" }
-        ]},
-        { code: "if (foo) {\nbaz();\n} else if (bar) {\nbaz();\n}\nelse {\nqux();\n}", options: ["allman"], errors: [
-            { message: OPEN_MESSAGE_ALLMAN, type: "IfStatement" },
-            { message: CLOSE_MESSAGE_STROUSTRUP_ALLMAN, type: "IfStatement" },
-            { message: OPEN_MESSAGE_ALLMAN, type: "IfStatement" },
-            { message: OPEN_MESSAGE_ALLMAN, type: "IfStatement" }
-        ] },
-        { code: "if (foo)\n{ poop();\n} \nelse if (bar) {\nbaz();\n} else if (thing) {\nboom();\n}\nelse {\nqux();\n}", options: ["allman"], errors: [
-            { message: BODY_MESSAGE, type: "ExpressionStatement" },
-            { message: OPEN_MESSAGE_ALLMAN, type: "IfStatement" },
-            { message: CLOSE_MESSAGE_STROUSTRUP_ALLMAN, type: "IfStatement" },
-            { message: OPEN_MESSAGE_ALLMAN, type: "IfStatement" },
-            { message: OPEN_MESSAGE_ALLMAN, type: "IfStatement" }
-        ] },
-        { code: "if (foo)\n{\n  bar(); }", options: ["allman"], errors: [
-            { message: CLOSE_MESSAGE_SINGLE, type: "ExpressionStatement" }
-        ] },
-        { code: "try\n{\n  somethingRisky();\n} catch (e)\n{\n  handleError()\n}", options: ["allman"], errors: [
-            { message: CLOSE_MESSAGE_STROUSTRUP_ALLMAN, type: "CatchClause" }
-        ] },
+        {
+            code: "if (f) {\nbar;\n}\nelse\nbaz;",
+            output: "if (f) {\nbar;\n}else\nbaz;",
+            errors: [{ message: CLOSE_MESSAGE, type: "ExpressionStatement" }]
+        },
+        {
+            code: "var foo = () => { return; }",
+            output: "var foo = () => {\n return; \n}",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{ message: BODY_MESSAGE, type: "ReturnStatement" }, { message: CLOSE_MESSAGE_SINGLE, type: "ReturnStatement" }]
+        },
+        {
+            code: "function foo() { return; }",
+            output: "function foo() {\n return; \n}",
+            errors: [{ message: BODY_MESSAGE, type: "ReturnStatement" }, { message: CLOSE_MESSAGE_SINGLE, type: "ReturnStatement" }]
+        },
+        {
+            code: "function foo() \n { \n return; }",
+            output: "function foo()  { \n return; \n}",
+            errors: [{ message: OPEN_MESSAGE, type: "FunctionDeclaration" }, { message: CLOSE_MESSAGE_SINGLE, type: "ReturnStatement" }]
+        },
+        {
+            code: "!function foo() \n { \n return; }",
+            output: "!function foo()  { \n return; \n}",
+            errors: [{ message: OPEN_MESSAGE, type: "FunctionExpression" }, { message: CLOSE_MESSAGE_SINGLE, type: "ReturnStatement" }]
+        },
+        {
+            code: "if (foo) \n { \n bar(); }",
+            output: "if (foo)  { \n bar(); \n}",
+            errors: [{ message: OPEN_MESSAGE, type: "IfStatement" }, { message: CLOSE_MESSAGE_SINGLE, type: "ExpressionStatement" }]
+        },
+        {
+            code: "if (a) { \nb();\n } else \n { c(); }",
+            output: "if (a) { \nb();\n } else  {\n c(); \n}",
+            errors: [{ message: OPEN_MESSAGE, type: "IfStatement" }, { message: BODY_MESSAGE, type: "ExpressionStatement" }, { message: CLOSE_MESSAGE_SINGLE, type: "ExpressionStatement" }]
+        },
+        {
+            code: "while (foo) \n { \n bar(); }",
+            output: "while (foo)  { \n bar(); \n}",
+            errors: [{ message: OPEN_MESSAGE, type: "WhileStatement" }, { message: CLOSE_MESSAGE_SINGLE, type: "ExpressionStatement" }]
+        },
+        {
+            code: "for (;;) \n { \n bar(); }",
+            output: "for (;;)  { \n bar(); \n}",
+            errors: [{ message: OPEN_MESSAGE, type: "ForStatement" }, { message: CLOSE_MESSAGE_SINGLE, type: "ExpressionStatement" }]
+        },
+        {
+            code: "with (foo) \n { \n bar(); }",
+            output: "with (foo)  { \n bar(); \n}",
+            errors: [{ message: OPEN_MESSAGE, type: "WithStatement" }, { message: CLOSE_MESSAGE_SINGLE, type: "ExpressionStatement" }]
+        },
+        {
+            code: "switch (foo) \n { \n case \"bar\": break; }",
+            output: "switch (foo)  { \n case \"bar\": break; }",
+            errors: [{ message: OPEN_MESSAGE, type: "SwitchStatement" }]
+        },
+        {
+            code: "switch (foo) \n { }",
+            output: "switch (foo)  { }",
+            errors: [{ message: OPEN_MESSAGE, type: "SwitchStatement" }]
+        },
+        {
+            code: "try \n { \n bar(); \n } catch (e) {}",
+            output: "try  { \n bar(); \n } catch (e) {}",
+            errors: [{ message: OPEN_MESSAGE, type: "TryStatement" }]
+        },
+        {
+            code: "try { \n bar(); \n } catch (e) \n {}",
+            output: "try { \n bar(); \n } catch (e)  {}",
+            errors: [{ message: OPEN_MESSAGE, type: "CatchClause" }]
+        },
+        {
+            code: "do \n { \n bar(); \n} while (true)",
+            output: "do  { \n bar(); \n} while (true)",
+            errors: [{ message: OPEN_MESSAGE, type: "DoWhileStatement" }]
+        },
+        {
+            code: "for (foo in bar) \n { \n baz(); \n }",
+            output: "for (foo in bar)  { \n baz(); \n }",
+            errors: [{ message: OPEN_MESSAGE, type: "ForInStatement" }]
+        },
+        {
+            code: "for (foo of bar) \n { \n baz(); \n }",
+            output: "for (foo of bar)  { \n baz(); \n }",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{ message: OPEN_MESSAGE, type: "ForOfStatement" }]
+        },
+        {
+            code: "try { \n bar(); \n }\ncatch (e) {\n}",
+            output: "try { \n bar(); \n }catch (e) {\n}",
+            errors: [{ message: CLOSE_MESSAGE, type: "CatchClause" }]
+        },
+        {
+            code: "try { \n bar(); \n } catch (e) {\n}\n finally {\n}",
+            output: "try { \n bar(); \n } catch (e) {\n} finally {\n}",
+            errors: [{ message: CLOSE_MESSAGE, type: "BlockStatement" }]
+        },
+        {
+            code: "if (a) { \nb();\n } \n else { \nc();\n }",
+            output: "if (a) { \nb();\n }  else { \nc();\n }",
+            errors: [{ message: CLOSE_MESSAGE, type: "BlockStatement" }]
+        },
+        {
+            code: "try { \n bar(); \n }\ncatch (e) {\n} finally {\n}",
+            output: "try { \n bar(); \n }\ncatch (e) {\n}\n finally {\n}",
+            options: ["stroustrup"],
+            errors: [{ message: CLOSE_MESSAGE_STROUSTRUP_ALLMAN, type: "BlockStatement" }]
+        },
+        {
+            code: "try { \n bar(); \n } catch (e) {\n}\n finally {\n}",
+            output: "try { \n bar(); \n }\n catch (e) {\n}\n finally {\n}",
+            options: ["stroustrup"],
+            errors: [{ message: CLOSE_MESSAGE_STROUSTRUP_ALLMAN, type: "CatchClause" }]
+        },
+        {
+            code: "if (a) { \nb();\n } else { \nc();\n }",
+            output: "if (a) { \nb();\n }\n else { \nc();\n }",
+            options: ["stroustrup"], errors: [{ message: CLOSE_MESSAGE_STROUSTRUP_ALLMAN, type: "BlockStatement" }]
+        },
+        {
+            code: "if (foo) {\nbaz();\n} else if (bar) {\nbaz();\n}\nelse {\nqux();\n}",
+            output: "if (foo) {\nbaz();\n}\n else if (bar) {\nbaz();\n}\nelse {\nqux();\n}",
+            options: ["stroustrup"],
+            errors: [{ message: CLOSE_MESSAGE_STROUSTRUP_ALLMAN, type: "IfStatement" }]
+        },
+        {
+            code: "if (foo) {\npoop();\n} \nelse if (bar) {\nbaz();\n} else if (thing) {\nboom();\n}\nelse {\nqux();\n}",
+            output: "if (foo) {\npoop();\n} \nelse if (bar) {\nbaz();\n}\n else if (thing) {\nboom();\n}\nelse {\nqux();\n}",
+            options: ["stroustrup"],
+            errors: [{ message: CLOSE_MESSAGE_STROUSTRUP_ALLMAN, type: "IfStatement" }]
+        },
+        {
+            code: "try { \n bar(); \n }\n catch (e) {\n}\n finally {\n}",
+            output: "try \n{ \n bar(); \n }\n catch (e) \n{\n}\n finally \n{\n}",
+            options: ["allman"],
+            errors: [
+                { message: OPEN_MESSAGE_ALLMAN, type: "TryStatement", line: 1 },
+                { message: OPEN_MESSAGE_ALLMAN, type: "TryStatement", line: 1 },
+                { message: OPEN_MESSAGE_ALLMAN, type: "CatchClause", line: 4 }
+            ]
+        },
+        {
+            code: "switch(x) { case 1: \nbar(); }\n ",
+            output: "switch(x) \n{ case 1: \nbar(); }\n ",
+            options: ["allman"],
+            errors: [
+                { message: OPEN_MESSAGE_ALLMAN, type: "SwitchStatement", line: 1}
+            ]
+        },
+        {
+            code: "if (a) { \nb();\n } else { \nc();\n }",
+            output: "if (a) \n{ \nb();\n }\n else \n{ \nc();\n }",
+            options: ["allman"],
+            errors: [
+                { message: OPEN_MESSAGE_ALLMAN, type: "IfStatement" },
+                { message: OPEN_MESSAGE_ALLMAN, type: "IfStatement" },
+                { message: CLOSE_MESSAGE_STROUSTRUP_ALLMAN, type: "BlockStatement" }
+            ]
+        },
+        {
+            code: "if (foo) {\nbaz();\n} else if (bar) {\nbaz();\n}\nelse {\nqux();\n}",
+            output: "if (foo) \n{\nbaz();\n}\n else if (bar) \n{\nbaz();\n}\nelse \n{\nqux();\n}",
+            options: ["allman"],
+            errors: [
+                { message: OPEN_MESSAGE_ALLMAN, type: "IfStatement" },
+                { message: CLOSE_MESSAGE_STROUSTRUP_ALLMAN, type: "IfStatement" },
+                { message: OPEN_MESSAGE_ALLMAN, type: "IfStatement" },
+                { message: OPEN_MESSAGE_ALLMAN, type: "IfStatement" }
+            ]
+        },
+        {
+            code: "if (foo)\n{ poop();\n} \nelse if (bar) {\nbaz();\n} else if (thing) {\nboom();\n}\nelse {\nqux();\n}",
+            output: "if (foo)\n{\n poop();\n} \nelse if (bar) \n{\nbaz();\n}\n else if (thing) \n{\nboom();\n}\nelse \n{\nqux();\n}",
+            options: ["allman"],
+            errors: [
+                { message: BODY_MESSAGE, type: "ExpressionStatement" },
+                { message: OPEN_MESSAGE_ALLMAN, type: "IfStatement" },
+                { message: CLOSE_MESSAGE_STROUSTRUP_ALLMAN, type: "IfStatement" },
+                { message: OPEN_MESSAGE_ALLMAN, type: "IfStatement" },
+                { message: OPEN_MESSAGE_ALLMAN, type: "IfStatement" }
+            ]
+        },
+        {
+            code: "if (foo)\n{\n  bar(); }",
+            output: "if (foo)\n{\n  bar(); \n}",
+            options: ["allman"],
+            errors: [
+                { message: CLOSE_MESSAGE_SINGLE, type: "ExpressionStatement" }
+            ]
+        },
+        {
+            code: "try\n{\n  somethingRisky();\n} catch (e)\n{\n  handleError()\n}",
+            output: "try\n{\n  somethingRisky();\n}\n catch (e)\n{\n  handleError()\n}",
+            options: ["allman"],
+            errors: [
+                { message: CLOSE_MESSAGE_STROUSTRUP_ALLMAN, type: "CatchClause" }
+            ]
+        },
 
         // allowSingleLine: true
-        { code: "function foo() { return; \n}", options: ["1tbs", { allowSingleLine: true }], errors: [{ message: BODY_MESSAGE, type: "ReturnStatement"}] },
-        { code: "function foo() { a(); b(); return; \n}", options: ["1tbs", { allowSingleLine: true }], errors: [{ message: BODY_MESSAGE, type: "ExpressionStatement"}] },
-        { code: "function foo() { \n return; }", options: ["1tbs", { allowSingleLine: true }], errors: [{ message: CLOSE_MESSAGE_SINGLE, type: "ReturnStatement"}] },
-        { code: "function foo() {\na();\nb();\nreturn; }", options: ["1tbs", { allowSingleLine: true }], errors: [{ message: CLOSE_MESSAGE_SINGLE, type: "ReturnStatement"}] },
-        { code: "!function foo() { \n return; }", options: ["1tbs", { allowSingleLine: true }], errors: [{ message: CLOSE_MESSAGE_SINGLE, type: "ReturnStatement"}] },
-        { code: "if (foo) \n { bar(); }", options: ["1tbs", { allowSingleLine: true }], errors: [
-            { message: OPEN_MESSAGE, type: "IfStatement"},
-            { message: BODY_MESSAGE, type: "ExpressionStatement"},
-            { message: CLOSE_MESSAGE_SINGLE, type: "ExpressionStatement"}
-        ] },
-        { code: "if (a) { b();\n } else { c(); }", options: ["1tbs", { allowSingleLine: true }], errors: [{ message: BODY_MESSAGE, type: "ExpressionStatement"}] },
-        { code: "if (a) { b(); }\nelse { c(); }", options: ["1tbs", { allowSingleLine: true }], errors: [{ message: CLOSE_MESSAGE, type: "BlockStatement" }] },
-        { code: "while (foo) { \n bar(); }", options: ["1tbs", { allowSingleLine: true }], errors: [{ message: CLOSE_MESSAGE_SINGLE, type: "ExpressionStatement"}] },
-        { code: "for (;;) { bar(); \n }", options: ["1tbs", { allowSingleLine: true }], errors: [{ message: BODY_MESSAGE, type: "ExpressionStatement"}] },
-        { code: "with (foo) { bar(); \n }", options: ["1tbs", { allowSingleLine: true }], errors: [{ message: BODY_MESSAGE, type: "ExpressionStatement"}] },
-        { code: "switch (foo) \n { \n case \"bar\": break; }", options: ["1tbs", { allowSingleLine: true }], errors: [{ message: OPEN_MESSAGE, type: "SwitchStatement"}] },
-        { code: "switch (foo) \n { }", options: ["1tbs", { allowSingleLine: true }], errors: [{ message: OPEN_MESSAGE, type: "SwitchStatement"}] },
-        { code: "try {  bar(); }\ncatch (e) { baz();  }", options: ["1tbs", { allowSingleLine: true }], errors: [{ message: CLOSE_MESSAGE, type: "CatchClause" }] },
-        { code: "try \n { \n bar(); \n } catch (e) {}", options: ["1tbs", { allowSingleLine: true }], errors: [{ message: OPEN_MESSAGE, type: "TryStatement"}] },
-        { code: "try { \n bar(); \n } catch (e) \n {}", options: ["1tbs", { allowSingleLine: true }], errors: [{ message: OPEN_MESSAGE, type: "CatchClause"}] },
-        { code: "do \n { \n bar(); \n} while (true)", options: ["1tbs", { allowSingleLine: true }], errors: [{ message: OPEN_MESSAGE, type: "DoWhileStatement"}] },
-        { code: "for (foo in bar) \n { \n baz(); \n }", options: ["1tbs", { allowSingleLine: true }], errors: [{ message: OPEN_MESSAGE, type: "ForInStatement"}] },
-        { code: "try { \n bar(); \n }\ncatch (e) {\n}", options: ["1tbs", { allowSingleLine: true }], errors: [{ message: CLOSE_MESSAGE, type: "CatchClause"}] },
-        { code: "try { \n bar(); \n } catch (e) {\n}\n finally {\n}", options: ["1tbs", { allowSingleLine: true }], errors: [{ message: CLOSE_MESSAGE, type: "BlockStatement"}] },
-        { code: "if (a) { \nb();\n } \n else { \nc();\n }", options: ["1tbs", { allowSingleLine: true }], errors: [{ message: CLOSE_MESSAGE, type: "BlockStatement" }]},
-        { code: "try { \n bar(); \n }\ncatch (e) {\n} finally {\n}", options: ["stroustrup", { allowSingleLine: true }], errors: [{ message: CLOSE_MESSAGE_STROUSTRUP_ALLMAN, type: "BlockStatement"}] },
-        { code: "try { \n bar(); \n } catch (e) {\n}\n finally {\n}", options: ["stroustrup", { allowSingleLine: true }], errors: [{ message: CLOSE_MESSAGE_STROUSTRUP_ALLMAN, type: "CatchClause"}] },
-        { code: "if (a) { \nb();\n } else { \nc();\n }", options: ["stroustrup", { allowSingleLine: true }], errors: [{ message: CLOSE_MESSAGE_STROUSTRUP_ALLMAN, type: "BlockStatement" }]},
-        { code: "if (foo)\n{ poop();\n} \nelse if (bar) {\nbaz();\n} else if (thing) {\nboom();\n}\nelse {\nqux();\n}", options: ["allman", { allowSingleLine: true }], errors: [
-            { message: BODY_MESSAGE, type: "ExpressionStatement" },
-            { message: OPEN_MESSAGE_ALLMAN, type: "IfStatement" },
-            { message: CLOSE_MESSAGE_STROUSTRUP_ALLMAN, type: "IfStatement" },
-            { message: OPEN_MESSAGE_ALLMAN, type: "IfStatement" },
-            { message: OPEN_MESSAGE_ALLMAN, type: "IfStatement" }
-        ] }
+        {
+            code: "function foo() { return; \n}",
+            output: "function foo() {\n return; \n}",
+            options: ["1tbs", { allowSingleLine: true }],
+            errors: [{ message: BODY_MESSAGE, type: "ReturnStatement" }]
+        },
+        {
+            code: "function foo() { a(); b(); return; \n}",
+            output: "function foo() {\n a(); b(); return; \n}",
+            options: ["1tbs", { allowSingleLine: true }],
+            errors: [{ message: BODY_MESSAGE, type: "ExpressionStatement" }]
+        },
+        {
+            code: "function foo() { \n return; }",
+            output: "function foo() { \n return; \n}",
+            options: ["1tbs", { allowSingleLine: true }],
+            errors: [{ message: CLOSE_MESSAGE_SINGLE, type: "ReturnStatement" }]
+        },
+        {
+            code: "function foo() {\na();\nb();\nreturn; }",
+            output: "function foo() {\na();\nb();\nreturn; \n}",
+            options: ["1tbs", { allowSingleLine: true }],
+            errors: [{ message: CLOSE_MESSAGE_SINGLE, type: "ReturnStatement" }]
+        },
+        {
+            code: "!function foo() { \n return; }",
+            output: "!function foo() { \n return; \n}",
+            options: ["1tbs", { allowSingleLine: true }],
+            errors: [{ message: CLOSE_MESSAGE_SINGLE, type: "ReturnStatement" }]
+        },
+        {
+            code: "if (foo) \n { bar(); }",
+            output: "if (foo)  {\n bar(); \n}",
+            options: ["1tbs", { allowSingleLine: true }],
+            errors: [
+                { message: OPEN_MESSAGE, type: "IfStatement" },
+                { message: BODY_MESSAGE, type: "ExpressionStatement" },
+                { message: CLOSE_MESSAGE_SINGLE, type: "ExpressionStatement" }
+            ]
+        },
+        {
+            code: "if (a) { b();\n } else { c(); }",
+            output: "if (a) {\n b();\n } else { c(); }",
+            options: ["1tbs", { allowSingleLine: true }],
+            errors: [{ message: BODY_MESSAGE, type: "ExpressionStatement" }]
+        },
+        {
+            code: "if (a) { b(); }\nelse { c(); }",
+            output: "if (a) { b(); }else { c(); }",
+            options: ["1tbs", { allowSingleLine: true }],
+            errors: [{ message: CLOSE_MESSAGE, type: "BlockStatement" }]
+        },
+        {
+            code: "while (foo) { \n bar(); }",
+            output: "while (foo) { \n bar(); \n}",
+            options: ["1tbs", { allowSingleLine: true }],
+            errors: [{ message: CLOSE_MESSAGE_SINGLE, type: "ExpressionStatement" }]
+        },
+        {
+            code: "for (;;) { bar(); \n }",
+            output: "for (;;) {\n bar(); \n }",
+            options: ["1tbs", { allowSingleLine: true }],
+            errors: [{ message: BODY_MESSAGE, type: "ExpressionStatement" }]
+        },
+        {
+            code: "with (foo) { bar(); \n }",
+            output: "with (foo) {\n bar(); \n }",
+            options: ["1tbs", { allowSingleLine: true }],
+            errors: [{ message: BODY_MESSAGE, type: "ExpressionStatement" }]
+        },
+        {
+            code: "switch (foo) \n { \n case \"bar\": break; }",
+            output: "switch (foo)  { \n case \"bar\": break; }",
+            options: ["1tbs", { allowSingleLine: true }],
+            errors: [{ message: OPEN_MESSAGE, type: "SwitchStatement" }]
+        },
+        {
+            code: "switch (foo) \n { }",
+            output: "switch (foo)  { }",
+            options: ["1tbs", { allowSingleLine: true }],
+            errors: [{ message: OPEN_MESSAGE, type: "SwitchStatement" }]
+        },
+        {
+            code: "try {  bar(); }\ncatch (e) { baz();  }",
+            options: ["1tbs", { allowSingleLine: true }],
+            errors: [{ message: CLOSE_MESSAGE, type: "CatchClause" }]
+        },
+        {
+            code: "try \n { \n bar(); \n } catch (e) {}",
+            output: "try  { \n bar(); \n } catch (e) {}",
+            options: ["1tbs", { allowSingleLine: true }],
+            errors: [{ message: OPEN_MESSAGE, type: "TryStatement" }]
+        },
+        {
+            code: "try { \n bar(); \n } catch (e) \n {}",
+            output: "try { \n bar(); \n } catch (e)  {}",
+            options: ["1tbs", { allowSingleLine: true }],
+            errors: [{ message: OPEN_MESSAGE, type: "CatchClause" }]
+        },
+        {
+            code: "do \n { \n bar(); \n} while (true)",
+            output: "do  { \n bar(); \n} while (true)",
+            options: ["1tbs", { allowSingleLine: true }],
+            errors: [{ message: OPEN_MESSAGE, type: "DoWhileStatement" }]
+        },
+        {
+            code: "for (foo in bar) \n { \n baz(); \n }",
+            output: "for (foo in bar)  { \n baz(); \n }",
+            options: ["1tbs", { allowSingleLine: true }],
+            errors: [{ message: OPEN_MESSAGE, type: "ForInStatement" }]
+        },
+        {
+            code: "try { \n bar(); \n }\ncatch (e) {\n}",
+            output: "try { \n bar(); \n }catch (e) {\n}",
+            options: ["1tbs", { allowSingleLine: true }],
+            errors: [{ message: CLOSE_MESSAGE, type: "CatchClause" }]
+        },
+        {
+            code: "try { \n bar(); \n } catch (e) {\n}\n finally {\n}",
+            output: "try { \n bar(); \n } catch (e) {\n} finally {\n}",
+            options: ["1tbs", { allowSingleLine: true }],
+            errors: [{ message: CLOSE_MESSAGE, type: "BlockStatement" }]
+        },
+        {
+            code: "if (a) { \nb();\n } \n else { \nc();\n }",
+            output: "if (a) { \nb();\n }  else { \nc();\n }",
+            options: ["1tbs", { allowSingleLine: true }],
+            errors: [{ message: CLOSE_MESSAGE, type: "BlockStatement" }]
+        },
+        {
+            code: "try { \n bar(); \n }\ncatch (e) {\n} finally {\n}",
+            output: "try { \n bar(); \n }\ncatch (e) {\n}\n finally {\n}",
+            options: ["stroustrup", { allowSingleLine: true }],
+            errors: [{ message: CLOSE_MESSAGE_STROUSTRUP_ALLMAN, type: "BlockStatement" }]
+        },
+        {
+            code: "try { \n bar(); \n } catch (e) {\n}\n finally {\n}",
+            output: "try { \n bar(); \n }\n catch (e) {\n}\n finally {\n}",
+            options: ["stroustrup", { allowSingleLine: true }],
+            errors: [{ message: CLOSE_MESSAGE_STROUSTRUP_ALLMAN, type: "CatchClause" }]
+        },
+        {
+            code: "if (a) { \nb();\n } else { \nc();\n }",
+            output: "if (a) { \nb();\n }\n else { \nc();\n }",
+            options: ["stroustrup", { allowSingleLine: true }],
+            errors: [{ message: CLOSE_MESSAGE_STROUSTRUP_ALLMAN, type: "BlockStatement" }]
+        },
+        {
+            code: "if (foo)\n{ poop();\n} \nelse if (bar) {\nbaz();\n} else if (thing) {\nboom();\n}\nelse {\nqux();\n}",
+            output: "if (foo)\n{\n poop();\n} \nelse if (bar) \n{\nbaz();\n}\n else if (thing) \n{\nboom();\n}\nelse \n{\nqux();\n}",
+            options: ["allman", { allowSingleLine: true }],
+            errors: [
+                { message: BODY_MESSAGE, type: "ExpressionStatement" },
+                { message: OPEN_MESSAGE_ALLMAN, type: "IfStatement" },
+                { message: CLOSE_MESSAGE_STROUSTRUP_ALLMAN, type: "IfStatement" },
+                { message: OPEN_MESSAGE_ALLMAN, type: "IfStatement" },
+                { message: OPEN_MESSAGE_ALLMAN, type: "IfStatement" }
+            ]
+        },
+
+        // Comment interferes with fix
+        {
+            code: "if (foo) // comment \n{\nbar();\n}",
+            output: "if (foo) // comment \n{\nbar();\n}",
+            errors: [{ message: OPEN_MESSAGE, type: "IfStatement" }]
+        }
     ]
 });
