@@ -66,7 +66,7 @@ ruleTester.run("arrow-body-style", rule, {
         },
         {
             code: "var foo = () => { return 0; };",
-            output: "var foo = () =>   0 ;",
+            output: "var foo = () => 0;",
             parserOptions: { ecmaVersion: 6 },
             options: ["as-needed"],
             errors: [
@@ -75,7 +75,7 @@ ruleTester.run("arrow-body-style", rule, {
         },
         {
             code: "var foo = () => { return 0 };",
-            output: "var foo = () =>   0 ;",
+            output: "var foo = () => 0;",
             parserOptions: { ecmaVersion: 6 },
             options: ["as-needed"],
             errors: [
@@ -84,7 +84,7 @@ ruleTester.run("arrow-body-style", rule, {
         },
         {
             code: "var foo = () => { return bar(); };",
-            output: "var foo = () =>   bar() ;",
+            output: "var foo = () => bar();",
             parserOptions: { ecmaVersion: 6 },
             options: ["as-needed"],
             errors: [
@@ -102,7 +102,7 @@ ruleTester.run("arrow-body-style", rule, {
         },
         {
             code: "var foo = () => { return { bar: 0 }; };",
-            output: "var foo = () =>   ({ bar: 0 }) ;",
+            output: "var foo = () => ({ bar: 0 });",
             parserOptions: { ecmaVersion: 6 },
             options: ["as-needed"],
             errors: [
@@ -120,7 +120,7 @@ ruleTester.run("arrow-body-style", rule, {
         },
         {
             code: "var foo = () => { return ( /* a */ {ok: true} /* b */ ) };",
-            output: "var foo = () =>   ( /* a */ {ok: true} /* b */ ) ;",
+            output: "var foo = () => ( /* a */ {ok: true} /* b */ );",
             parserOptions: { ecmaVersion: 6 },
             options: ["as-needed"],
             errors: [
@@ -129,7 +129,7 @@ ruleTester.run("arrow-body-style", rule, {
         },
         {
             code: "var foo = () => { return '{' };",
-            output: "var foo = () =>   '{' ;",
+            output: "var foo = () => '{';",
             parserOptions: { ecmaVersion: 6 },
             options: ["as-needed"],
             errors: [
@@ -138,7 +138,7 @@ ruleTester.run("arrow-body-style", rule, {
         },
         {
             code: "var foo = () => { return { bar: 0 }.bar; };",
-            output: "var foo = () =>   ({ bar: 0 }.bar) ;",
+            output: "var foo = () => ({ bar: 0 }.bar);",
             parserOptions: { ecmaVersion: 6 },
             options: ["as-needed"],
             errors: [
@@ -156,7 +156,7 @@ ruleTester.run("arrow-body-style", rule, {
         },
         {
             code: "var foo = () => { return 0; };",
-            output: "var foo = () =>   0 ;",
+            output: "var foo = () => 0;",
             parserOptions: { ecmaVersion: 6 },
             options: ["as-needed", {requireReturnForObjectLiteral: true }],
             errors: [
@@ -165,7 +165,7 @@ ruleTester.run("arrow-body-style", rule, {
         },
         {
             code: "var foo = () => { return bar(); };",
-            output: "var foo = () =>   bar() ;",
+            output: "var foo = () => bar();",
             parserOptions: { ecmaVersion: 6 },
             options: ["as-needed", {requireReturnForObjectLiteral: true }],
             errors: [
@@ -236,7 +236,7 @@ ruleTester.run("arrow-body-style", rule, {
             "var foo = () => { return bar };\n" +
             "[1, 2, 3].map(foo)",
             output:
-            "var foo = () =>   bar ;\n" +
+            "var foo = () => bar;\n" +
             "[1, 2, 3].map(foo)",
             parserOptions: { ecmaVersion: 6 },
             options: ["never"],
