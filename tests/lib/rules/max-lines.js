@@ -26,8 +26,7 @@ const ruleTester = new RuleTester();
  * @returns {string} error message
  */
 function errorMessage(limitLines, actualLines) {
-    return "File must be at most " + limitLines + " lines long. It's "
-        + actualLines + " lines long.";
+    return `File must be at most ${limitLines} lines long. It's ${actualLines} lines long.`;
 }
 
 ruleTester.run("max-lines", rule, {

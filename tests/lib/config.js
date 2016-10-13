@@ -116,7 +116,7 @@ describe("Config", function() {
 
     // copy into clean area so as not to get "infected" by this project's .eslintrc files
     before(function() {
-        fixtureDir = os.tmpdir() + "/eslint/fixtures";
+        fixtureDir = `${os.tmpdir()}/eslint/fixtures`;
         mkdir("-p", fixtureDir);
         cp("-r", "./tests/fixtures/config-hierarchy", fixtureDir);
     });

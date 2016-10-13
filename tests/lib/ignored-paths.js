@@ -465,7 +465,7 @@ describe("IgnoredPaths", function() {
         it("should not ignore absolute paths containing '..'", function() {
             const ignoredPaths = new IgnoredPaths({ ignore: true, cwd: getFixturePath() });
 
-            assert.isFalse(ignoredPaths.contains(getFixturePath("foo") + "/../unignored.js"));
+            assert.isFalse(ignoredPaths.contains(`${getFixturePath("foo")}/../unignored.js`));
         });
 
         it("should ignore /node_modules/ at top level relative to .eslintignore when loaded", function() {

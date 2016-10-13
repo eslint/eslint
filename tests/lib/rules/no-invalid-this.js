@@ -33,7 +33,7 @@ function NORMAL() {
  * @returns {void}
  */
 function USE_STRICT(pattern) {
-    pattern.code = "\"use strict\"; " + pattern.code;
+    pattern.code = `"use strict"; ${pattern.code}`;
 }
 
 /**
@@ -43,7 +43,7 @@ function USE_STRICT(pattern) {
  * @returns {void}
  */
 function IMPLIED_STRICT(pattern) {
-    pattern.code = "/* implied strict mode */ " + pattern.code;
+    pattern.code = `/* implied strict mode */ ${pattern.code}`;
     pattern.parserOptions.ecmaFeatures = pattern.parserOptions.ecmaFeatures || {};
     pattern.parserOptions.ecmaFeatures.impliedStrict = true;
 }
@@ -55,7 +55,7 @@ function IMPLIED_STRICT(pattern) {
  * @returns {void}
  */
 function MODULES(pattern) {
-    pattern.code = "/* modules */ " + pattern.code;
+    pattern.code = `/* modules */ ${pattern.code}`;
     pattern.parserOptions.sourceType = "module";
 }
 
