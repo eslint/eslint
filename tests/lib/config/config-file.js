@@ -53,7 +53,7 @@ function getFixturePath(filepath) {
  * @private
  */
 function readJSModule(code) {
-    return eval("var module = {};\n" + code);  // eslint-disable-line no-eval
+    return eval(`var module = {};\n${code}`);  // eslint-disable-line no-eval
 }
 
 /**
@@ -84,7 +84,7 @@ function writeTempConfigFile(config, filename, existingTmpDir) {
 function writeTempJsConfigFile(config, filename, existingTmpDir) {
     const tmpFileDir = existingTmpDir || temp.mkdirSync("eslint-tests-"),
         tmpFilePath = path.join(tmpFileDir, filename),
-        tmpFileContents = "module.exports = " + JSON.stringify(config);
+        tmpFileContents = `module.exports = ${JSON.stringify(config)}`;
 
     fs.writeFileSync(tmpFilePath, tmpFileContents);
     return tmpFilePath;
@@ -130,7 +130,7 @@ function createStubModuleResolver(mapping) {
             return mapping[name];
         }
 
-        throw new Error("Cannot find module '" + name + "'");
+        throw new Error(`Cannot find module '${name}'`);
     };
 
     return StubModuleResolver;
@@ -812,7 +812,7 @@ describe("ConfigFile", function() {
                 [ "@foo/bar", getProjectModulePath("@foo/eslint-config-bar") ],
                 [ "plugin:foo/bar", getProjectModulePath("eslint-plugin-foo") ]
             ], function(input, expected) {
-                it("should return " + expected + " when passed " + input, function() {
+                it(`should return ${expected} when passed ${input}`, function() {
 
                     const configDeps = {
                         "eslint-config-foo": getProjectModulePath("eslint-config-foo"),
@@ -846,7 +846,7 @@ describe("ConfigFile", function() {
                 [ "@foo/bar", getRelativeModulePath("@foo/eslint-config-bar", relativePath), relativePath],
                 [ "plugin:@foo/bar/baz", getRelativeModulePath("@foo/eslint-plugin-bar", relativePath), relativePath]
             ], function(input, expected, relativeTo) {
-                it("should return " + expected + " when passed " + input, function() {
+                it(`should return ${expected} when passed ${input}`, function() {
 
                     const configDeps = {
                         "eslint-config-foo": getRelativeModulePath("eslint-config-foo", relativePath),
@@ -873,7 +873,7 @@ describe("ConfigFile", function() {
                 [ "eslint-config-foo/bar", path.resolve("./node_modules", "eslint-config-foo/bar", "index.js"), relativePath],
                 [ "eslint-config-foo/bar", path.resolve("./node_modules", "eslint-config-foo", "bar.js"), relativePath]
             ], function(input, expected, relativeTo) {
-                it("should return " + expected + " when passed " + input, function() {
+                it(`should return ${expected} when passed ${input}`, function() {
 
                     const configDeps = {
                         "eslint-config-foo/bar": expected
@@ -968,7 +968,7 @@ describe("ConfigFile", function() {
             [ getFixturePath("json"), ".eslintrc.json" ],
             [ getFixturePath("js"), ".eslintrc.js" ]
         ], function(input, expected) {
-            it("should return " + expected + " when passed " + input, function() {
+            it(`should return ${expected} when passed ${input}`, function() {
                 const result = ConfigFile.getFilenameForDirectory(input);
 
                 assert.equal(result, path.resolve(input, expected));
@@ -988,7 +988,7 @@ describe("ConfigFile", function() {
             [ "@z/eslint-config", "@z/eslint-config" ],
             [ "@z/eslint-config-foo", "@z/eslint-config-foo" ]
         ], function(input, expected) {
-            it("should return " + expected + " when passed " + input, function() {
+            it(`should return ${expected} when passed ${input}`, function() {
                 const result = ConfigFile.normalizePackageName(input, "eslint-config");
 
                 assert.equal(result, expected);
@@ -1027,7 +1027,7 @@ describe("ConfigFile", function() {
             ["YML", "foo.yml", yaml.safeLoad]
         ], function(fileType, filename, validate) {
 
-            it("should write a file through fs when a " + fileType + " path is passed", function() {
+            it(`should write a file through fs when a ${fileType} path is passed`, function() {
                 const fakeFS = leche.fake(fs);
 
                 sandbox.mock(fakeFS).expects("writeFileSync").withExactArgs(

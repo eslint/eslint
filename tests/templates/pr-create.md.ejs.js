@@ -133,7 +133,7 @@ describe("pr-create.md.ejs", function() {
     });
 
     ["Breaking", "Build", "Chore", "Docs", "Fix", "New", "Update", "Upgrade"].forEach(function(type) {
-        it("should not mention missing issue or length check when there's one " + type + " commit", function() {
+        it(`should not mention missing issue or length check when there's one ${type} commit`, function() {
             const result = ejs.render(TEMPLATE_TEXT, {
                 payload: {
                     sender: {
@@ -146,7 +146,7 @@ describe("pr-create.md.ejs", function() {
                     commits: [
                         {
                             commit: {
-                                message: type + ": Foo bar (fixes #1234)\nSome really long string. abcdefghijklmnopqrstuvwxyz abcdefghijklmnopqrstuvwxyz abcdefghijklmnopqrstuvwxyz"
+                                message: `${type}: Foo bar (fixes #1234)\nSome really long string. abcdefghijklmnopqrstuvwxyz abcdefghijklmnopqrstuvwxyz abcdefghijklmnopqrstuvwxyz`
                             }
                         }
                     ]

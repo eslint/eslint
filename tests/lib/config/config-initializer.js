@@ -63,7 +63,7 @@ describe("configInitializer", function() {
 
     // copy into clean area so as not to get "infected" by this project's .eslintrc files
     before(function() {
-        fixtureDir = os.tmpdir() + "/eslint/fixtures/config-initializer";
+        fixtureDir = `${os.tmpdir()}/eslint/fixtures/config-initializer`;
         sh.mkdir("-p", fixtureDir);
         sh.cp("-r", "./tests/fixtures/config-initializer/.", fixtureDir);
         fixtureDir = fs.realpathSync(fixtureDir);

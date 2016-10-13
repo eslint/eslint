@@ -26,7 +26,7 @@ const ruleTester = new RuleTester();
 function getExpectedError(lines) {
     const message = lines === 1
         ? "More than 1 blank line not allowed."
-        : "More than " + lines + " blank lines not allowed.";
+        : `More than ${lines} blank lines not allowed.`;
 
     return {
         message,
@@ -47,7 +47,7 @@ function getExpectedErrorEOF(lines) {
     }
 
     return {
-        message: "Too many blank lines at the end of file. Max of " + lines + " allowed.",
+        message: `Too many blank lines at the end of file. Max of ${lines} allowed.`,
         type: "Program",
         column: 1
     };
@@ -65,7 +65,7 @@ function getExpectedErrorBOF(lines) {
     }
 
     return {
-        message: "Too many blank lines at the beginning of file. Max of " + lines + " allowed.",
+        message: `Too many blank lines at the beginning of file. Max of ${lines} allowed.`,
         type: "Program",
         column: 1
     };
