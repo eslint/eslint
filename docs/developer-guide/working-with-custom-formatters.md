@@ -28,23 +28,24 @@ The output of the previous command will be something like this
                 "ruleId": "curly",
                 "severity": 2,
                 "message": "Expected { after 'if' condition.",
-                "line": 41,
-                "column": 2,
+                "line": 2,
+                "column": 1,
                 "nodeType": "IfStatement",
-                "source": "  if ( err ) console.log( 'failed tests: ' + err );"
+                "source": "if (err) console.log('failed tests: ' + err);"
             },
             {
                 "ruleId": "no-process-exit",
                 "severity": 2,
                 "message": "Don't use process.exit(); throw an error instead.",
-                "line": 42,
-                "column": 2,
+                "line": 3,
+                "column": 1,
                 "nodeType": "CallExpression",
-                "source": "  process.exit( exitCode );"
+                "source": "process.exit(1);"
             }
         ],
         "errorCount": 2,
-        "warningCount": 0
+        "warningCount": 0,
+        "source": "var err = doStuff();\nif (err) console.log('failed tests: ' + err);\nprocess.exit(1);\n"
     },
     {
         "filePath": "Gruntfile.js",
@@ -67,9 +68,11 @@ the list of messages for `errors` and/or `warnings`.
 The following are the fields of the result object:
 
 - **filePath**: The path to the file relative to the current working directory (the path from which eslint was executed).
-- **messages**: An array of message objects. See below for more info about messages
-- **errorCount**: The number of errors for the given file
-- **warningCount**: the number of warnings for the give file
+- **messages**: An array of message objects. See below for more info about messages.
+- **errorCount**: The number of errors for the given file.
+- **warningCount**: The number of warnings for the given file.
+- **source**: The source code for the given file. This property is omitted if this file has no errors/warnings or if the `output` property is present.
+- **output**: The source code for the given file with as many fixes applied as possible. This property is omitted if no fix is available.
 
 ### The message object
 
@@ -80,6 +83,8 @@ The following are the fields of the result object:
 - **column**: the colum where the issue is located.
 - **nodeType**: the type of the node in the [AST](https://github.com/estree/estree/blob/master/spec.md#node-objects)
 - **source**: a extract of the code the line where the failure happened.
+
+**Please note**: the `source` property will be removed from the message object in an upcoming breaking release. If you depend on this property, you should now use the `source` or `output` properties from [the result object](#the-result-object) instead.
 
 ## Examples
 
