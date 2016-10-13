@@ -52,7 +52,7 @@ function toValidInvalid(patterns, item) {
             parserOptions: {ecmaVersion: 6}
         },
         {
-            code: item.code + " // allow: " + item.allow,
+            code: `${item.code} // allow: ${item.allow}`,
             options: [{allow: [item.allow]}],
             parserOptions: {ecmaVersion: 6}
         }
@@ -72,7 +72,7 @@ function toValidInvalid(patterns, item) {
 
             // non related "allow" option has no effect.
             patterns.invalid.push({
-                code: item.code + " // allow: " + allow,
+                code: `${item.code} // allow: ${allow}`,
                 errors: [item.message],
                 options: [{allow: [allow]}],
                 parserOptions: {ecmaVersion: 6}

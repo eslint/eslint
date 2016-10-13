@@ -26,7 +26,7 @@ function createComplexity(complexity) {
     let funcString = "function test (a) { if (a === 1) {";
 
     for (let i = 2; i < complexity; i++) {
-        funcString += "} else if (a === " + i + ") {";
+        funcString += `} else if (a === ${i}) {`;
     }
 
     funcString += "} };";

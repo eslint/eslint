@@ -1120,7 +1120,7 @@ describe("CLIEngine", function() {
                     }
                 });
 
-                const report = engine.executeOnFiles([path.resolve(fixtureDir, fixtureDir + "/fixmode")]);
+                const report = engine.executeOnFiles([path.resolve(fixtureDir, `${fixtureDir}/fixmode`)]);
 
                 report.results.forEach(convertCRLF);
                 assert.deepEqual(report, {
@@ -1192,7 +1192,7 @@ describe("CLIEngine", function() {
                     useEslintrc: false
                 });
 
-                const report = engine.executeOnFiles([fs.realpathSync(fixtureDir + "/config-hierarchy/broken/console-wrong-quotes.js")]);
+                const report = engine.executeOnFiles([fs.realpathSync(`${fixtureDir}/config-hierarchy/broken/console-wrong-quotes.js`)]);
 
                 assert.equal(report.results.length, 1);
                 assert.equal(report.results[0].messages.length, 0);
@@ -1207,7 +1207,7 @@ describe("CLIEngine", function() {
                     useEslintrc: false
                 });
 
-                const report = engine.executeOnFiles([fs.realpathSync(fixtureDir + "/config-hierarchy/broken/console-wrong-quotes-node.js")]);
+                const report = engine.executeOnFiles([fs.realpathSync(`${fixtureDir}/config-hierarchy/broken/console-wrong-quotes-node.js`)]);
 
                 assert.equal(report.results.length, 1);
                 assert.equal(report.results[0].messages.length, 0);
@@ -1220,7 +1220,7 @@ describe("CLIEngine", function() {
                     cwd: path.join(fixtureDir, "..")
                 });
 
-                const report = engine.executeOnFiles([fs.realpathSync(fixtureDir + "/config-hierarchy/broken/process-exit.js")]);
+                const report = engine.executeOnFiles([fs.realpathSync(`${fixtureDir}/config-hierarchy/broken/process-exit.js`)]);
 
                 assert.equal(report.results.length, 1);
                 assert.equal(report.results[0].messages.length, 0);
@@ -1233,7 +1233,7 @@ describe("CLIEngine", function() {
                     cwd: path.join(fixtureDir, "..")
                 });
 
-                const report = engine.executeOnFiles([fs.realpathSync(fixtureDir + "/config-hierarchy/broken/process-exit.js")]);
+                const report = engine.executeOnFiles([fs.realpathSync(`${fixtureDir}/config-hierarchy/broken/process-exit.js`)]);
 
                 assert.equal(report.results.length, 1);
                 assert.equal(report.results[0].messages.length, 0);
@@ -1246,7 +1246,7 @@ describe("CLIEngine", function() {
                     cwd: path.join(fixtureDir, "..")
                 });
 
-                const report = engine.executeOnFiles([fs.realpathSync(fixtureDir + "/config-hierarchy/broken/console-wrong-quotes.js")]);
+                const report = engine.executeOnFiles([fs.realpathSync(`${fixtureDir}/config-hierarchy/broken/console-wrong-quotes.js`)]);
 
                 assert.equal(report.results.length, 1);
                 assert.equal(report.results[0].messages.length, 1);
@@ -1261,7 +1261,7 @@ describe("CLIEngine", function() {
                     cwd: path.join(fixtureDir, "..")
                 });
 
-                const report = engine.executeOnFiles([fs.realpathSync(fixtureDir + "/config-hierarchy/broken/subbroken/console-wrong-quotes.js")]);
+                const report = engine.executeOnFiles([fs.realpathSync(`${fixtureDir}/config-hierarchy/broken/subbroken/console-wrong-quotes.js`)]);
 
                 assert.equal(report.results.length, 1);
                 assert.equal(report.results[0].messages.length, 1);
@@ -1276,7 +1276,7 @@ describe("CLIEngine", function() {
                     cwd: path.join(fixtureDir, "..")
                 });
 
-                const report = engine.executeOnFiles([fs.realpathSync(fixtureDir + "/config-hierarchy/broken/subbroken/subsubbroken/console-wrong-quotes.js")]);
+                const report = engine.executeOnFiles([fs.realpathSync(`${fixtureDir}/config-hierarchy/broken/subbroken/subsubbroken/console-wrong-quotes.js`)]);
 
                 assert.equal(report.results.length, 1);
                 assert.equal(report.results[0].messages.length, 1);
@@ -1291,7 +1291,7 @@ describe("CLIEngine", function() {
                     cwd: path.join(fixtureDir, "..")
                 });
 
-                const report = engine.executeOnFiles([fs.realpathSync(fixtureDir + "/config-hierarchy/packagejson/subdir/wrong-quotes.js")]);
+                const report = engine.executeOnFiles([fs.realpathSync(`${fixtureDir}/config-hierarchy/packagejson/subdir/wrong-quotes.js`)]);
 
                 assert.equal(report.results.length, 1);
                 assert.equal(report.results[0].messages.length, 1);
@@ -1306,7 +1306,7 @@ describe("CLIEngine", function() {
                     cwd: path.join(fixtureDir, "..")
                 });
 
-                const report = engine.executeOnFiles([fs.realpathSync(fixtureDir + "/config-hierarchy/packagejson/subdir/subsubdir/wrong-quotes.js")]);
+                const report = engine.executeOnFiles([fs.realpathSync(`${fixtureDir}/config-hierarchy/packagejson/subdir/subsubdir/wrong-quotes.js`)]);
 
                 assert.equal(report.results.length, 1);
                 assert.equal(report.results[0].messages.length, 0);
@@ -1319,7 +1319,7 @@ describe("CLIEngine", function() {
                     cwd: path.join(fixtureDir, "..")
                 });
 
-                const report = engine.executeOnFiles([fs.realpathSync(fixtureDir + "/config-hierarchy/packagejson/subdir/subsubdir/subsubsubdir/wrong-quotes.js")]);
+                const report = engine.executeOnFiles([fs.realpathSync(`${fixtureDir}/config-hierarchy/packagejson/subdir/subsubdir/subsubsubdir/wrong-quotes.js`)]);
 
                 assert.equal(report.results.length, 1);
                 assert.equal(report.results[0].messages.length, 1);
@@ -1334,7 +1334,7 @@ describe("CLIEngine", function() {
                     cwd: path.join(fixtureDir, "..")
                 });
 
-                const report = engine.executeOnFiles([fs.realpathSync(fixtureDir + "/config-hierarchy/packagejson/wrong-quotes.js")]);
+                const report = engine.executeOnFiles([fs.realpathSync(`${fixtureDir}/config-hierarchy/packagejson/wrong-quotes.js`)]);
 
                 assert.equal(report.results.length, 1);
                 assert.equal(report.results[0].messages.length, 1);
@@ -1347,10 +1347,10 @@ describe("CLIEngine", function() {
 
                 engine = new CLIEngine({
                     cwd: path.join(fixtureDir, ".."),
-                    configFile: fixtureDir + "/config-hierarchy/broken/add-conf.yaml"
+                    configFile: `${fixtureDir}/config-hierarchy/broken/add-conf.yaml`
                 });
 
-                const report = engine.executeOnFiles([fs.realpathSync(fixtureDir + "/config-hierarchy/broken/console-wrong-quotes.js")]);
+                const report = engine.executeOnFiles([fs.realpathSync(`${fixtureDir}/config-hierarchy/broken/console-wrong-quotes.js`)]);
 
                 assert.equal(report.results.length, 1);
                 assert.equal(report.results[0].messages.length, 2);
@@ -1365,10 +1365,10 @@ describe("CLIEngine", function() {
 
                 engine = new CLIEngine({
                     cwd: path.join(fixtureDir, ".."),
-                    configFile: fixtureDir + "/config-hierarchy/broken/override-conf.yaml"
+                    configFile: `${fixtureDir}/config-hierarchy/broken/override-conf.yaml`
                 });
 
-                const report = engine.executeOnFiles([fs.realpathSync(fixtureDir + "/config-hierarchy/broken/console-wrong-quotes.js")]);
+                const report = engine.executeOnFiles([fs.realpathSync(`${fixtureDir}/config-hierarchy/broken/console-wrong-quotes.js`)]);
 
                 assert.equal(report.results.length, 1);
                 assert.equal(report.results[0].messages.length, 0);
@@ -1379,10 +1379,10 @@ describe("CLIEngine", function() {
 
                 engine = new CLIEngine({
                     cwd: path.join(fixtureDir, ".."),
-                    configFile: fixtureDir + "/config-hierarchy/broken/add-conf.yaml"
+                    configFile: `${fixtureDir}/config-hierarchy/broken/add-conf.yaml`
                 });
 
-                const report = engine.executeOnFiles([fs.realpathSync(fixtureDir + "/config-hierarchy/broken/subbroken/console-wrong-quotes.js")]);
+                const report = engine.executeOnFiles([fs.realpathSync(`${fixtureDir}/config-hierarchy/broken/subbroken/console-wrong-quotes.js`)]);
 
                 assert.equal(report.results.length, 1);
                 assert.equal(report.results[0].messages.length, 2);
@@ -1400,7 +1400,7 @@ describe("CLIEngine", function() {
                     configFile: getFixturePath("config-hierarchy/broken/override-conf.yaml")
                 });
 
-                const report = engine.executeOnFiles([fs.realpathSync(fixtureDir + "/config-hierarchy/broken/subbroken/console-wrong-quotes.js")]);
+                const report = engine.executeOnFiles([fs.realpathSync(`${fixtureDir}/config-hierarchy/broken/subbroken/console-wrong-quotes.js`)]);
 
                 assert.equal(report.results.length, 1);
                 assert.equal(report.results[0].messages.length, 1);
@@ -1413,10 +1413,10 @@ describe("CLIEngine", function() {
 
                 engine = new CLIEngine({
                     cwd: path.join(fixtureDir, ".."),
-                    configFile: fixtureDir + "/config-hierarchy/broken/override-conf.yaml"
+                    configFile: `${fixtureDir}/config-hierarchy/broken/override-conf.yaml`
                 });
 
-                const report = engine.executeOnFiles([fs.realpathSync(fixtureDir + "/config-hierarchy/broken/console-wrong-quotes.js")]);
+                const report = engine.executeOnFiles([fs.realpathSync(`${fixtureDir}/config-hierarchy/broken/console-wrong-quotes.js`)]);
 
                 assert.equal(report.results.length, 1);
                 assert.equal(report.results[0].messages.length, 0);
@@ -1433,7 +1433,7 @@ describe("CLIEngine", function() {
                     }
                 });
 
-                const report = engine.executeOnFiles([fs.realpathSync(fixtureDir + "/config-hierarchy/broken/console-wrong-quotes.js")]);
+                const report = engine.executeOnFiles([fs.realpathSync(`${fixtureDir}/config-hierarchy/broken/console-wrong-quotes.js`)]);
 
                 assert.equal(report.results.length, 1);
                 assert.equal(report.results[0].messages.length, 1);
@@ -1638,7 +1638,7 @@ describe("CLIEngine", function() {
 
                     engine.executeOnFiles([file]);
 
-                    assert.isTrue(shell.test("-f", path.resolve("./tmp/.cacheFileDir/.cache_" + hash(process.cwd()))), "the cache for eslint was created");
+                    assert.isTrue(shell.test("-f", path.resolve(`./tmp/.cacheFileDir/.cache_${hash(process.cwd())}`)), "the cache for eslint was created");
 
                     sandbox.restore();
                 });
@@ -1665,7 +1665,7 @@ describe("CLIEngine", function() {
 
                 engine.executeOnFiles([file]);
 
-                assert.isTrue(shell.test("-f", path.resolve("./tmp/.cacheFileDir/.cache_" + hash(process.cwd()))), "the cache for eslint was created");
+                assert.isTrue(shell.test("-f", path.resolve(`./tmp/.cacheFileDir/.cache_${hash(process.cwd())}`)), "the cache for eslint was created");
 
                 sandbox.restore();
             });
@@ -2345,7 +2345,7 @@ describe("CLIEngine", function() {
 
             assert.throws(function() {
                 engine.getFormatter(formatterPath);
-            }, "There was a problem loading formatter: " + formatterPath + "\nError: Cannot find module '" + formatterPath + "'");
+            }, `There was a problem loading formatter: ${formatterPath}\nError: Cannot find module '${formatterPath}'`);
         });
 
         it("should return null when a built-in formatter doesn't exist", function() {
@@ -2362,7 +2362,7 @@ describe("CLIEngine", function() {
 
             assert.throws(function() {
                 engine.getFormatter(formatterPath);
-            }, "There was a problem loading formatter: " + formatterPath + "\nError: Cannot find module 'this-module-does-not-exist'");
+            }, `There was a problem loading formatter: ${formatterPath}\nError: Cannot find module 'this-module-does-not-exist'`);
         });
 
         it("should return null when a non-string formatter name is passed", function() {
@@ -2517,7 +2517,7 @@ describe("CLIEngine", function() {
             ["../", "../**/*.js"]
         ], function(input, expected) {
 
-            it("should correctly resolve " + input + " to " + expected, function() {
+            it(`should correctly resolve ${input} to ${expected}`, function() {
                 const engine = new CLIEngine();
 
                 const result = engine.resolveFileGlobPatterns([input]);

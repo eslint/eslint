@@ -59,7 +59,7 @@ describe("SourceCodeUtil", function() {
 
     // copy into clean area so as not to get "infected" by this project's .eslintrc files
     before(function() {
-        fixtureDir = os.tmpdir() + "/eslint/fixtures/source-code-util";
+        fixtureDir = `${os.tmpdir()}/eslint/fixtures/source-code-util`;
         sh.mkdir("-p", fixtureDir);
         sh.cp("-r", "./tests/fixtures/source-code-util/.", fixtureDir);
         fixtureDir = fs.realpathSync(fixtureDir);
