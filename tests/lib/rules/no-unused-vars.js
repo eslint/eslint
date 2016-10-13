@@ -256,6 +256,16 @@ ruleTester.run("no-unused-vars", rule, {
             options: [{argsIgnorePattern: "[cd]"}],
             parserOptions: {ecmaVersion: 6},
         },
+
+        // https://github.com/eslint/eslint/issues/7351
+        {
+            code: "(class { set foo(UNUSED) {} })",
+            parserOptions: {ecmaVersion: 6}
+        },
+        {
+            code: "class Foo { set bar(UNUSED) {} } console.log(Foo)",
+            parserOptions: {ecmaVersion: 6}
+        }
     ],
     invalid: [
         { code: "function foox() { return foox(); }", errors: [definedError("foox")] },
