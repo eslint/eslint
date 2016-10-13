@@ -1,10 +1,11 @@
 # Disallow unnecessary escape usage (no-useless-escape)
 
-Escaping non-special characters in strings and regular expressions doesn't have any effects on results, as in the following example:
+Escaping non-special characters in strings, template literals, and regular expressions doesn't have any effect, as demonstrated in the following example:
 
 ```js
 let foo = "hol\a"; // > foo = "hola"
-let bar = /\:/ // same functionality with /:/
+let bar = `${foo}\!`; // > bar = "hola!"
+let baz = /\:/ // same functionality with /:/
 ```
 
 ## Rule Details
@@ -20,6 +21,9 @@ The following patterns are considered problems:
 '\"';
 "\#";
 "\e";
+`\"`;
+`\"${foo}\"`;
+`\#{foo}`;
 /\!/;
 /\@/;
 
@@ -36,6 +40,9 @@ The following patterns are not considered problems:
 "\u00a9";
 "\371";
 "xs\u2111";
+`\``;
+`\${${foo}\}`;
+`$\{${foo}\}`;
 /\\/g;
 /\t/g;
 /\\w\\$\\*\\^\\./;
