@@ -274,7 +274,8 @@ describe("CLIEngine", function() {
                             }
                         ],
                         errorCount: 1,
-                        warningCount: 0
+                        warningCount: 0,
+                        source: "var bar = foo"
                     }
                 ],
                 errorCount: 1,
@@ -349,7 +350,92 @@ describe("CLIEngine", function() {
                             }
                         ],
                         errorCount: 1,
-                        warningCount: 0
+                        warningCount: 0,
+                        source: "var bar ="
+                    }
+                ],
+                errorCount: 1,
+                warningCount: 0
+            });
+        });
+
+        it("should return source code of file in `source` property when errors are present", function() {
+            engine = new CLIEngine({
+                useEslintrc: false,
+                rules: { semi: 2 }
+            });
+
+            const report = engine.executeOnText("var foo = 'bar'");
+
+            assert.equal(report.results[0].source, "var foo = 'bar'");
+        });
+
+        it("should return source code of file in `source` property when warnings are present", function() {
+            engine = new CLIEngine({
+                useEslintrc: false,
+                rules: { semi: 1 }
+            });
+
+            const report = engine.executeOnText("var foo = 'bar'");
+
+            assert.equal(report.results[0].source, "var foo = 'bar'");
+        });
+
+
+        it("should not return a `source` property when no errors or warnings are present", function() {
+            engine = new CLIEngine({
+                useEslintrc: false,
+                rules: { semi: 2 }
+            });
+
+            const report = engine.executeOnText("var foo = 'bar';");
+
+            assert.lengthOf(report.results[0].messages, 0);
+            assert.isUndefined(report.results[0].source);
+        });
+
+        it("should not return a `source` property when fixes are applied", function() {
+            engine = new CLIEngine({
+                useEslintrc: false,
+                fix: true,
+                rules: {
+                    semi: 2,
+                    "no-unused-vars": 2
+                }
+            });
+
+            const report = engine.executeOnText("var msg = 'hi' + foo\n");
+
+            assert.isUndefined(report.results[0].source);
+            assert.equal(report.results[0].output, "var msg = 'hi' + foo;\n");
+        });
+
+        it("should return a `source` property when a parsing error has occurred", function() {
+            engine = new CLIEngine({
+                useEslintrc: false,
+                rules: { semi: 2 }
+            });
+
+            const report = engine.executeOnText("var bar = foothis is a syntax error.\n return bar;");
+
+            assert.deepEqual(report, {
+                results: [
+                    {
+                        filePath: "<text>",
+                        messages: [
+                            {
+                                ruleId: null,
+                                fatal: true,
+                                severity: 2,
+                                message: "Parsing error: Unexpected token is",
+                                line: 1,
+                                column: 19,
+                                source: "var bar = foothis is a syntax error."
+                            }
+                        ],
+                        errorCount: 1,
+                        warningCount: 0,
+                        source: "var bar = foothis is a syntax error.\n return bar;"
                     }
                 ],
                 errorCount: 1,
@@ -2435,6 +2521,39 @@ describe("CLIEngine", function() {
             assert.equal(report.warningCount, 1);
             assert.equal(report.results[0].errorCount, 0);
             assert.equal(report.results[0].warningCount, 1);
+        });
+
+        it("should return source code of file in the `source` property", function() {
+            process.chdir(originalDir);
+            const engine = new CLIEngine({
+                useEslintrc: false,
+                rules: { quotes: [2, "double"] }
+            });
+
+
+            const report = engine.executeOnText("var foo = 'bar';");
+            const errorResults = CLIEngine.getErrorResults(report.results);
+
+            assert.lengthOf(errorResults[0].messages, 1);
+            assert.equal(errorResults[0].source, "var foo = 'bar';");
+        });
+
+        it("should contain `output` property after fixes", function() {
+            process.chdir(originalDir);
+            const engine = new CLIEngine({
+                useEslintrc: false,
+                fix: true,
+                rules: {
+                    semi: 2,
+                    "no-console": 2
+                }
+            });
+
+            const report = engine.executeOnText("console.log('foo')");
+            const errorResults = CLIEngine.getErrorResults(report.results);
+
+            assert.lengthOf(errorResults[0].messages, 1);
+            assert.equal(errorResults[0].output, "console.log('foo');");
         });
     });
 
