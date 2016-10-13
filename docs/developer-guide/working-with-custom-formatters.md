@@ -84,6 +84,8 @@ The following are the fields of the result object:
 - **nodeType**: the type of the node in the [AST](https://github.com/estree/estree/blob/master/spec.md#node-objects)
 - **source**: a extract of the code the line where the failure happened.
 
+**Please note**: the `source` property will be removed from the message object in an upcoming breaking release. If you depend on this property, you should now use the `source` or `output` properties from [the result object](#the-result-object) instead.
+
 ## Examples
 
 ### Summary formatter

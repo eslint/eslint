@@ -124,6 +124,8 @@ The information available for each linting message is:
 * `endLine` - the end line of the range on which the error occurred (this property is omitted if it's not range).
 * `fix` - an object describing the fix for the problem (this property is omitted if no fix is available).
 
+**Please note**: the `source` property will be removed from the linting messages in an upcoming breaking release. If you depend on this property, you can still use the `getSourceCode` method described below to get the line of code for each message.
+
 You can also get an instance of the `SourceCode` object used inside of `linter` by using the `getSourceCode()` method:
 
 ```js
@@ -249,6 +251,8 @@ The top-level report object has a `results` array containing all linting results
 * `output` - The source code for the given file with as many fixes applied as possible, so you can use that to rewrite the files if necessary. This property is omitted if no fix is available.
 
 The top-level report object also has `errorCount` and `warningCount` which give the exact number of errors and warnings respectively on all the files.
+
+**Please note**: the `source` property will be removed from the linting messages returned in `messages` in an upcoming breaking release. If you depend on this property, you should now use the top-level `source` or `output` properties instead.
 
 Once you get a report object, it's up to you to determine how to output the results. Fixes will not be automatically applied to the files, even if you set `fix: true` when constructing the `CLIEngine` instance. To apply fixes to the files, call [`outputFixes`](#outputfixes).
 
