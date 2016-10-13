@@ -13,10 +13,10 @@ const EXECUTABLE_PATH = require("path").resolve(`${__dirname}/../../bin/eslint.j
 /**
 * Returns a Promise for when a child process exits
 * @param {ChildProcess} exitingProcess The child process
-* @returns {Promise} A Promise that fulfills when the child process exits
+* @returns {Promise<number>} A Promise that fulfills with the exit code when the child process exits
 */
 function awaitExit(exitingProcess) {
-    return new Promise(resolve => exitingProcess.once("exit", () => resolve()));
+    return new Promise(resolve => exitingProcess.once("exit", resolve));
 }
 
 /**
@@ -26,14 +26,8 @@ function awaitExit(exitingProcess) {
 * @returns {Promise} A Promise that fufills if the exit code ends up matching, and rejects otherwise.
 */
 function assertExitCode(exitingProcess, expectedExitCode) {
-    return new Promise((resolve, reject) => {
-        exitingProcess.once("exit", exitCode => {
-            if (exitCode === expectedExitCode) {
-                resolve();
-            } else {
-                reject(new Error(`Expected an exit code of ${expectedExitCode} but got ${exitCode}.`));
-            }
-        });
+    return awaitExit(exitingProcess).then(exitCode => {
+        assert.strictEqual(exitCode, expectedExitCode, `Expected an exit code of ${expectedExitCode} but got ${exitCode}.`);
     });
 }
 
@@ -45,13 +39,8 @@ function assertExitCode(exitingProcess, expectedExitCode) {
 function getStdout(runningProcess) {
     let stdout = "";
 
-    runningProcess.stdout.on("data", data => {
-        stdout += data;
-    });
-
-    return new Promise(resolve => {
-        runningProcess.once("exit", () => resolve(stdout));
-    });
+    runningProcess.stdout.on("data", data => (stdout += data));
+    return awaitExit(runningProcess).then(() => stdout);
 }
 
 describe("bin/eslint.js", () => {
