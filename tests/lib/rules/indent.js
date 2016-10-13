@@ -1622,6 +1622,14 @@ ruleTester.run("indent", rule, {
             "  );\n" +
             "}",
             options: [2]
+        },
+        {
+            code:
+            "function foo() {\n" +
+            "  return ((bar === 1 || bar === 2) &&\n" +
+            "    (z === 3 || z === 4));\n" +
+            "}",
+            options: [2]
         }
     ],
     invalid: [
