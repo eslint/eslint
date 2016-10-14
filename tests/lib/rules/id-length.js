@@ -35,6 +35,8 @@ ruleTester.run("id-length", rule, {
         "var xyz = new ΣΣ();",
         "unrelatedExpressionThatNeedsToBeIgnored();",
         "var obj = { 'a': 1, bc: 2 }; obj.tk = obj.a;",
+        "var query = location.query.q || '';",
+        "var query = location.query.q ? location.query.q : ''",
         { code: "var x = Foo(42)", options: [{ min: 1 }] },
         { code: "var x = Foo(42)", options: [{ min: 0 }] },
         { code: "foo.$x = Foo(42)", options: [{ min: 1 }] },
@@ -64,6 +66,7 @@ ruleTester.run("id-length", rule, {
     invalid: [
         { code: "var x = 1;", errors: [{ message: "Identifier name 'x' is too short (< 2).", type: "Identifier" }] },
         { code: "var x;", errors: [{ message: "Identifier name 'x' is too short (< 2).", type: "Identifier" }] },
+        { code: "obj.e = document.body;", errors: [{ message: "Identifier name 'e' is too short (< 2).", type: "Identifier" }] },
         { code: "function x() {};", errors: [{ message: "Identifier name 'x' is too short (< 2).", type: "Identifier" }] },
         { code: "function xyz(a) {};", errors: [{ message: "Identifier name 'a' is too short (< 2).", type: "Identifier" }] },
         { code: "var obj = { a: 1, bc: 2 };", errors: [{ message: "Identifier name 'a' is too short (< 2).", type: "Identifier" }] },
