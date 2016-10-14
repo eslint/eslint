@@ -476,7 +476,50 @@ describe("ConfigOps", function() {
             });
         });
 
+        describe("overrides", function() {
+            it("should combine the override entries in the correct order", function() {
+                const baseConfig = { overrides: [ { files: [ "**/*Spec.js" ], env: { mocha: true } } ] };
+                const customConfig = { overrides: [ { files: [ "**/*.jsx" ], ecmaFeatures: { jsx: true } } ] };
+                const expectedResult = {
+                    overrides: [
+                        { files: [ "**/*Spec.js" ], env: { mocha: true } },
+                        { files: [ "**/*.jsx" ], ecmaFeatures: { jsx: true } }
+                    ]
+                };
 
+                const result = ConfigOps.merge(baseConfig, customConfig);
+
+                assert.deepEqual(result, expectedResult);
+            });
+
+            it("should work if the base config doesn’t have an overrides property", function() {
+                const baseConfig = {};
+                const customConfig = { overrides: [ { files: [ "**/*.jsx" ], ecmaFeatures: { jsx: true } } ] };
+                const expectedResult = {
+                    overrides: [
+                        { files: [ "**/*.jsx" ], ecmaFeatures: { jsx: true } }
+                    ]
+                };
+
+                const result = ConfigOps.merge(baseConfig, customConfig);
+
+                assert.deepEqual(result, expectedResult);
+            });
+
+            it("should work if the custom config doesn’t have an overrides property", function() {
+                const baseConfig = { overrides: [ { files: [ "**/*Spec.js" ], env: { mocha: true } } ] };
+                const customConfig = {};
+                const expectedResult = {
+                    overrides: [
+                        { files: [ "**/*Spec.js" ], env: { mocha: true } }
+                    ]
+                };
+
+                const result = ConfigOps.merge(baseConfig, customConfig);
+
+                assert.deepEqual(result, expectedResult);
+            });
+        });
     });
 
     describe("normalize()", function() {
