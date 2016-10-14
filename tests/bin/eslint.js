@@ -1,13 +1,23 @@
 /**
- * @fileoverview Tests for the eslint.js executable.
+ * @fileoverview Integration tests for the eslint.js executable.
  * @author Teddy Katz
  */
 
 "use strict";
 
 const childProcess = require("child_process");
+const fs = require("fs");
 const assert = require("chai").assert;
 const EXECUTABLE_PATH = require("path").resolve(`${__dirname}/../../bin/eslint.js`);
+
+/**
+* Returns a Promise for when a child process exits
+* @param {ChildProcess} exitingProcess The child process
+* @returns {Promise<number>} A Promise that fulfills with the exit code when the child process exits
+*/
+function awaitExit(exitingProcess) {
+    return new Promise(resolve => exitingProcess.once("exit", resolve));
+}
 
 /**
 * Asserts that the exit code of a given child process will equal the given value.
@@ -16,14 +26,8 @@ const EXECUTABLE_PATH = require("path").resolve(`${__dirname}/../../bin/eslint.j
 * @returns {Promise} A Promise that fufills if the exit code ends up matching, and rejects otherwise.
 */
 function assertExitCode(exitingProcess, expectedExitCode) {
-    return new Promise((resolve, reject) => {
-        exitingProcess.once("exit", exitCode => {
-            if (exitCode === expectedExitCode) {
-                resolve();
-            } else {
-                reject(new Error(`Expected an exit code of ${expectedExitCode} but got ${exitCode}.`));
-            }
-        });
+    return awaitExit(exitingProcess).then(exitCode => {
+        assert.strictEqual(exitCode, expectedExitCode, `Expected an exit code of ${expectedExitCode} but got ${exitCode}.`);
     });
 }
 
@@ -35,13 +39,8 @@ function assertExitCode(exitingProcess, expectedExitCode) {
 function getStdout(runningProcess) {
     let stdout = "";
 
-    runningProcess.stdout.on("data", data => {
-        stdout += data;
-    });
-
-    return new Promise(resolve => {
-        runningProcess.once("exit", () => resolve(stdout));
-    });
+    runningProcess.stdout.on("data", data => (stdout += data));
+    return awaitExit(runningProcess).then(() => stdout);
 }
 
 describe("bin/eslint.js", () => {
@@ -106,6 +105,41 @@ describe("bin/eslint.js", () => {
         it("has exit code 0 if a linting warning is reported", () => assertExitCode(runESLint(["bin/eslint.js", "--env", "es6", "--no-eslintrc", "--rule", "semi: [1, never]"]), 0));
         it("has exit code 1 if a linting error is reported", () => assertExitCode(runESLint(["bin/eslint.js", "--env", "es6", "--no-eslintrc", "--rule", "semi: [2, never]"]), 1));
         it("has exit code 1 if a syntax error is thrown", () => assertExitCode(runESLint(["README.md"]), 1));
+    });
+
+    describe("automatically fixing files", () => {
+        const fixturesPath = `${__dirname}/../fixtures/autofix-integration`;
+        const tempFilePath = `${fixturesPath}/temp.js`;
+        const startingText = fs.readFileSync(`${fixturesPath}/left-pad.js`).toString();
+        const expectedFixedText = fs.readFileSync(`${fixturesPath}/left-pad-expected.js`).toString();
+
+        beforeEach(() => {
+            fs.writeFileSync(tempFilePath, startingText);
+        });
+
+        it("has exit code 0 and fixes a file if all rules can be fixed", () => {
+            const child = runESLint(["--fix", "--no-eslintrc", "--no-ignore", tempFilePath]);
+            const exitCodeAssertion = assertExitCode(child, 0);
+            const outputFileAssertion = awaitExit(child).then(() => {
+                assert.strictEqual(fs.readFileSync(tempFilePath).toString(), expectedFixedText);
+            });
+
+            return Promise.all([exitCodeAssertion, outputFileAssertion]);
+        });
+
+        it("has exit code 1 and fixes a file if not all rules can be fixed", () => {
+            const child = runESLint(["--fix", "--no-eslintrc", "--no-ignore", "--rule", "max-len: [2, 10]", tempFilePath]);
+            const exitCodeAssertion = assertExitCode(child, 1);
+            const outputFileAssertion = awaitExit(child).then(() => {
+                assert.strictEqual(fs.readFileSync(tempFilePath).toString(), expectedFixedText);
+            });
+
+            return Promise.all([exitCodeAssertion, outputFileAssertion]);
+        });
+
+        afterEach(() => {
+            fs.unlinkSync(tempFilePath);
+        });
     });
 
     afterEach(() => {
