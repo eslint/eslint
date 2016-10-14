@@ -39,6 +39,8 @@ Committers may merge a pull request if it is a non-breaking change and is:
 1. A dependency upgrade
 1. Related to the build system
 
+In addition, committers may merge any non-breaking pull request if it has been approved by at least one TSC member.
+
 TSC members may merge all pull requests, including those that committers may merge.
 
 ## When to Merge a Pull Request
@@ -86,4 +88,3 @@ If a pull request hasn't been updated in 30 days:
 If a pull request submitter isn't willing to follow project guidelines.
 
 > Unfortunately, we can't accept pull requests that don't follow our guidelines. I'm going to close this pull request now, but if you'd like to resubmit following our guidelines, we'll be happy to review.
-
