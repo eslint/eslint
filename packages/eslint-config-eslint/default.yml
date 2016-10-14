@@ -92,6 +92,7 @@ rules:
     object-shorthand: "error"
     one-var-declaration-per-line: "error"
     prefer-const: "error"
+    prefer-template: "error"
     quotes: ["error", "double"]
     quote-props: ["error", "as-needed"]
     radix: "error"
