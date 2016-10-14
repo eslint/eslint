@@ -13,16 +13,17 @@
     If the item you've checked above has a template, please paste the template questions below and answer them. (If this pull request is addressing an issue, you can just paste a link to the issue here instead.)
 -->
 
+<!--
+    Please ensure your pull request is ready:
+
+    - Read the pull request guide (http://eslint.org/docs/developer-guide/contributing/pull-requests)
+    - Include tests for this change
+    - Update documentation for this change (if appropriate)
+-->
 
 <!--
     The following is required for all pull requests:
 -->
-
-**Please check each item to ensure your pull request is ready:**
-
-- [ ] I've read the [pull request guide](http://eslint.org/docs/developer-guide/contributing/pull-requests)
-- [ ] I've included tests for my change
-- [ ] I've updated documentation for my change (if appropriate)
 
 **What changes did you make? (Give an overview)**
 
