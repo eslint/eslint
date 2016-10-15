@@ -2971,6 +2971,49 @@ ruleTester.run("indent", rule, {
             "}",
             options: [2, {FunctionExpression: {parameters: 3}}],
             errors: expectedErrors([3, 8, 10, "Identifier"])
-        }
+        },
+        {
+            code: `
+{
+    try {
+    }
+catch (err) {
+    }
+finally {
+    }
+}
+`,
+            output: `
+{
+    try {
+    }
+    catch (err) {
+    }
+    finally {
+    }
+}
+`,
+            errors: expectedErrors([
+                [5, 4, 0, "Keyword"],
+                [7, 4, 0, "Keyword"]
+            ])
+        },
+        {
+            code: `
+{
+    do {
+    }
+while (true)
+}
+`,
+            output: `
+{
+    do {
+    }
+    while (true)
+}
+`,
+            errors: expectedErrors([5, 4, 0, "Keyword"])
+        },
     ]
 });
