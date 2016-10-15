@@ -45,22 +45,29 @@ const ONE_BLANK = "var greet = 'hello';\n\nconsole.log(greet);",
     NEXT_LINE_COMMENT_ONE_BLANK = "var greet = 'hello';\n// next-line comment\n\nconsole.log(greet);",
     NEXT_LINE_BLOCK_COMMENT_ONE_BLANK = "var greet = 'hello';\n/* block comment\nblock comment */\n\nconsole.log(greet);",
     NEXT_LINE_TWO_COMMENTS_ONE_BLANK = "var greet = 'hello';\n// next-line comment\n// second-line comment\n\nconsole.log(greet);",
+    NEXT_LINE_COMMENT_BLOCK_COMMENT_ONE_BLANK = "var greet = 'hello';\n// next-line comment\n/* block comment\nblock comment */\n\nconsole.log(greet);",
     MIXED_COMMENT_ONE_BLANK = "var greet = 'hello';\n// inline comment\nvar name = 'world';\n\nconsole.log(greet, name);",
     MIXED_BLOCK_COMMENT_ONE_BLANK = "var greet = 'hello';\n/* block comment\nblock comment */\nvar name = 'world';\n\nconsole.log(greet, name);",
     MULTI_VAR_ONE_BLANK = "var greet = 'hello';\nvar name = 'world';\n\nconsole.log(greet, name);",
+    MULTI_VAR_NO_BREAK_ONE_BLANK = "var greet = 'hello';var name = 'world';\n\nconsole.log(greet, name);",
     MULTI_DEC_ONE_BLANK = "var greet = 'hello', name = 'world';\n\nconsole.log(greet, name);",
     MULTI_LINE_ONE_BLANK = "var greet = 'hello',\nname = 'world';\n\nconsole.log(greet, name);",
     MULTI_LINE_ONE_BLANK_WITH_COMMENTS = "var greet = 'hello', // inline comment\nname = 'world'; // inline comment\n\nconsole.log(greet, name);",
+    MULTI_LINE_NEXT_LINE_COMMENT_ONE_BLANK = "var greet = 'hello',\nname = 'world';\n// next-line comment\n\nconsole.log(greet);",
+    MULTI_LINE_NEXT_LINE_BLOCK_COMMENT_ONE_BLANK = "var greet = 'hello',\nname = 'world';\n/* block comment\nblock comment */\n\nconsole.log(greet);",
     LET_ONE_BLANK = "let greet = 'hello';\n\nconsole.log(greet);",
     CONST_ONE_BLANK = "const greet = 'hello';\n\nconsole.log(greet);",
     MIXED_LET_VAR = "let greet = 'hello';\nvar name = 'world';\n\nconsole.log(greet, name);",
     MIXED_CONST_VAR = "const greet = 'hello';\nvar name = 'world';\n\nconsole.log(greet, name);",
     MIXED_LET_CONST = "let greet = 'hello';\nconst name = 'world';\n\nconsole.log(greet, name);",
+    NOT_END_OF_FUNCTION_ONE_BLANK = "function example() {\nvar greet = 'hello';\n\nconsole.log(greet);\n}",
+    NOT_END_OF_FUNCTION_EXPRESSION_ONE_BLANK = "var f = function() {\nvar greet = 'hello';\n\nconsole.log(greet);\n};",
+    NOT_END_OF_ARROW_FUNCTION_ONE_BLANK = "() => {\nvar greet = 'hello';\n\nconsole.log(greet);\n}",
     ONE_BLANK_BEFORE_CASE = "switch(a) {\ncase 0:\nvar foo;\n\ncase 1:}";
 
 
 // Valid for "Never"
-const NO_BREAK = "var greet = 'hello'; console.log(greet);",
+const NO_BREAK = "var greet = 'hello';console.log(greet);",
     NO_BLANK = "var greet = 'hello';\nconsole.log(greet);",
     NO_BLANK_WITH_TRAILING_WS = "var greet = 'hello';    \nconsole.log(greet);",
     NO_BLANK_WITH_INLINE_COMMENT = "var greet = 'hello'; // inline comment\nconsole.log(greet);",
@@ -70,9 +77,9 @@ const NO_BREAK = "var greet = 'hello'; console.log(greet);",
     NEXT_LINE_COMMENT_BLOCK_COMMENT_NO_BLANK = "var greet = 'hello';\n// next-line comment\n/* block comment\nblock comment */\nconsole.log(greet);",
     MIXED_COMMENT_NO_BLANK = "var greet = 'hello';\n// inline comment\nvar name = 'world';\nconsole.log(greet, name);",
     MIXED_BLOCK_COMMENT_NO_BLANK = "var greet = 'hello';\n/* block comment\nblock comment */\nvar name = 'world';\nconsole.log(greet, name);",
-    MULTI_VAR_NO_BREAK = "var greet = 'hello'; var name = 'world'; console.log(greet, name);",
+    MULTI_VAR_NO_BREAK = "var greet = 'hello';var name = 'world';console.log(greet, name);",
     MULTI_VAR_NO_BLANK = "var greet = 'hello';\nvar name = 'world';\nconsole.log(greet, name);",
-    MULTI_DEC_NO_BREAK = "var greet = 'hello', name = 'world'; console.log(greet, name);",
+    MULTI_DEC_NO_BREAK = "var greet = 'hello', name = 'world';console.log(greet, name);",
     MULTI_DEC_NO_BLANK = "var greet = 'hello', name = 'world';\nconsole.log(greet, name);",
     MULTI_LINE_NO_BLANK = "var greet = 'hello',\nname = 'world';\nconsole.log(greet, name);",
     MULTI_LINE_NO_BLANK_WITH_COMMENTS = "var greet = 'hello', // inline comment\nname = 'world'; // inline comment\nconsole.log(greet, name);",
@@ -247,50 +254,55 @@ ruleTester.run("newline-after-var", rule, {
     invalid: [
 
         // should disallow no line break in "always" mode
-        { code: NO_BREAK, options: ["always"], errors: [ALWAYS_ERROR] },
-        { code: MULTI_VAR_NO_BREAK, options: ["always"], errors: [ALWAYS_ERROR] },
-        { code: MULTI_DEC_NO_BREAK, options: ["always"], errors: [ALWAYS_ERROR] },
+        { code: NO_BREAK, output: ONE_BLANK, options: ["always"], errors: [ALWAYS_ERROR] },
+        { code: MULTI_VAR_NO_BREAK, output: MULTI_VAR_NO_BREAK_ONE_BLANK, options: ["always"], errors: [ALWAYS_ERROR] },
+        { code: MULTI_DEC_NO_BREAK, output: MULTI_DEC_ONE_BLANK, options: ["always"], errors: [ALWAYS_ERROR] },
 
         // should disallow no blank line in "always" mode
-        { code: NO_BLANK, options: ["always"], errors: [ALWAYS_ERROR] },
-        { code: NO_BLANK_WITH_TRAILING_WS, options: ["always"], errors: [ALWAYS_ERROR] },
-        { code: NO_BLANK_WITH_INLINE_COMMENT, options: ["always"], errors: [ALWAYS_ERROR] },
-        { code: MULTI_VAR_NO_BLANK, options: ["always"], errors: [ALWAYS_ERROR] },
-        { code: MULTI_DEC_NO_BLANK, options: ["always"], errors: [ALWAYS_ERROR] },
-        { code: MULTI_LINE_NO_BLANK, options: ["always"], errors: [ALWAYS_ERROR] },
-        { code: LET_NO_BLANK, options: ["always"], parserOptions: { ecmaVersion: 6 }, errors: [ALWAYS_ERROR] },
-        { code: CONST_NO_BLANK, options: ["always"], parserOptions: { ecmaVersion: 6 }, errors: [ALWAYS_ERROR] },
-        { code: NOT_END_OF_FUNCTION, options: ["always"], errors: [ALWAYS_ERROR] },
-        { code: NOT_END_OF_FUNCTION_EXPRESSION, options: ["always"], errors: [ALWAYS_ERROR] },
-        { code: NOT_END_OF_ARROW_FUNCTION, options: ["always"], parserOptions: { ecmaVersion: 6 }, errors: [ALWAYS_ERROR]},
-        { code: NO_BLANK_BEFORE_CASE, options: ["always"], errors: [ALWAYS_ERROR] },
+        { code: NO_BLANK, output: ONE_BLANK, options: ["always"], errors: [ALWAYS_ERROR] },
+        { code: NO_BLANK_WITH_TRAILING_WS, output: ONE_BLANK_WITH_TRAILING_WS, options: ["always"], errors: [ALWAYS_ERROR] },
+        { code: NO_BLANK_WITH_INLINE_COMMENT, output: ONE_BLANK_WITH_INLINE_COMMENT, options: ["always"], errors: [ALWAYS_ERROR] },
+        { code: MULTI_VAR_NO_BLANK, output: MULTI_VAR_ONE_BLANK, options: ["always"], errors: [ALWAYS_ERROR] },
+        { code: MULTI_DEC_NO_BLANK, output: MULTI_DEC_ONE_BLANK, options: ["always"], errors: [ALWAYS_ERROR] },
+        { code: MULTI_LINE_NO_BLANK, output: MULTI_LINE_ONE_BLANK, options: ["always"], errors: [ALWAYS_ERROR] },
+        { code: LET_NO_BLANK, output: LET_ONE_BLANK, options: ["always"], parserOptions: { ecmaVersion: 6 }, errors: [ALWAYS_ERROR] },
+        { code: CONST_NO_BLANK, output: CONST_ONE_BLANK, options: ["always"], parserOptions: { ecmaVersion: 6 }, errors: [ALWAYS_ERROR] },
+        { code: NOT_END_OF_FUNCTION, output: NOT_END_OF_FUNCTION_ONE_BLANK, options: ["always"], errors: [ALWAYS_ERROR] },
+        { code: NOT_END_OF_FUNCTION_EXPRESSION, output: NOT_END_OF_FUNCTION_EXPRESSION_ONE_BLANK, options: ["always"], errors: [ALWAYS_ERROR] },
+        { code: NOT_END_OF_ARROW_FUNCTION, output: NOT_END_OF_ARROW_FUNCTION_ONE_BLANK, options: ["always"], parserOptions: { ecmaVersion: 6 }, errors: [ALWAYS_ERROR]},
+        { code: NO_BLANK_BEFORE_CASE, output: ONE_BLANK_BEFORE_CASE, options: ["always"], errors: [ALWAYS_ERROR] },
 
         // should disallow blank lines in "never" mode
-        { code: ONE_BLANK, options: ["never"], errors: [NEVER_ERROR] },
-        { code: TWO_BLANKS, options: ["never"], errors: [NEVER_ERROR] },
-        { code: THREE_BLANKS, options: ["never"], errors: [NEVER_ERROR] },
-        { code: ONE_BLANK_WITH_TRAILING_WS, options: ["never"], errors: [NEVER_ERROR] },
-        { code: ONE_BLANK_WITH_INLINE_COMMENT, options: ["never"], errors: [NEVER_ERROR] },
-        { code: MULTI_VAR_ONE_BLANK, options: ["never"], errors: [NEVER_ERROR] },
-        { code: MULTI_DEC_ONE_BLANK, options: ["never"], errors: [NEVER_ERROR] },
-        { code: MULTI_LINE_ONE_BLANK, options: ["never"], errors: [NEVER_ERROR] },
-        { code: MULTI_LINE_ONE_BLANK_WITH_COMMENTS, options: ["never"], errors: [NEVER_ERROR] },
-        { code: LET_ONE_BLANK, options: ["never"], parserOptions: { ecmaVersion: 6 }, errors: [NEVER_ERROR] },
-        { code: CONST_ONE_BLANK, options: ["never"], parserOptions: { ecmaVersion: 6 }, errors: [NEVER_ERROR] },
-        { code: ONE_BLANK_BEFORE_CASE, options: ["never"], errors: [NEVER_ERROR] },
+        { code: ONE_BLANK, output: NO_BLANK, options: ["never"], errors: [NEVER_ERROR] },
+        { code: TWO_BLANKS, output: NO_BLANK, options: ["never"], errors: [NEVER_ERROR] },
+        { code: THREE_BLANKS, output: NO_BLANK, options: ["never"], errors: [NEVER_ERROR] },
+        { code: ONE_BLANK_WITH_TRAILING_WS, output: NO_BLANK_WITH_TRAILING_WS, options: ["never"], errors: [NEVER_ERROR] },
+        { code: ONE_BLANK_WITH_INLINE_COMMENT, NO_BLANK_WITH_INLINE_COMMENT, options: ["never"], errors: [NEVER_ERROR] },
+        { code: MULTI_VAR_ONE_BLANK, output: MULTI_VAR_NO_BLANK, options: ["never"], errors: [NEVER_ERROR] },
+        { code: MULTI_DEC_ONE_BLANK, output: MULTI_DEC_NO_BLANK, options: ["never"], errors: [NEVER_ERROR] },
+        { code: MULTI_LINE_ONE_BLANK, output: MULTI_LINE_NO_BLANK, options: ["never"], errors: [NEVER_ERROR] },
+        { code: MULTI_LINE_ONE_BLANK_WITH_COMMENTS, output: MULTI_LINE_NO_BLANK_WITH_COMMENTS, options: ["never"], errors: [NEVER_ERROR] },
+        { code: LET_ONE_BLANK, output: LET_NO_BLANK, options: ["never"], parserOptions: { ecmaVersion: 6 }, errors: [NEVER_ERROR] },
+        { code: CONST_ONE_BLANK, output: CONST_NO_BLANK, options: ["never"], parserOptions: { ecmaVersion: 6 }, errors: [NEVER_ERROR] },
+        { code: ONE_BLANK_BEFORE_CASE, output: NO_BLANK_BEFORE_CASE, options: ["never"], errors: [NEVER_ERROR] },
 
         // should disallow a comment on the next line that's not in turn followed by a blank in "always" mode
-        { code: NEXT_LINE_COMMENT, options: ["always"], errors: [ALWAYS_ERROR] },
-        { code: NEXT_LINE_BLOCK_COMMENT, options: ["always"], errors: [ALWAYS_ERROR] },
-        { code: MULTI_LINE_NEXT_LINE_COMMENT, options: ["always"], errors: [ALWAYS_ERROR] },
-        { code: MULTI_LINE_NEXT_LINE_BLOCK_COMMENT, options: ["always"], errors: [ALWAYS_ERROR] },
-        { code: NEXT_LINE_TWO_COMMENTS_NO_BLANK, options: ["always"], errors: [ALWAYS_ERROR] },
-        { code: NEXT_LINE_COMMENT_BLOCK_COMMENT_NO_BLANK, options: ["always"], errors: [ALWAYS_ERROR] },
+        { code: NEXT_LINE_COMMENT, output: NEXT_LINE_COMMENT_ONE_BLANK, options: ["always"], errors: [ALWAYS_ERROR] },
+        { code: NEXT_LINE_BLOCK_COMMENT, output: NEXT_LINE_BLOCK_COMMENT_ONE_BLANK, options: ["always"], errors: [ALWAYS_ERROR] },
+        { code: MULTI_LINE_NEXT_LINE_COMMENT, output: MULTI_LINE_NEXT_LINE_COMMENT_ONE_BLANK, options: ["always"], errors: [ALWAYS_ERROR] },
+        { code: MULTI_LINE_NEXT_LINE_BLOCK_COMMENT, output: MULTI_LINE_NEXT_LINE_BLOCK_COMMENT_ONE_BLANK, options: ["always"], errors: [ALWAYS_ERROR] },
+        { code: NEXT_LINE_TWO_COMMENTS_NO_BLANK, output: NEXT_LINE_TWO_COMMENTS_ONE_BLANK, options: ["always"], errors: [ALWAYS_ERROR] },
+        { code: NEXT_LINE_COMMENT_BLOCK_COMMENT_NO_BLANK, output: NEXT_LINE_COMMENT_BLOCK_COMMENT_ONE_BLANK, options: ["always"], errors: [ALWAYS_ERROR] },
 
         // https://github.com/eslint/eslint/issues/6834
         {
             code: `
                 var a = 1
+                ;(b || c).doSomething()
+            `,
+            output: `
+                var a = 1
+
                 ;(b || c).doSomething()
             `,
             options: ["always"],
@@ -300,6 +312,10 @@ ruleTester.run("newline-after-var", rule, {
             code: `
                 var a = 1
 
+                ;(b || c).doSomething()
+            `,
+            output: `
+                var a = 1
                 ;(b || c).doSomething()
             `,
             options: ["never"],

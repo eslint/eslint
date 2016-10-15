@@ -1,5 +1,7 @@
 # require or disallow an empty line after variable declarations (newline-after-var)
 
+(fixable) The `--fix` option on the [command line](../user-guide/command-line-interface#fix) automatically fixes problems reported by this rule.
+
 As of today there is no consistency in separating variable declarations from the rest of the code. Some developers leave an empty line between var statements and the rest of the code like:
 
 ```js
