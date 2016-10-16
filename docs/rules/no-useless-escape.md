@@ -1,5 +1,7 @@
 # Disallow unnecessary escape usage (no-useless-escape)
 
+(fixable) The `--fix` option on the [command line](../user-guide/command-line-interface#fix) automatically fixes problems reported by this rule.
+
 Escaping non-special characters in strings, template literals, and regular expressions doesn't have any effect, as demonstrated in the following example:
 
 ```js
