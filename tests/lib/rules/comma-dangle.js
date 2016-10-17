@@ -1454,24 +1454,28 @@ export {d,};
         // https://github.com/eslint/eslint/issues/7370
         {
             code: "function foo({a}: {a: string,}) {}",
+            output: "function foo({a,}: {a: string,}) {}",
             parser: parser("object-pattern-1"),
             options: ["always"],
             errors: [{message: "Missing trailing comma."}],
         },
         {
             code: "function foo({a,}: {a: string}) {}",
+            output: "function foo({a}: {a: string}) {}",
             parser: parser("object-pattern-2"),
             options: ["never"],
             errors: [{message: "Unexpected trailing comma."}],
         },
         {
             code: "function foo(a): {b: boolean,} {}",
+            output: "function foo(a,): {b: boolean,} {}",
             parser: parser("return-type-1"),
             options: [{functions: "always"}],
             errors: [{message: "Missing trailing comma."}],
         },
         {
             code: "function foo(a,): {b: boolean} {}",
+            output: "function foo(a): {b: boolean} {}",
             parser: parser("return-type-2"),
             options: [{functions: "never"}],
             errors: [{message: "Unexpected trailing comma."}],
