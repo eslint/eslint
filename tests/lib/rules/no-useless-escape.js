@@ -75,7 +75,9 @@ ruleTester.run("no-useless-escape", rule, {
         {code: "var foo = `\\\``", parserOptions: {ecmaVersion: 6}},
         {code: "var foo = `\\\`${foo}\\\``", parserOptions: {ecmaVersion: 6}},
         {code: "var foo = `\\${{${foo}`;", parserOptions: {ecmaVersion: 6}},
-        {code: "var foo = `$\\{{${foo}`;", parserOptions: {ecmaVersion: 6}}
+        {code: "var foo = `$\\{{${foo}`;", parserOptions: {ecmaVersion: 6}},
+        {code: "var foo = String.raw`\\.`", parserOptions: {ecmaVersion: 6}},
+        {code: "var foo = myFunc`\\.`", parserOptions: {ecmaVersion: 6}}
     ],
 
     invalid: [
