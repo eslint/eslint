@@ -9,8 +9,26 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-const rule = require("../../../lib/rules/comma-dangle"),
+const path = require("path"),
+    rule = require("../../../lib/rules/comma-dangle"),
     RuleTester = require("../../../lib/testers/rule-tester");
+
+//------------------------------------------------------------------------------
+// Helpers
+//------------------------------------------------------------------------------
+
+/**
+ * Gets the path to the parser of the given name.
+ *
+ * @param {string} name - The name of a parser to get.
+ * @returns {string} The path to the specified parser.
+ */
+function parser(name) {
+    return path.resolve(
+        __dirname,
+        `../../fixtures/parsers/comma-dangle/${name}.js`
+    );
+}
 
 //------------------------------------------------------------------------------
 // Tests
@@ -368,6 +386,28 @@ ruleTester.run("comma-dangle", rule, {
             code: "foo(\na,\nb\n)",
             parserOptions: {ecmaVersion: 8},
             options: [{functions: "only-multiline"}],
+        },
+
+        // https://github.com/eslint/eslint/issues/7370
+        {
+            code: "function foo({a}: {a: string,}) {}",
+            parser: parser("object-pattern-1"),
+            options: ["never"],
+        },
+        {
+            code: "function foo({a,}: {a: string}) {}",
+            parser: parser("object-pattern-2"),
+            options: ["always"],
+        },
+        {
+            code: "function foo(a): {b: boolean,} {}",
+            parser: parser("return-type-1"),
+            options: [{functions: "never"}],
+        },
+        {
+            code: "function foo(a,): {b: boolean} {}",
+            parser: parser("return-type-2"),
+            options: [{functions: "always"}],
         },
     ],
     invalid: [
@@ -1409,6 +1449,36 @@ export {d,};
                 {message: "Unexpected trailing comma.", line: 5},
                 {message: "Unexpected trailing comma.", line: 5}
             ]
+        },
+
+        // https://github.com/eslint/eslint/issues/7370
+        {
+            code: "function foo({a}: {a: string,}) {}",
+            output: "function foo({a,}: {a: string,}) {}",
+            parser: parser("object-pattern-1"),
+            options: ["always"],
+            errors: [{message: "Missing trailing comma."}],
+        },
+        {
+            code: "function foo({a,}: {a: string}) {}",
+            output: "function foo({a}: {a: string}) {}",
+            parser: parser("object-pattern-2"),
+            options: ["never"],
+            errors: [{message: "Unexpected trailing comma."}],
+        },
+        {
+            code: "function foo(a): {b: boolean,} {}",
+            output: "function foo(a,): {b: boolean,} {}",
+            parser: parser("return-type-1"),
+            options: [{functions: "always"}],
+            errors: [{message: "Missing trailing comma."}],
+        },
+        {
+            code: "function foo(a,): {b: boolean} {}",
+            output: "function foo(a): {b: boolean} {}",
+            parser: parser("return-type-2"),
+            options: [{functions: "never"}],
+            errors: [{message: "Unexpected trailing comma."}],
         },
     ]
 });
