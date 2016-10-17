@@ -33,4 +33,3 @@ var object = JSON.parse("{}");
 ## Further Reading
 
 * [The Math Object](http://es5.github.io/#x15.8)
-* ['{a}' is not a function](http://jslinterrors.com/a-is-not-a-function/)

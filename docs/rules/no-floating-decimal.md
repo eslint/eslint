@@ -43,7 +43,3 @@ If you aren't concerned about misinterpreting floating decimal point values, the
 ## Compatibility
 
 * **JSHint**: W008
-
-## Further Reading
-
-* [A leading decimal point can be confused with a dot](http://jslinterrors.com/a-leading-decimal-point-can-be-confused-with-a-dot-a/)

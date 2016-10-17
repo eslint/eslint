@@ -41,10 +41,6 @@ q:
 
 If you don't want to be notified about usage of labels, then it's safe to disable this rule.
 
-## Further Reading
-
-* ['{a}' is a statement label](http://jslinterrors.com/a-is-a-statement-label/)
-
 ## Related Rules
 
 * [no-extra-label](./no-extra-label.md)
