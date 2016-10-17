@@ -34,7 +34,3 @@ var x = function (a, b) {
 ## When Not To Use It
 
 In more advanced cases where you really need to use the `Function` constructor.
-
-## Further Reading
-
-* [The Function constructor is eval](http://jslinterrors.com/the-function-constructor-is-eval/)

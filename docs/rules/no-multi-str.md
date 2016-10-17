@@ -29,9 +29,3 @@ Examples of **correct** code for this rule:
 var x = "Line 1\n" +
         "Line 2";
 ```
-
-
-
-## Further Reading
-
-* [Bad escapement of EOL](http://jslinterrors.com/bad-escapement-of-eol-use-option-multistr-if-needed/)

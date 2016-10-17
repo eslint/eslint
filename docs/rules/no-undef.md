@@ -111,7 +111,3 @@ If explicit declaration of global variables is not to your taste.
 ## Compatibility
 
 This rule provides compatibility with treatment of global variables in [JSHint](http://www.jshint.com) and [JSLint](http://www.jslint.com).
-
-## Further Reading
-
-* ['{a}' is not defined](http://jslinterrors.com/a-is-not-defined)
