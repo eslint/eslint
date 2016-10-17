@@ -1,3 +1,11 @@
+v3.8.1 - October 17, 2016
+
+* 681c78a Fix: `comma-dangle` was confused by type annotations (fixes #7370) (#7372) (Toru Nagashima)
+* 7525042 Fix: Allow useless escapes in tagged template literals (fixes #7383) (#7384) (Teddy Katz)
+* 9106964 Docs: Fix broken link for stylish formatter (#7386) (Vitor Balocco)
+* 49d3c1b Docs: Document the deprecated meta property (#7367) (Randy Coulman)
+* 19d2996 Docs: Relax permission for merging PRs (refs eslint/tsc-meetings#20) (#7360) (Brandon Mills)
+
 v3.8.0 - October 14, 2016
 
 * ee60acf Chore: add integration tests for autofixing (fixes #5909) (#7349) (Teddy Katz)
