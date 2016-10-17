@@ -16,7 +16,3 @@ Examples of **incorrect** code for this rule:
 var x;
 delete x;
 ```
-
-## Further Reading
-
-* [Only properties should be deleted](http://jslinterrors.com/only-properties-should-be-deleted/)

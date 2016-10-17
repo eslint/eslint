@@ -34,7 +34,3 @@ var num  = "071";
 ## Compatibility
 
 * **JSHint**: W115
-
-## Further Reading
-
-* [Octal literals not allowed in strict mode](http://jslinterrors.com/octal-literals-are-not-allowed-in-strict-mode)
