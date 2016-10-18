@@ -87,7 +87,7 @@ ruleTester.run("max-len", rule, {
             options: [40, 4, {ignoreComments: true, ignoreTrailingComments: false}]
         },
 
-        // ignoreStrings and ignoreTemplateLiterals options
+        // ignoreStrings, ignoreTemplateLiterals and ignoreRegExpLiterals options
         {
             code: "var foo = veryLongIdentifier;\nvar bar = 'this is a very long string';",
             options: [29, 4, { ignoreStrings: true }]
@@ -118,6 +118,10 @@ ruleTester.run("max-len", rule, {
             code: "var foo = veryLongIdentifier;\nvar bar = `this is a very long string\nand this is another line that is very long\nand here is another\n and another!`;",
             options: [29, 4, { ignoreTemplateLiterals: true }],
             parserOptions
+        },
+        {
+            code: "var foo = /this is a very long pattern/;",
+            options: [29, 4, { ignoreRegExpLiterals: true }]
         },
 
         // check indented comment lines - https://github.com/eslint/eslint/issues/6322
@@ -456,6 +460,30 @@ ruleTester.run("max-len", rule, {
         {
             code: "var foo = veryLongIdentifier;\nvar bar = 'this is a very long string';",
             options: [29, { ignoreStrings: false, ignoreTemplateLiterals: true }],
+            errors: [
+                {
+                    message: "Line 2 exceeds the maximum line length of 29.",
+                    type: "Program",
+                    line: 2,
+                    column: 1
+                }
+            ]
+        },
+        {
+            code: "var foo = veryLongIdentifier;\nvar bar = /this is a very very long pattern/;",
+            options: [29, { ignoreStrings: false, ignoreRegExpLiterals: false }],
+            errors: [
+                {
+                    message: "Line 2 exceeds the maximum line length of 29.",
+                    type: "Program",
+                    line: 2,
+                    column: 1
+                }
+            ]
+        },
+        {
+            code: "var foo = veryLongIdentifier;\nvar bar = new RegExp('this is a very very long pattern');",
+            options: [29, { ignoreStrings: false, ignoreRegExpLiterals: true }],
             errors: [
                 {
                     message: "Line 2 exceeds the maximum line length of 29.",
