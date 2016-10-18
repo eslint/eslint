@@ -89,7 +89,60 @@ ruleTester.run("brace-style", rule, {
         {
             code: "switch(x) \n{ \n case 1: \nbar(); \n }\n ",
             options: ["allman"]
-        }
+        },
+
+        // individual options
+        { code: "function foo () {\n return;\n}", options: [{ FunctionDeclaration: "always" }] },
+        { code: "function foo () \n{\nreturn;\n}", options: [{ FunctionDeclaration: "never" }] },
+        { code: "function foo () { return; }", options: [{ FunctionDeclaration: "always" }, { allowSingleLine: true }] },
+        { code: "function foo () { return; }", options: [{ FunctionDeclaration: "never" }, { allowSingleLine: true }] },
+
+        { code: "var foo = function() {\n return;\n}", options: [{ FunctionExpression: "always" }] },
+        { code: "var foo = function() \n{\nreturn;\n}", options: [{ FunctionExpression: "never" }] },
+        { code: "var foo = function() { return; }", options: [{ FunctionExpression: "always" }, { allowSingleLine: true }] },
+        { code: "var foo = function() { return; }", options: [{ FunctionExpression: "never" }, { allowSingleLine: true }] },
+
+        { code: "var foo = () => {\n return;\n}", parserOptions: { ecmaVersion: 6 }, options: [{ ArrowFunctionExpression: "always" }] },
+        { code: "var foo = () => \n{\nreturn;\n}", parserOptions: { ecmaVersion: 6 }, options: [{ ArrowFunctionExpression: "never" }] },
+        { code: "var foo = () => { return; }", parserOptions: { ecmaVersion: 6 }, options: [{ ArrowFunctionExpression: "always" }, { allowSingleLine: true }] },
+        { code: "var foo = () => { return; }", parserOptions: { ecmaVersion: 6 }, options: [{ ArrowFunctionExpression: "never" }, { allowSingleLine: true }] },
+
+        { code: "if (a) { \nb();\n } else { \nc();\n }", options: [{ IfStatement: "always" }] },
+        { code: "if (a) \n{\nb();\n}\nelse\n{\nc();\n}", options: [{ IfStatement: "never" }] },
+        { code: "if (a) { b(); }", options: [{ IfStatement: "always" }, { allowSingleLine: true }] },
+        { code: "if (a) { b(); }", options: [{ IfStatement: "never" }, { allowSingleLine: true }] },
+
+        { code: "try { \n bar();\n} catch (e) {\n baz(); \n}", options: [{ TryStatement: "always" }] },
+        { code: "try\n{\n bar();\n}\ncatch (e)\n{\n baz(); \n}", options: [{ TryStatement: "never" }] },
+
+        { code: "do { \n bar();\n } while (true)", options: [{ DoWhileStatement: "always" }] },
+        { code: "do\n{\n bar();\n}\nwhile (true)", options: [{ DoWhileStatement: "never" }] },
+
+        { code: "while (foo) { \n bar();\n }", options: [{ WhileStatement: "always" }] },
+        { code: "while (foo)\n{\n bar();\n}", options: [{ WhileStatement: "never" }] },
+        { code: "while (foo) { bar(); }", options: [{ WhileStatement: "always" }, { allowSingleLine: true }] },
+        { code: "while (foo) { bar(); }", options: [{ WhileStatement: "never" }, { allowSingleLine: true }] },
+
+        { code: "with (foo) { \n bar(); \n}", options: [{ WithStatement: "always" }] },
+        { code: "with (foo)\n{\n bar();\n}", options: [{ WithStatement: "never" }] },
+
+        { code: "for (;;) { \n bar(); \n}", options: [{ ForStatement: "always" }] },
+        { code: "for (;;)\n{\n bar();\n}", options: [{ ForStatement: "never" }] },
+        { code: "for (;;) { bar(); }", options: [{ ForStatement: "always" }, { allowSingleLine: true }] },
+        { code: "for (;;) { bar(); }", options: [{ ForStatement: "never" }, { allowSingleLine: true }] },
+
+        { code: "for (foo in bar) { \n baz(); \n }", options: [{ ForInStatement: "always" }] },
+        { code: "for (foo in bar)\n{\n baz();\n}", options: [{ ForInStatement: "never" }] },
+        { code: "for (foo in bar) { baz(); }", options: [{ ForInStatement: "always" }, { allowSingleLine: true }] },
+        { code: "for (foo in bar) { baz(); }", options: [{ ForInStatement: "always" }, { allowSingleLine: true }] },
+
+        { code: "for (foo of bar) { \n baz(); \n }", parserOptions: { ecmaVersion: 6 }, options: [{ ForOfStatement: "always" }] },
+        { code: "for (foo of bar)\n{\n baz();\n}", parserOptions: { ecmaVersion: 6 }, options: [{ ForOfStatement: "never" }] },
+        { code: "for (foo of bar) { baz(); }", parserOptions: { ecmaVersion: 6 }, options: [{ ForOfStatement: "always" }, { allowSingleLine: true }] },
+        { code: "for (foo of bar) { baz(); }", parserOptions: { ecmaVersion: 6 }, options: [{ ForOfStatement: "always" }, { allowSingleLine: true }] },
+
+        { code: "switch (foo) { \n case \"bar\": break;\n }", options: [{ SwitchStatement: "always" }] },
+        { code: "switch (foo)\n{\n case \"bar\": break;\n}", options: [{ SwitchStatement: "never" }] }
     ],
 
     invalid: [
@@ -187,6 +240,40 @@ ruleTester.run("brace-style", rule, {
             { message: CLOSE_MESSAGE_STROUSTRUP_ALLMAN, type: "IfStatement" },
             { message: OPEN_MESSAGE_ALLMAN, type: "IfStatement" },
             { message: OPEN_MESSAGE_ALLMAN, type: "IfStatement" }
-        ] }
+        ] },
+
+        // individual options
+        { code: "function foo () {\n return;\n}", options: [{ FunctionDeclaration: "never" }], errors: [{ message: OPEN_MESSAGE_ALLMAN, type: "FunctionDeclaration" }] },
+        { code: "function foo () \n{\nreturn;\n}", options: [{ FunctionDeclaration: "always" }], errors: [{ message: OPEN_MESSAGE, type: "FunctionDeclaration" }] },
+
+        { code: "var foo = function() {\n return;\n}", options: [{ FunctionExpression: "never" }], errors: [{ message: OPEN_MESSAGE_ALLMAN, type: "FunctionExpression" }] },
+        { code: "var foo = function() \n{\nreturn;\n}", options: [{ FunctionExpression: "always" }], errors: [{ message: OPEN_MESSAGE, type: "FunctionExpression" }] },
+
+        { code: "var foo = () => {\n return;\n}", parserOptions: { ecmaVersion: 6 }, options: [{ ArrowFunctionExpression: "never" }], errors: [{ message: OPEN_MESSAGE_ALLMAN, type: "ArrowFunctionExpression" }] },
+        { code: "var foo = () => \n{\nreturn;\n}", parserOptions: { ecmaVersion: 6 }, options: [{ ArrowFunctionExpression: "always" }], errors: [{ message: OPEN_MESSAGE, type: "ArrowFunctionExpression" }] },
+
+        { code: "if (a) { \nb();\n } else\n{ \nc();\n }", options: [{ IfStatement: "always" }], errors: [{ message: OPEN_MESSAGE, type: "IfStatement" }] },
+        { code: "if (a) \n{\nb();\n}\nelse {\nc();\n}", options: [{ IfStatement: "never" }], errors: [{ message: OPEN_MESSAGE_ALLMAN, type: "IfStatement" }] },
+
+        { code: "try { \n bar();\n} catch (e)\n{\n baz(); \n}", options: [{ TryStatement: "always" }], errors: [{ message: OPEN_MESSAGE, type: "CatchClause" }] },
+        { code: "try\n{\n bar();\n}\ncatch (e) {\n baz(); \n}", options: [{ TryStatement: "never" }], errors: [{ message: OPEN_MESSAGE_ALLMAN, type: "CatchClause" }] },
+
+        { code: "do { \n bar();\n } while (true)", options: [{ DoWhileStatement: "never" }], errors: [{ message: OPEN_MESSAGE_ALLMAN, type: "DoWhileStatement" }] },
+        { code: "do\n{\n bar();\n}\nwhile (true)", options: [{ DoWhileStatement: "always" }], errors: [{ message: OPEN_MESSAGE, type: "DoWhileStatement" }] },
+
+        { code: "while (foo) { \n bar();\n }", options: [{ WhileStatement: "never" }], errors: [{ message: OPEN_MESSAGE_ALLMAN, type: "WhileStatement" }] },
+        { code: "while (foo)\n{\n bar();\n}", options: [{ WhileStatement: "always" }], errors: [{ message: OPEN_MESSAGE, type: "WhileStatement" }] },
+
+        { code: "with (foo) { \n bar(); \n}", options: [{ WithStatement: "never" }], errors: [{ message: OPEN_MESSAGE_ALLMAN, type: "WithStatement" }] },
+        { code: "with (foo)\n{\n bar();\n}", options: [{ WithStatement: "always" }], errors: [{ message: OPEN_MESSAGE, type: "WithStatement" }] },
+
+        { code: "for (;;) { \n bar(); \n}", options: [{ ForStatement: "never" }], errors: [{ message: OPEN_MESSAGE_ALLMAN, type: "ForStatement" }] },
+        { code: "for (;;)\n{\n bar();\n}", options: [{ ForStatement: "always" }], errors: [{ message: OPEN_MESSAGE, type: "ForStatement" }] },
+
+        { code: "for (foo in bar) { \n baz(); \n }", options: [{ ForInStatement: "never" }], errors: [{ message: OPEN_MESSAGE_ALLMAN, type: "ForInStatement" }] },
+        { code: "for (foo in bar)\n{\n baz();\n}", options: [{ ForInStatement: "always" }], errors: [{ message: OPEN_MESSAGE, type: "ForInStatement" }] },
+
+        { code: "for (foo of bar) { \n baz(); \n }", parserOptions: { ecmaVersion: 6 }, options: [{ ForOfStatement: "never" }], errors: [{ message: OPEN_MESSAGE_ALLMAN, type: "ForOfStatement" }] },
+        { code: "for (foo of bar)\n{\n baz();\n}", parserOptions: { ecmaVersion: 6 }, options: [{ ForOfStatement: "always" }], errors: [{ message: OPEN_MESSAGE, type: "ForOfStatement" }] }
     ]
 });
