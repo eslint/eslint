@@ -652,7 +652,7 @@ describe("RuleTester", () => {
         }, "Test Scenarios for rule foo : Could not find test scenario object");
         assert.throws(function() {
             ruleTester.run("foo", require("../../fixtures/testers/rule-tester/modify-ast-at-last"), 2);
-        }, "Test Scenarios for rule foo is invalid:\nCould not find any valid test scenarios\nCould not find any invalid test scenarios");
+        }, "Test Scenarios for rule foo : Could not find test scenario object");
         assert.throws(function() {
             ruleTester.run("foo", require("../../fixtures/testers/rule-tester/modify-ast-at-last"), {});
         }, "Test Scenarios for rule foo is invalid:\nCould not find any valid test scenarios\nCould not find any invalid test scenarios");
