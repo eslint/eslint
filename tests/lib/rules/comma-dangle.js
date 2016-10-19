@@ -271,7 +271,7 @@ ruleTester.run("comma-dangle", rule, {
             options: ["always-multiline"],
         },
         {
-            code: "foo(\na,\mb\m)",
+            code: "foo(\na,b)",
             parserOptions: {ecmaVersion: 8},
             options: ["always-multiline"],
         },

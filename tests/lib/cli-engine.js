@@ -452,7 +452,7 @@ describe("CLIEngine", function() {
             });
 
             const report = engine.executeOnText("var bar = foo;", "node_modules/passing.js", true);
-            const expectedMsg = "File ignored by default. Use \"--ignore-pattern \'!node_modules/*\'\" to override.";
+            const expectedMsg = "File ignored by default. Use \"--ignore-pattern '!node_modules/*'\" to override.";
 
             assert.equal(report.results.length, 1);
             assert.equal(report.results[0].filePath, getFixturePath("node_modules/passing.js"));
@@ -601,7 +601,7 @@ describe("CLIEngine", function() {
             });
 
             const report = engine.executeOnFiles(["node_modules/foo.js"]);
-            const expectedMsg = "File ignored by default. Use \"--ignore-pattern \'!node_modules/*\'\" to override.";
+            const expectedMsg = "File ignored by default. Use \"--ignore-pattern '!node_modules/*'\" to override.";
 
             assert.equal(report.results.length, 1);
             assert.equal(report.results[0].errorCount, 0);
@@ -660,7 +660,7 @@ describe("CLIEngine", function() {
             });
 
             const report = engine.executeOnFiles(["fixtures/files/.bar.js"]);
-            const expectedMsg = "File ignored by default.  Use a negated ignore pattern (like \"--ignore-pattern \'!<relative/path/to/filename>\'\") to override.";
+            const expectedMsg = "File ignored by default.  Use a negated ignore pattern (like \"--ignore-pattern '!<relative/path/to/filename>'\") to override.";
 
             assert.equal(report.results.length, 1);
             assert.equal(report.results[0].errorCount, 0);
@@ -988,7 +988,7 @@ describe("CLIEngine", function() {
             assert.equal(report.results[0].messages.length, 1);
             assert.equal(report.results[0].messages[0].ruleId, "missing-rule");
             assert.equal(report.results[0].messages[0].severity, 1);
-            assert.equal(report.results[0].messages[0].message, "Definition for rule \'missing-rule\' was not found");
+            assert.equal(report.results[0].messages[0].message, "Definition for rule 'missing-rule' was not found");
 
 
         });

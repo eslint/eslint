@@ -26,11 +26,11 @@ ruleTester.run("no-invalid-regexp", rule, {
         { code: "new RegExp('.', 'y')", options: [{ allowConstructorFlags: ["y"] }]},
         { code: "new RegExp('.', 'u')", options: [{ allowConstructorFlags: ["U"] }]},
         { code: "new RegExp('.', 'yu')", options: [{ allowConstructorFlags: ["y", "u"] }]},
-        { code: "new RegExp('\/', 'yu')", options: [{ allowConstructorFlags: ["y", "u"] }]},
+        { code: "new RegExp('\/', 'yu')", options: [{ allowConstructorFlags: ["y", "u"] }]}, // eslint-disable-line no-useless-escape
         { code: "new RegExp('.', 'y')", parserOptions: { ecmaVersion: 6 }},
         { code: "new RegExp('.', 'u')", parserOptions: { ecmaVersion: 6 }},
         { code: "new RegExp('.', 'yu')", parserOptions: { ecmaVersion: 6 }},
-        { code: "new RegExp('\/', 'yu')", parserOptions: { ecmaVersion: 6 }}
+        { code: "new RegExp('\/', 'yu')", parserOptions: { ecmaVersion: 6 }} // eslint-disable-line no-useless-escape
     ],
     invalid: [
         { code: "RegExp('[');", errors: [{ message: "Invalid regular expression: /[/: Unterminated character class.", type: "CallExpression" }] },

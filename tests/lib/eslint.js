@@ -2723,7 +2723,7 @@ describe("eslint", function() {
 
         it("should report that the rule does not exist", function() {
             assert.property(result, "message");
-            assert.equal(result.message, "Definition for rule \'foobar\' was not found");
+            assert.equal(result.message, "Definition for rule 'foobar' was not found");
         });
 
         it("should report at the correct severity", function() {
@@ -2749,7 +2749,7 @@ describe("eslint", function() {
 
         it("should report the new rule", function() {
             assert.equal(results[0].ruleId, "no-comma-dangle");
-            assert.equal(results[0].message, "Rule \'no-comma-dangle\' was removed and replaced by: comma-dangle");
+            assert.equal(results[0].message, "Rule 'no-comma-dangle' was removed and replaced by: comma-dangle");
         });
     });
 
