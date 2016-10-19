@@ -143,6 +143,7 @@
         "brace-style": "off",
         "callback-return": "off",
         "camelcase": "off",
+        "capitalized-comments": "off",
         "class-methods-use-this": "off",
         "comma-dangle": "off",
         "comma-spacing": "off",
