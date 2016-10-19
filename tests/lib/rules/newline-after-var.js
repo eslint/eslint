@@ -249,6 +249,14 @@ ruleTester.run("newline-after-var", rule, {
             `,
             options: ["never"]
         },
+        {
+            code: `
+                var a = 1
+                ;
+                (b || c).doSomething();
+            `,
+            options: ["never"]
+        }
     ],
 
     invalid: [
@@ -321,5 +329,20 @@ ruleTester.run("newline-after-var", rule, {
             options: ["never"],
             errors: [NEVER_ERROR]
         },
+        {
+            code: `
+                var a = 1
+
+                ;
+                (b || c).doSomething();
+            `,
+            output: `
+                var a = 1
+                ;
+                (b || c).doSomething();
+            `,
+            options: ["never"],
+            errors: [NEVER_ERROR]
+        }
     ]
 });
