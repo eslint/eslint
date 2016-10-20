@@ -63,11 +63,11 @@ ruleTester.run("new-cap", rule, {
         { code: "var x = Foo.Bar(42);", options: [{ capIsNewExceptions: ["Bar"] }] },
         { code: "var x = Foo.Bar(42);", options: [{ capIsNewExceptions: ["Foo.Bar"] }] },
 
-        { code: "var x = Foo.Bar(42);", options: [{ capIsNewExceptionPattern: "^Foo\.." }] }, // eslint-disable-line no-useless-escape
+        { code: "var x = Foo.Bar(42);", options: [{ capIsNewExceptionPattern: "^Foo\\.." }] },
         { code: "var x = new foo.bar(42);", options: [{ newIsCapExceptions: ["bar"] }] },
         { code: "var x = new foo.bar(42);", options: [{ newIsCapExceptions: ["foo.bar"] }] },
 
-        { code: "var x = new foo.bar(42);", options: [{ newIsCapExceptionPattern: "^foo\.." }] }, // eslint-disable-line no-useless-escape
+        { code: "var x = new foo.bar(42);", options: [{ newIsCapExceptionPattern: "^foo\\.." }] },
         { code: "var x = new foo.bar(42);", options: [{ properties: false }] },
         { code: "var x = Foo.bar(42);", options: [{ properties: false }] },
         { code: "var x = foo.Bar(42);", options: [{ capIsNew: false, properties: false }] }
@@ -146,7 +146,7 @@ ruleTester.run("new-cap", rule, {
         {
             code: "var x = Bar.Foo(42);",
 
-            options: [{capIsNewExceptionPattern: "^Foo\.."}], // eslint-disable-line no-useless-escape
+            options: [{capIsNewExceptionPattern: "^Foo\\.."}],
             errors: [{type: "CallExpression", message: "A function with a name starting with an uppercase letter should only be used as a constructor."}]
         },
         {
@@ -157,7 +157,7 @@ ruleTester.run("new-cap", rule, {
         {
             code: "var x = new bar.foo(42);",
 
-            options: [{newIsCapExceptionPattern: "^foo\.."}], // eslint-disable-line no-useless-escape
+            options: [{newIsCapExceptionPattern: "^foo\\.."}],
             errors: [{type: "NewExpression", message: "A constructor name should not start with a lowercase letter."}]
         }
     ]
