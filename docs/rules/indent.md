@@ -94,6 +94,9 @@ Level of indentation denotes the multiple of the indent specified. Example:
 * Indent of 2 spaces with `MemberExpression` set to `0` will indent the multi-line property chains with 0 spaces.
 * Indent of 2 spaces with `MemberExpression` set to `1` will indent the multi-line property chains with 2 spaces.
 * Indent of 2 spaces with `MemberExpression` set to `2` will indent the multi-line property chains with 4 spaces.
+* Indent of 4 spaces with `MemberExpression` set to `0` will indent the multi-line property chains with 0 spaces.
+* Indent of 4 spaces with `MemberExpression` set to `1` will indent the multi-line property chains with 4 spaces.
+* Indent of 4 spaces with `MemberExpression` set to `2` will indent the multi-line property chains with 8 spaces.
 
 ### tab
 
