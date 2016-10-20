@@ -196,4 +196,32 @@ describe("formatter:stylish", function() {
             assert.equal(chalkStub.red.bold.callCount, 1);
         });
     });
+
+    describe("when --fix is enabled", function() {
+        const code = [{
+            filePath: "foo.js",
+            messages: [{
+                fatal: true,
+                message: "Couldn't find foo.js."
+            }]
+        }];
+
+        it("reports no fixes on empty results", () => {
+            const result = formatter([]);
+
+            assert.notMatch(result, /Fixes were applied/);
+        });
+
+        it("won't falsely tell you that files were fixed", () => {
+            const result = formatter(code);
+
+            assert.notMatch(result, /Fixes were applied/);
+        });
+
+        it("lets you know that files were fixed", () => {
+            const result = formatter(code.map(o => Object.assign({}, o, {output: "output"})));
+
+            assert.match(result, /Fixes were applied/);
+        });
+    });
 });
