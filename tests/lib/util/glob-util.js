@@ -275,10 +275,14 @@ describe("globUtil", () => {
         });
 
         it("should not return a file which does not exist", () => {
-            const patterns = ["tests/fixtures/glob-util/hidden/bar.js"];
-            const result = globUtil.listFilesToProcess(patterns);
+            const filename = getFixturePath("glob-util", "hidden", "bar.js");
+            const patterns = [filename];
 
-            assert.strictEqual(result.length, 0);
+            assert.throws(() => {
+                globUtil.listFilesToProcess(patterns, {
+                    cwd: getFixturePath()
+                });
+            }, `'${filename}' was not found.`);
         });
 
         it("should not return an ignored file", () => {

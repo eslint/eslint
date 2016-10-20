@@ -2566,6 +2566,43 @@ describe("CLIEngine", () => {
                 });
             });
         });
+
+        describe("Patterns which match no file should throw errors.", () => {
+            beforeEach(() => {
+                engine = new CLIEngine({
+                    cwd: getFixturePath("cli-engine"),
+                    useEslintrc: false
+                });
+            });
+
+            it("one file", () => {
+                assert.throws(() => {
+                    engine.executeOnFiles(["non-exist.js"]);
+                }, "'non-exist.js' was not found.");
+            });
+
+            it("should not throw if the directory exists", () => {
+                engine.executeOnFiles(["empty"]);
+            });
+
+            it("one glob pattern", () => {
+                assert.throws(() => {
+                    engine.executeOnFiles(["non-exist/**/*.js"]);
+                }, "'non-exist/**/*.js' was not found.");
+            });
+
+            it("two files", () => {
+                assert.throws(() => {
+                    engine.executeOnFiles(["aaa.js", "bbb.js"]);
+                }, "'aaa.js' was not found.");
+            });
+
+            it("a mix of an exist file and a non-exist file", () => {
+                assert.throws(() => {
+                    engine.executeOnFiles(["console.js", "non-exist.js"]);
+                }, "'non-exist.js' was not found.");
+            });
+        });
     });
 
     describe("getConfigForFile", () => {

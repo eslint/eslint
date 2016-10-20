@@ -387,7 +387,7 @@ describe("configInitializer", () => {
                 process.chdir(fixtureDir);
                 assert.throws(() => {
                     config = init.processAnswers(answers);
-                }, "Automatic Configuration failed.  No files were able to be parsed.");
+                }, "'not-a-real-filename' was not found.");
                 process.chdir(originalDir);
                 autoconfig.extendFromRecommended.restore();
             });
