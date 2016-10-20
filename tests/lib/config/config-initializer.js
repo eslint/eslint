@@ -289,7 +289,7 @@ describe("configInitializer", function() {
                 process.chdir(fixtureDir);
                 assert.throws(function() {
                     config = init.processAnswers(answers);
-                }, "Automatic Configuration failed.  No files were able to be parsed.");
+                }, "'not-a-real-filename' was not found.");
                 process.chdir(originalDir);
                 autoconfig.extendFromRecommended.restore();
             });
