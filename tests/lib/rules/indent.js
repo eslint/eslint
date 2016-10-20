@@ -2973,47 +2973,43 @@ ruleTester.run("indent", rule, {
             errors: expectedErrors([3, 8, 10, "Identifier"])
         },
         {
-            code: `
-{
-    try {
-    }
-catch (err) {
-    }
-finally {
-    }
-}
-`,
-            output: `
-{
-    try {
-    }
-    catch (err) {
-    }
-    finally {
-    }
-}
-`,
+            code:
+            "{\n" +
+            "    try {\n" +
+            "    }\n" +
+            "catch (err) {\n" +
+            "    }\n" +
+            "finally {\n" +
+            "    }\n" +
+            "}",
+            output:
+            "{\n" +
+            "    try {\n" +
+            "    }\n" +
+            "    catch (err) {\n" +
+            "    }\n" +
+            "    finally {\n" +
+            "    }\n" +
+            "}",
             errors: expectedErrors([
-                [5, 4, 0, "Keyword"],
-                [7, 4, 0, "Keyword"]
+                [4, 4, 0, "Keyword"],
+                [6, 4, 0, "Keyword"]
             ])
         },
         {
-            code: `
-{
-    do {
-    }
-while (true)
-}
-`,
-            output: `
-{
-    do {
-    }
-    while (true)
-}
-`,
-            errors: expectedErrors([5, 4, 0, "Keyword"])
+            code:
+            "{\n" +
+            "    do {\n" +
+            "    }\n" +
+            "while (true)\n" +
+            "}",
+            output:
+            "{\n" +
+            "    do {\n" +
+            "    }\n" +
+            "    while (true)\n" +
+            "}",
+            errors: expectedErrors([4, 4, 0, "Keyword"])
         },
     ]
 });
