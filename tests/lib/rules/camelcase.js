@@ -26,6 +26,8 @@ ruleTester.run("camelcase", rule, {
         "myPrivateVariable_ = \"Patrick\"",
         "function doSomething(){}",
         "do_something()",
+        "new do_something",
+        "new do_something()",
         "foo.do_something()",
         "var foo = bar.baz_boom;",
         "var foo = bar.baz_boom.something;",
