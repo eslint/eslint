@@ -19,7 +19,7 @@ class A {
     }
 }
 
-let aObj = new A();
+let a = new A();
 a.sayHi(); // => "hi"
 ```
 
@@ -42,6 +42,8 @@ class A {
 
 A.sayHi(); // => "hi"
 ```
+
+Also note in the above examples that the code calling the function on an *instance* of the class (`let a = new A(); a.sayHi();`) changes to calling it on the *class* itself (`A.sayHi();`).
 
 ## Rule Details
 
