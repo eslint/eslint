@@ -91,7 +91,8 @@ ruleTester.run("no-useless-escape", rule, {
         String.raw`var foo = /[[]\./`, // A character class containing '[', followed by a '.' character
         String.raw`var foo = /[\]\]]/`, // A (redundant) character class containing ']'
         String.raw`var foo = /\[abc]/`, // Matches the literal string '[abc]'
-        String.raw`var foo = /\[foo\.bar]/` // Matches the literal string '[foo.bar]'
+        String.raw`var foo = /\[foo\.bar]/`, // Matches the literal string '[foo.bar]'
+        String.raw`var foo = /vi/m`
     ],
 
     invalid: [
