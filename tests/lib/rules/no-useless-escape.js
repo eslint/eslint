@@ -220,11 +220,15 @@ ruleTester.run("no-useless-escape", rule, {
         },
         {
             code: String.raw`var foo = /[[]\]/`, // A character class containing '[', followed by a ']' character
-            errors: [{ line: 1, column: 15, message: "Unnecessary escape character: \\]." }]
+            errors: [{ line: 1, column: 15, message: "Unnecessary escape character: \\].", type: "Literal" }]
         },
         {
             code: String.raw`var foo = /\[foo\.bar\]/`, // Matches the literal string '[foo.bar]'
-            errors: [{ line: 1, column: 22, message: "Unnecessary escape character: \\]." }]
+            errors: [{ line: 1, column: 22, message: "Unnecessary escape character: \\].", type: "Literal" }]
+        },
+        {
+            code: String.raw`var foo = /[\/]/`, // A character class containing '/'
+            errors: [{ line: 1, column: 13, message: "Unnecessary escape character: \\/.", type: "Literal" }]
         }
     ]
 });
