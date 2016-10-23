@@ -482,6 +482,56 @@ invalid: [
 ]
 ```
 
+### Grouping Test Cases
+
+You can group both valid and invalid test cases by supplying an object instead of an array of test cases. When you decide to use an object instead of an array, the keys of the object represent scenario names or descriptions and will show up in the test output. The values of a scenario object must be either an array of test cases or another scenario object. You can nest scenario objects indefinitely.
+
+Here is an example:
+
+```js
+ruleTester.run("my-rule", rule, {
+    valid: {
+        "No options": [
+            "someCode();"
+        ],
+
+        "With option foo:bar": {
+            "And no other options": [
+                { code: "someMoreCode();", options: [{ foo: "bar" }] }
+            ],
+
+            "Combined with baz:quux": [
+                { code: "yetMoreCode();", options: [{ foo: "bar", baz: "quux" }] }
+            ]
+        }
+    },
+
+    invalid: {
+        "No options": [
+            { code: "someCode();", errors: ["Some error message"] }
+        ],
+
+        "With option foo:bar": {
+            "And no other options": [
+                {
+                    code: "someMoreCode();",
+                    options: [{ foo: "bar" }],
+                    errors: ["Some error message"]
+                }
+            ],
+
+            "Combined with baz:quux": [
+                {
+                    code: "yetMoreCode();",
+                    options: [{ foo: "bar", baz: "quux" }],
+                    errors: ["Some error message", "And another one"]
+                }
+            ]
+        }
+    }
+});
+```
+
 ### Specifying Globals
 
 If your rule relies on globals to be specified, you can provide global variable declarations by using the `globals` property. For example:

@@ -44,11 +44,18 @@ RuleTester.it = function(text, method) {
 
 describe("RuleTester", () => {
 
-    let ruleTester;
+    let ruleTester,
+        sandbox;
 
     beforeEach(() => {
         RuleTester.resetDefaultConfig();
         ruleTester = new RuleTester();
+
+        sandbox = sinon.sandbox.create();
+    });
+
+    afterEach(() => {
+        sandbox.restore();
     });
 
     it("should not throw an error when everything passes", () => {
@@ -452,7 +459,7 @@ describe("RuleTester", () => {
     it("should pass-through the parser to the rule", () => {
 
         assert.doesNotThrow(() => {
-            const spy = sinon.spy(eslint, "verify");
+            const spy = sandbox.spy(eslint, "verify");
 
             ruleTester.run("no-eval", require("../../fixtures/testers/rule-tester/no-eval"), {
                 valid: [
@@ -635,5 +642,202 @@ describe("RuleTester", () => {
                 ]
             });
         }, "Rule should not modify AST.");
+    });
+
+    describe("Passing objects that are not tests", () => {
+        const emptyRule = {
+            create() {
+                return {};
+            }
+        };
+
+        it("should throw if 'valid' value is not an array or object", () => {
+            assert.throws(() => {
+                ruleTester.run("foo", emptyRule, {
+                    valid: "not an array or object",
+                    invalid: []
+                });
+            });
+
+            assert.throws(() => {
+                ruleTester.run("foo", emptyRule, {
+                    valid() {},
+                    invalid: []
+                });
+            });
+        });
+
+        it("should throw if 'invalid' value is not an array or object", () => {
+            assert.throws(() => {
+                ruleTester.run("foo", emptyRule, {
+                    valid: [],
+                    invalid: "not an array or object"
+                });
+            });
+
+            assert.throws(() => {
+                ruleTester.run("foo", emptyRule, {
+                    valid: [],
+                    invalid() {}
+                });
+            });
+        });
+    });
+
+    describe("Grouping tests into scenarios", () => {
+        let describeStub,
+            itStub;
+
+        const originalDescribe = RuleTester.describe,
+            originalIt = RuleTester.it;
+
+        beforeEach(() => {
+            describeStub = sandbox.stub().yields();
+            itStub = sandbox.stub().yields();
+
+            /*
+             * Can't do this the proper way (sandbox.spy(RuleTester, "it"))
+             * because sinon will attempt to replace the whole object
+             * descriptor, which we don't want to do.
+             * We'll restore these in the afterEach() section.
+             */
+            RuleTester.describe = describeStub;
+            RuleTester.it = itStub;
+        });
+
+        afterEach(() => {
+            RuleTester.describe = originalDescribe;
+            RuleTester.it = originalIt;
+        });
+
+        describe("for valid tests", () => {
+            beforeEach(() => {
+                const fakeRule = {
+                    create() {
+                        return {};
+                    }
+                };
+
+                ruleTester.run("foo", fakeRule, {
+                    valid: {
+                        "scenario group": [
+                            "var foo = 0;"
+                        ]
+                    },
+                    invalid: []
+                });
+            });
+
+            it("should call describe one extra time for the scenario name", () => {
+
+                assert.strictEqual(describeStub.callCount, 4);
+                assert.strictEqual(describeStub.getCall(0).args[0], "foo", "Rule name should have been described first");
+                assert.strictEqual(describeStub.getCall(1).args[0], "valid", "Valid tests should be described next");
+                assert.strictEqual(describeStub.getCall(2).args[0], "scenario group", "Scenario name should be described after that");
+                assert.strictEqual(describeStub.getCall(3).args[0], "invalid", "Invalid tests should be described after the valid scenario is run");
+                assert.strictEqual(itStub.callCount, 1, "it() should still be invoked once per test");
+            });
+        });
+
+        describe("for invalid tests", () => {
+            beforeEach(() => {
+                const fakeRule = {
+                    create(context) {
+                        return {
+                            Program(node) {
+                                context.report({ node, message: "A message" });
+                            }
+                        };
+                    }
+                };
+
+                ruleTester.run("foo", fakeRule, {
+                    valid: [],
+                    invalid: {
+                        "scenario group": [
+                            { code: "var foo = 0;", errors: 1 }
+                        ]
+                    }
+                });
+            });
+
+            it("should call describe one extra time for the scenario name", () => {
+
+                assert.strictEqual(describeStub.callCount, 4);
+                assert.strictEqual(describeStub.getCall(0).args[0], "foo", "Rule name should have been described first");
+                assert.strictEqual(describeStub.getCall(1).args[0], "valid", "Valid tests should be described next");
+                assert.strictEqual(describeStub.getCall(2).args[0], "invalid", "Invalid tests should be described after the valid scenario is run");
+                assert.strictEqual(describeStub.getCall(3).args[0], "scenario group", "Scenario name should be described after that");
+                assert.strictEqual(itStub.callCount, 1, "it() should still be invoked once per test");
+            });
+        });
+
+        describe("for valid tests, nested", () => {
+            beforeEach(() => {
+                const fakeRule = {
+                    create() {
+                        return {};
+                    }
+                };
+
+                ruleTester.run("foo", fakeRule, {
+                    valid: {
+                        "scenario group": {
+                            subgroup: [
+                                "var foo = 0;"
+                            ]
+                        }
+                    },
+                    invalid: []
+                });
+            });
+
+            it("should call describe two extra times for the scenario names", () => {
+
+                assert.strictEqual(describeStub.callCount, 5);
+                assert.strictEqual(describeStub.getCall(0).args[0], "foo", "Rule name should have been described first");
+                assert.strictEqual(describeStub.getCall(1).args[0], "valid", "Valid tests should be described next");
+                assert.strictEqual(describeStub.getCall(2).args[0], "scenario group", "Scenario name should be described after that");
+                assert.strictEqual(describeStub.getCall(3).args[0], "subgroup", "Sub-scenario name should be described after that");
+                assert.strictEqual(describeStub.getCall(4).args[0], "invalid", "Invalid tests should be described after the valid scenario is run");
+                assert.strictEqual(itStub.callCount, 1, "it() should still be invoked once per test");
+            });
+        });
+
+        describe("for invalid tests, nested", () => {
+            beforeEach(() => {
+                const fakeRule = {
+                    create(context) {
+                        return {
+                            Program(node) {
+                                context.report({ node, message: "A message" });
+                            }
+                        };
+                    }
+                };
+
+                ruleTester.run("foo", fakeRule, {
+                    valid: [],
+                    invalid: {
+                        "scenario group": {
+                            subgroup: [
+                                { code: "var foo = 0;", errors: 1 }
+                            ]
+                        }
+                    }
+                });
+            });
+
+            it("should call describe two extra times for the scenario names", () => {
+
+                assert.strictEqual(describeStub.callCount, 5);
+                assert.strictEqual(describeStub.getCall(0).args[0], "foo", "Rule name should have been described first");
+                assert.strictEqual(describeStub.getCall(1).args[0], "valid", "Valid tests should be described next");
+                assert.strictEqual(describeStub.getCall(2).args[0], "invalid", "Invalid tests should be described after the valid scenario is run");
+                assert.strictEqual(describeStub.getCall(3).args[0], "scenario group", "Scenario name should be described after that");
+                assert.strictEqual(describeStub.getCall(4).args[0], "subgroup", "Scenario name should be described after that");
+                assert.strictEqual(itStub.callCount, 1, "it() should still be invoked once per test");
+            });
+        });
     });
 });
