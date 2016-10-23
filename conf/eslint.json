@@ -126,6 +126,7 @@
         "no-useless-constructor": "off",
         "no-useless-escape": "off",
         "no-useless-rename": "off",
+        "no-useless-return": "off",
         "no-void": "off",
         "no-var": "off",
         "no-warning-comments": "off",
