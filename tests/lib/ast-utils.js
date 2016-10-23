@@ -823,4 +823,38 @@ describe("ast-utils", function() {
             });
         });
     });
+
+    describe("isEmptyBlock", function() {
+        const expectedResults = {
+            "{}": true,
+            "{ a }": false,
+            a: false,
+        };
+
+        Object.keys(expectedResults).forEach(key => {
+            it(`should return ${expectedResults[key]} for ${key}`, function() {
+                const ast = espree.parse(key);
+
+                assert.strictEqual(astUtils.isEmptyBlock(ast.body[0]), expectedResults[key]);
+            });
+        });
+    });
+
+    describe("isEmptyFunction", function() {
+        const expectedResults = {
+            "(function foo() {})": true,
+            "(function foo() { a })": false,
+            "(a) => {}": true,
+            "(a) => { a }": false,
+            "(a) => a": false,
+        };
+
+        Object.keys(expectedResults).forEach(key => {
+            it(`should return ${expectedResults[key]} for ${key}`, function() {
+                const ast = espree.parse(key, {ecmaVersion: 6});
+
+                assert.strictEqual(astUtils.isEmptyFunction(ast.body[0].expression), expectedResults[key]);
+            });
+        });
+    });
 });
