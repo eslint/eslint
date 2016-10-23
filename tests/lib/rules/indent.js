@@ -1931,6 +1931,73 @@ ruleTester.run("indent", rule, {
         },
         {
             code:
+            "var foo = function(){\n" +
+            "    foo\n" +
+            "          .bar\n" +
+            "}",
+            options: [4, {MemberExpression: 1}],
+            errors: expectedErrors(
+                [3, 8, 10, "Punctuator"]
+            )
+        },
+        {
+            code:
+            "var foo = function(){\n" +
+            "    foo\n" +
+            "             .bar\n" +
+            "}",
+            options: [4, {MemberExpression: 2}],
+            errors: expectedErrors(
+                [3, 12, 13, "Punctuator"]
+            )
+        },
+        {
+            code:
+            "var foo = () => {\n" +
+            "    foo\n" +
+            "             .bar\n" +
+            "}",
+            options: [4, {MemberExpression: 2}],
+            parserOptions: { ecmaVersion: 6 },
+            errors: expectedErrors(
+                [3, 12, 13, "Punctuator"]
+            )
+        },
+        {
+            code:
+            "JSON\n" +
+            "    .stringify(\n" +
+            "        {\n" +
+            "            foo: bar\n" +
+            "        }\n" +
+            "    )\n",
+            options: [4],
+            errors: expectedErrors(
+                [
+                    [3, 4, 8, "ObjectExpression"],
+                    [4, 8, 12, "Property"],
+                    [5, 4, 8, "ObjectExpression"]
+                ]
+            )
+        },
+        {
+            code:
+            "TestClass.prototype.method = function () {\n" +
+            "  return Promise.resolve(3)\n" +
+            "      .then(function (x) {\n" +
+            "        return x;\n" +
+            "      });\n" +
+            "};",
+            options: [2, {MemberExpression: 1}],
+            parserOptions: { ecmaVersion: 6 },
+            errors: expectedErrors(
+                [
+                    [3, 4, 6, "Punctuator"]
+                ]
+            )
+        },
+        {
+            code:
                 "while (a) \n" +
                 "b();",
             output:
