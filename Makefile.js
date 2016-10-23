@@ -62,13 +62,13 @@ const NODE = "node ", // intentional extra space
 
     // Files
     MAKEFILE = "./Makefile.js",
-    JS_FILES = "lib/**/*.js conf/**/*.js bin/**/*.js",
+    JS_FILES = "\"lib/**/*.js\" \"conf/**/*.js\" \"bin/**/*.js\"",
     JSON_FILES = find("conf/").filter(fileType("json")),
     MARKDOWN_FILES_ARRAY = find("docs/").concat(ls(".")).filter(fileType("md")),
     TEST_FILES = getTestFilePatterns(),
     PERF_ESLINTRC = path.join(PERF_TMP_DIR, "eslintrc.yml"),
     PERF_MULTIFILES_TARGET_DIR = path.join(PERF_TMP_DIR, "eslint"),
-    PERF_MULTIFILES_TARGETS = `${PERF_MULTIFILES_TARGET_DIR + path.sep}{lib,tests${path.sep}lib}${path.sep}**${path.sep}*.js`,
+    PERF_MULTIFILES_TARGETS = `"${PERF_MULTIFILES_TARGET_DIR + path.sep}{lib,tests${path.sep}lib}${path.sep}**${path.sep}*.js"`,
 
     // Regex
     TAG_REGEX = /^(?:Breaking|Build|Chore|Docs|Fix|New|Update|Upgrade):/,
@@ -94,10 +94,10 @@ function getTestFilePatterns() {
         return test("-d", testLibPath + pathToCheck);
     }).reduce(function(initialValue, currentValues) {
         if (currentValues !== "rules") {
-            initialValue.push(`${testLibPath + currentValues}/**/*.js`);
+            initialValue.push(`"${testLibPath + currentValues}/**/*.js"`);
         }
         return initialValue;
-    }, [`${testLibPath}rules/**/*.js`, `${testLibPath}*.js`, `${testTemplatesPath}*.js`, `${testBinPath}**/*.js`]).join(" ");
+    }, [`"${testLibPath}rules/**/*.js"`, `"${testLibPath}*.js"`, `"${testTemplatesPath}*.js"`, `"${testBinPath}**/*.js"`]).join(" ");
 }
 
 /**
