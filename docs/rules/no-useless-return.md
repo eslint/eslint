@@ -6,7 +6,7 @@ A `return;` statement with nothing after it is redundant, and has no effect on t
 
 This rule aims to report redundant `return` statements.
 
-The following patterns are considered warnings:
+Examples of **incorrect** code for this rule:
 
 ```js
 /* eslint no-useless-return: "error" */
@@ -39,7 +39,7 @@ function foo() {
 
 ```
 
-The following patterns are not warnings:
+Examples of **correct** code for this rule:
 
 ```js
 /* eslint no-useless-return: "error" */

@@ -59,6 +59,22 @@ ruleTester.run("no-useless-return", rule, {
         `,
         `
           function foo() {
+            switch (bar) {
+              case 1:
+                if (a) {
+                  doSomething();
+                  return;
+                } else {
+                  doSomething();
+                  return;
+                }
+              default:
+                doSomethingElse();
+            }
+          }
+        `,
+        `
+          function foo() {
             for (var foo = 0; foo < 10; foo++) {
               return;
             }
@@ -78,6 +94,12 @@ ruleTester.run("no-useless-return", rule, {
             } finally {
               return; // This is allowed because it can override the returned value of 5
             }
+          }
+        `,
+        `
+          function foo() {
+            return;
+            doSomething();
           }
         `,
         {
@@ -177,6 +199,96 @@ ruleTester.run("no-useless-return", rule, {
                   case 1:
                     doSomething();
                     
+                }
+              }
+            `
+        },
+        {
+            code: `
+              function foo() {
+                switch (bar) {
+                  case 1:
+                    if (a) {
+                      doSomething();
+                      return;
+                    }
+                    break;
+                  default:
+                    doSomethingElse();
+                }
+              }
+            `,
+            output: `
+              function foo() {
+                switch (bar) {
+                  case 1:
+                    if (a) {
+                      doSomething();
+                      
+                    }
+                    break;
+                  default:
+                    doSomethingElse();
+                }
+              }
+            `
+        },
+        {
+            code: `
+              function foo() {
+                switch (bar) {
+                  case 1:
+                    if (a) {
+                      doSomething();
+                      return;
+                    } else {
+                      doSomething();
+                    }
+                    break;
+                  default:
+                    doSomethingElse();
+                }
+              }
+            `,
+            output: `
+              function foo() {
+                switch (bar) {
+                  case 1:
+                    if (a) {
+                      doSomething();
+                      
+                    } else {
+                      doSomething();
+                    }
+                    break;
+                  default:
+                    doSomethingElse();
+                }
+              }
+            `
+        },
+        {
+            code: `
+              function foo() {
+                switch (bar) {
+                  case 1:
+                    if (a) {
+                      doSomething();
+                      return;
+                    }
+                  default:
+                }
+              }
+            `,
+            output: `
+              function foo() {
+                switch (bar) {
+                  case 1:
+                    if (a) {
+                      doSomething();
+                      
+                    }
+                  default:
                 }
               }
             `
