@@ -234,6 +234,18 @@ ruleTester.run("no-useless-escape", rule, {
         {
             code: String.raw`var foo = /[\B]/`,
             errors: [{ line: 1, column: 13, message: "Unnecessary escape character: \\B.", type: "Literal" }]
+        },
+        {
+            code: String.raw`var foo = /[a][\-b]/`,
+            errors: [{ line: 1, column: 16, message: "Unnecessary escape character: \\-.", type: "Literal" }]
+        },
+        {
+            code: String.raw`var foo = /\-[]/`,
+            errors: [{ line: 1, column: 12, message: "Unnecessary escape character: \\-.", type: "Literal" }]
+        },
+        {
+            code: String.raw`var foo = /[a\^]/`,
+            errors: [{ line: 1, column: 14, message: "Unnecessary escape character: \\^.", type: "Literal" }]
         }
     ]
 });
