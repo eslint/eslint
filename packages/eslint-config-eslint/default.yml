@@ -88,6 +88,7 @@ rules:
     no-useless-concat: "error"
     no-useless-constructor: "error"
     no-useless-escape: "error"
+    no-useless-return: "error"
     no-with: "error"
     no-var: "error"
     object-shorthand: "error"
