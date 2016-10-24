@@ -8,8 +8,23 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-const rule = require("../../../lib/rules/array-bracket-spacing"),
+const path = require("path"),
+    rule = require("../../../lib/rules/array-bracket-spacing"),
     RuleTester = require("../../../lib/testers/rule-tester");
+
+//------------------------------------------------------------------------------
+// Helpers
+//------------------------------------------------------------------------------
+
+/**
+ * Gets the path to the specified parser.
+ *
+ * @param {string} name - The parser name to get.
+ * @returns {string} The path to the specified parser.
+ */
+function parser(name) {
+    return path.resolve(__dirname, `../../fixtures/parsers/array-bracket-spacing/${name}.js`);
+}
 
 //------------------------------------------------------------------------------
 // Tests
@@ -159,8 +174,11 @@ ruleTester.run("array-bracket-spacing", rule, {
         { code: "var foo = [1, {'bar': 'baz'}, 5];", options: ["never"] },
         { code: "var foo = [{'bar': 'baz'}, 1,  5];", options: ["never"] },
         { code: "var foo = [1, 5, {'bar': 'baz'}];", options: ["never"] },
-        { code: "var obj = {'foo': [1, 2]}", options: ["never"] }
+        { code: "var obj = {'foo': [1, 2]}", options: ["never"] },
 
+        // destructuring with type annotation
+        { code: "([ 1, 1 ]: Array<any>)", options: ["always"], parserOptions: { ecmaVersion: 6 }, parser: parser("flow-destructuring-1") },
+        { code: "([1, 1]: Array< any >)", options: ["never"], parserOptions: { ecmaVersion: 6 }, parser: parser("flow-destructuring-2") },
     ],
 
     invalid: [
@@ -670,6 +688,54 @@ ruleTester.run("array-bracket-spacing", rule, {
                     column: 26
                 }
             ]
-        }
-    ]
+        },
+
+        // destructuring with type annotation
+        {
+            code: "([ 1, 1 ]: Array<any>)",
+            output: "([1, 1]: Array<any>)",
+            options: ["never"],
+            ecmaFeatures: {
+                ecmaVersion: 6,
+            },
+            errors: [
+                {
+                    message: "There should be no space after '['.",
+                    type: "ArrayExpression",
+                    line: 1,
+                    column: 2,
+                },
+                {
+                    message: "There should be no space before ']'.",
+                    type: "ArrayExpression",
+                    line: 1,
+                    column: 9
+                },
+            ],
+            parser: parser("flow-destructuring-1"),
+        },
+        {
+            code: "([1, 1]: Array< any >)",
+            output: "([ 1, 1 ]: Array< any >)",
+            options: ["always"],
+            ecmaFeatures: {
+                ecmaVersion: 6,
+            },
+            errors: [
+                {
+                    message: "A space is required after '['.",
+                    type: "ArrayExpression",
+                    line: 1,
+                    column: 2,
+                },
+                {
+                    message: "A space is required before ']'.",
+                    type: "ArrayExpression",
+                    line: 1,
+                    column: 7,
+                },
+            ],
+            parser: parser("flow-destructuring-2"),
+        },
+    ],
 });
