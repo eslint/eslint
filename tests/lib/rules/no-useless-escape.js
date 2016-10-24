@@ -92,7 +92,8 @@ ruleTester.run("no-useless-escape", rule, {
         String.raw`var foo = /[\]\]]/`, // A (redundant) character class containing ']'
         String.raw`var foo = /\[abc]/`, // Matches the literal string '[abc]'
         String.raw`var foo = /\[foo\.bar]/`, // Matches the literal string '[foo.bar]'
-        String.raw`var foo = /vi/m`
+        String.raw`var foo = /vi/m`,
+        String.raw`var foo = /\B/`
     ],
 
     invalid: [
@@ -229,6 +230,10 @@ ruleTester.run("no-useless-escape", rule, {
         {
             code: String.raw`var foo = /[\/]/`, // A character class containing '/'
             errors: [{ line: 1, column: 13, message: "Unnecessary escape character: \\/.", type: "Literal" }]
+        },
+        {
+            code: String.raw`var foo = /[\B]/`,
+            errors: [{ line: 1, column: 13, message: "Unnecessary escape character: \\B.", type: "Literal" }]
         }
     ]
 });
