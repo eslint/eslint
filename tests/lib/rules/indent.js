@@ -1596,6 +1596,40 @@ ruleTester.run("indent", rule, {
             "  };\n" +
             "}",
             options: [2, {FunctionExpression: {parameters: 3}}]
+        },
+        {
+            code:
+            "function foo() {\n" +
+            "  return (bar === 1 || bar === 2 &&\n" +
+            "    (/Function/.test(grandparent.type))) &&\n" +
+            "    directives(parent).indexOf(node) >= 0;\n" +
+            "}",
+            options: [2]
+        },
+        {
+            code:
+            "function foo() {\n" +
+            "  return (bar === 1 || bar === 2) &&\n" +
+            "    (z === 3 || z === 4);\n" +
+            "}",
+            options: [2]
+        },
+        {
+            code:
+            "function foo() {\n" +
+            "  return ((bar === 1 || bar === 2) &&\n" +
+            "    (z === 3 || z === 4)\n" +
+            "  );\n" +
+            "}",
+            options: [2]
+        },
+        {
+            code:
+            "function foo() {\n" +
+            "  return ((bar === 1 || bar === 2) &&\n" +
+            "    (z === 3 || z === 4));\n" +
+            "}",
+            options: [2]
         }
     ],
     invalid: [
@@ -3038,6 +3072,106 @@ ruleTester.run("indent", rule, {
             "}",
             options: [2, {FunctionExpression: {parameters: 3}}],
             errors: expectedErrors([3, 8, 10, "Identifier"])
+        },
+        {
+            code:
+            "function foo() {\n" +
+            "  bar();\n" +
+            "\t\t}",
+            output:
+            "function foo() {\n" +
+            "  bar();\n" +
+            "}",
+            options: [2],
+            errors: expectedErrors([[3, "0 spaces", "2 tabs", "BlockStatement"]])
+        },
+        {
+            code:
+            "function foo() {\n" +
+            "  return (\n" +
+            "    1\n" +
+            "    )\n" +
+            "}",
+            output:
+            "function foo() {\n" +
+            "  return (\n" +
+            "    1\n" +
+            "  )\n" +
+            "}",
+            options: [2],
+            errors: expectedErrors([[4, "2 spaces", "4", "ReturnStatement"]])
+        },
+        {
+            code:
+            "function foo() {\n" +
+            "  return (\n" +
+            "    1\n" +
+            "    );\n" +
+            "}",
+            output:
+            "function foo() {\n" +
+            "  return (\n" +
+            "    1\n" +
+            "  );\n" +
+            "}",
+            options: [2],
+            errors: expectedErrors([[4, "2 spaces", "4", "ReturnStatement"]])
+        },
+        {
+            code:
+            "function foo() {\n" +
+            "  bar();\n" +
+            "\t\t}",
+            output:
+            "function foo() {\n" +
+            "  bar();\n" +
+            "}",
+            options: [2],
+            errors: expectedErrors([[3, "0 spaces", "2 tabs", "BlockStatement"]])
+        },
+        {
+            code:
+            "function test(){\n" +
+            "  switch(length){\n" +
+            "    case 1: return function(a){\n" +
+            "    return fn.call(that, a);\n" +
+            "    };\n" +
+            "  }\n" +
+            "}",
+            output:
+            "function test(){\n" +
+            "  switch(length){\n" +
+            "    case 1: return function(a){\n" +
+            "      return fn.call(that, a);\n" +
+            "    };\n" +
+            "  }\n" +
+            "}",
+            options: [2, {VariableDeclarator: 2, SwitchCase: 1}],
+            errors: expectedErrors([[4, "6 spaces", "4", "ReturnStatement"]])
+        },
+        {
+            code:
+            "function foo() {\n" +
+            "   return 1\n" +
+            "}",
+            output:
+            "function foo() {\n" +
+            "  return 1\n" +
+            "}",
+            options: [2],
+            errors: expectedErrors([[2, "2 spaces", "3", "ReturnStatement"]])
+        },
+        {
+            code:
+            "function foo() {\n" +
+            "   return 1;\n" +
+            "}",
+            output:
+            "function foo() {\n" +
+            "  return 1;\n" +
+            "}",
+            options: [2],
+            errors: expectedErrors([[2, "2 spaces", "3", "ReturnStatement"]])
         }
     ]
 });
