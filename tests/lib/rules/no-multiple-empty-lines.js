@@ -272,7 +272,7 @@ ruleTester.run("no-multiple-empty-lines", rule, {
             code: "\n\n\n// invalid 19\nvar a = 5;\n\n",
             output: "// invalid 19\nvar a = 5;\n",
             errors: [ getExpectedErrorBOF(0),
-                      getExpectedErrorEOF(0) ],
+                getExpectedErrorEOF(0) ],
             options: [ { max: 2, maxBOF: 0, maxEOF: 0 } ]
         },
         {
