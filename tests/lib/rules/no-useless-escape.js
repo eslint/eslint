@@ -93,7 +93,16 @@ ruleTester.run("no-useless-escape", rule, {
         String.raw`var foo = /\[abc]/`, // Matches the literal string '[abc]'
         String.raw`var foo = /\[foo\.bar]/`, // Matches the literal string '[foo.bar]'
         String.raw`var foo = /vi/m`,
-        String.raw`var foo = /\B/`
+        String.raw`var foo = /\B/`,
+
+        {
+            code: String.raw`var foo = /[\[\^\.\*]/`,
+            options: [{ ignoreCharClasses: true }]
+        },
+        {
+            code: String.raw`var foo = /\]/`,
+            options: [{ ignoreCharClasses: true }]
+        }
     ],
 
     invalid: [
@@ -246,6 +255,16 @@ ruleTester.run("no-useless-escape", rule, {
         {
             code: String.raw`var foo = /[a\^]/`,
             errors: [{ line: 1, column: 14, message: "Unnecessary escape character: \\^.", type: "Literal" }]
+        },
+        {
+            code: String.raw`var foo = /[\"]/`,
+            options: [{ ignoreCharClasses: true }],
+            errors: [{ line: 1, column: 13, message: "Unnecessary escape character: \\\".", type: "Literal" }]
+        },
+        {
+            code: String.raw`var foo = "\["`,
+            options: [{ ignoreCharClasses: true }],
+            errors: [{ line: 1, column: 12, message: "Unnecessary escape character: \\[.", type: "Literal" }]
         }
     ]
 });
