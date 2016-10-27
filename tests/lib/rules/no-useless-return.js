@@ -369,6 +369,14 @@ ruleTester.run("no-useless-return", rule, {
             code: "() => { return; }",
             output: "() => {  }",
             parserOptions: {ecmaVersion: 6}
+        },
+        {
+            code: "function foo() { return; return; }",
+            output: "function foo() {   }",
+            errors: [
+                {message: "Unnecessary return statement.", type: "ReturnStatement"},
+                {message: "Unnecessary return statement.", type: "ReturnStatement"},
+            ]
         }
     ].map(invalidCase => Object.assign({errors: [{message: "Unnecessary return statement.", type: "ReturnStatement"}]}, invalidCase))
 });
