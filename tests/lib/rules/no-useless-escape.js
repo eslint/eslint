@@ -72,10 +72,12 @@ ruleTester.run("no-useless-escape", rule, {
         {code: "var foo = `${foo}\\f`;", parserOptions: {ecmaVersion: 6}},
         {code: "var foo = `${foo}\\\n`;", parserOptions: {ecmaVersion: 6}},
         {code: "var foo = `${foo}\\\r\n`;", parserOptions: {ecmaVersion: 6}},
-        {code: "var foo = `\\\``", parserOptions: {ecmaVersion: 6}},
-        {code: "var foo = `\\\`${foo}\\\``", parserOptions: {ecmaVersion: 6}},
+        {code: "var foo = `\\``", parserOptions: {ecmaVersion: 6}},
+        {code: "var foo = `\\`${foo}\\``", parserOptions: {ecmaVersion: 6}},
         {code: "var foo = `\\${{${foo}`;", parserOptions: {ecmaVersion: 6}},
-        {code: "var foo = `$\\{{${foo}`;", parserOptions: {ecmaVersion: 6}}
+        {code: "var foo = `$\\{{${foo}`;", parserOptions: {ecmaVersion: 6}},
+        {code: "var foo = String.raw`\\.`", parserOptions: {ecmaVersion: 6}},
+        {code: "var foo = myFunc`\\.`", parserOptions: {ecmaVersion: 6}}
     ],
 
     invalid: [
@@ -109,7 +111,7 @@ ruleTester.run("no-useless-escape", rule, {
         { code: "var foo = `\\'`;", parserOptions: {ecmaVersion: 6}, errors: [{ line: 1, column: 11, message: "Unnecessary escape character: \\'.", type: "TemplateElement"}] },
         { code: "var foo = `\\#`;", parserOptions: {ecmaVersion: 6}, errors: [{ line: 1, column: 11, message: "Unnecessary escape character: \\#.", type: "TemplateElement"}] },
         {
-            code: "var foo = '\\\`foo\\\`';",
+            code: "var foo = '\\`foo\\`';",
             errors: [
                 { line: 1, column: 12, message: "Unnecessary escape character: \\`.", type: "Literal"},
                 { line: 1, column: 17, message: "Unnecessary escape character: \\`.", type: "Literal"},
@@ -124,7 +126,7 @@ ruleTester.run("no-useless-escape", rule, {
             ]
         },
         {
-            code: "var foo = `\\\'${foo}\\\'`;",
+            code: "var foo = `\\'${foo}\\'`;",
             parserOptions: {ecmaVersion: 6},
             errors: [
                 { line: 1, column: 11, message: "Unnecessary escape character: \\'.", type: "TemplateElement"},

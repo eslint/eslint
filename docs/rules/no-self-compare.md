@@ -18,7 +18,3 @@ if (x === x) {
     x = 20;
 }
 ```
-
-## Further Reading
-
-* [Weird Relation](http://jslinterrors.com/weird-relation/)

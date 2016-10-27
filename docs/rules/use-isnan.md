@@ -40,7 +40,3 @@ if (!isNaN(foo)) {
     // ...
 }
 ```
-
-## Further Reading
-
-* [Use the isNaN function to compare with NaN](http://jslinterrors.com/use-the-isnan-function-to-compare-with-nan/)

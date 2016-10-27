@@ -32,7 +32,3 @@ var a = function() {/*...*/};
 
 (function() {/*...*/})();
 ```
-
-## Further Reading
-
-* [Do not wrap function literals in parens unless they are to be immediately invoked](http://jslinterrors.com/do-not-wrap-function-literals-in-parens)

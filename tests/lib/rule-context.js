@@ -10,6 +10,7 @@
 //------------------------------------------------------------------------------
 
 const sinon = require("sinon"),
+    assert = require("chai").assert,
     leche = require("leche"),
     realESLint = require("../../lib/eslint"),
     RuleContext = require("../../lib/rule-context");
@@ -93,6 +94,37 @@ describe("RuleContext", function() {
                 mockESLint.verify();
             });
         });
+    });
+
+    describe("parserServices", function() {
+
+        it("should pass through parserServices properties to context", function() {
+            const services = {
+                test: {}
+            };
+            const ruleContext = new RuleContext("fake-rule", {}, 2, {}, {}, {}, "espree", {}, services);
+
+            assert.equal(ruleContext.parserServices.test, services.test);
+        });
+
+        it("should copy parserServices properties to a new object", function() {
+            const services = {
+                test: {}
+            };
+            const ruleContext = new RuleContext("fake-rule", {}, 2, {}, {}, {}, "espree", {}, services);
+
+            assert.notEqual(ruleContext.parserServices, services);
+        });
+
+        it("should make context.parserServices a frozen object", function() {
+            const services = {
+                test: {}
+            };
+            const ruleContext = new RuleContext("fake-rule", {}, 2, {}, {}, {}, "espree", {}, services);
+
+            assert.ok(Object.isFrozen(ruleContext.parserServices));
+        });
+
     });
 
 });

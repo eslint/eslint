@@ -122,10 +122,6 @@ if (x === 0) {
 }
 ```
 
-## Further Reading
-
-* [JSLint -- Unexpected assignment expression](http://jslinterrors.com/unexpected-assignment-expression/)
-
 ## Related Rules
 
 * [no-extra-parens](no-extra-parens.md)

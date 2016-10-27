@@ -23,6 +23,7 @@ This rule has a number or object option:
 * `"ignoreUrls": true` ignores lines that contain a URL
 * `"ignoreStrings": true` ignores lines that contain a double-quoted or single-quoted string
 * `"ignoreTemplateLiterals": true` ignores lines that contain a template literal
+* `"ignoreRegExpLiterals": true` ignores lines that contain a RegExp literal
 
 ### code
 
@@ -129,6 +130,16 @@ Examples of **correct** code for this rule with the `{ "ignoreTemplateLiterals":
 /*eslint max-len: ["error", { "ignoreTemplateLiterals": true }]*/
 
 var longTemplateLiteral = `this is a really really really really really long template literal!`;
+```
+
+### ignoreRegExpLiterals
+
+Examples of **correct** code for this rule with the `{ "ignoreRegExpLiterals": true }` option:
+
+```js
+/*eslint max-len: ["error", { "ignoreRegExpLiterals": true }]*/
+
+var longRegExpLiteral = /this is a really really really really really long regular expression!/;
 ```
 
 ### ignorePattern

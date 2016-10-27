@@ -1568,10 +1568,10 @@ ruleTester.run("key-spacing", rule, {
         }],
         parserOptions: { ecmaVersion: 6, ecmaFeatures: { experimentalObjectRestSpread: true } },
         errors: [
-            { message: "Missing space after key \'longName\'.", line: 2, column: 5, type: "Identifier" },
-            { message: "Missing space before value for key \'longName\'.", line: 2, column: 14, type: "Literal" },
-            { message: "Missing space before value for key \'small\'.", line: 3, column: 15, type: "Literal" },
-            { message: "Missing space after key \'xs\'.", line: 4, column: 5, type: "Identifier" }
+            { message: "Missing space after key 'longName'.", line: 2, column: 5, type: "Identifier" },
+            { message: "Missing space before value for key 'longName'.", line: 2, column: 14, type: "Literal" },
+            { message: "Missing space before value for key 'small'.", line: 3, column: 15, type: "Literal" },
+            { message: "Missing space after key 'xs'.", line: 4, column: 5, type: "Identifier" }
         ]
     }, {
         code: [
@@ -1616,11 +1616,11 @@ ruleTester.run("key-spacing", rule, {
         }],
         parserOptions: { ecmaVersion: 6, ecmaFeatures: { experimentalObjectRestSpread: true } },
         errors: [
-            { message: "Missing space before value for key \'func\'.", line: 2, column: 10, type: "FunctionExpression" },
-            { message: "Missing space after key \'longName\'.", line: 5, column: 5, type: "Identifier" },
-            { message: "Missing space after key \'small\'.", line: 6, column: 5, type: "Identifier" },
-            { message: "Extra space after key \'xs\'.", line: 7, column: 5, type: "Identifier" },
-            { message: "Extra space after key \'singleLine\'.", line: 11, column: 5, type: "Identifier" }
+            { message: "Missing space before value for key 'func'.", line: 2, column: 10, type: "FunctionExpression" },
+            { message: "Missing space after key 'longName'.", line: 5, column: 5, type: "Identifier" },
+            { message: "Missing space after key 'small'.", line: 6, column: 5, type: "Identifier" },
+            { message: "Extra space after key 'xs'.", line: 7, column: 5, type: "Identifier" },
+            { message: "Extra space after key 'singleLine'.", line: 11, column: 5, type: "Identifier" }
         ]
     }, {
         code: [
@@ -1665,12 +1665,12 @@ ruleTester.run("key-spacing", rule, {
         }],
         parserOptions: { ecmaVersion: 6, ecmaFeatures: { experimentalObjectRestSpread: true } },
         errors: [
-            { message: "Missing space before value for key \'func\'.", line: 2, column: 10, type: "FunctionExpression" },
-            { message: "Missing space after key \'small\'.", line: 6, column: 5, type: "Identifier" },
-            { message: "Extra space after key \'xs\'.", line: 7, column: 5, type: "Identifier" },
-            { message: "Extra space before value for key \'xs\'.", line: 7, column: 21, type: "Literal" },
-            { message: "Extra space before value for key \'func2\'.", line: 8, column: 16, type: "FunctionExpression" },
-            { message: "Extra space after key \'singleLine\'.", line: 11, column: 5, type: "Identifier" }
+            { message: "Missing space before value for key 'func'.", line: 2, column: 10, type: "FunctionExpression" },
+            { message: "Missing space after key 'small'.", line: 6, column: 5, type: "Identifier" },
+            { message: "Extra space after key 'xs'.", line: 7, column: 5, type: "Identifier" },
+            { message: "Extra space before value for key 'xs'.", line: 7, column: 21, type: "Literal" },
+            { message: "Extra space before value for key 'func2'.", line: 8, column: 16, type: "FunctionExpression" },
+            { message: "Extra space after key 'singleLine'.", line: 11, column: 5, type: "Identifier" }
         ]
     }, {
         code: [
@@ -1697,8 +1697,8 @@ ruleTester.run("key-spacing", rule, {
         }],
         parserOptions: { ecmaVersion: 6, ecmaFeatures: { experimentalObjectRestSpread: true } },
         errors: [
-            { message: "Extra space before value for key \'key2\'.", line: 4, column: 14, type: "Literal" },
-            { message: "Extra space before value for key \'key3\'.", line: 5, column: 14, type: "Literal" }
+            { message: "Extra space before value for key 'key2'.", line: 4, column: 14, type: "Literal" },
+            { message: "Extra space before value for key 'key3'.", line: 5, column: 14, type: "Literal" }
         ]
     }, {
         code: [
@@ -1725,8 +1725,8 @@ ruleTester.run("key-spacing", rule, {
         }],
         parserOptions: { ecmaVersion: 6, ecmaFeatures: { experimentalObjectRestSpread: true } },
         errors: [
-            { message: "Extra space before value for key \'key2\'.", line: 4, column: 14, type: "Literal" },
-            { message: "Extra space before value for key \'key3\'.", line: 5, column: 14, type: "Literal" }
+            { message: "Extra space before value for key 'key2'.", line: 4, column: 14, type: "Literal" },
+            { message: "Extra space before value for key 'key3'.", line: 5, column: 14, type: "Literal" }
         ]
     }]
 });

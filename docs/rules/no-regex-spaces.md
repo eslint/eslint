@@ -42,10 +42,6 @@ var re = new RegExp("foo {3}bar");
 
 If you want to allow multiple spaces in a regular expression, then you can safely turn this rule off.
 
-## Further Reading
-
-* [Spaces are hard to count](http://jslinterrors.com/spaces-are-hard-to-count-use-a/)
-
 ## Related Rules
 
 * [no-div-regex](no-div-regex.md)
