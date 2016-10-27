@@ -161,6 +161,23 @@ ruleTester.run("indent", rule, {
         },
         {
             code:
+            "var x = [\n" +
+            "    'a',\n" +
+            "    'b',\n" +
+            "    'c'\n" +
+            "];",
+            options: [4]
+        },
+        {
+            code:
+            "var x = ['a',\n" +
+            "    'b',\n" +
+            "    'c',\n" +
+            "];",
+            options: [4]
+        },
+        {
+            code:
             "var x = 0 && 1;",
             options: [4]
         },
@@ -185,7 +202,7 @@ ruleTester.run("indent", rule, {
         {
             code:
             "require('http').request({hostname: 'localhost',\n" +
-            "                         port: 80}, function(res) {\n" +
+            "  port: 80}, function(res) {\n" +
             "  res.end();\n" +
             "});\n",
             options: [2]
@@ -617,19 +634,13 @@ ruleTester.run("indent", rule, {
             "while (1 < 2) console.log('hi');",
             options: [2]
         },
+
         {
             code:
-            "[a, b, \nc].forEach((index) => {\n" +
-            "    index;\n" +
-            "});\n",
-            options: [4],
-            parserOptions: { ecmaVersion: 6 }
-        },
-        {
-            code:
-            "[a, b, \nc].forEach(function(index){\n" +
-            "    return index;\n" +
-            "});\n",
+            "[a, b,\n" +
+            "    c].forEach((index) => {\n" +
+            "        index;\n" +
+            "    });\n",
             options: [4],
             parserOptions: { ecmaVersion: 6 }
         },
@@ -1596,6 +1607,40 @@ ruleTester.run("indent", rule, {
             "  };\n" +
             "}",
             options: [2, {FunctionExpression: {parameters: 3}}]
+        },
+        {
+            code:
+            "function foo() {\n" +
+            "  return (bar === 1 || bar === 2 &&\n" +
+            "    (/Function/.test(grandparent.type))) &&\n" +
+            "    directives(parent).indexOf(node) >= 0;\n" +
+            "}",
+            options: [2]
+        },
+        {
+            code:
+            "function foo() {\n" +
+            "  return (bar === 1 || bar === 2) &&\n" +
+            "    (z === 3 || z === 4);\n" +
+            "}",
+            options: [2]
+        },
+        {
+            code:
+            "function foo() {\n" +
+            "  return ((bar === 1 || bar === 2) &&\n" +
+            "    (z === 3 || z === 4)\n" +
+            "  );\n" +
+            "}",
+            options: [2]
+        },
+        {
+            code:
+            "function foo() {\n" +
+            "  return ((bar === 1 || bar === 2) &&\n" +
+            "    (z === 3 || z === 4));\n" +
+            "}",
+            options: [2]
         }
     ],
     invalid: [
@@ -1612,6 +1657,20 @@ ruleTester.run("indent", rule, {
                 "if (a) {\n" +
                 "  b();\n" +
                 "}\n"
+        },
+        {
+            code:
+            "require('http').request({hostname: 'localhost',\n" +
+            "                  port: 80}, function(res) {\n" +
+            "  res.end();\n" +
+            "});\n",
+            output:
+            "require('http').request({hostname: 'localhost',\n" +
+            "  port: 80}, function(res) {\n" +
+            "  res.end();\n" +
+            "});\n",
+            options: [2],
+            errors: expectedErrors([[2, 2, 18, "Property"]])
         },
         {
             code:
@@ -1931,6 +1990,73 @@ ruleTester.run("indent", rule, {
         },
         {
             code:
+            "var foo = function(){\n" +
+            "    foo\n" +
+            "          .bar\n" +
+            "}",
+            options: [4, {MemberExpression: 1}],
+            errors: expectedErrors(
+                [3, 8, 10, "Punctuator"]
+            )
+        },
+        {
+            code:
+            "var foo = function(){\n" +
+            "    foo\n" +
+            "             .bar\n" +
+            "}",
+            options: [4, {MemberExpression: 2}],
+            errors: expectedErrors(
+                [3, 12, 13, "Punctuator"]
+            )
+        },
+        {
+            code:
+            "var foo = () => {\n" +
+            "    foo\n" +
+            "             .bar\n" +
+            "}",
+            options: [4, {MemberExpression: 2}],
+            parserOptions: { ecmaVersion: 6 },
+            errors: expectedErrors(
+                [3, 12, 13, "Punctuator"]
+            )
+        },
+        {
+            code:
+            "JSON\n" +
+            "    .stringify(\n" +
+            "        {\n" +
+            "            foo: bar\n" +
+            "        }\n" +
+            "    )\n",
+            options: [4],
+            errors: expectedErrors(
+                [
+                    [3, 4, 8, "ObjectExpression"],
+                    [4, 8, 12, "Property"],
+                    [5, 4, 8, "ObjectExpression"]
+                ]
+            )
+        },
+        {
+            code:
+            "TestClass.prototype.method = function () {\n" +
+            "  return Promise.resolve(3)\n" +
+            "      .then(function (x) {\n" +
+            "        return x;\n" +
+            "      });\n" +
+            "};",
+            options: [2, {MemberExpression: 1}],
+            parserOptions: { ecmaVersion: 6 },
+            errors: expectedErrors(
+                [
+                    [3, 4, 6, "Punctuator"]
+                ]
+            )
+        },
+        {
+            code:
                 "while (a) \n" +
                 "b();",
             output:
@@ -2052,12 +2178,14 @@ ruleTester.run("indent", rule, {
             "  index;\n" +
             "});\n",
             output:
-            "[a, b, \nc].forEach((index) => {\n" +
+            "[a, b, \n" +
+            "    c].forEach((index) => {\n" +
             "    index;\n" +
             "});\n",
             options: [4],
             parserOptions: { ecmaVersion: 6 },
             errors: expectedErrors([
+                [2, 4, 0, "Identifier"],
                 [3, 4, 2, "ExpressionStatement"]
             ])
         },
@@ -2067,14 +2195,30 @@ ruleTester.run("indent", rule, {
             "  return index;\n" +
             "});\n",
             output:
-            "[a, b, \nc].forEach(function(index){\n" +
+            "[a, b, \n" +
+            "    c].forEach(function(index){\n" +
             "    return index;\n" +
             "});\n",
             options: [4],
             parserOptions: { ecmaVersion: 6 },
             errors: expectedErrors([
+                [2, 4, 0, "Identifier"],
                 [3, 4, 2, "ReturnStatement"]
             ])
+        },
+        {
+            code:
+            "[a, b, \nc].forEach(function(index){\n" +
+            "    return index;\n" +
+            "});\n",
+            output:
+            "[a, b, \n" +
+            "    c].forEach(function(index){\n" +
+            "    return index;\n" +
+            "});\n",
+            options: [4],
+            parserOptions: { ecmaVersion: 6 },
+            errors: expectedErrors([[2, 4, 0, "Identifier"]])
         },
         {
             code:
@@ -2104,6 +2248,86 @@ ruleTester.run("indent", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: expectedErrors([
                 [2, 4, 2, "ReturnStatement"]
+            ])
+        },
+        {
+            code:
+            "var x = ['a',\n" +
+            "         'b',\n" +
+            "         'c'\n" +
+            "];",
+            output:
+            "var x = ['a',\n" +
+            "    'b',\n" +
+            "    'c'\n" +
+            "];",
+            options: [4],
+            errors: expectedErrors([
+                [2, 4, 9, "Literal"],
+                [3, 4, 9, "Literal"]
+            ])
+        },
+        {
+            code:
+            "var x = [\n" +
+            "         'a',\n" +
+            "         'b',\n" +
+            "         'c'\n" +
+            "];",
+            output:
+            "var x = [\n" +
+            "    'a',\n" +
+            "    'b',\n" +
+            "    'c'\n" +
+            "];",
+            options: [4],
+            errors: expectedErrors([
+                [2, 4, 9, "Literal"],
+                [3, 4, 9, "Literal"],
+                [4, 4, 9, "Literal"]
+            ])
+        },
+        {
+            code:
+            "var x = [\n" +
+            "         'a',\n" +
+            "         'b',\n" +
+            "         'c',\n" +
+            "'d'];",
+            output:
+            "var x = [\n" +
+            "    'a',\n" +
+            "    'b',\n" +
+            "    'c',\n" +
+            "    'd'];",
+            options: [4],
+            errors: expectedErrors([
+                [2, 4, 9, "Literal"],
+                [3, 4, 9, "Literal"],
+                [4, 4, 9, "Literal"],
+                [5, 4, 0, "Literal"]
+            ])
+        },
+        {
+            code:
+            "var x = [\n" +
+            "         'a',\n" +
+            "         'b',\n" +
+            "         'c'\n" +
+            "  ];",
+            output:
+            "var x = [\n" +
+            "    'a',\n" +
+            "    'b',\n" +
+            "    'c'\n" +
+            "];",
+            options: [4],
+            parserOptions: { ecmaVersion: 6 },
+            errors: expectedErrors([
+                [2, 4, 9, "Literal"],
+                [3, 4, 9, "Literal"],
+                [4, 4, 9, "Literal"],
+                [5, 0, 2, "ArrayExpression"]
             ])
         },
         {
@@ -2971,6 +3195,106 @@ ruleTester.run("indent", rule, {
             "}",
             options: [2, {FunctionExpression: {parameters: 3}}],
             errors: expectedErrors([3, 8, 10, "Identifier"])
+        },
+        {
+            code:
+            "function foo() {\n" +
+            "  bar();\n" +
+            "\t\t}",
+            output:
+            "function foo() {\n" +
+            "  bar();\n" +
+            "}",
+            options: [2],
+            errors: expectedErrors([[3, "0 spaces", "2 tabs", "BlockStatement"]])
+        },
+        {
+            code:
+            "function foo() {\n" +
+            "  return (\n" +
+            "    1\n" +
+            "    )\n" +
+            "}",
+            output:
+            "function foo() {\n" +
+            "  return (\n" +
+            "    1\n" +
+            "  )\n" +
+            "}",
+            options: [2],
+            errors: expectedErrors([[4, "2 spaces", "4", "ReturnStatement"]])
+        },
+        {
+            code:
+            "function foo() {\n" +
+            "  return (\n" +
+            "    1\n" +
+            "    );\n" +
+            "}",
+            output:
+            "function foo() {\n" +
+            "  return (\n" +
+            "    1\n" +
+            "  );\n" +
+            "}",
+            options: [2],
+            errors: expectedErrors([[4, "2 spaces", "4", "ReturnStatement"]])
+        },
+        {
+            code:
+            "function foo() {\n" +
+            "  bar();\n" +
+            "\t\t}",
+            output:
+            "function foo() {\n" +
+            "  bar();\n" +
+            "}",
+            options: [2],
+            errors: expectedErrors([[3, "0 spaces", "2 tabs", "BlockStatement"]])
+        },
+        {
+            code:
+            "function test(){\n" +
+            "  switch(length){\n" +
+            "    case 1: return function(a){\n" +
+            "    return fn.call(that, a);\n" +
+            "    };\n" +
+            "  }\n" +
+            "}",
+            output:
+            "function test(){\n" +
+            "  switch(length){\n" +
+            "    case 1: return function(a){\n" +
+            "      return fn.call(that, a);\n" +
+            "    };\n" +
+            "  }\n" +
+            "}",
+            options: [2, {VariableDeclarator: 2, SwitchCase: 1}],
+            errors: expectedErrors([[4, "6 spaces", "4", "ReturnStatement"]])
+        },
+        {
+            code:
+            "function foo() {\n" +
+            "   return 1\n" +
+            "}",
+            output:
+            "function foo() {\n" +
+            "  return 1\n" +
+            "}",
+            options: [2],
+            errors: expectedErrors([[2, "2 spaces", "3", "ReturnStatement"]])
+        },
+        {
+            code:
+            "function foo() {\n" +
+            "   return 1;\n" +
+            "}",
+            output:
+            "function foo() {\n" +
+            "  return 1;\n" +
+            "}",
+            options: [2],
+            errors: expectedErrors([[2, "2 spaces", "3", "ReturnStatement"]])
         }
     ]
 });

@@ -358,6 +358,7 @@ ruleTester.run("no-extra-parens", rule, {
         invalid("(0.0).a", "0.0.a", "Literal"),
         invalid("(0xBEEF).a", "0xBEEF.a", "Literal"),
         invalid("(1e6).a", "1e6.a", "Literal"),
+        invalid("(0123).a", "0123.a", "Literal"),
         invalid("a[(function() {})]", "a[function() {}]", "FunctionExpression"),
         invalid("new (function(){})", "new function(){}", "FunctionExpression"),
         invalid("new (\nfunction(){}\n)", "new \nfunction(){}\n", "FunctionExpression", 1),

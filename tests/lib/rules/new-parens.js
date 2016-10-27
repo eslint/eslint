@@ -53,7 +53,7 @@ ruleTester.run("new-parens", rule, {
             code: "var a = (new Date)",
             output: "var a = (new Date())",
             errors: [{ message: "Missing '()' invoking a constructor.",
-            type: "NewExpression"}]
+                type: "NewExpression"}]
         },
         {
 
