@@ -2615,13 +2615,14 @@ describe("eslint", () => {
             assert.equal(messages[0].line, 3);
         });
 
-        it("should not have a comment with the shebang in it", () => {
+        it("should have a comment with the shebang in it", () => {
             const config = { rules: { "no-extra-semi": 1 } };
 
             eslint.reset();
 
             eslint.on("Program", node => {
-                assert.equal(node.comments.length, 0);
+                assert.equal(node.comments.length, 1);
+                assert.equal(node.comments[0].type, "Shebang");
 
                 let comments = eslint.getComments(node);
 
@@ -2629,18 +2630,10 @@ describe("eslint", () => {
                 assert.equal(comments.trailing.length, 0);
 
                 comments = eslint.getComments(node.body[0]);
-                assert.equal(comments.leading.length, 0);
+                assert.equal(comments.leading.length, 1);
                 assert.equal(comments.trailing.length, 0);
+                assert.equal(comments.leading[0].type, "Shebang");
             });
-            eslint.verify(code, config, "foo.js", true);
-        });
-
-        it("should not fire a LineComment event for a comment with the shebang in it", () => {
-            const config = { rules: { "no-extra-semi": 1 } };
-
-            eslint.reset();
-
-            eslint.on("LineComment", sandbox.mock().never());
             eslint.verify(code, config, "foo.js", true);
         });
     });
@@ -2881,7 +2874,6 @@ describe("eslint", () => {
     });
 
     describe("when evaluating code with comments to change config when allowInlineConfig is enabled", () => {
-
         it("should report a violation for disabling rules", () => {
             const code = [
                 "alert('test'); // eslint-disable-line no-alert"
@@ -3028,7 +3020,6 @@ describe("eslint", () => {
     });
 
     describe("when evaluating code with comments to change config when allowInlineConfig is disabled", () => {
-
         it("should not report a violation", () => {
             const code = [
                 "alert('test'); // eslint-disable-line no-alert"
@@ -3048,38 +3039,6 @@ describe("eslint", () => {
         });
     });
 
-    describe("when evaluating code with code comments", () => {
-
-        it("should emit enter only once for each comment", () => {
-
-            const code = "a; /*zz*/ b;";
-
-            const config = { rules: {} },
-                spy = sandbox.spy();
-
-            eslint.reset();
-            eslint.on("BlockComment", spy);
-
-            eslint.verify(code, config, filename, true);
-            assert.equal(spy.calledOnce, true);
-        });
-
-        it("should emit exit only once for each comment", () => {
-
-            const code = "a; //zz\n b;";
-
-            const config = { rules: {} },
-                spy = sandbox.spy();
-
-            eslint.reset();
-            eslint.on("LineComment:exit", spy);
-
-            eslint.verify(code, config, filename, true);
-            assert.equal(spy.calledOnce, true);
-        });
-
-    });
-
     describe("when evaluating code with hashbang", () => {
         it("should comment hashbang without breaking offset", () => {
 
@@ -3094,7 +3053,6 @@ describe("eslint", () => {
 
             eslint.verify(code, config, filename, true);
         });
-
     });
 
     describe("verify()", () => {
