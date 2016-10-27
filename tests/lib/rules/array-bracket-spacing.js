@@ -177,8 +177,8 @@ ruleTester.run("array-bracket-spacing", rule, {
         { code: "var obj = {'foo': [1, 2]}", options: ["never"] },
 
         // destructuring with type annotation
-        { code: "([ 1, 1 ]: Array<any>)", options: ["always"], parserOptions: { ecmaVersion: 6 }, parser: parser("flow-destructuring-1") },
-        { code: "([1, 1]: Array< any >)", options: ["never"], parserOptions: { ecmaVersion: 6 }, parser: parser("flow-destructuring-2") },
+        { code: "([ a, b ]: Array<any>) => {}", options: ["always"], parserOptions: { ecmaVersion: 6 }, parser: parser("flow-destructuring-1") },
+        { code: "([a, b]: Array< any >) => {}", options: ["never"], parserOptions: { ecmaVersion: 6 }, parser: parser("flow-destructuring-2") },
     ],
 
     invalid: [
@@ -692,8 +692,8 @@ ruleTester.run("array-bracket-spacing", rule, {
 
         // destructuring with type annotation
         {
-            code: "([ 1, 1 ]: Array<any>)",
-            output: "([1, 1]: Array<any>)",
+            code: "([ a, b ]: Array<any>) => {}",
+            output: "([a, b]: Array<any>) => {}",
             options: ["never"],
             ecmaFeatures: {
                 ecmaVersion: 6,
@@ -701,13 +701,13 @@ ruleTester.run("array-bracket-spacing", rule, {
             errors: [
                 {
                     message: "There should be no space after '['.",
-                    type: "ArrayExpression",
+                    type: "ArrayPattern",
                     line: 1,
                     column: 2,
                 },
                 {
                     message: "There should be no space before ']'.",
-                    type: "ArrayExpression",
+                    type: "ArrayPattern",
                     line: 1,
                     column: 9
                 },
@@ -715,8 +715,8 @@ ruleTester.run("array-bracket-spacing", rule, {
             parser: parser("flow-destructuring-1"),
         },
         {
-            code: "([1, 1]: Array< any >)",
-            output: "([ 1, 1 ]: Array< any >)",
+            code: "([a, b]: Array< any >) => {}",
+            output: "([ a, b ]: Array< any >) => {}",
             options: ["always"],
             ecmaFeatures: {
                 ecmaVersion: 6,
@@ -724,13 +724,13 @@ ruleTester.run("array-bracket-spacing", rule, {
             errors: [
                 {
                     message: "A space is required after '['.",
-                    type: "ArrayExpression",
+                    type: "ArrayPattern",
                     line: 1,
                     column: 2,
                 },
                 {
                     message: "A space is required before ']'.",
-                    type: "ArrayExpression",
+                    type: "ArrayPattern",
                     line: 1,
                     column: 7,
                 },

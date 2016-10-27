@@ -1,11 +1,11 @@
 "use strict";
 
-// ([1, 1]: Array< any >)
+// ([a, b]: Array< any >) => {}
 
 exports.parse = () => ({
     "type": "Program",
     "start": 0,
-    "end": 22,
+    "end": 28,
     "loc": {
         "start": {
             "line": 1,
@@ -13,7 +13,7 @@ exports.parse = () => ({
         },
         "end": {
             "line": 1,
-            "column": 22
+            "column": 28
         }
     },
     "comments": [],
@@ -59,8 +59,8 @@ exports.parse = () => ({
             ]
         },
         {
-            "type": "Numeric",
-            "value": "1",
+            "type": "Identifier",
+            "value": "a",
             "start": 2,
             "end": 3,
             "loc": {
@@ -99,8 +99,8 @@ exports.parse = () => ({
             ]
         },
         {
-            "type": "Numeric",
-            "value": "1",
+            "type": "Identifier",
+            "value": "b",
             "start": 5,
             "end": 6,
             "loc": {
@@ -257,18 +257,78 @@ exports.parse = () => ({
                 21,
                 22
             ]
+        },
+        {
+            "type": "Punctuator",
+            "value": "=>",
+            "start": 23,
+            "end": 25,
+            "loc": {
+                "start": {
+                    "line": 1,
+                    "column": 23
+                },
+                "end": {
+                    "line": 1,
+                    "column": 25
+                }
+            },
+            "range": [
+                23,
+                25
+            ]
+        },
+        {
+            "type": "Punctuator",
+            "value": "{",
+            "start": 26,
+            "end": 27,
+            "loc": {
+                "start": {
+                    "line": 1,
+                    "column": 26
+                },
+                "end": {
+                    "line": 1,
+                    "column": 27
+                }
+            },
+            "range": [
+                26,
+                27
+            ]
+        },
+        {
+            "type": "Punctuator",
+            "value": "}",
+            "start": 27,
+            "end": 28,
+            "loc": {
+                "start": {
+                    "line": 1,
+                    "column": 27
+                },
+                "end": {
+                    "line": 1,
+                    "column": 28
+                }
+            },
+            "range": [
+                27,
+                28
+            ]
         }
     ],
     "range": [
         0,
-        22
+        28
     ],
     "sourceType": "module",
     "body": [
         {
             "type": "ExpressionStatement",
             "start": 0,
-            "end": 22,
+            "end": 28,
             "loc": {
                 "start": {
                     "line": 1,
@@ -276,214 +336,230 @@ exports.parse = () => ({
                 },
                 "end": {
                     "line": 1,
-                    "column": 22
+                    "column": 28
                 }
             },
             "expression": {
-                "type": "TypeCastExpression",
-                "start": 1,
-                "end": 21,
+                "type": "ArrowFunctionExpression",
+                "start": 0,
+                "end": 28,
                 "loc": {
                     "start": {
                         "line": 1,
-                        "column": 1
+                        "column": 0
                     },
                     "end": {
                         "line": 1,
-                        "column": 21
+                        "column": 28
                     }
                 },
-                "expression": {
-                    "type": "ArrayExpression",
-                    "start": 1,
-                    "end": 7,
-                    "loc": {
-                        "start": {
-                            "line": 1,
-                            "column": 1
-                        },
-                        "end": {
-                            "line": 1,
-                            "column": 7
-                        }
-                    },
-                    "elements": [
-                        {
-                            "type": "Literal",
-                            "start": 2,
-                            "end": 3,
-                            "loc": {
-                                "start": {
-                                    "line": 1,
-                                    "column": 2
-                                },
-                                "end": {
-                                    "line": 1,
-                                    "column": 3
-                                }
-                            },
-                            "extra": {
-                                "rawValue": 1,
-                                "raw": "1"
-                            },
-                            "value": 1,
-                            "range": [
-                                2,
-                                3
-                            ],
-                            "_babelType": "NumericLiteral",
-                            "raw": "1"
-                        },
-                        {
-                            "type": "Literal",
-                            "start": 5,
-                            "end": 6,
-                            "loc": {
-                                "start": {
-                                    "line": 1,
-                                    "column": 5
-                                },
-                                "end": {
-                                    "line": 1,
-                                    "column": 6
-                                }
-                            },
-                            "extra": {
-                                "rawValue": 1,
-                                "raw": "1"
-                            },
-                            "value": 1,
-                            "range": [
-                                5,
-                                6
-                            ],
-                            "_babelType": "NumericLiteral",
-                            "raw": "1"
-                        }
-                    ],
-                    "range": [
-                        1,
-                        7
-                    ],
-                    "_babelType": "ArrayExpression"
-                },
-                "typeAnnotation": {
-                    "type": "TypeAnnotation",
-                    "start": 7,
-                    "end": 21,
-                    "loc": {
-                        "start": {
-                            "line": 1,
-                            "column": 7
-                        },
-                        "end": {
-                            "line": 1,
-                            "column": 21
-                        }
-                    },
-                    "typeAnnotation": {
-                        "type": "GenericTypeAnnotation",
-                        "start": 9,
+                "id": null,
+                "generator": false,
+                "expression": false,
+                "async": false,
+                "params": [
+                    {
+                        "type": "ArrayPattern",
+                        "start": 1,
                         "end": 21,
                         "loc": {
                             "start": {
                                 "line": 1,
-                                "column": 9
+                                "column": 1
                             },
                             "end": {
                                 "line": 1,
                                 "column": 21
                             }
                         },
-                        "typeParameters": {
-                            "type": "TypeParameterInstantiation",
-                            "start": 14,
+                        "elements": [
+                            {
+                                "type": "Identifier",
+                                "start": 2,
+                                "end": 3,
+                                "loc": {
+                                    "start": {
+                                        "line": 1,
+                                        "column": 2
+                                    },
+                                    "end": {
+                                        "line": 1,
+                                        "column": 3
+                                    },
+                                    "identifierName": "a"
+                                },
+                                "name": "a",
+                                "range": [
+                                    2,
+                                    3
+                                ],
+                                "_babelType": "Identifier"
+                            },
+                            {
+                                "type": "Identifier",
+                                "start": 5,
+                                "end": 6,
+                                "loc": {
+                                    "start": {
+                                        "line": 1,
+                                        "column": 5
+                                    },
+                                    "end": {
+                                        "line": 1,
+                                        "column": 6
+                                    },
+                                    "identifierName": "b"
+                                },
+                                "name": "b",
+                                "range": [
+                                    5,
+                                    6
+                                ],
+                                "_babelType": "Identifier"
+                            }
+                        ],
+                        "typeAnnotation": {
+                            "type": "TypeAnnotation",
+                            "start": 7,
                             "end": 21,
                             "loc": {
                                 "start": {
                                     "line": 1,
-                                    "column": 14
+                                    "column": 7
                                 },
                                 "end": {
                                     "line": 1,
                                     "column": 21
                                 }
                             },
-                            "params": [
-                                {
-                                    "type": "AnyTypeAnnotation",
-                                    "start": 16,
-                                    "end": 19,
+                            "typeAnnotation": {
+                                "type": "GenericTypeAnnotation",
+                                "start": 9,
+                                "end": 21,
+                                "loc": {
+                                    "start": {
+                                        "line": 1,
+                                        "column": 9
+                                    },
+                                    "end": {
+                                        "line": 1,
+                                        "column": 21
+                                    }
+                                },
+                                "typeParameters": {
+                                    "type": "TypeParameterInstantiation",
+                                    "start": 14,
+                                    "end": 21,
                                     "loc": {
                                         "start": {
                                             "line": 1,
-                                            "column": 16
+                                            "column": 14
                                         },
                                         "end": {
                                             "line": 1,
-                                            "column": 19
+                                            "column": 21
                                         }
                                     },
-                                    "range": [
-                                        16,
-                                        19
+                                    "params": [
+                                        {
+                                            "type": "AnyTypeAnnotation",
+                                            "start": 16,
+                                            "end": 19,
+                                            "loc": {
+                                                "start": {
+                                                    "line": 1,
+                                                    "column": 16
+                                                },
+                                                "end": {
+                                                    "line": 1,
+                                                    "column": 19
+                                                }
+                                            },
+                                            "range": [
+                                                16,
+                                                19
+                                            ],
+                                            "_babelType": "AnyTypeAnnotation"
+                                        }
                                     ],
-                                    "_babelType": "AnyTypeAnnotation"
-                                }
-                            ],
+                                    "range": [
+                                        14,
+                                        21
+                                    ],
+                                    "_babelType": "TypeParameterInstantiation"
+                                },
+                                "id": {
+                                    "type": "Identifier",
+                                    "start": 9,
+                                    "end": 14,
+                                    "loc": {
+                                        "start": {
+                                            "line": 1,
+                                            "column": 9
+                                        },
+                                        "end": {
+                                            "line": 1,
+                                            "column": 14
+                                        },
+                                        "identifierName": "Array"
+                                    },
+                                    "name": "Array",
+                                    "range": [
+                                        9,
+                                        14
+                                    ],
+                                    "_babelType": "Identifier"
+                                },
+                                "range": [
+                                    9,
+                                    21
+                                ],
+                                "_babelType": "GenericTypeAnnotation"
+                            },
                             "range": [
-                                14,
+                                7,
                                 21
                             ],
-                            "_babelType": "TypeParameterInstantiation"
-                        },
-                        "id": {
-                            "type": "Identifier",
-                            "start": 9,
-                            "end": 14,
-                            "loc": {
-                                "start": {
-                                    "line": 1,
-                                    "column": 9
-                                },
-                                "end": {
-                                    "line": 1,
-                                    "column": 14
-                                },
-                                "identifierName": "Array"
-                            },
-                            "name": "Array",
-                            "range": [
-                                9,
-                                14
-                            ],
-                            "_babelType": "Identifier"
+                            "_babelType": "TypeAnnotation"
                         },
                         "range": [
-                            9,
+                            1,
                             21
                         ],
-                        "_babelType": "GenericTypeAnnotation"
+                        "_babelType": "ArrayPattern"
+                    }
+                ],
+                "body": {
+                    "type": "BlockStatement",
+                    "start": 26,
+                    "end": 28,
+                    "loc": {
+                        "start": {
+                            "line": 1,
+                            "column": 26
+                        },
+                        "end": {
+                            "line": 1,
+                            "column": 28
+                        }
                     },
+                    "body": [],
                     "range": [
-                        7,
-                        21
+                        26,
+                        28
                     ],
-                    "_babelType": "TypeAnnotation"
-                },
-                "extra": {
-                    "parenthesized": true,
-                    "parenStart": 0
+                    "_babelType": "BlockStatement"
                 },
                 "range": [
-                    1,
-                    21
+                    0,
+                    28
                 ],
-                "_babelType": "TypeCastExpression"
+                "_babelType": "ArrowFunctionExpression",
+                "defaults": []
             },
             "range": [
                 0,
-                22
+                28
             ],
             "_babelType": "ExpressionStatement"
         }
