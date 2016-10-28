@@ -3198,6 +3198,45 @@ ruleTester.run("indent", rule, {
         },
         {
             code:
+            "{\n" +
+            "    try {\n" +
+            "    }\n" +
+            "catch (err) {\n" +
+            "    }\n" +
+            "finally {\n" +
+            "    }\n" +
+            "}",
+            output:
+            "{\n" +
+            "    try {\n" +
+            "    }\n" +
+            "    catch (err) {\n" +
+            "    }\n" +
+            "    finally {\n" +
+            "    }\n" +
+            "}",
+            errors: expectedErrors([
+                [4, 4, 0, "Keyword"],
+                [6, 4, 0, "Keyword"]
+            ])
+        },
+        {
+            code:
+            "{\n" +
+            "    do {\n" +
+            "    }\n" +
+            "while (true)\n" +
+            "}",
+            output:
+            "{\n" +
+            "    do {\n" +
+            "    }\n" +
+            "    while (true)\n" +
+            "}",
+            errors: expectedErrors([4, 4, 0, "Keyword"])
+        },
+        {
+            code:
             "function foo() {\n" +
             "  bar();\n" +
             "\t\t}",
@@ -3295,6 +3334,6 @@ ruleTester.run("indent", rule, {
             "}",
             options: [2],
             errors: expectedErrors([[2, "2 spaces", "3", "ReturnStatement"]])
-        }
+        },
     ]
 });
