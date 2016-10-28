@@ -42,7 +42,7 @@ describe("globUtil", function() {
     before(function() {
         fixtureDir = `${os.tmpdir()}/eslint/tests/fixtures/`;
         sh.mkdir("-p", fixtureDir);
-        sh.cp("-r", "./tests/fixtures/", fixtureDir);
+        sh.cp("-r", "./tests/fixtures/*", fixtureDir);
     });
 
     after(function() {
