@@ -167,6 +167,89 @@ ruleTester.run("comma-style", rule, {
             }]
         },
         {
+            code: "var [foo\n, bar] = ['apples', 'oranges'];",
+            output: "var [foo,\n bar] = ['apples', 'oranges'];",
+            parserOptions: {
+                ecmaVersion: 6
+            },
+            errors: [{
+                message: LAST_MSG,
+                type: "Identifier"
+            }]
+        },
+        {
+            code: "f(1\n, 2);",
+            output: "f(1,\n 2);",
+            errors: [{
+                message: LAST_MSG,
+                type: "Literal"
+            }]
+        },
+        {
+            code: "function foo(a\n, b) { return a + b; }",
+            output: "function foo(a,\n b) { return a + b; }",
+            errors: [{
+                message: LAST_MSG,
+                type: "Identifier"
+            }]
+        },
+        {
+            code: "function foo([a\n, b]) { return a + b; }",
+            output: "function foo([a,\n b]) { return a + b; }",
+            parserOptions: {
+                ecmaVersion: 6
+            },
+            errors: [{
+                message: LAST_MSG,
+                type: "Identifier"
+            }]
+        },
+        {
+            code: "const foo = (a\n, b) => { return a + b; }",
+            output: "const foo = (a,\n b) => { return a + b; }",
+            parserOptions: {
+                ecmaVersion: 6
+            },
+            errors: [{
+                message: LAST_MSG,
+                type: "Identifier"
+            }]
+        },
+        {
+            code: "const foo = ([a\n, b]) => { return a + b; }",
+            output: "const foo = ([a,\n b]) => { return a + b; }",
+            parserOptions: {
+                ecmaVersion: 6
+            },
+            errors: [{
+                message: LAST_MSG,
+                type: "Identifier"
+            }]
+        },
+        {
+            code: "import { a\n, b } from './source';",
+            output: "import { a,\n b } from './source';",
+            parserOptions: {
+                ecmaVersion: 6,
+                sourceType: "module"
+            },
+            errors: [{
+                message: LAST_MSG,
+                type: "ImportSpecifier"
+            }]
+        },
+        {
+            code: "var {foo\n, bar} = {foo:'apples', bar:'oranges'};",
+            output: "var {foo,\n bar} = {foo:'apples', bar:'oranges'};",
+            parserOptions: {
+                ecmaVersion: 6
+            },
+            errors: [{
+                message: LAST_MSG,
+                type: "Property"
+            }]
+        },
+        {
             code: "var foo = 1,\nbar = 2;",
             output: "var foo = 1\n,bar = 2;",
             options: ["first"],
