@@ -1,6 +1,7 @@
 /**
  * @fileoverview Tests for prefer-reflect rule.
  * @author Keith Cirkel
+ * @deprecated in ESLint v3.9.0
  */
 
 "use strict";
