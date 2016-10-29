@@ -125,7 +125,30 @@ ruleTester.run("no-useless-return", rule, {
         {
             code: "if (foo) { return; } doSomething();",
             parserOptions: {ecmaFeatures: {globalReturn: true}}
-        }
+        },
+
+        // https://github.com/eslint/eslint/issues/7477
+        `
+          function foo() {
+            if (bar) return;
+            return baz;
+          }
+        `,
+        `
+          function foo() {
+            if (bar) {
+              return;
+            }
+            return baz;
+          }
+        `,
+        `
+          function foo() {
+            if (bar) baz();
+            else return;
+            return 5;
+          }
+        `
     ],
 
     invalid: [
@@ -154,6 +177,28 @@ ruleTester.run("no-useless-return", rule, {
             code: "if (foo) { bar(); return; } else { baz(); }",
             output: "if (foo) { bar();  } else { baz(); }",
             parserOptions: {ecmaFeatures: {globalReturn: true}}
+        },
+        {
+            code: `
+              function foo() {
+                if (foo) {
+                  return;
+                }
+                return;
+              }
+            `,
+            output: `
+              function foo() {
+                if (foo) {
+                  
+                }
+                
+              }
+            `,
+            errors: [
+                {message: "Unnecessary return statement.", type: "ReturnStatement"},
+                {message: "Unnecessary return statement.", type: "ReturnStatement"},
+            ]
         },
         {
             code: `
@@ -305,28 +350,10 @@ ruleTester.run("no-useless-return", rule, {
               }
             `
         },
-        {
-            code: `
-              function foo() {
-                try {
-                  foo();
-                  return;
-                } catch (err) {
-                  return 5;
-                }
-              }
-            `,
-            output: `
-              function foo() {
-                try {
-                  foo();
-                  
-                } catch (err) {
-                  return 5;
-                }
-              }
-            `
-        },
+
+        // FIXME: Re-add this case (removed due to https://github.com/eslint/eslint/issues/7481):
+        // https://github.com/eslint/eslint/blob/261d7287820253408ec87c344beccdba2fe829a4/tests/lib/rules/no-useless-return.js#L308-L329
+
         {
             code: `
               function foo() {
