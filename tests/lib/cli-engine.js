@@ -15,7 +15,6 @@ const assert = require("chai").assert,
     leche = require("leche"),
     shell = require("shelljs"),
     Config = require("../../lib/config"),
-    Plugins = require("../../lib/config/plugins"),
     fs = require("fs"),
     os = require("os"),
     hash = require("../../lib/util/hash");
@@ -42,6 +41,7 @@ describe("CLIEngine", function() {
         examplePreprocessorName = "eslint-plugin-processor",
         originalDir = process.cwd();
     let CLIEngine,
+        Plugins,
         fixtureDir;
 
     /**
@@ -65,6 +65,8 @@ describe("CLIEngine", function() {
 
     // copy into clean area so as not to get "infected" by this project's .eslintrc files
     before(function() {
+        Plugins = require("../../lib/config/plugins");
+
         fixtureDir = path.join(os.tmpdir(), "/eslint/fixtures");
         mkdir("-p", fixtureDir);
         cp("-r", "./tests/fixtures/.", fixtureDir);
