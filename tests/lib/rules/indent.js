@@ -1698,6 +1698,18 @@ ruleTester.run("indent", rule, {
             "        new Car('!')\n" +
             ");",
             options: [2, {CallExpression: {arguments: 4}}]
+        },
+
+        // https://github.com/eslint/eslint/issues/7484
+        {
+            code:
+            "var foo = function() {\n" +
+            "  return bar(\n" +
+            "    [{\n" +
+            "    }].concat(baz)\n" +
+            "  );\n" +
+            "};",
+            options: [2]
         }
     ],
     invalid: [
