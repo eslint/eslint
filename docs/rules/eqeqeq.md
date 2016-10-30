@@ -29,6 +29,8 @@ if ("" == text) { }
 if (obj.getStuff() != undefined) { }
 ```
 
+The `--fix` option on the command line automatically fixes some problems reported by this rule. A problem is only fixed if one of the operands is a `typeof` expression, or if both operands are literals with the same type.
+
 ## Options
 
 ### always
