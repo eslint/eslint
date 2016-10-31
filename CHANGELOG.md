@@ -1,3 +1,12 @@
+v3.9.1 - October 31, 2016
+
+* 2012258 Fix: incorrect `indent` check for array property access (fixes #7484) (#7485) (Teddy Katz)
+* 8a71d4a Fix: `no-useless-return` false positive on conditionals (fixes #7477) (#7482) (Teddy Katz)
+* 56a662b Fix: allow escaped backreferences in `no-useless-escape` (fixes #7472) (#7474) (Teddy Katz)
+* fffdf13 Build: Fix prefer-reflect rule to not crash site gen build (#7471) (Ilya Volodin)
+* 8ba68a3 Docs: Update broken link (#7490) (Devinsuit)
+* 65231d8 Docs: add the "fixable" icon for `no-useless-return` (#7480) (Teddy Katz)
+
 v3.9.0 - October 28, 2016
 
 * d933516 New: `no-useless-return` rule (fixes #7309) (#7441) (Toru Nagashima)
