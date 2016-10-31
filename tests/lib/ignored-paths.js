@@ -158,7 +158,11 @@ describe("IgnoredPaths", () => {
                 ignorePattern
             });
 
-            assert.ok(ignorePattern.every(pattern => getIgnoreRules(ignoredPaths).filter(rule => (rule.pattern === pattern)).length > 0));
+            assert.ok(
+                ignorePattern.every(pattern =>
+                    getIgnoreRules(ignoredPaths).some(rule => rule.pattern === pattern)
+                )
+            );
         });
     });
 
