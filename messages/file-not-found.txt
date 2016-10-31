@@ -1,0 +1,2 @@
+The given pattern "<%= pattern %>" was not found.
+Please check for typing mistakes in the pattern.
