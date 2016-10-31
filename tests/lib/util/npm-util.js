@@ -61,8 +61,8 @@ describe("npmUtil", () => {
         });
 
         it("should handle missing devDependencies key", () => {
-            sandbox.stub(shell, "test", () => true);
-            sandbox.stub(fs, "readFileSync", () => JSON.stringify({
+            sandbox.stub(shell, "test").returns(true);
+            sandbox.stub(fs, "readFileSync").returns(JSON.stringify({
                 private: true,
                 dependencies: {}
             }));
@@ -75,8 +75,8 @@ describe("npmUtil", () => {
         it("should throw with message when parsing invalid package.json", () => {
             const logInfo = sandbox.stub(log, "info");
 
-            sandbox.stub(shell, "test", () => true);
-            sandbox.stub(fs, "readFileSync", () => "{ \"not: \"valid json\" }");
+            sandbox.stub(shell, "test").returns(true);
+            sandbox.stub(fs, "readFileSync").returns("{ \"not: \"valid json\" }");
 
             const fn = npmUtil.checkDevDeps.bind(null, ["some-package"]);
 
@@ -121,8 +121,8 @@ describe("npmUtil", () => {
         });
 
         it("should handle missing dependencies key", () => {
-            sandbox.stub(shell, "test", () => true);
-            sandbox.stub(fs, "readFileSync", () => JSON.stringify({
+            sandbox.stub(shell, "test").returns(true);
+            sandbox.stub(fs, "readFileSync").returns(JSON.stringify({
                 private: true,
                 devDependencies: {}
             }));
@@ -138,8 +138,8 @@ describe("npmUtil", () => {
         it("should throw with message when parsing invalid package.json", () => {
             const logInfo = sandbox.stub(log, "info");
 
-            sandbox.stub(shell, "test", () => true);
-            sandbox.stub(fs, "readFileSync", () => "{ \"not: \"valid json\" }");
+            sandbox.stub(shell, "test").returns(true);
+            sandbox.stub(fs, "readFileSync").returns("{ \"not: \"valid json\" }");
 
             const fn = npmUtil.checkDevDeps.bind(null, ["some-package"]);
 
