@@ -22,12 +22,12 @@ const assert = require("assert"),
 // Tests
 //------------------------------------------------------------------------------
 
-describe("NodeEventGenerator", function() {
+describe("NodeEventGenerator", () => {
     EventGeneratorTester.testEventGeneratorInterface(
         new CommentEventGenerator(new NodeEventGenerator(new EventEmitter()))
     );
 
-    it("should generate comment events without duplicate.", function() {
+    it("should generate comment events without duplicate.", () => {
         const emitter = new EventEmitter();
         let generator = new NodeEventGenerator(emitter);
         const code = "//foo\nvar zzz /*aaa*/ = 777;\n//bar";

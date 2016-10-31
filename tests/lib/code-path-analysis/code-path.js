@@ -26,13 +26,11 @@ function parseCodePaths(code) {
     const retv = [];
 
     eslint.reset();
-    eslint.defineRule("test", function() {
-        return {
-            onCodePathStart(codePath) {
-                retv.push(codePath);
-            }
-        };
-    });
+    eslint.defineRule("test", () => ({
+        onCodePathStart(codePath) {
+            retv.push(codePath);
+        }
+    }));
     eslint.verify(code, {rules: {test: 2}});
 
     return retv;
@@ -51,7 +49,7 @@ function parseCodePaths(code) {
 function getOrderOfTraversing(codePath, options, callback) {
     const retv = [];
 
-    codePath.traverseSegments(options, function(segment, controller) {
+    codePath.traverseSegments(options, (segment, controller) => {
         retv.push(segment.id);
         if (callback) {
             callback(segment, controller); // eslint-disable-line callback-return
@@ -65,10 +63,10 @@ function getOrderOfTraversing(codePath, options, callback) {
 // Tests
 //------------------------------------------------------------------------------
 
-describe("CodePathAnalyzer", function() {
-    describe(".traverseSegments()", function() {
-        describe("should traverse segments from the first to the end:", function() {
-            it("simple", function() {
+describe("CodePathAnalyzer", () => {
+    describe(".traverseSegments()", () => {
+        describe("should traverse segments from the first to the end:", () => {
+            it("simple", () => {
                 const codePath = parseCodePaths("foo(); bar(); baz();")[0];
                 const order = getOrderOfTraversing(codePath);
 
@@ -85,7 +83,7 @@ describe("CodePathAnalyzer", function() {
                 */
             });
 
-            it("if", function() {
+            it("if", () => {
                 const codePath = parseCodePaths("if (a) foo(); else bar(); baz();")[0];
                 const order = getOrderOfTraversing(codePath);
 
@@ -106,7 +104,7 @@ describe("CodePathAnalyzer", function() {
                 */
             });
 
-            it("switch", function() {
+            it("switch", () => {
                 const codePath = parseCodePaths("switch (a) { case 0: foo(); break; case 1: bar(); } baz();")[0];
                 const order = getOrderOfTraversing(codePath);
 
@@ -131,7 +129,7 @@ describe("CodePathAnalyzer", function() {
                 */
             });
 
-            it("while", function() {
+            it("while", () => {
                 const codePath = parseCodePaths("while (a) foo(); bar();")[0];
                 const order = getOrderOfTraversing(codePath);
 
@@ -151,7 +149,7 @@ describe("CodePathAnalyzer", function() {
                 */
             });
 
-            it("for", function() {
+            it("for", () => {
                 const codePath = parseCodePaths("for (var i = 0; i < 10; ++i) foo(i); bar();")[0];
                 const order = getOrderOfTraversing(codePath);
 
@@ -172,7 +170,7 @@ describe("CodePathAnalyzer", function() {
                 */
             });
 
-            it("for-in", function() {
+            it("for-in", () => {
                 const codePath = parseCodePaths("for (var key in obj) foo(key); bar();")[0];
                 const order = getOrderOfTraversing(codePath);
 
@@ -195,7 +193,7 @@ describe("CodePathAnalyzer", function() {
                 */
             });
 
-            it("try-catch", function() {
+            it("try-catch", () => {
                 const codePath = parseCodePaths("try { foo(); } catch (e) { bar(); } baz();")[0];
                 const order = getOrderOfTraversing(codePath);
 
@@ -218,7 +216,7 @@ describe("CodePathAnalyzer", function() {
             });
         });
 
-        it("should traverse segments from `options.first` to `options.last`.", function() {
+        it("should traverse segments from `options.first` to `options.last`.", () => {
             const codePath = parseCodePaths("if (a) { if (b) { foo(); } bar(); } else { out1(); } out2();")[0];
             const order = getOrderOfTraversing(codePath, {
                 first: codePath.initialSegment.nextSegments[0],
@@ -246,9 +244,9 @@ describe("CodePathAnalyzer", function() {
             */
         });
 
-        it("should stop immediately when 'controller.break()' was called.", function() {
+        it("should stop immediately when 'controller.break()' was called.", () => {
             const codePath = parseCodePaths("if (a) { if (b) { foo(); } bar(); } else { out1(); } out2();")[0];
-            const order = getOrderOfTraversing(codePath, null, function(segment, controller) {
+            const order = getOrderOfTraversing(codePath, null, (segment, controller) => {
                 if (segment.id === "s1_2") {
                     controller.break();
                 }
@@ -275,9 +273,9 @@ describe("CodePathAnalyzer", function() {
             */
         });
 
-        it("should skip the current branch when 'controller.skip()' was called.", function() {
+        it("should skip the current branch when 'controller.skip()' was called.", () => {
             const codePath = parseCodePaths("if (a) { if (b) { foo(); } bar(); } else { out1(); } out2();")[0];
-            const order = getOrderOfTraversing(codePath, null, function(segment, controller) {
+            const order = getOrderOfTraversing(codePath, null, (segment, controller) => {
                 if (segment.id === "s1_2") {
                     controller.skip();
                 }

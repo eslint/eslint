@@ -68,21 +68,19 @@ function MODULES(pattern) {
 function extractPatterns(patterns, type) {
 
     // Clone and apply the pattern environment.
-    const patternsList = patterns.map(function(pattern) {
-        return pattern[type].map(function(applyCondition) {
-            const thisPattern = lodash.cloneDeep(pattern);
+    const patternsList = patterns.map(pattern => pattern[type].map(applyCondition => {
+        const thisPattern = lodash.cloneDeep(pattern);
 
-            applyCondition(thisPattern);
+        applyCondition(thisPattern);
 
-            if (type === "valid") {
-                thisPattern.errors = [];
-            } else {
-                thisPattern.code += " /* should error */";
-            }
+        if (type === "valid") {
+            thisPattern.errors = [];
+        } else {
+            thisPattern.code += " /* should error */";
+        }
 
-            return thisPattern;
-        });
-    });
+        return thisPattern;
+    }));
 
     // Flatten.
     return Array.prototype.concat.apply([], patternsList);

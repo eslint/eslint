@@ -18,20 +18,20 @@ const assert = require("assert"),
 // Tests
 //------------------------------------------------------------------------------
 
-describe("NodeEventGenerator", function() {
+describe("NodeEventGenerator", () => {
     EventGeneratorTester.testEventGeneratorInterface(
         new NodeEventGenerator(new EventEmitter())
     );
 
     let emitter, generator;
 
-    beforeEach(function() {
+    beforeEach(() => {
         emitter = new EventEmitter();
         emitter.emit = sinon.spy(emitter.emit);
         generator = new NodeEventGenerator(emitter);
     });
 
-    it("should generate events for entering AST node.", function() {
+    it("should generate events for entering AST node.", () => {
         const dummyNode = {type: "Foo", value: 1};
 
         generator.enterNode(dummyNode);
@@ -40,7 +40,7 @@ describe("NodeEventGenerator", function() {
         assert(emitter.emit.calledWith("Foo", dummyNode));
     });
 
-    it("should generate events for exitting AST node.", function() {
+    it("should generate events for exitting AST node.", () => {
         const dummyNode = {type: "Foo", value: 1};
 
         generator.leaveNode(dummyNode);

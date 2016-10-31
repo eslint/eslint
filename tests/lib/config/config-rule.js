@@ -20,81 +20,81 @@ const assert = require("chai").assert,
 
 const SEVERITY = 2;
 
-describe("ConfigRule", function() {
+describe("ConfigRule", () => {
 
-    describe("generateConfigsFromSchema()", function() {
+    describe("generateConfigsFromSchema()", () => {
         let actualConfigs;
 
-        it("should create a config with only severity for an empty schema", function() {
+        it("should create a config with only severity for an empty schema", () => {
             actualConfigs = ConfigRule.generateConfigsFromSchema([]);
             assert.deepEqual(actualConfigs, [SEVERITY]);
         });
 
-        it("should create a config with only severity with no arguments", function() {
+        it("should create a config with only severity with no arguments", () => {
             actualConfigs = ConfigRule.generateConfigsFromSchema();
             assert.deepEqual(actualConfigs, [SEVERITY]);
         });
 
-        describe("for a single enum schema", function() {
+        describe("for a single enum schema", () => {
 
-            before(function() {
+            before(() => {
                 actualConfigs = ConfigRule.generateConfigsFromSchema(schema.enum);
             });
 
-            it("should create an array of configs", function() {
+            it("should create an array of configs", () => {
                 assert.isArray(actualConfigs);
                 assert.equal(actualConfigs.length, 3);
             });
 
-            it("should include the error severity (2) without options as the first config", function() {
+            it("should include the error severity (2) without options as the first config", () => {
                 assert.equal(actualConfigs[0], SEVERITY);
             });
 
-            it("should set all configs to error severity (2)", function() {
-                actualConfigs.forEach(function(actualConfig) {
+            it("should set all configs to error severity (2)", () => {
+                actualConfigs.forEach(actualConfig => {
                     if (Array.isArray(actualConfig)) {
                         assert.equal(actualConfig[0], SEVERITY);
                     }
                 });
             });
 
-            it("should return configs with each enumerated value in the schema", function() {
+            it("should return configs with each enumerated value in the schema", () => {
                 assert.sameDeepMembers(actualConfigs, [SEVERITY, [SEVERITY, "always"], [SEVERITY, "never"]]);
             });
         });
 
-        describe("for a object schema with a single enum property", function() {
+        describe("for a object schema with a single enum property", () => {
 
-            before(function() {
+            before(() => {
                 actualConfigs = ConfigRule.generateConfigsFromSchema(schema.objectWithEnum);
             });
 
-            it("should return configs with option objects", function() {
+            it("should return configs with option objects", () => {
 
                 // Skip first config (severity only)
-                actualConfigs.slice(1).forEach(function(actualConfig) {
+                actualConfigs.slice(1).forEach(actualConfig => {
                     const actualConfigOption = actualConfig[1]; // severity is first element, option is second
 
                     assert.isObject(actualConfigOption);
                 });
             });
 
-            it("should use the object property name from the schema", function() {
+            it("should use the object property name from the schema", () => {
                 const propName = "enumProperty";
 
                 assert.equal(actualConfigs.length, 3);
-                actualConfigs.slice(1).forEach(function(actualConfig) {
+                actualConfigs.slice(1).forEach(actualConfig => {
                     const actualConfigOption = actualConfig[1];
 
                     assert.property(actualConfigOption, propName);
                 });
             });
 
-            it("should have each enum as option object values", function() {
+            it("should have each enum as option object values", () => {
                 const propName = "enumProperty",
                     actualValues = [];
 
-                actualConfigs.slice(1).forEach(function(actualConfig) {
+                actualConfigs.slice(1).forEach(actualConfig => {
                     const configOption = actualConfig[1];
 
                     actualValues.push(configOption[propName]);
@@ -103,17 +103,17 @@ describe("ConfigRule", function() {
             });
         });
 
-        describe("for a object schema with a multiple enum properties", function() {
+        describe("for a object schema with a multiple enum properties", () => {
 
-            before(function() {
+            before(() => {
                 actualConfigs = ConfigRule.generateConfigsFromSchema(schema.objectWithMultipleEnums);
             });
 
-            it("should create configs for all properties in each config", function() {
+            it("should create configs for all properties in each config", () => {
                 const expectedProperties = ["firstEnum", "anotherEnum"];
 
                 assert.equal(actualConfigs.length, 7);
-                actualConfigs.slice(1).forEach(function(actualConfig) {
+                actualConfigs.slice(1).forEach(actualConfig => {
                     const configOption = actualConfig[1];
                     const actualProperties = Object.keys(configOption);
 
@@ -121,7 +121,7 @@ describe("ConfigRule", function() {
                 });
             });
 
-            it("should create configs for every possible combination", function() {
+            it("should create configs for every possible combination", () => {
                 const expectedConfigs = [
                     { firstEnum: "always", anotherEnum: "var" },
                     { firstEnum: "always", anotherEnum: "let" },
@@ -130,46 +130,44 @@ describe("ConfigRule", function() {
                     { firstEnum: "never", anotherEnum: "let" },
                     { firstEnum: "never", anotherEnum: "const" }
                 ];
-                const actualConfigOptions = actualConfigs.slice(1).map(function(actualConfig) {
-                    return actualConfig[1];
-                });
+                const actualConfigOptions = actualConfigs.slice(1).map(actualConfig => actualConfig[1]);
 
                 assert.sameDeepMembers(actualConfigOptions, expectedConfigs);
             });
 
         });
 
-        describe("for a object schema with a single boolean property", function() {
+        describe("for a object schema with a single boolean property", () => {
 
-            before(function() {
+            before(() => {
                 actualConfigs = ConfigRule.generateConfigsFromSchema(schema.objectWithBool);
             });
 
-            it("should return configs with option objects", function() {
+            it("should return configs with option objects", () => {
                 assert.equal(actualConfigs.length, 3);
-                actualConfigs.slice(1).forEach(function(actualConfig) {
+                actualConfigs.slice(1).forEach(actualConfig => {
                     const actualConfigOption = actualConfig[1];
 
                     assert.isObject(actualConfigOption);
                 });
             });
 
-            it("should use the object property name from the schema", function() {
+            it("should use the object property name from the schema", () => {
                 const propName = "boolProperty";
 
                 assert.equal(actualConfigs.length, 3);
-                actualConfigs.slice(1).forEach(function(actualConfig) {
+                actualConfigs.slice(1).forEach(actualConfig => {
                     const actualConfigOption = actualConfig[1];
 
                     assert.property(actualConfigOption, propName);
                 });
             });
 
-            it("should include both true and false configs", function() {
+            it("should include both true and false configs", () => {
                 const propName = "boolProperty",
                     actualValues = [];
 
-                actualConfigs.slice(1).forEach(function(actualConfig) {
+                actualConfigs.slice(1).forEach(actualConfig => {
                     const configOption = actualConfig[1];
 
                     actualValues.push(configOption[propName]);
@@ -178,17 +176,17 @@ describe("ConfigRule", function() {
             });
         });
 
-        describe("for a object schema with a multiple bool properties", function() {
+        describe("for a object schema with a multiple bool properties", () => {
 
-            before(function() {
+            before(() => {
                 actualConfigs = ConfigRule.generateConfigsFromSchema(schema.objectWithMultipleBools);
             });
 
-            it("should create configs for all properties in each config", function() {
+            it("should create configs for all properties in each config", () => {
                 const expectedProperties = ["firstBool", "anotherBool"];
 
                 assert.equal(actualConfigs.length, 5);
-                actualConfigs.slice(1).forEach(function(config) {
+                actualConfigs.slice(1).forEach(config => {
                     const configOption = config[1];
                     const actualProperties = Object.keys(configOption);
 
@@ -196,28 +194,26 @@ describe("ConfigRule", function() {
                 });
             });
 
-            it("should create configs for every possible combination", function() {
+            it("should create configs for every possible combination", () => {
                 const expectedConfigOptions = [
                     { firstBool: true, anotherBool: true },
                     { firstBool: true, anotherBool: false },
                     { firstBool: false, anotherBool: true },
                     { firstBool: false, anotherBool: false }
                 ];
-                const actualConfigOptions = actualConfigs.slice(1).map(function(config) {
-                    return config[1];
-                });
+                const actualConfigOptions = actualConfigs.slice(1).map(config => config[1]);
 
                 assert.sameDeepMembers(actualConfigOptions, expectedConfigOptions);
             });
         });
 
-        describe("for a schema with an enum and an object", function() {
+        describe("for a schema with an enum and an object", () => {
 
-            before(function() {
+            before(() => {
                 actualConfigs = ConfigRule.generateConfigsFromSchema(schema.mixedEnumObject);
             });
 
-            it("should create configs with only the enum values", function() {
+            it("should create configs with only the enum values", () => {
                 assert.equal(actualConfigs[1].length, 2);
                 assert.equal(actualConfigs[2].length, 2);
                 const actualOptions = [actualConfigs[1][1], actualConfigs[2][1]];
@@ -225,55 +221,55 @@ describe("ConfigRule", function() {
                 assert.sameMembers(actualOptions, ["always", "never"]);
             });
 
-            it("should create configs with a string and an object", function() {
+            it("should create configs with a string and an object", () => {
                 assert.equal(actualConfigs.length, 7);
-                actualConfigs.slice(3).forEach(function(config) {
+                actualConfigs.slice(3).forEach(config => {
                     assert.isString(config[1]);
                     assert.isObject(config[2]);
                 });
             });
         });
 
-        describe("for a schema with an enum and an object with no usable properties", function() {
-            before(function() {
+        describe("for a schema with an enum and an object with no usable properties", () => {
+            before(() => {
                 actualConfigs = ConfigRule.generateConfigsFromSchema(schema.mixedEnumObjectWithNothing);
             });
 
-            it("should create config only for the enum", function() {
+            it("should create config only for the enum", () => {
                 const expectedConfigs = [2, [2, "always"], [2, "never"]];
 
                 assert.sameDeepMembers(actualConfigs, expectedConfigs);
             });
         });
 
-        describe("for a schema with oneOf", function() {
+        describe("for a schema with oneOf", () => {
 
-            before(function() {
+            before(() => {
                 actualConfigs = ConfigRule.generateConfigsFromSchema(schema.oneOf);
             });
 
-            it("should create a set of configs", function() {
+            it("should create a set of configs", () => {
                 assert.isArray(actualConfigs);
             });
         });
 
-        describe("for a schema with nested objects", function() {
+        describe("for a schema with nested objects", () => {
 
-            before(function() {
+            before(() => {
                 actualConfigs = ConfigRule.generateConfigsFromSchema(schema.nestedObjects);
             });
 
-            it("should create a set of configs", function() {
+            it("should create a set of configs", () => {
                 assert.isArray(actualConfigs);
             });
         });
     });
 
-    describe("createCoreRuleConfigs()", function() {
+    describe("createCoreRuleConfigs()", () => {
 
         const rulesConfig = ConfigRule.createCoreRuleConfigs();
 
-        it("should create a rulesConfig containing all core rules", function() {
+        it("should create a rulesConfig containing all core rules", () => {
             const coreRules = loadRules(),
                 expectedRules = Object.keys(coreRules),
                 actualRules = Object.keys(rulesConfig);
@@ -281,12 +277,12 @@ describe("ConfigRule", function() {
             assert.sameMembers(actualRules, expectedRules);
         });
 
-        it("should create arrays of configs for rules", function() {
+        it("should create arrays of configs for rules", () => {
             assert.isArray(rulesConfig.quotes);
             assert.include(rulesConfig.quotes, 2);
         });
 
-        it("should create configs for rules with meta", function() {
+        it("should create configs for rules with meta", () => {
             assert(rulesConfig["accessor-pairs"].length > 1);
         });
     });

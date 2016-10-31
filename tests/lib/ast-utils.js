@@ -20,21 +20,21 @@ const assert = require("chai").assert,
 // Tests
 //------------------------------------------------------------------------------
 
-describe("ast-utils", function() {
+describe("ast-utils", () => {
     const filename = "filename.js";
     let sandbox;
 
-    beforeEach(function() {
+    beforeEach(() => {
         sandbox = sinon.sandbox.create();
     });
 
-    afterEach(function() {
+    afterEach(() => {
         eslint.reset();
         sandbox.verifyAndRestore();
     });
 
-    describe("isTokenOnSameLine", function() {
-        it("should return false if its not on sameline", function() {
+    describe("isTokenOnSameLine", () => {
+        it("should return false if its not on sameline", () => {
 
             /**
              * Check the node for tokens
@@ -50,7 +50,7 @@ describe("ast-utils", function() {
             eslint.verify("if(a)\n{}", {}, filename, true);
         });
 
-        it("should return true if its on sameline", function() {
+        it("should return true if its on sameline", () => {
 
             /**
              * Check the node for tokens
@@ -67,8 +67,8 @@ describe("ast-utils", function() {
         });
     });
 
-    describe("isNullOrUndefined", function() {
-        it("should return true if its null", function() {
+    describe("isNullOrUndefined", () => {
+        it("should return true if its null", () => {
 
             /**
              * Check the node for tokens
@@ -84,7 +84,7 @@ describe("ast-utils", function() {
             eslint.verify("foo.apply(null, a, b);", {}, filename, true);
         });
 
-        it("should return true if its undefined", function() {
+        it("should return true if its undefined", () => {
 
             /**
              * Check the node for tokens
@@ -100,7 +100,7 @@ describe("ast-utils", function() {
             eslint.verify("foo.apply(undefined, a, b);", {}, filename, true);
         });
 
-        it("should return false if its a number", function() {
+        it("should return false if its a number", () => {
 
             /**
              * Check the node for tokens
@@ -116,7 +116,7 @@ describe("ast-utils", function() {
             eslint.verify("foo.apply(1, a, b);", {}, filename, true);
         });
 
-        it("should return false if its a string", function() {
+        it("should return false if its a string", () => {
 
             /**
              * Check the node for tokens
@@ -132,7 +132,7 @@ describe("ast-utils", function() {
             eslint.verify("foo.apply(`test`, a, b);", {}, filename, true);
         });
 
-        it("should return false if its a boolean", function() {
+        it("should return false if its a boolean", () => {
 
             /**
              * Check the node for tokens
@@ -148,7 +148,7 @@ describe("ast-utils", function() {
             eslint.verify("foo.apply(false, a, b);", {}, filename, true);
         });
 
-        it("should return false if its an object", function() {
+        it("should return false if its an object", () => {
 
             /**
              * Check the node for tokens
@@ -165,10 +165,10 @@ describe("ast-utils", function() {
         });
     });
 
-    describe("checkReference", function() {
+    describe("checkReference", () => {
 
         // catch
-        it("should return true if reference is assigned for catch", function() {
+        it("should return true if reference is assigned for catch", () => {
 
             /**
              * Check the node for tokens
@@ -187,7 +187,7 @@ describe("ast-utils", function() {
         });
 
         // const
-        it("should return true if reference is assigned for const", function() {
+        it("should return true if reference is assigned for const", () => {
 
             /**
              * Check the node for tokens
@@ -205,7 +205,7 @@ describe("ast-utils", function() {
             eslint.verify("const a = 1; a = 2;", {ecmaFeatures: {blockBindings: true}}, filename, true);
         });
 
-        it("should return false if reference is not assigned for const", function() {
+        it("should return false if reference is not assigned for const", () => {
 
             /**
              * Check the node for tokens
@@ -224,7 +224,7 @@ describe("ast-utils", function() {
         });
 
         // class
-        it("should return true if reference is assigned for class", function() {
+        it("should return true if reference is assigned for class", () => {
 
             /**
              * Check the node for tokens
@@ -243,7 +243,7 @@ describe("ast-utils", function() {
             eslint.verify("class A { }\n A = 1;", {ecmaFeatures: {classes: true}}, filename, true);
         });
 
-        it("should return false if reference is not assigned for class", function() {
+        it("should return false if reference is not assigned for class", () => {
 
             /**
              * Check the node for tokens
@@ -262,7 +262,7 @@ describe("ast-utils", function() {
         });
     });
 
-    describe("isDirectiveComment", function() {
+    describe("isDirectiveComment", () => {
 
         /**
          * Asserts the node is NOT a directive comment
@@ -282,7 +282,7 @@ describe("ast-utils", function() {
             assert.isTrue(astUtils.isDirectiveComment(node));
         }
 
-        it("should return false if it is not a directive line comment", function() {
+        it("should return false if it is not a directive line comment", () => {
             eslint.reset();
             eslint.on("LineComment", assertFalse);
             eslint.verify("// lalala I'm a normal comment", {}, filename, true);
@@ -291,7 +291,7 @@ describe("ast-utils", function() {
             eslint.verify("//eslint is awesome", {}, filename, true);
         });
 
-        it("should return false if it is not a directive block comment", function() {
+        it("should return false if it is not a directive block comment", () => {
             eslint.reset();
             eslint.on("BlockComment", assertFalse);
             eslint.verify("/* lalala I'm a normal comment */", {}, filename, true);
@@ -300,7 +300,7 @@ describe("ast-utils", function() {
             eslint.verify("/*eSlInT is awesome*/", {}, filename, true);
         });
 
-        it("should return true if it is a directive line comment", function() {
+        it("should return true if it is a directive line comment", () => {
             eslint.reset();
             eslint.on("LineComment", assertTrue);
             eslint.verify("// eslint-disable-line no-undef", {}, filename, true);
@@ -309,7 +309,7 @@ describe("ast-utils", function() {
             eslint.verify("//eslint-directive-without-padding", {}, filename, true);
         });
 
-        it("should return true if it is a directive block comment", function() {
+        it("should return true if it is a directive block comment", () => {
             eslint.reset();
             eslint.on("BlockComment", assertTrue);
             eslint.verify("/* eslint-disable no-undef", {}, filename, true);
@@ -320,7 +320,7 @@ describe("ast-utils", function() {
         });
     });
 
-    describe("isParenthesised", function() {
+    describe("isParenthesised", () => {
         const ESPREE_CONFIG = {
             ecmaVersion: 6,
             comment: true,
@@ -329,7 +329,7 @@ describe("ast-utils", function() {
             loc: true
         };
 
-        it("should return false for not parenthesised nodes", function() {
+        it("should return false for not parenthesised nodes", () => {
             const code = "condition ? 1 : 2";
             const ast = espree.parse(code, ESPREE_CONFIG);
             const sourceCode = new SourceCode(code, ast);
@@ -337,7 +337,7 @@ describe("ast-utils", function() {
             assert.isFalse(astUtils.isParenthesised(sourceCode, ast.body[0].expression));
         });
 
-        it("should return true for not parenthesised nodes", function() {
+        it("should return true for not parenthesised nodes", () => {
             const code = "(condition ? 1 : 2)";
             const ast = espree.parse(code, ESPREE_CONFIG);
             const sourceCode = new SourceCode(code, ast);
@@ -346,29 +346,29 @@ describe("ast-utils", function() {
         });
     });
 
-    describe("isFunction", function() {
-        it("should return true for FunctionDeclaration", function() {
+    describe("isFunction", () => {
+        it("should return true for FunctionDeclaration", () => {
             const ast = espree.parse("function a() {}");
             const node = ast.body[0];
 
             assert(astUtils.isFunction(node));
         });
 
-        it("should return true for FunctionExpression", function() {
+        it("should return true for FunctionExpression", () => {
             const ast = espree.parse("(function a() {})");
             const node = ast.body[0].expression;
 
             assert(astUtils.isFunction(node));
         });
 
-        it("should return true for AllowFunctionExpression", function() {
+        it("should return true for AllowFunctionExpression", () => {
             const ast = espree.parse("(() => {})", {ecmaVersion: 6});
             const node = ast.body[0].expression;
 
             assert(astUtils.isFunction(node));
         });
 
-        it("should return false for Program, VariableDeclaration, BlockStatement", function() {
+        it("should return false for Program, VariableDeclaration, BlockStatement", () => {
             const ast = espree.parse("var a; { }");
 
             assert(!astUtils.isFunction(ast));
@@ -377,43 +377,43 @@ describe("ast-utils", function() {
         });
     });
 
-    describe("isLoop", function() {
-        it("should return true for DoWhileStatement", function() {
+    describe("isLoop", () => {
+        it("should return true for DoWhileStatement", () => {
             const ast = espree.parse("do {} while (a)");
             const node = ast.body[0];
 
             assert(astUtils.isLoop(node));
         });
 
-        it("should return true for ForInStatement", function() {
+        it("should return true for ForInStatement", () => {
             const ast = espree.parse("for (var k in obj) {}");
             const node = ast.body[0];
 
             assert(astUtils.isLoop(node));
         });
 
-        it("should return true for ForOfStatement", function() {
+        it("should return true for ForOfStatement", () => {
             const ast = espree.parse("for (var x of list) {}", {ecmaVersion: 6});
             const node = ast.body[0];
 
             assert(astUtils.isLoop(node));
         });
 
-        it("should return true for ForStatement", function() {
+        it("should return true for ForStatement", () => {
             const ast = espree.parse("for (var i = 0; i < 10; ++i) {}");
             const node = ast.body[0];
 
             assert(astUtils.isLoop(node));
         });
 
-        it("should return true for WhileStatement", function() {
+        it("should return true for WhileStatement", () => {
             const ast = espree.parse("while (a) {}");
             const node = ast.body[0];
 
             assert(astUtils.isLoop(node));
         });
 
-        it("should return false for Program, VariableDeclaration, BlockStatement", function() {
+        it("should return false for Program, VariableDeclaration, BlockStatement", () => {
             const ast = espree.parse("var a; { }");
 
             assert(!astUtils.isLoop(ast));
@@ -422,141 +422,141 @@ describe("ast-utils", function() {
         });
     });
 
-    describe("getStaticPropertyName", function() {
-        it("should return 'b' for `a.b`", function() {
+    describe("getStaticPropertyName", () => {
+        it("should return 'b' for `a.b`", () => {
             const ast = espree.parse("a.b");
             const node = ast.body[0].expression;
 
             assert.strictEqual(astUtils.getStaticPropertyName(node), "b");
         });
 
-        it("should return 'b' for `a['b']`", function() {
+        it("should return 'b' for `a['b']`", () => {
             const ast = espree.parse("a['b']");
             const node = ast.body[0].expression;
 
             assert.strictEqual(astUtils.getStaticPropertyName(node), "b");
         });
 
-        it("should return 'b' for `a[`b`]`", function() {
+        it("should return 'b' for `a[`b`]`", () => {
             const ast = espree.parse("a[`b`]", {ecmaVersion: 6});
             const node = ast.body[0].expression;
 
             assert.strictEqual(astUtils.getStaticPropertyName(node), "b");
         });
 
-        it("should return '100' for `a[100]`", function() {
+        it("should return '100' for `a[100]`", () => {
             const ast = espree.parse("a[100]");
             const node = ast.body[0].expression;
 
             assert.strictEqual(astUtils.getStaticPropertyName(node), "100");
         });
 
-        it("should return null for `a[b]`", function() {
+        it("should return null for `a[b]`", () => {
             const ast = espree.parse("a[b]");
             const node = ast.body[0].expression;
 
             assert.strictEqual(astUtils.getStaticPropertyName(node), null);
         });
 
-        it("should return null for `a['a' + 'b']`", function() {
+        it("should return null for `a['a' + 'b']`", () => {
             const ast = espree.parse("a['a' + 'b']");
             const node = ast.body[0].expression;
 
             assert.strictEqual(astUtils.getStaticPropertyName(node), null);
         });
 
-        it("should return null for `a[tag`b`]`", function() {
+        it("should return null for `a[tag`b`]`", () => {
             const ast = espree.parse("a[tag`b`]", {ecmaVersion: 6});
             const node = ast.body[0].expression;
 
             assert.strictEqual(astUtils.getStaticPropertyName(node), null);
         });
 
-        it("should return null for `a[`${b}`]`", function() {
+        it("should return null for `a[`${b}`]`", () => {
             const ast = espree.parse("a[`${b}`]", {ecmaVersion: 6});
             const node = ast.body[0].expression;
 
             assert.strictEqual(astUtils.getStaticPropertyName(node), null);
         });
 
-        it("should return 'b' for `b: 1`", function() {
+        it("should return 'b' for `b: 1`", () => {
             const ast = espree.parse("({b: 1})");
             const node = ast.body[0].expression.properties[0];
 
             assert.strictEqual(astUtils.getStaticPropertyName(node), "b");
         });
 
-        it("should return 'b' for `b() {}`", function() {
+        it("should return 'b' for `b() {}`", () => {
             const ast = espree.parse("({b() {}})", {ecmaVersion: 6});
             const node = ast.body[0].expression.properties[0];
 
             assert.strictEqual(astUtils.getStaticPropertyName(node), "b");
         });
 
-        it("should return 'b' for `get b() {}`", function() {
+        it("should return 'b' for `get b() {}`", () => {
             const ast = espree.parse("({get b() {}})", {ecmaVersion: 6});
             const node = ast.body[0].expression.properties[0];
 
             assert.strictEqual(astUtils.getStaticPropertyName(node), "b");
         });
 
-        it("should return 'b' for `['b']: 1`", function() {
+        it("should return 'b' for `['b']: 1`", () => {
             const ast = espree.parse("({['b']: 1})", {ecmaVersion: 6});
             const node = ast.body[0].expression.properties[0];
 
             assert.strictEqual(astUtils.getStaticPropertyName(node), "b");
         });
 
-        it("should return 'b' for `['b']() {}`", function() {
+        it("should return 'b' for `['b']() {}`", () => {
             const ast = espree.parse("({['b']() {}})", {ecmaVersion: 6});
             const node = ast.body[0].expression.properties[0];
 
             assert.strictEqual(astUtils.getStaticPropertyName(node), "b");
         });
 
-        it("should return 'b' for `[`b`]: 1`", function() {
+        it("should return 'b' for `[`b`]: 1`", () => {
             const ast = espree.parse("({[`b`]: 1})", {ecmaVersion: 6});
             const node = ast.body[0].expression.properties[0];
 
             assert.strictEqual(astUtils.getStaticPropertyName(node), "b");
         });
 
-        it("should return '100' for` [100]: 1`", function() {
+        it("should return '100' for` [100]: 1`", () => {
             const ast = espree.parse("({[100]: 1})", {ecmaVersion: 6});
             const node = ast.body[0].expression.properties[0];
 
             assert.strictEqual(astUtils.getStaticPropertyName(node), "100");
         });
 
-        it("should return null for `[b]: 1`", function() {
+        it("should return null for `[b]: 1`", () => {
             const ast = espree.parse("({[b]: 1})", {ecmaVersion: 6});
             const node = ast.body[0].expression.properties[0];
 
             assert.strictEqual(astUtils.getStaticPropertyName(node), null);
         });
 
-        it("should return null for `['a' + 'b']: 1`", function() {
+        it("should return null for `['a' + 'b']: 1`", () => {
             const ast = espree.parse("({['a' + 'b']: 1})", {ecmaVersion: 6});
             const node = ast.body[0].expression.properties[0];
 
             assert.strictEqual(astUtils.getStaticPropertyName(node), null);
         });
 
-        it("should return null for `[tag`b`]: 1`", function() {
+        it("should return null for `[tag`b`]: 1`", () => {
             const ast = espree.parse("({[tag`b`]: 1})", {ecmaVersion: 6});
             const node = ast.body[0].expression.properties[0];
 
             assert.strictEqual(astUtils.getStaticPropertyName(node), null);
         });
 
-        it("should return null for `[`${b}`]: 1`", function() {
+        it("should return null for `[`${b}`]: 1`", () => {
             const ast = espree.parse("({[`${b}`]: 1})", {ecmaVersion: 6});
             const node = ast.body[0].expression.properties[0];
 
             assert.strictEqual(astUtils.getStaticPropertyName(node), null);
         });
 
-        it("should return null for non member expressions", function() {
+        it("should return null for non member expressions", () => {
             const ast = espree.parse("foo()");
 
             assert.strictEqual(astUtils.getStaticPropertyName(ast.body[0].expression), null);
@@ -567,50 +567,50 @@ describe("ast-utils", function() {
         });
     });
 
-    describe("getDirectivePrologue", function() {
-        it("should return empty array if node is not a Program, FunctionDeclaration, FunctionExpression, or ArrowFunctionExpression", function() {
+    describe("getDirectivePrologue", () => {
+        it("should return empty array if node is not a Program, FunctionDeclaration, FunctionExpression, or ArrowFunctionExpression", () => {
             const ast = espree.parse("if (a) { b(); }");
             const node = ast.body[0];
 
             assert.deepEqual(astUtils.getDirectivePrologue(node), []);
         });
 
-        it("should return empty array if node is a braceless ArrowFunctionExpression node", function() {
+        it("should return empty array if node is a braceless ArrowFunctionExpression node", () => {
             const ast = espree.parse("var foo = () => 'use strict';", { ecmaVersion: 6 });
             const node = ast.body[0].declarations[0].init;
 
             assert.deepEqual(astUtils.getDirectivePrologue(node), []);
         });
 
-        it("should return empty array if there are no directives in Program body", function() {
+        it("should return empty array if there are no directives in Program body", () => {
             const ast = espree.parse("var foo;");
             const node = ast;
 
             assert.deepEqual(astUtils.getDirectivePrologue(node), []);
         });
 
-        it("should return empty array if there are no directives in FunctionDeclaration body", function() {
+        it("should return empty array if there are no directives in FunctionDeclaration body", () => {
             const ast = espree.parse("function foo() { return bar; }");
             const node = ast.body[0];
 
             assert.deepEqual(astUtils.getDirectivePrologue(node), []);
         });
 
-        it("should return empty array if there are no directives in FunctionExpression body", function() {
+        it("should return empty array if there are no directives in FunctionExpression body", () => {
             const ast = espree.parse("var foo = function() { return bar; }");
             const node = ast.body[0].declarations[0].init;
 
             assert.deepEqual(astUtils.getDirectivePrologue(node), []);
         });
 
-        it("should return empty array if there are no directives in ArrowFunctionExpression body", function() {
+        it("should return empty array if there are no directives in ArrowFunctionExpression body", () => {
             const ast = espree.parse("var foo = () => { return bar; };", { ecmaVersion: 6 });
             const node = ast.body[0].declarations[0].init;
 
             assert.deepEqual(astUtils.getDirectivePrologue(node), []);
         });
 
-        it("should return directives in Program body", function() {
+        it("should return directives in Program body", () => {
             const ast = espree.parse("'use strict'; 'use asm'; var foo;");
             const result = astUtils.getDirectivePrologue(ast);
 
@@ -619,7 +619,7 @@ describe("ast-utils", function() {
             assert.equal(result[1].expression.value, "use asm");
         });
 
-        it("should return directives in FunctionDeclaration body", function() {
+        it("should return directives in FunctionDeclaration body", () => {
             const ast = espree.parse("function foo() { 'use strict'; 'use asm'; return bar; }");
             const result = astUtils.getDirectivePrologue(ast.body[0]);
 
@@ -628,7 +628,7 @@ describe("ast-utils", function() {
             assert.equal(result[1].expression.value, "use asm");
         });
 
-        it("should return directives in FunctionExpression body", function() {
+        it("should return directives in FunctionExpression body", () => {
             const ast = espree.parse("var foo = function() { 'use strict'; 'use asm'; return bar; }");
             const result = astUtils.getDirectivePrologue(ast.body[0].declarations[0].init);
 
@@ -637,7 +637,7 @@ describe("ast-utils", function() {
             assert.equal(result[1].expression.value, "use asm");
         });
 
-        it("should return directives in ArrowFunctionExpression body", function() {
+        it("should return directives in ArrowFunctionExpression body", () => {
             const ast = espree.parse("var foo = () => { 'use strict'; 'use asm'; return bar; };", { ecmaVersion: 6 });
             const result = astUtils.getDirectivePrologue(ast.body[0].declarations[0].init);
 
@@ -647,7 +647,7 @@ describe("ast-utils", function() {
         });
     });
 
-    describe("isDecimalInteger", function() {
+    describe("isDecimalInteger", () => {
         const expectedResults = {
             5: true,
             0: true,
@@ -661,7 +661,7 @@ describe("ast-utils", function() {
         };
 
         Object.keys(expectedResults).forEach(key => {
-            it(`should return ${expectedResults[key]} for ${key}`, function() {
+            it(`should return ${expectedResults[key]} for ${key}`, () => {
                 assert.strictEqual(astUtils.isDecimalInteger(espree.parse(key).body[0].expression), expectedResults[key]);
             });
         });

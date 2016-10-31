@@ -65,10 +65,8 @@ function toValidInvalid(patterns, item) {
         parserOptions: {ecmaVersion: 6}
     });
     ALLOW_OPTIONS
-        .filter(function(allow) {
-            return allow !== item.allow;
-        })
-        .forEach(function(allow) {
+        .filter(allow => allow !== item.allow)
+        .forEach(allow => {
 
             // non related "allow" option has no effect.
             patterns.invalid.push({

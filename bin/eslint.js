@@ -36,7 +36,7 @@ const concat = require("concat-stream"),
 // Execution
 //------------------------------------------------------------------------------
 
-process.on("uncaughtException", function(err) {
+process.on("uncaughtException", err => {
 
     // lazy load
     const lodash = require("lodash");
@@ -55,13 +55,13 @@ process.on("uncaughtException", function(err) {
 });
 
 if (useStdIn) {
-    process.stdin.pipe(concat({ encoding: "string" }, function(text) {
+    process.stdin.pipe(concat({ encoding: "string" }, text => {
         process.exitCode = cli.execute(process.argv, text);
     }));
 } else if (init) {
     const configInit = require("../lib/config/config-initializer");
 
-    configInit.initializeConfig(function(err) {
+    configInit.initializeConfig(err => {
         if (err) {
             process.exitCode = 1;
             console.error(err.message);

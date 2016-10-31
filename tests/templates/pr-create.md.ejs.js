@@ -24,9 +24,9 @@ const TEMPLATE_TEXT = fs.readFileSync(path.resolve(__dirname, "../../templates/p
 // Tests
 //------------------------------------------------------------------------------
 
-describe("pr-create.md.ejs", function() {
+describe("pr-create.md.ejs", () => {
 
-    it("should say LGTM when there are no problems with the pull request", function() {
+    it("should say LGTM when there are no problems with the pull request", () => {
         const result = ejs.render(TEMPLATE_TEXT, {
             payload: {
                 sender: {
@@ -40,7 +40,7 @@ describe("pr-create.md.ejs", function() {
         assert.equal(result.trim(), "LGTM");
     });
 
-    it("should mention commit message format when there's one commit and an invalid commit message is found", function() {
+    it("should mention commit message format when there's one commit and an invalid commit message is found", () => {
         const result = ejs.render(TEMPLATE_TEXT, {
             payload: {
                 sender: {
@@ -63,7 +63,7 @@ describe("pr-create.md.ejs", function() {
         assert.ok(result.indexOf("begin with a tag") > -1);
     });
 
-    it("should mention commit message length when there's a message longer than 72 characters", function() {
+    it("should mention commit message length when there's a message longer than 72 characters", () => {
         const result = ejs.render(TEMPLATE_TEXT, {
             payload: {
                 sender: {
@@ -86,7 +86,7 @@ describe("pr-create.md.ejs", function() {
         assert.ok(result.indexOf("72 characters") > -1);
     });
 
-    it("should not mention commit message length when there's a multi-line message with first line not over 72 characters", function() {
+    it("should not mention commit message length when there's a multi-line message with first line not over 72 characters", () => {
         const result = ejs.render(TEMPLATE_TEXT, {
             payload: {
                 sender: {
@@ -109,7 +109,7 @@ describe("pr-create.md.ejs", function() {
         assert.equal(result.trim(), "LGTM");
     });
 
-    it("should not mention missing issue when there's one documentation commit", function() {
+    it("should not mention missing issue when there's one documentation commit", () => {
         const result = ejs.render(TEMPLATE_TEXT, {
             payload: {
                 sender: {
@@ -132,8 +132,8 @@ describe("pr-create.md.ejs", function() {
         assert.equal(result.trim(), "LGTM");
     });
 
-    ["Breaking", "Build", "Chore", "Docs", "Fix", "New", "Update", "Upgrade"].forEach(function(type) {
-        it(`should not mention missing issue or length check when there's one ${type} commit`, function() {
+    ["Breaking", "Build", "Chore", "Docs", "Fix", "New", "Update", "Upgrade"].forEach(type => {
+        it(`should not mention missing issue or length check when there's one ${type} commit`, () => {
             const result = ejs.render(TEMPLATE_TEXT, {
                 payload: {
                     sender: {

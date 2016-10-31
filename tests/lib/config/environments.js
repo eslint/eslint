@@ -16,32 +16,32 @@ const assert = require("chai").assert,
 // Tests
 //------------------------------------------------------------------------------
 
-describe("Environments", function() {
+describe("Environments", () => {
 
-    describe("load()", function() {
+    describe("load()", () => {
 
-        it("should have all default environments loaded", function() {
-            Object.keys(envs).forEach(function(envName) {
+        it("should have all default environments loaded", () => {
+            Object.keys(envs).forEach(envName => {
                 assert.deepEqual(Environments.get(envName), envs[envName]);
             });
         });
 
-        it("should have all default environments loaded after being cleared", function() {
+        it("should have all default environments loaded after being cleared", () => {
             Environments.testReset();
 
-            Object.keys(envs).forEach(function(envName) {
+            Object.keys(envs).forEach(envName => {
                 assert.deepEqual(Environments.get(envName), envs[envName]);
             });
         });
     });
 
-    describe("define()", function() {
+    describe("define()", () => {
 
-        afterEach(function() {
+        afterEach(() => {
             Environments.testReset();
         });
 
-        it("should add an environment with the given name", function() {
+        it("should add an environment with the given name", () => {
             const env = { globals: { foo: true }};
 
             Environments.define("foo", env);
@@ -52,13 +52,13 @@ describe("Environments", function() {
         });
     });
 
-    describe("importPlugin()", function() {
+    describe("importPlugin()", () => {
 
-        afterEach(function() {
+        afterEach(() => {
             Environments.testReset();
         });
 
-        it("should import all environments from a plugin object", function() {
+        it("should import all environments from a plugin object", () => {
             const plugin = {
                 environments: {
                     foo: {
