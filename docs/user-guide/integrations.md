@@ -6,7 +6,7 @@
     * [SublimeLinter-eslint](https://github.com/roadhump/SublimeLinter-eslint)
     * [Build Next](https://github.com/albertosantini/sublimetext-buildnext)
 * [Vim](https://github.com/scrooloose/syntastic/tree/master/syntax_checkers/javascript)
-* Emacs: [Flycheck](http://www.flycheck.org/) supports ESLint with the [javascript-eslint](http://www.flycheck.org/manual/latest/Supported-languages.html#Javascript) checker.
+* Emacs: [Flycheck](http://www.flycheck.org/) supports ESLint with the [javascript-eslint](http://www.flycheck.org/en/latest/languages.html#javascript) checker.
 * Eclipse Orion: ESLint is the [default linter](http://dev.eclipse.org/mhonarc/lists/orion-dev/msg02718.html)
 * Eclipse IDE with [Tern ESLint linter](https://github.com/angelozerr/tern.java/wiki/Tern-Linter-ESLint)
 * [TextMate 2](https://github.com/natesilva/javascript-eslint.tmbundle)
