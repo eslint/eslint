@@ -93,7 +93,14 @@ ruleTester.run("no-useless-escape", rule, {
         String.raw`var foo = /\[abc]/`, // Matches the literal string '[abc]'
         String.raw`var foo = /\[foo\.bar]/`, // Matches the literal string '[foo.bar]'
         String.raw`var foo = /vi/m`,
-        String.raw`var foo = /\B/`
+        String.raw`var foo = /\B/`,
+
+        // https://github.com/eslint/eslint/issues/7472
+        String.raw`var foo = /\0/`, // null character
+        "var foo = /\\1/", // \x01 character (octal literal)
+        "var foo = /(a)\\1/", // backreference
+        "var foo = /(a)\\12/", // backreference
+        "var foo = /[\\0]/" // null character in character class
     ],
 
     invalid: [
