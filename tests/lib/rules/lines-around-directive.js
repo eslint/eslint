@@ -655,6 +655,16 @@ ruleTester.run("lines-around-directive", rule, {
             parserOptions: { ecmaVersion: 6 },
             options: [{ before: "always", after: "never" }]
         },
+
+        // https://github.com/eslint/eslint/issues/7450
+        {
+            code: "'use strict'\n\n;foo();",
+            options: [{ before: "never", after: "always" }]
+        },
+        {
+            code: "'use strict'\n;foo();",
+            options: [{ before: "never", after: "never" }]
+        }
     ],
 
     invalid: [
@@ -1598,6 +1608,27 @@ ruleTester.run("lines-around-directive", rule, {
                 "Expected newline before \"use strict\" directive.",
                 "Unexpected newline after \"use asm\" directive."
             ]
+        },
+
+        // https://github.com/eslint/eslint/issues/7450
+        {
+
+            code: "'use strict'\n\n;foo();",
+            output: "'use strict'\n;foo();",
+            options: [{ before: "never", after: "never" }],
+            errors: ["Unexpected newline after \"use strict\" directive."]
+        },
+        {
+            code: "'use strict'\n;foo();",
+            output: "'use strict'\n\n;foo();",
+            options: [{ before: "never", after: "always" }],
+            errors: ["Expected newline after \"use strict\" directive."]
+        },
+        {
+            code: "'use strict'\n;\nfoo();",
+            output: "'use strict'\n\n;\nfoo();",
+            options: [{ before: "never", after: "always" }],
+            errors: ["Expected newline after \"use strict\" directive."]
         }
     ]
 });
