@@ -17,7 +17,7 @@ const assert = require("chai").assert,
 // Tests
 //------------------------------------------------------------------------------
 
-describe("FileFinder", function() {
+describe("FileFinder", () => {
     const fixtureDir = path.resolve(__dirname, "..", "fixtures"),
         fileFinderDir = path.join(fixtureDir, "file-finder"),
         subdir = path.join(fileFinderDir, "subdir"),
@@ -26,14 +26,14 @@ describe("FileFinder", function() {
         absentFileName = "4ktrgrtUTYjkopoohFe54676hnjyumlimn6r787",
         uniqueFileName = "xvgRHtyH56756764535jkJ6jthty65tyhteHTEY";
 
-    describe("findAllInDirectoryAndParents()", function() {
+    describe("findAllInDirectoryAndParents()", () => {
         let actual,
             expected,
             finder;
 
-        describe("a file present in the cwd", function() {
+        describe("a file present in the cwd", () => {
 
-            it("should be found, and returned as the first element of an array", function() {
+            it("should be found, and returned as the first element of an array", () => {
                 finder = new FileFinder(uniqueFileName, process.cwd());
                 actual = finder.findAllInDirectoryAndParents(fileFinderDir);
                 expected = path.join(fileFinderDir, uniqueFileName);
@@ -43,9 +43,9 @@ describe("FileFinder", function() {
             });
         });
 
-        describe("a file present in a parent directory", function() {
+        describe("a file present in a parent directory", () => {
 
-            it("should be found, and returned as the first element of an array", function() {
+            it("should be found, and returned as the first element of an array", () => {
                 finder = new FileFinder(uniqueFileName, process.cwd());
                 actual = finder.findAllInDirectoryAndParents(subsubsubdir);
                 expected = path.join(fileFinderDir, "subdir", uniqueFileName);
@@ -55,9 +55,9 @@ describe("FileFinder", function() {
             });
         });
 
-        describe("a relative file present in a parent directory", function() {
+        describe("a relative file present in a parent directory", () => {
 
-            it("should be found, and returned as the first element of an array", function() {
+            it("should be found, and returned as the first element of an array", () => {
                 finder = new FileFinder(uniqueFileName, subsubdir);
                 actual = finder.findAllInDirectoryAndParents("./subsubsubdir");
                 expected = path.join(fileFinderDir, "subdir", uniqueFileName);
@@ -67,9 +67,9 @@ describe("FileFinder", function() {
             });
         });
 
-        describe("searching for multiple files", function() {
+        describe("searching for multiple files", () => {
 
-            it("should return only the first specified file", function() {
+            it("should return only the first specified file", () => {
                 const firstExpected = path.join(fileFinderDir, "subdir", "empty"),
                     secondExpected = path.join(fileFinderDir, "empty");
 
@@ -81,7 +81,7 @@ describe("FileFinder", function() {
                 assert.equal(actual[1], secondExpected);
             });
 
-            it("should return the second file when the first is missing", function() {
+            it("should return the second file when the first is missing", () => {
                 const firstExpected = path.join(fileFinderDir, "subdir", uniqueFileName),
                     secondExpected = path.join(fileFinderDir, uniqueFileName);
 
@@ -93,7 +93,7 @@ describe("FileFinder", function() {
                 assert.equal(actual[1], secondExpected);
             });
 
-            it("should return multiple files when the first is missing and more than one filename is requested", function() {
+            it("should return multiple files when the first is missing and more than one filename is requested", () => {
                 const firstExpected = path.join(fileFinderDir, "subdir", uniqueFileName),
                     secondExpected = path.join(fileFinderDir, uniqueFileName);
 
@@ -107,15 +107,15 @@ describe("FileFinder", function() {
 
         });
 
-        describe("two files present with the same name in parent directories", function() {
+        describe("two files present with the same name in parent directories", () => {
             const firstExpected = path.join(fileFinderDir, "subdir", uniqueFileName),
                 secondExpected = path.join(fileFinderDir, uniqueFileName);
 
-            before(function() {
+            before(() => {
                 finder = new FileFinder(uniqueFileName, process.cwd());
             });
 
-            it("should both be found, and returned in an array", function() {
+            it("should both be found, and returned in an array", () => {
                 actual = finder.findAllInDirectoryAndParents(subsubsubdir);
 
                 assert.isArray(actual);
@@ -123,7 +123,7 @@ describe("FileFinder", function() {
                 assert.equal(actual[1], secondExpected);
             });
 
-            it("should be in the cache after they have been found", function() {
+            it("should be in the cache after they have been found", () => {
 
                 assert.equal(finder.cache[subsubsubdir][0], firstExpected);
                 assert.equal(finder.cache[subsubsubdir][1], secondExpected);
@@ -136,9 +136,9 @@ describe("FileFinder", function() {
             });
         });
 
-        describe("an absent file", function() {
+        describe("an absent file", () => {
 
-            it("should not be found, and an empty array returned", function() {
+            it("should not be found, and an empty array returned", () => {
                 finder = new FileFinder(absentFileName, process.cwd());
                 actual = finder.findAllInDirectoryAndParents();
 
@@ -156,8 +156,8 @@ describe("FileFinder", function() {
          * be better. The original code assumed there will never be a package.json
          * outside of the eslint workspace, but that cannot be guaranteed.
          */
-        describe("Not consider directory with expected file names", function() {
-            it("should only find one package.json from the root", function() {
+        describe("Not consider directory with expected file names", () => {
+            it("should only find one package.json from the root", () => {
                 expected = path.join(process.cwd(), "package.json");
                 finder = new FileFinder("package.json", process.cwd());
                 actual = finder.findAllInDirectoryAndParents(fileFinderDir);
@@ -168,9 +168,7 @@ describe("FileFinder", function() {
                  * In order to eliminate side effects of files located outside of
                  * workspace this should be done for all test cases here.
                  */
-                actual = actual.filter(function(file) {
-                    return (file || "").indexOf(process.cwd()) === 0;
-                });
+                actual = actual.filter(file => (file || "").indexOf(process.cwd()) === 0);
 
                 assert.equal(actual, expected);
             });

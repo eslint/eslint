@@ -57,7 +57,7 @@ const TEST_CODE = "var answer = 6 * 7;",
 function getVariable(scope, name) {
     let variable = null;
 
-    scope.variables.some(function(v) {
+    scope.variables.some(v => {
         if (v.name === name) {
             variable = v;
             return true;
@@ -71,39 +71,39 @@ function getVariable(scope, name) {
 // Tests
 //------------------------------------------------------------------------------
 
-describe("eslint", function() {
+describe("eslint", () => {
     const filename = "filename.js";
     let sandbox;
 
-    beforeEach(function() {
+    beforeEach(() => {
         sandbox = sinon.sandbox.create();
     });
 
-    afterEach(function() {
+    afterEach(() => {
         eslint.reset();
         sandbox.verifyAndRestore();
     });
 
-    describe("when using events", function() {
+    describe("when using events", () => {
         const code = TEST_CODE;
 
-        it("an error should be thrown when an error occurs inside of an event handler", function() {
+        it("an error should be thrown when an error occurs inside of an event handler", () => {
             const config = { rules: {} };
 
             eslint.reset();
-            eslint.on("Program", function() {
+            eslint.on("Program", () => {
                 throw new Error("Intentional error.");
             });
 
-            assert.throws(function() {
+            assert.throws(() => {
                 eslint.verify(code, config, filename, true);
             }, Error);
         });
     });
 
-    describe("getSourceLines()", function() {
+    describe("getSourceLines()", () => {
 
-        it("should get proper lines when using \\n as a line break", function() {
+        it("should get proper lines when using \\n as a line break", () => {
             const code = "a;\nb;";
 
             eslint.verify(code, {}, filename, true);
@@ -114,7 +114,7 @@ describe("eslint", function() {
             assert.equal(lines[1], "b;");
         });
 
-        it("should get proper lines when using \\r\\n as a line break", function() {
+        it("should get proper lines when using \\r\\n as a line break", () => {
             const code = "a;\r\nb;";
 
             eslint.verify(code, {}, filename, true);
@@ -125,7 +125,7 @@ describe("eslint", function() {
             assert.equal(lines[1], "b;");
         });
 
-        it("should get proper lines when using \\r as a line break", function() {
+        it("should get proper lines when using \\r as a line break", () => {
             const code = "a;\rb;";
 
             eslint.verify(code, {}, filename, true);
@@ -136,7 +136,7 @@ describe("eslint", function() {
             assert.equal(lines[1], "b;");
         });
 
-        it("should get proper lines when using \\u2028 as a line break", function() {
+        it("should get proper lines when using \\u2028 as a line break", () => {
             const code = "a;\u2028b;";
 
             eslint.verify(code, {}, filename, true);
@@ -147,7 +147,7 @@ describe("eslint", function() {
             assert.equal(lines[1], "b;");
         });
 
-        it("should get proper lines when using \\u2029 as a line break", function() {
+        it("should get proper lines when using \\u2029 as a line break", () => {
             const code = "a;\u2029b;";
 
             eslint.verify(code, {}, filename, true);
@@ -161,10 +161,10 @@ describe("eslint", function() {
 
     });
 
-    describe("getSourceCode()", function() {
+    describe("getSourceCode()", () => {
         const code = TEST_CODE;
 
-        it("should retrieve SourceCode object after reset", function() {
+        it("should retrieve SourceCode object after reset", () => {
             eslint.reset();
             eslint.verify(code, {}, filename, true);
 
@@ -175,7 +175,7 @@ describe("eslint", function() {
             assert.isObject(sourceCode.ast);
         });
 
-        it("should retrieve SourceCode object without reset", function() {
+        it("should retrieve SourceCode object without reset", () => {
             eslint.reset();
             eslint.verify(code, {}, filename);
 
@@ -188,10 +188,10 @@ describe("eslint", function() {
 
     });
 
-    describe("getSource()", function() {
+    describe("getSource()", () => {
         const code = TEST_CODE;
 
-        it("should retrieve all text when used without parameters", function() {
+        it("should retrieve all text when used without parameters", () => {
 
             /**
              * Callback handler
@@ -213,7 +213,7 @@ describe("eslint", function() {
             assert(spy.calledOnce);
         });
 
-        it("should retrieve all text for root node", function() {
+        it("should retrieve all text for root node", () => {
 
             /**
              * Callback handler
@@ -236,7 +236,7 @@ describe("eslint", function() {
             assert(spy.calledOnce);
         });
 
-        it("should clamp to valid range when retrieving characters before start of source", function() {
+        it("should clamp to valid range when retrieving characters before start of source", () => {
 
             /**
              * Callback handler
@@ -259,11 +259,11 @@ describe("eslint", function() {
             assert(spy.calledOnce);
         });
 
-        it("should retrieve all text for binary expression", function() {
+        it("should retrieve all text for binary expression", () => {
             const config = { rules: {} };
 
             eslint.reset();
-            eslint.on("BinaryExpression", function(node) {
+            eslint.on("BinaryExpression", node => {
                 const source = eslint.getSource(node);
 
                 assert.equal(source, "6 * 7");
@@ -272,11 +272,11 @@ describe("eslint", function() {
             eslint.verify(code, config, filename, true);
         });
 
-        it("should retrieve all text plus two characters before for binary expression", function() {
+        it("should retrieve all text plus two characters before for binary expression", () => {
             const config = { rules: {} };
 
             eslint.reset();
-            eslint.on("BinaryExpression", function(node) {
+            eslint.on("BinaryExpression", node => {
                 const source = eslint.getSource(node, 2);
 
                 assert.equal(source, "= 6 * 7");
@@ -285,11 +285,11 @@ describe("eslint", function() {
             eslint.verify(code, config, filename, true);
         });
 
-        it("should retrieve all text plus one character after for binary expression", function() {
+        it("should retrieve all text plus one character after for binary expression", () => {
             const config = { rules: {} };
 
             eslint.reset();
-            eslint.on("BinaryExpression", function(node) {
+            eslint.on("BinaryExpression", node => {
                 const source = eslint.getSource(node, 0, 1);
 
                 assert.equal(source, "6 * 7;");
@@ -298,11 +298,11 @@ describe("eslint", function() {
             eslint.verify(code, config, filename, true);
         });
 
-        it("should retrieve all text plus two characters before and one character after for binary expression", function() {
+        it("should retrieve all text plus two characters before and one character after for binary expression", () => {
             const config = { rules: {} };
 
             eslint.reset();
-            eslint.on("BinaryExpression", function(node) {
+            eslint.on("BinaryExpression", node => {
                 const source = eslint.getSource(node, 2, 1);
 
                 assert.equal(source, "= 6 * 7;");
@@ -313,15 +313,15 @@ describe("eslint", function() {
 
     });
 
-    describe("when calling getAncestors", function() {
+    describe("when calling getAncestors", () => {
         const code = TEST_CODE;
 
-        it("should retrieve all ancestors when used", function() {
+        it("should retrieve all ancestors when used", () => {
 
             const config = { rules: {} };
 
             eslint.reset();
-            eslint.on("BinaryExpression", function() {
+            eslint.on("BinaryExpression", () => {
                 const ancestors = eslint.getAncestors();
 
                 assert.equal(ancestors.length, 3);
@@ -330,11 +330,11 @@ describe("eslint", function() {
             eslint.verify(code, config, filename, true);
         });
 
-        it("should retrieve empty ancestors for root node", function() {
+        it("should retrieve empty ancestors for root node", () => {
             const config = { rules: {} };
 
             eslint.reset();
-            eslint.on("Program", function() {
+            eslint.on("Program", () => {
                 const ancestors = eslint.getAncestors();
 
                 assert.equal(ancestors.length, 0);
@@ -344,14 +344,14 @@ describe("eslint", function() {
         });
     });
 
-    describe("when calling getNodeByRangeIndex", function() {
+    describe("when calling getNodeByRangeIndex", () => {
         const code = TEST_CODE;
 
-        it("should retrieve a node starting at the given index", function() {
+        it("should retrieve a node starting at the given index", () => {
             const config = { rules: {} };
 
             eslint.reset();
-            eslint.on("Program", function() {
+            eslint.on("Program", () => {
                 const node = eslint.getNodeByRangeIndex(4);
 
                 assert.equal(node.type, "Identifier");
@@ -360,11 +360,11 @@ describe("eslint", function() {
             eslint.verify(code, config, filename, true);
         });
 
-        it("should retrieve a node containing the given index", function() {
+        it("should retrieve a node containing the given index", () => {
             const config = { rules: {} };
 
             eslint.reset();
-            eslint.on("Program", function() {
+            eslint.on("Program", () => {
                 const node = eslint.getNodeByRangeIndex(6);
 
                 assert.equal(node.type, "Identifier");
@@ -373,11 +373,11 @@ describe("eslint", function() {
             eslint.verify(code, config, filename, true);
         });
 
-        it("should retrieve a node that is exactly the given index", function() {
+        it("should retrieve a node that is exactly the given index", () => {
             const config = { rules: {} };
 
             eslint.reset();
-            eslint.on("Program", function() {
+            eslint.on("Program", () => {
                 const node = eslint.getNodeByRangeIndex(13);
 
                 assert.equal(node.type, "Literal");
@@ -387,11 +387,11 @@ describe("eslint", function() {
             eslint.verify(code, config, filename, true);
         });
 
-        it("should retrieve a node ending with the given index", function() {
+        it("should retrieve a node ending with the given index", () => {
             const config = { rules: {} };
 
             eslint.reset();
-            eslint.on("Program", function() {
+            eslint.on("Program", () => {
                 const node = eslint.getNodeByRangeIndex(9);
 
                 assert.equal(node.type, "Identifier");
@@ -400,11 +400,11 @@ describe("eslint", function() {
             eslint.verify(code, config, filename, true);
         });
 
-        it("should retrieve the deepest node containing the given index", function() {
+        it("should retrieve the deepest node containing the given index", () => {
             const config = { rules: {} };
 
             eslint.reset();
-            eslint.on("Program", function() {
+            eslint.on("Program", () => {
                 let node = eslint.getNodeByRangeIndex(14);
 
                 assert.equal(node.type, "BinaryExpression");
@@ -415,11 +415,11 @@ describe("eslint", function() {
             eslint.verify(code, config, filename, true);
         });
 
-        it("should return null if the index is outside the range of any node", function() {
+        it("should return null if the index is outside the range of any node", () => {
             const config = { rules: {} };
 
             eslint.reset();
-            eslint.on("Program", function() {
+            eslint.on("Program", () => {
                 let node = eslint.getNodeByRangeIndex(-1);
 
                 assert.isNull(node);
@@ -430,11 +430,11 @@ describe("eslint", function() {
             eslint.verify(code, config, filename, true);
         });
 
-        it("should attach the node's parent", function() {
+        it("should attach the node's parent", () => {
             const config = { rules: {} };
 
             eslint.reset();
-            eslint.on("Program", function() {
+            eslint.on("Program", () => {
                 const node = eslint.getNodeByRangeIndex(14);
 
                 assert.property(node, "parent");
@@ -444,11 +444,11 @@ describe("eslint", function() {
             eslint.verify(code, config, filename, true);
         });
 
-        it("should not modify the node when attaching the parent", function() {
+        it("should not modify the node when attaching the parent", () => {
             const config = { rules: {} };
 
             eslint.reset();
-            eslint.on("Program", function() {
+            eslint.on("Program", () => {
                 let node = eslint.getNodeByRangeIndex(10);
 
                 assert.equal(node.type, "VariableDeclarator");
@@ -466,14 +466,14 @@ describe("eslint", function() {
 
 
 
-    describe("when calling getScope", function() {
+    describe("when calling getScope", () => {
         const code = "function foo() { q: for(;;) { break q; } } function bar () { var q = t; } var baz = (() => { return 1; });";
 
-        it("should retrieve the global scope correctly from a Program", function() {
+        it("should retrieve the global scope correctly from a Program", () => {
             const config = { rules: {} };
 
             eslint.reset();
-            eslint.on("Program", function() {
+            eslint.on("Program", () => {
                 const scope = eslint.getScope();
 
                 assert.equal(scope.type, "global");
@@ -482,11 +482,11 @@ describe("eslint", function() {
             eslint.verify(code, config, filename, true);
         });
 
-        it("should retrieve the function scope correctly from a FunctionDeclaration", function() {
+        it("should retrieve the function scope correctly from a FunctionDeclaration", () => {
             const config = { rules: {} };
 
             eslint.reset();
-            eslint.on("FunctionDeclaration", function() {
+            eslint.on("FunctionDeclaration", () => {
                 const scope = eslint.getScope();
 
                 assert.equal(scope.type, "function");
@@ -495,11 +495,11 @@ describe("eslint", function() {
             eslint.verify(code, config, filename, true);
         });
 
-        it("should retrieve the function scope correctly from a LabeledStatement", function() {
+        it("should retrieve the function scope correctly from a LabeledStatement", () => {
             const config = { rules: {} };
 
             eslint.reset();
-            eslint.on("LabeledStatement", function() {
+            eslint.on("LabeledStatement", () => {
                 const scope = eslint.getScope();
 
                 assert.equal(scope.type, "function");
@@ -509,11 +509,11 @@ describe("eslint", function() {
             eslint.verify(code, config, filename, true);
         });
 
-        it("should retrieve the function scope correctly from within an ArrowFunctionExpression", function() {
+        it("should retrieve the function scope correctly from within an ArrowFunctionExpression", () => {
             const config = { rules: {}, ecmaFeatures: { arrowFunctions: true } };
 
             eslint.reset();
-            eslint.on("ReturnStatement", function() {
+            eslint.on("ReturnStatement", () => {
                 const scope = eslint.getScope();
 
                 assert.equal(scope.type, "function");
@@ -523,11 +523,11 @@ describe("eslint", function() {
             eslint.verify(code, config, filename, true);
         });
 
-        it("should retrieve the function scope correctly from within an SwitchStatement", function() {
+        it("should retrieve the function scope correctly from within an SwitchStatement", () => {
             const config = { rules: {}, parserOptions: { ecmaVersion: 6 } };
 
             eslint.reset();
-            eslint.on("SwitchStatement", function() {
+            eslint.on("SwitchStatement", () => {
                 const scope = eslint.getScope();
 
                 assert.equal(scope.type, "switch");
@@ -537,11 +537,11 @@ describe("eslint", function() {
             eslint.verify("switch(foo){ case 'a': var b = 'foo'; }", config, filename, true);
         });
 
-        it("should retrieve the function scope correctly from within a BlockStatement", function() {
+        it("should retrieve the function scope correctly from within a BlockStatement", () => {
             const config = { rules: {}, parserOptions: { ecmaVersion: 6 } };
 
             eslint.reset();
-            eslint.on("BlockStatement", function() {
+            eslint.on("BlockStatement", () => {
                 const scope = eslint.getScope();
 
                 assert.equal(scope.type, "block");
@@ -551,11 +551,11 @@ describe("eslint", function() {
             eslint.verify("var x; {let y = 1}", config, filename, true);
         });
 
-        it("should retrieve the function scope correctly from within a nested block statement", function() {
+        it("should retrieve the function scope correctly from within a nested block statement", () => {
             const config = { rules: {}, parserOptions: { ecmaVersion: 6 } };
 
             eslint.reset();
-            eslint.on("BlockStatement", function() {
+            eslint.on("BlockStatement", () => {
                 const scope = eslint.getScope();
 
                 assert.equal(scope.type, "block");
@@ -565,11 +565,11 @@ describe("eslint", function() {
             eslint.verify("if (true) { let x = 1 }", config, filename, true);
         });
 
-        it("should retrieve the function scope correctly from within a FunctionDeclaration", function() {
+        it("should retrieve the function scope correctly from within a FunctionDeclaration", () => {
             const config = { rules: {}, parserOptions: { ecmaVersion: 6 } };
 
             eslint.reset();
-            eslint.on("FunctionDeclaration", function() {
+            eslint.on("FunctionDeclaration", () => {
                 const scope = eslint.getScope();
 
                 assert.equal(scope.type, "function");
@@ -579,11 +579,11 @@ describe("eslint", function() {
             eslint.verify("function foo() {}", config, filename, true);
         });
 
-        it("should retrieve the function scope correctly from within a FunctionExpression", function() {
+        it("should retrieve the function scope correctly from within a FunctionExpression", () => {
             const config = { rules: {}, parserOptions: { ecmaVersion: 6 } };
 
             eslint.reset();
-            eslint.on("FunctionExpression", function() {
+            eslint.on("FunctionExpression", () => {
                 const scope = eslint.getScope();
 
                 assert.equal(scope.type, "function");
@@ -593,11 +593,11 @@ describe("eslint", function() {
             eslint.verify("(function foo() {})();", config, filename, true);
         });
 
-        it("should retrieve the catch scope correctly from within a CatchClause", function() {
+        it("should retrieve the catch scope correctly from within a CatchClause", () => {
             const config = { rules: {}, parserOptions: { ecmaVersion: 6 } };
 
             eslint.reset();
-            eslint.on("CatchClause", function() {
+            eslint.on("CatchClause", () => {
                 const scope = eslint.getScope();
 
                 assert.equal(scope.type, "catch");
@@ -607,11 +607,11 @@ describe("eslint", function() {
             eslint.verify("try {} catch (err) {}", config, filename, true);
         });
 
-        it("should retrieve module scope correctly from an ES6 module", function() {
+        it("should retrieve module scope correctly from an ES6 module", () => {
             const config = { rules: {}, parserOptions: { sourceType: "module" } };
 
             eslint.reset();
-            eslint.on("AssignmentExpression", function() {
+            eslint.on("AssignmentExpression", () => {
                 const scope = eslint.getScope();
 
                 assert.equal(scope.type, "module");
@@ -620,11 +620,11 @@ describe("eslint", function() {
             eslint.verify("var foo = {}; foo.bar = 1;", config, filename, true);
         });
 
-        it("should retrieve function scope correctly when globalReturn is true", function() {
+        it("should retrieve function scope correctly when globalReturn is true", () => {
             const config = { rules: {}, parserOptions: { ecmaFeatures: { globalReturn: true } } };
 
             eslint.reset();
-            eslint.on("AssignmentExpression", function() {
+            eslint.on("AssignmentExpression", () => {
                 const scope = eslint.getScope();
 
                 assert.equal(scope.type, "function");
@@ -634,12 +634,12 @@ describe("eslint", function() {
         });
     });
 
-    describe("marking variables as used", function() {
-        it("should mark variables in current scope as used", function() {
+    describe("marking variables as used", () => {
+        it("should mark variables in current scope as used", () => {
             const code = "var a = 1, b = 2;";
 
             eslint.reset();
-            eslint.on("Program:exit", function() {
+            eslint.on("Program:exit", () => {
                 eslint.markVariableAsUsed("a");
 
                 const scope = eslint.getScope();
@@ -650,11 +650,11 @@ describe("eslint", function() {
 
             eslint.verify(code, {}, filename, true);
         });
-        it("should mark variables in function args as used", function() {
+        it("should mark variables in function args as used", () => {
             const code = "function abc(a, b) { return 1; }";
 
             eslint.reset();
-            eslint.on("ReturnStatement", function() {
+            eslint.on("ReturnStatement", () => {
                 eslint.markVariableAsUsed("a");
 
                 const scope = eslint.getScope();
@@ -665,14 +665,14 @@ describe("eslint", function() {
 
             eslint.verify(code, {}, filename, true);
         });
-        it("should mark variables in higher scopes as used", function() {
+        it("should mark variables in higher scopes as used", () => {
             const code = "var a, b; function abc() { return 1; }";
 
             eslint.reset();
-            eslint.on("ReturnStatement", function() {
+            eslint.on("ReturnStatement", () => {
                 eslint.markVariableAsUsed("a");
             });
-            eslint.on("Program:exit", function() {
+            eslint.on("Program:exit", () => {
                 const scope = eslint.getScope();
 
                 assert.isTrue(getVariable(scope, "a").eslintUsed);
@@ -682,11 +682,11 @@ describe("eslint", function() {
             eslint.verify(code, {}, filename, true);
         });
 
-        it("should mark variables in Node.js environment as used", function() {
+        it("should mark variables in Node.js environment as used", () => {
             const code = "var a = 1, b = 2;";
 
             eslint.reset();
-            eslint.on("Program:exit", function() {
+            eslint.on("Program:exit", () => {
                 const globalScope = eslint.getScope(),
                     childScope = globalScope.childScopes[0];
 
@@ -699,11 +699,11 @@ describe("eslint", function() {
             eslint.verify(code, { env: { node: true }}, filename, true);
         });
 
-        it("should mark variables in modules as used", function() {
+        it("should mark variables in modules as used", () => {
             const code = "var a = 1, b = 2;";
 
             eslint.reset();
-            eslint.on("Program:exit", function() {
+            eslint.on("Program:exit", () => {
                 const globalScope = eslint.getScope(),
                     childScope = globalScope.childScopes[0];
 
@@ -717,17 +717,17 @@ describe("eslint", function() {
         });
     });
 
-    describe("report()", function() {
+    describe("report()", () => {
 
         let config;
 
-        beforeEach(function() {
+        beforeEach(() => {
             eslint.reset();
             config = { rules: {} };
         });
 
-        it("should correctly parse a message when being passed all options", function() {
-            eslint.on("Program", function(node) {
+        it("should correctly parse a message when being passed all options", () => {
+            eslint.on("Program", node => {
                 eslint.report("test-rule", 2, node, node.loc.end, "hello {{dynamic}}", {dynamic: node.type});
             });
 
@@ -744,8 +744,8 @@ describe("eslint", function() {
             });
         });
 
-        it("should use the report the provided location when given", function() {
-            eslint.on("Program", function(node) {
+        it("should use the report the provided location when given", () => {
+            eslint.on("Program", node => {
                 eslint.report("test-rule", 2, node, {line: 42, column: 13}, "hello world");
             });
 
@@ -762,73 +762,73 @@ describe("eslint", function() {
             });
         });
 
-        it("should not throw an error if node is provided and location is not", function() {
-            eslint.on("Program", function(node) {
+        it("should not throw an error if node is provided and location is not", () => {
+            eslint.on("Program", node => {
                 eslint.report("test-rule", 2, node, "hello world");
             });
 
-            assert.doesNotThrow(function() {
+            assert.doesNotThrow(() => {
                 eslint.verify("0", config, "", true);
             });
         });
 
-        it("should not throw an error if location is provided and node is not", function() {
-            eslint.on("Program", function() {
+        it("should not throw an error if location is provided and node is not", () => {
+            eslint.on("Program", () => {
                 eslint.report("test-rule", 2, null, { line: 1, column: 1}, "hello world");
             });
 
-            assert.doesNotThrow(function() {
+            assert.doesNotThrow(() => {
                 eslint.verify("0", config, "", true);
             });
         });
 
-        it("should throw an error if neither node nor location is provided", function() {
-            eslint.on("Program", function() {
+        it("should throw an error if neither node nor location is provided", () => {
+            eslint.on("Program", () => {
                 eslint.report("test-rule", 2, null, "hello world");
             });
 
-            assert.throws(function() {
+            assert.throws(() => {
                 eslint.verify("0", config, "", true);
             }, /Node must be provided when reporting error if location is not provided$/);
         });
 
-        it("should throw an error if node is not an object", function() {
-            eslint.on("Program", function() {
+        it("should throw an error if node is not an object", () => {
+            eslint.on("Program", () => {
                 eslint.report("test-rule", 2, "not a node", "hello world");
             });
 
-            assert.throws(function() {
+            assert.throws(() => {
                 eslint.verify("0", config, "", true);
             }, /Node must be an object$/);
         });
 
-        it("should throw an error if fix is passed but meta has no `fixable` property", function() {
+        it("should throw an error if fix is passed but meta has no `fixable` property", () => {
             const meta = {
                 docs: {},
                 schema: []
             };
 
-            eslint.on("Program", function(node) {
+            eslint.on("Program", node => {
                 eslint.report("test-rule", 2, node, "hello world", [], { range: [1, 1], text: "" }, meta);
             });
 
-            assert.throws(function() {
+            assert.throws(() => {
                 eslint.verify("0", config, "", true);
             }, /Fixable rules should export a `meta\.fixable` property.$/);
         });
 
-        it("should not throw an error if fix is passed and no metadata is passed", function() {
-            eslint.on("Program", function(node) {
+        it("should not throw an error if fix is passed and no metadata is passed", () => {
+            eslint.on("Program", node => {
                 eslint.report("test-rule", 2, node, "hello world", [], { range: [1, 1], text: "" });
             });
 
-            assert.doesNotThrow(function() {
+            assert.doesNotThrow(() => {
                 eslint.verify("0", config, "", true);
             });
         });
 
-        it("should correctly parse a message with object keys as numbers", function() {
-            eslint.on("Program", function(node) {
+        it("should correctly parse a message with object keys as numbers", () => {
+            eslint.on("Program", node => {
                 eslint.report("test-rule", 2, node, "my message {{name}}{{0}}", {0: "!", name: "testing"});
             });
 
@@ -845,8 +845,8 @@ describe("eslint", function() {
             });
         });
 
-        it("should correctly parse a message with array", function() {
-            eslint.on("Program", function(node) {
+        it("should correctly parse a message with array", () => {
+            eslint.on("Program", node => {
                 eslint.report("test-rule", 2, node, "my message {{1}}{{0}}", ["!", "testing"]);
             });
 
@@ -863,8 +863,8 @@ describe("eslint", function() {
             });
         });
 
-        it("should include a fix passed as the last argument when location is not passed", function() {
-            eslint.on("Program", function(node) {
+        it("should include a fix passed as the last argument when location is not passed", () => {
+            eslint.on("Program", node => {
                 eslint.report("test-rule", 2, node, "my message {{1}}{{0}}", ["!", "testing"], { range: [1, 1], text: "" });
             });
 
@@ -882,17 +882,15 @@ describe("eslint", function() {
             });
         });
 
-        it("should allow template parameter with inner whitespace", function() {
+        it("should allow template parameter with inner whitespace", () => {
             eslint.reset();
-            eslint.defineRule("test-rule", function(context) {
-                return {
-                    Literal(node) {
-                        context.report(node, "message {{parameter name}}", {
-                            "parameter name": "yay!"
-                        });
-                    }
-                };
-            });
+            eslint.defineRule("test-rule", context => ({
+                Literal(node) {
+                    context.report(node, "message {{parameter name}}", {
+                        "parameter name": "yay!"
+                    });
+                }
+            }));
 
             config.rules["test-rule"] = 1;
 
@@ -901,15 +899,13 @@ describe("eslint", function() {
             assert.equal(messages[0].message, "message yay!");
         });
 
-        it("should not crash if no template parameters are passed", function() {
+        it("should not crash if no template parameters are passed", () => {
             eslint.reset();
-            eslint.defineRule("test-rule", function(context) {
-                return {
-                    Literal(node) {
-                        context.report(node, "message {{code}}");
-                    }
-                };
-            });
+            eslint.defineRule("test-rule", context => ({
+                Literal(node) {
+                    context.report(node, "message {{code}}");
+                }
+            }));
 
             config.rules["test-rule"] = 1;
 
@@ -918,17 +914,15 @@ describe("eslint", function() {
             assert.equal(messages[0].message, "message {{code}}");
         });
 
-        it("should allow template parameter with non-identifier characters", function() {
+        it("should allow template parameter with non-identifier characters", () => {
             eslint.reset();
-            eslint.defineRule("test-rule", function(context) {
-                return {
-                    Literal(node) {
-                        context.report(node, "message {{parameter-name}}", {
-                            "parameter-name": "yay!"
-                        });
-                    }
-                };
-            });
+            eslint.defineRule("test-rule", context => ({
+                Literal(node) {
+                    context.report(node, "message {{parameter-name}}", {
+                        "parameter-name": "yay!"
+                    });
+                }
+            }));
 
             config.rules["test-rule"] = 1;
 
@@ -937,17 +931,15 @@ describe("eslint", function() {
             assert.equal(messages[0].message, "message yay!");
         });
 
-        it("should allow template parameter wrapped in braces", function() {
+        it("should allow template parameter wrapped in braces", () => {
             eslint.reset();
-            eslint.defineRule("test-rule", function(context) {
-                return {
-                    Literal(node) {
-                        context.report(node, "message {{{param}}}", {
-                            param: "yay!"
-                        });
-                    }
-                };
-            });
+            eslint.defineRule("test-rule", context => ({
+                Literal(node) {
+                    context.report(node, "message {{{param}}}", {
+                        param: "yay!"
+                    });
+                }
+            }));
 
             config.rules["test-rule"] = 1;
 
@@ -956,15 +948,13 @@ describe("eslint", function() {
             assert.equal(messages[0].message, "message {yay!}");
         });
 
-        it("should ignore template parameter with no specified value", function() {
+        it("should ignore template parameter with no specified value", () => {
             eslint.reset();
-            eslint.defineRule("test-rule", function(context) {
-                return {
-                    Literal(node) {
-                        context.report(node, "message {{parameter}}", {});
-                    }
-                };
-            });
+            eslint.defineRule("test-rule", context => ({
+                Literal(node) {
+                    context.report(node, "message {{parameter}}", {});
+                }
+            }));
 
             config.rules["test-rule"] = 1;
 
@@ -973,15 +963,13 @@ describe("eslint", function() {
             assert.equal(messages[0].message, "message {{parameter}}");
         });
 
-        it("should ignore template parameter with no specified value with warn severity", function() {
+        it("should ignore template parameter with no specified value with warn severity", () => {
             eslint.reset();
-            eslint.defineRule("test-rule", function(context) {
-                return {
-                    Literal(node) {
-                        context.report(node, "message {{parameter}}", {});
-                    }
-                };
-            });
+            eslint.defineRule("test-rule", context => ({
+                Literal(node) {
+                    context.report(node, "message {{parameter}}", {});
+                }
+            }));
 
             config.rules["test-rule"] = "warn";
 
@@ -991,17 +979,15 @@ describe("eslint", function() {
             assert.equal(messages[0].message, "message {{parameter}}");
         });
 
-        it("should handle leading whitespace in template parameter", function() {
+        it("should handle leading whitespace in template parameter", () => {
             eslint.reset();
-            eslint.defineRule("test-rule", function(context) {
-                return {
-                    Literal(node) {
-                        context.report(node, "message {{ parameter}}", {
-                            parameter: "yay!"
-                        });
-                    }
-                };
-            });
+            eslint.defineRule("test-rule", context => ({
+                Literal(node) {
+                    context.report(node, "message {{ parameter}}", {
+                        parameter: "yay!"
+                    });
+                }
+            }));
 
             config.rules["test-rule"] = 1;
 
@@ -1010,17 +996,15 @@ describe("eslint", function() {
             assert.equal(messages[0].message, "message yay!");
         });
 
-        it("should handle trailing whitespace in template parameter", function() {
+        it("should handle trailing whitespace in template parameter", () => {
             eslint.reset();
-            eslint.defineRule("test-rule", function(context) {
-                return {
-                    Literal(node) {
-                        context.report(node, "message {{parameter }}", {
-                            parameter: "yay!"
-                        });
-                    }
-                };
-            });
+            eslint.defineRule("test-rule", context => ({
+                Literal(node) {
+                    context.report(node, "message {{parameter }}", {
+                        parameter: "yay!"
+                    });
+                }
+            }));
 
             config.rules["test-rule"] = 1;
 
@@ -1029,17 +1013,15 @@ describe("eslint", function() {
             assert.equal(messages[0].message, "message yay!");
         });
 
-        it("should still allow inner whitespace as well as leading/trailing", function() {
+        it("should still allow inner whitespace as well as leading/trailing", () => {
             eslint.reset();
-            eslint.defineRule("test-rule", function(context) {
-                return {
-                    Literal(node) {
-                        context.report(node, "message {{ parameter name }}", {
-                            "parameter name": "yay!"
-                        });
-                    }
-                };
-            });
+            eslint.defineRule("test-rule", context => ({
+                Literal(node) {
+                    context.report(node, "message {{ parameter name }}", {
+                        "parameter name": "yay!"
+                    });
+                }
+            }));
 
             config.rules["test-rule"] = 1;
 
@@ -1048,17 +1030,15 @@ describe("eslint", function() {
             assert.equal(messages[0].message, "message yay!");
         });
 
-        it("should still allow non-identifier characters as well as leading/trailing whitespace", function() {
+        it("should still allow non-identifier characters as well as leading/trailing whitespace", () => {
             eslint.reset();
-            eslint.defineRule("test-rule", function(context) {
-                return {
-                    Literal(node) {
-                        context.report(node, "message {{ parameter-name }}", {
-                            "parameter-name": "yay!"
-                        });
-                    }
-                };
-            });
+            eslint.defineRule("test-rule", context => ({
+                Literal(node) {
+                    context.report(node, "message {{ parameter-name }}", {
+                        "parameter-name": "yay!"
+                    });
+                }
+            }));
 
             config.rules["test-rule"] = 1;
 
@@ -1067,8 +1047,8 @@ describe("eslint", function() {
             assert.equal(messages[0].message, "message yay!");
         });
 
-        it("should include a fix passed as the last argument when location is passed", function() {
-            eslint.on("Program", function(node) {
+        it("should include a fix passed as the last argument when location is passed", () => {
+            eslint.on("Program", node => {
                 eslint.report("test-rule", 2, node, { line: 42, column: 23 }, "my message {{1}}{{0}}", ["!", "testing"], { range: [1, 1], text: "" });
             });
 
@@ -1086,8 +1066,8 @@ describe("eslint", function() {
             });
         });
 
-        it("should not have 'endLine' and 'endColumn' when there is not 'loc' property.", function() {
-            eslint.on("Program", function(node) {
+        it("should not have 'endLine' and 'endColumn' when there is not 'loc' property.", () => {
+            eslint.on("Program", node => {
                 eslint.report(
                     "test-rule",
                     2,
@@ -1102,8 +1082,8 @@ describe("eslint", function() {
             assert.strictEqual(messages[0].endColumn, void 0);
         });
 
-        it("should have 'endLine' and 'endColumn' when 'loc' property has 'end' property.", function() {
-            eslint.on("Program", function(node) {
+        it("should have 'endLine' and 'endColumn' when 'loc' property has 'end' property.", () => {
+            eslint.on("Program", node => {
                 eslint.report(
                     "test-rule",
                     2,
@@ -1119,8 +1099,8 @@ describe("eslint", function() {
             assert.strictEqual(messages[0].endColumn, 2);
         });
 
-        it("should not have 'endLine' and 'endColumn' when 'loc' property doe not have 'end' property.", function() {
-            eslint.on("Program", function(node) {
+        it("should not have 'endLine' and 'endColumn' when 'loc' property doe not have 'end' property.", () => {
+            eslint.on("Program", node => {
                 eslint.report(
                     "test-rule",
                     2,
@@ -1138,10 +1118,10 @@ describe("eslint", function() {
 
     });
 
-    describe("when evaluating code", function() {
+    describe("when evaluating code", () => {
         const code = TEST_CODE;
 
-        it("events for each node type should fire", function() {
+        it("events for each node type should fire", () => {
             const config = { rules: {} };
 
             // spies for various AST node types
@@ -1169,18 +1149,16 @@ describe("eslint", function() {
         });
     });
 
-    describe("when config has shared settings for rules", function() {
+    describe("when config has shared settings for rules", () => {
         const code = "test-rule";
 
-        it("should pass settings to all rules", function() {
+        it("should pass settings to all rules", () => {
             eslint.reset();
-            eslint.defineRule(code, function(context) {
-                return {
-                    Literal(node) {
-                        context.report(node, context.settings.info);
-                    }
-                };
-            });
+            eslint.defineRule(code, context => ({
+                Literal(node) {
+                    context.report(node, context.settings.info);
+                }
+            }));
 
             const config = { rules: {}, settings: { info: "Hello" } };
 
@@ -1192,17 +1170,15 @@ describe("eslint", function() {
             assert.equal(messages[0].message, "Hello");
         });
 
-        it("should not have any settings if they were not passed in", function() {
+        it("should not have any settings if they were not passed in", () => {
             eslint.reset();
-            eslint.defineRule(code, function(context) {
-                return {
-                    Literal(node) {
-                        if (Object.getOwnPropertyNames(context.settings).length !== 0) {
-                            context.report(node, "Settings should be empty");
-                        }
+            eslint.defineRule(code, context => ({
+                Literal(node) {
+                    if (Object.getOwnPropertyNames(context.settings).length !== 0) {
+                        context.report(node, "Settings should be empty");
                     }
-                };
-            });
+                }
+            }));
 
             const config = { rules: {} };
 
@@ -1214,9 +1190,9 @@ describe("eslint", function() {
         });
     });
 
-    describe("when config has parseOptions", function() {
+    describe("when config has parseOptions", () => {
 
-        it("should pass ecmaFeatures to all rules when provided on config", function() {
+        it("should pass ecmaFeatures to all rules when provided on config", () => {
 
             const parserOptions = {
                 ecmaFeatures: {
@@ -1235,7 +1211,7 @@ describe("eslint", function() {
             eslint.verify("0", config, filename);
         });
 
-        it("should pass parserOptions to all rules when default parserOptions is used", function() {
+        it("should pass parserOptions to all rules when default parserOptions is used", () => {
 
             const parserOptions = {};
 
@@ -1251,11 +1227,11 @@ describe("eslint", function() {
 
     });
 
-    describe("when config has parser", function() {
+    describe("when config has parser", () => {
 
         // custom parser unsupported in browser, only test in Node
         if (typeof window === "undefined") {
-            it("should pass parser as parserPath to all rules when provided on config", function() {
+            it("should pass parser as parserPath to all rules when provided on config", () => {
 
                 const alternateParser = "esprima-fb";
 
@@ -1269,7 +1245,7 @@ describe("eslint", function() {
                 eslint.verify("0", config, filename);
             });
 
-            it("should use parseForESLint() in custom parser when custom parser is specified", function() {
+            it("should use parseForESLint() in custom parser when custom parser is specified", () => {
 
                 const alternateParser = path.resolve(__dirname, "../fixtures/parsers/enhanced-parser.js");
 
@@ -1281,21 +1257,19 @@ describe("eslint", function() {
                 assert.equal(messages.length, 0);
             });
 
-            it("should expose parser services when using parseForESLint() and services are specified", function() {
+            it("should expose parser services when using parseForESLint() and services are specified", () => {
 
                 const alternateParser = path.resolve(__dirname, "../fixtures/parsers/enhanced-parser.js");
 
                 eslint.reset();
-                eslint.defineRule("test-service-rule", function(context) {
-                    return {
-                        Literal(node) {
-                            context.report({
-                                node,
-                                message: context.parserServices.test.getMessage()
-                            });
-                        }
-                    };
-                });
+                eslint.defineRule("test-service-rule", context => ({
+                    Literal(node) {
+                        context.report({
+                            node,
+                            message: context.parserServices.test.getMessage()
+                        });
+                    }
+                }));
 
                 const config = { rules: { "test-service-rule": 2 }, parser: alternateParser };
                 const messages = eslint.verify("0", config, filename);
@@ -1305,7 +1279,7 @@ describe("eslint", function() {
             });
         }
 
-        it("should pass parser as parserPath to all rules when default parser is used", function() {
+        it("should pass parser as parserPath to all rules when default parser is used", () => {
 
             const DEFAULT_PARSER = eslint.defaults().parser;
 
@@ -1322,10 +1296,10 @@ describe("eslint", function() {
     });
 
 
-    describe("when passing in configuration values for rules", function() {
+    describe("when passing in configuration values for rules", () => {
         const code = "var answer = 6 * 7";
 
-        it("should be configurable by only setting the integer value", function() {
+        it("should be configurable by only setting the integer value", () => {
             const rule = "semi",
                 config = { rules: {} };
 
@@ -1338,7 +1312,7 @@ describe("eslint", function() {
             assert.equal(messages[0].ruleId, rule);
         });
 
-        it("should be configurable by only setting the string value", function() {
+        it("should be configurable by only setting the string value", () => {
             const rule = "semi",
                 config = { rules: {} };
 
@@ -1352,7 +1326,7 @@ describe("eslint", function() {
             assert.equal(messages[0].ruleId, rule);
         });
 
-        it("should be configurable by passing in values as an array", function() {
+        it("should be configurable by passing in values as an array", () => {
             const rule = "semi",
                 config = { rules: {} };
 
@@ -1365,7 +1339,7 @@ describe("eslint", function() {
             assert.equal(messages[0].ruleId, rule);
         });
 
-        it("should be configurable by passing in string value as an array", function() {
+        it("should be configurable by passing in string value as an array", () => {
             const rule = "semi",
                 config = { rules: {} };
 
@@ -1379,7 +1353,7 @@ describe("eslint", function() {
             assert.equal(messages[0].ruleId, rule);
         });
 
-        it("should not be configurable by setting other value", function() {
+        it("should not be configurable by setting other value", () => {
             const rule = "semi",
                 config = { rules: {} };
 
@@ -1391,7 +1365,7 @@ describe("eslint", function() {
             assert.equal(messages.length, 0);
         });
 
-        it("should process empty config", function() {
+        it("should process empty config", () => {
             const config = {};
 
             eslint.reset();
@@ -1401,10 +1375,10 @@ describe("eslint", function() {
         });
     });
 
-    describe("after calling reset()", function() {
+    describe("after calling reset()", () => {
         const code = TEST_CODE;
 
-        it("previously registered event handlers should not be called", function() {
+        it("previously registered event handlers should not be called", () => {
 
             const config = { rules: {} };
 
@@ -1433,7 +1407,7 @@ describe("eslint", function() {
             sinon.assert.notCalled(spyBinaryExpression);
         });
 
-        it("text should not be available", function() {
+        it("text should not be available", () => {
             const config = { rules: {} };
 
             eslint.reset();
@@ -1445,7 +1419,7 @@ describe("eslint", function() {
             assert.isNull(eslint.getSource());
         });
 
-        it("source for nodes should not be available", function() {
+        it("source for nodes should not be available", () => {
             const config = { rules: {} };
 
             eslint.reset();
@@ -1458,14 +1432,14 @@ describe("eslint", function() {
         });
     });
 
-    describe("when evaluating code containing /*global */ and /*globals */ blocks", function() {
+    describe("when evaluating code containing /*global */ and /*globals */ blocks", () => {
         const code = "/*global a b:true c:false*/ function foo() {} /*globals d:true*/";
 
-        it("variables should be available in global scope", function() {
+        it("variables should be available in global scope", () => {
             const config = { rules: {} };
 
             eslint.reset();
-            eslint.on("Program", function() {
+            eslint.on("Program", () => {
                 const scope = eslint.getScope();
                 const a = getVariable(scope, "a"),
                     b = getVariable(scope, "b"),
@@ -1486,14 +1460,14 @@ describe("eslint", function() {
         });
     });
 
-    describe("when evaluating code containing a /*global */ block with sloppy whitespace", function() {
+    describe("when evaluating code containing a /*global */ block with sloppy whitespace", () => {
         const code = "/* global  a b  : true   c:  false*/";
 
-        it("variables should be available in global scope", function() {
+        it("variables should be available in global scope", () => {
             const config = { rules: {} };
 
             eslint.reset();
-            eslint.on("Program", function() {
+            eslint.on("Program", () => {
                 const scope = eslint.getScope(),
                     a = getVariable(scope, "a"),
                     b = getVariable(scope, "b"),
@@ -1511,13 +1485,13 @@ describe("eslint", function() {
         });
     });
 
-    describe("when evaluating code containing /*eslint-env */ block", function() {
-        it("variables should be available in global scope", function() {
+    describe("when evaluating code containing /*eslint-env */ block", () => {
+        it("variables should be available in global scope", () => {
             const code = "/*eslint-env node*/ function f() {} /*eslint-env browser, foo*/";
             const config = { rules: {} };
 
             eslint.reset();
-            eslint.on("Program", function() {
+            eslint.on("Program", () => {
                 const scope = eslint.getScope(),
                     exports = getVariable(scope, "exports"),
                     window = getVariable(scope, "window");
@@ -1529,14 +1503,14 @@ describe("eslint", function() {
         });
     });
 
-    describe("when evaluating code containing /*eslint-env */ block with sloppy whitespace", function() {
+    describe("when evaluating code containing /*eslint-env */ block with sloppy whitespace", () => {
         const code = "/* eslint-env ,, node  , no-browser ,,  */";
 
-        it("variables should be available in global scope", function() {
+        it("variables should be available in global scope", () => {
             const config = { rules: {} };
 
             eslint.reset();
-            eslint.on("Program", function() {
+            eslint.on("Program", () => {
                 const scope = eslint.getScope(),
                     exports = getVariable(scope, "exports"),
                     window = getVariable(scope, "window");
@@ -1548,9 +1522,9 @@ describe("eslint", function() {
         });
     });
 
-    describe("when evaluating code containing /*exported */ block", function() {
+    describe("when evaluating code containing /*exported */ block", () => {
 
-        it("we should behave nicely when no matching variable is found", function() {
+        it("we should behave nicely when no matching variable is found", () => {
             const code = "/* exported horse */";
             const config = { rules: {} };
 
@@ -1558,12 +1532,12 @@ describe("eslint", function() {
             eslint.verify(code, config, filename, true);
         });
 
-        it("variables should be exported", function() {
+        it("variables should be exported", () => {
             const code = "/* exported horse */\n\nvar horse = 'circus'";
             const config = { rules: {} };
 
             eslint.reset();
-            eslint.on("Program", function() {
+            eslint.on("Program", () => {
                 const scope = eslint.getScope(),
                     horse = getVariable(scope, "horse");
 
@@ -1572,12 +1546,12 @@ describe("eslint", function() {
             eslint.verify(code, config, filename, true);
         });
 
-        it("undefined variables should not be exported", function() {
+        it("undefined variables should not be exported", () => {
             const code = "/* exported horse */\n\nhorse = 'circus'";
             const config = { rules: {} };
 
             eslint.reset();
-            eslint.on("Program", function() {
+            eslint.on("Program", () => {
                 const scope = eslint.getScope(),
                     horse = getVariable(scope, "horse");
 
@@ -1586,12 +1560,12 @@ describe("eslint", function() {
             eslint.verify(code, config, filename, true);
         });
 
-        it("variables should be exported in strict mode", function() {
+        it("variables should be exported in strict mode", () => {
             const code = "/* exported horse */\n'use strict';\nvar horse = 'circus'";
             const config = { rules: {} };
 
             eslint.reset();
-            eslint.on("Program", function() {
+            eslint.on("Program", () => {
                 const scope = eslint.getScope(),
                     horse = getVariable(scope, "horse");
 
@@ -1600,12 +1574,12 @@ describe("eslint", function() {
             eslint.verify(code, config, filename, true);
         });
 
-        it("variables should not be exported in the es6 module environment", function() {
+        it("variables should not be exported in the es6 module environment", () => {
             const code = "/* exported horse */\nvar horse = 'circus'";
             const config = { rules: {}, parserOptions: { sourceType: "module" }};
 
             eslint.reset();
-            eslint.on("Program", function() {
+            eslint.on("Program", () => {
                 const scope = eslint.getScope(),
                     horse = getVariable(scope, "horse");
 
@@ -1614,12 +1588,12 @@ describe("eslint", function() {
             eslint.verify(code, config, filename, true);
         });
 
-        it("variables should not be exported when in the node environment", function() {
+        it("variables should not be exported when in the node environment", () => {
             const code = "/* exported horse */\nvar horse = 'circus'";
             const config = { rules: {}, env: { node: true } };
 
             eslint.reset();
-            eslint.on("Program", function() {
+            eslint.on("Program", () => {
                 const scope = eslint.getScope(),
                     horse = getVariable(scope, "horse");
 
@@ -1629,15 +1603,15 @@ describe("eslint", function() {
         });
     });
 
-    describe("when evaluating code containing a line comment", function() {
+    describe("when evaluating code containing a line comment", () => {
         const code = "//global a \n function f() {}";
 
-        it("should not introduce a global variable", function() {
+        it("should not introduce a global variable", () => {
 
             const config = { rules: {} };
 
             eslint.reset();
-            eslint.on("Program", function() {
+            eslint.on("Program", () => {
                 const scope = eslint.getScope();
 
                 assert.equal(getVariable(scope, "a"), null);
@@ -1646,14 +1620,14 @@ describe("eslint", function() {
         });
     });
 
-    describe("when evaluating code containing normal block comments", function() {
+    describe("when evaluating code containing normal block comments", () => {
         const code = "/**/  /*a*/  /*b:true*/  /*foo c:false*/";
 
-        it("should not introduce a global variable", function() {
+        it("should not introduce a global variable", () => {
             const config = { rules: {} };
 
             eslint.reset();
-            eslint.on("Program", function() {
+            eslint.on("Program", () => {
                 const scope = eslint.getScope();
 
                 assert.equal(getVariable(scope, "a"), null);
@@ -1665,14 +1639,14 @@ describe("eslint", function() {
         });
     });
 
-    describe("when evaluating any code", function() {
+    describe("when evaluating any code", () => {
         const code = "";
 
-        it("builtin global variables should be available in the global scope", function() {
+        it("builtin global variables should be available in the global scope", () => {
             const config = { rules: {} };
 
             eslint.reset();
-            eslint.on("Program", function() {
+            eslint.on("Program", () => {
                 const scope = eslint.getScope();
 
                 assert.notEqual(getVariable(scope, "Object"), null);
@@ -1682,11 +1656,11 @@ describe("eslint", function() {
             eslint.verify(code, config, filename, true);
         });
 
-        it("ES6 global variables should not be available by default", function() {
+        it("ES6 global variables should not be available by default", () => {
             const config = { rules: {} };
 
             eslint.reset();
-            eslint.on("Program", function() {
+            eslint.on("Program", () => {
                 const scope = eslint.getScope();
 
                 assert.equal(getVariable(scope, "Promise"), null);
@@ -1696,11 +1670,11 @@ describe("eslint", function() {
             eslint.verify(code, config, filename, true);
         });
 
-        it("ES6 global variables should be available in the es6 environment", function() {
+        it("ES6 global variables should be available in the es6 environment", () => {
             const config = { rules: {} };
 
             eslint.reset();
-            eslint.on("Program", function() {
+            eslint.on("Program", () => {
                 const scope = eslint.getScope();
 
                 assert.notEqual(getVariable(scope, "Promise"), null);
@@ -1711,29 +1685,27 @@ describe("eslint", function() {
         });
     });
 
-    describe("when evaluating empty code", function() {
+    describe("when evaluating empty code", () => {
         const code = "",
             config = { rules: {} };
 
-        it("getSource() should return an empty string", function() {
+        it("getSource() should return an empty string", () => {
             eslint.reset();
             eslint.verify(code, config, filename, true);
             assert.equal(eslint.getSource(), "");
         });
     });
 
-    describe("at any time", function() {
+    describe("at any time", () => {
         const code = "new-rule";
 
-        it("can add a rule dynamically", function() {
+        it("can add a rule dynamically", () => {
             eslint.reset();
-            eslint.defineRule(code, function(context) {
-                return {
-                    Literal(node) {
-                        context.report(node, "message");
-                    }
-                };
-            });
+            eslint.defineRule(code, context => ({
+                Literal(node) {
+                    context.report(node, "message");
+                }
+            }));
 
             const config = { rules: {} };
 
@@ -1747,15 +1719,15 @@ describe("eslint", function() {
         });
     });
 
-    describe("at any time", function() {
+    describe("at any time", () => {
         const code = ["new-rule-0", "new-rule-1"];
 
-        it("can add multiple rules dynamically", function() {
+        it("can add multiple rules dynamically", () => {
             eslint.reset();
             const config = { rules: {} };
             const newRules = {};
 
-            code.forEach(function(item) {
+            code.forEach(item => {
                 config.rules[item] = 1;
                 newRules[item] = function(context) {
                     return {
@@ -1770,29 +1742,25 @@ describe("eslint", function() {
             const messages = eslint.verify("0", config, filename);
 
             assert.equal(messages.length, code.length);
-            code.forEach(function(item) {
-                assert.ok(messages.some(function(message) {
-                    return message.ruleId === item;
-                }));
+            code.forEach(item => {
+                assert.ok(messages.some(message => message.ruleId === item));
             });
-            messages.forEach(function(message) {
+            messages.forEach(message => {
                 assert.equal(message.nodeType, "Literal");
             });
         });
     });
 
-    describe("at any time", function() {
+    describe("at any time", () => {
         const code = "filename-rule";
 
-        it("has access to the filename", function() {
+        it("has access to the filename", () => {
             eslint.reset();
-            eslint.defineRule(code, function(context) {
-                return {
-                    Literal(node) {
-                        context.report(node, context.getFilename());
-                    }
-                };
-            });
+            eslint.defineRule(code, context => ({
+                Literal(node) {
+                    context.report(node, context.getFilename());
+                }
+            }));
 
             const config = { rules: {} };
 
@@ -1803,15 +1771,13 @@ describe("eslint", function() {
             assert.equal(messages[0].message, filename);
         });
 
-        it("defaults filename to '<input>'", function() {
+        it("defaults filename to '<input>'", () => {
             eslint.reset();
-            eslint.defineRule(code, function(context) {
-                return {
-                    Literal(node) {
-                        context.report(node, context.getFilename());
-                    }
-                };
-            });
+            eslint.defineRule(code, context => ({
+                Literal(node) {
+                    context.report(node, context.getFilename());
+                }
+            }));
 
             const config = { rules: {} };
 
@@ -1823,9 +1789,9 @@ describe("eslint", function() {
         });
     });
 
-    describe("when evaluating code with comments to enable rules", function() {
+    describe("when evaluating code with comments to enable rules", () => {
 
-        it("should report a violation", function() {
+        it("should report a violation", () => {
             const code = "/*eslint no-alert:1*/ alert('test');";
             const config = { rules: {} };
 
@@ -1837,7 +1803,7 @@ describe("eslint", function() {
             assert.include(messages[0].nodeType, "CallExpression");
         });
 
-        it("rules should not change initial config", function() {
+        it("rules should not change initial config", () => {
             const config = { rules: {strict: 2} };
             const codeA = "/*eslint strict: 0*/ function bar() { return 2; }";
             const codeB = "function foo() { return 1; }";
@@ -1851,7 +1817,7 @@ describe("eslint", function() {
             assert.equal(messages.length, 1);
         });
 
-        it("rules should not change initial config", function() {
+        it("rules should not change initial config", () => {
             const config = { rules: {quotes: [2, "double"]} };
             const codeA = "/*eslint quotes: 0*/ function bar() { return '2'; }";
             const codeB = "function foo() { return '1'; }";
@@ -1865,7 +1831,7 @@ describe("eslint", function() {
             assert.equal(messages.length, 1);
         });
 
-        it("rules should not change initial config", function() {
+        it("rules should not change initial config", () => {
             const config = { rules: {quotes: [2, "double"]} };
             const codeA = "/*eslint quotes: [0, \"single\"]*/ function bar() { return '2'; }";
             const codeB = "function foo() { return '1'; }";
@@ -1879,7 +1845,7 @@ describe("eslint", function() {
             assert.equal(messages.length, 1);
         });
 
-        it("rules should not change initial config", function() {
+        it("rules should not change initial config", () => {
             const config = { rules: {"no-unused-vars": [2, {vars: "all"}]} };
             const codeA = "/*eslint no-unused-vars: [0, {\"vars\": \"local\"}]*/ var a = 44;";
             const codeB = "var b = 55;";
@@ -1894,10 +1860,10 @@ describe("eslint", function() {
         });
     });
 
-    describe("when evaluating code with invalid comments to enable rules", function() {
+    describe("when evaluating code with invalid comments to enable rules", () => {
         const code = "/*eslint no-alert:true*/ alert('test');";
 
-        it("should report a violation", function() {
+        it("should report a violation", () => {
             const config = { rules: {} };
 
             const fn = eslint.verify.bind(eslint, code, config, filename);
@@ -1906,10 +1872,10 @@ describe("eslint", function() {
         });
     });
 
-    describe("when evaluating code with comments to disable rules", function() {
+    describe("when evaluating code with comments to disable rules", () => {
         const code = "/*eslint no-alert:0*/ alert('test');";
 
-        it("should not report a violation", function() {
+        it("should not report a violation", () => {
             const config = { rules: { "no-alert": 1 } };
 
             const messages = eslint.verify(code, config, filename);
@@ -1918,10 +1884,10 @@ describe("eslint", function() {
         });
     });
 
-    describe("when evaluating code with comments to enable multiple rules", function() {
+    describe("when evaluating code with comments to enable multiple rules", () => {
         const code = "/*eslint no-alert:1 no-console:1*/ alert('test'); console.log('test');";
 
-        it("should report a violation", function() {
+        it("should report a violation", () => {
             const config = { rules: {} };
 
             const messages = eslint.verify(code, config, filename);
@@ -1934,10 +1900,10 @@ describe("eslint", function() {
         });
     });
 
-    describe("when evaluating code with comments to enable and disable multiple rules", function() {
+    describe("when evaluating code with comments to enable and disable multiple rules", () => {
         const code = "/*eslint no-alert:1 no-console:0*/ alert('test'); console.log('test');";
 
-        it("should report a violation", function() {
+        it("should report a violation", () => {
             const config = { rules: { "no-console": 1, "no-alert": 0 } };
 
             const messages = eslint.verify(code, config, filename);
@@ -1949,19 +1915,17 @@ describe("eslint", function() {
         });
     });
 
-    describe("when evaluating code with comments to disable and enable configurable rule as part of plugin", function() {
+    describe("when evaluating code with comments to disable and enable configurable rule as part of plugin", () => {
 
-        eslint.defineRule("test-plugin/test-rule", function(context) {
-            return {
-                Literal(node) {
-                    if (node.value === "trigger violation") {
-                        context.report(node, "Reporting violation.");
-                    }
+        eslint.defineRule("test-plugin/test-rule", context => ({
+            Literal(node) {
+                if (node.value === "trigger violation") {
+                    context.report(node, "Reporting violation.");
                 }
-            };
-        });
+            }
+        }));
 
-        it("should not report a violation when inline comment enables plugin rule and there's no violation", function() {
+        it("should not report a violation when inline comment enables plugin rule and there's no violation", () => {
             const config = { rules: {} };
             const code = "/*eslint test-plugin/test-rule: 2*/ var a = \"no violation\";";
 
@@ -1971,7 +1935,7 @@ describe("eslint", function() {
             assert.equal(messages.length, 0);
         });
 
-        it("should not report a violation when inline comment disables plugin rule", function() {
+        it("should not report a violation when inline comment disables plugin rule", () => {
             const code = "/*eslint test-plugin/test-rule:0*/ var a = \"trigger violation\"";
             const config = { rules: { "test-plugin/test-rule": 1 } };
 
@@ -1980,7 +1944,7 @@ describe("eslint", function() {
             assert.equal(messages.length, 0);
         });
 
-        it("rules should not change initial config", function() {
+        it("rules should not change initial config", () => {
             const config = { rules: {"test-plugin/test-rule": 2} };
             const codeA = "/*eslint test-plugin/test-rule: 0*/ var a = \"trigger violation\";";
             const codeB = "var a = \"trigger violation\";";
@@ -1995,8 +1959,8 @@ describe("eslint", function() {
         });
     });
 
-    describe("when evaluating code with comments to enable and disable all reporting", function() {
-        it("should report a violation", function() {
+    describe("when evaluating code with comments to enable and disable all reporting", () => {
+        it("should report a violation", () => {
 
             const code = [
                 "/*eslint-disable */",
@@ -2015,7 +1979,7 @@ describe("eslint", function() {
             assert.equal(messages[0].line, 4);
         });
 
-        it("should not report a violation", function() {
+        it("should not report a violation", () => {
             const code = [
                 "/*eslint-disable */",
                 "alert('test');",
@@ -2028,7 +1992,7 @@ describe("eslint", function() {
             assert.equal(messages.length, 0);
         });
 
-        it("should not report a violation", function() {
+        it("should not report a violation", () => {
             const code = [
                 "                    alert('test1');/*eslint-disable */\n",
                 "alert('test');",
@@ -2044,7 +2008,7 @@ describe("eslint", function() {
             assert.equal(messages[1].column, 19);
         });
 
-        it("should not report a violation", function() {
+        it("should not report a violation", () => {
 
             const code = [
                 "/*eslint-disable */",
@@ -2064,7 +2028,7 @@ describe("eslint", function() {
         });
 
 
-        it("should not report a violation", function() {
+        it("should not report a violation", () => {
             const code = [
                 "/*eslint-disable */",
                 "(function(){ var b = 44;})()",
@@ -2078,7 +2042,7 @@ describe("eslint", function() {
             assert.equal(messages.length, 0);
         });
 
-        it("should not report a violation", function() {
+        it("should not report a violation", () => {
             const code = [
                 "(function(){ /*eslint-disable */ var b = 44;})()",
                 "/*eslint-enable */;any();"
@@ -2092,10 +2056,10 @@ describe("eslint", function() {
         });
     });
 
-    describe("when evaluating code with comments to ignore reporting on of specific rules on a specific line", function() {
+    describe("when evaluating code with comments to ignore reporting on of specific rules on a specific line", () => {
 
-        describe("eslint-disable-line", function() {
-            it("should report a violation", function() {
+        describe("eslint-disable-line", () => {
+            it("should report a violation", () => {
                 const code = [
                     "alert('test'); // eslint-disable-line no-alert",
                     "console.log('test');" // here
@@ -2114,7 +2078,7 @@ describe("eslint", function() {
                 assert.equal(messages[0].ruleId, "no-console");
             });
 
-            it("should report a violation", function() {
+            it("should report a violation", () => {
                 const code = [
                     "alert('test'); // eslint-disable-line no-alert",
                     "console.log('test'); // eslint-disable-line no-console",
@@ -2134,7 +2098,7 @@ describe("eslint", function() {
                 assert.equal(messages[0].ruleId, "no-alert");
             });
 
-            it("should report a violation", function() {
+            it("should report a violation", () => {
                 const code = [
                     "alert('test'); // eslint-disable-line no-alert",
                     "alert('test'); /*eslint-disable-line no-alert*/" // here
@@ -2152,7 +2116,7 @@ describe("eslint", function() {
                 assert.equal(messages[0].ruleId, "no-alert");
             });
 
-            it("should not report a violation", function() {
+            it("should not report a violation", () => {
                 const code = [
                     "alert('test'); // eslint-disable-line no-alert",
                     "console('test'); // eslint-disable-line no-console"
@@ -2169,7 +2133,7 @@ describe("eslint", function() {
                 assert.equal(messages.length, 0);
             });
 
-            it("should not report a violation", function() {
+            it("should not report a violation", () => {
                 const code = [
                     "alert('test') // eslint-disable-line no-alert, quotes, semi",
                     "console('test'); // eslint-disable-line"
@@ -2189,8 +2153,8 @@ describe("eslint", function() {
             });
         });
 
-        describe("eslint-disable-next-line", function() {
-            it("should ignore violation of specified rule on next line", function() {
+        describe("eslint-disable-next-line", () => {
+            it("should ignore violation of specified rule on next line", () => {
                 const code = [
                     "// eslint-disable-next-line no-alert",
                     "alert('test');",
@@ -2208,7 +2172,7 @@ describe("eslint", function() {
                 assert.equal(messages[0].ruleId, "no-console");
             });
 
-            it("should ignore violations only of specified rule", function() {
+            it("should ignore violations only of specified rule", () => {
                 const code = [
                     "// eslint-disable-next-line no-console",
                     "alert('test');",
@@ -2227,7 +2191,7 @@ describe("eslint", function() {
                 assert.equal(messages[1].ruleId, "no-console");
             });
 
-            it("should ignore violations of multiple rules when specified", function() {
+            it("should ignore violations of multiple rules when specified", () => {
                 const code = [
                     "// eslint-disable-next-line no-alert, quotes",
                     "alert(\"test\");",
@@ -2246,7 +2210,7 @@ describe("eslint", function() {
                 assert.equal(messages[0].ruleId, "no-console");
             });
 
-            it("should ignore violations of specified rule on next line only", function() {
+            it("should ignore violations of specified rule on next line only", () => {
                 const code = [
                     "alert('test');",
                     "// eslint-disable-next-line no-alert",
@@ -2266,7 +2230,7 @@ describe("eslint", function() {
                 assert.equal(messages[1].ruleId, "no-console");
             });
 
-            it("should ignore all rule violations on next line if none specified", function() {
+            it("should ignore all rule violations on next line if none specified", () => {
                 const code = [
                     "// eslint-disable-next-line",
                     "alert(\"test\");",
@@ -2286,7 +2250,7 @@ describe("eslint", function() {
                 assert.equal(messages[0].ruleId, "no-console");
             });
 
-            it("should not report if comment is in block quotes", function() {
+            it("should not report if comment is in block quotes", () => {
                 const code = [
                     "alert('test');",
                     "/* eslint-disable-next-line no-alert */",
@@ -2309,9 +2273,9 @@ describe("eslint", function() {
         });
     });
 
-    describe("when evaluating code with comments to enable and disable reporting of specific rules", function() {
+    describe("when evaluating code with comments to enable and disable reporting of specific rules", () => {
 
-        it("should report a violation", function() {
+        it("should report a violation", () => {
             const code = [
                 "/*eslint-disable no-alert */",
                 "alert('test');",
@@ -2326,7 +2290,7 @@ describe("eslint", function() {
             assert.equal(messages[0].ruleId, "no-console");
         });
 
-        it("should report a violation", function() {
+        it("should report a violation", () => {
             const code = [
                 "/*eslint-disable no-alert, no-console */",
                 "alert('test');",
@@ -2348,7 +2312,7 @@ describe("eslint", function() {
             assert.equal(messages[1].line, 6);
         });
 
-        it("should report a violation", function() {
+        it("should report a violation", () => {
             const code = [
                 "/*eslint-disable no-alert */",
                 "alert('test');",
@@ -2367,7 +2331,7 @@ describe("eslint", function() {
         });
 
 
-        it("should report a violation", function() {
+        it("should report a violation", () => {
             const code = [
                 "/*eslint-disable no-alert, no-console */",
                 "alert('test');",
@@ -2388,7 +2352,7 @@ describe("eslint", function() {
         });
 
 
-        it("should report a violation", function() {
+        it("should report a violation", () => {
             const code = [
                 "/*eslint-disable no-alert */",
 
@@ -2424,7 +2388,7 @@ describe("eslint", function() {
 
         });
 
-        it("should report a violation", function() {
+        it("should report a violation", () => {
             const code = [
                 "/*eslint-disable no-alert, no-console */",
                 "alert('test');",
@@ -2458,7 +2422,7 @@ describe("eslint", function() {
 
         });
 
-        it("should report a violation when severity is warn", function() {
+        it("should report a violation when severity is warn", () => {
             const code = [
                 "/*eslint-disable no-alert, no-console */",
                 "alert('test');",
@@ -2493,10 +2457,10 @@ describe("eslint", function() {
         });
     });
 
-    describe("when evaluating code with comments to enable and disable multiple comma separated rules", function() {
+    describe("when evaluating code with comments to enable and disable multiple comma separated rules", () => {
         const code = "/*eslint no-alert:1, no-console:0*/ alert('test'); console.log('test');";
 
-        it("should report a violation", function() {
+        it("should report a violation", () => {
             const config = { rules: { "no-console": 1, "no-alert": 0 } };
 
             const messages = eslint.verify(code, config, filename);
@@ -2508,10 +2472,10 @@ describe("eslint", function() {
         });
     });
 
-    describe("when evaluating code with comments to enable configurable rule", function() {
+    describe("when evaluating code with comments to enable configurable rule", () => {
         const code = "/*eslint quotes:[2, \"double\"]*/ alert('test');";
 
-        it("should report a violation", function() {
+        it("should report a violation", () => {
             const config = { rules: { quotes: [2, "single"] } };
 
             const messages = eslint.verify(code, config, filename);
@@ -2523,10 +2487,10 @@ describe("eslint", function() {
         });
     });
 
-    describe("when evaluating code with comments to enable configurable rule using string severity", function() {
+    describe("when evaluating code with comments to enable configurable rule using string severity", () => {
         const code = "/*eslint quotes:[\"error\", \"double\"]*/ alert('test');";
 
-        it("should report a violation", function() {
+        it("should report a violation", () => {
             const config = { rules: { quotes: [2, "single"] } };
 
             const messages = eslint.verify(code, config, filename);
@@ -2538,8 +2502,8 @@ describe("eslint", function() {
         });
     });
 
-    describe("when evaluating code with incorrectly formatted comments to disable rule", function() {
-        it("should report a violation", function() {
+    describe("when evaluating code with incorrectly formatted comments to disable rule", () => {
+        it("should report a violation", () => {
             const code = "/*eslint no-alert:'1'*/ alert('test');";
 
             const config = { rules: { "no-alert": 1} };
@@ -2564,7 +2528,7 @@ describe("eslint", function() {
             assert.include(messages[1].nodeType, "CallExpression");
         });
 
-        it("should report a violation", function() {
+        it("should report a violation", () => {
             const code = "/*eslint no-alert:abc*/ alert('test');";
 
             const config = { rules: { "no-alert": 1} };
@@ -2589,7 +2553,7 @@ describe("eslint", function() {
             assert.include(messages[1].nodeType, "CallExpression");
         });
 
-        it("should report a violation", function() {
+        it("should report a violation", () => {
             const code = "/*eslint no-alert:0 2*/ alert('test');";
 
             const config = { rules: { "no-alert": 1} };
@@ -2615,10 +2579,10 @@ describe("eslint", function() {
         });
     });
 
-    describe("when evaluating code with comments which have colon in its value", function() {
+    describe("when evaluating code with comments which have colon in its value", () => {
         const code = "/* eslint max-len: [2, 100, 2, {ignoreUrls: true, ignorePattern: \"data:image\\/|\\s*require\\s*\\(|^\\s*loader\\.lazy|-\\*-\"}] */\nalert('test');";
 
-        it("should not parse errors, should report a violation", function() {
+        it("should not parse errors, should report a violation", () => {
             const messages = eslint.verify(code, {}, filename);
 
             assert.equal(messages.length, 1);
@@ -2628,10 +2592,10 @@ describe("eslint", function() {
         });
     });
 
-    describe("when evaluating a file with a shebang", function() {
+    describe("when evaluating a file with a shebang", () => {
         const code = "#!bin/program\n\nvar foo;;";
 
-        it("should preserve line numbers", function() {
+        it("should preserve line numbers", () => {
             const config = { rules: { "no-extra-semi": 1 } };
             const messages = eslint.verify(code, config);
 
@@ -2641,12 +2605,12 @@ describe("eslint", function() {
             assert.equal(messages[0].line, 3);
         });
 
-        it("should not have a comment with the shebang in it", function() {
+        it("should not have a comment with the shebang in it", () => {
             const config = { rules: { "no-extra-semi": 1 } };
 
             eslint.reset();
 
-            eslint.on("Program", function(node) {
+            eslint.on("Program", node => {
                 assert.equal(node.comments.length, 0);
 
                 let comments = eslint.getComments(node);
@@ -2661,7 +2625,7 @@ describe("eslint", function() {
             eslint.verify(code, config, "foo.js", true);
         });
 
-        it("should not fire a LineComment event for a comment with the shebang in it", function() {
+        it("should not fire a LineComment event for a comment with the shebang in it", () => {
             const config = { rules: { "no-extra-semi": 1 } };
 
             eslint.reset();
@@ -2671,10 +2635,10 @@ describe("eslint", function() {
         });
     });
 
-    describe("when evaluating broken code", function() {
+    describe("when evaluating broken code", () => {
         const code = BROKEN_TEST_CODE;
 
-        it("should report a violation with a useful parse error prefix", function() {
+        it("should report a violation with a useful parse error prefix", () => {
             const messages = eslint.verify(code);
 
             assert.equal(messages.length, 1);
@@ -2687,7 +2651,7 @@ describe("eslint", function() {
             assert.match(messages[0].message, /^Parsing error:/);
         });
 
-        it("should report source code where the issue is present", function() {
+        it("should report source code where the issue is present", () => {
             const inValidCode = [
                 "var x = 20;",
                 "if (x ==4 {",
@@ -2704,7 +2668,7 @@ describe("eslint", function() {
         });
     });
 
-    describe("when using an invalid (undefined) rule", function() {
+    describe("when using an invalid (undefined) rule", () => {
         const code = TEST_CODE;
         const results = eslint.verify(code, { rules: {foobar: 2 } });
         const result = results[0];
@@ -2713,7 +2677,7 @@ describe("eslint", function() {
         const objectOptionResults = eslint.verify(code, { rules: {foobar: [1, {bar: false}]} });
         const resultsMultiple = eslint.verify(code, { rules: {foobar: 2, barfoo: 1} });
 
-        it("should add a stub rule", function() {
+        it("should add a stub rule", () => {
             assert.isNotNull(result);
             assert.isArray(results);
             assert.isObject(result);
@@ -2721,58 +2685,58 @@ describe("eslint", function() {
             assert.equal(result.ruleId, "foobar");
         });
 
-        it("should report that the rule does not exist", function() {
+        it("should report that the rule does not exist", () => {
             assert.property(result, "message");
             assert.equal(result.message, "Definition for rule 'foobar' was not found");
         });
 
-        it("should report at the correct severity", function() {
+        it("should report at the correct severity", () => {
             assert.property(result, "severity");
             assert.equal(result.severity, 2);
             assert.equal(warningResult.severity, 1);
         });
 
-        it("should accept any valid rule configuration", function() {
+        it("should accept any valid rule configuration", () => {
             assert.isObject(arrayOptionResults[0]);
             assert.isObject(objectOptionResults[0]);
         });
 
-        it("should report multiple missing rules", function() {
+        it("should report multiple missing rules", () => {
             assert.isArray(resultsMultiple);
             assert.equal(resultsMultiple[1].ruleId, "barfoo");
         });
     });
 
-    describe("when using a rule which has been replaced", function() {
+    describe("when using a rule which has been replaced", () => {
         const code = TEST_CODE;
         const results = eslint.verify(code, { rules: {"no-comma-dangle": 2 } });
 
-        it("should report the new rule", function() {
+        it("should report the new rule", () => {
             assert.equal(results[0].ruleId, "no-comma-dangle");
             assert.equal(results[0].message, "Rule 'no-comma-dangle' was removed and replaced by: comma-dangle");
         });
     });
 
-    describe("when using invalid rule config", function() {
+    describe("when using invalid rule config", () => {
         const code = TEST_CODE;
 
-        it("should throw an error", function() {
-            assert.throws(function() {
+        it("should throw an error", () => {
+            assert.throws(() => {
                 eslint.verify(code, { rules: {foobar: null } });
             }, /Invalid config for rule 'foobar'\./);
         });
     });
 
-    describe("when calling defaults", function() {
-        it("should return back config object", function() {
+    describe("when calling defaults", () => {
+        it("should return back config object", () => {
             const config = eslint.defaults();
 
             assert.isNotNull(config.rules);
         });
     });
 
-    describe("when evaluating code without comments to environment", function() {
-        it("should report a violation when using typed array", function() {
+    describe("when evaluating code without comments to environment", () => {
+        it("should report a violation when using typed array", () => {
             const code = "var array = new Uint8Array();";
 
             const config = { rules: { "no-undef": 1} };
@@ -2782,7 +2746,7 @@ describe("eslint", function() {
             assert.equal(messages.length, 1);
         });
 
-        it("should report a violation when using Promise", function() {
+        it("should report a violation when using Promise", () => {
             const code = "new Promise();";
 
             const config = { rules: { "no-undef": 1} };
@@ -2793,8 +2757,8 @@ describe("eslint", function() {
         });
     });
 
-    describe("when evaluating code with comments to environment", function() {
-        it("should not support legacy config", function() {
+    describe("when evaluating code with comments to environment", () => {
+        it("should not support legacy config", () => {
             const code = "/*jshint mocha:true */ describe();";
 
             const config = { rules: { "no-undef": 1} };
@@ -2807,7 +2771,7 @@ describe("eslint", function() {
             assert.equal(messages[0].line, 1);
         });
 
-        it("should not report a violation", function() {
+        it("should not report a violation", () => {
             const code = "/*eslint-env es6 */ new Promise();";
 
             const config = { rules: { "no-undef": 1 } };
@@ -2817,7 +2781,7 @@ describe("eslint", function() {
             assert.equal(messages.length, 0);
         });
 
-        it("should not report a violation", function() {
+        it("should not report a violation", () => {
             const code = "/*eslint-env mocha,node */ require();describe();";
 
             const config = { rules: { "no-undef": 1} };
@@ -2827,7 +2791,7 @@ describe("eslint", function() {
             assert.equal(messages.length, 0);
         });
 
-        it("should not report a violation", function() {
+        it("should not report a violation", () => {
             const code = "/*eslint-env mocha */ suite();test();";
 
             const config = { rules: { "no-undef": 1} };
@@ -2837,7 +2801,7 @@ describe("eslint", function() {
             assert.equal(messages.length, 0);
         });
 
-        it("should not report a violation", function() {
+        it("should not report a violation", () => {
             const code = "/*eslint-env amd */ define();require();";
 
             const config = { rules: { "no-undef": 1} };
@@ -2847,7 +2811,7 @@ describe("eslint", function() {
             assert.equal(messages.length, 0);
         });
 
-        it("should not report a violation", function() {
+        it("should not report a violation", () => {
             const code = "/*eslint-env jasmine */ expect();spyOn();";
 
             const config = { rules: { "no-undef": 1} };
@@ -2857,7 +2821,7 @@ describe("eslint", function() {
             assert.equal(messages.length, 0);
         });
 
-        it("should not report a violation", function() {
+        it("should not report a violation", () => {
             const code = "/*globals require: true */ /*eslint-env node */ require = 1;";
 
             const config = { rules: {"no-undef": 1} };
@@ -2867,7 +2831,7 @@ describe("eslint", function() {
             assert.equal(messages.length, 0);
         });
 
-        it("should not report a violation", function() {
+        it("should not report a violation", () => {
             const code = "/*eslint-env node */ process.exit();";
 
             const config = { rules: {} };
@@ -2877,7 +2841,7 @@ describe("eslint", function() {
             assert.equal(messages.length, 0);
         });
 
-        it("should not report a violation", function() {
+        it("should not report a violation", () => {
             const code = "/*eslint no-process-exit: 0 */ /*eslint-env node */ process.exit();";
 
             const config = { rules: {"no-undef": 1} };
@@ -2888,9 +2852,9 @@ describe("eslint", function() {
         });
     });
 
-    describe("when evaluating code with comments to change config when allowInlineConfig is enabled", function() {
+    describe("when evaluating code with comments to change config when allowInlineConfig is enabled", () => {
 
-        it("should report a violation for disabling rules", function() {
+        it("should report a violation for disabling rules", () => {
             const code = [
                 "alert('test'); // eslint-disable-line no-alert"
             ].join("\n");
@@ -2910,7 +2874,7 @@ describe("eslint", function() {
         });
 
         it("should report a violation for global variable declarations",
-        function() {
+        () => {
             const code = [
                 "/* global foo */"
             ].join("\n");
@@ -2943,7 +2907,7 @@ describe("eslint", function() {
             assert(ok);
         });
 
-        it("should report a violation for eslint-disable", function() {
+        it("should report a violation for eslint-disable", () => {
             const code = [
                 "/* eslint-disable */",
                 "alert('test');"
@@ -2963,7 +2927,7 @@ describe("eslint", function() {
             assert.equal(messages[0].ruleId, "no-alert");
         });
 
-        it("should not report a violation for rule changes", function() {
+        it("should not report a violation for rule changes", () => {
             const code = [
                 "/*eslint no-alert:2*/",
                 "alert('test');"
@@ -2982,7 +2946,7 @@ describe("eslint", function() {
             assert.equal(messages.length, 0);
         });
 
-        it("should report a violation for disable-line", function() {
+        it("should report a violation for disable-line", () => {
             const code = [
                 "alert('test'); // eslint-disable-line"
             ].join("\n");
@@ -3001,7 +2965,7 @@ describe("eslint", function() {
             assert.equal(messages[0].ruleId, "no-alert");
         });
 
-        it("should report a violation for env changes", function() {
+        it("should report a violation for env changes", () => {
             const code = [
                 "/*eslint-env browser*/"
             ].join("\n");
@@ -3035,9 +2999,9 @@ describe("eslint", function() {
         });
     });
 
-    describe("when evaluating code with comments to change config when allowInlineConfig is disabled", function() {
+    describe("when evaluating code with comments to change config when allowInlineConfig is disabled", () => {
 
-        it("should not report a violation", function() {
+        it("should not report a violation", () => {
             const code = [
                 "alert('test'); // eslint-disable-line no-alert"
             ].join("\n");
@@ -3056,9 +3020,9 @@ describe("eslint", function() {
         });
     });
 
-    describe("when evaluating code with code comments", function() {
+    describe("when evaluating code with code comments", () => {
 
-        it("should emit enter only once for each comment", function() {
+        it("should emit enter only once for each comment", () => {
 
             const code = "a; /*zz*/ b;";
 
@@ -3072,7 +3036,7 @@ describe("eslint", function() {
             assert.equal(spy.calledOnce, true);
         });
 
-        it("should emit exit only once for each comment", function() {
+        it("should emit exit only once for each comment", () => {
 
             const code = "a; //zz\n b;";
 
@@ -3088,15 +3052,15 @@ describe("eslint", function() {
 
     });
 
-    describe("when evaluating code with hashbang", function() {
-        it("should comment hashbang without breaking offset", function() {
+    describe("when evaluating code with hashbang", () => {
+        it("should comment hashbang without breaking offset", () => {
 
             const code = "#!/usr/bin/env node\n'123';";
 
             const config = { rules: {} };
 
             eslint.reset();
-            eslint.on("ExpressionStatement", function(node) {
+            eslint.on("ExpressionStatement", node => {
                 assert.equal(eslint.getSource(node), "'123';");
             });
 
@@ -3105,9 +3069,9 @@ describe("eslint", function() {
 
     });
 
-    describe("verify()", function() {
-        describe("filenames", function() {
-            it("should allow filename to be passed on options object", function() {
+    describe("verify()", () => {
+        describe("filenames", () => {
+            it("should allow filename to be passed on options object", () => {
 
                 eslint.verify("foo;", {}, { filename: "foo.js"});
                 const result = eslint.getFilename();
@@ -3115,7 +3079,7 @@ describe("eslint", function() {
                 assert.equal(result, "foo.js");
             });
 
-            it("should allow filename to be passed as third argument", function() {
+            it("should allow filename to be passed as third argument", () => {
 
                 eslint.verify("foo;", {}, "foo.js");
                 const result = eslint.getFilename();
@@ -3123,7 +3087,7 @@ describe("eslint", function() {
                 assert.equal(result, "foo.js");
             });
 
-            it("should default filename to <input> when options object doesn't have filename", function() {
+            it("should default filename to <input> when options object doesn't have filename", () => {
 
                 eslint.verify("foo;", {}, {});
                 const result = eslint.getFilename();
@@ -3131,7 +3095,7 @@ describe("eslint", function() {
                 assert.equal(result, "<input>");
             });
 
-            it("should default filename to <input> when only two arguments are passed", function() {
+            it("should default filename to <input> when only two arguments are passed", () => {
 
                 eslint.verify("foo;", {});
                 const result = eslint.getFilename();
@@ -3140,8 +3104,8 @@ describe("eslint", function() {
             });
         });
 
-        describe("saveState", function() {
-            it("should save the state when saveState is passed as an option", function() {
+        describe("saveState", () => {
+            it("should save the state when saveState is passed as an option", () => {
 
                 const spy = sinon.spy(eslint, "reset");
 
@@ -3150,7 +3114,7 @@ describe("eslint", function() {
             });
         });
 
-        it("should report warnings in order by line and column when called", function() {
+        it("should report warnings in order by line and column when called", () => {
 
             const code = "foo()\n    alert('test')";
             const config = { rules: { "no-mixed-spaces-and-tabs": 1, "eol-last": 1, semi: [1, "always"] } };
@@ -3166,9 +3130,9 @@ describe("eslint", function() {
             assert.equal(messages[2].column, 18);
         });
 
-        describe("ecmaVersion", function() {
-            describe("it should properly parse let declaration when", function() {
-                it("the ECMAScript version number is 6", function() {
+        describe("ecmaVersion", () => {
+            describe("it should properly parse let declaration when", () => {
+                it("the ECMAScript version number is 6", () => {
                     const messages = eslint.verify("let x = 5;", {
                         parserOptions: {
                             ecmaVersion: 6
@@ -3178,7 +3142,7 @@ describe("eslint", function() {
                     assert.equal(messages.length, 0);
                 });
 
-                it("the ECMAScript version number is 2015", function() {
+                it("the ECMAScript version number is 2015", () => {
                     const messages = eslint.verify("let x = 5;", {
                         parserOptions: {
                             ecmaVersion: 2015
@@ -3189,7 +3153,7 @@ describe("eslint", function() {
                 });
             });
 
-            it("should fail to parse exponentiation operator when the ECMAScript version number is 2015", function() {
+            it("should fail to parse exponentiation operator when the ECMAScript version number is 2015", () => {
                 const messages = eslint.verify("x ** y;", {
                     parserOptions: {
                         ecmaVersion: 2015
@@ -3199,8 +3163,8 @@ describe("eslint", function() {
                 assert.equal(messages.length, 1);
             });
 
-            describe("should properly parse exponentiation operator when", function() {
-                it("the ECMAScript version number is 7", function() {
+            describe("should properly parse exponentiation operator when", () => {
+                it("the ECMAScript version number is 7", () => {
                     const messages = eslint.verify("x ** y;", {
                         parserOptions: {
                             ecmaVersion: 7
@@ -3210,7 +3174,7 @@ describe("eslint", function() {
                     assert.equal(messages.length, 0);
                 });
 
-                it("the ECMAScript version number is 2016", function() {
+                it("the ECMAScript version number is 2016", () => {
                     const messages = eslint.verify("x ** y;", {
                         parserOptions: {
                             ecmaVersion: 2016
@@ -3222,7 +3186,7 @@ describe("eslint", function() {
             });
         });
 
-        it("should properly parse object spread when passed ecmaFeatures", function() {
+        it("should properly parse object spread when passed ecmaFeatures", () => {
 
             const messages = eslint.verify("var x = { ...y };", {
                 parserOptions: {
@@ -3236,7 +3200,7 @@ describe("eslint", function() {
             assert.equal(messages.length, 0);
         });
 
-        it("should properly parse global return when passed ecmaFeatures", function() {
+        it("should properly parse global return when passed ecmaFeatures", () => {
 
             const messages = eslint.verify("return;", {
                 parserOptions: {
@@ -3249,7 +3213,7 @@ describe("eslint", function() {
             assert.equal(messages.length, 0);
         });
 
-        it("should properly parse global return when in Node.js environment", function() {
+        it("should properly parse global return when in Node.js environment", () => {
 
             const messages = eslint.verify("return;", {
                 env: {
@@ -3260,7 +3224,7 @@ describe("eslint", function() {
             assert.equal(messages.length, 0);
         });
 
-        it("should not parse global return when in Node.js environment with globalReturn explicitly off", function() {
+        it("should not parse global return when in Node.js environment with globalReturn explicitly off", () => {
 
             const messages = eslint.verify("return;", {
                 env: {
@@ -3277,7 +3241,7 @@ describe("eslint", function() {
             assert.equal(messages[0].message, "Parsing error: 'return' outside of function");
         });
 
-        it("should not parse global return when Node.js environment is false", function() {
+        it("should not parse global return when Node.js environment is false", () => {
 
             const messages = eslint.verify("return;", {}, filename);
 
@@ -3285,14 +3249,14 @@ describe("eslint", function() {
             assert.equal(messages[0].message, "Parsing error: 'return' outside of function");
         });
 
-        it("should properly parse sloppy-mode code when impliedStrict is false", function() {
+        it("should properly parse sloppy-mode code when impliedStrict is false", () => {
 
             const messages = eslint.verify("var private;", {}, filename);
 
             assert.equal(messages.length, 0);
         });
 
-        it("should not parse sloppy-mode code when impliedStrict is true", function() {
+        it("should not parse sloppy-mode code when impliedStrict is true", () => {
 
             const messages = eslint.verify("var private;", {
                 parserOptions: {
@@ -3306,7 +3270,7 @@ describe("eslint", function() {
             assert.equal(messages[0].message, "Parsing error: The keyword 'private' is reserved");
         });
 
-        it("should properly parse valid code when impliedStrict is true", function() {
+        it("should properly parse valid code when impliedStrict is true", () => {
 
             const messages = eslint.verify("var foo;", {
                 parserOptions: {
@@ -3319,7 +3283,7 @@ describe("eslint", function() {
             assert.equal(messages.length, 0);
         });
 
-        it("should properly parse JSX when passed ecmaFeatures", function() {
+        it("should properly parse JSX when passed ecmaFeatures", () => {
 
             const messages = eslint.verify("var x = <div/>;", {
                 parserOptions: {
@@ -3332,7 +3296,7 @@ describe("eslint", function() {
             assert.equal(messages.length, 0);
         });
 
-        it("should report an error when JSX code is encountered and JSX is not enabled", function() {
+        it("should report an error when JSX code is encountered and JSX is not enabled", () => {
             const code = "var myDivElement = <div className=\"foo\" />;";
             const messages = eslint.verify(code, {}, "filename");
 
@@ -3342,21 +3306,21 @@ describe("eslint", function() {
             assert.equal(messages[0].message, "Parsing error: Unexpected token <");
         });
 
-        it("should not report an error when JSX code is encountered and JSX is enabled", function() {
+        it("should not report an error when JSX code is encountered and JSX is enabled", () => {
             const code = "var myDivElement = <div className=\"foo\" />;";
             const messages = eslint.verify(code, { parserOptions: { ecmaFeatures: { jsx: true }}}, "filename");
 
             assert.equal(messages.length, 0);
         });
 
-        it("should not report an error when JSX code contains a spread operator and JSX is enabled", function() {
+        it("should not report an error when JSX code contains a spread operator and JSX is enabled", () => {
             const code = "var myDivElement = <div {...this.props} />;";
             const messages = eslint.verify(code, { parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true }}}, "filename");
 
             assert.equal(messages.length, 0);
         });
 
-        it("should be able to use es6 features if there is a comment which has \"eslint-env es6\"", function() {
+        it("should be able to use es6 features if there is a comment which has \"eslint-env es6\"", () => {
             const code = [
                 "/* eslint-env es6 */",
                 "var arrow = () => 0;",
@@ -3385,13 +3349,13 @@ describe("eslint", function() {
             assert.equal(messages.length, 0);
         });
 
-        it("should be able to return in global if there is a comment which has \"eslint-env node\"", function() {
+        it("should be able to return in global if there is a comment which has \"eslint-env node\"", () => {
             const messages = eslint.verify("/* eslint-env node */ return;", null, "eslint-env node");
 
             assert.equal(messages.length, 0);
         });
 
-        it("should attach a \"/*global\" comment node to declared variables", function() {
+        it("should attach a \"/*global\" comment node to declared variables", () => {
             const code = "/* global foo */\n/* global bar, baz */";
             let ok = false;
 
@@ -3428,12 +3392,12 @@ describe("eslint", function() {
             assert(ok);
         });
 
-        it("should not crash when we reuse the SourceCode object", function() {
+        it("should not crash when we reuse the SourceCode object", () => {
             eslint.verify("function render() { return <div className='test'>{hello}</div> }", { parserOptions: { ecmaVersion: 6, ecmaFeatures: {jsx: true} }});
             eslint.verify(eslint.getSourceCode(), { parserOptions: { ecmaVersion: 6, ecmaFeatures: {jsx: true} }});
         });
 
-        it("should allow 'await' as a property name in modules", function() {
+        it("should allow 'await' as a property name in modules", () => {
             const result = eslint.verify(
                 "obj.await",
                 {parserOptions: {ecmaVersion: 6, sourceType: "module"}}
@@ -3443,7 +3407,7 @@ describe("eslint", function() {
         });
     });
 
-    describe("Variables and references", function() {
+    describe("Variables and references", () => {
         const code = [
             "a;",
             "function foo() { b; }",
@@ -3458,7 +3422,7 @@ describe("eslint", function() {
         ].join("\n");
         let scope = null;
 
-        beforeEach(function() {
+        beforeEach(() => {
             let ok = false;
 
             eslint.defineRules({test(context) {
@@ -3473,11 +3437,11 @@ describe("eslint", function() {
             assert(ok);
         });
 
-        afterEach(function() {
+        afterEach(() => {
             scope = null;
         });
 
-        it("Scope#through should contain references of undefined variables", function() {
+        it("Scope#through should contain references of undefined variables", () => {
             assert.equal(scope.through.length, 2);
             assert.equal(scope.through[0].identifier.name, "a");
             assert.equal(scope.through[0].identifier.loc.start.line, 1);
@@ -3487,28 +3451,16 @@ describe("eslint", function() {
             assert.equal(scope.through[1].resolved, null);
         });
 
-        it("Scope#variables should contain global variables", function() {
-            assert(scope.variables.some(function(v) {
-                return v.name === "Object";
-            }));
-            assert(scope.variables.some(function(v) {
-                return v.name === "foo";
-            }));
-            assert(scope.variables.some(function(v) {
-                return v.name === "c";
-            }));
-            assert(scope.variables.some(function(v) {
-                return v.name === "d";
-            }));
-            assert(scope.variables.some(function(v) {
-                return v.name === "e";
-            }));
-            assert(scope.variables.some(function(v) {
-                return v.name === "f";
-            }));
+        it("Scope#variables should contain global variables", () => {
+            assert(scope.variables.some(v => v.name === "Object"));
+            assert(scope.variables.some(v => v.name === "foo"));
+            assert(scope.variables.some(v => v.name === "c"));
+            assert(scope.variables.some(v => v.name === "d"));
+            assert(scope.variables.some(v => v.name === "e"));
+            assert(scope.variables.some(v => v.name === "f"));
         });
 
-        it("Scope#set should contain global variables", function() {
+        it("Scope#set should contain global variables", () => {
             assert(scope.set.get("Object"));
             assert(scope.set.get("foo"));
             assert(scope.set.get("c"));
@@ -3517,7 +3469,7 @@ describe("eslint", function() {
             assert(scope.set.get("f"));
         });
 
-        it("Variables#references should contain their references", function() {
+        it("Variables#references should contain their references", () => {
             assert.equal(scope.set.get("Object").references.length, 1);
             assert.equal(scope.set.get("Object").references[0].identifier.name, "Object");
             assert.equal(scope.set.get("Object").references[0].identifier.loc.start.line, 3);
@@ -3544,7 +3496,7 @@ describe("eslint", function() {
             assert.equal(scope.set.get("f").references[0].resolved, scope.set.get("f"));
         });
 
-        it("Reference#resolved should be their variable", function() {
+        it("Reference#resolved should be their variable", () => {
             assert.equal(scope.set.get("Object").references[0].resolved, scope.set.get("Object"));
             assert.equal(scope.set.get("foo").references[0].resolved, scope.set.get("foo"));
             assert.equal(scope.set.get("c").references[0].resolved, scope.set.get("c"));
@@ -3554,7 +3506,7 @@ describe("eslint", function() {
         });
     });
 
-    describe("getDeclaredVariables(node)", function() {
+    describe("getDeclaredVariables(node)", () => {
 
         /**
          * Assert `eslint.getDeclaredVariables(node)` is empty.
@@ -3649,7 +3601,7 @@ describe("eslint", function() {
             assert.equal(0, expectedNamesList.length);
         }
 
-        it("VariableDeclaration", function() {
+        it("VariableDeclaration", () => {
             const code = "\n var {a, x: [b], y: {c = 0}} = foo;\n let {d, x: [e], y: {f = 0}} = foo;\n const {g, x: [h], y: {i = 0}} = foo, {j, k = function(z) { let l; }} = bar;\n ";
             const namesList = [
                 ["a", "b", "c"],
@@ -3661,7 +3613,7 @@ describe("eslint", function() {
             verify(code, "VariableDeclaration", namesList);
         });
 
-        it("VariableDeclaration (on for-in/of loop)", function() {
+        it("VariableDeclaration (on for-in/of loop)", () => {
 
             // TDZ scope is created here, so tests to exclude those.
             const code = "\n for (var {a, x: [b], y: {c = 0}} in foo) {\n let g;\n }\n for (let {d, x: [e], y: {f = 0}} of foo) {\n let h;\n }\n ";
@@ -3675,7 +3627,7 @@ describe("eslint", function() {
             verify(code, "VariableDeclaration", namesList);
         });
 
-        it("VariableDeclarator", function() {
+        it("VariableDeclarator", () => {
 
             // TDZ scope is created here, so tests to exclude those.
             const code = "\n var {a, x: [b], y: {c = 0}} = foo;\n let {d, x: [e], y: {f = 0}} = foo;\n const {g, x: [h], y: {i = 0}} = foo, {j, k = function(z) { let l; }} = bar;\n ";
@@ -3690,7 +3642,7 @@ describe("eslint", function() {
             verify(code, "VariableDeclarator", namesList);
         });
 
-        it("FunctionDeclaration", function() {
+        it("FunctionDeclaration", () => {
             const code = "\n function foo({a, x: [b], y: {c = 0}}, [d, e]) {\n let z;\n }\n function bar({f, x: [g], y: {h = 0}}, [i, j = function(q) { let w; }]) {\n let z;\n }\n ";
             const namesList = [
                 ["foo", "a", "b", "c", "d", "e"],
@@ -3700,7 +3652,7 @@ describe("eslint", function() {
             verify(code, "FunctionDeclaration", namesList);
         });
 
-        it("FunctionExpression", function() {
+        it("FunctionExpression", () => {
             const code = "\n (function foo({a, x: [b], y: {c = 0}}, [d, e]) {\n let z;\n });\n (function bar({f, x: [g], y: {h = 0}}, [i, j = function(q) { let w; }]) {\n let z;\n });\n ";
             const namesList = [
                 ["foo", "a", "b", "c", "d", "e"],
@@ -3711,7 +3663,7 @@ describe("eslint", function() {
             verify(code, "FunctionExpression", namesList);
         });
 
-        it("ArrowFunctionExpression", function() {
+        it("ArrowFunctionExpression", () => {
             const code = "\n (({a, x: [b], y: {c = 0}}, [d, e]) => {\n let z;\n });\n (({f, x: [g], y: {h = 0}}, [i, j]) => {\n let z;\n });\n ";
             const namesList = [
                 ["a", "b", "c", "d", "e"],
@@ -3721,7 +3673,7 @@ describe("eslint", function() {
             verify(code, "ArrowFunctionExpression", namesList);
         });
 
-        it("ClassDeclaration", function() {
+        it("ClassDeclaration", () => {
             const code = "\n class A { foo(x) { let y; } }\n class B { foo(x) { let y; } }\n ";
             const namesList = [
                 ["A", "A"], // outer scope's and inner scope's.
@@ -3731,7 +3683,7 @@ describe("eslint", function() {
             verify(code, "ClassDeclaration", namesList);
         });
 
-        it("ClassExpression", function() {
+        it("ClassExpression", () => {
             const code = "\n (class A { foo(x) { let y; } });\n (class B { foo(x) { let y; } });\n ";
             const namesList = [
                 ["A"],
@@ -3741,7 +3693,7 @@ describe("eslint", function() {
             verify(code, "ClassExpression", namesList);
         });
 
-        it("CatchClause", function() {
+        it("CatchClause", () => {
             const code = "\n try {} catch ({a, b}) {\n let x;\n try {} catch ({c, d}) {\n let y;\n }\n }\n ";
             const namesList = [
                 ["a", "b"],
@@ -3751,7 +3703,7 @@ describe("eslint", function() {
             verify(code, "CatchClause", namesList);
         });
 
-        it("ImportDeclaration", function() {
+        it("ImportDeclaration", () => {
             const code = "\n import \"aaa\";\n import * as a from \"bbb\";\n import b, {c, x as d} from \"ccc\";\n ";
             const namesList = [
                 [],
@@ -3762,7 +3714,7 @@ describe("eslint", function() {
             verify(code, "ImportDeclaration", namesList);
         });
 
-        it("ImportSpecifier", function() {
+        it("ImportSpecifier", () => {
             const code = "\n import \"aaa\";\n import * as a from \"bbb\";\n import b, {c, x as d} from \"ccc\";\n ";
             const namesList = [
                 ["c"],
@@ -3772,7 +3724,7 @@ describe("eslint", function() {
             verify(code, "ImportSpecifier", namesList);
         });
 
-        it("ImportDefaultSpecifier", function() {
+        it("ImportDefaultSpecifier", () => {
             const code = "\n import \"aaa\";\n import * as a from \"bbb\";\n import b, {c, x as d} from \"ccc\";\n ";
             const namesList = [
                 ["b"]
@@ -3781,7 +3733,7 @@ describe("eslint", function() {
             verify(code, "ImportDefaultSpecifier", namesList);
         });
 
-        it("ImportNamespaceSpecifier", function() {
+        it("ImportNamespaceSpecifier", () => {
             const code = "\n import \"aaa\";\n import * as a from \"bbb\";\n import b, {c, x as d} from \"ccc\";\n ";
             const namesList = [
                 ["a"]
@@ -3791,56 +3743,54 @@ describe("eslint", function() {
         });
     });
 
-    describe("Edge cases", function() {
+    describe("Edge cases", () => {
 
-        it("should properly parse import statements when sourceType is module", function() {
+        it("should properly parse import statements when sourceType is module", () => {
             const code = "import foo from 'foo';";
             const messages = eslint.verify(code, { parserOptions: { sourceType: "module" } });
 
             assert.equal(messages.length, 0);
         });
 
-        it("should properly parse import all statements when sourceType is module", function() {
+        it("should properly parse import all statements when sourceType is module", () => {
             const code = "import * as foo from 'foo';";
             const messages = eslint.verify(code, { parserOptions: { sourceType: "module" } });
 
             assert.equal(messages.length, 0);
         });
 
-        it("should properly parse default export statements when sourceType is module", function() {
+        it("should properly parse default export statements when sourceType is module", () => {
             const code = "export default function initialize() {}";
             const messages = eslint.verify(code, { parserOptions: { sourceType: "module" } });
 
             assert.equal(messages.length, 0);
         });
 
-        it("should not crash when invalid parentheses syntax is encountered", function() {
+        it("should not crash when invalid parentheses syntax is encountered", () => {
             eslint.verify("left = (aSize.width/2) - ()");
         });
 
-        it("should not crash when let is used inside of switch case", function() {
+        it("should not crash when let is used inside of switch case", () => {
             eslint.verify("switch(foo) { case 1: let bar=2; }", { parserOptions: { ecmaVersion: 6 }});
         });
 
-        it("should not crash when parsing destructured assignment", function() {
+        it("should not crash when parsing destructured assignment", () => {
             eslint.verify("var { a='a' } = {};", { parserOptions: { ecmaVersion: 6 }});
         });
 
-        it("should report syntax error when a keyword exists in object property shorthand", function() {
+        it("should report syntax error when a keyword exists in object property shorthand", () => {
             const messages = eslint.verify("let a = {this}", { parserOptions: { ecmaVersion: 6 }});
 
             assert.equal(messages.length, 1);
             assert.equal(messages[0].fatal, true);
         });
 
-        it("should not rewrite env setting in core (https://github.com/eslint/eslint/issues/4814)", function() {
+        it("should not rewrite env setting in core (https://github.com/eslint/eslint/issues/4814)", () => {
 
             // This test focuses on the instance of https://github.com/eslint/eslint/blob/v2.0.0-alpha-2/conf/environments.js#L26-L28
 
             // This `verify()` takes the instance and runs https://github.com/eslint/eslint/blob/v2.0.0-alpha-2/lib/eslint.js#L416
-            eslint.defineRule("test", function() {
-                return {};
-            });
+            eslint.defineRule("test", () => ({}));
             eslint.verify("var a = 0;", {
                 env: {node: true},
                 parserOptions: {sourceType: "module"},
@@ -3850,7 +3800,7 @@ describe("eslint", function() {
             // This `verify()` takes the instance and tests that the instance was not modified.
             let ok = false;
 
-            eslint.defineRule("test", function(context) {
+            eslint.defineRule("test", context => {
                 assert(
                     context.parserOptions.ecmaFeatures.globalReturn,
                     "`ecmaFeatures.globalReturn` of the node environment should not be modified."
@@ -3870,12 +3820,12 @@ describe("eslint", function() {
     // only test in Node.js, not browser
     if (typeof window === "undefined") {
 
-        describe("Custom parser", function() {
+        describe("Custom parser", () => {
 
             const parserFixtures = path.join(__dirname, "../fixtures/parsers"),
                 errorPrefix = "Parsing error: ";
 
-            it("should have file path passed to it", function() {
+            it("should have file path passed to it", () => {
                 const code = "/* this is code */";
                 const parser = path.join(parserFixtures, "stub-parser.js");
                 const parseSpy = sinon.spy(require(parser), "parse");
@@ -3885,14 +3835,14 @@ describe("eslint", function() {
                 sinon.assert.calledWithMatch(parseSpy, "", { filePath: filename });
             });
 
-            it("should not report an error when JSX code contains a spread operator and JSX is enabled", function() {
+            it("should not report an error when JSX code contains a spread operator and JSX is enabled", () => {
                 const code = "var myDivElement = <div {...this.props} />;";
                 const messages = eslint.verify(code, { parser: "esprima-fb" }, "filename");
 
                 assert.equal(messages.length, 0);
             });
 
-            it("should return an error when the custom parser can't be found", function() {
+            it("should return an error when the custom parser can't be found", () => {
                 const code = "var myDivElement = <div {...this.props} />;";
                 const messages = eslint.verify(code, { parser: "esprima-fbxyz" }, "filename");
 
@@ -3901,7 +3851,7 @@ describe("eslint", function() {
                 assert.equal(messages[0].message, "Cannot find module 'esprima-fbxyz'");
             });
 
-            it("should strip leading line: prefix from parser error", function() {
+            it("should strip leading line: prefix from parser error", () => {
                 const parser = path.join(parserFixtures, "line-error.js");
                 const messages = eslint.verify(";", { parser }, "filename");
 
@@ -3911,7 +3861,7 @@ describe("eslint", function() {
                 assert.equal(messages[0].message, errorPrefix + require(parser).expectedError);
             });
 
-            it("should not modify a parser error message without a leading line: prefix", function() {
+            it("should not modify a parser error message without a leading line: prefix", () => {
                 const parser = path.join(parserFixtures, "no-line-error.js");
                 const messages = eslint.verify(";", { parser }, "filename");
 

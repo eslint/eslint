@@ -16,7 +16,7 @@ const assert = require("chai").assert,
 // Tests
 //------------------------------------------------------------------------------
 
-describe("formatter:json", function() {
+describe("formatter:json", () => {
     const code = [{
         filePath: "foo.js",
         messages: [{
@@ -39,7 +39,7 @@ describe("formatter:json", function() {
         }]
     }];
 
-    it("should return passed results as a JSON string without any modification", function() {
+    it("should return passed results as a JSON string without any modification", () => {
         const result = JSON.parse(formatter(code));
 
         assert.deepEqual(result, code);

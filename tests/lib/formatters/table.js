@@ -15,8 +15,8 @@ const assert = require("chai").assert,
 // Tests
 //------------------------------------------------------------------------------
 
-describe("formatter:table", function() {
-    describe("when passed no messages", function() {
+describe("formatter:table", () => {
+    describe("when passed no messages", () => {
         const code = [
             {
                 filePath: "foo.js",
@@ -26,7 +26,7 @@ describe("formatter:table", function() {
             }
         ];
 
-        it("should return a table of error and warning count with no messages", function() {
+        it("should return a table of error and warning count with no messages", () => {
             const expectedOutput = [
                 "",
                 "╔════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗",
@@ -43,8 +43,8 @@ describe("formatter:table", function() {
         });
     });
 
-    describe("when passed a single message", function() {
-        it("should return a string in the correct format for errors", function() {
+    describe("when passed a single message", () => {
+        it("should return a string in the correct format for errors", () => {
             const code = [
                 {
                     filePath: "foo.js",
@@ -83,7 +83,7 @@ describe("formatter:table", function() {
             assert.equal(result, expectedOutput);
         });
 
-        it("should return a string in the correct format for warnings", function() {
+        it("should return a string in the correct format for warnings", () => {
             const code = [
                 {
                     filePath: "foo.js",
@@ -123,8 +123,8 @@ describe("formatter:table", function() {
         });
     });
 
-    describe("when passed a fatal error message", function() {
-        it("should return a string in the correct format", function() {
+    describe("when passed a fatal error message", () => {
+        it("should return a string in the correct format", () => {
             const code = [
                 {
                     filePath: "foo.js",
@@ -164,8 +164,8 @@ describe("formatter:table", function() {
         });
     });
 
-    describe("when passed multiple messages", function() {
-        it("should return a string with multiple entries", function() {
+    describe("when passed multiple messages", () => {
+        it("should return a string with multiple entries", () => {
             const code = [
                 {
                     filePath: "foo.js",
@@ -213,8 +213,8 @@ describe("formatter:table", function() {
         });
     });
 
-    describe("when passed multiple files with 1 message each", function() {
-        it("should return a string with multiple entries", function() {
+    describe("when passed multiple files with 1 message each", () => {
+        it("should return a string with multiple entries", () => {
             const code = [
                 {
                     filePath: "foo.js",
@@ -273,8 +273,8 @@ describe("formatter:table", function() {
         });
     });
 
-    describe("when passed one file not found message", function() {
-        it("should return a string without line and column (0, 0)", function() {
+    describe("when passed one file not found message", () => {
+        it("should return a string without line and column (0, 0)", () => {
             const code = [
                 {
                     filePath: "foo.js",
