@@ -19,10 +19,10 @@ const proxyquire = require("proxyquire").noCallThru().noPreserveCache();
 // Tests
 //------------------------------------------------------------------------------
 
-describe("ConfigOps", function() {
+describe("ConfigOps", () => {
 
-    describe("applyEnvironments()", function() {
-        it("should apply environment settings to config without destroying original settings", function() {
+    describe("applyEnvironments()", () => {
+        it("should apply environment settings to config without destroying original settings", () => {
             const config = {
                 env: {
                     node: true
@@ -44,7 +44,7 @@ describe("ConfigOps", function() {
             });
         });
 
-        it("should not apply environment settings to config without environments", function() {
+        it("should not apply environment settings to config without environments", () => {
             const config = {
                 rules: {
                     foo: 2
@@ -56,7 +56,7 @@ describe("ConfigOps", function() {
             assert.equal(result, config);
         });
 
-        it("should apply multiple environment settings to config without destroying original settings", function() {
+        it("should apply multiple environment settings to config without destroying original settings", () => {
             const config = {
                 env: {
                     node: true,
@@ -81,9 +81,9 @@ describe("ConfigOps", function() {
         });
     });
 
-    describe("createEnvironmentConfig()", function() {
+    describe("createEnvironmentConfig()", () => {
 
-        it("should return empty config if called without any config", function() {
+        it("should return empty config if called without any config", () => {
             const config = ConfigOps.createEnvironmentConfig(null);
 
             assert.deepEqual(config, {
@@ -94,7 +94,7 @@ describe("ConfigOps", function() {
             });
         });
 
-        it("should return correct config for env with no globals", function() {
+        it("should return correct config for env with no globals", () => {
             const StubbedConfigOps = proxyquire("../../../lib/config/config-ops", {
                 "./environments": {
                     get() {
@@ -121,7 +121,7 @@ describe("ConfigOps", function() {
             });
         });
 
-        it("should create the correct config for Node.js environment", function() {
+        it("should create the correct config for Node.js environment", () => {
             const config = ConfigOps.createEnvironmentConfig({ node: true });
 
             assert.deepEqual(config, {
@@ -136,7 +136,7 @@ describe("ConfigOps", function() {
             });
         });
 
-        it("should create the correct config for ES6 environment", function() {
+        it("should create the correct config for ES6 environment", () => {
             const config = ConfigOps.createEnvironmentConfig({ es6: true });
 
             assert.deepEqual(config, {
@@ -151,7 +151,7 @@ describe("ConfigOps", function() {
             });
         });
 
-        it("should create empty config when no environments are specified", function() {
+        it("should create empty config when no environments are specified", () => {
             const config = ConfigOps.createEnvironmentConfig({});
 
             assert.deepEqual(config, {
@@ -162,7 +162,7 @@ describe("ConfigOps", function() {
             });
         });
 
-        it("should create empty config when an unknown environment is specified", function() {
+        it("should create empty config when an unknown environment is specified", () => {
             const config = ConfigOps.createEnvironmentConfig({ foo: true });
 
             assert.deepEqual(config, {
@@ -177,9 +177,9 @@ describe("ConfigOps", function() {
 
     });
 
-    describe("merge()", function() {
+    describe("merge()", () => {
 
-        it("should combine two objects when passed two objects with different top-level properties", function() {
+        it("should combine two objects when passed two objects with different top-level properties", () => {
             const config = [
                 { env: { browser: true } },
                 { globals: { foo: "bar"} }
@@ -191,7 +191,7 @@ describe("ConfigOps", function() {
             assert.isTrue(result.env.browser);
         });
 
-        it("should combine without blowing up on null values", function() {
+        it("should combine without blowing up on null values", () => {
             const config = [
                 { env: { browser: true } },
                 { env: { node: null } }
@@ -203,7 +203,7 @@ describe("ConfigOps", function() {
             assert.isTrue(result.env.browser);
         });
 
-        it("should combine two objects with parser when passed two objects with different top-level properties", function() {
+        it("should combine two objects with parser when passed two objects with different top-level properties", () => {
             const config = [
                 { env: { browser: true }, parser: "espree" },
                 { globals: { foo: "bar"} }
@@ -214,7 +214,7 @@ describe("ConfigOps", function() {
             assert.equal(result.parser, "espree");
         });
 
-        it("should combine configs and override rules when passed configs with the same rules", function() {
+        it("should combine configs and override rules when passed configs with the same rules", () => {
             const config = [
                 { rules: { "no-mixed-requires": [0, false] } },
                 { rules: { "no-mixed-requires": [1, true] } }
@@ -227,7 +227,7 @@ describe("ConfigOps", function() {
             assert.equal(result.rules["no-mixed-requires"][1], true);
         });
 
-        it("should combine configs when passed configs with parserOptions", function() {
+        it("should combine configs when passed configs with parserOptions", () => {
             const config = [
                 { parserOptions: { ecmaFeatures: { blockBindings: true } } },
                 { parserOptions: { ecmaFeatures: { forOf: true } } }
@@ -249,7 +249,7 @@ describe("ConfigOps", function() {
             assert.deepEqual(config[1], { parserOptions: { ecmaFeatures: { forOf: true }}});
         });
 
-        it("should override configs when passed configs with the same ecmaFeatures", function() {
+        it("should override configs when passed configs with the same ecmaFeatures", () => {
             const config = [
                 { parserOptions: { ecmaFeatures: { forOf: false } } },
                 { parserOptions: { ecmaFeatures: { forOf: true } } }
@@ -266,7 +266,7 @@ describe("ConfigOps", function() {
             });
         });
 
-        it("should combine configs and override rules when merging two configs with arrays and int", function() {
+        it("should combine configs and override rules when merging two configs with arrays and int", () => {
 
             const config = [
                 { rules: { "no-mixed-requires": [0, false] } },
@@ -282,7 +282,7 @@ describe("ConfigOps", function() {
             assert.deepEqual(config[1], { rules: { "no-mixed-requires": 1 }});
         });
 
-        it("should combine configs and override rules options completely", function() {
+        it("should combine configs and override rules options completely", () => {
 
             const config = [
                 { rules: { "no-mixed-requires": [1, { event: ["evt", "e"] }] } },
@@ -297,7 +297,7 @@ describe("ConfigOps", function() {
             assert.deepEqual(config[1], { rules: { "no-mixed-requires": [1, {err: ["error", "e"]}] }});
         });
 
-        it("should combine configs and override rules options without array or object", function() {
+        it("should combine configs and override rules options without array or object", () => {
 
             const config = [
                 { rules: { "no-mixed-requires": ["warn", "nconf", "underscore"] } },
@@ -313,7 +313,7 @@ describe("ConfigOps", function() {
             assert.deepEqual(config[1], { rules: { "no-mixed-requires": [2, "requirejs"] }});
         });
 
-        it("should combine configs and override rules options without array or object but special case", function() {
+        it("should combine configs and override rules options without array or object but special case", () => {
 
             const config = [
                 { rules: { "no-mixed-requires": [1, "nconf", "underscore"] } },
@@ -329,7 +329,7 @@ describe("ConfigOps", function() {
             assert.deepEqual(config[1], { rules: { "no-mixed-requires": "error" }});
         });
 
-        it("should combine configs correctly", function() {
+        it("should combine configs correctly", () => {
 
             const config = [
                 {
@@ -427,7 +427,7 @@ describe("ConfigOps", function() {
             });
         });
 
-        it("should copy deeply if there is not the destination's property", function() {
+        it("should copy deeply if there is not the destination's property", () => {
             const a = {};
             const b = {foo: {bar: 1}};
 
@@ -442,14 +442,14 @@ describe("ConfigOps", function() {
             assert(result.foo.bar === 2);
         });
 
-        describe("plugins", function() {
+        describe("plugins", () => {
             let baseConfig;
 
-            beforeEach(function() {
+            beforeEach(() => {
                 baseConfig = { plugins: ["foo", "bar"] };
             });
 
-            it("should combine the plugin entries when each config has different plugins", function() {
+            it("should combine the plugin entries when each config has different plugins", () => {
                 const customConfig = { plugins: ["baz"] },
                     expectedResult = { plugins: ["foo", "bar", "baz"] },
                     result = ConfigOps.merge(baseConfig, customConfig);
@@ -459,7 +459,7 @@ describe("ConfigOps", function() {
                 assert.deepEqual(customConfig, { plugins: ["baz"] });
             });
 
-            it("should avoid duplicate plugin entries when each config has the same plugin", function() {
+            it("should avoid duplicate plugin entries when each config has the same plugin", () => {
                 const customConfig = { plugins: ["bar"] },
                     expectedResult = { plugins: ["foo", "bar"] },
                     result = ConfigOps.merge(baseConfig, customConfig);
@@ -467,7 +467,7 @@ describe("ConfigOps", function() {
                 assert.deepEqual(result, expectedResult);
             });
 
-            it("should create a valid config when one argument is an empty object", function() {
+            it("should create a valid config when one argument is an empty object", () => {
                 const customConfig = { plugins: ["foo"] },
                     result = ConfigOps.merge({}, customConfig);
 
@@ -479,8 +479,8 @@ describe("ConfigOps", function() {
 
     });
 
-    describe("normalize()", function() {
-        it("should convert error rule setting to 2 when rule has just a severity", function() {
+    describe("normalize()", () => {
+        it("should convert error rule setting to 2 when rule has just a severity", () => {
             const config = {
                 rules: {
                     foo: "errOr",
@@ -498,7 +498,7 @@ describe("ConfigOps", function() {
             });
         });
 
-        it("should convert error rule setting to 2 when rule has array with severity", function() {
+        it("should convert error rule setting to 2 when rule has array with severity", () => {
             const config = {
                 rules: {
                     foo: ["Error", "something"],
@@ -516,7 +516,7 @@ describe("ConfigOps", function() {
             });
         });
 
-        it("should convert warn rule setting to 1 when rule has just a severity", function() {
+        it("should convert warn rule setting to 1 when rule has just a severity", () => {
             const config = {
                 rules: {
                     foo: "waRn",
@@ -534,7 +534,7 @@ describe("ConfigOps", function() {
             });
         });
 
-        it("should convert warn rule setting to 1 when rule has array with severity", function() {
+        it("should convert warn rule setting to 1 when rule has array with severity", () => {
             const config = {
                 rules: {
                     foo: ["Warn", "something"],
@@ -552,7 +552,7 @@ describe("ConfigOps", function() {
             });
         });
 
-        it("should convert off rule setting to 0 when rule has just a severity", function() {
+        it("should convert off rule setting to 0 when rule has just a severity", () => {
             const config = {
                 rules: {
                     foo: "ofF",
@@ -570,7 +570,7 @@ describe("ConfigOps", function() {
             });
         });
 
-        it("should convert off rule setting to 0 when rule has array with severity", function() {
+        it("should convert off rule setting to 0 when rule has array with severity", () => {
             const config = {
                 rules: {
                     foo: ["Off", "something"],
@@ -588,7 +588,7 @@ describe("ConfigOps", function() {
             });
         });
 
-        it("should convert invalid rule setting to 0 when rule has just a severity", function() {
+        it("should convert invalid rule setting to 0 when rule has just a severity", () => {
             const config = {
                 rules: {
                     foo: "invalid",
@@ -606,7 +606,7 @@ describe("ConfigOps", function() {
             });
         });
 
-        it("should convert invalid rule setting to 0 when rule has array with severity", function() {
+        it("should convert invalid rule setting to 0 when rule has array with severity", () => {
             const config = {
                 rules: {
                     foo: ["invalid", "something"],
@@ -625,8 +625,8 @@ describe("ConfigOps", function() {
         });
     });
 
-    describe("normalizeToStrings()", function() {
-        it("should convert 2 rule setting to error when rule has just a severity", function() {
+    describe("normalizeToStrings()", () => {
+        it("should convert 2 rule setting to error when rule has just a severity", () => {
             const config = {
                 rules: {
                     foo: 2,
@@ -644,7 +644,7 @@ describe("ConfigOps", function() {
             });
         });
 
-        it("should convert 2 rule setting to error when rule has array with severity", function() {
+        it("should convert 2 rule setting to error when rule has array with severity", () => {
             const config = {
                 rules: {
                     foo: [2, "something"],
@@ -662,7 +662,7 @@ describe("ConfigOps", function() {
             });
         });
 
-        it("should convert 1 rule setting to warn when rule has just a severity", function() {
+        it("should convert 1 rule setting to warn when rule has just a severity", () => {
             const config = {
                 rules: {
                     foo: 1,
@@ -680,7 +680,7 @@ describe("ConfigOps", function() {
             });
         });
 
-        it("should convert 1 rule setting to warn when rule has array with severity", function() {
+        it("should convert 1 rule setting to warn when rule has array with severity", () => {
             const config = {
                 rules: {
                     foo: [1, "something"],
@@ -698,7 +698,7 @@ describe("ConfigOps", function() {
             });
         });
 
-        it("should convert 0 rule setting to off when rule has just a severity", function() {
+        it("should convert 0 rule setting to off when rule has just a severity", () => {
             const config = {
                 rules: {
                     foo: 0,
@@ -716,7 +716,7 @@ describe("ConfigOps", function() {
             });
         });
 
-        it("should convert 0 rule setting to off when rule has array with severity", function() {
+        it("should convert 0 rule setting to off when rule has array with severity", () => {
             const config = {
                 rules: {
                     foo: [0, "something"],
@@ -734,7 +734,7 @@ describe("ConfigOps", function() {
             });
         });
 
-        it("should convert 256 rule setting to off when rule has just a severity", function() {
+        it("should convert 256 rule setting to off when rule has just a severity", () => {
             const config = {
                 rules: {
                     foo: 256,
@@ -752,7 +752,7 @@ describe("ConfigOps", function() {
             });
         });
 
-        it("should convert 256 rule setting to off when rule has array with severity", function() {
+        it("should convert 256 rule setting to off when rule has array with severity", () => {
             const config = {
                 rules: {
                     foo: [256, "something"],
@@ -771,7 +771,7 @@ describe("ConfigOps", function() {
         });
     });
 
-    describe("isError()", function() {
+    describe("isError()", () => {
 
         leche.withData([
             ["error", true],
@@ -783,9 +783,9 @@ describe("ConfigOps", function() {
             [["error", "foo"], true],
             [["eRror", "bar"], true],
             [[2, "baz"], true]
-        ], function(input, expected) {
+        ], (input, expected) => {
 
-            it(`should return ${expected}when passed ${input}`, function() {
+            it(`should return ${expected}when passed ${input}`, () => {
                 const result = ConfigOps.isErrorSeverity(input);
 
                 assert.equal(result, expected);

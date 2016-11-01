@@ -15,17 +15,17 @@ const assert = require("chai").assert,
 // Tests
 //------------------------------------------------------------------------------
 
-describe("RuleFixer", function() {
+describe("RuleFixer", () => {
 
     let fixer;
 
-    beforeEach(function() {
+    beforeEach(() => {
         fixer = new RuleFixer();
     });
 
-    describe("insertTextBefore", function() {
+    describe("insertTextBefore", () => {
 
-        it("should return an object with the correct information when called", function() {
+        it("should return an object with the correct information when called", () => {
 
             const result = fixer.insertTextBefore({ range: [0, 1] }, "Hi");
 
@@ -38,9 +38,9 @@ describe("RuleFixer", function() {
 
     });
 
-    describe("insertTextBeforeRange", function() {
+    describe("insertTextBeforeRange", () => {
 
-        it("should return an object with the correct information when called", function() {
+        it("should return an object with the correct information when called", () => {
 
             const result = fixer.insertTextBeforeRange([0, 1], "Hi");
 
@@ -53,9 +53,9 @@ describe("RuleFixer", function() {
 
     });
 
-    describe("insertTextAfter", function() {
+    describe("insertTextAfter", () => {
 
-        it("should return an object with the correct information when called", function() {
+        it("should return an object with the correct information when called", () => {
 
             const result = fixer.insertTextAfter({ range: [0, 1] }, "Hi");
 
@@ -68,9 +68,9 @@ describe("RuleFixer", function() {
 
     });
 
-    describe("insertTextAfterRange", function() {
+    describe("insertTextAfterRange", () => {
 
-        it("should return an object with the correct information when called", function() {
+        it("should return an object with the correct information when called", () => {
 
             const result = fixer.insertTextAfterRange([0, 1], "Hi");
 
@@ -83,9 +83,9 @@ describe("RuleFixer", function() {
 
     });
 
-    describe("removeAfter", function() {
+    describe("removeAfter", () => {
 
-        it("should return an object with the correct information when called", function() {
+        it("should return an object with the correct information when called", () => {
 
             const result = fixer.remove({ range: [0, 1] });
 
@@ -98,9 +98,9 @@ describe("RuleFixer", function() {
 
     });
 
-    describe("removeAfterRange", function() {
+    describe("removeAfterRange", () => {
 
-        it("should return an object with the correct information when called", function() {
+        it("should return an object with the correct information when called", () => {
 
             const result = fixer.removeRange([0, 1]);
 
@@ -114,9 +114,9 @@ describe("RuleFixer", function() {
     });
 
 
-    describe("replaceText", function() {
+    describe("replaceText", () => {
 
-        it("should return an object with the correct information when called", function() {
+        it("should return an object with the correct information when called", () => {
 
             const result = fixer.replaceText({ range: [0, 1] }, "Hi");
 
@@ -129,9 +129,9 @@ describe("RuleFixer", function() {
 
     });
 
-    describe("replaceTextRange", function() {
+    describe("replaceTextRange", () => {
 
-        it("should return an object with the correct information when called", function() {
+        it("should return an object with the correct information when called", () => {
 
             const result = fixer.replaceTextRange([0, 1], "Hi");
 

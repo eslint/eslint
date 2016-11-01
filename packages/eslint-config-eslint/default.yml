@@ -93,6 +93,7 @@ rules:
     no-var: "error"
     object-shorthand: "error"
     one-var-declaration-per-line: "error"
+    prefer-arrow-callback: "error"
     prefer-const: "error"
     prefer-template: "error"
     quotes: ["error", "double"]

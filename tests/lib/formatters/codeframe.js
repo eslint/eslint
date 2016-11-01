@@ -40,31 +40,31 @@ const formatter = proxyquire("../../../lib/formatters/codeframe", { chalk: chalk
 // Tests
 //------------------------------------------------------------------------------
 
-describe("formatter:codeframe", function() {
+describe("formatter:codeframe", () => {
     let sandbox;
 
-    beforeEach(function() {
+    beforeEach(() => {
         sandbox = sinon.sandbox.create();
     });
 
-    afterEach(function() {
+    afterEach(() => {
         sandbox.verifyAndRestore();
     });
 
-    describe("when passed no messages", function() {
+    describe("when passed no messages", () => {
         const code = [{
             filePath: "foo.js",
             messages: []
         }];
 
-        it("should return nothing", function() {
+        it("should return nothing", () => {
             const result = formatter(code);
 
             assert.equal(result, "");
         });
     });
 
-    describe("when passed a single message", function() {
+    describe("when passed a single message", () => {
         const code = [{
             filePath: path.join(process.cwd(), "lib", "foo.js"),
             source: "var foo = 1;\n var bar = 2;\n",
@@ -77,7 +77,7 @@ describe("formatter:codeframe", function() {
             }]
         }];
 
-        it("should return a string in the correct format for errors", function() {
+        it("should return a string in the correct format for errors", () => {
             const result = formatter(code);
 
             assert.equal(chalk.stripColor(result), [
@@ -91,7 +91,7 @@ describe("formatter:codeframe", function() {
             ].join("\n"));
         });
 
-        it("should return a string in the correct format for warnings", function() {
+        it("should return a string in the correct format for warnings", () => {
             code[0].messages[0].severity = 1;
 
             const result = formatter(code);
@@ -107,7 +107,7 @@ describe("formatter:codeframe", function() {
             ].join("\n"));
         });
 
-        it("should return bold red summary when there are errors", function() {
+        it("should return bold red summary when there are errors", () => {
             sandbox.spy(chalkStub.yellow, "bold");
             sandbox.spy(chalkStub.red, "bold");
             code[0].messages[0].severity = 2;
@@ -118,7 +118,7 @@ describe("formatter:codeframe", function() {
             assert.equal(chalkStub.red.bold.callCount, 1);
         });
 
-        it("should return bold yellow summary when there are only warnings", function() {
+        it("should return bold yellow summary when there are only warnings", () => {
             sandbox.spy(chalkStub.yellow, "bold");
             sandbox.spy(chalkStub.red, "bold");
             code[0].messages[0].severity = 1;
@@ -130,7 +130,7 @@ describe("formatter:codeframe", function() {
         });
     });
 
-    describe("when passed multiple messages", function() {
+    describe("when passed multiple messages", () => {
         const code = [{
             filePath: "foo.js",
             source: "const foo = 1\n",
@@ -149,7 +149,7 @@ describe("formatter:codeframe", function() {
             }],
         }];
 
-        it("should return a string with multiple entries", function() {
+        it("should return a string with multiple entries", () => {
             const result = formatter(code);
 
             assert.equal(chalk.stripColor(result), [
@@ -167,7 +167,7 @@ describe("formatter:codeframe", function() {
             ].join("\n"));
         });
 
-        it("should return bold red summary when at least 1 of the messages is an error", function() {
+        it("should return bold red summary when at least 1 of the messages is an error", () => {
             sandbox.spy(chalkStub.yellow, "bold");
             sandbox.spy(chalkStub.red, "bold");
             code[0].messages[0].severity = 1;
@@ -179,7 +179,7 @@ describe("formatter:codeframe", function() {
         });
     });
 
-    describe("when passed one file with 1 message and fixes applied", function() {
+    describe("when passed one file with 1 message and fixes applied", () => {
         const code = [{
             filePath: "foo.js",
             messages: [{
@@ -193,7 +193,7 @@ describe("formatter:codeframe", function() {
             output: "function foo() {\n\n    // a comment\n    const foo = 1;\n}\n\n"
         }];
 
-        it("should return a string with code preview pointing to the correct location after fixes", function() {
+        it("should return a string with code preview pointing to the correct location after fixes", () => {
             const result = formatter(code);
 
             assert.equal(chalk.stripColor(result), [
@@ -211,7 +211,7 @@ describe("formatter:codeframe", function() {
         });
     });
 
-    describe("when passed multiple files with 1 message each", function() {
+    describe("when passed multiple files with 1 message each", () => {
         const code = [{
             filePath: "foo.js",
             source: "const foo = 1\n",
@@ -234,7 +234,7 @@ describe("formatter:codeframe", function() {
             }]
         }];
 
-        it("should return a string with multiple entries", function() {
+        it("should return a string with multiple entries", () => {
             const result = formatter(code);
 
             assert.equal(chalk.stripColor(result), [
@@ -253,7 +253,7 @@ describe("formatter:codeframe", function() {
         });
     });
 
-    describe("when passed a fatal error message", function() {
+    describe("when passed a fatal error message", () => {
         const code = [{
             filePath: "foo.js",
             source: "e{}\n",
@@ -268,7 +268,7 @@ describe("formatter:codeframe", function() {
             }]
         }];
 
-        it("should return a string in the correct format", function() {
+        it("should return a string in the correct format", () => {
             const result = formatter(code);
 
             assert.equal(chalk.stripColor(result), [
@@ -282,7 +282,7 @@ describe("formatter:codeframe", function() {
         });
     });
 
-    describe("when passed one file not found message", function() {
+    describe("when passed one file not found message", () => {
         const code = [{
             filePath: "foo.js",
             messages: [{
@@ -291,14 +291,14 @@ describe("formatter:codeframe", function() {
             }]
         }];
 
-        it("should return a string without code preview (codeframe)", function() {
+        it("should return a string without code preview (codeframe)", () => {
             const result = formatter(code);
 
             assert.equal(chalk.stripColor(result), "error: Couldn't find foo.js at foo.js\n\n\n1 error found.");
         });
     });
 
-    describe("when passed a single message with no line or column", function() {
+    describe("when passed a single message with no line or column", () => {
         const code = [{
             filePath: "foo.js",
             messages: [{
@@ -309,13 +309,13 @@ describe("formatter:codeframe", function() {
             }]
         }];
 
-        it("should return a string without code preview (codeframe)", function() {
+        it("should return a string without code preview (codeframe)", () => {
             const result = formatter(code);
 
             assert.equal(chalk.stripColor(result), "error: Unexpected foo (foo) at foo.js\n\n\n1 error found.");
         });
 
-        it("should output filepath but without 'line:column' appended", function() {
+        it("should output filepath but without 'line:column' appended", () => {
             const result = formatter(code);
 
             assert.equal(chalk.stripColor(result), "error: Unexpected foo (foo) at foo.js\n\n\n1 error found.");

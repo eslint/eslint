@@ -90,9 +90,7 @@ function getTestFilePatterns() {
         testTemplatesPath = "tests/templates/",
         testBinPath = "tests/bin/";
 
-    return ls(testLibPath).filter(function(pathToCheck) {
-        return test("-d", testLibPath + pathToCheck);
-    }).reduce(function(initialValue, currentValues) {
+    return ls(testLibPath).filter(pathToCheck => test("-d", testLibPath + pathToCheck)).reduce((initialValue, currentValues) => {
         if (currentValues !== "rules") {
             initialValue.push(`"${testLibPath + currentValues}/**/*.js"`);
         }
@@ -135,7 +133,7 @@ function generateRulesIndex(basedir) {
 
     output += "    var rules = Object.create(null);\n";
 
-    find(`${basedir}rules/`).filter(fileType("js")).forEach(function(filename) {
+    find(`${basedir}rules/`).filter(fileType("js")).forEach(filename => {
         const basename = path.basename(filename, ".js");
 
         output += `    rules["${basename}"] = require("./rules/${basename}");\n`;
@@ -204,7 +202,7 @@ function generateRuleIndexPage(basedir) {
         categoryList = "conf/category-list.json",
         categoriesData = JSON.parse(cat(path.resolve(categoryList)));
 
-    find(path.join(basedir, "/lib/rules/")).filter(fileType("js")).forEach(function(filename) {
+    find(path.join(basedir, "/lib/rules/")).filter(fileType("js")).forEach(filename => {
         const rule = require(filename);
         const basename = path.basename(filename, ".js");
 
@@ -324,7 +322,7 @@ function getTagOfFirstOccurrence(filePath) {
     let tags = execSilent(`git tag --contains ${firstCommit}`);
 
     tags = splitCommandResultToLines(tags);
-    return tags.reduce(function(list, version) {
+    return tags.reduce((list, version) => {
         version = semver.valid(version.trim());
         if (version) {
             list.push(version);
@@ -363,12 +361,8 @@ function getFirstVersionOfDeletion(filePath) {
         tags = execSilent(`git tag --contains ${deletionCommit}`);
 
     return splitCommandResultToLines(tags)
-        .map(function(version) {
-            return semver.valid(version.trim());
-        })
-        .filter(function(version) {
-            return version;
-        })
+        .map(version => semver.valid(version.trim()))
+        .filter(version => version)
         .sort(semver.compare)[0];
 }
 
@@ -476,7 +470,7 @@ function getFormatterResults() {
         ].join("\n"),
         rawMessages = cli.executeOnText(codeString, "fullOfProblems.js", true);
 
-    return formatterFiles.reduce(function(data, filename) {
+    return formatterFiles.reduce((data, filename) => {
         const fileExt = path.extname(filename),
             name = path.basename(filename, fileExt);
 
@@ -594,9 +588,7 @@ target.gensite = function(prereleaseVersion) {
 
     // append version
     if (prereleaseVersion) {
-        docFiles = docFiles.map(function(docFile) {
-            return `/${prereleaseVersion}${docFile}`;
-        });
+        docFiles = docFiles.map(docFile => `/${prereleaseVersion}${docFile}`);
     }
 
     // 1. create temp and build directory
@@ -605,7 +597,7 @@ target.gensite = function(prereleaseVersion) {
     }
 
     // 2. remove old files from the site
-    docFiles.forEach(function(filePath) {
+    docFiles.forEach(filePath => {
         const fullPath = path.join(DOCS_DIR, filePath),
             htmlFullPath = fullPath.replace(".md", ".html");
 
@@ -632,7 +624,7 @@ target.gensite = function(prereleaseVersion) {
     }
 
     // 4. Loop through all files in temporary directory
-    find(TEMP_DIR).forEach(function(filename) {
+    find(TEMP_DIR).forEach(filename => {
         if (test("-f", filename) && path.extname(filename) === ".md") {
 
             const rulesUrl = "https://github.com/eslint/eslint/tree/master/lib/rules/",
@@ -763,7 +755,7 @@ target.checkRuleFiles = function() {
     const ruleFiles = find("lib/rules/").filter(fileType("js"));
     let errors = 0;
 
-    ruleFiles.forEach(function(filename) {
+    ruleFiles.forEach(filename => {
         const basename = path.basename(filename, ".js");
         const docFilename = `docs/rules/${basename}.md`;
 
@@ -838,35 +830,27 @@ target.checkLicenses = function() {
         const licenses = dependency.licenses;
 
         if (Array.isArray(licenses)) {
-            return licenses.some(function(license) {
-                return isPermissible({
-                    name: dependency.name,
-                    licenses: license
-                });
-            });
+            return licenses.some(license => isPermissible({
+                name: dependency.name,
+                licenses: license
+            }));
         }
 
-        return OPEN_SOURCE_LICENSES.some(function(license) {
-            return license.test(licenses);
-        });
+        return OPEN_SOURCE_LICENSES.some(license => license.test(licenses));
     }
 
     echo("Validating licenses");
 
     checker.init({
         start: __dirname
-    }, function(deps) {
-        const impermissible = Object.keys(deps).map(function(dependency) {
-            return {
-                name: dependency,
-                licenses: deps[dependency].licenses
-            };
-        }).filter(function(dependency) {
-            return !isPermissible(dependency);
-        });
+    }, deps => {
+        const impermissible = Object.keys(deps).map(dependency => ({
+            name: dependency,
+            licenses: deps[dependency].licenses
+        })).filter(dependency => !isPermissible(dependency));
 
         if (impermissible.length) {
-            impermissible.forEach(function(dependency) {
+            impermissible.forEach(dependency => {
                 console.error("%s license for %s is impermissible.",
                     dependency.licenses,
                     dependency.name
@@ -960,9 +944,7 @@ function createConfigForPerformanceTest() {
 
     content.push.apply(
         content,
-        ls("lib/rules").map(function(fileName) {
-            return `    ${path.basename(fileName, ".js")}: 1`;
-        })
+        ls("lib/rules").map(fileName => `    ${path.basename(fileName, ".js")}: 1`)
     );
 
     content.join("\n").to(PERF_ESLINTRC);
@@ -981,7 +963,7 @@ function createConfigForPerformanceTest() {
 function time(cmd, runs, runNumber, results, cb) {
     const start = process.hrtime();
 
-    exec(cmd, { silent: true }, function(code, stdout, stderr) {
+    exec(cmd, { silent: true }, (code, stdout, stderr) => {
         const diff = process.hrtime(start),
             actual = (diff[0] * 1e3 + diff[1] / 1e6); // ms
 
@@ -1026,14 +1008,12 @@ function runPerformanceTest(title, targets, multiplier, cb) {
     echo(title);
     echo("  CPU Speed is %d with multiplier %d", cpuSpeed, multiplier);
 
-    time(cmd, 5, 1, [], function(results) {
+    time(cmd, 5, 1, [], results => {
         if (!results || results.length === 0) {  // No results? Something is wrong.
             throw new Error("Performance test failed.");
         }
 
-        results.sort(function(a, b) {
-            return a - b;
-        });
+        results.sort((a, b) => a - b);
 
         const median = results[~~(results.length / 2)];
 
@@ -1068,9 +1048,7 @@ function loadPerformance() {
         results.push(loadPerfData.loadTime);
     }
 
-    results.sort(function(a, b) {
-        return a - b;
-    });
+    results.sort((a, b) => a - b);
     const median = results[~~(results.length / 2)];
 
     echo("");
@@ -1079,7 +1057,7 @@ function loadPerformance() {
 }
 
 target.perf = function() {
-    downloadMultifilesTestTarget(function() {
+    downloadMultifilesTestTarget(() => {
         createConfigForPerformanceTest();
 
         loadPerformance();
@@ -1088,7 +1066,7 @@ target.perf = function() {
             "Single File:",
             "tests/performance/jshint.js",
             PERF_MULTIPLIER,
-            function() {
+            () => {
 
                 // Count test target files.
                 const count = glob.sync(
@@ -1101,7 +1079,7 @@ target.perf = function() {
                     `Multi Files (${count} files):`,
                     PERF_MULTIFILES_TARGETS,
                     3 * PERF_MULTIPLIER,
-                    function() {}
+                    () => {}
                 );
             }
         );
