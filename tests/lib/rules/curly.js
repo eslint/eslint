@@ -197,6 +197,12 @@ ruleTester.run("curly", rule, {
         {
             code: "if (true) { foo(); faa(); } else { bar(); }",
             options: ["multi", "consistent"]
+        },
+        {
+
+            // https://github.com/feross/standard/issues/664
+            code: "if (true) foo()\n;[1, 2, 3].bar()",
+            options: ["multi-line"]
         }
     ],
     invalid: [
@@ -800,6 +806,12 @@ ruleTester.run("curly", rule, {
             options: ["multi"],
             parserOptions: { ecmaVersion: 6 },
             errors: [{ message: "Unnecessary { after 'if' condition.", type: "IfStatement" }]
+        },
+        {
+            code: "if (true)\nfoo()\n;[1, 2, 3].bar()",
+            output: "if (true)\n{foo()\n;}[1, 2, 3].bar()",
+            options: ["multi-line"],
+            errors: [{ message: "Expected { after 'if' condition.", type: "IfStatement" }]
         }
     ]
 });
