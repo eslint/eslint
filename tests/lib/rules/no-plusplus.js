@@ -29,13 +29,29 @@ ruleTester.run("no-plusplus", rule, {
     invalid: [
         {
             code: "function foo() { return i++; }",
+            output: "function foo() { return i++; }",
             errors: [{ message: "Unary operator '++' used.", type: "UpdateExpression"}]
+        },
+        {
+            code: "foo = ++bar;",
+            output: "foo = bar += 1;",
+            errors: [{ message: "Unary operator '++' used.", type: "UpdateExpression"}]
+        },
+        {
+            code: "baz = --qux;",
+            output: "baz = qux -= 1;",
+            errors: [{ message: "Unary operator '--' used.", type: "UpdateExpression"}]
         },
         { code: "var foo = 0; foo++;", output: "var foo = 0; foo += 1;", errors: [{ message: "Unary operator '++' used.", type: "UpdateExpression"}] },
         { code: "var foo = 0; foo--;", output: "var foo = 0; foo -= 1;", errors: [{ message: "Unary operator '--' used.", type: "UpdateExpression"}] },
         {
             code: "for (i = 0; i < l; i++) { console.log(i); }",
             output: "for (i = 0; i < l; i += 1) { console.log(i); }",
+            errors: [{ message: "Unary operator '++' used.", type: "UpdateExpression"}]
+        },
+        {
+            code: "var bar = foo++;",
+            output: "var bar = foo++;",
             errors: [{ message: "Unary operator '++' used.", type: "UpdateExpression"}]
         },
 
