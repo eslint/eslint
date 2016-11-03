@@ -220,20 +220,75 @@ The return value is an object containing the results of the linting operation. H
 {
     results: [
         {
-            filePath: "./myfile.js",
-            output: "foo;",
+            filePath: "/Users/eslint/project/myfile.js",
+            messages: [{
+                ruleId: "semi",
+                severity: 2,
+                message: "Missing semicolon.",
+                line: 1,
+                column: 13,
+                nodeType: "ExpressionStatement",
+                source: "\"use strict\"", // Deprecated: see "please note" paragraph below.
+                fix: { range: [12, 12], text: ";" }
+            }],
+            errorCount: 1,
+            warningCount: 0,
+            source: "\"use strict\"\n"
+        }
+    ],
+    errorCount: 1,
+    warningCount: 0
+}
+```
+
+You can also pass `fix: true` when instantiating the `CLIEngine` in order to have it figure out what fixes can be applied.
+
+```js
+var CLIEngine = require("eslint").CLIEngine;
+
+var cli = new CLIEngine({
+    envs: ["browser", "mocha"],
+    fix: true, // difference from last example
+    useEslintrc: false,
+    rules: {
+        semi: 2,
+        quotes: [2, "double"]
+    }
+});
+
+// lint myfile.js and all files in lib/
+var report = cli.executeOnFiles(["myfile.js", "lib/"]);
+```
+
+```js
+{
+    results: [
+        {
+            filePath: "/Users/eslint/project/myfile.js",
             messages: [
                 {
-                    severity: 2,
                     ruleId: "semi",
                     severity: 2,
+                    message: "Missing semicolon.",
                     line: 1,
-                    column: 23,
-                    message: "Expected a semicolon."
+                    column: 13,
+                    nodeType: "ExpressionStatement",
+                    source: "\"use strict\"", // Deprecated: see "please note" paragraph below.
+                    fix: { range: [12, 12], text: ";" }
+                },
+                {
+                    ruleId: "func-name-matching",
+                    severity: 2,
+                    message: "Function name `bar` should match variable name `foo`",
+                    line: 2,
+                    column: 5,
+                    nodeType: "VariableDeclarator",
+                    source: "var foo = function bar() {};"
                 }
             ],
             errorCount: 1,
-            warningCount: 0
+            warningCount: 0,
+            output: "\"use strict\";\nvar foo = function bar() {};\nfoo();\n"
         }
     ],
     errorCount: 1,
@@ -482,6 +537,7 @@ var CLIEngine = require("eslint").CLIEngine;
 
 var cli = new CLIEngine({
     envs: ["browser", "mocha"],
+    fix: true,
     useEslintrc: false,
     rules: {
         semi: 2
