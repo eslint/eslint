@@ -458,6 +458,35 @@ ruleTester.run("brace-style", rule, {
             code: "if (foo) // comment \n{\nbar();\n}",
             output: "if (foo) // comment \n{\nbar();\n}",
             errors: [{ message: OPEN_MESSAGE, type: "IfStatement" }]
-        }
+        },
+
+        // https://github.com/eslint/eslint/issues/7493
+        {
+            code: "if (foo) {\n bar\n.baz }",
+            output: "if (foo) {\n bar\n.baz \n}",
+            errors: [{ message: CLOSE_MESSAGE_SINGLE, type: "ExpressionStatement" }]
+        },
+        {
+            code: "if (foo)\n{\n bar\n.baz }",
+            output: "if (foo)\n{\n bar\n.baz \n}",
+            options: ["allman"],
+            errors: [{ message: CLOSE_MESSAGE_SINGLE, type: "ExpressionStatement" }]
+        },
+        {
+            code: "if (foo) { bar\n.baz }",
+            output: "if (foo) {\n bar\n.baz \n}",
+            options: ["1tbs", { allowSingleLine: true }],
+            errors: [{ message: BODY_MESSAGE, type: "ExpressionStatement" }, { message: CLOSE_MESSAGE_SINGLE, type: "ExpressionStatement" }]
+        },
+        {
+            code: "if (foo) { bar\n.baz }",
+            output: "if (foo) \n{\n bar\n.baz \n}",
+            options: ["allman", { allowSingleLine: true }],
+            errors: [
+                { message: OPEN_MESSAGE_ALLMAN, type: "IfStatement" },
+                { message: BODY_MESSAGE, type: "ExpressionStatement" },
+                { message: CLOSE_MESSAGE_SINGLE, type: "ExpressionStatement" }
+            ]
+        },
     ]
 });
