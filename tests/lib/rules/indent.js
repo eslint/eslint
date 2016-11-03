@@ -2093,23 +2093,6 @@ ruleTester.run("indent", rule, {
         },
         {
             code:
-            "JSON\n" +
-            "    .stringify(\n" +
-            "        {\n" +
-            "            foo: bar\n" +
-            "        }\n" +
-            "    )\n",
-            options: [4],
-            errors: expectedErrors(
-                [
-                    [3, 4, 8, "ObjectExpression"],
-                    [4, 8, 12, "Property"],
-                    [5, 4, 8, "ObjectExpression"]
-                ]
-            )
-        },
-        {
-            code:
             "TestClass.prototype.method = function () {\n" +
             "  return Promise.resolve(3)\n" +
             "      .then(function (x) {\n" +
