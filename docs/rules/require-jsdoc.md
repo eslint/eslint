@@ -23,6 +23,7 @@ This rule requires JSDoc comments for specified nodes. Supported nodes:
 * `"FunctionDeclaration"`
 * `"ClassDeclaration"`
 * `"MethodDefinition"`
+* `"ArrowFunctionExpression"`
 
 ## Options
 
@@ -38,7 +39,8 @@ Default option settings are:
         "require": {
             "FunctionDeclaration": true,
             "MethodDefinition": false,
-            "ClassDeclaration": false
+            "ClassDeclaration": false,
+            "ArrowFunctionExpression": false
         }
     }]
 }
@@ -46,7 +48,7 @@ Default option settings are:
 
 ### require
 
-Examples of **incorrect** code for this rule with the `{ "require": { "FunctionDeclaration": true, "MethodDefinition": true, "ClassDeclaration": true } }` option:
+Examples of **incorrect** code for this rule with the `{ "require": { "FunctionDeclaration": true, "MethodDefinition": true, "ClassDeclaration": true, "ArrowFunctionExpression": true } }` option:
 
 ```js
 /*eslint "require-jsdoc": ["error", {
@@ -61,12 +63,16 @@ function foo() {
     return 10;
 }
 
+var foo = () => {
+    return 10;
+}
+
 class Test{
     getDate(){}
 }
 ```
 
-Examples of **correct** code for this rule with the `{ "require": { "FunctionDeclaration": true, "MethodDefinition": true, "ClassDeclaration": true } }` option:
+Examples of **correct** code for this rule with the `{ "require": { "FunctionDeclaration": true, "MethodDefinition": true, "ClassDeclaration": true, "ArrowFunctionExpression": true } }` option:
 
 ```js
 /*eslint "require-jsdoc": ["error", {
@@ -81,6 +87,22 @@ Examples of **correct** code for this rule with the `{ "require": { "FunctionDec
  * It returns 10
  */
 function foo() {
+    return 10;
+}
+
+/**
+ * It returns test + 10
+ * @params {int} test - some number
+ * @returns {int} sum of test and 10
+ */
+var foo = (test) => {
+    return test + 10;
+}
+
+/**
+ * It returns 10
+ */
+var foo = () => {
     return 10;
 }
 
@@ -105,6 +127,8 @@ class Test{
     */
     getDate(){}
 }
+
+setTimeout(() => {}, 10); // since its an anonymous arrow function
 ```
 
 ## When Not To Use It
