@@ -47,6 +47,8 @@ ruleTester.run("no-useless-escape", rule, {
         "var foo = '\\\n';",
         "var foo = '\\\r\n';",
         {code: "<foo attr=\"\\d\"/>", parserOptions: {ecmaFeatures: {jsx: true}}},
+        {code: "<div> Testing: \\ </div>", parserOptions: {ecmaFeatures: {jsx: true}}},
+        {code: "<div> Testing: &#x5C </div>", parserOptions: {ecmaFeatures: {jsx: true}}},
         {code: "<foo attr='\\d'></foo>", parserOptions: {ecmaFeatures: {jsx: true}}},
         {code: "var foo = `\\x123`", parserOptions: {ecmaVersion: 6}},
         {code: "var foo = `\\u00a9`", parserOptions: {ecmaVersion: 6}},
@@ -160,6 +162,16 @@ ruleTester.run("no-useless-escape", rule, {
             code: "var foo = `\\#${foo}`;",
             parserOptions: {ecmaVersion: 6},
             errors: [{ line: 1, column: 11, message: "Unnecessary escape character: \\#.", type: "TemplateElement"}]
+        },
+        {
+            code: "let foo = '\\ ';",
+            parserOptions: {ecmaVersion: 6},
+            errors: [{ line: 1, column: 12, message: "Unnecessary escape character: \\ .", type: "Literal"}]
+        },
+        {
+            code: "let foo = /\\ /;",
+            parserOptions: {ecmaVersion: 6},
+            errors: [{ line: 1, column: 12, message: "Unnecessary escape character: \\ .", type: "Literal"}]
         },
         {
             code: "var foo = `\\$\\{{${foo}`;",
