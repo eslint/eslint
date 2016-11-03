@@ -54,6 +54,16 @@ ruleTester.run("no-plusplus", rule, {
             output: "var bar = foo++;",
             errors: [{ message: "Unary operator '++' used.", type: "UpdateExpression"}]
         },
+        {
+            code: "var i = 9; console.log(++i === 10);",
+            output: "var i = 9; console.log(++i === 10);",
+            errors: [{ message: "Unary operator '++' used.", type: "UpdateExpression"}]
+        },
+        {
+            code: "var i = 9; console.log((++i) === 10);",
+            output: "var i = 9; console.log((i += 1) === 10);",
+            errors: [{ message: "Unary operator '++' used.", type: "UpdateExpression"}]
+        },
 
         // With "allowForLoopAfterthoughts" allowed
         {
