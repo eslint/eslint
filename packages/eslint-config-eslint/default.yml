@@ -21,7 +21,7 @@ rules:
     eol-last: "error"
     eqeqeq: "error"
     func-call-spacing: "error"
-    func-style: ["error", "declaration"]
+    func-style: ["error", "declaration", { "allowArrowFunctions": true }]
     generator-star-spacing: "error"
     guard-for-in: "error"
     key-spacing: ["error", { beforeColon: false, afterColon: true }]
@@ -99,7 +99,11 @@ rules:
     quotes: ["error", "double"]
     quote-props: ["error", "as-needed"]
     radix: "error"
-    require-jsdoc: "error"
+    require-jsdoc: ["error", {
+        require: {
+            ArrowFunctionExpression: true
+        }
+    }]
     semi: "error"
     semi-spacing: ["error", {before: false, after: true}]
     space-before-blocks: "error"
