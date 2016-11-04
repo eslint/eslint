@@ -25,7 +25,7 @@ v3.9.0 - October 28, 2016
 * 16367a8 Fix: Return statement spacing. Fix for indent rule. (fixes #7164) (#7197) (Imad Elyafi)
 * 3813988 Update: fix false negative of `no-extra-parens` (fixes #7122) (#7432) (Toru Nagashima)
 * 23062e2 Docs: Fix typo in no-unexpected-multiline (fixes #7442) (#7447) (Denis Sikuler)
-* d257428 Update: `func-name-matching`: add “nameMatches” option (fixes #7391) (#7428) (Jordan Harband)
+* d257428 Update: `func-name-matching`: add “always”/“never” option (fixes #7391) (#7428) (Jordan Harband)
 * c710584 Fix: support for MemberExpression with function body. (#7400) (Scott Stern)
 * 2c8ed2d Build: ensure that all files are linted on bash (fixes #7426) (#7427) (Teddy Katz)
 * 18ff70f Chore: Enable `no-useless-escape` (#7403) (Vitor Balocco)
