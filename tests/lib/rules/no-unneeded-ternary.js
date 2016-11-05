@@ -47,6 +47,36 @@ ruleTester.run("no-unneeded-ternary", rule, {
             }]
         },
         {
+            code: "var a = x >= 2 ? true : false;",
+            output: "var a = x >= 2;",
+            errors: [{
+                message: "Unnecessary use of boolean literals in conditional expression.",
+                type: "ConditionalExpression",
+                line: 1,
+                column: 18
+            }]
+        },
+        {
+            code: "var a = x instanceof foo ? true : false;",
+            output: "var a = x instanceof foo;",
+            errors: [{
+                message: "Unnecessary use of boolean literals in conditional expression.",
+                type: "ConditionalExpression",
+                line: 1,
+                column: 28
+            }]
+        },
+        {
+            code: "var a = !foo ? true : false;",
+            output: "var a = !foo;",
+            errors: [{
+                message: "Unnecessary use of boolean literals in conditional expression.",
+                type: "ConditionalExpression",
+                line: 1,
+                column: 16
+            }]
+        },
+        {
             code: "var a = foo ? foo : 'No';",
             output: "var a = foo || 'No';",
             options: [{ defaultAssignment: false }],
