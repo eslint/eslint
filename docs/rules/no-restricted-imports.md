@@ -14,10 +14,25 @@ This rule allows you to specify imports that you don't want to use in your appli
 
 ## Options
 
-The syntax to specify restricted modules looks like this:
+The syntax to specify restricted imports looks like this:
 
 ```json
 "no-restricted-imports": ["error", "import1", "import2"]
+```
+
+or like this:
+
+```json
+"no-restricted-imports": ["error", { "paths": ["import1", "import2"] }]
+```
+
+When using the object form, you can also specify an array of gitignore-style patterns:
+
+```json
+"no-restricted-imports": ["error", {
+    "paths": ["import1", "import2"],
+    "patterns": ["import1/private/*", "import2/*", "!import2/good"]
+}]
 ```
 
 To restrict the use of all Node.js core imports (via https://github.com/nodejs/node/tree/master/lib):
@@ -39,9 +54,15 @@ import fs from 'fs';
 ```
 
 ```js
-/*eslint no-restricted-imports: ["error", "cluster"]*/
+/*eslint no-restricted-imports: ["error", { "paths": ["cluster"] }]*/
 
-import cluster from ' cluster ';
+import cluster from 'cluster';
+```
+
+```js
+/*eslint no-restricted-imports: ["error", { "patterns": ["lodash/*"] }]*/
+
+import pick from 'lodash/pick';
 ```
 
 Examples of **correct** code for this rule:
@@ -50,6 +71,13 @@ Examples of **correct** code for this rule:
 /*eslint no-restricted-imports: ["error", "fs"]*/
 
 import crypto from 'crypto';
+```
+
+```js
+/*eslint no-restricted-imports: ["error", { "paths": ["fs"], "patterns": ["eslint/*"] }]*/
+
+import crypto from 'crypto';
+import eslint from 'eslint';
 ```
 
 ## When Not To Use It
