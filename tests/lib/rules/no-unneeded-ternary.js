@@ -38,6 +38,7 @@ ruleTester.run("no-unneeded-ternary", rule, {
     invalid: [
         {
             code: "var a = x === 2 ? true : false;",
+            output: "var a = x === 2;",
             errors: [{
                 message: "Unnecessary use of boolean literals in conditional expression.",
                 type: "ConditionalExpression",
@@ -47,12 +48,24 @@ ruleTester.run("no-unneeded-ternary", rule, {
         },
         {
             code: "var a = foo ? foo : 'No';",
+            output: "var a = foo || 'No';",
             options: [{ defaultAssignment: false }],
             errors: [{
                 message: "Unnecessary use of conditional expression for default assignment.",
                 type: "ConditionalExpression",
                 line: 1,
                 column: 15
+            }]
+        },
+        {
+            code: "var a = ((foo)) ? (((((foo))))) : ((((((((((((((bar))))))))))))));",
+            output: "var a = ((foo)) || ((((((((((((((bar))))))))))))));",
+            options: [{ defaultAssignment: false }],
+            errors: [{
+                message: "Unnecessary use of conditional expression for default assignment.",
+                type: "ConditionalExpression",
+                line: 1,
+                column: 24
             }]
         }
     ]
