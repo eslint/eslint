@@ -327,6 +327,26 @@ ruleTester.run("space-infix-ops", rule, {
                 column: 2,
                 nodeType: "BinaryExpression"
             }]
-        }
+        },
+        {
+            code: "'foo'in{}",
+            output: "'foo' in {}",
+            errors: [{
+                message: "Infix operators must be spaced.",
+                line: 1,
+                column: 6,
+                nodeType: "BinaryExpression"
+            }]
+        },
+        {
+            code: "'foo'instanceof{}",
+            output: "'foo' instanceof {}",
+            errors: [{
+                message: "Infix operators must be spaced.",
+                line: 1,
+                column: 6,
+                nodeType: "BinaryExpression"
+            }]
+        },
     ]
 });
