@@ -57,6 +57,66 @@ ruleTester.run("no-unneeded-ternary", rule, {
             }]
         },
         {
+            code: "var a = x === 1 ? false : true;",
+            output: "var a = x !== 1;",
+            errors: [{
+                message: "Unnecessary use of boolean literals in conditional expression.",
+                type: "ConditionalExpression",
+                line: 1,
+                column: 19
+            }]
+        },
+        {
+            code: "var a = x != 1 ? false : true;",
+            output: "var a = x == 1;",
+            errors: [{
+                message: "Unnecessary use of boolean literals in conditional expression.",
+                type: "ConditionalExpression",
+                line: 1,
+                column: 18
+            }]
+        },
+        {
+            code: "var a = foo() ? false : true;",
+            output: "var a = !(foo());",
+            errors: [{
+                message: "Unnecessary use of boolean literals in conditional expression.",
+                type: "ConditionalExpression",
+                line: 1,
+                column: 17
+            }]
+        },
+        {
+            code: "var a = x instanceof foo ? false : true;",
+            output: "var a = !(x instanceof foo);",
+            errors: [{
+                message: "Unnecessary use of boolean literals in conditional expression.",
+                type: "ConditionalExpression",
+                line: 1,
+                column: 28
+            }]
+        },
+        {
+            code: "var a = foo ? false : false;",
+            output: "var a = false;",
+            errors: [{
+                message: "Unnecessary use of boolean literals in conditional expression.",
+                type: "ConditionalExpression",
+                line: 1,
+                column: 15
+            }]
+        },
+        {
+            code: "var a = foo() ? false : false;",
+            output: "var a = foo() ? false : false;",
+            errors: [{
+                message: "Unnecessary use of boolean literals in conditional expression.",
+                type: "ConditionalExpression",
+                line: 1,
+                column: 17
+            }]
+        },
+        {
             code: "var a = x instanceof foo ? true : false;",
             output: "var a = x instanceof foo;",
             errors: [{
