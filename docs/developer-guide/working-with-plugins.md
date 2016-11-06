@@ -144,6 +144,12 @@ ruleTester.run("custom-plugin-rule", rule, {
 });
 ```
 
+The `RuleTester` constructor optionally accepts an object argument, which can be used to specify defaults for your test cases. For example, if all of your test cases use ES2015, you can set it as a default:
+
+```js
+const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2015 } });
+```
+
 #### Customizing RuleTester
 
 To create tests for each valid and invalid case, `RuleTester` internally uses `describe` and `it` methods from the Mocha test framework when it is available. If you use another test framework, you can override `RuleTester.describe` and `RuleTester.it` to make `RuleTester` compatible with it and have proper individual tests and feedback.
