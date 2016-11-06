@@ -303,10 +303,10 @@ function foo() {
 }
 ```
 
-Examples of **correct** code for this rule with the `{ "initialized": never" }` option:
+Examples of **correct** code for this rule with the `{ "initialized": "never" }` option:
 
 ```js
-/*eslint one-var: ["error", { initialized: never" }]*/
+/*eslint one-var: ["error", { initialized: "never" }]*/
 
 function foo() {
     var foo = true;
