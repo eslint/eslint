@@ -154,100 +154,42 @@ ruleTester.run("capitalized-comments", rule, {
             options: ["never"]
         },
 
-        // Using "capitalize: always" object option
-        { code: "//Uppercase", options: [{ capitalize: "always" }] },
-        { code: "// Uppercase", options: [{ capitalize: "always" }] },
-        { code: "/*Uppercase */", options: [{ capitalize: "always" }] },
-        { code: "/* Uppercase */", options: [{ capitalize: "always" }] },
-        { code: "/*\nUppercase */", options: [{ capitalize: "always" }] },
-        { code: "//\xDCber", options: [{ capitalize: "always" }] },
-        { code: "//\u03A0", options: [{ capitalize: "always" }] },
-        {
-            code: "/* Uppercase\nsecond line need not be uppercase */",
-            options: [{ capitalize: "always" }]
-        },
-
-        // Using "capitalize: always" object option: non-alphabetical is okay
-        { code: "//123", options: [{ capitalize: "always" }] },
-        { code: "// 123", options: [{ capitalize: "always" }] },
-        { code: "/*123*/", options: [{ capitalize: "always" }] },
-        { code: "/* 123 */", options: [{ capitalize: "always" }] },
-        { code: "/*\n123 */", options: [{ capitalize: "always" }] },
-        {
-            code: "/*123\nsecond line need not be uppercase */",
-            options: [{ capitalize: "always" }]
-        },
-
-        // Using "capitalize: always" object option: eslint/istanbul/jshint/jscs are okay
-        { code: "// eslint semi:off", options: [{ capitalize: "always" }] },
-        { code: "// istanbul ignore next", options: [{ capitalize: "always" }] },
-        { code: "// jshint asi:true", options: [{ capitalize: "always" }] },
-        { code: "// jscs: enable", options: [{ capitalize: "always" }] },
-        { code: "/* eslint semi:off */", options: [{ capitalize: "always" }] },
-        { code: "/* istanbul ignore next */", options: [{ capitalize: "always" }] },
-        { code: "/* jshint asi:true */", options: [{ capitalize: "always" }] },
-        { code: "/* jscs: enable */", options: [{ capitalize: "always" }] },
-
-        // Using "capitalize: never" object option
-        { code: "//lowercase", options: [{ capitalize: "never" }] },
-        { code: "// lowercase", options: [{ capitalize: "never" }] },
-        { code: "/*lowercase */", options: [{ capitalize: "never" }] },
-        { code: "/* lowercase */", options: [{ capitalize: "never" }] },
-        { code: "/*\nlowercase */", options: [{ capitalize: "never" }] },
-        { code: "//\xFCber", options: [{ capitalize: "never" }] },
-        { code: "//\u03C0", options: [{ capitalize: "never" }] },
-        {
-            code: "/* lowercase\nSecond line need not be lowercase */",
-            options: [{ capitalize: "never" }]
-        },
-
-        // Using "capitalize: never" object option: non-alphabetical is okay
-        { code: "//123", options: [{ capitalize: "never" }] },
-        { code: "// 123", options: [{ capitalize: "never" }] },
-        { code: "/*123*/", options: [{ capitalize: "never" }] },
-        { code: "/* 123 */", options: [{ capitalize: "never" }] },
-        { code: "/*\n123 */", options: [{ capitalize: "never" }] },
-        {
-            code: "/*123\nsecond line need not be uppercase */",
-            options: [{ capitalize: "never" }]
-        },
-
         // If first word in comment matches ignorePattern, don't warn
         {
             code: "// matching",
-            options: [{ capitalize: "always", ignorePattern: "match" }]
+            options: ["always", { ignorePattern: "match" }]
         },
         {
             code: "// Matching",
-            options: [{ capitalize: "never", ignorePattern: "Match" }]
+            options: ["never", { ignorePattern: "Match" }]
         },
         {
             code: "// bar",
-            options: [{ capitalize: "always", ignorePattern: "foo|bar" }]
+            options: ["always", { ignorePattern: "foo|bar" }]
         },
         {
             code: "// Bar",
-            options: [{ capitalize: "never", ignorePattern: "Foo|Bar" }]
+            options: ["never", { ignorePattern: "Foo|Bar" }]
         },
 
         // Inline comments are not warned if ignoreInlineComments: true
         {
             code: "foo(/* ignored */ a);",
-            options: [{ capitalize: "always", ignoreInlineComments: true }]
+            options: ["always", { ignoreInlineComments: true }]
         },
         {
             code: "foo(/* Ignored */ a);",
-            options: [{ capitalize: "never", ignoreInlineComments: true }]
+            options: ["never", { ignoreInlineComments: true }]
         },
 
         // Inline comments can span multiple lines
         {
             code: "foo(/*\nignored */ a);",
-            options: [{ capitalize: "always", ignoreInlineComments: true }]
+            options: ["always", { ignoreInlineComments: true }]
         },
         {
             code: "foo(/*\nIgnored */ a);",
-            options: [{ capitalize: "never", ignoreInlineComments: true }]
+            options: ["never", { ignoreInlineComments: true }]
         },
 
         // Tolerating consecutive comments
@@ -257,7 +199,7 @@ ruleTester.run("capitalized-comments", rule, {
                 "// and this one is valid since it follows a valid one,",
                 "// and same with this one."
             ].join("\n"),
-            options: [{ capitalize: "always", ignoreConsecutiveComments: true }]
+            options: ["always", { ignoreConsecutiveComments: true }]
         },
         {
             code: [
@@ -265,7 +207,7 @@ ruleTester.run("capitalized-comments", rule, {
                 "/* and this one is valid since it follows a valid one, */",
                 "/* and same with this one. */"
             ].join("\n"),
-            options: [{ capitalize: "always", ignoreConsecutiveComments: true }]
+            options: ["always", { ignoreConsecutiveComments: true }]
         },
         {
             code: [
@@ -277,7 +219,7 @@ ruleTester.run("capitalized-comments", rule, {
                 " * and same with this one.",
                 " */"
             ].join("\n"),
-            options: [{ capitalize: "always", ignoreConsecutiveComments: true }]
+            options: ["always", { ignoreConsecutiveComments: true }]
         },
         {
             code: [
@@ -286,7 +228,7 @@ ruleTester.run("capitalized-comments", rule, {
                 "foo();",
                 "// This comment now has to be capitalized."
             ].join("\n"),
-            options: [{ capitalize: "always", ignoreConsecutiveComments: true }]
+            options: ["always", { ignoreConsecutiveComments: true }]
         },
 
         // Comments which start with URLs should always be valid
@@ -303,20 +245,21 @@ ruleTester.run("capitalized-comments", rule, {
         {
             code: [
                 "// Valid capitalized line comment",
-                "/* valid lowercase block comment */",
+                "/* Valid capitalized block comment */",
                 "// lineCommentIgnorePattern",
-                "/* BlockCommentIgnorePattern */"
+                "/* blockCommentIgnorePattern */"
             ].join("\n"),
-            options: [{
-                line: {
-                    capitalize: "always",
-                    ignorePattern: "lineCommentIgnorePattern"
-                },
-                block: {
-                    capitalize: "never",
-                    ignorePattern: "BlockCommentIgnorePattern"
+            options: [
+                "always",
+                {
+                    line: {
+                        ignorePattern: "lineCommentIgnorePattern"
+                    },
+                    block: {
+                        ignorePattern: "blockCommentIgnorePattern"
+                    }
                 }
-            }]
+            ]
         }
     ],
 
@@ -561,154 +504,6 @@ ruleTester.run("capitalized-comments", rule, {
             }]
         },
 
-        // Using "capitalize: always" object option
-        {
-            code: "//lowercase",
-            options: [{ capitalize: "always" }],
-            errors: [{
-                message: ALWAYS_MESSAGE,
-                line: 1,
-                column: 1
-            }]
-        },
-        {
-            code: "// lowercase",
-            options: [{ capitalize: "always" }],
-            errors: [{
-                message: ALWAYS_MESSAGE,
-                line: 1,
-                column: 1
-            }]
-        },
-        {
-            code: "/*lowercase */",
-            options: [{ capitalize: "always" }],
-            errors: [{
-                message: ALWAYS_MESSAGE,
-                line: 1,
-                column: 1
-            }]
-        },
-        {
-            code: "/* lowercase */",
-            options: [{ capitalize: "always" }],
-            errors: [{
-                message: ALWAYS_MESSAGE,
-                line: 1,
-                column: 1
-            }]
-        },
-        {
-            code: "/*\nlowercase */",
-            options: [{ capitalize: "always" }],
-            errors: [{
-                message: ALWAYS_MESSAGE,
-                line: 1,
-                column: 1
-            }]
-        },
-        {
-            code: "//\xFCber",
-            options: [{ capitalize: "always" }],
-            errors: [{
-                message: ALWAYS_MESSAGE,
-                line: 1,
-                column: 1
-            }]
-        },
-        {
-            code: "//\u03C0",
-            options: [{ capitalize: "always" }],
-            errors: [{
-                message: ALWAYS_MESSAGE,
-                line: 1,
-                column: 1
-            }]
-        },
-        {
-            code: "/* lowercase\nSecond line need not be lowercase */",
-            options: [{ capitalize: "always" }],
-            errors: [{
-                message: ALWAYS_MESSAGE,
-                line: 1,
-                column: 1
-            }]
-        },
-
-        // Using "capitalize: never" object option
-        {
-            code: "//Uppercase",
-            options: [{ capitalize: "never" }],
-            errors: [{
-                message: NEVER_MESSAGE,
-                line: 1,
-                column: 1
-            }]
-        },
-        {
-            code: "// Uppercase",
-            options: [{ capitalize: "never" }],
-            errors: [{
-                message: NEVER_MESSAGE,
-                line: 1,
-                column: 1
-            }]
-        },
-        {
-            code: "/*Uppercase */",
-            options: [{ capitalize: "never" }],
-            errors: [{
-                message: NEVER_MESSAGE,
-                line: 1,
-                column: 1
-            }]
-        },
-        {
-            code: "/* Uppercase */",
-            options: [{ capitalize: "never" }],
-            errors: [{
-                message: NEVER_MESSAGE,
-                line: 1,
-                column: 1
-            }]
-        },
-        {
-            code: "/*\nUppercase */",
-            options: [{ capitalize: "never" }],
-            errors: [{
-                message: NEVER_MESSAGE,
-                line: 1,
-                column: 1
-            }]
-        },
-        {
-            code: "//\xDCber",
-            options: [{ capitalize: "never" }],
-            errors: [{
-                message: NEVER_MESSAGE,
-                line: 1,
-                column: 1
-            }]
-        },
-        {
-            code: "//\u03A0",
-            options: [{ capitalize: "never" }],
-            errors: [{
-                message: NEVER_MESSAGE,
-                line: 1,
-                column: 1
-            }]
-        },
-        {
-            code: "/* Uppercase\nsecond line need not be uppercase */",
-            options: [{ capitalize: "never" }],
-            errors: [{
-                message: NEVER_MESSAGE,
-                line: 1,
-                column: 1
-            }]
-        },
-
         // Default ignore words should be warned if there are non-whitespace characters in the way
         {
             code: "//* jscs: enable",
@@ -849,7 +644,7 @@ ruleTester.run("capitalized-comments", rule, {
         },
         {
             code: "foo(/* invalid */a);",
-            options: [{ capitalize: "always", ignoreInlineComments: false }],
+            options: ["always", { ignoreInlineComments: false }],
             errors: [{
                 message: ALWAYS_MESSAGE,
                 line: 1,
@@ -860,7 +655,7 @@ ruleTester.run("capitalized-comments", rule, {
         // ignoreInlineComments should only allow inline comments to pass
         {
             code: "foo(a, // not an inline comment\nb);",
-            options: [{ capitalize: "always", ignoreInlineComments: true }],
+            options: ["always", { ignoreInlineComments: true }],
             errors: [{
                 message: ALWAYS_MESSAGE,
                 line: 1,
@@ -869,7 +664,7 @@ ruleTester.run("capitalized-comments", rule, {
         },
         {
             code: "foo(a, /* not an inline comment */\nb);",
-            options: [{ capitalize: "always", ignoreInlineComments: true }],
+            options: ["always", { ignoreInlineComments: true }],
             errors: [{
                 message: ALWAYS_MESSAGE,
                 line: 1,
@@ -878,7 +673,7 @@ ruleTester.run("capitalized-comments", rule, {
         },
         {
             code: "foo(a,\n/* not an inline comment */b);",
-            options: [{ capitalize: "always", ignoreInlineComments: true }],
+            options: ["always", { ignoreInlineComments: true }],
             errors: [{
                 message: ALWAYS_MESSAGE,
                 line: 2,
@@ -887,7 +682,7 @@ ruleTester.run("capitalized-comments", rule, {
         },
         {
             code: "foo(a,\n/* not an inline comment */\nb);",
-            options: [{ capitalize: "always", ignoreInlineComments: true }],
+            options: ["always", { ignoreInlineComments: true }],
             errors: [{
                 message: ALWAYS_MESSAGE,
                 line: 2,
@@ -896,7 +691,7 @@ ruleTester.run("capitalized-comments", rule, {
         },
         {
             code: "foo(a, // Not an inline comment\nb);",
-            options: [{ capitalize: "never", ignoreInlineComments: true }],
+            options: ["never", { ignoreInlineComments: true }],
             errors: [{
                 message: NEVER_MESSAGE,
                 line: 1,
@@ -905,7 +700,7 @@ ruleTester.run("capitalized-comments", rule, {
         },
         {
             code: "foo(a, /* Not an inline comment */\nb);",
-            options: [{ capitalize: "never", ignoreInlineComments: true }],
+            options: ["never", { ignoreInlineComments: true }],
             errors: [{
                 message: NEVER_MESSAGE,
                 line: 1,
@@ -914,7 +709,7 @@ ruleTester.run("capitalized-comments", rule, {
         },
         {
             code: "foo(a,\n/* Not an inline comment */b);",
-            options: [{ capitalize: "never", ignoreInlineComments: true }],
+            options: ["never", { ignoreInlineComments: true }],
             errors: [{
                 message: NEVER_MESSAGE,
                 line: 2,
@@ -923,7 +718,7 @@ ruleTester.run("capitalized-comments", rule, {
         },
         {
             code: "foo(a,\n/* Not an inline comment */\nb);",
-            options: [{ capitalize: "never", ignoreInlineComments: true }],
+            options: ["never", { ignoreInlineComments: true }],
             errors: [{
                 message: NEVER_MESSAGE,
                 line: 2,
@@ -934,7 +729,7 @@ ruleTester.run("capitalized-comments", rule, {
         // Comments which do not match ignorePattern are still warned
         {
             code: "// not matching",
-            options: [{ capitalize: "always", ignorePattern: "ignored?" }],
+            options: ["always", { ignorePattern: "ignored?" }],
             errors: [{
                 message: ALWAYS_MESSAGE,
                 line: 1,
@@ -943,7 +738,7 @@ ruleTester.run("capitalized-comments", rule, {
         },
         {
             code: "// Not matching",
-            options: [{ capitalize: "never", ignorePattern: "ignored?" }],
+            options: ["never", { ignorePattern: "ignored?" }],
             errors: [{
                 message: NEVER_MESSAGE,
                 line: 1,
@@ -959,7 +754,7 @@ ruleTester.run("capitalized-comments", rule, {
                 "foo();",
                 "// this comment is now invalid."
             ].join("\n"),
-            options: [{ capitalize: "always", ignoreConsecutiveComments: true }],
+            options: ["always", { ignoreConsecutiveComments: true }],
             errors: [{
                 message: ALWAYS_MESSAGE,
                 line: 4,
@@ -973,7 +768,7 @@ ruleTester.run("capitalized-comments", rule, {
                 "// This comment is valid since it is capitalized,",
                 "// but this one is invalid even if it follows a valid one.",
             ].join("\n"),
-            options: [{ capitalize: "always", ignoreConsecutiveComments: false }],
+            options: ["always", { ignoreConsecutiveComments: false }],
             errors: [{
                 message: ALWAYS_MESSAGE,
                 line: 2,
@@ -999,34 +794,6 @@ ruleTester.run("capitalized-comments", rule, {
                 line: 1,
                 column: 1
             }]
-        },
-
-        // Using different options for line/block comments
-        {
-            code: [
-                "// Valid capitalized line comment",
-                "/* valid lowercase block comment */",
-            ].join("\n"),
-            options: [{
-                line: {
-                    capitalize: "never"
-                },
-                block: {
-                    capitalize: "always"
-                }
-            }],
-            errors: [
-                {
-                    message: NEVER_MESSAGE,
-                    line: 1,
-                    column: 1
-                },
-                {
-                    message: ALWAYS_MESSAGE,
-                    line: 2,
-                    column: 1
-                }
-            ]
         }
     ]
 });
