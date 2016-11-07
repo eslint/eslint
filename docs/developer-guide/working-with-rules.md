@@ -174,7 +174,7 @@ If you'd like ESLint to attempt to fix the problem you're reporting, you can do 
 ```js
 context.report({
     node: node,
-    message: "Missing semicolon".
+    message: "Missing semicolon",
     fix: function(fixer) {
         return fixer.insertTextAfter(node, ";");
     }
