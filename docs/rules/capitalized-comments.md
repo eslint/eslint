@@ -48,26 +48,23 @@ Examples of **correct** code for this rule:
 
 ### Options
 
-This rule has one option: either a string value `"always"` or `"never"` for simple configuration, or an object containing all possible configuration parameters for the rule.
+This rule has two options: a string value `"always"` or `"never"` which determines whether capitalization of the first word of a comment should be required or forbidden, and optionally an object containing more configuration parameters for the rule.
 
-If you want finer control of this rule, you must supply an options object in your configuration file.
+Here are the supported object options:
 
-Here are the supported options:
-
-* `capitalize`: This represents whether comments are expected to start with a capitalized letter. Available values are `"always"` and `"never"`, with the default being `"always"`. (The string-only options correspond to this option object property.)
 * `ignorePattern`: A string representing a regular expression pattern of words that should be ignored by this rule. If the first word of a comment matches the pattern, this rule will not report that comment.
     * Note that the following words are always ignored by this rule: `["jscs", "jshint", "eslint", "istanbul", "global", "globals", "exported"]`.
 * `ignoreInlineComments`: If this is `true`, the rule will not report on comments in the middle of code. By default, this is `false`.
 * `ignoreConsecutiveComments`: If this is `true`, the rule will not report on a comment which violates the rule, as long as the comment immediately follows a comment which is also not reported. By default, this is `false`.
 
-Here is an example object-based configuration:
+Here is an example configuration:
 
 ```json
 {
     "capitalized-comments": [
         "error",
+        "always",
         {
-            "capitalize": "always",
             "ignorePattern": "pragma|ignored",
             "ignoreInlineComments": true
         }
@@ -150,7 +147,7 @@ The `ignorePattern` object takes a string value, which is used as a regular expr
 Examples of **correct** code with the `"ignorePattern"` option set to `"pragma":
 
 ```js
-/* eslint capitalized-comments: ["error", { "capitalize": "always", "ignorePattern": "pragma" }]
+/* eslint capitalized-comments: ["error", "always", { "ignorePattern": "pragma" }]
 
 function foo() {
     /* pragma wrap(true) */
@@ -165,7 +162,7 @@ Setting the `ignoreInlineComments` option to `true` means that comments in the m
 Examples of **correct** code with the `"ignoreInlineComments"` option set to `true`:
 
 ```js
-/* eslint capitalized-comments: ["error", { "capitalize": "always", "ignoreInlineComments": true }] */
+/* eslint capitalized-comments: ["error", "always", { "ignoreInlineComments": true }] */
 
 function foo(/* ignored */ a) {
 }
@@ -179,7 +176,7 @@ If the `ignoreConsecutiveComments` option is set to `true`, then comments which 
 Examples of **correct** code with `ignoreConsecutiveComments` set to `true`:
 
 ```js
-/* eslint capitalize-comments: ["error", { "capitalize": "always", "ignoreConsecutiveComments": true }] */
+/* eslint capitalize-comments: ["error", "always", { "ignoreConsecutiveComments": true }] */
 
 // This comment is valid since it has the correct capitalization,
 // and so is this one because it immediately follows a valid comment,
@@ -194,20 +191,20 @@ Examples of **correct** code with `ignoreConsecutiveComments` set to `true`:
 
 ### Using Different Options for Line and Block Comments
 
-If you wish to have a different configuration for line comments and block comments, you can do so by using two different object configurations:
+If you wish to have a different configuration for line comments and block comments, you can do so by using two different object configurations (note that the capitalization option will be enforced consistently for line and block comments):
 
 ```json
 {
     "capitalized-comments": [
         "error",
+        "always",
         {
             "line": {
-                "capitalize": "always",
                 "ignorePattern": "pragma|ignored",
-                "ignoreInlineComments": true,
             },
             "block": {
-                "capitalize": "never"
+                "ignoreInlineComments": true,
+                "ignorePattern": "ignored"
             }
         }
     ]
@@ -217,20 +214,20 @@ If you wish to have a different configuration for line comments and block commen
 Examples of **incorrect** code with different line and block comment configuration:
 
 ```js
-/* eslint capitalized-comments: ["error", { "block": { "capitalize": "always" }, "line": { "capitalize": "never" } }]
+/* eslint capitalized-comments: ["error", "always", { "block": { "ignorePattern": "blockignore" } }]
 
-// Capitalized line comment, this is incorrect
+// capitalized line comment, this is incorrect, blockignore does not help here
 /* lowercased block comment, this is incorrect too */
 
 ```
 
-Examples of **incorrect** code with different line and block comment configuration:
+Examples of **correct** code with different line and block comment configuration:
 
 ```js
-/* eslint capitalized-comments: ["error", { "block": { "capitalize": "always" }, "line": { "capitalize": "never" } }] */
+/* eslint capitalized-comments: ["error", "always", { "block": { "ignorePattern": "blockignore" } }]
 
-// lowercased line comment, this is correct
-/* Capitalized block comment, this is correct too */
+// Uppercase line comment, this is correct
+/* blockignore lowercase block comment, this is correct due to ignorePattern */
 
 ```
 
