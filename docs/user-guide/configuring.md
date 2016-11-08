@@ -566,8 +566,14 @@ ESLint extends configurations recursively so a base configuration can also have 
 The `rules` property can do any of the following to extend (or override) the set of rules:
 
 * enable additional rules
-* override default options for rules from base configurations
-* disable rules from base configurations
+* change an inherited rule's severity without changing its options:
+    * Base config: `"eqeqeq": ["error", "allow-null"]`
+    * Derived config: `"eqeqeq": "warning"`
+    * Resulting actual config: `"eqeqeq": ["warning", "allow-null"]`
+* override options for rules from base configurations:
+    * Base config: `"quotes": ["error", "single", "avoid-escape"]`
+    * Derived config: `"quotes": ["error", "single"]`
+    * Resulting actual config: `"quotes": ["error", "single"]`
 
 ### Using `"eslint:recommended"`
 
