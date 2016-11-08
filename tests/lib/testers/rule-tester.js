@@ -192,7 +192,7 @@ describe("RuleTester", () => {
                     { code: "eval(foo)", errors: [{ message: "eval sucks.", type: "CallExpression2"}] }
                 ]
             });
-        }, /Error type should be CallExpression2/);
+        }, /Error type should be CallExpression2, found CallExpression/);
     });
 
     it("should throw an error if invalid code specifies wrong line", () => {
