@@ -643,7 +643,7 @@ describe("RuleTester", () => {
         }, "Test Scenarios for rule foo : Could not find test scenario object");
     });
 
-    it("should throw an error if no valid test scenario object given", () => {
+    it("should throw an error if no acceptable test scenario object is given", () => {
         assert.throws(() => {
             ruleTester.run("foo", require("../../fixtures/testers/rule-tester/modify-ast-at-last"), []);
         }, "Test Scenarios for rule foo is invalid:\nCould not find any valid test scenarios\nCould not find any invalid test scenarios");
