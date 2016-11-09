@@ -5,7 +5,7 @@
  * @author Nicholas C. Zakas
  */
 
-/* eslint no-console:off, no-process-exit:off */
+/* eslint no-console:off */
 
 "use strict";
 
@@ -36,7 +36,7 @@ const concat = require("concat-stream"),
 // Execution
 //------------------------------------------------------------------------------
 
-process.on("uncaughtException", err => {
+process.once("uncaughtException", err => {
 
     // lazy load
     const lodash = require("lodash");
@@ -51,7 +51,7 @@ process.on("uncaughtException", err => {
         console.log(err.stack);
     }
 
-    process.exit(1);
+    process.exitCode = 1;
 });
 
 if (useStdIn) {
