@@ -127,6 +127,14 @@ ruleTester.run("curly", rule, {
             options: ["multi-or-nest"]
         },
         {
+            code: "if (foo) { \n // line of comment \n quz = true; \n }",
+            options: ["multi-or-nest"]
+        },
+        {
+            code: "// line of comment \n if (foo) \n quz = true; \n",
+            options: ["multi-or-nest"]
+        },
+        {
             code: "while (true) \n doSomething();",
             options: ["multi-or-nest"]
         },
