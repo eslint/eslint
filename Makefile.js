@@ -800,7 +800,7 @@ target.checkRuleFiles = function() {
 
         // check for default configuration
         if (!isInConfig()) {
-            console.error("Missing default setting for %s in eslint.json", basename);
+            console.error("Missing default setting for %s in conf/eslint.json", basename);
             errors++;
         }
 
