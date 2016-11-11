@@ -527,7 +527,7 @@ target.lint = function() {
     }
 
     echo("Validating JavaScript test files");
-    lastReturn = exec(ESLINT + testCache + TEST_FILES);
+    lastReturn = exec(`${ESLINT}${testCache}"tests/**/*.js"`);
     if (lastReturn.code !== 0) {
         errors++;
     }
