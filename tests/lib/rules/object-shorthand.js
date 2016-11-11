@@ -144,6 +144,15 @@ ruleTester.run("object-shorthand", rule, {
         { code: "doSomething({y: function() {}})", output: "doSomething({y() {}})", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "Expected method shorthand.", type: "Property" }] },
         { code: "doSomething({[y]: function() {}})", output: "doSomething({[y]() {}})", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "Expected method shorthand.", type: "Property" }] },
         { code: "doSomething({['y']: function() {}})", output: "doSomething({['y']() {}})", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "Expected method shorthand.", type: "Property" }] },
+        { code: "({ foo: async function () {} })", output: "({ async foo () {} })", parserOptions: { ecmaVersion: 8 }, errors: [{ message: "Expected method shorthand.", type: "Property" }] },
+        { code: "({ 'foo': async function() {} })", output: "({ async 'foo'() {} })", parserOptions: { ecmaVersion: 8 }, errors: [{ message: "Expected method shorthand.", type: "Property" }] },
+        { code: "({ [foo]: async function() {} })", output: "({ async [foo]() {} })", parserOptions: { ecmaVersion: 8 }, errors: [{ message: "Expected method shorthand.", type: "Property" }] },
+        { code: "({ [foo.bar]: function*() {} })", output: "({ *[foo.bar]() {} })", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "Expected method shorthand.", type: "Property" }] },
+        { code: "({ [foo   ]: function() {} })", output: "({ [foo   ]() {} })", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "Expected method shorthand.", type: "Property" }] },
+        { code: "({ [ foo ]: async function() {} })", output: "({ async [foo]() {} })", parserOptions: { ecmaVersion: 8 }, errors: [{ message: "Expected method shorthand.", type: "Property" }] },
+        { code: "({ foo: function *() {} })", output: "({ *foo() {} })", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "Expected method shorthand.", type: "Property" }] },
+        { code: "({ [  foo   ]: function() {} })", output: "({ [  foo   ]() {} })", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "Expected method shorthand.", type: "Property" }] },
+        { code: "({ [  foo]: function() {} })", output: "({ [  foo]() {} })", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "Expected method shorthand.", type: "Property" }] },
 
         // options
         { code: "var x = {y: function() {}}", output: "var x = {y() {}}", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "Expected method shorthand.", type: "Property" }], options: ["methods"] },
