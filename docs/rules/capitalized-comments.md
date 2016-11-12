@@ -144,10 +144,10 @@ Examples of **correct** code with the `"never"` option:
 
 The `ignorePattern` object takes a string value, which is used as a regular expression applied to the first word of a comment.
 
-Examples of **correct** code with the `"ignorePattern"` option set to `"pragma":
+Examples of **correct** code with the `"ignorePattern"` option set to `"pragma"`:
 
 ```js
-/* eslint capitalized-comments: ["error", "always", { "ignorePattern": "pragma" }]
+/* eslint capitalized-comments: ["error", "always", { "ignorePattern": "pragma" }] */
 
 function foo() {
     /* pragma wrap(true) */
@@ -214,7 +214,7 @@ If you wish to have a different configuration for line comments and block commen
 Examples of **incorrect** code with different line and block comment configuration:
 
 ```js
-/* eslint capitalized-comments: ["error", "always", { "block": { "ignorePattern": "blockignore" } }]
+/* eslint capitalized-comments: ["error", "always", { "block": { "ignorePattern": "blockignore" } }] */
 
 // capitalized line comment, this is incorrect, blockignore does not help here
 /* lowercased block comment, this is incorrect too */
@@ -224,7 +224,7 @@ Examples of **incorrect** code with different line and block comment configurati
 Examples of **correct** code with different line and block comment configuration:
 
 ```js
-/* eslint capitalized-comments: ["error", "always", { "block": { "ignorePattern": "blockignore" } }]
+/* eslint capitalized-comments: ["error", "always", { "block": { "ignorePattern": "blockignore" } }] */
 
 // Uppercase line comment, this is correct
 /* blockignore lowercase block comment, this is correct due to ignorePattern */
