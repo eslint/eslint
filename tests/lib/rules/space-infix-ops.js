@@ -32,6 +32,7 @@ ruleTester.run("space-infix-ops", rule, {
         { code: "function foo(a = 0) { }", parserOptions: { ecmaVersion: 6 } },
         { code: "function foo(a: number = 0) { }", parser: path.resolve(__dirname, "../../fixtures/parsers/flow-stub-parser.js"), parserOptions: { ecmaVersion: 6 } },
         { code: "a ** b", parserOptions: { ecmaVersion: 7 } },
+        { code: "a**b", parserOptions: { ecmaVersion: 7 }, options: [{ noExpSpace: true }] },
         { code: "a|0", options: [{ int32Hint: true }] },
         { code: "a |0", options: [{ int32Hint: true }] }
     ],
