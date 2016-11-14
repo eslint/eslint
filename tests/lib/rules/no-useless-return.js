@@ -148,6 +148,15 @@ ruleTester.run("no-useless-return", rule, {
             else return;
             return 5;
           }
+        `,
+
+        // https://github.com/eslint/eslint/issues/7583
+        `
+          function foo() {
+            return;
+            while (foo) return;
+            foo;
+          }
         `
     ],
 
