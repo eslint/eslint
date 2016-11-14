@@ -1719,6 +1719,13 @@ ruleTester.run("indent", rule, {
             "    foo\n" +
             ");",
             parserOptions: {ecmaFeatures: {globalReturn: true}}
+        },
+        {
+            code:
+            "return (\n" +
+            "    foo\n" +
+            ")",
+            parserOptions: {ecmaFeatures: {globalReturn: true}}
         }
     ],
     invalid: [
@@ -3483,6 +3490,18 @@ ruleTester.run("indent", rule, {
             "return (\n" +
             "    foo\n" +
             ");",
+            parserOptions: {ecmaFeatures: {globalReturn: true}},
+            errors: expectedErrors([3, 0, 4, "ReturnStatement"])
+        },
+        {
+            code:
+            "return (\n" +
+            "    foo\n" +
+            "    )",
+            output:
+            "return (\n" +
+            "    foo\n" +
+            ")",
             parserOptions: {ecmaFeatures: {globalReturn: true}},
             errors: expectedErrors([3, 0, 4, "ReturnStatement"])
         }
