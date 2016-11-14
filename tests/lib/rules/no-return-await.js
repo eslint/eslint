@@ -30,6 +30,18 @@ ruleTester.run("no-return-await", rule, {
         "\nasync () => bar()\n",
         "\nasync function foo() {\nif (a) {\n\t\tif (b) {\n\t\t\treturn bar();\n\t\t}\n\t}\n}\n",
         "\nasync () => {\nif (a) {\n\t\tif (b) {\n\t\t\treturn bar();\n\t\t}\n\t}\n}\n",
+        "\nasync function foo() {\n\treturn (await bar(), 0);\n}\n",
+        "\nasync function foo() {\n\treturn (await baz(), await bar(), 0);\n}\n",
+        "\nasync function foo() {\n\treturn (0, 1, (await bar(), 2));\n}\n",
+        "\nasync function foo() {\n\treturn (await bar() ? 0 : 1);\n}\n",
+        "\nasync function foo() {\n\treturn (baz() ? (await bar(), 0) : 1);\n}\n",
+        "\nasync function foo() {\n\treturn (baz() ? 0 : (await bar(), 1));\n}\n",
+        "\nasync () => (await bar(), 0)\n",
+        "\nasync () => (await baz(), await bar(), 0)\n",
+        "\nasync () => (0, 1, (await bar(), 2))\n",
+        "\nasync () => (await bar() ? 0 : 1)\n",
+        "\nasync () => (baz() ? (await bar(), 0) : 1)\n",
+        "\nasync () => (baz() ? 0 : (await bar(), 1))\n",
         `
           async function foo() {
             try {
@@ -81,7 +93,25 @@ ruleTester.run("no-return-await", rule, {
               baz();
             }
           }
+        `,
         `
+          async function foo() {
+            try {
+              return (0, await bar());
+            } catch (e) {
+              baz();
+            }
+          }
+        `,
+        `
+          async function foo() {
+            try {
+              return (qux() ? await bar() : 1);
+            } catch (e) {
+              baz();
+            }
+          }
+        `,
     ],
 
     invalid: [
@@ -90,11 +120,55 @@ ruleTester.run("no-return-await", rule, {
             errors,
         },
         {
+            code: "\nasync function foo() {\n\treturn (0, await bar());\n}\n",
+            errors,
+        },
+        {
+            code: "\nasync function foo() {\n\treturn (0, 1, await bar());\n}\n",
+            errors,
+        },
+        {
+            code: "\nasync function foo() {\n\treturn (0, 1, (2, 3, await bar()));\n}\n",
+            errors,
+        },
+        {
+            code: "\nasync function foo() {\n\treturn (await baz(), 1, await bar());\n}\n",
+            errors,
+        },
+        {
+            code: "\nasync function foo() {\n\treturn (baz() ? await bar() : 1);\n}\n",
+            errors,
+        },
+        {
+            code: "\nasync function foo() {\n\treturn (baz() ? 0 : await bar());\n}\n",
+            errors,
+        },
+        {
+            code: "\nasync function foo() {\n\treturn (baz() ? (0, await bar()) : 1);\n}\n",
+            errors,
+        },
+        {
+            code: "\nasync function foo() {\n\treturn (baz() ? 0 : (1, await bar()));\n}\n",
+            errors,
+        },
+        {
             code: "\nasync () => { return await bar(); }\n",
             errors,
         },
         {
             code: "\nasync () => await bar()\n",
+            errors,
+        },
+        {
+            code: "\nasync () => (0, 1, await bar())\n",
+            errors,
+        },
+        {
+            code: "\nasync () => (baz() ? await bar() : 1)\n",
+            errors,
+        },
+        {
+            code: "\nasync () => (baz() ? 0 : (1, await bar()))\n",
             errors,
         },
         {
