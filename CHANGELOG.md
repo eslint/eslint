@@ -1,3 +1,8 @@
+v3.10.1 - November 14, 2016
+
+* 8a0e92a Fix: handle try/catch correctly in `no-return-await` (fixes #7581) (#7582) (Teddy Katz)
+* c4dd015 Fix: no-useless-return stack overflow on unreachable loops (fixes #7583) (#7584) (Teddy Katz)
+
 v3.10.0 - November 11, 2016
 
 * 7ee039b Update: Add comma-style options for calls, fns, imports (fixes #7470) (Max Englander)
