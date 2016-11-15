@@ -1739,5 +1739,14 @@ ruleTester.run("key-spacing", rule, {
         output: "({ foo:/* comment */bar })",
         options: [{ afterColon: false }],
         errors: [{ message: "Extra space before value for key 'foo'.", line: 1, column: 9, type: "Identifier" }]
+    },
+    {
+        code: "({ foo/*comment*/:/*comment*/bar })",
+        output: "({ foo/*comment*/ : /*comment*/bar })",
+        options: [{ beforeColon: true, afterColon: true }],
+        errors: [
+            { message: "Missing space after key 'foo'.", line: 1, column: 7, type: "Identifier" },
+            { message: "Missing space before value for key 'foo'.", line: 1, column: 19, type: "Identifier"}
+        ]
     }]
 });
