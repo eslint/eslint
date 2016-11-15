@@ -1710,6 +1710,22 @@ ruleTester.run("indent", rule, {
             "  );\n" +
             "};",
             options: [2]
+        },
+
+        // https://github.com/eslint/eslint/issues/7573
+        {
+            code:
+            "return (\n" +
+            "    foo\n" +
+            ");",
+            parserOptions: {ecmaFeatures: {globalReturn: true}}
+        },
+        {
+            code:
+            "return (\n" +
+            "    foo\n" +
+            ")",
+            parserOptions: {ecmaFeatures: {globalReturn: true}}
         }
     ],
     invalid: [
@@ -3462,6 +3478,32 @@ ruleTester.run("indent", rule, {
             ");",
             options: [2, {CallExpression: {arguments: 3}}],
             errors: expectedErrors([[2, 6, 2, "BinaryExpression"], [3, 6, 14, "UnaryExpression"], [4, 6, 8, "NewExpression"]])
+        },
+
+        // https://github.com/eslint/eslint/issues/7573
+        {
+            code:
+            "return (\n" +
+            "    foo\n" +
+            "    );",
+            output:
+            "return (\n" +
+            "    foo\n" +
+            ");",
+            parserOptions: {ecmaFeatures: {globalReturn: true}},
+            errors: expectedErrors([3, 0, 4, "ReturnStatement"])
+        },
+        {
+            code:
+            "return (\n" +
+            "    foo\n" +
+            "    )",
+            output:
+            "return (\n" +
+            "    foo\n" +
+            ")",
+            parserOptions: {ecmaFeatures: {globalReturn: true}},
+            errors: expectedErrors([3, 0, 4, "ReturnStatement"])
         }
     ]
 });
