@@ -3504,6 +3504,32 @@ ruleTester.run("indent", rule, {
             ")",
             parserOptions: {ecmaFeatures: {globalReturn: true}},
             errors: expectedErrors([3, 0, 4, "ReturnStatement"])
+        },
+
+        // https://github.com/eslint/eslint/issues/7604
+        {
+            code:
+            "if (foo) {\n" +
+            "        /* comment */bar();\n" +
+            "}",
+            output:
+            "if (foo) {\n" +
+            "    /* comment */bar();\n" +
+            "}",
+            errors: expectedErrors([2, 4, 8, "ExpressionStatement"])
+        },
+        {
+            code:
+            "foo('bar',\n" +
+            "        /** comment */{\n" +
+            "        ok: true" +
+            "    });",
+            output:
+            "foo('bar',\n" +
+            "    /** comment */{\n" +
+            "        ok: true" +
+            "    });",
+            errors: expectedErrors([2, 4, 8, "ObjectExpression"])
         }
     ]
 });

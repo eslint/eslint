@@ -43,7 +43,7 @@ if (a) {
 /**/var b; // NO ERROR: single line multi-line comments followed by code is OK
 /*
  *
- */var b; // ERROR: multi-line comments followed by code is not OK
+*/ var b; // ERROR: multi-line comments followed by code is not OK
 
 var arr = [
   a,
