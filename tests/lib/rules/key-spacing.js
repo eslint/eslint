@@ -1728,5 +1728,16 @@ ruleTester.run("key-spacing", rule, {
             { message: "Extra space before value for key 'key2'.", line: 4, column: 14, type: "Literal" },
             { message: "Extra space before value for key 'key3'.", line: 5, column: 14, type: "Literal" }
         ]
+    }, {
+
+        // https://github.com/eslint/eslint/issues/7603
+        code: "({ foo/* comment */ : bar })",
+        output: "({ foo/* comment */: bar })",
+        errors: [{ message: "Extra space after key 'foo'.", line: 1, column: 7, type: "Identifier" }]
+    }, {
+        code: "({ foo: /* comment */bar })",
+        output: "({ foo:/* comment */bar })",
+        options: [{ afterColon: false }],
+        errors: [{ message: "Extra space before value for key 'foo'.", line: 1, column: 9, type: "Identifier" }]
     }]
 });
