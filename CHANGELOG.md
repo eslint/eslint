@@ -1,3 +1,12 @@
+v3.10.2 - November 15, 2016
+
+* 0643bfe Fix: correctly handle commented code in `indent` autofixer (fixes #7604) (#7606) (Teddy Katz)
+* bd0514c Fix: syntax error after `key-spacing` autofix with comment (fixes #7603) (#7607) (Teddy Katz)
+* f56c1ef Fix: `indent` crash on parenthesized global return values (fixes #7573) (#7596) (Teddy Katz)
+* 100c6e1 Docs: Fix example for curly "multi-or-nest" option (#7597) (Will Chen)
+* 6abb534 Docs: Update code of conduct link (#7599) (Nicholas C. Zakas)
+* 8302cdb Docs: Update no-tabs to match existing standards & improve readbility (#7590) (Matt Stow)
+
 v3.10.1 - November 14, 2016
 
 * 8a0e92a Fix: handle try/catch correctly in `no-return-await` (fixes #7581) (#7582) (Teddy Katz)
