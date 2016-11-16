@@ -96,7 +96,7 @@
     "leche": "^2.1.1",
     "linefix": "^0.1.1",
     "load-perf": "^0.2.0",
-    "markdownlint": "^0.2.0",
+    "markdownlint": "^0.3.1",
     "mocha": "^2.4.5",
     "mock-fs": "^3.12.1",
     "npm-license": "^0.3.2",
