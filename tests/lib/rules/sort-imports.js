@@ -269,6 +269,33 @@ ruleTester.run("sort-imports", rule, {
                 message: "Member 'baz' of the import declaration should be sorted alphabetically.",
                 type: "ImportSpecifier"
             }]
+        },
+        {
+            code: `
+              import {
+                boop,
+                foo,
+                zoo,
+                baz as qux,
+                bar,
+                beep
+              } from 'foo.js';
+            `,
+            output: `
+              import {
+                bar,
+                beep,
+                boop,
+                foo,
+                baz as qux,
+                zoo
+              } from 'foo.js';
+            `,
+            parserOptions,
+            errors: [{
+                message: "Member 'qux' of the import declaration should be sorted alphabetically.",
+                type: "ImportSpecifier"
+            }]
         }
     ]
 });
