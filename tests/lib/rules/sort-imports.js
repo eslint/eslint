@@ -253,20 +253,38 @@ ruleTester.run("sort-imports", rule, {
             }]
         },
         {
-            code: "import /* a */ { /* b */ foo /* c */ , /* d */ bar /* e */ , /* f */ baz /* g */ , /* h */ } /* i */ from 'qux.js';",
-            output: "import /* a */ { /* b */ bar /* c */ , /* d */ baz /* e */ , /* f */ foo /* g */ , /* h */ } /* i */ from 'qux.js';",
+            code: "import {zzzzz, /* comment */ aaaaa} from 'foo.js';",
+            output: "import {zzzzz, /* comment */ aaaaa} from 'foo.js';", // not fixed due to comment
             parserOptions,
             errors: [{
-                message: "Member 'bar' of the import declaration should be sorted alphabetically.",
+                message: "Member 'aaaaa' of the import declaration should be sorted alphabetically.",
                 type: "ImportSpecifier"
             }]
         },
         {
-            code: "import /* a */ foo /* b */ , /* c */ { /* d */ beep /* e */ as /* f */ boop /* g */ , /* h */ bar /* i */ as /* j */ baz /* k */ } from 'qux.js';",
-            output: "import /* a */ foo /* b */ , /* c */ { /* d */ bar /* i */ as /* j */ baz /* g */ , /* h */ beep /* e */ as /* f */ boop /* k */ } from 'qux.js';",
+            code: "import {zzzzz /* comment */, aaaaa} from 'foo.js';",
+            output: "import {zzzzz /* comment */, aaaaa} from 'foo.js';", // not fixed due to comment
             parserOptions,
             errors: [{
-                message: "Member 'baz' of the import declaration should be sorted alphabetically.",
+                message: "Member 'aaaaa' of the import declaration should be sorted alphabetically.",
+                type: "ImportSpecifier"
+            }]
+        },
+        {
+            code: "import {/* comment */ zzzzz, aaaaa} from 'foo.js';",
+            output: "import {/* comment */ zzzzz, aaaaa} from 'foo.js';", // not fixed due to comment
+            parserOptions,
+            errors: [{
+                message: "Member 'aaaaa' of the import declaration should be sorted alphabetically.",
+                type: "ImportSpecifier"
+            }]
+        },
+        {
+            code: "import {zzzzz, aaaaa /* comment */} from 'foo.js';",
+            output: "import {zzzzz, aaaaa /* comment */} from 'foo.js';", // not fixed due to comment
+            parserOptions,
+            errors: [{
+                message: "Member 'aaaaa' of the import declaration should be sorted alphabetically.",
                 type: "ImportSpecifier"
             }]
         },
