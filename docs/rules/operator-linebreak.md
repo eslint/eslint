@@ -173,10 +173,10 @@ answer = everything ? 42 : foo;
 
 ### overrides
 
-Examples of additional **correct** code for this rule with the `{ "overrides": { +=": "before" } }` option:
+Examples of additional **correct** code for this rule with the `{ "overrides": { "+=": "before" } }` option:
 
 ```js
-/*eslint operator-linebreak: ["error", "after", { "overrides": { +=": "before" } }]*/
+/*eslint operator-linebreak: ["error", "after", { "overrides": { "+=": "before" } }]*/
 
 var thing
   += 'thing';
