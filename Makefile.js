@@ -416,7 +416,8 @@ function lintMarkdown(files) {
         },
         result = markdownlint.sync({
             files,
-            config
+            config,
+            resultVersion: 1
         }),
         resultString = result.toString(),
         returnCode = resultString ? 1 : 0;
