@@ -92,7 +92,7 @@ b => b ? (c = d) : (c = e);
 
 ### nestedBinaryExpressions
 
-Examples of **correct** for this rule with the `"all"` and `{ "nestedBinaryExpressions": false }` options:
+Examples of **correct** code for this rule with the `"all"` and `{ "nestedBinaryExpressions": false }` options:
 
 ```js
 /* eslint no-extra-parens: ["error", "all", { "nestedBinaryExpressions": false }] */
