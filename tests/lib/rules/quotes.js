@@ -235,5 +235,43 @@ ruleTester.run("quotes", rule, {
                 { message: "Strings must use backtick.", type: "Literal" },
             ],
         },
+
+        // https://github.com/eslint/eslint/issues/7610
+        {
+            code: "`use strict`;",
+            output: "`use strict`;",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{ message: "Strings must use doublequote.", type: "TemplateLiteral" }]
+        },
+        {
+            code: "function foo() { `use strict`; foo(); }",
+            output: "function foo() { `use strict`; foo(); }",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{ message: "Strings must use doublequote.", type: "TemplateLiteral" }]
+        },
+        {
+            code: "foo = function() { `use strict`; foo(); }",
+            output: "foo = function() { `use strict`; foo(); }",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{ message: "Strings must use doublequote.", type: "TemplateLiteral" }]
+        },
+        {
+            code: "() => { `use strict`; foo(); }",
+            output: "() => { `use strict`; foo(); }",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{ message: "Strings must use doublequote.", type: "TemplateLiteral" }]
+        },
+        {
+            code: "() => { foo(); `use strict`; }",
+            output: "() => { foo(); \"use strict\"; }",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{ message: "Strings must use doublequote.", type: "TemplateLiteral" }]
+        },
+        {
+            code: "foo(); `use strict`;",
+            output: "foo(); \"use strict\";",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{ message: "Strings must use doublequote.", type: "TemplateLiteral" }]
+        }
     ]
 });
