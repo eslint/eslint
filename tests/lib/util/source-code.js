@@ -149,9 +149,9 @@ describe("SourceCode", () => {
         describe("when it read a UTF-8 file (has BOM), SourceCode", () => {
             const UTF8_FILE = path.resolve(__dirname, "../../fixtures/utf8-bom.js");
             const text = fs.readFileSync(
-                    UTF8_FILE,
-                    "utf8"
-                ).replace(/\r\n/g, "\n"); // <-- For autocrlf of "git for Windows"
+                UTF8_FILE,
+                "utf8"
+            ).replace(/\r\n/g, "\n"); // <-- For autocrlf of "git for Windows"
             let sourceCode;
 
             beforeEach(() => {
