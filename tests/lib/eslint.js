@@ -2901,8 +2901,7 @@ describe("eslint", () => {
             assert.equal(messages[0].ruleId, "no-alert");
         });
 
-        it("should report a violation for global variable declarations",
-        () => {
+        it("should report a violation for global variable declarations", () => {
             const code = [
                 "/* global foo */"
             ].join("\n");
