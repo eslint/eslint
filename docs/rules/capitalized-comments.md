@@ -1,9 +1,8 @@
 # enforce or disallow capitalization of the first letter of a comment (capitalized-comments)
 
-The purpose of this rule is to enforce consistent casing of the first word of every comment in your codebase.
+Comments are useful for leaving information for future developers. In order for that information to be useful and not distracting, it is sometimes desireable for comments to follow a particular style. One element of comment formatting styles is whether the first word of a comment should be capitalized or lowercase.
 
-This rule was ported from JSCS' [requireCapitalizedComments](http://jscs.info/rule/requireCapitalizedComments) and [disallowCapitalizedComments](http://jscs.info/rule/disallowCapitalizedComments) rules.
-
+In general, no comment style is any more or less valid than any others, but many developers would agree that a consistent style can improve a project's maintainability.
 
 ## Rule Details
 
