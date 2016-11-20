@@ -1,10 +1,10 @@
-# Disallow tabs in file (no-tabs)
+# disallow all tabs (no-tabs)
 
-some style guides don't allow the use of tab characters anywhere. So they would want to disallow tab anywhere inside a file including comments.
+Some style guides don't allow the use of tab characters at all, including within comments.
 
 ## Rule Details
 
-This rule looks for tabs inside the file. It can abe anywhere inside code or comments or anything.
+This rule looks for tabs anywhere inside a file: code, comments or anything else.
 
 Examples of **incorrect** code for this rule:
 

@@ -37,6 +37,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
     invalid: [
         {
             code: "if (!!foo) {}",
+            output: "if (foo) {}",
             errors: [{
                 message: "Redundant double negation.",
                 type: "UnaryExpression"
@@ -44,6 +45,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         },
         {
             code: "do {} while (!!foo)",
+            output: "do {} while (foo)",
             errors: [{
                 message: "Redundant double negation.",
                 type: "UnaryExpression"
@@ -51,6 +53,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         },
         {
             code: "while (!!foo) {}",
+            output: "while (foo) {}",
             errors: [{
                 message: "Redundant double negation.",
                 type: "UnaryExpression"
@@ -58,6 +61,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         },
         {
             code: "!!foo ? bar : baz",
+            output: "foo ? bar : baz",
             errors: [{
                 message: "Redundant double negation.",
                 type: "UnaryExpression"
@@ -65,6 +69,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         },
         {
             code: "for (; !!foo;) {}",
+            output: "for (; foo;) {}",
             errors: [{
                 message: "Redundant double negation.",
                 type: "UnaryExpression"
@@ -72,6 +77,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         },
         {
             code: "!!!foo",
+            output: "!foo",
             errors: [{
                 message: "Redundant double negation.",
                 type: "UnaryExpression"
@@ -79,6 +85,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         },
         {
             code: "Boolean(!!foo)",
+            output: "Boolean(foo)",
             errors: [{
                 message: "Redundant double negation.",
                 type: "UnaryExpression"
@@ -86,6 +93,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         },
         {
             code: "new Boolean(!!foo)",
+            output: "new Boolean(foo)",
             errors: [{
                 message: "Redundant double negation.",
                 type: "UnaryExpression"
@@ -93,6 +101,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         },
         {
             code: "if (Boolean(foo)) {}",
+            output: "if (foo) {}",
             errors: [{
                 message: "Redundant Boolean call.",
                 type: "CallExpression"
@@ -100,6 +109,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         },
         {
             code: "do {} while (Boolean(foo))",
+            output: "do {} while (foo)",
             errors: [{
                 message: "Redundant Boolean call.",
                 type: "CallExpression"
@@ -107,6 +117,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         },
         {
             code: "while (Boolean(foo)) {}",
+            output: "while (foo) {}",
             errors: [{
                 message: "Redundant Boolean call.",
                 type: "CallExpression"
@@ -114,6 +125,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         },
         {
             code: "Boolean(foo) ? bar : baz",
+            output: "foo ? bar : baz",
             errors: [{
                 message: "Redundant Boolean call.",
                 type: "CallExpression"
@@ -121,6 +133,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         },
         {
             code: "for (; Boolean(foo);) {}",
+            output: "for (; foo;) {}",
             errors: [{
                 message: "Redundant Boolean call.",
                 type: "CallExpression"
@@ -128,6 +141,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         },
         {
             code: "!Boolean(foo)",
+            output: "!foo",
             errors: [{
                 message: "Redundant Boolean call.",
                 type: "CallExpression"

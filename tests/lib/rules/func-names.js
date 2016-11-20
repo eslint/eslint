@@ -43,6 +43,56 @@ ruleTester.run("func-names", rule, {
             options: ["always"]
         },
         {
+            code: "class A { constructor(){} foo(){} get bar(){} set baz(value){} static qux(){}}",
+            options: ["as-needed"],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "({ foo() {} });",
+            options: ["as-needed"],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var foo = function(){};",
+            options: ["as-needed"]
+        },
+        {
+            code: "({foo: function(){}});",
+            options: ["as-needed"]
+        },
+        {
+            code: "(foo = function(){});",
+            options: ["as-needed"]
+        },
+        {
+            code: "export default (function(){});",
+            options: ["as-needed"],
+            parserOptions: {
+                ecmaVersion: 6,
+                sourceType: "module"
+            }
+        },
+        {
+            code: "({foo = function(){}} = {});",
+            options: ["as-needed"],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "({key: foo = function(){}} = {});",
+            options: ["as-needed"],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "[foo = function(){}] = [];",
+            options: ["as-needed"],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "function fn(foo = function(){}) {}",
+            options: ["as-needed"],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
             code: "function foo() {}",
             options: ["never"]
         },
@@ -84,6 +134,37 @@ ruleTester.run("func-names", rule, {
         { code: "var a = new Date(function() {});", errors: [{ message: "Missing function expression name.", type: "FunctionExpression"}] },
         { code: "var test = function(d, e, f) {};", errors: [{ message: "Missing function expression name.", type: "FunctionExpression"}] },
         { code: "new function() {}", errors: [{ message: "Missing function expression name.", type: "FunctionExpression"}] },
+        {
+            code: "Foo.prototype.bar = function() {};",
+            options: ["as-needed"],
+            errors: [{ message: "Missing function expression name.", type: "FunctionExpression"}]
+        },
+        {
+            code: "(function(){}())",
+            options: ["as-needed"],
+            errors: [{ message: "Missing function expression name.", type: "FunctionExpression"}]
+        },
+        {
+            code: "f(function(){})",
+            options: ["as-needed"],
+            errors: [{ message: "Missing function expression name.", type: "FunctionExpression"}]
+        },
+        {
+            code: "var a = new Date(function() {});",
+            options: ["as-needed"],
+            errors: [{ message: "Missing function expression name.", type: "FunctionExpression"}]
+        },
+        {
+            code: "new function() {}",
+            options: ["as-needed"],
+            errors: [{ message: "Missing function expression name.", type: "FunctionExpression"}]
+        },
+        {
+            code: "var {foo} = function(){};",
+            options: ["as-needed"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{ message: "Missing function expression name.", type: "FunctionExpression"}]
+        },
         {
             code: "var x = function named() {};",
             options: ["never"],

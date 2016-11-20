@@ -1,6 +1,6 @@
 # Working with Rules
 
-**Note:** This page covers the most recent rule format. There is also a [deprecated rule format](./working-with-rules-deprecated).
+**Note:** This page covers the most recent rule format for ESLint >= 3.0.0. There is also a [deprecated rule format](./working-with-rules-deprecated).
 
 Each rule in ESLint has two files named with its identifier (for example, `no-extra-semi`).
 
@@ -174,7 +174,7 @@ If you'd like ESLint to attempt to fix the problem you're reporting, you can do 
 ```js
 context.report({
     node: node,
-    message: "Missing semicolon".
+    message: "Missing semicolon",
     fix: function(fixer) {
         return fixer.insertTextAfter(node, ";");
     }

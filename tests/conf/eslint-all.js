@@ -9,32 +9,30 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var assert = require("chai").assert,
-    eslintAll = require("../../conf/eslint-all"),
-    rules = eslintAll.rules;
+const assert = require("chai").assert;
+const eslintAll = require("../../conf/eslint-all");
+const rules = eslintAll.rules;
 
-describe("eslint-all", function() {
-    it("should only include rules", function() {
-        var ruleNames = Object.keys(rules);
+describe("eslint-all", () => {
+    it("should only include rules", () => {
+        const ruleNames = Object.keys(rules);
 
         assert.notInclude(ruleNames, ".eslintrc.yml");
 
     });
 
-    it("should return all rules", function() {
-        var ruleNames = Object.keys(rules);
-        var count = ruleNames.length;
-        var someRule = "yoda";
+    it("should return all rules", () => {
+        const ruleNames = Object.keys(rules);
+        const count = ruleNames.length;
+        const someRule = "yoda";
 
         assert.include(ruleNames, someRule);
         assert.isAbove(count, 200);
     });
 
-    it("should configure all rules as errors", function() {
-        var ruleNames = Object.keys(rules);
-        var nonErrorRules = ruleNames.filter(function (ruleName) {
-            return rules[ruleName] !== "error";
-        });
+    it("should configure all rules as errors", () => {
+        const ruleNames = Object.keys(rules);
+        const nonErrorRules = ruleNames.filter(ruleName => rules[ruleName] !== "error");
 
         assert.equal(nonErrorRules.length, 0);
     });

@@ -31,7 +31,7 @@ ruleTester.run("no-useless-escape", rule, {
         "var foo = /\\w\\$\\*\\./",
         "var foo = /\\^\\+\\./",
         "var foo = /\\|\\}\\{\\./",
-        "var foo = /\\]\\[\\(\\)\\//",
+        "var foo = /]\\[\\(\\)\\//",
         "var foo = \"\\x123\"",
         "var foo = \"\\u00a9\"",
         "var foo = \"\\377\"",
@@ -47,6 +47,8 @@ ruleTester.run("no-useless-escape", rule, {
         "var foo = '\\\n';",
         "var foo = '\\\r\n';",
         {code: "<foo attr=\"\\d\"/>", parserOptions: {ecmaFeatures: {jsx: true}}},
+        {code: "<div> Testing: \\ </div>", parserOptions: {ecmaFeatures: {jsx: true}}},
+        {code: "<div> Testing: &#x5C </div>", parserOptions: {ecmaFeatures: {jsx: true}}},
         {code: "<foo attr='\\d'></foo>", parserOptions: {ecmaFeatures: {jsx: true}}},
         {code: "var foo = `\\x123`", parserOptions: {ecmaVersion: 6}},
         {code: "var foo = `\\u00a9`", parserOptions: {ecmaVersion: 6}},
@@ -77,7 +79,30 @@ ruleTester.run("no-useless-escape", rule, {
         {code: "var foo = `\\${{${foo}`;", parserOptions: {ecmaVersion: 6}},
         {code: "var foo = `$\\{{${foo}`;", parserOptions: {ecmaVersion: 6}},
         {code: "var foo = String.raw`\\.`", parserOptions: {ecmaVersion: 6}},
-        {code: "var foo = myFunc`\\.`", parserOptions: {ecmaVersion: 6}}
+        {code: "var foo = myFunc`\\.`", parserOptions: {ecmaVersion: 6}},
+
+        String.raw`var foo = /[\d]/`,
+        String.raw`var foo = /[a\-b]/`,
+        String.raw`var foo = /foo\?/`,
+        String.raw`var foo = /example\.com/`,
+        String.raw`var foo = /foo\|bar/`,
+        String.raw`var foo = /\^bar/`,
+        String.raw`var foo = /[\^bar]/`,
+        String.raw`var foo = /\(bar\)/`,
+        String.raw`var foo = /[[\]]/`, // A character class containing '[' and ']'
+        String.raw`var foo = /[[]\./`, // A character class containing '[', followed by a '.' character
+        String.raw`var foo = /[\]\]]/`, // A (redundant) character class containing ']'
+        String.raw`var foo = /\[abc]/`, // Matches the literal string '[abc]'
+        String.raw`var foo = /\[foo\.bar]/`, // Matches the literal string '[foo.bar]'
+        String.raw`var foo = /vi/m`,
+        String.raw`var foo = /\B/`,
+
+        // https://github.com/eslint/eslint/issues/7472
+        String.raw`var foo = /\0/`, // null character
+        "var foo = /\\1/", // \x01 character (octal literal)
+        "var foo = /(a)\\1/", // backreference
+        "var foo = /(a)\\12/", // backreference
+        "var foo = /[\\0]/" // null character in character class
     ],
 
     invalid: [
@@ -139,6 +164,16 @@ ruleTester.run("no-useless-escape", rule, {
             errors: [{ line: 1, column: 11, message: "Unnecessary escape character: \\#.", type: "TemplateElement"}]
         },
         {
+            code: "let foo = '\\ ';",
+            parserOptions: {ecmaVersion: 6},
+            errors: [{ line: 1, column: 12, message: "Unnecessary escape character: \\ .", type: "Literal"}]
+        },
+        {
+            code: "let foo = /\\ /;",
+            parserOptions: {ecmaVersion: 6},
+            errors: [{ line: 1, column: 12, message: "Unnecessary escape character: \\ .", type: "Literal"}]
+        },
+        {
             code: "var foo = `\\$\\{{${foo}`;",
             parserOptions: {ecmaVersion: 6},
             errors: [
@@ -158,6 +193,78 @@ ruleTester.run("no-useless-escape", rule, {
             errors: [
                 { line: 1, column: 12, message: "Unnecessary escape character: \\{.", type: "TemplateElement"},
             ]
+        },
+        {
+            code: String.raw`var foo = /[ab\-]/`,
+            errors: [{ line: 1, column: 15, message: "Unnecessary escape character: \\-.", type: "Literal" }]
+        },
+        {
+            code: String.raw`var foo = /[\-ab]/`,
+            errors: [{ line: 1, column: 13, message: "Unnecessary escape character: \\-.", type: "Literal" }]
+        },
+        {
+            code: String.raw`var foo = /[ab\?]/`,
+            errors: [{ line: 1, column: 15, message: "Unnecessary escape character: \\?.", type: "Literal" }]
+        },
+        {
+            code: String.raw`var foo = /[ab\.]/`,
+            errors: [{ line: 1, column: 15, message: "Unnecessary escape character: \\..", type: "Literal" }]
+        },
+        {
+            code: String.raw`var foo = /[a\|b]/`,
+            errors: [{ line: 1, column: 14, message: "Unnecessary escape character: \\|.", type: "Literal" }]
+        },
+        {
+            code: String.raw`var foo = /\-/`,
+            errors: [{ line: 1, column: 12, message: "Unnecessary escape character: \\-.", type: "Literal" }]
+        },
+        {
+            code: String.raw`var foo = /[\-]/`,
+            errors: [{ line: 1, column: 13, message: "Unnecessary escape character: \\-.", type: "Literal" }]
+        },
+        {
+            code: String.raw`var foo = /[ab\$]/`,
+            errors: [{ line: 1, column: 15, message: "Unnecessary escape character: \\$.", type: "Literal" }]
+        },
+        {
+            code: String.raw`var foo = /[\(paren]/`,
+            errors: [{ line: 1, column: 13, message: "Unnecessary escape character: \\(.", type: "Literal" }]
+        },
+        {
+            code: String.raw`var foo = /[\[]/`,
+            errors: [{ line: 1, column: 13, message: "Unnecessary escape character: \\[.", type: "Literal" }]
+        },
+        {
+            code: String.raw`var foo = /foo\]/`,
+            errors: [{ line: 1, column: 15, message: "Unnecessary escape character: \\].", type: "Literal" }]
+        },
+        {
+            code: String.raw`var foo = /[[]\]/`, // A character class containing '[', followed by a ']' character
+            errors: [{ line: 1, column: 15, message: "Unnecessary escape character: \\].", type: "Literal" }]
+        },
+        {
+            code: String.raw`var foo = /\[foo\.bar\]/`, // Matches the literal string '[foo.bar]'
+            errors: [{ line: 1, column: 22, message: "Unnecessary escape character: \\].", type: "Literal" }]
+        },
+        {
+            code: String.raw`var foo = /[\/]/`, // A character class containing '/'
+            errors: [{ line: 1, column: 13, message: "Unnecessary escape character: \\/.", type: "Literal" }]
+        },
+        {
+            code: String.raw`var foo = /[\B]/`,
+            errors: [{ line: 1, column: 13, message: "Unnecessary escape character: \\B.", type: "Literal" }]
+        },
+        {
+            code: String.raw`var foo = /[a][\-b]/`,
+            errors: [{ line: 1, column: 16, message: "Unnecessary escape character: \\-.", type: "Literal" }]
+        },
+        {
+            code: String.raw`var foo = /\-[]/`,
+            errors: [{ line: 1, column: 12, message: "Unnecessary escape character: \\-.", type: "Literal" }]
+        },
+        {
+            code: String.raw`var foo = /[a\^]/`,
+            errors: [{ line: 1, column: 14, message: "Unnecessary escape character: \\^.", type: "Literal" }]
         }
     ]
 });

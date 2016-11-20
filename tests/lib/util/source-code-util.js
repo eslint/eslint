@@ -25,7 +25,7 @@ const originalDir = process.cwd();
 // Tests
 //------------------------------------------------------------------------------
 
-describe("SourceCodeUtil", function() {
+describe("SourceCodeUtil", () => {
 
     let fixtureDir,
         getSourceCodeOfFiles;
@@ -58,36 +58,36 @@ describe("SourceCodeUtil", function() {
     };
 
     // copy into clean area so as not to get "infected" by this project's .eslintrc files
-    before(function() {
+    before(() => {
         fixtureDir = `${os.tmpdir()}/eslint/fixtures/source-code-util`;
         sh.mkdir("-p", fixtureDir);
         sh.cp("-r", "./tests/fixtures/source-code-util/.", fixtureDir);
         fixtureDir = fs.realpathSync(fixtureDir);
     });
 
-    beforeEach(function() {
+    beforeEach(() => {
         getSourceCodeOfFiles = proxyquire("../../../lib/util/source-code-util", requireStubs).getSourceCodeOfFiles;
     });
 
-    afterEach(function() {
+    afterEach(() => {
         log.info.reset();
         log.error.reset();
     });
 
-    after(function() {
+    after(() => {
         sh.rm("-r", fixtureDir);
     });
 
-    describe("getSourceCodeOfFiles()", function() {
+    describe("getSourceCodeOfFiles()", () => {
 
-        it("should handle single string filename arguments", function() {
+        it("should handle single string filename arguments", () => {
             const filename = getFixturePath("foo.js");
             const sourceCode = getSourceCodeOfFiles(filename, {cwd: fixtureDir});
 
             assert.isObject(sourceCode);
         });
 
-        it("should accept an array of string filenames", function() {
+        it("should accept an array of string filenames", () => {
             const fooFilename = getFixturePath("foo.js");
             const barFilename = getFixturePath("bar.js");
             const sourceCode = getSourceCodeOfFiles([fooFilename, barFilename], {cwd: fixtureDir});
@@ -95,7 +95,7 @@ describe("SourceCodeUtil", function() {
             assert.isObject(sourceCode);
         });
 
-        it("should accept a glob argument", function() {
+        it("should accept a glob argument", () => {
             const glob = getFixturePath("*.js");
             const filename = getFixturePath("foo.js");
             const sourceCode = getSourceCodeOfFiles(glob, {cwd: fixtureDir});
@@ -104,7 +104,7 @@ describe("SourceCodeUtil", function() {
             assert.property(sourceCode, filename);
         });
 
-        it("should accept a relative filename", function() {
+        it("should accept a relative filename", () => {
             const filename = "foo.js";
             const sourceCode = getSourceCodeOfFiles(filename, {cwd: fixtureDir});
 
@@ -112,7 +112,7 @@ describe("SourceCodeUtil", function() {
             assert.property(sourceCode, getFixturePath(filename));
         });
 
-        it("should accept a relative path to a file in a parent directory", function() {
+        it("should accept a relative path to a file in a parent directory", () => {
             const filename = "../foo.js";
             const sourceCode = getSourceCodeOfFiles(filename, {cwd: getFixturePath("nested")});
 
@@ -120,7 +120,7 @@ describe("SourceCodeUtil", function() {
             assert.property(sourceCode, getFixturePath("foo.js"));
         });
 
-        it("should accept a callback", function() {
+        it("should accept a callback", () => {
             const filename = getFixturePath("foo.js");
             const spy = sinon.spy();
 
@@ -130,7 +130,7 @@ describe("SourceCodeUtil", function() {
             assert(spy.calledOnce);
         });
 
-        it("should call the callback with total number of files being processed", function() {
+        it("should call the callback with total number of files being processed", () => {
             const filename = getFixturePath("foo.js");
             const spy = sinon.spy();
 
@@ -140,7 +140,7 @@ describe("SourceCodeUtil", function() {
             assert.equal(spy.firstCall.args[0], 1);
         });
 
-        it("should use default options if none are provided", function() {
+        it("should use default options if none are provided", () => {
             const filename = getFixturePath("foo.js");
             const spy = sinon.spy(globUtil, "resolveFileGlobPatterns");
 
@@ -149,7 +149,7 @@ describe("SourceCodeUtil", function() {
             assert.deepEqual(spy.firstCall.args[1].extensions, [ ".js" ]);
         });
 
-        it("should create an object with located filenames as keys", function() {
+        it("should create an object with located filenames as keys", () => {
             const fooFilename = getFixturePath("foo.js");
             const barFilename = getFixturePath("bar.js");
             const sourceCode = getSourceCodeOfFiles([fooFilename, barFilename], {cwd: fixtureDir});
@@ -158,23 +158,23 @@ describe("SourceCodeUtil", function() {
             assert.property(sourceCode, barFilename);
         });
 
-        it("should should not include non-existent filesnames in results", function() {
+        it("should should not include non-existent filesnames in results", () => {
             const filename = getFixturePath("missing.js");
             const sourceCode = getSourceCodeOfFiles(filename, {cwd: fixtureDir});
 
             assert.notProperty(sourceCode, filename);
         });
 
-        it("should throw for files with parsing errors", function() {
+        it("should throw for files with parsing errors", () => {
             const filename = getFixturePath("parse-error", "parse-error.js");
 
-            assert.throw(function() {
+            assert.throw(() => {
                 getSourceCodeOfFiles(filename, {cwd: fixtureDir});
             }, /Parsing error: Unexpected token ;/);
 
         });
 
-        it("should obtain the sourceCode of a file", function() {
+        it("should obtain the sourceCode of a file", () => {
             const filename = getFixturePath("foo.js");
             const sourceCode = getSourceCodeOfFiles(filename, {cwd: fixtureDir});
 
@@ -182,7 +182,7 @@ describe("SourceCodeUtil", function() {
             assert.instanceOf(sourceCode[filename], SourceCode);
         });
 
-        it("should obtain the sourceCode of JSX files", function() {
+        it("should obtain the sourceCode of JSX files", () => {
             const filename = getFixturePath("jsx", "foo.jsx");
             const options = {
                 cwd: fixtureDir,
@@ -198,7 +198,7 @@ describe("SourceCodeUtil", function() {
             assert.instanceOf(sourceCode[filename], SourceCode);
         });
 
-        it("should honor .eslintignore files by default", function() {
+        it("should honor .eslintignore files by default", () => {
             const glob = getFixturePath("*.js");
             const unignoredFilename = getFixturePath("foo.js");
             const ignoredFilename = getFixturePath("ignored.js");
@@ -208,7 +208,7 @@ describe("SourceCodeUtil", function() {
             assert.notProperty(sourceCode, ignoredFilename);
         });
 
-        it("should obtain the sourceCode of all files in a specified folder", function() {
+        it("should obtain the sourceCode of all files in a specified folder", () => {
             const folder = getFixturePath("nested");
             const fooFile = getFixturePath("nested/foo.js");
             const barFile = getFixturePath("nested/bar.js");
@@ -219,7 +219,7 @@ describe("SourceCodeUtil", function() {
             assert.instanceOf(sourceCode[barFile], SourceCode);
         });
 
-        it("should accept cli options", function() {
+        it("should accept cli options", () => {
             const pattern = getFixturePath("ext");
             const abcFile = getFixturePath("ext/foo.abc");
             const cliOptions = {extensions: [".abc"], cwd: fixtureDir};
@@ -229,7 +229,7 @@ describe("SourceCodeUtil", function() {
             assert.instanceOf(sourceCode[abcFile], SourceCode);
         });
 
-        it("should execute the callback function, if provided", function() {
+        it("should execute the callback function, if provided", () => {
             const callback = sinon.spy();
             const filename = getFixturePath("foo.js");
 
@@ -237,7 +237,7 @@ describe("SourceCodeUtil", function() {
             assert(callback.calledOnce);
         });
 
-        it("should execute callback function once per file", function() {
+        it("should execute callback function once per file", () => {
             const callback = sinon.spy();
             const fooFilename = getFixturePath("foo.js");
             const barFilename = getFixturePath("bar.js");
@@ -246,7 +246,7 @@ describe("SourceCodeUtil", function() {
             assert.equal(callback.callCount, 2);
         });
 
-        it("should call callback function with total number of files with sourceCode", function() {
+        it("should call callback function with total number of files with sourceCode", () => {
             const callback = sinon.spy();
             const firstFn = getFixturePath("foo.js");
             const secondFn = getFixturePath("bar.js");

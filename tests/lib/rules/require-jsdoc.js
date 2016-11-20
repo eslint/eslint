@@ -165,6 +165,33 @@ ruleTester.run("require-jsdoc", rule, {
                     ClassDeclaration: false
                 }
             }]
+        },
+        {
+            code: "/**\n Function doing something\n*/\nvar myFunction = () => {}",
+            parserOptions: { ecmaVersion: 6 },
+            options: [{
+                require: {
+                    ArrowFunctionExpression: true
+                }
+            }]
+        },
+        {
+            code: "/**\n Function doing something\n*/\nvar myFunction = () => () => {}",
+            parserOptions: { ecmaVersion: 6 },
+            options: [{
+                require: {
+                    ArrowFunctionExpression: true
+                }
+            }]
+        },
+        {
+            code: "setTimeout(() => {}, 10);",
+            parserOptions: { ecmaVersion: 6 },
+            options: [{
+                require: {
+                    ArrowFunctionExpression: true
+                }
+            }]
         }
     ],
 
@@ -289,6 +316,32 @@ ruleTester.run("require-jsdoc", rule, {
                 message: "Missing JSDoc comment.",
                 type: "ClassDeclaration"
             }]
-        }
+        },
+        {
+            code: "var myFunction = () => {}",
+            parserOptions: { ecmaVersion: 6 },
+            options: [{
+                require: {
+                    ArrowFunctionExpression: true
+                }
+            }],
+            errors: [{
+                message: "Missing JSDoc comment.",
+                type: "ArrowFunctionExpression"
+            }]
+        },
+        {
+            code: "var myFunction = () => () => {}",
+            parserOptions: { ecmaVersion: 6 },
+            options: [{
+                require: {
+                    ArrowFunctionExpression: true
+                }
+            }],
+            errors: [{
+                message: "Missing JSDoc comment.",
+                type: "ArrowFunctionExpression"
+            }]
+        },
     ]
 });

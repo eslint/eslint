@@ -71,75 +71,75 @@ function mockNoOptionsRule(context) {
 
 mockNoOptionsRule.schema = [];
 
-describe("Validator", function() {
+describe("Validator", () => {
 
-    beforeEach(function() {
+    beforeEach(() => {
         eslint.defineRule("mock-rule", mockRule);
     });
 
-    describe("validate", function() {
+    describe("validate", () => {
 
-        it("should do nothing with an empty config", function() {
+        it("should do nothing with an empty config", () => {
             const fn = validator.validate.bind(null, {}, "tests");
 
             assert.doesNotThrow(fn);
         });
 
-        it("should do nothing with an empty rules object", function() {
+        it("should do nothing with an empty rules object", () => {
             const fn = validator.validate.bind(null, { rules: {} }, "tests");
 
             assert.doesNotThrow(fn);
         });
 
-        it("should do nothing with a valid config", function() {
+        it("should do nothing with a valid config", () => {
             const fn = validator.validate.bind(null, { rules: { "mock-rule": [2, "second"] } }, "tests");
 
             assert.doesNotThrow(fn);
         });
 
-        it("should do nothing with a valid config when severity is off", function() {
+        it("should do nothing with a valid config when severity is off", () => {
             const fn = validator.validate.bind(null, { rules: { "mock-rule": ["off", "second"] } }, "tests");
 
             assert.doesNotThrow(fn);
         });
 
-        it("should do nothing with a valid config when severity is warn", function() {
+        it("should do nothing with a valid config when severity is warn", () => {
             const fn = validator.validate.bind(null, { rules: { "mock-rule": ["warn", "second"] } }, "tests");
 
             assert.doesNotThrow(fn);
         });
 
-        it("should do nothing with a valid config when severity is error", function() {
+        it("should do nothing with a valid config when severity is error", () => {
             const fn = validator.validate.bind(null, { rules: { "mock-rule": ["error", "second"] } }, "tests");
 
             assert.doesNotThrow(fn);
         });
 
-        it("should do nothing with a valid config when severity is Off", function() {
+        it("should do nothing with a valid config when severity is Off", () => {
             const fn = validator.validate.bind(null, { rules: { "mock-rule": ["Off", "second"] } }, "tests");
 
             assert.doesNotThrow(fn);
         });
 
-        it("should do nothing with a valid config when severity is Warn", function() {
+        it("should do nothing with a valid config when severity is Warn", () => {
             const fn = validator.validate.bind(null, { rules: { "mock-rule": ["Warn", "second"] } }, "tests");
 
             assert.doesNotThrow(fn);
         });
 
-        it("should do nothing with a valid config when severity is Error", function() {
+        it("should do nothing with a valid config when severity is Error", () => {
             const fn = validator.validate.bind(null, { rules: { "mock-rule": ["Error", "second"] } }, "tests");
 
             assert.doesNotThrow(fn);
         });
 
-        it("should catch invalid rule options", function() {
+        it("should catch invalid rule options", () => {
             const fn = validator.validate.bind(null, { rules: { "mock-rule": [3, "third"] } }, "tests");
 
             assert.throws(fn, "tests:\n\tConfiguration for rule \"mock-rule\" is invalid:\n\tSeverity should be one of the following: 0 = off, 1 = warn, 2 = error (you passed '3').\n\tValue \"third\" must be an enum value.\n");
         });
 
-        it("should allow for rules with no options", function() {
+        it("should allow for rules with no options", () => {
             eslint.defineRule("mock-no-options-rule", mockNoOptionsRule);
 
             const fn = validator.validate.bind(null, { rules: { "mock-no-options-rule": 2 } }, "tests");
@@ -147,7 +147,7 @@ describe("Validator", function() {
             assert.doesNotThrow(fn);
         });
 
-        it("should not allow options for rules with no options", function() {
+        it("should not allow options for rules with no options", () => {
             eslint.defineRule("mock-no-options-rule", mockNoOptionsRule);
 
             const fn = validator.validate.bind(null, { rules: { "mock-no-options-rule": [2, "extra"] } }, "tests");
@@ -155,31 +155,31 @@ describe("Validator", function() {
             assert.throws(fn, "tests:\n\tConfiguration for rule \"mock-no-options-rule\" is invalid:\n\tValue \"extra\" has more items than allowed.\n");
         });
 
-        it("should throw with an array environment", function() {
+        it("should throw with an array environment", () => {
             const fn = validator.validate.bind(null, { env: [] });
 
             assert.throws(fn, "Environment must not be an array");
         });
 
-        it("should throw with a primitive environment", function() {
+        it("should throw with a primitive environment", () => {
             const fn = validator.validate.bind(null, { env: 1 });
 
             assert.throws(fn, "Environment must be an object");
         });
 
-        it("should catch invalid environments", function() {
+        it("should catch invalid environments", () => {
             const fn = validator.validate.bind(null, { env: {browser: true, invalid: true } });
 
             assert.throws(fn, "Environment key \"invalid\" is unknown\n");
         });
 
-        it("should catch disabled invalid environments", function() {
+        it("should catch disabled invalid environments", () => {
             const fn = validator.validate.bind(null, { env: {browser: true, invalid: false } });
 
             assert.throws(fn, "Environment key \"invalid\" is unknown\n");
         });
 
-        it("should do nothing with an undefined environment", function() {
+        it("should do nothing with an undefined environment", () => {
             const fn = validator.validate.bind(null, {});
 
             assert.doesNotThrow(fn);
@@ -187,13 +187,13 @@ describe("Validator", function() {
 
     });
 
-    describe("getRuleOptionsSchema", function() {
+    describe("getRuleOptionsSchema", () => {
 
-        it("should return null for a missing rule", function() {
+        it("should return null for a missing rule", () => {
             assert.equal(validator.getRuleOptionsSchema("non-existent-rule"), null);
         });
 
-        it("should not modify object schema", function() {
+        it("should not modify object schema", () => {
             eslint.defineRule("mock-object-rule", mockObjectRule);
             assert.deepEqual(validator.getRuleOptionsSchema("mock-object-rule"), {
                 enum: ["first", "second"]
@@ -202,45 +202,45 @@ describe("Validator", function() {
 
     });
 
-    describe("validateRuleOptions", function() {
+    describe("validateRuleOptions", () => {
 
-        it("should throw for incorrect warning level number", function() {
+        it("should throw for incorrect warning level number", () => {
             const fn = validator.validateRuleOptions.bind(null, "mock-rule", 3, "tests");
 
             assert.throws(fn, "tests:\n\tConfiguration for rule \"mock-rule\" is invalid:\n\tSeverity should be one of the following: 0 = off, 1 = warn, 2 = error (you passed '3').\n");
         });
 
-        it("should throw for incorrect warning level string", function() {
+        it("should throw for incorrect warning level string", () => {
             const fn = validator.validateRuleOptions.bind(null, "mock-rule", "booya", "tests");
 
             assert.throws(fn, "tests:\n\tConfiguration for rule \"mock-rule\" is invalid:\n\tSeverity should be one of the following: 0 = off, 1 = warn, 2 = error (you passed '\"booya\"').\n");
         });
 
-        it("should throw for invalid-type warning level", function() {
+        it("should throw for invalid-type warning level", () => {
             const fn = validator.validateRuleOptions.bind(null, "mock-rule", [["error"]], "tests");
 
             assert.throws(fn, "tests:\n\tConfiguration for rule \"mock-rule\" is invalid:\n\tSeverity should be one of the following: 0 = off, 1 = warn, 2 = error (you passed '[ \"error\" ]').\n");
         });
 
-        it("should only check warning level for nonexistent rules", function() {
+        it("should only check warning level for nonexistent rules", () => {
             const fn = validator.validateRuleOptions.bind(null, "non-existent-rule", [3, "foobar"], "tests");
 
             assert.throws(fn, "tests:\n\tConfiguration for rule \"non-existent-rule\" is invalid:\n\tSeverity should be one of the following: 0 = off, 1 = warn, 2 = error (you passed '3').\n");
         });
 
-        it("should only check warning level for plugin rules", function() {
+        it("should only check warning level for plugin rules", () => {
             const fn = validator.validateRuleOptions.bind(null, "plugin/rule", 3, "tests");
 
             assert.throws(fn, "tests:\n\tConfiguration for rule \"plugin/rule\" is invalid:\n\tSeverity should be one of the following: 0 = off, 1 = warn, 2 = error (you passed '3').\n");
         });
 
-        it("should throw for incorrect configuration values", function() {
+        it("should throw for incorrect configuration values", () => {
             const fn = validator.validateRuleOptions.bind(null, "mock-rule", [2, "frist"], "tests");
 
             assert.throws(fn, "tests:\n\tConfiguration for rule \"mock-rule\" is invalid:\n\tValue \"frist\" must be an enum value.\n");
         });
 
-        it("should throw for too many configuration values", function() {
+        it("should throw for too many configuration values", () => {
             const fn = validator.validateRuleOptions.bind(null, "mock-rule", [2, "first", "second"], "tests");
 
             assert.throws(fn, "tests:\n\tConfiguration for rule \"mock-rule\" is invalid:\n\tValue \"first,second\" has more items than allowed.\n");

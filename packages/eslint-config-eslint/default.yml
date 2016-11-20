@@ -88,10 +88,12 @@ rules:
     no-useless-concat: "error"
     no-useless-constructor: "error"
     no-useless-escape: "error"
+    no-useless-return: "error"
     no-with: "error"
     no-var: "error"
     object-shorthand: "error"
     one-var-declaration-per-line: "error"
+    prefer-arrow-callback: "error"
     prefer-const: "error"
     prefer-template: "error"
     quotes: ["error", "double"]

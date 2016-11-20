@@ -140,17 +140,17 @@ function createStubModuleResolver(mapping) {
 // Tests
 //------------------------------------------------------------------------------
 
-describe("ConfigFile", function() {
+describe("ConfigFile", () => {
 
-    describe("CONFIG_FILES", function() {
-        it("should be present when imported", function() {
+    describe("CONFIG_FILES", () => {
+        it("should be present when imported", () => {
             assert.isTrue(Array.isArray(ConfigFile.CONFIG_FILES));
         });
     });
 
-    describe("applyExtends()", function() {
+    describe("applyExtends()", () => {
 
-        it("should apply extension 'foo' when specified from root directory config", function() {
+        it("should apply extension 'foo' when specified from root directory config", () => {
 
             const resolvedPath = path.resolve(PROJECT_PATH, "./node_modules/eslint-config-foo/index.js");
 
@@ -184,7 +184,7 @@ describe("ConfigFile", function() {
 
         });
 
-        it("should apply all rules when extends config includes 'eslint:all'", function() {
+        it("should apply all rules when extends config includes 'eslint:all'", () => {
 
             const configDeps = {
                 "../util/module-resolver": createStubModuleResolver({})
@@ -199,7 +199,7 @@ describe("ConfigFile", function() {
 
         });
 
-        it("should throw an error when extends config is not found", function() {
+        it("should throw an error when extends config is not found", () => {
 
             const configDeps = {
                 "../util/module-resolver": createStubModuleResolver({})
@@ -207,7 +207,7 @@ describe("ConfigFile", function() {
 
             const StubbedConfigFile = proxyquire("../../../lib/config/config-file", configDeps);
 
-            assert.throws(function() {
+            assert.throws(() => {
                 StubbedConfigFile.applyExtends({
                     extends: "foo",
                     rules: { eqeqeq: 2 }
@@ -216,7 +216,7 @@ describe("ConfigFile", function() {
 
         });
 
-        it("should apply extensions recursively when specified from package", function() {
+        it("should apply extensions recursively when specified from package", () => {
 
             const resolvedPaths = [
                 path.resolve(PROJECT_PATH, "./node_modules/eslint-config-foo/index.js"),
@@ -265,7 +265,7 @@ describe("ConfigFile", function() {
 
         });
 
-        it("should apply extensions when specified from a JavaScript file", function() {
+        it("should apply extensions when specified from a JavaScript file", () => {
 
             const config = ConfigFile.applyExtends({
                 extends: ".eslintrc.js",
@@ -285,7 +285,7 @@ describe("ConfigFile", function() {
 
         });
 
-        it("should apply extensions when specified from a YAML file", function() {
+        it("should apply extensions when specified from a YAML file", () => {
 
             const config = ConfigFile.applyExtends({
                 extends: ".eslintrc.yaml",
@@ -304,7 +304,7 @@ describe("ConfigFile", function() {
 
         });
 
-        it("should apply extensions when specified from a JSON file", function() {
+        it("should apply extensions when specified from a JSON file", () => {
 
             const config = ConfigFile.applyExtends({
                 extends: ".eslintrc.json",
@@ -324,7 +324,7 @@ describe("ConfigFile", function() {
 
         });
 
-        it("should apply extensions when specified from a package.json file in a sibling directory", function() {
+        it("should apply extensions when specified from a package.json file in a sibling directory", () => {
 
             const config = ConfigFile.applyExtends({
                 extends: "../package-json/package.json",
@@ -345,19 +345,19 @@ describe("ConfigFile", function() {
 
     });
 
-    describe("load()", function() {
+    describe("load()", () => {
 
-        it("should throw error if file doesnt exist", function() {
-            assert.throws(function() {
+        it("should throw error if file doesnt exist", () => {
+            assert.throws(() => {
                 ConfigFile.load(getFixturePath("legacy/nofile.js"));
             });
 
-            assert.throws(function() {
+            assert.throws(() => {
                 ConfigFile.load(getFixturePath("legacy/package.json"));
             });
         });
 
-        it("should load information from a legacy file", function() {
+        it("should load information from a legacy file", () => {
             const config = ConfigFile.load(getFixturePath("legacy/.eslintrc"));
 
             assert.deepEqual(config, {
@@ -370,7 +370,7 @@ describe("ConfigFile", function() {
             });
         });
 
-        it("should load information from a JavaScript file", function() {
+        it("should load information from a JavaScript file", () => {
             const config = ConfigFile.load(getFixturePath("js/.eslintrc.js"));
 
             assert.deepEqual(config, {
@@ -383,13 +383,13 @@ describe("ConfigFile", function() {
             });
         });
 
-        it("should throw error when loading invalid JavaScript file", function() {
-            assert.throws(function() {
+        it("should throw error when loading invalid JavaScript file", () => {
+            assert.throws(() => {
                 ConfigFile.load(getFixturePath("js/.eslintrc.broken.js"));
             }, /Cannot read config file/);
         });
 
-        it("should interpret parser module name when present in a JavaScript file", function() {
+        it("should interpret parser module name when present in a JavaScript file", () => {
             const config = ConfigFile.load(getFixturePath("js/.eslintrc.parser.js"));
 
             assert.deepEqual(config, {
@@ -403,7 +403,7 @@ describe("ConfigFile", function() {
             });
         });
 
-        it("should interpret parser path when present in a JavaScript file", function() {
+        it("should interpret parser path when present in a JavaScript file", () => {
             const config = ConfigFile.load(getFixturePath("js/.eslintrc.parser2.js"));
 
             assert.deepEqual(config, {
@@ -417,7 +417,7 @@ describe("ConfigFile", function() {
             });
         });
 
-        it("should not interpret parser module name or path when parser is set to default parser in a JavaScript file", function() {
+        it("should not interpret parser module name or path when parser is set to default parser in a JavaScript file", () => {
             const config = ConfigFile.load(getFixturePath("js/.eslintrc.parser3.js"));
 
             assert.deepEqual(config, {
@@ -431,7 +431,7 @@ describe("ConfigFile", function() {
             });
         });
 
-        it("should load information from a JSON file", function() {
+        it("should load information from a JSON file", () => {
             const config = ConfigFile.load(getFixturePath("json/.eslintrc.json"));
 
             assert.deepEqual(config, {
@@ -444,7 +444,7 @@ describe("ConfigFile", function() {
             });
         });
 
-        it("should load fresh information from a JSON file", function() {
+        it("should load fresh information from a JSON file", () => {
             const initialConfig = {
                     parserOptions: {},
                     env: {},
@@ -471,7 +471,7 @@ describe("ConfigFile", function() {
             assert.deepEqual(config, updatedConfig);
         });
 
-        it("should load information from a package.json file", function() {
+        it("should load information from a package.json file", () => {
             const config = ConfigFile.load(getFixturePath("package-json/package.json"));
 
             assert.deepEqual(config, {
@@ -482,13 +482,13 @@ describe("ConfigFile", function() {
             });
         });
 
-        it("should throw error when loading invalid package.json file", function() {
-            assert.throws(function() {
+        it("should throw error when loading invalid package.json file", () => {
+            assert.throws(() => {
                 ConfigFile.load(getFixturePath("broken-package-json/package.json"));
             }, /Cannot read config file/);
         });
 
-        it("should load information from a package.json file and apply environments", function() {
+        it("should load information from a package.json file and apply environments", () => {
             const config = ConfigFile.load(getFixturePath("package-json/package.json"), true);
 
             assert.deepEqual(config, {
@@ -499,7 +499,7 @@ describe("ConfigFile", function() {
             });
         });
 
-        it("should load fresh information from a package.json file", function() {
+        it("should load fresh information from a package.json file", () => {
             const initialConfig = {
                     eslintConfig: {
                         parserOptions: {},
@@ -530,7 +530,7 @@ describe("ConfigFile", function() {
             assert.deepEqual(config, updatedConfig.eslintConfig);
         });
 
-        it("should load fresh information from a .eslintrc.js file", function() {
+        it("should load fresh information from a .eslintrc.js file", () => {
             const initialConfig = {
                     parserOptions: {},
                     env: {},
@@ -557,7 +557,7 @@ describe("ConfigFile", function() {
             assert.deepEqual(config, updatedConfig);
         });
 
-        it("should load information from a YAML file", function() {
+        it("should load information from a YAML file", () => {
             const config = ConfigFile.load(getFixturePath("yaml/.eslintrc.yaml"));
 
             assert.deepEqual(config, {
@@ -568,7 +568,7 @@ describe("ConfigFile", function() {
             });
         });
 
-        it("should load information from a YAML file", function() {
+        it("should load information from a YAML file", () => {
             const config = ConfigFile.load(getFixturePath("yaml/.eslintrc.empty.yaml"));
 
             assert.deepEqual(config, {
@@ -579,7 +579,7 @@ describe("ConfigFile", function() {
             });
         });
 
-        it("should load information from a YAML file and apply environments", function() {
+        it("should load information from a YAML file and apply environments", () => {
             const config = ConfigFile.load(getFixturePath("yaml/.eslintrc.yaml"), true);
 
             assert.deepEqual(config, {
@@ -590,7 +590,7 @@ describe("ConfigFile", function() {
             });
         });
 
-        it("should load information from a YML file", function() {
+        it("should load information from a YML file", () => {
             const config = ConfigFile.load(getFixturePath("yml/.eslintrc.yml"));
 
             assert.deepEqual(config, {
@@ -601,7 +601,7 @@ describe("ConfigFile", function() {
             });
         });
 
-        it("should load information from a YML file and apply environments", function() {
+        it("should load information from a YML file and apply environments", () => {
             const config = ConfigFile.load(getFixturePath("yml/.eslintrc.yml"), true);
 
             assert.deepEqual(config, {
@@ -612,7 +612,7 @@ describe("ConfigFile", function() {
             });
         });
 
-        it("should load information from a YML file and apply extensions", function() {
+        it("should load information from a YML file and apply extensions", () => {
             const config = ConfigFile.load(getFixturePath("extends/.eslintrc.yml"), true);
 
             assert.deepEqual(config, {
@@ -624,7 +624,7 @@ describe("ConfigFile", function() {
             });
         });
 
-        it("should load information from `extends` chain.", function() {
+        it("should load information from `extends` chain.", () => {
             const config = ConfigFile.load(getFixturePath("extends-chain/.eslintrc.json"));
 
             assert.deepEqual(config, {
@@ -640,7 +640,7 @@ describe("ConfigFile", function() {
             });
         });
 
-        it("should load information from `extends` chain with relative path.", function() {
+        it("should load information from `extends` chain with relative path.", () => {
             const config = ConfigFile.load(getFixturePath("extends-chain-2/.eslintrc.json"));
 
             assert.deepEqual(config, {
@@ -655,7 +655,7 @@ describe("ConfigFile", function() {
             });
         });
 
-        it("should load information from `extends` chain in .eslintrc with relative path.", function() {
+        it("should load information from `extends` chain in .eslintrc with relative path.", () => {
             const config = ConfigFile.load(getFixturePath("extends-chain-2/relative.eslintrc.json"));
 
             assert.deepEqual(config, {
@@ -670,7 +670,7 @@ describe("ConfigFile", function() {
             });
         });
 
-        it("should load information from `parser` in .eslintrc with relative path.", function() {
+        it("should load information from `parser` in .eslintrc with relative path.", () => {
             const config = ConfigFile.load(getFixturePath("extends-chain-2/parser.eslintrc.json"));
             const parserPath = getFixturePath("extends-chain-2/parser.js");
 
@@ -683,10 +683,10 @@ describe("ConfigFile", function() {
             });
         });
 
-        describe("even if it's in another directory,", function() {
+        describe("even if it's in another directory,", () => {
             let fixturePath = "";
 
-            before(function() {
+            before(() => {
                 const tempDir = temp.mkdirSync("eslint-test-chain");
                 const chain2 = getFixturePath("extends-chain-2");
 
@@ -694,11 +694,11 @@ describe("ConfigFile", function() {
                 shell.cp("-r", chain2, fixturePath);
             });
 
-            after(function() {
+            after(() => {
                 temp.cleanupSync();
             });
 
-            it("should load information from `extends` chain in .eslintrc with relative path.", function() {
+            it("should load information from `extends` chain in .eslintrc with relative path.", () => {
                 const config = ConfigFile.load(path.join(fixturePath, "relative.eslintrc.json"));
 
                 assert.deepEqual(config, {
@@ -713,7 +713,7 @@ describe("ConfigFile", function() {
                 });
             });
 
-            it("should load information from `parser` in .eslintrc with relative path.", function() {
+            it("should load information from `parser` in .eslintrc with relative path.", () => {
                 const config = ConfigFile.load(path.join(fixturePath, "parser.eslintrc.json"));
                 const parserPath = path.join(fixturePath, "parser.js");
 
@@ -727,9 +727,9 @@ describe("ConfigFile", function() {
             });
         });
 
-        describe("Plugins", function() {
+        describe("Plugins", () => {
 
-            it("should load information from a YML file and load plugins", function() {
+            it("should load information from a YML file and load plugins", () => {
 
                 const StubbedPlugins = proxyquire("../../../lib/config/plugins", {
                     "eslint-plugin-test": {
@@ -757,8 +757,8 @@ describe("ConfigFile", function() {
             });
         });
 
-        describe("even if config files have Unicode BOM,", function() {
-            it("should read the JSON config file correctly.", function() {
+        describe("even if config files have Unicode BOM,", () => {
+            it("should read the JSON config file correctly.", () => {
                 const config = ConfigFile.load(getFixturePath("bom/.eslintrc.json"));
 
                 assert.deepEqual(config, {
@@ -771,7 +771,7 @@ describe("ConfigFile", function() {
                 });
             });
 
-            it("should read the YAML config file correctly.", function() {
+            it("should read the YAML config file correctly.", () => {
                 const config = ConfigFile.load(getFixturePath("bom/.eslintrc.yaml"));
 
                 assert.deepEqual(config, {
@@ -784,7 +784,7 @@ describe("ConfigFile", function() {
                 });
             });
 
-            it("should read the config in package.json correctly.", function() {
+            it("should read the config in package.json correctly.", () => {
                 const config = ConfigFile.load(getFixturePath("bom/package.json"));
 
                 assert.deepEqual(config, {
@@ -799,9 +799,9 @@ describe("ConfigFile", function() {
         });
     });
 
-    describe("resolve()", function() {
+    describe("resolve()", () => {
 
-        describe("Relative to CWD", function() {
+        describe("Relative to CWD", () => {
 
             leche.withData([
                 [ ".eslintrc", path.resolve(".eslintrc") ],
@@ -811,8 +811,8 @@ describe("ConfigFile", function() {
                 [ "@foo/eslint-config", getProjectModulePath("@foo/eslint-config") ],
                 [ "@foo/bar", getProjectModulePath("@foo/eslint-config-bar") ],
                 [ "plugin:foo/bar", getProjectModulePath("eslint-plugin-foo") ]
-            ], function(input, expected) {
-                it(`should return ${expected} when passed ${input}`, function() {
+            ], (input, expected) => {
+                it(`should return ${expected} when passed ${input}`, () => {
 
                     const configDeps = {
                         "eslint-config-foo": getProjectModulePath("eslint-config-foo"),
@@ -833,7 +833,7 @@ describe("ConfigFile", function() {
             });
         });
 
-        describe("Relative to config file", function() {
+        describe("Relative to config file", () => {
 
             const relativePath = path.resolve("./foo/bar");
 
@@ -845,8 +845,8 @@ describe("ConfigFile", function() {
                 [ "@foo/eslint-config", getRelativeModulePath("@foo/eslint-config", relativePath), relativePath],
                 [ "@foo/bar", getRelativeModulePath("@foo/eslint-config-bar", relativePath), relativePath],
                 [ "plugin:@foo/bar/baz", getRelativeModulePath("@foo/eslint-plugin-bar", relativePath), relativePath]
-            ], function(input, expected, relativeTo) {
-                it(`should return ${expected} when passed ${input}`, function() {
+            ], (input, expected, relativeTo) => {
+                it(`should return ${expected} when passed ${input}`, () => {
 
                     const configDeps = {
                         "eslint-config-foo": getRelativeModulePath("eslint-config-foo", relativePath),
@@ -872,8 +872,8 @@ describe("ConfigFile", function() {
                 [ "eslint-config-foo/bar", path.resolve("./node_modules", "eslint-config-foo", "bar.json"), relativePath],
                 [ "eslint-config-foo/bar", path.resolve("./node_modules", "eslint-config-foo/bar", "index.js"), relativePath],
                 [ "eslint-config-foo/bar", path.resolve("./node_modules", "eslint-config-foo", "bar.js"), relativePath]
-            ], function(input, expected, relativeTo) {
-                it(`should return ${expected} when passed ${input}`, function() {
+            ], (input, expected, relativeTo) => {
+                it(`should return ${expected} when passed ${input}`, () => {
 
                     const configDeps = {
                         "eslint-config-foo/bar": expected
@@ -893,32 +893,32 @@ describe("ConfigFile", function() {
 
     });
 
-    describe("getBaseDir()", function() {
+    describe("getBaseDir()", () => {
 
         // can only run this test if there's a home directory
         if (userHome) {
 
-            it("should return project path when config file is in home directory", function() {
+            it("should return project path when config file is in home directory", () => {
                 const result = ConfigFile.getBaseDir(userHome);
 
                 assert.equal(result, PROJECT_PATH);
             });
         }
 
-        it("should return project path when config file is in an ancestor directory of the project path", function() {
+        it("should return project path when config file is in an ancestor directory of the project path", () => {
             const result = ConfigFile.getBaseDir(path.resolve(PROJECT_PATH, "../../"));
 
             assert.equal(result, PROJECT_PATH);
         });
 
-        it("should return config file path when config file is in a descendant directory of the project path", function() {
+        it("should return config file path when config file is in a descendant directory of the project path", () => {
             const configFilePath = path.resolve(PROJECT_PATH, "./foo/bar/"),
                 result = ConfigFile.getBaseDir(path.resolve(PROJECT_PATH, "./foo/bar/"));
 
             assert.equal(result, configFilePath);
         });
 
-        it("should return project path when config file is not an ancestor or descendant of the project path", function() {
+        it("should return project path when config file is not an ancestor or descendant of the project path", () => {
             const result = ConfigFile.getBaseDir(path.resolve("/tmp/foo"));
 
             assert.equal(result, PROJECT_PATH);
@@ -926,32 +926,32 @@ describe("ConfigFile", function() {
 
     });
 
-    describe("getLookupPath()", function() {
+    describe("getLookupPath()", () => {
 
         // can only run this test if there's a home directory
         if (userHome) {
 
-            it("should return project path when config file is in home directory", function() {
+            it("should return project path when config file is in home directory", () => {
                 const result = ConfigFile.getLookupPath(userHome);
 
                 assert.equal(result, PROJECT_DEPS_PATH);
             });
         }
 
-        it("should return project path when config file is in an ancestor directory of the project path", function() {
+        it("should return project path when config file is in an ancestor directory of the project path", () => {
             const result = ConfigFile.getLookupPath(path.resolve(PROJECT_DEPS_PATH, "../../"));
 
             assert.equal(result, PROJECT_DEPS_PATH);
         });
 
-        it("should return config file path when config file is in a descendant directory of the project path", function() {
+        it("should return config file path when config file is in a descendant directory of the project path", () => {
             const configFilePath = path.resolve(PROJECT_DEPS_PATH, "./foo/bar/node_modules"),
                 result = ConfigFile.getLookupPath(path.resolve(PROJECT_DEPS_PATH, "./foo/bar/"));
 
             assert.equal(result, configFilePath);
         });
 
-        it("should return project path when config file is not an ancestor or descendant of the project path", function() {
+        it("should return project path when config file is not an ancestor or descendant of the project path", () => {
             const result = ConfigFile.getLookupPath(path.resolve("/tmp/foo"));
 
             assert.equal(result, PROJECT_DEPS_PATH);
@@ -959,7 +959,7 @@ describe("ConfigFile", function() {
 
     });
 
-    describe("getFilenameFromDirectory()", function() {
+    describe("getFilenameFromDirectory()", () => {
 
         leche.withData([
             [ getFixturePath("legacy"), ".eslintrc" ],
@@ -967,8 +967,8 @@ describe("ConfigFile", function() {
             [ getFixturePath("yml"), ".eslintrc.yml" ],
             [ getFixturePath("json"), ".eslintrc.json" ],
             [ getFixturePath("js"), ".eslintrc.js" ]
-        ], function(input, expected) {
-            it(`should return ${expected} when passed ${input}`, function() {
+        ], (input, expected) => {
+            it(`should return ${expected} when passed ${input}`, () => {
                 const result = ConfigFile.getFilenameForDirectory(input);
 
                 assert.equal(result, path.resolve(input, expected));
@@ -977,7 +977,7 @@ describe("ConfigFile", function() {
 
     });
 
-    describe("normalizePackageName()", function() {
+    describe("normalizePackageName()", () => {
 
         leche.withData([
             [ "foo", "eslint-config-foo" ],
@@ -987,8 +987,8 @@ describe("ConfigFile", function() {
             [ "@z\\foo\\bar.js", "@z/eslint-config-foo/bar.js" ],
             [ "@z/eslint-config", "@z/eslint-config" ],
             [ "@z/eslint-config-foo", "@z/eslint-config-foo" ]
-        ], function(input, expected) {
-            it(`should return ${expected} when passed ${input}`, function() {
+        ], (input, expected) => {
+            it(`should return ${expected} when passed ${input}`, () => {
                 const result = ConfigFile.normalizePackageName(input, "eslint-config");
 
                 assert.equal(result, expected);
@@ -997,12 +997,12 @@ describe("ConfigFile", function() {
 
     });
 
-    describe("write()", function() {
+    describe("write()", () => {
 
         let sandbox,
             config;
 
-        beforeEach(function() {
+        beforeEach(() => {
             sandbox = sinon.sandbox.create();
             config = {
                 env: {
@@ -1016,7 +1016,7 @@ describe("ConfigFile", function() {
             };
         });
 
-        afterEach(function() {
+        afterEach(() => {
             sandbox.verifyAndRestore();
         });
 
@@ -1025,16 +1025,14 @@ describe("ConfigFile", function() {
             ["JSON", "bar.json", JSON.parse],
             ["YAML", "foo.yaml", yaml.safeLoad],
             ["YML", "foo.yml", yaml.safeLoad]
-        ], function(fileType, filename, validate) {
+        ], (fileType, filename, validate) => {
 
-            it(`should write a file through fs when a ${fileType} path is passed`, function() {
+            it(`should write a file through fs when a ${fileType} path is passed`, () => {
                 const fakeFS = leche.fake(fs);
 
                 sandbox.mock(fakeFS).expects("writeFileSync").withExactArgs(
                     filename,
-                    sinon.match(function(value) {
-                        return !!validate(value);
-                    }),
+                    sinon.match(value => !!validate(value)),
                     "utf8"
                 );
 
@@ -1047,8 +1045,8 @@ describe("ConfigFile", function() {
 
         });
 
-        it("should throw error if file extension is not valid", function() {
-            assert.throws(function() {
+        it("should throw error if file extension is not valid", () => {
+            assert.throws(() => {
                 ConfigFile.write({}, getFixturePath("yaml/.eslintrc.class"));
             }, /write to unknown file type/);
         });

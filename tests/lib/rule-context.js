@@ -19,19 +19,19 @@ const sinon = require("sinon"),
 // Tests
 //------------------------------------------------------------------------------
 
-describe("RuleContext", function() {
+describe("RuleContext", () => {
     const sandbox = sinon.sandbox.create();
 
-    describe("report()", function() {
+    describe("report()", () => {
         let ruleContext, eslint;
 
-        beforeEach(function() {
+        beforeEach(() => {
             eslint = leche.fake(realESLint);
             ruleContext = new RuleContext("fake-rule", eslint, 2, {}, {}, {}, "espree");
         });
 
-        describe("old-style call with location", function() {
-            it("should call eslint.report() with rule ID and severity prepended", function() {
+        describe("old-style call with location", () => {
+            it("should call eslint.report() with rule ID and severity prepended", () => {
                 const node = {},
                     location = {},
                     message = "Message",
@@ -49,8 +49,8 @@ describe("RuleContext", function() {
             });
         });
 
-        describe("old-style call without location", function() {
-            it("should call eslint.report() with rule ID and severity prepended", function() {
+        describe("old-style call without location", () => {
+            it("should call eslint.report() with rule ID and severity prepended", () => {
                 const node = {},
                     message = "Message",
                     messageOpts = {};
@@ -67,8 +67,8 @@ describe("RuleContext", function() {
             });
         });
 
-        describe("new-style call with all options", function() {
-            it("should call eslint.report() with rule ID and severity prepended and all new-style options", function() {
+        describe("new-style call with all options", () => {
+            it("should call eslint.report() with rule ID and severity prepended and all new-style options", () => {
                 const node = {},
                     location = {},
                     message = "Message",
@@ -96,9 +96,9 @@ describe("RuleContext", function() {
         });
     });
 
-    describe("parserServices", function() {
+    describe("parserServices", () => {
 
-        it("should pass through parserServices properties to context", function() {
+        it("should pass through parserServices properties to context", () => {
             const services = {
                 test: {}
             };
@@ -107,7 +107,7 @@ describe("RuleContext", function() {
             assert.equal(ruleContext.parserServices.test, services.test);
         });
 
-        it("should copy parserServices properties to a new object", function() {
+        it("should copy parserServices properties to a new object", () => {
             const services = {
                 test: {}
             };
@@ -116,7 +116,7 @@ describe("RuleContext", function() {
             assert.notEqual(ruleContext.parserServices, services);
         });
 
-        it("should make context.parserServices a frozen object", function() {
+        it("should make context.parserServices a frozen object", () => {
             const services = {
                 test: {}
             };

@@ -30,7 +30,14 @@ This rule also accepts an additional `exceptions` object:
 * `"exceptions"` has properties whose names correspond to node types in the abstract syntax tree (AST) of JavaScript code:
 
     * `"ArrayExpression": true` ignores comma style in array literals
+    * `"ArrayPattern": true` ignores comma style in array patterns of destructuring
+    * `"ArrowFunctionExpression": true` ignores comma style in the parameters of arrow function expressions
+    * `"CallExpression": true` ignores comma style in the arguments of function calls
+    * `"FunctionDeclaration": true` ignores comma style in the parameters of function declarations
+    * `"FunctionExpression": true` ignores comma style in the parameters of function expressions
+    * `"ImportDeclaration": true` ignores comma style in the specifiers of import declarations
     * `"ObjectExpression": true` ignores comma style in object literals
+    * `"ObjectPattern": true` ignores comma style in object patterns of destructuring
     * `"VariableDeclaration": true` ignores comma style in variable declarations
 
 A way to determine the node types as defined by [ESTree](https://github.com/estree/estree) is to use the [online demo](http://eslint.org/parser).

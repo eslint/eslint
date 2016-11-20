@@ -38,7 +38,7 @@ function expectedErrors(indentType, errors) {
         errors = [errors];
     }
 
-    return errors.map(function(err) {
+    return errors.map(err => {
         let message;
 
         if (typeof err[1] === "string" && typeof err[2] === "string") {
@@ -161,6 +161,23 @@ ruleTester.run("indent", rule, {
         },
         {
             code:
+            "var x = [\n" +
+            "    'a',\n" +
+            "    'b',\n" +
+            "    'c'\n" +
+            "];",
+            options: [4]
+        },
+        {
+            code:
+            "var x = ['a',\n" +
+            "    'b',\n" +
+            "    'c',\n" +
+            "];",
+            options: [4]
+        },
+        {
+            code:
             "var x = 0 && 1;",
             options: [4]
         },
@@ -185,7 +202,7 @@ ruleTester.run("indent", rule, {
         {
             code:
             "require('http').request({hostname: 'localhost',\n" +
-            "                         port: 80}, function(res) {\n" +
+            "  port: 80}, function(res) {\n" +
             "  res.end();\n" +
             "});\n",
             options: [2]
@@ -617,19 +634,13 @@ ruleTester.run("indent", rule, {
             "while (1 < 2) console.log('hi');",
             options: [2]
         },
+
         {
             code:
-            "[a, b, \nc].forEach((index) => {\n" +
-            "    index;\n" +
-            "});\n",
-            options: [4],
-            parserOptions: { ecmaVersion: 6 }
-        },
-        {
-            code:
-            "[a, b, \nc].forEach(function(index){\n" +
-            "    return index;\n" +
-            "});\n",
+            "[a, b,\n" +
+            "    c].forEach((index) => {\n" +
+            "        index;\n" +
+            "    });\n",
             options: [4],
             parserOptions: { ecmaVersion: 6 }
         },
@@ -1504,7 +1515,7 @@ ruleTester.run("indent", rule, {
             "{\n" +
             "      bar();\n" +
             "}",
-            options: [2, {FunctionDeclaration: {body: 3}}] // FIXME: what is the default for `parameters`?
+            options: [2, {FunctionDeclaration: {body: 3}}]
         },
         {
             code:
@@ -1513,7 +1524,7 @@ ruleTester.run("indent", rule, {
             "  bbb) {\n" +
             "    bar();\n" +
             "}",
-            options: [2, {FunctionDeclaration: {parameters: "first", body: 2}}] // FIXME: make sure this is correct
+            options: [2, {FunctionDeclaration: {parameters: "first", body: 2}}]
         },
         {
             code:
@@ -1550,7 +1561,7 @@ ruleTester.run("indent", rule, {
             "  ddd, eee) {\n" +
             "      bar();\n" +
             "}",
-            options: [2, {FunctionExpression: {parameters: "first", body: 3}}] // FIXME: make sure this is correct
+            options: [2, {FunctionExpression: {parameters: "first", body: 3}}]
         },
         {
             code:
@@ -1596,6 +1607,125 @@ ruleTester.run("indent", rule, {
             "  };\n" +
             "}",
             options: [2, {FunctionExpression: {parameters: 3}}]
+        },
+        {
+            code:
+            "function foo() {\n" +
+            "  return (bar === 1 || bar === 2 &&\n" +
+            "    (/Function/.test(grandparent.type))) &&\n" +
+            "    directives(parent).indexOf(node) >= 0;\n" +
+            "}",
+            options: [2]
+        },
+        {
+            code:
+            "function foo() {\n" +
+            "  return (bar === 1 || bar === 2) &&\n" +
+            "    (z === 3 || z === 4);\n" +
+            "}",
+            options: [2]
+        },
+        {
+            code:
+            "function foo() {\n" +
+            "  return ((bar === 1 || bar === 2) &&\n" +
+            "    (z === 3 || z === 4)\n" +
+            "  );\n" +
+            "}",
+            options: [2]
+        },
+        {
+            code:
+            "function foo() {\n" +
+            "  return ((bar === 1 || bar === 2) &&\n" +
+            "    (z === 3 || z === 4));\n" +
+            "}",
+            options: [2]
+        }, {
+            code:
+            "foo(\n" +
+            "  bar,\n" +
+            "  baz,\n" +
+            "  qux\n" +
+            ");",
+            options: [2, {CallExpression: {arguments: 1}}]
+        }, {
+            code:
+            "foo(\n" +
+            "\tbar,\n" +
+            "\tbaz,\n" +
+            "\tqux\n" +
+            ");",
+            options: ["tab", {CallExpression: {arguments: 1}}]
+        }, {
+            code:
+            "foo(bar,\n" +
+            "        baz,\n" +
+            "        qux);",
+            options: [4, {CallExpression: {arguments: 2}}]
+        }, {
+            code:
+            "foo(\n" +
+            "bar,\n" +
+            "baz,\n" +
+            "qux\n" +
+            ");",
+            options: [2, {CallExpression: {arguments: 0}}]
+        }, {
+            code:
+            "foo(bar,\n" +
+            "    baz,\n" +
+            "    qux\n" +
+            ");",
+            options: [2, {CallExpression: {arguments: "first"}}]
+        }, {
+            code:
+            "foo(bar, baz,\n" +
+            "    qux, barbaz,\n" +
+            "    barqux, bazqux);",
+            options: [2, {CallExpression: {arguments: "first"}}]
+        }, {
+            code:
+            "foo(\n" +
+            "                        bar, baz,\n" +
+            "                        qux);",
+            options: [2, {CallExpression: {arguments: "first"}}]
+        }, {
+            code:
+            "foo(bar,\n" +
+            "        1 + 2,\n" +
+            "        !baz,\n" +
+            "        new Car('!')\n" +
+            ");",
+            options: [2, {CallExpression: {arguments: 4}}]
+        },
+
+        // https://github.com/eslint/eslint/issues/7484
+        {
+            code:
+            "var foo = function() {\n" +
+            "  return bar(\n" +
+            "    [{\n" +
+            "    }].concat(baz)\n" +
+            "  );\n" +
+            "};",
+            options: [2]
+        },
+
+        // https://github.com/eslint/eslint/issues/7573
+        {
+            code:
+            "return (\n" +
+            "    foo\n" +
+            ");",
+            parserOptions: {ecmaFeatures: {globalReturn: true}}
+        },
+        {
+            code:
+            "return (\n" +
+            "    foo\n" +
+            ")",
+            parserOptions: {ecmaFeatures: {globalReturn: true}}
         }
     ],
     invalid: [
@@ -1612,6 +1742,20 @@ ruleTester.run("indent", rule, {
                 "if (a) {\n" +
                 "  b();\n" +
                 "}\n"
+        },
+        {
+            code:
+            "require('http').request({hostname: 'localhost',\n" +
+            "                  port: 80}, function(res) {\n" +
+            "  res.end();\n" +
+            "});\n",
+            output:
+            "require('http').request({hostname: 'localhost',\n" +
+            "  port: 80}, function(res) {\n" +
+            "  res.end();\n" +
+            "});\n",
+            options: [2],
+            errors: expectedErrors([[2, 2, 18, "Property"]])
         },
         {
             code:
@@ -1965,23 +2109,6 @@ ruleTester.run("indent", rule, {
         },
         {
             code:
-            "JSON\n" +
-            "    .stringify(\n" +
-            "        {\n" +
-            "            foo: bar\n" +
-            "        }\n" +
-            "    )\n",
-            options: [4],
-            errors: expectedErrors(
-                [
-                    [3, 4, 8, "ObjectExpression"],
-                    [4, 8, 12, "Property"],
-                    [5, 4, 8, "ObjectExpression"]
-                ]
-            )
-        },
-        {
-            code:
             "TestClass.prototype.method = function () {\n" +
             "  return Promise.resolve(3)\n" +
             "      .then(function (x) {\n" +
@@ -2119,12 +2246,14 @@ ruleTester.run("indent", rule, {
             "  index;\n" +
             "});\n",
             output:
-            "[a, b, \nc].forEach((index) => {\n" +
+            "[a, b, \n" +
+            "    c].forEach((index) => {\n" +
             "    index;\n" +
             "});\n",
             options: [4],
             parserOptions: { ecmaVersion: 6 },
             errors: expectedErrors([
+                [2, 4, 0, "Identifier"],
                 [3, 4, 2, "ExpressionStatement"]
             ])
         },
@@ -2134,14 +2263,30 @@ ruleTester.run("indent", rule, {
             "  return index;\n" +
             "});\n",
             output:
-            "[a, b, \nc].forEach(function(index){\n" +
+            "[a, b, \n" +
+            "    c].forEach(function(index){\n" +
             "    return index;\n" +
             "});\n",
             options: [4],
             parserOptions: { ecmaVersion: 6 },
             errors: expectedErrors([
+                [2, 4, 0, "Identifier"],
                 [3, 4, 2, "ReturnStatement"]
             ])
+        },
+        {
+            code:
+            "[a, b, \nc].forEach(function(index){\n" +
+            "    return index;\n" +
+            "});\n",
+            output:
+            "[a, b, \n" +
+            "    c].forEach(function(index){\n" +
+            "    return index;\n" +
+            "});\n",
+            options: [4],
+            parserOptions: { ecmaVersion: 6 },
+            errors: expectedErrors([[2, 4, 0, "Identifier"]])
         },
         {
             code:
@@ -2171,6 +2316,86 @@ ruleTester.run("indent", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: expectedErrors([
                 [2, 4, 2, "ReturnStatement"]
+            ])
+        },
+        {
+            code:
+            "var x = ['a',\n" +
+            "         'b',\n" +
+            "         'c'\n" +
+            "];",
+            output:
+            "var x = ['a',\n" +
+            "    'b',\n" +
+            "    'c'\n" +
+            "];",
+            options: [4],
+            errors: expectedErrors([
+                [2, 4, 9, "Literal"],
+                [3, 4, 9, "Literal"]
+            ])
+        },
+        {
+            code:
+            "var x = [\n" +
+            "         'a',\n" +
+            "         'b',\n" +
+            "         'c'\n" +
+            "];",
+            output:
+            "var x = [\n" +
+            "    'a',\n" +
+            "    'b',\n" +
+            "    'c'\n" +
+            "];",
+            options: [4],
+            errors: expectedErrors([
+                [2, 4, 9, "Literal"],
+                [3, 4, 9, "Literal"],
+                [4, 4, 9, "Literal"]
+            ])
+        },
+        {
+            code:
+            "var x = [\n" +
+            "         'a',\n" +
+            "         'b',\n" +
+            "         'c',\n" +
+            "'d'];",
+            output:
+            "var x = [\n" +
+            "    'a',\n" +
+            "    'b',\n" +
+            "    'c',\n" +
+            "    'd'];",
+            options: [4],
+            errors: expectedErrors([
+                [2, 4, 9, "Literal"],
+                [3, 4, 9, "Literal"],
+                [4, 4, 9, "Literal"],
+                [5, 4, 0, "Literal"]
+            ])
+        },
+        {
+            code:
+            "var x = [\n" +
+            "         'a',\n" +
+            "         'b',\n" +
+            "         'c'\n" +
+            "  ];",
+            output:
+            "var x = [\n" +
+            "    'a',\n" +
+            "    'b',\n" +
+            "    'c'\n" +
+            "];",
+            options: [4],
+            parserOptions: { ecmaVersion: 6 },
+            errors: expectedErrors([
+                [2, 4, 9, "Literal"],
+                [3, 4, 9, "Literal"],
+                [4, 4, 9, "Literal"],
+                [5, 0, 2, "ArrayExpression"]
             ])
         },
         {
@@ -3038,6 +3263,273 @@ ruleTester.run("indent", rule, {
             "}",
             options: [2, {FunctionExpression: {parameters: 3}}],
             errors: expectedErrors([3, 8, 10, "Identifier"])
+        },
+        {
+            code:
+            "{\n" +
+            "    try {\n" +
+            "    }\n" +
+            "catch (err) {\n" +
+            "    }\n" +
+            "finally {\n" +
+            "    }\n" +
+            "}",
+            output:
+            "{\n" +
+            "    try {\n" +
+            "    }\n" +
+            "    catch (err) {\n" +
+            "    }\n" +
+            "    finally {\n" +
+            "    }\n" +
+            "}",
+            errors: expectedErrors([
+                [4, 4, 0, "Keyword"],
+                [6, 4, 0, "Keyword"]
+            ])
+        },
+        {
+            code:
+            "{\n" +
+            "    do {\n" +
+            "    }\n" +
+            "while (true)\n" +
+            "}",
+            output:
+            "{\n" +
+            "    do {\n" +
+            "    }\n" +
+            "    while (true)\n" +
+            "}",
+            errors: expectedErrors([4, 4, 0, "Keyword"])
+        },
+        {
+            code:
+            "function foo() {\n" +
+            "  bar();\n" +
+            "\t\t}",
+            output:
+            "function foo() {\n" +
+            "  bar();\n" +
+            "}",
+            options: [2],
+            errors: expectedErrors([[3, "0 spaces", "2 tabs", "BlockStatement"]])
+        },
+        {
+            code:
+            "function foo() {\n" +
+            "  return (\n" +
+            "    1\n" +
+            "    )\n" +
+            "}",
+            output:
+            "function foo() {\n" +
+            "  return (\n" +
+            "    1\n" +
+            "  )\n" +
+            "}",
+            options: [2],
+            errors: expectedErrors([[4, "2 spaces", "4", "ReturnStatement"]])
+        },
+        {
+            code:
+            "function foo() {\n" +
+            "  return (\n" +
+            "    1\n" +
+            "    );\n" +
+            "}",
+            output:
+            "function foo() {\n" +
+            "  return (\n" +
+            "    1\n" +
+            "  );\n" +
+            "}",
+            options: [2],
+            errors: expectedErrors([[4, "2 spaces", "4", "ReturnStatement"]])
+        },
+        {
+            code:
+            "function foo() {\n" +
+            "  bar();\n" +
+            "\t\t}",
+            output:
+            "function foo() {\n" +
+            "  bar();\n" +
+            "}",
+            options: [2],
+            errors: expectedErrors([[3, "0 spaces", "2 tabs", "BlockStatement"]])
+        },
+        {
+            code:
+            "function test(){\n" +
+            "  switch(length){\n" +
+            "    case 1: return function(a){\n" +
+            "    return fn.call(that, a);\n" +
+            "    };\n" +
+            "  }\n" +
+            "}",
+            output:
+            "function test(){\n" +
+            "  switch(length){\n" +
+            "    case 1: return function(a){\n" +
+            "      return fn.call(that, a);\n" +
+            "    };\n" +
+            "  }\n" +
+            "}",
+            options: [2, {VariableDeclarator: 2, SwitchCase: 1}],
+            errors: expectedErrors([[4, "6 spaces", "4", "ReturnStatement"]])
+        },
+        {
+            code:
+            "function foo() {\n" +
+            "   return 1\n" +
+            "}",
+            output:
+            "function foo() {\n" +
+            "  return 1\n" +
+            "}",
+            options: [2],
+            errors: expectedErrors([[2, "2 spaces", "3", "ReturnStatement"]])
+        },
+        {
+            code:
+            "function foo() {\n" +
+            "   return 1;\n" +
+            "}",
+            output:
+            "function foo() {\n" +
+            "  return 1;\n" +
+            "}",
+            options: [2],
+            errors: expectedErrors([[2, "2 spaces", "3", "ReturnStatement"]])
+        },
+        {
+            code:
+            "foo(\n" +
+            "bar,\n" +
+            "  baz,\n" +
+            "    qux);",
+            output:
+            "foo(\n" +
+            "  bar,\n" +
+            "  baz,\n" +
+            "  qux);",
+            options: [2, {CallExpression: {arguments: 1}}],
+            errors: expectedErrors([[2, 2, 0, "Identifier"], [4, 2, 4, "Identifier"]])
+        },
+        {
+            code:
+            "foo(\n" +
+            "\tbar,\n" +
+            "\tbaz);",
+            output:
+            "foo(\n" +
+            "    bar,\n" +
+            "    baz);",
+            options: [2, {CallExpression: {arguments: 2}}],
+            errors: expectedErrors([[2, "4 spaces", "1 tab", "Identifier"], [3, "4 spaces", "1 tab", "Identifier"]])
+        },
+        {
+            code:
+            "foo(bar,\n" +
+            "\t\tbaz,\n" +
+            "\t\tqux);",
+            output:
+            "foo(bar,\n" +
+            "\tbaz,\n" +
+            "\tqux);",
+            options: ["tab", {CallExpression: {arguments: 1}}],
+            errors: expectedErrors("tab", [[2, 1, 2, "Identifier"], [3, 1, 2, "Identifier"]])
+        },
+        {
+            code:
+            "foo(bar, baz,\n" +
+            "         qux);",
+            output:
+            "foo(bar, baz,\n" +
+            "    qux);",
+            options: [2, {CallExpression: {arguments: "first"}}],
+            errors: expectedErrors([2, 4, 9, "Identifier"])
+        },
+        {
+            code:
+            "foo(\n" +
+            "          bar,\n" +
+            "    baz);",
+            output:
+            "foo(\n" +
+            "          bar,\n" +
+            "          baz);",
+            options: [2, {CallExpression: {arguments: "first"}}],
+            errors: expectedErrors([3, 10, 4, "Identifier"])
+        },
+        {
+            code:
+            "foo(bar,\n" +
+            "  1 + 2,\n" +
+            "              !baz,\n" +
+            "        new Car('!')\n" +
+            ");",
+            output:
+            "foo(bar,\n" +
+            "      1 + 2,\n" +
+            "      !baz,\n" +
+            "      new Car('!')\n" +
+            ");",
+            options: [2, {CallExpression: {arguments: 3}}],
+            errors: expectedErrors([[2, 6, 2, "BinaryExpression"], [3, 6, 14, "UnaryExpression"], [4, 6, 8, "NewExpression"]])
+        },
+
+        // https://github.com/eslint/eslint/issues/7573
+        {
+            code:
+            "return (\n" +
+            "    foo\n" +
+            "    );",
+            output:
+            "return (\n" +
+            "    foo\n" +
+            ");",
+            parserOptions: {ecmaFeatures: {globalReturn: true}},
+            errors: expectedErrors([3, 0, 4, "ReturnStatement"])
+        },
+        {
+            code:
+            "return (\n" +
+            "    foo\n" +
+            "    )",
+            output:
+            "return (\n" +
+            "    foo\n" +
+            ")",
+            parserOptions: {ecmaFeatures: {globalReturn: true}},
+            errors: expectedErrors([3, 0, 4, "ReturnStatement"])
+        },
+
+        // https://github.com/eslint/eslint/issues/7604
+        {
+            code:
+            "if (foo) {\n" +
+            "        /* comment */bar();\n" +
+            "}",
+            output:
+            "if (foo) {\n" +
+            "    /* comment */bar();\n" +
+            "}",
+            errors: expectedErrors([2, 4, 8, "ExpressionStatement"])
+        },
+        {
+            code:
+            "foo('bar',\n" +
+            "        /** comment */{\n" +
+            "        ok: true" +
+            "    });",
+            output:
+            "foo('bar',\n" +
+            "    /** comment */{\n" +
+            "        ok: true" +
+            "    });",
+            errors: expectedErrors([2, 4, 8, "ObjectExpression"])
         }
     ]
 });

@@ -93,7 +93,7 @@ ruleTester.run("arrow-body-style", rule, {
         },
         {
             code: "var foo = () => {\nreturn 0;\n};",
-            output: "var foo = () => \n 0\n;",
+            output: "var foo = () => 0;",
             parserOptions: { ecmaVersion: 6 },
             options: ["never"],
             errors: [
@@ -261,6 +261,66 @@ ruleTester.run("arrow-body-style", rule, {
             errors: [
                 { line: 1, column: 60, type: "ArrowFunctionExpression", message: "Expected block statement surrounding arrow body." }
             ]
-        }
+        },
+        {
+            code: "var foo = () => {\nreturn bar;\n};",
+            output: "var foo = () => bar;",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                { line: 1, column: 17, type: "ArrowFunctionExpression", message: "Unexpected block statement surrounding arrow body." }
+            ]
+        },
+        {
+            code: "var foo = () => {\nreturn bar;};",
+            output: "var foo = () => bar;",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                { line: 1, column: 17, type: "ArrowFunctionExpression", message: "Unexpected block statement surrounding arrow body." }
+            ]
+        },
+        {
+            code: "var foo = () => {return bar;\n};",
+            output: "var foo = () => bar;",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                { line: 1, column: 17, type: "ArrowFunctionExpression", message: "Unexpected block statement surrounding arrow body." }
+            ]
+        },
+        {
+            code: `
+              var foo = () => {
+                return foo
+                  .bar;
+              };
+            `,
+            output: `
+              var foo = () => foo
+                  .bar;
+            `,
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                { line: 2, column: 31, type: "ArrowFunctionExpression", message: "Unexpected block statement surrounding arrow body." }
+            ]
+        },
+        {
+            code: `
+              var foo = () => {
+                return {
+                  bar: 1,
+                  baz: 2
+                };
+              };
+            `,
+            output: `
+              var foo = () => ({
+                  bar: 1,
+                  baz: 2
+                });
+            `,
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                { line: 2, column: 31, type: "ArrowFunctionExpression", message: "Unexpected block statement surrounding arrow body." }
+            ]
+        },
     ]
 });

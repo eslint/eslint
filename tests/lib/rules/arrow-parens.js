@@ -9,8 +9,23 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-const rule = require("../../../lib/rules/arrow-parens"),
+const path = require("path"),
+    rule = require("../../../lib/rules/arrow-parens"),
     RuleTester = require("../../../lib/testers/rule-tester");
+
+//------------------------------------------------------------------------------
+// Helpers
+//------------------------------------------------------------------------------
+
+/**
+ * Gets the path to the specified parser.
+ *
+ * @param {string} name - The parser name to get.
+ * @returns {string} The path to the specified parser.
+ */
+function parser(name) {
+    return path.resolve(__dirname, `../../fixtures/parsers/arrow-parens/${name}.js`);
+}
 
 //------------------------------------------------------------------------------
 // Tests
@@ -48,6 +63,8 @@ const valid = [
     { code: "(a, b) => {}", options: ["as-needed"], parserOptions: { ecmaVersion: 6 } },
     { code: "async ([a, b]) => {}", options: ["as-needed"], parserOptions: { ecmaVersion: 8 } },
     { code: "async (a, b) => {}", options: ["as-needed"], parserOptions: { ecmaVersion: 8 } },
+    { code: "(a: T) => a", options: ["as-needed"], parserOptions: { ecmaVersion: 6 }, parser: parser("identifer-type") },
+    { code: "(a): T => a", options: ["as-needed"], parserOptions: { ecmaVersion: 6 }, parser: parser("return-type") },
 
     // "as-needed", { "requireForBlockBody": true }
     { code: "() => {}", options: ["as-needed", {requireForBlockBody: true}], parserOptions: { ecmaVersion: 6 } },
@@ -61,7 +78,9 @@ const valid = [
     { code: "(a, b) => {}", options: ["as-needed", {requireForBlockBody: true}], parserOptions: { ecmaVersion: 6 } },
     { code: "a => ({})", options: ["as-needed", {requireForBlockBody: true}], parserOptions: { ecmaVersion: 6 } },
     { code: "async a => ({})", options: ["as-needed", {requireForBlockBody: true}], parserOptions: { ecmaVersion: 8 } },
-    { code: "async a => a", options: ["as-needed", {requireForBlockBody: true}], parserOptions: { ecmaVersion: 8 } }
+    { code: "async a => a", options: ["as-needed", {requireForBlockBody: true}], parserOptions: { ecmaVersion: 8 } },
+    { code: "(a: T) => a", options: ["as-needed", {requireForBlockBody: true}], parserOptions: { ecmaVersion: 6 }, parser: parser("identifer-type") },
+    { code: "(a): T => a", options: ["as-needed", {requireForBlockBody: true}], parserOptions: { ecmaVersion: 6 }, parser: parser("return-type") },
 ];
 
 const message = "Expected parentheses around arrow function argument.";
