@@ -98,7 +98,7 @@ let foo = () => ({ bar: 0 });
 Examples of **incorrect** code for this rule with the `{ "requireReturnForObjectLiteral": true }` option:
 
 ```js
-/*eslint arrow-body-style: ["error", "as-needed", { requireReturnForObjectLiteral: true }]*/
+/*eslint arrow-body-style: ["error", "as-needed", { "requireReturnForObjectLiteral": true }]*/
 /*eslint-env es6*/
 let foo = () => ({});
 let foo = () => ({ bar: 0 });
@@ -107,7 +107,7 @@ let foo = () => ({ bar: 0 });
 Examples of **correct** code for this rule with the `{ "requireReturnForObjectLiteral": true }` option:
 
 ```js
-/*eslint arrow-body-style: ["error", "as-needed", { requireReturnForObjectLiteral: true }]*/
+/*eslint arrow-body-style: ["error", "as-needed", { "requireReturnForObjectLiteral": true }]*/
 /*eslint-env es6*/
 
 let foo = () => {};
