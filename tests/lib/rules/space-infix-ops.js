@@ -340,6 +340,18 @@ ruleTester.run("space-infix-ops", rule, {
             }]
         },
         {
+            code: "a ** b",
+            output: "a**b",
+            options: { "**": "never" },
+            parserOptions: { ecmaVersion: 7 },
+            errors: [{
+                message: "Operator `**` must not be surrounded by spaces.",
+                line: 1,
+                column: 2,
+                nodeType: "BinaryExpression"
+            }]
+        },
+        {
             code: "'foo'in{}",
             output: "'foo' in {}",
             errors: [{
