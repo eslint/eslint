@@ -146,6 +146,53 @@ ruleTester.run("sort-imports", rule, {
                 "import * as foo from 'foo.js';",
             parserOptions
         },
+        {
+            code:
+                "import * as f from 'foo';\n" +
+                "import bar from './bar';\n" +
+                "import styles from './styles.sass';",
+            parserOptions,
+            options: [
+                {
+                    ignoreMemberSort: true,
+                    enableTypeSort: true
+                }
+            ]
+        },
+        {
+            code:
+                "import * as f from 'foo';\n" +
+                "import React from 'react';\n" +
+                "import bar from './bar';\n" +
+                "import styles from './styles.sass';",
+            parserOptions,
+            options: [
+                {
+                    enableTypeSort: true
+                }
+            ]
+        },
+        {
+            code:
+                "import { Link } from 'react-router';\n" +
+                "import React from 'react';\n" +
+                "import RSVP from 'rsvp';\n" +
+                "import $ from 'jquery';\n\n" +
+
+                "import { withI18n } from './../lib/i18n';\n\n" +
+                "import WidgetToolbar from './WidgetToolbar';\n" +
+                "import WidgetWrapper from './WidgetWrapper';\n" +
+
+                "import iconStyles from './../../styles/shared/fontIcons.sass';\n" +
+                "import styles from './../../styles/modules/navigation.sass';",
+            parserOptions,
+            options: [
+                {
+                    ignoreMemberSort: true,
+                    enableTypeSort: true
+                }
+            ]
+        },
 
         // https://github.com/eslint/eslint/issues/5130
         {
@@ -255,6 +302,72 @@ ruleTester.run("sort-imports", rule, {
                 message: "Member 'D' of the import declaration should be sorted alphabetically.",
                 type: "ImportSpecifier"
             }]
-        }
+        },
+        {
+            code:
+                "import * as a from './foo';\n" +
+                "import bar from 'bar';\n" +
+                "import styles from './styles.sass';",
+            parserOptions,
+            options: [
+                {
+                    ignoreMemberSort: true,
+                    enableTypeSort: true
+                }
+            ],
+            errors: [{
+                message: "Imports should be sorted so packages are at the beginning and styles at the end.",
+                type: "ImportDeclaration"
+            }]
+        },
+        {
+            code:
+                "import * as a from 'foo';\n" +
+                "import styles from './styles.sass';\n" +
+                "import zbar from './bar';",
+            parserOptions,
+            options: [
+                {
+                    enableTypeSort: true
+                }
+            ],
+            errors: [{
+                message: "Imports should be sorted so packages are at the beginning and styles at the end.",
+                type: "ImportDeclaration"
+            }]
+        },
+        {
+            code:
+                "import * as a from 'foo';\n" +
+                "import a from './foo.js';\n" +
+                "import {b, c} from './bar.js';\n" +
+                "import styles from './styles.sass';",
+            parserOptions,
+            options: [
+                {
+                    enableTypeSort: true
+                }
+            ],
+            errors: [{
+                message: "Expected 'multiple' syntax before 'single' syntax.",
+                type: "ImportDeclaration"
+            }]
+        },
+        {
+            code:
+                "import * as a from 'foo';\n" +
+                "import b from 'foo.js';\n" +
+                "import a from 'bar.js';\n" +
+                "import styles from './styles.sass';",
+            parserOptions,
+            options: [
+                {
+                    enableTypeSort: true
+                }
+            ],
+            errors: [expectedError]
+        },
+
+        // TODO sort within block
     ]
 });
