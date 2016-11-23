@@ -61,7 +61,7 @@ This rule has three options:
 
 In this case, spacing will be disallowed after a `new` operator and required before/after a `++` operator.
 
-Given the default values `words`: `true`, `nonwords`: `false`, the following patterns are considered problems:
+Examples of **incorrect** code for this rule with the `{"words": true, "nonwords": false}` option:
 
 ```js
 /*eslint space-unary-ops: "error"*/
@@ -92,7 +92,7 @@ function *foo() {
 }
 ```
 
-Given the default values `words`: `true`, `nonwords`: `false`, the following patterns are not considered problems:
+Examples of **correct** code for this rule with the `{"words": true, "nonwords": false}` option:
 
 ```js
 /*eslint space-unary-ops: "error"*/

@@ -33,7 +33,7 @@ Depending on your coding conventions, you can choose either option by specifying
 
 ### "never"
 
-When `"never"` is set, the following patterns are considered problems:
+Examples of **incorrect** code for this rule with the default `"never"` option:
 
 ```js
 /*eslint-env es6*/
@@ -55,7 +55,7 @@ var obj = { baz: {'foo': 'qux'}, bar};
 var obj = {baz: { 'foo': 'qux' }, bar};
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule with the default `"never"` option:
 
 ```js
 // When options are ["error", "never"]
@@ -97,7 +97,7 @@ var obj = {};
 
 ### "always"
 
-When `"always"` is used, the following patterns are considered problems:
+Examples of **incorrect** code for this rule with the `"always"` option:
 
 ```js
 /*eslint-env es6*/
@@ -128,7 +128,7 @@ var obj = {
   'foo':'bar'};
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule with the `"always"` option:
 
 ```js
 foo[ 'bar' ];
@@ -199,7 +199,7 @@ The following exceptions are available:
 
 In each of the following examples, the `"always"` option is assumed.
 
-When `"singleValue"` is set to `false`, the following patterns are considered problems:
+Examples of **incorrect** code for this rule when `"singleValue"` is set to `false`:
 
 ```js
 var foo = [ 'foo' ];
@@ -212,7 +212,7 @@ var foo = [ [ 1, 2 ] ];
 var foo = [ { 'foo': 'bar' } ];
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule when `"singleValue"` is set to `false`:
 
 ```js
 var foo = ['foo'];
@@ -221,7 +221,7 @@ var foo = [[ 1, 1 ]];
 var foo = [{ 'foo': 'bar' }];
 ```
 
-When `"objectsInArrays"` is set to `false`, the following patterns are considered problems:
+Examples of **incorrect** code when `"objectsInArrays"` is set to `false`:
 
 ```js
 var arr = [ { 'foo': 'bar' } ];
@@ -230,7 +230,8 @@ var arr = [ {
 } ]
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code when `"objectsInArrays"` is set to `false`:
+
 
 ```js
 var arr = [{ 'foo': 'bar' }];
@@ -239,56 +240,56 @@ var arr = [{
 }];
 ```
 
-When `"arraysInArrays"` is set to `false`, the following patterns are considered problems:
+Examples of **incorrect** code when `"arraysInArrays"` is set to `false`:
 
 ```js
 var arr = [ [ 1, 2 ], 2, 3, 4 ];
 var arr = [ [ 1, 2 ], 2, [ 3, 4 ] ];
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code when `"arraysInArrays"` is set to `false`:
 
 ```js
 var arr = [[ 1, 2 ], 2, 3, 4 ];
 var arr = [[ 1, 2 ], 2, [ 3, 4 ]];
 ```
 
-When `"arraysInObjects"` is set to `false`, the following patterns are considered problems:
+Examples of **incorrect** code when `"arraysInObjects"` is set to `false`:
 
 ```js
 var obj = { "foo": [ 1, 2 ] };
 var obj = { "foo": [ "baz", "bar" ] };
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code when `"arraysInObjects"` is set to `false`:
 
 ```js
 var obj = { "foo": [ 1, 2 ]};
 var obj = { "foo": [ "baz", "bar" ]};
 ```
 
-When `"objectsInObjects"` is set to `false`, the following patterns are considered problems:
+Examples of **incorrect** code when `"objectsInObjects"` is set to `false`:
 
 ```js
 var obj = { "foo": { "baz": 1, "bar": 2 } };
 var obj = { "foo": [ "baz", "bar" ], "qux": { "baz": 1, "bar": 2 } };
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code when `"objectsInObjects"` is set to `false`:
 
 ```js
 var obj = { "foo": { "baz": 1, "bar": 2 }};
 var obj = { "foo": [ "baz", "bar" ], "qux": { "baz": 1, "bar": 2 }};
 ```
 
-When `"propertyName"` is set to `false`, the following patterns are considered problems:
+Examples of **incorrect** code when `"propertyName"` is set to `false`:
 
 ```js
 var foo = obj[ 1 ];
 var foo = obj[ bar ];
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code when `"propertyName"` is set to `false`:
 
 ```js
 var foo = obj[bar];

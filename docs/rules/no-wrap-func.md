@@ -19,13 +19,13 @@ var bar = (function() {
 
 This rule will raise a warning when it encounters a function expression wrapped in parentheses with no following invoking parentheses.
 
-The following patterns are considered problems:
+Example of **incorrect** code for this rule:
 
 ```js
 var a = (function() {/*...*/});
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule:
 
 ```js
 var a = function() {/*...*/};

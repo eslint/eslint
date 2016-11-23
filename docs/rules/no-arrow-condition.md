@@ -26,7 +26,7 @@ var x = a <= 1 ? 2 : 3
 
 ## Rule Details
 
-The following patterns are considered warnings:
+Examples of **incorrect** code for this rule:
 
 ```js
 /*eslint no-arrow-condition: "error"*/
