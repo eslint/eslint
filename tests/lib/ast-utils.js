@@ -667,7 +667,7 @@ describe("ast-utils", () => {
         });
     });
 
-    describe("getFunctionNameWithKind", function() {
+    describe("getFunctionNameWithKind", () => {
         const expectedResults = {
             "function foo() {}": "function 'foo'",
             "(function foo() {})": "function 'foo'",
@@ -714,7 +714,7 @@ describe("ast-utils", () => {
         };
 
         Object.keys(expectedResults).forEach(key => {
-            it(`should return "${expectedResults[key]}" for "${key}".`, function() {
+            it(`should return "${expectedResults[key]}" for "${key}".`, () => {
                 let called = false;
 
                 /**
@@ -740,7 +740,7 @@ describe("ast-utils", () => {
         });
     });
 
-    describe("getFunctionHeadLoc", function() {
+    describe("getFunctionHeadLoc", () => {
         const expectedResults = {
             "function foo() {}": [0, 12],
             "(function foo() {})": [1, 13],
@@ -798,7 +798,7 @@ describe("ast-utils", () => {
                 }
             };
 
-            it(`should return "${JSON.stringify(expectedLoc)}" for "${key}".`, function() {
+            it(`should return "${JSON.stringify(expectedLoc)}" for "${key}".`, () => {
                 let called = false;
 
                 /**
@@ -824,7 +824,7 @@ describe("ast-utils", () => {
         });
     });
 
-    describe("isEmptyBlock", function() {
+    describe("isEmptyBlock", () => {
         const expectedResults = {
             "{}": true,
             "{ a }": false,
@@ -832,7 +832,7 @@ describe("ast-utils", () => {
         };
 
         Object.keys(expectedResults).forEach(key => {
-            it(`should return ${expectedResults[key]} for ${key}`, function() {
+            it(`should return ${expectedResults[key]} for ${key}`, () => {
                 const ast = espree.parse(key);
 
                 assert.strictEqual(astUtils.isEmptyBlock(ast.body[0]), expectedResults[key]);
@@ -840,7 +840,7 @@ describe("ast-utils", () => {
         });
     });
 
-    describe("isEmptyFunction", function() {
+    describe("isEmptyFunction", () => {
         const expectedResults = {
             "(function foo() {})": true,
             "(function foo() { a })": false,
@@ -850,7 +850,7 @@ describe("ast-utils", () => {
         };
 
         Object.keys(expectedResults).forEach(key => {
-            it(`should return ${expectedResults[key]} for ${key}`, function() {
+            it(`should return ${expectedResults[key]} for ${key}`, () => {
                 const ast = espree.parse(key, {ecmaVersion: 6});
 
                 assert.strictEqual(astUtils.isEmptyFunction(ast.body[0].expression), expectedResults[key]);
