@@ -43,14 +43,6 @@ requires spaces around all operators except `**`,
 does not allow spaces around `**`,
 and doesn't care whether spaces are used around `*`.
 
-### `int32Hint`
-
-Set the `int32Hint` option to `true` (default is `false`) to allow write `a|0` without space.
-
-```js
-var foo = bar|0; // `foo` is forced to be signed 32 bit integer
-```
-
 Examples of **incorrect** code for this rule:
 
 ```js
