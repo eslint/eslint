@@ -22,7 +22,6 @@ This rule is aimed at ensuring there are spaces around infix operators.
 
 ## Options
 
-* `int32Hint` set to `true` allows writing `a|0` without spaces (Default `false`).
 * `all` set to `always` requires spaces around all operators that do not override this (the default).
 * `all` set to `never` disallows spaces around all operators that do not override this.
 * `all` set to `ignore` doesn't enforce any particular use of spaces around operators that do not override this.
@@ -32,6 +31,8 @@ This rule is aimed at ensuring there are spaces around infix operators.
   These options override the `all` setting for that operator.
   Options for `in` and `instanceof` are not supported because
   it is not valid to omit spaces around those operators.
+* `int32Hint` set to `true` allows writing `a|0` without spaces (Default `false`).
+  This option is deprecated in favor of specifying `"|": "never"` or `"|": "ignore"`.
 
 For example,
 
