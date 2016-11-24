@@ -44,7 +44,10 @@ ruleTester.run("space-infix-ops", rule, {
         { code: "a + b-c * d*e", options: [{ "+": "always", "-": "never", "*": "ignore" }] },
         { code: "a + b-c * d*e", options: [{ all: "always", "+": "always", "-": "never", "*": "ignore" }] },
         { code: "a + b-c * d*e", options: [{ all: "never", "+": "always", "-": "never", "*": "ignore" }] },
-        { code: "a + b-c * d*e", options: [{ all: "ignore", "+": "always", "-": "never", "*": "ignore" }] }
+        { code: "a + b-c * d*e", options: [{ all: "ignore", "+": "always", "-": "never", "*": "ignore" }] },
+        { code: "a + b-c*d", options: { all: "never", "+": "always" } },
+        { code: "foo in bar", options: { all: "never" } },
+        { code: "foo instanceof bar", options: { all: "never" } }
     ],
     invalid: [
         {
@@ -368,6 +371,47 @@ ruleTester.run("space-infix-ops", rule, {
                 message: "Operator `instanceof` must be surrounded by spaces.",
                 line: 1,
                 column: 6,
+                nodeType: "BinaryExpression"
+            }]
+        },
+        {
+            code: "a+b - c",
+            options: { all: "never", "+": "always" },
+            output: "a + b-c",
+            errors: [{
+                message: "Operator `+` must be surrounded by spaces.",
+                line: 1,
+                column: 2,
+                nodeType: "BinaryExpression"
+            }]
+        },
+        {
+            code: "foo.bar+baz",
+            output: "foo.bar + baz",
+            errors: [{
+                message: "Operator `+` must be surrounded by spaces.",
+                line: 1,
+                column: 8,
+                nodeType: "BinaryExpression"
+            }]
+        },
+        {
+            code: "foo+ +bar",
+            output: "foo + +bar",
+            errors: [{
+                message: "Operator `+` must be surrounded by spaces.",
+                line: 1,
+                column: 4,
+                nodeType: "BinaryExpression"
+            }]
+        },
+        {
+            code: "foo- -bar",
+            output: "foo - -bar",
+            errors: [{
+                message: "Operator `-` must be surrounded by spaces.",
+                line: 1,
+                column: 4,
                 nodeType: "BinaryExpression"
             }]
         }
