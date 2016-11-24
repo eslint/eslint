@@ -1,12 +1,14 @@
 # require spacing around infix operators (space-infix-ops)
 
-While formatting preferences are very personal, a number of style guides require spaces around operators, such as:
+While formatting preferences are very personal,
+a number of style guides require spaces around operators, such as:
 
 ```js
 var sum = 1 + 2;
 ```
 
-The proponents of these extra spaces believe it make the code easier to read and can more easily highlight potential errors, such as:
+The proponents of these extra spaces believe it make the code easier to read
+and can more easily highlight potential errors, such as:
 
 ```js
 var sum = i+++2;
@@ -20,11 +22,26 @@ This rule is aimed at ensuring there are spaces around infix operators.
 
 ## Options
 
-This rule accepts a single options argument with the following defaults:
+* `int32Hint` set to `true` allows writing `a|0` without spaces (Default `false`).
+* `all` set to `always` requires spaces around all operators that do not override this (the default).
+* `all` set to `never` disallows spaces around all operators that do not override this.
+* `all` set to `ignore` doesn't enforce any particular use of spaces around operators that do not override this.
+* The name of every operator (except `in` and `instanceof`)
+  can be used as an option with the values
+  `always` (require spaces), `never` (disallow spaces), or `ignore` (don't care).
+  These options override the `all` setting for that operator.
+  Options for `in` and `instanceof` are not supported because
+  it is not valid to omit spaces around those operators.
+
+For example,
 
 ```json
-"space-infix-ops": ["error", {"int32Hint": false}]
+"space-infix-ops": ["error", {"**": "never", "*": "ignore"}]
 ```
+
+requires spaces around all operators except `**`,
+does not allow spaces around `**`,
+and doesn't care whether spaces are used around `*`.
 
 ### `int32Hint`
 
