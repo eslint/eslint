@@ -38,7 +38,7 @@ function* foo() { }
 
 ## When Not To Use It
 
-If you don't want to notify generator functions that have `yield` expression, then it's safe to disable this rule.
+If you don't want to notify generator functions that have no `yield` expression, then it's safe to disable this rule.
 
 ## Related Rules
 
