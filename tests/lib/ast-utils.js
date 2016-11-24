@@ -20,6 +20,14 @@ const assert = require("chai").assert,
 // Tests
 //------------------------------------------------------------------------------
 
+const ESPREE_CONFIG = {
+    ecmaVersion: 6,
+    comment: true,
+    tokens: true,
+    range: true,
+    loc: true
+};
+
 describe("ast-utils", () => {
     const filename = "filename.js";
     let sandbox;
@@ -321,14 +329,6 @@ describe("ast-utils", () => {
     });
 
     describe("isParenthesised", () => {
-        const ESPREE_CONFIG = {
-            ecmaVersion: 6,
-            comment: true,
-            tokens: true,
-            range: true,
-            loc: true
-        };
-
         it("should return false for not parenthesised nodes", () => {
             const code = "condition ? 1 : 2";
             const ast = espree.parse(code, ESPREE_CONFIG);
@@ -854,6 +854,53 @@ describe("ast-utils", () => {
                 const ast = espree.parse(key, {ecmaVersion: 6});
 
                 assert.strictEqual(astUtils.isEmptyFunction(ast.body[0].expression), expectedResults[key]);
+            });
+        });
+    });
+
+    describe("getLocationFromRangeIndex()", () => {
+        it("should return the location of a range index", () => {
+
+            const CODE =
+                "foo\n" +
+                "bar\r\n" +
+                "baz\r" +
+                "qux\u2028" +
+                "foo\u2029" +
+                "qux\n";
+            const ast = espree.parse(CODE, ESPREE_CONFIG);
+            const sourceCode = new SourceCode(CODE, ast);
+
+            assert.deepEqual(astUtils.getLocationFromRangeIndex(sourceCode, 5), {line: 2, column: 1});
+            assert.deepEqual(astUtils.getLocationFromRangeIndex(sourceCode, 3), {line: 1, column: 3});
+            assert.deepEqual(astUtils.getLocationFromRangeIndex(sourceCode, 4), {line: 2, column: 0});
+            assert.deepEqual(astUtils.getLocationFromRangeIndex(sourceCode, 21), {line: 6, column: 0});
+        });
+
+    });
+
+    describe("getRangeIndexFromLocation()", () => {
+        it("should return the range index of a location", () => {
+            const CODE =
+                "foo\n" +
+                "bar\r\n" +
+                "baz\r" +
+                "qux\u2028" +
+                "foo\u2029" +
+                "qux\n";
+            const ast = espree.parse(CODE, ESPREE_CONFIG);
+            const sourceCode = new SourceCode(CODE, ast);
+
+            assert.strictEqual(astUtils.getRangeIndexFromLocation(sourceCode, {line: 2, column: 1}), 5);
+            assert.strictEqual(astUtils.getRangeIndexFromLocation(sourceCode, {line: 1, column: 3}), 3);
+            assert.strictEqual(astUtils.getRangeIndexFromLocation(sourceCode, {line: 2, column: 0}), 4);
+            assert.strictEqual(astUtils.getRangeIndexFromLocation(sourceCode, {line: 6, column: 0}), 21);
+
+            sourceCode.lines.forEach((line, index) => {
+                assert.strictEqual(
+                    line[0],
+                    sourceCode.text[astUtils.getRangeIndexFromLocation(sourceCode, {line: index + 1, column: 0})]
+                );
             });
         });
     });
