@@ -210,6 +210,7 @@
         "quote-props": "off",
         "quotes": "off",
         "radix": "off",
+        "require-await": "off",
         "require-jsdoc": "off",
         "require-yield": "error",
         "rest-spread-spacing": "off",
