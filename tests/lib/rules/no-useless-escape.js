@@ -132,9 +132,9 @@ ruleTester.run("no-useless-escape", rule, {
             errors: [{ line: 1, column: 13, message: "Unnecessary escape character: \\d.", type: "Literal"}]
         },
         { code: "var foo = '\\`';", errors: [{ line: 1, column: 12, message: "Unnecessary escape character: \\`.", type: "Literal"}] },
-        { code: "var foo = `\\\"`;", parserOptions: {ecmaVersion: 6}, errors: [{ line: 1, column: 11, message: "Unnecessary escape character: \\\".", type: "TemplateElement"}] },
-        { code: "var foo = `\\'`;", parserOptions: {ecmaVersion: 6}, errors: [{ line: 1, column: 11, message: "Unnecessary escape character: \\'.", type: "TemplateElement"}] },
-        { code: "var foo = `\\#`;", parserOptions: {ecmaVersion: 6}, errors: [{ line: 1, column: 11, message: "Unnecessary escape character: \\#.", type: "TemplateElement"}] },
+        { code: "var foo = `\\\"`;", parserOptions: {ecmaVersion: 6}, errors: [{ line: 1, column: 12, message: "Unnecessary escape character: \\\".", type: "TemplateElement"}] },
+        { code: "var foo = `\\'`;", parserOptions: {ecmaVersion: 6}, errors: [{ line: 1, column: 12, message: "Unnecessary escape character: \\'.", type: "TemplateElement"}] },
+        { code: "var foo = `\\#`;", parserOptions: {ecmaVersion: 6}, errors: [{ line: 1, column: 12, message: "Unnecessary escape character: \\#.", type: "TemplateElement"}] },
         {
             code: "var foo = '\\`foo\\`';",
             errors: [
@@ -146,22 +146,22 @@ ruleTester.run("no-useless-escape", rule, {
             code: "var foo = `\\\"${foo}\\\"`;",
             parserOptions: {ecmaVersion: 6},
             errors: [
-                { line: 1, column: 11, message: "Unnecessary escape character: \\\".", type: "TemplateElement"},
-                { line: 1, column: 19, message: "Unnecessary escape character: \\\".", type: "TemplateElement"},
+                { line: 1, column: 12, message: "Unnecessary escape character: \\\".", type: "TemplateElement"},
+                { line: 1, column: 20, message: "Unnecessary escape character: \\\".", type: "TemplateElement"},
             ]
         },
         {
             code: "var foo = `\\'${foo}\\'`;",
             parserOptions: {ecmaVersion: 6},
             errors: [
-                { line: 1, column: 11, message: "Unnecessary escape character: \\'.", type: "TemplateElement"},
-                { line: 1, column: 19, message: "Unnecessary escape character: \\'.", type: "TemplateElement"}
+                { line: 1, column: 12, message: "Unnecessary escape character: \\'.", type: "TemplateElement"},
+                { line: 1, column: 20, message: "Unnecessary escape character: \\'.", type: "TemplateElement"}
             ]
         },
         {
             code: "var foo = `\\#${foo}`;",
             parserOptions: {ecmaVersion: 6},
-            errors: [{ line: 1, column: 11, message: "Unnecessary escape character: \\#.", type: "TemplateElement"}]
+            errors: [{ line: 1, column: 12, message: "Unnecessary escape character: \\#.", type: "TemplateElement"}]
         },
         {
             code: "let foo = '\\ ';",
@@ -177,21 +177,21 @@ ruleTester.run("no-useless-escape", rule, {
             code: "var foo = `\\$\\{{${foo}`;",
             parserOptions: {ecmaVersion: 6},
             errors: [
-                { line: 1, column: 11, message: "Unnecessary escape character: \\$.", type: "TemplateElement"},
+                { line: 1, column: 12, message: "Unnecessary escape character: \\$.", type: "TemplateElement"},
             ]
         },
         {
             code: "var foo = `\\$a${foo}`;",
             parserOptions: {ecmaVersion: 6},
             errors: [
-                { line: 1, column: 11, message: "Unnecessary escape character: \\$.", type: "TemplateElement"},
+                { line: 1, column: 12, message: "Unnecessary escape character: \\$.", type: "TemplateElement"},
             ]
         },
         {
             code: "var foo = `a\\{{${foo}`;",
             parserOptions: {ecmaVersion: 6},
             errors: [
-                { line: 1, column: 12, message: "Unnecessary escape character: \\{.", type: "TemplateElement"},
+                { line: 1, column: 13, message: "Unnecessary escape character: \\{.", type: "TemplateElement"},
             ]
         },
         {
@@ -265,6 +265,11 @@ ruleTester.run("no-useless-escape", rule, {
         {
             code: String.raw`var foo = /[a\^]/`,
             errors: [{ line: 1, column: 14, message: "Unnecessary escape character: \\^.", type: "Literal" }]
+        },
+        {
+            code: "`multiline template\nliteral with useless \\escape`",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{ line: 2, column: 22, message: "Unnecessary escape character: \\e.", type: "TemplateElement" }]
         }
     ]
 });
