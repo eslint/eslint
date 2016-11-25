@@ -18,11 +18,18 @@ This rule normalize style of spacing before/after an arrow function's arrow(`=>`
 
 This rule takes an object argument with `before` and `after` properties, each with a Boolean value.
 
+## Options
+
 The default configuration is `{ "before": true, "after": true }`.
 
 `true` means there should be **one or more spaces** and `false` means **no spaces**.
 
-The following patterns are considered problems if `{ "before": true, "after": true }`.
+## Examples
+
+### before: true, after: true
+
+Examples of **incorrect** code for this rule with the default `{ "before": true, "after": true }` option:
+
 
 ```js
 /*eslint arrow-spacing: "error"*/
@@ -38,7 +45,7 @@ a=> a;
 () =>{'\n'};
 ```
 
-The following patterns are not considered problems if `{ "before": true, "after": true }`.
+Examples of **correct** code for this rule with the default `{ "before": true, "after": true }` option:
 
 ```js
 /*eslint arrow-spacing: "error"*/
@@ -50,7 +57,9 @@ a => a;
 () => {'\n'};
 ```
 
-The following patterns are not considered problems if `{ "before": false, "after": false }`.
+### before: false, after: false
+
+Examples of **correct** code for this rule with the `{ "before": false, "after": false }` option:
 
 ```js
 /*eslint arrow-spacing: ["error", { "before": false, "after": false }]*/
@@ -62,7 +71,9 @@ a=>a;
 ()=>{'\n'};
 ```
 
-The following patterns are not considered problems if `{ "before": true, "after": false }`.
+### before: true, after: false
+
+Examples of **correct** code for this rule with the `{ "before": true, "after": false }` option:
 
 ```js
 /*eslint arrow-spacing: ["error", { "before": true, "after": false }]*/
@@ -74,7 +85,9 @@ a =>a;
 () =>{'\n'};
 ```
 
-The following patterns are not considered problems if `{ "before": false, "after": true }`.
+## before: false, after: true
+
+Examples of **correct** code for this rule with the `{ "before": false, "after": true }` option:
 
 ```js
 /*eslint arrow-spacing: ["error", { "before": false, "after": true }]*/
