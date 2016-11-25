@@ -1,5 +1,7 @@
 # Import Sorting (sort-imports)
 
+(fixable) The `--fix` option on the [command line](../user-guide/command-line-interface#fix) automatically fixes problems reported by this rule.
+
 The import statement is used to import members (functions, objects or primitives) that have been exported from an external module. Using a specific member syntax:
 
 ```js
