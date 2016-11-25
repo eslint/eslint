@@ -9,7 +9,7 @@ Under non ES2015 environment, it might be ignored merely.
 
 This rule is aimed to flag modifying variables that are declared using `const` keyword.
 
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule:
 
 ```js
 /*eslint no-const-assign: "error"*/
@@ -35,7 +35,7 @@ const a = 0;
 ++a;
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule:
 
 ```js
 /*eslint no-const-assign: "error"*/

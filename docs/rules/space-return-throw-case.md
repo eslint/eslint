@@ -8,7 +8,7 @@ Require spaces following `return`, `throw`, and `case`.
 
 ## Rule Details
 
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule:
 
 ```js
 /*eslint space-return-throw-case: "error"*/
@@ -20,7 +20,7 @@ function f(){ return-a; }
 switch(a){ case'a': break; }
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule:
 
 ```js
 /*eslint space-return-throw-case: "error"*/

@@ -6,7 +6,7 @@ Require spaces following unary word operators.
 
 ## Rule Details
 
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule:
 
 ```js
 typeof!a
@@ -24,7 +24,7 @@ new[a][0]
 delete(a.b)
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule:
 
 ```js
 delete a.b

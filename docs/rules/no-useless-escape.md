@@ -12,7 +12,7 @@ let baz = /\:/ // same functionality with /:/
 
 This rule flags escapes that can be safely removed without changing behavior.
 
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule:
 
 ```js
 /*eslint no-useless-escape: "error"*/
@@ -29,7 +29,7 @@ The following patterns are considered problems:
 
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule:
 
 ```js
 /*eslint no-useless-escape: "error"*/

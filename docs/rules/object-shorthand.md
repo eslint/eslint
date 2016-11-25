@@ -111,7 +111,7 @@ While set to `"always"`, `"methods"`, or `"properties"`, shorthand syntax using 
 }
 ```
 
-Examples of **incorrect** code for this rule with the `"avoidQuotes"` option:
+Example of **incorrect** code for this rule with the `"always", { "avoidQuotes": true }` option:
 
 ```js
 /*eslint object-shorthand: ["error", "always", { "avoidQuotes": true }]*/
@@ -122,7 +122,7 @@ var foo = {
 };
 ```
 
-Examples of **correct** code for this rule with the `"avoidQuotes"` option:
+Example of **correct** code for this rule with the `"always", { "avoidQuotes": true }` option:
 
 ```js
 /*eslint object-shorthand: ["error", "always", { "avoidQuotes": true }]*/
@@ -142,7 +142,7 @@ While set to `"always"` or `"methods"`, constructor functions can be ignored wit
 }
 ```
 
-The following will *not* warn when `"ignoreConstructors"` is enabled:
+Example of **correct** code for this rule with the `"always", { "ignoreConstructors": true }` option:
 
 ```js
 /*eslint object-shorthand: ["error", "always", { "ignoreConstructors": true }]*/
@@ -153,7 +153,7 @@ var foo = {
 };
 ```
 
-When set to `"consistent"` the following will warn:
+Example of **incorrect** code for this rule with the `"consistent"` option:
 
 ```js
 /*eslint object-shorthand: [2, "consistent"]*/
@@ -165,7 +165,7 @@ var foo = {
 };
 ```
 
-The following will *not* warn:
+Examples of **correct** code for this rule with the `"consistent"` option:
 
 ```js
 /*eslint object-shorthand: [2, "consistent"]*/
@@ -182,7 +182,7 @@ var bar = {
 };
 ```
 
-When set to `"consistent-as-needed"`, which is very similar to `"consistent"`, the following will warn:
+Example of **incorrect** code with the `"consistent-as-needed"` option, which is very similar to `"consistent"`:
 
 ```js
 /*eslint object-shorthand: [2, "consistent-as-needed"]*/

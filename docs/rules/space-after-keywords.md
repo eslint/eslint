@@ -27,7 +27,7 @@ This rule will enforce consistency of spacing after the keywords `if`, `else`, `
 This rule takes one argument. If it is `"always"` then the keywords must be followed by at least one space. If `"never"`
 then there should be no spaces following. The default is `"always"`.
 
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule:
 
 ```js
 /*eslint space-after-keywords: "error"*/
@@ -45,7 +45,7 @@ do{} while (a);
 if (a) {}
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule:
 
 ```js
 /*eslint space-after-keywords: "error"*/

@@ -24,11 +24,9 @@ Style guides may require a space after the `function` keyword for anonymous func
 
 This rule aims to enforce consistent spacing before function parentheses and as such, will warn whenever whitespace doesn't match the preferences specified.
 
-This rule takes one argument. If it is `"always"` then all named functions and anonymous functions must have space before function parentheses. If `"never"` then all named functions and anonymous functions must not have space before function parentheses. If you want different spacing for named and anonymous functions you can pass an configuration object as the rule argument to configure those separately (e. g. `{"anonymous": "always", "named": "never"}`).
+This rule takes one argument. If it is `"always"`, which is the default option, all named functions and anonymous functions must have space before function parentheses. If `"never"` then all named functions and anonymous functions must not have space before function parentheses. If you want different spacing for named and anonymous functions you can pass an configuration object as the rule argument to configure those separately (e. g. `{"anonymous": "always", "named": "never"}`).
 
-The default configuration is `"always"`.
-
-The following patterns are considered problems when configured `"always"`:
+Examples of **incorrect** code for this rule with the default `"always"` option:
 
 ```js
 /*eslint-env es6*/
@@ -58,7 +56,7 @@ var foo = {
 };
 ```
 
-The following patterns are not considered problems when configured `"always"`:
+Examples of **correct** code for this rule with the default `"always"` option:
 
 ```js
 /*eslint-env es6*/
@@ -88,7 +86,7 @@ var foo = {
 };
 ```
 
-The following patterns are considered problems when configured `"never"`:
+Examples of **incorrect** code for this rule with the `"never"` option:
 
 ```js
 /*eslint-env es6*/
@@ -118,7 +116,7 @@ var foo = {
 };
 ```
 
-The following patterns are not considered problems when configured `"never"`:
+Examples of **correct** code for this rule with the `"never"` option:
 
 ```js
 /*eslint-env es6*/
@@ -148,7 +146,7 @@ var foo = {
 };
 ```
 
-The following patterns are considered problems when configured `{"anonymous": "always", "named": "never"}`:
+Examples of **incorrect** code for this rule with the `{"anonymous": "always", "named": "never"}` option:
 
 ```js
 /*eslint-env es6*/
@@ -174,7 +172,7 @@ var foo = {
 };
 ```
 
-The following patterns are not considered problems when configured `{"anonymous": "always", "named": "never"}`:
+Examples of **correct** code for this rule with the `{"anonymous": "always", "named": "never"}` option:
 
 ```js
 /*eslint-env es6*/
@@ -200,7 +198,7 @@ var foo = {
 };
 ```
 
-The following patterns are considered problems when configured `{"anonymous": "never", "named": "always"}`:
+Examples of **incorrect** code for this rule with the `{"anonymous": "never", "named": "always"}` option:
 
 ```js
 /*eslint-env es6*/
@@ -226,7 +224,7 @@ var foo = {
 };
 ```
 
-The following patterns are not considered problems when configured `{"anonymous": "never", "named": "always"}`:
+Examples of **correct** code for this rule with the `{"anonymous": "never", "named": "always"}` option:
 
 ```js
 /*eslint-env es6*/

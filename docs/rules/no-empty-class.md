@@ -12,7 +12,7 @@ var foo = /^abc[]/;
 
 This rule is aimed at highlighting possible typos and unexpected behavior in regular expressions which may arise from the use of empty character classes.
 
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule:
 
 ```js
 var foo = /^abc[]/;
@@ -22,7 +22,7 @@ var foo = /^abc[]/;
 bar.match(/^abc[]/);
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule:
 
 ```js
 var foo = /^abc/;

@@ -14,7 +14,7 @@ function a() {
 
 This is used to disambiguate the slash operator and facilitates more readable code.
 
-The following patterns are considered problems:
+Example of **incorrect** code for this rule:
 
 ```js
 /*eslint wrap-regex: "error"*/
@@ -24,7 +24,7 @@ function a() {
 }
 ```
 
-The following patterns are not considered problems:
+Example of **correct** code for this rule:
 
 ```js
 /*eslint wrap-regex: "error"*/
