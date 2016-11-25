@@ -1,3 +1,21 @@
+v3.11.0 - November 25, 2016
+
+* ad56694 New: capitalized-comments rule (fixes #6055) (#7415) (Kevin Partington)
+* 7185567 Update: add fixer for `operator-assignment` (#7517) (Teddy Katz)
+* faf5f56 Update: fix false negative of `quotes` with \n in template (fixes #7646) (#7647) (Teddy Katz)
+* 474e444 Update: add fixer for `sort-imports` (#7535) (Teddy Katz)
+* f9b70b3 Docs: Enable example highlighting in rules examples (ref #6444) (#7644) (Alex Guerrero)
+* d50f6c1 Fix: incorrect location for `no-useless-escape` errors (fixes #7643) (#7645) (Teddy Katz)
+* 54a993c Docs: Fix a typo in the require-yield.md (#7652) (Vse Mozhet Byt)
+* eadd808 Chore: Fix prefer-arrow-callback lint errors (#7651) (Kevin Partington)
+* 89bd8de New: `require-await` rule (fixes #6820) (#7435) (Toru Nagashima)
+* b7432bd Chore: Ensure JS files are checked out with LF (#7624) (Kevin Partington)
+* 32a3547 Docs: Add absent quotes in rules documentation (#7625) (Denis Sikuler)
+* 5c9a4ad Fix: Prevent `quotes` from fixing templates to directives (fixes #7610) (#7617) (Teddy Katz)
+* d90ca46 Upgrade: Update markdownlint dependency to 0.3.1 (fixes #7589) (#7592) (David Anson)
+* 07124d1 Docs: add missing quote mark (+=" → "+=") (#7613) (Sean Juarez)
+* 8998043 Docs: fix wording in docs for no-extra-parens config (Michael Ficarra)
+
 v3.10.2 - November 15, 2016
 
 * 0643bfe Fix: correctly handle commented code in `indent` autofixer (fixes #7604) (#7606) (Teddy Katz)
