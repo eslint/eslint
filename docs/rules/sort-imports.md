@@ -195,6 +195,28 @@ import {a, b} from 'foo.js';
 
 Default is `["none", "all", "multiple", "single"]`.
 
+### `enableTypeSort`
+
+By default the syntax and alphabetical sort order is applied to all imports as a block. When TypeSort is enabled
+the imports are split in three blocks. The imports must be divided into three types and ordered by
+
+* `package` - Package name based.
+* `path` - Path based using absolute or relative format.
+* `styles` - Styles path ending with a CSS extension.
+
+### `cssExtensions`
+
+The CSS extensions used for type sorting is configurable.
+
+Default is `["css", "less", "sass", "scss"]`.
+
+### `typeSortOrder`
+
+The block order used for type sorting is configurable.
+
+Default is `["package", "path", "css"]`.
+
+
 ## When Not To Use It
 
 This rule is a formatting preference and not following it won't negatively affect the quality of your code. If alphabetizing imports isn't a part of your coding standards, then you can leave this rule disabled.
