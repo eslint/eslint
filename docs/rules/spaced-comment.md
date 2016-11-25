@@ -65,7 +65,7 @@ You can also define separate exceptions and markers for block and line comments.
 
 ### always
 
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule with the `"always"` option:
 
 ```js
 /*eslint spaced-comment: ["error", "always"]*/
@@ -80,7 +80,7 @@ The following patterns are considered problems:
 /* This is a comment with whitespace at the beginning but not the end*/
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule with the `"always"` option:
 
 ```js
 /* eslint spaced-comment: ["error", "always"] */
@@ -108,7 +108,7 @@ This comment has a newline
 
 ### never
 
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule with the `"never"` option:
 
 ```js
 /*eslint spaced-comment: ["error", "never"]*/
@@ -125,7 +125,7 @@ The following patterns are considered problems:
 /*This is a comment with whitespace at the end */
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule with the `"never"` option:
 
 ```js
 /*eslint spaced-comment: ["error", "never"]*/
@@ -143,7 +143,7 @@ The following patterns are not considered problems:
 
 ### exceptions
 
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule with the `"always"` option combined with `"exceptions"`:
 
 ```js
 /* eslint spaced-comment: ["error", "always", { "block": { "exceptions": ["-"] } }] */
@@ -177,7 +177,7 @@ The following patterns are considered problems:
 /*-+-+-+-+-+-+-+*/
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule with the `"always"` option combined with `"exceptions"`:
 
 ```js
 /* eslint spaced-comment: ["error", "always", { "exceptions": ["-"] }] */
@@ -225,7 +225,7 @@ The following patterns are not considered problems:
 
 ### markers
 
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule with the `"always"` option combined with `"markers"`:
 
 ```js
 /* eslint spaced-comment: ["error", "always", { "markers": ["/"] }] */
@@ -243,7 +243,7 @@ The following patterns are considered problems:
 /*!This is a comment with a marker but with whitespace at the end */
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule with the `"always"` option combined with `"markers"`:
 
 ```js
 /* eslint spaced-comment: ["error", "always", { "markers": ["/"] }] */

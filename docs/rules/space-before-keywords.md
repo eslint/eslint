@@ -30,42 +30,7 @@ the keywords `else`, `while` (do...while), `finally` and `catch`. The default va
 This rule will allow keywords to be preceded by an opening curly brace (`{`). If you wish to alter
 this behaviour, consider using the [block-spacing](block-spacing.md) rule.
 
-The following patterns are considered errors when configured `"never"`:
-
-```js
-/*eslint space-before-keywords: ["error", "never"]*/
-
-if (foo) {
-    // ...
-} else {}
-
-do {
-
-}
-while (foo)
-
-try {} finally {}
-
-try {} catch(e) {}
-```
-
-The following patterns are not considered errors when configured `"never"`:
-
-```js
-/*eslint space-before-keywords: ["error", "never"]*/
-
-if (foo) {
-    // ...
-}else {}
-
-do {}while (foo)
-
-try {}finally {}
-
-try{}catch(e) {}
-```
-
-The following patterns are considered errors when configured `"always"`:
+Examples of **incorrect** code for this rule with the default `"always"` option:
 
 ```js
 /*eslint space-before-keywords: ["error", "always"]*/
@@ -84,7 +49,7 @@ function bar() {
 }
 ```
 
-The following patterns are not considered errors when configured `"always"`:
+Examples of **correct** code for this rule with the default `"always"` option:
 
 ```js
 /*eslint space-before-keywords: ["error", "always"]*/
@@ -99,6 +64,41 @@ if (foo) {
 <Foo onClick={function bar() {}} />
 
 for (let foo of ['bar', 'baz', 'qux']) {}
+```
+
+Examples of **incorrect** code for this rule with the `"never"` option:
+
+```js
+/*eslint space-before-keywords: ["error", "never"]*/
+
+if (foo) {
+    // ...
+} else {}
+
+do {
+
+}
+while (foo)
+
+try {} finally {}
+
+try {} catch(e) {}
+```
+
+Examples of **correct** code for this rule with the `"never"` option:
+
+```js
+/*eslint space-before-keywords: ["error", "never"]*/
+
+if (foo) {
+    // ...
+}else {}
+
+do {}while (foo)
+
+try {}finally {}
+
+try{}catch(e) {}
 ```
 
 ## When Not To Use It

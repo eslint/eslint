@@ -15,7 +15,7 @@ But the modification is a mistake in most cases.
 
 This rule is aimed to flag modifying variables of class declarations.
 
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule:
 
 ```js
 /*eslint no-class-assign: "error"*/
@@ -56,7 +56,7 @@ let A = class A {
 }
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule:
 
 ```js
 /*eslint no-class-assign: "error"*/
