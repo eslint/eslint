@@ -41,6 +41,17 @@ ruleTester.run("capitalized-comments", rule, {
         "//\u03A0",
         "/* Uppercase\nsecond line need not be uppercase */",
 
+        // No options: Skips comments that only contain whitespace
+        "// ",
+        "//\t",
+        "/* */",
+        "/*\t*/",
+        "/*\n*/",
+        "/*\r*/",
+        "/*\r\n*/",
+        "/*\u2028*/",
+        "/*\u2029*/",
+
         // No options: non-alphabetical is okay
         "//123",
         "// 123",
