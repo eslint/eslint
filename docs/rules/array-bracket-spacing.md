@@ -172,7 +172,7 @@ var foo = [{ 'foo': 'bar' }];
 
 ### objectsInArrays
 
-Examples of **incorrect**  this rule with the `"always", { "objectsInArrays": false }` options:
+Examples of **incorrect** code for this rule with the `"always", { "objectsInArrays": false }` options:
 
 ```js
 /*eslint array-bracket-spacing: ["error", "always", { "objectsInArrays": false }]*/
