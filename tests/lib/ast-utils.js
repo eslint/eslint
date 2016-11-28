@@ -914,7 +914,7 @@ describe("ast-utils", () => {
 
         Object.keys(expectedResults).forEach(key => {
             it(`should return ${expectedResults[key]} for ${key}`, () => {
-                const ast = espree.parse(key, {tokens: true, comment: true, range: true, loc: true});
+                const ast = espree.parse(key, { tokens: true, comment: true, range: true, loc: true });
                 const sourceCode = new SourceCode(key, ast);
 
                 assert.strictEqual(astUtils.getParenthesisedText(sourceCode, ast.body[0].expression), expectedResults[key]);
