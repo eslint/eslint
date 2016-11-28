@@ -1,3 +1,9 @@
+v3.11.1 - November 28, 2016
+
+* be739d0 Fix: capitalized-comments fatal error fixed (fixes #7663) (#7664) (Rich Trott)
+* cc4cedc Docs: Fix a typo in array-bracket-spacing documentation (#7667) (Alex Guerrero)
+* f8adadc Docs: fix a typo in capitalized-comments documentation (#7666) (Teddy Katz)
+
 v3.11.0 - November 25, 2016
 
 * ad56694 New: capitalized-comments rule (fixes #6055) (#7415) (Kevin Partington)
