@@ -159,7 +159,8 @@ function execSilent(cmd) {
  * @private
  */
 function generateBlogPost(releaseInfo) {
-    const output = ejs.render(cat("./templates/blogpost.md.ejs"), releaseInfo),
+    const ruleList = ls("lib/rules").map(ruleFileName => ruleFileName.replace(/\.js$/, "")).sort((ruleA, ruleB) => ruleB.length - ruleA.length);
+    const output = ejs.render(cat("./templates/blogpost.md.ejs"), Object.assign({ruleList}, releaseInfo)),
         now = new Date(),
         month = now.getMonth() + 1,
         day = now.getDate(),
