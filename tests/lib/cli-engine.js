@@ -2704,4 +2704,14 @@ describe("CLIEngine", () => {
 
     });
 
+    describe("when retreiving version number", () => {
+        it("should return current version number", () => {
+            const eslintCLI = require("../../lib/cli-engine");
+            const version = eslintCLI.version();
+
+            assert.isString(version);
+            assert.isTrue(parseInt(version[0], 10) >= 3);
+        });
+    });
+
 });

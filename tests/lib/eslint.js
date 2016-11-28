@@ -2735,6 +2735,24 @@ describe("eslint", () => {
         });
     });
 
+    describe("when calling getRules", () => {
+        it("should return all loaded rules", () => {
+            const rules = eslint.getRules();
+
+            assert.isTrue(Object.keys(rules).length > 230);
+            assert.isObject(rules["no-alert"]);
+        });
+    });
+
+    describe("when calling version", () => {
+        it("should return current version number", () => {
+            const version = eslint.version();
+
+            assert.isString(version);
+            assert.isTrue(parseInt(version[0], 10) >= 3);
+        });
+    });
+
     describe("when evaluating code without comments to environment", () => {
         it("should report a violation when using typed array", () => {
             const code = "var array = new Uint8Array();";
