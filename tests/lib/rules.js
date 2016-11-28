@@ -71,13 +71,17 @@ describe("rules", () => {
 
             const allRules = rules.getAllLoadedRules();
 
-            assert.equal(allRules["custom-plugin/custom-rule"], customPlugin.rules["custom-rule"]);
+            assert.equal(allRules.get("custom-plugin/custom-rule"), customPlugin.rules["custom-rule"]);
         });
     });
 
     describe("when loading all rules", () => {
-        const allRules = rules.getAllLoadedRules();
+        it("should return a map", () => {
+            const allRules = rules.getAllLoadedRules();
 
-        assert.isObject(allRules["no-alert"]);
+            assert.isAbove(allRules.size, 230);
+            assert.instanceOf(allRules, Map);
+            assert.isObject(allRules.get("no-alert"));
+        });
     });
 });
