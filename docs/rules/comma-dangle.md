@@ -63,6 +63,7 @@ This rule has a string option or an object option:
 Trailing commas when the last element is a spread are not allowed even when always is on.
 
 Always ***incorrect***
+
 ```js
 const {
  first,
