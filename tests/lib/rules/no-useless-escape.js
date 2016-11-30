@@ -102,7 +102,10 @@ ruleTester.run("no-useless-escape", rule, {
         "var foo = /\\1/", // \x01 character (octal literal)
         "var foo = /(a)\\1/", // backreference
         "var foo = /(a)\\12/", // backreference
-        "var foo = /[\\0]/" // null character in character class
+        "var foo = /[\\0]/", // null character in character class
+
+        "var foo = 'foo \\\u2028 bar'",
+        "var foo = 'foo \\\u2029 bar'"
     ],
 
     invalid: [
