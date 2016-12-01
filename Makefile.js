@@ -159,7 +159,18 @@ function execSilent(cmd) {
  * @private
  */
 function generateBlogPost(releaseInfo) {
-    const output = ejs.render(cat("./templates/blogpost.md.ejs"), releaseInfo),
+    const ruleList = ls("lib/rules")
+
+        // Strip the .js extension
+        .map(ruleFileName => ruleFileName.replace(/\.js$/, ""))
+
+        /*
+         * Sort by length descending. This ensures that rule names which are substrings of other rule names are not
+         * matched incorrectly. For example, the string "no-undefined" should get matched with the `no-undefined` rule,
+         * instead of getting matched with the `no-undef` rule followed by the string "ined".
+         */
+        .sort((ruleA, ruleB) => ruleB.length - ruleA.length);
+    const output = ejs.render(cat("./templates/blogpost.md.ejs"), Object.assign({ruleList}, releaseInfo)),
         now = new Date(),
         month = now.getMonth() + 1,
         day = now.getDate(),
