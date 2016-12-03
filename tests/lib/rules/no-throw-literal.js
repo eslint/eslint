@@ -37,7 +37,8 @@ ruleTester.run("no-throw-literal", rule, {
         "throw foo ? new Error() : 'literal';", // ConditionalExpression (consequent)
         "throw foo ? 'literal' : new Error();", // ConditionalExpression (alternate)
         { code: "throw tag `${foo}`;", parserOptions: { ecmaVersion: 6 } }, // TaggedTemplateExpression
-        { code: "function* foo() { var index = 0; throw yield index++; }", parserOptions: { ecmaVersion: 6 } } // YieldExpression
+        { code: "function* foo() { var index = 0; throw yield index++; }", parserOptions: { ecmaVersion: 6 } }, // YieldExpression
+        { code: "async function foo() { throw await bar; }", parserOptions: { ecmaVersion: 8 } } // AwaitExpression
     ],
     invalid: [
         {
