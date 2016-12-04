@@ -71,10 +71,27 @@ function mockNoOptionsRule(context) {
 
 mockNoOptionsRule.schema = [];
 
+const mockRequiredOptionsRule = {
+    meta: {
+        schema: {
+            type: "array",
+            minItems: 1
+        }
+    },
+    create(context) {
+        return {
+            Program(node) {
+                context.report(node, "Expected a validation error.");
+            }
+        };
+    }
+};
+
 describe("Validator", () => {
 
     beforeEach(() => {
         eslint.defineRule("mock-rule", mockRule);
+        eslint.defineRule("mock-required-options-rule", mockRequiredOptionsRule);
     });
 
     describe("validate", () => {
@@ -99,6 +116,12 @@ describe("Validator", () => {
 
         it("should do nothing with a valid config when severity is off", () => {
             const fn = validator.validate.bind(null, { rules: { "mock-rule": ["off", "second"] } }, "tests");
+
+            assert.doesNotThrow(fn);
+        });
+
+        it("should do nothing with an invalid config when severity is off", () => {
+            const fn = validator.validate.bind(null, { rules: { "mock-required-options-rule": "off" } }, "tests");
 
             assert.doesNotThrow(fn);
         });
