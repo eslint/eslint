@@ -68,6 +68,18 @@ ruleTester.run("yoda", rule, {
         }, {
             code: "if (0 <= this.prop && this.prop <= 1) {}",
             options: ["never", { exceptRange: true }]
+        }, {
+            code: "if (0 <= index && index < list.length) {}",
+            options: ["never", { exceptRange: true }]
+        }, {
+            code: "if (ZERO <= index && index < 100) {}",
+            options: ["never", { exceptRange: true }]
+        }, {
+            code: "if (value <= MIN || 10 < value) {}",
+            options: ["never", { exceptRange: true }]
+        }, {
+            code: "if (value <= 0 || MAX < value) {}",
+            options: ["never", { exceptRange: true }]
         },
 
         // onlyEquality
