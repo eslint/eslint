@@ -159,7 +159,7 @@ describe("Validator", () => {
         it("should catch invalid rule options", () => {
             const fn = validator.validate.bind(null, { rules: { "mock-rule": [3, "third"] } }, "tests");
 
-            assert.throws(fn, "tests:\n\tConfiguration for rule \"mock-rule\" is invalid:\n\tSeverity should be one of the following: 0 = off, 1 = warn, 2 = error (you passed '3').\n\tValue \"third\" must be an enum value.\n");
+            assert.throws(fn, "tests:\n\tConfiguration for rule \"mock-rule\" is invalid:\n\tSeverity should be one of the following: 0 = off, 1 = warn, 2 = error (you passed '3').\n");
         });
 
         it("should allow for rules with no options", () => {
