@@ -106,8 +106,6 @@ If there are any failing tests, update your code until all tests pass.
 With your code ready to go, this is a good time to double-check your submission to make sure it follows our conventions. Here are the things to check:
 
 * Run `npm run check-commit` to double-check that your commit is formatted correctly.
-* Make sure there is an issue for any pull request you send.
-    * The only exception is for documentation changes.
 * The pull request must have a description. The description should explain what you did and how its effects can be seen.
 * The commit message is properly formatted.
 * The change introduces no functional regression. Be sure to run `npm test` to verify your changes before submitting a pull request.
