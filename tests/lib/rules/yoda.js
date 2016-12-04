@@ -287,6 +287,17 @@ ruleTester.run("yoda", rule, {
             ]
         },
         {
+            code: "if (0 <= a[b] && a.b < 1) {}",
+            output: "if (a[b] >= 0 && a.b < 1) {}",
+            options: ["never", { exceptRange: true }],
+            errors: [
+                {
+                    message: "Expected literal to be on the right side of <=.",
+                    type: "BinaryExpression"
+                }
+            ]
+        },
+        {
             code: "if (0 <= a[b()] && a[b()] < 1) {}",
             output: "if (a[b()] >= 0 && a[b()] < 1) {}",
             options: ["never", { exceptRange: true }],
