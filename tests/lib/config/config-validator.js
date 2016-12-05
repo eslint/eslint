@@ -126,6 +126,12 @@ describe("Validator", () => {
             assert.doesNotThrow(fn);
         });
 
+        it("should do nothing with an invalid config when severity is an array with 'off'", () => {
+            const fn = validator.validate.bind(null, { rules: { "mock-required-options-rule": ["off"] } }, "tests");
+
+            assert.doesNotThrow(fn);
+        });
+
         it("should do nothing with a valid config when severity is warn", () => {
             const fn = validator.validate.bind(null, { rules: { "mock-rule": ["warn", "second"] } }, "tests");
 
