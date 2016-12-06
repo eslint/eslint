@@ -71,10 +71,27 @@ function mockNoOptionsRule(context) {
 
 mockNoOptionsRule.schema = [];
 
+const mockRequiredOptionsRule = {
+    meta: {
+        schema: {
+            type: "array",
+            minItems: 1
+        }
+    },
+    create(context) {
+        return {
+            Program(node) {
+                context.report(node, "Expected a validation error.");
+            }
+        };
+    }
+};
+
 describe("Validator", () => {
 
     beforeEach(() => {
         eslint.defineRule("mock-rule", mockRule);
+        eslint.defineRule("mock-required-options-rule", mockRequiredOptionsRule);
     });
 
     describe("validate", () => {
@@ -99,6 +116,18 @@ describe("Validator", () => {
 
         it("should do nothing with a valid config when severity is off", () => {
             const fn = validator.validate.bind(null, { rules: { "mock-rule": ["off", "second"] } }, "tests");
+
+            assert.doesNotThrow(fn);
+        });
+
+        it("should do nothing with an invalid config when severity is off", () => {
+            const fn = validator.validate.bind(null, { rules: { "mock-required-options-rule": "off" } }, "tests");
+
+            assert.doesNotThrow(fn);
+        });
+
+        it("should do nothing with an invalid config when severity is an array with 'off'", () => {
+            const fn = validator.validate.bind(null, { rules: { "mock-required-options-rule": ["off"] } }, "tests");
 
             assert.doesNotThrow(fn);
         });
@@ -136,7 +165,7 @@ describe("Validator", () => {
         it("should catch invalid rule options", () => {
             const fn = validator.validate.bind(null, { rules: { "mock-rule": [3, "third"] } }, "tests");
 
-            assert.throws(fn, "tests:\n\tConfiguration for rule \"mock-rule\" is invalid:\n\tSeverity should be one of the following: 0 = off, 1 = warn, 2 = error (you passed '3').\n\tValue \"third\" must be an enum value.\n");
+            assert.throws(fn, "tests:\n\tConfiguration for rule \"mock-rule\" is invalid:\n\tSeverity should be one of the following: 0 = off, 1 = warn, 2 = error (you passed '3').\n");
         });
 
         it("should allow for rules with no options", () => {
