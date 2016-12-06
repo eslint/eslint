@@ -1813,6 +1813,22 @@ ruleTester.run("indent", rule, {
             "  ]\n" +
             "}",
             options: [2, {ArrayExpression: 4}]
+        },
+        {
+            code: "[\n]",
+            options: [2, {ArrayExpression: "first"}]
+        },
+        {
+            code: "[\n]",
+            options: [2, {ArrayExpression: 1}]
+        },
+        {
+            code: "{\n}",
+            options: [2, {ObjectExpression: "first"}]
+        },
+        {
+            code: "{\n}",
+            options: [2, {ObjectExpression: 1}]
         }
     ],
     invalid: [
