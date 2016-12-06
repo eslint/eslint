@@ -80,6 +80,9 @@ ruleTester.run("yoda", rule, {
         }, {
             code: "if (value <= 0 || MAX < value) {}",
             options: ["never", { exceptRange: true }]
+        }, {
+            code: "if (0 <= a.b && a[\"b\"] <= 100) {}",
+            options: ["never", { exceptRange: true }]
         },
 
         // onlyEquality
