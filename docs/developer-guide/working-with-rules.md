@@ -199,7 +199,7 @@ The `fixer` object has the following methods:
 Best practices for fixes:
 
 1. Avoid any fixes that could change the runtime behavior of code and cause it to stop working.
-1. Make fixes as small as possible. Fixes that are unnecessarily large could conflict with fixes from other rules, and prevent them from being applied.
+1. Make fixes as small as possible. Fixes that are unnecessarily large could conflict with other fixes, and prevent them from being applied.
 1. Only make one fix per message. This is enforced because you must return the result of the fixer operation from `fix()`.
 1. Since all rules are run again after the initial round of fixes is applied, it's not necessary for a rule to check whether the code style of a fix will cause errors to be reported by another rule.
     * For example, suppose a fixer would like to surround an object key with quotes, but it's not sure whether the user would prefer single or double quotes.
