@@ -5,6 +5,7 @@
         "no-alert": "off",
         "no-array-constructor": "off",
         "no-bitwise": "off",
+        "no-boolean-trap": "off",
         "no-caller": "off",
         "no-case-declarations": "error",
         "no-catch-shadow": "off",
