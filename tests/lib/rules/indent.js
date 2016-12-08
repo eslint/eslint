@@ -1726,6 +1726,109 @@ ruleTester.run("indent", rule, {
             "    foo\n" +
             ")",
             parserOptions: {ecmaFeatures: {globalReturn: true}}
+        },
+        {
+            code:
+            "var foo = [\n" +
+            "    bar,\n" +
+            "    baz\n" +
+            "]"
+        },
+        {
+            code:
+            "var foo = [bar,\n" +
+            "    baz,\n" +
+            "    qux\n" +
+            "]"
+        },
+        {
+            code:
+            "var foo = [bar,\n" +
+            "baz,\n" +
+            "qux\n" +
+            "]",
+            options: [2, {ArrayExpression: 0}]
+        },
+        {
+            code:
+            "var foo = [bar,\n" +
+            "                baz,\n" +
+            "                qux\n" +
+            "]",
+            options: [2, {ArrayExpression: 8}]
+        },
+        {
+            code:
+            "var foo = [bar,\n" +
+            "           baz,\n" +
+            "           qux\n" +
+            "]",
+            options: [2, {ArrayExpression: "first"}]
+        },
+        {
+            code:
+            "var foo = [bar,\n" +
+            "           baz, qux\n" +
+            "]",
+            options: [2, {ArrayExpression: "first"}]
+        },
+        {
+            code:
+            "var foo = [\n" +
+            "        { bar: 1,\n" +
+            "          baz: 2 },\n" +
+            "        { bar: 3,\n" +
+            "          qux: 4 }\n" +
+            "]",
+            options: [4, {ArrayExpression: 2, ObjectExpression: "first"}]
+        },
+        {
+            code:
+            "var foo = {\n" +
+            "bar: 1,\n" +
+            "baz: 2\n" +
+            "};",
+            options: [2, {ObjectExpression: 0}]
+        },
+        {
+            code:
+            "var foo = { foo: 1, bar: 2,\n" +
+            "            baz: 3 }",
+            options: [2, {ObjectExpression: "first"}]
+        },
+        {
+            code:
+            "var foo = [\n" +
+            "        {\n" +
+            "            foo: 1\n" +
+            "        }\n" +
+            "]",
+            options: [4, {ArrayExpression: 2}]
+        },
+        {
+            code:
+            "function foo() {\n" +
+            "  [\n" +
+            "          foo\n" +
+            "  ]\n" +
+            "}",
+            options: [2, {ArrayExpression: 4}]
+        },
+        {
+            code: "[\n]",
+            options: [2, {ArrayExpression: "first"}]
+        },
+        {
+            code: "[\n]",
+            options: [2, {ArrayExpression: 1}]
+        },
+        {
+            code: "{\n}",
+            options: [2, {ObjectExpression: "first"}]
+        },
+        {
+            code: "{\n}",
+            options: [2, {ObjectExpression: 1}]
         }
     ],
     invalid: [
@@ -3530,6 +3633,144 @@ ruleTester.run("indent", rule, {
             "        ok: true" +
             "    });",
             errors: expectedErrors([2, 4, 8, "ObjectExpression"])
-        }
+        },
+        {
+            code:
+            "var foo = [\n" +
+            "           bar,\n" +
+            "  baz\n" +
+            "          ]",
+            output:
+            "var foo = [\n" +
+            "    bar,\n" +
+            "    baz\n" +
+            "]",
+            errors: expectedErrors([[2, 4, 11, "Identifier"], [3, 4, 2, "Identifier"], [4, 0, 10, "ArrayExpression"]])
+        },
+        {
+            code:
+            "var foo = [bar,\n" +
+            "baz,\n" +
+            "    qux\n" +
+            "]",
+            output:
+            "var foo = [bar,\n" +
+            "    baz,\n" +
+            "    qux\n" +
+            "]",
+            errors: expectedErrors([2, 4, 0, "Identifier"])
+        },
+        {
+            code:
+            "var foo = [bar,\n" +
+            "  baz,\n" +
+            "  qux\n" +
+            "]",
+            output:
+            "var foo = [bar,\n" +
+            "baz,\n" +
+            "qux\n" +
+            "]",
+            options: [2, {ArrayExpression: 0}],
+            errors: expectedErrors([[2, 0, 2, "Identifier"], [3, 0, 2, "Identifier"]])
+        },
+        {
+            code:
+            "var foo = [bar,\n" +
+            "  baz,\n" +
+            "  qux\n" +
+            "]",
+            output:
+            "var foo = [bar,\n" +
+            "                baz,\n" +
+            "                qux\n" +
+            "]",
+            options: [2, {ArrayExpression: 8}],
+            errors: expectedErrors([[2, 16, 2, "Identifier"], [3, 16, 2, "Identifier"]])
+        },
+        {
+            code:
+            "var foo = [bar,\n" +
+            "    baz,\n" +
+            "    qux\n" +
+            "]",
+            output:
+            "var foo = [bar,\n" +
+            "           baz,\n" +
+            "           qux\n" +
+            "]",
+            options: [2, {ArrayExpression: "first"}],
+            errors: expectedErrors([[2, 11, 4, "Identifier"], [3, 11, 4, "Identifier"]])
+        },
+        {
+            code:
+            "var foo = [bar,\n" +
+            "    baz, qux\n" +
+            "]",
+            output:
+            "var foo = [bar,\n" +
+            "           baz, qux\n" +
+            "]",
+            options: [2, {ArrayExpression: "first"}],
+            errors: expectedErrors([2, 11, 4, "Identifier"])
+        },
+        {
+            code:
+            "var foo = [\n" +
+            "        { bar: 1,\n" +
+            "            baz: 2 },\n" +
+            "        { bar: 3,\n" +
+            "            qux: 4 }\n" +
+            "]",
+            output:
+            "var foo = [\n" +
+            "        { bar: 1,\n" +
+            "          baz: 2 },\n" +
+            "        { bar: 3,\n" +
+            "          qux: 4 }\n" +
+            "]",
+            options: [4, {ArrayExpression: 2, ObjectExpression: "first"}],
+            errors: expectedErrors([[3, 10, 12, "Property"], [5, 10, 12, "Property"]])
+        },
+        {
+            code:
+            "var foo = {\n" +
+            "  bar: 1,\n" +
+            "  baz: 2\n" +
+            "};",
+            output:
+            "var foo = {\n" +
+            "bar: 1,\n" +
+            "baz: 2\n" +
+            "};",
+            options: [2, {ObjectExpression: 0}],
+            errors: expectedErrors([[2, 0, 2, "Property"], [3, 0, 2, "Property"]])
+        },
+        {
+            code:
+            "var quux = { foo: 1, bar: 2,\n" +
+            "baz: 3 }",
+            output:
+            "var quux = { foo: 1, bar: 2,\n" +
+            "             baz: 3 }",
+            options: [2, {ObjectExpression: "first"}],
+            errors: expectedErrors([2, 13, 0, "Property"])
+        },
+        {
+            code:
+            "function foo() {\n" +
+            "    [\n" +
+            "            foo\n" +
+            "    ]\n" +
+            "}",
+            output:
+            "function foo() {\n" +
+            "  [\n" +
+            "            foo\n" +
+            "    ]\n" +
+            "}",
+            options: [2, {ArrayExpression: 4}],
+            errors: expectedErrors([2, 2, 4, "ExpressionStatement"])
+        },
     ]
 });

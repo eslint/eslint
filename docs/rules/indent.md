@@ -82,6 +82,8 @@ This rule has an object option:
     * `body` (default: 1) enforces indentation level for the body of a function expression.
 * `"CallExpression"` takes an object to define rules for function call expressions.
     * `arguments` (off by default) enforces indentation level for arguments in a call expression. This can either be a number indicating indentation level, or the string `"first"` indicating that all arguments of the expression must be aligned with the first argument.
+* `"ArrayExpression"` (default: 1) enforces indentation level for elements in arrays. It can also be set to the string `"first"`, indicating that all the elements in the array should be aligned with the first element.
+* `"ObjectExpression"` (default: 1) enforces indentation level for properties in objects. It can be set to the string `"first"`, indicating that all properties in the object should be aligned with the first property.
 
 Level of indentation denotes the multiple of the indent specified. Example:
 
@@ -429,6 +431,99 @@ Examples of **correct** code for this rule with the `2, { "CallExpression": {"ar
 foo(bar, baz,
     baz, boop, beep);
 ```
+
+### ArrayExpression
+
+Examples of **incorrect** code for this rule with the `2, { "ArrayExpression": 1 }` option:
+
+```js
+/*eslint indent: ["error", 2, { "ArrayExpression": 1 }]*/
+
+var foo = [
+    bar,
+baz,
+      qux
+];
+```
+
+Examples of **correct** code for this rule with the `2, { "ArrayExpression": 1 }` option:
+
+```js
+/*eslint indent: ["error", 2, { "ArrayExpression": 1 }]*/
+
+var foo = [
+  bar,
+  baz,
+  qux
+];
+```
+
+Examples of **incorrect** code for this rule with the `2, { "ArrayExpression": "first" }` option:
+
+```js
+/*eslint indent: ["error", 2, {"ArrayExpression": "first"}]*/
+
+var foo = [bar,
+  baz,
+  qux
+];
+```
+
+Examples of **correct** code for this rule with the `2, { "ArrayExpression": "first" }` option:
+
+```js
+/*eslint indent: ["error", 2, {"ArrayExpression": "first"}]*/
+
+var foo = [bar,
+           baz,
+           qux
+];
+```
+
+### ObjectExpression
+
+Examples of **incorrect** code for this rule with the `2, { "ObjectExpression": 1 }` option:
+
+```js
+/*eslint indent: ["error", 2, { "ObjectExpression": 1 }]*/
+
+var foo = {
+    bar: 1,
+baz: 2,
+      qux: 3
+};
+```
+
+Examples of **correct** code for this rule with the `2, { "ObjectExpression": 1 }` option:
+
+```js
+/*eslint indent: ["error", 2, { "ObjectExpression": 1 }]*/
+
+var foo = {
+  bar: 1,
+  baz: 2,
+  qux: 3
+};
+```
+
+Examples of **incorrect** code for this rule with the `2, { "ObjectExpression": "first" }` option:
+
+```js
+/*eslint indent: ["error", 2, {"ObjectExpression": "first"}]*/
+
+var foo = { bar: 1,
+  baz: 2 };
+```
+
+Examples of **correct** code for this rule with the `2, { "ObjectExpression": "first" }` option:
+
+```js
+/*eslint indent: ["error", 2, {"ObjectExpression": "first"}]*/
+
+var foo = { bar: 1,
+            baz: 2 };
+```
+
 
 ## Compatibility
 
