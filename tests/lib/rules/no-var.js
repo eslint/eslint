@@ -16,25 +16,18 @@ const rule = require("../../../lib/rules/no-var"),
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester();
+const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } });
 
 ruleTester.run("no-var", rule, {
     valid: [
-        {
-            code: "const JOE = 'schmoe';",
-            parserOptions: { ecmaVersion: 6 }
-        },
-        {
-            code: "let moo = 'car';",
-            parserOptions: { ecmaVersion: 6 }
-        }
+        "const JOE = 'schmoe';",
+        "let moo = 'car';"
     ],
 
     invalid: [
         {
             code: "var foo = bar;",
             output: "let foo = bar;",
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     message: "Unexpected var, use let or const instead.",
@@ -45,7 +38,6 @@ ruleTester.run("no-var", rule, {
         {
             code: "var foo = bar, toast = most;",
             output: "let foo = bar, toast = most;",
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     message: "Unexpected var, use let or const instead.",
@@ -56,7 +48,6 @@ ruleTester.run("no-var", rule, {
         {
             code: "var foo = bar; let toast = most;",
             output: "let foo = bar; let toast = most;",
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     message: "Unexpected var, use let or const instead.",
@@ -106,7 +97,6 @@ ruleTester.run("no-var", rule, {
         {
             code: "for (var a of list) {} a;",
             output: "for (var a of list) {} a;",
-            parserOptions: {ecmaVersion: 6},
             errors: [
                 "Unexpected var, use let or const instead."
             ]
