@@ -99,8 +99,7 @@ ruleTester.run("prefer-const", rule, {
         // This should be a SyntaxError, but espree parses it correctly. Don't throw an error if the variable has multiple declarations.
         {
             code: "let foo; const foo = 1;",
-            parserOptions: {ecmaVersion: 6},
-            errors: [{ message: "'foo' is never reassigned. Use 'const' instead.", type: "Identifier" }]
+            parserOptions: {ecmaVersion: 6}
         }
 
     ],
