@@ -1,5 +1,7 @@
 # enforce or disallow capitalization of the first letter of a comment (capitalized-comments)
 
+(fixable) The `--fix` option on the [command line](../user-guide/command-line-interface#fix) automatically fixes problems reported by this rule.
+
 Comments are useful for leaving information for future developers. In order for that information to be useful and not distracting, it is sometimes desirable for comments to follow a particular style. One element of comment formatting styles is whether the first word of a comment should be capitalized or lowercase.
 
 In general, no comment style is any more or less valid than any others, but many developers would agree that a consistent style can improve a project's maintainability.
