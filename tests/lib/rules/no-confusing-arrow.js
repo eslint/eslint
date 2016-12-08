@@ -13,24 +13,10 @@ const rule = require("../../../lib/rules/no-confusing-arrow"),
     RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
-// Helpers
-//------------------------------------------------------------------------------
-
-/**
- * Extends a rule object to include support for arrow functions
- * @param {Object} obj - rule object
- * @returns {Object} object extend to include ES6 features
- */
-function addArrowFunctions(obj) {
-    obj.parserOptions = { ecmaVersion: 6 };
-    return obj;
-}
-
-//------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester();
+const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } });
 
 ruleTester.run("no-confusing-arrow", rule, {
     valid: [
@@ -38,7 +24,7 @@ ruleTester.run("no-confusing-arrow", rule, {
         { code: "var x = a => { return 1 ? 2 : 3; }" },
         { code: "var x = (a) => { return 1 ? 2 : 3; }" },
         { code: "var x = a => (1 ? 2 : 3)", options: [{ allowParens: true }]}
-    ].map(addArrowFunctions),
+    ],
     invalid: [
         {
             code: "a => 1 ? 2 : 3",
@@ -56,5 +42,5 @@ ruleTester.run("no-confusing-arrow", rule, {
             code: "var x = a => (1 ? 2 : 3)",
             errors: [{ message: "Arrow function used ambiguously with a conditional expression." }]
         }
-    ].map(addArrowFunctions)
+    ]
 });
