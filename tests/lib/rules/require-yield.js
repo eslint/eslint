@@ -18,71 +18,39 @@ const RuleTester = require("../../../lib/testers/rule-tester");
 
 const errorMessage = "This generator function does not have 'yield'.";
 
-const ruleTester = new RuleTester();
+const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } });
 
 ruleTester.run("require-yield", rule, {
     valid: [
-        {
-            code: "function foo() { return 0; }",
-            parserOptions: { ecmaVersion: 6 }
-        },
-        {
-            code: "function* foo() { yield 0; }",
-            parserOptions: { ecmaVersion: 6 }
-        },
-        {
-            code: "function* foo() { }",
-            parserOptions: { ecmaVersion: 6 }
-        },
-        {
-            code: "(function* foo() { yield 0; })();",
-            parserOptions: { ecmaVersion: 6 }
-        },
-        {
-            code: "(function* foo() { })();",
-            parserOptions: { ecmaVersion: 6 }
-        },
-        {
-            code: "var obj = { *foo() { yield 0; } };",
-            parserOptions: { ecmaVersion: 6 }
-        },
-        {
-            code: "var obj = { *foo() { } };",
-            parserOptions: { ecmaVersion: 6 }
-        },
-        {
-            code: "class A { *foo() { yield 0; } };",
-            parserOptions: { ecmaVersion: 6 }
-        },
-        {
-            code: "class A { *foo() { } };",
-            parserOptions: { ecmaVersion: 6 }
-        }
+        "function foo() { return 0; }",
+        "function* foo() { yield 0; }",
+        "function* foo() { }",
+        "(function* foo() { yield 0; })();",
+        "(function* foo() { })();",
+        "var obj = { *foo() { yield 0; } };",
+        "var obj = { *foo() { } };",
+        "class A { *foo() { yield 0; } };",
+        "class A { *foo() { } };"
     ],
     invalid: [
         {
             code: "function* foo() { return 0; }",
-            parserOptions: { ecmaVersion: 6 },
             errors: [{message: errorMessage, type: "FunctionDeclaration"}]
         },
         {
             code: "(function* foo() { return 0; })();",
-            parserOptions: { ecmaVersion: 6 },
             errors: [{message: errorMessage, type: "FunctionExpression"}]
         },
         {
             code: "var obj = { *foo() { return 0; } }",
-            parserOptions: { ecmaVersion: 6 },
             errors: [{message: errorMessage, type: "FunctionExpression"}]
         },
         {
             code: "class A { *foo() { return 0; } }",
-            parserOptions: { ecmaVersion: 6 },
             errors: [{message: errorMessage, type: "FunctionExpression"}]
         },
         {
             code: "function* foo() { function* bar() { yield 0; } }",
-            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 message: errorMessage,
                 type: "FunctionDeclaration",
@@ -91,7 +59,6 @@ ruleTester.run("require-yield", rule, {
         },
         {
             code: "function* foo() { function* bar() { return 0; } yield 0; }",
-            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 message: errorMessage,
                 type: "FunctionDeclaration",

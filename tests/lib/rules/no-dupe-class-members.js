@@ -16,53 +16,48 @@ const RuleTester = require("../../../lib/testers/rule-tester");
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester();
+const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } });
 
 ruleTester.run("no-dupe-class-members", rule, {
     valid: [
-        {code: "class A { foo() {} bar() {} }", parserOptions: { ecmaVersion: 6 }},
-        {code: "class A { static foo() {} foo() {} }", parserOptions: { ecmaVersion: 6 }},
-        {code: "class A { get foo() {} set foo(value) {} }", parserOptions: { ecmaVersion: 6 }},
-        {code: "class A { static foo() {} get foo() {} set foo(value) {} }", parserOptions: { ecmaVersion: 6 }},
-        {code: "class A { foo() { } } class B { foo() { } }", parserOptions: { ecmaVersion: 6 }},
-        {code: "class A { [foo]() {} foo() {} }", parserOptions: { ecmaVersion: 6 }},
-        {code: "class A { 'foo'() {} 'bar'() {} baz() {} }", parserOptions: { ecmaVersion: 6 }},
-        {code: "class A { *'foo'() {} *'bar'() {} *baz() {} }", parserOptions: { ecmaVersion: 6 }},
-        {code: "class A { get 'foo'() {} get 'bar'() {} get baz() {} }", parserOptions: { ecmaVersion: 6 }},
-        {code: "class A { 1() {} 2() {} }", parserOptions: { ecmaVersion: 6 }}
+        "class A { foo() {} bar() {} }",
+        "class A { static foo() {} foo() {} }",
+        "class A { get foo() {} set foo(value) {} }",
+        "class A { static foo() {} get foo() {} set foo(value) {} }",
+        "class A { foo() { } } class B { foo() { } }",
+        "class A { [foo]() {} foo() {} }",
+        "class A { 'foo'() {} 'bar'() {} baz() {} }",
+        "class A { *'foo'() {} *'bar'() {} *baz() {} }",
+        "class A { get 'foo'() {} get 'bar'() {} get baz() {} }",
+        "class A { 1() {} 2() {} }"
     ],
     invalid: [
         {
             code: "class A { foo() {} foo() {} }",
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {type: "MethodDefinition", line: 1, column: 20, message: "Duplicate name 'foo'."}
             ]
         },
         {
             code: "!class A { foo() {} foo() {} };",
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {type: "MethodDefinition", line: 1, column: 21, message: "Duplicate name 'foo'."}
             ]
         },
         {
             code: "class A { 'foo'() {} 'foo'() {} }",
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {type: "MethodDefinition", line: 1, column: 22, message: "Duplicate name 'foo'."}
             ]
         },
         {
             code: "class A { 10() {} 1e1() {} }",
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {type: "MethodDefinition", line: 1, column: 19, message: "Duplicate name '10'."}
             ]
         },
         {
             code: "class A { foo() {} foo() {} foo() {} }",
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {type: "MethodDefinition", line: 1, column: 20, message: "Duplicate name 'foo'."},
                 {type: "MethodDefinition", line: 1, column: 29, message: "Duplicate name 'foo'."}
@@ -70,21 +65,18 @@ ruleTester.run("no-dupe-class-members", rule, {
         },
         {
             code: "class A { static foo() {} static foo() {} }",
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {type: "MethodDefinition", line: 1, column: 27, message: "Duplicate name 'foo'."}
             ]
         },
         {
             code: "class A { foo() {} get foo() {} }",
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {type: "MethodDefinition", line: 1, column: 20, message: "Duplicate name 'foo'."}
             ]
         },
         {
             code: "class A { set foo(value) {} foo() {} }",
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {type: "MethodDefinition", line: 1, column: 29, message: "Duplicate name 'foo'."}
             ]

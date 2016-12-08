@@ -16,153 +16,122 @@ const rule = require("../../../lib/rules/yield-star-spacing"),
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester();
+const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } });
 
 ruleTester.run("yield-star-spacing", rule, {
 
     valid: [
 
         // default (after)
-        {
-            code: "function *foo(){ yield foo; }",
-            parserOptions: { ecmaVersion: 6 }
-        },
-        {
-            code: "function *foo(){ yield* foo; }",
-            parserOptions: { ecmaVersion: 6 }
-        },
+        "function *foo(){ yield foo; }",
+        "function *foo(){ yield* foo; }",
 
         // after
         {
             code: "function *foo(){ yield foo; }",
-            options: ["after"],
-            parserOptions: { ecmaVersion: 6 }
+            options: ["after"]
         },
         {
             code: "function *foo(){ yield* foo; }",
-            options: ["after"],
-            parserOptions: { ecmaVersion: 6 }
+            options: ["after"]
         },
         {
             code: "function *foo(){ yield* foo(); }",
-            options: ["after"],
-            parserOptions: { ecmaVersion: 6 }
+            options: ["after"]
         },
         {
             code: "function *foo(){ yield* 0 }",
-            options: ["after"],
-            parserOptions: { ecmaVersion: 6 }
+            options: ["after"]
         },
         {
             code: "function *foo(){ yield* []; }",
-            options: ["after"],
-            parserOptions: { ecmaVersion: 6 }
+            options: ["after"]
         },
         {
             code: "function *foo(){ var result = yield* foo(); }",
-            options: ["after"],
-            parserOptions: { ecmaVersion: 6 }
+            options: ["after"]
         },
         {
             code: "function *foo(){ var result = yield* (foo()); }",
-            options: ["after"],
-            parserOptions: { ecmaVersion: 6 }
+            options: ["after"]
         },
 
         // before
         {
             code: "function *foo(){ yield foo; }",
-            options: ["before"],
-            parserOptions: { ecmaVersion: 6 }
+            options: ["before"]
         },
         {
             code: "function *foo(){ yield *foo; }",
-            options: ["before"],
-            parserOptions: { ecmaVersion: 6 }
+            options: ["before"]
         },
         {
             code: "function *foo(){ yield *foo(); }",
-            options: ["before"],
-            parserOptions: { ecmaVersion: 6 }
+            options: ["before"]
         },
         {
             code: "function *foo(){ yield *0 }",
-            options: ["before"],
-            parserOptions: { ecmaVersion: 6 }
+            options: ["before"]
         },
         {
             code: "function *foo(){ yield *[]; }",
-            options: ["before"],
-            parserOptions: { ecmaVersion: 6 }
+            options: ["before"]
         },
         {
             code: "function *foo(){ var result = yield *foo(); }",
-            options: ["before"],
-            parserOptions: { ecmaVersion: 6 }
+            options: ["before"]
         },
 
         // both
         {
             code: "function *foo(){ yield foo; }",
-            options: ["both"],
-            parserOptions: { ecmaVersion: 6 }
+            options: ["both"]
         },
         {
             code: "function *foo(){ yield * foo; }",
-            options: ["both"],
-            parserOptions: { ecmaVersion: 6 }
+            options: ["both"]
         },
         {
             code: "function *foo(){ yield * foo(); }",
-            options: ["both"],
-            parserOptions: { ecmaVersion: 6 }
+            options: ["both"]
         },
         {
             code: "function *foo(){ yield * 0 }",
-            options: ["both"],
-            parserOptions: { ecmaVersion: 6 }
+            options: ["both"]
         },
         {
             code: "function *foo(){ yield * []; }",
-            options: ["both"],
-            parserOptions: { ecmaVersion: 6 }
+            options: ["both"]
         },
         {
             code: "function *foo(){ var result = yield * foo(); }",
-            options: ["both"],
-            parserOptions: { ecmaVersion: 6 }
+            options: ["both"]
         },
 
         // neither
         {
             code: "function *foo(){ yield foo; }",
-            options: ["neither"],
-            parserOptions: { ecmaVersion: 6 }
+            options: ["neither"]
         },
         {
             code: "function *foo(){ yield*foo; }",
-            options: ["neither"],
-            parserOptions: { ecmaVersion: 6 }
+            options: ["neither"]
         },
         {
             code: "function *foo(){ yield*foo(); }",
-            options: ["neither"],
-            parserOptions: { ecmaVersion: 6 }
+            options: ["neither"]
         },
         {
             code: "function *foo(){ yield*0 }",
-            options: ["neither"],
-            parserOptions: { ecmaVersion: 6 }
+            options: ["neither"]
         },
         {
             code: "function *foo(){ yield*[]; }",
-            options: ["neither"],
-            parserOptions: { ecmaVersion: 6 }
+            options: ["neither"]
         },
         {
             code: "function *foo(){ var result = yield*foo(); }",
-            options: ["neither"],
-            parserOptions: { ecmaVersion: 6 }
+            options: ["neither"]
         }
     ],
 
@@ -172,7 +141,6 @@ ruleTester.run("yield-star-spacing", rule, {
         {
             code: "function *foo(){ yield *foo1; }",
             output: "function *foo(){ yield* foo1; }",
-            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 message: "Unexpected space before *.",
                 type: "Punctuator"
@@ -187,7 +155,6 @@ ruleTester.run("yield-star-spacing", rule, {
             code: "function *foo(){ yield *foo1; }",
             output: "function *foo(){ yield* foo1; }",
             options: ["after"],
-            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 message: "Unexpected space before *.",
                 type: "Punctuator"
@@ -200,7 +167,6 @@ ruleTester.run("yield-star-spacing", rule, {
             code: "function *foo(){ yield * foo; }",
             output: "function *foo(){ yield* foo; }",
             options: ["after"],
-            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 message: "Unexpected space before *.",
                 type: "Punctuator"
@@ -210,7 +176,6 @@ ruleTester.run("yield-star-spacing", rule, {
             code: "function *foo(){ yield*foo2; }",
             output: "function *foo(){ yield* foo2; }",
             options: ["after"],
-            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 message: "Missing space after *.",
                 type: "Punctuator"
@@ -222,7 +187,6 @@ ruleTester.run("yield-star-spacing", rule, {
             code: "function *foo(){ yield* foo; }",
             output: "function *foo(){ yield *foo; }",
             options: ["before"],
-            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 message: "Missing space before *.",
                 type: "Punctuator"
@@ -235,7 +199,6 @@ ruleTester.run("yield-star-spacing", rule, {
             code: "function *foo(){ yield * foo; }",
             output: "function *foo(){ yield *foo; }",
             options: ["before"],
-            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 message: "Unexpected space after *.",
                 type: "Punctuator"
@@ -245,7 +208,6 @@ ruleTester.run("yield-star-spacing", rule, {
             code: "function *foo(){ yield*foo; }",
             output: "function *foo(){ yield *foo; }",
             options: ["before"],
-            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 message: "Missing space before *.",
                 type: "Punctuator"
@@ -257,7 +219,6 @@ ruleTester.run("yield-star-spacing", rule, {
             code: "function *foo(){ yield* foo; }",
             output: "function *foo(){ yield * foo; }",
             options: ["both"],
-            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 message: "Missing space before *.",
                 type: "Punctuator"
@@ -267,7 +228,6 @@ ruleTester.run("yield-star-spacing", rule, {
             code: "function *foo(){ yield *foo3; }",
             output: "function *foo(){ yield * foo3; }",
             options: ["both"],
-            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 message: "Missing space after *.",
                 type: "Punctuator"
@@ -277,7 +237,6 @@ ruleTester.run("yield-star-spacing", rule, {
             code: "function *foo(){ yield*foo4; }",
             output: "function *foo(){ yield * foo4; }",
             options: ["both"],
-            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 message: "Missing space before *.",
                 type: "Punctuator"
@@ -292,7 +251,6 @@ ruleTester.run("yield-star-spacing", rule, {
             code: "function *foo(){ yield* foo; }",
             output: "function *foo(){ yield*foo; }",
             options: ["neither"],
-            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 message: "Unexpected space after *.",
                 type: "Punctuator"
@@ -302,7 +260,6 @@ ruleTester.run("yield-star-spacing", rule, {
             code: "function *foo(){ yield *foo; }",
             output: "function *foo(){ yield*foo; }",
             options: ["neither"],
-            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 message: "Unexpected space before *.",
                 type: "Punctuator"
@@ -312,7 +269,6 @@ ruleTester.run("yield-star-spacing", rule, {
             code: "function *foo(){ yield * foo; }",
             output: "function *foo(){ yield*foo; }",
             options: ["neither"],
-            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 message: "Unexpected space before *.",
                 type: "Punctuator"

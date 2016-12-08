@@ -16,23 +16,21 @@ const rule = require("../../../lib/rules/no-new-symbol"),
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester();
+const ruleTester = new RuleTester({ env: { es6: true } });
 
 ruleTester.run("no-new-symbol", rule, {
     valid: [
-        {code: "var foo = Symbol('foo');", env: {es6: true} },
-        {code: "function bar(Symbol) { var baz = new Symbol('baz');}", env: {es6: true} },
-        {code: "function Symbol() {} new Symbol();", env: {es6: true} }
+        "var foo = Symbol('foo');",
+        "function bar(Symbol) { var baz = new Symbol('baz');}",
+        "function Symbol() {} new Symbol();",
     ],
     invalid: [
         {
             code: "var foo = new Symbol('foo');",
-            env: {es6: true},
             errors: [{ message: "`Symbol` cannot be called as a constructor."}]
         },
         {
             code: "function bar() { return function Symbol() {}; } var baz = new Symbol('baz');",
-            env: {es6: true},
             errors: [{ message: "`Symbol` cannot be called as a constructor."}]
         }
     ]

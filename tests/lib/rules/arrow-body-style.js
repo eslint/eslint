@@ -15,41 +15,40 @@ const rule = require("../../../lib/rules/arrow-body-style"),
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester();
+const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } });
 
 ruleTester.run("arrow-body-style", rule, {
     valid: [
-        { code: "var foo = () => {};", parserOptions: { ecmaVersion: 6 } },
-        { code: "var foo = () => 0;", parserOptions: { ecmaVersion: 6 } },
-        { code: "var addToB = (a) => { b =  b + a };", parserOptions: { ecmaVersion: 6 } },
-        { code: "var foo = () => { /* do nothing */ };", parserOptions: { ecmaVersion: 6 } },
-        { code: "var foo = () => {\n /* do nothing */ \n};", parserOptions: { ecmaVersion: 6 } },
-        { code: "var foo = (retv, name) => {\nretv[name] = true;\nreturn retv;\n};", parserOptions: { ecmaVersion: 6 } },
-        { code: "var foo = () => ({});", parserOptions: { ecmaVersion: 6 } },
-        { code: "var foo = () => bar();", parserOptions: { ecmaVersion: 6 } },
-        { code: "var foo = () => { bar(); };", parserOptions: { ecmaVersion: 6 } },
-        { code: "var foo = () => { b = a };", parserOptions: { ecmaVersion: 6 } },
-        { code: "var foo = () => { bar: 1 };", parserOptions: { ecmaVersion: 6 } },
-        { code: "var foo = () => { return 0; };", parserOptions: { ecmaVersion: 6 }, options: ["always"] },
-        { code: "var foo = () => { return bar(); };", parserOptions: { ecmaVersion: 6 }, options: ["always"] },
-        { code: "var foo = () => 0;", parserOptions: { ecmaVersion: 6 }, options: ["never"] },
-        { code: "var foo = () => ({ foo: 0 });", parserOptions: { ecmaVersion: 6 }, options: ["never"] },
-        { code: "var foo = () => {};", parserOptions: { ecmaVersion: 6 }, options: ["as-needed", {requireReturnForObjectLiteral: true }] },
-        { code: "var foo = () => 0;", parserOptions: { ecmaVersion: 6 }, options: ["as-needed", {requireReturnForObjectLiteral: true }] },
-        { code: "var addToB = (a) => { b =  b + a };", parserOptions: { ecmaVersion: 6 }, options: ["as-needed", {requireReturnForObjectLiteral: true }] },
-        { code: "var foo = () => { /* do nothing */ };", parserOptions: { ecmaVersion: 6 }, options: ["as-needed", {requireReturnForObjectLiteral: true }] },
-        { code: "var foo = () => {\n /* do nothing */ \n};", parserOptions: { ecmaVersion: 6 }, options: ["as-needed", {requireReturnForObjectLiteral: true }] },
-        { code: "var foo = (retv, name) => {\nretv[name] = true;\nreturn retv;\n};", parserOptions: { ecmaVersion: 6 }, options: ["as-needed", {requireReturnForObjectLiteral: true }] },
-        { code: "var foo = () => bar();", parserOptions: { ecmaVersion: 6 }, options: ["as-needed", {requireReturnForObjectLiteral: true }] },
-        { code: "var foo = () => { bar(); };", parserOptions: { ecmaVersion: 6 }, options: ["as-needed", {requireReturnForObjectLiteral: true }] },
-        { code: "var addToB = (a) => { b =  b + a };", parserOptions: { ecmaVersion: 6 }, options: ["as-needed", {requireReturnForObjectLiteral: true }] },
-        { code: "var foo = () => { return { bar: 0 }; };", parserOptions: { ecmaVersion: 6 }, options: ["as-needed", {requireReturnForObjectLiteral: true }] }
+        "var foo = () => {};",
+        "var foo = () => 0;",
+        "var addToB = (a) => { b =  b + a };",
+        "var foo = () => { /* do nothing */ };",
+        "var foo = () => {\n /* do nothing */ \n};",
+        "var foo = (retv, name) => {\nretv[name] = true;\nreturn retv;\n};",
+        "var foo = () => ({});",
+        "var foo = () => bar();",
+        "var foo = () => { bar(); };",
+        "var foo = () => { b = a };",
+        "var foo = () => { bar: 1 };",
+        { code: "var foo = () => { return 0; };", options: ["always"] },
+        { code: "var foo = () => { return bar(); };", options: ["always"] },
+        { code: "var foo = () => 0;", options: ["never"] },
+        { code: "var foo = () => ({ foo: 0 });", options: ["never"] },
+        { code: "var foo = () => {};", options: ["as-needed", {requireReturnForObjectLiteral: true }] },
+        { code: "var foo = () => 0;", options: ["as-needed", {requireReturnForObjectLiteral: true }] },
+        { code: "var addToB = (a) => { b =  b + a };", options: ["as-needed", {requireReturnForObjectLiteral: true }] },
+        { code: "var foo = () => { /* do nothing */ };", options: ["as-needed", {requireReturnForObjectLiteral: true }] },
+        { code: "var foo = () => {\n /* do nothing */ \n};", options: ["as-needed", {requireReturnForObjectLiteral: true }] },
+        { code: "var foo = (retv, name) => {\nretv[name] = true;\nreturn retv;\n};", options: ["as-needed", {requireReturnForObjectLiteral: true }] },
+        { code: "var foo = () => bar();", options: ["as-needed", {requireReturnForObjectLiteral: true }] },
+        { code: "var foo = () => { bar(); };", options: ["as-needed", {requireReturnForObjectLiteral: true }] },
+        { code: "var addToB = (a) => { b =  b + a };", options: ["as-needed", {requireReturnForObjectLiteral: true }] },
+        { code: "var foo = () => { return { bar: 0 }; };", options: ["as-needed", {requireReturnForObjectLiteral: true }] }
     ],
     invalid: [
         {
             code: "var foo = () => 0;",
             output: "var foo = () => {return 0};",
-            parserOptions: { ecmaVersion: 6 },
             options: ["always"],
             errors: [
                 { line: 1, column: 17, type: "ArrowFunctionExpression", message: "Expected block statement surrounding arrow body." }
@@ -58,7 +57,6 @@ ruleTester.run("arrow-body-style", rule, {
         {
             code: "var foo = () => ({});",
             output: "var foo = () => {return ({})};",
-            parserOptions: { ecmaVersion: 6 },
             options: ["always"],
             errors: [
                 { line: 1, column: 18, type: "ArrowFunctionExpression", message: "Expected block statement surrounding arrow body." }
@@ -67,7 +65,6 @@ ruleTester.run("arrow-body-style", rule, {
         {
             code: "var foo = () => { return 0; };",
             output: "var foo = () => 0;",
-            parserOptions: { ecmaVersion: 6 },
             options: ["as-needed"],
             errors: [
                 { line: 1, column: 17, type: "ArrowFunctionExpression", message: "Unexpected block statement surrounding arrow body." }
@@ -76,7 +73,6 @@ ruleTester.run("arrow-body-style", rule, {
         {
             code: "var foo = () => { return 0 };",
             output: "var foo = () => 0;",
-            parserOptions: { ecmaVersion: 6 },
             options: ["as-needed"],
             errors: [
                 { line: 1, column: 17, type: "ArrowFunctionExpression", message: "Unexpected block statement surrounding arrow body." }
@@ -85,7 +81,6 @@ ruleTester.run("arrow-body-style", rule, {
         {
             code: "var foo = () => { return bar(); };",
             output: "var foo = () => bar();",
-            parserOptions: { ecmaVersion: 6 },
             options: ["as-needed"],
             errors: [
                 { line: 1, column: 17, type: "ArrowFunctionExpression", message: "Unexpected block statement surrounding arrow body." }
@@ -94,7 +89,6 @@ ruleTester.run("arrow-body-style", rule, {
         {
             code: "var foo = () => {\nreturn 0;\n};",
             output: "var foo = () => 0;",
-            parserOptions: { ecmaVersion: 6 },
             options: ["never"],
             errors: [
                 { line: 1, column: 17, type: "ArrowFunctionExpression", message: "Unexpected block statement surrounding arrow body." }
@@ -103,7 +97,6 @@ ruleTester.run("arrow-body-style", rule, {
         {
             code: "var foo = () => { return { bar: 0 }; };",
             output: "var foo = () => ({ bar: 0 });",
-            parserOptions: { ecmaVersion: 6 },
             options: ["as-needed"],
             errors: [
                 { line: 1, column: 17, type: "ArrowFunctionExpression", message: "Unexpected block statement surrounding arrow body." }
@@ -112,7 +105,6 @@ ruleTester.run("arrow-body-style", rule, {
         {
             code: "var foo = () => { return; };",
             output: "var foo = () => { return; };", // not fixed
-            parserOptions: { ecmaVersion: 6 },
             options: ["as-needed", {requireReturnForObjectLiteral: true}],
             errors: [
                 { line: 1, column: 17, type: "ArrowFunctionExpression", message: "Unexpected block statement surrounding arrow body." }
@@ -121,7 +113,6 @@ ruleTester.run("arrow-body-style", rule, {
         {
             code: "var foo = () => { return ( /* a */ {ok: true} /* b */ ) };",
             output: "var foo = () => ( /* a */ {ok: true} /* b */ );",
-            parserOptions: { ecmaVersion: 6 },
             options: ["as-needed"],
             errors: [
                 { line: 1, column: 17, type: "ArrowFunctionExpression", message: "Unexpected block statement surrounding arrow body." }
@@ -130,7 +121,6 @@ ruleTester.run("arrow-body-style", rule, {
         {
             code: "var foo = () => { return '{' };",
             output: "var foo = () => '{';",
-            parserOptions: { ecmaVersion: 6 },
             options: ["as-needed"],
             errors: [
                 { line: 1, column: 17, type: "ArrowFunctionExpression", message: "Unexpected block statement surrounding arrow body." }
@@ -139,7 +129,6 @@ ruleTester.run("arrow-body-style", rule, {
         {
             code: "var foo = () => { return { bar: 0 }.bar; };",
             output: "var foo = () => ({ bar: 0 }.bar);",
-            parserOptions: { ecmaVersion: 6 },
             options: ["as-needed"],
             errors: [
                 { line: 1, column: 17, type: "ArrowFunctionExpression", message: "Unexpected block statement surrounding arrow body." }
@@ -148,7 +137,6 @@ ruleTester.run("arrow-body-style", rule, {
         {
             code: "var foo = (retv, name) => {\nretv[name] = true;\nreturn retv;\n};",
             output: "var foo = (retv, name) => {\nretv[name] = true;\nreturn retv;\n};", // not fixed
-            parserOptions: { ecmaVersion: 6 },
             options: ["never"],
             errors: [
                 { line: 1, column: 27, type: "ArrowFunctionExpression", message: "Unexpected block statement surrounding arrow body." }
@@ -157,7 +145,6 @@ ruleTester.run("arrow-body-style", rule, {
         {
             code: "var foo = () => { return 0; };",
             output: "var foo = () => 0;",
-            parserOptions: { ecmaVersion: 6 },
             options: ["as-needed", {requireReturnForObjectLiteral: true }],
             errors: [
                 { line: 1, column: 17, type: "ArrowFunctionExpression", message: "Unexpected block statement surrounding arrow body." }
@@ -166,7 +153,6 @@ ruleTester.run("arrow-body-style", rule, {
         {
             code: "var foo = () => { return bar(); };",
             output: "var foo = () => bar();",
-            parserOptions: { ecmaVersion: 6 },
             options: ["as-needed", {requireReturnForObjectLiteral: true }],
             errors: [
                 { line: 1, column: 17, type: "ArrowFunctionExpression", message: "Unexpected block statement surrounding arrow body." }
@@ -175,7 +161,6 @@ ruleTester.run("arrow-body-style", rule, {
         {
             code: "var foo = () => ({});",
             output: "var foo = () => {return ({})};",
-            parserOptions: { ecmaVersion: 6 },
             options: ["as-needed", {requireReturnForObjectLiteral: true }],
             errors: [
                 { line: 1, column: 18, type: "ArrowFunctionExpression", message: "Expected block statement surrounding arrow body." }
@@ -184,7 +169,6 @@ ruleTester.run("arrow-body-style", rule, {
         {
             code: "var foo = () => ({ bar: 0 });",
             output: "var foo = () => {return ({ bar: 0 })};",
-            parserOptions: { ecmaVersion: 6 },
             options: ["as-needed", {requireReturnForObjectLiteral: true }],
             errors: [
                 { line: 1, column: 18, type: "ArrowFunctionExpression", message: "Expected block statement surrounding arrow body." }
@@ -193,7 +177,6 @@ ruleTester.run("arrow-body-style", rule, {
         {
             code: "var foo = () => (((((((5)))))));",
             output: "var foo = () => {return (((((((5)))))))};",
-            parserOptions: { ecmaVersion: 6 },
             options: ["always"],
             errors: [
                 { line: 1, column: 24, type: "ArrowFunctionExpression", message: "Expected block statement surrounding arrow body." }
@@ -208,7 +191,6 @@ ruleTester.run("arrow-body-style", rule, {
             output:
             "var foo = () => { return bar }\n" +
             "[1, 2, 3].map(foo)",
-            parserOptions: { ecmaVersion: 6 },
             options: ["never"],
             errors: [
                 { line: 1, column: 17, type: "ArrowFunctionExpression", message: "Unexpected block statement surrounding arrow body." }
@@ -223,7 +205,6 @@ ruleTester.run("arrow-body-style", rule, {
             output:
             "var foo = () => { return bar }\n" +
             "(1).toString();",
-            parserOptions: { ecmaVersion: 6 },
             options: ["never"],
             errors: [
                 { line: 1, column: 17, type: "ArrowFunctionExpression", message: "Unexpected block statement surrounding arrow body." }
@@ -238,7 +219,6 @@ ruleTester.run("arrow-body-style", rule, {
             output:
             "var foo = () => bar;\n" +
             "[1, 2, 3].map(foo)",
-            parserOptions: { ecmaVersion: 6 },
             options: ["never"],
             errors: [
                 { line: 1, column: 17, type: "ArrowFunctionExpression", message: "Unexpected block statement surrounding arrow body." }
@@ -247,7 +227,6 @@ ruleTester.run("arrow-body-style", rule, {
         {
             code: "var foo = /* a */ ( /* b */ ) /* c */ => /* d */ { /* e */ return /* f */ 5 /* g */ ; /* h */ } /* i */ ;",
             output: "var foo = /* a */ ( /* b */ ) /* c */ => /* d */  /* e */  /* f */ 5 /* g */  /* h */  /* i */ ;",
-            parserOptions: { ecmaVersion: 6 },
             options: ["as-needed"],
             errors: [
                 { line: 1, column: 50, type: "ArrowFunctionExpression", message: "Unexpected block statement surrounding arrow body." }
@@ -256,7 +235,6 @@ ruleTester.run("arrow-body-style", rule, {
         {
             code: "var foo = /* a */ ( /* b */ ) /* c */ => /* d */ ( /* e */ 5 /* f */ ) /* g */ ;",
             output: "var foo = /* a */ ( /* b */ ) /* c */ => /* d */ {return ( /* e */ 5 /* f */ )} /* g */ ;",
-            parserOptions: { ecmaVersion: 6 },
             options: ["always"],
             errors: [
                 { line: 1, column: 60, type: "ArrowFunctionExpression", message: "Expected block statement surrounding arrow body." }
@@ -265,7 +243,6 @@ ruleTester.run("arrow-body-style", rule, {
         {
             code: "var foo = () => {\nreturn bar;\n};",
             output: "var foo = () => bar;",
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 { line: 1, column: 17, type: "ArrowFunctionExpression", message: "Unexpected block statement surrounding arrow body." }
             ]
@@ -273,7 +250,6 @@ ruleTester.run("arrow-body-style", rule, {
         {
             code: "var foo = () => {\nreturn bar;};",
             output: "var foo = () => bar;",
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 { line: 1, column: 17, type: "ArrowFunctionExpression", message: "Unexpected block statement surrounding arrow body." }
             ]
@@ -281,7 +257,6 @@ ruleTester.run("arrow-body-style", rule, {
         {
             code: "var foo = () => {return bar;\n};",
             output: "var foo = () => bar;",
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 { line: 1, column: 17, type: "ArrowFunctionExpression", message: "Unexpected block statement surrounding arrow body." }
             ]
@@ -297,7 +272,6 @@ ruleTester.run("arrow-body-style", rule, {
               var foo = () => foo
                   .bar;
             `,
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 { line: 2, column: 31, type: "ArrowFunctionExpression", message: "Unexpected block statement surrounding arrow body." }
             ]
@@ -317,7 +291,6 @@ ruleTester.run("arrow-body-style", rule, {
                   baz: 2
                 });
             `,
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 { line: 2, column: 31, type: "ArrowFunctionExpression", message: "Unexpected block statement surrounding arrow body." }
             ]

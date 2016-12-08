@@ -30,57 +30,57 @@ function parser(name) {
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
-const ruleTester = new RuleTester();
+const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } });
 
 const valid = [
 
     // "always" (by default)
-    { code: "() => {}", parserOptions: { ecmaVersion: 6 } },
-    { code: "(a) => {}", parserOptions: { ecmaVersion: 6 } },
-    { code: "(a) => a", parserOptions: { ecmaVersion: 6 } },
-    { code: "(a) => {\n}", parserOptions: { ecmaVersion: 6 } },
-    { code: "a.then((foo) => {});", parserOptions: { ecmaVersion: 6 } },
-    { code: "a.then((foo) => { if (true) {}; });", parserOptions: { ecmaVersion: 6 } },
+    "() => {}",
+    "(a) => {}",
+    "(a) => a",
+    "(a) => {\n}",
+    "a.then((foo) => {});",
+    "a.then((foo) => { if (true) {}; });",
     { code: "a.then(async (foo) => { if (true) {}; });", parserOptions: { ecmaVersion: 8 } },
 
     // "always" (explicit)
-    { code: "() => {}", options: ["always"], parserOptions: { ecmaVersion: 6 } },
-    { code: "(a) => {}", options: ["always"], parserOptions: { ecmaVersion: 6 } },
-    { code: "(a) => a", options: ["always"], parserOptions: { ecmaVersion: 6 } },
-    { code: "(a) => {\n}", options: ["always"], parserOptions: { ecmaVersion: 6 } },
-    { code: "a.then((foo) => {});", options: ["always"], parserOptions: { ecmaVersion: 6 } },
-    { code: "a.then((foo) => { if (true) {}; });", options: ["always"], parserOptions: { ecmaVersion: 6 } },
+    { code: "() => {}", options: ["always"] },
+    { code: "(a) => {}", options: ["always"] },
+    { code: "(a) => a", options: ["always"] },
+    { code: "(a) => {\n}", options: ["always"] },
+    { code: "a.then((foo) => {});", options: ["always"] },
+    { code: "a.then((foo) => { if (true) {}; });", options: ["always"] },
     { code: "a.then(async (foo) => { if (true) {}; });", options: ["always"], parserOptions: { ecmaVersion: 8 } },
 
     // "as-needed"
-    { code: "() => {}", options: ["as-needed"], parserOptions: { ecmaVersion: 6 } },
-    { code: "a => {}", options: ["as-needed"], parserOptions: { ecmaVersion: 6 } },
-    { code: "a => a", options: ["as-needed"], parserOptions: { ecmaVersion: 6 } },
-    { code: "([a, b]) => {}", options: ["as-needed"], parserOptions: { ecmaVersion: 6 } },
-    { code: "({ a, b }) => {}", options: ["as-needed"], parserOptions: { ecmaVersion: 6 } },
-    { code: "(a = 10) => {}", options: ["as-needed"], parserOptions: { ecmaVersion: 6 } },
-    { code: "(...a) => a[0]", options: ["as-needed"], parserOptions: { ecmaVersion: 6 } },
-    { code: "(a, b) => {}", options: ["as-needed"], parserOptions: { ecmaVersion: 6 } },
+    { code: "() => {}", options: ["as-needed"] },
+    { code: "a => {}", options: ["as-needed"] },
+    { code: "a => a", options: ["as-needed"] },
+    { code: "([a, b]) => {}", options: ["as-needed"] },
+    { code: "({ a, b }) => {}", options: ["as-needed"] },
+    { code: "(a = 10) => {}", options: ["as-needed"] },
+    { code: "(...a) => a[0]", options: ["as-needed"] },
+    { code: "(a, b) => {}", options: ["as-needed"] },
     { code: "async ([a, b]) => {}", options: ["as-needed"], parserOptions: { ecmaVersion: 8 } },
     { code: "async (a, b) => {}", options: ["as-needed"], parserOptions: { ecmaVersion: 8 } },
-    { code: "(a: T) => a", options: ["as-needed"], parserOptions: { ecmaVersion: 6 }, parser: parser("identifer-type") },
-    { code: "(a): T => a", options: ["as-needed"], parserOptions: { ecmaVersion: 6 }, parser: parser("return-type") },
+    { code: "(a: T) => a", options: ["as-needed"], parser: parser("identifer-type") },
+    { code: "(a): T => a", options: ["as-needed"], parser: parser("return-type") },
 
     // "as-needed", { "requireForBlockBody": true }
-    { code: "() => {}", options: ["as-needed", {requireForBlockBody: true}], parserOptions: { ecmaVersion: 6 } },
-    { code: "a => a", options: ["as-needed", {requireForBlockBody: true}], parserOptions: { ecmaVersion: 6 } },
-    { code: "([a, b]) => {}", options: ["as-needed", {requireForBlockBody: true}], parserOptions: { ecmaVersion: 6 } },
-    { code: "([a, b]) => a", options: ["as-needed", {requireForBlockBody: true}], parserOptions: { ecmaVersion: 6 } },
-    { code: "({ a, b }) => {}", options: ["as-needed", {requireForBlockBody: true}], parserOptions: { ecmaVersion: 6 } },
-    { code: "({ a, b }) => a + b", options: ["as-needed", {requireForBlockBody: true}], parserOptions: { ecmaVersion: 6 } },
-    { code: "(a = 10) => {}", options: ["as-needed", {requireForBlockBody: true}], parserOptions: { ecmaVersion: 6 } },
-    { code: "(...a) => a[0]", options: ["as-needed", {requireForBlockBody: true}], parserOptions: { ecmaVersion: 6 } },
-    { code: "(a, b) => {}", options: ["as-needed", {requireForBlockBody: true}], parserOptions: { ecmaVersion: 6 } },
-    { code: "a => ({})", options: ["as-needed", {requireForBlockBody: true}], parserOptions: { ecmaVersion: 6 } },
+    { code: "() => {}", options: ["as-needed", {requireForBlockBody: true}] },
+    { code: "a => a", options: ["as-needed", {requireForBlockBody: true}] },
+    { code: "([a, b]) => {}", options: ["as-needed", {requireForBlockBody: true}] },
+    { code: "([a, b]) => a", options: ["as-needed", {requireForBlockBody: true}] },
+    { code: "({ a, b }) => {}", options: ["as-needed", {requireForBlockBody: true}] },
+    { code: "({ a, b }) => a + b", options: ["as-needed", {requireForBlockBody: true}] },
+    { code: "(a = 10) => {}", options: ["as-needed", {requireForBlockBody: true}] },
+    { code: "(...a) => a[0]", options: ["as-needed", {requireForBlockBody: true}] },
+    { code: "(a, b) => {}", options: ["as-needed", {requireForBlockBody: true}] },
+    { code: "a => ({})", options: ["as-needed", {requireForBlockBody: true}] },
     { code: "async a => ({})", options: ["as-needed", {requireForBlockBody: true}], parserOptions: { ecmaVersion: 8 } },
     { code: "async a => a", options: ["as-needed", {requireForBlockBody: true}], parserOptions: { ecmaVersion: 8 } },
-    { code: "(a: T) => a", options: ["as-needed", {requireForBlockBody: true}], parserOptions: { ecmaVersion: 6 }, parser: parser("identifer-type") },
-    { code: "(a): T => a", options: ["as-needed", {requireForBlockBody: true}], parserOptions: { ecmaVersion: 6 }, parser: parser("return-type") },
+    { code: "(a: T) => a", options: ["as-needed", {requireForBlockBody: true}], parser: parser("identifer-type") },
+    { code: "(a): T => a", options: ["as-needed", {requireForBlockBody: true}], parser: parser("return-type") },
 ];
 
 const message = "Expected parentheses around arrow function argument.";
@@ -95,7 +95,6 @@ const invalid = [
     {
         code: "a => {}",
         output: "(a) => {}",
-        parserOptions: { ecmaVersion: 6 },
         errors: [{
             line: 1,
             column: 1,
@@ -106,7 +105,6 @@ const invalid = [
     {
         code: "a => a",
         output: "(a) => a",
-        parserOptions: { ecmaVersion: 6 },
         errors: [{
             line: 1,
             column: 1,
@@ -117,7 +115,6 @@ const invalid = [
     {
         code: "a => {\n}",
         output: "(a) => {\n}",
-        parserOptions: { ecmaVersion: 6 },
         errors: [{
             line: 1,
             column: 1,
@@ -128,7 +125,6 @@ const invalid = [
     {
         code: "a.then(foo => {});",
         output: "a.then((foo) => {});",
-        parserOptions: { ecmaVersion: 6 },
         errors: [{
             line: 1,
             column: 8,
@@ -139,7 +135,6 @@ const invalid = [
     {
         code: "a.then(foo => a);",
         output: "a.then((foo) => a);",
-        parserOptions: { ecmaVersion: 6 },
         errors: [{
             line: 1,
             column: 8,
@@ -150,7 +145,6 @@ const invalid = [
     {
         code: "a(foo => { if (true) {}; });",
         output: "a((foo) => { if (true) {}; });",
-        parserOptions: { ecmaVersion: 6 },
         errors: [{
             line: 1,
             column: 3,
@@ -175,7 +169,6 @@ const invalid = [
         code: "(a) => a",
         output: "a => a",
         options: ["as-needed"],
-        parserOptions: { ecmaVersion: 6 },
         errors: [{
             line: 1,
             column: 1,
@@ -201,7 +194,6 @@ const invalid = [
         code: "a => {}",
         output: "(a) => {}",
         options: ["as-needed", {requireForBlockBody: true}],
-        parserOptions: { ecmaVersion: 6 },
         errors: [{
             line: 1,
             column: 1,
@@ -213,7 +205,6 @@ const invalid = [
         code: "(a) => a",
         output: "a => a",
         options: ["as-needed", {requireForBlockBody: true}],
-        parserOptions: { ecmaVersion: 6 },
         errors: [{
             line: 1,
             column: 1,
