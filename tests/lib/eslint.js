@@ -1917,13 +1917,15 @@ describe("eslint", () => {
 
     describe("when evaluating code with comments to disable and enable configurable rule as part of plugin", () => {
 
-        eslint.defineRule("test-plugin/test-rule", context => ({
-            Literal(node) {
-                if (node.value === "trigger violation") {
-                    context.report(node, "Reporting violation.");
+        before(() => {
+            eslint.defineRule("test-plugin/test-rule", context => ({
+                Literal(node) {
+                    if (node.value === "trigger violation") {
+                        context.report(node, "Reporting violation.");
+                    }
                 }
-            }
-        }));
+            }));
+        });
 
         it("should not report a violation when inline comment enables plugin rule and there's no violation", () => {
             const config = { rules: {} };
@@ -2732,6 +2734,24 @@ describe("eslint", () => {
             const config = eslint.defaults();
 
             assert.isNotNull(config.rules);
+        });
+    });
+
+    describe("when calling getRules", () => {
+        it("should return all loaded rules", () => {
+            const rules = eslint.getRules();
+
+            assert.isAbove(rules.size, 230);
+            assert.isObject(rules.get("no-alert"));
+        });
+    });
+
+    describe("when calling version", () => {
+        it("should return current version number", () => {
+            const version = eslint.version;
+
+            assert.isString(version);
+            assert.isTrue(parseInt(version[0], 10) >= 3);
         });
     });
 

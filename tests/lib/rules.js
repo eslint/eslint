@@ -19,11 +19,7 @@ const assert = require("chai").assert,
 describe("rules", () => {
 
     beforeEach(() => {
-        rules.testClear();
-    });
-
-    afterEach(() => {
-        rules.load();
+        rules.testReset();
     });
 
     describe("when given an invalid rules directory", () => {
@@ -68,6 +64,24 @@ describe("rules", () => {
 
             assert.isDefined(rules.get("custom-plugin/custom-rule"));
             assert.equal(rules.get("custom-plugin/custom-rule"), customPlugin.rules["custom-rule"]);
+        });
+
+        it("should return custom rules as part of getAllLoadedRules", () => {
+            rules.importPlugin(customPlugin, pluginName);
+
+            const allRules = rules.getAllLoadedRules();
+
+            assert.equal(allRules.get("custom-plugin/custom-rule"), customPlugin.rules["custom-rule"]);
+        });
+    });
+
+    describe("when loading all rules", () => {
+        it("should return a map", () => {
+            const allRules = rules.getAllLoadedRules();
+
+            assert.isAbove(allRules.size, 230);
+            assert.instanceOf(allRules, Map);
+            assert.isObject(allRules.get("no-alert"));
         });
     });
 });
