@@ -4,6 +4,7 @@
     "rules": {
         "no-alert": "off",
         "no-array-constructor": "off",
+        "no-await-in-loop": "off",
         "no-bitwise": "off",
         "no-caller": "off",
         "no-case-declarations": "error",
