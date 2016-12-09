@@ -26,13 +26,15 @@ This rule has one option, which can be a string option or an object option.
 
 String option:
 
-* `"after"` (default) requires linebreaks to be placed after the operator (except for the ternary operator characters `?` and `:`)
+* `"after"` requires linebreaks to be placed after the operator
 * `"before"` requires linebreaks to be placed before the operator
 * `"none"` disallows linebreaks on either side of the operator
 
 Object option:
 
 * `"overrides"` overrides the global setting for specified operators
+
+The default configuration is `"after", { "overrides": { "?": "before", ":": "before" } }`
 
 ### after
 
