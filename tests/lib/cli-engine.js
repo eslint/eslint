@@ -18,7 +18,8 @@ const assert = require("chai").assert,
     Plugins = require("../../lib/config/plugins"),
     fs = require("fs"),
     os = require("os"),
-    hash = require("../../lib/util/hash");
+    hash = require("../../lib/util/hash"),
+    rules = require("../../lib/rules");
 
 require("shelljs/global");
 
@@ -82,6 +83,7 @@ describe("CLIEngine", () => {
     after(() => {
         rm("-r", fixtureDir);
         Plugins.testReset();
+        rules.testReset();
     });
 
     describe("new CLIEngine(options)", () => {
@@ -2702,6 +2704,16 @@ describe("CLIEngine", () => {
             assert.equal(messages.length, 0);
         });
 
+    });
+
+    describe("when retreiving version number", () => {
+        it("should return current version number", () => {
+            const eslintCLI = require("../../lib/cli-engine");
+            const version = eslintCLI.version;
+
+            assert.isString(version);
+            assert.isTrue(parseInt(version[0], 10) >= 3);
+        });
     });
 
 });
