@@ -1829,6 +1829,40 @@ ruleTester.run("indent", rule, {
         {
             code: "{\n}",
             options: [2, {ObjectExpression: 1}]
+        },
+        {
+            code:
+            "var foo = [\n" +
+            "  [\n" +
+            "    1\n" +
+            "  ]\n" +
+            "]",
+            options: [2, {ArrayExpression: "first"}]
+        },
+        {
+            code:
+            "var foo = [ 1,\n" +
+            "            [\n" +
+            "              2\n" +
+            "            ]\n" +
+            "];",
+            options: [2, {ArrayExpression: "first"}]
+        },
+        {
+            code:
+            "var foo = bar(1,\n" +
+            "              [ 2,\n" +
+            "                3\n" +
+            "              ]\n" +
+            ");",
+            options: [4, {ArrayExpression: "first", CallExpression: {arguments: "first"}}]
+        },
+        {
+            code:
+            "var foo =\n" +
+            "    [\n" +
+            "    ]()",
+            options: [4, {CallExpression: {arguments: "first"}, ArrayExpression: "first"}]
         }
     ],
     invalid: [
