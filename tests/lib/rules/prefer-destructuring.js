@@ -48,10 +48,6 @@ ruleTester.run("prefer-destructuring", rule, {
         {
             code: "var foo = object['foo'];",
             options: [{ object: false }]
-        },
-        {
-            code: "var { foo: bar } = object;",
-            options: [{ object: false }]
         }
     ],
 
@@ -75,13 +71,6 @@ ruleTester.run("prefer-destructuring", rule, {
             errors: [{
                 message: "Use object destructuring",
                 type: "VariableDeclarator"
-            }]
-        },
-        {
-            code: "let { foo: foo } = object;",
-            errors: [{
-                message: "Unnecessary duplicate variable name",
-                type: "Property"
             }]
         }
     ]
