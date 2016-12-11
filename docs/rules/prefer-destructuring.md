@@ -4,7 +4,7 @@ With JavaScript ES6, a new syntax was added for creating variables from an array
 
 ## Rule Details
 
-The following patterns are considered warnings:
+Examples of **incorrect** code for this rule:
 
 ```javascript
 // With `array` enabled
@@ -15,7 +15,7 @@ var foo = object.foo;
 var foo = object['foo'];
 ```
 
-The following patterns are not warnings:
+Examples of **correct** code for this rule:
 
 ```javascript
 // With `array` enabled
@@ -32,7 +32,7 @@ This rule takes two properties, `array` and `object`, which can be used to turn 
 ```json
 {
   "rules": {
-    "ember-suave/prefer-destructuring": ["error", {
+    "prefer-destructuring": ["error", {
       "array": true,
       "object": true
     }]
@@ -43,6 +43,15 @@ This rule takes two properties, `array` and `object`, which can be used to turn 
 ## When Not To Use It
 
 If you want to be able to access array indices or object properties directly, you can either configure the rule to your tastes or disable the rule entirely.
+
+Additionally, if you intend to access large array indices directly, like:
+
+```javascript
+var foo = array[100];
+```
+
+Then the `array` part of this rule is not recommended, as destructuring does not match this use case very well.
+
 
 ## Further Reading
 

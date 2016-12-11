@@ -16,17 +16,15 @@ const rule = require("../../../lib/rules/prefer-destructuring"),
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester();
+const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } });
 
 ruleTester.run("prefer-destructuring", rule, {
     valid: [
         {
-            code: "var [foo] = array;",
-            parserOptions: { ecmaVersion: 6 }
+            code: "var [foo] = array;"
         },
         {
-            code: "var { foo } = object;",
-            parserOptions: { ecmaVersion: 6 }
+            code: "var { foo } = object;"
         },
         {
 
@@ -34,39 +32,32 @@ ruleTester.run("prefer-destructuring", rule, {
             code: "var foo;"
         },
         {
-            code: "var foo = object.bar;",
-            parserOptions: { ecmaVersion: 6 }
+            code: "var foo = object.bar;"
         },
         {
-            code: "var foo = object['bar'];",
-            parserOptions: { ecmaVersion: 6 }
+            code: "var foo = object['bar'];"
         },
         {
             code: "var foo = array[0];",
-            options: [{ array: false }],
-            parserOptions: { ecmaVersion: 6 }
+            options: [{ array: false }]
         },
         {
             code: "var foo = object.foo;",
-            options: [{ object: false }],
-            parserOptions: { ecmaVersion: 6 }
+            options: [{ object: false }]
         },
         {
             code: "var foo = object['foo'];",
-            options: [{ object: false }],
-            parserOptions: { ecmaVersion: 6 }
+            options: [{ object: false }]
         },
         {
             code: "var { foo: bar } = object;",
-            options: [{ object: false }],
-            parserOptions: { ecmaVersion: 6 }
+            options: [{ object: false }]
         }
     ],
 
     invalid: [
         {
             code: "var foo = array[0];",
-            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 message: "Use array destructuring",
                 type: "VariableDeclarator"
@@ -74,7 +65,6 @@ ruleTester.run("prefer-destructuring", rule, {
         },
         {
             code: "var foo = array.foo;",
-            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 message: "Use object destructuring",
                 type: "VariableDeclarator"
@@ -82,7 +72,6 @@ ruleTester.run("prefer-destructuring", rule, {
         },
         {
             code: "var foo = array['foo'];",
-            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 message: "Use object destructuring",
                 type: "VariableDeclarator"
@@ -90,7 +79,6 @@ ruleTester.run("prefer-destructuring", rule, {
         },
         {
             code: "let { foo: foo } = object;",
-            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 message: "Unnecessary duplicate variable name",
                 type: "Property"
