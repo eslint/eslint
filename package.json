@@ -66,8 +66,7 @@
     "strip-bom": "^3.0.0",
     "strip-json-comments": "~1.0.1",
     "table": "^3.7.8",
-    "text-table": "~0.2.0",
-    "user-home": "^2.0.0"
+    "text-table": "~0.2.0"
   },
   "devDependencies": {
     "babel-polyfill": "^6.9.1",
