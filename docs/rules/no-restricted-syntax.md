@@ -51,3 +51,5 @@ If you don't want to restrict your code from using any JavaScript features or sy
 * [no-alert](no-alert.md)
 * [no-console](no-console.md)
 * [no-debugger](no-debugger.md)
+* [no-restricted-properties](no-restricted-properties.md)
+* [no-restricted-syntax](no-restricted-syntax.md)
