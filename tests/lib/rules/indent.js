@@ -1863,6 +1863,50 @@ ruleTester.run("indent", rule, {
             "    [\n" +
             "    ]()",
             options: [4, {CallExpression: {arguments: "first"}, ArrayExpression: "first"}]
+        },
+
+        // https://github.com/eslint/eslint/issues/7732
+        {
+            code:
+            "const lambda = foo => {\n" +
+            "  Object.assign({},\n" +
+            "    filterName,\n" +
+            "    {\n" +
+            "      display\n" +
+            "    }\n" +
+            "  );" +
+            "}",
+            options: [2, {ObjectExpression: 1}],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code:
+            "const lambda = foo => {\n" +
+            "  Object.assign({},\n" +
+            "    filterName,\n" +
+            "    {\n" +
+            "      display\n" +
+            "    }\n" +
+            "  );" +
+            "}",
+            options: [2, {ObjectExpression: "first"}],
+            parserOptions: { ecmaVersion: 6 }
+        },
+
+        // https://github.com/eslint/eslint/issues/7733
+        {
+            code:
+            "var foo = function() {\n" +
+            "\twindow.foo('foo',\n" +
+            "\t\t{\n" +
+            "\t\t\tfoo: 'bar'," +
+            "\t\t\tbar: {\n" +
+            "\t\t\t\tfoo: 'bar'\n" +
+            "\t\t\t}\n" +
+            "\t\t}\n" +
+            "\t);\n" +
+            "}",
+            options: ["tab"]
         }
     ],
     invalid: [
