@@ -44,3 +44,8 @@ import event from "event-module";
 
 var event = 1;
 ```
+
+## Related Rules
+
+* [no-restricted-properties](no-restricted-properties.md)
+* [no-restricted-syntax](no-restricted-syntax.md)
