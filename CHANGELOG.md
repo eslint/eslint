@@ -1,3 +1,10 @@
+v3.12.1 - December 12, 2016
+
+* 0ad4d33 Fix: `indent` regression with function calls (fixes #7732, fixes #7733) (#7734) (Teddy Katz)
+* ab246dd Docs: Rules restricting globals/properties/syntax are linked together (#7743) (Kevin Partington)
+* df2f115 Docs: Add eslint-config-mdcs to JSCS Migration Guide (#7737) (Joshua Koo)
+* 4b77333 Build: avoid creating broken rule links in the changelog (#7731) (Teddy Katz)
+
 v3.12.0 - December 9, 2016
 
 * e569225 Update: fix false positive/negative of yoda rule (fixes #7676) (#7695) (Toru Nagashima)
