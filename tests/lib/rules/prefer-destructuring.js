@@ -48,6 +48,12 @@ ruleTester.run("prefer-destructuring", rule, {
         {
             code: "var foo = object['foo'];",
             options: [{ object: false }]
+        },
+        {
+            code: "({ foo } = object);"
+        },
+        {
+            code: "[foo] = array;"
         }
     ],
 
@@ -57,6 +63,13 @@ ruleTester.run("prefer-destructuring", rule, {
             errors: [{
                 message: "Use array destructuring",
                 type: "VariableDeclarator"
+            }]
+        },
+        {
+            code: "foo = array[0];",
+            errors: [{
+                message: "Use array destructuring",
+                type: "AssignmentExpression"
             }]
         },
         {
@@ -71,6 +84,20 @@ ruleTester.run("prefer-destructuring", rule, {
             errors: [{
                 message: "Use object destructuring",
                 type: "VariableDeclarator"
+            }]
+        },
+        {
+            code: "foo = array.foo;",
+            errors: [{
+                message: "Use object destructuring",
+                type: "AssignmentExpression"
+            }]
+        },
+        {
+            code: "foo = array['foo'];",
+            errors: [{
+                message: "Use object destructuring",
+                type: "AssignmentExpression"
             }]
         }
     ]
