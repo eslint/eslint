@@ -55,11 +55,14 @@ ruleTester.run("object-shorthand", rule, {
         "doSomething({y() {}, z: a})",
         "!{ a: function a(){} };",
 
-        // arrow functions are still alright
+        // arrow functions are still alright by default
         "var x = {y: (x)=>x}",
         "doSomething({y: (x)=>x})",
         "var x = {y: (x)=>x, y: a}",
         "doSomething({x, y: (x)=>x})",
+        "({ foo: x => { return; }})",
+        "({ foo: (x) => { return; }})",
+        "({ foo: () => { return; }})",
 
         // getters and setters are ok
         "var x = {get y() {}}",
@@ -264,6 +267,113 @@ ruleTester.run("object-shorthand", rule, {
             code: "var x = {...foo, bar, baz}",
             parserOptions: { ecmaFeatures: { experimentalObjectRestSpread: true } },
             options: ["consistent-as-needed"]
+        },
+
+        // avoidLongformArrows
+        {
+            code: "({ x: () => foo })",
+            options: ["always", { allowExplicitReturnArrows: true }]
+        },
+        {
+            code: "({ x: () => { return; } })",
+            options: ["always", { allowExplicitReturnArrows: true }]
+        },
+        {
+            code: "({ x: () => foo })",
+            options: ["always", { allowExplicitReturnArrows: false }]
+        },
+        {
+            code: "({ x() { return; } })",
+            options: ["always", { allowExplicitReturnArrows: false }]
+        },
+        {
+            code: "({ x() { return; }, y() { return; } })",
+            options: ["always", { allowExplicitReturnArrows: false }]
+        },
+        {
+            code: "({ x() { return; }, y: () => foo })",
+            options: ["always", { allowExplicitReturnArrows: false }]
+        },
+        {
+            code: "({ x: () => foo, y() { return; } })",
+            options: ["always", { allowExplicitReturnArrows: false }]
+        },
+        {
+            code: "({ x: () => { this; } })",
+            options: ["always", { allowExplicitReturnArrows: false }]
+        },
+        {
+            code: "function foo() { ({ x: () => { arguments; } }) }",
+            options: ["always", { allowExplicitReturnArrows: false }]
+        },
+        {
+            code: "function foo() { ({ x: () => { arguments; } }) }",
+            options: ["always", { allowExplicitReturnArrows: false }]
+        },
+        {
+            code: `
+                class Foo extends Bar {
+                  constructor() {
+                      var foo = { x: () => { super(); } };
+                  }
+              }
+            `,
+            options: ["always", { allowExplicitReturnArrows: false }]
+        },
+        {
+            code: `
+                class Foo extends Bar {
+                    baz() {
+                        var foo = { x: () => { super.baz(); } };
+                    }
+                }
+            `,
+            options: ["always", { allowExplicitReturnArrows: false }]
+        },
+        {
+            code: `
+                function foo() {
+                    var x = { x: () => { new.target; } };
+                }
+            `,
+            options: ["always", { allowExplicitReturnArrows: false }]
+        },
+        {
+            code: `
+                function foo() {
+                    var x = {
+                        x: () => {
+                            var y = () => { this; };
+                        }
+                    };
+                }
+            `,
+            options: ["always", { allowExplicitReturnArrows: false }]
+        },
+        {
+            code: `
+                function foo() {
+                    var x = {
+                        x: () => {
+                            var y = () => { this; };
+                            function foo() { this; }
+                        }
+                    };
+                }
+            `,
+            options: ["always", { allowExplicitReturnArrows: false }]
+        },
+        {
+            code: `
+                function foo() {
+                    var x = {
+                        x: () => {
+                            return { y: () => { this; } };
+                        }
+                    };
+                }
+            `,
+            options: ["always", { allowExplicitReturnArrows: false }]
         }
     ],
     invalid: [
@@ -671,6 +781,190 @@ ruleTester.run("object-shorthand", rule, {
             parserOptions: { ecmaFeatures: { experimentalObjectRestSpread: true } },
             options: ["consistent-as-needed"],
             errors: [MIXED_SHORTHAND_ERROR]
+        },
+
+        // avoidLongformArrows
+        {
+            code: "({ x: () => { return; } })",
+            output: "({ x() { return; } })",
+            options: ["always", { allowExplicitReturnArrows: false }],
+            errors: [METHOD_ERROR]
+        },
+        {
+            code: "({ x() { return; }, y: () => { return; } })",
+            output: "({ x() { return; }, y() { return; } })",
+            options: ["always", { allowExplicitReturnArrows: false }],
+            errors: [METHOD_ERROR]
+        },
+        {
+            code: "({ x: () => { return; }, y: () => foo })",
+            output: "({ x() { return; }, y: () => foo })",
+            options: ["always", { allowExplicitReturnArrows: false }],
+            errors: [METHOD_ERROR]
+        },
+        {
+            code: "({ x: () => { return; }, y: () => { return; } })",
+            output: "({ x() { return; }, y() { return; } })",
+            options: ["always", { allowExplicitReturnArrows: false }],
+            errors: [METHOD_ERROR, METHOD_ERROR]
+        },
+        {
+            code: "({ x: foo => { return; } })",
+            output: "({ x(foo) { return; } })",
+            options: ["always", { allowExplicitReturnArrows: false }],
+            errors: [METHOD_ERROR]
+        },
+        {
+            code: "({ x: (foo = 1) => { return; } })",
+            output: "({ x(foo = 1) { return; } })",
+            options: ["always", { allowExplicitReturnArrows: false }],
+            errors: [METHOD_ERROR]
+        },
+        {
+            code: "({ x: ({ foo: bar = 1 } = {}) => { return; } })",
+            output: "({ x({ foo: bar = 1 } = {}) { return; } })",
+            options: ["always", { allowExplicitReturnArrows: false }],
+            errors: [METHOD_ERROR]
+        },
+        {
+            code: "({ x: () => { function foo() { this; } } })",
+            output: "({ x() { function foo() { this; } } })",
+            options: ["always", { allowExplicitReturnArrows: false }],
+            errors: [METHOD_ERROR]
+        },
+        {
+            code: "({ x: () => { var foo = function() { arguments; } } })",
+            output: "({ x() { var foo = function() { arguments; } } })",
+            options: ["always", { allowExplicitReturnArrows: false }],
+            errors: [METHOD_ERROR]
+        },
+        {
+            code: "({ x: () => { function foo() { arguments; } } })",
+            output: "({ x() { function foo() { arguments; } } })",
+            options: ["always", { allowExplicitReturnArrows: false }],
+            errors: [METHOD_ERROR]
+        },
+        {
+            code: `
+                ({
+                    x: () => {
+                        class Foo extends Bar {
+                            constructor() {
+                                super();
+                            }
+                        }
+                    }
+                })
+            `,
+            output: `
+                ({
+                    x() {
+                        class Foo extends Bar {
+                            constructor() {
+                                super();
+                            }
+                        }
+                    }
+                })
+            `,
+            options: ["always", { allowExplicitReturnArrows: false }],
+            errors: [METHOD_ERROR]
+        },
+        {
+            code: `
+                ({
+                    x: () => {
+                        function foo() {
+                            new.target;
+                        }
+                    }
+                })
+            `,
+            output: `
+                ({
+                    x() {
+                        function foo() {
+                            new.target;
+                        }
+                    }
+                })
+            `,
+            options: ["always", { allowExplicitReturnArrows: false }],
+            errors: [METHOD_ERROR]
+        },
+        {
+            code: "({ 'foo bar': () => { return; } })",
+            output: "({ 'foo bar'() { return; } })",
+            options: ["always", { allowExplicitReturnArrows: false }],
+            errors: [METHOD_ERROR]
+        },
+        {
+            code: "({ [foo]: () => { return; } })",
+            output: "({ [foo]() { return; } })",
+            options: ["always", { allowExplicitReturnArrows: false }],
+            errors: [METHOD_ERROR]
+        },
+        {
+            code: "({ a: 1, foo: async (bar = 1) => { return; } })",
+            output: "({ a: 1, async foo(bar = 1) { return; } })",
+            options: ["always", { allowExplicitReturnArrows: false }],
+            parserOptions: { ecmaVersion: 8 },
+            errors: [METHOD_ERROR]
+        },
+        {
+            code: "({ [ foo ]: async bar => { return; } })",
+            output: "({ async [ foo ](bar) { return; } })",
+            options: ["always", { allowExplicitReturnArrows: false }],
+            parserOptions: { ecmaVersion: 8 },
+            errors: [METHOD_ERROR]
+        },
+        {
+            code: `
+                function foo() {
+                    var x = {
+                        x: () => {
+                            this;
+                            return { y: () => { foo; } };
+                        }
+                    };
+                }
+            `,
+            output: `
+                function foo() {
+                    var x = {
+                        x: () => {
+                            this;
+                            return { y() { foo; } };
+                        }
+                    };
+                }
+            `,
+            options: ["always", { allowExplicitReturnArrows: false }],
+            errors: [METHOD_ERROR]
+        },
+        {
+            code: `
+                function foo() {
+                    var x = {
+                        x: () => {
+                            ({ y: () => { foo; } });
+                            this;
+                        }
+                    };
+                }
+            `,
+            output: `
+                function foo() {
+                    var x = {
+                        x: () => {
+                            ({ y() { foo; } });
+                            this;
+                        }
+                    };
+                }
+            `,
+            options: ["always", { allowExplicitReturnArrows: false }],
+            errors: [METHOD_ERROR]
         }
     ]
 });
