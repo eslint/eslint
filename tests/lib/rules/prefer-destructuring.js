@@ -32,10 +32,20 @@ ruleTester.run("prefer-destructuring", rule, {
             code: "var foo;"
         },
         {
-            code: "var foo = object.bar;"
+            code: "var foo = object.bar;",
+            options: [{ object: true }, { requireRenaming: false }]
         },
         {
-            code: "var foo = object['bar'];"
+            code: "var foo = object['bar'];",
+            options: [{ object: true }, { requireRenaming: false }]
+        },
+        {
+            code: "var { bar: foo } = object;",
+            options: [{ object: true }, { requireRenaming: true }]
+        },
+        {
+            code: "var foo = object[bar];",
+            options: [{ object: true }, { requireRenaming: true }]
         },
         {
             code: "var foo = array[0];",
@@ -74,6 +84,14 @@ ruleTester.run("prefer-destructuring", rule, {
         },
         {
             code: "var foo = array.foo;",
+            errors: [{
+                message: "Use object destructuring",
+                type: "VariableDeclarator"
+            }]
+        },
+        {
+            code: "var foo = array.bar;",
+            options: [{ object: true }, { requireRenaming: true }],
             errors: [{
                 message: "Use object destructuring",
                 type: "VariableDeclarator"
