@@ -1,5 +1,20 @@
 # disallow the unary operators `++` and `--` (no-plusplus)
 
+(fixable) The `--fix` option on the [command line](../user-guide/command-line-interface#fix) automatically fixes problems reported by this rule.
+For safety reasons autofixer won't fix cases like:
+
+```
+++i === 10
+```
+
+```
+var bar = foo++;
+```
+
+```
+return i++;
+```
+
 Because the unary `++` and `--` operators are subject to automatic semicolon insertion, differences in whitespace can change semantics of source code.
 
 ```js
