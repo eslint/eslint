@@ -23,9 +23,9 @@ Examples of **correct** code for this rule:
 ```js
 /*eslint no-prototype-builtins: "error"*/
 
-var hasBarProperty = {}.hasOwnProperty.call(foo, "bar");
+var hasBarProperty = Object.prototype.hasOwnProperty.call(foo, "bar");
 
-var isPrototypeOfBar = {}.isPrototypeOf.call(foo, bar);
+var isPrototypeOfBar = Object.prototype.isPrototypeOf.call(foo, bar);
 
 var barIsEnumerable = {}.propertyIsEnumerable.call(foo, "bar");
 ```
