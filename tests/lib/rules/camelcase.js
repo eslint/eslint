@@ -41,23 +41,23 @@ ruleTester.run("camelcase", rule, {
         "if (foo.bar_baz === boom.bam_pow) { [foo.baz_boom] }",
         {
             code: "var o = {key: 1}",
-            options: [{properties: "always"}]
+            options: [{ properties: "always" }]
         },
         {
             code: "var o = {bar_baz: 1}",
-            options: [{properties: "never"}]
+            options: [{ properties: "never" }]
         },
         {
             code: "obj.a_b = 2;",
-            options: [{properties: "never"}]
+            options: [{ properties: "never" }]
         },
         {
             code: "var obj = {\n a_a: 1 \n};\n obj.a_b = 2;",
-            options: [{properties: "never"}]
+            options: [{ properties: "never" }]
         },
         {
             code: "obj.foo_bar = function(){};",
-            options: [{properties: "never"}]
+            options: [{ properties: "never" }]
         },
         {
             code: "var { category_id: category } = query;",
@@ -66,7 +66,7 @@ ruleTester.run("camelcase", rule, {
         {
             code: "var { category_id: category } = query;",
             parserOptions: { ecmaVersion: 6 },
-            options: [{properties: "never"}]
+            options: [{ properties: "never" }]
         },
         {
             code: "import { camelCased } from \"external module\";",
@@ -174,7 +174,7 @@ ruleTester.run("camelcase", rule, {
         },
         {
             code: "var o = {bar_baz: 1}",
-            options: [{properties: "always"}],
+            options: [{ properties: "always" }],
             errors: [
                 {
                     message: "Identifier 'bar_baz' is not in camel case.",
@@ -184,7 +184,7 @@ ruleTester.run("camelcase", rule, {
         },
         {
             code: "obj.a_b = 2;",
-            options: [{properties: "always"}],
+            options: [{ properties: "always" }],
             errors: [
                 {
                     message: "Identifier 'a_b' is not in camel case.",
@@ -194,7 +194,7 @@ ruleTester.run("camelcase", rule, {
         },
         {
             code: "obj.a_b = 2;",
-            options: [{properties: "always"}],
+            options: [{ properties: "always" }],
             errors: [
                 {
                     message: "Identifier 'a_b' is not in camel case.",

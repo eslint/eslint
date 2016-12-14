@@ -171,54 +171,54 @@ ruleTester.run("space-unary-ops", rule, {
         },
         {
             code: "async function foo() { await {qux: 4} }",
-            options: [{ words: false, overrides: {await: true} }],
+            options: [{ words: false, overrides: { await: true } }],
             parserOptions: { ecmaVersion: 8 }
         },
         {
             code: "async function foo() { await{foo: 5} }",
-            options: [{ words: true, overrides: {await: false} }],
+            options: [{ words: true, overrides: { await: false } }],
             parserOptions: { ecmaVersion: 8 }
         },
         {
             code: "foo++",
-            options: [{ nonwords: true, overrides: {"++": false} }]
+            options: [{ nonwords: true, overrides: { "++": false } }]
         },
         {
             code: "foo++",
-            options: [{ nonwords: false, overrides: {"++": false} }]
+            options: [{ nonwords: false, overrides: { "++": false } }]
         },
         {
             code: "++foo",
-            options: [{ nonwords: true, overrides: {"++": false} }]
+            options: [{ nonwords: true, overrides: { "++": false } }]
         },
         {
             code: "++foo",
-            options: [{ nonwords: false, overrides: {"++": false} }]
+            options: [{ nonwords: false, overrides: { "++": false } }]
         },
         {
             code: "!foo",
-            options: [{ nonwords: true, overrides: {"!": false} }]
+            options: [{ nonwords: true, overrides: { "!": false } }]
         },
         {
             code: "!foo",
-            options: [{ nonwords: false, overrides: {"!": false} }]
+            options: [{ nonwords: false, overrides: { "!": false } }]
         },
         {
             code: "new foo",
-            options: [{ words: true, overrides: {new: false} }]
+            options: [{ words: true, overrides: { new: false } }]
         },
         {
             code: "new foo",
-            options: [{ words: false, overrides: {new: false} }]
+            options: [{ words: false, overrides: { new: false } }]
         },
         {
             code: "function *foo () { yield (0) }",
-            options: [{ words: true, overrides: {yield: false} }],
+            options: [{ words: true, overrides: { yield: false } }],
             parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "function *foo () { yield (0) }",
-            options: [{ words: false, overrides: {yield: false} }],
+            options: [{ words: false, overrides: { yield: false } }],
             parserOptions: { ecmaVersion: 6 }
         }
     ],
@@ -442,7 +442,7 @@ ruleTester.run("space-unary-ops", rule, {
         {
             code: "foo++",
             output: "foo ++",
-            options: [{ nonwords: true, overrides: {"++": true} }],
+            options: [{ nonwords: true, overrides: { "++": true } }],
             errors: [{
                 message: "Space is required before unary expressions '++'."
             }]
@@ -450,7 +450,7 @@ ruleTester.run("space-unary-ops", rule, {
         {
             code: "foo++",
             output: "foo ++",
-            options: [{ nonwords: false, overrides: {"++": true} }],
+            options: [{ nonwords: false, overrides: { "++": true } }],
             errors: [{
                 message: "Space is required before unary expressions '++'."
             }]
@@ -458,7 +458,7 @@ ruleTester.run("space-unary-ops", rule, {
         {
             code: "++foo",
             output: "++ foo",
-            options: [{ nonwords: true, overrides: {"++": true} }],
+            options: [{ nonwords: true, overrides: { "++": true } }],
             errors: [{
                 message: "Unary operator '++' must be followed by whitespace."
             }]
@@ -466,7 +466,7 @@ ruleTester.run("space-unary-ops", rule, {
         {
             code: "++foo",
             output: "++ foo",
-            options: [{ nonwords: false, overrides: {"++": true} }],
+            options: [{ nonwords: false, overrides: { "++": true } }],
             errors: [{
                 message: "Unary operator '++' must be followed by whitespace."
             }]
@@ -474,7 +474,7 @@ ruleTester.run("space-unary-ops", rule, {
         {
             code: "!foo",
             output: "! foo",
-            options: [{ nonwords: true, overrides: {"!": true} }],
+            options: [{ nonwords: true, overrides: { "!": true } }],
             errors: [{
                 message: "Unary operator '!' must be followed by whitespace."
             }]
@@ -482,7 +482,7 @@ ruleTester.run("space-unary-ops", rule, {
         {
             code: "!foo",
             output: "! foo",
-            options: [{ nonwords: false, overrides: {"!": true} }],
+            options: [{ nonwords: false, overrides: { "!": true } }],
             errors: [{
                 message: "Unary operator '!' must be followed by whitespace."
             }]
@@ -490,7 +490,7 @@ ruleTester.run("space-unary-ops", rule, {
         {
             code: "new(Foo)",
             output: "new (Foo)",
-            options: [{ words: true, overrides: {new: true} }],
+            options: [{ words: true, overrides: { new: true } }],
             errors: [{
                 message: "Unary word operator 'new' must be followed by whitespace."
             }]
@@ -498,7 +498,7 @@ ruleTester.run("space-unary-ops", rule, {
         {
             code: "new(Foo)",
             output: "new (Foo)",
-            options: [{ words: false, overrides: {new: true} }],
+            options: [{ words: false, overrides: { new: true } }],
             errors: [{
                 message: "Unary word operator 'new' must be followed by whitespace."
             }]
@@ -506,7 +506,7 @@ ruleTester.run("space-unary-ops", rule, {
         {
             code: "function *foo() { yield(0) }",
             output: "function *foo() { yield (0) }",
-            options: [{ words: true, overrides: {yield: true} }],
+            options: [{ words: true, overrides: { yield: true } }],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
                 message: "Unary word operator 'yield' must be followed by whitespace.",
@@ -518,7 +518,7 @@ ruleTester.run("space-unary-ops", rule, {
         {
             code: "function *foo() { yield(0) }",
             output: "function *foo() { yield (0) }",
-            options: [{ words: false, overrides: {yield: true} }],
+            options: [{ words: false, overrides: { yield: true } }],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
                 message: "Unary word operator 'yield' must be followed by whitespace.",
@@ -541,7 +541,7 @@ ruleTester.run("space-unary-ops", rule, {
         {
             code: "async function foo() { await{baz: 'qux'} }",
             output: "async function foo() { await {baz: 'qux'} }",
-            options: [{ words: false, overrides: {await: true} }],
+            options: [{ words: false, overrides: { await: true } }],
             parserOptions: { ecmaVersion: 8 },
             errors: [{
                 message: "Unary word operator 'await' must be followed by whitespace.",
@@ -565,7 +565,7 @@ ruleTester.run("space-unary-ops", rule, {
         {
             code: "async function foo() { await {bar: 2} }",
             output: "async function foo() { await{bar: 2} }",
-            options: [{ words: true, overrides: {await: false} }],
+            options: [{ words: true, overrides: { await: false } }],
             parserOptions: { ecmaVersion: 8 },
             errors: [{
                 message: "Unexpected space after unary word operator 'await'.",

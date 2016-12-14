@@ -28,11 +28,11 @@ ruleTester.run("no-unneeded-ternary", rule, {
         "var a = foo ? foo : bar;",
         {
             code: "var a = foo ? 'Yes' : foo;",
-            options: [{defaultAssignment: false}]
+            options: [{ defaultAssignment: false }]
         },
         {
             code: "var a = foo ? bar : foo;",
-            options: [{defaultAssignment: false}]
+            options: [{ defaultAssignment: false }]
         }
     ],
     invalid: [
@@ -47,7 +47,7 @@ ruleTester.run("no-unneeded-ternary", rule, {
         },
         {
             code: "var a = foo ? foo : 'No';",
-            options: [{defaultAssignment: false}],
+            options: [{ defaultAssignment: false }],
             errors: [{
                 message: "Unnecessary use of conditional expression for default assignment.",
                 type: "ConditionalExpression",

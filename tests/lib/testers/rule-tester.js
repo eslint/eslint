@@ -59,7 +59,7 @@ describe("RuleTester", () => {
                     "Eval(foo)"
                 ],
                 invalid: [
-                    { code: "eval(foo)", errors: [{ message: "eval sucks.", type: "CallExpression"}] }
+                    { code: "eval(foo)", errors: [{ message: "eval sucks.", type: "CallExpression" }] }
                 ]
             });
         });
@@ -73,7 +73,7 @@ describe("RuleTester", () => {
                     "eval(foo)"
                 ],
                 invalid: [
-                    { code: "eval(foo)", errors: [{ message: "eval sucks.", type: "CallExpression"}] }
+                    { code: "eval(foo)", errors: [{ message: "eval sucks.", type: "CallExpression" }] }
                 ]
             });
         }, /Should have no errors but had 1/);
@@ -87,7 +87,7 @@ describe("RuleTester", () => {
                     { code: "eval(foo)" }
                 ],
                 invalid: [
-                    { code: "eval(foo)", errors: [{ message: "eval sucks.", type: "CallExpression"}] }
+                    { code: "eval(foo)", errors: [{ message: "eval sucks.", type: "CallExpression" }] }
                 ]
             });
         }, /Should have no errors but had 1/);
@@ -101,7 +101,7 @@ describe("RuleTester", () => {
                     "Eval(foo)"
                 ],
                 invalid: [
-                    { code: "Eval(foo)", errors: [{ message: "eval sucks.", type: "CallExpression"}] }
+                    { code: "Eval(foo)", errors: [{ message: "eval sucks.", type: "CallExpression" }] }
                 ]
             });
         }, /Should have 1 error but had 0/);
@@ -175,7 +175,7 @@ describe("RuleTester", () => {
                     "bar = baz;"
                 ],
                 invalid: [
-                    { code: "var foo = bar;", output: "foo = bar", errors: [{ message: "Bad var.", type: "VariableDeclaration"}] }
+                    { code: "var foo = bar;", output: "foo = bar", errors: [{ message: "Bad var.", type: "VariableDeclaration" }] }
                 ]
             });
         }, /Output is incorrect/);
@@ -189,7 +189,7 @@ describe("RuleTester", () => {
                     "Eval(foo)"
                 ],
                 invalid: [
-                    { code: "eval(foo)", errors: [{ message: "eval sucks.", type: "CallExpression2"}] }
+                    { code: "eval(foo)", errors: [{ message: "eval sucks.", type: "CallExpression2" }] }
                 ]
             });
         }, /Error type should be CallExpression2, found CallExpression/);
@@ -260,7 +260,7 @@ describe("RuleTester", () => {
                     "bar = baz;"
                 ],
                 invalid: [
-                    { code: "var foo = bar;", output: "foo = bar", errors: [{ message: "Bad var.", type: "VariableDeclaration", endLine: 10}] }
+                    { code: "var foo = bar;", output: "foo = bar", errors: [{ message: "Bad var.", type: "VariableDeclaration", endLine: 10 }] }
                 ]
             });
         }, "Error endLine should be 10");
@@ -273,7 +273,7 @@ describe("RuleTester", () => {
                     "bar = baz;"
                 ],
                 invalid: [
-                    { code: "var foo = bar;", output: "foo = bar", errors: [{ message: "Bad var.", type: "VariableDeclaration", endColumn: 10}] }
+                    { code: "var foo = bar;", output: "foo = bar", errors: [{ message: "Bad var.", type: "VariableDeclaration", endColumn: 10 }] }
                 ]
             });
         }, "Error endColumn should be 10");
@@ -593,7 +593,7 @@ describe("RuleTester", () => {
             ruleTester.run("foo", require("../../fixtures/testers/rule-tester/modify-ast"), {
                 valid: [],
                 invalid: [
-                    {code: "var bar = 0;", errors: ["error"]}
+                    { code: "var bar = 0;", errors: ["error"] }
                 ]
             });
         }, "Rule should not modify AST.");
@@ -612,7 +612,7 @@ describe("RuleTester", () => {
             ruleTester.run("foo", require("../../fixtures/testers/rule-tester/modify-ast-at-first"), {
                 valid: [],
                 invalid: [
-                    {code: "var bar = 0;", errors: ["error"]}
+                    { code: "var bar = 0;", errors: ["error"] }
                 ]
             });
         }, "Rule should not modify AST.");
@@ -631,7 +631,7 @@ describe("RuleTester", () => {
             ruleTester.run("foo", require("../../fixtures/testers/rule-tester/modify-ast-at-last"), {
                 valid: [],
                 invalid: [
-                    {code: "var bar = 0;", errors: ["error"]}
+                    { code: "var bar = 0;", errors: ["error"] }
                 ]
             });
         }, "Rule should not modify AST.");

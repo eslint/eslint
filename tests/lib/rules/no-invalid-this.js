@@ -92,8 +92,8 @@ function extractPatterns(patterns, type) {
 //------------------------------------------------------------------------------
 
 const errors = [
-    {message: "Unexpected 'this'.", type: "ThisExpression"},
-    {message: "Unexpected 'this'.", type: "ThisExpression"}
+    { message: "Unexpected 'this'.", type: "ThisExpression" },
+    { message: "Unexpected 'this'.", type: "ThisExpression" }
 ];
 
 const patterns = [
@@ -110,7 +110,7 @@ const patterns = [
         code: "console.log(this); z(x => console.log(x, this));",
         parserOptions: {
             ecmaVersion: 6,
-            ecmaFeatures: {globalReturn: true}
+            ecmaFeatures: { globalReturn: true }
         },
         errors,
         valid: [NORMAL],
@@ -145,7 +145,7 @@ const patterns = [
         code: "return function() { console.log(this); z(x => console.log(x, this)); };",
         parserOptions: {
             ecmaVersion: 6,
-            ecmaFeatures: {globalReturn: true}
+            ecmaFeatures: { globalReturn: true }
         },
         errors,
         valid: [NORMAL],

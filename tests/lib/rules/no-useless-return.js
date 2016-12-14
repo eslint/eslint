@@ -108,23 +108,23 @@ ruleTester.run("no-useless-return", rule, {
                 for (var foo of bar) return;
               }
             `,
-            parserOptions: {ecmaVersion: 6}
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "() => { if (foo) return; bar(); }",
-            parserOptions: {ecmaVersion: 6}
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "() => 5",
-            parserOptions: {ecmaVersion: 6}
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "() => { return; doSomething(); }",
-            parserOptions: {ecmaVersion: 6}
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "if (foo) { return; } doSomething();",
-            parserOptions: {ecmaFeatures: {globalReturn: true}}
+            parserOptions: { ecmaFeatures: { globalReturn: true } }
         },
 
         // https://github.com/eslint/eslint/issues/7477
@@ -180,12 +180,12 @@ ruleTester.run("no-useless-return", rule, {
         {
             code: "foo(); return;",
             output: "foo(); ",
-            parserOptions: {ecmaFeatures: {globalReturn: true}}
+            parserOptions: { ecmaFeatures: { globalReturn: true } }
         },
         {
             code: "if (foo) { bar(); return; } else { baz(); }",
             output: "if (foo) { bar();  } else { baz(); }",
-            parserOptions: {ecmaFeatures: {globalReturn: true}}
+            parserOptions: { ecmaFeatures: { globalReturn: true } }
         },
         {
             code: `
@@ -205,8 +205,8 @@ ruleTester.run("no-useless-return", rule, {
               }
             `,
             errors: [
-                {message: "Unnecessary return statement.", type: "ReturnStatement"},
-                {message: "Unnecessary return statement.", type: "ReturnStatement"},
+                { message: "Unnecessary return statement.", type: "ReturnStatement" },
+                { message: "Unnecessary return statement.", type: "ReturnStatement" },
             ]
         },
         {
@@ -404,15 +404,15 @@ ruleTester.run("no-useless-return", rule, {
         {
             code: "() => { return; }",
             output: "() => {  }",
-            parserOptions: {ecmaVersion: 6}
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "function foo() { return; return; }",
             output: "function foo() {   }",
             errors: [
-                {message: "Unnecessary return statement.", type: "ReturnStatement"},
-                {message: "Unnecessary return statement.", type: "ReturnStatement"},
+                { message: "Unnecessary return statement.", type: "ReturnStatement" },
+                { message: "Unnecessary return statement.", type: "ReturnStatement" },
             ]
         }
-    ].map(invalidCase => Object.assign({errors: [{message: "Unnecessary return statement.", type: "ReturnStatement"}]}, invalidCase))
+    ].map(invalidCase => Object.assign({ errors: [{ message: "Unnecessary return statement.", type: "ReturnStatement" }] }, invalidCase))
 });

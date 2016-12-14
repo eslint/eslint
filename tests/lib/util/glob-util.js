@@ -157,7 +157,7 @@ describe("globUtil", () => {
             const file1 = getFixturePath("glob-util", "one-js-file", "baz.js");
 
             assert.isArray(result);
-            assert.deepEqual(result, [{filename: file1, ignored: false}]);
+            assert.deepEqual(result, [{ filename: file1, ignored: false }]);
         });
 
         it("should return all files matching a glob pattern", () => {
@@ -171,8 +171,8 @@ describe("globUtil", () => {
 
             assert.equal(result.length, 2);
             assert.deepEqual(result, [
-                {filename: file1, ignored: false},
-                {filename: file2, ignored: false}
+                { filename: file1, ignored: false },
+                { filename: file2, ignored: false }
             ]);
         });
 
@@ -191,9 +191,9 @@ describe("globUtil", () => {
 
             assert.equal(result.length, 3);
             assert.deepEqual(result, [
-                {filename: file1, ignored: false},
-                {filename: file2, ignored: false},
-                {filename: file3, ignored: false}
+                { filename: file1, ignored: false },
+                { filename: file2, ignored: false },
+                { filename: file3, ignored: false }
             ]);
         });
 
@@ -216,7 +216,7 @@ describe("globUtil", () => {
 
             assert.equal(result.length, 1);
             assert.deepEqual(result, [
-                {filename: file1, ignored: false}
+                { filename: file1, ignored: false }
             ]);
         });
 
@@ -317,7 +317,7 @@ describe("globUtil", () => {
 
             assert.isArray(result);
             assert.deepEqual(result, [
-                {filename: file1, ignored: false}
+                { filename: file1, ignored: false }
             ]);
         });
 
@@ -329,7 +329,7 @@ describe("globUtil", () => {
 
             assert.equal(result.length, 1);
             assert.deepEqual(result, [
-                {filename, ignored: true}
+                { filename, ignored: true }
             ]);
         });
 
@@ -350,7 +350,7 @@ describe("globUtil", () => {
             const result = globUtil.listFilesToProcess(patterns, options);
             const unignoredFilename = getFixturePath("glob-util", "node_modules", "dependency.js");
 
-            assert.includeDeepMembers(result, [{filename: unignoredFilename, ignored: false}]);
+            assert.includeDeepMembers(result, [{ filename: unignoredFilename, ignored: false }]);
         });
     });
 });

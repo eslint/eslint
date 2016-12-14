@@ -53,7 +53,7 @@ describe("bin/eslint.js", () => {
     * @returns {ChildProcess} The resulting child process
     */
     function runESLint(args, options) {
-        const newProcess = childProcess.fork(EXECUTABLE_PATH, args, Object.assign({silent: true}, options));
+        const newProcess = childProcess.fork(EXECUTABLE_PATH, args, Object.assign({ silent: true }, options));
 
         forkedProcesses.add(newProcess);
         return newProcess;
@@ -85,7 +85,7 @@ describe("bin/eslint.js", () => {
         });
 
         it("gives a detailed error message if no config file is found", () => {
-            const child = runESLint(["--stdin"], {cwd: "/"}); // Assumes the root directory has no .eslintrc file
+            const child = runESLint(["--stdin"], { cwd: "/" }); // Assumes the root directory has no .eslintrc file
 
             const exitCodePromise = assertExitCode(child, 1);
             const stdoutPromise = getStdout(child).then(stdout => {

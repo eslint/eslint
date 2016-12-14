@@ -37,30 +37,30 @@ ruleTester.run("new-parens", rule, {
         {
             code: "var a = new Date",
             output: "var a = new Date()",
-            errors: [{ message: "Missing '()' invoking a constructor.", type: "NewExpression"}]
+            errors: [{ message: "Missing '()' invoking a constructor.", type: "NewExpression" }]
         },
         {
             code: "var a = new (Date);",
             output: "var a = new (Date)();",
-            errors: [{ message: "Missing '()' invoking a constructor.", type: "NewExpression"}]
+            errors: [{ message: "Missing '()' invoking a constructor.", type: "NewExpression" }]
         },
         {
             code: "var a = new (Date)",
             output: "var a = new (Date)()",
-            errors: [{ message: "Missing '()' invoking a constructor.", type: "NewExpression"}]
+            errors: [{ message: "Missing '()' invoking a constructor.", type: "NewExpression" }]
         },
         {
             code: "var a = (new Date)",
             output: "var a = (new Date())",
             errors: [{ message: "Missing '()' invoking a constructor.",
-                type: "NewExpression"}]
+                type: "NewExpression" }]
         },
         {
 
             // This `()` is `CallExpression`'s. This is a call of the result of `new Date`.
             code: "var a = (new Date)()",
             output: "var a = (new Date())()",
-            errors: [{ message: "Missing '()' invoking a constructor.", type: "NewExpression"}]
+            errors: [{ message: "Missing '()' invoking a constructor.", type: "NewExpression" }]
         },
         {
             code: "var a = new foo.Bar;",

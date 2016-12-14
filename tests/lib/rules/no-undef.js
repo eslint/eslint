@@ -22,8 +22,8 @@ ruleTester.run("no-undef", rule, {
     valid: [
         "var a = 1, b = 2; a;",
         "/*global b*/ function f() { b; }",
-        { code: "function f() { b; }", globals: { b: false} },
-        { code: "function f() { b; }", global: { b: false} },
+        { code: "function f() { b; }", globals: { b: false } },
+        { code: "function f() { b; }", global: { b: false } },
         "/*global b a:false*/  a;  function f() { b; a; }",
         "function a(){}  a();",
         "function f(b) { b; }",
@@ -42,8 +42,8 @@ ruleTester.run("no-undef", rule, {
         "var b = typeof a",
         "typeof a === 'undefined'",
         "if (typeof a === 'undefined') {}",
-        { code: "function foo() { var [a, b=4] = [1, 2]; return {a, b}; }", parserOptions: { ecmaVersion: 6 }},
-        { code: "var toString = 1;", parserOptions: { ecmaVersion: 6 }},
+        { code: "function foo() { var [a, b=4] = [1, 2]; return {a, b}; }", parserOptions: { ecmaVersion: 6 } },
+        { code: "var toString = 1;", parserOptions: { ecmaVersion: 6 } },
         { code: "function myFunc(...foo) {  return foo;}", parserOptions: { ecmaVersion: 6 } },
         { code: "var React, App, a=1; React.render(<App attr={a} />);", parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } } },
         { code: "var console; [1,2,3].forEach(obj => {\n  console.log(obj);\n});", parserOptions: { ecmaVersion: 6 } },
@@ -82,16 +82,16 @@ ruleTester.run("no-undef", rule, {
                     experimentalObjectRestSpread: true
                 }
             },
-            globals: {stuff: false, foo: false}
+            globals: { stuff: false, foo: false }
         }
     ],
     invalid: [
-        { code: "a = 1;", errors: [{ message: "'a' is not defined.", type: "Identifier"}] },
-        { code: "if (typeof anUndefinedVar === 'string') {}", options: [{typeof: true}], errors: [{ message: "'anUndefinedVar' is not defined.", type: "Identifier"}] },
-        { code: "var a = b;", errors: [{ message: "'b' is not defined.", type: "Identifier"}] },
-        { code: "function f() { b; }", errors: [{ message: "'b' is not defined.", type: "Identifier"}] },
-        { code: "window;", errors: [{ message: "'window' is not defined.", type: "Identifier"}] },
-        { code: "require(\"a\");", errors: [{ message: "'require' is not defined.", type: "Identifier"}] },
+        { code: "a = 1;", errors: [{ message: "'a' is not defined.", type: "Identifier" }] },
+        { code: "if (typeof anUndefinedVar === 'string') {}", options: [{ typeof: true }], errors: [{ message: "'anUndefinedVar' is not defined.", type: "Identifier" }] },
+        { code: "var a = b;", errors: [{ message: "'b' is not defined.", type: "Identifier" }] },
+        { code: "function f() { b; }", errors: [{ message: "'b' is not defined.", type: "Identifier" }] },
+        { code: "window;", errors: [{ message: "'window' is not defined.", type: "Identifier" }] },
+        { code: "require(\"a\");", errors: [{ message: "'require' is not defined.", type: "Identifier" }] },
         { code: "var React; React.render(<img attr={a} />);", errors: [{ message: "'a' is not defined." }], parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } } },
         { code: "var React, App; React.render(<App attr={a} />);", errors: [{ message: "'a' is not defined." }], parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } } },
         { code: "[a] = [0];", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "'a' is not defined." }] },

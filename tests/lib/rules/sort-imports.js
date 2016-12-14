@@ -21,7 +21,7 @@ const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6, sourceType:
         message: "Imports should be sorted alphabetically.",
         type: "ImportDeclaration"
     },
-    ignoreCaseArgs = [{ignoreCase: true}];
+    ignoreCaseArgs = [{ ignoreCase: true }];
 
 ruleTester.run("sort-imports", rule, {
     valid: [

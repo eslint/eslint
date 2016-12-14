@@ -65,55 +65,55 @@ ruleTester.run("no-useless-rename", rule, {
         // { ignoreDestructuring: true }
         {
             code: "let {foo: foo} = obj;",
-            options: [{ ignoreDestructuring: true}]
+            options: [{ ignoreDestructuring: true }]
         },
         {
             code: "let {foo: foo, bar: baz} = obj;",
-            options: [{ ignoreDestructuring: true}]
+            options: [{ ignoreDestructuring: true }]
         },
         {
             code: "let {foo: foo, bar: bar} = obj;",
-            options: [{ ignoreDestructuring: true}]
+            options: [{ ignoreDestructuring: true }]
         },
 
         // { ignoreImport: true }
         {
             code: "import {foo as foo} from 'foo';",
-            options: [{ ignoreImport: true}]
+            options: [{ ignoreImport: true }]
         },
         {
             code: "import {foo as foo, bar as baz} from 'foo';",
-            options: [{ ignoreImport: true}]
+            options: [{ ignoreImport: true }]
         },
         {
             code: "import {foo as foo, bar as bar} from 'foo';",
-            options: [{ ignoreImport: true}]
+            options: [{ ignoreImport: true }]
         },
 
         // { ignoreExport: true }
         {
             code: "export {foo as foo};",
-            options: [{ ignoreExport: true}]
+            options: [{ ignoreExport: true }]
         },
         {
             code: "export {foo as foo, bar as baz};",
-            options: [{ ignoreExport: true}]
+            options: [{ ignoreExport: true }]
         },
         {
             code: "export {foo as foo, bar as bar};",
-            options: [{ ignoreExport: true}]
+            options: [{ ignoreExport: true }]
         },
         {
             code: "export {foo as foo} from 'foo';",
-            options: [{ ignoreExport: true}]
+            options: [{ ignoreExport: true }]
         },
         {
             code: "export {foo as foo, bar as baz} from 'foo';",
-            options: [{ ignoreExport: true}]
+            options: [{ ignoreExport: true }]
         },
         {
             code: "export {foo as foo, bar as bar} from 'foo';",
-            options: [{ ignoreExport: true}]
+            options: [{ ignoreExport: true }]
         }
     ],
 

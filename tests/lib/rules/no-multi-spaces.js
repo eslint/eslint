@@ -69,7 +69,7 @@ ruleTester.run("no-multi-spaces", rule, {
         "var foo = \"hello     world\";",
         "function foo() {\n    return;\n}",
         "function foo() {\n    if (foo) {\n        return;\n    }\n}",
-        { code: "var foo = `hello     world`;", parserOptions: { ecmaVersion: 6 }},
+        { code: "var foo = `hello     world`;", parserOptions: { ecmaVersion: 6 } },
         "({ a:  b })",
         {
             code: "var  answer = 6 *  7;",

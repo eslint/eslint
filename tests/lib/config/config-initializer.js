@@ -179,25 +179,25 @@ describe("configInitializer", () => {
             it("should support the google style guide", () => {
                 const config = init.getConfigForStyleGuide("google");
 
-                assert.deepEqual(config, {extends: "google", installedESLint: true});
+                assert.deepEqual(config, { extends: "google", installedESLint: true });
             });
 
             it("should support the airbnb style guide", () => {
                 const config = init.getConfigForStyleGuide("airbnb");
 
-                assert.deepEqual(config, {extends: "airbnb", installedESLint: true, plugins: ["react", "jsx-a11y", "import"]});
+                assert.deepEqual(config, { extends: "airbnb", installedESLint: true, plugins: ["react", "jsx-a11y", "import"] });
             });
 
             it("should support the airbnb base style guide", () => {
                 const config = init.getConfigForStyleGuide("airbnb-base");
 
-                assert.deepEqual(config, {extends: "airbnb-base", installedESLint: true, plugins: ["import"]});
+                assert.deepEqual(config, { extends: "airbnb-base", installedESLint: true, plugins: ["import"] });
             });
 
             it("should support the standard style guide", () => {
                 const config = init.getConfigForStyleGuide("standard");
 
-                assert.deepEqual(config, {extends: "standard", installedESLint: true, plugins: ["standard", "promise"]});
+                assert.deepEqual(config, { extends: "standard", installedESLint: true, plugins: ["standard", "promise"] });
             });
 
             it("should throw when encountering an unsupported style guide", () => {

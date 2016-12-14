@@ -217,7 +217,7 @@ describe("SourceCode", () => {
             const spy = sandbox.spy(assertJSDoc);
 
             eslint.on("FunctionExpression", spy);
-            eslint.verify(code, { rules: {}}, filename, true);
+            eslint.verify(code, { rules: {} }, filename, true);
             assert.isTrue(spy.calledOnce, "Event handler should be called.");
 
         });
@@ -245,7 +245,7 @@ describe("SourceCode", () => {
             const spy = sandbox.spy(assertJSDoc);
 
             eslint.on("FunctionExpression", spy);
-            eslint.verify(code, { rules: {}}, filename, true);
+            eslint.verify(code, { rules: {} }, filename, true);
             assert.isTrue(spy.calledOnce, "Event handler should be called.");
 
         });
@@ -275,7 +275,7 @@ describe("SourceCode", () => {
             const spy = sandbox.spy(assertJSDoc);
 
             eslint.on("FunctionExpression", spy);
-            eslint.verify(code, { rules: {}}, filename, true);
+            eslint.verify(code, { rules: {} }, filename, true);
             assert.isTrue(spy.calledTwice, "Event handler should be called twice.");
 
         });
@@ -307,7 +307,7 @@ describe("SourceCode", () => {
             const spy = sandbox.spy(assertJSDoc);
 
             eslint.on("FunctionExpression", spy);
-            eslint.verify(code, {rules: {}}, filename, true);
+            eslint.verify(code, { rules: {} }, filename, true);
             assert.isTrue(spy.calledOnce, "Event handler should be called.");
         });
 
@@ -335,7 +335,7 @@ describe("SourceCode", () => {
             const spy = sandbox.spy(assertJSDoc);
 
             eslint.on("FunctionDeclaration", spy);
-            eslint.verify(code, { rules: {}}, filename, true);
+            eslint.verify(code, { rules: {} }, filename, true);
             assert.isTrue(spy.calledOnce, "Event handler should be called.");
 
         });
@@ -364,7 +364,7 @@ describe("SourceCode", () => {
             const spy = sandbox.spy(assertJSDoc);
 
             eslint.on("FunctionDeclaration", spy);
-            eslint.verify(code, { parserOptions: { sourceType: "module" }, rules: {}}, filename, true);
+            eslint.verify(code, { parserOptions: { sourceType: "module" }, rules: {} }, filename, true);
             assert.isTrue(spy.calledOnce, "Event handler should be called.");
 
         });
@@ -395,7 +395,7 @@ describe("SourceCode", () => {
             const spy = sandbox.spy(assertJSDoc);
 
             eslint.on("FunctionDeclaration", spy);
-            eslint.verify(code, { rules: {}}, filename, true);
+            eslint.verify(code, { rules: {} }, filename, true);
             assert.isTrue(spy.calledOnce, "Event handler should be called.");
 
         });
@@ -426,7 +426,7 @@ describe("SourceCode", () => {
             const spy = sandbox.spy(assertJSDoc);
 
             eslint.on("FunctionDeclaration", spy);
-            eslint.verify(code, { rules: {}}, filename, true);
+            eslint.verify(code, { rules: {} }, filename, true);
             assert.isTrue(spy.calledOnce, "Event handler should be called.");
 
         });
@@ -456,7 +456,7 @@ describe("SourceCode", () => {
             const spy = sandbox.spy(assertJSDoc);
 
             eslint.on("FunctionDeclaration", spy);
-            eslint.verify(code, { rules: {}}, filename, true);
+            eslint.verify(code, { rules: {} }, filename, true);
             assert.isTrue(spy.calledOnce, "Event handler should be called.");
 
         });
@@ -488,7 +488,7 @@ describe("SourceCode", () => {
             const spy = sandbox.spy(assertJSDoc);
 
             eslint.on("FunctionDeclaration", spy);
-            eslint.verify(code, { rules: {}}, filename, true);
+            eslint.verify(code, { rules: {} }, filename, true);
             assert.isTrue(spy.calledOnce, "Event handler should be called.");
         });
 
@@ -519,7 +519,7 @@ describe("SourceCode", () => {
             const spy = sandbox.spy(assertJSDoc);
 
             eslint.on("FunctionExpression", spy);
-            eslint.verify(code, { rules: {}}, filename, true);
+            eslint.verify(code, { rules: {} }, filename, true);
             assert.isTrue(spy.calledOnce, "Event handler should be called.");
         });
 
@@ -550,7 +550,7 @@ describe("SourceCode", () => {
             const spy = sandbox.spy(assertJSDoc);
 
             eslint.on("ArrowFunctionExpression", spy);
-            eslint.verify(code, { parserOptions: { ecmaVersion: 6 }, rules: {}}, filename, true);
+            eslint.verify(code, { parserOptions: { ecmaVersion: 6 }, rules: {} }, filename, true);
             assert.isTrue(spy.calledOnce, "Event handler should be called.");
         });
 
@@ -579,7 +579,7 @@ describe("SourceCode", () => {
             const spy = sandbox.spy(assertJSDoc);
 
             eslint.on("FunctionExpression", spy);
-            eslint.verify(code, { rules: {}}, filename, true);
+            eslint.verify(code, { rules: {} }, filename, true);
             assert.isTrue(spy.calledOnce, "Event handler should be called.");
         });
 
@@ -612,7 +612,7 @@ describe("SourceCode", () => {
             const spy = sandbox.spy(assertJSDoc);
 
             eslint.on("FunctionExpression", spy);
-            eslint.verify(code, { rules: {}}, filename, true);
+            eslint.verify(code, { rules: {} }, filename, true);
             assert.isTrue(spy.calledTwice, "Event handler should be called.");
         });
 
@@ -644,7 +644,7 @@ describe("SourceCode", () => {
             const spy = sandbox.spy(assertJSDoc);
 
             eslint.on("FunctionExpression", spy);
-            eslint.verify(code, { rules: {}}, filename, true);
+            eslint.verify(code, { rules: {} }, filename, true);
             assert.isTrue(spy.calledTwice, "Event handler should be called.");
         });
 
@@ -674,7 +674,7 @@ describe("SourceCode", () => {
             const spy = sandbox.spy(assertJSDoc);
 
             eslint.on("FunctionExpression", spy);
-            eslint.verify(code, { rules: {}}, filename, true);
+            eslint.verify(code, { rules: {} }, filename, true);
             assert.isTrue(spy.calledOnce, "Event handler should be called.");
         });
 
@@ -712,7 +712,7 @@ describe("SourceCode", () => {
             const spy = sandbox.spy(assertJSDoc);
 
             eslint.on("FunctionExpression", spy);
-            eslint.verify(code, { rules: {}}, filename, true);
+            eslint.verify(code, { rules: {} }, filename, true);
             assert.isTrue(spy.calledTwice, "Event handler should be called.");
         });
 
@@ -741,7 +741,7 @@ describe("SourceCode", () => {
             const spy = sandbox.spy(assertJSDoc);
 
             eslint.on("ClassExpression", spy);
-            eslint.verify(code, { rules: {}, parserOptions: { ecmaVersion: 6 }}, filename, true);
+            eslint.verify(code, { rules: {}, parserOptions: { ecmaVersion: 6 } }, filename, true);
             assert.isTrue(spy.calledOnce, "Event handler should be called.");
         });
 
@@ -770,7 +770,7 @@ describe("SourceCode", () => {
             const spy = sandbox.spy(assertJSDoc);
 
             eslint.on("ClassDeclaration", spy);
-            eslint.verify(code, { rules: {}, parserOptions: { ecmaVersion: 6 }}, filename, true);
+            eslint.verify(code, { rules: {}, parserOptions: { ecmaVersion: 6 } }, filename, true);
             assert.isTrue(spy.calledOnce, "Event handler should be called.");
         });
 
@@ -799,7 +799,7 @@ describe("SourceCode", () => {
             const spy = sandbox.spy(assertJSDoc);
 
             eslint.on("FunctionExpression", spy);
-            eslint.verify(code, { rules: {}, parserOptions: { ecmaVersion: 6 }}, filename, true);
+            eslint.verify(code, { rules: {}, parserOptions: { ecmaVersion: 6 } }, filename, true);
             assert.isTrue(spy.calledOnce, "Event handler should be called.");
         });
 
@@ -832,7 +832,7 @@ describe("SourceCode", () => {
             const spy = sandbox.spy(assertJSDoc);
 
             eslint.on("FunctionExpression", spy);
-            eslint.verify(code, { rules: {}, parserOptions: { ecmaVersion: 6 }}, filename, true);
+            eslint.verify(code, { rules: {}, parserOptions: { ecmaVersion: 6 } }, filename, true);
             assert.isTrue(spy.calledOnce, "Event handler should be called.");
         });
 
@@ -863,7 +863,7 @@ describe("SourceCode", () => {
             const spy = sandbox.spy(assertJSDoc);
 
             eslint.on("FunctionDeclaration", spy);
-            eslint.verify(code, { rules: {}, parserOptions: { ecmaVersion: 6 }}, filename, true);
+            eslint.verify(code, { rules: {}, parserOptions: { ecmaVersion: 6 } }, filename, true);
             assert.isTrue(spy.calledOnce, "Event handler should be called.");
         });
 

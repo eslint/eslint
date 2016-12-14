@@ -35,50 +35,50 @@ ruleTester.run("no-dupe-class-members", rule, {
         {
             code: "class A { foo() {} foo() {} }",
             errors: [
-                {type: "MethodDefinition", line: 1, column: 20, message: "Duplicate name 'foo'."}
+                { type: "MethodDefinition", line: 1, column: 20, message: "Duplicate name 'foo'." }
             ]
         },
         {
             code: "!class A { foo() {} foo() {} };",
             errors: [
-                {type: "MethodDefinition", line: 1, column: 21, message: "Duplicate name 'foo'."}
+                { type: "MethodDefinition", line: 1, column: 21, message: "Duplicate name 'foo'." }
             ]
         },
         {
             code: "class A { 'foo'() {} 'foo'() {} }",
             errors: [
-                {type: "MethodDefinition", line: 1, column: 22, message: "Duplicate name 'foo'."}
+                { type: "MethodDefinition", line: 1, column: 22, message: "Duplicate name 'foo'." }
             ]
         },
         {
             code: "class A { 10() {} 1e1() {} }",
             errors: [
-                {type: "MethodDefinition", line: 1, column: 19, message: "Duplicate name '10'."}
+                { type: "MethodDefinition", line: 1, column: 19, message: "Duplicate name '10'." }
             ]
         },
         {
             code: "class A { foo() {} foo() {} foo() {} }",
             errors: [
-                {type: "MethodDefinition", line: 1, column: 20, message: "Duplicate name 'foo'."},
-                {type: "MethodDefinition", line: 1, column: 29, message: "Duplicate name 'foo'."}
+                { type: "MethodDefinition", line: 1, column: 20, message: "Duplicate name 'foo'." },
+                { type: "MethodDefinition", line: 1, column: 29, message: "Duplicate name 'foo'." }
             ]
         },
         {
             code: "class A { static foo() {} static foo() {} }",
             errors: [
-                {type: "MethodDefinition", line: 1, column: 27, message: "Duplicate name 'foo'."}
+                { type: "MethodDefinition", line: 1, column: 27, message: "Duplicate name 'foo'." }
             ]
         },
         {
             code: "class A { foo() {} get foo() {} }",
             errors: [
-                {type: "MethodDefinition", line: 1, column: 20, message: "Duplicate name 'foo'."}
+                { type: "MethodDefinition", line: 1, column: 20, message: "Duplicate name 'foo'." }
             ]
         },
         {
             code: "class A { set foo(value) {} foo() {} }",
             errors: [
-                {type: "MethodDefinition", line: 1, column: 29, message: "Duplicate name 'foo'."}
+                { type: "MethodDefinition", line: 1, column: 29, message: "Duplicate name 'foo'." }
             ]
         }
     ]

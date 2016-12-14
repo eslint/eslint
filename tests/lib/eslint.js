@@ -696,7 +696,7 @@ describe("eslint", () => {
                 assert.isUndefined(getVariable(childScope, "b").eslintUsed);
             });
 
-            eslint.verify(code, { env: { node: true }}, filename, true);
+            eslint.verify(code, { env: { node: true } }, filename, true);
         });
 
         it("should mark variables in modules as used", () => {
@@ -713,7 +713,7 @@ describe("eslint", () => {
                 assert.isUndefined(getVariable(childScope, "b").eslintUsed);
             });
 
-            eslint.verify(code, { parserOptions: { sourceType: "module" }}, filename, true);
+            eslint.verify(code, { parserOptions: { sourceType: "module" } }, filename, true);
         });
     });
 
@@ -728,7 +728,7 @@ describe("eslint", () => {
 
         it("should correctly parse a message when being passed all options", () => {
             eslint.on("Program", node => {
-                eslint.report("test-rule", 2, node, node.loc.end, "hello {{dynamic}}", {dynamic: node.type});
+                eslint.report("test-rule", 2, node, node.loc.end, "hello {{dynamic}}", { dynamic: node.type });
             });
 
             const messages = eslint.verify("0", config, "", true);
@@ -746,7 +746,7 @@ describe("eslint", () => {
 
         it("should use the report the provided location when given", () => {
             eslint.on("Program", node => {
-                eslint.report("test-rule", 2, node, {line: 42, column: 13}, "hello world");
+                eslint.report("test-rule", 2, node, { line: 42, column: 13 }, "hello world");
             });
 
             const messages = eslint.verify("0", config, "", true);
@@ -774,7 +774,7 @@ describe("eslint", () => {
 
         it("should not throw an error if location is provided and node is not", () => {
             eslint.on("Program", () => {
-                eslint.report("test-rule", 2, null, { line: 1, column: 1}, "hello world");
+                eslint.report("test-rule", 2, null, { line: 1, column: 1 }, "hello world");
             });
 
             assert.doesNotThrow(() => {
@@ -829,7 +829,7 @@ describe("eslint", () => {
 
         it("should correctly parse a message with object keys as numbers", () => {
             eslint.on("Program", node => {
-                eslint.report("test-rule", 2, node, "my message {{name}}{{0}}", {0: "!", name: "testing"});
+                eslint.report("test-rule", 2, node, "my message {{name}}{{0}}", { 0: "!", name: "testing" });
             });
 
             const messages = eslint.verify("0", config, "", true);
@@ -1203,7 +1203,7 @@ describe("eslint", () => {
 
             eslint.reset();
             eslint.defineRule("test-rule", sandbox.mock().withArgs(
-                sinon.match({parserOptions})
+                sinon.match({ parserOptions })
             ).returns({}));
 
             const config = { rules: { "test-rule": 2 }, parserOptions };
@@ -1217,7 +1217,7 @@ describe("eslint", () => {
 
             eslint.reset();
             eslint.defineRule("test-rule", sandbox.mock().withArgs(
-                sinon.match({parserOptions})
+                sinon.match({ parserOptions })
             ).returns({}));
 
             const config = { rules: { "test-rule": 2 } };
@@ -1237,7 +1237,7 @@ describe("eslint", () => {
 
                 eslint.reset();
                 eslint.defineRule("test-rule", sandbox.mock().withArgs(
-                    sinon.match({parserPath: alternateParser})
+                    sinon.match({ parserPath: alternateParser })
                 ).returns({}));
 
                 const config = { rules: { "test-rule": 2 }, parser: alternateParser };
@@ -1285,7 +1285,7 @@ describe("eslint", () => {
 
             eslint.reset();
             eslint.defineRule("test-rule", sandbox.mock().withArgs(
-                sinon.match({parserPath: DEFAULT_PARSER})
+                sinon.match({ parserPath: DEFAULT_PARSER })
             ).returns({}));
 
             const config = { rules: { "test-rule": 2 } };
@@ -1576,7 +1576,7 @@ describe("eslint", () => {
 
         it("variables should not be exported in the es6 module environment", () => {
             const code = "/* exported horse */\nvar horse = 'circus'";
-            const config = { rules: {}, parserOptions: { sourceType: "module" }};
+            const config = { rules: {}, parserOptions: { sourceType: "module" } };
 
             eslint.reset();
             eslint.on("Program", () => {
@@ -1804,7 +1804,7 @@ describe("eslint", () => {
         });
 
         it("rules should not change initial config", () => {
-            const config = { rules: {strict: 2} };
+            const config = { rules: { strict: 2 } };
             const codeA = "/*eslint strict: 0*/ function bar() { return 2; }";
             const codeB = "function foo() { return 1; }";
 
@@ -1818,7 +1818,7 @@ describe("eslint", () => {
         });
 
         it("rules should not change initial config", () => {
-            const config = { rules: {quotes: [2, "double"]} };
+            const config = { rules: { quotes: [2, "double"] } };
             const codeA = "/*eslint quotes: 0*/ function bar() { return '2'; }";
             const codeB = "function foo() { return '1'; }";
 
@@ -1832,7 +1832,7 @@ describe("eslint", () => {
         });
 
         it("rules should not change initial config", () => {
-            const config = { rules: {quotes: [2, "double"]} };
+            const config = { rules: { quotes: [2, "double"] } };
             const codeA = "/*eslint quotes: [0, \"single\"]*/ function bar() { return '2'; }";
             const codeB = "function foo() { return '1'; }";
 
@@ -1846,7 +1846,7 @@ describe("eslint", () => {
         });
 
         it("rules should not change initial config", () => {
-            const config = { rules: {"no-unused-vars": [2, {vars: "all"}]} };
+            const config = { rules: { "no-unused-vars": [2, { vars: "all" }] } };
             const codeA = "/*eslint no-unused-vars: [0, {\"vars\": \"local\"}]*/ var a = 44;";
             const codeB = "var b = 55;";
 
@@ -1947,7 +1947,7 @@ describe("eslint", () => {
         });
 
         it("rules should not change initial config", () => {
-            const config = { rules: {"test-plugin/test-rule": 2} };
+            const config = { rules: { "test-plugin/test-rule": 2 } };
             const codeA = "/*eslint test-plugin/test-rule: 0*/ var a = \"trigger violation\";";
             const codeB = "var a = \"trigger violation\";";
 
@@ -2508,7 +2508,7 @@ describe("eslint", () => {
         it("should report a violation", () => {
             const code = "/*eslint no-alert:'1'*/ alert('test');";
 
-            const config = { rules: { "no-alert": 1} };
+            const config = { rules: { "no-alert": 1 } };
 
             const messages = eslint.verify(code, config, filename);
 
@@ -2533,7 +2533,7 @@ describe("eslint", () => {
         it("should report a violation", () => {
             const code = "/*eslint no-alert:abc*/ alert('test');";
 
-            const config = { rules: { "no-alert": 1} };
+            const config = { rules: { "no-alert": 1 } };
 
             const messages = eslint.verify(code, config, filename);
 
@@ -2558,7 +2558,7 @@ describe("eslint", () => {
         it("should report a violation", () => {
             const code = "/*eslint no-alert:0 2*/ alert('test');";
 
-            const config = { rules: { "no-alert": 1} };
+            const config = { rules: { "no-alert": 1 } };
 
             const messages = eslint.verify(code, config, filename);
 
@@ -2672,12 +2672,12 @@ describe("eslint", () => {
 
     describe("when using an invalid (undefined) rule", () => {
         const code = TEST_CODE;
-        const results = eslint.verify(code, { rules: {foobar: 2 } });
+        const results = eslint.verify(code, { rules: { foobar: 2 } });
         const result = results[0];
-        const warningResult = eslint.verify(code, { rules: {foobar: 1 } })[0];
-        const arrayOptionResults = eslint.verify(code, { rules: {foobar: [2, "always"]} });
-        const objectOptionResults = eslint.verify(code, { rules: {foobar: [1, {bar: false}]} });
-        const resultsMultiple = eslint.verify(code, { rules: {foobar: 2, barfoo: 1} });
+        const warningResult = eslint.verify(code, { rules: { foobar: 1 } })[0];
+        const arrayOptionResults = eslint.verify(code, { rules: { foobar: [2, "always"] } });
+        const objectOptionResults = eslint.verify(code, { rules: { foobar: [1, { bar: false }] } });
+        const resultsMultiple = eslint.verify(code, { rules: { foobar: 2, barfoo: 1 } });
 
         it("should add a stub rule", () => {
             assert.isNotNull(result);
@@ -2711,7 +2711,7 @@ describe("eslint", () => {
 
     describe("when using a rule which has been replaced", () => {
         const code = TEST_CODE;
-        const results = eslint.verify(code, { rules: {"no-comma-dangle": 2 } });
+        const results = eslint.verify(code, { rules: { "no-comma-dangle": 2 } });
 
         it("should report the new rule", () => {
             assert.equal(results[0].ruleId, "no-comma-dangle");
@@ -2724,7 +2724,7 @@ describe("eslint", () => {
 
         it("should throw an error", () => {
             assert.throws(() => {
-                eslint.verify(code, { rules: {foobar: null } });
+                eslint.verify(code, { rules: { foobar: null } });
             }, /Invalid config for rule 'foobar'\./);
         });
     });
@@ -2759,7 +2759,7 @@ describe("eslint", () => {
         it("should report a violation when using typed array", () => {
             const code = "var array = new Uint8Array();";
 
-            const config = { rules: { "no-undef": 1} };
+            const config = { rules: { "no-undef": 1 } };
 
             const messages = eslint.verify(code, config, filename);
 
@@ -2769,7 +2769,7 @@ describe("eslint", () => {
         it("should report a violation when using Promise", () => {
             const code = "new Promise();";
 
-            const config = { rules: { "no-undef": 1} };
+            const config = { rules: { "no-undef": 1 } };
 
             const messages = eslint.verify(code, config, filename);
 
@@ -2781,7 +2781,7 @@ describe("eslint", () => {
         it("should not support legacy config", () => {
             const code = "/*jshint mocha:true */ describe();";
 
-            const config = { rules: { "no-undef": 1} };
+            const config = { rules: { "no-undef": 1 } };
 
             const messages = eslint.verify(code, config, filename);
 
@@ -2804,7 +2804,7 @@ describe("eslint", () => {
         it("should not report a violation", () => {
             const code = "/*eslint-env mocha,node */ require();describe();";
 
-            const config = { rules: { "no-undef": 1} };
+            const config = { rules: { "no-undef": 1 } };
 
             const messages = eslint.verify(code, config, filename);
 
@@ -2814,7 +2814,7 @@ describe("eslint", () => {
         it("should not report a violation", () => {
             const code = "/*eslint-env mocha */ suite();test();";
 
-            const config = { rules: { "no-undef": 1} };
+            const config = { rules: { "no-undef": 1 } };
 
             const messages = eslint.verify(code, config, filename);
 
@@ -2824,7 +2824,7 @@ describe("eslint", () => {
         it("should not report a violation", () => {
             const code = "/*eslint-env amd */ define();require();";
 
-            const config = { rules: { "no-undef": 1} };
+            const config = { rules: { "no-undef": 1 } };
 
             const messages = eslint.verify(code, config, filename);
 
@@ -2834,7 +2834,7 @@ describe("eslint", () => {
         it("should not report a violation", () => {
             const code = "/*eslint-env jasmine */ expect();spyOn();";
 
-            const config = { rules: { "no-undef": 1} };
+            const config = { rules: { "no-undef": 1 } };
 
             const messages = eslint.verify(code, config, filename);
 
@@ -2844,7 +2844,7 @@ describe("eslint", () => {
         it("should not report a violation", () => {
             const code = "/*globals require: true */ /*eslint-env node */ require = 1;";
 
-            const config = { rules: {"no-undef": 1} };
+            const config = { rules: { "no-undef": 1 } };
 
             const messages = eslint.verify(code, config, filename);
 
@@ -2864,7 +2864,7 @@ describe("eslint", () => {
         it("should not report a violation", () => {
             const code = "/*eslint no-process-exit: 0 */ /*eslint-env node */ process.exit();";
 
-            const config = { rules: {"no-undef": 1} };
+            const config = { rules: { "no-undef": 1 } };
 
             const messages = eslint.verify(code, config, filename);
 
@@ -2905,7 +2905,7 @@ describe("eslint", () => {
             };
             let ok = false;
 
-            eslint.defineRules({test(context) {
+            eslint.defineRules({ test(context) {
                 return {
                     Program() {
                         const scope = context.getScope();
@@ -2921,9 +2921,9 @@ describe("eslint", () => {
                         ok = true;
                     }
                 };
-            }});
+            } });
 
-            eslint.verify(code, config, {allowInlineConfig: false});
+            eslint.verify(code, config, { allowInlineConfig: false });
             assert(ok);
         });
 
@@ -2996,7 +2996,7 @@ describe("eslint", () => {
             };
             let ok = false;
 
-            eslint.defineRules({test(context) {
+            eslint.defineRules({ test(context) {
                 return {
                     Program() {
                         const scope = context.getScope();
@@ -3012,9 +3012,9 @@ describe("eslint", () => {
                         ok = true;
                     }
                 };
-            }});
+            } });
 
-            eslint.verify(code, config, {allowInlineConfig: false});
+            eslint.verify(code, config, { allowInlineConfig: false });
             assert(ok);
         });
     });
@@ -3093,7 +3093,7 @@ describe("eslint", () => {
         describe("filenames", () => {
             it("should allow filename to be passed on options object", () => {
 
-                eslint.verify("foo;", {}, { filename: "foo.js"});
+                eslint.verify("foo;", {}, { filename: "foo.js" });
                 const result = eslint.getFilename();
 
                 assert.equal(result, "foo.js");
@@ -3328,14 +3328,14 @@ describe("eslint", () => {
 
         it("should not report an error when JSX code is encountered and JSX is enabled", () => {
             const code = "var myDivElement = <div className=\"foo\" />;";
-            const messages = eslint.verify(code, { parserOptions: { ecmaFeatures: { jsx: true }}}, "filename");
+            const messages = eslint.verify(code, { parserOptions: { ecmaFeatures: { jsx: true } } }, "filename");
 
             assert.equal(messages.length, 0);
         });
 
         it("should not report an error when JSX code contains a spread operator and JSX is enabled", () => {
             const code = "var myDivElement = <div {...this.props} />;";
-            const messages = eslint.verify(code, { parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true }}}, "filename");
+            const messages = eslint.verify(code, { parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } } }, "filename");
 
             assert.equal(messages.length, 0);
         });
@@ -3379,7 +3379,7 @@ describe("eslint", () => {
             const code = "/* global foo */\n/* global bar, baz */";
             let ok = false;
 
-            eslint.defineRules({test(context) {
+            eslint.defineRules({ test(context) {
                 return {
                     Program() {
                         const scope = context.getScope();
@@ -3406,21 +3406,21 @@ describe("eslint", () => {
                         ok = true;
                     }
                 };
-            }});
+            } });
 
-            eslint.verify(code, {rules: {test: 2}});
+            eslint.verify(code, { rules: { test: 2 } });
             assert(ok);
         });
 
         it("should not crash when we reuse the SourceCode object", () => {
-            eslint.verify("function render() { return <div className='test'>{hello}</div> }", { parserOptions: { ecmaVersion: 6, ecmaFeatures: {jsx: true} }});
-            eslint.verify(eslint.getSourceCode(), { parserOptions: { ecmaVersion: 6, ecmaFeatures: {jsx: true} }});
+            eslint.verify("function render() { return <div className='test'>{hello}</div> }", { parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } } });
+            eslint.verify(eslint.getSourceCode(), { parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } } });
         });
 
         it("should allow 'await' as a property name in modules", () => {
             const result = eslint.verify(
                 "obj.await",
-                {parserOptions: {ecmaVersion: 6, sourceType: "module"}}
+                { parserOptions: { ecmaVersion: 6, sourceType: "module" } }
             );
 
             assert(result.length === 0);
@@ -3445,15 +3445,15 @@ describe("eslint", () => {
         beforeEach(() => {
             let ok = false;
 
-            eslint.defineRules({test(context) {
+            eslint.defineRules({ test(context) {
                 return {
                     Program() {
                         scope = context.getScope();
                         ok = true;
                     }
                 };
-            }});
-            eslint.verify(code, {rules: {test: 2}, globals: {e: true, f: false}});
+            } });
+            eslint.verify(code, { rules: { test: 2 }, globals: { e: true, f: false } });
             assert(ok);
         });
 
@@ -3545,7 +3545,7 @@ describe("eslint", () => {
          * @returns {void}
          */
         function verify(code, type, expectedNamesList) {
-            eslint.defineRules({test(context) {
+            eslint.defineRules({ test(context) {
                 const rule = {
                     Program: checkEmpty,
                     EmptyStatement: checkEmpty,
@@ -3608,9 +3608,9 @@ describe("eslint", () => {
                     }
                 };
                 return rule;
-            }});
+            } });
             eslint.verify(code, {
-                rules: {test: 2},
+                rules: { test: 2 },
                 parserOptions: {
                     ecmaVersion: 6,
                     sourceType: "module"
@@ -3791,15 +3791,15 @@ describe("eslint", () => {
         });
 
         it("should not crash when let is used inside of switch case", () => {
-            eslint.verify("switch(foo) { case 1: let bar=2; }", { parserOptions: { ecmaVersion: 6 }});
+            eslint.verify("switch(foo) { case 1: let bar=2; }", { parserOptions: { ecmaVersion: 6 } });
         });
 
         it("should not crash when parsing destructured assignment", () => {
-            eslint.verify("var { a='a' } = {};", { parserOptions: { ecmaVersion: 6 }});
+            eslint.verify("var { a='a' } = {};", { parserOptions: { ecmaVersion: 6 } });
         });
 
         it("should report syntax error when a keyword exists in object property shorthand", () => {
-            const messages = eslint.verify("let a = {this}", { parserOptions: { ecmaVersion: 6 }});
+            const messages = eslint.verify("let a = {this}", { parserOptions: { ecmaVersion: 6 } });
 
             assert.equal(messages.length, 1);
             assert.equal(messages[0].fatal, true);
@@ -3812,9 +3812,9 @@ describe("eslint", () => {
             // This `verify()` takes the instance and runs https://github.com/eslint/eslint/blob/v2.0.0-alpha-2/lib/eslint.js#L416
             eslint.defineRule("test", () => ({}));
             eslint.verify("var a = 0;", {
-                env: {node: true},
-                parserOptions: {sourceType: "module"},
-                rules: {test: 2}
+                env: { node: true },
+                parserOptions: { sourceType: "module" },
+                rules: { test: 2 }
             });
 
             // This `verify()` takes the instance and tests that the instance was not modified.
@@ -3829,8 +3829,8 @@ describe("eslint", () => {
                 return {};
             });
             eslint.verify("var a = 0;", {
-                env: {node: true},
-                rules: {test: 2}
+                env: { node: true },
+                rules: { test: 2 }
             });
 
             assert(ok);

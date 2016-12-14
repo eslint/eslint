@@ -241,7 +241,7 @@ describe("Config", () => {
     describe("getConfig()", () => {
 
         it("should return the project config when called in current working directory", () => {
-            const configHelper = new Config({cwd: process.cwd()}),
+            const configHelper = new Config({ cwd: process.cwd() }),
                 actual = configHelper.getConfig();
 
             assert.equal(actual.rules.strict[1], "global");
@@ -252,7 +252,7 @@ describe("Config", () => {
             const firstpath = path.resolve(__dirname, "..", "fixtures", "configurations", "single-quotes", "subdir", ".eslintrc");
             const secondpath = path.resolve(__dirname, "..", "fixtures", "configurations", "single-quotes", ".eslintrc");
 
-            const configHelper = new Config({cwd: process.cwd()});
+            const configHelper = new Config({ cwd: process.cwd() });
             let config;
 
             config = configHelper.getConfig(firstpath);
@@ -268,7 +268,7 @@ describe("Config", () => {
 
             const StubbedConfig = proxyquire("../../lib/config", { "user-home": homePath });
 
-            const configHelper = new StubbedConfig({cwd: process.cwd()});
+            const configHelper = new StubbedConfig({ cwd: process.cwd() });
 
             sandbox.stub(fs, "readdirSync").throws(new Error());
 
@@ -279,7 +279,7 @@ describe("Config", () => {
 
         it("should throw error when a configuration file doesn't exist", () => {
             const configPath = path.resolve(__dirname, "..", "fixtures", "configurations", ".eslintrc");
-            const configHelper = new Config({cwd: process.cwd()});
+            const configHelper = new Config({ cwd: process.cwd() });
 
             sandbox.stub(fs, "readFileSync").throws(new Error());
 
@@ -291,7 +291,7 @@ describe("Config", () => {
 
         it("should throw error when a configuration file is not require-able", () => {
             const configPath = ".eslintrc";
-            const configHelper = new Config({cwd: process.cwd()});
+            const configHelper = new Config({ cwd: process.cwd() });
 
             sandbox.stub(fs, "readFileSync").throws(new Error());
 
@@ -303,7 +303,7 @@ describe("Config", () => {
 
         it("should cache config when the same directory is passed twice", () => {
             const configPath = path.resolve(__dirname, "..", "fixtures", "configurations", "single-quotes", ".eslintrc");
-            const configHelper = new Config({cwd: process.cwd()});
+            const configHelper = new Config({ cwd: process.cwd() });
 
             sandbox.spy(configHelper, "findLocalConfigFiles");
 
@@ -319,7 +319,7 @@ describe("Config", () => {
         // make sure JS-style comments don't throw an error
         it("should load the config file when there are JS-style comments in the text", () => {
             const configPath = path.resolve(__dirname, "..", "fixtures", "configurations", "comments.json"),
-                configHelper = new Config({configFile: configPath}),
+                configHelper = new Config({ configFile: configPath }),
                 semi = configHelper.useSpecificConfig.rules.semi,
                 strict = configHelper.useSpecificConfig.rules.strict;
 
@@ -330,7 +330,7 @@ describe("Config", () => {
         // make sure YAML files work correctly
         it("should load the config file when a YAML file is used", () => {
             const configPath = path.resolve(__dirname, "..", "fixtures", "configurations", "env-browser.yaml"),
-                configHelper = new Config({configFile: configPath}),
+                configHelper = new Config({ configFile: configPath }),
                 noAlert = configHelper.useSpecificConfig.rules["no-alert"],
                 noUndef = configHelper.useSpecificConfig.rules["no-undef"];
 
@@ -476,7 +476,7 @@ describe("Config", () => {
         // Project configuration - second level .eslintrc
         it("should merge configs when local .eslintrc overrides parent .eslintrc", () => {
 
-            const configHelper = new Config({cwd: process.cwd()}),
+            const configHelper = new Config({ cwd: process.cwd() }),
                 file = getFixturePath("broken", "subbroken", "console-wrong-quotes.js"),
                 expected = {
                     env: {
@@ -497,7 +497,7 @@ describe("Config", () => {
         // Project configuration - third level .eslintrc
         it("should merge configs when local .eslintrc overrides parent and grandparent .eslintrc", () => {
 
-            const configHelper = new Config({cwd: process.cwd()}),
+            const configHelper = new Config({ cwd: process.cwd() }),
                 file = getFixturePath("broken", "subbroken", "subsubbroken", "console-wrong-quotes.js"),
                 expected = {
                     env: {
@@ -517,7 +517,7 @@ describe("Config", () => {
 
         // Project configuration - root set in second level .eslintrc
         it("should not return configurations in parents of config with root:true", () => {
-            const configHelper = new Config({cwd: process.cwd()}),
+            const configHelper = new Config({ cwd: process.cwd() }),
                 file = getFixturePath("root-true", "parent", "root", "wrong-semi.js"),
                 expected = {
                     rules: {
@@ -531,7 +531,7 @@ describe("Config", () => {
 
         // Project configuration - root set in second level .eslintrc
         it("should return project config when called with a relative path from a subdir", () => {
-            const configHelper = new Config({cwd: getFixturePath("root-true", "parent", "root", "subdir")}),
+            const configHelper = new Config({ cwd: getFixturePath("root-true", "parent", "root", "subdir") }),
                 dir = ".",
                 expected = {
                     rules: {
@@ -693,7 +693,7 @@ describe("Config", () => {
 
         it("should merge multiple different config file formats", () => {
 
-            const configHelper = new Config({cwd: process.cwd()}),
+            const configHelper = new Config({ cwd: process.cwd() }),
                 file = getFixturePath("fileexts/subdir/subsubdir/foo.js"),
                 expected = {
                     env: {
@@ -746,7 +746,7 @@ describe("Config", () => {
 
         it("should gracefully handle empty files", () => {
             const configPath = path.resolve(__dirname, "..", "fixtures", "configurations", "env-node.json"),
-                configHelper = new Config({configFile: configPath, cwd: process.cwd()});
+                configHelper = new Config({ configFile: configPath, cwd: process.cwd() });
 
             configHelper.getConfig(path.resolve(__dirname, "..", "fixtures", "configurations", "empty", "empty.json"));
         });
@@ -781,8 +781,8 @@ describe("Config", () => {
                 const targetPath = getFixturePath("overwrite-ecmaFeatures", "child", "foo.js");
                 const expected = {
                     rules: {},
-                    env: {commonjs: true},
-                    parserOptions: {ecmaFeatures: {globalReturn: true}}
+                    env: { commonjs: true },
+                    parserOptions: { ecmaFeatures: { globalReturn: true } }
                 };
                 const actual = config.getConfig(targetPath);
 
