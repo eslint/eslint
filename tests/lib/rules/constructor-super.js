@@ -84,130 +84,130 @@ ruleTester.run("constructor-super", rule, {
         // non derived classes.
         {
             code: "class A { constructor() { super(); } }",
-            errors: [{ message: "Unexpected 'super()'.", type: "CallExpression"}]
+            errors: [{ message: "Unexpected 'super()'.", type: "CallExpression" }]
         },
 
         // inherit from non constructors.
         {
             code: "class A extends null { constructor() { super(); } }",
-            errors: [{ message: "Unexpected 'super()' because 'super' is not a constructor.", type: "CallExpression"}]
+            errors: [{ message: "Unexpected 'super()' because 'super' is not a constructor.", type: "CallExpression" }]
         },
         {
             code: "class A extends null { constructor() { } }",
-            errors: [{ message: "Expected to call 'super()'.", type: "MethodDefinition"}]
+            errors: [{ message: "Expected to call 'super()'.", type: "MethodDefinition" }]
         },
         {
             code: "class A extends 100 { constructor() { super(); } }",
-            errors: [{ message: "Unexpected 'super()' because 'super' is not a constructor.", type: "CallExpression"}]
+            errors: [{ message: "Unexpected 'super()' because 'super' is not a constructor.", type: "CallExpression" }]
         },
         {
             code: "class A extends 'test' { constructor() { super(); } }",
-            errors: [{ message: "Unexpected 'super()' because 'super' is not a constructor.", type: "CallExpression"}]
+            errors: [{ message: "Unexpected 'super()' because 'super' is not a constructor.", type: "CallExpression" }]
         },
 
         // derived classes.
         {
             code: "class A extends B { constructor() { } }",
-            errors: [{ message: "Expected to call 'super()'.", type: "MethodDefinition"}]
+            errors: [{ message: "Expected to call 'super()'.", type: "MethodDefinition" }]
         },
         {
             code: "class A extends B { constructor() { for (var a of b) super.foo(); } }",
-            errors: [{ message: "Expected to call 'super()'.", type: "MethodDefinition"}]
+            errors: [{ message: "Expected to call 'super()'.", type: "MethodDefinition" }]
         },
 
         // nested execution scope.
         {
             code: "class A extends B { constructor() { function c() { super(); } } }",
-            errors: [{ message: "Expected to call 'super()'.", type: "MethodDefinition"}]
+            errors: [{ message: "Expected to call 'super()'.", type: "MethodDefinition" }]
         },
         {
             code: "class A extends B { constructor() { var c = function() { super(); } } }",
-            errors: [{ message: "Expected to call 'super()'.", type: "MethodDefinition"}]
+            errors: [{ message: "Expected to call 'super()'.", type: "MethodDefinition" }]
         },
         {
             code: "class A extends B { constructor() { var c = () => super(); } }",
-            errors: [{ message: "Expected to call 'super()'.", type: "MethodDefinition"}]
+            errors: [{ message: "Expected to call 'super()'.", type: "MethodDefinition" }]
         },
         {
             code: "class A extends B { constructor() { class C extends D { constructor() { super(); } } } }",
-            errors: [{ message: "Expected to call 'super()'.", type: "MethodDefinition", column: 21}]
+            errors: [{ message: "Expected to call 'super()'.", type: "MethodDefinition", column: 21 }]
         },
         {
             code: "class A extends B { constructor() { var C = class extends D { constructor() { super(); } } } }",
-            errors: [{ message: "Expected to call 'super()'.", type: "MethodDefinition", column: 21}]
+            errors: [{ message: "Expected to call 'super()'.", type: "MethodDefinition", column: 21 }]
         },
         {
             code: "class A extends B { constructor() { super(); class C extends D { constructor() { } } } }",
-            errors: [{ message: "Expected to call 'super()'.", type: "MethodDefinition", column: 66}]
+            errors: [{ message: "Expected to call 'super()'.", type: "MethodDefinition", column: 66 }]
         },
         {
             code: "class A extends B { constructor() { super(); var C = class extends D { constructor() { } } } }",
-            errors: [{ message: "Expected to call 'super()'.", type: "MethodDefinition", column: 72}]
+            errors: [{ message: "Expected to call 'super()'.", type: "MethodDefinition", column: 72 }]
         },
 
         // lacked in some code path.
         {
             code: "class A extends B { constructor() { if (a) super(); } }",
-            errors: [{ message: "Lacked a call of 'super()' in some code paths.", type: "MethodDefinition"}]
+            errors: [{ message: "Lacked a call of 'super()' in some code paths.", type: "MethodDefinition" }]
         },
         {
             code: "class A extends B { constructor() { if (a); else super(); } }",
-            errors: [{ message: "Lacked a call of 'super()' in some code paths.", type: "MethodDefinition"}]
+            errors: [{ message: "Lacked a call of 'super()' in some code paths.", type: "MethodDefinition" }]
         },
         {
             code: "class A extends B { constructor() { a && super(); } }",
-            errors: [{ message: "Lacked a call of 'super()' in some code paths.", type: "MethodDefinition"}]
+            errors: [{ message: "Lacked a call of 'super()' in some code paths.", type: "MethodDefinition" }]
         },
         {
             code: "class A extends B { constructor() { switch (a) { case 0: super(); } } }",
-            errors: [{ message: "Lacked a call of 'super()' in some code paths.", type: "MethodDefinition"}]
+            errors: [{ message: "Lacked a call of 'super()' in some code paths.", type: "MethodDefinition" }]
         },
         {
             code: "class A extends B { constructor() { switch (a) { case 0: break; default: super(); } } }",
-            errors: [{ message: "Lacked a call of 'super()' in some code paths.", type: "MethodDefinition"}]
+            errors: [{ message: "Lacked a call of 'super()' in some code paths.", type: "MethodDefinition" }]
         },
         {
             code: "class A extends B { constructor() { try { super(); } catch (err) {} } }",
-            errors: [{ message: "Lacked a call of 'super()' in some code paths.", type: "MethodDefinition"}]
+            errors: [{ message: "Lacked a call of 'super()' in some code paths.", type: "MethodDefinition" }]
         },
         {
             code: "class A extends B { constructor() { try { a; } catch (err) { super(); } } }",
-            errors: [{ message: "Lacked a call of 'super()' in some code paths.", type: "MethodDefinition"}]
+            errors: [{ message: "Lacked a call of 'super()' in some code paths.", type: "MethodDefinition" }]
         },
         {
             code: "class A extends B { constructor() { if (a) return; super(); } }",
-            errors: [{ message: "Lacked a call of 'super()' in some code paths.", type: "MethodDefinition"}]
+            errors: [{ message: "Lacked a call of 'super()' in some code paths.", type: "MethodDefinition" }]
         },
 
         // duplicate.
         {
             code: "class A extends B { constructor() { super(); super(); } }",
-            errors: [{ message: "Unexpected duplicate 'super()'.", type: "CallExpression", column: 46}]
+            errors: [{ message: "Unexpected duplicate 'super()'.", type: "CallExpression", column: 46 }]
         },
         {
             code: "class A extends B { constructor() { super() || super(); } }",
-            errors: [{ message: "Unexpected duplicate 'super()'.", type: "CallExpression", column: 48}]
+            errors: [{ message: "Unexpected duplicate 'super()'.", type: "CallExpression", column: 48 }]
         },
         {
             code: "class A extends B { constructor() { if (a) super(); super(); } }",
-            errors: [{ message: "Unexpected duplicate 'super()'.", type: "CallExpression", column: 53}]
+            errors: [{ message: "Unexpected duplicate 'super()'.", type: "CallExpression", column: 53 }]
         },
         {
             code: "class A extends B { constructor() { switch (a) { case 0: super(); default: super(); } } }",
-            errors: [{ message: "Unexpected duplicate 'super()'.", type: "CallExpression", column: 76}]
+            errors: [{ message: "Unexpected duplicate 'super()'.", type: "CallExpression", column: 76 }]
         },
         {
             code: "class A extends B { constructor(a) { while (a) super(); } }",
             errors: [
-                { message: "Lacked a call of 'super()' in some code paths.", type: "MethodDefinition"},
-                { message: "Unexpected duplicate 'super()'.", type: "CallExpression", column: 48}
+                { message: "Lacked a call of 'super()' in some code paths.", type: "MethodDefinition" },
+                { message: "Unexpected duplicate 'super()'.", type: "CallExpression", column: 48 }
             ]
         },
 
         // ignores `super()` on unreachable paths.
         {
             code: "class A extends B { constructor() { return; super(); } }",
-            errors: [{ message: "Expected to call 'super()'.", type: "MethodDefinition"}]
+            errors: [{ message: "Expected to call 'super()'.", type: "MethodDefinition" }]
         }
     ]
 });

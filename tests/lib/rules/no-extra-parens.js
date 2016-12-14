@@ -183,25 +183,25 @@ ruleTester.run("no-extra-parens", rule, {
         { code: "a => ({b: c}.d.e)", parserOptions: { ecmaVersion: 6 } },
 
         // "functions" enables reports for function nodes only
-        {code: "(0)", options: ["functions"]},
-        {code: "a + (b * c)", options: ["functions"]},
-        {code: "(a)(b)", options: ["functions"]},
-        {code: "a, (b = c)", options: ["functions"]},
-        {code: "for(a in (0));", options: ["functions"]},
-        {code: "var a = (b = c)", options: ["functions"]},
-        {code: "_ => (a = 0)", options: ["functions"], parserOptions: { ecmaVersion: 6 }},
+        { code: "(0)", options: ["functions"] },
+        { code: "a + (b * c)", options: ["functions"] },
+        { code: "(a)(b)", options: ["functions"] },
+        { code: "a, (b = c)", options: ["functions"] },
+        { code: "for(a in (0));", options: ["functions"] },
+        { code: "var a = (b = c)", options: ["functions"] },
+        { code: "_ => (a = 0)", options: ["functions"], parserOptions: { ecmaVersion: 6 } },
 
         // ["all", {conditionalAssign: false}] enables extra parens around conditional assignments
-        {code: "while ((foo = bar())) {}", options: ["all", {conditionalAssign: false}]},
-        {code: "if ((foo = bar())) {}", options: ["all", {conditionalAssign: false}]},
-        {code: "do; while ((foo = bar()))", options: ["all", {conditionalAssign: false}]},
-        {code: "for (;(a = b););", options: ["all", {conditionalAssign: false}]},
+        { code: "while ((foo = bar())) {}", options: ["all", { conditionalAssign: false }] },
+        { code: "if ((foo = bar())) {}", options: ["all", { conditionalAssign: false }] },
+        { code: "do; while ((foo = bar()))", options: ["all", { conditionalAssign: false }] },
+        { code: "for (;(a = b););", options: ["all", { conditionalAssign: false }] },
 
         // ["all", { nestedBinaryExpressions: false }] enables extra parens around conditional assignments
-        {code: "a + (b * c)", options: ["all", {nestedBinaryExpressions: false}]},
-        {code: "(a * b) + c", options: ["all", {nestedBinaryExpressions: false}]},
-        {code: "(a * b) / c", options: ["all", {nestedBinaryExpressions: false}]},
-        {code: "a || (b && c)", options: ["all", {nestedBinaryExpressions: false}]},
+        { code: "a + (b * c)", options: ["all", { nestedBinaryExpressions: false }] },
+        { code: "(a * b) + c", options: ["all", { nestedBinaryExpressions: false }] },
+        { code: "(a * b) / c", options: ["all", { nestedBinaryExpressions: false }] },
+        { code: "a || (b && c)", options: ["all", { nestedBinaryExpressions: false }] },
 
         // ["all", { returnAssign: false }] enables extra parens around expressions returned by return statements
         { code: "function a(b) { return b || c; }", options: ["all", { returnAssign: false }] },
@@ -228,14 +228,14 @@ ruleTester.run("no-extra-parens", rule, {
         "(function(){}.foo());",
         "(function(){}.foo.bar);",
 
-        {code: "(class{}).foo(), 1, 2;", parserOptions: { ecmaVersion: 6 }},
-        {code: "(class{}).foo++;", parserOptions: { ecmaVersion: 6 }},
-        {code: "(class{}).foo() || bar;", parserOptions: { ecmaVersion: 6 }},
-        {code: "(class{}).foo() + 1;", parserOptions: { ecmaVersion: 6 }},
-        {code: "(class{}).foo() ? bar : baz;", parserOptions: { ecmaVersion: 6 }},
-        {code: "(class{}).foo.bar();", parserOptions: { ecmaVersion: 6 }},
-        {code: "(class{}.foo());", parserOptions: { ecmaVersion: 6 }},
-        {code: "(class{}.foo.bar);", parserOptions: { ecmaVersion: 6 }},
+        { code: "(class{}).foo(), 1, 2;", parserOptions: { ecmaVersion: 6 } },
+        { code: "(class{}).foo++;", parserOptions: { ecmaVersion: 6 } },
+        { code: "(class{}).foo() || bar;", parserOptions: { ecmaVersion: 6 } },
+        { code: "(class{}).foo() + 1;", parserOptions: { ecmaVersion: 6 } },
+        { code: "(class{}).foo() ? bar : baz;", parserOptions: { ecmaVersion: 6 } },
+        { code: "(class{}).foo.bar();", parserOptions: { ecmaVersion: 6 } },
+        { code: "(class{}.foo());", parserOptions: { ecmaVersion: 6 } },
+        { code: "(class{}.foo.bar);", parserOptions: { ecmaVersion: 6 } },
 
         // https://github.com/eslint/eslint/issues/4608
         { code: "function *a() { yield b; }", parserOptions: { ecmaVersion: 6 } },
@@ -309,13 +309,13 @@ ruleTester.run("no-extra-parens", rule, {
         invalid("while((0));", "while(0);", "Literal"),
         invalid("do; while((0))", "do; while(0)", "Literal"),
         invalid("for(a in (0));", "for(a in 0);", "Literal"),
-        invalid("for(a of (0));", "for(a of 0);", "Literal", 1, {parserOptions: { ecmaVersion: 6 }}),
+        invalid("for(a of (0));", "for(a of 0);", "Literal", 1, { parserOptions: { ecmaVersion: 6 } }),
         invalid(
             "var foo = (function*() { if ((yield foo())) { return; } }())",
             "var foo = (function*() { if (yield foo()) { return; } }())",
             "YieldExpression",
             1,
-            {parserOptions: { ecmaVersion: 6 }}
+            { parserOptions: { ecmaVersion: 6 } }
         ),
         invalid("f((0))", "f(0)", "Literal"),
         invalid("f(0, (1))", "f(0, 1)", "Literal"),
@@ -349,8 +349,8 @@ ruleTester.run("no-extra-parens", rule, {
         invalid("(a * b) + c", "a * b + c", "BinaryExpression"),
         invalid("(a * b) / c", "a * b / c", "BinaryExpression"),
 
-        invalid("a = (b * c)", "a = b * c", "BinaryExpression", null, { options: ["all", {nestedBinaryExpressions: false}]}),
-        invalid("(b * c)", "b * c", "BinaryExpression", null, { options: ["all", {nestedBinaryExpressions: false}]}),
+        invalid("a = (b * c)", "a = b * c", "BinaryExpression", null, { options: ["all", { nestedBinaryExpressions: false }] }),
+        invalid("(b * c)", "b * c", "BinaryExpression", null, { options: ["all", { nestedBinaryExpressions: false }] }),
 
         invalid("a = (b = c)", "a = b = c", "AssignmentExpression"),
         invalid("(a).b", "a.b", "Identifier"),
@@ -365,23 +365,23 @@ ruleTester.run("no-extra-parens", rule, {
         invalid("((function foo() {return 1;}))()", "(function foo() {return 1;})()", "FunctionExpression"),
         invalid("((function(){ return bar(); })())", "(function(){ return bar(); })()", "CallExpression"),
 
-        invalid("0, (_ => 0)", "0, _ => 0", "ArrowFunctionExpression", 1, {parserOptions: { ecmaVersion: 6 }}),
-        invalid("(_ => 0), 0", "_ => 0, 0", "ArrowFunctionExpression", 1, {parserOptions: { ecmaVersion: 6 }}),
-        invalid("a = (_ => 0)", "a = _ => 0", "ArrowFunctionExpression", 1, {parserOptions: { ecmaVersion: 6 }}),
-        invalid("_ => (a = 0)", "_ => a = 0", "AssignmentExpression", 1, {parserOptions: { ecmaVersion: 6 }}),
-        invalid("x => (({}))", "x => ({})", "ObjectExpression", 1, {parserOptions: { ecmaVersion: 6 }}),
+        invalid("0, (_ => 0)", "0, _ => 0", "ArrowFunctionExpression", 1, { parserOptions: { ecmaVersion: 6 } }),
+        invalid("(_ => 0), 0", "_ => 0, 0", "ArrowFunctionExpression", 1, { parserOptions: { ecmaVersion: 6 } }),
+        invalid("a = (_ => 0)", "a = _ => 0", "ArrowFunctionExpression", 1, { parserOptions: { ecmaVersion: 6 } }),
+        invalid("_ => (a = 0)", "_ => a = 0", "AssignmentExpression", 1, { parserOptions: { ecmaVersion: 6 } }),
+        invalid("x => (({}))", "x => ({})", "ObjectExpression", 1, { parserOptions: { ecmaVersion: 6 } }),
 
-        invalid("new (function(){})", "new function(){}", "FunctionExpression", null, {options: ["functions"]}),
-        invalid("new (\nfunction(){}\n)", "new \nfunction(){}\n", "FunctionExpression", 1, {options: ["functions"]}),
-        invalid("((function foo() {return 1;}))()", "(function foo() {return 1;})()", "FunctionExpression", null, {options: ["functions"]}),
-        invalid("a[(function() {})]", "a[function() {}]", "FunctionExpression", null, {options: ["functions"]}),
-        invalid("0, (_ => 0)", "0, _ => 0", "ArrowFunctionExpression", 1, {options: ["functions"], parserOptions: { ecmaVersion: 6 }}),
-        invalid("(_ => 0), 0", "_ => 0, 0", "ArrowFunctionExpression", 1, {options: ["functions"], parserOptions: { ecmaVersion: 6 }}),
-        invalid("a = (_ => 0)", "a = _ => 0", "ArrowFunctionExpression", 1, {options: ["functions"], parserOptions: { ecmaVersion: 6 }}),
+        invalid("new (function(){})", "new function(){}", "FunctionExpression", null, { options: ["functions"] }),
+        invalid("new (\nfunction(){}\n)", "new \nfunction(){}\n", "FunctionExpression", 1, { options: ["functions"] }),
+        invalid("((function foo() {return 1;}))()", "(function foo() {return 1;})()", "FunctionExpression", null, { options: ["functions"] }),
+        invalid("a[(function() {})]", "a[function() {}]", "FunctionExpression", null, { options: ["functions"] }),
+        invalid("0, (_ => 0)", "0, _ => 0", "ArrowFunctionExpression", 1, { options: ["functions"], parserOptions: { ecmaVersion: 6 } }),
+        invalid("(_ => 0), 0", "_ => 0, 0", "ArrowFunctionExpression", 1, { options: ["functions"], parserOptions: { ecmaVersion: 6 } }),
+        invalid("a = (_ => 0)", "a = _ => 0", "ArrowFunctionExpression", 1, { options: ["functions"], parserOptions: { ecmaVersion: 6 } }),
 
 
         invalid("while ((foo = bar())) {}", "while (foo = bar()) {}", "AssignmentExpression"),
-        invalid("while ((foo = bar())) {}", "while (foo = bar()) {}", "AssignmentExpression", 1, {options: ["all", {conditionalAssign: true}]}),
+        invalid("while ((foo = bar())) {}", "while (foo = bar()) {}", "AssignmentExpression", 1, { options: ["all", { conditionalAssign: true }] }),
         invalid("if ((foo = bar())) {}", "if (foo = bar()) {}", "AssignmentExpression"),
         invalid("do; while ((foo = bar()))", "do; while (foo = bar())", "AssignmentExpression"),
         invalid("for (;(a = b););", "for (;a = b;);", "AssignmentExpression"),
@@ -400,28 +400,28 @@ ruleTester.run("no-extra-parens", rule, {
         invalid("bar((function(){}).foo(), 0);", "bar(function(){}.foo(), 0);", "FunctionExpression"),
         invalid("bar[(function(){}).foo()];", "bar[function(){}.foo()];", "FunctionExpression"),
         invalid("var bar = (function(){}).foo();", "var bar = function(){}.foo();", "FunctionExpression"),
-        invalid("((function(){}).foo.bar)();", "(function(){}.foo.bar)();", "FunctionExpression", null, {options: ["functions"]}),
-        invalid("((function(){}).foo)();", "(function(){}.foo)();", "FunctionExpression", null, {options: ["functions"]}),
+        invalid("((function(){}).foo.bar)();", "(function(){}.foo.bar)();", "FunctionExpression", null, { options: ["functions"] }),
+        invalid("((function(){}).foo)();", "(function(){}.foo)();", "FunctionExpression", null, { options: ["functions"] }),
 
-        invalid("((class{})).foo();", "(class{}).foo();", "ClassExpression", null, {parserOptions: { ecmaVersion: 6 }}),
-        invalid("((class{}).foo());", "(class{}).foo();", "CallExpression", null, {parserOptions: { ecmaVersion: 6 }}),
-        invalid("((class{}).foo);", "(class{}).foo;", "MemberExpression", null, {parserOptions: { ecmaVersion: 6 }}),
-        invalid("0, (class{}).foo();", "0, class{}.foo();", "ClassExpression", null, {parserOptions: { ecmaVersion: 6 }}),
-        invalid("void (class{}).foo();", "void class{}.foo();", "ClassExpression", null, {parserOptions: { ecmaVersion: 6 }}),
-        invalid("++(class{}).foo;", "++class{}.foo;", "ClassExpression", null, {parserOptions: { ecmaVersion: 6 }}),
-        invalid("bar || (class{}).foo();", "bar || class{}.foo();", "ClassExpression", null, {parserOptions: { ecmaVersion: 6 }}),
-        invalid("1 + (class{}).foo();", "1 + class{}.foo();", "ClassExpression", null, {parserOptions: { ecmaVersion: 6 }}),
-        invalid("bar ? (class{}).foo() : baz;", "bar ? class{}.foo() : baz;", "ClassExpression", null, {parserOptions: { ecmaVersion: 6 }}),
-        invalid("bar ? baz : (class{}).foo();", "bar ? baz : class{}.foo();", "ClassExpression", null, {parserOptions: { ecmaVersion: 6 }}),
-        invalid("bar((class{}).foo(), 0);", "bar(class{}.foo(), 0);", "ClassExpression", null, {parserOptions: { ecmaVersion: 6 }}),
-        invalid("bar[(class{}).foo()];", "bar[class{}.foo()];", "ClassExpression", null, {parserOptions: { ecmaVersion: 6 }}),
-        invalid("var bar = (class{}).foo();", "var bar = class{}.foo();", "ClassExpression", null, {parserOptions: { ecmaVersion: 6 }}),
+        invalid("((class{})).foo();", "(class{}).foo();", "ClassExpression", null, { parserOptions: { ecmaVersion: 6 } }),
+        invalid("((class{}).foo());", "(class{}).foo();", "CallExpression", null, { parserOptions: { ecmaVersion: 6 } }),
+        invalid("((class{}).foo);", "(class{}).foo;", "MemberExpression", null, { parserOptions: { ecmaVersion: 6 } }),
+        invalid("0, (class{}).foo();", "0, class{}.foo();", "ClassExpression", null, { parserOptions: { ecmaVersion: 6 } }),
+        invalid("void (class{}).foo();", "void class{}.foo();", "ClassExpression", null, { parserOptions: { ecmaVersion: 6 } }),
+        invalid("++(class{}).foo;", "++class{}.foo;", "ClassExpression", null, { parserOptions: { ecmaVersion: 6 } }),
+        invalid("bar || (class{}).foo();", "bar || class{}.foo();", "ClassExpression", null, { parserOptions: { ecmaVersion: 6 } }),
+        invalid("1 + (class{}).foo();", "1 + class{}.foo();", "ClassExpression", null, { parserOptions: { ecmaVersion: 6 } }),
+        invalid("bar ? (class{}).foo() : baz;", "bar ? class{}.foo() : baz;", "ClassExpression", null, { parserOptions: { ecmaVersion: 6 } }),
+        invalid("bar ? baz : (class{}).foo();", "bar ? baz : class{}.foo();", "ClassExpression", null, { parserOptions: { ecmaVersion: 6 } }),
+        invalid("bar((class{}).foo(), 0);", "bar(class{}.foo(), 0);", "ClassExpression", null, { parserOptions: { ecmaVersion: 6 } }),
+        invalid("bar[(class{}).foo()];", "bar[class{}.foo()];", "ClassExpression", null, { parserOptions: { ecmaVersion: 6 } }),
+        invalid("var bar = (class{}).foo();", "var bar = class{}.foo();", "ClassExpression", null, { parserOptions: { ecmaVersion: 6 } }),
 
         // https://github.com/eslint/eslint/issues/4608
-        invalid("function *a() { yield (b); }", "function *a() { yield b; }", "Identifier", null, {parserOptions: { ecmaVersion: 6 }}),
-        invalid("function *a() { (yield b), c; }", "function *a() { yield b, c; }", "YieldExpression", null, {parserOptions: { ecmaVersion: 6 }}),
-        invalid("function *a() { yield ((b, c)); }", "function *a() { yield (b, c); }", "SequenceExpression", null, {parserOptions: { ecmaVersion: 6 }}),
-        invalid("function *a() { yield (b + c); }", "function *a() { yield b + c; }", "BinaryExpression", null, {parserOptions: { ecmaVersion: 6 }}),
+        invalid("function *a() { yield (b); }", "function *a() { yield b; }", "Identifier", null, { parserOptions: { ecmaVersion: 6 } }),
+        invalid("function *a() { (yield b), c; }", "function *a() { yield b, c; }", "YieldExpression", null, { parserOptions: { ecmaVersion: 6 } }),
+        invalid("function *a() { yield ((b, c)); }", "function *a() { yield (b, c); }", "SequenceExpression", null, { parserOptions: { ecmaVersion: 6 } }),
+        invalid("function *a() { yield (b + c); }", "function *a() { yield b + c; }", "BinaryExpression", null, { parserOptions: { ecmaVersion: 6 } }),
 
         // https://github.com/eslint/eslint/issues/4229
         invalid([
@@ -465,7 +465,7 @@ ruleTester.run("no-extra-parens", rule, {
             "function a() {",
             "    return <JSX />;",
             "}"
-        ].join("\n"), "JSXElement", null, {parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } }}),
+        ].join("\n"), "JSXElement", null, { parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } } }),
         invalid([
             "function a() {",
             "    return",
@@ -476,7 +476,7 @@ ruleTester.run("no-extra-parens", rule, {
             "    return",
             "    <JSX />;",
             "}"
-        ].join("\n"), "JSXElement", null, {parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } }}),
+        ].join("\n"), "JSXElement", null, { parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } } }),
         invalid([
             "function a() {",
             "    return ((",
@@ -489,7 +489,7 @@ ruleTester.run("no-extra-parens", rule, {
             "       <JSX />",
             "    );",
             "}"
-        ].join("\n"), "JSXElement", null, {parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } }}),
+        ].join("\n"), "JSXElement", null, { parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } } }),
         invalid("throw (a);", "throw a;", "Identifier"),
         invalid([
             "throw ((",
@@ -508,7 +508,7 @@ ruleTester.run("no-extra-parens", rule, {
             "function *a() {",
             "    yield b;",
             "}"
-        ].join("\n"), "Identifier", null, {parserOptions: { ecmaVersion: 6 }}),
+        ].join("\n"), "Identifier", null, { parserOptions: { ecmaVersion: 6 } }),
         invalid([
             "function *a() {",
             "    yield",
@@ -519,7 +519,7 @@ ruleTester.run("no-extra-parens", rule, {
             "    yield",
             "    b;",
             "}"
-        ].join("\n"), "Identifier", null, {parserOptions: { ecmaVersion: 6 }}),
+        ].join("\n"), "Identifier", null, { parserOptions: { ecmaVersion: 6 } }),
         invalid([
             "function *a() {",
             "    yield ((",
@@ -532,12 +532,12 @@ ruleTester.run("no-extra-parens", rule, {
             "       b",
             "    );",
             "}"
-        ].join("\n"), "Identifier", null, {parserOptions: { ecmaVersion: 6 }}),
+        ].join("\n"), "Identifier", null, { parserOptions: { ecmaVersion: 6 } }),
 
         // returnAssign option
         {
             code: "function a(b) { return (b || c); }",
-            options: ["all", {returnAssign: false}],
+            options: ["all", { returnAssign: false }],
             errors: [
                 {
                     message: "Gratuitous parentheses around expression.",
@@ -582,7 +582,7 @@ ruleTester.run("no-extra-parens", rule, {
         },
         {
             code: "b => (b || c);",
-            options: ["all", {returnAssign: false}],
+            options: ["all", { returnAssign: false }],
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
@@ -631,7 +631,7 @@ ruleTester.run("no-extra-parens", rule, {
         },
         {
             code: "b => { return (b || c); }",
-            options: ["all", {returnAssign: false}],
+            options: ["all", { returnAssign: false }],
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
@@ -695,17 +695,17 @@ ruleTester.run("no-extra-parens", rule, {
             ],
             output: "async function a() { await a + await b; }"
         },
-        invalid("async function a() { await (a); }", "async function a() { await a; }", "Identifier", null, {parserOptions: { ecmaVersion: 8 }}),
-        invalid("async function a() { await (a()); }", "async function a() { await a(); }", "CallExpression", null, {parserOptions: { ecmaVersion: 8 }}),
-        invalid("async function a() { await (+a); }", "async function a() { await +a; }", "UnaryExpression", null, {parserOptions: { ecmaVersion: 8 }}),
-        invalid("async function a() { +(await a); }", "async function a() { +await a; }", "AwaitExpression", null, {parserOptions: { ecmaVersion: 8 }}),
-        invalid("(foo) instanceof bar", "foo instanceof bar", "Identifier", 1, {options: ["all", {nestedBinaryExpressions: false}]}),
-        invalid("(foo) in bar", "foo in bar", "Identifier", 1, {options: ["all", {nestedBinaryExpressions: false}]}),
-        invalid("(foo) + bar", "foo + bar", "Identifier", 1, {options: ["all", {nestedBinaryExpressions: false}]}),
-        invalid("(foo) && bar", "foo && bar", "Identifier", 1, {options: ["all", {nestedBinaryExpressions: false}]}),
-        invalid("foo instanceof (bar)", "foo instanceof bar", "Identifier", 1, {options: ["all", {nestedBinaryExpressions: false}]}),
-        invalid("foo in (bar)", "foo in bar", "Identifier", 1, {options: ["all", {nestedBinaryExpressions: false}]}),
-        invalid("foo + (bar)", "foo + bar", "Identifier", 1, {options: ["all", {nestedBinaryExpressions: false}]}),
-        invalid("foo && (bar)", "foo && bar", "Identifier", 1, {options: ["all", {nestedBinaryExpressions: false}]})
+        invalid("async function a() { await (a); }", "async function a() { await a; }", "Identifier", null, { parserOptions: { ecmaVersion: 8 } }),
+        invalid("async function a() { await (a()); }", "async function a() { await a(); }", "CallExpression", null, { parserOptions: { ecmaVersion: 8 } }),
+        invalid("async function a() { await (+a); }", "async function a() { await +a; }", "UnaryExpression", null, { parserOptions: { ecmaVersion: 8 } }),
+        invalid("async function a() { +(await a); }", "async function a() { +await a; }", "AwaitExpression", null, { parserOptions: { ecmaVersion: 8 } }),
+        invalid("(foo) instanceof bar", "foo instanceof bar", "Identifier", 1, { options: ["all", { nestedBinaryExpressions: false }] }),
+        invalid("(foo) in bar", "foo in bar", "Identifier", 1, { options: ["all", { nestedBinaryExpressions: false }] }),
+        invalid("(foo) + bar", "foo + bar", "Identifier", 1, { options: ["all", { nestedBinaryExpressions: false }] }),
+        invalid("(foo) && bar", "foo && bar", "Identifier", 1, { options: ["all", { nestedBinaryExpressions: false }] }),
+        invalid("foo instanceof (bar)", "foo instanceof bar", "Identifier", 1, { options: ["all", { nestedBinaryExpressions: false }] }),
+        invalid("foo in (bar)", "foo in bar", "Identifier", 1, { options: ["all", { nestedBinaryExpressions: false }] }),
+        invalid("foo + (bar)", "foo + bar", "Identifier", 1, { options: ["all", { nestedBinaryExpressions: false }] }),
+        invalid("foo && (bar)", "foo && bar", "Identifier", 1, { options: ["all", { nestedBinaryExpressions: false }] })
     ]
 });

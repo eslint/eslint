@@ -17,7 +17,7 @@ const RuleTester = require("../../../lib/testers/rule-tester");
 //------------------------------------------------------------------------------
 
 const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } });
-const error = {message: "Useless constructor.", type: "MethodDefinition"};
+const error = { message: "Useless constructor.", type: "MethodDefinition" };
 
 ruleTester.run("no-useless-constructor", rule, {
     valid: [

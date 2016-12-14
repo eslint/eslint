@@ -210,7 +210,7 @@ describe("ast-utils", () => {
 
             eslint.reset();
             eslint.on("VariableDeclaration", checker);
-            eslint.verify("const a = 1; a = 2;", {ecmaFeatures: {blockBindings: true}}, filename, true);
+            eslint.verify("const a = 1; a = 2;", { ecmaFeatures: { blockBindings: true } }, filename, true);
         });
 
         it("should return false if reference is not assigned for const", () => {
@@ -228,7 +228,7 @@ describe("ast-utils", () => {
 
             eslint.reset();
             eslint.on("VariableDeclaration", checker);
-            eslint.verify("const a = 1; c = 2;", {ecmaFeatures: {blockBindings: true}}, filename, true);
+            eslint.verify("const a = 1; c = 2;", { ecmaFeatures: { blockBindings: true } }, filename, true);
         });
 
         // class
@@ -248,7 +248,7 @@ describe("ast-utils", () => {
 
             eslint.reset();
             eslint.on("ClassDeclaration", checker);
-            eslint.verify("class A { }\n A = 1;", {ecmaFeatures: {classes: true}}, filename, true);
+            eslint.verify("class A { }\n A = 1;", { ecmaFeatures: { classes: true } }, filename, true);
         });
 
         it("should return false if reference is not assigned for class", () => {
@@ -266,7 +266,7 @@ describe("ast-utils", () => {
 
             eslint.reset();
             eslint.on("ClassDeclaration", checker);
-            eslint.verify("class A { } foo(A);", {ecmaFeatures: {classes: true}}, filename, true);
+            eslint.verify("class A { } foo(A);", { ecmaFeatures: { classes: true } }, filename, true);
         });
     });
 
@@ -362,7 +362,7 @@ describe("ast-utils", () => {
         });
 
         it("should return true for AllowFunctionExpression", () => {
-            const ast = espree.parse("(() => {})", {ecmaVersion: 6});
+            const ast = espree.parse("(() => {})", { ecmaVersion: 6 });
             const node = ast.body[0].expression;
 
             assert(astUtils.isFunction(node));
@@ -393,7 +393,7 @@ describe("ast-utils", () => {
         });
 
         it("should return true for ForOfStatement", () => {
-            const ast = espree.parse("for (var x of list) {}", {ecmaVersion: 6});
+            const ast = espree.parse("for (var x of list) {}", { ecmaVersion: 6 });
             const node = ast.body[0];
 
             assert(astUtils.isLoop(node));
@@ -438,7 +438,7 @@ describe("ast-utils", () => {
         });
 
         it("should return 'b' for `a[`b`]`", () => {
-            const ast = espree.parse("a[`b`]", {ecmaVersion: 6});
+            const ast = espree.parse("a[`b`]", { ecmaVersion: 6 });
             const node = ast.body[0].expression;
 
             assert.strictEqual(astUtils.getStaticPropertyName(node), "b");
@@ -466,14 +466,14 @@ describe("ast-utils", () => {
         });
 
         it("should return null for `a[tag`b`]`", () => {
-            const ast = espree.parse("a[tag`b`]", {ecmaVersion: 6});
+            const ast = espree.parse("a[tag`b`]", { ecmaVersion: 6 });
             const node = ast.body[0].expression;
 
             assert.strictEqual(astUtils.getStaticPropertyName(node), null);
         });
 
         it("should return null for `a[`${b}`]`", () => {
-            const ast = espree.parse("a[`${b}`]", {ecmaVersion: 6});
+            const ast = espree.parse("a[`${b}`]", { ecmaVersion: 6 });
             const node = ast.body[0].expression;
 
             assert.strictEqual(astUtils.getStaticPropertyName(node), null);
@@ -487,70 +487,70 @@ describe("ast-utils", () => {
         });
 
         it("should return 'b' for `b() {}`", () => {
-            const ast = espree.parse("({b() {}})", {ecmaVersion: 6});
+            const ast = espree.parse("({b() {}})", { ecmaVersion: 6 });
             const node = ast.body[0].expression.properties[0];
 
             assert.strictEqual(astUtils.getStaticPropertyName(node), "b");
         });
 
         it("should return 'b' for `get b() {}`", () => {
-            const ast = espree.parse("({get b() {}})", {ecmaVersion: 6});
+            const ast = espree.parse("({get b() {}})", { ecmaVersion: 6 });
             const node = ast.body[0].expression.properties[0];
 
             assert.strictEqual(astUtils.getStaticPropertyName(node), "b");
         });
 
         it("should return 'b' for `['b']: 1`", () => {
-            const ast = espree.parse("({['b']: 1})", {ecmaVersion: 6});
+            const ast = espree.parse("({['b']: 1})", { ecmaVersion: 6 });
             const node = ast.body[0].expression.properties[0];
 
             assert.strictEqual(astUtils.getStaticPropertyName(node), "b");
         });
 
         it("should return 'b' for `['b']() {}`", () => {
-            const ast = espree.parse("({['b']() {}})", {ecmaVersion: 6});
+            const ast = espree.parse("({['b']() {}})", { ecmaVersion: 6 });
             const node = ast.body[0].expression.properties[0];
 
             assert.strictEqual(astUtils.getStaticPropertyName(node), "b");
         });
 
         it("should return 'b' for `[`b`]: 1`", () => {
-            const ast = espree.parse("({[`b`]: 1})", {ecmaVersion: 6});
+            const ast = espree.parse("({[`b`]: 1})", { ecmaVersion: 6 });
             const node = ast.body[0].expression.properties[0];
 
             assert.strictEqual(astUtils.getStaticPropertyName(node), "b");
         });
 
         it("should return '100' for` [100]: 1`", () => {
-            const ast = espree.parse("({[100]: 1})", {ecmaVersion: 6});
+            const ast = espree.parse("({[100]: 1})", { ecmaVersion: 6 });
             const node = ast.body[0].expression.properties[0];
 
             assert.strictEqual(astUtils.getStaticPropertyName(node), "100");
         });
 
         it("should return null for `[b]: 1`", () => {
-            const ast = espree.parse("({[b]: 1})", {ecmaVersion: 6});
+            const ast = espree.parse("({[b]: 1})", { ecmaVersion: 6 });
             const node = ast.body[0].expression.properties[0];
 
             assert.strictEqual(astUtils.getStaticPropertyName(node), null);
         });
 
         it("should return null for `['a' + 'b']: 1`", () => {
-            const ast = espree.parse("({['a' + 'b']: 1})", {ecmaVersion: 6});
+            const ast = espree.parse("({['a' + 'b']: 1})", { ecmaVersion: 6 });
             const node = ast.body[0].expression.properties[0];
 
             assert.strictEqual(astUtils.getStaticPropertyName(node), null);
         });
 
         it("should return null for `[tag`b`]: 1`", () => {
-            const ast = espree.parse("({[tag`b`]: 1})", {ecmaVersion: 6});
+            const ast = espree.parse("({[tag`b`]: 1})", { ecmaVersion: 6 });
             const node = ast.body[0].expression.properties[0];
 
             assert.strictEqual(astUtils.getStaticPropertyName(node), null);
         });
 
         it("should return null for `[`${b}`]: 1`", () => {
-            const ast = espree.parse("({[`${b}`]: 1})", {ecmaVersion: 6});
+            const ast = espree.parse("({[`${b}`]: 1})", { ecmaVersion: 6 });
             const node = ast.body[0].expression.properties[0];
 
             assert.strictEqual(astUtils.getStaticPropertyName(node), null);
@@ -733,7 +733,7 @@ describe("ast-utils", () => {
                 eslint.on("FunctionDeclaration", verify);
                 eslint.on("FunctionExpression", verify);
                 eslint.on("ArrowFunctionExpression", verify);
-                eslint.verify(key, {parserOptions: {ecmaVersion: 8}}, "test.js", true);
+                eslint.verify(key, { parserOptions: { ecmaVersion: 8 } }, "test.js", true);
 
                 assert(called);
             });
@@ -817,7 +817,7 @@ describe("ast-utils", () => {
                 eslint.on("FunctionDeclaration", verify);
                 eslint.on("FunctionExpression", verify);
                 eslint.on("ArrowFunctionExpression", verify);
-                eslint.verify(key, {parserOptions: {ecmaVersion: 8}}, "test.js", true);
+                eslint.verify(key, { parserOptions: { ecmaVersion: 8 } }, "test.js", true);
 
                 assert(called);
             });
@@ -851,7 +851,7 @@ describe("ast-utils", () => {
 
         Object.keys(expectedResults).forEach(key => {
             it(`should return ${expectedResults[key]} for ${key}`, () => {
-                const ast = espree.parse(key, {ecmaVersion: 6});
+                const ast = espree.parse(key, { ecmaVersion: 6 });
 
                 assert.strictEqual(astUtils.isEmptyFunction(ast.body[0].expression), expectedResults[key]);
             });
@@ -871,10 +871,10 @@ describe("ast-utils", () => {
             const ast = espree.parse(CODE, ESPREE_CONFIG);
             const sourceCode = new SourceCode(CODE, ast);
 
-            assert.deepEqual(astUtils.getLocationFromRangeIndex(sourceCode, 5), {line: 2, column: 1});
-            assert.deepEqual(astUtils.getLocationFromRangeIndex(sourceCode, 3), {line: 1, column: 3});
-            assert.deepEqual(astUtils.getLocationFromRangeIndex(sourceCode, 4), {line: 2, column: 0});
-            assert.deepEqual(astUtils.getLocationFromRangeIndex(sourceCode, 21), {line: 6, column: 0});
+            assert.deepEqual(astUtils.getLocationFromRangeIndex(sourceCode, 5), { line: 2, column: 1 });
+            assert.deepEqual(astUtils.getLocationFromRangeIndex(sourceCode, 3), { line: 1, column: 3 });
+            assert.deepEqual(astUtils.getLocationFromRangeIndex(sourceCode, 4), { line: 2, column: 0 });
+            assert.deepEqual(astUtils.getLocationFromRangeIndex(sourceCode, 21), { line: 6, column: 0 });
         });
 
     });
@@ -891,15 +891,15 @@ describe("ast-utils", () => {
             const ast = espree.parse(CODE, ESPREE_CONFIG);
             const sourceCode = new SourceCode(CODE, ast);
 
-            assert.strictEqual(astUtils.getRangeIndexFromLocation(sourceCode, {line: 2, column: 1}), 5);
-            assert.strictEqual(astUtils.getRangeIndexFromLocation(sourceCode, {line: 1, column: 3}), 3);
-            assert.strictEqual(astUtils.getRangeIndexFromLocation(sourceCode, {line: 2, column: 0}), 4);
-            assert.strictEqual(astUtils.getRangeIndexFromLocation(sourceCode, {line: 6, column: 0}), 21);
+            assert.strictEqual(astUtils.getRangeIndexFromLocation(sourceCode, { line: 2, column: 1 }), 5);
+            assert.strictEqual(astUtils.getRangeIndexFromLocation(sourceCode, { line: 1, column: 3 }), 3);
+            assert.strictEqual(astUtils.getRangeIndexFromLocation(sourceCode, { line: 2, column: 0 }), 4);
+            assert.strictEqual(astUtils.getRangeIndexFromLocation(sourceCode, { line: 6, column: 0 }), 21);
 
             sourceCode.lines.forEach((line, index) => {
                 assert.strictEqual(
                     line[0],
-                    sourceCode.text[astUtils.getRangeIndexFromLocation(sourceCode, {line: index + 1, column: 0})]
+                    sourceCode.text[astUtils.getRangeIndexFromLocation(sourceCode, { line: index + 1, column: 0 })]
                 );
             });
         });

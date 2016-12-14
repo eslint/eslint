@@ -605,7 +605,7 @@ describe("ConfigFile", () => {
             const config = ConfigFile.load(getFixturePath("yml/.eslintrc.yml"), true);
 
             assert.deepEqual(config, {
-                parserOptions: {ecmaFeatures: { globalReturn: true }},
+                parserOptions: { ecmaFeatures: { globalReturn: true } },
                 env: { node: true },
                 globals: environments.node.globals,
                 rules: {}

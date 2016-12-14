@@ -47,9 +47,9 @@ ruleTester.run("block-scoped-var", rule, {
         { code: "function myFunc(...foo) {  return foo;}", parserOptions: { ecmaVersion: 6 } },
         { code: "var f = () => { var g = f; }", parserOptions: { ecmaVersion: 6 } },
         { code: "class Foo {}\nexport default Foo;", parserOptions: { sourceType: "module" } },
-        { code: "new Date", globals: {Date: false} },
+        { code: "new Date", globals: { Date: false } },
         { code: "new Date", globals: {} },
-        { code: "var eslint = require('eslint');", globals: {require: false} },
+        { code: "var eslint = require('eslint');", globals: { require: false } },
         { code: "var fun = function({x}) {return x;};", parserOptions: { ecmaVersion: 6 } },
         { code: "var fun = function([,x]) {return x;};", parserOptions: { ecmaVersion: 6 } },
         "function f(a) { return a.b; }",
@@ -67,20 +67,20 @@ ruleTester.run("block-scoped-var", rule, {
         "a:;",
         "foo: while (true) { bar: for (var i = 0; i < 13; ++i) {if (i === 7) break foo; } }",
         "foo: while (true) { bar: for (var i = 0; i < 13; ++i) {if (i === 7) continue foo; } }",
-        { code: "const React = require(\"react/addons\");const cx = React.addons.classSet;", globals: { require: false }, parserOptions: { sourceType: "module" }},
-        { code: "var v = 1;  function x() { return v; };", parserOptions: { parserOptions: { ecmaVersion: 6 } }},
-        { code: "import * as y from \"./other.js\"; y();", parserOptions: { sourceType: "module" }},
-        { code: "import y from \"./other.js\"; y();", parserOptions: { sourceType: "module" }},
-        { code: "import {x as y} from \"./other.js\"; y();", parserOptions: { sourceType: "module" }},
-        { code: "var x; export {x};", parserOptions: { sourceType: "module" }},
-        { code: "var x; export {x as v};", parserOptions: { sourceType: "module" }},
-        { code: "export {x} from \"./other.js\";", parserOptions: { sourceType: "module" }},
-        { code: "export {x as v} from \"./other.js\";", parserOptions: { sourceType: "module" }},
-        { code: "class Test { myFunction() { return true; }}", parserOptions: { ecmaVersion: 6 }},
-        { code: "class Test { get flag() { return true; }}", parserOptions: { ecmaVersion: 6 }},
-        { code: "var Test = class { myFunction() { return true; }}", parserOptions: { ecmaVersion: 6 }},
-        { code: "var doStuff; let {x: y} = {x: 1}; doStuff(y);", parserOptions: { ecmaVersion: 6 }},
-        { code: "function foo({x: y}) { return y; }", parserOptions: { ecmaVersion: 6 }},
+        { code: "const React = require(\"react/addons\");const cx = React.addons.classSet;", globals: { require: false }, parserOptions: { sourceType: "module" } },
+        { code: "var v = 1;  function x() { return v; };", parserOptions: { parserOptions: { ecmaVersion: 6 } } },
+        { code: "import * as y from \"./other.js\"; y();", parserOptions: { sourceType: "module" } },
+        { code: "import y from \"./other.js\"; y();", parserOptions: { sourceType: "module" } },
+        { code: "import {x as y} from \"./other.js\"; y();", parserOptions: { sourceType: "module" } },
+        { code: "var x; export {x};", parserOptions: { sourceType: "module" } },
+        { code: "var x; export {x as v};", parserOptions: { sourceType: "module" } },
+        { code: "export {x} from \"./other.js\";", parserOptions: { sourceType: "module" } },
+        { code: "export {x as v} from \"./other.js\";", parserOptions: { sourceType: "module" } },
+        { code: "class Test { myFunction() { return true; }}", parserOptions: { ecmaVersion: 6 } },
+        { code: "class Test { get flag() { return true; }}", parserOptions: { ecmaVersion: 6 } },
+        { code: "var Test = class { myFunction() { return true; }}", parserOptions: { ecmaVersion: 6 } },
+        { code: "var doStuff; let {x: y} = {x: 1}; doStuff(y);", parserOptions: { ecmaVersion: 6 } },
+        { code: "function foo({x: y}) { return y; }", parserOptions: { ecmaVersion: 6 } },
 
         // those are the same as `no-undef`.
         { code: "!function f(){}; f" },
@@ -101,16 +101,16 @@ ruleTester.run("block-scoped-var", rule, {
         { code: "a:b;" },
 
         // https://github.com/eslint/eslint/issues/2253
-        { code: "/*global React*/ let {PropTypes, addons: {PureRenderMixin}} = React; let Test = React.createClass({mixins: [PureRenderMixin]});", parserOptions: { ecmaVersion: 6 }},
-        { code: "/*global prevState*/ const { virtualSize: prevVirtualSize = 0 } = prevState;", parserOptions: { ecmaVersion: 6 }},
-        { code: "const { dummy: { data, isLoading }, auth: { isLoggedIn } } = this.props;", parserOptions: { ecmaVersion: 6 }},
+        { code: "/*global React*/ let {PropTypes, addons: {PureRenderMixin}} = React; let Test = React.createClass({mixins: [PureRenderMixin]});", parserOptions: { ecmaVersion: 6 } },
+        { code: "/*global prevState*/ const { virtualSize: prevVirtualSize = 0 } = prevState;", parserOptions: { ecmaVersion: 6 } },
+        { code: "const { dummy: { data, isLoading }, auth: { isLoggedIn } } = this.props;", parserOptions: { ecmaVersion: 6 } },
 
         // https://github.com/eslint/eslint/issues/2747
-        { code: "function a(n) { return n > 0 ? b(n - 1) : \"a\"; } function b(n) { return n > 0 ? a(n - 1) : \"b\"; }"},
+        { code: "function a(n) { return n > 0 ? b(n - 1) : \"a\"; } function b(n) { return n > 0 ? a(n - 1) : \"b\"; }" },
 
         // https://github.com/eslint/eslint/issues/2967
-        { code: "(function () { foo(); })(); function foo() {}"},
-        { code: "(function () { foo(); })(); function foo() {}", parserOptions: { sourceType: "module" }}
+        { code: "(function () { foo(); })(); function foo() {}" },
+        { code: "(function () { foo(); })(); function foo() {}", parserOptions: { sourceType: "module" } }
     ],
     invalid: [
         { code: "function f(){ x; { var x; } }", errors: [{ message: "'x' used outside of binding context.", type: "Identifier" }] },

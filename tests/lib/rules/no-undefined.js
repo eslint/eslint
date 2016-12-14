@@ -16,7 +16,7 @@ const rule = require("../../../lib/rules/no-undefined"),
 // Tests
 //------------------------------------------------------------------------------
 
-const errors = [{ message: "Unexpected use of undefined.", type: "Identifier"}];
+const errors = [{ message: "Unexpected use of undefined.", type: "Identifier" }];
 
 const ruleTester = new RuleTester();
 

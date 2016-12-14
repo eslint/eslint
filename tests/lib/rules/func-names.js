@@ -21,7 +21,7 @@ const ruleTester = new RuleTester();
 ruleTester.run("func-names", rule, {
     valid: [
         "Foo.prototype.bar = function bar(){};",
-        { code: "Foo.prototype.bar = () => {}", parserOptions: { ecmaVersion: 6 }},
+        { code: "Foo.prototype.bar = () => {}", parserOptions: { ecmaVersion: 6 } },
         "function foo(){}",
         "function test(d, e, f) {}",
         "new function bar(){}",
@@ -128,57 +128,57 @@ ruleTester.run("func-names", rule, {
         }
     ],
     invalid: [
-        { code: "Foo.prototype.bar = function() {};", errors: [{ message: "Missing function expression name.", type: "FunctionExpression"}] },
-        { code: "(function(){}())", errors: [{ message: "Missing function expression name.", type: "FunctionExpression"}] },
-        { code: "f(function(){})", errors: [{ message: "Missing function expression name.", type: "FunctionExpression"}] },
-        { code: "var a = new Date(function() {});", errors: [{ message: "Missing function expression name.", type: "FunctionExpression"}] },
-        { code: "var test = function(d, e, f) {};", errors: [{ message: "Missing function expression name.", type: "FunctionExpression"}] },
-        { code: "new function() {}", errors: [{ message: "Missing function expression name.", type: "FunctionExpression"}] },
+        { code: "Foo.prototype.bar = function() {};", errors: [{ message: "Missing function expression name.", type: "FunctionExpression" }] },
+        { code: "(function(){}())", errors: [{ message: "Missing function expression name.", type: "FunctionExpression" }] },
+        { code: "f(function(){})", errors: [{ message: "Missing function expression name.", type: "FunctionExpression" }] },
+        { code: "var a = new Date(function() {});", errors: [{ message: "Missing function expression name.", type: "FunctionExpression" }] },
+        { code: "var test = function(d, e, f) {};", errors: [{ message: "Missing function expression name.", type: "FunctionExpression" }] },
+        { code: "new function() {}", errors: [{ message: "Missing function expression name.", type: "FunctionExpression" }] },
         {
             code: "Foo.prototype.bar = function() {};",
             options: ["as-needed"],
-            errors: [{ message: "Missing function expression name.", type: "FunctionExpression"}]
+            errors: [{ message: "Missing function expression name.", type: "FunctionExpression" }]
         },
         {
             code: "(function(){}())",
             options: ["as-needed"],
-            errors: [{ message: "Missing function expression name.", type: "FunctionExpression"}]
+            errors: [{ message: "Missing function expression name.", type: "FunctionExpression" }]
         },
         {
             code: "f(function(){})",
             options: ["as-needed"],
-            errors: [{ message: "Missing function expression name.", type: "FunctionExpression"}]
+            errors: [{ message: "Missing function expression name.", type: "FunctionExpression" }]
         },
         {
             code: "var a = new Date(function() {});",
             options: ["as-needed"],
-            errors: [{ message: "Missing function expression name.", type: "FunctionExpression"}]
+            errors: [{ message: "Missing function expression name.", type: "FunctionExpression" }]
         },
         {
             code: "new function() {}",
             options: ["as-needed"],
-            errors: [{ message: "Missing function expression name.", type: "FunctionExpression"}]
+            errors: [{ message: "Missing function expression name.", type: "FunctionExpression" }]
         },
         {
             code: "var {foo} = function(){};",
             options: ["as-needed"],
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Missing function expression name.", type: "FunctionExpression"}]
+            errors: [{ message: "Missing function expression name.", type: "FunctionExpression" }]
         },
         {
             code: "var x = function named() {};",
             options: ["never"],
-            errors: [{ message: "Unexpected function expression name.", type: "FunctionExpression"}]
+            errors: [{ message: "Unexpected function expression name.", type: "FunctionExpression" }]
         },
         {
             code: "Foo.prototype.bar = function named() {};",
             options: ["never"],
-            errors: [{ message: "Unexpected function expression name.", type: "FunctionExpression"}]
+            errors: [{ message: "Unexpected function expression name.", type: "FunctionExpression" }]
         },
         {
             code: "({foo: function named() {}})",
             options: ["never"],
-            errors: [{ message: "Unexpected function expression name.", type: "FunctionExpression"}]
+            errors: [{ message: "Unexpected function expression name.", type: "FunctionExpression" }]
         }
     ]
 });

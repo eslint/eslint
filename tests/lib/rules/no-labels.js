@@ -26,12 +26,12 @@ ruleTester.run("no-labels", rule, {
         "while (true) { continue; }",
 
         // {allowLoop: true} option.
-        {code: "A: while (a) { break A; }", options: [{allowLoop: true}]},
-        {code: "A: do { if (b) { break A; } } while (a);", options: [{allowLoop: true}]},
-        {code: "A: for (var a in obj) { for (;;) { switch (a) { case 0: continue A; } } }", options: [{allowLoop: true}]},
+        { code: "A: while (a) { break A; }", options: [{ allowLoop: true }] },
+        { code: "A: do { if (b) { break A; } } while (a);", options: [{ allowLoop: true }] },
+        { code: "A: for (var a in obj) { for (;;) { switch (a) { case 0: continue A; } } }", options: [{ allowLoop: true }] },
 
         // {allowSwitch: true} option.
-        {code: "A: switch (a) { case 0: break A; }", options: [{allowSwitch: true}]}
+        { code: "A: switch (a) { case 0: break A; }", options: [{ allowSwitch: true }] }
     ],
 
     invalid: [
@@ -65,91 +65,91 @@ ruleTester.run("no-labels", rule, {
 
         {
             code: "A: var foo = 0;",
-            errors: [{message: "Unexpected labeled statement.", type: "LabeledStatement"}]
+            errors: [{ message: "Unexpected labeled statement.", type: "LabeledStatement" }]
         },
         {
             code: "A: break A;",
-            errors: [{message: "Unexpected labeled statement.", type: "LabeledStatement"}, {message: "Unexpected label in break statement.", type: "BreakStatement"}]
+            errors: [{ message: "Unexpected labeled statement.", type: "LabeledStatement" }, { message: "Unexpected label in break statement.", type: "BreakStatement" }]
         },
         {
             code: "A: { if (foo()) { break A; } bar(); };",
-            errors: [{message: "Unexpected labeled statement.", type: "LabeledStatement"}, {message: "Unexpected label in break statement.", type: "BreakStatement"}]
+            errors: [{ message: "Unexpected labeled statement.", type: "LabeledStatement" }, { message: "Unexpected label in break statement.", type: "BreakStatement" }]
         },
         {
             code: "A: if (a) { if (foo()) { break A; } bar(); };",
-            errors: [{message: "Unexpected labeled statement.", type: "LabeledStatement"}, {message: "Unexpected label in break statement.", type: "BreakStatement"}]
+            errors: [{ message: "Unexpected labeled statement.", type: "LabeledStatement" }, { message: "Unexpected label in break statement.", type: "BreakStatement" }]
         },
         {
             code: "A: switch (a) { case 0: break A; default: break; };",
-            errors: [{message: "Unexpected labeled statement.", type: "LabeledStatement"}, {message: "Unexpected label in break statement.", type: "BreakStatement"}]
+            errors: [{ message: "Unexpected labeled statement.", type: "LabeledStatement" }, { message: "Unexpected label in break statement.", type: "BreakStatement" }]
         },
         {
             code: "A: switch (a) { case 0: B: { break A; } default: break; };",
-            errors: [{message: "Unexpected labeled statement.", type: "LabeledStatement"}, {message: "Unexpected labeled statement.", type: "LabeledStatement"}, {message: "Unexpected label in break statement.", type: "BreakStatement"}]
+            errors: [{ message: "Unexpected labeled statement.", type: "LabeledStatement" }, { message: "Unexpected labeled statement.", type: "LabeledStatement" }, { message: "Unexpected label in break statement.", type: "BreakStatement" }]
         },
 
         // {allowLoop: true} option.
         {
             code: "A: var foo = 0;",
-            errors: [{message: "Unexpected labeled statement.", type: "LabeledStatement"}],
-            options: [{allowLoop: true}]
+            errors: [{ message: "Unexpected labeled statement.", type: "LabeledStatement" }],
+            options: [{ allowLoop: true }]
         },
         {
             code: "A: break A;",
-            errors: [{message: "Unexpected labeled statement.", type: "LabeledStatement"}, {message: "Unexpected label in break statement.", type: "BreakStatement"}],
-            options: [{allowLoop: true}]
+            errors: [{ message: "Unexpected labeled statement.", type: "LabeledStatement" }, { message: "Unexpected label in break statement.", type: "BreakStatement" }],
+            options: [{ allowLoop: true }]
         },
         {
             code: "A: { if (foo()) { break A; } bar(); };",
-            errors: [{message: "Unexpected labeled statement.", type: "LabeledStatement"}, {message: "Unexpected label in break statement.", type: "BreakStatement"}],
-            options: [{allowLoop: true}]
+            errors: [{ message: "Unexpected labeled statement.", type: "LabeledStatement" }, { message: "Unexpected label in break statement.", type: "BreakStatement" }],
+            options: [{ allowLoop: true }]
         },
         {
             code: "A: if (a) { if (foo()) { break A; } bar(); };",
-            errors: [{message: "Unexpected labeled statement.", type: "LabeledStatement"}, {message: "Unexpected label in break statement.", type: "BreakStatement"}],
-            options: [{allowLoop: true}]
+            errors: [{ message: "Unexpected labeled statement.", type: "LabeledStatement" }, { message: "Unexpected label in break statement.", type: "BreakStatement" }],
+            options: [{ allowLoop: true }]
         },
         {
             code: "A: switch (a) { case 0: break A; default: break; };",
-            errors: [{message: "Unexpected labeled statement.", type: "LabeledStatement"}, {message: "Unexpected label in break statement.", type: "BreakStatement"}],
-            options: [{allowLoop: true}]
+            errors: [{ message: "Unexpected labeled statement.", type: "LabeledStatement" }, { message: "Unexpected label in break statement.", type: "BreakStatement" }],
+            options: [{ allowLoop: true }]
         },
 
         // {allowSwitch: true} option.
         {
             code: "A: var foo = 0;",
-            errors: [{message: "Unexpected labeled statement.", type: "LabeledStatement"}],
-            options: [{allowSwitch: true}]
+            errors: [{ message: "Unexpected labeled statement.", type: "LabeledStatement" }],
+            options: [{ allowSwitch: true }]
         },
         {
             code: "A: break A;",
-            errors: [{message: "Unexpected labeled statement.", type: "LabeledStatement"}, {message: "Unexpected label in break statement.", type: "BreakStatement"}],
-            options: [{allowSwitch: true}]
+            errors: [{ message: "Unexpected labeled statement.", type: "LabeledStatement" }, { message: "Unexpected label in break statement.", type: "BreakStatement" }],
+            options: [{ allowSwitch: true }]
         },
         {
             code: "A: { if (foo()) { break A; } bar(); };",
-            errors: [{message: "Unexpected labeled statement.", type: "LabeledStatement"}, {message: "Unexpected label in break statement.", type: "BreakStatement"}],
-            options: [{allowSwitch: true}]
+            errors: [{ message: "Unexpected labeled statement.", type: "LabeledStatement" }, { message: "Unexpected label in break statement.", type: "BreakStatement" }],
+            options: [{ allowSwitch: true }]
         },
         {
             code: "A: if (a) { if (foo()) { break A; } bar(); };",
-            errors: [{message: "Unexpected labeled statement.", type: "LabeledStatement"}, {message: "Unexpected label in break statement.", type: "BreakStatement"}],
-            options: [{allowSwitch: true}]
+            errors: [{ message: "Unexpected labeled statement.", type: "LabeledStatement" }, { message: "Unexpected label in break statement.", type: "BreakStatement" }],
+            options: [{ allowSwitch: true }]
         },
         {
             code: "A: while (a) { break A; }",
-            errors: [{message: "Unexpected labeled statement.", type: "LabeledStatement"}, {message: "Unexpected label in break statement.", type: "BreakStatement"}],
-            options: [{allowSwitch: true}]
+            errors: [{ message: "Unexpected labeled statement.", type: "LabeledStatement" }, { message: "Unexpected label in break statement.", type: "BreakStatement" }],
+            options: [{ allowSwitch: true }]
         },
         {
             code: "A: do { if (b) { break A; } } while (a);",
-            errors: [{message: "Unexpected labeled statement.", type: "LabeledStatement"}, {message: "Unexpected label in break statement.", type: "BreakStatement"}],
-            options: [{allowSwitch: true}]
+            errors: [{ message: "Unexpected labeled statement.", type: "LabeledStatement" }, { message: "Unexpected label in break statement.", type: "BreakStatement" }],
+            options: [{ allowSwitch: true }]
         },
         {
             code: "A: for (var a in obj) { for (;;) { switch (a) { case 0: break A; } } }",
-            errors: [{message: "Unexpected labeled statement.", type: "LabeledStatement"}, {message: "Unexpected label in break statement.", type: "BreakStatement"}],
-            options: [{allowSwitch: true}]
+            errors: [{ message: "Unexpected labeled statement.", type: "LabeledStatement" }, { message: "Unexpected label in break statement.", type: "BreakStatement" }],
+            options: [{ allowSwitch: true }]
         }
     ]
 });

@@ -197,13 +197,13 @@ describe("Validator", () => {
         });
 
         it("should catch invalid environments", () => {
-            const fn = validator.validate.bind(null, { env: {browser: true, invalid: true } });
+            const fn = validator.validate.bind(null, { env: { browser: true, invalid: true } });
 
             assert.throws(fn, "Environment key \"invalid\" is unknown\n");
         });
 
         it("should catch disabled invalid environments", () => {
-            const fn = validator.validate.bind(null, { env: {browser: true, invalid: false } });
+            const fn = validator.validate.bind(null, { env: { browser: true, invalid: false } });
 
             assert.throws(fn, "Environment key \"invalid\" is unknown\n");
         });

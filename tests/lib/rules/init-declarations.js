@@ -24,7 +24,7 @@ ruleTester.run("init-declarations", rule, {
         "var foo = bar = 2;",
         "for (var i = 0; i < 1; i++) {}",
         "for (var foo in []) {}",
-        {code: "for (var foo of []) {}", parserOptions: { ecmaVersion: 6 }},
+        { code: "for (var foo of []) {}", parserOptions: { ecmaVersion: 6 } },
         {
             code: "let a = true;",
             parserOptions: { ecmaVersion: 6 },

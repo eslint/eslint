@@ -16,7 +16,7 @@ const RuleTester = require("../../../lib/testers/rule-tester");
 // Tests
 //------------------------------------------------------------------------------
 
-const errors = [{message: "Use the spread operator instead of '.apply()'.", type: "CallExpression"}];
+const errors = [{ message: "Use the spread operator instead of '.apply()'.", type: "CallExpression" }];
 
 const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } });
 

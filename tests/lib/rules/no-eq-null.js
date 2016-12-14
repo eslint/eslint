@@ -24,8 +24,8 @@ ruleTester.run("no-eq-null", rule, {
         "if (null === f()) { }"
     ],
     invalid: [
-        { code: "if (x == null) { }", errors: [{ message: "Use ‘===’ to compare with ‘null’.", type: "BinaryExpression"}] },
-        { code: "if (x != null) { }", errors: [{ message: "Use ‘===’ to compare with ‘null’.", type: "BinaryExpression"}] },
-        { code: "do {} while (null == x)", errors: [{ message: "Use ‘===’ to compare with ‘null’.", type: "BinaryExpression"}] }
+        { code: "if (x == null) { }", errors: [{ message: "Use ‘===’ to compare with ‘null’.", type: "BinaryExpression" }] },
+        { code: "if (x != null) { }", errors: [{ message: "Use ‘===’ to compare with ‘null’.", type: "BinaryExpression" }] },
+        { code: "do {} while (null == x)", errors: [{ message: "Use ‘===’ to compare with ‘null’.", type: "BinaryExpression" }] }
     ]
 });

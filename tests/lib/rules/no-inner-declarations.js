@@ -28,7 +28,7 @@ ruleTester.run("no-inner-declarations", rule, {
         "if (test) { var fn = function expr() { }; }",
         "function decl() { var fn = function expr() { }; }",
         "function decl(arg) { var fn; if (arg) { fn = function() { }; } }",
-        {code: "var x = {doSomething() {function doSomethingElse() {}}}", parserOptions: { ecmaVersion: 6 }},
+        { code: "var x = {doSomething() {function doSomethingElse() {}}}", parserOptions: { ecmaVersion: 6 } },
         { code: "function decl(arg) { var fn; if (arg) { fn = function expr() { }; } }", parserOptions: { ecmaVersion: 6 } },
         "function decl(arg) { var fn; if (arg) { fn = function expr() { }; } }",
         "if (test) { var foo; }",

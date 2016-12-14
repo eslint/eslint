@@ -23,6 +23,6 @@ ruleTester.run("no-delete-var", rule, {
         "delete x.prop;"
     ],
     invalid: [
-        { code: "delete x", errors: [{ message: "Variables should not be deleted.", type: "UnaryExpression"}] }
+        { code: "delete x", errors: [{ message: "Variables should not be deleted.", type: "UnaryExpression" }] }
     ]
 });

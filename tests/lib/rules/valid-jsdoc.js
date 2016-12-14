@@ -52,7 +52,7 @@ ruleTester.run("valid-jsdoc", rule, {
                 "    return 'the return';\n" +
                 "  }\n" +
                 ");\n",
-            options: [{requireReturn: false}]
+            options: [{ requireReturn: false }]
         },
         {
             code:
@@ -64,7 +64,7 @@ ruleTester.run("valid-jsdoc", rule, {
                 "    return 'bar';\n" +
                 "  }\n" +
                 "});\n",
-            options: [{requireReturn: false}]
+            options: [{ requireReturn: false }]
         },
         {
             code:
@@ -79,7 +79,7 @@ ruleTester.run("valid-jsdoc", rule, {
                 "    return 'bar';\n" +
                 "  }\n" +
                 "});\n",
-            options: [{requireReturn: false}]
+            options: [{ requireReturn: false }]
         },
         {
             code: "/**\n* Description\n* @return {void} */\nfunction foo(){}",
@@ -87,72 +87,72 @@ ruleTester.run("valid-jsdoc", rule, {
         },
         {
             code: "/**\n* Description\n* @param {string} p bar\n*/\nFoo.bar = (p) => {};",
-            options: [{requireReturn: false}],
+            options: [{ requireReturn: false }],
             parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "/**\n* Description\n* @param {string} p bar\n*/\nFoo.bar = function({p}){};",
-            options: [{requireReturn: false}],
+            options: [{ requireReturn: false }],
             parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "/**\n* Description\n* @param {string} p bar\n*/\nFoo.bar = function(p){};",
-            options: [{requireReturn: false}]
+            options: [{ requireReturn: false }]
         },
         {
             code: "/**\n* Description\n* @param {string} p mytest\n*/\nFoo.bar = function(p){var t = function(){return p;}};",
-            options: [{requireReturn: false}]
+            options: [{ requireReturn: false }]
         },
         {
             code: "/**\n* Description\n* @param {string} p mytest\n*/\nFoo.bar = function(p){function func(){return p;}};",
-            options: [{requireReturn: false}]
+            options: [{ requireReturn: false }]
         },
         {
             code: "/**\n* Description\n* @param {string} p mytest\n*/\nFoo.bar = function(p){var t = false; if(t){ return; }};",
-            options: [{requireReturn: false}]
+            options: [{ requireReturn: false }]
         },
         {
             code: "/**\n* Description\n* @param {string} p mytest\n* @returns {void} */\nFoo.bar = function(p){var t = false; if(t){ return; }};",
-            options: [{requireReturn: false}]
+            options: [{ requireReturn: false }]
         },
         {
             code: "/**\n* Description\n* @param {string} p mytest\n*/\nFoo.bar = function(p){var t = function(){function name(){return p;}}};",
-            options: [{requireReturn: false}]
+            options: [{ requireReturn: false }]
         },
         {
             code: "/**\n* Description\n* @param {string} p mytest\n*/\nFoo.bar = function(p){var t = function(){function name(){}; return name;}};",
-            options: [{requireReturn: false}]
+            options: [{ requireReturn: false }]
         },
         {
             code: "/**\n* Description\n* @param {string} p\n* @returns {void}*/\nFoo.bar = function(p){var t = function(){function name(){}; return name;}};",
-            options: [{requireParamDescription: false}]
+            options: [{ requireParamDescription: false }]
         },
         {
             code: "/**\n* Description\n* @param {string} p mytest\n* @returns {Object}*/\nFoo.bar = function(p){return name;};",
-            options: [{requireReturnDescription: false}]
+            options: [{ requireReturnDescription: false }]
         },
         "var obj = {\n /**\n * Getter\n * @type {string}\n */\n get location() {\n return this._location;\n }\n }",
         "var obj = {\n /**\n * Setter\n * @param {string} value The location\n */\n set location(value) {\n this._location = value;\n }\n }",
         {
             code: "/**\n * Description for A.\n */\n class A {\n /**\n * Description for constructor.\n * @param {object[]} xs - xs\n */\n constructor(xs) {\n /**\n * Description for this.xs;\n * @type {object[]}\n */\n this.xs = xs.filter(x => x != null);\n }\n}",
-            options: [{requireReturn: false}],
+            options: [{ requireReturn: false }],
             parserOptions: {
                 ecmaVersion: 6
             }
         },
         {
             code: "/** @returns {object} foo */ var foo = () => bar();",
-            options: [{requireReturn: false}],
+            options: [{ requireReturn: false }],
             parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "/** @returns {object} foo */ var foo = () => { return bar(); };",
-            options: [{requireReturn: false}],
+            options: [{ requireReturn: false }],
             parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "/** foo */ var foo = () => { bar(); };",
-            options: [{requireReturn: false}],
+            options: [{ requireReturn: false }],
             parserOptions: { ecmaVersion: 6 }
         },
         {
@@ -163,7 +163,7 @@ ruleTester.run("valid-jsdoc", rule, {
         },
         {
             code: "/** Foo \n@return {void} Foo\n */\nfunction foo(){}",
-            options: [{ prefer: { return: "return" }}]
+            options: [{ prefer: { return: "return" } }]
         },
         {
             code: "/** Foo \n@return Foo\n */\nfunction foo(){}",
@@ -194,7 +194,7 @@ ruleTester.run("valid-jsdoc", rule, {
                 "        this.a = xs;" +
                 "    }\n" +
                 "}",
-            options: [{requireReturn: true}],
+            options: [{ requireReturn: true }],
             parserOptions: {
                 ecmaVersion: 6
             }
@@ -213,7 +213,7 @@ ruleTester.run("valid-jsdoc", rule, {
             "        this.a = xs;" +
             "    }\n" +
             "}",
-            options: [{requireReturn: false}],
+            options: [{ requireReturn: false }],
             parserOptions: {
                 ecmaVersion: 6
             }
@@ -255,7 +255,7 @@ ruleTester.run("valid-jsdoc", rule, {
                 " * @this some.name\n" +
                 " */\n" +
                 "function foo() {}",
-            options: [{requireReturn: false}]
+            options: [{ requireReturn: false }]
         },
         {
             code:
@@ -264,7 +264,7 @@ ruleTester.run("valid-jsdoc", rule, {
                 " * @this {some.name}\n" +
                 " */\n" +
                 "function foo() {}",
-            options: [{requireReturn: false}]
+            options: [{ requireReturn: false }]
         },
 
         // type validations
@@ -542,7 +542,7 @@ ruleTester.run("valid-jsdoc", rule, {
                 "    // empty",
                 "}"
             ].join("\n"),
-            parserOptions: {ecmaVersion: 6}
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code: [
@@ -555,7 +555,7 @@ ruleTester.run("valid-jsdoc", rule, {
                 "    // empty",
                 "}"
             ].join("\n"),
-            parserOptions: {ecmaVersion: 6}
+            parserOptions: { ecmaVersion: 6 }
         },
 
         // https://github.com/eslint/eslint/issues/7184
@@ -622,7 +622,7 @@ ruleTester.run("valid-jsdoc", rule, {
                 "    return 'the return';\n" +
                 "  }\n" +
                 ");\n",
-            options: [{requireReturn: false}],
+            options: [{ requireReturn: false }],
             errors: [{
                 message: "Expected JSDoc for 'argName' but found 'bogusName'.",
                 type: "Block"
@@ -648,7 +648,7 @@ ruleTester.run("valid-jsdoc", rule, {
                 "    return 'bar';\n" +
                 "  }\n" +
                 "});\n",
-            options: [{requireReturn: false}],
+            options: [{ requireReturn: false }],
             errors: [{
                 message: "Missing JSDoc @returns for function.",
                 type: "Block"
@@ -670,7 +670,7 @@ ruleTester.run("valid-jsdoc", rule, {
         },
         {
             code: "/** Foo \n@return {void} Foo\n */\nfunction foo(){}",
-            options: [{ prefer: { return: "returns" }}],
+            options: [{ prefer: { return: "returns" } }],
             errors: [{
                 message: "Use @returns instead.",
                 type: "Block"
@@ -678,7 +678,7 @@ ruleTester.run("valid-jsdoc", rule, {
         },
         {
             code: "/** Foo \n@argument {int} bar baz\n */\nfunction foo(bar){}",
-            options: [{ prefer: { argument: "arg" }}],
+            options: [{ prefer: { argument: "arg" } }],
             errors: [{
                 message: "Use @arg instead.",
                 type: "Block"
@@ -689,7 +689,7 @@ ruleTester.run("valid-jsdoc", rule, {
         },
         {
             code: "/** Foo \n */\nfunction foo(){}",
-            options: [{ prefer: { returns: "return" }}],
+            options: [{ prefer: { returns: "return" } }],
             errors: [{
                 message: "Missing JSDoc @return for function.",
                 type: "Block"
@@ -697,7 +697,7 @@ ruleTester.run("valid-jsdoc", rule, {
         },
         {
             code: "/** Foo \n@return {void} Foo\n */\nfoo.bar = () => {}",
-            options: [{ prefer: { return: "returns" }}],
+            options: [{ prefer: { return: "returns" } }],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
                 message: "Use @returns instead.",
@@ -865,7 +865,7 @@ ruleTester.run("valid-jsdoc", rule, {
         },
         {
             code: "/**\n* Foo\n* @param {string} a desc\n*/\nfunction foo(a){var t = false; if(t) {return t;}}",
-            options: [{requireReturn: false}],
+            options: [{ requireReturn: false }],
             errors: [{
                 message: "Missing JSDoc @returns for function.",
                 type: "Block"
@@ -873,7 +873,7 @@ ruleTester.run("valid-jsdoc", rule, {
         },
         {
             code: "/**\n* Foo\n* @param {string} a desc\n*/\nfunction foo(a){var t = false; if(t) {return null;}}",
-            options: [{requireReturn: false}],
+            options: [{ requireReturn: false }],
             errors: [{
                 message: "Missing JSDoc @returns for function.",
                 type: "Block"
@@ -881,7 +881,7 @@ ruleTester.run("valid-jsdoc", rule, {
         },
         {
             code: "/**\n* Foo\n* @param {string} a desc\n@returns {MyClass}*/\nfunction foo(a){var t = false; if(t) {process(t);}}",
-            options: [{requireReturn: false}],
+            options: [{ requireReturn: false }],
             errors: [{
                 message: "Unexpected @returns tag; function has no return statement.",
                 type: "Block"
@@ -889,7 +889,7 @@ ruleTester.run("valid-jsdoc", rule, {
         },
         {
             code: "/**\n * Does something. \n* @param {string} a - this is a \n* @return {Array<number>} The result of doing it \n*/\n export function doSomething(a) { }",
-            options: [{prefer: { return: "returns" }}],
+            options: [{ prefer: { return: "returns" } }],
             parserOptions: { sourceType: "module" },
             errors: [{
                 message: "Use @returns instead.",
@@ -898,7 +898,7 @@ ruleTester.run("valid-jsdoc", rule, {
         },
         {
             code: "/**\n * Does something. \n* @param {string} a - this is a \n* @return {Array<number>} The result of doing it \n*/\n export default function doSomething(a) { }",
-            options: [{prefer: { return: "returns" }}],
+            options: [{ prefer: { return: "returns" } }],
             parserOptions: { sourceType: "module" },
             errors: [{
                 message: "Use @returns instead.",
@@ -907,7 +907,7 @@ ruleTester.run("valid-jsdoc", rule, {
         },
         {
             code: "/** foo */ var foo = () => bar();",
-            options: [{requireReturn: false}],
+            options: [{ requireReturn: false }],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
                 message: "Missing JSDoc @returns for function.",
@@ -916,7 +916,7 @@ ruleTester.run("valid-jsdoc", rule, {
         },
         {
             code: "/** foo */ var foo = () => { return bar(); };",
-            options: [{requireReturn: false}],
+            options: [{ requireReturn: false }],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
                 message: "Missing JSDoc @returns for function.",
@@ -925,7 +925,7 @@ ruleTester.run("valid-jsdoc", rule, {
         },
         {
             code: "/** @returns {object} foo */ var foo = () => { bar(); };",
-            options: [{requireReturn: false}],
+            options: [{ requireReturn: false }],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
                 message: "Unexpected @returns tag; function has no return statement.",
@@ -957,7 +957,7 @@ ruleTester.run("valid-jsdoc", rule, {
         },
         {
             code: "/** Foo \n@return Foo\n */\nfunction foo(){}",
-            options: [{ prefer: { return: "return" }}],
+            options: [{ prefer: { return: "return" } }],
             errors: [{
                 message: "Missing JSDoc return type.",
                 type: "Block"
@@ -1083,7 +1083,7 @@ ruleTester.run("valid-jsdoc", rule, {
                 " * @this {not.a.valid.type.expression\n" +
                 " */\n" +
                 "function foo() {}",
-            options: [{requireReturn: false}],
+            options: [{ requireReturn: false }],
             errors: [{
                 message: "JSDoc type missing brace.",
                 type: "Block"
@@ -1096,7 +1096,7 @@ ruleTester.run("valid-jsdoc", rule, {
                 " * @this {Array<string>}\n" +
                 " */\n" +
                 "function foo() {}",
-            options: [{requireReturn: false}],
+            options: [{ requireReturn: false }],
             errors: [{
                 message: "JSDoc syntax error.",
                 type: "Block"

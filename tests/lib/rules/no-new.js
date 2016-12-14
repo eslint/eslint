@@ -24,6 +24,6 @@ ruleTester.run("no-new", rule, {
         "var a; if (a === new Date()) { a = false; }"
     ],
     invalid: [
-        { code: "new Date()", errors: [{ message: "Do not use 'new' for side effects.", type: "ExpressionStatement"}] }
+        { code: "new Date()", errors: [{ message: "Do not use 'new' for side effects.", type: "ExpressionStatement" }] }
     ]
 });

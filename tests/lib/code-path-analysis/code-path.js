@@ -31,7 +31,7 @@ function parseCodePaths(code) {
             retv.push(codePath);
         }
     }));
-    eslint.verify(code, {rules: {test: 2}});
+    eslint.verify(code, { rules: { test: 2 } });
 
     return retv;
 }

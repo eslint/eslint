@@ -23,6 +23,6 @@ ruleTester.run("no-debugger", rule, {
         "var test = { debugger: 1 }; test.debugger;"
     ],
     invalid: [
-        { code: "debugger", errors: [{ message: "Unexpected 'debugger' statement.", type: "DebuggerStatement"}] }
+        { code: "debugger", errors: [{ message: "Unexpected 'debugger' statement.", type: "DebuggerStatement" }] }
     ]
 });

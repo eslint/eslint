@@ -31,10 +31,10 @@ function errorMessage(limitLines, actualLines) {
 
 ruleTester.run("max-lines", rule, {
     valid: [
-        {code: "var x;" },
-        {code: "var xy;\nvar xy;" },
-        {code: "var xy;\nvar xy;", options: [2] },
-        {code: "var xy;\nvar xy;", options: [{max: 2}] },
+        { code: "var x;" },
+        { code: "var xy;\nvar xy;" },
+        { code: "var xy;\nvar xy;", options: [2] },
+        { code: "var xy;\nvar xy;", options: [{ max: 2 }] },
         {
             code: [
                 "//a single line comment",
@@ -44,14 +44,14 @@ ruleTester.run("max-lines", rule, {
                 " really really",
                 " long comment*/ "
             ].join("\n"),
-            options: [{max: 2, skipComments: true} ]
+            options: [{ max: 2, skipComments: true } ]
         },
         {
             code: [
                 "var x; /* inline comment",
                 " spanning multiple lines */ var z;"
             ].join("\n"),
-            options: [{max: 2, skipComments: true} ]
+            options: [{ max: 2, skipComments: true } ]
         },
         {
             code: [
@@ -59,7 +59,7 @@ ruleTester.run("max-lines", rule, {
                 " spanning multiple lines */",
                 "var z;"
             ].join("\n"),
-            options: [{max: 2, skipComments: true} ]
+            options: [{ max: 2, skipComments: true } ]
         },
         {
             code: [
@@ -69,7 +69,7 @@ ruleTester.run("max-lines", rule, {
                 "\t  ",
                 "var y;"
             ].join("\n"),
-            options: [{max: 2, skipBlankLines: true} ]
+            options: [{ max: 2, skipBlankLines: true } ]
         },
         {
             code: [
@@ -82,24 +82,24 @@ ruleTester.run("max-lines", rule, {
                 " really really",
                 " long comment*/"
             ].join("\n"),
-            options: [{max: 2, skipComments: true, skipBlankLines: true} ]
+            options: [{ max: 2, skipComments: true, skipBlankLines: true } ]
         }
     ],
     invalid: [
         {
             code: "var xyz;\nvar xyz;\nvar xyz;",
             options: [2],
-            errors: [{message: errorMessage(2, 3)}]
+            errors: [{ message: errorMessage(2, 3) }]
         },
         {
             code: "/* a multiline comment\n that goes to many lines*/\nvar xy;\nvar xy;",
             options: [2],
-            errors: [{message: errorMessage(2, 4)}]
+            errors: [{ message: errorMessage(2, 4) }]
         },
         {
             code: "//a single line comment\nvar xy;\nvar xy;",
             options: [2],
-            errors: [{message: errorMessage(2, 3)}]
+            errors: [{ message: errorMessage(2, 3) }]
         },
         {
             code: [
@@ -109,8 +109,8 @@ ruleTester.run("max-lines", rule, {
                 "",
                 "var y;"
             ].join("\n"),
-            options: [{max: 2} ],
-            errors: [{message: errorMessage(2, 5)}]
+            options: [{ max: 2 } ],
+            errors: [{ message: errorMessage(2, 5) }]
         },
         {
             code: [
@@ -123,8 +123,8 @@ ruleTester.run("max-lines", rule, {
                 " really really",
                 " long comment*/"
             ].join("\n"),
-            options: [{max: 2, skipComments: true } ],
-            errors: [{message: errorMessage(2, 4)}]
+            options: [{ max: 2, skipComments: true } ],
+            errors: [{ message: errorMessage(2, 4) }]
         },
         {
             code: [
@@ -132,8 +132,8 @@ ruleTester.run("max-lines", rule, {
                 "var y;",
                 "var z;"
             ].join("\n"),
-            options: [{max: 2, skipComments: true} ],
-            errors: [{message: errorMessage(2, 3)}]
+            options: [{ max: 2, skipComments: true } ],
+            errors: [{ message: errorMessage(2, 3) }]
         },
         {
             code: [
@@ -142,8 +142,8 @@ ruleTester.run("max-lines", rule, {
                 "var y;",
                 "var z;"
             ].join("\n"),
-            options: [{max: 2, skipComments: true} ],
-            errors: [{message: errorMessage(2, 3)}]
+            options: [{ max: 2, skipComments: true } ],
+            errors: [{ message: errorMessage(2, 3) }]
         },
         {
             code: [
@@ -156,8 +156,8 @@ ruleTester.run("max-lines", rule, {
                 " really really",
                 " long comment*/"
             ].join("\n"),
-            options: [{max: 2, skipBlankLines: true } ],
-            errors: [{message: errorMessage(2, 6)}]
+            options: [{ max: 2, skipBlankLines: true } ],
+            errors: [{ message: errorMessage(2, 6) }]
         },
         {
             code: [
@@ -170,8 +170,8 @@ ruleTester.run("max-lines", rule, {
                 " really really",
                 " long comment*/"
             ].join("\n"),
-            options: [{max: 2, skipComments: true } ],
-            errors: [{message: errorMessage(2, 4)}]
+            options: [{ max: 2, skipComments: true } ],
+            errors: [{ message: errorMessage(2, 4) }]
         }
     ]
 });

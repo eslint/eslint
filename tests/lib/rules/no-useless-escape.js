@@ -46,40 +46,40 @@ ruleTester.run("no-useless-escape", rule, {
         "var foo = '\\f';",
         "var foo = '\\\n';",
         "var foo = '\\\r\n';",
-        {code: "<foo attr=\"\\d\"/>", parserOptions: {ecmaFeatures: {jsx: true}}},
-        {code: "<div> Testing: \\ </div>", parserOptions: {ecmaFeatures: {jsx: true}}},
-        {code: "<div> Testing: &#x5C </div>", parserOptions: {ecmaFeatures: {jsx: true}}},
-        {code: "<foo attr='\\d'></foo>", parserOptions: {ecmaFeatures: {jsx: true}}},
-        {code: "var foo = `\\x123`", parserOptions: {ecmaVersion: 6}},
-        {code: "var foo = `\\u00a9`", parserOptions: {ecmaVersion: 6}},
-        {code: "var foo = `xs\\u2111`", parserOptions: {ecmaVersion: 6}},
-        {code: "var foo = `foo \\\\ bar`;", parserOptions: {ecmaVersion: 6}},
-        {code: "var foo = `\\t`;", parserOptions: {ecmaVersion: 6}},
-        {code: "var foo = `foo \\b bar`;", parserOptions: {ecmaVersion: 6}},
-        {code: "var foo = `\\n`;", parserOptions: {ecmaVersion: 6}},
-        {code: "var foo = `foo \\r bar`;", parserOptions: {ecmaVersion: 6}},
-        {code: "var foo = `\\v`;", parserOptions: {ecmaVersion: 6}},
-        {code: "var foo = `\\f`;", parserOptions: {ecmaVersion: 6}},
-        {code: "var foo = `\\\n`;", parserOptions: {ecmaVersion: 6}},
-        {code: "var foo = `\\\r\n`;", parserOptions: {ecmaVersion: 6}},
-        {code: "var foo = `${foo} \\x123`", parserOptions: {ecmaVersion: 6}},
-        {code: "var foo = `${foo} \\u00a9`", parserOptions: {ecmaVersion: 6}},
-        {code: "var foo = `${foo} xs\\u2111`", parserOptions: {ecmaVersion: 6}},
-        {code: "var foo = `${foo} \\\\ ${bar}`;", parserOptions: {ecmaVersion: 6}},
-        {code: "var foo = `${foo} \\b ${bar}`;", parserOptions: {ecmaVersion: 6}},
-        {code: "var foo = `${foo}\\t`;", parserOptions: {ecmaVersion: 6}},
-        {code: "var foo = `${foo}\\n`;", parserOptions: {ecmaVersion: 6}},
-        {code: "var foo = `${foo}\\r`;", parserOptions: {ecmaVersion: 6}},
-        {code: "var foo = `${foo}\\v`;", parserOptions: {ecmaVersion: 6}},
-        {code: "var foo = `${foo}\\f`;", parserOptions: {ecmaVersion: 6}},
-        {code: "var foo = `${foo}\\\n`;", parserOptions: {ecmaVersion: 6}},
-        {code: "var foo = `${foo}\\\r\n`;", parserOptions: {ecmaVersion: 6}},
-        {code: "var foo = `\\``", parserOptions: {ecmaVersion: 6}},
-        {code: "var foo = `\\`${foo}\\``", parserOptions: {ecmaVersion: 6}},
-        {code: "var foo = `\\${{${foo}`;", parserOptions: {ecmaVersion: 6}},
-        {code: "var foo = `$\\{{${foo}`;", parserOptions: {ecmaVersion: 6}},
-        {code: "var foo = String.raw`\\.`", parserOptions: {ecmaVersion: 6}},
-        {code: "var foo = myFunc`\\.`", parserOptions: {ecmaVersion: 6}},
+        { code: "<foo attr=\"\\d\"/>", parserOptions: { ecmaFeatures: { jsx: true } } },
+        { code: "<div> Testing: \\ </div>", parserOptions: { ecmaFeatures: { jsx: true } } },
+        { code: "<div> Testing: &#x5C </div>", parserOptions: { ecmaFeatures: { jsx: true } } },
+        { code: "<foo attr='\\d'></foo>", parserOptions: { ecmaFeatures: { jsx: true } } },
+        { code: "var foo = `\\x123`", parserOptions: { ecmaVersion: 6 } },
+        { code: "var foo = `\\u00a9`", parserOptions: { ecmaVersion: 6 } },
+        { code: "var foo = `xs\\u2111`", parserOptions: { ecmaVersion: 6 } },
+        { code: "var foo = `foo \\\\ bar`;", parserOptions: { ecmaVersion: 6 } },
+        { code: "var foo = `\\t`;", parserOptions: { ecmaVersion: 6 } },
+        { code: "var foo = `foo \\b bar`;", parserOptions: { ecmaVersion: 6 } },
+        { code: "var foo = `\\n`;", parserOptions: { ecmaVersion: 6 } },
+        { code: "var foo = `foo \\r bar`;", parserOptions: { ecmaVersion: 6 } },
+        { code: "var foo = `\\v`;", parserOptions: { ecmaVersion: 6 } },
+        { code: "var foo = `\\f`;", parserOptions: { ecmaVersion: 6 } },
+        { code: "var foo = `\\\n`;", parserOptions: { ecmaVersion: 6 } },
+        { code: "var foo = `\\\r\n`;", parserOptions: { ecmaVersion: 6 } },
+        { code: "var foo = `${foo} \\x123`", parserOptions: { ecmaVersion: 6 } },
+        { code: "var foo = `${foo} \\u00a9`", parserOptions: { ecmaVersion: 6 } },
+        { code: "var foo = `${foo} xs\\u2111`", parserOptions: { ecmaVersion: 6 } },
+        { code: "var foo = `${foo} \\\\ ${bar}`;", parserOptions: { ecmaVersion: 6 } },
+        { code: "var foo = `${foo} \\b ${bar}`;", parserOptions: { ecmaVersion: 6 } },
+        { code: "var foo = `${foo}\\t`;", parserOptions: { ecmaVersion: 6 } },
+        { code: "var foo = `${foo}\\n`;", parserOptions: { ecmaVersion: 6 } },
+        { code: "var foo = `${foo}\\r`;", parserOptions: { ecmaVersion: 6 } },
+        { code: "var foo = `${foo}\\v`;", parserOptions: { ecmaVersion: 6 } },
+        { code: "var foo = `${foo}\\f`;", parserOptions: { ecmaVersion: 6 } },
+        { code: "var foo = `${foo}\\\n`;", parserOptions: { ecmaVersion: 6 } },
+        { code: "var foo = `${foo}\\\r\n`;", parserOptions: { ecmaVersion: 6 } },
+        { code: "var foo = `\\``", parserOptions: { ecmaVersion: 6 } },
+        { code: "var foo = `\\`${foo}\\``", parserOptions: { ecmaVersion: 6 } },
+        { code: "var foo = `\\${{${foo}`;", parserOptions: { ecmaVersion: 6 } },
+        { code: "var foo = `$\\{{${foo}`;", parserOptions: { ecmaVersion: 6 } },
+        { code: "var foo = String.raw`\\.`", parserOptions: { ecmaVersion: 6 } },
+        { code: "var foo = myFunc`\\.`", parserOptions: { ecmaVersion: 6 } },
 
         String.raw`var foo = /[\d]/`,
         String.raw`var foo = /[a\-b]/`,
@@ -109,92 +109,92 @@ ruleTester.run("no-useless-escape", rule, {
     ],
 
     invalid: [
-        { code: "var foo = /\\#/;", errors: [{ line: 1, column: 12, message: "Unnecessary escape character: \\#.", type: "Literal"}] },
-        { code: "var foo = /\\;/;", errors: [{ line: 1, column: 12, message: "Unnecessary escape character: \\;.", type: "Literal"}] },
-        { code: "var foo = \"\\'\";", errors: [{ line: 1, column: 12, message: "Unnecessary escape character: \\'.", type: "Literal"}] },
-        { code: "var foo = \"\\#/\";", errors: [{ line: 1, column: 12, message: "Unnecessary escape character: \\#.", type: "Literal"}] },
-        { code: "var foo = \"\\a\"", errors: [{ line: 1, column: 12, message: "Unnecessary escape character: \\a.", type: "Literal"}] },
-        { code: "var foo = \"\\B\";", errors: [{ line: 1, column: 12, message: "Unnecessary escape character: \\B.", type: "Literal"}] },
-        { code: "var foo = \"\\@\";", errors: [{ line: 1, column: 12, message: "Unnecessary escape character: \\@.", type: "Literal"}] },
-        { code: "var foo = \"foo \\a bar\";", errors: [{ line: 1, column: 16, message: "Unnecessary escape character: \\a.", type: "Literal"}] },
-        { code: "var foo = '\\\"';", errors: [{ line: 1, column: 12, message: "Unnecessary escape character: \\\".", type: "Literal"}] },
-        { code: "var foo = '\\#';", errors: [{ line: 1, column: 12, message: "Unnecessary escape character: \\#.", type: "Literal"}] },
-        { code: "var foo = '\\$';", errors: [{ line: 1, column: 12, message: "Unnecessary escape character: \\$.", type: "Literal"}] },
-        { code: "var foo = '\\p';", errors: [{ line: 1, column: 12, message: "Unnecessary escape character: \\p.", type: "Literal"}] },
+        { code: "var foo = /\\#/;", errors: [{ line: 1, column: 12, message: "Unnecessary escape character: \\#.", type: "Literal" }] },
+        { code: "var foo = /\\;/;", errors: [{ line: 1, column: 12, message: "Unnecessary escape character: \\;.", type: "Literal" }] },
+        { code: "var foo = \"\\'\";", errors: [{ line: 1, column: 12, message: "Unnecessary escape character: \\'.", type: "Literal" }] },
+        { code: "var foo = \"\\#/\";", errors: [{ line: 1, column: 12, message: "Unnecessary escape character: \\#.", type: "Literal" }] },
+        { code: "var foo = \"\\a\"", errors: [{ line: 1, column: 12, message: "Unnecessary escape character: \\a.", type: "Literal" }] },
+        { code: "var foo = \"\\B\";", errors: [{ line: 1, column: 12, message: "Unnecessary escape character: \\B.", type: "Literal" }] },
+        { code: "var foo = \"\\@\";", errors: [{ line: 1, column: 12, message: "Unnecessary escape character: \\@.", type: "Literal" }] },
+        { code: "var foo = \"foo \\a bar\";", errors: [{ line: 1, column: 16, message: "Unnecessary escape character: \\a.", type: "Literal" }] },
+        { code: "var foo = '\\\"';", errors: [{ line: 1, column: 12, message: "Unnecessary escape character: \\\".", type: "Literal" }] },
+        { code: "var foo = '\\#';", errors: [{ line: 1, column: 12, message: "Unnecessary escape character: \\#.", type: "Literal" }] },
+        { code: "var foo = '\\$';", errors: [{ line: 1, column: 12, message: "Unnecessary escape character: \\$.", type: "Literal" }] },
+        { code: "var foo = '\\p';", errors: [{ line: 1, column: 12, message: "Unnecessary escape character: \\p.", type: "Literal" }] },
         {
             code: "var foo = '\\p\\a\\@';",
             errors: [
-                {line: 1, column: 12, message: "Unnecessary escape character: \\p.", type: "Literal"},
-                {line: 1, column: 14, message: "Unnecessary escape character: \\a.", type: "Literal"},
-                {line: 1, column: 16, message: "Unnecessary escape character: \\@.", type: "Literal"}
+                { line: 1, column: 12, message: "Unnecessary escape character: \\p.", type: "Literal" },
+                { line: 1, column: 14, message: "Unnecessary escape character: \\a.", type: "Literal" },
+                { line: 1, column: 16, message: "Unnecessary escape character: \\@.", type: "Literal" }
             ]
         },
         {
             code: "<foo attr={\"\\d\"}/>",
-            parserOptions: {ecmaFeatures: {jsx: true}},
-            errors: [{ line: 1, column: 13, message: "Unnecessary escape character: \\d.", type: "Literal"}]
+            parserOptions: { ecmaFeatures: { jsx: true } },
+            errors: [{ line: 1, column: 13, message: "Unnecessary escape character: \\d.", type: "Literal" }]
         },
-        { code: "var foo = '\\`';", errors: [{ line: 1, column: 12, message: "Unnecessary escape character: \\`.", type: "Literal"}] },
-        { code: "var foo = `\\\"`;", parserOptions: {ecmaVersion: 6}, errors: [{ line: 1, column: 12, message: "Unnecessary escape character: \\\".", type: "TemplateElement"}] },
-        { code: "var foo = `\\'`;", parserOptions: {ecmaVersion: 6}, errors: [{ line: 1, column: 12, message: "Unnecessary escape character: \\'.", type: "TemplateElement"}] },
-        { code: "var foo = `\\#`;", parserOptions: {ecmaVersion: 6}, errors: [{ line: 1, column: 12, message: "Unnecessary escape character: \\#.", type: "TemplateElement"}] },
+        { code: "var foo = '\\`';", errors: [{ line: 1, column: 12, message: "Unnecessary escape character: \\`.", type: "Literal" }] },
+        { code: "var foo = `\\\"`;", parserOptions: { ecmaVersion: 6 }, errors: [{ line: 1, column: 12, message: "Unnecessary escape character: \\\".", type: "TemplateElement" }] },
+        { code: "var foo = `\\'`;", parserOptions: { ecmaVersion: 6 }, errors: [{ line: 1, column: 12, message: "Unnecessary escape character: \\'.", type: "TemplateElement" }] },
+        { code: "var foo = `\\#`;", parserOptions: { ecmaVersion: 6 }, errors: [{ line: 1, column: 12, message: "Unnecessary escape character: \\#.", type: "TemplateElement" }] },
         {
             code: "var foo = '\\`foo\\`';",
             errors: [
-                { line: 1, column: 12, message: "Unnecessary escape character: \\`.", type: "Literal"},
-                { line: 1, column: 17, message: "Unnecessary escape character: \\`.", type: "Literal"},
+                { line: 1, column: 12, message: "Unnecessary escape character: \\`.", type: "Literal" },
+                { line: 1, column: 17, message: "Unnecessary escape character: \\`.", type: "Literal" },
             ]
         },
         {
             code: "var foo = `\\\"${foo}\\\"`;",
-            parserOptions: {ecmaVersion: 6},
+            parserOptions: { ecmaVersion: 6 },
             errors: [
-                { line: 1, column: 12, message: "Unnecessary escape character: \\\".", type: "TemplateElement"},
-                { line: 1, column: 20, message: "Unnecessary escape character: \\\".", type: "TemplateElement"},
+                { line: 1, column: 12, message: "Unnecessary escape character: \\\".", type: "TemplateElement" },
+                { line: 1, column: 20, message: "Unnecessary escape character: \\\".", type: "TemplateElement" },
             ]
         },
         {
             code: "var foo = `\\'${foo}\\'`;",
-            parserOptions: {ecmaVersion: 6},
+            parserOptions: { ecmaVersion: 6 },
             errors: [
-                { line: 1, column: 12, message: "Unnecessary escape character: \\'.", type: "TemplateElement"},
-                { line: 1, column: 20, message: "Unnecessary escape character: \\'.", type: "TemplateElement"}
+                { line: 1, column: 12, message: "Unnecessary escape character: \\'.", type: "TemplateElement" },
+                { line: 1, column: 20, message: "Unnecessary escape character: \\'.", type: "TemplateElement" }
             ]
         },
         {
             code: "var foo = `\\#${foo}`;",
-            parserOptions: {ecmaVersion: 6},
-            errors: [{ line: 1, column: 12, message: "Unnecessary escape character: \\#.", type: "TemplateElement"}]
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{ line: 1, column: 12, message: "Unnecessary escape character: \\#.", type: "TemplateElement" }]
         },
         {
             code: "let foo = '\\ ';",
-            parserOptions: {ecmaVersion: 6},
-            errors: [{ line: 1, column: 12, message: "Unnecessary escape character: \\ .", type: "Literal"}]
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{ line: 1, column: 12, message: "Unnecessary escape character: \\ .", type: "Literal" }]
         },
         {
             code: "let foo = /\\ /;",
-            parserOptions: {ecmaVersion: 6},
-            errors: [{ line: 1, column: 12, message: "Unnecessary escape character: \\ .", type: "Literal"}]
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{ line: 1, column: 12, message: "Unnecessary escape character: \\ .", type: "Literal" }]
         },
         {
             code: "var foo = `\\$\\{{${foo}`;",
-            parserOptions: {ecmaVersion: 6},
+            parserOptions: { ecmaVersion: 6 },
             errors: [
-                { line: 1, column: 12, message: "Unnecessary escape character: \\$.", type: "TemplateElement"},
+                { line: 1, column: 12, message: "Unnecessary escape character: \\$.", type: "TemplateElement" },
             ]
         },
         {
             code: "var foo = `\\$a${foo}`;",
-            parserOptions: {ecmaVersion: 6},
+            parserOptions: { ecmaVersion: 6 },
             errors: [
-                { line: 1, column: 12, message: "Unnecessary escape character: \\$.", type: "TemplateElement"},
+                { line: 1, column: 12, message: "Unnecessary escape character: \\$.", type: "TemplateElement" },
             ]
         },
         {
             code: "var foo = `a\\{{${foo}`;",
-            parserOptions: {ecmaVersion: 6},
+            parserOptions: { ecmaVersion: 6 },
             errors: [
-                { line: 1, column: 13, message: "Unnecessary escape character: \\{.", type: "TemplateElement"},
+                { line: 1, column: 13, message: "Unnecessary escape character: \\{.", type: "TemplateElement" },
             ]
         },
         {
