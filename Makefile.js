@@ -170,7 +170,7 @@ function generateBlogPost(releaseInfo) {
          * instead of getting matched with the `no-undef` rule followed by the string "ined".
          */
         .sort((ruleA, ruleB) => ruleB.length - ruleA.length);
-    const output = ejs.render(cat("./templates/blogpost.md.ejs"), Object.assign({ruleList}, releaseInfo)),
+    const output = ejs.render(cat("./templates/blogpost.md.ejs"), Object.assign({ ruleList }, releaseInfo)),
         now = new Date(),
         month = now.getMonth() + 1,
         day = now.getDate(),
@@ -229,7 +229,7 @@ function generateRuleIndexPage(basedir) {
                     recommended: rule.meta.docs.recommended || false,
                     fixable: !!rule.meta.fixable
                 },
-                category = lodash.find(categoriesData.categories, {name: rule.meta.docs.category});
+                category = lodash.find(categoriesData.categories, { name: rule.meta.docs.category });
 
             if (!category.rules) {
                 category.rules = [];
@@ -239,7 +239,7 @@ function generateRuleIndexPage(basedir) {
         }
     });
 
-    const output = yaml.safeDump(categoriesData, {sortKeys: true});
+    const output = yaml.safeDump(categoriesData, { sortKeys: true });
 
     output.to(outputFile);
 }
@@ -936,7 +936,7 @@ function downloadMultifilesTestTarget(cb) {
     } else {
         mkdir("-p", PERF_MULTIFILES_TARGET_DIR);
         echo("Downloading the repository of multi-files performance test target.");
-        exec(`git clone -b v1.10.3 --depth 1 https://github.com/eslint/eslint.git "${PERF_MULTIFILES_TARGET_DIR}"`, {silent: true}, cb);
+        exec(`git clone -b v1.10.3 --depth 1 https://github.com/eslint/eslint.git "${PERF_MULTIFILES_TARGET_DIR}"`, { silent: true }, cb);
     }
 }
 

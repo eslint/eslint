@@ -86,9 +86,9 @@ ruleTester.run("yoda", rule, {
         },
 
         // onlyEquality
-        { code: "if (0 < x && x <= 1) {}", options: ["never", { onlyEquality: true }]},
-        { code: "if (x !== 'foo' && 'foo' !== x) {}", options: ["never", { onlyEquality: true }]},
-        { code: "if (x < 2 && x !== -3) {}", options: ["always", { onlyEquality: true }]}
+        { code: "if (0 < x && x <= 1) {}", options: ["never", { onlyEquality: true }] },
+        { code: "if (x !== 'foo' && 'foo' !== x) {}", options: ["never", { onlyEquality: true }] },
+        { code: "if (x < 2 && x !== -3) {}", options: ["always", { onlyEquality: true }] }
     ],
     invalid: [
 

@@ -44,36 +44,36 @@ ruleTester.run("no-empty", rule, {
         { code: "try { foo(); } catch (ex) {} finally { bar(); }", options: [{ allowEmptyCatch: true }] }
     ],
     invalid: [
-        { code: "try {} catch (ex) {throw ex}", errors: [{ message: "Empty block statement.", type: "BlockStatement"}] },
-        { code: "try { foo() } catch (ex) {}", errors: [{ message: "Empty block statement.", type: "BlockStatement"}] },
-        { code: "try { foo() } catch (ex) {throw ex} finally {}", errors: [{ message: "Empty block statement.", type: "BlockStatement"}] },
-        { code: "if (foo) {}", errors: [{ message: "Empty block statement.", type: "BlockStatement"}] },
-        { code: "while (foo) {}", errors: [{ message: "Empty block statement.", type: "BlockStatement"}] },
-        { code: "for (;foo;) {}", errors: [{ message: "Empty block statement.", type: "BlockStatement"}] },
-        { code: "switch(foo) {}", errors: [{ message: "Empty switch statement.", type: "SwitchStatement"}] },
+        { code: "try {} catch (ex) {throw ex}", errors: [{ message: "Empty block statement.", type: "BlockStatement" }] },
+        { code: "try { foo() } catch (ex) {}", errors: [{ message: "Empty block statement.", type: "BlockStatement" }] },
+        { code: "try { foo() } catch (ex) {throw ex} finally {}", errors: [{ message: "Empty block statement.", type: "BlockStatement" }] },
+        { code: "if (foo) {}", errors: [{ message: "Empty block statement.", type: "BlockStatement" }] },
+        { code: "while (foo) {}", errors: [{ message: "Empty block statement.", type: "BlockStatement" }] },
+        { code: "for (;foo;) {}", errors: [{ message: "Empty block statement.", type: "BlockStatement" }] },
+        { code: "switch(foo) {}", errors: [{ message: "Empty switch statement.", type: "SwitchStatement" }] },
         {
             code: "try {} catch (ex) {}",
             options: [{ allowEmptyCatch: true }],
-            errors: [{ message: "Empty block statement.", type: "BlockStatement"}]
+            errors: [{ message: "Empty block statement.", type: "BlockStatement" }]
         },
         {
             code: "try { foo(); } catch (ex) {} finally {}",
             options: [{ allowEmptyCatch: true }],
-            errors: [{ message: "Empty block statement.", type: "BlockStatement"}]
+            errors: [{ message: "Empty block statement.", type: "BlockStatement" }]
         },
         {
             code: "try {} catch (ex) {} finally {}",
             options: [{ allowEmptyCatch: true }],
             errors: [
-                { message: "Empty block statement.", type: "BlockStatement"},
-                { message: "Empty block statement.", type: "BlockStatement"}
+                { message: "Empty block statement.", type: "BlockStatement" },
+                { message: "Empty block statement.", type: "BlockStatement" }
             ]
         },
         {
             code: "try { foo(); } catch (ex) {} finally {}",
             errors: [
-                { message: "Empty block statement.", type: "BlockStatement"},
-                { message: "Empty block statement.", type: "BlockStatement"}
+                { message: "Empty block statement.", type: "BlockStatement" },
+                { message: "Empty block statement.", type: "BlockStatement" }
             ]
         }
     ]

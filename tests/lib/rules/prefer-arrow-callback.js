@@ -28,7 +28,7 @@ ruleTester.run("prefer-arrow-callback", rule, {
         "foo(a => a);",
         "foo(function*() {});",
         "foo(function() { this; });",
-        {code: "foo(function bar() {});", options: [{ allowNamedFunctions: true }]},
+        { code: "foo(function bar() {});", options: [{ allowNamedFunctions: true }] },
         "foo(function() { (() => this); });",
         "foo(function() { this; }.bind(obj));",
         "foo(function() { this; }.call(this));",

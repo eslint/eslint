@@ -35,19 +35,19 @@ ruleTester.run("require-yield", rule, {
     invalid: [
         {
             code: "function* foo() { return 0; }",
-            errors: [{message: errorMessage, type: "FunctionDeclaration"}]
+            errors: [{ message: errorMessage, type: "FunctionDeclaration" }]
         },
         {
             code: "(function* foo() { return 0; })();",
-            errors: [{message: errorMessage, type: "FunctionExpression"}]
+            errors: [{ message: errorMessage, type: "FunctionExpression" }]
         },
         {
             code: "var obj = { *foo() { return 0; } }",
-            errors: [{message: errorMessage, type: "FunctionExpression"}]
+            errors: [{ message: errorMessage, type: "FunctionExpression" }]
         },
         {
             code: "class A { *foo() { return 0; } }",
-            errors: [{message: errorMessage, type: "FunctionExpression"}]
+            errors: [{ message: errorMessage, type: "FunctionExpression" }]
         },
         {
             code: "function* foo() { function* bar() { yield 0; } }",

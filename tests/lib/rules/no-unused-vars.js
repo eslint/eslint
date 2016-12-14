@@ -41,7 +41,7 @@ ruleTester.defineRule("use-every-a", context => {
 * @returns {Object} An expected error object
 */
 function definedError(varName, type) {
-    return {message: `'${varName}' is defined but never used.`, type: type || "Identifier"};
+    return { message: `'${varName}' is defined but never used.`, type: type || "Identifier" };
 }
 
 /**
@@ -51,14 +51,14 @@ function definedError(varName, type) {
 * @returns {Object} An expected error object
 */
 function assignedError(varName, type) {
-    return {message: `'${varName}' is assigned a value but never used.`, type: type || "Identifier"};
+    return { message: `'${varName}' is assigned a value but never used.`, type: type || "Identifier" };
 }
 
 ruleTester.run("no-unused-vars", rule, {
     valid: [
         "var foo = 5;\n\nlabel: while (true) {\n  console.log(foo);\n  break label;\n}",
         "var foo = 5;\n\nwhile (true) {\n  console.log(foo);\n  break;\n}",
-        { code: "for (let prop in box) {\n        box[prop] = parseInt(box[prop]);\n}", parserOptions: { ecmaVersion: 6 }},
+        { code: "for (let prop in box) {\n        box[prop] = parseInt(box[prop]);\n}", parserOptions: { ecmaVersion: 6 } },
         "var box = {a: 2};\n    for (var prop in box) {\n        box[prop] = parseInt(box[prop]);\n}",
         "f({ set foo(a) { return; } });",
         { code: "a; var a;", options: ["all"] },
@@ -81,51 +81,51 @@ ruleTester.run("no-unused-vars", rule, {
         "(function() { var doSomething = function doSomething() {}; doSomething() }())",
         "try {} catch(e) {}",
         "/*global a */ a;",
-        { code: "var a=10; (function() { alert(a); })();", options: [{vars: "all"}] },
-        { code: "function g(bar, baz) { return baz; }; g();", options: [{vars: "all"}] },
-        { code: "function g(bar, baz) { return baz; }; g();", options: [{vars: "all", args: "after-used"}] },
-        { code: "function g(bar, baz) { return bar; }; g();", options: [{vars: "all", args: "none"}] },
-        { code: "function g(bar, baz) { return 2; }; g();", options: [{vars: "all", args: "none"}] },
-        { code: "function g(bar, baz) { return bar + baz; }; g();", options: [{vars: "local", args: "all"}] },
-        { code: "var g = function(bar, baz) { return 2; }; g();", options: [{vars: "all", args: "none"}] },
+        { code: "var a=10; (function() { alert(a); })();", options: [{ vars: "all" }] },
+        { code: "function g(bar, baz) { return baz; }; g();", options: [{ vars: "all" }] },
+        { code: "function g(bar, baz) { return baz; }; g();", options: [{ vars: "all", args: "after-used" }] },
+        { code: "function g(bar, baz) { return bar; }; g();", options: [{ vars: "all", args: "none" }] },
+        { code: "function g(bar, baz) { return 2; }; g();", options: [{ vars: "all", args: "none" }] },
+        { code: "function g(bar, baz) { return bar + baz; }; g();", options: [{ vars: "local", args: "all" }] },
+        { code: "var g = function(bar, baz) { return 2; }; g();", options: [{ vars: "all", args: "none" }] },
         "(function z() { z(); })();",
-        { code: " ", globals: {a: true} },
-        { code: "var who = \"Paul\";\nmodule.exports = `Hello ${who}!`;", parserOptions: { ecmaVersion: 6 }},
-        { code: "export var foo = 123;", parserOptions: { sourceType: "module" }},
-        { code: "export function foo () {}", parserOptions: { sourceType: "module" }},
-        { code: "let toUpper = (partial) => partial.toUpperCase; export {toUpper}", parserOptions: { sourceType: "module" }},
-        { code: "export class foo {}", parserOptions: { sourceType: "module" }},
-        { code: "class Foo{}; var x = new Foo(); x.foo()", parserOptions: { ecmaVersion: 6 }},
-        { code: "const foo = \"hello!\";function bar(foobar = foo) {  foobar.replace(/!$/, \" world!\");}\nbar();", parserOptions: { ecmaVersion: 6 }},
+        { code: " ", globals: { a: true } },
+        { code: "var who = \"Paul\";\nmodule.exports = `Hello ${who}!`;", parserOptions: { ecmaVersion: 6 } },
+        { code: "export var foo = 123;", parserOptions: { sourceType: "module" } },
+        { code: "export function foo () {}", parserOptions: { sourceType: "module" } },
+        { code: "let toUpper = (partial) => partial.toUpperCase; export {toUpper}", parserOptions: { sourceType: "module" } },
+        { code: "export class foo {}", parserOptions: { sourceType: "module" } },
+        { code: "class Foo{}; var x = new Foo(); x.foo()", parserOptions: { ecmaVersion: 6 } },
+        { code: "const foo = \"hello!\";function bar(foobar = foo) {  foobar.replace(/!$/, \" world!\");}\nbar();", parserOptions: { ecmaVersion: 6 } },
         "function Foo(){}; var x = new Foo(); x.foo()",
         "function foo() {var foo = 1; return foo}; foo();",
         "function foo(foo) {return foo}; foo(1);",
         "function foo() {function foo() {return 1;}; return foo()}; foo();",
-        {code: "function foo() {var foo = 1; return foo}; foo();", parserOptions: { parserOptions: { ecmaVersion: 6 } }},
-        {code: "function foo(foo) {return foo}; foo(1);", parserOptions: { parserOptions: { ecmaVersion: 6 } }},
-        {code: "function foo() {function foo() {return 1;}; return foo()}; foo();", parserOptions: { parserOptions: { ecmaVersion: 6 } }},
-        {code: "const x = 1; const [y = x] = []; foo(y);", parserOptions: { ecmaVersion: 6 }},
-        {code: "const x = 1; const {y = x} = {}; foo(y);", parserOptions: { ecmaVersion: 6 }},
-        {code: "const x = 1; const {z: [y = x]} = {}; foo(y);", parserOptions: { ecmaVersion: 6 }},
-        {code: "const x = []; const {z: [y] = x} = {}; foo(y);", parserOptions: { ecmaVersion: 6 }},
-        {code: "const x = 1; let y; [y = x] = []; foo(y);", parserOptions: { ecmaVersion: 6 }},
-        {code: "const x = 1; let y; ({z: [y = x]}) = {}; foo(y);", parserOptions: { ecmaVersion: 6 }},
-        {code: "const x = []; let y; ({z: [y] = x}) = {}; foo(y);", parserOptions: { ecmaVersion: 6 }},
-        {code: "const x = 1; function foo(y = x) { bar(y); } foo();", parserOptions: { ecmaVersion: 6 }},
-        {code: "const x = 1; function foo({y = x} = {}) { bar(y); } foo();", parserOptions: { ecmaVersion: 6 }},
-        {code: "const x = 1; function foo(y = function(z = x) { bar(z); }) { y(); } foo();", parserOptions: { ecmaVersion: 6 }},
-        {code: "const x = 1; function foo(y = function() { bar(x); }) { y(); } foo();", parserOptions: { ecmaVersion: 6 }},
-        {code: "var x = 1; var [y = x] = []; foo(y);", parserOptions: { ecmaVersion: 6 }},
-        {code: "var x = 1; var {y = x} = {}; foo(y);", parserOptions: { ecmaVersion: 6 }},
-        {code: "var x = 1; var {z: [y = x]} = {}; foo(y);", parserOptions: { ecmaVersion: 6 }},
-        {code: "var x = []; var {z: [y] = x} = {}; foo(y);", parserOptions: { ecmaVersion: 6 }},
-        {code: "var x = 1, y; [y = x] = []; foo(y);", parserOptions: { ecmaVersion: 6 }},
-        {code: "var x = 1, y; ({z: [y = x]}) = {}; foo(y);", parserOptions: { ecmaVersion: 6 }},
-        {code: "var x = [], y; ({z: [y] = x}) = {}; foo(y);", parserOptions: { ecmaVersion: 6 }},
-        {code: "var x = 1; function foo(y = x) { bar(y); } foo();", parserOptions: { ecmaVersion: 6 }},
-        {code: "var x = 1; function foo({y = x} = {}) { bar(y); } foo();", parserOptions: { ecmaVersion: 6 }},
-        {code: "var x = 1; function foo(y = function(z = x) { bar(z); }) { y(); } foo();", parserOptions: { ecmaVersion: 6 }},
-        {code: "var x = 1; function foo(y = function() { bar(x); }) { y(); } foo();", parserOptions: { ecmaVersion: 6 }},
+        { code: "function foo() {var foo = 1; return foo}; foo();", parserOptions: { parserOptions: { ecmaVersion: 6 } } },
+        { code: "function foo(foo) {return foo}; foo(1);", parserOptions: { parserOptions: { ecmaVersion: 6 } } },
+        { code: "function foo() {function foo() {return 1;}; return foo()}; foo();", parserOptions: { parserOptions: { ecmaVersion: 6 } } },
+        { code: "const x = 1; const [y = x] = []; foo(y);", parserOptions: { ecmaVersion: 6 } },
+        { code: "const x = 1; const {y = x} = {}; foo(y);", parserOptions: { ecmaVersion: 6 } },
+        { code: "const x = 1; const {z: [y = x]} = {}; foo(y);", parserOptions: { ecmaVersion: 6 } },
+        { code: "const x = []; const {z: [y] = x} = {}; foo(y);", parserOptions: { ecmaVersion: 6 } },
+        { code: "const x = 1; let y; [y = x] = []; foo(y);", parserOptions: { ecmaVersion: 6 } },
+        { code: "const x = 1; let y; ({z: [y = x]}) = {}; foo(y);", parserOptions: { ecmaVersion: 6 } },
+        { code: "const x = []; let y; ({z: [y] = x}) = {}; foo(y);", parserOptions: { ecmaVersion: 6 } },
+        { code: "const x = 1; function foo(y = x) { bar(y); } foo();", parserOptions: { ecmaVersion: 6 } },
+        { code: "const x = 1; function foo({y = x} = {}) { bar(y); } foo();", parserOptions: { ecmaVersion: 6 } },
+        { code: "const x = 1; function foo(y = function(z = x) { bar(z); }) { y(); } foo();", parserOptions: { ecmaVersion: 6 } },
+        { code: "const x = 1; function foo(y = function() { bar(x); }) { y(); } foo();", parserOptions: { ecmaVersion: 6 } },
+        { code: "var x = 1; var [y = x] = []; foo(y);", parserOptions: { ecmaVersion: 6 } },
+        { code: "var x = 1; var {y = x} = {}; foo(y);", parserOptions: { ecmaVersion: 6 } },
+        { code: "var x = 1; var {z: [y = x]} = {}; foo(y);", parserOptions: { ecmaVersion: 6 } },
+        { code: "var x = []; var {z: [y] = x} = {}; foo(y);", parserOptions: { ecmaVersion: 6 } },
+        { code: "var x = 1, y; [y = x] = []; foo(y);", parserOptions: { ecmaVersion: 6 } },
+        { code: "var x = 1, y; ({z: [y = x]}) = {}; foo(y);", parserOptions: { ecmaVersion: 6 } },
+        { code: "var x = [], y; ({z: [y] = x}) = {}; foo(y);", parserOptions: { ecmaVersion: 6 } },
+        { code: "var x = 1; function foo(y = x) { bar(y); } foo();", parserOptions: { ecmaVersion: 6 } },
+        { code: "var x = 1; function foo({y = x} = {}) { bar(y); } foo();", parserOptions: { ecmaVersion: 6 } },
+        { code: "var x = 1; function foo(y = function(z = x) { bar(z); }) { y(); } foo();", parserOptions: { ecmaVersion: 6 } },
+        { code: "var x = 1; function foo(y = function() { bar(x); }) { y(); } foo();", parserOptions: { ecmaVersion: 6 } },
 
         // exported variables should work
         { code: "/*exported toaster*/ var toaster = 'great'" },
@@ -134,9 +134,9 @@ ruleTester.run("no-unused-vars", rule, {
         { code: "/*exported x, y*/  var { x, y } = z", parserOptions: { ecmaVersion: 6 } },
 
         // Can mark variables as used via context.markVariableAsUsed()
-        { code: "/*eslint use-every-a:1*/ var a;"},
-        { code: "/*eslint use-every-a:1*/ !function(a) { return 1; }"},
-        { code: "/*eslint use-every-a:1*/ !function() { var a; return 1 }"},
+        { code: "/*eslint use-every-a:1*/ var a;" },
+        { code: "/*eslint use-every-a:1*/ !function(a) { return 1; }" },
+        { code: "/*eslint use-every-a:1*/ !function() { var a; return 1 }" },
 
         // ignore pattern
         { code: "var _a;", options: [ { vars: "all", varsIgnorePattern: "^_" } ] },
@@ -151,41 +151,41 @@ ruleTester.run("no-unused-vars", rule, {
         "(function(obj) { for ( var name in obj ) { return true } })({})",
         "(function(obj) { for ( var name in obj ) return true })({})",
 
-        { code: "(function(obj) { let name; for ( name in obj ) return; })({});", parserOptions: { ecmaVersion: 6 }},
-        { code: "(function(obj) { let name; for ( name in obj ) { return; } })({});", parserOptions: { ecmaVersion: 6 }},
-        { code: "(function(obj) { for ( let name in obj ) { return true } })({})", parserOptions: { ecmaVersion: 6 }},
-        { code: "(function(obj) { for ( let name in obj ) return true })({})", parserOptions: { ecmaVersion: 6 }},
+        { code: "(function(obj) { let name; for ( name in obj ) return; })({});", parserOptions: { ecmaVersion: 6 } },
+        { code: "(function(obj) { let name; for ( name in obj ) { return; } })({});", parserOptions: { ecmaVersion: 6 } },
+        { code: "(function(obj) { for ( let name in obj ) { return true } })({})", parserOptions: { ecmaVersion: 6 } },
+        { code: "(function(obj) { for ( let name in obj ) return true })({})", parserOptions: { ecmaVersion: 6 } },
 
-        { code: "(function(obj) { for ( const name in obj ) { return true } })({})", parserOptions: { ecmaVersion: 6 }},
-        { code: "(function(obj) { for ( const name in obj ) return true })({})", parserOptions: { ecmaVersion: 6 }},
+        { code: "(function(obj) { for ( const name in obj ) { return true } })({})", parserOptions: { ecmaVersion: 6 } },
+        { code: "(function(obj) { for ( const name in obj ) return true })({})", parserOptions: { ecmaVersion: 6 } },
 
         // caughtErrors
         {
             code: "try{}catch(err){console.error(err);}",
-            options: [{caughtErrors: "all"}]
+            options: [{ caughtErrors: "all" }]
         },
         {
             code: "try{}catch(err){}",
-            options: [{caughtErrors: "none"}]
+            options: [{ caughtErrors: "none" }]
         },
         {
             code: "try{}catch(ignoreErr){}",
-            options: [{caughtErrors: "all", caughtErrorsIgnorePattern: "^ignore"}]
+            options: [{ caughtErrors: "all", caughtErrorsIgnorePattern: "^ignore" }]
         },
 
         // caughtErrors with other combinations
         {
             code: "try{}catch(err){}",
-            options: [{vars: "all", args: "all"}]
+            options: [{ vars: "all", args: "all" }]
         },
 
         // https://github.com/eslint/eslint/issues/6348
-        {code: "var a = 0, b; b = a = a + 1; foo(b);"},
-        {code: "var a = 0, b; b = a += a + 1; foo(b);"},
-        {code: "var a = 0, b; b = a++; foo(b);"},
-        {code: "function foo(a) { var b = a = a + 1; bar(b) } foo();"},
-        {code: "function foo(a) { var b = a += a + 1; bar(b) } foo();"},
-        {code: "function foo(a) { var b = a++; bar(b) } foo();"},
+        { code: "var a = 0, b; b = a = a + 1; foo(b);" },
+        { code: "var a = 0, b; b = a += a + 1; foo(b);" },
+        { code: "var a = 0, b; b = a++; foo(b);" },
+        { code: "function foo(a) { var b = a = a + 1; bar(b) } foo();" },
+        { code: "function foo(a) { var b = a += a + 1; bar(b) } foo();" },
+        { code: "function foo(a) { var b = a++; bar(b) } foo();" },
 
         // https://github.com/eslint/eslint/issues/6576
         {
@@ -216,10 +216,10 @@ ruleTester.run("no-unused-vars", rule, {
                 "f();",
             ].join("\n")
         },
-        {code: "function foo(cb) { cb = function() { function something(a) { cb(1 + a); } register(something); }(); } foo();"},
-        {code: "function* foo(cb) { cb = yield function(a) { cb(1 + a); }; } foo();", parserOptions: {ecmaVersion: 6}},
-        {code: "function foo(cb) { cb = tag`hello${function(a) { cb(1 + a); }}`; } foo();", parserOptions: {ecmaVersion: 6}},
-        {code: "function foo(cb) { var b; cb = b = function(a) { cb(1 + a); }; b(); } foo();"},
+        { code: "function foo(cb) { cb = function() { function something(a) { cb(1 + a); } register(something); }(); } foo();" },
+        { code: "function* foo(cb) { cb = yield function(a) { cb(1 + a); }; } foo();", parserOptions: { ecmaVersion: 6 } },
+        { code: "function foo(cb) { cb = tag`hello${function(a) { cb(1 + a); }}`; } foo();", parserOptions: { ecmaVersion: 6 } },
+        { code: "function foo(cb) { var b; cb = b = function(a) { cb(1 + a); }; b(); } foo();" },
 
         // https://github.com/eslint/eslint/issues/6646
         {
@@ -237,34 +237,34 @@ ruleTester.run("no-unused-vars", rule, {
         // https://github.com/eslint/eslint/issues/7124
         {
             code: "(function(a, b, {c, d}) { d })",
-            options: [{argsIgnorePattern: "c"}],
-            parserOptions: {ecmaVersion: 6}
+            options: [{ argsIgnorePattern: "c" }],
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "(function(a, b, {c, d}) { c })",
-            options: [{argsIgnorePattern: "d"}],
-            parserOptions: {ecmaVersion: 6}
+            options: [{ argsIgnorePattern: "d" }],
+            parserOptions: { ecmaVersion: 6 }
         },
 
         // https://github.com/eslint/eslint/issues/7250
         {
             code: "(function(a, b, c) { c })",
-            options: [{argsIgnorePattern: "c"}],
+            options: [{ argsIgnorePattern: "c" }],
         },
         {
             code: "(function(a, b, {c, d}) { c })",
-            options: [{argsIgnorePattern: "[cd]"}],
-            parserOptions: {ecmaVersion: 6},
+            options: [{ argsIgnorePattern: "[cd]" }],
+            parserOptions: { ecmaVersion: 6 },
         },
 
         // https://github.com/eslint/eslint/issues/7351
         {
             code: "(class { set foo(UNUSED) {} })",
-            parserOptions: {ecmaVersion: 6}
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "class Foo { set bar(UNUSED) {} } console.log(Foo)",
-            parserOptions: {ecmaVersion: 6}
+            parserOptions: { ecmaVersion: 6 }
         }
     ],
     invalid: [
@@ -272,7 +272,7 @@ ruleTester.run("no-unused-vars", rule, {
         { code: "(function() { function foox() { if (true) { return foox(); } } }())", errors: [definedError("foox")] },
         { code: "var a=10", errors: [assignedError("a")] },
         { code: "function f() { var a = 1; return function(){ f(a *= 2); }; }", errors: [definedError("f")] },
-        { code: "function f() { var a = 1; return function(){ f(++a); }; }", errors: [definedError("f")]},
+        { code: "function f() { var a = 1; return function(){ f(++a); }; }", errors: [definedError("f")] },
         { code: "/*global a */", errors: [definedError("a", "Program")] },
         { code: "function foo(first, second) {\ndoStuff(function() {\nconsole.log(second);});};", errors: [definedError("foo")] },
         { code: "var a=10;", options: ["all"], errors: [assignedError("a")] },
@@ -283,23 +283,23 @@ ruleTester.run("no-unused-vars", rule, {
         { code: "var a=10, b=0, c=null; setTimeout(function() { var b=2; var c=2; alert(a+b+c); }, 0);", options: ["all"], errors: [assignedError("b"), assignedError("c")] },
         { code: "function f(){var a=[];return a.map(function(){});}", options: ["all"], errors: [definedError("f")] },
         { code: "function f(){var a=[];return a.map(function g(){});}", options: ["all"], errors: [definedError("f")] },
-        { code: "function foo() {function foo(x) {\nreturn x; }; return function() {return foo; }; }", errors: [{message: "'foo' is defined but never used.", line: 1, type: "Identifier"}]},
+        { code: "function foo() {function foo(x) {\nreturn x; }; return function() {return foo; }; }", errors: [{ message: "'foo' is defined but never used.", line: 1, type: "Identifier" }] },
         { code: "function f(){var x;function a(){x=42;}function b(){alert(x);}}", options: ["all"], errors: 3 },
         { code: "function f(a) {}; f();", options: ["all"], errors: [definedError("a")] },
         { code: "function a(x, y, z){ return y; }; a();", options: ["all"], errors: [definedError("z")] },
         { code: "var min = Math.min", options: ["all"], errors: [assignedError("min")] },
         { code: "var min = {min: 1}", options: ["all"], errors: [assignedError("min")] },
         { code: "Foo.bar = function(baz) { return 1; };", options: ["all"], errors: [definedError("baz")] },
-        { code: "var min = {min: 1}", options: [{vars: "all"}], errors: [assignedError("min")] },
-        { code: "function gg(baz, bar) { return baz; }; gg();", options: [{vars: "all"}], errors: [definedError("bar")] },
-        { code: "(function(foo, baz, bar) { return baz; })();", options: [{vars: "all", args: "after-used"}], errors: [definedError("bar")]},
-        { code: "(function(foo, baz, bar) { return baz; })();", options: [{vars: "all", args: "all"}], errors: [definedError("foo"), definedError("bar")]},
-        { code: "(function z(foo) { var bar = 33; })();", options: [{vars: "all", args: "all"}], errors: [definedError("foo"), assignedError("bar")]},
-        { code: "(function z(foo) { z(); })();", options: [{}], errors: [definedError("foo")]},
-        { code: "function f() { var a = 1; return function(){ f(a = 2); }; }", options: [{}], errors: [definedError("f"), {message: "'a' is assigned a value but never used."}]},
-        { code: "import x from \"y\";", parserOptions: { sourceType: "module" }, errors: [definedError("x")]},
-        { code: "export function fn2({ x, y }) {\n console.log(x); \n};", parserOptions: { sourceType: "module" }, errors: [definedError("y")]},
-        { code: "export function fn2( x, y ) {\n console.log(x); \n};", parserOptions: { sourceType: "module" }, errors: [definedError("y")]},
+        { code: "var min = {min: 1}", options: [{ vars: "all" }], errors: [assignedError("min")] },
+        { code: "function gg(baz, bar) { return baz; }; gg();", options: [{ vars: "all" }], errors: [definedError("bar")] },
+        { code: "(function(foo, baz, bar) { return baz; })();", options: [{ vars: "all", args: "after-used" }], errors: [definedError("bar")] },
+        { code: "(function(foo, baz, bar) { return baz; })();", options: [{ vars: "all", args: "all" }], errors: [definedError("foo"), definedError("bar")] },
+        { code: "(function z(foo) { var bar = 33; })();", options: [{ vars: "all", args: "all" }], errors: [definedError("foo"), assignedError("bar")] },
+        { code: "(function z(foo) { z(); })();", options: [{}], errors: [definedError("foo")] },
+        { code: "function f() { var a = 1; return function(){ f(a = 2); }; }", options: [{}], errors: [definedError("f"), { message: "'a' is assigned a value but never used." }] },
+        { code: "import x from \"y\";", parserOptions: { sourceType: "module" }, errors: [definedError("x")] },
+        { code: "export function fn2({ x, y }) {\n console.log(x); \n};", parserOptions: { sourceType: "module" }, errors: [definedError("y")] },
+        { code: "export function fn2( x, y ) {\n console.log(x); \n};", parserOptions: { sourceType: "module" }, errors: [definedError("y")] },
 
         // exported
         { code: "/*exported max*/ var max = 1, min = {min: 1}", errors: [assignedError("min")] },
@@ -321,15 +321,15 @@ ruleTester.run("no-unused-vars", rule, {
         {
             code: "\n/* global foobar, foo, bar */\nfoobar;",
             errors: [
-                {line: 2, column: 19, message: "'foo' is defined but never used." },
-                {line: 2, column: 24, message: "'bar' is defined but never used." }
+                { line: 2, column: 19, message: "'foo' is defined but never used." },
+                { line: 2, column: 24, message: "'bar' is defined but never used." }
             ]
         },
         {
             code: "\n/* global foobar,\n   foo,\n   bar\n */\nfoobar;",
             errors: [
-                {line: 3, column: 4, message: "'foo' is defined but never used." },
-                {line: 4, column: 4, message: "'bar' is defined but never used." }
+                { line: 3, column: 4, message: "'foo' is defined but never used." },
+                { line: 4, column: 4, message: "'bar' is defined but never used." }
             ]
         },
 
@@ -337,31 +337,31 @@ ruleTester.run("no-unused-vars", rule, {
         {
             code: "/* global a$fooz,$foo */\na$fooz;",
             errors: [
-                {line: 1, column: 18, message: "'$foo' is defined but never used." }
+                { line: 1, column: 18, message: "'$foo' is defined but never used." }
             ]
         },
         {
             code: "/* globals a$fooz, $ */\na$fooz;",
             errors: [
-                {line: 1, column: 20, message: "'$' is defined but never used." }
+                { line: 1, column: 20, message: "'$' is defined but never used." }
             ]
         },
         {
             code: "/*globals $foo*/",
             errors: [
-                {line: 1, column: 11, message: "'$foo' is defined but never used." }
+                { line: 1, column: 11, message: "'$foo' is defined but never used." }
             ]
         },
         {
             code: "/* global global*/",
             errors: [
-                {line: 1, column: 11, message: "'global' is defined but never used." }
+                { line: 1, column: 11, message: "'global' is defined but never used." }
             ]
         },
         {
             code: "/*global foo:true*/",
             errors: [
-                {line: 1, column: 10, message: "'foo' is defined but never used." }
+                { line: 1, column: 10, message: "'foo' is defined but never used." }
             ]
         },
 
@@ -369,16 +369,16 @@ ruleTester.run("no-unused-vars", rule, {
         {
             code: "/*global 変数, 数*/\n変数;",
             errors: [
-                {line: 1, column: 14, message: "'数' is defined but never used." }
+                { line: 1, column: 14, message: "'数' is defined but never used." }
             ]
         },
 
         // surrogate pair.
         {
             code: "/*global 𠮷𩸽, 𠮷*/\n\\u{20BB7}\\u{29E3D};",
-            env: {es6: true},
+            env: { es6: true },
             errors: [
-                {line: 1, column: 16, message: "'𠮷' is defined but never used." }
+                { line: 1, column: 16, message: "'𠮷' is defined but never used." }
             ]
         },
 
@@ -386,68 +386,68 @@ ruleTester.run("no-unused-vars", rule, {
         {
             code: "export default function(a) {}",
             parserOptions: { sourceType: "module" },
-            errors: [{message: "'a' is defined but never used."}]
+            errors: [{ message: "'a' is defined but never used." }]
         },
         {
             code: "export default function(a, b) { console.log(a); }",
             parserOptions: { sourceType: "module" },
-            errors: [{message: "'b' is defined but never used."}]
+            errors: [{ message: "'b' is defined but never used." }]
         },
         {
             code: "export default (function(a) {});",
             parserOptions: { sourceType: "module" },
-            errors: [{message: "'a' is defined but never used."}]
+            errors: [{ message: "'a' is defined but never used." }]
         },
         {
             code: "export default (function(a, b) { console.log(a); });",
             parserOptions: { sourceType: "module" },
-            errors: [{message: "'b' is defined but never used."}]
+            errors: [{ message: "'b' is defined but never used." }]
         },
         {
             code: "export default (a) => {};",
             parserOptions: { sourceType: "module" },
-            errors: [{message: "'a' is defined but never used."}]
+            errors: [{ message: "'a' is defined but never used." }]
         },
         {
             code: "export default (a, b) => { console.log(a); };",
             parserOptions: { sourceType: "module" },
-            errors: [{message: "'b' is defined but never used."}]
+            errors: [{ message: "'b' is defined but never used." }]
         },
 
         // caughtErrors
         {
             code: "try{}catch(err){};",
-            options: [{caughtErrors: "all"}],
-            errors: [{message: "'err' is defined but never used."}]
+            options: [{ caughtErrors: "all" }],
+            errors: [{ message: "'err' is defined but never used." }]
         },
         {
             code: "try{}catch(err){};",
-            options: [{caughtErrors: "all", caughtErrorsIgnorePattern: "^ignore"}],
-            errors: [{message: "'err' is defined but never used."}]
+            options: [{ caughtErrors: "all", caughtErrorsIgnorePattern: "^ignore" }],
+            errors: [{ message: "'err' is defined but never used." }]
         },
 
         // multiple try catch with one success
         {
             code: "try{}catch(ignoreErr){}try{}catch(err){};",
-            options: [{caughtErrors: "all", caughtErrorsIgnorePattern: "^ignore"}],
-            errors: [{message: "'err' is defined but never used."}]
+            options: [{ caughtErrors: "all", caughtErrorsIgnorePattern: "^ignore" }],
+            errors: [{ message: "'err' is defined but never used." }]
         },
 
         // multiple try catch both fail
         {
             code: "try{}catch(error){}try{}catch(err){};",
-            options: [{caughtErrors: "all", caughtErrorsIgnorePattern: "^ignore"}],
+            options: [{ caughtErrors: "all", caughtErrorsIgnorePattern: "^ignore" }],
             errors: [
-                {message: "'error' is defined but never used."},
-                {message: "'err' is defined but never used."}
+                { message: "'error' is defined but never used." },
+                { message: "'err' is defined but never used." }
             ]
         },
 
         // caughtErrors with other configs
         {
             code: "try{}catch(err){};",
-            options: [{vars: "all", args: "all", caughtErrors: "all"}],
-            errors: [{message: "'err' is defined but never used."}]
+            options: [{ vars: "all", args: "all", caughtErrors: "all" }],
+            errors: [{ message: "'err' is defined but never used." }]
         },
 
         // no conclict in ignore patterns
@@ -461,36 +461,36 @@ ruleTester.run("no-unused-vars", rule, {
                     argsIgnorePattern: "^er"
                 }
             ],
-            errors: [{message: "'err' is defined but never used."}]
+            errors: [{ message: "'err' is defined but never used." }]
         },
 
         // Ignore reads for modifications to itself: https://github.com/eslint/eslint/issues/6348
-        {code: "var a = 0; a = a + 1;", errors: [{message: "'a' is assigned a value but never used."}]},
-        {code: "var a = 0; a = a + a;", errors: [{message: "'a' is assigned a value but never used."}]},
-        {code: "var a = 0; a += a + 1;", errors: [{message: "'a' is assigned a value but never used."}]},
-        {code: "var a = 0; a++;", errors: [{message: "'a' is assigned a value but never used."}]},
-        {code: "function foo(a) { a = a + 1 } foo();", errors: [{message: "'a' is assigned a value but never used."}]},
-        {code: "function foo(a) { a += a + 1 } foo();", errors: [{message: "'a' is assigned a value but never used."}]},
-        {code: "function foo(a) { a++ } foo();", errors: [{message: "'a' is assigned a value but never used."}]},
-        {code: "var a = 3; a = a * 5 + 6;", errors: [{message: "'a' is assigned a value but never used."}]},
-        {code: "var a = 2, b = 4; a = a * 2 + b;", errors: [{message: "'a' is assigned a value but never used."}]},
+        { code: "var a = 0; a = a + 1;", errors: [{ message: "'a' is assigned a value but never used." }] },
+        { code: "var a = 0; a = a + a;", errors: [{ message: "'a' is assigned a value but never used." }] },
+        { code: "var a = 0; a += a + 1;", errors: [{ message: "'a' is assigned a value but never used." }] },
+        { code: "var a = 0; a++;", errors: [{ message: "'a' is assigned a value but never used." }] },
+        { code: "function foo(a) { a = a + 1 } foo();", errors: [{ message: "'a' is assigned a value but never used." }] },
+        { code: "function foo(a) { a += a + 1 } foo();", errors: [{ message: "'a' is assigned a value but never used." }] },
+        { code: "function foo(a) { a++ } foo();", errors: [{ message: "'a' is assigned a value but never used." }] },
+        { code: "var a = 3; a = a * 5 + 6;", errors: [{ message: "'a' is assigned a value but never used." }] },
+        { code: "var a = 2, b = 4; a = a * 2 + b;", errors: [{ message: "'a' is assigned a value but never used." }] },
 
         // https://github.com/eslint/eslint/issues/6576 (For coverage)
         {
             code: "function foo(cb) { cb = function(a) { cb(1 + a); }; bar(not_cb); } foo();",
-            errors: [{message: "'cb' is assigned a value but never used."}]
+            errors: [{ message: "'cb' is assigned a value but never used." }]
         },
         {
             code: "function foo(cb) { cb = function(a) { return cb(1 + a); }(); } foo();",
-            errors: [{message: "'cb' is assigned a value but never used."}]
+            errors: [{ message: "'cb' is assigned a value but never used." }]
         },
         {
             code: "function foo(cb) { cb = (function(a) { cb(1 + a); }, cb); } foo();",
-            errors: [{message: "'cb' is assigned a value but never used."}]
+            errors: [{ message: "'cb' is assigned a value but never used." }]
         },
         {
             code: "function foo(cb) { cb = (0, function(a) { cb(1 + a); }); } foo();",
-            errors: [{message: "'cb' is assigned a value but never used."}]
+            errors: [{ message: "'cb' is assigned a value but never used." }]
         },
 
         // https://github.com/eslint/eslint/issues/6646
@@ -503,32 +503,32 @@ ruleTester.run("no-unused-vars", rule, {
                 "    foo()",
                 "}"
             ].join("\n"),
-            errors: [{message: "'b' is assigned a value but never used."}]
+            errors: [{ message: "'b' is assigned a value but never used." }]
         },
 
         // https://github.com/eslint/eslint/issues/7124
         {
             code: "(function(a, b, c) {})",
-            options: [{argsIgnorePattern: "c"}],
-            errors: [{message: "'b' is defined but never used."}]
+            options: [{ argsIgnorePattern: "c" }],
+            errors: [{ message: "'b' is defined but never used." }]
         },
         {
             code: "(function(a, b, {c, d}) {})",
-            options: [{argsIgnorePattern: "[cd]"}],
-            parserOptions: {ecmaVersion: 6},
-            errors: [{message: "'b' is defined but never used."}]
+            options: [{ argsIgnorePattern: "[cd]" }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{ message: "'b' is defined but never used." }]
         },
         {
             code: "(function(a, b, {c, d}) {})",
-            options: [{argsIgnorePattern: "c"}],
-            parserOptions: {ecmaVersion: 6},
-            errors: [{message: "'d' is defined but never used."}]
+            options: [{ argsIgnorePattern: "c" }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{ message: "'d' is defined but never used." }]
         },
         {
             code: "(function(a, b, {c, d}) {})",
-            options: [{argsIgnorePattern: "d"}],
-            parserOptions: {ecmaVersion: 6},
-            errors: [{message: "'c' is defined but never used."}]
+            options: [{ argsIgnorePattern: "d" }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{ message: "'c' is defined but never used." }]
         },
     ]
 });

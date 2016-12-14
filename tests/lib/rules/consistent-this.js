@@ -54,16 +54,16 @@ ruleTester.run("consistent-this", rule, {
         destructuringTest("[foo, bar] = this")
     ],
     invalid: [
-        { code: "var context = this", errors: [{ message: "Unexpected alias 'context' for 'this'.", type: "VariableDeclarator"}] },
-        { code: "var that = this", options: ["self"], errors: [{ message: "Unexpected alias 'that' for 'this'.", type: "VariableDeclarator"}] },
-        { code: "var foo = 42, self = this", options: ["that"], errors: [{ message: "Unexpected alias 'self' for 'this'.", type: "VariableDeclarator"}] },
-        { code: "var self = 42", options: ["self"], errors: [{ message: "Designated alias 'self' is not assigned to 'this'.", type: "VariableDeclarator"}] },
-        { code: "var self", options: ["self"], errors: [{ message: "Designated alias 'self' is not assigned to 'this'.", type: "VariableDeclarator"}] },
-        { code: "var self; self = 42", options: ["self"], errors: [{ message: "Designated alias 'self' is not assigned to 'this'.", type: "VariableDeclarator"}, { message: "Designated alias 'self' is not assigned to 'this'.", type: "AssignmentExpression"}] },
-        { code: "context = this", options: ["that"], errors: [{ message: "Unexpected alias 'context' for 'this'.", type: "AssignmentExpression"}] },
-        { code: "that = this", options: ["self"], errors: [{ message: "Unexpected alias 'that' for 'this'.", type: "AssignmentExpression"}] },
-        { code: "self = this", options: ["that"], errors: [{ message: "Unexpected alias 'self' for 'this'.", type: "AssignmentExpression"}] },
-        { code: "self += this", options: ["self"], errors: [{ message: "Designated alias 'self' is not assigned to 'this'.", type: "AssignmentExpression"}] },
-        { code: "var self; (function() { self = this; }())", options: ["self"], errors: [{ message: "Designated alias 'self' is not assigned to 'this'.", type: "VariableDeclarator"}] }
+        { code: "var context = this", errors: [{ message: "Unexpected alias 'context' for 'this'.", type: "VariableDeclarator" }] },
+        { code: "var that = this", options: ["self"], errors: [{ message: "Unexpected alias 'that' for 'this'.", type: "VariableDeclarator" }] },
+        { code: "var foo = 42, self = this", options: ["that"], errors: [{ message: "Unexpected alias 'self' for 'this'.", type: "VariableDeclarator" }] },
+        { code: "var self = 42", options: ["self"], errors: [{ message: "Designated alias 'self' is not assigned to 'this'.", type: "VariableDeclarator" }] },
+        { code: "var self", options: ["self"], errors: [{ message: "Designated alias 'self' is not assigned to 'this'.", type: "VariableDeclarator" }] },
+        { code: "var self; self = 42", options: ["self"], errors: [{ message: "Designated alias 'self' is not assigned to 'this'.", type: "VariableDeclarator" }, { message: "Designated alias 'self' is not assigned to 'this'.", type: "AssignmentExpression" }] },
+        { code: "context = this", options: ["that"], errors: [{ message: "Unexpected alias 'context' for 'this'.", type: "AssignmentExpression" }] },
+        { code: "that = this", options: ["self"], errors: [{ message: "Unexpected alias 'that' for 'this'.", type: "AssignmentExpression" }] },
+        { code: "self = this", options: ["that"], errors: [{ message: "Unexpected alias 'self' for 'this'.", type: "AssignmentExpression" }] },
+        { code: "self += this", options: ["self"], errors: [{ message: "Designated alias 'self' is not assigned to 'this'.", type: "AssignmentExpression" }] },
+        { code: "var self; (function() { self = this; }())", options: ["self"], errors: [{ message: "Designated alias 'self' is not assigned to 'this'.", type: "VariableDeclarator" }] }
     ]
 });

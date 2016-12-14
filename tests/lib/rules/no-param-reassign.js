@@ -28,9 +28,9 @@ ruleTester.run("no-param-reassign", rule, {
         "function foo(a) { delete a.b; }",
         "function foo(a) { ++a.b; }",
         { code: "function foo(a) { [a.b] = []; }", parserOptions: { ecmaVersion: 6 } },
-        { code: "function foo(a) { bar(a.b).c = 0; }", options: [{props: true}] },
-        { code: "function foo(a) { data[a.b] = 0; }", options: [{props: true}] },
-        { code: "function foo(a) { +a.b; }", options: [{props: true}] }
+        { code: "function foo(a) { bar(a.b).c = 0; }", options: [{ props: true }] },
+        { code: "function foo(a) { data[a.b] = 0; }", options: [{ props: true }] },
+        { code: "function foo(a) { +a.b; }", options: [{ props: true }] }
     ],
 
     invalid: [
@@ -48,28 +48,28 @@ ruleTester.run("no-param-reassign", rule, {
 
         {
             code: "function foo(bar) { bar.a = 0; }",
-            options: [{props: true}],
+            options: [{ props: true }],
             errors: [{ message: "Assignment to property of function parameter 'bar'." }]
         },
         {
             code: "function foo(bar) { bar.get(0).a = 0; }",
-            options: [{props: true}],
+            options: [{ props: true }],
             errors: [{ message: "Assignment to property of function parameter 'bar'." }]
         },
         {
             code: "function foo(bar) { delete bar.a; }",
-            options: [{props: true}],
+            options: [{ props: true }],
             errors: [{ message: "Assignment to property of function parameter 'bar'." }]
         },
         {
             code: "function foo(bar) { ++bar.a; }",
-            options: [{props: true}],
+            options: [{ props: true }],
             errors: [{ message: "Assignment to property of function parameter 'bar'." }]
         },
         {
             code: "function foo(bar) { [bar.a] = []; }",
             parserOptions: { ecmaVersion: 6 },
-            options: [{props: true}],
+            options: [{ props: true }],
             errors: [{ message: "Assignment to property of function parameter 'bar'." }]
         }
     ]

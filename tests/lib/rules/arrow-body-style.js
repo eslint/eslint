@@ -34,16 +34,16 @@ ruleTester.run("arrow-body-style", rule, {
         { code: "var foo = () => { return bar(); };", options: ["always"] },
         { code: "var foo = () => 0;", options: ["never"] },
         { code: "var foo = () => ({ foo: 0 });", options: ["never"] },
-        { code: "var foo = () => {};", options: ["as-needed", {requireReturnForObjectLiteral: true }] },
-        { code: "var foo = () => 0;", options: ["as-needed", {requireReturnForObjectLiteral: true }] },
-        { code: "var addToB = (a) => { b =  b + a };", options: ["as-needed", {requireReturnForObjectLiteral: true }] },
-        { code: "var foo = () => { /* do nothing */ };", options: ["as-needed", {requireReturnForObjectLiteral: true }] },
-        { code: "var foo = () => {\n /* do nothing */ \n};", options: ["as-needed", {requireReturnForObjectLiteral: true }] },
-        { code: "var foo = (retv, name) => {\nretv[name] = true;\nreturn retv;\n};", options: ["as-needed", {requireReturnForObjectLiteral: true }] },
-        { code: "var foo = () => bar();", options: ["as-needed", {requireReturnForObjectLiteral: true }] },
-        { code: "var foo = () => { bar(); };", options: ["as-needed", {requireReturnForObjectLiteral: true }] },
-        { code: "var addToB = (a) => { b =  b + a };", options: ["as-needed", {requireReturnForObjectLiteral: true }] },
-        { code: "var foo = () => { return { bar: 0 }; };", options: ["as-needed", {requireReturnForObjectLiteral: true }] }
+        { code: "var foo = () => {};", options: ["as-needed", { requireReturnForObjectLiteral: true }] },
+        { code: "var foo = () => 0;", options: ["as-needed", { requireReturnForObjectLiteral: true }] },
+        { code: "var addToB = (a) => { b =  b + a };", options: ["as-needed", { requireReturnForObjectLiteral: true }] },
+        { code: "var foo = () => { /* do nothing */ };", options: ["as-needed", { requireReturnForObjectLiteral: true }] },
+        { code: "var foo = () => {\n /* do nothing */ \n};", options: ["as-needed", { requireReturnForObjectLiteral: true }] },
+        { code: "var foo = (retv, name) => {\nretv[name] = true;\nreturn retv;\n};", options: ["as-needed", { requireReturnForObjectLiteral: true }] },
+        { code: "var foo = () => bar();", options: ["as-needed", { requireReturnForObjectLiteral: true }] },
+        { code: "var foo = () => { bar(); };", options: ["as-needed", { requireReturnForObjectLiteral: true }] },
+        { code: "var addToB = (a) => { b =  b + a };", options: ["as-needed", { requireReturnForObjectLiteral: true }] },
+        { code: "var foo = () => { return { bar: 0 }; };", options: ["as-needed", { requireReturnForObjectLiteral: true }] }
     ],
     invalid: [
         {
@@ -105,7 +105,7 @@ ruleTester.run("arrow-body-style", rule, {
         {
             code: "var foo = () => { return; };",
             output: "var foo = () => { return; };", // not fixed
-            options: ["as-needed", {requireReturnForObjectLiteral: true}],
+            options: ["as-needed", { requireReturnForObjectLiteral: true }],
             errors: [
                 { line: 1, column: 17, type: "ArrowFunctionExpression", message: "Unexpected block statement surrounding arrow body." }
             ]
@@ -145,7 +145,7 @@ ruleTester.run("arrow-body-style", rule, {
         {
             code: "var foo = () => { return 0; };",
             output: "var foo = () => 0;",
-            options: ["as-needed", {requireReturnForObjectLiteral: true }],
+            options: ["as-needed", { requireReturnForObjectLiteral: true }],
             errors: [
                 { line: 1, column: 17, type: "ArrowFunctionExpression", message: "Unexpected block statement surrounding arrow body." }
             ]
@@ -153,7 +153,7 @@ ruleTester.run("arrow-body-style", rule, {
         {
             code: "var foo = () => { return bar(); };",
             output: "var foo = () => bar();",
-            options: ["as-needed", {requireReturnForObjectLiteral: true }],
+            options: ["as-needed", { requireReturnForObjectLiteral: true }],
             errors: [
                 { line: 1, column: 17, type: "ArrowFunctionExpression", message: "Unexpected block statement surrounding arrow body." }
             ]
@@ -161,7 +161,7 @@ ruleTester.run("arrow-body-style", rule, {
         {
             code: "var foo = () => ({});",
             output: "var foo = () => {return ({})};",
-            options: ["as-needed", {requireReturnForObjectLiteral: true }],
+            options: ["as-needed", { requireReturnForObjectLiteral: true }],
             errors: [
                 { line: 1, column: 18, type: "ArrowFunctionExpression", message: "Expected block statement surrounding arrow body." }
             ]
@@ -169,7 +169,7 @@ ruleTester.run("arrow-body-style", rule, {
         {
             code: "var foo = () => ({ bar: 0 });",
             output: "var foo = () => {return ({ bar: 0 })};",
-            options: ["as-needed", {requireReturnForObjectLiteral: true }],
+            options: ["as-needed", { requireReturnForObjectLiteral: true }],
             errors: [
                 { line: 1, column: 18, type: "ArrowFunctionExpression", message: "Expected block statement surrounding arrow body." }
             ]

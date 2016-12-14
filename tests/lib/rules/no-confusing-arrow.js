@@ -23,7 +23,7 @@ ruleTester.run("no-confusing-arrow", rule, {
         { code: "a => { return 1 ? 2 : 3; }" },
         { code: "var x = a => { return 1 ? 2 : 3; }" },
         { code: "var x = (a) => { return 1 ? 2 : 3; }" },
-        { code: "var x = a => (1 ? 2 : 3)", options: [{ allowParens: true }]}
+        { code: "var x = a => (1 ? 2 : 3)", options: [{ allowParens: true }] }
     ],
     invalid: [
         {

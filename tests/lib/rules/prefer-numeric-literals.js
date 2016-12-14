@@ -57,7 +57,7 @@ ruleTester.run("prefer-numeric-literals", rule, {
         }, {
             code: "parseInt('1️⃣3️⃣3️⃣7️⃣', 16);",
             output: "parseInt('1️⃣3️⃣3️⃣7️⃣', 16);", // not fixed, javascript doesn't support emoji literals
-            errors: [{ message: "Use hexadecimal literals instead of parseInt()."}]
+            errors: [{ message: "Use hexadecimal literals instead of parseInt()." }]
         }
     ]
 });

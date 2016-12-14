@@ -732,44 +732,44 @@ ruleTester.run("curly", rule, {
             code: "if (foo) { bar }\n++baz;",
             output: "if (foo) { bar }\n++baz;",
             options: ["multi"],
-            errors: [{ message: "Unnecessary { after 'if' condition.", type: "IfStatement"}]
+            errors: [{ message: "Unnecessary { after 'if' condition.", type: "IfStatement" }]
         },
         {
             code: "if (foo) { bar; }\n++baz;",
             output: "if (foo)  bar; \n++baz;",
             options: ["multi"],
-            errors: [{ message: "Unnecessary { after 'if' condition.", type: "IfStatement"}]
+            errors: [{ message: "Unnecessary { after 'if' condition.", type: "IfStatement" }]
         },
         {
             code: "if (foo) { bar++ }\nbaz;",
             output: "if (foo) { bar++ }\nbaz;",
             options: ["multi"],
-            errors: [{ message: "Unnecessary { after 'if' condition.", type: "IfStatement"}]
+            errors: [{ message: "Unnecessary { after 'if' condition.", type: "IfStatement" }]
         },
         {
             code: "if (foo) { bar }\n[1, 2, 3].map(foo);",
             output: "if (foo) { bar }\n[1, 2, 3].map(foo);",
             options: ["multi"],
-            errors: [{ message: "Unnecessary { after 'if' condition.", type: "IfStatement"}]
+            errors: [{ message: "Unnecessary { after 'if' condition.", type: "IfStatement" }]
         },
         {
             code: "if (foo) { bar }\n(1).toString();",
             output: "if (foo) { bar }\n(1).toString();",
             options: ["multi"],
-            errors: [{ message: "Unnecessary { after 'if' condition.", type: "IfStatement"}]
+            errors: [{ message: "Unnecessary { after 'if' condition.", type: "IfStatement" }]
         },
         {
             code: "if (foo) { bar }\n/regex/.test('foo');",
             output: "if (foo) { bar }\n/regex/.test('foo');",
             options: ["multi"],
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Unnecessary { after 'if' condition.", type: "IfStatement"}]
+            errors: [{ message: "Unnecessary { after 'if' condition.", type: "IfStatement" }]
         },
         {
             code: "if (foo) { bar }\nBaz();",
             output: "if (foo)  bar \nBaz();",
             options: ["multi"],
-            errors: [{ message: "Unnecessary { after 'if' condition.", type: "IfStatement"}]
+            errors: [{ message: "Unnecessary { after 'if' condition.", type: "IfStatement" }]
         },
         {
             code:

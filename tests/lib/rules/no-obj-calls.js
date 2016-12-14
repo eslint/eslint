@@ -23,8 +23,8 @@ ruleTester.run("no-obj-calls", rule, {
         "var x = Math.random();"
     ],
     invalid: [
-        { code: "var x = Math();", errors: [{ message: "'Math' is not a function.", type: "CallExpression"}] },
-        { code: "var x = JSON();", errors: [{ message: "'JSON' is not a function.", type: "CallExpression"}] },
-        { code: "var x = Reflect();", errors: [{ message: "'Reflect' is not a function.", type: "CallExpression"}] }
+        { code: "var x = Math();", errors: [{ message: "'Math' is not a function.", type: "CallExpression" }] },
+        { code: "var x = JSON();", errors: [{ message: "'JSON' is not a function.", type: "CallExpression" }] },
+        { code: "var x = Reflect();", errors: [{ message: "'Reflect' is not a function.", type: "CallExpression" }] }
     ]
 });

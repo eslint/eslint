@@ -32,83 +32,83 @@ ruleTester.run("no-mixed-operators", rule, {
         "a == 0 || b == 1",
         {
             code: "(a == 0) && (b == 1)",
-            options: [{groups: [["&&", "=="]]}]
+            options: [{ groups: [["&&", "=="]] }]
         },
         {
             code: "a + b - c * d / e",
-            options: [{groups: [["&&", "||"]]}]
+            options: [{ groups: [["&&", "||"]] }]
         },
         "a + b - c",
         "a * b / c",
         {
             code: "a + b - c",
-            options: [{allowSamePrecedence: true}]
+            options: [{ allowSamePrecedence: true }]
         },
         {
             code: "a * b / c",
-            options: [{allowSamePrecedence: true}]
+            options: [{ allowSamePrecedence: true }]
         }
     ],
     invalid: [
         {
             code: "a && b || c",
             errors: [
-                {column: 3, message: "Unexpected mix of '&&' and '||'."},
-                {column: 8, message: "Unexpected mix of '&&' and '||'."}
+                { column: 3, message: "Unexpected mix of '&&' and '||'." },
+                { column: 8, message: "Unexpected mix of '&&' and '||'." }
             ]
         },
         {
             code: "a && b > 0 || c",
-            options: [{groups: [["&&", "||", ">"]]}],
+            options: [{ groups: [["&&", "||", ">"]] }],
             errors: [
-                {column: 3, message: "Unexpected mix of '&&' and '||'."},
-                {column: 3, message: "Unexpected mix of '&&' and '>'."},
-                {column: 8, message: "Unexpected mix of '&&' and '>'."},
-                {column: 12, message: "Unexpected mix of '&&' and '||'."}
+                { column: 3, message: "Unexpected mix of '&&' and '||'." },
+                { column: 3, message: "Unexpected mix of '&&' and '>'." },
+                { column: 8, message: "Unexpected mix of '&&' and '>'." },
+                { column: 12, message: "Unexpected mix of '&&' and '||'." }
             ]
         },
         {
             code: "a && b > 0 || c",
-            options: [{groups: [["&&", "||"]]}],
+            options: [{ groups: [["&&", "||"]] }],
             errors: [
-                {column: 3, message: "Unexpected mix of '&&' and '||'."},
-                {column: 12, message: "Unexpected mix of '&&' and '||'."}
+                { column: 3, message: "Unexpected mix of '&&' and '||'." },
+                { column: 12, message: "Unexpected mix of '&&' and '||'." }
             ]
         },
         {
             code: "a && b + c - d / e || f",
-            options: [{groups: [["&&", "||"], ["+", "-", "*", "/"]]}],
+            options: [{ groups: [["&&", "||"], ["+", "-", "*", "/"]] }],
             errors: [
-                {column: 3, message: "Unexpected mix of '&&' and '||'."},
-                {column: 12, message: "Unexpected mix of '-' and '/'."},
-                {column: 16, message: "Unexpected mix of '-' and '/'."},
-                {column: 20, message: "Unexpected mix of '&&' and '||'."}
+                { column: 3, message: "Unexpected mix of '&&' and '||'." },
+                { column: 12, message: "Unexpected mix of '-' and '/'." },
+                { column: 16, message: "Unexpected mix of '-' and '/'." },
+                { column: 20, message: "Unexpected mix of '&&' and '||'." }
             ]
         },
         {
             code: "a && b + c - d / e || f",
-            options: [{groups: [["&&", "||"], ["+", "-", "*", "/"]], allowSamePrecedence: true}],
+            options: [{ groups: [["&&", "||"], ["+", "-", "*", "/"]], allowSamePrecedence: true }],
             errors: [
-                {column: 3, message: "Unexpected mix of '&&' and '||'."},
-                {column: 12, message: "Unexpected mix of '-' and '/'."},
-                {column: 16, message: "Unexpected mix of '-' and '/'."},
-                {column: 20, message: "Unexpected mix of '&&' and '||'."}
+                { column: 3, message: "Unexpected mix of '&&' and '||'." },
+                { column: 12, message: "Unexpected mix of '-' and '/'." },
+                { column: 16, message: "Unexpected mix of '-' and '/'." },
+                { column: 20, message: "Unexpected mix of '&&' and '||'." }
             ]
         },
         {
             code: "a + b - c",
-            options: [{allowSamePrecedence: false}],
+            options: [{ allowSamePrecedence: false }],
             errors: [
-                {column: 3, message: "Unexpected mix of '+' and '-'."},
-                {column: 7, message: "Unexpected mix of '+' and '-'."}
+                { column: 3, message: "Unexpected mix of '+' and '-'." },
+                { column: 7, message: "Unexpected mix of '+' and '-'." }
             ]
         },
         {
             code: "a * b / c",
-            options: [{allowSamePrecedence: false}],
+            options: [{ allowSamePrecedence: false }],
             errors: [
-                {column: 3, message: "Unexpected mix of '*' and '/'."},
-                {column: 7, message: "Unexpected mix of '*' and '/'."}
+                { column: 3, message: "Unexpected mix of '*' and '/'." },
+                { column: 7, message: "Unexpected mix of '*' and '/'." }
             ]
         }
     ]

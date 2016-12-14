@@ -29,13 +29,13 @@ ruleTester.run("no-unused-labels", rule, {
         "A: { var A = 0; console.log(A); break A; console.log(A); }"
     ],
     invalid: [
-        {code: "A: var foo = 0;", errors: ["'A:' is defined but never used."]},
-        {code: "A: { foo(); bar(); }", errors: ["'A:' is defined but never used."]},
-        {code: "A: if (a) { foo(); bar(); }", errors: ["'A:' is defined but never used."]},
-        {code: "A: for (var i = 0; i < 10; ++i) { foo(); if (a) break; bar(); }", errors: ["'A:' is defined but never used."]},
-        {code: "A: for (var i = 0; i < 10; ++i) { foo(); if (a) continue; bar(); }", errors: ["'A:' is defined but never used."]},
-        {code: "A: for (var i = 0; i < 10; ++i) { B: break A; }", errors: ["'B:' is defined but never used."]},
-        {code: "A: { var A = 0; console.log(A); }", errors: ["'A:' is defined but never used."]}
+        { code: "A: var foo = 0;", errors: ["'A:' is defined but never used."] },
+        { code: "A: { foo(); bar(); }", errors: ["'A:' is defined but never used."] },
+        { code: "A: if (a) { foo(); bar(); }", errors: ["'A:' is defined but never used."] },
+        { code: "A: for (var i = 0; i < 10; ++i) { foo(); if (a) break; bar(); }", errors: ["'A:' is defined but never used."] },
+        { code: "A: for (var i = 0; i < 10; ++i) { foo(); if (a) continue; bar(); }", errors: ["'A:' is defined but never used."] },
+        { code: "A: for (var i = 0; i < 10; ++i) { B: break A; }", errors: ["'B:' is defined but never used."] },
+        { code: "A: { var A = 0; console.log(A); }", errors: ["'A:' is defined but never used."] }
 
         // Below is fatal errors.
         // "A: break B",

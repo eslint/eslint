@@ -76,48 +76,48 @@ ruleTester.run("id-length", rule, {
         { code: "var j=0; while (j > -10) { console.log(--j); }", errors: [{ message: "Identifier name 'j' is too short (< 2).", type: "Identifier" }] },
         { code: "var _$xt_$ = Foo(42)", options: [{ min: 2, max: 4 }], errors: [
             { message: "Identifier name '_$xt_$' is too long (> 4).", type: "Identifier" }
-        ]},
+        ] },
         { code: "var _$x$_t$ = Foo(42)", options: [{ min: 2, max: 4 }], errors: [
             { message: "Identifier name '_$x$_t$' is too long (> 4).", type: "Identifier" }
-        ]},
+        ] },
         { code: "(a) => { a * a };", parserOptions: { ecmaVersion: 6 }, errors: [
             { message: "Identifier name 'a' is too short (< 2).", type: "Identifier" }
-        ]},
+        ] },
         { code: "function foo(x = 0) { }", parserOptions: { ecmaVersion: 6 }, errors: [
             { message: "Identifier name 'x' is too short (< 2).", type: "Identifier" }
-        ]},
+        ] },
         { code: "class x { }", parserOptions: { ecmaVersion: 6 }, errors: [
             { message: "Identifier name 'x' is too short (< 2).", type: "Identifier" }
-        ]},
+        ] },
         { code: "class Foo { x() {} }", parserOptions: { ecmaVersion: 6 }, errors: [
             { message: "Identifier name 'x' is too short (< 2).", type: "Identifier" }
-        ]},
+        ] },
         { code: "function foo(...x) { }", parserOptions: { ecmaVersion: 6 }, errors: [
             { message: "Identifier name 'x' is too short (< 2).", type: "Identifier" }
-        ]},
+        ] },
         { code: "var { x} = {};", parserOptions: { ecmaVersion: 6 }, errors: [
             { message: "Identifier name 'x' is too short (< 2).", type: "Identifier" },
             { message: "Identifier name 'x' is too short (< 2).", type: "Identifier" }
-        ]},
+        ] },
         { code: "var { x: a} = {};", parserOptions: { ecmaVersion: 6 }, errors: [
             { message: "Identifier name 'x' is too short (< 2).", type: "Identifier" }
-        ]},
+        ] },
         { code: "var { a: [x]} = {};", parserOptions: { ecmaVersion: 6 }, errors: [
             { message: "Identifier name 'a' is too short (< 2).", type: "Identifier" }
-        ]},
+        ] },
         { code: "import x from 'y';", parserOptions: { sourceType: "module" }, errors: [
             { message: "Identifier name 'x' is too short (< 2).", type: "Identifier" }
-        ]},
+        ] },
         { code: "export var x = 0;", parserOptions: { sourceType: "module" }, errors: [
             { message: "Identifier name 'x' is too short (< 2).", type: "Identifier" }
-        ]},
+        ] },
         { code: "({ a: obj.x.y.z }) = {};", parserOptions: { ecmaVersion: 6 }, errors: [
             { message: "Identifier name 'a' is too short (< 2).", type: "Identifier" },
             { message: "Identifier name 'z' is too short (< 2).", type: "Identifier" }
-        ]},
+        ] },
         { code: "({ prop: obj.x }) = {};", parserOptions: { ecmaVersion: 6 }, errors: [
             { message: "Identifier name 'x' is too short (< 2).", type: "Identifier" }
-        ]},
+        ] },
         { code: "var x = 1;", options: [{ properties: "never" }], errors: [{ message: "Identifier name 'x' is too short (< 2).", type: "Identifier" }] }
     ]
 });

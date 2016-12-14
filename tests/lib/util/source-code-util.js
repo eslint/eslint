@@ -82,7 +82,7 @@ describe("SourceCodeUtil", () => {
 
         it("should handle single string filename arguments", () => {
             const filename = getFixturePath("foo.js");
-            const sourceCode = getSourceCodeOfFiles(filename, {cwd: fixtureDir});
+            const sourceCode = getSourceCodeOfFiles(filename, { cwd: fixtureDir });
 
             assert.isObject(sourceCode);
         });
@@ -90,7 +90,7 @@ describe("SourceCodeUtil", () => {
         it("should accept an array of string filenames", () => {
             const fooFilename = getFixturePath("foo.js");
             const barFilename = getFixturePath("bar.js");
-            const sourceCode = getSourceCodeOfFiles([fooFilename, barFilename], {cwd: fixtureDir});
+            const sourceCode = getSourceCodeOfFiles([fooFilename, barFilename], { cwd: fixtureDir });
 
             assert.isObject(sourceCode);
         });
@@ -98,7 +98,7 @@ describe("SourceCodeUtil", () => {
         it("should accept a glob argument", () => {
             const glob = getFixturePath("*.js");
             const filename = getFixturePath("foo.js");
-            const sourceCode = getSourceCodeOfFiles(glob, {cwd: fixtureDir});
+            const sourceCode = getSourceCodeOfFiles(glob, { cwd: fixtureDir });
 
             assert.isObject(sourceCode);
             assert.property(sourceCode, filename);
@@ -106,7 +106,7 @@ describe("SourceCodeUtil", () => {
 
         it("should accept a relative filename", () => {
             const filename = "foo.js";
-            const sourceCode = getSourceCodeOfFiles(filename, {cwd: fixtureDir});
+            const sourceCode = getSourceCodeOfFiles(filename, { cwd: fixtureDir });
 
             assert.isObject(sourceCode);
             assert.property(sourceCode, getFixturePath(filename));
@@ -114,7 +114,7 @@ describe("SourceCodeUtil", () => {
 
         it("should accept a relative path to a file in a parent directory", () => {
             const filename = "../foo.js";
-            const sourceCode = getSourceCodeOfFiles(filename, {cwd: getFixturePath("nested")});
+            const sourceCode = getSourceCodeOfFiles(filename, { cwd: getFixturePath("nested") });
 
             assert.isObject(sourceCode);
             assert.property(sourceCode, getFixturePath("foo.js"));
@@ -152,7 +152,7 @@ describe("SourceCodeUtil", () => {
         it("should create an object with located filenames as keys", () => {
             const fooFilename = getFixturePath("foo.js");
             const barFilename = getFixturePath("bar.js");
-            const sourceCode = getSourceCodeOfFiles([fooFilename, barFilename], {cwd: fixtureDir});
+            const sourceCode = getSourceCodeOfFiles([fooFilename, barFilename], { cwd: fixtureDir });
 
             assert.property(sourceCode, fooFilename);
             assert.property(sourceCode, barFilename);
@@ -160,7 +160,7 @@ describe("SourceCodeUtil", () => {
 
         it("should should not include non-existent filesnames in results", () => {
             const filename = getFixturePath("missing.js");
-            const sourceCode = getSourceCodeOfFiles(filename, {cwd: fixtureDir});
+            const sourceCode = getSourceCodeOfFiles(filename, { cwd: fixtureDir });
 
             assert.notProperty(sourceCode, filename);
         });
@@ -169,14 +169,14 @@ describe("SourceCodeUtil", () => {
             const filename = getFixturePath("parse-error", "parse-error.js");
 
             assert.throw(() => {
-                getSourceCodeOfFiles(filename, {cwd: fixtureDir});
+                getSourceCodeOfFiles(filename, { cwd: fixtureDir });
             }, /Parsing error: Unexpected token ;/);
 
         });
 
         it("should obtain the sourceCode of a file", () => {
             const filename = getFixturePath("foo.js");
-            const sourceCode = getSourceCodeOfFiles(filename, {cwd: fixtureDir});
+            const sourceCode = getSourceCodeOfFiles(filename, { cwd: fixtureDir });
 
             assert.isObject(sourceCode);
             assert.instanceOf(sourceCode[filename], SourceCode);
@@ -202,7 +202,7 @@ describe("SourceCodeUtil", () => {
             const glob = getFixturePath("*.js");
             const unignoredFilename = getFixturePath("foo.js");
             const ignoredFilename = getFixturePath("ignored.js");
-            const sourceCode = getSourceCodeOfFiles(glob, {cwd: fixtureDir});
+            const sourceCode = getSourceCodeOfFiles(glob, { cwd: fixtureDir });
 
             assert.property(sourceCode, unignoredFilename);
             assert.notProperty(sourceCode, ignoredFilename);
@@ -212,7 +212,7 @@ describe("SourceCodeUtil", () => {
             const folder = getFixturePath("nested");
             const fooFile = getFixturePath("nested/foo.js");
             const barFile = getFixturePath("nested/bar.js");
-            const sourceCode = getSourceCodeOfFiles(folder, {cwd: fixtureDir});
+            const sourceCode = getSourceCodeOfFiles(folder, { cwd: fixtureDir });
 
             assert.equal(Object.keys(sourceCode).length, 2);
             assert.instanceOf(sourceCode[fooFile], SourceCode);
@@ -222,7 +222,7 @@ describe("SourceCodeUtil", () => {
         it("should accept cli options", () => {
             const pattern = getFixturePath("ext");
             const abcFile = getFixturePath("ext/foo.abc");
-            const cliOptions = {extensions: [".abc"], cwd: fixtureDir};
+            const cliOptions = { extensions: [".abc"], cwd: fixtureDir };
             const sourceCode = getSourceCodeOfFiles(pattern, cliOptions);
 
             assert.equal(Object.keys(sourceCode).length, 1);
@@ -233,7 +233,7 @@ describe("SourceCodeUtil", () => {
             const callback = sinon.spy();
             const filename = getFixturePath("foo.js");
 
-            getSourceCodeOfFiles(filename, {cwd: fixtureDir}, callback);
+            getSourceCodeOfFiles(filename, { cwd: fixtureDir }, callback);
             assert(callback.calledOnce);
         });
 
@@ -242,7 +242,7 @@ describe("SourceCodeUtil", () => {
             const fooFilename = getFixturePath("foo.js");
             const barFilename = getFixturePath("bar.js");
 
-            getSourceCodeOfFiles([fooFilename, barFilename], {cwd: fixtureDir}, callback);
+            getSourceCodeOfFiles([fooFilename, barFilename], { cwd: fixtureDir }, callback);
             assert.equal(callback.callCount, 2);
         });
 
@@ -253,7 +253,7 @@ describe("SourceCodeUtil", () => {
             const thirdFn = getFixturePath("nested/foo.js");
             const missingFn = getFixturePath("missing.js");
 
-            getSourceCodeOfFiles([firstFn, secondFn, thirdFn, missingFn], {cwd: fixtureDir}, callback);
+            getSourceCodeOfFiles([firstFn, secondFn, thirdFn, missingFn], { cwd: fixtureDir }, callback);
             assert(callback.calledWith(3));
         });
 

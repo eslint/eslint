@@ -40,32 +40,32 @@ ruleTester.run("array-bracket-spacing", rule, {
         { code: "var foo = obj[ [ 1, 1 ] ];", options: ["always"] },
 
         // always - singleValue
-        { code: "var foo = ['foo']", options: ["always", {singleValue: false}] },
-        { code: "var foo = [2]", options: ["always", {singleValue: false}] },
-        { code: "var foo = [[ 1, 1 ]]", options: ["always", {singleValue: false}] },
-        { code: "var foo = [{ 'foo': 'bar' }]", options: ["always", {singleValue: false}] },
-        { code: "var foo = [bar]", options: ["always", {singleValue: false}] },
+        { code: "var foo = ['foo']", options: ["always", { singleValue: false }] },
+        { code: "var foo = [2]", options: ["always", { singleValue: false }] },
+        { code: "var foo = [[ 1, 1 ]]", options: ["always", { singleValue: false }] },
+        { code: "var foo = [{ 'foo': 'bar' }]", options: ["always", { singleValue: false }] },
+        { code: "var foo = [bar]", options: ["always", { singleValue: false }] },
 
         // always - objectsInArrays
-        { code: "var foo = [{ 'bar': 'baz' }, 1,  5 ];", options: ["always", {objectsInArrays: false}] },
-        { code: "var foo = [ 1, 5, { 'bar': 'baz' }];", options: ["always", {objectsInArrays: false}] },
-        { code: "var foo = [{\n'bar': 'baz', \n'qux': [{ 'bar': 'baz' }], \n'quxx': 1 \n}]", options: ["always", {objectsInArrays: false}] },
-        { code: "var foo = [{ 'bar': 'baz' }]", options: ["always", {objectsInArrays: false}] },
-        { code: "var foo = [{ 'bar': 'baz' }, 1, { 'bar': 'baz' }];", options: ["always", {objectsInArrays: false}] },
-        { code: "var foo = [ 1, { 'bar': 'baz' }, 5 ];", options: ["always", {objectsInArrays: false}] },
-        { code: "var foo = [ 1, { 'bar': 'baz' }, [{ 'bar': 'baz' }] ];", options: ["always", {objectsInArrays: false}] },
-        { code: "var foo = [ function(){} ];", options: ["always", {objectsInArrays: false}] },
+        { code: "var foo = [{ 'bar': 'baz' }, 1,  5 ];", options: ["always", { objectsInArrays: false }] },
+        { code: "var foo = [ 1, 5, { 'bar': 'baz' }];", options: ["always", { objectsInArrays: false }] },
+        { code: "var foo = [{\n'bar': 'baz', \n'qux': [{ 'bar': 'baz' }], \n'quxx': 1 \n}]", options: ["always", { objectsInArrays: false }] },
+        { code: "var foo = [{ 'bar': 'baz' }]", options: ["always", { objectsInArrays: false }] },
+        { code: "var foo = [{ 'bar': 'baz' }, 1, { 'bar': 'baz' }];", options: ["always", { objectsInArrays: false }] },
+        { code: "var foo = [ 1, { 'bar': 'baz' }, 5 ];", options: ["always", { objectsInArrays: false }] },
+        { code: "var foo = [ 1, { 'bar': 'baz' }, [{ 'bar': 'baz' }] ];", options: ["always", { objectsInArrays: false }] },
+        { code: "var foo = [ function(){} ];", options: ["always", { objectsInArrays: false }] },
 
         // always - arraysInArrays
-        { code: "var arr = [[ 1, 2 ], 2, 3, 4 ];", options: ["always", {arraysInArrays: false}] },
-        { code: "var arr = [[ 1, 2 ], [[[ 1 ]]], 3, 4 ];", options: ["always", {arraysInArrays: false}] },
-        { code: "var foo = [ arr[i], arr[j] ];", options: ["always", {arraysInArrays: false}] },
+        { code: "var arr = [[ 1, 2 ], 2, 3, 4 ];", options: ["always", { arraysInArrays: false }] },
+        { code: "var arr = [[ 1, 2 ], [[[ 1 ]]], 3, 4 ];", options: ["always", { arraysInArrays: false }] },
+        { code: "var foo = [ arr[i], arr[j] ];", options: ["always", { arraysInArrays: false }] },
 
         // always - arraysInArrays, objectsInArrays
-        { code: "var arr = [[ 1, 2 ], 2, 3, { 'foo': 'bar' }];", options: ["always", {arraysInArrays: false, objectsInArrays: false}] },
+        { code: "var arr = [[ 1, 2 ], 2, 3, { 'foo': 'bar' }];", options: ["always", { arraysInArrays: false, objectsInArrays: false }] },
 
         // always - arraysInArrays, objectsInArrays, singleValue
-        { code: "var arr = [[ 1, 2 ], [2], 3, { 'foo': 'bar' }];", options: ["always", {arraysInArrays: false, objectsInArrays: false, singleValue: false}] },
+        { code: "var arr = [[ 1, 2 ], [2], 3, { 'foo': 'bar' }];", options: ["always", { arraysInArrays: false, objectsInArrays: false, singleValue: false }] },
 
         // always
         { code: "obj[ foo ]", options: ["always"] },
@@ -83,7 +83,7 @@ ruleTester.run("array-bracket-spacing", rule, {
         { code: "var foo = [];", options: ["always"] },
 
         // singleValue: false, objectsInArrays: true, arraysInArrays
-        { code: "this.db.mappings.insert([\n { alias: 'a', url: 'http://www.amazon.de' },\n { alias: 'g', url: 'http://www.google.de' }\n], function() {});", options: ["always", {singleValue: false, objectsInArrays: true, arraysInArrays: true}] },
+        { code: "this.db.mappings.insert([\n { alias: 'a', url: 'http://www.amazon.de' },\n { alias: 'g', url: 'http://www.google.de' }\n], function() {});", options: ["always", { singleValue: false, objectsInArrays: true, arraysInArrays: true }] },
 
         // always - destructuring assignment
         { code: "var [ x, y ] = z", parserOptions: { ecmaVersion: 6 }, options: ["always"] },
@@ -96,10 +96,10 @@ ruleTester.run("array-bracket-spacing", rule, {
         { code: "var [ ,x, ] = z", parserOptions: { ecmaVersion: 6 }, options: ["always"] },
         { code: "var [\nx, ...y\n] = z", parserOptions: { ecmaVersion: 6 }, options: ["always"] },
         { code: "var [\nx, ...y ] = z", parserOptions: { ecmaVersion: 6 }, options: ["always"] },
-        { code: "var [[ x, y ], z ] = arr;", parserOptions: { ecmaVersion: 6 }, options: ["always", {arraysInArrays: false}] },
-        { code: "var [ x, [ y, z ]] = arr;", parserOptions: { ecmaVersion: 6 }, options: ["always", {arraysInArrays: false}] },
-        { code: "[{ x, y }, z ] = arr;", parserOptions: { ecmaVersion: 6 }, options: ["always", {objectsInArrays: false}] },
-        { code: "[ x, { y, z }] = arr;", parserOptions: { ecmaVersion: 6 }, options: ["always", {objectsInArrays: false}] },
+        { code: "var [[ x, y ], z ] = arr;", parserOptions: { ecmaVersion: 6 }, options: ["always", { arraysInArrays: false }] },
+        { code: "var [ x, [ y, z ]] = arr;", parserOptions: { ecmaVersion: 6 }, options: ["always", { arraysInArrays: false }] },
+        { code: "[{ x, y }, z ] = arr;", parserOptions: { ecmaVersion: 6 }, options: ["always", { objectsInArrays: false }] },
+        { code: "[ x, { y, z }] = arr;", parserOptions: { ecmaVersion: 6 }, options: ["always", { objectsInArrays: false }] },
 
         // never
         { code: "obj[foo]", options: ["never"] },
@@ -130,39 +130,39 @@ ruleTester.run("array-bracket-spacing", rule, {
         { code: "var [,x,] = z", parserOptions: { ecmaVersion: 6 }, options: ["never"] },
         { code: "var [\nx, ...y\n] = z", parserOptions: { ecmaVersion: 6 }, options: ["never"] },
         { code: "var [\nx, ...y] = z", parserOptions: { ecmaVersion: 6 }, options: ["never"] },
-        { code: "var [ [x, y], z] = arr;", parserOptions: { ecmaVersion: 6 }, options: ["never", {arraysInArrays: true}] },
-        { code: "var [x, [y, z] ] = arr;", parserOptions: { ecmaVersion: 6 }, options: ["never", {arraysInArrays: true}] },
-        { code: "[ { x, y }, z] = arr;", parserOptions: { ecmaVersion: 6 }, options: ["never", {objectsInArrays: true}] },
-        { code: "[x, { y, z } ] = arr;", parserOptions: { ecmaVersion: 6 }, options: ["never", {objectsInArrays: true}] },
+        { code: "var [ [x, y], z] = arr;", parserOptions: { ecmaVersion: 6 }, options: ["never", { arraysInArrays: true }] },
+        { code: "var [x, [y, z] ] = arr;", parserOptions: { ecmaVersion: 6 }, options: ["never", { arraysInArrays: true }] },
+        { code: "[ { x, y }, z] = arr;", parserOptions: { ecmaVersion: 6 }, options: ["never", { objectsInArrays: true }] },
+        { code: "[x, { y, z } ] = arr;", parserOptions: { ecmaVersion: 6 }, options: ["never", { objectsInArrays: true }] },
 
         // never - singleValue
-        { code: "var foo = [ 'foo' ]", options: ["never", {singleValue: true}] },
-        { code: "var foo = [ 2 ]", options: ["never", {singleValue: true}] },
-        { code: "var foo = [ [1, 1] ]", options: ["never", {singleValue: true}] },
-        { code: "var foo = [ {'foo': 'bar'} ]", options: ["never", {singleValue: true}] },
-        { code: "var foo = [ bar ]", options: ["never", {singleValue: true}] },
+        { code: "var foo = [ 'foo' ]", options: ["never", { singleValue: true }] },
+        { code: "var foo = [ 2 ]", options: ["never", { singleValue: true }] },
+        { code: "var foo = [ [1, 1] ]", options: ["never", { singleValue: true }] },
+        { code: "var foo = [ {'foo': 'bar'} ]", options: ["never", { singleValue: true }] },
+        { code: "var foo = [ bar ]", options: ["never", { singleValue: true }] },
 
         // never - objectsInArrays
-        { code: "var foo = [ {'bar': 'baz'}, 1, 5];", options: ["never", {objectsInArrays: true}] },
-        { code: "var foo = [1, 5, {'bar': 'baz'} ];", options: ["never", {objectsInArrays: true}] },
-        { code: "var foo = [ {\n'bar': 'baz', \n'qux': [ {'bar': 'baz'} ], \n'quxx': 1 \n} ]", options: ["never", {objectsInArrays: true}] },
-        { code: "var foo = [ {'bar': 'baz'} ]", options: ["never", {objectsInArrays: true}] },
-        { code: "var foo = [ {'bar': 'baz'}, 1, {'bar': 'baz'} ];", options: ["never", {objectsInArrays: true}] },
-        { code: "var foo = [1, {'bar': 'baz'} , 5];", options: ["never", {objectsInArrays: true}] },
-        { code: "var foo = [1, {'bar': 'baz'}, [ {'bar': 'baz'} ]];", options: ["never", {objectsInArrays: true}] },
-        { code: "var foo = [function(){}];", options: ["never", {objectsInArrays: true}] },
-        { code: "var foo = [];", options: ["never", {objectsInArrays: true}] },
+        { code: "var foo = [ {'bar': 'baz'}, 1, 5];", options: ["never", { objectsInArrays: true }] },
+        { code: "var foo = [1, 5, {'bar': 'baz'} ];", options: ["never", { objectsInArrays: true }] },
+        { code: "var foo = [ {\n'bar': 'baz', \n'qux': [ {'bar': 'baz'} ], \n'quxx': 1 \n} ]", options: ["never", { objectsInArrays: true }] },
+        { code: "var foo = [ {'bar': 'baz'} ]", options: ["never", { objectsInArrays: true }] },
+        { code: "var foo = [ {'bar': 'baz'}, 1, {'bar': 'baz'} ];", options: ["never", { objectsInArrays: true }] },
+        { code: "var foo = [1, {'bar': 'baz'} , 5];", options: ["never", { objectsInArrays: true }] },
+        { code: "var foo = [1, {'bar': 'baz'}, [ {'bar': 'baz'} ]];", options: ["never", { objectsInArrays: true }] },
+        { code: "var foo = [function(){}];", options: ["never", { objectsInArrays: true }] },
+        { code: "var foo = [];", options: ["never", { objectsInArrays: true }] },
 
         // never - arraysInArrays
-        { code: "var arr = [ [1, 2], 2, 3, 4];", options: ["never", {arraysInArrays: true}] },
-        { code: "var foo = [arr[i], arr[j]];", options: ["never", {arraysInArrays: true}] },
-        { code: "var foo = [];", options: ["never", {arraysInArrays: true}] },
+        { code: "var arr = [ [1, 2], 2, 3, 4];", options: ["never", { arraysInArrays: true }] },
+        { code: "var foo = [arr[i], arr[j]];", options: ["never", { arraysInArrays: true }] },
+        { code: "var foo = [];", options: ["never", { arraysInArrays: true }] },
 
         // never - arraysInArrays, singleValue
-        { code: "var arr = [ [1, 2], [ [ [ 1 ] ] ], 3, 4];", options: ["never", {arraysInArrays: true, singleValue: true}] },
+        { code: "var arr = [ [1, 2], [ [ [ 1 ] ] ], 3, 4];", options: ["never", { arraysInArrays: true, singleValue: true }] },
 
         // never - arraysInArrays, objectsInArrays
-        { code: "var arr = [ [1, 2], 2, 3, {'foo': 'bar'} ];", options: ["never", {arraysInArrays: true, objectsInArrays: true}] },
+        { code: "var arr = [ [1, 2], 2, 3, {'foo': 'bar'} ];", options: ["never", { arraysInArrays: true, objectsInArrays: true }] },
 
         // should not warn
         { code: "var foo = {};", options: ["never"] },
@@ -200,7 +200,7 @@ ruleTester.run("array-bracket-spacing", rule, {
         {
             code: "var foo = [ { 'bar': 'baz' }, 1,  5];",
             output: "var foo = [{ 'bar': 'baz' }, 1,  5 ];",
-            options: ["always", {objectsInArrays: false}],
+            options: ["always", { objectsInArrays: false }],
             errors: [
                 {
                     message: "There should be no space after '['.",
@@ -219,7 +219,7 @@ ruleTester.run("array-bracket-spacing", rule, {
         {
             code: "var foo = [1, 5, { 'bar': 'baz' } ];",
             output: "var foo = [ 1, 5, { 'bar': 'baz' }];",
-            options: ["always", {objectsInArrays: false}],
+            options: ["always", { objectsInArrays: false }],
             errors: [
                 {
                     message: "A space is required after '['.",
@@ -238,7 +238,7 @@ ruleTester.run("array-bracket-spacing", rule, {
         {
             code: "var foo = [ { 'bar':'baz' }, 1, { 'bar': 'baz' } ];",
             output: "var foo = [{ 'bar':'baz' }, 1, { 'bar': 'baz' }];",
-            options: ["always", {objectsInArrays: false}],
+            options: ["always", { objectsInArrays: false }],
             errors: [
                 {
                     message: "There should be no space after '['.",
@@ -259,7 +259,7 @@ ruleTester.run("array-bracket-spacing", rule, {
         {
             code: "var obj = [ 'foo' ];",
             output: "var obj = ['foo'];",
-            options: ["always", {singleValue: false}],
+            options: ["always", { singleValue: false }],
             errors: [
                 {
                     message: "There should be no space after '['.",
@@ -278,7 +278,7 @@ ruleTester.run("array-bracket-spacing", rule, {
         {
             code: "var obj = ['foo' ];",
             output: "var obj = ['foo'];",
-            options: ["always", {singleValue: false}],
+            options: ["always", { singleValue: false }],
             errors: [
                 {
                     message: "There should be no space before ']'.",
@@ -291,7 +291,7 @@ ruleTester.run("array-bracket-spacing", rule, {
         {
             code: "var obj = ['foo'];",
             output: "var obj = [ 'foo' ];",
-            options: ["never", {singleValue: true}],
+            options: ["never", { singleValue: true }],
             errors: [
                 {
                     message: "A space is required after '['.",
@@ -312,7 +312,7 @@ ruleTester.run("array-bracket-spacing", rule, {
         {
             code: "var arr = [ [ 1, 2 ], 2, 3, 4 ];",
             output: "var arr = [[ 1, 2 ], 2, 3, 4 ];",
-            options: ["always", {arraysInArrays: false}],
+            options: ["always", { arraysInArrays: false }],
             errors: [
                 {
                     message: "There should be no space after '['.",
@@ -325,7 +325,7 @@ ruleTester.run("array-bracket-spacing", rule, {
         {
             code: "var arr = [ 1, 2, 2, [ 3, 4 ] ];",
             output: "var arr = [ 1, 2, 2, [ 3, 4 ]];",
-            options: ["always", {arraysInArrays: false}],
+            options: ["always", { arraysInArrays: false }],
             errors: [
                 {
                     message: "There should be no space before ']'.",
@@ -338,7 +338,7 @@ ruleTester.run("array-bracket-spacing", rule, {
         {
             code: "var arr = [[ 1, 2 ], 2, [ 3, 4 ] ];",
             output: "var arr = [[ 1, 2 ], 2, [ 3, 4 ]];",
-            options: ["always", {arraysInArrays: false}],
+            options: ["always", { arraysInArrays: false }],
             errors: [
                 {
                     message: "There should be no space before ']'.",
@@ -351,7 +351,7 @@ ruleTester.run("array-bracket-spacing", rule, {
         {
             code: "var arr = [ [ 1, 2 ], 2, [ 3, 4 ]];",
             output: "var arr = [[ 1, 2 ], 2, [ 3, 4 ]];",
-            options: ["always", {arraysInArrays: false}],
+            options: ["always", { arraysInArrays: false }],
             errors: [
                 {
                     message: "There should be no space after '['.",
@@ -364,7 +364,7 @@ ruleTester.run("array-bracket-spacing", rule, {
         {
             code: "var arr = [ [ 1, 2 ], 2, [ 3, 4 ] ];",
             output: "var arr = [[ 1, 2 ], 2, [ 3, 4 ]];",
-            options: ["always", {arraysInArrays: false}],
+            options: ["always", { arraysInArrays: false }],
             errors: [
                 {
                     message: "There should be no space after '['.",
@@ -475,7 +475,7 @@ ruleTester.run("array-bracket-spacing", rule, {
         {
             code: "var [ [ x, y ], z ] = arr;",
             output: "var [[ x, y ], z ] = arr;",
-            options: ["always", {arraysInArrays: false}],
+            options: ["always", { arraysInArrays: false }],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
                 message: "There should be no space after '['.",
@@ -487,7 +487,7 @@ ruleTester.run("array-bracket-spacing", rule, {
         {
             code: "[ { x, y }, z ] = arr;",
             output: "[{ x, y }, z ] = arr;",
-            options: ["always", {objectsInArrays: false}],
+            options: ["always", { objectsInArrays: false }],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
                 message: "There should be no space after '['.",
@@ -499,7 +499,7 @@ ruleTester.run("array-bracket-spacing", rule, {
         {
             code: "[ x, { y, z } ] = arr;",
             output: "[ x, { y, z }] = arr;",
-            options: ["always", {objectsInArrays: false}],
+            options: ["always", { objectsInArrays: false }],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
                 message: "There should be no space before ']'.",
@@ -513,7 +513,7 @@ ruleTester.run("array-bracket-spacing", rule, {
         {
             code: "var arr = [[1, 2], 2, [3, 4]];",
             output: "var arr = [ [1, 2], 2, [3, 4] ];",
-            options: ["never", {arraysInArrays: true}],
+            options: ["never", { arraysInArrays: true }],
             errors: [
                 {
                     message: "A space is required after '['.",
@@ -532,7 +532,7 @@ ruleTester.run("array-bracket-spacing", rule, {
         {
             code: "var arr = [ ];",
             output: "var arr = [];",
-            options: ["never", {arraysInArrays: true}],
+            options: ["never", { arraysInArrays: true }],
             errors: [
                 {
                     message: "There should be no space after '['.",
@@ -547,7 +547,7 @@ ruleTester.run("array-bracket-spacing", rule, {
         {
             code: "var arr = [ ];",
             output: "var arr = [];",
-            options: ["never", {objectsInArrays: true}],
+            options: ["never", { objectsInArrays: true }],
             errors: [
                 {
                     message: "There should be no space after '['.",

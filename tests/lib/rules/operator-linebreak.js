@@ -41,29 +41,29 @@ ruleTester.run("operator-linebreak", rule, {
         "'a' +\n 'b\\\n'",
         "(a\n) + b",
         "answer = everything \n?  42 \n:  foo;",
-        {code: "answer = everything ?\n  42 :\n  foo;", options: ["after"]},
+        { code: "answer = everything ?\n  42 :\n  foo;", options: ["after"] },
 
-        {code: "a ? 1 + 1\n:2", options: [null, { overrides: {"?": "after"}}]},
-        {code: "a ?\n1 +\n 1\n:2", options: [null, { overrides: {"?": "after"}}]},
-        {code: "o = 1 \n+ 1 - foo", options: [null, { overrides: {"+": "before"}}]},
+        { code: "a ? 1 + 1\n:2", options: [null, { overrides: { "?": "after" } }] },
+        { code: "a ?\n1 +\n 1\n:2", options: [null, { overrides: { "?": "after" } }] },
+        { code: "o = 1 \n+ 1 - foo", options: [null, { overrides: { "+": "before" } }] },
 
-        {code: "1\n+ 1", options: ["before"]},
-        {code: "1 + 1\n+ 1", options: ["before"]},
-        {code: "f(1\n+ 1)", options: ["before"]},
-        {code: "1 \n|| 1", options: ["before"]},
-        {code: "a += 1", options: ["before"]},
-        {code: "answer = everything \n?  42 \n:  foo;", options: ["before"]},
+        { code: "1\n+ 1", options: ["before"] },
+        { code: "1 + 1\n+ 1", options: ["before"] },
+        { code: "f(1\n+ 1)", options: ["before"] },
+        { code: "1 \n|| 1", options: ["before"] },
+        { code: "a += 1", options: ["before"] },
+        { code: "answer = everything \n?  42 \n:  foo;", options: ["before"] },
 
-        {code: "1 + 1", options: ["none"]},
-        {code: "1 + 1 + 1", options: ["none"]},
-        {code: "1 || 1", options: ["none"]},
-        {code: "a += 1", options: ["none"]},
-        {code: "var a;", options: ["none"]},
-        {code: "\n1 + 1", options: ["none"]},
-        {code: "1 + 1\n", options: ["none"]},
-        {code: "answer = everything ? 42 : foo;", options: ["none"]},
-        {code: "answer = everything \n?\n 42 : foo;", options: [null, { overrides: {"?": "ignore"}}]},
-        {code: "answer = everything ? 42 \n:\n foo;", options: [null, { overrides: {":": "ignore"}}]}
+        { code: "1 + 1", options: ["none"] },
+        { code: "1 + 1 + 1", options: ["none"] },
+        { code: "1 || 1", options: ["none"] },
+        { code: "a += 1", options: ["none"] },
+        { code: "var a;", options: ["none"] },
+        { code: "\n1 + 1", options: ["none"] },
+        { code: "1 + 1\n", options: ["none"] },
+        { code: "answer = everything ? 42 : foo;", options: ["none"] },
+        { code: "answer = everything \n?\n 42 : foo;", options: [null, { overrides: { "?": "ignore" } }] },
+        { code: "answer = everything ? 42 \n:\n foo;", options: [null, { overrides: { ":": "ignore" } }] }
     ],
 
     invalid: [
@@ -382,7 +382,7 @@ ruleTester.run("operator-linebreak", rule, {
         },
         {
             code: "foo +=\n42;\nbar -=\n12\n+ 5;",
-            options: ["after", { overrides: {"+=": "none", "+": "before" }}],
+            options: ["after", { overrides: { "+=": "none", "+": "before" } }],
             errors: [{
                 message: util.format(NONE_MSG, "+="),
                 type: "AssignmentExpression",
@@ -392,7 +392,7 @@ ruleTester.run("operator-linebreak", rule, {
         },
         {
             code: "answer = everything\n?\n42\n:\nfoo;",
-            options: ["after", { overrides: {"?": "ignore", ":": "before" }}],
+            options: ["after", { overrides: { "?": "ignore", ":": "before" } }],
             errors: [{
                 message: util.format(BAD_LN_BRK_MSG, ":"),
                 type: "ConditionalExpression",

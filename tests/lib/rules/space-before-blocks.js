@@ -24,7 +24,7 @@ const ruleTester = new RuleTester(),
     expectedSpacingErrorMessage = "Missing space before opening brace.",
     expectedSpacingError = { message: expectedSpacingErrorMessage },
     expectedNoSpacingErrorMessage = "Unexpected space before opening brace.",
-    expectedNoSpacingError = { message: "Unexpected space before opening brace."};
+    expectedNoSpacingError = { message: "Unexpected space before opening brace." };
 
 ruleTester.run("space-before-blocks", rule, {
     valid: [
@@ -99,7 +99,7 @@ ruleTester.run("space-before-blocks", rule, {
         { code: "while(a) { function b(){} }", options: keywordOnlyArgs },
         {
             code: "class test { constructor() {} }",
-            options: [{ functions: "always", keywords: "never"}],
+            options: [{ functions: "always", keywords: "never" }],
             parserOptions: { ecmaVersion: 6 }
         },
         {
@@ -133,14 +133,14 @@ ruleTester.run("space-before-blocks", rule, {
         },
 
         // https://github.com/eslint/eslint/issues/3769
-        {code: "()=>{};", options: ["always"], parserOptions: { ecmaVersion: 6 }},
-        {code: "() => {};", options: ["never"], parserOptions: { ecmaVersion: 6 }},
+        { code: "()=>{};", options: ["always"], parserOptions: { ecmaVersion: 6 } },
+        { code: "() => {};", options: ["never"], parserOptions: { ecmaVersion: 6 } },
 
         // https://github.com/eslint/eslint/issues/1338
-        {code: "if(a) {}else{}"},
-        {code: "if(a){}else {}", options: neverArgs},
-        {code: "try {}catch(a){}", options: functionsOnlyArgs},
-        {code: "export default class{}", options: classesOnlyArgs, parserOptions: { sourceType: "module" }}
+        { code: "if(a) {}else{}" },
+        { code: "if(a){}else {}", options: neverArgs },
+        { code: "try {}catch(a){}", options: functionsOnlyArgs },
+        { code: "export default class{}", options: classesOnlyArgs, parserOptions: { sourceType: "module" } }
     ],
     invalid: [
         {

@@ -843,7 +843,7 @@ ruleTester.run("key-spacing", rule, {
         errors: [
             { message: "Missing space after key 'key'.", type: "Identifier", line: 2, column: 5 },
             { message: "Extra space before value for key 'key'.", type: "Identifier", line: 2, column: 12 },
-            { message: "Missing space before value for key 'foobar'.", type: "CallExpression", line: 3, column: 12}
+            { message: "Missing space before value for key 'foobar'.", type: "CallExpression", line: 3, column: 12 }
         ]
     }, {
         code: [
@@ -1746,7 +1746,7 @@ ruleTester.run("key-spacing", rule, {
         options: [{ beforeColon: true, afterColon: true }],
         errors: [
             { message: "Missing space after key 'foo'.", line: 1, column: 7, type: "Identifier" },
-            { message: "Missing space before value for key 'foo'.", line: 1, column: 19, type: "Identifier"}
+            { message: "Missing space before value for key 'foo'.", line: 1, column: 19, type: "Identifier" }
         ]
     }]
 });

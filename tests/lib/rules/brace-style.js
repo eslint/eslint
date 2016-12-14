@@ -239,7 +239,7 @@ ruleTester.run("brace-style", rule, {
             output: "switch(x) \n{ case 1: \nbar(); }\n ",
             options: ["allman"],
             errors: [
-                { message: OPEN_MESSAGE_ALLMAN, type: "SwitchStatement", line: 1}
+                { message: OPEN_MESSAGE_ALLMAN, type: "SwitchStatement", line: 1 }
             ]
         },
         {

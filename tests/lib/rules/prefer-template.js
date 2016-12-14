@@ -33,8 +33,8 @@ ruleTester.run("prefer-template", rule, {
         "var foo = `hello, ${name}!`;",
 
         // https://github.com/eslint/eslint/issues/3507
-        {code: "var foo = `foo` + `bar` + \"hoge\";"},
-        {code: "var foo = `foo` +\n    `bar` +\n    \"hoge\";"}
+        { code: "var foo = `foo` + `bar` + \"hoge\";" },
+        { code: "var foo = `foo` +\n    `bar` +\n    \"hoge\";" }
     ],
     invalid: [
         {

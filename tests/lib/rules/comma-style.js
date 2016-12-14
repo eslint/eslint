@@ -33,47 +33,47 @@ ruleTester.run("comma-style", rule, {
         "var foo = {'a': 1, \n 'b': 2, \n'c': 3};",
         "var foo = {'a': 1, \n 'b': 2, 'c':\n 3};",
         "var foo = {'a': 1, \n 'b': 2, 'c': [{'d': 1}, \n {'e': 2}, \n {'f': 3}]};",
-        {code: "var foo = [1, \n2, \n3];"},
-        {code: "function foo(){var a=[1,\n 2]}"},
-        {code: "function foo(){return {'a': 1,\n'b': 2}}"},
-        {code: "var foo = \n1, \nbar = \n2;"},
-        {code: "var foo = [\n(bar),\nbaz\n];"},
-        {code: "var foo = [\n(bar\n),\nbaz\n];"},
-        {code: "var foo = [\n(\nbar\n),\nbaz\n];"},
-        {code: "var foo = [\n(bar\n)\n,baz\n];", options: ["first"]},
-        {code: "var foo = \n1, \nbar = [1,\n2,\n3]"},
-        {code: "var foo = ['apples'\n,'oranges'];", options: ["first"]},
-        {code: "var foo = 1, bar = 2;", options: ["first"]},
-        {code: "var foo = 1 \n ,bar = 2;", options: ["first"]},
-        {code: "var foo = {'a': 1 \n ,'b': 2 \n,'c': 3};", options: ["first"]},
-        {code: "var foo = [1 \n ,2 \n, 3];", options: ["first"]},
-        {code: "function foo(){return {'a': 1\n,'b': 2}}", options: ["first"]},
-        {code: "function foo(){var a=[1\n, 2]}", options: ["first"]},
-        {code: "f(1\n, 2);"},
-        {code: "function foo(a\n, b) { return a + b; }"},
+        { code: "var foo = [1, \n2, \n3];" },
+        { code: "function foo(){var a=[1,\n 2]}" },
+        { code: "function foo(){return {'a': 1,\n'b': 2}}" },
+        { code: "var foo = \n1, \nbar = \n2;" },
+        { code: "var foo = [\n(bar),\nbaz\n];" },
+        { code: "var foo = [\n(bar\n),\nbaz\n];" },
+        { code: "var foo = [\n(\nbar\n),\nbaz\n];" },
+        { code: "var foo = [\n(bar\n)\n,baz\n];", options: ["first"] },
+        { code: "var foo = \n1, \nbar = [1,\n2,\n3]" },
+        { code: "var foo = ['apples'\n,'oranges'];", options: ["first"] },
+        { code: "var foo = 1, bar = 2;", options: ["first"] },
+        { code: "var foo = 1 \n ,bar = 2;", options: ["first"] },
+        { code: "var foo = {'a': 1 \n ,'b': 2 \n,'c': 3};", options: ["first"] },
+        { code: "var foo = [1 \n ,2 \n, 3];", options: ["first"] },
+        { code: "function foo(){return {'a': 1\n,'b': 2}}", options: ["first"] },
+        { code: "function foo(){var a=[1\n, 2]}", options: ["first"] },
+        { code: "f(1\n, 2);" },
+        { code: "function foo(a\n, b) { return a + b; }" },
         {
             code: "var a = 'a',\no = 'o';",
-            options: ["first", {exceptions: {VariableDeclaration: true}}]
+            options: ["first", { exceptions: { VariableDeclaration: true } }]
         },
         {
             code: "var arr = ['a',\n'o'];",
-            options: ["first", {exceptions: {ArrayExpression: true}}]
+            options: ["first", { exceptions: { ArrayExpression: true } }]
         },
         {
             code: "var obj = {a: 'a',\nb: 'b'};",
-            options: ["first", {exceptions: {ObjectExpression: true}}]
+            options: ["first", { exceptions: { ObjectExpression: true } }]
         },
         {
             code: "var a = 'a',\no = 'o',\narr = [1,\n2];",
-            options: ["first", {exceptions: {VariableDeclaration: true, ArrayExpression: true}}]
+            options: ["first", { exceptions: { VariableDeclaration: true, ArrayExpression: true } }]
         },
         {
             code: "var ar ={fst:1,\nsnd: [1,\n2]};",
-            options: ["first", {exceptions: {ArrayExpression: true, ObjectExpression: true}}]
+            options: ["first", { exceptions: { ArrayExpression: true, ObjectExpression: true } }]
         },
         {
             code: "var ar ={fst:1,\nsnd: [1,\n2]};",
-            options: ["first", {exceptions: {ArrayExpression: true, ObjectExpression: true}}]
+            options: ["first", { exceptions: { ArrayExpression: true, ObjectExpression: true } }]
         },
         {
             code: "var a = 'a',\nar ={fst:1,\nsnd: [1,\n2]};",
@@ -493,7 +493,7 @@ ruleTester.run("comma-style", rule, {
         {
             code: "var a = 'a',\no = 'o',\narr = [1,\n2];",
             output: "var a = 'a',\no = 'o',\narr = [1\n,2];",
-            options: ["first", {exceptions: {VariableDeclaration: true}}],
+            options: ["first", { exceptions: { VariableDeclaration: true } }],
             errors: [{
                 message: FIRST_MSG,
                 type: "Literal"
@@ -502,7 +502,7 @@ ruleTester.run("comma-style", rule, {
         {
             code: "var a = 'a',\nobj = {a: 'a',\nb: 'b'};",
             output: "var a = 'a',\nobj = {a: 'a'\n,b: 'b'};",
-            options: ["first", {exceptions: {VariableDeclaration: true}}],
+            options: ["first", { exceptions: { VariableDeclaration: true } }],
             errors: [{
                 message: FIRST_MSG,
                 type: "Property"
@@ -511,7 +511,7 @@ ruleTester.run("comma-style", rule, {
         {
             code: "var a = 'a',\nobj = {a: 'a',\nb: 'b'};",
             output: "var a = 'a'\n,obj = {a: 'a',\nb: 'b'};",
-            options: ["first", {exceptions: {ObjectExpression: true}}],
+            options: ["first", { exceptions: { ObjectExpression: true } }],
             errors: [{
                 message: FIRST_MSG,
                 type: "VariableDeclarator"
@@ -520,7 +520,7 @@ ruleTester.run("comma-style", rule, {
         {
             code: "var a = 'a',\narr = [1,\n2];",
             output: "var a = 'a'\n,arr = [1,\n2];",
-            options: ["first", {exceptions: {ArrayExpression: true}}],
+            options: ["first", { exceptions: { ArrayExpression: true } }],
             errors: [{
                 message: FIRST_MSG,
                 type: "VariableDeclarator"
@@ -529,7 +529,7 @@ ruleTester.run("comma-style", rule, {
         {
             code: "var ar =[1,\n{a: 'a',\nb: 'b'}];",
             output: "var ar =[1,\n{a: 'a'\n,b: 'b'}];",
-            options: ["first", {exceptions: {ArrayExpression: true}}],
+            options: ["first", { exceptions: { ArrayExpression: true } }],
             errors: [{
                 message: FIRST_MSG,
                 type: "Property"
@@ -538,7 +538,7 @@ ruleTester.run("comma-style", rule, {
         {
             code: "var ar =[1,\n{a: 'a',\nb: 'b'}];",
             output: "var ar =[1\n,{a: 'a',\nb: 'b'}];",
-            options: ["first", {exceptions: {ObjectExpression: true}}],
+            options: ["first", { exceptions: { ObjectExpression: true } }],
             errors: [{
                 message: FIRST_MSG,
                 type: "ObjectExpression"
@@ -547,7 +547,7 @@ ruleTester.run("comma-style", rule, {
         {
             code: "var ar ={fst:1,\nsnd: [1,\n2]};",
             output: "var ar ={fst:1,\nsnd: [1\n,2]};",
-            options: ["first", {exceptions: {ObjectExpression: true}}],
+            options: ["first", { exceptions: { ObjectExpression: true } }],
             errors: [{
                 message: FIRST_MSG,
                 type: "Literal"
@@ -556,7 +556,7 @@ ruleTester.run("comma-style", rule, {
         {
             code: "var ar ={fst:1,\nsnd: [1,\n2]};",
             output: "var ar ={fst:1\n,snd: [1,\n2]};",
-            options: ["first", {exceptions: {ArrayExpression: true}}],
+            options: ["first", { exceptions: { ArrayExpression: true } }],
             errors: [{
                 message: FIRST_MSG,
                 type: "Property"

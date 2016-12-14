@@ -30,9 +30,9 @@ ruleTester.run("no-array-constructor", rule, {
         "Array.foo()"
     ],
     invalid: [
-        { code: "new Array()", errors: [{ message: "The array literal notation [] is preferrable.", type: "NewExpression"}] },
-        { code: "new Array", errors: [{ message: "The array literal notation [] is preferrable.", type: "NewExpression"}] },
-        { code: "new Array(x, y)", errors: [{ message: "The array literal notation [] is preferrable.", type: "NewExpression"}] },
-        { code: "new Array(0, 1, 2)", errors: [{ message: "The array literal notation [] is preferrable.", type: "NewExpression"}] }
+        { code: "new Array()", errors: [{ message: "The array literal notation [] is preferrable.", type: "NewExpression" }] },
+        { code: "new Array", errors: [{ message: "The array literal notation [] is preferrable.", type: "NewExpression" }] },
+        { code: "new Array(x, y)", errors: [{ message: "The array literal notation [] is preferrable.", type: "NewExpression" }] },
+        { code: "new Array(0, 1, 2)", errors: [{ message: "The array literal notation [] is preferrable.", type: "NewExpression" }] }
     ]
 });

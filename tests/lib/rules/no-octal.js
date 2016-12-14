@@ -28,8 +28,8 @@ ruleTester.run("no-octal", rule, {
         "0.5e1"
     ],
     invalid: [
-        { code: "var a = 01234;", errors: [{ message: "Octal literals should not be used.", type: "Literal"}] },
-        { code: "a = 1 + 01234;", errors: [{ message: "Octal literals should not be used.", type: "Literal"}] },
-        { code: "00", errors: [{ message: "Octal literals should not be used.", type: "Literal"}] }
+        { code: "var a = 01234;", errors: [{ message: "Octal literals should not be used.", type: "Literal" }] },
+        { code: "a = 1 + 01234;", errors: [{ message: "Octal literals should not be used.", type: "Literal" }] },
+        { code: "00", errors: [{ message: "Octal literals should not be used.", type: "Literal" }] }
     ]
 });

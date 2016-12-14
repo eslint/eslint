@@ -67,20 +67,20 @@ const valid = [
     { code: "(a): T => a", options: ["as-needed"], parser: parser("return-type") },
 
     // "as-needed", { "requireForBlockBody": true }
-    { code: "() => {}", options: ["as-needed", {requireForBlockBody: true}] },
-    { code: "a => a", options: ["as-needed", {requireForBlockBody: true}] },
-    { code: "([a, b]) => {}", options: ["as-needed", {requireForBlockBody: true}] },
-    { code: "([a, b]) => a", options: ["as-needed", {requireForBlockBody: true}] },
-    { code: "({ a, b }) => {}", options: ["as-needed", {requireForBlockBody: true}] },
-    { code: "({ a, b }) => a + b", options: ["as-needed", {requireForBlockBody: true}] },
-    { code: "(a = 10) => {}", options: ["as-needed", {requireForBlockBody: true}] },
-    { code: "(...a) => a[0]", options: ["as-needed", {requireForBlockBody: true}] },
-    { code: "(a, b) => {}", options: ["as-needed", {requireForBlockBody: true}] },
-    { code: "a => ({})", options: ["as-needed", {requireForBlockBody: true}] },
-    { code: "async a => ({})", options: ["as-needed", {requireForBlockBody: true}], parserOptions: { ecmaVersion: 8 } },
-    { code: "async a => a", options: ["as-needed", {requireForBlockBody: true}], parserOptions: { ecmaVersion: 8 } },
-    { code: "(a: T) => a", options: ["as-needed", {requireForBlockBody: true}], parser: parser("identifer-type") },
-    { code: "(a): T => a", options: ["as-needed", {requireForBlockBody: true}], parser: parser("return-type") },
+    { code: "() => {}", options: ["as-needed", { requireForBlockBody: true }] },
+    { code: "a => a", options: ["as-needed", { requireForBlockBody: true }] },
+    { code: "([a, b]) => {}", options: ["as-needed", { requireForBlockBody: true }] },
+    { code: "([a, b]) => a", options: ["as-needed", { requireForBlockBody: true }] },
+    { code: "({ a, b }) => {}", options: ["as-needed", { requireForBlockBody: true }] },
+    { code: "({ a, b }) => a + b", options: ["as-needed", { requireForBlockBody: true }] },
+    { code: "(a = 10) => {}", options: ["as-needed", { requireForBlockBody: true }] },
+    { code: "(...a) => a[0]", options: ["as-needed", { requireForBlockBody: true }] },
+    { code: "(a, b) => {}", options: ["as-needed", { requireForBlockBody: true }] },
+    { code: "a => ({})", options: ["as-needed", { requireForBlockBody: true }] },
+    { code: "async a => ({})", options: ["as-needed", { requireForBlockBody: true }], parserOptions: { ecmaVersion: 8 } },
+    { code: "async a => a", options: ["as-needed", { requireForBlockBody: true }], parserOptions: { ecmaVersion: 8 } },
+    { code: "(a: T) => a", options: ["as-needed", { requireForBlockBody: true }], parser: parser("identifer-type") },
+    { code: "(a): T => a", options: ["as-needed", { requireForBlockBody: true }], parser: parser("return-type") },
 ];
 
 const message = "Expected parentheses around arrow function argument.";
@@ -193,7 +193,7 @@ const invalid = [
     {
         code: "a => {}",
         output: "(a) => {}",
-        options: ["as-needed", {requireForBlockBody: true}],
+        options: ["as-needed", { requireForBlockBody: true }],
         errors: [{
             line: 1,
             column: 1,
@@ -204,7 +204,7 @@ const invalid = [
     {
         code: "(a) => a",
         output: "a => a",
-        options: ["as-needed", {requireForBlockBody: true}],
+        options: ["as-needed", { requireForBlockBody: true }],
         errors: [{
             line: 1,
             column: 1,
@@ -215,7 +215,7 @@ const invalid = [
     {
         code: "async a => {}",
         output: "async (a) => {}",
-        options: ["as-needed", {requireForBlockBody: true}],
+        options: ["as-needed", { requireForBlockBody: true }],
         parserOptions: { ecmaVersion: 8 },
         errors: [{
             line: 1,
@@ -227,7 +227,7 @@ const invalid = [
     {
         code: "async (a) => a",
         output: "async a => a",
-        options: ["as-needed", {requireForBlockBody: true}],
+        options: ["as-needed", { requireForBlockBody: true }],
         parserOptions: { ecmaVersion: 8 },
         errors: [{
             line: 1,

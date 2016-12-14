@@ -42,13 +42,13 @@ ruleTester.run("no-useless-concat", rule, {
         {
             code: "'a' + 'b'",
             errors: [
-                { message: "Unexpected string concatenation of literals."}
+                { message: "Unexpected string concatenation of literals." }
             ]
         },
         {
             code: "foo + 'a' + 'b'",
             errors: [
-                { message: "Unexpected string concatenation of literals."}
+                { message: "Unexpected string concatenation of literals." }
             ]
         },
         {
@@ -69,29 +69,29 @@ ruleTester.run("no-useless-concat", rule, {
         {
             code: "(foo + 'a') + ('b' + 'c')",
             errors: [
-                { column: 13, message: "Unexpected string concatenation of literals."},
-                { column: 20, message: "Unexpected string concatenation of literals."}
+                { column: 13, message: "Unexpected string concatenation of literals." },
+                { column: 20, message: "Unexpected string concatenation of literals." }
             ]
         },
         {
             code: "`a` + 'b'",
             parserOptions: { ecmaVersion: 6 },
             errors: [
-                { message: "Unexpected string concatenation of literals."}
+                { message: "Unexpected string concatenation of literals." }
             ]
         },
         {
             code: "`a` + `b`",
             parserOptions: { ecmaVersion: 6 },
             errors: [
-                { message: "Unexpected string concatenation of literals."}
+                { message: "Unexpected string concatenation of literals." }
             ]
         },
         {
             code: "foo + `a` + `b`",
             parserOptions: { ecmaVersion: 6 },
             errors: [
-                { message: "Unexpected string concatenation of literals."}
+                { message: "Unexpected string concatenation of literals." }
             ]
         }
     ]

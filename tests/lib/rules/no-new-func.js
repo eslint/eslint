@@ -24,7 +24,7 @@ ruleTester.run("no-new-func", rule, {
         "var a = _function(\"b\", \"c\", \"return b+c\");"
     ],
     invalid: [
-        { code: "var a = new Function(\"b\", \"c\", \"return b+c\");", errors: [{ message: "The Function constructor is eval.", type: "NewExpression"}] },
-        { code: "var a = Function(\"b\", \"c\", \"return b+c\");", errors: [{ message: "The Function constructor is eval.", type: "CallExpression"}] }
+        { code: "var a = new Function(\"b\", \"c\", \"return b+c\");", errors: [{ message: "The Function constructor is eval.", type: "NewExpression" }] },
+        { code: "var a = Function(\"b\", \"c\", \"return b+c\");", errors: [{ message: "The Function constructor is eval.", type: "CallExpression" }] }
     ]
 });

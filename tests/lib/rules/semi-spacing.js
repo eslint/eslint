@@ -54,8 +54,8 @@ ruleTester.run("semi-spacing", rule, {
         // https://github.com/eslint/eslint/issues/3721
         "function foo(){return 2;}",
         "for(var i = 0; i < results.length;) {}",
-        {code: "function foo() { return 2; }", options: [{after: false}]},
-        {code: "for ( var i = 0;i < results.length; ) {}", options: [{after: false}]}
+        { code: "function foo() { return 2; }", options: [{ after: false }] },
+        { code: "for ( var i = 0;i < results.length; ) {}", options: [{ after: false }] }
     ],
     invalid: [
         {
