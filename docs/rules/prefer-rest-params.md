@@ -19,6 +19,11 @@ function foo() {
 }
 
 function foo(action) {
+    var args = Array.prototype.slice.call(arguments, 1);
+    action.apply(null, args);
+}
+
+function foo(action) {
     var args = [].slice.call(arguments, 1);
     action.apply(null, args);
 }
