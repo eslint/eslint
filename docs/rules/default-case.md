@@ -39,7 +39,7 @@ Once again, the intent here is to show that the developer intended for there to 
 
 ## Rule Details
 
-This rule aims to require `default` case in `switch` statements. You may optionally include a `// no default` after the last `case` if there is no `default` case.
+This rule aims to require `default` case in `switch` statements. You may optionally include a `// no default` after the last `case` if there is no `default` case. The comment may be in any desired case, such as `// No Default`.
 
 Examples of **incorrect** code for this rule:
 
@@ -78,13 +78,20 @@ switch (a) {
     // no default
 }
 
+switch (a) {
+    case 1:
+        /* code */
+        break;
+
+    // No Default
+}
 ```
 
 ## Options
 
 This rule accepts a single options argument:
 
-* Set the `commentPattern` option to a regular expression string to change the default `^no default$` comment test pattern
+* Set the `commentPattern` option to a regular expression string to change the default `/^no default$/i` comment test pattern
 
 ### commentPattern
 
