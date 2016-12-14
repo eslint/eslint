@@ -23,11 +23,30 @@ var [ foo ] = array;
 
 // With `object` enabled
 var { foo } = object;
+var foo = object.bar
 ```
 
 ### Options
 
-This rule takes two properties, `array` and `object`, which can be used to turn on or off the destructuring requirement for each of those types independently.  By default, both are `true`.  If you want to change the behavior, you can configure the rule like so:
+This rule takes two sets of configuration objects; the first controls the types that the rule is applied to, and the second controls the way those objects are evaluated.
+
+The first has two properties, `array` and `object`, which can be used to turn on or off the destructuring requirement for each of those types independently.  By default, both are `true`.
+
+The second has a single property, `enforceForRenamedProperties`, that controls whether or not the `object` destructuring rules are applied in cases where the variable requires the property being access to be renamed.
+
+Examples of **incorrect** code when `enforceForRenamedProperties` is enabled:
+
+```javascript
+var foo = object.bar;
+```
+
+Examples of **correct** code when `enforceForRenamedProperties` is enabled:
+
+```javascript
+var { bar: foo } = object;
+```
+
+An example configuration, with the defaults filled in, looks like this:
 
 ```json
 {
@@ -35,6 +54,8 @@ This rule takes two properties, `array` and `object`, which can be used to turn 
     "prefer-destructuring": ["error", {
       "array": true,
       "object": true
+    }, {
+      "enforceForRenamedProperties": false
     }]
   }
 }

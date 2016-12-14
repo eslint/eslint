@@ -32,20 +32,30 @@ ruleTester.run("prefer-destructuring", rule, {
             code: "var foo;"
         },
         {
+
+            // Ensure that the default behavior does not require desturcturing when renaming
             code: "var foo = object.bar;",
-            options: [{ object: true }, { requireRenaming: false }]
+            options: [{ object: true }]
+        },
+        {
+            code: "var foo = object.bar;",
+            options: [{ object: true }, { enforceForRenamedProperties: false }]
         },
         {
             code: "var foo = object['bar'];",
-            options: [{ object: true }, { requireRenaming: false }]
-        },
-        {
-            code: "var { bar: foo } = object;",
-            options: [{ object: true }, { requireRenaming: true }]
+            options: [{ object: true }, { enforceForRenamedProperties: false }]
         },
         {
             code: "var foo = object[bar];",
-            options: [{ object: true }, { requireRenaming: true }]
+            options: [{ object: true }, { enforceForRenamedProperties: false }]
+        },
+        {
+            code: "var { bar: foo } = object;",
+            options: [{ object: true }, { enforceForRenamedProperties: true }]
+        },
+        {
+            code: "var { [bar]: foo } = object;",
+            options: [{ object: true }, { enforceForRenamedProperties: true }]
         },
         {
             code: "var foo = array[0];",
@@ -83,15 +93,23 @@ ruleTester.run("prefer-destructuring", rule, {
             }]
         },
         {
-            code: "var foo = array.foo;",
+            code: "var foo = object.foo;",
             errors: [{
                 message: "Use object destructuring",
                 type: "VariableDeclarator"
             }]
         },
         {
-            code: "var foo = array.bar;",
-            options: [{ object: true }, { requireRenaming: true }],
+            code: "var foobar = object.bar;",
+            options: [{ object: true }, { enforceForRenamedProperties: true }],
+            errors: [{
+                message: "Use object destructuring",
+                type: "VariableDeclarator"
+            }]
+        },
+        {
+            code: "var foo = object[bar];",
+            options: [{ object: true }, { enforceForRenamedProperties: true }],
             errors: [{
                 message: "Use object destructuring",
                 type: "VariableDeclarator"
