@@ -1907,6 +1907,13 @@ ruleTester.run("indent", rule, {
             "\t);\n" +
             "}",
             options: ["tab"]
+        },
+        {
+            code:
+            "echo = spawn('cmd.exe',\n" +
+            "             ['foo', 'bar',\n" +
+            "              'baz']);",
+            options: [2, {ArrayExpression: "first", CallExpression: {arguments: "first"}}]
         }
     ],
     invalid: [
@@ -3849,6 +3856,18 @@ ruleTester.run("indent", rule, {
             "}",
             options: [2, {ArrayExpression: 4}],
             errors: expectedErrors([2, 2, 4, "ExpressionStatement"])
+        },
+        {
+            code:
+            "echo = spawn('cmd.exe',\n" +
+            "            ['foo', 'bar',\n" +
+            "             'baz']);",
+            output:
+            "echo = spawn('cmd.exe',\n" +
+            "             ['foo', 'bar',\n" +
+            "             'baz']);",
+            options: [2, {ArrayExpression: "first", CallExpression: {arguments: "first"}}],
+            errors: expectedErrors([2, 13, 12, "ArrayExpression"])
         },
     ]
 });
