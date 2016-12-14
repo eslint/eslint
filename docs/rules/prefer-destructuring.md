@@ -23,7 +23,7 @@ var [ foo ] = array;
 
 // With `object` enabled
 var { foo } = object;
-var foo = object.bar
+var foo = object.bar;
 ```
 
 ### Options
