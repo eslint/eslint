@@ -1,3 +1,9 @@
+v3.12.2 - December 14, 2016
+
+* dec3ec6 Fix: indent bug with AssignmentExpressions (fixes #7747) (#7750) (Teddy Katz)
+* 5344751 Build: Don't create blogpost links from rule names within other words (#7754) (Teddy Katz)
+* 639b798 Docs: Use `Object.prototype` in examples (#7755) (Alex Reardon)
+
 v3.12.1 - December 12, 2016
 
 * 0ad4d33 Fix: `indent` regression with function calls (fixes #7732, fixes #7733) (#7734) (Teddy Katz)
