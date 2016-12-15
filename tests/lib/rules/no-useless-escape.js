@@ -30,7 +30,6 @@ ruleTester.run("no-useless-escape", rule, {
         "var foo = /\\\\/g",
         "var foo = /\\w\\$\\*\\./",
         "var foo = /\\^\\+\\./",
-        "var foo = /\\|\\}\\{\\./",
         "var foo = /]\\[\\(\\)\\//",
         "var foo = \"\\x123\"",
         "var foo = \"\\u00a9\"",
@@ -105,7 +104,25 @@ ruleTester.run("no-useless-escape", rule, {
         "var foo = /[\\0]/", // null character in character class
 
         "var foo = 'foo \\\u2028 bar'",
-        "var foo = 'foo \\\u2029 bar'"
+        "var foo = 'foo \\\u2029 bar'",
+
+        String.raw`/\{1}/`,
+        String.raw`/{1\}/`,
+        String.raw`/a\{1}/`,
+        String.raw`/a{1\}/`,
+        String.raw`/a\{1}/`,
+        String.raw`/a{1\}/`,
+        String.raw`/a\{1234}/`,
+        String.raw`/a{1234\}/`,
+        String.raw`/a\{1,}/`,
+        String.raw`/a{1,\}/`,
+        String.raw`/a\{1234,}/`,
+        String.raw`/a{1234,\}/`,
+        String.raw`/a\{1,2}/`,
+        String.raw`/a{1,2\}/`,
+        String.raw`/a{1234,2\}/`,
+        String.raw`/a{1,1234\}/`,
+        String.raw`/\\{a}/`,
     ],
 
     invalid: [
@@ -273,6 +290,143 @@ ruleTester.run("no-useless-escape", rule, {
             code: "`multiline template\nliteral with useless \\escape`",
             parserOptions: { ecmaVersion: 6 },
             errors: [{ line: 2, column: 22, message: "Unnecessary escape character: \\e.", type: "TemplateElement" }]
+        },
+        {
+            code: String.raw`/\{/`,
+            errors: [{ line: 1, column: 2, message: "Unnecessary escape character: \\{.", type: "Literal" }]
+        },
+        {
+            code: String.raw`/\{a}/`,
+            errors: [{ line: 1, column: 2, message: "Unnecessary escape character: \\{.", type: "Literal" }]
+        },
+        {
+            code: String.raw`/{a\}/`,
+            errors: [{ line: 1, column: 4, message: "Unnecessary escape character: \\}.", type: "Literal" }]
+        },
+        {
+            code: String.raw`/a\{1 }/`,
+            errors: [{ line: 1, column: 3, message: "Unnecessary escape character: \\{.", type: "Literal" }]
+        },
+        {
+            code: String.raw`/a\{ 1}/`,
+            errors: [{ line: 1, column: 3, message: "Unnecessary escape character: \\{.", type: "Literal" }]
+        },
+        {
+            code: String.raw`/a\{1, }/`,
+            errors: [{ line: 1, column: 3, message: "Unnecessary escape character: \\{.", type: "Literal" }]
+        },
+        {
+            code: String.raw`/a\{1, 2}/`,
+            errors: [{ line: 1, column: 3, message: "Unnecessary escape character: \\{.", type: "Literal" }]
+        },
+        {
+            code: String.raw`/a\{a}/`,
+            errors: [{ line: 1, column: 3, message: "Unnecessary escape character: \\{.", type: "Literal" }]
+        },
+        {
+            code: String.raw`/a{a\}/`,
+            errors: [{ line: 1, column: 5, message: "Unnecessary escape character: \\}.", type: "Literal" }]
+        },
+        {
+            code: String.raw`/[a\{1}]/`,
+            errors: [{ line: 1, column: 4, message: "Unnecessary escape character: \\{.", type: "Literal" }]
+        },
+        {
+            code: String.raw`/[a{1\}]/`,
+            errors: [{ line: 1, column: 6, message: "Unnecessary escape character: \\}.", type: "Literal" }]
+        },
+        {
+            code: String.raw`/a\{1,a}/`,
+            errors: [{ line: 1, column: 3, message: "Unnecessary escape character: \\{.", type: "Literal" }]
+        },
+        {
+            code: String.raw`/a{1,a\}/`,
+            errors: [{ line: 1, column: 7, message: "Unnecessary escape character: \\}.", type: "Literal" }]
+        },
+        {
+            code: String.raw`/a\{1a,}/`,
+            errors: [{ line: 1, column: 3, message: "Unnecessary escape character: \\{.", type: "Literal" }]
+        },
+        {
+            code: String.raw`/a{1a,\}/`,
+            errors: [{ line: 1, column: 7, message: "Unnecessary escape character: \\}.", type: "Literal" }]
+        },
+        {
+            code: String.raw`/a\{1a,1}/`,
+            errors: [{ line: 1, column: 3, message: "Unnecessary escape character: \\{.", type: "Literal" }]
+        },
+        {
+            code: String.raw`/a\{1,2,}/`,
+            errors: [{ line: 1, column: 3, message: "Unnecessary escape character: \\{.", type: "Literal" }]
+        },
+        {
+            code: String.raw`/a\{1,2,}/`,
+            errors: [{ line: 1, column: 3, message: "Unnecessary escape character: \\{.", type: "Literal" }]
+        },
+        {
+            code: String.raw`/a{1,2,\}/`,
+            errors: [{ line: 1, column: 8, message: "Unnecessary escape character: \\}.", type: "Literal" }]
+        },
+        {
+            code: String.raw`/[a\{1]}/`,
+            errors: [{ line: 1, column: 4, message: "Unnecessary escape character: \\{.", type: "Literal" }]
+        },
+        {
+            code: String.raw`/[a{1]\}/`,
+            errors: [{ line: 1, column: 7, message: "Unnecessary escape character: \\}.", type: "Literal" }]
+        },
+        {
+            code: String.raw`/a[\{1]}/`,
+            errors: [{ line: 1, column: 4, message: "Unnecessary escape character: \\{.", type: "Literal" }]
+        },
+        {
+            code: String.raw`/a{1[\}]/`,
+            errors: [{ line: 1, column: 6, message: "Unnecessary escape character: \\}.", type: "Literal" }]
+        },
+        {
+            code: String.raw`/a{1[]\}/`,
+            errors: [{ line: 1, column: 7, message: "Unnecessary escape character: \\}.", type: "Literal" }]
+        },
+        {
+            code: String.raw`/a\{[1]}/`,
+            errors: [{ line: 1, column: 3, message: "Unnecessary escape character: \\{.", type: "Literal" }]
+        },
+        {
+            code: String.raw`/a{[1]\}/`,
+            errors: [{ line: 1, column: 7, message: "Unnecessary escape character: \\}.", type: "Literal" }]
+        },
+        {
+            code: String.raw`/a\{1[],}/`,
+            errors: [{ line: 1, column: 3, message: "Unnecessary escape character: \\{.", type: "Literal" }]
+        },
+        {
+            code: String.raw`/a\{1[],}/`,
+            errors: [{ line: 1, column: 3, message: "Unnecessary escape character: \\{.", type: "Literal" }]
+        },
+
+        // If a regex has two violations, but their fixes would be mutually exclusive, only report the second violation.
+        {
+            code: String.raw`/a\{1\}/`,
+            errors: [{ line: 1, column: 6, message: "Unnecessary escape character: \\}.", type: "Literal" }]
+        },
+        {
+            code: String.raw`/a\{1,\}/`,
+            errors: [{ line: 1, column: 7, message: "Unnecessary escape character: \\}.", type: "Literal" }]
+        },
+        {
+            code: String.raw`/a\{1,2\}/`,
+            errors: [{ line: 1, column: 8, message: "Unnecessary escape character: \\}.", type: "Literal" }]
+        },
+        {
+            code: String.raw`/a\\\{1,2\}/`,
+            errors: [{ line: 1, column: 10, message: "Unnecessary escape character: \\}.", type: "Literal" }]
+        },
+        {
+            code: String.raw`/\|\}\{\./`,
+            errors: [
+                { line: 1, column: 4, message: "Unnecessary escape character: \\}.", type: "Literal" },
+                { line: 1, column: 6, message: "Unnecessary escape character: \\{.", type: "Literal" }
+            ]
         }
     ]
 });
