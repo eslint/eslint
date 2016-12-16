@@ -272,43 +272,43 @@ ruleTester.run("object-shorthand", rule, {
         // avoidLongformArrows
         {
             code: "({ x: () => foo })",
-            options: ["always", { allowExplicitReturnArrows: true }]
+            options: ["always", { avoidExplicitReturnArrows: false }]
         },
         {
             code: "({ x: () => { return; } })",
-            options: ["always", { allowExplicitReturnArrows: true }]
+            options: ["always", { avoidExplicitReturnArrows: false }]
         },
         {
             code: "({ x: () => foo })",
-            options: ["always", { allowExplicitReturnArrows: false }]
+            options: ["always", { avoidExplicitReturnArrows: true }]
         },
         {
             code: "({ x() { return; } })",
-            options: ["always", { allowExplicitReturnArrows: false }]
+            options: ["always", { avoidExplicitReturnArrows: true }]
         },
         {
             code: "({ x() { return; }, y() { return; } })",
-            options: ["always", { allowExplicitReturnArrows: false }]
+            options: ["always", { avoidExplicitReturnArrows: true }]
         },
         {
             code: "({ x() { return; }, y: () => foo })",
-            options: ["always", { allowExplicitReturnArrows: false }]
+            options: ["always", { avoidExplicitReturnArrows: true }]
         },
         {
             code: "({ x: () => foo, y() { return; } })",
-            options: ["always", { allowExplicitReturnArrows: false }]
+            options: ["always", { avoidExplicitReturnArrows: true }]
         },
         {
             code: "({ x: () => { this; } })",
-            options: ["always", { allowExplicitReturnArrows: false }]
+            options: ["always", { avoidExplicitReturnArrows: true }]
         },
         {
             code: "function foo() { ({ x: () => { arguments; } }) }",
-            options: ["always", { allowExplicitReturnArrows: false }]
+            options: ["always", { avoidExplicitReturnArrows: true }]
         },
         {
             code: "function foo() { ({ x: () => { arguments; } }) }",
-            options: ["always", { allowExplicitReturnArrows: false }]
+            options: ["always", { avoidExplicitReturnArrows: true }]
         },
         {
             code: `
@@ -318,7 +318,7 @@ ruleTester.run("object-shorthand", rule, {
                   }
               }
             `,
-            options: ["always", { allowExplicitReturnArrows: false }]
+            options: ["always", { avoidExplicitReturnArrows: true }]
         },
         {
             code: `
@@ -328,7 +328,7 @@ ruleTester.run("object-shorthand", rule, {
                     }
                 }
             `,
-            options: ["always", { allowExplicitReturnArrows: false }]
+            options: ["always", { avoidExplicitReturnArrows: true }]
         },
         {
             code: `
@@ -336,7 +336,7 @@ ruleTester.run("object-shorthand", rule, {
                     var x = { x: () => { new.target; } };
                 }
             `,
-            options: ["always", { allowExplicitReturnArrows: false }]
+            options: ["always", { avoidExplicitReturnArrows: true }]
         },
         {
             code: `
@@ -348,7 +348,7 @@ ruleTester.run("object-shorthand", rule, {
                     };
                 }
             `,
-            options: ["always", { allowExplicitReturnArrows: false }]
+            options: ["always", { avoidExplicitReturnArrows: true }]
         },
         {
             code: `
@@ -361,7 +361,7 @@ ruleTester.run("object-shorthand", rule, {
                     };
                 }
             `,
-            options: ["always", { allowExplicitReturnArrows: false }]
+            options: ["always", { avoidExplicitReturnArrows: true }]
         },
         {
             code: `
@@ -373,7 +373,7 @@ ruleTester.run("object-shorthand", rule, {
                     };
                 }
             `,
-            options: ["always", { allowExplicitReturnArrows: false }]
+            options: ["always", { avoidExplicitReturnArrows: true }]
         }
     ],
     invalid: [
@@ -787,61 +787,61 @@ ruleTester.run("object-shorthand", rule, {
         {
             code: "({ x: () => { return; } })",
             output: "({ x() { return; } })",
-            options: ["always", { allowExplicitReturnArrows: false }],
+            options: ["always", { avoidExplicitReturnArrows: true }],
             errors: [METHOD_ERROR]
         },
         {
             code: "({ x() { return; }, y: () => { return; } })",
             output: "({ x() { return; }, y() { return; } })",
-            options: ["always", { allowExplicitReturnArrows: false }],
+            options: ["always", { avoidExplicitReturnArrows: true }],
             errors: [METHOD_ERROR]
         },
         {
             code: "({ x: () => { return; }, y: () => foo })",
             output: "({ x() { return; }, y: () => foo })",
-            options: ["always", { allowExplicitReturnArrows: false }],
+            options: ["always", { avoidExplicitReturnArrows: true }],
             errors: [METHOD_ERROR]
         },
         {
             code: "({ x: () => { return; }, y: () => { return; } })",
             output: "({ x() { return; }, y() { return; } })",
-            options: ["always", { allowExplicitReturnArrows: false }],
+            options: ["always", { avoidExplicitReturnArrows: true }],
             errors: [METHOD_ERROR, METHOD_ERROR]
         },
         {
             code: "({ x: foo => { return; } })",
             output: "({ x(foo) { return; } })",
-            options: ["always", { allowExplicitReturnArrows: false }],
+            options: ["always", { avoidExplicitReturnArrows: true }],
             errors: [METHOD_ERROR]
         },
         {
             code: "({ x: (foo = 1) => { return; } })",
             output: "({ x(foo = 1) { return; } })",
-            options: ["always", { allowExplicitReturnArrows: false }],
+            options: ["always", { avoidExplicitReturnArrows: true }],
             errors: [METHOD_ERROR]
         },
         {
             code: "({ x: ({ foo: bar = 1 } = {}) => { return; } })",
             output: "({ x({ foo: bar = 1 } = {}) { return; } })",
-            options: ["always", { allowExplicitReturnArrows: false }],
+            options: ["always", { avoidExplicitReturnArrows: true }],
             errors: [METHOD_ERROR]
         },
         {
             code: "({ x: () => { function foo() { this; } } })",
             output: "({ x() { function foo() { this; } } })",
-            options: ["always", { allowExplicitReturnArrows: false }],
+            options: ["always", { avoidExplicitReturnArrows: true }],
             errors: [METHOD_ERROR]
         },
         {
             code: "({ x: () => { var foo = function() { arguments; } } })",
             output: "({ x() { var foo = function() { arguments; } } })",
-            options: ["always", { allowExplicitReturnArrows: false }],
+            options: ["always", { avoidExplicitReturnArrows: true }],
             errors: [METHOD_ERROR]
         },
         {
             code: "({ x: () => { function foo() { arguments; } } })",
             output: "({ x() { function foo() { arguments; } } })",
-            options: ["always", { allowExplicitReturnArrows: false }],
+            options: ["always", { avoidExplicitReturnArrows: true }],
             errors: [METHOD_ERROR]
         },
         {
@@ -867,7 +867,7 @@ ruleTester.run("object-shorthand", rule, {
                     }
                 })
             `,
-            options: ["always", { allowExplicitReturnArrows: false }],
+            options: ["always", { avoidExplicitReturnArrows: true }],
             errors: [METHOD_ERROR]
         },
         {
@@ -889,32 +889,32 @@ ruleTester.run("object-shorthand", rule, {
                     }
                 })
             `,
-            options: ["always", { allowExplicitReturnArrows: false }],
+            options: ["always", { avoidExplicitReturnArrows: true }],
             errors: [METHOD_ERROR]
         },
         {
             code: "({ 'foo bar': () => { return; } })",
             output: "({ 'foo bar'() { return; } })",
-            options: ["always", { allowExplicitReturnArrows: false }],
+            options: ["always", { avoidExplicitReturnArrows: true }],
             errors: [METHOD_ERROR]
         },
         {
             code: "({ [foo]: () => { return; } })",
             output: "({ [foo]() { return; } })",
-            options: ["always", { allowExplicitReturnArrows: false }],
+            options: ["always", { avoidExplicitReturnArrows: true }],
             errors: [METHOD_ERROR]
         },
         {
             code: "({ a: 1, foo: async (bar = 1) => { return; } })",
             output: "({ a: 1, async foo(bar = 1) { return; } })",
-            options: ["always", { allowExplicitReturnArrows: false }],
+            options: ["always", { avoidExplicitReturnArrows: true }],
             parserOptions: { ecmaVersion: 8 },
             errors: [METHOD_ERROR]
         },
         {
             code: "({ [ foo ]: async bar => { return; } })",
             output: "({ async [ foo ](bar) { return; } })",
-            options: ["always", { allowExplicitReturnArrows: false }],
+            options: ["always", { avoidExplicitReturnArrows: true }],
             parserOptions: { ecmaVersion: 8 },
             errors: [METHOD_ERROR]
         },
@@ -939,7 +939,7 @@ ruleTester.run("object-shorthand", rule, {
                     };
                 }
             `,
-            options: ["always", { allowExplicitReturnArrows: false }],
+            options: ["always", { avoidExplicitReturnArrows: true }],
             errors: [METHOD_ERROR]
         },
         {
@@ -963,7 +963,7 @@ ruleTester.run("object-shorthand", rule, {
                     };
                 }
             `,
-            options: ["always", { allowExplicitReturnArrows: false }],
+            options: ["always", { avoidExplicitReturnArrows: true }],
             errors: [METHOD_ERROR]
         }
     ]
