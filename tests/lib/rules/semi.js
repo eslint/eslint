@@ -92,8 +92,11 @@ ruleTester.run("semi", rule, {
         { code: "export default foo = 42", options: ["never"], parserOptions: { sourceType: "module" } },
         { code: "export default foo += 42", options: ["never"], parserOptions: { sourceType: "module" } },
         { code: "++\nfoo;", options: ["always"] },
-        { code: "var a = b;\n+ c", options: ["never"] }
+        { code: "var a = b;\n+ c", options: ["never"] },
 
+        // https://github.com/eslint/eslint/issues/7782
+        { code: "var a = b;\n/foo/.test(c)", options: ["never"] },
+        { code: "var a = b;\n`foo`", options: ["never"], parserOptions: { ecmaVersion: 6 } }
     ],
     invalid: [
         { code: "import * as utils from './utils'", output: "import * as utils from './utils';", parserOptions: { sourceType: "module" }, errors: [{ message: "Missing semicolon.", type: "ImportDeclaration", column: 33 }] },
