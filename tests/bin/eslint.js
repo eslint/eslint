@@ -142,6 +142,111 @@ describe("bin/eslint.js", () => {
         });
     });
 
+    describe("cache files", () => {
+        const CACHE_PATH = ".temp-eslintcache";
+        const SOURCE_PATH = "tests/fixtures/cache/src/test-file.js";
+        const ARGS_WITHOUT_CACHE = ["--no-eslintrc", "--no-ignore", SOURCE_PATH, "--cache-location", CACHE_PATH];
+        const ARGS_WITH_CACHE = ARGS_WITHOUT_CACHE.concat("--cache");
+
+        describe("when no cache file exists", () => {
+            it("creates a cache file when the --cache flag is used", () => {
+                const child = runESLint(ARGS_WITH_CACHE);
+
+                return assertExitCode(child, 0).then(() => {
+                    assert.isTrue(fs.existsSync(CACHE_PATH), "Cache file should exist at the given location");
+
+                    assert.doesNotThrow(
+                      () => JSON.parse(fs.readFileSync(CACHE_PATH, "utf8")),
+                      SyntaxError,
+                      "Cache file should contain valid JSON"
+                    );
+                });
+            });
+        });
+
+        describe("when a valid cache file already exists", () => {
+            beforeEach(() => {
+                const child = runESLint(ARGS_WITH_CACHE);
+
+                return assertExitCode(child, 0).then(() => {
+                    assert.isTrue(fs.existsSync(CACHE_PATH), "Cache file should exist at the given location");
+                });
+            });
+            it("can lint with an existing cache file and the --cache flag", () => {
+                const child = runESLint(ARGS_WITH_CACHE);
+
+                return assertExitCode(child, 0).then(() => {
+
+                    // Note: This doesn't actually verify that the cache file is used for anything.
+                    assert.isTrue(fs.existsSync(CACHE_PATH), "Cache file should still exist after linting with --cache");
+                });
+            });
+            it("updates the cache file when the source file is modified", () => {
+                const initialCacheContent = fs.readFileSync(CACHE_PATH, "utf8");
+
+                // Update the file to change its mtime
+                fs.writeFileSync(SOURCE_PATH, fs.readFileSync(SOURCE_PATH, "utf8"));
+
+                const child = runESLint(ARGS_WITH_CACHE);
+
+                return assertExitCode(child, 0).then(() => {
+                    const newCacheContent = fs.readFileSync(CACHE_PATH, "utf8");
+
+                    assert.notStrictEqual(initialCacheContent, newCacheContent, "Cache file should change after source is modified");
+                });
+            });
+            it("deletes the cache file when run without the --cache argument", () => {
+                const child = runESLint(ARGS_WITHOUT_CACHE);
+
+                return assertExitCode(child, 0).then(() => {
+                    assert.isFalse(fs.existsSync(CACHE_PATH), "Cache file should be deleted after running ESLint without the --cache argument");
+                });
+            });
+        });
+
+        // https://github.com/eslint/eslint/issues/7748
+        describe("when an invalid cache file already exists", () => {
+            beforeEach(() => {
+                fs.writeFileSync(CACHE_PATH, "This is not valid JSON.");
+
+                // Sanity check
+                assert.throws(
+                    () => JSON.parse(fs.readFileSync(CACHE_PATH, "utf8")),
+                    SyntaxError,
+                    /Unexpected token/,
+                    "Cache file should not contain valid JSON at the start"
+                );
+            });
+
+            it("overwrites the invalid cache file with a valid one when the --cache argument is used", () => {
+                const child = runESLint(ARGS_WITH_CACHE);
+
+                return assertExitCode(child, 0).then(() => {
+                    assert.isTrue(fs.existsSync(CACHE_PATH), "Cache file should exist at the given location");
+                    assert.doesNotThrow(
+                      () => JSON.parse(fs.readFileSync(CACHE_PATH, "utf8")),
+                      SyntaxError,
+                      "Cache file should contain valid JSON"
+                    );
+                });
+            });
+
+            it("deletes the invalid cache file when the --cache argument is not used", () => {
+                const child = runESLint(ARGS_WITHOUT_CACHE);
+
+                return assertExitCode(child, 0).then(() => {
+                    assert.isFalse(fs.existsSync(CACHE_PATH), "Cache file should be deleted after running ESLint without the --cache argument");
+                });
+            });
+        });
+
+        afterEach(() => {
+            if (fs.existsSync(CACHE_PATH)) {
+                fs.unlinkSync(CACHE_PATH);
+            }
+        });
+    });
+
     afterEach(() => {
 
         // Clean up all the processes after every test.
