@@ -203,11 +203,6 @@ ruleTester.run("func-call-spacing", rule, {
             output: "f(a, b);"
         },
         {
-            code: "f\n();",
-            errors: [{ message: "Unexpected space between function name and paren.", type: "CallExpression" }],
-            output: "f();"
-        },
-        {
             code: "f.b ();",
             errors: [{ message: "Unexpected space between function name and paren.", type: "CallExpression", column: 3 }],
             output: "f.b();"
@@ -270,12 +265,6 @@ ruleTester.run("func-call-spacing", rule, {
             output: "f(a, b);"
         },
         {
-            code: "f\n();",
-            options: ["never"],
-            errors: [{ message: "Unexpected space between function name and paren.", type: "CallExpression" }],
-            output: "f();"
-        },
-        {
             code: "f.b ();",
             options: ["never"],
             errors: [{ message: "Unexpected space between function name and paren.", type: "CallExpression", column: 3 }],
@@ -331,6 +320,78 @@ ruleTester.run("func-call-spacing", rule, {
                 { message: "Unexpected space between function name and paren.", type: "CallExpression" }
             ],
             output: "f();\n t();"
+        },
+
+        // https://github.com/eslint/eslint/issues/7787
+        {
+            code: "f\n();",
+            options: ["never"],
+            errors: [
+                {
+                    message: "Unexpected space between function name and paren.",
+                    type: "CallExpression"
+                }
+            ],
+            output: "f\n();" // no change
+        },
+        {
+            code: [
+                "this.cancelled.add(request)",
+                "this.decrement(request)",
+                "(0, request.reject)(new api.Cancel())"
+            ].join("\n"),
+            options: ["never"],
+            errors: [
+                {
+                    message: "Unexpected space between function name and paren.",
+                    type: "CallExpression",
+                    line: 2,
+                    column: 23
+                }
+            ],
+            output: [
+                "this.cancelled.add(request)",
+                "this.decrement(request)",
+                "(0, request.reject)(new api.Cancel())"
+            ].join("\n") // no change
+        },
+        {
+            code: [
+                "var a = foo",
+                "(function(global) {}(this));"
+            ].join("\n"),
+            options: ["never"],
+            errors: [
+                {
+                    message: "Unexpected space between function name and paren.",
+                    type: "CallExpression",
+                    line: 1,
+                    column: 9
+                }
+            ],
+            output: [
+                "var a = foo",
+                "(function(global) {}(this));"
+            ].join("\n") // no change
+        },
+        {
+            code: [
+                "var a = foo",
+                "(0, baz())"
+            ].join("\n"),
+            options: ["never"],
+            errors: [
+                {
+                    message: "Unexpected space between function name and paren.",
+                    type: "CallExpression",
+                    line: 1,
+                    column: 9
+                }
+            ],
+            output: [
+                "var a = foo",
+                "(0, baz())"
+            ].join("\n") // no change
         },
 
         // "always"
