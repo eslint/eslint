@@ -499,7 +499,7 @@ describe("ConfigFile", () => {
             });
         });
 
-        it("should load fresh information from a package.json file", () => {
+        it("should load fresh information from eslintConfig property a package.json file", () => {
             const initialConfig = {
                     eslintConfig: {
                         parserOptions: {},
@@ -528,6 +528,37 @@ describe("ConfigFile", () => {
             writeTempConfigFile(updatedConfig, tmpFilename, path.dirname(tmpFilePath));
             config = ConfigFile.load(tmpFilePath);
             assert.deepEqual(config, updatedConfig.eslintConfig);
+        });
+
+        it("should load fresh information from eslint property a package.json file", () => {
+            const initialConfig = {
+                    eslint: {
+                        parserOptions: {},
+                        env: {},
+                        globals: {},
+                        rules: {
+                            quotes: [2, "double"]
+                        }
+                    }
+                },
+                updatedConfig = {
+                    eslint: {
+                        parserOptions: {},
+                        env: {},
+                        globals: {},
+                        rules: {
+                            quotes: 0
+                        }
+                    }
+                },
+                tmpFilename = "package.json",
+                tmpFilePath = writeTempConfigFile(initialConfig, tmpFilename);
+            let config = ConfigFile.load(tmpFilePath);
+
+            assert.deepEqual(config, initialConfig.eslint);
+            writeTempConfigFile(updatedConfig, tmpFilename, path.dirname(tmpFilePath));
+            config = ConfigFile.load(tmpFilePath);
+            assert.deepEqual(config, updatedConfig.eslint);
         });
 
         it("should load fresh information from a .eslintrc.js file", () => {
