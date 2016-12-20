@@ -25,14 +25,14 @@ ruleTester.run("quote-props", rule, {
         "({ 'if': 0 })",
         "({ '@': 0 })",
 
-        { code: "({ 'a': 0, b(){} })", parserOptions: { ecmaVersion: 6 }},
-        { code: "({ [x]: 0 });", env: {es6: true}},
-        { code: "({ x });", env: {es6: true}},
+        { code: "({ 'a': 0, b(){} })", parserOptions: { ecmaVersion: 6 } },
+        { code: "({ [x]: 0 });", env: { es6: true } },
+        { code: "({ x });", env: { es6: true } },
         { code: "({ a: 0, b(){} })", options: ["as-needed"], parserOptions: { ecmaVersion: 6 } },
-        { code: "({ a: 0, [x]: 1 })", options: ["as-needed"], env: {es6: true} },
-        { code: "({ a: 0, x })", options: ["as-needed"], env: {es6: true} },
-        { code: "({ '@': 0, [x]: 1 })", options: ["as-needed"], env: {es6: true} },
-        { code: "({ '@': 0, x })", options: ["as-needed"], env: {es6: true} },
+        { code: "({ a: 0, [x]: 1 })", options: ["as-needed"], env: { es6: true } },
+        { code: "({ a: 0, x })", options: ["as-needed"], env: { es6: true } },
+        { code: "({ '@': 0, [x]: 1 })", options: ["as-needed"], env: { es6: true } },
+        { code: "({ '@': 0, x })", options: ["as-needed"], env: { es6: true } },
         { code: "({ a: 0, b: 0 })", options: ["as-needed"] },
         { code: "({ a: 0, 0: 0 })", options: ["as-needed"] },
         { code: "({ a: 0, true: 0 })", options: ["as-needed"] },
@@ -53,28 +53,28 @@ ruleTester.run("quote-props", rule, {
         { code: "({ 'true': 0, 'b': 0 })", options: ["consistent"] },
         { code: "({ null: 0, a: 0 })", options: ["consistent"] },
         { code: "({ a: 0, b: 0 })", options: ["consistent"] },
-        { code: "({ 'a': 1, [x]: 0 });", options: ["consistent"], env: {es6: true}},
-        { code: "({ 'a': 1, x });", options: ["consistent"], env: {es6: true}},
+        { code: "({ 'a': 1, [x]: 0 });", options: ["consistent"], env: { es6: true } },
+        { code: "({ 'a': 1, x });", options: ["consistent"], env: { es6: true } },
         { code: "({ a: 0, b: 0 })", options: ["consistent-as-needed"] },
         { code: "({ a: 0, null: 0 })", options: ["consistent-as-needed"] },
         { code: "({ 'a': 0, '-b': 0 })", options: ["consistent-as-needed"] },
         { code: "({ '@': 0, 'B': 0 })", options: ["consistent-as-needed"] },
-        { code: "({ 'while': 0, 'B': 0 })", options: ["consistent-as-needed", {keywords: true}] },
-        { code: "({ '@': 0, 'B': 0 })", options: ["consistent-as-needed", {keywords: true}] },
-        { code: "({ '@': 1, [x]: 0 });", env: {es6: true}, options: ["consistent-as-needed"]},
-        { code: "({ '@': 1, x });", env: {es6: true}, options: ["consistent-as-needed"]},
-        { code: "({ a: 1, [x]: 0 });", env: {es6: true}, options: ["consistent-as-needed"]},
-        { code: "({ a: 1, x });", env: {es6: true}, options: ["consistent-as-needed"]},
-        { code: "({ a: 0, 'if': 0 })", options: ["as-needed", {keywords: true}] },
-        { code: "({ a: 0, 'while': 0 })", options: ["as-needed", {keywords: true}] },
-        { code: "({ a: 0, 'volatile': 0 })", options: ["as-needed", {keywords: true}] },
-        { code: "({'unnecessary': 1, 'if': 0})", options: ["as-needed", {keywords: true, unnecessary: false}] },
-        { code: "({'1': 1})", options: ["as-needed", {numbers: true}] },
-        { code: "({1: 1, x: 2})", options: ["consistent", {numbers: true}]},
-        { code: "({1: 1, x: 2})", options: ["consistent-as-needed", {numbers: true}]},
-        { code: "({ ...x })", options: ["as-needed"], parserOptions: { ecmaVersion: 6, ecmaFeatures: { experimentalObjectRestSpread: true } }},
-        { code: "({ ...x })", options: ["consistent"], parserOptions: { ecmaVersion: 6, ecmaFeatures: { experimentalObjectRestSpread: true } }},
-        { code: "({ ...x })", options: ["consistent-as-needed"], parserOptions: { ecmaVersion: 6, ecmaFeatures: { experimentalObjectRestSpread: true } }}
+        { code: "({ 'while': 0, 'B': 0 })", options: ["consistent-as-needed", { keywords: true }] },
+        { code: "({ '@': 0, 'B': 0 })", options: ["consistent-as-needed", { keywords: true }] },
+        { code: "({ '@': 1, [x]: 0 });", env: { es6: true }, options: ["consistent-as-needed"] },
+        { code: "({ '@': 1, x });", env: { es6: true }, options: ["consistent-as-needed"] },
+        { code: "({ a: 1, [x]: 0 });", env: { es6: true }, options: ["consistent-as-needed"] },
+        { code: "({ a: 1, x });", env: { es6: true }, options: ["consistent-as-needed"] },
+        { code: "({ a: 0, 'if': 0 })", options: ["as-needed", { keywords: true }] },
+        { code: "({ a: 0, 'while': 0 })", options: ["as-needed", { keywords: true }] },
+        { code: "({ a: 0, 'volatile': 0 })", options: ["as-needed", { keywords: true }] },
+        { code: "({'unnecessary': 1, 'if': 0})", options: ["as-needed", { keywords: true, unnecessary: false }] },
+        { code: "({'1': 1})", options: ["as-needed", { numbers: true }] },
+        { code: "({1: 1, x: 2})", options: ["consistent", { numbers: true }] },
+        { code: "({1: 1, x: 2})", options: ["consistent-as-needed", { numbers: true }] },
+        { code: "({ ...x })", options: ["as-needed"], parserOptions: { ecmaVersion: 6, ecmaFeatures: { experimentalObjectRestSpread: true } } },
+        { code: "({ ...x })", options: ["consistent"], parserOptions: { ecmaVersion: 6, ecmaFeatures: { experimentalObjectRestSpread: true } } },
+        { code: "({ ...x })", options: ["consistent-as-needed"], parserOptions: { ecmaVersion: 6, ecmaFeatures: { experimentalObjectRestSpread: true } } }
     ],
     invalid: [{
         code: "({ a: 0 })",
@@ -142,21 +142,21 @@ ruleTester.run("quote-props", rule, {
         output: "({ a: 0, b: 0 })",
         options: ["consistent-as-needed"],
         errors: [
-            {message: "Properties shouldn't be quoted as all quotes are redundant.", type: "Property"},
-            {message: "Properties shouldn't be quoted as all quotes are redundant.", type: "Property"}
+            { message: "Properties shouldn't be quoted as all quotes are redundant.", type: "Property" },
+            { message: "Properties shouldn't be quoted as all quotes are redundant.", type: "Property" }
         ]
     }, {
         code: "({ 'a': 0, [x]: 0 })",
         output: "({ a: 0, [x]: 0 })",
-        env: {es6: true},
+        env: { es6: true },
         options: ["consistent-as-needed"],
         errors: [
-            {message: "Properties shouldn't be quoted as all quotes are redundant.", type: "Property"}
+            { message: "Properties shouldn't be quoted as all quotes are redundant.", type: "Property" }
         ]
     }, {
         code: "({ 'a': 0, x })",
         output: "({ a: 0, x })",
-        env: {es6: true},
+        env: { es6: true },
         options: ["consistent-as-needed"],
         errors: [{
             message: "Properties shouldn't be quoted as all quotes are redundant.", type: "Property"
@@ -166,8 +166,8 @@ ruleTester.run("quote-props", rule, {
         output: "({ true: 0, null: 0 })",
         options: ["consistent-as-needed"],
         errors: [
-            {message: "Properties shouldn't be quoted as all quotes are redundant.", type: "Property"},
-            {message: "Properties shouldn't be quoted as all quotes are redundant.", type: "Property"}
+            { message: "Properties shouldn't be quoted as all quotes are redundant.", type: "Property" },
+            { message: "Properties shouldn't be quoted as all quotes are redundant.", type: "Property" }
         ]
     }, {
         code: "({ true: 0, 'null': 0 })",
@@ -179,32 +179,32 @@ ruleTester.run("quote-props", rule, {
     }, {
         code: "({ 'a': 0, 'b': 0 })",
         output: "({ a: 0, b: 0 })",
-        options: ["consistent-as-needed", {keywords: true}],
+        options: ["consistent-as-needed", { keywords: true }],
         errors: [
-            {message: "Properties shouldn't be quoted as all quotes are redundant.", type: "Property"},
-            {message: "Properties shouldn't be quoted as all quotes are redundant.", type: "Property"}
+            { message: "Properties shouldn't be quoted as all quotes are redundant.", type: "Property" },
+            { message: "Properties shouldn't be quoted as all quotes are redundant.", type: "Property" }
         ]
     }, {
         code: "({ while: 0, b: 0 })",
         output: "({ \"while\": 0, \"b\": 0 })",
-        options: ["consistent-as-needed", {keywords: true}],
+        options: ["consistent-as-needed", { keywords: true }],
         errors: [
-            {message: "Properties should be quoted as 'while' is a reserved word.", type: "Property"},
-            {message: "Properties should be quoted as 'while' is a reserved word.", type: "Property"}
+            { message: "Properties should be quoted as 'while' is a reserved word.", type: "Property" },
+            { message: "Properties should be quoted as 'while' is a reserved word.", type: "Property" }
         ]
     }, {
         code: "({ while: 0, 'b': 0 })",
         output: "({ \"while\": 0, 'b': 0 })",
-        options: ["consistent-as-needed", {keywords: true}],
+        options: ["consistent-as-needed", { keywords: true }],
         errors: [{
             message: "Properties should be quoted as 'while' is a reserved word.", type: "Property"
         }]
     }, {
         code: "({ foo: 0, 'bar': 0 })",
         output: "({ foo: 0, bar: 0 })",
-        options: ["consistent-as-needed", {keywords: true}],
+        options: ["consistent-as-needed", { keywords: true }],
         errors: [
-            {message: "Properties shouldn't be quoted as all quotes are redundant.", type: "Property"}
+            { message: "Properties shouldn't be quoted as all quotes are redundant.", type: "Property" }
         ]
     }, {
         code:
@@ -238,9 +238,9 @@ ruleTester.run("quote-props", rule, {
         "})",
         options: ["consistent-as-needed"],
         errors: [
-            {message: "Properties shouldn't be quoted as all quotes are redundant.", type: "Property"},
-            {message: "Properties shouldn't be quoted as all quotes are redundant.", type: "Property"},
-            {message: "Properties shouldn't be quoted as all quotes are redundant.", type: "Property"}
+            { message: "Properties shouldn't be quoted as all quotes are redundant.", type: "Property" },
+            { message: "Properties shouldn't be quoted as all quotes are redundant.", type: "Property" },
+            { message: "Properties shouldn't be quoted as all quotes are redundant.", type: "Property" }
         ]
     }, {
         code: "({'if': 0})",
@@ -259,28 +259,28 @@ ruleTester.run("quote-props", rule, {
     }, {
         code: "({while: 0})",
         output: "({\"while\": 0})",
-        options: ["as-needed", {keywords: true}],
+        options: ["as-needed", { keywords: true }],
         errors: [{
             message: "Unquoted reserved word 'while' used as key.", type: "Property"
         }]
     }, {
         code: "({'unnecessary': 1, if: 0})",
         output: "({'unnecessary': 1, \"if\": 0})",
-        options: ["as-needed", {keywords: true, unnecessary: false}],
+        options: ["as-needed", { keywords: true, unnecessary: false }],
         errors: [{
             message: "Unquoted reserved word 'if' used as key.", type: "Property"
         }]
     }, {
         code: "({1: 1})",
         output: "({\"1\": 1})",
-        options: ["as-needed", {numbers: true}],
+        options: ["as-needed", { numbers: true }],
         errors: [{
             message: "Unquoted number literal '1' used as key.", type: "Property"
         }]
     }, {
         code: "({1: 1})",
         output: "({\"1\": 1})",
-        options: ["always", {numbers: false}],
+        options: ["always", { numbers: false }],
         errors: [{
             message: "Unquoted property '1' found.", type: "Property"
         }]
@@ -294,14 +294,14 @@ ruleTester.run("quote-props", rule, {
     }, {
         code: "({1e2: 1})",
         output: "({\"100\": 1})",
-        options: ["always", {numbers: false}],
+        options: ["always", { numbers: false }],
         errors: [{
             message: "Unquoted property '100' found."
         }]
     }, {
         code: "({5.: 1})",
         output: "({\"5\": 1})",
-        options: ["always", {numbers: false}],
+        options: ["always", { numbers: false }],
         errors: [{
             message: "Unquoted property '5' found."
         }]

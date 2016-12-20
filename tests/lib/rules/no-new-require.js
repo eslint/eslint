@@ -25,7 +25,7 @@ ruleTester.run("no-new-require", rule, {
         "var AppHeader = new (require('headers').appHeader)"
     ],
     invalid: [
-        { code: "var appHeader = new require('app-header')", errors: [{ message: "Unexpected use of new with require.", type: "NewExpression"}] },
-        { code: "var appHeader = new require('headers').appHeader", errors: [{ message: "Unexpected use of new with require.", type: "NewExpression"}] }
+        { code: "var appHeader = new require('app-header')", errors: [{ message: "Unexpected use of new with require.", type: "NewExpression" }] },
+        { code: "var appHeader = new require('headers').appHeader", errors: [{ message: "Unexpected use of new with require.", type: "NewExpression" }] }
     ]
 });

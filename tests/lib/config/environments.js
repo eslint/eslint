@@ -42,7 +42,7 @@ describe("Environments", () => {
         });
 
         it("should add an environment with the given name", () => {
-            const env = { globals: { foo: true }};
+            const env = { globals: { foo: true } };
 
             Environments.define("foo", env);
 

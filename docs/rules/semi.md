@@ -132,7 +132,7 @@ var name = "ESLint"
 
 #### omitLastInOneLineBlock
 
-Examples of additional **incorrect** code for this rule with the `"always", { "omitLastInOneLineBlock": true }` options:
+Examples of additional **correct** code for this rule with the `"always", { "omitLastInOneLineBlock": true }` options:
 
 ```js
 /*eslint semi: ["error", "always", { "omitLastInOneLineBlock": true}] */

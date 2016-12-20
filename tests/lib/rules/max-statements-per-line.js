@@ -23,8 +23,8 @@ ruleTester.run("max-statements-per-line", rule, {
         { code: "{ }", options: [{ max: 1 }] },
         { code: "var bar = 1;" },
         { code: "var bar = 1;", options: [{ max: 1 }] },
-        { code: "var bar = 1;;"},
-        { code: ";(function foo() {\n})()"},
+        { code: "var bar = 1;;" },
+        { code: ";(function foo() {\n})()" },
         { code: "if (condition) var bar = 1;", options: [{ max: 1 }] },
         { code: "if (condition) { }", options: [{ max: 1 }] },
         { code: "if (condition) { } else { }", options: [{ max: 1 }] },
@@ -75,8 +75,8 @@ ruleTester.run("max-statements-per-line", rule, {
                 ";(function foo() {",
                 "})()"
             ].join("\n"),
-            options: [{max: 1}],
-            parserOptions: {ecmaVersion: 6}
+            options: [{ max: 1 }],
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code: [
@@ -88,8 +88,8 @@ ruleTester.run("max-statements-per-line", rule, {
         },
         {
             code: "export default foo = 0;",
-            options: [{max: 1}],
-            parserOptions: {ecmaVersion: 6, sourceType: "module"}
+            options: [{ max: 1 }],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: [
@@ -97,13 +97,13 @@ ruleTester.run("max-statements-per-line", rule, {
                 "   console.log('test');",
                 "}"
             ].join("\n"),
-            options: [{max: 1}],
-            parserOptions: {ecmaVersion: 6, sourceType: "module"}
+            options: [{ max: 1 }],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "export let foo = 0;",
-            options: [{max: 1}],
-            parserOptions: {ecmaVersion: 6, sourceType: "module"}
+            options: [{ max: 1 }],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: [
@@ -111,8 +111,8 @@ ruleTester.run("max-statements-per-line", rule, {
                 "   console.log('test');",
                 "}"
             ].join("\n"),
-            options: [{max: 1}],
-            parserOptions: {ecmaVersion: 6, sourceType: "module"}
+            options: [{ max: 1 }],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
         }
     ],
     invalid: [
@@ -156,7 +156,7 @@ ruleTester.run("max-statements-per-line", rule, {
         { code: "foo(bar => { a; }, baz => { b; }, qux => { c; }, quux => { d; });", options: [{ max: 4 }], parserOptions: { ecmaVersion: 6 }, errors: [{ message: "This line has 5 statements. Maximum allowed is 4." }] },
         { code: "({ bar: bar => { a; }, baz: baz => { b; }, qux: qux => { c; }, quux: quux => { d; }});", options: [{ max: 4 }], parserOptions: { ecmaVersion: 6 }, errors: [{ message: "This line has 5 statements. Maximum allowed is 4." }] },
         { code: "a; if (b) { c; d; }\nz;", options: [{ max: 2 }], errors: [{ message: "This line has 4 statements. Maximum allowed is 2." }] },
-        { code: "export default function foo() { console.log('test') }", options: [{ max: 1 }], parserOptions: {ecmaVersion: 6, sourceType: "module"}, errors: [{ message: "This line has 2 statements. Maximum allowed is 1." }] },
-        { code: "export function foo() { console.log('test') }", options: [{ max: 1 }], parserOptions: {ecmaVersion: 6, sourceType: "module"}, errors: [{ message: "This line has 2 statements. Maximum allowed is 1." }] }
+        { code: "export default function foo() { console.log('test') }", options: [{ max: 1 }], parserOptions: { ecmaVersion: 6, sourceType: "module" }, errors: [{ message: "This line has 2 statements. Maximum allowed is 1." }] },
+        { code: "export function foo() { console.log('test') }", options: [{ max: 1 }], parserOptions: { ecmaVersion: 6, sourceType: "module" }, errors: [{ message: "This line has 2 statements. Maximum allowed is 1." }] }
     ]
 });

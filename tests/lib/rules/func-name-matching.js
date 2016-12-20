@@ -24,8 +24,8 @@ ruleTester.run("func-name-matching", rule, {
         { code: "var foo = function foo() {};" },
         { code: "var foo = function foo() {};", options: ["always"] },
         { code: "var foo = function bar() {};", options: ["never"] },
-        { code: "var foo = function() {}"},
-        { code: "var foo = () => {}", parserOptions: { ecmaVersion: 6} },
+        { code: "var foo = function() {}" },
+        { code: "var foo = () => {}", parserOptions: { ecmaVersion: 6 } },
         { code: "foo = function foo() {};" },
         { code: "foo = function foo() {};", options: ["always"] },
         { code: "foo = function bar() {};", options: ["never"] },
@@ -59,11 +59,11 @@ ruleTester.run("func-name-matching", rule, {
         { code: "var obj = {foo: function() {}};" },
         { code: "var obj = {foo: function() {}};", options: ["always"] },
         { code: "var obj = {foo: function() {}};", options: ["never"] },
-        { code: "var obj = {[foo]: function bar() {}} ", parserOptions: { ecmaVersion: 6} },
-        { code: "var obj = {['x' + 2]: function bar(){}};", parserOptions: { ecmaVersion: 6} },
+        { code: "var obj = {[foo]: function bar() {}} ", parserOptions: { ecmaVersion: 6 } },
+        { code: "var obj = {['x' + 2]: function bar(){}};", parserOptions: { ecmaVersion: 6 } },
         { code: "obj['x' + 2] = function bar(){};" },
-        { code: "var [ bar ] = [ function bar(){} ];", parserOptions: { ecmaVersion: 6} },
-        { code: "function a(foo = function bar() {}) {}", parserOptions: { ecmaVersion: 6} },
+        { code: "var [ bar ] = [ function bar(){} ];", parserOptions: { ecmaVersion: 6 } },
+        { code: "function a(foo = function bar() {}) {}", parserOptions: { ecmaVersion: 6 } },
         { code: "module.exports = function foo(name) {};" },
         { code: "module['exports'] = function foo(name) {};" },
         {
@@ -181,7 +181,7 @@ ruleTester.run("func-name-matching", rule, {
             code: "({['foo']: function bar() {}})",
             parserOptions: { ecmaVersion: 6 },
             errors: [
-                { message: "Function name `bar` should match property name `foo`"}
+                { message: "Function name `bar` should match property name `foo`" }
             ]
         },
         {

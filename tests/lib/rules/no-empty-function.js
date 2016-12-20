@@ -41,20 +41,20 @@ function toValidInvalid(patterns, item) {
     patterns.valid.push(
         {
             code: item.code.replace("{}", "{ bar(); }"),
-            parserOptions: {ecmaVersion: 6}
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code: item.code.replace("{}", "{ /* empty */ }"),
-            parserOptions: {ecmaVersion: 6}
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code: item.code.replace("{}", "{\n    // empty\n}"),
-            parserOptions: {ecmaVersion: 6}
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code: `${item.code} // allow: ${item.allow}`,
-            options: [{allow: [item.allow]}],
-            parserOptions: {ecmaVersion: 6}
+            options: [{ allow: [item.allow] }],
+            parserOptions: { ecmaVersion: 6 }
         }
     );
 
@@ -62,7 +62,7 @@ function toValidInvalid(patterns, item) {
     patterns.invalid.push({
         code: item.code,
         errors: [item.message],
-        parserOptions: {ecmaVersion: 6}
+        parserOptions: { ecmaVersion: 6 }
     });
     ALLOW_OPTIONS
         .filter(allow => allow !== item.allow)
@@ -72,8 +72,8 @@ function toValidInvalid(patterns, item) {
             patterns.invalid.push({
                 code: `${item.code} // allow: ${allow}`,
                 errors: [item.message],
-                options: [{allow: [allow]}],
-                parserOptions: {ecmaVersion: 6}
+                options: [{ allow: [allow] }],
+                parserOptions: { ecmaVersion: 6 }
             });
         });
 
@@ -236,7 +236,7 @@ ruleTester.run("no-empty-function", rule, [
     valid: [
         {
             code: "var foo = () => 0;",
-            parserOptions: {ecmaVersion: 6}
+            parserOptions: { ecmaVersion: 6 }
         }
     ],
     invalid: []

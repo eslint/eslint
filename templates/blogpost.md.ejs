@@ -10,9 +10,13 @@ tags:
 We just pushed ESLint v<%- version %>, which is a <%- type %> release upgrade of ESLint. This release <% if (type !== "patch") { %>adds some new features and<% } %> fixes several bugs found in the previous release. <% if (type === "major") { %>This release also has some breaking changes, so please read the following closely. <% } %>
 
 <%
+const RULE_REGEX = new RegExp(`\`?\\b(${ruleList.join("|")})\\b\`?`, "g");
+
 function linkify(line) {
-    line = line.replace(/#(\d+)/g, "[#$1](https://github.com/eslint/eslint/issues/$1)");
-    return line.replace(/([a-z0-9]+)/, "[$1](https://github.com/eslint/eslint/commit/$1)");
+    return line
+        .replace(/#(\d+)/g, "[#$1](https://github.com/eslint/eslint/issues/$1)")
+        .replace(/([a-z0-9]+)/, "[$1](https://github.com/eslint/eslint/commit/$1)")
+        .replace(RULE_REGEX, "[$&](/docs/rules/$1)");
 }
 
 function outputList(items) {

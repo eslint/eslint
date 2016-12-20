@@ -4,6 +4,7 @@
     "rules": {
         "no-alert": "off",
         "no-array-constructor": "off",
+        "no-await-in-loop": "off",
         "no-bitwise": "off",
         "no-caller": "off",
         "no-case-declarations": "error",
@@ -203,6 +204,7 @@
         "padded-blocks": "off",
         "prefer-arrow-callback": "off",
         "prefer-const": "off",
+        "prefer-destructuring": "off",
         "prefer-numeric-literals": "off",
         "prefer-reflect": "off",
         "prefer-rest-params": "off",

@@ -412,7 +412,7 @@ ruleTester.run("object-shorthand", rule, {
         },
         {
             code: "({ [ foo ]: async function() {} })",
-            output: "({ async [foo]() {} })",
+            output: "({ async [ foo ]() {} })",
             parserOptions: { ecmaVersion: 8 },
             errors: [METHOD_ERROR]
         },
@@ -456,6 +456,73 @@ ruleTester.run("object-shorthand", rule, {
             output: "var x = {[y]() {}}",
             options: ["methods"],
             errors: [METHOD_ERROR]
+        },
+        {
+            code: "({ [(foo)]: function() { return; } })",
+            output: "({ [(foo)]() { return; } })",
+            errors: [METHOD_ERROR]
+        },
+        {
+            code: "({ [(foo)]: async function() { return; } })",
+            output: "({ async [(foo)]() { return; } })",
+            parserOptions: { ecmaVersion: 8 },
+            errors: [METHOD_ERROR]
+        },
+        {
+            code: "({ [(((((((foo)))))))]: function() { return; } })",
+            output: "({ [(((((((foo)))))))]() { return; } })",
+            errors: [METHOD_ERROR]
+        },
+        {
+            code: "({ [(foo)]() { return; } })",
+            output: "({ [(foo)]: function() { return; } })",
+            options: ["never"],
+            errors: [LONGFORM_METHOD_ERROR]
+        },
+        {
+            code: "({ async [(foo)]() { return; } })",
+            output: "({ [(foo)]: async function() { return; } })",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 8 },
+            errors: [LONGFORM_METHOD_ERROR]
+        },
+        {
+            code: "({ *[((foo))]() { return; } })",
+            output: "({ [((foo))]: function*() { return; } })",
+            options: ["never"],
+            errors: [LONGFORM_METHOD_ERROR]
+        },
+        {
+            code: "({ [(((((((foo)))))))]() { return; } })",
+            output: "({ [(((((((foo)))))))]: function() { return; } })",
+            options: ["never"],
+            errors: [LONGFORM_METHOD_ERROR]
+        },
+        {
+            code: "({ 'foo bar'() { return; } })",
+            output: "({ 'foo bar': function() { return; } })",
+            options: ["never"],
+            errors: [LONGFORM_METHOD_ERROR]
+        },
+        {
+            code: "({ *foo() { return; } })",
+            output: "({ foo: function*() { return; } })",
+            options: ["never"],
+            errors: [LONGFORM_METHOD_ERROR]
+        },
+        {
+            code: "({ async foo() { return; } })",
+            output: "({ foo: async function() { return; } })",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 8 },
+            errors: [LONGFORM_METHOD_ERROR]
+        },
+        {
+            code: "({ *['foo bar']() { return; } })",
+            output: "({ ['foo bar']: function*() { return; } })",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 8 },
+            errors: [LONGFORM_METHOD_ERROR]
         },
         {
             code: "var x = {x: x}",

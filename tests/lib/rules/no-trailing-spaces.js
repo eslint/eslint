@@ -389,7 +389,7 @@ ruleTester.run("no-trailing-spaces", rule, {
         {
             code: "    \nabcdefg ",
             output: "    \nabcdefg",
-            options: [{skipBlankLines: true}],
+            options: [{ skipBlankLines: true }],
             errors: [
                 {
                     message: "Trailing spaces not allowed.",

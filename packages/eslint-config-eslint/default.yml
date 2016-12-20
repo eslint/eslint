@@ -91,6 +91,7 @@ rules:
     no-useless-return: "error"
     no-with: "error"
     no-var: "error"
+    object-curly-spacing: ["error", "always"]
     object-shorthand: "error"
     one-var-declaration-per-line: "error"
     prefer-arrow-callback: "error"

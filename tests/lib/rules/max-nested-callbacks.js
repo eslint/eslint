@@ -43,7 +43,7 @@ ruleTester.run("max-nested-callbacks", rule, {
         { code: "var foo = function() {}; bar(function(){ baz(function() { qux(foo); }) });", options: [2] },
         { code: "fn(function(){}, function(){}, function(){});", options: [2] },
         { code: "fn(() => {}, function(){}, function(){});", options: [2], parserOptions: { ecmaVersion: 6 } },
-        { code: nestFunctions(10)},
+        { code: nestFunctions(10) },
 
         // object property options
         { code: "foo(function() { bar(thing, function(data) {}); });", options: [{ max: 3 }] }
@@ -52,35 +52,35 @@ ruleTester.run("max-nested-callbacks", rule, {
         {
             code: "foo(function() { bar(thing, function(data) { baz(function() {}); }); });",
             options: [2],
-            errors: [{ message: "Too many nested callbacks (3). Maximum allowed is 2.", type: "FunctionExpression"}]
+            errors: [{ message: "Too many nested callbacks (3). Maximum allowed is 2.", type: "FunctionExpression" }]
         },
         {
             code: "foo(function() { bar(thing, (data) => { baz(function() {}); }); });",
             options: [2],
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Too many nested callbacks (3). Maximum allowed is 2.", type: "FunctionExpression"}]
+            errors: [{ message: "Too many nested callbacks (3). Maximum allowed is 2.", type: "FunctionExpression" }]
         },
         {
             code: "foo(() => { bar(thing, (data) => { baz( () => {}); }); });",
             options: [2],
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Too many nested callbacks (3). Maximum allowed is 2.", type: "ArrowFunctionExpression"}]
+            errors: [{ message: "Too many nested callbacks (3). Maximum allowed is 2.", type: "ArrowFunctionExpression" }]
         },
         {
             code: "foo(function() { if (isTrue) { bar(function(data) { baz(function() {}); }); } });",
             options: [2],
-            errors: [{ message: "Too many nested callbacks (3). Maximum allowed is 2.", type: "FunctionExpression"}]
+            errors: [{ message: "Too many nested callbacks (3). Maximum allowed is 2.", type: "FunctionExpression" }]
         },
         {
             code: nestFunctions(11),
-            errors: [{ message: "Too many nested callbacks (11). Maximum allowed is 10.", type: "FunctionExpression"}]
+            errors: [{ message: "Too many nested callbacks (11). Maximum allowed is 10.", type: "FunctionExpression" }]
         },
 
         // object property options
         {
             code: "foo(function() { bar(thing, function(data) { baz(function() {}); }); });",
             options: [{ max: 2 }],
-            errors: [{ message: "Too many nested callbacks (3). Maximum allowed is 2.", type: "FunctionExpression"}]
+            errors: [{ message: "Too many nested callbacks (3). Maximum allowed is 2.", type: "FunctionExpression" }]
         }
     ]
 });

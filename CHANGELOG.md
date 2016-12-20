@@ -1,3 +1,40 @@
+v3.12.2 - December 14, 2016
+
+* dec3ec6 Fix: indent bug with AssignmentExpressions (fixes #7747) (#7750) (Teddy Katz)
+* 5344751 Build: Don't create blogpost links from rule names within other words (#7754) (Teddy Katz)
+* 639b798 Docs: Use `Object.prototype` in examples (#7755) (Alex Reardon)
+
+v3.12.1 - December 12, 2016
+
+* 0ad4d33 Fix: `indent` regression with function calls (fixes #7732, fixes #7733) (#7734) (Teddy Katz)
+* ab246dd Docs: Rules restricting globals/properties/syntax are linked together (#7743) (Kevin Partington)
+* df2f115 Docs: Add eslint-config-mdcs to JSCS Migration Guide (#7737) (Joshua Koo)
+* 4b77333 Build: avoid creating broken rule links in the changelog (#7731) (Teddy Katz)
+
+v3.12.0 - December 9, 2016
+
+* e569225 Update: fix false positive/negative of yoda rule (fixes #7676) (#7695) (Toru Nagashima)
+* e95a230 Fix: indent "first" option false positive on nested arrays (fixes #7727) (#7728) (Teddy Katz)
+* 81f9e7d Fix: Allow duplicated let declarations in `prefer-const` (fixes #7712) (#7717) (Teddy Katz)
+* 1d0d61d New: Add no-await-in-loop rule (#7563) (Nat Mote)
+* 2cdfb4e New: Additional APIs (fixes #6256) (#7669) (Ilya Volodin)
+* 4278c42 Update: make no-obj-calls report errors for Reflect (fixes #7700) (#7710) (Tomas Echeverri Valencia)
+* 4742d82 Docs: clarify the default behavior of `operator-linebreak` (fixes #7459) (#7726) (Teddy Katz)
+* a8489e2 Chore: Avoid parserOptions boilerplate in tests for ES6 rules (#7724) (Teddy Katz)
+* b921d1f Update: add `indent` options for array and object literals (fixes #7473) (#7681) (Teddy Katz)
+* 7079c89 Update: Add airbnb-base to init styleguides (fixes #6986) (#7699) (alberto)
+* 63bb3f8 Docs: improve the documentation for the autofix API (#7716) (Teddy Katz)
+* f8786fb Update: add fixer for `capitalized-comments` (#7701) (Teddy Katz)
+* abfd24f Fix: don't validate schemas for disabled rules (fixes #7690) (#7692) (Teddy Katz)
+* 2ac07d8 Upgrade: Update globals dependency to 9.14.0 (#7683) (Aleksandr Oleynikov)
+* 90a5d29 Docs: Remove incorrect info about issue requirements from PR guide (#7691) (Teddy Katz)
+* f80c278 Docs: Add sails-hook-lint to integrations list (#7679) (Anthony M)
+* e96da3f Docs: link first instance of `package.json` (#7684) (Kent C. Dodds)
+* bf20e20 Build: include links to rule pages in release blogpost (#7671) (Teddy Katz)
+* b30116c Docs: Fix code-blocks in spaced-comment docs (#7524) (Michał Gołębiowski)
+* 0a2a7fd Fix: Allow \u2028 and \u2029 as string escapes in no-useless-escape (#7672) (Teddy Katz)
+* 76c33a9 Docs: Change Sails.js integration to active npm package (#7675) (Anthony M)
+
 v3.11.1 - November 28, 2016
 
 * be739d0 Fix: capitalized-comments fatal error fixed (fixes #7663) (#7664) (Rich Trott)

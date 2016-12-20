@@ -24,6 +24,6 @@ ruleTester.run("no-div-regex", rule, {
         "var f = function() { return /\\=foo/; };"
     ],
     invalid: [
-        { code: "var f = function() { return /=foo/; };", errors: [{ message: "A regular expression literal can be confused with '/='.", type: "Literal"}] }
+        { code: "var f = function() { return /=foo/; };", errors: [{ message: "A regular expression literal can be confused with '/='.", type: "Literal" }] }
     ]
 });

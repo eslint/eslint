@@ -19,7 +19,8 @@ const assert = require("chai").assert,
     leche = require("leche"),
     fs = require("fs"),
     os = require("os"),
-    sh = require("shelljs");
+    sh = require("shelljs"),
+    rules = require("../../lib/rules");
 
 const proxyquire = require("proxyquire").noCallThru().noPreserveCache();
 
@@ -91,6 +92,7 @@ describe("cli", () => {
 
     after(() => {
         sh.rm("-r", fixtureDir);
+        rules.testReset();
     });
 
     describe("execute()", () => {
