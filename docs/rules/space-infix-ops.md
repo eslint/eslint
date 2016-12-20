@@ -20,6 +20,23 @@ While this is valid JavaScript syntax, it is hard to determine what the author i
 
 This rule is aimed at ensuring there are spaces around infix operators.
 
+Examples of **incorrect** code for this rule:
+
+```js
+/*eslint space-infix-ops: "error"*/
+
+const quotient = dividend/divisor;
+const cubed = x**3;
+```
+
+Examples of **correct** code for this rule:
+
+```js
+/*eslint space-infix-ops: "error"*/
+
+const quotient = dividend / divisor;
+const cubed = x ** 3;
+```
 ## Options
 
 * `all` set to `always` requires spaces around all operators that do not override this (the default).
