@@ -46,8 +46,6 @@ Examples of **correct** code for this rule:
 foo(...args);
 obj.foo(...args);
 
-
-
 // The `this` binding is different.
 foo.apply(obj, args);
 obj.foo.apply(null, args);
