@@ -42,7 +42,6 @@ Examples of **correct** code for this rule:
 /*eslint prefer-spread: "error"*/
 
 // Using the spread operator
-
 foo(...args);
 obj.foo(...args);
 
