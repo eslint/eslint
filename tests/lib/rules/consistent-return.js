@@ -38,7 +38,11 @@ ruleTester.run("consistent-return", rule, {
         { code: "function foo() { if (true) return void 0; else return; }", options: [{ treatUndefinedAsUnspecified: true }] },
         { code: "function foo() { if (true) return void 0; else return undefined; }", options: [{ treatUndefinedAsUnspecified: true }] },
         { code: "var x = () => {  return {}; };", parserOptions: { ecmaVersion: 6 } },
-        { code: "if (true) { return 1; } return 0;", parserOptions: { ecmaVersion: 6, ecmaFeatures: { globalReturn: true } } }
+        { code: "if (true) { return 1; } return 0;", parserOptions: { ecmaVersion: 6, ecmaFeatures: { globalReturn: true } } },
+
+        // https://github.com/eslint/eslint/issues/7790
+        { code: "class Foo { constructor() { if (true) return foo; } }", parserOptions: { ecmaVersion: 6 } },
+        { code: "var Foo = class { constructor() { if (true) return foo; } }", parserOptions: { ecmaVersion: 6 } },
     ],
 
     invalid: [
@@ -233,6 +237,28 @@ ruleTester.run("consistent-return", rule, {
                     message: "Expected to return a value at the end of this program.",
                     type: "Program",
                     column: 1
+                }
+            ]
+        },
+        {
+            code: "class A { CapitalizedFunction() { if (a) return true; } }",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    message: "Expected to return a value at the end of this method.",
+                    type: "FunctionExpression",
+                    column: 11
+                }
+            ]
+        },
+        {
+            code: "({ constructor() { if (a) return true; } });",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    message: "Expected to return a value at the end of this method.",
+                    type: "FunctionExpression",
+                    column: 4
                 }
             ]
         }
