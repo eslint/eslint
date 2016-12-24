@@ -269,7 +269,7 @@ ruleTester.run("object-shorthand", rule, {
             options: ["consistent-as-needed"]
         },
 
-        // avoidLongformArrows
+        // avoidExplicitReturnArrows
         {
             code: "({ x: () => foo })",
             options: ["always", { avoidExplicitReturnArrows: false }]
@@ -783,7 +783,7 @@ ruleTester.run("object-shorthand", rule, {
             errors: [MIXED_SHORTHAND_ERROR]
         },
 
-        // avoidLongformArrows
+        // avoidExplicitReturnArrows
         {
             code: "({ x: () => { return; } })",
             output: "({ x() { return; } })",
