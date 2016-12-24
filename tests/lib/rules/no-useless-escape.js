@@ -105,7 +105,15 @@ ruleTester.run("no-useless-escape", rule, {
         "var foo = /[\\0]/", // null character in character class
 
         "var foo = 'foo \\\u2028 bar'",
-        "var foo = 'foo \\\u2029 bar'"
+        "var foo = 'foo \\\u2029 bar'",
+
+        // https://github.com/eslint/eslint/issues/7789
+        String.raw`/]/`,
+        String.raw`/\]/`,
+        { code: String.raw`/\]/u`, parserOptions: { ecmaVersion: 6 } },
+        String.raw`var foo = /foo\]/`,
+        String.raw`var foo = /[[]\]/`, // A character class containing '[', followed by a ']' character
+        String.raw`var foo = /\[foo\.bar\]/`
     ],
 
     invalid: [
@@ -236,18 +244,6 @@ ruleTester.run("no-useless-escape", rule, {
         {
             code: String.raw`var foo = /[\[]/`,
             errors: [{ line: 1, column: 13, message: "Unnecessary escape character: \\[.", type: "Literal" }]
-        },
-        {
-            code: String.raw`var foo = /foo\]/`,
-            errors: [{ line: 1, column: 15, message: "Unnecessary escape character: \\].", type: "Literal" }]
-        },
-        {
-            code: String.raw`var foo = /[[]\]/`, // A character class containing '[', followed by a ']' character
-            errors: [{ line: 1, column: 15, message: "Unnecessary escape character: \\].", type: "Literal" }]
-        },
-        {
-            code: String.raw`var foo = /\[foo\.bar\]/`, // Matches the literal string '[foo.bar]'
-            errors: [{ line: 1, column: 22, message: "Unnecessary escape character: \\].", type: "Literal" }]
         },
         {
             code: String.raw`var foo = /[\/]/`, // A character class containing '/'
