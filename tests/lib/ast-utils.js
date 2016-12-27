@@ -422,6 +422,55 @@ describe("ast-utils", () => {
         });
     });
 
+    describe("isInLoop", () => {
+
+        /**
+         * Asserts that the unique node of the given type in the code is either
+         * in a loop or not in a loop.
+         *
+         * @param {string} code the code to check.
+         * @param {string} nodeType the type of the node to consider. The code
+         *      must have exactly one node of ths type.
+         * @param {boolean} expectedInLoop the expected result for whether the
+         *      node is in a loop.
+         * @returns {void}
+         */
+        function assertNodeTypeInLoop(code, nodeType, expectedInLoop) {
+            const results = [];
+
+            eslint.reset();
+            eslint.on(nodeType, node => results.push(astUtils.isInLoop(node)));
+            eslint.verify(code, { parserOptions: { ecmaVersion: 6 } }, filename, true);
+
+            assert.lengthOf(results, 1);
+            assert.equal(results[0], expectedInLoop);
+        }
+
+        it("should return true for a loop itself", () => {
+            assertNodeTypeInLoop("while (a) {}", "WhileStatement", true);
+        });
+
+        it("should return true for a loop condition", () => {
+            assertNodeTypeInLoop("while (a) {}", "Identifier", true);
+        });
+
+        it("should return true for a loop assignee", () => {
+            assertNodeTypeInLoop("for (var a in b) {}", "VariableDeclaration", true);
+        });
+
+        it("should return true for a node within a loop body", () => {
+            assertNodeTypeInLoop("for (var a of b) { console.log('Hello'); }", "Literal", true);
+        });
+
+        it("should return false for a node outside a loop body", () => {
+            assertNodeTypeInLoop("while (true) {} a(b);", "CallExpression", false);
+        });
+
+        it("should return false when the loop is not in the current function", () => {
+            assertNodeTypeInLoop("while (true) { funcs.push(() => { var a; }); }", "VariableDeclaration", false);
+        });
+    });
+
     describe("getStaticPropertyName", () => {
         it("should return 'b' for `a.b`", () => {
             const ast = espree.parse("a.b");

@@ -55,6 +55,37 @@ ruleTester.run("no-var", rule, {
                 }
             ]
         },
+        {
+            code: "for (var a of b) { console.log(a); }",
+            output: "for (let a of b) { console.log(a); }",
+            errors: [
+                {
+                    message: "Unexpected var, use let or const instead.",
+                    type: "VariableDeclaration"
+                }
+            ]
+        },
+        {
+            code: "for (var a in b) { console.log(a); }",
+            output: "for (let a in b) { console.log(a); }",
+            errors: [
+                {
+                    message: "Unexpected var, use let or const instead.",
+                    type: "VariableDeclaration"
+                }
+            ]
+        },
+        {
+            code: "for (let a of b) { var c = 1; console.log(c); }",
+            output: "for (let a of b) { let c = 1; console.log(c); }",
+            errors: [
+                {
+                    message: "Unexpected var, use let or const instead.",
+                    type: "VariableDeclaration"
+                }
+            ]
+        },
+
 
         // Not fix if it's redeclared or it's used from outside of the scope or it's declared on a case chunk.
         {
@@ -104,6 +135,22 @@ ruleTester.run("no-var", rule, {
         {
             code: "switch (a) { case 0: var b = 1 }",
             output: "switch (a) { case 0: var b = 1 }",
+            errors: [
+                "Unexpected var, use let or const instead."
+            ]
+        },
+
+        // Don't fix if the variable is in a loop and the behavior might change.
+        {
+            code: "for (var a of b) { arr.push(() => a); }",
+            output: "for (var a of b) { arr.push(() => a); }",
+            errors: [
+                "Unexpected var, use let or const instead."
+            ]
+        },
+        {
+            code: "for (let a of b) { var c; console.log(c); c = 'hello'; }",
+            output: "for (let a of b) { var c; console.log(c); c = 'hello'; }",
             errors: [
                 "Unexpected var, use let or const instead."
             ]
