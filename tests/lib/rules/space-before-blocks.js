@@ -18,9 +18,9 @@ const rule = require("../../../lib/rules/space-before-blocks"),
 
 const ruleTester = new RuleTester(),
     neverArgs = ["never"],
-    functionsOnlyArgs = [ { functions: "always", keywords: "never", classes: "never" } ],
-    keywordOnlyArgs = [ { functions: "never", keywords: "always", classes: "never" } ],
-    classesOnlyArgs = [ { functions: "never", keywords: "never", classes: "always" }],
+    functionsOnlyArgs = [{ functions: "always", keywords: "never", classes: "never" }],
+    keywordOnlyArgs = [{ functions: "never", keywords: "always", classes: "never" }],
+    classesOnlyArgs = [{ functions: "never", keywords: "never", classes: "always" }],
     expectedSpacingErrorMessage = "Missing space before opening brace.",
     expectedSpacingError = { message: expectedSpacingErrorMessage },
     expectedNoSpacingErrorMessage = "Unexpected space before opening brace.",
@@ -145,287 +145,287 @@ ruleTester.run("space-before-blocks", rule, {
     invalid: [
         {
             code: "if(a){}",
-            errors: [ { message: expectedSpacingErrorMessage, line: 1, column: 6 } ],
+            errors: [{ message: expectedSpacingErrorMessage, line: 1, column: 6 }],
             output: "if(a) {}"
         },
         {
             code: "if(a){}",
             options: keywordOnlyArgs,
-            errors: [ expectedSpacingError ],
+            errors: [expectedSpacingError],
             output: "if(a) {}"
         },
         {
             code: "if(a) {}",
             options: functionsOnlyArgs,
-            errors: [ expectedNoSpacingError ],
+            errors: [expectedNoSpacingError],
             output: "if(a){}"
         },
         {
             code: "if(a) { function a() {} }",
             options: functionsOnlyArgs,
-            errors: [ { message: expectedNoSpacingErrorMessage, line: 1, column: 7 } ],
+            errors: [{ message: expectedNoSpacingErrorMessage, line: 1, column: 7 }],
             output: "if(a){ function a() {} }"
         },
         {
             code: "if(a) { function a() {} }",
             options: keywordOnlyArgs,
-            errors: [ { message: expectedNoSpacingErrorMessage, line: 1, column: 22 } ],
+            errors: [{ message: expectedNoSpacingErrorMessage, line: 1, column: 22 }],
             output: "if(a) { function a(){} }"
         },
         {
             code: "if(a) {}",
             options: neverArgs,
-            errors: [ expectedNoSpacingError ],
+            errors: [expectedNoSpacingError],
             output: "if(a){}"
         },
         {
             code: "function a(){}",
-            errors: [ expectedSpacingError ],
+            errors: [expectedSpacingError],
             output: "function a() {}"
         },
         {
             code: "function a() {}",
             options: neverArgs,
-            errors: [ expectedNoSpacingError ],
+            errors: [expectedNoSpacingError],
             output: "function a(){}"
         },
         {
             code: "function a()    {}",
             options: neverArgs,
-            errors: [ expectedNoSpacingError ],
+            errors: [expectedNoSpacingError],
             output: "function a(){}"
         },
         {
             code: "function a(){ if (a){} }",
             options: functionsOnlyArgs,
-            errors: [ { message: expectedSpacingErrorMessage, line: 1, column: 13 } ],
+            errors: [{ message: expectedSpacingErrorMessage, line: 1, column: 13 }],
             output: "function a() { if (a){} }"
         },
         {
             code: "function a() { if (a) {} }",
             options: keywordOnlyArgs,
-            errors: [ { message: expectedNoSpacingErrorMessage, line: 1, column: 14 } ],
+            errors: [{ message: expectedNoSpacingErrorMessage, line: 1, column: 14 }],
             output: "function a(){ if (a) {} }"
         },
         {
             code: "function a(){}",
             options: functionsOnlyArgs,
-            errors: [ expectedSpacingError ],
+            errors: [expectedSpacingError],
             output: "function a() {}"
         },
         {
             code: "function a() {}",
             options: keywordOnlyArgs,
-            errors: [ expectedNoSpacingError ],
+            errors: [expectedNoSpacingError],
             output: "function a(){}"
         },
         {
             code: "switch(a){}",
-            errors: [ expectedSpacingError ],
+            errors: [expectedSpacingError],
             output: "switch(a) {}"
         },
         {
             code: "switch(a) {}",
             options: neverArgs,
-            errors: [ expectedNoSpacingError ],
+            errors: [expectedNoSpacingError],
             output: "switch(a){}"
         },
         {
             code: "switch(a){}",
             options: keywordOnlyArgs,
-            errors: [ expectedSpacingError ],
+            errors: [expectedSpacingError],
             output: "switch(a) {}"
         },
         {
             code: "switch(a) {}",
             options: functionsOnlyArgs,
-            errors: [ expectedNoSpacingError ],
+            errors: [expectedNoSpacingError],
             output: "switch(a){}"
         },
         {
             code: "switch(a.b()){ case 'foo': foo(); break; default: if (a) { bar(); } }",
-            errors: [ expectedSpacingError ],
+            errors: [expectedSpacingError],
             output: "switch(a.b()) { case 'foo': foo(); break; default: if (a) { bar(); } }"
         },
         {
             code: "switch(a.b()) { case 'foo': foo(); break; default: if (a){ bar(); } }",
             options: neverArgs,
-            errors: [ expectedNoSpacingError ],
+            errors: [expectedNoSpacingError],
             output: "switch(a.b()){ case 'foo': foo(); break; default: if (a){ bar(); } }"
         },
         {
             code: "try{}catch(a){}",
-            errors: [ expectedSpacingError ],
+            errors: [expectedSpacingError],
             output: "try{}catch(a) {}"
         },
         {
             code: "try {}catch(a) {}",
             options: neverArgs,
-            errors: [ expectedNoSpacingError ],
+            errors: [expectedNoSpacingError],
             output: "try {}catch(a){}"
         },
         {
             code: "try {} catch(a){}",
             options: keywordOnlyArgs,
-            errors: [ expectedSpacingError ],
+            errors: [expectedSpacingError],
             output: "try {} catch(a) {}"
         },
         {
             code: "try { function b() {} } catch(a) {}",
             options: keywordOnlyArgs,
-            errors: [ { message: expectedNoSpacingErrorMessage, line: 1, column: 20 } ],
+            errors: [{ message: expectedNoSpacingErrorMessage, line: 1, column: 20 }],
             output: "try { function b(){} } catch(a) {}"
         },
         {
             code: "try{ function b(){} }catch(a){}",
             options: functionsOnlyArgs,
-            errors: [ { message: expectedSpacingErrorMessage, line: 1, column: 18 } ],
+            errors: [{ message: expectedSpacingErrorMessage, line: 1, column: 18 }],
             output: "try{ function b() {} }catch(a){}"
         },
         {
             code: "for(;;){}",
-            errors: [ expectedSpacingError ],
+            errors: [expectedSpacingError],
             output: "for(;;) {}"
         },
         {
             code: "for(;;) {}",
             options: neverArgs,
-            errors: [ expectedNoSpacingError ],
+            errors: [expectedNoSpacingError],
             output: "for(;;){}"
         },
         {
             code: "for(;;){}",
             options: keywordOnlyArgs,
-            errors: [ expectedSpacingError ],
+            errors: [expectedSpacingError],
             output: "for(;;) {}"
         },
         {
             code: "for(;;) {}",
             options: functionsOnlyArgs,
-            errors: [ expectedNoSpacingError ],
+            errors: [expectedNoSpacingError],
             output: "for(;;){}"
         },
         {
             code: "for(;;){ function a(){} }",
             options: functionsOnlyArgs,
-            errors: [ expectedSpacingError ],
+            errors: [expectedSpacingError],
             output: "for(;;){ function a() {} }"
         },
         {
             code: "for(;;) { function a() {} }",
             options: keywordOnlyArgs,
-            errors: [ expectedNoSpacingError ],
+            errors: [expectedNoSpacingError],
             output: "for(;;) { function a(){} }"
         },
         {
             code: "while(a){}",
-            errors: [ expectedSpacingError ],
+            errors: [expectedSpacingError],
             output: "while(a) {}"
         },
         {
             code: "while(a) {}",
             options: neverArgs,
-            errors: [ expectedNoSpacingError ],
+            errors: [expectedNoSpacingError],
             output: "while(a){}"
         },
         {
             code: "while(a){}",
             options: keywordOnlyArgs,
-            errors: [ expectedSpacingError ],
+            errors: [expectedSpacingError],
             output: "while(a) {}"
         },
         {
             code: "while(a) {}",
             options: functionsOnlyArgs,
-            errors: [ expectedNoSpacingError ],
+            errors: [expectedNoSpacingError],
             output: "while(a){}"
         },
         {
             code: "while(a){ function a(){} }",
             options: functionsOnlyArgs,
-            errors: [ expectedSpacingError ],
+            errors: [expectedSpacingError],
             output: "while(a){ function a() {} }"
         },
         {
             code: "while(a) { function a() {} }",
             options: keywordOnlyArgs,
-            errors: [ expectedNoSpacingError ],
+            errors: [expectedNoSpacingError],
             output: "while(a) { function a(){} }"
         },
         {
             code: "export function a() { if(b) {} }",
             options: functionsOnlyArgs,
             parserOptions: { sourceType: "module" },
-            errors: [ expectedNoSpacingError ],
+            errors: [expectedNoSpacingError],
             output: "export function a() { if(b){} }"
         },
         {
             code: "export function a(){ if(b){} }",
             options: keywordOnlyArgs,
             parserOptions: { sourceType: "module" },
-            errors: [ expectedSpacingError ],
+            errors: [expectedSpacingError],
             output: "export function a(){ if(b) {} }"
         },
         {
             code: "export function a(){}",
             options: functionsOnlyArgs,
             parserOptions: { sourceType: "module" },
-            errors: [ expectedSpacingError ],
+            errors: [expectedSpacingError],
             output: "export function a() {}"
         },
         {
             code: "export default function (a) {}",
             options: keywordOnlyArgs,
             parserOptions: { sourceType: "module" },
-            errors: [ expectedNoSpacingError ],
+            errors: [expectedNoSpacingError],
             output: "export default function (a){}"
         },
         {
             code: "export function a() {}",
             options: keywordOnlyArgs,
             parserOptions: { sourceType: "module" },
-            errors: [ expectedNoSpacingError ],
+            errors: [expectedNoSpacingError],
             output: "export function a(){}"
         },
         {
             code: "class test{}",
             parserOptions: { ecmaVersion: 6 },
-            errors: [ expectedSpacingError ],
+            errors: [expectedSpacingError],
             output: "class test {}"
         },
         {
             code: "class test{}",
             options: classesOnlyArgs,
             parserOptions: { ecmaVersion: 6 },
-            errors: [ expectedSpacingError ],
+            errors: [expectedSpacingError],
             output: "class test {}"
         },
         {
             code: "class test{ constructor(){} }",
             options: functionsOnlyArgs,
             parserOptions: { ecmaVersion: 6 },
-            errors: [ expectedSpacingError ],
+            errors: [expectedSpacingError],
             output: "class test{ constructor() {} }"
         },
         {
             code: "class test { constructor() {} }",
             options: classesOnlyArgs,
             parserOptions: { ecmaVersion: 6 },
-            errors: [ expectedNoSpacingError ],
+            errors: [expectedNoSpacingError],
             output: "class test { constructor(){} }"
         },
         {
             code: "class test {}",
             options: functionsOnlyArgs,
             parserOptions: { ecmaVersion: 6 },
-            errors: [ expectedNoSpacingError ],
+            errors: [expectedNoSpacingError],
             output: "class test{}"
         },
         {
             code: "class test {}",
             options: neverArgs,
             parserOptions: { ecmaVersion: 6 },
-            errors: [ expectedNoSpacingError ],
+            errors: [expectedNoSpacingError],
             output: "class test{}"
         }
     ]

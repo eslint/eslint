@@ -57,45 +57,45 @@ ruleTester.run("comma-dangle", rule, {
         { code: "var { a,\n b, \n} = foo;", options: ["only-multiline"], parserOptions: { ecmaVersion: 6 } },
         { code: "var [ a,\n b, \n] = foo;", options: ["only-multiline"], parserOptions: { ecmaVersion: 6 } },
 
-        { code: "[(1),]", options: [ "always" ] },
-        { code: "var x = { foo: (1),};", options: [ "always" ] },
-        { code: "var foo = { bar: 'baz', }", options: [ "always" ] },
-        { code: "var foo = {\nbar: 'baz',\n}", options: [ "always" ] },
-        { code: "var foo = {\nbar: 'baz'\n,}", options: [ "always" ] },
-        { code: "var foo = [ 'baz', ]", options: [ "always" ] },
-        { code: "var foo = [\n'baz',\n]", options: [ "always" ] },
-        { code: "var foo = [\n'baz'\n,]", options: [ "always" ] },
-        { code: "[,,]", options: [ "always" ] },
-        { code: "[\n,\n,\n]", options: [ "always" ] },
-        { code: "[,]", options: [ "always" ] },
-        { code: "[\n,\n]", options: [ "always" ] },
-        { code: "[]", options: [ "always" ] },
-        { code: "[\n]", options: [ "always" ] },
+        { code: "[(1),]", options: ["always"] },
+        { code: "var x = { foo: (1),};", options: ["always"] },
+        { code: "var foo = { bar: 'baz', }", options: ["always"] },
+        { code: "var foo = {\nbar: 'baz',\n}", options: ["always"] },
+        { code: "var foo = {\nbar: 'baz'\n,}", options: ["always"] },
+        { code: "var foo = [ 'baz', ]", options: ["always"] },
+        { code: "var foo = [\n'baz',\n]", options: ["always"] },
+        { code: "var foo = [\n'baz'\n,]", options: ["always"] },
+        { code: "[,,]", options: ["always"] },
+        { code: "[\n,\n,\n]", options: ["always"] },
+        { code: "[,]", options: ["always"] },
+        { code: "[\n,\n]", options: ["always"] },
+        { code: "[]", options: ["always"] },
+        { code: "[\n]", options: ["always"] },
 
-        { code: "var foo = { bar: 'baz' }", options: [ "always-multiline" ] },
-        { code: "var foo = { bar: 'baz' }", options: [ "only-multiline" ] },
-        { code: "var foo = {\nbar: 'baz',\n}", options: [ "always-multiline" ] },
-        { code: "var foo = {\nbar: 'baz',\n}", options: [ "only-multiline" ] },
-        { code: "var foo = [ 'baz' ]", options: [ "always-multiline" ] },
-        { code: "var foo = [ 'baz' ]", options: [ "only-multiline" ] },
-        { code: "var foo = [\n'baz',\n]", options: [ "always-multiline" ] },
-        { code: "var foo = [\n'baz',\n]", options: [ "only-multiline" ] },
-        { code: "var foo = { bar:\n\n'bar' }", options: [ "always-multiline" ] },
-        { code: "var foo = { bar:\n\n'bar' }", options: [ "only-multiline" ] },
-        { code: "var foo = {a: 1, b: 2, c: 3, d: 4}", options: [ "always-multiline" ] },
-        { code: "var foo = {a: 1, b: 2, c: 3, d: 4}", options: [ "only-multiline" ] },
-        { code: "var foo = {a: 1, b: 2,\n c: 3, d: 4}", options: [ "always-multiline" ] },
-        { code: "var foo = {a: 1, b: 2,\n c: 3, d: 4}", options: [ "only-multiline" ] },
-        { code: "var foo = {x: {\nfoo: 'bar',\n}}", options: [ "always-multiline" ] },
-        { code: "var foo = {x: {\nfoo: 'bar',\n}}", options: [ "only-multiline" ] },
-        { code: "var foo = new Map([\n[key, {\na: 1,\nb: 2,\nc: 3,\n}],\n])", options: [ "always-multiline" ] },
-        { code: "var foo = new Map([\n[key, {\na: 1,\nb: 2,\nc: 3,\n}],\n])", options: [ "only-multiline" ] },
-        { code: "[,,]", options: [ "always" ] },
-        { code: "[\n,\n,\n]", options: [ "always" ] },
-        { code: "[,]", options: [ "always" ] },
-        { code: "[\n,\n]", options: [ "always" ] },
-        { code: "[]", options: [ "always" ] },
-        { code: "[\n]", options: [ "always" ] },
+        { code: "var foo = { bar: 'baz' }", options: ["always-multiline"] },
+        { code: "var foo = { bar: 'baz' }", options: ["only-multiline"] },
+        { code: "var foo = {\nbar: 'baz',\n}", options: ["always-multiline"] },
+        { code: "var foo = {\nbar: 'baz',\n}", options: ["only-multiline"] },
+        { code: "var foo = [ 'baz' ]", options: ["always-multiline"] },
+        { code: "var foo = [ 'baz' ]", options: ["only-multiline"] },
+        { code: "var foo = [\n'baz',\n]", options: ["always-multiline"] },
+        { code: "var foo = [\n'baz',\n]", options: ["only-multiline"] },
+        { code: "var foo = { bar:\n\n'bar' }", options: ["always-multiline"] },
+        { code: "var foo = { bar:\n\n'bar' }", options: ["only-multiline"] },
+        { code: "var foo = {a: 1, b: 2, c: 3, d: 4}", options: ["always-multiline"] },
+        { code: "var foo = {a: 1, b: 2, c: 3, d: 4}", options: ["only-multiline"] },
+        { code: "var foo = {a: 1, b: 2,\n c: 3, d: 4}", options: ["always-multiline"] },
+        { code: "var foo = {a: 1, b: 2,\n c: 3, d: 4}", options: ["only-multiline"] },
+        { code: "var foo = {x: {\nfoo: 'bar',\n}}", options: ["always-multiline"] },
+        { code: "var foo = {x: {\nfoo: 'bar',\n}}", options: ["only-multiline"] },
+        { code: "var foo = new Map([\n[key, {\na: 1,\nb: 2,\nc: 3,\n}],\n])", options: ["always-multiline"] },
+        { code: "var foo = new Map([\n[key, {\na: 1,\nb: 2,\nc: 3,\n}],\n])", options: ["only-multiline"] },
+        { code: "[,,]", options: ["always"] },
+        { code: "[\n,\n,\n]", options: ["always"] },
+        { code: "[,]", options: ["always"] },
+        { code: "[\n,\n]", options: ["always"] },
+        { code: "[]", options: ["always"] },
+        { code: "[\n]", options: ["always"] },
 
         // https://github.com/eslint/eslint/issues/3627
         {
@@ -500,7 +500,7 @@ ruleTester.run("comma-dangle", rule, {
         {
             code: "var foo = { bar: 'baz', }",
             output: "var foo = { bar: 'baz' }",
-            options: [ "never" ],
+            options: ["never"],
             errors: [
                 {
                     message: "Unexpected trailing comma.",
@@ -513,7 +513,7 @@ ruleTester.run("comma-dangle", rule, {
         {
             code: "var foo = { bar: 'baz', }",
             output: "var foo = { bar: 'baz' }",
-            options: [ "only-multiline" ],
+            options: ["only-multiline"],
             errors: [
                 {
                     message: "Unexpected trailing comma.",
@@ -526,7 +526,7 @@ ruleTester.run("comma-dangle", rule, {
         {
             code: "var foo = {\nbar: 'baz',\n}",
             output: "var foo = {\nbar: 'baz'\n}",
-            options: [ "never" ],
+            options: ["never"],
             errors: [
                 {
                     message: "Unexpected trailing comma.",
@@ -539,7 +539,7 @@ ruleTester.run("comma-dangle", rule, {
         {
             code: "foo({ bar: 'baz', qux: 'quux', });",
             output: "foo({ bar: 'baz', qux: 'quux' });",
-            options: [ "never" ],
+            options: ["never"],
             errors: [
                 {
                     message: "Unexpected trailing comma.",
@@ -552,7 +552,7 @@ ruleTester.run("comma-dangle", rule, {
         {
             code: "foo({ bar: 'baz', qux: 'quux', });",
             output: "foo({ bar: 'baz', qux: 'quux' });",
-            options: [ "only-multiline" ],
+            options: ["only-multiline"],
             errors: [
                 {
                     message: "Unexpected trailing comma.",
@@ -566,7 +566,7 @@ ruleTester.run("comma-dangle", rule, {
         {
             code: "var foo = { bar: 'baz' }",
             output: "var foo = { bar: 'baz', }",
-            options: [ "always" ],
+            options: ["always"],
             errors: [
                 {
                     message: "Missing trailing comma.",
@@ -579,7 +579,7 @@ ruleTester.run("comma-dangle", rule, {
         {
             code: "var foo = {\nbar: 'baz'\n}",
             output: "var foo = {\nbar: 'baz',\n}",
-            options: [ "always" ],
+            options: ["always"],
             errors: [
                 {
                     message: "Missing trailing comma.",
@@ -592,7 +592,7 @@ ruleTester.run("comma-dangle", rule, {
         {
             code: "foo({ bar: 'baz', qux: 'quux' });",
             output: "foo({ bar: 'baz', qux: 'quux', });",
-            options: [ "always" ],
+            options: ["always"],
             errors: [
                 {
                     message: "Missing trailing comma.",
@@ -605,7 +605,7 @@ ruleTester.run("comma-dangle", rule, {
         {
             code: "foo({\nbar: 'baz',\nqux: 'quux'\n});",
             output: "foo({\nbar: 'baz',\nqux: 'quux',\n});",
-            options: [ "always" ],
+            options: ["always"],
             errors: [
                 {
                     message: "Missing trailing comma.",
@@ -618,7 +618,7 @@ ruleTester.run("comma-dangle", rule, {
         {
             code: "var foo = [ 'baz' ]",
             output: "var foo = [ 'baz', ]",
-            options: [ "always" ],
+            options: ["always"],
             errors: [
                 {
                     message: "Missing trailing comma.",
@@ -631,7 +631,7 @@ ruleTester.run("comma-dangle", rule, {
         {
             code: "var foo = [ 'baz'\n]",
             output: "var foo = [ 'baz',\n]",
-            options: [ "always" ],
+            options: ["always"],
             errors: [
                 {
                     message: "Missing trailing comma.",
@@ -644,7 +644,7 @@ ruleTester.run("comma-dangle", rule, {
         {
             code: "var foo = { bar:\n\n'bar' }",
             output: "var foo = { bar:\n\n'bar', }",
-            options: [ "always" ],
+            options: ["always"],
             errors: [
                 {
                     message: "Missing trailing comma.",
@@ -658,7 +658,7 @@ ruleTester.run("comma-dangle", rule, {
         {
             code: "var foo = {\nbar: 'baz'\n}",
             output: "var foo = {\nbar: 'baz',\n}",
-            options: [ "always-multiline" ],
+            options: ["always-multiline"],
             errors: [
                 {
                     message: "Missing trailing comma.",
@@ -683,7 +683,7 @@ ruleTester.run("comma-dangle", rule, {
             "    baz\n" +
             "  ),\n" +
             "];",
-            options: [ "always" ],
+            options: ["always"],
             errors: [
                 {
                     message: "Missing trailing comma.",
@@ -708,7 +708,7 @@ ruleTester.run("comma-dangle", rule, {
             "    qux\n" +
             "  ),\n" +
             "};",
-            options: [ "always" ],
+            options: ["always"],
             errors: [
                 {
                     message: "Missing trailing comma.",
@@ -735,7 +735,7 @@ ruleTester.run("comma-dangle", rule, {
             "    : qux\n" +
             "  ),\n" +
             "];",
-            options: [ "always" ],
+            options: ["always"],
             errors: [
                 {
                     message: "Missing trailing comma.",
@@ -748,7 +748,7 @@ ruleTester.run("comma-dangle", rule, {
         {
             code: "var foo = { bar: 'baz', }",
             output: "var foo = { bar: 'baz' }",
-            options: [ "always-multiline" ],
+            options: ["always-multiline"],
             errors: [
                 {
                     message: "Unexpected trailing comma.",
@@ -761,7 +761,7 @@ ruleTester.run("comma-dangle", rule, {
         {
             code: "var foo = { bar: 'baz', }",
             ouput: "var foo = { bar: 'baz' }",
-            options: [ "only-multiline" ],
+            options: ["only-multiline"],
             errors: [
                 {
                     message: "Unexpected trailing comma.",
@@ -774,7 +774,7 @@ ruleTester.run("comma-dangle", rule, {
         {
             code: "foo({\nbar: 'baz',\nqux: 'quux'\n});",
             output: "foo({\nbar: 'baz',\nqux: 'quux',\n});",
-            options: [ "always-multiline" ],
+            options: ["always-multiline"],
             errors: [
                 {
                     message: "Missing trailing comma.",
@@ -787,7 +787,7 @@ ruleTester.run("comma-dangle", rule, {
         {
             code: "foo({ bar: 'baz', qux: 'quux', });",
             output: "foo({ bar: 'baz', qux: 'quux' });",
-            options: [ "always-multiline" ],
+            options: ["always-multiline"],
             errors: [
                 {
                     message: "Unexpected trailing comma.",
@@ -800,7 +800,7 @@ ruleTester.run("comma-dangle", rule, {
         {
             code: "foo({ bar: 'baz', qux: 'quux', });",
             ouput: "foo({ bar: 'baz', qux: 'quux' });",
-            options: [ "only-multiline" ],
+            options: ["only-multiline"],
             errors: [
                 {
                     message: "Unexpected trailing comma.",
@@ -813,7 +813,7 @@ ruleTester.run("comma-dangle", rule, {
         {
             code: "var foo = [\n'baz'\n]",
             output: "var foo = [\n'baz',\n]",
-            options: [ "always-multiline" ],
+            options: ["always-multiline"],
             errors: [
                 {
                     message: "Missing trailing comma.",
@@ -826,7 +826,7 @@ ruleTester.run("comma-dangle", rule, {
         {
             code: "var foo = ['baz',]",
             output: "var foo = ['baz']",
-            options: [ "always-multiline" ],
+            options: ["always-multiline"],
             errors: [
                 {
                     message: "Unexpected trailing comma.",
@@ -839,7 +839,7 @@ ruleTester.run("comma-dangle", rule, {
         {
             code: "var foo = ['baz',]",
             output: "var foo = ['baz']",
-            options: [ "only-multiline" ],
+            options: ["only-multiline"],
             errors: [
                 {
                     message: "Unexpected trailing comma.",
@@ -852,7 +852,7 @@ ruleTester.run("comma-dangle", rule, {
         {
             code: "var foo = {x: {\nfoo: 'bar',\n},}",
             output: "var foo = {x: {\nfoo: 'bar',\n}}",
-            options: [ "always-multiline" ],
+            options: ["always-multiline"],
             errors: [
                 {
                     message: "Unexpected trailing comma.",
@@ -865,7 +865,7 @@ ruleTester.run("comma-dangle", rule, {
         {
             code: "var foo = {a: 1, b: 2,\nc: 3, d: 4,}",
             output: "var foo = {a: 1, b: 2,\nc: 3, d: 4}",
-            options: [ "always-multiline" ],
+            options: ["always-multiline"],
             errors: [
                 {
                     message: "Unexpected trailing comma.",
@@ -878,7 +878,7 @@ ruleTester.run("comma-dangle", rule, {
         {
             code: "var foo = {a: 1, b: 2,\nc: 3, d: 4,}",
             output: "var foo = {a: 1, b: 2,\nc: 3, d: 4}",
-            options: [ "only-multiline" ],
+            options: ["only-multiline"],
             errors: [
                 {
                     message: "Unexpected trailing comma.",
@@ -891,7 +891,7 @@ ruleTester.run("comma-dangle", rule, {
         {
             code: "var foo = [{\na: 1,\nb: 2,\nc: 3,\nd: 4,\n},]",
             output: "var foo = [{\na: 1,\nb: 2,\nc: 3,\nd: 4,\n}]",
-            options: [ "always-multiline" ],
+            options: ["always-multiline"],
             errors: [
                 {
                     message: "Unexpected trailing comma.",
@@ -904,7 +904,7 @@ ruleTester.run("comma-dangle", rule, {
         {
             code: "var { a, b, } = foo;",
             output: "var { a, b } = foo;",
-            options: [ "never" ],
+            options: ["never"],
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
@@ -918,7 +918,7 @@ ruleTester.run("comma-dangle", rule, {
         {
             code: "var { a, b, } = foo;",
             output: "var { a, b } = foo;",
-            options: [ "only-multiline" ],
+            options: ["only-multiline"],
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
@@ -932,7 +932,7 @@ ruleTester.run("comma-dangle", rule, {
         {
             code: "var [ a, b, ] = foo;",
             output: "var [ a, b ] = foo;",
-            options: [ "never" ],
+            options: ["never"],
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
@@ -946,7 +946,7 @@ ruleTester.run("comma-dangle", rule, {
         {
             code: "var [ a, b, ] = foo;",
             output: "var [ a, b ] = foo;",
-            options: [ "only-multiline" ],
+            options: ["only-multiline"],
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
@@ -960,7 +960,7 @@ ruleTester.run("comma-dangle", rule, {
         {
             code: "[(1),]",
             output: "[(1)]",
-            options: [ "never" ],
+            options: ["never"],
             errors: [
                 {
                     message: "Unexpected trailing comma.",
@@ -973,7 +973,7 @@ ruleTester.run("comma-dangle", rule, {
         {
             code: "[(1),]",
             output: "[(1)]",
-            options: [ "only-multiline" ],
+            options: ["only-multiline"],
             errors: [
                 {
                     message: "Unexpected trailing comma.",
@@ -986,7 +986,7 @@ ruleTester.run("comma-dangle", rule, {
         {
             code: "var x = { foo: (1),};",
             output: "var x = { foo: (1)};",
-            options: [ "never" ],
+            options: ["never"],
             errors: [
                 {
                     message: "Unexpected trailing comma.",
@@ -999,7 +999,7 @@ ruleTester.run("comma-dangle", rule, {
         {
             code: "var x = { foo: (1),};",
             output: "var x = { foo: (1)};",
-            options: [ "only-multiline" ],
+            options: ["only-multiline"],
             errors: [
                 {
                     message: "Unexpected trailing comma.",

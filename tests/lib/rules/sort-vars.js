@@ -21,7 +21,7 @@ const ruleTester = new RuleTester(),
         message: "Variables within the same declaration block should be sorted alphabetically.",
         type: "VariableDeclarator"
     },
-    ignoreCaseArgs = [ { ignoreCase: true } ];
+    ignoreCaseArgs = [{ ignoreCase: true }];
 
 ruleTester.run("sort-vars", rule, {
     valid: [
@@ -80,19 +80,19 @@ ruleTester.run("sort-vars", rule, {
         ].join("\n"), env: { es6: true }, parserOptions: { sourceType: "module" } }
     ],
     invalid: [
-        { code: "var b, a", errors: [ expectedError ] },
-        { code: "var b=10, a=20;", errors: [ expectedError ] },
-        { code: "var all=10, a = 1", errors: [ expectedError ] },
-        { code: "var b, c, a, d", errors: [ expectedError ] },
+        { code: "var b, a", errors: [expectedError] },
+        { code: "var b=10, a=20;", errors: [expectedError] },
+        { code: "var all=10, a = 1", errors: [expectedError] },
+        { code: "var b, c, a, d", errors: [expectedError] },
         { code: "var c, d, a, b", errors: 2 },
-        { code: "var a, A;", errors: [ expectedError ] },
-        { code: "var a, B;", errors: [ expectedError ] },
-        { code: "var a, B, c;", errors: [ expectedError ] },
-        { code: "var B, a;", options: ignoreCaseArgs, errors: [ expectedError ] },
-        { code: "var B, A, c;", options: ignoreCaseArgs, errors: [ expectedError ] },
+        { code: "var a, A;", errors: [expectedError] },
+        { code: "var a, B;", errors: [expectedError] },
+        { code: "var a, B, c;", errors: [expectedError] },
+        { code: "var B, a;", options: ignoreCaseArgs, errors: [expectedError] },
+        { code: "var B, A, c;", options: ignoreCaseArgs, errors: [expectedError] },
         { code: "var d, a, [b, c] = {};", options: ignoreCaseArgs,
-            parserOptions: { ecmaVersion: 6 }, errors: [ expectedError ] },
+            parserOptions: { ecmaVersion: 6 }, errors: [expectedError] },
         { code: "var d, a, [b, {x: {c, e}}] = {};", options: ignoreCaseArgs,
-            parserOptions: { ecmaVersion: 6 }, errors: [ expectedError ] }
+            parserOptions: { ecmaVersion: 6 }, errors: [expectedError] }
     ]
 });

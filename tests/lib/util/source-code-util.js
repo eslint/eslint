@@ -146,7 +146,7 @@ describe("SourceCodeUtil", () => {
 
             getSourceCodeOfFiles(filename);
             assert(spy.called);
-            assert.deepEqual(spy.firstCall.args[1].extensions, [ ".js" ]);
+            assert.deepEqual(spy.firstCall.args[1].extensions, [".js"]);
         });
 
         it("should create an object with located filenames as keys", () => {
