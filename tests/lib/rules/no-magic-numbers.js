@@ -85,6 +85,20 @@ ruleTester.run("no-magic-numbers", rule, {
                     jsx: true
                 }
             }
+        },
+        {
+            code: "const { timeout = 1000 } = {};",
+            env: { es6: true },
+            options: [{
+                detectDefaultValues: false
+            }]
+        },
+        {
+            code: "function makeRequest(timeout = 1000) {}",
+            env: { es6: true },
+            options: [{
+                detectDefaultValues: false
+            }]
         }
     ],
     invalid: [
@@ -238,6 +252,22 @@ ruleTester.run("no-magic-numbers", rule, {
                 { message: "No magic number: 1.", line: 1 },
                 { message: "No magic number: 10.", line: 1 },
                 { message: "No magic number: 4.", line: 1 }
+            ]
+        },
+        {
+            code: "const { timeout = 1000 } = {};",
+            env: { es6: true },
+            options: [{}],
+            errors: [
+                { message: "No magic number: 1000.", line: 1 }
+            ]
+        },
+        {
+            code: "function makeRequest(timeout = 1000) {}",
+            env: { es6: true },
+            options: [{}],
+            errors: [
+                { message: "No magic number: 1000.", line: 1 }
             ]
         }
     ]
