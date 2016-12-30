@@ -2,6 +2,7 @@ extends:
     "eslint:recommended"
 
 rules:
+    array-bracket-spacing: "error"
     array-callback-return: "error"
     arrow-body-style: ["error", "as-needed"]
     arrow-parens: ["error", "as-needed"]

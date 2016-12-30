@@ -59,7 +59,7 @@ ruleTester.run("space-before-function-paren", rule, {
                 "var bat = function*() {};",
                 "var obj = { get foo() {}, set foo(val) {}, bar() {} };"
             ].join("\n"),
-            options: [ { named: "never", anonymous: "always" } ],
+            options: [{ named: "never", anonymous: "always" }],
             parserOptions: { ecmaVersion: 6 }
         },
         {
@@ -70,30 +70,30 @@ ruleTester.run("space-before-function-paren", rule, {
                 "var bat = function* () {};",
                 "var obj = { get foo () {}, set foo (val) {}, bar () {} };"
             ].join("\n"),
-            options: [ { named: "always", anonymous: "never" } ],
+            options: [{ named: "always", anonymous: "never" }],
             parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "class Foo { constructor() {} *method() {} }",
-            options: [ { named: "never", anonymous: "always" } ],
+            options: [{ named: "never", anonymous: "always" }],
             parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "class Foo { constructor () {} *method () {} }",
-            options: [ { named: "always", anonymous: "never" } ],
+            options: [{ named: "always", anonymous: "never" }],
             parserOptions: { ecmaVersion: 6 }
         },
         { code: "var foo = function() {}",
-            options: [ { named: "always", anonymous: "ignore" } ]
+            options: [{ named: "always", anonymous: "ignore" }]
         },
         { code: "var foo = function () {}",
-            options: [ { named: "always", anonymous: "ignore" } ]
+            options: [{ named: "always", anonymous: "ignore" }]
         },
         { code: "var bar = function foo() {}",
-            options: [ { named: "ignore", anonymous: "always" } ]
+            options: [{ named: "ignore", anonymous: "always" }]
         },
         { code: "var bar = function foo () {}",
-            options: [ { named: "ignore", anonymous: "always" } ]
+            options: [{ named: "ignore", anonymous: "always" }]
         },
 
         // Async arrow functions
@@ -302,7 +302,7 @@ ruleTester.run("space-before-function-paren", rule, {
                 "var bar = function() {}",
                 "var obj = { get foo () {}, set foo (val) {}, bar () {} };"
             ].join("\n"),
-            options: [ { named: "never", anonymous: "always" } ],
+            options: [{ named: "never", anonymous: "always" }],
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
@@ -344,7 +344,7 @@ ruleTester.run("space-before-function-paren", rule, {
         },
         {
             code: "class Foo { constructor () {} *method () {} }",
-            options: [ { named: "never", anonymous: "always" } ],
+            options: [{ named: "never", anonymous: "always" }],
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
@@ -364,7 +364,7 @@ ruleTester.run("space-before-function-paren", rule, {
         },
         {
             code: "var foo = { bar () {} }",
-            options: [ { named: "never", anonymous: "always" } ],
+            options: [{ named: "never", anonymous: "always" }],
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
@@ -382,7 +382,7 @@ ruleTester.run("space-before-function-paren", rule, {
                 "var bar = function () {}",
                 "var obj = { get foo() {}, set foo(val) {}, bar() {} };"
             ].join("\n"),
-            options: [ { named: "always", anonymous: "never" } ],
+            options: [{ named: "always", anonymous: "never" }],
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
@@ -425,7 +425,7 @@ ruleTester.run("space-before-function-paren", rule, {
         {
             code: "var foo = function() {}",
             output: "var foo = function () {}",
-            options: [ { named: "ignore", anonymous: "always" } ],
+            options: [{ named: "ignore", anonymous: "always" }],
             errors: [
                 {
                     type: "FunctionExpression",
@@ -438,7 +438,7 @@ ruleTester.run("space-before-function-paren", rule, {
         {
             code: "var foo = function () {}",
             output: "var foo = function() {}",
-            options: [ { named: "ignore", anonymous: "never" } ],
+            options: [{ named: "ignore", anonymous: "never" }],
             errors: [
                 {
                     type: "FunctionExpression",
@@ -451,7 +451,7 @@ ruleTester.run("space-before-function-paren", rule, {
         {
             code: "var bar = function foo() {}",
             output: "var bar = function foo () {}",
-            options: [ { named: "always", anonymous: "ignore" } ],
+            options: [{ named: "always", anonymous: "ignore" }],
             errors: [
                 {
                     type: "FunctionExpression",
@@ -464,7 +464,7 @@ ruleTester.run("space-before-function-paren", rule, {
         {
             code: "var bar = function foo () {}",
             output: "var bar = function foo() {}",
-            options: [ { named: "never", anonymous: "ignore" } ],
+            options: [{ named: "never", anonymous: "ignore" }],
             errors: [
                 {
                     type: "FunctionExpression",

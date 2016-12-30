@@ -675,7 +675,7 @@ describe("Config", () => {
             });
 
             const configHelper = new StubbedConfig({
-                    plugins: [ "another-plugin" ],
+                    plugins: ["another-plugin"],
                     cwd: process.cwd()
                 }),
                 file = getFixturePath("broken", "plugins", "console-wrong-quotes.js"),
