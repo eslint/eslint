@@ -228,14 +228,14 @@ describe("RuleTester", () => {
 
         assert.throws(() => {
             ruleTester.run("no-eval", require("../../fixtures/testers/rule-tester/no-eval"), {
-                valid: [ "Eval(foo)" ],
-                invalid: [ {
+                valid: ["Eval(foo)"],
+                invalid: [{
                     code: "eval(foo)",
-                    errors: [ {
+                    errors: [{
                         message: "eval sucks.",
                         column: wrongColumn
-                    } ]
-                } ]
+                    }]
+                }]
             });
         }, expectedErrorMessage);
     });
@@ -244,11 +244,11 @@ describe("RuleTester", () => {
 
         assert.throws(() => {
             ruleTester.run("no-eval", require("../../fixtures/testers/rule-tester/no-eval"), {
-                valid: [ "Eval(foo)" ],
-                invalid: [ {
+                valid: ["Eval(foo)"],
+                invalid: [{
                     code: "var foo; eval(foo)",
-                    errors: [ { message: "eval sucks.", column: 0 } ]
-                } ]
+                    errors: [{ message: "eval sucks.", column: 0 }]
+                }]
             });
         }, /Error column should be 0/);
     });
@@ -339,11 +339,11 @@ describe("RuleTester", () => {
     it("should not throw an error if invalid code has at least an expected empty error object", () => {
         assert.doesNotThrow(() => {
             ruleTester.run("no-eval", require("../../fixtures/testers/rule-tester/no-eval"), {
-                valid: [ "Eval(foo)" ],
-                invalid: [ {
+                valid: ["Eval(foo)"],
+                invalid: [{
                     code: "eval(foo)",
-                    errors: [ {} ]
-                } ]
+                    errors: [{}]
+                }]
             });
         });
     });
@@ -362,7 +362,7 @@ describe("RuleTester", () => {
                         global: { test: true }
                     }
                 ],
-                invalid: [ { code: "bar", errors: 1 } ]
+                invalid: [{ code: "bar", errors: 1 }]
             });
         });
     });
@@ -370,7 +370,7 @@ describe("RuleTester", () => {
     it("should pass-through the globals config of invalid tests to the to rule", () => {
         assert.doesNotThrow(() => {
             ruleTester.run("no-test-global", require("../../fixtures/testers/rule-tester/no-test-global"), {
-                valid: [ "var test = 'foo'" ],
+                valid: ["var test = 'foo'"],
                 invalid: [
                     {
                         code: "var test = 'foo'; var foo = 'bar'",
@@ -379,12 +379,12 @@ describe("RuleTester", () => {
                     {
                         code: "var test = 'foo'",
                         globals: { foo: true },
-                        errors: [ { message: "Global variable foo should not be used." } ]
+                        errors: [{ message: "Global variable foo should not be used." }]
                     },
                     {
                         code: "var test = 'foo'",
                         global: { foo: true },
-                        errors: [ { message: "Global variable foo should not be used." } ]
+                        errors: [{ message: "Global variable foo should not be used." }]
                     }
                 ]
             });
@@ -435,14 +435,14 @@ describe("RuleTester", () => {
                 valid: [
                     {
                         code: "var foo = 'bar'",
-                        options: [ false ]
+                        options: [false]
                     }
                 ],
                 invalid: [
                     {
                         code: "var foo = 'bar'",
-                        options: [ true ],
-                        errors: [ { message: "Invalid args" } ]
+                        options: [true],
+                        errors: [{ message: "Invalid args" }]
                     }
                 ]
             });
@@ -464,7 +464,7 @@ describe("RuleTester", () => {
                     {
                         code: "eval(foo)",
                         parser: "esprima",
-                        errors: [ {} ]
+                        errors: [{}]
                     }
                 ]
             });
@@ -515,7 +515,7 @@ describe("RuleTester", () => {
                     "var test = 'foo'",
                     "var test2 = test"
                 ],
-                invalid: [ { code: "bar", errors: 1, global: { foo: true } } ]
+                invalid: [{ code: "bar", errors: 1, global: { foo: true } }]
             });
         });
     });
@@ -575,7 +575,7 @@ describe("RuleTester", () => {
                     "var test = 'foo'",
                     "var test2 = test"
                 ],
-                invalid: [ { code: "bar", errors: 1, global: { foo: true } } ]
+                invalid: [{ code: "bar", errors: 1, global: { foo: true } }]
             });
         });
     });

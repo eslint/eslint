@@ -29,29 +29,29 @@ const SEVERITY = 2;
 //------------------------------------------------------------------------------
 
 const rulesConfig = {
-    semi: [ SEVERITY, [SEVERITY, "always"], [SEVERITY, "never"] ],
-    "semi-spacing": [ SEVERITY,
-        [ SEVERITY, { before: true, after: true } ],
-        [ SEVERITY, { before: true, after: false } ],
-        [ SEVERITY, { before: false, after: true } ],
-        [ SEVERITY, { before: false, after: false } ]
+    semi: [SEVERITY, [SEVERITY, "always"], [SEVERITY, "never"]],
+    "semi-spacing": [SEVERITY,
+        [SEVERITY, { before: true, after: true }],
+        [SEVERITY, { before: true, after: false }],
+        [SEVERITY, { before: false, after: true }],
+        [SEVERITY, { before: false, after: false }]
     ],
-    quotes: [ SEVERITY,
-        [ SEVERITY, "single" ],
-        [ SEVERITY, "double" ],
-        [ SEVERITY, "backtick" ],
-        [ SEVERITY, "single", "avoid-escape" ],
-        [ SEVERITY, "double", "avoid-escape" ],
-        [ SEVERITY, "backtick", "avoid-escape" ] ]
+    quotes: [SEVERITY,
+        [SEVERITY, "single"],
+        [SEVERITY, "double"],
+        [SEVERITY, "backtick"],
+        [SEVERITY, "single", "avoid-escape"],
+        [SEVERITY, "double", "avoid-escape"],
+        [SEVERITY, "backtick", "avoid-escape"]]
 };
 
 const errorRulesConfig = {
-    "no-unused-vars": [ SEVERITY ],
-    "semi-spacing": [ SEVERITY,
-        [ SEVERITY, { before: true, after: true } ],
-        [ SEVERITY, { before: true, after: false } ],
-        [ SEVERITY, { before: false, after: true } ],
-        [ SEVERITY, { before: false, after: false } ]
+    "no-unused-vars": [SEVERITY],
+    "semi-spacing": [SEVERITY,
+        [SEVERITY, { before: true, after: true }],
+        [SEVERITY, { before: true, after: false }],
+        [SEVERITY, { before: false, after: true }],
+        [SEVERITY, { before: false, after: false }]
     ]
 };
 
@@ -204,8 +204,8 @@ describe("autoconfig", () => {
                 const sourceCode = sourceCodeUtil.getSourceCodeOfFiles(CONFIG_COMMENTS_FILENAME, config);
                 const expectedRegistry = [
                     { config: 2, specificity: 1, errorCount: 3 },
-                    { config: [ 2, "always" ], specificity: 2, errorCount: 3 },
-                    { config: [ 2, "never" ], specificity: 2, errorCount: 3 }
+                    { config: [2, "always"], specificity: 2, errorCount: 3 },
+                    { config: [2, "never"], specificity: 2, errorCount: 3 }
                 ];
 
                 registry = new autoconfig.Registry(rulesConfig);
@@ -288,7 +288,7 @@ describe("autoconfig", () => {
             });
 
             it("should set the configuration of the rule to the registryItem's `config` value", () => {
-                assert.deepEqual(createdConfig.rules.quotes, [ 2, "double", "avoid-escape" ]);
+                assert.deepEqual(createdConfig.rules.quotes, [2, "double", "avoid-escape"]);
             });
 
             it("should not care how many errors the config has", () => {

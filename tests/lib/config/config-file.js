@@ -749,7 +749,7 @@ describe("ConfigFile", () => {
                     parserOptions: {},
                     env: { "test/bar": true },
                     globals: {},
-                    plugins: [ "test" ],
+                    plugins: ["test"],
                     rules: {
                         "test/foo": 2
                     }
@@ -804,13 +804,13 @@ describe("ConfigFile", () => {
         describe("Relative to CWD", () => {
 
             leche.withData([
-                [ ".eslintrc", path.resolve(".eslintrc") ],
-                [ "eslint-config-foo", getProjectModulePath("eslint-config-foo") ],
-                [ "foo", getProjectModulePath("eslint-config-foo") ],
-                [ "eslint-configfoo", getProjectModulePath("eslint-config-eslint-configfoo") ],
-                [ "@foo/eslint-config", getProjectModulePath("@foo/eslint-config") ],
-                [ "@foo/bar", getProjectModulePath("@foo/eslint-config-bar") ],
-                [ "plugin:foo/bar", getProjectModulePath("eslint-plugin-foo") ]
+                [".eslintrc", path.resolve(".eslintrc")],
+                ["eslint-config-foo", getProjectModulePath("eslint-config-foo")],
+                ["foo", getProjectModulePath("eslint-config-foo")],
+                ["eslint-configfoo", getProjectModulePath("eslint-config-eslint-configfoo")],
+                ["@foo/eslint-config", getProjectModulePath("@foo/eslint-config")],
+                ["@foo/bar", getProjectModulePath("@foo/eslint-config-bar")],
+                ["plugin:foo/bar", getProjectModulePath("eslint-plugin-foo")]
             ], (input, expected) => {
                 it(`should return ${expected} when passed ${input}`, () => {
 
@@ -838,13 +838,13 @@ describe("ConfigFile", () => {
             const relativePath = path.resolve("./foo/bar");
 
             leche.withData([
-                [ ".eslintrc", path.resolve("./foo/bar", ".eslintrc"), relativePath ],
-                [ "eslint-config-foo", getRelativeModulePath("eslint-config-foo", relativePath), relativePath],
-                [ "foo", getRelativeModulePath("eslint-config-foo", relativePath), relativePath],
-                [ "eslint-configfoo", getRelativeModulePath("eslint-config-eslint-configfoo", relativePath), relativePath],
-                [ "@foo/eslint-config", getRelativeModulePath("@foo/eslint-config", relativePath), relativePath],
-                [ "@foo/bar", getRelativeModulePath("@foo/eslint-config-bar", relativePath), relativePath],
-                [ "plugin:@foo/bar/baz", getRelativeModulePath("@foo/eslint-plugin-bar", relativePath), relativePath]
+                [".eslintrc", path.resolve("./foo/bar", ".eslintrc"), relativePath],
+                ["eslint-config-foo", getRelativeModulePath("eslint-config-foo", relativePath), relativePath],
+                ["foo", getRelativeModulePath("eslint-config-foo", relativePath), relativePath],
+                ["eslint-configfoo", getRelativeModulePath("eslint-config-eslint-configfoo", relativePath), relativePath],
+                ["@foo/eslint-config", getRelativeModulePath("@foo/eslint-config", relativePath), relativePath],
+                ["@foo/bar", getRelativeModulePath("@foo/eslint-config-bar", relativePath), relativePath],
+                ["plugin:@foo/bar/baz", getRelativeModulePath("@foo/eslint-plugin-bar", relativePath), relativePath]
             ], (input, expected, relativeTo) => {
                 it(`should return ${expected} when passed ${input}`, () => {
 
@@ -868,10 +868,10 @@ describe("ConfigFile", () => {
             });
 
             leche.withData([
-                [ "eslint-config-foo/bar", path.resolve("./node_modules", "eslint-config-foo/bar", "index.json"), relativePath],
-                [ "eslint-config-foo/bar", path.resolve("./node_modules", "eslint-config-foo", "bar.json"), relativePath],
-                [ "eslint-config-foo/bar", path.resolve("./node_modules", "eslint-config-foo/bar", "index.js"), relativePath],
-                [ "eslint-config-foo/bar", path.resolve("./node_modules", "eslint-config-foo", "bar.js"), relativePath]
+                ["eslint-config-foo/bar", path.resolve("./node_modules", "eslint-config-foo/bar", "index.json"), relativePath],
+                ["eslint-config-foo/bar", path.resolve("./node_modules", "eslint-config-foo", "bar.json"), relativePath],
+                ["eslint-config-foo/bar", path.resolve("./node_modules", "eslint-config-foo/bar", "index.js"), relativePath],
+                ["eslint-config-foo/bar", path.resolve("./node_modules", "eslint-config-foo", "bar.js"), relativePath]
             ], (input, expected, relativeTo) => {
                 it(`should return ${expected} when passed ${input}`, () => {
 
@@ -962,11 +962,11 @@ describe("ConfigFile", () => {
     describe("getFilenameFromDirectory()", () => {
 
         leche.withData([
-            [ getFixturePath("legacy"), ".eslintrc" ],
-            [ getFixturePath("yaml"), ".eslintrc.yaml" ],
-            [ getFixturePath("yml"), ".eslintrc.yml" ],
-            [ getFixturePath("json"), ".eslintrc.json" ],
-            [ getFixturePath("js"), ".eslintrc.js" ]
+            [getFixturePath("legacy"), ".eslintrc"],
+            [getFixturePath("yaml"), ".eslintrc.yaml"],
+            [getFixturePath("yml"), ".eslintrc.yml"],
+            [getFixturePath("json"), ".eslintrc.json"],
+            [getFixturePath("js"), ".eslintrc.js"]
         ], (input, expected) => {
             it(`should return ${expected} when passed ${input}`, () => {
                 const result = ConfigFile.getFilenameForDirectory(input);
@@ -980,13 +980,13 @@ describe("ConfigFile", () => {
     describe("normalizePackageName()", () => {
 
         leche.withData([
-            [ "foo", "eslint-config-foo" ],
-            [ "eslint-config-foo", "eslint-config-foo" ],
-            [ "@z/foo", "@z/eslint-config-foo" ],
-            [ "@z\\foo", "@z/eslint-config-foo" ],
-            [ "@z\\foo\\bar.js", "@z/eslint-config-foo/bar.js" ],
-            [ "@z/eslint-config", "@z/eslint-config" ],
-            [ "@z/eslint-config-foo", "@z/eslint-config-foo" ]
+            ["foo", "eslint-config-foo"],
+            ["eslint-config-foo", "eslint-config-foo"],
+            ["@z/foo", "@z/eslint-config-foo"],
+            ["@z\\foo", "@z/eslint-config-foo"],
+            ["@z\\foo\\bar.js", "@z/eslint-config-foo/bar.js"],
+            ["@z/eslint-config", "@z/eslint-config"],
+            ["@z/eslint-config-foo", "@z/eslint-config-foo"]
         ], (input, expected) => {
             it(`should return ${expected} when passed ${input}`, () => {
                 const result = ConfigFile.normalizePackageName(input, "eslint-config");

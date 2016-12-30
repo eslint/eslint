@@ -440,60 +440,60 @@ ruleTester.run("one-var", rule, {
         },
         {
             code: "var one = 1, two = 2;\nvar three;",
-            options: [ "always" ],
-            errors: [ {
+            options: ["always"],
+            errors: [{
                 message: "Combine this with the previous 'var' statement.",
                 type: "VariableDeclaration",
                 line: 2,
                 column: 1
-            } ]
+            }]
         },
         {
             code: "var i = [0], j;",
-            options: [ { initialized: "never" } ],
-            errors: [ {
+            options: [{ initialized: "never" }],
+            errors: [{
                 message: "Split initialized 'var' declarations into multiple statements.",
                 type: "VariableDeclaration"
-            } ]
+            }]
         },
         {
             code: "var i = [0], j;",
-            options: [ { uninitialized: "never" } ],
-            errors: [ {
+            options: [{ uninitialized: "never" }],
+            errors: [{
                 message: "Split uninitialized 'var' declarations into multiple statements.",
                 type: "VariableDeclaration"
-            } ]
+            }]
         },
         {
             code: "for (var x of foo) {}; for (var y of foo) {}",
-            options: [ "always" ],
+            options: ["always"],
             parserOptions: { ecmaVersion: 6 },
-            errors: [ {
+            errors: [{
                 message: "Combine this with the previous 'var' statement.",
                 type: "VariableDeclaration"
-            } ]
+            }]
         },
         {
             code: "for (var x in foo) {}; for (var y in foo) {}",
-            options: [ "always" ],
+            options: ["always"],
             parserOptions: { ecmaVersion: 6 },
-            errors: [ {
+            errors: [{
                 message: "Combine this with the previous 'var' statement.",
                 type: "VariableDeclaration"
-            } ]
+            }]
         },
         {
             code: "var foo = function() { var bar = true; var baz = false; }",
-            errors: [ {
+            errors: [{
                 message: "Combine this with the previous 'var' statement.",
                 type: "VariableDeclaration",
                 line: 1,
                 column: 40
-            } ]
+            }]
         },
         {
             code: "function foo() { var bar = true; if (qux) { var baz = false; } else { var quxx = 42; } }",
-            errors: [ {
+            errors: [{
                 message: "Combine this with the previous 'var' statement.",
                 type: "VariableDeclaration",
                 line: 1,
@@ -503,35 +503,35 @@ ruleTester.run("one-var", rule, {
                 type: "VariableDeclaration",
                 line: 1,
                 column: 71
-            } ]
+            }]
         },
         {
             code: "var foo = () => { var bar = true; var baz = false; }",
             parserOptions: { ecmaVersion: 6 },
-            errors: [ {
+            errors: [{
                 message: "Combine this with the previous 'var' statement.",
                 type: "VariableDeclaration",
                 line: 1,
                 column: 35
-            } ]
+            }]
         },
         {
             code: "var foo = function() { var bar = true; if (qux) { var baz = false; } }",
-            errors: [ {
+            errors: [{
                 message: "Combine this with the previous 'var' statement.",
                 type: "VariableDeclaration",
                 line: 1,
                 column: 51
-            } ]
+            }]
         },
         {
             code: "var foo; var bar;",
-            errors: [ {
+            errors: [{
                 message: "Combine this with the previous 'var' statement.",
                 type: "VariableDeclaration",
                 line: 1,
                 column: 10
-            } ]
+            }]
         },
         {
             code: "var x = 1, y = 2; for (var z in foo) {}",
