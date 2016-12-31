@@ -849,6 +849,22 @@ ruleTester.run("capitalized-comments", rule, {
                 column: 1
             }]
         },
+        {
+            code: [
+                "// This comment is invalid since it is not capitalized,",
+                "// But this one is ignored since it is consecutive.",
+            ].join("\n"),
+            output: [
+                "// this comment is invalid since it is not capitalized,",
+                "// But this one is ignored since it is consecutive.",
+            ].join("\n"),
+            options: ["never", { ignoreConsecutiveComments: true }],
+            errors: [{
+                message: NEVER_MESSAGE,
+                line: 1,
+                column: 1
+            }]
+        },
 
         // Consecutive comments should warn if ignoreConsecutiveComments:false
         {
