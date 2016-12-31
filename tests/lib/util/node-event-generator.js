@@ -28,7 +28,7 @@ describe("NodeEventGenerator", () => {
     beforeEach(() => {
         emitter = new EventEmitter();
         emitter.emit = sinon.spy(emitter.emit);
-        generator = new NodeEventGenerator(emitter);
+        generator = new NodeEventGenerator(emitter, ["Foo", "Foo > Bar"]);
     });
 
     it("should generate events for entering AST node.", () => {
@@ -47,5 +47,14 @@ describe("NodeEventGenerator", () => {
 
         assert(emitter.emit.calledOnce);
         assert(emitter.emit.calledWith("Foo:exit", dummyNode));
+    });
+
+    it("should generate events for AST queries", () => {
+        const dummyNode = { type: "Bar", parent: { type: "Foo" } };
+
+        generator.enterNode(dummyNode);
+
+        assert(emitter.emit.calledTwice);
+        assert(emitter.emit.calledWith("Foo > Bar", dummyNode));
     });
 });
