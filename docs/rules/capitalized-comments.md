@@ -179,12 +179,12 @@ Examples of **correct** code with `ignoreConsecutiveComments` set to `true`:
 ```js
 /* eslint capitalize-comments: ["error", "always", { "ignoreConsecutiveComments": true }] */
 
-// This comment is valid since it has the correct capitalization,
-// and so is this one because it immediately follows a valid comment,
-// and this one as well because it follows the previous valid comment.
+// This comment is valid since it has the correct capitalization.
+// this comment is ignored since it follows another comment,
+// and this one as well because it follows yet another comment.
 
 /* Here is a block comment which has the correct capitalization, */
-/* and this one is valid as well; */
+/* but this one is ignored due to being consecutive; */
 /*
  * in fact, even if any of these are multi-line, that is fine too.
  */
