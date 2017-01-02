@@ -44,6 +44,11 @@ function fact(n) {
     if (n < 2) return 1;
     return n * fact(n - 1);
 }
+
+// When a function definition destructures an array, unused entries from the array also cause warnings.
+function getY([x, y]) {
+    return y;
+}
 ```
 
 Examples of **correct** code for this rule:
@@ -68,6 +73,11 @@ myFunc = setTimeout(function() {
     // myFunc is considered used
     myFunc();
 }, 50);
+
+// Only the second argument from the descructured array is used.
+function getY([, y]) {
+    return y;
+}
 ```
 
 ### exported
