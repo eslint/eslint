@@ -210,15 +210,7 @@ ESLint has full support for ECMAScript 6. By default, this support is off. You c
 
 ESLint doesn't natively support experimental ECMAScript language features. You can use [babel-eslint](https://github.com/babel/babel-eslint) to use any option available in Babel.
 
-Once a language feature has been adopted into the ECMAScript standard, we will accept
-issues and pull requests related to the new feature, subject to our [contributing
-guidelines](http://eslint.org/docs/developer-guide/contributing). Note that we will
-only support language features which have been *fully* adopted into the ECMAScript
-standard: in other words, Stage 4 proposals as described by the
-[TC39 process](https://tc39.github.io/process-document/). We do not support Stage 3
-proposals because we cannot know (and do not want to guess) which future version of
-the ECMAScript standard will eventually contain the new language feature. Until then,
-please use the appropriate parser and plugin(s) for your experimental feature.
+Once a language feature has been adopted into the ECMAScript standard (stage 4 according to the [TC39 process](https://tc39.github.io/process-document/), we will accept issues and pull requests related to the new feature, subject to our contributing guidelines. Until then, please use the appropriate parser and plugin(s) for your experimental feature.
 
 ### Where to ask for help?
 
