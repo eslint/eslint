@@ -9,23 +9,11 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-const path = require("path"),
+const baseParser = require("../../fixtures/fixture-parser"),
     rule = require("../../../lib/rules/arrow-parens"),
     RuleTester = require("../../../lib/testers/rule-tester");
 
-//------------------------------------------------------------------------------
-// Helpers
-//------------------------------------------------------------------------------
-
-/**
- * Gets the path to the specified parser.
- *
- * @param {string} name - The parser name to get.
- * @returns {string} The path to the specified parser.
- */
-function parser(name) {
-    return path.resolve(__dirname, `../../fixtures/parsers/arrow-parens/${name}.js`);
-}
+const parser = baseParser.bind(null, "arrow-parens");
 
 //------------------------------------------------------------------------------
 // Tests
