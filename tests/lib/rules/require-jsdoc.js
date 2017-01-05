@@ -166,6 +166,22 @@ ruleTester.run("require-jsdoc", rule, {
             parserOptions: { ecmaVersion: 6 }
         },
         {
+            code:
+            "class A {\n" +
+            "    constructor(xs) {\n" +
+            "        this.a = xs;" +
+            "    }\n" +
+            "}",
+            parserOptions: { ecmaVersion: 6 },
+            options: [{
+                exportedOnly: true,
+                require: {
+                    MethodDefinition: false,
+                    ClassDeclaration: true
+                }
+            }]
+        },
+        {
             code: "/**\n Function doing something\n*/\nvar myFunction = () => {}",
             options: [{
                 require: {
@@ -225,7 +241,42 @@ ruleTester.run("require-jsdoc", rule, {
                 }
             }],
             parserOptions: { ecmaVersion: 6 }
-        }
+        },
+        {
+            code:
+            "/** My Exported Class A */" +
+            "export class A {\n" +
+            "    constructor(xs) {\n" +
+            "        this.a = xs;" +
+            "    }\n" +
+            "}",
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            options: [{
+                exportedOnly: true,
+                require: {
+                    ClassDeclaration: true
+                }
+            }]
+        },
+        {
+            code: "function myFunction() {}",
+            options: [{
+                exportedOnly: true,
+                require: {
+                    MethodDefinition: true,
+                }
+            }]
+        },
+        {
+            code: "var myFunction = () => () => {}",
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            options: [{
+                exportedOnly: true,
+                require: {
+                    ArrowFunctionExpression: true
+                }
+            }]
+        },
     ],
 
     invalid: [
@@ -381,6 +432,26 @@ ruleTester.run("require-jsdoc", rule, {
             options: [{
                 require: {
                     FunctionExpression: true
+                },
+            }],
+            errors: [{
+                message: "Missing JSDoc comment.",
+                type: "FunctionExpression"
+            }]
+        },
+        {
+            code:
+            "/** A JSDoc comment */\n" +
+            "export default class A extends B {\n" +
+            "    constructor(xs) {\n" +
+            "        this.a = xs;" +
+            "    }\n" +
+            "}",
+            parserOptions: { sourceType: "module" },
+            options: [{
+                require: {
+                    MethodDefinition: true,
+                    ClassDeclaration: true
                 }
             }],
             errors: [{
