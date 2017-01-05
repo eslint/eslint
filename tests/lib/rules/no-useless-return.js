@@ -157,6 +157,14 @@ ruleTester.run("no-useless-return", rule, {
             while (foo) return;
             foo;
           }
+        `,
+
+        // https://github.com/eslint/eslint/issues/7855
+        `
+          try {
+            throw new Error('foo');
+            while (false);
+          } catch (err) {}
         `
     ],
 
