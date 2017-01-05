@@ -2,6 +2,8 @@
 
 If an `if` block contains a `return` statement, the `else` block becomes unnecessary. Its contents can be placed outside of the block.
 
+(fixable) The `--fix` option on the [command line](../user-guide/command-line-interface#fix) automatically fixes problems reported by this rule.
+
 ```js
 function foo() {
     if (x) {
