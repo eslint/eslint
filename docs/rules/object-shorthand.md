@@ -103,7 +103,13 @@ You can set the option in configuration like this:
 }
 ```
 
-While set to `"always"`, `"methods"`, or `"properties"`, shorthand syntax using string literal keys can be ignored using the optional parameter `"avoidQuotes"`. This will make it so longform syntax is preferred whenever the object key is a string literal. Note: The first parameter must be specified when using this optional parameter.
+Additionally, the rule takes an optional object configuration:
+
+* `"avoidQuotes": true` indicates that longform syntax is preferred whenever the object key is a string literal (default: `false`). Note that this option can only be enabled when the string option is set to `"always"`, `"methods"`, or `"properties"`.
+* `"ignoreConstructors": true` can be used to prevent the rule from reporting errors for constructor functions. (By default, the rule treats constructors the same way as other functions.) Note that this option can only be enabled when the string option is set to `"always"` or `"methods"`.
+* `"avoidExplicitReturnArrows": true` indicates that methods are preferred over explicit-return arrow functions for function properties. (By default, the rule allows either of these.) Note that this option can only be enabled when the string option is set to `"always"` or `"methods"`.
+
+### `avoidQuotes`
 
 ```json
 {
@@ -134,7 +140,7 @@ var foo = {
 };
 ```
 
-While set to `"always"` or `"methods"`, constructor functions can be ignored with the optional parameter `"ignoreConstructors"` enabled. Note: The first parameter must be specified when using this optional parameter.
+### `ignoreConstructors`
 
 ```json
 {
@@ -150,6 +156,46 @@ Example of **correct** code for this rule with the `"always", { "ignoreConstruct
 
 var foo = {
     ConstructorFunction: function() {}
+};
+```
+
+### `avoidExplicitReturnArrows`
+
+```json
+{
+    "object-shorthand": ["error", "always", { "avoidExplicitReturnArrows": true }]
+}
+```
+
+Example of **incorrect** code for this rule with the `"always", { "avoidExplicitReturnArrows": true }` option:
+
+```js
+/*eslint object-shorthand: ["error", "always", { "avoidExplicitReturnArrows": true }]*/
+/*eslint-env es6*/
+
+var foo = {
+  foo: (bar, baz) => {
+    return bar + baz;
+  },
+
+  qux: (foobar) => {
+    return foobar * 2;
+  }
+};
+```
+
+Example of **correct** code for this rule with the `"always", { "avoidExplicitReturnArrows": true }` option:
+
+```js
+/*eslint object-shorthand: ["error", "always", { "avoidExplicitReturnArrows": true }]*/
+/*eslint-env es6*/
+
+var foo = {
+  foo(bar, baz) {
+    return bar + baz;
+  },
+
+  qux: foobar => foobar * 2
 };
 ```
 
