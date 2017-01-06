@@ -329,5 +329,13 @@ ruleTester.run("prefer-const", rule, {
             output: "/*eslint use-x:error*/ { const x = 1 }",
             errors: [{ message: "'x' is never reassigned. Use 'const' instead.", type: "Identifier" }]
         },
+        {
+            code: "let { foo, bar } = baz;",
+            output: "const { foo, bar } = baz;",
+            errors: [
+                { message: "'foo' is never reassigned. Use 'const' instead.", type: "Identifier" },
+                { message: "'bar' is never reassigned. Use 'const' instead.", type: "Identifier" },
+            ]
+        },
     ]
 });
