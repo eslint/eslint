@@ -22,7 +22,7 @@ const OPEN_MESSAGE = "Opening curly brace does not appear on the same line as co
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester();
+const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } });
 
 ruleTester.run("brace-style", rule, {
     valid: [
@@ -50,6 +50,16 @@ ruleTester.run("brace-style", rule, {
         "for (foo in bar) { \n baz(); \n }",
         "if (a &&\n b &&\n c) { \n }",
         "switch(0) {\n}",
+        "class Foo {\n}",
+        "(class {\n})",
+        "class\nFoo {\n}",
+        `
+            class Foo {
+                bar() {
+
+                }
+            }
+        `,
         { code: "if (foo) {\n}\nelse {\n}", options: ["stroustrup"] },
         { code: "if (foo)\n{\n}\nelse\n{\n}", options: ["allman"] },
         { code: "try { \n bar();\n }\ncatch (e) {\n baz(); \n }", options: ["stroustrup"] },
@@ -92,6 +102,42 @@ ruleTester.run("brace-style", rule, {
         },
         {
             code: "switch(x) {}",
+            options: ["allman", { allowSingleLine: true }]
+        },
+        {
+            code: "class Foo {\n}",
+            options: ["stroustrup"]
+        },
+        {
+            code: "(class {\n})",
+            options: ["stroustrup"]
+        },
+        {
+            code: "class Foo\n{\n}",
+            options: ["allman"]
+        },
+        {
+            code: "(class\n{\n})",
+            options: ["allman"]
+        },
+        {
+            code: "class\nFoo\n{\n}",
+            options: ["allman"]
+        },
+        {
+            code: "class Foo {}",
+            options: ["1tbs", { allowSingleLine: true }]
+        },
+        {
+            code: "class Foo {}",
+            options: ["allman", { allowSingleLine: true }]
+        },
+        {
+            code: "(class {})",
+            options: ["1tbs", { allowSingleLine: true }]
+        },
+        {
+            code: "(class {})",
             options: ["allman", { allowSingleLine: true }]
         }
     ],
@@ -494,6 +540,44 @@ ruleTester.run("brace-style", rule, {
             output: "switch (x) {\n case 1: foo() \n}",
             options: ["1tbs", { allowSingleLine: true }],
             errors: [{ message: CLOSE_MESSAGE_SINGLE, type: "Punctuator" }]
+        },
+        {
+            code: "class Foo\n{\n}",
+            output: "class Foo{\n}",
+            errors: [{ message: OPEN_MESSAGE, type: "Punctuator" }]
+        },
+        {
+            code: "(class\n{\n})",
+            output: "(class{\n})",
+            errors: [{ message: OPEN_MESSAGE, type: "Punctuator" }]
+        },
+        {
+            code: "class Foo{\n}",
+            output: "class Foo\n{\n}",
+            options: ["allman"],
+            errors: [{ message: OPEN_MESSAGE_ALLMAN, type: "Punctuator" }]
+        },
+        {
+            code: "(class {\n})",
+            output: "(class \n{\n})",
+            options: ["allman"],
+            errors: [{ message: OPEN_MESSAGE_ALLMAN, type: "Punctuator" }]
+        },
+        {
+            code: "class Foo {\nbar() {\n}}",
+            output: "class Foo {\nbar() {\n}\n}",
+            errors: [{ message: CLOSE_MESSAGE_SINGLE, type: "Punctuator" }]
+        },
+        {
+            code: "(class Foo {\nbar() {\n}})",
+            output: "(class Foo {\nbar() {\n}\n})",
+            errors: [{ message: CLOSE_MESSAGE_SINGLE, type: "Punctuator" }]
+        },
+        {
+            code: "class\nFoo{}",
+            output: "class\nFoo\n{}",
+            options: ["allman"],
+            errors: [{ message: OPEN_MESSAGE_ALLMAN, type: "Punctuator" }]
         }
     ]
 });
