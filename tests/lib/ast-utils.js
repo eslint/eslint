@@ -953,4 +953,21 @@ describe("ast-utils", () => {
             });
         });
     });
+
+    describe("getParenthesisedText", () => {
+        const expectedResults = {
+            "(((foo))); bar;": "(((foo)))",
+            "(/* comment */(((foo.bar())))); baz();": "(/* comment */(((foo.bar()))))",
+            "(foo, bar)": "(foo, bar)"
+        };
+
+        Object.keys(expectedResults).forEach(key => {
+            it(`should return ${expectedResults[key]} for ${key}`, () => {
+                const ast = espree.parse(key, { tokens: true, comment: true, range: true, loc: true });
+                const sourceCode = new SourceCode(key, ast);
+
+                assert.strictEqual(astUtils.getParenthesisedText(sourceCode, ast.body[0].expression), expectedResults[key]);
+            });
+        });
+    });
 });
