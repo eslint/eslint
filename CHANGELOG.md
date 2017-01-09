@@ -1,3 +1,8 @@
+v3.13.1 - January 9, 2017
+
+* 3fc4e3f Fix: prefer-destructuring reporting compound assignments (fixes #7881) (#7882) (Teddy Katz)
+* f90462e Fix: no-extra-label autofix should not remove labels used elsewhere (#7885) (Teddy Katz)
+
 v3.13.0 - January 6, 2017
 
 * cd4c025 Update: add fixer for no-extra-label (#7840) (Teddy Katz)
