@@ -41,54 +41,73 @@ ruleTester.run("no-extra-label", rule, {
     invalid: [
         {
             code: "A: while (a) break A;",
-            output: "while (a) break;",
+            output: "A: while (a) break;",
             errors: ["This label 'A' is unnecessary."]
         },
         {
             code: "A: while (a) { B: { continue A; } }",
-            output: "while (a) { B: { continue; } }",
+            output: "A: while (a) { B: { continue; } }",
             errors: ["This label 'A' is unnecessary."]
         },
         {
             code: "X: while (x) { A: while (a) { B: { break A; break B; continue X; } } }",
-            output: "X: while (x) { while (a) { B: { break; break B; continue X; } } }",
+            output: "X: while (x) { A: while (a) { B: { break; break B; continue X; } } }",
             errors: ["This label 'A' is unnecessary."]
         },
         {
             code: "A: do { break A; } while (a);",
-            output: "do { break; } while (a);",
+            output: "A: do { break; } while (a);",
             errors: ["This label 'A' is unnecessary."]
         },
         {
             code: "A: for (;;) { break A; }",
-            output: "for (;;) { break; }",
+            output: "A: for (;;) { break; }",
             errors: ["This label 'A' is unnecessary."]
         },
         {
             code: "A: for (a in obj) { break A; }",
-            output: "for (a in obj) { break; }",
+            output: "A: for (a in obj) { break; }",
             errors: ["This label 'A' is unnecessary."]
         },
         {
             code: "A: for (a of ary) { break A; }",
-            output: "for (a of ary) { break; }",
+            output: "A: for (a of ary) { break; }",
             errors: ["This label 'A' is unnecessary."],
             parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "A: switch (a) { case 0: break A; }",
-            output: "switch (a) { case 0: break; }",
+            output: "A: switch (a) { case 0: break; }",
             errors: ["This label 'A' is unnecessary."]
         },
         {
             code: "X: while (x) { A: switch (a) { case 0: break A; } }",
-            output: "X: while (x) { switch (a) { case 0: break; } }",
+            output: "X: while (x) { A: switch (a) { case 0: break; } }",
             errors: ["This label 'A' is unnecessary."]
         },
         {
             code: "X: switch (a) { case 0: A: while (b) break A; }",
-            output: "X: switch (a) { case 0: while (b) break; }",
+            output: "X: switch (a) { case 0: A: while (b) break; }",
             errors: ["This label 'A' is unnecessary."]
+        },
+        {
+            code: `\
+                A: while (true) {
+                    break A;
+                    while (true) {
+                        break A;
+                    }
+                }
+            `,
+            output: `\
+                A: while (true) {
+                    break;
+                    while (true) {
+                        break A;
+                    }
+                }
+            `,
+            errors: [{ message: "This label 'A' is unnecessary.", type: "Identifier", line: 2 }]
         }
     ]
 });
