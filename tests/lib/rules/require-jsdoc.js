@@ -192,7 +192,37 @@ ruleTester.run("require-jsdoc", rule, {
                     ArrowFunctionExpression: true
                 }
             }]
-        }
+        },
+        {
+            code:
+            "/**\n" +
+            " * Foo description\n" +
+            " */\n" +
+            "const foo = function bar(fooParam) {\n" +
+            "    return fooParam;\n" +
+            "};\n",
+            parserOptions: { ecmaVersion: 6 },
+            options: [{
+                require: {
+                    FunctionDeclaration: true
+                }
+            }]
+        },
+        {
+            code:
+            "/**\n" +
+            " * Foo description\n" +
+            " */\n" +
+            "let foo = function bar(fooParam) {\n" +
+            "    return fooParam;\n" +
+            "};\n",
+            parserOptions: { ecmaVersion: 6 },
+            options: [{
+                require: {
+                    FunctionDeclaration: true
+                }
+            }]
+        },
     ],
 
     invalid: [
@@ -341,6 +371,38 @@ ruleTester.run("require-jsdoc", rule, {
             errors: [{
                 message: "Missing JSDoc comment.",
                 type: "ArrowFunctionExpression"
+            }]
+        },
+        {
+            code:
+            "const foo = function bar(fooParam) {\n" +
+            "    return fooParam;\n" +
+            "};\n",
+            parserOptions: { ecmaVersion: 6 },
+            options: [{
+                require: {
+                    FunctionDeclaration: true
+                }
+            }],
+            errors: [{
+                message: "Missing JSDoc comment.",
+                type: "FunctionExpression"
+            }]
+        },
+        {
+            code:
+            "let foo = function bar(fooParam) {\n" +
+            "    return fooParam;\n" +
+            "};\n",
+            parserOptions: { ecmaVersion: 6 },
+            options: [{
+                require: {
+                    FunctionDeclaration: true
+                }
+            }],
+            errors: [{
+                message: "Missing JSDoc comment.",
+                type: "FunctionExpression"
             }]
         },
     ]
