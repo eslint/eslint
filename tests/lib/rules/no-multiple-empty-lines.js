@@ -309,6 +309,11 @@ ruleTester.run("no-multiple-empty-lines", rule, {
             errors: [getExpectedError(1)],
             options: [{ max: 1 }],
             parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: `a\n\n\n\n${"a".repeat(100000)}`,
+            output: `a\n\n\n${"a".repeat(100000)}`,
+            errors: [getExpectedError(2)]
         }
     ]
 });
