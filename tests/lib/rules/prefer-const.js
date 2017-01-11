@@ -337,5 +337,12 @@ ruleTester.run("prefer-const", rule, {
                 { message: "'bar' is never reassigned. Use 'const' instead.", type: "Identifier" },
             ]
         },
+
+        {
+            code: "let lines\nlines = ''",
+            output: "const lines = ''",
+            parserOptions: {ecmaVersion: 6},
+            errors: [{ message: "'lines' is never reassigned. Use 'const' instead.", type: "Identifier"}]
+        },
     ]
 });
