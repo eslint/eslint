@@ -51,7 +51,7 @@ ruleTester.run("no-self-assign", rule, {
         { code: "a.b.c = a.b.c" },
         { code: "a[b] = a[b]" },
         { code: "a['b'] = a['b']" },
-        { code: "a[\n    'b'\n] = a[\n    'b'\n]" },
+        { code: "a[\n    'b'\n] = a[\n    'b'\n]" }
     ],
     invalid: [
         { code: "a = a", errors: ["'a' is assigned to itself."] },
@@ -72,6 +72,6 @@ ruleTester.run("no-self-assign", rule, {
         { code: "a.b.c = a.b.c", options: [{ props: true }], errors: ["'a.b.c' is assigned to itself."] },
         { code: "a[b] = a[b]", options: [{ props: true }], errors: ["'a[b]' is assigned to itself."] },
         { code: "a['b'] = a['b']", options: [{ props: true }], errors: ["'a['b']' is assigned to itself."] },
-        { code: "a[\n    'b'\n] = a[\n    'b'\n]", options: [{ props: true }], errors: ["'a['b']' is assigned to itself."] },
+        { code: "a[\n    'b'\n] = a[\n    'b'\n]", options: [{ props: true }], errors: ["'a['b']' is assigned to itself."] }
     ]
 });

@@ -27,7 +27,7 @@ ruleTester.run("no-unsafe-negation", rule, {
         "a instanceof b",
         "a instanceof b === false",
         "!(a instanceof b)",
-        "(!a) instanceof b",
+        "(!a) instanceof b"
     ],
     invalid: [
         {
@@ -59,6 +59,6 @@ ruleTester.run("no-unsafe-negation", rule, {
             code: "!(a) instanceof b",
             output: "!((a) instanceof b)",
             errors: ["Unexpected negating the left operand of 'instanceof' operator."]
-        },
+        }
     ]
 });

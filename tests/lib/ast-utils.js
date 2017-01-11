@@ -759,7 +759,7 @@ describe("ast-utils", () => {
             "class A { static *foo() {} }": "static generator method 'foo'",
             "class A { static async foo() {} }": "static async method 'foo'",
             "class A { static get foo() {} }": "static getter 'foo'",
-            "class A { static set foo(a) {} }": "static setter 'foo'",
+            "class A { static set foo(a) {} }": "static setter 'foo'"
         };
 
         Object.keys(expectedResults).forEach(key => {
@@ -832,7 +832,7 @@ describe("ast-utils", () => {
             "class A { static *foo() {} }": [10, 21],
             "class A { static async foo() {} }": [10, 26],
             "class A { static get foo() {} }": [10, 24],
-            "class A { static set foo(a) {} }": [10, 24],
+            "class A { static set foo(a) {} }": [10, 24]
         };
 
         Object.keys(expectedResults).forEach(key => {
@@ -877,7 +877,7 @@ describe("ast-utils", () => {
         const expectedResults = {
             "{}": true,
             "{ a }": false,
-            a: false,
+            a: false
         };
 
         Object.keys(expectedResults).forEach(key => {
@@ -895,7 +895,7 @@ describe("ast-utils", () => {
             "(function foo() { a })": false,
             "(a) => {}": true,
             "(a) => { a }": false,
-            "(a) => a": false,
+            "(a) => a": false
         };
 
         Object.keys(expectedResults).forEach(key => {

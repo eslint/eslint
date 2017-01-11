@@ -342,6 +342,6 @@ ruleTester.run("require-jsdoc", rule, {
                 message: "Missing JSDoc comment.",
                 type: "ArrowFunctionExpression"
             }]
-        },
+        }
     ]
 });

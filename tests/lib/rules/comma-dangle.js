@@ -248,167 +248,167 @@ ruleTester.run("comma-dangle", rule, {
         {
             code: "function foo(a,) {}",
             parserOptions: { ecmaVersion: 8 },
-            options: ["never"],
+            options: ["never"]
         },
         {
             code: "foo(a,)",
             parserOptions: { ecmaVersion: 8 },
-            options: ["never"],
+            options: ["never"]
         },
         {
             code: "function foo(a) {}",
             parserOptions: { ecmaVersion: 8 },
-            options: ["always"],
+            options: ["always"]
         },
         {
             code: "foo(a)",
             parserOptions: { ecmaVersion: 8 },
-            options: ["always"],
+            options: ["always"]
         },
         {
             code: "function foo(\na,\nb\n) {}",
             parserOptions: { ecmaVersion: 8 },
-            options: ["always-multiline"],
+            options: ["always-multiline"]
         },
         {
             code: "foo(\na,b)",
             parserOptions: { ecmaVersion: 8 },
-            options: ["always-multiline"],
+            options: ["always-multiline"]
         },
         {
             code: "function foo(a,b,) {}",
             parserOptions: { ecmaVersion: 8 },
-            options: ["always-multiline"],
+            options: ["always-multiline"]
         },
         {
             code: "foo(a,b,)",
             parserOptions: { ecmaVersion: 8 },
-            options: ["always-multiline"],
+            options: ["always-multiline"]
         },
         {
             code: "function foo(a,b,) {}",
             parserOptions: { ecmaVersion: 8 },
-            options: ["only-multiline"],
+            options: ["only-multiline"]
         },
         {
             code: "foo(a,b,)",
             parserOptions: { ecmaVersion: 8 },
-            options: ["only-multiline"],
+            options: ["only-multiline"]
         },
 
         // trailing comma in functions
         {
             code: "function foo(a) {} ",
             parserOptions: { ecmaVersion: 8 },
-            options: [{ functions: "never" }],
+            options: [{ functions: "never" }]
         },
         {
             code: "foo(a)",
             parserOptions: { ecmaVersion: 8 },
-            options: [{ functions: "never" }],
+            options: [{ functions: "never" }]
         },
         {
             code: "function foo(a,) {}",
             parserOptions: { ecmaVersion: 8 },
-            options: [{ functions: "always" }],
+            options: [{ functions: "always" }]
         },
         {
             code: "function bar(a, ...b) {}",
             parserOptions: { ecmaVersion: 8 },
-            options: [{ functions: "always" }],
+            options: [{ functions: "always" }]
         },
         {
             code: "foo(a,)",
             parserOptions: { ecmaVersion: 8 },
-            options: [{ functions: "always" }],
+            options: [{ functions: "always" }]
         },
         {
             code: "bar(...a,)",
             parserOptions: { ecmaVersion: 8 },
-            options: [{ functions: "always" }],
+            options: [{ functions: "always" }]
         },
         {
             code: "function foo(a) {} ",
             parserOptions: { ecmaVersion: 8 },
-            options: [{ functions: "always-multiline" }],
+            options: [{ functions: "always-multiline" }]
         },
         {
             code: "foo(a)",
             parserOptions: { ecmaVersion: 8 },
-            options: [{ functions: "always-multiline" }],
+            options: [{ functions: "always-multiline" }]
         },
         {
             code: "function foo(\na,\nb,\n) {} ",
             parserOptions: { ecmaVersion: 8 },
-            options: [{ functions: "always-multiline" }],
+            options: [{ functions: "always-multiline" }]
         },
         {
             code: "function foo(\na,\n...b\n) {} ",
             parserOptions: { ecmaVersion: 8 },
-            options: [{ functions: "always-multiline" }],
+            options: [{ functions: "always-multiline" }]
         },
         {
             code: "foo(\na,\nb,\n)",
             parserOptions: { ecmaVersion: 8 },
-            options: [{ functions: "always-multiline" }],
+            options: [{ functions: "always-multiline" }]
         },
         {
             code: "foo(\na,\n...b,\n)",
             parserOptions: { ecmaVersion: 8 },
-            options: [{ functions: "always-multiline" }],
+            options: [{ functions: "always-multiline" }]
         },
         {
             code: "function foo(a) {} ",
             parserOptions: { ecmaVersion: 8 },
-            options: [{ functions: "only-multiline" }],
+            options: [{ functions: "only-multiline" }]
         },
         {
             code: "foo(a)",
             parserOptions: { ecmaVersion: 8 },
-            options: [{ functions: "only-multiline" }],
+            options: [{ functions: "only-multiline" }]
         },
         {
             code: "function foo(\na,\nb,\n) {} ",
             parserOptions: { ecmaVersion: 8 },
-            options: [{ functions: "only-multiline" }],
+            options: [{ functions: "only-multiline" }]
         },
         {
             code: "foo(\na,\nb,\n)",
             parserOptions: { ecmaVersion: 8 },
-            options: [{ functions: "only-multiline" }],
+            options: [{ functions: "only-multiline" }]
         },
         {
             code: "function foo(\na,\nb\n) {} ",
             parserOptions: { ecmaVersion: 8 },
-            options: [{ functions: "only-multiline" }],
+            options: [{ functions: "only-multiline" }]
         },
         {
             code: "foo(\na,\nb\n)",
             parserOptions: { ecmaVersion: 8 },
-            options: [{ functions: "only-multiline" }],
+            options: [{ functions: "only-multiline" }]
         },
 
         // https://github.com/eslint/eslint/issues/7370
         {
             code: "function foo({a}: {a: string,}) {}",
             parser: parser("object-pattern-1"),
-            options: ["never"],
+            options: ["never"]
         },
         {
             code: "function foo({a,}: {a: string}) {}",
             parser: parser("object-pattern-2"),
-            options: ["always"],
+            options: ["always"]
         },
         {
             code: "function foo(a): {b: boolean,} {}",
             parser: parser("return-type-1"),
-            options: [{ functions: "never" }],
+            options: [{ functions: "never" }]
         },
         {
             code: "function foo(a,): {b: boolean} {}",
             parser: parser("return-type-2"),
-            options: [{ functions: "always" }],
-        },
+            options: [{ functions: "always" }]
+        }
     ],
     invalid: [
         {
@@ -1457,28 +1457,28 @@ export {d,};
             output: "function foo({a,}: {a: string,}) {}",
             parser: parser("object-pattern-1"),
             options: ["always"],
-            errors: [{ message: "Missing trailing comma." }],
+            errors: [{ message: "Missing trailing comma." }]
         },
         {
             code: "function foo({a,}: {a: string}) {}",
             output: "function foo({a}: {a: string}) {}",
             parser: parser("object-pattern-2"),
             options: ["never"],
-            errors: [{ message: "Unexpected trailing comma." }],
+            errors: [{ message: "Unexpected trailing comma." }]
         },
         {
             code: "function foo(a): {b: boolean,} {}",
             output: "function foo(a,): {b: boolean,} {}",
             parser: parser("return-type-1"),
             options: [{ functions: "always" }],
-            errors: [{ message: "Missing trailing comma." }],
+            errors: [{ message: "Missing trailing comma." }]
         },
         {
             code: "function foo(a,): {b: boolean} {}",
             output: "function foo(a): {b: boolean} {}",
             parser: parser("return-type-2"),
             options: [{ functions: "never" }],
-            errors: [{ message: "Unexpected trailing comma." }],
-        },
+            errors: [{ message: "Unexpected trailing comma." }]
+        }
     ]
 });

@@ -112,7 +112,7 @@ ruleTester.run("space-before-function-paren", rule, {
         { code: "async () => 1", options: ["always"], parserOptions: { ecmaVersion: 8 } },
         { code: "async() => 1", options: ["always"], parserOptions: { ecmaVersion: 8 } },
         { code: "async () => 1", options: ["never"], parserOptions: { ecmaVersion: 8 } },
-        { code: "async() => 1", options: ["never"], parserOptions: { ecmaVersion: 8 } },
+        { code: "async() => 1", options: ["never"], parserOptions: { ecmaVersion: 8 } }
     ],
 
     invalid: [
@@ -489,6 +489,6 @@ ruleTester.run("space-before-function-paren", rule, {
             options: [{ asyncArrow: "never" }],
             parserOptions: { ecmaVersion: 8 },
             errors: ["Unexpected space before function parentheses."]
-        },
+        }
     ]
 });

@@ -291,7 +291,7 @@ ruleTester.run("no-extra-parens", rule, {
         { code: "foo instanceof (bar instanceof baz)", options: ["all", { nestedBinaryExpressions: false }] },
         { code: "foo in (bar in baz)", options: ["all", { nestedBinaryExpressions: false }] },
         { code: "foo + (bar + baz)", options: ["all", { nestedBinaryExpressions: false }] },
-        { code: "foo && (bar && baz)", options: ["all", { nestedBinaryExpressions: false }] },
+        { code: "foo && (bar && baz)", options: ["all", { nestedBinaryExpressions: false }] }
     ],
 
     invalid: [
@@ -590,7 +590,7 @@ ruleTester.run("no-extra-parens", rule, {
                     type: "LogicalExpression"
                 }
             ],
-            output: "b => b || c;",
+            output: "b => b || c;"
         },
         {
             code: "b => ((b = c) || (d = e));",
@@ -691,7 +691,7 @@ ruleTester.run("no-extra-parens", rule, {
                 {
                     message: "Gratuitous parentheses around expression.",
                     type: "AwaitExpression"
-                },
+                }
             ],
             output: "async function a() { await a + await b; }"
         },

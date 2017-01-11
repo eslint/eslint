@@ -91,6 +91,6 @@ ruleTester.run("no-use-before-define", rule, {
         { code: "var {a = 0} = a;", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "'a' was used before it was defined.", type: "Identifier" }] },
         { code: "var [a = 0] = a;", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "'a' was used before it was defined.", type: "Identifier" }] },
         { code: "for (var a in a) {}", errors: [{ message: "'a' was used before it was defined.", type: "Identifier" }] },
-        { code: "for (var a of a) {}", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "'a' was used before it was defined.", type: "Identifier" }] },
+        { code: "for (var a of a) {}", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "'a' was used before it was defined.", type: "Identifier" }] }
     ]
 });

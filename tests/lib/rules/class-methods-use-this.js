@@ -87,7 +87,7 @@ ruleTester.run("class-methods-use-this", rule, {
             parserOptions: { ecmaVersion: 6 },
             options: [{ exceptMethods: ["bar"] }],
             errors: [
-                { type: "FunctionExpression", line: 1, column: 14, message: "Expected 'this' to be used by class method 'foo'." },
+                { type: "FunctionExpression", line: 1, column: 14, message: "Expected 'this' to be used by class method 'foo'." }
             ]
         },
         {

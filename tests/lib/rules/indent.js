@@ -3868,6 +3868,6 @@ ruleTester.run("indent", rule, {
             "             'baz']);",
             options: [2, { ArrayExpression: "first", CallExpression: { arguments: "first" } }],
             errors: expectedErrors([2, 13, 12, "ArrayExpression"])
-        },
+        }
     ]
 });

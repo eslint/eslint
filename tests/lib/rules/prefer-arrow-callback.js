@@ -164,7 +164,7 @@ ruleTester.run("prefer-arrow-callback", rule, {
             code: "qux(async function (foo = 1, bar = 2, baz = 3) { return this; }.bind(this))",
             output: "qux(async (foo = 1, bar = 2, baz = 3) => { return this; })",
             parserOptions: { ecmaVersion: 8 },
-            errors,
+            errors
         }
     ]
 });

@@ -334,8 +334,8 @@ ruleTester.run("prefer-const", rule, {
             output: "const { foo, bar } = baz;",
             errors: [
                 { message: "'foo' is never reassigned. Use 'const' instead.", type: "Identifier" },
-                { message: "'bar' is never reassigned. Use 'const' instead.", type: "Identifier" },
+                { message: "'bar' is never reassigned. Use 'const' instead.", type: "Identifier" }
             ]
-        },
+        }
     ]
 });
