@@ -309,6 +309,13 @@ ruleTester.run("no-multiple-empty-lines", rule, {
             errors: [getExpectedError(1)],
             options: [{ max: 1 }],
             parserOptions: { ecmaVersion: 6 }
+        },
+        {
+
+            // https://github.com/eslint/eslint/issues/7893
+            code: `a\n\n\n\n${"a".repeat(1e5)}`,
+            output: `a\n\n\n${"a".repeat(1e5)}`,
+            errors: [getExpectedError(2)]
         }
     ]
 });
