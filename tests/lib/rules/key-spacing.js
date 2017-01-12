@@ -1691,7 +1691,7 @@ ruleTester.run("key-spacing", rule, {
                 align: {
                     beforeColon: false,
                     afterColon: true,
-                    on: "colon",
+                    on: "colon"
                 }
             }
         }],
@@ -1720,7 +1720,7 @@ ruleTester.run("key-spacing", rule, {
             align: {
                 beforeColon: false,
                 afterColon: true,
-                on: "colon",
+                on: "colon"
             }
         }],
         parserOptions: { ecmaVersion: 6, ecmaFeatures: { experimentalObjectRestSpread: true } },

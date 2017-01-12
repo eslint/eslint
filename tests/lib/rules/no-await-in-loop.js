@@ -35,7 +35,7 @@ ruleTester.run("no-await-in-loop", rule, {
         "async function foo() { while (true) { var y = async () => { await foo; } } }",
 
         // Blocked by a class method
-        "async function foo() { while (true) { class Foo { async foo() { await bar; } } } }",
+        "async function foo() { while (true) { class Foo { async foo() { await bar; } } } }"
 
     ],
     invalid: [
@@ -64,6 +64,6 @@ ruleTester.run("no-await-in-loop", rule, {
         { code: "async function foo() { while (true) { if (bar) { foo(await bar); } } }", errors: [message] },
 
         // Deep in a loop condition
-        { code: "async function foo() { while (xyz || 5 > await x) {  } }", errors: [message] },
-    ],
+        { code: "async function foo() { while (xyz || 5 > await x) {  } }", errors: [message] }
+    ]
 });

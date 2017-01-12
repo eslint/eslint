@@ -150,7 +150,7 @@ ruleTester.run("no-useless-escape", rule, {
             code: "var foo = '\\`foo\\`';",
             errors: [
                 { line: 1, column: 12, message: "Unnecessary escape character: \\`.", type: "Literal" },
-                { line: 1, column: 17, message: "Unnecessary escape character: \\`.", type: "Literal" },
+                { line: 1, column: 17, message: "Unnecessary escape character: \\`.", type: "Literal" }
             ]
         },
         {
@@ -158,7 +158,7 @@ ruleTester.run("no-useless-escape", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 { line: 1, column: 12, message: "Unnecessary escape character: \\\".", type: "TemplateElement" },
-                { line: 1, column: 20, message: "Unnecessary escape character: \\\".", type: "TemplateElement" },
+                { line: 1, column: 20, message: "Unnecessary escape character: \\\".", type: "TemplateElement" }
             ]
         },
         {
@@ -188,21 +188,21 @@ ruleTester.run("no-useless-escape", rule, {
             code: "var foo = `\\$\\{{${foo}`;",
             parserOptions: { ecmaVersion: 6 },
             errors: [
-                { line: 1, column: 12, message: "Unnecessary escape character: \\$.", type: "TemplateElement" },
+                { line: 1, column: 12, message: "Unnecessary escape character: \\$.", type: "TemplateElement" }
             ]
         },
         {
             code: "var foo = `\\$a${foo}`;",
             parserOptions: { ecmaVersion: 6 },
             errors: [
-                { line: 1, column: 12, message: "Unnecessary escape character: \\$.", type: "TemplateElement" },
+                { line: 1, column: 12, message: "Unnecessary escape character: \\$.", type: "TemplateElement" }
             ]
         },
         {
             code: "var foo = `a\\{{${foo}`;",
             parserOptions: { ecmaVersion: 6 },
             errors: [
-                { line: 1, column: 13, message: "Unnecessary escape character: \\{.", type: "TemplateElement" },
+                { line: 1, column: 13, message: "Unnecessary escape character: \\{.", type: "TemplateElement" }
             ]
         },
         {

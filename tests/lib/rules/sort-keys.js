@@ -116,7 +116,7 @@ ruleTester.run("sort-keys", rule, {
         { code: "var obj = {C:2, c:3, b_:1}", options: ["desc", { natural: true, caseSensitive: false }] },
         { code: "var obj = {a:4, A:3, _:2, $:1}", options: ["desc", { natural: true, caseSensitive: false }] },
         { code: "var obj = {A:3, '11':2, 2:4, 1:1}", options: ["desc", { natural: true, caseSensitive: false }] },
-        { code: "var obj = {è:4, À:3, 'Z':2, '#':1}", options: ["desc", { natural: true, caseSensitive: false }] },
+        { code: "var obj = {è:4, À:3, 'Z':2, '#':1}", options: ["desc", { natural: true, caseSensitive: false }] }
     ],
     invalid: [
 
@@ -165,7 +165,7 @@ ruleTester.run("sort-keys", rule, {
                 ecmaFeatures: { experimentalObjectRestSpread: true }
             },
             errors: [
-                "Expected object keys to be in ascending order. 'a' should be before 'b'.",
+                "Expected object keys to be in ascending order. 'a' should be before 'b'."
             ]
         },
 
@@ -174,7 +174,7 @@ ruleTester.run("sort-keys", rule, {
             code: "var obj = {a:1, c:{y:1, x:1}, b:1}",
             errors: [
                 "Expected object keys to be in ascending order. 'x' should be before 'y'.",
-                "Expected object keys to be in ascending order. 'b' should be before 'c'.",
+                "Expected object keys to be in ascending order. 'b' should be before 'c'."
             ]
         },
 
@@ -183,49 +183,49 @@ ruleTester.run("sort-keys", rule, {
             code: "var obj = {a:1, _:2, b:3} // asc",
             options: ["asc"],
             errors: [
-                "Expected object keys to be in ascending order. '_' should be before 'a'.",
+                "Expected object keys to be in ascending order. '_' should be before 'a'."
             ]
         },
         {
             code: "var obj = {a:1, c:2, b:3}",
             options: ["asc"],
             errors: [
-                "Expected object keys to be in ascending order. 'b' should be before 'c'.",
+                "Expected object keys to be in ascending order. 'b' should be before 'c'."
             ]
         },
         {
             code: "var obj = {b_:1, a:2, b:3}",
             options: ["asc"],
             errors: [
-                "Expected object keys to be in ascending order. 'a' should be before 'b_'.",
+                "Expected object keys to be in ascending order. 'a' should be before 'b_'."
             ]
         },
         {
             code: "var obj = {b_:1, c:2, C:3}",
             options: ["asc"],
             errors: [
-                "Expected object keys to be in ascending order. 'C' should be before 'c'.",
+                "Expected object keys to be in ascending order. 'C' should be before 'c'."
             ]
         },
         {
             code: "var obj = {$:1, _:2, A:3, a:4}",
             options: ["asc"],
             errors: [
-                "Expected object keys to be in ascending order. 'A' should be before '_'.",
+                "Expected object keys to be in ascending order. 'A' should be before '_'."
             ]
         },
         {
             code: "var obj = {1:1, 2:4, A:3, '11':2}",
             options: ["asc"],
             errors: [
-                "Expected object keys to be in ascending order. '11' should be before 'A'.",
+                "Expected object keys to be in ascending order. '11' should be before 'A'."
             ]
         },
         {
             code: "var obj = {'#':1, À:3, 'Z':2, è:4}",
             options: ["asc"],
             errors: [
-                "Expected object keys to be in ascending order. 'Z' should be before 'À'.",
+                "Expected object keys to be in ascending order. 'Z' should be before 'À'."
             ]
         },
 
@@ -234,42 +234,42 @@ ruleTester.run("sort-keys", rule, {
             code: "var obj = {a:1, _:2, b:3} // asc, insensitive",
             options: ["asc", { caseSensitive: false }],
             errors: [
-                "Expected object keys to be in insensitive ascending order. '_' should be before 'a'.",
+                "Expected object keys to be in insensitive ascending order. '_' should be before 'a'."
             ]
         },
         {
             code: "var obj = {a:1, c:2, b:3}",
             options: ["asc", { caseSensitive: false }],
             errors: [
-                "Expected object keys to be in insensitive ascending order. 'b' should be before 'c'.",
+                "Expected object keys to be in insensitive ascending order. 'b' should be before 'c'."
             ]
         },
         {
             code: "var obj = {b_:1, a:2, b:3}",
             options: ["asc", { caseSensitive: false }],
             errors: [
-                "Expected object keys to be in insensitive ascending order. 'a' should be before 'b_'.",
+                "Expected object keys to be in insensitive ascending order. 'a' should be before 'b_'."
             ]
         },
         {
             code: "var obj = {$:1, A:3, _:2, a:4}",
             options: ["asc", { caseSensitive: false }],
             errors: [
-                "Expected object keys to be in insensitive ascending order. '_' should be before 'A'.",
+                "Expected object keys to be in insensitive ascending order. '_' should be before 'A'."
             ]
         },
         {
             code: "var obj = {1:1, 2:4, A:3, '11':2}",
             options: ["asc", { caseSensitive: false }],
             errors: [
-                "Expected object keys to be in insensitive ascending order. '11' should be before 'A'.",
+                "Expected object keys to be in insensitive ascending order. '11' should be before 'A'."
             ]
         },
         {
             code: "var obj = {'#':1, À:3, 'Z':2, è:4}",
             options: ["asc", { caseSensitive: false }],
             errors: [
-                "Expected object keys to be in insensitive ascending order. 'Z' should be before 'À'.",
+                "Expected object keys to be in insensitive ascending order. 'Z' should be before 'À'."
             ]
         },
 
@@ -278,49 +278,49 @@ ruleTester.run("sort-keys", rule, {
             code: "var obj = {a:1, _:2, b:3} // asc, natural",
             options: ["asc", { natural: true }],
             errors: [
-                "Expected object keys to be in natural ascending order. '_' should be before 'a'.",
+                "Expected object keys to be in natural ascending order. '_' should be before 'a'."
             ]
         },
         {
             code: "var obj = {a:1, c:2, b:3}",
             options: ["asc", { natural: true }],
             errors: [
-                "Expected object keys to be in natural ascending order. 'b' should be before 'c'.",
+                "Expected object keys to be in natural ascending order. 'b' should be before 'c'."
             ]
         },
         {
             code: "var obj = {b_:1, a:2, b:3}",
             options: ["asc", { natural: true }],
             errors: [
-                "Expected object keys to be in natural ascending order. 'a' should be before 'b_'.",
+                "Expected object keys to be in natural ascending order. 'a' should be before 'b_'."
             ]
         },
         {
             code: "var obj = {b_:1, c:2, C:3}",
             options: ["asc", { natural: true }],
             errors: [
-                "Expected object keys to be in natural ascending order. 'C' should be before 'c'.",
+                "Expected object keys to be in natural ascending order. 'C' should be before 'c'."
             ]
         },
         {
             code: "var obj = {$:1, A:3, _:2, a:4}",
             options: ["asc", { natural: true }],
             errors: [
-                "Expected object keys to be in natural ascending order. '_' should be before 'A'.",
+                "Expected object keys to be in natural ascending order. '_' should be before 'A'."
             ]
         },
         {
             code: "var obj = {1:1, 2:4, A:3, '11':2}",
             options: ["asc", { natural: true }],
             errors: [
-                "Expected object keys to be in natural ascending order. '11' should be before 'A'.",
+                "Expected object keys to be in natural ascending order. '11' should be before 'A'."
             ]
         },
         {
             code: "var obj = {'#':1, À:3, 'Z':2, è:4}",
             options: ["asc", { natural: true }],
             errors: [
-                "Expected object keys to be in natural ascending order. 'Z' should be before 'À'.",
+                "Expected object keys to be in natural ascending order. 'Z' should be before 'À'."
             ]
         },
 
@@ -329,42 +329,42 @@ ruleTester.run("sort-keys", rule, {
             code: "var obj = {a:1, _:2, b:3} // asc, natural, insensitive",
             options: ["asc", { natural: true, caseSensitive: false }],
             errors: [
-                "Expected object keys to be in natural insensitive ascending order. '_' should be before 'a'.",
+                "Expected object keys to be in natural insensitive ascending order. '_' should be before 'a'."
             ]
         },
         {
             code: "var obj = {a:1, c:2, b:3}",
             options: ["asc", { natural: true, caseSensitive: false }],
             errors: [
-                "Expected object keys to be in natural insensitive ascending order. 'b' should be before 'c'.",
+                "Expected object keys to be in natural insensitive ascending order. 'b' should be before 'c'."
             ]
         },
         {
             code: "var obj = {b_:1, a:2, b:3}",
             options: ["asc", { natural: true, caseSensitive: false }],
             errors: [
-                "Expected object keys to be in natural insensitive ascending order. 'a' should be before 'b_'.",
+                "Expected object keys to be in natural insensitive ascending order. 'a' should be before 'b_'."
             ]
         },
         {
             code: "var obj = {$:1, A:3, _:2, a:4}",
             options: ["asc", { natural: true, caseSensitive: false }],
             errors: [
-                "Expected object keys to be in natural insensitive ascending order. '_' should be before 'A'.",
+                "Expected object keys to be in natural insensitive ascending order. '_' should be before 'A'."
             ]
         },
         {
             code: "var obj = {1:1, '11':2, 2:4, A:3}",
             options: ["asc", { natural: true, caseSensitive: false }],
             errors: [
-                "Expected object keys to be in natural insensitive ascending order. '2' should be before '11'.",
+                "Expected object keys to be in natural insensitive ascending order. '2' should be before '11'."
             ]
         },
         {
             code: "var obj = {'#':1, À:3, 'Z':2, è:4}",
             options: ["asc", { natural: true, caseSensitive: false }],
             errors: [
-                "Expected object keys to be in natural insensitive ascending order. 'Z' should be before 'À'.",
+                "Expected object keys to be in natural insensitive ascending order. 'Z' should be before 'À'."
             ]
         },
 
@@ -373,28 +373,28 @@ ruleTester.run("sort-keys", rule, {
             code: "var obj = {a:1, _:2, b:3} // desc",
             options: ["desc"],
             errors: [
-                "Expected object keys to be in descending order. 'b' should be before '_'.",
+                "Expected object keys to be in descending order. 'b' should be before '_'."
             ]
         },
         {
             code: "var obj = {a:1, c:2, b:3}",
             options: ["desc"],
             errors: [
-                "Expected object keys to be in descending order. 'c' should be before 'a'.",
+                "Expected object keys to be in descending order. 'c' should be before 'a'."
             ]
         },
         {
             code: "var obj = {b_:1, a:2, b:3}",
             options: ["desc"],
             errors: [
-                "Expected object keys to be in descending order. 'b' should be before 'a'.",
+                "Expected object keys to be in descending order. 'b' should be before 'a'."
             ]
         },
         {
             code: "var obj = {b_:1, c:2, C:3}",
             options: ["desc"],
             errors: [
-                "Expected object keys to be in descending order. 'c' should be before 'b_'.",
+                "Expected object keys to be in descending order. 'c' should be before 'b_'."
             ]
         },
         {
@@ -402,7 +402,7 @@ ruleTester.run("sort-keys", rule, {
             options: ["desc"],
             errors: [
                 "Expected object keys to be in descending order. '_' should be before '$'.",
-                "Expected object keys to be in descending order. 'a' should be before 'A'.",
+                "Expected object keys to be in descending order. 'a' should be before 'A'."
             ]
         },
         {
@@ -410,7 +410,7 @@ ruleTester.run("sort-keys", rule, {
             options: ["desc"],
             errors: [
                 "Expected object keys to be in descending order. '2' should be before '1'.",
-                "Expected object keys to be in descending order. 'A' should be before '2'.",
+                "Expected object keys to be in descending order. 'A' should be before '2'."
             ]
         },
         {
@@ -418,7 +418,7 @@ ruleTester.run("sort-keys", rule, {
             options: ["desc"],
             errors: [
                 "Expected object keys to be in descending order. 'À' should be before '#'.",
-                "Expected object keys to be in descending order. 'è' should be before 'Z'.",
+                "Expected object keys to be in descending order. 'è' should be before 'Z'."
             ]
         },
 
@@ -427,28 +427,28 @@ ruleTester.run("sort-keys", rule, {
             code: "var obj = {a:1, _:2, b:3} // desc, insensitive",
             options: ["desc", { caseSensitive: false }],
             errors: [
-                "Expected object keys to be in insensitive descending order. 'b' should be before '_'.",
+                "Expected object keys to be in insensitive descending order. 'b' should be before '_'."
             ]
         },
         {
             code: "var obj = {a:1, c:2, b:3}",
             options: ["desc", { caseSensitive: false }],
             errors: [
-                "Expected object keys to be in insensitive descending order. 'c' should be before 'a'.",
+                "Expected object keys to be in insensitive descending order. 'c' should be before 'a'."
             ]
         },
         {
             code: "var obj = {b_:1, a:2, b:3}",
             options: ["desc", { caseSensitive: false }],
             errors: [
-                "Expected object keys to be in insensitive descending order. 'b' should be before 'a'.",
+                "Expected object keys to be in insensitive descending order. 'b' should be before 'a'."
             ]
         },
         {
             code: "var obj = {b_:1, c:2, C:3}",
             options: ["desc", { caseSensitive: false }],
             errors: [
-                "Expected object keys to be in insensitive descending order. 'c' should be before 'b_'.",
+                "Expected object keys to be in insensitive descending order. 'c' should be before 'b_'."
             ]
         },
         {
@@ -456,7 +456,7 @@ ruleTester.run("sort-keys", rule, {
             options: ["desc", { caseSensitive: false }],
             errors: [
                 "Expected object keys to be in insensitive descending order. '_' should be before '$'.",
-                "Expected object keys to be in insensitive descending order. 'A' should be before '_'.",
+                "Expected object keys to be in insensitive descending order. 'A' should be before '_'."
             ]
         },
         {
@@ -464,7 +464,7 @@ ruleTester.run("sort-keys", rule, {
             options: ["desc", { caseSensitive: false }],
             errors: [
                 "Expected object keys to be in insensitive descending order. '2' should be before '1'.",
-                "Expected object keys to be in insensitive descending order. 'A' should be before '2'.",
+                "Expected object keys to be in insensitive descending order. 'A' should be before '2'."
             ]
         },
         {
@@ -472,7 +472,7 @@ ruleTester.run("sort-keys", rule, {
             options: ["desc", { caseSensitive: false }],
             errors: [
                 "Expected object keys to be in insensitive descending order. 'À' should be before '#'.",
-                "Expected object keys to be in insensitive descending order. 'è' should be before 'Z'.",
+                "Expected object keys to be in insensitive descending order. 'è' should be before 'Z'."
             ]
         },
 
@@ -481,28 +481,28 @@ ruleTester.run("sort-keys", rule, {
             code: "var obj = {a:1, _:2, b:3} // desc, natural",
             options: ["desc", { natural: true }],
             errors: [
-                "Expected object keys to be in natural descending order. 'b' should be before '_'.",
+                "Expected object keys to be in natural descending order. 'b' should be before '_'."
             ]
         },
         {
             code: "var obj = {a:1, c:2, b:3}",
             options: ["desc", { natural: true }],
             errors: [
-                "Expected object keys to be in natural descending order. 'c' should be before 'a'.",
+                "Expected object keys to be in natural descending order. 'c' should be before 'a'."
             ]
         },
         {
             code: "var obj = {b_:1, a:2, b:3}",
             options: ["desc", { natural: true }],
             errors: [
-                "Expected object keys to be in natural descending order. 'b' should be before 'a'.",
+                "Expected object keys to be in natural descending order. 'b' should be before 'a'."
             ]
         },
         {
             code: "var obj = {b_:1, c:2, C:3}",
             options: ["desc", { natural: true }],
             errors: [
-                "Expected object keys to be in natural descending order. 'c' should be before 'b_'.",
+                "Expected object keys to be in natural descending order. 'c' should be before 'b_'."
             ]
         },
         {
@@ -511,7 +511,7 @@ ruleTester.run("sort-keys", rule, {
             errors: [
                 "Expected object keys to be in natural descending order. '_' should be before '$'.",
                 "Expected object keys to be in natural descending order. 'A' should be before '_'.",
-                "Expected object keys to be in natural descending order. 'a' should be before 'A'.",
+                "Expected object keys to be in natural descending order. 'a' should be before 'A'."
             ]
         },
         {
@@ -519,7 +519,7 @@ ruleTester.run("sort-keys", rule, {
             options: ["desc", { natural: true }],
             errors: [
                 "Expected object keys to be in natural descending order. '2' should be before '1'.",
-                "Expected object keys to be in natural descending order. 'A' should be before '2'.",
+                "Expected object keys to be in natural descending order. 'A' should be before '2'."
             ]
         },
         {
@@ -527,7 +527,7 @@ ruleTester.run("sort-keys", rule, {
             options: ["desc", { natural: true }],
             errors: [
                 "Expected object keys to be in natural descending order. 'À' should be before '#'.",
-                "Expected object keys to be in natural descending order. 'è' should be before 'Z'.",
+                "Expected object keys to be in natural descending order. 'è' should be before 'Z'."
             ]
         },
 
@@ -536,28 +536,28 @@ ruleTester.run("sort-keys", rule, {
             code: "var obj = {a:1, _:2, b:3} // desc, natural, insensitive",
             options: ["desc", { natural: true, caseSensitive: false }],
             errors: [
-                "Expected object keys to be in natural insensitive descending order. 'b' should be before '_'.",
+                "Expected object keys to be in natural insensitive descending order. 'b' should be before '_'."
             ]
         },
         {
             code: "var obj = {a:1, c:2, b:3}",
             options: ["desc", { natural: true, caseSensitive: false }],
             errors: [
-                "Expected object keys to be in natural insensitive descending order. 'c' should be before 'a'.",
+                "Expected object keys to be in natural insensitive descending order. 'c' should be before 'a'."
             ]
         },
         {
             code: "var obj = {b_:1, a:2, b:3}",
             options: ["desc", { natural: true, caseSensitive: false }],
             errors: [
-                "Expected object keys to be in natural insensitive descending order. 'b' should be before 'a'.",
+                "Expected object keys to be in natural insensitive descending order. 'b' should be before 'a'."
             ]
         },
         {
             code: "var obj = {b_:1, c:2, C:3}",
             options: ["desc", { natural: true, caseSensitive: false }],
             errors: [
-                "Expected object keys to be in natural insensitive descending order. 'c' should be before 'b_'.",
+                "Expected object keys to be in natural insensitive descending order. 'c' should be before 'b_'."
             ]
         },
         {
@@ -565,7 +565,7 @@ ruleTester.run("sort-keys", rule, {
             options: ["desc", { natural: true, caseSensitive: false }],
             errors: [
                 "Expected object keys to be in natural insensitive descending order. '_' should be before '$'.",
-                "Expected object keys to be in natural insensitive descending order. 'A' should be before '_'.",
+                "Expected object keys to be in natural insensitive descending order. 'A' should be before '_'."
             ]
         },
         {
@@ -574,7 +574,7 @@ ruleTester.run("sort-keys", rule, {
             errors: [
                 "Expected object keys to be in natural insensitive descending order. '2' should be before '1'.",
                 "Expected object keys to be in natural insensitive descending order. '11' should be before '2'.",
-                "Expected object keys to be in natural insensitive descending order. 'A' should be before '11'.",
+                "Expected object keys to be in natural insensitive descending order. 'A' should be before '11'."
             ]
         },
         {
@@ -582,8 +582,8 @@ ruleTester.run("sort-keys", rule, {
             options: ["desc", { natural: true, caseSensitive: false }],
             errors: [
                 "Expected object keys to be in natural insensitive descending order. 'À' should be before '#'.",
-                "Expected object keys to be in natural insensitive descending order. 'è' should be before 'Z'.",
+                "Expected object keys to be in natural insensitive descending order. 'è' should be before 'Z'."
             ]
-        },
+        }
     ]
 });

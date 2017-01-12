@@ -347,6 +347,6 @@ ruleTester.run("space-infix-ops", rule, {
                 column: 6,
                 nodeType: "BinaryExpression"
             }]
-        },
+        }
     ]
 });

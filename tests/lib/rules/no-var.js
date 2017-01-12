@@ -154,6 +154,6 @@ ruleTester.run("no-var", rule, {
             errors: [
                 "Unexpected var, use let or const instead."
             ]
-        },
+        }
     ]
 });

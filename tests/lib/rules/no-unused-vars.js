@@ -204,7 +204,7 @@ ruleTester.run("no-unused-vars", rule, {
                 "ref = setInterval(",
                 "    function(){",
                 "        clearInterval(ref);",
-                "    }, 10);",
+                "    }, 10);"
             ].join("\n")
         },
         {
@@ -213,7 +213,7 @@ ruleTester.run("no-unused-vars", rule, {
                 "function f() {",
                 "    _timer = setTimeout(function () {}, _timer ? 100 : 0);",
                 "}",
-                "f();",
+                "f();"
             ].join("\n")
         },
         { code: "function foo(cb) { cb = function() { function something(a) { cb(1 + a); } register(something); }(); } foo();" },
@@ -249,12 +249,12 @@ ruleTester.run("no-unused-vars", rule, {
         // https://github.com/eslint/eslint/issues/7250
         {
             code: "(function(a, b, c) { c })",
-            options: [{ argsIgnorePattern: "c" }],
+            options: [{ argsIgnorePattern: "c" }]
         },
         {
             code: "(function(a, b, {c, d}) { c })",
             options: [{ argsIgnorePattern: "[cd]" }],
-            parserOptions: { ecmaVersion: 6 },
+            parserOptions: { ecmaVersion: 6 }
         },
 
         // https://github.com/eslint/eslint/issues/7351
@@ -529,6 +529,6 @@ ruleTester.run("no-unused-vars", rule, {
             options: [{ argsIgnorePattern: "d" }],
             parserOptions: { ecmaVersion: 6 },
             errors: [{ message: "'c' is defined but never used." }]
-        },
+        }
     ]
 });

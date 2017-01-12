@@ -178,7 +178,7 @@ ruleTester.run("array-bracket-spacing", rule, {
 
         // destructuring with type annotation
         { code: "([ a, b ]: Array<any>) => {}", options: ["always"], parserOptions: { ecmaVersion: 6 }, parser: parser("flow-destructuring-1") },
-        { code: "([a, b]: Array< any >) => {}", options: ["never"], parserOptions: { ecmaVersion: 6 }, parser: parser("flow-destructuring-2") },
+        { code: "([a, b]: Array< any >) => {}", options: ["never"], parserOptions: { ecmaVersion: 6 }, parser: parser("flow-destructuring-2") }
     ],
 
     invalid: [
@@ -696,46 +696,46 @@ ruleTester.run("array-bracket-spacing", rule, {
             output: "([a, b]: Array<any>) => {}",
             options: ["never"],
             ecmaFeatures: {
-                ecmaVersion: 6,
+                ecmaVersion: 6
             },
             errors: [
                 {
                     message: "There should be no space after '['.",
                     type: "ArrayPattern",
                     line: 1,
-                    column: 2,
+                    column: 2
                 },
                 {
                     message: "There should be no space before ']'.",
                     type: "ArrayPattern",
                     line: 1,
                     column: 9
-                },
+                }
             ],
-            parser: parser("flow-destructuring-1"),
+            parser: parser("flow-destructuring-1")
         },
         {
             code: "([a, b]: Array< any >) => {}",
             output: "([ a, b ]: Array< any >) => {}",
             options: ["always"],
             ecmaFeatures: {
-                ecmaVersion: 6,
+                ecmaVersion: 6
             },
             errors: [
                 {
                     message: "A space is required after '['.",
                     type: "ArrayPattern",
                     line: 1,
-                    column: 2,
+                    column: 2
                 },
                 {
                     message: "A space is required before ']'.",
                     type: "ArrayPattern",
                     line: 1,
-                    column: 7,
-                },
+                    column: 7
+                }
             ],
-            parser: parser("flow-destructuring-2"),
-        },
-    ],
+            parser: parser("flow-destructuring-2")
+        }
+    ]
 });

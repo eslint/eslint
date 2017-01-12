@@ -581,7 +581,7 @@ const patterns = [
         errors,
         valid: [NORMAL],
         invalid: [USE_STRICT, IMPLIED_STRICT, MODULES]
-    },
+    }
 ];
 
 const ruleTester = new RuleTester();
