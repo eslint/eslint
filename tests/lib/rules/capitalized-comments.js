@@ -836,11 +836,11 @@ ruleTester.run("capitalized-comments", rule, {
         {
             code: [
                 "// this comment is invalid since it is not capitalized,",
-                "// but this one is ignored since it is consecutive.",
+                "// but this one is ignored since it is consecutive."
             ].join("\n"),
             output: [
                 "// This comment is invalid since it is not capitalized,",
-                "// but this one is ignored since it is consecutive.",
+                "// but this one is ignored since it is consecutive."
             ].join("\n"),
             options: ["always", { ignoreConsecutiveComments: true }],
             errors: [{
@@ -852,11 +852,11 @@ ruleTester.run("capitalized-comments", rule, {
         {
             code: [
                 "// This comment is invalid since it is not capitalized,",
-                "// But this one is ignored since it is consecutive.",
+                "// But this one is ignored since it is consecutive."
             ].join("\n"),
             output: [
                 "// this comment is invalid since it is not capitalized,",
-                "// But this one is ignored since it is consecutive.",
+                "// But this one is ignored since it is consecutive."
             ].join("\n"),
             options: ["never", { ignoreConsecutiveComments: true }],
             errors: [{
@@ -870,11 +870,11 @@ ruleTester.run("capitalized-comments", rule, {
         {
             code: [
                 "// This comment is valid since it is capitalized,",
-                "// but this one is invalid even if it follows a valid one.",
+                "// but this one is invalid even if it follows a valid one."
             ].join("\n"),
             output: [
                 "// This comment is valid since it is capitalized,",
-                "// But this one is invalid even if it follows a valid one.",
+                "// But this one is invalid even if it follows a valid one."
             ].join("\n"),
             options: ["always", { ignoreConsecutiveComments: false }],
             errors: [{

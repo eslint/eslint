@@ -46,7 +46,7 @@ ruleTester.run("valid-typeof", rule, {
         "var oddUse = typeof foo + 'thing'",
         {
             code: "typeof foo === 'number'",
-            options: [{ requireStringLiterals: true }],
+            options: [{ requireStringLiterals: true }]
         },
         {
             code: "typeof foo === \"number\"",
@@ -128,7 +128,7 @@ ruleTester.run("valid-typeof", rule, {
         {
             code: "if (typeof bar === `umdefined`) {}",
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Invalid typeof comparison value.", type: "TemplateLiteral" }],
+            errors: [{ message: "Invalid typeof comparison value.", type: "TemplateLiteral" }]
         },
         {
             code: "typeof foo == 'invalid string'",

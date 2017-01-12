@@ -28,7 +28,7 @@ ruleTester.run("new-parens", rule, {
         "var a = (new Date());",
         "var a = new foo.Bar();",
         "var a = (new Foo()).bar;",
-        { code: "new Storage<RootState>('state');", parser: parser("typescript-parsers/new-parens") },
+        { code: "new Storage<RootState>('state');", parser: parser("typescript-parsers/new-parens") }
     ],
     invalid: [
         {

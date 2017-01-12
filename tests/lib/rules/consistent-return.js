@@ -42,7 +42,7 @@ ruleTester.run("consistent-return", rule, {
 
         // https://github.com/eslint/eslint/issues/7790
         { code: "class Foo { constructor() { if (true) return foo; } }", parserOptions: { ecmaVersion: 6 } },
-        { code: "var Foo = class { constructor() { if (true) return foo; } }", parserOptions: { ecmaVersion: 6 } },
+        { code: "var Foo = class { constructor() { if (true) return foo; } }", parserOptions: { ecmaVersion: 6 } }
     ],
 
     invalid: [

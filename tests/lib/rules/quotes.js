@@ -224,8 +224,8 @@ ruleTester.run("quotes", rule, {
             options: ["single"],
             parserOptions: { ecmaFeatures: { jsx: true } },
             errors: [
-                { message: "Strings must use singlequote.", type: "Literal" },
-            ],
+                { message: "Strings must use singlequote.", type: "Literal" }
+            ]
         },
         {
             code: "<div blah={'blah'} />",
@@ -233,8 +233,8 @@ ruleTester.run("quotes", rule, {
             options: ["double"],
             parserOptions: { ecmaFeatures: { jsx: true } },
             errors: [
-                { message: "Strings must use doublequote.", type: "Literal" },
-            ],
+                { message: "Strings must use doublequote.", type: "Literal" }
+            ]
         },
         {
             code: "<div blah={'blah'} />",
@@ -242,8 +242,8 @@ ruleTester.run("quotes", rule, {
             options: ["backtick"],
             parserOptions: { ecmaFeatures: { jsx: true } },
             errors: [
-                { message: "Strings must use backtick.", type: "Literal" },
-            ],
+                { message: "Strings must use backtick.", type: "Literal" }
+            ]
         },
 
         // https://github.com/eslint/eslint/issues/7610

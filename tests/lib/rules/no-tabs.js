@@ -23,7 +23,7 @@ ruleTester.run("no-tabs", rule, {
         "function test(){\n}",
         "function test(){\n" +
         "  //   sdfdsf \n" +
-        "}",
+        "}"
     ],
     invalid: [
         {

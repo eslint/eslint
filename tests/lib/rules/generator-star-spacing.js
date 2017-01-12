@@ -428,7 +428,7 @@ ruleTester.run("generator-star-spacing", rule, {
         {
             code: "(class {async foo() { }})",
             parserOptions: { ecmaVersion: 8 }
-        },
+        }
     ],
 
     invalid: [

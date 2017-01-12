@@ -22,12 +22,12 @@ ruleTester.run("prefer-rest-params", rule, {
         "var foo = () => arguments;", // Arrows don't have "arguments".,
         "function foo(...args) { args; }",
         "function foo() { arguments.length; }",
-        "function foo() { arguments.callee; }",
+        "function foo() { arguments.callee; }"
     ],
     invalid: [
         { code: "function foo() { arguments; }", errors: [{ type: "Identifier", message: "Use the rest parameters instead of 'arguments'." }] },
         { code: "function foo() { arguments[0]; }", errors: [{ type: "Identifier", message: "Use the rest parameters instead of 'arguments'." }] },
         { code: "function foo() { arguments[1]; }", errors: [{ type: "Identifier", message: "Use the rest parameters instead of 'arguments'." }] },
-        { code: "function foo() { arguments[Symbol.iterator]; }", errors: [{ type: "Identifier", message: "Use the rest parameters instead of 'arguments'." }] },
+        { code: "function foo() { arguments[Symbol.iterator]; }", errors: [{ type: "Identifier", message: "Use the rest parameters instead of 'arguments'." }] }
     ]
 });

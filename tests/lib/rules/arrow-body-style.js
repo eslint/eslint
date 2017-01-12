@@ -294,6 +294,6 @@ ruleTester.run("arrow-body-style", rule, {
             errors: [
                 { line: 2, column: 31, type: "ArrowFunctionExpression", message: "Unexpected block statement surrounding arrow body." }
             ]
-        },
+        }
     ]
 });
