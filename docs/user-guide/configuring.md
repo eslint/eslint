@@ -568,8 +568,8 @@ The `rules` property can do any of the following to extend (or override) the set
 * enable additional rules
 * change an inherited rule's severity without changing its options:
     * Base config: `"eqeqeq": ["error", "allow-null"]`
-    * Derived config: `"eqeqeq": "warning"`
-    * Resulting actual config: `"eqeqeq": ["warning", "allow-null"]`
+    * Derived config: `"eqeqeq": "warn"`
+    * Resulting actual config: `"eqeqeq": ["warn", "allow-null"]`
 * override options for rules from base configurations:
     * Base config: `"quotes": ["error", "single", "avoid-escape"]`
     * Derived config: `"quotes": ["error", "single"]`
