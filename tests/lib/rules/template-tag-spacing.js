@@ -31,7 +31,19 @@ ruleTester.run("template-tag-spacing", rule, {
         { code: "new tag `name`", options: ["always"] },
         "new tag`hello ${name}`",
         { code: "new tag`hello ${name}`", options: ["never"] },
-        { code: "new tag `hello ${name}`", options: ["always"] }
+        { code: "new tag `hello ${name}`", options: ["always"] },
+        "(tag)`name`",
+        { code: "(tag)`name`", options: ["never"] },
+        { code: "(tag) `name`", options: ["always"] },
+        "(tag)`hello ${name}`",
+        { code: "(tag)`hello ${name}`", options: ["never"] },
+        { code: "(tag) `hello ${name}`", options: ["always"] },
+        "new (tag)`name`",
+        { code: "new (tag)`name`", options: ["never"] },
+        { code: "new (tag) `name`", options: ["always"] },
+        "new (tag)`hello ${name}`",
+        { code: "new (tag)`hello ${name}`", options: ["never"] },
+        { code: "new (tag) `hello ${name}`", options: ["always"] }
     ],
     invalid: [
         {
@@ -121,6 +133,98 @@ ruleTester.run("template-tag-spacing", rule, {
         {
             code: "new tag`hello ${name}`",
             output: "new tag `hello ${name}`",
+            errors: [
+                { message: "Missing space between template tag and template literal." }
+            ],
+            options: ["always"]
+        },
+        {
+            code: "(tag) `name`",
+            output: "(tag)`name`",
+            errors: [
+                { message: "Unexpected space between template tag and template literal." }
+            ]
+        },
+        {
+            code: "(tag) `name`",
+            output: "(tag)`name`",
+            errors: [
+                { message: "Unexpected space between template tag and template literal." }
+            ],
+            options: ["never"]
+        },
+        {
+            code: "(tag)`name`",
+            output: "(tag) `name`",
+            errors: [
+                { message: "Missing space between template tag and template literal." }
+            ],
+            options: ["always"]
+        },
+        {
+            code: "(tag) `hello ${name}`",
+            output: "(tag)`hello ${name}`",
+            errors: [
+                { message: "Unexpected space between template tag and template literal." }
+            ]
+        },
+        {
+            code: "(tag) `hello ${name}`",
+            output: "(tag)`hello ${name}`",
+            errors: [
+                { message: "Unexpected space between template tag and template literal." }
+            ],
+            options: ["never"]
+        },
+        {
+            code: "(tag)`hello ${name}`",
+            output: "(tag) `hello ${name}`",
+            errors: [
+                { message: "Missing space between template tag and template literal." }
+            ],
+            options: ["always"]
+        },
+        {
+            code: "new (tag) `name`",
+            output: "new (tag)`name`",
+            errors: [
+                { message: "Unexpected space between template tag and template literal." }
+            ]
+        },
+        {
+            code: "new (tag) `name`",
+            output: "new (tag)`name`",
+            errors: [
+                { message: "Unexpected space between template tag and template literal." }
+            ],
+            options: ["never"]
+        },
+        {
+            code: "new (tag)`name`",
+            output: "new (tag) `name`",
+            errors: [
+                { message: "Missing space between template tag and template literal." }
+            ],
+            options: ["always"]
+        },
+        {
+            code: "new (tag) `hello ${name}`",
+            output: "new (tag)`hello ${name}`",
+            errors: [
+                { message: "Unexpected space between template tag and template literal." }
+            ]
+        },
+        {
+            code: "new (tag) `hello ${name}`",
+            output: "new (tag)`hello ${name}`",
+            errors: [
+                { message: "Unexpected space between template tag and template literal." }
+            ],
+            options: ["never"]
+        },
+        {
+            code: "new (tag)`hello ${name}`",
+            output: "new (tag) `hello ${name}`",
             errors: [
                 { message: "Missing space between template tag and template literal." }
             ],
