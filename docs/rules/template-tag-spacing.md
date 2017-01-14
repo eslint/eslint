@@ -2,7 +2,7 @@
 
 (fixable) The `--fix` option on the [command line](../user-guide/command-line-interface#fix) automatically fixes problems reported by this rule.
 
-We can create functions whose parameters consist of template literals.
+With ES6, it's possible to create functions called [tagged template literals](#further-reading) where the function parameters consist of a template literal's strings and expressions.
 
 This rule can force usage of spacing _between_ the tag function and the template literal.
 
@@ -68,3 +68,10 @@ func `Hello world`;
 ## When Not To Use It
 
 If you don't want to be notified about usage of spacing between tag functions and their template literals, then it's safe to disable this rule.
+
+## Further Reading
+
+If you want to learn more about tagged template literals, check out the links below:
+
+* [Template literals (MDN)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals#Tagged_template_literals)
+* [Examples of using tagged template literals (Exploring ES6)](http://exploringjs.com/es6/ch_template-literals.html#_examples-of-using-tagged-template-literals)
