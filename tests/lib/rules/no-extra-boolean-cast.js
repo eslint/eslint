@@ -146,6 +146,46 @@ ruleTester.run("no-extra-boolean-cast", rule, {
                 message: "Redundant Boolean call.",
                 type: "CallExpression"
             }]
+        },
+        {
+            code: "!Boolean(foo && bar)",
+            output: "!(foo && bar)",
+            errors: [{
+                message: "Redundant Boolean call.",
+                type: "CallExpression"
+            }]
+        },
+        {
+            code: "!Boolean(foo + bar)",
+            output: "!(foo + bar)",
+            errors: [{
+                message: "Redundant Boolean call.",
+                type: "CallExpression"
+            }]
+        },
+        {
+            code: "!Boolean(+foo)",
+            output: "!+foo",
+            errors: [{
+                message: "Redundant Boolean call.",
+                type: "CallExpression"
+            }]
+        },
+        {
+            code: "!Boolean(foo())",
+            output: "!foo()",
+            errors: [{
+                message: "Redundant Boolean call.",
+                type: "CallExpression"
+            }]
+        },
+        {
+            code: "!Boolean(foo = bar)",
+            output: "!(foo = bar)",
+            errors: [{
+                message: "Redundant Boolean call.",
+                type: "CallExpression"
+            }]
         }
     ]
 });
