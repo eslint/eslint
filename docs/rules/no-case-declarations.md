@@ -39,7 +39,11 @@ Examples of **correct** code for this rule:
 /*eslint no-case-declarations: "error"*/
 /*eslint-env es6*/
 
+// Declarations outside switch-statements are valid
+const a = 0;
+
 switch (foo) {
+    // The following case clauses are wrapped into blocks using brackets
     case 1: {
         let x = 1;
         break;
@@ -52,6 +56,10 @@ switch (foo) {
         function f() {}
         break;
     }
+    case 4:
+        // Declarations using var without brackets are valid due to function-scope hoisting
+        var z = 4;
+        break;
     default: {
         class C {}
     }
