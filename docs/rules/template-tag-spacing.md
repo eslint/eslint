@@ -1,4 +1,4 @@
-# Enforce Usage of Spacing in Tagged Template Literals (template-tag-spacing)
+# Require or disallow spacing between template tags and their literals (template-tag-spacing)
 
 (fixable) The `--fix` option on the [command line](../user-guide/command-line-interface#fix) automatically fixes problems reported by this rule.
 
@@ -23,7 +23,7 @@ This rule aims to maintain consistency around the spacing between template tag f
 }
 ```
 
-This rule has one option which has either `"never"` or `"always"` as value.
+This rule has one option whose value can be set to "never" or "always"
 
 * `"never"` (default) - Disallows spaces between a tag function and its template literal.
 * `"always"` - Requires one or more spaces between a tag function and its template literal.
