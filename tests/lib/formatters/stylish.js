@@ -197,7 +197,7 @@ describe("formatter:stylish", function() {
         });
     });
 
-    describe("when --fix is enabled", function() {
+    describe("when --fix is enabled", () => {
         const code = [{
             filePath: "foo.js",
             messages: [{
