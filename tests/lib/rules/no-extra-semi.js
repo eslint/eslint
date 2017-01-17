@@ -10,6 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-extra-semi"),
+    assert = require("chai").assert,
     RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
@@ -159,4 +160,37 @@ ruleTester.run("no-extra-semi", rule, {
             output: "class A { a() {} get b() {} }"
         }
     ]
+});
+
+// Deal with edge cases.
+describe("no-extra-semi", () => {
+
+    const CLIEngine = require("../../../lib/cli-engine");
+
+    it("should not remove necessary semicolon", () => {
+        const engine = new CLIEngine({
+            fix: true,
+            useEslintrc: false,
+            rules: {
+                semi: [2, "never"],
+                "no-extra-semi": 2
+            }
+        });
+
+        const report = engine.executeOnText("var foo = function(){};\n;[1].map(foo)");
+
+        assert.deepEqual(report, {
+            results: [
+                {
+                    filePath: "<text>",
+                    messages: [],
+                    errorCount: 0,
+                    warningCount: 0,
+                    output: "var foo = function(){}\n;[1].map(foo)"
+                }
+            ],
+            errorCount: 0,
+            warningCount: 0
+        });
+    });
 });
