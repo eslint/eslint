@@ -219,7 +219,7 @@ describe("formatter:stylish", function() {
         });
 
         it("lets you know that files were fixed", () => {
-            const result = formatter(code.map(o => Object.assign({}, o, {output: "output"})));
+            const result = formatter(code.map(o => Object.assign({}, o, { output: "output" })));
 
             assert.match(result, /Fixes were applied/);
         });
