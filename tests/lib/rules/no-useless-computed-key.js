@@ -22,7 +22,8 @@ ruleTester.run("no-useless-computed-key", rule, {
     valid: [
         "({ 'a': 0, b(){} })",
         "({ [x]: 0 });",
-        "({ a: 0, [b](){} })"
+        "({ a: 0, [b](){} })",
+        "({ ['__proto__']: [] })"
     ],
     invalid: [
         {
