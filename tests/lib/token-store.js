@@ -750,6 +750,13 @@ describe("TokenStore", () => {
             );
         });
 
+        it("should retrieve all tokens between non-adjacent nodes with empty object option", () => {
+            check(
+                store.getFirstTokensBetween(VariableDeclarator.id, BinaryExpression.right, {}),
+                ["=", "a", "*"]
+            );
+        });
+
         it("should retrieve multiple tokens between non-adjacent nodes with includeComments option", () => {
             check(
                 store.getFirstTokensBetween(VariableDeclarator.id, BinaryExpression.right, { includeComments: true }),
@@ -803,6 +810,10 @@ describe("TokenStore", () => {
         it("should return null if it's skipped beyond the right token", () => {
             assert.equal(
                 store.getFirstTokenBetween(VariableDeclarator.id, BinaryExpression.right, { skip: 3 }),
+                null
+            );
+            assert.equal(
+                store.getFirstTokenBetween(VariableDeclarator.id, BinaryExpression.right, { skip: 4 }),
                 null
             );
         });
@@ -864,7 +875,14 @@ describe("TokenStore", () => {
             );
         });
 
-        it("should retrieve multiple tokens between non-adjacent nodes with includeComments option", () => {
+        it("should retrieve all tokens between non-adjacent nodes with empty object option", () => {
+            check(
+                store.getLastTokensBetween(VariableDeclarator.id, BinaryExpression.right, {}),
+                ["=", "a", "*"]
+            );
+        });
+
+        it("should retrieve all tokens and comments between non-adjacent nodes with includeComments option", () => {
             check(
                 store.getLastTokensBetween(VariableDeclarator.id, BinaryExpression.right, { includeComments: true }),
                 ["B", "=", "C", "a", "D", "*"]
@@ -917,6 +935,10 @@ describe("TokenStore", () => {
         it("should return null if it's skipped beyond the right token", () => {
             assert.equal(
                 store.getLastTokenBetween(VariableDeclarator.id, BinaryExpression.right, { skip: 3 }),
+                null
+            );
+            assert.equal(
+                store.getLastTokenBetween(VariableDeclarator.id, BinaryExpression.right, { skip: 4 }),
                 null
             );
         });

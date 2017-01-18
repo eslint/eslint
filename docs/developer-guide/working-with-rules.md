@@ -283,19 +283,15 @@ Once you have an instance of `SourceCode`, you can use the methods on it to work
 * `getTokenByRangeStart(index)` - returns the token whose range starts at the given index in the source.
 * `getNodeByRangeIndex(index)` - returns the deepest node in the AST containing the given source index.
 
-> `skipOptions` is an object which has 3 properties; `skip`, `includeComments`, and `filter`.
+> `skipOptions` is an object which has 3 properties; `skip`, `includeComments`, and `filter`. Default is `{skip: 0, includeComments: false, filter: null}`.
 > - The `skip` is a positive integer, the number of skipping tokens.
 > - The `includeComments` is a boolean value, the flag to include comment tokens into the result.
 > - The `filter` is a function which gets a token as the first argument, if the function returns `false` then the result excludes the token.
 >
-> Default is `{skip: 0, includeComments: false, filter: null}`.
-
-> `countOptions` is an object which has 3 properties; `count`, `includeComments`, and `filter`.
+> `countOptions` is an object which has 3 properties; `count`, `includeComments`, and `filter`. Default is `{count: 0, includeComments: false, filter: null}`.
 > - The `count` is a positive integer, the maximum number of returning tokens.
 > - The `includeComments` is a boolean value, the flag to include comment tokens into the result.
 > - The `filter` is a function which gets a token as the first argument, if the function returns `false` then the result excludes the token.
->
-> Default is `{count: Number.MAX_SAFE_INTEGER, includeComments: false, filter: null}`.
 
 There are also some properties you can access:
 

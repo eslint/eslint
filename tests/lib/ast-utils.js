@@ -1006,4 +1006,243 @@ describe("ast-utils", () => {
             });
         });
     });
+
+    describe("isArrowToken", () => {
+        const code = "() => 5";
+        const tokens = espree.parse(code, { ecmaVersion: 6, tokens: true }).tokens;
+        const expected = [false, false, true, false];
+
+        tokens.forEach((token, index) => {
+            it(`should return ${expected[index]} for '${token.value}'.`, () => {
+                assert.equal(astUtils.isArrowToken(token), expected[index]);
+            });
+        });
+    });
+
+    {
+        const code = "if (obj && foo) { obj[foo](); }";
+        const tokens = espree.parse(code, { ecmaVersion: 6, tokens: true }).tokens;
+        const expected = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, true];
+
+        describe("isClosingBraceToken", () => {
+            tokens.forEach((token, index) => {
+                it(`should return ${expected[index]} for '${token.value}'.`, () => {
+                    assert.equal(astUtils.isClosingBraceToken(token), expected[index]);
+                });
+            });
+        });
+
+        describe("isNotClosingBraceToken", () => {
+            tokens.forEach((token, index) => {
+                it(`should return ${expected[index]} for '${token.value}'.`, () => {
+                    assert.equal(astUtils.isNotClosingBraceToken(token), !expected[index]);
+                });
+            });
+        });
+    }
+
+    {
+        const code = "if (obj && foo) { obj[foo](); }";
+        const tokens = espree.parse(code, { ecmaVersion: 6, tokens: true }).tokens;
+        const expected = [false, false, false, false, false, false, false, false, false, false, true, false, false, false, false];
+
+        describe("isClosingBracketToken", () => {
+            tokens.forEach((token, index) => {
+                it(`should return ${expected[index]} for '${token.value}'.`, () => {
+                    assert.equal(astUtils.isClosingBracketToken(token), expected[index]);
+                });
+            });
+        });
+
+        describe("isNotClosingBracketToken", () => {
+            tokens.forEach((token, index) => {
+                it(`should return ${expected[index]} for '${token.value}'.`, () => {
+                    assert.equal(astUtils.isNotClosingBracketToken(token), !expected[index]);
+                });
+            });
+        });
+    }
+
+    {
+        const code = "if (obj && foo) { obj[foo](); }";
+        const tokens = espree.parse(code, { ecmaVersion: 6, tokens: true }).tokens;
+        const expected = [false, false, false, false, false, true, false, false, false, false, false, false, true, false, false];
+
+        describe("isClosingParenToken", () => {
+            tokens.forEach((token, index) => {
+                it(`should return ${expected[index]} for '${token.value}'.`, () => {
+                    assert.equal(astUtils.isClosingParenToken(token), expected[index]);
+                });
+            });
+        });
+
+        describe("isNotClosingParenToken", () => {
+            tokens.forEach((token, index) => {
+                it(`should return ${expected[index]} for '${token.value}'.`, () => {
+                    assert.equal(astUtils.isNotClosingParenToken(token), !expected[index]);
+                });
+            });
+        });
+    }
+
+    {
+        const code = "const obj = {foo: 1, bar: 2};";
+        const tokens = espree.parse(code, { ecmaVersion: 6, tokens: true }).tokens;
+        const expected = [false, false, false, false, false, true, false, false, false, true, false, false, false];
+
+        describe("isColonToken", () => {
+            tokens.forEach((token, index) => {
+                it(`should return ${expected[index]} for '${token.value}'.`, () => {
+                    assert.equal(astUtils.isColonToken(token), expected[index]);
+                });
+            });
+        });
+
+        describe("isNotColonToken", () => {
+            tokens.forEach((token, index) => {
+                it(`should return ${expected[index]} for '${token.value}'.`, () => {
+                    assert.equal(astUtils.isNotColonToken(token), !expected[index]);
+                });
+            });
+        });
+    }
+
+    {
+        const code = "const obj = {foo: 1, bar: 2};";
+        const tokens = espree.parse(code, { ecmaVersion: 6, tokens: true }).tokens;
+        const expected = [false, false, false, false, false, false, false, true, false, false, false, false, false];
+
+        describe("isCommaToken", () => {
+            tokens.forEach((token, index) => {
+                it(`should return ${expected[index]} for '${token.value}'.`, () => {
+                    assert.equal(astUtils.isCommaToken(token), expected[index]);
+                });
+            });
+        });
+
+        describe("isNotCommaToken", () => {
+            tokens.forEach((token, index) => {
+                it(`should return ${expected[index]} for '${token.value}'.`, () => {
+                    assert.equal(astUtils.isNotCommaToken(token), !expected[index]);
+                });
+            });
+        });
+    }
+
+    describe("isCommentToken", () => {
+        const code = "const obj = /*block*/ {foo: 1, bar: 2}; //line";
+        const ast = espree.parse(code, { ecmaVersion: 6, tokens: true, comment: true });
+
+        ast.tokens.forEach(token => {
+            it(`should return false for '${token.value}'.`, () => {
+                assert.equal(astUtils.isCommentToken(token), false);
+            });
+        });
+        ast.comments.forEach(comment => {
+            it(`should return true for '${comment.value}'.`, () => {
+                assert.equal(astUtils.isCommentToken(comment), true);
+            });
+        });
+    });
+
+    describe("isKeywordToken", () => {
+        const code = "const obj = {foo: 1, bar: 2};";
+        const tokens = espree.parse(code, { ecmaVersion: 6, tokens: true }).tokens;
+        const expected = [true, false, false, false, false, false, false, false, false, false, false, false, false];
+
+        tokens.forEach((token, index) => {
+            it(`should return ${expected[index]} for '${token.value}'.`, () => {
+                assert.equal(astUtils.isKeywordToken(token), expected[index]);
+            });
+        });
+    });
+
+    {
+        const code = "if (obj && foo) { obj[foo](); }";
+        const tokens = espree.parse(code, { ecmaVersion: 6, tokens: true }).tokens;
+        const expected = [false, false, false, false, false, false, true, false, false, false, false, false, false, false, false];
+
+        describe("isOpeningBraceToken", () => {
+            tokens.forEach((token, index) => {
+                it(`should return ${expected[index]} for '${token.value}'.`, () => {
+                    assert.equal(astUtils.isOpeningBraceToken(token), expected[index]);
+                });
+            });
+        });
+
+        describe("isNotOpeningBraceToken", () => {
+            tokens.forEach((token, index) => {
+                it(`should return ${expected[index]} for '${token.value}'.`, () => {
+                    assert.equal(astUtils.isNotOpeningBraceToken(token), !expected[index]);
+                });
+            });
+        });
+    }
+
+    {
+        const code = "if (obj && foo) { obj[foo](); }";
+        const tokens = espree.parse(code, { ecmaVersion: 6, tokens: true }).tokens;
+        const expected = [false, false, false, false, false, false, false, false, true, false, false, false, false, false, false];
+
+        describe("isOpeningBracketToken", () => {
+            tokens.forEach((token, index) => {
+                it(`should return ${expected[index]} for '${token.value}'.`, () => {
+                    assert.equal(astUtils.isOpeningBracketToken(token), expected[index]);
+                });
+            });
+        });
+
+        describe("isNotOpeningBracketToken", () => {
+            tokens.forEach((token, index) => {
+                it(`should return ${expected[index]} for '${token.value}'.`, () => {
+                    assert.equal(astUtils.isNotOpeningBracketToken(token), !expected[index]);
+                });
+            });
+        });
+    }
+
+    {
+        const code = "if (obj && foo) { obj[foo](); }";
+        const tokens = espree.parse(code, { ecmaVersion: 6, tokens: true }).tokens;
+        const expected = [false, true, false, false, false, false, false, false, false, false, false, true, false, false, false];
+
+        describe("isOpeningParenToken", () => {
+            tokens.forEach((token, index) => {
+                it(`should return ${expected[index]} for '${token.value}'.`, () => {
+                    assert.equal(astUtils.isOpeningParenToken(token), expected[index]);
+                });
+            });
+        });
+
+        describe("isNotOpeningParenToken", () => {
+            tokens.forEach((token, index) => {
+                it(`should return ${expected[index]} for '${token.value}'.`, () => {
+                    assert.equal(astUtils.isNotOpeningParenToken(token), !expected[index]);
+                });
+            });
+        });
+    }
+
+    {
+        const code = "if (obj && foo) { obj[foo](); }";
+        const tokens = espree.parse(code, { ecmaVersion: 6, tokens: true }).tokens;
+        const expected = [false, false, false, false, false, false, false, false, false, false, false, false, false, true, false];
+
+        describe("isSemicolonToken", () => {
+            tokens.forEach((token, index) => {
+                it(`should return ${expected[index]} for '${token.value}'.`, () => {
+                    assert.equal(astUtils.isSemicolonToken(token), expected[index]);
+                });
+            });
+        });
+
+        describe("isNotSemicolonToken", () => {
+            tokens.forEach((token, index) => {
+                it(`should return ${expected[index]} for '${token.value}'.`, () => {
+                    assert.equal(astUtils.isNotSemicolonToken(token), !expected[index]);
+                });
+            });
+        });
+    }
+
 });
