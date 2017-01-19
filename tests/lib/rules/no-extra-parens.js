@@ -45,7 +45,14 @@ function invalid(code, output, type, line, config) {
     return result;
 }
 
-const ruleTester = new RuleTester();
+const ruleTester = new RuleTester({
+    parserOptions: {
+        ecmaVersion: 6,
+        ecmaFeatures: {
+            jsx: true
+        }
+    }
+});
 
 ruleTester.run("no-extra-parens", rule, {
     valid: [
@@ -291,7 +298,61 @@ ruleTester.run("no-extra-parens", rule, {
         { code: "foo instanceof (bar instanceof baz)", options: ["all", { nestedBinaryExpressions: false }] },
         { code: "foo in (bar in baz)", options: ["all", { nestedBinaryExpressions: false }] },
         { code: "foo + (bar + baz)", options: ["all", { nestedBinaryExpressions: false }] },
-        { code: "foo && (bar && baz)", options: ["all", { nestedBinaryExpressions: false }] }
+        { code: "foo && (bar && baz)", options: ["all", { nestedBinaryExpressions: false }] },
+
+        // ["all", { ignoreJSX: "all" }]
+        { code: "const Component = (<div />)", options: ["all", { ignoreJSX: "all" }] },
+        { code: [
+            "const Component = (<div>",
+            "  <p />",
+            "</div>);"
+        ].join("\n"), options: ["all", { ignoreJSX: "all" }] },
+        { code: [
+            "const Component = (",
+            "  <div />",
+            ");"
+        ].join("\n"), options: ["all", { ignoreJSX: "all" }] },
+        { code: [
+            "const Component =",
+            "  (<div />)"
+        ].join("\n"), options: ["all", { ignoreJSX: "all" }] },
+
+        // ["all", { ignoreJSX: "single-line" }]
+        { code: "const Component = (<div />);", options: ["all", { ignoreJSX: "single-line" }] },
+        { code: [
+            "const Component = (",
+            "  <div />",
+            ");"
+        ].join("\n"), options: ["all", { ignoreJSX: "single-line" }] },
+        { code: [
+            "const Component =",
+            "(<div />)"
+        ].join("\n"), options: ["all", { ignoreJSX: "single-line" }] },
+
+        // ["all", { ignoreJSX: "multi-line" }]
+        { code: [
+            "const Component = (",
+            "<div>",
+            "  <p />",
+            "</div>",
+            ");"
+        ].join("\n"), options: ["all", { ignoreJSX: "multi-line" }] },
+        { code: [
+            "const Component = (<div>",
+            "  <p />",
+            "</div>);"
+        ].join("\n"), options: ["all", { ignoreJSX: "multi-line" }] },
+        { code: [
+            "const Component =",
+            "(<div>",
+            "  <p />",
+            "</div>);"
+        ].join("\n"), options: ["all", { ignoreJSX: "multi-line" }] },
+        { code: [
+            "const Component = (<div",
+            "  prop={true}",
+            "/>)"
+        ].join("\n"), options: ["all", { ignoreJSX: "multi-line" }] }
     ],
 
     invalid: [
@@ -465,7 +526,7 @@ ruleTester.run("no-extra-parens", rule, {
             "function a() {",
             "    return <JSX />;",
             "}"
-        ].join("\n"), "JSXElement", null, { parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } } }),
+        ].join("\n"), "JSXElement", null),
         invalid([
             "function a() {",
             "    return",
@@ -476,7 +537,7 @@ ruleTester.run("no-extra-parens", rule, {
             "    return",
             "    <JSX />;",
             "}"
-        ].join("\n"), "JSXElement", null, { parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } } }),
+        ].join("\n"), "JSXElement", null),
         invalid([
             "function a() {",
             "    return ((",
@@ -489,7 +550,7 @@ ruleTester.run("no-extra-parens", rule, {
             "       <JSX />",
             "    );",
             "}"
-        ].join("\n"), "JSXElement", null, { parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } } }),
+        ].join("\n"), "JSXElement", null),
         invalid("throw (a);", "throw a;", "Identifier"),
         invalid([
             "throw ((",
@@ -706,6 +767,55 @@ ruleTester.run("no-extra-parens", rule, {
         invalid("foo instanceof (bar)", "foo instanceof bar", "Identifier", 1, { options: ["all", { nestedBinaryExpressions: false }] }),
         invalid("foo in (bar)", "foo in bar", "Identifier", 1, { options: ["all", { nestedBinaryExpressions: false }] }),
         invalid("foo + (bar)", "foo + bar", "Identifier", 1, { options: ["all", { nestedBinaryExpressions: false }] }),
-        invalid("foo && (bar)", "foo && bar", "Identifier", 1, { options: ["all", { nestedBinaryExpressions: false }] })
+        invalid("foo && (bar)", "foo && bar", "Identifier", 1, { options: ["all", { nestedBinaryExpressions: false }] }),
+
+        // ["all", { ignoreJSX: "multi-line" }]
+        invalid("const Component = (<div />);", "const Component = <div />;", "JSXElement", 1, {
+            options: ["all", { ignoreJSX: "multi-line" }]
+        }),
+        invalid([
+            "const Component = (",
+            "  <div />",
+            ");"
+        ].join("\n"), "const Component = \n  <div />\n;", "JSXElement", 1, {
+            options: ["all", { ignoreJSX: "multi-line" }]
+        }),
+
+        // ["all", { ignoreJSX: "single-line" }]
+        invalid([
+            "const Component = (",
+            "<div>",
+            "  <p />",
+            "</div>",
+            ");"
+        ].join("\n"), "const Component = \n<div>\n  <p />\n</div>\n;", "JSXElement", 1, {
+            options: ["all", { ignoreJSX: "single-line" }]
+        }),
+        invalid([
+            "const Component = (<div>",
+            "  <p />",
+            "</div>);"
+        ].join("\n"), "const Component = <div>\n  <p />\n</div>;", "JSXElement", 1, {
+            options: ["all", { ignoreJSX: "single-line" }]
+        }),
+        invalid([
+            "const Component = (<div",
+            "  prop={true}",
+            "/>)"
+        ].join("\n"), "const Component = <div\n  prop={true}\n/>", "JSXElement", 1, {
+            options: ["all", { ignoreJSX: "single-line" }]
+        }),
+
+        // ["all", { ignoreJSX: "none" }] default, same as unspecified
+        invalid("const Component = (<div />);", "const Component = <div />;", "JSXElement", 1, {
+            options: ["all", { ignoreJSX: "none" }]
+        }),
+        invalid([
+            "const Component = (<div>",
+            "<p />",
+            "</div>)"
+        ].join("\n"), "const Component = <div>\n<p />\n</div>", "JSXElement", 1, {
+            options: ["all", { ignoreJSX: "none" }]
+        })
     ]
 });
