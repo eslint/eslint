@@ -81,6 +81,7 @@ function g() {
   This flag determines whether or not the rule checks variable declarations in upper scopes.
   If this is `true`, the rule warns every reference to a variable before the variable declaration.
   Otherwise, the rule ignores a reference if the declaration is in an upper scope, while still reporting the reference if it's in the same scope as the declaration.
+  Default is `true`.
 
 This rule accepts `"nofunc"` string as a option.
 `"nofunc"` is the same as `{ "functions": false, "classes": true }`.
