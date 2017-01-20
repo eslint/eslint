@@ -970,4 +970,40 @@ describe("ast-utils", () => {
             });
         });
     });
+
+    describe("couldBeError", () => {
+        const EXPECTED_RESULTS = {
+            5: false,
+            null: false,
+            true: false,
+            "'foo'": false,
+            "`foo`": false,
+            foo: true,
+            "new Foo": true,
+            "Foo()": true,
+            "foo`bar`": true,
+            "foo.bar": true,
+            "(foo = bar)": true,
+            "(foo = 1)": false,
+            "(1, 2, 3)": false,
+            "(foo, 2, 3)": false,
+            "(1, 2, foo)": true,
+            "1 && 2": false,
+            "1 && foo": true,
+            "foo && 2": true,
+            "foo ? 1 : 2": false,
+            "foo ? bar : 2": true,
+            "foo ? 1 : bar": true,
+            "[1, 2, 3]": false,
+            "({ foo: 1 })": false
+        };
+
+        Object.keys(EXPECTED_RESULTS).forEach(key => {
+            it(`returns ${EXPECTED_RESULTS[key]} for ${key}`, () => {
+                const ast = espree.parse(key, { ecmaVersion: 6 });
+
+                assert.strictEqual(astUtils.couldBeError(ast.body[0].expression), EXPECTED_RESULTS[key]);
+            });
+        });
+    });
 });

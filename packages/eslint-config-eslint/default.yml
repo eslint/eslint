@@ -70,6 +70,7 @@ rules:
     no-process-exit: "error"
     no-proto: "error"
     no-redeclare: "error"
+    prefer-promise-reject-errors: "error"
     no-return-assign: "error"
     no-script-url: "error"
     no-self-assign: "error"
