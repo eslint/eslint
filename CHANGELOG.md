@@ -1,3 +1,25 @@
+v3.14.0 - January 20, 2017
+
+* 506324a Fix: `no-var` does not fix if causes ReferenceError (fixes #7950) (#7953) (Toru Nagashima)
+* 05e7432 New: no-chained-assignments rule (fixes #6424) (#7904) (Stewart Rand)
+* 243e47d Update: Add fixer for no-else-return (fixes #7863) (#7864) (Xander Dumaine)
+* f091d95 New: `prefer-promise-reject-errors` rule (fixes #7685) (#7689) (Teddy Katz)
+* ca01e00 Fix: recognize all line terminators in func-call-spacing (fixes #7923) (#7924) (Francesco Trotta)
+* a664e8a Update: add ignoreJSX option to no-extra-parens (Fixes #7444) (#7926) (Robert Rossmann)
+* 8ac3518 Fix: no-useless-computed-key false positive with `__proto__` (#7934) (Teddy Katz)
+* c835e19 Docs: remove reference to deleted rule (#7942) (Alejandro Oviedo)
+* 3c1e63b Docs: Improve examples for no-case-declarations (fixes #6716) (#7920) (Kevin Rangel)
+* 7e04b33 Fix: Ignore inline plugin rule config in autoconfig (fixes #7860) (#7919) (Ian VanSchooten)
+* 6448ba0 Fix: add parentheses in no-extra-boolean-cast autofixer (fixes #7912) (#7914) (Szymon Przybylski)
+* b3f2094 Fix: brace-style crash with lone block statements (fixes #7908) (#7909) (Teddy Katz)
+* 5eb2e88 Docs: Correct typos in configuring.md (#7916) (Gabriel Delépine)
+* bd5e219 Update: ensure brace-style validates class bodies (fixes #7608) (#7871) (Teddy Katz)
+* 427543a Fix: catastrophic backtracking in astUtils linebreak regex (fixes #7893) (#7898) (Teddy Katz)
+* 995554c Fix: Correct typos in no-alert.md and lib/ast-utils.js (#7905) (Stewart Rand)
+* d6150e3 Chore: Enable comma-dangle on ESLint codebase (fixes #7725) (#7906) (Teddy Katz)
+* 075ec25 Chore: update to use ES6 classes (refs #7849) (#7891) (Claire Dranginis)
+* 55f0cb6 Update: refactor brace-style and fix inconsistencies (fixes #7869) (#7870) (Teddy Katz)
+
 v3.13.1 - January 9, 2017
 
 * 3fc4e3f Fix: prefer-destructuring reporting compound assignments (fixes #7881) (#7882) (Teddy Katz)
