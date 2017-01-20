@@ -154,6 +154,67 @@ ruleTester.run("no-var", rule, {
             errors: [
                 "Unexpected var, use let or const instead."
             ]
+        },
+
+        // https://github.com/eslint/eslint/issues/7950
+        {
+            code: "var a = a",
+            output: "var a = a",
+            errors: [
+                "Unexpected var, use let or const instead."
+            ]
+        },
+        {
+            code: "var {a = a} = {}",
+            output: "var {a = a} = {}",
+            parserOptions: { ecmaVersion: 2015 },
+            errors: [
+                "Unexpected var, use let or const instead."
+            ]
+        },
+        {
+            code: "var {a = b, b} = {}",
+            output: "var {a = b, b} = {}",
+            parserOptions: { ecmaVersion: 2015 },
+            errors: [
+                "Unexpected var, use let or const instead."
+            ]
+        },
+        {
+            code: "var {a, b = a} = {}",
+            output: "let {a, b = a} = {}",
+            parserOptions: { ecmaVersion: 2015 },
+            errors: [
+                "Unexpected var, use let or const instead."
+            ]
+        },
+        {
+            code: "var a = b, b = 1",
+            output: "var a = b, b = 1",
+            parserOptions: { ecmaVersion: 2015 },
+            errors: [
+                "Unexpected var, use let or const instead."
+            ]
+        },
+        {
+            code: "var a = b; var b = 1",
+            output: "let a = b; var b = 1",
+            parserOptions: { ecmaVersion: 2015 },
+            errors: [
+                "Unexpected var, use let or const instead.",
+                "Unexpected var, use let or const instead."
+            ]
+        },
+
+        // This case is not in TDZ, but it's very hard to distinguish the reference is in TDZ or not.
+        // So this rule does not fix it for safe.
+        {
+            code: "function foo() { a } var a = 1; foo()",
+            output: "function foo() { a } var a = 1; foo()",
+            parserOptions: { ecmaVersion: 2015 },
+            errors: [
+                "Unexpected var, use let or const instead."
+            ]
         }
     ]
 });
