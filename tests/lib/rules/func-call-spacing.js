@@ -187,6 +187,22 @@ ruleTester.run("func-call-spacing", rule, {
         {
             code: "f\n/*\n*/\n()",
             options: ["always", { allowNewlines: true }]
+        },
+        {
+            code: "f\r();",
+            options: ["always", { allowNewlines: true }]
+        },
+        {
+            code: "f\u2028();",
+            options: ["always", { allowNewlines: true }]
+        },
+        {
+            code: "f\u2029();",
+            options: ["always", { allowNewlines: true }]
+        },
+        {
+            code: "f\r\n();",
+            options: ["always", { allowNewlines: true }]
         }
     ],
     invalid: [
@@ -249,6 +265,33 @@ ruleTester.run("func-call-spacing", rule, {
                 { message: "Unexpected space between function name and paren.", type: "CallExpression" }
             ],
             output: "f();\n t();"
+        },
+
+        // https://github.com/eslint/eslint/issues/7787
+        {
+            code: "f\n();",
+            errors: [{ message: "Unexpected space between function name and paren.", type: "CallExpression" }],
+            output: "f\n();" // no change
+        },
+        {
+            code: "f\r();",
+            errors: [{ message: "Unexpected space between function name and paren.", type: "CallExpression" }],
+            output: "f\r();" // no change
+        },
+        {
+            code: "f\u2028();",
+            errors: [{ message: "Unexpected space between function name and paren.", type: "CallExpression" }],
+            output: "f\u2028();" // no change
+        },
+        {
+            code: "f\u2029();",
+            errors: [{ message: "Unexpected space between function name and paren.", type: "CallExpression" }],
+            output: "f\u2029();" // no change
+        },
+        {
+            code: "f\r\n();",
+            errors: [{ message: "Unexpected space between function name and paren.", type: "CallExpression" }],
+            output: "f\r\n();" // no change
         },
 
         // "never"
@@ -393,6 +436,50 @@ ruleTester.run("func-call-spacing", rule, {
                 "(0, baz())"
             ].join("\n") // no change
         },
+        {
+            code: "f\r();",
+            options: ["never"],
+            errors: [
+                {
+                    message: "Unexpected space between function name and paren.",
+                    type: "CallExpression"
+                }
+            ],
+            output: "f\r();" // no change
+        },
+        {
+            code: "f\u2028();",
+            options: ["never"],
+            errors: [
+                {
+                    message: "Unexpected space between function name and paren.",
+                    type: "CallExpression"
+                }
+            ],
+            output: "f\u2028();" // no change
+        },
+        {
+            code: "f\u2029();",
+            options: ["never"],
+            errors: [
+                {
+                    message: "Unexpected space between function name and paren.",
+                    type: "CallExpression"
+                }
+            ],
+            output: "f\u2029();" // no change
+        },
+        {
+            code: "f\r\n();",
+            options: ["never"],
+            errors: [
+                {
+                    message: "Unexpected space between function name and paren.",
+                    type: "CallExpression"
+                }
+            ],
+            output: "f\r\n();" // no change
+        },
 
         // "always"
         {
@@ -502,6 +589,30 @@ ruleTester.run("func-call-spacing", rule, {
                 { message: "Missing space between function name and paren.", type: "CallExpression" }
             ],
             output: "f ();\n t ();"
+        },
+        {
+            code: "f\r();",
+            options: ["always"],
+            errors: [{ message: "Unexpected newline between function name and paren.", type: "CallExpression" }],
+            output: "f ();"
+        },
+        {
+            code: "f\u2028();",
+            options: ["always"],
+            errors: [{ message: "Unexpected newline between function name and paren.", type: "CallExpression" }],
+            output: "f ();"
+        },
+        {
+            code: "f\u2029();",
+            options: ["always"],
+            errors: [{ message: "Unexpected newline between function name and paren.", type: "CallExpression" }],
+            output: "f ();"
+        },
+        {
+            code: "f\r\n();",
+            options: ["always"],
+            errors: [{ message: "Unexpected newline between function name and paren.", type: "CallExpression" }],
+            output: "f ();"
         },
 
         // "always", "allowNewlines": true
