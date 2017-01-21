@@ -75,6 +75,7 @@ ruleTester.run("template-tag-spacing", rule, {
         },
         {
             code: "tag /*here's a comment*/`Hello world`",
+            output: "tag/*here's a comment*/`Hello world`",
             errors: [
                 { message: "Unexpected space between template tag and template literal." }
             ],
@@ -82,6 +83,7 @@ ruleTester.run("template-tag-spacing", rule, {
         },
         {
             code: "tag/*here's a comment*/ `Hello world`",
+            output: "tag/*here's a comment*/`Hello world`",
             errors: [
                 { message: "Unexpected space between template tag and template literal." }
             ],
@@ -89,10 +91,26 @@ ruleTester.run("template-tag-spacing", rule, {
         },
         {
             code: "tag/*here's a comment*/`Hello world`",
+            output: "tag /*here's a comment*/`Hello world`",
             errors: [
                 { message: "Missing space between template tag and template literal." }
             ],
             options: ["always"]
+        },
+        {
+            code: "tag // here's a comment \n`bar`",
+            output: "tag // here's a comment \n`bar`",
+            errors: [
+                { message: "Unexpected space between template tag and template literal." }
+            ]
+        },
+        {
+            code: "tag // here's a comment \n`bar`",
+            output: "tag // here's a comment \n`bar`",
+            errors: [
+                { message: "Unexpected space between template tag and template literal." }
+            ],
+            options: ["never"]
         },
         {
             code: "tag `hello ${name}`",
