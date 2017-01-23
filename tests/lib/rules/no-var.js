@@ -215,6 +215,15 @@ ruleTester.run("no-var", rule, {
             errors: [
                 "Unexpected var, use let or const instead."
             ]
+        },
+
+        // https://github.com/eslint/eslint/issues/7961
+        {
+            code: "if (foo) var bar = 1;",
+            output: "if (foo) var bar = 1;",
+            errors: [
+                { message: "Unexpected var, use let or const instead.", type: "VariableDeclaration" }
+            ]
         }
     ]
 });
