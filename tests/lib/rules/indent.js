@@ -67,6 +67,16 @@ ruleTester.run("indent", rule, {
         },
         {
             code:
+            "var a = [\n" +
+            "  , /*{\n" +
+            "  }, */{\n" +
+            "    name: 'foo',\n" +
+            "  }\n" +
+            "];\n",
+            options: [2]
+        },
+        {
+            code:
             "bridge.callHandler(\n" +
             "  'getAppVersion', 'test23', function(responseData) {\n" +
             "    window.ah.mobileAppVersion = responseData;\n" +
