@@ -6,6 +6,11 @@ ESLint is a tool for identifying and reporting on patterns found in ECMAScript/J
 * ESLint uses an AST to evaluate patterns in code.
 * ESLint is completely pluggable, every single rule is a plugin and you can add more at runtime.
 
+## Getting Started Tutorial
+
+<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/hppJw2REb8g?rel=0" frameborder="0" allowfullscreen></iframe>
+*Why ESLint* @0:00, *Installing and using ESLint* @2:20.  <a href="https://www.pluralsight.com/courses/eslint-better-code-quality?utm_source=eslint-dot-org&utm_medium=video&utm_campaign=authordemo" target="_blank">Full ESLint Course at Pluralsight</a>
+
 ## Installation and Usage
 
 There are two ways to install ESLint: globally and locally.
