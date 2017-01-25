@@ -1,3 +1,12 @@
+v3.14.1 - January 25, 2017
+
+* 791f32b Fix: brace-style false positive for keyword method names (fixes #7974) (#7980) (Teddy Katz)
+* d7a0add Docs: Add ESLint tutorial embed to getting started (#7971) (Jamis Charles)
+* 72d41f0 Fix: no-var autofix syntax error in single-line statements (fixes #7961) (#7962) (Teddy Katz)
+* b9e5b68 Fix: indent rule crash on sparse array with object (fixes #7959) (#7960) (Gyandeep Singh)
+* a7bd66a Chore: Adding assign/redeclare tests to no-undefined (refs #7964) (#7965) (Kevin Partington)
+* 8bcbf5d Docs: typo in prefer-promise-reject-errors (#7958) (Patrick McElhaney)
+
 v3.14.0 - January 20, 2017
 
 * 506324a Fix: `no-var` does not fix if causes ReferenceError (fixes #7950) (#7953) (Toru Nagashima)
