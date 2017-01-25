@@ -170,6 +170,30 @@ ruleTester.run("brace-style", rule, {
                 {
                 }
             }
+        `,
+
+        // https://github.com/eslint/eslint/issues/7974
+        `
+          class Ball {
+            throw() {}
+            catch() {}
+          }
+        `,
+        `
+          ({
+            and() {},
+            finally() {}
+          })
+        `,
+        `
+          (class {
+            or() {}
+            else() {}
+          })
+        `,
+        `
+          if (foo) bar = function() {}
+          else baz()
         `
     ],
 
