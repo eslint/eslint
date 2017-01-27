@@ -43,6 +43,7 @@ rules:
     no-confusing-arrow: "error"
     no-console: "error"
     no-delete-var: "error"
+    no-else-return: "error"
     no-eval: "error"
     no-extend-native: "error"
     no-extra-bind: "error"
@@ -70,7 +71,6 @@ rules:
     no-process-exit: "error"
     no-proto: "error"
     no-redeclare: "error"
-    prefer-promise-reject-errors: "error"
     no-return-assign: "error"
     no-script-url: "error"
     no-self-assign: "error"
@@ -99,6 +99,7 @@ rules:
     one-var-declaration-per-line: "error"
     prefer-arrow-callback: "error"
     prefer-const: "error"
+    prefer-promise-reject-errors: "error"
     prefer-template: "error"
     quotes: ["error", "double"]
     quote-props: ["error", "as-needed"]
