@@ -84,6 +84,7 @@ rules:
     no-undefined: "error"
     no-underscore-dangle: ["error", {allowAfterThis: true}]
     no-unmodified-loop-condition: "error"
+    no-unneeded-ternary: "error"
     no-unused-expressions: "error"
     no-unused-vars: ["error", {vars: "all", args: "after-used"}]
     no-use-before-define: "error"
