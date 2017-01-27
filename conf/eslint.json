@@ -233,6 +233,7 @@
         "strict": "off",
         "symbol-description": "off",
         "template-curly-spacing": "off",
+        "template-tag-spacing": "off",
         "unicode-bom": "off",
         "use-isnan": "error",
         "valid-jsdoc": "off",
