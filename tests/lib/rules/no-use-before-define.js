@@ -45,7 +45,18 @@ ruleTester.run("no-use-before-define", rule, {
         // object style options
         { code: "a(); function a() { alert(arguments); }", options: [{ functions: false }] },
         { code: "\"use strict\"; { a(); function a() {} }", options: [{ functions: false }], parserOptions: { ecmaVersion: 6 } },
-        { code: "function foo() { new A(); } class A {};", options: [{ classes: false }], parserOptions: { ecmaVersion: 6 } }
+        { code: "function foo() { new A(); } class A {};", options: [{ classes: false }], parserOptions: { ecmaVersion: 6 } },
+
+        // "variables" option
+        {
+            code: "function foo() { bar; } var bar;",
+            options: [{ variables: false }]
+        },
+        {
+            code: "var foo = () => bar; var bar;",
+            parserOptions: { ecmaVersion: 6 },
+            options: [{ variables: false }]
+        }
     ],
     invalid: [
         { code: "a++; var a=19;", parserOptions: { sourceType: "module" }, errors: [{ message: "'a' was used before it was defined.", type: "Identifier" }] },
@@ -91,6 +102,18 @@ ruleTester.run("no-use-before-define", rule, {
         { code: "var {a = 0} = a;", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "'a' was used before it was defined.", type: "Identifier" }] },
         { code: "var [a = 0] = a;", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "'a' was used before it was defined.", type: "Identifier" }] },
         { code: "for (var a in a) {}", errors: [{ message: "'a' was used before it was defined.", type: "Identifier" }] },
-        { code: "for (var a of a) {}", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "'a' was used before it was defined.", type: "Identifier" }] }
+        { code: "for (var a of a) {}", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "'a' was used before it was defined.", type: "Identifier" }] },
+
+        // "variables" option
+        {
+            code: "function foo() { bar; var bar = 1; } var bar;",
+            options: [{ variables: false }],
+            errors: [{ message: "'bar' was used before it was defined.", type: "Identifier" }]
+        },
+        {
+            code: "foo; var foo;",
+            options: [{ variables: false }],
+            errors: [{ message: "'foo' was used before it was defined.", type: "Identifier" }]
+        }
     ]
 });
