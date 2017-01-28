@@ -995,9 +995,9 @@ function time(cmd, runs, runNumber, results, cb) {
         echo(`  Performance Run #${runNumber}:  %dms`, actual);
         if (runs > 1) {
             return time(cmd, runs - 1, runNumber + 1, results, cb);
-        } else {
-            return cb(results);
         }
+        return cb(results);
+
     });
 
 }
