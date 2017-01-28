@@ -35,6 +35,22 @@ ruleTester.defineRule("use-every-a", context => {
 });
 
 /**
+* Returns an extended test that includes es2017 parser options.
+* @param {Object} test The test to extend
+* @returns {Object} A parser-extended test case
+*/
+function includeRestPropertyParser(test) {
+    return Object.assign({
+        parserOptions: {
+            ecmaVersion: 2017,
+            ecmaFeatures: {
+                experimentalObjectRestSpread: true
+            }
+        }
+    }, test);
+}
+
+/**
 * Returns an expected error for defined-but-not-used variables.
 * @param {string} varName The name of the variable
 * @param {string} [type] The node type (defaults to "Identifier")
@@ -178,6 +194,12 @@ ruleTester.run("no-unused-vars", rule, {
             code: "try{}catch(err){}",
             options: [{ vars: "all", args: "all" }]
         },
+
+        // Using object rest for variable omission
+        includeRestPropertyParser({
+            code: "const data = { type: 'coords', x: 1, y: 2 };\nconst { type, ...coords } = data;\n console.log(coords);",
+            options: [{ ignoreRestSiblings: true }]
+        }),
 
         // https://github.com/eslint/eslint/issues/6348
         { code: "var a = 0, b; b = a = a + 1; foo(b);" },
@@ -332,6 +354,47 @@ ruleTester.run("no-unused-vars", rule, {
                 { line: 4, column: 4, message: "'bar' is defined but never used." }
             ]
         },
+
+        // Rest property sibling without ignoreRestSiblings
+        includeRestPropertyParser({
+            code: "const data = { type: 'coords', x: 1, y: 2 };\nconst { type, ...coords } = data;\n console.log(coords);",
+            errors: [
+                { line: 2, column: 9, message: "'type' is assigned a value but never used." }
+            ]
+        }),
+
+        // Unused rest property with ignoreRestSiblings
+        includeRestPropertyParser({
+            code: "const data = { type: 'coords', x: 1, y: 2 };\nconst { type, ...coords } = data;\n console.log(type)",
+            options: [{ ignoreRestSiblings: true }],
+            errors: [
+                { line: 2, column: 18, message: "'coords' is assigned a value but never used." }
+            ]
+        }),
+
+        // Unused rest property without ignoreRestSiblings
+        includeRestPropertyParser({
+            code: "const data = { type: 'coords', x: 1, y: 2 };\nconst { type, ...coords } = data;\n console.log(type)",
+            errors: [
+                { line: 2, column: 18, message: "'coords' is assigned a value but never used." }
+            ]
+        }),
+
+        // Nested array destructuring with rest property
+        includeRestPropertyParser({
+            code: "const data = { vars: ['x','y'], x: 1, y: 2 };\nconst { vars: [x], ...coords } = data;\n console.log(coords)",
+            errors: [
+                { line: 2, column: 16, message: "'x' is assigned a value but never used." }
+            ]
+        }),
+
+        // Nested object destructuring with rest property
+        includeRestPropertyParser({
+            code: "const data = { defaults: { x: 0 }, x: 1, y: 2 };\nconst { defaults: { x }, ...coords } = data;\n console.log(coords)",
+            errors: [
+                { line: 2, column: 21, message: "'x' is assigned a value but never used." }
+            ]
+        }),
 
         // https://github.com/eslint/eslint/issues/3714
         {

@@ -99,7 +99,7 @@ By default this rule is enabled with `all` option for variables and `after-used`
 ```json
 {
     "rules": {
-        "no-unused-vars": ["error", { "vars": "all", "args": "after-used" }]
+        "no-unused-vars": ["error", { "vars": "all", "args": "after-used", "ignoreRestSiblings": false }]
     }
 }
 ```
@@ -193,6 +193,18 @@ Examples of **correct** code for the `{ "args": "none" }` option:
 (function(foo, bar, baz) {
     return bar;
 })();
+```
+
+### ignoreRestSiblings
+
+The `ignoreRestSiblings` option is a boolean (default: `false`). Using a [Rest Property](https://github.com/sebmarkbage/ecmascript-rest-spread) it is possible to "omit" properties from an object, but by default the sibling properties are marked as "unused". With this option enabled the rest property's siblings are ignored.
+
+Examples of **correct** code for the `{ "ignoreRestSiblings": true }` option:
+
+```js
+/*eslint no-unused-vars: ["error", { "ignoreRestSiblings": true }]*/
+// 'type' is ignored because it has a rest property sibling.
+var { type, ...coords } = data;
 ```
 
 ### argsIgnorePattern
