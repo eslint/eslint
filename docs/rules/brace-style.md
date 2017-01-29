@@ -299,7 +299,7 @@ catch(e) { handleError(); }
 
 ## When Not To Use It
 
-If your project will not be using the one true brace style, turn this rule off.
+If you don't want to enforce a particular brace style, don't enable this rule.
 
 ## Further Reading
 
