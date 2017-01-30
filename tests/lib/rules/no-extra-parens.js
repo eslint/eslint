@@ -89,6 +89,10 @@ ruleTester.run("no-extra-parens", rule, {
         "(++a)(b); (c++)(d);",
         "new (A())",
         "new A()()",
+        "(new A)()",
+        "(new (Foo || Bar))()",
+        { code: "(2 + 3) ** 4", parserOptions: { ecmaVersion: 7 } },
+        { code: "2 ** (2 + 3)", parserOptions: { ecmaVersion: 7 } },
 
         // same precedence
         "a, b, c",
@@ -120,6 +124,8 @@ ruleTester.run("no-extra-parens", rule, {
         "a(b)(c)",
         "a((b, c))",
         "new new A",
+        { code: "2 ** 3 ** 4", parserOptions: { ecmaVersion: 7 } },
+        { code: "(2 ** 3) ** 4", parserOptions: { ecmaVersion: 7 } },
 
         // constructs that contain expressions
         "if(a);",
@@ -183,6 +189,15 @@ ruleTester.run("no-extra-parens", rule, {
 
         // Object literals as arrow function bodies need parentheses
         { code: "x => ({foo: 1})", parserOptions: { ecmaVersion: 6 } },
+
+
+        // Exponentiation operator `**`
+        { code: "1 + 2 ** 3", parserOptions: { ecmaVersion: 7 } },
+        { code: "1 - 2 ** 3", parserOptions: { ecmaVersion: 7 } },
+        { code: "2 ** -3", parserOptions: { ecmaVersion: 7 } },
+        { code: "(-2) ** 3", parserOptions: { ecmaVersion: 7 } },
+        { code: "(+2) ** 3", parserOptions: { ecmaVersion: 7 } },
+        { code: "+ (2 ** 3)", parserOptions: { ecmaVersion: 7 } },
 
         // https://github.com/eslint/eslint/issues/5789
         { code: "a => ({b: c}[d])", parserOptions: { ecmaVersion: 6 } },
@@ -409,6 +424,11 @@ ruleTester.run("no-extra-parens", rule, {
         invalid("a + (b * c)", "a + b * c", "BinaryExpression"),
         invalid("(a * b) + c", "a * b + c", "BinaryExpression"),
         invalid("(a * b) / c", "a * b / c", "BinaryExpression"),
+        invalid("(2) ** 3 ** 4", "2 ** 3 ** 4", "Literal", null, { parserOptions: { ecmaVersion: 7 } }),
+        invalid("2 ** (3 ** 4)", "2 ** 3 ** 4", "BinaryExpression", null, { parserOptions: { ecmaVersion: 7 } }),
+        invalid("(2 ** 3)", "2 ** 3", "BinaryExpression", null, { parserOptions: { ecmaVersion: 7 } }),
+        invalid("(2 ** 3) + 1", "2 ** 3 + 1", "BinaryExpression", null, { parserOptions: { ecmaVersion: 7 } }),
+        invalid("1 - (2 ** 3)", "1 - 2 ** 3", "BinaryExpression", null, { parserOptions: { ecmaVersion: 7 } }),
 
         invalid("a = (b * c)", "a = b * c", "BinaryExpression", null, { options: ["all", { nestedBinaryExpressions: false }] }),
         invalid("(b * c)", "b * c", "BinaryExpression", null, { options: ["all", { nestedBinaryExpressions: false }] }),
@@ -425,6 +445,11 @@ ruleTester.run("no-extra-parens", rule, {
         invalid("new (\nfunction(){}\n)", "new \nfunction(){}\n", "FunctionExpression", 1),
         invalid("((function foo() {return 1;}))()", "(function foo() {return 1;})()", "FunctionExpression"),
         invalid("((function(){ return bar(); })())", "(function(){ return bar(); })()", "CallExpression"),
+
+        invalid("new (A)", "new A", "Identifier"),
+        invalid("(new A())()", "new A()()", "NewExpression"),
+        invalid("(new A(1))()", "new A(1)()", "NewExpression"),
+        invalid("((new A))()", "(new A)()", "NewExpression"),
 
         invalid("0, (_ => 0)", "0, _ => 0", "ArrowFunctionExpression", 1, { parserOptions: { ecmaVersion: 6 } }),
         invalid("(_ => 0), 0", "_ => 0, 0", "ArrowFunctionExpression", 1, { parserOptions: { ecmaVersion: 6 } }),
