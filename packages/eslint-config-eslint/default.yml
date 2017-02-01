@@ -116,6 +116,7 @@ rules:
     spaced-comment: ["error", "always", { exceptions: ["-"]}]
     strict: ["error", "global"]
     template-curly-spacing: ["error", "never"]
+    template-tag-spacing: "error"
     valid-jsdoc: ["error", {
         prefer: { "return": "returns"},
         preferType: {
