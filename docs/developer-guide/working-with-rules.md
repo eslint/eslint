@@ -284,7 +284,7 @@ Once you have an instance of `SourceCode`, you can use the methods on it to work
 * `getNodeByRangeIndex(index)` - returns the deepest node in the AST containing the given source index.
 
 > `skipOptions` is an object which has 3 properties; `skip`, `includeComments`, and `filter`. Default is `{skip: 0, includeComments: false, filter: null}`.
-> - The `skip` is a positive integer, the number of skipping tokens.
+> - The `skip` is a positive integer, the number of skipping tokens. If `filter` option is given at the same time, it doesn't count filtered tokens as skipped.
 > - The `includeComments` is a boolean value, the flag to include comment tokens into the result.
 > - The `filter` is a function which gets a token as the first argument, if the function returns `false` then the result excludes the token.
 >
