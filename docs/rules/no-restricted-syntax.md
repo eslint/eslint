@@ -10,36 +10,45 @@ This rule disallows specified (that is, user-defined) syntax.
 
 ## Options
 
-This rule takes a list of strings:
+This rule takes a list of AST selectors with syntax similar to CSS:
 
 ```json
 {
     "rules": {
-        "no-restricted-syntax": ["error", "FunctionExpression", "WithStatement"]
+        "no-restricted-syntax": ["error", "FunctionExpression", "WithStatement", "IfStatement > BlockStatement"]
     }
 }
 ```
 
-Examples of **incorrect** code for this rule with the `"FunctionExpression", "WithStatement"` options:
+For more details on the syntax that can be used in selectors, see the [ESQuery](https://github.com/estools/esquery) documentation.
+
+Examples of **incorrect** code for this rule with the `"FunctionExpression", "WithStatement", "IfStatement > BlockStatement"` options:
 
 ```js
-/* eslint no-restricted-syntax: ["error", "FunctionExpression", "WithStatement"] */
+/* eslint no-restricted-syntax: ["error", "FunctionExpression", "WithStatement", "IfStatement > BlockStatement"] */
 
 with (me) {
     dontMess();
 }
 
 var doSomething = function () {};
+
+if (foo) {
+    bar();
+}
 ```
 
-Examples of **correct** code for this rule with the `"FunctionExpression", "WithStatement"` options:
+Examples of **correct** code for this rule with the `"FunctionExpression", "WithStatement", "IfStatement > BlockStatement"` options:
 
 ```js
-/* eslint no-restricted-syntax: ["error", "FunctionExpression", "WithStatement"] */
+/* eslint no-restricted-syntax: ["error", "FunctionExpression", "WithStatement", "IfStatement > BlockStatement"] */
 
 me.dontMess();
 
 function doSomething() {};
+
+if (foo)
+    bar();
 ```
 
 ## When Not To Use It
