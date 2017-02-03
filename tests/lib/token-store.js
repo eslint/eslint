@@ -110,7 +110,7 @@ describe("TokenStore", () => {
 
         it("should retrieve matched tokens and comments in the node for root node with includeComments and filter option", () => {
             check(
-                store.getTokens(Program, { includeComments: true, filter: t => t.type === "Block" }),
+                store.getTokens(Program, { includeComments: true, filter: t => t.type.startsWith("Block") }),
                 ["B", "C", "D", "E"]
             );
         });
@@ -198,7 +198,7 @@ describe("TokenStore", () => {
 
         it("should retrieve all tokens and comments before a node with includeComments and filter option", () => {
             check(
-                store.getTokensBefore(BinaryExpression, { includeComments: true, filter: t => t.type === "Block" }),
+                store.getTokensBefore(BinaryExpression, { includeComments: true, filter: t => t.type.startsWith("Block") }),
                 ["A", "B", "C"]
             );
         });
@@ -266,7 +266,7 @@ describe("TokenStore", () => {
 
         it("should retrieve one token or comment before a node with includeComments and skip and filter options", () => {
             assert.equal(
-                store.getTokenBefore(BinaryExpression, { includeComments: true, skip: 1, filter: t => t.type === "Block" }).value,
+                store.getTokenBefore(BinaryExpression, { includeComments: true, skip: 1, filter: t => t.type.startsWith("Block") }).value,
                 "B"
             );
         });
@@ -340,7 +340,7 @@ describe("TokenStore", () => {
 
         it("should retrieve matched tokens and comments after a node with includeComments and count and filter option", () => {
             check(
-                store.getTokensAfter(VariableDeclarator.id, { includeComments: true, count: 3, filter: t => t.type === "Block" }),
+                store.getTokensAfter(VariableDeclarator.id, { includeComments: true, count: 3, filter: t => t.type.startsWith("Block") }),
                 ["B", "C", "D"]
             );
         });
@@ -412,7 +412,7 @@ describe("TokenStore", () => {
 
         it("should retrieve one token or comment after a node with includeComments and skip and filter option", () => {
             assert.equal(
-                store.getTokenAfter(VariableDeclarator.id, { includeComments: true, skip: 2, filter: t => t.type === "Block" }).value,
+                store.getTokenAfter(VariableDeclarator.id, { includeComments: true, skip: 2, filter: t => t.type.startsWith("Block") }).value,
                 "D"
             );
         });
