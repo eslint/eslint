@@ -85,7 +85,28 @@ ruleTester.run("no-var", rule, {
                 }
             ]
         },
-
+        {
+            code: "for (var i = 0; i < list.length; ++i) { foo(i) }",
+            output: "for (let i = 0; i < list.length; ++i) { foo(i) }",
+            errors: [
+                { message: "Unexpected var, use let or const instead.", type: "VariableDeclaration" }
+            ]
+        },
+        {
+            code: "for (var i = 0, i = 0; false;);",
+            output: "for (var i = 0, i = 0; false;);",
+            errors: [
+                { message: "Unexpected var, use let or const instead.", type: "VariableDeclaration" }
+            ]
+        },
+        {
+            code: "var i = 0; for (var i = 1; false;); console.log(i);",
+            output: "var i = 0; for (var i = 1; false;); console.log(i);",
+            errors: [
+                { message: "Unexpected var, use let or const instead.", type: "VariableDeclaration" },
+                { message: "Unexpected var, use let or const instead.", type: "VariableDeclaration" }
+            ]
+        },
 
         // Not fix if it's redeclared or it's used from outside of the scope or it's declared on a case chunk.
         {
