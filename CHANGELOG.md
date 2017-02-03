@@ -1,3 +1,21 @@
+v3.15.0 - February 3, 2017
+
+* f2a3580 Fix: `no-extra-parens` incorrect precedence (fixes #7978) (#7999) (alberto)
+* d6b6ba1 Fix: no-var should fix ForStatement.init (#7993) (Toru Nagashima)
+* 99d386d Upgrade: Espree v3.4.0 (#8019) (Kai Cataldo)
+* 42390fd Docs: update README.md for team (#8016) (Toru Nagashima)
+* d7ffd88 Chore: enable template-tag-spacing on ESLint codebase (#8005) (Teddy Katz)
+* f2be7e3 Docs: Fix typo in object-curly-newline.md (#8002) (Danny Andrews)
+* df2351a Docs: Fix misleading section in brace-style documentation (#7996) (Teddy Katz)
+* 5ae6e00 Chore: avoid unnecessary feature detection for Symbol (#7992) (Teddy Katz)
+* 5d57c57 Chore: fix no-else-return lint error (refs #7986) (#7994) (Vitor Balocco)
+* 62fb054 Chore: enable no-else-return on ESLint codebase (#7986) (Teddy Katz)
+* c59a0ba Update: add ignoreRestSiblings option to no-unused-vars (#7968) (Zack Argyle)
+* 5cdfa99 Chore: enable no-unneeded-ternary on ESLint codebase (#7987) (Teddy Katz)
+* fbd7c13 Update: ensure operator-assignment handles exponentiation operators (#7970) (Teddy Katz)
+* c5066ce Update: add "variables" option to no-use-before-define (fixes #7111) (#7948) (Teddy Katz)
+* 09546a4 New: `template-tag-spacing` rule (fixes #7631) (#7913) (Jonathan Wilsson)
+
 v3.14.1 - January 25, 2017
 
 * 791f32b Fix: brace-style false positive for keyword method names (fixes #7974) (#7980) (Teddy Katz)
