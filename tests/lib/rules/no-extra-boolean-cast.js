@@ -186,6 +186,47 @@ ruleTester.run("no-extra-boolean-cast", rule, {
                 message: "Redundant Boolean call.",
                 type: "CallExpression"
             }]
+        },
+        {
+            code: "!Boolean(...foo);",
+            output: "!Boolean(...foo);",
+            parserOptions: { ecmaVersion: 2015 },
+            errors: [{
+                message: "Redundant Boolean call.",
+                type: "CallExpression"
+            }]
+        },
+        {
+            code: "!Boolean(foo, bar());",
+            output: "!Boolean(foo, bar());",
+            errors: [{
+                message: "Redundant Boolean call.",
+                type: "CallExpression"
+            }]
+        },
+        {
+            code: "!Boolean((foo, bar()));",
+            output: "!(foo, bar());",
+            errors: [{
+                message: "Redundant Boolean call.",
+                type: "CallExpression"
+            }]
+        },
+        {
+            code: "!Boolean();",
+            output: "true;",
+            errors: [{
+                message: "Redundant Boolean call.",
+                type: "CallExpression"
+            }]
+        },
+        {
+            code: "!(Boolean());",
+            output: "true;",
+            errors: [{
+                message: "Redundant Boolean call.",
+                type: "CallExpression"
+            }]
         }
     ]
 });
