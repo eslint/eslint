@@ -63,6 +63,16 @@ ruleTester.run("no-unused-labels", rule, {
             code: "A: { var A = 0; console.log(A); }",
             output: "{ var A = 0; console.log(A); }",
             errors: ["'A:' is defined but never used."]
+        },
+        {
+            code: "A: /* comment */ foo",
+            output: "A: /* comment */ foo",
+            errors: ["'A:' is defined but never used."]
+        },
+        {
+            code: "A /* comment */: foo",
+            output: "A /* comment */: foo",
+            errors: ["'A:' is defined but never used."]
         }
 
         // Below is fatal errors.
