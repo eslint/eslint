@@ -51,8 +51,8 @@ ruleTester.run("no-undef", rule, {
         { code: "import Warning from '../lib/warning'; var warn = new Warning('text');", parserOptions: { sourceType: "module" } },
         { code: "import * as Warning from '../lib/warning'; var warn = new Warning('text');", parserOptions: { sourceType: "module" } },
         { code: "var a; [a] = [0];", parserOptions: { ecmaVersion: 6 } },
-        { code: "var a; ({a}) = {};", parserOptions: { ecmaVersion: 6 } },
-        { code: "var a; ({b: a}) = {};", parserOptions: { ecmaVersion: 6 } },
+        { code: "var a; ({a} = {});", parserOptions: { ecmaVersion: 6 } },
+        { code: "var a; ({b: a} = {});", parserOptions: { ecmaVersion: 6 } },
         { code: "var obj; [obj.a, obj.b] = [0, 1];", parserOptions: { ecmaVersion: 6 } },
         { code: "URLSearchParams;", env: { browser: true } },
         { code: "Intl;", env: { browser: true } },
@@ -95,8 +95,8 @@ ruleTester.run("no-undef", rule, {
         { code: "var React; React.render(<img attr={a} />);", errors: [{ message: "'a' is not defined." }], parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } } },
         { code: "var React, App; React.render(<App attr={a} />);", errors: [{ message: "'a' is not defined." }], parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } } },
         { code: "[a] = [0];", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "'a' is not defined." }] },
-        { code: "({a}) = {};", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "'a' is not defined." }] },
-        { code: "({b: a}) = {};", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "'a' is not defined." }] },
+        { code: "({a} = {});", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "'a' is not defined." }] },
+        { code: "({b: a} = {});", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "'a' is not defined." }] },
         { code: "[obj.a, obj.b] = [0, 1];", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "'obj' is not defined." }, { message: "'obj' is not defined." }] },
 
         // Experimental
