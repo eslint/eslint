@@ -108,7 +108,7 @@ describe("TokenStore", () => {
             );
         });
 
-        it("should retrieve matched tokens and comments in the node for root node with includeComments and filter option", () => {
+        it("should retrieve matched tokens and comments in the node for root node with includeComments and filter options", () => {
             check(
                 store.getTokens(Program, { includeComments: true, filter: t => t.type.startsWith("Block") }),
                 ["B", "C", "D", "E"]
@@ -154,7 +154,7 @@ describe("TokenStore", () => {
             );
         });
 
-        it("should retrieve more than one token before a node with option {count: 2}", () => {
+        it("should retrieve more than one token before a node with count option", () => {
             check(
                 store.getTokensBefore(BinaryExpression, { count: 2 }),
                 ["answer", "="]
@@ -196,7 +196,7 @@ describe("TokenStore", () => {
             );
         });
 
-        it("should retrieve all tokens and comments before a node with includeComments and filter option", () => {
+        it("should retrieve all tokens and comments before a node with includeComments and filter options", () => {
             check(
                 store.getTokensBefore(BinaryExpression, { includeComments: true, filter: t => t.type.startsWith("Block") }),
                 ["A", "B", "C"]
@@ -225,7 +225,7 @@ describe("TokenStore", () => {
             );
         });
 
-        it("should skip a given number of tokens with option {skip: 1}", () => {
+        it("should skip a given number of tokens with skip option", () => {
             assert.equal(
                 store.getTokenBefore(BinaryExpression, { skip: 1 }).value,
                 "answer"
@@ -317,7 +317,7 @@ describe("TokenStore", () => {
             );
         });
 
-        it("should retrieve matched tokens after a node with count and filter option", () => {
+        it("should retrieve matched tokens after a node with count and filter options", () => {
             check(
                 store.getTokensAfter(VariableDeclarator.id, { count: 2, filter: t => t.type === "Identifier" }),
                 ["a", "b"]
@@ -331,14 +331,14 @@ describe("TokenStore", () => {
             );
         });
 
-        it("should retrieve several tokens and comments after a node with includeComments and count option", () => {
+        it("should retrieve several tokens and comments after a node with includeComments and count options", () => {
             check(
                 store.getTokensAfter(VariableDeclarator.id, { includeComments: true, count: 3 }),
                 ["B", "=", "C"]
             );
         });
 
-        it("should retrieve matched tokens and comments after a node with includeComments and count and filter option", () => {
+        it("should retrieve matched tokens and comments after a node with includeComments and count and filter options", () => {
             check(
                 store.getTokensAfter(VariableDeclarator.id, { includeComments: true, count: 3, filter: t => t.type.startsWith("Block") }),
                 ["B", "C", "D"]
@@ -367,7 +367,7 @@ describe("TokenStore", () => {
             );
         });
 
-        it("should skip a given number of tokens with skip options", () => {
+        it("should skip a given number of tokens with skip option", () => {
             assert.equal(
                 store.getTokenAfter(VariableDeclarator.id, { skip: 1 }).value,
                 "a"
@@ -378,7 +378,7 @@ describe("TokenStore", () => {
             );
         });
 
-        it("should retrieve matched token with filter options", () => {
+        it("should retrieve matched token with filter option", () => {
             assert.equal(
                 store.getTokenAfter(VariableDeclarator.id, t => t.type === "Identifier").value,
                 "a"
@@ -403,14 +403,14 @@ describe("TokenStore", () => {
             );
         });
 
-        it("should retrieve one token or comment after a node with includeComments and skip option", () => {
+        it("should retrieve one token or comment after a node with includeComments and skip options", () => {
             assert.equal(
                 store.getTokenAfter(VariableDeclarator.id, { includeComments: true, skip: 2 }).value,
                 "C"
             );
         });
 
-        it("should retrieve one token or comment after a node with includeComments and skip and filter option", () => {
+        it("should retrieve one token or comment after a node with includeComments and skip and filter options", () => {
             assert.equal(
                 store.getTokenAfter(VariableDeclarator.id, { includeComments: true, skip: 2, filter: t => t.type.startsWith("Block") }).value,
                 "D"
@@ -467,7 +467,7 @@ describe("TokenStore", () => {
             );
         });
 
-        it("should retrieve matched tokens from a node's token stream with filter and count option", () => {
+        it("should retrieve matched tokens from a node's token stream with filter and count options", () => {
             check(
                 store.getFirstTokens(BinaryExpression, { count: 1, filter: t => t.type === "Identifier" }),
                 ["a"]
@@ -481,14 +481,14 @@ describe("TokenStore", () => {
             );
         });
 
-        it("should retrieve several tokens and comments from a node's token stream with includeComments and count option", () => {
+        it("should retrieve several tokens and comments from a node's token stream with includeComments and count options", () => {
             check(
                 store.getFirstTokens(BinaryExpression, { includeComments: true, count: 3 }),
                 ["a", "D", "*"]
             );
         });
 
-        it("should retrieve several tokens and comments from a node's token stream with includeComments and count and filter option", () => {
+        it("should retrieve several tokens and comments from a node's token stream with includeComments and count and filter options", () => {
             check(
                 store.getFirstTokens(BinaryExpression, { includeComments: true, count: 3, filter: t => t.value !== "a" }),
                 ["D", "*", "b"]
@@ -539,7 +539,7 @@ describe("TokenStore", () => {
             );
         });
 
-        it("should retrieve matched token with filter and skip option", () => {
+        it("should retrieve matched token with filter and skip options", () => {
             assert.equal(
                 store.getFirstToken(BinaryExpression, { skip: 1, filter: t => t.type === "Identifier" }).value,
                 "b"
@@ -553,14 +553,14 @@ describe("TokenStore", () => {
             );
         });
 
-        it("should retrieve the first matched token or comment of a node's token stream with includeComments and skip option", () => {
+        it("should retrieve the first matched token or comment of a node's token stream with includeComments and skip options", () => {
             assert.equal(
                 store.getFirstToken(BinaryExpression, { includeComments: true, skip: 1 }).value,
                 "D"
             );
         });
 
-        it("should retrieve the first matched token or comment of a node's token stream with includeComments and skip and filter option", () => {
+        it("should retrieve the first matched token or comment of a node's token stream with includeComments and skip and filter options", () => {
             assert.equal(
                 store.getFirstToken(BinaryExpression, { includeComments: true, skip: 1, filter: t => t.value !== "a" }).value,
                 "*"
@@ -617,7 +617,7 @@ describe("TokenStore", () => {
             );
         });
 
-        it("should retrieve matched tokens from the end of a node's token stream with filter and count option", () => {
+        it("should retrieve matched tokens from the end of a node's token stream with filter and count options", () => {
             check(
                 store.getLastTokens(BinaryExpression, { count: 1, filter: t => t.type === "Identifier" }),
                 ["b"]
@@ -631,14 +631,14 @@ describe("TokenStore", () => {
             );
         });
 
-        it("should retrieve matched tokens from the end of a node's token stream with includeComments and count option", () => {
+        it("should retrieve matched tokens from the end of a node's token stream with includeComments and count options", () => {
             check(
                 store.getLastTokens(BinaryExpression, { includeComments: true, count: 3 }),
                 ["D", "*", "b"]
             );
         });
 
-        it("should retrieve matched tokens from the end of a node's token stream with includeComments and count and filter option", () => {
+        it("should retrieve matched tokens from the end of a node's token stream with includeComments and count and filter options", () => {
             check(
                 store.getLastTokens(BinaryExpression, { includeComments: true, count: 3, filter: t => t.type !== "Punctuator" }),
                 ["a", "D", "b"]
@@ -693,7 +693,7 @@ describe("TokenStore", () => {
             );
         });
 
-        it("should retrieve the last matched token of a node's token stream with filter and skip option", () => {
+        it("should retrieve the last matched token of a node's token stream with filter and skip options", () => {
             assert.equal(
                 store.getLastToken(BinaryExpression, { skip: 1, filter: t => t.type === "Identifier" }).value,
                 "a"
@@ -707,14 +707,14 @@ describe("TokenStore", () => {
             );
         });
 
-        it("should retrieve the last token of a node's token stream with includeComments and skip option", () => {
+        it("should retrieve the last token of a node's token stream with includeComments and skip options", () => {
             assert.equal(
                 store.getLastToken(BinaryExpression, { includeComments: true, skip: 2 }).value,
                 "D"
             );
         });
 
-        it("should retrieve the last token of a node's token stream with includeComments and skip and filter option", () => {
+        it("should retrieve the last token of a node's token stream with includeComments and skip and filter options", () => {
             assert.equal(
                 store.getLastToken(BinaryExpression, { includeComments: true, skip: 1, filter: t => t.type !== "Identifier" }).value,
                 "D"
@@ -764,7 +764,7 @@ describe("TokenStore", () => {
             );
         });
 
-        it("should retrieve multiple tokens between non-adjacent nodes with includeComments and count option", () => {
+        it("should retrieve multiple tokens between non-adjacent nodes with includeComments and count options", () => {
             check(
                 store.getFirstTokensBetween(VariableDeclarator.id, BinaryExpression.right, { includeComments: true, count: 3 }),
                 ["B", "=", "C"]
@@ -832,14 +832,14 @@ describe("TokenStore", () => {
             );
         });
 
-        it("should retrieve first token or comment between non-adjacent nodes with includeComments and skip option", () => {
+        it("should retrieve first token or comment between non-adjacent nodes with includeComments and skip options", () => {
             assert.equal(
                 store.getFirstTokenBetween(VariableDeclarator.id, BinaryExpression.right, { includeComments: true, skip: 1 }).value,
                 "="
             );
         });
 
-        it("should retrieve first token or comment between non-adjacent nodes with includeComments and skip and filter option", () => {
+        it("should retrieve first token or comment between non-adjacent nodes with includeComments and skip and filter options", () => {
             assert.equal(
                 store.getFirstTokenBetween(VariableDeclarator.id, BinaryExpression.right, { includeComments: true, skip: 1, filter: t => t.type !== "Punctuator" }).value,
                 "C"
@@ -889,7 +889,7 @@ describe("TokenStore", () => {
             );
         });
 
-        it("should retrieve multiple tokens between non-adjacent nodes with includeComments and count option", () => {
+        it("should retrieve multiple tokens between non-adjacent nodes with includeComments and count options", () => {
             check(
                 store.getLastTokensBetween(VariableDeclarator.id, BinaryExpression.right, { includeComments: true, count: 3 }),
                 ["a", "D", "*"]
@@ -957,14 +957,14 @@ describe("TokenStore", () => {
             );
         });
 
-        it("should retrieve first token or comment between non-adjacent nodes with includeComments and skip option", () => {
+        it("should retrieve first token or comment between non-adjacent nodes with includeComments and skip options", () => {
             assert.equal(
                 store.getLastTokenBetween(VariableDeclarator.id, BinaryExpression.right, { includeComments: true, skip: 1 }).value,
                 "D"
             );
         });
 
-        it("should retrieve first token or comment between non-adjacent nodes with includeComments and skip and filter option", () => {
+        it("should retrieve first token or comment between non-adjacent nodes with includeComments and skip and filter options", () => {
             assert.equal(
                 store.getLastTokenBetween(VariableDeclarator.id, BinaryExpression.right, { includeComments: true, skip: 1, filter: t => t.type !== "Punctuator" }).value,
                 "a"
