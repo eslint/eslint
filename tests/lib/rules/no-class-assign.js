@@ -40,11 +40,11 @@ ruleTester.run("no-class-assign", rule, {
             errors: [{ message: "'A' is a class.", type: "Identifier" }]
         },
         {
-            code: "class A { } ({A}) = 0;",
+            code: "class A { } ({A} = 0);",
             errors: [{ message: "'A' is a class.", type: "Identifier" }]
         },
         {
-            code: "class A { } ({b: A = 0}) = {};",
+            code: "class A { } ({b: A = 0} = {});",
             errors: [{ message: "'A' is a class.", type: "Identifier" }]
         },
         {
