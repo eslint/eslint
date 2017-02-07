@@ -163,7 +163,51 @@ ruleTester.run("semi-spacing", rule, {
                 { message: "Unexpected whitespace after semicolon.", type: "ForStatement", line: 1, column: 15 },
                 { message: "Unexpected whitespace after semicolon.", type: "ForStatement", line: 1, column: 23 }
             ]
+        },
+        {
+            code: "import Foo from 'bar' ;",
+            output: "import Foo from 'bar';",
+            parserOptions: { sourceType: "module" },
+            options: [{ before: false, after: true }],
+            errors: [
+                { message: "Unexpected whitespace before semicolon.", type: "ImportDeclaration", line: 1, column: 23 }
+            ]
+        },
+        {
+            code: "import * as foo from 'bar' ;",
+            output: "import * as foo from 'bar';",
+            parserOptions: { sourceType: "module" },
+            options: [{ before: false, after: true }],
+            errors: [
+                { message: "Unexpected whitespace before semicolon.", type: "ImportDeclaration", line: 1, column: 28 }
+            ]
+        },
+        {
+            code: "export {foo} ;",
+            output: "export {foo};",
+            parserOptions: { sourceType: "module" },
+            options: [{ before: false, after: true }],
+            errors: [
+                { message: "Unexpected whitespace before semicolon.", type: "ExportNamedDeclaration", line: 1, column: 14 }
+            ]
+        },
+        {
+            code: "export * from 'foo' ;",
+            output: "export * from 'foo';",
+            parserOptions: { sourceType: "module" },
+            options: [{ before: false, after: true }],
+            errors: [
+                { message: "Unexpected whitespace before semicolon.", type: "ExportAllDeclaration", line: 1, column: 21 }
+            ]
+        },
+        {
+            code: "export default foo ;",
+            output: "export default foo;",
+            parserOptions: { sourceType: "module" },
+            options: [{ before: false, after: true }],
+            errors: [
+                { message: "Unexpected whitespace before semicolon.", type: "ExportDefaultDeclaration", line: 1, column: 20 }
+            ]
         }
-
     ]
 });
