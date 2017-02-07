@@ -43,8 +43,8 @@ ruleTester.run("no-param-reassign", rule, {
         { code: "function foo(bar) { bar--; }", errors: [{ message: "Assignment to function parameter 'bar'." }] },
         { code: "function foo({bar}) { bar = 13; }", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "Assignment to function parameter 'bar'." }] },
         { code: "function foo([, {bar}]) { bar = 13; }", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "Assignment to function parameter 'bar'." }] },
-        { code: "function foo(bar) { ({bar}) = {}; }", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "Assignment to function parameter 'bar'." }] },
-        { code: "function foo(bar) { ({x: [, bar = 0]}) = {}; }", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "Assignment to function parameter 'bar'." }] },
+        { code: "function foo(bar) { ({bar} = {}); }", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "Assignment to function parameter 'bar'." }] },
+        { code: "function foo(bar) { ({x: [, bar = 0]} = {}); }", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "Assignment to function parameter 'bar'." }] },
 
         {
             code: "function foo(bar) { bar.a = 0; }",

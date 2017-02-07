@@ -9,23 +9,11 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-const path = require("path"),
+const baseParser = require("../../fixtures/fixture-parser"),
     rule = require("../../../lib/rules/arrow-parens"),
     RuleTester = require("../../../lib/testers/rule-tester");
 
-//------------------------------------------------------------------------------
-// Helpers
-//------------------------------------------------------------------------------
-
-/**
- * Gets the path to the specified parser.
- *
- * @param {string} name - The parser name to get.
- * @returns {string} The path to the specified parser.
- */
-function parser(name) {
-    return path.resolve(__dirname, `../../fixtures/parsers/arrow-parens/${name}.js`);
-}
+const parser = baseParser.bind(null, "arrow-parens");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -80,7 +68,7 @@ const valid = [
     { code: "async a => ({})", options: ["as-needed", { requireForBlockBody: true }], parserOptions: { ecmaVersion: 8 } },
     { code: "async a => a", options: ["as-needed", { requireForBlockBody: true }], parserOptions: { ecmaVersion: 8 } },
     { code: "(a: T) => a", options: ["as-needed", { requireForBlockBody: true }], parser: parser("identifer-type") },
-    { code: "(a): T => a", options: ["as-needed", { requireForBlockBody: true }], parser: parser("return-type") },
+    { code: "(a): T => a", options: ["as-needed", { requireForBlockBody: true }], parser: parser("return-type") }
 ];
 
 const message = "Expected parentheses around arrow function argument.";

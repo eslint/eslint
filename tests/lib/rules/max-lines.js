@@ -44,14 +44,14 @@ ruleTester.run("max-lines", rule, {
                 " really really",
                 " long comment*/ "
             ].join("\n"),
-            options: [{ max: 2, skipComments: true } ]
+            options: [{ max: 2, skipComments: true }]
         },
         {
             code: [
                 "var x; /* inline comment",
                 " spanning multiple lines */ var z;"
             ].join("\n"),
-            options: [{ max: 2, skipComments: true } ]
+            options: [{ max: 2, skipComments: true }]
         },
         {
             code: [
@@ -59,7 +59,7 @@ ruleTester.run("max-lines", rule, {
                 " spanning multiple lines */",
                 "var z;"
             ].join("\n"),
-            options: [{ max: 2, skipComments: true } ]
+            options: [{ max: 2, skipComments: true }]
         },
         {
             code: [
@@ -69,7 +69,7 @@ ruleTester.run("max-lines", rule, {
                 "\t  ",
                 "var y;"
             ].join("\n"),
-            options: [{ max: 2, skipBlankLines: true } ]
+            options: [{ max: 2, skipBlankLines: true }]
         },
         {
             code: [
@@ -82,7 +82,7 @@ ruleTester.run("max-lines", rule, {
                 " really really",
                 " long comment*/"
             ].join("\n"),
-            options: [{ max: 2, skipComments: true, skipBlankLines: true } ]
+            options: [{ max: 2, skipComments: true, skipBlankLines: true }]
         }
     ],
     invalid: [
@@ -109,7 +109,7 @@ ruleTester.run("max-lines", rule, {
                 "",
                 "var y;"
             ].join("\n"),
-            options: [{ max: 2 } ],
+            options: [{ max: 2 }],
             errors: [{ message: errorMessage(2, 5) }]
         },
         {
@@ -123,7 +123,7 @@ ruleTester.run("max-lines", rule, {
                 " really really",
                 " long comment*/"
             ].join("\n"),
-            options: [{ max: 2, skipComments: true } ],
+            options: [{ max: 2, skipComments: true }],
             errors: [{ message: errorMessage(2, 4) }]
         },
         {
@@ -132,7 +132,7 @@ ruleTester.run("max-lines", rule, {
                 "var y;",
                 "var z;"
             ].join("\n"),
-            options: [{ max: 2, skipComments: true } ],
+            options: [{ max: 2, skipComments: true }],
             errors: [{ message: errorMessage(2, 3) }]
         },
         {
@@ -142,7 +142,7 @@ ruleTester.run("max-lines", rule, {
                 "var y;",
                 "var z;"
             ].join("\n"),
-            options: [{ max: 2, skipComments: true } ],
+            options: [{ max: 2, skipComments: true }],
             errors: [{ message: errorMessage(2, 3) }]
         },
         {
@@ -156,7 +156,7 @@ ruleTester.run("max-lines", rule, {
                 " really really",
                 " long comment*/"
             ].join("\n"),
-            options: [{ max: 2, skipBlankLines: true } ],
+            options: [{ max: 2, skipBlankLines: true }],
             errors: [{ message: errorMessage(2, 6) }]
         },
         {
@@ -170,7 +170,7 @@ ruleTester.run("max-lines", rule, {
                 " really really",
                 " long comment*/"
             ].join("\n"),
-            options: [{ max: 2, skipComments: true } ],
+            options: [{ max: 2, skipComments: true }],
             errors: [{ message: errorMessage(2, 4) }]
         }
     ]

@@ -157,6 +157,14 @@ ruleTester.run("no-useless-return", rule, {
             while (foo) return;
             foo;
           }
+        `,
+
+        // https://github.com/eslint/eslint/issues/7855
+        `
+          try {
+            throw new Error('foo');
+            while (false);
+          } catch (err) {}
         `
     ],
 
@@ -206,7 +214,7 @@ ruleTester.run("no-useless-return", rule, {
             `,
             errors: [
                 { message: "Unnecessary return statement.", type: "ReturnStatement" },
-                { message: "Unnecessary return statement.", type: "ReturnStatement" },
+                { message: "Unnecessary return statement.", type: "ReturnStatement" }
             ]
         },
         {
@@ -411,7 +419,7 @@ ruleTester.run("no-useless-return", rule, {
             output: "function foo() {   }",
             errors: [
                 { message: "Unnecessary return statement.", type: "ReturnStatement" },
-                { message: "Unnecessary return statement.", type: "ReturnStatement" },
+                { message: "Unnecessary return statement.", type: "ReturnStatement" }
             ]
         }
     ].map(invalidCase => Object.assign({ errors: [{ message: "Unnecessary return statement.", type: "ReturnStatement" }] }, invalidCase))

@@ -28,7 +28,7 @@ ruleTester.run("no-ex-assign", rule, {
         { code: "try { } catch (e) { e = 10; }", errors: [{ message: "Do not assign to the exception parameter.", type: "Identifier" }] },
         { code: "try { } catch (ex) { ex = 10; }", errors: [{ message: "Do not assign to the exception parameter.", type: "Identifier" }] },
         { code: "try { } catch (ex) { [ex] = []; }", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "Do not assign to the exception parameter.", type: "Identifier" }] },
-        { code: "try { } catch (ex) { ({x: ex = 0}) = {}; }", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "Do not assign to the exception parameter.", type: "Identifier" }] },
+        { code: "try { } catch (ex) { ({x: ex = 0} = {}); }", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "Do not assign to the exception parameter.", type: "Identifier" }] },
         { code: "try { } catch ({message}) { message = 10; }", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "Do not assign to the exception parameter.", type: "Identifier" }] }
     ]
 });

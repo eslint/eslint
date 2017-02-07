@@ -182,7 +182,7 @@ ruleTester.run("comma-style", rule, {
             options: ["last", {
                 exceptions: {
                     ArrowFunctionExpression: true
-                },
+                }
             }],
             parserOptions: {
                 ecmaVersion: 6
@@ -385,7 +385,7 @@ ruleTester.run("comma-style", rule, {
             options: ["last", {
                 exceptions: {
                     ArrowFunctionExpression: false
-                },
+                }
             }],
             output: "const foo = (a,\n b) => { return a + b; }",
             parserOptions: {

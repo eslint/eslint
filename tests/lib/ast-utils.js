@@ -422,6 +422,55 @@ describe("ast-utils", () => {
         });
     });
 
+    describe("isInLoop", () => {
+
+        /**
+         * Asserts that the unique node of the given type in the code is either
+         * in a loop or not in a loop.
+         *
+         * @param {string} code the code to check.
+         * @param {string} nodeType the type of the node to consider. The code
+         *      must have exactly one node of ths type.
+         * @param {boolean} expectedInLoop the expected result for whether the
+         *      node is in a loop.
+         * @returns {void}
+         */
+        function assertNodeTypeInLoop(code, nodeType, expectedInLoop) {
+            const results = [];
+
+            eslint.reset();
+            eslint.on(nodeType, node => results.push(astUtils.isInLoop(node)));
+            eslint.verify(code, { parserOptions: { ecmaVersion: 6 } }, filename, true);
+
+            assert.lengthOf(results, 1);
+            assert.equal(results[0], expectedInLoop);
+        }
+
+        it("should return true for a loop itself", () => {
+            assertNodeTypeInLoop("while (a) {}", "WhileStatement", true);
+        });
+
+        it("should return true for a loop condition", () => {
+            assertNodeTypeInLoop("while (a) {}", "Identifier", true);
+        });
+
+        it("should return true for a loop assignee", () => {
+            assertNodeTypeInLoop("for (var a in b) {}", "VariableDeclaration", true);
+        });
+
+        it("should return true for a node within a loop body", () => {
+            assertNodeTypeInLoop("for (var a of b) { console.log('Hello'); }", "Literal", true);
+        });
+
+        it("should return false for a node outside a loop body", () => {
+            assertNodeTypeInLoop("while (true) {} a(b);", "CallExpression", false);
+        });
+
+        it("should return false when the loop is not in the current function", () => {
+            assertNodeTypeInLoop("while (true) { funcs.push(() => { var a; }); }", "VariableDeclaration", false);
+        });
+    });
+
     describe("getStaticPropertyName", () => {
         it("should return 'b' for `a.b`", () => {
             const ast = espree.parse("a.b");
@@ -710,7 +759,7 @@ describe("ast-utils", () => {
             "class A { static *foo() {} }": "static generator method 'foo'",
             "class A { static async foo() {} }": "static async method 'foo'",
             "class A { static get foo() {} }": "static getter 'foo'",
-            "class A { static set foo(a) {} }": "static setter 'foo'",
+            "class A { static set foo(a) {} }": "static setter 'foo'"
         };
 
         Object.keys(expectedResults).forEach(key => {
@@ -783,7 +832,7 @@ describe("ast-utils", () => {
             "class A { static *foo() {} }": [10, 21],
             "class A { static async foo() {} }": [10, 26],
             "class A { static get foo() {} }": [10, 24],
-            "class A { static set foo(a) {} }": [10, 24],
+            "class A { static set foo(a) {} }": [10, 24]
         };
 
         Object.keys(expectedResults).forEach(key => {
@@ -828,7 +877,7 @@ describe("ast-utils", () => {
         const expectedResults = {
             "{}": true,
             "{ a }": false,
-            a: false,
+            a: false
         };
 
         Object.keys(expectedResults).forEach(key => {
@@ -846,7 +895,7 @@ describe("ast-utils", () => {
             "(function foo() { a })": false,
             "(a) => {}": true,
             "(a) => { a }": false,
-            "(a) => a": false,
+            "(a) => a": false
         };
 
         Object.keys(expectedResults).forEach(key => {
@@ -901,6 +950,59 @@ describe("ast-utils", () => {
                     line[0],
                     sourceCode.text[astUtils.getRangeIndexFromLocation(sourceCode, { line: index + 1, column: 0 })]
                 );
+            });
+        });
+    });
+
+    describe("getParenthesisedText", () => {
+        const expectedResults = {
+            "(((foo))); bar;": "(((foo)))",
+            "(/* comment */(((foo.bar())))); baz();": "(/* comment */(((foo.bar()))))",
+            "(foo, bar)": "(foo, bar)"
+        };
+
+        Object.keys(expectedResults).forEach(key => {
+            it(`should return ${expectedResults[key]} for ${key}`, () => {
+                const ast = espree.parse(key, { tokens: true, comment: true, range: true, loc: true });
+                const sourceCode = new SourceCode(key, ast);
+
+                assert.strictEqual(astUtils.getParenthesisedText(sourceCode, ast.body[0].expression), expectedResults[key]);
+            });
+        });
+    });
+
+    describe("couldBeError", () => {
+        const EXPECTED_RESULTS = {
+            5: false,
+            null: false,
+            true: false,
+            "'foo'": false,
+            "`foo`": false,
+            foo: true,
+            "new Foo": true,
+            "Foo()": true,
+            "foo`bar`": true,
+            "foo.bar": true,
+            "(foo = bar)": true,
+            "(foo = 1)": false,
+            "(1, 2, 3)": false,
+            "(foo, 2, 3)": false,
+            "(1, 2, foo)": true,
+            "1 && 2": false,
+            "1 && foo": true,
+            "foo && 2": true,
+            "foo ? 1 : 2": false,
+            "foo ? bar : 2": true,
+            "foo ? 1 : bar": true,
+            "[1, 2, 3]": false,
+            "({ foo: 1 })": false
+        };
+
+        Object.keys(EXPECTED_RESULTS).forEach(key => {
+            it(`returns ${EXPECTED_RESULTS[key]} for ${key}`, () => {
+                const ast = espree.parse(key, { ecmaVersion: 6 });
+
+                assert.strictEqual(astUtils.couldBeError(ast.body[0].expression), EXPECTED_RESULTS[key]);
             });
         });
     });

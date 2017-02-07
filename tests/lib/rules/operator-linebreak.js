@@ -69,6 +69,7 @@ ruleTester.run("operator-linebreak", rule, {
     invalid: [
         {
             code: "1\n+ 1",
+            output: "1 +\n1",
             errors: [{
                 message: util.format(AFTER_MSG, "+"),
                 type: "BinaryExpression",
@@ -78,6 +79,7 @@ ruleTester.run("operator-linebreak", rule, {
         },
         {
             code: "1 + 2 \n + 3",
+            output: "1 + 2 + \n 3",
             errors: [{
                 message: util.format(AFTER_MSG, "+"),
                 type: "BinaryExpression",
@@ -87,6 +89,7 @@ ruleTester.run("operator-linebreak", rule, {
         },
         {
             code: "1\n+\n1",
+            output: "1+\n1",
             errors: [{
                 message: util.format(BAD_LN_BRK_MSG, "+"),
                 type: "BinaryExpression",
@@ -96,6 +99,7 @@ ruleTester.run("operator-linebreak", rule, {
         },
         {
             code: "1 + (1\n+ 1)",
+            output: "1 + (1 +\n1)",
             errors: [{
                 message: util.format(AFTER_MSG, "+"),
                 type: "BinaryExpression",
@@ -105,6 +109,7 @@ ruleTester.run("operator-linebreak", rule, {
         },
         {
             code: "f(1\n+ 1);",
+            output: "f(1 +\n1);",
             errors: [{
                 message: util.format(AFTER_MSG, "+"),
                 type: "BinaryExpression",
@@ -114,6 +119,7 @@ ruleTester.run("operator-linebreak", rule, {
         },
         {
             code: "1 \n || 1",
+            output: "1 || \n 1",
             errors: [{
                 message: util.format(AFTER_MSG, "||"),
                 type: "LogicalExpression",
@@ -123,6 +129,7 @@ ruleTester.run("operator-linebreak", rule, {
         },
         {
             code: "a\n += 1",
+            output: "a +=\n 1",
             errors: [{
                 message: util.format(AFTER_MSG, "+="),
                 type: "AssignmentExpression",
@@ -132,6 +139,7 @@ ruleTester.run("operator-linebreak", rule, {
         },
         {
             code: "var a\n = 1",
+            output: "var a =\n 1",
             errors: [{
                 message: util.format(AFTER_MSG, "="),
                 type: "VariableDeclarator",
@@ -141,6 +149,7 @@ ruleTester.run("operator-linebreak", rule, {
         },
         {
             code: "(b)\n*\n(c)",
+            output: "(b)*\n(c)",
             errors: [{
                 message: util.format(BAD_LN_BRK_MSG, "*"),
                 type: "BinaryExpression",
@@ -150,6 +159,7 @@ ruleTester.run("operator-linebreak", rule, {
         },
         {
             code: "answer = everything ?\n  42 :\n  foo;",
+            output: "answer = everything\n  ? 42\n  : foo;",
             errors: [{
                 message: util.format(BEFORE_MSG, "?"),
                 type: "ConditionalExpression",
@@ -166,6 +176,7 @@ ruleTester.run("operator-linebreak", rule, {
 
         {
             code: "answer = everything \n?  42 \n:  foo;",
+            output: "answer = everything  ? \n42  : \nfoo;",
             options: ["after"],
             errors: [{
                 message: util.format(AFTER_MSG, "?"),
@@ -183,6 +194,7 @@ ruleTester.run("operator-linebreak", rule, {
 
         {
             code: "1 +\n1",
+            output: "1\n+ 1",
             options: ["before"],
             errors: [{
                 message: util.format(BEFORE_MSG, "+"),
@@ -193,6 +205,7 @@ ruleTester.run("operator-linebreak", rule, {
         },
         {
             code: "f(1 +\n1);",
+            output: "f(1\n+ 1);",
             options: ["before"],
             errors: [{
                 message: util.format(BEFORE_MSG, "+"),
@@ -203,6 +216,7 @@ ruleTester.run("operator-linebreak", rule, {
         },
         {
             code: "1 || \n 1",
+            output: "1 \n || 1",
             options: ["before"],
             errors: [{
                 message: util.format(BEFORE_MSG, "||"),
@@ -213,6 +227,7 @@ ruleTester.run("operator-linebreak", rule, {
         },
         {
             code: "a += \n1",
+            output: "a \n+= 1",
             options: ["before"],
             errors: [{
                 message: util.format(BEFORE_MSG, "+="),
@@ -223,6 +238,7 @@ ruleTester.run("operator-linebreak", rule, {
         },
         {
             code: "var a = \n1",
+            output: "var a \n= 1",
             options: ["before"],
             errors: [{
                 message: util.format(BEFORE_MSG, "="),
@@ -233,6 +249,7 @@ ruleTester.run("operator-linebreak", rule, {
         },
         {
             code: "answer = everything ?\n  42 :\n  foo;",
+            output: "answer = everything\n  ? 42\n  : foo;",
             options: ["before"],
             errors: [{
                 message: util.format(BEFORE_MSG, "?"),
@@ -250,6 +267,7 @@ ruleTester.run("operator-linebreak", rule, {
 
         {
             code: "1 +\n1",
+            output: "1 +1",
             options: ["none"],
             errors: [{
                 message: util.format(NONE_MSG, "+"),
@@ -260,6 +278,7 @@ ruleTester.run("operator-linebreak", rule, {
         },
         {
             code: "1\n+1",
+            output: "1+1",
             options: ["none"],
             errors: [{
                 message: util.format(NONE_MSG, "+"),
@@ -270,6 +289,7 @@ ruleTester.run("operator-linebreak", rule, {
         },
         {
             code: "f(1 +\n1);",
+            output: "f(1 +1);",
             options: ["none"],
             errors: [{
                 message: util.format(NONE_MSG, "+"),
@@ -280,6 +300,7 @@ ruleTester.run("operator-linebreak", rule, {
         },
         {
             code: "f(1\n+ 1);",
+            output: "f(1+ 1);",
             options: ["none"],
             errors: [{
                 message: util.format(NONE_MSG, "+"),
@@ -290,6 +311,7 @@ ruleTester.run("operator-linebreak", rule, {
         },
         {
             code: "1 || \n 1",
+            output: "1 ||  1",
             options: ["none"],
             errors: [{
                 message: util.format(NONE_MSG, "||"),
@@ -300,6 +322,7 @@ ruleTester.run("operator-linebreak", rule, {
         },
         {
             code: "1 \n || 1",
+            output: "1  || 1",
             options: ["none"],
             errors: [{
                 message: util.format(NONE_MSG, "||"),
@@ -310,6 +333,7 @@ ruleTester.run("operator-linebreak", rule, {
         },
         {
             code: "a += \n1",
+            output: "a += 1",
             options: ["none"],
             errors: [{
                 message: util.format(NONE_MSG, "+="),
@@ -320,6 +344,7 @@ ruleTester.run("operator-linebreak", rule, {
         },
         {
             code: "a \n+= 1",
+            output: "a += 1",
             options: ["none"],
             errors: [{
                 message: util.format(NONE_MSG, "+="),
@@ -330,6 +355,7 @@ ruleTester.run("operator-linebreak", rule, {
         },
         {
             code: "var a = \n1",
+            output: "var a = 1",
             options: ["none"],
             errors: [{
                 message: util.format(NONE_MSG, "="),
@@ -340,6 +366,7 @@ ruleTester.run("operator-linebreak", rule, {
         },
         {
             code: "var a \n = 1",
+            output: "var a  = 1",
             options: ["none"],
             errors: [{
                 message: util.format(NONE_MSG, "="),
@@ -350,6 +377,7 @@ ruleTester.run("operator-linebreak", rule, {
         },
         {
             code: "answer = everything ?\n  42 \n:  foo;",
+            output: "answer = everything ?  42 :  foo;",
             options: ["none"],
             errors: [{
                 message: util.format(NONE_MSG, "?"),
@@ -365,7 +393,8 @@ ruleTester.run("operator-linebreak", rule, {
             }]
         },
         {
-            code: "answer = everything\n?\n42\n:\nfoo;",
+            code: "answer = everything\n?\n42 + 43\n:\nfoo;",
+            output: "answer = everything?42 + 43:foo;",
             options: ["none"],
             errors: [{
                 message: util.format(BAD_LN_BRK_MSG, "?"),
@@ -382,6 +411,7 @@ ruleTester.run("operator-linebreak", rule, {
         },
         {
             code: "foo +=\n42;\nbar -=\n12\n+ 5;",
+            output: "foo +=42;\nbar -=\n12\n+ 5;",
             options: ["after", { overrides: { "+=": "none", "+": "before" } }],
             errors: [{
                 message: util.format(NONE_MSG, "+="),
@@ -392,6 +422,7 @@ ruleTester.run("operator-linebreak", rule, {
         },
         {
             code: "answer = everything\n?\n42\n:\nfoo;",
+            output: "answer = everything\n?\n42\n:foo;",
             options: ["after", { overrides: { "?": "ignore", ":": "before" } }],
             errors: [{
                 message: util.format(BAD_LN_BRK_MSG, ":"),
@@ -399,6 +430,41 @@ ruleTester.run("operator-linebreak", rule, {
                 line: 4,
                 column: 2
             }]
+        },
+        {
+
+            // Insert an additional space to avoid changing the operator to ++ or --.
+            code: "foo+\n+bar",
+            output: "foo\n+ +bar",
+            options: ["before"],
+            errors: [{ message: util.format(BEFORE_MSG, "+"), type: "BinaryExpression", line: 1, column: 5 }]
+        },
+        {
+            code: "foo //comment\n&& bar",
+            output: "foo && //comment\nbar",
+            errors: [{ message: util.format(AFTER_MSG, "&&"), type: "LogicalExpression", line: 2, column: 3 }]
+        },
+        {
+            code: "foo//comment\n+\nbar",
+            output: "foo//comment\n+\nbar",
+            errors: [{ message: util.format(BAD_LN_BRK_MSG, "+"), type: "BinaryExpression", line: 2, column: 2 }]
+        },
+        {
+            code: "foo\n+//comment\nbar",
+            output: "foo\n+//comment\nbar",
+            options: ["before"],
+            errors: [{ message: util.format(BAD_LN_BRK_MSG, "+"), type: "BinaryExpression", line: 2, column: 2 }]
+        },
+        {
+            code: "foo /* a */ \n+ /* b */ bar",
+            output: "foo /* a */ \n+ /* b */ bar", // Not fixed because there is a comment on both sides
+            errors: [{ message: util.format(AFTER_MSG, "+"), type: "BinaryExpression", line: 2, column: 2 }]
+        },
+        {
+            code: "foo /* a */ +\n /* b */ bar",
+            output: "foo /* a */ +\n /* b */ bar", // Not fixed because there is a comment on both sides
+            options: ["before"],
+            errors: [{ message: util.format(BEFORE_MSG, "+"), type: "BinaryExpression", line: 1, column: 14 }]
         }
     ]
 });

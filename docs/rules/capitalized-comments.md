@@ -56,7 +56,7 @@ Here are the supported object options:
 * `ignorePattern`: A string representing a regular expression pattern of words that should be ignored by this rule. If the first word of a comment matches the pattern, this rule will not report that comment.
     * Note that the following words are always ignored by this rule: `["jscs", "jshint", "eslint", "istanbul", "global", "globals", "exported"]`.
 * `ignoreInlineComments`: If this is `true`, the rule will not report on comments in the middle of code. By default, this is `false`.
-* `ignoreConsecutiveComments`: If this is `true`, the rule will not report on a comment which violates the rule, as long as the comment immediately follows a comment which is also not reported. By default, this is `false`.
+* `ignoreConsecutiveComments`: If this is `true`, the rule will not report on a comment which violates the rule, as long as the comment immediately follows another comment. By default, this is `false`.
 
 Here is an example configuration:
 
@@ -172,22 +172,31 @@ function foo(/* ignored */ a) {
 
 #### `ignoreConsecutiveComments`
 
-If the `ignoreConsecutiveComments` option is set to `true`, then comments which otherwise violate the rule will not be reported as long as they immediately follow a comment which did not violate the rule. This can be applied more than once.
+If the `ignoreConsecutiveComments` option is set to `true`, then comments which otherwise violate the rule will not be reported as long as they immediately follow another comment. This can be applied more than once.
 
 Examples of **correct** code with `ignoreConsecutiveComments` set to `true`:
 
 ```js
 /* eslint capitalize-comments: ["error", "always", { "ignoreConsecutiveComments": true }] */
 
-// This comment is valid since it has the correct capitalization,
-// and so is this one because it immediately follows a valid comment,
-// and this one as well because it follows the previous valid comment.
+// This comment is valid since it has the correct capitalization.
+// this comment is ignored since it follows another comment,
+// and this one as well because it follows yet another comment.
 
 /* Here is a block comment which has the correct capitalization, */
-/* and this one is valid as well; */
+/* but this one is ignored due to being consecutive; */
 /*
  * in fact, even if any of these are multi-line, that is fine too.
  */
+```
+
+Examples of **incorrect** code with `ignoreConsecutiveComments` set to `true`:
+
+```js
+/* eslint capitalize-comments: ["error", "always", { "ignoreConsecutiveComments": true }] */
+
+// this comment is invalid, but only on this line.
+// this comment does NOT get reported, since it is a consecutive comment.
 ```
 
 ### Using Different Options for Line and Block Comments

@@ -52,16 +52,16 @@ ruleTester.run("id-length", rule, {
         { code: "var { prop: [x] } = {};", parserOptions: { ecmaVersion: 6 } },
         { code: "import something from 'y';", parserOptions: { sourceType: "module" } },
         { code: "export var num = 0;", parserOptions: { sourceType: "module" } },
-        { code: "({ prop: obj.x.y.something }) = {};", parserOptions: { ecmaVersion: 6 } },
-        { code: "({ prop: obj.longName }) = {};", parserOptions: { ecmaVersion: 6 } },
+        { code: "({ prop: obj.x.y.something } = {});", parserOptions: { ecmaVersion: 6 } },
+        { code: "({ prop: obj.longName } = {});", parserOptions: { ecmaVersion: 6 } },
         { code: "var obj = { a: 1, bc: 2 };", options: [{ properties: "never" }] },
         { code: "var obj = {}; obj.a = 1; obj.bc = 2;", options: [{ properties: "never" }] },
-        { code: "({ a: obj.x.y.z }) = {};", options: [{ properties: "never" }], parserOptions: { ecmaVersion: 6 } },
-        { code: "({ prop: obj.x }) = {};", options: [{ properties: "never" }], parserOptions: { ecmaVersion: 6 } },
+        { code: "({ a: obj.x.y.z } = {});", options: [{ properties: "never" }], parserOptions: { ecmaVersion: 6 } },
+        { code: "({ prop: obj.x } = {});", options: [{ properties: "never" }], parserOptions: { ecmaVersion: 6 } },
         { code: "var obj = { aaaaa: 1 };", options: [{ max: 4, properties: "never" }] },
         { code: "var obj = {}; obj.aaaaa = 1;", options: [{ max: 4, properties: "never" }] },
-        { code: "({ a: obj.x.y.z }) = {};", options: [{ max: 4, properties: "never" }], parserOptions: { ecmaVersion: 6 } },
-        { code: "({ prop: obj.xxxxx }) = {};", options: [{ max: 4, properties: "never" }], parserOptions: { ecmaVersion: 6 } }
+        { code: "({ a: obj.x.y.z } = {});", options: [{ max: 4, properties: "never" }], parserOptions: { ecmaVersion: 6 } },
+        { code: "({ prop: obj.xxxxx } = {});", options: [{ max: 4, properties: "never" }], parserOptions: { ecmaVersion: 6 } }
     ],
     invalid: [
         { code: "var x = 1;", errors: [{ message: "Identifier name 'x' is too short (< 2).", type: "Identifier" }] },
@@ -111,11 +111,11 @@ ruleTester.run("id-length", rule, {
         { code: "export var x = 0;", parserOptions: { sourceType: "module" }, errors: [
             { message: "Identifier name 'x' is too short (< 2).", type: "Identifier" }
         ] },
-        { code: "({ a: obj.x.y.z }) = {};", parserOptions: { ecmaVersion: 6 }, errors: [
+        { code: "({ a: obj.x.y.z } = {});", parserOptions: { ecmaVersion: 6 }, errors: [
             { message: "Identifier name 'a' is too short (< 2).", type: "Identifier" },
             { message: "Identifier name 'z' is too short (< 2).", type: "Identifier" }
         ] },
-        { code: "({ prop: obj.x }) = {};", parserOptions: { ecmaVersion: 6 }, errors: [
+        { code: "({ prop: obj.x } = {});", parserOptions: { ecmaVersion: 6 }, errors: [
             { message: "Identifier name 'x' is too short (< 2).", type: "Identifier" }
         ] },
         { code: "var x = 1;", options: [{ properties: "never" }], errors: [{ message: "Identifier name 'x' is too short (< 2).", type: "Identifier" }] }

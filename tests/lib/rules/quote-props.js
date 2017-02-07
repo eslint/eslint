@@ -174,7 +174,7 @@ ruleTester.run("quote-props", rule, {
         output: "({ \"true\": 0, 'null': 0 })",
         options: ["consistent"],
         errors: [{
-            message: "Inconsistently quoted property 'true' found.", type: "Property",
+            message: "Inconsistently quoted property 'true' found.", type: "Property"
         }]
     }, {
         code: "({ 'a': 0, 'b': 0 })",

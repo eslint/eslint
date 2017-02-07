@@ -35,6 +35,22 @@ ruleTester.defineRule("use-every-a", context => {
 });
 
 /**
+* Returns an extended test that includes es2017 parser options.
+* @param {Object} test The test to extend
+* @returns {Object} A parser-extended test case
+*/
+function includeRestPropertyParser(test) {
+    return Object.assign({
+        parserOptions: {
+            ecmaVersion: 2017,
+            ecmaFeatures: {
+                experimentalObjectRestSpread: true
+            }
+        }
+    }, test);
+}
+
+/**
 * Returns an expected error for defined-but-not-used variables.
 * @param {string} varName The name of the variable
 * @param {string} [type] The node type (defaults to "Identifier")
@@ -109,8 +125,8 @@ ruleTester.run("no-unused-vars", rule, {
         { code: "const x = 1; const {z: [y = x]} = {}; foo(y);", parserOptions: { ecmaVersion: 6 } },
         { code: "const x = []; const {z: [y] = x} = {}; foo(y);", parserOptions: { ecmaVersion: 6 } },
         { code: "const x = 1; let y; [y = x] = []; foo(y);", parserOptions: { ecmaVersion: 6 } },
-        { code: "const x = 1; let y; ({z: [y = x]}) = {}; foo(y);", parserOptions: { ecmaVersion: 6 } },
-        { code: "const x = []; let y; ({z: [y] = x}) = {}; foo(y);", parserOptions: { ecmaVersion: 6 } },
+        { code: "const x = 1; let y; ({z: [y = x]} = {}); foo(y);", parserOptions: { ecmaVersion: 6 } },
+        { code: "const x = []; let y; ({z: [y] = x} = {}); foo(y);", parserOptions: { ecmaVersion: 6 } },
         { code: "const x = 1; function foo(y = x) { bar(y); } foo();", parserOptions: { ecmaVersion: 6 } },
         { code: "const x = 1; function foo({y = x} = {}) { bar(y); } foo();", parserOptions: { ecmaVersion: 6 } },
         { code: "const x = 1; function foo(y = function(z = x) { bar(z); }) { y(); } foo();", parserOptions: { ecmaVersion: 6 } },
@@ -120,8 +136,8 @@ ruleTester.run("no-unused-vars", rule, {
         { code: "var x = 1; var {z: [y = x]} = {}; foo(y);", parserOptions: { ecmaVersion: 6 } },
         { code: "var x = []; var {z: [y] = x} = {}; foo(y);", parserOptions: { ecmaVersion: 6 } },
         { code: "var x = 1, y; [y = x] = []; foo(y);", parserOptions: { ecmaVersion: 6 } },
-        { code: "var x = 1, y; ({z: [y = x]}) = {}; foo(y);", parserOptions: { ecmaVersion: 6 } },
-        { code: "var x = [], y; ({z: [y] = x}) = {}; foo(y);", parserOptions: { ecmaVersion: 6 } },
+        { code: "var x = 1, y; ({z: [y = x]} = {}); foo(y);", parserOptions: { ecmaVersion: 6 } },
+        { code: "var x = [], y; ({z: [y] = x} = {}); foo(y);", parserOptions: { ecmaVersion: 6 } },
         { code: "var x = 1; function foo(y = x) { bar(y); } foo();", parserOptions: { ecmaVersion: 6 } },
         { code: "var x = 1; function foo({y = x} = {}) { bar(y); } foo();", parserOptions: { ecmaVersion: 6 } },
         { code: "var x = 1; function foo(y = function(z = x) { bar(z); }) { y(); } foo();", parserOptions: { ecmaVersion: 6 } },
@@ -139,11 +155,11 @@ ruleTester.run("no-unused-vars", rule, {
         { code: "/*eslint use-every-a:1*/ !function() { var a; return 1 }" },
 
         // ignore pattern
-        { code: "var _a;", options: [ { vars: "all", varsIgnorePattern: "^_" } ] },
-        { code: "var a; function foo() { var _b; } foo();", options: [ { vars: "local", varsIgnorePattern: "^_" } ] },
-        { code: "function foo(_a) { } foo();", options: [ { args: "all", argsIgnorePattern: "^_" } ] },
-        { code: "function foo(a, _b) { return a; } foo();", options: [ { args: "after-used", argsIgnorePattern: "^_" } ] },
-        { code: "var [ firstItemIgnored, secondItem ] = items;\nconsole.log(secondItem);", parserOptions: { ecmaVersion: 6 }, options: [ { vars: "all", varsIgnorePattern: "[iI]gnored" } ] },
+        { code: "var _a;", options: [{ vars: "all", varsIgnorePattern: "^_" }] },
+        { code: "var a; function foo() { var _b; } foo();", options: [{ vars: "local", varsIgnorePattern: "^_" }] },
+        { code: "function foo(_a) { } foo();", options: [{ args: "all", argsIgnorePattern: "^_" }] },
+        { code: "function foo(a, _b) { return a; } foo();", options: [{ args: "after-used", argsIgnorePattern: "^_" }] },
+        { code: "var [ firstItemIgnored, secondItem ] = items;\nconsole.log(secondItem);", parserOptions: { ecmaVersion: 6 }, options: [{ vars: "all", varsIgnorePattern: "[iI]gnored" }] },
 
         // for-in loops (see #2342)
         "(function(obj) { var name; for ( name in obj ) return; })({});",
@@ -179,6 +195,12 @@ ruleTester.run("no-unused-vars", rule, {
             options: [{ vars: "all", args: "all" }]
         },
 
+        // Using object rest for variable omission
+        includeRestPropertyParser({
+            code: "const data = { type: 'coords', x: 1, y: 2 };\nconst { type, ...coords } = data;\n console.log(coords);",
+            options: [{ ignoreRestSiblings: true }]
+        }),
+
         // https://github.com/eslint/eslint/issues/6348
         { code: "var a = 0, b; b = a = a + 1; foo(b);" },
         { code: "var a = 0, b; b = a += a + 1; foo(b);" },
@@ -204,7 +226,7 @@ ruleTester.run("no-unused-vars", rule, {
                 "ref = setInterval(",
                 "    function(){",
                 "        clearInterval(ref);",
-                "    }, 10);",
+                "    }, 10);"
             ].join("\n")
         },
         {
@@ -213,7 +235,7 @@ ruleTester.run("no-unused-vars", rule, {
                 "function f() {",
                 "    _timer = setTimeout(function () {}, _timer ? 100 : 0);",
                 "}",
-                "f();",
+                "f();"
             ].join("\n")
         },
         { code: "function foo(cb) { cb = function() { function something(a) { cb(1 + a); } register(something); }(); } foo();" },
@@ -249,12 +271,12 @@ ruleTester.run("no-unused-vars", rule, {
         // https://github.com/eslint/eslint/issues/7250
         {
             code: "(function(a, b, c) { c })",
-            options: [{ argsIgnorePattern: "c" }],
+            options: [{ argsIgnorePattern: "c" }]
         },
         {
             code: "(function(a, b, {c, d}) { c })",
             options: [{ argsIgnorePattern: "[cd]" }],
-            parserOptions: { ecmaVersion: 6 },
+            parserOptions: { ecmaVersion: 6 }
         },
 
         // https://github.com/eslint/eslint/issues/7351
@@ -306,11 +328,11 @@ ruleTester.run("no-unused-vars", rule, {
         { code: "/*exported x*/ var { x, y } = z", parserOptions: { ecmaVersion: 6 }, errors: [assignedError("y")] },
 
         // ignore pattern
-        { code: "var _a; var b;", options: [ { vars: "all", varsIgnorePattern: "^_" } ], errors: [{ message: "'b' is defined but never used.", line: 1, column: 13 }] },
-        { code: "var a; function foo() { var _b; var c_; } foo();", options: [ { vars: "local", varsIgnorePattern: "^_" } ], errors: [{ message: "'c_' is defined but never used.", line: 1, column: 37 }] },
-        { code: "function foo(a, _b) { } foo();", options: [ { args: "all", argsIgnorePattern: "^_" } ], errors: [{ message: "'a' is defined but never used.", line: 1, column: 14 }] },
-        { code: "function foo(a, _b, c) { return a; } foo();", options: [ { args: "after-used", argsIgnorePattern: "^_" } ], errors: [{ message: "'c' is defined but never used.", line: 1, column: 21 }] },
-        { code: "var [ firstItemIgnored, secondItem ] = items;", parserOptions: { ecmaVersion: 6 }, options: [ { vars: "all", varsIgnorePattern: "[iI]gnored" } ], errors: [{ message: "'secondItem' is assigned a value but never used.", line: 1, column: 25 }] },
+        { code: "var _a; var b;", options: [{ vars: "all", varsIgnorePattern: "^_" }], errors: [{ message: "'b' is defined but never used.", line: 1, column: 13 }] },
+        { code: "var a; function foo() { var _b; var c_; } foo();", options: [{ vars: "local", varsIgnorePattern: "^_" }], errors: [{ message: "'c_' is defined but never used.", line: 1, column: 37 }] },
+        { code: "function foo(a, _b) { } foo();", options: [{ args: "all", argsIgnorePattern: "^_" }], errors: [{ message: "'a' is defined but never used.", line: 1, column: 14 }] },
+        { code: "function foo(a, _b, c) { return a; } foo();", options: [{ args: "after-used", argsIgnorePattern: "^_" }], errors: [{ message: "'c' is defined but never used.", line: 1, column: 21 }] },
+        { code: "var [ firstItemIgnored, secondItem ] = items;", parserOptions: { ecmaVersion: 6 }, options: [{ vars: "all", varsIgnorePattern: "[iI]gnored" }], errors: [{ message: "'secondItem' is assigned a value but never used.", line: 1, column: 25 }] },
 
         // for-in loops (see #2342)
         { code: "(function(obj) { var name; for ( name in obj ) { i(); return; } })({});", errors: [{ message: "'name' is assigned a value but never used.", line: 1, column: 22 }] },
@@ -332,6 +354,47 @@ ruleTester.run("no-unused-vars", rule, {
                 { line: 4, column: 4, message: "'bar' is defined but never used." }
             ]
         },
+
+        // Rest property sibling without ignoreRestSiblings
+        includeRestPropertyParser({
+            code: "const data = { type: 'coords', x: 1, y: 2 };\nconst { type, ...coords } = data;\n console.log(coords);",
+            errors: [
+                { line: 2, column: 9, message: "'type' is assigned a value but never used." }
+            ]
+        }),
+
+        // Unused rest property with ignoreRestSiblings
+        includeRestPropertyParser({
+            code: "const data = { type: 'coords', x: 1, y: 2 };\nconst { type, ...coords } = data;\n console.log(type)",
+            options: [{ ignoreRestSiblings: true }],
+            errors: [
+                { line: 2, column: 18, message: "'coords' is assigned a value but never used." }
+            ]
+        }),
+
+        // Unused rest property without ignoreRestSiblings
+        includeRestPropertyParser({
+            code: "const data = { type: 'coords', x: 1, y: 2 };\nconst { type, ...coords } = data;\n console.log(type)",
+            errors: [
+                { line: 2, column: 18, message: "'coords' is assigned a value but never used." }
+            ]
+        }),
+
+        // Nested array destructuring with rest property
+        includeRestPropertyParser({
+            code: "const data = { vars: ['x','y'], x: 1, y: 2 };\nconst { vars: [x], ...coords } = data;\n console.log(coords)",
+            errors: [
+                { line: 2, column: 16, message: "'x' is assigned a value but never used." }
+            ]
+        }),
+
+        // Nested object destructuring with rest property
+        includeRestPropertyParser({
+            code: "const data = { defaults: { x: 0 }, x: 1, y: 2 };\nconst { defaults: { x }, ...coords } = data;\n console.log(coords)",
+            errors: [
+                { line: 2, column: 21, message: "'x' is assigned a value but never used." }
+            ]
+        }),
 
         // https://github.com/eslint/eslint/issues/3714
         {
@@ -529,6 +592,6 @@ ruleTester.run("no-unused-vars", rule, {
             options: [{ argsIgnorePattern: "d" }],
             parserOptions: { ecmaVersion: 6 },
             errors: [{ message: "'c' is defined but never used." }]
-        },
+        }
     ]
 });

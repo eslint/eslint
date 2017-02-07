@@ -72,9 +72,9 @@ ruleTester.run("prefer-destructuring", rule, {
         {
             code: "({ foo } = object);"
         },
-        {
-            code: "[foo] = array;"
-        }
+        "[foo] = array;",
+        "foo += array[0]",
+        "foo += bar.foo"
     ],
 
     invalid: [

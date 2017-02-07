@@ -45,7 +45,14 @@ function invalid(code, output, type, line, config) {
     return result;
 }
 
-const ruleTester = new RuleTester();
+const ruleTester = new RuleTester({
+    parserOptions: {
+        ecmaVersion: 6,
+        ecmaFeatures: {
+            jsx: true
+        }
+    }
+});
 
 ruleTester.run("no-extra-parens", rule, {
     valid: [
@@ -82,6 +89,10 @@ ruleTester.run("no-extra-parens", rule, {
         "(++a)(b); (c++)(d);",
         "new (A())",
         "new A()()",
+        "(new A)()",
+        "(new (Foo || Bar))()",
+        { code: "(2 + 3) ** 4", parserOptions: { ecmaVersion: 7 } },
+        { code: "2 ** (2 + 3)", parserOptions: { ecmaVersion: 7 } },
 
         // same precedence
         "a, b, c",
@@ -113,6 +124,8 @@ ruleTester.run("no-extra-parens", rule, {
         "a(b)(c)",
         "a((b, c))",
         "new new A",
+        { code: "2 ** 3 ** 4", parserOptions: { ecmaVersion: 7 } },
+        { code: "(2 ** 3) ** 4", parserOptions: { ecmaVersion: 7 } },
 
         // constructs that contain expressions
         "if(a);",
@@ -176,6 +189,15 @@ ruleTester.run("no-extra-parens", rule, {
 
         // Object literals as arrow function bodies need parentheses
         { code: "x => ({foo: 1})", parserOptions: { ecmaVersion: 6 } },
+
+
+        // Exponentiation operator `**`
+        { code: "1 + 2 ** 3", parserOptions: { ecmaVersion: 7 } },
+        { code: "1 - 2 ** 3", parserOptions: { ecmaVersion: 7 } },
+        { code: "2 ** -3", parserOptions: { ecmaVersion: 7 } },
+        { code: "(-2) ** 3", parserOptions: { ecmaVersion: 7 } },
+        { code: "(+2) ** 3", parserOptions: { ecmaVersion: 7 } },
+        { code: "+ (2 ** 3)", parserOptions: { ecmaVersion: 7 } },
 
         // https://github.com/eslint/eslint/issues/5789
         { code: "a => ({b: c}[d])", parserOptions: { ecmaVersion: 6 } },
@@ -292,6 +314,60 @@ ruleTester.run("no-extra-parens", rule, {
         { code: "foo in (bar in baz)", options: ["all", { nestedBinaryExpressions: false }] },
         { code: "foo + (bar + baz)", options: ["all", { nestedBinaryExpressions: false }] },
         { code: "foo && (bar && baz)", options: ["all", { nestedBinaryExpressions: false }] },
+
+        // ["all", { ignoreJSX: "all" }]
+        { code: "const Component = (<div />)", options: ["all", { ignoreJSX: "all" }] },
+        { code: [
+            "const Component = (<div>",
+            "  <p />",
+            "</div>);"
+        ].join("\n"), options: ["all", { ignoreJSX: "all" }] },
+        { code: [
+            "const Component = (",
+            "  <div />",
+            ");"
+        ].join("\n"), options: ["all", { ignoreJSX: "all" }] },
+        { code: [
+            "const Component =",
+            "  (<div />)"
+        ].join("\n"), options: ["all", { ignoreJSX: "all" }] },
+
+        // ["all", { ignoreJSX: "single-line" }]
+        { code: "const Component = (<div />);", options: ["all", { ignoreJSX: "single-line" }] },
+        { code: [
+            "const Component = (",
+            "  <div />",
+            ");"
+        ].join("\n"), options: ["all", { ignoreJSX: "single-line" }] },
+        { code: [
+            "const Component =",
+            "(<div />)"
+        ].join("\n"), options: ["all", { ignoreJSX: "single-line" }] },
+
+        // ["all", { ignoreJSX: "multi-line" }]
+        { code: [
+            "const Component = (",
+            "<div>",
+            "  <p />",
+            "</div>",
+            ");"
+        ].join("\n"), options: ["all", { ignoreJSX: "multi-line" }] },
+        { code: [
+            "const Component = (<div>",
+            "  <p />",
+            "</div>);"
+        ].join("\n"), options: ["all", { ignoreJSX: "multi-line" }] },
+        { code: [
+            "const Component =",
+            "(<div>",
+            "  <p />",
+            "</div>);"
+        ].join("\n"), options: ["all", { ignoreJSX: "multi-line" }] },
+        { code: [
+            "const Component = (<div",
+            "  prop={true}",
+            "/>)"
+        ].join("\n"), options: ["all", { ignoreJSX: "multi-line" }] }
     ],
 
     invalid: [
@@ -348,6 +424,11 @@ ruleTester.run("no-extra-parens", rule, {
         invalid("a + (b * c)", "a + b * c", "BinaryExpression"),
         invalid("(a * b) + c", "a * b + c", "BinaryExpression"),
         invalid("(a * b) / c", "a * b / c", "BinaryExpression"),
+        invalid("(2) ** 3 ** 4", "2 ** 3 ** 4", "Literal", null, { parserOptions: { ecmaVersion: 7 } }),
+        invalid("2 ** (3 ** 4)", "2 ** 3 ** 4", "BinaryExpression", null, { parserOptions: { ecmaVersion: 7 } }),
+        invalid("(2 ** 3)", "2 ** 3", "BinaryExpression", null, { parserOptions: { ecmaVersion: 7 } }),
+        invalid("(2 ** 3) + 1", "2 ** 3 + 1", "BinaryExpression", null, { parserOptions: { ecmaVersion: 7 } }),
+        invalid("1 - (2 ** 3)", "1 - 2 ** 3", "BinaryExpression", null, { parserOptions: { ecmaVersion: 7 } }),
 
         invalid("a = (b * c)", "a = b * c", "BinaryExpression", null, { options: ["all", { nestedBinaryExpressions: false }] }),
         invalid("(b * c)", "b * c", "BinaryExpression", null, { options: ["all", { nestedBinaryExpressions: false }] }),
@@ -364,6 +445,11 @@ ruleTester.run("no-extra-parens", rule, {
         invalid("new (\nfunction(){}\n)", "new \nfunction(){}\n", "FunctionExpression", 1),
         invalid("((function foo() {return 1;}))()", "(function foo() {return 1;})()", "FunctionExpression"),
         invalid("((function(){ return bar(); })())", "(function(){ return bar(); })()", "CallExpression"),
+
+        invalid("new (A)", "new A", "Identifier"),
+        invalid("(new A())()", "new A()()", "NewExpression"),
+        invalid("(new A(1))()", "new A(1)()", "NewExpression"),
+        invalid("((new A))()", "(new A)()", "NewExpression"),
 
         invalid("0, (_ => 0)", "0, _ => 0", "ArrowFunctionExpression", 1, { parserOptions: { ecmaVersion: 6 } }),
         invalid("(_ => 0), 0", "_ => 0, 0", "ArrowFunctionExpression", 1, { parserOptions: { ecmaVersion: 6 } }),
@@ -465,7 +551,7 @@ ruleTester.run("no-extra-parens", rule, {
             "function a() {",
             "    return <JSX />;",
             "}"
-        ].join("\n"), "JSXElement", null, { parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } } }),
+        ].join("\n"), "JSXElement", null),
         invalid([
             "function a() {",
             "    return",
@@ -476,7 +562,7 @@ ruleTester.run("no-extra-parens", rule, {
             "    return",
             "    <JSX />;",
             "}"
-        ].join("\n"), "JSXElement", null, { parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } } }),
+        ].join("\n"), "JSXElement", null),
         invalid([
             "function a() {",
             "    return ((",
@@ -489,7 +575,7 @@ ruleTester.run("no-extra-parens", rule, {
             "       <JSX />",
             "    );",
             "}"
-        ].join("\n"), "JSXElement", null, { parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } } }),
+        ].join("\n"), "JSXElement", null),
         invalid("throw (a);", "throw a;", "Identifier"),
         invalid([
             "throw ((",
@@ -590,7 +676,7 @@ ruleTester.run("no-extra-parens", rule, {
                     type: "LogicalExpression"
                 }
             ],
-            output: "b => b || c;",
+            output: "b => b || c;"
         },
         {
             code: "b => ((b = c) || (d = e));",
@@ -691,7 +777,7 @@ ruleTester.run("no-extra-parens", rule, {
                 {
                     message: "Gratuitous parentheses around expression.",
                     type: "AwaitExpression"
-                },
+                }
             ],
             output: "async function a() { await a + await b; }"
         },
@@ -706,6 +792,55 @@ ruleTester.run("no-extra-parens", rule, {
         invalid("foo instanceof (bar)", "foo instanceof bar", "Identifier", 1, { options: ["all", { nestedBinaryExpressions: false }] }),
         invalid("foo in (bar)", "foo in bar", "Identifier", 1, { options: ["all", { nestedBinaryExpressions: false }] }),
         invalid("foo + (bar)", "foo + bar", "Identifier", 1, { options: ["all", { nestedBinaryExpressions: false }] }),
-        invalid("foo && (bar)", "foo && bar", "Identifier", 1, { options: ["all", { nestedBinaryExpressions: false }] })
+        invalid("foo && (bar)", "foo && bar", "Identifier", 1, { options: ["all", { nestedBinaryExpressions: false }] }),
+
+        // ["all", { ignoreJSX: "multi-line" }]
+        invalid("const Component = (<div />);", "const Component = <div />;", "JSXElement", 1, {
+            options: ["all", { ignoreJSX: "multi-line" }]
+        }),
+        invalid([
+            "const Component = (",
+            "  <div />",
+            ");"
+        ].join("\n"), "const Component = \n  <div />\n;", "JSXElement", 1, {
+            options: ["all", { ignoreJSX: "multi-line" }]
+        }),
+
+        // ["all", { ignoreJSX: "single-line" }]
+        invalid([
+            "const Component = (",
+            "<div>",
+            "  <p />",
+            "</div>",
+            ");"
+        ].join("\n"), "const Component = \n<div>\n  <p />\n</div>\n;", "JSXElement", 1, {
+            options: ["all", { ignoreJSX: "single-line" }]
+        }),
+        invalid([
+            "const Component = (<div>",
+            "  <p />",
+            "</div>);"
+        ].join("\n"), "const Component = <div>\n  <p />\n</div>;", "JSXElement", 1, {
+            options: ["all", { ignoreJSX: "single-line" }]
+        }),
+        invalid([
+            "const Component = (<div",
+            "  prop={true}",
+            "/>)"
+        ].join("\n"), "const Component = <div\n  prop={true}\n/>", "JSXElement", 1, {
+            options: ["all", { ignoreJSX: "single-line" }]
+        }),
+
+        // ["all", { ignoreJSX: "none" }] default, same as unspecified
+        invalid("const Component = (<div />);", "const Component = <div />;", "JSXElement", 1, {
+            options: ["all", { ignoreJSX: "none" }]
+        }),
+        invalid([
+            "const Component = (<div>",
+            "<p />",
+            "</div>)"
+        ].join("\n"), "const Component = <div>\n<p />\n</div>", "JSXElement", 1, {
+            options: ["all", { ignoreJSX: "none" }]
+        })
     ]
 });

@@ -16,7 +16,7 @@ const rule = require("../../../lib/rules/operator-assignment"),
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester();
+const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 7 } });
 
 const EXPECTED_OPERATOR_ASSIGNMENT = [{ message: "Assignment can be replaced with operator assignment.", type: "AssignmentExpression" }];
 const UNEXPECTED_OPERATOR_ASSIGNMENT = [{ message: "Unexpected operator assignment shorthand.", type: "AssignmentExpression" }];
@@ -40,6 +40,7 @@ ruleTester.run("operator-assignment", rule, {
         "x >>= x >> y",
         "x >>>= y",
         "x &= y",
+        "x **= y",
         "x ^= y ^ z",
         "x |= x | y",
         "x = x && y",
@@ -66,6 +67,11 @@ ruleTester.run("operator-assignment", rule, {
             code: "x = x + y",
             options: ["never"]
         },
+        {
+            code: "x = x ** y",
+            options: ["never"]
+        },
+        "x = y ** x",
         "x = x < y",
         "x = x > y",
         "x = x <= y",
@@ -182,6 +188,15 @@ ruleTester.run("operator-assignment", rule, {
     }, {
         code: "(foo.bar) ^= ((((((((((((((((baz))))))))))))))))",
         output: "(foo.bar) = (foo.bar) ^ ((((((((((((((((baz))))))))))))))))",
+        options: ["never"],
+        errors: UNEXPECTED_OPERATOR_ASSIGNMENT
+    }, {
+        code: "foo = foo ** bar",
+        output: "foo **= bar",
+        errors: EXPECTED_OPERATOR_ASSIGNMENT
+    }, {
+        code: "foo **= bar",
+        output: "foo = foo ** bar",
         options: ["never"],
         errors: UNEXPECTED_OPERATOR_ASSIGNMENT
     }]

@@ -832,15 +832,49 @@ ruleTester.run("capitalized-comments", rule, {
             }]
         },
 
+        // Only the initial comment should warn if ignoreConsecutiveComments:true
+        {
+            code: [
+                "// this comment is invalid since it is not capitalized,",
+                "// but this one is ignored since it is consecutive."
+            ].join("\n"),
+            output: [
+                "// This comment is invalid since it is not capitalized,",
+                "// but this one is ignored since it is consecutive."
+            ].join("\n"),
+            options: ["always", { ignoreConsecutiveComments: true }],
+            errors: [{
+                message: ALWAYS_MESSAGE,
+                line: 1,
+                column: 1
+            }]
+        },
+        {
+            code: [
+                "// This comment is invalid since it is not capitalized,",
+                "// But this one is ignored since it is consecutive."
+            ].join("\n"),
+            output: [
+                "// this comment is invalid since it is not capitalized,",
+                "// But this one is ignored since it is consecutive."
+            ].join("\n"),
+            options: ["never", { ignoreConsecutiveComments: true }],
+            errors: [{
+                message: NEVER_MESSAGE,
+                line: 1,
+                column: 1
+            }]
+        },
+
         // Consecutive comments should warn if ignoreConsecutiveComments:false
         {
             code: [
                 "// This comment is valid since it is capitalized,",
-                "// but this one is invalid even if it follows a valid one.",
+                "// but this one is invalid even if it follows a valid one."
             ].join("\n"),
             output: [
                 "// This comment is valid since it is capitalized,",
-                "// But this one is invalid even if it follows a valid one.",
+                "// But this one is invalid even if it follows a valid one."
             ].join("\n"),
             options: ["always", { ignoreConsecutiveComments: false }],
             errors: [{

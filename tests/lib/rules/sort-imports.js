@@ -51,7 +51,7 @@ ruleTester.run("sort-imports", rule, {
                 "import A from 'bar.js';\n" +
                 "import {b, c} from 'foo.js';",
             options: [{
-                memberSyntaxSortOrder: [ "single", "multiple", "none", "all" ]
+                memberSyntaxSortOrder: ["single", "multiple", "none", "all"]
             }]
         },
         {
@@ -188,7 +188,7 @@ ruleTester.run("sort-imports", rule, {
                 "import b from 'bar.js';\n" +
                 "import * as a from 'foo.js';",
             options: [{
-                memberSyntaxSortOrder: [ "all", "single", "multiple", "none" ]
+                memberSyntaxSortOrder: ["all", "single", "multiple", "none"]
             }],
             errors: [{
                 message: "Expected 'all' syntax before 'single' syntax.",

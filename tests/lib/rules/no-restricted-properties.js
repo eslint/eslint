@@ -98,7 +98,7 @@ ruleTester.run("no-restricted-properties", rule, {
         }, {
             code: "let bar = foo;",
             options: [{ object: "foo", property: "bar" }],
-            parserOptions: { ecmaVersion: 6 },
+            parserOptions: { ecmaVersion: 6 }
         }, {
             code: "let {baz: bar} = foo;",
             options: [{ object: "foo", property: "bar" }],

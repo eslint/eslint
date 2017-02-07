@@ -26,7 +26,7 @@ ruleTester.run("symbol-description", rule, {
         "function bar() { var Symbol = function () {}; Symbol(); }",
 
         // Ignore if it's an argument.
-        "function bar(Symbol) { Symbol(); }",
+        "function bar(Symbol) { Symbol(); }"
     ],
 
     invalid: [
@@ -43,6 +43,6 @@ ruleTester.run("symbol-description", rule, {
                 message: "Expected Symbol to have a description.",
                 type: "CallExpression"
             }]
-        },
+        }
     ]
 });

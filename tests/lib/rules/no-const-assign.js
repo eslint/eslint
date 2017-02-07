@@ -45,11 +45,11 @@ ruleTester.run("no-const-assign", rule, {
             errors: [{ message: "'x' is constant.", type: "Identifier" }]
         },
         {
-            code: "const x = 0; ({x}) = {x: 1};",
+            code: "const x = 0; ({x} = {x: 1});",
             errors: [{ message: "'x' is constant.", type: "Identifier" }]
         },
         {
-            code: "const x = 0; ({a: x = 1}) = {};",
+            code: "const x = 0; ({a: x = 1} = {});",
             errors: [{ message: "'x' is constant.", type: "Identifier" }]
         },
         {
