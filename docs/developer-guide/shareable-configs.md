@@ -20,7 +20,7 @@ module.exports = {
 };
 ```
 
-Since `index.js` is just JavaScript, you can optionally read these settings for a file or generate them dynamically.
+Since `index.js` is just JavaScript, you can optionally read these settings from a file or generate them dynamically.
 
 ## Publishing a Shareable Config
 
