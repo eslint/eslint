@@ -1245,4 +1245,22 @@ describe("ast-utils", () => {
         });
     }
 
+    describe("isNullLiteral", () => {
+        const EXPECTED_RESULTS = {
+            null: true,
+            "/abc/u": false,
+            5: false,
+            true: false,
+            "'null'": false,
+            foo: false
+        };
+
+        Object.keys(EXPECTED_RESULTS).forEach(key => {
+            it(`returns ${EXPECTED_RESULTS[key]} for ${key}`, () => {
+                const ast = espree.parse(key, { ecmaVersion: 6 });
+
+                assert.strictEqual(astUtils.isNullLiteral(ast.body[0].expression), EXPECTED_RESULTS[key]);
+            });
+        });
+    });
 });

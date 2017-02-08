@@ -42,7 +42,10 @@ ruleTester.run("eqeqeq", rule, {
         { code: "a == null", options: ["always", { null: "never" }] },
         { code: "a != null", options: ["always", { null: "never" }] },
         { code: "null == null", options: ["always", { null: "never" }] },
-        { code: "null != null", options: ["always", { null: "never" }] }
+        { code: "null != null", options: ["always", { null: "never" }] },
+
+        // https://github.com/eslint/eslint/issues/8020
+        { code: "foo === /abc/u", options: ["always", { null: "never" }], parserOptions: { ecmaVersion: 6 } }
     ],
     invalid: [
         { code: "a == b", errors: [{ message: "Expected '===' and instead saw '=='.", type: "BinaryExpression" }] },
