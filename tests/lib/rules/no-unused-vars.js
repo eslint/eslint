@@ -592,6 +592,10 @@ ruleTester.run("no-unused-vars", rule, {
             options: [{ argsIgnorePattern: "d" }],
             parserOptions: { ecmaVersion: 6 },
             errors: [{ message: "'c' is defined but never used." }]
+        },
+        {
+            code: "/*global\rfoo*/",
+            errors: [{ message: "'foo' is defined but never used.", line: 2, column: 1 }]
         }
     ]
 });
