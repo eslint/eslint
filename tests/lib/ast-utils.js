@@ -171,6 +171,10 @@ describe("ast-utils", () => {
             eslint.on("CallExpression", checker);
             eslint.verify("foo.apply({}, a, b);", {}, filename, true);
         });
+
+        it("should return false if it's a unicode regex", () => {
+            assert.isFalse(astUtils.isNullOrUndefined(espree.parse("/abc/u", { ecmaVersion: 6 }).body[0].expression));
+        });
     });
 
     describe("checkReference", () => {
