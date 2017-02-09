@@ -261,23 +261,37 @@ module.exports = {
 
 Once you have an instance of `SourceCode`, you can use the methods on it to work with the code:
 
+* `getText(node)` - returns the source code for the given node. Omit `node` to get the whole source.
 * `getAllComments()` - returns an array of all comments in the source.
 * `getComments(node)` - returns the leading and trailing comments arrays for the given node.
-* `getFirstToken(node)` - returns the first token representing the given node.
-* `getFirstTokens(node, count)` - returns the first `count` tokens representing the given node.
 * `getJSDocComment(node)` - returns the JSDoc comment for a given node or `null` if there is none.
-* `getLastToken(node)` - returns the last token representing the given node.
-* `getLastTokens(node, count)` - returns the last `count` tokens representing the given node.
-* `getNodeByRangeIndex(index)` - returns the deepest node in the AST containing the given source index.
 * `isSpaceBetweenTokens(first, second)` - returns true if there is a whitespace character between the two tokens.
-* `getText(node)` - returns the source code for the given node. Omit `node` to get the whole source.
-* `getTokenAfter(nodeOrToken)` - returns the first token after the given node or token.
-* `getTokenBefore(nodeOrToken)` - returns the first token before the given node or token.
-* `getTokenByRangeStart(index)` - returns the token whose range starts at the given index in the source.
+* `getFirstToken(node, skipOptions)` - returns the first token representing the given node.
+* `getFirstTokens(node, countOptions)` - returns the first `count` tokens representing the given node.
+* `getLastToken(node, skipOptions)` - returns the last token representing the given node.
+* `getLastTokens(node, countOptions)` - returns the last `count` tokens representing the given node.
+* `getTokenAfter(nodeOrToken, skipOptions)` - returns the first token after the given node or token.
+* `getTokensAfter(nodeOrToken, countOptions)` - returns `count` tokens after the given node or token.
+* `getTokenBefore(nodeOrToken, skipOptions)` - returns the first token before the given node or token.
+* `getTokensBefore(nodeOrToken, countOptions)` - returns `count` tokens before the given node or token.
+* `getFirstTokenBetween(nodeOrToken1, nodeOrToken2, skipOptions)` - returns the first token between two nodes or tokens.
+* `getFirstTokensBetween(nodeOrToken1, nodeOrToken2, countOptions)` - returns the first `count` tokens between two nodes or tokens.
+* `getLastTokenBetween(nodeOrToken1, nodeOrToken2, skipOptions)` - returns the last token between two nodes or tokens.
+* `getLastTokensBetween(nodeOrToken1, nodeOrToken2, countOptions)` - returns the last `count` tokens between two nodes or tokens.
 * `getTokens(node)` - returns all tokens for the given node.
-* `getTokensAfter(nodeOrToken, count)` - returns `count` tokens after the given node or token.
-* `getTokensBefore(nodeOrToken, count)` - returns `count` tokens before the given node or token.
-* `getTokensBetween(node1, node2)` - returns the tokens between two nodes.
+* `getTokensBetween(nodeOrToken1, nodeOrToken2)` - returns all tokens between two nodes.
+* `getTokenByRangeStart(index)` - returns the token whose range starts at the given index in the source.
+* `getNodeByRangeIndex(index)` - returns the deepest node in the AST containing the given source index.
+
+> `skipOptions` is an object which has 3 properties; `skip`, `includeComments`, and `filter`. Default is `{skip: 0, includeComments: false, filter: null}`.
+> - The `skip` is a positive integer, the number of skipping tokens. If `filter` option is given at the same time, it doesn't count filtered tokens as skipped.
+> - The `includeComments` is a boolean value, the flag to include comment tokens into the result.
+> - The `filter` is a function which gets a token as the first argument, if the function returns `false` then the result excludes the token.
+>
+> `countOptions` is an object which has 3 properties; `count`, `includeComments`, and `filter`. Default is `{count: 0, includeComments: false, filter: null}`.
+> - The `count` is a positive integer, the maximum number of returning tokens.
+> - The `includeComments` is a boolean value, the flag to include comment tokens into the result.
+> - The `filter` is a function which gets a token as the first argument, if the function returns `false` then the result excludes the token.
 
 There are also some properties you can access:
 
