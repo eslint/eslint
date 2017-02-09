@@ -271,6 +271,33 @@ describe("TokenStore", () => {
             );
         });
 
+        it("should retrieve the previous node if the comment at the end of source code is specified.", () => {
+            const code = "a + b /*comment*/";
+            const ast = espree.parse(code, { loc: true, range: true, tokens: true, comment: true });
+            const tokenStore = new TokenStore(ast.tokens, ast.comments);
+            const token = tokenStore.getTokenBefore(ast.comments[0]);
+
+            assert.strictEqual(token.value, "b");
+        });
+
+        it("should retrieve the previous comment if the first token is specified.", () => {
+            const code = "/*comment*/ a + b";
+            const ast = espree.parse(code, { loc: true, range: true, tokens: true, comment: true });
+            const tokenStore = new TokenStore(ast.tokens, ast.comments);
+            const token = tokenStore.getTokenBefore(ast.tokens[0], { includeComments: true });
+
+            assert.strictEqual(token.value, "comment");
+        });
+
+        it("should retrieve null if the first comment is specified.", () => {
+            const code = "/*comment*/ a + b";
+            const ast = espree.parse(code, { loc: true, range: true, tokens: true, comment: true });
+            const tokenStore = new TokenStore(ast.tokens, ast.comments);
+            const token = tokenStore.getTokenBefore(ast.comments[0], { includeComments: true });
+
+            assert.strictEqual(token, null);
+        });
+
     });
 
     describe("when calling getTokensAfter", () => {
@@ -415,6 +442,33 @@ describe("TokenStore", () => {
                 store.getTokenAfter(VariableDeclarator.id, { includeComments: true, skip: 2, filter: t => t.type.startsWith("Block") }).value,
                 "D"
             );
+        });
+
+        it("should retrieve the next node if the comment at the first of source code is specified.", () => {
+            const code = "/*comment*/ a + b";
+            const ast = espree.parse(code, { loc: true, range: true, tokens: true, comment: true });
+            const tokenStore = new TokenStore(ast.tokens, ast.comments);
+            const token = tokenStore.getTokenAfter(ast.comments[0]);
+
+            assert.strictEqual(token.value, "a");
+        });
+
+        it("should retrieve the next comment if the last token is specified.", () => {
+            const code = "a + b /*comment*/";
+            const ast = espree.parse(code, { loc: true, range: true, tokens: true, comment: true });
+            const tokenStore = new TokenStore(ast.tokens, ast.comments);
+            const token = tokenStore.getTokenAfter(ast.tokens[2], { includeComments: true });
+
+            assert.strictEqual(token.value, "comment");
+        });
+
+        it("should retrieve null if the last comment is specified.", () => {
+            const code = "a + b /*comment*/";
+            const ast = espree.parse(code, { loc: true, range: true, tokens: true, comment: true });
+            const tokenStore = new TokenStore(ast.tokens, ast.comments);
+            const token = tokenStore.getTokenAfter(ast.comments[0], { includeComments: true });
+
+            assert.strictEqual(token, null);
         });
 
     });
@@ -565,6 +619,35 @@ describe("TokenStore", () => {
                 store.getFirstToken(BinaryExpression, { includeComments: true, skip: 1, filter: t => t.value !== "a" }).value,
                 "*"
             );
+        });
+
+        it("should retrieve the first comment if the comment is at the last of nodes", () => {
+            const code = "a + b\n/*comment*/ c + d";
+            const ast = espree.parse(code, { loc: true, range: true, tokens: true, comment: true });
+            const tokenStore = new TokenStore(ast.tokens, ast.comments);
+
+            // Actually, the first of nodes is always tokens, not comments.
+            // But I think this test case is needed for completeness.
+            const token = tokenStore.getFirstToken(
+                { range: [ast.comments[0].range[0], ast.tokens[5].range[1]] },
+                { includeComments: true }
+            );
+
+            assert.strictEqual(token.value, "comment");
+        });
+
+        it("should retrieve the first token (without includeComments option) if the comment is at the last of nodes", () => {
+            const code = "a + b\n/*comment*/ c + d";
+            const ast = espree.parse(code, { loc: true, range: true, tokens: true, comment: true });
+            const tokenStore = new TokenStore(ast.tokens, ast.comments);
+
+            // Actually, the first of nodes is always tokens, not comments.
+            // But I think this test case is needed for completeness.
+            const token = tokenStore.getFirstToken(
+                { range: [ast.comments[0].range[0], ast.tokens[5].range[1]] }
+            );
+
+            assert.strictEqual(token.value, "c");
         });
 
     });
@@ -719,6 +802,35 @@ describe("TokenStore", () => {
                 store.getLastToken(BinaryExpression, { includeComments: true, skip: 1, filter: t => t.type !== "Identifier" }).value,
                 "D"
             );
+        });
+
+        it("should retrieve the last comment if the comment is at the last of nodes", () => {
+            const code = "a + b /*comment*/\nc + d";
+            const ast = espree.parse(code, { loc: true, range: true, tokens: true, comment: true });
+            const tokenStore = new TokenStore(ast.tokens, ast.comments);
+
+            // Actually, the last of nodes is always tokens, not comments.
+            // But I think this test case is needed for completeness.
+            const token = tokenStore.getLastToken(
+                { range: [ast.tokens[0].range[0], ast.comments[0].range[1]] },
+                { includeComments: true }
+            );
+
+            assert.strictEqual(token.value, "comment");
+        });
+
+        it("should retrieve the last token (without includeComments option) if the comment is at the last of nodes", () => {
+            const code = "a + b /*comment*/\nc + d";
+            const ast = espree.parse(code, { loc: true, range: true, tokens: true, comment: true });
+            const tokenStore = new TokenStore(ast.tokens, ast.comments);
+
+            // Actually, the last of nodes is always tokens, not comments.
+            // But I think this test case is needed for completeness.
+            const token = tokenStore.getLastToken(
+                { range: [ast.tokens[0].range[0], ast.comments[0].range[1]] }
+            );
+
+            assert.strictEqual(token.value, "b");
         });
 
     });
@@ -1066,4 +1178,79 @@ describe("TokenStore", () => {
 
     });
 
+    describe("when calling getFirstToken & getTokenAfter", () => {
+        it("should retrieve all tokens and comments in the node", () => {
+            const code = "(function(a, /*b,*/ c){})";
+            const ast = espree.parse(code, { loc: true, range: true, tokens: true, comment: true });
+            const tokenStore = new TokenStore(ast.tokens, ast.comments);
+            const tokens = [];
+            let token = tokenStore.getFirstToken(ast);
+
+            while (token) {
+                tokens.push(token);
+                token = tokenStore.getTokenAfter(token, { includeComments: true });
+            }
+
+            check(
+                tokens,
+                ["(", "function", "(", "a", ",", "b,", "c", ")", "{", "}", ")"]
+            );
+        });
+
+        it("should retrieve all tokens and comments in the node (no spaces)", () => {
+            const code = "(function(a,/*b,*/c){})";
+            const ast = espree.parse(code, { loc: true, range: true, tokens: true, comment: true });
+            const tokenStore = new TokenStore(ast.tokens, ast.comments);
+            const tokens = [];
+            let token = tokenStore.getFirstToken(ast);
+
+            while (token) {
+                tokens.push(token);
+                token = tokenStore.getTokenAfter(token, { includeComments: true });
+            }
+
+            check(
+                tokens,
+                ["(", "function", "(", "a", ",", "b,", "c", ")", "{", "}", ")"]
+            );
+        });
+    });
+
+    describe("when calling getLastToken & getTokenBefore", () => {
+        it("should retrieve all tokens and comments in the node", () => {
+            const code = "(function(a, /*b,*/ c){})";
+            const ast = espree.parse(code, { loc: true, range: true, tokens: true, comment: true });
+            const tokenStore = new TokenStore(ast.tokens, ast.comments);
+            const tokens = [];
+            let token = tokenStore.getLastToken(ast);
+
+            while (token) {
+                tokens.push(token);
+                token = tokenStore.getTokenBefore(token, { includeComments: true });
+            }
+
+            check(
+                tokens.reverse(),
+                ["(", "function", "(", "a", ",", "b,", "c", ")", "{", "}", ")"]
+            );
+        });
+
+        it("should retrieve all tokens and comments in the node (no spaces)", () => {
+            const code = "(function(a,/*b,*/c){})";
+            const ast = espree.parse(code, { loc: true, range: true, tokens: true, comment: true });
+            const tokenStore = new TokenStore(ast.tokens, ast.comments);
+            const tokens = [];
+            let token = tokenStore.getLastToken(ast);
+
+            while (token) {
+                tokens.push(token);
+                token = tokenStore.getTokenBefore(token, { includeComments: true });
+            }
+
+            check(
+                tokens.reverse(),
+                ["(", "function", "(", "a", ",", "b,", "c", ")", "{", "}", ")"]
+            );
+        });
+    });
 });
