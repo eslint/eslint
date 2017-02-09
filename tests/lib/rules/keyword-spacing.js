@@ -768,6 +768,7 @@ ruleTester.run("keyword-spacing", rule, {
         { code: "for([foo]in{foo: 0}) {}", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
         { code: "for([foo] in {foo: 0}) {}", options: [override("in", BOTH)], parserOptions: { ecmaVersion: 6 } },
         { code: "for ([foo]in{foo: 0}) {}", options: [override("in", NEITHER)], parserOptions: { ecmaVersion: 6 } },
+        { code: "for ([foo] in ({foo: 0})) {}", parserOptions: { ecmaVersion: 6 } },
 
         // not conflict with `space-infix-ops`
         { code: "if (\"foo\"in{foo: 0}) {}" },
@@ -865,6 +866,7 @@ ruleTester.run("keyword-spacing", rule, {
         { code: "for([foo]of{foo: 0}) {}", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
         { code: "for([foo] of {foo: 0}) {}", options: [override("of", BOTH)], parserOptions: { ecmaVersion: 6 } },
         { code: "for ([foo]of{foo: 0}) {}", options: [override("of", NEITHER)], parserOptions: { ecmaVersion: 6 } },
+        { code: "for ([foo] of ({foo: 0})) {}", parserOptions: { ecmaVersion: 6 } },
 
         //----------------------------------------------------------------------
         // return
