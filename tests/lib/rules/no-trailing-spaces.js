@@ -456,7 +456,6 @@ ruleTester.run("no-trailing-spaces", rule, {
                     column: 24
                 }
             ]
-        },
-    
+        }
     ]
 });
