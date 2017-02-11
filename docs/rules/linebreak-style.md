@@ -20,6 +20,7 @@ This rule has a string option:
 
 * `"unix"` (default) enforces the usage of Unix line endings: `\n` for LF.
 * `"windows"` enforces the usage of Windows line endings: `\r\n` for CRLF.
+* `"consistent"` enforces neither CRLF nor LF, but that the file does not mix the two. This option is best for cross-platform projects, as Git will check out as CRLF by default on Windows.
 
 
 ### unix
@@ -69,9 +70,40 @@ function foo(params) { // \r\n
 } // \r\n
 ```
 
+### consistent
+
+Examples of **incorrect** code for this rule with the `"consistent"` option:
+
+```js
+/*eslint linebreak-style: ["error", "consistent"]*/
+
+var a = 'a'; // \n
+var b = 'b'; // \n
+// \r\n
+```
+
+Examples of **correct** code for this rule with the `"consistent"` option:
+
+```js
+/*eslint linebreak-style: ["error", "consistent"]*/
+
+var a = 'a', // \r\n
+    b = 'b'; // \r\n
+// \r\n
+function foo(params) { // \r\n
+    // do stuff \r\n
+} // \r\n
+```
+
+```js
+/*eslint linebreak-style: ["error", "consistent"]*/
+
+var a = 'a', // \n
+```
+
 ## When Not To Use It
 
-If you aren't concerned about having different line endings within you code, then you can safely turn this rule off.
+If you aren't concerned about having different line endings within you code, then you can safely turn this rule off. Using a  correctly-formatted [.gitattributes file](https://help.github.com/articles/dealing-with-line-endings), along with the "consistent" setting, is the best way to ensure line endings are correct on all platforms.
 
 ## Compatibility
 

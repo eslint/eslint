@@ -36,13 +36,25 @@ ruleTester.run("linebreak-style", rule, {
             options: ["windows"]
         },
         {
+            code: "var a = 'a',\n b = 'b';\n\n function foo(params) {\n /* do stuff */ \n }\n",
+            options: ["consistent"]
+        },
+        {
+            code: "var a = 'a',\r\n b = 'b';\r\n\r\n function foo(params) {\r\n /* do stuff */ \r\n }\r\n",
+            options: ["consistent"]
+        },
+        {
             code: "var b = 'b';",
             options: ["unix"]
         },
         {
             code: "var b = 'b';",
             options: ["windows"]
-        }
+        },
+        {
+            code: "var b = 'b';",
+            options: ["consistent"]
+        },
     ],
 
     invalid: [
@@ -110,6 +122,42 @@ ruleTester.run("linebreak-style", rule, {
                 column: 17,
                 message: EXPECTED_CRLF_MSG
             }]
-        }
+        },
+        {
+            code: "var a = 'a',\r\n b = 'b';\r\n\r\n function foo(params) {\n /* do stuff */ \r\n }\r\n",
+            output: "var a = 'a',\r\n b = 'b';\r\n\r\n function foo(params) {\r\n /* do stuff */ \r\n }\r\n",
+            options: ["consistent"],
+            errors: [{
+                line: 1,
+                column: 1,
+                message: "Line endings are mixed, 14.29% of lines are inconsistent"
+            },
+            {
+                line: 4,
+                column: 24,
+                message: EXPECTED_CRLF_MSG
+            }]
+        },
+        {
+            code: "var a = 'a',\n b = 'b';\n\n function foo(params) {\r\n /* do stuff */ \n }\r\n",
+            output: "var a = 'a',\n b = 'b';\n\n function foo(params) {\n /* do stuff */ \n }\n",
+            options: ["consistent"],
+            errors: [{
+                line: 1,
+                column: 1,
+                message: "Line endings are mixed, 28.57% of lines are inconsistent"
+            },
+            {
+                line: 4,
+                column: 24,
+                message: EXPECTED_LF_MSG
+            },
+            {
+                line: 6,
+                column: 3,
+                message: EXPECTED_LF_MSG
+            }]
+        },
+
     ]
 });
