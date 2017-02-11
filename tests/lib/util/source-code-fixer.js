@@ -272,28 +272,28 @@ describe("SourceCodeFixer", () => {
             it("should only apply one fix when ranges overlap", () => {
                 const result = SourceCodeFixer.applyFixes(sourceCode, [REMOVE_MIDDLE, REPLACE_ID]);
 
-                assert.equal(result.output, TEST_CODE.replace("answer", "a"));
+                assert.equal(result.output, TEST_CODE.replace("answer", "foo"));
                 assert.equal(result.messages.length, 1);
-                assert.equal(result.messages[0].message, "foo");
+                assert.equal(result.messages[0].message, "removemiddle");
                 assert.isTrue(result.fixed);
             });
 
             it("should apply one fix when the end of one range is the same as the start of a previous range overlap", () => {
                 const result = SourceCodeFixer.applyFixes(sourceCode, [REMOVE_START, REPLACE_ID]);
 
-                assert.equal(result.output, TEST_CODE.replace("answer", "foo"));
+                assert.equal(result.output, TEST_CODE.replace("var ", ""));
                 assert.equal(result.messages.length, 1);
-                assert.equal(result.messages[0].message, "removestart");
+                assert.equal(result.messages[0].message, "foo");
                 assert.isTrue(result.fixed);
             });
 
             it("should only apply one fix when ranges overlap and one message has no fix", () => {
                 const result = SourceCodeFixer.applyFixes(sourceCode, [REMOVE_MIDDLE, REPLACE_ID, NO_FIX]);
 
-                assert.equal(result.output, TEST_CODE.replace("answer", "a"));
+                assert.equal(result.output, TEST_CODE.replace("answer", "foo"));
                 assert.equal(result.messages.length, 2);
                 assert.equal(result.messages[0].message, "nofix");
-                assert.equal(result.messages[1].message, "foo");
+                assert.equal(result.messages[1].message, "removemiddle");
                 assert.isTrue(result.fixed);
             });
 
@@ -493,28 +493,28 @@ describe("SourceCodeFixer", () => {
             it("should only apply one fix when ranges overlap", () => {
                 const result = SourceCodeFixer.applyFixes(sourceCode, [REMOVE_MIDDLE, REPLACE_ID]);
 
-                assert.equal(result.output, `\uFEFF${TEST_CODE.replace("answer", "a")}`);
+                assert.equal(result.output, `\uFEFF${TEST_CODE.replace("answer", "foo")}`);
                 assert.equal(result.messages.length, 1);
-                assert.equal(result.messages[0].message, "foo");
+                assert.equal(result.messages[0].message, "removemiddle");
                 assert.isTrue(result.fixed);
             });
 
             it("should apply one fix when the end of one range is the same as the start of a previous range overlap", () => {
                 const result = SourceCodeFixer.applyFixes(sourceCode, [REMOVE_START, REPLACE_ID]);
 
-                assert.equal(result.output, `\uFEFF${TEST_CODE.replace("answer", "foo")}`);
+                assert.equal(result.output, `\uFEFF${TEST_CODE.replace("var ", "")}`);
                 assert.equal(result.messages.length, 1);
-                assert.equal(result.messages[0].message, "removestart");
+                assert.equal(result.messages[0].message, "foo");
                 assert.isTrue(result.fixed);
             });
 
             it("should only apply one fix when ranges overlap and one message has no fix", () => {
                 const result = SourceCodeFixer.applyFixes(sourceCode, [REMOVE_MIDDLE, REPLACE_ID, NO_FIX]);
 
-                assert.equal(result.output, `\uFEFF${TEST_CODE.replace("answer", "a")}`);
+                assert.equal(result.output, `\uFEFF${TEST_CODE.replace("answer", "foo")}`);
                 assert.equal(result.messages.length, 2);
                 assert.equal(result.messages[0].message, "nofix");
-                assert.equal(result.messages[1].message, "foo");
+                assert.equal(result.messages[1].message, "removemiddle");
                 assert.isTrue(result.fixed);
             });
 
