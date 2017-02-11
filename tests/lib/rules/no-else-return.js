@@ -47,7 +47,8 @@ ruleTester.run("no-else-return", rule, {
         {
             code: "function foo4() { if (true) { if (false) return x; else return y; } else { return z; } }",
             output: "function foo4() { if (true) { if (false) return x; return y; }  return z;  }",
-            errors: [{ message: "Unnecessary 'else' after 'return'.", type: "ReturnStatement" }, { message: "Unnecessary 'else' after 'return'.", type: "BlockStatement" }]
+            errors: [{ message: "Unnecessary 'else' after 'return'.", type: "ReturnStatement" }, { message: "Unnecessary 'else' after 'return'.", type: "BlockStatement" }],
+            multipass: true
         },
         {
             code: "function foo5() { if (true) { if (false) { if (true) return x; else { w = y; } } else { w = x; } } else { return z; } }",
@@ -65,7 +66,8 @@ ruleTester.run("no-else-return", rule, {
             errors: [
                 { message: "Unnecessary 'else' after 'return'.", type: "ReturnStatement" },
                 { message: "Unnecessary 'else' after 'return'.", type: "BlockStatement" }
-            ]
+            ],
+            multipass: true
         },
         {
             code: "function foo8() { if (true) { if (false) { if (true) return x; else return y; } else { w = x; } } else { return z; } }",
@@ -73,7 +75,8 @@ ruleTester.run("no-else-return", rule, {
             errors: [
                 { message: "Unnecessary 'else' after 'return'.", type: "ReturnStatement" },
                 { message: "Unnecessary 'else' after 'return'.", type: "BlockStatement" }
-            ]
+            ],
+            multipass: true
         },
         {
             code: "function foo9() {if (x) { return true; } else if (y) { return true; } else { notAReturn(); } }",

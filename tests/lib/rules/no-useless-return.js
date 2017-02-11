@@ -215,7 +215,8 @@ ruleTester.run("no-useless-return", rule, {
             errors: [
                 { message: "Unnecessary return statement.", type: "ReturnStatement" },
                 { message: "Unnecessary return statement.", type: "ReturnStatement" }
-            ]
+            ],
+            multipass: true
         },
         {
             code: `
@@ -420,7 +421,8 @@ ruleTester.run("no-useless-return", rule, {
             errors: [
                 { message: "Unnecessary return statement.", type: "ReturnStatement" },
                 { message: "Unnecessary return statement.", type: "ReturnStatement" }
-            ]
+            ],
+            multipass: true
         }
     ].map(invalidCase => Object.assign({ errors: [{ message: "Unnecessary return statement.", type: "ReturnStatement" }] }, invalidCase))
 });

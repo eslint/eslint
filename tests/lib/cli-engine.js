@@ -246,6 +246,34 @@ describe("CLIEngine", () => {
             });
         });
 
+        it("correctly autofixes semicolon-conflicting-fixes", () => {
+            engine = new CLIEngine({
+                cwd: path.join(fixtureDir, ".."),
+                useEslintrc: false,
+                fix: true
+            });
+            const inputPath = getFixturePath("autofix/semicolon-conflicting-fixes.js");
+            const outputPath = getFixturePath("autofix/semicolon-conflicting-fixes.expected.js");
+            const report = engine.executeOnFiles([inputPath]);
+            const expectedOutput = fs.readFileSync(outputPath, "utf8");
+
+            assert.strictEqual(report.results[0].output, expectedOutput);
+        });
+
+        it("correctly autofixes return-conflicting-fixes", () => {
+            engine = new CLIEngine({
+                cwd: path.join(fixtureDir, ".."),
+                useEslintrc: false,
+                fix: true
+            });
+            const inputPath = getFixturePath("autofix/return-conflicting-fixes.js");
+            const outputPath = getFixturePath("autofix/return-conflicting-fixes.expected.js");
+            const report = engine.executeOnFiles([inputPath]);
+            const expectedOutput = fs.readFileSync(outputPath, "utf8");
+
+            assert.strictEqual(report.results[0].output, expectedOutput);
+        });
+
         it("should return a message and omit fixed text when in fix mode and fixes aren't done", () => {
 
             engine = new CLIEngine({
