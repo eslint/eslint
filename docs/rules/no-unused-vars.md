@@ -90,6 +90,16 @@ Note that `/* exported */` has no effect for any of the following:
 * when `parserOptions.sourceType` is `module`
 * when `ecmaFeatures.globalReturn` is `true`
 
+The line comment `// exported variableName` will not work as `exported` is not line-specific.
+
+Examples of **correct** code for `/* exported variableName */` operation:
+
+```js
+/* exported global_var */
+
+var global_var = 42;
+```
+
 ## Options
 
 This rule takes one argument which can be a string or an object. The string settings are the same as those of the `vars` property (explained below).
