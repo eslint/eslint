@@ -63,6 +63,29 @@ describe("FixTracker", () => {
                 text: "foo = -bar"
             });
         });
+
+        it("ignores a retained range that's smaller than the replaced range", () => {
+            const sourceCode = createSourceCode("abcdefghij");
+            const result = new FixTracker(ruleFixer, sourceCode)
+                .retainRange([5, 7])
+                .replaceTextRange([4, 8], "123");
+
+            assert.deepEqual(result, {
+                range: [4, 8],
+                text: "123"
+            });
+        });
+
+        it("allows an unspecified retained range", () => {
+            const sourceCode = createSourceCode("abcdefghij");
+            const result = new FixTracker(ruleFixer, sourceCode)
+                .replaceTextRange([4, 8], "123");
+
+            assert.deepEqual(result, {
+                range: [4, 8],
+                text: "123"
+            });
+        });
     });
 
     describe("remove", () => {

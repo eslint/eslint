@@ -46,9 +46,8 @@ ruleTester.run("no-else-return", rule, {
             errors: [{ message: "Unnecessary 'else' after 'return'.", type: "ReturnStatement" }] },
         {
             code: "function foo4() { if (true) { if (false) return x; else return y; } else { return z; } }",
-            output: "function foo4() { if (true) { if (false) return x; return y; }  return z;  }",
-            errors: [{ message: "Unnecessary 'else' after 'return'.", type: "ReturnStatement" }, { message: "Unnecessary 'else' after 'return'.", type: "BlockStatement" }],
-            multipass: true
+            output: "function foo4() { if (true) { if (false) return x; return y; } else { return z; } }",  // Other case is fixed in the second pass.
+            errors: [{ message: "Unnecessary 'else' after 'return'.", type: "ReturnStatement" }, { message: "Unnecessary 'else' after 'return'.", type: "BlockStatement" }]
         },
         {
             code: "function foo5() { if (true) { if (false) { if (true) return x; else { w = y; } } else { w = x; } } else { return z; } }",
@@ -62,21 +61,19 @@ ruleTester.run("no-else-return", rule, {
         },
         {
             code: "function foo7() { if (true) { if (false) { if (true) return x; else return y; } return w; } else { return z; } }",
-            output: "function foo7() { if (true) { if (false) { if (true) return x; return y; } return w; }  return z;  }",
+            output: "function foo7() { if (true) { if (false) { if (true) return x; return y; } return w; } else { return z; } }",  // Other case is fixed in the second pass.
             errors: [
                 { message: "Unnecessary 'else' after 'return'.", type: "ReturnStatement" },
                 { message: "Unnecessary 'else' after 'return'.", type: "BlockStatement" }
-            ],
-            multipass: true
+            ]
         },
         {
             code: "function foo8() { if (true) { if (false) { if (true) return x; else return y; } else { w = x; } } else { return z; } }",
-            output: "function foo8() { if (true) { if (false) { if (true) return x; return y; }  w = x;  } else { return z; } }",
+            output: "function foo8() { if (true) { if (false) { if (true) return x; return y; } else { w = x; } } else { return z; } }",  // Other case is fixed in the second pass.
             errors: [
                 { message: "Unnecessary 'else' after 'return'.", type: "ReturnStatement" },
                 { message: "Unnecessary 'else' after 'return'.", type: "BlockStatement" }
-            ],
-            multipass: true
+            ]
         },
         {
             code: "function foo9() {if (x) { return true; } else if (y) { return true; } else { notAReturn(); } }",
