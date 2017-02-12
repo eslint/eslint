@@ -98,6 +98,7 @@ rules:
     object-curly-spacing: ["error", "always"]
     object-shorthand: "error"
     one-var-declaration-per-line: "error"
+    operator-linebreak: "error"
     prefer-arrow-callback: "error"
     prefer-const: "error"
     prefer-promise-reject-errors: "error"
