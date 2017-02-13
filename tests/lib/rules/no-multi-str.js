@@ -25,6 +25,9 @@ ruleTester.run("no-multi-str", rule, {
     ],
     invalid: [
         { code: "var x = 'Line 1 \\\n Line 2'", errors: [{ message: "Multiline support is limited to browsers supporting ES5 only.", type: "Literal" }] },
-        { code: "test('Line 1 \\\n Line 2');", errors: [{ message: "Multiline support is limited to browsers supporting ES5 only.", type: "Literal" }] }
+        { code: "test('Line 1 \\\n Line 2');", errors: [{ message: "Multiline support is limited to browsers supporting ES5 only.", type: "Literal" }] },
+        { code: "'foo\\\rbar';", errors: [{ message: "Multiline support is limited to browsers supporting ES5 only.", type: "Literal" }] },
+        { code: "'foo\\\u2028bar';", errors: [{ message: "Multiline support is limited to browsers supporting ES5 only.", type: "Literal" }] },
+        { code: "'foo\\\u2029ar';", errors: [{ message: "Multiline support is limited to browsers supporting ES5 only.", type: "Literal" }] }
     ]
 });

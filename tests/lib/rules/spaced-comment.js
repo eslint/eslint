@@ -112,6 +112,12 @@ ruleTester.run("spaced-comment", rule, {
             }]
         },
         {
+            code: "/*\u2028x*/",
+            options: ["always", {
+                markers: ["/", "!<"]
+            }]
+        },
+        {
             code: "///xmldoc style comment",
             options: ["never", {
                 markers: ["/", "!<"]
@@ -294,6 +300,10 @@ ruleTester.run("spaced-comment", rule, {
         {
             code: "///--------\r\n/// test\r\n///--------\r\n/* blah */",
             options: ["always", { markers: ["/"], exceptions: ["-"], block: { markers: [] } }]
+        },
+        {
+            code: "/***\u2028*/",
+            options: ["always", { exceptions: ["*"] }]
         }
     ],
 
