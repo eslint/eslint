@@ -1267,4 +1267,34 @@ describe("ast-utils", () => {
             });
         });
     });
+
+    describe("createGlobalLinebreakMatcher", () => {
+        it("returns a regular expression with the g flag", () => {
+            assert.instanceOf(astUtils.createGlobalLinebreakMatcher(), RegExp);
+            assert(astUtils.createGlobalLinebreakMatcher().toString().endsWith("/g"));
+        });
+        it("returns unique objects on each call", () => {
+            const firstObject = astUtils.createGlobalLinebreakMatcher();
+            const secondObject = astUtils.createGlobalLinebreakMatcher();
+
+            assert.notStrictEqual(firstObject, secondObject);
+        });
+        describe("correctly matches linebreaks", () => {
+            const LINE_COUNTS = {
+                foo: 1,
+                "foo\rbar": 2,
+                "foo\n": 2,
+                "foo\nbar": 2,
+                "foo\r\nbar": 2,
+                "foo\r\u2028bar": 3,
+                "foo\u2029bar": 2
+            };
+
+            Object.keys(LINE_COUNTS).forEach(text => {
+                it(text, () => {
+                    assert.strictEqual(text.split(astUtils.createGlobalLinebreakMatcher()).length, LINE_COUNTS[text]);
+                });
+            });
+        });
+    });
 });
