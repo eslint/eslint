@@ -122,6 +122,10 @@ members of the TSC. TSC members can add any items they like to the
 agenda at the beginning of each meeting. The moderator and the TSC
 cannot veto or remove items.
 
+No binding votes on TSC agenda items can take place without a quorum of
+TSC members present in the meeting. Quorum is achieved when more than
+half of the TSC members are present.
+
 The TSC may invite persons or representatives from certain projects to
 participate in a non-voting capacity.
 
