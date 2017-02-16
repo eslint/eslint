@@ -30,7 +30,8 @@ ruleTester.run("no-param-reassign", rule, {
         { code: "function foo(a) { [a.b] = []; }", parserOptions: { ecmaVersion: 6 } },
         { code: "function foo(a) { bar(a.b).c = 0; }", options: [{ props: true }] },
         { code: "function foo(a) { data[a.b] = 0; }", options: [{ props: true }] },
-        { code: "function foo(a) { +a.b; }", options: [{ props: true }] }
+        { code: "function foo(a) { +a.b; }", options: [{ props: true }] },
+        { code: "function foo(a) { a.b = 0; }", options: [{ props: true, ignorePropertyAssignmentsFor: ["a"] }] }
     ],
 
     invalid: [

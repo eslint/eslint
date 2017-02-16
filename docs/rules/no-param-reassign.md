@@ -34,7 +34,7 @@ function foo(bar) {
 
 ## Options
 
-This rule takes one option, an object, with a boolean property `"props"`. It is `false` by default. If it is set to `true`, this rule warns against the modification of parameter properties.
+This rule takes one option, an object, with a boolean property `"props"` and an array `"ignorePropertyAssignmentsFor"`. `"props"` is `false` by default. If `"props"` is set to `true`, this rule warns against the modification of parameter properties unless they're included in `"ignorePropertyAssignmentsFor"`, which is an empty object by default.
 
 ### props
 
