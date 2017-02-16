@@ -42,6 +42,12 @@ ruleTester.run("unicode-bom", rule, {
             output: "\uFEFFvar a = 123;"
         },
         {
+            code: " // here's a comment \nvar a = 123;",
+            errors: [{ message: "Expected Unicode BOM (Byte Order Mark).", type: "Program" }],
+            options: ["always"],
+            output: "\uFEFF // here's a comment \nvar a = 123;"
+        },
+        {
             code: "\uFEFF var a = 123;",
             errors: [{ message: "Unexpected Unicode BOM (Byte Order Mark).", type: "Program" }],
             output: " var a = 123;"
