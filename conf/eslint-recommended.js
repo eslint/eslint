@@ -105,6 +105,7 @@ module.exports = {
         "no-empty-function": "off",
         "no-empty-pattern": "error",
         "no-eq-null": "off",
+        "no-eq-neg-zero": "off",
         "no-eval": "off",
         "no-ex-assign": "error",
         "no-extend-native": "off",
