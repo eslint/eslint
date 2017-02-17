@@ -22,14 +22,16 @@ const ruleTester = new RuleTester();
 ruleTester.run("no-eq-neg-zero", rule, {
 
     valid: [
-        { code: "if (x === 0) {}" }
+        { code: "if (x === 0) {}" },
+        { code: "if (x === -1) {}" }
     ],
 
     invalid: [
         {
             code: "if (x === -0) {}",
             errors: [{
-                message: "disallow use the === operator to compare against -0."
+                message: "disallow use the === operator to compare against -0.",
+                type: "BinaryExpression"
             }]
         }
     ]
