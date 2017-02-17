@@ -22,8 +22,7 @@ const ruleTester = new RuleTester();
 ruleTester.run("no-eq-neg-zero", rule, {
 
     valid: [
-
-        // give me some code that won't trigger a warning
+        { code: "if (x === 0) {}" }
     ],
 
     invalid: [
