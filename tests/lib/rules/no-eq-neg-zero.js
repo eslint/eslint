@@ -30,8 +30,7 @@ ruleTester.run("no-eq-neg-zero", rule, {
         {
             code: "if (x === -0) {}",
             errors: [{
-                message: "Fill me in.",
-                type: "Me too"
+                message: "disallow use the === operator to compare against -0."
             }]
         }
     ]
