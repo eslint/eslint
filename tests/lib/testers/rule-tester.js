@@ -181,6 +181,20 @@ describe("RuleTester", () => {
         }, /Output is incorrect/);
     });
 
+    it("should throw an error when the expected output doesn't match and errors is just a number", () => {
+
+        assert.throws(() => {
+            ruleTester.run("no-var", require("../../fixtures/testers/rule-tester/no-var"), {
+                valid: [
+                    "bar = baz;"
+                ],
+                invalid: [
+                    { code: "var foo = bar;", output: "foo = bar", errors: 1 }
+                ]
+            });
+        }, /Output is incorrect/);
+    });
+
     it("should throw an error if invalid code specifies wrong type", () => {
 
         assert.throws(() => {
