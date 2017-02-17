@@ -77,7 +77,7 @@ describe("SourceCode", () => {
 
         });
 
-        it("should throw an error when called with an AST that's missing comments", () => {
+        it("should throw an error when called with an AST that's missing location", () => {
 
             assert.throws(() => {
                 new SourceCode("foo;", { comments: [], tokens: [], range: [] });
@@ -85,7 +85,7 @@ describe("SourceCode", () => {
 
         });
 
-        it("should throw an error when called with an AST that's missing comments", () => {
+        it("should throw an error when called with an AST that's missing range", () => {
 
             assert.throws(() => {
                 new SourceCode("foo;", { comments: [], tokens: [], loc: {} });
