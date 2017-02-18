@@ -75,6 +75,7 @@ module.exports = {
         "new-parens": "off",
         "newline-after-var": "off",
         "newline-before-return": "off",
+        "newline-between-statements": "off",
         "newline-per-chained-call": "off",
         "no-alert": "off",
         "no-array-constructor": "off",
