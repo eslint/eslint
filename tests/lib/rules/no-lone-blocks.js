@@ -31,7 +31,32 @@ ruleTester.run("no-lone-blocks", rule, {
         { code: "{ function bar() {} }", parserOptions: { ecmaVersion: 6, ecmaFeatures: { impliedStrict: true } } },
         { code: "{ class Bar {} }", parserOptions: { ecmaVersion: 6 } },
 
-        { code: "{ {let y = 1;} let x = 1; }", parserOptions: { ecmaVersion: 6 } }
+        { code: "{ {let y = 1;} let x = 1; }", parserOptions: { ecmaVersion: 6 } },
+        `
+          switch (foo) {
+            case bar: {
+              baz;
+            }
+          }
+        `,
+        `
+          switch (foo) {
+            case bar: {
+              baz;
+            }
+            case qux: {
+              boop;
+            }
+          }
+        `,
+        `
+          switch (foo) {
+            case bar:
+            {
+              baz;
+            }
+          }
+        `
     ],
     invalid: [
         { code: "{}", errors: [{ message: "Block is redundant.", type: "BlockStatement" }] },
@@ -69,6 +94,30 @@ ruleTester.run("no-lone-blocks", rule, {
                 { message: "Nested block is redundant.", type: "BlockStatement", line: 2 },
                 { message: "Block is redundant.", type: "BlockStatement", line: 4 }
             ]
+        },
+        {
+            code: `
+              switch (foo) {
+                case 1:
+                    foo();
+                    {
+                        bar;
+                    }
+              }
+            `,
+            errors: [{ message: "Block is redundant.", type: "BlockStatement", line: 5 }]
+        },
+        {
+            code: `
+              switch (foo) {
+                case 1:
+                {
+                    bar;
+                }
+                foo();
+              }
+            `,
+            errors: [{ message: "Block is redundant.", type: "BlockStatement", line: 4 }]
         }
     ]
 });
