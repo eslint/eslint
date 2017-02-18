@@ -1132,6 +1132,25 @@ describe("TokenStore", () => {
             assert.isNull(result);
         });
 
+        it("should return a comment token when includeComments is true", () => {
+            const result = store.getTokenByRangeStart(15, { includeComments: true });
+
+            assert.equal(result.type, "Block");
+            assert.equal(result.value, "B");
+        });
+
+        it("should not return a comment token at the supplied index when includeComments is false", () => {
+            const result = store.getTokenByRangeStart(15, { includeComments: false });
+
+            assert.isNull(result);
+        });
+
+        it("should not return comment tokens by default", () => {
+            const result = store.getTokenByRangeStart(15);
+
+            assert.isNull(result);
+        });
+
     });
 
     describe("when calling getTokenOrCommentBefore", () => {
