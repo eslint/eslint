@@ -80,9 +80,9 @@ Options that accept array values can be specified by repeating the option or wit
 
 Example:
 
-    eslint --ext .jsx --ext .js file.js
+    eslint --ext .jsx --ext .js lib/
 
-    eslint --ext .jsx,.js file.js
+    eslint --ext .jsx,.js lib/
 
 ### Basic configuration
 
@@ -137,7 +137,8 @@ Examples:
     # Also use both .js and .js2
     eslint . --ext .js,.js2
 
-**Note:** If you use a glob pattern, then `--ext` is ignored
+**Note:** `--ext` is only used when the arguments are directories. If you use glob patterns or file names, then `--ext` is ignored.
+
 For example, `eslint lib/* --ext .js` will match all files within the `lib/` directory, regardless of extension.
 
 #### `--global`
