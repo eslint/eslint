@@ -728,7 +728,7 @@ Both the JSON and YAML configuration file formats support comments (`package.jso
 
 ## Specifying File extensions to Lint
 
-Currently the sole method for telling ESLint which file extensions to lint is by specifying a comma separated list of extensions using the [`--ext`](./command-line-interface#ext) command line option.
+Currently the sole method for telling ESLint which file extensions to lint is by specifying a comma separated list of extensions using the [`--ext`](./command-line-interface#ext) command line option. Note this flag only takes effect in conjunction with directories, and will be ignored if used with filenames or glob patterns.
 
 ## Ignoring Files and Directories
 
