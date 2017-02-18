@@ -386,18 +386,6 @@ ruleTester.run("spaced-comment", rule, {
             }]
         },
         {
-            code: invalidShebangProgram,
-            output: "#!/path/to/node\n#!/second/shebang\nvar a = 3;",
-            errors: 1,
-            options: ["always"]
-        },
-        {
-            code: invalidShebangProgram,
-            output: "#!/path/to/node\n#!/second/shebang\nvar a = 3;",
-            errors: 1,
-            options: ["never"]
-        },
-        {
             code: "var a = 1; /* A valid comment starting with space */",
             output: "var a = 1; /*A valid comment starting with space */",
             options: ["never"],
@@ -584,6 +572,18 @@ ruleTester.run("spaced-comment", rule, {
                 message: "Unexpected space or tab before '*/' in comment.",
                 type: "Block"
             }]
+        },
+
+        // Parser errors
+        {
+            code: invalidShebangProgram,
+            errors: 1,
+            options: ["always"]
+        },
+        {
+            code: invalidShebangProgram,
+            errors: 1,
+            options: ["never"]
         }
     ]
 
