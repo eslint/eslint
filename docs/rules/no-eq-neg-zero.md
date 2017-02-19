@@ -23,14 +23,5 @@ if (val === 0) {
 
 ```
 
-### Options
-
-
-
-## When Not To Use It
-
-
-
-## Further Reading
 
 
