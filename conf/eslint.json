@@ -6,6 +6,7 @@
         "no-array-constructor": "off",
         "no-await-in-loop": "off",
         "no-bitwise": "off",
+        "no-boolean-trap": "off",
         "no-caller": "off",
         "no-case-declarations": "error",
         "no-catch-shadow": "off",
