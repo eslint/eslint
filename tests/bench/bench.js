@@ -1,7 +1,7 @@
 var eslint = require("../../lib/eslint"),
     fs = require("fs");
 
-var config = require("../../conf/eslint.json");
+var config = require("../../conf/eslint-recommended");
 
 var large = fs.readFileSync(__dirname + "/large.js", "utf8"), 
     medium = fs.readFileSync(__dirname + "/medium.js", "utf8"),

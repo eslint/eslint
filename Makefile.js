@@ -762,7 +762,7 @@ target.checkRuleFiles = function() {
 
     echo("Validating rules");
 
-    const eslintConf = require("./conf/eslint.json").rules;
+    const eslintConf = require("./conf/eslint-recommended").rules;
 
     const ruleFiles = find("lib/rules/").filter(fileType("js"));
     let errors = 0;
