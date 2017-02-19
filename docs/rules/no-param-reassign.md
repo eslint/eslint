@@ -34,7 +34,7 @@ function foo(bar) {
 
 ## Options
 
-This rule takes one option, an object, with a boolean property `"props"` and an array `"ignorePropertyAssignmentsFor"`. `"props"` is `false` by default. If `"props"` is set to `true`, this rule warns against the modification of parameter properties unless they're included in `"ignorePropertyAssignmentsFor"`, which is an empty object by default.
+This rule takes one option, an object, with a boolean property `"props"` and an array `"ignorePropertyAssignmentsFor"`. `"props"` is `false` by default. If `"props"` is set to `true`, this rule warns against the modification of parameter properties unless they're included in `"ignorePropertyAssignmentsFor"`, which is an empty array by default.
 
 ### props
 
@@ -73,6 +73,25 @@ function foo(bar) {
     bar.aaa++;
 }
 ```
+
+Examples of **correct** code for the `{ "props": true }` option with `"ignorePropertyAssignmentsFor" set:
+
+```js
+/*eslint no-param-reassign: ["error", { "props": true, "ignorePropertyAssignmentsFor": ["bar"] }]*/
+
+function foo(bar) {
+    bar.prop = "value";
+}
+
+function foo(bar) {
+    delete bar.aaa;
+}
+
+function foo(bar) {
+    bar.aaa++;
+}
+```
+
 
 ## When Not To Use It
 
