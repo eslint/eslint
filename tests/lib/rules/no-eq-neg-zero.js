@@ -23,12 +23,22 @@ ruleTester.run("no-eq-neg-zero", rule, {
 
     valid: [
         { code: "if (x === 0) {}" },
-        { code: "if (x === -1) {}" }
+        { code: "if (x === '0') {}" },
+        { code: "if (x === -1) {}" },
+        { code: "x < 0" },
+        { code: "x > 0" }
     ],
 
     invalid: [
         {
             code: "if (x === -0) {}",
+            errors: [{
+                message: "disallow use the === operator to compare against -0.",
+                type: "BinaryExpression"
+            }]
+        },
+        {
+            code: "if (-0 === x) {}",
             errors: [{
                 message: "disallow use the === operator to compare against -0.",
                 type: "BinaryExpression"
