@@ -199,7 +199,7 @@ describe("ConfigFile", () => {
 
         });
 
-        it("should throw an error when extends config is not found", () => {
+        it("should throw an error when extends config module is not found", () => {
 
             const configDeps = {
                 "../util/module-resolver": createStubModuleResolver({})
@@ -213,6 +213,40 @@ describe("ConfigFile", () => {
                     rules: { eqeqeq: 2 }
                 }, "/whatever");
             }, /Cannot find module 'eslint-config-foo'/);
+
+        });
+
+        it("should throw an error when an eslint config is not found", () => {
+
+            const configDeps = {
+                "../util/module-resolver": createStubModuleResolver({})
+            };
+
+            const StubbedConfigFile = proxyquire("../../../lib/config/config-file", configDeps);
+
+            assert.throws(() => {
+                StubbedConfigFile.applyExtends({
+                    extends: "eslint:foo",
+                    rules: { eqeqeq: 2 }
+                }, "/whatever");
+            }, /Failed to load config "eslint:foo" to extend from./);
+
+        });
+
+        it("should throw an error when a plugin config is not found", () => {
+
+            const configDeps = {
+                "../util/module-resolver": createStubModuleResolver({})
+            };
+
+            const StubbedConfigFile = proxyquire("../../../lib/config/config-file", configDeps);
+
+            assert.throws(() => {
+                StubbedConfigFile.applyExtends({
+                    extends: "plugin:foo",
+                    rules: { eqeqeq: 2 }
+                }, "/whatever");
+            }, /Failed to load config "plugin:foo" to extend from./);
 
         });
 
