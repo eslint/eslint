@@ -231,6 +231,7 @@
         "space-unary-ops": "off",
         "spaced-comment": "off",
         "strict": "off",
+        "string-match": "off",
         "symbol-description": "off",
         "template-curly-spacing": "off",
         "template-tag-spacing": "off",
