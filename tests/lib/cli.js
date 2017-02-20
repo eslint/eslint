@@ -460,7 +460,7 @@ describe("cli", () => {
                 getFixturePath("globals-node.js")
             ];
 
-            cli.execute(`--no-eslintrc --config ./conf/eslint.json --no-ignore ${files.join(" ")}`);
+            cli.execute(`--no-eslintrc --config ./conf/eslint-recommended.js --no-ignore ${files.join(" ")}`);
 
             assert.equal(log.info.args[0][0].split("\n").length, 11);
         });
