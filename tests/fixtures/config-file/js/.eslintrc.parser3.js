@@ -1,4 +1,4 @@
-var defaultOptions = require("../../../../conf/eslint.json");
+var defaultOptions = require("../../../../conf/eslint-recommended");
 
 module.exports = {
     parser: defaultOptions.parser,

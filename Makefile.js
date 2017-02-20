@@ -762,7 +762,7 @@ target.checkRuleFiles = function() {
 
     echo("Validating rules");
 
-    const eslintConf = require("./conf/eslint.json").rules;
+    const eslintRecommended = require("./conf/eslint-recommended").rules;
 
     const ruleFiles = find("lib/rules/").filter(fileType("js"));
     let errors = 0;
@@ -772,12 +772,12 @@ target.checkRuleFiles = function() {
         const docFilename = `docs/rules/${basename}.md`;
 
         /**
-         * Check if basename is present in eslint conf
+         * Check if basename is present in eslint:recommended configuration.
          * @returns {boolean} true if present
          * @private
          */
         function isInConfig() {
-            return eslintConf.hasOwnProperty(basename);
+            return eslintRecommended.hasOwnProperty(basename);
         }
 
         /**
@@ -810,9 +810,9 @@ target.checkRuleFiles = function() {
             }
         }
 
-        // check for default configuration
+        // check for recommended configuration
         if (!isInConfig()) {
-            console.error("Missing default setting for %s in conf/eslint.json", basename);
+            console.error("Missing eslint:recommended setting for %s in conf/eslint-recommendd.js", basename);
             errors++;
         }
 
