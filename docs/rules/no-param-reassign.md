@@ -74,7 +74,7 @@ function foo(bar) {
 }
 ```
 
-Examples of **correct** code for the `{ "props": true }` option with `"ignorePropertyAssignmentsFor" set:
+Examples of **correct** code for the `{ "props": true }` option with `"ignorePropertyAssignmentsFor"` set:
 
 ```js
 /*eslint no-param-reassign: ["error", { "props": true, "ignorePropertyAssignmentsFor": ["bar"] }]*/
