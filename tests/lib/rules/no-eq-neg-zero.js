@@ -24,9 +24,11 @@ ruleTester.run("no-eq-neg-zero", rule, {
     valid: [
         { code: "if (x === 0) {}" },
         { code: "if (x === '0') {}" },
+        { code: "if (x === '-0') {}" },
         { code: "if (x === -1) {}" },
         { code: "x < 0" },
-        { code: "x > 0" }
+        { code: "x > 0" },
+        { code: "x > -0" }
     ],
 
     invalid: [
