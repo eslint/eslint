@@ -92,13 +92,7 @@ ruleTester.run("prefer-const", rule, {
         {
             code: "let x; function foo() { bar(x); } x = 0;",
             options: [{ ignoreReadBeforeAssign: true }]
-        },
-
-        // https://github.com/eslint/eslint/issues/7712
-        // https://github.com/ternjs/acorn/issues/487
-        // This should be a SyntaxError, but espree parses it correctly. Don't throw an error if the variable has multiple declarations.
-        "let foo; const foo = 1;"
-
+        }
     ],
     invalid: [
         {

@@ -27,7 +27,7 @@ ruleTester.run("no-shadow", rule, {
         { code: "class A {}", parserOptions: { ecmaVersion: 6 } },
         { code: "class A { constructor() { var a; } }", parserOptions: { ecmaVersion: 6 } },
         { code: "(function() { var A = class A {}; })()", parserOptions: { ecmaVersion: 6 } },
-        { code: "{ var a; } let a;", parserOptions: { ecmaVersion: 6 } }, // this case reports `no-redeclare`, not shadowing.
+        { code: "{ var a; } var a;", parserOptions: { ecmaVersion: 6 } }, // this case reports `no-redeclare`, not shadowing.
         { code: "{ let a; } let a;", options: [{ hoist: "never" }], parserOptions: { ecmaVersion: 6 } },
         { code: "{ let a; } var a;", options: [{ hoist: "never" }], parserOptions: { ecmaVersion: 6 } },
         { code: "{ let a; } function a() {}", options: [{ hoist: "never" }], parserOptions: { ecmaVersion: 6 } },

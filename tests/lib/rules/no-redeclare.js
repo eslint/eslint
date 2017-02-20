@@ -39,7 +39,7 @@ ruleTester.run("no-redeclare", rule, {
     ],
     invalid: [
         { code: "var a = 3; var a = 10;", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "'a' is already defined.", type: "Identifier" }] },
-        { code: "switch(foo) { case a: let b = 3;\ncase b: let b = 4}", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "'b' is already defined.", type: "Identifier" }] },
+        { code: "switch(foo) { case a: var b = 3;\ncase b: var b = 4}", errors: [{ message: "'b' is already defined.", type: "Identifier" }] },
         { code: "var a = 3; var a = 10;", errors: [{ message: "'a' is already defined.", type: "Identifier" }] },
         { code: "var a = {}; var a = [];", errors: [{ message: "'a' is already defined.", type: "Identifier" }] },
         { code: "var a; function a() {}", errors: [{ message: "'a' is already defined.", type: "Identifier" }] },
