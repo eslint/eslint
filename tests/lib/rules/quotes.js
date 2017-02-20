@@ -302,6 +302,12 @@ ruleTester.run("quotes", rule, {
             output: "var foo = \"foo\\\\\\\nbar\";",
             parserOptions: { ecmaVersion: 6 },
             errors: [{ message: "Strings must use doublequote.", type: "TemplateLiteral" }]
+        },
+        {
+            code: "````",
+            output: "\"\"``",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{ message: "Strings must use doublequote.", type: "TemplateLiteral", line: 1, column: 1 }]
         }
     ]
 });
