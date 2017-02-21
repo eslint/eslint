@@ -16,8 +16,8 @@ This rule has an object option:
 * `"beforeColon": true` requires at least one space between the key and the colon in object literals.
 * `"afterColon": true` (default) requires at least one space between the colon and the value in object literals.
 * `"afterColon": false` disallows spaces between the colon and the value in object literals.
-* `"mode": strict` (default) enforces exactly one space before or after colons in object literals.
-* `"mode": minimum` enforces one or more spaces before or after colons in object literals.
+* `"mode": "strict"` (default) enforces exactly one space before or after colons in object literals.
+* `"mode": "minimum"` enforces one or more spaces before or after colons in object literals.
 * `"align": "value"` enforces horizontal alignment of values in object literals.
 * `"align": "colon"` enforces horizontal alignment of both colons and values in object literals.
 * `"align"` with an object value allows for fine-grained spacing when values are being aligned in object literals.
