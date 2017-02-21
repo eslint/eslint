@@ -70,6 +70,7 @@
     "user-home": "^2.0.0"
   },
   "devDependencies": {
+    "babel-eslint": "^7.1.1",
     "babel-polyfill": "^6.9.1",
     "babel-preset-es2015": "^6.9.0",
     "babelify": "^7.3.0",
