@@ -122,6 +122,17 @@ describe("RuleTester", () => {
         }, /Bad var\..*==.*Bad error message/);
     });
 
+    it("should throw an error when the error message regex does not match", () => {
+        assert.throws(() => {
+            ruleTester.run("no-var", require("../../fixtures/testers/rule-tester/no-var"), {
+                valid: [],
+                invalid: [
+                    { code: "var foo = bar;", errors: [{ message: /Bad error message/ }] }
+                ]
+            });
+        }, /Expected 'Bad var.' to match \/Bad error message\//);
+    });
+
     it("should throw an error when the error is neither an object nor a string", () => {
         assert.throws(() => {
             ruleTester.run("no-var", require("../../fixtures/testers/rule-tester/no-var"), {
@@ -134,7 +145,7 @@ describe("RuleTester", () => {
                     { code: "var foo = bar;", errors: [42] }
                 ]
             });
-        }, /Error should be a string or object/);
+        }, /Error should be a string, object, or RegExp/);
     });
 
     it("should throw an error when the error is a string and it does not match error message", () => {
@@ -152,6 +163,19 @@ describe("RuleTester", () => {
         }, /Bad var\..*==.*Bad error message/);
     });
 
+    it("should throw an error when the error is a string and it does not match error message", () => {
+        assert.throws(() => {
+            ruleTester.run("no-var", require("../../fixtures/testers/rule-tester/no-var"), {
+
+                valid: [
+                ],
+                invalid: [
+                    { code: "var foo = bar;", errors: [/Bad error message/] }
+                ]
+            });
+        }, /Expected 'Bad var.' to match \/Bad error message\//);
+    });
+
     it("should not throw an error when the error is a string and it matches error message", () => {
         assert.doesNotThrow(() => {
             ruleTester.run("no-var", require("../../fixtures/testers/rule-tester/no-var"), {
@@ -162,6 +186,28 @@ describe("RuleTester", () => {
                 ],
                 invalid: [
                     { code: "var foo = bar;", errors: ["Bad var."] }
+                ]
+            });
+        });
+    });
+
+    it("should not throw an error when the error is a regex and it matches error message", () => {
+        assert.doesNotThrow(() => {
+            ruleTester.run("no-var", require("../../fixtures/testers/rule-tester/no-var"), {
+                valid: [],
+                invalid: [
+                    { code: "var foo = bar;", errors: [/^Bad var/] }
+                ]
+            });
+        });
+    });
+
+    it("should not throw an error when the error is a regex in an object and it matches error message", () => {
+        assert.doesNotThrow(() => {
+            ruleTester.run("no-var", require("../../fixtures/testers/rule-tester/no-var"), {
+                valid: [],
+                invalid: [
+                    { code: "var foo = bar;", errors: [{ message: /^Bad var/ }] }
                 ]
             });
         });
