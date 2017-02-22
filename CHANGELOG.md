@@ -1,3 +1,12 @@
+v3.16.1 - February 22, 2017
+
+* ff8a80c Fix: duplicated autofix output for inverted fix ranges (fixes #8116) (#8117) (Teddy Katz)
+* a421897 Docs: fix typo in arrow-parens.md (#8132) (Will Chen)
+* 22d7fbf Chore: fix invalid redeclared variables in tests (#8130) (Teddy Katz)
+* 8d95598 Chore: fix output assertion typos in rule tests (#8129) (Teddy Katz)
+* 9fa2559 Docs: Add missing quotes in key-spacing rule (#8121) (Glenn Reyes)
+* f3a6ced Build: package.json update for eslint-config-eslint release (ESLint Jenkins)
+
 v3.16.0 - February 20, 2017
 
 * d89d0b4 Update: fix quotes false negative for string literals as template tags (#8107) (Teddy Katz)
