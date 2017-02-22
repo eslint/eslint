@@ -102,6 +102,13 @@ ruleTester.run("no-compare-neg-zero", rule, {
             }]
         },
         {
+            code: "-0 >= x",
+            errors: [{
+                message: "Do not use the '>=' operator to compare against -0.",
+                type: "BinaryExpression"
+            }]
+        },
+        {
             code: "x < -0",
             errors: [{
                 message: "Do not use the '<' operator to compare against -0.",
@@ -117,6 +124,13 @@ ruleTester.run("no-compare-neg-zero", rule, {
         },
         {
             code: "x <= -0",
+            errors: [{
+                message: "Do not use the '<=' operator to compare against -0.",
+                type: "BinaryExpression"
+            }]
+        },
+        {
+            code: "-0 <= x",
             errors: [{
                 message: "Do not use the '<=' operator to compare against -0.",
                 type: "BinaryExpression"

@@ -8,7 +8,7 @@ Examples of **incorrect** code for this rule:
 
 ```js
 
-if (val === -0) {
+if (x === -0) {
     // doSomething()...
 }
 ```
@@ -17,11 +17,16 @@ Examples of **correct** code for this rule:
 
 ```js
 
-if (val === 0) {
+if (x === 0) {
     // doSomething()...
 }
-
 ```
 
+```js
+
+if (Object.is(x, -0)) {
+    // doSomething()...
+}
+```
 
 
