@@ -55,70 +55,70 @@ ruleTester.run("no-compare-neg-zero", rule, {
         {
             code: "x === -0",
             errors: [{
-                message: "disallow use the === operator to compare against -0.",
+                message: "Do not use the '===' operator to compare against -0.",
                 type: "BinaryExpression"
             }]
         },
         {
             code: "-0 === x",
             errors: [{
-                message: "disallow use the === operator to compare against -0.",
+                message: "Do not use the '===' operator to compare against -0.",
                 type: "BinaryExpression"
             }]
         },
         {
             code: "x == -0",
             errors: [{
-                message: "disallow use the == operator to compare against -0.",
+                message: "Do not use the '==' operator to compare against -0.",
                 type: "BinaryExpression"
             }]
         },
         {
             code: "-0 == x",
             errors: [{
-                message: "disallow use the == operator to compare against -0.",
+                message: "Do not use the '==' operator to compare against -0.",
                 type: "BinaryExpression"
             }]
         },
         {
             code: "x > -0",
             errors: [{
-                message: "disallow use the > operator to compare against -0.",
+                message: "Do not use the '>' operator to compare against -0.",
                 type: "BinaryExpression"
             }]
         },
         {
             code: "-0 > x",
             errors: [{
-                message: "disallow use the > operator to compare against -0.",
+                message: "Do not use the '>' operator to compare against -0.",
                 type: "BinaryExpression"
             }]
         },
         {
             code: "x >= -0",
             errors: [{
-                message: "disallow use the >= operator to compare against -0.",
+                message: "Do not use the '>=' operator to compare against -0.",
                 type: "BinaryExpression"
             }]
         },
         {
             code: "x < -0",
             errors: [{
-                message: "disallow use the < operator to compare against -0.",
+                message: "Do not use the '<' operator to compare against -0.",
                 type: "BinaryExpression"
             }]
         },
         {
             code: "-0 < x",
             errors: [{
-                message: "disallow use the < operator to compare against -0.",
+                message: "Do not use the '<' operator to compare against -0.",
                 type: "BinaryExpression"
             }]
         },
         {
             code: "x <= -0",
             errors: [{
-                message: "disallow use the <= operator to compare against -0.",
+                message: "Do not use the '<=' operator to compare against -0.",
                 type: "BinaryExpression"
             }]
         }
