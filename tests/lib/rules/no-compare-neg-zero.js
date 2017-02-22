@@ -48,7 +48,8 @@ ruleTester.run("no-compare-neg-zero", rule, {
         { code: "x != 0" },
         { code: "0 != x" },
         { code: "x !== 0" },
-        { code: "0 !== x" }
+        { code: "0 !== x" },
+        { code: "Object.is(x, -0)" }
     ],
 
     invalid: [
