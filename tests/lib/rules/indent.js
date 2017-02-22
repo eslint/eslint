@@ -900,16 +900,16 @@ ruleTester.run("indent", rule, {
             "        a: 1,\n" +
             "        b: 2\n" +
             "      };\n" +
-            "let abc = 5,\n" +
-            "  c = 2,\n" +
-            "  xyz = \n" +
+            "let abc2 = 5,\n" +
+            "  c2 = 2,\n" +
+            "  xyz2 = \n" +
             "  {\n" +
             "    a: 1,\n" +
             "    b: 2\n" +
             "  };\n" +
-            "var abc = 5,\n" +
-            "    c = 2,\n" +
-            "    xyz = \n" +
+            "var abc3 = 5,\n" +
+            "    c3 = 2,\n" +
+            "    xyz3 = \n" +
             "    {\n" +
             "      a: 1,\n" +
             "      b: 2\n" +
@@ -2806,19 +2806,19 @@ ruleTester.run("indent", rule, {
             "      a: 1\n" +
             "    }),\n" +
             "    b = 4;\n" +
-            "const a = new Test({\n" +
+            "const c = new Test({\n" +
             "      a: 1\n" +
             "    }),\n" +
-            "    b = 4;\n",
+            "    d = 4;\n",
             output:
             "var a = new Test({\n" +
             "      a: 1\n" +
             "    }),\n" +
             "    b = 4;\n" +
-            "const a = new Test({\n" +
+            "const c = new Test({\n" +
             "    a: 1\n" +
             "  }),\n" +
-            "  b = 4;\n",
+            "  d = 4;\n",
             options: [2, { VariableDeclarator: { var: 2 } }],
             parserOptions: { ecmaVersion: 6 },
             errors: expectedErrors([
