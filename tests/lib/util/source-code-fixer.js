@@ -122,6 +122,13 @@ const INSERT_AT_END = {
         message: "nofix2",
         line: 1,
         column: 7
+    },
+    REVERSED_RANGE = {
+        message: "reversed range",
+        fix: {
+            range: [3, 0],
+            text: " "
+        }
     };
 
 //------------------------------------------------------------------------------
@@ -405,6 +412,12 @@ describe("SourceCodeFixer", () => {
 
                 assert.equal(result.output, `\uFEFF${INSERT_AT_START.fix.text}${insertInMiddle}${INSERT_AT_END.fix.text}`);
                 assert.equal(result.messages.length, 0);
+            });
+
+            it("should handle reversed ranges gracefully", () => {
+                const result = SourceCodeFixer.applyFixes(sourceCode, [REVERSED_RANGE]);
+
+                assert.equal(result.output, "\uFEFFvar  answer = 6 * 7;");
             });
 
         });
