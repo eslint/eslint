@@ -156,7 +156,7 @@ ruleTester.run("computed-property-spacing", rule, {
         },
         {
             code: "obj[ foo ]",
-            outptu: "obj[foo]",
+            output: "obj[foo]",
             options: ["never"],
             errors: [
                 {
