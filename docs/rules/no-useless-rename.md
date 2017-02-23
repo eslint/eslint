@@ -1,7 +1,5 @@
 # Disallow renaming import, export, and destructured assignments to the same name (no-useless-rename)
 
-(fixable) The `--fix` option on the [command line](../user-guide/command-line-interface#fix) automatically fixes problems reported by this rule.
-
 ES2015 allows for the renaming of references in import and export statements as well as destructuring assignments. This gives programmers a concise syntax for performing these operations while renaming these references:
 
 ```js

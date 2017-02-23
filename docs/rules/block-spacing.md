@@ -1,7 +1,5 @@
 # Disallow or enforce spaces inside of single line blocks (block-spacing)
 
-(fixable) The `--fix` option on the [command line](../user-guide/command-line-interface#fix) automatically fixes problems reported by this rule.
-
 ## Rule Details
 
 This rule enforces consistent spacing inside single-line blocks.

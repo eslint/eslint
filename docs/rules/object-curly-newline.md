@@ -1,7 +1,5 @@
 # enforce consistent line breaks inside braces (object-curly-newline)
 
-(fixable) The `--fix` option on the [command line](../user-guide/command-line-interface#fix) automatically fixes problems reported by this rule.
-
 A number of style guides require or disallow line breaks inside of object braces and other tokens.
 
 ## Rule Details

@@ -1,7 +1,5 @@
 # Require Object Literal Shorthand Syntax (object-shorthand)
 
-(fixable) The `--fix` option on the [command line](../user-guide/command-line-interface#fix) automatically fixes problems reported by this rule.
-
 EcmaScript 6 provides a concise form for defining object literal methods and properties. This
 syntax can make defining complex object literals much cleaner.
 

@@ -1,7 +1,5 @@
 # require `let` or `const` instead of `var` (no-var)
 
-(fixable) The `--fix` option on the [command line](../user-guide/command-line-interface#fix) automatically fixes some instances of problems reported by this rule.
-
 ECMAScript 6 allows programmers to create variables with block scope instead of function scope using the `let`
 and `const` keywords. Block scope is common in many other programming languages and helps programmers avoid mistakes
 such as:
