@@ -34,7 +34,8 @@ ruleTester.run("no-param-reassign", rule, {
         { code: "function foo(a) { a.b = 0; }", options: [{ props: true, ignorePropertyModificationsFor: ["a"] }] },
         { code: "function foo(a) { ++a.b; }", options: [{ props: true, ignorePropertyModificationsFor: ["a"] }] },
         { code: "function foo(a) { delete a.b; }", options: [{ props: true, ignorePropertyModificationsFor: ["a"] }] },
-        { code: "function foo(a, z) { a.b = 0; x.y = 0; }", options: [{ props: true, ignorePropertyModificationsFor: ["a", "x"] }] }
+        { code: "function foo(a, z) { a.b = 0; x.y = 0; }", options: [{ props: true, ignorePropertyModificationsFor: ["a", "x"] }] },
+        { code: "function foo(a) { a.b.c = 0;}", options: [{ props: true, ignorePropertyModificationsFor: ["a"] }] }
     ],
 
     invalid: [
