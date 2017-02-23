@@ -31,8 +31,8 @@ ruleTester.run("no-param-reassign", rule, {
         { code: "function foo(a) { bar(a.b).c = 0; }", options: [{ props: true }] },
         { code: "function foo(a) { data[a.b] = 0; }", options: [{ props: true }] },
         { code: "function foo(a) { +a.b; }", options: [{ props: true }] },
-        { code: "function foo(a) { a.b = 0; }", options: [{ props: true, ignorePropertyAssignmentsFor: ["a"] }] },
-        { code: "function foo(a, z) { a.b = 0; x.y = 0; }", options: [{ props: true, ignorePropertyAssignmentsFor: ["a", "x"] }] }
+        { code: "function foo(a) { a.b = 0; }", options: [{ props: true, ignorePropertyModificationsFor: ["a"] }] },
+        { code: "function foo(a, z) { a.b = 0; x.y = 0; }", options: [{ props: true, ignorePropertyModificationsFor: ["a", "x"] }] }
     ],
 
     invalid: [
@@ -77,7 +77,7 @@ ruleTester.run("no-param-reassign", rule, {
         {
             code: "function foo(bar) { [bar.a] = []; }",
             parserOptions: { ecmaVersion: 6 },
-            options: [{ props: true, ignorePropertyAssignmentsFor: ["a"] }],
+            options: [{ props: true, ignorePropertyModificationsFor: ["a"] }],
             errors: [{ message: "Assignment to property of function parameter 'bar'." }]
         }
     ]
