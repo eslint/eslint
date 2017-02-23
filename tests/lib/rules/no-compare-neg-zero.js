@@ -1,6 +1,6 @@
 /**
  * @fileoverview The rule should warn against code that tries to compare against -0.
- * @author no-compare-neg-zero
+ * @author Aladdin-ADD<hh_2013@foxmail.com>
  */
 "use strict";
 
