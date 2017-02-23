@@ -1,7 +1,5 @@
 # require spacing around infix operators (space-infix-ops)
 
-(fixable) The `--fix` option on the [command line](../user-guide/command-line-interface#fix) automatically fixes problems reported by this rule.
-
 While formatting preferences are very personal, a number of style guides require spaces around operators, such as:
 
 ```js
