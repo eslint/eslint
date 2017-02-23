@@ -10,6 +10,7 @@
   "scripts": {
     "test": "node Makefile.js test",
     "lint": "node Makefile.js lint",
+    "lint-staged": "lint-staged",
     "release": "node Makefile.js release",
     "ci-release": "node Makefile.js ciRelease",
     "alpharelease": "node Makefile.js prerelease -- alpha",
@@ -21,6 +22,12 @@
     "profile": "beefy tests/bench/bench.js --open -- -t brfs -t ./tests/bench/xform-rules.js -r espree",
     "coveralls": "cat ./coverage/lcov.info | coveralls",
     "check-commit": "node Makefile.js checkGitCommit"
+  },
+  "pre-commit": "lint-staged",
+  "lint-staged": {
+    "*.js": "node bin/eslint.js --rulesdir lib/internal-rules/",
+    "*.json": "jsonlint",
+    "*.md": "markdownlint"
   },
   "files": [
     "LICENSE",
@@ -88,6 +95,7 @@
     "gh-got": "^2.2.0",
     "istanbul": "^0.4.0",
     "jsdoc": "^3.3.0-beta1",
+    "jsonlint": "^1.6.2",
     "karma": "^0.13.22",
     "karma-babel-preprocessor": "^6.0.1",
     "karma-mocha": "^1.0.1",
@@ -95,12 +103,15 @@
     "karma-phantomjs-launcher": "^1.0.0",
     "leche": "^2.1.1",
     "linefix": "^0.1.1",
+    "lint-staged": "^3.2.1",
     "load-perf": "^0.2.0",
     "markdownlint": "^0.3.1",
+    "markdownlint-cli": "^0.2.0",
     "mocha": "^2.4.5",
     "mock-fs": "^4.0.0",
     "npm-license": "^0.3.2",
     "phantomjs-prebuilt": "^2.1.7",
+    "pre-commit": "^1.1.3",
     "proxyquire": "^1.7.10",
     "semver": "^5.0.3",
     "shelljs-nodecli": "~0.1.0",

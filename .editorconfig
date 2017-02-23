@@ -16,3 +16,6 @@ indent_size = disabled
 
 [docs/rules/no-trailing-spaces.md]
 trim_trailing_whitespace = false
+
+[*.json]
+indent_size = 2
