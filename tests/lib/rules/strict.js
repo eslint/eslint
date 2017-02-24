@@ -527,7 +527,7 @@ ruleTester.run("strict", rule, {
             code: "function foo(a = 0) { }",
             parserOptions: { ecmaVersion: 6 },
             options: ["function"],
-            errors: ["Wrap this function in a function with 'use strict' directive."]
+            errors: ["Wrap function 'foo' in a function with 'use strict' directive."]
         },
         {
             code: "(function() { function foo(a = 0) { } }())",

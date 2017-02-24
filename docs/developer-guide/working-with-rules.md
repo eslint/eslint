@@ -280,18 +280,21 @@ Once you have an instance of `SourceCode`, you can use the methods on it to work
 * `getLastTokensBetween(nodeOrToken1, nodeOrToken2, countOptions)` - returns the last `count` tokens between two nodes or tokens.
 * `getTokens(node)` - returns all tokens for the given node.
 * `getTokensBetween(nodeOrToken1, nodeOrToken2)` - returns all tokens between two nodes.
-* `getTokenByRangeStart(index)` - returns the token whose range starts at the given index in the source.
+* `getTokenByRangeStart(index, rangeOptions)` - returns the token whose range starts at the given index in the source.
 * `getNodeByRangeIndex(index)` - returns the deepest node in the AST containing the given source index.
 
 > `skipOptions` is an object which has 3 properties; `skip`, `includeComments`, and `filter`. Default is `{skip: 0, includeComments: false, filter: null}`.
-> - The `skip` is a positive integer, the number of skipping tokens. If `filter` option is given at the same time, it doesn't count filtered tokens as skipped.
-> - The `includeComments` is a boolean value, the flag to include comment tokens into the result.
-> - The `filter` is a function which gets a token as the first argument, if the function returns `false` then the result excludes the token.
+> - `skip` is a positive integer, the number of skipping tokens. If `filter` option is given at the same time, it doesn't count filtered tokens as skipped.
+> - `includeComments` is a boolean value, the flag to include comment tokens into the result.
+> - `filter` is a function which gets a token as the first argument, if the function returns `false` then the result excludes the token.
 >
 > `countOptions` is an object which has 3 properties; `count`, `includeComments`, and `filter`. Default is `{count: 0, includeComments: false, filter: null}`.
-> - The `count` is a positive integer, the maximum number of returning tokens.
-> - The `includeComments` is a boolean value, the flag to include comment tokens into the result.
-> - The `filter` is a function which gets a token as the first argument, if the function returns `false` then the result excludes the token.
+> - `count` is a positive integer, the maximum number of returning tokens.
+> - `includeComments` is a boolean value, the flag to include comment tokens into the result.
+> - `filter` is a function which gets a token as the first argument, if the function returns `false` then the result excludes the token.
+>
+> `rangeOptions` is an object which has 1 property: `includeComments`.
+> - `includeComments` is a boolean value, the flag to include comment tokens into the result.
 
 There are also some properties you can access:
 

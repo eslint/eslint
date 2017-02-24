@@ -635,6 +635,11 @@ target.gensite = function(prereleaseVersion) {
         };
     }
 
+    const rules = require(".").linter.getRules();
+
+    const RECOMMENDED_TEXT = "\n\n(recommended) The `\"extends\": \"eslint:recommended\"` property in a configuration file enables this rule.";
+    const FIXABLE_TEXT = "\n\n(fixable) The `--fix` option on the [command line](../user-guide/command-line-interface#fix) can automatically fix some of the problems reported by this rule.";
+
     // 4. Loop through all files in temporary directory
     find(TEMP_DIR).forEach(filename => {
         if (test("-f", filename) && path.extname(filename) === ".md") {
@@ -650,6 +655,19 @@ target.gensite = function(prereleaseVersion) {
 
             // 5. Prepend page title and layout variables at the top of rules
             if (path.dirname(filename).indexOf("rules") >= 0) {
+
+                // Find out if the rule requires a special docs portion (e.g. if it is recommended and/or fixable)
+                const rule = rules.get(ruleName);
+                const isRecommended = rule && rule.meta.docs.recommended;
+                const isFixable = rule && rule.meta.fixable;
+
+                // Incorporate the special portion into the documentation content
+                const textSplit = text.split("\n");
+                const ruleHeading = textSplit[0];
+                const ruleDocsContent = textSplit.slice(1).join("\n");
+
+                text = `${ruleHeading}${isRecommended ? RECOMMENDED_TEXT : ""}${isFixable ? FIXABLE_TEXT : ""}\n${ruleDocsContent}`;
+
                 text = `---\ntitle: ${ruleName} - Rules\nlayout: doc\n---\n<!-- Note: No pull requests accepted for this file. See README.md in the root directory for details. -->\n\n${text}`;
             } else {
 
@@ -762,7 +780,7 @@ target.checkRuleFiles = function() {
 
     echo("Validating rules");
 
-    const eslintConf = require("./conf/eslint.json").rules;
+    const eslintRecommended = require("./conf/eslint-recommended").rules;
 
     const ruleFiles = find("lib/rules/").filter(fileType("js"));
     let errors = 0;
@@ -772,12 +790,12 @@ target.checkRuleFiles = function() {
         const docFilename = `docs/rules/${basename}.md`;
 
         /**
-         * Check if basename is present in eslint conf
+         * Check if basename is present in eslint:recommended configuration.
          * @returns {boolean} true if present
          * @private
          */
         function isInConfig() {
-            return eslintConf.hasOwnProperty(basename);
+            return eslintRecommended.hasOwnProperty(basename);
         }
 
         /**
@@ -810,9 +828,9 @@ target.checkRuleFiles = function() {
             }
         }
 
-        // check for default configuration
+        // check for recommended configuration
         if (!isInConfig()) {
-            console.error("Missing default setting for %s in conf/eslint.json", basename);
+            console.error("Missing eslint:recommended setting for %s in conf/eslint-recommendd.js", basename);
             errors++;
         }
 

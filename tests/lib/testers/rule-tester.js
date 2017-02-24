@@ -11,6 +11,7 @@
 //------------------------------------------------------------------------------
 
 const sinon = require("sinon"),
+    EventEmitter = require("events"),
     eslint = require("../../../lib/eslint"),
     RuleTester = require("../../../lib/testers/rule-tester"),
     assert = require("chai").assert;
@@ -28,13 +29,20 @@ const sinon = require("sinon"),
  * RuleTester to do nothing but run code. Effectively, it() and describe()
  * just become regular functions inside of index.js, not at all related to Mocha.
  * That allows the results of this file to be untainted and therefore accurate.
+ *
+ * To assert that the right arguments are passed to RuleTester.describe/it, an
+ * event emitter is used which emits the arguments.
  */
 
+const ruleTesterTestEmitter = new EventEmitter();
+
 RuleTester.describe = function(text, method) {
+    ruleTesterTestEmitter.emit("describe", text, method);
     return method.apply(this);
 };
 
 RuleTester.it = function(text, method) {
+    ruleTesterTestEmitter.emit("it", text, method);
     return method.apply(this);
 };
 
@@ -122,7 +130,18 @@ describe("RuleTester", () => {
         }, /Bad var\..*==.*Bad error message/);
     });
 
-    it("should throw an error when the error is neither an object nor a string", () => {
+    it("should throw an error when the error message regex does not match", () => {
+        assert.throws(() => {
+            ruleTester.run("no-var", require("../../fixtures/testers/rule-tester/no-var"), {
+                valid: [],
+                invalid: [
+                    { code: "var foo = bar;", errors: [{ message: /Bad error message/ }] }
+                ]
+            });
+        }, /Expected 'Bad var.' to match \/Bad error message\//);
+    });
+
+    it("should throw an error when the error is not a supported type", () => {
         assert.throws(() => {
             ruleTester.run("no-var", require("../../fixtures/testers/rule-tester/no-var"), {
 
@@ -134,7 +153,7 @@ describe("RuleTester", () => {
                     { code: "var foo = bar;", errors: [42] }
                 ]
             });
-        }, /Error should be a string or object/);
+        }, /Error should be a string, object, or RegExp/);
     });
 
     it("should throw an error when the error is a string and it does not match error message", () => {
@@ -152,6 +171,19 @@ describe("RuleTester", () => {
         }, /Bad var\..*==.*Bad error message/);
     });
 
+    it("should throw an error when the error is a string and it does not match error message", () => {
+        assert.throws(() => {
+            ruleTester.run("no-var", require("../../fixtures/testers/rule-tester/no-var"), {
+
+                valid: [
+                ],
+                invalid: [
+                    { code: "var foo = bar;", errors: [/Bad error message/] }
+                ]
+            });
+        }, /Expected 'Bad var.' to match \/Bad error message\//);
+    });
+
     it("should not throw an error when the error is a string and it matches error message", () => {
         assert.doesNotThrow(() => {
             ruleTester.run("no-var", require("../../fixtures/testers/rule-tester/no-var"), {
@@ -167,6 +199,28 @@ describe("RuleTester", () => {
         });
     });
 
+    it("should not throw an error when the error is a regex and it matches error message", () => {
+        assert.doesNotThrow(() => {
+            ruleTester.run("no-var", require("../../fixtures/testers/rule-tester/no-var"), {
+                valid: [],
+                invalid: [
+                    { code: "var foo = bar;", errors: [/^Bad var/] }
+                ]
+            });
+        });
+    });
+
+    it("should not throw an error when the error is a regex in an object and it matches error message", () => {
+        assert.doesNotThrow(() => {
+            ruleTester.run("no-var", require("../../fixtures/testers/rule-tester/no-var"), {
+                valid: [],
+                invalid: [
+                    { code: "var foo = bar;", errors: [{ message: /^Bad var/ }] }
+                ]
+            });
+        });
+    });
+
     it("should throw an error when the expected output doesn't match", () => {
 
         assert.throws(() => {
@@ -176,6 +230,20 @@ describe("RuleTester", () => {
                 ],
                 invalid: [
                     { code: "var foo = bar;", output: "foo = bar", errors: [{ message: "Bad var.", type: "VariableDeclaration" }] }
+                ]
+            });
+        }, /Output is incorrect/);
+    });
+
+    it("should throw an error when the expected output doesn't match and errors is just a number", () => {
+
+        assert.throws(() => {
+            ruleTester.run("no-var", require("../../fixtures/testers/rule-tester/no-var"), {
+                valid: [
+                    "bar = baz;"
+                ],
+                invalid: [
+                    { code: "var foo = bar;", output: "foo = bar", errors: 1 }
                 ]
             });
         }, /Output is incorrect/);
@@ -666,5 +734,99 @@ describe("RuleTester", () => {
                 invalid: []
             });
         }, "Test Scenarios for rule foo is invalid:\nCould not find any valid test scenarios");
+    });
+
+    describe("naming test cases", () => {
+
+        /**
+         * Asserts that a particular value will be emitted from an EventEmitter.
+         * @param {EventEmitter} emitter The emitter that should emit a value
+         * @param {string} emitType The type of emission to listen for
+         * @param {*} expectedValue The value that should be emitted
+         * @returns {Promise} A Promise that fulfills if the value is emitted, and rejects if something else is emitted.
+         * The Promise will be indefinitely pending if no value is emitted.
+         */
+        function assertEmitted(emitter, emitType, expectedValue) {
+            return new Promise((resolve, reject) => {
+                emitter.once(emitType, emittedValue => {
+                    if (emittedValue === expectedValue) {
+                        resolve();
+                    } else {
+                        reject(new Error(`Expected ${expectedValue} to be emitted but ${emittedValue} was emitted instead.`));
+                    }
+                });
+            });
+        }
+
+        it("should use the first argument as the name of the test suite", () => {
+            const assertion = assertEmitted(ruleTesterTestEmitter, "describe", "this-is-a-rule-name");
+
+            ruleTester.run("this-is-a-rule-name", require("../../fixtures/testers/rule-tester/no-var"), {
+                valid: [],
+                invalid: []
+            });
+
+            return assertion;
+        });
+
+        it("should use the test code as the name of the tests for valid code (string form)", () => {
+            const assertion = assertEmitted(ruleTesterTestEmitter, "it", "valid(code);");
+
+            ruleTester.run("foo", require("../../fixtures/testers/rule-tester/no-var"), {
+                valid: [
+                    "valid(code);"
+                ],
+                invalid: []
+            });
+
+            return assertion;
+        });
+
+        it("should use the test code as the name of the tests for valid code (object form)", () => {
+            const assertion = assertEmitted(ruleTesterTestEmitter, "it", "valid(code);");
+
+            ruleTester.run("foo", require("../../fixtures/testers/rule-tester/no-var"), {
+                valid: [
+                    {
+                        code: "valid(code);"
+                    }
+                ],
+                invalid: []
+            });
+
+            return assertion;
+        });
+
+        it("should use the test code as the name of the tests for invalid code", () => {
+            const assertion = assertEmitted(ruleTesterTestEmitter, "it", "var x = invalid(code);");
+
+            ruleTester.run("foo", require("../../fixtures/testers/rule-tester/no-var"), {
+                valid: [],
+                invalid: [
+                    {
+                        code: "var x = invalid(code);",
+                        errors: 1
+                    }
+                ]
+            });
+
+            return assertion;
+        });
+
+        // https://github.com/eslint/eslint/issues/8142
+        it("should use the empty string as the name of the test if the test case is an empty string", () => {
+            const assertion = assertEmitted(ruleTesterTestEmitter, "it", "");
+
+            ruleTester.run("foo", require("../../fixtures/testers/rule-tester/no-var"), {
+                valid: [
+                    {
+                        code: ""
+                    }
+                ],
+                invalid: []
+            });
+
+            return assertion;
+        });
     });
 });

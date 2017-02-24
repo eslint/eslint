@@ -1,7 +1,5 @@
 # Enforce newline before and after dot (dot-location)
 
-(fixable) The `--fix` option on the [command line](../user-guide/command-line-interface#fix) automatically fixes problems reported by this rule.
-
 JavaScript allows you to place newlines before or after a dot in a member expression.
 
 Consistency in placing a newline before or after the dot can greatly increase readability.

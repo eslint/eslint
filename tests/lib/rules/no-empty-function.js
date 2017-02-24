@@ -89,7 +89,7 @@ const ruleTester = new RuleTester();
 ruleTester.run("no-empty-function", rule, [
     {
         code: "function foo() {}",
-        message: "Unexpected empty function.",
+        message: "Unexpected empty function 'foo'.",
         allow: "functions"
     },
     {
@@ -99,7 +99,7 @@ ruleTester.run("no-empty-function", rule, [
     },
     {
         code: "var obj = {foo: function() {}};",
-        message: "Unexpected empty function.",
+        message: "Unexpected empty method 'foo'.",
         allow: "functions"
     },
     {
@@ -109,7 +109,7 @@ ruleTester.run("no-empty-function", rule, [
     },
     {
         code: "function* foo() {}",
-        message: "Unexpected empty generator function.",
+        message: "Unexpected empty generator function 'foo'.",
         allow: "generatorFunctions"
     },
     {
@@ -119,107 +119,107 @@ ruleTester.run("no-empty-function", rule, [
     },
     {
         code: "var obj = {foo: function*() {}};",
-        message: "Unexpected empty generator function.",
+        message: "Unexpected empty generator method 'foo'.",
         allow: "generatorFunctions"
     },
     {
         code: "var obj = {foo() {}};",
-        message: "Unexpected empty method.",
+        message: "Unexpected empty method 'foo'.",
         allow: "methods"
     },
     {
         code: "class A {foo() {}}",
-        message: "Unexpected empty method.",
+        message: "Unexpected empty method 'foo'.",
         allow: "methods"
     },
     {
         code: "class A {static foo() {}}",
-        message: "Unexpected empty method.",
+        message: "Unexpected empty static method 'foo'.",
         allow: "methods"
     },
     {
         code: "var A = class {foo() {}};",
-        message: "Unexpected empty method.",
+        message: "Unexpected empty method 'foo'.",
         allow: "methods"
     },
     {
         code: "var A = class {static foo() {}};",
-        message: "Unexpected empty method.",
+        message: "Unexpected empty static method 'foo'.",
         allow: "methods"
     },
     {
         code: "var obj = {*foo() {}};",
-        message: "Unexpected empty generator method.",
+        message: "Unexpected empty generator method 'foo'.",
         allow: "generatorMethods"
     },
     {
         code: "class A {*foo() {}}",
-        message: "Unexpected empty generator method.",
+        message: "Unexpected empty generator method 'foo'.",
         allow: "generatorMethods"
     },
     {
         code: "class A {static *foo() {}}",
-        message: "Unexpected empty generator method.",
+        message: "Unexpected empty static generator method 'foo'.",
         allow: "generatorMethods"
     },
     {
         code: "var A = class {*foo() {}};",
-        message: "Unexpected empty generator method.",
+        message: "Unexpected empty generator method 'foo'.",
         allow: "generatorMethods"
     },
     {
         code: "var A = class {static *foo() {}};",
-        message: "Unexpected empty generator method.",
+        message: "Unexpected empty static generator method 'foo'.",
         allow: "generatorMethods"
     },
     {
         code: "var obj = {get foo() {}};",
-        message: "Unexpected empty getter.",
+        message: "Unexpected empty getter 'foo'.",
         allow: "getters"
     },
     {
         code: "class A {get foo() {}}",
-        message: "Unexpected empty getter.",
+        message: "Unexpected empty getter 'foo'.",
         allow: "getters"
     },
     {
         code: "class A {static get foo() {}}",
-        message: "Unexpected empty getter.",
+        message: "Unexpected empty static getter 'foo'.",
         allow: "getters"
     },
     {
         code: "var A = class {get foo() {}};",
-        message: "Unexpected empty getter.",
+        message: "Unexpected empty getter 'foo'.",
         allow: "getters"
     },
     {
         code: "var A = class {static get foo() {}};",
-        message: "Unexpected empty getter.",
+        message: "Unexpected empty static getter 'foo'.",
         allow: "getters"
     },
     {
         code: "var obj = {set foo(value) {}};",
-        message: "Unexpected empty setter.",
+        message: "Unexpected empty setter 'foo'.",
         allow: "setters"
     },
     {
         code: "class A {set foo(value) {}}",
-        message: "Unexpected empty setter.",
+        message: "Unexpected empty setter 'foo'.",
         allow: "setters"
     },
     {
         code: "class A {static set foo(value) {}}",
-        message: "Unexpected empty setter.",
+        message: "Unexpected empty static setter 'foo'.",
         allow: "setters"
     },
     {
         code: "var A = class {set foo(value) {}};",
-        message: "Unexpected empty setter.",
+        message: "Unexpected empty setter 'foo'.",
         allow: "setters"
     },
     {
         code: "var A = class {static set foo(value) {}};",
-        message: "Unexpected empty setter.",
+        message: "Unexpected empty static setter 'foo'.",
         allow: "setters"
     },
     {

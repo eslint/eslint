@@ -1,7 +1,5 @@
 # enforce consistent spacing between keys and values in object literal properties (key-spacing)
 
-(fixable) The `--fix` option on the [command line](../user-guide/command-line-interface#fix) automatically fixes problems reported by this rule.
-
 This rule enforces spacing around the colon in object literal properties. It can verify each property individually, or it can ensure horizontal alignment of adjacent properties in an object literal.
 
 ## Rule Details
@@ -16,8 +14,8 @@ This rule has an object option:
 * `"beforeColon": true` requires at least one space between the key and the colon in object literals.
 * `"afterColon": true` (default) requires at least one space between the colon and the value in object literals.
 * `"afterColon": false` disallows spaces between the colon and the value in object literals.
-* `"mode": strict` (default) enforces exactly one space before or after colons in object literals.
-* `"mode": minimum` enforces one or more spaces before or after colons in object literals.
+* `"mode": "strict"` (default) enforces exactly one space before or after colons in object literals.
+* `"mode": "minimum"` enforces one or more spaces before or after colons in object literals.
 * `"align": "value"` enforces horizontal alignment of values in object literals.
 * `"align": "colon"` enforces horizontal alignment of both colons and values in object literals.
 * `"align"` with an object value allows for fine-grained spacing when values are being aligned in object literals.
