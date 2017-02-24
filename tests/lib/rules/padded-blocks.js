@@ -86,6 +86,17 @@ ruleTester.run("padded-blocks", rule, {
             ]
         },
         {
+            code: "{ //comment\na();\n\n}",
+            output: "{ //comment\n\na();\n\n}",
+            errors: [
+                {
+                    message: ALWAYS_MESSAGE,
+                    line: 1,
+                    column: 3
+                }
+            ]
+        },
+        {
             code: "{\n\na();\n//comment\n}",
             output: "{\n\na();\n//comment\n\n}",
             errors: [
@@ -466,9 +477,27 @@ ruleTester.run("padded-blocks", rule, {
         },
         {
             code: "function foo() { // a\n\n  b;\n}",
-            output: "function foo() { // a\n\n  b;\n}",
+            output: "function foo() { // a\n  b;\n}",
             options: ["never"],
             errors: [NEVER_MESSAGE]
+        },
+        {
+            code: "function foo() { /* a\n */\n\n  b;\n}",
+            output: "function foo() { /* a\n */\n  b;\n}",
+            options: ["never"],
+            errors: [NEVER_MESSAGE]
+        },
+        {
+            code: "function foo() {\n\n  b;\n/* a\n */}",
+            output: "function foo() {\n\n  b;\n\n/* a\n */}",
+            options: ["always"],
+            errors: [ALWAYS_MESSAGE]
+        },
+        {
+            code: "function foo() { /* a\n */\n/* b\n */\n  b;\n}",
+            output: "function foo() { /* a\n */\n\n/* b\n */\n  b;\n\n}",
+            options: ["always"],
+            errors: [ALWAYS_MESSAGE, ALWAYS_MESSAGE]
         }
     ]
 });
