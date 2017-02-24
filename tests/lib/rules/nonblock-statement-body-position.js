@@ -146,6 +146,36 @@ ruleTester.run("nonblock-statement-body-position", rule, {
         {
             code: " ",
             options: ["any", { overrides: { if: "any", else: "any", for: "any", while: "any", do: "any" } }]
+        },
+
+        // ignore 'else if'
+        `
+            if (foo) {
+            } else if (bar) {
+            }
+        `,
+        {
+            code: `
+                if (foo) {
+                } else if (bar) {
+                }
+            `,
+            options: ["below"]
+        },
+        `
+            if (foo) {
+            } else
+              if (bar) {
+              }
+        `,
+        {
+            code: `
+                if (foo) {
+                } else
+                  if (bar) {
+                  }
+            `,
+            options: ["beside"]
         }
     ],
 

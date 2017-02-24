@@ -121,6 +121,12 @@ for (let i = 1; i < foo; i++)
 do
   bar();
 while (foo)
+
+if (foo) {
+  // Although the second `if` statement is on the same line as the `else`, this is a very common
+  // pattern, so it's not checked by this rule.
+} else if (bar) {
+}
 ```
 
 Examples of **incorrect** code for this rule with the `"beside", { "overrides": { "while": "below" } }` rule:
