@@ -133,7 +133,7 @@ describe("RuleTester", () => {
         }, /Expected 'Bad var.' to match \/Bad error message\//);
     });
 
-    it("should throw an error when the error is neither an object nor a string", () => {
+    it("should throw an error when the error is not a supported type", () => {
         assert.throws(() => {
             ruleTester.run("no-var", require("../../fixtures/testers/rule-tester/no-var"), {
 
