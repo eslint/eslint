@@ -139,10 +139,16 @@ ruleTester.run("custom-plugin-rule", rule, {
         {
             code: "var invalidVariable = true",
             errors: [ { message: "Unexpected invalid variable." } ]
+        },
+        {
+            code: "var invalidVariable = true",
+            errors: [ { message: /^Unexpected.+variable/ } ]
         }
     ]
 });
 ```
+
+As shown above, the message passed to `RuleTester` can be either a string or a regular expression.
 
 The `RuleTester` constructor optionally accepts an object argument, which can be used to specify defaults for your test cases. For example, if all of your test cases use ES2015, you can set it as a default:
 
