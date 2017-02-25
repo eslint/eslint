@@ -820,7 +820,12 @@ ruleTester.run("lines-around-comment", rule, {
         "foo;\n/* fall through */",
         "foo;\n/* falls through */",
         {
-            code: "foo\n/* pragma */", options: [{ ignorePattern: "pragma" }]
+            code: "foo\n/* this is pragmatic */",
+            options: [{ ignorePattern: "pragma" }]
+        },
+        {
+            code: "foo\n/* this is pragmatic */",
+            options: [{ applyDefaultPatterns: false, ignorePattern: "pragma" }]
         }
     ],
 
@@ -1534,6 +1539,18 @@ ruleTester.run("lines-around-comment", rule, {
         {
             code: "foo;\n/* falls through */",
             output: "foo;\n\n/* falls through */",
+            options: [{ applyDefaultPatterns: false }],
+            errors: [{ message: beforeMessage, type: "Block" }]
+        },
+        {
+            code: "foo\n/* something else */",
+            output: "foo\n\n/* something else */",
+            options: [{ ignorePattern: "pragma" }],
+            errors: [{ message: beforeMessage, type: "Block" }]
+        },
+        {
+            code: "foo\n/* eslint */",
+            output: "foo\n\n/* eslint */",
             options: [{ applyDefaultPatterns: false }],
             errors: [{ message: beforeMessage, type: "Block" }]
         }
